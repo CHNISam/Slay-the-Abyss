@@ -2,7 +2,7 @@
 local M = {}
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
-    applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true }
+    applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true }
 
 function M.supported(effects)
     for _, effect in ipairs(effects) do if not coreOps[effect.op] then return false, effect.op end end
@@ -30,6 +30,7 @@ function M.apply(combat, state, effects, source, target)
         elseif op == "block" then combat.block(state, source, value)
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
+        elseif op == "noDrawThisTurn" then source.noDraw = true
         elseif op == "energy" then state.energy = state.energy + value
         elseif op == "gainStatus" then combat.addStatus(source, effect.status, value)
         elseif op == "applyStatus" then
