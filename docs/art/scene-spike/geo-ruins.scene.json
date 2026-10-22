@@ -1,0 +1,14 @@
+{
+  "name": "Abyss_GeoRuins_Spike",
+  "install": false,
+  "entityIdStart": 1078010000,
+  "blocks": [
+    { "template": 20003078, "name": "ARTS_Floor", "position": [0, -0.1, 0], "scale": 0.7, "solid": false },
+    { "template": 20002899, "name": "ARTS_BrokenSlab", "position": [-4, -0.15, -2], "scale": 0.55, "rotation": [0, 18, 0], "solid": false },
+    { "template": 20002586, "name": "ARTS_RuinGateway", "position": [3, 0, 6], "scale": 0.85, "solid": false },
+    { "template": 20001711, "name": "ARTS_BrokenPillar", "position": [-5.5, 0, 5.5], "scale": 0.65, "rotation": [0, 12, 0], "solid": false },
+    { "template": 20002902, "name": "ARTS_BrokenWall", "position": [-7, 0, 6.7], "scale": 0.75, "rotation": [0, -8, 0], "solid": false },
+    { "template": 20001540, "name": "ARTS_GoldRubble", "position": [-7, -0.1, -2], "scale": 0.6, "rotation": [0, -24, 0], "solid": false },
+    { "template": 20002083, "name": "ARTS_GrayRock", "position": [7, 0, 4.7], "scale": 0.65, "rotation": [0, -20, 0], "solid": false }
+  ]
+}

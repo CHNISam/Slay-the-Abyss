@@ -1,0 +1,8 @@
+{
+  "name": "Abyss_RuinGateway_Probe",
+  "install": false,
+  "entityIdStart": 1078011000,
+  "blocks": [
+    { "template": 20002586, "name": "ARTB_RuinGateway", "position": [0, 0, 0], "scale": 1, "solid": false }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "method": "Inspect generated GIA container, entity count, official template IDs and native collision component 5/15; no import or game validation",
+  "packs": [
+    {
+      "input": "geo-ruins.scene.json",
+      "name": "Abyss_GeoRuins_Spike",
+      "install": false,
+      "count": 7,
+      "templateIds": [
+        20003078,
+        20002899,
+        20002586,
+        20001711,
+        20002902,
+        20001540,
+        20002083
+      ],
+      "nativeCollisionDisabled": 7,
+      "bytes": 1011,
+      "sha256": "7a6d41f8e6fe33e9a60f14653ad48cd7866e6d1345b6b2687ea234050b4e8d0e"
+    },
+    {
+      "input": "ruin-gateway.asset.json",
+      "name": "Abyss_RuinGateway_Probe",
+      "install": false,
+      "count": 1,
+      "templateIds": [
+        20002586
+      ],
+      "nativeCollisionDisabled": 1,
+      "bytes": 153,
+      "sha256": "a38819e0d556570ebd2e95106f0b680cc1cd250c48e689e1df835ccb9f6941a3"
+    }
+  ]
+}
