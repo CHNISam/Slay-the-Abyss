@@ -1,0 +1,49 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { buildUiTheme, colourToLua, validateTheme } from '../scripts/build-ui-theme.mjs';
+import { luaString } from '../scripts/build-lua-data.mjs';
+import { runLua } from '../scripts/test-lua.mjs';
+import { loadContent } from '../scripts/validate-data.mjs';
+
+const theme = () => JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8'));
+const content = loadContent('data');
+
+function temporary(action) {
+  const directory = mkdtempSync(join(tmpdir(), 'abyss-theme-'));
+  try { return action(directory); } finally { rmSync(directory, { recursive: true, force: true }); }
+}
+
+test('colours convert to the 0-255 channels the client Color() expects', () => {
+  assert.deepEqual(colourToLua('#D9BE8A'), { r: 217, g: 190, b: 138, a: 255 });
+  assert.deepEqual(colourToLua('#0E1018CC'), { r: 14, g: 16, b: 24, a: 204 });
+});
+
+test('shipped theme passes validation and covers every enemy, status, potion, relic and node type', () => {
+  assert.deepEqual(validateTheme(theme(), content), []);
+});
+
+test('validation rejects unreadable fonts, bad colours, unknown pictures and missing portraits', () => {
+  const broken = theme();
+  broken.font.card = 11;
+  broken.color.gold = 'gold';
+  broken.icon.hp = 999999;
+  delete broken.icon.enemy.guardian;
+  const errors = validateTheme(broken, content).join('\n');
+  assert.match(errors, /font\.card is below/);
+  assert.match(errors, /color\.gold is not/);
+  assert.match(errors, /icon\.hp is not in the picture library/);
+  assert.match(errors, /icon\.enemy has no picture for guardian/);
+});
+
+test('built theme loads in Lua with converted colours and without the design note', () => temporary(directory => {
+  const output = join(directory, 'abyss_theme.lua');
+  assert.equal(buildUiTheme(undefined, undefined, output), buildUiTheme(undefined, undefined, output));
+  const script = join(directory, 'load.lua');
+  writeFileSync(script, `package.path=${luaString(directory.replaceAll('\\', '/') + '/?.lua;')}..package.path\nlocal t=require('abyss_theme')\nassert(t.color.gold.r==227 and t.color.backdropVeil.a==204)\nassert(t.note==nil and t.layout.card.size[1]==148)\nassert(t.icon.gold.id==105077)\nprint('theme loaded')\n`);
+  const result = runLua(script);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /theme loaded/);
+}));

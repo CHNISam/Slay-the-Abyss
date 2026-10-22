@@ -11,9 +11,10 @@
     "validate:data": "node scripts/validate-data.mjs",
     "test": "node --test --test-concurrency=1 tests/*.test.mjs",
     "build:data": "node scripts/build-lua-data.mjs",
+    "build:theme": "node scripts/build-ui-theme.mjs",
     "test:lua": "npm run build:data && node scripts/test-lua.mjs",
     "test:presentation": "python -m unittest discover -s tests -p test_*.py -v",
-    "check:rules": "npm run check:syntax && npm test && npm run validate:data && npm run test:lua",
+    "check:rules": "npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme",
     "check": "npm run check:rules && npm run test:presentation"
   },
   "devDependencies": {
