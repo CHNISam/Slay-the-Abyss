@@ -4,7 +4,7 @@ title: M1 战斗界面：手牌/能量/血条/格挡/敌人意图
 status: In Progress
 assignee: []
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 21:27'
+updated_date: '2026-10-22 21:30'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -48,4 +48,6 @@ CLAIM /root，feat/task-10-battle-ui/.worktrees/battle-ui；边界新UI脚本、
 用户2026-10-23明确要求处理冲突并合并；/root在既有干净工作树runtime-integration推进。冲突Backlog版本先采用develop，再由CLI补回PR29集成计划与验证记录；保留最新批准战斗/地图视觉，接规则而不回退成过渡面板。
 
 2026-10-23 PR29 冲突整合最终验证：保留 develop 批准稿战斗/C档操作/扇形手牌及滚动地图，接回统一宿主、七节点与库存。干净 Lua 产物重建后独立 test:lua 通过；最终 npm run check：JS101（95通过6权限跳过）、Lua139通过、Python12（11通过1权限跳过）。药水目标和效果提示已修，独立复审通过，战斗UI19项再次通过。平台编译、写档和实机未执行，不勾选平台验收。日志 build/merge-final-check.log。
+
+随后 develop 合入 PR38 地图强制楼层校验，同步至 e07757a 无冲突。再次 npm run check 全绿：JS130（124通过6权限跳过）、Lua139通过、Python12（11通过1权限跳过）；日志 build/merge-latest-check.log。保留最新地图校验及全部新增回归。
 <!-- SECTION:NOTES:END -->
