@@ -4,9 +4,11 @@ title: Spike：PNG→GIA/Lua 真机可行性实验
 status: To Do
 assignee: []
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-22 16:45'
+updated_date: '2026-10-22 22:21'
 labels:
   - technical-spike
+  - queued-after-M3
+milestone: m-5
 dependencies: []
 parent_task_id: TASK-10
 type: spike
@@ -25,3 +27,9 @@ ordinal: 26000
 - [ ] #2 分别记录编译、写入存档副本、真机显示和交互验证结果及截图；保持 MILIASTRA_ALLOW_LIVE_WRITE=0，发布由人完成
 - [ ] #3 给出可行或不可行结论、手机与主机适配风险、正式美术可用规格及不可行时的降级方案
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+美术技术探针属于M4发布表现前置，不阻塞M1基础C档操作；现有PR25/26/27/30/42/43及根工作区未提交子任务均保留，不把未合并成果计为交付。
+<!-- SECTION:NOTES:END -->

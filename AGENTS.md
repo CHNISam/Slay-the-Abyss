@@ -54,3 +54,11 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - Finish integration promptly: after a feature PR merges, verify its head has no new work, delete the remote branch, prune remote references, and remove its clean local worktree and branch in the same session. GitHub automatic branch deletion is enabled.
 - Preserve dirty worktrees and independent commits; record why they remain. For squash merges, verify the merged PR head and retain recoverable history before forcing local branch deletion.
 - Put review fixes and closeout notes into the existing task PR where practical. Do not leave completed review branches or create another branch solely to report an already merged change.
+
+## Milestone 顺序验收
+
+- 成果关口与证据标准见 `docs/MILESTONES.md`；严格 M0 → M1 → M2 → M3 → M4 → M5，仅最早未完成关口作为主冲刺。
+- 跨阶段任务拆成可独立验收的本地实现、平台导入/实测和发布工作。合并且证据充分的切片及时 Done，必要平台阻塞仍留原关口。
+- 所有必要任务完成后立即收口；可选研究不阻塞首发。新建前查重，优先复用，重复/过时任务用原生取消/归档机制保留历史。
+- 不能通过降低核心标准或改状态制造完成；记录具体缺失证据和下一动作，避免无证据重复尝试。
+- CI核对PR当前SHA，各作业成功后按规范合并。单人项目不要求分支保护，不将套餐限制列作阻塞。

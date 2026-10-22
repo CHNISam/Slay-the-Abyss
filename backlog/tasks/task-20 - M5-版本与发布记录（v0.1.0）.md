@@ -4,10 +4,12 @@ title: M5 版本与发布记录（v0.1.0）
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
+updated_date: '2026-10-22 22:21'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
-dependencies: []
+dependencies:
+  - TASK-6
 ordinal: 20000
 ---
 
@@ -23,3 +25,9 @@ ordinal: 20000
 - [ ] #2 CHANGELOG 简洁，遵循 Conventional Commits
 - [ ] #3 不创建无意义的 Alpha/RC 中间版本
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+依docs/PUBLISHING.md：实际成功投稿之后再打已验收版本tag/CHANGELOG。M5以TASK-6成功凭证+本任务记录齐全收口。
+<!-- SECTION:NOTES:END -->

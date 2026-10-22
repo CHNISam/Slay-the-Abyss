@@ -4,6 +4,7 @@ title: M4 发布物料：封面/标题/简介/标签/玩法说明
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
+updated_date: '2026-10-22 22:19'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -23,4 +24,13 @@ ordinal: 18000
 - [ ] #1 publish_kit 出封面与四张图（1600×900）
 - [ ] #2 标题、简介、标签齐备并符合官方要求
 - [ ] #3 附一页玩法说明（操作/规则/通关条件）
+- [ ] #4 实际发布表单字段、图片限制和赛事报名入口已截图核验，关联本机存档与作品GUID；仅定位不发布（由TASK-1迁入）
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-23 Milestone整改：承接TASK-1未完成的正式表单/赛事入口核验；不计M0前置。已有发布SOP在PR8，真实字段仍未取证。
+
+2026-10-23 Milestone整改：承接TASK-1未完成的正式表单/赛事入口核验；不计M0前置。已有发布SOP在PR8，真实字段仍未取证。
+<!-- SECTION:NOTES:END -->
