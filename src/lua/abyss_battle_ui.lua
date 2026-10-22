@@ -58,11 +58,11 @@ function M.new(root, data, presentation, clickEvent)
             label("player", "生命 · 能量 · 格挡") label("piles", "抽牌 / 弃牌 / 消耗")
             label("statuses", "")
         else
-            local player = battle and battle.player
+            local player = fighting and battle.player
             label("player", "生命 " .. number(player and player.hp or run.hp) .. "/" .. run.maxHp
-                .. "   格挡 " .. number(player and player.block or 0) .. "   能量 " .. number(battle and battle.energy or 0))
+                .. "   格挡 " .. number(player and player.block or 0) .. "   能量 " .. number(fighting and battle.energy or 0))
             label("piles", "金币 " .. run.gold .. "  牌组 " .. #run.deck
-                .. (battle and "\n抽 " .. #battle.draw .. " / 弃 " .. #battle.discard .. " / 消耗 " .. #battle.exhaust or ""))
+                .. (fighting and "\n抽 " .. #battle.draw .. " / 弃 " .. #battle.discard .. " / 消耗 " .. #battle.exhaust or ""))
             label("statuses", player and statuses(player) or "")
             if reward then label("result", "战斗胜利 · 金币 ＋" .. run.rewards.gold .. "\n选择一张牌加入牌组，或跳过")
             elseif run.phase == "defeat" then label("result", "旅途暂歇\n重新启程，重建牌组")

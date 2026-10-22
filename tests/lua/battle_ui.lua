@@ -89,4 +89,20 @@ test("actual combat victory offers clickable reward entering next real deck", fu
     end
     assert(found and ui.run.phase == "combat")
 end)
+test("reward HUD shows committed relic healing and clears ended battle resources", function()
+    local ui, root, click = setup() click("start")
+    local battle = ui.run.combat
+    battle.player.hp, battle.player.block = 50, 9
+    battle.enemies[1].hp = 1
+    Combat.addStatus(battle.player, "strength", 2)
+    for i, card in ipairs(battle.hand) do
+        if Combat.cardDefinition(battle, card).type == "attack" then click("card" .. i) break end
+    end
+    assert(ui.run.phase == "reward" and ui.run.hp == 56)
+    assert(root.children.player.text:find("生命 56/80", 1, true))
+    assert(root.children.player.text:find("格挡 0", 1, true))
+    assert(root.children.player.text:find("能量 0", 1, true))
+    assert(root.children.statuses.text == "")
+    assert(not root.children.piles.text:find("抽 ", 1, true))
+end)
 print("LUA_UI_PASS " .. count)
