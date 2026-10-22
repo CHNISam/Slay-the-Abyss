@@ -51,3 +51,4 @@ MCP经本机stdio执行；已读 `miliastra://workflow`、`miliastra://platform-
 下一动作只集中 M1：先在 TASK-3.1 将超限直接子控件分组并适配只读查找路径、复跑真实控件回归，再对同一副本重试UI导出；TASK-2 补出生/复苏点并实际导入核对，保留已有基础场景；随后按3.2 → 11.1/3取得截图和日志。不得拿艺术单卡候选或空主存档冒充战斗候选。没有同一版本可导入的完整UI前，反复启动试玩无验收意义。
 
 副本及完整工具原始响应保留在 `.worktrees/milestone-cleanup/build/platform-audit/`，未写回正式存档；整合后保留该工作树供M1继续，不清理其中候选。根目录原未提交Backlog、vendor及全部既有worktree/PR未修改。
+`n整改通过 [PR #44](https://github.com/CHNISam/Slay-the-Abyss/pull/44) 集成；首轮提交 5b9ede2 的 [Quality 39864993592](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39864993592) 两作业成功。最终记录提交亦须全绿后才合并，具体合并 SHA 与最后运行见 PR 时间线。

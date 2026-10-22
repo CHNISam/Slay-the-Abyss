@@ -1,13 +1,15 @@
 ---
 id: TASK-22.2
 title: Milestone 顺序验收与证据收口
-status: In Progress
+status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 22:13'
-updated_date: '2026-10-22 22:24'
+updated_date: '2026-10-22 22:28'
 labels: []
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/44'
 parent_task_id: TASK-22
 type: chore
 ordinal: 32000
@@ -23,7 +25,7 @@ ordinal: 32000
 <!-- AC:BEGIN -->
 - [x] #1 M0有真实完成证据并收口；M1保留真实战斗关口
 - [x] #2 M2-M5边界有限，未来工作不伪装当前冲刺，依赖无环
-- [ ] #3 整改已提交PR并有CI成功证据，原工作区受保护；合并后核对develop
+- [x] #3 整改已提交PR并有CI成功证据，原工作区受保护；集成前复核最终head检查
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -37,3 +39,9 @@ ordinal: 32000
 <!-- SECTION:NOTES:BEGIN -->
 已用CLI完成M0收口、跨阶段拆分与依赖调整。完整npmcheck通过：JS124pass6skip/Lua153/Python12pass1skip；doctor仅旧分支TASK24诊断。平台导出实测暴露60子控件限制，M1未关闭。待PR/CI完成AC3。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+M0完成；本地切片及时Done，M1保留必要真实平台验收；M2-M5关口和依赖已校准。完整本地检查通过，PR44 head5b9ede2 Quality39864993592两作业成功。原存档hash未改、原工作区未改。最终记录提交后仍须精确head全绿才squash；合并结果由GitHub PR和develop记录核验。
+<!-- SECTION:FINAL_SUMMARY:END -->
