@@ -2,7 +2,8 @@
 local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
-    statusView = Actors.statusView, damage = Actors.damage, block = Actors.block }
+    statusView = Actors.statusView, damage = Actors.damage, block = Actors.block,
+    attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
 function M.applyEffects(state, effects, source, target)
     return Effects.apply(M, state, effects, source, target)
@@ -163,8 +164,11 @@ function M.endTurn(state)
                 event(state, "intent", { enemy = enemy.id, id = intent.id })
                 M.applyEffects(state, intent.effects, enemy, state.player)
                 if finish(state) then return true end
-                Actors.endTurn(state, enemy)
-                enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+                -- Thorns can kill this attacker while other enemies remain alive.
+                if enemy.hp > 0 then
+                    Actors.endTurn(state, enemy)
+                    if enemy.hp > 0 then enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1 end
+                end
                 if finish(state) then return true end
             end
         end

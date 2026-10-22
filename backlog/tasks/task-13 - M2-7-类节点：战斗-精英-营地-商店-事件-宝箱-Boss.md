@@ -1,9 +1,11 @@
 ---
 id: TASK-13
 title: M2 7 类节点：战斗/精英/营地/商店/事件/宝箱/Boss
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:47'
+updated_date: '2026-10-22 16:10'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -25,3 +27,15 @@ ordinal: 13000
 - [ ] #3 商店可购买卡牌/遗物并删除卡牌
 - [ ] #4 宝箱与未知事件产出真正生效
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 在已合入地图核心上新增独立Nodes服务，事务性进入七类节点；地图UI剩余由TASK12并行实现，不将其依赖虚标完成。2. 营地回血/升级、商店买卡买遗物删牌、宝箱/事件一次性产出复用现有rules及内容字段，预检拒绝后状态不变。3. 接真实Run战斗与奖励后解锁、测试重复领取/非法跳转/金币和卡组变化；Boss仅返回节点胜利，正式结算在TASK17。4. 集成UI后再按客观证据验收，平台未验证单列。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+CLAIM 2026-10-23 /root/node_flows；feat/task-13-node-flows，.worktrees/node-flows；仅新abyss_nodes.lua与nodes.lua，主Agent集成。任务12核心已可用，UI仍在并行，尚未完成依赖的展示验收。
+<!-- SECTION:NOTES:END -->
