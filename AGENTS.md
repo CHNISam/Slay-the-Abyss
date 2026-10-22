@@ -22,3 +22,14 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 </CRITICAL_INSTRUCTION>
 <!-- BACKLOG.MD GUIDELINES END -->
+
+## Git Branch Workflow (GitFlow-lite)
+
+- `master` = production. Tagged releases only. Never commit directly.
+- `develop` = integration / development base. Default branch for daily work.
+- Feature work: `feat/<slug>` branched from `develop`, merged back into `develop` via PR.
+- Release: `release/<version>` from `develop` → merge into `master` (tag) **and** back into `develop`.
+- Hotfix: `hotfix/<slug>` from `master` → merge into `master` (tag) **and** back into `develop`.
+- Commits follow Conventional Commits: `feat|fix|chore|docs|refactor|test|perf|ci(scope): description`.
+- Squash merge feature → `develop`; merge commit for `release/*` and `hotfix/*` → `master`.
+- Never rewrite shared history; force-push only your own branch with `--force-with-lease`.
