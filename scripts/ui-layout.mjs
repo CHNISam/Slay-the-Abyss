@@ -1,34 +1,109 @@
-// Shared native-control tree. All interactive content fits the 1280 x 720 phone canvas.
-const ink = '#ede4cc', gold = '#d6b772';
-const text = (name, x, y, w, h, content = '', fontSize = 20, colour = ink) => ({
+import { readFileSync } from 'node:fs';
+
+// One source of tokens for both the native tree and its Lua controller.
+export const theme = JSON.parse(readFileSync(new URL('../data/presentation/ui_theme.json', import.meta.url), 'utf8'));
+const { color: c, font: f, image: im, layout: l, space: s } = theme;
+const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text) => ({
   name, kind: 'text', position: [x, y], size: [w, h],
-  text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: 12 },
+  text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: f.minimum },
 });
-const panel = (name, x, y, w, h, colour) => ({ name, kind: 'image', position: [x, y], size: [w, h], image: 100001, colour });
-const hit = (name, w, h) => ({ name, kind: 'cursorArea', size: [w, h], focusable: true });
-const button = (name, x, y, w, h, label) => ({ name, kind: 'container', position: [x, y], size: [w, h], children: [
-  panel('plate', 0, 0, w, h, '#433c30'), text('label', 0, 0, w - 8, h - 4, label, 22, gold), hit('hit', w, h),
-] });
+const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image, colour });
+const panel = (name, x, y, w, h, colour) => picture(name, x, y, w, h, im.rect, colour);
+const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
+
+function button(name, position, size, label, primary = false) {
+  const [w, h] = size;
+  const variants = {
+    normal: [primary ? c.geo : c.panelRaised, primary ? c.textOnLight : c.goldBright, c.gold],
+    hover: [primary ? c.goldBright : c.panelRaised, primary ? c.textOnLight : c.goldBright, c.goldBright],
+    pressed: [c.goldDim, c.text, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line],
+  };
+  return { name, kind: 'presetButton', position, size, focusable: true,
+    states: Object.fromEntries(Object.keys(variants).map(key => [key, key])),
+    children: Object.entries(variants).map(([state, [bg, ink, border]]) => ({ name: state, kind: 'container', size,
+      scale: state === 'pressed' ? [0.96, 0.96] : [1, 1], children: [
+        panel('border', 0, 0, w, h, border), panel('plate', 0, 0, w - s.border * 2, h - s.border * 2, bg),
+        text('label', 0, 0, w - s.l, h - s.s, label, f.heading, ink),
+      ] })),
+  };
+}
+
+function unit(name, position, portrait, player = false) {
+  const [bw, bh] = l.hpBar.size;
+  return { name, kind: 'container', position, size: [bw, 236], children: [
+    panel('border', 0, 0, portrait + s.border * 2, portrait + s.border * 2, player ? c.goldDim : c.line),
+    panel('plate', 0, 0, portrait, portrait, c.panelRaised),
+    picture('portrait', 0, 0, portrait - s.l, portrait - s.l, theme.icon.player, c.geo),
+    text('name', 0, -portrait / 2 - s.m, bw, f.heading, player ? '旅行者' : '', f.label, c.gold),
+    panel('hpBorder', 0, -portrait / 2 - s.xxl - bh / 2, bw + s.border * 2, bh + s.border * 2, c.line),
+    panel('hpTrack', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpTrack),
+    { ...panel('hpFill', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hp), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
+    text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, '', f.small),
+    picture('blockIcon', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, theme.icon.block, c.block),
+    text('block', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, '', f.small, c.textOnLight),
+    text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, 32, '', f.small, c.textDim),
+    ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
+      text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number), hit(portrait, portrait)] : []),
+  ] };
+}
+
+export function handPose(count, index, selected = false) {
+  const [w, h] = l.card.size;
+  const spacing = count <= 1 ? 0 : Math.max(l.hand.spacingMin, Math.min(l.hand.spacingMax, (l.hand.maxWidth - w) / (count - 1)));
+  const distance = index - (count - 1) / 2;
+  const scale = selected ? theme.motion.hoverScale : 1;
+  // Keep complete rotated cards inside the safe area, including ten-card hands.
+  const angle = -distance * l.hand.arcDegrees;
+  const radians = Math.abs(angle) * Math.PI / 180;
+  const halfHeight = (h * Math.cos(radians) + w * Math.sin(radians)) / 2;
+  const floor = -theme.canvas.base[1] / 2 + theme.canvas.safe.y + halfHeight;
+  return { position: [distance * spacing, Math.max(floor, l.hand.y - Math.abs(distance) * l.hand.arcDrop) + (selected ? theme.motion.hoverLift : 0)],
+    rotation: selected ? 0 : angle, scale: [scale, scale] };
+}
 
 export function battleLayout() {
-  const controls = [panel('backdrop', 0, 0, 1260, 700, '#171f26'),
-    text('title', 0, 313, 1160, 44, '杀戮深渊 · 旅行者', 30, gold),
-    text('player', -230, 265, 700, 42), text('piles', 380, 265, 400, 42),
-    text('notice', 0, 58, 1130, 46, '先选择敌人，再点击手牌；结束回合后敌人按意图行动。', 20),
-    text('statuses', 0, 17, 1140, 35, '', 17),
+  const [width, height] = theme.canvas.base;
+  const controls = [
+    panel('topBar', 0, l.topBar.y, width, l.topBar.height, c.panelSunken),
+    text('title', 0, l.topBar.y, 350, l.topBar.height, '杀戮深渊 · 战斗演练', f.heading, c.gold),
+    text('player', -430, l.topBar.y, 330, l.topBar.height, '', f.body),
+    text('piles', 435, l.topBar.y, 330, l.topBar.height, '', f.label, c.goldBright),
+    unit('hero', l.player.position, l.player.portrait, true),
+    text('notice', 0, 252, 1140, 38, '点选卡牌，再点敌人；无需目标的牌再点一次确认。', f.body, c.goldBright),
+    text('statuses', -380, 204, 350, 30, '', f.small, c.textDim),
+    picture('energyDisc', ...l.energy.position, l.energy.size, l.energy.size, im.disc, c.energy),
+    picture('energyIcon', ...l.energy.position, l.energy.size - s.l, l.energy.size - s.l, theme.icon.energy.id, c.geoDeep),
+    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', f.numberLarge, c.textOnLight),
+    picture('drawIcon', ...l.drawPile.position, ...l.drawPile.size, theme.icon.drawPile, c.textDim),
+    text('draw', ...l.drawPile.position, ...l.drawPile.size, '', f.label),
+    picture('discardIcon', ...l.discardPile.position, ...l.discardPile.size, theme.icon.discardPile, c.textDim),
+    text('discard', ...l.discardPile.position, ...l.discardPile.size, '', f.label),
   ];
-  for (let i = 1; i <= 5; i++) controls.push({ name: `enemy${i}`, kind: 'container',
-    position: [-472 + (i - 1) * 236, 165], size: [220, 140], children: [
-      panel('plate', 0, 0, 220, 140, '#303a40'), text('label', 0, 0, 208, 132, '', 18), hit('hit', 220, 140),
+  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
+  for (let i = 1; i <= 10; i++) {
+    const [w, h] = l.card.size;
+    controls.push({ name: `card${i}`, kind: 'container', size: [w, h], ...handPose(10, i - 1), children: [
+      { ...picture('glow', 0, 0, w + s.s, h + s.s, im.glow, c.goldBright), visible: false },
+      panel('border', 0, 0, w, h, c.rarity.basic), panel('plate', 0, 0, w - s.border * 2, h - s.border * 2, c.panel),
+      panel('nameBand', 0, h / 2 - l.card.nameBand / 2 - s.border, w - s.border * 2, l.card.nameBand, c.panelRaised),
+      text('name', l.card.costDisc / 2, h / 2 - l.card.nameBand / 2 - s.border, w - l.card.costDisc - s.s, l.card.nameBand, '', f.cardName),
+      panel('artPlate', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, w - s.border * 2, l.card.art, c.cardType.attack),
+      picture('art', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, 40, 40, theme.icon.cardArt.attack, c.text),
+      text('type', 0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.card.typeLine, '', f.small, c.gold),
+      text('label', 0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox, '', f.card),
+      picture('costDisc', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, im.disc, c.energy),
+      text('cost', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, '', f.number, c.textOnLight),
+      hit(w, h),
     ] });
-  for (let i = 1; i <= 10; i++) controls.push({ name: `card${i}`, kind: 'container',
-    position: [-464 + ((i - 1) % 5) * 232, -80 - Math.floor((i - 1) / 5) * 151], size: [218, 140], children: [
-      panel('plate', 0, 0, 218, 140, '#38443e'), text('label', 0, 0, 204, 132, '', 19), hit('hit', 218, 140),
-    ] });
-  controls.push(button('endTurn', 438, -326, 250, 44, '结束回合'),
-    button('start', 0, -70, 320, 60, '启程'),
-    button('continue', 0, -250, 320, 60, '再战一场'),
-    text('result', 0, 168, 1110, 130, '', 26, gold),
-    button('skip', 0, -326, 250, 44, '跳过奖励'));
-  return { name: 'AbyssBattle', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true, controls };
+  }
+  controls.push(button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合'),
+    button('start', [0, -96], l.button.primary, '启程', true),
+    button('continue', [0, -96], l.button.primary, '再战一场', true),
+    panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
+    text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
+    button('skip', [0, -96], l.button.secondary, '跳过奖励'));
+  return { name: 'AbyssBattle', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true, controls: [
+    { ...panel('backdrop', 0, 0, width, height, c.backdrop), anchor: {min: [0.5, 0.5], max: [0.5, 0.5]} },
+    { name: 'stage', kind: 'container', size: [width, height], children: controls },
+  ] };
 }
