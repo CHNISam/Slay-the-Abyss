@@ -67,4 +67,6 @@ node node_modules/fengari-node-cli/src/lua-cli.js -e "dofile('build/art-capacity
 
 主 Agent集成后于2026-10-23实际运行上述准备脚本，五份副本全部生成；同轮runId为03a6a22c-83f2-4651-9506-a9fed8c1acac，底图SHA与各副本哈希记录在 [evidence/2026-10-23.json](evidence/2026-10-23.json)。这是实际MCP静态检查，区别于先前Agent的隔离mock。本机便于人工验收的等字节副本位于 `build/art-acceptance/01-baseline.gil`、`02-ten.gil`、`03-longest.gil`；先基线→十卡比较，必要时补单卡/五卡定位，长文另查。原始五项仍可按完整顺序验收。尚未官方导入/试玩，截图证据不能移用旧单卡。
 
+用户已要求本轮结束，不继续人工验收；TASK-10.1.2仅保留未完成运行时条件并回到To Do。清理工作树前，本轮所有build产物移至主工作区 `build/art-closeout-20261023/art-pipeline/build/`，上述相对路径在该归档内保留；生成文件中的旧绝对路径只是当次来源记录，重新制作应从新worktree运行准备命令。
+
 来源与许可：卡框/几何由本项目批准主题及上游已通过小样生成，中文/数值来自项目`data/`，未使用其他创作者美术/存档。上游[Image Editor](https://github.com/1475505/Miliastra-image-editor-webui/tree/103025f9095d8089e3f9bf097f4d0c5fe039d546)仓库声明GPL-3.0；primitive-shape运行时源自LiuL、MIT。随本小样保存[`licenses/EDITOR-GPL-3.0.txt`](../../art/spikes/card-capacity/licenses/EDITOR-GPL-3.0.txt)、[`licenses/PRIMITIVE-SHAPE-MIT.txt`](../../art/spikes/card-capacity/licenses/PRIMITIVE-SHAPE-MIT.txt)与原始来源说明；导出Lua含上游运行时及适配代码，不应视为无来源代码。

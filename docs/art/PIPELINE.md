@@ -48,12 +48,14 @@ v2 已写工作区副本并通过静态检查（0错误/0警告），用户官�
 
 自动操作的前台切换仍有问题：两轮 `playtest_start` 报“无法把窗口切到前台：sandbox”（run `8fd0a901`、`f891c7e9`），逐步工具后续也返回 `FOCUS_FAILED`，故后续采用用户操作+截图取证，没有重复盲点、修改系统设置或绕过输入限制。
 
-当前默认候选：`.worktrees/art-pipeline/build/art-platform/workspace/scenes/saves/abyss-art-card-text-v2.gil`；旧 `abyss-art-card-candidate.gil` 保留用于缺字对照。首次准备时原始 GIL 与复制时 SHA-256 一致；原版已导入存档另备份为 `build/art-spike/imported-card.gil`。原始截图/运行记录在该 worktree 的 `build/art-spike/`、`build/miliastra/playtests/`，包含账号信息，留本机，不推仓库。
+当前配方默认候选为 `build/art-platform/workspace/scenes/saves/abyss-art-card-text-v2.gil`；旧 `abyss-art-card-candidate.gil` 保留用于缺字对照。首次准备时原始 GIL 与复制时 SHA-256 一致。会话收口后，本轮截图、存档副本、运行记录及分支恢复包统一保存在主工作区 `build/art-closeout-20261023/`；集成工作树原build对应其下 `art-pipeline/build/`。包含账号信息，留本机，不推仓库。
 
 ## Agent 分工与集成
 
 三个干净 Session 已分别交付独立 draft PR：[场景 #25](https://github.com/CHNISam/Slay-the-Abyss/pull/25)、[肖像 #26](https://github.com/CHNISam/Slay-the-Abyss/pull/26)、[卡牌 #27](https://github.com/CHNISam/Slay-the-Abyss/pull/27)。主 Agent 只做候选绑定、实机验收与集成；独立复核已发现并修正肖像 Y 偏移，320 个位置契约通过，裁切限制仍未解除。
 
-TASK-10.1.1 单卡门槛已完成，TASK-25.1（少量通用卡框/卡背/类型图标）依赖它并已交付小套待验收；TASK-25.2（肖像/卡图）、TASK-2.1（原生场景）仍等待各自路线实机门槛。父 TASK-10.1 遵循最新里程碑安排为 M4 / To Do，已完成切片另记；其余美术探针不阻塞M1基础C档，不追加可选研究。各 Agent 在独立 worktree/feat 分支制作，文件名绑定资产/卡牌 ID，各自验证并提 PR → develop。只有主 Agent 操作 MCP/GUI 与中央 Backlog；集成时复核来源、预算、输入输出哈希、三层证据和同屏结果。
+TASK-10.1.1 单卡门槛与TASK-25.1首轮共享资产制作已完成。TASK-10.1.2只余实际多卡/长文/设备验收，回到To Do；TASK-25.2（肖像/卡图）、TASK-2.1（原生场景）仍等待各自路线实机门槛。父 TASK-10.1 遵循最新里程碑安排为 M4 / To Do，已完成切片另记；其余美术探针不阻塞M1基础C档，不追加可选研究。各 Agent 在独立 worktree/feat 分支交付，主 Agent 已统一复审并集成；后续正式组装仍需复核来源、预算、输入输出哈希、三层证据和同屏结果。
 
 验证后的两位干净 Agent 已交付 [共享资产 PR #42](https://github.com/CHNISam/Slay-the-Abyss/pull/42) 和 [容量验收 PR #43](https://github.com/CHNISam/Slay-the-Abyss/pull/43)，主 Agent 复审后纳入本集成分支。共享套为4框/1背/3类型徽记，见 [CARD_SHARED_ASSETS.md](CARD_SHARED_ASSETS.md)；容量样本为0/1/5/10卡与42字长文，见 [CARD_CAPACITY.md](CARD_CAPACITY.md)。容量准备脚本失败清单问题已修正；主 Agent 实际生成五份副本，MCP静态检查均0错误/0警告，原始底图SHA保持一致。官方导入、运行时与目标设备表仍待测，不因文件生成而放行容量。
+
+本轮交付统一由[集成PR #30](https://github.com/CHNISam/Slay-the-Abyss/pull/30)进入develop；内容已包含的子PR关闭，原分支通过本地Git bundle保留后清理工作树。用户已要求结束本轮，不再追加人工测试。已完成交付的合并与清理不以待办的实机验收作为阻塞，亦不把待办标为通过。

@@ -1,11 +1,11 @@
 ---
 id: TASK-25.1
 title: 首发卡牌框与图标制作（实机门槛后）
-status: In Progress
+status: Done
 assignee:
   - art-card
 created_date: '2026-10-22 16:36'
-updated_date: '2026-10-22 22:31'
+updated_date: '2026-10-22 22:45'
 labels:
   - art
   - launch
@@ -27,9 +27,9 @@ ordinal: 30000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 只采用TASK-10.1已实机通过的卡框和原生文字流程；记录尺寸、控件预算、模板绑定和对照截图
-- [ ] #2 按data/cards.json及已批准表现清单交付首轮卡框、卡背、图标；不改核心玩法或重复实现TASK-10控制器
-- [ ] #3 独立feat分支与PR；离线检查和平台导入/真机证据分开；主Agent审查后集成
+- [x] #1 只采用TASK-10.1已实机通过的卡框和原生文字流程；记录尺寸、控件预算、模板绑定和对照截图
+- [x] #2 按data/cards.json及已批准表现清单交付首轮卡框、卡背、图标；不改核心玩法或重复实现TASK-10控制器
+- [x] #3 独立feat分支与PR；离线检查和平台导入/真机证据分开；主Agent审查后集成
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -45,3 +45,9 @@ ordinal: 30000
 
 PR42共享小套已独立复审（39哈希、8上游导出逐字节一致）并集成；新资产组装/官方实机尚未执行。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+首轮4稀有度卡框、1卡背、3类型徽记交付并经主Agent复审集成PR30。39项哈希和8份固定上游Lua重导出匹配，原生文字槽与预算已记录，独立PR42及离线检查通过。电脑单卡配方已实机验证；新资产组合、多卡与目标设备验证不计入本制作切片，保留在既有验收任务。
+<!-- SECTION:FINAL_SUMMARY:END -->
