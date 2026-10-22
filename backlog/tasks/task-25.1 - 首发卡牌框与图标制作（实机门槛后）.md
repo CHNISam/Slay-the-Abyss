@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - art-card
 created_date: '2026-10-22 16:36'
-updated_date: '2026-10-22 22:01'
+updated_date: '2026-10-22 22:31'
 labels:
   - art
   - launch
@@ -42,4 +42,6 @@ ordinal: 30000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-23：干净Session /root/art_card_production 已启动，独立worktree art-card-production；依赖TASK-10.1.1只批准电脑单卡制作配方，容量由TASK-10.1.2单独验收。
+
+PR42共享小套已独立复审（39哈希、8上游导出逐字节一致）并集成；新资产组装/官方实机尚未执行。
 <!-- SECTION:NOTES:END -->

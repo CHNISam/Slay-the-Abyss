@@ -54,7 +54,8 @@ node node_modules/fengari-node-cli/src/lua-cli.js -e "dofile('build/art-capacity
 
 | 官方运行时验收项 | baseline | one | five | ten | longest |
 |---|---|---|---|---|---|
-| 编译/客户端检查 | | | | | |
+| MCP静态客户端检查 | 0错/0警告 | 0错/0警告 | 0错/0警告 | 0错/0警告 | 0错/0警告 |
+| 官方编译日志 | | | | | |
 | 写入副本并由官方编辑器导入 | | | | | |
 | 完整中文/图形与独立点击 | | | | | |
 | 10秒dt均值/P95 ms | | | | | |
@@ -63,5 +64,7 @@ node node_modules/fengari-node-cli/src/lua-cli.js -e "dofile('build/art-capacity
 | 手机/主机 | | | | | |
 
 表格空白表示未测。10秒客户端`OnUpdate(dt)`统计不等于GPU耗时；比较时记录设备、客户端版本、底图、画布和同屏总控件。已有单卡33.3/P95 34.0ms记录缺少基线，不能移填本表。
+
+主 Agent集成后于2026-10-23实际运行上述准备脚本，五份副本全部生成；同轮runId为03a6a22c-83f2-4651-9506-a9fed8c1acac，底图SHA与各副本哈希记录在 [evidence/2026-10-23.json](evidence/2026-10-23.json)。这是实际MCP静态检查，区别于先前Agent的隔离mock。本机便于人工验收的等字节副本位于 `build/art-acceptance/01-baseline.gil`、`02-ten.gil`、`03-longest.gil`；先基线→十卡比较，必要时补单卡/五卡定位，长文另查。原始五项仍可按完整顺序验收。尚未官方导入/试玩，截图证据不能移用旧单卡。
 
 来源与许可：卡框/几何由本项目批准主题及上游已通过小样生成，中文/数值来自项目`data/`，未使用其他创作者美术/存档。上游[Image Editor](https://github.com/1475505/Miliastra-image-editor-webui/tree/103025f9095d8089e3f9bf097f4d0c5fe039d546)仓库声明GPL-3.0；primitive-shape运行时源自LiuL、MIT。随本小样保存[`licenses/EDITOR-GPL-3.0.txt`](../../art/spikes/card-capacity/licenses/EDITOR-GPL-3.0.txt)、[`licenses/PRIMITIVE-SHAPE-MIT.txt`](../../art/spikes/card-capacity/licenses/PRIMITIVE-SHAPE-MIT.txt)与原始来源说明；导出Lua含上游运行时及适配代码，不应视为无来源代码。

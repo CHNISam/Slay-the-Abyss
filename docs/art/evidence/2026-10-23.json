@@ -159,5 +159,79 @@
       "clickAndMetrics": "1fdaba4d6c080e0330b60ae41b30398c06bf48817b6664b999dc31668fa6df52",
       "initial": "03a3e3627dc87c94b86116ea8649d9700efcc5cf49a58bff27eccc826043a555"
     }
+  },
+  "capacityPreparation": {
+    "runId": "03a6a22c-83f2-4651-9506-a9fed8c1acac",
+    "state": "prepared",
+    "baseSha256": "2f2248a3db1f99333076b25558a9869abfaa09372fe001e8806836d56d189166",
+    "method": "main agent ran installed MCP on copied base; no GUI",
+    "officialImport": "not_run",
+    "runtime": "not_run",
+    "cases": [
+      {
+        "scenario": "baseline",
+        "activeControls": 6,
+        "sha256": "cfba4ad961d3555dc45f16f2b8c57e3e4b4302eb4fac28ef1eacf79bec413a2a",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "one",
+        "activeControls": 22,
+        "sha256": "f80368345f7242643c4e6b5a9b377e8daf09f206d98e8a672300f4827a8a7a8c",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "five",
+        "activeControls": 86,
+        "sha256": "019526e2a6a2741d3fc1f1e33b60c56afb0ccf7faba2a5f597b3dede06c3c4e4",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "ten",
+        "activeControls": 166,
+        "sha256": "913992cc7acd973c92076fe7d3b19a8d196153811748d9eb9b4a0075207f4e65",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "longest",
+        "activeControls": 22,
+        "sha256": "017eff76e509ead18bbf8eb38813b7596bc598a72141556ebdb837c9656eae73",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      }
+    ]
+  },
+  "parallelProduction": {
+    "sharedAssets": {
+      "review": "no P1/P2; 39 hashes and 8 upstream Lua exports matched",
+      "commit": "24dc524941136be0ff25074d624a8d029990db8f",
+      "pr": 42,
+      "newAssetsInGame": "not_run"
+    },
+    "capacity": {
+      "review": "P2 stale successful manifest fixed and failure injection passed; other reviewed concerns clear",
+      "commit": "13e68d16c494187bf534b6529668eb11352bb2d3",
+      "pr": 43,
+      "inGame": "not_run"
+    }
   }
 }
