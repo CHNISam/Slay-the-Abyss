@@ -103,7 +103,8 @@ function M.blockAmount(state, actor, amount, fixed)
 end
 
 function M.block(state, actor, amount, fixed)
-    actor.block = actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed)
+    -- Cap the final state, not the modifier calculation or its float precision.
+    actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
 end
 
 local function tick(state, actor, phase)

@@ -78,13 +78,56 @@ test("attack modifiers crossing 32-bit range retain float results and final roun
     eq(e.hp, 584080898.0)
 end)
 
-test("large block modifiers and accumulation do not wrap across 32-bit range", function()
+test("large block modifiers retain precision without permitting uncapped final state", function()
     local s = battle(); local p = s.player
     status(p, "dexterity", 2); status(p, "frail", 1)
-    Combat.block(s, p, 100000000); eq(p.block, 75000001)
-    p.block = 2147483640
-    Combat.block(s, p, 100000000); eq(p.block, 2222483641.0)
-    Combat.block(s, p, 2147483647, true); eq(p.block, 4369967288.0)
+    eq(Actor.blockAmount(s, p, 100000000), 75000001)
+    status(p, "dexterity", 2147483645)
+    eq(Actor.blockAmount(s, p, 2147483647), 3221225470.0)
+    eq(Actor.blockAmount(s, p, 2147483647, true), 2147483647)
+    Combat.block(s, p, 2147483647); eq(p.block, 999)
+    Combat.block(s, p, 2147483647, true); eq(p.block, 999)
+end)
+
+test("block gain caps both actors at 999 for ordinary and fixed effects", function()
+    for _, enemy in ipairs({ false, true }) do
+        for _, fixed in ipairs({ false, true }) do
+            for _, row in ipairs({ {0, 5, 5}, {993, 5, 998}, {994, 5, 999},
+                {998, 5, 999}, {999, 5, 999}, {999, 0, 999}, {998, -5, 998} }) do
+                local s = battle(); local actor = enemy and s.enemies[1] or s.player
+                actor.block = row[1]; Combat.block(s, actor, row[2], fixed)
+                eq(actor.block, row[3])
+            end
+        end
+    end
+end)
+
+test("block cap follows modifiers and final rounding rather than clamping the base", function()
+    local s = battle(); local p = s.player
+    status(p, "frail", 1); Combat.block(s, p, 1200); eq(p.block, 900)
+    p.block = 995; status(p, "dexterity", 2)
+    Combat.block(s, p, 5); eq(p.block, 999)
+    p.block = 998; status(p, "dexterity", -20)
+    Combat.block(s, p, 5); eq(p.block, 998)
+    Combat.block(s, p, 5, true); eq(p.block, 999)
+end)
+
+test("capped block retains barricade and ordinary turn reset semantics", function()
+    local s = battle(); local p = s.player
+    status(p, "barricade", 1); Combat.block(s, p, 1000)
+    Actor.startTurn(s, p); eq(p.block, 999)
+    Actor.endTurn(s, p); eq(p.block, 999)
+    p.statuses.barricade = 0; Actor.startTurn(s, p); eq(p.block, 0)
+end)
+
+test("existing defend card and enemy defend intent use the capped actor entry", function()
+    local s = battle(); s.player.block = 998
+    local uid
+    for _, c in ipairs(s.hand) do if c.cardId == "defend" then uid = c.uid end end
+    assert(uid); assert(Combat.play(s, uid)); eq(s.player.block, 999)
+    local e = s.enemies[1]; e.block = 998; e.intentIndex = 2
+    status(e, "barricade", 1)
+    assert(Combat.endTurn(s)); eq(e.block, 999)
 end)
 
 test("debuff durations decay once at owner end and never below zero", function()
