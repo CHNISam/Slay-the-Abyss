@@ -1,0 +1,139 @@
+{
+  "selectionMethod": "scene_search_assets, scene_asset_images, viewed every selected thumbnail",
+  "source": "hang-ZYM/qianxing-format-docs (CC BY 4.0), installed MCP catalog",
+  "assets": [
+    {
+      "scale": 0.7,
+      "group": "建筑构件",
+      "id": 20003078,
+      "name": "石质地板",
+      "scaledSizeMetres": [
+        11.3183,
+        0.2842,
+        11.3183
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Build_YJDiBan_08",
+      "thumbnail": "thumbnails/20003078.jpg",
+      "sizeMetres": [
+        16.169,
+        0.406,
+        16.169
+      ]
+    },
+    {
+      "scale": 0.55,
+      "group": "建筑装饰",
+      "id": 20002899,
+      "name": "残破石质地板",
+      "scaledSizeMetres": [
+        2.75,
+        0.4675,
+        2.75
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Build_YJDiBan_04",
+      "thumbnail": "thumbnails/20002899.jpg",
+      "sizeMetres": [
+        5,
+        0.85,
+        5
+      ]
+    },
+    {
+      "scale": 0.85,
+      "group": "建筑装饰",
+      "id": 20002586,
+      "name": "石质门洞",
+      "scaledSizeMetres": [
+        4.25,
+        4.7966,
+        0.5185
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Build_YiJi_05",
+      "thumbnail": "thumbnails/20002586.jpg",
+      "sizeMetres": [
+        5,
+        5.643,
+        0.61
+      ]
+    },
+    {
+      "scale": 0.65,
+      "group": "自然景观",
+      "id": 20001711,
+      "name": "残破石柱",
+      "scaledSizeMetres": [
+        1.6029,
+        3.7817,
+        1.5776
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Build_Ruin_05",
+      "thumbnail": "thumbnails/20001711.jpg",
+      "sizeMetres": [
+        2.466,
+        5.818,
+        2.427
+      ]
+    },
+    {
+      "scale": 0.75,
+      "group": "建筑装饰",
+      "id": 20002902,
+      "name": "残破石质墙壁",
+      "scaledSizeMetres": [
+        1.6815,
+        2.1922,
+        1.0463
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Build_YJQiang_05",
+      "thumbnail": "thumbnails/20002902.jpg",
+      "sizeMetres": [
+        2.242,
+        2.923,
+        1.395
+      ]
+    },
+    {
+      "scale": 0.6,
+      "group": "自然景观",
+      "id": 20001540,
+      "name": "石堆",
+      "scaledSizeMetres": [
+        2.0772,
+        0.5796,
+        2.1612
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Prop_Gravel_01",
+      "thumbnail": "thumbnails/20001540.jpg",
+      "sizeMetres": [
+        3.462,
+        0.966,
+        3.602
+      ]
+    },
+    {
+      "scale": 0.65,
+      "group": "建筑装饰",
+      "id": 20002083,
+      "name": "岩石",
+      "scaledSizeMetres": [
+        2.2822,
+        1.714,
+        2.7469
+      ],
+      "solid": false,
+      "icon": "UI_Beyd_Gadget_Rock_Quarry_03",
+      "thumbnail": "thumbnails/20002083.jpg",
+      "sizeMetres": [
+        3.511,
+        2.637,
+        4.226
+      ]
+    }
+  ]
+}

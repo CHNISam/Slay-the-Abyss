@@ -1,0 +1,220 @@
+{
+  "name": "ART_Capacity",
+  "script": "ART_Capacity_Probe",
+  "showCursor": true,
+  "outputName": "abyss-capacity-ten",
+  "controls": [
+    {
+      "name": "Card01",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        -360,
+        130
+      ],
+      "script": "ART_Capacity_01"
+    },
+    {
+      "name": "Card02",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        -180,
+        130
+      ],
+      "script": "ART_Capacity_02"
+    },
+    {
+      "name": "Card03",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        0,
+        130
+      ],
+      "script": "ART_Capacity_03"
+    },
+    {
+      "name": "Card04",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        180,
+        130
+      ],
+      "script": "ART_Capacity_04"
+    },
+    {
+      "name": "Card05",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        360,
+        130
+      ],
+      "script": "ART_Capacity_05"
+    },
+    {
+      "name": "Card06",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        -360,
+        -130
+      ],
+      "script": "ART_Capacity_06"
+    },
+    {
+      "name": "Card07",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        -180,
+        -130
+      ],
+      "script": "ART_Capacity_07"
+    },
+    {
+      "name": "Card08",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        0,
+        -130
+      ],
+      "script": "ART_Capacity_08"
+    },
+    {
+      "name": "Card09",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        180,
+        -130
+      ],
+      "script": "ART_Capacity_09"
+    },
+    {
+      "name": "Card10",
+      "kind": "container",
+      "size": [
+        180,
+        240
+      ],
+      "position": [
+        360,
+        -130
+      ],
+      "script": "ART_Capacity_10"
+    },
+    {
+      "name": "Status",
+      "kind": "text",
+      "position": [
+        0,
+        300
+      ],
+      "size": [
+        1100,
+        40
+      ],
+      "text": {
+        "content": "容量验收 ten / 10卡 / 150动态控件 / 总数166",
+        "fontSize": 24,
+        "backgroundOpacity": 0,
+        "colour": "#ECE6DA",
+        "align": "centre"
+      }
+    },
+    {
+      "name": "Plate",
+      "kind": "image",
+      "position": [
+        0,
+        -285
+      ],
+      "size": [
+        240,
+        40
+      ],
+      "image": 100001,
+      "colour": "#A8732A"
+    },
+    {
+      "name": "Label",
+      "kind": "text",
+      "position": [
+        0,
+        -285
+      ],
+      "size": [
+        240,
+        40
+      ],
+      "text": {
+        "content": "点击检查",
+        "fontSize": 24,
+        "backgroundOpacity": 0,
+        "align": "centre"
+      }
+    },
+    {
+      "name": "Confirm",
+      "kind": "cursorArea",
+      "position": [
+        0,
+        -285
+      ],
+      "size": [
+        240,
+        40
+      ]
+    },
+    {
+      "name": "Metrics",
+      "kind": "text",
+      "position": [
+        0,
+        -330
+      ],
+      "size": [
+        1000,
+        40
+      ],
+      "text": {
+        "content": "客户端帧间隔采样中（10秒）",
+        "fontSize": 18,
+        "backgroundOpacity": 0,
+        "colour": "#ECE6DA",
+        "align": "centre"
+      }
+    }
+  ]
+}

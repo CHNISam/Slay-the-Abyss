@@ -1,0 +1,46 @@
+{
+  "upstream_commit": "0526509e73d36b359d3c9bee1104718e4a600ed0",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "opencv": "5.0.0",
+  "numpy": "2.5.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "source_sha256": "c5f92493eadde781bded8b90e853279f6b862abfa659365aed3286778b3b445e",
+  "primitive_exe_sha256": "c60659443fe9bc2c464b32879aa5ec3d498e636d5e5a296af56139a016b1b4a4",
+  "seed": "Upstream seeds from wall clock; reruns are not bit-for-bit deterministic.",
+  "runs": [
+    {
+      "requested_primitives": 64,
+      "exported_controls": 64,
+      "fit_seconds": 29.811,
+      "rgb_rmse_0_255": 16.462,
+      "psnr_db": 23.801,
+      "lua_bytes": 10626,
+      "config": {
+        "num_primitives": 64,
+        "allowed_shapes": [
+          "circle"
+        ],
+        "detail_scale": 1.0,
+        "workers": 2,
+        "transparent_output": false
+      }
+    },
+    {
+      "requested_primitives": 256,
+      "exported_controls": 256,
+      "fit_seconds": 112.385,
+      "rgb_rmse_0_255": 13.934,
+      "psnr_db": 25.25,
+      "lua_bytes": 25906,
+      "config": {
+        "num_primitives": 256,
+        "allowed_shapes": [
+          "circle"
+        ],
+        "detail_scale": 1.0,
+        "workers": 2,
+        "transparent_output": false
+      }
+    }
+  ]
+}

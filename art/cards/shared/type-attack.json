@@ -1,0 +1,235 @@
+{
+  "canvas": {
+    "width": 40.0,
+    "height": 40.0,
+    "background": "transparent",
+    "mask": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "shapeType": 1,
+      "enabled": false,
+      "previewOnCanvas": false
+    }
+  },
+  "elements": [
+    {
+      "id": "blade",
+      "name": "blade",
+      "type": "rectangle",
+      "x": 20.0,
+      "y": 15.0,
+      "width": 5.0,
+      "height": 20.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "color": "#e0ada9",
+      "opacity": 1.0,
+      "zIndex": 0,
+      "isBackground": false,
+      "textBox": null,
+      "imageAssetId": null,
+      "imageTint": false,
+      "imageType": "basic",
+      "prefabId": null,
+      "prefabVariable": null,
+      "luaMask": null
+    },
+    {
+      "id": "blade-tip",
+      "name": "blade-tip",
+      "type": "triangle",
+      "x": 20.0,
+      "y": 4.0,
+      "width": 5.0,
+      "height": 6.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "color": "#e0ada9",
+      "opacity": 1.0,
+      "zIndex": 1,
+      "isBackground": false,
+      "textBox": null,
+      "imageAssetId": null,
+      "imageTint": false,
+      "imageType": "basic",
+      "prefabId": null,
+      "prefabVariable": null,
+      "luaMask": null
+    },
+    {
+      "id": "guard",
+      "name": "guard",
+      "type": "rectangle",
+      "x": 20.0,
+      "y": 26.0,
+      "width": 16.0,
+      "height": 4.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "color": "#e0ada9",
+      "opacity": 1.0,
+      "zIndex": 2,
+      "isBackground": false,
+      "textBox": null,
+      "imageAssetId": null,
+      "imageTint": false,
+      "imageType": "basic",
+      "prefabId": null,
+      "prefabVariable": null,
+      "luaMask": null
+    },
+    {
+      "id": "grip",
+      "name": "grip",
+      "type": "rectangle",
+      "x": 20.0,
+      "y": 32.0,
+      "width": 4.0,
+      "height": 8.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "color": "#e0ada9",
+      "opacity": 1.0,
+      "zIndex": 3,
+      "isBackground": false,
+      "textBox": null,
+      "imageAssetId": null,
+      "imageTint": false,
+      "imageType": "basic",
+      "prefabId": null,
+      "prefabVariable": null,
+      "luaMask": null
+    }
+  ],
+  "meta": {
+    "sourceType": "json",
+    "sourceName": "type-attack",
+    "warnings": []
+  },
+  "library": {
+    "activeCategory": "基础形状",
+    "categories": [
+      {
+        "key": "function-icon-mono",
+        "label": "功能图标-单色",
+        "supported": false
+      },
+      {
+        "key": "function-icon-color",
+        "label": "功能图标-彩色",
+        "supported": false
+      },
+      {
+        "key": "gameplay-icon-mono",
+        "label": "玩法图标-单色",
+        "supported": false
+      },
+      {
+        "key": "gameplay-icon-color",
+        "label": "玩法图标-彩色",
+        "supported": false
+      },
+      {
+        "key": "ornament-mono",
+        "label": "装饰图案-单色",
+        "supported": false
+      },
+      {
+        "key": "ornament-color",
+        "label": "装饰图案-彩色",
+        "supported": false
+      },
+      {
+        "key": "floor-mono",
+        "label": "地板-单色",
+        "supported": false
+      },
+      {
+        "key": "floor-color",
+        "label": "地板-彩色",
+        "supported": false
+      },
+      {
+        "key": "basic-shape",
+        "label": "基础形状",
+        "supported": true
+      },
+      {
+        "key": "divider",
+        "label": "分割线",
+        "supported": false
+      },
+      {
+        "key": "skill-talent",
+        "label": "技能天赋",
+        "supported": false
+      },
+      {
+        "key": "special-character",
+        "label": "特殊字符",
+        "supported": false
+      },
+      {
+        "key": "item",
+        "label": "道具",
+        "supported": false
+      },
+      {
+        "key": "creation",
+        "label": "造物",
+        "supported": false
+      }
+    ],
+    "baseShapePresets": [
+      {
+        "type": "ellipse",
+        "color": "#0f766e",
+        "width": 88.0,
+        "height": 88.0
+      },
+      {
+        "type": "rectangle",
+        "color": "#c2410c",
+        "width": 102.0,
+        "height": 70.0
+      },
+      {
+        "type": "triangle",
+        "color": "#7c3aed",
+        "width": 96.0,
+        "height": 86.0
+      },
+      {
+        "type": "four_point_star",
+        "color": "#0f4c81",
+        "width": 90.0,
+        "height": 90.0
+      },
+      {
+        "type": "five_point_star",
+        "color": "#be123c",
+        "width": 92.0,
+        "height": 92.0
+      },
+      {
+        "type": "ring",
+        "color": "#f59e0b",
+        "width": 92.0,
+        "height": 92.0
+      },
+      {
+        "type": "textbox",
+        "color": "#ffffff",
+        "width": 180.0,
+        "height": 40.0
+      }
+    ],
+    "savedItems": []
+  }
+}

@@ -1,13 +1,16 @@
 ---
 id: TASK-9.1
 title: 独立审查 TASK-9 初始牌组与奖励入组
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 15:36'
-updated_date: '2026-10-22 15:43'
+updated_date: '2026-10-22 22:19'
 labels: []
+milestone: m-2
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/15'
 parent_task_id: TASK-9
 ordinal: 25000
 ---
@@ -39,3 +42,9 @@ CLAIM quality-gates；branch feat/task-9-1-review；worktree .worktrees/reward-r
 
 审查提交75b7d16；PR https://github.com/CHNISam/Slay-the-Abyss/pull/15 ，base feat/task-9-card-rewards。两个AC已据实验证；等待主Agent集成，不自行合并。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR15审查及PR13实现均已合并；既有独立探针与本轮完整门禁通过，仅本地规则层。
+<!-- SECTION:FINAL_SUMMARY:END -->
