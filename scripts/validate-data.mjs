@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-export const contentFiles = ['cards', 'statuses', 'enemies', 'relics', 'potions'];
+const recordFiles = ['cards', 'statuses', 'enemies', 'relics', 'potions'];
+export const contentFiles = [...recordFiles, 'rules'];
 const tiers = ['normal', 'elite', 'boss'];
 const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal',
   'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength',
@@ -24,13 +25,16 @@ export function validateContent(bundle) {
     (fail(path, `must be an integer in ${min}..${max}`), false);
   const enumeration = (value, allowed, path) => allowed.includes(value) ||
     (fail(path, `must be one of ${allowed.join(', ')}`), false);
+  const keys = (value, allowed, path) => {
+    for (const key of Object.keys(value)) if (!allowed.includes(key)) fail(`${path}.${key}`, 'unknown field');
+  };
   const array = (value, path) => {
     if (!Array.isArray(value) || value.length === 0) { fail(path, 'must be a nonempty array'); return []; }
     return value;
   };
   if (!object(bundle, 'data')) return errors;
   const lists = {};
-  for (const file of contentFiles) {
+  for (const file of recordFiles) {
     lists[file] = object(bundle[file], `${file}.json`) ? array(bundle[file][file], `${file}.${file}`) : [];
   }
   lists.encounters = isObject(bundle.enemies) ? array(bundle.enemies.encounters, 'enemies.encounters') : [];
@@ -58,11 +62,23 @@ export function validateContent(bundle) {
       if (!object(effect, p)) return;
       const op = effect.op;
       if (!enumeration(op, [...valueOps, ...statusOps, ...cardOps, ...flagOps, 'conditional'], `${p}.op`)) return;
+      const allowed = ['op'];
+      if (valueOps.includes(op) || statusOps.includes(op) || op === 'addCardPerTurn') allowed.push('value');
+      if (statusOps.includes(op) || op === 'gainTemporaryStrength') allowed.push('status');
+      if (cardOps.includes(op)) allowed.push('card');
+      if (op === 'conditional') allowed.push('if', 'then');
+      if (['damage', 'damageAll'].includes(op)) allowed.push('times');
+      if (op === 'discardRandom') allowed.push('mayChoose');
+      keys(effect, allowed, p);
       if (valueOps.includes(op) || statusOps.includes(op) || op === 'addCardPerTurn') {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);
         integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0);
       }
       if (statusOps.includes(op)) reference(effect.status, 'statuses', `${p}.status`);
+      if (op === 'gainTemporaryStrength') {
+        reference(effect.status, 'statuses', `${p}.status`);
+        enumeration(effect.status, ['strength'], `${p}.status`);
+      }
       if (cardOps.includes(op)) reference(effect.card, 'cards', `${p}.card`);
       if (effect.times !== undefined) integer(effect.times, `${p}.times`, 1);
       if (effect.mayChoose !== undefined && typeof effect.mayChoose !== 'boolean') fail(`${p}.mayChoose`, 'must be boolean');
@@ -87,7 +103,10 @@ export function validateContent(bundle) {
   }
   function cardUpgrade(upgrade, path) {
     card(upgrade, path, true);
-    if (isObject(upgrade) && Object.keys(upgrade).length === 0) fail(path, 'must change at least one field');
+    if (!isObject(upgrade)) return;
+    const allowed = ['cost', 'effects', 'type', 'rarity', 'condition', 'costMode', 'exhaust', 'ethereal', 'innate', 'repeatable'];
+    keys(upgrade, allowed, path);
+    if (!Object.keys(upgrade).some(key => allowed.includes(key))) fail(path, 'must change at least one field');
   }
   lists.cards.forEach((entry, i) => card(entry, `cards[${i}]`));
   const starter = bundle.cards?.starter_deck;
@@ -122,7 +141,11 @@ export function validateContent(bundle) {
     integer(entry.minFloor, `${p}.minFloor`, 1, 15);
     integer(entry.maxFloor, `${p}.maxFloor`, 1, 15);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
-    array(entry.enemies, `${p}.enemies`).forEach((id, j) => reference(id, 'enemies', `${p}.enemies[${j}]`));
+    array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
+      reference(id, 'enemies', `${p}.enemies[${j}]`);
+      const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
+      if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
+    });
   });
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
@@ -131,6 +154,36 @@ export function validateContent(bundle) {
     if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end'], `${p}.trigger`);
     effects(entry.effects, `${p}.effects`);
   });
+  const rules = bundle.rules;
+  if (object(rules, 'rules.json')) {
+    enumeration(rules.version, ['0.1.0'], 'rules.version');
+    const numericSections = {
+      player: { maxHp: [1], energyPerTurn: [1], drawPerTurn: [1], maxHand: [1], startingGold: [0], potionSlots: [1] },
+      map: { floors: [15, 15], bossFloor: [15, 15], restFloor: [1, 14] },
+      camp: { healPercent: [1, 100], upgradeCount: [1] },
+      shop: { cardCommon: [0], cardUncommon: [0], cardRare: [0], relic: [0], removeCard: [0], removeCardIncrement: [0] },
+      rewards: { normalGold: [0], eliteGold: [0], bossGold: [0], cardChoices: [1] },
+      combat: { vulnerablePercent: [0], weakPercent: [0], frailPercent: [0] }
+    };
+    for (const [section, fields] of Object.entries(numericSections)) {
+      if (!object(rules[section], `rules.${section}`)) continue;
+      for (const [field, bounds] of Object.entries(fields)) integer(rules[section][field], `rules.${section}.${field}`, ...bounds);
+    }
+    if (isObject(rules.player)) {
+      array(rules.player.startingRelics, 'rules.player.startingRelics').forEach((id, i) => reference(id, 'relics', `rules.player.startingRelics[${i}]`));
+      if (rules.player.drawPerTurn > rules.player.maxHand) fail('rules.player.drawPerTurn', 'must not exceed maxHand');
+    }
+    if (isObject(rules.map)) {
+      const required = ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'];
+      const nodes = array(rules.map.nodeTypes, 'rules.map.nodeTypes');
+      nodes.forEach((node, i) => enumeration(node, required, `rules.map.nodeTypes[${i}]`));
+      if (nodes.length !== required.length || new Set(nodes).size !== required.length || required.some(node => !nodes.includes(node))) fail('rules.map.nodeTypes', 'must contain all seven node types exactly once');
+    }
+    if (isObject(rules.combat)) {
+      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
+      if (typeof rules.combat.poisonBypassesBlock !== 'boolean') fail('rules.combat.poisonBypassesBlock', 'must be boolean');
+    }
+  }
   return errors;
 }
 
@@ -144,6 +197,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   try {
     const errors = validateContent(loadContent(process.argv[2] ?? 'data'));
     if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
-    else console.log('Content validation passed (cards, statuses, enemies, encounters, relics, potions).');
+    else console.log('Content validation passed (cards, statuses, enemies, encounters, relics, potions, rules).');
   } catch (error) { console.error(`Content validation failed: ${error.message}`); process.exitCode = 1; }
 }

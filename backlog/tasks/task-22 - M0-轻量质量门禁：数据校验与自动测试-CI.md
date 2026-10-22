@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 14:01'
-updated_date: '2026-10-22 14:12'
+updated_date: '2026-10-22 14:14'
 labels: []
 milestone: m-1
 dependencies: []
@@ -40,4 +40,6 @@ CLAIM 2026-10-22 子 Agent quality-gates；负责人 Furinya；分支 feat/sprin
 实现 Node22 零依赖内容校验、32项内置测试、JS语法检查和限时5分钟/同分支取消旧运行的CI。验证：npm run check:syntax通过；npm test 32通过0失败0跳过；node scripts/validate-data.mjs ../content-baseline/data通过；git diff --check通过。当前worktree未包含data，npm run check预期在缺文件处失败；须先集成内容。CI实际运行与远端必需检查规则尚未验证，未勾选AC3。待独立审查，保持In Progress；未触及存档和GUI。
 
 实现提交 d6eebfe；草稿PR https://github.com/CHNISam/Slay-the-Abyss/pull/1 ，base develop。等待独立审查及内容集成后的远端CI。
+
+独立审查修复：rules.json纳入必需文件及全字段数值/枚举、15层地图和startingRelics引用校验；升级和效果字段白名单拒绝拼写错误；遭遇与敌人tier强制匹配。复验48测试全通过，syntax通过，content-baseline/data六份JSON校验通过。
 <!-- SECTION:NOTES:END -->

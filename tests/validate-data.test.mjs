@@ -12,7 +12,16 @@ function fixture() {
     statuses: { statuses: [{ id: 'strength', name: '力量', kind: 'buff', stack: 'intensity', decay: 'none' }] },
     enemies: { enemies: [{ id: 'slime', name: '史莱姆', tier: 'normal', hp: 12, intents: [{ id: 'attack', kind: 'attack', effects: [{ op: 'damage', value: 3 }] }] }], encounters: [{ id: 'slime_pair', tier: 'normal', enemies: ['slime', 'slime'], minFloor: 1, maxFloor: 14 }] },
     relics: { relics: [{ id: 'blood', name: '血', rarity: 'starter', trigger: 'combat_end', effects: [{ op: 'heal', value: 6 }] }] },
-    potions: { potions: [{ id: 'strength', name: '力量药水', rarity: 'common', effects: [{ op: 'gainStatus', status: 'strength', value: 2 }] }] }
+    potions: { potions: [{ id: 'strength', name: '力量药水', rarity: 'common', effects: [{ op: 'gainStatus', status: 'strength', value: 2 }] }] },
+    rules: {
+      version: '0.1.0',
+      player: { maxHp: 80, energyPerTurn: 3, drawPerTurn: 5, maxHand: 10, startingGold: 99, startingRelics: ['blood'], potionSlots: 3 },
+      map: { floors: 15, bossFloor: 15, restFloor: 14, nodeTypes: ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'] },
+      camp: { healPercent: 30, upgradeCount: 1 },
+      shop: { cardCommon: 50, cardUncommon: 75, cardRare: 150, relic: 150, removeCard: 75, removeCardIncrement: 25 },
+      rewards: { normalGold: 15, eliteGold: 30, bossGold: 100, cardChoices: 3 },
+      combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end', poisonBypassesBlock: true }
+    }
   };
 }
 
@@ -55,6 +64,22 @@ const invalidCases = [
   ['reversed floor range', d => d.enemies.encounters[0].minFloor = 15, /minFloor must not exceed/],
   ['invalid upgrade cost', d => d.cards.cards[0].upgrade = { cost: -1 }, /upgrade.cost:/],
   ['empty upgrade', d => d.cards.cards[0].upgrade = {}, /must change/],
+  ['misspelled upgrade field', d => d.cards.cards[0].upgrade = { costt: 0 }, /upgrade.costt: unknown field/],
+  ['misspelled effect field', d => d.cards.cards[0].effects[0].vale = 10, /vale: unknown field/],
+  ['mismatched enemy tier', d => d.enemies.enemies[0].tier = 'boss', /does not match encounter tier/],
+  ['missing rules file', d => delete d.rules, /rules.json/],
+  ['missing rules section', d => delete d.rules.player, /rules.player:.*object/],
+  ['invalid max hp', d => d.rules.player.maxHp = 0, /rules.player.maxHp/],
+  ['invalid turn energy', d => d.rules.player.energyPerTurn = -1, /rules.player.energyPerTurn/],
+  ['missing starting relic', d => d.rules.player.startingRelics = ['missing'], /unknown relics ID/],
+  ['wrong map floor count', d => d.rules.map.floors = 2, /rules.map.floors/],
+  ['wrong boss floor', d => d.rules.map.bossFloor = 14, /rules.map.bossFloor/],
+  ['missing node type', d => d.rules.map.nodeTypes.pop(), /all seven node types/],
+  ['repeated node type', d => d.rules.map.nodeTypes[0] = 'boss', /all seven node types/],
+  ['invalid shop price', d => d.rules.shop.removeCard = -1, /rules.shop.removeCard/],
+  ['invalid camp heal', d => d.rules.camp.healPercent = 101, /rules.camp.healPercent/],
+  ['invalid rule enum', d => d.rules.combat.rounding = 'ceil', /rules.combat.rounding/],
+  ['invalid rule boolean', d => d.rules.combat.poisonBypassesBlock = 'true', /rules.combat.poisonBypassesBlock/],
   ['nonboolean exhaust', d => d.cards.cards[0].exhaust = 'true', /\.exhaust:/]
 ];
 for (const [name, mutate, expected] of invalidCases) {
