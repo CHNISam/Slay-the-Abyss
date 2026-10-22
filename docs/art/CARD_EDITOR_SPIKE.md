@@ -1,5 +1,7 @@
 # 单张卡牌：复用 Miliastra Image Editor 导出器
 
+关联共同 Spike **TASK-10.1**，本分支仅交付卡牌最小实验；总任务由主 Agent 汇总，不关闭 Spike。
+
 本实验只制作一张「打击」卡牌，证明**上游导出链可以保留静态图片图元、原生中文文本、坐标与层序**。导出与 VM 契约检查通过；**未平台编译、未写入存档、未真机验证**。不可据此批量制作卡牌或宣布 UI 已实现。
 
 ![上游后端 PNG 预览](../../art/spikes/card-editor/card.png)
@@ -75,6 +77,8 @@ GIA 验证用上游另一个只读二进制解析模块 `vendor/primitive_shape/
 两种控件模板都要设为「仅存为模板」。上游运行时用 `game.InstantiateClientUIControl(index, parent)` 创建控件。**图库 ID、素材组 GUID、元件 ID 均不能代填模板索引**。本实验不猜测账号内真实索引，需主 Agent 在官方编辑器取证。
 
 Lua 图片使用 `SetImage`、`imageColor`、`SetSizeDelta`、居中锚点/轴心、`SetAnchoredPosition`、`SetLocalRotation`。文字使用独立原生文本框：`text`、`fontSize`、`minimumFontSize`、`adaptiveFontSize`、`fontColor`、`bgColor`、`enableOutline`、`horizontalAlignment`、`verticalAlignment`，没有把中文转为图形。上游还对 `imageType` 做保护性设置，本样例只使用基础类型，不依赖拉伸映射。
+
+`Color.FromRGBA` 额外做了已安装 MCP 代码的只读核对：`D:/MiliastraTools/genshin-miliastra-mcp/knowledge/official/guide/mhtakr07vej4.md:141` 的官方文档加工快照明确记录 `Color.FromRGBA(r,g,b,a?)` 接受0–255；`src/scene/client-api.json:69` 的 methods 包含 `FromRGBA`。直接导入本地 `src/client-check.mjs` 的 `luaSyntaxError(card.lua)` 返回 `null`，`SetImage`、`InstantiateClientUIControl` 也在其 API 目录。**没有调用 MCP 工具，也未运行 `scene_check_client`**。该校验器泛型方法名分支检查冒号调用，`Color.FromRGBA` 的点调用本身不由该分支验证；API目录/语法通过仍不等于游戏调用成功。导出使用 `Color.FromRGBA`，未将其改写为其他构造形式。
 
 模板索引补全后，脚本应挂在**专用空客户端容器**，不要挂模板本身，也不要挂生产界面根节点。运行时会重设宿主尺寸、缩放与位置，且负责清理自己创建的控件。此文件是独立显示探针，**不是战斗组件脚本**，没有卡牌命令、点击或绑定核心状态。
 
