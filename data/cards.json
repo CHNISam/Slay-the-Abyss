@@ -626,11 +626,11 @@
           "value": 1
         }
       ],
-      "text": "回合结束时格挡不再消失。",
+      "text": "格挡不再于自己回合开始时清空。",
       "upgrade": {
         "cost": 2
       },
-      "upgradeText": "消耗 2 能量，回合结束时格挡不再消失。"
+      "upgradeText": "消耗 2 能量，格挡不再于自己回合开始时清空。"
     },
     {
       "id": "carnage",
@@ -819,7 +819,7 @@
           "value": 1
         }
       ],
-      "text": "每回合开始时加入 1 张飞刀。",
+      "text": "每回合开始时向手牌加入 1 张飞刀。",
       "upgrade": {
         "effects": [
           {
@@ -829,7 +829,7 @@
           }
         ]
       },
-      "upgradeText": "每回合开始时加入 2 张飞刀。"
+      "upgradeText": "每回合开始时向手牌加入 2 张飞刀。"
     },
     {
       "id": "shiv",
@@ -843,7 +843,7 @@
           "value": 4
         }
       ],
-      "text": "造成 4 点伤害。",
+      "text": "消耗。造成 4 点伤害。",
       "upgrade": {
         "effects": [
           {
@@ -852,7 +852,7 @@
           }
         ]
       },
-      "upgradeText": "造成 6 点伤害。",
+      "upgradeText": "消耗。造成 6 点伤害。",
       "exhaust": true
     },
     {
@@ -903,7 +903,7 @@
       "upgrade": {
         "cost": 0
       },
-      "upgradeText": "消耗 0 能量。获得 2 点能量。"
+      "upgradeText": "消耗。消耗 0 能量，获得 2 点能量。"
     },
     {
       "id": "shockwave",
