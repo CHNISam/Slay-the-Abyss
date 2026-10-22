@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 15:43'
-updated_date: '2026-10-22 16:08'
+updated_date: '2026-10-22 16:19'
 labels: []
 dependencies: []
 references:
@@ -44,6 +44,8 @@ Executor=dot；基线047b7456；独立目录 slay-lua-export-fix-20261022。原T
 保持In Progress：当前仅本地候选及独立评审通过，正式CI、PR合并尚未完成；不能计作已交付。
 
 实际交付：PR17已squash合入develop，merge986a1798f6e2d44197a1a0934dd324d957950573；最终head8da3978的CI39810872368/check及presentation成功。Windows完整Node79项：73通过、6symlink权限skip；Lua combat15/map10/run8/status26通过。Linux独立保护25项0skip补足别名验证。旧待CI说明为历史，现据真实运行收口；未做平台/存档/游戏验收。
+
+2026-10-23 合并PR #19后发现与美术任务重号，经backlog doctor --fix --yes自动将源表保护任务由TASK-24改为TASK-27。美术任务及五处美术引用保留TASK-24；PR17历史编号不改写。保留PR21已验收的Done状态与交付证据。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
