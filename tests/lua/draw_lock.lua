@@ -73,13 +73,13 @@ for _, upgraded in ipairs({false, true}) do
         assert(Combat.play(s, s.hand[1].uid)); equal(#s.hand, 0); equal(#s.discard, 1)
         equal(s.player.noDraw, true); Combat.draw(s, 5); equal(#s.hand, 0)
     end)
-    test(label .. " full hand uses existing overflow then locks", function()
+    test(label .. " full hand draws only into the played slot then locks", function()
         local hand = {"battle_trance"}
         for _ = 1, 9 do hand[#hand + 1] = "defend" end
         local s = battle(upgraded, hand, {"strike", "strike", "strike", "strike", "strike"})
         local cards = inventory(s)
         assert(Combat.play(s, uid(s, "battle_trance")))
-        equal(#s.hand, 10); equal(#s.draw, 5 - n); equal(#s.discard, n)
+        equal(#s.hand, 10); equal(#s.draw, 4); equal(#s.discard, 1)
         equal(s.player.noDraw, true); same(inventory(s), cards)
     end)
     test(label .. " reshuffles prior discard without drawing played card", function()

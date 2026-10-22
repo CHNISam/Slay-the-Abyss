@@ -1,0 +1,45 @@
+{
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "python": "3.13.12",
+  "dependencies": {
+    "fastapi": "0.159.1",
+    "pillow": "11.3.0",
+    "pydantic": "2.14.1",
+    "uvicorn": "0.54.0"
+  },
+  "cardId": "strike",
+  "canvas": [
+    180.0,
+    240.0
+  ],
+  "controls": 15,
+  "images": 11,
+  "nativeTextboxes": 4,
+  "staticImageIds": [
+    100001,
+    100002,
+    100003
+  ],
+  "checks": [
+    "JSON/Lua normalized element round-trip",
+    "GIA image count/asset/geometry independent reader",
+    "GIA native UTF-8 textbox payloads",
+    "Y-up center conversion",
+    "DRAW_ORDER complete",
+    "minimum font 14"
+  ],
+  "platformCompile": "not run",
+  "saveImport": "not run",
+  "devicePlaytest": "not run",
+  "imageTemplateIndex": null,
+  "textboxTemplateIndex": null,
+  "sha256": {
+    "ui_theme.json": "05d964a66e7e7972df82a123dd73e6fc8513be5aa599e8d4674fe8ddb1c69f05",
+    "cards.json": "a18bb2b45ae0d7099ca83eb6996efbbf2bd008547e0e03f1d3a3e3ecac0ee40f",
+    "card.source.json": "e9385519caa62fa1dba6e4c2ce386d306b3eaa616de37afe7ef883fbe2539bde",
+    "card.json": "6d40f9be45cf9a9f2de54d96b891a8e10e127f62729c4d10cba993a3482e148e",
+    "card.lua": "97649e79b9a2cd944e8df31480059d8adb57fe0d9e03dc8e65346012cc27e0e8",
+    "card.gia": "71635478b14c704c26a7674243006edc77824936bb61513c4ee32f9d7cf35fc7",
+    "card.png": "6248e99c7ca25359eb5e31a2da78fbf3f9ea4eaf4b6e2fdb10ba6c9c25b3c72d"
+  }
+}

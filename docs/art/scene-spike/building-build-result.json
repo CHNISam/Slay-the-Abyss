@@ -1,0 +1,27 @@
+{
+ "isError": false,
+ "result": {
+  "name": "Abyss_RuinGateway_Probe",
+  "file": "F:\\New folder\\.worktrees\\art-scene-spike\\build\\miliastra\\scenes\\Abyss_RuinGateway_Probe.gia",
+  "installedTo": null,
+  "count": 1,
+  "entityIds": [
+   1078011000,
+   1078011000
+  ],
+  "bounds": {
+   "min": [
+    -2.5,
+    -2.8215,
+    -0.305
+   ],
+   "max": [
+    2.5,
+    2.8215,
+    0.305
+   ]
+  },
+  "next": "Not installed. Copy the file into BeyondLocal/Beyond_Local_Export before importing."
+ },
+ "images": []
+}

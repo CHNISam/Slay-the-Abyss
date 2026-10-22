@@ -105,7 +105,7 @@ test("draw lock blocks draw only, not energy", function()
     local s, c = battle(); vulnerable(s); s.player.noDraw = true
     assert(Combat.play(s, c.uid, 1)); equal(s.energy, 3); equal(#s.hand, 0); equal(#s.draw, 2)
 end)
-test("full remaining hand overflows draw to discard", function()
+test("full remaining hand stops draw without discarding it", function()
     local s, c = battle(); vulnerable(s)
     -- The played card is removed before drawing. Keep maxHand other real instances.
     local full = Combat.new(data, {deck = {"strike", "strike", "strike", "strike", "strike", "strike", "strike", "strike", "strike", "strike", "strike", "strike"}})
@@ -114,8 +114,11 @@ test("full remaining hand overflows draw to discard", function()
             if #s.hand <= s.rules.player.maxHand then item.uid = s.nextUid; s.nextUid = s.nextUid + 1; s.hand[#s.hand + 1] = item end
         end
     end
-    local drawn = s.draw[#s.draw]
-    assert(Combat.play(s, c.uid, 1)); equal(#s.hand, s.rules.player.maxHand); equal(s.discard[1], drawn); equal(s.discard[2], c); equal(s.energy, 3)
+    local top, draw, seed, events = s.draw[#s.draw], s.draw, s.seed, #s.events
+    assert(Combat.play(s, c.uid, 1)); equal(#s.hand, s.rules.player.maxHand)
+    equal(s.draw, draw); equal(#s.draw, 2); equal(s.draw[2], top)
+    equal(#s.discard, 1); equal(s.discard[1], c); equal(s.energy, 3)
+    equal(s.seed, seed); equal(#s.events, events + 2)
 end)
 test("empty draw reshuffles discard but never the resolving card", function()
     local s, c = battle(); vulnerable(s); s.discard, s.draw = s.draw, {}

@@ -5,11 +5,13 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 21:41'
-updated_date: '2026-10-22 21:54'
+updated_date: '2026-10-22 22:19'
 labels: []
+milestone: m-2
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/29#issuecomment-6351642696'
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/41'
 parent_task_id: TASK-8
 type: bug
 ordinal: 31000
@@ -42,13 +44,15 @@ Public API 构造 strength=2147483647 后打出真实 inflame，canPlay 为 true
 <!-- SECTION:NOTES:BEGIN -->
 - Executor：dot。基线 develop dcc4ce19；实现仅 src/lua/abyss_combat.lua、tests/lua/atomic_play.lua。
 - TDD：14组中10红4绿 → 14绿；本地系统 Lua5.4 全套153组、Python13通过。本地JS缺Fengari的7项失败由正式CI另行验证。
-- 正式CI：PR41最终head a7029d14，Windows JS130项中124通过、0失败、6符号链接权限跳过；Fengari153组（含原子性14组）通过；Ubuntu Python13通过。https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39860609778
+- 正式CI：PR41 head d7da62a9，Windows JS130项中124通过、0失败、6符号链接权限跳过；Fengari153组（含原子性14组）通过；Ubuntu Python13通过。https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39859975053
 - 独立审查无阻断：153组、608组差分、Run/root引用与重试、PR37效果组合均通过。
-- 已合并PR41，merge 77744e2a4c6c2dad3bab4541ef40dcac35b79051。仅证实public API极限边界，不代表正常15层可达；未平台编译、导入或游戏验证。
+- 当前为PR41待合并分支的已验证实现，实际交付以合并为准。仅证实public API极限边界，不代表正常15层可达；未平台编译、导入或游戏验证。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-已合并PR41/77744e2：修复出牌报错后仍扣能量和丢牌，失败原地恢复原对象，成功效果只执行一次。原子性14组、正式Fengari153组、JS124通过6权限跳过、Python13及独立审查通过；最新CI39860609778双项成功。未平台验证。
+修复出牌规则抛错后仍扣能量、丢牌及污染状态的问题；失败原地恢复原对象，成功效果只执行一次。14组红绿回归、正式Fengari153组、JS124通过6跳过、Python13及独立审查通过。实现已在PR41分支验证，尚待合并交付。
+
+2026-10-23已核实PR41合入develop77744e2，集成Quality39860850079成功，交付完成。
 <!-- SECTION:FINAL_SUMMARY:END -->

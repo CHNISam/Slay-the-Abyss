@@ -1,0 +1,34 @@
+[
+  {
+    "primitives": 64,
+    "positions_checked": 64,
+    "out_of_canvas_ellipses": 27,
+    "uncropped_bounds_xy_down": [
+      -67.749,
+      -86.151,
+      223.498,
+      197.032
+    ],
+    "first_relative_xy": {
+      "x": 32.5995,
+      "y": -7.9
+    },
+    "lua_bytes_after_coordinate_adapter": 10693
+  },
+  {
+    "primitives": 256,
+    "positions_checked": 256,
+    "out_of_canvas_ellipses": 72,
+    "uncropped_bounds_xy_down": [
+      -98.512,
+      -76.799,
+      155.488,
+      195.196
+    ],
+    "first_relative_xy": {
+      "x": -35.5124,
+      "y": 13.7987
+    },
+    "lua_bytes_after_coordinate_adapter": 25754
+  }
+]

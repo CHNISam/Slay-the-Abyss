@@ -1,11 +1,11 @@
 ---
 id: TASK-11
-title: M1 状态效果框架（力量/易伤/虚弱/中毒等）
-status: In Progress
+title: M1 九状态规则框架与本地回归
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 16:53'
+updated_date: '2026-10-22 22:20'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -26,7 +26,6 @@ ordinal: 11000
 <!-- AC:BEGIN -->
 - [x] #1 状态可叠加、可衰减、结算顺序明确
 - [x] #2 至少覆盖力量、敏捷、易伤、虚弱、中毒、荆棘
-- [ ] #3 状态在战斗界面可见
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -47,4 +46,12 @@ CLAIM quality-gates；branch feat/task-11-status-rules；worktree .worktrees/sta
 独立审查发现并修复Fengari32bit整型乘百分比溢出：damage/block入口+0.0，block累加也显式float。原build/status-overflow-probe.lua已exit0；新增100000000基数弱化、2147483647经弱化易伤跨32bit、格挡modifier与累加跨32bit三回归。npmcheck退出0：54JS、15coreLua+26statusLua通过，Python10通过1环境skip。仍待root复审，不勾UI AC3。
 
 2026-10-23 独立复核修复多敌人战斗中荆棘反杀后推进死者意图，新增回归先红后绿。27状态用例及战斗UI真实处理器测试通过，双方力量/敏捷/易伤/虚弱/中毒/荆棘文本已接线；当前使用控件替身，尚非实际屏幕验证，AC3保持未勾。
+
+原AC3真实平台显示迁TASK-11.1（仍M1）；不迁走M1核心阻塞。PR12/29已合并，本轮27状态组通过。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+九状态叠加/衰减/时序规则已集成，本轮27状态组通过。真实屏幕验收由TASK-11.1保留在M1。
+<!-- SECTION:FINAL_SUMMARY:END -->
