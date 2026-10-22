@@ -334,18 +334,52 @@ function renderBattle(){
     el.classList.add('hit');
     el.onmouseenter=()=>{if(B.sel<0&&!B.busy){el.style.transform=`translateY(-${24+drop}px) scale(1.1)`;el.style.zIndex=60}};
     el.onmouseleave=()=>{if(B.sel!==i){el.style.transform=`rotate(${rot}deg)`;el.style.zIndex=10+i}};
-    el.onclick=(e)=>{e.stopPropagation();if(B.busy)return;
+    el.onpointerdown=(e)=>dragStart(e,el,i,rot,drop);
+    el.onclick=(e)=>{e.stopPropagation();if(B.busy||dragJustEnded)return;
       if(!playable(card)){pop(x0+i*sp+74,470,eff(card).cost>B.energy?'能量不足':'无法打出','var(--danger)');return}
       if(B.sel===i&&!needsTarget(card)){play(i,null);return}
       B.sel=B.sel===i?-1:i;renderBattle()};
     cv.append(el);
   });
+  cv.append($(`<div id="playline" class="${'ann" data-k="出牌线 y=430（仅拖动时显示）'}" style="left:200px;top:430px;width:880px;height:2px;background:var(--gold-hi);box-shadow:0 0 10px var(--gold);opacity:0;transition:opacity .12s"></div>`));
   if(B.sel>=0){
     const c=B.hand[B.sel];
-    cv.append(text(340,458,needsTarget(c)?'点选一个敌人作为目标':'再点一次本牌打出',{fs:18,w:600,align:'center',c:'var(--gold-hi)'}));
+    cv.append(text(340,458,needsTarget(c)?'点选敌人，或把牌拖到敌人身上':'再点一次本牌，或向上拖出 / 甩出',{fs:18,w:600,align:'center',c:'var(--gold-hi)'}));
   }
   cv.onclick=(e)=>{if(e.target===cv&&B.sel>=0){B.sel=-1;renderBattle()}};
   overlays();
+}
+/* 拖牌与甩牌：按住拖出 8px 后卡牌跟手，按水平速度倾斜；
+   松手在敌人上 = 对它打出；不需要目标的牌拖过出牌线（y<430）或向上甩出 = 打出；否则弹回手牌。 */
+let drag=null,dragJustEnded=false;
+function cvPoint(e){const r=cv.getBoundingClientRect(),k=r.width/1280;return[(e.clientX-r.left)/k,(e.clientY-r.top)/k]}
+function foeAt(x,y){return B.foes.findIndex((f,j)=>{if(f.hp<=0)return false;const u=document.getElementById('u-'+j);const l=parseFloat(u.style.left),t=parseFloat(u.style.top),w=parseFloat(u.style.width),h=parseFloat(u.style.height);return x>l-20&&x<l+w+20&&y>t-60&&y<t+h+40})}
+function dragStart(e,el,i,rot,drop){
+  if(B.busy||!playable(B.hand[i]))return;
+  const[x,y]=cvPoint(e);drag={el,i,rot,drop,l0:el.style.left,t0:el.style.top,x0:x,y0:y,x,y,t:performance.now(),vx:0,vy:0,on:false,foe:-1};
+  el.setPointerCapture(e.pointerId);
+  el.onpointermove=dragMove;el.onpointerup=dragEnd;el.onpointercancel=dragEnd;
+}
+function dragMove(e){
+  if(!drag)return;const[x,y]=cvPoint(e),now=performance.now(),dt=Math.max(1,now-drag.t);
+  drag.vx=drag.vx*.6+(x-drag.x)/dt*.4;drag.vy=drag.vy*.6+(y-drag.y)/dt*.4;drag.x=x;drag.y=y;drag.t=now;
+  if(!drag.on&&Math.hypot(x-drag.x0,y-drag.y0)<8)return;
+  if(!drag.on){drag.on=true;B.sel=-1;drag.el.style.transition='none';drag.el.style.zIndex=90;drag.el.classList.add('sel')}
+  const tilt=Math.max(-14,Math.min(14,drag.vx*18));
+  drag.el.style.left=(x-74)+'px';drag.el.style.top=(y-104)+'px';drag.el.style.transform=`rotate(${tilt}deg) scale(1.1)`;
+  const card=B.hand[drag.i],f=needsTarget(card)?foeAt(x,y):-1;
+  if(f!==drag.foe){drag.foe=f;B.foes.forEach((_,j)=>document.getElementById('u-'+j).classList.toggle('target',j===f))}
+  const line=document.getElementById('playline');if(line)line.style.opacity=needsTarget(card)?0:y<430?1:.35;
+}
+function dragEnd(){
+  if(!drag)return;const d=drag;drag=null;d.el.onpointermove=d.el.onpointerup=d.el.onpointercancel=null;
+  if(!d.on)return;dragJustEnded=true;setTimeout(()=>dragJustEnded=false,0);
+  const card=B.hand[d.i],fling=d.vy<-1.1,alive=B.foes.map((f,j)=>f.hp>0?j:-1).filter(j=>j>=0);
+  let target=null,go=false;
+  if(needsTarget(card)){if(d.foe>=0){target=d.foe;go=true}else if(fling&&alive.length===1){target=alive[0];go=true}}
+  else if(d.y<430||fling)go=true;
+  if(go){d.el.style.transition='transform .18s ease-in,opacity .18s';d.el.style.transform=`translateY(-60px) scale(.8)`;d.el.style.opacity=0;setTimeout(()=>play(d.i,target),150*SPEED);return}
+  d.el.style.transition='left .25s cubic-bezier(.3,1.4,.5,1),top .25s cubic-bezier(.3,1.4,.5,1),transform .25s';d.el.style.left=d.l0;d.el.style.top=d.t0;d.el.style.transform='rotate('+d.rot+'deg)';const pl=document.getElementById('playline');if(pl)pl.style.opacity=0;B.foes.forEach((_,j)=>document.getElementById('u-'+j).classList.remove('target'));setTimeout(renderBattle,260*SPEED);
 }
 function blockBadge(x,y,v){return $(`<div class="blk${ann('102014 染蓝')}" style="left:${x}px;top:${y}px"><div class="ico">${ic('shield')}</div><div class="t v">${v}</div></div>`)}
 const ST={str:['力量','up','var(--buff)','攻击伤害增加'],vul:['易伤','crack','var(--debuff)','受到的攻击伤害提高 50%'],weak:['虚弱','down','var(--debuff)','造成的攻击伤害降低 25%']};
@@ -602,7 +636,7 @@ function overlays(){
 }
 const SCREENS=[['battle','战斗'],['map','地图'],['reward','奖励'],['pick','选牌'],['camp','营地'],['shop','商店'],['event','事件'],['treasure','宝箱'],['elite','精英'],['boss','首领'],['win','通关'],['lose','失败']];
 const NOTES={
-  battle:[['操作（手机优先）',['点一张牌：抬起并放大 1.22 倍','需要目标的牌：再点敌人打出；不需要目标：再点这张牌','点空白处取消选择；电脑上悬停预览','能量不足时牌变灰，费用圆点变红，点了提示「能量不足」']],['反馈',['伤害数字 0.6 秒弹出上浮','血条先跌、白色残影 0.25 秒后追上','被打时整屏抖 0.15 秒','有格挡时血条描蓝边，左侧出现盾牌数字']],['平台控件',['卡牌 = 客户端模板，运行时 <code>InstantiateClientUIControl</code>','血条 = 开遮罩的图片 <code>SetFillHorizontal</code>','意图图标 102035 / 102036 / 102020 / 102045','敌人头像取图库「造物」112xxx']]],
+  battle:[['拖牌与甩牌',['按住拖动 8px 后卡牌跟手，按水平速度倾斜（最多 14°）','攻击牌拖到敌人身上松手 = 对它打出，敌人金色描边','不需要目标的牌拖过金色出牌线或向上快速甩出 = 打出','只剩一个敌人时，攻击牌向上甩出直接打它','没打出：0.25 秒回弹到手牌原位']],['操作（手机优先）',['点一张牌：抬起并放大 1.22 倍','需要目标的牌：再点敌人打出；不需要目标：再点这张牌','点空白处取消选择；电脑上悬停预览','能量不足时牌变灰，费用圆点变红，点了提示「能量不足」']],['反馈',['伤害数字 0.6 秒弹出上浮','血条先跌、白色残影 0.25 秒后追上','被打时整屏抖 0.15 秒','有格挡时血条描蓝边，左侧出现盾牌数字']],['平台控件',['卡牌 = 客户端模板，运行时 <code>InstantiateClientUIControl</code>','血条 = 开遮罩的图片 <code>SetFillHorizontal</code>','意图图标 102035 / 102036 / 102020 / 102045','敌人头像取图库「造物」112xxx']]],
   map:[['节点状态',['已走过：暗金描边','当前：亮金描边 + 光晕','可前往：白色描边，呼吸缩放 1.0↔1.1','不可达：灰色']],['实现',['600 高视窗容器，内层 Tween anchoredPositionY 滚动','连线 = 4px 纯色矩形 + rotation','进入地图时自动滚到当前层']]],
   reward:[['流程',['金币 / 药水点一下领取，领取后行变暗','卡牌行打开选牌界面','可以不全领，直接前往地图']]],
   pick:[['选牌',['三张卡放大 1.38 倍，选中 1.5 倍并发金光','未选中时「确认选择」不可用','可跳过']]],
