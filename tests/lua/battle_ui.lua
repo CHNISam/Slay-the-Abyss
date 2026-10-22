@@ -18,7 +18,11 @@ local function control(definition)
     function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
     function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
     function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(source, id) assert(source == "static" and type(id) == "number") self.imageId = id end
+    function c:SetImage(...)
+        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+        local source, id = ...
+        assert(source == "static" and type(id) == "number") self.imageId = id
+    end
     function c:SetAsLastSibling() self.raised = true end
     return c
 end

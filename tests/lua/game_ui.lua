@@ -11,12 +11,16 @@ local function control(spec, parent)
     local self = { name = spec.name, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, interactable = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
-    function self:GetChild(name) return assert(self.children[name], "missing " .. name) end
+    function self:GetChild(name) return self.children[name] end
     function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
     function self:SetSizeDelta(width, height) self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
     function self:SetLocalScale(x, y, z) self.scale = {x, y, z}; self.localScaleX, self.localScaleY = x, y end
     function self:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function self:SetImage(source, id) assert(source == "static" and type(id) == "number"); self.imageId = id end
+    function self:SetImage(...)
+        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+        local source, id = ...
+        assert(source == "static" and type(id) == "number"); self.imageId = id
+    end
     function self:SetAsLastSibling() self.raised = true end
     function self:AddCursorEventListener(event, fn) assert(event == "click" and not self.click); self.click = fn end
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
@@ -28,8 +32,14 @@ local function fixture(data)
     return GameUI.new(root, data or Data, Presentation, "click",
         { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end }), root
 end
+local function mapControl(panel, name)
+    for _, group in pairs(panel.children) do
+        if group.children[name] then return group.children[name] end
+    end
+    error("missing grouped map control " .. name)
+end
 local function click(root, panel, button)
-    local box = root:GetChild(panel):GetChild(button)
+    local box = panel == "mapPanel" and mapControl(root:GetChild(panel), button) or root:GetChild(panel):GetChild(button)
     local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
@@ -69,7 +79,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(ui.mode == "battle" and ui.map.floor == 1 and not ui.mapUI.navigationEnabled)
     assert(not root:GetChild("mapPanel").visible and not root:GetChild("nodePanel").visible)
     local floor = ui.map.floor
-    root:GetChild("mapPanel"):GetChild("node4"):GetChild("hit").click()
+    mapControl(root:GetChild("mapPanel"), "node4"):GetChild("hit").click()
     assert(ui.map.floor == floor)
     win(ui, root)
     assert(ui.mode == "battle" and ui.run.nodeFlow.complete == false)
@@ -153,7 +163,9 @@ test("native lifecycle loads every composed control and registers its listeners 
     local oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor = script, Enum, OnStart, OnUpdate, game, Color
     script = { object = canvas, EnableUpdate = function(self, value) self.updating = value end }
     Enum = { CursorEventType = { CursorClick = "click" }, ImageSource = { StaticReference = "static" } }
-    Color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end
+    Color = setmetatable({ FromRGB = function() end }, {
+        __call = function(_,r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+    })
     local width, height = 1600, 900
     game = { GetUICanvasSize = function() return width, height end }
     dofile("src/lua/abyss_ui.lua")
@@ -167,6 +179,25 @@ test("native lifecycle loads every composed control and registers its listeners 
     OnUpdate(0.25)
     assert(root.scale[1] == 1.5 and canvas:GetChild("canvasBackdrop").size[1] == width)
     assert(root:GetChild("mapPanel").localScaleX == nil or root:GetChild("mapPanel").localScaleX == 1)
+    script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
+end)
+test("startup failure is visible without log subscription and hides the dead start button", function()
+    local canvas = control({ children = Layout })
+    local oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor = script, Enum, OnStart, OnUpdate, game, Color
+    local originalNew = GameUI.new
+    GameUI.new = function() error("INJECTED_STARTUP_FAILURE") end
+    script = {object=canvas, EnableUpdate=function(self,value) self.updating=value end}
+    Enum = {CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"}}
+    game = {GetUICanvasSize=function() return 1280,720 end,IsTestPlay=function() return true end}
+    dofile("src/lua/abyss_ui.lua")
+    OnStart()
+    local stage = canvas:GetChild("stage")
+    local menu = stage:GetChild("menuPanel")
+    assert(menu.visible and menu:GetChild("summary").text:match("INJECTED_STARTUP_FAILURE"))
+    assert(not menu:GetChild("start").visible and script.updating == false)
+    assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
+    OnStart() OnUpdate(0.1)
+    GameUI.new = originalNew
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
 print("LUA_GAME_UI_PASS " .. count)

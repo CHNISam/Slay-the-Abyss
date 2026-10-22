@@ -45,7 +45,7 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.deepEqual(Object.keys(find(battle, 'endTurn').states).sort(), ['disabled', 'hover', 'normal', 'pressed']);
   const map = find(panels, 'mapPanel').children;
   assert.deepEqual(map, find(find(mapLayout(theme).controls, 'stage').children, 'mapPanel').children);
-  assert.equal(map.filter(control => /^node\d+$/.test(control.name)).length, 45);
+  assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length, 45);
   assert.equal(find(find(panels, 'nodePanel').children, 'action1').size[0], 520);
   assert.equal(find(find(panels, 'menuPanel').children, 'start').position[1], -220);
   panels.forEach(panel => assert.deepEqual(panel.size, theme.canvas.base));

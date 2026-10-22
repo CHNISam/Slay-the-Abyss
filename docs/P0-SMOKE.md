@@ -1,0 +1,86 @@
+# P0 完整游戏集成冒烟
+
+任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实15层回归）、TASK-17（Boss正式结算）。冒烟通过前暂停非必要美术扩量、独立卡牌实验和技术研究。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
+
+## 本轮实测记录（2026-10-23）
+
+基线：远端 develop `77744e2`。完整候选包括18个Lua模块，以及菜单、地图、战斗、七类节点和奖励控件，原始底图为存档1073741825；所有构建输出都在工作区副本。
+
+| 检查 | 实际结果 | 证据 |
+|---|---|---|
+| 完整客户端数据/UI构建 | 通过 | `.artifacts/p0/build.log` |
+| 首次完整UI写入 | 失败：地图直接子控件超MCP每层60个限制 | `scene_add_client_ui-SlayTheAbyss.json` 首次失败记录；后续同名记录为修复后结果 |
+| 分组修复后完整副本写入 | 通过，18模块，MCP静态检查0错误/9警告 | `.artifacts/p0/scene_check_client-result.json` |
+| 自动打开候选 | 失败，14秒报无法切游戏前台，未进入编辑器 | `.artifacts/p0/open-status.json`，run `1dcd9bd1-4bd5-4ee7-b749-212faba58cbb` |
+| 人工导入首版 | 通过，新增测试存档1073741828，名称abyss-p0-full-game | `.artifacts/p0/maps-after-import.json`；用户现场确认 |
+| 首版菜单实际显示 | 部分显示，标题和启程可见，顶部透出其他面板文字；说明为空 | 用户截图留存 `.artifacts/p0/menu-broken.png` |
+| 首版启程 | **失败**，点击无反应 | 用户现场反馈；正式日志确认abyss_map_ui:23初始化断言中断 |
+| 第二版初始化修复 | 实机顶部串画面消失，启程仍无响应；新存档1073741829，代码已核对 | `.artifacts/p0/menu-v2-broken.png`、`official-v2-scripts.json`、`official-v2-ui.json` |
+| 第三版无日志自诊断 | **实机通过诊断显示**，启动仍失败；直接显示SetImage参数数量错误 | `.artifacts/p0/menu-v3-diagnostic.png` |
+| 第四版SetImage修复 | 严格参数数量替身先复现错误，再修复调用；待实际重新导入验证 | `.artifacts/p0/check-v4.log`、`build-v4.log` |
+| 首战、奖励回图、15层、Boss、失败重开 | **未实测通过** | 不能以本地Lua流程测试代替 |
+
+Color缺陷已用带静态方法的可调用对象复现：原地图控制器硬性要求 `type(Color)=="function"`，会在完整宿主绑定启程按钮前抛错。官方API提供 `Color.FromRGB/FromRGBA/ToRGBA`，应接受平台可调用对象。修复移除错误类型限制；并将非菜单面板初始隐藏，避免启动期间串画面。第二版运行仍需平台确认，不把本地修复当作实机已通过。
+
+已归档正式日志 `.artifacts/p0/official-first-fault.gia` 和解析结果 `official-first-fault.json`。源文件 `2026-10-23_06-29-31_4_217122260.gia`，SHA256 `0fdaed600a95cd30a2842cb4f962488a09faf7508994552332d45f441e96fc83`，开局第1秒实际报错：
+
+```text
+abyss_map_ui:23: in function 'new': map UI needs client Color and imageSource
+stack traceback:
+    abyss_map_ui:23: in function 'new'
+    abyss_game_ui:18: in function 'new'
+    abyss_ui:11: in function 'OnStart'
+```
+
+第二版可人工导入文件：`F:\New folder\.artifacts\p0\abyss-p0-v2.gil`。
+SHA256：`C2DC61791A6DA56C247A3FA660FD645A9A5ED2D516B47EAB8D98CED38CED7470`。
+
+本地第二轮 `npm run check`：125项JS通过，6项跳过；Lua全部通过（地图UI含可调用Color回归15项）；13项Python测试，1项权限相关跳过。MCP静态警告是对项目自定义控制器方法的名称检查，不能据此确认运行正常。没有节点图编译结果，本版本使用客户端Lua；不写成write_graphs通过。
+
+第三版现场暴露第二个启动缺陷：`bad argument count to 'SetImage' (3 expected, got 4)`。根因为Lua的 `assert(value, message)` 返回两个值，地图在原生方法最后一个参数中直接调用assert，将message也传入。修复为先取局部iconId再SetImage；地图、战斗与完整宿主测试替身均严格校验参数数量，已验证旧代码会失败，避免宽松替身再次漏报。
+
+## 防重复失败机制
+
+用户指出反复手动开启日志不可接受，保护落在项目脚本和测试层，不增加全局技能或修改正式存档。平台是否提供跨新存档永久订阅开关尚无证据，不能声称已改平台设置。
+
+- 原生入口在保护范围内加载模块、初始化和更新。测试模式发生异常时直接显示原因并隐藏无响应按钮；第三版已实机验证，即使沙箱无日志也能取得错误。发布模式不显示技术细节。
+- 构建脚本加 `--playtest` 会显式传 `clientScriptLog: true`，每次由已有MCP流程确保客户端订阅。脚本检查本轮订阅步骤、本轮目录内的新日志、`ABYSS_UI ready`和客户端异常；任一缺失都失败。Windows自动试玩仍受阻，**这条自动订阅路径尚未实机验收成功**。
+- `native-playtest-evidence.test.mjs`覆盖未订阅、缺日志、过期日志、其他运行日志、无ready、运行故障及焦点失败；不得把旧日志拿来填补本轮缺失。
+- 不再把重复手开日志作为用户每轮职责。自动化受阻时依靠界面诊断推进问题修复，保留日志缺失的真实状态。
+
+## 可重复构建
+
+在本分支工作树中先运行：
+
+```powershell
+npm ci --ignore-scripts
+npm run build:data
+npm run build:ui
+$env:MILIASTRA_ALLOW_LIVE_WRITE='0'
+$env:MILIASTRA_MCP_ROOT='D:/MiliastraTools/genshin-miliastra-mcp'
+node scripts/build-native-candidate.mjs '<原始底图.gil>' '.artifacts/native-candidate'
+# 自动导入/试玩时自动请求客户端日志，不需用户记住勾选：
+node scripts/build-native-candidate.mjs '<原始底图.gil>' '.artifacts/native-candidate' --playtest
+```
+
+脚本先读取workflow/platform-rules，校验控件分组上限，把全部运行模块和同源生成模块写入候选，再写完整控件树并运行scene_check_client。`candidate.json`只声明写副本与静态检查，不声明官方导入或试玩成功。已经用实际MCP执行此脚本生成第二版。
+
+## 人工主流程与取证
+
+1. 游戏“我的奇域”存档列表选择“导入存档”，选候选gil；确认新增独立测试存档，打开编辑器。不编辑原始底图或正式存档。
+2. 自动入口负责客户端日志订阅及校验；人工回退直接试玩并保存画面，测试诊断不得依赖用户反复开日志。若本轮已采集日志，需要看到 `ABYSS_UI init Color=…`、`ABYSS_UI viewport_ready`、`ABYSS_UI ready`；没有本轮日志则记录缺失，不能借用旧日志补齐。
+3. 菜单必须只有菜单信息；说明可见；点启程进入地图。记录候选hash、官方测试存档ID、窗口分辨率、截图及日志时间，避免混用卡牌实验。
+4. 地图点可达白色节点，进入真实原数值战斗。记录战前生命、金币、卡组、遗物、药水；出攻击牌、出防御牌、至少一次结束回合，核对敌人行动及生命/格挡变化。
+5. 取胜后领取金币、药水、卡牌；不能重复领取。回地图后核对资源变化及下一层解锁。此处通过才算最小闭环。
+6. 从第1层使用原数值完成15层，逐层记录路径、节点类型、入/出生命、金币、卡组UID/升级、遗物、药水及截图/日志。途中覆盖营地回血/升级、商店购卡/遗物/删牌与拒绝交易、事件、宝箱、精英；一次路线未覆盖的节点另开一局补测，不能宣称单条路线覆盖所有分支。
+7. 击败Boss，核对胜利摘要及结算；另开失败路线检查重开后资源和地图重置。任何Bug记录触发步骤、预期/实际、候选hash，修复后重新导入独立候选，先重跑最小闭环再做15层。
+8. 每个项目只使用“通过 / 缺陷 / 未实现 / 观感问题 / 未测”之一；截图看不到不能直接归因为等级或平台限制。自动导入/焦点失败一次后转人工流程，不无限排查。
+
+## 当前已知缺口
+
+- 当前客户端只有Boss胜利摘要与重新启程；**未接正式平台settleStage结算**，复用TASK-17。
+- 当前商店可售卡池17张；37张数据表不代表37张可玩，30+卡池仍由TASK-16验收。
+- 奖励专用弹窗、营地升级前后对比、批准稿商店货架、完整状态图标与动画/音效未完成；节点仍用过渡清单布局。
+- 官方素材ID实际观感、卡牌长文字、跨层资源、七遗物/七药水、手机/主机布局均需真实试玩逐项取证。
+
+本文件是执行规程及进行中的证据账本，**冒烟尚未通过，不恢复后续并行开发**。

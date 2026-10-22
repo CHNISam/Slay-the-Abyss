@@ -8,6 +8,9 @@ test('composed native tree has exactly one menu, battle, map and node panel', ()
   const layout = gameLayout();
   assert.equal(layout.script, 'abyss_ui');
   assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'mapPanel', 'menuPanel', 'nodePanel']);
+  for (const control of layout.controls.filter(control => control.name !== 'menuPanel')) {
+    assert.equal(control.visible, false, `${control.name} must not bleed through during startup`);
+  }
 });
 
 test('generated Chinese display and native tree exercise the real game entry and run controllers', () => {
