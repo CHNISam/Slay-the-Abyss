@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 15:34'
+updated_date: '2026-10-22 15:35'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -39,4 +39,6 @@ ordinal: 11000
 CLAIM quality-gates；branch feat/task-11-status-rules；worktree .worktrees/status-rules；仅src/lua/abyss_actor.lua、abyss_combat.lua必要hooks、tests/lua/statuses.lua；不碰effects/run/map/UI/CI。
 
 实现九状态数据驱动stack/decay、Combat.statusView排序拷贝、Combat.addTemporaryStrength供TASK16调用及所有者end移除。actor绑定catalog.statuses，不共享跨战斗状态。毒先直伤后减层，致死无抽牌/意图；再生封顶后减层；壁垒不无限叠层；荆棘每段正攻击全挡/致死仍直反伤，不递归，攻击者死立即停止；双方同死defeat优先。原子拒绝未知/非法状态与溢出。验证npm run check退出0：54JS通过、15战斗Lua+23状态Lua通过、Python10通过1WinError1314环境skip；syntax/六表/build/gitdiffcheck通过。AC3未勾，UI实际屏幕验收待TASK10；未操作MCP/存档/游戏。等待主Agent独立审查，保持InProgress。
+
+实现提交23a86521bc2c314e8c27310adba567bd1b8b6dca；PR https://github.com/CHNISam/Slay-the-Abyss/pull/12 base develop，等待主Agent独立审查，不合并/标Done。
 <!-- SECTION:NOTES:END -->
