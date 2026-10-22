@@ -19,9 +19,28 @@
     "interaction": "not_run",
     "images": 11,
     "controls": 15,
-    "officialImport": "failed_before_file_dialog",
+    "officialImport": "verified_manual_import_and_readback",
     "textTemplateIndex": 1073741846,
-    "workingCopyWritten": true
+    "workingCopyWritten": true,
+    "importedSourceMatches": {
+      "ART_Card": true,
+      "ART_Probe": true
+    },
+    "importedCopySha256": "de33af1998f1531c8cddf982d9be0c1a31ae8fd6e32dcb5a3079b086182907a5",
+    "readback": {
+      "interface": "ART_Spike",
+      "editorRewritesMetadata": true,
+      "controls": 5,
+      "scripts": [
+        "ART_Card",
+        "ART_Probe"
+      ],
+      "staticCheck": {
+        "ok": true,
+        "warnings": 0,
+        "errors": 0
+      }
+    }
   },
   "importAttempts": [
     {
@@ -70,5 +89,24 @@
     "built": true
   },
   "production": "gated; no batch production",
-  "devicePreview": "not_run"
+  "devicePreview": "not_run",
+  "afterManualImportAttempts": [
+    {
+      "screenshots": 0,
+      "runId": "8fd0a901-7030-4b6f-a7a7-a80601b8db31",
+      "error": "无法把窗口切到前台：sandbox",
+      "state": "failed",
+      "elapsedSeconds": 5,
+      "logCollected": false
+    },
+    {
+      "screenshots": 0,
+      "runId": "f891c7e9-bb4d-41b9-9bab-442c3e1b56ec",
+      "error": "无法把窗口切到前台：sandbox",
+      "state": "failed",
+      "elapsedSeconds": 3,
+      "logCollected": false
+    }
+  ],
+  "currentBlocker": "Windows sandbox foreground switching; manual playtest requested; import is verified"
 }

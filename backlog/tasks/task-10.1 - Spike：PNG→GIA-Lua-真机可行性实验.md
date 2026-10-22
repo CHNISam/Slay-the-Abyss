@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-22 16:48'
+updated_date: '2026-10-22 21:08'
 labels:
   - technical-spike
 dependencies: []
@@ -39,4 +39,6 @@ ordinal: 26000
 CLAIM 2026-10-23 /root codex，feat/art-pipeline / .worktrees/art-pipeline。primitive_spike和editor_spike只做小样；实机门槛前不批产。
 
 2026-10-23三个干净Agent独立交付draft PR25(原生场景)、PR26(肖像)、PR27(卡牌)。主Agent集成feat/art-pipeline：卡牌副本模板真实索引1073741845/1846，scene_check_client errors0/warnings0，prepare-card-candidate.ps1完整复跑通过。官方导入81b1598a和eaea49f1两轮均因文件框未弹出失败，无游戏日志/截图、性能未测。独立复核修正肖像128像素Y偏移，320位置回归通过；27/72越界椭圆无法裁切，直接拟合Lua退出首发候选。制作任务TASK-25.1/25.2/2.1已建，依赖10.1，保持To Do不批产。已请求用户手动验证导入按钮。
+
+用户已手动导入卡牌候选：已读回ART_Spike、ART_Card、ART_Probe及5个静态宿主/探针控件，两个external_lua_file源码与候选匹配，静态检查0错误0警告；官方导入门槛已过。18秒当前存档试玩8fd0a901/f891c7e9均在开始前报无法把窗口切到前台sandbox。现成窗口工具一次聚焦成功后也FOCUS_FAILED，停止重复尝试；已请求用户手动进入试玩。显示/点击/dt/多设备未验收，原任务保持In Progress。
 <!-- SECTION:NOTES:END -->

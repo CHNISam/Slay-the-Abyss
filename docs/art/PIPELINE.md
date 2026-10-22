@@ -4,7 +4,7 @@
 
 | 资产 | 复用路线 | 本轮证据与决定 |
 |---|---|---|
-| 卡牌 UI | Image Editor JSON → 原生图片/文字 Lua；GIA 备用 | 15 控件（11 图、4 字），写入工作区 GIL 副本，客户端静态检查 0 错误/0 警告；官方导入未成功 |
+| 卡牌 UI | Image Editor JSON → 原生图片/文字 Lua；GIA 备用 | 15 控件（11 图、4 字）；用户已手动导入，读回脚本/控件及源文件匹配，客户端静态检查 0 错误/0 警告；运行显示仍待验证 |
 | 荧肖像 | 先查原生角色/肖像；没有时审阅手工低图元替代 | 拒绝直接使用 Primitive Lua 拟合：256 图元仍损失五官，64/256 档有 27/72 个越界椭圆；PNG 裁切预览不等于 Lua 显示 |
 | 建筑/场景 | 官方原生模型 → MCP scene_build_blocks → GIA | 单建筑/7 件景片可重复构建，碰撞均关闭；未导入、未实机。二维 UI 素材组不承担立体建筑 |
 
@@ -34,9 +34,11 @@
 
 ## 当前阻塞与证据
 
-[结构化证据](evidence/2026-10-23.json)。两轮官方导入均在文件框前失败，错误为“没有弹出导入存档的文件选择框”；无游戏截图、无运行日志，性能未测。独立的鼠标点击与 R 键虽报告输入已送达，未观察到文件框，原因尚未确定。没有修改系统设置或绕过输入限制。
+[结构化证据](evidence/2026-10-23.json)。此前两轮自动导入均在文件框前失败；**用户现已手动完成导入**。已从新测试存档读回 `ART_Spike`、`ART_Card`、`ART_Probe`、五个静态宿主/探针控件；外部两个 Lua 源文件与候选逐字匹配（仅统一换行），读回后的静态检查仍为 0 错误/0 警告。整份 GIL 经编辑器重写元数据后哈希不同，因此用结构和脚本内容确认导入，不要求原始文件哈希不变。
 
-本机候选：`.worktrees/art-pipeline/build/art-platform/workspace/scenes/saves/abyss-art-card-candidate.gil`；此前向用户提供的 `build/miliastra/scenes/saves/abyss-art-card-candidate.gil` 也是本轮测试副本。原始 GIL 与复制时 SHA-256 一致。原始截图/运行记录在该 worktree 的 `build/art-spike/`、`build/miliastra/playtests/`，包含账号信息，留本机，不推公开仓库。
+当前阻塞已变为自动试玩的 Windows 前台切换：两轮 `playtest_start` 均报“无法把窗口切到前台：sandbox”（run `8fd0a901`、`f891c7e9`）。现成逐步窗口工具曾成功聚焦，随后也返回 `FOCUS_FAILED`，故停止重复尝试，已请求用户在新测试存档手动进入试玩。尚无运行中的资产截图或日志，帧间隔、点击与多设备均未验收。没有修改系统设置或绕过输入限制。
+
+本机候选：`.worktrees/art-pipeline/build/art-platform/workspace/scenes/saves/abyss-art-card-candidate.gil`；此前向用户提供的 `build/miliastra/scenes/saves/abyss-art-card-candidate.gil` 也是本轮测试副本。首次准备时原始 GIL 与复制时 SHA-256 一致；已导入的卡牌测试存档另备份为 `build/art-spike/imported-card.gil`。原始截图/运行记录在该 worktree 的 `build/art-spike/`、`build/miliastra/playtests/`，包含账号信息，留本机，不推仓库。
 
 ## Agent 分工与集成
 
