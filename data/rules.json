@@ -1,0 +1,56 @@
+{
+  "version": "0.1.0",
+  "player": {
+    "maxHp": 80,
+    "energyPerTurn": 3,
+    "drawPerTurn": 5,
+    "maxHand": 10,
+    "startingGold": 99,
+    "startingRelics": [
+      "burning_blood"
+    ],
+    "potionSlots": 3
+  },
+  "map": {
+    "floors": 15,
+    "bossFloor": 15,
+    "restFloor": 14,
+    "nodeTypes": [
+      "combat",
+      "elite",
+      "camp",
+      "shop",
+      "event",
+      "treasure",
+      "boss"
+    ]
+  },
+  "camp": {
+    "healPercent": 30,
+    "upgradeCount": 1
+  },
+  "shop": {
+    "cardCommon": 50,
+    "cardUncommon": 75,
+    "cardRare": 150,
+    "relic": 150,
+    "removeCard": 75,
+    "removeCardIncrement": 25
+  },
+  "rewards": {
+    "normalGold": 15,
+    "eliteGold": 30,
+    "bossGold": 100,
+    "cardChoices": 3
+  },
+  "combat": {
+    "blockReset": "owner_turn_start",
+    "vulnerablePercent": 150,
+    "weakPercent": 75,
+    "frailPercent": 75,
+    "rounding": "floor_after_modifiers",
+    "enemyAI": "intent_cycle",
+    "statusDurationTick": "owner_turn_end",
+    "poisonBypassesBlock": true
+  }
+}
