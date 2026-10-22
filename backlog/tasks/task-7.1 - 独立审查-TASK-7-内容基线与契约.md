@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 14:10'
-updated_date: '2026-10-22 14:23'
+updated_date: '2026-10-22 14:24'
 labels: []
 dependencies: []
 parent_task_id: TASK-7
@@ -40,6 +40,8 @@ ordinal: 22000
 在本地初审交付提交 ca6fed6 后协调者发现 develop 另一会话75牌参考表1d04cf2，暂停交付；旧结论仅适用于32d2dad。等待合并后的新active/reference基线，重新验证后再完成。根75表只读检查：JSON合法、75唯一ID；28种当前契约未支持op、11条仅triggers无effects、X费用/条件需映射；虚无/消耗文案与本地化名称匹配存在风险，不作为75可玩通过。
 
 最终整合复审7eb6860及文案补丁2e5b15c完成：active37张战士牌（移除跨职业无尽之刃/飞刀），reference75+3状态原表hash edb9461c271d146f45a70cec5c577b300ad12cb6与1d04cf2原表完全一致。独立逐卡比对基础和浅覆盖升级语义：数值、费用、类型、稀有度、sts_name与参考一致（显式规范化op/X费用/flag/触发器除外）；true_grit中文名修正。独立六表数量/引用/tier/使用覆盖全通过，六表外部校验最终重跑通过。怒斩文案及HANDOFF整合状态已复核修复。无剩余数据基线阻断；参考成本待核验不冒充原作全面核数，未平台或游戏验收。
+
+交付记录：审查证据提交47c9548（此前初审记录ca6fed6），PR https://github.com/CHNISam/Slay-the-Abyss/pull/3 ，base feat/task-7-content-baseline；最终被审内容提交2e5b15c。未自行merge或self-approve。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
