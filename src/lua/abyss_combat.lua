@@ -1,7 +1,8 @@
 -- Pure Lua 5.3 battle state. No game/script/io globals; the UI issues commands.
 local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
-local M = { addStatus = Actors.addStatus, damage = Actors.damage, block = Actors.block }
+local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
+    statusView = Actors.statusView, damage = Actors.damage, block = Actors.block }
 
 function M.applyEffects(state, effects, source, target)
     return Effects.apply(M, state, effects, source, target)
@@ -133,7 +134,8 @@ function M.startPlayerTurn(state)
     if finish(state) then return end
     state.turn = state.turn + 1
     state.phase = "player"
-    Actors.startTurn(state.player)
+    Actors.startTurn(state, state.player)
+    if finish(state) then return end
     state.player.noDraw = false
     state.energy = state.rules.player.energyPerTurn
     M.draw(state, state.rules.player.drawPerTurn)
@@ -148,18 +150,23 @@ function M.endTurn(state)
         pile[#pile + 1] = instance
     end
     state.hand = {}
-    Actors.endTurn(state.player)
+    Actors.endTurn(state, state.player)
+    if finish(state) then return true end
     state.phase = "enemy"
     event(state, "enemy_turn")
     for _, enemy in ipairs(state.enemies) do
         if enemy.hp > 0 then
-            Actors.startTurn(enemy)
-            local intent = enemy.intents[enemy.intentIndex]
-            event(state, "intent", { enemy = enemy.id, id = intent.id })
-            M.applyEffects(state, intent.effects, enemy, state.player)
-            Actors.endTurn(enemy)
-            enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+            Actors.startTurn(state, enemy)
             if finish(state) then return true end
+            if enemy.hp > 0 then
+                local intent = enemy.intents[enemy.intentIndex]
+                event(state, "intent", { enemy = enemy.id, id = intent.id })
+                M.applyEffects(state, intent.effects, enemy, state.player)
+                if finish(state) then return true end
+                Actors.endTurn(state, enemy)
+                enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+                if finish(state) then return true end
+            end
         end
     end
     M.startPlayerTurn(state)
@@ -172,10 +179,12 @@ function M.new(data, options)
     local rules = copy(data.rules)
     local hp = options.hp or rules.player.maxHp
     assert(hp > 0 and hp <= rules.player.maxHp and hp % 1 == 0, "invalid starting hp")
-    local state = { rules = rules, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)) },
+    local state = { rules = rules, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
+            statuses = index(copy(data.statuses.statuses)) },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1,
         player = { id = "player", hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
+    Actors.bindStatuses(state.player, state.catalog.statuses)
     local deck = options.deck or data.cards.starter_deck.cards
     assert(#deck > 0, "empty deck")
     for _, value in ipairs(deck) do
@@ -191,6 +200,7 @@ function M.new(data, options)
         for _, intent in ipairs(enemy.intents) do assert(Effects.supported(intent.effects), "unsupported enemy intent") end
         enemy.definitionId, enemy.id, enemy.maxHp = id, id .. "_" .. i, enemy.hp
         enemy.block, enemy.statuses, enemy.intentIndex = 0, {}, 1
+        Actors.bindStatuses(enemy, state.catalog.statuses)
         state.enemies[#state.enemies + 1] = enemy
     end
     shuffle(state, state.draw)
