@@ -101,7 +101,7 @@ function M.canPlay(state, uid, targetIndex)
     if card.costMode or card.condition then return false, "advanced_card_not_enabled" end
     if state.energy < card.cost then return false, "insufficient_energy" end
     for _, effect in ipairs(card.effects) do
-        if effect.op == "damage" or effect.op == "applyStatus" then
+        if effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus" then
             local enemy = state.enemies[targetIndex]
             if not enemy or enemy.hp <= 0 then return false, "invalid_target" end
         end
@@ -109,11 +109,30 @@ function M.canPlay(state, uid, targetIndex)
     return true
 end
 
-function M.play(state, uid, targetIndex)
-    local ok, reason = M.canPlay(state, uid, targetIndex)
-    if not ok then return false, reason end -- validate before changing any state/RNG
-    local instance, position = findInstance(state, uid)
-    local card = M.cardDefinition(state, instance)
+-- Only the mutable tables used by a card resolution. Keep original references:
+-- draw may swap piles, and callers may retain actors, statuses, cards or events.
+-- Catalog/rules/intents and existing card/event contents are read-only here.
+local function savePlayState(state)
+    local saved = {}
+    local function save(t)
+        if saved[t] then return end
+        local values = {}
+        for k, v in pairs(t) do values[k] = v end
+        saved[t] = values
+    end
+    local function actor(a) save(a); save(a.statuses) end
+    save(state); actor(state.player); save(state.enemies)
+    for _, enemy in ipairs(state.enemies) do actor(enemy) end
+    save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    return function()
+        for original, values in pairs(saved) do
+            for k in pairs(original) do original[k] = nil end
+            for k, v in pairs(values) do original[k] = v end
+        end
+    end
+end
+
+local function resolvePlay(state, uid, targetIndex, instance, position, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
@@ -123,6 +142,20 @@ function M.play(state, uid, targetIndex)
     pile[#pile + 1] = instance
     finish(state)
     return true
+end
+
+function M.play(state, uid, targetIndex)
+    local ok, reason = M.canPlay(state, uid, targetIndex)
+    if not ok then return false, reason end -- validate before changing any state/RNG
+    local instance, position = findInstance(state, uid)
+    local card = M.cardDefinition(state, instance)
+    local restore = savePlayState(state)
+    local called, result = pcall(resolvePlay, state, uid, targetIndex, instance, position, card)
+    if not called then
+        restore()
+        error(result, 0) -- preserve the rule error, including non-string errors
+    end
+    return result
 end
 
 function M.intent(state, enemyIndex)

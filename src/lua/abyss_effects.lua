@@ -3,7 +3,7 @@ local M = {}
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
-    loseHp = true }
+    loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true }
 
 function M.supported(effects)
     for _, effect in ipairs(effects) do if not coreOps[effect.op] then return false, effect.op end end
@@ -28,6 +28,9 @@ function M.apply(combat, state, effects, source, target)
                 end
                 if combat.outcome(state) then break end
             end
+        elseif op == "damageEqualToBlock" then
+            -- Current block is the attack base, not a payment or fixed damage.
+            dealt = dealt + combat.damage(state, source, target, source.block)
         elseif op == "loseHp" then
             -- HP payment is not an attack or a status tick. The next effect's
             -- source-alive guard stops the card when this payment is lethal.
@@ -38,6 +41,7 @@ function M.apply(combat, state, effects, source, target)
         elseif op == "noDrawThisTurn" then source.noDraw = true
         elseif op == "energy" then state.energy = state.energy + value
         elseif op == "gainStatus" then combat.addStatus(source, effect.status, value)
+        elseif op == "gainTemporaryStrength" then combat.addTemporaryStrength(source, value)
         elseif op == "applyStatus" then
             if target and target.hp > 0 then combat.addStatus(target, effect.status, value) end
         elseif op == "applyStatusAll" then
