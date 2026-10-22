@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildMapLayout, loadMapTheme, mapGeometry, mapLayout } from '../scripts/map-ui-layout.mjs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { buildMapLayout, buildMapUI, loadMapTheme, mapGeometry, mapLayout } from '../scripts/map-ui-layout.mjs';
 import { buildUiTheme } from '../scripts/build-ui-theme.mjs';
 import { buildLuaData } from '../scripts/build-lua-data.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
@@ -66,11 +69,23 @@ test('node and edge pools match controller contract, with seven real icon legend
   for (const [kind, image] of Object.entries(theme.icon.node)) assert.equal(index.get(`legend_${kind}`).image, image);
 });
 
+test('custom output directory receives the standalone controls and both Lua map artifacts', () => {
+  const outputDirectory = mkdtempSync(join(tmpdir(), 'abyss-map-build-'));
+  try {
+    buildMapUI(outputDirectory);
+    assert.deepEqual(JSON.parse(readFileSync(join(outputDirectory, 'map-ui.json'), 'utf8')), layout);
+    assert.match(readFileSync(join(outputDirectory, 'abyss_map_layout.lua'), 'utf8'), /maxScroll/);
+    assert.match(readFileSync(join(outputDirectory, 'abyss_map_controls.lua'), 'utf8'), /mapPanel/);
+  } finally {
+    rmSync(outputDirectory, { recursive: true, force: true });
+  }
+});
+
 test('actual Lua controller validates navigation, scroll, locked input, path and multi-device geometry', () => {
   buildUiTheme();
   buildLuaData();
   buildMapLayout();
   const result = runLua('tests/lua/map_ui.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
-  assert.match(result.stdout, /LUA_MAP_UI_PASS 10/);
+  assert.match(result.stdout, /LUA_MAP_UI_PASS 14/);
 });

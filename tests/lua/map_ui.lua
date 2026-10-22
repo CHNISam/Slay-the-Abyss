@@ -31,8 +31,9 @@ local function mock()
     for _, definition in ipairs(tree.controls) do root.children[definition.name] = create(definition) end
     return root
 end
-local function makeUI(root, map, callback)
+local function makeUI(root, map, callback, embedded)
     return MapUI.new(root, map, callback, "click", {
+        embedded = embedded,
         imageSource = "static",
         color = function(r, g, b, a)
             for _, n in ipairs({r, g, b, a}) do assert(n >= 0 and n <= 255 and n % 1 == 0) end
@@ -262,6 +263,100 @@ test("reachable node breath is bounded, reduced motion stops it and stale view c
     ui:render()
     assert(box:GetChild("current").visible and not box:GetChild("hit").visible)
     for _, bad in ipairs({-1, 0/0, math.huge}) do assert(not ui:update(bad)) end
+end)
+
+test("embedded generated mapPanel uses only the host stage scale and keeps native animation", function()
+    local host, map = mock(), Map.generate(data, 42)
+    host.children.mapBackdrop = nil
+    local stage, mapPanel = host:GetChild("stage"), panel(host)
+    assert(not mapPanel:GetChild("stage") and not mapPanel:GetChild("mapBackdrop"))
+    local ui = makeUI(mapPanel, map, function(node) return Map.choose(map, node.id) end, true)
+    assert(ui.stage == mapPanel and ui.panel == mapPanel and ui.embedded)
+    for _, canvas in ipairs({{1280,720,1}, {1600,900,1.25}, {1920,1080,1.5}, {2340,1080,1.5}}) do
+        -- The host owns this one transform; the map must not multiply it again.
+        stage.localScaleX, stage.localScaleY = canvas[3], canvas[3]
+        assert(ui:resize(canvas[1], canvas[2]))
+        assert(ui.scale == 1 and mapPanel.localScaleX == 1 and mapPanel.localScaleY == 1)
+        assert(stage.localScaleX == canvas[3] and stage.localScaleY == canvas[3])
+        assert(ui.canvasWidth == canvas[1] and ui.canvasHeight == canvas[2])
+    end
+    assert(not ui:resize(0, 720) and ui.scale == 1)
+    local box = boxFor(host, map, Map.available(map)[1].id)
+    assert(ui:update(Layout.breathSeconds / 2) and box.localScaleX > 1)
+    ui:setVisible(false); assert(not mapPanel.visible and host.visible and stage.visible)
+    ui:setVisible(true); assert(mapPanel.visible)
+    assert(clickNode(host, map, Map.available(map)[1].id) and map.floor == 1)
+end)
+
+test("embedded Nodes transaction enters once and unlocks only after battle rewards complete", function()
+    local Nodes, Run, Combat = require("abyss_nodes"), require("abyss_run"), require("abyss_combat")
+    local source = Combat.copy(data)
+    for _, enemy in ipairs(source.enemies.enemies) do enemy.hp = 1 end
+    local run, map, host, calls = Run.new(source, 42), Map.generate(source, 42), mock(), 0
+    local ui = makeUI(panel(host), map, function(node)
+        calls = calls + 1
+        return Nodes.enter(run, map, node.id)
+    end, true)
+    ui:setNavigationEnabled(#Nodes.available(run, map) > 0)
+    local first = Nodes.available(run, map)[1]
+    assert(first.type == "combat" and clickNode(host, map, first.id))
+    assert(calls == 1 and map.floor == 1 and #map.path == 1 and run.phase == "combat")
+    local _, slot = boxFor(host, map, first.id)
+    assert(not click(host, "node" .. slot) and calls == 1)
+    ui:setNavigationEnabled(#Nodes.available(run, map) > 0)
+    assert(not ui.navigationEnabled and not ui:choose(Map.available(map)[1].id))
+    for _ = 1, 100 do
+        if run.phase ~= "combat" then break end
+        local target, chosen
+        for i, enemy in ipairs(run.combat.enemies) do if enemy.hp > 0 then target = i break end end
+        for _, card in ipairs(run.combat.hand) do
+            if Combat.canPlay(run.combat, card.uid, target) then
+                chosen = card
+                if Combat.cardDefinition(run.combat, card).type == "attack" then break end
+            end
+        end
+        if chosen then assert(Run.play(run, chosen.uid, target)) else assert(Run.endTurn(run)) end
+    end
+    assert(run.phase == "reward" and not Nodes.completeCombat(run, map))
+    ui:setNavigationEnabled(#Nodes.available(run, map) > 0)
+    assert(not ui.navigationEnabled and #map.path == 1)
+    assert(Run.claimCardReward(run, 0) and Nodes.completeCombat(run, map))
+    ui:setVisible(true)
+    ui:setNavigationEnabled(#Nodes.available(run, map) > 0)
+    assert(ui.navigationEnabled and clickNode(host, map, Nodes.available(run, map)[1].id))
+    assert(calls == 2 and map.floor == 2 and #map.path == 2)
+end)
+
+test("replacement maps reset scroll and locks even when floor and node ids match", function()
+    local host, map = mock(), Map.generate(data, 42)
+    local ui = makeUI(panel(host), map, function() return false end, true)
+    ui:setNavigationEnabled(false); ui:setScroll(Layout.maxScroll)
+    local restarted = Map.generate(data, 42)
+    ui.map = restarted; ui:setVisible(true)
+    assert(ui.navigationEnabled and ui.scroll == 0 and ui.observedMap == restarted)
+    assert(Map.choose(restarted, Map.available(restarted)[1].id)); ui:render()
+    ui:setNavigationEnabled(true); ui:setScroll(Layout.maxScroll)
+    local restored = assert(Map.restore(data, Map.snapshot(restarted)))
+    ui.map = restored; ui:render()
+    assert(not ui.navigationEnabled and ui.scroll == 0 and ui.observedMap == restored)
+    assert(not ui:choose(Map.available(restored)[1].id))
+    ui.map = assert(Map.restore(data, Map.snapshot(restored)))
+    ui:setNavigationEnabled(true)
+    assert(ui.navigationEnabled, "explicit host grant must survive replacement detection")
+end)
+
+test("callback map replacement stays locked even when replacement resets to floor zero", function()
+    for _, failure in ipairs({"reject", "throw", "accept"}) do
+        local host, map, ui = mock(), Map.generate(data, 42)
+        ui = makeUI(panel(host), map, function()
+            ui.map = Map.generate(data, 42)
+            if failure == "throw" then error("host restarted") end
+            return failure == "accept", "host_restarted"
+        end, true)
+        assert(not clickNode(host, map, Map.available(map)[1].id))
+        assert(not ui.navigationEnabled and not ui.choosing and ui.observedMap == ui.map)
+        ui:render(); assert(not ui.navigationEnabled)
+    end
 end)
 
 print("LUA_MAP_UI_PASS " .. count)

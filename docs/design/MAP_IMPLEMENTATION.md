@@ -44,6 +44,8 @@ ui:update(dt)
 
 接口：
 
+PR #29 的统一宿主使用 `MapUI.new(mapPanel, map, onChoose, clickEvent, {embedded=true, color=Color, imageSource=Enum.ImageSource.StaticReference})`。此时直接绑定当前 `mapPanel`，外层唯一 stage 负责画布缩放；嵌入式 `resize` 只记录尺寸，地图内部保持 `scale=1`。上面的独立模式及构建入口仍保留。`buildMapUI(outputDirectory)` 供完整构建器同时生成地图控件与 Lua 几何/控件契约；地图身份变化会重置滚动及默认锁，节点与奖励完成后由宿主显式重新授权。
+
 | 调用 | 行为 |
 |---|---|
 | `render()` | 刷新真实视图；发现外部位置推进时重新锁住导航 |

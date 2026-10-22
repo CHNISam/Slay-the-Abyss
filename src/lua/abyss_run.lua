@@ -1,6 +1,7 @@
 -- Same-run deck and reward ownership. Platform/UI adapters issue these commands.
 local Combat = require("abyss_combat")
 local Effects = require("abyss_effects")
+local Inventory = require("abyss_inventory")
 local M = {}
 
 local function find(entries, id)
@@ -27,6 +28,16 @@ function M.startCombat(run, encounterId)
     if not encounter then return false, "unknown_encounter" end
     if run.floor < encounter.minFloor or run.floor > encounter.maxFloor then return false, "wrong_floor" end
     local battle = Combat.new(run.data, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies })
+    -- Combat.new already resets the first owner turn and draws its ordinary hand.
+    -- Opening inventory effects must happen afterwards, before this battle is committed.
+    for _, id in ipairs(run.relics) do
+        local relic = find(run.data.relics.relics, id)
+        if not relic then return false, "unknown_relic" end
+        if relic.trigger == "combat_start" then
+            local ok, reason = Inventory.apply(battle, relic.effects)
+            if not ok then return false, reason end
+        end
+    end
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
     run.phase = "combat"
     return true
@@ -102,6 +113,74 @@ function M.endTurn(run)
     local ok, reason = Combat.endTurn(run.combat)
     if ok and Combat.outcome(run.combat) then M.finishCombat(run) end
     return ok, reason
+end
+
+local function potionCandidate(run, slot, targetIndex)
+    if run.phase ~= "combat" then return nil, "not_in_combat" end
+    if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end
+    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
+        return nil, "invalid_potion_slot"
+    end
+    local id = run.potions[slot]
+    if not id then return nil, "empty_potion_slot" end
+    local potion = find(run.data.potions.potions, id)
+    if not potion then return nil, "unknown_potion" end
+    local candidate = Combat.copy(run.combat)
+    local called, ok, reason = pcall(Inventory.apply, candidate, potion.effects, targetIndex)
+    if not called then return nil, "potion_effect_failed" end
+    if not ok then return nil, reason end
+    return candidate
+end
+
+function M.usePotion(run, slot, targetIndex)
+    local battle, reason = potionCandidate(run, slot, targetIndex)
+    if not battle then return false, reason end
+    battle.events[#battle.events + 1] = { kind = "potion", detail = { slot = slot, id = run.potions[slot], target = targetIndex } }
+    local outcome = Combat.outcome(battle)
+    if outcome then
+        battle.phase = outcome
+        battle.events[#battle.events + 1] = { kind = outcome }
+    end
+    -- Stage the complete transaction, including rewards and their RNG, before committing.
+    -- Persistent deck UIDs are owned by Run and are never regenerated from combat instances.
+    local candidate = {}
+    for key, value in pairs(run) do candidate[key] = value end
+    candidate.combat, candidate.potions = battle, Combat.copy(run.potions)
+    table.remove(candidate.potions, slot)
+    if outcome then
+        local called, ok = pcall(M.finishCombat, candidate)
+        if not called or not ok then return false, "potion_effect_failed" end
+    end
+    local root = run.combat
+    for key in pairs(root) do root[key] = nil end
+    for key, value in pairs(battle) do root[key] = value end
+    candidate.combat = root
+    for key, value in pairs(candidate) do run[key] = value end
+    return true
+end
+
+-- Detached UI description. A targeted bottle is usable if at least one legal target exists;
+-- usePotion still validates the selected target when the command arrives.
+function M.potionView(run)
+    local result = {}
+    for slot, id in ipairs(run.potions) do
+        local potion = find(run.data.potions.potions, id)
+        local needTarget = potion and Inventory.needTarget(potion.effects) or false
+        local candidate, reason
+        if needTarget and run.combat then
+            for index, enemy in ipairs(run.combat.enemies) do
+                if enemy.hp > 0 then
+                    candidate, reason = potionCandidate(run, slot, index)
+                    if candidate then break end
+                end
+            end
+        end
+        if not candidate and not reason then candidate, reason = potionCandidate(run, slot) end
+        result[#result + 1] = { slot = slot, id = id, name = potion and potion.name or id,
+            effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
+            canUse = candidate ~= nil, reason = reason }
+    end
+    return result
 end
 
 return M
