@@ -1,6 +1,8 @@
 # Local / temp
 .backlog-ui.log
 *.log
+node_modules/
+build/
 
 # OS
 .DS_Store
