@@ -1,0 +1,40 @@
+{
+  "canvas": {
+    "width": 40,
+    "height": 40,
+    "background": "transparent",
+    "mask": {
+      "enabled": false
+    }
+  },
+  "elements": [
+    {
+      "id": "shield-upper",
+      "name": "shield-upper",
+      "type": "rectangle",
+      "x": 20,
+      "y": 14,
+      "width": 26,
+      "height": 17,
+      "color": "#A9C5E0",
+      "rotation": 0,
+      "zIndex": 0
+    },
+    {
+      "id": "shield-point",
+      "name": "shield-point",
+      "type": "triangle",
+      "x": 20,
+      "y": 27,
+      "width": 26,
+      "height": 19,
+      "color": "#A9C5E0",
+      "rotation": 180,
+      "zIndex": 1
+    }
+  ],
+  "meta": {
+    "sourceType": "json",
+    "sourceName": "type-skill"
+  }
+}
