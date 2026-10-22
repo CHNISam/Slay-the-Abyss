@@ -1,5 +1,7 @@
 param(
     [Parameter(Mandatory)][string]$BaseMap,
+    [string]$CardLua = 'art/spikes/card-editor/card.lua',
+    [ValidatePattern('^[A-Za-z0-9_-]{1,60}$')][string]$CandidateName = 'abyss-art-card-candidate',
     [string]$ToolkitRoot = 'D:/MiliastraTools/genshin-miliastra-mcp',
     [string]$Python = 'C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe'
 )
@@ -46,7 +48,8 @@ $text = Invoke-ArtTool 'scene_add_client_template' @{
         text=@{content='美术实验'; fontSize=22; backgroundOpacity=0; outline=$false}}
     outputName='art-text-template'
 }
-$source = Get-Content (Join-Path $projectRoot 'art/spikes/card-editor/card.lua') -Raw
+$cardLuaPath = if ([IO.Path]::IsPathRooted($CardLua)) { $CardLua } else { Join-Path $projectRoot $CardLua }
+$source = Get-Content -LiteralPath $cardLuaPath -Raw
 foreach ($binding in @(@('IMAGE_PREFAB_ID',$image.templateIndex), @('TEXTBOX_PREFAB_ID',$text.templateIndex))) {
     $needle = 'local ' + $binding[0] + ' = 0'
     if (($source.Split($needle).Count - 1) -ne 1) { throw "Unexpected upstream binding: $needle" }
@@ -63,10 +66,12 @@ $probe = Invoke-ArtTool 'scene_set_client_script' @{
 }
 $uiSpec = Get-Content (Join-Path $projectRoot 'art/spikes/platform/card-ui.json') -Raw | ConvertFrom-Json -AsHashtable
 $uiSpec.mapPath = $probe.mapPath
+$uiSpec.outputName = $CandidateName
 $ui = Invoke-ArtTool 'scene_add_client_ui' $uiSpec
 $check = Invoke-ArtTool 'scene_check_client' @{mapPath=$ui.mapPath}
 if (-not $check.ok) { throw 'Candidate client check failed; inspect generated results.' }
-[ordered]@{state='prepared'; candidate=$ui.mapPath; imageTemplateIndex=$image.templateIndex; textTemplateIndex=$text.templateIndex
+[ordered]@{state='prepared'; candidate=$ui.mapPath; sourceLua=(Resolve-Path -LiteralPath $cardLuaPath).Path
+    sourceLuaSha256=(Get-FileHash -LiteralPath $cardLuaPath).Hash.ToLower(); imageTemplateIndex=$image.templateIndex; textTemplateIndex=$text.templateIndex
     clientCheck=$check; officialImport='not_run'; inGameDisplay='not_run'; performance='not_measured'} |
     ConvertTo-Json -Depth 15 | Set-Content (Join-Path $outputRoot 'candidate.json') -Encoding utf8
 Write-Output "Prepared copy: $($ui.mapPath). Client check passed. Official import and playtest still required."

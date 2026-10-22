@@ -8,7 +8,7 @@
     "preparationRecipe": "scripts/art/prepare-card-candidate.ps1",
     "performance": "not_measured",
     "candidateSha256": "30880683ad6a863105f4ced9f988e59b1d4dd3f68d30067feca08d6dfafd43dd",
-    "gameDisplay": "not_run",
+    "gameDisplay": "verified_partial_missing_title_and_type",
     "recipeRun": "passed",
     "imageTemplateIndex": 1073741845,
     "clientCheck": {
@@ -16,7 +16,7 @@
       "errors": 0,
       "warnings": 0
     },
-    "interaction": "not_run",
+    "interaction": "verified_status_changed_to_click_passed_in_user_screenshot",
     "images": 11,
     "controls": 15,
     "officialImport": "verified_manual_import_and_readback",
@@ -40,6 +40,25 @@
         "warnings": 0,
         "errors": 0
       }
+    },
+    "runtimeEvidence": {
+      "clickScreenshotSha256": "793a0d9d2949385feae1d050ecd828411a2b0ded3576eda290be2a9de8a8e8a6",
+      "visible": [
+        "card frame",
+        "cost 1",
+        "Geo crystal",
+        "damage text",
+        "click button"
+      ],
+      "clickResultText": "点击通过",
+      "missing": [
+        "card-title 打击",
+        "card-type 攻击"
+      ],
+      "firstScreenshotSha256": "8c264f3cf344a17e5ca358569dccc4ba0ba96301382d4d3db5a782dd560c15f8",
+      "localEvidenceDirectory": "build/art-spike/user-evidence",
+      "method": "user operated official playtest and supplied screenshots",
+      "runtimeLogCollected": false
     }
   },
   "importAttempts": [
@@ -108,5 +127,24 @@
       "logCollected": false
     }
   ],
-  "currentBlocker": "Windows sandbox foreground switching; manual playtest requested; import is verified"
+  "currentBlocker": "User has entered playtest and click passed; title/type missing; height-only v2 candidate prepared for runtime confirmation",
+  "heightCompatibilityCandidate": {
+    "runtimeDisplay": "not_run",
+    "centresAndFontsUnchanged": true,
+    "source": "art/spikes/card-editor/text-height-compat/card.lua",
+    "metricsLabelAdded": true,
+    "performance": "not_measured",
+    "file": "build/art-platform/workspace/scenes/saves/abyss-art-card-text-v2.gil",
+    "officialImport": "not_run",
+    "sha256": "3d6a717de7929fea2289e21ea42923a88025c2caf3a162ca24d20666bf97ca46",
+    "staticCheck": {
+      "ok": true,
+      "warnings": 0,
+      "errors": 0
+    },
+    "onlyCardVisualChanges": [
+      "card-title height 22 -> 40",
+      "card-type height 18 -> 40"
+    ]
+  }
 }
