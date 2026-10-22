@@ -1,7 +1,27 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, realpathSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { loadContent, validateContent } from './validate-data.mjs';
+import { contentFiles, loadContent, validateContent } from './validate-data.mjs';
+
+function rejectInputOutputAlias(inputDirectory, output) {
+  const outputPath = resolve(output);
+  let outputStat;
+  let outputRealPath;
+  try {
+    outputStat = statSync(outputPath, { bigint: true });
+    outputRealPath = realpathSync(outputPath);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  for (const file of contentFiles) {
+    const inputPath = resolve(inputDirectory, `${file}.json`);
+    const inputStat = statSync(inputPath, { bigint: true });
+    if (outputPath === inputPath || outputRealPath === realpathSync(inputPath) ||
+        (outputStat && outputStat.dev === inputStat.dev && outputStat.ino === inputStat.ino)) {
+      throw new Error(`Output must not overwrite an input file: ${inputPath}`);
+    }
+  }
+}
 
 export function luaString(value) {
   if (!value.isWellFormed()) throw new TypeError('Lua strings require well-formed Unicode');
@@ -26,6 +46,7 @@ export function buildLuaData(inputDirectory = 'data', output = 'build/lua/abyss_
   const data = loadContent(inputDirectory);
   const errors = validateContent(data);
   if (errors.length) throw new Error(errors.join('\n'));
+  rejectInputOutputAlias(inputDirectory, output);
   const source = `-- Generated from validated JSON. Do not edit.\nreturn ${toLua(data)}\n`;
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output, source, 'utf8');
