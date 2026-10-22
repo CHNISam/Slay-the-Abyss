@@ -1,10 +1,10 @@
 ---
 id: TASK-9
 title: M1 卡牌系统与战士初始卡组
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 15:36'
+updated_date: '2026-10-22 15:50'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -21,9 +21,9 @@ ordinal: 9000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 卡牌数据结构与出牌流程可用
-- [ ] #2 战士初始卡组（打击/防御等基础牌）能打完一场
-- [ ] #3 战后卡牌奖励可选择并真正进入卡组
+- [x] #1 卡牌数据结构与出牌流程可用
+- [x] #2 战士初始卡组（打击/防御等基础牌）能打完一场
+- [x] #3 战后卡牌奖励可选择并真正进入卡组
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -39,3 +39,9 @@ CLAIM主Agent /root；feat/task-9-card-rewards/.worktrees/card-rewards；边界a
 
 实现abyss_run与8项真实Lua验证：未修改战斗状态的10张初始卡组完整击败cultist_solo；战后按源表金币和起始遗物回血，3个确定性不重复选项仅含当前可执行卡；选择后永久实例进入下场手/抽牌堆，重复/错误/未完/失败路径不发奖。连同15核心Lua共23通过。待独立审查与CI；未屏幕/游戏验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+真实初始牌组完成战斗，确定性三选一卡奖励加入永久牌组并出现在下场抽牌池；错误、重放、失败路径拒绝发奖。独立审查TASK9.1/PR15无阻断，54JS+23Lua及Python10通过1环境跳过。仅规则验收；平台导入、屏幕与实机验证由TASK10/3继续，不代表版本验收。
+<!-- SECTION:FINAL_SUMMARY:END -->
