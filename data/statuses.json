@@ -1,0 +1,14 @@
+{
+  "note": "首版草稿，数值来源为初代杀戮尖塔公开 wiki，需真机核对",
+  "statuses": [
+    { "id": "strength", "name": "力量", "kind": "buff", "stack": "intensity", "decay": "none", "description": "每层使攻击伤害 +1" },
+    { "id": "dexterity", "name": "敏捷", "kind": "buff", "stack": "intensity", "decay": "none", "description": "每层使获得的格挡 +1" },
+    { "id": "vulnerable", "name": "易伤", "kind": "debuff", "stack": "duration", "decay": "turn_end_minus_1", "description": "受到攻击伤害 +50%" },
+    { "id": "weak", "name": "虚弱", "kind": "debuff", "stack": "duration", "decay": "turn_end_minus_1", "description": "造成攻击伤害 -25%" },
+    { "id": "frail", "name": "脆弱", "kind": "debuff", "stack": "duration", "decay": "turn_end_minus_1", "description": "获得格挡 -25%" },
+    { "id": "poison", "name": "中毒", "kind": "debuff", "stack": "intensity", "decay": "turn_start_trigger_then_minus_1", "description": "回合开始按层数受到伤害，然后 -1" },
+    { "id": "thorns", "name": "荆棘", "kind": "buff", "stack": "intensity", "decay": "none", "description": "受到攻击时对攻击者反弹等量伤害" },
+    { "id": "regen", "name": "再生", "kind": "buff", "stack": "intensity", "decay": "turn_end_trigger_then_minus_1", "description": "回合结束回复等量生命，然后 -1" },
+    { "id": "barricade", "name": "壁垒", "kind": "buff", "stack": "none", "decay": "none", "description": "回合结束格挡不清空" }
+  ]
+}

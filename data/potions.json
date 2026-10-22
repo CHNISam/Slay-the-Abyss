@@ -1,0 +1,85 @@
+{
+  "potions": [
+    {
+      "id": "fire_potion",
+      "name": "火焰药水",
+      "rarity": "common",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "block_potion",
+      "name": "护盾药水",
+      "rarity": "common",
+      "effects": [
+        {
+          "op": "block",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "strength_potion",
+      "name": "力量药水",
+      "rarity": "common",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "strength",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "dexterity_potion",
+      "name": "敏捷药水",
+      "rarity": "common",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "dexterity",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "energy_potion",
+      "name": "能量药水",
+      "rarity": "common",
+      "effects": [
+        {
+          "op": "energy",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "poison_potion",
+      "name": "毒雾药水",
+      "rarity": "common",
+      "effects": [
+        {
+          "op": "applyStatus",
+          "status": "poison",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "regen_potion",
+      "name": "再生药水",
+      "rarity": "uncommon",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "regen",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
