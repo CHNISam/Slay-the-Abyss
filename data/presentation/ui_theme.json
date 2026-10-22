@@ -1,0 +1,726 @@
+{
+  "version": "0.1.0",
+  "note": "界面主题与布局常数。设计以 1280x720（手机）为基准画布，整棵界面挂在 stage 容器下按 min(宽/1280, 高/720) 等比缩放。颜色为 #RRGGBB 或 #RRGGBBAA，生成 Lua 时转为 0-255 的 {r,g,b,a}。图片编号来自千星图片库（image_catalog），标注 verify 的选型需在编辑器或截图里核对一次。主角为旅行者（岩元素），主色取岩元素琥珀金配深岩灰蓝。规范见 docs/design/UI_DESIGN.md。",
+  "canvas": {
+    "base": [
+      1280,
+      720
+    ],
+    "devices": {
+      "pc": [
+        1600,
+        900
+      ],
+      "mobile": [
+        1280,
+        720
+      ],
+      "console": [
+        1920,
+        1080
+      ]
+    },
+    "safe": {
+      "x": 40,
+      "y": 20
+    }
+  },
+  "color": {
+    "backdrop": "#0F1117",
+    "backdropVeil": "#0F1117CC",
+    "panel": "#1C1E27",
+    "panelRaised": "#272A36",
+    "panelSunken": "#13141B",
+    "line": "#3B3E4C",
+    "gold": "#E3B866",
+    "goldBright": "#F5D79A",
+    "goldDim": "#8E7448",
+    "text": "#ECE6DA",
+    "textDim": "#A9A595",
+    "textMuted": "#6E6C66",
+    "textOnLight": "#2A2620",
+    "parchment": "#EFE6D2",
+    "hp": "#D2524A",
+    "hpGhost": "#F3E2C8",
+    "hpTrack": "#3A1F22",
+    "block": "#5FA8E8",
+    "energy": "#E9A93B",
+    "energyEmpty": "#4A3E2A",
+    "positive": "#7DC77A",
+    "danger": "#E5574B",
+    "buff": "#E6A24A",
+    "debuff": "#A77BE0",
+    "focus": "#F2D9A2",
+    "cardType": {
+      "attack": "#B9483F",
+      "skill": "#3F7FB9",
+      "power": "#B98A35",
+      "status": "#5C5F6B"
+    },
+    "rarity": {
+      "basic": "#8A8F9C",
+      "common": "#5F8FD6",
+      "uncommon": "#A974E0",
+      "rare": "#E0A243"
+    },
+    "node": {
+      "visited": "#8E7448",
+      "current": "#F5D79A",
+      "reachable": "#ECE6DA",
+      "locked": "#4A4F63",
+      "path": "#5A6078",
+      "pathTaken": "#E3B866"
+    },
+    "geo": "#F0B850",
+    "geoDeep": "#A8732A"
+  },
+  "font": {
+    "display": 40,
+    "title": 30,
+    "heading": 24,
+    "body": 18,
+    "label": 16,
+    "card": 15,
+    "cardName": 17,
+    "small": 14,
+    "number": 22,
+    "numberLarge": 34,
+    "minimum": 14
+  },
+  "space": {
+    "xs": 4,
+    "s": 8,
+    "m": 12,
+    "l": 16,
+    "xl": 24,
+    "xxl": 32,
+    "border": 2,
+    "hairline": 1
+  },
+  "motion": {
+    "fast": 0.12,
+    "base": 0.2,
+    "slow": 0.35,
+    "banner": 0.9,
+    "damagePop": 0.6,
+    "hpGhostDelay": 0.25,
+    "hpGhost": 0.45,
+    "shake": 0.15,
+    "shakeAmplitude": 6,
+    "enemyActionGap": 0.45,
+    "hoverLift": 36,
+    "hoverScale": 1.22
+  },
+  "image": {
+    "rect": 100001,
+    "disc": 106025,
+    "discSoft": 106029,
+    "ring": 100006,
+    "glow": 106056,
+    "diamond": 100004,
+    "star": 100005
+  },
+  "icon": {
+    "hp": 102018,
+    "block": 102014,
+    "gold": {
+      "id": 105077,
+      "colour": true
+    },
+    "deck": {
+      "id": 105046,
+      "colour": true,
+      "verify": true
+    },
+    "drawPile": 100149,
+    "discardPile": 100150,
+    "exhaust": 102049,
+    "map": 100128,
+    "settings": 100161,
+    "close": 100101,
+    "confirm": 100102,
+    "back": 100104,
+    "next": 100103,
+    "info": 100164,
+    "lock": 100169,
+    "upgrade": 100110,
+    "remove": 100108,
+    "intent": {
+      "attack": 102035,
+      "defend": 102036,
+      "buff": 102020,
+      "debuff": 102045,
+      "unknown": 100114,
+      "sleep": 100129,
+      "verify": true
+    },
+    "node": {
+      "combat": 102044,
+      "elite": 102034,
+      "camp": 102002,
+      "shop": 102025,
+      "event": 100114,
+      "treasure": 102028,
+      "boss": 102033
+    },
+    "status": {
+      "strength": 103047,
+      "dexterity": 103065,
+      "vulnerable": 103049,
+      "weak": 103053,
+      "frail": 103054,
+      "poison": 103059,
+      "thorns": 103055,
+      "regen": 103056,
+      "barricade": 103066,
+      "verify": true
+    },
+    "potion": {
+      "fire_potion": 111046,
+      "block_potion": 111048,
+      "strength_potion": 111046,
+      "dexterity_potion": 111047,
+      "energy_potion": 111047,
+      "poison_potion": 111048,
+      "regen_potion": 111047,
+      "empty": 106026,
+      "verify": true
+    },
+    "potionTint": {
+      "fire_potion": "#FFB09A",
+      "block_potion": "#B9DCFF",
+      "strength_potion": "#FFFFFF",
+      "dexterity_potion": "#FFFFFF",
+      "energy_potion": "#FFE7A6",
+      "poison_potion": "#BFF0B0",
+      "regen_potion": "#D8FFC8"
+    },
+    "relic": {
+      "burning_blood": 102005,
+      "anchor": 102036,
+      "vajra": 102012,
+      "bag_of_preparation": 102026,
+      "lantern": 102007,
+      "oddly_smooth_stone": 102031,
+      "bronze_scales": 102015,
+      "verify": true
+    },
+    "cardArt": {
+      "attack": 102012,
+      "skill": 102014,
+      "power": 102024,
+      "status": 100122
+    },
+    "player": 102005,
+    "enemy": {
+      "cultist": 112022,
+      "jaw_worm": 112038,
+      "red_louse": 112013,
+      "green_louse": 112014,
+      "acid_slime_s": 112009,
+      "acid_slime_m": 112009,
+      "acid_slime_l": 112010,
+      "spike_slime_s": 112007,
+      "spike_slime_m": 112007,
+      "spike_slime_l": 112008,
+      "looter": 112030,
+      "blue_slaver": 112031,
+      "red_slaver": 112050,
+      "fungi_beast": 112033,
+      "mad_gremlin": 112023,
+      "sneaky_gremlin": 112025,
+      "fat_gremlin": 112024,
+      "wizard_gremlin": 112034,
+      "shield_gremlin": 112036,
+      "gremlin_nob": 112037,
+      "lagavulin": 112026,
+      "sentry": 112027,
+      "guardian": 112046,
+      "verify": true
+    },
+    "medallion": {
+      "camp": 105045,
+      "treasure": 105043,
+      "cardReward": 105046,
+      "shop": 105064,
+      "chestOpen": 105081,
+      "verify": true
+    },
+    "energy": {
+      "id": 103005,
+      "colour": true
+    },
+    "geo": 102005
+  },
+  "layout": {
+    "battlePotions": {
+      "count": 3,
+      "origin": [-124, 286],
+      "step": [124, 0],
+      "size": [116, 44]
+    },
+    "battleNotice": {
+      "position": [0, 244],
+      "size": [1140, 32]
+    },
+    "topBar": {
+      "height": 52,
+      "y": 334
+    },
+    "card": {
+      "size": [
+        148,
+        208
+      ],
+      "nameBand": 30,
+      "art": 64,
+      "typeLine": 18,
+      "textBox": [
+        132,
+        92
+      ],
+      "costDisc": 40
+    },
+    "hand": {
+      "y": -250,
+      "maxWidth": 820,
+      "spacingMax": 140,
+      "spacingMin": 74,
+      "arcDegrees": 2.5,
+      "arcDrop": 4
+    },
+    "energy": {
+      "position": [
+        -548,
+        -196
+      ],
+      "size": 88
+    },
+    "drawPile": {
+      "position": [
+        -568,
+        -312
+      ],
+      "size": [
+        64,
+        56
+      ]
+    },
+    "discardPile": {
+      "position": [
+        568,
+        -312
+      ],
+      "size": [
+        64,
+        56
+      ]
+    },
+    "endTurn": {
+      "position": [
+        512,
+        -206
+      ],
+      "size": [
+        176,
+        60
+      ]
+    },
+    "player": {
+      "position": [
+        -380,
+        64
+      ],
+      "portrait": 132
+    },
+    "enemyRow": {
+      "y": 64,
+      "xFrom": 80,
+      "xTo": 520,
+      "portrait": 120,
+      "bossPortrait": 168
+    },
+    "hpBar": {
+      "size": [
+        156,
+        16
+      ]
+    },
+    "statusIcon": {
+      "size": 26,
+      "gap": 4,
+      "perRow": 5
+    },
+    "intent": {
+      "size": 40,
+      "offsetY": 104
+    },
+    "map": {
+      "floorGap": 76,
+      "columns": 7,
+      "columnGap": 112,
+      "node": 56,
+      "bossNode": 96,
+      "viewportHeight": 600
+    },
+    "modal": {
+      "size": [
+        640,
+        460
+      ]
+    },
+    "button": {
+      "primary": [
+        220,
+        60
+      ],
+      "secondary": [
+        180,
+        52
+      ],
+      "pill": [
+        128,
+        40
+      ]
+    },
+    "nativeControl": {
+      "origin": [
+        0,
+        0
+      ]
+    },
+    "nativeBattle": {
+      "note": "功能过渡布局，保持现有点选流程；尚未还原批准稿的战斗单位、扇形手牌、图标与动效。",
+      "backdrop": [
+        0,
+        0,
+        1260,
+        700
+      ],
+      "title": [
+        0,
+        313,
+        1160,
+        44
+      ],
+      "player": [
+        -230,
+        265,
+        700,
+        42
+      ],
+      "piles": [
+        380,
+        265,
+        400,
+        42
+      ],
+      "notice": [
+        0,
+        58,
+        1130,
+        46
+      ],
+      "statuses": [
+        0,
+        17,
+        1140,
+        35
+      ],
+      "enemy": {
+        "count": 5,
+        "origin": [
+          -472,
+          165
+        ],
+        "step": [
+          236,
+          0
+        ],
+        "size": [
+          220,
+          140
+        ],
+        "labelSize": [
+          208,
+          132
+        ]
+      },
+      "card": {
+        "count": 10,
+        "columns": 5,
+        "origin": [
+          -464,
+          -72
+        ],
+        "step": [
+          232,
+          -145
+        ],
+        "size": [
+          218,
+          140
+        ],
+        "labelSize": [
+          204,
+          132
+        ]
+      },
+      "endTurn": [
+        438,
+        -316,
+        250,
+        44
+      ],
+      "start": [
+        0,
+        -70,
+        320,
+        60
+      ],
+      "continue": [
+        0,
+        -250,
+        320,
+        60
+      ],
+      "result": [
+        0,
+        168,
+        1110,
+        130
+      ],
+      "skip": [
+        0,
+        -316,
+        250,
+        44
+      ],
+      "buttonInset": [
+        8,
+        4
+      ],
+      "potions": {
+        "count": 3,
+        "origin": [-430, -316],
+        "step": [200, 0],
+        "size": [180, 44]
+      }
+    },
+    "nativeMap": {
+      "note": "五层分页功能过渡布局；批准稿的滚动地图与节点图标待还原。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "title": [
+        0,
+        312,
+        1160,
+        44
+      ],
+      "notice": [
+        0,
+        263,
+        1160,
+        42
+      ],
+      "page": [
+        -180,
+        -261,
+        760,
+        40
+      ],
+      "legendPanel": [
+        410,
+        0,
+        330,
+        456
+      ],
+      "legend": [
+        410,
+        0,
+        306,
+        432
+      ],
+      "geometry": {
+        "columns": [
+          -420,
+          -180,
+          60
+        ],
+        "firstY": 192,
+        "rowGap": 96,
+        "rows": 5
+      },
+      "edgeWidth": 3,
+      "floor": [
+        -575,
+        0,
+        62,
+        44
+      ],
+      "nodeSize": [
+        214,
+        70
+      ],
+      "nodeInsetSize": [
+        208,
+        64
+      ],
+      "label": [
+        0,
+        19,
+        206,
+        24
+      ],
+      "status": [
+        0,
+        -3,
+        206,
+        20
+      ],
+      "route": [
+        0,
+        -24,
+        206,
+        20
+      ],
+      "navigation": {
+        "columns": [
+          -420,
+          -180,
+          60
+        ],
+        "y": -314,
+        "size": [
+          180,
+          48
+        ],
+        "inset": [
+          8,
+          4
+        ]
+      }
+    },
+    "nativeNode": {
+      "note": "共用八项分页功能过渡布局；营地、商店、事件等批准稿专用构图待还原。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "title": [
+        0,
+        310,
+        1160,
+        44
+      ],
+      "resources": [
+        0,
+        265,
+        1160,
+        38
+      ],
+      "notice": [
+        0,
+        220,
+        1160,
+        42
+      ],
+      "page": [
+        0,
+        -263,
+        760,
+        28
+      ],
+      "geometry": {
+        "columns": [
+          -280,
+          280
+        ],
+        "rows": [
+          90,
+          -5,
+          -100,
+          -195
+        ],
+        "actionSize": [
+          540,
+          80
+        ],
+        "pageSize": 8
+      },
+      "tabs": {
+        "origin": [
+          -280,
+          168
+        ],
+        "step": [
+          280,
+          0
+        ],
+        "size": [
+          240,
+          44
+        ]
+      },
+      "previous": [
+        -430,
+        -310,
+        180,
+        48
+      ],
+      "leave": [
+        0,
+        -310,
+        240,
+        48
+      ],
+      "next": [
+        430,
+        -310,
+        180,
+        48
+      ],
+      "buttonInset": [
+        20,
+        8
+      ]
+    },
+    "nativeMenu": {
+      "note": "原生启动/结算功能过渡布局；以批准主题语义色与字号显示。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "title": [
+        0,
+        240,
+        1120,
+        64
+      ],
+      "summary": [
+        0,
+        30,
+        1080,
+        280
+      ],
+      "start": [
+        0,
+        -230,
+        320,
+        64
+      ],
+      "buttonInset": [
+        16,
+        4
+      ]
+    }
+  }
+}

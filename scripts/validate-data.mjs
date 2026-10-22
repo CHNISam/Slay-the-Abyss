@@ -147,6 +147,14 @@ export function validateContent(bundle) {
       if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
     });
   });
+  // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
+  for (const [floor, tier] of [[1, 'normal'], [6, 'elite'], [15, 'boss']]) {
+    if (!lists.encounters.some(entry => isObject(entry) && entry.tier === tier &&
+      Number.isSafeInteger(entry.minFloor) && Number.isSafeInteger(entry.maxFloor) &&
+      entry.minFloor <= floor && entry.maxFloor >= floor)) {
+      fail('enemies.encounters', `must include an eligible ${tier} encounter on forced floor ${floor}`);
+    }
+  }
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
@@ -159,7 +167,7 @@ export function validateContent(bundle) {
     enumeration(rules.version, ['0.1.0'], 'rules.version');
     const numericSections = {
       player: { maxHp: [1], energyPerTurn: [1], drawPerTurn: [1], maxHand: [1], startingGold: [0], potionSlots: [1] },
-      map: { floors: [15, 15], bossFloor: [15, 15], restFloor: [1, 14] },
+      map: { floors: [15, 15], bossFloor: [15, 15], restFloor: [14, 14] },
       camp: { healPercent: [1, 100], upgradeCount: [1] },
       shop: { cardCommon: [0], cardUncommon: [0], cardRare: [0], relic: [0], removeCard: [0], removeCardIncrement: [0] },
       rewards: { normalGold: [0], eliteGold: [0], bossGold: [0], cardChoices: [1] },

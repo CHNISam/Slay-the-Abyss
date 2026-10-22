@@ -1,0 +1,665 @@
+<title>Slay the Abyss 界面原型</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* 布局：页面外壳是工作台（左说明、右画布），画布是 1280x720 的游戏界面，只用千星客户端控件能画出的形状（纯色矩形、圆、图库图标、文字、填充条）。 */
+:root{
+  color-scheme:dark;
+  /* 与 data/presentation/ui_theme.json 同值 */
+  --backdrop:#0F1117;--panel:#1C1E27;--raised:#272A36;--sunken:#13141B;--line:#3B3E4C;
+  --gold:#E3B866;--gold-hi:#F5D79A;--gold-dim:#8E7448;--geo:#F0B850;--geo-deep:#A8732A;
+  --text:#ECE6DA;--text-dim:#A9A595;--muted:#6E6C66;
+  --hp:#D2524A;--hp-ghost:#F3E2C8;--hp-track:#3A1F22;--block:#5FA8E8;--energy:#E9A93B;--energy-empty:#4A3E2A;
+  --good:#7DC77A;--danger:#E5574B;--buff:#E6A24A;--debuff:#A77BE0;
+  --t-attack:#B9483F;--t-skill:#3F7FB9;--t-power:#B98A35;
+  --r-basic:#8A8F9C;--r-common:#5F8FD6;--r-uncommon:#A974E0;--r-rare:#E0A243;
+  --shell:#0A0B10;--shell-fg:#C9C4B6;
+  --f-game:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+html,body{height:100%}
+body{background:var(--shell);color:var(--shell-fg);font-family:var(--f-game);font-size:14px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px;box-sizing:border-box}
+*{box-sizing:border-box}
+button{font-family:inherit}
+.bench{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:1500px;margin:0 auto}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.brand{font-weight:900;font-size:18px;color:var(--gold-hi);letter-spacing:.04em;margin-right:auto}
+.brand small{display:block;font:400 11px var(--f-mono);color:var(--muted);letter-spacing:.08em}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:transparent;border:0;color:var(--text-dim);padding:7px 11px;cursor:pointer;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--raised);color:var(--gold-hi)}
+.seg button:focus-visible,.tog:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.tog{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--text-dim);cursor:pointer}
+.label{font:600 10px var(--f-mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.frame{position:relative;width:100%;background:#000;border:1px solid var(--line);overflow:hidden}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.note{background:var(--panel);border:1px solid var(--line);padding:12px 14px;min-width:0}
+.note h3{margin:0 0 6px;font-size:13px;color:var(--gold-hi)}
+.note ul{margin:0;padding-left:18px;line-height:1.7;color:var(--text-dim)}
+.note code{font:12px var(--f-mono);color:var(--gold)}
+
+/* ===== 游戏画布：所有坐标都按 1280x720 ===== */
+.cv{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;background:var(--backdrop);color:var(--text);font-family:var(--f-game);overflow:hidden;user-select:none}
+.cv *{position:absolute}
+.cv .flow,.cv .flow *{position:static}
+.r{background:var(--panel)}
+.disc{border-radius:50%}
+.t{white-space:nowrap;line-height:1.2}
+.ico{display:block}
+.ico svg{position:static;width:100%;height:100%;display:block}
+.num{font-weight:900;font-variant-numeric:tabular-nums}
+.hit{cursor:pointer}
+.annot .ann{outline:1px dashed rgba(240,184,80,.55)}
+.annot .ann::after{content:attr(data-k);position:absolute;left:0;top:-14px;font:600 9px/1 var(--f-mono);color:#111;background:var(--geo);padding:2px 3px;white-space:nowrap;z-index:99;pointer-events:none}
+.safe{left:40px;top:20px;width:1200px;height:680px;border:1px dashed rgba(125,199,122,.8);pointer-events:none;z-index:200}
+.touchzone{background:repeating-linear-gradient(45deg,rgba(229,87,75,.18) 0 8px,transparent 8px 16px);border:1px dashed rgba(229,87,75,.7);pointer-events:none;z-index:199}
+.touchzone span{left:6px;top:4px;font:600 10px var(--f-mono);color:#ffb0a8}
+
+/* 场景底：深岩层 + 岩元素微光（平台上=全屏纯色矩形 + 106056 柔光图片染色） */
+.bgglow{border-radius:50%;background:radial-gradient(closest-side,rgba(240,184,80,.16),transparent);pointer-events:none}
+.ground{left:0;top:388px;width:1280px;height:2px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent)}
+
+/* 顶栏 */
+.top{left:0;top:0;width:1280px;height:52px;background:var(--sunken);border-bottom:1px solid var(--gold-dim)}
+
+/* 卡牌 */
+.card{width:148px;height:208px;transition:transform .2s cubic-bezier(.2,.8,.2,1),opacity .2s,filter .2s;transform-origin:50% 100%}
+.card .fr{inset:0;border:2px solid var(--rc);background:var(--panel)}
+.card .nb{left:2px;top:2px;width:144px;height:30px;background:var(--raised)}
+.card .nm{left:0;top:6px;width:148px;text-align:center;font-weight:700;font-size:17px;color:var(--text)}
+.card .art{left:2px;top:32px;width:144px;height:64px;background:color-mix(in srgb,var(--tc) 32%,var(--panel))}
+.card .art .ico{left:52px;top:12px;width:40px;height:40px;color:color-mix(in srgb,var(--tc) 45%,#fff)}
+.card .tl{left:2px;top:96px;width:144px;height:18px;background:var(--sunken);font-size:12px;color:var(--text-dim);text-align:center;line-height:18px;letter-spacing:.3em}
+.card .tx{left:8px;top:118px;width:132px;height:84px;font-size:15px;line-height:1.38;white-space:normal;color:var(--text);display:flex;align-items:center;justify-content:center;text-align:center}
+.card .tx span,.card .tx b{position:static}.card .tx b{color:var(--gold-hi)}
+.card .cost{left:-10px;top:-10px;width:40px;height:40px;border-radius:50%;background:var(--energy);box-shadow:0 0 0 2px var(--backdrop),0 0 0 3px var(--gold-hi);color:#2a1d08;font-size:22px;text-align:center;line-height:40px}
+.card.up .nm{color:var(--good)}
+.card.cant .cost{background:var(--energy-empty);color:var(--danger)}
+.card.cant{filter:saturate(.35) brightness(.7)}
+.card.sel{z-index:50}
+.card.sel .fr{box-shadow:0 0 0 2px var(--gold-hi),0 0 22px rgba(245,215,154,.45)}
+
+/* 战斗单位 */
+.unit .plate{border:2px solid var(--line);background:var(--raised)}
+.unit .mono{inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--text-dim)}
+.unit.target .plate{border-color:var(--gold-hi);box-shadow:0 0 18px rgba(245,215,154,.5)}
+.unit.dead{opacity:0;transition:opacity .35s}
+.hpbar{background:var(--hp-track);border:1px solid #000}
+.hpbar .g{left:0;top:0;height:100%;background:var(--hp-ghost);transition:width .45s .25s}
+.hpbar .f{left:0;top:0;height:100%;background:var(--hp);transition:width .2s}
+.hpbar.shield{border-color:var(--block)}
+.hpbar.shield .f{background:#4F86BD}
+.hpbar .v{left:0;top:-1px;width:100%;text-align:center;font-size:13px;font-weight:700;text-shadow:0 1px 2px #000}
+.blk{width:34px;height:34px}
+.blk .ico{inset:0;color:var(--block)}
+.blk .v{inset:0;text-align:center;line-height:34px;font-size:14px;font-weight:900;color:#0c1a28}
+.st{width:26px;height:26px}
+.st .ico{inset:2px;color:var(--c)}
+.st .v{right:-3px;bottom:-4px;font-size:12px;font-weight:900;text-shadow:0 1px 2px #000,0 0 2px #000}
+.intent{display:flex}
+.intent .ico{position:relative;width:40px;height:40px}
+.intent .v{position:relative;font-size:22px;font-weight:900;margin-left:2px;line-height:40px;text-shadow:0 2px 3px #000}
+.pop{font-size:34px;font-weight:900;pointer-events:none;text-shadow:0 2px 0 #000,0 0 6px #000;z-index:120}
+
+/* 按钮四态（平台 presetButton：normal/hover/pressed/disabled 各一个子控件） */
+.btn{border:2px solid var(--gold);background:var(--raised);color:var(--gold-hi);font-weight:700;text-align:center;cursor:pointer;transition:background .12s,transform .12s}
+.btn:hover{background:#353949}
+.btn:active{transform:scale(.96);background:var(--gold-dim);color:#fff}
+.btn.pri{background:var(--geo);color:#2a1d08;border-color:var(--gold-hi)}
+.btn.pri:hover{background:var(--gold-hi)}
+.btn.off{border-color:var(--line);color:var(--muted);background:var(--sunken);cursor:default;transform:none}
+.banner{left:0;top:300px;width:1280px;height:84px;background:linear-gradient(90deg,transparent,rgba(15,17,23,.92) 25%,rgba(15,17,23,.92) 75%,transparent);border-top:1px solid var(--gold-dim);border-bottom:1px solid var(--gold-dim);z-index:150;pointer-events:none;opacity:0}
+.banner .t{left:0;width:1280px;top:20px;text-align:center;font-size:36px;font-weight:900;color:var(--gold-hi);letter-spacing:.3em}
+.veil{inset:0;background:rgba(15,17,23,.8);z-index:160}
+.modal{background:var(--panel);border:2px solid var(--gold-dim);box-shadow:0 0 0 1px #000}
+.tip{background:var(--sunken);border:1px solid var(--gold-dim);padding:8px 10px;font-size:14px;line-height:1.5;white-space:normal;z-index:180;pointer-events:none;color:var(--text)}
+.tip b{position:static;color:var(--gold-hi)}
+.mapnode{border-radius:50%;transition:transform .2s}
+.mapnode.reach{cursor:pointer;animation:breathe 1.4s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.mapnode.reach{animation:none}.card,.hpbar .f,.hpbar .g{transition:none}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.7-8-6-8-11V5z"/></symbol>
+  <symbol id="i-swords" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3l6.5 1L20 14.5l1.5-1.5 1 1-3 3 2 2-1.5 1.5-2-2-3 3-1-1 1.5-1.5L4 9.5zM21 3l-1 6.5-4.2 4.2-2.8-2.8L17.3 6.6zM3 17l3 3-1.5 1.5-1-1-1 1L1 20l1-1-1-1z"/></symbol>
+  <symbol id="i-sword" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2l2 0 0 2-11 11-2-2zM7.5 14.5l2 2-2.5 2.5 1 1-1.5 1.5-1-1-2 2L2 21l2-2-1-1 1.5-1.5 1 1z"/></symbol>
+  <symbol id="i-geo" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l9 5.5v11L12 23l-9-5.5v-11zm0 4.2L6.6 8.5v7L12 18.8l5.4-3.3v-7zm0 3.3l2.6 1.6v3.8L12 15.5l-2.6-1.6v-3.8z"/></symbol>
+  <symbol id="i-skull" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c5 0 9 3.6 9 8.2 0 2.6-1.3 4.6-3 5.8V20h-3v-2h-2v2h-2v-2H9v2H6v-4c-1.7-1.2-3-3.2-3-5.8C3 5.6 7 2 12 2zm-3.5 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2s6 5 6 11a6 6 0 0 1-12 0c0-3 2-5 2-5s0 3 2 3c0-4 2-9 2-9z"/></symbol>
+  <symbol id="i-stall" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h18l1 6a3 3 0 0 1-5 2 3 3 0 0 1-5 0 3 3 0 0 1-5 0 3 3 0 0 1-5-2zM4 13h16v8H4zm4 2v4h3v-4z"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 1 7 6.6c0 3-2 4.3-3.5 5.3-1.2.8-1.5 1.2-1.5 2.6h-4c0-3 1.3-4 2.8-5 1.2-.8 2.2-1.4 2.2-2.9a3 3 0 0 0-6 0H5A7 7 0 0 1 12 2zm-2 16h4v4h-4z"/></symbol>
+  <symbol id="i-chest" viewBox="0 0 24 24"><path fill="currentColor" d="M5 4h14a3 3 0 0 1 3 3v3H2V7a3 3 0 0 1 3-3zM2 11h20v9H2zm8 1v4h4v-4z"/></symbol>
+  <symbol id="i-demon" viewBox="0 0 24 24"><path fill="currentColor" d="M2 2l5 6a8 8 0 0 1 10 0l5-6-1 9a9 9 0 0 1-9 11 9 9 0 0 1-9-11zm6 10l2 3 1-2zm8 0l-3 1 1 2z"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#E9B54A"/><circle cx="12" cy="12" r="7" fill="none" stroke="#9A6A1E" stroke-width="2"/><path d="M12 7l3 5-3 5-3-5z" fill="#9A6A1E"/></symbol>
+  <symbol id="i-potion" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2h6v2h-1v4.2a7 7 0 1 1-4 0V4H9z"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3l8 9h-5v9H9v-9H4z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21l-8-9h5V3h6v9h5z"/></symbol>
+  <symbol id="i-crack" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm-1 3l-2 6 3 1-2 7 5-9-3-1 2-4z"/></symbol>
+  <symbol id="i-deck" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h12v16H7zM4 5h2v15h11v2H4z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path fill="currentColor" d="M2 5l6-3 8 3 6-3v17l-6 3-8-3-6 3zm7 0v13l6 2V7z"/></symbol>
+  <symbol id="i-zz" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h9v2l-6 7h6v2H3v-2l6-7H3zm11 7h7v2l-4 5h4v2h-7v-2l4-5h-4z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2h6v7h7v6h-7v7H9v-7H2V9h7z"/></symbol>
+ </defs>
+</svg>
+
+<div class="bench">
+  <div class="bar">
+    <div class="brand">Slay the Abyss · 界面原型<small>TASK-24 · 1280×720 基准画布 · 旅行者（岩）</small></div>
+    <div class="seg" id="screens" role="group" aria-label="界面"></div>
+  </div>
+  <div class="bar">
+    <span class="label">设备画布</span>
+    <div class="seg" id="devices" role="group" aria-label="设备画布"></div>
+    <label class="tog"><input type="checkbox" id="optSafe"> 安全区</label>
+    <label class="tog"><input type="checkbox" id="optTouch"> 手机平台按键区（估计）</label>
+    <label class="tog"><input type="checkbox" id="optAnn"> 控件标注（图库编号）</label>
+    <span class="label" id="scaleInfo"></span>
+  </div>
+  <div class="frame" id="frame"><div class="cv" id="cv"></div></div>
+  <div class="notes" id="notes"></div>
+</div>
+
+<script>
+const CARDS=[["strike","普通攻击","attack","basic","1","对目标造成 6 点伤害。","1","对目标造成 9 点伤害。"],["defend","防御","skill","basic","1","为自己增加 5 点格挡。","1","为自己增加 8 点格挡。"],["bash","破防斩","attack","basic","2","对目标造成 8 点伤害，再施加 2 层易伤。","2","对目标造成 10 点伤害，再施加 3 层易伤。"],["cleave","星陨剑","attack","common","1","对每个敌人造成 8 点伤害。","1","对每个敌人造成 11 点伤害。"],["clothesline","压制斩","attack","common","2","对目标造成 12 点伤害，再施加 2 层虚弱。","2","对目标造成 14 点伤害，再施加 3 层虚弱。"],["iron_wave","招架还击","attack","common","1","先增加 5 点格挡，再对目标造成 5 点伤害。","1","先增加 7 点格挡，再对目标造成 7 点伤害。"],["anger","连续出剑","attack","common","0","对目标造成 6 点伤害，再将本牌的一张复制放入弃牌堆。","0","对目标造成 8 点伤害，再将本牌的一张复制放入弃牌堆。"],["body_slam","格挡反击","attack","common","1","对目标造成与自己当前格挡等量的伤害。","0","费用：0 能量。对目标造成与自己当前格挡等量的伤害。"],["clash","全力进攻","attack","common","0","只有手牌全为攻击牌时才能打出。对目标造成 14 点伤害。","0","只有手牌全为攻击牌时才能打出。对目标造成 18 点伤害。"],["flex","蓄力","skill","common","0","增加 2 层力量；本回合结束时移除这部分力量。","0","增加 4 层力量；本回合结束时移除这部分力量。"],["true_grit","稳住阵脚","skill","common","1","增加 7 点格挡，再随机消耗 1 张手牌。","1","增加 9 点格挡，再选择并消耗 1 张手牌。"],["twin_strike","重击","attack","common","1","对目标连续攻击 2 次，每次造成 5 点伤害。","1","对目标连续攻击 2 次，每次造成 7 点伤害。"],["pommel_strike","试探一击","attack","common","1","对目标造成 9 点伤害，再抽 1 张牌。","1","对目标造成 10 点伤害，再抽 2 张牌。"],["shrug_it_off","伺机而动","skill","common","1","增加 8 点格挡，再抽 1 张牌。","1","增加 11 点格挡，再抽 1 张牌。"],["thunderclap","横扫破防","attack","common","1","对每个敌人造成 4 点伤害，并各施加 1 层易伤。","1","对每个敌人造成 7 点伤害，并各施加 1 层易伤。"],["warcry","调整战术","skill","common","0","抽 1 张牌，再选择 1 张手牌放到抽牌堆顶。打出后消耗本牌。","0","抽 2 张牌，再选择 1 张手牌放到抽牌堆顶。打出后消耗本牌。"],["uppercut","挑剑破势","attack","uncommon","2","对目标造成 13 点伤害，再施加 1 层虚弱和 1 层易伤。","2","对目标造成 13 点伤害，再施加 2 层虚弱和 2 层易伤。"],["inflame","剑术精进","power","uncommon","1","为自己增加 2 层力量。","1","为自己增加 3 层力量。"],["metallicize","持续防守","power","uncommon","1","每个己方回合结束时，增加 3 点格挡。","1","每个己方回合结束时，增加 4 点格挡。"],["battle_trance","集中精神","skill","uncommon","0","抽 3 张牌；此后本回合不能再抽牌。","0","抽 4 张牌；此后本回合不能再抽牌。"],["bloodletting","透支","skill","uncommon","0","失去 3 点生命，换取 2 点能量。","0","失去 3 点生命，换取 3 点能量。"],["barricade","永世的磐岩","power","rare","3","自己的回合开始时，保留已有格挡。","2","费用：2 能量。自己的回合开始时，保留已有格挡。"],["carnage","抓住战机","attack","uncommon","2","对目标造成 20 点伤害。回合结束时若仍在手中，消耗本牌。","2","对目标造成 28 点伤害。回合结束时若仍在手中，消耗本牌。"],["disarm","压制攻势","skill","uncommon","1","调整目标力量：-2 层。打出后消耗本牌。","1","调整目标力量：-3 层。打出后消耗本牌。"],["dropkick","乘隙追击","attack","uncommon","1","对目标造成 5 点伤害。若目标处于易伤，增加 1 点能量并抽 1 张牌。","1","对目标造成 8 点伤害。若目标处于易伤，增加 1 点能量并抽 1 张牌。"],["entrench","加固防线","skill","uncommon","2","将自己当前的格挡翻倍。","1","费用：1 能量。将自己当前的格挡翻倍。"],["ghostly_armor","及时招架","skill","uncommon","1","为自己增加 10 点格挡。回合结束时若仍在手中，消耗本牌。","1","为自己增加 13 点格挡。回合结束时若仍在手中，消耗本牌。"],["hemokinesis","舍身进攻","attack","uncommon","1","失去 2 点生命，再对目标造成 15 点伤害。","1","失去 2 点生命，再对目标造成 20 点伤害。"],["rampage","越战越勇","attack","uncommon","1","对目标造成 8 点伤害；随后本牌在本场战斗中的伤害增加 5 点。","1","对目标造成 8 点伤害；随后本牌在本场战斗中的伤害增加 8 点。"],["seeing_red","重整旗鼓","skill","uncommon","1","增加 2 点能量。打出后消耗本牌。","0","费用：0 能量。增加 2 点能量。打出后消耗本牌。"],["shockwave","震慑敌阵","skill","uncommon","2","为每个敌人施加 3 层虚弱和 3 层易伤。打出后消耗本牌。","2","为每个敌人施加 5 层虚弱和 5 层易伤。打出后消耗本牌。"],["whirlwind","岩潮叠嶂","attack","uncommon","X","耗尽剩余能量；每耗用一点，对每个敌人造成 5 点伤害。","X","耗尽剩余能量；每耗用一点，对每个敌人造成 8 点伤害。"],["offering","奋力一搏","skill","rare","0","失去 6 点生命，增加 2 点能量，再抽 3 张牌。打出后消耗本牌。","0","失去 6 点生命，增加 2 点能量，再抽 5 张牌。打出后消耗本牌。"],["impervious","坚守","skill","rare","2","为自己增加 30 点格挡。打出后消耗本牌。","2","为自己增加 40 点格挡。打出后消耗本牌。"],["demon_form","渐入佳境","power","rare","3","每个己方回合开始时，增加 2 层力量。","3","每个己方回合开始时，增加 3 层力量。"],["bludgeon","全力一击","attack","rare","3","对目标造成 32 点伤害。","3","对目标造成 42 点伤害。"],["reaper","以战养战","attack","rare","2","对每个敌人造成 4 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。","2","对每个敌人造成 5 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。"]];
+const C={};for(const[id,name,type,rarity,cost,text,ucost,utext] of CARDS)C[id]={id,name,type,rarity,cost:cost==='X'?'X':+cost,text,ucost:ucost==='X'?'X':+ucost,utext};
+const TYPE={attack:'攻击',skill:'技能',power:'能力'};
+const ICON_OF_TYPE={attack:'sword',skill:'shield',power:'geo'};
+const cv=document.getElementById('cv'),frame=document.getElementById('frame');
+const $=(h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstElementChild};
+const ic=(n)=>`<svg><use href="#i-${n}"/></svg>`;
+const hl=(s)=>s.replace(/(\d+)/g,'<b>$1</b>');
+const ann=(k)=>` ann" data-k="${k}`;
+
+/* ---------- 设备与缩放 ---------- */
+const DEVICES=[['mobile','手机 16:9',1280,720],['mobile195','手机 19.5:9',1560,720],['pc','电脑',1600,900],['console','主机',1920,1080]];
+let device='mobile';
+function layout(){
+  const [, ,w,h]=DEVICES.find(d=>d[0]===device);
+  const k=Math.min(w/1280,h/720);
+  const fw=frame.clientWidth, s=fw/w;
+  frame.style.height=(h*s)+'px';
+  cv.style.transform=`translate(${(w-1280*k)/2*s}px,${(h-720*k)/2*s}px) scale(${k*s})`;
+  frame.style.background=getComputedStyle(document.documentElement).getPropertyValue('--backdrop');
+  document.getElementById('scaleInfo').textContent=`画布 ${w}×${h} · stage 缩放 ×${k.toFixed(2)}`+(w/h>16/9+.01?' · 两侧由全屏底色补齐':'');
+}
+addEventListener('resize',layout);
+
+/* ---------- 通用部件 ---------- */
+function cardEl(c,{up=false,cant=false}={}){
+  const cost=up?c.ucost:c.cost, text=up?c.utext:c.text;
+  return $(`<div class="card${up?' up':''}${cant?' cant':''}" style="--rc:var(--r-${c.rarity});--tc:var(--t-${c.type})">
+    <div class="fr${ann('rect 100001 · 稀有度色框')}"></div><div class="nb"></div>
+    <div class="t nm">${c.name}${up?'+':''}</div>
+    <div class="art${ann('图标 '+{attack:102012,skill:102014,power:102024}[c.type])}"><div class="ico">${ic(ICON_OF_TYPE[c.type])}</div></div>
+    <div class="tl">${TYPE[c.type]}</div>
+    <div class="tx"><span>${hl(text)}</span></div>
+    <div class="cost num${ann('disc 106025')}">${cost}</div></div>`);
+}
+function hpBar(x,y,w,hp,max,block){
+  return $(`<div class="hpbar${block?' shield':''}${ann('图片 fill horizontal')}" style="left:${x}px;top:${y}px;width:${w}px;height:16px">
+    <div class="g" style="width:${hp/max*100}%"></div><div class="f" style="width:${hp/max*100}%"></div>
+    <div class="t v">${hp}/${max}</div></div>`);
+}
+function btn(x,y,w,h,label,{pri=false,off=false,fs=20,k='presetButton 四态'}={}){
+  return $(`<div class="btn${pri?' pri':''}${off?' off':''}${ann(k)}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;line-height:${h-4}px;font-size:${fs}px">${label}</div>`);
+}
+function text(x,y,s,{fs=18,c='var(--text)',w=null,align='left',bold=false}={}){
+  return $(`<div class="t" style="left:${x}px;top:${y}px;font-size:${fs}px;color:${c};${w?`width:${w}px;`:''}text-align:${align};${bold?'font-weight:900;':''}">${s}</div>`);
+}
+function icon(x,y,size,name,color,k){
+  return $(`<div class="ico${k?ann(k):''}" style="left:${x}px;top:${y}px;width:${size}px;height:${size}px;color:${color}">${ic(name)}</div>`);
+}
+function backdrop(){
+  cv.innerHTML='';
+  cv.append($(`<div class="bgglow" style="left:-200px;top:-260px;width:900px;height:700px"></div>`));
+  cv.append($(`<div class="bgglow" style="left:760px;top:360px;width:800px;height:560px;opacity:.6"></div>`));
+}
+function topBar(title){
+  const g=$(`<div class="top${ann('rect 100001 顶栏')}"></div>`);cv.append(g);
+  cv.append(icon(44,13,26,'heart','var(--hp)','102018'));
+  cv.append(text(76,14,`${RUN.hp}/${RUN.max}`,{fs:20,bold:true}));
+  cv.append(icon(170,13,26,'coin','', '105077 彩色'));
+  cv.append(text(202,14,RUN.gold,{fs:20,bold:true,c:'var(--gold-hi)'}));
+  for(let i=0;i<3;i++){
+    const p=RUN.potions[i];
+    cv.append($(`<div class="disc${ann(p?'111046~8 药瓶':'106026 空槽')}" style="left:${270+i*38}px;top:10px;width:32px;height:32px;border:2px solid var(--line);background:var(--sunken)"></div>`));
+    if(p)cv.append(icon(274+i*38,14,24,'potion',p.c));
+  }
+  cv.append(text(440,13,title,{fs:20,w:400,align:'center',bold:true,c:'var(--gold-hi)'}));
+  RUN.relics.forEach((r,i)=>{
+    const el=$(`<div class="disc hit${ann(r.k)}" style="left:${900+i*36}px;top:10px;width:32px;height:32px;background:var(--raised);border:1px solid var(--gold-dim)"><div class="ico" style="left:5px;top:5px;width:20px;height:20px;color:var(--geo)">${ic(r.i)}</div></div>`);
+    tip(el,`<b>${r.n}</b><br>${r.d}`,900+i*36,56);cv.append(el);
+  });
+  const deck=$(`<div class="hit${ann('按钮 · 105046')}" style="left:1120px;top:8px;width:56px;height:36px"><div class="ico" style="left:0;top:4px;width:28px;height:28px;color:var(--text-dim)">${ic('deck')}</div><div class="t num" style="left:30px;top:7px;font-size:18px">${RUN.deck.length}</div></div>`);
+  deck.onclick=()=>openDeck();cv.append(deck);
+  const map=$(`<div class="hit${ann('按钮 · 100128')}" style="left:1192px;top:8px;width:36px;height:36px"><div class="ico" style="inset:4px;color:var(--text-dim)">${ic('map')}</div></div>`);
+  map.onclick=()=>go('map');cv.append(map);
+}
+let tipEl=null;
+function tip(el,html,x,y,w=240){
+  const show=()=>{hideTip();tipEl=$(`<div class="tip" style="left:${Math.min(x,1240-w)}px;top:${y}px;width:${w}px">${html}</div>`);cv.append(tipEl)};
+  el.addEventListener('mouseenter',show);el.addEventListener('mouseleave',hideTip);
+  let t;el.addEventListener('touchstart',()=>{t=setTimeout(show,350)},{passive:true});el.addEventListener('touchend',()=>{clearTimeout(t);setTimeout(hideTip,1200)});
+}
+function hideTip(){if(tipEl){tipEl.remove();tipEl=null}}
+function pop(x,y,s,color){
+  const p=$(`<div class="t pop" style="left:${x-60}px;top:${y}px;width:120px;text-align:center;color:${color}">${s}</div>`);cv.append(p);
+  p.animate([{transform:'scale(1.5)',opacity:1},{transform:'scale(1) translateY(-10px)',opacity:1,offset:.25},{transform:'translateY(-44px)',opacity:0}],{duration:600*SPEED,easing:'ease-out'}).onfinish=()=>p.remove();
+}
+function banner(s){
+  const b=$(`<div class="banner"><div class="t">${s}</div></div>`);cv.append(b);
+  b.animate([{opacity:0,transform:'translateX(-40px)'},{opacity:1,transform:'none',offset:.25},{opacity:1,offset:.75},{opacity:0,transform:'translateX(40px)'}],{duration:900*SPEED}).onfinish=()=>b.remove();
+}
+function shake(){cv.animate([{marginLeft:'0'},{marginLeft:'-6px'},{marginLeft:'5px'},{marginLeft:'-3px'},{marginLeft:'0'}],{duration:150})}
+const SPEED=matchMedia('(prefers-reduced-motion: reduce)').matches?.3:1;
+const wait=(ms)=>new Promise(r=>setTimeout(r,ms*SPEED));
+
+/* ---------- 一局的展示数据（真实数值；规则由 Lua 战斗核心负责，这里只演示表现） ---------- */
+const RUN={hp:62,max:80,gold:99,floor:6,
+  potions:[{c:'#FFB09A',n:'火焰药水'},{c:'#B9DCFF',n:'护盾药水'},null],
+  relics:[{i:'geo',n:'余烬之心',d:'战斗胜利后回复 <b>6</b> 点生命。',k:'遗物 102005'},{i:'shield',n:'石锚',d:'战斗开始时获得 <b>10</b> 点格挡。',k:'遗物 102036'}],
+  deck:['strike','strike','strike','strike','strike','defend','defend','defend','defend','bash','iron_wave','twin_strike'].map(id=>({id,up:false}))};
+RUN.deck[11].up=true;
+
+/* ---------- 战斗 ---------- */
+let B;
+function newBattle(kind){
+  const foes=kind==='boss'?[{id:'guardian',n:'深渊守卫',hp:240,max:240,boss:true,intents:[['defend',9],['attack',32],['attack',5,4],['debuff','易伤 2']]}]
+    :kind==='elite'?[{id:'gremlin_nob',n:'怒焰巨魔',hp:85,max:85,intents:[['buff','力量 2'],['attack',14],['attack',6]]}]
+    :[{id:'jaw_worm',n:'石颚兽',hp:42,max:42,intents:[['attack',11],['defend',6],['buff','力量 3']]},{id:'cultist',n:'祈火徒',hp:50,max:50,intents:[['buff','力量 3'],['attack',6]]}];
+  foes.forEach(f=>{f.block=0;f.st={};f.i=0});
+  B={kind,energy:3,maxE:3,block:0,st:{},foes,draw:RUN.deck.map(c=>({...c})).sort(()=>Math.random()-.5),hand:[],disc:[],sel:-1,busy:false,turn:1};
+  drawN(5);
+}
+function drawN(n){for(let i=0;i<n;i++){if(!B.draw.length){B.draw=B.disc.sort(()=>Math.random()-.5);B.disc=[]}if(!B.draw.length||B.hand.length>=10)break;B.hand.push(B.draw.pop())}}
+function eff(card){const c=C[card.id];const t=card.up?c.utext:c.text;const n=(t.match(/\d+/g)||[]).map(Number);return{c,n,cost:card.up?c.ucost:c.cost,t}}
+const PORTRAIT={jaw_worm:'112038',cultist:'112022',guardian:'112046',gremlin_nob:'112037'};
+
+function renderBattle(){
+  backdrop();topBar(B.kind==='boss'?'第 15 层 · 首领':B.kind==='elite'?`第 ${RUN.floor} 层 · 精英`:`第 ${RUN.floor} 层 · 战斗`);
+  cv.append($(`<div class="ground"></div>`));
+  // 玩家
+  const p=$(`<div class="unit" id="u-p" style="left:194px;top:200px;width:132px;height:200px"></div>`);
+  p.append($(`<div class="plate${ann('底板 107xxx + 岩元素 102005')}" style="left:0;top:0;width:132px;height:132px;border-color:var(--gold-dim)"><div class="mono" style="color:var(--geo)"><div class="ico" style="position:static;width:76px;height:76px">${ic('geo')}</div></div></div>`));
+  p.append(text(0,136,'旅行者',{fs:16,w:132,align:'center',c:'var(--text-dim)'}));
+  cv.append(p);
+  cv.append(hpBar(182,362,156,RUN.hp,RUN.max,B.block>0));
+  if(B.block>0)cv.append(blockBadge(160,353,B.block));
+  statusRow(182,386,B.st);
+  // 敌人
+  const n=B.foes.length;
+  B.foes.forEach((f,i)=>{
+    const size=f.boss?168:120, cx=n===1?860:[760,1020][i], top=f.boss?178:212;
+    const u=$(`<div class="unit${f.hp<=0?' dead':''}${B.sel>=0&&needsTarget(B.hand[B.sel])&&f.hp>0?' target hit':''}" id="u-${i}" style="left:${cx-size/2}px;top:${top}px;width:${size}px;height:${size+30}px"></div>`);
+    u.append($(`<div class="plate${ann('头像 '+PORTRAIT[f.id])}" style="left:0;top:0;width:${size}px;height:${size}px"><div class="mono" style="font-size:${size*.42}px">${f.n[0]}</div></div>`));
+    u.append(text(-20,size+4,f.n,{fs:16,w:size+40,align:'center',c:'var(--text-dim)'}));
+    u.onclick=()=>{if(B.sel>=0&&f.hp>0)play(B.sel,i)};
+    cv.append(u);
+    if(f.hp<=0)return;
+    const by=top+size+30;
+    cv.append(hpBar(cx-78,by,156,f.hp,f.max,f.block>0));
+    if(f.block>0)cv.append(blockBadge(cx-100,by-9,f.block));
+    statusRow(cx-78,by+24,f.st);
+    const [k,v,times]=f.intents[f.i%f.intents.length];
+    const dmg=k==='attack'?Math.floor((v+(f.st.str||0))*((B.st.vul?1:1)))*1:0;
+    const it=$(`<div class="intent hit${ann('意图 '+{attack:102035,defend:102036,buff:102020,debuff:102045}[k])}" style="left:${cx-50}px;top:${top-52}px;width:100px;justify-content:center"></div>`);
+    const col={attack:'var(--danger)',defend:'var(--block)',buff:'var(--buff)',debuff:'var(--debuff)'}[k];
+    it.innerHTML=`<div class="ico" style="color:${col}">${ic({attack:'swords',defend:'shield',buff:'up',debuff:'down'}[k])}</div>`+(k==='attack'?`<div class="t v">${dmg}${times?`×${times}`:''}</div>`:'');
+    tip(it,{attack:`将要<b>攻击</b>，造成 <b>${dmg}</b> 点伤害${times?`，共 ${times} 次`:''}。`,defend:`将要获得 <b>${v}</b> 点格挡。`,buff:`将要强化自己：${v}。`,debuff:`将要削弱你：${v}。`}[k],cx-120,top-110);
+    cv.append(it);
+  });
+  // 能量 / 牌堆
+  const orb=$(`<div class="${ann('disc 106025 + 岩元素 103005')}" style="left:48px;top:512px;width:88px;height:88px"></div>`);
+  orb.append($(`<div class="disc" style="inset:0;background:${B.energy?'var(--energy)':'var(--energy-empty)'};box-shadow:0 0 0 3px var(--backdrop),0 0 0 5px var(--gold-hi)${B.energy?',0 0 24px rgba(240,184,80,.5)':''}"></div>`));
+  orb.append($(`<div class="ico" style="left:14px;top:14px;width:60px;height:60px;color:rgba(255,255,255,.28)">${ic('geo')}</div>`));
+  orb.append(text(0,26,`${B.energy}/${B.maxE}`,{fs:30,w:88,align:'center',bold:true,c:B.energy?'#2a1d08':'var(--muted)'}));
+  cv.append(orb);
+  cv.append(pile(40,620,'deck',B.draw.length,'抽牌堆'));
+  cv.append(pile(1176,620,'deck',B.disc.length,'弃牌堆'));
+  const et=btn(1064,524,176,60,B.busy?'敌方行动':'结束回合',{off:B.busy,pri:!B.busy&&!B.hand.some(c=>playable(c))});
+  et.onclick=()=>{if(!B.busy)endTurn()};cv.append(et);
+  // 手牌
+  const N=B.hand.length, sp=Math.min(140,Math.max(74,(820-148)/Math.max(1,N-1)));
+  const w=(N-1)*sp+148, x0=640-w/2;
+  B.hand.forEach((card,i)=>{
+    const el=cardEl(C[card.id],{up:card.up,cant:!playable(card)});
+    const off=i-(N-1)/2, rot=off*2.5, drop=Math.abs(off)*Math.abs(off)*1.2;
+    el.style.left=(x0+i*sp)+'px';el.style.top=(506+drop)+'px';el.style.zIndex=10+i;
+    el.style.transform=B.sel===i?`translateY(-${36+drop}px) scale(1.22)`:`rotate(${rot}deg)`;
+    if(B.sel===i)el.classList.add('sel');
+    el.classList.add('hit');
+    el.onmouseenter=()=>{if(B.sel<0&&!B.busy){el.style.transform=`translateY(-${24+drop}px) scale(1.1)`;el.style.zIndex=60}};
+    el.onmouseleave=()=>{if(B.sel!==i){el.style.transform=`rotate(${rot}deg)`;el.style.zIndex=10+i}};
+    el.onpointerdown=(e)=>dragStart(e,el,i,rot,drop);
+    el.onclick=(e)=>{e.stopPropagation();if(B.busy||dragJustEnded)return;
+      if(!playable(card)){pop(x0+i*sp+74,470,eff(card).cost>B.energy?'能量不足':'无法打出','var(--danger)');return}
+      if(B.sel===i&&!needsTarget(card)){play(i,null);return}
+      B.sel=B.sel===i?-1:i;renderBattle()};
+    cv.append(el);
+  });
+  cv.append($(`<div id="playline" class="${'ann" data-k="出牌线 y=430（仅拖动时显示）'}" style="left:200px;top:430px;width:880px;height:2px;background:var(--gold-hi);box-shadow:0 0 10px var(--gold);opacity:0;transition:opacity .12s"></div>`));
+  if(B.sel>=0){
+    const c=B.hand[B.sel];
+    cv.append(text(340,458,needsTarget(c)?'点选敌人，或把牌拖到敌人身上':'再点一次本牌，或向上拖出 / 甩出',{fs:18,w:600,align:'center',c:'var(--gold-hi)'}));
+  }
+  cv.onclick=(e)=>{if(e.target===cv&&B.sel>=0){B.sel=-1;renderBattle()}};
+  overlays();
+}
+/* 拖牌与甩牌：按住拖出 8px 后卡牌跟手，按水平速度倾斜；
+   松手在敌人上 = 对它打出；不需要目标的牌拖过出牌线（y<430）或向上甩出 = 打出；否则弹回手牌。 */
+let drag=null,dragJustEnded=false;
+function cvPoint(e){const r=cv.getBoundingClientRect(),k=r.width/1280;return[(e.clientX-r.left)/k,(e.clientY-r.top)/k]}
+function foeAt(x,y){return B.foes.findIndex((f,j)=>{if(f.hp<=0)return false;const u=document.getElementById('u-'+j);const l=parseFloat(u.style.left),t=parseFloat(u.style.top),w=parseFloat(u.style.width),h=parseFloat(u.style.height);return x>l-20&&x<l+w+20&&y>t-60&&y<t+h+40})}
+function dragStart(e,el,i,rot,drop){
+  if(B.busy||!playable(B.hand[i]))return;
+  const[x,y]=cvPoint(e);drag={el,i,rot,drop,l0:el.style.left,t0:el.style.top,x0:x,y0:y,x,y,t:performance.now(),vx:0,vy:0,on:false,foe:-1};
+  el.setPointerCapture(e.pointerId);
+  el.onpointermove=dragMove;el.onpointerup=dragEnd;el.onpointercancel=dragEnd;
+}
+function dragMove(e){
+  if(!drag)return;const[x,y]=cvPoint(e),now=performance.now(),dt=Math.max(1,now-drag.t);
+  drag.vx=drag.vx*.6+(x-drag.x)/dt*.4;drag.vy=drag.vy*.6+(y-drag.y)/dt*.4;drag.x=x;drag.y=y;drag.t=now;
+  if(!drag.on&&Math.hypot(x-drag.x0,y-drag.y0)<8)return;
+  if(!drag.on){drag.on=true;B.sel=-1;drag.el.style.transition='none';drag.el.style.zIndex=90;drag.el.classList.add('sel')}
+  const tilt=Math.max(-14,Math.min(14,drag.vx*18));
+  drag.el.style.left=(x-74)+'px';drag.el.style.top=(y-104)+'px';drag.el.style.transform=`rotate(${tilt}deg) scale(1.1)`;
+  const card=B.hand[drag.i],f=needsTarget(card)?foeAt(x,y):-1;
+  if(f!==drag.foe){drag.foe=f;B.foes.forEach((_,j)=>document.getElementById('u-'+j).classList.toggle('target',j===f))}
+  const line=document.getElementById('playline');if(line)line.style.opacity=needsTarget(card)?0:y<430?1:.35;
+}
+function dragEnd(){
+  if(!drag)return;const d=drag;drag=null;d.el.onpointermove=d.el.onpointerup=d.el.onpointercancel=null;
+  if(!d.on)return;dragJustEnded=true;setTimeout(()=>dragJustEnded=false,0);
+  const card=B.hand[d.i],fling=d.vy<-1.1,alive=B.foes.map((f,j)=>f.hp>0?j:-1).filter(j=>j>=0);
+  let target=null,go=false;
+  if(needsTarget(card)){if(d.foe>=0){target=d.foe;go=true}else if(fling&&alive.length===1){target=alive[0];go=true}}
+  else if(d.y<430||fling)go=true;
+  if(go){d.el.style.transition='transform .18s ease-in,opacity .18s';d.el.style.transform=`translateY(-60px) scale(.8)`;d.el.style.opacity=0;setTimeout(()=>play(d.i,target),150*SPEED);return}
+  d.el.style.transition='left .25s cubic-bezier(.3,1.4,.5,1),top .25s cubic-bezier(.3,1.4,.5,1),transform .25s';d.el.style.left=d.l0;d.el.style.top=d.t0;d.el.style.transform='rotate('+d.rot+'deg)';const pl=document.getElementById('playline');if(pl)pl.style.opacity=0;B.foes.forEach((_,j)=>document.getElementById('u-'+j).classList.remove('target'));setTimeout(renderBattle,260*SPEED);
+}
+function blockBadge(x,y,v){return $(`<div class="blk${ann('102014 染蓝')}" style="left:${x}px;top:${y}px"><div class="ico">${ic('shield')}</div><div class="t v">${v}</div></div>`)}
+const ST={str:['力量','up','var(--buff)','攻击伤害增加'],vul:['易伤','crack','var(--debuff)','受到的攻击伤害提高 50%'],weak:['虚弱','down','var(--debuff)','造成的攻击伤害降低 25%']};
+function statusRow(x,y,st){let i=0;for(const[k,v]of Object.entries(st)){if(!v)continue;const[n,g,c,d]=ST[k];const e=$(`<div class="st hit${ann('状态 1030xx')}" style="left:${x+i*30}px;top:${y}px;--c:${c}"><div class="ico">${ic(g)}</div><div class="t v">${v}</div></div>`);tip(e,`<b>${n} ${v}</b><br>${d}${k==='str'?` <b>${v}</b> 点。`:k==='str'?'':'，持续 '+v+' 回合。'}`,x,y+32);cv.append(e);i++}}
+function pile(x,y,g,n,label){const e=$(`<div class="hit${ann('图标 10014x + 数字')}" style="left:${x}px;top:${y}px;width:64px;height:56px"><div class="r" style="inset:0;background:var(--raised);border:1px solid var(--line)"></div><div class="ico" style="left:8px;top:12px;width:30px;height:30px;color:var(--text-dim)">${ic(g)}</div><div class="t num" style="left:36px;top:16px;font-size:20px">${n}</div></div>`);tip(e,`<b>${label}</b>：${n} 张`,x,y-52,150);return e}
+const needsTarget=(card)=>{const t=eff(card).t;return /目标/.test(t)};
+const playable=(card)=>{const{cost}=eff(card);return !B.busy&&(cost==='X'||cost<=B.energy)&&card.id!=='clash'};
+async function play(i,ti){
+  const card=B.hand[i],{c,n,cost,t}=eff(card);
+  B.energy-=cost==='X'?B.energy:cost;B.sel=-1;
+  B.hand.splice(i,1);B.disc.push(card);
+  const str=B.st.str||0;
+  const hitFoe=async(f,idx,d)=>{
+    let dmg=Math.floor((d+str)*(f.st.vul?1.5:1));const ab=Math.min(f.block,dmg);f.block-=ab;f.hp=Math.max(0,f.hp-(dmg-ab));
+    renderBattle();const u=document.getElementById('u-'+idx);const r=u.getBoundingClientRect();
+    pop(parseFloat(u.style.left)+parseFloat(u.style.width)/2,parseFloat(u.style.top)+20,ab===dmg?'格挡':dmg-ab,ab===dmg?'var(--block)':'#fff');
+    u.animate([{transform:'translateX(0)'},{transform:'translateX(10px)'},{transform:'none'}],{duration:150});
+  };
+  B.busy=true;renderBattle();
+  if(/格挡/.test(t)&&!/当前格挡/.test(t)){B.block+=n[0];renderBattle();pop(260,330,'+'+n[0],'var(--block)')}
+  if(c.type==='attack'){
+    const d=/格挡.*伤害/.test(t)&&/先增加/.test(t)?n[1]:n[0];const times=/连续攻击/.test(t)?n[0]:1;const dd=/连续攻击/.test(t)?n[1]:d;
+    const targets=/每个敌人/.test(t)?B.foes.map((f,j)=>j).filter(j=>B.foes[j].hp>0):[ti];
+    for(let k=0;k<times;k++){for(const j of targets)await hitFoe(B.foes[j],j,dd);await wait(160)}
+    if(/易伤/.test(t))targets.forEach(j=>B.foes[j].st.vul=(B.foes[j].st.vul||0)+n[1]);
+    if(/虚弱/.test(t))targets.forEach(j=>B.foes[j].st.weak=(B.foes[j].st.weak||0)+n[1]);
+  }
+  B.busy=false;
+  if(B.foes.every(f=>f.hp<=0)){renderBattle();await wait(450);banner('战斗胜利');await wait(900);RUN.gold+=0;go(B.kind==='boss'?'win':'reward');return}
+  renderBattle();
+}
+async function endTurn(){
+  B.busy=true;B.disc.push(...B.hand);B.hand=[];B.sel=-1;renderBattle();banner('敌方回合');await wait(900);
+  for(const[idx,f]of B.foes.entries()){
+    if(f.hp<=0)continue;f.block=0;const[k,v,times]=f.intents[f.i%f.intents.length];
+    const u=document.getElementById('u-'+idx);u.animate([{transform:'none'},{transform:'translateX(-28px)'},{transform:'none'}],{duration:260});
+    if(k==='attack'){for(let r=0;r<(times||1);r++){const dmg=v+(f.st.str||0);const ab=Math.min(B.block,dmg);B.block-=ab;RUN.hp=Math.max(0,RUN.hp-(dmg-ab));renderBattle();if(dmg-ab>0)shake();pop(260,230,ab===dmg?'格挡':dmg-ab,ab===dmg?'var(--block)':'var(--danger)');await wait(220)}}
+    if(k==='defend'){f.block+=v;renderBattle();}
+    if(k==='buff'){f.st.str=(f.st.str||0)+parseInt(v.match(/\d+/)[0]);renderBattle();}
+    if(k==='debuff'){B.st.vul=(B.st.vul||0)+2;renderBattle();}
+    f.i++;
+    for(const s of['vul','weak'])if(f.st[s])f.st[s]--;
+    await wait(450);
+    if(RUN.hp<=0){go('lose');return}
+  }
+  B.block=0;B.energy=B.maxE;B.turn++;if(B.st.vul)B.st.vul--;drawN(5);B.busy=false;renderBattle();banner('你的回合');
+}
+
+/* ---------- 地图 ---------- */
+const MAP=(()=>{let s=7;const rnd=(m)=>{s=(s*25173+13849)%65536;return s%m};const floors=[];
+  for(let f=1;f<=15;f++){
+    if(f===15){floors.push([{c:3,t:'boss'}]);continue}
+    const cols=[...new Set(Array.from({length:3+rnd(2)},()=>rnd(7)))].sort();
+    floors.push(cols.map(c=>({c,t:f===1?'combat':f===9?'treasure':f===14?'camp':f>=6&&rnd(5)===0?'elite':['combat','combat','event','combat','shop','camp','event'][rnd(7)]})));
+  }
+  floors.forEach((row,fi)=>{const next=floors[fi+1];if(!next)return;row.forEach(n=>{const near=[...next].sort((a,b)=>Math.abs(a.c-n.c)-Math.abs(b.c-n.c));n.to=[next.indexOf(near[0])];if(near[1]&&Math.abs(near[1].c-n.c)<=1&&rnd(2))n.to.push(next.indexOf(near[1]))});
+    next.forEach((m,mi)=>{if(!row.some(n=>n.to.includes(mi))){const near=[...row].sort((a,b)=>Math.abs(a.c-m.c)-Math.abs(b.c-m.c))[0];near.to.push(mi)}})});
+  return floors})();
+let path=[0,0,0,0,0];(()=>{let k=0;for(let f=0;f<5;f++){path[f]=k;k=MAP[f][k].to[0]}})();
+const NODE={combat:['swords','战斗','102044'],elite:['skull','精英','102034'],camp:['flame','营地','102002'],shop:['stall','商店','102025'],event:['q','事件','100114'],treasure:['chest','宝箱','102028'],boss:['demon','首领','102033']};
+let mapScroll=null;
+function renderMap(){
+  backdrop();topBar(`第一幕 · 第 ${RUN.floor-1} 层`);
+  const vp=$(`<div style="left:180px;top:68px;width:920px;height:600px;overflow:hidden" class="${ann('container 视窗 600 高')}"></div>`);
+  const H=15*76+120, inner=$(`<div style="left:0;top:0;width:920px;height:${H}px"></div>`);
+  const pos=(f,c)=>[460+(c-3)*112,H-60-f*76];
+  const cur=path.length-1, curNode=MAP[cur][path[cur]];
+  MAP.forEach((row,f)=>row.forEach((n,i)=>(n.to||[]).forEach(j=>{
+    const[a,b]=[pos(f,n.c),pos(f+1,MAP[f+1][j].c)];const len=Math.hypot(b[0]-a[0],b[1]-a[1]),ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+    const taken=path[f]===i&&path[f+1]===j;
+    inner.append($(`<div style="left:${a[0]}px;top:${a[1]-2}px;width:${len}px;height:4px;transform-origin:0 50%;transform:rotate(${ang}deg);background:${taken?'var(--gold)':'#5A6078'};opacity:${taken?1:.5}"></div>`));
+  })));
+  MAP.forEach((row,f)=>row.forEach((n,i)=>{
+    const[x,y]=pos(f,n.c),s=n.t==='boss'?96:56;const visited=path[f]===i&&f<=cur;const isCur=f===cur&&path[f]===i;
+    const reach=f===cur+1&&curNode.to.includes(i);
+    const col=isCur?'var(--gold-hi)':visited?'var(--gold-dim)':reach?'var(--text)':'#4A4F63';
+    const el=$(`<div class="mapnode${reach?' reach':''}${ann('disc + '+NODE[n.t][2])}" style="left:${x-s/2}px;top:${y-s/2}px;width:${s}px;height:${s}px;background:${visited||isCur?'var(--raised)':'var(--panel)'};border:${isCur?3:2}px solid ${col}"><div class="ico" style="inset:${s*.2}px;color:${col}">${ic(NODE[n.t][0])}</div></div>`);
+    if(isCur)el.style.boxShadow='0 0 0 6px rgba(245,215,154,.18),0 0 20px rgba(245,215,154,.4)';
+    if(reach){el.onclick=()=>{path.push(i);RUN.floor=f+2;enterNode(n.t)};tip(el,`<b>${NODE[n.t][1]}</b>`,x+180+30,y,120)}
+    inner.append(el);
+  }));
+  vp.append(inner);cv.append(vp);
+  const[, cy]=pos(cur,0);let sc=Math.min(0,Math.max(-(H-600),-(cy-420)));if(mapScroll!==null)sc=mapScroll;
+  const apply=()=>inner.style.transform=`translateY(${sc}px)`;apply();
+  vp.onwheel=(e)=>{e.preventDefault();sc=Math.min(0,Math.max(-(H-600),sc-e.deltaY));mapScroll=sc;apply()};
+  let dragY=null;vp.onpointerdown=(e)=>{dragY=e.clientY};onpointerup=()=>dragY=null;
+  vp.onpointermove=(e)=>{if(dragY===null)return;const k=cv.getBoundingClientRect().height/720;sc=Math.min(0,Math.max(-(H-600),sc+(e.clientY-dragY)/k));dragY=e.clientY;mapScroll=sc;apply()};
+  // 图例
+  const lg=$(`<div class="modal" style="left:1092px;top:120px;width:148px;height:${Object.keys(NODE).length*40+52}px"></div>`);
+  lg.append(text(16,12,'图例',{fs:16,c:'var(--gold-hi)',bold:true}));
+  Object.values(NODE).forEach(([g,n],k)=>{lg.append(icon(16,46+k*40,24,g,'var(--text-dim)'));lg.append(text(50,48+k*40,n,{fs:16}))});
+  cv.append(lg);
+  cv.append(text(40,672,'可前往的节点会呼吸闪动 · 滚轮或拖动查看整张地图',{fs:14,c:'var(--muted)'}));
+  overlays();
+}
+function enterNode(t){mapScroll=null;go({combat:'battle',elite:'elite',boss:'boss',camp:'camp',shop:'shop',event:'event',treasure:'treasure'}[t])}
+
+/* ---------- 奖励 ---------- */
+function rarePick(){const pool=Object.values(C).filter(c=>c.rarity!=='basic');const out=[];let s=RUN.floor*31;while(out.length<3){s=(s*25173+13849)%65536;const c=pool[s%pool.length];if(!out.includes(c))out.push(c)}return out}
+let rewardState;
+function renderReward(){
+  backdrop();topBar(`第 ${RUN.floor} 层 · 战斗胜利`);
+  cv.append($(`<div class="veil"></div>`));
+  const m=$(`<div class="modal" style="left:320px;top:110px;width:640px;height:460px;z-index:170"></div>`);
+  m.append(text(0,26,'战利品',{fs:30,w:640,align:'center',bold:true,c:'var(--gold-hi)'}));
+  m.append($(`<div style="left:220px;top:72px;width:200px;height:2px;background:var(--gold-dim)"></div>`));
+  const rows=[['coin','15 金币','gold'],['potion','能量药水','potion'],['deck','选择一张卡牌加入卡组','card']];
+  rows.forEach(([g,label,k],i)=>{
+    const done=rewardState[k];
+    const r=$(`<div class="hit${ann('presetButton 行')}" style="left:60px;top:${104+i*76}px;width:520px;height:64px;background:${done?'var(--sunken)':'var(--raised)'};border:1px solid ${done?'var(--line)':'var(--gold-dim)'};opacity:${done?.45:1}"></div>`);
+    r.append(icon(18,14,36,g,g==='potion'?'#FFE7A6':'var(--gold-hi)'));
+    r.append(text(72,18,done?label+' · 已领取':label,{fs:20}));
+    r.onclick=()=>{if(done)return;if(k==='card'){go('pick');return}rewardState[k]=true;if(k==='gold'){RUN.gold+=15}if(k==='potion')RUN.potions[2]={c:'#FFE7A6'};renderReward();if(k==='gold')pop(140,140,'+15','var(--gold-hi)')};
+    m.append(r);
+  });
+  const b=btn(220,368,200,60,'前往地图',{pri:true});b.onclick=()=>go('map');m.append(b);
+  cv.append(m);overlays();
+}
+let picked=-1;
+function renderPick(){
+  backdrop();topBar('选择一张卡牌');
+  cv.append($(`<div class="veil"></div>`));
+  cv.append(text(0,96,'选择一张卡牌加入卡组',{fs:30,w:1280,align:'center',bold:true,c:'var(--gold-hi)'}));
+  rarePick().forEach((c,i)=>{
+    const el=cardEl(c);el.style.left=(640-148/2+(i-1)*260)+'px';el.style.top='210px';el.style.zIndex=170;
+    el.style.transform=`scale(${picked===i?1.5:1.38})`;el.style.transformOrigin='50% 50%';el.classList.add('hit');if(picked===i)el.classList.add('sel');
+    el.onclick=()=>{picked=i;renderPick()};cv.append(el);
+  });
+  const skip=btn(420,560,180,52,'跳过');skip.style.zIndex=170;skip.onclick=()=>{picked=-1;rewardState.card=true;go('reward')};cv.append(skip);
+  const ok=btn(680,560,180,52,'确认选择',{pri:picked>=0,off:picked<0});ok.style.zIndex=170;
+  ok.onclick=()=>{if(picked<0)return;RUN.deck.push({id:rarePick()[picked].id,up:false});picked=-1;rewardState.card=true;go('reward')};cv.append(ok);
+  overlays();
+}
+
+/* ---------- 营地 ---------- */
+let campMode=null,campPick=-1;
+function renderCamp(){
+  backdrop();topBar(`第 ${RUN.floor} 层 · 营地`);
+  cv.append($(`<div class="bgglow" style="left:390px;top:120px;width:500px;height:420px;opacity:1.6"></div>`));
+  if(campMode!=='forge'){
+    cv.append(icon(600,110,80,'flame','var(--geo)','奖章 105045'));
+    cv.append(text(0,206,'篝火旁，旅行者稍作停留',{fs:24,w:1280,align:'center',c:'var(--text-dim)'}));
+    const heal=Math.floor(RUN.max*.3),full=RUN.hp>=RUN.max;
+    [['heart','休息',full?'生命已满':`回复 ${heal} 点生命（30%）`,'rest',full],['up','锻造','升级卡组中的一张卡牌','forge',false]].forEach(([g,n,d,k,off],i)=>{
+      const tile=$(`<div class="hit${ann('presetButton 大选项')}" style="left:${380+i*280}px;top:270px;width:240px;height:240px;background:var(--raised);border:2px solid ${off?'var(--line)':'var(--gold)'};opacity:${off?.5:1}"></div>`);
+      tile.append(icon(80,34,80,g,k==='rest'?'var(--hp)':'var(--geo)'));
+      tile.append(text(0,130,n,{fs:30,w:240,align:'center',bold:true,c:'var(--gold-hi)'}));
+      tile.append(text(0,180,d,{fs:16,w:240,align:'center',c:'var(--text-dim)'}));
+      tile.onclick=()=>{if(off)return;if(k==='rest'){RUN.hp=Math.min(RUN.max,RUN.hp+heal);pop(640,320,'+'+heal,'var(--good)');setTimeout(()=>go('map'),700*SPEED)}else{campMode='forge';renderCamp()}};
+      cv.append(tile);
+    });
+  }else{
+    cv.append(text(0,68,'选择一张卡牌升级',{fs:26,w:1280,align:'center',bold:true,c:'var(--gold-hi)'}));
+    const list=RUN.deck.map((c,i)=>({...c,i})).filter((c,k,a)=>!c.up&&a.findIndex(x=>x.id===c.id&&!x.up)===k);
+    list.forEach((c,k)=>{const el=cardEl(C[c.id]);el.style.left=(150+k*170)+'px';el.style.top='118px';el.classList.add('hit');if(campPick===c.i)el.classList.add('sel');el.onclick=()=>{campPick=c.i;renderCamp()};cv.append(el)});
+    if(campPick>=0){
+      const id=RUN.deck[campPick].id;
+      cv.append(text(0,350,'升级预览',{fs:16,w:1280,align:'center',c:'var(--muted)'}));
+      const a=cardEl(C[id]),b=cardEl(C[id],{up:true});a.style.left='420px';b.style.left='712px';a.style.top=b.style.top='380px';cv.append(a,b);
+      cv.append(icon(608,460,64,'up','var(--good)'));cv.lastChild.style.transform='rotate(90deg)';
+    }
+    const back=btn(40,640,150,52,'返回');back.onclick=()=>{campMode=null;campPick=-1;renderCamp()};cv.append(back);
+    const ok=btn(1060,640,180,52,'确认升级',{pri:campPick>=0,off:campPick<0});ok.onclick=()=>{if(campPick<0)return;RUN.deck[campPick].up=true;campMode=null;campPick=-1;go('map')};cv.append(ok);
+  }
+  overlays();
+}
+
+/* ---------- 商店 ---------- */
+const SHOP={cards:[['shrug_it_off',50],['pommel_strike',50],['uppercut',75],['inflame',75],['bludgeon',150]],relics:[['vajra','裂岩杵','战斗开始时获得 1 层力量。',150,'sword'],['lantern','启程灯','每场战斗第一回合获得 1 点能量。',150,'geo']],potions:[['力量药水',50,'#FFFFFF'],['护盾药水',50,'#B9DCFF'],['火焰药水',50,'#FFB09A']],removeCost:75,sold:{}};
+function renderShop(){
+  backdrop();topBar(`第 ${RUN.floor} 层 · 商店`);
+  cv.append(text(40,70,'行商的摊位',{fs:26,bold:true,c:'var(--gold-hi)'}));
+  cv.append(text(40,104,'价格变红表示金币不足',{fs:14,c:'var(--muted)'}));
+  const priceTag=(x,y,p,k)=>{const ok=RUN.gold>=p;const e=$(`<div style="left:${x}px;top:${y}px;width:100px;height:28px"></div>`);e.append(icon(18,2,22,'coin',''));e.append(text(44,2,p,{fs:18,bold:true,c:SHOP.sold[k]?'var(--muted)':ok?'var(--gold-hi)':'var(--danger)'}));return e};
+  SHOP.cards.forEach(([id,p],i)=>{const k='c'+i;const x=60+i*180;if(SHOP.sold[k]){cv.append(text(x,230,'已售出',{fs:18,w:148,align:'center',c:'var(--muted)'}))}else{const el=cardEl(C[id],{cant:RUN.gold<p});el.style.left=x+'px';el.style.top='140px';el.classList.add('hit');el.onclick=()=>buy(k,p,()=>RUN.deck.push({id,up:false}),x+74,170);cv.append(el)}cv.append(priceTag(x+24,356,p,k))});
+  SHOP.relics.forEach(([id,n,d,p,g],i)=>{const k='r'+i;const x=60+i*260;const e=$(`<div class="hit${ann('遗物格')}" style="left:${x}px;top:420px;width:230px;height:100px;background:var(--raised);border:1px solid var(--gold-dim);opacity:${SHOP.sold[k]?.4:1}"></div>`);e.append($(`<div class="disc" style="left:14px;top:20px;width:60px;height:60px;background:var(--sunken);border:2px solid var(--gold-dim)"><div class="ico" style="inset:12px;color:var(--geo)">${ic(g)}</div></div>`));e.append(text(88,16,SHOP.sold[k]?n+' · 已售出':n,{fs:18,bold:true}));e.append($(`<div class="t" style="left:88px;top:44px;width:132px;white-space:normal;font-size:14px;color:var(--text-dim);line-height:1.35">${d}</div>`));e.onclick=()=>buy(k,p,()=>RUN.relics.push({i:g,n,d,k:'遗物'}),x+115,430);cv.append(e);cv.append(priceTag(x+66,526,p,k))});
+  SHOP.potions.forEach(([n,p,c],i)=>{const k='p'+i;const x=600+i*110;const e=$(`<div class="hit disc" style="left:${x}px;top:430px;width:80px;height:80px;background:var(--raised);border:1px solid var(--line);opacity:${SHOP.sold[k]?.4:1}"><div class="ico" style="inset:14px;color:${c}">${ic('potion')}</div></div>`);tip(e,`<b>${n}</b>`,x,400,120);e.onclick=()=>{if(RUN.potions.every(Boolean)){pop(x+40,420,'药水栏已满','var(--danger)');return}buy(k,p,()=>{RUN.potions[RUN.potions.indexOf(null)]={c}},x+40,420)};cv.append(e);cv.append(priceTag(x-10,526,p,k))});
+  const rm=$(`<div class="hit${ann('服务格')}" style="left:960px;top:140px;width:220px;height:208px;background:var(--raised);border:1px dashed var(--gold-dim)"></div>`);rm.append(icon(80,30,60,'deck','var(--text-dim)'));rm.append(text(0,108,'移除一张卡牌',{fs:20,w:220,align:'center',bold:true}));rm.append(text(0,140,'每次使用后涨价 25',{fs:14,w:220,align:'center',c:'var(--muted)'}));cv.append(rm);cv.append(priceTag(1030,356,SHOP.removeCost,'rm'));
+  rm.onclick=()=>buy('rmx',SHOP.removeCost,()=>{RUN.deck.splice(RUN.deck.findIndex(c=>c.id==='strike'),1);SHOP.removeCost+=25;delete SHOP.sold.rmx},1070,160);
+  const leave=btn(1060,620,180,56,'离开商店',{pri:true});leave.onclick=()=>go('map');cv.append(leave);
+  overlays();
+}
+function buy(k,p,fn,x,y){if(SHOP.sold[k])return;if(RUN.gold<p){pop(x,y,'金币不足','var(--danger)');return}RUN.gold-=p;SHOP.sold[k]=true;fn();renderShop();pop(x,y,'-'+p,'var(--gold-hi)')}
+
+/* ---------- 事件 ---------- */
+let evDone=null;
+function renderEvent(){
+  backdrop();topBar(`第 ${RUN.floor} 层 · 未知`);
+  const plate=$(`<div class="${ann('插图位：奖章 105xxx 放大')}" style="left:80px;top:96px;width:440px;height:520px;background:var(--raised);border:2px solid var(--gold-dim)"></div>`);
+  plate.append($(`<div class="bgglow" style="left:20px;top:60px;width:400px;height:400px;opacity:1.8"></div>`));plate.append(icon(140,180,160,'geo','var(--geo)'));cv.append(plate);
+  cv.append(text(580,104,'风化的岩之祭坛',{fs:30,bold:true,c:'var(--gold-hi)'}));
+  cv.append($(`<div class="t" style="left:580px;top:160px;width:600px;white-space:normal;font-size:18px;line-height:1.7;color:var(--text)">${evDone||'荒路尽头立着一座被风沙磨圆的祭坛。岩纹仍在微微发亮，像是在等一位同样带着岩元素的旅人。<br><br>你把手放上去，掌心传来一阵熟悉的震动。'}</div>`));
+  if(!evDone){
+    [['献上生命','失去 6 点生命，获得一张随机罕见牌。',RUN.hp<=6,()=>{RUN.hp-=6;RUN.deck.push({id:'uppercut',up:false});evDone='岩纹沉入你的掌心，一式新的剑路浮现在脑海里。（获得「'+C.uppercut.name+'」）'}],
+     ['献上金币','需要 120 金币：获得一件遗物。',RUN.gold<120,()=>{}],
+     ['离开','什么也不会发生。',false,()=>{evDone='你向祭坛点头致意，转身继续赶路。'}]].forEach(([n,d,off,fn],i)=>{
+      const b=$(`<div class="btn${off?' off':''}${ann('presetButton 选项')}" style="left:580px;top:${370+i*86}px;width:600px;height:72px;text-align:left;line-height:normal"></div>`);
+      b.append(text(20,10,`［${n}］`,{fs:20,bold:true,c:off?'var(--muted)':'var(--gold-hi)'}));b.append(text(20,40,off&&n==='献上金币'?'金币不足（需要 120）':d,{fs:15,c:off?'var(--muted)':'var(--text-dim)'}));
+      b.onclick=()=>{if(off)return;fn();renderEvent()};cv.append(b);
+    });
+  }else{const b=btn(580,560,200,60,'继续',{pri:true});b.onclick=()=>{evDone=null;go('map')};cv.append(b)}
+  overlays();
+}
+
+/* ---------- 宝箱 ---------- */
+let chestOpen=false;
+function renderTreasure(){
+  backdrop();topBar(`第 ${RUN.floor} 层 · 宝箱`);
+  cv.append($(`<div class="bgglow" style="left:340px;top:100px;width:600px;height:520px;opacity:${chestOpen?2:1}"></div>`));
+  const ch=$(`<div class="hit${ann(chestOpen?'105081 开箱':'105080 宝箱')}" style="left:520px;top:200px;width:240px;height:240px"></div>`);
+  ch.append(icon(0,0,240,'chest',chestOpen?'var(--gold-hi)':'var(--gold-dim)'));cv.append(ch);
+  if(!chestOpen){cv.append(text(0,470,'点击打开宝箱',{fs:22,w:1280,align:'center',c:'var(--text-dim)'}));ch.onclick=()=>{chestOpen=true;renderTreasure();ch.animate([{transform:'scale(1)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:350})}}
+  else{
+    const r=$(`<div class="hit${ann('遗物奖励行')}" style="left:400px;top:470px;width:480px;height:72px;background:var(--raised);border:1px solid var(--gold)"></div>`);
+    r.append($(`<div class="disc" style="left:12px;top:8px;width:56px;height:56px;background:var(--sunken);border:2px solid var(--gold)"><div class="ico" style="inset:11px;color:var(--geo)">${ic('shield')}</div></div>`));
+    r.append(text(84,10,'铜鳞',{fs:20,bold:true}));r.append(text(84,40,'战斗开始时获得 3 层荆棘。',{fs:15,c:'var(--text-dim)'}));cv.append(r);
+    const b=btn(540,580,200,56,'拿取并离开',{pri:true});b.onclick=()=>{RUN.relics.push({i:'shield',n:'铜鳞',d:'战斗开始时获得 3 层荆棘。',k:'遗物 102015'});chestOpen=false;go('map')};cv.append(b);
+  }
+  overlays();
+}
+
+/* ---------- 结算 ---------- */
+function renderResult(win){
+  backdrop();
+  cv.append($(`<div class="bgglow" style="left:240px;top:-80px;width:800px;height:600px;opacity:${win?2:.6}"></div>`));
+  cv.append(icon(580,70,120,win?'geo':'skull',win?'var(--geo)':'var(--danger)'));
+  cv.append(text(0,206,win?'深渊已被封印':'旅途在此中断',{fs:40,w:1280,align:'center',bold:true,c:win?'var(--gold-hi)':'var(--text)'}));
+  cv.append(text(0,262,win?'旅行者击败了深渊守卫，第一幕通关':`倒在第 ${RUN.floor} 层`,{fs:18,w:1280,align:'center',c:'var(--text-dim)'}));
+  const stats=[['抵达层数',win?'15 / 15':`${RUN.floor} / 15`],['击败敌人',win?'23':'9'],['获得金币',win?'412':'131'],['卡组张数',RUN.deck.length]];
+  stats.forEach(([k,v],i)=>{const x=280+i*184;cv.append($(`<div style="left:${x}px;top:320px;width:168px;height:110px;background:var(--panel);border:1px solid var(--line)"></div>`));cv.append(text(x,338,k,{fs:15,w:168,align:'center',c:'var(--muted)'}));cv.append(text(x,370,v,{fs:34,w:168,align:'center',bold:true}))});
+  const again=btn(420,480,200,60,'再来一局',{pri:true});again.onclick=()=>{RUN.hp=62;go('map')};cv.append(again);
+  const out=btn(660,480,200,60,'结束并结算');out.onclick=()=>pop(760,460,'交给平台结算界面','var(--gold-hi)');cv.append(out);
+  cv.append(text(0,580,'「结束并结算」由节点图调用平台 settleStage，之后显示官方胜利 / 失败界面。',{fs:14,w:1280,align:'center',c:'var(--muted)'}));
+  overlays();
+}
+
+/* ---------- 牌组查看 ---------- */
+function openDeck(){
+  const v=$(`<div class="veil" style="z-index:190"></div>`);
+  v.append(text(0,30,`卡组 · ${RUN.deck.length} 张`,{fs:26,w:1280,align:'center',bold:true,c:'var(--gold-hi)'}));
+  const g=$(`<div style="left:80px;top:80px;width:1120px;height:560px;overflow:auto" class="${ann('grid 网格视窗 + 卡牌模板')}"></div>`);
+  RUN.deck.forEach((c,i)=>{const el=cardEl(C[c.id],{up:c.up});el.style.left=(12+(i%6)*184)+'px';el.style.top=(14+Math.floor(i/6)*226)+'px';g.append(el)});
+  v.append(g);const x=btn(1176,24,64,48,'✕',{fs:22});x.onclick=()=>v.remove();v.append(x);cv.append(v);
+}
+
+/* ---------- 辅助层与导航 ---------- */
+function overlays(){
+  cv.classList.toggle('annot',document.getElementById('optAnn').checked);
+  if(document.getElementById('optSafe').checked)cv.append($(`<div class="safe"></div>`));
+  if(document.getElementById('optTouch').checked){
+    cv.append($(`<div class="touchzone" style="left:30px;top:430px;width:260px;height:260px;border-radius:50%"><span>摇杆区（估计）</span></div>`));
+    cv.append($(`<div class="touchzone" style="left:980px;top:410px;width:280px;height:290px"><span>技能/跳跃键（估计）</span></div>`));
+  }
+}
+const SCREENS=[['battle','战斗'],['map','地图'],['reward','奖励'],['pick','选牌'],['camp','营地'],['shop','商店'],['event','事件'],['treasure','宝箱'],['elite','精英'],['boss','首领'],['win','通关'],['lose','失败']];
+const NOTES={
+  battle:[['拖牌与甩牌',['按住拖动 8px 后卡牌跟手，按水平速度倾斜（最多 14°）','攻击牌拖到敌人身上松手 = 对它打出，敌人金色描边','不需要目标的牌拖过金色出牌线或向上快速甩出 = 打出','只剩一个敌人时，攻击牌向上甩出直接打它','没打出：0.25 秒回弹到手牌原位']],['操作（手机优先）',['点一张牌：抬起并放大 1.22 倍','需要目标的牌：再点敌人打出；不需要目标：再点这张牌','点空白处取消选择；电脑上悬停预览','能量不足时牌变灰，费用圆点变红，点了提示「能量不足」']],['反馈',['伤害数字 0.6 秒弹出上浮','血条先跌、白色残影 0.25 秒后追上','被打时整屏抖 0.15 秒','有格挡时血条描蓝边，左侧出现盾牌数字']],['平台控件',['卡牌 = 客户端模板，运行时 <code>InstantiateClientUIControl</code>','血条 = 开遮罩的图片 <code>SetFillHorizontal</code>','意图图标 102035 / 102036 / 102020 / 102045','敌人头像取图库「造物」112xxx']]],
+  map:[['节点状态',['已走过：暗金描边','当前：亮金描边 + 光晕','可前往：白色描边，呼吸缩放 1.0↔1.1','不可达：灰色']],['实现',['600 高视窗容器，内层 Tween anchoredPositionY 滚动','连线 = 4px 纯色矩形 + rotation','进入地图时自动滚到当前层']]],
+  reward:[['流程',['金币 / 药水点一下领取，领取后行变暗','卡牌行打开选牌界面','可以不全领，直接前往地图']]],
+  pick:[['选牌',['三张卡放大 1.38 倍，选中 1.5 倍并发金光','未选中时「确认选择」不可用','可跳过']]],
+  camp:[['营地',['休息：回复最大生命的 30%；满血时禁用','锻造：列出可升级的卡，选中后并排显示升级前后']]],
+  shop:[['商店',['价格不够时数字变红、卡牌变灰','买下后位置显示「已售出」','药水栏满时提示，不扣钱','移卡服务每次涨价 25']]],
+  event:[['事件',['左侧插图位用图库奖章放大','选项为整行按钮：标题 + 后果说明','条件不满足的选项置灰并写明原因']]],
+  treasure:[['宝箱',['点击打开，宝箱弹一下，光晕变亮','显示遗物，点「拿取并离开」']]],
+  elite:[['精英',['单个敌人，头像 120，意图带强化','地图节点用骷髅图标']]],
+  boss:[['首领',['头像放大到 168，居中','多段攻击意图显示「5×4」']]],
+  win:[['结算',['局内统计四格','「结束并结算」交给节点图调用平台 settleStage']]],
+  lose:[['失败',['红色骷髅、文案中性','「再来一局」重开本局']]]};
+let screen='battle';
+function go(s){
+  screen=s;hideTip();
+  if(s==='reward')rewardState=rewardState&&rewardState.fresh===false?rewardState:{gold:false,potion:false,card:false,fresh:false};
+  if(['battle','elite','boss'].includes(s)){rewardState=null;newBattle(s==='battle'?'normal':s);renderBattle()}
+  else ({map:renderMap,reward:()=>{rewardState=rewardState||{gold:false,potion:false,card:false,fresh:false};renderReward()},pick:renderPick,camp:renderCamp,shop:renderShop,event:renderEvent,treasure:renderTreasure,win:()=>renderResult(true),lose:()=>renderResult(false)})[s]();
+  document.querySelectorAll('#screens button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s||(s==='pick'&&b.dataset.s==='pick')));
+  const n=document.getElementById('notes');n.innerHTML='';
+  (NOTES[s]||[]).forEach(([h,items])=>n.append($(`<div class="note"><h3>${h}</h3><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`)));
+}
+const sc=document.getElementById('screens');SCREENS.forEach(([k,n])=>{const b=$(`<button type="button" data-s="${k}">${n}</button>`);b.onclick=()=>go(k);sc.append(b)});
+const dv=document.getElementById('devices');DEVICES.forEach(([k,n])=>{const b=$(`<button type="button" aria-pressed="${k===device}">${n}</button>`);b.onclick=()=>{device=k;dv.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));layout()};dv.append(b)});
+['optSafe','optTouch','optAnn'].forEach(id=>document.getElementById(id).onchange=()=>go(screen));
+layout();go('battle');
+</script>

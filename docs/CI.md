@@ -21,12 +21,17 @@ Quality / check 在 PR、develop/master 推送时运行，也支持手动执行�
 测试，不安装依赖。该测试包含符号链接，普通 Windows 服务账户缺少此权限；
 保留完整测试而不扩大本机服务权限。合并前同时检查 check 与 presentation。
 
-本地使用 `npm run check`，无第三方 npm 依赖，无需 npm install。
+本地先 `npm ci --ignore-scripts`，再 `npm run check`。Lua同源测试使用锁定的
+开发依赖Fengari；运行错误、语法错误、缺文件和超时均有非零退出回归。
+Windows check作业先安装锁定开发依赖，再运行 `npm run check:rules`（Node+数据+Lua）；
+原生界面的同源中文显示构建使用 Python 3 标准库，默认命令为 `python`，可用
+`ABYSS_PYTHON` 指定解释器；构建子进程固定启用 UTF-8。
+Python表现测试由Ubuntu presentation作业完整执行。本地总入口仍包含两者。
 check 作业直接使用已有 Git 与 Node（最低 22，本机 22.22.1），不下载
 checkout/setup-node 组件。Git 精确检出事件提交 SHA，核对后清理 runner
 工作目录；认证 header 仅在 fetch 进程环境中使用，随后清除，不写入磁盘配置。
 编辑器遵守根目录 `.editorconfig`。格式约定不等于完整静态分析；
-后续引入 Lua/节点图代码时，需把其专项测试加入统一 check 入口。
+后续节点图检查继续加入统一入口；离线Lua测试与真机验证分别报告。
 fork PR 使用 GitHub-hosted Ubuntu；仓库内 PR 与推送使用本机专用标签。
 工作流只授予 contents:read；presentation 的标准 checkout 也不持久保存 token。
 

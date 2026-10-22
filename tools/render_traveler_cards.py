@@ -189,6 +189,9 @@ def main(argv=None):
         result = render_cards(load_json(args.source), load_json(args.overlay))
         text = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + '\n'
         if args.output is None:
+            # Pipes on Windows may otherwise inherit an ASCII/ANSI encoding.
+            if hasattr(sys.stdout, 'reconfigure'):
+                sys.stdout.reconfigure(encoding='utf-8')
             sys.stdout.write(text)
         else:
             args.output.write_text(text, encoding='utf-8')

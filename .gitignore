@@ -1,6 +1,9 @@
 # Local / temp
 .backlog-ui.log
 *.log
+node_modules/
+build/
+__pycache__/
 
 # OS
 .DS_Store
