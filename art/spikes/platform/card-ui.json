@@ -1,0 +1,13 @@
+{
+  "name": "ART_Spike",
+  "script": "ART_Probe",
+  "showCursor": true,
+  "outputName": "abyss-art-card-candidate",
+  "controls": [
+    {"name":"CardPreview","kind":"container","size":[180,240],"script":"ART_Card"},
+    {"name":"Status","kind":"text","position":[0,200],"size":[600,50],"text":{"content":"美术小样：打击 / 费用1 / 造成6点伤害","fontSize":24,"backgroundOpacity":0,"colour":"#ece6da","align":"centre"}},
+    {"name":"Plate","kind":"image","position":[0,-190],"size":[240,60],"image":100001,"colour":"#a8732a"},
+    {"name":"Label","kind":"text","position":[0,-190],"size":[240,60],"text":{"content":"点击检查","fontSize":24,"backgroundOpacity":0,"align":"centre"}},
+    {"name":"Confirm","kind":"cursorArea","position":[0,-190],"size":[240,60]}
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-23",
+  "task": "TASK-10.1",
+  "mcpCommit": "7091060417fe9bd1231e812db4f798c97a5c63d1",
+  "liveWriteEnabled": false,
+  "card": {
+    "textboxes": 4,
+    "preparationRecipe": "scripts/art/prepare-card-candidate.ps1",
+    "performance": "not_measured",
+    "candidateSha256": "30880683ad6a863105f4ced9f988e59b1d4dd3f68d30067feca08d6dfafd43dd",
+    "gameDisplay": "not_run",
+    "recipeRun": "passed",
+    "imageTemplateIndex": 1073741845,
+    "clientCheck": {
+      "ok": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    "interaction": "not_run",
+    "images": 11,
+    "controls": 15,
+    "officialImport": "failed_before_file_dialog",
+    "textTemplateIndex": 1073741846,
+    "workingCopyWritten": true
+  },
+  "importAttempts": [
+    {
+      "state": "failed",
+      "error": "没有弹出导入存档的文件选择框。",
+      "runId": "81b1598a-998c-450c-a87e-fd3f63c9f22b",
+      "elapsedSeconds": 40
+    },
+    {
+      "elapsedSeconds": 29,
+      "logCollected": false,
+      "runId": "eaea49f1-5545-4553-8612-8e0bd2673ca9",
+      "gameScreenshots": 0,
+      "error": "没有弹出导入存档的文件选择框。",
+      "state": "failed"
+    }
+  ],
+  "inputDiagnostics": {
+    "keyboardRDelivered": true,
+    "fileDialogObserved": false,
+    "nativeComputerUse": "native pipe unavailable",
+    "screenCapture": "Explorer 1x1 overlap rejected",
+    "windowCapture": "save list observed; not asset proof",
+    "cause": "unknown; delivered does not establish game response",
+    "mcpClickDelivered": true
+  },
+  "portrait": {
+    "offlineBudgets": [
+      64,
+      256
+    ],
+    "decision": "reject direct Lua for launch portrait",
+    "coordinateRegression": "320 positions pass after adapter",
+    "outOfCanvasEllipses": [
+      27,
+      72
+    ],
+    "gameTest": "not_run"
+  },
+  "scene": {
+    "performance": "not_measured",
+    "buildingProbeInstances": 1,
+    "officialImport": "not_run",
+    "nativeInstances": 7,
+    "gameDisplay": "not_run",
+    "built": true
+  },
+  "production": "gated; no batch production",
+  "devicePreview": "not_run"
+}
