@@ -33,6 +33,14 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - 千星奇域开发技能：`.codebuddy/skills/miliastra-wonderland/SKILL.md`。
 - 用了 miliastra MCP 时：先读资源 `miliastra://workflow` 和 `miliastra://platform-rules`；`MILIASTRA_ALLOW_LIVE_WRITE` 保持 `0`；编译通过 / 写进存档 / 游戏里验证过要分开报告；发布由人完成。
 
+## Approved Art and UI Baseline
+
+- 用户已确认 [PR #19](https://github.com/CHNISam/Slay-the-Abyss/pull/19) 为整个游戏的美术与界面设计依据；已合入 `develop`（`91ae349`）。
+- 实现前必读 `docs/design/UI_DESIGN.md`，对照 `docs/design/prototype/index.html` 与 `docs/design/screens/`；颜色、字号、间距、布局、图标和动效统一读取 `data/presentation/ui_theme.json`，Lua 使用 `npm run build:theme` 生成的 `abyss_theme`。
+- 尽可能按批准稿还原。平台能力导致的差异须记录原因、采用的降级和验证状态，不能自行改换视觉方向。拖牌按规范分档落地，C 档点选始终保留。
+- 原型中的规则、数值与演示数据不作为游戏逻辑来源；界面只读核心状态、发命令，实际内容以 `data/` 和 Lua 核心为准。
+- 原型完成不代表平台实现或实机通过；按 `docs/SCOPE.md` 分层报告。
+
 ## Git Branch Workflow (GitFlow-lite)
 
 - `master` = production. Tagged releases only. Never commit directly.
