@@ -35,6 +35,9 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## Approved Art and UI Baseline
 
+- 完整游戏冒烟与取证按 `docs/P0-SMOKE.md`。自动试玩必须显式 `clientScriptLog: true`；每次新导入后由工具确保订阅，不能把反复手动勾选当成用户职责。测试版启动异常须在界面显示诊断；没有本轮日志/ready证据不得判通过，不得复用旧日志冒充本轮。
+- UI交付先对照 `docs/design/PLATFORM_PARITY.md`，核心信息与操作按 `docs/design/ui-acceptance.json` 逐屏实机审查；宣称UI验收通过前运行 `npm run verify:ui -- <候选.gil>`。它校验候选hash、批准稿参考、实机截图和关键检查项；`npm run check`通过不替代此门禁。装饰/动效可记录降级或延后，生命、费用、意图、价格等核心信息不得被静默省略。
+
 - 用户已确认 [PR #19](https://github.com/CHNISam/Slay-the-Abyss/pull/19) 为整个游戏的美术与界面设计依据；已合入 `develop`（`91ae349`）。
 - 实现前必读 `docs/design/UI_DESIGN.md`，对照 `docs/design/prototype/index.html` 与 `docs/design/screens/`；颜色、字号、间距、布局、图标和动效统一读取 `data/presentation/ui_theme.json`，Lua 使用 `npm run build:theme` 生成的 `abyss_theme`。
 - 尽可能按批准稿还原。平台能力导致的差异须记录原因、采用的降级和验证状态，不能自行改换视觉方向。拖牌按规范分档落地，C 档点选始终保留。

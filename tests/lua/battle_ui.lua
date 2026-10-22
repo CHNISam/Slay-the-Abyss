@@ -18,7 +18,11 @@ local function control(definition)
     function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
     function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
     function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(source, id) assert(source == "static" and type(id) == "number") self.imageId = id end
+    function c:SetImage(...)
+        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+        local source, id = ...
+        assert(source == "static" and type(id) == "number") self.imageId = id
+    end
     function c:SetAsLastSibling() self.raised = true end
     return c
 end
@@ -52,7 +56,7 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.card1.visible and not stage.children.card6.visible)
     assert(stage.children.card1.children.label.text ~= "")
     assert(stage.children.energy.text == "3/3")
-    assert(stage.children.enemy1.children.intent.text == "6（当前修正）")
+    assert(stage.children.enemy1.children.intent.text == "6")
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
 end)
@@ -78,7 +82,9 @@ test("selection never spends energy; target click or second self-card click issu
     end
     click("endTurn")
     assert(battle.turn == 2 and #battle.hand == 5)
-    assert(stage.children.enemy1.children.intent.text:find("力量 3", 1, true))
+    assert(stage.children.enemy1.children.intent.text == "3")
+    click("enemy1")
+    assert(stage.children.notice.text:find("力量 3", 1, true))
 end)
 test("pending attack highlights valid live enemies and changing selection does not play", function()
     local ui, stage, click = setup() click("start")
@@ -253,7 +259,7 @@ test("intent previews use core modifiers without changing combat state or consum
     Combat.addStatus(battle.player, "vulnerable", 2)
     local hp, seed, events = enemy.hp, battle.seed, #battle.events
     ui:render() ui:render()
-    assert(stage.children.enemy1.children.intent.text == "9（当前修正）")
+    assert(stage.children.enemy1.children.intent.text == "9")
     assert(stage.children.enemy1.children.statuses.text:find("力量 2", 1, true))
     assert(enemy.hp == hp and battle.seed == seed and #battle.events == events)
     click("endTurn")
@@ -267,9 +273,28 @@ test("intent previews use core modifiers without changing combat state or consum
         {op="gainStatus", status="dexterity", value=3}, {op="block", value=10}, {op="damage", value=6, times=2}}}
     Combat.addStatus(enemy, "frail", 2)
     ui:render()
-    local preview = stage.children.enemy1.children.intent.text
-    assert(preview:find("格挡 9", 1, true) and preview:find("9×2（当前修正）", 1, true))
+    assert(stage.children.enemy1.children.intent.text == "9")
+    click("enemy1")
+    local preview = stage.children.notice.text
+    assert(preview:find("格挡 9", 1, true) and preview:find("9×2 点伤害", 1, true))
     assert(not enemy.statuses.dexterity and enemy.block == 0)
+end)
+
+test("exact actor HP and block remain readable native text after rendering and enemy actions", function()
+    local ui, stage, click = setup() click("start")
+    local battle = ui.run.combat
+    local function check(box, actor)
+        assert(box.children.hp.text == tostring(actor.hp) .. "/" .. tostring(actor.maxHp))
+        for _, name in ipairs({"name", "hp", "block", "statuses"}) do
+            assert(box.children[name].sizeDeltaY >= Theme.layout.nativeText.lineHeight, name .. " native line height")
+        end
+        assert(box.children.name.text ~= "")
+    end
+    check(stage.children.hero, battle.player)
+    check(stage.children.enemy1, battle.enemies[1])
+    click("endTurn")
+    check(stage.children.hero, battle.player)
+    check(stage.children.enemy1, battle.enemies[1])
 end)
 
 test("potion slots stay fixed after consumption and repeated queued clicks cannot consume the next bottle", function()

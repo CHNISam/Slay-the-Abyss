@@ -1,10 +1,11 @@
 ---
 id: TASK-17
 title: M3 Boss 战与结算流程 + 失败重开
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-22 23:24'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -13,7 +14,7 @@ dependencies:
   - TASK-16
   - TASK-12.3
 priority: high
-ordinal: 17000
+ordinal: 3
 ---
 
 ## Description
@@ -34,4 +35,6 @@ ordinal: 17000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-23审计：PR29已有本地Boss节点/胜利页/重开处理器；game_ui测试15层使用低HP夹具，不是原数据完整第一幕通关。独立阶段意图、正式平台结算及完整原数据通关尚未证明，保持未完成。
+
+P0正式结算已接线：结果双按钮、单次ABYSS_WIN/LOSE信号、服务器设置胜败后settleStage；v6图编译/写入通过。候选SHA CE9076F4295A7A9B415E9BB160E3FCFE1B552C72D71BF330F48B8ADB8FC2E752。用户真实第1层战败后点结束并结算，进入平台官方失败页（离开/重新挑战）；截图.artifacts/p0/defeat-result-v6.png、official-defeat-settlement-v6.png。Boss胜利/胜利正式结算及平台重新挑战后的资源重置未测，AC保持未完成。
 <!-- SECTION:NOTES:END -->

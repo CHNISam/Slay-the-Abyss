@@ -11,7 +11,11 @@ local function control()
     function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
     function self:SetAnchoredPosition(x, y) self.x, self.y = x, y end
     function self:SetSizeDelta(w, h) self.w, self.h = w, h end
-    function self:SetImage(source, id) assert(source == "static"); self.image = id end
+    function self:SetImage(...)
+        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+        local source, id = ...
+        assert(source == "static"); self.image = id
+    end
     function self:AddCursorEventListener(event, fn) assert(event == "click"); assert(not self.click); self.click = fn end
     return self
 end
@@ -41,15 +45,30 @@ local function makeUI(root, map, callback, embedded)
         end,
     })
 end
+test("platform Color may be a callable object with static methods", function()
+    local color = setmetatable({ FromRGB = function() end }, {
+        __call = function(_, r, g, b, a) return {r=r, g=g, b=b, a=a} end,
+    })
+    local map = Map.generate(data, 42)
+    local ui = MapUI.new(mock(), map, function(node) return Map.choose(map, node.id) end,
+        "click", { color = color, imageSource = "static" })
+    assert(ui and ui.panel)
+end)
+local function mapControl(panel, name)
+    for _, group in pairs(panel.children) do
+        if group.children[name] then return group.children[name] end
+    end
+    error("missing grouped map control " .. name)
+end
 local function panel(root) return root:GetChild("stage"):GetChild("mapPanel") end
-local function click(root, name) return panel(root):GetChild(name):GetChild("hit").click() end
+local function click(root, name) return mapControl(panel(root), name):GetChild("hit").click() end
 local function fixture(seed, callback)
     local root, map = mock(), Map.generate(data, seed or 42)
     return root, map, makeUI(root, map, callback or function(node) return Map.choose(map, node.id) end)
 end
 local function boxFor(root, map, id)
     -- Test-only identity lookup; no need to deep-copy all 43 nodes per lookup.
-    for i, node in ipairs(map.nodes) do if node.id == id then return panel(root):GetChild("node" .. i), i end end
+    for i, node in ipairs(map.nodes) do if node.id == id then return mapControl(panel(root), "node" .. i), i end end
     error("missing real node")
 end
 local function clickNode(root, map, id)
@@ -69,7 +88,7 @@ local function visibleBounds(root, map)
         end
     end
     for i = 1, Layout.maxEdges do
-        local edge = panel(root):GetChild("edge" .. i)
+        local edge = mapControl(panel(root), "edge" .. i)
         if edge.visible then
             local angle = edge.localRotationZ * math.pi / 180
             local halfH = (math.abs(edge.w * math.sin(angle)) + math.abs(edge.h * math.cos(angle))) / 2
@@ -81,7 +100,7 @@ end
 test("initial controls show legal starts, shared icons and four states across all 15 floors", function()
     local root, map, ui = fixture()
     assert(ui.scroll == 0 and ui.navigationEnabled)
-    assert(not panel(root):GetChild("previous").visible and panel(root):GetChild("next").visible)
+    assert(not mapControl(panel(root), "previous").visible and mapControl(panel(root), "next").visible)
     local seen, types = {}, {}
     for offset = 0, Layout.maxScroll + 60, 60 do
         assert(ui:setScroll(offset))
@@ -122,7 +141,7 @@ test("actual control clicks advance once, notify copied node and block reentrant
     local nextNode = Map.available(map)[1]
     assert(clickNode(root, map, nextNode.id) and map.floor == 2)
     assert(boxFor(root, map, first.id):GetChild("visited").visible)
-    assert(sameColor(panel(root):GetChild("edge1").imageColor, Theme.color.node.pathTaken))
+    assert(sameColor(mapControl(panel(root), "edge1").imageColor, Theme.color.node.pathTaken))
 end)
 
 test("invalid, locked, backward, disconnected, culled and hidden clicks never mutate map", function()
@@ -161,7 +180,7 @@ test("scroll follows true 15-floor navigation and Boss arrival never reports vic
     end
     ui:setNavigationEnabled(true)
     assert(not ui:choose("f15_l2") and callbacks == 15 and #map.path == 15)
-    assert(panel(root):GetChild("notice").text == "已抵达首领 · 请完成首领战斗")
+    assert(mapControl(panel(root), "notice").text == "已抵达首领 · 请完成首领战斗")
     assert(ui.scroll == Layout.maxScroll)
     assert(click(root, "previous") and ui.scroll < Layout.maxScroll)
     click(root, "focus"); assert(ui.scroll == Layout.maxScroll)
@@ -240,14 +259,14 @@ test("displayed edges match real topology and chosen path colours after scrollin
         local n = 0
         for _, node in ipairs(current.nodes) do for _, id in ipairs(node.nextIds) do
             n = n + 1
-            local edge = panel(root):GetChild("edge" .. n)
+            local edge = mapControl(panel(root), "edge" .. n)
             local y1 = Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - ui.scroll
             local y2 = Layout.firstY + (index[id].floor - 1) * Theme.layout.map.floorGap - ui.scroll
             local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
             assert(edge.visible == expected)
             if expected then assert(sameColor(edge.imageColor, taken[node.id .. ":" .. id] and Theme.color.node.pathTaken or Theme.color.node.path)) end
         end end
-        for i = n + 1, Layout.maxEdges do assert(not panel(root):GetChild("edge" .. i).visible) end
+        for i = n + 1, Layout.maxEdges do assert(not mapControl(panel(root), "edge" .. i).visible) end
     end
 end)
 

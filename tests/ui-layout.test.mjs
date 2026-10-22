@@ -3,6 +3,19 @@ import assert from 'node:assert/strict';
 import { battleLayout, handPose, theme } from '../scripts/ui-layout.mjs';
 
 const stage = () => battleLayout().controls.find(c => c.name === 'stage');
+test('approved critical actor values and card types have native text line room', () => {
+  const controls = stage().children;
+  for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+    for (const name of ['name', 'hp', 'block', 'statuses']) {
+      const label = unit.children.find(c => c.name === name);
+      assert(label && label.size[1] >= theme.layout.nativeText.lineHeight, `${unit.name}/${name}`);
+      assert(label.text.minFontSize >= theme.font.minimum);
+    }
+  }
+  for (const card of controls.filter(c => /^card\d+$/.test(c.name))) {
+    assert(card.children.find(c => c.name === 'type').size[1] >= theme.layout.nativeText.lineHeight);
+  }
+});
 function walk(controls, fn, x = 0, y = 0) {
   const names = new Set();
   for (const control of controls) {

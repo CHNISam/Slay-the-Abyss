@@ -36,23 +36,29 @@ local function potionText(item, battle)
     end
     return item.name .. "\n" .. table.concat(effects, "，")
 end
-local function intentText(state, index)
+local function intentText(state, index, detailed)
     local intent = Combat.intent(state, index)
     if not intent then return "已击败", "unknown" end
-    local result = {}
+    local result, compact = {}, {}
     local enemy, player = Combat.copy(state.enemies[index]), Combat.copy(state.player)
     for _, effect in ipairs(intent.effects) do
         local value = effect.value and number(effect.value) or ""
         if effect.op == "damage" then
-            result[#result + 1] = number(Combat.attackAmount(state, enemy, player, effect.value))
-                .. ((effect.times or 1) > 1 and "×" .. effect.times or "") .. "（当前修正）"
-        elseif effect.op == "block" then result[#result + 1] = "格挡 " .. number(Combat.blockAmount(state, enemy, effect.value))
+            local amount = number(Combat.attackAmount(state, enemy, player, effect.value))
+                .. ((effect.times or 1) > 1 and "×" .. effect.times or "")
+            compact.attack = compact.attack or amount
+            result[#result + 1] = amount .. " 点伤害（已计入当前状态）"
+        elseif effect.op == "block" then
+            local amount = number(Combat.blockAmount(state, enemy, effect.value))
+            compact.defend = compact.defend or amount
+            result[#result + 1] = "格挡 " .. amount
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
             result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
+            compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
             Combat.addStatus(effect.op == "gainStatus" and enemy or player, effect.status, effect.value)
         else result[#result + 1] = "未知" end
     end
-    return table.concat(result, " / "), intent.kind
+    return detailed and table.concat(result, " / ") or compact[intent.kind] or compact.attack or "?", intent.kind
 end
 
 function M.new(root, data, presentation, clickEvent, platform, options)
@@ -98,11 +104,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
-        box:GetChild("name"):SetSizeDelta(width, Theme.font.heading)
+        box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
         for _, name in ipairs({"hpBorder", "hpTrack", "hpFill", "hp"}) do
             local part = box:GetChild(name)
             part:SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh / 2)
-            part:SetSizeDelta(width + (name == "hpBorder" and S.border * 2 or 0), bh + (name == "hpBorder" and S.border * 2 or 0))
+            local height = name == "hp" and L.nativeText.lineHeight or bh + (name == "hpBorder" and S.border * 2 or 0)
+            part:SetSizeDelta(width + (name == "hpBorder" and S.border * 2 or 0), height)
         end
         tint(box:GetChild("hpBorder"), actor.block > 0 and C.block or C.line)
         box:GetChild("hpFill").fillAmount = math.max(0, math.min(1, actor.hp / actor.maxHp))
@@ -111,13 +118,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             box:GetChild(name):SetVisible(actor.block > 0)
             local compact = width < L.hpBar.size[1]
             local shield = compact and L.statusIcon.size or S.xxl
-            box:GetChild(name):SetSizeDelta(shield, shield)
+            box:GetChild(name):SetSizeDelta(shield, name == "block" and L.nativeText.lineHeight or shield)
             box:GetChild(name):SetAnchoredPosition(-width / 2 + (compact and shield / 2 or -S.l), -portrait / 2 - S.xxl - bh / 2)
         end
         box:GetChild("block").text = number(actor.block)
         box:GetChild("statuses").text = statuses(actor)
         box:GetChild("statuses"):SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh - S.l)
-        box:GetChild("statuses"):SetSizeDelta(width, 32)
+        box:GetChild("statuses"):SetSizeDelta(width, L.nativeText.lineHeight)
     end
     local function placeCard(box, count, index, selected)
         local w, h = L.card.size[1], L.card.size[2]
@@ -334,7 +341,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if selected and needsTarget(self.run.combat, selected) then self:playSelected(target)
             else
                 local prefix = self.potionTargetAvailable and "药水目标：" .. self.run.combat.enemies[target].name .. "；" or ""
-                notice(prefix .. "意图：" .. intentText(self.run.combat, target)) refresh()
+                notice(prefix .. "意图：" .. intentText(self.run.combat, target, true)) refresh()
             end
         end
     end) end

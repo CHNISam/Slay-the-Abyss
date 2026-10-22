@@ -29,9 +29,23 @@ test('visible content remains inside the 1280x720 safe area with no sibling over
     const box = bounds(c);
     assert.ok(box.left >= -600 && box.right <= 600 && box.bottom >= -340 && box.top <= 340, c.name);
   }
-  const content = controls.filter(c => c.name !== 'backdrop');
-  for (let i = 0; i < content.length; i++) for (let j = i + 1; j < content.length; j++)
-    assert.ok(!overlaps(bounds(content[i]), bounds(content[j])), `${content[i].name} overlaps ${content[j].name}`);
+  for (const shop of [true, false]) {
+    const content = controls.filter(c => c.name !== 'backdrop' && !(shop ? /^action/.test(c.name) : /^shop/.test(c.name)));
+    for (let i = 0; i < content.length; i++) for (let j = i + 1; j < content.length; j++)
+      assert.ok(!overlaps(bounds(content[i]), bounds(content[j])), `${content[i].name} overlaps ${content[j].name}`);
+  }
+});
+test('shop gives names, effects and price/status separate non-overlapping readable text boxes', () => {
+  for (const item of controls.filter(c => /^shop\d+$/.test(c.name))) {
+    const boxes = ['name', 'description', 'price'].map(name => item.children.find(c => c.name === name));
+    for (const box of boxes) {
+      assert.ok(box.size[1] >= 40, `${item.name}.${box.name}`);
+      assert.ok(box.text.fontSize >= 14);
+    }
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++)
+      assert.ok(!overlaps(bounds(boxes[i]), bounds(boxes[j])));
+    assert.deepEqual(item.children.find(c => c.name === 'unavailablePrice').size, boxes[2].size);
+  }
 });
 test('all buttons have full size focusable touch targets and readable state layers', () => {
   for (const button of buttons) {
