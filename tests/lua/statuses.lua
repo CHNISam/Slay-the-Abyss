@@ -167,14 +167,64 @@ test("temporary strength stacks and is removed only at its owner end", function(
     local before = Combat.copy(s); eq(pcall(Combat.addTemporaryStrength, p, -1), false); same(s, before)
 end)
 
-test("fully blocked positive attack still retaliates through block without modifiers or recursion", function()
+test("fully blocked positive attack still retaliates into block without modifiers or recursion", function()
     local s = battle(); local p, e = s.player, s.enemies[1]
     p.block = 40; e.block = 40; status(p, "thorns", 9); status(e, "thorns", 3)
     status(e, "strength", 50); status(p, "vulnerable", 2)
     local hp, enemyHp = p.hp, e.hp
     eq(Combat.damage(s, p, e, 6), 0)
-    eq(p.hp, hp - 3); eq(p.block, 40); eq(e.hp, enemyHp); eq(e.block, 34)
+    eq(p.hp, hp); eq(p.block, 37); eq(e.hp, enemyHp); eq(e.block, 34)
     eq(s.events[#s.events].detail.status, "thorns")
+end)
+
+test("thorns consumes full partial exact or absent block on either attacker", function()
+    for _, enemyAttacks in ipairs({ false, true }) do
+        for _, block in ipairs({ 5, 2, 3, 0 }) do
+            local s = battle()
+            local attacker = enemyAttacks and s.enemies[1] or s.player
+            local defender = enemyAttacks and s.player or s.enemies[1]
+            attacker.hp = 20; attacker.block = block
+            status(attacker, "vulnerable", 2); status(attacker, "thorns", 7)
+            status(defender, "thorns", 3); status(defender, "strength", 50); status(defender, "weak", 2)
+            local hp, events = defender.hp, #s.events
+            eq(Combat.damage(s, attacker, defender, 6), 6)
+            eq(attacker.hp, 20 - math.max(0, 3 - block))
+            eq(attacker.block, math.max(0, block - 3))
+            eq(defender.hp, hp - 6); eq(#s.events, events + 2)
+            same(s.events[#s.events], { kind = "status_damage", detail = {
+                source = defender.id, target = attacker.id, status = "thorns",
+                amount = math.max(0, 3 - block) } })
+        end
+    end
+end)
+
+test("thorns consumes remaining block across multihits before HP", function()
+    local s = battle(); local p, e = s.player, s.enemies[1]
+    p.hp = 20; p.block = 5; status(e, "thorns", 3)
+    local hp, events = e.hp, #s.events
+    Combat.applyEffects(s, { { op = "damage", value = 1, times = 3 } }, p, e)
+    eq(p.hp, 16); eq(p.block, 0); eq(e.hp, hp - 3); eq(e.statuses.thorns, 3)
+    eq(#s.events, events + 6)
+    eq(s.events[events + 2].detail.amount, 0)
+    eq(s.events[events + 4].detail.amount, 1)
+    eq(s.events[events + 6].detail.amount, 3)
+end)
+
+test("block absorbs thorns from a lethally hit defender without dropping retaliation", function()
+    local s = battle(); local p, e = s.player, s.enemies[1]
+    p.hp = 2; p.block = 3; e.hp = 1; status(e, "thorns", 2)
+    local card
+    for _, c in ipairs(s.hand) do if c.cardId == "strike" then card = c.uid end end
+    assert(Combat.play(s, card, 1)); eq(p.hp, 2); eq(p.block, 1)
+    eq(e.hp, 0); eq(s.phase, "victory")
+end)
+
+test("partial block still allows lethal thorns and stops remaining multihits", function()
+    local s = battle(); local p, e = s.player, s.enemies[1]
+    p.hp = 1; p.block = 2; status(e, "thorns", 3); local hp = e.hp
+    Combat.applyEffects(s, { { op = "damage", value = 2, times = 3 }, { op = "block", value = 10 } }, p, e)
+    eq(p.hp, 0); eq(e.hp, hp - 2); eq(p.block, 0)
+    eq(s.events[#s.events].detail.amount, 1)
 end)
 
 test("zero damage and fixed nonattack damage do not trigger thorns", function()
