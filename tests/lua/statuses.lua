@@ -63,6 +63,30 @@ test("dexterity frail and negative dexterity floor block at zero", function()
     Combat.block(s, p, 4, true); eq(p.block, 9)
 end)
 
+test("large attack bases do not wrap in 32-bit modifier multiplication", function()
+    local s = battle(); local p, e = s.player, s.enemies[1]
+    status(p, "weak", 1)
+    local hp = e.hp
+    eq(Combat.damage(s, p, e, 100000000), hp); eq(e.hp, 0)
+end)
+
+test("attack modifiers crossing 32-bit range retain float results and final rounding", function()
+    local s = battle(); local p, e = s.player, s.enemies[1]
+    status(p, "weak", 1); status(e, "vulnerable", 1)
+    e.hp = 3000000000.0
+    eq(Combat.damage(s, p, e, 2147483647), 2415919102.0)
+    eq(e.hp, 584080898.0)
+end)
+
+test("large block modifiers and accumulation do not wrap across 32-bit range", function()
+    local s = battle(); local p = s.player
+    status(p, "dexterity", 2); status(p, "frail", 1)
+    Combat.block(s, p, 100000000); eq(p.block, 75000001)
+    p.block = 2147483640
+    Combat.block(s, p, 100000000); eq(p.block, 2222483641.0)
+    Combat.block(s, p, 2147483647, true); eq(p.block, 4369967288.0)
+end)
+
 test("debuff durations decay once at owner end and never below zero", function()
     local s = battle(); local p = s.player
     for _, id in ipairs({ "weak", "vulnerable", "frail" }) do status(p, id, 2) end
