@@ -4,6 +4,7 @@ title: 首发主角视觉与卡牌美术交付
 status: To Do
 assignee: []
 created_date: '2026-10-22 15:58'
+updated_date: '2026-10-22 16:45'
 labels:
   - art
   - launch
@@ -17,7 +18,7 @@ ordinal: 27000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-为首发主角与实际可玩卡池建立统一且来源合规的视觉资产。与现有 TASK-24 整体原型/前端打磨协作，本项只负责主角视觉与卡牌美术交付，不重复实现界面；文案沿用 TASK-7.2。概念探索可与 TASK-10.1 并行，最终资产规格、批量制作与游戏内导入验收依赖 Spike 结论；技术不可行时采用其降级方案，不阻塞战斗核心。
+为首发主角与实际可玩卡池建立统一且来源合规的视觉资产。与现有 TASK-24 整体原型/前端打磨（已合入的 [PR #19 界面设计与原型](https://github.com/CHNISam/Slay-the-Abyss/pull/19)）协作，本项只负责主角视觉与卡牌美术交付，不重复实现界面；文案沿用 TASK-7.2。概念探索可与 TASK-10.1 并行，最终资产规格、批量制作与游戏内导入验收依赖 Spike 结论；技术不可行时采用其降级方案，不阻塞战斗核心。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
