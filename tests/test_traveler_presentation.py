@@ -119,11 +119,15 @@ class PresentationTests(unittest.TestCase):
             p=Path(tmp); source=p/'source.json'; overlay=p/'overlay.json'
             source.write_text(json.dumps(self.source)); overlay.write_text(json.dumps(self.overlay))
             args=[sys.executable,str(SCRIPT),str(source),str(overlay)]
-            run=lambda *extra: subprocess.run(args+list(extra),capture_output=True,text=True)
+            run=lambda *extra: subprocess.run(args+list(extra),capture_output=True,encoding='utf-8')
             self.assertEqual(run().returncode,0)
+            ascii_pipe = subprocess.run(args, capture_output=True, encoding='utf-8',
+                                        env={**os.environ, 'PYTHONIOENCODING': 'ascii'})
+            self.assertEqual(ascii_pipe.returncode, 0, ascii_pipe.stderr)
+            self.assertEqual(json.loads(ascii_pipe.stdout)['locale'], 'zh-CN')
             self.assertEqual(set(p.iterdir()),{source,overlay})
-            aliases=[source,overlay,p/'symlink.json',p/'hardlink.json']
-            aliases[2].symlink_to(source); os.link(overlay,aliases[3])
+            aliases=[source,overlay,p/'hardlink.json']
+            os.link(overlay,aliases[2])
             before=(source.read_bytes(),overlay.read_bytes())
             for alias in aliases:
                 r=run('--output',str(alias)); self.assertNotEqual(r.returncode,0); self.assertIn('error:',r.stderr)
@@ -132,5 +136,20 @@ class PresentationTests(unittest.TestCase):
             self.assertNotEqual(run().returncode,0)
             overlay.write_text('{')
             self.assertNotEqual(run().returncode,0)
+
+    def test_cli_rejects_symlink_output_alias_when_supported(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp); source=p/'source.json'; overlay=p/'overlay.json'; alias=p/'symlink.json'
+            source.write_text(json.dumps(self.source)); overlay.write_text(json.dumps(self.overlay))
+            try:
+                alias.symlink_to(source)
+            except OSError as exc:
+                if getattr(exc, 'winerror', None) == 1314:
+                    self.skipTest('Windows account lacks symlink privilege; hardlink alias is tested separately')
+                raise
+            result=subprocess.run([sys.executable,str(SCRIPT),str(source),str(overlay),'--output',str(alias)],
+                                  capture_output=True,encoding='utf-8')
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('error:',result.stderr)
 
 if __name__ == '__main__': unittest.main()

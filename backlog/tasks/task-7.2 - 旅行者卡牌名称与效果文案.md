@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 14:34'
-updated_date: '2026-10-22 14:44'
+updated_date: '2026-10-22 15:08'
 labels: []
 dependencies: []
 references:
@@ -38,6 +38,8 @@ Owner 要求复用成熟数值，但玩家看到的主角、技能名和文案�
 
 <!-- SECTION:NOTES:BEGIN -->
 Executor: dot。独立表现资源与工具，不修改 TASK-7 的数值数据或原认领。基线 develop 481b926，首轮37张。默认 unittest 10/10（0跳过），CLI渲染37张/74模板；独立评审核对文案、X费、升级继承及失败负例。已知 op/条件/消耗标记变化仍需人工语义差异审阅；不是游戏运行验证。
+
+Sprint Lead集成复验发现Windows真实CLI失败：默认stdout为ANSI导致中文UnicodeEncodeError；已强制stdout UTF8并补ASCII管道回归。Python测试改为明确UTF8解码，符号链接别名独立测试；本机无symlink权限，11测试=10通过1环境跳过，硬链接/自覆盖负例通过。已将Python表现测试接入npm check，避免只验Node/Lua漏掉新交付。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

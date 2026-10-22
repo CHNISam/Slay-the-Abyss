@@ -12,7 +12,8 @@
     "test": "node --test --test-concurrency=1 tests/*.test.mjs",
     "build:data": "node scripts/build-lua-data.mjs",
     "test:lua": "npm run build:data && node scripts/test-lua.mjs",
-    "check": "npm run check:syntax && npm test && npm run validate:data && npm run test:lua"
+    "test:presentation": "python -m unittest discover -s tests -p test_*.py -v",
+    "check": "npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run test:presentation"
   },
   "devDependencies": {
     "fengari-node-cli": "0.1.0"
