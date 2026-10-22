@@ -4,6 +4,7 @@ import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { toLua } from './build-lua-data.mjs';
 import { battleLayout } from './ui-layout.mjs';
+import { buildUiTheme } from './build-ui-theme.mjs';
 
 export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYSS_PYTHON || 'python') {
   const rendered = spawnSync(python, ['tools/render_traveler_cards.py', 'data/cards.json', 'data/presentation/traveler.zh-CN.json'],
@@ -12,6 +13,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const source = JSON.parse(rendered.stdout);
   const cards = Object.fromEntries(source.cards.map(card => [card.id, card]));
   mkdirSync(outputDirectory, { recursive: true });
+  buildUiTheme(undefined, undefined, join(outputDirectory, 'abyss_theme.lua'));
   writeFileSync(join(outputDirectory, 'abyss_presentation.lua'), `-- Generated from the checked Traveler presentation.\nreturn ${toLua(cards)}\n`, 'utf8');
   writeFileSync(join(outputDirectory, 'battle-ui.json'), JSON.stringify(battleLayout(), null, 2) + '\n', 'utf8');
 }
