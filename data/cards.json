@@ -1,5 +1,5 @@
 {
-  "note": "v0.1.0 首轮内容基线；数值参考见 data/SOURCES.md。未实现、未导入、未真机验收；效果定义见 README.md。",
+  "note": "v0.1.0首轮37张运行卡池；完整75卡参考表原样保留，不代表75张可玩。规范化op，不自行调整来源数值。未平台/游戏验收。",
   "starter_deck": {
     "cards": [
       "strike",
@@ -37,7 +37,8 @@
           }
         ]
       },
-      "upgradeText": "造成 9 点伤害。"
+      "upgradeText": "造成 9 点伤害。",
+      "sts_name": "Strike"
     },
     {
       "id": "defend",
@@ -60,7 +61,8 @@
           }
         ]
       },
-      "upgradeText": "获得 8 点格挡。"
+      "upgradeText": "获得 8 点格挡。",
+      "sts_name": "Defend"
     },
     {
       "id": "bash",
@@ -93,11 +95,12 @@
           }
         ]
       },
-      "upgradeText": "造成 10 点伤害，施加 3 层易伤。"
+      "upgradeText": "造成 10 点伤害，施加 3 层易伤。",
+      "sts_name": "Bash"
     },
     {
       "id": "cleave",
-      "name": "顺劈斩",
+      "name": "横扫",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -116,11 +119,12 @@
           }
         ]
       },
-      "upgradeText": "对所有敌人造成 11 点伤害。"
+      "upgradeText": "对所有敌人造成 11 点伤害。",
+      "sts_name": "Cleave"
     },
     {
       "id": "clothesline",
-      "name": "勒颈",
+      "name": "锁喉击",
       "type": "attack",
       "rarity": "common",
       "cost": 2,
@@ -149,7 +153,8 @@
           }
         ]
       },
-      "upgradeText": "造成 14 点伤害，施加 3 层虚弱。"
+      "upgradeText": "造成 14 点伤害，施加 3 层虚弱。",
+      "sts_name": "Clothesline"
     },
     {
       "id": "iron_wave",
@@ -159,32 +164,33 @@
       "cost": 1,
       "effects": [
         {
-          "op": "damage",
+          "op": "block",
           "value": 5
         },
         {
-          "op": "block",
+          "op": "damage",
           "value": 5
         }
       ],
-      "text": "造成 5 点伤害，获得 5 点格挡。",
+      "text": "获得 5 点格挡，造成 5 点伤害。",
       "upgrade": {
         "effects": [
           {
-            "op": "damage",
+            "op": "block",
             "value": 7
           },
           {
-            "op": "block",
+            "op": "damage",
             "value": 7
           }
         ]
       },
-      "upgradeText": "造成 7 点伤害，获得 7 点格挡。"
+      "upgradeText": "获得 7 点格挡，造成 7 点伤害。",
+      "sts_name": "Iron Wave"
     },
     {
       "id": "anger",
-      "name": "愤怒",
+      "name": "怒斩",
       "type": "attack",
       "rarity": "common",
       "cost": 0,
@@ -211,11 +217,12 @@
           }
         ]
       },
-      "upgradeText": "造成 8 点伤害，将一张愤怒加入弃牌堆。"
+      "upgradeText": "造成 8 点伤害，将一张愤怒加入弃牌堆。",
+      "sts_name": "Anger"
     },
     {
       "id": "body_slam",
-      "name": "肉搏",
+      "name": "以身相搏",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -228,11 +235,12 @@
       "upgrade": {
         "cost": 0
       },
-      "upgradeText": "消耗 0 能量，造成等同于当前格挡的伤害。"
+      "upgradeText": "消耗 0 能量，造成等同于当前格挡的伤害。",
+      "sts_name": "Body Slam"
     },
     {
       "id": "clash",
-      "name": "猛击",
+      "name": "破阵击",
       "type": "attack",
       "rarity": "common",
       "cost": 0,
@@ -252,11 +260,12 @@
           }
         ]
       },
-      "upgradeText": "仅当手牌全为攻击牌时可打出，造成 18 点伤害。"
+      "upgradeText": "仅当手牌全为攻击牌时可打出，造成 18 点伤害。",
+      "sts_name": "Clash"
     },
     {
       "id": "flex",
-      "name": "屈曲",
+      "name": "绷紧",
       "type": "skill",
       "rarity": "common",
       "cost": 0,
@@ -277,7 +286,8 @@
           }
         ]
       },
-      "upgradeText": "本回合获得 4 层力量，回合结束移除。"
+      "upgradeText": "本回合获得 4 层力量，回合结束移除。",
+      "sts_name": "Flex"
     },
     {
       "id": "true_grit",
@@ -308,7 +318,8 @@
           }
         ]
       },
-      "upgradeText": "获得 9 点格挡，选择消耗 1 张手牌。"
+      "upgradeText": "获得 9 点格挡，选择消耗 1 张手牌。",
+      "sts_name": "True Grit"
     },
     {
       "id": "twin_strike",
@@ -333,7 +344,8 @@
           }
         ]
       },
-      "upgradeText": "造成 2 次 7 点伤害。"
+      "upgradeText": "造成 2 次 7 点伤害。",
+      "sts_name": "Twin Strike"
     },
     {
       "id": "pommel_strike",
@@ -364,11 +376,12 @@
           }
         ]
       },
-      "upgradeText": "造成 10 点伤害，抽 2 张牌。"
+      "upgradeText": "造成 10 点伤害，抽 2 张牌。",
+      "sts_name": "Pommel Strike"
     },
     {
       "id": "shrug_it_off",
-      "name": "无视痛苦",
+      "name": "硬抗",
       "type": "skill",
       "rarity": "common",
       "cost": 1,
@@ -395,11 +408,12 @@
           }
         ]
       },
-      "upgradeText": "获得 11 点格挡，抽 1 张牌。"
+      "upgradeText": "获得 11 点格挡，抽 1 张牌。",
+      "sts_name": "Shrug It Off"
     },
     {
       "id": "thunderclap",
-      "name": "雷鸣",
+      "name": "惊雷",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -428,7 +442,8 @@
           }
         ]
       },
-      "upgradeText": "对所有敌人造成 7 点伤害并施加 1 层易伤。"
+      "upgradeText": "对所有敌人造成 7 点伤害并施加 1 层易伤。",
+      "sts_name": "Thunderclap"
     },
     {
       "id": "warcry",
@@ -460,7 +475,8 @@
         ]
       },
       "upgradeText": "消耗。抽 2 张牌，将 1 张手牌置于抽牌堆顶。",
-      "exhaust": true
+      "exhaust": true,
+      "sts_name": "Warcry"
     },
     {
       "id": "uppercut",
@@ -503,7 +519,8 @@
           }
         ]
       },
-      "upgradeText": "造成 13 点伤害，施加 2 层虚弱与 2 层易伤。"
+      "upgradeText": "造成 13 点伤害，施加 2 层虚弱与 2 层易伤。",
+      "sts_name": "Uppercut"
     },
     {
       "id": "inflame",
@@ -528,7 +545,8 @@
           }
         ]
       },
-      "upgradeText": "获得 3 层力量。"
+      "upgradeText": "获得 3 层力量。",
+      "sts_name": "Inflame"
     },
     {
       "id": "metallicize",
@@ -551,7 +569,8 @@
           }
         ]
       },
-      "upgradeText": "每回合结束时获得 4 点格挡。"
+      "upgradeText": "每回合结束时获得 4 点格挡。",
+      "sts_name": "Metallicize"
     },
     {
       "id": "battle_trance",
@@ -580,7 +599,8 @@
           }
         ]
       },
-      "upgradeText": "抽 4 张牌，本回合无法再抽牌。"
+      "upgradeText": "抽 4 张牌，本回合无法再抽牌。",
+      "sts_name": "Battle Trance"
     },
     {
       "id": "bloodletting",
@@ -611,7 +631,8 @@
           }
         ]
       },
-      "upgradeText": "失去 3 点生命，获得 3 点能量。"
+      "upgradeText": "失去 3 点生命，获得 3 点能量。",
+      "sts_name": "Bloodletting"
     },
     {
       "id": "barricade",
@@ -630,11 +651,12 @@
       "upgrade": {
         "cost": 2
       },
-      "upgradeText": "消耗 2 能量，格挡不再于自己回合开始时清空。"
+      "upgradeText": "消耗 2 能量，格挡不再于自己回合开始时清空。",
+      "sts_name": "Barricade"
     },
     {
       "id": "carnage",
-      "name": "残杀",
+      "name": "屠戮",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 2,
@@ -655,7 +677,8 @@
           }
         ]
       },
-      "upgradeText": "虚无。造成 28 点伤害。"
+      "upgradeText": "虚无。造成 28 点伤害。",
+      "sts_name": "Carnage"
     },
     {
       "id": "disarm",
@@ -681,7 +704,8 @@
         ]
       },
       "upgradeText": "消耗。使目标失去 3 层力量。",
-      "exhaust": true
+      "exhaust": true,
+      "sts_name": "Disarm"
     },
     {
       "id": "dropkick",
@@ -732,7 +756,8 @@
           }
         ]
       },
-      "upgradeText": "造成 8 点伤害。若目标处于易伤，获得 1 点能量并抽 1 张牌。"
+      "upgradeText": "造成 8 点伤害。若目标处于易伤，获得 1 点能量并抽 1 张牌。",
+      "sts_name": "Dropkick"
     },
     {
       "id": "entrench",
@@ -749,7 +774,8 @@
       "upgrade": {
         "cost": 1
       },
-      "upgradeText": "消耗 1 能量，当前格挡翻倍。"
+      "upgradeText": "消耗 1 能量，当前格挡翻倍。",
+      "sts_name": "Entrench"
     },
     {
       "id": "ghostly_armor",
@@ -773,11 +799,12 @@
           }
         ]
       },
-      "upgradeText": "虚无。获得 13 点格挡。"
+      "upgradeText": "虚无。获得 13 点格挡。",
+      "sts_name": "Ghostly Armor"
     },
     {
       "id": "hemokinesis",
-      "name": "血液操控",
+      "name": "控血",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 1,
@@ -800,60 +827,12 @@
           },
           {
             "op": "damage",
-            "value": 19
+            "value": 20
           }
         ]
       },
-      "upgradeText": "失去 2 点生命，造成 19 点伤害。"
-    },
-    {
-      "id": "infinite_blades",
-      "name": "无尽之刃",
-      "type": "power",
-      "rarity": "uncommon",
-      "cost": 1,
-      "effects": [
-        {
-          "op": "addCardPerTurn",
-          "card": "shiv",
-          "value": 1
-        }
-      ],
-      "text": "每回合开始时向手牌加入 1 张飞刀。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "addCardPerTurn",
-            "card": "shiv",
-            "value": 2
-          }
-        ]
-      },
-      "upgradeText": "每回合开始时向手牌加入 2 张飞刀。"
-    },
-    {
-      "id": "shiv",
-      "name": "飞刀",
-      "type": "attack",
-      "rarity": "special",
-      "cost": 0,
-      "effects": [
-        {
-          "op": "damage",
-          "value": 4
-        }
-      ],
-      "text": "消耗。造成 4 点伤害。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "damage",
-            "value": 6
-          }
-        ]
-      },
-      "upgradeText": "消耗。造成 6 点伤害。",
-      "exhaust": true
+      "upgradeText": "失去 2 点生命，造成 20 点伤害。",
+      "sts_name": "Hemokinesis"
     },
     {
       "id": "rampage",
@@ -884,7 +863,8 @@
           }
         ]
       },
-      "upgradeText": "造成 8 点伤害，本场战斗中本牌伤害 +8。"
+      "upgradeText": "造成 8 点伤害，本场战斗中本牌伤害 +8。",
+      "sts_name": "Rampage"
     },
     {
       "id": "seeing_red",
@@ -903,7 +883,8 @@
       "upgrade": {
         "cost": 0
       },
-      "upgradeText": "消耗。消耗 0 能量，获得 2 点能量。"
+      "upgradeText": "消耗。消耗 0 能量，获得 2 点能量。",
+      "sts_name": "Seeing Red"
     },
     {
       "id": "shockwave",
@@ -939,7 +920,8 @@
         ]
       },
       "upgradeText": "消耗。对所有敌人施加 5 层虚弱与 5 层易伤。",
-      "exhaust": true
+      "exhaust": true,
+      "sts_name": "Shockwave"
     },
     {
       "id": "whirlwind",
@@ -963,7 +945,8 @@
         ]
       },
       "upgradeText": "消耗所有剩余能量，每点对所有敌人造成 8 点伤害。",
-      "costMode": "all_energy"
+      "costMode": "all_energy",
+      "sts_name": "Whirlwind"
     },
     {
       "id": "offering",
@@ -1003,7 +986,8 @@
         ]
       },
       "upgradeText": "消耗。失去 6 点生命，获得 2 点能量，抽 5 张牌。",
-      "exhaust": true
+      "exhaust": true,
+      "sts_name": "Offering"
     },
     {
       "id": "impervious",
@@ -1027,7 +1011,8 @@
         ]
       },
       "upgradeText": "消耗。获得 40 点格挡。",
-      "exhaust": true
+      "exhaust": true,
+      "sts_name": "Impervious"
     },
     {
       "id": "demon_form",
@@ -1052,7 +1037,8 @@
           }
         ]
       },
-      "upgradeText": "每回合开始时获得 3 层力量。"
+      "upgradeText": "每回合开始时获得 3 层力量。",
+      "sts_name": "Demon Form"
     },
     {
       "id": "bludgeon",
@@ -1075,7 +1061,8 @@
           }
         ]
       },
-      "upgradeText": "造成 42 点伤害。"
+      "upgradeText": "造成 42 点伤害。",
+      "sts_name": "Bludgeon"
     },
     {
       "id": "reaper",
@@ -1105,7 +1092,9 @@
         ]
       },
       "upgradeText": "消耗。对所有敌人造成 5 点伤害，回复等量生命。",
-      "exhaust": true
+      "exhaust": true,
+      "sts_name": "Reaper"
     }
-  ]
+  ],
+  "sourceCatalog": "reference/warrior75.json"
 }
