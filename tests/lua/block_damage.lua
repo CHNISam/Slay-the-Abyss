@@ -88,9 +88,9 @@ for _, reason in ipairs({ "invalid_target", "insufficient_energy" }) do
 end
 for _, case in ipairs({
     { name = "zero attack does not trigger thorns", block = 0, hp = 80, enemyHp = 2, phase = "player", lost = 0 },
-    { name = "blocked positive attack triggers thorns", block = 5, enemyBlock = 5, hp = 80, enemyHp = 2, phase = "player", lost = 3 },
-    { name = "lethal defender retaliates before victory", block = 5, hp = 80, enemyHp = 2, phase = "victory", lost = 3 },
-    { name = "simultaneous death loses", block = 5, hp = 3, enemyHp = 2, phase = "defeat", lost = 3 }
+    { name = "blocked positive attack triggers thorns", block = 5, enemyBlock = 5, hp = 80, enemyHp = 2, phase = "player", lost = 0 },
+    { name = "lethal defender retaliates before victory", block = 5, hp = 80, enemyHp = 2, phase = "victory", lost = 0 },
+    { name = "insufficient block allows simultaneous death", block = 2, hp = 1, enemyHp = 2, phase = "defeat", lost = 1 }
 }) do
     test(case.name, function()
         local s = battle()
@@ -98,7 +98,7 @@ for _, case in ipairs({
         s.enemies[1].hp, s.enemies[1].block = case.enemyHp, case.enemyBlock or 0
         Combat.addStatus(s.enemies[1], "thorns", 3)
         assert(Combat.play(s, s.hand[1].uid, 1))
-        equal(s.phase, case.phase); equal(s.player.hp, case.hp - case.lost); equal(s.player.block, case.block)
+        equal(s.phase, case.phase); equal(s.player.hp, case.hp - case.lost); equal(s.player.block, math.max(0, case.block - (case.block > 0 and 3 or 0)))
         equal(#s.discard, 1)
     end)
 end

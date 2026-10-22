@@ -82,12 +82,53 @@ test("consecutive upgraded copies each double the current block", function()
     equal(state.energy, 0); equal(#state.discard, 3)
 end)
 
-test("integer input crossing 32-bit range uses existing float block arithmetic", function()
+test("out-of-domain 32-bit seed is normalized by shared final block cap", function()
     local state = battle(true, 2)
-    -- Deliberately integer-valued state: integer multiplication would wrap in Fengari.
+    -- Deliberately invalid boundary seed, not a naturally reachable player state.
     state.player.block = 1073741824
-    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 2147483648.0)
-    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 4294967296.0)
+    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 999)
+    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 999)
+end)
+
+-- Explicit boundary fixtures, not claims of a natural run reaching the cap.
+for _, upgraded in ipairs({ false, true }) do
+for _, fixture in ipairs({ { 499, 998 }, { 500, 999 }, { 600, 999 }, { 999, 999 } }) do
+    test((upgraded and "upgraded" or "normal") .. " double block cap from " .. fixture[1], function()
+        local state = battle(upgraded)
+        Combat.block(state, state.player, fixture[1], true)
+        Combat.addStatus(state.player, "dexterity", 20)
+        Combat.addStatus(state.player, "frail", 2)
+        local energy = state.energy
+        assert(Combat.play(state, state.hand[1].uid))
+        equal(state.player.block, fixture[2])
+        equal(state.energy, energy - (upgraded and 1 or 2))
+        equal(state.player.statuses.dexterity, 20)
+        equal(state.player.statuses.frail, 2)
+    end)
+end
+end
+
+test("repeated doubling at cap then spending block uses current block", function()
+    local state = battle(true, 3)
+    Combat.block(state, state.player, 600, true)
+    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 999)
+    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 999)
+    Combat.damage(state, state.enemies[1], state.player, 600, true)
+    equal(state.player.block, 399)
+    assert(Combat.play(state, state.hand[1].uid)); equal(state.player.block, 798)
+end)
+
+test("failure after capped doubling restores the full atomic state", function()
+    local state = battle(true)
+    Combat.block(state, state.player, 600, true)
+    -- A real subsequent effect exception, not a replacement of the block handler.
+    state.catalog.cards.entrench.upgrade.effects = {
+        { op = "doubleBlock" }, { op = "increaseDamageThisCombat", value = -1 }
+    }
+    local before = Combat.copy(state)
+    local ok, reason = pcall(Combat.play, state, state.hand[1].uid)
+    equal(ok, false); assert(tostring(reason):find("invalid card damage growth", 1, true))
+    same(state, before)
 end)
 
 local function win(seed)

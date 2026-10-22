@@ -82,10 +82,13 @@ function M.damage(state, source, target, base, fixed)
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
     state.events[#state.events + 1] = { kind = "damage", detail = { source = source.id, target = target.id, amount = lost, blocked = absorbed } }
-    -- Retaliation is direct HP loss: no modifiers, block or recursive retaliation.
+    -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- The defender retaliates even if this positive attack was blocked or lethal.
     if not fixed and amount > 0 and (target.statuses.thorns or 0) > 0 then
-        directDamage(state, target, source, target.statuses.thorns, "thorns")
+        local thorns = target.statuses.thorns
+        local blocked = math.min(source.block, thorns)
+        source.block = source.block - blocked
+        directDamage(state, target, source, thorns - blocked, "thorns")
     end
     return lost
 end
@@ -100,7 +103,8 @@ function M.blockAmount(state, actor, amount, fixed)
 end
 
 function M.block(state, actor, amount, fixed)
-    actor.block = actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed)
+    -- Cap the final state, not the modifier calculation or its float precision.
+    actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
 end
 
 local function tick(state, actor, phase)

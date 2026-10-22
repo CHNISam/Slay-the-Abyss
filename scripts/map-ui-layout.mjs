@@ -57,10 +57,17 @@ export function mapLayout(theme = loadMapTheme()) {
       image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s));
     controls.push({ name: `node${i}`, kind: 'container', position: [0, 0], size: [s, s], visible: false, children });
   }
+  // MCP accepts at most 60 children per control. Keep draw order and positions
+  // while putting the large edge/node pools in zero-offset containers.
+  const groups = [];
+  for (let i = 0; i < controls.length; i += 50) groups.push({
+    name: `mapGroup${groups.length + 1}`, kind: 'container', size: theme.canvas.base,
+    children: controls.slice(i, i + 50),
+  });
   return { name: 'AbyssMap', showCursor: true, blockKeys: true, blockCursor: true,
     controls: [image('mapBackdrop', 0, 0, ...theme.canvas.base, c.backdrop),
       { name: 'stage', kind: 'container', size: theme.canvas.base, children: [
-        { name: 'mapPanel', kind: 'container', size: theme.canvas.base, children: controls },
+        { name: 'mapPanel', kind: 'container', size: theme.canvas.base, children: groups },
       ] }],
   };
 }

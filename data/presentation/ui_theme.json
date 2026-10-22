@@ -340,6 +340,9 @@
       "portrait": 120,
       "bossPortrait": 168
     },
+    "nativeText": {
+      "lineHeight": 40
+    },
     "hpBar": {
       "size": [
         156,
@@ -606,6 +609,11 @@
       }
     },
     "nativeNode": {
+      "shop": {
+        "columns": [-448, -224, 0, 224, 448],
+        "rows": [0],
+        "pageSize": 5
+      },
       "note": "共用八项分页功能过渡布局；营地、商店、事件等批准稿专用构图待还原。",
       "backdrop": [
         0,
@@ -692,6 +700,8 @@
       ]
     },
     "nativeMenu": {
+      "resultRestart": [-180, -230, 320, 64],
+      "settle": [180, -230, 320, 64],
       "note": "原生启动/结算功能过渡布局；以批准主题语义色与字号显示。",
       "backdrop": [
         0,

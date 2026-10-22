@@ -5,6 +5,7 @@ local Nodes = require("abyss_nodes")
 local BattleUI = require("abyss_battle_ui")
 local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
+local Theme = require("abyss_theme")
 local M = {}
 
 function M.new(root, data, presentation, clickEvent, platform)
@@ -36,6 +37,17 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif run.phase == "node" then self.mode = "node"
         else self.mode = "map" end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
+        local result = self.mode == "defeat" or self.mode == "victory"
+        local startFrame = result and Theme.layout.nativeMenu.resultRestart or Theme.layout.nativeMenu.start
+        menu:GetChild("start"):SetAnchoredPosition(startFrame[1], startFrame[2])
+        menu:GetChild("start"):SetVisible(not self.settlementRequested and not self.settlementBusy)
+        menu:GetChild("settle"):SetVisible(result)
+        local enabled = result and type(platform.settle) == "function" and not self.settlementRequested and not self.settlementBusy
+        local settlement = menu:GetChild("settle")
+        settlement:GetChild("normal"):SetVisible(enabled == true)
+        settlement:GetChild("disabled"):SetVisible(not enabled)
+        settlement:GetChild("selected"):SetVisible(false)
+        settlement:GetChild("label").text = self.settlementRequested and "已发送结算请求" or "结束并结算"
         menu:SetVisible(inMenu)
         self.battleUI:setActive(self.mode == "battle")
         self.mapUI:setVisible(self.mode == "map")
@@ -54,18 +66,41 @@ function M.new(root, data, presentation, clickEvent, platform)
                 menu:GetChild("summary").text = title .. "\n抵达第 " .. self.map.floor .. " / 15 层"
                     .. "\n生命 " .. hp .. " / " .. run.maxHp .. " · 金币 " .. run.gold
                     .. "\n卡组 " .. #run.deck .. " 张 · 遗物 " .. #run.relics .. " 件"
+                if self.settlementError then
+                    menu:GetChild("summary").text = menu:GetChild("summary").text .. "\n结算请求失败，请重试"
+                elseif type(platform.settle) ~= "function" then
+                    menu:GetChild("summary").text = menu:GetChild("summary").text .. "\n平台结算暂不可用"
+                end
             end
         end
     end
     function self:start()
+        if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         self.run, self.map = Run.new(data, self.seed), Map.generate(data, self.seed)
+        self.settlementRequested, self.settlementBusy, self.settlementError = false, false, nil
         self.seed = (self.seed + 1) % 65536
         self.battleUI.run, self.battleUI.target = self.run, 1
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self:refresh()
         return true
+    end
+    function self:settle()
+        if self.mode ~= "victory" and self.mode ~= "defeat" then return false, "not_result" end
+        if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
+        if type(platform.settle) ~= "function" then return false, "settlement_unavailable" end
+        self.settlementBusy = true
+        local called, accepted = pcall(platform.settle, self.mode == "victory")
+        self.settlementBusy = false
+        if not called or accepted == false then
+            self.settlementError = true
+            self:refresh()
+            return false, "settlement_request_failed"
+        end
+        self.settlementRequested, self.settlementError = true, nil
+        self:refresh()
+        return true, "settlement_requested"
     end
     function self:resize(width, height)
         self.battleUI:resize(width, height)
@@ -75,6 +110,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return self.mapUI:update(dt)
     end
     menu:GetChild("start"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)
+    menu:GetChild("settle"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:settle() end)
     ready = true
     self:refresh()
     return self
