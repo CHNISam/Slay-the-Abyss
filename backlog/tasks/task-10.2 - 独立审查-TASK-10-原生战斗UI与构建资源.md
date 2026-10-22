@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 16:07'
-updated_date: '2026-10-22 16:20'
+updated_date: '2026-10-22 16:21'
 labels: []
 dependencies: []
 parent_task_id: TASK-10
@@ -38,6 +38,8 @@ ordinal: 29000
 独立全check与build:ui通过；临时真实Lua复现奖励页HP旧态：战斗player50HP，经实际攻击获胜后run.hp56但HUD显示50（战后遗物回血未反映），断言exit1，已即时通知作者。额外探针通过隐藏阶段回调全run原子性、多敌人闭包与实际目标伤害、状态显示、实际致死重开，以及真实生成abyss_presentation渲染手牌。只读核对本地官方API镜像/社区writer，未操作MCP或GUI。
 
 最终功能复审8966ef27876401f3efadf0e37513815eb54d3327完成：HUD奖励页生命旧态已由主Agent修复并合入；原临时负例不改即exit0，run56/battle50/HUD56且临时资源归0，正式新增UI回归通过。完整npm check退出0：85JS（79pass/6权限skip）、4UI+15core+8run+26status+10map Lua、六表/theme，Python11（1权限skip）。新基线build:ui后真实生成presentation渲染探针通过；多敌闭包/非法回调全run原子性/真实伤害/状态/重开探针通过。API镜像和writer只读核对，无剩余原功能范围阻断。视觉对齐由另一个作者进行，后续代码须追加审查，不在本结论内；未MCP/GUI或游戏验收。
+
+交付：审查证据提交87e9530，PR https://github.com/CHNISam/Slay-the-Abyss/pull/23 ，base feat/task-10-battle-ui；被审代码8966ef2。固定功能基线复审完成，后续视觉提交需再次审查；未自行merge或self-approve。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
