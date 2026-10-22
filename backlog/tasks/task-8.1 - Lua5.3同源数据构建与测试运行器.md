@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 14:33'
-updated_date: '2026-10-22 14:41'
+updated_date: '2026-10-22 14:42'
 labels: []
 dependencies: []
 parent_task_id: TASK-8
@@ -38,4 +38,6 @@ CLAIM 子Agent quality-gates；负责人Furinya；分支feat/task-8-1-lua-harnes
 已实现构建器、Lua运行器及JS测试初稿；node --check三份源码通过。尚未安装依赖或宣称测试通过，等待PR1进入develop后合入最终package配置。
 
 验证：53项JS测试通过0失败0跳过；build:data、syntax、六表校验通过；跨combat-core工作区只读执行同一src/lua生产模块与tests/lua/combat.lua，15项Lua测试通过。发现并修复fengari-node-cli位置参数脚本抛错仍exit0，改用-e dofile路径并验证运行/语法/缺文件错误均非零，200ms无限循环被终止。CI接入npm ci --ignore-scripts和完整check，依赖生产Lua集成后远端复验，AC2暂留。dev依赖fengari-node-cli@0.1.0锁定；npm audit同一sprintf-js格式化精度DoS链3 moderate，暂无上游可用修复，离线测试限制15s/1MB。无游戏验证。
+
+实现提交5c5c7f4；草稿PR https://github.com/CHNISam/Slay-the-Abyss/pull/5 base develop，待主Agent独立审查与生产Lua集成后的完整门禁。
 <!-- SECTION:NOTES:END -->
