@@ -22,12 +22,13 @@ Quality / check 在 PR、develop/master 推送时运行，也支持手动执行�
 保留完整测试而不扩大本机服务权限。合并前同时检查 check 与 presentation。
 
 本地使用 `npm run check`，无第三方 npm 依赖，无需 npm install。
-本机直接使用已安装的 Node 22，并在每次作业开头验证主版本；fork PR 的
-Ubuntu 才执行 setup-node，避免本机每次初始化额外下载工具链。
+check 作业直接使用已有 Git 与 Node（最低 22，本机 22.22.1），不下载
+checkout/setup-node 组件。Git 精确检出事件提交 SHA，核对后清理 runner
+工作目录；认证 header 仅在 fetch 进程环境中使用，随后清除，不写入磁盘配置。
 编辑器遵守根目录 `.editorconfig`。格式约定不等于完整静态分析；
 后续引入 Lua/节点图代码时，需把其专项测试加入统一 check 入口。
 fork PR 使用 GitHub-hosted Ubuntu；仓库内 PR 与推送使用本机专用标签。
-checkout 不持久保存 GitHub token，工作流只授予 contents:read。
+工作流只授予 contents:read；presentation 的标准 checkout 也不持久保存 token。
 
 ## 维护
 
