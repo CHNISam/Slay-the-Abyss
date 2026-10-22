@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 17:08'
-updated_date: '2026-10-22 17:11'
+updated_date: '2026-10-22 17:12'
 labels: []
 dependencies: []
 parent_task_id: TASK-10
@@ -38,4 +38,6 @@ ordinal: 29000
 CLAIM quality-gates；worktree .worktrees/ui-regressions；branch feat/task-10-4-ui-regressions；精确基线f7d5d75；仅abyss_battle_ui.lua、tests/lua/battle_ui.lua及本task；不改theme/layout或外部battle-ui，不操作GUI。
 
 红灯证据：f7d5d75原冻结hp probe run56/HUD50energy2 exit1；defend probe enemy点击energy3→2hand5→4 exit1；新增永久non-target回归修前exit1。最小修复：render仅combatphase使用battle，reward/map读取run持久态并清空energy/draw/discard等临时HUD；enemycallback仅selected且needsTarget执行，否则看意图并保留选择。原两probe未修改，修后均exit0（HP56energy0，energy3/hand5不变）。永久UI11项含两新增真实回归通过；完整npmcheck退出0，JS有6明确symlink权限skip、Python10pass1WinError1314skip，真实Lua UI11+core15+map10+run8+status26全部通过；syntax/data/UI/themebuild与gitdiffcheck通过。仅UI逻辑/该Lua测试/本task，不动theme/layout/外部树/GUI。保持InProgress待content_review独立复验及root集成，不宣称游戏可玩。
+
+实现提交a04b8b2447a70abe82c3180a888a0ee264fc718d；PR https://github.com/CHNISam/Slay-the-Abyss/pull/35 ，base feat/task-10-battle-ui；已发送给原reviewer content_review按冻结原probe独立复验，未合并/未标Done。
 <!-- SECTION:NOTES:END -->
