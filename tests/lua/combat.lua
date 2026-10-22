@@ -30,6 +30,9 @@ test("same seed gives identical shuffle and independent states", function()
     for i, c in ipairs(a.hand) do equal(c.uid, b.hand[i].uid) end
     a.player.hp = 3
     equal(b.player.hp, data.rules.player.maxHp)
+    a.catalog.cards.strike.effects[1].value = 999
+    equal(b.catalog.cards.strike.effects[1].value, 6)
+    equal(data.cards.cards[1].effects[1].value, 6)
 end)
 
 test("strike spends energy and damage crosses enemy block", function()
@@ -87,6 +90,7 @@ test("draw at capacity discards overflow, finite request cannot loop", function(
     local s = battle(deck)
     Combat.draw(s, 20)
     equal(#s.hand, 10); equal(pileCount(s), 15)
+    for _, event in ipairs(s.events) do assert(event.kind ~= "reshuffle", "overflow must not redraw within same action") end
 end)
 
 test("intent copy is immutable to UI and executed before advancing", function()
