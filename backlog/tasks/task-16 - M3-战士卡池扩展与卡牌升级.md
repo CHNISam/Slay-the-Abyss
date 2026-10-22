@@ -4,7 +4,7 @@ title: M3 战士卡池扩展与卡牌升级
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 22:09'
+updated_date: '2026-10-22 22:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -40,18 +40,19 @@ ordinal: 16000
 - 蓄力：本回合获得临时力量，按既有回合时序回收。
 - 格挡反击：当前格挡作为攻击基础，沿用攻击修正，不主动消耗格挡。
 - 乘隙追击：攻击易伤目标后回能、抽牌；仅启用已有条件契约，错误或不支持的分支在出牌前拒绝。
+- 连续出剑：攻击后生成本牌副本进入本场弃牌堆，保留升级、分配新UID，不写入永久牌组。
 - 名称、数值和升级沿用现有 data 与表现层，不新增 UI 方向。
 
 ### 验证
-- 新增 entrench 10、draw_lock 15、hp_loss 27、flex 16、block_damage 25、vulnerable_combo 52 组回归；各能力先红后绿。
-- 当前组合全298组系统 Lua5.4、Python13通过；本地 JS123/130，7项缺 Fengari 失败，新组合正式 CI 待跑。
-- 七卡基线5dfdd4e已通过正式CI39861482063（Fengari246）；它不替代新增乘隙追击验证。
+- 新增 entrench 10、draw_lock 15、hp_loss 27、flex 16、block_damage 25、vulnerable_combo 52、copied_attack 34 组回归；各能力先红后绿。
+- 当前组合全332组系统 Lua5.4、Python13通过；本地 JS123/130，7项缺 Fengari 失败，新组合正式 CI 待跑。
+- 七卡基线5dfdd4e已通过正式CI39861482063（Fengari246）；它不替代新增乘隙追击及连续出剑验证。
 - 出牌异常回滚已由PR41合入develop77744e2，正式CI39860609778通过。flex换回旧核心有5组真实失败，现组合已修复。
 - 旧offering拒绝用例改用仍未支持的demon_form，原状态不变断言完整保留。
 
 ### 证据与边界
 - PR37：https://github.com/CHNISam/Slay-the-Abyss/pull/37
 - 旧过程保留在提交历史，详细用例见tests/lua；不把系统Lua补证当平台验收。
-- 当前支持28张含3基础、25张奖励候选，尚未达到30+整项验收；无平台编译、存档导入或试玩通过声明。
+- 当前支持29张含3基础、26张奖励候选，尚未达到30+整项验收；无平台编译、存档导入或试玩通过声明。
 - 下一步：新组合独立复核与正式CI，等待TASK-14依赖完成后再整合交付。
 <!-- SECTION:NOTES:END -->

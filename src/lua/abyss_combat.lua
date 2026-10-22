@@ -5,8 +5,8 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
     statusView = Actors.statusView, damage = Actors.damage, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
-function M.applyEffects(state, effects, source, target)
-    return Effects.apply(M, state, effects, source, target)
+function M.applyEffects(state, effects, source, target, playedCard)
+    return Effects.apply(M, state, effects, source, target, playedCard)
 end
 
 local function copy(value)
@@ -136,7 +136,7 @@ local function resolvePlay(state, uid, targetIndex, instance, position, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
-    M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex])
+    M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex], instance)
     local pile
     if card.exhaust or card.type == "power" then pile = state.exhaust else pile = state.discard end
     pile[#pile + 1] = instance
