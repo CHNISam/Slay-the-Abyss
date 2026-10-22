@@ -114,8 +114,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     function self:render()
         local run = self.run
-        local battle = run and run.combat
         local fighting = run and run.phase == "combat"
+        local battle = fighting and run.combat
         local reward = run and run.phase == "reward"
         local active = fighting and battle.phase == "player" and not self.busy
         show("start", not run or run.phase == "defeat")
@@ -256,7 +256,12 @@ function M.new(root, data, presentation, clickEvent, platform)
     for i = 1, 5 do local target = i child("enemy" .. i):GetChild("hit"):AddCursorEventListener(clickEvent, function()
         if self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
             self.target = target
-            if self.selected then self:playSelected(target) else notice("意图：" .. intentText(self.run.combat, target)) refresh() end
+            local selected
+            for _, instance in ipairs(self.run.combat.hand) do
+                if instance.uid == self.selected then selected = instance break end
+            end
+            if selected and needsTarget(self.run.combat, selected) then self:playSelected(target)
+            else notice("意图：" .. intentText(self.run.combat, target)) refresh() end
         end
     end) end
     refresh()
