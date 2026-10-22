@@ -63,8 +63,9 @@ end
 
 function M.draw(state, count)
     if state.player.noDraw then return end
-    local overflow = {} -- cannot re-enter the draw pool within this draw action
     for _ = 1, count do
+        -- Full hands stop drawing before touching either pile or the shuffle RNG.
+        if #state.hand >= state.rules.player.maxHand then break end
         if #state.draw == 0 then
             if #state.discard == 0 then break end
             state.draw, state.discard = state.discard, {}
@@ -72,13 +73,8 @@ function M.draw(state, count)
             event(state, "reshuffle")
         end
         local card = table.remove(state.draw)
-        if #state.hand < state.rules.player.maxHand then
-            state.hand[#state.hand + 1] = card
-        else
-            overflow[#overflow + 1] = card
-        end
+        state.hand[#state.hand + 1] = card
     end
-    for _, card in ipairs(overflow) do state.discard[#state.discard + 1] = card end
 end
 
 function M.cardDefinition(state, instance)
