@@ -17,6 +17,10 @@ Quality / check 在 PR、develop/master 推送时运行，也支持手动执行�
 3. Node 自动化测试（串行执行，失败立即阻止通过）。
 4. 所有运行数据的结构、枚举、范围、ID 与交叉引用校验。
 
+并行的 presentation 作业在 GitHub-hosted Ubuntu 用系统 Python 跑文案回归
+测试，不安装依赖。该测试包含符号链接，普通 Windows 服务账户缺少此权限；
+保留完整测试而不扩大本机服务权限。合并前同时检查 check 与 presentation。
+
 本地使用 `npm run check`，无第三方 npm 依赖，无需 npm install。
 本机直接使用已安装的 Node 22，并在每次作业开头验证主版本；fork PR 的
 Ubuntu 才执行 setup-node，避免本机每次初始化额外下载工具链。

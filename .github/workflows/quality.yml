@@ -49,3 +49,14 @@ jobs:
             exit 1
           }
       - run: npm run check
+  presentation:
+    # These filesystem tests include symlinks; keep the local service unprivileged.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+        env:
+          PYTHONUTF8: '1'
