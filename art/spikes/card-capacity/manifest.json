@@ -1,0 +1,284 @@
+{
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "referenceSource": "validated text-height-compat/card.source.json",
+  "hashConvention": "SHA256; UTF-8 text normalized to LF, binary files unchanged",
+  "referenceSourceSha256": "66e13114e90d095762b9252e12e838e9a3da6be7ba6fe25cc0005144db3b5293",
+  "referenceLuaSha256": "ca9f4043918ed043071df1554820e445c4c893de5d841c9eb444965e77654ae1",
+  "sourceDataSha256": {
+    "cards": "48940083a4e51cb9fb9c6f72b93edf262b72a363e2af0f2276d7f4fcf1b2b222",
+    "presentation": "8c0a8acacd4dbd72c2d3683eced45491a16c131101fe08c90c5cf2453654456d",
+    "theme": "25361ad4e4ce162340f104512f32259f62b9326980dde41b1d2bcef4d1a2da6f"
+  },
+  "longest": {
+    "cardId": "reaper",
+    "variant": "text",
+    "characters": 42,
+    "text": "对每个敌人造成 4 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。",
+    "displayName": "以战养战",
+    "candidates": 74
+  },
+  "canvas": [
+    1280,
+    720
+  ],
+  "cardCanvas": [
+    180,
+    240
+  ],
+  "cardFrame": [
+    148,
+    208
+  ],
+  "scale": 1,
+  "imageTemplateIndex": null,
+  "textTemplateIndex": null,
+  "scenarios": [
+    {
+      "id": "baseline",
+      "fixture": "reference",
+      "ui": "baseline-ui.json",
+      "cards": 0,
+      "dynamicImages": 0,
+      "dynamicTextboxes": 0,
+      "cardHosts": 0,
+      "diagnosticControls": 5,
+      "rootHosts": 1,
+      "activeControls": 6,
+      "storedTemplates": 2,
+      "slots": []
+    },
+    {
+      "id": "one",
+      "fixture": "reference",
+      "ui": "one-ui.json",
+      "cards": 1,
+      "dynamicImages": 11,
+      "dynamicTextboxes": 4,
+      "cardHosts": 1,
+      "diagnosticControls": 5,
+      "rootHosts": 1,
+      "activeControls": 22,
+      "storedTemplates": 2,
+      "slots": [
+        {
+          "name": "Card01",
+          "position": [
+            0,
+            0
+          ],
+          "script": "ART_Capacity_01"
+        }
+      ]
+    },
+    {
+      "id": "five",
+      "fixture": "reference",
+      "ui": "five-ui.json",
+      "cards": 5,
+      "dynamicImages": 55,
+      "dynamicTextboxes": 20,
+      "cardHosts": 5,
+      "diagnosticControls": 5,
+      "rootHosts": 1,
+      "activeControls": 86,
+      "storedTemplates": 2,
+      "slots": [
+        {
+          "name": "Card01",
+          "position": [
+            -360,
+            0
+          ],
+          "script": "ART_Capacity_01"
+        },
+        {
+          "name": "Card02",
+          "position": [
+            -180,
+            0
+          ],
+          "script": "ART_Capacity_02"
+        },
+        {
+          "name": "Card03",
+          "position": [
+            0,
+            0
+          ],
+          "script": "ART_Capacity_03"
+        },
+        {
+          "name": "Card04",
+          "position": [
+            180,
+            0
+          ],
+          "script": "ART_Capacity_04"
+        },
+        {
+          "name": "Card05",
+          "position": [
+            360,
+            0
+          ],
+          "script": "ART_Capacity_05"
+        }
+      ]
+    },
+    {
+      "id": "ten",
+      "fixture": "reference",
+      "ui": "ten-ui.json",
+      "cards": 10,
+      "dynamicImages": 110,
+      "dynamicTextboxes": 40,
+      "cardHosts": 10,
+      "diagnosticControls": 5,
+      "rootHosts": 1,
+      "activeControls": 166,
+      "storedTemplates": 2,
+      "slots": [
+        {
+          "name": "Card01",
+          "position": [
+            -360,
+            130
+          ],
+          "script": "ART_Capacity_01"
+        },
+        {
+          "name": "Card02",
+          "position": [
+            -180,
+            130
+          ],
+          "script": "ART_Capacity_02"
+        },
+        {
+          "name": "Card03",
+          "position": [
+            0,
+            130
+          ],
+          "script": "ART_Capacity_03"
+        },
+        {
+          "name": "Card04",
+          "position": [
+            180,
+            130
+          ],
+          "script": "ART_Capacity_04"
+        },
+        {
+          "name": "Card05",
+          "position": [
+            360,
+            130
+          ],
+          "script": "ART_Capacity_05"
+        },
+        {
+          "name": "Card06",
+          "position": [
+            -360,
+            -130
+          ],
+          "script": "ART_Capacity_06"
+        },
+        {
+          "name": "Card07",
+          "position": [
+            -180,
+            -130
+          ],
+          "script": "ART_Capacity_07"
+        },
+        {
+          "name": "Card08",
+          "position": [
+            0,
+            -130
+          ],
+          "script": "ART_Capacity_08"
+        },
+        {
+          "name": "Card09",
+          "position": [
+            180,
+            -130
+          ],
+          "script": "ART_Capacity_09"
+        },
+        {
+          "name": "Card10",
+          "position": [
+            360,
+            -130
+          ],
+          "script": "ART_Capacity_10"
+        }
+      ]
+    },
+    {
+      "id": "longest",
+      "fixture": "longest",
+      "ui": "longest-ui.json",
+      "cards": 1,
+      "dynamicImages": 11,
+      "dynamicTextboxes": 4,
+      "cardHosts": 1,
+      "diagnosticControls": 5,
+      "rootHosts": 1,
+      "activeControls": 22,
+      "storedTemplates": 2,
+      "slots": [
+        {
+          "name": "Card01",
+          "position": [
+            0,
+            0
+          ],
+          "script": "ART_Capacity_01"
+        }
+      ]
+    }
+  ],
+  "offlineChecks": [
+    "Reference Lua byte-identical",
+    "Reference/longest JSON-Lua element round-trip",
+    "Exported functions identical",
+    "All host bounds within 1280x720",
+    "No card-host overlap",
+    "Longest of 74 rendered base/upgrade texts"
+  ],
+  "platformCompile": null,
+  "saveImport": null,
+  "devicePlaytest": null,
+  "performance": null,
+  "sha256": {
+    "baseline-preview.png": "f10246b1ff3a7f2becbcd472f60ed6df84794fa9645db77b7c127992b5c49309",
+    "baseline-ui.json": "ff07b0d994bf5ca425867178e735ba6b02dd0e86a1cd97bb4a5e5efe3140ae09",
+    "five-preview.png": "ef3d59d7e437d3b3f40c7eb24a22ef7e6f578b9add167fc801fd8e201d8b57f9",
+    "five-ui.json": "b2b83323b661e30405b7d13c39de95619bfc28056e677c48595506127ea04f6c",
+    "licenses/EDITOR-GPL-3.0.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "licenses/PRIMITIVE-SHAPE-MIT.txt": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef",
+    "licenses/PRIMITIVE-SHAPE-PROVENANCE.md": "b8f19a050d918a9a72c012c0103ceeb7b70ecc00366285feabfab6aaf4103c38",
+    "longest/card.json": "41e717623c453364d0b3abb084aa14bab36fde9d987137242efadc4db8473a31",
+    "longest/card.lua": "d0d6ce9e9b500198b67e8620617863bde4bf767b8a46bc96581e7390ed1cc043",
+    "longest/card.png": "b0f4b0eafadaa880608e577354ee3f7a7365ab41c0b112525d6383d0c6186398",
+    "longest/card.source.json": "aa7ff8fef33f714292d9abd1de1ba1bf692c1605c26da92f7ed17ab60058426a",
+    "longest-preview.png": "9b249fb107d5d1180e793417937bf713edd30fa9781088b81a6185baeafbce5c",
+    "longest-ui.json": "fa826a22c0f418ae6964886cb5c5bb9d249776ee550d2c148443aa3d5ab9c094",
+    "one-preview.png": "3083a02b4d96673a0b9c51c065438778b70d9f9459c8397dfd28030231afeb11",
+    "one-ui.json": "8daeec9f247d88313683c7e36944456f577f52e1db35b9d9e5909e08bc0c5e58",
+    "probe.lua": "fbe453bbb417960a90b1ee115b99d63497bf2a85c237bd5691e094bcb8aae23c",
+    "reference/card.json": "670b09a201d7067530bcd511ad81684690ae2d09e6f6494ae5aac5bdea8b10fb",
+    "reference/card.lua": "ca9f4043918ed043071df1554820e445c4c893de5d841c9eb444965e77654ae1",
+    "reference/card.png": "6248e99c7ca25359eb5e31a2da78fbf3f9ea4eaf4b6e2fdb10ba6c9c25b3c72d",
+    "reference/card.source.json": "66e13114e90d095762b9252e12e838e9a3da6be7ba6fe25cc0005144db3b5293",
+    "ten-preview.png": "9280954695cfcc6b73db51a7e3a6df76e9bf9575eac432118014b40f8790bbd0",
+    "ten-ui.json": "e99b2d8ea11e35988f1fef79d153f2d8354a60d5d914070c4941445f0916b919",
+    "verify.lua": "b38b4e317995013184995be4d5b71d381cab9a159fac4ff5689dbabe87e694cd"
+  }
+}
