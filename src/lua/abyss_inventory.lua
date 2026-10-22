@@ -1,0 +1,62 @@
+-- Inventory effects use combat actors and data, with fixed potion/relic damage and block.
+-- Callers execute on an uncommitted battle: a refusal may discard this candidate safely.
+local Combat = require("abyss_combat")
+local M = {}
+local supported = { damage = true, block = true, draw = true, energy = true,
+    gainStatus = true, applyStatus = true }
+local maximum = 2147483647
+
+local function integer(value)
+    return type(value) == "number" and value == value and value % 1 == 0
+        and value >= 0 and value <= maximum
+end
+
+function M.needTarget(effects)
+    for _, effect in ipairs(effects) do
+        if effect.op == "damage" or effect.op == "applyStatus" then return true end
+    end
+    return false
+end
+
+local function validate(state, effects, targetIndex)
+    if M.needTarget(effects) then
+        if not integer(targetIndex) or not state.enemies[targetIndex] or state.enemies[targetIndex].hp <= 0 then
+            return false, "invalid_target"
+        end
+    end
+    for _, effect in ipairs(effects) do
+        if not supported[effect.op] then return false, "unsupported_effect:" .. tostring(effect.op) end
+        if not integer(effect.value) then return false, "invalid_effect_value" end
+        if effect.op == "gainStatus" or effect.op == "applyStatus" then
+            local actor = effect.op == "gainStatus" and state.player or state.enemies[targetIndex]
+            if not actor.statusDefinitions[effect.status] then return false, "unknown_status:" .. tostring(effect.status) end
+        end
+    end
+    return true
+end
+
+function M.apply(state, effects, targetIndex)
+    local ok, reason = validate(state, effects, targetIndex)
+    if not ok then return false, reason end
+    local target = state.enemies[targetIndex]
+    for _, effect in ipairs(effects) do
+        local op, value = effect.op, effect.value
+        if op == "damage" then
+            Combat.damage(state, state.player, target, value, true)
+        elseif op == "block" then
+            if state.player.block + 0.0 + value > maximum then return false, "effect_overflow" end
+            Combat.block(state, state.player, value, true)
+        elseif op == "draw" then Combat.draw(state, value)
+        elseif op == "energy" then
+            if state.energy + 0.0 + value > maximum then return false, "effect_overflow" end
+            state.energy = state.energy + 0.0 + value
+        elseif op == "gainStatus" or op == "applyStatus" then
+            local actor = op == "gainStatus" and state.player or target
+            if (actor.statuses[effect.status] or 0) + 0.0 + value > maximum then return false, "effect_overflow" end
+            Combat.addStatus(actor, effect.status, value)
+        end
+    end
+    return true
+end
+
+return M

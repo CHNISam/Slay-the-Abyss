@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-22 22:01'
+updated_date: '2026-10-22 22:29'
 labels:
   - technical-spike
 dependencies: []
@@ -17,7 +17,7 @@ ordinal: 26000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-独立验证 PNG 图像经 GIA/Lua 路径在千星客户端实际显示的可行性，为首发视觉资产规格提供证据。关联 TASK-4 的多设备验收、TASK-10 的战斗 UI 与 已合入的 [PR #19 界面设计与原型](https://github.com/CHNISam/Slay-the-Abyss/pull/19)；不承担正式美术制作，不以生成文件或编译成功冒充真机通过。
+独立验证 PNG 图像经 GIA/Lua 路径在千星客户端实际显示的可行性，为首发视觉资产规格提供证据。关联 TASK-4 的多设备验收、TASK-10 的战斗 UI 与 TASK-24 的原型美术工作（已合入的 PR #19 界面设计与原型）；不承担正式美术制作，不以生成文件或编译成功冒充真机通过。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -45,4 +45,6 @@ CLAIM 2026-10-23 /root codex，feat/art-pipeline / .worktrees/art-pipeline。pri
 新增实机证据：用户进入试玩截图UfuVVv（SHA8c264f3c...）确认卡框/费用1/岩晶/中文伤害说明可见，但标题打击和类型攻击缺失；点击后截图d70MTN（SHA793a0d9d...）上方已显示点击通过，点击事件及原生文本更新通过。editor Agent提交7838316最小兼容候选，仅两个透明框h22/h18→40，中心/字号不改；3项差异回归、Fengari15控件通过。主Agent已生成abyss-art-card-text-v2.gil，静态0错误0警告；增加可见Metrics回调dt，数值尚未实测。v2待复验，性能/多设备/场景仍未验收，不放行批产。
 
 2026-10-23：用户v2实机两张截图确认完整单卡显示与点击，10秒客户端dt均值33.3/P9534.0ms（非GPU、无基线）。子门槛TASK-10.1.1已Done，TASK-25.1小套共享资产制作与TASK-10.1.2容量样本独立Agent启动；父Spike仍InProgress，场景/肖像/设备/多卡未通过。
+
+集成最新develop时保留TASK-24关联与本分支实机记录；新增共享资产PR42和容量PR43均已独立复审，容量P2旧索引问题已修正。五份实际MCP副本静态0/0，官方试玩待测。
 <!-- SECTION:NOTES:END -->

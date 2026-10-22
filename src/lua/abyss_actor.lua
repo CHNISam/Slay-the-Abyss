@@ -62,8 +62,7 @@ local function directDamage(state, source, target, amount, status)
     return lost
 end
 
-function M.damage(state, source, target, base, fixed)
-    if target.hp <= 0 or source.hp <= 0 then return 0 end
+function M.attackAmount(state, source, target, base, fixed)
     -- Force float arithmetic before modifiers: Fengari integers are 32-bit,
     -- while game Lua uses wider integers. Integer multiplication would wrap.
     local amount = base + 0.0
@@ -72,7 +71,12 @@ function M.damage(state, source, target, base, fixed)
         if (source.statuses.weak or 0) > 0 then amount = amount * state.rules.combat.weakPercent / 100 end
         if (target.statuses.vulnerable or 0) > 0 then amount = amount * state.rules.combat.vulnerablePercent / 100 end
     end
-    amount = math.max(0, math.floor(amount))
+    return math.max(0, math.floor(amount))
+end
+
+function M.damage(state, source, target, base, fixed)
+    if target.hp <= 0 or source.hp <= 0 then return 0 end
+    local amount = M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local lost = math.min(target.hp, amount - absorbed)
@@ -86,13 +90,17 @@ function M.damage(state, source, target, base, fixed)
     return lost
 end
 
-function M.block(state, actor, amount, fixed)
+function M.blockAmount(state, actor, amount, fixed)
     amount = amount + 0.0
     if not fixed then
         amount = amount + (actor.statuses.dexterity or 0)
         if (actor.statuses.frail or 0) > 0 then amount = amount * state.rules.combat.frailPercent / 100 end
     end
-    actor.block = actor.block + 0.0 + math.max(0, math.floor(amount))
+    return math.max(0, math.floor(amount))
+end
+
+function M.block(state, actor, amount, fixed)
+    actor.block = actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed)
 end
 
 local function tick(state, actor, phase)

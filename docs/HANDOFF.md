@@ -1,78 +1,45 @@
-# 交接说明（给接手的 Agent / 结对编程伙伴）
+# 交接说明
 
-> **2026-10-23 美术基线更新：** 用户明确指定 PR #19 为整个游戏的美术与界面设计依据；已 squash 合入 `develop`，提交 `91ae349`。实现前读 `docs/design/UI_DESIGN.md`，对照 `docs/design/prototype/index.html` 与 `docs/design/screens/`，统一使用 `data/presentation/ui_theme.json` / `abyss_theme`。尽可能还原，平台限制造成的差异单独记录；C 档点选保底，A/B 拖动能力仍未平台验证。PR 头提交本地 `npm run check` 通过：58 项 JS、15 项 Lua、11 项 Python（1 项符号链接权限测试跳过），GitHub Quality 通过；这些结果不代表平台编译、存档导入或实机通过。
->
-> **本轮独立任务：** `/root/battle_design` 在 `.worktrees/battle-ui` / `feat/task-10-battle-ui` 推进 TASK-10 战斗界面，`/root/map_design` 在 `.worktrees/map-ui` / `feat/task-12-map-ui` 推进 TASK-12 地图界面。两者以 PR #19 为准，不操作 MCP/游戏，不改核心规则，主代理复审整合。下文为历史快照，当前任务进度以 Backlog CLI、各分支和 PR 为准。
+更新：2026-10-23。内部提交硬线 2026-10-30；正式发布、赛事报名由人执行。
 
-> Owner 2026-10-22 最新角色决定：本次参赛采用荧（Lumine）·岩元素；保留单手剑，先参照官方战技、爆发、天赋、命之座，再做必要卡组改编。旧风元素候选已撤回，不作为当前范围。TASK-7.3 继续复用原任务/PR修订表现；角色范围见 `SCOPE.md`，映射见 `design/TRAVELER.md`。
+先读 AGENTS.md、docs/SCOPE.md、docs/TOOLCHAIN.md。每次会话先运行 `backlog instructions overview`，任务只通过 CLI 更新。
 
-> **2026-10-22 晚人工反馈（本轮更新）：** 创作者奇匠等级已升到 **Lv.2**，自定义外显文本的等级前置**已达成**；卡牌名称/效果文本**尚未实机验证**。此前截图的 Lv.1 为升级前，旧记录 Lv.15 无可信证据。上一个截图显示「已上传」列表已有 GUID `24312086863`，但它是否对应本机超限模式存档、MCP `list_maps` 能否列出仍待测试。**Lv.4「局内存档」仅用于离开关卡后保留玩家数据**，首发 15 层同局跨节点状态不依赖它，不应作为 TASK-14 的阻塞。具体见 `docs/TOOLCHAIN.md` 和 `docs/PUBLISHING.md`。
+## 当前代码与分支
 
-> Sprint Lead 整合更新（2026-10-22，TASK-7 / PR #2）：下文保留上一会话的交接快照。完整75卡原表已原样移至 `data/reference/warrior75.json`（含待核对费用，不代表75张可玩）；`data/cards.json` 为首轮37张战士运行契约。现已补齐19普通变体/14普通遭遇/3精英/1Boss、7遗物、7药水、规则表，详见 `data/README.md`。轻量门禁在TASK-22/PR #1，48项测试已本地复验。游戏窗口运行，但MCP仍列不出存档；未平台编译、未导入、未真机试玩。主Agent领取TASK-7，执行身份在Backlog notes、分支与PR追踪，负责人仍Furinya；其余依赖按实际完成状态解锁。
+- 远端 https://github.com/CHNISam/Slay-the-Abyss；日常基线 develop，功能走 feat/* 和 PR，master 只接受带标签的正式 release/hotfix。
+- 本轮功能集成分支 feat/backlog-sprint，工作树 `.worktrees/runtime-integration`。根目录旧 develop 有既有未提交 Backlog 改动，不要覆盖或强制重置。
+- 先比较当前 HEAD 与 origin/develop，再领任务；旧工作树的领取记录与基线可能已经落后，不能据此重复开发。不要在多个 agent 中共享同一修改边界。
+- 已批准美术基线是 PR #19；角色为荧（岩元素），保留单手剑。以 UI_DESIGN.md、原型、截图和 ui_theme.json 为准，不回退风元素旧方案。
 
-更新时间：2026-10-22。目标：2026-10-30 前完成第一件参赛作品并由**人**正式投稿（官方截止 2026-11-02 11:59 UTC+8）。
+## 已有功能与验证范围
 
-## 0. 先读这四份
+- 六表内容基线：37 张运行契约卡、19 普通敌人变体、14 普通遭遇、3 精英、1 Boss、7 遗物、7 药水与9状态。完整75卡仅在 data/reference/warrior75.json 溯源，不能称75张可玩。
+- Lua 战斗、初始十张卡、奖励入组和状态时序已有测试及独立复核。当前可售普通/罕见/稀有卡为17张，高级效果尚未全部支持；TASK-16 的30+目标仍未完成。
+- 地图核心生成15层分支、合法导航、快照和恢复；view.complete 仅表示抵达Boss。
+- 本轮原生控制器接起菜单→地图→七类节点→战斗/奖励→返回路线，以及失败重开和Boss胜利结果页。节点服务含营地回血/升级、商店买卡/遗物/按UID删牌、宝箱、最小金币/药水事件，实际修改本局资源并防重复领取。
+- 随后已继续TASK-14：七遗物按combat_start/combat_end触发，七药水可消耗并生效。两场原数值战斗验证跨节点资源/永久卡UID保持、新遗物下一场生效和临时状态清除；为覆盖购卡，仅提高该测试的初始金币。最终本地门禁为99项JS（93通过、6权限skip）、120组Lua通过、11项Python（10通过、1权限skip）。日志在build/task-14-verification.log。
+- 控件树、中文显示和主题由构建器生成；详细接线、测试范围与缺口见 CLIENT_UI.md。PR29整合已保留develop批准稿战斗卡面/扇形/C档/四态按钮，以及滚动地图/圆节点/图标/呼吸；旧手牌矩形面板和三页地图不再用于完整入口。节点和商店视觉、状态图标、完整动画等仍有缺口，平台美术验收尚未通过。
+- 独立复核发现并修复荆棘反杀后仍推进死者意图；界面审查修复奖励阶段遗漏战后回血。地图和交易审查未发现额外缺陷。
+- PR29 冲突整合随后同步 PR38 地图强制楼层校验（develop `e07757a`），最终本地检查：JS 130项（124通过、6权限跳过）、Lua 139组通过、Python 12项（11通过、1权限跳过）。清除 Lua 生成物后的独立 `test:lua` 也通过；最新全量日志为 `build/merge-latest-check.log`。药水目标与效果提示已按独立审查修复，真实平台验收仍未完成。
 
-| 文件 | 作用 |
-|---|---|
-| `AGENTS.md` | CLI 工作流 + 分支规范 + 工具链指针（Codex/Claude/Cursor 都读） |
-| `docs/SCOPE.md` | 产品范围、削减优先级、报告纪律 |
-| `docs/TOOLCHAIN.md` | 工具链唯一事实来源（路径、版本、环境变量、MCP 配置） |
-| `docs/HANDOFF.md` | 本文件：当前进度、阻塞、上手步骤 |
+`npm ci --ignore-scripts` 后运行 `npm run check`。该命令检验JS、内容、Lua与Python表现；Windows缺符号链接权限时对应测试明确skip，Linux CI补足。生成物位于build，不入库。Node需22+，UI表现构建还需Python3标准库，可用ABYSS_PYTHON指定路径。
 
-## 1. 仓库与分支
+本地控件测试使用原生API测试替身，不能证明实际平台字体、触摸分发或设备预览。十五层流程测试降低测试数据敌人HP，仅证明接线；另有原数据初始卡组完整战斗测试。原数值通关与平衡仍须TASK-5。
 
-- 远端：`https://github.com/CHNISam/Slay-the-Abyss.git`
-- `master` = 生产（只收 release/hotfix + tag）；`develop` = 开发基线，**日常工作在 develop 或 `feat/<slug>` 短分支**
-- 当前工作分支：develop，已推送
-- Conventional Commits；共享分支禁止改写历史
+## 接下来能做的任务
 
-## 2. 当前进度（真实状态，未虚报）
+1. TASK-10 / TASK-11 / TASK-12：完成平台真实界面取证，尤其手机/主机文字排版和状态/路线可读性；按批准稿继续还原。
+2. TASK-13：七节点规则和本地界面已有，平台流程仍须验收。
+3. TASK-14：遗物/药水本地规则与入口已接通，继续做真实平台跨节点及重开验收。Lv.4退出续局不是首发前置。
+4. TASK-16：补高级卡效果，确保30+实际可用及营地升级；TASK-15补完整遭遇表现/行为。
+5. TASK-17：接平台正式settleStage，验证Boss胜利、失败、重开；现有本地结果页不等于平台结算。
 
-**已完成**
-- backlog.md 项目骨架、6 个里程碑（M0–M5）、21 个任务与依赖，`backlog doctor` 通过
-- 分支规范 + PR 模板 + `.gitignore`
-- `docs/TOOLCHAIN.md`（含官方客户端/千星沙箱路径、MCP 配置、赛事规则要点）
-- 项目级 skill：`.codebuddy/skills/miliastra-wonderland/SKILL.md`，另有 `CLAUDE.md`、`.cursor/rules/miliastra.mdc` 指针
-- `data/cards.json`：**战士 75 张全卡池**（3 基础 + 20 普通 + 36 罕见 + 16 稀有 + 3 状态牌），费用/数值/类型/稀有度**照抄官方 wiki**，只换中文名并保留 `sts_name` 溯源；`cost_verify` 列出 6 张费用待二次核对
-- `data/statuses.json`：9 种状态效果定义
-- `data/README.md`：表驱动约定（改数值不改代码）
-- TASK-1 部分核验：MCP 连通（v0.1.0，workspace/Python 3.12 路径正确，`liveWriteEnabled=false` 确认只写副本）
+TASK-24的批准原型与其落地状态分别记录，不因本轮功能面板存在就关闭美术任务。
 
-**未开始 / 未完成**
-- TASK-1 剩余：千星沙箱新建超限模式存档（**需人**在游戏内完成）；赛事报名入口与创作者中心收益功能是否开通（**需人**确认）
-- TASK-7 剩余：敌人清单（14 组 / 19 变体 / 3 精英 / 1 Boss）、遗物与药水数值表
-- M1 及之后全部开发工作：战斗核心、卡牌系统、战斗界面、状态框架 → 地图/节点 → Boss/结算 → 物料/验收 → 投稿
+## 工具链与人工核验
 
-## 3. 阻塞（必须由人处理）
+以TOOLCHAIN.md为唯一来源：原神 G:\Genshin\Genshin Impact Game\YuanShen.exe；MCP D:\MiliastraTools\genshin-miliastra-mcp。用MCP前必须读miliastra://workflow与miliastra://platform-rules；MILIASTRA_ALLOW_LIVE_WRITE保持0，只写副本。
 
-1. **游戏内新建千星奇域存档（超限模式）**并保存一次，记录存档名 → 之后 `list_maps` 才能列出，MCP 才有操作对象。
-2. **确认创作者中心「收益功能」已开通**（未满 18/未实名/未开通则票券无法提现，原石不影响）。
-3. 发布与赛事报名只能由人点（投稿上限 2 次且不可更换）。
+TASK-1已有取证：名为“杀戮深渊”的本机超限模式存档由list_maps识别，mapId1073741825；收益功能及实名认证已由用户确认；奇匠Lv.2已由用户确认。赛事报名入口仍待人工核验，不能再把“无存档”“收益未开通”当当前阻塞。
 
-## 4. 上手命令
-
-```bash
-git checkout develop && git pull
-backlog board                 # 看板
-backlog task list --plain     # 任务清单
-backlog task view TASK-7      # 数值基准任务
-backlog browser --port 6420   # Web UI（127.0.0.1:6420）
-```
-
-环境（MCP 已写入用户级配置，重启客户端生效）：
-- 原神：`G:\Genshin\Genshin Impact Game\YuanShen.exe`（7.1.0）
-- 千星沙箱：`...\BeyondAssets\BeyondAssistEditor\BeyondEditor.exe`
-- MCP：`D:\MiliastraTools\genshin-miliastra-mcp\src\server.mjs`，`MILIASTRA_ALLOW_LIVE_WRITE=0`
-- Python 3.12：`C:\Users\Administrator\AppData\Local\Programs\Python\Python312\python.exe`
-
-## 5. 纪律（务必遵守）
-
-- 用 miliastra MCP 前先读资源 `miliastra://workflow`、`miliastra://platform-rules`
-- `MILIASTRA_ALLOW_LIVE_WRITE` 保持 `0`，只写存档副本
-- **编译通过 / 写入存档 / 游戏内验证三件事分开报告**，不得互相冒充
-- 内容缺口如实报告，不得把未完成功能宣布为通过
-- 投稿成功与否由人确认，Agent 不得虚报
-- 数值一律走 `data/*.json`，禁止在代码里硬编码数值；改数值不动代码
-- 卡牌/敌人数值照抄有公开来源的原版数值，只改名不改数（`cost_verify` 里的 6 张落地前要再核对一次）
+本轮未进行平台编译、存档导入、实机试玩或投稿。平台编译通过、存档写入成功、游戏操作验证、正式投稿成功四项分别记录。发布步骤见PUBLISHING.md；投稿最多2次且不可更换，必须由人完成。

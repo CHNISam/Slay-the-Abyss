@@ -2,7 +2,8 @@
 local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
-    statusView = Actors.statusView, damage = Actors.damage, block = Actors.block }
+    statusView = Actors.statusView, damage = Actors.damage, block = Actors.block,
+    attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
 function M.applyEffects(state, effects, source, target)
     return Effects.apply(M, state, effects, source, target)
@@ -108,11 +109,30 @@ function M.canPlay(state, uid, targetIndex)
     return true
 end
 
-function M.play(state, uid, targetIndex)
-    local ok, reason = M.canPlay(state, uid, targetIndex)
-    if not ok then return false, reason end -- validate before changing any state/RNG
-    local instance, position = findInstance(state, uid)
-    local card = M.cardDefinition(state, instance)
+-- Only the mutable tables used by a card resolution. Keep original references:
+-- draw may swap piles, and callers may retain actors, statuses, cards or events.
+-- Catalog/rules/intents and existing card/event contents are read-only here.
+local function savePlayState(state)
+    local saved = {}
+    local function save(t)
+        if saved[t] then return end
+        local values = {}
+        for k, v in pairs(t) do values[k] = v end
+        saved[t] = values
+    end
+    local function actor(a) save(a); save(a.statuses) end
+    save(state); actor(state.player); save(state.enemies)
+    for _, enemy in ipairs(state.enemies) do actor(enemy) end
+    save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    return function()
+        for original, values in pairs(saved) do
+            for k in pairs(original) do original[k] = nil end
+            for k, v in pairs(values) do original[k] = v end
+        end
+    end
+end
+
+local function resolvePlay(state, uid, targetIndex, instance, position, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
@@ -122,6 +142,20 @@ function M.play(state, uid, targetIndex)
     pile[#pile + 1] = instance
     finish(state)
     return true
+end
+
+function M.play(state, uid, targetIndex)
+    local ok, reason = M.canPlay(state, uid, targetIndex)
+    if not ok then return false, reason end -- validate before changing any state/RNG
+    local instance, position = findInstance(state, uid)
+    local card = M.cardDefinition(state, instance)
+    local restore = savePlayState(state)
+    local called, result = pcall(resolvePlay, state, uid, targetIndex, instance, position, card)
+    if not called then
+        restore()
+        error(result, 0) -- preserve the rule error, including non-string errors
+    end
+    return result
 end
 
 function M.intent(state, enemyIndex)
@@ -163,8 +197,11 @@ function M.endTurn(state)
                 event(state, "intent", { enemy = enemy.id, id = intent.id })
                 M.applyEffects(state, intent.effects, enemy, state.player)
                 if finish(state) then return true end
-                Actors.endTurn(state, enemy)
-                enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+                -- Thorns can kill this attacker while other enemies remain alive.
+                if enemy.hp > 0 then
+                    Actors.endTurn(state, enemy)
+                    if enemy.hp > 0 then enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1 end
+                end
                 if finish(state) then return true end
             end
         end
