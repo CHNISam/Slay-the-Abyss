@@ -1,0 +1,190 @@
+{
+  "locale": "zh-CN",
+  "cards": {
+    "strike": {
+      "name": "踏步斩",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害。"
+    },
+    "defend": {
+      "name": "行旅架势",
+      "textTemplate": "为自己增加 {effects.0.value} 点格挡。",
+      "upgradeTextTemplate": "为自己增加 {effects.0.value} 点格挡。"
+    },
+    "bash": {
+      "name": "破隙剑",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层易伤。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层易伤。"
+    },
+    "cleave": {
+      "name": "扫径剑",
+      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害。"
+    },
+    "clothesline": {
+      "name": "截步剑",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱。"
+    },
+    "iron_wave": {
+      "name": "护身进剑",
+      "textTemplate": "先增加 {effects.0.value} 点格挡，再对目标造成 {effects.1.value} 点伤害。",
+      "upgradeTextTemplate": "先增加 {effects.0.value} 点格挡，再对目标造成 {effects.1.value} 点伤害。"
+    },
+    "anger": {
+      "name": "续步追击",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再将本牌的一张复制放入弃牌堆。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再将本牌的一张复制放入弃牌堆。"
+    },
+    "body_slam": {
+      "name": "借守出剑",
+      "textTemplate": "对目标造成与自己当前格挡等量的伤害。",
+      "upgradeTextTemplate": "费用：{cost} 能量。对目标造成与自己当前格挡等量的伤害。"
+    },
+    "clash": {
+      "name": "直路进剑",
+      "textTemplate": "只有手牌全为攻击牌时才能打出。对目标造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "只有手牌全为攻击牌时才能打出。对目标造成 {effects.0.value} 点伤害。"
+    },
+    "flex": {
+      "name": "提气蓄势",
+      "textTemplate": "增加 {effects.0.value} 层力量；本回合结束时移除这部分力量。",
+      "upgradeTextTemplate": "增加 {effects.0.value} 层力量；本回合结束时移除这部分力量。"
+    },
+    "true_grit": {
+      "name": "轻装应变",
+      "textTemplate": "增加 {effects.0.value} 点格挡，再随机消耗 {effects.1.value} 张手牌。",
+      "upgradeTextTemplate": "增加 {effects.0.value} 点格挡，再选择并消耗 {effects.1.value} 张手牌。"
+    },
+    "twin_strike": {
+      "name": "双步连剑",
+      "textTemplate": "对目标连续攻击 {effects.0.times} 次，每次造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "对目标连续攻击 {effects.0.times} 次，每次造成 {effects.0.value} 点伤害。"
+    },
+    "pommel_strike": {
+      "name": "回步探剑",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再抽 {effects.1.value} 张牌。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再抽 {effects.1.value} 张牌。"
+    },
+    "shrug_it_off": {
+      "name": "稳步整装",
+      "textTemplate": "增加 {effects.0.value} 点格挡，再抽 {effects.1.value} 张牌。",
+      "upgradeTextTemplate": "增加 {effects.0.value} 点格挡，再抽 {effects.1.value} 张牌。"
+    },
+    "thunderclap": {
+      "name": "开路剑势",
+      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 层易伤。",
+      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 层易伤。"
+    },
+    "warcry": {
+      "name": "整备行囊",
+      "textTemplate": "抽 {effects.0.value} 张牌，再选择 {effects.1.value} 张手牌放到抽牌堆顶。打出后消耗本牌。",
+      "upgradeTextTemplate": "抽 {effects.0.value} 张牌，再选择 {effects.1.value} 张手牌放到抽牌堆顶。打出后消耗本牌。"
+    },
+    "uppercut": {
+      "name": "挑隙剑",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱和 {effects.2.value} 层易伤。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱和 {effects.2.value} 层易伤。"
+    },
+    "inflame": {
+      "name": "定心前行",
+      "textTemplate": "为自己增加 {effects.0.value} 层力量。",
+      "upgradeTextTemplate": "为自己增加 {effects.0.value} 层力量。"
+    },
+    "metallicize": {
+      "name": "守夜习惯",
+      "textTemplate": "每个己方回合结束时，增加 {effects.0.value} 点格挡。",
+      "upgradeTextTemplate": "每个己方回合结束时，增加 {effects.0.value} 点格挡。"
+    },
+    "battle_trance": {
+      "name": "凝神观路",
+      "textTemplate": "抽 {effects.0.value} 张牌；此后本回合不能再抽牌。",
+      "upgradeTextTemplate": "抽 {effects.0.value} 张牌；此后本回合不能再抽牌。"
+    },
+    "bloodletting": {
+      "name": "强撑赶路",
+      "textTemplate": "失去 {effects.0.value} 点生命，换取 {effects.1.value} 点能量。",
+      "upgradeTextTemplate": "失去 {effects.0.value} 点生命，换取 {effects.1.value} 点能量。"
+    },
+    "barricade": {
+      "name": "固守营地",
+      "textTemplate": "自己的回合开始时，保留已有格挡。",
+      "upgradeTextTemplate": "费用：{cost} 能量。自己的回合开始时，保留已有格挡。"
+    },
+    "carnage": {
+      "name": "倾身重斩",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害。回合结束时若仍在手中，消耗本牌。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害。回合结束时若仍在手中，消耗本牌。"
+    },
+    "disarm": {
+      "name": "卸势剑诀",
+      "textTemplate": "调整目标力量：{effects.0.value} 层。打出后消耗本牌。",
+      "upgradeTextTemplate": "调整目标力量：{effects.0.value} 层。打出后消耗本牌。"
+    },
+    "dropkick": {
+      "name": "趁隙踏进",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害。若目标处于易伤，增加 {effects.1.then.0.value} 点能量并抽 {effects.1.then.1.value} 张牌。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害。若目标处于易伤，增加 {effects.1.then.0.value} 点能量并抽 {effects.1.then.1.value} 张牌。"
+    },
+    "entrench": {
+      "name": "加固营帐",
+      "textTemplate": "将自己当前的格挡翻倍。",
+      "upgradeTextTemplate": "费用：{cost} 能量。将自己当前的格挡翻倍。"
+    },
+    "ghostly_armor": {
+      "name": "临时护具",
+      "textTemplate": "为自己增加 {effects.0.value} 点格挡。回合结束时若仍在手中，消耗本牌。",
+      "upgradeTextTemplate": "为自己增加 {effects.0.value} 点格挡。回合结束时若仍在手中，消耗本牌。"
+    },
+    "hemokinesis": {
+      "name": "负伤突进",
+      "textTemplate": "失去 {effects.0.value} 点生命，再对目标造成 {effects.1.value} 点伤害。",
+      "upgradeTextTemplate": "失去 {effects.0.value} 点生命，再对目标造成 {effects.1.value} 点伤害。"
+    },
+    "rampage": {
+      "name": "步步进逼",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害；随后本牌在本场战斗中的伤害增加 {effects.1.value} 点。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害；随后本牌在本场战斗中的伤害增加 {effects.1.value} 点。"
+    },
+    "seeing_red": {
+      "name": "振作启程",
+      "textTemplate": "增加 {effects.0.value} 点能量。打出后消耗本牌。",
+      "upgradeTextTemplate": "费用：{cost} 能量。增加 {effects.0.value} 点能量。打出后消耗本牌。"
+    },
+    "shockwave": {
+      "name": "压阵剑势",
+      "textTemplate": "为每个敌人施加 {effects.0.value} 层虚弱和 {effects.1.value} 层易伤。打出后消耗本牌。",
+      "upgradeTextTemplate": "为每个敌人施加 {effects.0.value} 层虚弱和 {effects.1.value} 层易伤。打出后消耗本牌。"
+    },
+    "whirlwind": {
+      "name": "环身剑舞",
+      "textTemplate": "耗尽剩余能量；每耗用一点，对每个敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "耗尽剩余能量；每耗用一点，对每个敌人造成 {effects.0.value} 点伤害。"
+    },
+    "offering": {
+      "name": "勉力整备",
+      "textTemplate": "失去 {effects.0.value} 点生命，增加 {effects.1.value} 点能量，再抽 {effects.2.value} 张牌。打出后消耗本牌。",
+      "upgradeTextTemplate": "失去 {effects.0.value} 点生命，增加 {effects.1.value} 点能量，再抽 {effects.2.value} 张牌。打出后消耗本牌。"
+    },
+    "impervious": {
+      "name": "立剑守望",
+      "textTemplate": "为自己增加 {effects.0.value} 点格挡。打出后消耗本牌。",
+      "upgradeTextTemplate": "为自己增加 {effects.0.value} 点格挡。打出后消耗本牌。"
+    },
+    "demon_form": {
+      "name": "远行不息",
+      "textTemplate": "每个己方回合开始时，增加 {effects.0.value} 层力量。",
+      "upgradeTextTemplate": "每个己方回合开始时，增加 {effects.0.value} 层力量。"
+    },
+    "bludgeon": {
+      "name": "落步重剑",
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害。"
+    },
+    "reaper": {
+      "name": "回锋续行",
+      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。",
+      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。"
+    }
+  }
+}
