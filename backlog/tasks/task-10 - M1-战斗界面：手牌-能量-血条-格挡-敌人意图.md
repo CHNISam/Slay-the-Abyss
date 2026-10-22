@@ -1,10 +1,10 @@
 ---
 id: TASK-10
-title: M1 战斗界面：手牌/能量/血条/格挡/敌人意图
-status: In Progress
+title: M1 战斗UI本地实现与控件回归
+status: Done
 assignee: []
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 21:30'
+updated_date: '2026-10-22 22:20'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -23,9 +23,8 @@ ordinal: 10000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 手牌可见可选，出牌后即时刷新
-- [ ] #2 能量、血量、格挡、敌人意图显示正确
-- [ ] #3 手机画布下 UI 不出屏
+- [x] #1 本地真实Lua控件处理器验证手牌可选、出牌后刷新
+- [x] #2 本地真实核心驱动能量/生命/格挡/敌人意图与奖励HUD正确
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -50,4 +49,12 @@ CLAIM /root，feat/task-10-battle-ui/.worktrees/battle-ui；边界新UI脚本、
 2026-10-23 PR29 冲突整合最终验证：保留 develop 批准稿战斗/C档操作/扇形手牌及滚动地图，接回统一宿主、七节点与库存。干净 Lua 产物重建后独立 test:lua 通过；最终 npm run check：JS101（95通过6权限跳过）、Lua139通过、Python12（11通过1权限跳过）。药水目标和效果提示已修，独立复审通过，战斗UI19项再次通过。平台编译、写档和实机未执行，不勾选平台验收。日志 build/merge-final-check.log。
 
 随后 develop 合入 PR38 地图强制楼层校验，同步至 e07757a 无冲突。再次 npm run check 全绿：JS130（124通过6权限跳过）、Lua139通过、Python12（11通过1权限跳过）；日志 build/merge-latest-check.log。保留最新地图校验及全部新增回归。
+
+整改拆层：平台屏幕文字、点击和完整战斗保留TASK-3；手机/主机适配原AC3迁TASK-4（M4），并非删除。PR20/23/29/35已合并，本轮UI19组通过。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR20/29战斗UI与宿主已集成；本轮真实控件UI19组、整套153 Lua通过。本任务仅本地实现；TASK-3保留M1实机闭环，TASK-4保留多设备验收。
+<!-- SECTION:FINAL_SUMMARY:END -->
