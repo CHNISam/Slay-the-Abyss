@@ -1,0 +1,11 @@
+# Local / temp
+.backlog-ui.log
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/settings.json
