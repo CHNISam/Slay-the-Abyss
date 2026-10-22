@@ -1,11 +1,11 @@
 ---
-id: TASK-24
+id: TASK-27
 title: 防止 Lua 数据导出覆盖源表
 status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 15:43'
-updated_date: '2026-10-22 15:55'
+updated_date: '2026-10-22 16:15'
 labels: []
 dependencies: []
 references:
@@ -42,4 +42,6 @@ Executor=dot；基线047b7456；独立目录 slay-lua-export-fix-20261022。原T
 独立评审通过：73项保护/数据测试、16项额外文件系统边界、2项无需Lua构建器测试、Python11项均通过；父级复跑73项和Python11项通过。只声明输入别名安全，不声明恶意并发竞态防护。完整Lua与Windows等待真实CI。
 
 保持In Progress：当前仅本地候选及独立评审通过，正式CI、PR合并尚未完成；不能计作已交付。
+
+2026-10-23 合并PR #19后发现与未提交美术任务重号，经backlog doctor --fix --yes自动将本任务由TASK-24改为TASK-27。美术设计任务及其既有引用保留TASK-24。已人工复核doctor列出的5处引用均指美术，无需改指源表保护；PR #17中的历史编号不改写。
 <!-- SECTION:NOTES:END -->
