@@ -1,11 +1,11 @@
 ---
 id: TASK-23
 title: 本机专用 runner 与 CI 门禁接入
-status: In Progress
+status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 14:36'
-updated_date: '2026-10-22 15:06'
+updated_date: '2026-10-22 15:19'
 labels: []
 dependencies: []
 ordinal: 23000
@@ -19,9 +19,9 @@ ordinal: 23000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 专用 Windows 服务自动启动且 GitHub runner 在线
-- [ ] #2 PR 与 develop/master 推送执行语法、测试、数据校验并实跑成功
-- [ ] #3 记录维护命令、分支门禁与发布边界
+- [x] #1 专用 Windows 服务自动启动且 GitHub runner 在线
+- [x] #2 PR 与 develop/master 推送执行语法、测试、数据校验并实跑成功
+- [x] #3 记录维护命令、分支门禁与发布边界
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -36,4 +36,14 @@ ordinal: 23000
 本地 npm run check：48/48、语法、完整内容数据通过。专用服务已 Running/Auto/Network Service，runner 在线。最新官方包下载过慢，改为仅复制既有官方 2.337.0 的 bin/externals/启动程序，未复制凭据或工作目录，新 token 独立注册，保留自动更新。首跑因直连 Actions 下载/TLS 超时失败；确认 runner 空闲后，仅为新 runner 配置本机 Clash 7897 代理并重启，第二次执行中。GitHub 分支保护 API 403：当前私有仓库套餐不支持，未改套餐或公开仓库。草稿 PR #4。
 
 整合 develop 已合入的 PR #1/#6，保留其成果。真实执行定位 Windows 服务 PATH 无 bash，已改原生 PowerShell；job defaults 使用 github 上下文选择 shell，GitHub 已成功解析。新增 Python 文案测试在 Windows 因符号链接权限失败，安排零依赖 Ubuntu presentation 作业跑完整10项，避免提升服务权限。
+
+最终本机 check 作业移除所有 Actions 组件下载，复用已安装 Git/Node，精确 SHA 检出并核验；fetch 认证只放临时进程环境，finally 清除。本机执行进程使用 PowerShell 的进程级执行参数，不修改系统策略。Python presentation 在 Ubuntu 完整10项通过。最终线上验证 run 39802911658 进行中。
+
+PR #4 已 squash 合入 develop，merge b939bf580c44beffdab42cea632106431b1e1af6。PR run 39802911658 双作业通过；develop push run 39803499149 双作业通过：本机 check 18秒（48项Node测试+语法/内容/空白检查），Ubuntu presentation 5秒（10项Python测试）。服务已实查 Running/Auto/Network Service。分支保护403限制已文档记录。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+完成独立自启动 self-hosted runner 和零 npm 依赖门禁；PR #4 已合入 develop，PR及合入后push均实跑通过。最终开发推送check18秒、presentation5秒。未改变其他runner、GitHub套餐或仓库可见性；正式游戏发布仍由人完成。
+<!-- SECTION:FINAL_SUMMARY:END -->
