@@ -2,7 +2,8 @@
 local M = {}
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
-    applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true }
+    applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
+    loseHp = true }
 
 function M.supported(effects)
     for _, effect in ipairs(effects) do if not coreOps[effect.op] then return false, effect.op end end
@@ -27,6 +28,10 @@ function M.apply(combat, state, effects, source, target)
                 end
                 if combat.outcome(state) then break end
             end
+        elseif op == "loseHp" then
+            -- HP payment is not an attack or a status tick. The next effect's
+            -- source-alive guard stops the card when this payment is lethal.
+            source.hp = math.max(0, source.hp - value)
         elseif op == "block" then combat.block(state, source, value)
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)

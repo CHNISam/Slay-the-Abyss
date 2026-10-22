@@ -138,9 +138,9 @@ test("upgraded card inherits unchanged fields without mutating catalog", functio
 end)
 
 test("unknown or advanced effects fail before spending energy", function()
-    local s = battle({ "offering" })
+    local s = battle({ "demon_form" })
     local hp, seed = s.player.hp, s.seed
-    equal(Combat.play(s, uid(s, "offering"), 1), false)
+    equal(Combat.play(s, uid(s, "demon_form"), 1), false)
     equal(s.energy, 3); equal(s.player.hp, hp); equal(s.seed, seed)
 end)
 

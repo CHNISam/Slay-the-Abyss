@@ -4,7 +4,7 @@ title: M3 战士卡池扩展与卡牌升级
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 21:31'
+updated_date: '2026-10-22 21:42'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -30,9 +30,26 @@ ordinal: 16000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-2026-10-22 UTC：dot 在 feat/dot-entrench-candidate 基于 develop a3526615d02655d5eb5b02261c84043fb219756e 做独立候选接续，非正式认领或整项交付。TASK-14 未完成，TASK-16 状态、负责人、依赖及 AC 不变。生产写入仅 src/lua/abyss_effects.lua 和新增 tests/lua/entrench.lua：使现有 entrench 当前格挡翻倍，普通2费/升级1费，不重新应用敏捷或脆弱，不改数据/UI/核心其他文件。先写真实 Combat.play 红测试，再最小实现；覆盖零格挡、连续倍增、32位边界、非法能量/重复UID完整状态及真实奖励获取后下场使用。正式 npm check/Fengari 尚未运行，须独立复核与 CI；不代表平台编译、存档导入或实机验收。
+### 状态
+- PR37 独立候选；TASK-14 未完成，未认领、未合并。本任务状态、负责人、依赖及 AC 不变。
 
-候选本地进展：先运行9组新增红测试，均以 doubleBlock 不受支持或奖励未出现失败；最小复用已有固定格挡路径后10组（含负敏捷补测）通过，原表、运行卡名掘壕及表现层名称均未改。真实原始初始牌组完成战斗、实际奖励领取 entrench、下一场与防御配合出牌通过；不是15层通关或平衡验证。npm run check 已实跑退出1：90项JS中84通过、6项因缺失 fengari-node-cli 失败；未安装依赖，正式 Fengari32 与聚合门禁仍待 CI。系统 Lua5.4 为补充证据，不能替代 Fengari/平台；Python 12项通过。候选待独立审查，未改变本任务完成度。
+### 本轮卡牌
+- 加固防线：当前格挡翻倍，不重复计算敏捷/脆弱。
+- 集中精神：先抽牌，再禁止本回合抽牌，下回合恢复。
+- 透支：支付 HP 换能量。
+- 舍身进攻：支付 HP 后造成攻击伤害。
+- 奋力一搏：支付 HP 换能量与抽牌，打出后消耗。
+- 数值与升级沿用 data；HP 支付无视格挡与攻击修正，不触发荆棘，致死停止后续效果且无奖励。
 
-2026-10-22 UTC：dot 基于 PR37 head 8ee173cad52695fbf0d5b4266215debafdd932ba 的物化快照做独立集中精神（battle_trance）候选，保留 entrench，不包含 flex；非正式认领，TASK-14 待满足，状态、负责人、依赖和 AC 不变。已核对最新 AGENTS/HANDOFF/SCOPE 与原表/overlay：普通0费先抽3、升级先抽4，再 noDrawThisTurn。仅 abyss_effects 注册并将既有 source.noDraw 设 true，复用 Combat.draw 检查和 startPlayerTurn 复位，不改核心、数值、表现或永久状态。先写真实 Combat.play 红测试，14组功能/奖励负例失败、1组非法命令通过；接线后新增15组系统 Lua5.4测试通过，包含空/满手、洗牌、连续零费、已有抽牌卡前后交互、敌方动作及下回合恢复、真实初始牌组取胜领奖后下场出牌。全8个Lua文件系统Lua5.4补测通过；npm run check 实跑失败：JS90项84通过6项缺失fengari-node-cli，未安装依赖；Python12项和数据校验通过。系统Lua5.4不替代正式Fengari32/CI，候选待独立复核及TASK-14正式整合，不代表平台编译、导入、实机或Task16完成。
+### 验证
+- 新增27组：26红、1既有保护绿 → 27绿；全191组 Lua5.4、Python12项通过。详细用例见 tests/lua/hp_loss.lua。
+- 本地 JS 123/130通过，7项因缺 Fengari 失败；新候选正式 CI 待运行。
+- 2459 基线 CI 39858438081 双平台成功，仅覆盖前两卡，不能代替 loseHp 验证。
+- 旧 offering 未支持负例改为仍未支持的 demon_form，完整保留拒绝与能量/HP/RNG断言。
+
+### 边界与证据
+- 可用25张含3基础、22张奖励候选，未达30+；flex未接，无平台编译/导入/试玩验证。
+- PR37：https://github.com/CHNISam/Slay-the-Abyss/pull/37
+- 历史：8ee173c / d989 / 2459a5a；完整过程保留在 Git 历史。
+- 下一步：独立复核、新提交正式 CI、TASK-14及平台验收。
 <!-- SECTION:NOTES:END -->
