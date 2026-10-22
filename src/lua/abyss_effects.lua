@@ -5,9 +5,39 @@ local coreOps = { damage = true, damageAll = true, block = true, draw = true, en
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
     loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true }
 
-function M.supported(effects)
-    for _, effect in ipairs(effects) do if not coreOps[effect.op] then return false, effect.op end end
+local function supported(effects, branch)
+    if type(effects) ~= "table" then return false, "invalid_effect" end
+    -- Both levels must be nonempty dense arrays: ipairs alone would silently
+    -- accept objects, empty branches or unknown operations after a hole.
+    local count = 0
+    for key in pairs(effects) do
+        if type(key) ~= "number" or key % 1 ~= 0 or key < 1 then return false, "invalid_effect" end
+        count = count + 1
+    end
+    if count == 0 then return false, "invalid_effect" end
+    for i = 1, count do if effects[i] == nil then return false, "invalid_effect" end end
+    local targetChecked = false
+    for _, effect in ipairs(effects) do
+        if type(effect) ~= "table" then return false, "invalid_effect" end
+        local op = effect.op
+        if type(op) ~= "string" then return false, "invalid_effect" end
+        if op == "conditional" then
+            -- Combat preflights top-level damage targets; never enable a
+            -- conditional-only card or recursively hidden target requirement.
+            if branch or not targetChecked or effect["if"] ~= "target_vulnerable"
+                or effect["else"] ~= nil then return false, "conditional" end
+            local ok, unsupported = supported(effect["then"], true)
+            if not ok then return false, unsupported end
+        elseif not coreOps[op] or (branch and op ~= "energy" and op ~= "draw") then
+            return false, op or "invalid_effect"
+        end
+        if op == "damage" then targetChecked = true end
+    end
     return true
+end
+
+function M.supported(effects)
+    return supported(effects, false)
 end
 
 local function targets(state, source)
@@ -31,6 +61,13 @@ function M.apply(combat, state, effects, source, target)
         elseif op == "damageEqualToBlock" then
             -- Current block is the attack base, not a payment or fixed damage.
             dealt = dealt + combat.damage(state, source, target, source.block)
+        elseif op == "conditional" then
+            -- Damage leaves the target's statuses intact, even on a lethal hit.
+            -- The outer source-alive guard still stops thorns-killed attackers.
+            assert(effect["if"] == "target_vulnerable", "unsupported condition")
+            if target and (target.statuses.vulnerable or 0) > 0 then
+                dealt = dealt + M.apply(combat, state, effect["then"], source, target)
+            end
         elseif op == "loseHp" then
             -- HP payment is not an attack or a status tick. The next effect's
             -- source-alive guard stops the card when this payment is lethal.
