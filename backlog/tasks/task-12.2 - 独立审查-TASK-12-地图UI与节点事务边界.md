@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 16:49'
-updated_date: '2026-10-22 16:56'
+updated_date: '2026-10-22 16:57'
 labels: []
 dependencies: []
 parent_task_id: TASK-12
@@ -36,6 +36,8 @@ ordinal: 29000
 执行者独立审查/root/content_review，非地图UI作者（原地图规则曾由本人实现）；新审查树F:/New folder/.worktrees/map-ui-review，分支feat/task-12-2-ui-review，基线d3c6c41。负责人Furinya，边界仅TASK12.2与docs/reviews，不改已有map-ui树、不碰MCP/GUI。
 
 独立复核d3c6c412650147d7617c4b04c04006a3fbc1cb3c：现有切片无离线功能阻断。完整check退出0：87JS=81pass/6权限skip，69Lua含10MapUI全部通过，Python11=10pass/1skip，语法六表主题通过。只读核批准map.png/主题/布局及官方API镜像；额外禁用不可用全局的15层路线/resize通过。候选Nodes.enter文件冻结blob a1b9b72d2e5b3199c6c2e154c389a788e3d5ffde（当时未提交）真实联调通过一次推进、pending拒绝、真实战斗奖励完成后授权下一节点；不当作已集成验收。证据docs/reviews/TASK-12.2-map-ui-review.md。原UI树未改，未MCP/GUI/平台/游戏验收，原TASK12 AC3保持待整合。
+
+交付：审查证据提交388b173，PR https://github.com/CHNISam/Slay-the-Abyss/pull/32 ，base feat/task-12-map-ui；被审UI d3c6c412650147d7617c4b04c04006a3fbc1cb3c。未自行merge，后续宿主与平台整合不在此固定基线结论。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
