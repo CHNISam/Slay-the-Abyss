@@ -26,11 +26,11 @@ local function control(spec, parent)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
 end
-local function fixture(data)
+local function fixture(data, settle)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     return GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end }), root
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle }), root
 end
 local function mapControl(panel, name)
     for _, group in pairs(panel.children) do
@@ -129,7 +129,7 @@ test("all seven node panels compose through fifteen floors and Boss result then 
         elseif node.type == "shop" then
             if ui.nodeUI.slots[1] and ui.nodeUI.slots[1].enabled then
                 local before = ui.run.gold
-                click(root, "nodePanel", "action1")
+                click(root, "nodePanel", "shop1")
                 assert(ui.run.gold < before)
             end
             click(root, "nodePanel", "leave")
@@ -144,6 +144,56 @@ test("all seven node panels compose through fifteen floors and Boss result then 
     assert(root:GetChild("menuPanel"):GetChild("summary").text:find("首领已击败", 1, true))
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
+end)
+
+test("result settlement sends each outcome once and cannot restart while official settlement is pending", function()
+    local outcomes = {}
+    local ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory end)
+    assert(not ui:settle() and #outcomes == 0)
+    assert(not root:GetChild("menuPanel"):GetChild("settle").visible)
+    assert(ui:start()) assert(not ui:settle())
+    ui.run.phase = "defeat" ui:refresh()
+    assert(ui:start() and not ui.settlementRequested)
+    ui.run.phase = "defeat" ui:refresh()
+    assert(root:GetChild("menuPanel"):GetChild("start").x < 0)
+    assert(root:GetChild("menuPanel"):GetChild("settle").visible)
+    assert(click(root, "menuPanel", "settle"))
+    assert(#outcomes == 1 and outcomes[1] == false and ui.settlementRequested)
+    assert(root:GetChild("menuPanel"):GetChild("settle"):GetChild("disabled").visible)
+    assert(not ui:settle() and #outcomes == 1)
+    assert(not ui:start() and not root:GetChild("menuPanel"):GetChild("start").visible)
+    ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory end)
+    assert(ui:start())
+    ui.run.phase = "map"
+    ui.run.nodeFlow = {complete=true, result="boss_victory"}
+    ui:refresh() assert(ui.mode == "victory")
+    assert(click(root, "menuPanel", "settle"))
+    assert(#outcomes == 2 and outcomes[2] == true)
+    assert(not ui:settle() and #outcomes == 2)
+end)
+
+test("settlement callback failure is visible and retryable without claiming official completion", function()
+    local attempts, ui = 0, nil
+    local root
+    ui, root = fixture(nil, function()
+        attempts = attempts + 1
+        assert(not ui:settle(), "reentrant settlement must be rejected")
+        if attempts == 1 then error("injected send failure") end
+        if attempts == 2 then return false end
+    end)
+    ui:start() ui.run.phase = "defeat" ui:refresh()
+    for _ = 1, 2 do
+        assert(not click(root, "menuPanel", "settle"))
+        assert(not ui.settlementRequested and not ui.settlementBusy)
+        assert(root:GetChild("menuPanel"):GetChild("summary").text:find("结算请求失败", 1, true))
+    end
+    assert(click(root, "menuPanel", "settle") and attempts == 3)
+    assert(root:GetChild("menuPanel"):GetChild("settle"):GetChild("label").text == "已发送结算请求")
+    assert(ui.mode == "defeat", "sending a signal is not official settlement confirmation")
+    local unavailable = fixture()
+    unavailable:start() unavailable.run.phase = "defeat" unavailable:refresh()
+    local ok, reason = unavailable:settle()
+    assert(not ok and reason == "settlement_unavailable" and not unavailable.settlementRequested)
 end)
 
 test("viewport scales each device uniformly and covers wider canvas outside the stage", function()

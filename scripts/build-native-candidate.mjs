@@ -3,6 +3,7 @@ import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve, join, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { requireStartupEvidence } from './native-playtest-evidence.mjs';
+import { settlementGraphSource } from './settlement-graph.mjs';
 
 const [baseMap, output = '.artifacts/native-candidate', mode] = process.argv.slice(2);
 if (!baseMap) throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory]');
@@ -44,6 +45,17 @@ try {
     }
   }
   await call('scene_add_client_ui', { ...layout, mapPath, outputName: 'abyss-full-game-test' });
+  await call('scene_set_player_count', { mapPath, min: 1, max: 1, outputName: 'abyss-full-game-test' });
+  for (const name of ['ABYSS_WIN', 'ABYSS_LOSE']) {
+    await call('scene_add_signal', { mapPath, name, outputName: 'abyss-full-game-test' });
+  }
+  const graph = await call('scene_add_graph', { mapPath, name: 'ABYSS_SETTLEMENT', kind: 'server', outputName: 'abyss-full-game-test' });
+  const code = settlementGraphSource({ id: graph.graphId, name: graph.name });
+  writeFileSync(join(workspace, 'settlement.ts'), code);
+  const compiled = await call('write_graphs', { mapPath, graphs: [{ graphId: graph.graphId, code }] });
+  if (compiled.failed || compiled.error || compiled.errors?.length || compiled.written?.length !== 1) {
+    throw new Error('Settlement graph did not compile/write completely; see write_graphs-result.json');
+  }
   const checked = await call('scene_check_client', { mapPath });
   if (!checked.ok || checked.errors) throw new Error('Candidate failed client checks; see scene_check_client-result.json');
   writeFileSync(join(workspace, 'candidate.json'), JSON.stringify({ mapPath,
@@ -56,7 +68,7 @@ try {
     // to remember a checkbox or treat a run without log evidence as passed.
     const startedAt = Date.now();
     const started = await call('playtest_start', { mapPath, durationSeconds: 12,
-      screenshotsAt: [2, 8], clientScriptLog: true });
+      screenshotsAt: [2, 8], clientScriptLog: true, graphName: graph.name });
     const deadline = Date.now() + 240000;
     let status;
     do {

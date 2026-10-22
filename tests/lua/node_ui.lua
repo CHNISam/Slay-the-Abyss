@@ -2,6 +2,7 @@ package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI, Nodes = require("abyss_node_ui"), require("abyss_nodes")
 local Run, Map, Combat = require("abyss_run"), require("abyss_map"), require("abyss_combat")
 local data = require("abyss_data")
+local Theme = require("abyss_theme")
 local count = 0
 local function test(name, fn) fn() count = count + 1 print("ok node UI " .. count .. " - " .. name) end
 local function control(name)
@@ -28,8 +29,14 @@ local function setup(kind, source, prepare)
     local root, presentation, changes = control("nodePanel"), {}, {}
     for _, name in ipairs({ "title", "resources", "notice", "page", "previous", "next", "leave", "tab1", "tab2", "tab3" }) do root.children[name] = control(name) end
     for i = 1, 8 do root.children["action" .. i] = control("action" .. i) end
+    for i = 1, Theme.layout.nativeNode.shop.pageSize do root.children["shop" .. i] = control("shop" .. i) end
     for _, c in pairs(root.children) do
-        for _, name in ipairs({ "normal", "disabled", "selected", "label", "hit" }) do c.children[name] = control(name) end
+        for _, name in ipairs({ "normal", "disabled", "selected", "label", "hit", "name", "description", "price", "unavailablePrice" }) do c.children[name] = control(name) end
+        for kind in pairs(Theme.icon.cardArt) do
+            c.children["art_" .. kind] = control("art_" .. kind)
+            c.children["artPlate_" .. kind] = control("artPlate_" .. kind)
+        end
+        c.children.art_relic = control("art_relic")
     end
     for _, card in ipairs(data.cards.cards) do presentation[card.id] = { name = "展示_" .. card.id } end
     local ui = UI.new(root, run, map, presentation, "click", function(ok, reason, controller)
@@ -37,7 +44,14 @@ local function setup(kind, source, prepare)
         changes[#changes + 1] = { ok = ok, reason = reason }
     end)
     local function click(name) return root:GetChild(name):GetChild("hit").click() end
-    local function label(name) return root:GetChild(name):GetChild("label").text end
+    local function label(name)
+        local slot = name:match("^action(%d+)$")
+        local item = slot and root.children["shop" .. slot]
+        if item and item.visible then
+            return item.children.name.text .. "\n" .. item.children.description.text .. "\n" .. item.children.price.text
+        end
+        return root:GetChild(name):GetChild("label").text
+    end
     return ui, root, click, label, changes
 end
 local function same(a, b)
@@ -78,12 +92,16 @@ test("camp upgrade menu can return before committing; exhausted choices are disa
     local before = Combat.copy(ui.run) assert(not click("action2")) same(ui.run, before)
 end)
 test("shop displays presentation, current prices, insufficient gold, and sold state", function()
-    local ui, _, click, label = setup("shop")
+    local ui, root, click, label = setup("shop")
     local offer = Nodes.view(ui.run, ui.map).node.cards[1]
     ui.run.gold = offer.price - 1 ui:render()
+    assert(root.children.shop1.visible and not root.children.action1.visible)
+    assert(root.children.shop1.children.unavailablePrice.visible and not root.children.shop1.children.price.visible)
+    assert(not root.children.shop1.children.name.text:find("金币", 1, true))
     assert(label("action1"):find("金币不足", 1, true) and label("action1"):find("展示_", 1, true))
     local before = Combat.copy(ui.run) assert(not click("action1")) same(ui.run, before)
     ui.run.gold = offer.price ui:render()
+    assert(not root.children.shop1.children.unavailablePrice.visible and root.children.shop1.children.price.visible)
     local size = #ui.run.deck assert(click("action1"))
     assert(#ui.run.deck == size + 1 and ui.run.deck[#ui.run.deck].cardId == offer.id and ui.run.gold == 0)
     assert(label("action1"):find("已售出", 1, true))
@@ -156,7 +174,7 @@ test("fresh run without a node renders safely and same-id restart resets navigat
     assert(not click("action1") and not click("leave"))
     ui.run, ui.map = entered("shop") ui:render()
     assert(ui.nodeId == previousNode and ui.category == "cards" and ui.page == 1)
-    assert(root.children.action1.visible)
+    assert(root.children.shop1.visible and not root.children.action1.visible)
 end)
 test("external node completion blocks old purchase and gold treasure is claimed through Nodes", function()
     local ui, _, click = setup("shop", nil, function(run) run.gold = 10000 end)

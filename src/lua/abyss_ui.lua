@@ -13,6 +13,8 @@ local function failed(phase, reason)
         local menu = stage:GetChild("menuPanel")
         menu:SetVisible(true)
         menu:GetChild("start"):SetVisible(false)
+        local settle = menu:GetChild("settle")
+        if settle then settle:SetVisible(false) end
         local message = "关卡启动失败，请退出后重新进入。"
         if game.IsTestPlay and game.IsTestPlay() then
             message = message .. "\n测试诊断 · " .. phase .. "\n" .. tostring(reason)
@@ -33,7 +35,12 @@ function OnStart()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { color = Color, imageSource = Enum.ImageSource.StaticReference })
+            { color = Color, imageSource = Enum.ImageSource.StaticReference, settle = function(victory)
+                if victory then game.ServerSignal("ABYSS_WIN"):SendSignal()
+                else game.ServerSignal("ABYSS_LOSE"):SendSignal() end
+                print("ABYSS_UI settlement_requested " .. (victory and "victory" or "defeat"))
+                return true
+            end })
         view:resize(width, height)
         canvasWidth, canvasHeight = width, height
         script:EnableUpdate(true)

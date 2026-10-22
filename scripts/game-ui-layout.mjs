@@ -22,6 +22,8 @@ export function gameLayout(theme = nativeTheme) {
         text('title', layout.title, '杀戮深渊 · 荧 · 岩', font.display, color.gold),
         text('summary', layout.summary, '', font.heading),
         button('start', layout.start, '启程', { inset: layout.buttonInset, fontSize: font.heading, colour: color.gold }),
+        { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
+          fontSize: font.heading, colour: color.gold }), visible: false },
       ] },
     ],
   };

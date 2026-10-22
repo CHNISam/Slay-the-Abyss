@@ -27,7 +27,9 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   assert.equal(find(node, 'resources').text.colour, theme.color.text);
   assert.equal(find(find(node, 'action1').children, 'normal').colour, theme.color.panelRaised);
   walk(nodeLayout(theme).controls, control => {
-    if (control.kind === 'image') assert.equal(control.image, theme.image.rect);
+    if (control.kind === 'image') assert.ok([
+      theme.image.rect, ...Object.values(theme.icon.cardArt), theme.icon.node.treasure,
+    ].includes(control.image), `unexpected node image ${control.image}`);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);
   });
 });

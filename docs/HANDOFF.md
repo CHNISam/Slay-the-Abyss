@@ -4,6 +4,12 @@
 
 先读 AGENTS.md、docs/SCOPE.md、docs/TOOLCHAIN.md。每次会话先运行 `backlog instructions overview`，任务只通过 CLI 更新。
 
+## P0 实机冒烟进展
+
+集成工作树 `.worktrees/p0-integration`，分支 `feat/p0-integration-smoke`。沿用 TASK-3、TASK-5、TASK-17；详情及证据见 `docs/P0-SMOKE.md`。v4 实际完成地图、战斗、奖励、商店离开，抵达第15层 Boss 后失败，重新启程正常。v5 用户已确认生命数字、意图及受伤更新正常。商店新版仍待实机验收。
+
+第六版测试副本 `.artifacts/p0/abyss-p0-v6.gil` 已生成（产物位于仓库根目录），正式结算节点图已编译并写入；用户截图已确认失败后进入平台官方结算。Boss 胜利、完整资源账本及本轮新客户端日志仍缺证据；不能宣称完整通关通过。不要再要求用户手动反复勾选日志。保持 live write=0，不改正式存档、不发布。
+
 ## 当前代码与分支
 
 - 远端 https://github.com/CHNISam/Slay-the-Abyss；日常基线 develop，功能走 feat/* 和 PR，master 只接受带标签的正式 release/hotfix。
