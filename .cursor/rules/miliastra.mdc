@@ -1,0 +1,17 @@
+---
+description: 原神千星奇域（Miliastra Wonderland）开发：工具链位置与硬性规则
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# 千星奇域开发规则
+
+- 工具链全貌（官方客户端、千星沙箱、miliastra MCP 路径、Python 3.12 路径）：`docs/TOOLCHAIN.md`
+- Git 分支与提交规范、Backlog.md 用法：`AGENTS.md`
+- 千星奇域技能：`.codebuddy/skills/miliastra-wonderland/SKILL.md`
+
+规则：
+1. 用 MCP 前先读资源 `miliastra://workflow`、`miliastra://platform-rules`。
+2. `MILIASTRA_ALLOW_LIVE_WRITE` 保持 `0`，只写存档副本。
+3. 编译通过 / 写进存档 / 游戏里验证过，三件事分开报告。
+4. 发布由人在游戏里完成。
