@@ -1,0 +1,13 @@
+{
+  "name": "slay-the-abyss",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "check:syntax": "node scripts/check-syntax.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
+    "test": "node --test --test-concurrency=1",
+    "check": "npm run check:syntax && npm test && npm run validate:data"
+  }
+}
