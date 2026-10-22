@@ -1,0 +1,52 @@
+{
+  "canvas": {
+    "width": 40,
+    "height": 40,
+    "background": "transparent",
+    "mask": {
+      "enabled": false
+    }
+  },
+  "elements": [
+    {
+      "id": "geo-outline",
+      "name": "geo-outline",
+      "type": "rectangle",
+      "x": 20,
+      "y": 20,
+      "width": 26,
+      "height": 26,
+      "color": "#A8732A",
+      "rotation": 45,
+      "zIndex": 0
+    },
+    {
+      "id": "geo-body",
+      "name": "geo-body",
+      "type": "rectangle",
+      "x": 20,
+      "y": 20,
+      "width": 20,
+      "height": 20,
+      "color": "#F0B850",
+      "rotation": 45,
+      "zIndex": 1
+    },
+    {
+      "id": "geo-face",
+      "name": "geo-face",
+      "type": "triangle",
+      "x": 20,
+      "y": 20,
+      "width": 12,
+      "height": 18,
+      "color": "#F5D79A",
+      "rotation": 0,
+      "zIndex": 2
+    }
+  ],
+  "meta": {
+    "sourceType": "json",
+    "sourceName": "type-power"
+  }
+}
