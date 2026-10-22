@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 14:10'
-updated_date: '2026-10-22 14:17'
+updated_date: '2026-10-22 14:23'
 labels: []
 dependencies: []
 parent_task_id: TASK-7
@@ -36,10 +36,14 @@ ordinal: 22000
 执行者：独立内容审查 Agent /root/content_review；分支 feat/task-7-1-review；工作树 F:/New folder/.worktrees/content-review；审查基线 content commit 4d87ac4。负责人保持 Furinya。
 
 复审基线 32d2dad3069cd2fb6c52b83d849665b57e8ee78d。独立六表解析/规模/递归引用/初始资产引用/遭遇tier检查通过；外部校验器扩展rules后再次通过。初审3项契约阻断（生成牌与满手、药水来源修正、跨战斗状态清理）已由内容作者修复并独立复审，无剩余数据内容阻断。飞刀/眼红消耗、壁垒时机文案已修复。证据 docs/reviews/TASK-7.1-content-review.md。仅离线数据审查，未编译、导入或游戏验收。
+
+在本地初审交付提交 ca6fed6 后协调者发现 develop 另一会话75牌参考表1d04cf2，暂停交付；旧结论仅适用于32d2dad。等待合并后的新active/reference基线，重新验证后再完成。根75表只读检查：JSON合法、75唯一ID；28种当前契约未支持op、11条仅triggers无effects、X费用/条件需映射；虚无/消耗文案与本地化名称匹配存在风险，不作为75可玩通过。
+
+最终整合复审7eb6860及文案补丁2e5b15c完成：active37张战士牌（移除跨职业无尽之刃/飞刀），reference75+3状态原表hash edb9461c271d146f45a70cec5c577b300ad12cb6与1d04cf2原表完全一致。独立逐卡比对基础和浅覆盖升级语义：数值、费用、类型、稀有度、sts_name与参考一致（显式规范化op/X费用/flag/触发器除外）；true_grit中文名修正。独立六表数量/引用/tier/使用覆盖全通过，六表外部校验最终重跑通过。怒斩文案及HANDOFF整合状态已复核修复。无剩余数据基线阻断；参考成本待核验不冒充原作全面核数，未平台或游戏验收。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-独立审查全部六份JSON与README/SOURCES；实测39牌、19普通变体、14普通遭遇、3精英、1Boss且内部引用无错；初审3项阻断已复核32d2dad修复，数据基线无剩余阻断。独立断言与六表校验器均通过；终局与荆棘边界留给实现测试，未声明游戏验收。
+独立审查六表、README/SOURCES及75卡原表存证；最终2e5b15c上active37满足30+首轮，19普通/14遭遇/3精英/1Boss及全部引用通过；37牌基础/升级规范化语义与reference一致，原表逐字节无损。3初审阻断及文案问题均复核修复，无剩余内容阻断；离线校验通过，未声明75可玩、编译、导入或游戏通过。详见docs/reviews/TASK-7.1-content-review.md。
 <!-- SECTION:FINAL_SUMMARY:END -->
