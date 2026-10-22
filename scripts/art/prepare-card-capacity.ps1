@@ -9,6 +9,22 @@ $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $fixtureRoot = Join-Path $projectRoot 'art/spikes/card-capacity'
 $outputRoot = Join-Path $projectRoot 'build/art-capacity'
 $cli = Join-Path $ToolkitRoot 'scripts/dev/mcp_cli.mjs'
+$manifest = Get-Content (Join-Path $fixtureRoot 'manifest.json') -Raw | ConvertFrom-Json
+$cases = @($manifest.scenarios | Where-Object { $Scenario -eq 'all' -or $_.id -eq $Scenario })
+New-Item -ItemType Directory -Force $outputRoot | Out-Null
+$runId = [Guid]::NewGuid().ToString()
+$selectedScenarios = @($cases | ForEach-Object { $_.id })
+# Invalidate every selected result before validation, resource reads or copying.
+# The total index exposes no candidate paths until this entire run succeeds.
+@{state='preparing'; runId=$runId; scenarios=$selectedScenarios; candidates=@()} |
+    ConvertTo-Json -Depth 15 | Set-Content (Join-Path $outputRoot 'candidates.json') -Encoding utf8
+foreach ($case in $cases) {
+    $caseRoot = Join-Path $outputRoot $case.id
+    New-Item -ItemType Directory -Force $caseRoot | Out-Null
+    @{state='preparing'; runId=$runId; scenario=$case.id; candidate=$null
+        platformCompile=$null; officialImport=$null; inGameDisplay=$null; performance=$null} |
+        ConvertTo-Json | Set-Content (Join-Path $caseRoot 'candidate.json') -Encoding utf8
+}
 if (-not (Test-Path -LiteralPath $cli)) { throw 'Installed MCP CLI not found; see docs/TOOLCHAIN.md.' }
 $sourceMap = (Resolve-Path -LiteralPath $BaseMap).Path
 if ([IO.Path]::GetExtension($sourceMap) -ne '.gil') { throw 'BaseMap must be a clean .gil file.' }
@@ -16,13 +32,10 @@ if ([IO.Path]::GetExtension($sourceMap) -ne '.gil') { throw 'BaseMap must be a c
 if ($sourceMap.StartsWith([IO.Path]::GetFullPath($outputRoot) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
     throw 'Choose a clean base outside build/art-capacity.'
 }
-$manifest = Get-Content (Join-Path $fixtureRoot 'manifest.json') -Raw | ConvertFrom-Json
-$cases = @($manifest.scenarios | Where-Object { $Scenario -eq 'all' -or $_.id -eq $Scenario })
-New-Item -ItemType Directory -Force $outputRoot | Out-Null
 $env:MILIASTRA_ALLOW_LIVE_WRITE = '0'
 $env:MILIASTRA_PYTHON = $Python
 $env:MILIASTRA_PLAYTEST_PYTHON = $Python
-# Required resource reads happen before any candidate mutation.
+# Required resource reads happen before any map mutation.
 foreach ($uri in @('miliastra://workflow', 'miliastra://platform-rules')) {
     $resource = & node $cli read $uri
     if ($LASTEXITCODE -ne 0) { throw "Cannot read $uri" }
@@ -32,13 +45,10 @@ $sourceHash = (Get-FileHash -LiteralPath $sourceMap).Hash.ToLower()
 $prepared = @()
 foreach ($case in $cases) {
     $caseRoot = Join-Path $outputRoot $case.id
-    New-Item -ItemType Directory -Force $caseRoot | Out-Null
     $env:MILIASTRA_WORKSPACE = Join-Path $caseRoot 'workspace'
     $baseCopy = Join-Path $caseRoot 'base.gil'
     Copy-Item -LiteralPath $sourceMap -Destination $baseCopy
     if ((Get-FileHash -LiteralPath $baseCopy).Hash.ToLower() -ne $sourceHash) { throw 'Base copy hash mismatch.' }
-    @{state='preparing'; scenario=$case.id; platformCompile=$null; officialImport=$null; inGameDisplay=$null; performance=$null} |
-        ConvertTo-Json | Set-Content (Join-Path $caseRoot 'candidate.json') -Encoding utf8
     $script:step = 0
     function Invoke-CapacityTool([string]$tool, [hashtable]$arguments) {
         $script:step++
@@ -90,7 +100,7 @@ foreach ($case in $cases) {
     $ui = Invoke-CapacityTool 'scene_add_client_ui' $uiSpec
     $check = Invoke-CapacityTool 'scene_check_client' @{mapPath=$ui.mapPath}
     if (-not $check.ok) { throw 'Candidate client check failed; inspect generated results.' }
-    $report = [ordered]@{state='prepared'; scenario=$case.id; candidate=$ui.mapPath; baseSha256=$sourceHash
+    $report = [ordered]@{state='prepared'; runId=$runId; scenario=$case.id; candidate=$ui.mapPath; baseSha256=$sourceHash
         sourceLuaSha256=(Get-FileHash -LiteralPath $luaPath).Hash.ToLower(); activeControls=$case.activeControls
         imageTemplateIndex=$image.templateIndex; textTemplateIndex=$text.templateIndex; clientCheck=$check
         platformCompile=$null; officialImport=$null; inGameDisplay=$null; performance=$null}
@@ -99,4 +109,5 @@ foreach ($case in $cases) {
     Write-Output "Prepared $($case.id): $($ui.mapPath) (client check only; official import/playtest pending)."
 }
 if ((Get-FileHash -LiteralPath $sourceMap).Hash.ToLower() -ne $sourceHash) { throw 'Original base changed during preparation.' }
-$prepared | ConvertTo-Json -Depth 15 | Set-Content (Join-Path $outputRoot 'candidates.json') -Encoding utf8
+@{state='prepared'; runId=$runId; scenarios=$selectedScenarios; candidates=$prepared} |
+    ConvertTo-Json -Depth 15 | Set-Content (Join-Path $outputRoot 'candidates.json') -Encoding utf8

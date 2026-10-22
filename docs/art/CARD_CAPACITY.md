@@ -46,7 +46,9 @@ node node_modules/fengari-node-cli/src/lua-cli.js -e "dofile('build/art-capacity
 # 若只需一项：追加 -Scenario baseline|one|five|ten|longest
 ```
 
-脚本先读workflow/platform-rules，再对同一原始底图逐项复制→建模板→绑定真实templateIndex与slot OFFSET→挂脚本/静态UI→client check，保持`MILIASTRA_ALLOW_LIVE_WRITE=0`。每项输出`build/art-capacity/<场景>/candidate.json`，总索引`build/art-capacity/candidates.json`。它不操作GUI、不导入官方编辑器、不发布。不要把前一候选作下一项的底图。准备失败保留`preparing`报告，不能当作已准备成功。
+脚本在任何MCP读取/复制前先将总索引和所有选中场景标为`preparing`并清空旧路径，再读workflow/platform-rules，对同一原始底图逐项复制→建模板→绑定真实templateIndex与slot OFFSET→挂脚本/静态UI→client check，保持`MILIASTRA_ALLOW_LIVE_WRITE=0`。每项输出`build/art-capacity/<场景>/candidate.json`，总索引`build/art-capacity/candidates.json`为`{state,runId,scenarios,candidates}`对象；只有整轮成功，总索引才为`prepared`并包含本轮候选数组。使用前检查总/单项`state=prepared`且`runId`相同。它不操作GUI、不导入官方编辑器、不发布。不要把前一候选作下一项的底图。失败时总索引保持`preparing`且候选数组为空，不能当作已准备成功。
+
+最小失败注入：`./art/spikes/card-capacity/verify-preparation.ps1`。该命令只用本地隔离mock CLI，会覆写当前worktree的`build/art-capacity/`测试报告；先种入旧prepared，再验证资源read失败、中途ten脚本工具失败均使总索引失效、所有选中场景不残留旧runId/路径，最后验证正常成功发布5项同轮候选。它不读取真实MCP资源或创建游戏存档。
 
 离线证据：生成器通过参考Lua一致性、参考/长文JSON-Lua双向元素回读、函数体相同、宿主几何/无重叠、74文案最长选择；Fengari通过0/1/5/10动态计数、未绑模板拒绝创建、OFFSET、重复启动/销毁、部分创建失败回收，以及诊断点击、10秒dt、重新采样和旧回调失效。PowerShell语法解析通过；用隔离mock CLI跑完五项、确认两端slot绑定及原底图不变，**mock不是MCP检查结果**。`manifest.json`记录来源/输出SHA256（文本统一UTF-8/LF；PNG按原始字节），不提交账号截图或GIL。
 

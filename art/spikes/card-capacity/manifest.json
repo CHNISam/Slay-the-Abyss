@@ -279,6 +279,7 @@
     "reference/card.source.json": "66e13114e90d095762b9252e12e838e9a3da6be7ba6fe25cc0005144db3b5293",
     "ten-preview.png": "9280954695cfcc6b73db51a7e3a6df76e9bf9575eac432118014b40f8790bbd0",
     "ten-ui.json": "e99b2d8ea11e35988f1fef79d153f2d8354a60d5d914070c4941445f0916b919",
+    "verify-preparation.ps1": "dc7ebf526fc407fd885921da3c7e6bc1c3aefbaaa73983e03c295af2536acade",
     "verify.lua": "b38b4e317995013184995be4d5b71d381cab9a159fac4ff5689dbabe87e694cd"
   }
 }
