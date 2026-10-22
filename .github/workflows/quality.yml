@@ -21,8 +21,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@v4
+        if: runner.os != 'Windows'
         with:
           node-version: '22'
+      - name: Verify Node baseline
+        run: node -e "if (process.versions.node.split('.')[0] !== '22') throw new Error('Node 22 is required'); console.log(process.version)"
       - name: Check changed whitespace
         shell: bash
         env:
