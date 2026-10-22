@@ -253,6 +253,16 @@
     "geo": 102005
   },
   "layout": {
+    "battlePotions": {
+      "count": 3,
+      "origin": [-124, 286],
+      "step": [124, 0],
+      "size": [116, 44]
+    },
+    "battleNotice": {
+      "position": [0, 244],
+      "size": [1140, 32]
+    },
     "topBar": {
       "height": 52,
       "y": 334

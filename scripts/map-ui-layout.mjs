@@ -1,48 +1,89 @@
-import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { toLua } from './build-lua-data.mjs';
 
-export const mapGeometry = structuredClone(nativeTheme.layout.nativeMap.geometry);
+export const loadMapTheme = () => JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8'));
 
-export function mapLayout(theme = nativeTheme) {
-  const { text, plate, hit, button, frame, centred } = nativeControls(theme);
-  const layout = theme.layout.nativeMap, geometry = layout.geometry, { color, font } = theme;
-  const controls = [plate('backdrop', layout.backdrop, color.backdrop),
-    text('title', layout.title, '杀戮深渊 · 路线', font.title, color.gold),
-    text('notice', layout.notice), text('page', layout.page),
-    plate('legendPanel', layout.legendPanel, color.panel),
-    text('legend', layout.legend,
-      '路线图例\n\n亮金 · 当前位置\n暗金 · 已走过\n白色 · 可前往\n灰色 · 锁定\n金线 · 已走路线\n灰线 · 后续路线\n\n左 / 中 / 右为路线列\n跨页去向见节点下方\n完成当前节点后继续'),
+// Positions absent from the shared theme come from PR #19's approved map viewport.
+// These are presentation capacities, never a replacement for Map.view's graph.
+export function mapGeometry(theme = loadMapTheme()) {
+  const { floorGap, viewportHeight } = theme.layout.map;
+  return { floors: 15, lanes: 3, maxNodes: 45, maxEdges: 126,
+    viewport: { left: -460, right: 440, bottom: -308, top: -308 + viewportHeight },
+    firstY: -308 + 60, contentHeight: 15 * floorGap + 120,
+    maxScroll: 15 * floorGap + 120 - viewportHeight, focusY: -128,
+    scrollStep: floorGap * 3, breathSeconds: 1.4, breathScale: 1.1,
+    glowPadding: 12, lineWidth: 4 };
+}
+
+export function mapLayout(theme = loadMapTheme()) {
+  const g = mapGeometry(theme), c = theme.color, f = theme.font, im = theme.image;
+  const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text) => ({
+    name, kind: 'text', position: [x, y], size: [w, h],
+    text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: f.minimum },
+  });
+  const image = (name, x, y, w, h, colour, picture = im.rect) => ({
+    name, kind: 'image', position: [x, y], size: [w, h], image: picture, colour,
+  });
+  const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
+  const button = (name, y, label) => ({ name, kind: 'container', position: [-522, y], size: [148, 52], children: [
+    image('frame', 0, 0, 148, 52, c.goldDim), image('body', 0, 0, 144, 48, c.panel),
+    text('label', 0, 0, 140, 44, label, f.label), hit(148, 52),
+  ] });
+  const controls = [
+    text('title', 0, 327, 880, 44, '', f.heading, c.goldBright),
+    text('notice', 0, -324, 1160, 28, '', f.small, c.textDim),
+    button('next', 160, '向上查看'), button('focus', 96, '当前进度'), button('previous', 32, '向下查看'),
+    image('legendFrame', 526, 74, 148, 332, c.goldDim), image('legendBody', 526, 74, 144, 328, c.panel),
+    text('legendTitle', 526, 218, 128, 28, '图例', f.label, c.goldBright),
+    text('states', -522, -92, 148, 144, '亮金 · 当前\n暗金 · 已走过\n白色 · 可前往\n灰色 · 不可达', f.small, c.textDim),
   ];
-  // Lua shows only actual graph edges from these prebuilt neighbors.
-  const columns = geometry.columns.length;
-  for (let row = 1; row < geometry.rows; row++) for (let from = 1; from <= columns; from++) for (let to = 1; to <= columns; to++) {
-    if (Math.abs(from - to) > 1) continue;
-    const x1 = geometry.columns[from - 1], x2 = geometry.columns[to - 1];
-    const y1 = geometry.firstY - (row - 1) * geometry.rowGap, y2 = y1 - geometry.rowGap;
-    for (const [state, colour] of [['normal', color.node.path], ['taken', color.node.pathTaken]]) controls.push({
-      ...plate(`edge${row}_${from}_${to}_${state}`, [(x1 + x2) / 2, (y1 + y2) / 2,
-        Math.hypot(x2 - x1, y2 - y1), layout.edgeWidth], colour),
-      rotation: Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI,
-    });
+  const names = { combat: '战斗', elite: '精英', camp: '营地', shop: '商店', event: '事件', treasure: '宝箱', boss: '首领' };
+  Object.entries(names).forEach(([kind, name], i) => {
+    controls.push(image(`legend_${kind}`, 482, 184 - i * 40, 24, 24, c.textDim, theme.icon.node[kind]),
+      text(`legendLabel_${kind}`, 539, 184 - i * 40, 76, 28, name, f.label));
+  });
+  // Runtime clips these line segments geometrically to the 600px viewport.
+  for (let i = 1; i <= g.maxEdges; i++) controls.push({
+    ...image(`edge${i}`, 0, 0, 1, g.lineWidth, c.node.path), visible: false,
+  });
+  for (let i = 1; i <= g.maxNodes; i++) {
+    const s = theme.layout.map.node;
+    const children = [image('glow', 0, 0, s + g.glowPadding, s + g.glowPadding, c.goldBright, im.glow)];
+    for (const [state, colour] of Object.entries({ locked: c.node.locked, visited: c.node.visited,
+      current: c.node.current, available: c.node.reachable })) children.push(image(state, 0, 0, s, s, colour, im.disc));
+    children.push(image('body', 0, 0, s - theme.space.border * 2, s - theme.space.border * 2, c.panel, im.disc),
+      image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s));
+    controls.push({ name: `node${i}`, kind: 'container', position: [0, 0], size: [s, s], visible: false, children });
   }
-  for (let row = 1; row <= geometry.rows; row++) {
-    const y = geometry.firstY - (row - 1) * geometry.rowGap;
-    const floor = [...layout.floor]; floor[1] = y;
-    controls.push(text(`floor${row}`, floor));
-    for (let lane = 1; lane <= columns; lane++) controls.push({
-      name: `node${(row - 1) * columns + lane}`, kind: 'container',
-      position: [geometry.columns[lane - 1], y], size: [...layout.nodeSize], children: [
-        ...[['locked', 'locked'], ['visited', 'visited'], ['current', 'current'], ['available', 'reachable']]
-          .map(([name, token]) => plate(name, centred(layout.nodeSize), color.node[token])),
-        plate('inset', centred(layout.nodeInsetSize), color.panel),
-        text('label', layout.label), text('status', layout.status, '', font.small),
-        text('route', layout.route, '', font.small), hit(layout.nodeSize),
-      ],
-    });
-  }
-  for (const [index, [name, label]] of [['previous', '前五层'], ['focus', '当前进度'], ['next', '后五层']].entries()) {
-    const nav = layout.navigation;
-    controls.push(button(name, frame([nav.columns[index], nav.y], nav.size), label, { inset: nav.inset }));
-  }
-  return { name: 'AbyssMap', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true,
-    controls: [{ name: 'mapPanel', kind: 'container', size: [...theme.canvas.base], children: controls }] };
+  return { name: 'AbyssMap', showCursor: true, blockKeys: true, blockCursor: true,
+    controls: [image('mapBackdrop', 0, 0, ...theme.canvas.base, c.backdrop),
+      { name: 'stage', kind: 'container', size: theme.canvas.base, children: [
+        { name: 'mapPanel', kind: 'container', size: theme.canvas.base, children: controls },
+      ] }],
+  };
+}
+
+// Build separately so no shared battle entry point or package command is changed.
+export function buildMapLayout(output = 'build/map-ui.json', contract = 'build/lua/abyss_map_layout.lua',
+  controls = 'build/lua/abyss_map_controls.lua') {
+  const theme = loadMapTheme();
+  const layout = mapLayout(theme);
+  for (const file of [output, contract, controls]) mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(output, JSON.stringify(layout, null, 2) + '\n');
+  writeFileSync(contract, '-- Generated by scripts/map-ui-layout.mjs. Do not edit.\nreturn ' + toLua(mapGeometry(theme)) + '\n');
+  // Same schema in Lua lets the test harness exercise the exact generated tree.
+  writeFileSync(controls, '-- Generated map control schema.\nreturn ' + toLua(layout) + '\n');
+}
+
+// Main UI builds can put all runtime artifacts in the same custom directory.
+export function buildMapUI(outputDirectory = 'build/lua') {
+  buildMapLayout(join(outputDirectory, 'map-ui.json'),
+    join(outputDirectory, 'abyss_map_layout.lua'), join(outputDirectory, 'abyss_map_controls.lua'));
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  buildMapLayout();
+  console.log('Map controls and Lua layout contract built.');
 }

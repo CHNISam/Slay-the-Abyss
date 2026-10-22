@@ -15,40 +15,37 @@ function freeze(value) {
   return value;
 }
 
-test('native layouts resolve semantic colour, font, minimum font and picture tokens', () => {
+test('node and menu layouts resolve semantic colour, font, minimum font and picture tokens', () => {
   const theme = structuredClone(nativeTheme);
   theme.color.gold = '#123456'; theme.color.text = '#ABCDEF'; theme.color.panelRaised = '#654321';
   theme.color.node.current = '#AABBCC'; theme.font.title = 32; theme.font.body = 20;
   theme.font.minimum = 16; theme.image.rect = 100004;
-  const battle = battleLayout(theme).controls, map = mapLayout(theme).controls[0].children;
-  assert.equal(find(battle, 'title').text.colour, theme.color.gold);
-  assert.equal(find(battle, 'title').text.fontSize, theme.font.title);
-  assert.equal(find(battle, 'player').text.fontSize, theme.font.body);
-  assert.equal(find(battle, 'player').text.colour, theme.color.text);
-  assert.equal(find(find(map, 'node1').children, 'current').colour, theme.color.node.current);
-  assert.equal(find(find(battle, 'endTurn').children, 'plate').colour, theme.color.panelRaised);
-  for (const build of [battleLayout, mapLayout, nodeLayout, gameLayout]) walk(build(theme).controls, control => {
+  const node = nodeLayout(theme).controls[0].children;
+  assert.equal(find(node, 'title').text.colour, theme.color.gold);
+  assert.equal(find(node, 'title').text.fontSize, theme.font.title);
+  assert.equal(find(node, 'resources').text.fontSize, theme.font.body);
+  assert.equal(find(node, 'resources').text.colour, theme.color.text);
+  assert.equal(find(find(node, 'action1').children, 'normal').colour, theme.color.panelRaised);
+  walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.equal(control.image, theme.image.rect);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);
   });
 });
 
-test('native geometry, spacing and canvas tokens reach all four generated panels', () => {
+test('host preserves the approved battle and scrollable map while composing node and menu panels', () => {
   const theme = structuredClone(nativeTheme);
-  theme.layout.nativeBattle.enemy.origin[0] += 10;
-  theme.layout.nativeBattle.buttonInset[0] += 4;
-  theme.layout.nativeMap.geometry.columns[0] += 8;
-  theme.layout.nativeMap.edgeWidth = 5;
   theme.layout.nativeNode.geometry.actionSize[0] = 520;
   theme.layout.nativeMenu.start[1] = -220;
   theme.canvas.base = [1600, 900];
   const panels = gameLayout(theme).controls, battle = find(panels, 'battlePanel').children;
-  assert.equal(find(battle, 'enemy1').position[0], theme.layout.nativeBattle.enemy.origin[0]);
-  assert.equal(find(find(battle, 'endTurn').children, 'label').size[0],
-    theme.layout.nativeBattle.endTurn[2] - theme.layout.nativeBattle.buttonInset[0]);
+  const approvedBattle = find(battleLayout().controls, 'stage').children;
+  assert.deepEqual(battle, approvedBattle);
+  assert.deepEqual(find(battle, 'card1').size, nativeTheme.layout.card.size);
+  assert.equal(find(battle, 'endTurn').kind, 'presetButton');
+  assert.deepEqual(Object.keys(find(battle, 'endTurn').states).sort(), ['disabled', 'hover', 'normal', 'pressed']);
   const map = find(panels, 'mapPanel').children;
-  assert.equal(find(map, 'node1').position[0], theme.layout.nativeMap.geometry.columns[0]);
-  assert.equal(find(map, 'edge1_1_1_normal').size[1], theme.layout.nativeMap.edgeWidth);
+  assert.deepEqual(map, find(find(mapLayout(theme).controls, 'stage').children, 'mapPanel').children);
+  assert.equal(map.filter(control => /^node\d+$/.test(control.name)).length, 45);
   assert.equal(find(find(panels, 'nodePanel').children, 'action1').size[0], 520);
   assert.equal(find(find(panels, 'menuPanel').children, 'start').position[1], -220);
   panels.forEach(panel => assert.deepEqual(panel.size, theme.canvas.base));
@@ -56,7 +53,7 @@ test('native geometry, spacing and canvas tokens reach all four generated panels
 
 test('building and mutating output trees cannot mutate the source theme', () => {
   const theme = freeze(structuredClone(nativeTheme)), before = JSON.stringify(theme);
-  for (const build of [battleLayout, mapLayout, nodeLayout, gameLayout]) walk(build(theme).controls, control => {
+  for (const build of [nodeLayout, gameLayout]) walk(build(theme).controls, control => {
     control.size[0] = 1;
     if (control.position) control.position[0] = 1;
   });

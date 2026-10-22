@@ -8,11 +8,16 @@ local Viewport = require("abyss_viewport")
 local count = 0
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
 local function control(spec, parent)
-    local self = { children = {}, visible = true, text = spec.text and spec.text.content or "", parent = parent }
+    local self = { name = spec.name, children = {}, visible = spec.visible ~= false,
+        text = spec.text and spec.text.content or "", parent = parent, interactable = true,
+        sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
     function self:GetChild(name) return assert(self.children[name], "missing " .. name) end
     function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
-    function self:SetSizeDelta(width, height) self.size = {width, height} end
-    function self:SetLocalScale(x, y, z) self.scale = {x, y, z} end
+    function self:SetSizeDelta(width, height) self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
+    function self:SetLocalScale(x, y, z) self.scale = {x, y, z}; self.localScaleX, self.localScaleY = x, y end
+    function self:SetAnchoredPosition(x, y) self.x, self.y = x, y end
+    function self:SetImage(source, id) assert(source == "static" and type(id) == "number"); self.imageId = id end
+    function self:SetAsLastSibling() self.raised = true end
     function self:AddCursorEventListener(event, fn) assert(event == "click" and not self.click); self.click = fn end
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
@@ -20,13 +25,15 @@ end
 local function fixture(data)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
-    return GameUI.new(root, data or Data, Presentation, "click"), root
+    return GameUI.new(root, data or Data, Presentation, "click",
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end }), root
 end
 local function click(root, panel, button)
-    local target = root:GetChild(panel):GetChild(button):GetChild("hit")
+    local box = root:GetChild(panel):GetChild(button)
+    local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
-    return target.click()
+    if target.interactable then return target.click() end
 end
 local function win(ui, root)
     for _ = 1, 60 do
@@ -40,6 +47,11 @@ local function win(ui, root)
             end
             if not slot then break end
             click(root, "battlePanel", "card" .. slot)
+            local instance = ui.run.phase == "combat" and battle.hand[slot]
+            if instance and ui.battleUI.selected == instance.uid then
+                local _, reason = Combat.canPlay(battle, instance.uid, nil)
+                click(root, "battlePanel", reason == "invalid_target" and "enemy" .. ui.battleUI.target or "card" .. slot)
+            end
         end
         if ui.run.phase == "combat" then click(root, "battlePanel", "endTurn") end
     end
@@ -138,15 +150,23 @@ end)
 test("native lifecycle loads every composed control and registers its listeners only once", function()
     local canvas = control({ children = Layout })
     local root = canvas:GetChild("stage")
-    local oldScript, oldEnum, oldStart, oldGame = script, Enum, OnStart, game
-    script, Enum = { object = canvas }, { CursorEventType = { CursorClick = "click" } }
-    game = { GetUICanvasSize = function() return 1600, 900 end }
+    local oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor = script, Enum, OnStart, OnUpdate, game, Color
+    script = { object = canvas, EnableUpdate = function(self, value) self.updating = value end }
+    Enum = { CursorEventType = { CursorClick = "click" }, ImageSource = { StaticReference = "static" } }
+    Color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end
+    local width, height = 1600, 900
+    game = { GetUICanvasSize = function() return width, height end }
     dofile("src/lua/abyss_ui.lua")
     OnStart()
     OnStart()
     assert(root.scale[1] == 1.25)
+    assert(script.updating)
     click(root, "menuPanel", "start")
     assert(root:GetChild("mapPanel").visible and not root:GetChild("menuPanel").visible)
-    script, Enum, OnStart, game = oldScript, oldEnum, oldStart, oldGame
+    width, height = 2340, 1080
+    OnUpdate(0.25)
+    assert(root.scale[1] == 1.5 and canvas:GetChild("canvasBackdrop").size[1] == width)
+    assert(root:GetChild("mapPanel").localScaleX == nil or root:GetChild("mapPanel").localScaleX == 1)
+    script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
 print("LUA_GAME_UI_PASS " .. count)

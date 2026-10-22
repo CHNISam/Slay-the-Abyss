@@ -1,56 +1,91 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mapLayout } from '../scripts/map-ui-layout.mjs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { buildMapLayout, buildMapUI, loadMapTheme, mapGeometry, mapLayout } from '../scripts/map-ui-layout.mjs';
+import { buildUiTheme } from '../scripts/build-ui-theme.mjs';
+import { buildLuaData } from '../scripts/build-lua-data.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 
-const panel = mapLayout().controls[0];
+const theme = loadMapTheme(), layout = mapLayout(theme), geometry = mapGeometry(theme);
+const stage = layout.controls.find(c => c.name === 'stage');
+const panel = stage.children.find(c => c.name === 'mapPanel');
 const index = new Map(panel.children.map(control => [control.name, control]));
-test('map uses native controls with unique sibling names and stays inside the phone canvas', () => {
-  let touches = 0;
-  function visit(control, parentX = 0, parentY = 0) {
+
+test('map uses the approved stage, external backdrop, viewport and shared theme geometry', () => {
+  assert.deepEqual(stage.size, theme.canvas.base);
+  assert.equal(layout.controls[0].name, 'mapBackdrop');
+  assert.equal(layout.controls[0].colour, theme.color.backdrop);
+  assert.equal(geometry.viewport.top - geometry.viewport.bottom, theme.layout.map.viewportHeight);
+  assert.equal(geometry.viewport.top - geometry.viewport.bottom, 600);
+  const altered = structuredClone(theme);
+  altered.color.node.current = '#123456';
+  altered.image.disc = 106026;
+  altered.layout.map.node = 60;
+  const changed = mapLayout(altered).controls[1].children[0].children.find(c => c.name === 'node1');
+  assert.equal(changed.children.find(c => c.name === 'current').colour, '#123456');
+  assert.equal(changed.children.find(c => c.name === 'current').image, 106026);
+  assert.deepEqual(changed.size, [60, 60]);
+});
+
+test('static controls are native, readable, unique and fit phone and console safe areas', () => {
+  function visit(control, parentX = 0, parentY = 0, hidden = false) {
     assert(['container', 'image', 'text', 'cursorArea'].includes(control.kind));
     const [x, y] = control.position ?? [0, 0], [w, h] = control.size;
     const gx = parentX + x, gy = parentY + y;
-    const angle = (control.rotation ?? 0) * Math.PI / 180;
-    const boundW = Math.abs(w * Math.cos(angle)) + Math.abs(h * Math.sin(angle));
-    const boundH = Math.abs(h * Math.cos(angle)) + Math.abs(w * Math.sin(angle));
-    assert(Math.abs(gx) + boundW / 2 <= 640.01, `${control.name} horizontal bounds`);
-    assert(Math.abs(gy) + boundH / 2 <= 360.01, `${control.name} vertical bounds`);
-    if (control.kind === 'cursorArea') { assert(w >= 44 && h >= 44); touches++; }
-    const children = control.children ?? [];
-    assert.equal(new Set(children.map(child => child.name)).size, children.length);
-    for (const child of children) visit(child, gx, gy);
-  }
-  visit(panel);
-  assert.equal(touches, 18);
-});
-test('page slots and graph-edge controls satisfy the Lua controller contract', () => {
-  assert.equal(panel.name, 'mapPanel');
-  for (const name of ['page', 'notice', 'previous', 'next', 'focus']) assert(index.has(name));
-  for (let row = 1; row <= 5; row++) {
-    assert(index.has(`floor${row}`));
-    for (let lane = 1; lane <= 3; lane++) {
-      const node = index.get(`node${(row - 1) * 3 + lane}`);
-      for (const name of ['locked', 'visited', 'current', 'available', 'label', 'status', 'route', 'hit']) {
-        assert(node.children.some(child => child.name === name));
+    hidden ||= control.visible === false;
+    assert(Math.abs(gx) + w / 2 <= 640.01, control.name);
+    assert(Math.abs(gy) + h / 2 <= 360.01, control.name);
+    if (control.text) assert(control.text.fontSize >= theme.font.minimum);
+    if (control.kind === 'cursorArea') {
+      assert(w >= 44 && h >= 44);
+      if (!hidden) for (const [cw, ch] of [[1280, 720], [1600, 900], [1920, 1080], [2340, 1080]]) {
+        const k = Math.min(cw / 1280, ch / 720);
+        assert(Math.abs(gx * k) + w * k / 2 <= cw / 2 - theme.canvas.safe.x * k);
+        assert(Math.abs(gy * k) + h * k / 2 <= ch / 2 - theme.canvas.safe.y * k);
       }
     }
-    if (row < 5) for (let from = 1; from <= 3; from++) for (let to = 1; to <= 3; to++) {
-      if (Math.abs(from - to) <= 1) for (const state of ['normal', 'taken']) assert(index.has(`edge${row}_${from}_${to}_${state}`));
+    const children = control.children ?? [];
+    assert.equal(new Set(children.map(child => child.name)).size, children.length);
+    for (const child of children) visit(child, gx, gy, hidden);
+  }
+  for (const control of layout.controls) visit(control);
+  const buttons = ['previous', 'focus', 'next'].map(name => index.get(name));
+  for (let i = 0; i < buttons.length; i++) for (let j = i + 1; j < buttons.length; j++) {
+    assert(Math.abs(buttons[i].position[1] - buttons[j].position[1]) >= (buttons[i].size[1] + buttons[j].size[1]) / 2);
+  }
+});
+
+test('node and edge pools match controller contract, with seven real icon legend entries', () => {
+  for (let i = 1; i <= geometry.maxNodes; i++) {
+    const node = index.get(`node${i}`);
+    assert.equal(node.visible, false);
+    for (const name of ['locked', 'visited', 'current', 'available', 'body', 'icon', 'glow', 'hit']) {
+      assert(node.children.some(child => child.name === name), name);
     }
   }
+  for (let i = 1; i <= geometry.maxEdges; i++) assert.equal(index.get(`edge${i}`).visible, false);
+  for (const [kind, image] of Object.entries(theme.icon.node)) assert.equal(index.get(`legend_${kind}`).image, image);
 });
-test('adjacent node hit targets and navigation buttons do not overlap', () => {
-  const controls = [...Array.from({ length: 15 }, (_, i) => index.get(`node${i + 1}`)),
-    ...['previous', 'focus', 'next'].map(name => index.get(name))];
-  for (let i = 0; i < controls.length; i++) for (let j = i + 1; j < controls.length; j++) {
-    const a = controls[i], b = controls[j];
-    assert(Math.abs(a.position[0] - b.position[0]) >= (a.size[0] + b.size[0]) / 2 ||
-      Math.abs(a.position[1] - b.position[1]) >= (a.size[1] + b.size[1]) / 2, `${a.name} overlaps ${b.name}`);
+
+test('custom output directory receives the standalone controls and both Lua map artifacts', () => {
+  const outputDirectory = mkdtempSync(join(tmpdir(), 'abyss-map-build-'));
+  try {
+    buildMapUI(outputDirectory);
+    assert.deepEqual(JSON.parse(readFileSync(join(outputDirectory, 'map-ui.json'), 'utf8')), layout);
+    assert.match(readFileSync(join(outputDirectory, 'abyss_map_layout.lua'), 'utf8'), /maxScroll/);
+    assert.match(readFileSync(join(outputDirectory, 'abyss_map_controls.lua'), 'utf8'), /mapPanel/);
+  } finally {
+    rmSync(outputDirectory, { recursive: true, force: true });
   }
 });
-test('map UI actual Lua click and navigation tests pass in Fengari', () => {
+
+test('actual Lua controller validates navigation, scroll, locked input, path and multi-device geometry', () => {
+  buildUiTheme();
+  buildLuaData();
+  buildMapLayout();
   const result = runLua('tests/lua/map_ui.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
-  assert.match(result.stdout, /LUA_MAP_UI_PASS 6/);
+  assert.match(result.stdout, /LUA_MAP_UI_PASS 14/);
 });

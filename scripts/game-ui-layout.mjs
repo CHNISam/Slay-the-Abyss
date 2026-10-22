@@ -6,11 +6,15 @@ import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 export function gameLayout(theme = nativeTheme) {
   const { text, plate, button } = nativeControls(theme);
   const layout = theme.layout.nativeMenu, { color, font } = theme;
+  const battle = structuredClone(battleLayout());
+  const battleControls = battle.controls.find(control => control.name === 'stage').children;
+  const map = structuredClone(mapLayout(theme));
+  const mapPanel = map.controls.find(control => control.name === 'stage').children.find(control => control.name === 'mapPanel');
   return {
     name: 'SlayTheAbyss', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true,
     controls: [
-      { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], children: battleLayout(theme).controls },
-      ...mapLayout(theme).controls,
+      { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], children: battleControls },
+      mapPanel,
       ...nodeLayout(theme).controls,
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
         plate('backdrop', layout.backdrop, color.backdrop),

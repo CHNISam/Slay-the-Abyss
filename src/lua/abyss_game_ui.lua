@@ -7,20 +7,20 @@ local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
 local M = {}
 
-function M.new(root, data, presentation, clickEvent)
+function M.new(root, data, presentation, clickEvent, platform)
     local self = { root = root, data = data, seed = 1, mode = "menu" }
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
     local ready = false
     local function changed() if ready then self:refresh() end end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
-        { embedded = true, onChange = changed })
+        platform, { embedded = true, onChange = changed })
     self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, self.seed), function(node)
         if not self.run or self.mode ~= "map" then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
-    end, clickEvent)
+    end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
         presentation, clickEvent, changed)
 
@@ -47,7 +47,7 @@ function M.new(root, data, presentation, clickEvent)
         elseif inMenu then
             menu:GetChild("start"):GetChild("label").text = run and "重新启程" or "启程"
             if self.mode == "menu" then
-                menu:GetChild("summary").text = "规划路线，构筑卡组\n穿越十五层深渊，挑战终点首领\n\n战斗中先选择敌人，再点击手牌"
+                menu:GetChild("summary").text = "规划路线，构筑卡组\n穿越十五层深渊，挑战终点首领\n\n先点选卡牌，再点敌人；无需目标的牌再点一次确认"
             else
                 local title = self.mode == "victory" and "首领已击败" or "旅途暂歇"
                 local hp = run.phase == "defeat" and 0 or run.hp
@@ -66,6 +66,13 @@ function M.new(root, data, presentation, clickEvent)
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self:refresh()
         return true
+    end
+    function self:resize(width, height)
+        self.battleUI:resize(width, height)
+        self.mapUI:resize(width, height)
+    end
+    function self:update(dt)
+        return self.mapUI:update(dt)
     end
     menu:GetChild("start"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)
     ready = true
