@@ -7,7 +7,7 @@
 - 精英：https://slaythespire.wiki.gg/wiki/Elites ，Boss：https://slaythespire.wiki.gg/wiki/The_Guardian 。
 - 遗物：https://slaythespire.wiki.gg/wiki/Relics ，药水：https://slaythespire.wiki.gg/wiki/Potions 。
 
-卡牌主数值为公开常见基准；无尽之刃/飞刀为本项目跨职业适配。不会声称 75 张已完成。
+完整75卡来源表由另一会话提交1d04cf2，本分支原样保存在reference/warrior75.json；其中有6张费用待核实及未映射的效果/触发器，不能直接用作运行时数据。首轮37张均来自该战士参考表，采用统一op表达，血液操控升级伤害按来源修为20；X费用以costMode=all_energy表达。不会声称75张可玩。
 
 有意适配：所有敌人固定意图循环；沉眠遗卫不睡眠；护盾小魔格挡给自己；符文哨卫施加虚弱代替塞入眩晕；深渊守卫采用固定循环而非变形状态机。五种小魔出现在一个五敌遭遇中，待通关测试评估强度。大型软泥不分裂；窃金客不偷金逃跑。这里的适配不意味着数值已经平衡。
 

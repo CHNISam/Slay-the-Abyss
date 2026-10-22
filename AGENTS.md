@@ -27,6 +27,7 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 本项目是《原神》千星奇域（Miliastra Wonderland）UGC 关卡，参赛截止 2026-11-02（内部提交硬线 2026-10-30）。
 
+- **交接说明（当前进度/阻塞/上手命令）：`docs/HANDOFF.md`** — 接手先看这个
 - **产品范围、削减优先级与报告纪律：`docs/SCOPE.md`**
 - **工具链唯一事实来源：`docs/TOOLCHAIN.md`**（官方客户端 / 千星沙箱 / miliastra MCP 的路径、版本、环境变量、调用顺序）。
 - 千星奇域开发技能：`.codebuddy/skills/miliastra-wonderland/SKILL.md`。

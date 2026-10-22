@@ -4,13 +4,14 @@
 
 | 文件 | 基线 |
 |---|---|
-| cards.json | 39 张定义含衍生飞刀；38 张非衍生牌；初始 5 打击 + 4 防御 + 1 痛击 |
+| cards.json | 首轮37张战士运行卡池；初始 5 打击 + 4 防御 + 1 痛击 |
+| reference/warrior75.json | 另一会话75卡及3状态牌原表，原样存证；含待核对数据，不能直接导入运行时 |
 | enemies.json | 19 普通变体 / 3 精英类型 / 1 Boss；14 普通、3 精英、1 Boss 遭遇 |
 | statuses.json | 9 状态 |
 | relics.json / potions.json | 7 遗物 / 7 药水 |
 | rules.json | 角色、地图、营地、商店及奖励常数 |
 
-75 张为完整对标规模，本 Sprint 首轮保留 30+。来源及有意适配见 SOURCES.md。
+75 张为完整对标规模，本 Sprint 首轮保留 30+。完整参考表原样保留，首轮37张从中规范化op、保留数值，含X费用以costMode表达。参考表有28种尚未纳入运行契约的op及triggers，不能据此声称75张可玩。来源及有意适配见 SOURCES.md。
 
 ## 效果契约
 
