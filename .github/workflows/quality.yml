@@ -67,7 +67,8 @@ jobs:
             Write-Error 'PR title must follow Conventional Commits.'
             exit 1
           }
-      - run: npm run check
+      - run: npm ci --ignore-scripts
+      - run: npm run check:rules
   presentation:
     # These filesystem tests include symlinks; keep the local service unprivileged.
     runs-on: ubuntu-latest
