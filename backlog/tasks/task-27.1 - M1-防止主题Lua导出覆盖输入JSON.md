@@ -1,11 +1,11 @@
 ---
 id: TASK-27.1
 title: M1 修复Lua导出器实际路径输入保护
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 23:18'
-updated_date: '2026-10-22 23:28'
+updated_date: '2026-10-22 23:37'
 labels: []
 milestone: m-2
 dependencies: []
@@ -48,4 +48,12 @@ TDD红灯38项：35失败、3正常输出通过；修复后38/38通过0skip，�
 PR46 head fc69d34 的正式Windows CI39871618136失败14项：测试将POSIX软链后接/..语义误当跨平台契约，非Fengari问题。修订仅两个测试文件与独立tests/helpers/parent-traversal.mjs：双sentinel真实write探针判断OS实际落点，不调用guard/stat/realpath推断答案；真实输入仍必须拒绝且所有输入字节不变，真实非源输出必须成功且重复一致。主题自身特殊路径两种语义均保护。生产两个守卫SHA保持原样。当前Linux79项保护通过0skip，Windows待新正式CI，不宣称已跨平台通过。
 
 跨平台测试修订独立评审通过：双sentinel真实write oracle独立于守卫，两语义分支及主题自身例外均核对；Linux作者/评审保护79/79零skip。正常分支第二次构建后再次核对实际输出字节。仅修改测试与本任务记录，生产源码未改；最终仍以PR46新SHA的Windows CI为准。
+
+实际交付：PR46已合并，merge b4c552cf867315864bc070a67f9af6ff7b25f206；最终head c10e05e 的正式Windows CI39872476051两项success。日志179项JS通过、0失败、14项文件symlink权限skip；目录软链及父级遍历语义测试均实际跑通。最终组合已含荆棘PR48。此前待CI及首轮Windows14失败记录保留为历史，本次由真实成功验证收口；平台导出/官方导入/游戏实测仍不在本任务验收范围。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+主题与数据Lua导出均按实际IO文件身份保护输入，覆盖软硬链接及目录软链父级遍历，并保留合法输出。PR46实际合并b4c552cf；最终head c10e05e正式Windows CI39872476051两项成功，179JS通过0失败、14文件symlink权限skip，目录语义测试实跑通过。Linux79保护、独立主题49/数据41及生成字节一致性证据保留。
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -71,6 +71,17 @@ test("block potion is fixed and all self potions consume exactly one matching sl
     end
 end)
 
+test("production block potion reaches the cap without changing fixed amount or consumption", function()
+    for _, block in ipairs({ 988, 998, 999 }) do
+        local run = battle({ "block_potion" })
+        run.combat.player.block = block
+        Combat.addStatus(run.combat.player, "dexterity", -100)
+        Combat.addStatus(run.combat.player, "frail", 2)
+        assert(Run.usePotion(run, 1)); equal(run.combat.player.block, 999)
+        equal(#run.potions, 0)
+    end
+end)
+
 test("poison and regeneration use actor timing and current data values", function()
     local source = Combat.copy(data)
     definition(source.potions.potions, "poison_potion").effects[1].value = 7
