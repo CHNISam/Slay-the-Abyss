@@ -1,11 +1,11 @@
 ---
 id: TASK-8.4
 title: 修复手牌已满时仍抽牌并丢弃
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 22:41'
-updated_date: '2026-10-22 22:51'
+updated_date: '2026-10-22 23:00'
 labels: []
 milestone: m-2
 dependencies: []
@@ -47,4 +47,12 @@ Executor: dot。原版满手应立即停抽且不触发洗牌，当前实现错�
 - 父级UI加抽牌组合复验：系统Lua387、Python16通过；9个生产JSON逐blob未变，仅纠正README抽牌契约。
 - 本地npm缺Fengari的7项失败由上述正式CI补证，不混同系统Lua。未平台编译、导入或实机验收。
 - 保持In Progress；元数据提交后重跑当前head CI，实际合并后再Done。
+
+PR45 已合并：1217abb22ded7b2bd8195e21f7dfdc9efa44181e；最终head 366753f6957980237a8a652923de11fb6ab83541 的CI 39868328456两项成功。https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39868328456 。本任务本地规则修复已真实收口，平台编译、导入及实机验收不在本任务通过结论内。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+满手抽牌立即停止且不移动牌堆、不额外洗牌；保留出牌腾出的手牌空间。容量、对象身份、UID、RNG/events及真实Run路径回归通过，PR37兼容增量独立审查无阻断。PR45最终head366753f经CI39868328456双成功后合并为1217abb；生产JSON未变，旧README契约已纠正。
+<!-- SECTION:FINAL_SUMMARY:END -->
