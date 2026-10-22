@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 15:36'
-updated_date: '2026-10-22 15:41'
+updated_date: '2026-10-22 15:43'
 labels: []
 dependencies: []
 parent_task_id: TASK-9
@@ -36,4 +36,6 @@ ordinal: 25000
 CLAIM quality-gates；branch feat/task-9-1-review；worktree .worktrees/reward-review；只修改本task及docs/reviews/TASK-9.1-reward-review.md；不参与run实现。
 
 独立只读审查e0aa137，无阻断发现。npmcheck退出0：54JS+15coreLua+8runLua通过，Python10通过1WinError1314skip。临时独立探针8种子真实10牌胜利+8次下一场，17当前候选逐张canPlay验证；HP/gold/seed精确检查与非法/重放全态不变通过。早先64种子全态大量快照触及15s被终止，不算通过，缩8后通过且未提高上限。证据docs/reviews/TASK-9.1-reward-review.md；无UI/游戏/存档验证。
+
+审查提交75b7d16；PR https://github.com/CHNISam/Slay-the-Abyss/pull/15 ，base feat/task-9-card-rewards。两个AC已据实验证；等待主Agent集成，不自行合并。
 <!-- SECTION:NOTES:END -->
