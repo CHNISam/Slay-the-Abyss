@@ -4,7 +4,7 @@ title: M1 回合制战斗核心（回合/能量/抽弃牌/伤害/格挡/敌人�
 status: In Progress
 assignee: []
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 14:33'
+updated_date: '2026-10-22 14:43'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -38,4 +38,6 @@ ordinal: 8000
 
 <!-- SECTION:NOTES:BEGIN -->
 CLAIM 2026-10-22 主Agent /root；分支feat/task-8-combat-core；worktree .worktrees/combat-core；负责人Furinya掌握。TASK7已Done并经PR2集成481b926。文件边界src/lua/abyss_combat.lua和tests/lua/combat.lua。格挡按已审查data契约保留至拥有者下回合开始，避免玩家防御在敌方攻击前清空；任务原括注存在歧义，以实际行为测试证明。
+
+实现纯Lua53战斗核心与15项真实源码测试；主Agent独立通过runner复跑15通过，官方MCP所带luaparse按Lua53语法检查通过。仅starter与基础op启用，未支持的高级效果在扣能量前拒绝，留TASK9/11扩展，不宣称37卡已全部实现。胜败、抽弃循环、能量、格挡、意图与无效命令原子性均有验证。未游戏运行。
 <!-- SECTION:NOTES:END -->
