@@ -4,18 +4,22 @@ local Nodes = require("abyss_nodes")
 local Data = require("abyss_data")
 local Presentation = require("abyss_presentation")
 local Layout = require("abyss_ui_layout")
+local Viewport = require("abyss_viewport")
 local count = 0
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
 local function control(spec, parent)
     local self = { children = {}, visible = true, text = spec.text and spec.text.content or "", parent = parent }
     function self:GetChild(name) return assert(self.children[name], "missing " .. name) end
     function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
+    function self:SetSizeDelta(width, height) self.size = {width, height} end
+    function self:SetLocalScale(x, y, z) self.scale = {x, y, z} end
     function self:AddCursorEventListener(event, fn) assert(event == "click" and not self.click); self.click = fn end
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
 end
 local function fixture(data)
-    local root = control({ children = Layout })
+    local canvas = control({ children = Layout })
+    local root = Viewport.apply(canvas, 1280, 720)
     return GameUI.new(root, data or Data, Presentation, "click"), root
 end
 local function click(root, panel, button)
@@ -120,14 +124,29 @@ test("all seven node panels compose through fifteen floors and Boss result then 
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
 end)
 
-test("native lifecycle loads every composed control from the generated tree", function()
+test("viewport scales each device uniformly and covers wider canvas outside the stage", function()
     local root = control({ children = Layout })
-    local oldScript, oldEnum, oldStart = script, Enum, OnStart
-    script, Enum = { object = root }, { CursorEventType = { CursorClick = "click" } }
+    for _, device in ipairs({{1280,720,1}, {1600,900,1.25}, {1920,1080,1.5}, {2340,1080,1.5}}) do
+        local stage, scale = Viewport.apply(root, device[1], device[2])
+        assert(scale == device[3] and stage.scale[1] == scale and stage.scale[2] == scale)
+        assert(root:GetChild("canvasBackdrop").size[1] == device[1])
+        assert(root:GetChild("canvasBackdrop").size[2] == device[2])
+    end
+    assert(not pcall(Viewport.apply, root, 0, 720))
+end)
+
+test("native lifecycle loads every composed control and registers its listeners only once", function()
+    local canvas = control({ children = Layout })
+    local root = canvas:GetChild("stage")
+    local oldScript, oldEnum, oldStart, oldGame = script, Enum, OnStart, game
+    script, Enum = { object = canvas }, { CursorEventType = { CursorClick = "click" } }
+    game = { GetUICanvasSize = function() return 1600, 900 end }
     dofile("src/lua/abyss_ui.lua")
     OnStart()
+    OnStart()
+    assert(root.scale[1] == 1.25)
     click(root, "menuPanel", "start")
     assert(root:GetChild("mapPanel").visible and not root:GetChild("menuPanel").visible)
-    script, Enum, OnStart = oldScript, oldEnum, oldStart
+    script, Enum, OnStart, game = oldScript, oldEnum, oldStart, oldGame
 end)
 print("LUA_GAME_UI_PASS " .. count)

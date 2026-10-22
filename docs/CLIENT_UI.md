@@ -9,9 +9,9 @@ npm ci --ignore-scripts
 npm run check
 ```
 
-`npm run build:data` 生成同源 `build/lua/abyss_data.lua`；`npm run build:ui` 用现有 Python 表现渲染器生成 `abyss_presentation.lua`、原生控件树 `game-ui.json` 和测试用 `abyss_ui_layout.lua`。需要 Node 22+、Python 3（仅标准库）；可用 `ABYSS_PYTHON` 指定解释器。生成物不入库。
+`npm run build:data` 生成同源 `build/lua/abyss_data.lua`；`npm run build:ui` 用现有 Python 表现渲染器生成 `abyss_presentation.lua`、统一主题 `abyss_theme.lua`、原生控件树 `game-ui.json` 和测试用 `abyss_ui_layout.lua`。需要 Node 22+、Python 3（仅标准库）；可用 `ABYSS_PYTHON` 指定解释器。生成物不入库。
 
-平台接线应导入 `game-ui.json` 的控件，根脚本为 `abyss_ui`；保留 `src/lua/*.lua` 的模块名，以及同源生成的 `abyss_data`、`abyss_presentation`。`abyss_ui_layout` 仅供测试，不是运行依赖。平台导入仍遵守 `TOOLCHAIN.md`：先读 MCP workflow/platform-rules，只写存档副本，保留 live write 为 0。
+平台接线应导入 `game-ui.json` 的控件，根脚本为 `abyss_ui`；保留 `src/lua/*.lua` 的模块名，以及同源生成的 `abyss_data`、`abyss_presentation`、`abyss_theme`。`abyss_ui_layout` 仅供测试，不是运行依赖。根控件包含全画布底色与 stage，入口按 `game.GetUICanvasSize()` 设置底色尺寸及主题基准下的统一缩放。平台导入仍遵守 `TOOLCHAIN.md`：先读 MCP workflow/platform-rules，只写存档副本，保留 live write 为 0。
 
 ## 当前流程
 
@@ -26,6 +26,12 @@ npm run check
 `tests/lua/game_ui.lua` 从生成的真实控件树构建测试宿主，点击实际处理器并调用真实 Run/Map/Nodes。包含原数据初始牌组战斗及奖励入组、隐藏面板输入拒绝、失败重开，以及全部七节点连续十五层流程。十五层用例仅降低测试数据敌人 HP，以隔离流程与平衡；不代表原数值通关。
 
 独立测试还覆盖状态时序、非法交易原子性、重复领取、稳定升级/删牌 UID、分页与画布边界。控件测试使用原生 API 的测试替身，几何检查仅证明声明的控件范围；不等于平台实际文字排版、手机/主机预览或游戏试玩。
+
+## 与已批准美术稿的差异
+
+PR #19 仍是最终视觉依据。当前面板用于规则与原生控件接线，颜色、字号和布局参数接入同一主题；过渡布局保存在主题的 `layout.native*`，不替换已批准的卡牌/手牌等布局 token。stage 缩放读取生成的 Lua 主题。
+
+尚未完成：148×208 的卡牌结构、底部扇形手牌、头像/图标/血条填充、奖励弹窗、营地升级前后对比、完整按钮反馈、动画和 A/B 档拖牌。现有 C 档操作是先选敌人再点牌，尚需按批准稿补齐牌选择状态与目标提示。地图暂用分页替代滚动，商店暂用分页清单替代批准货架。这些是实现缺口，尚无平台能力证据支持称为必要降级；需要在 TASK-10 / TASK-24 继续还原，不因此关闭美术验收。
 
 当前商店/奖励会过滤尚不支持的高级卡，当前可售卡池为 17 张；37 张内容表不等于 37 张可玩，30+ 完整卡池仍由 TASK-16 完成。遗物购买及药水事件已进入库存，但除已有战后回血外的遗物/药水运行效果仍须 TASK-14 接入。完整遭遇/平衡、正式结算和发布验收分别由后续任务验证。
 
