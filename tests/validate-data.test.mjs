@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { contentFiles, validateContent } from '../scripts/validate-data.mjs';
 
 function fixture() {
-  return {
+  const data = {
     cards: { starter_deck: { cards: ['strike', 'strike'] }, cards: [{ id: 'strike', name: '打击', type: 'attack', rarity: 'basic', cost: 1, effects: [{ op: 'damage', value: 6 }], upgrade: { cost: 0 } }] },
     statuses: { statuses: [{ id: 'strength', name: '力量', kind: 'buff', stack: 'intensity', decay: 'none' }] },
     enemies: { enemies: [{ id: 'slime', name: '史莱姆', tier: 'normal', hp: 12, intents: [{ id: 'attack', kind: 'attack', effects: [{ op: 'damage', value: 3 }] }] }], encounters: [{ id: 'slime_pair', tier: 'normal', enemies: ['slime', 'slime'], minFloor: 1, maxFloor: 14 }] },
@@ -23,6 +23,11 @@ function fixture() {
       combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end', poisonBypassesBlock: true }
     }
   };
+  for (const [tier, floor] of [['elite', 6], ['boss', 15]]) {
+    data.enemies.enemies.push({ ...structuredClone(data.enemies.enemies[0]), id: `${tier}_slime`, tier });
+    data.enemies.encounters.push({ id: `${tier}_encounter`, tier, enemies: [`${tier}_slime`], minFloor: floor, maxFloor: floor });
+  }
+  return data;
 }
 
 test('valid full bundle permits repeated starter cards and encounter enemies', () => {
