@@ -6,9 +6,22 @@ import json
 import platform
 import sys
 import time
+import copy
 
 from PIL import Image, ImageDraw
 import numpy as np
+
+
+def export_lua(result, lua_export, name):
+    # fill_shaper uses top-left / Y-up; upstream Lua expects bottom-left / Y-up.
+    # Adapt only the exporter input; preserve the raw JSON coordinate contract.
+    adapted = copy.deepcopy(result)
+    height = result["image_size"]["height"] / result["config"]["pixel_per_unit"]
+    for element in adapted["elements"]:
+        element["center"]["y"] += height
+    lua = lua_export.build_lua_export_text(adapted, image_name=name)
+    return ("-- DIAGNOSTIC ONLY: unbounded ellipses; PNG preview is cropped.\n"
+            "-- Not a production portrait candidate without verified parent clipping.\n" + lua)
 
 
 def source_image(path):
@@ -68,7 +81,7 @@ def main():
                   "config":{"pixel_per_unit":1, **config}, "elements":elements}
         stem = f"portrait-{count}"
         (out / f"{stem}.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-        lua = lua_export.build_lua_export_text(result, image_name=f"TECHNICAL SAMPLE {count}")
+        lua = export_lua(result, lua_export, f"TECHNICAL SAMPLE {count}")
         (out / f"{stem}.lua").write_text(lua, encoding="utf-8", newline="\n")
         cv2.imwrite(str(out / f"{stem}.png"), fit["preview"])
         error = image[:,:,:3].astype(float) - fit["preview"][:,:,:3].astype(float)
