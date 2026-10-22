@@ -16,6 +16,7 @@ test('serialization is deterministic regardless of object key insertion order', 
   assert.equal(toLua({ z: [1, true], a: 'x' }), toLua({ a: 'x', z: [1, true] }));
   assert.throws(() => toLua(null), /Unsupported/);
   assert.throws(() => toLua(Infinity), /Unsupported/);
+  assert.throws(() => luaString('\uD800'), /well-formed Unicode/);
 });
 
 test('UTF8 strings roundtrip through actual Lua, including controls and injection text', () => temporary(directory => {
@@ -57,6 +58,9 @@ test('Lua runner propagates failures and enforces finite timeout', () => tempora
   const failure = runLua(script);
   assert.notEqual(failure.status, 0);
   assert.match(failure.stderr, /intentional failure/);
+  writeFileSync(script, 'this is not valid Lua !');
+  assert.notEqual(runLua(script).status, 0);
+  assert.notEqual(runLua(join(directory, 'missing.lua')).status, 0);
   writeFileSync(script, 'while true do end');
   assert.throws(() => runLua(script, { timeout: 200 }), /timed out|ETIMEDOUT/);
 }));

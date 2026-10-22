@@ -4,6 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { loadContent, validateContent } from './validate-data.mjs';
 
 export function luaString(value) {
+  if (!value.isWellFormed()) throw new TypeError('Lua strings require well-formed Unicode');
   // Fixed-width byte escapes prevent a following digit from joining an escape.
   return '"' + [...Buffer.from(value, 'utf8')].map(byte =>
     byte >= 32 && byte <= 126 && byte !== 34 && byte !== 92

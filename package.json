@@ -3,11 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "check:syntax": "node scripts/check-syntax.mjs",
     "validate:data": "node scripts/validate-data.mjs",
-    "test": "node --test --test-concurrency=1",
-    "check": "npm run check:syntax && npm test && npm run validate:data"
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "build:data": "node scripts/build-lua-data.mjs",
+    "test:lua": "npm run build:data && node scripts/test-lua.mjs",
+    "check": "npm run check:syntax && npm test && npm run validate:data && npm run test:lua"
+  },
+  "devDependencies": {
+    "fengari-node-cli": "0.1.0"
   }
 }
