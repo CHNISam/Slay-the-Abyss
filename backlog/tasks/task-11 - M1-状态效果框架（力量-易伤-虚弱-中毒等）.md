@@ -5,12 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 16:34'
+updated_date: '2026-10-22 16:53'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
 dependencies:
   - TASK-8
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/29'
 ordinal: 11000
 ---
 

@@ -1,6 +1,7 @@
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI = require("abyss_battle_ui")
 local Combat = require("abyss_combat")
+local Run = require("abyss_run")
 local Data = require("abyss_data")
 local function control(name)
     local c = { name = name, visible = true, children = {}, text = "" }
@@ -14,7 +15,7 @@ local function setup()
     for _, name in ipairs({"title", "player", "piles", "notice", "statuses", "result", "start", "continue", "endTurn", "skip"}) do
         root.children[name] = control(name)
     end
-    for _, group in ipairs({ { "enemy", 5 }, { "card", 10 } }) do
+    for _, group in ipairs({ { "enemy", 5 }, { "card", 10 }, { "potion", 3 } }) do
         for i = 1, group[2] do root.children[group[1] .. i] = control(group[1] .. i) end
     end
     for _, c in pairs(root.children) do
@@ -141,5 +142,45 @@ test("generated Chinese presentation binds to real combat controls", function()
     local display = root.children.card1.children.label.text
     assert(not display:find("DISPLAY_", 1, true))
     assert(display:find("费用", 1, true) and display:find("点", 1, true))
+end)
+test("potion buttons apply real effects and keep consumed slots empty across repeated clicks", function()
+    local ui, root, click = setup()
+    ui.run = Run.new(Data, 1)
+    ui.run.potions = { "fire_potion", "energy_potion", "fire_potion" }
+    assert(Run.startCombat(ui.run, "cultist_solo"))
+    local battle = ui.run.combat
+    ui:render()
+    assert(root.children.potion1.children.label.text:find("固定伤害 20", 1, true))
+    local hp, energy = battle.enemies[1].hp, battle.energy
+    click("potion1")
+    assert(ui.run.combat == battle and battle.enemies[1].hp == hp - 20)
+    assert(#ui.run.potions == 2 and root.children.potion1.children.label.text == "空药水槽")
+    click("potion1")
+    assert(#ui.run.potions == 2 and battle.energy == energy)
+    click("potion2")
+    assert(battle.energy == energy + 2 and #ui.run.potions == 1)
+    click("potion3")
+    assert(battle.enemies[1].hp == hp - 40 and #ui.run.potions == 0)
+    ui:setActive(false)
+    local hand = #battle.hand
+    click("card1") click("potion2")
+    assert(#battle.hand == hand and #ui.run.potions == 0)
+end)
+
+test("lethal potion follows the normal reward path and updates persistent health", function()
+    local ui, root, click = setup()
+    ui.run = Run.new(Data, 1)
+    ui.run.potions = { "fire_potion" }
+    assert(Run.startCombat(ui.run, "cultist_solo"))
+    ui.run.combat.enemies[1].hp = 20
+    ui.run.combat.player.hp = 30
+    ui:render()
+    click("potion1")
+    assert(ui.run.phase == "reward" and ui.run.hp == 36 and #ui.run.potions == 0)
+    assert(root.children.player.text:find("生命 36/", 1, true))
+    assert(not root.children.potion1.visible and root.children.skip.visible)
+    local gold = ui.run.gold
+    click("potion1")
+    assert(ui.run.gold == gold and ui.run.phase == "reward")
 end)
 print("LUA_UI_PASS " .. count)

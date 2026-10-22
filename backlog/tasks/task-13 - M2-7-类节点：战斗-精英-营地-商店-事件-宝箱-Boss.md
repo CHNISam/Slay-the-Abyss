@@ -5,12 +5,14 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 16:38'
+updated_date: '2026-10-22 16:53'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
 dependencies:
   - TASK-12
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/29'
 ordinal: 13000
 ---
 

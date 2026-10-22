@@ -5,12 +5,14 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 16:38'
+updated_date: '2026-10-22 16:55'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
 dependencies:
   - TASK-8
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/29'
 ordinal: 10000
 ---
 
@@ -43,4 +45,6 @@ ordinal: 10000
 2026-10-23 本地原生控制器已集成菜单/地图/战斗/奖励；真实手牌点击、能量/血量/格挡/状态与当前修正意图刷新均通过测试。独立审查修复奖励页漏显示战后回血；隐藏面板拒绝事件。初始卡组真实战斗+15层全部7类节点低HP测试流程通过。仍非平台屏幕证据，保留全部屏幕/手机验收项未勾；按最新批准主题接线，卡面/扇形手牌/图标/动画还原有缺口。
 
 最终本地npm run check退出0：JS/数据/主题/全部108组Lua通过；Python11项中10通过1因Windows符号链接权限skip，JS同类6项明确skip。主题生成与native*过渡布局读取、手机/电脑/主机/宽屏stage缩放、重复OnStart不累加监听器已验证；当前未原生平台导入/实机/正式结算。独立规则与组合审查通过，代码交付feat/backlog-sprint。
+
+继续TASK14后的最终门禁更新：99JS（93通过6权限skip）、120Lua通过、Python10通过1权限skip；药水入口已与同源规则和战后奖励闭环联动。
 <!-- SECTION:NOTES:END -->

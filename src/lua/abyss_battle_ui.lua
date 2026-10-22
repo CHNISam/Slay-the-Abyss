@@ -5,7 +5,9 @@ local M = {}
 
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "当前无法出牌",
-    advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束" }
+    advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
+    empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
+    effect_overflow = "当前状态已达上限" }
 
 local function number(value) return string.format("%.0f", value) end
 local function statuses(actor)
@@ -90,6 +92,33 @@ function M.new(root, data, presentation, clickEvent, options)
             box:SetVisible(id ~= nil and id ~= false)
             if id then box:GetChild("label").text = cardText(id, instance and instance.upgraded) end
         end
+        if fighting and (self.potionBattle ~= battle or self.potionRun ~= run) then
+            self.potionBattle, self.potionRun, self.potionSlots = battle, run, {}
+            for i, id in ipairs(run.potions) do self.potionSlots[i] = { slot = i, id = id } end
+        end
+        local potions = fighting and Run.potionView(run) or {}
+        for i = 1, 3 do
+            show("potion" .. i, fighting == true)
+            local binding = self.potionSlots and self.potionSlots[i]
+            local item = binding and potions[binding.slot]
+            if item and item.id == binding.id then
+                local effects = {}
+                for _, effect in ipairs(item.effects or {}) do
+                    local value = number(effect.value)
+                    if effect.op == "damage" then effects[#effects + 1] = "固定伤害 " .. value
+                    elseif effect.op == "block" then effects[#effects + 1] = "格挡 " .. value
+                    elseif effect.op == "energy" then effects[#effects + 1] = "能量 ＋" .. value
+                    elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
+                        local definition = battle.catalog.statuses[effect.status]
+                        effects[#effects + 1] = (definition and definition.name or "状态") .. " " .. value
+                    end
+                end
+                child("potion" .. i):GetChild("label").text = item.name .. "\n"
+                    .. (item.canUse and table.concat(effects, "，") or "当前不可使用")
+            else
+                child("potion" .. i):GetChild("label").text = "空药水槽"
+            end
+        end
     end
     local function notice(value) label("notice", value) end
     local function refresh()
@@ -138,6 +167,19 @@ function M.new(root, data, presentation, clickEvent, options)
         if ok then notice("新回合：查看敌人意图，规划能量与格挡。") end
         refresh()
     end
+    function self:usePotion(index)
+        if not self.active or not self.run or self.run.phase ~= "combat" then return false end
+        local binding = self.potionSlots and self.potionSlots[index]
+        if not binding or self.run.potions[binding.slot] ~= binding.id then return false end
+        local ok, reason = Run.usePotion(self.run, binding.slot, self.target)
+        if ok then
+            self.potionSlots[index] = nil
+            for _, other in pairs(self.potionSlots) do if other.slot > binding.slot then other.slot = other.slot - 1 end end
+        end
+        notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
+        refresh()
+        return ok, reason
+    end
     local function bind(name, fn) child(name):GetChild("hit"):AddCursorEventListener(clickEvent, fn) end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
@@ -148,6 +190,7 @@ function M.new(root, data, presentation, clickEvent, options)
         if self.active and not options.embedded and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh() end
     end)
     for i = 1, 10 do local slot = i bind("card" .. i, function() self:playSlot(slot) end) end
+    for i = 1, 3 do local slot = i bind("potion" .. i, function() return self:usePotion(slot) end) end
     for i = 1, 5 do local target = i bind("enemy" .. i, function()
         if self.active and self.run and self.run.phase == "combat" and self.run.combat.enemies[target]
             and self.run.combat.enemies[target].hp > 0 then self.target = target refresh() end

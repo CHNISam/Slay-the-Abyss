@@ -28,5 +28,11 @@ export function battleLayout(theme = nativeTheme) {
     { inset: layout.buttonInset, fontSize: font.number, colour: color.gold });
   controls.push(action('endTurn', '结束回合'), action('start', '启程'), action('continue', '再战一场'),
     text('result', layout.result, '', font.heading, color.gold), action('skip', '跳过奖励'));
+  for (let i = 0; i < layout.potions.count; i++) {
+    const potions = layout.potions;
+    const position = potions.origin.map((value, axis) => value + i * potions.step[axis]);
+    controls.push(button(`potion${i + 1}`, [...position, ...potions.size], '',
+      { inset: layout.buttonInset, fontSize: font.small, colour: color.gold }));
+  }
   return { name: 'AbyssBattle', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true, controls };
 }
