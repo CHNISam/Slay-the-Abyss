@@ -27,23 +27,24 @@ jobs:
       - name: Verify Node baseline
         run: node -e "if (process.versions.node.split('.')[0] !== '22') throw new Error('Node 22 is required'); console.log(process.version)"
       - name: Check changed whitespace
-        shell: bash
+        shell: ${{ runner.os == 'Windows' && 'powershell' || 'pwsh' }}
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          if [[ -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
-            git diff --check "$BASE_SHA" HEAD
-          else
+          if ($env:BASE_SHA -and $env:BASE_SHA -notmatch '^0+$') {
+            git diff --check $env:BASE_SHA HEAD
+          } else {
             git show --format= --check HEAD
-          fi
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Check Conventional Commit PR title
         if: github.event_name == 'pull_request'
-        shell: bash
+        shell: ${{ runner.os == 'Windows' && 'powershell' || 'pwsh' }}
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if [[ ! "$PR_TITLE" =~ ^(feat|fix|chore|docs|refactor|test|perf|ci)(\([^\)]+\))?\!?:\ .+ ]]; then
-            echo 'PR title must follow Conventional Commits.'
+          if ($env:PR_TITLE -cnotmatch '^(feat|fix|chore|docs|refactor|test|perf|ci)(\([^)]+\))?!?: .+') {
+            Write-Error 'PR title must follow Conventional Commits.'
             exit 1
-          fi
+          }
       - run: npm run check
