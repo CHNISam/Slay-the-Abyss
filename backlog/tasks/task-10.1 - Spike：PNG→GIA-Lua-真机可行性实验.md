@@ -4,7 +4,7 @@ title: Spike：PNG→GIA/Lua 真机可行性实验
 status: To Do
 assignee: []
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-22 22:45'
 labels:
   - technical-spike
   - queued-after-M3
@@ -32,4 +32,8 @@ ordinal: 26000
 
 <!-- SECTION:NOTES:BEGIN -->
 美术技术探针属于M4发布表现前置，不阻塞M1基础C档操作；现有PR25/26/27/30/42/43及根工作区未提交子任务均保留，不把未合并成果计为交付。
+
+2026-10-23已完成切片：用户v2官方试玩截图确认标题/类型/费用/说明/图形完整及点击通过；10秒客户端dt均值33.3/P9534.0ms，非GPU且无基线。TASK-10.1.1单卡门槛Done，规范docs/art/CARD_PRODUCTION.md。三个干净实验PR25/26/27及制作PR42/容量PR43集成到PR30；共享资产已独立审查，容量P2清单失效问题修正，五份实际MCP副本静态0/0。原始GIL未改、未发布，截图/GIL留本机。父任务遵循最新M4排期保持ToDo，未完成的多卡/设备/场景和肖像不阻塞M1基础C档。
+
+本轮按用户要求收口：单卡门槛10.1.1及共享资产制作25.1完成；容量样本已交付，实际多卡/长文/设备及原生场景待测，留既有任务。集成PR30通过当前SHA的CI后合并，已集成子PR关闭并清理分支/工作树，原始本地证据归档到build/art-closeout-20261023。
 <!-- SECTION:NOTES:END -->

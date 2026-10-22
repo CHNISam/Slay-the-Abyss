@@ -1,0 +1,1254 @@
+{
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "templateIndices": {
+    "image": 0,
+    "textbox": 0
+  },
+  "sourceData": {
+    "rarities": [
+      "basic",
+      "common",
+      "uncommon",
+      "rare"
+    ],
+    "types": [
+      "attack",
+      "skill",
+      "power"
+    ],
+    "cardCount": 37
+  },
+  "nativeShapeIds": {
+    "rectangle": 100001,
+    "ellipse": 100002,
+    "triangle": 100003
+  },
+  "targetLibraryIcons": {
+    "attack": 102012,
+    "skill": 102014,
+    "power": 102024
+  },
+  "artTint": {
+    "attack": "#4E2B2F",
+    "skill": "#273D56",
+    "power": "#4E412B"
+  },
+  "assets": [
+    {
+      "id": "frame-basic",
+      "canvas": [
+        180.0,
+        240.0
+      ],
+      "controls": 12,
+      "images": 8,
+      "nativeTextboxes": 4,
+      "staticImageIds": [
+        100001,
+        100002
+      ],
+      "elements": {
+        "rarity-frame": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            148.0,
+            208.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-panel": {
+          "type": "rectangle",
+          "index": 2,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            144.0,
+            204.0
+          ],
+          "staticImageId": 100001
+        },
+        "name-band": {
+          "type": "rectangle",
+          "index": 3,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            144.0,
+            30.0
+          ],
+          "staticImageId": 100001
+        },
+        "art-panel": {
+          "type": "rectangle",
+          "index": 4,
+          "center": [
+            90.0,
+            80.0
+          ],
+          "platformCenter": [
+            0.0,
+            40.0
+          ],
+          "size": [
+            144.0,
+            64.0
+          ],
+          "staticImageId": 100001
+        },
+        "type-band": {
+          "type": "rectangle",
+          "index": 5,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            18.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-title": {
+          "type": "textbox",
+          "index": 6,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            148.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-type": {
+          "type": "textbox",
+          "index": 7,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-description": {
+          "type": "textbox",
+          "index": 8,
+          "center": [
+            90.0,
+            174.0
+          ],
+          "platformCenter": [
+            0.0,
+            -54.0
+          ],
+          "size": [
+            132.0,
+            92.0
+          ],
+          "staticImageId": null
+        },
+        "cost-outline": {
+          "type": "ellipse",
+          "index": 9,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            46.0,
+            46.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-separator": {
+          "type": "ellipse",
+          "index": 10,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            44.0,
+            44.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-energy": {
+          "type": "ellipse",
+          "index": 11,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": 100002
+        },
+        "card-cost": {
+          "type": "textbox",
+          "index": 12,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": null
+        }
+      }
+    },
+    {
+      "id": "frame-common",
+      "canvas": [
+        180.0,
+        240.0
+      ],
+      "controls": 12,
+      "images": 8,
+      "nativeTextboxes": 4,
+      "staticImageIds": [
+        100001,
+        100002
+      ],
+      "elements": {
+        "rarity-frame": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            148.0,
+            208.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-panel": {
+          "type": "rectangle",
+          "index": 2,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            144.0,
+            204.0
+          ],
+          "staticImageId": 100001
+        },
+        "name-band": {
+          "type": "rectangle",
+          "index": 3,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            144.0,
+            30.0
+          ],
+          "staticImageId": 100001
+        },
+        "art-panel": {
+          "type": "rectangle",
+          "index": 4,
+          "center": [
+            90.0,
+            80.0
+          ],
+          "platformCenter": [
+            0.0,
+            40.0
+          ],
+          "size": [
+            144.0,
+            64.0
+          ],
+          "staticImageId": 100001
+        },
+        "type-band": {
+          "type": "rectangle",
+          "index": 5,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            18.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-title": {
+          "type": "textbox",
+          "index": 6,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            148.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-type": {
+          "type": "textbox",
+          "index": 7,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-description": {
+          "type": "textbox",
+          "index": 8,
+          "center": [
+            90.0,
+            174.0
+          ],
+          "platformCenter": [
+            0.0,
+            -54.0
+          ],
+          "size": [
+            132.0,
+            92.0
+          ],
+          "staticImageId": null
+        },
+        "cost-outline": {
+          "type": "ellipse",
+          "index": 9,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            46.0,
+            46.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-separator": {
+          "type": "ellipse",
+          "index": 10,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            44.0,
+            44.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-energy": {
+          "type": "ellipse",
+          "index": 11,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": 100002
+        },
+        "card-cost": {
+          "type": "textbox",
+          "index": 12,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": null
+        }
+      }
+    },
+    {
+      "id": "frame-uncommon",
+      "canvas": [
+        180.0,
+        240.0
+      ],
+      "controls": 12,
+      "images": 8,
+      "nativeTextboxes": 4,
+      "staticImageIds": [
+        100001,
+        100002
+      ],
+      "elements": {
+        "rarity-frame": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            148.0,
+            208.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-panel": {
+          "type": "rectangle",
+          "index": 2,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            144.0,
+            204.0
+          ],
+          "staticImageId": 100001
+        },
+        "name-band": {
+          "type": "rectangle",
+          "index": 3,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            144.0,
+            30.0
+          ],
+          "staticImageId": 100001
+        },
+        "art-panel": {
+          "type": "rectangle",
+          "index": 4,
+          "center": [
+            90.0,
+            80.0
+          ],
+          "platformCenter": [
+            0.0,
+            40.0
+          ],
+          "size": [
+            144.0,
+            64.0
+          ],
+          "staticImageId": 100001
+        },
+        "type-band": {
+          "type": "rectangle",
+          "index": 5,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            18.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-title": {
+          "type": "textbox",
+          "index": 6,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            148.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-type": {
+          "type": "textbox",
+          "index": 7,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-description": {
+          "type": "textbox",
+          "index": 8,
+          "center": [
+            90.0,
+            174.0
+          ],
+          "platformCenter": [
+            0.0,
+            -54.0
+          ],
+          "size": [
+            132.0,
+            92.0
+          ],
+          "staticImageId": null
+        },
+        "cost-outline": {
+          "type": "ellipse",
+          "index": 9,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            46.0,
+            46.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-separator": {
+          "type": "ellipse",
+          "index": 10,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            44.0,
+            44.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-energy": {
+          "type": "ellipse",
+          "index": 11,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": 100002
+        },
+        "card-cost": {
+          "type": "textbox",
+          "index": 12,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": null
+        }
+      }
+    },
+    {
+      "id": "frame-rare",
+      "canvas": [
+        180.0,
+        240.0
+      ],
+      "controls": 12,
+      "images": 8,
+      "nativeTextboxes": 4,
+      "staticImageIds": [
+        100001,
+        100002
+      ],
+      "elements": {
+        "rarity-frame": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            148.0,
+            208.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-panel": {
+          "type": "rectangle",
+          "index": 2,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            144.0,
+            204.0
+          ],
+          "staticImageId": 100001
+        },
+        "name-band": {
+          "type": "rectangle",
+          "index": 3,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            144.0,
+            30.0
+          ],
+          "staticImageId": 100001
+        },
+        "art-panel": {
+          "type": "rectangle",
+          "index": 4,
+          "center": [
+            90.0,
+            80.0
+          ],
+          "platformCenter": [
+            0.0,
+            40.0
+          ],
+          "size": [
+            144.0,
+            64.0
+          ],
+          "staticImageId": 100001
+        },
+        "type-band": {
+          "type": "rectangle",
+          "index": 5,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            18.0
+          ],
+          "staticImageId": 100001
+        },
+        "card-title": {
+          "type": "textbox",
+          "index": 6,
+          "center": [
+            90.0,
+            33.0
+          ],
+          "platformCenter": [
+            0.0,
+            87.0
+          ],
+          "size": [
+            148.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-type": {
+          "type": "textbox",
+          "index": 7,
+          "center": [
+            90.0,
+            121.0
+          ],
+          "platformCenter": [
+            0.0,
+            -1.0
+          ],
+          "size": [
+            144.0,
+            40.0
+          ],
+          "staticImageId": null
+        },
+        "card-description": {
+          "type": "textbox",
+          "index": 8,
+          "center": [
+            90.0,
+            174.0
+          ],
+          "platformCenter": [
+            0.0,
+            -54.0
+          ],
+          "size": [
+            132.0,
+            92.0
+          ],
+          "staticImageId": null
+        },
+        "cost-outline": {
+          "type": "ellipse",
+          "index": 9,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            46.0,
+            46.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-separator": {
+          "type": "ellipse",
+          "index": 10,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            44.0,
+            44.0
+          ],
+          "staticImageId": 100002
+        },
+        "cost-energy": {
+          "type": "ellipse",
+          "index": 11,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": 100002
+        },
+        "card-cost": {
+          "type": "textbox",
+          "index": 12,
+          "center": [
+            26.0,
+            26.0
+          ],
+          "platformCenter": [
+            -64.0,
+            94.0
+          ],
+          "size": [
+            40.0,
+            40.0
+          ],
+          "staticImageId": null
+        }
+      }
+    },
+    {
+      "id": "card-back",
+      "canvas": [
+        180.0,
+        240.0
+      ],
+      "controls": 7,
+      "images": 7,
+      "nativeTextboxes": 0,
+      "staticImageIds": [
+        100001,
+        100003
+      ],
+      "elements": {
+        "back-frame": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            148.0,
+            208.0
+          ],
+          "staticImageId": 100001
+        },
+        "back-panel": {
+          "type": "rectangle",
+          "index": 2,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            144.0,
+            204.0
+          ],
+          "staticImageId": 100001
+        },
+        "back-inset-line": {
+          "type": "rectangle",
+          "index": 3,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            132.0,
+            192.0
+          ],
+          "staticImageId": 100001
+        },
+        "back-inset-panel": {
+          "type": "rectangle",
+          "index": 4,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            130.0,
+            190.0
+          ],
+          "staticImageId": 100001
+        },
+        "geo-outline": {
+          "type": "rectangle",
+          "index": 5,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            41.6,
+            41.6
+          ],
+          "staticImageId": 100001
+        },
+        "geo-body": {
+          "type": "rectangle",
+          "index": 6,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            32.0,
+            32.0
+          ],
+          "staticImageId": 100001
+        },
+        "geo-face": {
+          "type": "triangle",
+          "index": 7,
+          "center": [
+            90.0,
+            120.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            19.200000000000003,
+            28.8
+          ],
+          "staticImageId": 100003
+        }
+      }
+    },
+    {
+      "id": "type-attack",
+      "canvas": [
+        40.0,
+        40.0
+      ],
+      "controls": 4,
+      "images": 4,
+      "nativeTextboxes": 0,
+      "staticImageIds": [
+        100001,
+        100003
+      ],
+      "elements": {
+        "blade": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            20.0,
+            15.0
+          ],
+          "platformCenter": [
+            0.0,
+            5.0
+          ],
+          "size": [
+            5.0,
+            20.0
+          ],
+          "staticImageId": 100001
+        },
+        "blade-tip": {
+          "type": "triangle",
+          "index": 2,
+          "center": [
+            20.0,
+            4.0
+          ],
+          "platformCenter": [
+            0.0,
+            16.0
+          ],
+          "size": [
+            5.0,
+            6.0
+          ],
+          "staticImageId": 100003
+        },
+        "guard": {
+          "type": "rectangle",
+          "index": 3,
+          "center": [
+            20.0,
+            26.0
+          ],
+          "platformCenter": [
+            0.0,
+            -6.0
+          ],
+          "size": [
+            16.0,
+            4.0
+          ],
+          "staticImageId": 100001
+        },
+        "grip": {
+          "type": "rectangle",
+          "index": 4,
+          "center": [
+            20.0,
+            32.0
+          ],
+          "platformCenter": [
+            0.0,
+            -12.0
+          ],
+          "size": [
+            4.0,
+            8.0
+          ],
+          "staticImageId": 100001
+        }
+      }
+    },
+    {
+      "id": "type-skill",
+      "canvas": [
+        40.0,
+        40.0
+      ],
+      "controls": 2,
+      "images": 2,
+      "nativeTextboxes": 0,
+      "staticImageIds": [
+        100001,
+        100003
+      ],
+      "elements": {
+        "shield-upper": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            20.0,
+            14.0
+          ],
+          "platformCenter": [
+            0.0,
+            6.0
+          ],
+          "size": [
+            26.0,
+            17.0
+          ],
+          "staticImageId": 100001
+        },
+        "shield-point": {
+          "type": "triangle",
+          "index": 2,
+          "center": [
+            20.0,
+            27.0
+          ],
+          "platformCenter": [
+            0.0,
+            -7.0
+          ],
+          "size": [
+            26.0,
+            19.0
+          ],
+          "staticImageId": 100003
+        }
+      }
+    },
+    {
+      "id": "type-power",
+      "canvas": [
+        40.0,
+        40.0
+      ],
+      "controls": 3,
+      "images": 3,
+      "nativeTextboxes": 0,
+      "staticImageIds": [
+        100001,
+        100003
+      ],
+      "elements": {
+        "geo-outline": {
+          "type": "rectangle",
+          "index": 1,
+          "center": [
+            20.0,
+            20.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            26.0,
+            26.0
+          ],
+          "staticImageId": 100001
+        },
+        "geo-body": {
+          "type": "rectangle",
+          "index": 2,
+          "center": [
+            20.0,
+            20.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            20.0,
+            20.0
+          ],
+          "staticImageId": 100001
+        },
+        "geo-face": {
+          "type": "triangle",
+          "index": 3,
+          "center": [
+            20.0,
+            20.0
+          ],
+          "platformCenter": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            12.0,
+            18.0
+          ],
+          "staticImageId": 100003
+        }
+      }
+    }
+  ]
+}
