@@ -107,7 +107,7 @@
     "gameDisplay": "not_run",
     "built": true
   },
-  "production": "gated; no batch production",
+  "production": "limited shared card art may use verified v2 recipe; full playable-pool batch production still gated",
   "devicePreview": "not_run",
   "afterManualImportAttempts": [
     {
@@ -127,15 +127,23 @@
       "logCollected": false
     }
   ],
-  "currentBlocker": "User has entered playtest and click passed; title/type missing; height-only v2 candidate prepared for runtime confirmation",
+  "currentBlocker": "Single-card native Lua route verified; ten-card/dense text/device/re-entry and native scene tests pending",
   "heightCompatibilityCandidate": {
-    "runtimeDisplay": "not_run",
+    "runtimeDisplay": "passed_title_type_cost_description_shapes",
     "centresAndFontsUnchanged": true,
     "source": "art/spikes/card-editor/text-height-compat/card.lua",
     "metricsLabelAdded": true,
-    "performance": "not_measured",
+    "performance": {
+      "p95Ms": 34.0,
+      "method": "10-second client OnUpdate dt shown in native Metrics label",
+      "scope": "one card plus hosts/probe on test map; no claim for ten cards/mobile/console",
+      "meanMs": 33.3,
+      "device": "current user PC",
+      "baselineCompared": false,
+      "gpuTime": false
+    },
     "file": "build/art-platform/workspace/scenes/saves/abyss-art-card-text-v2.gil",
-    "officialImport": "not_run",
+    "officialImport": "verified_by_user_official_playtest_screenshots",
     "sha256": "3d6a717de7929fea2289e21ea42923a88025c2caf3a162ca24d20666bf97ca46",
     "staticCheck": {
       "ok": true,
@@ -145,6 +153,11 @@
     "onlyCardVisualChanges": [
       "card-title height 22 -> 40",
       "card-type height 18 -> 40"
-    ]
+    ],
+    "interaction": "passed_status_changed_to_click_passed",
+    "userScreenshotSha256": {
+      "clickAndMetrics": "1fdaba4d6c080e0330b60ae41b30398c06bf48817b6664b999dc31668fa6df52",
+      "initial": "03a3e3627dc87c94b86116ea8649d9700efcc5cf49a58bff27eccc826043a555"
+    }
   }
 }

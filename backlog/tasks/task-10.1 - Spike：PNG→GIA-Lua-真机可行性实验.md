@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-22 21:28'
+updated_date: '2026-10-22 22:01'
 labels:
   - technical-spike
 dependencies: []
@@ -43,4 +43,6 @@ CLAIM 2026-10-23 /root codex，feat/art-pipeline / .worktrees/art-pipeline。pri
 用户已手动导入卡牌候选：已读回ART_Spike、ART_Card、ART_Probe及5个静态宿主/探针控件，两个external_lua_file源码与候选匹配，静态检查0错误0警告；官方导入门槛已过。18秒当前存档试玩8fd0a901/f891c7e9均在开始前报无法把窗口切到前台sandbox。现成窗口工具一次聚焦成功后也FOCUS_FAILED，停止重复尝试；已请求用户手动进入试玩。显示/点击/dt/多设备未验收，原任务保持In Progress。
 
 新增实机证据：用户进入试玩截图UfuVVv（SHA8c264f3c...）确认卡框/费用1/岩晶/中文伤害说明可见，但标题打击和类型攻击缺失；点击后截图d70MTN（SHA793a0d9d...）上方已显示点击通过，点击事件及原生文本更新通过。editor Agent提交7838316最小兼容候选，仅两个透明框h22/h18→40，中心/字号不改；3项差异回归、Fengari15控件通过。主Agent已生成abyss-art-card-text-v2.gil，静态0错误0警告；增加可见Metrics回调dt，数值尚未实测。v2待复验，性能/多设备/场景仍未验收，不放行批产。
+
+2026-10-23：用户v2实机两张截图确认完整单卡显示与点击，10秒客户端dt均值33.3/P9534.0ms（非GPU、无基线）。子门槛TASK-10.1.1已Done，TASK-25.1小套共享资产制作与TASK-10.1.2容量样本独立Agent启动；父Spike仍InProgress，场景/肖像/设备/多卡未通过。
 <!-- SECTION:NOTES:END -->

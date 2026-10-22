@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory)][string]$BaseMap,
-    [string]$CardLua = 'art/spikes/card-editor/card.lua',
-    [ValidatePattern('^[A-Za-z0-9_-]{1,60}$')][string]$CandidateName = 'abyss-art-card-candidate',
+    [string]$CardLua = 'art/spikes/card-editor/text-height-compat/card.lua',
+    [ValidatePattern('^[A-Za-z0-9_-]{1,60}$')][string]$CandidateName = 'abyss-art-card-text-v2',
     [string]$ToolkitRoot = 'D:/MiliastraTools/genshin-miliastra-mcp',
     [string]$Python = 'C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe'
 )

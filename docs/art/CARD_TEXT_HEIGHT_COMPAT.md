@@ -1,13 +1,13 @@
 # TASK-10.1：原生短文本框高度兼容候选
 
-本候选针对主 Agent 转交的实机截图：卡框、岩晶、费用「1」和说明「造成 6 点伤害。」可见，标题「打击」与类型「攻击」缺失。**候选未实机运行，不能报告为修复通过。** 上游原始输出仍完整保留在 [`art/spikes/card-editor/`](../../art/spikes/card-editor/)，新候选单独放在 [`text-height-compat/`](../../art/spikes/card-editor/text-height-compat/)。
+本候选针对原版实机截图：卡框、岩晶、费用「1」和说明「造成 6 点伤害。」可见，标题「打击」与类型「攻击」缺失。**2026-10-23用户导入v2后官方试玩，两处文字已正常显示，点击更新通过。** 上游原始输出完整保留在 [`art/spikes/card-editor/`](../../art/spikes/card-editor/)，高度兼容稿放在 [`text-height-compat/`](../../art/spikes/card-editor/text-height-compat/)。制作范围见 [CARD_PRODUCTION.md](CARD_PRODUCTION.md)。
 
 ## 已知证据与假设
 
 - 截图由主 Agent 提供：`codex-clipboard-UfuVVv.png`，SHA-256 `8c264f3cf344a17e5ca358569dccc4ba0ba96301382d4d3db5a782dd560c15f8`。本 Agent 仅查看本地截图，不操作游戏或官方存档。图中缺失两项与主 Agent 描述一致；此处不推断其存档 ID 或导入日志。
 - 原始 JSON/Lua/GIA 都保存了正确的标题/类型 UTF-8、`visible=true`、透明背景、正确颜色和居中对齐；层序在图形背景之后。费用和说明使用同一上游文本框路径，实机已显示，故不存在全部中文均被账号等级屏蔽的现象。
 - 本机官方客户端 API 加工快照 `D:/MiliastraTools/genshin-miliastra-mcp/knowledge/official/guide/mhtakr07vej4.md:747–764` 公开了 `fontSize`、`adaptiveFontSize`、`minimumFontSize`、`verticalAlignment`；`:658–666` 公开 `SetAnchoredPosition`、`SetSizeDelta`、锚点和轴心。**文本框没有公开 padding 设置或最小高度公式**，不能声称已知内部留白的精确值。`GetPadding` 属于后面的网格控件，不应给文本框调用。
-- 同次实机中，缺失项分别为 h22/font17、h18/font14，显示项为 h40/font22、h92/font15。当前单一假设是原生字体行框/内部留白无法装入两个短框；尚未通过实机 A/B 确认。
+- 原版实机中，缺失项分别为 h22/font17、h18/font14，显示项为 h40/font22、h92/font15。仅改高度的v2两处均显示，支持短框容纳问题；未测内部留白公式或精确最小高度。
 
 ## 唯一改动
 
@@ -51,9 +51,9 @@ node "$editorRoot/backend/tests/check_textbox_lua.cjs" `
 |---|---|
 | 原始小样实机 | 主 Agent 反馈已运行，图元/费用/说明可见，标题/类型失败 |
 | 高度候选本地导出与格式/VM契约 | 通过 |
-| 高度候选平台编译 | **未执行** |
-| 高度候选导入/写入存档副本 | **未执行** |
-| 高度候选原生文字实机显示 | **未执行，待主 Agent** |
-| 中央 Backlog / 正式存档 / 发布 | 本 Agent 未修改/操作 |
+| 高度候选平台静态检查 | MCP 0错误/0警告，不单独声称官方编译日志通过 |
+| 高度候选导入/写入存档副本 | 主 Agent 已准备副本；用户已导入并进入官方试玩 |
+| 高度候选原生文字实机显示 | 用户两张截图确认标题/类型/费用/说明/图形；点击更新通过 |
+| 中央 Backlog / 正式存档 / 发布 | 主 Agent 完成单卡门槛TASK-10.1.1；未发布，父Spike仍在进行 |
 
-不因这份本地回归放行批产，不关闭 TASK-10.1。
+v2截图SHA为03a3e3627dc87c94b86116ea8649d9700efcc5cf49a58bff27eccc826043a555、1fdaba4d6c080e0330b60ae41b30398c06bf48817b6664b999dc31668fa6df52。10秒回调dt均值33.3/P95 34.0ms，非GPU耗时；没有基线/多卡/目标设备结论。只按制作规范放行少量通用卡牌资产，不关闭父TASK-10.1。

@@ -1,10 +1,10 @@
 # 首发美术流水线：候选流程与实机门槛
 
-关联 TASK-10.1，2026-10-23。**尚未完成真实游戏验收，不是已验证生产 Skill；禁止批量生产。**
+关联 TASK-10.1，2026-10-23。电脑单卡原生 Lua 路线已实机通过，范围与可复用参数见 [CARD_PRODUCTION.md](CARD_PRODUCTION.md)（TASK-10.1.1）。仅放行少量通用卡牌资产制作；十张手牌、长文案、多设备、肖像与场景仍分别验收，完整卡池尚未放行批产。
 
 | 资产 | 复用路线 | 本轮证据与决定 |
 |---|---|---|
-| 卡牌 UI | Image Editor JSON → 原生图片/文字 Lua；GIA 备用 | 卡面 15 控件（11 图、4 字）；用户已导入并试玩，截图确认图形/费用/说明显示、点击事件通过；标题/类型缺失，v2 高度兼容候选待复验 |
+| 卡牌 UI | Image Editor JSON → 原生图片/文字 Lua；GIA 备用 | v2 卡面 15 控件（11 图、4 字）；用户已导入并试玩，标题/类型/图形/费用/说明与点击更新通过；10秒客户端dt均值33.3/P95 34.0ms，无基线或多卡结论 |
 | 荧肖像 | 先查原生角色/肖像；没有时审阅手工低图元替代 | 拒绝直接使用 Primitive Lua 拟合：256 图元仍损失五官，64/256 档有 27/72 个越界椭圆；PNG 裁切预览不等于 Lua 显示 |
 | 建筑/场景 | 官方原生模型 → MCP scene_build_blocks → GIA | 单建筑/7 件景片可重复构建，碰撞均关闭；未导入、未实机。二维 UI 素材组不承担立体建筑 |
 
@@ -30,7 +30,7 @@
 ./scripts/art/prepare-card-candidate.ps1 -BaseMap '<干净基底.gil>' -CardLua 'art/spikes/card-editor/text-height-compat/card.lua' -CandidateName 'abyss-art-card-text-v2'
 ```
 
-v2 已写工作区副本并通过静态检查（0错误/0警告），尚未重新导入或实机确认缺字修复。它另加一行高度40的 `Metrics` 探针，将10秒客户端回调dt均值/p95直接显示，便于截图取证；不是GPU耗时。原版与v2比较必须记录探针的额外控件，不能把同屏整套UI成本推成一张卡的成本。
+v2 已写工作区副本并通过静态检查（0错误/0警告），用户官方试玩截图确认缺字修复与点击更新。准备脚本默认已切到此版本。它另加一行高度40的 `Metrics` 探针，将10秒客户端回调dt均值/p95直接显示；本轮为33.3/34.0ms，非GPU耗时。原版与v2比较必须记录探针的额外控件，不能把同屏整套UI成本推成一张卡的成本。
 
 ## 实机验证与切换规则
 
@@ -44,14 +44,14 @@ v2 已写工作区副本并通过静态检查（0错误/0警告），尚未重�
 
 [结构化证据](evidence/2026-10-23.json)。此前两轮自动导入均在文件框前失败；**用户现已手动完成导入**。已从新测试存档读回 `ART_Spike`、`ART_Card`、`ART_Probe`、五个静态宿主/探针控件；外部两个 Lua 源文件与候选逐字匹配（仅统一换行），读回后的静态检查仍为 0 错误/0 警告。整份 GIL 经编辑器重写元数据后哈希不同，因此用结构和脚本内容确认导入，不要求原始文件哈希不变。
 
-用户随后手动进入试玩并给出两张截图：第一张可见卡框、费用1、岩晶和“造成6点伤害”，但“打击”和“攻击”缺失；第二张点击后的上方文字为“点击通过”，确认原生鼠标事件和文本更新执行成功。截图SHA及本机证据目录见结构化记录。完整卡牌显示未通过，帧间隔、多设备和重复进入/退出仍未验收，v2待人工运行复验。
+原版试玩可见卡框、费用1、岩晶和“造成6点伤害”，但“打击”和“攻击”缺失；点击后的上方文字为“点击通过”。随后用户导入v2并给出两张实机截图，标题、类型均出现，费用/说明/图形保持完整；第二张同时记录“点击通过”及10秒客户端dt均值33.3/P95 34.0ms。截图SHA及本机证据目录见结构化记录。电脑单卡门槛通过；无基线、多卡、目标设备或重复进入/退出的验收结论。
 
 自动操作的前台切换仍有问题：两轮 `playtest_start` 报“无法把窗口切到前台：sandbox”（run `8fd0a901`、`f891c7e9`），逐步工具后续也返回 `FOCUS_FAILED`，故后续采用用户操作+截图取证，没有重复盲点、修改系统设置或绕过输入限制。
 
-本机候选：`.worktrees/art-pipeline/build/art-platform/workspace/scenes/saves/abyss-art-card-candidate.gil`；此前向用户提供的 `build/miliastra/scenes/saves/abyss-art-card-candidate.gil` 也是本轮测试副本。首次准备时原始 GIL 与复制时 SHA-256 一致；已导入的卡牌测试存档另备份为 `build/art-spike/imported-card.gil`。原始截图/运行记录在该 worktree 的 `build/art-spike/`、`build/miliastra/playtests/`，包含账号信息，留本机，不推仓库。
+当前默认候选：`.worktrees/art-pipeline/build/art-platform/workspace/scenes/saves/abyss-art-card-text-v2.gil`；旧 `abyss-art-card-candidate.gil` 保留用于缺字对照。首次准备时原始 GIL 与复制时 SHA-256 一致；原版已导入存档另备份为 `build/art-spike/imported-card.gil`。原始截图/运行记录在该 worktree 的 `build/art-spike/`、`build/miliastra/playtests/`，包含账号信息，留本机，不推仓库。
 
 ## Agent 分工与集成
 
 三个干净 Session 已分别交付独立 draft PR：[场景 #25](https://github.com/CHNISam/Slay-the-Abyss/pull/25)、[肖像 #26](https://github.com/CHNISam/Slay-the-Abyss/pull/26)、[卡牌 #27](https://github.com/CHNISam/Slay-the-Abyss/pull/27)。主 Agent 只做候选绑定、实机验收与集成；独立复核已发现并修正肖像 Y 偏移，320 个位置契约通过，裁切限制仍未解除。
 
-后续 TASK-25.1（卡框/图标）、TASK-25.2（肖像/卡图）、TASK-2.1（原生场景）依赖 TASK-10.1，保持 To Do。实机通过后，按各自批准的流程在独立 worktree/feat 分支制作，文件名绑定资产/卡牌 ID，各自验证并提 PR → develop。只有主 Agent 操作 MCP/GUI 与中央 Backlog；集成时复核来源、预算、输入输出哈希、三层证据和同屏结果。正式可用路线通过后再将本页收敛为生产规范或 Skill。
+TASK-10.1.1 单卡门槛已完成，TASK-25.1（少量通用卡框/卡背/类型图标）依赖它并进入制作；TASK-25.2（肖像/卡图）、TASK-2.1（原生场景）仍等待各自路线实机门槛。父 TASK-10.1 保持 In Progress。各 Agent 在独立 worktree/feat 分支制作，文件名绑定资产/卡牌 ID，各自验证并提 PR → develop。只有主 Agent 操作 MCP/GUI 与中央 Backlog；集成时复核来源、预算、输入输出哈希、三层证据和同屏结果。
