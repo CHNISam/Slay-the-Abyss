@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { buildLuaData, luaString, toLua } from '../scripts/build-lua-data.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 import { contentFiles, loadContent } from '../scripts/validate-data.mjs';
@@ -63,4 +64,21 @@ test('Lua runner propagates failures and enforces finite timeout', () => tempora
   assert.notEqual(runLua(join(directory, 'missing.lua')).status, 0);
   writeFileSync(script, 'while true do end');
   assert.throws(() => runLua(script, { timeout: 200 }), /timed out|ETIMEDOUT/);
+}));
+
+test('Lua suite discovers every file in order and stops on first failure', () => temporary(directory => {
+  const scripts = join(directory, 'tests/lua');
+  mkdirSync(scripts, { recursive: true });
+  const cli = resolve('scripts/test-lua.mjs');
+  const run = () => spawnSync(process.execPath, [cli], { cwd: directory, encoding: 'utf8', timeout: 5000 });
+  assert.notEqual(run().status, 0, 'empty suite must fail');
+  writeFileSync(join(scripts, 'a.lua'), 'print("suite first")');
+  writeFileSync(join(scripts, 'b.lua'), 'print("suite second")');
+  let result = run();
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /suite first[\s\S]*suite second/);
+  writeFileSync(join(scripts, 'a.lua'), 'error("suite failure")');
+  result = run();
+  assert.notEqual(result.status, 0);
+  assert.doesNotMatch(result.stdout, /suite second/);
 }));

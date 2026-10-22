@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process';
+import { readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -21,9 +22,14 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout = 15000, cwd =
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
-    const result = runLua(process.argv[2]);
-    process.stdout.write(result.stdout);
-    process.stderr.write(result.stderr);
-    process.exitCode = result.status ?? 1;
+    const scripts = process.argv[2] ? [process.argv[2]] : readdirSync('tests/lua')
+      .filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
+    if (!scripts.length) throw new Error('No Lua test files discovered');
+    for (const script of scripts) {
+      const result = runLua(script);
+      process.stdout.write(result.stdout);
+      process.stderr.write(result.stderr);
+      if (result.status !== 0) { process.exitCode = result.status ?? 1; break; }
+    }
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

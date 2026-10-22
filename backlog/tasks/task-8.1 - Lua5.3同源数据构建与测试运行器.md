@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 14:33'
-updated_date: '2026-10-22 15:13'
+updated_date: '2026-10-22 15:23'
 labels: []
 dependencies: []
 parent_task_id: TASK-8
@@ -42,6 +42,8 @@ CLAIM 子Agent quality-gates；负责人Furinya；分支feat/task-8-1-lua-harnes
 实现提交5c5c7f4；草稿PR https://github.com/CHNISam/Slay-the-Abyss/pull/5 base develop，待主Agent独立审查与生产Lua集成后的完整门禁。
 
 主Agent独立审查构建/runner及退出码负例，并在combat-core完整集成复验：53JS+15Lua全通过。PR7 Actions run39802353979/check通过10秒，CI包含真实生产Lua及表现Python门禁；PR5将由整体PR7替代后关闭，未单独合入缺生产源码的分支。
+
+最终集成补充：默认自动发现tests/lua/*.lua并按序串行，空/缺目录或首错均非零，新增suite负例，JS总54通过；专用runner合入后Windows check:rules先npmciignore-scripts，Python独立Ubuntu presentation，本地check串联两者。未参与实现的Agent已独立审查并复跑54JS+15Lua+Python10通过1环境skip，无阻断。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
