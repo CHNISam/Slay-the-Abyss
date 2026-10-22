@@ -61,3 +61,37 @@ test('native buttons provide all four states and touch hit areas stay inside the
     if (c.name === 'hpFill') { assert.equal(c.mask, true); assert.equal(c.fill.shape, 'horizontal'); }
   });
 });
+
+test('three potion buttons follow shared tokens and clear the HUD, notice, hand and turn controls', () => {
+  const controls = stage().children;
+  const potions = controls.filter(control => /^potion\d+$/.test(control.name));
+  assert.equal(potions.length, 3);
+  const notice = controls.find(control => control.name === 'notice');
+  assert.deepEqual(notice.position, theme.layout.battleNotice.position);
+  assert.deepEqual(notice.size, theme.layout.battleNotice.size);
+  function overlaps(a, b) {
+    return Math.abs(a.position[0] - b.position[0]) < (a.size[0] + b.size[0]) / 2
+      && Math.abs(a.position[1] - b.position[1]) < (a.size[1] + b.size[1]) / 2;
+  }
+  for (const [i, potion] of potions.entries()) {
+    assert.deepEqual(potion.position, theme.layout.battlePotions.origin.map((n, axis) => n + theme.layout.battlePotions.step[axis] * i));
+    assert.deepEqual(potion.size, theme.layout.battlePotions.size);
+    assert.equal(potion.kind, 'presetButton');
+    for (const state of potion.children) {
+      const label = state.children.find(control => control.name === 'label');
+      assert.equal(label.text.fontSize, theme.font.small);
+      assert(label.size[1] >= theme.font.small * 2, `${potion.name} keeps two readable lines`);
+    }
+    for (const name of ['title', 'player', 'piles', 'notice', 'energyDisc', 'endTurn']) {
+      assert(!overlaps(potion, controls.find(control => control.name === name)), `${potion.name}/${name}`);
+    }
+    for (const other of potions) if (other !== potion) assert(!overlaps(potion, other));
+    for (let count = 1; count <= 10; count++) for (let index = 0; index < count; index++) for (const selected of [false, true]) {
+      const pose = handPose(count, index, selected);
+      const [width, height] = theme.layout.card.size.map(n => n * pose.scale[0]);
+      const radians = Math.abs(pose.rotation) * Math.PI / 180;
+      assert(!overlaps(potion, {position: pose.position, size: [width * Math.cos(radians) + height * Math.sin(radians),
+        height * Math.cos(radians) + width * Math.sin(radians)]}));
+    }
+  }
+});

@@ -10,8 +10,9 @@ local function finite(n) return type(n) == "number" and n == n and math.abs(n) <
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
 
--- Root holds mapBackdrop + stage/mapPanel from mapLayout(). options may supply
--- color(r,g,b,a) and imageSource for tests; the client defaults are used otherwise.
+-- Standalone root holds mapBackdrop + stage/mapPanel from mapLayout(). With
+-- options.embedded, root is the host's mapPanel and the host alone scales stage.
+-- options may supply color(r,g,b,a) and imageSource; client defaults otherwise.
 -- Host OnStart calls resize(game.GetUICanvasSize()), OnUpdate calls update(dt).
 -- Host wheel/drag deltas may call scrollBy(baseCanvasPixels).
 function M.new(root, map, onChoose, clickEvent, options)
@@ -20,11 +21,17 @@ function M.new(root, map, onChoose, clickEvent, options)
     local colour = options.color or Color
     local imageSource = options.imageSource or (Enum and Enum.ImageSource.StaticReference)
     assert(type(colour) == "function" and imageSource ~= nil, "map UI needs client Color and imageSource")
-    local stage, backdrop = child(root, "stage"), child(root, "mapBackdrop")
-    local panel = child(stage, "mapPanel")
+    local embedded = options.embedded == true
+    local stage, backdrop, panel
+    if embedded then stage, panel = root, root
+    else
+        stage, backdrop = child(root, "stage"), child(root, "mapBackdrop")
+        panel = child(stage, "mapPanel")
+    end
     local view = Map.view(map)
     local self = { root = root, map = map, visible = true, navigationEnabled = view.floor == 0,
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
+        embedded = embedded, scale = 1, observedMap = map,
         observedNodeId = view.currentNodeId, observedFloor = view.floor }
     local function at(name) return child(panel, name) end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
@@ -32,6 +39,17 @@ function M.new(root, map, onChoose, clickEvent, options)
     local function position(node)
         return (node.lane - (Layout.lanes + 1) / 2) * Theme.layout.map.columnGap,
             Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - self.scroll
+    end
+    local function observeMap(current)
+        if self.map == self.observedMap then return false end
+        -- A restarted run can share floor/node ids with the previous run. Identity
+        -- resets its presentation and default gate before the host grants access.
+        self.observedMap = self.map
+        self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
+        self.navigationEnabled, self.time = current.floor == 0, 0
+        self.scroll = clamp(Layout.firstY + (math.max(1, current.floor) - 1) *
+            Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
+        return true
     end
     local function line(control, source, target, taken)
         local x1, y1 = position(source)
@@ -52,6 +70,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:render()
         local current, nodes, taken = Map.view(self.map), {}, {}
+        observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
             self.navigationEnabled = false
         end
@@ -114,6 +133,8 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:resize(width, height)
         if not finite(width) or not finite(height) or width <= 0 or height <= 0 then return false, "invalid_canvas" end
+        self.canvasWidth, self.canvasHeight = width, height
+        if embedded then self.scale = 1 return true end
         local scale = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
         stage.localScaleX, stage.localScaleY = scale, scale
         backdrop:SetSizeDelta(width, height)
@@ -150,6 +171,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
         -- An explicit coordinator grant acknowledges any external map advance.
         local current = Map.view(self.map)
+        observeMap(current)
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
         self.navigationEnabled = enabled self:render()
     end
@@ -159,8 +181,10 @@ function M.new(root, map, onChoose, clickEvent, options)
         if visible then self:focusCurrent() end
     end
     function self:choose(nodeId)
+        local beforeMap = self.map
+        local before = Map.view(beforeMap)
+        if observeMap(before) then self:render() end
         if not self.visible or not self.navigationEnabled or self.choosing then return false, "navigation_disabled" end
-        local before = Map.view(self.map)
         if before.complete then return false, "map_complete" end
         if type(nodeId) ~= "string" then return false, "invalid_node" end
         local selected
@@ -174,11 +198,12 @@ function M.new(root, map, onChoose, clickEvent, options)
         local called, accepted, reason = pcall(onChoose, selected)
         self.choosing = false
         local after = Map.view(self.map)
-        local changed = after.floor ~= before.floor or after.currentNodeId ~= before.currentNodeId
+        observeMap(after)
+        local changed = self.map ~= beforeMap or after.floor ~= before.floor or after.currentNodeId ~= before.currentNodeId
         if changed then self.navigationEnabled = false self:focusCurrent() end
         if not called then return false, "choice_callback_error" end
         if accepted ~= true then return false, reason or "choice_rejected" end
-        if after.currentNodeId ~= nodeId or after.floor ~= expectedFloor then return false, "selection_not_committed" end
+        if self.map ~= beforeMap or after.currentNodeId ~= nodeId or after.floor ~= expectedFloor then return false, "selection_not_committed" end
         self.navigationEnabled = false self:focusCurrent() return true
     end
     for i = 1, Layout.maxNodes do local slot = i bind("node" .. slot, function()

@@ -236,4 +236,13 @@ test("dead enemy attacker cannot regenerate or let later enemies act", function(
     eq(s.enemies[2].intentIndex, 1); eq(s.phase, "defeat")
 end)
 
+test("thorns-killed enemy does not advance intent while surviving enemies continue", function()
+    local s = battle({ "jaw_worm", "jaw_worm" }); local e = s.enemies[1]
+    e.hp = 1; status(e, "regen", 9); status(s.player, "thorns", 1)
+    local hp = s.player.hp
+    Combat.endTurn(s)
+    eq(e.hp, 0); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
+    eq(s.enemies[2].intentIndex, 2); eq(s.player.hp, hp - 22); eq(s.phase, "player")
+end)
+
 print("LUA_STATUSES_PASS " .. count)
