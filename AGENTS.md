@@ -51,3 +51,6 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - Commits follow Conventional Commits: `feat|fix|chore|docs|refactor|test|perf|ci(scope): description`.
 - Squash merge feature → `develop`; merge commit for `release/*` and `hotfix/*` → `master`.
 - Never rewrite shared history; force-push only your own branch with `--force-with-lease`.
+- Finish integration promptly: after a feature PR merges, verify its head has no new work, delete the remote branch, prune remote references, and remove its clean local worktree and branch in the same session. GitHub automatic branch deletion is enabled.
+- Preserve dirty worktrees and independent commits; record why they remain. For squash merges, verify the merged PR head and retain recoverable history before forcing local branch deletion.
+- Put review fixes and closeout notes into the existing task PR where practical. Do not leave completed review branches or create another branch solely to report an already merged change.
