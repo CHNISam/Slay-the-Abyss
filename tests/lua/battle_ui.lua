@@ -95,6 +95,50 @@ test("pending attack highlights valid live enemies and changing selection does n
     end
     error("fixture should contain attack")
 end)
+
+test("enemy intent click never confirms a selected non-target card", function()
+    local ui, stage, click = setup() click("start")
+    local battle, slot = ui.run.combat
+    for i, instance in ipairs(battle.hand) do if instance.cardId == "defend" then slot = i break end end
+    assert(slot, "fixture should contain defend")
+    click("card" .. slot)
+    local selected = ui.selected
+    assert(stage.children.notice.text == "再次点击这张牌确认出牌。")
+    local energy, hand, block = battle.energy, #battle.hand, battle.player.block
+    local discard, events, seed = #battle.discard, #battle.events, battle.seed
+    click("enemy1")
+    assert(ui.selected == selected and stage.children["card" .. slot].children.glow.visible)
+    assert(battle.energy == energy and #battle.hand == hand and battle.player.block == block)
+    assert(#battle.discard == discard and #battle.events == events and battle.seed == seed)
+    assert(stage.children.notice.text:find("意图：", 1, true))
+    click("card" .. slot)
+    assert(ui.selected == nil and battle.energy == energy - 1 and #battle.hand == hand - 1)
+    assert(battle.player.block == block + 5 and battle.discard[#battle.discard].uid == selected)
+end)
+
+test("reward HUD shows committed relic healing and clears battle-only counters", function()
+    local ui, stage, click, play = setup() click("start")
+    local battle = ui.run.combat
+    battle.player.hp, battle.enemies[1].hp = 50, 1 -- deterministic injured victory fixture
+    local slot
+    for i, instance in ipairs(battle.hand) do
+        if Combat.cardDefinition(battle, instance).type == "attack" then slot = i break end
+    end
+    assert(slot, "fixture should contain attack")
+    play(slot) -- actual selection and target callbacks resolve Run.play/finishCombat
+    assert(ui.run.phase == "reward" and ui.run.hp == 56 and battle.player.hp == 50)
+    assert(stage.children.player.text == "生命 56/80")
+    assert(stage.children.energy.text == "0/3" and stage.children.draw.text == "0" and stage.children.discard.text == "0")
+    local disc, empty = stage.children.energyDisc.imageColor, Theme.color.energyEmpty
+    assert(disc.r == empty.r and disc.g == empty.g and disc.b == empty.b and disc.a == empty.a)
+    assert(not stage.children.piles.text:find("消耗", 1, true) and stage.children.statuses.text == "")
+    assert(not stage.children.hero.visible and not stage.children.enemy1.visible)
+    click("skip")
+    assert(ui.run.phase == "map" and stage.children.player.text == "生命 56/80" and stage.children.energy.text == "0/3")
+    click("continue")
+    assert(ui.run.phase == "combat" and ui.run.combat.player.hp == 56 and stage.children.player.text == "生命 56/80")
+    assert(stage.children.energy.text == "3/3" and stage.children.hero.visible)
+end)
 test("enemy phase and command lock block card and end-turn input", function()
     local ui, stage, click = setup() click("start")
     local battle = ui.run.combat
