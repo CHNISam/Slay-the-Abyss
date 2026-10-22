@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { buildUiTheme } from '../scripts/build-ui-theme.mjs';
 import { contentFiles } from '../scripts/validate-data.mjs';
+import { traversesLinkBeforeParent } from './helpers/parent-traversal.mjs';
 
 const inputs = ['presentation/ui_theme.json', ...contentFiles.map(file => `${file}.json`)];
 function temporary(action) {
@@ -83,17 +84,25 @@ for (const mode of ['symlink', 'hardlink']) {
 }
 
 for (const input of inputs) {
-  test(`theme export rejects symlink-parent traversal output alias of ${input}`, t => temporary((root, data, theme) => {
+  test(`theme export protects actual symlink-parent traversal destination for ${input}`, t => temporary((root, data, theme) => {
     const alias = join(root, 'alias');
     mkdirSync(alias);
     if (!makeSymlink(t, join(data, 'presentation'), join(alias, 'presentation'), 'junction')) return;
-    // Do not path.join/resolve: the kernel traverses the symlink before '..'.
+    // Keep the raw path; determine OS traversal semantics with an independent write probe.
+    const followsLink = traversesLinkBeforeParent(root);
+    const aliasesInput = followsLink || input === 'presentation/ui_theme.json';
     const output = `${alias}/presentation/../${input}`;
     const before = inputs.map(file => readFileSync(join(data, file)));
-    let error;
-    try { buildUiTheme(theme, data, output); } catch (caught) { error = caught; }
+    if (aliasesInput) {
+      assert.throws(() => buildUiTheme(theme, data, output), /Output must not overwrite an input file/);
+    } else {
+      const expected = buildUiTheme(theme, data, join(root, 'baseline.lua'));
+      assert.equal(buildUiTheme(theme, data, output), expected);
+      assert.equal(readFileSync(output, 'utf8'), expected);
+      assert.equal(buildUiTheme(theme, data, output), expected);
+      assert.equal(readFileSync(output, 'utf8'), expected);
+    }
     for (let index = 0; index < inputs.length; index++) assert.equal(readFileSync(join(data, inputs[index])).equals(before[index]), true);
-    assert.match(error?.message ?? '', /Output must not overwrite an input file/);
   }));
 }
 

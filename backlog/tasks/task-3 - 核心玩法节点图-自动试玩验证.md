@@ -1,10 +1,11 @@
 ---
 id: TASK-3
 title: M1 真实平台完整战斗闭环
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-22 23:24'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -12,7 +13,7 @@ dependencies:
   - TASK-3.2
   - TASK-11.1
 priority: high
-ordinal: 3000
+ordinal: 1
 ---
 
 ## Description
@@ -32,4 +33,6 @@ ordinal: 3000
 
 <!-- SECTION:NOTES:BEGIN -->
 原AC1构建/写副本拆至TASK-3.1，原AC2导入拆至TASK-3.2；实战仍M1必要关口。本轮主存档无战斗脚本/UI，未运行战斗，不勾选。
+
+P0用户优先级覆盖既定串行排期，沿用任务避免重复建项。v4完整候选实机完成菜单→地图→出牌/敌人行动→胜利奖励/跳过→回图→商店离开并推进至15层Boss失败；v5用户确认HP/MaxHP、意图与受伤更新正常。原始截图/候选SHA及故障修复在docs/P0-SMOKE.md。本轮新日志仍缺，九状态未逐项实测，AC保持未完成。
 <!-- SECTION:NOTES:END -->

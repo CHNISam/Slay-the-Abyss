@@ -2,6 +2,7 @@
 -- root is nodePanel from nodeLayout(); the host may replace self.run/self.map.
 -- onChange(ok, reason, self) refreshes the host after an attempted command.
 local Nodes = require("abyss_nodes")
+local Theme = require("abyss_theme")
 local M = {}
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
 local reasons = {
@@ -93,7 +94,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
                 end
             end
         elseif active and node.type == "shop" then
-            hint = "选择商品购买；删牌按牌组中的独立编号执行。"
+            hint = "点选商品购买 · 红色价格表示金币不足 · 可随时离开商店"
             if self.category == "remove" then
                 for _, instance in ipairs(self.removeRows) do
                     local owned = find(self.run.deck, instance.uid, "uid")
@@ -102,6 +103,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
                         (self.run.gold < node.removePrice and "金币不足" or "删除"))
                     rows[#rows + 1] = descriptor(named("cards", instance.cardId, instance.upgraded) .. " · #" .. instance.uid ..
                         " · " .. node.removePrice .. " 金币 · " .. status, "removeCard", instance.uid, allowed, "卡牌已删除")
+                    local row = rows[#rows]
+                    row.name = named("cards", instance.cardId, instance.upgraded)
+                    row.description = "移除牌组中的这张卡牌 · 编号 " .. instance.uid .. details("cards", instance.cardId, instance.upgraded)
+                    row.price = node.removePrice .. " 金币 · " .. status
+                    row.unaffordable = owned ~= nil and self.run.gold < node.removePrice
+                    row.art = (find(self.run.data.cards.cards, instance.cardId) or {}).type or "status"
                 end
             else
                 for _, offer in ipairs(node[self.category]) do
@@ -109,6 +116,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
                     rows[#rows + 1] = descriptor(named(self.category, offer.id) .. " · " .. offer.price .. " 金币 · " .. status .. details(self.category, offer.id),
                         self.category == "cards" and "buyCard" or "buyRelic", offer.id,
                         not offer.sold and self.run.gold >= offer.price, "购买成功，已加入本局收藏")
+                    local row = rows[#rows]
+                    row.name = named(self.category, offer.id)
+                    row.description = details(self.category, offer.id):gsub("^\n", "")
+                    row.price = offer.price .. " 金币 · " .. status
+                    row.unaffordable = not offer.sold and self.run.gold < offer.price
+                    row.art = self.category == "relics" and "relic" or ((find(self.run.data.cards.cards, offer.id) or {}).type or "status")
                 end
             end
         elseif active and node.type == "event" then
@@ -123,14 +136,36 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
             rows[1] = descriptor("打开宝箱 · " .. reward .. (node.reward.relicId and details("relics", node.reward.relicId) or ""),
                 "claimTreasure", nil, true, "宝箱已开启 · 获得 " .. reward)
         end
-        self.pageCount = math.max(1, math.ceil(#rows / 8))
+        local shop = active and node.type == "shop" or false
+        local pageSize = shop and Theme.layout.nativeNode.shop.pageSize or 8
+        self.pageCount = math.max(1, math.ceil(#rows / pageSize))
         self.page = math.max(1, math.min(self.page, self.pageCount))
         text("page", (#rows == 0 and "暂无可用选项" or "第 " .. self.page .. "/" .. self.pageCount .. " 页"))
         text("notice", self.notice ~= "" and self.notice or hint)
         self.slots = {}
         for i = 1, 8 do
-            local row = rows[(self.page - 1) * 8 + i]
-            child("action" .. i):SetVisible(row ~= nil)
+            local row = rows[(self.page - 1) * pageSize + i]
+            if i > pageSize then row = nil end
+            child("action" .. i):SetVisible(not shop and row ~= nil)
+            if i <= Theme.layout.nativeNode.shop.pageSize then
+                local item = child("shop" .. i)
+                item:SetVisible(shop and row ~= nil)
+                if shop and row then
+                    item:GetChild("label"):SetVisible(false)
+                    item:GetChild("name").text = row.name
+                    item:GetChild("description").text = row.description
+                    item:GetChild("price").text = row.price
+                    item:GetChild("unavailablePrice").text = row.price
+                    item:GetChild("price"):SetVisible(not row.unaffordable)
+                    item:GetChild("unavailablePrice"):SetVisible(row.unaffordable == true)
+                    for kind in pairs(Theme.icon.cardArt) do
+                        item:GetChild("art_" .. kind):SetVisible(row.art == kind)
+                        item:GetChild("artPlate_" .. kind):SetVisible(row.art == kind)
+                    end
+                    item:GetChild("art_relic"):SetVisible(row.art == "relic")
+                    state("shop" .. i, row.enabled)
+                end
+            end
             if row then
                 self.slots[i] = row
                 child("action" .. i):GetChild("label").text = row.label
@@ -202,6 +237,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
     end
     local function bind(name, fn) child(name):GetChild("hit"):AddCursorEventListener(clickEvent, fn) end
     for i = 1, 8 do local slot = i bind("action" .. i, function() return self:activate(slot) end) end
+    for i = 1, Theme.layout.nativeNode.shop.pageSize do local slot = i bind("shop" .. i, function() return self:activate(slot) end) end
     for i, value in ipairs({ "cards", "relics", "remove" }) do local category = value bind("tab" .. i, function() return self:setCategory(category) end) end
     bind("previous", function() return self:setPage(self.page - 1) end)
     bind("next", function() return self:setPage(self.page + 1) end)

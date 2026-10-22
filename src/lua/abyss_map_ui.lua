@@ -20,7 +20,9 @@ function M.new(root, map, onChoose, clickEvent, options)
     options = options or {}
     local colour = options.color or Color
     local imageSource = options.imageSource or (Enum and Enum.ImageSource.StaticReference)
-    assert(type(colour) == "function" and imageSource ~= nil, "map UI needs client Color and imageSource")
+    -- Platform Color has static methods and can be a callable table/userdata.
+    -- Requiring a plain Lua function aborts the entire host before input binds.
+    assert(colour ~= nil and imageSource ~= nil, "map UI needs client Color and imageSource")
     local embedded = options.embedded == true
     local stage, backdrop, panel
     if embedded then stage, panel = root, root
@@ -33,7 +35,17 @@ function M.new(root, map, onChoose, clickEvent, options)
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map,
         observedNodeId = view.currentNodeId, observedFloor = view.floor }
-    local function at(name) return child(panel, name) end
+    local function at(name)
+        local i = 1
+        while true do
+            local group = panel:GetChild("mapGroup" .. i)
+            if not group then break end
+            local found = group:GetChild(name)
+            if found then return found end
+            i = i + 1
+        end
+        error("missing map UI control " .. name)
+    end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
     local function bind(name, fn) child(at(name), "hit"):AddCursorEventListener(clickEvent, fn) end
     local function position(node)
@@ -117,7 +129,8 @@ function M.new(root, map, onChoose, clickEvent, options)
                 tint(child(box, "body"), (state == "current" or state == "visited") and Theme.color.panelRaised or Theme.color.panel)
                 local icon = child(box, "icon")
                 icon:SetSizeDelta(size * .6, size * .6)
-                icon:SetImage(imageSource, assert(Theme.icon.node[node.type], "missing node icon"))
+                local iconId = assert(Theme.icon.node[node.type], "missing node icon")
+                icon:SetImage(imageSource, iconId)
                 tint(icon, Theme.color.node[state == "available" and "reachable" or state])
                 local hit = child(box, "hit")
                 hit:SetSizeDelta(size, size)

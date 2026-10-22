@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 23:18'
-updated_date: '2026-10-22 23:23'
+updated_date: '2026-10-22 23:28'
 labels: []
 milestone: m-2
 dependencies: []
@@ -44,4 +44,8 @@ TDD红灯38项：35失败、3正常输出通过；修复后38/38通过0skip，�
 独立评审进一步复现buildLuaData同源父级软链遍历漏洞，父级批准同一任务最小扩展两个导出器。另移除纯字符串resolve相等的误拒绝，判断以实际文件身份为准；不改序列化/数值。
 
 最终验证：新增路径语义8项修前全部失败，修后作者保护79/79、联合数据156/156通过0skip；独立评审主题49/49与数据41/41通过，两次评审阻塞均关闭。npm run check实际184项177通过7因缺Fengari失败，不报完整门禁通过。syntax、build:ui、build:theme、validate:data及Python13项通过；系统Lua5.4加载生成主题通过。生成数据与1217abb字节一致SHA256 9cc0aaf4285a2210ce7478295add82c2e3c0f76dd3c0602a2479dc504f2a996b；主题一致e4401da8b3e165896d90cbbe465b491c73518de2e6ab00d7e763798ec49550af。AC按本地真实证据及独立评审勾选，保持In Progress等待正式CI与真实合并；未执行Windows/官方平台/存档/游戏验收。
+
+PR46 head fc69d34 的正式Windows CI39871618136失败14项：测试将POSIX软链后接/..语义误当跨平台契约，非Fengari问题。修订仅两个测试文件与独立tests/helpers/parent-traversal.mjs：双sentinel真实write探针判断OS实际落点，不调用guard/stat/realpath推断答案；真实输入仍必须拒绝且所有输入字节不变，真实非源输出必须成功且重复一致。主题自身特殊路径两种语义均保护。生产两个守卫SHA保持原样。当前Linux79项保护通过0skip，Windows待新正式CI，不宣称已跨平台通过。
+
+跨平台测试修订独立评审通过：双sentinel真实write oracle独立于守卫，两语义分支及主题自身例外均核对；Linux作者/评审保护79/79零skip。正常分支第二次构建后再次核对实际输出字节。仅修改测试与本任务记录，生产源码未改；最终仍以PR46新SHA的Windows CI为准。
 <!-- SECTION:NOTES:END -->
