@@ -1,11 +1,11 @@
 ---
 id: TASK-10.2
 title: 独立审查 TASK-10 原生战斗UI与构建资源
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 16:07'
-updated_date: '2026-10-22 17:07'
+updated_date: '2026-10-22 17:19'
 labels: []
 dependencies: []
 parent_task_id: TASK-10
@@ -20,8 +20,8 @@ ordinal: 29000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 独立核对可见性、点击闭包、非法拒绝、奖励与下一场及状态意图等行为，复验阻断修复
-- [ ] #2 核对屏幕边界、生产Lua API与构建单源，区分离线测试和游戏验收
+- [x] #1 独立核对可见性、点击闭包、非法拒绝、奖励与下一场及状态意图等行为，复验阻断修复
+- [x] #2 核对屏幕边界、生产Lua API与构建单源，区分离线测试和游戏验收
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -48,4 +48,12 @@ ordinal: 29000
 视觉追加复审f7d5d75发现回归：1) 奖励HUD重新读battle.player，真实两阶段攻击后run56/HUD50且energy2/3，原语义负例exit1，正式旧HUD回归在测试重写中丢失。2) 选防御后提示同牌二次确认，但点击敌人查看意图会实际出防御（energy3到2、手牌5到4），独立负例exit1。3) 生成树94个text autoSize下限14，多处实际font14/15/16/17，未达到主Agent要求的18px（需协调最新主题规范）。已通知主Agent，生产代码未改，等待外部作者修复。
 
 主Agent确认视觉版两个行为问题为阻断，将交quality_gates独立fix树处理（不编辑外部battle-ui树）。原始探针已交付：系统TEMP/task-10-2-visual-hp.lua与task-10-2-visual-defend.lua，f7d5d75各exit1，修复后须原文件不改复验。字号规范已澄清：批准theme.minimum14优先，18只是review提示，不自升硬线；14到17px实际mobile可读性待实机、不勾AC。完整f7门禁绿色86JS(80pass/6skip)+68Lua+Python11(1skip)不覆盖上述新增负例，任务保持InProgress、两AC待最终复验。
+
+最终独立复验TASK10.4准确head0ab57f14dc3d1f7561649f0880648b9987effaea（生产a04b8b2）完成。原两个冻结负例文件不改各exit0：run56/HUD56/energy0，defend敌人点击energy3与hand5不变。逐行diff范围仅非combat HUD引用与selected needsTarget执行分支；永久回归2项保留。额外全run隐藏回调快照及下一战HP56、无旧block/strength/selected泄漏通过。完整check退出0：86JS(80pass/6权限skip)、70真实Lua(11UI)、Python11(1skip)、语法六表展示主题均过。两行为阻断已关闭，字号按批准14规范。无剩余本轮离线UI功能阻断；平台实际可读性/输入/游戏未验，不勾原TASK10平台AC。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+追加复审外部视觉f7d5d75发现HUD回退与无目标敌人点击误出牌；独立修复0ab57f1后原冻结负例不改转绿，完整86JS/70Lua/Python与隐藏态隔离探针通过。当前固定离线UI组合无剩余阻断；资源theme/API/安全区已核，实际手机可读性与游戏验收仍未证明。报告docs/reviews/TASK-10.2-ui-review.md，PR23。
+<!-- SECTION:FINAL_SUMMARY:END -->

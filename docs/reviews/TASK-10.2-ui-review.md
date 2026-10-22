@@ -2,7 +2,9 @@
 
 审查者：`/root/content_review`，非 TASK-10 作者。初审代码基线：`3648a27`，最终功能复审基线：`8966ef27876401f3efadf0e37513815eb54d3327`。审查分支：`feat/task-10-2-review`，日期：2026-10-23。
 
-历史功能结论：**8966ef2 原生 UI 功能范围内无剩余阻断。** 该结论不自动延伸到新视觉代码。追加复审 `f7d5d752bdf7815a395eab285d3e2c4d3667356d`（视觉实现父提交 `f14d4d0`）发现下述两项行为阻断，等待独立修复后复验。字号以已批准的 minimum14 为准，不作为本轮阻断。以下证据属于离线 UI 控制器和资源构建；审查者未操作 MCP、GUI、存档或游戏。
+最终结论：**视觉实现及独立修复 `0ab57f14dc3d1f7561649f0880648b9987effaea` 复验后，无剩余本轮离线 UI 功能阻断。** 两项在 f7d5d75 发现的行为阻断已由独立修复者处理；原冻结负例未经修改均转绿，完整门禁和额外隐藏态探针通过。字号以已批准的 minimum14 为准，不作为阻断。平台实际可读性、输入和游戏验收仍未通过本报告证明。
+
+下文保留 8966ef2 历史功能审查和 f7d5d75 修前证据，不能将它们混为同一份代码的结果。审查者未操作 MCP、GUI、存档或游戏。
 
 ## 范围及方法
 
@@ -57,13 +59,13 @@ assert(root.children.player.text:find("生命 " .. ui.run.hp .. "/", 1, true),
 
 UI builder 调用已验证的 Python 中文展示渲染器，以 data/cards.json 数值和 presentation overlay 合成展示，再序列化 Lua；UI 控制器只发 Run/Combat 命令，不自行保存第二份伤害或费用。生成 Lua 和布局 JSON 位于忽略的 build 下。CI presentation job 已增加 builder，实际在本机额外构建通过；该 job 未显式 pin Node 版本是可改进项，不能据此宣称远端 CI 已运行通过。
 
-合入的 theme builder 将颜色转为官方 Color 所需的 0–255 通道，覆盖资源/字体校验和真实 Lua 加载测试通过；Lua 数据导出保护的直接、相对、hardlink 路径用例通过，symlink 用例按权限条件跳过。本次功能基线的原生 battleLayout 尚未消费新增 abyss_theme，主题构建、静态设计图和原生视觉实装必须分开报告。主 Agent 已安排另一个实现者进行视觉对齐；本审查没有追踪其未提交工作，也不批准之后的变化。
+8966ef2 当时合入的 theme builder 将颜色转为官方 Color 所需的 0–255 通道，覆盖资源/字体校验和真实 Lua 加载测试通过；Lua 数据导出保护的直接、相对、hardlink 路径用例通过，symlink 用例按权限条件跳过。当时的原生 battleLayout 尚未消费新增 abyss_theme，因此没有将主题构建或静态设计图当作原生视觉实装；后续实际消费 theme 的代码在下文按新提交另外复审。
 
 ## 验收边界
 
 当前是初始牌组战斗演练，重复 cultist 遭遇仅用于验证奖励入组与再次战斗；地图导航、七类节点及完整第一幕未由此 UI 实现。平台副本检查、导入和前台试玩由主 Agent 单独取证；审查者没有独立复验该结果，更未把离线绿色门禁当作原神内实际显示、点击、触控或手柄验收。
 
-## 外部视觉实现追加复审（f7d5d75，进行中）
+## 外部视觉实现追加复审（f7d5d75 修前）
 
 已按准确提交 merge 新视觉代码并重读布局、controller、生命周期入口及新版真实控件树测试，没有跟踪外部未提交工作。全门禁退出 0：86 JS（80 pass、6 权限 skip）、9 UI + 15 core + 10 map + 8 run + 26 status 真实 Lua、Python 11（1 权限 skip）通过；以下独立负例仍真实失败，说明现有测试覆盖不足。
 
@@ -74,3 +76,14 @@ UI builder 调用已验证的 Python 中文展示渲染器，以 data/cards.json
 已确认的新接入：布局和 Lua controller 实际消费同源 theme；stage 等比缩放、外置背景、稀有度/类型色、图库图片、遮罩血条和四态 presetButton 已有代码及测试证据。SetLocalScale、SetAsLastSibling、fontColor、interactable 均在本地官方 API 镜像中有对应。常态/选中 1–10 张牌的包围盒与 PC/mobile 安全区测试通过，但不能代替实际触控、字体可读性、重叠命中或画面观感验证。
 
 两项行为探针分别位于系统临时目录 `task-10-2-visual-hp.lua` 与 `task-10-2-visual-defend.lua`，均内含生成原生树与新版测试 setup，运行时加载被测工作树的真实生产模块。先 `npm run build:data`、`npm run build:ui`，再 `node scripts/test-lua.mjs <探针绝对路径>`，两者在 f7d5d75 各自返回 exit 1。文件已交独立修复者，后续须原文件不改转绿，并在正式测试保留两项回归；当前不宣称修复已通过。
+
+## 独立修复最终复验（0ab57f1，已通过）
+
+准确 merge TASK-10.4 修复最终 head `0ab57f14dc3d1f7561649f0880648b9987effaea`，生产修复提交为 `a04b8b2`。逐行比较 f7d5d75→修复：生产仅将 render 的 battle 限定为 combat 阶段，以及 enemy 点击在 selected 实例仍存在且 needsTarget 时执行命令；其它情况只显示意图。共享主题、布局、规则与外部作者工作树没有被审查者修改。
+
+- 原冻结 HP 探针不改：exit 0，实际胜利后 run56/HUD56、energy0/3。
+- 原冻结防御探针不改：exit 0，选防御后点敌人保持 energy3、hand5；永久回归进一步确认选择保留，第二次点同牌才获得格挡并消耗一次资源。
+- 额外隐藏态探针通过：reward 阶段 player block=9/strength=3 的旧 combat 不泄漏到当前 HUD；hero 隐藏、状态为空、draw/discard/energy 归零。直接触发隐藏 enemy/endTurn/start/continue/card10 回调后完整 run 深拷贝相同；跳过奖励再战时 HP56、能量3、旧 block/strength/selection 均不带入。
+- 独立完整 `npm run check` 退出 0：86 JS（80 pass、6 权限 skip），11 UI + 15 core + 10 map + 8 run + 26 status，共 70 真实 Lua case；Python11（10 pass、1 权限 skip），语法、六表、展示/主题构建通过。
+
+两项阻断已关闭。本次只确认固定修复组合的离线功能与声明边界；不替代平台编译、多设备预览、手机实际文本可读性、窗口输入和游戏验收，原 TASK-10 的平台验收项不由本审查勾选。
