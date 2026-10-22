@@ -1,13 +1,16 @@
 ---
 id: TASK-10.4
 title: 修复奖励HUD回血与非目标牌敌人点击误触
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 17:08'
-updated_date: '2026-10-22 17:12'
+updated_date: '2026-10-22 22:19'
 labels: []
+milestone: m-2
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/35'
 parent_task_id: TASK-10
 type: bug
 ordinal: 29000
@@ -41,3 +44,9 @@ CLAIM quality-gates；worktree .worktrees/ui-regressions；branch feat/task-10-4
 
 实现提交a04b8b2447a70abe82c3180a888a0ee264fc718d；PR https://github.com/CHNISam/Slay-the-Abyss/pull/35 ，base feat/task-10-battle-ui；已发送给原reviewer content_review按冻结原probe独立复验，未合并/未标Done。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR35及上层PR20已合并；真实Lua控件处理器回归通过，集成门禁通过，非实机声明。
+<!-- SECTION:FINAL_SUMMARY:END -->
