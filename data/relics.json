@@ -1,0 +1,91 @@
+{
+  "relics": [
+    {
+      "id": "burning_blood",
+      "name": "余烬之心",
+      "rarity": "starter",
+      "trigger": "combat_end",
+      "effects": [
+        {
+          "op": "heal",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "anchor",
+      "name": "石锚",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "block",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "vajra",
+      "name": "裂岩杵",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "strength",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "bag_of_preparation",
+      "name": "备战袋",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "lantern",
+      "name": "启程灯",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "oddly_smooth_stone",
+      "name": "光滑岩片",
+      "rarity": "common",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "dexterity",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "bronze_scales",
+      "name": "铜鳞",
+      "rarity": "uncommon",
+      "trigger": "combat_start",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "thorns",
+          "value": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,937 @@
+{
+  "note": "v0.1.0 数据基线。生命值参考 A0 区间取定值；意图采用本项目确定循环，非原版完整 AI。详见 SOURCES.md。",
+  "enemies": [
+    {
+      "id": "cultist",
+      "name": "祈火徒",
+      "tier": "normal",
+      "hp": 50,
+      "intents": [
+        {
+          "id": "cultist_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 6
+            }
+          ]
+        },
+        {
+          "id": "cultist_2",
+          "kind": "buff",
+          "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jaw_worm",
+      "name": "石颚兽",
+      "tier": "normal",
+      "hp": 42,
+      "intents": [
+        {
+          "id": "jaw_worm_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 11
+            }
+          ]
+        },
+        {
+          "id": "jaw_worm_2",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 6
+            }
+          ]
+        },
+        {
+          "id": "jaw_worm_3",
+          "kind": "buff",
+          "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "red_louse",
+      "name": "赤甲虫",
+      "tier": "normal",
+      "hp": 13,
+      "intents": [
+        {
+          "id": "red_louse_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 6
+            }
+          ]
+        },
+        {
+          "id": "red_louse_2",
+          "kind": "buff",
+          "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "green_louse",
+      "name": "青甲虫",
+      "tier": "normal",
+      "hp": 13,
+      "intents": [
+        {
+          "id": "green_louse_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 6
+            }
+          ]
+        },
+        {
+          "id": "green_louse_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acid_slime_s",
+      "name": "小型酸液团",
+      "tier": "normal",
+      "hp": 10,
+      "intents": [
+        {
+          "id": "acid_slime_s_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "acid_slime_s_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acid_slime_m",
+      "name": "中型酸液团",
+      "tier": "normal",
+      "hp": 29,
+      "intents": [
+        {
+          "id": "acid_slime_m_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 7
+            }
+          ]
+        },
+        {
+          "id": "acid_slime_m_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acid_slime_l",
+      "name": "大型酸液团",
+      "tier": "normal",
+      "hp": 68,
+      "intents": [
+        {
+          "id": "acid_slime_l_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 11
+            }
+          ]
+        },
+        {
+          "id": "acid_slime_l_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spike_slime_s",
+      "name": "小型棘刺团",
+      "tier": "normal",
+      "hp": 12,
+      "intents": [
+        {
+          "id": "spike_slime_s_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spike_slime_m",
+      "name": "中型棘刺团",
+      "tier": "normal",
+      "hp": 30,
+      "intents": [
+        {
+          "id": "spike_slime_m_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 8
+            }
+          ]
+        },
+        {
+          "id": "spike_slime_m_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "frail",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spike_slime_l",
+      "name": "大型棘刺团",
+      "tier": "normal",
+      "hp": 68,
+      "intents": [
+        {
+          "id": "spike_slime_l_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 16
+            }
+          ]
+        },
+        {
+          "id": "spike_slime_l_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "frail",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "looter",
+      "name": "窃金客",
+      "tier": "normal",
+      "hp": 46,
+      "intents": [
+        {
+          "id": "looter_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 10
+            }
+          ]
+        },
+        {
+          "id": "looter_2",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blue_slaver",
+      "name": "蓝衣束缚者",
+      "tier": "normal",
+      "hp": 48,
+      "intents": [
+        {
+          "id": "blue_slaver_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 12
+            }
+          ]
+        },
+        {
+          "id": "blue_slaver_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "red_slaver",
+      "name": "赤衣束缚者",
+      "tier": "normal",
+      "hp": 48,
+      "intents": [
+        {
+          "id": "red_slaver_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 13
+            }
+          ]
+        },
+        {
+          "id": "red_slaver_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "vulnerable",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fungi_beast",
+      "name": "蕈甲兽",
+      "tier": "normal",
+      "hp": 26,
+      "intents": [
+        {
+          "id": "fungi_beast_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 6
+            }
+          ]
+        },
+        {
+          "id": "fungi_beast_2",
+          "kind": "buff",
+          "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mad_gremlin",
+      "name": "狂怒小魔",
+      "tier": "normal",
+      "hp": 22,
+      "intents": [
+        {
+          "id": "mad_gremlin_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "mad_gremlin_2",
+          "kind": "buff",
+          "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sneaky_gremlin",
+      "name": "潜行小魔",
+      "tier": "normal",
+      "hp": 12,
+      "intents": [
+        {
+          "id": "sneaky_gremlin_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fat_gremlin",
+      "name": "迟缓小魔",
+      "tier": "normal",
+      "hp": 15,
+      "intents": [
+        {
+          "id": "fat_gremlin_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "fat_gremlin_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wizard_gremlin",
+      "name": "蓄能小魔",
+      "tier": "normal",
+      "hp": 23,
+      "intents": [
+        {
+          "id": "wizard_gremlin_1",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "wizard_gremlin_2",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "wizard_gremlin_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shield_gremlin",
+      "name": "护盾小魔",
+      "tier": "normal",
+      "hp": 14,
+      "intents": [
+        {
+          "id": "shield_gremlin_1",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 7
+            }
+          ]
+        },
+        {
+          "id": "shield_gremlin_2",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gremlin_nob",
+      "name": "怒焰巨魔",
+      "tier": "elite",
+      "hp": 85,
+      "intents": [
+        {
+          "id": "gremlin_nob_1",
+          "kind": "buff",
+          "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "gremlin_nob_2",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 6
+            }
+          ]
+        },
+        {
+          "id": "gremlin_nob_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 14
+            }
+          ]
+        },
+        {
+          "id": "gremlin_nob_4",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "vulnerable",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lagavulin",
+      "name": "沉眠遗卫",
+      "tier": "elite",
+      "hp": 112,
+      "intents": [
+        {
+          "id": "lagavulin_1",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 8
+            }
+          ]
+        },
+        {
+          "id": "lagavulin_2",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 18
+            }
+          ]
+        },
+        {
+          "id": "lagavulin_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 18
+            }
+          ]
+        },
+        {
+          "id": "lagavulin_4",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "strength",
+              "value": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sentry",
+      "name": "符文哨卫",
+      "tier": "elite",
+      "hp": 40,
+      "intents": [
+        {
+          "id": "sentry_1",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 9
+            }
+          ]
+        },
+        {
+          "id": "sentry_2",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "weak",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guardian",
+      "name": "深渊守卫",
+      "tier": "boss",
+      "hp": 240,
+      "intents": [
+        {
+          "id": "guardian_1",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 9
+            }
+          ]
+        },
+        {
+          "id": "guardian_2",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 32
+            }
+          ]
+        },
+        {
+          "id": "guardian_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 5,
+              "times": 4
+            }
+          ]
+        },
+        {
+          "id": "guardian_4",
+          "kind": "debuff",
+          "effects": [
+            {
+              "op": "applyStatus",
+              "status": "vulnerable",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "guardian_5",
+          "kind": "defend",
+          "effects": [
+            {
+              "op": "block",
+              "value": 20
+            }
+          ]
+        },
+        {
+          "id": "guardian_6",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 9
+            }
+          ]
+        },
+        {
+          "id": "guardian_7",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 8,
+              "times": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "id": "cultist_solo",
+      "tier": "normal",
+      "enemies": [
+        "cultist"
+      ],
+      "minFloor": 1,
+      "maxFloor": 13
+    },
+    {
+      "id": "jaw_solo",
+      "tier": "normal",
+      "enemies": [
+        "jaw_worm"
+      ],
+      "minFloor": 1,
+      "maxFloor": 13
+    },
+    {
+      "id": "louse_pair",
+      "tier": "normal",
+      "enemies": [
+        "red_louse",
+        "green_louse"
+      ],
+      "minFloor": 1,
+      "maxFloor": 13
+    },
+    {
+      "id": "small_slimes",
+      "tier": "normal",
+      "enemies": [
+        "acid_slime_s",
+        "spike_slime_s"
+      ],
+      "minFloor": 1,
+      "maxFloor": 13
+    },
+    {
+      "id": "louse_trio",
+      "tier": "normal",
+      "enemies": [
+        "red_louse",
+        "green_louse",
+        "red_louse"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "medium_slimes",
+      "tier": "normal",
+      "enemies": [
+        "acid_slime_m",
+        "spike_slime_m"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "large_acid",
+      "tier": "normal",
+      "enemies": [
+        "acid_slime_l"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "large_spike",
+      "tier": "normal",
+      "enemies": [
+        "spike_slime_l"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "looter_solo",
+      "tier": "normal",
+      "enemies": [
+        "looter"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "blue_slaver_solo",
+      "tier": "normal",
+      "enemies": [
+        "blue_slaver"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "red_slaver_solo",
+      "tier": "normal",
+      "enemies": [
+        "red_slaver"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "fungi_pair",
+      "tier": "normal",
+      "enemies": [
+        "fungi_beast",
+        "fungi_beast"
+      ],
+      "minFloor": 4,
+      "maxFloor": 13
+    },
+    {
+      "id": "gremlin_gang",
+      "tier": "normal",
+      "enemies": [
+        "mad_gremlin",
+        "sneaky_gremlin",
+        "fat_gremlin",
+        "wizard_gremlin",
+        "shield_gremlin"
+      ],
+      "minFloor": 5,
+      "maxFloor": 13
+    },
+    {
+      "id": "wildlife",
+      "tier": "normal",
+      "enemies": [
+        "jaw_worm",
+        "green_louse"
+      ],
+      "minFloor": 5,
+      "maxFloor": 13
+    },
+    {
+      "id": "elite_nob",
+      "tier": "elite",
+      "enemies": [
+        "gremlin_nob"
+      ],
+      "minFloor": 6,
+      "maxFloor": 13
+    },
+    {
+      "id": "elite_lagavulin",
+      "tier": "elite",
+      "enemies": [
+        "lagavulin"
+      ],
+      "minFloor": 6,
+      "maxFloor": 13
+    },
+    {
+      "id": "elite_sentries",
+      "tier": "elite",
+      "enemies": [
+        "sentry",
+        "sentry",
+        "sentry"
+      ],
+      "minFloor": 6,
+      "maxFloor": 13
+    },
+    {
+      "id": "boss_guardian",
+      "tier": "boss",
+      "enemies": [
+        "guardian"
+      ],
+      "minFloor": 15,
+      "maxFloor": 15
+    }
+  ]
+}
