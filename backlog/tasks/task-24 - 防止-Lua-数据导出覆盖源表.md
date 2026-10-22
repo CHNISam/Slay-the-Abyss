@@ -1,11 +1,11 @@
 ---
 id: TASK-24
 title: 防止 Lua 数据导出覆盖源表
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 15:43'
-updated_date: '2026-10-22 15:55'
+updated_date: '2026-10-22 16:08'
 labels: []
 dependencies: []
 references:
@@ -42,4 +42,12 @@ Executor=dot；基线047b7456；独立目录 slay-lua-export-fix-20261022。原T
 独立评审通过：73项保护/数据测试、16项额外文件系统边界、2项无需Lua构建器测试、Python11项均通过；父级复跑73项和Python11项通过。只声明输入别名安全，不声明恶意并发竞态防护。完整Lua与Windows等待真实CI。
 
 保持In Progress：当前仅本地候选及独立评审通过，正式CI、PR合并尚未完成；不能计作已交付。
+
+实际交付：PR17已squash合入develop，merge986a1798f6e2d44197a1a0934dd324d957950573；最终head8da3978的CI39810872368/check及presentation成功。Windows完整Node79项：73通过、6symlink权限skip；Lua combat15/map10/run8/status26通过。Linux独立保护25项0skip补足别名验证。旧待CI说明为历史，现据真实运行收口；未做平台/存档/游戏验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR17已合并，输入自覆盖缺陷修复。写前路径/realpath/dev+ino检查保护六表；25保护测试、独立边界测试及最新完整CI通过，Windows6项权限skip如实记录，Linux对应项已实跑。
+<!-- SECTION:FINAL_SUMMARY:END -->
