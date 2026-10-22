@@ -24,6 +24,8 @@ Quality / check 在 PR、develop/master 推送时运行，也支持手动执行�
 本地先 `npm ci --ignore-scripts`，再 `npm run check`。Lua同源测试使用锁定的
 开发依赖Fengari；运行错误、语法错误、缺文件和超时均有非零退出回归。
 Windows check作业先安装锁定开发依赖，再运行 `npm run check:rules`（Node+数据+Lua）；
+原生界面的同源中文显示构建使用 Python 3 标准库，默认命令为 `python`，可用
+`ABYSS_PYTHON` 指定解释器；构建子进程固定启用 UTF-8。
 Python表现测试由Ubuntu presentation作业完整执行。本地总入口仍包含两者。
 check 作业直接使用已有 Git 与 Node（最低 22，本机 22.22.1），不下载
 checkout/setup-node 组件。Git 精确检出事件提交 SHA，核对后清理 runner

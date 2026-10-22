@@ -6,7 +6,9 @@ local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
-    advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束" }
+    advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
+    empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
+    effect_overflow = "当前状态已达上限" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态" }
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local function number(value) return string.format("%.0f", value) end
@@ -20,24 +22,43 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
+local function potionText(item, battle)
+    local effects = {}
+    for _, effect in ipairs(item.effects) do
+        local value = number(effect.value)
+        if effect.op == "damage" then effects[#effects + 1] = "固定伤害 " .. value
+        elseif effect.op == "block" then effects[#effects + 1] = "格挡 " .. value
+        elseif effect.op == "energy" then effects[#effects + 1] = "能量 ＋" .. value
+        elseif effect.op == "draw" then effects[#effects + 1] = "抽牌 " .. value
+        elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
+            effects[#effects + 1] = assert(battle.catalog.statuses[effect.status]).name .. " " .. value
+        end
+    end
+    return item.name .. "\n" .. table.concat(effects, "，")
+end
 local function intentText(state, index)
     local intent = Combat.intent(state, index)
     if not intent then return "已击败", "unknown" end
     local result = {}
+    local enemy, player = Combat.copy(state.enemies[index]), Combat.copy(state.player)
     for _, effect in ipairs(intent.effects) do
         local value = effect.value and number(effect.value) or ""
-        if effect.op == "damage" then result[#result + 1] = value .. ((effect.times or 1) > 1 and "×" .. effect.times or "") .. " 基础"
-        elseif effect.op == "block" then result[#result + 1] = "格挡 " .. value
+        if effect.op == "damage" then
+            result[#result + 1] = number(Combat.attackAmount(state, enemy, player, effect.value))
+                .. ((effect.times or 1) > 1 and "×" .. effect.times or "") .. "（当前修正）"
+        elseif effect.op == "block" then result[#result + 1] = "格挡 " .. number(Combat.blockAmount(state, enemy, effect.value))
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
             result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
+            Combat.addStatus(effect.op == "gainStatus" and enemy or player, effect.status, effect.value)
         else result[#result + 1] = "未知" end
     end
     return table.concat(result, " / "), intent.kind
 end
 
-function M.new(root, data, presentation, clickEvent, platform)
-    local self = { root = root, data = data, presentation = presentation, target = 1, seed = 1, busy = false }
-    local stage = assert(root:GetChild("stage"), "missing stage")
+function M.new(root, data, presentation, clickEvent, platform, options)
+    options = options or {}
+    local self = { root = root, data = data, presentation = presentation, target = 1, seed = 1, busy = false, active = true }
+    local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name) return assert(stage:GetChild(name), "missing UI control " .. name) end
     local function show(name, value) child(name):SetVisible(value == true) end
     local function label(name, value) child(name).text = value end
@@ -59,10 +80,11 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     function self:resize(width, height)
+        self.canvasWidth, self.canvasHeight = width, height
+        if options.embedded then return end -- The host owns the single canvas scale.
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
         stage:SetLocalScale(k, k, 1)
         root:GetChild("backdrop"):SetSizeDelta(width, height)
-        self.canvasWidth, self.canvasHeight = width, height
     end
     local function unit(box, actor, portrait, icon, width, selected)
         local bh = L.hpBar.size[2]
@@ -114,15 +136,24 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     function self:render()
         local run = self.run
+        if self.viewRun ~= run then
+            self.viewRun, self.target, self.selected = run, 1, nil
+            self.potionRun, self.potionBattle, self.potionSlots = nil, nil, nil
+        end
         local fighting = run and run.phase == "combat"
         local battle = fighting and run.combat
         local reward = run and run.phase == "reward"
-        local active = fighting and battle.phase == "player" and not self.busy
-        show("start", not run or run.phase == "defeat")
-        button("start", true, true, run and "重新启程" or "启程")
+        local active = self.active and fighting and battle.phase == "player" and not self.busy
+        local potions = fighting and Run.potionView(run) or {}
+        self.potionTargetAvailable = false
+        for _, item in ipairs(potions) do
+            if active and item.canUse and item.needTarget then self.potionTargetAvailable = true break end
+        end
+        show("start", not options.embedded and (not run or run.phase == "defeat"))
+        button("start", self.active, true, run and "重新启程" or "启程")
         show("endTurn", fighting)
         show("skip", reward)
-        show("continue", run and run.phase == "map")
+        show("continue", not options.embedded and run and run.phase == "map")
         show("result", not fighting) show("resultPlate", not fighting)
         show("hero", fighting)
         local player = battle and battle.player
@@ -155,7 +186,8 @@ function M.new(root, data, presentation, clickEvent, platform)
                 local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait, width)
                 box:SetAnchoredPosition(count == 1 and (L.enemyRow.xFrom + L.enemyRow.xTo) / 2 or L.enemyRow.xFrom + (i - 1) * step, L.enemyRow.y)
                 local targetable = active and pendingTarget and Combat.canPlay(battle, self.selected, i)
-                unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true)
+                local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and enemy.hp > 0
+                unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget)
                 local value, kind = intentText(battle, i)
                 box:GetChild("intent").text = value
                 box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
@@ -195,9 +227,23 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         if selectedBox then selectedBox:SetAsLastSibling() end
         button("endTurn", active == true, not playable)
-        button("skip", reward == true, false) button("continue", run and run.phase == "map", true)
+        button("skip", self.active and reward == true and not self.busy, false)
+        button("continue", self.active and run and run.phase == "map" and not self.busy, true)
+        -- Keep physical slots fixed for the encounter: consuming slot one must not
+        -- move slot two underneath a queued second click on the same button.
+        if fighting and (self.potionBattle ~= battle or self.potionRun ~= run) then
+            self.potionBattle, self.potionRun, self.potionSlots = battle, run, {}
+            for i, id in ipairs(run.potions) do self.potionSlots[i] = {slot = i, id = id} end
+        end
+        for i = 1, 3 do
+            show("potion" .. i, fighting)
+            local binding = self.potionSlots and self.potionSlots[i]
+            local item = binding and potions[binding.slot]
+            if item and item.id ~= binding.id then item = nil end
+            button("potion" .. i, active and item and item.canUse, false, item and potionText(item, battle) or "空药水槽")
+        end
     end
-    local function refresh()
+    local function refresh(changed)
         if self.run and self.run.phase == "combat" then
             local battle, found = self.run.combat, false
             if not battle.enemies[self.target] or battle.enemies[self.target].hp <= 0 then
@@ -207,26 +253,36 @@ function M.new(root, data, presentation, clickEvent, platform)
             if not found then self.selected = nil end
         else self.selected = nil end
         self:render()
+        if changed and options.onChange then options.onChange(self) end
+    end
+    function self:setActive(active)
+        assert(type(active) == "boolean", "active must be boolean")
+        self.active = active
+        root:SetVisible(active)
+        self:render()
     end
     function self:start()
+        if not self.active or options.embedded or self.busy then return false end
         self.run = Run.new(data, self.seed)
         self.seed = (self.seed + 1) % 65536
         assert(Run.startCombat(self.run, "cultist_solo"))
         self.target, self.selected = 1, nil
-        notice("点选卡牌，再点敌人；无需目标的牌再点一次确认。") refresh()
+        notice("点选卡牌，再点敌人；无需目标的牌再点一次确认。") refresh(true)
         print("ABYSS_UI combat_started")
     end
     function self:playSelected(target)
-        if not self.selected or self.busy then return end
+        if not self.active or not self.selected or self.busy or not self.run or self.run.phase ~= "combat" then return end
         local ok, reason = Run.play(self.run, self.selected, target)
         if ok then self.selected = nil end
-        notice(ok and "出牌完成。" or reasons[reason] or "当前无法使用这张牌。") refresh()
+        notice(ok and "出牌完成。" or reasons[reason] or "当前无法使用这张牌。") refresh(ok)
     end
     function self:playSlot(index)
         local run = self.run
-        if not run or self.busy then return end
+        if not self.active or not run or self.busy then return end
         if run.phase == "reward" then
-            if Run.claimCardReward(run, index) then notice("卡牌已加入牌组。") end
+            local ok = Run.claimCardReward(run, index)
+            if ok then notice("卡牌已加入牌组。") end
+            refresh(ok) return
         elseif run.phase == "combat" then
             local instance = run.combat.hand[index]
             if not instance then return end
@@ -239,29 +295,47 @@ function M.new(root, data, presentation, clickEvent, platform)
         refresh()
     end
     function self:endTurn()
-        if not self.run or self.busy or self.run.phase ~= "combat" or self.run.combat.phase ~= "player" then return end
+        if not self.active or not self.run or self.busy or self.run.phase ~= "combat" or self.run.combat.phase ~= "player" then return end
         self.busy, self.selected = true, nil
         self:render() -- Controls are disabled before the synchronous core command.
         local ok = Run.endTurn(self.run)
         self.busy = false
         if ok then notice("新回合：查看敌人意图，规划能量与格挡。") end
-        refresh()
+        refresh(ok)
+    end
+    function self:usePotion(index)
+        if not self.active or self.busy or not self.run or self.run.phase ~= "combat" then return false end
+        local binding = self.potionSlots and self.potionSlots[index]
+        if not binding or self.potionRun ~= self.run or self.potionBattle ~= self.run.combat
+            or self.run.potions[binding.slot] ~= binding.id then return false end
+        local ok, reason = Run.usePotion(self.run, binding.slot, self.target)
+        if ok then
+            self.potionSlots[index] = nil
+            for _, other in pairs(self.potionSlots) do if other.slot > binding.slot then other.slot = other.slot - 1 end end
+        end
+        notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
+        refresh(ok)
+        return ok, reason
     end
     local function bind(name, fn) child(name):AddCursorEventListener(clickEvent, fn) end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
-    bind("skip", function() if self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh() end end)
-    bind("continue", function() if self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh() end end)
+    bind("skip", function() if self.active and self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh(true) end end)
+    bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)
+    for i = 1, 3 do local slot = i bind("potion" .. i, function() self:usePotion(slot) end) end
     for i = 1, 10 do local slot = i child("card" .. i):GetChild("hit"):AddCursorEventListener(clickEvent, function() self:playSlot(slot) end) end
     for i = 1, 5 do local target = i child("enemy" .. i):GetChild("hit"):AddCursorEventListener(clickEvent, function()
-        if self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
+        if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
             self.target = target
             local selected
             for _, instance in ipairs(self.run.combat.hand) do
                 if instance.uid == self.selected then selected = instance break end
             end
             if selected and needsTarget(self.run.combat, selected) then self:playSelected(target)
-            else notice("意图：" .. intentText(self.run.combat, target)) refresh() end
+            else
+                local prefix = self.potionTargetAvailable and "药水目标：" .. self.run.combat.enemies[target].name .. "；" or ""
+                notice(prefix .. "意图：" .. intentText(self.run.combat, target)) refresh()
+            end
         end
     end) end
     refresh()

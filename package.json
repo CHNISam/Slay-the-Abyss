@@ -9,7 +9,7 @@
   "scripts": {
     "check:syntax": "node scripts/check-syntax.mjs",
     "validate:data": "node scripts/validate-data.mjs",
-    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "test": "npm run build:data && node --test --test-concurrency=1 tests/*.test.mjs",
     "build:data": "node scripts/build-lua-data.mjs",
     "build:ui": "node scripts/build-ui.mjs",
     "build:theme": "node scripts/build-ui-theme.mjs",

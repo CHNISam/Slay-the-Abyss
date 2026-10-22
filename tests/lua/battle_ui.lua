@@ -9,7 +9,8 @@ local Presentation = require("abyss_presentation")
 -- Compose the controller with the actual generated native tree, not a permissive mock.
 local function control(definition)
     local c = { name = definition.name, visible = definition.visible ~= false, children = {}, text = "",
-        sizeDeltaX = definition.size[1], sizeDeltaY = definition.size[2], interactable = true }
+        sizeDeltaX = definition.size[1], sizeDeltaY = definition.size[2], interactable = true,
+        x = definition.position and definition.position[1] or 0, y = definition.position and definition.position[2] or 0 }
     for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
     function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
     function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
@@ -21,10 +22,11 @@ local function control(definition)
     function c:SetAsLastSibling() self.raised = true end
     return c
 end
-local function setup()
+local function setup(options)
     local root = control({name="root", size={1280,720}, children=assert(ABYSS_TEST_LAYOUT).controls})
     local stage = root:GetChild("stage")
-    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end})
+    if options and options.embedded then root = stage end
+    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}, options)
     local function click(name)
         local box = stage:GetChild(name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
@@ -42,7 +44,7 @@ end
 local count = 0
 local function test(name, fn) fn() count=count+1 print("ok UI " .. count .. " - " .. name) end
 
-test("menu starts a real battle with shared-theme cards, energy and base intents", function()
+test("menu starts a real battle with shared-theme cards, energy and current intents", function()
     local ui, stage, click = setup()
     assert(ui.run == nil and stage.children.start.visible and not stage.children.card1.visible)
     click("start")
@@ -50,7 +52,7 @@ test("menu starts a real battle with shared-theme cards, energy and base intents
     assert(stage.children.card1.visible and not stage.children.card6.visible)
     assert(stage.children.card1.children.label.text ~= "")
     assert(stage.children.energy.text == "3/3")
-    assert(stage.children.enemy1.children.intent.text == "6 基础")
+    assert(stage.children.enemy1.children.intent.text == "6（当前修正）")
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
 end)
@@ -242,5 +244,184 @@ test("real defeat shows danger feedback and restart creates a fresh run", functi
     local old = ui.run
     click("start")
     assert(ui.run ~= old and ui.run.phase == "combat" and #ui.run.deck == 10)
+end)
+test("intent previews use core modifiers without changing combat state or consuming effects", function()
+    local ui, stage, click = setup() click("start")
+    local battle = ui.run.combat
+    local enemy = battle.enemies[1]
+    Combat.addStatus(enemy, "strength", 2) Combat.addStatus(enemy, "weak", 2)
+    Combat.addStatus(battle.player, "vulnerable", 2)
+    local hp, seed, events = enemy.hp, battle.seed, #battle.events
+    ui:render() ui:render()
+    assert(stage.children.enemy1.children.intent.text == "9（当前修正）")
+    assert(stage.children.enemy1.children.statuses.text:find("力量 2", 1, true))
+    assert(enemy.hp == hp and battle.seed == seed and #battle.events == events)
+    click("endTurn")
+    local actual
+    for i = events + 1, #battle.events do
+        local event = battle.events[i]
+        if event.kind == "damage" and event.detail.source == enemy.id then actual = event.detail.amount + event.detail.blocked end
+    end
+    assert(actual == 9)
+    enemy.intents[enemy.intentIndex] = {kind="defend", effects={
+        {op="gainStatus", status="dexterity", value=3}, {op="block", value=10}, {op="damage", value=6, times=2}}}
+    Combat.addStatus(enemy, "frail", 2)
+    ui:render()
+    local preview = stage.children.enemy1.children.intent.text
+    assert(preview:find("格挡 9", 1, true) and preview:find("9×2（当前修正）", 1, true))
+    assert(not enemy.statuses.dexterity and enemy.block == 0)
+end)
+
+test("potion slots stay fixed after consumption and repeated queued clicks cannot consume the next bottle", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data, 1)
+    ui.run.potions = {"fire_potion", "energy_potion", "fire_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
+    local battle = ui.run.combat
+    local hp, energy = battle.enemies[1].hp, battle.energy
+    assert(stage.children.potion1.children.normal.children.label.text == "火焰药水\n固定伤害 20")
+    local queued = stage.children.potion1.click
+    click("potion1") queued()
+    assert(ui.run.combat == battle and battle.enemies[1].hp == hp - 20)
+    assert(#ui.run.potions == 2 and battle.energy == energy)
+    assert(stage.children.potion1.children.normal.children.label.text == "空药水槽")
+    assert(not stage.children.potion1.interactable)
+    click("potion2")
+    assert(battle.energy == energy + 2 and #ui.run.potions == 1)
+    click("potion3")
+    assert(battle.enemies[1].hp == hp - 40 and #ui.run.potions == 0)
+end)
+
+test("potion victory commits rewards and relic healing then hides combat potion input", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data, 1) ui.run.potions = {"fire_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo"))
+    ui.run.combat.enemies[1].hp, ui.run.combat.player.hp = 20, 30
+    ui:render() click("potion1")
+    assert(ui.run.phase == "reward" and ui.run.hp == 36 and #ui.run.potions == 0)
+    assert(stage.children.player.text == "生命 36/80" and stage.children.skip.visible)
+    assert(not stage.children.potion1.visible and not stage.children.endTurn.visible)
+    local gold = ui.run.gold
+    stage.children.potion1.click()
+    assert(ui.run.gold == gold and ui.run.phase == "reward")
+end)
+
+test("embedded battle uses host controls and scaling and reports each successful command once", function()
+    local changes = 0
+    local ui, stage, click, play, root = setup({embedded=true, onChange=function(view)
+        assert(view.run) changes = changes + 1
+    end})
+    assert(root == stage and not root.children.start.visible and not root.children.continue.visible)
+    root.children.start.click() assert(not ui.run)
+    ui.run = Run.new(Data, 1) ui.run.potions = {"energy_potion", "fire_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
+    ui:resize(1920, 1080)
+    assert(ui.canvasWidth == 1920 and root.localScaleX == nil)
+    click("card1") assert(changes == 0)
+    local instance = ui.run.combat.hand[1]
+    local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
+    click(reason == "invalid_target" and "enemy1" or "card1") assert(changes == 1)
+    click("potion1") assert(changes == 2)
+    click("endTurn") assert(changes == 3)
+    ui.run.combat.enemies[1].hp = 1
+    click("potion2") assert(changes == 4 and ui.run.phase == "reward")
+    assert(root.children.skip.visible and not root.children.continue.visible)
+    click("skip") assert(changes == 5 and ui.run.phase == "map")
+    root.children.continue.click()
+    assert(changes == 5 and ui.run.phase == "map")
+end)
+
+test("inactive battle rejects stale card enemy potion end-turn reward and menu callbacks", function()
+    local changes = 0
+    local ui, stage, click = setup({onChange=function() changes = changes + 1 end}) click("start")
+    ui.run.potions = {"energy_potion"}
+    ui.potionBattle = nil ui:render()
+    click("card1")
+    local battle, selected, target = ui.run.combat, ui.selected, ui.target
+    local hp, energy, hand, turn, seed, events = battle.enemies[1].hp, battle.energy, #battle.hand, battle.turn, battle.seed, #battle.events
+    local before = changes
+    ui:setActive(false)
+    assert(not ui.root.visible and not stage.children.endTurn.interactable)
+    stage.children.card1.children.hit.click() stage.children.enemy1.children.hit.click()
+    stage.children.potion1.click() stage.children.endTurn.click() ui:playSelected(1)
+    assert(battle.enemies[1].hp == hp and battle.energy == energy and #battle.hand == hand and battle.turn == turn)
+    assert(battle.seed == seed and #battle.events == events and ui.selected == selected and ui.target == target)
+    assert(#ui.run.potions == 1 and changes == before)
+    ui.run.phase = "reward" ui.run.rewards = {gold=0, cards={"strike"}}
+    stage.children.skip.click() stage.children.card1.children.hit.click()
+    assert(ui.run.phase == "reward" and changes == before)
+    ui.run.phase = "defeat" stage.children.start.click()
+    assert(ui.run.phase == "defeat" and changes == before)
+end)
+
+test("host run replacement clears selected UID target and consumed potion mapping before restart", function()
+    local ui, stage, click = setup({embedded=true})
+    ui.run = Run.new(Data, 1) ui.run.potions = {"energy_potion", "fire_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
+    click("card1") click("potion1") ui.target = 5
+    assert(ui.selected and not ui.potionSlots[1])
+    ui.run = Run.new(Data, 1) ui.run.potions = {"energy_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo"))
+    ui:render()
+    assert(not ui.selected and ui.target == 1 and ui.potionSlots[1].slot == 1)
+    assert(stage.children.potion1.interactable and not stage.children.card1.children.glow.visible)
+    click("potion1") assert(ui.run.combat.energy == 5 and #ui.run.potions == 0)
+end)
+
+test("runtime potion touch regions clear boss and five-enemy portraits intents and notice", function()
+    local ui, stage, click = setup() click("start")
+    local function overlaps(a, ax, ay, b, bx, by)
+        return math.abs(ax - bx) < (a.sizeDeltaX + b.sizeDeltaX) / 2
+            and math.abs(ay - by) < (a.sizeDeltaY + b.sizeDeltaY) / 2
+    end
+    for _, enemies in ipairs({{"guardian"}, {"cultist", "red_louse", "green_louse", "jaw_worm", "sentry"}}) do
+        ui.run.combat = Combat.new(Data, {enemies=enemies}) ui:render()
+        for i = 1, 3 do
+            local potion = stage.children["potion" .. i]
+            local notice = stage.children.notice
+            assert(not overlaps(potion, potion.x, potion.y, notice, notice.x, notice.y))
+            for j = 1, #enemies do
+                local enemy = stage.children["enemy" .. j]
+                for _, name in ipairs({"hit", "intent", "intentIcon"}) do
+                    local part = enemy.children[name]
+                    assert(not overlaps(potion, potion.x, potion.y, part, enemy.x + part.x, enemy.y + part.y))
+                    assert(not overlaps(notice, notice.x, notice.y, part, enemy.x + part.x, enemy.y + part.y))
+                end
+            end
+        end
+    end
+end)
+test("targeted potion shows its effect and current enemy selection before damaging only that enemy", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data, 1) ui.run.potions = {"fire_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo"))
+    ui.run.combat = Combat.new(Data, {enemies={"cultist", "jaw_worm"}})
+    ui:render()
+    local battle = ui.run.combat
+    local hp1, hp2, energy, hand, events = battle.enemies[1].hp, battle.enemies[2].hp, battle.energy, #battle.hand, #battle.events
+    local function marked(index)
+        local colour, gold = stage.children["enemy" .. index].children.border.imageColor, Theme.color.goldBright
+        return colour.r == gold.r and colour.g == gold.g and colour.b == gold.b
+    end
+    assert(not ui.selected and marked(1) and not marked(2))
+    for _, state in ipairs({"normal", "hover", "pressed", "disabled"}) do
+        assert(stage.children.potion1.children[state].children.label.text == "火焰药水\n固定伤害 20")
+    end
+    click("enemy2")
+    assert(ui.target == 2 and marked(2) and not marked(1))
+    assert(stage.children.notice.text:find("药水目标：" .. battle.enemies[2].name, 1, true))
+    assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2)
+    assert(battle.energy == energy and #battle.hand == hand and #battle.events == events)
+    -- A selected self card still cannot execute merely by choosing a potion target.
+    local defend
+    for i, instance in ipairs(battle.hand) do if instance.cardId == "defend" then defend = i break end end
+    assert(defend) click("card" .. defend)
+    local selected = ui.selected
+    click("enemy1") click("enemy2")
+    assert(ui.selected == selected and battle.energy == energy and #battle.hand == hand and battle.player.block == 0)
+    assert(marked(2) and not marked(1))
+    click("potion1")
+    assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2 - 20 and #ui.run.potions == 0)
+    assert(not marked(1) and not marked(2) and ui.selected == selected)
 end)
 print("LUA_UI_PASS " .. count)

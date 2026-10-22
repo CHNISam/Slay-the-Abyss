@@ -11,7 +11,7 @@ const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'im
 const panel = (name, x, y, w, h, colour) => picture(name, x, y, w, h, im.rect, colour);
 const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
 
-function button(name, position, size, label, primary = false) {
+function button(name, position, size, label, primary = false, fontSize = f.heading) {
   const [w, h] = size;
   const variants = {
     normal: [primary ? c.geo : c.panelRaised, primary ? c.textOnLight : c.goldBright, c.gold],
@@ -23,7 +23,7 @@ function button(name, position, size, label, primary = false) {
     children: Object.entries(variants).map(([state, [bg, ink, border]]) => ({ name: state, kind: 'container', size,
       scale: state === 'pressed' ? [0.96, 0.96] : [1, 1], children: [
         panel('border', 0, 0, w, h, border), panel('plate', 0, 0, w - s.border * 2, h - s.border * 2, bg),
-        text('label', 0, 0, w - s.l, h - s.s, label, f.heading, ink),
+        text('label', 0, 0, w - s.l, h - s.s, label, fontSize, ink),
       ] })),
   };
 }
@@ -69,7 +69,7 @@ export function battleLayout() {
     text('player', -430, l.topBar.y, 330, l.topBar.height, '', f.body),
     text('piles', 435, l.topBar.y, 330, l.topBar.height, '', f.label, c.goldBright),
     unit('hero', l.player.position, l.player.portrait, true),
-    text('notice', 0, 252, 1140, 38, '点选卡牌，再点敌人；无需目标的牌再点一次确认。', f.body, c.goldBright),
+    text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '点选卡牌，再点敌人；无需目标的牌再点一次确认。', f.body, c.goldBright),
     text('statuses', -380, 204, 350, 30, '', f.small, c.textDim),
     picture('energyDisc', ...l.energy.position, l.energy.size, l.energy.size, im.disc, c.energy),
     picture('energyIcon', ...l.energy.position, l.energy.size - s.l, l.energy.size - s.l, theme.icon.energy.id, c.geoDeep),
@@ -79,6 +79,10 @@ export function battleLayout() {
     picture('discardIcon', ...l.discardPile.position, ...l.discardPile.size, theme.icon.discardPile, c.textDim),
     text('discard', ...l.discardPile.position, ...l.discardPile.size, '', f.label),
   ];
+  for (let i = 0; i < l.battlePotions.count; i++) {
+    controls.push(button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),
+      l.battlePotions.size, '空药水槽', false, f.small));
+  }
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
   for (let i = 1; i <= 10; i++) {
     const [w, h] = l.card.size;
