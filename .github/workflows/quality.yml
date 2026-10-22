@@ -15,6 +15,9 @@ jobs:
     # Fork code stays on GitHub-hosted infrastructure.
     runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
     timeout-minutes: 10
+    defaults:
+      run:
+        shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh' || 'powershell' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,7 +30,6 @@ jobs:
       - name: Verify Node baseline
         run: node -e "if (process.versions.node.split('.')[0] !== '22') throw new Error('Node 22 is required'); console.log(process.version)"
       - name: Check changed whitespace
-        shell: ${{ runner.os == 'Windows' && 'powershell' || 'pwsh' }}
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
@@ -39,7 +41,6 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Check Conventional Commit PR title
         if: github.event_name == 'pull_request'
-        shell: ${{ runner.os == 'Windows' && 'powershell' || 'pwsh' }}
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
