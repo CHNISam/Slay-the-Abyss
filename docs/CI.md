@@ -35,7 +35,14 @@ gh run list --repo CHNISam/Slay-the-Abyss --workflow quality.yml
 管理员 PowerShell 中可对上述精确服务名执行 Stop-Service / Start-Service。
 不要操作其他仓库的服务，不读取或提交 runner 凭据文件。
 本机必须开机联网才能接任务；重启后由服务自动恢复。
+首次安装复用了本机现有官方 runner 2.337.0 的程序目录，未复制其凭据、
+配置和工作目录；本项目使用独立注册令牌，保留官方自动更新机制。
+直连下载 Actions 发生超时，因此仅在本 runner 的 `.env` 配置
+`http_proxy` / `https_proxy` 为 `http://127.0.0.1:7897`（本机 Clash），
+`no_proxy=localhost,127.0.0.1`。代理需保持可用；其他 runner 与全局代理未改动。
 
 CI 只验证仓库逻辑与数据，不代表平台编译、写入存档或游戏内试玩通过。
 CD 当前止于可审查的代码集成；正式游戏发布、赛事投稿由人完成。
-分支保护应要求 check 成功才可合并；远端是否强制执行以 GitHub 设置为准。
+2026-10-22 实查：GitHub 分支保护 API 返回 403，提示当前私有仓库套餐需
+升级 GitHub Pro 才支持该功能。CI 会报告 check 结果，但服务端目前不能强制
+阻止绕过检查合并；维护者须遵守先绿灯再合并，未改变套餐或仓库可见性。
