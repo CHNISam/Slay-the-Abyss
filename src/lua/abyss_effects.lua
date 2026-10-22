@@ -3,7 +3,8 @@ local M = {}
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
-    loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true }
+    loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true,
+    increaseDamageThisCombat = true }
 
 local function supported(effects, branch)
     if type(effects) ~= "table" then return false, "invalid_effect" end
@@ -68,6 +69,13 @@ function M.apply(combat, state, effects, source, target, playedCard)
             if target and (target.statuses.vulnerable or 0) > 0 then
                 dealt = dealt + M.apply(combat, state, effect["then"], source, target, playedCard)
             end
+        elseif op == "increaseDamageThisCombat" then
+            assert(type(playedCard) == "table", "growth requires played card")
+            assert(type(value) == "number" and value >= 0 and value < math.huge and value % 1 == 0, "invalid card damage growth")
+            local previous = playedCard.damageBonus or 0
+            local bonus = previous + 0.0 + value
+            assert(bonus < math.huge and (value == 0 or bonus > previous), "card damage growth cannot advance")
+            playedCard.damageBonus = bonus
         elseif op == "addCardToDiscard" then
             -- This operation copies the resolving card, not its catalog default.
             -- New combat-only instances must never mutate Run's permanent deck.
