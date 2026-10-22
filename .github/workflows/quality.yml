@@ -4,6 +4,7 @@ on:
     branches: [develop, master]
   push:
     branches: [develop, master]
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
@@ -11,12 +12,71 @@ concurrency:
   cancel-in-progress: true
 jobs:
   check:
+    # Fork code stays on GitHub-hosted infrastructure.
+    runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh -NoProfile -File {0}' || 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' }}
+    steps:
+      - name: Check out exact revision with installed Git
+        env:
+          CI_TOKEN: ${{ github.token }}
+          CI_SHA: ${{ github.sha }}
+          CI_REPOSITORY: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ((Get-Location).Path -ne $env:GITHUB_WORKSPACE) { throw 'Unexpected checkout directory' }
+          git init .
+          if ($LASTEXITCODE -ne 0) { throw 'Git initialization failed' }
+          if (git remote | Where-Object { $_ -eq 'origin' }) { git remote remove origin }
+          git remote add origin "https://github.com/$env:CI_REPOSITORY.git"
+          if ($LASTEXITCODE -ne 0) { throw 'Remote setup failed' }
+          $env:GIT_CONFIG_COUNT = '1'
+          $env:GIT_CONFIG_KEY_0 = 'http.https://github.com/.extraheader'
+          $env:GIT_CONFIG_VALUE_0 = 'AUTHORIZATION: basic ' + [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("x-access-token:$env:CI_TOKEN"))
+          try {
+            git -c credential.helper= fetch --force --no-tags origin $env:CI_SHA
+            if ($LASTEXITCODE -ne 0) { throw 'Git fetch failed' }
+          } finally {
+            Remove-Item Env:\GIT_CONFIG_COUNT, Env:\GIT_CONFIG_KEY_0, Env:\GIT_CONFIG_VALUE_0, Env:\CI_TOKEN
+          }
+          git checkout --force --detach FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Checkout failed' }
+          if ((git rev-parse HEAD) -ne $env:CI_SHA) { throw 'Revision mismatch' }
+          git clean -ffd
+          if ($LASTEXITCODE -ne 0) { throw 'Workspace cleanup failed' }
+      - name: Verify Node baseline
+        run: node -e "if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node 22 or newer is required'); console.log(process.version)"
+      - name: Check changed whitespace
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if ($env:BASE_SHA -and $env:BASE_SHA -notmatch '^0+$') {
+            git diff --check $env:BASE_SHA HEAD
+          } else {
+            git show --format= --check HEAD
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check Conventional Commit PR title
+        if: github.event_name == 'pull_request'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if ($env:PR_TITLE -cnotmatch '^(feat|fix|chore|docs|refactor|test|perf|ci)(\([^)]+\))?!?: .+') {
+            Write-Error 'PR title must follow Conventional Commits.'
+            exit 1
+          }
+      - run: npm ci --ignore-scripts
+      - run: npm run check:rules
+  presentation:
+    # These filesystem tests include symlinks; keep the local service unprivileged.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - run: npm ci --ignore-scripts
-      - run: npm run check
+          persist-credentials: false
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+        env:
+          PYTHONUTF8: '1'
