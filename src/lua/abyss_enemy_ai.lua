@@ -2,6 +2,7 @@
 local M = {}
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
+local Guardian = require("abyss_guardian_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -12,6 +13,7 @@ end
 
 function M.initialize(state, enemy)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "guardian" then return Guardian.initialize(state, enemy) end
     assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
     enemy.aiPhase, enemy.aiTurns, enemy.aiCycle = "sleep", 0, 1
     select(enemy, enemy.ai.sleepIntent)
@@ -19,6 +21,7 @@ function M.initialize(state, enemy)
 end
 
 function M.hpLost(state, enemy, before)
+    if enemy.ai and enemy.ai.kind == "guardian" then return Guardian.hpLost(state, enemy, before) end
     if enemy.aiPhase ~= "sleep" or enemy.hp >= before or enemy.hp <= 0 then return end
     enemy.aiPhase = "stunned"
     select(enemy, enemy.ai.stunnedIntent)
@@ -28,6 +31,7 @@ end
 function M.advance(state, enemy)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "guardian" then return Guardian.advance(state, enemy)
     elseif enemy.aiPhase == "sleep" then
         enemy.aiTurns = enemy.aiTurns + 1
         if enemy.aiTurns < enemy.ai.sleepTurns then
@@ -45,5 +49,7 @@ function M.advance(state, enemy)
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
     end
 end
+
+M.cardReactions, M.afterCard = Guardian.cardReactions, Guardian.afterCard
 
 return M

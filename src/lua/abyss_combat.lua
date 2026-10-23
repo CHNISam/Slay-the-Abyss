@@ -150,10 +150,12 @@ local function savePlayState(state, playedCard)
 end
 
 local function resolvePlay(state, uid, targetIndex, instance, position, card)
+    local reactions = EnemyAI.cardReactions(state, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex], instance)
+    EnemyAI.afterCard(state, reactions)
     local pile
     if card.exhaust or card.type == "power" then pile = state.exhaust else pile = state.discard end
     pile[#pile + 1] = instance

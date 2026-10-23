@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 02:14'
+updated_date: '2026-10-23 02:52'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -38,6 +38,8 @@ ordinal: 3
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-23 离线补齐：使用客户端 update 的有效 dt 记录同局用时与完成战斗数，结算结果冻结，重新启程清零；以 GameUI 行为回归验证胜败结果及重开。不开游戏，不勾平台验收。
+
+本轮Guardian离线切片：对照初代PC A0来源核实攻击/防守阶段及HP损失预算；新增独立Guardian状态机、变形立即格挡/意图中断/递增阈值，Attack卡动作后单次SharpHide结算；用独立预期轨迹和边界/死亡/回滚测试验证，不以循环代替阶段。保持所有平台及完整17层通关AC未勾，暂不开原神。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -61,4 +63,6 @@ P0正式结算已接线：结果双按钮、单次ABYSS_WIN/LOSE信号、服务�
 独立复核1a85289无阻塞问题，并复跑GameUI10组。完整npm run check退出0：JS194项（180通过、14个Windows软链接权限跳过）、Lua176组通过、Python13项（12通过、1同类跳过）。用时包含最终Boss演出和奖励选择，胜利菜单后冻结。TASK17维持In Progress且AC全部未勾，未运行原神/平台编译/导入。
 
 已同步2eaf30f新的原版一致性验收范围和依赖；本轮离线实现/诊断不替代原版来源核实、平台或完整通关验收。所有新AC保留未勾。
+
+2026-10-23 /root/enemy_ai 在feat/task-17-guardian-ai独立worktree推进Guardian真实阶段；基于已完成Lagavulin框架，不动actor/effects和其他agent拥有的库存/地图/经济。所有原版资料可信级别及未锁二进制版本仍需记录。
 <!-- SECTION:NOTES:END -->
