@@ -248,6 +248,12 @@ function M.endTurn(state)
             end
         end
     end
+    -- Duration powers belong to the shared round boundary, after all actions.
+    -- A new monster-sourced power can suppress its first reduction.
+    Actors.endRound(state, state.player)
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.hp > 0 then Actors.endRound(state, enemy) end
+    end
     EnemyAI.endRound(state)
     M.startPlayerTurn(state)
     return true

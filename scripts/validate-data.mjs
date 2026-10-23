@@ -115,7 +115,7 @@ export function validateContent(bundle) {
     if (!isObject(entry)) return;
     enumeration(entry.kind, ['buff', 'debuff'], `statuses[${i}].kind`);
     enumeration(entry.stack, ['intensity', 'duration', 'none'], `statuses[${i}].stack`);
-    enumeration(entry.decay, ['none', 'turn_end_minus_1', 'turn_start_trigger_then_minus_1', 'turn_end_trigger_then_minus_1'], `statuses[${i}].decay`);
+    enumeration(entry.decay, ['none', 'turn_end_minus_1', 'round_end_minus_1', 'turn_start_trigger_then_minus_1', 'turn_end_trigger_then_minus_1'], `statuses[${i}].decay`);
   });
   lists.enemies.forEach((entry, i) => {
     if (!isObject(entry)) return;
@@ -280,7 +280,7 @@ export function validateContent(bundle) {
       if (nodes.length !== required.length || new Set(nodes).size !== required.length || required.some(node => !nodes.includes(node))) fail('rules.map.nodeTypes', 'must contain all seven node types exactly once');
     }
     if (isObject(rules.combat)) {
-      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
+      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'round_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
       if (typeof rules.combat.poisonBypassesBlock !== 'boolean') fail('rules.combat.poisonBypassesBlock', 'must be boolean');
     }
   }

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 06:28'
+updated_date: '2026-10-23 08:27'
 due_date: '2026-10-28'
 labels:
   - required
@@ -43,10 +43,16 @@ ordinal: 43000
 
 <!-- SECTION:PLAN:BEGIN -->
 共享力量/敏捷边界切片：独立复审PR82的固定方法体、临时力量完整归还和int32原子保护，真实入口与当前CI验证；单项cap不等于全部算法或RNG一致。
+
+combat_order 离线切片（基线52f35dd）：固定Weak/Vulnerable/Frail方法体、ApplyPower堆叠和MonsterGroup调度来源；先用真实Combat入口证红轮末衰减/首次施加/既有叠加，再最小调整共享轮末与扁平justApplied标记，保留异常回滚。仅核对此切片，不勾全项AC，不声明官方PC认证或实机。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 PR82固定0efbb7独立源码及116组Fengari复核无阻断，远端Quality双项SUCCESS后已合develop01817ab。Strength/Dex限制[-999,999]，Flex完整量归还；原int32/原子oracle保留。完整check通过，Java极端wrap与安全拒绝差异见SIGNED_STATUS_CAPS.md。未原神/官方导入/实机，整项AC保持未勾。
+
+2026-10-23 @Codex/combat_order 独立worktree feat/continue-combat-order领取；TASK12.3平台依赖保留，按用户授权推进可离线规则切片，暂不开原神。
+
+combat_order切片：Weak/Frail/Vulnerable改为整组敌人行动后、玩家再存活敌人的round_end衰减；首次怪物来源按三方法体justApplied跳过，已有叠加不重置，死亡提前终止不制造tick。固定fc379c8源码blob、边界输入预期及证据等级见docs/rules/ROUND_DEBUFF_DURATION.md。旧实现15专项5过10败；修复后17专项、35状态、11Fat、9Blue、24Guardian、9Cultist、6Boundary、23Combat、93CardPool、10Feedback、27HP-loss、11Inventory、12Caps及54schema通过，JS syntax和diff检查通过。整合全量check由主代理执行；power priority全交错/原版RNG/平台全部AC仍未完成，状态保持In Progress。
 <!-- SECTION:NOTES:END -->

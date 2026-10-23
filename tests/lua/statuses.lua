@@ -44,7 +44,7 @@ test("UI status view copies metadata, amounts and signed debuffs", function()
     eq(#view, 2); eq(view[1].id, "strength"); eq(view[1].amount, -2)
     eq(view[1].name, s.catalog.statuses.strength.name); eq(view[2].kind, "debuff")
     view[1].amount = 99; view[1].name = "changed"; view[2].decay = "none"
-    eq(s.player.statuses.strength, -2); eq(s.catalog.statuses.weak.decay, "turn_end_minus_1")
+    eq(s.player.statuses.strength, -2); eq(s.catalog.statuses.weak.decay, "round_end_minus_1")
     eq(Combat.statusView(s.enemies[1])[1], nil)
 end)
 
@@ -131,13 +131,13 @@ test("existing defend card and enemy defend intent use the capped actor entry", 
     assert(Combat.endTurn(s)); eq(e.block, 999)
 end)
 
-test("debuff durations decay once at owner end and never below zero", function()
+test("debuff durations decay once at round end and never below zero", function()
     local s = battle(); local p = s.player
     for _, id in ipairs({ "weak", "vulnerable", "frail" }) do status(p, id, 2) end
     Actor.startTurn(s, p); eq(p.statuses.weak, 2)
-    Actor.endTurn(s, p)
+    Actor.endRound(s, p)
     for _, id in ipairs({ "weak", "vulnerable", "frail" }) do eq(p.statuses[id], 1) end
-    Actor.endTurn(s, p); Actor.endTurn(s, p); eq(p.statuses.weak, 0)
+    Actor.endRound(s, p); Actor.endRound(s, p); eq(p.statuses.weak, 0)
 end)
 
 test("timing and stacking are read from independent data definitions", function()
@@ -148,7 +148,7 @@ test("timing and stacking are read from independent data definitions", function(
     end
     local s = Combat.new(changed)
     status(s.player, "weak", 2); status(s.player, "vulnerable", 8)
-    Actor.endTurn(s, s.player); eq(s.player.statuses.weak, 2); eq(s.player.statuses.vulnerable, 0)
+    Actor.endRound(s, s.player); eq(s.player.statuses.weak, 2); eq(s.player.statuses.vulnerable, 0)
     eq(data.statuses.statuses[3].stack, "duration")
 end)
 

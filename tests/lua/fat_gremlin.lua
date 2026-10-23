@@ -48,12 +48,12 @@ test("fully blocked attack still applies Weak", function()
     eq(s.player.hp, 80); eq(s.player.statuses.weak, 1)
 end)
 
-test("zero-damage attack still applies Weak and its duration expires at player turn end", function()
+test("zero-damage attack still applies Weak and its duration expires at shared round end", function()
     local s = battle(); Combat.addStatus(s.enemies[1], "strength", -4)
     assert(Combat.endTurn(s)); eq(s.player.hp, 80); eq(s.player.statuses.weak, 1)
-    -- Remove the target before the next enemy action so reapplication cannot mask decay.
-    Combat.addStatus(s.enemies[1], "poison", 17)
-    assert(Combat.endTurn(s)); eq(s.player.statuses.weak, 0); eq(s.phase, "victory")
+    -- Isolate decay from reapplication without ending combat before round end.
+    s.enemies[1].intents = {{id="fixture_no_reapply",kind="attack",effects={{op="damage",value=0}}}}
+    assert(Combat.endTurn(s)); eq(s.player.statuses.weak, 0); eq(s.phase, "player")
 end)
 
 test("existing Strength Weak and Vulnerable modifiers affect damage, not debuff amount", function()
