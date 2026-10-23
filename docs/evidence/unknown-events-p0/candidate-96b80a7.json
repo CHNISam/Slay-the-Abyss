@@ -1,7 +1,7 @@
 {
   "sourceCommit": "96b80a7a1abfd37188b09ba77e1bf2426f7bcc81",
   "pr": "https://github.com/CHNISam/Slay-the-Abyss/pull/123",
-  "sourceScope": "Frozen executable/data/test tree; later PR closeout commits may update only docs and Backlog.",
+  "sourceScope": "Historical first slice before develop PR121/122/124 integration. The later combined game source is ba1c2fa, recorded separately in candidate-ba1c2fa.json.",
   "candidate": {
     "sha256Before": "74e4da99bad6f1fe3c7dd699790c48ac7c1ede88d32b7d32d4631c8bc618ad96",
     "sha256After": "74e4da99bad6f1fe3c7dd699790c48ac7c1ede88d32b7d32d4631c8bc618ad96",
