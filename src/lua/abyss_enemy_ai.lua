@@ -89,6 +89,16 @@ function M.advance(state, enemy, random)
     end
 end
 
+-- Only these source-verified policies enqueue RollMoveAction during takeTurn.
+-- That action has no owner-death guard and survives while another enemy lives.
+-- Acid S sets its next move directly instead; do not invent a queued roll.
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, rolled_attack=true }
+function M.afterAction(state, enemy, random)
+    if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
+        M.advance(state, enemy, random)
+    end
+end
+
 -- Ritual's first suppression and Strength growth belong to the shared round
 -- boundary, after every living enemy's action and end-of-turn effects.
 function M.endRound(state)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 08:46'
+updated_date: '2026-10-23 08:54'
 due_date: '2026-10-28'
 labels:
   - required
@@ -47,6 +47,8 @@ ordinal: 43000
 combat_order 离线切片（基线52f35dd）：固定Weak/Vulnerable/Frail方法体、ApplyPower堆叠和MonsterGroup调度来源；先用真实Combat入口证红轮末衰减/首次施加/既有叠加，再最小调整共享轮末与扁平justApplied标记，保留异常回滚。仅核对此切片，不勾全项AC，不声明官方PC认证或实机。
 
 random_float候选切片（基线94c1045）：核实固定STS Random与官方libGDX nextFloat；新增显式float range/between包装及每步binary32舍入，限制精确finite binary32与有限span，非法请求抽样前拒绝。独立手写Java float表达式固定向量先红绿，验证24位端点、计数/回绕/状态、下溢及nearest-even；不接生产、不推测种子/流初始化，不跑全量。
+
+2026-10-23 死后已排队Roll片：固定RollMoveAction/Thorns/DamageAction/clearPostCombatActions/MonsterGroup链，区分同伴存活和末敌；真实Combat受控RNG红例后新增EnemyAI.afterAction，仅已核实Roll策略在行动后反伤致死且战斗未完时消费，毒死/末敌不消费。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -63,4 +65,6 @@ combat_order切片：Weak/Frail/Vulnerable改为整组敌人行动后、玩家�
 random_float候选切片：显式randomFloatRange/Between新增逐步binary32 nearest-even、正负零及2^-149次正规；仅收窄finite exact binary32/finite span ABI，非法请求抽样前拒绝，不接生产或猜流初始化。固定STS c4b71d与官方libGDX a6a0b3来源；独立Java17表达式132行fixture复现逐字段一致（非官方RNG/游戏Oracle）。新增7专项先1过6败，修复后连wrapper10/primitive8共25过；十个隔离负变异检出（漏span guard为超时，其余断言）；Node语法/diff检查通过。详见docs/reviews/TASK-16.1-scaled-float-candidate.md。全量待主代理统一，无平台编译/导出/导入/原神实机，全部严格AC保留。
 
 PR100轮末状态片已squash合develop14979df；下一批同步保留该修复及新scaled-float隔离候选，不将候选当生产RNG或平台通过。
+
+独立26ff410死后选招：15专项（初13例8过5败）及相关149组定向绿；支持Jaw/Blue/Nob/rolled_attack，排除AcidS与仅开场抽样策略，死者不执行Actor.endTurn。源链/blob和输入/剩余差异见docs/rules/QUEUED_ENEMY_ROLL_AFTER_DEATH.md。末敌清queue、同伴存活先消耗再队友、额外条件draw、后续不重复与回滚均覆盖。Blue/Nob死后已排队debuff仍单独未对齐，不改变LCG，不宣称完整动作队列/平台通过；整合后全量待跑。
 <!-- SECTION:NOTES:END -->

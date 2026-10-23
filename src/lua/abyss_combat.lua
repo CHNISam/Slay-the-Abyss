@@ -251,8 +251,10 @@ function M.endTurn(state)
                 -- Thorns can kill this attacker while other enemies remain alive.
                 if enemy.hp > 0 then
                     Actors.endTurn(state, enemy)
-                    if enemy.hp > 0 then EnemyAI.advance(state, enemy, M.random) end
                 end
+                -- A source-queued RollMove survives its owner's death while
+                -- teammates live. finish above clears it on the final death.
+                EnemyAI.afterAction(state, enemy, M.random)
                 if finish(state) then return true end
             end
         end
