@@ -144,7 +144,7 @@ export function validateContent(bundle) {
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'guardian', 'ritual_then_attack'], `${ap}.kind`);
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
@@ -162,6 +162,18 @@ export function validateContent(bundle) {
         if (attack && (attack.effects?.length !== 1 || hit?.op !== 'damage' || hit.value !== 6 || (hit.times ?? 1) !== 1)) {
           fail(`${ap}.attackIntent`, 'must deal exactly one base-6 attack, with no other effects');
         }
+      } else if (a.kind === 'guardian') {
+        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
+        integer(a.initialThreshold, `${ap}.initialThreshold`, 1, 2147483647);
+        integer(a.thresholdIncrement, `${ap}.thresholdIncrement`, 1, 2147483647);
+        integer(a.shiftBlock, `${ap}.shiftBlock`, 0, 999);
+        for (const key of ['offenseCycle', 'defenseCycle']) {
+          array(a[key], `${ap}.${key}`).forEach((id, j) => intentReference(id, `${ap}.${key}[${j}]`));
+        }
+        intentReference(a.returnIntent, `${ap}.returnIntent`);
+        if (!Array.isArray(a.offenseCycle) || !a.offenseCycle.includes(a.returnIntent)) fail(`${ap}.returnIntent`, 'must occur in offenseCycle');
+        reference('mode_shift', 'statuses', `${ap}.mode_shift`);
+        reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
       } else {
         keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
         integer(a.sleepTurns, `${ap}.sleepTurns`, 1);

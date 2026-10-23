@@ -4,7 +4,7 @@ title: M3 首发遭遇与敌人AI、概率和特殊机制原版对齐
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 03:26'
+updated_date: '2026-10-23 03:44'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -53,8 +53,18 @@ ordinal: 15000
 2026-10-23 /root/enemy_ai / feat/task-15-lagavulin：睡眠机制、受击/毒/固定伤害唤醒、18伤害两次接敏捷/力量各-1循环已实现。新增9组独立AI测试、13组schema检查、真实控件UI三态通过；20cb936基线完整npm run check通过，已有Windows符号链接权限测试按原规则跳过。接入a6be1b6新基线时保留新的卡牌playedCard参数和全部拖牌用例；新TASK15验收明确真实HP随机范围，因此补109–111采样后再全套复验。来源及证据等级见docs/reviews/TASK-15-lagavulin-ai.md；所有AC保持未勾，暂不开游戏/MCP/不编译或写存档。
 
 最终a6be1b6组合复验：支持hpRange闭区间109–111真实战斗种子采样，seed3/0/5分别得到109/110/111且重复战斗和洗牌一致，maxHp取实际采样值。实际双Strike和Run.usePotion火瓶入口均验证立即唤醒与当次眩晕。新增AI规则12组、schema18组；完整npm run check退出0，Python16组1个既有权限skip；日志build/enemy-ai-check.log。已兼容PR37的严格非空Effects.supported，只有sleep/stunned意图在Combat.new中专门允许空effects，不放宽卡牌验证。原版随机算法/种子映射和原版二进制版本仍未核实；社区二手资料级别明确，五个AC全部未勾。
-
-2026-10-23 /root/advance_enemy_rule_slice：独立离线祈火徒接线，基线7d809f3。计划先红灯验证首动仪式3、首轮跳过、后续基础攻击6与整组轮末力量增长，再仅改Cultist数据/AI、Combat轮末调用、状态定义/图标及严格schema；复用现有48–54 HP采样入口，不声称原版RNG。覆盖死亡/毒/反伤、多敌顺序、Lagavulin、UI与卡牌回滚。原计划/状态/AC保持，未启游戏/MCP；完成证据另追加。
-
-2026-10-23 祈火徒离线接线完成候选（7d809f3基线）：首动自身仪式3，之后基础攻击6；首轮跳过，整组敌方行动/既有回合结束后才增长力量。HP48–54通过已有项目RNG实际采样，名义hp50不作实战值，不声称原版RNG。新增14组Combat/31组schema通过，Lua5.4全31文件通过（UI38、Lagavulin12、遭遇174），5种生产错误变体被检出，Python16通过。npm run check exit1：Node280通过/7因缺Fengari失败，未安装依赖；完整正式聚合需CI。docs/reviews/TASK-15-cultist-ai-candidate.md记录来源、时序及限制。未改原计划/状态/assignee/AC，未启游戏或写平台存档；待独立复审。
 <!-- SECTION:NOTES:END -->
+
+## Comments
+
+<!-- COMMENTS:BEGIN -->
+created: 2026-10-23 03:44
+---
+2026-10-23 Cultist 生产接线及 PR69 后语义集成：在 fcc1dca5d9b512f932e4122c025bf8d13cf25d5a 上只加入 ritual_then_attack、仪式3状态/图标、整组敌方循环之后的轮末回调及既有 HP48–54 采样；保留 Guardian 的 cardReactions/afterCard、afterEffects/flush、beforeAction 和 PR68 拖拽修复。修正只需普通攻击的旧夹具，不删除断言。Ritual UI 原断言独立为 cultist_ui.lua，既有15秒上限不变。原计划、assignee、To Do 和全部AC不变；本条仅追加有限接线记录，不宣称完整原版/平台验收。
+---
+
+created: 2026-10-23 03:44
+---
+2026-10-23 合并候选本地复验：原 Guardian 基线运行 Cultist 新测试先红；接线后 Lua5.4 全35文件通过，含 Cultist14、Guardian24、Lagavulin12、主战斗UI38、独立Ritual UI1、drag7、IronWave12、遭遇159。数据/主题/UI构建、schema、语法及Python16通过。Node299项292通过、7项缺fengari-node-cli失败，未安装依赖；Fengari15秒实际耗时仍须CI证明。此前PR70 CI为battle_ui超时，本次仅拆分新增Ritual UI用例保留全部断言，不提高超时。社区源未认证正版构建，项目HP采样不代表原版随机映射；TASK-15不关闭、不勾AC。
+---
+<!-- COMMENTS:END -->
