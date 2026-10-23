@@ -40,8 +40,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     function self:closeDeck()
         if not self.deckUI:close() then return false end
-        -- The cancelled gesture no longer owns a release/click. A subsequent
-        -- tap starts a fresh selection, so ordinary point-and-click still works.
+        -- Resume click-only hosts; pointer-capable card input still requires its
+        -- own fresh Down/Up identity. Closing an overlay cannot revive old clicks.
         self.battleUI.suppressClick = false
         self:refresh()
         return true
