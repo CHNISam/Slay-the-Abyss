@@ -1,16 +1,16 @@
 ---
 id: TASK-1
 title: M0 工具链与参赛通道核验
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-22 15:57'
+updated_date: '2026-10-23 12:24'
 due_date: '2026-10-23'
 labels: []
 milestone: m-1
 dependencies: []
 priority: high
-ordinal: 1000
+ordinal: 8000
 ---
 
 ## Description

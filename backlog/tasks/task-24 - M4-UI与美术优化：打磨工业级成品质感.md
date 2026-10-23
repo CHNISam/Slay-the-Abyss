@@ -1,11 +1,11 @@
 ---
 id: TASK-24
 title: 当前版本产品原型、前端实现与美术打磨（Opus）
-status: In Progress
+status: To Do
 assignee:
   - '@opus'
 created_date: '2026-10-22 15:33'
-updated_date: '2026-10-22 16:15'
+updated_date: '2026-10-22 22:46'
 labels:
   - ui
   - art
@@ -15,7 +15,7 @@ references:
   - docs/SCOPE.md
   - docs/TOOLCHAIN.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/19'
-priority: medium
+priority: low
 type: enhancement
 ordinal: 25000
 ---
@@ -54,4 +54,6 @@ CLAIM 2026-10-22 Opus；分支 feat/task-24-ui-design；worktree .worktrees/ui-d
 2026-10-23 追加 1e51b5c：按用户要求在原型中加入拖牌和甩牌，自动化拖动测试中三种情况都通过；平台实现按 A 跟手 / B 假拖动 / C 点选三档降级，A、B 未验证。交接：PR #19（feat/task-24-ui-design → develop），等待审查合并；平台实现由 TASK-10 等界面任务按 docs/design/UI_DESIGN.md 落地。
 
 2026-10-23 用户明确批准PR #19作为整个游戏美术与界面设计依据，已squash合入develop（91ae349）。PR头提交本地npm run check通过：58 JS、15 Lua、11 Python（1 skip）；GitHub Quality成功。AGENTS/SCOPE/HANDOFF将持久化准则。战斗界面由/root/battle_design在battle-ui树独立推进TASK-10；地图界面由/root/map_design在map-ui树推进TASK-12，均先对齐共享theme并记录平台差异，不操作MCP/存档或虚报实机。TASK-24仍为In Progress，平台实现AC未验收。源表保护任务重号已用backlog doctor修复为TASK-27，现有美术引用保留。
+
+2026-10-23 用户P0指令：暂停非必要美术扩量、技术研究；资源转TASK-3完整游戏集成冒烟与TASK-5真实15层回归，冒烟通过后才恢复。
 <!-- SECTION:NOTES:END -->

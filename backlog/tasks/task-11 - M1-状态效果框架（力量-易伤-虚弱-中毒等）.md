@@ -1,17 +1,17 @@
 ---
 id: TASK-11
 title: M1 状态效果框架（力量/易伤/虚弱/中毒等）
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 15:43'
+updated_date: '2026-10-23 12:34'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
 dependencies:
   - TASK-8
-ordinal: 11000
+ordinal: 10000
 ---
 
 ## Description
@@ -24,13 +24,15 @@ ordinal: 11000
 <!-- AC:BEGIN -->
 - [x] #1 状态可叠加、可衰减、结算顺序明确
 - [x] #2 至少覆盖力量、敏捷、易伤、虚弱、中毒、荆棘
-- [ ] #3 状态在战斗界面可见
+- [x] #3 状态在战斗界面可见
 <!-- AC:END -->
 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 绑定状态定义并以纯actor接口实现数据驱动叠加、衰减及UI快照。2. 补毒/再生/临时力量/壁垒/荆棘和死亡中止hooks。3. 真实Lua覆盖九状态、原子拒绝与死亡时序，完整npmcheck后独立审查。
+
+2026-10-23 /root/statuses 离线复审：从当前 develop 隔离工作树，核对已合入状态规则与旧工作树未提交死亡时序补丁；先复现死亡敌人意图推进缺口，再补最小回归与修复；运行完整离线门禁。保留 @Furinya 负责人，AC3 仍待平台界面验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

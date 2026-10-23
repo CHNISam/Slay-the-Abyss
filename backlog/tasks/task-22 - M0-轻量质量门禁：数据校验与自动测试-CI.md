@@ -1,16 +1,16 @@
 ---
 id: TASK-22
 title: M0 轻量质量门禁：数据校验与自动测试 CI
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 14:01'
-updated_date: '2026-10-22 14:37'
+updated_date: '2026-10-23 12:24'
 labels: []
 milestone: m-1
 dependencies: []
 priority: high
-ordinal: 22000
+ordinal: 9000
 ---
 
 ## Description
