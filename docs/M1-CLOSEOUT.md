@@ -6,9 +6,10 @@
 
 - TASK-29.2：PR106 最终 head `61669a2a9f9be401a27cdde068e1ecea36c04b3b` 的 Quality 两作业成功，已合入 `8a5b6a5`。独立恢复回归先红后绿，reset/空队列旧版失败、修复版5/5通过；classify故障与取消后新队列也通过。相关回归共109项通过。真实平台故障恢复未验，父TASK-29平台AC保留。
 - 药水中断触摸：PR110 最终 head `8a2179747157bc16c1ccd50bf544f17ff3fcdfdf` 的 Quality 两作业成功，已合入 `78cedba`。独立62项通过，5项独立探针回退旧生产模块全部失败、恢复全部通过。根GUI中的任务编号为TASK-41；develop旧快照为TASK-38，不能把根GUI中的同号手机任务误标完成。
+- 过期结束回合/跳过奖励触摸：PR112最终head `43e137fd5baf8eb326aed31513d9214ffc62fe24` 的Quality两作业成功，已合入 `1060b57`。独立64项通过，3项探针回退精确PR112父版生产模块全部失败、恢复全部通过。本分支TASK-40为该离线动作修复；根GUI同号是手柄适配，不能误勾，合并GUI任务同步时保留各自身份。
 - TASK-3.3主动退出：将既有 `5eb24cb`、`6f28831`、`c9f3b92` 整合到最新输入逻辑。固定集成 `76c93d7` 的75项独立交叉回归通过，覆盖退出取消、牌库遮挡、演出暂停/恢复、旧卡牌/药水手势失效与新操作可用。新集成版本尚未实机。
 
-原始离线报告、红绿日志与独立快照归档于仓库根 `.artifacts/m1-audit/{feedback,potion,exit-integration,status,platform}/`。
+原始离线报告、红绿日志与独立快照归档于仓库根 `.artifacts/m1-audit/{feedback,potion,action,exit-integration,status,platform}/`。
 
 ## 本轮构建与检查
 
