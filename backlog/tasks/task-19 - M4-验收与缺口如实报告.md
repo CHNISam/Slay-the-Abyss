@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 09:47'
+updated_date: '2026-10-23 09:49'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -64,4 +64,6 @@ PR99/100已在各自当前head两个Quality成功后合入1182814/14979df。源1
 PR102准确head0c3fd84两Quality作业SUCCESS（run39932782189），已squash合develop6014746，PR101独立真实指令/合法路线五文件也保留；生产src/data/scripts与PR102 head相同。根旧dirty develop不动，后续continued-status从601新建，原合并树/3源分支仅在确认head/clean及完整bundle verify后清理，日志与历史留根.artifacts/continued-pr102-source-history。未开游戏/官方导入/发布。
 
 37d6674独立交付/复审无阻断：139普通结算与cf结算/BGM三图实际最终比较过，inputhash不变；literal/type/variable/binding四真实mutant报PAYLOAD_MISMATCH，unknownwire报SCHEMA_UNSUPPORTED，全部exit1。11相关专项+独立12probe，injector完整替换节点/变量/引脚已核，保留-0/非有限值/注释内容/字段顺序约束。实际候选/GIA原件与rawhash用于复现，JSON仅查阅非无损二进制。旧readonly默认未变；图外signal定义/stage/prefab/编译器语义及实机不认证。根.artifacts/graph-payload-audit-{139de94,cf6969e}-final2留最终报告，negative-inputs及5个negative报告保留，所有正式AC不勾。
+
+root用集成后的显式graph auditor实际复核最新11b901f普通副本exit0：完整NodeGraph与固定源重新编译结果匹配，双方roundtrip lossless，仅列明x/y排除；副本hash4f5de8f...不变。新报告根.artifacts/graph-payload-audit-11b901f/graph-payload-audit.json SHA75dab47274e10a05b381c4a56597a6ba2fa92c19fa1c93a6cb801f8b423a65e1已记原候选证据。只补NodeGraph载荷源一致性，不将原readonly图检查范围追改成已认证，图外/实机/发布仍缺。
 <!-- SECTION:NOTES:END -->
