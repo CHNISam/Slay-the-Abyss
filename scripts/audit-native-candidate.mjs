@@ -1,9 +1,10 @@
 // Local offline tools only. Never calls a save mutation, import or playtest API.
-import { existsSync, readFileSync, writeFileSync, mkdirSync, realpathSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { resolve, join, dirname, basename } from 'node:path';
+import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { compareNativeCandidate, requireSourceSha, sha256 } from './native-candidate-audit.mjs';
+import { exportedCandidatePath, newEvidenceDirectory } from './native-audit-paths.mjs';
 
 const usage = 'node scripts/audit-native-candidate.mjs --source <full-commit-SHA> --candidate <full-game.gil> --output <new-directory> [--bgm]';
 function argumentsOf(args) {
@@ -19,29 +20,10 @@ function argumentsOf(args) {
   return options;
 }
 
-function newOutputPath(input) {
-  // Resolve the raw existing prefix first: path.resolve would erase symlink/..
-  // traversal and could silently redirect evidence or miss an existing directory.
-  let parent = input;
-  const pending = [];
-  while (!existsSync(parent)) {
-    const next = dirname(parent);
-    if (next === parent) throw new Error('Output has no existing parent directory');
-    pending.unshift(basename(parent));
-    parent = next;
-  }
-  if (pending.includes('..')) throw new Error('Output parent traversal must refer to existing directories');
-  return join(realpathSync.native(parent), ...pending);
-}
-
 export async function auditNativeCandidate(options) {
   const sourceSha = requireSourceSha(options.source);
-  const officialSave = /(?:^|[/\\])Beyond_Local_Save_Level(?:[/\\]|$)/i;
-  if (officialSave.test(options.candidate)) throw new Error('Use an exported candidate copy, not an official save');
-  const mapPath = realpathSync.native(options.candidate);
-  if (officialSave.test(mapPath)) throw new Error('Use an exported candidate copy, not an official save');
-  if (!statSync(mapPath).isFile()) throw new Error('Candidate must be a regular file');
-  const output = newOutputPath(options.output);
+  const mapPath = exportedCandidatePath(options.candidate);
+  const output = newEvidenceDirectory(options.output);
   if (existsSync(output)) throw new Error('Output must be a new directory; existing evidence is preserved');
   const before = sha256(readFileSync(mapPath));
   mkdirSync(output, { recursive: true });

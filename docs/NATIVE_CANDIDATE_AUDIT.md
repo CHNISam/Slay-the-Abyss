@@ -9,7 +9,7 @@ node scripts/audit-native-candidate.mjs --source cf6969e768a6102a726948742dd3276
 
 必须使用本地 Git 中存在的完整 40 位提交 SHA；短 SHA、HEAD 等标签不接受。输出目录必须是新目录，避免覆盖已有证据。默认审常规完整候选；已启用 BGM 必须显式 `--bgm`。普通源提交可能包含关闭的 BGM 模块，模块比较仍以该提交完整部署清单为准。
 
-候选使用原始参数先解析文件系统真实路径，不先词法折叠 `..`，并要求普通文件；原始写法或真实路径含 `Beyond_Local_Save_Level` 目录组件均拒绝。输出先解析原始路径的最近已有父目录，再创建新后缀，避免符号链接加 `..` 静默重定向证据；若文件系统尚未解析的待创建后缀中仍含 `..`，直接拒绝。真实输出目录若已存在仍拒绝覆盖，报告的 `evidenceDirectory` 与 CLI 的报告路径指向实际证据位置。此路径边界以自建临时文本文件在 Linux 验证，未据此宣称 Windows junction 或真实存档已验证。
+候选使用原始参数先解析文件系统真实路径，不先词法折叠 `..`，并要求普通文件；原始写法或真实路径含 `Beyond_Local_Save_Level` 目录组件均拒绝。输出先解析原始路径的最近已有父目录，再创建新后缀，避免符号链接加 `..` 静默重定向证据；若文件系统尚未解析的待创建后缀中仍含 `..`，直接拒绝。真实输出目录若已存在仍拒绝覆盖，报告的 `evidenceDirectory` 与 CLI 的报告路径指向实际证据位置。PR104原边界以自建临时文本在Linux验证；后续两个审计命令共用`native-audit-paths.mjs`，Windows临时目录junction、原生`..`身份、8.3路径规范化及非文件拒绝也实际通过。文件symlink因EPERM显式skip；没有据此宣称真实存档或游戏验收。
 
 依赖现有 Node、Git、tar、Python 和已安装 Miliastra MCP，不新增 npm 依赖。工具路径遵循 `docs/TOOLCHAIN.md`，可用 `MILIASTRA_MCP_ROOT` 指定本地工具目录。只运行可信项目历史中的导出脚本，不从网络下载源码。
 
@@ -30,3 +30,24 @@ node scripts/audit-native-candidate.mjs --source cf6969e768a6102a726948742dd3276
 边界：图检查覆盖身份、类型、监听信号和启用挂载，**不认证编译节点参数或完整规则语义**；需要结合独立规则账本、构建证据及实机结果。也不验证渲染后的视觉、动画、触控、性能、音量/循环/无叠播、赛事资格或人工发布。相同代码可存在于多个提交，存档没有可信提交标签，因此这里只证明内容与给定 SHA 相符，不能反推出唯一原始构建提交。
 
 专项验证：`node --test --experimental-test-isolation=none tests/native-candidate-audit.test.mjs`。小 fixture 是 `cf6969e` BGM 候选真实复读响应的裁剪，保留 provenance 和原始结构，覆盖换行/BOM容差、坏/缺失/额外模块、错误 UI、未挂载图、错误信号/参数、静态错误、hash 改变和完整 SHA 校验。CLI 另实际核对普通 `139de94` 与 BGM `cf6969e` 两个候选，并以错误的 `cf6969e` SHA 核 `139de94` 候选，确认静态 0 错误时仍因源文差异退出 1。未运行全量检查或游戏。
+
+## 显式编译并比较完整图载荷
+
+以下独立命令会在新输出目录编译指定 SHA 的图源，补充上面只读命令的参数审计。**上面的默认只读命令不会调用它，也不会暗中编译或写副本。**
+
+```powershell
+node scripts/audit-native-graph-payload.mjs --source 139de949b173c8343d628ce6ba036097a9ff954e --candidate <完整游戏.gil> --output .artifacts/graph-audit-normal
+node scripts/audit-native-graph-payload.mjs --source cf6969e768a6102a726948742dd327642043c2ab --candidate <BGM候选.gil> --output .artifacts/graph-audit-bgm --bgm
+```
+
+复用已安装 MCP 的 `Service.compileTogether` / 单图 `buildProject`、现有 GIA injector 与 genshin-ts `NodeGraph` 解码器。编译源从固定 SHA 的隔离快照生成；图 ID 取候选实际身份，图名和服务端类型必须匹配。单图编译工具会在 `output/compiler` 中创建输入副本与构建文件，多图编译也只在该目录写 TypeScript/GIA/日志。原候选只读，预期注入在内存执行，不调用 apply/导入/游戏接口，`liveWrite=0`，前后输入 SHA256 必须相同。
+
+完整比较两边解码的 NodeGraph，包括 literal、pin 类型与连接、图变量初值、compositePins、affiliations 和节点绑定信息。数组顺序和可选字段是否存在均保留，不补默认值、不改节点编号。只排除编辑器布局坐标：`GraphNode.x/y`、`GraphNode.comments.x/y`、`NodeGraph.comments[].x/y`；注释文字仍比较。原始字节哈希与排除坐标后的语义哈希分别保留。
+
+双方必须先通过原始字节的 decode→encode 完全相等门禁；未知协议字段、丢失信息或不支持的 wire 顺序返回 `GRAPH_SCHEMA_UNSUPPORTED`，不会以静默丢字段获得通过。已实测真实结算/BGM 图可无损往返，重复编译仅坐标变化时语义哈希一致。真实结算图加未知 protobuf 字段的解码结果已进入 fixture，对应导出测试副本也经实际 CLI 以 `GRAPH_SCHEMA_UNSUPPORTED` 退出 1；literal、type、variable、signal binding 四种仅在导出测试副本内的改动，实际 CLI 均以 `GRAPH_PAYLOAD_MISMATCH` 退出 1。
+
+该命令与默认只读审计应一起使用：它不重验模块、UI、静态检查或 stage 挂载。现有 injector 会根据输入的外部信号定义解析绑定 ID，因此本比较**不能证明外部信号定义本身与源一致**；stage/prefab、完整规则行为和实机仍在范围外。输出保持 `officialImport/playtest/audio: NOT_TESTED`。
+
+输出为 `graph-payload-audit.json`、双方完整解码 JSON、固定 SHA 源快照、生成 TS、编译 GIA/日志、编译器与解码文件哈希 `toolchain.json`，以及 workflow/platform-rules 原始响应。专项测试：`node --test --experimental-test-isolation=none tests/native-graph-payload.test.mjs`；fixture 来源和工具版本保存在同目录 provenance。
+
+JSON 解码副本供查阅，不是原始二进制的无损备份（JSON 会合并正负零，特殊浮点也有表示限制）。比较直接使用内存中的解码对象，对正负零/非有限数保留区别；复现以保留的原候选、GIA 与原始载荷哈希为准。

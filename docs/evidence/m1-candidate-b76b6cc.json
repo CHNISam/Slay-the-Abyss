@@ -1,0 +1,188 @@
+{
+  "sourceCommit": "b76b6cc744bf5219baca5864b8292c8ab7c4eaae",
+  "candidate": "F:\\New folder\\.artifacts\\m1-handoff-b76b6cc\\abyss-m1-b76b6cc.gil",
+  "sha256": "95d0b52996cd2204a314391a156f930045c5b8e3a81aa3c89e05da3eb0ee7920",
+  "baseMap": "F:/New folder/.artifacts/live-acceptance-61425e4/scene-safe/abyss-scene-safe-61425e4-v2.gil",
+  "baseSha256": "2911ed9484cce2bd43d961a519da53f1eb5fb0cac1d60ef6f23ac6f8da4ddfad",
+  "liveWriteEnabled": false,
+  "localCheck": {
+    "source": "bbc6b0945183b9bdbb7d83189a09427b605c5339",
+    "exitCode": 0,
+    "javascript": {
+      "total": 697,
+      "passed": 579,
+      "skipped": 118,
+      "failed": 0
+    },
+    "lua": "All discovered suites passed",
+    "python": {
+      "total": 16,
+      "passed": 15,
+      "skipped": 1
+    },
+    "finalBuilderDelta": {
+      "passed": 36,
+      "failed": 0,
+      "log": ".artifacts/m1-audit/builder-final-targeted.log"
+    }
+  },
+  "readback": {
+    "modules": 30,
+    "byteIdentical": 30,
+    "ui": {
+      "expectedCount": 1664,
+      "actualCount": 1664,
+      "expectedMaxChildren": 50,
+      "actualMaxChildren": 50,
+      "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+    },
+    "staticErrors": 0,
+    "staticWarnings": 17,
+    "issues": []
+  },
+  "graphPayload": {
+    "ok": true,
+    "graphs": [
+      {
+        "graphId": "1073741825",
+        "ok": true
+      }
+    ],
+    "issues": []
+  },
+  "sceneChecks": [
+    {
+      "name": "cameras equal base",
+      "pass": true
+    },
+    {
+      "name": "factions equal base",
+      "pass": true
+    },
+    {
+      "name": "respawn equal base",
+      "pass": true
+    },
+    {
+      "name": "points equal base",
+      "pass": true
+    },
+    {
+      "name": "classes equal base",
+      "pass": true
+    },
+    {
+      "name": "level equal base",
+      "pass": true
+    },
+    {
+      "name": "fixedView explicit",
+      "pass": true
+    },
+    {
+      "name": "single player",
+      "pass": true
+    },
+    {
+      "name": "hostile pairs only 1 and 3",
+      "pass": true
+    },
+    {
+      "name": "spawn and respawn same existing preset",
+      "pass": true
+    },
+    {
+      "name": "all entity identities and graph mounts equal base",
+      "pass": true
+    },
+    {
+      "name": "one settlement graph with same real id and server type",
+      "pass": true
+    },
+    {
+      "name": "settlement mounted enabled on stage",
+      "pass": true
+    },
+    {
+      "name": "input base unchanged",
+      "pass": true
+    },
+    {
+      "name": "candidate unchanged by readback",
+      "pass": true
+    },
+    {
+      "name": "production source manifest has exactly 30 unique modules",
+      "pass": true
+    },
+    {
+      "name": "cleanup removed only obsolete red slaver and sentry modules",
+      "pass": true
+    },
+    {
+      "name": "cleanup expected list matches actual source manifest",
+      "pass": true
+    },
+    {
+      "name": "cleanup before inventory equals manifest plus exactly removed modules",
+      "pass": true
+    },
+    {
+      "name": "cleanup after inventory matches source manifest",
+      "pass": true
+    },
+    {
+      "name": "embedded candidate inventory independently matches source manifest",
+      "pass": true
+    },
+    {
+      "name": "abyss_red_slaver_ai removal response acknowledged and succeeded",
+      "pass": true
+    },
+    {
+      "name": "abyss_sentry_ai removal response acknowledged and succeeded",
+      "pass": true
+    }
+  ],
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "physicalSpawnSafety": "NOT_TESTED",
+  "mobileTouch": "NOT_TESTED",
+  "uiAcceptance": "NOT_PASSED",
+  "evidence": {
+    "sourceReadback": ".artifacts/m1-audit/candidate-readback-b76b6cc/audit.json",
+    "graphPayload": ".artifacts/m1-audit/graph-payload-b76b6cc/graph-payload-audit.json",
+    "scene": ".artifacts/m1-audit/platform/b76b6cc/integrated-scene-readback.json",
+    "cleanup": ".artifacts/m1-candidate-b76b6cc/script-cleanup.json"
+  },
+  "frozenSourceFullCheck": {
+    "source": "b76b6cc744bf5219baca5864b8292c8ab7c4eaae",
+    "exitCode": 0,
+    "javascript": {
+      "skipped": 118,
+      "total": 704,
+      "failed": 0,
+      "passed": 586
+    },
+    "lua": "All discovered suites passed",
+    "python": {
+      "skipped": 1,
+      "total": 16,
+      "passed": 15
+    },
+    "log": ".artifacts/m1-audit/check-b76b6cc-final.log",
+    "sha256": "e290cab050f1cf3c3a9024a3367db51e154b26630f5146bc04a608fe0c72c5b4",
+    "officialImport": "NOT_TESTED",
+    "playtest": "NOT_TESTED"
+  },
+  "regressionAfterFreeze": {
+    "file": "tests/lua/game_ui_exit_swipe.lua",
+    "oldSource": "257ba092c30a30a2d7aa52322d29394d3c41969b",
+    "oldPassed": 2,
+    "oldFailed": 3,
+    "fixedPassed": 5,
+    "fixedFailed": 0,
+    "runnerBudgetMilliseconds": 15000,
+    "productionSourceUnchanged": true
+  }
+}

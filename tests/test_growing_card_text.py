@@ -28,7 +28,8 @@ class GrowingCardTextTests(unittest.TestCase):
             else:
                 self.assertNotIn('combatText', card)
                 self.assertNotIn('upgradeCombatText', card)
-        self.assertEqual(len(cards), 37)
+        self.assertEqual(len(cards), 38)
+        self.assertEqual(sum(card['id'] != 'dazed' for card in cards), 37)
         self.assertEqual(before, (self.source, self.overlay))
 
     def test_damage_need_not_be_first_number_and_all_occurrences_are_preserved(self):

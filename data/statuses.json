@@ -2,6 +2,22 @@
   "note": "v0.1.0 内容基线，解释见 README.md；未运行时或真机验收。",
   "statuses": [
     {
+      "id": "entangled",
+      "name": "缠绕",
+      "kind": "debuff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "不能打出攻击牌；玩家回合结束时移除"
+    },
+    {
+      "id": "artifact",
+      "name": "人工制品",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每层抵挡一次减益能力的施加；不抵挡生成的状态牌"
+    },
+    {
       "id": "strength",
       "name": "力量",
       "kind": "buff",

@@ -52,6 +52,19 @@
     "Dazed, Sentry and Artifact work is separate and absent from this fixed candidate.",
     "Six BGM tracks remain unheard; ordinary candidate disables BGM."
   ],
+  "graphPayloadAudit": {
+    "relativePath": ".artifacts/graph-payload-audit-11b901f/graph-payload-audit.json",
+    "sha256": "75dab47274e10a05b381c4a56597a6ba2fa92c19fa1c93a6cb801f8b423a65e1",
+    "ok": true,
+    "sourceCommit": "11b901f8b4ff0c91762ee6e2e46affcc88dc033a",
+    "candidateHashUnchanged": true,
+    "actualAndExpectedRoundtripLossless": true,
+    "actualRawSha256": "851acc394ec4f69fb1114c7cee8536eb619a25fa3118f6f54b39724874d74367",
+    "expectedRawSha256": "009f8f92c153e088953b0ccc1806017b19a610b22c7c184e0770139a5a78f021",
+    "matchingPayloadSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+    "exclusions": ["GraphNode.x", "GraphNode.y", "GraphNode.comments.x/y", "NodeGraph.comments[].x/y"],
+    "notCertified": ["External signal definitions", "Stage and prefab configuration", "Compiler semantics", "Game behavior"]
+  },
   "officialImport": "NOT_TESTED",
   "playtest": "NOT_TESTED",
   "audio": "NOT_TESTED",

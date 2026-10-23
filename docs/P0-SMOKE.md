@@ -4,6 +4,10 @@
 
 ## 当前规则与BGM离线候选（未导入/试玩）
 
+新增显式离线图载荷审计已实际复核`11b901f`副本：完整NodeGraph按同SHA重新编译、内存重注入后匹配，双方decode/encode均无损；只排除明列布局坐标，原candidate hash未变。报告根`.artifacts/graph-payload-audit-11b901f/graph-payload-audit.json`及其SHA已补[同源证据](evidence/offline-candidate-11b901f.json)。这在原只读源/UI/挂载审计之外单独补证，不认证图外信号定义、stage/prefab、编译器语义或实机。
+
+PR102当前head`0c3fd84a46f9feca6436f78ef69665a9249072f6`的[Quality双作业](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39932782189)已SUCCESS，squash合入`601474649373c85dd4daad8650a7d01bf3c37b3b`。同时保留PR101新增的真实牌/合法路线诊断，生产`src/data/scripts`与PR102 head相同；副本仍按实际构建源`11b901f`标记，不能用后续squash号替换。
+
 第二批最新普通副本：`.artifacts/continued-rules-11b901f/wmvkrqkgh-0/working.gil`，固定源`11b901f8b4ff0c91762ee6e2e46affcc88dc033a`，SHA256 `4f5de8f2ae0c1bfec4a86963cf77ec44cf99a2ad8b6dcb1c420254732560c70b`。已含Acid/Spike/Fat/Sneaky抽样和死后排队选招/减益；30模块逐byte同源、1590树/max50、六列模板、22节点结算stage启用、BGM双参数false、静态0error17warning。首次构建d3源因普通manifest漏BGM参数真实失败，补注册false后新目录重建成功，保留原失败响应。[结构化证据](evidence/offline-candidate-11b901f.json)和根`.artifacts/continued-rules-11b901f-audit`保留全部hash/读回。规则源d3e9d76完整check exit0（JS643/528pass115skip、全部Lua、Python15pass1skip），参数/审计增量15专项过；最终head CI另记。Dazed/Sentry/Artifact不在此副本，未导入/试玩/试听，发布关口未通过。下列139/cf固定候选不含本批修正。
 
 PR99默认关闭的原生BGM候选已合`1182814`；PR100规则批已合`14979df`。两PR当前head的两个Quality作业均SUCCESS。规则完整组合在源`139de94`实际运行`npm run check`退出0：JS603项（488通过/115既有条件skip）、全部Lua、Python16项（1个既有权限skip）。合入独立BGM代码后图/打包6项、BGM/宿主5组通过，最终`cf6969e`的[Quality](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39926170680)全绿；`cf6969e`与squash合入`14979df`源码树已实际确认相同。

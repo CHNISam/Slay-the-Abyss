@@ -1,5 +1,5 @@
 {
-  "note": "v0.1.0首轮37张运行卡池；完整75卡参考表原样保留，不代表75张可玩。规范化op，不自行调整来源数值。未平台/游戏验收。",
+  "note": "v0.1.0首轮37张构筑卡定义与Dazed临时状态牌；完整75卡参考表原样保留，不代表75张可玩。规范化op，不自行调整来源数值。未平台/游戏验收。",
   "starter_deck": {
     "cards": [
       "strike",
@@ -1094,6 +1094,17 @@
       "upgradeText": "消耗。对所有敌人造成 5 点伤害，回复等量生命。",
       "exhaust": true,
       "sts_name": "Reaper"
+    },
+    {
+      "id": "dazed",
+      "name": "晕眩",
+      "type": "status",
+      "rarity": "common",
+      "cost": -2,
+      "effects": [],
+      "ethereal": true,
+      "text": "无法打出。回合结束时若仍在手中，消耗本牌。",
+      "sts_name": "Dazed"
     }
   ],
   "sourceCatalog": "reference/warrior75.json"

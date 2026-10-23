@@ -6,7 +6,9 @@ local Guardian = require("abyss_guardian_ai")
 local JawWorm = require("abyss_jaw_worm_ai")
 local GremlinNob = require("abyss_gremlin_nob_ai")
 local BlueSlaver = require("abyss_blue_slaver_ai")
+local RedSlaver = require("abyss_red_slaver_ai")
 local AcidSlimeS = require("abyss_acid_slime_s_ai")
+local Sentry = require("abyss_sentry_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -33,7 +35,9 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
     if enemy.ai.kind == "gremlin_nob" then return GremlinNob.initialize(state, enemy, random) end
     if enemy.ai.kind == "blue_slaver" then return BlueSlaver.initialize(state, enemy, random) end
+    if enemy.ai.kind == "red_slaver" then return RedSlaver.initialize(state, enemy, random) end
     if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
+    if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
@@ -67,7 +71,9 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
     elseif enemy.ai.kind == "gremlin_nob" then return GremlinNob.advance(state, enemy, random)
     elseif enemy.ai.kind == "blue_slaver" then return BlueSlaver.advance(state, enemy, random)
+    elseif enemy.ai.kind == "red_slaver" then return RedSlaver.advance(state, enemy, random)
     elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
+    elseif enemy.ai.kind == "sentry" then return Sentry.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)
@@ -93,7 +99,7 @@ end
 -- Only these source-verified policies enqueue RollMoveAction during takeTurn.
 -- That action has no owner-death guard and survives while another enemy lives.
 -- Acid S sets its next move directly instead; do not invent a queued roll.
-local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, rolled_attack=true }
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true }
 function M.afterAction(state, enemy, random)
     if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
         M.advance(state, enemy, random)
@@ -128,6 +134,7 @@ function M.flush(state, actingSource)
 end
 
 function M.beforeAction(state, enemy)
+    if enemy.ai and enemy.ai.kind == "red_slaver" then RedSlaver.beforeAction(enemy) end
     if enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.intents[enemy.intentIndex].id == enemy.ai.attackIntent then
         enemy.aiCharge = 0 -- Reset before damage, including lethal retaliation.
     end

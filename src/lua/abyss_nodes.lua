@@ -19,7 +19,8 @@ local function owns(entries, id)
 end
 
 local function playable(card)
-    return not card.condition and not card.costMode and Effects.supported(card.effects)
+    return card.type ~= "status" and card.type ~= "curse"
+        and not card.condition and not card.costMode and Effects.supported(card.effects)
 end
 
 local function upgradeable(run, instance)

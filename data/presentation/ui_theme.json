@@ -183,6 +183,8 @@
       "boss": 102033
     },
     "status": {
+      "entangled": 103053,
+      "artifact": 103066,
       "mode_shift": 103066,
       "sharp_hide": 103055,
       "strength": 103047,

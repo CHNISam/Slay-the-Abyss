@@ -24,6 +24,43 @@ local function integer(amount)
         and amount >= -2147483647 and amount <= 2147483647
 end
 
+-- Only source-verified ApplyPower categories; raw status mutation stays separate.
+local debuffs = { weak=true, vulnerable=true, frail=true, poison=true, entangled=true }
+local function blockDebuff(state, actor, id)
+    local before = actor.statuses.artifact or 0
+    if before <= 0 then return false end
+    actor.statuses.artifact = before - 1
+    Events.emit(state, "status", {source=actor.id, target=actor.id, status="artifact",
+        amount=-1, blockedStatus=id})
+    return true
+end
+
+-- Pure prediction for an already validated application. Artifact's gate occurs
+-- before stackPower, so a blocked application has no prospective stack overflow.
+function M.artifactBlocksPower(actor, id, amount)
+    return actor.hp > 0 and (actor.statuses.artifact or 0) > 0
+        and (debuffs[id] == true or (signed[id] == true and amount <= 0)) or false
+end
+
+function M.applyPower(state, actor, id, amount, source)
+    if actor.hp <= 0 then return false end -- ApplyPower cancels for a dead target.
+    assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
+    assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
+    -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
+    -- regardless of the target's existing signed total. Zero is not an early exit.
+    if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
+    M.status(state, actor, id, amount, source)
+    return true
+end
+
+function M.applyNoDraw(state, actor)
+    -- ApplyPowerAction's duplicate NoDraw gate precedes Artifact's generic gate.
+    if actor.hp <= 0 or actor.noDraw then return false end
+    if blockDebuff(state, actor, "no_draw") then return false end
+    actor.noDraw = true
+    return true
+end
+
 function M.bindStatuses(actor, definitions)
     assert(type(definitions) == "table", "missing status definitions")
     for id, definition in pairs(definitions) do
@@ -51,12 +88,28 @@ function M.addStatus(actor, id, amount)
     return actor.statuses[id]
 end
 
-function M.addTemporaryStrength(actor, amount)
+function M.addTemporaryStrength(actor, amount, state)
     assert(integer(amount) and amount >= 0, "invalid temporary strength")
+    assert(not state or amount > 0, "zero temporary Strength application unsupported")
+    if state and actor.hp <= 0 then return false end
     local total = (actor.temporaryStrength or 0) + 0.0 + amount
-    assert(integer(total), "temporary strength overflow")
-    M.addStatus(actor, "strength", amount)
-    actor.temporaryStrength = total
+    -- Positive Strength cannot spend Artifact. If LoseStrength will be blocked,
+    -- its old debt is never stacked and must not fail a nonexistent addition.
+    local blockedLoss = state and (actor.statuses.artifact or 0) > 0
+    if not blockedLoss then assert(integer(total), "temporary strength overflow") end
+    if state then
+        -- Flex queues Strength then a separate LoseStrength DEBUFF. Artifact can
+        -- block that latter application while preserving the positive Strength.
+        M.applyPower(state, actor, "strength", amount, actor)
+        if not blockDebuff(state, actor, "lose_strength") then
+            actor.temporaryStrength = total
+            state.events[#state.events].frame = Events.frame(state)
+        end
+    else
+        -- Public two-argument helper is raw setup/bookkeeping, not ApplyPower.
+        M.addStatus(actor, "strength", amount)
+        actor.temporaryStrength = total
+    end
 end
 
 -- UI receives values, never references to the combat state or definitions.
@@ -178,9 +231,17 @@ end
 function M.endTurn(state, actor)
     tick(state, actor, "turn_end")
     if actor.hp <= 0 then return end
+    -- EntanglePower removes itself only for isPlayer=true, rather than reducing
+    -- one stack at the monster round boundary or applying another Power.
+    local entangled = actor.statuses.entangled or 0
+    if actor == state.player and entangled > 0 then
+        actor.statuses.entangled = 0
+        Events.emit(state, "status", {source = actor.id, target = actor.id, status = "entangled", amount = -entangled})
+    end
     local temporary = actor.temporaryStrength or 0
     if temporary ~= 0 then
-        M.status(state, actor, "strength", -temporary)
+        -- LoseStrength's owner-end trigger queues a negative Strength Power.
+        M.applyPower(state, actor, "strength", -temporary, actor)
         actor.temporaryStrength = 0
         -- Status removal and its bookkeeping are one presentation step.
         state.events[#state.events].frame = Events.frame(state)

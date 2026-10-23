@@ -38,6 +38,9 @@ def numeric(value):
 
 
 def cost_label(card):
+    if card.get('type') == 'status' and type(card.get('cost')) is int and card['cost'] == -2:
+        require(card.get('costMode') is None, 'unplayable status has no costMode')
+        return ''
     require(type(card.get('cost')) is int and card['cost'] >= 0, 'cost: expected nonnegative integer')
     require(card.get('costMode') in (None, 'all_energy'), 'unknown costMode contract')
     if card.get('costMode') == 'all_energy':

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 03:23'
+updated_date: '2026-10-23 09:30'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -39,6 +39,8 @@ ordinal: 16000
 1. 从 083d780 隔离工作树盘点 PR37 现有实现，复用已验证规则切片，禁止开启游戏或 MCP。2. 整合现有卡牌规则候选并保留主线战斗反馈和原子出牌修复，使首发至少30张可合法获得并执行。3. 为实际支持池基本/升级逐张建立独立预期回归，验证奖励/商店取得、营地升级和下一战效果，未支持牌保持隔离。4. 执行完整本地门禁，记录来源、可玩池及平台待验边界；提交独立feat分支交主代理复审，不关闭实机验收。
 
 2026-10-23 Iron Wave顺序切片：从最新origin/develop隔离，读取固定镜像方法体核实；若数据已正确则保留生产代码，新增基本/升级与Thorns边界的独立预期回归，以受控倒序变异证明能证伪；跑全量门禁并记录来源和平台未验边界。
+
+2026-10-23 Codex/combat_order为Sentries实现Dazed临时状态牌基础设施，详情见TASK-16.1与docs/plans/2026-10-23-dazed-status-cards.md；敌人AI/Artifact由enemy_parity独立负责，严格及平台AC保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -65,4 +67,6 @@ ordinal: 16000
 inventory_parity继续离线领取Iron Wave顺序切片，基线7d809f3，隔离feat/task16-iron-wave-order。使用systematic-debugging/automated-testing-workflow；发现当前及a6be1b6数据早已block后damage，与固定镜像方法体一致，派单疑似差异并不存在；本轮不制造生产修复，仅补独立来源与回归保护，不打开原神/MCP，不勾全池AC。
 
 Iron Wave切片完成：独立读取固定镜像fc379c875c11e008e9c10548ac8e394c301c532f/IronWave.java，use先GainBlockAction后DamageAction；基本5/5、升级7/7且费用1。当前7d809f3及a6be1b6 JSON早已正确，未修改生产数据或Combat。新增iron_wave_order.lua 12例，覆盖基本/升级Thorns吸收、1HP末敌致死、部分吸收后死亡、0伤害、敌格挡、Dexterity/Frail及提交帧顺序；内存受控倒序变异12/12失败exit1，正常数据12/12通过。npm run check退出0：JS260通过/14权限skip；Lua31脚本783组；Python15通过/1权限skip。证据docs/reviews/TASK-16-iron-wave.md，日志iron-wave-check.log与iron-wave-mutation.log留隔离树；原作PC构建真实性/全卡池/平台AC仍未验、全部未勾。
+
+2026-10-23 Dazed临时状态牌基础设施离线完成，保留原status/common/cost=-2/ethereal，不可用且不消耗能量，生成进入discard、持于手中轮末消耗、永久卡组/奖励/商店/下场隔离。data仍37构筑定义且实际支持30，另Dazed不算构筑卡。固定源链、0..5候选ABI及针对262Lua/65JS/15Python通过+1权限skip见TASK-16.1与DAZED_STATUS_CARDS.md；SentryAI/Artifact后续独立桥接，平台及整项AC保留。
 <!-- SECTION:NOTES:END -->

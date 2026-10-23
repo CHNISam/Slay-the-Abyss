@@ -9,7 +9,7 @@ const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'h
   'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength',
   'exhaustRandom', 'exhaustChoose', 'putOnDrawPile'];
 const statusOps = ['gainStatus', 'applyStatus', 'applyStatusAll', 'gainStatusPerTurn'];
-const cardOps = ['addCardToDiscard', 'addCardPerTurn'];
+const cardOps = ['addCardToDiscard', 'addCardPerTurn', 'makeTempCardInDiscard'];
 const flagOps = ['damageEqualToBlock', 'doubleBlock', 'noDrawThisTurn', 'healEqualToDamageDealt'];
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
@@ -63,16 +63,16 @@ export function validateContent(bundle) {
       const op = effect.op;
       if (!enumeration(op, [...valueOps, ...statusOps, ...cardOps, ...flagOps, 'conditional'], `${p}.op`)) return;
       const allowed = ['op'];
-      if (valueOps.includes(op) || statusOps.includes(op) || op === 'addCardPerTurn') allowed.push('value');
+      if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
       if (statusOps.includes(op) || op === 'gainTemporaryStrength') allowed.push('status');
       if (cardOps.includes(op)) allowed.push('card');
       if (op === 'conditional') allowed.push('if', 'then');
       if (['damage', 'damageAll'].includes(op)) allowed.push('times');
       if (op === 'discardRandom') allowed.push('mayChoose');
       keys(effect, allowed, p);
-      if (valueOps.includes(op) || statusOps.includes(op) || op === 'addCardPerTurn') {
+      if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);
-        integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0);
+        integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0, op === 'makeTempCardInDiscard' ? 5 : Number.MAX_SAFE_INTEGER);
       }
       if (statusOps.includes(op)) reference(effect.status, 'statuses', `${p}.status`);
       if (op === 'gainTemporaryStrength') {
@@ -92,8 +92,13 @@ export function validateContent(bundle) {
     if (!object(card, path)) return;
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
     if (!partial || card.rarity !== undefined) enumeration(card.rarity, ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
-    if (!partial || card.cost !== undefined) integer(card.cost, `${path}.cost`, 0, 5);
-    if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`);
+    const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
+    if (!unplayableStatus && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
+    if (unplayableStatus) {
+      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'unplayable status must have empty use');
+      if (card.costMode !== undefined) fail(`${path}.costMode`, 'unplayable status has no cost mode');
+      if (card.upgrade !== undefined) fail(`${path}.upgrade`, 'unplayable status upgrades are unsupported');
+    } else if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`);
     if (card.condition !== undefined) enumeration(card.condition, ['only_attacks_in_hand'], `${path}.condition`);
     if (card.costMode !== undefined) enumeration(card.costMode, ['all_energy'], `${path}.costMode`);
     for (const flag of ['exhaust', 'ethereal', 'innate', 'repeatable']) {
@@ -152,8 +157,19 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack'], `${ap}.kind`);
-      if (a.kind === 'rolled_attack' || a.kind === 'opening_roll_attack') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry'], `${ap}.kind`);
+      if (a.kind === 'sentry') {
+        keys(a, ['kind', 'beamIntent', 'boltIntent', 'artifactStacks', 'rollRange'], ap);
+        intentReference(a.beamIntent, `${ap}.beamIntent`, 'attack');
+        intentReference(a.boltIntent, `${ap}.boltIntent`, 'debuff');
+        integer(a.artifactStacks, `${ap}.artifactStacks`, 1, 2147483647);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        reference('artifact', 'statuses', `${ap}.artifact`);
+        const bolt = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.boltIntent);
+        if (!Array.isArray(bolt?.effects) || !bolt.effects.some(effect => effect?.op === 'makeTempCardInDiscard' && effect.card === 'dazed' && effect.value > 0)) {
+          fail(`${ap}.boltIntent`, 'must generate Dazed cards, never a substitute Power');
+        }
+      } else if (a.kind === 'rolled_attack' || a.kind === 'opening_roll_attack') {
         keys(a, ['kind', 'attackIntent', 'rollRange'], ap);
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
@@ -162,6 +178,21 @@ export function validateContent(bundle) {
         intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
         intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+      } else if (a.kind === 'red_slaver') {
+        keys(a, ['kind', 'stabIntent', 'entangleIntent', 'scrapeIntent', 'rollRange', 'entangleCutoff', 'stabCutoff'], ap);
+        intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');
+        intentReference(a.entangleIntent, `${ap}.entangleIntent`, 'debuff');
+        intentReference(a.scrapeIntent, `${ap}.scrapeIntent`, 'attack');
+        if (new Set([a.stabIntent, a.entangleIntent, a.scrapeIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        for (const cutoff of ['entangleCutoff', 'stabCutoff']) {
+          integer(a[cutoff], `${ap}.${cutoff}`, 0, 65536);
+          if (!(a[cutoff] < a.rollRange)) fail(`${ap}.${cutoff}`, 'cutoff must be below rollRange');
+        }
+        const net = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.entangleIntent);
+        if (!Array.isArray(net?.effects) || !net.effects.some(effect => effect?.op === 'applyStatus' && effect.status === 'entangled' && effect.value === 1)) {
+          fail(`${ap}.entangleIntent`, 'must apply Entangled one');
+        }
       } else if (a.kind === 'blue_slaver') {
         keys(a, ['kind', 'stabIntent', 'rakeIntent', 'rollRange', 'stabCutoff'], ap);
         intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');

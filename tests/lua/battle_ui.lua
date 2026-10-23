@@ -57,6 +57,21 @@ end
 local count = 0
 local function test(name, fn) fn() count=count+1 print("ok UI " .. count .. " - " .. name) end
 
+test("Dazed uses existing status art disabled theme blank cost and cannot command play", function()
+    local ui,stage,click=setup()
+    ui.run=Run.new(Data,42)
+    ui.run.deck={{uid=1,cardId="dazed",upgraded=false}}
+    assert(Run.startCombat(ui.run,"cultist_solo"));ui:render()
+    local card=stage.children.card1.children
+    assert(card.name.text==Presentation.dazed.name and card.cost.text=="" and card.type.text=="状态")
+    assert(card.art.imageId==Theme.icon.cardArt.status)
+    assert(card.artPlate.imageColor.r==Theme.color.panelSunken.r)
+    assert(card.border.imageColor.r==Theme.color.line.r)
+    local battle,energy=ui.run.combat,ui.run.combat.energy
+    click("card1");click("enemy1");assert(ui.selected==nil)
+    assert(battle.energy==energy and #battle.hand==1 and #battle.discard==0)
+end)
+
 test("menu starts a real battle with shared-theme cards, energy and current intents", function()
     local ui, stage, click = setup()
     assert(ui.run == nil and stage.children.start.visible and not stage.children.card1.visible)
@@ -593,6 +608,68 @@ local function feedbackBattle(deck, enemies, options)
     ui:render()
     return ui, stage, click, ui.run.combat
 end
+test("animated block badges keep HP and neighbouring columns clear for player, one to five enemies and boss", function()
+    for count = 1, 6 do
+        local enemies = {}
+        for i = 1, math.min(count, 5) do enemies[i] = "cultist" end
+        if count == 6 then enemies = {"guardian"} end
+        -- Both standalone click-only fallback and embedded/drag-capable hosts use this feedback path.
+        local ui, stage, click, battle = feedbackBattle({"defend"}, enemies,
+            {embedded=count % 2 == 0, dragEvents=count % 2 == 0})
+        ui:resize(count % 2 == 0 and 1920 or 1280, count % 2 == 0 and 1080 or 720)
+        for _, enemy in ipairs(battle.enemies) do
+            enemy.block, enemy.ai, enemy.intentIndex = 7, nil, 1
+            enemy.intents = {{kind="defend", effects={{op="block",value=5}}}}
+        end
+        ui:render()
+        local popped = {}
+        local function bounds(box)
+            local c = box.children
+            local barLeft = c.hpBorder.x - c.hpBorder.sizeDeltaX / 2
+            local left = barLeft
+            if c.block.visible then
+                for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+                    local part = c[name]
+                    local half = part.sizeDeltaX * (part.localScaleX or 1) / 2
+                    assert(part.x + half <= barLeft + 0.000001, box.name .. "/" .. name .. " animated over HP")
+                    left = math.min(left, part.x - half)
+                    assert(part.localScaleY == c.blockIcon.localScaleY, "chip parts animate together")
+                end
+                if (c.blockIcon.localScaleY or 1) > 1 then popped[box.name] = true end
+                local displayed = ui.displayBattle or battle
+                local actor = box.name == "hero" and displayed.player or displayed.enemies[tonumber(box.name:match("%d+"))]
+                assert(c.block.text == string.format("%.0f", actor.block), "animation preserves exact Block digits")
+            end
+            return box.x + left, box.x + c.hpBorder.x + c.hpBorder.sizeDeltaX / 2
+        end
+        local function inspect()
+            bounds(stage.children.hero)
+            local previousRight
+            for i = 1, #battle.enemies do
+                local left, right = bounds(stage.children["enemy" .. i])
+                assert(not previousRight or left > previousRight, "animated chip crosses neighbouring HP")
+                previousRight = right
+            end
+        end
+        local function playback()
+            for _ = 1, 800 do
+                ui:update(0.02) inspect()
+                if not ui.busy and next(ui.feedback.effects) == nil then return end
+            end
+            error("block playback did not finish")
+        end
+        click("card1") click("card1") playback()
+        assert(popped.hero, "actual Defend must retain vertical badge feedback")
+        click("endTurn") playback()
+        for i = 1, #battle.enemies do
+            local box = stage.children["enemy" .. i]
+            assert(popped[box.name], "each enemy must play actual block feedback")
+            for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+                assert(box.children[name].localScaleX == 1 and box.children[name].localScaleY == 1, "badge resets after playback")
+            end
+        end
+    end
+end)
 test("block gain and absorption have blue shield feedback without HP shake on a fully blocked hit", function()
     local ui, stage, click, battle = feedbackBattle({"defend"}, {"cultist"})
     -- This feedback fixture needs a six-damage attack, independent of Cultist's opening Ritual.
@@ -614,9 +691,30 @@ test("block gain and absorption have blue shield feedback without HP shake on a 
             assert(entry.detail.blocked == 6 and entry.detail.amount == 0)
             assert(stage.children.hero.children.shield.visible and stage.x == 0)
             assert(stage.children.hero.children.floating.text == "格挡 6")
+            local c = stage.children.hero.children
+            for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+                local part = c[name]
+                assert(part.x + part.sizeDeltaX * (part.localScaleX or 1) / 2
+                    <= c.hpBorder.x - c.hpBorder.sizeDeltaX / 2, "absorbing damage must not expand badge into HP")
+            end
         end
     end)
     assert(hits == 1 and battle.player.hp == hp and battle.player.block == 0)
+end)
+test("cancelling block playback resets every badge part without hiding the committed value", function()
+    local ui, stage, click, battle = feedbackBattle({"defend"}, {"cultist"})
+    click("card1") click("card1")
+    local c = stage.children.hero.children
+    for _ = 1, 50 do
+        ui:update(0.02)
+        if (c.blockIcon.localScaleY or 1) > 1 then break end
+    end
+    assert(c.blockIcon.localScaleY > 1, "cancel while vertical feedback is active")
+    ui.feedback:cancel()
+    assert(not ui.busy and c.block.text == string.format("%.0f", battle.player.block))
+    for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+        assert(c[name].visible and c[name].localScaleX == 1 and c[name].localScaleY == 1)
+    end
 end)
 test("multiple enemies and multi-hit intents show each actor and actual HP in order, even after a long frame", function()
     local ui, stage, click, battle = feedbackBattle({"defend"}, {"jaw_worm", "cultist"})

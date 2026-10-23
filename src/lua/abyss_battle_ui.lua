@@ -61,6 +61,10 @@ local function intentText(state, index, detailed)
             result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
             compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
             Combat.addStatus(effect.op == "gainStatus" and enemy or player, effect.status, effect.value)
+        elseif effect.op == "makeTempCardInDiscard" then
+            local name = assert(state.catalog.cards[effect.card]).name
+            compact.debuff = compact.debuff or name .. " " .. value
+            result[#result + 1] = "将 " .. value .. " 张" .. name .. "置入弃牌堆"
         else result[#result + 1] = "未知" end
     end
     return detailed and table.concat(result, " / ") or compact[intent.kind] or compact.attack or "?", intent.kind
@@ -387,7 +391,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 box:GetChild("label").text = text
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
-                box:GetChild("cost").text = definition.costMode == "all_energy" and "X" or tostring(definition.cost)
+                box:GetChild("cost").text = definition.cost == -2 and ""
+                    or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
                 ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
                 tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
                 tint(box:GetChild("border"), selected and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
