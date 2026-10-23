@@ -891,4 +891,31 @@ test("Guardian shows real mode budget and switches visible intention before its 
     assert(box.children.statuses.text:find("尖刺甲壳 3",1,true))
     assert(box.children.intent.text=="9")
 end)
+test("committed encounter identity preserves target across real animation frames", function()
+    local ui, stage, click, battle = feedbackBattle({"defend","strike"}, {"cultist","cultist"})
+    click("enemy2")
+    local slot
+    for i,c in ipairs(battle.hand) do if c.cardId == "defend" then slot=i end end
+    click("card" .. slot)
+    local selected = ui.selected
+    ui:render()
+    assert(ui.target == 2 and ui.selected == selected, "same encounter selection lost")
+    click("card" .. slot)
+    assert(ui.busy and ui.displayBattle ~= battle)
+    assert(ui.target == 2, "target reset by initial animation snapshot")
+    local frames = 0
+    while ui.busy and frames < 300 do
+        ui:update(0.02); frames=frames+1
+        assert(ui.target == 2, "target reset by animation frame")
+    end
+    assert(not ui.busy and frames > 0)
+end)
+test("same-run battle replacement clears valid-looking old selection and target", function()
+    local ui, stage, click, battle = feedbackBattle({"strike"}, {"cultist","cultist"})
+    click("enemy2"); click("card1")
+    assert(ui.target == 2 and ui.selected)
+    ui.run.combat = Combat.new(Data, {deck={"strike"}, enemies={"cultist","cultist"}})
+    ui:render()
+    assert(ui.target == 1 and ui.selected == nil, "old encounter selection retained")
+end)
 print("LUA_UI_PASS " .. count)

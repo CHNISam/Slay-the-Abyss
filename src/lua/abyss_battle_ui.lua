@@ -196,6 +196,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             self.viewRun, self.target, self.selected = run, 1, nil
             self.potionRun, self.potionBattle, self.potionSlots = nil, nil, nil
         end
+        -- A Run survives between encounters, but its combat and enemy indices do not.
+        -- Use the committed combat identity, never transient playback frame tables.
+        local currentBattle = run and run.combat
+        if self.viewBattle ~= currentBattle then
+            self.viewBattle, self.target, self.selected = currentBattle, 1, nil
+        end
         local fighting = self.displayBattle ~= nil or run and run.phase == "combat"
         local battle = self.displayBattle or fighting and run.combat
         local reward = not self.busy and run and run.phase == "reward"
