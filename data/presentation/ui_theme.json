@@ -392,6 +392,20 @@
         460
       ]
     },
+    "deckView": {
+      "entry": [568, 310, 64, 48],
+      "title": [0, 315, 1000, 44],
+      "close": [568, 312, 64, 48],
+      "viewport": [0, 0, 1120, 560],
+      "columns": 6,
+      "itemSize": [148, 226],
+      "spacing": [36, 0],
+      "padding": [14, 14, 12, 40],
+      "uidHeight": 18,
+      "pressedScale": 0.96,
+      "battlePiles": [350, 334, 350, 52],
+      "nodeTitleWidth": 1000
+    },
     "button": {
       "primary": [
         220,

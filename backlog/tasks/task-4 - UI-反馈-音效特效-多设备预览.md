@@ -1,10 +1,11 @@
 ---
 id: TASK-4
 title: M4 批准稿UI打磨、战斗反馈与多设备验收
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 01:58'
+updated_date: '2026-10-23 03:31'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -33,10 +34,22 @@ ordinal: 4000
 - [ ] #7 数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+卡组查看切片：按 PR19 openDeck 提取主题布局；使用有文档的 grid + 卡牌模板与 RefreshItems；在 GameUI 跨地图/战斗/节点接入口并屏蔽底层命令，取消现有拖牌；用真实控件夹具验证滚动刷新、UID/升级文案、状态和随机数不变及输入恢复；离线生成并编译副本，交主线程复审。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 未来M4打磨集中在本任务；M1必要文字/点击由TASK-3保留，不把基础可玩后移。承接TASK-24原AC2-4，有限范围为首发八类页面，不要求持续无限优化。
 
 TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TASK-3.2/TASK-3。本任务M4继续承接正式岩元素技能粒子、角色动作/命中/死亡精修、正式音效与节奏、多设备预览和性能体验；不重复实现基础队列。详见docs/COMBAT_FEEDBACK.md。
+
+2026-10-23 /root/deck_view 在 feat/task4-deck-view 离线推进批准稿卡组查看（六列滚动网格、只读永久卡组、输入隔离）；不启动原神，设备预览与音效/实机 AC 保持未验收。
+
+卡组查看已实现：原生六列 grid + 只读卡牌模板、永久卡组 UID/升级/X费用/真实文案、单项回调校准索引、重复开关和过期回调隔离、地图/战斗/节点入口。真实控件夹具验证底层出牌/结束回合/药水/奖励/营地命令均被拦截，关闭后恢复。完整 npm run check 一轮通过，补充永久与临时成长区别/奖励防穿透的针对性回归通过。原神未启动。离线副本编译发现 MCP colour 仅接受 RGB，遮罩现拆为主题 RGB + opacity，继续复验。
+
+最终离线验证：npm run check exit 0；JS 214 项（200 pass/14 环境 symlink 权限 skip），全部 Lua 套件通过（GameUI 16 项），Python 16 项（1 symlink 权限 skip）。固定 source-base SHA256 6e82decf...a432 从零构建成功；完整候选上 replace UI/模板读回，控件 ID/模板索引/22节点结算图/信号/实体挂载相等。scene_check_client 0 errors/15 跨模块 UNKNOWN_METHOD warnings，无 signal 未监听警告。最终候选 SHA256 512959f6...f680，证据 docs/testing/task4-deck-offline.md。早期派生 original.gil 调查不作验收证据。未开原神、未导入、未预览、未试玩，不勾 TASK-4 实机 AC；交主线程复审。
 <!-- SECTION:NOTES:END -->
