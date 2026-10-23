@@ -114,6 +114,10 @@ export function battleLayout() {
     { ...hit(width, height), focusable: false },
     panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),
     text('hint', 0, l.cardDrag.lineY + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '', f.body, c.goldBright),
+    // Targeted cards dock below the line and aim with a dotted arc that ends on a reticle.
+    ...Array.from({ length: l.cardDrag.aimDots }, (_, i) =>
+      ({ ...picture(`aim${i + 1}`, 0, 0, l.cardDrag.aimDot[0], l.cardDrag.aimDot[0], im.diamond, c.goldBright), visible: false })),
+    { ...picture('reticle', 0, 0, l.enemyRow.portrait, l.enemyRow.portrait, im.ring, c.goldBright), visible: false },
   ] });
   // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
   const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;
