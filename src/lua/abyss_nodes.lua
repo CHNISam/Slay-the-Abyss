@@ -113,6 +113,9 @@ function M.enter(run, map, nodeId)
     local node = find(map.nodes, nodeId)
     if not node then return false, "invalid_node" end
     if not find(Map.available(map), nodeId) then return false, "node_unavailable" end
+    -- Boss treasure has its own relic pool and choice transaction. Never route it
+    -- through ordinary treasure until that reward flow is implemented.
+    if node.roomKind == "boss_treasure" then return false, "boss_treasure_not_implemented" end
     if not battleKinds[node.type] and node.type ~= "camp" and node.type ~= "shop"
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
     local flow, seed = prepare(run, node)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 02:14'
+updated_date: '2026-10-23 02:45'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -38,6 +38,8 @@ ordinal: 3
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-23 离线补齐：使用客户端 update 的有效 dt 记录同局用时与完成战斗数，结算结果冻结，重新启程清零；以 GameUI 行为回归验证胜败结果及重开。不开游戏，不勾平台验收。
+
+本轮整合17层结构时，对尚无Boss遗物池的boss_treasure入口原子拒绝，避免误走普通宝箱发错奖励；保留16层击败Boss结果页，明确完整17层流程未完成。离线代码通过评审与当前SHA CI后直接合并，不以平台待验阻断所有离线开发。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

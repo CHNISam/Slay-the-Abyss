@@ -75,6 +75,12 @@ test("invalid selection and failed combat setup leave the map and run unchanged"
     rejected(run, map, function() return Nodes.enter(run, map, map.nodes[1].id) end, "unknown_encounter")
 end)
 
+test("unimplemented boss treasure never falls through to an ordinary relic reward", function()
+    local run, map, node = before("treasure")
+    node.roomKind = "boss_treasure"
+    rejected(run, map, function() return Nodes.enter(run, map, node.id) end, "boss_treasure_not_implemented")
+end)
+
 test("camp healing uses current rules, caps hp and consumes the single choice", function()
     local source = Combat.copy(data); source.rules.camp.healPercent = 17
     local run, map = entered("camp", source)
