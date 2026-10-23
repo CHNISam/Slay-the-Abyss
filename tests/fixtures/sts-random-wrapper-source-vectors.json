@@ -1,0 +1,5569 @@
+Warning: truncated output (original token count: 36832)
+Total output lines: 6860
+
+{
+  "provenance": "Independent Python integer interpretation; not official game/library execution",
+  "stsCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "libgdxCommit": "3b1fda1fc2e1f6b3c74851471870062d871ed16f",
+  "traces": [
+    {
+      "seed": "0",
+      "initial": {
+        "words": [
+          "8f780810af31a493",
+          "d1f9a22af8e83383"
+        ],
+        "counter": 0
+      },
+      "rows": [
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 72,
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.7742902040481567,
+          "after": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483616,
+          "after": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "a427991d6d1fcfd8",
+              "a2f2709904a41b20"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483643,
+          "after": {
+            "words": [
+              "a2f2709904a41b20",
+              "88637303b25ab236"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1599603841,
+          "after": {
+            "words": [
+              "88637303b25ab236",
+              "6613268d2f6823a8"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 24,
+          "after": {
+            "words": [
+              "6613268d2f6823a8",
+              "6fa97c132dd66678"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "6fa97c132dd66678",
+              "4f2dfed675af3caf"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "4f2dfed675af3caf",
+              "29125afa6496e7a1"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.21129965782165527,
+          "after": {
+            "words": [
+              "29125afa6496e7a1",
+              "0d0561b3968b7480"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483612,
+          "after": {
+            "words": [
+              "0d0561b3968b7480",
+              "59255a296b0125cf"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "59255a296b0125cf",
+              "8deb1451e6d83050"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "8deb1451e6d83050",
+              "c07be8017dc1c7a6"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c07be8017dc1c7a6",
+              "6563c2f491c710c5"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483638,
+          "after": {
+            "words": [
+              "6563c2f491c710c5",
+              "a5a6aa6de3873d27"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1189229900,
+          "after": {
+            "words": [
+              "a5a6aa6de3873d27",
+              "ba8d84ade9d4cf39"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 60,
+          "after": {
+            "words": [
+              "ba8d84ade9d4cf39",
+              "29daa4db8e4b6167"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "29daa4db8e4b6167",
+              "c5a3bc273ad3a217"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c5a3bc273ad3a217",
+              "81be1f73af42545b"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.8486137986183167,
+          "after": {
+            "words": [
+              "81be1f73af42545b",
+              "5780a1ba9b6d320e"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483646,
+          "after": {
+            "words": [
+              "5780a1ba9b6d320e",
+              "6fe903c226abc992"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "6fe903c226abc992",
+              "e524519ccb17c523"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "e524519ccb17c523",
+              "6bde40fe46bb1c56"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "6bde40fe46bb1c56",
+              "409f8f3a0683cbaf"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483610,
+          "after": {
+            "words": [
+              "409f8f3a0683cbaf",
+              "54629824c2632fa5"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1978067702,
+          "after": {
+            "words": [
+              "54629824c2632fa5",
+              "89fe38206ca905bb"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 55,
+          "after": {
+            "words": [
+              "89fe38206ca905bb",
+              "cffdb2b0d71daa74"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "563592c5af095b6e",
+              "c1a3e57ed142b6ff"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.7144440412521362,
+          "after": {
+            "words": [
+              "c1a3e57ed142b6ff",
+              "f541e957aa86be21"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483635,
+          "after": {
+            "words": [
+              "f541e957aa86be21",
+              "8b8a922af62c8a55"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "8b8a922af62c8a55",
+              "d51e174afb8ae3ca"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "d51e174afb8ae3ca",
+              "4befdc68a2945577"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "4befdc68a2945577",
+              "3b8c3670aef423d0"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483627,
+          "after": {
+            "words": [
+              "3b8c3670aef423d0",
+              "44329fe31fcce606"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 366654619,
+          "after": {
+            "words": [
+              "44329fe31fcce606",
+              "47e9d27ef3af9e6b"
+            ],
+            "counter": 40
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 25,
+          "after": {
+            "words": [
+              "47e9d27ef3af9e6b",
+              "f254f121a9dfe9b7"
+            ],
+            "counter": 41
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "f254f121a9dfe9b7",
+              "8ac4c8e4f814dca1"
+            ],
+            "counter": 42
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "8ac4c8e4f814dca1",
+              "e844e7533413b507"
+            ],
+            "counter": 43
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.9736519455909729,
+          "after": {
+            "words": [
+              "e844e7533413b507",
+              "10fc59bfecfbe921"
+            ],
+            "counter": 44
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483637,
+          "after": {
+            "words": [
+              "10fc59bfecfbe921",
+              "512297dd133ae814"
+            ],
+            "counter": 45
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "512297dd133ae814",
+              "9e28d40735c1484c"
+            ],
+            "counter": 46
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "9e28d40735c1484c",
+              "2183815c239a2d08"
+            ],
+            "counter": 47
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "2183815c239a2d08",
+              "bc31fb2e4aeabbac"
+            ],
+            "counter": 48
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483619,
+          "after": {
+            "words": [
+              "bc31fb2e4aeabbac",
+              "33a3f082c72b0efb"
+            ],
+            "counter": 49
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 703795522,
+          "after": {
+            "words": [
+              "33a3f082c72b0efb",
+              "18b76b77f4045b93"
+            ],
+            "counter": 50
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 89,
+          "after": {
+            "words": [
+              "18b76b77f4045b93",
+              "6a77371451f755c0"
+            ],
+            "counter": 51
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "6a77371451f755c0",
+              "c93a0ff24513d585"
+            ],
+            "counter": 52
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c93a0ff24513d585",
+              "2965b3515c38242f"
+            ],
+            "counter": 53
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.2612743377685547,
+          "after": {
+            "words": [
+              "2965b3515c38242f",
+              "197d2d4fc1cb6634"
+            ],
+            "counter": 54
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483624,
+          "after": {
+            "words": [
+              "197d2d4fc1cb6634",
+              "98b6c2ef0299b437"
+            ],
+            "counter": 55
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "98b6c2ef0299b437",
+              "262b557b109c0426"
+            ],
+            "counter": 56
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "262b557b109c0426",
+              "c91cacdc444a6259"
+            ],
+            "counter": 57
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c91cacdc444a6259",
+              "52bffa468d41d0a0"
+            ],
+            "counter": 58
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483615,
+          "after": {
+            "words": [
+              "52bffa468d41d0a0",
+              "f58120200e83973f"
+            ],
+            "counter": 59
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 279559853,
+          "after": {
+            "words": [
+              "f58120200e83973f",
+              "8478424f1edd213c"
+            ],
+            "counter": 60
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 24,
+          "after": {
+            "words": [
+              "8478424f1edd213c",
+              "61fe5146a13bed45"
+            ],
+            "counter": 61
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "61fe5146a13bed45",
+              "c2092c7ac81d5dbf"
+            ],
+            "counter": 62
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c2092c7ac81d5dbf",
+              "00a781ad2fb5af95"
+            ],
+            "counter": 63
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.0017451047897338867,
+          "after": {
+            "words": [
+              "00a781ad2fb5af95",
+              "ffcadccf80a292af"
+            ],
+            "counter": 64
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483628,
+          "after": {
+            "words": [
+              "ffcadccf80a292af",
+              "29faec92ba9d7c40"
+            ],
+            "counter": 65
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "29faec92ba9d7c40",
+              "b1f02d1b55c7a1d0"
+            ],
+            "counter": 66
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "d157bf486247d60b",
+              "ed0d6f9aed0a7b20"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483625,
+          "after": {
+            "words": [
+              "ed0d6f9aed0a7b20",
+              "986bc9b187c7f873"
+            ],
+            "counter": 69
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 521544148,
+          "after": {
+            "words": [
+              "986bc9b187c7f873",
+              "b810330d156c51b7"
+            ],
+            "counter": 70
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 56,
+          "after": {
+            "words": [
+              "b810330d156c51b7",
+              "f8b8393aba01b5a2"
+            ],
+            "counter": 71
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "f8b8393aba01b5a2",
+              "c622a36c18714dcd"
+            ],
+            "counter": 72
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c622a36c18714dcd",
+              "a3c7a84f672816e9"
+            ],
+            "counter": 73
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.46754002571105957,
+          "after": {
+            "words": [
+              "a3c7a84f672816e9",
+              "d3e90bba25d63785"
+            ],
+            "counter": 74
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483626,
+          "after": {
+            "words": [
+              "d3e90bba25d63785",
+              "579d75f0d21ec631"
+            ],
+            "counter": 75
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "579d75f0d21ec631",
+              "5966923922457e2b"
+            ],
+            "counter": 76
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "5966923922457e2b",
+              "f692bf468c36d31d"
+            ],
+            "counter": 77
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "f692bf468c36d31d",
+              "b3652d06c71f6777"
+            ],
+            "counter": 78
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483627,
+          "after": {
+            "words": [
+              "b3652d06c71f6777",
+              "e6b1a3ef4ef57480"
+            ],
+            "counter": 79
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1284481734,
+          "after": {
+            "words": [
+              "e6b1a3ef4ef57480",
+              "d6b71960cf58566b"
+            ],
+            "counter": 80
+          }
+        }
+      ],
+      "rawDraws": 80
+    },
+    {
+      "seed": "1",
+      "initial": {
+        "words": [
+          "b456bcfc34c2cb2c",
+          "7d6e4ac38b2b1be2"
+        ],
+        "counter": 0
+      },
+      "rows": [
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 55,
+          "after": {
+            "words": [
+              "7d6e4ac38b2b1be2",
+              "b722f2631cb7b14d"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "b722f2631cb7b14d",
+              "ab89235541870f7d"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "ab89235541870f7d",
+              "2d25c9924d25b67b"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.3484184145927429,
+          "after": {
+            "words": [
+              "2d25c9924d25b67b",
+              "2c0c29df0b39a216"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483613,
+          "after": {
+            "words": [
+              "2c0c29df0b39a216",
+              "c80f009cd532dbfd"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "c80f009cd532dbfd",
+              "0b86d4640c4c5ec2"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "0b86d4640c4c5ec2",
+              "8de30ea50ab309e5"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "8de30ea50ab309e5",
+              "b463e00d661948c3"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483620,
+          "after": {
+            "words": [
+              "b463e00d661948c3",
+              "6b05d8b2ad42be66"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 712593968,
+          "after": {
+            "words": [
+              "6b05d8b2ad42be66",
+              "d9d56d691df959c2"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 90,
+          "after": {
+            "words": [
+              "d9d56d691df959c2",
+              "eb860d9b4a1672c2"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "eb860d9b4a1672c2",
+              "86ddaac99f8eb3ae"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "86ddaac99f8eb3ae",
+              "a0febf5b80a36680"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.8903104662895203,
+          "after": {
+            "words": [
+              "a0febf5b80a36680",
+              "42eca3eac14a2789"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483646,
+          "after": {
+            "words": [
+              "42eca3eac14a2789",
+              "4fd24b8dcdb5dbe8"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "4fd24b8dcdb5dbe8",
+              "f85e16a13f919df7"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "f85e16a13f919df7",
+              "716ac3655911f28a"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "716ac3655911f28a",
+              "d9ab497628875423"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483639,
+          "after": {
+            "words": [
+              "d9ab497628875423",
+              "1a6d633f7b8af52b"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 2137190330,
+          "after": {
+            "words": [
+              "1a6d633f7b8af52b",
+              "78d258ba5cbb7255"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 20,
+          "after": {
+            "words": [
+              "78d258ba5cbb7255",
+              "fd02bc09d5055eec"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "fd02bc09d5055eec",
+              "d8feabcbe11095d1"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "d8feabcbe11095d1",
+              "2116e9af62ec6847"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.23900973796844482,
+          "after": {
+            "words": [
+              "2116e9af62ec6847",
+              "1c18d4a13f061286"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483604,
+          "after": {
+            "words": [
+              "1c18d4a13f061286",
+              "eabf306eb792f238"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "eabf306eb792f238",
+              "a63841bfcf8cc510"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "a63841bfcf8cc510",
+              "7bdcd67396858d12"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "7bdcd67396858d12",
+              "02036d5fe5d27721"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483620,
+          "after": {
+            "words": [
+              "02036d5fe5d27721",
+              "4014d8e1b0d62208"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 128262217,
+          "after": {
+            "words": [
+              "4014d8e1b0d62208",
+              "ede50a6d028057ec"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 57,
+          "after": {
+            "words": [
+              "ede50a6d028057ec",
+              "dd29a1c096ecb4cf"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "dd29a1c096ecb4cf",
+              "064d86030d27e946"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "064d86030d27e946",
+              "3b2f4f2904e7a5fc"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.46904993057250977,
+          "after": {
+            "words": [
+              "3b2f4f2904e7a5fc",
+              "3ce45935ebe851e8"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483616,
+          "after": {
+            "words": [
+              "3ce45935ebe851e8",
+              "93493217b664441d"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "93493217b664441d",
+              "3558cc26ad4e1fec"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "3558cc26ad4e1fec",
+              "adca805743838e28"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "adca805743838e28",
+              "8bc4f8525ff929b3"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483600,
+          "after": {
+            "words": [
+              "8bc4f8525ff929b3",
+              "0daffad5598c98cd"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 82778668,
+          "after": {
+            "words": [
+              "0daffad5598c98cd",
+              "af44af6536684714"
+            ],
+            "counter": 40
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 99,
+          "after": {
+            "words": [
+              "af44af6536684714",
+              "c847a05646039912"
+            ],
+            "counter": 41
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "c847a05646039912",
+              "d59835cd262095a3"
+            ],
+            "counter": 42
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "d59835cd262095a3",
+              "36fce5d0dfe31879"
+            ],
+            "counter": 43
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.2381095290184021,
+          "after": {
+            "words": [
+              "36fce5d0dfe31879",
+              "05f7d9df05b9023d"
+            ],
+            "counter": 44
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483620,
+          "after": {
+            "words": [
+              "05f7d9df05b9023d",
+              "db64a2cb11021c34"
+            ],
+            "counter": 45
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "db64a2cb11021c34",
+              "3111d29951bca151"
+            ],
+            "counter": 46
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "3111d29951bca151",
+              "8ffdae260f289eb0"
+            ],
+            "counter": 47
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "8ffdae260f289eb0",
+              "f2449c108f1b4afc"
+            ],
+            "counter": 48
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483643,
+          "after": {
+            "words": [
+              "f2449c108f1b4afc",
+              "6ebee83854207bfb"
+            ],
+            "counter": 49
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1857719964,
+          "after": {
+            "words": [
+              "6ebee83854207bfb",
+              "94bd8497825bc79f"
+            ],
+            "counter": 50
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 89,
+          "after": {
+            "words": [
+              "94bd8497825bc79f",
+              "e62945fd78984d54"
+            ],
+            "counter": 51
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "e62945fd78984d54",
+              "3955830eeba8d378"
+            ],
+            "counter": 52
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "3955830eeba8d378",
+              "21c08691e8bdb4da"
+            ],
+            "counter": 53
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.7563641667366028,
+          "after": {
+            "words": [
+              "21c08691e8bdb4da",
+              "9fe08eeee487680c"
+            ],
+            "counter": 54
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483625,
+          "after": {
+            "words": [
+              "9fe08eeee487680c",
+              "f6d46218f53ca5b1"
+            ],
+            "counter": 55
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "f6d46218f53ca5b1",
+              "1e46db36c40e3ac3"
+            ],
+            "counter": 56
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "1e46db36c40e3ac3",
+              "e4e85a2c0621441d"
+            ],
+            "counter": 57
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "e4e85a2c0621441d",
+              "61ccc4acf7ac2718"
+            ],
+            "counter": 58
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483600,
+          "after": {
+            "words": [
+              "61ccc4acf7ac2718",
+              "9327f74f297b4c68"
+            ],
+            "counter": 59
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1437670984,
+          "after": {
+            "words": [
+              "9327f74f297b4c68",
+              "a490fe0f1275056c"
+            ],
+            "counter": 60
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 20,
+          "after": {
+            "words": [
+              "a490fe0f1275056c",
+              "9023ae968e45447d"
+            ],
+            "counter": 61
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "9023ae968e45447d",
+              "333a3bb3c09d3688"
+            ],
+            "counter": 62
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "333a3bb3c09d3688",
+              "e85eda39f8ccc667"
+            ],
+            "counter": 63
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.9175369739532471,
+          "after": {
+            "words": [
+              "e85eda39f8ccc667",
+              "0284da4651733cdf"
+            ],
+            "counter": 64
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483637,
+          "after": {
+            "words": [
+              "0284da4651733cdf",
+              "f6261c4d65240e8a"
+            ],
+            "counter": 65
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "f6261c4d65240e8a",
+              "d78a6f7ee3bc3e75"
+            ],
+            "counter": 66
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "d78a6f7ee3bc3e75",
+              "071e894b6626ff55"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "071e894b6626ff55",
+              "6fe50c56a0087f67"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483608,
+          "after": {
+            "words": [
+              "6fe50c56a0087f67",
+              "cd48c72f58f7f3c9"
+            ],
+            "counter": 69
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1384125857,
+          "after": {
+            "words": [
+              "cd48c72f58f7f3c9",
+              "89fded2f9d7acebc"
+            ],
+            "counter": 70
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 66,
+          "after": {
+            "words": [
+              "89fded2f9d7acebc",
+              "d3197ca9001d28a9"
+            ],
+            "counter": 71
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "d3197ca9001d28a9",
+              "cd2a23ccad1cade8"
+            ],
+            "counter": 72
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "cd2a23ccad1cade8",
+              "4ab3120e0a17dc24"
+            ],
+            "counter": 73
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.6738698482513428,
+          "after": {
+            "words": [
+              "4ab3120e0a17dc24",
+              "61cfaa38a902dec0"
+            ],
+            "counter": 74
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483603,
+          "after": {
+            "words": [
+              "61cfaa38a902dec0",
+              "2c79951bce0f80c5"
+            ],
+            "counter": 75
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "2c79951bce0f80c5",
+              "51e2808a8cc3fc77"
+            ],
+            "counter": 76
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "51e2808a8cc3fc77",
+              "f07c428a11818856"
+            ],
+            "counter": 77
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "f07c428a11818856",
+              "e4d8a990c9688d04"
+            ],
+            "counter": 78
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483618,
+          "after": {
+            "words": [
+              "e4d8a990c9688d04",
+              "51ac715d84e47c20"
+            ],
+            "counter": 79
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1718414376,
+          "after": {
+            "words": [
+              "51ac715d84e47c20",
+              "7d107ac1aa7b83f1"
+            ],
+            "counter": 80
+          }
+        }
+      ],
+      "rawDraws": 80
+    },
+    {
+      "seed": "-1",
+      "initial": {
+        "words": [
+          "64b5720b4b825f21",
+          "fa605f44aea3667d"
+        ],
+        "counter": 0
+      },
+      "rows": [
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 41,
+          "after": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.19340121746063232,
+          "after": {
+            "words": [
+              "336d48ad86da3b4c",
+              "fe15758e148abc7f"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483642,
+          "after": {
+            "words": [
+              "fe15758e148abc7f",
+              "9bbb62d6a3d5f4db"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "9bbb62d6a3d5f4db",
+              "a2a44eaffe6fe889"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "a2a44eaffe6fe889",
+              "524ebededd3fd087"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "524ebededd3fd087",
+              "a715bd3c48d252ce"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483609,
+          "after": {
+            "words": [
+              "a715bd3c48d252ce",
+              "9a3582b303998204"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1687651262,
+          "after": {
+            "words": [
+              "9a3582b303998204",
+              "a3044a184b21ebe3"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 22,
+          "after": {
+            "words": [
+              "a3044a184b21ebe3",
+              "60b06598ac93ef39"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "60b06598ac93ef39",
+              "cf91e8fdd75dbfa1"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "cf91e8fdd75dbfa1",
+              "637792d21503f7e4"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.20906251668930054,
+          "after": {
+            "words": [
+              "637792d21503f7e4",
+              "d20d8c55ec2bff2e"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483613,
+          "after": {
+            "words": [
+              "d20d8c55ec2bff2e",
+              "d8709a7601dfee30"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "d8709a7601dfee30",
+              "208b7f97aa07b10b"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "208b7f97aa07b10b",
+              "c3fb7ba6abc7363e"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c3fb7ba6abc7363e",
+              "28a5727644b9f95c"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483622,
+          "after": {
+            "words": [
+              "28a5727644b9f95c",
+              "380be216953c8890"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 592653387,
+          "after": {
+            "words": [
+              "380be216953c8890",
+              "2b8cc551ea388135"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 63,
+          "after": {
+            "words": [
+              "2b8cc551ea388135",
+              "18cda0a96a1c3341"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "18cda0a96a1c3341",
+              "9bb43802c5442072"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "9bb43802c5442072",
+              "d7ccb0a8b58e76cc"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.1441512107849121,
+          "after": {
+            "words": [
+              "d7ccb0a8b58e76cc",
+              "4d1a67e4f7ef02b1"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483630,
+          "after": {
+            "words": [
+              "4d1a67e4f7ef02b1",
+              "ce8c51af59316487"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "ce8c51af59316487",
+              "71ed9e499d78da57"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "71ed9e499d78da57",
+              "68cd5bd89820a1ef"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "68cd5bd89820a1ef",
+              "3dee53778c9cd6e2"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483600,
+          "after": {
+            "words": [
+              "3dee53778c9cd6e2",
+              "b96f5ab03d6c9d3e"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1648425589,
+          "after": {
+            "words": [
+              "b96f5ab03d6c9d3e",
+              "3f47049695a8991d"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 66,
+          "after": {
+            "words": [
+              "3f47049695a8991d",
+              "de3698df107a70b0"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "de3698df107a70b0",
+              "aa3b72346e99d3fd"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "aa3b72346e99d3fd",
+              "1b858f26facc8a6b"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.7775798439979553,
+          "after": {
+            "words": [
+              "1b858f26facc8a6b",
+              "ab89e9fb94d85824"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483638,
+          "after": {
+            "words": [
+              "ab89e9fb94d85824",
+              "237144cecd5f4b0c"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "237144cecd5f4b0c",
+              "7532ea30553de3f7"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "7532ea30553de3f7",
+              "3125234da76d8141"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "3125234da76d8141",
+              "5c3d610c7af86681"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483604,
+          "after": {
+            "words": [
+              "5c3d610c7af86681",
+              "cbcbbf6d388b2728"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 2032051792,
+          "after": {
+            "words": [
+              "cbcbbf6d388b2728",
+              "11cbcf60fe8307db"
+            ],
+            "counter": 40
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 26,
+          "after": {
+            "words": [
+              "11cbcf60fe8307db",
+              "6c9c0b31dd84ae89"
+            ],
+            "counter": 41
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "6c9c0b31dd84ae89",
+              "cd28d513aef4eca4"
+            ],
+            "counter": 42
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "cd28d513aef4eca4",
+              "395a667f19764a44"
+            ],
+            "counter": 43
+  …6832 tokens truncated…   ],
+            "counter": 56
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "d5c8ae616b7da22c",
+              "f565a3694644dd18"
+            ],
+            "counter": 57
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "f565a3694644dd18",
+              "1018c15aea099bdb"
+            ],
+            "counter": 58
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483627,
+          "after": {
+            "words": [
+              "1018c15aea099bdb",
+              "51de60ba66fef55b"
+            ],
+            "counter": 59
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1814313190,
+          "after": {
+            "words": [
+              "51de60ba66fef55b",
+              "ecb3fb8ff424c3dd"
+            ],
+            "counter": 60
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 20,
+          "after": {
+            "words": [
+              "ecb3fb8ff424c3dd",
+              "e05ee2029c44b0c4"
+            ],
+            "counter": 61
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "e05ee2029c44b0c4",
+              "cb171e7065affeec"
+            ],
+            "counter": 62
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "cb171e7065affeec",
+              "2a07ae903e01ad13"
+            ],
+            "counter": 63
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.012356579303741455,
+          "after": {
+            "words": [
+              "2a07ae903e01ad13",
+              "d9221e8748827e27"
+            ],
+            "counter": 64
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483609,
+          "after": {
+            "words": [
+              "d9221e8748827e27",
+              "bb3a81fbe0a72926"
+            ],
+            "counter": 65
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "bb3a81fbe0a72926",
+              "21bc932e5ad90478"
+            ],
+            "counter": 66
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "21bc932e5ad90478",
+              "6776622c2f6d5f1b"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "6776622c2f6d5f1b",
+              "d1e7c6d16bfae304"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483627,
+          "after": {
+            "words": [
+              "d1e7c6d16bfae304",
+              "a0862ad65aa7d933"
+            ],
+            "counter": 69
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 791831318,
+          "after": {
+            "words": [
+              "a0862ad65aa7d933",
+              "19d44df78f07fb5c"
+            ],
+            "counter": 70
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 13,
+          "after": {
+            "words": [
+              "19d44df78f07fb5c",
+              "d27f511e85ae3e1f"
+            ],
+            "counter": 71
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "d27f511e85ae3e1f",
+              "306cee29dc789261"
+            ],
+            "counter": 72
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "306cee29dc789261",
+              "6d5146ba8e6de31e"
+            ],
+            "counter": 73
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.715405285358429,
+          "after": {
+            "words": [
+              "6d5146ba8e6de31e",
+              "49d386805ff4a9a0"
+            ],
+            "counter": 74
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483640,
+          "after": {
+            "words": [
+              "49d386805ff4a9a0",
+              "79c5eed2125d6a1f"
+            ],
+            "counter": 75
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "79c5eed2125d6a1f",
+              "703996e6d2b830c1"
+            ],
+            "counter": 76
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "703996e6d2b830c1",
+              "60f55efba1336d84"
+            ],
+            "counter": 77
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "60f55efba1336d84",
+              "63a595b54b23bab1"
+            ],
+            "counter": 78
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483607,
+          "after": {
+            "words": [
+              "63a595b54b23bab1",
+              "7e805c7222d30bfe"
+            ],
+            "counter": 79
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 554940674,
+          "after": {
+            "words": [
+              "7e805c7222d30bfe",
+              "c78004859353a416"
+            ],
+            "counter": 80
+          }
+        }
+      ],
+      "rawDraws": 80
+    },
+    {
+      "seed": "9223372036854775807",
+      "initial": {
+        "words": [
+          "abb93df0a930edea",
+          "e72306068b6e596a"
+        ],
+        "counter": 0
+      },
+      "rows": [
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 58,
+          "after": {
+            "words": [
+              "e72306068b6e596a",
+              "b4ce8a4fcd5c1b3a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "b4ce8a4fcd5c1b3a",
+              "50a8497b9805ce94"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "50a8497b9805ce94",
+              "c38024b9f06aa366"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.9468420743942261,
+          "after": {
+            "words": [
+              "c38024b9f06aa366",
+              "2ee419a7e7a82a8c"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483604,
+          "after": {
+            "words": [
+              "2ee419a7e7a82a8c",
+              "b19c47f81530c1a6"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "b19c47f81530c1a6",
+              "4c8bf4ed355045fb"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "4c8bf4ed355045fb",
+              "011d0dadbe51dc08"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "011d0dadbe51dc08",
+              "3b0c4c6a9fa516f4"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483619,
+          "after": {
+            "words": [
+              "3b0c4c6a9fa516f4",
+              "ecce02c6f4460d73"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1074286899,
+          "after": {
+            "words": [
+              "ecce02c6f4460d73",
+              "e28d9b3ded1358e8"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 65,
+          "after": {
+            "words": [
+              "e28d9b3ded1358e8",
+              "6d39fd1f1353bc03"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "6d39fd1f1353bc03",
+              "1142d1a84d776fa6"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "1142d1a84d776fa6",
+              "f3f2f435257030df"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.1661672592163086,
+          "after": {
+            "words": [
+              "f3f2f435257030df",
+              "3696fca472b59d0b"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483612,
+          "after": {
+            "words": [
+              "3696fca472b59d0b",
+              "dff6c434bbec21b0"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "dff6c434bbec21b0",
+              "bb59503e625dca0f"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "bb59503e625dca0f",
+              "7ef200e14ef7d5d1"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "7ef200e14ef7d5d1",
+              "da9a2c11a8c79563"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483619,
+          "after": {
+            "words": [
+              "da9a2c11a8c79563",
+              "d4cf500615be97e3"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1922063002,
+          "after": {
+            "words": [
+              "d4cf500615be97e3",
+              "068176cf18c08fa6"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 45,
+          "after": {
+            "words": [
+              "068176cf18c08fa6",
+              "d14492619b05599c"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "d14492619b05599c",
+              "b049b45b8aa52bbc"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "b049b45b8aa52bbc",
+              "51c0d47e45abce40"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.11739063262939453,
+          "after": {
+            "words": [
+              "51c0d47e45abce40",
+              "cc4c7c62125cd03f"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483615,
+          "after": {
+            "words": [
+              "cc4c7c62125cd03f",
+              "a2ae4ab96424b42e"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "a2ae4ab96424b42e",
+              "5feb66396b6fcca6"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "5feb66396b6fcca6",
+              "a1f741c3cee34f40"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "a1f741c3cee34f40",
+              "e2a9b19be3b36f22"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483638,
+          "after": {
+            "words": [
+              "e2a9b19be3b36f22",
+              "a2b9a1cf3f0e71eb"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1006920540,
+          "after": {
+            "words": [
+              "a2b9a1cf3f0e71eb",
+              "8de1de67d7c3545f"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 90,
+          "after": {
+            "words": [
+              "8de1de67d7c3545f",
+              "c8c7da2076415906"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "c8c7da2076415906",
+              "76cdbadaa0127965"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "76cdbadaa0127965",
+              "ae312c359b7bec6b"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.3901022672653198,
+          "after": {
+            "words": [
+              "ae312c359b7bec6b",
+              "b5ac9236dc519121"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483614,
+          "after": {
+            "words": [
+              "b5ac9236dc519121",
+              "015059a6516f2780"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "015059a6516f2780",
+              "af92b43914d7f95d"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "af92b43914d7f95d",
+              "7dea331b160f182f"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "7dea331b160f182f",
+              "cef2b54db936fa9c"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483611,
+          "after": {
+            "words": [
+              "cef2b54db936fa9c",
+              "3e93f9d99e5f311a"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1372150166,
+          "after": {
+            "words": [
+              "3e93f9d99e5f311a",
+              "56bde3f1da8fc67a"
+            ],
+            "counter": 40
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 85,
+          "after": {
+            "words": [
+              "56bde3f1da8fc67a",
+              "84e15c8b0d8882b9"
+            ],
+            "counter": 41
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "84e15c8b0d8882b9",
+              "2ab1af90805915c7"
+            ],
+            "counter": 42
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "2ab1af90805915c7",
+              "ebd657e3b15f5bda"
+            ],
+            "counter": 43
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.9570005536079407,
+          "after": {
+            "words": [
+              "ebd657e3b15f5bda",
+              "0927a5bbe69e871d"
+            ],
+            "counter": 44
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483648,
+          "after": {
+            "words": [
+              "0927a5bbe69e871d",
+              "132950f08f0f9c11"
+            ],
+            "counter": 45
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "132950f08f0f9c11",
+              "c7fdd06658391320"
+            ],
+            "counter": 46
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c7fdd06658391320",
+              "ac9332de4b5dd560"
+            ],
+            "counter": 47
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "ac9332de4b5dd560",
+              "5842847241df95ce"
+            ],
+            "counter": 48
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483647,
+          "after": {
+            "words": [
+              "5842847241df95ce",
+              "9bf4798be4392190"
+            ],
+            "counter": 49
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1303998429,
+          "after": {
+            "words": [
+              "9bf4798be4392190",
+              "fa9622a48a2485c8"
+            ],
+            "counter": 50
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 23,
+          "after": {
+            "words": [
+              "fa9622a48a2485c8",
+              "a490688231189b66"
+            ],
+            "counter": 51
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "a490688231189b66",
+              "0c430c24e3550930"
+            ],
+            "counter": 52
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "0c430c24e3550930",
+              "e9cb9a2c03e95a62"
+            ],
+            "counter": 53
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.881909191608429,
+          "after": {
+            "words": [
+              "e9cb9a2c03e95a62",
+              "f7f933af590ae5f8"
+            ],
+            "counter": 54
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483618,
+          "after": {
+            "words": [
+              "f7f933af590ae5f8",
+              "083322f6a2efcd38"
+            ],
+            "counter": 55
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "083322f6a2efcd38",
+              "28668403d04347ed"
+            ],
+            "counter": 56
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "28668403d04347ed",
+              "5b04e8a8dd859556"
+            ],
+            "counter": 57
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "5b04e8a8dd859556",
+              "728a59d968acebed"
+            ],
+            "counter": 58
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483608,
+          "after": {
+            "words": [
+              "728a59d968acebed",
+              "7de07412a98e33a3"
+            ],
+            "counter": 59
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1522175131,
+          "after": {
+            "words": [
+              "7de07412a98e33a3",
+              "e3de34be486993f2"
+            ],
+            "counter": 60
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 19,
+          "after": {
+            "words": [
+              "e3de34be486993f2",
+              "976abdd79e6f33c4"
+            ],
+            "counter": 61
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "976abdd79e6f33c4",
+              "2b90e3f8f5920d65"
+            ],
+            "counter": 62
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "2b90e3f8f5920d65",
+              "573557eea8e2feab"
+            ],
+            "counter": 63
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.8440617322921753,
+          "after": {
+            "words": [
+              "573557eea8e2feab",
+              "80df16f037da2bed"
+            ],
+            "counter": 64
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483602,
+          "after": {
+            "words": [
+              "80df16f037da2bed",
+              "20be60716e3597fa"
+            ],
+            "counter": 65
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "20be60716e3597fa",
+              "d87ae7fefd0540e1"
+            ],
+            "counter": 66
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "d87ae7fefd0540e1",
+              "c0739176cdd4613e"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c0739176cdd4613e",
+              "e777e79a6e1a3aae"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483639,
+          "after": {
+            "words": [
+              "e777e79a6e1a3aae",
+              "9c62a16f5c949461"
+            ],
+            "counter": 69
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 84016986,
+          "after": {
+            "words": [
+              "9c62a16f5c949461",
+              "b6225eef08656995"
+            ],
+            "counter": 70
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 40,
+          "after": {
+            "words": [
+              "b6225eef08656995",
+              "9deea0019974f03c"
+            ],
+            "counter": 71
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "9deea0019974f03c",
+              "5c48acae161478bd"
+            ],
+            "counter": 72
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "5c48acae161478bd",
+              "c16af8518e7760be"
+            ],
+            "counter": 73
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.5452319979667664,
+          "after": {
+            "words": [
+              "c16af8518e7760be",
+              "ca295b524f14282a"
+            ],
+            "counter": 74
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483601,
+          "after": {
+            "words": [
+              "ca295b524f14282a",
+              "2384ec57f5c574bc"
+            ],
+            "counter": 75
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "2384ec57f5c574bc",
+              "408a0c9e26496461"
+            ],
+            "counter": 76
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "408a0c9e26496461",
+              "48f4065ca879e2b6"
+            ],
+            "counter": 77
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "48f4065ca879e2b6",
+              "476d29ae17a71a99"
+            ],
+            "counter": 78
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483639,
+          "after": {
+            "words": [
+              "476d29ae17a71a99",
+              "21cd204222c26a16"
+            ],
+            "counter": 79
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 548949619,
+          "after": {
+            "words": [
+              "21cd204222c26a16",
+              "b1ab925a77bccd94"
+            ],
+            "counter": 80
+          }
+        }
+      ],
+      "rawDraws": 80
+    },
+    {
+      "seed": "-9223372036854775808",
+      "initial": {
+        "words": [
+          "8f780810af31a493",
+          "d1f9a22af8e83383"
+        ],
+        "counter": 0
+      },
+      "rows": [
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 72,
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.7742902040481567,
+          "after": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483616,
+          "after": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "a427991d6d1fcfd8",
+              "a2f2709904a41b20"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483643,
+          "after": {
+            "words": [
+              "a2f2709904a41b20",
+              "88637303b25ab236"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1599603841,
+          "after": {
+            "words": [
+              "88637303b25ab236",
+              "6613268d2f6823a8"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 24,
+          "after": {
+            "words": [
+              "6613268d2f6823a8",
+              "6fa97c132dd66678"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "6fa97c132dd66678",
+              "4f2dfed675af3caf"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "4f2dfed675af3caf",
+              "29125afa6496e7a1"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.21129965782165527,
+          "after": {
+            "words": [
+              "29125afa6496e7a1",
+              "0d0561b3968b7480"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483612,
+          "after": {
+            "words": [
+              "0d0561b3968b7480",
+              "59255a296b0125cf"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "59255a296b0125cf",
+              "8deb1451e6d83050"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "8deb1451e6d83050",
+              "c07be8017dc1c7a6"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c07be8017dc1c7a6",
+              "6563c2f491c710c5"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483638,
+          "after": {
+            "words": [
+              "6563c2f491c710c5",
+              "a5a6aa6de3873d27"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1189229900,
+          "after": {
+            "words": [
+              "a5a6aa6de3873d27",
+              "ba8d84ade9d4cf39"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 60,
+          "after": {
+            "words": [
+              "ba8d84ade9d4cf39",
+              "29daa4db8e4b6167"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "29daa4db8e4b6167",
+              "c5a3bc273ad3a217"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c5a3bc273ad3a217",
+              "81be1f73af42545b"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.8486137986183167,
+          "after": {
+            "words": [
+              "81be1f73af42545b",
+              "5780a1ba9b6d320e"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483646,
+          "after": {
+            "words": [
+              "5780a1ba9b6d320e",
+              "6fe903c226abc992"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "6fe903c226abc992",
+              "e524519ccb17c523"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "e524519ccb17c523",
+              "6bde40fe46bb1c56"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "6bde40fe46bb1c56",
+              "409f8f3a0683cbaf"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483610,
+          "after": {
+            "words": [
+              "409f8f3a0683cbaf",
+              "54629824c2632fa5"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1978067702,
+          "after": {
+            "words": [
+              "54629824c2632fa5",
+              "89fe38206ca905bb"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 55,
+          "after": {
+            "words": [
+              "89fe38206ca905bb",
+              "cffdb2b0d71daa74"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "563592c5af095b6e",
+              "c1a3e57ed142b6ff"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.7144440412521362,
+          "after": {
+            "words": [
+              "c1a3e57ed142b6ff",
+              "f541e957aa86be21"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483635,
+          "after": {
+            "words": [
+              "f541e957aa86be21",
+              "8b8a922af62c8a55"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "8b8a922af62c8a55",
+              "d51e174afb8ae3ca"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "d51e174afb8ae3ca",
+              "4befdc68a2945577"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "4befdc68a2945577",
+              "3b8c3670aef423d0"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483627,
+          "after": {
+            "words": [
+              "3b8c3670aef423d0",
+              "44329fe31fcce606"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 366654619,
+          "after": {
+            "words": [
+              "44329fe31fcce606",
+              "47e9d27ef3af9e6b"
+            ],
+            "counter": 40
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 25,
+          "after": {
+            "words": [
+              "47e9d27ef3af9e6b",
+              "f254f121a9dfe9b7"
+            ],
+            "counter": 41
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "f254f121a9dfe9b7",
+              "8ac4c8e4f814dca1"
+            ],
+            "counter": 42
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "8ac4c8e4f814dca1",
+              "e844e7533413b507"
+            ],
+            "counter": 43
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.9736519455909729,
+          "after": {
+            "words": [
+              "e844e7533413b507",
+              "10fc59bfecfbe921"
+            ],
+            "counter": 44
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483637,
+          "after": {
+            "words": [
+              "10fc59bfecfbe921",
+              "512297dd133ae814"
+            ],
+            "counter": 45
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "512297dd133ae814",
+              "9e28d40735c1484c"
+            ],
+            "counter": 46
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "9e28d40735c1484c",
+              "2183815c239a2d08"
+            ],
+            "counter": 47
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "2183815c239a2d08",
+              "bc31fb2e4aeabbac"
+            ],
+            "counter": 48
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483619,
+          "after": {
+            "words": [
+              "bc31fb2e4aeabbac",
+              "33a3f082c72b0efb"
+            ],
+            "counter": 49
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 703795522,
+          "after": {
+            "words": [
+              "33a3f082c72b0efb",
+              "18b76b77f4045b93"
+            ],
+            "counter": 50
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 89,
+          "after": {
+            "words": [
+              "18b76b77f4045b93",
+              "6a77371451f755c0"
+            ],
+            "counter": 51
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "6a77371451f755c0",
+              "c93a0ff24513d585"
+            ],
+            "counter": 52
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c93a0ff24513d585",
+              "2965b3515c38242f"
+            ],
+            "counter": 53
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.2612743377685547,
+          "after": {
+            "words": [
+              "2965b3515c38242f",
+              "197d2d4fc1cb6634"
+            ],
+            "counter": 54
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483624,
+          "after": {
+            "words": [
+              "197d2d4fc1cb6634",
+              "98b6c2ef0299b437"
+            ],
+            "counter": 55
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "98b6c2ef0299b437",
+              "262b557b109c0426"
+            ],
+            "counter": 56
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "262b557b109c0426",
+              "c91cacdc444a6259"
+            ],
+            "counter": 57
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "c91cacdc444a6259",
+              "52bffa468d41d0a0"
+            ],
+            "counter": 58
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483615,
+          "after": {
+            "words": [
+              "52bffa468d41d0a0",
+              "f58120200e83973f"
+            ],
+            "counter": 59
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 279559853,
+          "after": {
+            "words": [
+              "f58120200e83973f",
+              "8478424f1edd213c"
+            ],
+            "counter": 60
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 24,
+          "after": {
+            "words": [
+              "8478424f1edd213c",
+              "61fe5146a13bed45"
+            ],
+            "counter": 61
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": false,
+          "after": {
+            "words": [
+              "61fe5146a13bed45",
+              "c2092c7ac81d5dbf"
+            ],
+            "counter": 62
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c2092c7ac81d5dbf",
+              "00a781ad2fb5af95"
+            ],
+            "counter": 63
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.0017451047897338867,
+          "after": {
+            "words": [
+              "00a781ad2fb5af95",
+              "ffcadccf80a292af"
+            ],
+            "counter": 64
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483628,
+          "after": {
+            "words": [
+              "ffcadccf80a292af",
+              "29faec92ba9d7c40"
+            ],
+            "counter": 65
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "29faec92ba9d7c40",
+              "b1f02d1b55c7a1d0"
+            ],
+            "counter": 66
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "d157bf486247d60b",
+              "ed0d6f9aed0a7b20"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483625,
+          "after": {
+            "words": [
+              "ed0d6f9aed0a7b20",
+              "986bc9b187c7f873"
+            ],
+            "counter": 69
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 521544148,
+          "after": {
+            "words": [
+              "986bc9b187c7f873",
+              "b810330d156c51b7"
+            ],
+            "counter": 70
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            99
+          ],
+          "value": 56,
+          "after": {
+            "words": [
+              "b810330d156c51b7",
+              "f8b8393aba01b5a2"
+            ],
+            "counter": 71
+          }
+        },
+        {
+          "kind": "boolean",
+          "args": [],
+          "value": true,
+          "after": {
+            "words": [
+              "f8b8393aba01b5a2",
+              "c622a36c18714dcd"
+            ],
+            "counter": 72
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0.3569999933242798
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "c622a36c18714dcd",
+              "a3c7a84f672816e9"
+            ],
+            "counter": 73
+          }
+        },
+        {
+          "kind": "float",
+          "args": [],
+          "value": 0.46754002571105957,
+          "after": {
+            "words": [
+              "a3c7a84f672816e9",
+              "d3e90bba25d63785"
+            ],
+            "counter": 74
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            -2147483648,
+            -2147483600
+          ],
+          "value": -2147483626,
+          "after": {
+            "words": [
+              "d3e90bba25d63785",
+              "579d75f0d21ec631"
+            ],
+            "counter": 75
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            0
+          ],
+          "value": 0,
+          "after": {
+            "words": [
+              "579d75f0d21ec631",
+              "5966923922457e2b"
+            ],
+            "counter": 76
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            0
+          ],
+          "value": false,
+          "after": {
+            "words": [
+              "5966923922457e2b",
+              "f692bf468c36d31d"
+            ],
+            "counter": 77
+          }
+        },
+        {
+          "kind": "chance",
+          "args": [
+            1
+          ],
+          "value": true,
+          "after": {
+            "words": [
+              "f692bf468c36d31d",
+              "b3652d06c71f6777"
+            ],
+            "counter": 78
+          }
+        },
+        {
+          "kind": "between",
+          "args": [
+            2147483600,
+            2147483647
+          ],
+          "value": 2147483627,
+          "after": {
+            "words": [
+              "b3652d06c71f6777",
+              "e6b1a3ef4ef57480"
+            ],
+            "counter": 79
+          }
+        },
+        {
+          "kind": "int",
+          "args": [
+            2147483646
+          ],
+          "value": 1284481734,
+          "after": {
+            "words": [
+              "e6b1a3ef4ef57480",
+              "d6b71960cf58566b"
+            ],
+            "counter": 80
+          }
+        }
+      ],
+      "rawDraws": 80
+    }
+  ],
+  "forced": {
+    "initial": {
+      "words": [
+        "07e07ff03fffe000",
+        "0000000000000000"
+      ],
+      "counter": 0
+    },
+    "values": [
+      2,
+      2,
+      1,
+      2,
+      1,
+      0,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      2,
+      1
+    ],
+    "after": {
+      "words": [
+        "5c06538df920b013",
+        "9878fffa5809f2a1"
+      ],
+      "counter": 16
+    },
+    "rawDraws": 17
+  },
+  "rawCases": [
+    {
+      "initial": {
+        "words": [
+          "0000000000000000",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "0000000000000000",
+      "boolean": false,
+      "float": 0.0,
+      "afterWords": [
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "0000400000800001",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "0000000000000001",
+      "boolean": true,
+      "float": 0.0,
+      "afterWords": [
+        "0000000000000000",
+        "0000000000000001"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "8410400820001000",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "8000000000000000",
+      "boolean": false,
+      "float": 0.5,
+      "afterWords": [
+        "0000000000000000",
+        "8000000000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "07e07ff03fffe000",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "ffffffffffffffff",
+      "boolean": true,
+      "float": 0.9999999403953552,
+      "afterWords": [
+        "0000000000000000",
+        "ffffffffffffffff"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "9492480924001200",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "9000000000000000",
+      "boolean": false,
+      "float": 0.5625,
+      "afterWords": [
+        "0000000000000000",
+        "9000000000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "c5029b3ccdd91dec",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "5b645a0000000000",
+      "boolean": false,
+      "float": 0.3569999933242798,
+      "afterWords": [
+        "0000000000000000",
+        "5b645a0000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "193ec0e6801fb3cf",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "6a7efa0000000000",
+      "boolean": false,
+      "float": 0.41600000858306885,
+      "afterWords": [
+        "0000000000000000",
+        "6a7efa0000000000"
+      ]
+    }
+  ],
+  "generatorPython": "# Independent Python integer interpretation of fixed source text, not upstream execution.\nimport json, hashlib\nMASK=(1<<64)-1\nclass Model:\n def __init__(self,seed=None,state=None):\n  def mix(x):\n   x=((x^(x>>33))*0xff51afd7ed558ccd)&MASK\n   x=((x^(x>>33))*0xc4ceb9fe1a85ec53)&MASK\n   return x^(x>>33)\n  self.a,self.b=state if state else (mix((int(seed) or -(1<<63))&MASK),0)\n  if state is None:self.b=mix(self.a)\n  self.counter=0;self.raws=0\n def raw(self):\n  t=self.a; old=self.b; t^=(t<<23)&MASK\n  self.a=old;self.b=(t^old^(t>>17)^(old>>26))&MASK;self.raws+=1\n  return (self.b+old)&MASK\n def draw(self,kind,args):\n  self.counter=(self.counter+1+(1<<31))%(1<<32)-(1<<31)\n  if kind in ['int','between']:\n   start=0 if kind=='int' else args[0]; bound=args[0]+1 if kind=='int' else args[1]-start+1\n   while True:\n    bits=self.raw()>>1; value=bits%bound\n    if bits-value+bound-1 < 1<<63:return start+value\n  raw=self.raw()\n  if kind=='boolean':return bool(raw&1)\n  f=(raw>>40)/(1<<24)\n  return f<args[0] if kind=='chance' else f\n def snap(self):return {'words':[f'{self.a:016x}',f'{self.b:016x}'],'counter':self.counter}\nops=[('int',[99]),('boolean',[]),('chance',[0.35699999332427978515625]),('float',[]),('between',[-2147483648,-2147483600]),('int',[0]),('chance',[0]),('chance',[1]),('between',[2147483600,2147483647]),('int',[2147483646])]\ntraces=[]\nfor seed in ['0','1','-1','2780424839485660359','9223372036854775807','-9223372036854775808']:\n m=Model(seed);initial=m.snap(); rows=[]\n for _ in range(8):\n  for kind,args in ops: rows.append({'kind':kind,'args':args,'value':m.draw(kind,args),'after':m.snap()})\n traces.append({'seed':seed,'initial':initial,'rows':rows,'rawDraws':m.raws})\nm=Model(state=(int('07e07ff03fffe000',16),0));initial=m.snap();values=[m.draw('int',[2]) for _ in range(16)]\nforced={'initial':initial,'values':values,'after':m.snap(),'rawDraws':m.raws}\n# Invert x ^ (x >>> 17), then x ^ (x << 23), with seed1=0.\ndef undo_right(y,k):\n x=y\n for _ in range(64//k+1):x=y^(x>>k)\n return x&MASK\ndef undo_left(y,k):\n x=y\n for _ in range(64//k+1):x=y^((x<<k)&MASK)\n return x&MASK\nraw_cases=[]\nfor raw in [0,1,0x8000000000000000,0xffffffffffffffff,0x9000000000000000,0x5b645a0000000000,0x6a7efa0000000000]:\n a=undo_left(undo_right(raw,17),23); m=Model(state=(a,0));initial=m.snap();assert m.raw()==raw\n raw_cases.append({'initial':initial,'raw':f'{raw:016x}','boolean':bool(raw&1),'float':(raw>>40)/(1<<24),'afterWords':m.snap()['words']})\nsource=open(__file__).read()\nprint(json.dumps({'provenance':'Independent Python integer interpretation; not official game/library execution','stsCommit':'319009d5df0a82d9fb0f23cc22322286c6a87ec0','libgdxCommit':'3b1fda1fc2e1f6b3c74851471870062d871ed16f','traces':traces,'forced':forced,'rawCases':raw_cases,'generatorPython':source,'generatorSha256':hashlib.sha256(source.encode()).hexdigest()},indent=2))\n",
+  "generatorSha256": "e15ae35cbdbad4c1f73fb795824095b0f09d298d204349eab43f95773ab09700"
+}
