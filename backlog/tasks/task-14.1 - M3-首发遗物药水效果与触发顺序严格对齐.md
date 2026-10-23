@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 03:44'
+updated_date: '2026-10-23 04:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -60,4 +60,6 @@ Codex inventory_parity领取离线可推进部分，基线c2c2cd2；不打开原
 新切片基线e47bfcf，feat/task14-potion-parity，确认Fire当前及来源均20、Block才12，其他2/2/2/6/5相同，无数值修复。固定镜像AbstractPlayer.obtainPotion为最左PotionSlot原位set；第二固定镜像aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0/TopPanel.destroyPotion明确set(slot,new PotionSlot(slot))，版本字段也声明2.3.4但均未验证正版hash。主线程授权修正真实槽位压缩差异；节点已无自然药水获取链，不制造来源，只补库存obtain命令。
 
 固定槽位切片最终：来源镜像逐件确认7瓶基础量20/12/2/2/2/6/5，无JSON数值改动。消费改为原槽留空、Run.obtainPotion最左空槽填入/满槽与未知id原子拒绝，potionView保持槽号，potionCount显式计数；battle/node UI同步稀疏槽位及补货。potion_slots6组修前5红（3个真实槽位差异、2个缺库存命令），修后6绿；新增同场中槽补货与仅槽3目标瓶、节点计数回归。npm run check退出0：JS260通过/14符号链接权限skip，Lua31脚本780组通过，Python15通过/1权限skip。隔离树potion-check.log、potion-slots-red.log保留日志。docs/reviews/TASK-14.1-potion-slots.md记录固定源码/交叉版本及真实输入；自然获取链尚无，未发明奖励/概率/claim事务；Strength/Dex共享层数上限与原作onUsePotion队列、全池/平台AC仍未完成。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->
