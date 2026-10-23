@@ -69,3 +69,11 @@ Bolt原生意图曾实际显示“?”，新增makeTempCardInDiscard只读渲染
 真实Artifact入口5组原有3红，桥接后全绿并扩到9组：Thunderclap同时耗三敌Artifact、后续Bash生效、Bash晚错误原地恢复所有引用/状态/事件、毒瓶被挡仍耗且第二瓶施加6、view连续预检不改live敌人/瓶/事件/seed、已有Poison4被挡不叠加且其tick不再耗层、其它六瓶及正buff封顶不耗、非法瓶效果和死/非法目标不耗层或瓶。NoDraw6组原5红后全绿，含实际Trance、重复flag特殊gate、死亡、只读canPlay与晚错误回滚。Actor基础零Flex新红例修后为18组绿。
 
 完成桥接后顺序复跑15套必要Lua：Artifact基础18/真实入口9/NoDraw6、Sentry9/原生UI、Dazed21、Flex16、signed caps12、atomic play14、inventory11、potion slots6、queued status20/roll15、round debuffs17、card feedback10，全部通过；日志为本地`build/sentry-bridge-*.log`。不把这些有限分类、非事务endTurn、临时状态对象或source hooks扩大为完整原作能力队列认证。未跑本片全量check、未平台构建/导入/实机，交主线程统一组合验收。
+
+### 拦截必须早于不存在的stack校验
+
+独立复审进一步确认同一ApplyPower方法中的Artifact gate在遍历旧power/stackPower之前，挡下的整次施加不会发生叠层。本地Poison=intMax+毒瓶6、以及既有temporaryStrength=intMax+真实Flex2是候选ABI边界夹具，不声称原作正常Poison或LoseStrength可达该值。
+
+新增真实入口先见两红：有Artifact的毒瓶被旧预加法拒绝，真实Flex被本不会发生的旧debt+新量验证拒绝。Actor新增只读`artifactBlocksPower`预测，Inventory只对未被挡的应用执行原overflow guard；Flex确定其LoseStrength被挡时不验证不存在的debt相加，正Strength的实际应用仍须有效。无Artifact或旧raw两参helper的原overflow拒绝与事务保护保留。
+
+真实入口扩为13组全绿，Actor扩为19组全绿，Inventory11与Flex16再次通过。Poison view测试只留下一个合法目标再断言拒绝/允许，因为该view原合同是“至少一个合法目标”，不是指定target的结果；混合目标不能被误判为全部不可用。重复view仍不改live层数/瓶槽/事件/seed；毒瓶被挡成功耗瓶耗一层、旧Poison不增；被挡的新LoseStrength不会抹掉旧debt。强制候选overflow拒绝属于本项目安全合同，不冒称Java原作另有该拒绝规则。

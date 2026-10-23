@@ -87,7 +87,8 @@ function M.apply(state, effects, targetIndex)
             state.energy = state.energy + 0.0 + value
         elseif op == "gainStatus" or op == "applyStatus" then
             local actor = op == "gainStatus" and state.player or target
-            if (actor.statuses[effect.status] or 0) + 0.0 + value > maximum then return false, "effect_overflow" end
+            if (actor.statuses[effect.status] or 0) + 0.0 + value > maximum
+                and not Actors.artifactBlocksPower(actor, effect.status, value) then return false, "effect_overflow" end
             -- Artifact blocking is a resolved application, not a rejected use.
             Actors.applyPower(state, actor, effect.status, value, state.player)
         end

@@ -94,4 +94,9 @@ test("raw two-argument zero temporary Strength retains its previous compatibilit
     local s=battle();artifact(s,s.player);local n=#s.events;A.addTemporaryStrength(s.player,0)
     eq(s.player.statuses.artifact,1);eq(s.player.statuses.strength,0);eq(s.player.temporaryStrength,0);eq(#s.events,n)
 end)
+test("raw temporary Strength still rejects overflowing bookkeeping even with Artifact",function()
+    local s=battle();artifact(s,s.player);s.player.temporaryStrength=2147483647;local n=#s.events
+    eq(pcall(A.addTemporaryStrength,s.player,2),false);eq(s.player.temporaryStrength,2147483647)
+    eq(s.player.statuses.artifact,1);eq(s.player.statuses.strength,nil);eq(#s.events,n)
+end)
 assert(failed==0,tostring(failed).." failed of "..count)

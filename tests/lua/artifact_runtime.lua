@@ -81,4 +81,29 @@ test("dead or invalid potion targets refuse without spending any Artifact or bot
         eq(run.combat,s);eq(s.enemies[1],e);eq(e.statuses.artifact,1);eq(run.potions[1],"poison_potion");eq(#s.events,n);eq(s.seed,seed)
     end
 end)
+test("Poison overflow is irrelevant when Artifact blocks before stackPower",function()
+    local run=Run.new(Data,42);run.floor=6;run.potions={"poison_potion"};assert(Run.startCombat(run,"elite_sentries"))
+    local s=run.combat;local e=s.enemies[1];C.addStatus(e,"poison",2147483647);local n,seed=#s.events,s.seed
+    s.enemies[2].hp,s.enemies[3].hp=0,0 -- isolate view's only legal target
+    for _=1,3 do assert(Run.potionView(run)[1].canUse);eq(e.statuses.artifact,1);eq(e.statuses.poison,2147483647);eq(#s.events,n);eq(s.seed,seed) end
+    assert(Run.usePotion(run,1,1));eq(run.potions[1],nil);eq(run.combat.enemies[1].statuses.artifact,0);eq(run.combat.enemies[1].statuses.poison,2147483647)
+end)
+test("the same unsupported Poison overflow without Artifact still refuses atomically",function()
+    local run=Run.new(Data,42);run.floor=6;run.potions={"poison_potion"};assert(Run.startCombat(run,"elite_sentries"))
+    local s=run.combat;local e=s.enemies[1];e.statuses.artifact=0;C.addStatus(e,"poison",2147483647);local n,seed=#s.events,s.seed
+    s.enemies[2].hp,s.enemies[3].hp=0,0 -- view advertises any usable target, not a selected target
+    local view=Run.potionView(run);eq(view[1].canUse,false);eq(view[1].reason,"effect_overflow")
+    local ok,reason=Run.usePotion(run,1,1);eq(ok,false);eq(reason,"effect_overflow");eq(run.potions[1],"poison_potion")
+    eq(run.combat,s);eq(s.enemies[1],e);eq(e.statuses.poison,2147483647);eq(#s.events,n);eq(s.seed,seed)
+end)
+test("real Flex may gain Strength when Artifact prevents an overflowing LoseStrength stack",function()
+    local s=battle({"flex"});s.player.temporaryStrength=2147483647;C.addStatus(s.player,"artifact",1)
+    assert(C.play(s,s.hand[1].uid,1));eq(s.player.statuses.strength,2);eq(s.player.statuses.artifact,0);eq(s.player.temporaryStrength,2147483647)
+end)
+test("real Flex without Artifact preserves the old overflowing-debt refusal transaction",function()
+    local s=battle({"flex"});s.player.temporaryStrength=2147483647
+    local p,hand,events=s.player,s.hand,s.events;local instance=s.hand[1];local n,seed=#events,s.seed
+    eq(pcall(C.play,s,instance.uid,1),false);eq(s.player,p);eq(s.hand,hand);eq(s.events,events);eq(s.hand[1],instance)
+    eq(p.statuses.strength,nil);eq(p.temporaryStrength,2147483647);eq(#events,n);eq(s.seed,seed)
+end)
 assert(failed==0,tostring(failed).." failed of "..count)

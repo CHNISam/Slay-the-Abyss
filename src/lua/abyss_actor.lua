@@ -35,13 +35,20 @@ local function blockDebuff(state, actor, id)
     return true
 end
 
+-- Pure prediction for an already validated application. Artifact's gate occurs
+-- before stackPower, so a blocked application has no prospective stack overflow.
+function M.artifactBlocksPower(actor, id, amount)
+    return actor.hp > 0 and (actor.statuses.artifact or 0) > 0
+        and (debuffs[id] == true or (signed[id] == true and amount <= 0)) or false
+end
+
 function M.applyPower(state, actor, id, amount, source)
     if actor.hp <= 0 then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
     -- regardless of the target's existing signed total. Zero is not an early exit.
-    if (debuffs[id] or (signed[id] and amount <= 0)) and blockDebuff(state, actor, id) then return false end
+    if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
     M.status(state, actor, id, amount, source)
     return true
 end
@@ -86,7 +93,10 @@ function M.addTemporaryStrength(actor, amount, state)
     assert(not state or amount > 0, "zero temporary Strength application unsupported")
     if state and actor.hp <= 0 then return false end
     local total = (actor.temporaryStrength or 0) + 0.0 + amount
-    assert(integer(total), "temporary strength overflow")
+    -- Positive Strength cannot spend Artifact. If LoseStrength will be blocked,
+    -- its old debt is never stacked and must not fail a nonexistent addition.
+    local blockedLoss = state and (actor.statuses.artifact or 0) > 0
+    if not blockedLoss then assert(integer(total), "temporary strength overflow") end
     if state then
         -- Flex queues Strength then a separate LoseStrength DEBUFF. Artifact can
         -- block that latter application while preserving the positive Strength.
