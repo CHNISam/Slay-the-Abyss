@@ -1,5 +1,5 @@
 ---
-id: TASK-33
+id: TASK-35
 title: 修复切换战斗后首次点牌失效
 status: In Progress
 assignee:
