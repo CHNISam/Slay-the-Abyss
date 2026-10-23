@@ -60,7 +60,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif inMenu then
             menu:GetChild("start"):GetChild("label").text = run and "重新启程" or "启程"
             if self.mode == "menu" then
-                menu:GetChild("summary").text = "规划路线，构筑卡组\n穿越十五层深渊，挑战终点首领\n\n先点选卡牌，再点敌人；无需目标的牌再点一次确认"
+                menu:GetChild("summary").text = "规划路线，构筑卡组\n穿越十五层深渊，挑战终点首领\n\n" .. self.battleUI.instructions
             else
                 local title = self.mode == "victory" and "首领已击败" or "旅途暂歇"
                 local hp = run.phase == "defeat" and 0 or run.hp
