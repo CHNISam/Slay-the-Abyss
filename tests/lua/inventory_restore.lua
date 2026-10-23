@@ -1,0 +1,215 @@
+-- Same-run ownership across Map.restore; not exit/resume storage or rule-parity evidence.
+-- A real first battle and public node commands create every pending transaction.
+package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
+local Run, Nodes, Map = require("abyss_run"), require("abyss_nodes"), require("abyss_map")
+local Combat, data = require("abyss_combat"), require("abyss_data")
+local count, rejectedSnapshots = 0, 0
+local function equal(a, b, message)
+    assert(a == b, (message or "different values") .. ": " .. tostring(a) .. " ~= " .. tostring(b))
+end
+local function copy(value, seen)
+    if type(value) ~= "table" then return value end
+    seen = seen or {}; if seen[value] then return seen[value] end
+    local result = {}; seen[value] = result
+    for key, item in pairs(value) do result[key] = copy(item, seen) end
+    return result
+end
+-- Preserve values and alias topology, including hostile cyclic snapshot inputs.
+local function same(a, b, forward, backward)
+    if a == b then return end
+    equal(type(a), type(b))
+    if type(a) ~= "table" then equal(a, b); return end
+    forward, backward = forward or {}, backward or {}
+    if forward[a] then equal(forward[a], b); return end
+    assert(not backward[b], "unexpected alias")
+    forward[a], backward[b] = b, a
+    for key, value in pairs(a) do same(value, b[key], forward, backward) end
+    for key in pairs(b) do assert(a[key] ~= nil, "unexpected key " .. tostring(key)) end
+end
+local function test(name, fn)
+    fn(); count = count + 1; print("ok inventory_restore " .. count .. " - " .. name)
+end
+local function refuse(run, map, command, reason)
+    local before, flow, deck, relics, potions = copy({run, map}), run.nodeFlow, run.deck, run.relics, run.potions
+    local ok, actual = command()
+    equal(ok, false); equal(actual, reason); same({run, map}, before)
+    equal(run.nodeFlow, flow); equal(run.deck, deck); equal(run.relics, relics); equal(run.potions, potions)
+end
+local function enter(run, map, id, kind)
+    local found
+    for _, node in ipairs(Nodes.available(run, map)) do if node.id == id then found = node end end
+    assert(found, "route fixture unavailable: " .. id); equal(found.type, kind)
+    assert(Nodes.enter(run, map, id))
+end
+local function finishBattle(run)
+    for _ = 1, 200 do
+        if run.phase ~= "combat" then break end
+        local target
+        for index, enemy in ipairs(run.combat.enemies) do if enemy.hp > 0 then target = index; break end end
+        local selected
+        for _, card in ipairs(run.combat.hand) do
+            if Combat.canPlay(run.combat, card.uid, target) then
+                selected = card
+                if Combat.cardDefinition(run.combat, card).type == "attack" then break end
+            end
+        end
+        if selected then assert(Run.play(run, selected.uid, target)) else assert(Run.endTurn(run)) end
+    end
+    equal(run.phase, "reward"); equal(run.lastResult.outcome, "victory")
+end
+local function rewardPending()
+    local source = copy(data)
+    -- Funding fixture only: unchanged cards, combat stats, offers, relic and potion effects.
+    source.rules.player.startingGold = 1000
+    local run, map = Run.new(source, 36), Map.generate(source, 36)
+    assert(Run.obtainPotion(run, "fire_potion"))
+    assert(Run.obtainPotion(run, "energy_potion"))
+    assert(Run.obtainPotion(run, "regen_potion"))
+    enter(run, map, "f1_l1", "combat")
+    assert(Run.usePotion(run, 2))
+    finishBattle(run)
+    same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
+    return run, map
+end
+local function atShop()
+    local run, map = rewardPending()
+    assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
+    for _, id in ipairs({"f2_l1", "f3_l1"}) do
+        enter(run, map, id, "event"); assert(Nodes.chooseEvent(run, "leave"))
+    end
+    local previous = Map.snapshot(map)
+    enter(run, map, "f4_l1", "shop")
+    return run, map, previous
+end
+local function offer(list, id)
+    for _, item in ipairs(list) do if item.id == id then return item end end
+    error("missing offer " .. id)
+end
+
+test("restoring during reward keeps the same pending owner and grants exactly one permanent UID", function()
+    local run, map = rewardPending()
+    local flow, deck, relics, potions, battle = run.nodeFlow, run.deck, run.relics, run.potions, run.combat
+    local before, snapshot = copy(run), Map.snapshot(map)
+    local restored = assert(Map.restore(run.data, snapshot))
+    same(run, before); equal(run.combat, battle)
+    equal(#Nodes.available(run, restored), 0)
+    refuse(run, restored, function() return Nodes.completeCombat(run, restored) end, "reward_pending")
+    local cardId = Run.rewardOptions(run)[1]
+    assert(Run.claimCardReward(run, 1))
+    equal(run.deck, deck); equal(run.relics, relics); equal(run.potions, potions); equal(run.nodeFlow, flow)
+    equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.deck[11].cardId, cardId)
+    equal(run.nextDeckUid, 12); equal(#Nodes.available(run, restored), 0)
+    refuse(run, restored, function() return Run.claimCardReward(run, 1) end, "no_pending_reward")
+    assert(Nodes.completeCombat(run, restored))
+    enter(run, restored, "f2_l1", "event")
+    equal(map.floor, 1); equal(snapshot.floor, 1); equal(restored.floor, 2)
+    same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
+end)
+
+test("invalid restored snapshots leave a purchased shop and its valid continuation untouched", function()
+    local run, map = atShop()
+    assert(Nodes.buyCard(run, "anger")); assert(Nodes.buyRelic(run, "anchor"))
+    local valid = Map.snapshot(map)
+    local changes = {
+        {"forged stock", function(s) s.nodeFlow = copy(run.nodeFlow) end},
+        {"duplicate path", function(s) s.path[#s.path + 1] = s.path[#s.path] end},
+        {"sparse path", function(s) s.path[2] = nil end},
+        {"wrong current room", function(s) s.currentNodeId = "f4_l2" end},
+        {"inventory in graph", function(s) s.nodes[1].potions = run.potions end},
+        {"cyclic graph", function(s) s.nodes[1].nextIds = s end},
+        {"cyclic path", function(s) s.path[1] = s.path end},
+        {"aliased unequal nodes", function(s) s.nodes[2] = s.nodes[1] end},
+    }
+    for _, change in ipairs(changes) do
+        local bad = Map.snapshot(map); change[2](bad)
+        local before, identities = copy({run, map, bad}), {bad.nodes, bad.path, run.nodeFlow, run.deck, run.potions}
+        local ok, restored, reason = pcall(Map.restore, run.data, bad)
+        assert(ok and restored == nil and type(reason) == "string", change[1] .. " was not safely rejected")
+        same({run, map, bad}, before)
+        equal(bad.nodes, identities[1]); equal(bad.path, identities[2]); equal(run.nodeFlow, identities[3])
+        equal(run.deck, identities[4]); equal(run.potions, identities[5]); rejectedSnapshots = rejectedSnapshots + 1
+    end
+    local restored = assert(Map.restore(run.data, valid))
+    equal(#Nodes.available(run, restored), 0)
+    refuse(run, restored, function() return Nodes.buyCard(run, "anger") end, "item_unavailable")
+    refuse(run, restored, function() return Nodes.buyRelic(run, "anchor") end, "item_unavailable")
+    assert(Nodes.leaveShop(run)); enter(run, restored, "f5_l1", "shop")
+    for _, item in ipairs(Nodes.view(run, restored).node.relics) do assert(item.id ~= "anchor") end
+    equal(run.deck[12].cardId, "anger"); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
+    same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
+end)
+
+test("valid but stale restored progress cannot reenter a completed purchase or spend inventory", function()
+    local run, map, previous = atShop()
+    local view = Nodes.view(run, map).node
+    local price = offer(view.cards, "anger").price + offer(view.relics, "anchor").price
+    local gold = run.gold
+    assert(Nodes.buyCard(run, "anger")); assert(Nodes.buyRelic(run, "anchor"))
+    equal(run.gold, gold - price); assert(Nodes.leaveShop(run))
+    local current = assert(Map.restore(run.data, Map.snapshot(map)))
+    local stale = assert(Map.restore(run.data, previous))
+    equal(#Nodes.available(run, stale), 0)
+    refuse(run, stale, function() return Nodes.enter(run, stale, "f4_l1") end, "map_mismatch")
+    refuse(run, current, function() return Nodes.buyRelic(run, "anchor") end, "no_pending_node")
+    enter(run, current, "f5_l1", "shop")
+    equal(run.gold, gold - price); equal(run.nextDeckUid, 13)
+    local ok, slot = Run.obtainPotion(run, "block_potion"); equal(ok, true); equal(slot, 2)
+    same(run.potions, {"fire_potion", "block_potion", "regen_potion"})
+end)
+
+test("restored route preserves removed and upgraded permanent UIDs and relics into the next battle", function()
+    local run, map = atShop()
+    assert(Nodes.buyCard(run, "anger")); assert(Nodes.buyRelic(run, "anchor"))
+    assert(Nodes.removeCard(run, 1)); assert(Nodes.leaveShop(run))
+    map = assert(Map.restore(run.data, Map.snapshot(map)))
+    enter(run, map, "f5_l1", "shop"); assert(Nodes.leaveShop(run))
+    enter(run, map, "f6_l1", "event"); assert(Nodes.chooseEvent(run, "leave"))
+    enter(run, map, "f7_l2", "camp")
+    map = assert(Map.restore(run.data, Map.snapshot(map)))
+    assert(Nodes.upgrade(run, 2))
+    enter(run, map, "f8_l2", "shop"); assert(Nodes.leaveShop(run))
+    enter(run, map, "f9_l2", "treasure")
+    local relic = Nodes.view(run, map).node.reward.relicId
+    assert(relic and relic ~= "anchor" and relic ~= "burning_blood")
+    assert(Nodes.claimTreasure(run))
+    map = assert(Map.restore(run.data, Map.snapshot(map)))
+    local deck, owned, hp, gold, nextUid = copy(run.deck), copy(run.relics), run.hp, run.gold, run.nextDeckUid
+    enter(run, map, "f10_l2", "elite")
+    equal(run.hp, hp); equal(run.combat.player.hp, hp); equal(run.gold, gold); equal(run.nextDeckUid, nextUid)
+    same(run.deck, deck); same(run.relics, owned)
+    same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
+    equal(run.combat.player.block, 10)
+    local permanent = {}; for _, card in ipairs(run.deck) do permanent[card.uid] = card end
+    equal(permanent[1], nil); equal(permanent[2].upgraded, true); equal(permanent[12].cardId, "anger")
+    -- Combat allocates its own transient UIDs; persistent ownership is the
+    -- unchanged Run deck plus one independent battle instance per card/upgrade.
+    local expected, actual, battleUids, cards = {}, {}, {}, 0
+    local function key(card) return card.cardId .. ":" .. tostring(card.upgraded) end
+    for _, card in ipairs(run.deck) do expected[key(card)] = (expected[key(card)] or 0) + 1 end
+    for _, pile in ipairs({run.combat.hand, run.combat.draw, run.combat.discard, run.combat.exhaust}) do
+        for _, card in ipairs(pile) do
+            assert(not battleUids[card.uid], "duplicate transient UID"); battleUids[card.uid] = true
+            for _, original in ipairs(run.deck) do assert(card ~= original, "combat instance aliases permanent deck") end
+            actual[key(card)] = (actual[key(card)] or 0) + 1
+            cards = cards + 1
+        end
+    end
+    equal(cards, 11); same(actual, expected)
+end)
+
+test("equal-valued snapshot aliases are normalized instead of becoming shared live edges", function()
+    local map = Map.generate(data, 36)
+    local snapshot = Map.snapshot(map)
+    -- Three camp lanes all lead to the same Boss room; an input alias has equal values.
+    snapshot.nodes[44].nextIds = snapshot.nodes[43].nextIds
+    local before = copy(snapshot)
+    local restored = assert(Map.restore(data, snapshot))
+    same(snapshot, before)
+    assert(restored.nodes[43].nextIds ~= restored.nodes[44].nextIds, "restored edges still alias")
+    assert(restored.nodes[43].nextIds ~= snapshot.nodes[43].nextIds, "restored edge aliases snapshot")
+    restored.nodes[43].nextIds[1] = "changed"
+    equal(restored.nodes[44].nextIds[1], "f16_l2")
+    equal(snapshot.nodes[43].nextIds[1], "f16_l2"); equal(map.nodes[43].nextIds[1], "f16_l2")
+end)
+
+print("LUA_INVENTORY_RESTORE_PASS " .. count .. " rejected_snapshots=" .. rejectedSnapshots)
