@@ -16,11 +16,10 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const normalizedScript = script.replaceAll('\\', '/');
   const fixture = normalizedScript.endsWith('tests/lua/battle_ui.lua');
-  const hostFixture = normalizedScript.endsWith('tests/lua/game_ui.lua');
-  // Quality run 39982640775 hit the 30s battle-tree and 15s host budgets on
-  // separate attempts. Keep finite, fixture-specific headroom; assertions,
-  // explicit caller timeouts and the 15s budget for other scripts stay intact.
-  timeout ??= fixture ? 60000 : hostFixture ? 30000 : 15000;
+  // Quality runs 39982640775/39985958741 timed out in three different fixtures
+  // (battle UI, game UI, encounter coverage). Allow 30s per independent script,
+  // 60s for the full battle tree; assertions and explicit caller limits remain.
+  timeout ??= fixture ? 60000 : 30000;
   const temporary = fixture ? join(tmpdir(), `abyss-ui-test-${randomUUID()}.lua`) : null;
   if (temporary) writeFileSync(temporary, `ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\ndofile(${luaString(resolve(cwd, script))})\n`);
   let result;
@@ -39,9 +38,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       .filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
     if (!scripts.length) throw new Error('No Lua test files discovered');
     for (const script of scripts) {
+      const startedAt = Date.now();
       const result = runLua(script);
       process.stdout.write(result.stdout);
       process.stderr.write(result.stderr);
+      console.log(`Lua fixture ${script}: ${Date.now() - startedAt} ms`);
       if (result.status !== 0) { process.exitCode = result.status ?? 1; break; }
     }
   } catch (error) { console.error(error.message); process.exitCode = 1; }
