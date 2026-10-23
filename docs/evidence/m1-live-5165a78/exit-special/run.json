@@ -1,0 +1,214 @@
+{
+  "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+  "candidateSha256": "8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288",
+  "officialSaveId": "1073741838",
+  "runId": "8f623503-7687-4ec7-9620-a987b72cc0cf",
+  "state": "succeeded",
+  "error": null,
+  "status": "LIMITED_PASS_MENU_CANCEL_AND_CONFIRM",
+  "plannedDurationSeconds": 45,
+  "levelEndedAtPlaySeconds": 17.3,
+  "luaLive": {
+    "moduleCount": 32,
+    "allRequestSourcesMatchCandidateAfterBomCrlfNormalization": true,
+    "missing": [],
+    "note": "This existing-save run refreshed32 external Lua files; request sources were independently checked against the frozen candidate."
+  },
+  "clientScriptLog": true,
+  "logKept": true,
+  "inputs": [
+    {
+      "at": 2,
+      "holdMs": 120,
+      "click": [
+        0.93125,
+        0.06222
+      ]
+    },
+    {
+      "at": 5,
+      "holdMs": 120,
+      "click": [
+        0.385,
+        0.64444
+      ]
+    },
+    {
+      "at": 8,
+      "holdMs": 120,
+      "click": [
+        0.93125,
+        0.06222
+      ]
+    },
+    {
+      "at": 11,
+      "holdMs": 120,
+      "click": [
+        0.614375,
+        0.64444
+      ]
+    }
+  ],
+  "inputsLate": [
+    {
+      "at": 5,
+      "lateSeconds": 0.67
+    }
+  ],
+  "steps": [
+    {
+      "at": 7.2,
+      "step": "same-save-still-open",
+      "officialSaveId": "1073741838"
+    },
+    {
+      "at": 7.3,
+      "step": "lua-live",
+      "written": [
+        "abyss_data.lua",
+        "abyss_map_layout.lua",
+        "abyss_narrative.lua",
+        "abyss_presentation.lua",
+        "abyss_theme.lua",
+        "abyss_acid_slime_s_ai.lua",
+        "abyss_actor.lua",
+        "abyss_battle_ui.lua",
+        "abyss_bgm.lua",
+        "abyss_blue_slaver_ai.lua",
+        "abyss_combat.lua",
+        "abyss_deck_ui.lua",
+        "abyss_effects.lua",
+        "abyss_enemy_ai.lua",
+        "abyss_events.lua",
+        "abyss_feedback.lua",
+        "abyss_game_ui.lua",
+        "abyss_gremlin_nob_ai.lua",
+        "abyss_guardian_ai.lua",
+        "abyss_inventory.lua",
+        "abyss_jaw_worm_ai.lua",
+        "abyss_map.lua",
+        "abyss_map_ui.lua",
+        "abyss_node_ui.lua",
+        "abyss_nodes.lua",
+        "abyss_random.lua",
+        "abyss_red_slaver_ai.lua",
+        "abyss_run.lua",
+        "abyss_sentry_ai.lua",
+        "abyss_ui.lua",
+        "abyss_unknown.lua",
+        "abyss_viewport.lua"
+      ],
+      "missing": []
+    },
+    {
+      "at": 7.3,
+      "step": "log-still-ticked"
+    },
+    {
+      "at": 40.6,
+      "step": "playtest-requested"
+    },
+    {
+      "at": 132.1,
+      "step": "playing"
+    },
+    {
+      "at": 151.2,
+      "step": "level-ended",
+      "playSeconds": 17.3
+    },
+    {
+      "at": 165.8,
+      "step": "left-playtest"
+    },
+    {
+      "at": 170.3,
+      "step": "log-collected",
+      "found": true
+    }
+  ],
+  "screens": [
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/01-t004.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/01-t004.jpg",
+      "sha256": "ff692208a50ad13d28bdc59f2ed438337974256550669d53cc396df0f9a8a4ed",
+      "bytes": 50912,
+      "label": "t004",
+      "actualPlaySeconds": 5.3,
+      "wallTime": 1792772781.3828216,
+      "observation": "Menu exit confirmation visible",
+      "reviewer": "Parent agent personally inspected the saved screenshot",
+      "imageEdited": false
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/02-t007.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/02-t007.jpg",
+      "sha256": "0a0845eaf4f3e31844aff8c86d68c89e78c9cd7c9ba2b609fcf1a932d1a1a923",
+      "bytes": 60034,
+      "label": "t007",
+      "actualPlaySeconds": 7,
+      "wallTime": 1792772783.071665,
+      "observation": "Cancellation returns to menu",
+      "reviewer": "Parent agent personally inspected the saved screenshot",
+      "imageEdited": false
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/03-t010.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/03-t010.jpg",
+      "sha256": "f7f92308b99b65cd08b836991f1d7131fbe08d789163a2bfdb60eb052028da32",
+      "bytes": 50913,
+      "label": "t010",
+      "actualPlaySeconds": 10,
+      "wallTime": 1792772786.0166402,
+      "observation": "Menu exit confirmation opened again",
+      "reviewer": "Parent agent personally inspected the saved screenshot",
+      "imageEdited": false
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/04-t013.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/04-t013.jpg",
+      "sha256": "9b5ecf183b5f8c9fd3e29ea6a65cbd2973eb3ebca66e85ffc1e4222ad56f0062",
+      "bytes": 90959,
+      "label": "t013",
+      "actualPlaySeconds": 13,
+      "wallTime": 1792772789.0418806,
+      "observation": "Official failure/settlement animation after confirmation",
+      "reviewer": "Parent agent personally inspected the saved screenshot",
+      "imageEdited": false
+    }
+  ],
+  "log": {
+    "file": "docs/evidence/m1-live-5165a78/exit-special/session-log.gia",
+    "sha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+    "decoded": "docs/evidence/m1-live-5165a78/exit-special/log-decoded.json",
+    "counts": "docs/evidence/m1-live-5165a78/exit-special/log-counts.json",
+    "recordCount": 6,
+    "printCount": 5,
+    "ignoredRecords": 1,
+    "ready": 1,
+    "clientSettlementRequestedDefeat": 1,
+    "serverSettlementDefeat": 1
+  },
+  "acceptance": {
+    "menuExitConfirmation": "VISUALLY_VERIFIED",
+    "menuCancelReturnsToMenu": "VISUALLY_VERIFIED",
+    "menuSecondConfirmReachesOfficialSettlement": "VISUAL_AND_CLIENT_SERVER_LOG_VERIFIED",
+    "crossPageConfirmation": "NOT_VERIFIED",
+    "mobileTouch": "NOT_VERIFIED",
+    "allExitTaskCriteriaComplete": false,
+    "m1Complete": false
+  },
+  "limitations": [
+    "The at5s input was0.67s late; planned screenshot label t004 was actually captured at5.3s. Preserve actual timing metadata.",
+    "Only the menu confirmation/cancel/confirm path was reviewed in this specialized run; do not extend to confirmation from battle/reward/shop/deck.",
+    "Battle run9bb0abe3 reached its automatic duration stop; its later confirm-exit image is not custom-exit success evidence.",
+    "All real phone/device reachability and the full UI gate remain unverified.",
+    "Graph/client log elapsedSeconds are not proven synchronized to screenshot playSeconds."
+  ],
+  "provenance": {
+    "requestArtifact": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/request.json",
+    "statusArtifact": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/status.json",
+    "decodedArtifact": ".artifacts/m1-live-5165a78/exit-log-audit/decoded.json"
+  }
+}
