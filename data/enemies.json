@@ -491,6 +491,7 @@
       "hpRange": { "min": 22, "max": 28 },
       "ai": {
         "kind": "fungi_beast",
+        "sporeCloudStacks": 2,
         "biteIntent": "fungi_beast_1",
         "growIntent": "fungi_beast_2",
         "rollRange": 100,
