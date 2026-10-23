@@ -44,7 +44,7 @@ test("UI status view copies metadata, amounts and signed debuffs", function()
     eq(#view, 2); eq(view[1].id, "strength"); eq(view[1].amount, -2)
     eq(view[1].name, s.catalog.statuses.strength.name); eq(view[2].kind, "debuff")
     view[1].amount = 99; view[1].name = "changed"; view[2].decay = "none"
-    eq(s.player.statuses.strength, -2); eq(s.catalog.statuses.weak.decay, "turn_end_minus_1")
+    eq(s.player.statuses.strength, -2); eq(s.catalog.statuses.weak.decay, "round_end_minus_1")
     eq(Combat.statusView(s.enemies[1])[1], nil)
 end)
 
@@ -82,7 +82,8 @@ test("large block modifiers retain precision without permitting uncapped final s
     local s = battle(); local p = s.player
     status(p, "dexterity", 2); status(p, "frail", 1)
     eq(Actor.blockAmount(s, p, 100000000), 75000001)
-    status(p, "dexterity", 2147483645)
+    -- Arithmetic-only hostile fixture: public status application now caps at 999.
+    p.statuses.dexterity = 2147483647
     eq(Actor.blockAmount(s, p, 2147483647), 3221225470.0)
     eq(Actor.blockAmount(s, p, 2147483647, true), 2147483647)
     Combat.block(s, p, 2147483647); eq(p.block, 999)
@@ -130,13 +131,13 @@ test("existing defend card and enemy defend intent use the capped actor entry", 
     assert(Combat.endTurn(s)); eq(e.block, 999)
 end)
 
-test("debuff durations decay once at owner end and never below zero", function()
+test("debuff durations decay once at round end and never below zero", function()
     local s = battle(); local p = s.player
     for _, id in ipairs({ "weak", "vulnerable", "frail" }) do status(p, id, 2) end
     Actor.startTurn(s, p); eq(p.statuses.weak, 2)
-    Actor.endTurn(s, p)
+    Actor.endRound(s, p)
     for _, id in ipairs({ "weak", "vulnerable", "frail" }) do eq(p.statuses[id], 1) end
-    Actor.endTurn(s, p); Actor.endTurn(s, p); eq(p.statuses.weak, 0)
+    Actor.endRound(s, p); Actor.endRound(s, p); eq(p.statuses.weak, 0)
 end)
 
 test("timing and stacking are read from independent data definitions", function()
@@ -147,7 +148,7 @@ test("timing and stacking are read from independent data definitions", function(
     end
     local s = Combat.new(changed)
     status(s.player, "weak", 2); status(s.player, "vulnerable", 8)
-    Actor.endTurn(s, s.player); eq(s.player.statuses.weak, 2); eq(s.player.statuses.vulnerable, 0)
+    Actor.endRound(s, s.player); eq(s.player.statuses.weak, 2); eq(s.player.statuses.vulnerable, 0)
     eq(data.statuses.statuses[3].stack, "duration")
 end)
 
@@ -176,7 +177,7 @@ test("poison-killed enemy never attacks or advances and later enemies still act"
     local hp = s.player.hp
     Combat.endTurn(s)
     eq(first.hp, 0); eq(first.intentIndex, 1); eq(s.player.hp, hp - 11)
-    eq(s.enemies[2].intentIndex, 2); eq(s.phase, "player")
+    eq(s.enemies[2].jawLast, "jaw_worm_1"); assert(s.enemies[2].intentIndex ~= 1); eq(s.phase, "player")
 end)
 
 test("last enemy poison yields victory before intent and next player draw", function()
@@ -234,9 +235,12 @@ test("thorns consumes full partial exact or absent block on either attacker", fu
             eq(attacker.hp, 20 - math.max(0, 3 - block))
             eq(attacker.block, math.max(0, block - 3))
             eq(defender.hp, hp - 6); eq(#s.events, events + 2)
-            same(s.events[#s.events], { kind = "status_damage", detail = {
+            local event = s.events[#s.events]
+            same({kind=event.kind, detail=event.detail}, { kind = "status_damage", detail = {
                 source = defender.id, target = attacker.id, status = "thorns",
-                amount = math.max(0, 3 - block) } })
+                amount = math.max(0, 3 - block), blocked = math.min(block, 3) } })
+            local frame = enemyAttacks and event.frame.enemies[1] or event.frame.player
+            eq(frame.hp, attacker.hp); eq(frame.block, attacker.block)
         end
     end
 end)
@@ -270,10 +274,10 @@ test("partial block still allows lethal thorns and stops remaining multihits", f
     eq(s.events[#s.events].detail.amount, 1)
 end)
 
-test("zero damage and fixed nonattack damage do not trigger thorns", function()
+test("zero damage attacks trigger thorns while fixed nonattack damage does not", function()
     local s = battle(); local p, e = s.player, s.enemies[1]; status(e, "thorns", 8)
-    local hp = p.hp; Combat.damage(s, p, e, 0); eq(p.hp, hp)
-    Combat.damage(s, p, e, 5, true); eq(p.hp, hp)
+    local hp = p.hp; Combat.damage(s, p, e, 0); eq(p.hp, hp - 8)
+    Combat.damage(s, p, e, 5, true); eq(p.hp, hp - 8)
 end)
 
 test("lethal attack still retaliates and simultaneous deaths lose", function()
@@ -329,13 +333,13 @@ test("dead enemy attacker cannot regenerate or let later enemies act", function(
     eq(s.enemies[2].intentIndex, 1); eq(s.phase, "defeat")
 end)
 
-test("thorns-killed enemy does not advance intent while surviving enemies continue", function()
+test("thorns-killed enemy retains its queued roll while surviving enemies continue", function()
     local s = battle({ "jaw_worm", "jaw_worm" }); local e = s.enemies[1]
     e.hp = 1; status(e, "regen", 9); status(s.player, "thorns", 1)
     local hp = s.player.hp
     Combat.endTurn(s)
-    eq(e.hp, 0); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
-    eq(s.enemies[2].intentIndex, 2); eq(s.player.hp, hp - 22); eq(s.phase, "player")
+    eq(e.hp, 0); eq(e.statuses.regen, 9); eq(e.jawLast, "jaw_worm_1"); eq(Combat.intent(s, 1), nil)
+    eq(s.enemies[2].jawLast, "jaw_worm_1"); assert(s.enemies[2].intentIndex ~= 1); eq(s.player.hp, hp - 22); eq(s.phase, "player")
 end)
 
 print("LUA_STATUSES_PASS " .. count)

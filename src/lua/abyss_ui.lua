@@ -7,7 +7,7 @@ local function failed(phase, reason)
     script:EnableUpdate(false)
     pcall(function()
         local stage = script.object:GetChild("stage")
-        for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel"}) do
+        for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel", "deckEntry", "deckPanel"}) do
             stage:GetChild(name):SetVisible(false)
         end
         local menu = stage:GetChild("menuPanel")
@@ -15,6 +15,9 @@ local function failed(phase, reason)
         menu:GetChild("start"):SetVisible(false)
         local settle = menu:GetChild("settle")
         if settle then settle:SetVisible(false) end
+        local result = menu:GetChild("result")
+        if result then result:SetVisible(false) end
+        menu:GetChild("summary"):SetVisible(true)
         local message = "关卡启动失败，请退出后重新进入。"
         if game.IsTestPlay and game.IsTestPlay() then
             message = message .. "\n测试诊断 · " .. phase .. "\n" .. tostring(reason)
@@ -30,12 +33,28 @@ function OnStart()
         local GameUI = require("abyss_game_ui")
         local Data = require("abyss_data")
         local Presentation = require("abyss_presentation")
+        local Theme = require("abyss_theme")
         Viewport = require("abyss_viewport")
         local width, height = game.GetUICanvasSize()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
+        -- Opt in only on a candidate containing the ABYSS_BGM graph/signals.
+        local hasBgm, enableBgm = pcall(function() return script:GetParam("nativeBgmEnabled") end)
+        local music
+        if hasBgm and enableBgm == true then
+            music = function(signal)
+                game.ServerSignal(signal):SendSignal()
+                print("ABYSS_BGM_REQUEST " .. signal)
+            end
+        end
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { color = Color, imageSource = Enum.ImageSource.StaticReference, settle = function(victory)
+            { music = music, color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, sound = function(cue)
+                local id = Theme.sound[cue]
+                if id and game.PlayAudio2D then
+                    local instance = game.PlayAudio2D(id)
+                    print("ABYSS_AUDIO " .. cue .. " id=" .. id .. " instance=" .. tostring(instance))
+                end
+            end, settle = function(victory)
                 if victory then game.ServerSignal("ABYSS_WIN"):SendSignal()
                 else game.ServerSignal("ABYSS_LOSE"):SendSignal() end
                 print("ABYSS_UI settlement_requested " .. (victory and "victory" or "defeat"))

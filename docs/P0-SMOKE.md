@@ -1,6 +1,87 @@
 # P0 完整游戏集成冒烟
 
-任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实15层回归）、TASK-17（Boss正式结算）。冒烟通过前暂停非必要美术扩量、独立卡牌实验和技术研究。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
+任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
+
+## 当前规则与BGM离线候选（未导入/试玩）
+
+第二批最新普通副本：`.artifacts/continued-rules-11b901f/wmvkrqkgh-0/working.gil`，固定源`11b901f8b4ff0c91762ee6e2e46affcc88dc033a`，SHA256 `4f5de8f2ae0c1bfec4a86963cf77ec44cf99a2ad8b6dcb1c420254732560c70b`。已含Acid/Spike/Fat/Sneaky抽样和死后排队选招/减益；30模块逐byte同源、1590树/max50、六列模板、22节点结算stage启用、BGM双参数false、静态0error17warning。首次构建d3源因普通manifest漏BGM参数真实失败，补注册false后新目录重建成功，保留原失败响应。[结构化证据](evidence/offline-candidate-11b901f.json)和根`.artifacts/continued-rules-11b901f-audit`保留全部hash/读回。规则源d3e9d76完整check exit0（JS643/528pass115skip、全部Lua、Python15pass1skip），参数/审计增量15专项过；最终head CI另记。Dazed/Sentry/Artifact不在此副本，未导入/试玩/试听，发布关口未通过。下列139/cf固定候选不含本批修正。
+
+PR99默认关闭的原生BGM候选已合`1182814`；PR100规则批已合`14979df`。两PR当前head的两个Quality作业均SUCCESS。规则完整组合在源`139de94`实际运行`npm run check`退出0：JS603项（488通过/115既有条件skip）、全部Lua、Python16项（1个既有权限skip）。合入独立BGM代码后图/打包6项、BGM/宿主5组通过，最终`cf6969e`的[Quality](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39926170680)全绿；`cf6969e`与squash合入`14979df`源码树已实际确认相同。
+
+| 副本 | 固定源 / SHA256 | 实际只读复核 |
+| --- | --- | --- |
+| `.artifacts/continued-batch-139de94/wmvkpu9f0-0/working.gil` | `139de949b173c8343d628ce6ba036097a9ff954e` / `a3dc885af8a42ec1c51ce529809c3a27d2ba75e8909bd42abfec9cb828e6b90f` | 28模块同源；1590树节点/max50；六列模板；22节点结算图stage启用；静态0错误/17警告 |
+| `.artifacts/continued-bgm-cf6969e/wmvkq4e3z-0/working.gil` | `cf6969e768a6102a726948742dd327642043c2ab` / `474516d219689b1e2355023427b2cb74ade1c4f8f6ddf39504ea7730fe516eee` | 29模块同源；同UI/模板；22节点结算与83节点BGM图均stage启用；脚本BGM参数双记录均true；静态0错误/17警告 |
+
+真实MCP编译/写副本完成后，另一agent独立从固定git源重建五个生成模块并读回gil。生成模块逐byte相同；源码允许Git LF与工作树CRLF换行差异，规范化后全文一致，原始hash分别保留。UI和模板逐name/kind/子顺序同源匹配；1590是控件树计数，1592包含两个界面壳节点，初版审计误混口径的更正也已留档。详细证据：[规则](evidence/offline-candidate-139de94.json)、[BGM](evidence/offline-bgm-candidate-cf6969e.json)，原始响应和验证脚本在对应`.artifacts`目录。
+
+底图hash前后仍为`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，BGM叠加也未改变规则输入副本。17条静态警告分别为16条已定位的项目自定义方法名称识别及1条尚未生产接线的unknown reducer，不是运行正常证据。没有官方导入、客户端ready/本轮游戏日志、真实操作或音频录像；六条BGM曲目均未试听。默认完整游戏构建仍不启用BGM，专用试听命令见[NATIVE_BGM](NATIVE_BGM.md)。
+
+地图严格golden本轮仍FAIL 0/12（11差异、1完整64位seed不支持），成功导出的11样本额外随机宝箱错误降为0；交叉边/拓扑/RNG等仍未对齐。后续发现的死后排队选招消费差异、完整动作队列及Boss17宝箱事务继续由规则任务推进，不以此批代码或副本关闭全项AC。下一批未合入切片不得计入上述固定副本。
+
+## 历史首次点牌修复候选（085f499，未导入/试玩）
+
+真实构建源`085f499418e0d3eb7a8a556893c389222af487b6`，在ec455f6全部规则/UI/打包修复之上加入PR93：跨战斗重置失效目标与选择，同一战斗刷新仍保留有效选择。原20块宿主UI回归与新增首点回归共21块逐字保留，拆为15+6，Node双进程及LORE检查通过；默认每脚本15秒未变。历史完整本机check属于ec455f6，当前完整门禁以本修复PR最终head的Quality为准，不混用源SHA。
+
+实际副本`.artifacts/offline-sprint-085f499/abyss-sprint-offline.gil`，SHA256 `b22a876a752d923fa3211dedbeceace74548dfb0ba3acc98590b8243c937b95a`。真实读回26模块/0error/17warning、1590控件/max50、38按钮状态层、六列牌库和22节点启用结算图；无测试向量。正式底图hash保持`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。[结构化证据](evidence/offline-candidate-085f499.json)区分当前副本/定向测试与历史全检。未开原神、官方导入或实机，所有上述未完成关口仍保留。
+
+## 历史规则与按钮候选（ec455f6，未导入/试玩）
+
+真实构建源`ec455f6b56efcab3deed4ac688676eba58c8a73b`。包含已合PR82力量/敏捷cap、83支持池Boss稀有奖励、84生成输入保护、85群攻后逆序反伤、86三类敌人数值与动作、89Wizard蓄能、91Jaw生产AI/节点按钮状态，以及62地图证据/纯问号reducer；87/88/90仅独立证据或候选，不代表生产算法已切换。
+
+完整`npm run check`退出0：JS584项=469通过/115个Windows符号链接权限skip，全部Lua通过，Python15通过/1权限skip。新增101个symlink skip来自PR84，不计入已覆盖的通过项。Boss奖励保留128种子及全部断言，拆分为四个默认15秒预算的真实Lua脚本；CI失败与后续修复记录在对应PR。
+
+后续CI在`game_ui.lua`整文件15秒预算超时，没有断言失败；同源本机完整检查通过。原20组宿主UI回归拆为14组主流程+6组牌库，全部202条块内断言和9条helper断言原样保留，每例仍新建真实控件树，默认15秒预算未改。两脚本实测4.656/1.913秒，Node入口运行两份并合并全部LORE文案检查；[逐例迁移审计](evidence/game-ui-split-audit.json)记录原/新20块相同SHA。随后同步的PR93新增跨战斗首次点牌回归也保留，因此当前实际计数为15+6共21组。ec455f6副本早于PR93，不能用该副本声称新增点牌修复已平台验收；最终远端CI以PR当前完整head为准。
+
+中间源54e8eef曾真实装入测试生成的`sts1_unknown_vectors.lua`，为27模块/18warning。构建器现只选5个明确的生成运行时模块，全部源模块保留，工具写入前拒绝缺失或同名；新副本为26模块/0错误/17warning，已不含测试向量。17warning分为16条既有跨模块自定义方法，以及1条未接生产的`abyss_unknown`未挂载提示，不能说警告为0或问号分派已实现。
+
+- 实际副本：`.artifacts/offline-sprint-ec455f6/abyss-sprint-offline.gil`。
+- SHA256：`a4f90ebb7230201989e89fbb270a98ec601c8f05861fd078bf81617453ffb9bc`。
+- UI1590控件、最大50直接子；19个框式按钮各增加hover/pressed层（38层），六列牌库与22节点结算图启用挂载真实读回。
+- 正式底图SHA256前后均为`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`；liveWrite=0。
+- [结构化证据](evidence/offline-candidate-ec455f6.json)保留源SHA、完整检查统计/日志hash、模块检查、UI/模板/图读回和副本hash。
+
+没有开原神、官方导入、设备预览、听验或真实平台试玩。原版独立RNG/拓扑/问号分派、Weak轮末justApplied调度、Boss第17层遗物箱、TASK2物理配置及胜利正式结算等仍未完成；原版地图Golden0/12与10000结构种子0通过的严格失败报告在W1文档，普通CI与副本成功不能替代。
+
+## 历史新版节点与结果界面候选（7013641，未导入/试玩）
+
+真实构建源`701364102983dee19be840be0c54e4d12a06c66a`，包含PR75节点页、PR77菜单/结果页、PR79战斗反馈及先前牌库/AI/固定药水槽位。完整`npm run check`通过：JS297通过/14个既有权限skip，Lua全套、Python15通过/1个既有skip。
+
+首次从a76cab4构建被平台拒绝：17个节点遮罩直接传八位RGBA。统一转换为RGB+独立opacity后从零真实构建成功；失败与成功输出分别在仓库根`.artifacts/offline-ui-a76cab4/build.log`、`.artifacts/offline-ui-7013641/`。
+
+- 实际gil内24模块逐份对照源文，静态0错误/16个自定义跨模块方法warning；新增`holding`已追到`abyss_node_ui`定义。
+- 实际UI1552控件，最大50直接子；六列牌库模板和22节点启用结算图均真读回，ABYSS_WIN/LOSE监听引用存在。
+- 17个节点遮罩实际读回等价RGB`#0f1117`+0.8透明度，无重复乘alpha；源主题颜色未改。
+- 独立内存重注入得到相同字节；正式底图SHA256前后保持`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。
+- 交接副本：`.artifacts/offline-ui-7013641/abyss-ui-offline.gil`，SHA256 `60ca982ef78f3e095b1c572f2f414bc5e32e8cd0a26e10eea8a323d328c43517`。结构化记录见[新版UI候选证据](evidence/offline-candidate-7013641.json)。
+
+没有启动原神、调用playtest、官方导入或发布。节点hover/pressed/按下缩放仍有P2缺口；原生字体/图库/滚动和多设备仍待实机。TASK2物理配置、Boss17宝箱/完整第一幕/胜利正式结算等规则与平台关口保留，不能用这个构建关闭。
+
+## 本批集成候选（022f22c，未导入/试玩）
+
+真实构建源为`022f22cf600de140527acb32774c997ea2be17d4`（PR78固定提交，包含Guardian、Cultist、牌库、叙事和药水固定槽位）。PR78已squash进develop `fac093cffb0403b3ab1ffc5479bd61011a95232b`，独立`git diff`确认两者`src/data/scripts`完全相同；中间PR70只新增两份回归。保留实际构建SHA，不用squash提交号替代。完整`npm run check`退出0，JS284通过/14个既有Windows权限skip，Lua全套通过，Python15通过/1个既有skip；各PR的当前SHA Quality和独立复审另按PR记录。
+
+- 实际写入副本的24模块静态检查0错误、15条跨模块方法warning，全部模块非空。
+- 精确读回1220控件，最大50直接子，四主面板及牌库入口/遮罩面板存在；`abyss_ui`根绑定存在。
+- `AbyssDeckCard`模板根索引1073741845，实际grid引用该模板且列数6。该编号只属于本候选，不能硬编码到运行时。
+- 结算服务端图22节点，启用挂载到关卡实体；编译/副本写入完成，胜利正式结算未实测。
+- 原底图SHA256构建前后均`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。
+- 交接副本：仓库根`.artifacts/offline-integrated-022f22c/abyss-integrated-offline.gil`，SHA256 `a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114`；原始输出、模板/UI读回和校验位于同目录。
+
+独立复核直接解析实际gil：24份模块源文逐份相等；重跑客户端检查并追溯15条warning的真实自定义方法定义；模板/网格/挂载与正式原件hash均核实。另在内存把本轮编译main.gia重注入构建器保存的原件，结果与实际候选逐字节一致，验证编译→写副本链。
+
+结构化证据见[本批候选记录](evidence/offline-candidate-022f22c.json)。未调用playtest、未开原神、未写正式存档、未官方导入。本候选不补足TASK2物理场景/镜头出生、不实现Boss17宝箱事务，也不能替代TASK3.2/3/11.1/12.3或M3/M4实机AC。
+
+## 上一离线候选（be5093f，未导入/试玩）
+
+已合 PR63 的代码提交 `be5093f541724405154c4ee1c656fccc08e329e1` 经 `build:data`、`build:ui`、真实 MCP 副本写入与结算图编译完成。只读正式底图1073741825后复制到工作区；正式文件 SHA256 构建前后均为 `6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`。
+
+- 客户端静态检查非空21模块：0错误、12警告。警告为跨模块控制器方法的静态识别限制，未据此宣称游戏运行无错误。
+- 实际副本读回1178控件，最大50直接子；菜单/地图/战斗/节点面板及`abyss_ui`根脚本绑定存在。
+- 服务端结算图真实编译写入：22节点、编辑计数72，启用挂载到关卡实体。编译/挂载不等于官方胜利结算实测。
+- 候选 SHA256：`3e450284ff5b8096ea5836a1e12639ff702775e301788cf6e40b39e57e1ecb6a`。路径、完整检查列表及原始输出定位见 [结构化证据](evidence/offline-candidate-be5093f.json)，工作区 `.artifacts/m1-offline-be5093f/`。
+
+**本轮官方导入：未执行；原神/沙箱试玩：未执行。** 物理场景/镜头出生等TASK-2、TASK-3.2导入与TASK-3实机仍分别保留，不能用本构建记录替代。以下各版历史现场证据继续保留，不能与这个新候选混用。
 
 ## 本轮实测记录（2026-10-23）
 
@@ -89,6 +170,8 @@ node scripts/build-native-candidate.mjs '<原始底图.gil>' '.artifacts/native-
 8. 每个项目只使用“通过 / 缺陷 / 未实现 / 观感问题 / 未测”之一；截图看不到不能直接归因为等级或平台限制。自动导入/焦点失败一次后转人工流程，不无限排查。
 
 ## 当前已知缺口
+
+2026-10-23 离线结算补充（TASK-17）：客户端同局记录 `elapsedSeconds` 和胜场；结果摘要显示 `分:秒`、抵达层数、胜场、生命、金币、卡组及遗物数量。用时累计有效 `OnUpdate(dt)`，包含选路/节点/奖励与战斗操作；不包含启程前菜单或终局后的等待，战败规则生效后即停止（不额外计入失败动画）。这是客户端更新时长，不是服务端比赛计时；客户端暂停更新的时间不会计入。重新启程创建全新统计。真实平台布局、Boss胜利结算、正式重新挑战仍待验证，本补充不改变 v6 的历史证据。
 
 - v6 正式失败结算已实机通过；Boss胜利、胜利正式结算和平台“重新挑战”的资源重置仍未测，复用 TASK-17。
 - 当前商店可售卡池17张；37张数据表不代表37张可玩，30+卡池仍由TASK-16验收。

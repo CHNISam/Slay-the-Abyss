@@ -1,0 +1,14 @@
+{
+  "source": "image-editor-webui import_scene/export_* APIs",
+  "originalOverflowCount": 66,
+  "edits": [],
+  "imageControls": 257,
+  "maskControls": 0,
+  "controls": 257,
+  "luaRoundtripCoordinates": true,
+  "giaMode": "overlimit upstream class15; official GIA import not yet tested",
+  "inGame": "not_tested",
+  "warnings": [
+    "Imported drawing data only; runtime template IDs, auto-fit, scale and offsets are not applied to the canvas."
+  ]
+}

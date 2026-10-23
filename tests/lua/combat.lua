@@ -99,12 +99,13 @@ test("intent copy is immutable to UI and executed before advancing", function()
     local intent = Combat.intent(s, 1)
     equal(intent.effects[1].value, 11)
     intent.effects[1].value = 999
+    s.seed = 0 -- explicit project roll 49 selects Thrash; not an STS1 seed oracle
     assert(Combat.endTurn(s))
     equal(s.player.hp, s.player.maxHp - 11)
-    equal(Combat.intent(s, 1).kind, "defend")
+    equal(Combat.intent(s, 1).id, "jaw_worm_2")
     assert(Combat.endTurn(s))
-    equal(s.enemies[1].block, 6)
-    equal(Combat.intent(s, 1).kind, "buff")
+    equal(s.enemies[1].block, 5)
+    equal(s.player.hp, s.player.maxHp - 18)
 end)
 
 test("dead enemies skip queued attacks and victory refuses further commands", function()
@@ -139,9 +140,9 @@ test("upgraded card inherits unchanged fields without mutating catalog", functio
 end)
 
 test("unknown or advanced effects fail before spending energy", function()
-    local s = battle({ "offering" })
+    local s = battle({ "demon_form" })
     local hp, seed = s.player.hp, s.seed
-    equal(Combat.play(s, uid(s, "offering"), 1), false)
+    equal(Combat.play(s, uid(s, "demon_form"), 1), false)
     equal(s.energy, 3); equal(s.player.hp, hp); equal(s.seed, seed)
 end)
 

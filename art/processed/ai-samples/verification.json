@@ -1,0 +1,380 @@
+{
+  "checks": [
+    {
+      "asset": "lumine",
+      "route": "A",
+      "stem": "asset",
+      "contentControls": 257,
+      "maskControls": 0,
+      "runtimeControls": 257,
+      "literalLuaGeometry": true,
+      "giaBinaryRoundtrip": true,
+      "inheritedTemplateMissingRefs": 558,
+      "giaMode": "overlimit"
+    },
+    {
+      "asset": "lumine",
+      "route": "B",
+      "stem": "asset",
+      "contentControls": 769,
+      "maskControls": 111,
+      "runtimeControls": 880,
+      "literalLuaGeometry": true,
+      "giaBinaryRoundtrip": true,
+      "inheritedTemplateMissingRefs": 558,
+      "giaMode": "overlimit"
+    },
+    {
+      "asset": "lumine",
+      "route": "B2",
+      "stem": "asset",
+      "contentControls": 770,
+      "maskControls": 169,
+      "runtimeControls": 939,
+      "literalLuaGeometry": true
+    },
+    {
+      "asset": "starfall",
+      "route": "A",
+      "stem": "asset",
+      "contentControls": 257,
+      "maskControls": 0,
+      "runtimeControls": 257,
+      "literalLuaGeometry": true,
+      "giaBinaryRoundtrip": true,
+      "inheritedTemplateMissingRefs": 558,
+      "giaMode": "overlimit"
+    },
+    {
+      "asset": "starfall",
+      "route": "B",
+      "stem": "asset",
+      "contentControls": 257,
+      "maskControls": 74,
+      "runtimeControls": 331,
+      "literalLuaGeometry": true,
+      "giaBinaryRoundtrip": true,
+      "inheritedTemplateMissingRefs": 558,
+      "giaMode": "overlimit"
+    },
+    {
+      "asset": "starfall",
+      "route": "B",
+      "stem": "card",
+      "contentControls": 269,
+      "maskControls": 74,
+      "runtimeControls": 343,
+      "literalLuaGeometry": true
+    }
+  ],
+  "files": [
+    {
+      "path": "art/processed/ai-samples/licenses/EDITOR-GPL-3.0.txt",
+      "bytes": 35823,
+      "sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809"
+    },
+    {
+      "path": "art/processed/ai-samples/licenses/PRIMITIVE-SHAPE-MIT.txt",
+      "bytes": 1082,
+      "sha256": "b3bff2b2d417bc211cfef7e7ba476adf8a09219f83529008c0b6d2c4c3673ab1"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/asset.gia",
+      "bytes": 188614,
+      "sha256": "a58cc56173ba79957e67221dd17ee3ffac573b1ef2633b2da43ed8d8feb8e4d6"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/asset.gia-scene.json",
+      "bytes": 150401,
+      "sha256": "19a45dd030249888a191faa016516f46eb7cc22d864d379cdc7029ecde8c209a"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/asset.json",
+      "bytes": 144345,
+      "sha256": "1b3f607028facc9e23645f6656c2cf8195568b57250d8ca9df47cc3befe22bf6"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/asset.lua",
+      "bytes": 171515,
+      "sha256": "51ead6d0ad3551093c199bf62244cae39b13dc23f30cc445bfa36b76dc6e4c13"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/asset.png",
+      "bytes": 21972,
+      "sha256": "d77497d4c4b425a97e94e914a30c419e53c9ad6198dcdbe5fab12f08b12dd697"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/editor-edits.json",
+      "bytes": 464,
+      "sha256": "d3cd2d3b51445edd591ed05cc9d8b1203b2c6e377178e5777bb9b6360470c4cd"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/fit.preview.png",
+      "bytes": 45241,
+      "sha256": "046d18811f0a6fbdb247fd11b442606f04cc3d7e79f7ef57c8fb6402031e9808"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/fit.raw.json",
+      "bytes": 148613,
+      "sha256": "387b167dbf9b57b578b9640f9c36d0ae0c21ce44ca738ab0c2619028c1b2f61d"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/input.png",
+      "bytes": 61306,
+      "sha256": "33a8c4974b8b779d4394fecb0650d29194fd4cb0897620764775c7b85caed409"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/primitive.lua",
+      "bytes": 27087,
+      "sha256": "5ffd32068b25137869b4efe91a5d3a91c56d97b87049dcff591e09c21c87b84d"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/A/recipe.json",
+      "bytes": 615,
+      "sha256": "c7648732ead122b3165f4519f503ae45f0d06898b547c04bc476df53fa092a8e"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/asset.gia",
+      "bytes": 557767,
+      "sha256": "98fce76e0ff44a1d3f7604ee252a3a80c063a0924ca38bf2255354c632aaeedc"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/asset.gia-scene.json",
+      "bytes": 445334,
+      "sha256": "c5a3bdfed229a0574bd09ec63693266dbff642bcd18943f5bb14cbacf3f020e9"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/asset.json",
+      "bytes": 474449,
+      "sha256": "4896b96abbf41450915ac873ea6c2a3f55d6ad6b9704ce92e8bc190efbf46df6"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/asset.lua",
+      "bytes": 737972,
+      "sha256": "8909716af7b3a531fa9fa30b15f5d1f8d9663feb1d3f3628bdf2eff0757c70e3"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/asset.png",
+      "bytes": 62710,
+      "sha256": "8754e20ad44cac55c231f80196134ce059875f52f21c51169a7cf3ee58c66523"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/editor-edits.json",
+      "bytes": 60699,
+      "sha256": "2827e702bce12d368cef77d3510a94abae651af6a64efef6bf346114f6dd913a"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/fit.preview.png",
+      "bytes": 110379,
+      "sha256": "305831ce66aee09ae16a5bafbac1da210c72e6b0a95adf9e561bad421a946be9"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/fit.raw.json",
+      "bytes": 446581,
+      "sha256": "bf35bfdfdc7381d12160be8d80f819a9ac1410cbca750ff35535f7c87d333ef7"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/input.png",
+      "bytes": 76788,
+      "sha256": "f93a44ddba08481c2eaf4afb9fcad6ce039fcb09f4b040bbdbe7f10ca4cd8eb4"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/primitive.lua",
+      "bytes": 70608,
+      "sha256": "438a0208f0a9163c1275033c1deb6230a92969de9d91655da4188c98c9d1980d"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B/recipe.json",
+      "bytes": 654,
+      "sha256": "5063c2e2f53424cf96426bb84559642f5af159d9d8e2df887ce57ff3382ef16b"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B2/asset.json",
+      "bytes": 499304,
+      "sha256": "4781ff112175f01190e14240ecfa0f5d690942bd73812d6198ed76fa57705e69"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B2/asset.lua",
+      "bytes": 762694,
+      "sha256": "f9d47d26d69f433157052b17244b565833c2182a9c6ddbe858bb898a9195365e"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B2/asset.png",
+      "bytes": 56205,
+      "sha256": "aaf2f7d8e41dded0613b6a5c0dae1f9587ced5358f3256e3489399c332d3f279"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B2/editor-edits.json",
+      "bytes": 91500,
+      "sha256": "6785f7b9d289097b4b6c2611e14cb12d0064ab9462005b8c579066864451da42"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine/B2/recipe.json",
+      "bytes": 502,
+      "sha256": "17d98af664959214df108bb9d6894a2fd85674915e464226e81e99d006b30c74"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine-face/B/fit.preview.png",
+      "bytes": 12006,
+      "sha256": "16bfba06a2165844709052f951e7235bfc6dbceeb06c85361201cbfd5b8a34e1"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine-face/B/fit.raw.json",
+      "bytes": 147691,
+      "sha256": "20bd45d8b3f185871419c9f1389dc56d79e1ba7c8f7d388ebb4c8caacfd752f3"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine-face/B/input.png",
+      "bytes": 10091,
+      "sha256": "055136ddbd2b02b68821ae40960f412691bb3bcb5e2fb5a9b5d180e9e09b1f02"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine-face/B/primitive.lua",
+      "bytes": 26799,
+      "sha256": "8f0f234d23ee16c089b5be48f27f9882a7ad95c50702dacb5ccae9efc3415771"
+    },
+    {
+      "path": "art/processed/ai-samples/lumine-face/B/recipe.json",
+      "bytes": 657,
+      "sha256": "fda93b228ecbbc5732ac027fa74a87f1d2655964278b757174cf4ed952a14b2d"
+    },
+    {
+      "path": "art/processed/ai-samples/probe.lua",
+      "bytes": 1182,
+      "sha256": "c26c1a5a8ce230a78b267365a9641b6499097f257f9b61632ec92c2076ce6eb4"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/asset.gia",
+      "bytes": 188618,
+      "sha256": "8bbb67c57f75745e88703de457c04e4a07fc37c5a7645510ec5f29acbad46b96"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/asset.gia-scene.json",
+      "bytes": 150644,
+      "sha256": "d514217363ef6c688a68476139df67ca87a8714c99bfbaee0b2bfc4f6600685e"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/asset.json",
+      "bytes": 144588,
+      "sha256": "9fd96222fa4f2d2ae28735229d499e295d9f930e6584dc1e41af85bef1552258"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/asset.lua",
+      "bytes": 171799,
+      "sha256": "7a5099c1a3e0e5012d988199a00262bd2c736028ba002359d535661f59bec35e"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/asset.png",
+      "bytes": 23570,
+      "sha256": "e73a95c1bd296d0a39a89e6e805a387eee1cc5a2b6b8c85c3cf39e1c10637c1c"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/editor-edits.json",
+      "bytes": 464,
+      "sha256": "a628cc873815a69bcadbd56c8a119c70c9bb0812dc03c9fb4cce7e52e6bb757d"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/fit.preview.png",
+      "bytes": 46107,
+      "sha256": "3f3072f48eecf4ceaad7ee87f0ca842143612a3396b251fd1eae177ea0e5c3c0"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/fit.raw.json",
+      "bytes": 148658,
+      "sha256": "2886c93dc1ee51a4e2db3bcba39196762879d16fec1fa237e335c69617c1b675"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/input.png",
+      "bytes": 56541,
+      "sha256": "b6bfd1c0a3a8a9d1253deb18aab6da4c46ae1a0c7623c43e5d7716063e71d71a"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/primitive.lua",
+      "bytes": 26908,
+      "sha256": "ec908a91f981975e0a5672fdff299583746b47b3a3d046911aab25c273c755a5"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/A/recipe.json",
+      "bytes": 617,
+      "sha256": "02fe373fad3ae020707a375a8d87be894633118d97b436f3a6b7c26ede15418e"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/asset.gia",
+      "bytes": 188598,
+      "sha256": "69bfdc3a9465fd130e79c10948f655a6eb4fe93683f3ca4cabc84f6c4c8659d8"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/asset.gia-scene.json",
+      "bytes": 150908,
+      "sha256": "9939ce15af8a58814dcbd0b9ce97774bc91060a83b9a9ff8d8a7c9a9d48a7736"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/asset.json",
+      "bytes": 176126,
+      "sha256": "0d1752f5c4fb5c011da805172411d42c6b3901df4fe721313283dfd091a8bcdf"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/asset.lua",
+      "bytes": 269488,
+      "sha256": "e438e330939378482257e486dbf43411ece170a5019a89068e0879affea3384c"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/asset.png",
+      "bytes": 26304,
+      "sha256": "bea3ed5462272480f38efb52d58e8def418b3d7632d7a3855a890cc9b57eed0e"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/card-mapping.json",
+      "bytes": 231,
+      "sha256": "87f7fff7feb5c7685adaa29b10159c305408c2d26c3c2b0e8f04c86a4b8275cf"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/card.json",
+      "bytes": 185228,
+      "sha256": "7f779bc8f20f3fd40d2b5e17f809e828bfac1b600493ea87e2ac816eef8ee342"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/card.lua",
+      "bytes": 290055,
+      "sha256": "0c48efe7f0863a15094e930ed0ad4565333a2bf12498b7b028138b04ebe00077"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/card.png",
+      "bytes": 28922,
+      "sha256": "6a69027d1e971399b34c05ec4a4e1532c14c0c8377a17233b62ef5e1e5aca83a"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/editor-edits.json",
+      "bytes": 40574,
+      "sha256": "d3214109677ee651637d59abdb9fbde19028cab6ae84d658c5a5c7e13ad1cfbe"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/fit.preview.png",
+      "bytes": 56656,
+      "sha256": "61d8a02a6ea4f0099bccb8385d72aed28acdac2de98e7c1d4552ae45c6a6402f"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/fit.raw.json",
+      "bytes": 148803,
+      "sha256": "dbac4bf862b10a31c61db4f95a68381bbdcfb55de2bd612f4e548891843ef0b3"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/input.png",
+      "bytes": 43981,
+      "sha256": "883174bb692aad77561b89f5bb589adc43af8b0da8da2fc5d13e3dfd8a706eaf"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/primitive.lua",
+      "bytes": 27039,
+      "sha256": "6e58a9734b0357baed8028ed023f8358ee66ba109b1283f66178a9a0d3b10456"
+    },
+    {
+      "path": "art/processed/ai-samples/starfall/B/recipe.json",
+      "bytes": 656,
+      "sha256": "7e7786e59200573370787931a11923ff1561f23d91fd0da2ce16874cdd0ff11b"
+    }
+  ],
+  "officialImport": "pending",
+  "inGame": "pending",
+  "note": "Literal drawing and binary inspection cannot establish game display or performance."
+}

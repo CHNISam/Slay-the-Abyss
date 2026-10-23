@@ -1,0 +1,13 @@
+{
+  "cardId": "cleave",
+  "presentationName": "星陨剑",
+  "artSlot": [
+    144,
+    64
+  ],
+  "imageControls": 265,
+  "nativeTexts": 4,
+  "maskControls": 74,
+  "runtimeControls": 343,
+  "mechanicsModified": false
+}

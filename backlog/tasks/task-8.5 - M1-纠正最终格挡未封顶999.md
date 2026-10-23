@@ -1,11 +1,11 @@
 ---
 id: TASK-8.5
 title: M1 纠正最终格挡未封顶999
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-22 23:34'
-updated_date: '2026-10-22 23:38'
+updated_date: '2026-10-22 23:42'
 labels: []
 milestone: m-2
 dependencies: []
@@ -48,4 +48,12 @@ Executor: dot；基线develop 1eaba2c；独立目录slay-block-cap-fix-20261023�
 红绿：旧Actor下5个状态组失败，库存原版药水988+12溢出999失败。最小最终封顶后状态35与库存11绿。当前1eaba2c完整系统Lua11文件175组通过，已含原子14；Python13绿；syntax/data/build:data/build:ui/build:theme/diff-check绿。真实npm run check退出1，JS132/139通过，7项缺Fengari依赖；未声称正式CI通过。来源及生产路径审计详见docs/reviews/TASK-8.5-block-cap.md。保持In Progress/AC待独立审查，父级处理CI和集成。
 
 独立评审通过：复跑状态35/库存11；独立矩阵1622字段断言全绿，原基线负对照预期999实1190失败，三个代码/测试文件hash一致。报告slay-block-cap-review-20261023/REPORT.md。AC按已核验本地证据勾选，仍In Progress等待正式Fengari CI与集成。父级在最新develop b4c552cf迁移本任务5文件，保留PR46工具保护和他人成果。
+
+真实集成收尾：PR50已合并develop，merge 7fee95e12e14537271e20324ef3e61bfdd734aeb，已审查head 7d9d185。正式Quality CI39873188503两项success，JS179通过/0失败/14个文件软链权限跳过，状态35/库存11通过（父级核实）。保留全部AC与历史，不把CI当平台实机验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+恢复最终格挡999上限，保留modifier精度、合法生产入口与PR48荆棘。红绿、独立1622字段断言和正式CI通过，PR50已真实合并7fee95e12e14537271e20324ef3e61bfdd734aeb。平台/实机验收不在此任务范围。
+<!-- SECTION:FINAL_SUMMARY:END -->

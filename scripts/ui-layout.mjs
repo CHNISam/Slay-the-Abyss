@@ -29,7 +29,7 @@ function button(name, position, size, label, primary = false, fontSize = f.headi
 }
 
 function unit(name, position, portrait, player = false) {
-  const [bw, bh] = l.hpBar.size;
+  const [bw, bh] = l.hpBar.size, bb = l.blockBadge;
   return { name, kind: 'container', position, size: [bw, 236], children: [
     panel('border', 0, 0, portrait + s.border * 2, portrait + s.border * 2, player ? c.goldDim : c.line),
     panel('plate', 0, 0, portrait, portrait, c.panelRaised),
@@ -37,11 +37,17 @@ function unit(name, position, portrait, player = false) {
     text('name', 0, -portrait / 2 - s.m, bw, l.nativeText.lineHeight, player ? '旅行者' : '', f.label, c.gold),
     panel('hpBorder', 0, -portrait / 2 - s.xxl - bh / 2, bw + s.border * 2, bh + s.border * 2, c.line),
     panel('hpTrack', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpTrack),
+    { ...panel('hpGhost', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpGhost), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     { ...panel('hpFill', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hp), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, l.nativeText.lineHeight, '', f.small),
-    picture('blockIcon', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, theme.icon.block, c.block),
-    text('block', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, l.nativeText.lineHeight, '', f.small, c.textOnLight),
+    // Solid chip beside the bar: icon 102014 is half hollow, so digits on it were unreadable.
+    panel('blockEdge', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size + s.border * 2, bb.size + s.border * 2, c.panelSunken),
+    panel('blockIcon', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, bb.size, c.block),
+    text('block', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, l.nativeText.lineHeight, '', f.body, c.textOnLight),
     text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, l.nativeText.lineHeight, '', f.small, c.textDim),
+    { ...picture('impact', 0, 0, portrait, portrait, im.diamond, c.geo), visible: false },
+    { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
+    { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
       text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number), hit(portrait, portrait)] : []),
   ] };
@@ -106,6 +112,28 @@ export function battleLayout() {
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
     button('skip', [0, -96], l.button.secondary, '跳过奖励'));
+  controls.push({ name: 'dragLayer', kind: 'container', size: [width, height], visible: false, children: [
+    { ...hit(width, height), focusable: false },
+    panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),
+    text('hint', 0, l.cardDrag.lineY + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '', f.body, c.goldBright),
+    // Targeted cards dock below the line and aim with a dotted arc that ends on a reticle.
+    ...Array.from({ length: l.cardDrag.aimDots }, (_, i) =>
+      ({ ...picture(`aim${i + 1}`, 0, 0, l.cardDrag.aimDot[0], l.cardDrag.aimDot[0], im.diamond, c.goldBright), visible: false })),
+    { ...picture('reticle', 0, 0, l.enemyRow.portrait, l.enemyRow.portrait, im.ring, c.goldBright), visible: false },
+  ] });
+  // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
+  const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;
+  controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
+    { ...picture('sweep', row, l.enemyRow.y, l.enemyRow.xTo - l.enemyRow.xFrom + l.enemyRow.bossPortrait, s.xl, im.diamond, c.geo), visible: false },
+    { name: 'playedCard', kind: 'container', size: l.card.size, visible: false, children: [
+      panel('border', 0, 0, ...l.card.size, c.gold),
+      panel('plate', 0, 0, l.card.size[0] - s.border * 2, l.card.size[1] - s.border * 2, c.cardType.attack),
+      picture('art', 0, s.xl, l.card.art, l.card.art, theme.icon.cardArt.attack, c.goldBright),
+      text('name', 0, -s.xxl, l.card.size[0] - s.s, l.nativeText.lineHeight * 2, '', f.cardName, c.text),
+    ] },
+    { ...panel('bannerPlate', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, c.panelSunken), visible: false },
+    { ...text('banner', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, '', f.title, c.goldBright), visible: false },
+  ] });
   return { name: 'AbyssBattle', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true, controls: [
     { ...panel('backdrop', 0, 0, width, height, c.backdrop), anchor: {min: [0.5, 0.5], max: [0.5, 0.5]} },
     { name: 'stage', kind: 'container', size: [width, height], children: controls },
