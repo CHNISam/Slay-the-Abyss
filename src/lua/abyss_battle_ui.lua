@@ -234,7 +234,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local selected = instance and instance.uid == self.selected
                 box:GetChild("name").text = display.name .. (instance and instance.upgraded and "＋" or "")
                 ink(box:GetChild("name"), instance and instance.upgraded and C.positive or enabled and C.text or C.textMuted)
-                box:GetChild("label").text = instance and instance.upgraded and display.upgradeText or display.text
+                local text = instance and instance.upgraded and display.upgradeText or display.text
+                local combatText = instance and (instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText)
+                if combatText then
+                    -- The core already applied upgrade and this instance's combat growth.
+                    text = combatText:gsub("{effects%.0%.value}", number(definition.effects[1].value))
+                end
+                box:GetChild("label").text = text
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
                 box:GetChild("cost").text = definition.costMode == "all_energy" and "X" or tostring(definition.cost)
