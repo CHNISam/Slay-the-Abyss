@@ -4,15 +4,15 @@
 
 ## 逐件账本
 
-表中的输入都从 `Run.startCombat` / `Run.usePotion` / `Run.endTurn` 等真实库存入口执行。固定预期写在 `tests/lua/inventory_parity.lua`，不从当前 JSON 动态计算。开局基数为 5 手牌、3 能量、80 最大生命；其他未说明的遗物与修正不在输入中。
+表中的输入都从 `Run.startCombat` / `Run.usePotion` / `Run.endTurn` 等真实库存入口执行。固定预期写在 `tests/lua/inventory_parity.lua`，不从当前 JSON 动态计算；后续开战顺序的固定镜像来源及回归另见 [开战切片](TASK-14.1-opening-relic-order.md) 和 `tests/lua/opening_relic_order.lua`。开局基数为 5 手牌、3 能量、80 最大生命；其他未说明的遗物与修正不在输入中。
 
 | 项目 / 资料章节 | 资料支持的值与时机 | 当前位置与差异 | 验收输入 → 固定预期 |
 | --- | --- | --- | --- |
 | [Burning Blood · Description / Update History](https://slay-the-spire.fandom.com/wiki/Burning_Blood) | 战后回复 6；死亡不回复 | `relics.json:burning_blood`、`Run.finishCombat`；仅胜利一次，先提交生命再给奖励 | 40 HP + 火药击杀末敌 → 奖励界面 46；重复 finish → 仍 46；失败不回复见 `run.lua` |
-| [Anchor · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Anchor) | Common；开战 10 Block | `relics.json:anchor`、`Run.startCombat`；基础抽牌后执行，精确开战队列顺序待核实 | 六件开局遗物 → Block 10；次回合 0；下次战斗再得 10 |
-| [Vajra · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Vajra) | Common；开战 1 Strength | `relics.json:vajra`、`Inventory.apply`；场内保留，战后清理 | 开战与次回合 Strength 均 1；下场仍 1，不累积到 2 |
+| [Anchor · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Anchor) | Common；开战 10 Block | `relics.json:anchor`、`Run.startCombat`；基础抽牌后队尾，保留与 Bag 的相对持有顺序；来源级顺序已修，原作实测待验 | 六件开局遗物 → Block 10；次回合 0；下次战斗再得 10 |
+| [Vajra · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Vajra) | Common；开战 1 Strength | `relics.json:vajra`、`Inventory.apply`；开战队首能力按持有逆序、基础抽牌前执行；场内保留，战后清理 | 开战与次回合 Strength 均 1；下场仍 1，不累积到 2 |
 | [Bag of Preparation · Description / Interactions](https://slay-the-spire.fandom.com/wiki/Bag_of_Preparation) | Common；开局额外抽 2 | `relics.json:bag_of_preparation`、`Run.startCombat`；当前在普通 5 抽之后；与 Innate / 生成牌的相对顺序未验收 | 开局 7 张；次回合普通 5 张；下场重得 7 张 |
-| [Lantern · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Lantern) | Common；第一回合额外 1 Energy | `relics.json:lantern`、`Run.startCombat`；不被首回合能量刷新覆盖 | 首回合 4 能量，次回合 3，下场首回合 4 |
+| [Lantern · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Lantern) | Common；第一回合额外 1 Energy | `relics.json:lantern`、`Run.startCombat`；先于开战队首能力执行，再加基础能量，不被刷新覆盖 | 首回合 4 能量，次回合 3，下场首回合 4；能力帧能量 1 |
 | [Oddly Smooth Stone · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Oddly_Smooth_Stone) | Common；开战 1 Dexterity | `relics.json:oddly_smooth_stone`、`Inventory.apply` | 开战与次回合 Dexterity 均 1；下场仍 1 |
 | [Bronze Scales · Description / Rarity](https://slay-the-spire.fandom.com/wiki/Bronze_Scales)、[Thorns · Description](https://slay-the-spire.fandom.com/wiki/Thorns) | **Common**；开战 3 Thorns；按攻击每段触发，非按扣血触发 | `relics.json:bronze_scales` 原误记 Uncommon，已改 Common；`Actors.damage` 原排除 0 伤害攻击，已修 | 敌方 1 基础攻击 / -1 Strength，单段扣敌 3，三段扣 9，玩家不掉血；敌剩 3 → 首段反杀、截断后段、Burning Blood 只回 6 |
 | [Fire Potion · Potions/List of Potions](https://slay-the-spire.fandom.com/wiki/Potions) | Common；对所选敌人 20 非攻击伤害 | `potions.json:fire_potion`、`Inventory.apply`；固定伤害经过 Block、不受 Strength / Weak / Vulnerable，不触发 Thorns | 敌 7 Block + 玩家 Strength/Weak + 敌 Vulnerable/Thorns → 敌扣 13 HP，玩家无反伤；见 `inventory.lua` |
@@ -40,7 +40,7 @@ Wiki 的 [Thorns](https://slay-the-spire.fandom.com/wiki/Thorns) 将触发定义
 
 ## 精确时序与库存边界仍待完成
 
-- 当前开战为 `Combat.new` 完成回合刷新与基础抽牌后，按取得顺序遍历全部 `combat_start` 遗物。此次证明的是这六件的可见数值与只触发一次；**未证明原作开战队列的精确相对顺序**。Innate、起手生成、混乱抽牌等组合须有原作构建/观察后处理，不能把总手牌数相同当作队列等价。
+- 此次最初开战实现为 `Combat.new` 完成回合刷新与基础抽牌后，按持有顺序遍历全部 `combat_start` 遗物。后续 [开战队列切片](TASK-14.1-opening-relic-order.md) 已按固定镜像方法推导修复现有六件的相对顺序：启程灯 → 逆序能力 → 基础能量／抽牌 → 正序队尾遗物，20 组真实入口回归通过。这是未认证 PC 构建的源码级证据；Innate、起手生成、混乱抽牌等未支持组合及原作实测仍未核实，不能把总手牌数相同当作队列等价。
 - `Run.play` 在整张牌的解释器完成后检查胜利，再处理战后遗物。最后一击后的卡牌抽牌 / 卡牌回血与反刺相对顺序，须由卡牌规则核对共同覆盖；本切片不改效果解释器。尤其 [Thorns/Update History](https://slay-the-spire.fandom.com/wiki/Thorns) 记载 Reaper 的回血应先于反刺，已向卡牌任务报告，不能视为本切片已修。
 - 药水入口只允许战斗玩家回合；无效槽位、无目标、未知定义、溢出均回滚不耗物，见 `inventory.lua`。成功后消费一次，末敌击杀立即结算。原先 `table.remove` 压缩槽位的差异现已补固定方法体证据，并在 [固定药水槽切片](TASK-14.1-potion-slots.md) 修正为原位留空 / 最左空槽补货，战斗与节点 UI 已联动；自然获取链、共享状态上限及其他未纳入修正仍未完成。
 - 未纳入 Sacred Bark、Magic Flower、Toy Ornithopter、Artifact 等修正规则，不得以这份首发账本推断其已经支持。现有 7 件遗物本身不包含这些项目。

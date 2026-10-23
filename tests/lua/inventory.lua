@@ -27,7 +27,7 @@ local function definition(entries, id)
     error("missing definition " .. id)
 end
 
-test("all six opening relics use current data after initial draw and owner-turn reset", function()
+test("all six opening relics use current data and retain their effects after owner-turn reset", function()
     local source = Combat.copy(data)
     definition(source.relics.relics, "anchor").effects[1].value = 13
     definition(source.relics.relics, "bag_of_preparation").effects[1].value = 3
