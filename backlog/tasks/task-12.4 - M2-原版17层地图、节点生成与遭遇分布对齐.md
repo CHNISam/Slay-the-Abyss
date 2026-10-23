@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 02:39'
+updated_date: '2026-10-23 02:45'
 due_date: '2026-10-26'
 labels:
   - required
@@ -18,6 +18,7 @@ references:
   - data/SOURCES.md
   - data/rules.json
   - src/lua/abyss_map.lua
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/62'
 documentation:
   - docs/rules/W1.md
   - docs/rules/sts1-rule-matrix.csv
@@ -53,4 +54,6 @@ ordinal: 40000
 用户2026-10-23直接授权按规则包W1→W4推进，覆盖旧M1排队顺序；只在feat/sts1-w1独立工作树实施，保留所有既有任务历史和主工作区修改。W1未验收不得开启W2。
 
 W1首切片：实际执行固定Oracle v1.1.0（自报1.0.0、sha ea5200f、exe SHA256 add3b40d…），12个指定Seed显式--a0，已记录独立节点/边JSON及hash。当前真实Lua黄金差分0/12通过（11不一致、1完整64位种子接口不支持）；实际Lua Seed0-9999结构检查0/10000通过，10000执行/0进程错误。新增纯问号基础概率reducer：9/9资料包向量、边界/超1不归一化/恢复/失败原子性及10000次重放通过；未接Nodes/原版eventRng，特例仍待核实。npm run check exit0，JS202=188pass14symlink权限skip，Lua现有套件通过且新增6组，Python13=12pass1skip。普通门禁不等于地图Parity。矩阵和完整失败证据在docs/rules/，宽验收项不勾选，任务继续In Progress，不开启W2。
+
+草稿PR62已建立。执行期间远端develop推进至a6be1b6（PR59/58/37/57/60），已无冲突merge至fe78d58，读取并保留新增计层核对文档。最新组合完整npm run check exit0：Node202=188pass14skip、全部Lua（含新卡池/拖牌/交易套件）通过、Python16=15pass1skip。map/random/rules/enemies源文件相对2eaf30f无差异，黄金0/12和性质0/10000失败证据仍适用。PR为draft，待独立审阅；远端Quality未完成不称通过，不merge develop，不关闭W1。
 <!-- SECTION:NOTES:END -->

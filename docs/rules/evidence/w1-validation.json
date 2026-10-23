@@ -50,5 +50,25 @@
   "platformCompile": "NOT_EXECUTED",
   "saveImport": "NOT_EXECUTED",
   "realClient": "NOT_EXECUTED",
-  "workPackageStatus": "W1_IN_PROGRESS_NOT_ACCEPTED"
+  "workPackageStatus": "W1_IN_PROGRESS_NOT_ACCEPTED",
+  "latestIntegration": {
+    "develop": "a6be1b6c7bc2b5f9630151d9bef5edbe7522d4d6",
+    "validatedCommit": "fe78d58fbd51c2a750b07b2ddb562073f37038a3",
+    "command": "npm run check",
+    "exitCode": 0,
+    "node": {
+      "discovered": 202,
+      "passed": 188,
+      "failed": 0,
+      "skipped": 14
+    },
+    "lua": "all discovered scripts passed, including latest develop additions",
+    "python": {
+      "discovered": 16,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 1
+    },
+    "log": "build/sts1-latest-check.log"
+  }
 }
