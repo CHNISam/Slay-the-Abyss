@@ -773,6 +773,7 @@
       "hp": 240,
       "ai": {
         "kind": "guardian",
+        "rollRange": 100,
         "initialThreshold": 30,
         "thresholdIncrement": 10,
         "shiftBlock": 20,

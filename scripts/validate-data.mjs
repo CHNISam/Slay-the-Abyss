@@ -245,7 +245,8 @@ export function validateContent(bundle) {
           fail(`${ap}.ritualIntent`, 'must grant a positive Ritual stack');
         }
       } else if (a.kind === 'guardian') {
-        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
+        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.initialThreshold, `${ap}.initialThreshold`, 1, 2147483647);
         integer(a.thresholdIncrement, `${ap}.thresholdIncrement`, 1, 2147483647);
         integer(a.shiftBlock, `${ap}.shiftBlock`, 0, 999);
