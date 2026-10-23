@@ -29,7 +29,7 @@ Fixed community source (not authenticated original-PC source): aeubanks/sts
   constructor amount1, DEBUFF; atEndOfTurn(isPlayer) queues removal only for true.
 - `cards/AbstractCard.java`, SHA256
   `bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61`:
-  cardPlayable L857 rejects ATTACK when the player has Entangled. Skills, powers
+  hasEnoughEnergy L857 rejects ATTACK when the player has Entangled. Skills, powers
   and potions are not blocked by this card-type check.
 
 1. Write real Combat/Run tests, first observe red: HP endpoints/main roll,
