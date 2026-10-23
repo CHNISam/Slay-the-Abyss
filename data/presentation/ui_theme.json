@@ -46,6 +46,7 @@
     "hpGhost": "#F3E2C8",
     "hpTrack": "#3A1F22",
     "block": "#5FA8E8",
+    "hpShielded": "#4F86BD",
     "energy": "#E9A93B",
     "energyEmpty": "#4A3E2A",
     "positive": "#7DC77A",
@@ -382,6 +383,10 @@
         156,
         16
       ]
+    },
+    "blockBadge": {
+      "size": 28,
+      "gap": 4
     },
     "statusIcon": {
       "size": 26,
