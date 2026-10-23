@@ -184,9 +184,13 @@ local function resolvePlay(state, uid, targetIndex, instance, position, card)
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex], instance)
     EnemyAI.afterCard(state, reactions)
-    local pile
-    if card.exhaust or card.type == "power" then pile = state.exhaust else pile = state.discard end
-    pile[#pile + 1] = instance
+    -- A used Power leaves the combat piles; it is not an exhausted card.
+    -- The Power destination takes precedence over exhaust-on-use, while an
+    -- unplayed Power still follows the ordinary endTurn hand lifecycle.
+    if card.type ~= "power" then
+        local pile = card.exhaust and state.exhaust or state.discard
+        pile[#pile + 1] = instance
+    end
     finish(state)
     return true
 end
