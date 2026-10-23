@@ -281,7 +281,10 @@ function M.new(data, options)
             enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
         end
         for _, intent in ipairs(enemy.intents) do
-            if intent.kind == "sleep" or intent.kind == "stunned" then
+            if intent.kind == "charge" then
+                assert(enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.ai.chargeIntent == intent.id, "charge intent requires matching AI")
+                assert(type(intent.effects) == "table" and next(intent.effects) == nil, "charge intent has effects")
+            elseif intent.kind == "sleep" or intent.kind == "stunned" then
                 assert(type(intent.effects) == "table" and next(intent.effects) == nil, "inactive enemy intent has effects")
             else assert(Effects.supported(intent.effects), "unsupported enemy intent") end
         end

@@ -48,6 +48,8 @@ local function rewardCandidates(run)
     local candidates = {}
     for _, card in ipairs(run.data.cards.cards) do
         if card.rarity ~= "basic" and card.rarity ~= "special" and not card.condition and not card.costMode
+            -- Boss rewards are rare-only; other tiers retain their current pool.
+            and (run.encounterTier ~= "boss" or card.rarity == "rare")
             and Effects.supported(card.effects) then candidates[#candidates + 1] = card.id end
     end
     return candidates

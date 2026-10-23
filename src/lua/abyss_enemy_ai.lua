@@ -14,6 +14,11 @@ end
 
 function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "charge_then_attack" then
+        enemy.aiCharge = enemy.ai.initialCharge
+        select(enemy, enemy.ai.chargeIntent)
+        return
+    end
     if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
@@ -38,6 +43,11 @@ end
 function M.advance(state, enemy, random)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "charge_then_attack" then
+        if enemy.intents[enemy.intentIndex].id == enemy.ai.chargeIntent then
+            enemy.aiCharge = enemy.aiCharge + 1
+        end
+        select(enemy, enemy.aiCharge == enemy.ai.chargeLimit and enemy.ai.attackIntent or enemy.ai.chargeIntent)
     elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase = "attacking"
@@ -84,6 +94,9 @@ function M.flush(state, actingSource)
 end
 
 function M.beforeAction(state, enemy)
+    if enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.intents[enemy.intentIndex].id == enemy.ai.attackIntent then
+        enemy.aiCharge = 0 -- Reset before damage, including lethal retaliation.
+    end
     if enemy.ai and enemy.ai.kind == "guardian" then Guardian.beforeAction(state, enemy) end
 end
 
