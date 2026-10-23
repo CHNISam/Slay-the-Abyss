@@ -1,5 +1,5 @@
 ---
-id: TASK-40
+id: TASK-43
 title: 防止过期触摸结束回合或跳过奖励
 status: In Progress
 assignee:
