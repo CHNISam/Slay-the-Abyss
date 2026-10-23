@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-native-bgm'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-23 08:29'
+updated_date: '2026-10-23 15:51'
 labels:
   - P1
   - bgm
@@ -56,4 +56,6 @@ ordinal: 46000
 2026-10-23 离线切片已具备：官方背景音乐/节点说明缓存及 MCP genshin-ts@0.2.2 参数核验；music_catalog实际188条，6个ID/标题/时长逐项匹配。新增默认关闭的 nativeBgmEnabled 脚本参数，Lua宿主只在可见阶段切换后发送7种去重信号；原生图负责换曲/暂停。故障不阻断游戏，不改规则/RNG/Theme.sound。新增独立 build-native-bgm-candidate 命令，仅显式候选启用。基于085f499副本原生图编译+写副本成功：77节点/editor252、0编译警告；27Lua静态0错误/17既有警告，输入hash前后不变。npm run check全链通过：JS 587（472通过/115跳过/0失败），Lua全部通过，Python16（1跳过）；新增图3、Lua3、宿主2组，既有game_ui15组保留。详见docs/NATIVE_BGM.md、docs/evidence/task34-native-bgm.json。原神未启动，官方导入/播放/听感/无叠播/最终曲目均NOT_TESTED；四项实机AC全不勾选，任务保持In Progress。
 
 最终接线补充：换曲后明确调用 startPausePlayerBackgroundMusic(player,true)，避免依赖换曲自动解除菜单暂停。最终图重新编译写副本通过，83节点/editor258、0编译警告；新增图回归重跑3/3通过。此前77/editor252为中间版本，最终证据与hash以docs/evidence/task34-native-bgm.json为准。
+
+用户已试听并确认当前战斗曲10044够用，暂保留。2026-10-23_23:18:48新会话248秒有应用记录；BGM45、音效65，后续有死亡/连击，但连击用已淘汰A8。记录docs/SFX_SELECTION.md与docs/evidence/sfx-review-20261023.json；分关卡换曲为可选优化，复用现有原生cue。完整游戏循环/切换/无叠播/多设备及混音AC仍保留。
 <!-- SECTION:NOTES:END -->
