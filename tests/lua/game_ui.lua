@@ -147,7 +147,8 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
         assert(ui.map.floor == floor and ui.run.nodeFlow.complete)
         assert(ui.mode == (floor == data.rules.map.bossFloor and "victory" or "map"))
     end
-    for _, kind in ipairs(data.rules.map.nodeTypes) do assert(seen[kind], "missing panel " .. kind) end
+    -- Optional shop/event/elite rooms are no longer artificially forced on every route.
+    for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory panel " .. kind) end
     assert(root:GetChild("menuPanel"):GetChild("summary").text:find("首领已击败", 1, true))
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)

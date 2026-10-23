@@ -346,7 +346,7 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
         elseif node.type == "event" then assert(Nodes.chooseEvent(run, "gold")) end
     end
     equal(#map.path, data.rules.map.bossFloor)
-    for _, kind in ipairs(data.rules.map.nodeTypes) do assert(seen[kind], "missing " .. kind) end
+    for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory " .. kind) end
     equal(run.nodeFlow.result, "boss_victory")
     local nextRoom = Map.available(map)
     equal(#nextRoom, 1); equal(nextRoom[1].roomKind, "boss_treasure")

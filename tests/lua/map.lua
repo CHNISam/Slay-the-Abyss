@@ -153,6 +153,7 @@ test("malformed graphs, progress, references and configuration drift cannot rest
         function(s) s.version = 999 end,
         function(s) s.seed = math.huge end,
         function(s) s.randomSeed = s.randomSeed + 1 end,
+        function(s) s.encounterRandomSeed = s.encounterRandomSeed + 1 end,
         function(s) s.nodes[1].nextIds[1] = s.nodes[10].id end,
         function(s) s.nodes[1].encounterId = "missing" end,
         function(s) s.nodes[43].floor = 14 end,

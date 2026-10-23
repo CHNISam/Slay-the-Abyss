@@ -56,7 +56,7 @@ local function configuration(data)
             minFloor = entry.minFloor, maxFloor = entry.maxFloor }
     end
     table.sort(encounters, function(a, b) return a.id < b.id end)
-    local signature = { "map-v2:17:rows15:boss16:rest15:treasure9:bossTreasure17" }
+    local signature = { "map-v2:17:rows15:boss16:rest15:treasure9:bossTreasure17:encounterStream" }
     for _, entry in ipairs(encounters) do
         signature[#signature + 1] = entry.id .. ":" .. entry.tier .. ":" .. entry.minFloor .. ":" .. entry.maxFloor
     end
@@ -76,7 +76,12 @@ end
 function M.generate(data, seed)
     local encounters, signature = configuration(data)
     local random = Random.new(seed)
-    local map = { version = 2, seed = random.seed, randomSeed = random.seed, sourceSignature = signature,
+    -- Same initial seed, independent state. Sharing the room-type stream makes
+    -- even-sized encounter pools unreachable through low-bit LCG correlation.
+    -- This remains the local candidate RNG, not original PC random parity.
+    local encounterRandom = Random.new(seed)
+    local map = { version = 2, seed = random.seed, randomSeed = random.seed,
+        encounterRandomSeed = encounterRandom.seed, sourceSignature = signature,
         floor = 0, path = {}, nodes = {} }
     for floor = 1, data.rules.map.floors do
         local allowed = {}
@@ -95,7 +100,7 @@ function M.generate(data, seed)
             if tierFor[kind] then
                 local candidates = pool(encounters, kind, floor)
                 assert(#candidates > 0, "no eligible " .. kind .. " encounter on floor " .. floor)
-                node.encounterId = candidates[Random.next(random, #candidates)]
+                node.encounterId = candidates[Random.next(encounterRandom, #candidates)]
             end
             map.nodes[#map.nodes + 1] = node
         end
@@ -109,6 +114,7 @@ function M.generate(data, seed)
         end
     end
     map.randomSeed = random.seed
+    map.encounterRandomSeed = encounterRandom.seed
     return map
 end
 

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 02:29'
+updated_date: '2026-10-23 02:46'
 due_date: '2026-10-26'
 labels:
   - required
@@ -48,4 +48,10 @@ ordinal: 40000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-23 用户最新授权多个独立任务并行自主推进且暂不开原神，覆盖历史唯一主冲刺排队纪律。执行worktree .worktrees/task12-map17；本切片保留已核对范围与未知项，完整17层Boss宝箱内容/原版随机流仍单独列缺口。
+
+2026-10-23 离线切片已基于合并PR37/57/60后的develop：Map v2区分15生成行、Boss16、独立Boss宝箱17入口（roomKind=boss_treasure）；UI不将17画成普通可选地图行，源报告与数据说明同步。固定128种子强制1/9/15、前5禁精英/营地、14禁营地及17步快照通过；聚焦map/data/UI 77/77通过。完整check发现旧LCG连续取模关联导致移除伪强制节点后blue_slaver_solo等偶数池候选不可达，正在修复验证，不计全门禁通过。Boss17奖励由主线程保护，现宿主仍Boss16结果；本任务全部完整一致性AC保持未勾。
+
+旧LCG回归红绿证据：首次完整check在encounter_coverage.lua:153失败，blue_slaver_solo在256种子缺失；保留同一断言，以相同seed独立创建地图房间/拓扑流及遭遇流后，18遭遇全部出现、188组遭遇回归通过。分流依据Forgotten Arbiter 2020-07-24原始分析（源链接及边界见地图报告），未改变数值/权重，未添加任意偏移/补抽；仍保留16位LCG与uniform候选，故不宣称原版64位RNG/加权列表/重复限制一致。完整check正在重跑。
+
+2026-10-23 最终离线复验：npm run check exit0；JS188项（174通过，14项符号链接能力跳过），Lua735组通过，Python16项（15通过，1符号链接权限跳过）；另聚焦map/data/UI77项通过。未修改全遭遇覆盖断言。快照验证也覆盖独立遭遇流末态被篡改时拒绝。当前分支不宣称原版算法/概率/17层奖励事务或平台验收，所有AC保持未勾。
 <!-- SECTION:NOTES:END -->

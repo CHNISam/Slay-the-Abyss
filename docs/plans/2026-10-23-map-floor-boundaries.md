@@ -11,4 +11,6 @@
 3. Update map UI capacity and Boss viewport extent; hide the independent treasure room and its connecting line. Adjust existing floor assumptions in validation and UI tests.
 4. Run `npm run check`, record exact evidence and leave full parity/platform acceptance open. The original PC RNG/path/node-weight/encounter algorithm and Boss treasure rewards require further work.
 
+Regression follow-up: removing the old artificial forced rows exposed LCG low-bit correlation that made some ordinary encounters unreachable. Preserve the failing encounter-coverage assertion; separate room/topology and encounter state using the same initial seed, consistent with the independently seeded responsibility streams described by Forgotten Arbiter. Keep the existing LCG and uniform pool selection explicitly unverified against PC algorithms.
+
 The user authorized independent Backlog implementation and delegated this slice. The source report remains `docs/reviews/TASK-12.4-map-floor-evidence.md`; its third-party reverse-engineering provenance is unchanged.
