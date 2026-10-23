@@ -101,10 +101,13 @@ test("intent copy is immutable to UI and executed before advancing", function()
     intent.effects[1].value = 999
     assert(Combat.endTurn(s))
     equal(s.player.hp, s.player.maxHp - 11)
-    equal(Combat.intent(s, 1).kind, "defend")
+    equal(Combat.intent(s, 1).kind, "buff") -- Bellow: Strength then Block
     assert(Combat.endTurn(s))
     equal(s.enemies[1].block, 6)
-    equal(Combat.intent(s, 1).kind, "buff")
+    equal(s.enemies[1].statuses.strength, 3)
+    equal(Combat.intent(s, 1).kind, "attack") -- Thrash: damage then Block
+    equal(Combat.intent(s, 1).effects[1].value, 7)
+    equal(Combat.intent(s, 1).effects[2].value, 5)
 end)
 
 test("dead enemies skip queued attacks and victory refuses further commands", function()

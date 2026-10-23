@@ -37,6 +37,7 @@
       "name": "石颚兽",
       "tier": "normal",
       "hp": 42,
+      "hpRange": { "min": 40, "max": 44 },
       "intents": [
         {
           "id": "jaw_worm_1",
@@ -50,8 +51,13 @@
         },
         {
           "id": "jaw_worm_2",
-          "kind": "defend",
+          "kind": "buff",
           "effects": [
+            {
+              "op": "gainStatus",
+              "status": "strength",
+              "value": 3
+            },
             {
               "op": "block",
               "value": 6
@@ -60,12 +66,15 @@
         },
         {
           "id": "jaw_worm_3",
-          "kind": "buff",
+          "kind": "attack",
           "effects": [
             {
-              "op": "gainStatus",
-              "status": "strength",
-              "value": 3
+              "op": "damage",
+              "value": 7
+            },
+            {
+              "op": "block",
+              "value": 5
             }
           ]
         }
@@ -441,6 +450,7 @@
       "name": "潜行小魔",
       "tier": "normal",
       "hp": 12,
+      "hpRange": { "min": 10, "max": 14 },
       "intents": [
         {
           "id": "sneaky_gremlin_1",
