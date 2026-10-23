@@ -1,8 +1,21 @@
 -- Actor arithmetic and turn status rules; no UI or platform globals.
 local M = {}
+local Events = require("abyss_events")
+
+function M.status(state, actor, id, amount, source)
+    local before = actor.statuses[id] or 0
+    M.addStatus(actor, id, amount)
+    if before <= 0 and actor.statuses[id] > 0
+        and actor.statusDefinitions[id].decay == "round_end_minus_1" then
+        local monster = source ~= nil and source ~= state.player
+        actor[id .. "JustApplied"] = monster and (id ~= "vulnerable" or state.phase == "enemy") or nil
+    end
+    Events.emit(state, "status", {source = (source or actor).id, target = actor.id,
+        status = id, amount = actor.statuses[id] - before})
+end
 
 local stacks = { intensity = true, duration = true, none = true }
-local decays = { none = true, turn_end_minus_1 = true,
+local decays = { none = true, turn_end_minus_1 = true, round_end_minus_1 = true,
     turn_start_trigger_then_minus_1 = true, turn_end_trigger_then_minus_1 = true }
 local signed = { strength = true, dexterity = true }
 
@@ -25,10 +38,16 @@ end
 function M.addStatus(actor, id, amount)
     local definition = assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
-    local value = (actor.statuses[id] or 0) + 0.0 + amount
+    local before = actor.statuses[id] or 0
+    local value = before + 0.0 + amount
     assert(integer(value), "status stack overflow") -- reject before mutating
+    -- Strength/Dexterity clamp after stacking, for either actor and either sign.
+    if signed[id] then value = math.max(-999, math.min(999, value)) end
     if definition.stack == "none" then value = value > 0 and 1 or 0 end
     actor.statuses[id] = signed[id] and value or math.max(0, value)
+    if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
+        actor[id .. "JustApplied"] = nil
+    end
     return actor.statuses[id]
 end
 
@@ -54,11 +73,11 @@ function M.statusView(actor)
     return result
 end
 
-local function directDamage(state, source, target, amount, status)
+local function directDamage(state, source, target, amount, status, blocked)
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
-    state.events[#state.events + 1] = { kind = "status_damage", detail = {
-        source = source.id, target = target.id, status = status, amount = lost } }
+    Events.emit(state, "status_damage", {
+        source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     return lost
 end
 
@@ -74,18 +93,32 @@ function M.attackAmount(state, source, target, base, fixed)
     return math.max(0, math.floor(amount))
 end
 
-function M.damage(state, source, target, base, fixed)
+-- An area attack collects retaliation until all of its targets are damaged.
+-- A dead attacker may still own a queued Thorns hit; dead victims cannot lose HP.
+function M.retaliate(state, source, target, amount)
+    if target.hp <= 0 then return 0 end
+    local blocked = math.min(target.block, amount)
+    target.block = target.block - blocked
+    return directDamage(state, source, target, amount - blocked, "thorns", blocked)
+end
+
+function M.damage(state, source, target, base, fixed, retaliation)
     if target.hp <= 0 or source.hp <= 0 then return 0 end
     local amount = M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
-    state.events[#state.events + 1] = { kind = "damage", detail = { source = source.id, target = target.id, amount = lost, blocked = absorbed } }
-    -- Retaliation is direct HP loss: no modifiers, block or recursive retaliation.
-    -- The defender retaliates even if this positive attack was blocked or lethal.
-    if not fixed and amount > 0 and (target.statuses.thorns or 0) > 0 then
-        directDamage(state, target, source, target.statuses.thorns, "thorns")
+    Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
+    -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
+    -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
+    if not fixed and (target.statuses.thorns or 0) > 0 then
+        local thorns = target.statuses.thorns
+        if retaliation then
+            retaliation[#retaliation + 1] = { source = target, target = source, amount = thorns }
+        else
+            M.retaliate(state, target, source, thorns)
+        end
     end
     return lost
 end
@@ -100,7 +133,10 @@ function M.blockAmount(state, actor, amount, fixed)
 end
 
 function M.block(state, actor, amount, fixed)
-    actor.block = actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed)
+    local before = actor.block
+    -- Cap the final state, not the modifier calculation or its float precision.
+    actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
+    Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
 end
 
 local function tick(state, actor, phase)
@@ -112,19 +148,31 @@ local function tick(state, actor, phase)
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
         local amount = actor.statuses[id]
         local decay = definition.decay
-        if amount > 0 and decay:sub(1, #phase) == phase then
+        local skip = phase == "round_end" and actor[id .. "JustApplied"]
+        if skip then actor[id .. "JustApplied"] = nil end
+        if amount > 0 and decay:sub(1, #phase) == phase and not skip then
             if decay:find("trigger", 1, true) then
                 if id == "poison" then directDamage(state, actor, actor, amount, "poison")
                 elseif id == "regen" then
                     local healed = math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
-                    state.events[#state.events + 1] = { kind = "heal", detail = { target = actor.id, amount = healed, status = id } }
+                    Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
                 end
             end
             actor.statuses[id] = amount - 1
+            if decay:find("trigger", 1, true) then
+                -- Trigger and decay are one presentation step, including lethal poison.
+                state.events[#state.events].frame = Events.frame(state)
+            else
+                Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
+            end
             if actor.hp <= 0 then return end
         end
     end
+end
+
+function M.endRound(state, actor)
+    tick(state, actor, "round_end")
 end
 
 function M.endTurn(state, actor)
@@ -132,14 +180,19 @@ function M.endTurn(state, actor)
     if actor.hp <= 0 then return end
     local temporary = actor.temporaryStrength or 0
     if temporary ~= 0 then
-        M.addStatus(actor, "strength", -temporary)
+        M.status(state, actor, "strength", -temporary)
         actor.temporaryStrength = 0
+        -- Status removal and its bookkeeping are one presentation step.
+        state.events[#state.events].frame = Events.frame(state)
     end
 end
 
 function M.startTurn(state, actor)
     if actor.hp <= 0 then return end
-    if (actor.statuses.barricade or 0) <= 0 then actor.block = 0 end
+    if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
+        actor.block = 0
+        Events.emit(state, "block_reset", {target = actor.id})
+    end
     tick(state, actor, "turn_start")
 end
 

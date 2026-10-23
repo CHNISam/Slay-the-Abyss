@@ -3,6 +3,38 @@ import assert from 'node:assert/strict';
 import { battleLayout, handPose, theme } from '../scripts/ui-layout.mjs';
 
 const stage = () => battleLayout().controls.find(c => c.name === 'stage');
+test('feedback uses a fixed non-interactive native pool within the per-parent platform limit', () => {
+  walk(battleLayout().controls, control => assert.ok((control.children?.length ?? 0) <= 60, control.name));
+  const actors = stage().children.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name));
+  assert.equal(actors.length, 6);
+  for (const actor of actors) for (const name of ['hpGhost', 'impact', 'shield', 'floating']) {
+    const pool = actor.children.filter(c => c.name === name);
+    assert.equal(pool.length, 1);
+    assert.equal(pool[0].kind === 'cursorArea', false);
+    if (name !== 'hpGhost') assert.equal(pool[0].visible, false);
+  }
+  const overlay = stage().children.find(c => c.name === 'feedback');
+  walk([overlay], control => assert.ok(!['cursorArea', 'presetButton'].includes(control.kind)));
+  // Polish adds exactly one shared area sweep; every other effect reuses the per-actor pool.
+  const sweep = overlay.children.filter(c => c.name === 'sweep');
+  assert.equal(sweep.length, 1);
+  assert.equal(sweep[0].visible, false);
+  assert.equal(sweep[0].image, theme.image.diamond);
+  assert.equal(overlay.children.length, 4);
+});
+test('approved critical actor values and card types have native text line room', () => {
+  const controls = stage().children;
+  for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+    for (const name of ['name', 'hp', 'block', 'statuses']) {
+      const label = unit.children.find(c => c.name === name);
+      assert(label && label.size[1] >= theme.layout.nativeText.lineHeight, `${unit.name}/${name}`);
+      assert(label.text.minFontSize >= theme.font.minimum);
+    }
+  }
+  for (const card of controls.filter(c => /^card\d+$/.test(c.name))) {
+    assert(card.children.find(c => c.name === 'type').size[1] >= theme.layout.nativeText.lineHeight);
+  }
+});
 function walk(controls, fn, x = 0, y = 0) {
   const names = new Set();
   for (const control of controls) {
@@ -45,6 +77,11 @@ test('one through ten hand cards, including selection, fit the 40/20 safe area o
 });
 test('native buttons provide all four states and touch hit areas stay inside the safe area', () => {
   const controls = stage().children;
+  const drag = controls.find(c => c.name === 'dragLayer');
+  const capture = drag.children.find(c => c.name === 'hit');
+  assert.equal(drag.visible, false);
+  assert.equal(capture.focusable, false);
+  assert.deepEqual(capture.size, theme.canvas.base);
   assert.equal(controls.filter(c => /^card\d+$/.test(c.name)).length, 10);
   walk(controls, (c, x, y) => {
     if (c.kind === 'presetButton') {
@@ -55,6 +92,7 @@ test('native buttons provide all four states and touch hit areas stay inside the
     }
     if (c.kind === 'cursorArea' || c.kind === 'presetButton') {
       assert(Math.min(...c.size) >= 44);
+      if (c === capture) return; // invisible gesture catcher covers the canvas, ordinary touch controls stay safe
       assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x');
       assert(Math.abs(y) + c.size[1] / 2 <= 340 + 1e-8, c.name + ' safe y');
     }

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-23 01:58'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -46,6 +46,8 @@ CLAIM 2026-10-23 /root/node_flows；feat/task-13-node-flows，.worktrees/node-fl
 最终完整集成门禁npm run check退出0；统一入口5组真实处理器测试、13组节点UI、18组Nodes规则全通过。UI展示真实生成的卡牌费用/效果与升级后效果；根目录旧Backlog改动保持原状。
 
 原AC1真实平台七节点流程保留TASK-12.3；PR29已合并，本轮Nodes18/NodeUI13/GameUI5组通过；低HP测试夹具不算正式通关。
+
+2026-10-23规则决策：保留本地七节点事务Done及全部证据；原项目固定价格/奖励/替代事件不再作为最终获准规则。TASK-13.1承接原版节点/经济/概率修正，TASK-12.3验实机。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -10,11 +10,14 @@ import { battleLayout } from './ui-layout.mjs';
 
 const require = createRequire(import.meta.url);
 
-export function runLua(script = 'tests/lua/combat.lua', { timeout = 15000, cwd = process.cwd() } = {}) {
+export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process.cwd() } = {}) {
   const cli = require.resolve('fengari-node-cli/src/lua-cli.js');
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const fixture = script.replaceAll('\\', '/').endsWith('tests/lua/battle_ui.lua');
+  // The full native-tree feedback/drag fixture exceeded 15s twice on the Windows
+  // runner. Keep a finite 30s budget for it; other scripts retain 15s by default.
+  timeout ??= fixture ? 30000 : 15000;
   const temporary = fixture ? join(tmpdir(), `abyss-ui-test-${randomUUID()}.lua`) : null;
   if (temporary) writeFileSync(temporary, `ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\ndofile(${luaString(resolve(cwd, script))})\n`);
   let result;
@@ -22,7 +25,7 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout = 15000, cwd =
     cwd, encoding: 'utf8', timeout, maxBuffer: 1024 * 1024,
     env: { ...process.env, LUA_PATH: './build/lua/?.lua;./src/lua/?.lua;;', LUA_PATH_5_3: './build/lua/?.lua;./src/lua/?.lua;;', LUA_INIT: '', LUA_INIT_5_3: '' }
   }); } finally { if (temporary) unlinkSync(temporary); }
-  if (result.error) throw new Error(`Lua runner failed: ${result.error.message}`, { cause: result.error });
+  if (result.error) throw new Error(`Lua runner failed (${script}, ${timeout} ms): ${result.error.message}`, { cause: result.error });
   if (result.signal) throw new Error(`Lua runner terminated by ${result.signal}`);
   return result;
 }

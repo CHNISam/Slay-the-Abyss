@@ -1,0 +1,178 @@
+{
+  "baseline": "5ab1d95",
+  "original": {
+    "blocks": 20,
+    "assertions": 202,
+    "sha256": "52fc1a5f8c88927d87e9faa933daef7da56207e162621233ffceebfa18e919d7"
+  },
+  "migrated": {
+    "blocks": 20,
+    "assertions": 202,
+    "sha256": "52fc1a5f8c88927d87e9faa933daef7da56207e162621233ffceebfa18e919d7"
+  },
+  "groups": [
+    {
+      "path": "tests/lua/game_ui.lua",
+      "blocks": 14,
+      "assertions": 146,
+      "sha256": "76de9b885da1d4e8d72d9db021157685b6d9ea5a1a5aae889432c904b21e3237"
+    },
+    {
+      "path": "tests/lua/game_ui_deck.lua",
+      "blocks": 6,
+      "assertions": 56,
+      "sha256": "b8bccf06e758c189f4e9252e677e7344e493ee6cfd7f4528cf1dda8737bf13b2"
+    }
+  ],
+  "tests": [
+    {
+      "index": 1,
+      "name": "test(\"menu starts real map, enters actual encounter, consumes reward and unlocks next layer\", function()",
+      "assertions": 15,
+      "originalSha256": "e1ee799dec670fedb395d07c4324b544db1d3087756c84b8e2f9797095235a66",
+      "migratedSha256": "e1ee799dec670fedb395d07c4324b544db1d3087756c84b8e2f9797095235a66"
+    },
+    {
+      "index": 2,
+      "name": "test(\"defeat returns to menu and restart replaces the complete same-run state\", function()",
+      "assertions": 5,
+      "originalSha256": "1db7186c4758f890466f6b8a082fc2b713fb91470dd9e36e1e083e73107ea41c",
+      "migratedSha256": "1db7186c4758f890466f6b8a082fc2b713fb91470dd9e36e1e083e73107ea41c"
+    },
+    {
+      "index": 3,
+      "name": "test(\"node panels compose through fifteen generated rows and Boss16 then restart\", function()",
+      "assertions": 15,
+      "originalSha256": "f77fd3cc12e66c24d4d1b262b97fcea26f2532c0b8e791ec855f0bee181c121c",
+      "migratedSha256": "f77fd3cc12e66c24d4d1b262b97fcea26f2532c0b8e791ec855f0bee181c121c"
+    },
+    {
+      "index": 4,
+      "name": "test(\"same-run result records active time and victories, freezes on results and resets on restart\", function()",
+      "assertions": 16,
+      "originalSha256": "4f1e664e7fd15e15380f3291e64ce8c1b4bc2de318a22488e54893834de7c5ed",
+      "migratedSha256": "4f1e664e7fd15e15380f3291e64ce8c1b4bc2de318a22488e54893834de7c5ed"
+    },
+    {
+      "index": 5,
+      "name": "test(\"result settlement sends each outcome once and cannot restart while official settlement is pending\", function()",
+      "assertions": 17,
+      "originalSha256": "744e9b31e5fe7e5bbe89de215deafd5bbc8f9bee366966688cdaeafb68b97186",
+      "migratedSha256": "744e9b31e5fe7e5bbe89de215deafd5bbc8f9bee366966688cdaeafb68b97186"
+    },
+    {
+      "index": 6,
+      "name": "test(\"settlement callback failure is visible and retryable without claiming official completion\", function()",
+      "assertions": 10,
+      "originalSha256": "6df091e3f55ad54bafd2a008f8b70c8a70549dc98ed0565fb4192713df514c58",
+      "migratedSha256": "6df091e3f55ad54bafd2a008f8b70c8a70549dc98ed0565fb4192713df514c58"
+    },
+    {
+      "index": 7,
+      "name": "test(\"menu copy follows the current map rules instead of the legacy fifteen-floor line\", function()",
+      "assertions": 5,
+      "originalSha256": "6c58755340c8fc0b9d8df4fead2b1b680f1dc15f1bce54f5140205c2d782717b",
+      "migratedSha256": "6c58755340c8fc0b9d8df4fead2b1b680f1dc15f1bce54f5140205c2d782717b"
+    },
+    {
+      "index": 8,
+      "name": "test(\"result page shows only the recorded run stats in the approved four cells\", function()",
+      "assertions": 14,
+      "originalSha256": "6956c43df89f95e842949bfb5da429780a0fae36b511c5214cf9395cc2208a4b",
+      "migratedSha256": "6956c43df89f95e842949bfb5da429780a0fae36b511c5214cf9395cc2208a4b"
+    },
+    {
+      "index": 9,
+      "name": "test(\"repeated settlement clicks, clicks during reveal and restart attempts submit exactly once\", function()",
+      "assertions": 14,
+      "originalSha256": "639b079828b876e17d10ad4116ae94601c813fe4535189bb2e378350551883c7",
+      "migratedSha256": "639b079828b876e17d10ad4116ae94601c813fe4535189bb2e378350551883c7"
+    },
+    {
+      "index": 10,
+      "name": "test(\"result reveal settles exactly on approved frames and feedback motion never hides controls\", function()",
+      "assertions": 16,
+      "originalSha256": "384a27fe3c3b015d9f39d121bd09bc44bfb0a0ce93b7bf884741d7ed3e8ca9e7",
+      "migratedSha256": "384a27fe3c3b015d9f39d121bd09bc44bfb0a0ce93b7bf884741d7ed3e8ca9e7"
+    },
+    {
+      "index": 11,
+      "name": "test(\"viewport scales each device uniformly and covers wider canvas outside the stage\", function()",
+      "assertions": 4,
+      "originalSha256": "068da8c21a25cf16da9dde77edf96aca306e936917b87f376903158a10a5bbb9",
+      "migratedSha256": "068da8c21a25cf16da9dde77edf96aca306e936917b87f376903158a10a5bbb9"
+    },
+    {
+      "index": 12,
+      "name": "test(\"host defers defeat routing until the final feedback banner and releases result input once\", function()",
+      "assertions": 7,
+      "originalSha256": "eb2bf7be7238363359cee4ffe69f5569932e55d07ba1597fe88c22097b93bfdc",
+      "migratedSha256": "eb2bf7be7238363359cee4ffe69f5569932e55d07ba1597fe88c22097b93bfdc"
+    },
+    {
+      "index": 13,
+      "name": "test(\"native lifecycle loads every composed control and registers its listeners only once\", function()",
+      "assertions": 5,
+      "originalSha256": "51f14621d46446f1732dfdcedd06ebbda2494f091416e64a9a970cae393658d5",
+      "migratedSha256": "51f14621d46446f1732dfdcedd06ebbda2494f091416e64a9a970cae393658d5"
+    },
+    {
+      "index": 14,
+      "name": "test(\"startup failure is visible without log subscription and hides the dead start button\", function()",
+      "assertions": 3,
+      "originalSha256": "ab6ed1a85da1debcb3ee37710cbe8730aac093e82d5557212fefb8d5c542b589",
+      "migratedSha256": "ab6ed1a85da1debcb3ee37710cbe8730aac093e82d5557212fefb8d5c542b589"
+    },
+    {
+      "index": 15,
+      "name": "test(\"deck overlay reads permanent UID and upgraded text and never changes the run or route\", function()",
+      "assertions": 16,
+      "originalSha256": "842956c6008075676fa848f4ef10a4bfd98c9dd932d8edd6f63226a041cbebca",
+      "migratedSha256": "842956c6008075676fa848f4ef10a4bfd98c9dd932d8edd6f63226a041cbebca"
+    },
+    {
+      "index": 16,
+      "name": "test(\"grid discovers runtime index origin, including deferred callbacks, and reopens with fresh ownership\", function()",
+      "assertions": 10,
+      "originalSha256": "8c3f475b305f84d0fbb76986760f81ba46bb84a5f20811a06feb66de19f860b4",
+      "migratedSha256": "8c3f475b305f84d0fbb76986760f81ba46bb84a5f20811a06feb66de19f860b4"
+    },
+    {
+      "index": 17,
+      "name": "test(\"battle overlay cancels pending drag and blocks cards, potions, turn and reward commands\", function()",
+      "assertions": 8,
+      "originalSha256": "0cb955bc55a786e3b3ada109a7fa026cdaf985119609f2def16ebef31feb4ba0",
+      "migratedSha256": "0cb955bc55a786e3b3ada109a7fa026cdaf985119609f2def16ebef31feb4ba0"
+    },
+    {
+      "index": 18,
+      "name": "test(\"node overlay preserves the node presentation while preventing underlying transactions\", function()",
+      "assertions": 8,
+      "originalSha256": "7489ca23c79d7527f12749d64a011a5ca47453705b43927b8cf415db5df97e7e",
+      "migratedSha256": "7489ca23c79d7527f12749d64a011a5ca47453705b43927b8cf415db5df97e7e"
+    },
+    {
+      "index": 19,
+      "name": "test(\"deck costs and descriptions use permanent upgraded instances instead of temporary hand growth\", function()",
+      "assertions": 9,
+      "originalSha256": "eef85124e7a3a54f48fba0d208aeb202ef8fa4b2a04748a26ea4a0b48db8bc84",
+      "migratedSha256": "eef85124e7a3a54f48fba0d208aeb202ef8fa4b2a04748a26ea4a0b48db8bc84"
+    },
+    {
+      "index": 20,
+      "name": "test(\"reward view cannot claim or skip beneath the deck overlay and resumes after closing\", function()",
+      "assertions": 5,
+      "originalSha256": "e901935ef04a8fb9a004e536d8c23c81721f45d99a4f5d1dad5400b0f2b77f84",
+      "migratedSha256": "e901935ef04a8fb9a004e536d8c23c81721f45d99a4f5d1dad5400b0f2b77f84"
+    }
+  ],
+  "helpers": {
+    "unchanged": true,
+    "sha256": "01378d80c2112f5ef6a9bd52d7e512c8cdb3b6962650c3554d1daa3f969549bd",
+    "assertions": 9
+  },
+  "cliDiscovered": [
+    "game_ui.lua",
+    "game_ui_deck.lua"
+  ]
+}

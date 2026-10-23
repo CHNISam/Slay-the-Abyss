@@ -9,10 +9,10 @@ export const loadMapTheme = () => JSON.parse(readFileSync('data/presentation/ui_
 // These are presentation capacities, never a replacement for Map.view's graph.
 export function mapGeometry(theme = loadMapTheme()) {
   const { floorGap, viewportHeight } = theme.layout.map;
-  return { floors: 15, lanes: 3, maxNodes: 45, maxEdges: 126,
+  return { floors: 16, generatedRows: 15, lanes: 3, maxNodes: 47, maxEdges: 126,
     viewport: { left: -460, right: 440, bottom: -308, top: -308 + viewportHeight },
-    firstY: -308 + 60, contentHeight: 15 * floorGap + 120,
-    maxScroll: 15 * floorGap + 120 - viewportHeight, focusY: -128,
+    firstY: -308 + 60, contentHeight: 16 * floorGap + 120,
+    maxScroll: 16 * floorGap + 120 - viewportHeight, focusY: -128,
     scrollStep: floorGap * 3, breathSeconds: 1.4, breathScale: 1.1,
     glowPadding: 12, lineWidth: 4 };
 }
@@ -57,10 +57,17 @@ export function mapLayout(theme = loadMapTheme()) {
       image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s));
     controls.push({ name: `node${i}`, kind: 'container', position: [0, 0], size: [s, s], visible: false, children });
   }
+  // MCP accepts at most 60 children per control. Keep draw order and positions
+  // while putting the large edge/node pools in zero-offset containers.
+  const groups = [];
+  for (let i = 0; i < controls.length; i += 50) groups.push({
+    name: `mapGroup${groups.length + 1}`, kind: 'container', size: theme.canvas.base,
+    children: controls.slice(i, i + 50),
+  });
   return { name: 'AbyssMap', showCursor: true, blockKeys: true, blockCursor: true,
     controls: [image('mapBackdrop', 0, 0, ...theme.canvas.base, c.backdrop),
       { name: 'stage', kind: 'container', size: theme.canvas.base, children: [
-        { name: 'mapPanel', kind: 'container', size: theme.canvas.base, children: controls },
+        { name: 'mapPanel', kind: 'container', size: theme.canvas.base, children: groups },
       ] }],
   };
 }

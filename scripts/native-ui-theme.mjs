@@ -15,15 +15,21 @@ export function nativeControls(theme = nativeTheme) {
     },
   });
   const plate = (name, values, colour = theme.color.panelRaised) => ({
-    name, kind: 'image', ...box(values), image: theme.image.rect, colour,
+    name, kind: 'image', ...box(values), image: theme.image.rect,
+    // The client UI importer accepts RGB; alpha is a separate control property.
+    ...(typeof colour === 'string' && /^#[0-9a-f]{8}$/i.test(colour)
+      ? { colour: colour.slice(0, 7), opacity: parseInt(colour.slice(7), 16) / 255 }
+      : { colour }),
   });
   const hit = size => ({ name: 'hit', kind: 'cursorArea', size: [...size], focusable: true });
+  // `border` draws a frame behind the face, as on the approved primary/secondary result buttons.
   const button = (name, values, label = '', { inset, states = false, fontSize = theme.font.body,
-    colour = theme.color.text } = {}) => {
+    colour = theme.color.text, fill = theme.color.panelRaised, border } = {}) => {
     const size = values.slice(2);
-    return { name, kind: 'container', ...box(values), children: [
-      ...(states ? [plate('normal', centred(size)), plate('disabled', centred(size), theme.color.panel),
-        plate('selected', centred(size), theme.color.goldDim)] : [plate('plate', centred(size))]),
+    const edge = border ? [plate('border', centred(size.map(value => value + theme.space.border * 2)), border)] : [];
+    return { name, kind: 'container', ...box(values), children: [...edge,
+      ...(states ? [plate('normal', centred(size), fill), plate('disabled', centred(size), theme.color.panel),
+        plate('selected', centred(size), theme.color.goldDim)] : [plate('plate', centred(size), fill)]),
       text('label', centred(size.map((value, index) => value - inset[index])), label, fontSize, colour), hit(size),
     ] };
   };

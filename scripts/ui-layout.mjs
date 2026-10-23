@@ -34,14 +34,18 @@ function unit(name, position, portrait, player = false) {
     panel('border', 0, 0, portrait + s.border * 2, portrait + s.border * 2, player ? c.goldDim : c.line),
     panel('plate', 0, 0, portrait, portrait, c.panelRaised),
     picture('portrait', 0, 0, portrait - s.l, portrait - s.l, theme.icon.player, c.geo),
-    text('name', 0, -portrait / 2 - s.m, bw, f.heading, player ? '旅行者' : '', f.label, c.gold),
+    text('name', 0, -portrait / 2 - s.m, bw, l.nativeText.lineHeight, player ? '旅行者' : '', f.label, c.gold),
     panel('hpBorder', 0, -portrait / 2 - s.xxl - bh / 2, bw + s.border * 2, bh + s.border * 2, c.line),
     panel('hpTrack', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpTrack),
+    { ...panel('hpGhost', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpGhost), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     { ...panel('hpFill', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hp), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
-    text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, '', f.small),
+    text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, l.nativeText.lineHeight, '', f.small),
     picture('blockIcon', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, theme.icon.block, c.block),
-    text('block', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, '', f.small, c.textOnLight),
-    text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, 32, '', f.small, c.textDim),
+    text('block', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, l.nativeText.lineHeight, '', f.small, c.textOnLight),
+    text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, l.nativeText.lineHeight, '', f.small, c.textDim),
+    { ...picture('impact', 0, 0, portrait, portrait, im.diamond, c.geo), visible: false },
+    { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
+    { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
       text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number), hit(portrait, portrait)] : []),
   ] };
@@ -65,7 +69,7 @@ export function battleLayout() {
   const [width, height] = theme.canvas.base;
   const controls = [
     panel('topBar', 0, l.topBar.y, width, l.topBar.height, c.panelSunken),
-    text('title', 0, l.topBar.y, 350, l.topBar.height, '杀戮深渊 · 战斗演练', f.heading, c.gold),
+    text('title', 0, l.topBar.y, 350, l.topBar.height, '杀戮深渊 · 战斗', f.heading, c.gold),
     text('player', -430, l.topBar.y, 330, l.topBar.height, '', f.body),
     text('piles', 435, l.topBar.y, 330, l.topBar.height, '', f.label, c.goldBright),
     unit('hero', l.player.position, l.player.portrait, true),
@@ -93,7 +97,7 @@ export function battleLayout() {
       text('name', l.card.costDisc / 2, h / 2 - l.card.nameBand / 2 - s.border, w - l.card.costDisc - s.s, l.card.nameBand, '', f.cardName),
       panel('artPlate', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, w - s.border * 2, l.card.art, c.cardType.attack),
       picture('art', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, 40, 40, theme.icon.cardArt.attack, c.text),
-      text('type', 0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.card.typeLine, '', f.small, c.gold),
+      text('type', 0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.nativeText.lineHeight, '', f.small, c.gold),
       text('label', 0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox, '', f.card),
       picture('costDisc', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, im.disc, c.energy),
       text('cost', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, '', f.number, c.textOnLight),
@@ -106,6 +110,24 @@ export function battleLayout() {
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
     button('skip', [0, -96], l.button.secondary, '跳过奖励'));
+  controls.push({ name: 'dragLayer', kind: 'container', size: [width, height], visible: false, children: [
+    { ...hit(width, height), focusable: false },
+    panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),
+    text('hint', 0, l.cardDrag.lineY + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '', f.body, c.goldBright),
+  ] });
+  // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
+  const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;
+  controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
+    { ...picture('sweep', row, l.enemyRow.y, l.enemyRow.xTo - l.enemyRow.xFrom + l.enemyRow.bossPortrait, s.xl, im.diamond, c.geo), visible: false },
+    { name: 'playedCard', kind: 'container', size: l.card.size, visible: false, children: [
+      panel('border', 0, 0, ...l.card.size, c.gold),
+      panel('plate', 0, 0, l.card.size[0] - s.border * 2, l.card.size[1] - s.border * 2, c.cardType.attack),
+      picture('art', 0, s.xl, l.card.art, l.card.art, theme.icon.cardArt.attack, c.goldBright),
+      text('name', 0, -s.xxl, l.card.size[0] - s.s, l.nativeText.lineHeight * 2, '', f.cardName, c.text),
+    ] },
+    { ...panel('bannerPlate', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, c.panelSunken), visible: false },
+    { ...text('banner', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, '', f.title, c.goldBright), visible: false },
+  ] });
   return { name: 'AbyssBattle', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true, controls: [
     { ...panel('backdrop', 0, 0, width, height, c.backdrop), anchor: {min: [0.5, 0.5], max: [0.5, 0.5]} },
     { name: 'stage', kind: 'container', size: [width, height], children: controls },

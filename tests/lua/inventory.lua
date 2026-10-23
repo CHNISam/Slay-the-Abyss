@@ -27,7 +27,7 @@ local function definition(entries, id)
     error("missing definition " .. id)
 end
 
-test("all six opening relics use current data after initial draw and owner-turn reset", function()
+test("all six opening relics use current data and retain their effects after owner-turn reset", function()
     local source = Combat.copy(data)
     definition(source.relics.relics, "anchor").effects[1].value = 13
     definition(source.relics.relics, "bag_of_preparation").effects[1].value = 3
@@ -62,12 +62,23 @@ test("block potion is fixed and all self potions consume exactly one matching sl
         Combat.addStatus(run.combat.player, "dexterity", 100); Combat.addStatus(run.combat.player, "frail", 2)
         local before = Combat.copy(run.combat)
         assert(Run.usePotion(run, 2))
-        same(run.potions, { "fire_potion", "poison_potion" })
+        same(run.potions, { [1] = "fire_potion", [3] = "poison_potion" })
         if id == "block_potion" then equal(run.combat.player.block, 12)
         elseif id == "energy_potion" then equal(run.combat.energy, before.energy + 2)
         elseif id == "strength_potion" then equal(run.combat.player.statuses.strength, 2)
         elseif id == "dexterity_potion" then equal(run.combat.player.statuses.dexterity, 102)
         elseif id == "regen_potion" then equal(run.combat.player.statuses.regen, 5) end
+    end
+end)
+
+test("production block potion reaches the cap without changing fixed amount or consumption", function()
+    for _, block in ipairs({ 988, 998, 999 }) do
+        local run = battle({ "block_potion" })
+        run.combat.player.block = block
+        Combat.addStatus(run.combat.player, "dexterity", -100)
+        Combat.addStatus(run.combat.player, "frail", 2)
+        assert(Run.usePotion(run, 1)); equal(run.combat.player.block, 999)
+        equal(#run.potions, 0)
     end
 end)
 
@@ -80,9 +91,9 @@ test("poison and regeneration use actor timing and current data values", functio
     local enemyHp = run.combat.enemies[1].hp
     assert(Run.usePotion(run, 1, 1)); equal(run.combat.enemies[1].statuses.poison, 7)
     equal(run.combat.enemies[1].hp, enemyHp)
-    assert(Run.usePotion(run, 1)); assert(Run.endTurn(run))
+    assert(Run.usePotion(run, 2)); assert(Run.endTurn(run))
     equal(run.combat.enemies[1].hp, enemyHp - 7); equal(run.combat.enemies[1].statuses.poison, 6)
-    equal(run.combat.player.hp, 48); equal(run.combat.player.statuses.regen, 3)
+    equal(run.combat.player.hp, 54); equal(run.combat.player.statuses.regen, 3) -- Ritual opening has no attack.
 end)
 
 test("invalid slots phases and targets preserve every run field and RNG", function()
@@ -167,7 +178,9 @@ end
 test("real map keeps resources across two original-data battles and a newly acquired relic triggers next time", function()
     local source = Combat.copy(data)
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
-    local run, map = Run.new(source, 2), Map.generate(source, 2)
+    -- Seed 36 follows shops/events to the fixed ninth-row chest, then combat.
+    -- Do not depend on the removed extra random chests before floor 9.
+    local run, map = Run.new(source, 36), Map.generate(source, 36)
     for _, relic in ipairs(source.relics.relics) do
         if relic.trigger == "combat_start" and relic.id ~= "anchor" then run.relics[#run.relics + 1] = relic.id end
     end
@@ -183,39 +196,42 @@ test("real map keeps resources across two original-data battles and a newly acqu
     local rewardId = Run.rewardOptions(run)[1]
     assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
-    local acquired, eventPotion, spent = false, nil, 0
+    local acquired, visitedEvent, boughtCard, spent, nextBattleType = false, false, false, 0, nil
     while true do
         local node = Nodes.available(run, map)[1]; assert(node)
         assert(Nodes.enter(run, map, node.id))
-        if run.phase == "combat" then break
+        if run.phase == "combat" then nextBattleType = node.type break
         elseif node.type == "treasure" then
             local reward = Nodes.view(run, map).node.reward
             if reward.relicId then equal(reward.relicId, "anchor"); acquired = true
             else gold = gold + reward.gold end
             assert(Nodes.claimTreasure(run))
         elseif node.type == "event" then
-            eventPotion = Nodes.view(run, map).node.event.potionId
-            assert(Nodes.chooseEvent(run, "potion"))
+            visitedEvent = true
+            assert(Nodes.chooseEvent(run, "leave"))
         elseif node.type == "shop" then
             local view = Nodes.view(run, map).node
             for _, offer in ipairs(view.cards) do
-                if offer.id == "bludgeon" then assert(Nodes.buyCard(run, offer.id)); spent = spent + offer.price end
+                if offer.id == "bludgeon" and not boughtCard then
+                    assert(Nodes.buyCard(run, offer.id)); spent = spent + offer.price; boughtCard = true
+                end
             end
             assert(Nodes.leaveShop(run))
         else error("unexpected fixture node " .. node.type) end
     end
-    assert(acquired and eventPotion)
+    assert(acquired and visitedEvent and boughtCard)
     equal(run.combat.player.hp, hp); equal(run.hp, hp); equal(run.gold, gold - spent)
-    same(run.potions, { "regen_potion", eventPotion })
+    same(run.potions, { [2] = "regen_potion" })
     equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
     equal(run.combat.player.block, 10); equal(run.combat.energy, 4); equal(#run.combat.hand, 7)
     equal(run.combat.player.statuses.strength, 1); equal(run.combat.player.statuses.dexterity, 1)
     equal(run.combat.player.statuses.thorns, 3); equal(run.combat.player.statuses.regen, nil)
-    assert(Run.usePotion(run, 1)); equal(run.combat.player.statuses.regen, 5)
+    assert(Run.usePotion(run, 2)); equal(run.combat.player.statuses.regen, 5)
     finishBattle(run)
-    equal(run.gold, gold - spent + source.rules.rewards.eliteGold)
+    local expectedReward = nextBattleType == "elite" and source.rules.rewards.eliteGold or source.rules.rewards.normalGold
+    equal(run.gold, gold - spent + expectedReward)
     assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
-    same(run.potions, { eventPotion }); equal(run.nextDeckUid, 13)
+    same(run.potions, {}); equal(run.nextDeckUid, 13)
 end)
 
 test("death followed by Run.new resets all same-run resources without sharing catalogs", function()
@@ -225,7 +241,7 @@ test("death followed by Run.new resets all same-run resources without sharing ca
     old.deck[1].upgraded = true
     old.deck[#old.deck + 1] = { uid = old.nextDeckUid, cardId = "cleave", upgraded = true }
     old.nextDeckUid = old.nextDeckUid + 1
-    assert(Run.startCombat(old, "cultist_solo")); assert(Run.endTurn(old)); equal(old.phase, "defeat")
+    assert(Run.startCombat(old, "cultist_solo")); assert(Run.endTurn(old)); assert(Run.endTurn(old)); equal(old.phase, "defeat")
     rejected(old, 1, 1, "not_in_combat")
     local before = Combat.copy(old)
     local fresh = Run.new(data, 19)

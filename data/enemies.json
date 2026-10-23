@@ -1,11 +1,13 @@
 {
-  "note": "v0.1.0 数据基线。生命值参考 A0 区间取定值；意图采用本项目确定循环，非原版完整 AI。详见 SOURCES.md。",
+  "note": "v0.1.0 数据基线。未声明 hpRange/ai 的旧敌人仍用固定生命/意图循环；已接专属策略的敌人见 SOURCES.md，不代表全池或原版随机流一致。",
   "enemies": [
     {
       "id": "cultist",
       "name": "祈火徒",
       "tier": "normal",
       "hp": 50,
+      "hpRange": { "min": 48, "max": 54 },
+      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1" },
       "intents": [
         {
           "id": "cultist_1",
@@ -23,7 +25,7 @@
           "effects": [
             {
               "op": "gainStatus",
-              "status": "strength",
+              "status": "ritual",
               "value": 3
             }
           ]
@@ -35,6 +37,15 @@
       "name": "石颚兽",
       "tier": "normal",
       "hp": 42,
+      "hpRange": { "min": 40, "max": 44 },
+      "ai": {
+        "kind": "jaw_worm",
+        "chompIntent": "jaw_worm_1", "thrashIntent": "jaw_worm_2", "bellowIntent": "jaw_worm_3",
+        "rollRange": 100, "chompCutoff": 25, "thrashCutoff": 55,
+        "bellowAfterChomp": 0.5625,
+        "chompAfterTwoThrashes": 0.3569999933242798,
+        "chompAfterBellow": 0.41600000858306885
+      },
       "intents": [
         {
           "id": "jaw_worm_1",
@@ -48,11 +59,15 @@
         },
         {
           "id": "jaw_worm_2",
-          "kind": "defend",
+          "kind": "attack",
           "effects": [
             {
+              "op": "damage",
+              "value": 7
+            },
+            {
               "op": "block",
-              "value": 6
+              "value": 5
             }
           ]
         },
@@ -64,6 +79,10 @@
               "op": "gainStatus",
               "status": "strength",
               "value": 3
+            },
+            {
+              "op": "block",
+              "value": 6
             }
           ]
         }
@@ -132,6 +151,13 @@
       "name": "小型酸液团",
       "tier": "normal",
       "hp": 10,
+      "hpRange": { "min": 8, "max": 12 },
+      "ai": {
+        "kind": "acid_slime_s",
+        "tackleIntent": "acid_slime_s_1",
+        "weakIntent": "acid_slime_s_2",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "acid_slime_s_1",
@@ -219,6 +245,12 @@
       "name": "小型棘刺团",
       "tier": "normal",
       "hp": 12,
+      "hpRange": { "min": 10, "max": 14 },
+      "ai": {
+        "kind": "rolled_attack",
+        "attackIntent": "spike_slime_s_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "spike_slime_s_1",
@@ -323,6 +355,14 @@
       "name": "蓝衣束缚者",
       "tier": "normal",
       "hp": 48,
+      "hpRange": { "min": 46, "max": 50 },
+      "ai": {
+        "kind": "blue_slaver",
+        "stabIntent": "blue_slaver_1",
+        "rakeIntent": "blue_slaver_2",
+        "rollRange": 100,
+        "stabCutoff": 40
+      },
       "intents": [
         {
           "id": "blue_slaver_1",
@@ -336,12 +376,16 @@
         },
         {
           "id": "blue_slaver_2",
-          "kind": "debuff",
+          "kind": "attack",
           "effects": [
+            {
+              "op": "damage",
+              "value": 7
+            },
             {
               "op": "applyStatus",
               "status": "weak",
-              "value": 2
+              "value": 1
             }
           ]
         }
@@ -439,6 +483,12 @@
       "name": "潜行小魔",
       "tier": "normal",
       "hp": 12,
+      "hpRange": { "min": 10, "max": 14 },
+      "ai": {
+        "kind": "opening_roll_attack",
+        "attackIntent": "sneaky_gremlin_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "sneaky_gremlin_1",
@@ -457,6 +507,12 @@
       "name": "迟缓小魔",
       "tier": "normal",
       "hp": 15,
+      "hpRange": { "min": 13, "max": 17 },
+      "ai": {
+        "kind": "rolled_attack",
+        "attackIntent": "fat_gremlin_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "fat_gremlin_1",
@@ -465,13 +521,7 @@
             {
               "op": "damage",
               "value": 4
-            }
-          ]
-        },
-        {
-          "id": "fat_gremlin_2",
-          "kind": "debuff",
-          "effects": [
+            },
             {
               "op": "applyStatus",
               "status": "weak",
@@ -489,23 +539,8 @@
       "intents": [
         {
           "id": "wizard_gremlin_1",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "id": "wizard_gremlin_2",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 3
-            }
-          ]
+          "kind": "charge",
+          "effects": []
         },
         {
           "id": "wizard_gremlin_3",
@@ -517,7 +552,18 @@
             }
           ]
         }
-      ]
+      ],
+      "hpRange": {
+        "min": 21,
+        "max": 25
+      },
+      "ai": {
+        "kind": "charge_then_attack",
+        "initialCharge": 1,
+        "chargeLimit": 3,
+        "chargeIntent": "wizard_gremlin_1",
+        "attackIntent": "wizard_gremlin_3"
+      }
     },
     {
       "id": "shield_gremlin",
@@ -551,7 +597,16 @@
       "id": "gremlin_nob",
       "name": "怒焰巨魔",
       "tier": "elite",
-      "hp": 85,
+      "hp": 84,
+      "hpRange": { "min": 82, "max": 86 },
+      "ai": {
+        "kind": "gremlin_nob",
+        "bellowIntent": "gremlin_nob_1",
+        "bashIntent": "gremlin_nob_2",
+        "rushIntent": "gremlin_nob_3",
+        "rollRange": 100,
+        "bashCutoff": 33
+      },
       "intents": [
         {
           "id": "gremlin_nob_1",
@@ -559,7 +614,7 @@
           "effects": [
             {
               "op": "gainStatus",
-              "status": "strength",
+              "status": "enrage",
               "value": 2
             }
           ]
@@ -571,6 +626,11 @@
             {
               "op": "damage",
               "value": 6
+            },
+            {
+              "op": "applyStatus",
+              "status": "vulnerable",
+              "value": 2
             }
           ]
         },
@@ -583,17 +643,6 @@
               "value": 14
             }
           ]
-        },
-        {
-          "id": "gremlin_nob_4",
-          "kind": "debuff",
-          "effects": [
-            {
-              "op": "applyStatus",
-              "status": "vulnerable",
-              "value": 2
-            }
-          ]
         }
       ]
     },
@@ -601,17 +650,21 @@
       "id": "lagavulin",
       "name": "沉眠遗卫",
       "tier": "elite",
-      "hp": 112,
+      "hp": 110,
+      "hpRange": { "min": 109, "max": 111 },
+      "ai": {
+        "kind": "sleep_then_cycle",
+        "sleepTurns": 3,
+        "sleepBlock": 8,
+        "sleepIntent": "lagavulin_1",
+        "stunnedIntent": "lagavulin_stunned",
+        "awakeCycle": ["lagavulin_2", "lagavulin_3", "lagavulin_4"]
+      },
       "intents": [
         {
           "id": "lagavulin_1",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 8
-            }
-          ]
+          "kind": "sleep",
+          "effects": []
         },
         {
           "id": "lagavulin_2",
@@ -639,10 +692,20 @@
           "effects": [
             {
               "op": "applyStatus",
+              "status": "dexterity",
+              "value": -1
+            },
+            {
+              "op": "applyStatus",
               "status": "strength",
               "value": -1
             }
           ]
+        },
+        {
+          "id": "lagavulin_stunned",
+          "kind": "stunned",
+          "effects": []
         }
       ]
     },
@@ -680,6 +743,15 @@
       "name": "深渊守卫",
       "tier": "boss",
       "hp": 240,
+      "ai": {
+        "kind": "guardian",
+        "initialThreshold": 30,
+        "thresholdIncrement": 10,
+        "shiftBlock": 20,
+        "offenseCycle": ["guardian_1", "guardian_2", "guardian_4", "guardian_3"],
+        "defenseCycle": ["guardian_5", "guardian_6", "guardian_7"],
+        "returnIntent": "guardian_3"
+      },
       "intents": [
         {
           "id": "guardian_1",
@@ -718,6 +790,11 @@
           "effects": [
             {
               "op": "applyStatus",
+              "status": "weak",
+              "value": 2
+            },
+            {
+              "op": "applyStatus",
               "status": "vulnerable",
               "value": 2
             }
@@ -725,11 +802,12 @@
         },
         {
           "id": "guardian_5",
-          "kind": "defend",
+          "kind": "buff",
           "effects": [
             {
-              "op": "block",
-              "value": 20
+              "op": "gainStatus",
+              "status": "sharp_hide",
+              "value": 3
             }
           ]
         },
@@ -930,8 +1008,8 @@
       "enemies": [
         "guardian"
       ],
-      "minFloor": 15,
-      "maxFloor": 15
+      "minFloor": 16,
+      "maxFloor": 16
     }
   ]
 }

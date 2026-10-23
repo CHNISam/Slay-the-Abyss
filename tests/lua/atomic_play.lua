@@ -43,13 +43,15 @@ end
 
 test('real inflame overflow preserves every value and reference', function()
     local s = battle('inflame')
-    Combat.addStatus(s.player, 'strength', 2147483647)
+    -- Hostile-state fixture: the public status API now clamps signed stats to 999.
+    s.player.statuses.strength = 2147483647
     rejected(s, nil, 'status stack overflow')
 end)
 
 test('real upgraded inflame overflow remains atomic', function()
     local s = Combat.new(data, { deck = {{cardId = 'inflame', upgraded = true}}, seed = 42 })
-    Combat.addStatus(s.player, 'strength', 2147483645)
+    -- Hostile-state fixture, not a reachable public status application.
+    s.player.statuses.strength = 2147483645
     rejected(s, nil, 'status stack overflow')
 end)
 
@@ -96,7 +98,8 @@ test('draw then reshuffle then overflow restores old piles, RNG and all card ide
     local s = reshuffleBattle()
     s.catalog.cards.shrug_it_off.effects[#s.catalog.cards.shrug_it_off.effects+1] =
         {op='gainStatus', status='strength', value=2}
-    Combat.addStatus(s.player, 'strength', 2147483647)
+    -- Hostile-state fixture: the public status API now clamps signed stats to 999.
+    s.player.statuses.strength = 2147483647
     rejected(s, nil, 'status stack overflow')
 end)
 
@@ -126,7 +129,8 @@ end)
 test('failed card remains playable after correcting only the overflow condition', function()
     local s = battle('inflame')
     local instance, statuses = s.hand[1], s.player.statuses
-    Combat.addStatus(s.player, 'strength', 2147483647)
+    -- Hostile-state fixture: the public status API now clamps signed stats to 999.
+    s.player.statuses.strength = 2147483647
     rejected(s, nil, 'status stack overflow')
     Combat.addStatus(s.player, 'strength', -2147483647)
     equal(Combat.play(s, instance.uid), true)
@@ -151,7 +155,8 @@ test('successful real bash keeps identities, ordering and exactly one effect exe
     equal(enemy.hp, hp - 8); equal(statuses.vulnerable, 2); equal(s.energy, 1)
     equal(discard[1], instance); equal(#hand, 0)
     equal(events[n+1].kind, 'play'); equal(events[n+1].detail.uid, instance.uid)
-    equal(events[n+2].kind, 'damage'); equal(#events, n+2)
+    equal(events[n+2].kind, 'damage'); equal(events[n+3].kind, 'status'); equal(#events, n+3)
+    equal(events[n+3].detail.status, 'vulnerable'); equal(events[n+3].detail.amount, 2)
 end)
 
 test('successful reshuffle retains original pile swap and RNG draw sequence', function()
@@ -169,7 +174,8 @@ test('successful reshuffle retains original pile swap and RNG draw sequence', fu
     assert(s.discard ~= originalDiscard and s.discard ~= originalDraw)
     equal(s.hand[1], order[#order]); equal(s.draw[1], order[1]); equal(s.draw[2], order[2])
     equal(s.discard[1], instance); equal(s.seed, seed); equal(s.player.block, 8)
-    equal(s.events[n+1].kind, 'play'); equal(s.events[n+2].kind, 'reshuffle'); equal(#s.events, n+2)
+    equal(s.events[n+1].kind, 'play'); equal(s.events[n+2].kind, 'block')
+    equal(s.events[n+3].kind, 'reshuffle'); equal(#s.events, n+3)
 end)
 
 test('successful lethal attack retains discard then victory and no replay', function()
