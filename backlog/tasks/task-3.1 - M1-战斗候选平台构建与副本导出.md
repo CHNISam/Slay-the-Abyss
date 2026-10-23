@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 22:20'
-updated_date: '2026-10-23 07:20'
+updated_date: '2026-10-23 07:27'
 labels: []
 milestone: m-2
 dependencies:
@@ -51,6 +51,8 @@ P0后续已越过旧阻塞：完整UI容器分组、Color和SetImage修复后，
 本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 
 后续离线构建审计发现真实问题：W1测试生成build/lua/sts1_unknown_vectors.lua被候选构建器全目录扫描打包，实际54e8eef副本27模块/18warnings含无关测试向量。修复切片限定生成模块为5个游戏运行时输出，并在任何工具写入前校验缺失/同名；src Lua仍完整保留。3项包清单回归通过，待独立复审及新副本重建。历史TASK3.1构建AC不代表后续候选完整实机验收。
+
+打包修复实际重建成功：源ec455f6已排除sts1_unknown_vectors测试文件，5项生成runtime清单+21源模块=26；静态0error17warning，UI1590/max50、原生牌库与结算图读回通过，正式底图hash不变。完整check及3项清单测试通过，反向全扫描变异3红。副本及hash见P0-SMOKE；未开原神/官方导入/实机，不替代TASK3.2/3。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

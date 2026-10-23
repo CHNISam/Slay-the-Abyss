@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 06:20'
+updated_date: '2026-10-23 07:23'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -64,4 +64,6 @@ ordinal: 15000
 本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 
 2026-10-23 Jaw Worm生产切片（feat/task-15-jaw-worm-ai，ed39f46基线）：固定ButterflyGame JawWorm/Random和开发者caseyyano公开getMove交叉，另aeubanks固定AbstractMonster核首动random(99)消费。已实现HP40–44、首动11、Thrash7后5格挡、Bellow3力量后6格挡、25/55与binary32条件概率/连续限制。13组AI独立预期先红后绿；新增13schema加既有共85JS通过；真实原生控件详情验证；18遭遇覆盖152组；最终完整Lua退出0，build/jaw-worm-lua-check.log。明确修复自定义反馈意图/一点HP导航夹具，不降低生产数据。共享16位LCG/原版独立流/种子映射仍未生产对齐，详见docs/reviews/TASK-15-jaw-worm-ai.md；未跑本片完整npm check，主线程统一组合。不开游戏/MCP/不写存档，全部全池与平台AC保留未勾。
+
+本轮离线复审与合并：PR91 Jaw实际HP40–44、主/条件随机消费及历史限制接线；PR89蓄能小魔真实charge/reset第3/7/11动25攻击；PR86 Fat/Sneaky/Blue来源值与动作payload，43组真实入口和全部本机/当前CI通过。Jaw/Guardian/Cultist/Lagavulin钩子保留。相关共享Weak轮末justApplied时序、Blue原版随机选招/独立RNG仍未对齐，不能据此关闭全敌人严格一致性；尚未官方导入/实机。
 <!-- SECTION:NOTES:END -->
