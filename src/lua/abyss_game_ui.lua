@@ -8,10 +8,12 @@ local NodeUI = require("abyss_node_ui")
 local DeckUI = require("abyss_deck_ui")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
+local Bgm = require("abyss_bgm")
 local M = {}
 
 function M.new(root, data, presentation, clickEvent, platform)
     local self = { root = root, data = data, seed = 1, mode = "menu" }
+    local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
     local ready = false
@@ -191,6 +193,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode == "map" then
             self.mapUI:setNavigationEnabled(not deckOpen and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render() end
+        bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
     end
     function self:start()

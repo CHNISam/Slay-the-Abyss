@@ -1,0 +1,56 @@
+{
+  "task": "TASK-34",
+  "checkedAt": "2026-10-23",
+  "baseline": "52f35dd",
+  "sourceFileSha256": {
+    "scripts/native-bgm-graph.mjs": "4d97d9f3626b021352213e07e9d32cec4c65c01a784df513647e92af1a93711c",
+    "scripts/build-native-bgm-candidate.mjs": "34090660e57e7fa7d58dde0fda543da7e4ea26face9843344deb3158556b3fcd",
+    "src/lua/abyss_bgm.lua": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec",
+    "src/lua/abyss_game_ui.lua": "a7b7ff06f833b433eaef7b9eaa5524d941a16ff94dea9efa073e111cefd68a76",
+    "src/lua/abyss_ui.lua": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+    "data/presentation/native_bgm.json": "890171a45aca8e544cf1a2c2caba452b77e51b99613d85556467983a1d1e0c0d"
+  },
+  "toolCommit": "7091060417fe9bd1231e812db4f798c97a5c63d1",
+  "catalogCount": 188,
+  "catalogMatches": 6,
+  "catalogSha256": "29fe676b0886548fee65b01a263560f3a8228cf4f43898e8f6b6ae7bceb83150",
+  "liveWriteEnabled": false,
+  "base": {
+    "path": "F:\\New folder\\.artifacts\\offline-sprint-085f499\\workspace\\wmvko9fdd-0\\working.gil",
+    "before": "b22a876a752d923fa3211dedbeceace74548dfb0ba3acc98590b8243c937b95a",
+    "after": "b22a876a752d923fa3211dedbeceace74548dfb0ba3acc98590b8243c937b95a"
+  },
+  "candidate": {
+    "path": "F:\\New folder\\.worktrees\\continue-native-bgm\\.artifacts\\bgm-build-final\\wmvkpjxn2-0\\working.gil",
+    "sha256": "aa1226944aa6598794d1834669de9a2f3df51939e515f044713b98049d142cb0",
+    "graphId": 1073741826,
+    "nodeCount": 83,
+    "editorCount": 258,
+    "compileWarnings": 0,
+    "luaModules": 27,
+    "clientErrors": 0,
+    "clientWarnings": 17
+  },
+  "verification": {
+    "command": "npm run check",
+    "jsTests": 587,
+    "jsPass": 472,
+    "jsSkipped": 115,
+    "jsFail": 0,
+    "nativeBgmGraphTests": 3,
+    "finalGraphRegression": "3/3 PASS after explicit resume; final graph recompiled and copy written",
+    "nativeBgmLuaGroups": 3,
+    "nativeBgmHostGroups": 2,
+    "existingGameUiGroups": 15,
+    "pythonTests": 16,
+    "pythonSkipped": 1,
+    "completeLuaRegression": "PASS",
+    "catalogComparison": "PASS",
+    "builderCommand": "node scripts/build-native-bgm-candidate.mjs <085f499-full-game-base.gil> .artifacts/bgm-build-final"
+  },
+  "officialImport": "NOT_TESTED",
+  "playback": "NOT_TESTED",
+  "listening": "NOT_TESTED",
+  "noOverlap": "NOT_TESTED",
+  "finalTrackSelection": "NOT_TESTED"
+}
