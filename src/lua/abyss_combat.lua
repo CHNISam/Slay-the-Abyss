@@ -2,9 +2,17 @@
 local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
 local Events = require("abyss_events")
+local EnemyAI = require("abyss_enemy_ai")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
-    statusView = Actors.statusView, damage = Actors.damage, block = Actors.block,
+    statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
+
+function M.damage(state, source, target, base, fixed)
+    local before = target.hp
+    local lost = Actors.damage(state, source, target, base, fixed)
+    EnemyAI.hpLost(state, target, before)
+    return lost
+end
 
 function M.applyEffects(state, effects, source, target, playedCard)
     return Effects.apply(M, state, effects, source, target, playedCard)
@@ -199,7 +207,9 @@ function M.endTurn(state)
     event(state, "enemy_turn")
     for _, enemy in ipairs(state.enemies) do
         if enemy.hp > 0 then
+            local before = enemy.hp
             Actors.startTurn(state, enemy)
+            EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
             if finish(state) then return true end
             if enemy.hp > 0 then
                 local intent = enemy.intents[enemy.intentIndex]
@@ -209,7 +219,7 @@ function M.endTurn(state)
                 -- Thorns can kill this attacker while other enemies remain alive.
                 if enemy.hp > 0 then
                     Actors.endTurn(state, enemy)
-                    if enemy.hp > 0 then enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1 end
+                    if enemy.hp > 0 then EnemyAI.advance(state, enemy) end
                 end
                 if finish(state) then return true end
             end
@@ -249,6 +259,7 @@ function M.new(data, options)
         Actors.bindStatuses(enemy, state.catalog.statuses)
         state.enemies[#state.enemies + 1] = enemy
     end
+    for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy) end
     shuffle(state, state.draw)
     M.startPlayerTurn(state)
     return state

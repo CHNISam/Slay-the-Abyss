@@ -41,6 +41,8 @@ end
 local function intentText(state, index, detailed)
     local intent = Combat.intent(state, index)
     if not intent then return "已击败", "unknown" end
+    if intent.kind == "sleep" then return "沉睡", "sleep" end
+    if intent.kind == "stunned" then return "苏醒中", "unknown" end
     local result, compact = {}, {}
     local enemy, player = Combat.copy(state.enemies[index]), Combat.copy(state.player)
     for _, effect in ipairs(intent.effects) do

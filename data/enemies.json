@@ -601,17 +601,20 @@
       "id": "lagavulin",
       "name": "沉眠遗卫",
       "tier": "elite",
-      "hp": 112,
+      "hp": 110,
+      "ai": {
+        "kind": "sleep_then_cycle",
+        "sleepTurns": 3,
+        "sleepBlock": 8,
+        "sleepIntent": "lagavulin_1",
+        "stunnedIntent": "lagavulin_stunned",
+        "awakeCycle": ["lagavulin_2", "lagavulin_3", "lagavulin_4"]
+      },
       "intents": [
         {
           "id": "lagavulin_1",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 8
-            }
-          ]
+          "kind": "sleep",
+          "effects": []
         },
         {
           "id": "lagavulin_2",
@@ -639,10 +642,20 @@
           "effects": [
             {
               "op": "applyStatus",
+              "status": "dexterity",
+              "value": -1
+            },
+            {
+              "op": "applyStatus",
               "status": "strength",
               "value": -1
             }
           ]
+        },
+        {
+          "id": "lagavulin_stunned",
+          "kind": "stunned",
+          "effects": []
         }
       ]
     },
