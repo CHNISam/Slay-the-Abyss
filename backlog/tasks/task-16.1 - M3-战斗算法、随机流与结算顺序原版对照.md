@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 08:27'
+updated_date: '2026-10-23 08:39'
 due_date: '2026-10-28'
 labels:
   - required
@@ -45,6 +45,8 @@ ordinal: 43000
 共享力量/敏捷边界切片：独立复审PR82的固定方法体、临时力量完整归还和int32原子保护，真实入口与当前CI验证；单项cap不等于全部算法或RNG一致。
 
 combat_order 离线切片（基线52f35dd）：固定Weak/Vulnerable/Frail方法体、ApplyPower堆叠和MonsterGroup调度来源；先用真实Combat入口证红轮末衰减/首次施加/既有叠加，再最小调整共享轮末与扁平justApplied标记，保留异常回滚。仅核对此切片，不勾全项AC，不声明官方PC认证或实机。
+
+random_float候选切片（基线94c1045）：核实固定STS Random与官方libGDX nextFloat；新增显式float range/between包装及每步binary32舍入，限制精确finite binary32与有限span，非法请求抽样前拒绝。独立手写Java float表达式固定向量先红绿，验证24位端点、计数/回绕/状态、下溢及nearest-even；不接生产、不推测种子/流初始化，不跑全量。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -55,4 +57,8 @@ PR82固定0efbb7独立源码及116组Fengari复核无阻断，远端Quality双�
 2026-10-23 @Codex/combat_order 独立worktree feat/continue-combat-order领取；TASK12.3平台依赖保留，按用户授权推进可离线规则切片，暂不开原神。
 
 combat_order切片：Weak/Frail/Vulnerable改为整组敌人行动后、玩家再存活敌人的round_end衰减；首次怪物来源按三方法体justApplied跳过，已有叠加不重置，死亡提前终止不制造tick。固定fc379c8源码blob、边界输入预期及证据等级见docs/rules/ROUND_DEBUFF_DURATION.md。旧实现15专项5过10败；修复后17专项、35状态、11Fat、9Blue、24Guardian、9Cultist、6Boundary、23Combat、93CardPool、10Feedback、27HP-loss、11Inventory、12Caps及54schema通过，JS syntax和diff检查通过。整合全量check由主代理执行；power priority全交错/原版RNG/平台全部AC仍未完成，状态保持In Progress。
+
+2026-10-23 @Codex/combat_order 在feat/continue-random-float独立推进scaled-float候选；沿用systematic-debugging/TDD/verification-before-completion工作流，固定来源已只读核实。
+
+random_float候选切片：显式randomFloatRange/Between新增逐步binary32 nearest-even、正负零及2^-149次正规；仅收窄finite exact binary32/finite span ABI，非法请求抽样前拒绝，不接生产或猜流初始化。固定STS c4b71d与官方libGDX a6a0b3来源；独立Java17表达式132行fixture复现逐字段一致（非官方RNG/游戏Oracle）。新增7专项先1过6败，修复后连wrapper10/primitive8共25过；十个隔离负变异检出（漏span guard为超时，其余断言）；Node语法/diff检查通过。详见docs/reviews/TASK-16.1-scaled-float-candidate.md。全量待主代理统一，无平台编译/导出/导入/原神实机，全部严格AC保留。
 <!-- SECTION:NOTES:END -->

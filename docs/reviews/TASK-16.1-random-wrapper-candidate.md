@@ -1,5 +1,7 @@
 # TASK-16.1：Random 包装器的隔离子集候选
 
+后续扩展：2026-10-23 已新增显式 `randomFloatRange` / `randomFloatBetween`，支持收窄的 finite binary32 ABI；逐步舍入、132 行独立 Java 表达式向量及原作认证限制见[缩放 float 候选](TASK-16.1-scaled-float-candidate.md)。下文早期运行环境和“未实现 scaled-float”属于原切片记录；本轮当前 Windows Fengari 的候选三组文件共 25 项通过，不接生产。
+
 2026-10-23；只读核对 develop `ed39f4653ddb555391c0dfe5a4507d1f58387171`。PR81 原语已合入，Git blob `1a9b8abd5f822cd937618ff488824dc08fd4c8f8` 在本候选保持不变。仅新增包装器、独立测试、固定向量和本文四文件。不改生产 RNG、EnemyAI、地图、数据、共享战斗内核、任务元数据或认领。TASK-12.4 / W1 / PR62 继续归 @codex-map17；TASK-15 继续归 @Codex；TASK-16.1 完整验收不因本切片完成。
 
 ## 固定只读来源

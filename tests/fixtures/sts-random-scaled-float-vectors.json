@@ -1,0 +1,1311 @@
+{
+  "stsCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "libgdxCommit": "3b1fda1fc2e1f6b3c74851471870062d871ed16f",
+  "evidence": "Independent Java 17 strict float expressions; not official RNG/game execution. Raw states reused from prior mathematical source interpretation.",
+  "generatorJava": "import java.util.Locale;\n\n// Independent Java 17 float-expression vectors; no imported upstream RNG class.\npublic class FloatVectors {\n    public static void main(String[] args) {\n        int[] samples = {0, 0x800000, 0xffffff, 0x900000, 0x5b645a, 0x6a7efa};\n        float[] ranges = {0.0f, -0.0f, 0.9f, 1.1f, -1.1f,\n            Float.MIN_VALUE, 3.0f * Float.MIN_VALUE, Float.MIN_NORMAL, Float.MAX_VALUE};\n        float[][] bounds = {{0.9f, 1.1f}, {1.1f, 0.9f}, {-1.1f, 0.9f}, {1.0f, 1.0f},\n            {Float.MIN_VALUE, 3.0f * Float.MIN_VALUE}, {Float.MIN_NORMAL, Float.MIN_VALUE},\n            {-0.0f, 0.0f}, {-Float.MAX_VALUE, -Float.MAX_VALUE / 2.0f},\n            {Float.MAX_VALUE / 2.0f, Float.MAX_VALUE}, {-Float.MIN_VALUE, Float.MIN_VALUE},\n            {16777216.0f, 16777218.0f}, {1.0f, Math.nextUp(1.0f)}, {-1.0f, 0.1f}};\n        System.out.println(\"[\");\n        boolean first = true;\n        for (int sample : samples) {\n            float u = sample / 16777216.0f;\n            for (float range : ranges) {\n                if (!first) System.out.println(\",\"); first = false;\n                emit(\"range\", sample, range, 0.0f, u * range);\n            }\n            for (float[] pair : bounds) {\n                if (!first) System.out.println(\",\"); first = false;\n                float start = pair[0], end = pair[1];\n                emit(\"between\", sample, start, end, start + u * (end - start));\n            }\n        }\n        System.out.println(\"\\n]\");\n    }\n\n    private static void emit(String kind, int sample, float left, float right, float result) {\n        System.out.printf(Locale.ROOT,\n            \"{\\\"kind\\\":\\\"%s\\\",\\\"sample\\\":%d,\\\"left\\\":%s,\\\"right\\\":%s,\\\"value\\\":%s,\\\"resultBits\\\":\\\"%08x\\\",\\\"negativeZero\\\":%s}\",\n            kind, sample, Double.toString(left), Double.toString(right), Double.toString(result),\n            Float.floatToRawIntBits(result), Float.floatToRawIntBits(result) == 0x80000000);\n    }\n}\n",
+  "generatorSha256": "967092e95c781e4a2394f08ed5b47a2463622283dd33ea6c9854fb36e1cc1bb4",
+  "rawCases": [
+    {
+      "initial": {
+        "words": [
+          "0000000000000000",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "0000000000000000",
+      "boolean": false,
+      "float": 0.0,
+      "afterWords": [
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "0000400000800001",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "0000000000000001",
+      "boolean": true,
+      "float": 0.0,
+      "afterWords": [
+        "0000000000000000",
+        "0000000000000001"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "8410400820001000",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "8000000000000000",
+      "boolean": false,
+      "float": 0.5,
+      "afterWords": [
+        "0000000000000000",
+        "8000000000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "07e07ff03fffe000",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "ffffffffffffffff",
+      "boolean": true,
+      "float": 0.9999999403953552,
+      "afterWords": [
+        "0000000000000000",
+        "ffffffffffffffff"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "9492480924001200",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "9000000000000000",
+      "boolean": false,
+      "float": 0.5625,
+      "afterWords": [
+        "0000000000000000",
+        "9000000000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "c5029b3ccdd91dec",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "5b645a0000000000",
+      "boolean": false,
+      "float": 0.3569999933242798,
+      "afterWords": [
+        "0000000000000000",
+        "5b645a0000000000"
+      ]
+    },
+    {
+      "initial": {
+        "words": [
+          "193ec0e6801fb3cf",
+          "0000000000000000"
+        ],
+        "counter": 0
+      },
+      "raw": "6a7efa0000000000",
+      "boolean": false,
+      "float": 0.41600000858306885,
+      "afterWords": [
+        "0000000000000000",
+        "6a7efa0000000000"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": -0.0,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 0.8999999761581421,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 1.100000023841858,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": -1.100000023841858,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 1.401298464324817e-45,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 4.203895392974451e-45,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 1.1754943508222875e-38,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 0,
+      "left": 3.4028234663852886e+38,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 0.8999999761581421,
+      "right": 1.100000023841858,
+      "value": 0.8999999761581421,
+      "resultBits": "3f666666",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 1.100000023841858,
+      "resultBits": "3f8ccccd",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": -1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": -1.100000023841858,
+      "resultBits": "bf8ccccd",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 1.0,
+      "right": 1.0,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 1.401298464324817e-45,
+      "right": 4.203895392974451e-45,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 1.1754943508222875e-38,
+      "right": 1.401298464324817e-45,
+      "value": 1.1754943508222875e-38,
+      "resultBits": "00800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": -0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": -3.4028234663852886e+38,
+      "right": -1.7014117331926443e+38,
+      "value": -3.4028234663852886e+38,
+      "resultBits": "ff7fffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 1.7014117331926443e+38,
+      "right": 3.4028234663852886e+38,
+      "value": 1.7014117331926443e+38,
+      "resultBits": "7effffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": -1.401298464324817e-45,
+      "right": 1.401298464324817e-45,
+      "value": -1.401298464324817e-45,
+      "resultBits": "80000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 16777216.0,
+      "right": 16777218.0,
+      "value": 16777216.0,
+      "resultBits": "4b800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": 1.0,
+      "right": 1.0000001192092896,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 0,
+      "left": -1.0,
+      "right": 0.10000000149011612,
+      "value": -1.0,
+      "resultBits": "bf800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": -0.0,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 0.8999999761581421,
+      "right": 0.0,
+      "value": 0.44999998807907104,
+      "resultBits": "3ee66666",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 1.100000023841858,
+      "right": 0.0,
+      "value": 0.550000011920929,
+      "resultBits": "3f0ccccd",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": -1.100000023841858,
+      "right": 0.0,
+      "value": -0.550000011920929,
+      "resultBits": "bf0ccccd",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 1.401298464324817e-45,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 4.203895392974451e-45,
+      "right": 0.0,
+      "value": 2.802596928649634e-45,
+      "resultBits": "00000002",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 1.1754943508222875e-38,
+      "right": 0.0,
+      "value": 5.877471754111438e-39,
+      "resultBits": "00400000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 8388608,
+      "left": 3.4028234663852886e+38,
+      "right": 0.0,
+      "value": 1.7014117331926443e+38,
+      "resultBits": "7effffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 0.8999999761581421,
+      "right": 1.100000023841858,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": -1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": -0.10000002384185791,
+      "resultBits": "bdccccd0",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 1.0,
+      "right": 1.0,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 1.401298464324817e-45,
+      "right": 4.203895392974451e-45,
+      "value": 2.802596928649634e-45,
+      "resultBits": "00000002",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 1.1754943508222875e-38,
+      "right": 1.401298464324817e-45,
+      "value": 5.877471754111438e-39,
+      "resultBits": "00400000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": -0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": -3.4028234663852886e+38,
+      "right": -1.7014117331926443e+38,
+      "value": -2.5521175490829424e+38,
+      "resultBits": "ff3fffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 1.7014117331926443e+38,
+      "right": 3.4028234663852886e+38,
+      "value": 2.5521175490829424e+38,
+      "resultBits": "7f3fffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": -1.401298464324817e-45,
+      "right": 1.401298464324817e-45,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 16777216.0,
+      "right": 16777218.0,
+      "value": 16777216.0,
+      "resultBits": "4b800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": 1.0,
+      "right": 1.0000001192092896,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 8388608,
+      "left": -1.0,
+      "right": 0.10000000149011612,
+      "value": -0.44999998807907104,
+      "resultBits": "bee66666",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": -0.0,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 0.8999999761581421,
+      "right": 0.0,
+      "value": 0.8999999165534973,
+      "resultBits": "3f666665",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 1.100000023841858,
+      "right": 0.0,
+      "value": 1.0999999046325684,
+      "resultBits": "3f8ccccc",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": -1.100000023841858,
+      "right": 0.0,
+      "value": -1.0999999046325684,
+      "resultBits": "bf8ccccc",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 1.401298464324817e-45,
+      "right": 0.0,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 4.203895392974451e-45,
+      "right": 0.0,
+      "value": 4.203895392974451e-45,
+      "resultBits": "00000003",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 1.1754943508222875e-38,
+      "right": 0.0,
+      "value": 1.1754943508222875e-38,
+      "resultBits": "00800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 16777215,
+      "left": 3.4028234663852886e+38,
+      "right": 0.0,
+      "value": 3.4028232635611926e+38,
+      "resultBits": "7f7ffffe",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 0.8999999761581421,
+      "right": 1.100000023841858,
+      "value": 1.100000023841858,
+      "resultBits": "3f8ccccd",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 0.8999999761581421,
+      "resultBits": "3f666666",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": -1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 0.8999998569488525,
+      "resultBits": "3f666664",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 1.0,
+      "right": 1.0,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 1.401298464324817e-45,
+      "right": 4.203895392974451e-45,
+      "value": 4.203895392974451e-45,
+      "resultBits": "00000003",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 1.1754943508222875e-38,
+      "right": 1.401298464324817e-45,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": -0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": -3.4028234663852886e+38,
+      "right": -1.7014117331926443e+38,
+      "value": -1.7014118346046923e+38,
+      "resultBits": "ff000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 1.7014117331926443e+38,
+      "right": 3.4028234663852886e+38,
+      "value": 3.4028232635611926e+38,
+      "resultBits": "7f7ffffe",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": -1.401298464324817e-45,
+      "right": 1.401298464324817e-45,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 16777216.0,
+      "right": 16777218.0,
+      "value": 16777218.0,
+      "resultBits": "4b800001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": 1.0,
+      "right": 1.0000001192092896,
+      "value": 1.0000001192092896,
+      "resultBits": "3f800001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 16777215,
+      "left": -1.0,
+      "right": 0.10000000149011612,
+      "value": 0.09999990463256836,
+      "resultBits": "3dccccc0",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": -0.0,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 0.8999999761581421,
+      "right": 0.0,
+      "value": 0.5062499642372131,
+      "resultBits": "3f019999",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 1.100000023841858,
+      "right": 0.0,
+      "value": 0.6187500357627869,
+      "resultBits": "3f1e6667",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": -1.100000023841858,
+      "right": 0.0,
+      "value": -0.6187500357627869,
+      "resultBits": "bf1e6667",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 1.401298464324817e-45,
+      "right": 0.0,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 4.203895392974451e-45,
+      "right": 0.0,
+      "value": 2.802596928649634e-45,
+      "resultBits": "00000002",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 1.1754943508222875e-38,
+      "right": 0.0,
+      "value": 6.612155723375367e-39,
+      "resultBits": "00480000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 9437184,
+      "left": 3.4028234663852886e+38,
+      "right": 0.0,
+      "value": 1.914088111106183e+38,
+      "resultBits": "7f0fffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 0.8999999761581421,
+      "right": 1.100000023841858,
+      "value": 1.0125000476837158,
+      "resultBits": "3f81999a",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 0.987500011920929,
+      "resultBits": "3f7ccccd",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": -1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 0.02499997615814209,
+      "resultBits": "3cccccc0",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 1.0,
+      "right": 1.0,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 1.401298464324817e-45,
+      "right": 4.203895392974451e-45,
+      "value": 2.802596928649634e-45,
+      "resultBits": "00000002",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 1.1754943508222875e-38,
+      "right": 1.401298464324817e-45,
+      "value": 5.142789186145972e-39,
+      "resultBits": "00380001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": -0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": -3.4028234663852886e+38,
+      "right": -1.7014117331926443e+38,
+      "value": -2.4457795122442452e+38,
+      "resultBits": "ff380000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 1.7014117331926443e+38,
+      "right": 3.4028234663852886e+38,
+      "value": 2.6584557887457357e+38,
+      "resultBits": "7f47ffff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": -1.401298464324817e-45,
+      "right": 1.401298464324817e-45,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 16777216.0,
+      "right": 16777218.0,
+      "value": 16777218.0,
+      "resultBits": "4b800001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": 1.0,
+      "right": 1.0000001192092896,
+      "value": 1.0000001192092896,
+      "resultBits": "3f800001",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 9437184,
+      "left": -1.0,
+      "right": 0.10000000149011612,
+      "value": -0.38124996423721313,
+      "resultBits": "bec33332",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": -0.0,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 0.8999999761581421,
+      "right": 0.0,
+      "value": 0.3212999999523163,
+      "resultBits": "3ea4816f",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 1.100000023841858,
+      "right": 0.0,
+      "value": 0.3926999866962433,
+      "resultBits": "3ec90ff9",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": -1.100000023841858,
+      "right": 0.0,
+      "value": -0.3926999866962433,
+      "resultBits": "bec90ff9",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 1.401298464324817e-45,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 4.203895392974451e-45,
+      "right": 0.0,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 1.1754943508222875e-38,
+      "right": 0.0,
+      "value": 4.1965147539628524e-39,
+      "resultBits": "002db22d",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 5989466,
+      "left": 3.4028234663852886e+38,
+      "right": 0.0,
+      "value": 1.2148079257794035e+38,
+      "resultBits": "7eb6c8b3",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 0.8999999761581421,
+      "right": 1.100000023841858,
+      "value": 0.9714000225067139,
+      "resultBits": "3f78adac",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 1.0285999774932861,
+      "resultBits": "3f83a92a",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": -1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": -0.38600003719329834,
+      "resultBits": "bec5a1cc",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 1.0,
+      "right": 1.0,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 1.401298464324817e-45,
+      "right": 4.203895392974451e-45,
+      "value": 2.802596928649634e-45,
+      "resultBits": "00000002",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 1.1754943508222875e-38,
+      "right": 1.401298464324817e-45,
+      "value": 7.558428754260023e-39,
+      "resultBits": "00524dd3",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": -0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": -3.4028234663852886e+38,
+      "right": -1.7014117331926443e+38,
+      "value": -2.795419452789563e+38,
+      "resultBits": "ff524dd2",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 1.7014117331926443e+38,
+      "right": 3.4028234663852886e+38,
+      "value": 2.308815645376322e+38,
+      "resultBits": "7f2db22c",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": -1.401298464324817e-45,
+      "right": 1.401298464324817e-45,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 16777216.0,
+      "right": 16777218.0,
+      "value": 16777216.0,
+      "resultBits": "4b800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": 1.0,
+      "right": 1.0000001192092896,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 5989466,
+      "left": -1.0,
+      "right": 0.10000000149011612,
+      "value": -0.6073000431060791,
+      "resultBits": "bf1b7804",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": -0.0,
+      "right": 0.0,
+      "value": -0.0,
+      "resultBits": "80000000",
+      "negativeZero": true
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 0.8999999761581421,
+      "right": 0.0,
+      "value": 0.37439998984336853,
+      "resultBits": "3ebfb15b",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 1.100000023841858,
+      "right": 0.0,
+      "value": 0.45760002732276917,
+      "resultBits": "3eea4a8d",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": -1.100000023841858,
+      "right": 0.0,
+      "value": -0.45760002732276917,
+      "resultBits": "beea4a8d",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 1.401298464324817e-45,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 4.203895392974451e-45,
+      "right": 0.0,
+      "value": 1.401298464324817e-45,
+      "resultBits": "00000001",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 1.1754943508222875e-38,
+      "right": 0.0,
+      "value": 4.8900566003142055e-39,
+      "resultBits": "00353f7d",
+      "negativeZero": false
+    },
+    {
+      "kind": "range",
+      "sample": 6979322,
+      "left": 3.4028234663852886e+38,
+      "right": 0.0,
+      "value": 1.4155745741857258e+38,
+      "resultBits": "7ed4fdf3",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 0.8999999761581421,
+      "right": 1.100000023841858,
+      "value": 0.9832000136375427,
+      "resultBits": "3f7bb2ff",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": 1.016800045967102,
+      "resultBits": "3f822681",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": -1.100000023841858,
+      "right": 0.8999999761581421,
+      "value": -0.2680000066757202,
+      "resultBits": "be89374c",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 1.0,
+      "right": 1.0,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 1.401298464324817e-45,
+      "right": 4.203895392974451e-45,
+      "value": 2.802596928649634e-45,
+      "resultBits": "00000002",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 1.1754943508222875e-38,
+      "right": 1.401298464324817e-45,
+      "value": 6.86488690790867e-39,
+      "resultBits": "004ac083",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": -0.0,
+      "right": 0.0,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": -3.4028234663852886e+38,
+      "right": -1.7014117331926443e+38,
+      "value": -2.6950361285864017e+38,
+      "resultBits": "ff4ac082",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 1.7014117331926443e+38,
+      "right": 3.4028234663852886e+38,
+      "value": 2.4091989695794832e+38,
+      "resultBits": "7f353f7c",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": -1.401298464324817e-45,
+      "right": 1.401298464324817e-45,
+      "value": 0.0,
+      "resultBits": "00000000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 16777216.0,
+      "right": 16777218.0,
+      "value": 16777216.0,
+      "resultBits": "4b800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": 1.0,
+      "right": 1.0000001192092896,
+      "value": 1.0,
+      "resultBits": "3f800000",
+      "negativeZero": false
+    },
+    {
+      "kind": "between",
+      "sample": 6979322,
+      "left": -1.0,
+      "right": 0.10000000149011612,
+      "value": -0.5424000024795532,
+      "resultBits": "bf0adaba",
+      "negativeZero": false
+    }
+  ]
+}
