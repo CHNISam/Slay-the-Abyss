@@ -69,21 +69,37 @@ export function handPose(count, index, selected = false) {
 
 export function battleLayout() {
   const [width, height] = theme.canvas.base;
+  const bar = l.topBar, y = bar.y, iconId = entry => (typeof entry === 'object' ? entry.id : entry);
+  // Icon + number chips, as on the node top bar; the deck count lives on the shared deck button.
+  const chip = (name, [x, w], colour, fontSize = f.body) => text(name, x, y, w, bar.height, '', fontSize, colour);
+  const glyph = (name, [x, w], image, colour) => picture(name, x, y, w, w, iconId(image), colour);
+  // Pile counts sit on a dark badge at the icon's inner corner, with a caption below.
+  const pile = (name, icon, [x, py], caption, side) => {
+    const b = l.pileBadge, [bx, by] = [x + side * b.offset[0], py + b.offset[1]];
+    return [
+      picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
+      picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, c.goldDim),
+      picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
+      text(name, bx, by, b.disc, b.disc, '', f.label, c.goldBright),
+      text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
+    ];
+  };
   const controls = [
-    panel('topBar', 0, l.topBar.y, width, l.topBar.height, c.panelSunken),
-    text('title', 0, l.topBar.y, 350, l.topBar.height, '杀戮深渊 · 战斗', f.heading, c.gold),
-    text('player', -430, l.topBar.y, 330, l.topBar.height, '', f.body),
-    text('piles', 435, l.topBar.y, 330, l.topBar.height, '', f.label, c.goldBright),
+    panel('topBar', 0, y, width, bar.height, c.panelSunken),
+    text('title', 0, y, 350, bar.height, '杀戮深渊 · 战斗', f.heading, c.gold),
+    glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
+    glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
+    glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim), chip('exhaust', bar.exhaust, c.textDim),
     unit('hero', l.player.position, l.player.portrait, true),
-    text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '点选卡牌，再点敌人；无需目标的牌再点一次确认。', f.body, c.goldBright),
-    text('statuses', -380, 204, 350, 30, '', f.small, c.textDim),
+    text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
+    text('statuses', -380, 194, 350, 26, '', f.small, c.textDim),
+    // Outline ring + flat amber face; the Geo mark is a faint watermark so the digits stay clean.
+    picture('energyRing', ...l.energy.position, l.energy.size + s.s, l.energy.size + s.s, im.disc, c.geoDeep),
     picture('energyDisc', ...l.energy.position, l.energy.size, l.energy.size, im.disc, c.energy),
-    picture('energyIcon', ...l.energy.position, l.energy.size - s.l, l.energy.size - s.l, theme.icon.energy.id, c.geoDeep),
+    picture('energyIcon', ...l.energy.position, l.energy.size - s.xxl, l.energy.size - s.xxl, theme.icon.energy.id, c.geo),
     text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', f.numberLarge, c.textOnLight),
-    picture('drawIcon', ...l.drawPile.position, ...l.drawPile.size, theme.icon.drawPile, c.textDim),
-    text('draw', ...l.drawPile.position, ...l.drawPile.size, '', f.label),
-    picture('discardIcon', ...l.discardPile.position, ...l.discardPile.size, theme.icon.discardPile, c.textDim),
-    text('discard', ...l.discardPile.position, ...l.discardPile.size, '', f.label),
+    ...pile('draw', theme.icon.drawPile, l.drawPile.position, '抽牌堆', 1),
+    ...pile('discard', theme.icon.discardPile, l.discardPile.position, '弃牌堆', -1),
   ];
   for (let i = 0; i < l.battlePotions.count; i++) {
     controls.push(button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),

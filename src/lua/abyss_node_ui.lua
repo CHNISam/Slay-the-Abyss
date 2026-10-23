@@ -677,8 +677,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         end)
         -- A framed button keeps its dynamic children at their existing paths.
         -- Documented pointer events + SetLocalScale scale the complete face;
-        -- card selectors/chest pictures retain their independent click behavior.
-        if box:GetChild("normal") and cursor and cursor.CursorEnter and cursor.CursorExit
+        -- Shop/picker cards share gesture ownership without framed-button visuals.
+        if (box:GetChild("normal") or name:match("^shopView/card%d+$")
+            or name:match("^pickerView/card%d+$")) and cursor and cursor.CursorEnter and cursor.CursorExit
             and cursor.CursorDown and cursor.CursorUp and cursor.CursorEndDrag then
             -- Retain only active touches and the next released click, never a
             -- history of touch IDs. Render/hide and terminal events clear them.

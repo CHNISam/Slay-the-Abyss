@@ -14,7 +14,7 @@ export function mapGeometry(theme = loadMapTheme()) {
     firstY: -308 + 60, contentHeight: 16 * floorGap + 120,
     maxScroll: 16 * floorGap + 120 - viewportHeight, focusY: -128,
     scrollStep: floorGap * 3, breathSeconds: 1.4, breathScale: 1.1,
-    glowPadding: 12, lineWidth: 4 };
+    glowPadding: 12, lineWidth: 4, dragThreshold: theme.layout.cardDrag.threshold };
 }
 
 export function mapLayout(theme = loadMapTheme()) {
@@ -31,18 +31,30 @@ export function mapLayout(theme = loadMapTheme()) {
     image('frame', 0, 0, 148, 52, c.goldDim), image('body', 0, 0, 144, 48, c.panel),
     text('label', 0, 0, 140, 44, label, f.label), hit(148, 52),
   ] });
+  const { left, right, bottom, top } = g.viewport;
   const controls = [
-    text('title', 0, 327, 880, 44, '', f.heading, c.goldBright),
+    // Lowest layer: dragging anywhere on the route scrolls it; node hits sit above.
+    { name: 'dragArea', kind: 'cursorArea', position: [(left + right) / 2, (bottom + top) / 2],
+      size: [right - left, top - bottom], focusable: false },
+    text('title', 0, 327, 640, 44, '', f.heading, c.goldBright),
     text('notice', 0, -324, 1160, 28, '', f.small, c.textDim),
     button('next', 160, '向上查看'), button('focus', 96, '当前进度'), button('previous', 32, '向下查看'),
-    image('legendFrame', 526, 74, 148, 332, c.goldDim), image('legendBody', 526, 74, 144, 328, c.panel),
-    text('legendTitle', 526, 218, 128, 28, '图例', f.label, c.goldBright),
-    text('states', -522, -92, 148, 144, '亮金 · 当前\n暗金 · 已走过\n白色 · 可前往\n灰色 · 不可达', f.small, c.textDim),
+    image('legendFrame', 526, 24, 148, 456, c.goldDim), image('legendBody', 526, 24, 144, 452, c.panel),
+    text('legendTitle', 526, 228, 128, 28, '图例', f.label, c.goldBright),
+    text('legendStateTitle', 526, -44, 128, 28, '节点状态', f.label, c.goldBright),
   ];
   const names = { combat: '战斗', elite: '精英', camp: '营地', shop: '商店', event: '事件', treasure: '宝箱', boss: '首领' };
   Object.entries(names).forEach(([kind, name], i) => {
-    controls.push(image(`legend_${kind}`, 482, 184 - i * 40, 24, 24, c.textDim, theme.icon.node[kind]),
-      text(`legendLabel_${kind}`, 539, 184 - i * 40, 76, 28, name, f.label));
+    controls.push(image(`legend_${kind}`, 482, 194 - i * 34, 24, 24, c.textDim, theme.icon.node[kind]),
+      text(`legendLabel_${kind}`, 539, 194 - i * 34, 76, 28, name, f.label));
+  });
+  // Node state is a ring colour on the map, so the legend shows the same ring, not colour words.
+  const states = [['current', c.node.current, '当前位置'], ['visited', c.node.visited, '已走过'],
+    ['available', c.node.reachable, '可前往'], ['locked', c.node.locked, '暂不可达']];
+  states.forEach(([state, colour, name], i) => {
+    controls.push(image(`legendRing_${state}`, 482, -78 - i * 34, 24, 24, colour, im.disc),
+      image(`legendDot_${state}`, 482, -78 - i * 34, 16, 16, c.panel, im.disc),
+      text(`legendStateLabel_${state}`, 539, -78 - i * 34, 76, 28, name, f.label));
   });
   // Runtime clips these line segments geometrically to the 600px viewport.
   for (let i = 1; i <= g.maxEdges; i++) controls.push({

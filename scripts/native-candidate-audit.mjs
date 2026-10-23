@@ -21,7 +21,10 @@ export function normalizeUi(value, context = Array.isArray(value) ? 'controls' :
       || name === 'scale' && ['[1,1]', '[1,1,1]'].includes(JSON.stringify(item)) || name === 'focusable' && item === false)
       || ['control', 'text'].includes(context) && name === 'opacity' && item === 1
       || context === 'grid' && (name === 'horizontal' && item === false || name === 'scrollbar' && item === true || name === 'preview')
-      || context === 'text' && name === 'content' && item === '') continue;
+      // The native reader omits text ink only when its ARGB is 0xffffffff.
+      // Keep opacity separate, and never apply this default to opaque metadata.
+      || context === 'text' && (name === 'content' && item === ''
+        || name === 'colour' && typeof item === 'string' && item.toLowerCase() === '#ffffff')) continue;
     const next = context === 'control' && name === 'children' ? 'controls'
       : context === 'control' && ['text', 'grid'].includes(name) ? name
       : context === 'control' && name === 'colour' || context === 'text' && ['colour', 'background', 'outlineColour'].includes(name) ? 'colour' : 'opaque';
