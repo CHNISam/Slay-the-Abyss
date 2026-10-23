@@ -391,7 +391,8 @@ function M.new(stage, platform, present, complete)
                 shield:SetLocalScale(scale, scale, 1) shield:SetAnchoredPosition(wobble, 0)
                 tint(shield, C.block, fade)
                 local pop = 1 + (1 - easeOut(age / T.base)) * OVERSHOOT
-                for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(pop, pop, 1) end
+                -- Keep the badge inside its reserved horizontal lane beside HP and neighbouring units.
+                for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(1, pop, 1) end
             end
             -- Number: pops on contact, holds through the hit-stop, settles, rises and fades.
             local p = clamp(age / T.damagePop)
