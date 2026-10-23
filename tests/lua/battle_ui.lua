@@ -821,8 +821,11 @@ test("hand, header, potions, end turn and off-canvas releases cancel without cli
         click("endTurn") click("potion1") click("card1")
         assert(#battle.hand == 2 and battle.hand[1].uid == uid and battle.energy == energy and battle.turn == turn)
         assert(ui.selected == nil and not stage.children.dragLayer.visible)
-        event("card1","down",stage.children.card1.x,stage.children.card1.y)
-        event("card1","up",stage.children.card1.x,stage.children.card1.y) click("card1") click("card1")
+        for _ = 1, 2 do
+            event("card1","down",stage.children.card1.x,stage.children.card1.y)
+            event("card1","up",stage.children.card1.x,stage.children.card1.y)
+            event("card1","click",stage.children.card1.x,stage.children.card1.y)
+        end
         assert(#battle.hand == 1,"a fresh tap must retain the fallback")
     end
 end)
@@ -867,8 +870,10 @@ test("resize cancels a moving drag, hides the capture layer and permits a fresh 
     assert(not stage.children.dragLayer.visible and stage.children.card1.y < -100)
     event("card1","up",0,0) click("card1")
     assert(#battle.hand == 2)
-    grab(1) event("card1","up",stage.children.card1.x,stage.children.card1.y)
-    click("card1") click("card1")
+    for _ = 1, 2 do
+        grab(1) event("card1","up",stage.children.card1.x,stage.children.card1.y)
+        event("card1","click",stage.children.card1.x,stage.children.card1.y)
+    end
     assert(#battle.hand == 1 and battle.player.block == 5)
 end)
 test("stateful sleeping enemy shows approved sleep icon and wake intent", function()

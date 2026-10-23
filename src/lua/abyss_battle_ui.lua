@@ -90,6 +90,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return self.active and not self.busy and self.run == g.run and self.run.phase == "combat"
             and self.run.combat == g.battle and g.battle.phase == "player" and g.battle.turn == g.turn
     end
+    -- A card click is the final event of one physical pointer sequence. Retain
+    -- its original rule identity, not a global permission another Down can reset.
+    local cardInputs, pointerObserved = {}, false
+    local function cardReady(g)
+        if not self.active or self.busy or self.run ~= g.run or self.run.phase ~= g.phase then return false end
+        if g.phase == "combat" then
+            local instance = g.battle.hand[g.slot]
+            return dragReady(g) and instance ~= nil and instance.uid == g.uid
+        end
+        return g.phase == "reward" and self.run.rewards == g.rewards
+            and Run.rewardOptions(self.run)[g.slot] == g.uid
+    end
+    local function cancelCardInputs()
+        for _, input in ipairs(cardInputs) do input.held, input.released = nil, nil end
+    end
     local function contains(x, y, frame)
         return math.abs(x-frame[1]) <= frame[3]/2 and math.abs(y-frame[2]) <= frame[4]/2
     end
@@ -123,6 +138,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:resize(width, height)
         local cancelled = self.gesture ~= nil
+        cancelCardInputs()
         if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -190,8 +206,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:render()
         local run = self.run
-        if self.gesture and not dragReady(self.gesture) then
+        if self.gesture and not cardReady(self.gesture) then
             self.gesture, self.selected, self.suppressClick = nil, nil, true
+        end
+        for _, input in ipairs(cardInputs) do
+            if input.held and not cardReady(input.held) then input.held = nil end
+            if input.released and not cardReady(input.released) then input.released = nil end
         end
         if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
             self.feedback:cancel() return
@@ -468,6 +488,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return (x-width/2)/k,(y-height/2)/k
     end
     local function down()
+        pointerObserved = true
         if not self.gesture then self.suppressClick = false end
     end
     local function move(event)
@@ -482,13 +503,25 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             self:render()
         end
     end
-    local function release(event)
+    local function release(event, input, ended)
         local g = self.gesture
-        if not g or not event or event.touchId ~= g.touch then return end
-        -- Stationary taps do not render in move(), so validate their binding too.
-        -- Never let a queued click from an interrupted gesture act on a new view.
-        local instance = g.battle.hand[g.slot]
-        if not dragReady(g) or not instance or instance.uid ~= g.uid then
+        local touch = event and event.touchId
+        if not g then
+            -- Missing/invalid coordinates disable dragging, not ordinary C-mode.
+            local held = input and input.held
+            if held and held.touch == touch then
+                input.held = nil
+                input.released = not ended and cardReady(held) and held or nil
+            elseif ended and input and input.released and input.released.touch == touch then
+                input.released = nil
+            end
+            return
+        end
+        if touch ~= g.touch or input and input ~= g.input then return end
+        g.input.held = nil
+        -- Stationary taps must keep their binding through Up until Click, too.
+        if not cardReady(g) then
+            g.input.released = nil
             self.gesture, self.selected, self.suppressClick = nil, nil, true
             self:render()
             return
@@ -500,15 +533,29 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local valid,target = false,nil
         if x and g.moving then valid,target = dragTarget(g) end
         self.gesture = nil -- consume before invoking the command or any rendering callback
-        if not g.moving then return end -- ordinary taps still receive CursorClick
+        if not g.moving then
+            g.input.released = not ended and g or nil
+            return
+        end
+        g.input.released = nil
         self.suppressClick,self.selected = true,valid and g.uid or nil
         self:render()
         if valid then self:playSelected(target)
         else notice("已取消出牌。" .. self.instructions) end
     end
-    local function listen(control, fn, card)
-        control:AddCursorEventListener(clickEvent,function(...) if not self.suppressClick and not self.gesture then return fn(...) end end)
-        if self.dragEnabled and not card then control:AddCursorEventListener(cursor.CursorDown,down) end
+    local function listen(control, fn, input)
+        control:AddCursorEventListener(clickEvent,function(event)
+            if input and pointerObserved then
+                local released = input.released
+                -- Never borrow a foreign or missing touch ID, nor fall back to
+                -- click-only after this controller has observed pointer input.
+                if not released or released.touch ~= (event and event.touchId) then return end
+                input.released = nil -- a valid matching click can be consumed only once
+                if not cardReady(released) then return end
+            end
+            if not self.suppressClick and not self.gesture then return fn(event) end
+        end)
+        if self.dragEnabled and not input then control:AddCursorEventListener(cursor.CursorDown,down) end
     end
     local function bind(name, fn) listen(child(name),fn) end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
@@ -518,23 +565,33 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     for i = 1, 3 do local slot = i bind("potion" .. i, function() self:usePotion(slot) end) end
     for i = 1, 10 do
         local slot,hit = i,child("card" .. i):GetChild("hit")
-        listen(hit,function() self:playSlot(slot) end,true)
+        local input = {}
+        cardInputs[i] = input
+        listen(hit,function() self:playSlot(slot) end,input)
         if self.dragEnabled then
             hit:AddCursorEventListener(cursor.CursorDown,function(event)
+                pointerObserved = true
+                if self.gesture then return end
                 down()
-                if self.gesture or not self.active or self.busy or not self.run or self.run.phase ~= "combat" then return end
-                local battle = self.run.combat
-                local instance = battle.hand[slot]
+                input.held, input.released = nil, nil
+                if not self.active or self.busy or not self.run then return end
+                local run, battle = self.run, self.run.combat
+                local instance = run.phase == "combat" and battle.hand[slot]
+                local uid = instance and instance.uid or run.phase == "reward" and Run.rewardOptions(run)[slot]
+                if not uid then return end
+                local g = {uid=uid,slot=slot,run=run,battle=battle,turn=battle and battle.turn,
+                    phase=run.phase,rewards=run.rewards,touch=event and event.touchId,input=input}
+                input.held = g
                 local x,y = point(event)
                 if not instance or not x then return end
                 local ok,reason = Combat.canPlay(battle,instance.uid,nil)
                 if not ok and reason ~= "invalid_target" then return end
-                self.gesture = {uid=instance.uid,slot=slot,run=self.run,battle=battle,turn=battle.turn,
-                    touch=event.touchId,sx=x,sy=y,x=x,y=y,origin=self.cardPositions[instance.uid]}
+                g.sx,g.sy,g.x,g.y,g.origin = x,y,x,y,self.cardPositions[instance.uid]
+                self.gesture = g
             end)
             hit:AddCursorEventListener(cursor.CursorDrag,move)
-            hit:AddCursorEventListener(cursor.CursorUp,release)
-            hit:AddCursorEventListener(cursor.CursorEndDrag,release)
+            hit:AddCursorEventListener(cursor.CursorUp,function(event) release(event,input) end)
+            hit:AddCursorEventListener(cursor.CursorEndDrag,function(event) release(event,input,true) end)
         end
     end
     if self.dragEnabled then
@@ -543,7 +600,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local hit = layer:GetChild("hit")
         hit:AddCursorEventListener(cursor.CursorDrag,move)
         hit:AddCursorEventListener(cursor.CursorUp,release)
-        hit:AddCursorEventListener(cursor.CursorEndDrag,release)
+        hit:AddCursorEventListener(cursor.CursorEndDrag,function(event) release(event,nil,true) end)
     end
     for i = 1, 5 do local target = i listen(child("enemy" .. i):GetChild("hit"),function()
         if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
