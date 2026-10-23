@@ -118,8 +118,8 @@ test("fresh stationary taps retain click fallback and a foreign touch cannot rel
     assert(#battle.hand == 1 and battle.energy == 2 and battle.player.block == 5)
 end)
 
-test("cancelled drags outside the play area never click through and accept the next tap",function()
-    for _,point in ipairs({{0,-240},{700,0},{0,350}}) do
+test("cancelled drags back in the hand never click through and accept the next tap",function()
+    for _,point in ipairs({{0,-240},{512,-206},{-560,-200}}) do
         local ui,panel,event,tap = setup()
         local battle = ui.run.combat
         local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
@@ -134,13 +134,13 @@ test("cancelled drags outside the play area never click through and accept the n
     end
 end)
 
-test("targeted drag cancels on empty ground and commits only the selected living enemy",function()
+test("targeted drag pulled back to the hand cancels and commits only the aimed living enemy",function()
     local ui,panel,event = setup()
     local battle = Combat.new(Data,{deck={"strike"},enemies={"cultist","jaw_worm"}})
     ui.run.combat = battle ui:render()
     local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
     local hp1,hp2 = battle.enemies[1].hp,battle.enemies[2].hp
-    event("card1","down",x,y) event("card1","drag",0,0) event("card1","up",0,0)
+    event("card1","down",x,y) event("card1","drag",-200,0) event("card1","drag",x,y) event("card1","up",x,y)
     event("enemy1","click",0,0)
     assert(#battle.hand == 1 and battle.energy == 3 and battle.enemies[1].hp == hp1)
     local enemy = panel:GetChild("enemy2")
