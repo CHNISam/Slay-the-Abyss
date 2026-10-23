@@ -30,6 +30,8 @@
     "backdropVeil": "#0F1117CC",
     "panel": "#1C1E27",
     "panelRaised": "#272A36",
+    "buttonHover": "#353949",
+    "buttonPressedText": "#FFFFFF",
     "panelSunken": "#13141B",
     "line": "#3B3E4C",
     "gold": "#E3B866",
@@ -665,6 +667,7 @@
       "back": [-490, -290, 180, 52],
       "confirm": [490, -290, 200, 56],
       "buttonInset": [20, 8],
+      "buttonStates": { "pressedScale": 0.96, "normalScale": 1 },
       "arrowIcon": 32,
       "price": {
         "size": [100, 40],
