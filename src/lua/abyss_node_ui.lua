@@ -3,6 +3,7 @@
 -- onChange(ok, reason, self) refreshes the host after an attempted command.
 local Nodes = require("abyss_nodes")
 local Theme = require("abyss_theme")
+local Narrative = require("abyss_narrative")
 local M = {}
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
 local reasons = {
@@ -161,6 +162,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
                 "claimTreasure", nil, true, "宝箱已开启 · 获得 " .. reward)
         end
         local shop = active and node.type == "shop" or false
+        -- Leave transaction/error feedback and card-selection instructions in priority.
+        if active and self.mode == "main" and (not shop or self.category ~= "remove") then
+            local flavor = node.type == "event" and Narrative.specificEvents[node.event.id]
+                or Narrative.nodeFlavor[node.type]
+            if flavor then hint = flavor.compact .. " " .. hint end
+        end
         local pageSize = shop and Theme.layout.nativeNode.shop.pageSize or 8
         self.pageCount = math.max(1, math.ceil(#rows / pageSize))
         self.page = math.max(1, math.min(self.page, self.pageCount))
