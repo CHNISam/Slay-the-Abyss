@@ -113,8 +113,10 @@ function M.new(stage, platform, present, complete)
                     if (d.blocked or 0) > 0 then text = "格挡 " .. n(d.blocked) .. ((d.amount or 0) > 0 and "\n−" .. n(d.amount) or "") ink = C.block end
                     if d.status then
                         local status = self.shadow.catalog.statuses[d.status]
-                        text = (status and status.name or d.status) .. " −" .. n(d.amount)
-                        ink = C.debuff
+                        text = (status and status.name or d.status)
+                            .. ((d.blocked or 0) > 0 and " 格挡 " .. n(d.blocked) or "")
+                            .. ((d.amount or 0) > 0 and " −" .. n(d.amount) or "")
+                        ink = (d.blocked or 0) > 0 and C.block or C.debuff
                     end
                     if (d.amount or 0) > 0 then sound(d.target == "player" and "hurt" or "hit")
                     elseif (d.blocked or 0) > 0 then sound("block_hit") end
