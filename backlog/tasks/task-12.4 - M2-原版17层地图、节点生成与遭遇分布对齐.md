@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 09:58'
+updated_date: '2026-10-23 11:45'
 due_date: '2026-10-26'
 labels:
   - required
@@ -48,6 +48,8 @@ ordinal: 40000
 2026-10-23 /root continued-backlog：核对固定原始方法体生成房间清单，针对随机行额外宝箱写真实Map.generate红例；仅在来源明确后移除不应在随机房间清单的treasure。保留九层固定箱与十七层Boss箱，跑边界/地图/全遭遇回归；三道拓扑、交叉边和原版RNG继续明确未对齐。
 
 2026-10-23 @codex-map-topology，独立worktree continue-map-topology/feat/continue-map-topology，基线origin/develop6014746：先核固定MapGenerator/MapEdge/MapRoomNode与12 golden，仅修可独立证明的生产crossing。真实Map.generate交叉红例；按相邻已有边dst max/min夹限并去重，不变RNG/房型/遭遇抽样；旧两边私有断言替换成来源支持出度范围，保持无交叉/可达/导航/快照原断言。sourceSignature拒旧图。定向源/地图/UI/遭遇与0..9999结构检查、严格12golden实际差分均如实记录；不全check/MCP/游戏，7列6路径/ancestor/RNG/配额仍缺口，所有整体AC不勾。
+
+2026-10-23 @codex-map-rng，独立树continue-map-rng/feat/continue-map-rng @1cfaba2：root批准先做tools/candidates隔离7列15行6路径拓扑。固定源证明raw十进制signed64局seed+1（Java long回绕）；复用已有正确拒绝采样原语/闭区间wrapper，不接生产。先保持12原golden hash不变写坐标+边topology-only红例，再独立实现起点重抽/祖先（保留来源x<y分支及深度边界）/夹限/dst去重/父列表/首行冗余边过滤。完整64位输入含2780…，手写边界向量与真实12golden独立核对，不用同实现自重放替代。full房型golden另保留失败；完成后给Map/restore/7列UI容量/同raw房型shuffle生产迁移具体方案，不把候选当长期终点。不开游戏/full/Miliastra。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -74,4 +76,8 @@ PR62与develop ed39f46离线整合完成：修复Golden仅比较生成15行且�
 2026-10-23 @codex-map-topology 离线领取工具/来源层核对完成：固定319009d5df0a82d9fb0f23cc22322286c6a87ec0三份Map原文实际读取，response保留根.artifacts/map-topology-source-6014746。此为未经正版PC二进制认证的第三方CFR镜像，不复制实现或运行镜像。最小可验证方案已报root。
 
 2026-10-23 @codex-map-topology：最小生产crossing修复完成，真实seed0反向对角先红后绿；相邻边目标max/min夹限后按dst去重，sourceSignature增adjacentEdgeClamp。旧源码128输入逐次12081个RNG调用before/bound/after/value完全相同，6016房间/遭遇记录+生成后双随机seed相同，128真实旧图snapshot以configuration_mismatch拒绝。40个地图/evidence/contract/UI专项，map10组、floor128、treasure128、encounter115组（原18遭遇全到达）均通过。既有50seed分批/15s预算未改，性质0..9999实际10000请求/执行/通过，0失败0执行错误；严格golden仍FAIL0/12（11diff/1完整64位seed不支持），11导出图结构错误0。来源hash/边界见docs/reviews/TASK-12.4-map-crossings.md与docs/rules/evidence/w1-map-crossings.json；raw source/旧源/逐调用脚本/完整差分见根.artifacts/map-topology-source-6014746。不改RNG生产接线/房型/遭遇权重，不以性质绿代替7列6路径/祖先/配额/原版RNG/全拓扑一致；无full/MCP/游戏，全项AC不勾。
+
+RNG只读调查原文/13份response及source blob/content hash、12golden seed口径与fixture hash、稀有拒绝采样oracle公式差异已保留根.artifacts/map-rng-source-1cfaba2/investigation.json。原作PC二进制/实际libGDX依赖版本仍未认证；不迁就oracle unsigned拒绝条件、不修改golden。此片不改production RNG及任务广义AC。
+
+2026-10-23 @codex-map-rng 收敛交接：隔离tools/candidates/sts1_map_topology.lua完成，未接生产。新增15专项先0/15（缺候选）后15/15；12未改捕获golden的连接坐标/每条边全部匹配，含完整2780424839485660359输入，无tonumber/16位截断；seed+1回绕及起点/祖先/夹限/父引用/首行过滤独立边界通过。原语/包装器、src/golden/data/CI未改；生产全图另实际FAIL0/12（11diff/1unsafe64）。结构化证据docs/rules/evidence/w1-map-topology-candidate.json，原始13source与各seed实际图/state/runner响应在根.artifacts/map-rng-source-1cfaba2；稀有oracle拒绝采样差异未迁就。生产房型/同raw洗牌、Map v3 stringseed/restore、7列UI92节点容量等具体gate写docs/reviews/TASK-12.4-map-rng-topology-candidate.md，均未实施。用户现可登录原神且要求收敛，停止新范围，仅文档/独立commit/交接；无full/Miliastra/游戏，广义一致性/平台AC不勾。
 <!-- SECTION:NOTES:END -->
