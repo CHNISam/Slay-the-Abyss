@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 03:28'
+updated_date: '2026-10-23 04:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -71,4 +71,6 @@ P0正式结算已接线：结果双按钮、单次ABYSS_WIN/LOSE信号、服务�
 2026-10-23 /root/enemy_ai 在feat/task-17-guardian-ai推进Guardian真实阶段，未改actor/effects。先新增原版独立预期测试确认旧循环缺少初始Mode Shift而失败；实现后19组Guardian轨迹及35组状态通过。首次全套检查在既有statuses测试依赖前九项数组序号处失败，已将新增两状态追加到末尾保持旧序，定点复验通过。现普通合入be5093f最新develop并保留17层地图、Cleric/Purifier、库存零伤反刺修复，随后做最终组合检查。来源可信级别、原版构建未锁与死亡边界依据见docs/reviews/TASK-17-guardian-ai.md；全部AC仍未勾。
 
 2026-10-23 最终Guardian离线切片（基线已普通合入be5093f）：新增独立攻守状态机、数据化30/40/50预算及20格挡、完整A0动作顺序、真实Attack卡后SharpHide一次反伤。只读获取purewhitelove/ButterflyGame@fc379c875c11e008e9c10548ac8e394c301c532f实际方法体，声明V2.3.4/2022-12-18但未经正版hash核验。依据具体队列纠正wiki概述不足：TwinStrike两段后才加转形格挡；Thorns可消耗打开壳时预算；Twin Slam先开壳但预算应用/Reset排在两段之后，小额反刺被清，足额可再转形。独立红测分别复现27!=30、40!=34和CloseUp误推进到Roll后修正；24组Guardian轨迹、12组schema、真实控件预算/状态/意图通过。最后固定代码完整npm run check退出0：JS224（210通过、14既有Windows软链权限skip），Lua全套通过含Guardian24/UI38，Python16（1既有skip）。保留17层地图、Cleric/Purifier和库存零伤Thorns，不改actor/effects；applyEffects批次标记异常复原通过copied_attack34组原子性回归。来源hash、路径行号和候选边界见docs/reviews/TASK-17-guardian-ai.md，日志build/guardian-ai-check.log。五个AC全部未勾；无原神/MCP/图编译/写档/实机或原版二进制验证。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->

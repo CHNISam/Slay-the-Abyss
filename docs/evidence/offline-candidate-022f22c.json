@@ -1,0 +1,201 @@
+{
+  "sourceCommit": "022f22cf600de140527acb32774c997ea2be17d4",
+  "integratedCommit": "fac093cffb0403b3ab1ffc5479bd61011a95232b",
+  "runtimeDataAndBuildScriptsMatchIntegration": true,
+  "independentVerification": {
+    "actualGilRead": true,
+    "matchingModuleSources": 24,
+    "clientCheckErrors": 0,
+    "crossModuleMethodWarnings": 15,
+    "compiledGraphReinjectionMatchesBytes": true,
+    "officialOriginalHashUnchanged": true
+  },
+  "liveWriteEnabled": false,
+  "original": {
+    "mapId": "1073741825",
+    "sha256Before": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+    "sha256After": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432"
+  },
+  "candidate": {
+    "relativePath": ".artifacts\\offline-integrated-022f22c\\workspace\\wmvkfxbop-0\\working.gil",
+    "sha256": "a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114",
+    "controls": 1220,
+    "maxChildren": 50,
+    "panels": [
+      "battlePanel",
+      "deckEntry",
+      "deckPanel",
+      "mapPanel",
+      "menuPanel",
+      "nodePanel"
+    ],
+    "scripts": [
+      "abyss_ui"
+    ],
+    "deck": {
+      "templateIndex": 1073741845,
+      "templateName": "AbyssDeckCard",
+      "gridColumns": 6
+    },
+    "graphIds": [
+      1073741825
+    ],
+    "nodeCounts": [
+      22
+    ],
+    "stageMounts": [
+      {
+        "graphId": 1073741825,
+        "category": 20000,
+        "enabled": 1
+      }
+    ]
+  },
+  "checked": {
+    "checked": [
+      "abyss_actor",
+      "abyss_battle_ui",
+      "abyss_combat",
+      "abyss_deck_ui",
+      "abyss_effects",
+      "abyss_enemy_ai",
+      "abyss_events",
+      "abyss_feedback",
+      "abyss_game_ui",
+      "abyss_guardian_ai",
+      "abyss_inventory",
+      "abyss_map",
+      "abyss_map_ui",
+      "abyss_nodes",
+      "abyss_node_ui",
+      "abyss_random",
+      "abyss_run",
+      "abyss_ui",
+      "abyss_viewport",
+      "abyss_data",
+      "abyss_map_layout",
+      "abyss_narrative",
+      "abyss_presentation",
+      "abyss_theme"
+    ],
+    "ok": true,
+    "errors": 0,
+    "warnings": 15,
+    "problems": [
+      {
+        "script": "abyss_battle_ui",
+        "line": 192,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_battle_ui",
+        "line": 380,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":begin() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_battle_ui",
+        "line": 385,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 34,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":open() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 40,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 61,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 77,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setActive() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetActive()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 79,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetVisible()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 81,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetVisible()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 84,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 95,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setNavigationEnabled() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 96,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_ui",
+        "line": 51,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Resume()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 64,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Resume()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 67,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":update() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":OnUpdate()"
+      }
+    ],
+    "note": "Each problem names the script and the line. An error is something the game will not complain about and that will not work; a warning may be on purpose. Only names written as literals are checked."
+  },
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED"
+}

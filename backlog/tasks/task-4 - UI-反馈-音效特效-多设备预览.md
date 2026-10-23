@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 04:02'
+updated_date: '2026-10-23 04:13'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -56,4 +56,6 @@ TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TAS
 最终离线验证：npm run check exit 0；JS 214 项（200 pass/14 环境 symlink 权限 skip），全部 Lua 套件通过（GameUI 16 项），Python 16 项（1 symlink 权限 skip）。固定 source-base SHA256 6e82decf...a432 从零构建成功；完整候选上 replace UI/模板读回，控件 ID/模板索引/22节点结算图/信号/实体挂载相等。scene_check_client 0 errors/15 跨模块 UNKNOWN_METHOD warnings，无 signal 未监听警告。最终候选 SHA256 512959f6...f680，证据 docs/testing/task4-deck-offline.md。早期派生 original.gil 调查不作验收证据。未开原神、未导入、未预览、未试玩，不勾 TASK-4 实机 AC；交主线程复审。
 
 2026-10-23 feat/node-ui-polish（PR 见分支）：节点四屏按 PR19 批准稿原生重构——商店单屏货架（5 卡面+价格、删牌服务格先选后确认、遗物行、红价/灰牌/售罄）、营地休息/锻造双选项与升级前后真实卡面对比、净化神龛/圣职者左右结构与灰态原因及结果页、宝箱开合与奖励行；营地/事件结果停留至「继续」。只读 Nodes.view、只发既有命令，未改规则/RNG/定价（未用 PR #64 候选），未实现第17层Boss宝箱。验证：npm run check 全绿（节点 Lua 18 项、宿主全流程、布局 6 项）；离线对照截图 docs/design/node-preview/。平台实机：未测，验收保持 pending。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->
