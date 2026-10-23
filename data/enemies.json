@@ -100,7 +100,8 @@
         "supportIntent": "red_louse_2",
         "rollRange": 100,
         "supportCutoff": 25,
-        "biteRange": { "min": 5, "max": 7 }
+        "biteRange": { "min": 5, "max": 7 },
+        "curlUpRange": { "min": 3, "max": 7 }
       },
       "intents": [
         {
@@ -138,7 +139,8 @@
         "supportIntent": "green_louse_2",
         "rollRange": 100,
         "supportCutoff": 25,
-        "biteRange": { "min": 5, "max": 7 }
+        "biteRange": { "min": 5, "max": 7 },
+        "curlUpRange": { "min": 3, "max": 7 }
       },
       "intents": [
         {

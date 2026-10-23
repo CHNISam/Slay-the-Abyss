@@ -183,6 +183,7 @@
       "boss": 102033
     },
     "status": {
+      "curl_up": 103066,
       "spore_cloud": 103059,
       "entangled": 103053,
       "artifact": 103066,

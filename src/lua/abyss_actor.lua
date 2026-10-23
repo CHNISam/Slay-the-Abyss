@@ -205,6 +205,16 @@ function M.damage(state, source, target, base, fixed, retaliation)
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
     Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
+    -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
+    -- the BOTTOM, behind every already-queued hit/effect and card disposal.
+    -- Keep this FIFO separate from Angry/Thorns/Spore's reverse TOP reactions.
+    local curl = target.statuses.curl_up or 0
+    if target ~= state.player and not fixed and lost > 0 and target.hp > 0
+        and curl > 0 and not target.curlUpTriggered then
+        target.curlUpTriggered = true
+        state.curlUpQueue = state.curlUpQueue or {}
+        state.curlUpQueue[#state.curlUpQueue + 1] = {target=target, amount=curl}
+    end
     -- Angry is a queued positive Strength Power after an unblocked NORMAL hit.
     -- Fixed inventory damage, poison and retaliation use non-NORMAL paths.
     -- For an area action, all targets take damage before top-of-queue reactions.
@@ -238,6 +248,26 @@ function M.block(state, actor, amount, fixed)
     -- Cap the final state, not the modifier calculation or its float precision.
     actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
     Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
+end
+
+-- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.
+function M.flushCurlUp(state)
+    local queue = state.curlUpQueue
+    state.curlUpQueue = nil
+    -- The original death screen stops action-manager updates immediately.
+    if not queue or state.player.hp <= 0 then return end
+    for _, entry in ipairs(queue) do
+        local target = entry.target
+        -- GainBlock/RemovePower each reject a dead owner. A later queued hit
+        -- may have killed it after the initial nonlethal trigger.
+        if target.hp > 0 then
+            M.block(state, target, entry.amount, true)
+            local amount = target.statuses.curl_up or 0
+            target.statuses.curl_up = 0
+            Events.emit(state, "status", {source=target.id, target=target.id,
+                status="curl_up", amount=-amount})
+        end
+    end
 end
 
 local function tick(state, actor, phase)

@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {loadContent,validateContent} from '../scripts/validate-data.mjs';
+import {validateTheme} from '../scripts/build-ui-theme.mjs';
+const enemy=(d,id='red_louse')=>d.enemies.enemies.find(e=>e.id===id);
+const setup=()=>{const d=loadContent('data');for(const id of ['red_louse','green_louse'])enemy(d,id).ai.curlUpRange={min:3,max:7};if(!d.statuses.statuses.some(s=>s.id==='curl_up'))d.statuses.statuses.push({id:'curl_up',name:'蜷甲',kind:'buff',stack:'intensity',decay:'none',description:'首次受到非致命普通攻击后，获得所示格挡；每场战斗一次'});return d;};
+for(const id of ['red_louse','green_louse'])test(id+' has sampled A0 Curl rather than opening Block',()=>{const d=loadContent('data');assert.deepEqual(enemy(d,id).ai.curlUpRange,{min:3,max:7});const p=d.statuses.statuses.find(s=>s.id==='curl_up');assert.ok(p);assert.equal(p.kind,'buff');assert.equal(p.stack,'intensity');assert.equal(p.decay,'none');assert.match(p.description,/格挡/);assert.notEqual(p.name,'Curl Up');assert.deepEqual(validateContent(d),[]);});
+test('bounded Curl data is accepted',()=>assert.deepEqual(validateContent(setup()),[]));
+for(const value of [undefined,0,[],null,'3'])test('Curl rejects malformed range '+JSON.stringify(value),()=>{const d=setup();enemy(d).ai.curlUpRange=value;if(value===undefined)delete enemy(d).ai.curlUpRange;assert.ok(validateContent(d).some(e=>e.includes('curlUpRange')));});
+for(const [key,value] of [['min',undefined],['min',0],['min',1.5],['min',8],['max',undefined],['max',2147483648],['max',1.5],['max',65539],['extra',1]])test('Curl range rejects '+key+' '+value,()=>{const d=setup();enemy(d).ai.curlUpRange[key]=value;if(value===undefined)delete enemy(d).ai.curlUpRange[key];assert.ok(validateContent(d).some(e=>e.includes('curlUpRange')));});
+test('Curl requires its power definition',()=>{const d=setup();d.statuses.statuses=d.statuses.statuses.filter(s=>s.id!=='curl_up');assert.ok(validateContent(d).some(e=>e.includes('curl_up')));});
+test('Curl icon uses supported shared theme and remains schema-valid',()=>{const t=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));assert.ok(Number.isInteger(t.icon.status.curl_up));assert.deepEqual(validateTheme(t,setup()),[]);});

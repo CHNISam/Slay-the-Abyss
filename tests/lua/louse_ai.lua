@@ -1,4 +1,4 @@
--- Pinned A0 method facts, not original seeds or full Curl Up/stream parity.
+-- Pinned A0 method facts, not original seeds or complete independent-stream parity.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local C,Run,Data=require('abyss_combat'),require('abyss_run'),require('abyss_data')
 local AI=require('abyss_enemy_ai')
@@ -57,8 +57,8 @@ for _,v in ipairs(variants)do local id,low,high=v[1],v[2],v[3]
  end)
 end
 
-test('constructors sample HP then Bite per actor before all opening rolls and shuffle',function()
- local old,calls=C.random,{};local values={1,1,7,3,26,26,1,1,1};local ranges={6,3,7,3,100,100,4,3,2}
+test('constructors sample HP then Bite per actor before all opening rolls, shuffle and Curl',function()
+ local old,calls=C.random,{};local values={1,1,7,3,26,26,1,1,1,1,5};local ranges={6,3,7,3,100,100,4,3,2,5,5}
  C.random=function(s,n)calls[#calls+1]=n;eq(n,ranges[#calls],'request '..#calls);old(s,n);return values[#calls]end
  local ok,why=pcall(function()local s=battle({'red_louse','green_louse'},{'strike','defend','bash','anger'});eq(#calls,#ranges);eq(s.enemies[1].hp,10);eq(s.enemies[2].hp,17);eq(C.intent(s,1).effects[1].value,5);eq(C.intent(s,2).effects[1].value,7)end)
  C.random=old;assert(ok,why)

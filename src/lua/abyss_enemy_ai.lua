@@ -33,6 +33,10 @@ function M.prepare(state, enemy, random)
     if enemy.ai and enemy.ai.kind == "louse" then Louse.prepare(state, enemy, random) end
 end
 
+function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random) end
+end
+
 function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
