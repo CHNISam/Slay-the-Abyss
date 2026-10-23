@@ -4,8 +4,9 @@ title: M3 首发遭遇与敌人AI、概率和特殊机制原版对齐
 status: In Progress
 assignee:
   - '@Codex'
+  - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 07:23'
+updated_date: '2026-10-23 08:24'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -41,6 +42,8 @@ ordinal: 15000
 继续离线祈火徒切片：独立读取固定镜像Cultist/RitualPower及整组轮末调度。补能区分首动与0/6/9/12/15轨迹、队友时序/死亡/展示的运行时测试，再接入仪式状态和整组轮末钩子；生命48–54沿用现有项目采样，随机流一致性不宣称通过。保留睡眠AI兼容，全部来源/平台AC保留。
 
 继续离线 Jaw Worm 切片（feat/task-15-jaw-worm-ai，ed39f46基线）：1. 固定镜像 JawWorm/Random/版本声明逐分支取证，记录非官方真实性与RNG差异。2. 先写独立边界预期：40–44 HP、首动11、Thrash7后Block5、Bellow Strength3后Block6、25/55边界及条件概率/连续限制。3. 独立Jaw决策模块接现有AI分派，历史平铺在actor；所有常数来自数据，生产随机仍明确项目LCG非原版流。4. 定向回归、schema与必要集成检查，独立提交交主线程审查；原版全池/算法/平台AC不勾。
+
+2026-10-23 独立切片 codex-enemy-parity（feat/continue-enemy-parity，基线52f35dd）：固定社区源码核查 Gremlin Nob A0 与 AngerPower；先写真正 Combat 入口红测，再实现 HP82–86、首动 Enrage2、33边界攻击/易伤与连续限制；沿 EnemyAI 现有钩子接技能反应，验证schema与集成回归。不碰 Combat/Inventory，不开游戏或 live MCP；全池和平台AC保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -66,4 +69,6 @@ ordinal: 15000
 2026-10-23 Jaw Worm生产切片（feat/task-15-jaw-worm-ai，ed39f46基线）：固定ButterflyGame JawWorm/Random和开发者caseyyano公开getMove交叉，另aeubanks固定AbstractMonster核首动random(99)消费。已实现HP40–44、首动11、Thrash7后5格挡、Bellow3力量后6格挡、25/55与binary32条件概率/连续限制。13组AI独立预期先红后绿；新增13schema加既有共85JS通过；真实原生控件详情验证；18遭遇覆盖152组；最终完整Lua退出0，build/jaw-worm-lua-check.log。明确修复自定义反馈意图/一点HP导航夹具，不降低生产数据。共享16位LCG/原版独立流/种子映射仍未生产对齐，详见docs/reviews/TASK-15-jaw-worm-ai.md；未跑本片完整npm check，主线程统一组合。不开游戏/MCP/不写存档，全部全池与平台AC保留未勾。
 
 本轮离线复审与合并：PR91 Jaw实际HP40–44、主/条件随机消费及历史限制接线；PR89蓄能小魔真实charge/reset第3/7/11动25攻击；PR86 Fat/Sneaky/Blue来源值与动作payload，43组真实入口和全部本机/当前CI通过。Jaw/Guardian/Cultist/Lagavulin钩子保留。相关共享Weak轮末justApplied时序、Blue原版随机选招/独立RNG仍未对齐，不能据此关闭全敌人严格一致性；尚未官方导入/实机。
+
+2026-10-23 codex-enemy-parity / 14b2a80：固定 aeubanks/sts@319009d 源码镜像核查并独立实现 Gremlin Nob A0：HP82–86、开场Enrage2、技能效果前力量、Skull Bash6后易伤2、BullRush14、33边界与Rush禁三连。专项12组先红11后全绿，900组受控映射；10组schema及原生打包校验。完整npm run check结束：JS594项479通过115既有条件跳过0失败；全部Lua与Python16项（1权限skip）通过。证据见docs/reviews/TASK-15-gremlin-nob-ai.md。未改Combat/Inventory，无游戏/MCP/平台编译/副本导出/实机；共享LCG、PC构建真实性、全池与所有平台AC继续保留。
 <!-- SECTION:NOTES:END -->
