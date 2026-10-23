@@ -2,7 +2,23 @@
 
 任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
 
-## 新版节点与结果界面候选（7013641，未导入/试玩）
+## 本轮规则与按钮候选（ec455f6，未导入/试玩）
+
+真实构建源`ec455f6b56efcab3deed4ac688676eba58c8a73b`。包含已合PR82力量/敏捷cap、83支持池Boss稀有奖励、84生成输入保护、85群攻后逆序反伤、86三类敌人数值与动作、89Wizard蓄能、91Jaw生产AI/节点按钮状态，以及62地图证据/纯问号reducer；87/88/90仅独立证据或候选，不代表生产算法已切换。
+
+完整`npm run check`退出0：JS584项=469通过/115个Windows符号链接权限skip，全部Lua通过，Python15通过/1权限skip。新增101个symlink skip来自PR84，不计入已覆盖的通过项。Boss奖励保留128种子及全部断言，拆分为四个默认15秒预算的真实Lua脚本；CI失败与后续修复记录在对应PR。
+
+中间源54e8eef曾真实装入测试生成的`sts1_unknown_vectors.lua`，为27模块/18warning。构建器现只选5个明确的生成运行时模块，全部源模块保留，工具写入前拒绝缺失或同名；新副本为26模块/0错误/17warning，已不含测试向量。17warning分为16条既有跨模块自定义方法，以及1条未接生产的`abyss_unknown`未挂载提示，不能说警告为0或问号分派已实现。
+
+- 实际副本：`.artifacts/offline-sprint-ec455f6/abyss-sprint-offline.gil`。
+- SHA256：`a4f90ebb7230201989e89fbb270a98ec601c8f05861fd078bf81617453ffb9bc`。
+- UI1590控件、最大50直接子；19个框式按钮各增加hover/pressed层（38层），六列牌库与22节点结算图启用挂载真实读回。
+- 正式底图SHA256前后均为`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`；liveWrite=0。
+- [结构化证据](evidence/offline-candidate-ec455f6.json)保留源SHA、完整检查统计/日志hash、模块检查、UI/模板/图读回和副本hash。
+
+没有开原神、官方导入、设备预览、听验或真实平台试玩。原版独立RNG/拓扑/问号分派、Weak轮末justApplied调度、Boss第17层遗物箱、TASK2物理配置及胜利正式结算等仍未完成；原版地图Golden0/12与10000结构种子0通过的严格失败报告在W1文档，普通CI与副本成功不能替代。
+
+## 历史新版节点与结果界面候选（7013641，未导入/试玩）
 
 真实构建源`701364102983dee19be840be0c54e4d12a06c66a`，包含PR75节点页、PR77菜单/结果页、PR79战斗反馈及先前牌库/AI/固定药水槽位。完整`npm run check`通过：JS297通过/14个既有权限skip，Lua全套、Python15通过/1个既有skip。
 

@@ -1,6 +1,6 @@
 # 交接说明
 
-最新UI副本：源7013641含新版节点/菜单/结果及战斗反馈，24模块/1552控件/六列牌库/22节点启用结算图，真实MCP构建与独立源文/重注入核验通过。17个RGBA遮罩的平台输入错误已修为RGB+独立透明度。副本`.artifacts/offline-ui-7013641/abyss-ui-offline.gil`与完整hash见[P0-SMOKE](P0-SMOKE.md)及[证据](evidence/offline-candidate-7013641.json)。未开原神/导入/实机；节点按钮hover/pressed/按下缩放仍是P2视觉缺口，完整AC保留。
+最新离线副本：源`ec455f6`含节点按钮hover/pressed/0.96缩放、Jaw/Wizard与三类敌人修复、力量/敏捷cap、群攻反伤队列、Boss受支持稀有奖励，以及前批完整UI。真实MCP副本为26模块/1590控件/max50/六列牌库/22节点启用结算图，静态0错误/17警告（16条已定位自定义方法，1条未接生产的问号reducer）。修复了全扫描误装测试向量的问题，新副本不含该测试文件。副本`.artifacts/offline-sprint-ec455f6/abyss-sprint-offline.gil`与完整hash见[P0-SMOKE](P0-SMOKE.md)和[证据](evidence/offline-candidate-ec455f6.json)。未开原神/导入/实机，正式底图hash保持不变；原版RNG/Weak轮末调度/Boss17宝箱等缺口继续保留。
 
 本批离线交付补充：PR66已关闭TASK3.1构建切片；PR69守护者排队转形、PR73祈火徒仪式、PR71原生只读牌库均已合入develop，PR67保护原本正确的IronWave顺序。最新整批副本的实际构建源为PR78固定提交022f22c，含24模块/1220控件/六列牌库模板/22节点结算图，静态0错误；文件与hash见[P0-SMOKE.md](P0-SMOKE.md)和[结构化证据](evidence/offline-candidate-022f22c.json)。源SHA与squash合入SHA分别保留，不冒充官方导入或实机通过。后续继续从最新origin/develop领取可离线任务，不在根旧工作树覆盖他人改动。
 

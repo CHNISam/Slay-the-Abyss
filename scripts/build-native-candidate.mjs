@@ -1,9 +1,10 @@
 // Run after build:data and build:ui. Only the MCP workspace copy is written.
-import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs';
-import { resolve, join, basename } from 'node:path';
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { requireStartupEvidence } from './native-playtest-evidence.mjs';
 import { settlementGraphSource } from './settlement-graph.mjs';
+import { candidateScriptFiles } from './native-candidate-scripts.mjs';
 
 const [baseMap, output = '.artifacts/native-candidate', mode] = process.argv.slice(2);
 if (!baseMap) throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory]');
@@ -20,6 +21,7 @@ function checkTree(control) {
 }
 layout.controls.forEach(checkTree);
 templates.forEach(checkTree);
+const scripts = candidateScriptFiles(); // Preflight before any workspace or tool writes.
 mkdirSync(workspace, { recursive: true });
 const client = new Client({ name: 'abyss-native-candidate', version: '1.0' });
 await client.connect(new StdioClientTransport({ command: process.execPath,
@@ -39,12 +41,8 @@ try {
     const resource = await client.readResource({ uri });
     writeFileSync(join(workspace, `${uri.split('//')[1]}.json`), JSON.stringify(resource, null, 2));
   }
-  for (const directory of ['src/lua', 'build/lua']) {
-    for (const file of readdirSync(directory).filter(file => file.endsWith('.lua') &&
-      !['abyss_ui_layout.lua', 'abyss_map_controls.lua', 'abyss_ui_templates.lua'].includes(file))) {
-      await call('scene_set_client_script', { mapPath, name: basename(file, '.lua'),
-        sourceFile: resolve(directory, file), outputName: 'abyss-full-game-test' });
-    }
+  for (const script of scripts) {
+    await call('scene_set_client_script', { mapPath, ...script, outputName: 'abyss-full-game-test' });
   }
   for (const template of templates) {
     await call('scene_add_client_template', { template, mapPath, replace: true, outputName: 'abyss-full-game-test' });
