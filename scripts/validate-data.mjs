@@ -157,7 +157,7 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry'], `${ap}.kind`);
       if (a.kind === 'sentry') {
         keys(a, ['kind', 'beamIntent', 'boltIntent', 'artifactStacks', 'rollRange'], ap);
         intentReference(a.beamIntent, `${ap}.beamIntent`, 'attack');
@@ -178,6 +178,21 @@ export function validateContent(bundle) {
         intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
         intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+      } else if (a.kind === 'red_slaver') {
+        keys(a, ['kind', 'stabIntent', 'entangleIntent', 'scrapeIntent', 'rollRange', 'entangleCutoff', 'stabCutoff'], ap);
+        intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');
+        intentReference(a.entangleIntent, `${ap}.entangleIntent`, 'debuff');
+        intentReference(a.scrapeIntent, `${ap}.scrapeIntent`, 'attack');
+        if (new Set([a.stabIntent, a.entangleIntent, a.scrapeIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        for (const cutoff of ['entangleCutoff', 'stabCutoff']) {
+          integer(a[cutoff], `${ap}.${cutoff}`, 0, 65536);
+          if (!(a[cutoff] < a.rollRange)) fail(`${ap}.${cutoff}`, 'cutoff must be below rollRange');
+        }
+        const net = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.entangleIntent);
+        if (!Array.isArray(net?.effects) || !net.effects.some(effect => effect?.op === 'applyStatus' && effect.status === 'entangled' && effect.value === 1)) {
+          fail(`${ap}.entangleIntent`, 'must apply Entangled one');
+        }
       } else if (a.kind === 'blue_slaver') {
         keys(a, ['kind', 'stabIntent', 'rakeIntent', 'rollRange', 'stabCutoff'], ap);
         intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');

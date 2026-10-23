@@ -396,6 +396,16 @@
       "name": "赤衣束缚者",
       "tier": "normal",
       "hp": 48,
+      "hpRange": {"min": 46, "max": 50},
+      "ai": {
+        "kind": "red_slaver",
+        "stabIntent": "red_slaver_1",
+        "entangleIntent": "red_slaver_2",
+        "scrapeIntent": "red_slaver_3",
+        "rollRange": 100,
+        "entangleCutoff": 75,
+        "stabCutoff": 55
+      },
       "intents": [
         {
           "id": "red_slaver_1",
@@ -411,6 +421,14 @@
           "id": "red_slaver_2",
           "kind": "debuff",
           "effects": [
+            {"op": "applyStatus", "status": "entangled", "value": 1}
+          ]
+        },
+        {
+          "id": "red_slaver_3",
+          "kind": "attack",
+          "effects": [
+            {"op": "damage", "value": 8},
             {
               "op": "applyStatus",
               "status": "vulnerable",

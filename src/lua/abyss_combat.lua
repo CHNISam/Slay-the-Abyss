@@ -138,6 +138,7 @@ function M.canPlay(state, uid, targetIndex)
     if not instance then return false, "card_not_in_hand" end
     local card = M.cardDefinition(state, instance)
     if card.cost == -2 then return false, "unplayable_card" end
+    if card.type == "attack" and (state.player.statuses.entangled or 0) > 0 then return false, "entangled" end
     local ok, op = Effects.supported(card.effects)
     if not ok then return false, "unsupported_effect:" .. op end
     if card.costMode or card.condition then return false, "advanced_card_not_enabled" end

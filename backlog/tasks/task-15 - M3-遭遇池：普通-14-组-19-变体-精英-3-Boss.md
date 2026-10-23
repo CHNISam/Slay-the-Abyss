@@ -6,7 +6,7 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 09:55'
+updated_date: '2026-10-23 09:56'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -56,6 +56,8 @@ ordinal: 15000
 下一批Sentry/Artifact：固定HP38–42/Artifact1/完整敌方列表奇偶开场与交替/roll，独立AI与Actor.applyPower；Dazed来自7b1236f，Effects/Inventory真实桥接待同作者后续独立commit，未桥接不冒称完成。
 
 Sentry69df9bc接独立Dazed7b：专属策略按完整敌列表slot决定首动Bolt2 Dazed/Beam9，HP38–42、预战Artifact1，后续交替且每次主roll消费，queued-dead白名单增加Sentry。
+
+Red7e506f8：固定SlaverRed/Entangle/AbstractCard及Potion源码；HP46–50、Stab13首动仍roll、75/55条件分支与连续限制、用网在执行时一次性标记；新增真实entangled阻ATTACK、player owner-end全量移除、Artifact分类，不用Weak替代。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -103,4 +105,6 @@ SpikeS源8a70065：8组专项先5红后全绿，68项JS与18遭遇可达/121组�
 Sentry69df9bc阶段9真实Combat/Run专项先全红后绿：三敌开场只9伤/4Dazed，三轮HP71/53/44、累计Dazed4/6/10，无Weak替代；64种子HP/Artifact、slot错位、roll0/99、反伤/毒死队列覆盖，25相关JS绿。真实Artifact牌瓶尚有3组未桥接红例，NoDraw/zeroFlex/UI意图补齐待独立桥接，不冒充已完成。root集成保留最新develop PR101诊断与PR102规则/审计。
 
 阶段3实际桥接80684bd（root f465d74）及6f21b8：Effects/Inventory真实ApplyPower、Flex真实state单力量事件、毒瓶被挡仍成功消费；NoDraw固定重复gate/先抽后应用6组红绿，zeroFlex新ABI>0/raw0保兼容。Sentry原生意图UI从问号改晕眩2/弃牌说明，两轮整状态只读。独立复审发现两被挡overflow红例后用纯Artifact gate修复：Poison=intMax+Art1使用成功瓶空/Art0/毒不增；Flex旧debt=intMax+Art1只挡新失力、保旧debt。无Art/raw原overflow拒绝和原地回滚保留。最新19基础/13真实runtime/Inventory11/Flex16绿，15套必要Lua先过；待固定SHA独立最终复核/root全量。原作零层对象/RNG/完整Power hooks/平台仍未通过，全部严格AC保留。
+
+Red7e506f8独立交付29真实入口绿、13Lua188组/遭遇110组/JS74项绿，初26中25红含1已修floor夹具。覆盖实际网被Artifact挡仍已用、两Red单Artifact、技能/能力/Fire药水允许、owner-end移除与Flex独立扣Art、原地回滚/死亡roll。只cherry Red独立增量，不重复806桥接；root保留Sentry与Red的schema/queuedRoll/原生打包并集、Dazed -2及entangled两preflight。0输入仅验证Artifact gate，0层Power对象存在未建模；原作RNG/完整power优先级/平台AC保留，待独立组合复审/full。
 <!-- SECTION:NOTES:END -->

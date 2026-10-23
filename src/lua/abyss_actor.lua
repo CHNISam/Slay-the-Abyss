@@ -25,7 +25,7 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { weak=true, vulnerable=true, frail=true, poison=true }
+local debuffs = { weak=true, vulnerable=true, frail=true, poison=true, entangled=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
@@ -231,6 +231,13 @@ end
 function M.endTurn(state, actor)
     tick(state, actor, "turn_end")
     if actor.hp <= 0 then return end
+    -- EntanglePower removes itself only for isPlayer=true, rather than reducing
+    -- one stack at the monster round boundary or applying another Power.
+    local entangled = actor.statuses.entangled or 0
+    if actor == state.player and entangled > 0 then
+        actor.statuses.entangled = 0
+        Events.emit(state, "status", {source = actor.id, target = actor.id, status = "entangled", amount = -entangled})
+    end
     local temporary = actor.temporaryStrength or 0
     if temporary ~= 0 then
         -- LoseStrength's owner-end trigger queues a negative Strength Power.
