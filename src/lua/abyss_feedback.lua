@@ -10,7 +10,7 @@ local function duration(kind)
     if kind == "enemy_turn" or kind == "player_turn" or kind == "victory" or kind == "defeat" then return T.banner end
     if kind == "intent" then return T.enemyActionGap end
     if kind == "death" then return T.slow end
-    if kind == "damage" or kind == "status_damage" or kind == "block" or kind == "status" or kind == "heal" then return T.base end
+    if kind == "damage" or kind == "hp_loss" or kind == "status_damage" or kind == "block" or kind == "status" or kind == "heal" then return T.base end
     return 0
 end
 
@@ -86,7 +86,7 @@ function M.new(stage, platform, present, complete)
             card:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
             local targetsEnemy, area = false, false
             for _, effect in ipairs(definition.effects) do
-                targetsEnemy = targetsEnemy or effect.op == "damage" or effect.op == "applyStatus"
+                targetsEnemy = targetsEnemy or effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus"
                 area = area or effect.op == "damageAll" or effect.op == "applyStatusAll"
             end
             local target = (targetsEnemy or area) and self.shadow.enemies[d.target or 1]
@@ -114,7 +114,7 @@ function M.new(stage, platform, present, complete)
                 local previous = old.player
                 if d.target ~= "player" then for _, value in ipairs(old.enemies) do if value.id == d.target then previous = value break end end end
                 local text, ink = "", C.goldBright
-                if kind == "damage" or kind == "status_damage" then
+                if kind == "damage" or kind == "hp_loss" or kind == "status_damage" then
                     text, ink = n(d.amount), C.danger
                     if (d.blocked or 0) > 0 then text = "格挡 " .. n(d.blocked) .. ((d.amount or 0) > 0 and "\n−" .. n(d.amount) or "") ink = C.block end
                     if d.status then
@@ -196,7 +196,7 @@ function M.new(stage, platform, present, complete)
                     if p >= 1 then self.effects[id] = nil end
                 else
                     local age, d = effect.age, effect.detail
-                    local hit = (effect.kind == "damage" or effect.kind == "status_damage") and (d.amount or 0) > 0
+                    local hit = (effect.kind == "damage" or effect.kind == "hp_loss" or effect.kind == "status_damage") and (d.amount or 0) > 0
                     local flash = age < T.fast
                     local status = effect.kind == "status" and age < T.slow
                     local impact = box:GetChild("impact")

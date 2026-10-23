@@ -71,6 +71,11 @@ test('one through ten hand cards, including selection, fit the 40/20 safe area o
 });
 test('native buttons provide all four states and touch hit areas stay inside the safe area', () => {
   const controls = stage().children;
+  const drag = controls.find(c => c.name === 'dragLayer');
+  const capture = drag.children.find(c => c.name === 'hit');
+  assert.equal(drag.visible, false);
+  assert.equal(capture.focusable, false);
+  assert.deepEqual(capture.size, theme.canvas.base);
   assert.equal(controls.filter(c => /^card\d+$/.test(c.name)).length, 10);
   walk(controls, (c, x, y) => {
     if (c.kind === 'presetButton') {
@@ -81,6 +86,7 @@ test('native buttons provide all four states and touch hit areas stay inside the
     }
     if (c.kind === 'cursorArea' || c.kind === 'presetButton') {
       assert(Math.min(...c.size) >= 44);
+      if (c === capture) return; // invisible gesture catcher covers the canvas, ordinary touch controls stay safe
       assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x');
       assert(Math.abs(y) + c.size[1] / 2 <= 340 + 1e-8, c.name + ' safe y');
     }

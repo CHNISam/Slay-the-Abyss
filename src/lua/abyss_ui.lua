@@ -36,7 +36,7 @@ function OnStart()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { color = Color, imageSource = Enum.ImageSource.StaticReference, sound = function(cue)
+            { color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, sound = function(cue)
                 local id = Theme.sound[cue]
                 if id and game.PlayAudio2D then
                     local instance = game.PlayAudio2D(id)

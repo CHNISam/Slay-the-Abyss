@@ -154,6 +154,8 @@ function M.endTurn(state, actor)
     if temporary ~= 0 then
         M.status(state, actor, "strength", -temporary)
         actor.temporaryStrength = 0
+        -- Status removal and its bookkeeping are one presentation step.
+        state.events[#state.events].frame = Events.frame(state)
     end
 end
 
