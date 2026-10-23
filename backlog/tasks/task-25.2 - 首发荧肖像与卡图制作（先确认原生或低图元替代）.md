@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-22 23:35'
+updated_date: '2026-10-23 01:00'
 labels:
   - art
   - launch
@@ -42,4 +42,6 @@ PR26两档拟合虽能导出，256图元仍模糊且27/72椭圆越出画布；�
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-23 /root，用户重新授权两张已生成图的资产实验，feat/ai-art-samples，基线1217abb。A/B各有Lua与超限GIA，B2角色939控件；星陨剑对应cleave，完整卡面343控件。六份Lua实际绘图表坐标/蒙版检查通过；四份GIA图片数和根蒙版读回通过，558个历史空引用与上游模板完全一致；上游卡面Fengari实例化/文字/蒙版/销毁检查通过。三个测试GIL副本scene_check_client均0错误0警告。官方导入尚未成功：普通执行器焦点失败，标准UAC执行器在旧试玩结算页误判菜单；新建管理员MCP客户端被自动审批拒绝，已请求用户具体授权，未启动。无本次美术实机截图、性能或多设备通过结论，不勾AC，不批产。详细参数/原图哈希/本机证据路径见docs/art/AI_ART_SAMPLES.md。
+
+续测更新：用户明确回复允许专用管理员MCP客户端，已成功启动并重新发现当前游戏窗口；聚焦与一次全屏输入成功。基线run5675094a在导入前菜单识别失败，期间共享桌面记录出现combat-feedback会话run49a81efb。用户随后选择先让另一个会话完成，本会话已停止游戏输入并关闭临时客户端（PID12136已退出）。授权保留，当前等待共享GUI交接；仍无两图实机显示或性能通过证据。PR49保持Draft，TASK保持In Progress。
 <!-- SECTION:NOTES:END -->
