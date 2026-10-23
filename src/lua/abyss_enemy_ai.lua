@@ -15,8 +15,16 @@ local function select(enemy, id)
     error("unknown AI intent: " .. tostring(id))
 end
 
+-- A fixed attack may still queue rollMove, consuming a primary draw even though
+-- its decision ignores the value. Source contract: TASK-15-spike-slime-s-ai.md.
+local function rollAttack(state, enemy, random)
+    random(state, enemy.ai.rollRange)
+    select(enemy, enemy.ai.attackIntent)
+end
+
 function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random) end
     if enemy.ai.kind == "charge_then_attack" then
         enemy.aiCharge = enemy.ai.initialCharge
         select(enemy, enemy.ai.chargeIntent)
@@ -49,6 +57,7 @@ end
 function M.advance(state, enemy, random)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random)
     elseif enemy.ai.kind == "charge_then_attack" then
         if enemy.intents[enemy.intentIndex].id == enemy.ai.chargeIntent then
             enemy.aiCharge = enemy.aiCharge + 1

@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-23 小型棘刺团A0切片：固定SpikeSlime_S核查HP10–14、基础攻击5，首动及每次活体行动末即使固定动作仍消耗主roll。另固定队列方法链发现Thorns致死后“有同伴保留已排roll/末敌清roll”共享差异，已写独立红例交战斗时序切片；Blue/Nob/Jaw旧死亡保护断言不再被扩推为原作消费证明。来源hash、8组专项与边界见[账本](../docs/reviews/TASK-15-spike-slime-s-ai.md)。不是官方源码、原作PC或平台验收，原版随机流仍保留。
+
 2026-10-23 小型酸液团A0切片：固定社区AcidSlime_S与Random方法体核查HP8–12、基础攻击3/Weak1，开场先消耗主roll再额外Boolean选择动作，之后严格交替而不再roll。来源hash、9组独立回归及共享LCG/布尔适配限制见[专项账本](../docs/reviews/TASK-15-acid-slime-s-ai.md)。没有分裂或继承中毒实现，不是官方源码、原作PC或平台实测；旧固定HP/首动说明对此敌人已被覆盖。
 
 2026-10-23 蓝衣束缚者A0选招切片：复核固定社区SlaverBlue方法体后保留已实现HP46–50、Stab12、Rake7后Weak1；新增随机首动与40边界选招、双动作均不连续三次、历史强制仍消耗主roll。来源hash、900组受控输入及共享LCG/Weak时序限制见[专项账本](../docs/reviews/TASK-15-blue-slaver-ai.md)。不是官方源码、原作PC或平台实测；旧固定循环说明对此敌人已被覆盖。

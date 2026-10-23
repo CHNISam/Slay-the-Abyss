@@ -245,6 +245,12 @@
       "name": "小型棘刺团",
       "tier": "normal",
       "hp": 12,
+      "hpRange": { "min": 10, "max": 14 },
+      "ai": {
+        "kind": "rolled_attack",
+        "attackIntent": "spike_slime_s_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "spike_slime_s_1",
