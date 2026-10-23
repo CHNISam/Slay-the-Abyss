@@ -1,9 +1,11 @@
 ---
 id: TASK-30
 title: M3 出牌手感：防御等无目标牌拖到空旷处松手即打出
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@codex'
 created_date: '2026-10-23 00:59'
+updated_date: '2026-10-23 02:17'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -35,3 +37,17 @@ ordinal: 36000
 - [ ] #5 保留点选备用路径；桌面鼠标与手机触摸分别验证拖起、空地松手出牌、取消和连续出牌，说明文案与操作一致。
 - [ ] #6 分别报告离线检查、平台编译、副本导入、游戏内操作验证；平台限制导致未实现时记录证据与降级缺口，不以原型通过或点选可用替代验收。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 核对官方光标事件与坐标约定，保留平台证据。2. 先写原生树事件回归，覆盖无目标空地出牌、指定敌人、取消、防重复、多触点及不可用状态。3. 以真实API接入跟手拖放，复用核心canPlay/Run.play和共享主题，保留点选备用。4. 跑离线规则与UI检查，记录未进行的平台编译、存档导入、桌面与手机实机验证，不将任务标Done。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+离线交付：基于真实官方CursorEventData:GetUIPos/touchId及CursorDown/Drag/Up/EndDrag接入A档跟手；无目标牌依核心canPlay(nil)分类，合法空地松手提交，目标牌仅合法敌人；保留C档点选。手势消费、防晚到点击、触点/回合/战斗身份、不可用及演出锁保护已实现，移动中缩放取消死锁已回归修复。npm run check通过；战斗UI共36项（6个新增拖动场景组），布局6项；Python 13项中1项因Windows符号链接权限跳过。官方API及未证明的跨区域捕获语义、验收账本见docs/design/CARD_DRAG_PLATFORM.md。本次未执行平台Lua编译、存档写入/副本导入、桌面或手机实机；按用户要求未打开原神，AC保留未勾，任务保持In Progress。
+
+完整检查细项：Node 194项中180通过、14项因环境条件跳过、0失败；Lua全套通过；Python 13项中1跳过。最终条件不可用牌测试改用真实clash+defend手牌，避免后续开放X费牌导致测试失效，随后battle_ui.lua再跑36项通过。
+<!-- SECTION:NOTES:END -->

@@ -14,7 +14,11 @@ local function control(definition)
     for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
     function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
     function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:AddCursorEventListener(event, fn) assert(event == "click") self.click = fn end
+    function c:AddCursorEventListener(event, fn)
+        self.listeners = self.listeners or {}
+        self.listeners[event] = fn
+        if event == "click" then self.click = fn end
+    end
     function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
     function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
     function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
@@ -30,7 +34,8 @@ local function setup(options)
     local root = control({name="root", size={1280,720}, children=assert(ABYSS_TEST_LAYOUT).controls})
     local stage = root:GetChild("stage")
     if options and options.embedded then root = stage end
-    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}, options)
+    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+        cursorEvents=options and options.dragEvents and {CursorDown="down",CursorDrag="drag",CursorUp="up",CursorEndDrag="endDrag"} or nil}, options)
     local function click(name)
         local box = stage:GetChild(name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
@@ -681,5 +686,110 @@ test("idle effect cleanup cannot paint the prior encounter into a replacement ba
     ui:update(0.02)
     assert(next(ui.feedback.effects) == nil and not stage.children.enemy1.children.floating.visible)
     assert(stage.children.enemy1.children.hpGhost.fillAmount == 1 and stage.x == 0)
+end)
+local function dragBattle(deck, enemies)
+    local ui, stage, click = setup({manualPlayback=true, dragEvents=true})
+    click("start")
+    ui.run.combat = Combat.new(Data,{deck=deck or {"defend","defend"},enemies=enemies or {"cultist"}})
+    ui:resize(1280,720) ui:render()
+    local function event(control, kind, x, y, touch)
+        local hit = stage.children[control]
+        if hit.children.hit then hit = hit.children.hit end
+        local callback = hit.listeners and hit.listeners[kind]
+        assert(callback, "native " .. kind .. " listener missing on " .. control)
+        local k = math.min(ui.canvasWidth/1280,ui.canvasHeight/720)
+        callback({touchId=touch or 0,GetUIPos=function() return ui.canvasWidth/2+x*k,ui.canvasHeight/2+y*k end})
+    end
+    local function grab(slot, touch)
+        local box = stage.children["card" .. slot]
+        event("card" .. slot,"down",box.x,box.y,touch)
+    end
+    return ui,stage,click,event,grab,ui.run.combat
+end
+test("native drag releases representative no-target rule cards into open ground once, with real commands",function()
+    for _,id in ipairs({"defend","inflame","cleave","thunderclap"}) do
+        local ui,stage,click,event,grab,battle = dragBattle({id})
+        local uid,energy = battle.hand[1].uid,battle.energy
+        grab(1) event("card1","drag",0,0)
+        assert(stage.children.dragLayer.visible and stage.children.dragLayer.children.line.visible)
+        assert(stage.children.card1.x == 0 and stage.children.card1.y > -100)
+        event("card1","up",0,0)
+        local cost = battle.catalog.cards[id].cost
+        assert(#battle.hand == 0 and battle.energy == energy-cost and ui.selected == nil and ui.busy)
+        event("card1","endDrag",0,0) click("card1")
+        assert(battle.discard[1] and battle.discard[1].uid == uid or battle.exhaust[1] and battle.exhaust[1].uid == uid or id == "inflame")
+        drain(ui)
+        assert(not stage.children.dragLayer.visible and #battle.hand == 0)
+    end
+end)
+test("dragging targeted cards to empty ground cancels; only the hovered live enemy is hit",function()
+    local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
+    local energy,hp1,hp2 = battle.energy,battle.enemies[1].hp,battle.enemies[2].hp
+    grab(1) event("card1","drag",0,0) event("card1","up",0,0)
+    assert(#battle.hand == 1 and battle.energy == energy and not ui.busy)
+    click("enemy1") -- queued release click must never select or play a target
+    assert(battle.enemies[1].hp == hp1)
+    grab(1) event("card1","drag",stage.children.enemy2.x,stage.children.enemy2.y)
+    assert(stage.children.enemy2.children.border.imageColor.r == Theme.color.goldBright.r)
+    event("dragLayer","up",stage.children.enemy2.x,stage.children.enemy2.y)
+    assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6 and #battle.hand == 0)
+end)
+test("hand, header, potions, end turn and off-canvas releases cancel without click-through",function()
+    for _,point in ipairs({{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
+        local ui,stage,click,event,grab,battle = dragBattle()
+        local uid,energy,turn = battle.hand[1].uid,battle.energy,battle.turn
+        grab(1) event("card1","drag",point[1],point[2]) event("card1","up",point[1],point[2])
+        click("endTurn") click("potion1") click("card1")
+        assert(#battle.hand == 2 and battle.hand[1].uid == uid and battle.energy == energy and battle.turn == turn)
+        assert(ui.selected == nil and not stage.children.dragLayer.visible)
+        event("card1","down",stage.children.card1.x,stage.children.card1.y)
+        event("card1","up",stage.children.card1.x,stage.children.card1.y) click("card1") click("card1")
+        assert(#battle.hand == 1,"a fresh tap must retain the fallback")
+    end
+end)
+test("drag validates current availability and ignores other touches and stale encounters",function()
+    for _,kind in ipairs({"energy","phase","busy","inactive","replacement","unplayable","removed"}) do
+        local ui,stage,click,event,grab,battle = dragBattle(kind == "unplayable" and {"clash","defend"} or {"defend"})
+        local slot = 1
+        if kind == "unplayable" then for i,card in ipairs(battle.hand) do if card.cardId == "clash" then slot = i end end end
+        local energy,handBefore = battle.energy,#battle.hand
+        grab(slot,7) event("card" .. slot,"drag",0,0,7)
+        event("card" .. slot,"up",0,0,8)
+        assert(#battle.hand == handBefore and battle.energy == energy)
+        if kind == "energy" then battle.energy = 0
+        elseif kind == "phase" then battle.phase = "enemy"
+        elseif kind == "busy" then ui.busy = true
+        elseif kind == "inactive" then ui:setActive(false)
+        elseif kind == "replacement" then ui.run.combat = Combat.new(Data,{deck={"defend"}}) ui:render()
+        elseif kind == "removed" then table.remove(battle.hand,1) end
+        local hand,remaining = #battle.hand,battle.energy
+        event("card" .. slot,"up",0,0,7) event("card" .. slot,"endDrag",0,0,7)
+        assert(#battle.hand == hand and battle.energy == remaining and battle.player.block == 0,kind)
+        assert(#battle.discard == 0 and #battle.exhaust == 0,kind)
+    end
+end)
+test("drag coordinates follow actual canvas scaling and rapid consecutive cards do not reuse slots",function()
+    for _,size in ipairs({{1280,720},{1600,900},{1920,1080},{1560,720}}) do
+        local ui,stage,click,event,grab,battle = dragBattle()
+        ui:resize(size[1],size[2])
+        local first = battle.hand[1].uid
+        grab(1) event("card1","drag",0,0) event("card1","up",0,0)
+        drain(ui) event("card1","endDrag",0,0) click("card1")
+        assert(#battle.hand == 1 and battle.discard[1].uid == first and battle.player.block == 5)
+        grab(1) event("card1","drag",0,0) event("card1","up",0,0)
+        assert(#battle.hand == 0 and battle.player.block == 10 and battle.energy == 1)
+    end
+end)
+test("resize cancels a moving drag, hides the capture layer and permits a fresh tap",function()
+    local ui,stage,click,event,grab,battle = dragBattle()
+    grab(1) event("card1","drag",0,0)
+    assert(stage.children.dragLayer.visible)
+    ui:resize(1600,900)
+    assert(not stage.children.dragLayer.visible and stage.children.card1.y < -100)
+    event("card1","up",0,0) click("card1")
+    assert(#battle.hand == 2)
+    grab(1) event("card1","up",stage.children.card1.x,stage.children.card1.y)
+    click("card1") click("card1")
+    assert(#battle.hand == 1 and battle.player.block == 5)
 end)
 print("LUA_UI_PASS " .. count)

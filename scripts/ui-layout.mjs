@@ -110,6 +110,11 @@ export function battleLayout() {
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
     button('skip', [0, -96], l.button.secondary, '跳过奖励'));
+  controls.push({ name: 'dragLayer', kind: 'container', size: [width, height], visible: false, children: [
+    { ...hit(width, height), focusable: false },
+    panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),
+    text('hint', 0, l.cardDrag.lineY + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '', f.body, c.goldBright),
+  ] });
   controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
     { name: 'playedCard', kind: 'container', size: l.card.size, visible: false, children: [
       panel('border', 0, 0, ...l.card.size, c.gold),

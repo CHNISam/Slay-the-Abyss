@@ -75,6 +75,33 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function ink(control, value) control.fontColor = colour(value) end
     local function picture(control, id) control:SetImage(platform.imageSource, id) end
     local function notice(value) label("notice", value) end
+    local cursor = platform.cursorEvents
+    self.dragEnabled = cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp and cursor.CursorEndDrag
+    self.instructions = self.dragEnabled and "拖牌至金线以上松手出牌；攻击牌拖至敌人。也可点选出牌。"
+        or "点选卡牌，再点敌人；无需目标的牌再点一次确认。"
+    local function dragReady(g)
+        return self.active and not self.busy and self.run == g.run and self.run.phase == "combat"
+            and self.run.combat == g.battle and g.battle.phase == "player" and g.battle.turn == g.turn
+    end
+    local function contains(x, y, frame)
+        return math.abs(x-frame[1]) <= frame[3]/2 and math.abs(y-frame[2]) <= frame[4]/2
+    end
+    local function dragTarget(g)
+        if not dragReady(g) then return false end
+        local battle = g.battle
+        local ok, reason = Combat.canPlay(battle,g.uid,nil)
+        if ok then return contains(g.x,g.y,L.cardDrag.playArea), nil end
+        if reason ~= "invalid_target" then return false end
+        local count = #battle.enemies
+        for i, enemy in ipairs(battle.enemies) do
+            local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
+            local width = math.min(L.hpBar.size[1],count > 1 and step-S.s or L.hpBar.size[1])
+            local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
+            local x = count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step
+            if contains(g.x,g.y,{x,L.enemyRow.y,portrait,portrait}) and Combat.canPlay(battle,g.uid,i) then return true,i end
+        end
+        return false
+    end
     local function button(name, enabled, primary, caption)
         local box = child(name)
         box.interactable = enabled == true
@@ -88,11 +115,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
     end
     function self:resize(width, height)
+        local cancelled = self.gesture ~= nil
+        if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
         self.canvasWidth, self.canvasHeight = width, height
-        if options.embedded then return end -- The host owns the single canvas scale.
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
-        stage:SetLocalScale(k, k, 1)
-        root:GetChild("backdrop"):SetSizeDelta(width, height)
+        child("dragLayer"):GetChild("hit"):SetSizeDelta(width/k,height/k)
+        if not options.embedded then -- The host owns the single canvas scale.
+            stage:SetLocalScale(k, k, 1)
+            root:GetChild("backdrop"):SetSizeDelta(width, height)
+        end
+        if cancelled then self:render() end
     end
     local function unit(box, actor, portrait, icon, width, selected)
         local bh = L.hpBar.size[2]
@@ -151,6 +183,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:render()
         local run = self.run
+        if self.gesture and not dragReady(self.gesture) then
+            self.gesture, self.selected, self.suppressClick = nil, nil, true
+        end
         if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
             self.feedback:cancel() return
         end
@@ -207,6 +242,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait, width)
                 box:SetAnchoredPosition(count == 1 and (L.enemyRow.xFrom + L.enemyRow.xTo) / 2 or L.enemyRow.xFrom + (i - 1) * step, L.enemyRow.y)
                 local targetable = active and pendingTarget and Combat.canPlay(battle, self.selected, i)
+                if self.gesture and self.gesture.moving then
+                    local valid, hovered = dragTarget(self.gesture)
+                    targetable = valid and hovered == i
+                end
                 local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and enemy.hp > 0
                 unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
                 local value, kind = intentText(battle, i)
@@ -249,6 +288,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
         if selectedBox then selectedBox:SetAsLastSibling() end
+        local g = self.gesture
+        show("dragLayer", g ~= nil and g.moving == true)
+        if g and g.moving then
+            local box = child("card" .. g.slot)
+            box:SetAnchoredPosition(g.origin[1]+g.x-g.sx,g.origin[2]+g.y-g.sy)
+            box:SetLocalScale(Theme.motion.hoverScale,Theme.motion.hoverScale,1)
+            box.localRotationZ = 0
+            local valid, target = dragTarget(g)
+            local layer = child("dragLayer")
+            tint(layer:GetChild("line"),valid and C.goldBright or C.line)
+            layer:GetChild("hint").text = valid and "松手出牌" or needsTarget(g.battle,{uid=g.uid}) and "拖至存活的敌人，松手出牌" or "拖至金线以上；移回手牌区取消"
+            layer:SetAsLastSibling()
+        end
         button("endTurn", active == true, not playable)
         button("skip", self.active and reward == true and not self.busy, false)
         button("continue", self.active and run and run.phase == "map" and not self.busy, true)
@@ -336,7 +388,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.seed = (self.seed + 1) % 65536
         assert(Run.startCombat(self.run, "cultist_solo"))
         self.target, self.selected = 1, nil
-        notice("点选卡牌，再点敌人；无需目标的牌再点一次确认。") refresh(true)
+        notice(self.instructions) refresh(true)
         print("ABYSS_UI combat_started")
     end
     function self:playSelected(target)
@@ -349,7 +401,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:playSlot(index)
         local run = self.run
-        if not self.active or not run or self.busy then return end
+        if not self.active or not run or self.busy or self.gesture or self.suppressClick then return end
         if run.phase == "reward" then
             local ok = Run.claimCardReward(run, index)
             if ok then notice("卡牌已加入牌组。") end
@@ -366,12 +418,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         refresh()
     end
     function self:endTurn()
-        if not self.active or not self.run or self.busy or self.run.phase ~= "combat" or self.run.combat.phase ~= "player" then return end
+        if not self.active or not self.run or self.busy or self.gesture or self.suppressClick or self.run.phase ~= "combat" or self.run.combat.phase ~= "player" then return end
         self.selected = nil
         perform(function() return Run.endTurn(self.run) end)
     end
     function self:usePotion(index)
-        if not self.active or self.busy or not self.run or self.run.phase ~= "combat" then return false end
+        if not self.active or self.busy or self.gesture or self.suppressClick or not self.run or self.run.phase ~= "combat" then return false end
         local binding = self.potionSlots and self.potionSlots[index]
         if not binding or self.potionRun ~= self.run or self.potionBattle ~= self.run.combat
             or self.run.potions[binding.slot] ~= binding.id then return false end
@@ -384,14 +436,85 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if reason ~= "presentation_unavailable" then refresh() end
         return ok, reason
     end
-    local function bind(name, fn) child(name):AddCursorEventListener(clickEvent, fn) end
+    local function point(event)
+        if not event or type(event.GetUIPos) ~= "function" then return end
+        local x,y = event:GetUIPos()
+        if type(x) ~= "number" or type(y) ~= "number" or x ~= x or y ~= y or math.abs(x) == math.huge or math.abs(y) == math.huge then return end
+        local width,height = self.canvasWidth or Theme.canvas.base[1],self.canvasHeight or Theme.canvas.base[2]
+        local k = math.min(width/Theme.canvas.base[1],height/Theme.canvas.base[2])
+        return (x-width/2)/k,(y-height/2)/k
+    end
+    local function down()
+        if not self.gesture then self.suppressClick = false end
+    end
+    local function move(event)
+        local g = self.gesture
+        if not g or not event or event.touchId ~= g.touch then return end
+        local x,y = point(event)
+        if not x then return end
+        g.x,g.y = x,y
+        if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
+        if g.moving then
+            self.suppressClick,self.selected = true,g.uid
+            self:render()
+        end
+    end
+    local function release(event)
+        local g = self.gesture
+        if not g or not event or event.touchId ~= g.touch then return end
+        move(event)
+        -- move/render may have cancelled a gesture belonging to an old battle.
+        if self.gesture ~= g then return end
+        local x,y = point(event)
+        local valid,target = false,nil
+        if x and g.moving then valid,target = dragTarget(g) end
+        self.gesture = nil -- consume before invoking the command or any rendering callback
+        if not g.moving then return end -- ordinary taps still receive CursorClick
+        self.suppressClick,self.selected = true,valid and g.uid or nil
+        self:render()
+        if valid then self:playSelected(target)
+        else notice("已取消出牌。" .. self.instructions) end
+    end
+    local function listen(control, fn, card)
+        control:AddCursorEventListener(clickEvent,function(...) if not self.suppressClick and not self.gesture then return fn(...) end end)
+        if self.dragEnabled and not card then control:AddCursorEventListener(cursor.CursorDown,down) end
+    end
+    local function bind(name, fn) listen(child(name),fn) end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
     bind("skip", function() if self.active and self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh(true) end end)
     bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)
     for i = 1, 3 do local slot = i bind("potion" .. i, function() self:usePotion(slot) end) end
-    for i = 1, 10 do local slot = i child("card" .. i):GetChild("hit"):AddCursorEventListener(clickEvent, function() self:playSlot(slot) end) end
-    for i = 1, 5 do local target = i child("enemy" .. i):GetChild("hit"):AddCursorEventListener(clickEvent, function()
+    for i = 1, 10 do
+        local slot,hit = i,child("card" .. i):GetChild("hit")
+        listen(hit,function() self:playSlot(slot) end,true)
+        if self.dragEnabled then
+            hit:AddCursorEventListener(cursor.CursorDown,function(event)
+                down()
+                if self.gesture or not self.active or self.busy or not self.run or self.run.phase ~= "combat" then return end
+                local battle = self.run.combat
+                local instance = battle.hand[slot]
+                local x,y = point(event)
+                if not instance or not x then return end
+                local ok,reason = Combat.canPlay(battle,instance.uid,nil)
+                if not ok and reason ~= "invalid_target" then return end
+                self.gesture = {uid=instance.uid,slot=slot,run=self.run,battle=battle,turn=battle.turn,
+                    touch=event.touchId,sx=x,sy=y,x=x,y=y,origin=self.cardPositions[instance.uid]}
+            end)
+            hit:AddCursorEventListener(cursor.CursorDrag,move)
+            hit:AddCursorEventListener(cursor.CursorUp,release)
+            hit:AddCursorEventListener(cursor.CursorEndDrag,release)
+        end
+    end
+    if self.dragEnabled then
+        local layer = child("dragLayer")
+        layer.disableCursorEventPassthrough = true
+        local hit = layer:GetChild("hit")
+        hit:AddCursorEventListener(cursor.CursorDrag,move)
+        hit:AddCursorEventListener(cursor.CursorUp,release)
+        hit:AddCursorEventListener(cursor.CursorEndDrag,release)
+    end
+    for i = 1, 5 do local target = i listen(child("enemy" .. i):GetChild("hit"),function()
         if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
             self.target = target
             local selected

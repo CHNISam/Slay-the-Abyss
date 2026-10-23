@@ -301,6 +301,11 @@
       "arcDegrees": 2.5,
       "arcDrop": 4
     },
+    "cardDrag": {
+      "threshold": 8,
+      "playArea": [0, 66, 1200, 272],
+      "lineY": -70
+    },
     "energy": {
       "position": [
         -548,
