@@ -2,7 +2,13 @@
 
 任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
 
-## 本轮规则与按钮候选（ec455f6，未导入/试玩）
+## 最新首次点牌修复候选（085f499，未导入/试玩）
+
+真实构建源`085f499418e0d3eb7a8a556893c389222af487b6`，在ec455f6全部规则/UI/打包修复之上加入PR93：跨战斗重置失效目标与选择，同一战斗刷新仍保留有效选择。原20块宿主UI回归与新增首点回归共21块逐字保留，拆为15+6，Node双进程及LORE检查通过；默认每脚本15秒未变。历史完整本机check属于ec455f6，当前完整门禁以本修复PR最终head的Quality为准，不混用源SHA。
+
+实际副本`.artifacts/offline-sprint-085f499/abyss-sprint-offline.gil`，SHA256 `b22a876a752d923fa3211dedbeceace74548dfb0ba3acc98590b8243c937b95a`。真实读回26模块/0error/17warning、1590控件/max50、38按钮状态层、六列牌库和22节点启用结算图；无测试向量。正式底图hash保持`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。[结构化证据](evidence/offline-candidate-085f499.json)区分当前副本/定向测试与历史全检。未开原神、官方导入或实机，所有上述未完成关口仍保留。
+
+## 历史规则与按钮候选（ec455f6，未导入/试玩）
 
 真实构建源`ec455f6b56efcab3deed4ac688676eba58c8a73b`。包含已合PR82力量/敏捷cap、83支持池Boss稀有奖励、84生成输入保护、85群攻后逆序反伤、86三类敌人数值与动作、89Wizard蓄能、91Jaw生产AI/节点按钮状态，以及62地图证据/纯问号reducer；87/88/90仅独立证据或候选，不代表生产算法已切换。
 
