@@ -52,10 +52,18 @@ test('result settlement button starts hidden and uses the approved two-button pl
 
 test('generated Chinese display and native tree exercise the real game entry and run controllers', () => {
   buildUI();
-  const result = runLua('tests/lua/game_ui.lua');
-  assert.equal(result.status, 0, result.stderr + result.stdout);
-  assert.match(result.stdout, /LUA_GAME_UI_PASS/);
-  const previews = Object.fromEntries(result.stdout.split(/\r?\n/).filter(line => line.startsWith('LORE_PREVIEW\t'))
+  // Keep every real-tree case within the runner's unchanged per-script deadline.
+  const scripts = [
+    ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 14$/m],
+    ['tests/lua/game_ui_deck.lua', /^LUA_GAME_UI_DECK_PASS 6$/m],
+  ];
+  const output = scripts.map(([script, marker]) => {
+    const result = runLua(script);
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    assert.match(result.stdout, marker);
+    return result.stdout;
+  }).join('\n');
+  const previews = Object.fromEntries(output.split(/\r?\n/).filter(line => line.startsWith('LORE_PREVIEW\t'))
     .map(line => { const [, name, text] = line.split('\t'); return [name, text.replaceAll('\\n', '\n')]; }));
   const { nativeMenu: menu, nativeBattle: battle } = nativeTheme.layout, { font: size } = nativeTheme;
   // Each line is checked against the control that actually displays it.
