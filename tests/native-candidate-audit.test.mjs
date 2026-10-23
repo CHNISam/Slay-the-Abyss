@@ -9,6 +9,47 @@ function audit(change = () => {}) {
     candidateBefore: fixture.provenance.candidateSha256, candidateAfter: fixture.provenance.candidateSha256, bgm: true });
   change(input); return compareNativeCandidate(input);
 }
+function firstText(controls) {
+  for (const control of controls) {
+    if (control.text?.content) return control;
+    const found = firstText(control.children ?? []);
+    if (found) return found;
+  }
+}
+test('interface identity, visibility and every root input flag must match source defaults', () => {
+  for (const change of [
+    input => { input.actual.ui.interface.hidden = true; },
+    input => { input.actual.ui.interface.name = 'WrongUi'; },
+    ...['showCursor', 'blockKeys', 'blockCursor'].map(flag => input => { delete input.actual.ui.interface[flag]; }),
+    input => { input.actual.ui.interface.isolateNavigation = true; },
+    input => { input.actual.ui.interface.extraInputSetting = true; },
+  ]) {
+    const report = audit(change);
+    assert.ok(report.issues.some(issue => issue.code === 'INTERFACE_MISMATCH'), JSON.stringify(report.issues));
+  }
+  assert.deepEqual(audit(input => {
+    input.actual.ui.interface.hidden = false;
+    input.actual.ui.interface.isolateNavigation = false;
+  }).issues, [], 'explicit false equals the native omitted default');
+});
+test('hex colour spelling is tolerated only in colour fields, never text or control/interface names', () => {
+  for (const change of [
+    input => { firstText(input.expected.ui.controls).text.content = '#AABBCC'; firstText(input.actual.ui.interface.controls).text.content = '#aabbcc'; },
+    input => { input.expected.ui.controls[0].name = '#AABBCC'; input.actual.ui.interface.controls[0].name = '#aabbcc'; },
+    input => { input.expected.ui.name = '#AABBCC'; input.actual.ui.interface.name = '#aabbcc'; },
+    input => {
+      input.expected.ui.controls[1].children.find(control => control.kind === 'grid').itemTemplate = '#AABBCC';
+      input.actual.ui.interface.controls[1].children.find(control => control.kind === 'grid').itemTemplate = '#aabbcc';
+    },
+    input => {
+      input.expected.ui.script = { name: 'abyss_ui', values: { colour: '#AABBCC' } };
+      input.actual.ui.interface.scripts = [{ name: 'abyss_ui', values: { colour: '#aabbcc' } }];
+    },
+  ]) assert.ok(audit(change).issues.length);
+  assert.deepEqual(audit(input => {
+    input.expected.ui.controls[0].colour = '#AABBCC'; input.actual.ui.interface.controls[0].colour = '#aabbcc';
+  }).issues, []);
+});
 test('real readback slice matches fixed source, CRLF and implicit platform defaults', () => {
   const report = audit();
   assert.deepEqual(report.issues, []);

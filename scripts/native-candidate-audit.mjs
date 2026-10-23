@@ -9,21 +9,33 @@ export function requireSourceSha(source) {
 
 // The native reader expands defaults and lowercases colours. Fill implies mask.
 // Keep geometry, text, assets, grid, button states and child order in the comparison.
-export function normalizeUi(value) {
-  if (typeof value === 'string') return /^#[0-9a-f]{6}$/i.test(value) ? value.toLowerCase() : value;
-  if (Array.isArray(value)) return value.map(item => normalizeUi(item));
+export function normalizeUi(value, context = Array.isArray(value) ? 'controls' : 'control') {
+  if (typeof value === 'string') return context === 'colour' && /^#[0-9a-f]{6}$/i.test(value) ? value.toLowerCase() : value;
+  if (Array.isArray(value)) return value.map(item => normalizeUi(item, context === 'controls' ? 'control' : 'opaque'));
   if (!value || typeof value !== 'object') return value;
   const result = {};
   for (const name of Object.keys(value).sort()) {
     const item = value[name];
-    if (name === 'mask' && value.fill || name === 'position' && JSON.stringify(item) === '[0,0]'
-      || name === 'opacity' && item === 1 || name === 'visible' && item === true
-      || name === 'rotation' && item === 0 || name === 'scale' && ['[1,1]', '[1,1,1]'].includes(JSON.stringify(item))
-      || name === 'focusable' && item === false || name === 'horizontal' && item === false
-      || name === 'scrollbar' && item === true || name === 'content' && item === '' || name === 'preview') continue;
-    result[name] = normalizeUi(item);
+    if (context === 'control' && (name === 'mask' && value.fill || name === 'position' && JSON.stringify(item) === '[0,0]'
+      || name === 'visible' && item === true || name === 'rotation' && item === 0
+      || name === 'scale' && ['[1,1]', '[1,1,1]'].includes(JSON.stringify(item)) || name === 'focusable' && item === false)
+      || ['control', 'text'].includes(context) && name === 'opacity' && item === 1
+      || context === 'grid' && (name === 'horizontal' && item === false || name === 'scrollbar' && item === true || name === 'preview')
+      || context === 'text' && name === 'content' && item === '') continue;
+    const next = context === 'control' && name === 'children' ? 'controls'
+      : context === 'control' && ['text', 'grid'].includes(name) ? name
+      : context === 'control' && name === 'colour' || context === 'text' && ['colour', 'background', 'outlineColour'].includes(name) ? 'colour' : 'opaque';
+    result[name] = normalizeUi(item, next);
   }
   return result;
+}
+function interfaceMetadata(spec) {
+  const { controls, script, scripts = [], ...metadata } = spec;
+  metadata.scripts = [...(script === undefined ? [] : [script]), ...scripts];
+  for (const flag of ['hidden', 'showCursor', 'blockKeys', 'blockCursor', 'isolateNavigation']) {
+    if (metadata[flag] === undefined) metadata[flag] = false;
+  }
+  return metadata;
 }
 function equivalent(left, right) {
   if (typeof left === 'number' && typeof right === 'number') return Math.abs(left - right) <= 0.0001;
@@ -55,8 +67,7 @@ export function compareNativeCandidate({ actual, expected, sourceSha, candidateB
   const sourceStats = controlTreeStats(sourceControls), stats = controlTreeStats(controls);
   if (!equivalent(normalizeUi(sourceControls), normalizeUi(controls))) add('UI_MISMATCH', 'Controls differ from same-source generated UI');
   if (!equivalent(normalizeUi(expected.template), normalizeUi(actual.template.template))) add('TEMPLATE_MISMATCH', 'Deck template differs from same-source generated template');
-  const rootScripts = expected.ui.scripts ?? (expected.ui.script ? [expected.ui.script] : []);
-  if (JSON.stringify(actual.ui.interface.scripts ?? []) !== JSON.stringify(rootScripts)) add('UI_SCRIPT_MISMATCH', 'Root script bindings differ');
+  if (!equivalent(interfaceMetadata(expected.ui), interfaceMetadata(actual.ui.interface))) add('INTERFACE_MISMATCH', 'Interface identity, flags, scripts or other root metadata differ');
   const graphContracts = expected.graphs.filter(graph => bgm || graph.name !== '_GSTS_ABYSS_BGM');
   if (actual.inspected.graphs.length !== graphContracts.length) add('GRAPH_COUNT', 'Unexpected/missing server graph');
   for (const contract of graphContracts) {

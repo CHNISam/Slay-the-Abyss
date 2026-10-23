@@ -16,7 +16,7 @@ node scripts/audit-native-candidate.mjs --source cf6969e768a6102a726948742dd3276
 核验范围：
 
 - 从指定 SHA 导出独立源码快照，在快照内运行现有 data/UI 导出脚本；按该版本 `candidateScriptFiles` 清单比较全部实际模块，包括额外/缺失模块和文件名。只规范化 UTF-8 BOM 与 CRLF/LF，报告同时保留双方原始 SHA256。
-- UI/牌库模板比较名字、类型、子顺序、位置、尺寸、文字、图像、网格和按钮状态。统一已测的原生缺省值、颜色大小写和浮点精度；填充隐含的 mask 与编辑器 preview 单独规范化。控件数和最大直接子项从同源生成树计算；界面容器与根壳不混入 `interface.controls` 树口径。
+- UI/牌库模板比较名字、类型、子顺序、位置、尺寸、文字、图像、网格和按钮状态。完整根 interface 元数据也须匹配，包括 name、脚本及 hidden/showCursor/blockKeys/blockCursor/isolateNavigation；这些布尔项按原生缺省 false 比较，未知根字段不会被丢弃。只在控件 colour 及文本 colour/background/outlineColour 字段统一颜色大小写，正文、名称、资产名和脚本参数字符串保留原样。其余已测的原生缺省值与浮点精度按对应控件/文本/网格语义规范化；填充隐含的 mask 与编辑器 preview 单独规范化。控件数和最大直接子项从同源生成树计算；界面容器与根壳不混入 `interface.controls` 树口径。
 - 结算图必须是非空服务端图，监听该源生成器声明的信号，并启用挂在原生 stage 上；BGM 模式额外核 BGM 图与字段 7/8 两份 `nativeBgmEnabled` boolean true。不手填图 ID，节点数及原始图摘要均留证。
 - 保留静态检查全部警告；错误、源文/结构不符或候选复读前后 hash 改变均返回结构化 `issues` 并退出 1。成功退出 0；参数/环境/解码失败同样返回非零。
 

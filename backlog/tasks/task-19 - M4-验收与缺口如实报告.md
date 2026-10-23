@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 09:04'
+updated_date: '2026-10-23 09:14'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -50,4 +50,6 @@ ordinal: 19000
 PR99/100已在各自当前head两个Quality成功后合入1182814/14979df。源139de94规则副本28模块同源、1590树/max50/6列/22节点结算已启用；源cf6969e显式BGM叠加29模块同源、22+83节点两图启用、参数true。两者静态0error17warning，输入底图及候选只读前后hash相同。docs/P0-SMOKE与两份docs/evidence记录路径/hash/读回报告/源码换行口径。地图golden仍0/12，未导入/开游戏/试听/放行正式发布，所有AC未勾。
 
 3a9a4b0工具独立实现：5组真实响应裁剪fixture比较测试通过；139普通候选28/28与cf BGM29/29实际复读ok，输入hash不变，均0error17warning；错cf SHA核139候选实际exit1并报MODULE_MISMATCH/MISSING。根.artifacts/reusable-audit-139de94-final、reusable-audit-cf6969e-final与reusable-audit-wrong-source-r1留原始响应。仅scripts/tests/docs，无游戏源/依赖/CI变更，CLI详见NATIVE_CANDIDATE_AUDIT.md。与root d12fe89候选证据记录同时保留，全部AC未勾，整体未放行。
+
+独立复审3a工具抓到阻断漏报：未比界面hidden/输入flags/name以及全字符串hex大小写容差。d6e9672新增真实fixture否例先5过2败，最小修复后7/7绿；现在完整界面元数据/未知键比对、仅语义颜色字段规范化，正文/资产/脚本公共字符串保真。139/cf两实际候选在interface-fix新目录复读ok，hash不变，0error17warning；待独立复核完成后再合入。第二批完整检查JS641项526过115skip，遭遇覆盖默认15秒一次超时；同预算隔离重跑6秒退出0、115组全过，预算未改，组合门禁需在最终head重跑，不把首次中断写成通过。
 <!-- SECTION:NOTES:END -->
