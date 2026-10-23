@@ -171,7 +171,15 @@ export function validateContent(bundle) {
       };
       enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
       if (a.kind === 'louse') {
-        keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange'], ap);
+        keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange', 'curlUpRange'], ap);
+        reference('curl_up', 'statuses', `${ap}.curl_up`);
+        if (object(a.curlUpRange, `${ap}.curlUpRange`)) {
+          keys(a.curlUpRange, ['min', 'max'], `${ap}.curlUpRange`);
+          integer(a.curlUpRange.min, `${ap}.curlUpRange.min`, 1, 2147483647);
+          integer(a.curlUpRange.max, `${ap}.curlUpRange.max`, 1, 2147483647);
+          if (a.curlUpRange.min > a.curlUpRange.max) fail(`${ap}.curlUpRange`, 'min must not exceed max');
+          if (a.curlUpRange.max - a.curlUpRange.min + 1 > 65536) fail(`${ap}.curlUpRange`, 'sampling range must not exceed 65536');
+        }
         intentReference(a.biteIntent, `${ap}.biteIntent`, 'attack');
         intentReference(a.supportIntent, `${ap}.supportIntent`);
         const support = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.supportIntent);

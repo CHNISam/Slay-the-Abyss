@@ -12,7 +12,10 @@ function M.damage(state, source, target, base, fixed, retaliation)
     local lost = Actors.damage(state, source, target, base, fixed, retaliation)
     EnemyAI.hpLost(state, target, before)
     if source ~= target then EnemyAI.hpLost(state, source, sourceBefore) end -- normal thorns
-    if not state.resolvingEffects then EnemyAI.flush(state) end
+    if not state.resolvingEffects then
+        EnemyAI.flush(state)
+        if not state.resolvingCard then Actors.flushCurlUp(state) end
+    end
     return lost
 end
 
@@ -36,6 +39,7 @@ local function resolveEffects(state, effects, source, target, playedCard, queued
     if not previous then
         EnemyAI.afterEffects(state, source)
         EnemyAI.flush(state, source)
+        if not state.resolvingCard and not queuedEnemyAction then Actors.flushCurlUp(state) end
     end
     return dealt
 end
@@ -89,6 +93,7 @@ end
 
 local function finish(state)
     local outcome = M.outcome(state)
+    if outcome then Actors.flushCurlUp(state) end
     if outcome and state.phase ~= outcome then
         state.phase = outcome
         event(state, outcome)
@@ -176,6 +181,7 @@ local function savePlayState(state, playedCard)
     save(state); actor(state.player); save(state.enemies)
     for _, enemy in ipairs(state.enemies) do actor(enemy) end
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    if state.curlUpQueue then save(state.curlUpQueue) end
     save(playedCard)
     return function()
         for original, values in pairs(saved) do
@@ -186,6 +192,8 @@ local function savePlayState(state, playedCard)
 end
 
 local function resolvePlay(state, uid, targetIndex, instance, position, card)
+    local previous = state.resolvingCard
+    state.resolvingCard = true
     local reactions = EnemyAI.cardReactions(state, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
@@ -199,6 +207,8 @@ local function resolvePlay(state, uid, targetIndex, instance, position, card)
         local pile = card.exhaust and state.exhaust or state.discard
         pile[#pile + 1] = instance
     end
+    state.resolvingCard = previous
+    if not previous then Actors.flushCurlUp(state) end
     finish(state)
     return true
 end
@@ -284,6 +294,7 @@ function M.endTurn(state)
             -- A source-queued RollMove survives its owner's death while
             -- teammates live. finish above clears it on the final death.
             EnemyAI.afterAction(state, enemy, M.random)
+            Actors.flushCurlUp(state)
             if finish(state) then return true end
         end
     end
@@ -341,6 +352,9 @@ function M.new(data, options)
     end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)
+    -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
+    -- deck before calling the group's pre-battle powers in encounter order.
+    for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, M.random) end
     local ok, reason = M.startPlayerTurn(state, options.beforeOpeningDraw)
     if ok == false then return nil, reason end
     return state

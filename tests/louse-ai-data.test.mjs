@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent,validateContent} from '../scripts/validate-data.mjs';
 const enemy=(d,id='red_louse')=>d.enemies.enemies.find(e=>e.id===id);
-const policy=id=>({kind:'louse',biteIntent:id+'_1',supportIntent:id+'_2',rollRange:100,supportCutoff:25,biteRange:{min:5,max:7}});
+const policy=id=>({kind:'louse',biteIntent:id+'_1',supportIntent:id+'_2',rollRange:100,supportCutoff:25,biteRange:{min:5,max:7},curlUpRange:{min:3,max:7}});
 const setup=()=>{const d=loadContent('data');for(const [id,min,max] of [['red_louse',10,15],['green_louse',11,17]]){enemy(d,id).ai=policy(id);enemy(d,id).hpRange={min,max};}return d;};
 for(const [id,min,max] of [['red_louse',10,15],['green_louse',11,17]])test(id+' uses source-backed A0 HP, per-instance Bite and decision data',()=>{const d=loadContent('data'),e=enemy(d,id);assert.deepEqual(e.ai,policy(id));assert.deepEqual(e.hpRange,{min,max});assert.deepEqual(e.intents[0].effects,[{op:'damage',value:6}]);assert.deepEqual(e.intents[1].effects,id==='red_louse'?[{op:'gainStatus',status:'strength',value:3}]:[{op:'applyStatus',status:'weak',value:2}]);assert.deepEqual(validateContent(d),[]);});
 test('both bounded louse policies are accepted',()=>assert.deepEqual(validateContent(setup()),[]));

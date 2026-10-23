@@ -1,6 +1,7 @@
 -- Red/Green Louse A0: actor-local Bite sampling and the shared two-move policy.
--- Curl Up and original independent RNG streams remain outside TASK-15.10.
+-- The runtime still uses a shared RNG, not the original independent streams.
 local M = {}
+local Actors = require("abyss_actor")
 
 local function intent(enemy, id)
     for i, move in ipairs(enemy.intents) do
@@ -16,6 +17,12 @@ function M.prepare(state, enemy, random)
     -- Combat copied the definition, so neither the catalog nor another actor
     -- receives this instance's immutable base Bite damage.
     move.effects[1].value = range.min + random(state, range.max - range.min + 1) - 1
+end
+
+function M.preBattle(state, enemy, random)
+    local range = enemy.ai.curlUpRange
+    local amount = range.min + random(state, range.max - range.min + 1) - 1
+    Actors.applyPower(state, enemy, "curl_up", amount, enemy)
 end
 
 local function choose(state, enemy, random)

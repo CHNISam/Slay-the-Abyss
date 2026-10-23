@@ -136,6 +136,14 @@
       "stack": "intensity",
       "decay": "none",
       "description": "每次受到普通攻击并损失生命后，获得等同本状态层数的力量；药水、毒伤和反伤不触发"
+    },
+    {
+      "id": "curl_up",
+      "name": "蜷甲",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "首次受到非致命普通攻击并损失生命后，在本次行动结束时获得所示格挡；每场战斗一次"
     }
   ]
 }
