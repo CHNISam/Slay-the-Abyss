@@ -38,8 +38,17 @@ function OnStart()
         local width, height = game.GetUICanvasSize()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
+        -- Opt in only on a candidate containing the ABYSS_BGM graph/signals.
+        local hasBgm, enableBgm = pcall(function() return script:GetParam("nativeBgmEnabled") end)
+        local music
+        if hasBgm and enableBgm == true then
+            music = function(signal)
+                game.ServerSignal(signal):SendSignal()
+                print("ABYSS_BGM_REQUEST " .. signal)
+            end
+        end
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, sound = function(cue)
+            { music = music, color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, sound = function(cue)
                 local id = Theme.sound[cue]
                 if id and game.PlayAudio2D then
                     local instance = game.PlayAudio2D(id)

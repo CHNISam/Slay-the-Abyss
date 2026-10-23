@@ -44,11 +44,11 @@ local function control(spec, parent)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
 end
-local function fixture(data, settle)
+local function fixture(data, settle, music)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle })
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music })
     root.ui = ui
     return ui, root
 end
