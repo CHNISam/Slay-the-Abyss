@@ -30,12 +30,19 @@ function OnStart()
         local GameUI = require("abyss_game_ui")
         local Data = require("abyss_data")
         local Presentation = require("abyss_presentation")
+        local Theme = require("abyss_theme")
         Viewport = require("abyss_viewport")
         local width, height = game.GetUICanvasSize()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { color = Color, imageSource = Enum.ImageSource.StaticReference, settle = function(victory)
+            { color = Color, imageSource = Enum.ImageSource.StaticReference, sound = function(cue)
+                local id = Theme.sound[cue]
+                if id and game.PlayAudio2D then
+                    local instance = game.PlayAudio2D(id)
+                    print("ABYSS_AUDIO " .. cue .. " id=" .. id .. " instance=" .. tostring(instance))
+                end
+            end, settle = function(victory)
                 if victory then game.ServerSignal("ABYSS_WIN"):SendSignal()
                 else game.ServerSignal("ABYSS_LOSE"):SendSignal() end
                 print("ABYSS_UI settlement_requested " .. (victory and "victory" or "defeat"))

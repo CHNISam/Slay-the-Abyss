@@ -3,6 +3,19 @@ import assert from 'node:assert/strict';
 import { battleLayout, handPose, theme } from '../scripts/ui-layout.mjs';
 
 const stage = () => battleLayout().controls.find(c => c.name === 'stage');
+test('feedback uses a fixed non-interactive native pool within the per-parent platform limit', () => {
+  walk(battleLayout().controls, control => assert.ok((control.children?.length ?? 0) <= 60, control.name));
+  const actors = stage().children.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name));
+  assert.equal(actors.length, 6);
+  for (const actor of actors) for (const name of ['hpGhost', 'impact', 'shield', 'floating']) {
+    const pool = actor.children.filter(c => c.name === name);
+    assert.equal(pool.length, 1);
+    assert.equal(pool[0].kind === 'cursorArea', false);
+    if (name !== 'hpGhost') assert.equal(pool[0].visible, false);
+  }
+  const overlay = stage().children.find(c => c.name === 'feedback');
+  walk([overlay], control => assert.ok(!['cursorArea', 'presetButton'].includes(control.kind)));
+});
 test('approved critical actor values and card types have native text line room', () => {
   const controls = stage().children;
   for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {

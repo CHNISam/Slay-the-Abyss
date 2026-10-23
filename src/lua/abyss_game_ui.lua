@@ -30,7 +30,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
-        if not run then self.mode = "menu"
+        if self.battleUI.busy then self.mode = "battle"
+        elseif not run then self.mode = "menu"
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.nodeFlow and run.nodeFlow.complete and run.nodeFlow.result == "boss_victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
@@ -107,6 +108,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI:resize(width, height)
     end
     function self:update(dt)
+        self.battleUI:update(dt)
         return self.mapUI:update(dt)
     end
     menu:GetChild("start"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)

@@ -111,6 +111,18 @@
     "hoverLift": 36,
     "hoverScale": 1.22
   },
+  "sound": {
+    "card_play": 50916,
+    "hit": 50936,
+    "hurt": 50936,
+    "block_hit": 50937,
+    "block_gain": 50940,
+    "status": 50928,
+    "turn": 50926,
+    "enemy_die": 50941,
+    "victory": 50919,
+    "defeat": 50931
+  },
   "image": {
     "rect": 100001,
     "disc": 106025,
