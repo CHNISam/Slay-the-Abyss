@@ -68,6 +68,17 @@ local function same(a, b)
     for k in pairs(b) do assert(a[k] ~= nil) end
 end
 
+test("node resource count includes bottles beyond an empty first slot", function()
+    local ui, root = setup("camp", nil, function(run)
+        run.potions = { [3] = "regen_potion" }
+    end)
+    assert(root.children.resources.text:find("药水 1/3", 1, true))
+    local ok, slot = Run.obtainPotion(ui.run, "fire_potion")
+    assert(ok and slot == 1) ui:render()
+    assert(root.children.resources.text:find("药水 2/3", 1, true))
+    assert(ui.run.potions[3] == "regen_potion")
+end)
+
 test("camp click heals via real rules once, reports result, and completes", function()
     local ui, root, click, label, changes = setup("camp", nil, function(run) run.hp = 20 end)
     local healing = Nodes.view(ui.run, ui.map).node.heal

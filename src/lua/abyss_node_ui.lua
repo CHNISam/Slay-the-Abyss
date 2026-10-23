@@ -2,6 +2,7 @@
 -- root is nodePanel from nodeLayout(); the host may replace self.run/self.map.
 -- onChange(ok, reason, self) refreshes the host after an attempted command.
 local Nodes = require("abyss_nodes")
+local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local M = {}
@@ -75,7 +76,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
         text("title", node and ("第 " .. node.floor .. " 层 · " .. (kinds[node.type] or "节点")) or "节点")
         text("resources", "生命 " .. self.run.hp .. "/" .. self.run.maxHp .. "    金币 " .. self.run.gold ..
             "    牌组 " .. #self.run.deck .. "    遗物 " .. #self.run.relics ..
-            "    药水 " .. #self.run.potions .. "/" .. self.run.data.rules.player.potionSlots)
+            "    药水 " .. Run.potionCount(self.run) .. "/" .. self.run.data.rules.player.potionSlots)
         local rows, hint = {}, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
         if active and node.type == "camp" then
