@@ -54,7 +54,7 @@ test('generated Chinese display and native tree exercise the real game entry and
   buildUI();
   // Keep every real-tree case within the runner's unchanged per-script deadline.
   const scripts = [
-    ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 14$/m],
+    ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 15$/m],
     ['tests/lua/game_ui_deck.lua', /^LUA_GAME_UI_DECK_PASS 6$/m],
   ];
   const output = scripts.map(([script, marker]) => {
