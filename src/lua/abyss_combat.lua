@@ -8,14 +8,25 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
 function M.damage(state, source, target, base, fixed)
-    local before = target.hp
+    local before, sourceBefore = target.hp, source.hp
     local lost = Actors.damage(state, source, target, base, fixed)
     EnemyAI.hpLost(state, target, before)
+    if source ~= target then EnemyAI.hpLost(state, source, sourceBefore) end -- normal thorns
+    if not state.resolvingEffects then EnemyAI.flush(state) end
     return lost
 end
 
 function M.applyEffects(state, effects, source, target, playedCard)
-    return Effects.apply(M, state, effects, source, target, playedCard)
+    local previous = state.resolvingEffects
+    state.resolvingEffects = true
+    local called, dealt = pcall(Effects.apply, M, state, effects, source, target, playedCard)
+    state.resolvingEffects = previous
+    if not called then error(dealt, 0) end
+    if not previous then
+        EnemyAI.afterEffects(state, source)
+        EnemyAI.flush(state, source)
+    end
+    return dealt
 end
 
 local function copy(value)
@@ -212,10 +223,12 @@ function M.endTurn(state)
             local before = enemy.hp
             Actors.startTurn(state, enemy)
             EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
+            EnemyAI.flush(state)
             if finish(state) then return true end
             if enemy.hp > 0 then
                 local intent = enemy.intents[enemy.intentIndex]
                 event(state, "intent", { enemy = enemy.id, id = intent.id })
+                EnemyAI.beforeAction(state, enemy)
                 M.applyEffects(state, intent.effects, enemy, state.player)
                 if finish(state) then return true end
                 -- Thorns can kill this attacker while other enemies remain alive.

@@ -52,4 +52,18 @@ end
 
 M.cardReactions, M.afterCard = Guardian.cardReactions, Guardian.afterCard
 
+function M.flush(state, actingSource)
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.ai and enemy.ai.kind == "guardian" then Guardian.flush(state, enemy, actingSource) end
+    end
+end
+
+function M.beforeAction(state, enemy)
+    if enemy.ai and enemy.ai.kind == "guardian" then Guardian.beforeAction(state, enemy) end
+end
+
+function M.afterEffects(state, source)
+    if source.ai and source.ai.kind == "guardian" then Guardian.afterEffects(state, source) end
+end
+
 return M

@@ -23,32 +23,69 @@ function M.initialize(state, enemy)
 end
 
 function M.hpLost(state, enemy, before)
-    if enemy.aiPhase ~= "offense" or enemy.hp >= before or enemy.hp <= 0 then return end
+    if enemy.aiPhase ~= "offense" or enemy.aiShiftPending or enemy.hp >= before or enemy.hp <= 0 then return end
+    if enemy.aiReturning then
+        -- The shell opens before Twin Slam, but Apply Mode Shift and Reset
+        -- Threshold are queued after both hits. Subthreshold retaliation is
+        -- reset away; reaching the threshold still queues a defensive shift.
+        enemy.aiReturnDamage = (enemy.aiReturnDamage or 0) + before - enemy.hp
+        if enemy.aiReturnDamage >= enemy.aiThreshold then enemy.aiShiftPending = true end
+        return
+    end
     local remaining = math.max(0, enemy.statuses.mode_shift - (before - enemy.hp))
     status(state, enemy, "mode_shift", remaining)
     if remaining > 0 then return end
+    enemy.aiShiftPending = true
+end
+
+-- Mode Shift is queued behind the card/enemy action already resolving. Twin
+-- Strike's two Damage actions both complete before the resulting 20 Block.
+function M.flush(state, enemy, actingSource)
+    if not enemy.aiShiftPending then return end
+    enemy.aiShiftPending = nil
+    if enemy.hp <= 0 then return end
+    if enemy == actingSource then enemy.aiSkipAdvance = true end
     enemy.aiPhase, enemy.aiCycle = "defense", 1
+    enemy.aiThreshold = enemy.aiThreshold + enemy.ai.thresholdIncrement
     select(enemy, enemy.ai.defenseCycle[enemy.aiCycle])
+    if (enemy.statuses.mode_shift or 0) ~= 0 then status(state, enemy, "mode_shift", 0) end
     Actors.block(state, enemy, enemy.ai.shiftBlock, true)
     Events.emit(state, "enemy_mode", {enemy = enemy.id, mode = enemy.aiPhase})
 end
 
+function M.beforeAction(state, enemy)
+    if enemy.aiPhase ~= "defense" or enemy.aiCycle ~= #enemy.ai.defenseCycle then return end
+    -- Twin Slam opens the shell before attacking. Applying the new Mode Shift
+    -- power and resetting its counter remain queued until the two hits finish.
+    enemy.aiPhase, enemy.aiReturning = "offense", true
+    enemy.aiReturnDamage = 0
+    for i, id in ipairs(enemy.ai.offenseCycle) do if id == enemy.ai.returnIntent then enemy.aiCycle = i; break end end
+    select(enemy, enemy.ai.returnIntent)
+    Events.emit(state, "enemy_mode", {enemy = enemy.id, mode = enemy.aiPhase})
+end
+
+function M.afterEffects(state, enemy)
+    if not enemy.aiReturning then return end
+    enemy.aiReturning, enemy.aiSkipAdvance, enemy.aiReturnDamage = nil, true, nil
+    if enemy.hp > 0 then
+        status(state, enemy, "sharp_hide", 0)
+        status(state, enemy, "mode_shift", enemy.aiThreshold)
+        if enemy.block > 0 then
+            enemy.block = 0
+            Events.emit(state, "block_reset", {target = enemy.id})
+        end
+    end
+end
+
 function M.advance(state, enemy)
     local ai = enemy.ai
+    if enemy.aiSkipAdvance then enemy.aiSkipAdvance = nil; return end
     if enemy.aiPhase == "offense" then
         enemy.aiCycle = enemy.aiCycle % #ai.offenseCycle + 1
         select(enemy, ai.offenseCycle[enemy.aiCycle])
     elseif enemy.aiCycle < #ai.defenseCycle then
         enemy.aiCycle = enemy.aiCycle + 1
         select(enemy, ai.defenseCycle[enemy.aiCycle])
-    else
-        enemy.aiPhase = "offense"
-        enemy.aiThreshold = enemy.aiThreshold + ai.thresholdIncrement
-        status(state, enemy, "sharp_hide", 0)
-        status(state, enemy, "mode_shift", enemy.aiThreshold)
-        for i, id in ipairs(ai.offenseCycle) do if id == ai.returnIntent then enemy.aiCycle = i; break end end
-        select(enemy, ai.returnIntent)
-        Events.emit(state, "enemy_mode", {enemy = enemy.id, mode = enemy.aiPhase})
     end
 end
 

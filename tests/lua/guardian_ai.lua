@@ -43,10 +43,17 @@ test("uninterrupted offense follows Charge Bash Vent Whirlwind with exact debuff
  end
  eq(s.player.hp,80)
 end)
-test("normal thorns HP loss during Guardian's own attack does not reduce Mode Shift",function()
+test("normal thorns HP loss during Guardian's own attack reduces its open-mode budget",function()
  local s=battle(); local e=s.enemies[1]; s.player.statuses.thorns=3
  assert(Combat.endTurn(s)); s.player.block=32; assert(Combat.endTurn(s))
- eq(e.hp,237); eq(e.statuses.mode_shift,30); eq(intent(s),"guardian_4")
+ eq(e.hp,237); eq(e.statuses.mode_shift,27); eq(intent(s),"guardian_4")
+end)
+test("thorns crossing the threshold during Fierce Bash queues Close Up without advancing it",function()
+ local s=battle(); local e=s.enemies[1]; Combat.damage(s,s.player,e,29,true)
+ assert(Combat.endTurn(s)); s.player.statuses.thorns=3
+ assert(Combat.endTurn(s)); eq(e.hp,208); eq(e.block,20); eq(intent(s),"guardian_5")
+ eq(e.statuses.sharp_hide or 0,0); local hp=s.player.hp
+ assert(Combat.endTurn(s)); eq(s.player.hp,hp); eq(e.statuses.sharp_hide,3); eq(intent(s),"guardian_6")
 end)
 test("only actual unblocked HP loss lowers Mode Shift, exact boundary shifts immediately",function()
  local s=battle(); local e=s.enemies[1]; assert(Combat.endTurn(s)); eq(e.block,9)
@@ -74,10 +81,26 @@ test("defensive damage and excess shift damage never carry into next 40 threshol
  for _=1,3 do assert(Combat.endTurn(s)) end
  eq(e.statuses.mode_shift,50)
 end)
-test("crossing Mode Shift in hit one grants block before hit two and does not cancel the card",function()
+test("queued Mode Shift grants block after both actual Twin Strike hits resolve",function()
  local s=battle({"twin_strike"}); local e=s.enemies[1]
  Combat.damage(s,s.player,e,25,true); play(s,"twin_strike")
- eq(e.hp,210); eq(e.block,15); eq(intent(s),"guardian_5"); eq(s.player.hp,80)
+ eq(e.hp,205); eq(e.block,20); eq(intent(s),"guardian_5"); eq(s.player.hp,80)
+end)
+test("a later lethal Twin Strike hit cancels the queued defensive shift",function()
+ local s=battle({"twin_strike"}); local e=s.enemies[1]
+ Combat.damage(s,s.player,e,25,true); e.hp=8 -- lethal boundary with five budget remaining
+ play(s,"twin_strike"); eq(e.hp,0); eq(e.block,0); eq(e.aiShiftPending,nil); eq(s.phase,"victory")
+end)
+test("Twin Slam opens first but its queued reset clears subthreshold thorns after both hits",function()
+ local s,e=defense(); assert(Combat.endTurn(s)) -- Roll, now Twin Slam
+ s.player.statuses.thorns=3; assert(Combat.endTurn(s))
+ eq(e.hp,204); eq(e.statuses.mode_shift,40); eq(e.statuses.sharp_hide,0); eq(intent(s),"guardian_3")
+end)
+test("Twin Slam can queue a new defensive mode from thorns after it opens",function()
+ local s,e=defense(); assert(Combat.endTurn(s)); s.player.statuses.thorns=20
+ assert(Combat.endTurn(s)); eq(e.hp,170); eq(e.block,20); eq(e.statuses.mode_shift,0)
+ eq(e.statuses.sharp_hide,0); eq(intent(s),"guardian_5")
+ assert(Combat.endTurn(s)); eq(e.statuses.sharp_hide,3); eq(intent(s),"guardian_6")
 end)
 test("poison at enemy turn start shifts and performs Close Up instead of old attack",function()
  local s=battle(); local e=s.enemies[1]; assert(Combat.endTurn(s))
@@ -107,6 +130,11 @@ end)
 test("Sharp Hide reacts even when a different enemy is targeted",function()
  local s,e=defense({"strike"},80,{"guardian","cultist"}); local hp=s.player.hp
  play(s,"strike",2); eq(s.player.hp,hp-3); eq(e.hp,210); eq(sharpEvents(s),1)
+end)
+test("actual Cleave damages both enemies but triggers Sharp Hide only once",function()
+ local s,e=defense({"cleave"},80,{"guardian","cultist"}); local hp=s.player.hp
+ local otherHp=s.enemies[2].hp; play(s,"cleave")
+ eq(e.hp,202); eq(s.enemies[2].hp,otherHp-8); eq(s.player.hp,hp-3); eq(sharpEvents(s),1)
 end)
 test("Sharp Hide ignores attack modifiers and cannot recursively trigger player thorns",function()
  local s,e=defense({"twin_strike"}); e.statuses.strength=100; e.statuses.weak=1
