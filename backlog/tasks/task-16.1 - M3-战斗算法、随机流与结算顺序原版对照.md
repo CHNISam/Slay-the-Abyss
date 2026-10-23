@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 09:07'
+updated_date: '2026-10-23 09:28'
 due_date: '2026-10-28'
 labels:
   - required
@@ -71,4 +71,6 @@ PR100轮末状态片已squash合develop14979df；下一批同步保留该修复�
 独立26ff410死后选招：15专项（初13例8过5败）及相关149组定向绿；支持Jaw/Blue/Nob/rolled_attack，排除AcidS与仅开场抽样策略，死者不执行Actor.endTurn。源链/blob和输入/剩余差异见docs/rules/QUEUED_ENEMY_ROLL_AFTER_DEATH.md。末敌清queue、同伴存活先消耗再队友、额外条件draw、后续不重复与回滚均覆盖。Blue/Nob死后已排队debuff仍单独未对齐，不改变LCG，不宣称完整动作队列/平台通过；整合后全量待跑。
 
 709dffe独立增量：新19例9过10败，最终20新状态专项及相关223组定向全绿。真实Fat gang轨迹damage4→Thorns死亡→Weak1；Nob死后Vulnerable使下名Blue Stab18、80→56；实际Strike受Weak只4并后轮衰减。公开M.applyEffects默认guard、atomic monkeypatch/回滚、药水槽位/溢出原子、unknown op错误和context恢复均保留。无data/Inventory/RNG变更，未全量/平台。来源、瞬时上下文边界和未支持队列见QUEUED_ENEMY_STATUS_AFTER_DEATH.md；root需组合Fat rolled_attack/Sneaky opening_roll_attack，不宣称全部动作队列或原版RNG一致。
+
+第二批root d3e9d76全量check exit0，JS643/528pass115skip、全部Lua、Python15pass1权限skip。死后Roll扩展Spike/Fat矩阵21组，queuedStatus20组，独立复审83组子集过；浮点包装候选Java132向量及52 Math.fround复核仍仅工具候选，不接生产。一次超时和Fat fixture身份冲突均留日志并修复后全量重跑，无预算放宽或弱化断言；完整动作队列/原版RNG/实机仍未通过。
 <!-- SECTION:NOTES:END -->
