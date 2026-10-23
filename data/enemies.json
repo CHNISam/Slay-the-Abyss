@@ -488,6 +488,14 @@
       "name": "蕈甲兽",
       "tier": "normal",
       "hp": 26,
+      "hpRange": { "min": 22, "max": 28 },
+      "ai": {
+        "kind": "fungi_beast",
+        "biteIntent": "fungi_beast_1",
+        "growIntent": "fungi_beast_2",
+        "rollRange": 100,
+        "biteCutoff": 60
+      },
       "intents": [
         {
           "id": "fungi_beast_1",
