@@ -100,6 +100,43 @@ local function win(ui, root)
     assert(ui.run.phase == "reward")
 end
 
+test("new encounter resets stale target before the first attack-card tap", function()
+    local Run = require("abyss_run")
+    local ui, root = fixture()
+    assert(ui:start())
+    local run = ui.run
+    assert(Run.startCombat(run, "louse_pair"))
+    ui:refresh()
+    click(root, "battlePanel", "enemy2")
+    assert(ui.battleUI.target == 2)
+    ui:refresh()
+    assert(ui.battleUI.target == 2, "same encounter refresh must preserve target")
+    -- Isolate the encounter transition, not combat balance or a full map run.
+    for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
+    assert(Run.finishCombat(run))
+    ui:refresh()
+    click(root, "battlePanel", "skip")
+    assert(run.phase == "map")
+    assert(Run.startCombat(run, "cultist_solo"))
+    ui:refresh() -- This is the same host refresh used after Nodes.enter.
+    local battle = run.combat
+    local slot
+    for i, card in ipairs(battle.hand) do
+        if Combat.cardDefinition(battle, card).type == "attack" then slot = i break end
+    end
+    assert(slot, "starter opening hand must include an attack")
+    local instance, energy = battle.hand[slot], battle.energy
+    assert(Combat.canPlay(battle, instance.uid, 1))
+    click(root, "battlePanel", "card" .. slot)
+    assert(ui.battleUI.selected == instance.uid, "first attack tap was rejected by stale encounter target")
+    assert(ui.battleUI.target == 1 and battle.energy == energy)
+    ui:refresh()
+    assert(ui.battleUI.selected == instance.uid, "same encounter refresh must preserve card selection")
+    local beforeHp = battle.enemies[1].hp
+    click(root, "battlePanel", "enemy1")
+    assert(battle.energy < energy and battle.enemies[1].hp < beforeHp)
+end)
+
 test("menu starts real map, enters actual encounter, consumes reward and unlocks next layer", function()
     local ui, root = fixture()
     assert(ui.mode == "menu" and not root:GetChild("mapPanel").visible)
