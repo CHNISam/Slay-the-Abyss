@@ -165,16 +165,16 @@ test("block gain crystallises in with a block icon pop and cue", function()
     local shield = h.part("hero", "shield")
     assert(shield.visible and shield.localScaleX > 1)
     for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
-        local badge = h.part("hero", name)
-        assert(badge.localScaleX == 1 and badge.localScaleY > 1, "badge pops vertically inside its HP lane")
+        local part = h.part("hero", name)
+        assert(part.localScaleX == 1 and part.localScaleY > 1, "badge pops vertically without expanding into HP")
     end
     assert(h.sounds[#h.sounds] == "block_gain")
     h.drain()
-    for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
-        local badge = h.part("hero", name)
-        assert(badge.localScaleX == 1 and badge.localScaleY == 1, "badge resets both axes")
-    end
     assert(not shield.visible)
+    for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+        local part = h.part("hero", name)
+        assert(part.localScaleX == 1 and part.localScaleY == 1, "all badge parts reset after the pop")
+    end
 end)
 
 test("enemy action: banner, windup, lunge on contact, fully blocked hit shudders without shake, then recover", function()
