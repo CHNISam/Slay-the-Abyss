@@ -65,7 +65,7 @@
     "frailPercent": 75,
     "rounding": "floor_after_modifiers",
     "enemyAI": "intent_cycle",
-    "statusDurationTick": "owner_turn_end",
+    "statusDurationTick": "round_end",
     "poisonBypassesBlock": true
   }
 }

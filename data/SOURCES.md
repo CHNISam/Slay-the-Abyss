@@ -1,5 +1,11 @@
 # 来源与适配边界
 
+2026-10-23 蓝衣束缚者A0选招切片：复核固定社区SlaverBlue方法体后保留已实现HP46–50、Stab12、Rake7后Weak1；新增随机首动与40边界选招、双动作均不连续三次、历史强制仍消耗主roll。来源hash、900组受控输入及共享LCG/Weak时序限制见[专项账本](../docs/reviews/TASK-15-blue-slaver-ai.md)。不是官方源码、原作PC或平台实测；旧固定循环说明对此敌人已被覆盖。
+
+2026-10-23 怒焰巨魔A0生产切片：固定社区反编译镜像核查HP82–86、开场Enrage2、Skull Bash基础6后易伤2、Bull Rush基础14；按33边界选择攻击，Bull Rush不连续三次，技能牌在效果前触发力量。来源文件hash、队列次序、900组受控决策和共享LCG等剩余差异见[专项账本](../docs/reviews/TASK-15-gremlin-nob-ai.md)。不是官方源码、原作PC或平台实测；旧固定循环说明对此敌人不再适用。
+
+2026-10-23 持续状态轮末切片：据固定社区反编译镜像的 WeakPower/FrailPower/VulnerablePower、ApplyPowerAction 与 MonsterGroup 方法体，将三个持续状态从 owner 回合结束衰减改为整组敌人行动后的轮末；新怪物来源首次施加跳过一次，已有状态叠加不刷新跳过。Vulnerable 首次跳过额外要求玩家已结束回合。来源版本真实性、逐方法 blob、独立输入预期及保留的 power priority/随机流/平台缺口见[轮末账本](../docs/rules/ROUND_DEBUFF_DURATION.md)。未宣称完整原版或实机一致。
+
 2026-10-23 石颚兽生产切片：据[开发者公开getMove](https://www.reddit.com/r/slaythespire/comments/1klwcgf/true_jaw_worm_ai/msefy12/)及固定镜像方法体，HP40–44、首动11伤害、Thrash7后5格挡、Bellow3力量后6格挡；按25/55边界及Java float条件抽样处理历史限制，替换旧固定循环。来源hash、首动抽样、独立预期与保留的共享LCG/非原版随机流差异见[专项账本](../docs/reviews/TASK-15-jaw-worm-ai.md)。不是原作二进制或平台验收。
 
 2026-10-23 祈火徒运行时切片覆盖下文旧固定循环说明：生命48–54实际采样，首动施加仪式3且不立即加力量，此后基础6攻击，每个整组敌方回合结束增长3力量，跳过施加当轮。固定方法体来源及真实性/随机流限制见 [TASK-15运行时账本](../docs/reviews/TASK-15-cultist-runtime.md)。不是正版二进制或平台实测通过；其他敌人的差异继续保留。
@@ -24,4 +30,4 @@
 
 本任务仅验收内容基线与数据校验。未编译平台逻辑、未导入存档、未运行游戏、未获得 Furinya 体验验收。
 
-药水 damage/block 与遗物 block 采用固定数值，不套用卡牌攻击/格挡修正。2026-10-23 首发逐件核对见 [TASK-14.1 账本](../docs/reviews/TASK-14.1-inventory-parity.md)：Dexterity/Frail 限定来自卡牌的格挡，因此固定 Block Potion 不应被一概当作简化而修改。铜鳞稀有度已由 Uncommon 改正为 Common，0 伤害普通攻击仍触发 Thorns；PC 构建号、精确开战队列及原作/平台实测尚未完成，不声明全量严格一致。生成手牌满手进入弃牌堆。战斗状态与生成牌在战后清理，永久卡组、升级、生命和资产跨节点保留，具体时序见 README。
+药水 damage/block 与遗物 block 采用固定数值，不套用卡牌攻击/格挡修正。2026-10-23 首发逐件核对见 [TASK-14.1 账本](../docs/reviews/TASK-14.1-inventory-parity.md)：Dexterity/Frail 限定来自卡牌的格挡，因此固定 Block Potion 不应被一概当作简化而修改。铜鳞稀有度已由 Uncommon 改正为 Common，0 伤害普通攻击仍触发 Thorns；[六件开战遗物顺序](../docs/reviews/TASK-14.1-opening-relic-order.md) 已依据固定反编译镜像修复并通过 20 组回归。镜像不等于认证 PC 构建；完整开战钩子、原作/平台实测尚未完成，不声明全量严格一致。生成手牌满手进入弃牌堆。战斗状态与生成牌在战后清理，永久卡组、升级、生命和资产跨节点保留，具体时序见 README。

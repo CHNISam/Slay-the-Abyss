@@ -202,16 +202,25 @@ function M.intent(state, enemyIndex)
     return copy(enemy.intents[enemy.intentIndex]) -- UI cannot mutate the queued intent
 end
 
-function M.startPlayerTurn(state)
+function M.startPlayerTurn(state, beforeOpeningDraw)
     if finish(state) then return end
     state.turn = state.turn + 1
     state.phase = "player"
     Actors.startTurn(state, state.player)
     if finish(state) then return end
     state.player.noDraw = false
-    state.energy = state.rules.player.energyPerTurn
+    state.energy = 0
+    -- Only Combat.new supplies this one-shot callback. Do not store it in state:
+    -- snapshots and subsequent turns contain data only.
+    if beforeOpeningDraw then
+        local ok, reason = beforeOpeningDraw(state)
+        if not ok then return false, reason end
+        if state.energy + 0.0 + state.rules.player.energyPerTurn > 2147483647 then return false, "effect_overflow" end
+    end
+    state.energy = state.energy + state.rules.player.energyPerTurn
     M.draw(state, state.rules.player.drawPerTurn)
     event(state, "player_turn", state.turn)
+    return true
 end
 
 function M.endTurn(state)
@@ -247,6 +256,12 @@ function M.endTurn(state)
                 if finish(state) then return true end
             end
         end
+    end
+    -- Duration powers belong to the shared round boundary, after all actions.
+    -- A new monster-sourced power can suppress its first reduction.
+    Actors.endRound(state, state.player)
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.hp > 0 then Actors.endRound(state, enemy) end
     end
     EnemyAI.endRound(state)
     M.startPlayerTurn(state)
@@ -295,7 +310,8 @@ function M.new(data, options)
     end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)
-    M.startPlayerTurn(state)
+    local ok, reason = M.startPlayerTurn(state, options.beforeOpeningDraw)
+    if ok == false then return nil, reason end
     return state
 end
 

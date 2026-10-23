@@ -115,7 +115,7 @@ export function validateContent(bundle) {
     if (!isObject(entry)) return;
     enumeration(entry.kind, ['buff', 'debuff'], `statuses[${i}].kind`);
     enumeration(entry.stack, ['intensity', 'duration', 'none'], `statuses[${i}].stack`);
-    enumeration(entry.decay, ['none', 'turn_end_minus_1', 'turn_start_trigger_then_minus_1', 'turn_end_trigger_then_minus_1'], `statuses[${i}].decay`);
+    enumeration(entry.decay, ['none', 'turn_end_minus_1', 'round_end_minus_1', 'turn_start_trigger_then_minus_1', 'turn_end_trigger_then_minus_1'], `statuses[${i}].decay`);
   });
   lists.enemies.forEach((entry, i) => {
     if (!isObject(entry)) return;
@@ -152,8 +152,29 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack'], `${ap}.kind`);
-      if (a.kind === 'charge_then_attack') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver'], `${ap}.kind`);
+      if (a.kind === 'blue_slaver') {
+        keys(a, ['kind', 'stabIntent', 'rakeIntent', 'rollRange', 'stabCutoff'], ap);
+        intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');
+        intentReference(a.rakeIntent, `${ap}.rakeIntent`, 'attack');
+        if (a.stabIntent === a.rakeIntent) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.stabCutoff, `${ap}.stabCutoff`, 0, 65536);
+        if (!(a.stabCutoff < a.rollRange)) fail(`${ap}.stabCutoff`, 'cutoff must be below rollRange');
+      } else if (a.kind === 'gremlin_nob') {
+        keys(a, ['kind', 'bellowIntent', 'bashIntent', 'rushIntent', 'rollRange', 'bashCutoff'], ap);
+        intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
+        intentReference(a.bashIntent, `${ap}.bashIntent`, 'attack');
+        intentReference(a.rushIntent, `${ap}.rushIntent`, 'attack');
+        if (new Set([a.bellowIntent, a.bashIntent, a.rushIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.bashCutoff, `${ap}.bashCutoff`, 0, 65536);
+        if (!(a.bashCutoff < a.rollRange)) fail(`${ap}.bashCutoff`, 'cutoff must be below rollRange');
+        const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.bellowIntent);
+        if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'enrage' && effect.value > 0)) {
+          fail(`${ap}.bellowIntent`, 'must grant a positive Enrage stack');
+        }
+      } else if (a.kind === 'charge_then_attack') {
         keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
         integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
         integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);
@@ -267,7 +288,7 @@ export function validateContent(bundle) {
       if (nodes.length !== required.length || new Set(nodes).size !== required.length || required.some(node => !nodes.includes(node))) fail('rules.map.nodeTypes', 'must contain all seven node types exactly once');
     }
     if (isObject(rules.combat)) {
-      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
+      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'round_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
       if (typeof rules.combat.poisonBypassesBlock !== 'boolean') fail('rules.combat.poisonBypassesBlock', 'must be boolean');
     }
   }

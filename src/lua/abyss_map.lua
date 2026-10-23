@@ -56,7 +56,7 @@ local function configuration(data)
             minFloor = entry.minFloor, maxFloor = entry.maxFloor }
     end
     table.sort(encounters, function(a, b) return a.id < b.id end)
-    local signature = { "map-v2:17:rows15:boss16:rest15:treasure9:bossTreasure17:encounterStream" }
+    local signature = { "map-v2:17:rows15:boss16:rest15:treasure9:bossTreasure17:encounterStream:fixedTreasureOnly" }
     for _, entry in ipairs(encounters) do
         signature[#signature + 1] = entry.id .. ":" .. entry.tier .. ":" .. entry.minFloor .. ":" .. entry.maxFloor
     end
@@ -86,7 +86,9 @@ function M.generate(data, seed)
     for floor = 1, data.rules.map.floors do
         local allowed = {}
         for _, kind in ipairs(kinds) do
-            if kind ~= "boss" and (kind ~= "elite" or floor >= 6)
+            -- Ordinary map treasure is the fixed ninth row, never a random room.
+            -- Unknown-room treasure resolution is a separate, unimplemented flow.
+            if kind ~= "boss" and kind ~= "treasure" and (kind ~= "elite" or floor >= 6)
                 and (kind ~= "camp" or (floor >= 6 and floor ~= 14))
                 and (not tierFor[kind] or #pool(encounters, kind, floor) > 0) then
                 allowed[#allowed + 1] = kind

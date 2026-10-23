@@ -40,7 +40,7 @@ test('actual game module set includes current AI and all generated runtime depen
   buildLuaData('data', join(build, 'abyss_data.lua'));
   writeFileSync(join(build, 'sts1_unknown_vectors.lua'), 'error("test fixture")');
   const names = candidateScriptFiles('src/lua', build).map(item => item.name);
-  for (const name of ['abyss_ui', 'abyss_jaw_worm_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
+  for (const name of ['abyss_ui', 'abyss_jaw_worm_ai', 'abyss_gremlin_nob_ai', 'abyss_blue_slaver_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
   assert(!names.includes('sts1_unknown_vectors'));
   assert.equal(new Set(names).size, names.length);
 }));

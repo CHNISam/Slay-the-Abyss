@@ -21,7 +21,7 @@ function fixture() {
       events: { encounterId: 'purifier', purifier: { removeCost: 0 }, cleric: { minGold: 35, healCost: 35, healPercent: 25, removeCost: 50 } },
       shop: { cardCommon: 50, cardUncommon: 75, cardRare: 150, relic: 150, removeCard: 75, removeCardIncrement: 25 },
       rewards: { normalGold: 15, eliteGold: 30, bossGold: 100, cardChoices: 3 },
-      combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end', poisonBypassesBlock: true }
+      combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'round_end', poisonBypassesBlock: true }
     }
   };
   for (const [tier, floor] of [['elite', 6], ['boss', 16]]) {

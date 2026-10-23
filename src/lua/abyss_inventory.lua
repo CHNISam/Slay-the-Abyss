@@ -7,6 +7,40 @@ local supported = { damage = true, block = true, draw = true, energy = true,
     gainStatus = true, applyStatus = true }
 local maximum = 2147483647
 
+-- Source-defined hook/queue positions, not effect values. New relics need their
+-- own ordering evidence before entering this supported opening set.
+local openingPosition = { lantern = "turn_top", vajra = "battle_top",
+    oddly_smooth_stone = "battle_top", bronze_scales = "battle_top",
+    anchor = "battle_bottom", bag_of_preparation = "battle_bottom" }
+
+function M.opening(definitions, owned)
+    local turnTop, battleTop, bottom = {}, {}, {}
+    for _, id in ipairs(owned) do
+        local relic
+        for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
+        if not relic then return nil, "unknown_relic" end
+        if relic.trigger == "combat_start" then
+            local position = openingPosition[id]
+            if not position then return nil, "unsupported_opening_relic:" .. tostring(id) end
+            if position == "turn_top" then table.insert(turnTop, 1, relic.effects)
+            elseif position == "battle_top" then table.insert(battleTop, 1, relic.effects)
+            else bottom[#bottom + 1] = relic.effects end
+        end
+    end
+    -- Turn-start hooks are dispatched after battle-start hooks, so their TOP
+    -- actions execute first. BOTTOM actions retain the held-list order.
+    for _, effects in ipairs(battleTop) do turnTop[#turnTop + 1] = effects end
+    return { beforeDraw = turnTop, afterDraw = bottom }
+end
+
+function M.applyOpening(state, groups)
+    for _, effects in ipairs(groups) do
+        local ok, reason = M.apply(state, effects)
+        if not ok then return false, reason end
+    end
+    return true
+end
+
 local function integer(value)
     return type(value) == "number" and value == value and value % 1 == 0
         and value >= 0 and value <= maximum

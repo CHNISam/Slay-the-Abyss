@@ -3,9 +3,9 @@ id: TASK-14.1
 title: M3 首发遗物药水效果与触发顺序严格对齐
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Codex-relic-order'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 04:04'
+updated_date: '2026-10-23 08:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -44,6 +44,8 @@ ordinal: 42000
 核对首发遗物药水来源并建立逐件账本；为已证实缺口加入固定原版预期回归并证红；最小修复后跑npm run check，平台依赖保持未验收。
 
 药水槽位切片：逐件读取固定镜像7件药水use/getPotency与原版库存方法；对已证实的固定槽位消费/最左空槽填补先写真实Run入口红例，再实现稳定槽位及稀疏视图、UI计数与补货库存命令；不增加发瓶来源/概率，不碰Combat调度。
+
+开战队列切片：复核PR87固定源码推导并在当前52f35dd重跑14组独立诊断证红；将首回合构建分成基础抽牌前/后，仅对已支持六件按钩子队首/队尾语义分派，保留真实Run入口原子拒绝；纳入常规回归、验证换序/跨战与相关全量门禁。原作PC构建认证、完整调度器和平台AC继续保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -62,4 +64,8 @@ Codex inventory_parity领取离线可推进部分，基线c2c2cd2；不打开原
 固定槽位切片最终：来源镜像逐件确认7瓶基础量20/12/2/2/2/6/5，无JSON数值改动。消费改为原槽留空、Run.obtainPotion最左空槽填入/满槽与未知id原子拒绝，potionView保持槽号，potionCount显式计数；battle/node UI同步稀疏槽位及补货。potion_slots6组修前5红（3个真实槽位差异、2个缺库存命令），修后6绿；新增同场中槽补货与仅槽3目标瓶、节点计数回归。npm run check退出0：JS260通过/14符号链接权限skip，Lua31脚本780组通过，Python15通过/1权限skip。隔离树potion-check.log、potion-slots-red.log保留日志。docs/reviews/TASK-14.1-potion-slots.md记录固定源码/交叉版本及真实输入；自然获取链尚无，未发明奖励/概率/claim事务；Strength/Dex共享层数上限与原作onUsePotion队列、全池/平台AC仍未完成。
 
 本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
+
+Codex-relic-order在feat/continue-relic-order独立领取开战遗物离线切片，基线52f35dd；不打开原神、不调用live MCP，与Combat调度负责人协调最小函数边界。
+
+开战队列离线切片完成，基线52f35dd。固定镜像aeubanks/sts@319009d5六件方法复核：Lantern首回合TOP先执行，三能力battleStart TOP按持有逆序且在基能/抽牌前，Anchor/Bag BOTTOM保留相对顺序在普通抽牌后；ID表只存钩子位置，全部数值仍读effects。PR87原14组在当前Fengari证红3绿11红；加2混排修前3绿13红，修后16绿。补失败原子性、基础能量overflow、回调不入状态与次回合不重复、真实两战重建后20绿；overflow曾单独19绿1红后修复。首次npm check在JS218后runner无输出持续占CPU，只停止本轮PID9568，命令退出-1，未声称完整check通过。精确UI input保护重放205组104pass101skip、theme保护46组38pass8skip均退出0；后续npm test完整584组469pass115权限skip，0失败退出0；Lua54脚本全过含opening20；Python15pass1权限skip；syntax/schema/theme分别退出0。未再跑组合check，交主线程整合复验。日志保留本worktree不提交；docs/reviews/TASK-14.1-opening-relic-order.md列来源/输入/红绿/限制。没有开原神、平台编译或导出/导入/实机；镜像非认证PC，完整队列/药水上限与onUsePotion缺口仍在，4项AC不勾、任务保持In Progress。
 <!-- SECTION:NOTES:END -->

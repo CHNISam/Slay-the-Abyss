@@ -27,7 +27,7 @@ local function definition(entries, id)
     error("missing definition " .. id)
 end
 
-test("all six opening relics use current data after initial draw and owner-turn reset", function()
+test("all six opening relics use current data and retain their effects after owner-turn reset", function()
     local source = Combat.copy(data)
     definition(source.relics.relics, "anchor").effects[1].value = 13
     definition(source.relics.relics, "bag_of_preparation").effects[1].value = 3
@@ -178,7 +178,9 @@ end
 test("real map keeps resources across two original-data battles and a newly acquired relic triggers next time", function()
     local source = Combat.copy(data)
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
-    local run, map = Run.new(source, 2), Map.generate(source, 2)
+    -- Seed 36 follows shops/events to the fixed ninth-row chest, then combat.
+    -- Do not depend on the removed extra random chests before floor 9.
+    local run, map = Run.new(source, 36), Map.generate(source, 36)
     for _, relic in ipairs(source.relics.relics) do
         if relic.trigger == "combat_start" and relic.id ~= "anchor" then run.relics[#run.relics + 1] = relic.id end
     end
@@ -194,7 +196,7 @@ test("real map keeps resources across two original-data battles and a newly acqu
     local rewardId = Run.rewardOptions(run)[1]
     assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
-    local acquired, visitedEvent, spent, nextBattleType = false, false, 0, nil
+    local acquired, visitedEvent, boughtCard, spent, nextBattleType = false, false, false, 0, nil
     while true do
         local node = Nodes.available(run, map)[1]; assert(node)
         assert(Nodes.enter(run, map, node.id))
@@ -210,12 +212,14 @@ test("real map keeps resources across two original-data battles and a newly acqu
         elseif node.type == "shop" then
             local view = Nodes.view(run, map).node
             for _, offer in ipairs(view.cards) do
-                if offer.id == "bludgeon" then assert(Nodes.buyCard(run, offer.id)); spent = spent + offer.price end
+                if offer.id == "bludgeon" and not boughtCard then
+                    assert(Nodes.buyCard(run, offer.id)); spent = spent + offer.price; boughtCard = true
+                end
             end
             assert(Nodes.leaveShop(run))
         else error("unexpected fixture node " .. node.type) end
     end
-    assert(acquired and visitedEvent)
+    assert(acquired and visitedEvent and boughtCard)
     equal(run.combat.player.hp, hp); equal(run.hp, hp); equal(run.gold, gold - spent)
     same(run.potions, { [2] = "regen_potion" })
     equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)

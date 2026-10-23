@@ -28,17 +28,16 @@ function M.startCombat(run, encounterId)
     local encounter = find(run.data.enemies.encounters, encounterId)
     if not encounter then return false, "unknown_encounter" end
     if run.floor < encounter.minFloor or run.floor > encounter.maxFloor then return false, "wrong_floor" end
-    local battle = Combat.new(run.data, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies })
-    -- Combat.new already resets the first owner turn and draws its ordinary hand.
-    -- Opening inventory effects must happen afterwards, before this battle is committed.
-    for _, id in ipairs(run.relics) do
-        local relic = find(run.data.relics.relics, id)
-        if not relic then return false, "unknown_relic" end
-        if relic.trigger == "combat_start" then
-            local ok, reason = Inventory.apply(battle, relic.effects)
-            if not ok then return false, reason end
-        end
-    end
+    local opening, reason = Inventory.opening(run.data.relics.relics, run.relics)
+    if not opening then return false, reason end
+    local battle
+    battle, reason = Combat.new(run.data, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies,
+        beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
+    if not battle then return false, reason end
+    -- Queue-tail relics follow the ordinary draw, retaining their held order.
+    local ok
+    ok, reason = Inventory.applyOpening(battle, opening.afterDraw)
+    if not ok then return false, reason end
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
     run.phase = "combat"
     return true

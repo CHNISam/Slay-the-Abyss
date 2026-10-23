@@ -1,5 +1,7 @@
 # 开战遗物队列：独立负向证据
 
+> 后续修复：本页保留 PR87 在 `ed39f46` 的原始负向证据。2026-10-23 的修复与 20 组常规回归见 [TASK-14.1 开战切片](../reviews/TASK-14.1-opening-relic-order.md)；原独立入口现转发到该回归，修复后应返回 0。
+
 ## 结论
 
 2026-10-23，在 `develop@ed39f4653ddb555391c0dfe5a4507d1f58387171` 通过真实 `Run.startCombat` 读取既有事件帧，发现 TASK-14.1 尚未核实的开战顺序与固定资料不符：
@@ -49,7 +51,7 @@
 
 同基线既有 `inventory`、`inventory_parity`、`potion_slots` 共 11+10+6 组通过。40 个原始输入文件与固定提交 Git blob 一致；完整输出 `evidence/opening-red.log` 和校验记录 `evidence/base-verification.log` 仅作为本地验证文件保留，不随本次提交。仓库交付仅含本文与 `tools/parity/opening_relic_order.lua`。
 
-脚本位于 `tools/parity`，**不纳入普通 CI 自动发现**；缺口未修复时返回非零是预期诊断结果，不把失败包装成通过。
+原诊断脚本当时位于 `tools/parity`，未纳入普通 CI 自动发现；缺口未修复时返回非零是预期诊断结果。本页的 3 绿／11 红属于该历史基线，后续已将用例原样保留并扩展到 `tests/lua/opening_relic_order.lua`。
 
 ## 未完成
 

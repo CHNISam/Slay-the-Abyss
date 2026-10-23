@@ -4,6 +4,8 @@ local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local Guardian = require("abyss_guardian_ai")
 local JawWorm = require("abyss_jaw_worm_ai")
+local GremlinNob = require("abyss_gremlin_nob_ai")
+local BlueSlaver = require("abyss_blue_slaver_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -20,6 +22,8 @@ function M.initialize(state, enemy, random)
         return
     end
     if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
+    if enemy.ai.kind == "gremlin_nob" then return GremlinNob.initialize(state, enemy, random) end
+    if enemy.ai.kind == "blue_slaver" then return BlueSlaver.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
@@ -49,6 +53,8 @@ function M.advance(state, enemy, random)
         end
         select(enemy, enemy.aiCharge == enemy.ai.chargeLimit and enemy.ai.attackIntent or enemy.ai.chargeIntent)
     elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
+    elseif enemy.ai.kind == "gremlin_nob" then return GremlinNob.advance(state, enemy, random)
+    elseif enemy.ai.kind == "blue_slaver" then return BlueSlaver.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)
@@ -85,7 +91,12 @@ function M.endRound(state)
     end
 end
 
-M.cardReactions, M.afterCard = Guardian.cardReactions, Guardian.afterCard
+function M.cardReactions(state, card)
+    GremlinNob.beforeCard(state, card)
+    return Guardian.cardReactions(state, card)
+end
+
+M.afterCard = Guardian.afterCard
 
 function M.flush(state, actingSource)
     for _, enemy in ipairs(state.enemies) do
