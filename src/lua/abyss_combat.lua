@@ -7,11 +7,19 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
     statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
-function M.damage(state, source, target, base, fixed)
+function M.damage(state, source, target, base, fixed, retaliation)
     local before, sourceBefore = target.hp, source.hp
-    local lost = Actors.damage(state, source, target, base, fixed)
+    local lost = Actors.damage(state, source, target, base, fixed, retaliation)
     EnemyAI.hpLost(state, target, before)
     if source ~= target then EnemyAI.hpLost(state, source, sourceBefore) end -- normal thorns
+    if not state.resolvingEffects then EnemyAI.flush(state) end
+    return lost
+end
+
+function M.retaliate(state, source, target, amount)
+    local before = target.hp
+    local lost = Actors.retaliate(state, source, target, amount)
+    EnemyAI.hpLost(state, target, before)
     if not state.resolvingEffects then EnemyAI.flush(state) end
     return lost
 end
