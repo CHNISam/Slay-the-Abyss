@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 08:39'
+updated_date: '2026-10-23 08:46'
 due_date: '2026-10-28'
 labels:
   - required
@@ -61,4 +61,6 @@ combat_order切片：Weak/Frail/Vulnerable改为整组敌人行动后、玩家�
 2026-10-23 @Codex/combat_order 在feat/continue-random-float独立推进scaled-float候选；沿用systematic-debugging/TDD/verification-before-completion工作流，固定来源已只读核实。
 
 random_float候选切片：显式randomFloatRange/Between新增逐步binary32 nearest-even、正负零及2^-149次正规；仅收窄finite exact binary32/finite span ABI，非法请求抽样前拒绝，不接生产或猜流初始化。固定STS c4b71d与官方libGDX a6a0b3来源；独立Java17表达式132行fixture复现逐字段一致（非官方RNG/游戏Oracle）。新增7专项先1过6败，修复后连wrapper10/primitive8共25过；十个隔离负变异检出（漏span guard为超时，其余断言）；Node语法/diff检查通过。详见docs/reviews/TASK-16.1-scaled-float-candidate.md。全量待主代理统一，无平台编译/导出/导入/原神实机，全部严格AC保留。
+
+PR100轮末状态片已squash合develop14979df；下一批同步保留该修复及新scaled-float隔离候选，不将候选当生产RNG或平台通过。
 <!-- SECTION:NOTES:END -->

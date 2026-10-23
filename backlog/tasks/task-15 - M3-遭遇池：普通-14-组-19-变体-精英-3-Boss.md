@@ -6,7 +6,7 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 08:39'
+updated_date: '2026-10-23 08:46'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -81,4 +81,6 @@ ordinal: 15000
 2026-10-23 codex-enemy-parity / feat/continue-blue-slaver：固定SlaverBlue@319009d复核并新增A0随机首动、40边界和双动作均禁三连；历史强制分支仍消费主roll；原HP46–50与Stab12/Rake7后Weak1保留，未改Combat/Inventory/Actor。9组AI红7→全绿含900受控roll/历史、消费次数、死亡、实例和回滚；既有动作9组原样通过。相关schema与打包53项通过；18遭遇/256种子可达与129组真实Run覆盖通过；build:data、validate:data、定向JS语法与diff检查通过。未重跑本片全量check，主线程统一整合复验。证据docs/reviews/TASK-15-blue-slaver-ai.md；共享16位LCG/独立随机流、Weak共享时序及PC二进制真实性仍未验证，所有全池/平台AC保留，未游戏/MCP/编译或写入存档。
 
 2026-10-23 codex-enemy-parity / Acid Slime S增量，基线ade3bb5：固定AcidSlime_S与Random源码核查并独立实现HP8–12、开场主roll后额外Boolean、攻击3/Weak1后续严格交替且不再AI抽样；不涉及分裂或继承中毒，不改Combat/Actor/Inventory。新增9组真实Combat/Run先5红后全绿；8项schema加现有共61项JS通过；既有Blue9/Nob12组通过；18遭遇/256种子可达、23敌人53意图124组覆盖通过；build:data/validate:data/定向JS语法/diff通过。来源hash和共享LCG/Boolean适配局限见docs/reviews/TASK-15-acid-slime-s-ai.md。未跑本片全量check，由主线程最终组合；工作树尚不含root的Weak调度整合，但本增量不碰或恢复该文件。不开游戏/MCP、不编译或写入存档，原版PC真实性与所有全池/平台AC保留。
+
+PR100已在cf6969e双Quality成功后squash合develop14979df；下一批同步保留已合Nob/Blue与新AcidS增量，CLI记录不覆盖已完成切片。
 <!-- SECTION:NOTES:END -->
