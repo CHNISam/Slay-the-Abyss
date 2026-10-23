@@ -1,5 +1,7 @@
 # 交接说明
 
+最新UI副本：源7013641含新版节点/菜单/结果及战斗反馈，24模块/1552控件/六列牌库/22节点启用结算图，真实MCP构建与独立源文/重注入核验通过。17个RGBA遮罩的平台输入错误已修为RGB+独立透明度。副本`.artifacts/offline-ui-7013641/abyss-ui-offline.gil`与完整hash见[P0-SMOKE](P0-SMOKE.md)及[证据](evidence/offline-candidate-7013641.json)。未开原神/导入/实机；节点按钮hover/pressed/按下缩放仍是P2视觉缺口，完整AC保留。
+
 本批离线交付补充：PR66已关闭TASK3.1构建切片；PR69守护者排队转形、PR73祈火徒仪式、PR71原生只读牌库均已合入develop，PR67保护原本正确的IronWave顺序。最新整批副本的实际构建源为PR78固定提交022f22c，含24模块/1220控件/六列牌库模板/22节点结算图，静态0错误；文件与hash见[P0-SMOKE.md](P0-SMOKE.md)和[结构化证据](evidence/offline-candidate-022f22c.json)。源SHA与squash合入SHA分别保留，不冒充官方导入或实机通过。后续继续从最新origin/develop领取可离线任务，不在根旧工作树覆盖他人改动。
 
 更新：2026-10-23。最新状态与逐关口验收标准见 [MILESTONES.md](MILESTONES.md)。这是当前交接，早期快照已被本轮审计取代；历史可从 Git 查阅。

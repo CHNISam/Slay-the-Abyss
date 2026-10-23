@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 04:13'
+updated_date: '2026-10-23 04:27'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -58,4 +58,6 @@ TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TAS
 2026-10-23 feat/node-ui-polish（PR 见分支）：节点四屏按 PR19 批准稿原生重构——商店单屏货架（5 卡面+价格、删牌服务格先选后确认、遗物行、红价/灰牌/售罄）、营地休息/锻造双选项与升级前后真实卡面对比、净化神龛/圣职者左右结构与灰态原因及结果页、宝箱开合与奖励行；营地/事件结果停留至「继续」。只读 Nodes.view、只发既有命令，未改规则/RNG/定价（未用 PR #64 候选），未实现第17层Boss宝箱。验证：npm run check 全绿（节点 Lua 18 项、宿主全流程、布局 6 项）；离线对照截图 docs/design/node-preview/。平台实机：未测，验收保持 pending。
 
 本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
+
+新版节点/菜单/结果与反馈的真实平台副本：源7013641，首次a76导出17个RGBA colour被拒，nativeControls.plate统一RGB+独立opacity后全check JS297pass/14skip、全部Lua、Python15pass/1skip；真实MCP从零导出0error/16自定义方法warning。独立actualgil核24模块逐字、1552控件/max50、六列模板/graph22启用挂载、17个veil为RGB+0.8，内存重注入字节一致，原底图hash不变。副本60ca982ef78f3e095b1c572f2f414bc5e32e8cd0a26e10eea8a323d328c43517，docs/evidence/offline-candidate-7013641.json。未原神/导入/实机；节点hover/pressed/0.96按压仍P2缺口，不声称完整视觉通过。
 <!-- SECTION:NOTES:END -->

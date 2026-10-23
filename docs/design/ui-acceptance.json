@@ -11,7 +11,7 @@
     "shop": { "status": "pending", "note": "v4 failed (dense text list). feat/node-ui-polish restores the approved single-screen shelf offline; no actual screenshot yet" },
     "event": { "status": "pending", "note": "Purifier/Cleric screen with reasons and result page implemented offline; not played" },
     "treasure": { "status": "pending", "note": "closed/open chest and reward row implemented offline; not played" },
-    "result": { "status": "partial", "note": "v4 actual floor15 defeat and local restart passed. v6 screenshots confirm custom defeat page and official platform Defeat settlement with Leave/Retry. Boss victory, victory settlement, platform Retry state reset and full approved layout remain untested." },
-    "deck": { "status": "missing", "note": "Approved full deck overlay not implemented" }
+    "result": { "status": "partial", "note": "v4 actual floor15 defeat and local restart passed. v6 screenshots confirm custom defeat page and official platform Defeat settlement with Leave/Retry. Boss victory, victory settlement, platform Retry state reset and full approved layout remain untested. Offline candidate (feat/result-menu-polish) restores the approved emblem/title/four-cell/two-button layout; see docs/evidence/result-menu-offline. It still needs a real-game screenshot review." },
+    "deck": { "status": "pending", "note": "PR71 implements read-only six-column native GridScroller/template deck overlay with input isolation. Real offline copy contains the template/grid; official import, native scrolling and device verification remain untested." }
   }
 }
