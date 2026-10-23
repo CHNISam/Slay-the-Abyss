@@ -161,7 +161,7 @@ test("enemy intent click never confirms a selected non-target card", function()
     assert(slot, "fixture should contain defend")
     click("card" .. slot)
     local selected = ui.selected
-    assert(stage.children.notice.text == "再次点击这张牌确认出牌。")
+    assert(stage.children.notice.text == "再次点击确认出牌")
     local energy, hand, block = battle.energy, #battle.hand, battle.player.block
     local discard, events, seed = #battle.discard, #battle.events, battle.seed
     click("enemy1")
@@ -185,16 +185,16 @@ test("reward HUD shows committed relic healing and clears battle-only counters",
     assert(slot, "fixture should contain attack")
     play(slot) -- actual selection and target callbacks resolve Run.play/finishCombat
     assert(ui.run.phase == "reward" and ui.run.hp == 56 and battle.player.hp == 50)
-    assert(stage.children.player.text == "生命 56/80")
+    assert(stage.children.player.text == "56/80")
     assert(stage.children.energy.text == "0/3" and stage.children.draw.text == "0" and stage.children.discard.text == "0")
     local disc, empty = stage.children.energyDisc.imageColor, Theme.color.energyEmpty
     assert(disc.r == empty.r and disc.g == empty.g and disc.b == empty.b and disc.a == empty.a)
     assert(not stage.children.piles.text:find("消耗", 1, true) and stage.children.statuses.text == "")
     assert(not stage.children.hero.visible and not stage.children.enemy1.visible)
     click("skip")
-    assert(ui.run.phase == "map" and stage.children.player.text == "生命 56/80" and stage.children.energy.text == "0/3")
+    assert(ui.run.phase == "map" and stage.children.player.text == "56/80" and stage.children.energy.text == "0/3")
     click("continue")
-    assert(ui.run.phase == "combat" and ui.run.combat.player.hp == 56 and stage.children.player.text == "生命 56/80")
+    assert(ui.run.phase == "combat" and ui.run.combat.player.hp == 56 and stage.children.player.text == "56/80")
     assert(stage.children.energy.text == "3/3" and stage.children.hero.visible)
 end)
 test("enemy phase and command lock block card and end-turn input", function()
@@ -430,7 +430,7 @@ test("potion victory commits rewards and relic healing then hides combat potion 
     ui.run.combat.enemies[1].hp, ui.run.combat.player.hp = 20, 30
     ui:render() click("potion1")
     assert(ui.run.phase == "reward" and ui.run.hp == 36 and #ui.run.potions == 0)
-    assert(stage.children.player.text == "生命 36/80" and stage.children.skip.visible)
+    assert(stage.children.player.text == "36/80" and stage.children.skip.visible)
     assert(not stage.children.potion1.visible and not stage.children.endTurn.visible)
     local gold = ui.run.gold
     stage.children.potion1.click()
@@ -949,7 +949,7 @@ test("aiming parks the card below the line and the pointer's column, not a portr
     assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, "aiming card must park below the line")
     assert(third.children.border.imageColor.r == Theme.color.goldBright.r)
     assert(layer.children.reticle.visible and layer.children.reticle.x == third.x and layer.children.aim1.visible)
-    assert(layer.children.hint.text:find(battle.enemies[3].name,1,true))
+    assert(layer.children.hint.text == "", "aiming shows the reticle, not a caption over the card")
     for i = 1, 5 do if i ~= 3 then assert(stage.children["enemy" .. i].children.border.imageColor.r ~= Theme.color.goldBright.r) end end
     local hp = {} for i, enemy in ipairs(battle.enemies) do hp[i] = enemy.hp + enemy.block end
     event("dragLayer","up",third.x+40,third.y-70)
@@ -968,7 +968,7 @@ test("release jitter after crossing keeps the play armed until the card is back 
     local ui,stage,click,event,grab,battle = dragBattle()
     local box = stage.children.card1
     grab(1) event("card1","drag",box.x,0) event("card1","drag",box.x,-170)
-    assert(stage.children.dragLayer.children.hint.text == "松手出牌")
+    assert(stage.children.dragLayer.children.line.imageColor.r == Theme.color.goldBright.r, "armed play lights the line")
     event("dragLayer","up",box.x,-170)
     assert(#battle.hand == 1 and battle.player.block == 5)
 end)
@@ -984,7 +984,8 @@ test("a card a quarter over the gold line plays even while the pointer is still 
         assert(py < D.lineY,"pointer stays under the line")
         event("card1","drag",sx,py)
         local plays = over > D.commitOverlap*h
-        assert(stage.children.dragLayer.children.hint.text == (plays and "松手出牌" or "拖过金线松手出牌；移回手牌区取消"))
+        local lit = stage.children.dragLayer.children.line.imageColor.r == Theme.color.goldBright.r
+        assert(lit == plays and stage.children.dragLayer.children.hint.text == "")
         event("dragLayer","up",sx,py)
         assert(#battle.hand == (plays and 1 or 2),tostring(over))
     end

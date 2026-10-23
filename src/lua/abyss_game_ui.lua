@@ -28,7 +28,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
-    end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource })
+    end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource,
+        cursor = platform.cursorEvents })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
@@ -199,7 +200,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         local deckOpen = self.deckUI.visible
         local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy
         child("deckEntry"):SetVisible(not inMenu and not deckOpen and not blocked)
-        child("deckEntry"):GetChild("open"):GetChild("hit").interactable = not self.battleUI.busy
+        local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
+        deckHit.interactable = not self.battleUI.busy
+        -- The shared deck button carries the deck size, so no screen repeats it as loose text.
+        for _, state in ipairs({ "normal", "hover", "pressed", "disabled" }) do
+            local variant = deckHit:GetChild(state)
+            if variant then variant:GetChild("label").text = run and "卡组 " .. #run.deck or "卡组" end
+        end
         menu:SetVisible(inMenu)
         self.battleUI:setActive(self.mode == "battle" and not deckOpen and not blocked)
         child("battlePanel"):SetVisible(self.mode == "battle")
@@ -216,7 +223,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                     if enemy.definitionId == "guardian" then guardian = true end
                 end
                 child("battlePanel"):GetChild("notice").text = guardian
-                    and Narrative.flow.bossEntrance.compact or self.battleUI.instructions
+                    and Narrative.flow.bossEntrance.compact or ""
             end
         elseif self.mode == "map" then
             self.mapUI:setNavigationEnabled(not deckOpen and not blocked and #Nodes.available(run, self.map) > 0)

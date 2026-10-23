@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 07:56'
+updated_date: '2026-10-23 15:03'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -70,4 +70,6 @@ TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TAS
 宿主UI默认15秒预算的测试整理：原20组按14+6拆分，202块内+9helper断言逐字保留，独立两脚本4.656/1.913s及Node双入口/LORE6.107s通过，默认timeout不变。同步PR93新增跨战斗首次点牌回归后实际15+6共21组，旧20块迁移审计保留，新回归不丢。运行时代码按最新develop保留，候选ec455f6早于PR93不可冒充该点牌修复平台验收。
 
 已从085f499实际重建含PR93首次点牌修复的副本：26模块/0error17warning、UI1590/max50/38状态层、六列牌库与22节点图，正式底图hash不变。副本b22a876a752d923fa3211dedbeceace74548dfb0ba3acc98590b8243c937b95a，P0-SMOKE/结构化证据已分开历史全检和当前21组定向验证，最终head完整CI仍待绿；未官方导入/实机，不勾设备或完整视觉AC。
+
+2026-10-23 feat/ui-legibility-map-combat 合并复核：同步 develop cf5f030，保留蓝色格挡数字芯片与节点横向分页；合入既有 PR118 的节点卡片触点归属修复，防止退出/取消后误购。新增地图拖动回归先复现 overlay 后旧拖动仍滚动，现于隐藏/缩放/地图替换取消旧拖动，第二触点不能抢占；地图 Lua 18/18 通过。完整 check 与当前 head Quality 待最终核对；未构建本分支新 gil、未导入或实机，不勾 UI/设备 AC。
 <!-- SECTION:NOTES:END -->

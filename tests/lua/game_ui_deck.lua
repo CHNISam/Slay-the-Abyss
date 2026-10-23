@@ -15,7 +15,12 @@ end
 local function deckGrid(root) return root:GetChild("deckPanel"):GetChild("grid") end
 local function openDeck(ui, root)
     assert(root:GetChild("deckEntry").visible)
-    assert(root:GetChild("deckEntry"):GetChild("open"):GetChild("hit").click())
+    ui:refresh()
+    local entry = root:GetChild("deckEntry"):GetChild("open"):GetChild("hit")
+    for _, state in ipairs({ "normal", "hover", "pressed", "disabled" }) do
+        assert(entry:GetChild(state):GetChild("label").text == "卡组 " .. #ui.run.deck, "deck button carries the deck size")
+    end
+    assert(entry.click())
     ui:update(0)
     assert(root:GetChild("deckPanel").visible)
     return deckGrid(root)
