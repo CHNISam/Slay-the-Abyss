@@ -44,4 +44,3 @@
 - 原版 PC 版本真实性、固定种子输出、HUD 第15/16/17层转换仍需独立核验；本文没有补齐这些证据。后续由现有 TASK-12.4 承接，不新增平行任务。
 
 交叉线索：[sts_map_oracle 固定提交的生成代码](https://github.com/Ru5ty0ne/sts_map_oracle/blob/ea5200f21fa566de77ec14b6155b3bf3756dccbf/src/lib.rs#L582-L616)及[行限制](https://github.com/Ru5ty0ne/sts_map_oracle/blob/ea5200f21fa566de77ec14b6155b3bf3756dccbf/src/lib.rs#L433-L441)与强制行/早期限制一致；它同样是社区逆向实现，不是官方认证或独立原作实测。
-
