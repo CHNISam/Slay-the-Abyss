@@ -88,4 +88,3 @@ end)
 
 assert(failed==0,tostring(failed) .. " Sneaky Gremlin groups failed")
 print("Sneaky Gremlin: " .. count .. " groups passed")
-
