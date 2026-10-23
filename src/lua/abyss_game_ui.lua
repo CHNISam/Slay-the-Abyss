@@ -23,7 +23,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
-        presentation, clickEvent, changed)
+        presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource })
 
     function self:refresh()
         local run = self.run
@@ -36,6 +36,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif run.nodeFlow and run.nodeFlow.complete and run.nodeFlow.result == "boss_victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
         elseif run.phase == "node" then self.mode = "node"
+        -- Camp/event results stay on screen until the player presses 继续.
+        elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         local result = self.mode == "defeat" or self.mode == "victory"

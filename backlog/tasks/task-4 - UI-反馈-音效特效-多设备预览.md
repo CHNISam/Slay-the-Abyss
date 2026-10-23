@@ -4,7 +4,7 @@ title: M4 批准稿UI打磨、战斗反馈与多设备验收
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 01:58'
+updated_date: '2026-10-23 03:51'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -39,4 +39,6 @@ ordinal: 4000
 未来M4打磨集中在本任务；M1必要文字/点击由TASK-3保留，不把基础可玩后移。承接TASK-24原AC2-4，有限范围为首发八类页面，不要求持续无限优化。
 
 TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TASK-3.2/TASK-3。本任务M4继续承接正式岩元素技能粒子、角色动作/命中/死亡精修、正式音效与节奏、多设备预览和性能体验；不重复实现基础队列。详见docs/COMBAT_FEEDBACK.md。
+
+2026-10-23 feat/node-ui-polish（PR 见分支）：节点四屏按 PR19 批准稿原生重构——商店单屏货架（5 卡面+价格、删牌服务格先选后确认、遗物行、红价/灰牌/售罄）、营地休息/锻造双选项与升级前后真实卡面对比、净化神龛/圣职者左右结构与灰态原因及结果页、宝箱开合与奖励行；营地/事件结果停留至「继续」。只读 Nodes.view、只发既有命令，未改规则/RNG/定价（未用 PR #64 候选），未实现第17层Boss宝箱。验证：npm run check 全绿（节点 Lua 18 项、宿主全流程、布局 6 项）；离线对照截图 docs/design/node-preview/。平台实机：未测，验收保持 pending。
 <!-- SECTION:NOTES:END -->
