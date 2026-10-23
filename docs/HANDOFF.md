@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-23 M1并行收口的新证据见 [M1-CLOSEOUT.md](M1-CLOSEOUT.md)：演出异常恢复与药水触摸两项离线任务已独立复核；614本轮日志实际已归档（345条打印、4胜1败），旧文“缺本轮新日志”仅适用于其当时快照。主动退出修复已向最新输入逻辑集成。九状态、正确场景配置导入与同候选完整动作取证仍未完成，M1不整体关闭。构建与同源审计状态以该文及候选结构化证据为准。
+
 最新第二批普通副本固定源`11b901f`，已含Acid/Spike小软泥、Fat/Sneaky抽样及反伤致死后已排队选招/减益修正；[证据](evidence/offline-candidate-11b901f.json)。30模块逐byte同源，1590树控件/max50、六列模板、22节点启用结算图，BGM双参数false，静态0error/17warning。真实构建先抓到普通manifest漏注册BGM参数，已修并新目录重建，失败保留。完整规则源`d3e9d76`全量check exit0（JS643/528pass115skip、全部Lua、Python15pass1skip），参数/审计增量专项15过；最终head CI另见PR。Dazed/Sentry/Artifact在下一批，未计入此副本；未导入/开游戏/试听，严格关口仍未完成。下文139/cf候选作为历史证据保留，均不含第二批修正。
 
 本轮继续离线推进：PR99（`1182814`）与PR100（`14979df`）均在各自当前head的两个Quality作业全绿后squash合入develop。PR100包含固定第9行地图宝箱、Nob/Blue Slaver A0选招、Weak/Frail/Vulnerable共享轮末及六件开战遗物顺序；各项严格/平台AC仍未勾。地图golden仍FAIL 0/12，原版RNG/拓扑/完整队列与Boss17宝箱事务继续保留，不能把已修某个缺口写成整项一致。

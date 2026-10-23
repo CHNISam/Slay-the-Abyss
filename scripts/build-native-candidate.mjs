@@ -33,6 +33,7 @@ async function call(name, args) {
   writeFileSync(join(workspace, `${name}-${args.name || 'result'}.json`), JSON.stringify(result, null, 2));
   if (result.isError) throw new Error(JSON.stringify(result));
   const data = result.structuredContent ?? JSON.parse(result.content.find(item => item.type === 'text').text);
+  if (data.error) throw new Error(JSON.stringify(data));
   if (data.mapPath) mapPath = data.mapPath;
   return data;
 }
@@ -47,12 +48,29 @@ try {
   for (const template of templates) {
     await call('scene_add_client_template', { template, mapPath, replace: true, outputName: 'abyss-full-game-test' });
   }
-  await call('scene_add_client_ui', { ...layout, mapPath, outputName: 'abyss-full-game-test' });
+  await call('scene_add_client_ui', { ...layout, mapPath, replace: true, outputName: 'abyss-full-game-test' });
   await call('scene_set_player_count', { mapPath, min: 1, max: 1, outputName: 'abyss-full-game-test' });
-  for (const name of ['ABYSS_WIN', 'ABYSS_LOSE']) {
-    await call('scene_add_signal', { mapPath, name, outputName: 'abyss-full-game-test' });
+  // Read the workspace copy after script/UI writes, so inspect_map's configured
+  // root restriction also works when the input was an external saved map.
+  const inspected = await call('inspect_map', { mapPath });
+  const listedSignals = await call('scene_list_signals', { mapPath });
+  if (!Array.isArray(inspected.graphs) || !Array.isArray(listedSignals.signals)
+      || listedSignals.signals.some(name => typeof name !== 'string')) {
+    throw new Error('Cannot read settlement graph and signal inventory; refusing to infer missing resources');
   }
-  const graph = await call('scene_add_graph', { mapPath, name: 'ABYSS_SETTLEMENT', kind: 'server', outputName: 'abyss-full-game-test' });
+  const matches = inspected.graphs.filter(graph => graph.name === '_GSTS_ABYSS_SETTLEMENT');
+  if (matches.length > 1 || matches.some(graph => graph.type !== 20000 || !graph.writable
+      || !Number.isSafeInteger(graph.id) || graph.id <= 0 || graph.id > 0xffffffff)) {
+    throw new Error('Existing settlement graph is ambiguous, incompatible or not writable');
+  }
+  for (const name of ['ABYSS_WIN', 'ABYSS_LOSE']) {
+    if (!listedSignals.signals.includes(name)) {
+      await call('scene_add_signal', { mapPath, name, outputName: 'abyss-full-game-test' });
+    }
+  }
+  const graph = matches.length
+    ? { graphId: matches[0].id, name: matches[0].name }
+    : await call('scene_add_graph', { mapPath, name: 'ABYSS_SETTLEMENT', kind: 'server', outputName: 'abyss-full-game-test' });
   const code = settlementGraphSource({ id: graph.graphId, name: graph.name });
   writeFileSync(join(workspace, 'settlement.ts'), code);
   const compiled = await call('write_graphs', { mapPath, graphs: [{ graphId: graph.graphId, code }] });
