@@ -22,6 +22,8 @@ node scripts/audit-native-candidate.mjs --source cf6969e768a6102a726948742dd3276
 
 输出目录包含 `audit.json`、`sourcehash.json`、原始 `scripts/ui/template/inspect/parameters/static-check.json`、workflow/platform-rules、同源快照与生成日志。警告不是自动证明安全；当前 17 条须按实际内容审阅。
 
+普通模式若指定SHA的`candidateScriptFiles`明确声明`nativeBgmEnabled: false`，两份原生字段7/8必须都是正确boolean类型false；不依赖静态检查器间接兜底。旧SHA未声明该变量仍可审计，BGM显式模式继续强制双true。此合同增量先红后绿，8组审计及相关15专项通过，独立9个负探针复核；真实`11b901f`普通候选30模块逐byte同源并通过新合同。
+
 边界：图检查覆盖身份、类型、监听信号和启用挂载，**不认证编译节点参数或完整规则语义**；需要结合独立规则账本、构建证据及实机结果。也不验证渲染后的视觉、动画、触控、性能、音量/循环/无叠播、赛事资格或人工发布。相同代码可存在于多个提交，存档没有可信提交标签，因此这里只证明内容与给定 SHA 相符，不能反推出唯一原始构建提交。
 
 专项验证：`node --test --experimental-test-isolation=none tests/native-candidate-audit.test.mjs`。小 fixture 是 `cf6969e` BGM 候选真实复读响应的裁剪，保留 provenance 和原始结构，覆盖换行/BOM容差、坏/缺失/额外模块、错误 UI、未挂载图、错误信号/参数、静态错误、hash 改变和完整 SHA 校验。CLI 另实际核对普通 `139de94` 与 BGM `cf6969e` 两个候选，并以错误的 `cf6969e` SHA 核 `139de94` 候选，确认静态 0 错误时仍因源文差异退出 1。未运行全量检查或游戏。

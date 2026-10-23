@@ -66,7 +66,9 @@ export async function auditNativeCandidate(options) {
     for (const script of ['build-lua-data.mjs', 'build-ui.mjs']) writeFileSync(join(output, `${script}.log`),
       run(process.execPath, [`scripts/${script}`], { cwd: snapshot }));
     const { candidateScriptFiles } = await import(pathToFileURL(join(snapshot, 'scripts/native-candidate-scripts.mjs')));
-    const modules = candidateScriptFiles(join(snapshot, 'src/lua'), join(snapshot, 'build/lua')).map(({ name, sourceFile }) => ({ name, source: readFileSync(sourceFile, 'utf8') }));
+    const deployment = candidateScriptFiles(join(snapshot, 'src/lua'), join(snapshot, 'build/lua'));
+    const uiBgmParameter = deployment.find(script => script.name === 'abyss_ui')?.variables?.find(variable => variable.name === 'nativeBgmEnabled');
+    const modules = deployment.map(({ name, sourceFile }) => ({ name, source: readFileSync(sourceFile, 'utf8') }));
     const expectedUi = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui.json'), 'utf8'));
     const expectedTemplate = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8')).find(template => template.name === 'AbyssDeckCard');
     const graphNames = [['settlement-graph.mjs', 'settlementGraphSource', 'ABYSS_SETTLEMENT']];
@@ -78,7 +80,7 @@ export async function auditNativeCandidate(options) {
       graphs.push({ name: `_GSTS_${name}`, signals: [...source.matchAll(/\.onSignal\('([^']+)'/g)].map(match => match[1]), generatedSourceSha256: sha256(source) });
     }
     report = compareNativeCandidate({ actual: { scripts, ui, template, inspected, parameters, checked },
-      expected: { modules, ui: expectedUi, template: expectedTemplate, graphs }, sourceSha,
+      expected: { modules, ui: expectedUi, template: expectedTemplate, graphs, uiBgmParameter }, sourceSha,
       candidateBefore: before, candidateAfter: sha256(readFileSync(mapPath)), bgm: options.bgm });
     report.expectedGraphs = graphs;
     report.graphCheckScope = 'Graph identity, server type, nonempty payload, monitored signal names and enabled mount; compiled node parameters/semantics are not certified.';

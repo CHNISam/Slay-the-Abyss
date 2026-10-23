@@ -80,8 +80,12 @@ export function compareNativeCandidate({ actual, expected, sourceSha, candidateB
     if (JSON.stringify(signals) !== JSON.stringify([...contract.signals].sort())) add('GRAPH_SIGNALS', contract.name);
   }
   const parameters = actual.parameters.records ?? [];
-  if (bgm && (parameters.length !== 2 || ![7, 8].every(section => parameters.some(parameter => parameter.section === section
-    && parameter.name === 'nativeBgmEnabled' && parameter.type === 4 && parameter.code === 5 && parameter.value === true)))) add('BGM_PARAMETER', 'nativeBgmEnabled must be boolean true in both native records');
+  if (bgm || expected.uiBgmParameter?.type === 'boolean' && expected.uiBgmParameter.value === false) {
+    if (parameters.length !== 2 || ![7, 8].every(section => parameters.some(parameter => parameter.section === section
+      && parameter.name === 'nativeBgmEnabled' && parameter.type === 4 && parameter.code === 5 && parameter.value === bgm))) {
+      add('BGM_PARAMETER', `nativeBgmEnabled must be boolean ${bgm} in both native records`);
+    }
+  }
   if (!bgm && parameters.some(parameter => parameter.value === true)) add('BGM_NOT_REQUESTED', 'Enabled BGM requires explicit --bgm');
   if (!actual.checked.ok || actual.checked.errors !== 0) add('CLIENT_ERRORS', actual.checked.problems ?? []);
   if (candidateBefore !== candidateAfter) add('CANDIDATE_CHANGED', 'Candidate hash changed during readback');

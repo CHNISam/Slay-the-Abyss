@@ -83,6 +83,26 @@ test('BGM requires both real native parameter records true and explicit BGM opt-
   assert.ok(audit(input => { input.actual.parameters.records.pop(); }).issues.length);
   assert.ok(audit(input => { input.bgm = false; }).issues.length);
 });
+test('ordinary source that declares BGM disabled requires two correctly typed false records', () => {
+  const ordinary = change => audit(input => {
+    input.bgm = false;
+    input.expected.uiBgmParameter = { name: 'nativeBgmEnabled', type: 'boolean', value: false };
+    input.expected.graphs = input.expected.graphs.filter(graph => graph.name !== '_GSTS_ABYSS_BGM');
+    input.actual.inspected.graphs = input.actual.inspected.graphs.filter(graph => graph.name !== '_GSTS_ABYSS_BGM');
+    for (const parameter of input.actual.parameters.records) parameter.value = false;
+    change?.(input);
+  });
+  assert.deepEqual(ordinary().issues, []);
+  for (const change of [
+    input => { input.actual.parameters.records = []; },
+    input => { input.actual.parameters.records.pop(); },
+    input => { input.actual.parameters.records[0].type = 1; },
+    input => { input.actual.parameters.records[0].code = 1; },
+    input => { input.actual.parameters.records[0].section = 8; },
+    input => { input.actual.parameters.records[0].value = true; },
+  ]) assert.ok(ordinary(change).issues.some(issue => issue.code === 'BGM_PARAMETER'));
+  assert.deepEqual(ordinary(input => { delete input.expected.uiBgmParameter; input.actual.parameters.records = []; }).issues, [], 'older source without parameter remains auditable');
+});
 test('source SHA is mandatory, complete and hexadecimal; unrelated label is never accepted', () => {
   assert.equal(requireSourceSha(fixture.provenance.sourceCommit), fixture.provenance.sourceCommit);
   for (const sha of [undefined, '', 'cf6969e', 'HEAD', 'x'.repeat(40), '--help']) assert.throws(() => requireSourceSha(sha));

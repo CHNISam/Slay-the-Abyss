@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 09:29'
+updated_date: '2026-10-23 09:33'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -56,4 +56,6 @@ PR99/100已在各自当前head两个Quality成功后合入1182814/14979df。源1
 候选审计d6e9672独立复审7组及此前漏检否例通过；实际139普通报告28模块、cf BGM报告29模块与两图/双true参数复核，无新增阻断。root最终d3e9d76完整check exit0（JS643/528pass115skip、全部Lua、Python15pass1权限skip）；先前超时和Fat旧fixture冲突如实保留，未放宽预算。将按d3e9d76构建下一普通副本并只读取证，不把图身份/挂载检查写成编译参数语义认证。全部正式发布AC仍未勾。
 
 真实普通副本d3e9d76构建在scene_check_client被1个SCRIPT_VARIABLE_NOT_FOUND拦下：PR99后abyss_ui读nativeBgmEnabled但普通manifest未注册；显式BGM构建单独true所以此前绿。未绕过检查或把失败副本当成功。默认manifest注册boolean false，先红3pass1fail后包清单/BGM图7组绿，重新构建另开新目录；失败原始响应保留根.artifacts/continued-rules-d3e9d76。
+
+新普通副本源11b901f真实编译/写copy成功，30模块逐byte同源、1590树/max50/六列、22节点启用结算、双BGM参数false，static0error17warning；完整readonly audit ok且前后hash4f5de8f2ae0c1bfec4a86963cf77ec44cf99a2ad8b6dcb1c420254732560c70b不变，原底图hash不变。源合同审计新增明确false时双记录校验，旧源无声明保留兼容，先7pass1fail后8组绿、相关15组绿及独立9负探针通过。证据docs/evidence/offline-candidate-11b901f.json，不认证图编译参数/官方导入/实机/音频/发布。
 <!-- SECTION:NOTES:END -->
