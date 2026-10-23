@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-23 01:58'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -46,6 +46,8 @@ CLAIM 2026-10-23 /root/inventory_effects；feat/task-14-inventory/.worktrees/inv
 独立只读审查/root/inventory_review通过：既有inventory10与UI8，加12组药水消耗顺序/重复/换战换局/隐藏保护探针全部通过；未知status、状态溢出、异常奖励事务、非有限目标及开战遗物失败均保持完整原状态。未发现可复现缺陷；本地验证不代表平台通过。
 
 原平台跨节点验收拆至TASK-12.3 M2；本轮inventory10组通过。Lv4退出续玩不在首发依赖中。
+
+2026-10-23规则决策：Done仅证明既有本地库存切片，不证明所有效果原版一致；M2平台库存由TASK-12.3承接，M3逐件遗物药水修正由TASK-14.1承接。首发同局保持不依赖Lv4退出续局。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
