@@ -35,7 +35,7 @@ test('timeout preserves captured UTF-8 stdout/stderr and exact original error ca
     assert.throws(() => runLua('tests/lua/diagnostic.lua'), error => {
       assert.equal(error.cause, result.error);
       assert.equal(error.cause.code, 'ETIMEDOUT');
-      assert.equal(error.message, 'Lua runner failed (tests/lua/diagnostic.lua, 15000 ms): spawnSync node ETIMEDOUT'
+      assert.equal(error.message, 'Lua runner failed (tests/lua/diagnostic.lua, 30000 ms): spawnSync node ETIMEDOUT'
         + '\n--- Lua stdout ---\nok 第七组\n\n--- Lua stderr ---\n诊断错误\n');
       return true;
     });
@@ -47,7 +47,7 @@ test('null, missing and empty child output produce no empty sections', () => {
     withResult(result, () => {
       assert.throws(() => runLua('tests/lua/diagnostic.lua'), error => {
         assert.equal(error.cause, result.error);
-        assert.equal(error.message, 'Lua runner failed (tests/lua/diagnostic.lua, 15000 ms): spawnSync node ETIMEDOUT');
+        assert.equal(error.message, 'Lua runner failed (tests/lua/diagnostic.lua, 30000 ms): spawnSync node ETIMEDOUT');
         return true;
       });
     });
@@ -58,7 +58,7 @@ test('only nonempty output streams receive a section', () => {
   for (const [stdout, stderr, section] of [['one\n', null, 'stdout'], [null, 'one\n', 'stderr']]) {
     withResult(timedOut(stdout, stderr), () => {
       assert.throws(() => runLua('tests/lua/diagnostic.lua'), error => {
-        assert.equal(error.message, 'Lua runner failed (tests/lua/diagnostic.lua, 15000 ms): spawnSync node ETIMEDOUT'
+        assert.equal(error.message, 'Lua runner failed (tests/lua/diagnostic.lua, 30000 ms): spawnSync node ETIMEDOUT'
           + `\n--- Lua ${section} ---\none\n`);
         return true;
       });
@@ -81,8 +81,8 @@ test('signal without spawn error remains a thrown failure', () => {
 
 test('original default and explicit timeout plus maxBuffer reach spawnSync unchanged', () => {
   for (const [script, options, timeout] of [
-    ['tests/lua/diagnostic.lua', {}, 15000],
-    ['tests/lua/battle_ui.lua', {}, 30000],
+    ['tests/lua/diagnostic.lua', {}, 30000],
+    ['tests/lua/battle_ui.lua', {}, 60000],
     ['tests/lua/diagnostic.lua', { timeout: 321 }, 321],
   ]) {
     withResult({ status: 0, signal: null, stdout: '', stderr: '' }, calls => {
