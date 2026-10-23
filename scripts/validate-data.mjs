@@ -95,8 +95,18 @@ export function validateContent(bundle) {
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
     if (!partial || card.rarity !== undefined) enumeration(card.rarity, ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
     const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
+    const slimed = !partial && card.id === 'slimed';
     if (!unplayableStatus && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
-    if (unplayableStatus) {
+    if (slimed) {
+      enumeration(card.type, ['status'], `${path}.type`);
+      enumeration(card.cost, [1], `${path}.cost`);
+      enumeration(card.exhaust, [true], `${path}.exhaust`);
+      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'Slimed must have empty use');
+      if (card.ethereal) fail(`${path}.ethereal`, 'Slimed is not ethereal');
+      for (const field of ['costMode', 'condition', 'upgrade']) {
+        if (card[field] !== undefined) fail(`${path}.${field}`, 'Slimed does not support this field');
+      }
+    } else if (unplayableStatus) {
       if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'unplayable status must have empty use');
       if (card.costMode !== undefined) fail(`${path}.costMode`, 'unplayable status has no cost mode');
       if (card.upgrade !== undefined) fail(`${path}.upgrade`, 'unplayable status upgrades are unsupported');
@@ -159,8 +169,22 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin'], `${ap}.kind`);
-      if (a.kind === 'shield_gremlin') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m'], `${ap}.kind`);
+      if (a.kind === 'spike_slime_m') {
+        keys(a, ['kind', 'tackleIntent', 'frailIntent', 'rollRange', 'tackleCutoff'], ap);
+        intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
+        intentReference(a.frailIntent, `${ap}.frailIntent`, 'debuff');
+        if (a.tackleIntent === a.frailIntent) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.tackleCutoff, `${ap}.tackleCutoff`, 0, 65536);
+        if (!(a.tackleCutoff < a.rollRange)) fail(`${ap}.tackleCutoff`, 'cutoff must be below rollRange');
+        const tackle = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.tackleIntent);
+        const payload = tackle?.effects;
+        if (!Array.isArray(payload) || payload.length !== 2 || payload[0]?.op !== 'damage'
+          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== 1) {
+          fail(`${ap}.tackleIntent`, 'must contain damage followed by exactly one Slimed creation');
+        }
+      } else if (a.kind === 'shield_gremlin') {
         keys(a, ['kind', 'protectIntent', 'attackIntent', 'rollRange'], ap);
         intentReference(a.protectIntent, `${ap}.protectIntent`, 'defend');
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');

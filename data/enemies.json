@@ -269,6 +269,17 @@
       "name": "中型棘刺团",
       "tier": "normal",
       "hp": 30,
+      "hpRange": {
+        "min": 28,
+        "max": 32
+      },
+      "ai": {
+        "kind": "spike_slime_m",
+        "tackleIntent": "spike_slime_m_1",
+        "frailIntent": "spike_slime_m_2",
+        "rollRange": 100,
+        "tackleCutoff": 30
+      },
       "intents": [
         {
           "id": "spike_slime_m_1",
@@ -277,6 +288,11 @@
             {
               "op": "damage",
               "value": 8
+            },
+            {
+              "op": "makeTempCardInDiscard",
+              "card": "slimed",
+              "value": 1
             }
           ]
         },

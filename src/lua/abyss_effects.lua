@@ -69,7 +69,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         if cleared and clearedAfterDamage[op] then
             -- Cancel only still-queued mapped actions, never earlier effects or
             -- retained Block/HP-loss. Card disposal remains owned by Combat.
-        elseif source.hp <= 0 then
+        elseif source.hp <= 0 and op ~= "makeTempCardInDiscard" then
             assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
             -- ApplyPower guards its target, not its dead source. Only the
             -- source-verified single-player queued status path is enabled.
@@ -115,6 +115,8 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "makeTempCardInDiscard" then
             -- Bounded action ABI: fresh catalog copies, never the Run deck or
             -- a copy of the resolving card (Anger has a separate operation).
+            -- A queued MakeTempCard action has no owner-death guard. The outer
+            -- gate still rejects dead public sources and final-combat tails.
             assert(type(effect.card) == "string" and state.catalog.cards[effect.card], "unknown temporary card")
             assert(type(value) == "number" and value % 1 == 0 and value >= 0 and value <= 5, "invalid temporary card count")
             local uid = state.nextUid

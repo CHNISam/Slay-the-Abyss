@@ -139,7 +139,15 @@ function M.canPlay(state, uid, targetIndex)
     local card = M.cardDefinition(state, instance)
     if card.cost == -2 then return false, "unplayable_card" end
     if card.type == "attack" and (state.player.statuses.entangled or 0) > 0 then return false, "entangled" end
-    local ok, op = Effects.supported(card.effects)
+    local ok, op
+    if card.id == "slimed" then
+        -- Slimed's use is genuinely empty, not a fake zero-value effect.
+        -- Keep this source-verified exception narrower than arbitrary statuses.
+        ok = card.type == "status" and card.cost == 1 and card.exhaust == true
+            and not card.ethereal and not card.costMode and not card.condition
+            and card.upgrade == nil and type(card.effects) == "table" and next(card.effects) == nil
+        op = "invalid_empty_status"
+    else ok, op = Effects.supported(card.effects) end
     if not ok then return false, "unsupported_effect:" .. op end
     if card.costMode or card.condition then return false, "advanced_card_not_enabled" end
     if state.energy < card.cost then return false, "insufficient_energy" end
