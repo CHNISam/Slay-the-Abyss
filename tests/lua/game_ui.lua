@@ -153,6 +153,40 @@ test("all seven node panels compose through fifteen floors and Boss result then 
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
 end)
 
+test("same-run result records active time and victories, freezes on results and resets on restart", function()
+    local ui, root = fixture()
+    ui:update(100)
+    assert(ui:start())
+    assert(ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
+    ui:update(60.5) ui:update(1.75)
+    assert(ui.run.elapsedSeconds == 62.25)
+    for _, dt in ipairs({-1, math.huge, -math.huge, 0/0, "1", false}) do
+        local ok, reason = ui:update(dt)
+        assert(not ok and reason == "invalid_delta" and ui.run.elapsedSeconds == 62.25)
+    end
+    assert(not ui:update(nil))
+    assert(ui.mapUI:choose(Nodes.available(ui.run, ui.map)[1].id))
+    local battle = ui.run.combat
+    for _, enemy in ipairs(battle.enemies) do enemy.hp = 0 end
+    assert(require("abyss_run").finishCombat(ui.run))
+    assert(ui.run.victories == 1)
+    assert(not require("abyss_run").finishCombat(ui.run) and ui.run.victories == 1)
+    assert(require("abyss_run").claimCardReward(ui.run, 0))
+    ui:refresh() ui:update(1)
+    assert(ui.run.elapsedSeconds == 63.25)
+    ui.run.phase = "defeat" ui:refresh()
+    local summary = root:GetChild("menuPanel"):GetChild("summary").text
+    assert(summary:find("用时 01:03", 1, true) and summary:find("胜场 1", 1, true))
+    ui:update(100)
+    assert(ui.run.elapsedSeconds == 63.25)
+    assert(ui:start() and ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
+    ui:update(3)
+    ui.run.nodeFlow = {complete=true, result="boss_victory"}
+    ui:refresh() ui:update(100)
+    assert(ui.run.elapsedSeconds == 3)
+    assert(root:GetChild("menuPanel"):GetChild("summary").text:find("用时 00:03", 1, true))
+end)
+
 test("result settlement sends each outcome once and cannot restart while official settlement is pending", function()
     local outcomes = {}
     local ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory end)
