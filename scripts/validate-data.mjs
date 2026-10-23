@@ -122,6 +122,13 @@ export function validateContent(bundle) {
     const p = `enemies[${i}]`;
     enumeration(entry.tier, tiers, `${p}.tier`);
     integer(entry.hp, `${p}.hp`, 1);
+    if (entry.hpRange !== undefined && object(entry.hpRange, `${p}.hpRange`)) {
+      keys(entry.hpRange, ['min', 'max'], `${p}.hpRange`);
+      integer(entry.hpRange.min, `${p}.hpRange.min`, 1, 2147483647);
+      integer(entry.hpRange.max, `${p}.hpRange.max`, 1, 2147483647);
+      if (entry.hpRange.min > entry.hpRange.max) fail(`${p}.hpRange`, 'min must not exceed max');
+      if (entry.hp < entry.hpRange.min || entry.hp > entry.hpRange.max) fail(`${p}.hp`, 'must lie within hpRange');
+    }
     const intentIds = new Set();
     array(entry.intents, `${p}.intents`).forEach((intent, j) => {
       const ip = `${p}.intents[${j}]`;

@@ -253,7 +253,14 @@ function M.new(data, options)
     assert(#enemyIds > 0, "empty encounter")
     for i, id in ipairs(enemyIds) do
         local enemy = copy(assert(state.catalog.enemies[id], "unknown enemy: " .. tostring(id)))
-        for _, intent in ipairs(enemy.intents) do assert(Effects.supported(intent.effects), "unsupported enemy intent") end
+        if enemy.hpRange then
+            enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
+        end
+        for _, intent in ipairs(enemy.intents) do
+            if intent.kind == "sleep" or intent.kind == "stunned" then
+                assert(type(intent.effects) == "table" and next(intent.effects) == nil, "inactive enemy intent has effects")
+            else assert(Effects.supported(intent.effects), "unsupported enemy intent") end
+        end
         enemy.definitionId, enemy.id, enemy.maxHp = id, id .. "_" .. i, enemy.hp
         enemy.block, enemy.statuses, enemy.intentIndex = 0, {}, 1
         Actors.bindStatuses(enemy, state.catalog.statuses)
