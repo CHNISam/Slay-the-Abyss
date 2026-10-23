@@ -7,7 +7,7 @@ local function failed(phase, reason)
     script:EnableUpdate(false)
     pcall(function()
         local stage = script.object:GetChild("stage")
-        for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel"}) do
+        for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel", "deckEntry", "deckPanel"}) do
             stage:GetChild(name):SetVisible(false)
         end
         local menu = stage:GetChild("menuPanel")

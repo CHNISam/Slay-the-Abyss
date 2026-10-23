@@ -5,6 +5,7 @@ local Nodes = require("abyss_nodes")
 local BattleUI = require("abyss_battle_ui")
 local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
+local DeckUI = require("abyss_deck_ui")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local M = {}
@@ -18,13 +19,31 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
         platform, { embedded = true, onChange = changed })
     self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, self.seed), function(node)
-        if not self.run or self.mode ~= "map" then return false, "not_on_map" end
+        if not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
-        presentation, clickEvent, changed)
+        presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource })
+    self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
+
+    function self:openDeck()
+        if not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
+            or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
+        if not self.deckUI:open(self.run) then return false end
+        self.battleUI.selected = nil
+        self:refresh()
+        return true
+    end
+    function self:closeDeck()
+        if not self.deckUI:close() then return false end
+        -- The cancelled gesture no longer owns a release/click. A subsequent
+        -- tap starts a fresh selection, so ordinary point-and-click still works.
+        self.battleUI.suppressClick = false
+        self:refresh()
+        return true
+    end
 
     -- Menu/result presentation reads stats the run already records. Motion only moves and
     -- scales controls; it never hides them or gates input.
@@ -143,12 +162,21 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif run.nodeFlow and run.nodeFlow.complete and run.nodeFlow.result == "boss_victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
         elseif run.phase == "node" then self.mode = "node"
+        -- Camp/event results stay on screen until the player presses 继续.
+        elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
+        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
+        local deckOpen = self.deckUI.visible
+        child("deckEntry"):SetVisible(not inMenu and not deckOpen)
+        child("deckEntry"):GetChild("open"):GetChild("hit").interactable = not self.battleUI.busy
         menu:SetVisible(inMenu)
-        self.battleUI:setActive(self.mode == "battle")
-        self.mapUI:setVisible(self.mode == "map")
-        self.nodeUI:setVisible(self.mode == "node")
+        self.battleUI:setActive(self.mode == "battle" and not deckOpen)
+        child("battlePanel"):SetVisible(self.mode == "battle")
+        self.mapUI:setVisible(self.mode == "map" and not deckOpen)
+        child("mapPanel"):SetVisible(self.mode == "map")
+        self.nodeUI:setVisible(self.mode == "node" and not deckOpen)
+        child("nodePanel"):SetVisible(self.mode == "node")
         if self.mode == "battle" then
             self.battleUI:render()
             if run.phase == "combat" and self.presentedBattle ~= run.combat then
@@ -161,11 +189,12 @@ function M.new(root, data, presentation, clickEvent, platform)
                     and Narrative.flow.bossEntrance.compact or self.battleUI.instructions
             end
         elseif self.mode == "map" then
-            self.mapUI:setNavigationEnabled(#Nodes.available(run, self.map) > 0)
+            self.mapUI:setNavigationEnabled(not deckOpen and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render() end
         present()
     end
     function self:start()
+        if self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         self.run, self.map = Run.new(data, self.seed), Map.generate(data, self.seed)
@@ -178,6 +207,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     function self:settle()
+        if self.deckUI.visible then return false, "deck_open" end
         if self.mode ~= "victory" and self.mode ~= "defeat" then return false, "not_result" end
         if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
         if type(platform.settle) ~= "function" then return false, "settlement_unavailable" end
@@ -211,10 +241,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         self:animate(dt)
         self.battleUI:update(dt)
+        self.deckUI:update()
         return self.mapUI:update(dt)
     end
     start:GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)
     settlement:GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:settle() end)
+    child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
     ready = true
     self:refresh()
     return self

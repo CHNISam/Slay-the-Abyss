@@ -115,7 +115,7 @@ test("Block Potion ignores Dexterity and Frail while the next Defend uses both",
     local run = battle()
     run.potions = { "dexterity_potion", "block_potion" }
     Combat.addStatus(run.combat.player, "frail", 2)
-    assert(Run.usePotion(run, 1)); assert(Run.usePotion(run, 1))
+    assert(Run.usePotion(run, 1)); assert(Run.usePotion(run, 2))
     equal(run.combat.player.block, 12)
     local uid
     for _, card in ipairs(run.combat.hand) do if card.cardId == "defend" then uid = card.uid; break end end
@@ -142,7 +142,7 @@ end)
 test("two Regen Potions stack to ten then heal before enemy action and decay once", function()
     local run = battle()
     run.potions = { "regen_potion", "regen_potion" }
-    assert(Run.usePotion(run, 1)); assert(Run.usePotion(run, 1))
+    assert(Run.usePotion(run, 1)); assert(Run.usePotion(run, 2))
     local state = run.combat
     equal(state.player.hp, 40); equal(state.player.statuses.regen, 10)
     state.enemies[1].intents = { { effects = { { op = "damage", value = 6 } } } }
@@ -160,7 +160,7 @@ test("final-enemy potion kill skips Regen turn end and heals only Burning Blood"
     local run = battle()
     run.potions = { "regen_potion", "fire_potion" }
     run.combat.enemies[1].hp = 20
-    assert(Run.usePotion(run, 1)); assert(Run.usePotion(run, 1, 1))
+    assert(Run.usePotion(run, 1)); assert(Run.usePotion(run, 2, 1))
     equal(run.phase, "reward"); equal(run.hp, 46)
     for _, event in ipairs(run.combat.events) do
         assert(not (event.kind == "heal" and event.detail.status == "regen"))

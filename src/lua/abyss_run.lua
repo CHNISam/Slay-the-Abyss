@@ -117,6 +117,27 @@ function M.endTurn(run)
     return ok, reason
 end
 
+-- Inventory slots are physical positions, not a packed list. Acquiring a bottle
+-- fills the leftmost vacancy; reward/shop adapters still own eligibility/payment.
+function M.potionCount(run)
+    local count = 0
+    for slot = 1, run.data.rules.player.potionSlots do
+        if run.potions[slot] then count = count + 1 end
+    end
+    return count
+end
+
+function M.obtainPotion(run, id)
+    if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    for slot = 1, run.data.rules.player.potionSlots do
+        if not run.potions[slot] then
+            run.potions[slot] = id
+            return true, slot
+        end
+    end
+    return false, "potion_slots_full"
+end
+
 local function potionCandidate(run, slot, targetIndex)
     if run.phase ~= "combat" then return nil, "not_in_combat" end
     if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end
@@ -148,7 +169,7 @@ function M.usePotion(run, slot, targetIndex)
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
     candidate.combat, candidate.potions = battle, Combat.copy(run.potions)
-    table.remove(candidate.potions, slot)
+    candidate.potions[slot] = nil
     if outcome then
         local called, ok = pcall(M.finishCombat, candidate)
         if not called or not ok then return false, "potion_effect_failed" end
@@ -163,24 +184,28 @@ end
 
 -- Detached UI description. A targeted bottle is usable if at least one legal target exists;
 -- usePotion still validates the selected target when the command arrives.
+-- Indexed by physical slot, with nil vacancies; do not iterate/count with ipairs/#.
 function M.potionView(run)
     local result = {}
-    for slot, id in ipairs(run.potions) do
-        local potion = find(run.data.potions.potions, id)
-        local needTarget = potion and Inventory.needTarget(potion.effects) or false
-        local candidate, reason
-        if needTarget and run.combat then
-            for index, enemy in ipairs(run.combat.enemies) do
-                if enemy.hp > 0 then
-                    candidate, reason = potionCandidate(run, slot, index)
-                    if candidate then break end
+    for slot = 1, run.data.rules.player.potionSlots do
+        local id = run.potions[slot]
+        if id then
+            local potion = find(run.data.potions.potions, id)
+            local needTarget = potion and Inventory.needTarget(potion.effects) or false
+            local candidate, reason
+            if needTarget and run.combat then
+                for index, enemy in ipairs(run.combat.enemies) do
+                    if enemy.hp > 0 then
+                        candidate, reason = potionCandidate(run, slot, index)
+                        if candidate then break end
+                    end
                 end
             end
+            if not candidate and not reason then candidate, reason = potionCandidate(run, slot) end
+            result[slot] = { slot = slot, id = id, name = potion and potion.name or id,
+                effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
+                canUse = candidate ~= nil, reason = reason }
         end
-        if not candidate and not reason then candidate, reason = potionCandidate(run, slot) end
-        result[#result + 1] = { slot = slot, id = id, name = potion and potion.name or id,
-            effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
-            canUse = candidate ~= nil, reason = reason }
     end
     return result
 end
