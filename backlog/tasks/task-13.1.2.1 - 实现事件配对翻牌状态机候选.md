@@ -1,15 +1,16 @@
 ---
 id: TASK-13.1.2.1
 title: 实现事件配对翻牌状态机候选
-status: In Progress
+status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 17:31'
-updated_date: '2026-10-23 17:35'
+updated_date: '2026-10-23 19:34'
 labels: []
 dependencies: []
 references:
   - TASK-13.1.2
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/126'
 parent_task_id: TASK-13.1.2
 priority: high
 type: feature
@@ -24,9 +25,9 @@ ordinal: 55000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 按固定来源行为处理十二格、五次尝试、按cardID配对；命中和未命中均消耗尝试，配对移除并只发出一次奖励结果。
-- [ ] #2 拒绝非法或重复格子选择，解析期间锁定操作；公开视图与调用者输入不能篡改内部状态。
-- [ ] #3 给出固定来源引用、独立回归与负控，明确未接入生产及未证明官方PC二进制或全随机流一致性。
+- [x] #1 按固定来源行为处理十二格、五次尝试、按cardID配对；命中和未命中均消耗尝试，配对移除并只发出一次奖励结果。
+- [x] #2 拒绝非法或重复格子选择，解析期间锁定操作；公开视图与调用者输入不能篡改内部状态。
+- [x] #3 给出固定来源引用、独立回归与负控，明确未接入生产及未证明官方PC二进制或全随机流一致性。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -40,3 +41,9 @@ ordinal: 55000
 <!-- SECTION:NOTES:BEGIN -->
 候选仅新增独立状态机、17组回归及来源/API说明，固定来源blob f86144bdf0e00acad096e8668f17fa96d6aabac1已验证。测试先缺模块失败后17/17；10个开发负控和9个独立评审负控均被拒。独立模型对照通过，无阻塞发现。只返回一次奖励结果，不保证永久卡牌获取事务，未来适配器必须定义失败恢复；未接入生产事件池、随机流、库存或UI。待正式当前头CI，不勾生产或平台验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR126 / 9d81126 已合并。17专项、独立模型及负控通过；合后CI39997931163成功。仅独立配对候选完成，未接生产/永久发奖/UI，父任务与平台未完成。
+<!-- SECTION:FINAL_SUMMARY:END -->

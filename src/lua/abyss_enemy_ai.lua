@@ -42,6 +42,8 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
     if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
+        -- Inherited init calls rollMove even though the first move is Ritual.
+        random(state, enemy.ai.rollRange)
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
         return
@@ -78,6 +80,8 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
     elseif enemy.ai.kind == "sentry" then return Sentry.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
+        -- Both Ritual and Strike enqueue RollMoveAction; its result is ignored.
+        random(state, enemy.ai.rollRange)
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)
     elseif enemy.ai.kind == "guardian" then return Guardian.advance(state, enemy)
@@ -102,7 +106,7 @@ end
 -- Only these source-verified policies enqueue RollMoveAction during takeTurn.
 -- That action has no owner-death guard and survives while another enemy lives.
 -- Acid S sets its next move directly instead; do not invent a queued roll.
-local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true }
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true }
 function M.afterAction(state, enemy, random)
     if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
         M.advance(state, enemy, random)

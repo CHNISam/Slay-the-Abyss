@@ -78,7 +78,7 @@ test("queued status precedes the dead Blue's already queued RollMove",function()
   countRoll=countRoll+1;eq(state.player.statuses.weak,1,"ApplyPower must precede RollMove")
   return old(state,n)
  end
- local ok,err=pcall(C.endTurn,s);C.random=old;assert(ok,err);eq(countRoll,1)
+ local ok,err=pcall(C.endTurn,s);C.random=old;assert(ok,err);eq(countRoll,2) -- dead Blue, then living Cultist
 end)
 test("dead queued source skips extra damage hits block and self status but keeps target status",function()
  local s=battle({"fat_gremlin","cultist"});local e=s.enemies[1]

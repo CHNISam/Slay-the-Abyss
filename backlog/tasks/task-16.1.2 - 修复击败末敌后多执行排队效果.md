@@ -1,12 +1,15 @@
 ---
 id: TASK-16.1.2
 title: 修复击败末敌后多执行排队效果
-status: In Progress
+status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 18:34'
+updated_date: '2026-10-23 19:34'
 labels: []
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/129'
 parent_task_id: TASK-16.1
 priority: high
 type: bug
@@ -21,9 +24,9 @@ ordinal: 58000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 固定来源核对末敌清队列时点与保留动作，区分仍有同伴和反伤死亡
-- [ ] #2 真实出牌入口先失败再通过，验证牌堆、随机状态、能量、保留效果及异常回滚
-- [ ] #3 独立评审与当前SHA正式CI通过，完整队列与平台未验边界明确保留
+- [x] #1 固定来源核对末敌清队列时点与保留动作，区分仍有同伴和反伤死亡
+- [x] #2 真实出牌入口先失败再通过，验证牌堆、随机状态、能量、保留效果及异常回滚
+- [x] #3 独立评审与当前SHA正式CI通过，完整队列与平台未验边界明确保留
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -31,3 +34,9 @@ ordinal: 58000
 <!-- SECTION:PLAN:BEGIN -->
 核对源动作顺序与白名单；建立负例；最小修复已支持动作清除并纠正旧错误预期；独立评审及正常PR集成。
 <!-- SECTION:PLAN:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR129 / 329e813 已合并。35专项、96原生Lua文件、独立10对抗序列和15负控通过；合后CI40006652080成功。已支持动作末敌清队列修复完成，完整调度/平台与父任务未完成。
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -28,17 +28,20 @@ for choice = 0, 3 do
 end
 print('ok boss reward all three claims, skip, invalid and duplicate requests preserve resources')
 
--- Frozen pre-change outputs protect other tiers, not an original-RNG parity claim.
+-- Frozen reward-entry seeds/outputs protect other tiers independently of enemy
+-- AI consumption. The fourth field is the old HP+9-shuffle LCG state, not an
+-- original-RNG parity claim; Cultist now also consumes its required opening roll.
 local legacy = {
-    {1, 44130, 'rampage,carnage,flex'},
-    {42, 58063, 'iron_wave,thunderclap,carnage'},
-    {65535, 13080, 'battle_trance,hemokinesis,flex'},
+    {1, 44130, 'rampage,carnage,flex', 20919},
+    {42, 58063, 'iron_wave,thunderclap,carnage', 35128},
+    {65535, 13080, 'battle_trance,hemokinesis,flex', 17029},
 }
 for _, tier in ipairs({'normal', 'elite'}) do
     for _, fixture in ipairs(legacy) do
         local run = Run.new(data, fixture[1])
         assert(Run.startCombat(run, 'cultist_solo'))
         run.encounterTier = tier -- isolate reward dispatch from encounter AI.
+        run.combat.seed = fixture[4]
         for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
         assert(Run.finishCombat(run))
         equal(run.seed, fixture[2]); equal(table.concat(Run.rewardOptions(run), ','), fixture[3])

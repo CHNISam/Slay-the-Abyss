@@ -236,7 +236,8 @@ export function validateContent(bundle) {
           if (typeof a[key] !== 'number' || !Number.isFinite(a[key]) || a[key] < 0 || a[key] > 1) fail(`${ap}.${key}`, 'must be a probability in 0..1');
         }
       } else if (a.kind === 'ritual_then_attack') {
-        keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
+        keys(a, ['kind', 'ritualIntent', 'attackIntent', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
         const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.ritualIntent);
