@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 06:07'
+updated_date: '2026-10-23 08:26'
 due_date: '2026-10-26'
 labels:
   - required
@@ -44,6 +44,8 @@ ordinal: 40000
 1. 复用PR59来源账本，仅落实已证实的15行地图、强制1/9/15层与早期限制；不猜原版路径或随机算法。2. 区分15生成行、Boss16、Boss宝箱17的规则字段；先修正Boss导航与层号，未实现的Boss宝箱内容明确留账。3. 先写失败测试，再更新地图签名/快照、数据门禁、UI容量与相关固定种子回归。4. 跑完整离线门禁并记录来源边界；不勾完整严格一致性或平台AC，不启动原神。
 
 继续独立整合PR62离线证据切片到最新develop：保留当前15行/Boss16/Boss箱17地图生产代码与已有记录，复核固定Oracle和文件hash，运行最新逐边差分及10000 seed门禁；失败如实报告，问号reducer暂不生产接线。
+
+2026-10-23 /root continued-backlog：核对固定原始方法体生成房间清单，针对随机行额外宝箱写真实Map.generate红例；仅在来源明确后移除不应在随机房间清单的treasure。保留九层固定箱与十七层Boss箱，跑边界/地图/全遭遇回归；三道拓扑、交叉边和原版RNG继续明确未对齐。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -60,4 +62,10 @@ ordinal: 40000
 PR62旧基线合并冲突采用最新develop的任务元数据，保留既有地图修复、候选构建与未完成AC；PR62新增黄金Seed、严格比较工具及独立问号reducer为证据切片，待当前代码复跑和独立复审，不据此宣布原版地图一致。
 
 PR62与develop ed39f46离线整合完成：修复Golden仅比较生成15行且独立校验Boss16/箱17、完整图先验防隐藏坏边，CAPTURED非零退出/捕获错误拒绝。定向10/10，全check exit0(JS315pass14skip/Lua全套/Python15pass1skip)。最新严格Golden仍FAIL0/12(11差异1完整64位seed不支持)，结构10000实际执行0通过0执行错误，剩余原因含随机宝箱和交叉边；docs/rules/evidence/w1-latest-integration.json记录hash/反例。纯问号reducer未接生产，原版RNG/全地图/实机AC均不勾。待固定head独立复审和当前CI。
+
+本轮执行身份/root，独立worktree .worktrees/continued-backlog，基线52f35dd；与四条subagent任务并行，不开原神、不将离线修复作为完整地图一致性验收。
+
+2026-10-23 /root fixed treasure切片：固定AbstractDungeon方法体和既有第三方golden确认随机地图房清单不含treasure。真实Map.generate seed0/f2_l3修前红；移除随机treasure后128输入固定宝箱/17步/恢复通过，地图10组、层边界128种子、遭遇143组（18遭遇全出现）通过。sourceSignature明确拒绝旧分布快照。来源与限制见docs/reviews/TASK-12.4-fixed-treasure.md；三道拓扑/交叉边/RNG/配额/Boss宝箱事务仍未对齐，全部AC不勾。
+
+本轮golden实际复跑仍FAIL 0/12（11差异/1完整seed不支持），11个成功导出样本的random treasure错误为0。完整check首次发现旧inventory夹具依赖第9层前随机箱；迁移至固定seed36路线并限制仅买一次，保留11/12张卡组、金币、UID、两战与Anchor等全部断言，inventory11组通过。完整组合门禁待最终整合。
 <!-- SECTION:NOTES:END -->
