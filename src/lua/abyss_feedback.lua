@@ -84,8 +84,14 @@ function M.new(stage, platform, present, complete)
             card:GetChild("name").text = display and display.name or definition.name
             tint(card:GetChild("plate"), C.cardType[definition.type] or C.panelRaised)
             card:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
-            local target = d.target and self.shadow.enemies[d.target]
+            local targetsEnemy, area = false, false
+            for _, effect in ipairs(definition.effects) do
+                targetsEnemy = targetsEnemy or effect.op == "damage" or effect.op == "applyStatus"
+                area = area or effect.op == "damageAll" or effect.op == "applyStatusAll"
+            end
+            local target = (targetsEnemy or area) and self.shadow.enemies[d.target or 1]
             local _, _, x, y = actor(target and target.id or "player")
+            if area then x = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2 end
             self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
             card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
             card:SetVisible(true) overlay:SetAsLastSibling() sound("card_play")

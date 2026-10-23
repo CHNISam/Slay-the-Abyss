@@ -492,6 +492,7 @@ test("block gain and absorption have blue shield feedback without HP shake on a 
     battle.player.block = 2 ui:render()
     click("card1") click("card1")
     assert(battle.player.block == 7 and stage.children.hero.children.block.text == "2")
+    assert(ui.feedback.flight.tx == Theme.layout.player.position[1], "self card must fly to the player, regardless of selected enemy")
     ui:update(Theme.motion.base)
     assert(stage.children.hero.children.block.text == "7")
     assert(stage.children.hero.children.shield.visible)
@@ -546,6 +547,8 @@ test("multi-hit player cards, area damage, ability and debuff cards use real eve
         local _, reason = Combat.canPlay(battle, battle.hand[1].uid, nil)
         click(reason == "invalid_target" and "enemy1" or "card1")
         assert(ui.busy and stage.children.feedback.children.playedCard.visible)
+        if id == "inflame" then assert(ui.feedback.flight.tx == Theme.layout.player.position[1])
+        elseif id ~= "twin_strike" then assert(ui.feedback.flight.tx == (Theme.layout.enemyRow.xFrom + Theme.layout.enemyRow.xTo) / 2) end
         assert(stage.children.feedback.children.playedCard.children.plate.imageColor.r == Theme.color.cardType[battle.catalog.cards[id].type].r)
         local hits, statuses = 0, 0
         drain(ui, function(entry)
