@@ -152,8 +152,21 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack'], `${ap}.kind`);
-      if (a.kind === 'charge_then_attack') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob'], `${ap}.kind`);
+      if (a.kind === 'gremlin_nob') {
+        keys(a, ['kind', 'bellowIntent', 'bashIntent', 'rushIntent', 'rollRange', 'bashCutoff'], ap);
+        intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
+        intentReference(a.bashIntent, `${ap}.bashIntent`, 'attack');
+        intentReference(a.rushIntent, `${ap}.rushIntent`, 'attack');
+        if (new Set([a.bellowIntent, a.bashIntent, a.rushIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.bashCutoff, `${ap}.bashCutoff`, 0, 65536);
+        if (!(a.bashCutoff < a.rollRange)) fail(`${ap}.bashCutoff`, 'cutoff must be below rollRange');
+        const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.bellowIntent);
+        if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'enrage' && effect.value > 0)) {
+          fail(`${ap}.bellowIntent`, 'must grant a positive Enrage stack');
+        }
+      } else if (a.kind === 'charge_then_attack') {
         keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
         integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
         integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);

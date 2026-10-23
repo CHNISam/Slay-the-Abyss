@@ -567,7 +567,16 @@
       "id": "gremlin_nob",
       "name": "怒焰巨魔",
       "tier": "elite",
-      "hp": 85,
+      "hp": 84,
+      "hpRange": { "min": 82, "max": 86 },
+      "ai": {
+        "kind": "gremlin_nob",
+        "bellowIntent": "gremlin_nob_1",
+        "bashIntent": "gremlin_nob_2",
+        "rushIntent": "gremlin_nob_3",
+        "rollRange": 100,
+        "bashCutoff": 33
+      },
       "intents": [
         {
           "id": "gremlin_nob_1",
@@ -575,7 +584,7 @@
           "effects": [
             {
               "op": "gainStatus",
-              "status": "strength",
+              "status": "enrage",
               "value": 2
             }
           ]
@@ -587,6 +596,11 @@
             {
               "op": "damage",
               "value": 6
+            },
+            {
+              "op": "applyStatus",
+              "status": "vulnerable",
+              "value": 2
             }
           ]
         },
@@ -597,17 +611,6 @@
             {
               "op": "damage",
               "value": 14
-            }
-          ]
-        },
-        {
-          "id": "gremlin_nob_4",
-          "kind": "debuff",
-          "effects": [
-            {
-              "op": "applyStatus",
-              "status": "vulnerable",
-              "value": 2
             }
           ]
         }

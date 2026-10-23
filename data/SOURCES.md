@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-23 怒焰巨魔A0生产切片：固定社区反编译镜像核查HP82–86、开场Enrage2、Skull Bash基础6后易伤2、Bull Rush基础14；按33边界选择攻击，Bull Rush不连续三次，技能牌在效果前触发力量。来源文件hash、队列次序、900组受控决策和共享LCG等剩余差异见[专项账本](../docs/reviews/TASK-15-gremlin-nob-ai.md)。不是官方源码、原作PC或平台实测；旧固定循环说明对此敌人不再适用。
+
 2026-10-23 石颚兽生产切片：据[开发者公开getMove](https://www.reddit.com/r/slaythespire/comments/1klwcgf/true_jaw_worm_ai/msefy12/)及固定镜像方法体，HP40–44、首动11伤害、Thrash7后5格挡、Bellow3力量后6格挡；按25/55边界及Java float条件抽样处理历史限制，替换旧固定循环。来源hash、首动抽样、独立预期与保留的共享LCG/非原版随机流差异见[专项账本](../docs/reviews/TASK-15-jaw-worm-ai.md)。不是原作二进制或平台验收。
 
 2026-10-23 祈火徒运行时切片覆盖下文旧固定循环说明：生命48–54实际采样，首动施加仪式3且不立即加力量，此后基础6攻击，每个整组敌方回合结束增长3力量，跳过施加当轮。固定方法体来源及真实性/随机流限制见 [TASK-15运行时账本](../docs/reviews/TASK-15-cultist-runtime.md)。不是正版二进制或平台实测通过；其他敌人的差异继续保留。

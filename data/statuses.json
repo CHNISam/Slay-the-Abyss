@@ -74,6 +74,14 @@
       "description": "自己回合开始时格挡不清空"
     },
     {
+      "id": "enrage",
+      "name": "激怒",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "玩家每打出一张技能牌，拥有者在牌效果结算前获得等量力量"
+    },
+    {
       "id": "ritual",
       "name": "仪式",
       "kind": "buff",
