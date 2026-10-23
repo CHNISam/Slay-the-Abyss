@@ -27,6 +27,11 @@ end
 function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
+    if enemy.ai.kind == "shield_gremlin" then
+        random(state, enemy.ai.rollRange)
+        select(enemy, enemy.ai.protectIntent)
+        return
+    end
     if enemy.ai.kind == "mad_gremlin" then
         rollAttack(state, enemy, random)
         Actors.applyPower(state, enemy, "angry", enemy.ai.angryStacks, enemy)
@@ -80,6 +85,14 @@ function M.advance(state, enemy, random)
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
     elseif enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random)
     elseif enemy.ai.kind == "opening_roll_attack" or enemy.ai.kind == "mad_gremlin" then select(enemy, enemy.ai.attackIntent)
+    elseif enemy.ai.kind == "shield_gremlin" then
+        -- Protect chooses its next move from the living group. Once Bash is
+        -- selected, later actions set Bash directly and never roll again.
+        if enemy.intents[enemy.intentIndex].id == enemy.ai.protectIntent then
+            local alive = 0
+            for _, ally in ipairs(state.enemies) do if ally.hp > 0 then alive = alive + 1 end end
+            select(enemy, alive > 1 and enemy.ai.protectIntent or enemy.ai.attackIntent)
+        else select(enemy, enemy.ai.attackIntent) end
     elseif enemy.ai.kind == "charge_then_attack" then
         if enemy.intents[enemy.intentIndex].id == enemy.ai.chargeIntent then
             enemy.aiCharge = enemy.aiCharge + 1

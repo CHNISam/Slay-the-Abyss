@@ -257,13 +257,21 @@ function M.endTurn(state, actor)
     end
 end
 
-function M.startTurn(state, actor)
+function M.resetBlock(state, actor)
     if actor.hp <= 0 then return end
     if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
         actor.block = 0
         Events.emit(state, "block_reset", {target = actor.id})
     end
-    tick(state, actor, "turn_start")
+end
+
+function M.startTurnEffects(state, actor)
+    if actor.hp > 0 then tick(state, actor, "turn_start") end
+end
+
+function M.startTurn(state, actor)
+    M.resetBlock(state, actor)
+    M.startTurnEffects(state, actor)
 end
 
 return M

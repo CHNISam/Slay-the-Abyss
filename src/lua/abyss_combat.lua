@@ -248,29 +248,35 @@ function M.endTurn(state)
     if finish(state) then return true end
     state.phase = "enemy"
     event(state, "enemy_turn")
+    -- The group pre-turn hook clears every monster's old Block before its
+    -- queued start powers resolve. Drain supported start powers before moves,
+    -- so ally Block granted during a move survives later teammates' actions.
+    for _, enemy in ipairs(state.enemies) do Actors.resetBlock(state, enemy) end
     for _, enemy in ipairs(state.enemies) do
         if enemy.hp > 0 then
             local before = enemy.hp
-            Actors.startTurn(state, enemy)
+            Actors.startTurnEffects(state, enemy)
             EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
             EnemyAI.flush(state)
             if finish(state) then return true end
+        end
+    end
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.hp > 0 then
+            local intent = enemy.intents[enemy.intentIndex]
+            event(state, "intent", { enemy = enemy.id, id = intent.id })
+            EnemyAI.beforeAction(state, enemy)
+            -- takeTurn has already queued this enemy's action payload.
+            resolveEffects(state, intent.effects, enemy, state.player, nil, true)
+            if finish(state) then return true end
+            -- Thorns can kill this attacker while other enemies remain alive.
             if enemy.hp > 0 then
-                local intent = enemy.intents[enemy.intentIndex]
-                event(state, "intent", { enemy = enemy.id, id = intent.id })
-                EnemyAI.beforeAction(state, enemy)
-                -- takeTurn has already queued this enemy's action payload.
-                resolveEffects(state, intent.effects, enemy, state.player, nil, true)
-                if finish(state) then return true end
-                -- Thorns can kill this attacker while other enemies remain alive.
-                if enemy.hp > 0 then
-                    Actors.endTurn(state, enemy)
-                end
-                -- A source-queued RollMove survives its owner's death while
-                -- teammates live. finish above clears it on the final death.
-                EnemyAI.afterAction(state, enemy, M.random)
-                if finish(state) then return true end
+                Actors.endTurn(state, enemy)
             end
+            -- A source-queued RollMove survives its owner's death while
+            -- teammates live. finish above clears it on the final death.
+            EnemyAI.afterAction(state, enemy, M.random)
+            if finish(state) then return true end
         end
     end
     -- Duration powers belong to the shared round boundary, after all actions.
