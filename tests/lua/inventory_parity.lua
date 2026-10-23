@@ -20,6 +20,8 @@ local function battle(relics, hp)
     local run = Run.new(data, 42)
     run.relics, run.hp = relics or { "burning_blood" }, hp or 40
     assert(Run.startCombat(run, "cultist_solo"))
+    -- Inventory tests install neutral/attack fixtures, not the Cultist decision state.
+    run.combat.enemies[1].ai=nil; run.combat.enemies[1].intentIndex=1
     return run
 end
 
