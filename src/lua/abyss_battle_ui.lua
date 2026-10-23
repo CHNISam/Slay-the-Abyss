@@ -111,6 +111,23 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function cancelPotionInputs()
         for _, input in ipairs(potionInputs) do input.held, input.released = nil, nil end
     end
+    -- Action buttons have their own pointer capability: some hosts deliver
+    -- card/potion pointers but only Click for these preset buttons.
+    local actionInputs, actionPointerObserved = {}, false
+    local function actionReady(g)
+        local run = self.run
+        if not self.active or self.busy or self.gesture or run ~= g.run then return false end
+        if run and (run.phase ~= g.phase or run.combat ~= g.battle
+            or g.battle and g.battle.turn ~= g.turn) then return false end
+        if g.name == "start" then return not options.embedded and (not run or run.phase == "defeat") end
+        if not run then return false end
+        if g.name == "endTurn" then return dragReady(g) end
+        if g.name == "skip" then return run.phase == "reward" and run.rewards == g.rewards end
+        return g.name == "continue" and not options.embedded and run.phase == "map"
+    end
+    local function cancelActionInputs()
+        for _, input in ipairs(actionInputs) do input.held, input.released = nil, nil end
+    end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
         local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
@@ -171,6 +188,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local cancelled = self.gesture ~= nil
         cancelCardInputs()
         cancelPotionInputs()
+        cancelActionInputs()
         if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -248,6 +266,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for _, input in ipairs(potionInputs) do
             if input.held and not potionReady(input.held) then input.held = nil end
             if input.released and not potionReady(input.released) then input.released = nil end
+        end
+        for _, input in ipairs(actionInputs) do
+            if input.held and not actionReady(input.held) then input.held = nil end
+            if input.released and not actionReady(input.released) then input.released = nil end
         end
         if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
             self.feedback:cancel() return
@@ -624,7 +646,43 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end)
         if self.dragEnabled and not input then control:AddCursorEventListener(cursor.CursorDown,down) end
     end
-    local function bind(name, fn) listen(child(name),fn) end
+    local function bind(name, fn)
+        local control, input = child(name), {}
+        actionInputs[#actionInputs + 1] = input
+        control:AddCursorEventListener(clickEvent, function(event)
+            if actionPointerObserved then
+                local released = input.released
+                if not released or released.touch ~= (event and event.touchId) then return end
+                input.released = nil
+                if not actionReady(released) then return end
+            end
+            if not self.suppressClick and not self.gesture then return fn(event) end
+        end)
+        if self.dragEnabled then
+            control:AddCursorEventListener(cursor.CursorDown, function(event)
+                actionPointerObserved = true
+                down()
+                input.held, input.released = nil, nil
+                local run = self.run
+                local battle = run and run.combat
+                local g = {name = name, run = run, phase = run and run.phase,
+                    battle = battle, turn = battle and battle.turn,
+                    rewards = run and run.rewards, touch = event and event.touchId}
+                if actionReady(g) then input.held = g end
+            end)
+            local function releaseAction(event, ended)
+                local touch, held = event and event.touchId, input.held
+                if held and held.touch == touch then
+                    input.held = nil
+                    input.released = not ended and actionReady(held) and held or nil
+                elseif ended and input.released and input.released.touch == touch then
+                    input.released = nil
+                end
+            end
+            control:AddCursorEventListener(cursor.CursorUp, releaseAction)
+            control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releaseAction(event, true) end)
+        end
+    end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
     bind("skip", function() if self.active and self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh(true) end end)
