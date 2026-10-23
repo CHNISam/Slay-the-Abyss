@@ -1,0 +1,141 @@
+{
+  "status": "VERIFIED_BASIC_ONLY",
+  "scope": "StS1 question basic M→Shop→Treasure→Event, no relics, no previous/next shop exclusions",
+  "cases": [
+    {
+      "id": "initial_monster",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.05,
+      "expected": "monster",
+      "next": {
+        "monster": 0.1,
+        "shop": 0.06,
+        "treasure": 0.04
+      }
+    },
+    {
+      "id": "initial_shop",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.12,
+      "expected": "shop",
+      "next": {
+        "monster": 0.2,
+        "shop": 0.03,
+        "treasure": 0.04
+      }
+    },
+    {
+      "id": "initial_treasure",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.145,
+      "expected": "treasure",
+      "next": {
+        "monster": 0.2,
+        "shop": 0.06,
+        "treasure": 0.02
+      }
+    },
+    {
+      "id": "initial_event",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.7,
+      "expected": "event",
+      "next": {
+        "monster": 0.2,
+        "shop": 0.06,
+        "treasure": 0.04
+      }
+    },
+    {
+      "id": "boundary_monster_to_shop",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.1,
+      "expected": "shop",
+      "next": {
+        "monster": 0.2,
+        "shop": 0.03,
+        "treasure": 0.04
+      }
+    },
+    {
+      "id": "boundary_shop_to_treasure",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.13,
+      "expected": "treasure",
+      "next": {
+        "monster": 0.2,
+        "shop": 0.06,
+        "treasure": 0.02
+      }
+    },
+    {
+      "id": "boundary_treasure_to_event",
+      "state": {
+        "monster": 0.1,
+        "shop": 0.03,
+        "treasure": 0.02
+      },
+      "roll": 0.15,
+      "expected": "event",
+      "next": {
+        "monster": 0.2,
+        "shop": 0.06,
+        "treasure": 0.04
+      }
+    },
+    {
+      "id": "after_one_event_monster",
+      "state": {
+        "monster": 0.2,
+        "shop": 0.06,
+        "treasure": 0.04
+      },
+      "roll": 0.15,
+      "expected": "monster",
+      "next": {
+        "monster": 0.1,
+        "shop": 0.09,
+        "treasure": 0.06
+      }
+    },
+    {
+      "id": "after_one_event_event",
+      "state": {
+        "monster": 0.2,
+        "shop": 0.06,
+        "treasure": 0.04
+      },
+      "roll": 0.8,
+      "expected": "event",
+      "next": {
+        "monster": 0.3,
+        "shop": 0.09,
+        "treasure": 0.06
+      }
+    }
+  ]
+}

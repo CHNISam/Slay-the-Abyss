@@ -1,0 +1,54 @@
+{
+  "baselineDevelop": "2eaf30f",
+  "sourceSha256": {
+    "src/lua/abyss_map.lua": "b434b77509f77bd4d23633f711e2a8d28480571c72766bd55a9a70aeec0d8e38",
+    "src/lua/abyss_random.lua": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+    "data/rules.json": "fe603d5463051025c38757843c715fa2cc7ccb449bc1a89f0665912dba605792",
+    "data/enemies.json": "715c60f83a9ba3d138e3af1546ca641555fe6c43571e315820fae1b61d90f162",
+    "src/lua/abyss_unknown.lua": "05af99b16c08081590dc088c19ce21d1a12d07328410cb779e935350d78c8e26",
+    "scripts/sts1-map-evidence.mjs": "3264694ca1b7f81d0e8584b5857b5e3abc6416fc0af46ba9fbc8b4877444535a"
+  },
+  "ordinaryChecks": {
+    "command": "npm run check",
+    "exitCode": 0,
+    "node": {
+      "discovered": 202,
+      "passed": 188,
+      "failed": 0,
+      "skipped": 14
+    },
+    "lua": "all discovered scripts passed; 6 additional unknown groups executed by Node bridge",
+    "python": {
+      "discovered": 13,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "targetedChecks": {
+    "command": "node --test tests/sts1-map-evidence.test.mjs tests/sts1-unknown.test.mjs",
+    "discovered": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0
+  },
+  "golden": {
+    "exitCode": 1,
+    "requested": 12,
+    "matches": 0,
+    "mismatches": 11,
+    "unsupportedProjectSeeds": 1
+  },
+  "properties": {
+    "exitCode": 1,
+    "requested": 10000,
+    "executed": 10000,
+    "passed": 0,
+    "failed": 10000,
+    "executionErrors": 0
+  },
+  "platformCompile": "NOT_EXECUTED",
+  "saveImport": "NOT_EXECUTED",
+  "realClient": "NOT_EXECUTED",
+  "workPackageStatus": "W1_IN_PROGRESS_NOT_ACCEPTED"
+}
