@@ -84,14 +84,10 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 for _, victim in ipairs(selected) do
                     dealt = dealt + combat.damage(state, source, victim, value, nil, retaliation)
                 end
-                -- Angry and Thorns add reactions to the top of the queue:
+                -- Angry, Thorns and death powers add reactions to the top:
                 -- finish this area hit, then resolve in reverse target order.
                 if retaliation then
-                    for i = #retaliation, 1, -1 do
-                        local hit = retaliation[i]
-                        if hit.status then Actors.applyPower(state, hit.target, hit.status, hit.amount, hit.source)
-                        else combat.retaliate(state, hit.source, hit.target, hit.amount) end
-                    end
+                    Actors.resolveDamageReactions(state, retaliation, combat.retaliate)
                 end
                 if combat.outcome(state) then break end
             end

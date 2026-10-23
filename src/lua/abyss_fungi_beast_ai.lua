@@ -1,5 +1,6 @@
--- Fungi Beast / A0 HP and decisions; source and remaining passive in TASK-15.8.
+-- Fungi Beast / A0 decisions and death power; TASK-15.8 and TASK-15.9 ledgers.
 local M = {}
+local Actors = require("abyss_actor")
 
 local function choose(ai, last, previous, roll)
     if roll < ai.biteCutoff then
@@ -19,6 +20,7 @@ end
 function M.initialize(state, enemy, random)
     enemy.fungiLast, enemy.fungiPrevious = nil, nil
     select(enemy, choose(enemy.ai, nil, nil, random(state, enemy.ai.rollRange) - 1))
+    Actors.applyPower(state, enemy, "spore_cloud", enemy.ai.sporeCloudStacks, enemy)
 end
 
 function M.advance(state, enemy, random)

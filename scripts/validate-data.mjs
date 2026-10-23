@@ -171,7 +171,9 @@ export function validateContent(bundle) {
       };
       enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m', 'fungi_beast'], `${ap}.kind`);
       if (a.kind === 'fungi_beast') {
-        keys(a, ['kind', 'biteIntent', 'growIntent', 'rollRange', 'biteCutoff'], ap);
+        keys(a, ['kind', 'biteIntent', 'growIntent', 'rollRange', 'biteCutoff', 'sporeCloudStacks'], ap);
+        integer(a.sporeCloudStacks, `${ap}.sporeCloudStacks`, 1, 2147483647);
+        reference('spore_cloud', 'statuses', `${ap}.spore_cloud`);
         intentReference(a.biteIntent, `${ap}.biteIntent`, 'attack');
         intentReference(a.growIntent, `${ap}.growIntent`, 'buff');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
