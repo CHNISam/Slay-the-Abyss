@@ -24,10 +24,13 @@ function M.retaliate(state, source, target, amount)
     return lost
 end
 
-function M.applyEffects(state, effects, source, target, playedCard)
+local function resolveEffects(state, effects, source, target, playedCard, queuedEnemyAction)
+    if queuedEnemyAction then
+        assert(state.phase == "enemy" and source ~= state.player and target == state.player, "invalid queued enemy action")
+    end
     local previous = state.resolvingEffects
     state.resolvingEffects = true
-    local called, dealt = pcall(Effects.apply, M, state, effects, source, target, playedCard)
+    local called, dealt = pcall(Effects.apply, M, state, effects, source, target, playedCard, queuedEnemyAction)
     state.resolvingEffects = previous
     if not called then error(dealt, 0) end
     if not previous then
@@ -35,6 +38,10 @@ function M.applyEffects(state, effects, source, target, playedCard)
         EnemyAI.flush(state, source)
     end
     return dealt
+end
+
+function M.applyEffects(state, effects, source, target, playedCard)
+    return resolveEffects(state, effects, source, target, playedCard, false)
 end
 
 local function copy(value)
@@ -246,7 +253,8 @@ function M.endTurn(state)
                 local intent = enemy.intents[enemy.intentIndex]
                 event(state, "intent", { enemy = enemy.id, id = intent.id })
                 EnemyAI.beforeAction(state, enemy)
-                M.applyEffects(state, intent.effects, enemy, state.player)
+                -- takeTurn has already queued this enemy's action payload.
+                resolveEffects(state, intent.effects, enemy, state.player, nil, true)
                 if finish(state) then return true end
                 -- Thorns can kill this attacker while other enemies remain alive.
                 if enemy.hp > 0 then

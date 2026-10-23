@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 08:54'
+updated_date: '2026-10-23 09:07'
 due_date: '2026-10-28'
 labels:
   - required
@@ -49,6 +49,8 @@ combat_order 离线切片（基线52f35dd）：固定Weak/Vulnerable/Frail方法
 random_float候选切片（基线94c1045）：核实固定STS Random与官方libGDX nextFloat；新增显式float range/between包装及每步binary32舍入，限制精确finite binary32与有限span，非法请求抽样前拒绝。独立手写Java float表达式固定向量先红绿，验证24位端点、计数/回绕/状态、下溢及nearest-even；不接生产、不推测种子/流初始化，不跑全量。
 
 2026-10-23 死后已排队Roll片：固定RollMoveAction/Thorns/DamageAction/clearPostCombatActions/MonsterGroup链，区分同伴存活和末敌；真实Combat受控RNG红例后新增EnemyAI.afterAction，仅已核实Roll策略在行动后反伤致死且战斗未完时消费，毒死/末敌不消费。
+
+2026-10-23 死后排队ApplyPower片：固定Fat/Blue/Nob takeTurn及Damage/ApplyPower/GainBlock动作guard，保留公开card/potion source-dead保护，仅endTurn私有resolver传瞬时queued上下文；反伤死后战斗继续时只对live player执行单目标applyStatus，末敌/毒死清队列，其它payload不扩张。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -67,4 +69,6 @@ random_float候选切片：显式randomFloatRange/Between新增逐步binary32 ne
 PR100轮末状态片已squash合develop14979df；下一批同步保留该修复及新scaled-float隔离候选，不将候选当生产RNG或平台通过。
 
 独立26ff410死后选招：15专项（初13例8过5败）及相关149组定向绿；支持Jaw/Blue/Nob/rolled_attack，排除AcidS与仅开场抽样策略，死者不执行Actor.endTurn。源链/blob和输入/剩余差异见docs/rules/QUEUED_ENEMY_ROLL_AFTER_DEATH.md。末敌清queue、同伴存活先消耗再队友、额外条件draw、后续不重复与回滚均覆盖。Blue/Nob死后已排队debuff仍单独未对齐，不改变LCG，不宣称完整动作队列/平台通过；整合后全量待跑。
+
+709dffe独立增量：新19例9过10败，最终20新状态专项及相关223组定向全绿。真实Fat gang轨迹damage4→Thorns死亡→Weak1；Nob死后Vulnerable使下名Blue Stab18、80→56；实际Strike受Weak只4并后轮衰减。公开M.applyEffects默认guard、atomic monkeypatch/回滚、药水槽位/溢出原子、unknown op错误和context恢复均保留。无data/Inventory/RNG变更，未全量/平台。来源、瞬时上下文边界和未支持队列见QUEUED_ENEMY_STATUS_AFTER_DEATH.md；root需组合Fat rolled_attack/Sneaky opening_roll_attack，不宣称全部动作队列或原版RNG一致。
 <!-- SECTION:NOTES:END -->
