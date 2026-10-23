@@ -789,7 +789,7 @@ end)
 test("dragging targeted cards to empty ground cancels; only the hovered live enemy is hit",function()
     local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
     local energy,hp1,hp2 = battle.energy,battle.enemies[1].hp,battle.enemies[2].hp
-    grab(1) event("card1","drag",0,0) event("card1","up",0,0)
+    grab(1) event("card1","drag",-200,0) event("card1","up",-200,0)
     assert(#battle.hand == 1 and battle.energy == energy and not ui.busy)
     click("enemy1") -- queued release click must never select or play a target
     assert(battle.enemies[1].hp == hp1)
@@ -797,6 +797,42 @@ test("dragging targeted cards to empty ground cancels; only the hovered live ene
     assert(stage.children.enemy2.children.border.imageColor.r == Theme.color.goldBright.r)
     event("dragLayer","up",stage.children.enemy2.x,stage.children.enemy2.y)
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6 and #battle.hand == 0)
+end)
+test("aiming parks the card below the line and the pointer's column, not a portrait pixel, picks the enemy",function()
+    local enemies = {"mad_gremlin","sneaky_gremlin","fat_gremlin","shield_gremlin","wizard_gremlin"}
+    local ui,stage,click,event,grab,battle = dragBattle({"strike"},enemies)
+    local D,h = Theme.layout.cardDrag,Theme.layout.card.size[2]*Theme.layout.cardDrag.scale
+    local layer,third = stage.children.dragLayer,stage.children.enemy3
+    -- Grab the card's lower edge and aim at the HP bar: the old portrait-only test missed this.
+    local box = stage.children.card1
+    event("card1","down",box.x,box.y-80)
+    event("card1","drag",third.x+40,third.y-70)
+    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, "aiming card must park below the line")
+    assert(third.children.border.imageColor.r == Theme.color.goldBright.r)
+    assert(layer.children.reticle.visible and layer.children.reticle.x == third.x and layer.children.aim1.visible)
+    assert(layer.children.hint.text:find(battle.enemies[3].name,1,true))
+    for i = 1, 5 do if i ~= 3 then assert(stage.children["enemy" .. i].children.border.imageColor.r ~= Theme.color.goldBright.r) end end
+    local hp = {} for i, enemy in ipairs(battle.enemies) do hp[i] = enemy.hp + enemy.block end
+    event("dragLayer","up",third.x+40,third.y-70)
+    assert(#battle.hand == 0 and battle.enemies[3].hp + battle.enemies[3].block < hp[3])
+    for i = 1, 5 do if i ~= 3 then assert(battle.enemies[i].hp + battle.enemies[i].block == hp[i]) end end
+end)
+test("a card a quarter over the gold line plays even while the pointer is still under it",function()
+    local D,h = Theme.layout.cardDrag,Theme.layout.card.size[2]*Theme.layout.cardDrag.scale
+    for _,over in ipairs({D.commitOverlap*h+1,D.commitOverlap*h-6}) do
+        local ui,stage,click,event,grab,battle = dragBattle()
+        local box = stage.children.card1
+        local sx,sy = box.x,box.y-80 -- grab low on the card
+        event("card1","down",sx,sy)
+        local cy = D.lineY+over-h/2 -- desired dragged card centre
+        local py = sy+cy-box.y
+        assert(py < D.lineY,"pointer stays under the line")
+        event("card1","drag",sx,py)
+        local plays = over > D.commitOverlap*h
+        assert(stage.children.dragLayer.children.hint.text == (plays and "松手出牌" or "拖过金线松手出牌；移回手牌区取消"))
+        event("dragLayer","up",sx,py)
+        assert(#battle.hand == (plays and 1 or 2),tostring(over))
+    end
 end)
 test("hand, header, potions, end turn and off-canvas releases cancel without click-through",function()
     for _,point in ipairs({{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do

@@ -80,7 +80,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function notice(value) label("notice", value) end
     local cursor = platform.cursorEvents
     self.dragEnabled = cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp and cursor.CursorEndDrag
-    self.instructions = self.dragEnabled and "拖牌至金线以上松手出牌；攻击牌拖至敌人。也可点选出牌。"
+    self.instructions = self.dragEnabled and "拖牌越过金线松手出牌；攻击牌拖出后瞄准敌人。也可点选出牌。"
         or "点选卡牌，再点敌人；无需目标的牌再点一次确认。"
     local function dragReady(g)
         return self.active and not self.busy and self.run == g.run and self.run.phase == "combat"
@@ -111,24 +111,39 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function cancelPotionInputs()
         for _, input in ipairs(potionInputs) do input.held, input.released = nil, nil end
     end
-    local function contains(x, y, frame)
-        return math.abs(x-frame[1]) <= frame[3]/2 and math.abs(y-frame[2]) <= frame[4]/2
+    local D = L.cardDrag
+    local function enemySlot(count, i, enemy)
+        local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
+        local width = math.min(L.hpBar.size[1],count > 1 and step-S.s or L.hpBar.size[1])
+        local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
+        return count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step, width, portrait, step
     end
+    -- Judge the card the player sees, not the pointer hidden under it: a quarter of
+    -- the dragged card above the gold line (or the pointer itself) counts as crossed.
+    local function dragPose(g)
+        local origin, h = g.origin or {g.sx,g.sy}, L.card.size[2]*D.scale
+        local x, y = origin[1]+g.x-g.sx, origin[2]+g.y-g.sy
+        return x, y, y+h/2-D.commitOverlap*h >= D.lineY or g.y >= D.lineY
+    end
+    -- Returns valid, target, aiming. Targeted cards aim once crossed; every living
+    -- enemy then owns its whole column, so the pointer never needs to hit a portrait.
     local function dragTarget(g)
         if not dragReady(g) then return false end
         local battle = g.battle
+        local _, _, crossed = dragPose(g)
+        local inside = math.abs(g.x-D.playArea[1]) <= D.playArea[3]/2 and g.y <= D.playArea[2]+D.playArea[4]/2
         local ok, reason = Combat.canPlay(battle,g.uid,nil)
-        if ok then return contains(g.x,g.y,L.cardDrag.playArea), nil end
+        if ok then return crossed and inside, nil end
         if reason ~= "invalid_target" then return false end
-        local count = #battle.enemies
+        if not (crossed and inside) then return false, nil, crossed end
+        local count, best, distance = #battle.enemies, nil, math.huge
         for i, enemy in ipairs(battle.enemies) do
-            local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
-            local width = math.min(L.hpBar.size[1],count > 1 and step-S.s or L.hpBar.size[1])
-            local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
-            local x = count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step
-            if contains(g.x,g.y,{x,L.enemyRow.y,portrait,portrait}) and Combat.canPlay(battle,g.uid,i) then return true,i end
+            local x, _, _, step = enemySlot(count,i,enemy)
+            local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
+            local d = math.abs(g.x-x)
+            if d <= reach and d < distance and Combat.canPlay(battle,g.uid,i) then best, distance = i, d end
         end
-        return false
+        return best ~= nil, best, true
     end
     local function button(name, enabled, primary, caption)
         local box = child(name)
@@ -282,10 +297,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local enemy = fighting and battle.enemies[i]
             box:SetVisible(enemy ~= nil and enemy ~= false and (enemy.hp > 0 or self.busy and not self.feedback.deaths[enemy.id]))
             if enemy then
-                local step = count > 1 and (L.enemyRow.xTo - L.enemyRow.xFrom) / (count - 1) or 0
-                local width = math.min(L.hpBar.size[1], count > 1 and step - S.s or L.hpBar.size[1])
-                local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait, width)
-                box:SetAnchoredPosition(count == 1 and (L.enemyRow.xFrom + L.enemyRow.xTo) / 2 or L.enemyRow.xFrom + (i - 1) * step, L.enemyRow.y)
+                local x, width, portrait = enemySlot(count, i, enemy)
+                box:SetAnchoredPosition(x, L.enemyRow.y)
                 local targetable = active and pendingTarget and Combat.canPlay(battle, self.selected, i)
                 if self.gesture and self.gesture.moving then
                     local valid, hovered = dragTarget(self.gesture)
@@ -343,13 +356,44 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         show("dragLayer", g ~= nil and g.moving == true)
         if g and g.moving then
             local box = child("card" .. g.slot)
-            box:SetAnchoredPosition(g.origin[1]+g.x-g.sx,g.origin[2]+g.y-g.sy)
-            box:SetLocalScale(Theme.motion.hoverScale,Theme.motion.hoverScale,1)
+            local valid, target, aiming = dragTarget(g)
+            local x, y = dragPose(g)
+            local h = L.card.size[2]*D.scale
+            -- An aiming card parks under the line so it never hides the enemy row.
+            if aiming then x, y = (g.origin or {g.sx})[1], D.lineY-h/2-S.s end
+            box:SetAnchoredPosition(x,y)
+            box:SetLocalScale(D.scale,D.scale,1)
             box.localRotationZ = 0
-            local valid, target = dragTarget(g)
+            box:GetChild("glow"):SetVisible(valid == true)
             local layer = child("dragLayer")
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
-            layer:GetChild("hint").text = valid and "松手出牌" or needsTarget(g.battle,{uid=g.uid}) and "拖至存活的敌人，松手出牌" or "拖至金线以上；移回手牌区取消"
+            local enemy = target and g.battle.enemies[target]
+            layer:GetChild("hint").text = enemy and "松手攻击 · " .. enemy.name or valid and "松手出牌"
+                or aiming and "移向一名敌人瞄准；移回手牌区取消"
+                or needsTarget(g.battle,{uid=g.uid}) and "向上拖出手牌，再瞄准敌人" or "拖过金线松手出牌；移回手牌区取消"
+            -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
+            local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
+            if enemy then
+                local tx, _, portrait = enemySlot(#g.battle.enemies,target,enemy)
+                ex, ey, ring = tx, L.enemyRow.y, portrait+D.reticlePad
+            end
+            local reticle = layer:GetChild("reticle")
+            reticle:SetVisible(aiming == true)
+            reticle:SetAnchoredPosition(ex,ey)
+            reticle:SetSizeDelta(ring,ring)
+            tint(reticle,enemy and C.goldBright or C.textDim)
+            local sx, sy, fy = x, y+h/2, ey-(enemy and ring/2 or 0)
+            for i = 1, D.aimDots do
+                local dot, t = layer:GetChild("aim" .. i), i/D.aimDots
+                dot:SetVisible(aiming == true)
+                if aiming then
+                    local u, size = 1-t, D.aimDot[1]+(D.aimDot[2]-D.aimDot[1])*t
+                    -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.
+                    dot:SetAnchoredPosition(u*u*sx+2*u*t*sx+t*t*ex,u*u*sy+2*u*t*fy+t*t*fy)
+                    dot:SetSizeDelta(size,size)
+                    tint(dot,enemy and C.goldBright or C.textDim)
+                end
+            end
             layer:SetAsLastSibling()
         end
         button("endTurn", active == true, not playable)

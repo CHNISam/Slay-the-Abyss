@@ -140,7 +140,7 @@ test("targeted drag cancels on empty ground and commits only the selected living
     ui.run.combat = battle ui:render()
     local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
     local hp1,hp2 = battle.enemies[1].hp,battle.enemies[2].hp
-    event("card1","down",x,y) event("card1","drag",0,0) event("card1","up",0,0)
+    event("card1","down",x,y) event("card1","drag",-200,0) event("card1","up",-200,0)
     event("enemy1","click",0,0)
     assert(#battle.hand == 1 and battle.energy == 3 and battle.enemies[1].hp == hp1)
     local enemy = panel:GetChild("enemy2")
