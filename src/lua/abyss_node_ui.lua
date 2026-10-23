@@ -88,8 +88,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local scale = pressed and layout.buttonStates.pressedScale or layout.buttonStates.normalScale
         box:SetLocalScale(scale, scale, 1)
     end
+    local buttonInputs = {}
     local function resetButtons()
         buttonHover, buttonPress = nil, nil
+        for _, input in pairs(buttonInputs) do input.active, input.released = {}, nil end
         for box in pairs(buttonLooks) do paintButton(box) end
     end
     -- Selected/disabled presentation always takes priority over pointer feedback.
@@ -593,22 +595,48 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local name = key
         local box = path(name)
         local hit = box:GetChild("hit")
-        hit:AddCursorEventListener(clickEvent, function() return self:press(name) end)
+        local input
+        hit:AddCursorEventListener(clickEvent, function(event)
+            if input and input.observed then
+                local gesture = input.released
+                local touch = event and event.touchId
+                -- Click follows Up. Keep its original action until consumption, not
+                -- the action currently rebound to this hit area after a render.
+                if not gesture or touch ~= nil and touch ~= gesture.touch
+                    or touch == nil and next(input.active) ~= nil then return false, "stale_action" end
+                input.released = nil
+                if not gesture.action or gesture.action ~= self.actions[name] then return false, "stale_action" end
+            end
+            -- Hosts that never send Down retain the click-only/accessibility path.
+            return self:press(name)
+        end)
         local cursor = options.cursorEvents or (Enum and Enum.CursorEventType)
         -- A framed button keeps its dynamic children at their existing paths.
         -- Documented pointer events + SetLocalScale scale the complete face;
         -- card selectors/chest pictures retain their independent click behavior.
         if box:GetChild("normal") and cursor and cursor.CursorEnter and cursor.CursorExit
             and cursor.CursorDown and cursor.CursorUp and cursor.CursorEndDrag then
-            local function available()
+            -- Retain only active touches and the next released click, never a
+            -- history of touch IDs. Render/hide and terminal events clear them.
+            input = {active={}}
+            buttonInputs[box] = input
+            local noTouch = {} -- supports a complete pointer sequence without IDs
+            local function touchKey(event) return event and event.touchId or noTouch end
+            local function cancelInput(event)
+                input.active[touchKey(event)] = nil
+                if input.released and input.released.touch == (event and event.touchId) then input.released = nil end
+            end
+            local function visibleAction()
                 local ok, view = current()
-                if not ok then return false end
-                local entry, look = self.actions[name], buttonLooks[box]
-                if not entry or not entry.enabled or not look or not look.enabled or look.selected then return false end
-                if self.view.phase ~= view.phase or self.view.node.complete ~= view.node.complete then return false end
+                if not ok then return nil end
+                if self.view.phase ~= view.phase or self.view.node.complete ~= view.node.complete then return nil end
                 local parent = box
-                while parent do if not parent.visible then return false end parent = parent.parent end
-                return true
+                while parent do if not parent.visible then return nil end parent = parent.parent end
+                return self.actions[name]
+            end
+            local function available()
+                local entry, look = visibleAction(), buttonLooks[box]
+                return entry and entry.enabled and look and look.enabled and not look.selected
             end
             local function owned(event)
                 return buttonPress and buttonPress.box == box and buttonPress.touch == (event and event.touchId)
@@ -627,18 +655,28 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 paintButton(box)
             end)
             hit:AddCursorEventListener(cursor.CursorDown, function(event)
+                input.observed, input.released = true, nil
+                input.active[touchKey(event)] = {touch=event and event.touchId, action=visibleAction()}
                 if not available() or buttonPress then return end
                 buttonPress = {box=box,touch=event and event.touchId}
                 paintButton(box)
             end)
             hit:AddCursorEventListener(cursor.CursorExit, function(event)
+                cancelInput(event)
                 if buttonPress and not owned(event) then return end
                 if buttonHover == box then buttonHover = nil end
                 if owned(event) then buttonPress = nil end
                 paintButton(box)
             end)
-            hit:AddCursorEventListener(cursor.CursorUp, release)
+            hit:AddCursorEventListener(cursor.CursorUp, function(event)
+                local key = touchKey(event)
+                local gesture = input.active[key]
+                input.active[key] = nil
+                if gesture then input.released = gesture end
+                release(event)
+            end)
             hit:AddCursorEventListener(cursor.CursorEndDrag, function(event)
+                cancelInput(event)
                 if not owned(event) then return end
                 buttonPress, buttonHover = nil, nil
                 paintButton(box)
