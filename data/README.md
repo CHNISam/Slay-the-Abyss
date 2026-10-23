@@ -9,7 +9,7 @@
 | cards.json | 首轮37张战士运行卡池；初始 5 打击 + 4 防御 + 1 痛击 |
 | reference/warrior75.json | 另一会话75卡及3状态牌原表，原样存证；含待核对数据，不能直接导入运行时 |
 | enemies.json | 19 普通变体 / 3 精英类型 / 1 Boss；14 普通、3 精英、1 Boss 遭遇 |
-| statuses.json | 9 状态 |
+| statuses.json | 9 个基础状态 + Boss模式转换/尖刺甲壳 |
 | relics.json / potions.json | 7 遗物 / 7 药水 |
 | rules.json | 角色、地图、营地、商店及奖励常数 |
 
@@ -36,6 +36,8 @@ exhaust=true 出牌后消耗；ethereal=true 仅在回合结束还留手时消�
 未声明 ai 的敌人按 intents 确定循环；沉眠遗卫使用 ai.sleep_then_cycle：起始睡眠与固定格挡，睡眠计数完成或失去生命后苏醒，受伤唤醒先跳过本次行动，之后只循环 awakeCycle 引用的意图。sleep/stunned 意图 effects 必须为空。hpRange 若存在则覆盖静态 hp 基准值，使用战斗 RNG 在 min/max 闭区间采样，实际 maxHp 等于该次采样；未配置的旧固定HP仍待逐敌核对。时序和来源见 docs/reviews/TASK-15-lagavulin-ai.md。tier 和层数过滤遭遇。
 
 地图规则区分15生成行与计层：第1层普通战斗、第9层宝箱、第15层营地、第16层独立Boss房间、第17层独立Boss宝箱房间；前5层禁止随机营地/精英，第14层禁止随机营地。`generatedRows`与`floors`不可混用。`roomKind=boss_treasure`只是独立入口，当前节点宿主仍在Boss16后结算，未实现原版Boss遗物池/宝箱事务；Nodes拒绝该入口，不能把普通宝箱奖励用于它。三列路径、节点权重、遭遇抽取和随机流仍未原版对齐，详见 `docs/reviews/TASK-12.4-map-floor-evidence.md`。这里只定义内容，不意味严格一致性或平台验收已通过。
+
+深渊守卫 `ai.kind=guardian` 有独立攻守阶段：进攻阶段实际失血耗尽模式转换预算后排定转形，当前卡牌/敌方效果批次完成才加格挡并覆盖意图；双击剩余段先完成，后段致死则取消转形。Twin Slam先开壳，攻击后移除尖刺甲壳并恢复下次预算，反刺的少量失血在该次重置清除，足额失血则能排定再次防守。`sharp_hide` 按成功打出的攻击牌触发，牌本身效果完成后单次结算，不按命中计数，可用格挡且不能递归触发荆棘；已排定反伤即使Boss死亡仍执行。详细来源与边界见 docs/reviews/TASK-17-guardian-ai.md。
 
 遗物 combat_start 在基础能量刷新/抽牌之后各执行一次，避免灯笼被刷新覆盖；combat_end 只在胜利后触发。药水仅玩家战斗回合可用，成功后消耗槽位。营地回血与升级二选一；交易先验证金币/库存/目标，再原子提交。血量不超过上限。
 
