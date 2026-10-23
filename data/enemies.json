@@ -459,6 +459,7 @@
       "name": "迟缓小魔",
       "tier": "normal",
       "hp": 15,
+      "hpRange": { "min": 13, "max": 17 },
       "intents": [
         {
           "id": "fat_gremlin_1",
@@ -467,13 +468,7 @@
             {
               "op": "damage",
               "value": 4
-            }
-          ]
-        },
-        {
-          "id": "fat_gremlin_2",
-          "kind": "debuff",
-          "effects": [
+            },
             {
               "op": "applyStatus",
               "status": "weak",
