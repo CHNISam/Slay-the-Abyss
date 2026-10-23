@@ -43,6 +43,9 @@ local function supported(effects, branch)
         elseif not coreOps[op] or (branch and op ~= "energy" and op ~= "draw") then
             return false, op or "invalid_effect"
         end
+        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally") then
+            return false, "invalid_effect_target"
+        end
         if op == "damage" then targetChecked = true end
     end
     return true
@@ -146,7 +149,22 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             local before = source.hp
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
-        elseif op == "block" then combat.block(state, source, value)
+        elseif op == "block" then
+            if effect.target == "random_ally" then
+                assert(source ~= state.player, "random ally Block requires an enemy")
+                local candidates, member = {}, false
+                for _, ally in ipairs(state.enemies) do
+                    if ally == source then member = true
+                    elseif ally.hp > 0 and ally.intents[ally.intentIndex].kind ~= "escape" then
+                        candidates[#candidates + 1] = ally
+                    end
+                end
+                assert(member, "random ally Block source is not in the encounter")
+                -- The source action draws even for one eligible ally, but not
+                -- for the empty-list self fallback. Use fixed Block, not cards.
+                local recipient = #candidates > 0 and candidates[combat.random(state, #candidates)] or source
+                combat.block(state, recipient, value, true)
+            else combat.block(state, source, value) end
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)

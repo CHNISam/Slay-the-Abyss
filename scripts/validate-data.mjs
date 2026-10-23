@@ -55,7 +55,7 @@ export function validateContent(bundle) {
   const reference = (value, kind, path) => {
     if (text(value, path) && !ids[kind].has(value)) fail(path, `unknown ${kind} ID ${value}`);
   };
-  function effects(value, path, depth = 0) {
+  function effects(value, path, depth = 0, enemyIntent = false) {
     if (depth > 8) { fail(path, 'conditional nesting exceeds 8'); return; }
     array(value, path).forEach((effect, i) => {
       const p = `${path}[${i}]`;
@@ -69,7 +69,9 @@ export function validateContent(bundle) {
       if (op === 'conditional') allowed.push('if', 'then');
       if (['damage', 'damageAll'].includes(op)) allowed.push('times');
       if (op === 'discardRandom') allowed.push('mayChoose');
+      if (op === 'block' && enemyIntent) allowed.push('target');
       keys(effect, allowed, p);
+      if (effect.target !== undefined) enumeration(effect.target, ['random_ally'], `${p}.target`);
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);
         integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0, op === 'makeTempCardInDiscard' ? 5 : Number.MAX_SAFE_INTEGER);
@@ -148,7 +150,7 @@ export function validateContent(bundle) {
       }
       if (['sleep', 'stunned', 'charge'].includes(intent.kind)) {
         if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
-      } else effects(intent.effects, `${ip}.effects`);
+      } else effects(intent.effects, `${ip}.effects`, 0, true);
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
@@ -157,8 +159,17 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin'], `${ap}.kind`);
-      if (a.kind === 'mad_gremlin') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin'], `${ap}.kind`);
+      if (a.kind === 'shield_gremlin') {
+        keys(a, ['kind', 'protectIntent', 'attackIntent', 'rollRange'], ap);
+        intentReference(a.protectIntent, `${ap}.protectIntent`, 'defend');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        const protect = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.protectIntent);
+        if (!Array.isArray(protect?.effects) || !protect.effects.some(effect => effect?.op === 'block' && effect.target === 'random_ally' && effect.value > 0)) {
+          fail(`${ap}.protectIntent`, 'must grant Block to a random ally with a solo fallback');
+        }
+      } else if (a.kind === 'mad_gremlin') {
         keys(a, ['kind', 'attackIntent', 'rollRange', 'angryStacks'], ap);
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);

@@ -585,6 +585,8 @@
       "name": "护盾小魔",
       "tier": "normal",
       "hp": 14,
+      "hpRange": { "min": 12, "max": 15 },
+      "ai": { "kind": "shield_gremlin", "protectIntent": "shield_gremlin_1", "attackIntent": "shield_gremlin_2", "rollRange": 100 },
       "intents": [
         {
           "id": "shield_gremlin_1",
@@ -592,7 +594,8 @@
           "effects": [
             {
               "op": "block",
-              "value": 7
+              "value": 7,
+              "target": "random_ally"
             }
           ]
         },

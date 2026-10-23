@@ -2,6 +2,8 @@
 
 > **规则基线**：历史“适配/简化”不代表获准的最终规则。首发可玩范围按初代 Slay the Spire PC Ascension 0 逐项核对；已修正与剩余偏差以下方专项证据为准，见 [RULE_PARITY.md](../docs/RULE_PARITY.md)。
 
+2026-10-23 护盾小魔A0切片：固定GremlinTsundere与GainBlockRandomMonsterAction核实HP12–15、开场Protect7随机队友/空列表自身、单队友仍消耗aiRng、独处后永久Bash6；同时按MonsterStartTurnAction/MonsterGroup/Poison/GameActionManager修复全部清盾→全部已支持开始状态→敌方动作，避免后排抹去新格挡。来源hash、红绿及随机流/逃跑/编组/平台限制见[TASK-15.5账本](../docs/reviews/TASK-15.5-shield-gremlin.md)。只覆盖已支持第一幕行为，不能据此宣称全敌人或平台一致。
+
 2026-10-23 蓄能小魔开场抽样切片：固定GremlinWizard、AbstractMonster与Random方法链确认开场即使固定Charge也消费一次0–99主roll；后续Charge/Attack用SetMove，不新增roll。原HP21–25、伤害25和0/0/25节奏保持，来源hash、12组红绿及共享LCG对洗牌/奖励的已知影响见[专项账本](../docs/reviews/TASK-15.1-wizard-opening-roll.md)。不是正版PC认证、原版独立随机流或平台实测，全池/平台AC仍保留。
 
 2026-10-23 哨卫A0切片：固定Sentry方法体核HP38–42、Artifact1、完整敌方列表奇偶错位首动（外侧Bolt2 Dazed/中间Beam9）、此后交替及每次主roll消费；旧Weak替代已移除，使用真实Dazed生成接口。Actor人工制品基础与三敌入口分阶段验证，真实牌/瓶桥接另记。来源hash及认证边界见[专项账本](../docs/reviews/TASK-15-sentries-ai.md)与[Dazed账本](../docs/rules/DAZED_STATUS_CARDS.md)，非官方源码、PC或平台实测，RNG与全池AC仍保留。

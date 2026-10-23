@@ -1,0 +1,16 @@
+package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
+local H=dofile('tests/lua/support/battle_action_fixture.lua')
+local host,ui,panel,emit,tap,drain=H.setup({'defend'},{'shield_gremlin','sneaky_gremlin'})
+local C=H.F.Combat
+local function same(a,b) if type(a)~='table' then assert(a==b);return end;for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end end
+local box=panel:GetChild('enemy1');assert(box:GetChild('intent').text=='7')
+C.addStatus(host.run.combat.enemies[1],'dexterity',20);C.addStatus(host.run.combat.enemies[1],'frail',2);host:refresh()
+assert(box:GetChild('intent').text=='7','Protect stays fixed7 despite source Dex/Frail')
+local before=C.copy(host.run.combat);tap('enemy1',1)
+assert(panel:GetChild('notice').text:find('随机队友',1,true),'Protect detail must name random teammate')
+assert(panel:GetChild('notice').text:find('无队友时自身',1,true),'Protect detail must name solo fallback')
+assert(panel:GetChild('notice').text:find('） 7',1,true),'Protect detail stays fixed7')
+same(host.run.combat,before)
+tap('endTurn',2);drain();assert(host.run.combat.enemies[2].block==7);assert(host.run.combat.enemies[1].block==0);assert(box:GetChild('intent').text=='7')
+host.run.combat.enemies[2].hp=0;host:refresh();tap('endTurn',3);drain();assert(box:GetChild('intent').text=='6');assert(host.run.combat.enemies[1].block==7)
+print('SHIELD_GREMLIN_GENERATED_UI_PASS values/detail/readonly/ally-block/solo-transition')
