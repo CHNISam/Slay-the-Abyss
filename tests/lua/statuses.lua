@@ -15,6 +15,10 @@ local function battle(enemies)
     return Combat.new(data, { deck = { "strike", "defend", "bash" }, enemies = enemies or { "jaw_worm" }, seed = 42 })
 end
 local function status(actor, id, value) Combat.addStatus(actor, id, value) end
+local function definition(id)
+    for _, entry in ipairs(data.statuses.statuses) do if entry.id == id then return entry end end
+    error("missing status definition: " .. id)
+end
 
 test("intensity and duration stack, nonstacking barricade stays one", function()
     local s = battle(); local p = s.player
@@ -149,7 +153,9 @@ test("timing and stacking are read from independent data definitions", function(
     local s = Combat.new(changed)
     status(s.player, "weak", 2); status(s.player, "vulnerable", 8)
     Actor.endRound(s, s.player); eq(s.player.statuses.weak, 2); eq(s.player.statuses.vulnerable, 0)
-    eq(data.statuses.statuses[3].stack, "duration")
+    eq(definition("weak").stack, "duration")
+    eq(definition("weak").decay, "round_end_minus_1")
+    eq(definition("vulnerable").stack, "duration")
 end)
 
 test("poison bypasses block and all attack modifiers then decreases", function()
@@ -321,7 +327,7 @@ test("fresh battles do not share statuses temporary strength or definitions", fu
     a.catalog.statuses.poison.name = "changed"
     eq(b.player.statuses.poison, nil); eq(b.player.temporaryStrength, nil)
     eq(b.catalog.statuses.poison.name, "中毒")
-    eq(data.statuses.statuses[6].name, "中毒")
+    eq(definition("poison").name, "中毒")
 end)
 
 test("dead enemy attacker cannot regenerate or let later enemies act", function()
