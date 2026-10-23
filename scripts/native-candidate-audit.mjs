@@ -37,11 +37,28 @@ function interfaceMetadata(spec) {
   }
   return metadata;
 }
-function equivalent(left, right) {
-  if (typeof left === 'number' && typeof right === 'number') return Math.abs(left - right) <= 0.0001;
+function uiComparisonContext(context, key) {
+  if (context === 'control') {
+    if (key === 'children') return 'controls';
+    if (['text', 'grid'].includes(key)) return key;
+    if (['position', 'size', 'scale'].includes(key)) return 'float-vector';
+    if (['rotation', 'opacity'].includes(key)) return 'float';
+  }
+  if (context === 'text' && ['fontSize', 'minFontSize', 'opacity'].includes(key)) return 'float';
+  if (context === 'grid' && ['itemSize', 'spacing', 'padding'].includes(key)) return 'float-vector';
+  return 'opaque';
+}
+function equivalent(left, right, context = 'opaque') {
+  if (context === 'float' && typeof left === 'number' && typeof right === 'number') {
+    return Number.isFinite(left) && Number.isFinite(right) && Math.abs(left - right) <= 0.0001;
+  }
   if (!left || !right || typeof left !== 'object' || typeof right !== 'object') return left === right;
   if (Array.isArray(left) !== Array.isArray(right) || Object.keys(left).length !== Object.keys(right).length) return false;
-  return Object.keys(left).every(key => Object.hasOwn(right, key) && equivalent(left[key], right[key]));
+  return Object.keys(left).every(key => {
+    const next = Array.isArray(left) ? context === 'controls' ? 'control' : context === 'float-vector' ? 'float' : 'opaque'
+      : uiComparisonContext(context, key);
+    return Object.hasOwn(right, key) && equivalent(left[key], right[key], next);
+  });
 }
 export function controlTreeStats(controls) {
   let count = 0, maxChildren = 0;
@@ -65,14 +82,14 @@ export function compareNativeCandidate({ actual, expected, sourceSha, candidateB
   if (new Set(modules.map(module => module.name)).size !== modules.length) add('MODULE_DUPLICATE', 'Script names must be unique');
   const sourceControls = expected.ui.controls, controls = actual.ui.interface.controls;
   const sourceStats = controlTreeStats(sourceControls), stats = controlTreeStats(controls);
-  if (!equivalent(normalizeUi(sourceControls), normalizeUi(controls))) add('UI_MISMATCH', 'Controls differ from same-source generated UI');
-  if (!equivalent(normalizeUi(expected.template), normalizeUi(actual.template.template))) add('TEMPLATE_MISMATCH', 'Deck template differs from same-source generated template');
+  if (!equivalent(normalizeUi(sourceControls), normalizeUi(controls), 'controls')) add('UI_MISMATCH', 'Controls differ from same-source generated UI');
+  if (!equivalent(normalizeUi(expected.template), normalizeUi(actual.template.template), 'control')) add('TEMPLATE_MISMATCH', 'Deck template differs from same-source generated template');
   if (!equivalent(interfaceMetadata(expected.ui), interfaceMetadata(actual.ui.interface))) add('INTERFACE_MISMATCH', 'Interface identity, flags, scripts or other root metadata differ');
   const graphContracts = expected.graphs.filter(graph => bgm || graph.name !== '_GSTS_ABYSS_BGM');
   if (actual.inspected.graphs.length !== graphContracts.length) add('GRAPH_COUNT', 'Unexpected/missing server graph');
   for (const contract of graphContracts) {
     const graph = actual.inspected.graphs.find(graph => graph.name === contract.name);
-    if (!graph || graph.type !== 20000 || graph.nodeCount <= 0) { add('GRAPH_MISSING', contract.name); continue; }
+    if (!graph || graph.type !== 20000 || !Number.isSafeInteger(graph.nodeCount) || graph.nodeCount <= 0) { add('GRAPH_MISSING', contract.name); continue; }
     const mounted = actual.inspected.entities.some(entity => entity.templateId === 10003004
       && (entity.graphMounts ?? []).some(mount => mount.graphId === graph.id && mount.category === 20000 && mount.enabled === 1));
     if (!mounted) add('GRAPH_UNMOUNTED', contract.name);

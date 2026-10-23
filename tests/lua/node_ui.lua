@@ -86,7 +86,11 @@ local function setup(kind, source, prepare, events)
     -- A player can only press what is on screen.
     local function click(key)
         assert(shown(key), "click on hidden control " .. key)
-        return get(key):GetChild("hit").click()
+        local hit = get(key):GetChild("hit")
+        -- A new deliberate click includes a fresh pointer gesture when supported;
+        -- it must not reuse a prior cancelled Down in the visual-state tests.
+        if hit.listeners.down then hit:emit("down",1) hit:emit("up",1) end
+        return hit.click({touchId=1})
     end
     return ui, get, click, shown, changes
 end
