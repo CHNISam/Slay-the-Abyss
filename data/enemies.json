@@ -342,6 +342,7 @@
       "name": "蓝衣束缚者",
       "tier": "normal",
       "hp": 48,
+      "hpRange": { "min": 46, "max": 50 },
       "intents": [
         {
           "id": "blue_slaver_1",
@@ -355,12 +356,16 @@
         },
         {
           "id": "blue_slaver_2",
-          "kind": "debuff",
+          "kind": "attack",
           "effects": [
+            {
+              "op": "damage",
+              "value": 7
+            },
             {
               "op": "applyStatus",
               "status": "weak",
-              "value": 2
+              "value": 1
             }
           ]
         }
@@ -458,6 +463,7 @@
       "name": "潜行小魔",
       "tier": "normal",
       "hp": 12,
+      "hpRange": { "min": 10, "max": 14 },
       "intents": [
         {
           "id": "sneaky_gremlin_1",
@@ -476,6 +482,7 @@
       "name": "迟缓小魔",
       "tier": "normal",
       "hp": 15,
+      "hpRange": { "min": 13, "max": 17 },
       "intents": [
         {
           "id": "fat_gremlin_1",
@@ -484,13 +491,7 @@
             {
               "op": "damage",
               "value": 4
-            }
-          ]
-        },
-        {
-          "id": "fat_gremlin_2",
-          "kind": "debuff",
-          "effects": [
+            },
             {
               "op": "applyStatus",
               "status": "weak",

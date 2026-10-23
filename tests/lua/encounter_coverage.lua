@@ -41,7 +41,11 @@ for _, definition in ipairs(data.enemies.enemies) do
             test(definition.id .. "/" .. intent.id .. " resolves with Block " .. startingBlock, function()
                 local s = Combat.new(data, { enemies = { definition.id }, seed = 42 })
                 local enemy = s.enemies[1]
-                equal(enemy.hp, definition.hp, "source HP")
+                local initialHp = enemy.hp
+                if definition.hpRange then
+                    assert(initialHp >= definition.hpRange.min and initialHp <= definition.hpRange.max, "source HP range")
+                    equal(enemy.maxHp, initialHp, "sampled max HP")
+                else equal(initialHp, definition.hp, "source HP") end
                 enemy.intentIndex = index
                 s.player.block = startingBlock
                 local preview = Combat.intent(s, 1)
@@ -73,7 +77,7 @@ for _, definition in ipairs(data.enemies.enemies) do
                 equal(s.player.hp, hp, "player HP")
                 equal(enemy.block, enemyBlock, "enemy Block")
                 equal(s.player.block, 0, "next player turn clears Block")
-                equal(enemy.hp, definition.hp, "enemy HP unchanged")
+                equal(enemy.hp, initialHp, "enemy HP unchanged")
                 for id in pairs(s.catalog.statuses) do
                     equal(s.player.statuses[id] or 0, playerStatuses[id] or 0, "player " .. id)
                     equal(enemy.statuses[id] or 0, enemyStatuses[id] or 0, "enemy " .. id)
