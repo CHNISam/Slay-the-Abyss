@@ -93,9 +93,9 @@ for _, hp in ipairs({1, 40}) do
         equal(s.nextUid, 2); equal(#s.discard, 1); equal(s.discard[1], c)
     end)
 end
-test("lethal target still creates copy before victory", function()
+test("final lethal target clears queued copy before victory", function()
     local s, c = battle(); s.enemies[1].hp = 1
-    assert(Combat.play(s, c.uid, 1)); equal(s.phase, "victory"); equal(#s.discard, 2); equal(s.nextUid, 3)
+    assert(Combat.play(s, c.uid, 1)); equal(s.phase, "victory"); equal(#s.discard, 1); equal(s.nextUid, 2)
     equal(s.events[#s.events].kind, "victory")
 end)
 test("controlled subsequent draw can draw the new copy but never its resolving source", function()

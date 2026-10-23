@@ -27,8 +27,9 @@ local function unchangedAfter(root)
         end
     end
 end
-local function battle(upgraded)
-    local s = Combat.new(data, {seed=42, deck={{cardId="rampage", upgraded=upgraded}}})
+local function battle(upgraded, companion)
+    local s = Combat.new(data, {seed=42, deck={{cardId="rampage", upgraded=upgraded}},
+        enemies=companion and {"cultist","cultist"} or nil})
     return s, s.hand[1]
 end
 local function base(s,c) return Combat.cardDefinition(s,c).effects[1].value end
@@ -99,9 +100,9 @@ test("fully blocked hit still retaliates then grows if source survives",function
     assert(Combat.play(s,c.uid,1)); equal(s.player.hp,hp-3); equal(s.enemies[1].hp,ehp)
     equal(s.enemies[1].block,12); equal(base(s,c),13)
 end)
-test("lethal target still grows before victory",function()
+test("final lethal target clears queued growth before victory",function()
     local s,c=battle(); s.enemies[1].hp=1
-    assert(Combat.play(s,c.uid,1)); equal(s.phase,"victory"); equal(base(s,c),13)
+    assert(Combat.play(s,c.uid,1)); equal(s.phase,"victory"); equal(base(s,c),8)
     equal(s.events[#s.events].kind,"victory")
 end)
 for _, prior in ipairs({false,5}) do
@@ -133,13 +134,13 @@ for _, v in ipairs({-1,1.5,math.huge,0/0,"5",false}) do
     end)
 end
 test("growth and effective damage cross signed 32-bit boundary without wrap",function()
-    local s,c=battle(); c.damageBonus=2147483645
+    local s,c=battle(false,true); c.damageBonus=2147483645
     equal(base(s,c),2147483653.0)
     assert(Combat.play(s,c.uid,1)); equal(c.damageBonus,2147483650.0); equal(base(s,c),2147483658.0)
     equal(s.enemies[1].hp,0)
 end)
-test("nonadvancing growth rejects and restores preceding lethal hit",function()
-    local s,c=battle(); c.damageBonus=9007199254740992.0
+test("nonadvancing growth rejects preceding lethal hit while companion survives",function()
+    local s,c=battle(false,true); c.damageBonus=9007199254740992.0
     s.catalog.cards.rampage.effects[2].value=1
     local check=unchangedAfter(s); equal(pcall(Combat.play,s,c.uid,1),false); check()
 end)

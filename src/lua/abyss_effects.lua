@@ -8,6 +8,15 @@ local coreOps = { damage = true, damageAll = true, block = true, draw = true, en
     loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true,
     increaseDamageThisCombat = true, makeTempCardInDiscard = true }
 
+-- Source-verified queued actions removed by clearPostCombatActions. Its
+-- exceptions are specific GainBlock/Heal/UseCard actions and DAMAGE actions,
+-- not every action with BLOCK type (DoubleYourBlock is removed).
+-- The conditional ABI contains only Dropkick's queued energy/draw tail.
+local clearedAfterDamage = { draw=true, energy=true, applyStatus=true, applyStatusAll=true,
+    gainStatus=true, doubleBlock=true, noDrawThisTurn=true, gainTemporaryStrength=true,
+    addCardToDiscard=true, increaseDamageThisCombat=true, makeTempCardInDiscard=true, conditional=true }
+local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=true, loseHp=true }
+
 local function supported(effects, branch)
     if type(effects) ~= "table" then return false, "invalid_effect" end
     -- Both levels must be nonempty dense arrays: ipairs alone would silently
@@ -50,10 +59,14 @@ end
 
 function M.apply(combat, state, effects, source, target, playedCard, queuedEnemyAction)
     local dealt = 0
+    local cleared = false
     for _, effect in ipairs(effects) do
         if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
-        if source.hp <= 0 then
+        if cleared and clearedAfterDamage[op] then
+            -- Cancel only still-queued mapped actions, never earlier effects or
+            -- retained Block/HP-loss. Card disposal remains owned by Combat.
+        elseif source.hp <= 0 then
             assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
             -- ApplyPower guards its target, not its dead source. Only the
             -- source-verified single-player queued status path is enabled.
@@ -147,6 +160,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 if victim.hp > 0 then Actors.applyPower(state, victim, effect.status, value, source) end
             end
         else error("unsupported effect: " .. tostring(op)) end
+        if clearsOnFinalDamage[op] and combat.outcome(state) == "victory" then cleared = true end
     end
     return dealt
 end
