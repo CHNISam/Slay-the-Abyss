@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { nativeTheme } from '../scripts/native-ui-theme.mjs';
+import { nativeControls, nativeTheme } from '../scripts/native-ui-theme.mjs';
 import { battleLayout } from '../scripts/ui-layout.mjs';
 import { mapLayout } from '../scripts/map-ui-layout.mjs';
 import { nodeLayout } from '../scripts/node-ui-layout.mjs';
@@ -14,6 +14,25 @@ function freeze(value) {
   if (value && typeof value === 'object') { Object.freeze(value); Object.values(value).forEach(freeze); }
   return value;
 }
+
+test('native image colours serialize as RGB with independent opacity', () => {
+  const plate = nativeControls().plate('veil', [0, 0, 20, 20], '#12345680');
+  assert.equal(plate.colour, '#123456');
+  assert.equal(plate.opacity, 128 / 255);
+  walk(gameLayout().controls, control => {
+    if (control.kind !== 'image' || control.colour === undefined) return;
+    assert.match(control.colour, /^#[0-9a-f]{6}$/i, control.name);
+    if (control.opacity !== undefined) assert.ok(control.opacity >= 0 && control.opacity <= 1);
+  });
+  const node = nodeLayout().controls[0].children;
+  const veils = [];
+  walk(node, control => { if (control.name === 'veil') veils.push(control); });
+  assert.equal(veils.length, 17, 'every shop/picker veil uses the supported colour representation');
+  for (const veil of veils) {
+    assert.equal(veil.colour, nativeTheme.color.backdropVeil.slice(0, 7));
+    assert.equal(veil.opacity, parseInt(nativeTheme.color.backdropVeil.slice(7), 16) / 255);
+  }
+});
 
 test('node and menu layouts resolve semantic colour, font, minimum font and picture tokens', () => {
   const theme = structuredClone(nativeTheme);
