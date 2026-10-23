@@ -1,0 +1,80 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { gameLayout } from '../scripts/game-ui-layout.mjs';
+import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
+
+const named = (controls, name) => controls.find(control => control.name === name);
+const child = (control, name) => named(control.children, name);
+function descendant(control, name) {
+  if (control.name === name) return control;
+  for (const c of control.children ?? []) {
+    const found = descendant(c, name);
+    if (found) return found;
+  }
+}
+function walk(control, fn) { fn(control); for (const c of control.children ?? []) walk(c, fn); }
+function overlaps(a, b) {
+  return a.position.every((position, i) => Math.abs(position - b.position[i]) < (a.size[i] + b.size[i]) / 2);
+}
+
+test('exit remains above every game page and the deck, with a separate blocking confirmation', () => {
+  const controls = gameLayout().controls;
+  const entry = named(controls, 'exitEntry'), panel = named(controls, 'exitPanel');
+  assert.ok(entry, 'every page needs the shared exit entry');
+  assert.ok(panel, 'exit requires an explicit confirmation');
+  assert.notEqual(entry.visible, false);
+  assert.equal(panel.visible, false);
+  assert.ok(controls.indexOf(entry) > controls.indexOf(named(controls, 'deckPanel')));
+  assert.ok(controls.indexOf(panel) > controls.indexOf(entry));
+  assert.equal(child(panel, 'blocker').kind, 'cursorArea');
+  assert.deepEqual(child(panel, 'blocker').size, theme.canvas.base);
+  for (const name of ['title', 'message', 'status']) assert.equal(child(panel, name).kind, 'text');
+  for (const [button, label] of [[child(entry, 'open'), '退出本局'], [child(panel, 'cancel'), '继续游戏'],
+    [child(panel, 'confirm'), '退出并结算']]) {
+    const hit = child(button, 'hit');
+    assert.equal(hit.kind, 'presetButton');
+    assert.ok(button.size[0] >= 48 && button.size[1] >= 48);
+    for (const state of ['normal', 'hover', 'pressed', 'disabled']) {
+      const variant = child(hit, hit.states[state]);
+      assert.ok(variant, `native ${state} state must stay visible`);
+      assert.equal(child(variant, 'label').text.content, label);
+      assert.ok(child(variant, 'label').size[1] >= 40);
+    }
+    assert.deepEqual(child(hit, 'pressed').scale,
+      [theme.layout.exitMenu.pressedScale, theme.layout.exitMenu.pressedScale]);
+  }
+  assert.ok(panel.children.indexOf(child(panel, 'blocker')) < panel.children.indexOf(child(panel, 'cancel')));
+});
+
+test('exit entry does not cover deck controls, map legend or the narrowed game notices', () => {
+  const controls = gameLayout().controls;
+  const entry = child(named(controls, 'exitEntry'), 'open');
+  for (const obstacle of [child(named(controls, 'deckEntry'), 'open'),
+    child(named(controls, 'deckPanel'), 'close'), descendant(named(controls, 'mapPanel'), 'legendTitle'),
+    child(named(controls, 'battlePanel'), 'notice'), child(named(controls, 'nodePanel'), 'notice')]) {
+    assert.ok(!overlaps(entry, obstacle), `exit overlaps ${obstacle.name}`);
+  }
+  assert.ok(child(named(controls, 'battlePanel'), 'notice').size[0] >= 900);
+  assert.ok(child(named(controls, 'nodePanel'), 'notice').size[0] >= 900);
+});
+
+test('exit geometry follows theme and safe device scaling without oversized containers', () => {
+  const controls = gameLayout().controls;
+  for (const c of controls) walk(c, item => assert.ok((item.children?.length ?? 0) <= 60, item.name));
+  const entry = child(named(controls, 'exitEntry'), 'open'), panel = named(controls, 'exitPanel');
+  for (const device of [...Object.values(theme.canvas.devices), [1560, 720]]) {
+    const scale = Math.min(device[0] / theme.canvas.base[0], device[1] / theme.canvas.base[1]);
+    for (const c of [entry, ...['title', 'message', 'status', 'cancel', 'confirm'].map(name => child(panel, name))]) {
+      for (const [i, margin] of [theme.canvas.safe.x, theme.canvas.safe.y].entries()) {
+        assert.ok((Math.abs(c.position[i]) + c.size[i] / 2 + margin) * scale <= device[i] / 2,
+          `${c.name} exceeds device ${device}`);
+      }
+    }
+  }
+  const changed = structuredClone(theme);
+  changed.layout.exitMenu.entry[0] -= 20;
+  changed.layout.exitMenu.confirm[0] -= 10;
+  const custom = gameLayout(changed).controls;
+  assert.deepEqual(child(named(custom, 'exitEntry'), 'open').position, changed.layout.exitMenu.entry.slice(0, 2));
+  assert.deepEqual(child(named(custom, 'exitPanel'), 'confirm').position, changed.layout.exitMenu.confirm.slice(0, 2));
+});

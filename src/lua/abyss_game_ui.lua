@@ -16,6 +16,9 @@ function M.new(root, data, presentation, clickEvent, platform)
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
+    local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
+    local exitGeneration = 0
+    local requestSettlement
     local ready = false
     local function changed() if ready then self:refresh() end end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
@@ -30,8 +33,31 @@ function M.new(root, data, presentation, clickEvent, platform)
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
 
+    function self:openExit()
+        if self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        exitGeneration = exitGeneration + 1
+        self.exitOpen, self.exitError = true, nil
+        self.battleUI.selected = nil
+        self:refresh()
+        return true
+    end
+    function self:closeExit()
+        if not self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        exitGeneration = exitGeneration + 1
+        self.exitOpen, self.exitError = false, nil
+        self.battleUI.suppressClick = false
+        self:refresh()
+        return true
+    end
+    function self:confirmExit()
+        if not self.exitOpen then return false, "exit_not_open" end
+        -- Voluntary departure never changes combat HP, awards a victory, or
+        -- fakes a defeated Run. An already-earned victory keeps its outcome.
+        return requestSettlement(self.mode == "victory")
+    end
+
     function self:openDeck()
-        if not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
+        if self.exitOpen or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
         if not self.deckUI:open(self.run) then return false end
         self.battleUI.selected = nil
@@ -39,6 +65,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     function self:closeDeck()
+        if self.exitOpen or self.settlementRequested then return false end
         if not self.deckUI:close() then return false end
         -- Resume click-only hosts; pointer-capable card input still requires its
         -- own fresh Down/Up identity. Closing an overlay cannot revive old clicks.
@@ -155,7 +182,7 @@ function M.new(root, data, presentation, clickEvent, platform)
 
     function self:refresh()
         local run = self.run
-        if run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
+        if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
         if self.battleUI.busy then self.mode = "battle"
@@ -170,14 +197,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
         local deckOpen = self.deckUI.visible
-        child("deckEntry"):SetVisible(not inMenu and not deckOpen)
+        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy
+        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not blocked)
         child("deckEntry"):GetChild("open"):GetChild("hit").interactable = not self.battleUI.busy
         menu:SetVisible(inMenu)
-        self.battleUI:setActive(self.mode == "battle" and not deckOpen)
+        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not blocked)
         child("battlePanel"):SetVisible(self.mode == "battle")
-        self.mapUI:setVisible(self.mode == "map" and not deckOpen)
+        self.mapUI:setVisible(self.mode == "map" and not deckOpen and not blocked)
         child("mapPanel"):SetVisible(self.mode == "map")
-        self.nodeUI:setVisible(self.mode == "node" and not deckOpen)
+        self.nodeUI:setVisible(self.mode == "node" and not deckOpen and not blocked)
         child("nodePanel"):SetVisible(self.mode == "node")
         if self.mode == "battle" then
             self.battleUI:render()
@@ -191,13 +219,31 @@ function M.new(root, data, presentation, clickEvent, platform)
                     and Narrative.flow.bossEntrance.compact or self.battleUI.instructions
             end
         elseif self.mode == "map" then
-            self.mapUI:setNavigationEnabled(not deckOpen and #Nodes.available(run, self.map) > 0)
+            self.mapUI:setNavigationEnabled(not deckOpen and not blocked and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render() end
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
+        -- Shared utilities stay above the deck overlay; the confirmation stays
+        -- above every page, including an in-flight battle presentation.
+        exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
+        exitEntry:SetAsLastSibling()
+        exitPanel:SetVisible(self.exitOpen == true)
+        if self.exitOpen then
+            exitPanel:SetAsLastSibling()
+            local message = self.run and "确认退出本局？本局进度不会保留。\n将进入平台结算，随后可选择离开。"
+                or "确认结束当前关卡？\n将进入平台结算，随后可选择离开。"
+            if self.mode == "victory" then message = "确认结束本局并结算胜利？\n随后可在平台结算页选择离开。" end
+            exitPanel:GetChild("message").text = message
+            exitPanel:GetChild("status").text = self.settlementRequested and "结算请求已发送，等待平台结算界面。"
+                or self.exitError and "退出请求失败，请重试或继续游戏。" or ""
+            local enabled = not self.settlementRequested and not self.settlementBusy
+            for _, name in ipairs({"cancel", "confirm"}) do
+                exitPanel:GetChild(name):GetChild("hit").interactable = enabled
+            end
+        end
     end
     function self:start()
-        if self.deckUI.visible then return false end
+        if self.exitOpen or self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         self.run, self.map = Run.new(data, self.seed), Map.generate(data, self.seed)
@@ -210,23 +256,34 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     function self:settle()
+        if self.exitOpen then return false, "exit_open" end
         if self.deckUI.visible then return false, "deck_open" end
         if self.mode ~= "victory" and self.mode ~= "defeat" then return false, "not_result" end
+        return requestSettlement(self.mode == "victory")
+    end
+    requestSettlement = function(victory)
         if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
-        if type(platform.settle) ~= "function" then return false, "settlement_unavailable" end
+        if type(platform.settle) ~= "function" then
+            self.exitError = self.exitOpen == true
+            self:refresh()
+            return false, "settlement_unavailable"
+        end
         self.settlementBusy = true
-        local called, accepted = pcall(platform.settle, self.mode == "victory")
+        local called, accepted = pcall(platform.settle, victory)
         self.settlementBusy = false
         if not called or accepted == false then
             self.settlementError, self.motion.shake = true, 0
+            self.exitError = self.exitOpen == true
             self:refresh()
             return false, "settlement_request_failed"
         end
-        self.settlementRequested, self.settlementError = true, nil
+        self.settlementRequested, self.settlementError, self.exitError = true, nil, nil
+        exitGeneration = exitGeneration + 1
         self:refresh()
         return true, "settlement_requested"
     end
     function self:resize(width, height)
+        exitGeneration = exitGeneration + 1
         self.battleUI:resize(width, height)
         self.mapUI:resize(width, height)
         self.nodeUI:resize(width, height)
@@ -235,6 +292,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
             return false, "invalid_delta"
         end
+        if self.exitOpen or self.settlementBusy then return true end
+        if self.settlementRequested then self:animate(dt); return true end
         -- Count client update time within this run; menus/results never extend it.
         -- The terminal rule state can precede the last feedback animation.
         local run = self.run
@@ -251,6 +310,56 @@ function M.new(root, data, presentation, clickEvent, platform)
     start:GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)
     settlement:GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:settle() end)
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
+    exitPanel.disableCursorEventPassthrough = true
+    exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
+    local function bindExit(box, kind, action)
+        local hit = box:GetChild("hit")
+        local held, released, observed
+        local cursor = platform.cursorEvents or {}
+        local function available()
+            if self.settlementRequested or self.settlementBusy then return false end
+            return kind == "open" and not self.exitOpen or kind ~= "open" and self.exitOpen == true
+        end
+        local function current(token)
+            return token and token.generation == exitGeneration and token.run == self.run and available()
+        end
+        local function touch(event) return event and event.touchId end
+        if cursor.CursorDown and cursor.CursorUp then
+            hit:AddCursorEventListener(cursor.CursorDown, function(event)
+                if held and not current(held) then held = nil end
+                if released and not current(released) then released = nil end
+                if held and held.touch ~= touch(event) then return end
+                observed, held, released = true, nil, nil
+                if available() then held = {generation=exitGeneration,run=self.run,touch=touch(event)} end
+            end)
+            hit:AddCursorEventListener(cursor.CursorUp, function(event)
+                if not held or held.touch ~= touch(event) then return end
+                released = current(held) and held or nil
+                held = nil
+            end)
+            for _, event in pairs({cursor.CursorExit, cursor.CursorEndDrag}) do
+                if event then hit:AddCursorEventListener(event, function(pointer)
+                    local owner = held or released
+                    if not pointer or owner and owner.touch == touch(pointer) then held, released = nil, nil end
+                end) end
+            end
+        end
+        hit:AddCursorEventListener(clickEvent, function(event)
+            if observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil then
+                local token = released
+                if not current(token) then
+                    if not held or held.touch == touch(event) then held, released = nil, nil end
+                    return false
+                end
+                if token.touch ~= touch(event) then return false end
+                held, released = nil, nil
+            elseif not available() then return false end
+            return action()
+        end)
+    end
+    bindExit(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
+    bindExit(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
+    bindExit(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
     ready = true
     self:refresh()
     return self

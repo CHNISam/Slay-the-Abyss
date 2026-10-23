@@ -30,9 +30,10 @@ await client.connect(new StdioClientTransport({ command: process.execPath,
 let mapPath = resolve(baseMap);
 async function call(name, args) {
   const result = await client.callTool({ name, arguments: args }, undefined, { timeout: 120000 });
-  writeFileSync(join(workspace, `${name}-${args.name || 'result'}.json`), JSON.stringify(result, null, 2));
+  writeFileSync(join(workspace, `${name}-${args.name || args.script || 'result'}.json`), JSON.stringify(result, null, 2));
   if (result.isError) throw new Error(JSON.stringify(result));
   const data = result.structuredContent ?? JSON.parse(result.content.find(item => item.type === 'text').text);
+  if (data.error) throw new Error(JSON.stringify(data));
   if (data.mapPath) mapPath = data.mapPath;
   return data;
 }
@@ -47,12 +48,58 @@ try {
   for (const template of templates) {
     await call('scene_add_client_template', { template, mapPath, replace: true, outputName: 'abyss-full-game-test' });
   }
-  await call('scene_add_client_ui', { ...layout, mapPath, outputName: 'abyss-full-game-test' });
-  await call('scene_set_player_count', { mapPath, min: 1, max: 1, outputName: 'abyss-full-game-test' });
-  for (const name of ['ABYSS_WIN', 'ABYSS_LOSE']) {
-    await call('scene_add_signal', { mapPath, name, outputName: 'abyss-full-game-test' });
+  await call('scene_add_client_ui', { ...layout, mapPath, replace: true, outputName: 'abyss-full-game-test' });
+  // A reused base can contain modules from an unmerged branch. Replace the
+  // owned UI first so obsolete scripts can be detached, then reconcile the
+  // embedded inventory with this source manifest. Never delete foreign scripts.
+  const expectedScripts = new Set(scripts.map(script => script.name));
+  async function scriptInventory() {
+    const listed = await call('scene_list_client_scripts', { mapPath });
+    if (!Array.isArray(listed.scripts) || listed.scripts.some(script => !script
+        || typeof script.name !== 'string' || typeof script.file !== 'string')
+        || new Set(listed.scripts.map(script => script.name)).size !== listed.scripts.length) {
+      throw new Error('Cannot read an unambiguous client script inventory');
+    }
+    return listed.scripts;
   }
-  const graph = await call('scene_add_graph', { mapPath, name: 'ABYSS_SETTLEMENT', kind: 'server', outputName: 'abyss-full-game-test' });
+  const beforeScripts = await scriptInventory();
+  const obsolete = beforeScripts.filter(script => !expectedScripts.has(script.name));
+  if (obsolete.some(script => !/^abyss_[a-z0-9_]+$/.test(script.name) || script.file !== `${script.name}.lua`)) {
+    throw new Error('Unknown client script ownership; rebuild from a clean base instead of deleting unknown scripts');
+  }
+  for (const script of obsolete) {
+    const removed = await call('scene_remove_client', { mapPath, script: script.name, outputName: 'abyss-full-game-test' });
+    if (removed.removed?.script !== script.name) throw new Error(`Client script removal was not acknowledged: ${script.name}`);
+  }
+  const afterScripts = await scriptInventory();
+  if (afterScripts.length !== expectedScripts.size || afterScripts.some(script => !expectedScripts.has(script.name))) {
+    throw new Error('Final client script inventory differs from production manifest');
+  }
+  writeFileSync(join(workspace, 'script-cleanup.json'), JSON.stringify({
+    expected: [...expectedScripts], before: beforeScripts, removed: obsolete.map(script => script.name), after: afterScripts,
+  }, null, 2));
+  await call('scene_set_player_count', { mapPath, min: 1, max: 1, outputName: 'abyss-full-game-test' });
+  // Read the workspace copy after script/UI writes, so inspect_map's configured
+  // root restriction also works when the input was an external saved map.
+  const inspected = await call('inspect_map', { mapPath });
+  const listedSignals = await call('scene_list_signals', { mapPath });
+  if (!Array.isArray(inspected.graphs) || !Array.isArray(listedSignals.signals)
+      || listedSignals.signals.some(name => typeof name !== 'string')) {
+    throw new Error('Cannot read settlement graph and signal inventory; refusing to infer missing resources');
+  }
+  const matches = inspected.graphs.filter(graph => graph.name === '_GSTS_ABYSS_SETTLEMENT');
+  if (matches.length > 1 || matches.some(graph => graph.type !== 20000 || !graph.writable
+      || !Number.isSafeInteger(graph.id) || graph.id <= 0 || graph.id > 0xffffffff)) {
+    throw new Error('Existing settlement graph is ambiguous, incompatible or not writable');
+  }
+  for (const name of ['ABYSS_WIN', 'ABYSS_LOSE']) {
+    if (!listedSignals.signals.includes(name)) {
+      await call('scene_add_signal', { mapPath, name, outputName: 'abyss-full-game-test' });
+    }
+  }
+  const graph = matches.length
+    ? { graphId: matches[0].id, name: matches[0].name }
+    : await call('scene_add_graph', { mapPath, name: 'ABYSS_SETTLEMENT', kind: 'server', outputName: 'abyss-full-game-test' });
   const code = settlementGraphSource({ id: graph.graphId, name: graph.name });
   writeFileSync(join(workspace, 'settlement.ts'), code);
   const compiled = await call('write_graphs', { mapPath, graphs: [{ graphId: graph.graphId, code }] });

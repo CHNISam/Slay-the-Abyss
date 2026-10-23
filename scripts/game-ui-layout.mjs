@@ -3,6 +3,7 @@ import { mapLayout } from './map-ui-layout.mjs';
 import { nodeLayout } from './node-ui-layout.mjs';
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
+import { exitControls } from './exit-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
 export const resultStats = ['floor', 'victories', 'time', 'deck'];
@@ -16,6 +17,9 @@ export function gameLayout(theme = nativeTheme) {
   const piles = battleControls.find(control => control.name === 'piles');
   piles.position = theme.layout.deckView.battlePiles.slice(0, 2);
   piles.size = theme.layout.deckView.battlePiles.slice(2);
+  const battleNotice = battleControls.find(control => control.name === 'notice');
+  battleNotice.position = theme.layout.exitMenu.battleNotice.slice(0, 2);
+  battleNotice.size = theme.layout.exitMenu.battleNotice.slice(2);
   const map = structuredClone(mapLayout(theme));
   const mapPanel = map.controls.find(control => control.name === 'stage').children.find(control => control.name === 'mapPanel');
   mapPanel.visible = false;
@@ -42,7 +46,9 @@ export function gameLayout(theme = nativeTheme) {
       { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: battleControls },
       mapPanel,
       ...nodeLayout(theme).controls.map(control => ({ ...control, visible: false, children: control.children.map(child =>
-        child.name === 'title' ? { ...child, size: [theme.layout.deckView.nodeTitleWidth, child.size[1]] } : child) })),
+        child.name === 'title' ? { ...child, size: [theme.layout.deckView.nodeTitleWidth, child.size[1]] }
+          : child.name === 'notice' ? { ...child, position: theme.layout.exitMenu.nodeNotice.slice(0, 2),
+            size: theme.layout.exitMenu.nodeNotice.slice(2) } : child) })),
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
         plate('backdrop', layout.backdrop, color.backdrop),
         emblem,
@@ -61,6 +67,7 @@ export function gameLayout(theme = nativeTheme) {
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
       ] },
       ...deckControls(theme),
+      ...exitControls(theme),
     ],
   };
 }

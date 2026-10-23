@@ -1,5 +1,9 @@
 # 交接说明
 
+2026-10-23 M1并行收口的新证据见 [M1-CLOSEOUT.md](M1-CLOSEOUT.md)：演出异常恢复TASK29.2、药水TASK41、回合/跳过奖励动作TASK43三项离线任务已独立复核Done。统一候选固定源b76b6cc（PR114分页/任务编号+PR118节点归属+主动退出），交付在根`.artifacts/m1-handoff-b76b6cc/`；30模块逐byte同源、1664控件、22节点完整载荷及23项场景/清单断言通过，0静态error/17既有warning。跨退出层误购已先红后绿修正，失败候选保留。614本轮日志已归档（345打印、4胜1败），旧文“缺新日志”只属历史。新候选未官方导入/实机/UI门禁；九状态、正确场景配置及同候选完整动作取证仍缺，M1不整体关闭。
+
+历史候选记录（不代表本次组合候选）：
+
 **用户最新要求：2026-10-23已可登录原神测试，停止扩张任务，收敛并交接。** 当前测试入口见[PLAYTEST_HANDOFF](PLAYTEST_HANDOFF.md)：根`.artifacts/handoff-20261023-61425e4/abyss-playtest-61425e4.gil`，固定源61425e4。完整检查JS595pass/116skip、全部Lua、Python16pass/1skip；32模块逐byte/1590树/max50/22节点结算图与完整载荷核对通过，static0error17warning，未官方导入/实机。原地图交叉修复1cf与拓扑候选1365只冻结交接，未加入此副本；SpikeM/Slimed未实施，不继续扩展。
 
 第二批[PR102](https://github.com/CHNISam/Slay-the-Abyss/pull/102)已在head`0c3fd84`的两个[Quality作业](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39932782189)成功后squash合入`6014746`。合并时同时保留独立PR101的五份真实出牌/合法路线诊断文件；`src/data/scripts`与PR102 head已核对相同。后续离线集成在`.worktrees/continued-status`，不覆盖根旧develop。PR102及其三个已合源分支的干净工作树已清理，完整Git bundle和最终本地/构建日志先归档至根`.artifacts/continued-pr102-source-history`；含未提交证据的旧BGM树继续保留。

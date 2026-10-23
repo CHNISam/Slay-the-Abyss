@@ -59,6 +59,25 @@ test('real readback slice matches fixed source, CRLF and implicit platform defau
   assert.equal(report.playtest, 'NOT_TESTED');
   assert.deepEqual(audit(input => { input.actual.scripts.scripts[0].source = '\uFEFF' + input.actual.scripts.scripts[0].source; }).issues, []);
 });
+
+test('native omitted opaque white text matches explicit white, while other missing colours fail', () => {
+  assert.deepEqual(audit(input => {
+    firstText(input.expected.ui.controls).text.colour = '#FFFFFF';
+    delete firstText(input.actual.ui.interface.controls).text.colour;
+  }).issues, []);
+  for (const colour of ['#ECE6DA', '#000000', '#fffffe']) {
+    const report = audit(input => {
+      firstText(input.expected.ui.controls).text.colour = colour;
+      delete firstText(input.actual.ui.interface.controls).text.colour;
+    });
+    assert.ok(report.issues.some(issue => issue.code === 'UI_MISMATCH'));
+  }
+  assert.ok(audit(input => {
+    firstText(input.expected.ui.controls).text.colour = '#FFFFFF';
+    delete firstText(input.actual.ui.interface.controls).text.colour;
+    firstText(input.actual.ui.interface.controls).text.opacity = 0.8;
+  }).issues.some(issue => issue.code === 'UI_MISMATCH'));
+});
 test('bad module, missing/extra module and wrong UI geometry cannot pass a static-clean candidate', () => {
   for (const change of [
     input => { input.actual.scripts.scripts[0].source += '\nreturn false'; },
