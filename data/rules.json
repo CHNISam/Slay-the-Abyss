@@ -33,7 +33,10 @@
     "upgradeCount": 1
   },
   "events": {
-    "encounterId": "purifier",
+    "poolMode": "restricted-six",
+    "goop": { "damage": 11, "gold": 75, "lossMin": 20, "lossMax": 50 },
+    "golden_wing": { "damage": 7, "goldMin": 50, "goldMax": 80, "attackThreshold": 10 },
+    "shining_light": { "damagePercent": 20, "upgradeCount": 2 },
     "purifier": {
       "removeCost": 0
     },

@@ -59,8 +59,9 @@ local function finishBattle(run)
 end
 local function rewardPending()
     local source = copy(data)
-    -- Funding fixture only: unchanged cards, combat stats, offers, relic and potion effects.
+    -- Funding + explicit event fixture: unchanged cards, combat stats, offers, relic and potion effects.
     source.rules.player.startingGold = 1000
+    source.rules.events.encounterId='purifier' -- restoration ownership is independent of unknown-room sampling
     local run, map = Run.new(source, 36), Map.generate(source, 36)
     assert(Run.obtainPotion(run, "fire_potion"))
     assert(Run.obtainPotion(run, "energy_potion"))

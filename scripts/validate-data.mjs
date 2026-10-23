@@ -313,7 +313,17 @@ export function validateContent(bundle) {
       if (rules.player.drawPerTurn > rules.player.maxHand) fail('rules.player.drawPerTurn', 'must not exceed maxHand');
     }
     if (object(rules.events, 'rules.events')) {
-      enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
+      if (rules.events.encounterId !== undefined) enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
+      else enumeration(rules.events.poolMode, ['restricted-six'], 'rules.events.poolMode');
+      if (rules.events.poolMode !== undefined) {
+        enumeration(rules.events.poolMode, ['restricted-six'], 'rules.events.poolMode');
+        const amounts = { goop: { damage: 11, gold: 75, lossMin: 20, lossMax: 50 },
+          golden_wing: { damage: 7, goldMin: 50, goldMax: 80, attackThreshold: 10 },
+          shining_light: { damagePercent: 20, upgradeCount: 2 } };
+        for (const [id, fields] of Object.entries(amounts)) if (object(rules.events[id], `rules.events.${id}`)) {
+          for (const [field, value] of Object.entries(fields)) integer(rules.events[id][field], `rules.events.${id}.${field}`, value, value);
+        }
+      }
       if (object(rules.events.purifier, 'rules.events.purifier')) integer(rules.events.purifier.removeCost, 'rules.events.purifier.removeCost', 0, 0);
     }
     if (isObject(rules.events) && object(rules.events.cleric, 'rules.events.cleric')) {

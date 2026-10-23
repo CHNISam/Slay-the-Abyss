@@ -178,6 +178,7 @@ end
 test("real map keeps resources across two original-data battles and a newly acquired relic triggers next time", function()
     local source = Combat.copy(data)
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
+    source.rules.events.encounterId='purifier' -- explicit content fixture; unknown RNG has its own route tests
     -- Seed 36 follows shops/events to the fixed ninth-row chest, then combat.
     -- Do not depend on the removed extra random chests before floor 9.
     local run, map = Run.new(source, 36), Map.generate(source, 36)
