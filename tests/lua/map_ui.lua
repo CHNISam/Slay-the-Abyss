@@ -419,4 +419,43 @@ test("dragging the route scrolls with the finger and a drag never chooses a node
     assert(click(root, "node" .. i) and chosen == 1 and map.floor == 1)
 end)
 
+test("map drags expire across overlays, resize and run replacement", function()
+    for _, boundary in ipairs({"overlay", "resize", "restart"}) do
+        local root, map = mock(), Map.generate(data, 42)
+        local ui = MapUI.new(root, map, function(node) return Map.choose(map, node.id) end, "click", {
+            imageSource = "static", cursor = {CursorDown="down", CursorDrag="drag", CursorUp="up"},
+            color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+        })
+        local area = mapControl(panel(root), "dragArea")
+        local function pointer(y, id) return {touchId=id or 7, GetUIPos=function() return 640,y end} end
+        area.listeners.down(pointer(400))
+        if boundary == "overlay" then ui:setVisible(false); ui:setVisible(true)
+        elseif boundary == "resize" then ui:resize(1600,900)
+        else ui.map = Map.generate(data,43); ui:render() end
+        local before = ui.scroll
+        area.listeners.drag(pointer(100))
+        area.listeners.up(pointer(100))
+        assert(ui.scroll == before, boundary .. " must cancel the previous drag")
+        area.listeners.down(pointer(400))
+        area.listeners.drag(pointer(300))
+        assert(ui.scroll > before, "a fresh drag works after " .. boundary)
+    end
+end)
+
+test("a second finger cannot replace the active map drag", function()
+    local root, map = mock(), Map.generate(data, 42)
+    local ui = MapUI.new(root, map, function() return false end, "click", {
+        imageSource="static", cursor={CursorDown="down",CursorDrag="drag",CursorUp="up"},
+        color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+    })
+    local area = mapControl(panel(root), "dragArea")
+    local function pointer(y,id) return {touchId=id,GetUIPos=function() return 640,y end} end
+    area.listeners.down(pointer(400,7))
+    area.listeners.down(pointer(200,8))
+    area.listeners.drag(pointer(100,8))
+    assert(ui.scroll == 0, "unrelated finger cannot scroll")
+    area.listeners.drag(pointer(300,7))
+    assert(ui.scroll == 100, "original finger retains the drag")
+end)
+
 print("LUA_MAP_UI_PASS " .. count)

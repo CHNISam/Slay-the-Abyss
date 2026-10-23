@@ -36,6 +36,11 @@ function M.new(root, map, onChoose, clickEvent, options)
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map,
         observedNodeId = view.currentNodeId, observedFloor = view.floor }
+    local drag
+    local function cancelDrag()
+        if drag then self.dragged = true end
+        drag = nil
+    end
     local function at(name)
         local i = 1
         while true do
@@ -55,6 +60,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     local function observeMap(current)
         if self.map == self.observedMap then return false end
+        cancelDrag()
         -- A restarted run can share floor/node ids with the previous run. Identity
         -- resets its presentation and default gate before the host grants access.
         self.observedMap = self.map
@@ -151,6 +157,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:resize(width, height)
         if not finite(width) or not finite(height) or width <= 0 or height <= 0 then return false, "invalid_canvas" end
+        cancelDrag()
         self.canvasWidth, self.canvasHeight = width, height
         if embedded then self.scale = 1 return true end
         local scale = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -195,6 +202,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setVisible(visible)
         assert(type(visible) == "boolean", "map visibility must be boolean")
+        if not visible then cancelDrag() end
         self.visible = visible root:SetVisible(visible)
         if visible then self:focusCurrent() end
     end
@@ -227,7 +235,6 @@ function M.new(root, map, onChoose, clickEvent, options)
     -- Dragging the route scrolls it with the finger. A press that moved past the
     -- threshold is a scroll, never a node choice, even if it ends on a node.
     local cursor = options.cursor
-    local drag
     local function pointY(event)
         if not event or type(event.GetUIPos) ~= "function" then return end
         local _, y = event:GetUIPos()
@@ -236,11 +243,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         return y / math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
     end
     local function press(event)
+        if not self.visible or drag and event and event.touchId ~= drag.touch then return end
         self.dragged = false
         local y = pointY(event)
         drag = self.visible and y and { touch = event.touchId, startY = y, y = y } or nil
     end
     local function move(event)
+        if not self.visible then cancelDrag() return end
         if not drag or not event or event.touchId ~= drag.touch then return end
         local y = pointY(event)
         if not y then return end
