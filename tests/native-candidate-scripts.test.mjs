@@ -4,6 +4,8 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { join, resolve, relative, isAbsolute } from 'node:path';
 import { tmpdir } from 'node:os';
 import { candidateScriptFiles } from '../scripts/native-candidate-scripts.mjs';
+import { buildUI } from '../scripts/build-ui.mjs';
+import { buildLuaData } from '../scripts/build-lua-data.mjs';
 
 const generated = ['abyss_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
 function fixture(run) {
@@ -33,9 +35,12 @@ test('native package preflight rejects missing generated modules and name collis
   assert.throws(() => candidateScriptFiles(source, build), /ENOENT/);
 }));
 
-test('actual game module set includes current AI and all generated runtime dependencies, never the W1 fixture', () => {
-  const names = candidateScriptFiles().map(item => item.name);
+test('actual game module set includes current AI and all generated runtime dependencies, never the W1 fixture', () => fixture((_, build) => {
+  buildUI(build);
+  buildLuaData('data', join(build, 'abyss_data.lua'));
+  writeFileSync(join(build, 'sts1_unknown_vectors.lua'), 'error("test fixture")');
+  const names = candidateScriptFiles('src/lua', build).map(item => item.name);
   for (const name of ['abyss_ui', 'abyss_jaw_worm_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
   assert(!names.includes('sts1_unknown_vectors'));
   assert.equal(new Set(names).size, names.length);
-});
+}));
