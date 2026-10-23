@@ -62,7 +62,7 @@ test("block potion is fixed and all self potions consume exactly one matching sl
         Combat.addStatus(run.combat.player, "dexterity", 100); Combat.addStatus(run.combat.player, "frail", 2)
         local before = Combat.copy(run.combat)
         assert(Run.usePotion(run, 2))
-        same(run.potions, { "fire_potion", "poison_potion" })
+        same(run.potions, { [1] = "fire_potion", [3] = "poison_potion" })
         if id == "block_potion" then equal(run.combat.player.block, 12)
         elseif id == "energy_potion" then equal(run.combat.energy, before.energy + 2)
         elseif id == "strength_potion" then equal(run.combat.player.statuses.strength, 2)
@@ -91,7 +91,7 @@ test("poison and regeneration use actor timing and current data values", functio
     local enemyHp = run.combat.enemies[1].hp
     assert(Run.usePotion(run, 1, 1)); equal(run.combat.enemies[1].statuses.poison, 7)
     equal(run.combat.enemies[1].hp, enemyHp)
-    assert(Run.usePotion(run, 1)); assert(Run.endTurn(run))
+    assert(Run.usePotion(run, 2)); assert(Run.endTurn(run))
     equal(run.combat.enemies[1].hp, enemyHp - 7); equal(run.combat.enemies[1].statuses.poison, 6)
     equal(run.combat.player.hp, 48); equal(run.combat.player.statuses.regen, 3)
 end)
@@ -217,12 +217,12 @@ test("real map keeps resources across two original-data battles and a newly acqu
     end
     assert(acquired and visitedEvent)
     equal(run.combat.player.hp, hp); equal(run.hp, hp); equal(run.gold, gold - spent)
-    same(run.potions, { "regen_potion" })
+    same(run.potions, { [2] = "regen_potion" })
     equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
     equal(run.combat.player.block, 10); equal(run.combat.energy, 4); equal(#run.combat.hand, 7)
     equal(run.combat.player.statuses.strength, 1); equal(run.combat.player.statuses.dexterity, 1)
     equal(run.combat.player.statuses.thorns, 3); equal(run.combat.player.statuses.regen, nil)
-    assert(Run.usePotion(run, 1)); equal(run.combat.player.statuses.regen, 5)
+    assert(Run.usePotion(run, 2)); equal(run.combat.player.statuses.regen, 5)
     finishBattle(run)
     local expectedReward = nextBattleType == "elite" and source.rules.rewards.eliteGold or source.rules.rewards.normalGold
     equal(run.gold, gold - spent + expectedReward)

@@ -37,7 +37,7 @@ exhaust=true 出牌后消耗；ethereal=true 仅在回合结束还留手时消�
 
 地图规则区分15生成行与计层：第1层普通战斗、第9层宝箱、第15层营地、第16层独立Boss房间、第17层独立Boss宝箱房间；前5层禁止随机营地/精英，第14层禁止随机营地。`generatedRows`与`floors`不可混用。`roomKind=boss_treasure`只是独立入口，当前节点宿主仍在Boss16后结算，未实现原版Boss遗物池/宝箱事务；Nodes拒绝该入口，不能把普通宝箱奖励用于它。三列路径、节点权重、遭遇抽取和随机流仍未原版对齐，详见 `docs/reviews/TASK-12.4-map-floor-evidence.md`。这里只定义内容，不意味严格一致性或平台验收已通过。
 
-遗物 combat_start 在基础能量刷新/抽牌之后各执行一次，避免灯笼被刷新覆盖；combat_end 只在胜利后触发。药水仅玩家战斗回合可用，成功后消耗槽位。营地回血与升级二选一；交易先验证金币/库存/目标，再原子提交。血量不超过上限。
+遗物 combat_start 在基础能量刷新/抽牌之后各执行一次，避免灯笼被刷新覆盖；combat_end 只在胜利后触发。药水仅玩家战斗回合可用，成功后清空原槽位，不移动旁瓶。run.potions 与 Run.potionView 按物理槽号索引，空槽为 nil；用 Run.potionCount 计数，不用 #/ipairs 遍历稀疏库存。Run.obtainPotion 只将已知药水填入最左空槽，奖励/商店仍各自负责获取资格与支付，不表示已实现自然获取。详见 docs/reviews/TASK-14.1-potion-slots.md。营地回血与升级二选一；交易先验证金币/库存/目标，再原子提交。血量不超过上限。
 
 ## 容量、效果来源与跨节点边界
 
