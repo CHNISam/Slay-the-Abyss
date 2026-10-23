@@ -13,13 +13,6 @@ export function gameLayout(theme = nativeTheme) {
   const layout = theme.layout.nativeMenu, { color, font, space, image } = theme;
   const battle = structuredClone(battleLayout());
   const battleControls = battle.controls.find(control => control.name === 'stage').children;
-  // Reserve the approved header's right edge for the shared deck entry.
-  const piles = battleControls.find(control => control.name === 'piles');
-  piles.position = theme.layout.deckView.battlePiles.slice(0, 2);
-  piles.size = theme.layout.deckView.battlePiles.slice(2);
-  const battleNotice = battleControls.find(control => control.name === 'notice');
-  battleNotice.position = theme.layout.exitMenu.battleNotice.slice(0, 2);
-  battleNotice.size = theme.layout.exitMenu.battleNotice.slice(2);
   const map = structuredClone(mapLayout(theme));
   const mapPanel = map.controls.find(control => control.name === 'stage').children.find(control => control.name === 'mapPanel');
   mapPanel.visible = false;

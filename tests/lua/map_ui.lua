@@ -16,7 +16,11 @@ local function control()
         local source, id = ...
         assert(source == "static"); self.image = id
     end
-    function self:AddCursorEventListener(event, fn) assert(event == "click"); assert(not self.click); self.click = fn end
+    function self:AddCursorEventListener(event, fn)
+        if event == "click" then assert(not self.click); self.click = fn return end
+        self.listeners = self.listeners or {}
+        assert(not self.listeners[event]); self.listeners[event] = fn
+    end
     return self
 end
 local function mock()
@@ -379,6 +383,40 @@ test("callback map replacement stays locked even when replacement resets to floo
         assert(not ui.navigationEnabled and not ui.choosing and ui.observedMap == ui.map)
         ui:render(); assert(not ui.navigationEnabled)
     end
+end)
+
+test("dragging the route scrolls with the finger and a drag never chooses a node", function()
+    local cursor = { CursorDown = "down", CursorDrag = "drag", CursorUp = "up", CursorEndDrag = "end" }
+    local root, map = mock(), Map.generate(data, 42)
+    local chosen = 0
+    local ui = MapUI.new(root, map, function(node) chosen = chosen + 1 return Map.choose(map, node.id) end, "click", {
+        imageSource = "static", cursor = cursor,
+        color = function(r, g, b, a) return {r = r, g = g, b = b, a = a} end,
+    })
+    local function pointer(y) return { touchId = 7, GetUIPos = function() return 640, y end } end
+    local area = mapControl(panel(root), "dragArea")
+    assert(area.listeners.down and area.listeners.drag and area.listeners.up and area.listeners["end"])
+    -- UI y grows upward: pulling the route down reveals higher floors.
+    area.listeners.down(pointer(400))
+    area.listeners.drag(pointer(400 - Layout.dragThreshold + 1))
+    assert(ui.scroll == 0, "jitter under the threshold is not a scroll")
+    area.listeners.drag(pointer(300))
+    assert(ui.scroll == 100)
+    area.listeners.up(pointer(250))
+    assert(ui.scroll == 150)
+    area.listeners.drag(pointer(0)); assert(ui.scroll == 150, "a released drag no longer scrolls")
+    -- A drag that starts on a node scrolls; the click that ends it never enters the node.
+    local box, i = boxFor(root, map, Map.available(map)[1].id)
+    local hit = box:GetChild("hit")
+    ui:setScroll(0)
+    hit.listeners.down(pointer(200)) hit.listeners.drag(pointer(150)) hit.listeners.up(pointer(150))
+    assert(ui.scroll == 50)
+    ui:setScroll(0)
+    local again = boxFor(root, map, Map.available(map)[1].id)
+    assert(not click(root, "node" .. i) and chosen == 0 and map.floor == 0)
+    -- A plain tap still chooses.
+    again:GetChild("hit").listeners.down(pointer(200)) again:GetChild("hit").listeners.up(pointer(200))
+    assert(click(root, "node" .. i) and chosen == 1 and map.floor == 1)
 end)
 
 print("LUA_MAP_UI_PASS " .. count)

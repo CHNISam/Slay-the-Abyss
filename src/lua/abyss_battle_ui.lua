@@ -80,8 +80,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function notice(value) label("notice", value) end
     local cursor = platform.cursorEvents
     self.dragEnabled = cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp and cursor.CursorEndDrag
-    self.instructions = self.dragEnabled and "拖牌越过金线松手出牌；攻击牌拖出后瞄准敌人。也可点选出牌。"
-        or "点选卡牌，再点敌人；无需目标的牌再点一次确认。"
+    self.instructions = self.dragEnabled and "拖牌越过金线出牌，攻击牌拖向敌人；也可点选。"
+        or "点选卡牌，再点敌人；无需目标的牌再点一次。"
     local function dragReady(g)
         return self.active and not self.busy and self.run == g.run and self.run.phase == "combat"
             and self.run.combat == g.battle and g.battle.phase == "player" and g.battle.turn == g.turn
@@ -305,12 +305,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         show("result", not fighting) show("resultPlate", not fighting)
         show("hero", fighting)
         local player = battle and battle.player
-        label("player", "生命 " .. number(player and player.hp or run and run.hp or data.rules.player.maxHp) .. "/" .. number(run and run.maxHp or data.rules.player.maxHp))
-        label("piles", "金币 " .. number(run and run.gold or 0) .. " · 牌组 " .. (run and #run.deck or 0) .. (battle and " · 消耗 " .. #battle.exhaust or ""))
+        label("player", number(player and player.hp or run and run.hp or data.rules.player.maxHp) .. "/" .. number(run and run.maxHp or data.rules.player.maxHp))
+        label("piles", number(run and run.gold or 0))
+        label("exhaust", battle and tostring(#battle.exhaust) or "0")
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
-        tint(child("energyDisc"), battle and battle.energy > 0 and C.energy or C.energyEmpty)
+        local charged = battle and battle.energy > 0
+        tint(child("energyDisc"), charged and C.energy or C.energyEmpty)
+        tint(child("energyIcon"), charged and C.geo or C.geoDeep)
+        -- Dark digits on amber, light digits once the orb is spent; both stay readable.
+        ink(child("energy"), charged and C.textOnLight or C.text)
         label("draw", battle and tostring(#battle.draw) or "0") label("discard", battle and tostring(#battle.discard) or "0")
-        label("statuses", fighting and (self.busy and "行动演出中" or battle.phase == "player" and "我方回合 " .. battle.turn or "敌方行动中") or "")
+        -- Turn state shows only while the player cannot act; a live hand already says "your turn".
+        label("statuses", fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
         if fighting then unit(child("hero"), player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
         if not run then label("result", "战斗演练\n点击启程，试用旅行者的初始牌组")
         elseif reward then label("result", "战斗胜利 · 金币 ＋" .. run.rewards.gold .. "\n选择一张牌加入牌组，或跳过")
@@ -400,9 +406,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local layer = child("dragLayer")
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]
-            layer:GetChild("hint").text = enemy and "松手攻击 · " .. enemy.name or valid and "松手出牌"
-                or aiming and "目标已倒下，请重新瞄准；移回手牌区取消"
-                or needsTarget(g.battle,{uid=g.uid}) and "向上拖出手牌，再瞄准敌人" or "拖过金线松手出牌；移回手牌区取消"
+            -- The lit line, card glow and reticle already say "release to play"; no caption over the card.
+            layer:GetChild("hint").text = ""
             -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
             local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
             if enemy then
@@ -470,7 +475,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             -- UI is the event consumer. Release consumed frames; the event table identity stays stable.
             for i = #self.feedbackBattle.events, 1, -1 do self.feedbackBattle.events[i] = nil end
         end
-        notice(failure and "演出已恢复，可继续行动。" or "查看敌人意图，规划下一步行动。")
+        notice(failure and "演出已恢复，可继续行动。" or "")
         refresh(failure ~= "cancelled")
     end)
     local function perform(command, origin)
@@ -518,7 +523,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.seed = (self.seed + 1) % 65536
         assert(Run.startCombat(self.run, "cultist_solo"))
         self.target, self.selected = 1, nil
-        notice(self.instructions) refresh(true)
+        notice("") refresh(true)
         print("ABYSS_UI combat_started")
     end
     function self:playSelected(target)
@@ -526,7 +531,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local uid, origin = self.selected, self.cardPositions[self.selected]
         local ok, reason = perform(function() return Run.play(self.run, uid, target) end, origin)
         if ok then self.selected = nil end
-        notice(ok and "正在出牌。" or reasons[reason] or "当前无法使用这张牌。")
+        notice(ok and "" or reasons[reason] or "当前无法使用这张牌。")
         if reason ~= "presentation_unavailable" then refresh() end
     end
     function self:playSlot(index)
@@ -543,7 +548,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if not ok then notice(reasons[reason] or "当前无法使用这张牌。") refresh() return end
             if self.selected == instance.uid and not needsTarget(run.combat, instance) then self:playSelected(self.target) return end
             self.selected = instance.uid
-            notice(needsTarget(run.combat, instance) and "点选一个敌人；点另一张牌可更换选择。" or "再次点击这张牌确认出牌。")
+            notice(needsTarget(run.combat, instance) and "点选一个敌人" or "再次点击确认出牌")
         end
         refresh()
     end
@@ -630,7 +635,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.suppressClick,self.selected = true,valid and g.uid or nil
         self:render()
         if valid then self:playSelected(target)
-        else notice("已取消出牌。" .. self.instructions) end
+        else notice("") end
     end
     local function listen(control, fn, input)
         control:AddCursorEventListener(clickEvent,function(event)

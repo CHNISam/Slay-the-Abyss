@@ -13,8 +13,9 @@ local function child(control, name) return assert(control:GetChild(name), "missi
 -- Standalone root holds mapBackdrop + stage/mapPanel from mapLayout(). With
 -- options.embedded, root is the host's mapPanel and the host alone scales stage.
 -- options may supply color(r,g,b,a) and imageSource; client defaults otherwise.
+-- options.cursor (the platform cursor event enum) enables drag-to-scroll.
 -- Host OnStart calls resize(game.GetUICanvasSize()), OnUpdate calls update(dt).
--- Host wheel/drag deltas may call scrollBy(baseCanvasPixels).
+-- Host wheel deltas may call scrollBy(baseCanvasPixels).
 function M.new(root, map, onChoose, clickEvent, options)
     assert(type(onChoose) == "function", "map UI requires onChoose callback")
     options = options or {}
@@ -93,7 +94,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         at("title").text = "第一幕 · 第 " .. current.floor .. " 层"
         at("notice").text = current.complete and "已抵达首领宝箱 · 请完成当前房间" or
             (current.floor == 16 and "已抵达首领 · 请完成首领战斗与奖励" or
-            (self.navigationEnabled and "点选白色节点前往 · 向上查看后续路线，向下回顾已走路线" or "请先完成当前节点 · 地图导航已锁定")
+            (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")
             )
         at("previous"):SetVisible(self.scroll > 0)
         at("next"):SetVisible(self.scroll < Layout.maxScroll)
@@ -223,10 +224,48 @@ function M.new(root, map, onChoose, clickEvent, options)
         if self.map ~= beforeMap or after.currentNodeId ~= nodeId or after.floor ~= expectedFloor then return false, "selection_not_committed" end
         self.navigationEnabled = false self:focusCurrent() return true
     end
+    -- Dragging the route scrolls it with the finger. A press that moved past the
+    -- threshold is a scroll, never a node choice, even if it ends on a node.
+    local cursor = options.cursor
+    local drag
+    local function pointY(event)
+        if not event or type(event.GetUIPos) ~= "function" then return end
+        local _, y = event:GetUIPos()
+        if type(y) ~= "number" or not finite(y) then return end
+        local width, height = self.canvasWidth or Theme.canvas.base[1], self.canvasHeight or Theme.canvas.base[2]
+        return y / math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
+    end
+    local function press(event)
+        self.dragged = false
+        local y = pointY(event)
+        drag = self.visible and y and { touch = event.touchId, startY = y, y = y } or nil
+    end
+    local function move(event)
+        if not drag or not event or event.touchId ~= drag.touch then return end
+        local y = pointY(event)
+        if not y then return end
+        if not drag.moving and math.abs(y - drag.startY) < Layout.dragThreshold then return end
+        drag.moving, self.dragged = true, true
+        -- UI y grows upward; content follows the finger, so scroll moves the other way.
+        self:setScroll(self.scroll - (y - drag.y))
+        drag.y = y
+    end
+    local function release(event)
+        if drag and event and event.touchId == drag.touch then move(event) drag = nil end
+    end
+    local function draggable(control)
+        if not (cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp) then return end
+        control:AddCursorEventListener(cursor.CursorDown, press)
+        control:AddCursorEventListener(cursor.CursorDrag, move)
+        control:AddCursorEventListener(cursor.CursorUp, release)
+        if cursor.CursorEndDrag then control:AddCursorEventListener(cursor.CursorEndDrag, release) end
+    end
+    draggable(at("dragArea"))
     for i = 1, Layout.maxNodes do local slot = i bind("node" .. slot, function()
+        if self.dragged then self.dragged = false return false, "dragged" end
         if self.slots[slot] then return self:choose(self.slots[slot]) end
         return false, "node_outside_viewport"
-    end) end
+    end) draggable(child(at("node" .. slot), "hit")) end
     bind("previous", function() return self:scrollBy(-Layout.scrollStep) end)
     bind("next", function() return self:scrollBy(Layout.scrollStep) end)
     bind("focus", function() if self.visible then return self:focusCurrent() end return false, "map_hidden" end)
