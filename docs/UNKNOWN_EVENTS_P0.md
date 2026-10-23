@@ -45,4 +45,8 @@ Java48 与洗牌规则参照 [Java Random](https://docs.oracle.com/javase/8/docs
 
 `npm run check`；`node --test tests/event-random.test.mjs tests/unknown-events-fixtures.test.mjs`；`node scripts/test-lua.mjs tests/lua/unknown_events.lua`。新增生产规则14组、事件UI4组、地图耗尽诊断1组；220个固定种子组件入口覆盖四类房间/六事件，一条真实地图控制器路线遇到 Cleric、Golden Wing、Shining Light 并抵达Boss。该路线将敌人HP设为1以隔离导航测试，**不是自然平衡通关或平台实测**。
 
-构建与完整检查的最终固定SHA、GIL hash、模块/控件读回及 CI 见本目录后续候选证据和 PR。官方导入、原神实机、`verify:ui` 的同候选截图门禁尚未完成；不使用旧候选日志替代。
+最终 `npm run check` exit0：JS747项/629过/118权限跳过；91个Lua文件全部通过；Python17项/16过/1权限跳过。冻结源 `96b80a7a1abfd37188b09ba77e1bf2426f7bcc81` 的[候选证据](evidence/unknown-events-p0/candidate-96b80a7.json)：35模块源码一致（34逐byte一致，event_pool仅CRLF/LF差异），1695控件/max51，22节点结算图完整载荷比对通过（仅排除已记录布局坐标），静态0错误/16条跨模块控制器方法warning。输入底图hash不变，live write=0。
+
+候选：根 `.artifacts/unknown-events-p0-96b80a7/abyss-unknown-events-96b80a7.gil`，SHA256 `74e4da99bad6f1fe3c7dd699790c48ac7c1ede88d32b7d32d4631c8bc618ad96`。完整读回、构建和失败历史保留在根`.artifacts/`；最终PR元数据提交不改变这份冻结源码的可执行内容。CI与合并以 [PR123](https://github.com/CHNISam/Slay-the-Abyss/pull/123) 当前SHA为准。
+
+官方导入、原神实机、`verify:ui` 的同候选截图门禁尚未完成；不使用旧候选日志替代。
