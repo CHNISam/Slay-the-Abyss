@@ -2,7 +2,8 @@
 id: TASK-10.1
 title: Spike：PNG→GIA/Lua 真机可行性实验
 status: To Do
-assignee: []
+assignee:
+  - '@codex'
 created_date: '2026-10-22 15:57'
 updated_date: '2026-10-22 22:45'
 labels:
@@ -11,6 +12,7 @@ labels:
 milestone: m-5
 dependencies: []
 parent_task_id: TASK-10
+priority: low
 type: spike
 ordinal: 26000
 ---

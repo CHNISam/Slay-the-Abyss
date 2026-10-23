@@ -13,7 +13,7 @@ dependencies:
   - TASK-8
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/29'
-ordinal: 11000
+ordinal: 10000
 ---
 
 ## Description
@@ -32,6 +32,8 @@ ordinal: 11000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 绑定状态定义并以纯actor接口实现数据驱动叠加、衰减及UI快照。2. 补毒/再生/临时力量/壁垒/荆棘和死亡中止hooks。3. 真实Lua覆盖九状态、原子拒绝与死亡时序，完整npmcheck后独立审查。
+
+2026-10-23 /root/statuses 离线复审：从当前 develop 隔离工作树，核对已合入状态规则与旧工作树未提交死亡时序补丁；先复现死亡敌人意图推进缺口，再补最小回归与修复；运行完整离线门禁。保留 @Furinya 负责人，AC3 仍待平台界面验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

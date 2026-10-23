@@ -544,6 +544,7 @@ test("button listeners bind once and click-only hosts retain the existing C fall
     local listeners = get("confirm"):GetChild("hit").listeners
     local n=0 for _ in pairs(listeners) do n=n+1 end
     assert(n == 6)
+    -- Cards listen to Down only for row swipes; selection is not a framed-button press.
     get("shopView/card1"):GetChild("hit"):emit("down",1)
     assert(get("shopView/card1").scale[1] == 1, "card selection is not a framed-button press")
     get("shopView/card1"):GetChild("hit"):emit("up",1)

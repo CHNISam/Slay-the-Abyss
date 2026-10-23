@@ -89,8 +89,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:SetLocalScale(scale, scale, 1)
     end
     local buttonInputs = {}
+    -- One horizontal row drag at a time; swallow eats the Click that ends a swipe.
+    local swipe, swallow = nil, nil
     local function resetButtons()
-        buttonHover, buttonPress = nil, nil
+        buttonHover, buttonPress, swipe = nil, nil, nil
         for _, input in pairs(buttonInputs) do input.active, input.released = {}, nil end
         for box in pairs(buttonLooks) do paintButton(box) end
     end
@@ -211,7 +213,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         pageArrows(shop, "", self.page, self.pageCount)
         action("shopView/previous", self.page > 1, function() return self:setPage(self.page - 1) end)
         action("shopView/next", self.page < self.pageCount, function() return self:setPage(self.page + 1) end)
-        shop:GetChild("page").text = self.pageCount > 1 and ("卡牌 第 " .. self.page .. "/" .. self.pageCount .. " 页 · 共 " .. #offers .. " 种") or ""
+        shop:GetChild("page").text = self.pageCount > 1 and ("卡牌 第 " .. self.page .. "/" .. self.pageCount .. " 页 · 共 " .. #offers .. " 种"
+            .. (self.swipeEnabled and " · 左右拖动翻页" or "")) or ""
 
         local removal, removalPrice = shop:GetChild("removal"), shop:GetChild("removalPrice")
         local poor = node.removeAvailable and self.run.gold < node.removePrice
@@ -320,7 +323,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.pickPage, self.notice = self.pickPage - 1, "" self:render() return true end)
         action("pickerView/next", self.pickPage < pageCount, function()
             self.pickPage, self.notice = self.pickPage + 1, "" self:render() return true end)
-        picker:GetChild("page").text = not result and pageCount > 1 and ("第 " .. self.pickPage .. "/" .. pageCount .. " 页 · 共 " .. #rows .. " 张") or ""
+        picker:GetChild("page").text = not result and pageCount > 1 and ("第 " .. self.pickPage .. "/" .. pageCount .. " 页 · 共 " .. #rows .. " 张"
+            .. (self.swipeEnabled and " · 左右拖动翻页" or "")) or ""
         show(before, upgrade and selected) show(after, upgrade and selected)
         show(picker:GetChild("arrow"), upgrade and selected) show(target, not upgrade and selected)
         picker:GetChild("empty").text = selected and "" or (upgrade and "点选上方卡牌，查看升级前后对比" or "点选上方要移除的卡牌")
@@ -520,6 +524,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.failed = false
     end
 
+    -- Actual canvas pixels; swipe distances are converted back to design units.
+    function self:resize(width, height)
+        resetButtons()
+        self.canvasWidth, self.canvasHeight = width, height
+    end
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
         if not value then resetButtons() end
@@ -591,12 +600,68 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
     for i = 1, PICK_PAGE do targets[#targets + 1] = "pickerView/card" .. i end
     for i = 1, OPTIONS do targets[#targets + 1] = "eventView/option" .. i end
+    local cursor = options.cursorEvents or (Enum and Enum.CursorEventType)
+    -- Native hits accept one listener per event; framed feedback and row swipes share it.
+    local dispatch = {}
+    local function listen(hit, event, fn)
+        local byEvent = dispatch[hit] or {}
+        dispatch[hit] = byEvent
+        local list = byEvent[event]
+        if not list then
+            list = {}
+            byEvent[event] = list
+            hit:AddCursorEventListener(event, function(e) for _, f in ipairs(list) do f(e) end end)
+        end
+        list[#list + 1] = fn
+    end
+    -- A row swipe presses that row's existing arrow, so paging rules stay in one place.
+    local rows = {}
+    for i = 1, SHOP_PAGE do rows["shopView/card" .. i] = "shopView/" end
+    for i = 1, RELIC_PAGE do rows["shopView/relic" .. i] = "shopView/relic" end
+    for i = 1, PICK_PAGE do rows["pickerView/card" .. i] = "pickerView/" end
+    self.swipeEnabled = cursor ~= nil and cursor.CursorDown ~= nil and cursor.CursorUp ~= nil
+    local function point(event)
+        if not event or type(event.GetUIPos) ~= "function" then return end
+        local x, y = event:GetUIPos()
+        if type(x) ~= "number" or type(y) ~= "number" or x ~= x or y ~= y
+            or math.abs(x) == math.huge or math.abs(y) == math.huge then return end
+        local width, height = self.canvasWidth or Theme.canvas.base[1], self.canvasHeight or Theme.canvas.base[2]
+        local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
+        return x / k, y / k
+    end
+    local function swipeDown(row, event)
+        swallow = nil -- a new physical sequence
+        local x, y = point(event)
+        swipe = x and { row = row, touch = event.touchId, x = x, y = y } or nil
+    end
+    local function swipeUp(event)
+        local g = swipe
+        if not g or (event and event.touchId) ~= g.touch then return end
+        swipe = nil
+        local x, y = point(event)
+        if not x then return end
+        local dx, dy = x - g.x, y - g.y
+        local limit = layout.swipe.threshold
+        if math.abs(dx) < limit and math.abs(dy) < limit then return end
+        -- Past the threshold it is a drag, never a purchase; only a horizontal one pages.
+        -- Finger moves left to reveal the next page, as on a touch carousel.
+        if math.abs(dx) > math.abs(dy) then
+            local arrow = (g.row == "shopView/relic") and (dx < 0 and "Next" or "Previous") or (dx < 0 and "next" or "previous")
+            self:press(g.row .. arrow)
+        end
+        swallow = { touch = g.touch }
+    end
+
     for _, key in ipairs(targets) do
         local name = key
         local box = path(name)
         local hit = box:GetChild("hit")
         local input
         hit:AddCursorEventListener(clickEvent, function(event)
+            if swallow and (event == nil or event.touchId == nil or event.touchId == swallow.touch) then
+                swallow = nil
+                return false, "swiped"
+            end
             if input and input.observed then
                 local gesture = input.released
                 local touch = event and event.touchId
@@ -610,7 +675,6 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             -- Hosts that never send Down retain the click-only/accessibility path.
             return self:press(name)
         end)
-        local cursor = options.cursorEvents or (Enum and Enum.CursorEventType)
         -- A framed button keeps its dynamic children at their existing paths.
         -- Documented pointer events + SetLocalScale scale the complete face;
         -- Shop/picker cards share gesture ownership without framed-button visuals.
@@ -648,40 +712,46 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 if not available() then buttonHover = nil end
                 paintButton(box)
             end
-            hit:AddCursorEventListener(cursor.CursorEnter, function()
+            listen(hit, cursor.CursorEnter, function()
                 if not available() or buttonPress and buttonPress.box ~= box then return end
                 local previous = buttonHover
                 buttonHover = box
                 if previous and previous ~= box then paintButton(previous) end
                 paintButton(box)
             end)
-            hit:AddCursorEventListener(cursor.CursorDown, function(event)
+            listen(hit, cursor.CursorDown, function(event)
                 input.observed, input.released = true, nil
                 input.active[touchKey(event)] = {touch=event and event.touchId, action=visibleAction()}
                 if not available() or buttonPress then return end
                 buttonPress = {box=box,touch=event and event.touchId}
                 paintButton(box)
             end)
-            hit:AddCursorEventListener(cursor.CursorExit, function(event)
+            listen(hit, cursor.CursorExit, function(event)
                 cancelInput(event)
                 if buttonPress and not owned(event) then return end
                 if buttonHover == box then buttonHover = nil end
                 if owned(event) then buttonPress = nil end
                 paintButton(box)
             end)
-            hit:AddCursorEventListener(cursor.CursorUp, function(event)
+            listen(hit, cursor.CursorUp, function(event)
                 local key = touchKey(event)
                 local gesture = input.active[key]
                 input.active[key] = nil
                 if gesture then input.released = gesture end
                 release(event)
             end)
-            hit:AddCursorEventListener(cursor.CursorEndDrag, function(event)
+            listen(hit, cursor.CursorEndDrag, function(event)
                 cancelInput(event)
                 if not owned(event) then return end
                 buttonPress, buttonHover = nil, nil
                 paintButton(box)
             end)
+        end
+        if self.swipeEnabled and rows[name] then
+            local row = rows[name]
+            listen(hit, cursor.CursorDown, function(event) swipeDown(row, event) end)
+            listen(hit, cursor.CursorUp, swipeUp)
+            if cursor.CursorEndDrag then listen(hit, cursor.CursorEndDrag, swipeUp) end
         end
     end
     self:render()
