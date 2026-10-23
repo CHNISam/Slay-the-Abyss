@@ -50,6 +50,8 @@ function M.initialize(state, enemy, random)
     end
     if enemy.ai.kind == "guardian" then return Guardian.initialize(state, enemy) end
     assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
+    -- Lagavulin inherits the opening roll even though getMove fixes Sleep.
+    random(state, enemy.ai.rollRange)
     enemy.aiPhase, enemy.aiTurns, enemy.aiCycle = "sleep", 0, 1
     select(enemy, enemy.ai.sleepIntent)
     Actors.block(state, enemy, enemy.ai.sleepBlock, true)
@@ -88,16 +90,20 @@ function M.advance(state, enemy, random)
     elseif enemy.aiPhase == "sleep" then
         enemy.aiTurns = enemy.aiTurns + 1
         if enemy.aiTurns < enemy.ai.sleepTurns then
+            random(state, enemy.ai.rollRange)
             Actors.block(state, enemy, enemy.ai.sleepBlock, true)
         else
+            -- Natural third sleep uses SetMove, not RollMove.
             enemy.aiPhase = "awake"
             select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
             Events.emit(state, "enemy_wake", { enemy = enemy.id, reason = "sleep_complete" })
         end
     elseif enemy.aiPhase == "stunned" then
+        random(state, enemy.ai.rollRange)
         enemy.aiPhase = "awake"
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
     else
+        random(state, enemy.ai.rollRange)
         enemy.aiCycle = enemy.aiCycle % #enemy.ai.awakeCycle + 1
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
     end
@@ -106,7 +112,7 @@ end
 -- Only these source-verified policies enqueue RollMoveAction during takeTurn.
 -- That action has no owner-death guard and survives while another enemy lives.
 -- Acid S sets its next move directly instead; do not invent a queued roll.
-local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true }
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true }
 function M.afterAction(state, enemy, random)
     if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
         M.advance(state, enemy, random)
