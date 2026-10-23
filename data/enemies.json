@@ -93,6 +93,15 @@
       "name": "赤甲虫",
       "tier": "normal",
       "hp": 13,
+      "hpRange": { "min": 10, "max": 15 },
+      "ai": {
+        "kind": "louse",
+        "biteIntent": "red_louse_1",
+        "supportIntent": "red_louse_2",
+        "rollRange": 100,
+        "supportCutoff": 25,
+        "biteRange": { "min": 5, "max": 7 }
+      },
       "intents": [
         {
           "id": "red_louse_1",
@@ -122,6 +131,15 @@
       "name": "青甲虫",
       "tier": "normal",
       "hp": 13,
+      "hpRange": { "min": 11, "max": 17 },
+      "ai": {
+        "kind": "louse",
+        "biteIntent": "green_louse_1",
+        "supportIntent": "green_louse_2",
+        "rollRange": 100,
+        "supportCutoff": 25,
+        "biteRange": { "min": 5, "max": 7 }
+      },
       "intents": [
         {
           "id": "green_louse_1",

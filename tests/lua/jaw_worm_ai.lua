@@ -120,15 +120,15 @@ test("existing Weak, Vulnerable and Block modifiers apply to Thrash",function()
 end)
 
 test("lethal poison prevents an action, history advance and any AI draw",function()
-    local s=battle({"jaw_worm","red_louse"}); local e=s.enemies[1]; e.hp=1
-    local seed=s.seed -- one-card deck and nonrandom teammate do not use the project RNG
+    local s=battle({"jaw_worm","shield_gremlin"}); local e=s.enemies[1]; e.hp=1
+    local seed=s.seed -- one-card deck and Shield Protect/SetMove do not use post-opening RNG
     Combat.addStatus(e,"poison",1); assert(Combat.endTurn(s)); eq(e.hp,0); eq(e.jawLast,nil)
     eq(s.seed,seed)
     for _,event in ipairs(s.events) do assert(event.kind~="intent" or event.detail.enemy~=e.id) end
 end)
 
 test("lethal Thorns cancels Thrash Block but keeps its queued roll while a teammate lives",function()
-    local s=battle({"jaw_worm","red_louse"}); local e=s.enemies[1]
+    local s=battle({"jaw_worm","shield_gremlin"}); local e=s.enemies[1]
     e.hp=1; intent(e,T); local seed=s.seed
     Combat.addStatus(s.player,"thorns",1)
     assert(Combat.endTurn(s)); eq(e.hp,0); eq(e.block,0); eq(e.jawLast,T); assert(s.seed~=seed)
