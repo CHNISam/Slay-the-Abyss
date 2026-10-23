@@ -101,6 +101,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function cancelCardInputs()
         for _, input in ipairs(cardInputs) do input.held, input.released = nil, nil end
     end
+    -- Potion controls may be click-only even when cards receive pointer events.
+    -- Once a potion Down is observed, require its own one-shot release token.
+    local potionInputs, potionPointerObserved = {}, false
+    local function potionReady(g)
+        return dragReady(g) and self.run.potions == g.inventory
+            and self.run.potions[g.slot] == g.id
+    end
+    local function cancelPotionInputs()
+        for _, input in ipairs(potionInputs) do input.held, input.released = nil, nil end
+    end
     local function contains(x, y, frame)
         return math.abs(x-frame[1]) <= frame[3]/2 and math.abs(y-frame[2]) <= frame[4]/2
     end
@@ -135,6 +145,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     function self:resize(width, height)
         local cancelled = self.gesture ~= nil
         cancelCardInputs()
+        cancelPotionInputs()
         if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -208,6 +219,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for _, input in ipairs(cardInputs) do
             if input.held and not cardReady(input.held) then input.held = nil end
             if input.released and not cardReady(input.released) then input.released = nil end
+        end
+        for _, input in ipairs(potionInputs) do
+            if input.held and not potionReady(input.held) then input.held = nil end
+            if input.released and not potionReady(input.released) then input.released = nil end
         end
         if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
             self.feedback:cancel() return
@@ -557,7 +572,44 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     bind("endTurn", function() self:endTurn() end)
     bind("skip", function() if self.active and self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh(true) end end)
     bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)
-    for i = 1, 3 do local slot = i bind("potion" .. i, function() self:usePotion(slot) end) end
+    for i = 1, 3 do
+        local slot, control, input = i, child("potion" .. i), {}
+        potionInputs[i] = input
+        control:AddCursorEventListener(clickEvent, function(event)
+            if potionPointerObserved then
+                local released = input.released
+                if not released or released.touch ~= (event and event.touchId) then return end
+                input.released = nil
+                if not potionReady(released) then return end
+            end
+            if not self.suppressClick and not self.gesture then return self:usePotion(slot) end
+        end)
+        if self.dragEnabled then
+            control:AddCursorEventListener(cursor.CursorDown, function(event)
+                potionPointerObserved = true
+                down()
+                input.held, input.released = nil, nil
+                if self.gesture or not self.run then return end
+                local run, binding = self.run, self.potionSlots and self.potionSlots[slot]
+                if not binding or self.potionRun ~= run or self.potionBattle ~= run.combat then return end
+                local g = {slot = binding.slot, id = binding.id, inventory = run.potions,
+                    run = run, battle = run.combat, turn = run.combat and run.combat.turn,
+                    touch = event and event.touchId}
+                if potionReady(g) then input.held = g end
+            end)
+            local function releasePotion(event, ended)
+                local touch, held = event and event.touchId, input.held
+                if held and held.touch == touch then
+                    input.held = nil
+                    input.released = not ended and potionReady(held) and held or nil
+                elseif ended and input.released and input.released.touch == touch then
+                    input.released = nil
+                end
+            end
+            control:AddCursorEventListener(cursor.CursorUp, releasePotion)
+            control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releasePotion(event, true) end)
+        end
+    end
     for i = 1, 10 do
         local slot,hit = i,child("card" .. i):GetChild("hit")
         local input = {}
