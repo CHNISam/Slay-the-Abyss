@@ -234,7 +234,7 @@ function M.endTurn(state)
                 -- Thorns can kill this attacker while other enemies remain alive.
                 if enemy.hp > 0 then
                     Actors.endTurn(state, enemy)
-                    if enemy.hp > 0 then EnemyAI.advance(state, enemy) end
+                    if enemy.hp > 0 then EnemyAI.advance(state, enemy, M.random) end
                 end
                 if finish(state) then return true end
             end
@@ -282,7 +282,7 @@ function M.new(data, options)
         Actors.bindStatuses(enemy, state.catalog.statuses)
         state.enemies[#state.enemies + 1] = enemy
     end
-    for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy) end
+    for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)
     M.startPlayerTurn(state)
     return state

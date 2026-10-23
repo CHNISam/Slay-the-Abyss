@@ -177,7 +177,7 @@ test("poison-killed enemy never attacks or advances and later enemies still act"
     local hp = s.player.hp
     Combat.endTurn(s)
     eq(first.hp, 0); eq(first.intentIndex, 1); eq(s.player.hp, hp - 11)
-    eq(s.enemies[2].intentIndex, 2); eq(s.phase, "player")
+    eq(s.enemies[2].jawLast, "jaw_worm_1"); assert(s.enemies[2].intentIndex ~= 1); eq(s.phase, "player")
 end)
 
 test("last enemy poison yields victory before intent and next player draw", function()
@@ -339,7 +339,7 @@ test("thorns-killed enemy does not advance intent while surviving enemies contin
     local hp = s.player.hp
     Combat.endTurn(s)
     eq(e.hp, 0); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
-    eq(s.enemies[2].intentIndex, 2); eq(s.player.hp, hp - 22); eq(s.phase, "player")
+    eq(s.enemies[2].jawLast, "jaw_worm_1"); assert(s.enemies[2].intentIndex ~= 1); eq(s.player.hp, hp - 22); eq(s.phase, "player")
 end)
 
 print("LUA_STATUSES_PASS " .. count)

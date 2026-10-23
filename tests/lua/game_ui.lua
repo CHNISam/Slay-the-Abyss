@@ -152,7 +152,7 @@ end)
 test("node panels compose through fifteen generated rows and Boss16 then restart", function()
     -- Keep the real rules, commands and UI. Low-HP fixture isolates routing from balance.
     local data = Combat.copy(Data)
-    for _, enemy in ipairs(data.enemies.enemies) do enemy.hp = 1 end
+    for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP flow fixture
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
     local seen = {}
