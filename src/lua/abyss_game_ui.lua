@@ -7,6 +7,7 @@ local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
 local DeckUI = require("abyss_deck_ui")
 local Theme = require("abyss_theme")
+local Narrative = require("abyss_narrative")
 local M = {}
 
 function M.new(root, data, presentation, clickEvent, platform)
@@ -79,14 +80,25 @@ function M.new(root, data, presentation, clickEvent, platform)
         child("mapPanel"):SetVisible(self.mode == "map")
         self.nodeUI:setVisible(self.mode == "node" and not deckOpen)
         child("nodePanel"):SetVisible(self.mode == "node")
-        if self.mode == "battle" then self.battleUI:render()
+        if self.mode == "battle" then
+            self.battleUI:render()
+            if run.phase == "combat" and self.presentedBattle ~= run.combat then
+                self.presentedBattle = run.combat
+                local guardian = false
+                for _, enemy in ipairs(run.combat.enemies) do
+                    if enemy.definitionId == "guardian" then guardian = true end
+                end
+                child("battlePanel"):GetChild("notice").text = guardian
+                    and Narrative.flow.bossEntrance.compact or self.battleUI.instructions
+            end
         elseif self.mode == "map" then
             self.mapUI:setNavigationEnabled(not deckOpen and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render()
         elseif inMenu then
             menu:GetChild("start"):GetChild("label").text = run and "重新启程" or "启程"
             if self.mode == "menu" then
-                menu:GetChild("summary").text = "规划路线，构筑卡组\n穿越十五层深渊，挑战终点首领\n\n" .. self.battleUI.instructions
+                menu:GetChild("summary").text = Narrative.flow.intro.compact
+                    .. "\n规划路线，构筑卡组，挑战终点首领。\n\n" .. self.battleUI.instructions
             else
                 local title = self.mode == "victory" and "首领已击败" or "旅途暂歇"
                 local hp = run.phase == "defeat" and 0 or run.hp
@@ -96,6 +108,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                     .. "\n抵达第 " .. self.map.floor .. " / " .. data.rules.map.floors .. " 层 · 胜场 " .. run.victories
                     .. "\n生命 " .. hp .. " / " .. run.maxHp .. " · 金币 " .. run.gold
                     .. "\n卡组 " .. #run.deck .. " 张 · 遗物 " .. #run.relics .. " 件"
+                    .. "\n" .. Narrative.flow[self.mode].compact
                 if self.settlementError then
                     menu:GetChild("summary").text = menu:GetChild("summary").text .. "\n结算请求失败，请重试"
                 elseif type(platform.settle) ~= "function" then

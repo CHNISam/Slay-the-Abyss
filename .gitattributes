@@ -1,0 +1,3 @@
+# Preserve the supplied lore packet hashes on Windows checkouts.
+data/presentation/narrative.zh-CN.json text eol=lf
+docs/lore/source/** text eol=lf

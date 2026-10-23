@@ -20,6 +20,8 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
   buildUiTheme(undefined, undefined, join(outputDirectory, 'abyss_theme.lua'));
   buildMapUI(outputDirectory);
+  const narrative = JSON.parse(readFileSync('data/presentation/narrative.zh-CN.json', 'utf8'));
+  writeFileSync(join(outputDirectory, 'abyss_narrative.lua'), `-- Generated from the approved narrative copy source.\nreturn ${toLua(narrative)}\n`, 'utf8');
   writeFileSync(join(outputDirectory, 'abyss_presentation.lua'), `-- Generated from the checked Traveler presentation.\nreturn ${toLua(cards)}\n`, 'utf8');
   writeFileSync(join(outputDirectory, 'battle-ui.json'), JSON.stringify(battleLayout(), null, 2) + '\n', 'utf8');
   const layout = withViewport(gameLayout(), theme);

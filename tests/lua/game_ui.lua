@@ -8,6 +8,9 @@ local Templates = require("abyss_ui_templates")
 local Viewport = require("abyss_viewport")
 local count = 0
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
+local function preview(name, text)
+    print("LORE_PREVIEW\t" .. name .. "\t" .. text:gsub("\n", "\\n"))
+end
 local function control(spec, parent)
     local self = { name = spec.name, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, interactable = true,
@@ -94,6 +97,11 @@ end
 test("menu starts real map, enters actual encounter, consumes reward and unlocks next layer", function()
     local ui, root = fixture()
     assert(ui.mode == "menu" and not root:GetChild("mapPanel").visible)
+    local intro = root:GetChild("menuPanel"):GetChild("summary").text
+    assert(intro:find("岩脉失序，封印将破。循着共鸣，深入遗迹。", 1, true))
+    assert(intro:find(ui.battleUI.instructions, 1, true))
+    assert(not intro:find("十五", 1, true) and not intro:find("十七", 1, true))
+    preview("menu", intro)
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 3)
     local original = ui.run
@@ -125,6 +133,10 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     previous.combat.player.hp = 1
     click(root, "battlePanel", "endTurn")
     assert(ui.mode == "defeat" and root:GetChild("menuPanel").visible)
+    local ending = root:GetChild("menuPanel"):GetChild("summary").text
+    assert(ending:find("封印尚未修复，旅途仍可重启。", 1, true))
+    assert(not ending:find("封印重燃", 1, true))
+    preview("defeat", ending)
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.run ~= previous and ui.map.floor == 0)
     assert(ui.run.gold == Data.rules.player.startingGold and #ui.run.deck == 10 and #ui.run.potions == 0)
@@ -146,6 +158,14 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
         assert(slot, "next layer missing from focused map page")
         click(root, "mapPanel", "node" .. slot)
         seen[node.type] = true
+        if node.type == "boss" then
+            local notice = root:GetChild("battlePanel"):GetChild("notice")
+            assert(notice.text == "昔日的封印守卫，已被深渊侵蚀。")
+            preview("boss", notice.text)
+            notice.text = "操作提示优先"
+            ui:refresh()
+            assert(notice.text == "操作提示优先", "entry copy must not overwrite interaction notices")
+        end
         if ui.mode == "battle" then
             win(ui, root)
             click(root, "battlePanel", "skip")
@@ -172,6 +192,8 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
     -- Optional shop/event/elite rooms are no longer artificially forced on every route.
     for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory panel " .. kind) end
     assert(root:GetChild("menuPanel"):GetChild("summary").text:find("首领已击败", 1, true))
+    assert(root:GetChild("menuPanel"):GetChild("summary").text:find("封印重燃，深渊退去。旅行者继续前行。", 1, true))
+    preview("victory", root:GetChild("menuPanel"):GetChild("summary").text)
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
 end)
@@ -250,6 +272,7 @@ test("settlement callback failure is visible and retryable without claiming offi
         assert(not click(root, "menuPanel", "settle"))
         assert(not ui.settlementRequested and not ui.settlementBusy)
         assert(root:GetChild("menuPanel"):GetChild("summary").text:find("结算请求失败", 1, true))
+        preview("settlementError", root:GetChild("menuPanel"):GetChild("summary").text)
     end
     assert(click(root, "menuPanel", "settle") and attempts == 3)
     assert(root:GetChild("menuPanel"):GetChild("settle"):GetChild("label").text == "已发送结算请求")
