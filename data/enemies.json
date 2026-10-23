@@ -673,6 +673,7 @@
       "hpRange": { "min": 109, "max": 111 },
       "ai": {
         "kind": "sleep_then_cycle",
+        "rollRange": 100,
         "sleepTurns": 3,
         "sleepBlock": 8,
         "sleepIntent": "lagavulin_1",

@@ -257,7 +257,8 @@ export function validateContent(bundle) {
         reference('mode_shift', 'statuses', `${ap}.mode_shift`);
         reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
       } else if (a.kind === 'sleep_then_cycle') {
-        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
+        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
         integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
         intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
