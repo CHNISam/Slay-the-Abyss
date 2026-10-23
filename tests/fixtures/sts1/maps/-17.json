@@ -1,0 +1,779 @@
+{
+  "seed": "-17",
+  "url": "https://github.com/Ru5ty0ne/sts_map_oracle",
+  "release": "v1.1.0",
+  "revision": "ea5200f21fa566de77ec14b6155b3bf3756dccbf",
+  "executableSha256": "add3b40d49dd5e2e371818bdc9ebfa991344b494732b0698ecaf392ecb0f3660",
+  "reportedVersion": "sts_map_oracle 1.0.0",
+  "scope": {
+    "act": 1,
+    "ascension": 0,
+    "height": 15,
+    "width": 7,
+    "pathDensity": 6
+  },
+  "evidenceBoundary": "Third-party black-box reference; not original-game verification or a license to reuse source code.",
+  "rawSha256": "2ea0afe54b4e268e3c2c5057ea5eab80ec09c70b32c2b7ef7c91f38aee2fe855",
+  "nodes": [
+    {
+      "x": 1,
+      "y": 0,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "type": "combat"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "type": "event"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "type": "combat"
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "type": "event"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "type": "combat"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "type": "event"
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "type": "combat"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "type": "combat"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "type": "event"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "type": "combat"
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "type": "event"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "type": "combat"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "type": "event"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "type": "camp"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "type": "camp"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "type": "elite"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "type": "event"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "type": "combat"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "type": "camp"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "type": "combat"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "type": "event"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "type": "combat"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "type": "combat"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "type": "event"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "type": "elite"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "type": "shop"
+    },
+    {
+      "x": 0,
+      "y": 8,
+      "type": "treasure"
+    },
+    {
+      "x": 1,
+      "y": 8,
+      "type": "treasure"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "type": "treasure"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "type": "treasure"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "type": "treasure"
+    },
+    {
+      "x": 0,
+      "y": 9,
+      "type": "elite"
+    },
+    {
+      "x": 1,
+      "y": 9,
+      "type": "event"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "type": "camp"
+    },
+    {
+      "x": 0,
+      "y": 10,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 10,
+      "type": "shop"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "type": "combat"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "type": "elite"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 11,
+      "type": "combat"
+    },
+    {
+      "x": 3,
+      "y": 11,
+      "type": "shop"
+    },
+    {
+      "x": 4,
+      "y": 11,
+      "type": "event"
+    },
+    {
+      "x": 0,
+      "y": 12,
+      "type": "camp"
+    },
+    {
+      "x": 1,
+      "y": 12,
+      "type": "elite"
+    },
+    {
+      "x": 3,
+      "y": 12,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 12,
+      "type": "camp"
+    },
+    {
+      "x": 0,
+      "y": 13,
+      "type": "combat"
+    },
+    {
+      "x": 1,
+      "y": 13,
+      "type": "event"
+    },
+    {
+      "x": 2,
+      "y": 13,
+      "type": "event"
+    },
+    {
+      "x": 3,
+      "y": 13,
+      "type": "combat"
+    },
+    {
+      "x": 5,
+      "y": 13,
+      "type": "combat"
+    },
+    {
+      "x": 0,
+      "y": 14,
+      "type": "camp"
+    },
+    {
+      "x": 1,
+      "y": 14,
+      "type": "camp"
+    },
+    {
+      "x": 4,
+      "y": 14,
+      "type": "camp"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "type": "camp"
+    }
+  ],
+  "edges": [
+    {
+      "src_x": 1,
+      "src_y": 0,
+      "dst_x": 1,
+      "dst_y": 1
+    },
+    {
+      "src_x": 1,
+      "src_y": 0,
+      "dst_x": 2,
+      "dst_y": 1
+    },
+    {
+      "src_x": 5,
+      "src_y": 0,
+      "dst_x": 6,
+      "dst_y": 1
+    },
+    {
+      "src_x": 1,
+      "src_y": 1,
+      "dst_x": 0,
+      "dst_y": 2
+    },
+    {
+      "src_x": 2,
+      "src_y": 1,
+      "dst_x": 1,
+      "dst_y": 2
+    },
+    {
+      "src_x": 2,
+      "src_y": 1,
+      "dst_x": 3,
+      "dst_y": 2
+    },
+    {
+      "src_x": 6,
+      "src_y": 1,
+      "dst_x": 5,
+      "dst_y": 2
+    },
+    {
+      "src_x": 6,
+      "src_y": 1,
+      "dst_x": 6,
+      "dst_y": 2
+    },
+    {
+      "src_x": 0,
+      "src_y": 2,
+      "dst_x": 0,
+      "dst_y": 3
+    },
+    {
+      "src_x": 1,
+      "src_y": 2,
+      "dst_x": 0,
+      "dst_y": 3
+    },
+    {
+      "src_x": 3,
+      "src_y": 2,
+      "dst_x": 2,
+      "dst_y": 3
+    },
+    {
+      "src_x": 5,
+      "src_y": 2,
+      "dst_x": 4,
+      "dst_y": 3
+    },
+    {
+      "src_x": 5,
+      "src_y": 2,
+      "dst_x": 5,
+      "dst_y": 3
+    },
+    {
+      "src_x": 6,
+      "src_y": 2,
+      "dst_x": 6,
+      "dst_y": 3
+    },
+    {
+      "src_x": 0,
+      "src_y": 3,
+      "dst_x": 0,
+      "dst_y": 4
+    },
+    {
+      "src_x": 0,
+      "src_y": 3,
+      "dst_x": 1,
+      "dst_y": 4
+    },
+    {
+      "src_x": 2,
+      "src_y": 3,
+      "dst_x": 3,
+      "dst_y": 4
+    },
+    {
+      "src_x": 4,
+      "src_y": 3,
+      "dst_x": 5,
+      "dst_y": 4
+    },
+    {
+      "src_x": 5,
+      "src_y": 3,
+      "dst_x": 6,
+      "dst_y": 4
+    },
+    {
+      "src_x": 6,
+      "src_y": 3,
+      "dst_x": 6,
+      "dst_y": 4
+    },
+    {
+      "src_x": 0,
+      "src_y": 4,
+      "dst_x": 1,
+      "dst_y": 5
+    },
+    {
+      "src_x": 1,
+      "src_y": 4,
+      "dst_x": 2,
+      "dst_y": 5
+    },
+    {
+      "src_x": 3,
+      "src_y": 4,
+      "dst_x": 2,
+      "dst_y": 5
+    },
+    {
+      "src_x": 5,
+      "src_y": 4,
+      "dst_x": 5,
+      "dst_y": 5
+    },
+    {
+      "src_x": 6,
+      "src_y": 4,
+      "dst_x": 6,
+      "dst_y": 5
+    },
+    {
+      "src_x": 1,
+      "src_y": 5,
+      "dst_x": 1,
+      "dst_y": 6
+    },
+    {
+      "src_x": 2,
+      "src_y": 5,
+      "dst_x": 1,
+      "dst_y": 6
+    },
+    {
+      "src_x": 2,
+      "src_y": 5,
+      "dst_x": 3,
+      "dst_y": 6
+    },
+    {
+      "src_x": 5,
+      "src_y": 5,
+      "dst_x": 4,
+      "dst_y": 6
+    },
+    {
+      "src_x": 6,
+      "src_y": 5,
+      "dst_x": 5,
+      "dst_y": 6
+    },
+    {
+      "src_x": 6,
+      "src_y": 5,
+      "dst_x": 6,
+      "dst_y": 6
+    },
+    {
+      "src_x": 1,
+      "src_y": 6,
+      "dst_x": 0,
+      "dst_y": 7
+    },
+    {
+      "src_x": 3,
+      "src_y": 6,
+      "dst_x": 2,
+      "dst_y": 7
+    },
+    {
+      "src_x": 4,
+      "src_y": 6,
+      "dst_x": 3,
+      "dst_y": 7
+    },
+    {
+      "src_x": 5,
+      "src_y": 6,
+      "dst_x": 5,
+      "dst_y": 7
+    },
+    {
+      "src_x": 6,
+      "src_y": 6,
+      "dst_x": 6,
+      "dst_y": 7
+    },
+    {
+      "src_x": 0,
+      "src_y": 7,
+      "dst_x": 0,
+      "dst_y": 8
+    },
+    {
+      "src_x": 0,
+      "src_y": 7,
+      "dst_x": 1,
+      "dst_y": 8
+    },
+    {
+      "src_x": 2,
+      "src_y": 7,
+      "dst_x": 1,
+      "dst_y": 8
+    },
+    {
+      "src_x": 3,
+      "src_y": 7,
+      "dst_x": 3,
+      "dst_y": 8
+    },
+    {
+      "src_x": 5,
+      "src_y": 7,
+      "dst_x": 4,
+      "dst_y": 8
+    },
+    {
+      "src_x": 6,
+      "src_y": 7,
+      "dst_x": 5,
+      "dst_y": 8
+    },
+    {
+      "src_x": 0,
+      "src_y": 8,
+      "dst_x": 0,
+      "dst_y": 9
+    },
+    {
+      "src_x": 1,
+      "src_y": 8,
+      "dst_x": 1,
+      "dst_y": 9
+    },
+    {
+      "src_x": 3,
+      "src_y": 8,
+      "dst_x": 3,
+      "dst_y": 9
+    },
+    {
+      "src_x": 4,
+      "src_y": 8,
+      "dst_x": 3,
+      "dst_y": 9
+    },
+    {
+      "src_x": 5,
+      "src_y": 8,
+      "dst_x": 5,
+      "dst_y": 9
+    },
+    {
+      "src_x": 0,
+      "src_y": 9,
+      "dst_x": 0,
+      "dst_y": 10
+    },
+    {
+      "src_x": 1,
+      "src_y": 9,
+      "dst_x": 1,
+      "dst_y": 10
+    },
+    {
+      "src_x": 1,
+      "src_y": 9,
+      "dst_x": 2,
+      "dst_y": 10
+    },
+    {
+      "src_x": 3,
+      "src_y": 9,
+      "dst_x": 3,
+      "dst_y": 10
+    },
+    {
+      "src_x": 5,
+      "src_y": 9,
+      "dst_x": 5,
+      "dst_y": 10
+    },
+    {
+      "src_x": 0,
+      "src_y": 10,
+      "dst_x": 1,
+      "dst_y": 11
+    },
+    {
+      "src_x": 1,
+      "src_y": 10,
+      "dst_x": 1,
+      "dst_y": 11
+    },
+    {
+      "src_x": 2,
+      "src_y": 10,
+      "dst_x": 1,
+      "dst_y": 11
+    },
+    {
+      "src_x": 3,
+      "src_y": 10,
+      "dst_x": 3,
+      "dst_y": 11
+    },
+    {
+      "src_x": 3,
+      "src_y": 10,
+      "dst_x": 4,
+      "dst_y": 11
+    },
+    {
+      "src_x": 5,
+      "src_y": 10,
+      "dst_x": 4,
+      "dst_y": 11
+    },
+    {
+      "src_x": 1,
+      "src_y": 11,
+      "dst_x": 0,
+      "dst_y": 12
+    },
+    {
+      "src_x": 1,
+      "src_y": 11,
+      "dst_x": 1,
+      "dst_y": 12
+    },
+    {
+      "src_x": 3,
+      "src_y": 11,
+      "dst_x": 3,
+      "dst_y": 12
+    },
+    {
+      "src_x": 4,
+      "src_y": 11,
+      "dst_x": 3,
+      "dst_y": 12
+    },
+    {
+      "src_x": 4,
+      "src_y": 11,
+      "dst_x": 5,
+      "dst_y": 12
+    },
+    {
+      "src_x": 0,
+      "src_y": 12,
+      "dst_x": 0,
+      "dst_y": 13
+    },
+    {
+      "src_x": 1,
+      "src_y": 12,
+      "dst_x": 1,
+      "dst_y": 13
+    },
+    {
+      "src_x": 3,
+      "src_y": 12,
+      "dst_x": 2,
+      "dst_y": 13
+    },
+    {
+      "src_x": 3,
+      "src_y": 12,
+      "dst_x": 3,
+      "dst_y": 13
+    },
+    {
+      "src_x": 5,
+      "src_y": 12,
+      "dst_x": 5,
+      "dst_y": 13
+    },
+    {
+      "src_x": 0,
+      "src_y": 13,
+      "dst_x": 0,
+      "dst_y": 14
+    },
+    {
+      "src_x": 1,
+      "src_y": 13,
+      "dst_x": 0,
+      "dst_y": 14
+    },
+    {
+      "src_x": 2,
+      "src_y": 13,
+      "dst_x": 1,
+      "dst_y": 14
+    },
+    {
+      "src_x": 3,
+      "src_y": 13,
+      "dst_x": 4,
+      "dst_y": 14
+    },
+    {
+      "src_x": 5,
+      "src_y": 13,
+      "dst_x": 5,
+      "dst_y": 14
+    }
+  ]
+}
