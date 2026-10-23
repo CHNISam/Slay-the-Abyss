@@ -25,7 +25,12 @@ local function control(spec, parent)
         assert(source == "static" and type(id) == "number"); self.imageId = id
     end
     function self:SetAsLastSibling() self.raised = true end
-    function self:AddCursorEventListener(event, fn) assert(event == "click" and not self.click); self.click = fn end
+    function self:AddCursorEventListener(event, fn)
+        self.listeners = self.listeners or {}
+        assert(not self.listeners[event], "duplicate cursor listener: " .. tostring(event))
+        self.listeners[event] = fn
+        if event == "click" then self.click = fn end
+    end
     if spec.kind == "grid" then
         self.items, self.indexBase = {}, 0
         function self:recycle(slot, index)
@@ -44,11 +49,11 @@ local function control(spec, parent)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
 end
-local function fixture(data, settle, music)
+local function fixture(data, settle, music, cursorEvents)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music })
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents })
     root.ui = ui
     return ui, root
 end
