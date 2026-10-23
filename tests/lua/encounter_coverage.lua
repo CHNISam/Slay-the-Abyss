@@ -32,8 +32,11 @@ end
 -- seeding Block are explicit fixtures; all enemy HP/effects and player HP are real.
 -- Oracle reads the source JSON contract without calling production arithmetic.
 for _, definition in ipairs(data.enemies.enemies) do
+    intentCount = intentCount + #definition.intents
+    -- Stateful enemies have independent behavioral oracles in lagavulin_ai.lua;
+    -- forcing only intentIndex would leave their decision state inconsistent.
+    if not definition.ai then
     for index, intent in ipairs(definition.intents) do
-        intentCount = intentCount + 1
         for _, startingBlock in ipairs({ 0, 5 }) do
             test(definition.id .. "/" .. intent.id .. " resolves with Block " .. startingBlock, function()
                 local s = Combat.new(data, { enemies = { definition.id }, seed = 42 })
@@ -101,6 +104,7 @@ for _, definition in ipairs(data.enemies.enemies) do
         end
         assert(s.phase == "player" or s.phase == "defeat")
     end)
+    end
 end
 
 test("configured cultist strength persists into its next natural attack", function()

@@ -67,7 +67,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 local seconds = math.floor(run.elapsedSeconds)
                 local duration = string.format("%02d:%02d", math.floor(seconds / 60), seconds % 60)
                 menu:GetChild("summary").text = title .. " · 用时 " .. duration
-                    .. "\n抵达第 " .. self.map.floor .. " / 15 层 · 胜场 " .. run.victories
+                    .. "\n抵达第 " .. self.map.floor .. " / " .. data.rules.map.floors .. " 层 · 胜场 " .. run.victories
                     .. "\n生命 " .. hp .. " / " .. run.maxHp .. " · 金币 " .. run.gold
                     .. "\n卡组 " .. #run.deck .. " 张 · 遗物 " .. #run.relics .. " 件"
                 if self.settlementError then
