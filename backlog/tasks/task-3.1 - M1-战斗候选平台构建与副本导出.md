@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 22:20'
-updated_date: '2026-10-23 04:04'
+updated_date: '2026-10-23 07:20'
 labels: []
 milestone: m-2
 dependencies:
@@ -49,6 +49,8 @@ P0后续已越过旧阻塞：完整UI容器分组、Color和SetImage修复后，
 独立复核通过：实际gil中21份Lua源文逐份等于be5093f；重跑checkClientScripts仍0errors/12个已定位跨模块方法warning；UI与图挂载非空。另以原底图和编译main.gia内存重注入，输出字节与候选完全一致。原文件hash与source-base及前后记录一致。关闭的仅为构建副本切片，TASK2/3.2/3继续未完成。
 
 本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
+
+后续离线构建审计发现真实问题：W1测试生成build/lua/sts1_unknown_vectors.lua被候选构建器全目录扫描打包，实际54e8eef副本27模块/18warnings含无关测试向量。修复切片限定生成模块为5个游戏运行时输出，并在任何工具写入前校验缺失/同名；src Lua仍完整保留。3项包清单回归通过，待独立复审及新副本重建。历史TASK3.1构建AC不代表后续候选完整实机验收。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
