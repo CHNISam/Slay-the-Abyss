@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 03:31'
+updated_date: '2026-10-23 04:04'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -52,4 +52,6 @@ TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TAS
 卡组查看已实现：原生六列 grid + 只读卡牌模板、永久卡组 UID/升级/X费用/真实文案、单项回调校准索引、重复开关和过期回调隔离、地图/战斗/节点入口。真实控件夹具验证底层出牌/结束回合/药水/奖励/营地命令均被拦截，关闭后恢复。完整 npm run check 一轮通过，补充永久与临时成长区别/奖励防穿透的针对性回归通过。原神未启动。离线副本编译发现 MCP colour 仅接受 RGB，遮罩现拆为主题 RGB + opacity，继续复验。
 
 最终离线验证：npm run check exit 0；JS 214 项（200 pass/14 环境 symlink 权限 skip），全部 Lua 套件通过（GameUI 16 项），Python 16 项（1 symlink 权限 skip）。固定 source-base SHA256 6e82decf...a432 从零构建成功；完整候选上 replace UI/模板读回，控件 ID/模板索引/22节点结算图/信号/实体挂载相等。scene_check_client 0 errors/15 跨模块 UNKNOWN_METHOD warnings，无 signal 未监听警告。最终候选 SHA256 512959f6...f680，证据 docs/testing/task4-deck-offline.md。早期派生 original.gil 调查不作验收证据。未开原神、未导入、未预览、未试玩，不勾 TASK-4 实机 AC；交主线程复审。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->

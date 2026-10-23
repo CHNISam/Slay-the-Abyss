@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 03:34'
+updated_date: '2026-10-23 04:04'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -58,4 +58,6 @@ ordinal: 15000
 最终a6be1b6组合复验：支持hpRange闭区间109–111真实战斗种子采样，seed3/0/5分别得到109/110/111且重复战斗和洗牌一致，maxHp取实际采样值。实际双Strike和Run.usePotion火瓶入口均验证立即唤醒与当次眩晕。新增AI规则12组、schema18组；完整npm run check退出0，Python16组1个既有权限skip；日志build/enemy-ai-check.log。已兼容PR37的严格非空Effects.supported，只有sleep/stunned意图在Combat.new中专门允许空effects，不放宽卡牌验证。原版随机算法/种子映射和原版二进制版本仍未核实；社区二手资料级别明确，五个AC全部未勾。
 
 祈火徒生产接线离线切片：固定镜像方法体重新读取后实现48–54 HP采样、首动仪式3、随后6基础攻击及整组敌方轮末增长3力量（施加当轮跳过）。新运行时9组红→绿，真实首战UI意图/状态展示通过，补10组schema边界。完整npm run check退出0（JS268pass/14既有权限skip，Lua全套，Python15pass/1skip）；最终两个恶形schema新增10/10再通过。原反馈/药水fixture显式关闭自定义敌人AI，真实行为独立测。docs/reviews/TASK-15-cultist-runtime.md列来源与版本真实性/原版随机流限制；所有全池/平台AC保留未勾。独立复核中，未开游戏/平台编译/写存档。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->
