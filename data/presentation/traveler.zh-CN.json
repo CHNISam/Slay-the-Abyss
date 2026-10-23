@@ -189,6 +189,10 @@
       "name": "以战养战",
       "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。",
       "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。"
+    },
+    "slimed": {
+      "name": "黏滞",
+      "textTemplate": "花费 {cost} 点能量移出本场战斗。"
     }
   }
 }

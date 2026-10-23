@@ -91,7 +91,7 @@ class PresentationTests(unittest.TestCase):
             with self.subTest(card=card), self.assertRaises(self.m.PresentationError):
                 self.m.cost_label(card)
 
-    def test_repository_class_pool_and_dazed_integration(self):
+    def test_repository_class_pool_and_status_integration(self):
         source = Path(os.environ.get('TRAVELER_SOURCE', ROOT / 'data/cards.json'))
         overlay = Path(os.environ.get('TRAVELER_OVERLAY', ROOT / 'data/presentation/traveler.zh-CN.json'))
         if not source.exists() and not overlay.exists() and not any(
@@ -103,9 +103,13 @@ class PresentationTests(unittest.TestCase):
         source_data = self.m.load_json(source)
         data = self.m.render_cards(source_data, self.m.load_json(overlay))
         cards = {card['id']: card for card in data['cards']}
-        self.assertEqual(len(cards), 38)
-        self.assertEqual(len({c['name'] for c in cards.values()}), 38)
+        self.assertEqual(len(cards), 39)
+        self.assertEqual(len({c['name'] for c in cards.values()}), 39)
         self.assertEqual(sum(c['type'] != 'status' for c in source_data['cards']), 37)
+        self.assertEqual(cards['slimed']['cost'], '1')
+        self.assertEqual(cards['slimed']['upgradeCost'], '1')
+        self.assertEqual(cards['slimed']['name'], '黏滞')
+        self.assertIn('1', cards['slimed']['text'])
         self.assertEqual(cards['dazed']['cost'], '')
         self.assertEqual(cards['dazed']['upgradeCost'], '')
         self.assertIn('无法打出', cards['dazed']['text'])
