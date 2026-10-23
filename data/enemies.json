@@ -714,6 +714,14 @@
       "name": "符文哨卫",
       "tier": "elite",
       "hp": 40,
+      "hpRange": { "min": 38, "max": 42 },
+      "ai": {
+        "kind": "sentry",
+        "beamIntent": "sentry_1",
+        "boltIntent": "sentry_2",
+        "artifactStacks": 1,
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "sentry_1",
@@ -730,9 +738,9 @@
           "kind": "debuff",
           "effects": [
             {
-              "op": "applyStatus",
-              "status": "weak",
-              "value": 1
+              "op": "makeTempCardInDiscard",
+              "card": "dazed",
+              "value": 2
             }
           ]
         }

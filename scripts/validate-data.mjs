@@ -157,8 +157,19 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack'], `${ap}.kind`);
-      if (a.kind === 'rolled_attack' || a.kind === 'opening_roll_attack') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry'], `${ap}.kind`);
+      if (a.kind === 'sentry') {
+        keys(a, ['kind', 'beamIntent', 'boltIntent', 'artifactStacks', 'rollRange'], ap);
+        intentReference(a.beamIntent, `${ap}.beamIntent`, 'attack');
+        intentReference(a.boltIntent, `${ap}.boltIntent`, 'debuff');
+        integer(a.artifactStacks, `${ap}.artifactStacks`, 1, 2147483647);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        reference('artifact', 'statuses', `${ap}.artifact`);
+        const bolt = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.boltIntent);
+        if (!Array.isArray(bolt?.effects) || !bolt.effects.some(effect => effect?.op === 'makeTempCardInDiscard' && effect.card === 'dazed' && effect.value > 0)) {
+          fail(`${ap}.boltIntent`, 'must generate Dazed cards, never a substitute Power');
+        }
+      } else if (a.kind === 'rolled_attack' || a.kind === 'opening_roll_attack') {
         keys(a, ['kind', 'attackIntent', 'rollRange'], ap);
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);

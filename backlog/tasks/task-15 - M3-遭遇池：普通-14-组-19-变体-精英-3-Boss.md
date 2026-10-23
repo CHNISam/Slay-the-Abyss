@@ -6,7 +6,7 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 09:39'
+updated_date: '2026-10-23 09:40'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -54,6 +54,8 @@ ordinal: 15000
 2026-10-23 Fat/Sneaky抽样切片（独立283e9c3）：固定GremlinFat/GremlinThief方法核对，Fat复用rolled_attack每动Roll，Sneaky用opening_roll_attack仅开场Roll、之后SetMove；保持PR86数值与原动作回归，death/队列与领袖逃跑分别保留。
 
 下一批Sentry/Artifact：固定HP38–42/Artifact1/完整敌方列表奇偶开场与交替/roll，独立AI与Actor.applyPower；Dazed来自7b1236f，Effects/Inventory真实桥接待同作者后续独立commit，未桥接不冒称完成。
+
+Sentry69df9bc接独立Dazed7b：专属策略按完整敌列表slot决定首动Bolt2 Dazed/Beam9，HP38–42、预战Artifact1，后续交替且每次主roll消费，queued-dead白名单增加Sentry。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -97,4 +99,6 @@ SpikeS源8a70065：8组专项先5红后全绿，68项JS与18遭遇可达/121组�
 第二批root集成d3e9d76：AcidS/SpikeS/Fat/Sneaky抽样策略及死后队列专项均独立复审；完整npm run check最终exit0：JS643共528pass/115既有条件skip，Lua全绿，Python16共15pass/1 Windows权限skip。首次15秒遭遇覆盖超时在相同预算隔离重跑115组过；随后发现Fat旧fixture替换intent ID与新policy冲突，仅修fixture保留身份及断言，最终全量重跑绿。未修原版生产RNG/全池/平台，所有严格AC不勾。
 
 集成26c210d阶段1：Actor.applyPower明确四类debuff与signed<=0（含0）拦截、invalid/dead不耗，raw API保留，Flex可选state分正力量/失力两次应用。16基础+Flex16+caps12+theme4过，独立44组与2路真实C.play故障回滚复核无阻断；zero Flex新state ABI收窄待桥接修复，raw0兼容不变。尚未真实卡牌/药水接线，不宣称整项/原作/平台通过。
+
+Sentry69df9bc阶段9真实Combat/Run专项先全红后绿：三敌开场只9伤/4Dazed，三轮HP71/53/44、累计Dazed4/6/10，无Weak替代；64种子HP/Artifact、slot错位、roll0/99、反伤/毒死队列覆盖，25相关JS绿。真实Artifact牌瓶尚有3组未桥接红例，NoDraw/zeroFlex/UI意图补齐待独立桥接，不冒充已完成。root集成保留最新develop PR101诊断与PR102规则/审计。
 <!-- SECTION:NOTES:END -->

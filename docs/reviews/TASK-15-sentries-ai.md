@@ -39,3 +39,17 @@ Flex源码先排Strength，再排LoseStrength（DEBUFF）；后者触发时再�
 `artifact_power.lua`初始15组全红，首个明确失败为缺Artifact定义；实现后15绿，补死target真实Flex测试发现Artifact错误消耗，再修guard后16组绿。覆盖当前四类减益、重复/已有状态、signed stat负/零、零普通减益、cap后无效buff、非法输入/死target不耗、raw mutation不拦、dead source、两种Flex时间点与旧bookkeeping。
 
 现有Flex16组与signed caps12组通过。此阶段尚未桥接Effects/Inventory，也未合Dazed实现，故不宣称真实卡牌/药水Artifact或三Sentry入口已通过。
+
+## 三哨卫与真实Dazed接口阶段
+
+已合独立Dazed基础提交`7b1236f`（本分支cherry-pick为`ad41d67`）；其固定MakeTempCard/Dazed/CardGroup来源及有限ABI见[DAZED_STATUS_CARDS](../rules/DAZED_STATUS_CARDS.md)，不是Weak替代。
+
+Sentry A0为HP38–42，Beam基础9，Bolt生成两张Dazed；A8+HP39–45、A3+Beam10、A18+Dazed3不适用。预战Artifact1。首动按整个敌方列表的位置（Java零基偶数Bolt、奇数Beam），不是只数Sentry实例；后续两动作交替。getMove不看主roll，但每次rollMove仍消费一次主整数，Beam反伤致死时若有队友则保留排队roll，沿用已核共享调度。
+
+新增独立`abyss_sentry_ai`，初始化扫描完整state.enemies位置、选择正确开场、给予Artifact；EnemyAI只增加分派与sentry queuedRoll白名单。数据保留Beam9，明确将旧Weak1替换为`makeTempCardInDiscard/card=dazed/value=2`，并加真实HP范围。AI schema要求Bolt确实生成Dazed，不能悄悄用Power替代。主题和原生打包均覆盖新依赖。
+
+`sentries.lua`9组先全红，明确旧首轮27伤而非9；实现及真实Dazed组合后9绿。64种子×3实例覆盖全部HP端点/Artifact1；首动错位、混合敌人列表位置、三自然回合HP71/53/44与累计Dazed4/6/10、玩家Artifact不挡Dazed、roll0/99消费、Beam反伤死后roll/下一轮不复活、原始毒setup行动前致死，以及真实Run elite_sentries入口均通过。毒setup用raw helper作边界夹具，不冒充一次被Artifact允许的Poison应用；Run直接设合法层为入口，不声称完成地图路线。
+
+Sentry/Dazed/schema/原生打包25项JavaScript通过，Dazed既有21组再次通过。当前阶段真实Artifact牌/瓶测试仍有3组红（对应尚未桥接），另已核BattleTrance NoDraw特殊Power缺口，后续独立桥接验证，不能把本阶段三敌绿扩推完整Artifact已接线。
+
+生产仍使用共享16位LCG，HP/AI/洗牌相关、原版独立流/种子映射与同种子轨迹未对齐；setup事件中的预战Power表现次序未作原版动画队列认证。平台等独立AC保持。
