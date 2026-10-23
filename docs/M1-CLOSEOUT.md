@@ -19,11 +19,13 @@
 
 历史冻结副本12647ab：仓库根 `.artifacts/m1-handoff-12647ab/abyss-m1-12647ab.gil`，源码 `12647ab90484bc1fa6d9cbc5745e5cd6bdb8ee73`，SHA256 `c7db532b36af66a2e1b6c516e23d4b7ae34d56d0b0414f38a391b08e8116fb0f`。30模块逐byte同源、1664树控件/max50、六列牌库模板、22节点启用结算图完整载荷对比通过；静态0错误/17既有警告，BGM关闭。独立23项断言确认仅清理上述两旧模块、实际清单与生产manifest一致，并保留全部场景设置及11实体图挂载，底图hash不变。结构化证据见 [m1-candidate-12647ab.json](evidence/m1-candidate-12647ab.json)。该副本未包含后来PR114/118组合，不作为当前最终交付。
 
-**新候选未官方导入、未实机、未试听，也未通过正式UI屏幕门禁。** 交付文件与全部原始审计位于根.artifacts，不能以旧候选实机替代本候选验收；后续仅证据文档提交不改变该固定候选源码身份。
+**新候选未官方导入、未实机、未试听，也未通过正式UI屏幕门禁。** 交付文件与全部原始审计位于根.artifacts，不能以旧候选实机替代本候选验收；后续测试及证据文档提交不改变该固定候选的生产源码身份。
 
 并行基线更新：已整合 `41d7eca`（PR114横向翻页与Backlog编号）及PR118既有节点卡片归属修复，冻结组合源码 `b76b6cc744bf5219baca5864b8292c8ab7c4eaae`。同步PR114后的中间源 `257ba09` 在“商店卡片Down→退出→取消→旧Up/Click”交叉探针中实际误购（卡组10→11、金币10000→9950），因此其副本不交付。PR118最小修复复用节点动作令牌；唯一测试合并冲突为注释，原断言全部保留。最终组合独立46项通过（退出15、节点手势20、节点归属6、扩展探针5），旧商店/遗物/选牌触点均拒绝，新手势正常，原页码保持。红绿报告分别归档 `.artifacts/m1-audit/exit-swipe/` 与 `exit-swipe-green/`。
 
 **当前交付**：仓库根 `.artifacts/m1-handoff-b76b6cc/abyss-m1-b76b6cc.gil`；SHA256 `95d0b52996cd2204a314391a156f930045c5b8e3a81aa3c89e05da3eb0ee7920`。冻结源b76b6cc的30模块全部逐byte匹配，1664树控件/max50、六列牌库模板、22节点启用结算图完整载荷匹配，静态0错误/17既有警告，BGM关闭；场景/清单23项独立断言通过，底图不变。见 [m1-candidate-b76b6cc.json](evidence/m1-candidate-b76b6cc.json)。该源另有29项JS宿主/退出/重建测试全过；完整check与最终PR当前SHA Quality分别记录，不将旧bbc6b09的完整结果冒充新源全检。正式导入/实机/UI门禁继续NOT_TESTED。
+
+冻结源b76b6cc的完整 `npm run check` 已实际exit0：JS704（586通过、118权限相关跳过、0失败），全部发现的Lua套件通过，Python16（15通过、1符号链接权限跳过）。日志 `.artifacts/m1-audit/check-b76b6cc-final.log`，SHA256 `e290cab050f1cf3c3a9024a3367db51e154b26630f5146bc04a608fe0c72c5b4`。随后仅将交叉探针整理为常驻 `tests/lua/game_ui_exit_swipe.lua`：精确旧257源码2过3败，修复版5/5；主代理经既有15秒执行器独立复跑5/5，未改生产逻辑或放宽预算。最终PR head Quality另验。首轮正式CI在源码fetch阶段因网络early EOF失败，未进入测试；该失败及后续取消历史保留，不冒充测试已通过。
 
 ## 已有真实证据及边界
 
