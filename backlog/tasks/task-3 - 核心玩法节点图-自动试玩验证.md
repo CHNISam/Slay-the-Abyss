@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 14:29'
+updated_date: '2026-10-23 14:48'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -33,6 +33,8 @@ ordinal: 1
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-23 M1并行收口：独立审计TASK29.2与41的已合修复、九状态及本轮真实证据；从15f62a6隔离工作树重建统一候选，复用scene-safe v2场景配置，独立读回源码/UI/结算载荷与场景；不自动开游戏，不混用历史候选验收。
+
+并行develop41d7eca合入后复查退出与新横滑；257ba09探针实际发现旧卡片触摸误购，复用现有PR118最小修复，冻结b76b6cc重建并全检；不重复实现、不交付已知失败候选。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -49,4 +51,8 @@ P0用户优先级覆盖既定串行排期，沿用任务避免重复建项。v4�
 固定bbc6b09完整check实际exit0：JS697/579pass/118skip/0fail，全部Lua发现套件通过，Python16/15pass1skip。真实首版编译写副本及图载荷/场景挂载通过，但同源audit检出底图遗留red_slaver/sentry两AI模块，拒绝交付，保持失败证据并修构建清单。新提交只变builder/tests将再跑专项及最终SHA CI。
 
 最终统一候选源12647ab已构建/同源审计通过：30模块逐byte匹配、1664树控件/max50、22节点启用结算图完整载荷匹配，静态0error/17warning，BGM关闭；独立场景+清单23断言通过，底图不变。交付.artifacts/m1-handoff-12647ab/abyss-m1-12647ab.gil，hash c7db532b36af66a2e1b6c516e23d4b7ae34d56d0b0414f38a391b08e8116fb0f。首次污染候选及失败审计保留；新候选未导入/实机/UI门禁，AC不外推。
+
+最终组合b76b6cc独立46项通过；旧shop/relic/picker触点跨退出取消均拒绝，fresh正常。三项有限离线任务当前正确编号29.2/41/43均Done，手机38及手柄40未误改。
+
+当前交付冻结源b76b6cc，文件.artifacts/m1-handoff-b76b6cc/abyss-m1-b76b6cc.gil，hash95d0b52996cd2204a314391a156f930045c5b8e3a81aa3c89e05da3eb0ee7920。30模块逐byte同源、1664控件、22节点完整载荷，0静态error/17既有warning，独立场景/清单23项通过，原底图不变。仅编译/副本/离线审计通过，未导入/实机/UI门禁；原126历史副本和257误购失败版均保留。
 <!-- SECTION:NOTES:END -->

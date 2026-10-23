@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-23 14:26'
-updated_date: '2026-10-23 14:28'
+updated_date: '2026-10-23 14:45'
 labels: []
 dependencies: []
 references:
@@ -39,4 +39,6 @@ ordinal: 48000
 
 <!-- SECTION:NOTES:BEGIN -->
 已复现6组旧触摸错误：商店翻页、牌库开关、重绘，选牌翻页、牌库开关，以及离店后真实失败重开至下一商店。固定源7f124453负控0/6，候选6/6及全部81个Native Lua套件通过；PR114分页组合亦81通过。夹具显式以10000金币和敌人1HP隔离资金/战斗，重开另以玩家1HP加速实际失败，不宣称自然获取或玩法平衡。仅shop/picker卡片复用现有动作令牌，不改宝箱、GameUI退出、数值和分页。独立评审进行中；未执行Fengari本地全检或平台验收。
+
+M1集成独立探针实际复现257ba09旧商店触点跨退出取消误购；复用本PR118修复组合到b76b6cc后，exit15/nodeGesture20/ownership6/独立5共46项通过，旧卡牌/遗物/选牌手势失效且新手势正常，原page保留。红绿报告.artifacts/m1-audit/exit-swipe/。保持In Progress等待当前最终head Quality，不冒充平台派发已验。
 <!-- SECTION:NOTES:END -->
