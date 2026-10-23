@@ -1,0 +1,385 @@
+{
+  "checked_at": "2026-10-23",
+  "source_status": "fixed third-party decompiled mirror, not official or PC binary audited",
+  "original_commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+  "sources": [
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/helpers/EventHelper.java",
+      "blob_sha": "83dca0e2780a6fbbaed70caddfd1004617824dd2",
+      "focus": "roll L74-190; thresholds/reset; getEvent name mapping",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/helpers/EventHelper.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/dungeons/AbstractDungeon.java",
+      "blob_sha": "0b56f48444f990fec0225747f19125eab17233af",
+      "focus": "room transition L2403-2418; pool/sampling L2516-2745; constants L3552",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/dungeons/AbstractDungeon.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/dungeons/Exordium.java",
+      "blob_sha": "4da51b8f6bbddbdd30eed7d28645037c784da0c6",
+      "focus": "map chances L117-131; Act1 11 and shrines 6 L284-306",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/dungeons/Exordium.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/rooms/EventRoom.java",
+      "blob_sha": "ae82e5c02d882f9510857a0b5c35d6c4b27cb6a7",
+      "focus": "onPlayerEntry L32-37, RNG clone",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/rooms/EventRoom.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/BigFish.java",
+      "blob_sha": "db6fea375f8e80d7585013e3c4305778c37f6296",
+      "focus": "A0 3-option event",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/BigFish.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/Cleric.java",
+      "blob_sha": "4783d9de97f23cb7ab13457d898b0fed58b7050f",
+      "focus": "A0 heal/purge",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/Cleric.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/DeadAdventurer.java",
+      "blob_sha": "5cb79dd8993b2f3297649511b42cb1b5e52fe531",
+      "focus": "multi-step exploration/combat",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/DeadAdventurer.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/GoldenIdolEvent.java",
+      "blob_sha": "88621abac548f098cf6c21e15cee7fcfb5b011e2",
+      "focus": "A0 25%/8% for gold idol",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/GoldenIdolEvent.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/GoldenWing.java",
+      "blob_sha": "4bebe490cacf288ad25bd4042f48575cfb3b9bd2",
+      "focus": "7 damage / 50-80 gold option",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/GoldenWing.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/GoopPuddle.java",
+      "blob_sha": "0ce689604c643b416ec36ecc31b11d25fd3295bd",
+      "focus": "A0 gain75/pay11 or lost20-50 gold",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/GoopPuddle.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/Sssserpent.java",
+      "blob_sha": "26a6a904ba270e7ba8c85c9ef2e684ae15e618ed",
+      "focus": "A0 +175 and Doubt",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/Sssserpent.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/LivingWall.java",
+      "blob_sha": "6c711975d7cfe35e166a9a1ef947656153d09884",
+      "focus": "purge/transform/upgrade no leave",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/LivingWall.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/Mushrooms.java",
+      "blob_sha": "d6140d92b341ae9f7b6fab1fde465779c04e06cd",
+      "focus": "floor>6, Parasite or event combat",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/Mushrooms.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/ScrapOoze.java",
+      "blob_sha": "44471e43e169324cef0ce5b17dcecab99ceb492c",
+      "focus": "RNG>=99-chance off by one unresolved",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/ScrapOoze.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/exordium/ShiningLight.java",
+      "blob_sha": "85fd9f7f018f873d28f85fb884cf2386b2f826d2",
+      "focus": "A0 MathUtils.round(maxHP*.2)",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/exordium/ShiningLight.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/PurificationShrine.java",
+      "blob_sha": "0f87121348226afda3814ba118db921c444447c8",
+      "focus": "purge/leave",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/PurificationShrine.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/GoldShrine.java",
+      "blob_sha": "22e1ee260a216673eae76d7d5ada4caf2e2b499c",
+      "focus": "A0 100 or 275+Regret",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/GoldShrine.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/UpgradeShrine.java",
+      "blob_sha": "e2140e3fe4937dacfb50ab1c3f6f33dcb5b18d0c",
+      "focus": "upgrade/leave",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/UpgradeShrine.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/Transmogrifier.java",
+      "blob_sha": "f0f6fdb215ccc3a440a80958a81cf8ab575f62f0",
+      "focus": "transform/leave",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/Transmogrifier.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/Bonfire.java",
+      "blob_sha": "b9ad944c62ad0096dc873d4033cb1fb76d75b4a6",
+      "focus": "sacrifice card outcomes",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/Bonfire.java",
+      "confidence": "fixed-source-read;binary-version-unverified"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/beyond/SecretPortal.java",
+      "blob_sha": "882f13e30198a9cc87c62dfe0b6f3af0123bcf76",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/beyond/SecretPortal.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/city/KnowingSkull.java",
+      "blob_sha": "82bad34dffad14db714a3f3c004b1a8fe439a1c8",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/city/KnowingSkull.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/city/TheJoust.java",
+      "blob_sha": "550d840e31a42b0cf5e73a94bed1e4928ab314f5",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/city/TheJoust.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/AccursedBlacksmith.java",
+      "blob_sha": "f7b2f0243f64643010a942d970444f9fcaef0f35",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/AccursedBlacksmith.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/Designer.java",
+      "blob_sha": "9f1bf754eabe184ba5b192be92fdde4e36a2f7d0",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/Designer.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/Duplicator.java",
+      "blob_sha": "8c2c14012de7e1708414b2b8a52e164e962279f5",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/Duplicator.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/FaceTrader.java",
+      "blob_sha": "996678004137d1a74e6c7294a81caf4c8c773416",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/FaceTrader.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/FountainOfCurseRemoval.java",
+      "blob_sha": "5b2922714688f0646ed199b10c0f9d124e6c8bd2",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/FountainOfCurseRemoval.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/GremlinMatchGame.java",
+      "blob_sha": "f86144bdf0e00acad096e8668f17fa96d6aabac1",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/GremlinMatchGame.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/GremlinWheelGame.java",
+      "blob_sha": "cf6afa5ab8cd47152ca303acb7d269ac7a5e1148",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/GremlinWheelGame.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/Lab.java",
+      "blob_sha": "7c81528df2463e77f1f50dc97a063eadb22fa680",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/Lab.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/Nloth.java",
+      "blob_sha": "7ed33fd1b9ef48fe4077e35d340c20c0a2f62998",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/Nloth.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/NoteForYourself.java",
+      "blob_sha": "3ec93d11a152342748ca1d88dd2d4cbf1c1d9f9a",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/NoteForYourself.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/WeMeetAgain.java",
+      "blob_sha": "5d36060d0fbfe767b1482cb57eaaf2fbb79d5e51",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/WeMeetAgain.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "decompiled-community-mirror-not-official",
+      "repo": "https://github.com/purewhitelove/ButterflyGame",
+      "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+      "path": "杀戮尖塔原码/events/shrines/WomanInBlue.java",
+      "blob_sha": "13ed9c14b3b0c3007f4988449639d3d7161c2ff5",
+      "focus": "source indexed; event body NOT method-verified; agent must check before implementation",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/events/shrines/WomanInBlue.java",
+      "confidence": "fixed-tree-index-only"
+    },
+    {
+      "type": "wiki-secondary",
+      "title": "StS1 Events",
+      "url": "https://slaythespire.wiki.gg/wiki/Events",
+      "focus": "event category, shrines, eligibility and lifecycle",
+      "confidence": "secondary"
+    },
+    {
+      "type": "wiki-secondary",
+      "title": "StS1 Events List",
+      "url": "https://slaythespire.wiki.gg/wiki/Events_List",
+      "focus": "first act names and one-time descriptions; may conflict with specific decomp version",
+      "confidence": "secondary"
+    },
+    {
+      "type": "wiki-secondary",
+      "title": "StS1 Map Generation",
+      "url": "https://slaythespire.wiki.gg/wiki/Map_Generation",
+      "focus": "22% map unknown row vs in-room chance",
+      "confidence": "secondary"
+    },
+    {
+      "type": "community-study",
+      "title": "Forgotten Arbiter Correlated Randomness",
+      "url": "https://forgottenarbiter.github.io/Correlated-Randomness/",
+      "focus": "StS1 independent RNG streams and event chance",
+      "confidence": "secondary"
+    }
+  ]
+}

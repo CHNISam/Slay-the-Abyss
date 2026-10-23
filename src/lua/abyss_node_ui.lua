@@ -30,6 +30,10 @@ local events = {
         leave = "你向神龛行了一礼，转身继续赶路。" },
     cleric = { name = "圣职者", body = "一位披着长袍的圣职者拦住去路，笑容满面：\n「旅行者，要不要来点小小的祝福？治疗、净化，明码标价。」",
         leave = "你婉拒了圣职者的服务，继续赶路。" },
+    goop = {name="黏液金币",body="湿滑的泥潭中露出几枚金币。要取回它们，就得忍受黏液的侵蚀；绕道离开也会丢失部分盘缠。",leave="你收好剩下的盘缠，绕过泥潭。"},
+    upgrade_shrine = {name="升级神龛",body="一道微光停在石龛上。你可以在此精进一式招数。",leave="你将这次机会留在身后。"},
+    golden_wing = {name="金翼雕像",body="残破的金翼守着山道。献出生命可以舍弃一式招数；足够强的攻击也能击碎外壳，取出金币。",leave="你绕过了雕像。"},
+    shining_light = {name="闪耀之光",body="石隙间涌出耀眼的光。靠近它会灼伤身体，也会让尚未精进的招数获得提升。",leave="你避开了光芒。"},
 }
 local triggers = { combat_start = "战斗开始时，", combat_end = "战斗结束时，" }
 local layout = Theme.layout.nativeNode
@@ -352,7 +356,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local id = node.event and node.event.id or (result and result.eventId)
         local copy = events[id] or { name = kinds.event, body = "", leave = "你离开了。" }
         event:GetChild("name").text = copy.name
-        event:GetChild("caption").text = kinds.event
+        event:GetChild("caption").text = self.run.data.rules.events.poolMode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         event:GetChild("body").text = result and result.text or copy.body
         local rows = {}
         if not result then
@@ -364,7 +368,31 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     self:render() return true
                 end
             end
-            if id == "cleric" then
+            if id ~= 'cleric' and id ~= 'purifier' then
+                for _,option in ipairs(info.options) do
+                    local selected=option
+                    rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..
+                        (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
+                        if selected.picker then
+                            self.mode,self.picker,self.pickPage,self.selected,self.notice='picker',
+                                selected.picker=='event_upgrade' and 'upgrade' or selected.picker,1,nil,''
+                            self:render();return true
+                        end
+                        return commit('chooseEvent',selected.choice,function(before)
+                            local outcome=self.run.nodeFlow.event
+                            local text='生命 '..before.hp..' → '..self.run.hp..'；金币 '..before.gold..' → '..self.run.gold
+                            if outcome.upgradedUids then
+                                local names={}
+                                for _,uid in ipairs(outcome.upgradedUids) do
+                                    local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true)
+                                end
+                                text=text..'\n已升级：'..table.concat(names,'、')
+                            end
+                            return text,{text=text}
+                        end)
+                    end}
+                end
+            elseif id == "cleric" then
                 local healOk = gold >= info.healCost
                 rows[1] = { title = "［治疗］", enabled = healOk, handler = function()
                         return commit("chooseEvent", "heal", function(before)
@@ -385,9 +413,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     description = deckOk and (info.removeCost > 0 and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌")
                         or "免费从牌组移除一张卡牌") or "牌组仅剩一张，无法移除" }
             end
-            rows[#rows + 1] = { title = "［离开］", enabled = true, description = "什么也不会发生。", handler = function()
+            if id=='cleric' or id=='purifier' then rows[#rows + 1] = { title = "［离开］", enabled = true, description = "什么也不会发生。", handler = function()
                 return commit("chooseEvent", "leave", function() return "已离开" .. copy.name, { text = copy.leave } end)
-            end }
+            end } end
         end
         for i = 1, OPTIONS do
             local row, box = rows[i], event:GetChild("option" .. i)
@@ -501,11 +529,13 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             confirmFn = function()
                 local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
                 local name = instance and cardName(instance.cardId, instance.upgraded) or ""
-                local command = self.picker == "upgrade" and "upgrade" or self.picker == "remove" and "removeCard" or "purifyEvent"
+                local command = self.picker == "upgrade" and (node.type=='event' and 'upgradeEvent' or "upgrade")
+                    or self.picker=='wing_purge' and 'purgeWing' or self.picker == "remove" and "removeCard" or "purifyEvent"
                 return commit(command, selected, function(before)
-                    if command == "upgrade" then
+                    if command == "upgrade" or command=='upgradeEvent' then
                         local base = cardName(instance.cardId)
-                        return "已升级「" .. base .. "」→「" .. base .. "+」", { choice = "upgrade", card = instance }
+                        local text="已升级「" .. base .. "」→「" .. base .. "+」"
+                        return text, { choice = "upgrade", card = instance, text=text }
                     end
                     local paid = before.gold - self.run.gold
                     local text = "已移除「" .. name .. "」" .. (paid > 0 and (" · 支付 " .. paid .. " 金币") or "")

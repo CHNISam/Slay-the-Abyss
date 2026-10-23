@@ -1,5 +1,8 @@
 # 交接说明
 
+2026-10-24未知事件P0：TASK-13.1.1按用户批准交付六事件受限池与真实问号四类路由，范围、耗尽限制、来源和剩余P0 TASK-13.1.2见 [UNKNOWN_EVENTS_P0.md](UNKNOWN_EVENTS_P0.md)。不再以固定Purifier作为当前正常入口；本切片不关闭M1或TASK-12.3实机门禁，最终源码/候选证据以该专项记录和PR为准。
+
+该切片已同步develop的PR121/122/124，游戏冻结源ba1c2fa、验证头02fa504（仅复用PR125的测试断言修复），新副本在根`.artifacts/unknown-events-p0-ba1c2fa/abyss-unknown-events-ba1c2fa.gil`。独立读回35模块/1695控件/max51/22节点完整结算载荷，静态0error16warning；组合完整check通过（JS637pass118skip、Lua92文件、Python16pass1skip）。旧96b80a7仅为首次切片历史。新副本未官方导入或实机；下文M1真实记录属于它自己的5165a78候选，不能混用。最终合并状态见PR123。
 **2026-10-24当前实机结果**：固定源5165a78（PR109合入develop95ce2bd）的统一候选已官方导入为测试存档1073741838，真实完成一场战斗、胜利奖励选牌回图及商店/牌库访问。TASK3.2导入切片Done；TASK3三项最小实战AC有16图/64条新打印独立复核，仍等待九状态等必要关口。短run8f623503确认菜单取消及主动结束进入官方结算；900秒run9bb0abe3的到时中断不作退出成功证据。[当前完整报告](M1-LIVE-ACCEPTANCE.md)、[结构化证据](evidence/m1-live-5165a78.json)。
 
 当前文件为根`.artifacts/m1-handoff-5165a78/abyss-m1-5165a78.gil`，SHA256 `8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288`。32内嵌/32外部Lua、1695控件和场景配置已官方读回匹配；官方重序列化的全图payload未认证。真实复苏、完整九状态、手机触控及正式UI总门禁仍缺，M1未整体完成。原神/沙箱为管理员权限，测试宿主必须同级；本轮已实证普通权限inputSent无页面变化、同级权限同Q操作成功。勿再反复让用户置前替代权限核对。

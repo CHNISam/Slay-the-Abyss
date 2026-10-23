@@ -110,9 +110,10 @@ test("event amounts come from validated rules and all commands respect the activ
     assert(Nodes.purifyEvent(other, other.deck[1].uid)); equal(other.gold, 0)
 end)
 
-test("default Purifier is available with zero gold and either source option remains safe", function()
+test("explicit Purifier is available with zero gold and either source option remains safe", function()
     for _, choice in ipairs({"leave", "pray"}) do
         local source = Combat.copy(data); source.rules.player.startingGold = 0
+        source.rules.events.encounterId='purifier'
         local run, map, node = before(source)
         local seed = run.seed
         assert(Nodes.enter(run, map, node.id)); equal(run.seed, seed)
@@ -130,11 +131,11 @@ test("default Purifier is available with zero gold and either source option rema
     end
 end)
 
-test("low-gold consecutive unknown nodes all remain enterable through the default real event", function()
+test("low-gold consecutive explicit Purifier nodes retain their leave exit", function()
     local source = Combat.copy(data); source.rules.player.startingGold = 0
     local run, map = Run.new(source, 42), Map.generate(source, 42)
     -- Routing fixture makes the next two layers unknowns; it does not assert original map probabilities.
-    for _, node in ipairs(map.nodes) do if node.floor <= 2 then node.type, node.encounterId = "event", nil end end
+    for _, node in ipairs(map.nodes) do if node.floor <= 2 then node.type, node.encounterId, node.eventId = "event", nil, 'purifier' end end
     for _ = 1, 2 do
         local available = Nodes.available(run, map); assert(#available > 0)
         for _, node in ipairs(available) do equal(node.type, "event") end

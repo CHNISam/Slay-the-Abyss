@@ -8,6 +8,7 @@ local function reachShop(ui,root)
         local next=choices[1]
         for _,node in ipairs(choices) do if node.type=="shop" then next=node break end end
         assert(ui.mapUI:choose(next.id))
+        next.type=ui.run.nodeFlow.type
         if next.type=="shop" then return ui,root end
         if ui.mode=="battle" then F.win(ui,root); F.click(root,"battlePanel","skip")
         elseif next.type=="camp" then

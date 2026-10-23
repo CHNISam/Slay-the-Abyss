@@ -1,0 +1,383 @@
+{
+  "fixture_type": "derived ideal 100 discrete bucket oracle; NOT raw Java float or seeded RNG oracle",
+  "origin": "original EventHelper.roll source structure, baseline A0 no mod/relic",
+  "bucket_definition": "integer 0..99 from floor(floatRoll*100), where 0<=floatRoll<1",
+  "base_percent": {
+    "monster": 10,
+    "shop": 3,
+    "treasure": 2
+  },
+  "cases": [
+    {
+      "name": "first_unknown_bucket_00",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 0,
+      "expected": "monster",
+      "after": {
+        "monster": 10,
+        "shop": 6,
+        "treasure": 4
+      }
+    },
+    {
+      "name": "first_unknown_bucket_09",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 9,
+      "expected": "monster",
+      "after": {
+        "monster": 10,
+        "shop": 6,
+        "treasure": 4
+      }
+    },
+    {
+      "name": "first_unknown_bucket_10",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 10,
+      "expected": "shop",
+      "after": {
+        "monster": 20,
+        "shop": 3,
+        "treasure": 4
+      }
+    },
+    {
+      "name": "first_unknown_bucket_12",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 12,
+      "expected": "shop",
+      "after": {
+        "monster": 20,
+        "shop": 3,
+        "treasure": 4
+      }
+    },
+    {
+      "name": "first_unknown_bucket_13",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 13,
+      "expected": "treasure",
+      "after": {
+        "monster": 20,
+        "shop": 6,
+        "treasure": 2
+      }
+    },
+    {
+      "name": "first_unknown_bucket_14",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 14,
+      "expected": "treasure",
+      "after": {
+        "monster": 20,
+        "shop": 6,
+        "treasure": 2
+      }
+    },
+    {
+      "name": "first_unknown_bucket_15",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 15,
+      "expected": "event",
+      "after": {
+        "monster": 20,
+        "shop": 6,
+        "treasure": 4
+      }
+    },
+    {
+      "name": "first_unknown_bucket_99",
+      "before": {
+        "monster": 10,
+        "shop": 3,
+        "treasure": 2
+      },
+      "bucket": 99,
+      "expected": "event",
+      "after": {
+        "monster": 20,
+        "shop": 6,
+        "treasure": 4
+      }
+    },
+    {
+      "name": "first_event_then_next_unknown",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          },
+          "bucket": 0,
+          "expected": "monster",
+          "after": {
+            "monster": 10,
+            "shop": 9,
+            "treasure": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "first_event_then_shop",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          },
+          "bucket": 20,
+          "expected": "shop",
+          "after": {
+            "monster": 30,
+            "shop": 3,
+            "treasure": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "first_event_then_treasure",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          },
+          "bucket": 26,
+          "expected": "treasure",
+          "after": {
+            "monster": 30,
+            "shop": 9,
+            "treasure": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "first_event_then_event",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          },
+          "bucket": 30,
+          "expected": "event",
+          "after": {
+            "monster": 30,
+            "shop": 9,
+            "treasure": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "shop_then_event",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 10,
+          "expected": "shop",
+          "after": {
+            "monster": 20,
+            "shop": 3,
+            "treasure": 4
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 3,
+            "treasure": 4
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 30,
+            "shop": 6,
+            "treasure": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "treasure_then_monster",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 13,
+          "expected": "treasure",
+          "after": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 2
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 2
+          },
+          "bucket": 0,
+          "expected": "monster",
+          "after": {
+            "monster": 10,
+            "shop": 9,
+            "treasure": 4
+          }
+        }
+      ]
+    },
+    {
+      "name": "repeat_three_events",
+      "steps": [
+        {
+          "before": {
+            "monster": 10,
+            "shop": 3,
+            "treasure": 2
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          }
+        },
+        {
+          "before": {
+            "monster": 20,
+            "shop": 6,
+            "treasure": 4
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 30,
+            "shop": 9,
+            "treasure": 6
+          }
+        },
+        {
+          "before": {
+            "monster": 30,
+            "shop": 9,
+            "treasure": 6
+          },
+          "bucket": 99,
+          "expected": "event",
+          "after": {
+            "monster": 40,
+            "shop": 12,
+            "treasure": 8
+          }
+        }
+      ]
+    }
+  ],
+  "special_cases_to_test_separately": [
+    "previous_room_is_shop suppress shop buckets without reroll",
+    "TinyChest 4th room forces treasure after consuming roll",
+    "JuzuBracelet monster roll converts event but resets monster counter",
+    "100 slot cap with high cumulative chance"
+  ]
+}

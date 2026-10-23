@@ -869,7 +869,7 @@
         "cultist"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "jaw_solo",
@@ -878,7 +878,7 @@
         "jaw_worm"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "louse_pair",
@@ -888,7 +888,7 @@
         "green_louse"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "small_slimes",
@@ -898,7 +898,7 @@
         "spike_slime_s"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "louse_trio",
@@ -909,7 +909,7 @@
         "red_louse"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "medium_slimes",
@@ -919,7 +919,7 @@
         "spike_slime_m"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "large_acid",
@@ -928,7 +928,7 @@
         "acid_slime_l"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "large_spike",
@@ -937,7 +937,7 @@
         "spike_slime_l"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "looter_solo",
@@ -946,7 +946,7 @@
         "looter"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "blue_slaver_solo",
@@ -955,7 +955,7 @@
         "blue_slaver"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "red_slaver_solo",
@@ -964,7 +964,7 @@
         "red_slaver"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "fungi_pair",
@@ -974,7 +974,7 @@
         "fungi_beast"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "gremlin_gang",
@@ -987,7 +987,7 @@
         "shield_gremlin"
       ],
       "minFloor": 5,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "wildlife",
@@ -997,7 +997,7 @@
         "green_louse"
       ],
       "minFloor": 5,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "elite_nob",

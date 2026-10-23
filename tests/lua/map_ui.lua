@@ -242,6 +242,12 @@ test("callback errors release reentrancy guard and commits always lock even if c
     local ok, reason = clickNode(root, map, "f1_l1")
     assert(not ok and reason == "choice_callback_error" and ui.navigationEnabled and map.floor == 0 and not ui.choosing)
 end)
+test('exhausted event pool explains the rejected entry on the map without spending the route',function()
+    local root,map,ui=fixture(42,function() return false,'event_pool_exhausted' end)
+    local ok,reason=clickNode(root,map,'f1_l2')
+    assert(not ok and reason=='event_pool_exhausted' and map.floor==0 and ui.navigationEnabled)
+    assert(mapControl(panel(root),'notice').text:find('事件池已用尽'),'missing visible pool exhaustion diagnostic')
+end)
 
 test("phone, PC, console and ultrawide fit stage uniformly and fill background outside stage", function()
     local root, map, ui = fixture()
