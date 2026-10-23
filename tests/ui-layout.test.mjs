@@ -15,6 +15,12 @@ test('feedback uses a fixed non-interactive native pool within the per-parent pl
   }
   const overlay = stage().children.find(c => c.name === 'feedback');
   walk([overlay], control => assert.ok(!['cursorArea', 'presetButton'].includes(control.kind)));
+  // Polish adds exactly one shared area sweep; every other effect reuses the per-actor pool.
+  const sweep = overlay.children.filter(c => c.name === 'sweep');
+  assert.equal(sweep.length, 1);
+  assert.equal(sweep[0].visible, false);
+  assert.equal(sweep[0].image, theme.image.diamond);
+  assert.equal(overlay.children.length, 4);
 });
 test('approved critical actor values and card types have native text line room', () => {
   const controls = stage().children;
