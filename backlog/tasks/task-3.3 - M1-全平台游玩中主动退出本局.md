@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-23 13:52'
+updated_date: '2026-10-23 14:21'
 labels: []
 milestone: m-2
 dependencies: []
@@ -46,4 +46,6 @@ ordinal: 51000
 新副本交付.artifacts/exit-handoff/abyss-exit-02a572c.gil，SHA256 410978fb65b690ad5d2fdcfb41abf13a9a6204c6247ad5e56a9e668b08c47835。自动run2e815bf0-87c1-427b-b22e-0fb44c663af6在打开编辑器关卡菜单前失败（截图显示浏览器遮挡原神，找不到试玩），已停止并转人工，不重复尝试；本次没有新入口的实机通过证据。副本1653树控件/max50、32模块逐byte同源、22节点结算图载荷匹配、静态0错误17警告。详细分层证据docs/evidence/exit-run-02a572c.json，PC点击及手机触控仍待，AC不勾。
 
 用户实机明确确认：退出本局入口已可见，从地图与战斗中退出都成功。只读确认新增存档1073741836，当前32内嵌/外部Lua及完整UI与固定02a572c副本匹配；报告.artifacts/live-acceptance-61425e4/exit-confirmation/report.json。更新分层证据为人工导入+地图退出+战斗退出通过。自动失败历史保留，不能冒充成功。最新21-06-19日志文件早于候选产生且可能汇集旧游玩，未见结算打印，不将其全部归到新候选；成功结论依用户现场反馈及独立导入身份。重复/重试/触点保护已有同源15项本地回归，AC3与记录项AC5勾选。其他页面、取消后继续、真实手机触控没有新增人工确认，AC1/2/4及整体In Progress保留。
+
+2026-10-23退出修复已无冲突集成到最新15f62a6，固定集成76c93d7独立75项交叉回归通过，包括退出取消后旧卡牌/药水手势失效、牌库隔离、演出冻结/恢复；主代理相关16项JS也全过。PR116继续真实构建与Quality；新集成候选实机未验，AC保持原证据边界。
 <!-- SECTION:NOTES:END -->

@@ -12,14 +12,21 @@ const existing = { id: 1073741899, name: '_GSTS_ABYSS_SETTLEMENT', type: 20000, 
 const sdk = `
 import {appendFileSync,readFileSync} from 'node:fs';
 const state=JSON.parse(readFileSync(process.env.REBUILD_SCENARIO,'utf8'));
+const scripts=new Map((state.scripts??[]).map(s=>[s.name,s]));
 export class Client {
  async connect() {} async close() {}
  async readResource({uri}) {return {contents:[{uri,text:'fixture'}]};}
  async callTool({name,arguments:args}) {
   appendFileSync(process.env.REBUILD_CALLS,JSON.stringify({name,args})+'\\n');
+  if(name===state.failTool)return {isError:true,structuredContent:{error:{code:'FIXTURE_FAILURE',message:name}}};
   if(name===state.payloadErrorTool)return {structuredContent:{error:{code:'PAYLOAD_FAILURE',message:name}}};
   if(name===state.malformedTool)return {structuredContent:{mapPath:args.mapPath}};
-  if(name===state.failTool)return {isError:true,structuredContent:{error:{code:'FIXTURE_FAILURE',message:name}}};
+  if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',on:[]});
+  if(name==='scene_list_client_scripts')return {structuredContent:{mapPath:args.mapPath,scripts:[...scripts.values()]}};
+  if(name==='scene_remove_client') {
+   if(!state.ignoreRemoval)scripts.delete(args.script);
+   return {structuredContent:{mapPath:args.mapPath,removed:{script:args.script,scriptId:1073741800}}};
+  }
   if(name==='inspect_map')return {structuredContent:{graphs:state.graphs??[]}};
   if(name==='scene_list_signals')return {structuredContent:{mapPath:args.mapPath,signals:state.signals??[]}};
   if(name==='scene_add_client_ui' && state.hasUi && !args.replace)return {isError:true,structuredContent:{error:{code:'DUPLICATE_UI'}}};
@@ -101,4 +108,31 @@ for(const payloadErrorTool of ['scene_add_signal','scene_add_client_ui'])test(`$
   assert.notEqual(result.status,0);
   assert.match(result.stderr,/PAYLOAD_FAILURE/);
   assert.ok(!calls.some(c=>c.name==='write_graphs'||c.name==='scene_check_client'));
+}));
+
+const staleScripts=['abyss_red_slaver_ai','abyss_sentry_ai'].map(name=>({name,file:name+'.lua',on:[]}));
+test('rebuild removes only stale owned modules after replacing their old UI and verifies exact final inventory',()=>run({scripts:staleScripts},(result,calls)=>{
+  success(result);
+  assert.deepEqual(calls.filter(c=>c.name==='scene_remove_client').map(c=>c.args.script),staleScripts.map(s=>s.name));
+  assert.ok(calls.findIndex(c=>c.name==='scene_add_client_ui')<calls.findIndex(c=>c.name==='scene_remove_client'));
+  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts').length,2);
+  assert.ok(calls.filter(c=>c.name==='scene_remove_client').every(c=>!('evenIfUsed' in c.args)&&!('ui' in c.args)&&!('template' in c.args)));
+}));
+
+for(const foreign of [{name:'OtherProject',file:'OtherProject.lua',on:[]},{name:'abyss_custom',file:'foreign.lua',on:[]}])test('unknown script ownership refuses dirty base before removing any modules',()=>run({scripts:[...staleScripts,foreign]},(result,calls)=>{
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/unknown.*script.*clean base/i);
+  assert.equal(calls.filter(c=>c.name==='scene_remove_client').length,0);
+  assert.ok(!calls.some(c=>c.name==='write_graphs'||c.name==='scene_check_client'));
+}));
+
+for(const scenario of [{failTool:'scene_remove_client'},{payloadErrorTool:'scene_remove_client'},{ignoreRemoval:true}])test('stale script removal refusal or no-op cannot produce an accepted candidate',()=>run({scripts:staleScripts,...scenario},(result,calls)=>{
+  assert.notEqual(result.status,0);
+  assert.ok(!calls.some(c=>c.name==='write_graphs'||c.name==='scene_check_client'));
+}));
+
+test('malformed script inventory cannot be interpreted as clean',()=>run({malformedTool:'scene_list_client_scripts'},(result,calls)=>{
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/script inventory/i);
+  assert.ok(!calls.some(c=>c.name==='scene_remove_client'||c.name==='write_graphs'||c.name==='scene_check_client'));
 }));

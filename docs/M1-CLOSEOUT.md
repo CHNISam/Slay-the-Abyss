@@ -10,6 +10,12 @@
 
 原始离线报告、红绿日志与独立快照归档于仓库根 `.artifacts/m1-audit/{feedback,potion,exit-integration,status,platform}/`。
 
+## 本轮构建与检查
+
+固定集成 `bbc6b09` 的完整 `npm run check` 已实际通过：JavaScript 697项（579通过、118权限相关跳过、0失败），全部发现的Lua套件通过，Python16项（15通过、1符号链接权限跳过）。原始日志为 `.artifacts/m1-audit/check-integrated-final.log`。首次检查与集成操作重叠，旧布局缓存导致exitPanel失败；该次失败保留为历史，不作最终通过证据。
+
+首版真实构建已编译并写入副本；结算图完整载荷再编译对比通过，场景和11实体挂载15项断言通过。但源码审计拒绝了底图残留的 `abyss_red_slaver_ai`、`abyss_sentry_ai` 两份旧模块，因此该版不交付。构建器随后补清单核对：只清理本项目规范命名且不在生产清单中的脚本；未知所有权或清理拒绝/no-op直接失败。首次候选与失败审计保留，不改写为成功。
+
 ## 已有真实证据及边界
 
 | 候选 | 官方存档 | 可以证明 | 不能外推 |

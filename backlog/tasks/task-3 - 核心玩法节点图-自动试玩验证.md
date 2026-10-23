@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 14:14'
+updated_date: '2026-10-23 14:23'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -45,4 +45,6 @@ P0用户优先级覆盖既定串行排期，沿用任务避免重复建项。v4�
 本轮固定origin/develop=15f62a61ebd1635a93a5f1cc98cbcc4e6d2602dd。四个独立代理已领取离线审计；根未提交UI/theme/测试保留。新候选在.worktrees/m1-closeout构建。
 
 2026-10-23并行证据审计已确认新日志345打印/4胜1败及失败结算重开，不再重复列为缺新日志。15f62a6已无冲突集成退出修复为76c93d7；16项退出/宿主/审计相关JS全过。初次完整check与集成重叠，旧布局缓存造成exitPanel缺失，记录失败、不计最终证据，固定集成源须重跑。
+
+固定bbc6b09完整check实际exit0：JS697/579pass/118skip/0fail，全部Lua发现套件通过，Python16/15pass1skip。真实首版编译写副本及图载荷/场景挂载通过，但同源audit检出底图遗留red_slaver/sentry两AI模块，拒绝交付，保持失败证据并修构建清单。新提交只变builder/tests将再跑专项及最终SHA CI。
 <!-- SECTION:NOTES:END -->
