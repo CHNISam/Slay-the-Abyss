@@ -2,7 +2,22 @@
 
 任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
 
-## 最新首次点牌修复候选（085f499，未导入/试玩）
+## 当前规则与BGM离线候选（未导入/试玩）
+
+PR99默认关闭的原生BGM候选已合`1182814`；PR100规则批已合`14979df`。两PR当前head的两个Quality作业均SUCCESS。规则完整组合在源`139de94`实际运行`npm run check`退出0：JS603项（488通过/115既有条件skip）、全部Lua、Python16项（1个既有权限skip）。合入独立BGM代码后图/打包6项、BGM/宿主5组通过，最终`cf6969e`的[Quality](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39926170680)全绿；`cf6969e`与squash合入`14979df`源码树已实际确认相同。
+
+| 副本 | 固定源 / SHA256 | 实际只读复核 |
+| --- | --- | --- |
+| `.artifacts/continued-batch-139de94/wmvkpu9f0-0/working.gil` | `139de949b173c8343d628ce6ba036097a9ff954e` / `a3dc885af8a42ec1c51ce529809c3a27d2ba75e8909bd42abfec9cb828e6b90f` | 28模块同源；1590树节点/max50；六列模板；22节点结算图stage启用；静态0错误/17警告 |
+| `.artifacts/continued-bgm-cf6969e/wmvkq4e3z-0/working.gil` | `cf6969e768a6102a726948742dd327642043c2ab` / `474516d219689b1e2355023427b2cb74ade1c4f8f6ddf39504ea7730fe516eee` | 29模块同源；同UI/模板；22节点结算与83节点BGM图均stage启用；脚本BGM参数双记录均true；静态0错误/17警告 |
+
+真实MCP编译/写副本完成后，另一agent独立从固定git源重建五个生成模块并读回gil。生成模块逐byte相同；源码允许Git LF与工作树CRLF换行差异，规范化后全文一致，原始hash分别保留。UI和模板逐name/kind/子顺序同源匹配；1590是控件树计数，1592包含两个界面壳节点，初版审计误混口径的更正也已留档。详细证据：[规则](evidence/offline-candidate-139de94.json)、[BGM](evidence/offline-bgm-candidate-cf6969e.json)，原始响应和验证脚本在对应`.artifacts`目录。
+
+底图hash前后仍为`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，BGM叠加也未改变规则输入副本。17条静态警告分别为16条已定位的项目自定义方法名称识别及1条尚未生产接线的unknown reducer，不是运行正常证据。没有官方导入、客户端ready/本轮游戏日志、真实操作或音频录像；六条BGM曲目均未试听。默认完整游戏构建仍不启用BGM，专用试听命令见[NATIVE_BGM](NATIVE_BGM.md)。
+
+地图严格golden本轮仍FAIL 0/12（11差异、1完整64位seed不支持），成功导出的11样本额外随机宝箱错误降为0；交叉边/拓扑/RNG等仍未对齐。后续发现的死后排队选招消费差异、完整动作队列及Boss17宝箱事务继续由规则任务推进，不以此批代码或副本关闭全项AC。下一批未合入切片不得计入上述固定副本。
+
+## 历史首次点牌修复候选（085f499，未导入/试玩）
 
 真实构建源`085f499418e0d3eb7a8a556893c389222af487b6`，在ec455f6全部规则/UI/打包修复之上加入PR93：跨战斗重置失效目标与选择，同一战斗刷新仍保留有效选择。原20块宿主UI回归与新增首点回归共21块逐字保留，拆为15+6，Node双进程及LORE检查通过；默认每脚本15秒未变。历史完整本机check属于ec455f6，当前完整门禁以本修复PR最终head的Quality为准，不混用源SHA。
 
