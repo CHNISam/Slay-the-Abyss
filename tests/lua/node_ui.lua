@@ -46,6 +46,10 @@ local function setup(kind, source, prepare)
         assert(controller.root == root)
         changes[#changes + 1] = { ok = ok, reason = reason }
     end)
+    local notice = root.children.notice.text
+    local width = utf8.len(notice) * Theme.font.body
+    assert(math.max(1, math.ceil(width / Theme.layout.nativeNode.notice[3])) * Theme.layout.nativeText.lineHeight
+        <= Theme.layout.nativeNode.notice[4], "node notice exceeds existing text capacity")
     local function click(name) return root:GetChild(name):GetChild("hit").click() end
     local function label(name)
         local slot = name:match("^action(%d+)$")
@@ -78,6 +82,8 @@ end)
 test("camp click heals via real rules once, reports result, and completes", function()
     local ui, root, click, label, changes = setup("camp", nil, function(run) run.hp = 20 end)
     local healing = Nodes.view(ui.run, ui.map).node.heal
+    assert(root.children.notice.text:find("残存的岩灯照亮了短暂的歇脚处。", 1, true))
+    assert(root.children.notice.text:find("两种选择只能选一种", 1, true))
     assert(label("action1"):find(tostring(healing), 1, true))
     assert(click("action1")) assert(ui.run.hp == 20 + healing and ui.run.phase == "map")
     assert(root.children.notice.text:find("休息完成", 1, true))

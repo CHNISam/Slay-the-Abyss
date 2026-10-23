@@ -144,18 +144,32 @@ export function validateContent(bundle) {
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
-      keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
-      enumeration(a.kind, ['sleep_then_cycle'], `${ap}.kind`);
-      integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
-      integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
+      enumeration(a.kind, ['sleep_then_cycle', 'guardian'], `${ap}.kind`);
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
-      intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
-      array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      if (a.kind === 'guardian') {
+        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
+        integer(a.initialThreshold, `${ap}.initialThreshold`, 1, 2147483647);
+        integer(a.thresholdIncrement, `${ap}.thresholdIncrement`, 1, 2147483647);
+        integer(a.shiftBlock, `${ap}.shiftBlock`, 0, 999);
+        for (const key of ['offenseCycle', 'defenseCycle']) {
+          array(a[key], `${ap}.${key}`).forEach((id, j) => intentReference(id, `${ap}.${key}[${j}]`));
+        }
+        intentReference(a.returnIntent, `${ap}.returnIntent`);
+        if (!Array.isArray(a.offenseCycle) || !a.offenseCycle.includes(a.returnIntent)) fail(`${ap}.returnIntent`, 'must occur in offenseCycle');
+        reference('mode_shift', 'statuses', `${ap}.mode_shift`);
+        reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
+      } else {
+        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
+        integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
+        integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
+        intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
+        intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
+        array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      }
     }
   });
   lists.encounters.forEach((entry, i) => {
