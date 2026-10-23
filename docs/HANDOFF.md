@@ -1,5 +1,7 @@
 # 交接说明
 
+第二批[PR102](https://github.com/CHNISam/Slay-the-Abyss/pull/102)已在head`0c3fd84`的两个[Quality作业](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39932782189)成功后squash合入`6014746`。合并时同时保留独立PR101的五份真实出牌/合法路线诊断文件；`src/data/scripts`与PR102 head已核对相同。后续离线集成在`.worktrees/continued-status`，不覆盖根旧develop。PR102及其三个已合源分支的干净工作树已清理，完整Git bundle和最终本地/构建日志先归档至根`.artifacts/continued-pr102-source-history`；含未提交证据的旧BGM树继续保留。
+
 最新第二批普通副本固定源`11b901f`，已含Acid/Spike小软泥、Fat/Sneaky抽样及反伤致死后已排队选招/减益修正；[证据](evidence/offline-candidate-11b901f.json)。30模块逐byte同源，1590树控件/max50、六列模板、22节点启用结算图，BGM双参数false，静态0error/17warning。真实构建先抓到普通manifest漏注册BGM参数，已修并新目录重建，失败保留。完整规则源`d3e9d76`全量check exit0（JS643/528pass115skip、全部Lua、Python15pass1skip），参数/审计增量专项15过；最终head CI另见PR。Dazed/Sentry/Artifact在下一批，未计入此副本；未导入/开游戏/试听，严格关口仍未完成。下文139/cf候选作为历史证据保留，均不含第二批修正。
 
 本轮继续离线推进：PR99（`1182814`）与PR100（`14979df`）均在各自当前head的两个Quality作业全绿后squash合入develop。PR100包含固定第9行地图宝箱、Nob/Blue Slaver A0选招、Weak/Frail/Vulnerable共享轮末及六件开战遗物顺序；各项严格/平台AC仍未勾。地图golden仍FAIL 0/12，原版RNG/拓扑/完整队列与Boss17宝箱事务继续保留，不能把已修某个缺口写成整项一致。
