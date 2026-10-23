@@ -44,13 +44,13 @@ end)
 test("poison before action does not enqueue Fat or Sneaky follow-up draws",function()
     for _,id in ipairs({"fat_gremlin","sneaky_gremlin"}) do controlled(0,function(calls)
         local s=battle({id,"cultist"});local before=#calls;Combat.addStatus(s.enemies[1],"poison",99)
-        assert(Combat.endTurn(s));eq(s.enemies[1].hp,0);eq(s.player.hp,80);eq(#calls,before);eq(s.enemies[2].statuses.ritual,3)
+        assert(Combat.endTurn(s));eq(s.enemies[1].hp,0);eq(s.player.hp,80);eq(#calls,before+1);eq(calls[#calls],100);eq(s.enemies[2].statuses.ritual,3) -- only the living Cultist rolls
     end) end
 end)
 test("Sneaky killed by Thorns has no queued roll even with a living teammate",function()
     controlled(99,function(calls)
         local s=battle({"sneaky_gremlin","cultist"});local before=#calls;s.enemies[1].hp=1;Combat.addStatus(s.player,"thorns",1)
-        assert(Combat.endTurn(s));eq(s.enemies[1].hp,0);eq(s.player.hp,71);eq(#calls,before);eq(s.enemies[2].statuses.ritual,3)
+        assert(Combat.endTurn(s));eq(s.enemies[1].hp,0);eq(s.player.hp,71);eq(#calls,before+1);eq(calls[#calls],100);eq(s.enemies[2].statuses.ritual,3) -- only the living Cultist rolls
     end)
 end)
 test("failed skill transactions preserve both actors choices seed and events",function()

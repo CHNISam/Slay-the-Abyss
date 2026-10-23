@@ -143,8 +143,8 @@ test("real Run net restriction still permits a damage potion without card energy
 end)
 test("dead Red still rolls after Thorns while teammate lives and keeps queued Vulnerable",function()
  local s=battle({"red_slaver","cultist"});local e=s.enemies[1];force(e,"red_slaver_3");e.hp=1;C.addStatus(s.player,"thorns",1)
- roll(75,function() assert(C.endTurn(s)) end);eq(e.hp,0);eq(s.player.statuses.vulnerable,1);eq(e.redLast,"red_slaver_3");eq(C.intent(s,1),nil)
- roll(0,function() assert(C.endTurn(s)) end,0);eq(e.hp,0);eq(e.redLast,"red_slaver_3")
+ roll(75,function() assert(C.endTurn(s)) end,2);eq(e.hp,0);eq(s.player.statuses.vulnerable,1);eq(e.redLast,"red_slaver_3");eq(C.intent(s,1),nil) -- Red, then Cultist
+ roll(0,function() assert(C.endTurn(s)) end,1);eq(e.hp,0);eq(e.redLast,"red_slaver_3") -- only Cultist remains
 end)
 test("last Red death clears queued roll and later Vulnerable",function()
  local s=battle();local e=s.enemies[1];force(e,"red_slaver_3");e.hp=1;C.addStatus(s.player,"thorns",1)
@@ -152,7 +152,7 @@ test("last Red death clears queued roll and later Vulnerable",function()
 end)
 test("poison death before acting never rolls or marks net used",function()
  local s=battle({"red_slaver","cultist"});local e=s.enemies[1];force(e,"red_slaver_2");e.hp=1;C.addStatus(e,"poison",1)
- roll(0,function() assert(C.endTurn(s)) end,0);eq(e.hp,0);eq(e.redUsedEntangle,false);eq(s.player.statuses.entangled or 0,0)
+ roll(0,function() assert(C.endTurn(s)) end,1);eq(e.hp,0);eq(e.redUsedEntangle,false);eq(s.player.statuses.entangled or 0,0) -- only Cultist's post-Ritual roll
 end)
 test("failure after a real permitted skill preserves net flag lock histories and references",function()
  local s=battle();force(s.enemies[1],"red_slaver_2");roll(0,function() assert(C.endTurn(s)) end)
