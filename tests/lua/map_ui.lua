@@ -115,9 +115,11 @@ test("initial controls show legal starts, shared icons and four states across al
         end
         visibleBounds(root, map)
     end
-    for _, node in ipairs(Map.view(map).nodes) do assert(seen[node.id]) end
+    for _, node in ipairs(Map.view(map).nodes) do
+        assert((seen[node.id] == true) == (node.roomKind ~= "boss_treasure"))
+    end
     for kind in pairs(Theme.icon.node) do assert(types[kind], "all seven real node types displayed") end
-    local boss = boxFor(root, map, "f15_l2")
+    local boss = boxFor(root, map, "f16_l2")
     assert(boss.w == Theme.layout.map.bossNode and boss:GetChild("icon").image == Theme.icon.node.boss)
 end)
 
@@ -166,11 +168,11 @@ test("invalid, locked, backward, disconnected, culled and hidden clicks never mu
     assert(ui:setScroll(10000) and ui.scroll == Layout.maxScroll)
 end)
 
-test("scroll follows true 15-floor navigation and Boss arrival never reports victory", function()
+test("scroll follows 15 generated rows into Boss16 without showing Boss treasure as a map row", function()
     local callbacks = 0
     local root, map, ui
     root, map, ui = fixture(313, function(node) callbacks = callbacks + 1 return Map.choose(map, node.id) end)
-    for floor = 1, 15 do
+    for floor = 1, 16 do
         ui:setNavigationEnabled(true)
         local selected = Map.available(map)[1]
         assert(clickNode(root, map, selected.id))
@@ -179,8 +181,9 @@ test("scroll follows true 15-floor navigation and Boss arrival never reports vic
         visibleBounds(root, map)
     end
     ui:setNavigationEnabled(true)
-    assert(not ui:choose("f15_l2") and callbacks == 15 and #map.path == 15)
-    assert(mapControl(panel(root), "notice").text == "已抵达首领 · 请完成首领战斗")
+    assert(not ui:choose("f16_l2") and callbacks == 16 and #map.path == 16)
+    assert(mapControl(panel(root), "notice").text == "已抵达首领 · 请完成首领战斗与奖励")
+    assert(not boxFor(root, map, "f17_l2").visible)
     assert(ui.scroll == Layout.maxScroll)
     assert(click(root, "previous") and ui.scroll < Layout.maxScroll)
     click(root, "focus"); assert(ui.scroll == Layout.maxScroll)
@@ -262,7 +265,7 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local edge = mapControl(panel(root), "edge" .. n)
             local y1 = Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - ui.scroll
             local y2 = Layout.firstY + (index[id].floor - 1) * Theme.layout.map.floorGap - ui.scroll
-            local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
+            local expected = index[id].roomKind ~= "boss_treasure" and y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
             assert(edge.visible == expected)
             if expected then assert(sameColor(edge.imageColor, taken[node.id .. ":" .. id] and Theme.color.node.pathTaken or Theme.color.node.path)) end
         end end

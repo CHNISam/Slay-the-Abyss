@@ -6,7 +6,7 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { contentFiles, loadContent, validateContent } from '../scripts/validate-data.mjs';
 
-const forced = [[1, 'normal'], [6, 'elite'], [15, 'boss']];
+const forced = [[1, 'normal'], [16, 'boss']];
 const fixture = () => loadContent('data');
 const diagnostic = (floor, tier) => new RegExp(`enemies\\.encounters:.*${tier}.*floor ${floor}\\b`);
 
@@ -14,8 +14,8 @@ test('real content satisfies the existing map contract', () => {
   assert.deepEqual(validateContent(fixture()), []);
 });
 
-for (const restFloor of [0, 1, 13, 15, 16, 14.5, '14', null]) {
-  test(`rejects restFloor ${JSON.stringify(restFloor)} instead of the required floor 14`, () => {
+for (const restFloor of [0, 1, 13, 14, 16, 14.5, '15', null]) {
+  test(`rejects restFloor ${JSON.stringify(restFloor)} instead of the required floor 15`, () => {
     const data = fixture();
     data.rules.map.restFloor = restFloor;
     assert.match(validateContent(data).join('\n'), /rules\.map\.restFloor:/);
@@ -30,19 +30,19 @@ for (const [floor, tier] of forced) {
   });
 
   for (const side of ['before', 'after']) {
-    // Stay inside the existing 1..15 schema, isolating coverage from range validation.
-    if ((side === 'before' && floor === 1) || (side === 'after' && floor === 15)) continue;
+    // Stay inside 1..16 encounter bounds, isolating coverage from range validation.
+    if ((side === 'before' && floor === 1) || (side === 'after' && floor === 16)) continue;
     test(`rejects ${tier} ranges entirely ${side} forced floor ${floor}`, () => {
       const data = fixture();
       for (const entry of data.enemies.encounters.filter(entry => entry.tier === tier)) {
         entry.minFloor = side === 'before' ? 1 : floor + 1;
-        entry.maxFloor = side === 'before' ? floor - 1 : 15;
+        entry.maxFloor = side === 'before' ? floor - 1 : 16;
       }
       assert.match(validateContent(data).join('\n'), diagnostic(floor, tier));
     });
   }
 
-  for (const [boundary, minFloor, maxFloor] of [['exact', floor, floor], ['max', 1, floor], ['min', floor, 15]]) {
+  for (const [boundary, minFloor, maxFloor] of [['exact', floor, floor], ['max', 1, floor], ['min', floor, 16]]) {
     test(`accepts ${tier} ${boundary} boundary ${minFloor}..${maxFloor} at forced floor ${floor}`, () => {
       const data = fixture();
       const candidate = data.enemies.encounters.find(entry => entry.tier === tier);

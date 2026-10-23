@@ -115,14 +115,14 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow == nil)
 end)
 
-test("all seven node panels compose through fifteen floors and Boss result then restart", function()
+test("node panels compose through fifteen generated rows and Boss16 then restart", function()
     -- Keep the real rules, commands and UI. Low-HP fixture isolates routing from balance.
     local data = Combat.copy(Data)
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp = 1 end
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
     local seen = {}
-    for floor = 1, data.rules.map.floors do
+    for floor = 1, data.rules.map.bossFloor do
         local node = Nodes.available(ui.run, ui.map)[1]
         assert(node and node.floor == floor)
         local slot
@@ -142,12 +142,19 @@ test("all seven node panels compose through fifteen floors and Boss result then 
             click(root, "nodePanel", "leave")
         else
             assert(ui.mode == "node")
-            click(root, "nodePanel", "action1")
+            if node.type == "event" then
+                local leaveSlot
+                for i, action in ipairs(ui.nodeUI.slots) do
+                    if action.command == "chooseEvent" and action.argument == "leave" then leaveSlot = i end
+                end
+                assert(leaveSlot); click(root, "nodePanel", "action" .. leaveSlot)
+            else click(root, "nodePanel", "action1") end
         end
         assert(ui.map.floor == floor and ui.run.nodeFlow.complete)
         assert(ui.mode == (floor == data.rules.map.bossFloor and "victory" or "map"))
     end
-    for _, kind in ipairs(data.rules.map.nodeTypes) do assert(seen[kind], "missing panel " .. kind) end
+    -- Optional shop/event/elite rooms are no longer artificially forced on every route.
+    for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory panel " .. kind) end
     assert(root:GetChild("menuPanel"):GetChild("summary").text:find("首领已击败", 1, true))
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)

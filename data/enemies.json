@@ -959,8 +959,8 @@
       "enemies": [
         "guardian"
       ],
-      "minFloor": 15,
-      "maxFloor": 15
+      "minFloor": 16,
+      "maxFloor": 16
     }
   ]
 }

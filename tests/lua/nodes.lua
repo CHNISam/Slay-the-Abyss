@@ -75,6 +75,15 @@ test("invalid selection and failed combat setup leave the map and run unchanged"
     rejected(run, map, function() return Nodes.enter(run, map, map.nodes[1].id) end, "unknown_encounter")
 end)
 
+test("unimplemented boss treasure never falls through to an ordinary relic reward", function()
+    local run, map, node = before("treasure")
+    -- Map.available returns detached descriptions; mark the actual source node.
+    for _, original in ipairs(map.nodes) do
+        if original.id == node.id then original.roomKind = "boss_treasure" end
+    end
+    rejected(run, map, function() return Nodes.enter(run, map, node.id) end, "boss_treasure_not_implemented")
+end)
+
 test("camp healing uses current rules, caps hp and consumes the single choice", function()
     local source = Combat.copy(data); source.rules.camp.healPercent = 17
     local run, map = entered("camp", source)
@@ -148,7 +157,7 @@ test("shop relic stock excludes owned items and writes inventory after payment",
     rejected(run, map, function() return Nodes.buyRelic(run, offer.id) end, "item_unavailable")
 end)
 
-test("shop deletion targets uid, increments the price, and cannot leave an empty deck", function()
+test("shop deletion targets uid, charges once, and reserves the increase for the next shop", function()
     local run, map = entered("shop")
     local price = data.rules.shop.removeCard
     run.gold = price - 1
@@ -158,10 +167,42 @@ test("shop deletion targets uid, increments the price, and cannot leave an empty
     local uid, otherUid = run.deck[1].uid, run.deck[2].uid
     assert(Nodes.removeCard(run, uid)); equal(#run.deck, 9); equal(run.deck[1].uid, otherUid); equal(run.gold, 0)
     equal(Nodes.view(run, map).node.removePrice, price + data.rules.shop.removeCardIncrement)
-    rejected(run, map, function() return Nodes.removeCard(run, uid) end, "invalid_card")
+    equal(Nodes.view(run, map).node.removeAvailable, false)
+    run.gold = 10000
+    rejected(run, map, function() return Nodes.removeCard(run, uid) end, "removal_unavailable")
+    rejected(run, map, function() return Nodes.removeCard(run, otherUid) end, "removal_unavailable")
+    equal(run.shopRemoveCount, 1)
+    -- The exhausted service does not close the shop or disable independent purchases.
+    local offer = run.nodeFlow.cards[1]
+    assert(Nodes.buyCard(run, offer.id)); assert(Nodes.leaveShop(run))
+end)
+
+test("failed last-card removal does not consume the shop service", function()
+    local run, map = entered("shop")
     while #run.deck > 1 do table.remove(run.deck) end
     run.gold = 10000
     rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "last_card")
+    equal(Nodes.view(run, map).node.removeAvailable, true)
+    local offer = run.nodeFlow.cards[1]
+    assert(Nodes.buyCard(run, offer.id))
+    assert(Nodes.removeCard(run, run.deck[1].uid))
+end)
+
+test("shop service view is read-only and a new run does not inherit its use or price", function()
+    local run, map = entered("shop")
+    local view = Nodes.view(run, map).node
+    equal(view.removeAvailable, true)
+    view.removeAvailable, view.removalUsed = false, true
+    equal(Nodes.view(run, map).node.removeAvailable, true)
+    run.gold = view.removePrice
+    assert(Nodes.removeCard(run, run.deck[1].uid))
+    view = Nodes.view(run, map).node
+    view.removeAvailable, view.removalUsed = true, false
+    rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "removal_unavailable")
+    local restarted, restartedMap = entered("shop")
+    local fresh = Nodes.view(restarted, restartedMap).node
+    equal(fresh.removeAvailable, true); equal(fresh.removePrice, data.rules.shop.removeCard)
+    equal(restarted.shopRemoveCount or 0, 0)
 end)
 
 test("treasure is deterministic, grants an unowned relic once, and copies its view", function()
@@ -182,24 +223,25 @@ test("treasure with all relics owned uses the existing normal gold reward", func
     assert(Nodes.claimTreasure(run)); equal(run.gold, gold + data.rules.rewards.normalGold)
 end)
 
-test("minimal event chooses either existing gold or one catalog potion exactly once", function()
-    local run, map = entered("event")
-    local gold = run.gold
+test("Cleric replaces fabricated gold and potion rewards with a one-time sourced service", function()
+    local source = Combat.copy(data); source.rules.events.encounterId = "cleric"
+    local run, map = entered("event", source)
+    local gold, hp = run.gold, run.hp
     rejected(run, map, function() return Nodes.chooseEvent(run, "fake") end, "invalid_event_choice")
-    assert(Nodes.chooseEvent(run, "gold")); equal(run.gold, gold + data.rules.rewards.normalGold)
+    rejected(run, map, function() return Nodes.chooseEvent(run, "gold") end, "invalid_event_choice")
+    rejected(run, map, function() return Nodes.chooseEvent(run, "potion") end, "invalid_event_choice")
+    assert(Nodes.chooseEvent(run, "heal")); equal(run.gold, gold - data.rules.events.cleric.healCost)
+    equal(run.hp, hp)
     equal(#run.potions, 0); equal(run.phase, "map")
-    rejected(run, map, function() return Nodes.chooseEvent(run, "potion") end)
-    local potionRun, potionMap = entered("event")
-    local potionId = Nodes.view(potionRun, potionMap).node.event.potionId
-    assert(Nodes.chooseEvent(potionRun, "potion")); equal(potionRun.potions[1], potionId)
-    equal(potionRun.gold, data.rules.player.startingGold)
+    rejected(run, map, function() return Nodes.chooseEvent(run, "heal") end)
 end)
 
-test("full potion slots refuse event transaction without consuming the alternate choice", function()
+test("full potion inventory is unchanged when leaving Cleric", function()
     local run, map = entered("event")
     for _ = 1, data.rules.player.potionSlots do run.potions[#run.potions + 1] = "fire_potion" end
-    rejected(run, map, function() return Nodes.chooseEvent(run, "potion") end, "potion_slots_full")
-    assert(Nodes.chooseEvent(run, "gold")); equal(run.phase, "map")
+    local potions, gold = Combat.copy(run.potions), run.gold
+    assert(Nodes.chooseEvent(run, "leave")); equal(run.phase, "map")
+    same(run.potions, potions); equal(run.gold, gold)
 end)
 
 test("battle node stays locked through card reward and completes only once", function()
@@ -252,11 +294,12 @@ test("shops read all configured prices and keep deletion increments and owned re
             finishBattle(run); assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
         elseif node.type == "camp" then assert(Nodes.rest(run))
         elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
-        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "gold"))
+        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave"))
         elseif node.type == "shop" then
             shops = shops + 1
             local view = Nodes.view(run, map).node
             equal(view.removePrice, 29 + (shops - 1) * 31)
+            equal(view.removeAvailable, true)
             if shops == 1 then
                 for _, offer in ipairs(view.cards) do
                     local definition
@@ -273,6 +316,8 @@ test("shops read all configured prices and keep deletion increments and owned re
             end
             local gold = run.gold
             assert(Nodes.removeCard(run, run.deck[1].uid)); equal(run.gold, gold - view.removePrice)
+            equal(Nodes.view(run, map).node.removeAvailable, false)
+            rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "removal_unavailable")
             assert(Nodes.leaveShop(run))
         end
     end
@@ -286,10 +331,10 @@ test("lost battle never completes or unlocks a node", function()
     equal(#Nodes.available(run, map), 0)
 end)
 
-test("all seven flows traverse a complete real map without direct navigation or state edits", function()
+test("existing node flows reach Boss16 and expose the separate pending Boss treasure entrance", function()
     local run, map = Run.new(easyData(), 42), Map.generate(easyData(), 42)
     local seen = {}
-    while #Nodes.available(run, map) > 0 do
+    while map.floor < data.rules.map.bossFloor do
         local node = Nodes.available(run, map)[1]; seen[node.type] = true
         assert(Nodes.enter(run, map, node.id)); equal(#Nodes.available(run, map), 0)
         if run.phase == "combat" then
@@ -299,11 +344,14 @@ test("all seven flows traverse a complete real map without direct navigation or 
         elseif node.type == "camp" then assert(Nodes.rest(run))
         elseif node.type == "shop" then assert(Nodes.leaveShop(run))
         elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
-        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "gold")) end
+        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave")) end
     end
-    equal(#map.path, data.rules.map.floors)
-    for _, kind in ipairs(data.rules.map.nodeTypes) do assert(seen[kind], "missing " .. kind) end
+    equal(#map.path, data.rules.map.bossFloor)
+    for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory " .. kind) end
     equal(run.nodeFlow.result, "boss_victory")
+    local nextRoom = Map.available(map)
+    equal(#nextRoom, 1); equal(nextRoom[1].roomKind, "boss_treasure")
+    equal(nextRoom[1].floor, data.rules.map.bossTreasureFloor)
 end)
 
 print("LUA_NODES_PASS " .. count)

@@ -91,8 +91,8 @@ function M.damage(state, source, target, base, fixed)
     target.hp = target.hp - lost
     Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
-    -- The defender retaliates even if this positive attack was blocked or lethal.
-    if not fixed and amount > 0 and (target.statuses.thorns or 0) > 0 then
+    -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
+    if not fixed and (target.statuses.thorns or 0) > 0 then
         local thorns = target.statuses.thorns
         local blocked = math.min(source.block, thorns)
         source.block = source.block - blocked

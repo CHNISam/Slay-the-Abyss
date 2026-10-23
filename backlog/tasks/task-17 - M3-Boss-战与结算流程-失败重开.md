@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 02:52'
+updated_date: '2026-10-23 03:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -39,6 +39,8 @@ ordinal: 3
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-23 离线补齐：使用客户端 update 的有效 dt 记录同局用时与完成战斗数，结算结果冻结，重新启程清零；以 GameUI 行为回归验证胜败结果及重开。不开游戏，不勾平台验收。
 
+本轮整合17层结构时，对尚无Boss遗物池的boss_treasure入口原子拒绝，避免误走普通宝箱发错奖励；保留16层击败Boss结果页，明确完整17层流程未完成。离线代码通过评审与当前SHA CI后直接合并，不以平台待验阻断所有离线开发。
+
 本轮Guardian离线切片：对照初代PC A0来源核实攻击/防守阶段及HP损失预算；新增独立Guardian状态机、变形立即格挡/意图中断/递增阈值，Attack卡动作后单次SharpHide结算；用独立预期轨迹和边界/死亡/回滚测试验证，不以循环代替阶段。保持所有平台及完整17层通关AC未勾，暂不开原神。
 <!-- SECTION:PLAN:END -->
 
@@ -64,5 +66,5 @@ P0正式结算已接线：结果双按钮、单次ABYSS_WIN/LOSE信号、服务�
 
 已同步2eaf30f新的原版一致性验收范围和依赖；本轮离线实现/诊断不替代原版来源核实、平台或完整通关验收。所有新AC保留未勾。
 
-2026-10-23 /root/enemy_ai 在feat/task-17-guardian-ai独立worktree推进Guardian真实阶段；基于已完成Lagavulin框架，不动actor/effects和其他agent拥有的库存/地图/经济。所有原版资料可信级别及未锁二进制版本仍需记录。
+2026-10-23 /root/enemy_ai 在feat/task-17-guardian-ai推进Guardian真实阶段，未改actor/effects。先新增原版独立预期测试确认旧循环缺少初始Mode Shift而失败；实现后19组Guardian轨迹及35组状态通过。首次全套检查在既有statuses测试依赖前九项数组序号处失败，已将新增两状态追加到末尾保持旧序，定点复验通过。现普通合入be5093f最新develop并保留17层地图、Cleric/Purifier、库存零伤反刺修复，随后做最终组合检查。来源可信级别、原版构建未锁与死亡边界依据见docs/reviews/TASK-17-guardian-ai.md；全部AC仍未勾。
 <!-- SECTION:NOTES:END -->

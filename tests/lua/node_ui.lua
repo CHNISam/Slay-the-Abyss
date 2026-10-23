@@ -24,6 +24,9 @@ local function entered(kind, source)
     end
 end
 local function setup(kind, source, prepare)
+    if kind == "event" and not source then
+        source = Combat.copy(data); source.rules.events.encounterId = "cleric"
+    end
     local run, map = entered(kind, source)
     if prepare then prepare(run) end
     local root, presentation, changes = control("nodePanel"), {}, {}
@@ -72,6 +75,18 @@ test("camp click heals via real rules once, reports result, and completes", func
     assert(#changes == 1 and changes[1].ok)
     assert(click("leave") and #changes == 2)
 end)
+
+test("default Purifier permits zero-gold leave and free UID removal through the same UI", function()
+    local source = Combat.copy(data); source.rules.player.startingGold = 0
+    local ui, _, click, label = setup("event", source)
+    assert(label("action1"):find("免费", 1, true))
+    assert(click("action1") and ui.mode == "purify")
+    local second = ui.run.deck[2].uid
+    assert(click("action2") and ui.run.phase == "map" and ui.run.gold == 0 and #ui.run.deck == 9)
+    for _, card in ipairs(ui.run.deck) do assert(card.uid ~= second) end
+    local leaving, _, leaveClick = setup("event", source)
+    assert(leaveClick("action2") and leaving.run.phase == "map" and leaving.run.gold == 0)
+end)
 test("camp upgrade paginates uid instances and cannot upgrade the next uid on duplicate click", function()
     local source = Combat.copy(data) source.rules.camp.upgradeCount = 2
     local ui, root, click, label = setup("camp", source)
@@ -112,7 +127,7 @@ test("shop displays presentation, current prices, insufficient gold, and sold st
     assert(ui.run.relics[#ui.run.relics] == relic.id and ui.run.gold == 0)
     assert(click("leave") and ui.run.phase == "map")
 end)
-test("shop remove targets uid, keeps a removed tombstone, and uses new price", function()
+test("shop remove targets uid and disables the spent service for every remaining card", function()
     local ui, _, click, label = setup("shop", nil, function(run) run.gold = 10000 end)
     click("tab3") local first, second = ui.run.deck[1].uid, ui.run.deck[2].uid
     local price = Nodes.view(ui.run, ui.map).node.removePrice
@@ -121,7 +136,12 @@ test("shop remove targets uid, keeps a removed tombstone, and uses new price", f
     local before = Combat.copy(ui.run) assert(not click("action1")) same(ui.run, before)
     local nextPrice = Nodes.view(ui.run, ui.map).node.removePrice
     assert(label("action2"):find(tostring(nextPrice), 1, true))
-    click("action2") assert(ui.run.deck[1].uid ~= second and ui.run.gold == 10000 - price - nextPrice)
+    assert(label("action2"):find("本店服务已使用", 1, true) and not ui.slots[2].enabled)
+    assert(not click("action2")) same(ui.run, before)
+    assert(ui.run.deck[1].uid == second and ui.run.shopRemoveCount == 1)
+    click("tab1") assert(ui.category == "cards" and click("action1"))
+    click("tab3") assert(not ui.slots[2].enabled)
+    assert(not click("action2") and ui.run.shopRemoveCount == 1)
 end)
 test("last card and empty action slot never execute a command", function()
     local ui, _, click, label = setup("shop", nil, function(run)
@@ -131,18 +151,55 @@ test("last card and empty action slot never execute a command", function()
     local before = Combat.copy(ui.run)
     assert(not click("action1")) assert(not click("action8")) same(ui.run, before)
 end)
-test("event potion capacity preserves the gold alternative; real potion branch grants exactly once", function()
-    local ui, _, click, label = setup("event", nil, function(run)
-        for _ = 1, run.data.rules.player.potionSlots do run.potions[#run.potions + 1] = "fire_potion" end
-    end)
-    assert(label("action2"):find("药水槽已满", 1, true))
-    local gold = ui.run.gold local before = Combat.copy(ui.run)
+
+test("an external removal invalidates a still-enabled UI action before charging gold", function()
+    local ui, root, click, _, changes = setup("shop", nil, function(run) run.gold = 10000 end)
+    click("tab3")
+    local first, second = ui.run.deck[1].uid, ui.run.deck[2].uid
+    assert(ui.slots[2].enabled)
+    assert(Nodes.removeCard(ui.run, first))
+    local before = Combat.copy(ui.run)
     assert(not click("action2")) same(ui.run, before)
-    assert(click("action1")) assert(ui.run.gold == gold + data.rules.rewards.normalGold)
-    local potionUI, _, potionClick = setup("event")
-    local expected = Nodes.view(potionUI.run, potionUI.map).node.event.potionId
-    assert(potionClick("action2")) assert(potionUI.run.potions[1] == expected)
-    before = Combat.copy(potionUI.run) assert(not potionClick("action2")) same(potionUI.run, before)
+    assert(ui.run.deck[1].uid == second and ui.run.shopRemoveCount == 1)
+    assert(root.children.notice.text == "本店删牌服务已使用")
+    assert(#changes == 1 and changes[1].reason == "removal_unavailable" and not changes[1].ok)
+end)
+test("Cleric healing and leaving show sourced costs and execute once through Nodes", function()
+    local ui, _, click, label = setup("event", nil, function(run) run.hp, run.gold = 10, 35 end)
+    assert(label("action1"):find("35", 1, true) and label("action1"):find("20", 1, true))
+    assert(label("action2"):find("50", 1, true) and not ui.slots[2].enabled)
+    local before = Combat.copy(ui.run)
+    assert(not click("action2")) same(ui.run, before)
+    assert(click("action1")) assert(ui.run.gold == 0 and ui.run.hp == 30 and ui.run.phase == "map")
+    before = Combat.copy(ui.run) assert(not click("action1")) same(ui.run, before)
+    local leaving, _, leaveClick = setup("event")
+    before = Combat.copy(leaving.run)
+    assert(leaveClick("action3")) assert(leaving.run.gold == before.gold and leaving.run.hp == before.hp)
+    same(leaving.run.deck, before.deck) same(leaving.run.potions, before.potions)
+end)
+
+test("Cleric Purify opens a cancellable UID menu and leaves shop removal count unchanged", function()
+    local ui, root, click, label = setup("event", nil, function(run) run.gold = 50 end)
+    local first, second = ui.run.deck[1].uid, ui.run.deck[2].uid
+    local before = Combat.copy(ui.run)
+    assert(click("action2") and ui.mode == "purify" and ui.pageCount == 2)
+    assert(root.children.leave.visible and label("action1"):find("#" .. first, 1, true))
+    assert(click("next") and ui.page == 2)
+    assert(click("leave") and ui.mode == "main" and ui.page == 1) same(ui.run, before)
+    assert(click("action2") and click("action2"))
+    assert(ui.run.gold == 0 and #ui.run.deck == 9 and ui.run.deck[1].uid == first)
+    for _, instance in ipairs(ui.run.deck) do assert(instance.uid ~= second) end
+    assert((ui.run.shopRemoveCount or 0) == 0 and ui.run.phase == "map")
+    before = Combat.copy(ui.run) assert(not click("action2")) same(ui.run, before)
+end)
+
+test("Cleric stale affordability is revalidated without consuming the event", function()
+    local ui, root, click = setup("event", nil, function(run) run.gold = 50 end)
+    assert(click("action2")) ui.run.gold = 49
+    local before = Combat.copy(ui.run)
+    assert(not click("action1")) same(ui.run, before)
+    assert(root.children.notice.text == "金币不足")
+    assert(click("leave") and click("action3") and ui.run.phase == "map")
 end)
 test("treasure grants actual relic once and displays its result", function()
     local ui, root, click = setup("treasure")

@@ -273,10 +273,10 @@ test("partial block still allows lethal thorns and stops remaining multihits", f
     eq(s.events[#s.events].detail.amount, 1)
 end)
 
-test("zero damage and fixed nonattack damage do not trigger thorns", function()
+test("zero damage attacks trigger thorns while fixed nonattack damage does not", function()
     local s = battle(); local p, e = s.player, s.enemies[1]; status(e, "thorns", 8)
-    local hp = p.hp; Combat.damage(s, p, e, 0); eq(p.hp, hp)
-    Combat.damage(s, p, e, 5, true); eq(p.hp, hp)
+    local hp = p.hp; Combat.damage(s, p, e, 0); eq(p.hp, hp - 8)
+    Combat.damage(s, p, e, 5, true); eq(p.hp, hp - 8)
 end)
 
 test("lethal attack still retaliates and simultaneous deaths lose", function()
