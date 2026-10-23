@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "locale": "zh-CN",
+  "title": "岩脉残响",
+  "role": "Copy source for narrative presentation only; NOT a runtime schema, rule table, or already integrated code.",
+  "flow": {
+    "intro": {
+      "status": "approved_draft",
+      "displayHint": "menu/subtitle; preserve start guidance and avoid overflow",
+      "full": "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。",
+      "compact": "岩脉失序，封印将破。循着共鸣，深入遗迹。"
+    },
+    "bossEntrance": {
+      "status": "approved_draft",
+      "displayHint": "optional boss entry copy if a safe existing hook exists; no modal is required",
+      "full": "石门缓缓开启。昔日的封印守卫仍在履行职责，只是漆黑的力量已令它分不清敌友。",
+      "compact": "昔日的封印守卫，已被深渊侵蚀。"
+    },
+    "victory": {
+      "status": "approved_draft",
+      "displayHint": "result summary secondary line, never replace stats/settle controls",
+      "full": "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。",
+      "compact": "封印重燃，深渊退去。旅行者继续前行。"
+    },
+    "defeat": {
+      "status": "approved_draft",
+      "displayHint": "result summary secondary line; keep retry and platform settlement",
+      "full": "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。",
+      "compact": "封印尚未修复，旅途仍可重启。"
+    }
+  },
+  "nodeFlavor": {
+    "normal": {
+      "status": "candidate",
+      "compact": "破碎的回廊中，异变的敌人挡住了去路。"
+    },
+    "elite": {
+      "status": "candidate",
+      "compact": "地脉深处，更危险的气息正逐渐逼近。"
+    },
+    "camp": {
+      "status": "candidate",
+      "compact": "残存的岩灯照亮了短暂的歇脚处。"
+    },
+    "shop": {
+      "status": "candidate",
+      "compact": "断壁之间，有旅人摆开了货架。"
+    },
+    "event": {
+      "status": "candidate",
+      "compact": "遗迹中的偶遇，未必都指向战斗。"
+    },
+    "treasure": {
+      "status": "candidate",
+      "compact": "封尘的古匣中，仍留着微弱的光。"
+    },
+    "boss": {
+      "status": "candidate",
+      "compact": "石门尽头，昔日的封印守卫正在等待。"
+    }
+  },
+  "specificEvents": {
+    "cleric": {
+      "status": "candidate",
+      "compact": "幽暗的回廊里，有人提出了一笔交换。"
+    },
+    "shrine": {
+      "status": "candidate",
+      "compact": "古老的神龛仍散发着微弱的净化之光。"
+    }
+  },
+  "guidance": {
+    "floorNumber": "Do not hardcode 15 or 17 floors in narrative. Use runtime floor only where needed.",
+    "mechanics": "No changes to existing node choices, effects, rewards, enemies, shop, probabilities, or battle rules.",
+    "statusSemantics": "approved_draft = original user-favored sentence; candidate = newly suggested optional copy",
+    "mobile": "Compact text takes precedence over hiding core controls, small fonts, or oversized panels."
+  }
+}

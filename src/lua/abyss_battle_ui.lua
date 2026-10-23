@@ -41,6 +41,8 @@ end
 local function intentText(state, index, detailed)
     local intent = Combat.intent(state, index)
     if not intent then return "已击败", "unknown" end
+    if intent.kind == "sleep" then return "沉睡", "sleep" end
+    if intent.kind == "stunned" then return "苏醒中", "unknown" end
     local result, compact = {}, {}
     local enemy, player = Combat.copy(state.enemies[index]), Combat.copy(state.player)
     for _, effect in ipairs(intent.effects) do
@@ -202,8 +204,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local potions = self.busy and self.potionViewCache or fighting and Run.potionView(run) or {}
         if not self.busy then self.potionViewCache = potions end
         self.potionTargetAvailable = false
-        for _, item in ipairs(potions) do
-            if active and item.canUse and item.needTarget then self.potionTargetAvailable = true break end
+        for slot = 1, data.rules.player.potionSlots do
+            local item = potions[slot]
+            if active and item and item.canUse and item.needTarget then self.potionTargetAvailable = true break end
         end
         show("start", not self.busy and not options.embedded and (not run or run.phase == "defeat"))
         button("start", self.active, true, run and "重新启程" or "启程")
@@ -312,9 +315,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         button("continue", self.active and run and run.phase == "map" and not self.busy, true)
         -- Keep physical slots fixed for the encounter: consuming slot one must not
         -- move slot two underneath a queued second click on the same button.
-        if fighting and not self.busy and (self.potionBattle ~= battle or self.potionRun ~= run) then
+        if fighting and not self.busy then
             self.potionBattle, self.potionRun, self.potionSlots = battle, run, {}
-            for i, id in ipairs(run.potions) do self.potionSlots[i] = {slot = i, id = id} end
+            for slot = 1, data.rules.player.potionSlots do
+                local id = run.potions[slot]
+                if id then self.potionSlots[slot] = {slot = slot, id = id} end
+            end
         end
         for i = 1, 3 do
             show("potion" .. i, fighting)
@@ -436,7 +442,6 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local ok, reason = perform(function() return Run.usePotion(self.run, binding.slot, self.target) end)
         if ok then
             self.potionSlots[index] = nil
-            for _, other in pairs(self.potionSlots) do if other.slot > binding.slot then other.slot = other.slot - 1 end end
         end
         notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
         if reason ~= "presentation_unavailable" then refresh() end
@@ -468,6 +473,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function release(event)
         local g = self.gesture
         if not g or not event or event.touchId ~= g.touch then return end
+        -- Stationary taps do not render in move(), so validate their binding too.
+        -- Never let a queued click from an interrupted gesture act on a new view.
+        local instance = g.battle.hand[g.slot]
+        if not dragReady(g) or not instance or instance.uid ~= g.uid then
+            self.gesture, self.selected, self.suppressClick = nil, nil, true
+            self:render()
+            return
+        end
         move(event)
         -- move/render may have cancelled a gesture belonging to an old battle.
         if self.gesture ~= g then return end

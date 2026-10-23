@@ -13,11 +13,13 @@ const sdk = join(toolRoot, 'node_modules/@modelcontextprotocol/sdk/dist/esm/clie
 const { Client } = await import(pathToFileURL(join(sdk, 'index.js')));
 const { StdioClientTransport } = await import(pathToFileURL(join(sdk, 'stdio.js')));
 const layout = JSON.parse(readFileSync('build/lua/game-ui.json', 'utf8'));
+const templates = JSON.parse(readFileSync('build/lua/game-ui-templates.json', 'utf8'));
 function checkTree(control) {
   if ((control.children ?? []).length > 60) throw new Error(`MCP child limit: ${control.name}`);
   for (const child of control.children ?? []) checkTree(child);
 }
 layout.controls.forEach(checkTree);
+templates.forEach(checkTree);
 mkdirSync(workspace, { recursive: true });
 const client = new Client({ name: 'abyss-native-candidate', version: '1.0' });
 await client.connect(new StdioClientTransport({ command: process.execPath,
@@ -39,10 +41,13 @@ try {
   }
   for (const directory of ['src/lua', 'build/lua']) {
     for (const file of readdirSync(directory).filter(file => file.endsWith('.lua') &&
-      !['abyss_ui_layout.lua', 'abyss_map_controls.lua'].includes(file))) {
+      !['abyss_ui_layout.lua', 'abyss_map_controls.lua', 'abyss_ui_templates.lua'].includes(file))) {
       await call('scene_set_client_script', { mapPath, name: basename(file, '.lua'),
         sourceFile: resolve(directory, file), outputName: 'abyss-full-game-test' });
     }
+  }
+  for (const template of templates) {
+    await call('scene_add_client_template', { template, mapPath, replace: true, outputName: 'abyss-full-game-test' });
   }
   await call('scene_add_client_ui', { ...layout, mapPath, outputName: 'abyss-full-game-test' });
   await call('scene_set_player_count', { mapPath, min: 1, max: 1, outputName: 'abyss-full-game-test' });

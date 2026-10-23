@@ -1,6 +1,46 @@
 # P0 完整游戏集成冒烟
 
-任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实15层回归）、TASK-17（Boss正式结算）。冒烟通过前暂停非必要美术扩量、独立卡牌实验和技术研究。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
+任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
+
+## 新版节点与结果界面候选（7013641，未导入/试玩）
+
+真实构建源`701364102983dee19be840be0c54e4d12a06c66a`，包含PR75节点页、PR77菜单/结果页、PR79战斗反馈及先前牌库/AI/固定药水槽位。完整`npm run check`通过：JS297通过/14个既有权限skip，Lua全套、Python15通过/1个既有skip。
+
+首次从a76cab4构建被平台拒绝：17个节点遮罩直接传八位RGBA。统一转换为RGB+独立opacity后从零真实构建成功；失败与成功输出分别在仓库根`.artifacts/offline-ui-a76cab4/build.log`、`.artifacts/offline-ui-7013641/`。
+
+- 实际gil内24模块逐份对照源文，静态0错误/16个自定义跨模块方法warning；新增`holding`已追到`abyss_node_ui`定义。
+- 实际UI1552控件，最大50直接子；六列牌库模板和22节点启用结算图均真读回，ABYSS_WIN/LOSE监听引用存在。
+- 17个节点遮罩实际读回等价RGB`#0f1117`+0.8透明度，无重复乘alpha；源主题颜色未改。
+- 独立内存重注入得到相同字节；正式底图SHA256前后保持`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。
+- 交接副本：`.artifacts/offline-ui-7013641/abyss-ui-offline.gil`，SHA256 `60ca982ef78f3e095b1c572f2f414bc5e32e8cd0a26e10eea8a323d328c43517`。结构化记录见[新版UI候选证据](evidence/offline-candidate-7013641.json)。
+
+没有启动原神、调用playtest、官方导入或发布。节点hover/pressed/按下缩放仍有P2缺口；原生字体/图库/滚动和多设备仍待实机。TASK2物理配置、Boss17宝箱/完整第一幕/胜利正式结算等规则与平台关口保留，不能用这个构建关闭。
+
+## 本批集成候选（022f22c，未导入/试玩）
+
+真实构建源为`022f22cf600de140527acb32774c997ea2be17d4`（PR78固定提交，包含Guardian、Cultist、牌库、叙事和药水固定槽位）。PR78已squash进develop `fac093cffb0403b3ab1ffc5479bd61011a95232b`，独立`git diff`确认两者`src/data/scripts`完全相同；中间PR70只新增两份回归。保留实际构建SHA，不用squash提交号替代。完整`npm run check`退出0，JS284通过/14个既有Windows权限skip，Lua全套通过，Python15通过/1个既有skip；各PR的当前SHA Quality和独立复审另按PR记录。
+
+- 实际写入副本的24模块静态检查0错误、15条跨模块方法warning，全部模块非空。
+- 精确读回1220控件，最大50直接子，四主面板及牌库入口/遮罩面板存在；`abyss_ui`根绑定存在。
+- `AbyssDeckCard`模板根索引1073741845，实际grid引用该模板且列数6。该编号只属于本候选，不能硬编码到运行时。
+- 结算服务端图22节点，启用挂载到关卡实体；编译/副本写入完成，胜利正式结算未实测。
+- 原底图SHA256构建前后均`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。
+- 交接副本：仓库根`.artifacts/offline-integrated-022f22c/abyss-integrated-offline.gil`，SHA256 `a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114`；原始输出、模板/UI读回和校验位于同目录。
+
+独立复核直接解析实际gil：24份模块源文逐份相等；重跑客户端检查并追溯15条warning的真实自定义方法定义；模板/网格/挂载与正式原件hash均核实。另在内存把本轮编译main.gia重注入构建器保存的原件，结果与实际候选逐字节一致，验证编译→写副本链。
+
+结构化证据见[本批候选记录](evidence/offline-candidate-022f22c.json)。未调用playtest、未开原神、未写正式存档、未官方导入。本候选不补足TASK2物理场景/镜头出生、不实现Boss17宝箱事务，也不能替代TASK3.2/3/11.1/12.3或M3/M4实机AC。
+
+## 上一离线候选（be5093f，未导入/试玩）
+
+已合 PR63 的代码提交 `be5093f541724405154c4ee1c656fccc08e329e1` 经 `build:data`、`build:ui`、真实 MCP 副本写入与结算图编译完成。只读正式底图1073741825后复制到工作区；正式文件 SHA256 构建前后均为 `6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`。
+
+- 客户端静态检查非空21模块：0错误、12警告。警告为跨模块控制器方法的静态识别限制，未据此宣称游戏运行无错误。
+- 实际副本读回1178控件，最大50直接子；菜单/地图/战斗/节点面板及`abyss_ui`根脚本绑定存在。
+- 服务端结算图真实编译写入：22节点、编辑计数72，启用挂载到关卡实体。编译/挂载不等于官方胜利结算实测。
+- 候选 SHA256：`3e450284ff5b8096ea5836a1e12639ff702775e301788cf6e40b39e57e1ecb6a`。路径、完整检查列表及原始输出定位见 [结构化证据](evidence/offline-candidate-be5093f.json)，工作区 `.artifacts/m1-offline-be5093f/`。
+
+**本轮官方导入：未执行；原神/沙箱试玩：未执行。** 物理场景/镜头出生等TASK-2、TASK-3.2导入与TASK-3实机仍分别保留，不能用本构建记录替代。以下各版历史现场证据继续保留，不能与这个新候选混用。
 
 ## 本轮实测记录（2026-10-23）
 

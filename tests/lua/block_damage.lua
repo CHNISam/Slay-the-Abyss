@@ -87,7 +87,7 @@ for _, reason in ipairs({ "invalid_target", "insufficient_energy" }) do
     end)
 end
 for _, case in ipairs({
-    { name = "zero attack does not trigger thorns", block = 0, hp = 80, enemyHp = 2, phase = "player", lost = 0 },
+    { name = "zero Body Slam still triggers thorns", block = 0, hp = 80, enemyHp = 2, phase = "player", lost = 3 },
     { name = "blocked positive attack triggers thorns", block = 5, enemyBlock = 5, hp = 80, enemyHp = 2, phase = "player", lost = 0 },
     { name = "lethal defender retaliates before victory", block = 5, hp = 80, enemyHp = 2, phase = "victory", lost = 0 },
     { name = "insufficient block allows simultaneous death", block = 2, hp = 1, enemyHp = 2, phase = "defeat", lost = 1 }

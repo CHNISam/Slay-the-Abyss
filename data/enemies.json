@@ -6,6 +6,8 @@
       "name": "祈火徒",
       "tier": "normal",
       "hp": 50,
+      "hpRange": { "min": 48, "max": 54 },
+      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1" },
       "intents": [
         {
           "id": "cultist_1",
@@ -23,7 +25,7 @@
           "effects": [
             {
               "op": "gainStatus",
-              "status": "strength",
+              "status": "ritual",
               "value": 3
             }
           ]
@@ -601,17 +603,21 @@
       "id": "lagavulin",
       "name": "沉眠遗卫",
       "tier": "elite",
-      "hp": 112,
+      "hp": 110,
+      "hpRange": { "min": 109, "max": 111 },
+      "ai": {
+        "kind": "sleep_then_cycle",
+        "sleepTurns": 3,
+        "sleepBlock": 8,
+        "sleepIntent": "lagavulin_1",
+        "stunnedIntent": "lagavulin_stunned",
+        "awakeCycle": ["lagavulin_2", "lagavulin_3", "lagavulin_4"]
+      },
       "intents": [
         {
           "id": "lagavulin_1",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 8
-            }
-          ]
+          "kind": "sleep",
+          "effects": []
         },
         {
           "id": "lagavulin_2",
@@ -639,10 +645,20 @@
           "effects": [
             {
               "op": "applyStatus",
+              "status": "dexterity",
+              "value": -1
+            },
+            {
+              "op": "applyStatus",
               "status": "strength",
               "value": -1
             }
           ]
+        },
+        {
+          "id": "lagavulin_stunned",
+          "kind": "stunned",
+          "effects": []
         }
       ]
     },
@@ -680,6 +696,15 @@
       "name": "深渊守卫",
       "tier": "boss",
       "hp": 240,
+      "ai": {
+        "kind": "guardian",
+        "initialThreshold": 30,
+        "thresholdIncrement": 10,
+        "shiftBlock": 20,
+        "offenseCycle": ["guardian_1", "guardian_2", "guardian_4", "guardian_3"],
+        "defenseCycle": ["guardian_5", "guardian_6", "guardian_7"],
+        "returnIntent": "guardian_3"
+      },
       "intents": [
         {
           "id": "guardian_1",
@@ -718,6 +743,11 @@
           "effects": [
             {
               "op": "applyStatus",
+              "status": "weak",
+              "value": 2
+            },
+            {
+              "op": "applyStatus",
               "status": "vulnerable",
               "value": 2
             }
@@ -725,11 +755,12 @@
         },
         {
           "id": "guardian_5",
-          "kind": "defend",
+          "kind": "buff",
           "effects": [
             {
-              "op": "block",
-              "value": 20
+              "op": "gainStatus",
+              "status": "sharp_hide",
+              "value": 3
             }
           ]
         },
@@ -930,8 +961,8 @@
       "enemies": [
         "guardian"
       ],
-      "minFloor": 15,
-      "maxFloor": 15
+      "minFloor": 16,
+      "maxFloor": 16
     }
   ]
 }

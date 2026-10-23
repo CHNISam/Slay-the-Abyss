@@ -3,9 +3,9 @@ id: TASK-12.4
 title: M2 原版17层地图、节点生成与遭遇分布对齐
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 02:45'
+updated_date: '2026-10-23 04:41'
 due_date: '2026-10-26'
 labels:
   - required
@@ -18,10 +18,6 @@ references:
   - data/SOURCES.md
   - data/rules.json
   - src/lua/abyss_map.lua
-  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/62'
-documentation:
-  - docs/rules/W1.md
-  - docs/rules/sts1-rule-matrix.csv
 parent_task_id: TASK-12
 priority: high
 type: enhancement
@@ -45,15 +41,21 @@ ordinal: 40000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. 渐进读取W1规则及验收，刷新develop 2eaf30f差异并登记来源。2. 先建立可运行Oracle --a0黄金种子和地图/问号失败回归；无证据项显式待核实。3. 逐切片实现地图生成、15行/16Boss/17箱边界、问号状态机及导航/UI/恢复契约。4. 当前SHA完整门禁、10黄金种子与10000性质种子，更新Rule Matrix；独立PR审查和Quality成功后集成。平台编译/副本/实机分别报告。
+1. 复用PR59来源账本，仅落实已证实的15行地图、强制1/9/15层与早期限制；不猜原版路径或随机算法。2. 区分15生成行、Boss16、Boss宝箱17的规则字段；先修正Boss导航与层号，未实现的Boss宝箱内容明确留账。3. 先写失败测试，再更新地图签名/快照、数据门禁、UI容量与相关固定种子回归。4. 跑完整离线门禁并记录来源边界；不勾完整严格一致性或平台AC，不启动原神。
+
+继续独立整合PR62离线证据切片到最新develop：保留当前15行/Boss16/Boss箱17地图生产代码与已有记录，复核固定Oracle和文件hash，运行最新逐边差分及10000 seed门禁；失败如实报告，问号reducer暂不生产接线。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-用户2026-10-23直接授权按规则包W1→W4推进，覆盖旧M1排队顺序；只在feat/sts1-w1独立工作树实施，保留所有既有任务历史和主工作区修改。W1未验收不得开启W2。
+2026-10-23 用户最新授权多个独立任务并行自主推进且暂不开原神，覆盖历史唯一主冲刺排队纪律。执行worktree .worktrees/task12-map17；本切片保留已核对范围与未知项，完整17层Boss宝箱内容/原版随机流仍单独列缺口。
 
-W1首切片：实际执行固定Oracle v1.1.0（自报1.0.0、sha ea5200f、exe SHA256 add3b40d…），12个指定Seed显式--a0，已记录独立节点/边JSON及hash。当前真实Lua黄金差分0/12通过（11不一致、1完整64位种子接口不支持）；实际Lua Seed0-9999结构检查0/10000通过，10000执行/0进程错误。新增纯问号基础概率reducer：9/9资料包向量、边界/超1不归一化/恢复/失败原子性及10000次重放通过；未接Nodes/原版eventRng，特例仍待核实。npm run check exit0，JS202=188pass14symlink权限skip，Lua现有套件通过且新增6组，Python13=12pass1skip。普通门禁不等于地图Parity。矩阵和完整失败证据在docs/rules/，宽验收项不勾选，任务继续In Progress，不开启W2。
+2026-10-23 离线切片已基于合并PR37/57/60后的develop：Map v2区分15生成行、Boss16、独立Boss宝箱17入口（roomKind=boss_treasure）；UI不将17画成普通可选地图行，源报告与数据说明同步。固定128种子强制1/9/15、前5禁精英/营地、14禁营地及17步快照通过；聚焦map/data/UI 77/77通过。完整check发现旧LCG连续取模关联导致移除伪强制节点后blue_slaver_solo等偶数池候选不可达，正在修复验证，不计全门禁通过。Boss17奖励由主线程保护，现宿主仍Boss16结果；本任务全部完整一致性AC保持未勾。
 
-草稿PR62已建立。执行期间远端develop推进至a6be1b6（PR59/58/37/57/60），已无冲突merge至fe78d58，读取并保留新增计层核对文档。最新组合完整npm run check exit0：Node202=188pass14skip、全部Lua（含新卡池/拖牌/交易套件）通过、Python16=15pass1skip。map/random/rules/enemies源文件相对2eaf30f无差异，黄金0/12和性质0/10000失败证据仍适用。PR为draft，待独立审阅；远端Quality未完成不称通过，不merge develop，不关闭W1。
+旧LCG回归红绿证据：首次完整check在encounter_coverage.lua:153失败，blue_slaver_solo在256种子缺失；保留同一断言，以相同seed独立创建地图房间/拓扑流及遭遇流后，18遭遇全部出现、188组遭遇回归通过。分流依据Forgotten Arbiter 2020-07-24原始分析（源链接及边界见地图报告），未改变数值/权重，未添加任意偏移/补抽；仍保留16位LCG与uniform候选，故不宣称原版64位RNG/加权列表/重复限制一致。完整check正在重跑。
+
+2026-10-23 最终离线复验：npm run check exit0；JS188项（174通过，14项符号链接能力跳过），Lua735组通过，Python16项（15通过，1符号链接权限跳过）；另聚焦map/data/UI77项通过。未修改全遭遇覆盖断言。快照验证也覆盖独立遭遇流末态被篡改时拒绝。当前分支不宣称原版算法/概率/17层奖励事务或平台验收，所有AC保持未勾。
+
+PR62旧基线合并冲突采用最新develop的任务元数据，保留既有地图修复、候选构建与未完成AC；PR62新增黄金Seed、严格比较工具及独立问号reducer为证据切片，待当前代码复跑和独立复审，不据此宣布原版地图一致。
 <!-- SECTION:NOTES:END -->

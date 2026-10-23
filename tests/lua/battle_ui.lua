@@ -65,6 +65,12 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.card1.visible and not stage.children.card6.visible)
     assert(stage.children.card1.children.label.text ~= "")
     assert(stage.children.energy.text == "3/3")
+    assert(stage.children.enemy1.children.intent.text == "3")
+    click("enemy1")
+    assert(stage.children.notice.text:find("仪式 3",1,true))
+    click("endTurn")
+    assert(stage.children.enemy1.children.statuses.text:find("仪式 3",1,true))
+    assert(not stage.children.enemy1.children.statuses.text:find("力量",1,true))
     assert(stage.children.enemy1.children.intent.text == "6")
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
@@ -91,9 +97,9 @@ test("selection never spends energy; target click or second self-card click issu
     end
     click("endTurn")
     assert(battle.turn == 2 and #battle.hand == 5)
-    assert(stage.children.enemy1.children.intent.text == "3")
+    assert(stage.children.enemy1.children.intent.text == "6")
     click("enemy1")
-    assert(stage.children.notice.text:find("力量 3", 1, true))
+    assert(stage.children.notice.text:find("6 点伤害", 1, true))
 end)
 test("pending attack highlights valid live enemies and changing selection does not play", function()
     local ui, stage, click = setup() click("start")
@@ -264,6 +270,7 @@ test("intent previews use core modifiers without changing combat state or consum
     local ui, stage, click = setup() click("start")
     local battle = ui.run.combat
     local enemy = battle.enemies[1]
+    enemy.ai=nil; enemy.intentIndex=1 -- isolate preview arithmetic from the Ritual opener.
     Combat.addStatus(enemy, "strength", 2) Combat.addStatus(enemy, "weak", 2)
     Combat.addStatus(battle.player, "vulnerable", 2)
     local hp, seed, events = enemy.hp, battle.seed, #battle.events
@@ -313,13 +320,31 @@ test("potion slots stay fixed after consumption and repeated queued clicks canno
     local queued = stage.children.potion1.click
     click("potion1") queued()
     assert(ui.run.combat == battle and battle.enemies[1].hp == hp - 20)
-    assert(#ui.run.potions == 2 and battle.energy == energy)
+    assert(Run.potionCount(ui.run) == 2 and battle.energy == energy)
     assert(stage.children.potion1.children.normal.children.label.text == "空药水槽")
     assert(not stage.children.potion1.interactable)
     click("potion2")
-    assert(battle.energy == energy + 2 and #ui.run.potions == 1)
+    assert(battle.energy == energy + 2 and Run.potionCount(ui.run) == 1)
     click("potion3")
     assert(battle.enemies[1].hp == hp - 40 and #ui.run.potions == 0)
+end)
+
+test("refilling a middle potion slot refreshes only its physical button", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data, 1)
+    ui.run.potions = {"fire_potion", "energy_potion", "regen_potion"}
+    assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
+    click("potion2")
+    assert(ui.run.potions[1] == "fire_potion" and ui.run.potions[3] == "regen_potion")
+    assert(stage.children.potion2.children.normal.children.label.text == "空药水槽")
+    local ok, slot = Run.obtainPotion(ui.run, "block_potion")
+    assert(ok and slot == 2) ui:render()
+    assert(stage.children.potion2.children.normal.children.label.text:find("护盾药水", 1, true))
+    assert(stage.children.potion1.children.normal.children.label.text:find("火焰药水", 1, true))
+    assert(stage.children.potion3.children.normal.children.label.text:find("再生药水", 1, true))
+    click("potion2")
+    assert(ui.run.combat.player.block == 12 and not ui.run.potions[2])
+    assert(Run.potionCount(ui.run) == 2)
 end)
 
 test("potion victory commits rewards and relic healing then hides combat potion input", function()
@@ -454,6 +479,21 @@ test("targeted potion shows its effect and current enemy selection before damagi
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2 - 20 and #ui.run.potions == 0)
     assert(not marked(1) and not marked(2) and ui.selected == selected)
 end)
+test("a targeted bottle in slot three remains selectable when both earlier slots are empty", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data, 1) ui.run.potions = { [3] = "fire_potion" }
+    assert(Run.startCombat(ui.run, "cultist_solo"))
+    ui.run.combat = Combat.new(Data, {enemies={"cultist", "jaw_worm"}})
+    ui:render()
+    assert(ui.potionTargetAvailable and not stage.children.potion1.interactable and not stage.children.potion2.interactable)
+    assert(stage.children.potion3.interactable)
+    local hp1, hp2 = ui.run.combat.enemies[1].hp, ui.run.combat.enemies[2].hp
+    click("enemy2") assert(ui.target == 2)
+    click("potion3")
+    assert(ui.run.combat.enemies[1].hp == hp1 and ui.run.combat.enemies[2].hp == hp2 - 20)
+    assert(Run.potionCount(ui.run) == 0)
+end)
+
 test("real attack holds HP until flight finishes and rejects repeat input until playback drains", function()
     local ui, stage, click = setup({manualPlayback=true}) click("start")
     local battle = ui.run.combat
@@ -494,6 +534,8 @@ local function feedbackBattle(deck, enemies, options)
 end
 test("block gain and absorption have blue shield feedback without HP shake on a fully blocked hit", function()
     local ui, stage, click, battle = feedbackBattle({"defend"}, {"cultist"})
+    -- This feedback fixture needs a six-damage attack, independent of Cultist's opening Ritual.
+    battle.enemies[1].ai=nil; battle.enemies[1].intentIndex=1
     battle.player.block = 2 ui:render()
     click("card1") click("card1")
     assert(battle.player.block == 7 and stage.children.hero.children.block.text == "2")
@@ -519,6 +561,7 @@ test("multiple enemies and multi-hit intents show each actor and actual HP in or
     local ui, stage, click, battle = feedbackBattle({"defend"}, {"jaw_worm", "cultist"})
     battle.enemies[1].intents = {{id="multi",kind="attack",effects={{op="damage",value=2,times=3}}}}
     battle.enemies[2].intents = {{id="cast",kind="defend",effects={{op="block",value=5},{op="applyStatus",status="weak",value=2}}}}
+    battle.enemies[2].ai=nil; battle.enemies[2].intentIndex=1 -- explicit custom intent fixture
     ui:render() local hp = battle.player.hp
     click("endTurn")
     assert(battle.player.hp == hp - 6 and battle.phase == "player")
@@ -791,5 +834,40 @@ test("resize cancels a moving drag, hides the capture layer and permits a fresh 
     grab(1) event("card1","up",stage.children.card1.x,stage.children.card1.y)
     click("card1") click("card1")
     assert(#battle.hand == 1 and battle.player.block == 5)
+end)
+test("stateful sleeping enemy shows approved sleep icon and wake intent", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data,42)
+    ui.run.floor = 6 -- isolated elite entry; not a claimed completed route
+    assert(Run.startCombat(ui.run,"elite_lagavulin"))
+    ui:render()
+    local box = stage.children.enemy1
+    assert(box.children.intent.text == "沉睡")
+    assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)
+    click("enemy1")
+    assert(stage.children.notice.text:find("沉睡",1,true))
+    Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],9,true)
+    ui:render()
+    assert(box.children.intent.text == "苏醒中")
+    assert(box.children.intentIcon.imageId == Theme.icon.intent.unknown)
+    assert(Combat.endTurn(ui.run.combat))
+    ui:render()
+    assert(box.children.intent.text == "18")
+    assert(box.children.intentIcon.imageId == Theme.icon.intent.attack)
+end)
+test("Guardian shows real mode budget and switches visible intention before its Close Up",function()
+    local ui,stage,click=setup()
+    ui.run=Run.new(Data,42); ui.run.floor=Data.rules.map.bossFloor -- isolated Boss entry, not full-run evidence
+    assert(Run.startCombat(ui.run,"boss_guardian")); ui:render()
+    local box=stage.children.enemy1
+    assert(box.children.statuses.text:find("模式转换 30",1,true))
+    assert(box.children.intent.text=="9")
+    Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],30,true)
+    ui:render(); assert(box.children.intent.text=="3")
+    assert(box.children.intentIcon.imageId==Theme.icon.intent.buff)
+    click("enemy1"); assert(stage.children.notice.text:find("尖刺甲壳 3",1,true))
+    assert(Combat.endTurn(ui.run.combat)); ui:render()
+    assert(box.children.statuses.text:find("尖刺甲壳 3",1,true))
+    assert(box.children.intent.text=="9")
 end)
 print("LUA_UI_PASS " .. count)

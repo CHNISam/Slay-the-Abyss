@@ -1,9 +1,11 @@
 ---
 id: TASK-13.1
 title: M2 原版节点事件、商店价格与奖励概率对齐
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '--plan'
 created_date: '2026-10-23 01:56'
+updated_date: '2026-10-23 02:49'
 due_date: '2026-10-26'
 labels:
   - required
@@ -37,3 +39,21 @@ ordinal: 41000
 - [ ] #4 普通/精英/Boss金币范围、奖励稀有度和动态概率、升级率、药水掉落与动态计数、遗物池/排重及领取顺序准确；支持池不得偷改纳入内容的原版概率或费用。
 - [ ] #5 可控随机边界及固定输入测试覆盖价格上下界、概率累积重置、重复领取和失败原子性；统计样本/阈值有依据。本地独立验收，实机交易资源账本归TASK-12.3。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+离线商店切片：核对初代PC A0删牌证据；修复每店仅一次并保留跨店75+25n费用；UI绑定核心服务状态；覆盖失败原子性/重复请求/新店递增/重开；记录价格随机/药水供货等其余待核实差异，整体保持进行中。
+
+5. 继续Cleric切片：用数据配置替换自创事件；来源要求进入时>=35金币，回血35金币/最大生命25%向下取整，净化50金币按永久UID删除，离开不改资产；不伪称未知房转类或完整事件池概率已还原。覆盖拒绝入口与失败/重复请求原子性、净化不涨商店删除价及现有UI组件交互。
+
+6. 消除单一Cleric低金币入口拒绝导致的潜在路径软锁：支持有可靠来源的Purifier执行器，默认rules.events.encounterId显式固定Purifier；不按金币换roll、不伪造概率。Cleric仅明确事件ID/config接入。补零金币连续全事件分支可Leave推进及免费净化/UI回归。完整未知房/事件池/神龛选择算法仍未实现，相关AC不勾。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-23 离线商店切片：修复同店能无限删牌的真实缺口，每店成功删牌一次后核心拒绝并禁用UI；跨店75+25n递增不变，失败不消费服务。新增失败后可重试/重复UID/新店恢复/新局复位/不可篡改view/旧UI请求重验回归。npm run check完整通过；Nodes20、NodeUI14、NodeTransactions11组(151拒绝断言)，Python13项含1项权限skip；JS符号链接权限skip沿用基线。来源与其余规则缺口见docs/NODE_ECONOMY_PARITY.md。本轮无原作客户端版本号或直接观察、未开原神/MCP/写存档，不勾整体严格一致性或平台AC。
+
+2026-10-23 第二切片：移除虚构金币/药水事件，新增Cleric与Purifier真实执行器和选牌UI。生产rules.events.encounterId显式固定purifier；这是支持内容基线，不是原版完整事件池、未知房转类或神龛概率，不按金币改roll。Cleric明确ID入口要求35金；治疗35/最大HP25%floor，净化A0为50，Leave不改资产；Purifier免费选UID删牌/Leave。两者净化不涨商店删除计数。8组事件+17组UI通过，覆盖零金连续两层全事件出口可Leave推进、失败原子性、UID、防重复、选牌取消和陈旧资金重验。npm run check完整通过：JS200项(186过14权限skip)，全部Lua，Python16项(1权限skip)。原依赖虚构赠药的库存夹具迁移后保留跨节点持有/消耗断言。来源/限制见docs/NODE_ECONOMY_PARITY.md；未开游戏/MCP/写存档，原版全项AC保持未勾。
+<!-- SECTION:NOTES:END -->

@@ -58,7 +58,7 @@ local function commands(run)
         shop = { function() return Nodes.buyCard(run, "anger") end, function() return Nodes.buyRelic(run, "vajra") end,
             function() return Nodes.removeCard(run, run.deck[1].uid) end, function() return Nodes.leaveShop(run) end },
         treasure = { function() return Nodes.claimTreasure(run) end },
-        event = { function() return Nodes.chooseEvent(run, "gold") end }
+        event = { function() return Nodes.chooseEvent(run, "heal") end, function() return Nodes.purifyEvent(run, run.deck[1].uid) end }
     }
 end
 local function rejectOtherNodes(run, map, active)
@@ -77,7 +77,7 @@ for _, kind in ipairs({"camp", "shop", "treasure", "event", "combat", "elite", "
         if kind == "camp" then assert(Nodes.rest(run))
         elseif kind == "shop" then assert(Nodes.leaveShop(run))
         elseif kind == "treasure" then assert(Nodes.claimTreasure(run))
-        elseif kind == "event" then assert(Nodes.chooseEvent(run, "gold"))
+        elseif kind == "event" then assert(Nodes.chooseEvent(run, "leave"))
         else assert(Run.endTurn(run)); return end
         -- Stale callbacks after completion must not consume another transaction.
         rejectOtherNodes(run, map, nil)

@@ -1,10 +1,11 @@
 ---
 id: TASK-15
 title: M3 首发遭遇与敌人AI、概率和特殊机制原版对齐
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 02:14'
+updated_date: '2026-10-23 04:04'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -35,7 +36,9 @@ ordinal: 15000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. 以 origin/develop 083d780 为基线复查 PR53 已有证据及敌人循环契约，避免重复逐意图测试。 2. 对照现有 SOURCES 中声明的原作机制差异，列清数据支持、运行支持与无一手来源的待核实项，不猜测数值。 3. 使用真实 Combat/Run、原生命与初始牌组做不出牌的确定性压力诊断，明确不能代替构筑难度或实机验收。 4. 提交可复跑诊断与审查报告，CLI 仅更新本任务计划/notes；保留全部平台验收与难度 AC。
+本轮独立离线切片：1. 以可复核的初代PC A0资料确认沉眠遗卫睡眠/苏醒、生命随机范围和减益，明确社区二手资料级别。2. 实现109–111真实HP采样、起始8格挡、三次睡眠、HP损失唤醒及当次眩晕、醒后两次攻击接吸魂循环。3. 独立测试随机边界、格挡/失血、毒、固定伤害、致死、多实例、回滚和原循环兼容。4. 最新develop组合check及审查后交付；其他敌人和所有平台AC保留。
+
+继续离线祈火徒切片：独立读取固定镜像Cultist/RitualPower及整组轮末调度。补能区分首动与0/6/9/12/15轨迹、队友时序/死亡/展示的运行时测试，再接入仪式状态和整组轮末钩子；生命48–54沿用现有项目采样，随机流一致性不宣称通过。保留睡眠AI兼容，全部来源/平台AC保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -49,4 +52,12 @@ ordinal: 15000
 2026-10-23 离线审查（基线 origin/develop 083d780）：docs/reviews/TASK-15-encounter-audit.md 与 scripts/audit-encounter-pressure.lua 已列23敌人/55意图/18遭遇、原表SHA256、PR53已有逐意图与256种子覆盖，以及明确声明的固定循环/无睡眠/无分裂/无偷金逃跑/自盾/虚弱替代眩晕/无Boss变形缺口。无一手原作依据不猜测补规则。真实Run入口、原80HP与初始牌组不出牌不喝药诊断：普通五小魔4敌方回合致死，nob/lagavulin/sentries为11/10/5回合，提示优先做同构筑实战比较，不能把tier/HP当精英难度通过。build:data、validate:data、check:syntax、18遭遇诊断退出0。仅增审查与工具，不改敌人/数值/卡牌；本轮未启动原神、MCP或写存档，未改状态/AC，平台抽样、原版逐敌核验与真实难度均保留。
 
 已同步2eaf30f新的原版一致性验收范围和依赖；本轮离线实现/诊断不替代原版来源核实、平台或完整通关验收。所有新AC保留未勾。
+
+2026-10-23 /root/enemy_ai / feat/task-15-lagavulin：睡眠机制、受击/毒/固定伤害唤醒、18伤害两次接敏捷/力量各-1循环已实现。新增9组独立AI测试、13组schema检查、真实控件UI三态通过；20cb936基线完整npm run check通过，已有Windows符号链接权限测试按原规则跳过。接入a6be1b6新基线时保留新的卡牌playedCard参数和全部拖牌用例；新TASK15验收明确真实HP随机范围，因此补109–111采样后再全套复验。来源及证据等级见docs/reviews/TASK-15-lagavulin-ai.md；所有AC保持未勾，暂不开游戏/MCP/不编译或写存档。
+
+最终a6be1b6组合复验：支持hpRange闭区间109–111真实战斗种子采样，seed3/0/5分别得到109/110/111且重复战斗和洗牌一致，maxHp取实际采样值。实际双Strike和Run.usePotion火瓶入口均验证立即唤醒与当次眩晕。新增AI规则12组、schema18组；完整npm run check退出0，Python16组1个既有权限skip；日志build/enemy-ai-check.log。已兼容PR37的严格非空Effects.supported，只有sleep/stunned意图在Combat.new中专门允许空effects，不放宽卡牌验证。原版随机算法/种子映射和原版二进制版本仍未核实；社区二手资料级别明确，五个AC全部未勾。
+
+祈火徒生产接线离线切片：固定镜像方法体重新读取后实现48–54 HP采样、首动仪式3、随后6基础攻击及整组敌方轮末增长3力量（施加当轮跳过）。新运行时9组红→绿，真实首战UI意图/状态展示通过，补10组schema边界。完整npm run check退出0（JS268pass/14既有权限skip，Lua全套，Python15pass/1skip）；最终两个恶形schema新增10/10再通过。原反馈/药水fixture显式关闭自定义敌人AI，真实行为独立测。docs/reviews/TASK-15-cultist-runtime.md列来源与版本真实性/原版随机流限制；所有全池/平台AC保留未勾。独立复核中，未开游戏/平台编译/写存档。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->

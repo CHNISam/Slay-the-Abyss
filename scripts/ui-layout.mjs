@@ -115,7 +115,10 @@ export function battleLayout() {
     panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),
     text('hint', 0, l.cardDrag.lineY + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '', f.body, c.goldBright),
   ] });
+  // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
+  const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;
   controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
+    { ...picture('sweep', row, l.enemyRow.y, l.enemyRow.xTo - l.enemyRow.xFrom + l.enemyRow.bossPortrait, s.xl, im.diamond, c.geo), visible: false },
     { name: 'playedCard', kind: 'container', size: l.card.size, visible: false, children: [
       panel('border', 0, 0, ...l.card.size, c.gold),
       panel('plate', 0, 0, l.card.size[0] - s.border * 2, l.card.size[1] - s.border * 2, c.cardType.attack),

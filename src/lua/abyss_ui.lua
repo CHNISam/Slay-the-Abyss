@@ -7,7 +7,7 @@ local function failed(phase, reason)
     script:EnableUpdate(false)
     pcall(function()
         local stage = script.object:GetChild("stage")
-        for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel"}) do
+        for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel", "deckEntry", "deckPanel"}) do
             stage:GetChild(name):SetVisible(false)
         end
         local menu = stage:GetChild("menuPanel")
@@ -15,6 +15,9 @@ local function failed(phase, reason)
         menu:GetChild("start"):SetVisible(false)
         local settle = menu:GetChild("settle")
         if settle then settle:SetVisible(false) end
+        local result = menu:GetChild("result")
+        if result then result:SetVisible(false) end
+        menu:GetChild("summary"):SetVisible(true)
         local message = "关卡启动失败，请退出后重新进入。"
         if game.IsTestPlay and game.IsTestPlay() then
             message = message .. "\n测试诊断 · " .. phase .. "\n" .. tostring(reason)
