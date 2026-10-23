@@ -1,0 +1,59 @@
+{
+  "sourceCommit": "11b901f8b4ff0c91762ee6e2e46affcc88dc033a",
+  "checkedAt": "2026-10-23T09:30:59.017Z",
+  "liveWriteEnabled": false,
+  "candidate": {
+    "relativePath": ".artifacts/continued-rules-11b901f/wmvkrqkgh-0/working.gil",
+    "sha256Before": "4f5de8f2ae0c1bfec4a86963cf77ec44cf99a2ad8b6dcb1c420254732560c70b",
+    "sha256After": "4f5de8f2ae0c1bfec4a86963cf77ec44cf99a2ad8b6dcb1c420254732560c70b"
+  },
+  "input": {
+    "relativePath": ".artifacts/offline-sprint-085f499/source-base.gil",
+    "sha256Before": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+    "sha256After": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432"
+  },
+  "readback": {
+    "relativePath": ".artifacts/continued-rules-11b901f-audit/audit.json",
+    "sha256": "7be46cc2e1b4ca0165cfde02658ef898da196e5c5a429724778487edfd3c7c26",
+    "ok": true,
+    "issues": [],
+    "expectedModules": 30,
+    "actualModules": 30,
+    "byteIdenticalModules": 30,
+    "uiTreeNodes": 1590,
+    "maxDirectChildren": 50,
+    "deckColumns": 6,
+    "settlementGraphId": 1073741825,
+    "settlementNodeCount": 22,
+    "settlementEnabledOnStage": true,
+    "nativeBgmEnabled": { "section7": false, "section8": false, "type": 4, "code": 5 },
+    "staticErrors": 0,
+    "staticWarnings": 17,
+    "graphScope": "Identity, server type, nonempty graph, monitored signals and enabled stage mount; compiled payload semantics are not certified."
+  },
+  "build": {
+    "settlementCompiled": true,
+    "copyWritten": true,
+    "failedAttempt": ".artifacts/continued-rules-d3e9d76/scene_check_client-result.json",
+    "failure": "SCRIPT_VARIABLE_NOT_FOUND nativeBgmEnabled; default manifest now explicitly registers boolean false. No static check bypass."
+  },
+  "verification": {
+    "fullCheckSource": "d3e9d7635984849591e88193e7ef918eb11e4e09",
+    "fullCheckExitCode": 0,
+    "javascript": { "total": 643, "passed": 528, "skipped": 115 },
+    "lua": "All existing and new scripts passed, including queued rolls21 and queued status20.",
+    "python": { "total": 16, "passed": 15, "skipped": 1 },
+    "afterBuildFix": "Packaging/BGM graph7 passed; audit default-false regression first failed then all15 related tests passed. Final-head CI recorded separately in PR.",
+    "priorFailures": "Initial encounter coverage timeout passed in isolation at unchanged15s budget; later Fat fixture intent identity conflict corrected without removing assertions, then full check passed."
+  },
+  "knownGaps": [
+    "Production RNG and map topology remain divergent; strict map golden0/12.",
+    "Complete action queue, remaining enemies and Boss17 treasure transaction are not complete.",
+    "Dazed, Sentry and Artifact work is separate and absent from this fixed candidate.",
+    "Six BGM tracks remain unheard; ordinary candidate disables BGM."
+  ],
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED",
+  "releaseGate": "NOT_PASSED"
+}

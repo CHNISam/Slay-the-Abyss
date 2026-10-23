@@ -32,6 +32,36 @@ local function probability(p)
     local significand=normalized*8388608.0
     return significand==floor(significand)
 end
+
+local MAX_FLOAT = (2.0-2.0^-23)*2.0^127
+-- Round one finite binary64 intermediate to binary32, nearest/even. Operands
+-- are binary32; their products have <=48 significant bits. Addition of two
+-- binary32 operands is also safe to round via binary64. Preserve signed zero
+-- and the 2^-149 subnormal grid; do not depend on 64-bit integers or pack().
+local function float32(value)
+    if value==0 then return value/1.0 end
+    local sign=value<0 and -1.0 or 1.0
+    local absolute=value*sign
+    local significand,unit
+    if absolute<2.0^-126 then
+        significand=absolute*2.0^149;unit=2.0^-149
+    else
+        local scaled,power=absolute,1.0
+        while scaled>=2.0 do scaled=scaled/2.0;power=power*2.0 end
+        while scaled<1.0 do scaled=scaled*2.0;power=power/2.0 end
+        significand=scaled*8388608.0;unit=power/8388608.0
+    end
+    local rounded=floor(significand)
+    local remainder=significand-rounded
+    if remainder>0.5 or (remainder==0.5 and rounded%2~=0) then rounded=rounded+1 end
+    local result=rounded*unit
+    if result>MAX_FLOAT then return sign*math.huge end
+    return sign*result
+end
+local function finiteFloat(value)
+    return type(value)=='number' and value==value and value>=-MAX_FLOAT and value<=MAX_FLOAT
+        and float32(value)==value
+end
 function R.fromSeed(seed,...)
     assert(select('#',...)==0, 'Unsupported extra arguments')
     return {primitive=P.fromSeed(seed),counter=0}
@@ -82,5 +112,22 @@ function R.randomFloat(s,...)
     assert(select('#',...)==0, 'Unsupported extra arguments')
     validate(s);advance(s)
     return P.nextFloat(s.primitive)
+end
+function R.randomFloatRange(s,range,...)
+    assert(select('#',...)==0, 'Unsupported extra arguments')
+    validate(s)
+    assert(finiteFloat(range), 'Unsupported range: require exact finite binary32')
+    advance(s)
+    return float32(P.nextFloat(s.primitive)*range)
+end
+function R.randomFloatBetween(s,minimum,maximum,...)
+    assert(select('#',...)==0, 'Unsupported extra arguments')
+    validate(s)
+    assert(finiteFloat(minimum) and finiteFloat(maximum), 'Unsupported endpoints: require exact finite binary32')
+    local span=float32(maximum/1.0-minimum)
+    assert(span~=math.huge and span~=-math.huge, 'Unsupported overflowing binary32 span')
+    advance(s)
+    local scaled=float32(P.nextFloat(s.primitive)*span)
+    return float32(minimum/1.0+scaled)
 end
 return R

@@ -127,11 +127,12 @@ test("lethal poison prevents an action, history advance and any AI draw",functio
     for _,event in ipairs(s.events) do assert(event.kind~="intent" or event.detail.enemy~=e.id) end
 end)
 
-test("lethal Thorns cancels Thrash Block and does not roll a dead enemy's next move",function()
+test("lethal Thorns cancels Thrash Block but keeps its queued roll while a teammate lives",function()
     local s=battle({"jaw_worm","red_louse"}); local e=s.enemies[1]
     e.hp=1; intent(e,T); local seed=s.seed
     Combat.addStatus(s.player,"thorns",1)
-    assert(Combat.endTurn(s)); eq(e.hp,0); eq(e.block,0); eq(e.jawLast,nil); eq(s.seed,seed)
+    assert(Combat.endTurn(s)); eq(e.hp,0); eq(e.block,0); eq(e.jawLast,T); assert(s.seed~=seed)
+    eq(Combat.intent(s,1),nil) -- rolled intent is not a new action for a dead owner
 end)
 
 test("separate enemies own their history and obey all repeat limits over live rounds",function()

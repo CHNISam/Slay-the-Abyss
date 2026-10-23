@@ -6,6 +6,7 @@ local Guardian = require("abyss_guardian_ai")
 local JawWorm = require("abyss_jaw_worm_ai")
 local GremlinNob = require("abyss_gremlin_nob_ai")
 local BlueSlaver = require("abyss_blue_slaver_ai")
+local AcidSlimeS = require("abyss_acid_slime_s_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -14,8 +15,16 @@ local function select(enemy, id)
     error("unknown AI intent: " .. tostring(id))
 end
 
+-- A fixed attack may still queue rollMove, consuming a primary draw even though
+-- its decision ignores the value. Source contract: TASK-15-spike-slime-s-ai.md.
+local function rollAttack(state, enemy, random)
+    random(state, enemy.ai.rollRange)
+    select(enemy, enemy.ai.attackIntent)
+end
+
 function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
     if enemy.ai.kind == "charge_then_attack" then
         enemy.aiCharge = enemy.ai.initialCharge
         select(enemy, enemy.ai.chargeIntent)
@@ -24,6 +33,7 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
     if enemy.ai.kind == "gremlin_nob" then return GremlinNob.initialize(state, enemy, random) end
     if enemy.ai.kind == "blue_slaver" then return BlueSlaver.initialize(state, enemy, random) end
+    if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
@@ -47,6 +57,8 @@ end
 function M.advance(state, enemy, random)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random)
+    elseif enemy.ai.kind == "opening_roll_attack" then select(enemy, enemy.ai.attackIntent)
     elseif enemy.ai.kind == "charge_then_attack" then
         if enemy.intents[enemy.intentIndex].id == enemy.ai.chargeIntent then
             enemy.aiCharge = enemy.aiCharge + 1
@@ -55,6 +67,7 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
     elseif enemy.ai.kind == "gremlin_nob" then return GremlinNob.advance(state, enemy, random)
     elseif enemy.ai.kind == "blue_slaver" then return BlueSlaver.advance(state, enemy, random)
+    elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
     elseif enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)
@@ -74,6 +87,16 @@ function M.advance(state, enemy, random)
     else
         enemy.aiCycle = enemy.aiCycle % #enemy.ai.awakeCycle + 1
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
+    end
+end
+
+-- Only these source-verified policies enqueue RollMoveAction during takeTurn.
+-- That action has no owner-death guard and survives while another enemy lives.
+-- Acid S sets its next move directly instead; do not invent a queued roll.
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, rolled_attack=true }
+function M.afterAction(state, enemy, random)
+    if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
+        M.advance(state, enemy, random)
     end
 end
 

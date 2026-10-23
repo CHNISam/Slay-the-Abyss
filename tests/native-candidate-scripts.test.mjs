@@ -35,12 +35,19 @@ test('native package preflight rejects missing generated modules and name collis
   assert.throws(() => candidateScriptFiles(source, build), /ENOENT/);
 }));
 
+test('ordinary native package declares the UI BGM parameter as boolean false', () => fixture((source, build) => {
+  const scripts = candidateScriptFiles(source, build);
+  assert.deepEqual(scripts.find(item => item.name === 'abyss_ui').variables,
+    [{ name: 'nativeBgmEnabled', type: 'boolean', value: false }]);
+  for (const item of scripts.filter(item => item.name !== 'abyss_ui')) assert.equal(item.variables, undefined);
+}));
+
 test('actual game module set includes current AI and all generated runtime dependencies, never the W1 fixture', () => fixture((_, build) => {
   buildUI(build);
   buildLuaData('data', join(build, 'abyss_data.lua'));
   writeFileSync(join(build, 'sts1_unknown_vectors.lua'), 'error("test fixture")');
   const names = candidateScriptFiles('src/lua', build).map(item => item.name);
-  for (const name of ['abyss_ui', 'abyss_jaw_worm_ai', 'abyss_gremlin_nob_ai', 'abyss_blue_slaver_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
+  for (const name of ['abyss_ui', 'abyss_jaw_worm_ai', 'abyss_gremlin_nob_ai', 'abyss_blue_slaver_ai', 'abyss_acid_slime_s_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
   assert(!names.includes('sts1_unknown_vectors'));
   assert.equal(new Set(names).size, names.length);
 }));

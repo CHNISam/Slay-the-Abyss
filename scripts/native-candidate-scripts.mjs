@@ -19,6 +19,7 @@ export function candidateScriptFiles(sourceDirectory = 'src/lua', generatedDirec
     const name = basename(file, '.lua');
     if (names.has(name)) throw Error(`Duplicate game module: ${name}`);
     names.add(name);
-    return { name, sourceFile: file };
+    return { name, sourceFile: file,
+      ...(name === 'abyss_ui' ? { variables: [{ name: 'nativeBgmEnabled', type: 'boolean', value: false }] } : {}) };
   });
 }

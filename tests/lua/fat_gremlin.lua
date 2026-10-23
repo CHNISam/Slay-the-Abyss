@@ -52,7 +52,8 @@ test("zero-damage attack still applies Weak and its duration expires at shared r
     local s = battle(); Combat.addStatus(s.enemies[1], "strength", -4)
     assert(Combat.endTurn(s)); eq(s.player.hp, 80); eq(s.player.statuses.weak, 1)
     -- Isolate decay from reapplication without ending combat before round end.
-    s.enemies[1].intents = {{id="fixture_no_reapply",kind="attack",effects={{op="damage",value=0}}}}
+    -- Keep the source intent identity used by its rolled_attack policy.
+    s.enemies[1].intents[1].effects = {{op="damage",value=0}}
     assert(Combat.endTurn(s)); eq(s.player.statuses.weak, 0); eq(s.phase, "player")
 end)
 

@@ -1,6 +1,12 @@
 # 交接说明
 
-最新离线副本：源`085f499`包含PR93切换战斗首次点牌修复，以及前批节点按钮、Jaw/Wizard与三类敌人、状态cap、群攻反伤、Boss支持池稀有奖励和完整UI。真实MCP为26模块/1590控件/max50/六列牌库/22节点启用结算图，静态0错误/17警告（16条已定位自定义方法，1条未接生产的问号reducer），不含测试向量。副本`.artifacts/offline-sprint-085f499/abyss-sprint-offline.gil`与完整hash见[P0-SMOKE](P0-SMOKE.md)和[证据](evidence/offline-candidate-085f499.json)。宿主回归现15+6共21组，全部原20块/断言及PR93新增回归保留，默认15秒预算不变。未开原神/导入/实机，正式底图hash不变；原版RNG/Weak轮末调度/Boss17宝箱等缺口继续保留。
+最新第二批普通副本固定源`11b901f`，已含Acid/Spike小软泥、Fat/Sneaky抽样及反伤致死后已排队选招/减益修正；[证据](evidence/offline-candidate-11b901f.json)。30模块逐byte同源，1590树控件/max50、六列模板、22节点启用结算图，BGM双参数false，静态0error/17warning。真实构建先抓到普通manifest漏注册BGM参数，已修并新目录重建，失败保留。完整规则源`d3e9d76`全量check exit0（JS643/528pass115skip、全部Lua、Python15pass1skip），参数/审计增量专项15过；最终head CI另见PR。Dazed/Sentry/Artifact在下一批，未计入此副本；未导入/开游戏/试听，严格关口仍未完成。下文139/cf候选作为历史证据保留，均不含第二批修正。
+
+本轮继续离线推进：PR99（`1182814`）与PR100（`14979df`）均在各自当前head的两个Quality作业全绿后squash合入develop。PR100包含固定第9行地图宝箱、Nob/Blue Slaver A0选招、Weak/Frail/Vulnerable共享轮末及六件开战遗物顺序；各项严格/平台AC仍未勾。地图golden仍FAIL 0/12，原版RNG/拓扑/完整队列与Boss17宝箱事务继续保留，不能把已修某个缺口写成整项一致。
+
+最新规则副本源`139de94`，28模块、1590树节点/max50、六列牌库及22节点启用结算图；[证据](evidence/offline-candidate-139de94.json)。另有显式开启BGM的试听副本源`cf6969e`（与合入`14979df`源码树相同）：29模块、22+83节点两图启用，参数实为true；[证据](evidence/offline-bgm-candidate-cf6969e.json)。两者真实MCP静态均0错误/17警告，独立读回匹配固定源，输入底图hash不变。路径/hash及分层状态见[P0-SMOKE](P0-SMOKE.md)。未开原神、未官方导入/实机/试听；普通构建仍默认关闭BGM。下一批Acid S、浮点包装候选和后续队列修正仍在独立分支，不计入这两个副本。
+
+上一批源`085f499`的首次点牌修复与26模块副本保留为历史证据，见[P0-SMOKE](P0-SMOKE.md)和[历史证据](evidence/offline-candidate-085f499.json)。宿主15+6共21组与默认15秒预算保持；根旧develop及原有未提交内容不覆盖。
 
 本批离线交付补充：PR66已关闭TASK3.1构建切片；PR69守护者排队转形、PR73祈火徒仪式、PR71原生只读牌库均已合入develop，PR67保护原本正确的IronWave顺序。最新整批副本的实际构建源为PR78固定提交022f22c，含24模块/1220控件/六列牌库模板/22节点结算图，静态0错误；文件与hash见[P0-SMOKE.md](P0-SMOKE.md)和[结构化证据](evidence/offline-candidate-022f22c.json)。源SHA与squash合入SHA分别保留，不冒充官方导入或实机通过。后续继续从最新origin/develop领取可离线任务，不在根旧工作树覆盖他人改动。
 

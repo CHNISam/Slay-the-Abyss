@@ -48,12 +48,20 @@ local function targets(state, source)
     return { state.player }
 end
 
-function M.apply(combat, state, effects, source, target, playedCard)
+function M.apply(combat, state, effects, source, target, playedCard, queuedEnemyAction)
     local dealt = 0
     for _, effect in ipairs(effects) do
-        if source.hp <= 0 then break end
+        if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
-        if op == "damage" or op == "damageAll" then
+        if source.hp <= 0 then
+            assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
+            -- ApplyPower guards its target, not its dead source. Only the
+            -- source-verified single-player queued status path is enabled.
+            -- Later damage, dead-owner Block/buffs and unverified ops stay off.
+            if op == "applyStatus" and target == state.player and target.hp > 0 then
+                Actors.status(state, target, effect.status, value, source)
+            end
+        elseif op == "damage" or op == "damageAll" then
             local selected = op == "damageAll" and targets(state, source) or { target }
             for _ = 1, effect.times or 1 do
                 local retaliation = op == "damageAll" and {} or nil

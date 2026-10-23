@@ -151,6 +151,13 @@
       "name": "小型酸液团",
       "tier": "normal",
       "hp": 10,
+      "hpRange": { "min": 8, "max": 12 },
+      "ai": {
+        "kind": "acid_slime_s",
+        "tackleIntent": "acid_slime_s_1",
+        "weakIntent": "acid_slime_s_2",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "acid_slime_s_1",
@@ -238,6 +245,12 @@
       "name": "小型棘刺团",
       "tier": "normal",
       "hp": 12,
+      "hpRange": { "min": 10, "max": 14 },
+      "ai": {
+        "kind": "rolled_attack",
+        "attackIntent": "spike_slime_s_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "spike_slime_s_1",
@@ -471,6 +484,11 @@
       "tier": "normal",
       "hp": 12,
       "hpRange": { "min": 10, "max": 14 },
+      "ai": {
+        "kind": "opening_roll_attack",
+        "attackIntent": "sneaky_gremlin_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "sneaky_gremlin_1",
@@ -490,6 +508,11 @@
       "tier": "normal",
       "hp": 15,
       "hpRange": { "min": 13, "max": 17 },
+      "ai": {
+        "kind": "rolled_attack",
+        "attackIntent": "fat_gremlin_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "fat_gremlin_1",

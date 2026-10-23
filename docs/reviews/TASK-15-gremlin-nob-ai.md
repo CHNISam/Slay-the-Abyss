@@ -36,6 +36,8 @@
 
 ## 随机流与剩余缺口
 
+2026-10-23后续Spike S取证补充：历史“开场及每次行动抽样”仅覆盖当时项目的活体正常调度；死亡保护断言不证明原作已排队roll消费。固定RollMoveAction/DamageAction/GameActionManager链表明，有同伴存活时死于Thorns的攻击者仍执行已排队roll，末敌死亡则清掉。当前切片基线统一跳过死体advance存在共享缺口，已交独立战斗时序切片；最小红例、完整hash与两路径见[专项账本](TASK-15-spike-slime-s-ai.md)。毒在行动前致死未排动作，不能与Thorns路径合并称“死敌零消费原版通过”。
+
 生产仍使用本项目共享16位LCG，HP/AI/洗牌共用seed，主roll取 `random(state,100)-1`。不是原作 RandomXS128，也没有拆分 monsterHpRng/aiRng/shuffleRng；模100偏差、种子映射和真实消费流继续保留。因此900个受控输入证明选招边界与历史规则，不证明实际原作概率或同种子轨迹一致。
 
 原作完整动作队列、dontTriggerOnUseCard、自动出牌/特殊牌等尚未由本项目此入口支持，不据本片宣称这类机制通过。其他敌人、所有精英难度对照与整局通关仍归 TASK-15 未完成范围。
