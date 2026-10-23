@@ -1,5 +1,7 @@
 -- Effect interpreter for the core-supported operations.
 local M = {}
+local Actors = require("abyss_actor")
+local Events = require("abyss_events")
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
@@ -91,19 +93,23 @@ function M.apply(combat, state, effects, source, target, playedCard)
         elseif op == "loseHp" then
             -- HP payment is not an attack or a status tick. The next effect's
             -- source-alive guard stops the card when this payment is lethal.
+            local before = source.hp
             source.hp = math.max(0, source.hp - value)
+            Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
         elseif op == "block" then combat.block(state, source, value)
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "noDrawThisTurn" then source.noDraw = true
         elseif op == "energy" then state.energy = state.energy + value
-        elseif op == "gainStatus" then combat.addStatus(source, effect.status, value)
-        elseif op == "gainTemporaryStrength" then combat.addTemporaryStrength(source, value)
+        elseif op == "gainStatus" then Actors.status(state, source, effect.status, value, source)
+        elseif op == "gainTemporaryStrength" then
+            combat.addTemporaryStrength(source, value)
+            Events.emit(state, "status", {source = source.id, target = source.id, status = "strength", amount = value})
         elseif op == "applyStatus" then
-            if target and target.hp > 0 then combat.addStatus(target, effect.status, value) end
+            if target and target.hp > 0 then Actors.status(state, target, effect.status, value, source) end
         elseif op == "applyStatusAll" then
             for _, victim in ipairs(targets(state, source)) do
-                if victim.hp > 0 then combat.addStatus(victim, effect.status, value) end
+                if victim.hp > 0 then Actors.status(state, victim, effect.status, value, source) end
             end
         else error("unsupported effect: " .. tostring(op)) end
     end

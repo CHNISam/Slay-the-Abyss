@@ -38,6 +38,13 @@ local function setup(options)
         local box = stage:GetChild(name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
     end
+    local function drain()
+        for _ = 1, 100 do
+            if not ui.busy then return end
+            ui:update(1)
+        end
+        error("feedback queue did not finish")
+    end
     local function play(slot, target)
         click("card" .. slot)
         local instance = ui.run.phase == "combat" and ui.run.combat.hand[slot]
@@ -45,6 +52,7 @@ local function setup(options)
             local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
             click(reason == "invalid_target" and "enemy" .. (target or 1) or "card" .. slot)
         end
+        drain()
     end
     return ui, stage, click, play, root
 end

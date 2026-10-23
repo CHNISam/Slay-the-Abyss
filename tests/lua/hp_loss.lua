@@ -67,7 +67,10 @@ for _, upgraded in ipairs({ false, true }) do
         equal(state.player.hp, 0); equal(state.phase, "defeat")
         equal(state.energy, energy - definition.cost)
         equal(#state.hand, hand - 1); equal(#state.draw, draw); equal(state.enemies[1].hp, enemyHp)
-        equal(#state.events, events + 2) -- play + defeat, no fabricated status/attack event
+        equal(#state.events, events + 3) -- play + explicit HP payment + defeat; no attack/status tick
+        equal(state.events[events + 2].kind, "hp_loss")
+        equal(state.events[events + 2].detail.amount, hp)
+        equal(state.events[events + 2].frame.player.hp, 0)
         equal(state.events[#state.events].kind, "defeat")
         equal(#state.exhaust, id == "offering" and 1 or 0)
         refused(state, instance.uid, 1, "not_player_turn")

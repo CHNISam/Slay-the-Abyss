@@ -1,6 +1,7 @@
 -- Inventory effects use combat actors and data, with fixed potion/relic damage and block.
 -- Callers execute on an uncommitted battle: a refusal may discard this candidate safely.
 local Combat = require("abyss_combat")
+local Actors = require("abyss_actor")
 local M = {}
 local supported = { damage = true, block = true, draw = true, energy = true,
     gainStatus = true, applyStatus = true }
@@ -53,7 +54,7 @@ function M.apply(state, effects, targetIndex)
         elseif op == "gainStatus" or op == "applyStatus" then
             local actor = op == "gainStatus" and state.player or target
             if (actor.statuses[effect.status] or 0) + 0.0 + value > maximum then return false, "effect_overflow" end
-            Combat.addStatus(actor, effect.status, value)
+            Actors.status(state, actor, effect.status, value, state.player)
         end
     end
     return true

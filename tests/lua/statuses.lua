@@ -234,9 +234,12 @@ test("thorns consumes full partial exact or absent block on either attacker", fu
             eq(attacker.hp, 20 - math.max(0, 3 - block))
             eq(attacker.block, math.max(0, block - 3))
             eq(defender.hp, hp - 6); eq(#s.events, events + 2)
-            same(s.events[#s.events], { kind = "status_damage", detail = {
+            local event = s.events[#s.events]
+            same({kind=event.kind, detail=event.detail}, { kind = "status_damage", detail = {
                 source = defender.id, target = attacker.id, status = "thorns",
-                amount = math.max(0, 3 - block) } })
+                amount = math.max(0, 3 - block), blocked = math.min(block, 3) } })
+            local frame = enemyAttacks and event.frame.enemies[1] or event.frame.player
+            eq(frame.hp, attacker.hp); eq(frame.block, attacker.block)
         end
     end
 end)

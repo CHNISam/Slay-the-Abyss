@@ -37,11 +37,15 @@ function unit(name, position, portrait, player = false) {
     text('name', 0, -portrait / 2 - s.m, bw, l.nativeText.lineHeight, player ? '旅行者' : '', f.label, c.gold),
     panel('hpBorder', 0, -portrait / 2 - s.xxl - bh / 2, bw + s.border * 2, bh + s.border * 2, c.line),
     panel('hpTrack', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpTrack),
+    { ...panel('hpGhost', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpGhost), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     { ...panel('hpFill', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hp), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, l.nativeText.lineHeight, '', f.small),
     picture('blockIcon', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, theme.icon.block, c.block),
     text('block', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, l.nativeText.lineHeight, '', f.small, c.textOnLight),
     text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, l.nativeText.lineHeight, '', f.small, c.textDim),
+    { ...picture('impact', 0, 0, portrait, portrait, im.diamond, c.geo), visible: false },
+    { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
+    { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
       text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number), hit(portrait, portrait)] : []),
   ] };
@@ -106,6 +110,16 @@ export function battleLayout() {
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
     button('skip', [0, -96], l.button.secondary, '跳过奖励'));
+  controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
+    { name: 'playedCard', kind: 'container', size: l.card.size, visible: false, children: [
+      panel('border', 0, 0, ...l.card.size, c.gold),
+      panel('plate', 0, 0, l.card.size[0] - s.border * 2, l.card.size[1] - s.border * 2, c.cardType.attack),
+      picture('art', 0, s.xl, l.card.art, l.card.art, theme.icon.cardArt.attack, c.goldBright),
+      text('name', 0, -s.xxl, l.card.size[0] - s.s, l.nativeText.lineHeight * 2, '', f.cardName, c.text),
+    ] },
+    { ...panel('bannerPlate', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, c.panelSunken), visible: false },
+    { ...text('banner', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, '', f.title, c.goldBright), visible: false },
+  ] });
   return { name: 'AbyssBattle', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true, controls: [
     { ...panel('backdrop', 0, 0, width, height, c.backdrop), anchor: {min: [0.5, 0.5], max: [0.5, 0.5]} },
     { name: 'stage', kind: 'container', size: [width, height], children: controls },
