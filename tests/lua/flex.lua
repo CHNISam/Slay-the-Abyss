@@ -143,10 +143,11 @@ end
 for _, upgraded in ipairs({false, true}) do
     for _, mode in ipairs({"temporary", "permanent"}) do
         test((upgraded and "upgraded" or "normal") .. " " .. mode .. " overflow preserves full state and every reference", function()
-            -- Legal public API boundary fixture, not a normal 15-floor reachability claim.
+            -- Temporary debt uses the public API boundary. Permanent overflow is
+            -- a deliberately corrupted-state fixture; normal strength now caps at 999.
             local s = battle(upgraded)
             if mode == "temporary" then Combat.addTemporaryStrength(s.player, 2147483647)
-            else Combat.addStatus(s.player, "strength", 2147483647) end
+            else s.player.statuses.strength = 2147483647 end
             local instance = card(s, "flex")
             assert(Combat.canPlay(s, instance.uid))
             local before, check = Combat.copy(s), unchangedAfter(s)

@@ -35,6 +35,8 @@ function M.addStatus(actor, id, amount)
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
     local value = (actor.statuses[id] or 0) + 0.0 + amount
     assert(integer(value), "status stack overflow") -- reject before mutating
+    -- Strength/Dexterity clamp after stacking, for either actor and either sign.
+    if signed[id] then value = math.max(-999, math.min(999, value)) end
     if definition.stack == "none" then value = value > 0 and 1 or 0 end
     actor.statuses[id] = signed[id] and value or math.max(0, value)
     return actor.statuses[id]
