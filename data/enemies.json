@@ -6,8 +6,15 @@
       "name": "祈火徒",
       "tier": "normal",
       "hp": 50,
-      "hpRange": { "min": 48, "max": 54 },
-      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1" },
+      "hpRange": {
+        "min": 48,
+        "max": 54
+      },
+      "ai": {
+        "kind": "ritual_then_attack",
+        "ritualIntent": "cultist_2",
+        "attackIntent": "cultist_1"
+      },
       "intents": [
         {
           "id": "cultist_1",
@@ -491,23 +498,8 @@
       "intents": [
         {
           "id": "wizard_gremlin_1",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "id": "wizard_gremlin_2",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 3
-            }
-          ]
+          "kind": "charge",
+          "effects": []
         },
         {
           "id": "wizard_gremlin_3",
@@ -519,7 +511,18 @@
             }
           ]
         }
-      ]
+      ],
+      "hpRange": {
+        "min": 21,
+        "max": 25
+      },
+      "ai": {
+        "kind": "charge_then_attack",
+        "initialCharge": 1,
+        "chargeLimit": 3,
+        "chargeIntent": "wizard_gremlin_1",
+        "attackIntent": "wizard_gremlin_3"
+      }
     },
     {
       "id": "shield_gremlin",
@@ -604,14 +607,21 @@
       "name": "沉眠遗卫",
       "tier": "elite",
       "hp": 110,
-      "hpRange": { "min": 109, "max": 111 },
+      "hpRange": {
+        "min": 109,
+        "max": 111
+      },
       "ai": {
         "kind": "sleep_then_cycle",
         "sleepTurns": 3,
         "sleepBlock": 8,
         "sleepIntent": "lagavulin_1",
         "stunnedIntent": "lagavulin_stunned",
-        "awakeCycle": ["lagavulin_2", "lagavulin_3", "lagavulin_4"]
+        "awakeCycle": [
+          "lagavulin_2",
+          "lagavulin_3",
+          "lagavulin_4"
+        ]
       },
       "intents": [
         {
@@ -701,8 +711,17 @@
         "initialThreshold": 30,
         "thresholdIncrement": 10,
         "shiftBlock": 20,
-        "offenseCycle": ["guardian_1", "guardian_2", "guardian_4", "guardian_3"],
-        "defenseCycle": ["guardian_5", "guardian_6", "guardian_7"],
+        "offenseCycle": [
+          "guardian_1",
+          "guardian_2",
+          "guardian_4",
+          "guardian_3"
+        ],
+        "defenseCycle": [
+          "guardian_5",
+          "guardian_6",
+          "guardian_7"
+        ],
         "returnIntent": "guardian_3"
       },
       "intents": [
