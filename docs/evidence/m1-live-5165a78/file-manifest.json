@@ -1,0 +1,127 @@
+{
+  "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+  "candidateSha256": "8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288",
+  "files": [
+    {
+      "source": ".artifacts/m1-live-5165a78/game-menu-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/game-menu-0.png",
+      "sha256": "987aa321c002786f0daa932274e7376c7106bbb5220686448bfb83ec41321ef6",
+      "bytes": 139927
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/first-battle-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/first-battle-0.png",
+      "sha256": "f5b111936a7f66c1fc67ec6d35f5ee506b3086466b14cd5de15411ac59a0b566",
+      "bytes": 278888
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/bash-left-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/bash-left-0.png",
+      "sha256": "0718062a647edb4a85df58f72f632f160a2f2eaecc0d03e3855eaec187816487",
+      "bytes": 246937
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/end-turn-one-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/end-turn-one-0.png",
+      "sha256": "905a93d3627d8e7075ea4ff1d6fc0d5eb7ab00b3afbe00527ce3d0a8df9bed9a",
+      "bytes": 138391
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/defend-two-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/defend-two-0.png",
+      "sha256": "aed70a6f92ee0558b1245add06a6095401ce2e59c2af59b458cc9c00e5ae090a",
+      "bytes": 225203
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/fourth-hand-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/fourth-hand-0.png",
+      "sha256": "e6c65def2afad0027edbbd22b62f5b7cea32c151140d39c5cfa378c3e8011838",
+      "bytes": 260160
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/rewards-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/rewards-0.png",
+      "sha256": "a4fcc2031071671cea65b04b403fc6ec6bb8cddae14c09606ce8e655d94dbfcc",
+      "bytes": 217125
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/take-flex-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/take-flex-0.png",
+      "sha256": "29105925ff9f9fe4b1ff07847bd718d59f7c7b97dfa1c9dad0aab26890a57abe",
+      "bytes": 209266
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/shop-enter-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/shop-enter-0.png",
+      "sha256": "78fe2733917bfdccb1c1433af335912db2e481e95b313e68686d5816810ec750",
+      "bytes": 287850
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/deck-cancel-0.png",
+      "file": "docs/evidence/m1-live-5165a78/screens/deck-cancel-0.png",
+      "sha256": "c682c917e2c56f7856e3b2d4312ede67058a50f632dc39b44d6816bc0950c8b1",
+      "bytes": 214703
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/session-log.gia",
+      "file": "docs/evidence/m1-live-5165a78/session-log.gia",
+      "sha256": "9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8",
+      "bytes": 10651
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/log-audit/decoded.json",
+      "file": "docs/evidence/m1-live-5165a78/log-decoded.json",
+      "sha256": "4c9aca7af283f905e980e7e1355cc5c5aad36ad2c2b3676986b1dd740abd8002",
+      "bytes": 16761
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/log-audit/counts.json",
+      "file": "docs/evidence/m1-live-5165a78/log-counts.json",
+      "sha256": "bcee4b9556b9a831be10c4269ff95ce0be1e615ea91aad51cce0cd4bc3708a30",
+      "bytes": 2809
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/01-t004.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/01-t004.jpg",
+      "sha256": "ff692208a50ad13d28bdc59f2ed438337974256550669d53cc396df0f9a8a4ed",
+      "bytes": 50912
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/02-t007.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/02-t007.jpg",
+      "sha256": "0a0845eaf4f3e31844aff8c86d68c89e78c9cd7c9ba2b609fcf1a932d1a1a923",
+      "bytes": 60034
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/03-t010.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/03-t010.jpg",
+      "sha256": "f7f92308b99b65cd08b836991f1d7131fbe08d789163a2bfdb60eb052028da32",
+      "bytes": 50913
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/04-t013.jpg",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/04-t013.jpg",
+      "sha256": "9b5ecf183b5f8c9fd3e29ea6a65cbd2973eb3ebca66e85ffc1e4222ad56f0062",
+      "bytes": 90959
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/playtests/8f623503-7687-4ec7-9620-a987b72cc0cf/session-log.gia",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/session-log.gia",
+      "sha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+      "bytes": 3179
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/exit-log-audit/decoded.json",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/log-decoded.json",
+      "sha256": "f0033da1947499506af803db5cbbd300b259d623b568eff8e4fb6abc1274175c",
+      "bytes": 1686
+    },
+    {
+      "source": ".artifacts/m1-live-5165a78/exit-log-audit/counts.json",
+      "file": "docs/evidence/m1-live-5165a78/exit-special/log-counts.json",
+      "sha256": "217fdf1f81d68e8ad66e98bd1e480050729539f12c0ddb953e3e5f972328a1dc",
+      "bytes": 168
+    }
+  ],
+  "note": "Each binary screenshot/raw log and exact decoded JSON copy was hashed before and after copying; no image edits. Exit-special screenshots/raw log/decoded/counts were likewise copied without edits and source/destination hashes verified."
+}
