@@ -3,28 +3,38 @@ package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Nodes, Run, Map = require("abyss_nodes"), require("abyss_run"), require("abyss_map")
 local Combat, data = require("abyss_combat"), require("abyss_data")
 local count, refusals = 0, 0
-local function equal(a, b) assert(a == b, tostring(a) .. " ~= " .. tostring(b)) end
+local function equal(a, b)
+    if a ~= b then error(tostring(a) .. " ~= " .. tostring(b), 2) end
+end
 local function copy(value, seen)
     if type(value) ~= "table" then return value end
     seen = seen or {}; if seen[value] then return seen[value] end
     local result = {}; seen[value] = result
-    for key, item in pairs(value) do result[key] = copy(item, seen) end
+    for key, item in pairs(value) do
+        result[key] = type(item) == "table" and copy(item, seen) or item
+    end
     return result
 end
 -- Check both values and alias topology, without recursing forever on shared/cyclic tables.
 local function same(a, b, forward, backward)
+    if a == b then return end
     equal(type(a), type(b))
     if type(a) ~= "table" then equal(a, b); return end
     forward, backward = forward or {}, backward or {}
     if forward[a] then equal(forward[a], b); return end
     assert(not backward[b], "unexpected alias")
     forward[a], backward[b] = b, a
-    for key, value in pairs(a) do same(value, b[key], forward, backward) end
-    for key in pairs(b) do assert(a[key] ~= nil, "missing key " .. tostring(key)) end
+    for key, value in pairs(a) do
+        local other = b[key]
+        if value ~= other then same(value, other, forward, backward) end
+    end
+    for key in pairs(b) do
+        if a[key] == nil then error("missing key " .. tostring(key)) end
+    end
 end
 local function test(name, fn) fn(); count = count + 1; print("ok node transactions " .. count .. " - " .. name) end
-local function rejected(run, map, fn)
-    local before = copy({run = run, map = map})
+local function rejected(run, map, fn, before)
+    before = before or copy({run = run, map = map})
     local ok, reason = fn()
     equal(ok, false); assert(type(reason) == "string" and #reason > 0)
     same({run = run, map = map}, before)
@@ -52,8 +62,10 @@ local function commands(run)
     }
 end
 local function rejectOtherNodes(run, map, active)
+    -- No successful commands in this batch: one frozen snapshot, checked after every refusal.
+    local before = copy({run = run, map = map})
     for kind, list in pairs(commands(run)) do
-        if kind ~= active then for _, command in ipairs(list) do rejected(run, map, command) end end
+        if kind ~= active then for _, command in ipairs(list) do rejected(run, map, command, before) end end
     end
 end
 
@@ -78,9 +90,10 @@ for _, kind in ipairs({"shop", "camp"}) do
     test(kind .. " incomplete and malformed commands preserve the pending valid choice", function()
         local run, map = entered(kind)
         local functions = kind == "shop" and {Nodes.buyCard, Nodes.buyRelic, Nodes.removeCard} or {Nodes.upgrade}
+        local before = copy({run = run, map = map})
         for _, command in ipairs(functions) do
-            rejected(run, map, function() return command(run) end)
-            for _, id in ipairs(invalidIds) do rejected(run, map, function() return command(run, id) end) end
+            rejected(run, map, function() return command(run) end, before)
+            for _, id in ipairs(invalidIds) do rejected(run, map, function() return command(run, id) end, before) end
         end
         if kind == "camp" then
             assert(Nodes.upgrade(run, run.deck[1].uid)); equal(run.deck[1].upgraded, true)
@@ -138,12 +151,13 @@ test("real battle reward rejects stale node and malformed reward commands before
     end
     equal(run.phase, "reward")
     rejectOtherNodes(run, map, nil)
-    rejected(run, map, function() return Nodes.completeCombat(run, map) end)
-    rejected(run, map, function() return Run.claimCardReward(run) end)
+    local before = copy({run = run, map = map})
+    rejected(run, map, function() return Nodes.completeCombat(run, map) end, before)
+    rejected(run, map, function() return Run.claimCardReward(run) end, before)
     for _, choice in ipairs({false, true, {}, "1", -1, 1.5, math.huge, 0/0}) do
-        rejected(run, map, function() return Run.claimCardReward(run, choice) end)
+        rejected(run, map, function() return Run.claimCardReward(run, choice) end, before)
     end
-    rejected(run, map, function() return Run.claimCardReward(run, #run.rewards.cards + 1) end)
+    rejected(run, map, function() return Run.claimCardReward(run, #run.rewards.cards + 1) end, before)
     local options = Run.rewardOptions(run)
     local id, uid, size = options[1], run.nextDeckUid, #run.deck
     options[1] = "forged"
