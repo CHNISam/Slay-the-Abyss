@@ -2,6 +2,20 @@
 
 任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
 
+## 新版节点与结果界面候选（7013641，未导入/试玩）
+
+真实构建源`701364102983dee19be840be0c54e4d12a06c66a`，包含PR75节点页、PR77菜单/结果页、PR79战斗反馈及先前牌库/AI/固定药水槽位。完整`npm run check`通过：JS297通过/14个既有权限skip，Lua全套、Python15通过/1个既有skip。
+
+首次从a76cab4构建被平台拒绝：17个节点遮罩直接传八位RGBA。统一转换为RGB+独立opacity后从零真实构建成功；失败与成功输出分别在仓库根`.artifacts/offline-ui-a76cab4/build.log`、`.artifacts/offline-ui-7013641/`。
+
+- 实际gil内24模块逐份对照源文，静态0错误/16个自定义跨模块方法warning；新增`holding`已追到`abyss_node_ui`定义。
+- 实际UI1552控件，最大50直接子；六列牌库模板和22节点启用结算图均真读回，ABYSS_WIN/LOSE监听引用存在。
+- 17个节点遮罩实际读回等价RGB`#0f1117`+0.8透明度，无重复乘alpha；源主题颜色未改。
+- 独立内存重注入得到相同字节；正式底图SHA256前后保持`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。
+- 交接副本：`.artifacts/offline-ui-7013641/abyss-ui-offline.gil`，SHA256 `60ca982ef78f3e095b1c572f2f414bc5e32e8cd0a26e10eea8a323d328c43517`。结构化记录见[新版UI候选证据](evidence/offline-candidate-7013641.json)。
+
+没有启动原神、调用playtest、官方导入或发布。节点hover/pressed/按下缩放仍有P2缺口；原生字体/图库/滚动和多设备仍待实机。TASK2物理配置、Boss17宝箱/完整第一幕/胜利正式结算等规则与平台关口保留，不能用这个构建关闭。
+
 ## 本批集成候选（022f22c，未导入/试玩）
 
 真实构建源为`022f22cf600de140527acb32774c997ea2be17d4`（PR78固定提交，包含Guardian、Cultist、牌库、叙事和药水固定槽位）。PR78已squash进develop `fac093cffb0403b3ab1ffc5479bd61011a95232b`，独立`git diff`确认两者`src/data/scripts`完全相同；中间PR70只新增两份回归。保留实际构建SHA，不用squash提交号替代。完整`npm run check`退出0，JS284通过/14个既有Windows权限skip，Lua全套通过，Python15通过/1个既有skip；各PR的当前SHA Quality和独立复审另按PR记录。
