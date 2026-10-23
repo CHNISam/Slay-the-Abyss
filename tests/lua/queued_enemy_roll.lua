@@ -30,7 +30,8 @@ local function eventIndex(state,kind,source)
  error("missing event "..kind.." / "..source)
 end
 
-for _,row in ipairs({{"blue_slaver","blue_slaver_1",12},{"gremlin_nob","gremlin_nob_3",14},{"jaw_worm","jaw_worm_1",11}}) do
+for _,row in ipairs({{"blue_slaver","blue_slaver_1",12},{"gremlin_nob","gremlin_nob_3",14},
+ {"jaw_worm","jaw_worm_1",11},{"spike_slime_s","spike_slime_s_1",5},{"fat_gremlin","fat_gremlin_1",4}}) do
  test(row[1].." queued roll survives lethal Thorns while a teammate is alive",function()
   local s=battle({row[1],"cultist"});local e=s.enemies[1]
   setIntent(e,row[2]);e.hp=1;C.addStatus(s.player,"thorns",1);s.events={}
