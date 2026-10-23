@@ -13,7 +13,7 @@ dependencies:
   - TASK-8
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/29'
-ordinal: 11000
+ordinal: 10000
 ---
 
 ## Description
