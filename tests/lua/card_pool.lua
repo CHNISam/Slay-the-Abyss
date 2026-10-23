@@ -89,9 +89,9 @@ local function execute(case, upgraded, run)
     if case.ownStatus then equal(s.player.statuses[case.ownStatus], case.stacks[n]) end
     equal(s.player.noDraw == true, case.noDraw == true)
     if case.temporary then equal(s.player.temporaryStrength, case.stacks[n]) end
-    local exhaust = case.power or case.exhaust
+    local exhaust = case.exhaust
     equal(#s.exhaust, exhaust and 1 or 0)
-    equal(#s.discard, exhaust and 0 or case.copies and 2 or 1)
+    equal(#s.discard, (exhaust or case.power) and 0 or case.copies and 2 or 1)
     if case.copies then
         local copy = s.discard[1]
         equal(copy.cardId, "anger"); equal(copy.upgraded, upgraded); assert(copy.uid ~= card.uid)

@@ -135,7 +135,7 @@ test('failed card remains playable after correcting only the overflow condition'
     Combat.addStatus(s.player, 'strength', -2147483647)
     equal(Combat.play(s, instance.uid), true)
     equal(s.player.statuses, statuses); equal(statuses.strength, 2)
-    equal(s.exhaust[1], instance); equal(s.energy, 2); equal(#s.hand, 0)
+    equal(#s.exhaust, 0); equal(#s.discard, 0); equal(s.energy, 2); equal(#s.hand, 0)
 end)
 
 test('successful real bash keeps identities, ordering and exactly one effect execution', function()
