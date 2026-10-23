@@ -11,7 +11,7 @@
     "shop": { "status": "failed", "note": "v4 dense text list; v5 five-card shelf awaits actual screenshot" },
     "event": { "status": "pending" },
     "treasure": { "status": "pending" },
-    "result": { "status": "partial", "note": "v4 actual floor15 defeat and local restart passed. v6 screenshots confirm custom defeat page and official platform Defeat settlement with Leave/Retry. Boss victory, victory settlement, platform Retry state reset and full approved layout remain untested." },
+    "result": { "status": "partial", "note": "v4 actual floor15 defeat and local restart passed. v6 screenshots confirm custom defeat page and official platform Defeat settlement with Leave/Retry. Boss victory, victory settlement, platform Retry state reset and full approved layout remain untested. Offline candidate (feat/result-menu-polish) restores the approved emblem/title/four-cell/two-button layout; see docs/evidence/result-menu-offline. It still needs a real-game screenshot review." },
     "deck": { "status": "missing", "note": "Approved full deck overlay not implemented" }
   }
 }
