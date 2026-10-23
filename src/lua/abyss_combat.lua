@@ -1,6 +1,7 @@
 -- Pure Lua 5.3 battle state. No game/script/io globals; the UI issues commands.
 local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
+local Events = require("abyss_events")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, damage = Actors.damage, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
@@ -38,7 +39,7 @@ local function shuffle(state, pile)
 end
 
 local function event(state, kind, detail)
-    state.events[#state.events + 1] = { kind = kind, detail = detail }
+    Events.emit(state, kind, detail)
 end
 
 local function aliveEnemies(state)

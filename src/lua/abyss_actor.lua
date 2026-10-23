@@ -1,5 +1,13 @@
 -- Actor arithmetic and turn status rules; no UI or platform globals.
 local M = {}
+local Events = require("abyss_events")
+
+function M.status(state, actor, id, amount, source)
+    local before = actor.statuses[id] or 0
+    M.addStatus(actor, id, amount)
+    Events.emit(state, "status", {source = (source or actor).id, target = actor.id,
+        status = id, amount = actor.statuses[id] - before})
+end
 
 local stacks = { intensity = true, duration = true, none = true }
 local decays = { none = true, turn_end_minus_1 = true,
@@ -54,11 +62,11 @@ function M.statusView(actor)
     return result
 end
 
-local function directDamage(state, source, target, amount, status)
+local function directDamage(state, source, target, amount, status, blocked)
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
-    state.events[#state.events + 1] = { kind = "status_damage", detail = {
-        source = source.id, target = target.id, status = status, amount = lost } }
+    Events.emit(state, "status_damage", {
+        source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     return lost
 end
 
@@ -81,14 +89,14 @@ function M.damage(state, source, target, base, fixed)
     target.block = target.block - absorbed
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
-    state.events[#state.events + 1] = { kind = "damage", detail = { source = source.id, target = target.id, amount = lost, blocked = absorbed } }
+    Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- The defender retaliates even if this positive attack was blocked or lethal.
     if not fixed and amount > 0 and (target.statuses.thorns or 0) > 0 then
         local thorns = target.statuses.thorns
         local blocked = math.min(source.block, thorns)
         source.block = source.block - blocked
-        directDamage(state, target, source, thorns - blocked, "thorns")
+        directDamage(state, target, source, thorns - blocked, "thorns", blocked)
     end
     return lost
 end
@@ -103,8 +111,10 @@ function M.blockAmount(state, actor, amount, fixed)
 end
 
 function M.block(state, actor, amount, fixed)
+    local before = actor.block
     -- Cap the final state, not the modifier calculation or its float precision.
     actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
+    Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
 end
 
 local function tick(state, actor, phase)
@@ -122,10 +132,16 @@ local function tick(state, actor, phase)
                 elseif id == "regen" then
                     local healed = math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
-                    state.events[#state.events + 1] = { kind = "heal", detail = { target = actor.id, amount = healed, status = id } }
+                    Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
                 end
             end
             actor.statuses[id] = amount - 1
+            if decay:find("trigger", 1, true) then
+                -- Trigger and decay are one presentation step, including lethal poison.
+                state.events[#state.events].frame = Events.frame(state)
+            else
+                Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
+            end
             if actor.hp <= 0 then return end
         end
     end
@@ -136,14 +152,17 @@ function M.endTurn(state, actor)
     if actor.hp <= 0 then return end
     local temporary = actor.temporaryStrength or 0
     if temporary ~= 0 then
-        M.addStatus(actor, "strength", -temporary)
+        M.status(state, actor, "strength", -temporary)
         actor.temporaryStrength = 0
     end
 end
 
 function M.startTurn(state, actor)
     if actor.hp <= 0 then return end
-    if (actor.statuses.barricade or 0) <= 0 then actor.block = 0 end
+    if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
+        actor.block = 0
+        Events.emit(state, "block_reset", {target = actor.id})
+    end
     tick(state, actor, "turn_start")
 end
 

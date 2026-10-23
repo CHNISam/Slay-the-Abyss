@@ -135,11 +135,11 @@ end
 function M.usePotion(run, slot, targetIndex)
     local battle, reason = potionCandidate(run, slot, targetIndex)
     if not battle then return false, reason end
-    battle.events[#battle.events + 1] = { kind = "potion", detail = { slot = slot, id = run.potions[slot], target = targetIndex } }
+    require("abyss_events").emit(battle, "potion", { slot = slot, id = run.potions[slot], target = targetIndex })
     local outcome = Combat.outcome(battle)
     if outcome then
         battle.phase = outcome
-        battle.events[#battle.events + 1] = { kind = outcome }
+        require("abyss_events").emit(battle, outcome)
     end
     -- Stage the complete transaction, including rewards and their RNG, before committing.
     -- Persistent deck UIDs are owned by Run and are never regenerated from combat instances.

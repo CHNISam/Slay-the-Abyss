@@ -2,6 +2,8 @@
 local Combat = require("abyss_combat")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
+local Events = require("abyss_events")
+local Feedback = require("abyss_feedback")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
@@ -99,13 +101,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             box:GetChild(name):SetSizeDelta(portrait + delta, portrait + delta)
         end
         if box.name ~= "hero" then box:GetChild("hit"):SetSizeDelta(portrait, portrait) end
+        box:GetChild("impact"):SetSizeDelta(portrait, portrait)
+        box:GetChild("shield"):SetSizeDelta(portrait, portrait)
+        box:GetChild("floating"):SetSizeDelta(width + S.xl, L.nativeText.lineHeight * 2)
         picture(box:GetChild("portrait"), icon)
         tint(box:GetChild("portrait"), box.name == "hero" and C.geo or C.text)
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
-        for _, name in ipairs({"hpBorder", "hpTrack", "hpFill", "hp"}) do
+        for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
             local part = box:GetChild(name)
             part:SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh / 2)
             local height = name == "hp" and L.nativeText.lineHeight or bh + (name == "hpBorder" and S.border * 2 or 0)
@@ -113,6 +118,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         tint(box:GetChild("hpBorder"), actor.block > 0 and C.block or C.line)
         box:GetChild("hpFill").fillAmount = math.max(0, math.min(1, actor.hp / actor.maxHp))
+        box:GetChild("hpGhost").fillAmount = box:GetChild("hpFill").fillAmount
         box:GetChild("hp").text = number(actor.hp) .. "/" .. number(actor.maxHp)
         for _, name in ipairs({"blockIcon", "block"}) do
             box:GetChild(name):SetVisible(actor.block > 0)
@@ -134,29 +140,37 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local radians = math.abs(angle) * math.pi / 180
         local halfHeight = (h * math.cos(radians) + w * math.sin(radians)) / 2
         local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight
-        box:SetAnchoredPosition(distance * spacing, math.max(floor, L.hand.y - math.abs(distance) * L.hand.arcDrop) + (selected and Theme.motion.hoverLift or 0))
+        local x, y = distance * spacing, math.max(floor, L.hand.y - math.abs(distance) * L.hand.arcDrop) + (selected and Theme.motion.hoverLift or 0)
+        box:SetAnchoredPosition(x, y)
         local scale = selected and Theme.motion.hoverScale or 1
         box:SetLocalScale(scale, scale, 1)
         box.localRotationZ = selected and 0 or angle
         box:GetChild("glow"):SetVisible(selected)
         box:SetAsLastSibling()
+        return {x, y}
     end
     function self:render()
         local run = self.run
+        if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
+            self.feedback:cancel() return
+        end
         if self.viewRun ~= run then
             self.viewRun, self.target, self.selected = run, 1, nil
             self.potionRun, self.potionBattle, self.potionSlots = nil, nil, nil
         end
-        local fighting = run and run.phase == "combat"
-        local battle = fighting and run.combat
-        local reward = run and run.phase == "reward"
+        local fighting = self.displayBattle ~= nil or run and run.phase == "combat"
+        local battle = self.displayBattle or fighting and run.combat
+        local reward = not self.busy and run and run.phase == "reward"
         local active = self.active and fighting and battle.phase == "player" and not self.busy
-        local potions = fighting and Run.potionView(run) or {}
+        -- Validation stages potion transactions; do it once while input is available,
+        -- never copy the event journal once per animation step.
+        local potions = self.busy and self.potionViewCache or fighting and Run.potionView(run) or {}
+        if not self.busy then self.potionViewCache = potions end
         self.potionTargetAvailable = false
         for _, item in ipairs(potions) do
             if active and item.canUse and item.needTarget then self.potionTargetAvailable = true break end
         end
-        show("start", not options.embedded and (not run or run.phase == "defeat"))
+        show("start", not self.busy and not options.embedded and (not run or run.phase == "defeat"))
         button("start", self.active, true, run and "重新启程" or "启程")
         show("endTurn", fighting)
         show("skip", reward)
@@ -169,7 +183,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
         tint(child("energyDisc"), battle and battle.energy > 0 and C.energy or C.energyEmpty)
         label("draw", battle and tostring(#battle.draw) or "0") label("discard", battle and tostring(#battle.discard) or "0")
-        label("statuses", fighting and (battle.phase == "player" and "我方回合 " .. battle.turn or "敌方行动中") or "")
+        label("statuses", fighting and (self.busy and "行动演出中" or battle.phase == "player" and "我方回合 " .. battle.turn or "敌方行动中") or "")
         if fighting then unit(child("hero"), player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
         if not run then label("result", "战斗演练\n点击启程，试用旅行者的初始牌组")
         elseif reward then label("result", "战斗胜利 · 金币 ＋" .. run.rewards.gold .. "\n选择一张牌加入牌组，或跳过")
@@ -186,7 +200,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for i = 1, 5 do
             local box = child("enemy" .. i)
             local enemy = fighting and battle.enemies[i]
-            box:SetVisible(enemy ~= nil and enemy ~= false and enemy.hp > 0)
+            box:SetVisible(enemy ~= nil and enemy ~= false and (enemy.hp > 0 or self.busy and not self.feedback.deaths[enemy.id]))
             if enemy then
                 local step = count > 1 and (L.enemyRow.xTo - L.enemyRow.xFrom) / (count - 1) or 0
                 local width = math.min(L.hpBar.size[1], count > 1 and step - S.s or L.hpBar.size[1])
@@ -194,7 +208,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 box:SetAnchoredPosition(count == 1 and (L.enemyRow.xFrom + L.enemyRow.xTo) / 2 or L.enemyRow.xFrom + (i - 1) * step, L.enemyRow.y)
                 local targetable = active and pendingTarget and Combat.canPlay(battle, self.selected, i)
                 local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and enemy.hp > 0
-                unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget)
+                unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
                 local value, kind = intentText(battle, i)
                 box:GetChild("intent").text = value
                 box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
@@ -204,6 +218,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
         local rewards = reward and Run.rewardOptions(run) or {}
+        self.cardPositions = {}
         local playable, selectedBox = false, nil
         for i = 1, 10 do
             local box = child("card" .. i)
@@ -228,7 +243,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 tint(box:GetChild("border"), selected and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
                 tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
                 picture(box:GetChild("art"), Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
-                placeCard(box, fighting and #battle.hand or #rewards, i - 1, selected == true)
+                local pose = placeCard(box, fighting and #battle.hand or #rewards, i - 1, selected == true)
+                if instance then self.cardPositions[instance.uid] = pose end
                 if selected then selectedBox = box end
             end
         end
@@ -238,7 +254,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         button("continue", self.active and run and run.phase == "map" and not self.busy, true)
         -- Keep physical slots fixed for the encounter: consuming slot one must not
         -- move slot two underneath a queued second click on the same button.
-        if fighting and (self.potionBattle ~= battle or self.potionRun ~= run) then
+        if fighting and not self.busy and (self.potionBattle ~= battle or self.potionRun ~= run) then
             self.potionBattle, self.potionRun, self.potionSlots = battle, run, {}
             for i, id in ipairs(run.potions) do self.potionSlots[i] = {slot = i, id = id} end
         end
@@ -262,6 +278,52 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self:render()
         if changed and options.onChange then options.onChange(self) end
     end
+    self.feedback = Feedback.new(stage, platform, function(battle, acting)
+        self.displayBattle, self.acting = battle, acting
+        self:render()
+    end, function(failure)
+        self.busy, self.displayBattle, self.acting = false, nil, nil
+        if self.feedbackRun == self.run and self.feedbackBattle == (self.run and self.run.combat)
+            and #self.feedbackBattle.events == self.feedbackLast then
+            -- UI is the event consumer. Release consumed frames; the event table identity stays stable.
+            for i = #self.feedbackBattle.events, 1, -1 do self.feedbackBattle.events[i] = nil end
+        end
+        notice(failure and "演出已恢复，可继续行动。" or "查看敌人意图，规划下一步行动。")
+        refresh(failure ~= "cancelled")
+    end)
+    local function perform(command, origin)
+        local battle = self.run.combat
+        local before, first = Events.frame(battle), #battle.events + 1
+        self.busy, self.feedbackRun, self.feedbackBattle = true, self.run, battle
+        self.displayBattle = {catalog = battle.catalog, rules = battle.rules}
+        for k, v in pairs(before) do self.displayBattle[k] = v end
+        local shown, failure = pcall(self.render, self)
+        if not shown then
+            self.busy, self.displayBattle = false, nil
+            print("ABYSS_FEEDBACK prepare_failed " .. tostring(failure))
+            pcall(refresh)
+            return false, "presentation_unavailable"
+        end
+        local called, ok, reason = pcall(command)
+        if not called or not ok then
+            self.busy, self.displayBattle = false, nil
+            if not called then print("ABYSS_FEEDBACK command_failed " .. tostring(ok)) end
+            refresh()
+            return false, called and reason or "command_failed"
+        end
+        -- No core callback is retained by playback. The committed result is immutable to it.
+        self.feedbackLast = #battle.events
+        self.feedback:begin(before, battle, first, presentation, origin)
+        return ok, reason
+    end
+    function self:update(dt)
+        if self.feedbackRun and (self.feedbackRun ~= self.run or self.feedbackBattle ~= (self.run and self.run.combat)) then
+            self.feedback:cancel()
+            self.feedbackRun, self.feedbackBattle = nil, nil
+            self:render() return
+        end
+        self.feedback:update(dt)
+    end
     function self:setActive(active)
         assert(type(active) == "boolean", "active must be boolean")
         self.active = active
@@ -279,9 +341,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:playSelected(target)
         if not self.active or not self.selected or self.busy or not self.run or self.run.phase ~= "combat" then return end
-        local ok, reason = Run.play(self.run, self.selected, target)
+        local uid, origin = self.selected, self.cardPositions[self.selected]
+        local ok, reason = perform(function() return Run.play(self.run, uid, target) end, origin)
         if ok then self.selected = nil end
-        notice(ok and "出牌完成。" or reasons[reason] or "当前无法使用这张牌。") refresh(ok)
+        notice(ok and "正在出牌。" or reasons[reason] or "当前无法使用这张牌。")
+        if reason ~= "presentation_unavailable" then refresh() end
     end
     function self:playSlot(index)
         local run = self.run
@@ -303,25 +367,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:endTurn()
         if not self.active or not self.run or self.busy or self.run.phase ~= "combat" or self.run.combat.phase ~= "player" then return end
-        self.busy, self.selected = true, nil
-        self:render() -- Controls are disabled before the synchronous core command.
-        local ok = Run.endTurn(self.run)
-        self.busy = false
-        if ok then notice("新回合：查看敌人意图，规划能量与格挡。") end
-        refresh(ok)
+        self.selected = nil
+        perform(function() return Run.endTurn(self.run) end)
     end
     function self:usePotion(index)
         if not self.active or self.busy or not self.run or self.run.phase ~= "combat" then return false end
         local binding = self.potionSlots and self.potionSlots[index]
         if not binding or self.potionRun ~= self.run or self.potionBattle ~= self.run.combat
             or self.run.potions[binding.slot] ~= binding.id then return false end
-        local ok, reason = Run.usePotion(self.run, binding.slot, self.target)
+        local ok, reason = perform(function() return Run.usePotion(self.run, binding.slot, self.target) end)
         if ok then
             self.potionSlots[index] = nil
             for _, other in pairs(self.potionSlots) do if other.slot > binding.slot then other.slot = other.slot - 1 end end
         end
         notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
-        refresh(ok)
+        if reason ~= "presentation_unavailable" then refresh() end
         return ok, reason
     end
     local function bind(name, fn) child(name):AddCursorEventListener(clickEvent, fn) end

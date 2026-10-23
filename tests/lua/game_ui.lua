@@ -29,8 +29,10 @@ end
 local function fixture(data, settle)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
-    return GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle }), root
+    local ui = GameUI.new(root, data or Data, Presentation, "click",
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle })
+    root.ui = ui
+    return ui, root
 end
 local function mapControl(panel, name)
     for _, group in pairs(panel.children) do
@@ -43,7 +45,12 @@ local function click(root, panel, button)
     local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
-    if target.interactable then return target.click() end
+    if target.interactable then
+        local result = target.click()
+        for _ = 1, 400 do if not root.ui or not root.ui.battleUI.busy then break end root.ui:update(0.05) end
+        assert(not root.ui or not root.ui.battleUI.busy)
+        return result
+    end
 end
 local function win(ui, root)
     for _ = 1, 60 do
@@ -205,6 +212,26 @@ test("viewport scales each device uniformly and covers wider canvas outside the 
         assert(root:GetChild("canvasBackdrop").size[2] == device[2])
     end
     assert(not pcall(Viewport.apply, root, 0, 720))
+end)
+
+test("host defers defeat routing until the final feedback banner and releases result input once", function()
+    local ui, root = fixture()
+    assert(ui:start()) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
+    ui.run.combat.player.hp = 1 ui.battleUI:render()
+    ui.battleUI:endTurn()
+    assert(ui.run.phase == "defeat" and ui.battleUI.busy)
+    ui:refresh()
+    assert(ui.mode == "battle" and not root:GetChild("menuPanel").visible)
+    local sawDefeat = false
+    for _ = 1, 200 do
+        if not ui.battleUI.busy then break end
+        if ui.battleUI.feedback.current.kind == "defeat" then
+            sawDefeat = true assert(ui.mode == "battle" and root:GetChild("battlePanel").visible)
+        end
+        ui:update(0.05)
+    end
+    assert(sawDefeat and ui.mode == "defeat" and root:GetChild("menuPanel").visible)
+    assert(not ui.battleUI.busy)
 end)
 
 test("native lifecycle loads every composed control and registers its listeners only once", function()

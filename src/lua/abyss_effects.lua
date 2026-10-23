@@ -1,5 +1,6 @@
 -- Effect interpreter for the core-supported operations.
 local M = {}
+local Actors = require("abyss_actor")
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true }
@@ -30,12 +31,12 @@ function M.apply(combat, state, effects, source, target)
         elseif op == "block" then combat.block(state, source, value)
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "energy" then state.energy = state.energy + value
-        elseif op == "gainStatus" then combat.addStatus(source, effect.status, value)
+        elseif op == "gainStatus" then Actors.status(state, source, effect.status, value, source)
         elseif op == "applyStatus" then
-            if target and target.hp > 0 then combat.addStatus(target, effect.status, value) end
+            if target and target.hp > 0 then Actors.status(state, target, effect.status, value, source) end
         elseif op == "applyStatusAll" then
             for _, victim in ipairs(targets(state, source)) do
-                if victim.hp > 0 then combat.addStatus(victim, effect.status, value) end
+                if victim.hp > 0 then Actors.status(state, victim, effect.status, value, source) end
             end
         else error("unsupported effect: " .. tostring(op)) end
     end
