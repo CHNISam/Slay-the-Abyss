@@ -4,7 +4,7 @@ title: M3 首发遭遇与敌人AI、概率和特殊机制原版对齐
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 02:37'
+updated_date: '2026-10-23 02:42'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -51,4 +51,6 @@ ordinal: 15000
 已同步2eaf30f新的原版一致性验收范围和依赖；本轮离线实现/诊断不替代原版来源核实、平台或完整通关验收。所有新AC保留未勾。
 
 2026-10-23 /root/enemy_ai / feat/task-15-lagavulin：睡眠机制、受击/毒/固定伤害唤醒、18伤害两次接敏捷/力量各-1循环已实现。新增9组独立AI测试、13组schema检查、真实控件UI三态通过；20cb936基线完整npm run check通过，已有Windows符号链接权限测试按原规则跳过。接入a6be1b6新基线时保留新的卡牌playedCard参数和全部拖牌用例；新TASK15验收明确真实HP随机范围，因此补109–111采样后再全套复验。来源及证据等级见docs/reviews/TASK-15-lagavulin-ai.md；所有AC保持未勾，暂不开游戏/MCP/不编译或写存档。
+
+最终a6be1b6组合复验：支持hpRange闭区间109–111真实战斗种子采样，seed3/0/5分别得到109/110/111且重复战斗和洗牌一致，maxHp取实际采样值。实际双Strike和Run.usePotion火瓶入口均验证立即唤醒与当次眩晕。新增AI规则12组、schema18组；完整npm run check退出0，Python16组1个既有权限skip；日志build/enemy-ai-check.log。已兼容PR37的严格非空Effects.supported，只有sleep/stunned意图在Combat.new中专门允许空effects，不放宽卡牌验证。原版随机算法/种子映射和原版二进制版本仍未核实；社区二手资料级别明确，五个AC全部未勾。
 <!-- SECTION:NOTES:END -->

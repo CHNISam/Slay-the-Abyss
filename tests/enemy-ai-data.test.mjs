@@ -7,6 +7,11 @@ test('stateful sleep AI references only declared, correctly typed intents', () =
 });
 
 for (const [name, mutate, expected] of [
+  ['nonobject HP range', e => e.hpRange = [], /hpRange/],
+  ['reversed HP range', e => e.hpRange = {min:111,max:109}, /hpRange/],
+  ['zero HP endpoint', e => e.hpRange.min = 0, /hpRange/],
+  ['fractional HP endpoint', e => e.hpRange.max = 110.5, /hpRange/],
+  ['baseline outside HP range', e => e.hp = 112, /hp/],
   ['unknown policy', e => e.ai.kind = 'guess', /ai.kind/],
   ['unknown field', e => e.ai.guess = 1, /ai.guess/],
   ['zero sleep duration', e => e.ai.sleepTurns = 0, /ai.sleepTurns/],

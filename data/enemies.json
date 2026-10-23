@@ -602,6 +602,7 @@
       "name": "沉眠遗卫",
       "tier": "elite",
       "hp": 110,
+      "hpRange": { "min": 109, "max": 111 },
       "ai": {
         "kind": "sleep_then_cycle",
         "sleepTurns": 3,
