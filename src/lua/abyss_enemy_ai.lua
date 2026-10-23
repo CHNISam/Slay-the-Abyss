@@ -13,6 +13,11 @@ end
 
 function M.initialize(state, enemy)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "ritual_then_attack" then
+        enemy.aiPhase, enemy.ritualSkipRound = "opening", true
+        select(enemy, enemy.ai.ritualIntent)
+        return
+    end
     if enemy.ai.kind == "guardian" then return Guardian.initialize(state, enemy) end
     assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
     enemy.aiPhase, enemy.aiTurns, enemy.aiCycle = "sleep", 0, 1
@@ -31,6 +36,9 @@ end
 function M.advance(state, enemy)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "ritual_then_attack" then
+        enemy.aiPhase = "attacking"
+        select(enemy, enemy.ai.attackIntent)
     elseif enemy.ai.kind == "guardian" then return Guardian.advance(state, enemy)
     elseif enemy.aiPhase == "sleep" then
         enemy.aiTurns = enemy.aiTurns + 1
@@ -47,6 +55,20 @@ function M.advance(state, enemy)
     else
         enemy.aiCycle = enemy.aiCycle % #enemy.ai.awakeCycle + 1
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
+    end
+end
+
+-- Ritual's first suppression and Strength growth belong to the shared round
+-- boundary, after every living enemy's action and end-of-turn effects.
+function M.endRound(state)
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.hp > 0 and enemy.ai and enemy.ai.kind == "ritual_then_attack" then
+            if enemy.ritualSkipRound then
+                enemy.ritualSkipRound = false
+            elseif (enemy.statuses.ritual or 0) > 0 then
+                Actors.status(state, enemy, "strength", enemy.statuses.ritual)
+            end
+        end
     end
 end
 
