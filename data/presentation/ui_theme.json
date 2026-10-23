@@ -108,6 +108,10 @@
     "shake": 0.15,
     "shakeAmplitude": 6,
     "enemyActionGap": 0.45,
+    "hitStop": 0.05,
+    "hitStopHeavy": 0.1,
+    "heavyHitDamage": 12,
+    "anticipation": 0.3,
     "hoverLift": 36,
     "hoverScale": 1.22
   },
