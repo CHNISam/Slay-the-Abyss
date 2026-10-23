@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-23 00:58'
+updated_date: '2026-10-23 01:36'
 labels:
   - P1
   - battle-feedback
@@ -49,4 +49,6 @@ ordinal: 38000
 最新代码ca202b8ca57a459f97b220db4cc57e5463b9f2c5，本地npm run check通过（JS180通过/14权限相关跳过，Lua189通过，Python12通过/1跳过）；正式Quality 39880758640的check/presentation均success。PR52。实际候选20Lua模块静态0错误/12自定义方法警告，结算图22节点/编辑器计数72编译写副本通过。候选SHA256 DB50892159B6F2FB3C059E3EBC1285BC451893E84EA448E873050F3BE53E7C24。首次playtest_start返回DESKTOP_BUSY（美术工作树正在使用GUI），未启动导入或试玩，不抢占。
 
 实际官方自动试玩run 49a81efb-1911-404b-922f-35001a793e82于18秒failed：无法把窗口切到前台game；steps空，无本轮日志/截图/录音，官方导入未证实，不勾AC4。按既有P0流程不循环重试焦点。可手动导入候选F:/New folder/.worktrees/combat-feedback/build/abyss-feedback-ca202b8.gil；源码/证据层次与M4缺口见docs/COMBAT_FEEDBACK.md。
+
+2026-10-23用户已实际导入并明确确认：攻击、格挡、敌方逐次行动三种反馈都看到了，音效尚未确认。MCP list_maps复读新官方存档1073741834、名称abyss-feedback-ca202b8。20个external_lua_file文件与交付代码仅差官方增加的UTF-8 BOM，去除BOM后全部内容一致。当前截图build/feedback-platform/captures/3c0ebc2e-72e6-4022-b74e-fb3ebc2bc13f.png显示真实战斗胜利及三卡奖励（生命80/80、金币114、本场+15），是静态结果证据，三项动态反馈以用户现场确认为准。音效、完整多设备/性能和特殊场景实机未验；没有新日志，仍只有06:29旧故障日志，不冒用。AC4与状态保持未完成。
 <!-- SECTION:NOTES:END -->

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 22:20'
-updated_date: '2026-10-22 23:24'
+updated_date: '2026-10-23 01:36'
 labels: []
 milestone: m-2
 dependencies:
@@ -31,4 +31,6 @@ ordinal: 35000
 
 <!-- SECTION:NOTES:BEGIN -->
 P0用户已实际导入完整v4-v6测试副本，主流程及v6正式失败结算有截图；v1/v2已复读新增存档编号与脚本/UI。当前候选SHA及证据见docs/P0-SMOKE.md，尚需对合并后的同一版本补全存档编号和配置复读记录，保持In Progress。
+
+TASK-29/PR52候选已由用户手动导入并打开，官方新存档1073741834（abyss-feedback-ca202b8），20个Lua脚本复读内容一致（仅官方UTF-8 BOM差异）。用户确认攻击/格挡/敌方逐次行动可见；当前真实胜利奖励截图和详细边界见docs/COMBAT_FEEDBACK.md。本轮无新日志，音效未确认；不据此关闭完整导入/实战验收任务。
 <!-- SECTION:NOTES:END -->
