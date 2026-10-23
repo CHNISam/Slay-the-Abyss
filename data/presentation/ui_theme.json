@@ -317,6 +317,7 @@
       "lineY": -70,
       "scale": 1.1,
       "commitOverlap": 0.25,
+      "cancelY": -185,
       "targetColumn": 220,
       "aimDots": 10,
       "aimDot": [8, 18],

@@ -786,10 +786,10 @@ test("native drag releases representative no-target rule cards into open ground 
         assert(not stage.children.dragLayer.visible and #battle.hand == 0)
     end
 end)
-test("dragging targeted cards to empty ground cancels; only the hovered live enemy is hit",function()
+test("targeted drags cancel only when pulled back into the hand; the aimed column's enemy is hit",function()
     local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
     local energy,hp1,hp2 = battle.energy,battle.enemies[1].hp,battle.enemies[2].hp
-    grab(1) event("card1","drag",-200,0) event("card1","up",-200,0)
+    grab(1) event("card1","drag",-200,0) event("card1","drag",0,-240) event("card1","up",0,-240)
     assert(#battle.hand == 1 and battle.energy == energy and not ui.busy)
     click("enemy1") -- queued release click must never select or play a target
     assert(battle.enemies[1].hp == hp1)
@@ -817,6 +817,22 @@ test("aiming parks the card below the line and the pointer's column, not a portr
     assert(#battle.hand == 0 and battle.enemies[3].hp + battle.enemies[3].block < hp[3])
     for i = 1, 5 do if i ~= 3 then assert(battle.enemies[i].hp + battle.enemies[i].block == hp[i]) end end
 end)
+test("an armed attack never falls through: open ground snaps to the nearest living enemy",function()
+    local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
+    local hp1,hp2 = battle.enemies[1].hp,battle.enemies[2].hp
+    grab(1) event("card1","drag",-200,40)
+    assert(stage.children.dragLayer.children.reticle.x == stage.children.enemy1.x)
+    event("dragLayer","up",-200,40)
+    assert(#battle.hand == 0 and battle.enemies[1].hp == hp1-6 and battle.enemies[2].hp == hp2)
+end)
+test("release jitter after crossing keeps the play armed until the card is back in the hand",function()
+    local ui,stage,click,event,grab,battle = dragBattle()
+    local box = stage.children.card1
+    grab(1) event("card1","drag",box.x,0) event("card1","drag",box.x,-170)
+    assert(stage.children.dragLayer.children.hint.text == "松手出牌")
+    event("dragLayer","up",box.x,-170)
+    assert(#battle.hand == 1 and battle.player.block == 5)
+end)
 test("a card a quarter over the gold line plays even while the pointer is still under it",function()
     local D,h = Theme.layout.cardDrag,Theme.layout.card.size[2]*Theme.layout.cardDrag.scale
     for _,over in ipairs({D.commitOverlap*h+1,D.commitOverlap*h-6}) do
@@ -834,20 +850,23 @@ test("a card a quarter over the gold line plays even while the pointer is still 
         assert(#battle.hand == (plays and 1 or 2),tostring(over))
     end
 end)
-test("hand, header, potions, end turn and off-canvas releases cancel without click-through",function()
+test("an armed card stays armed off the play area; only the hand or end turn cancel, never clicking through",function()
     for _,point in ipairs({{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
         local ui,stage,click,event,grab,battle = dragBattle()
         local uid,energy,turn = battle.hand[1].uid,battle.energy,battle.turn
+        local plays = point[2] > -185
         grab(1) event("card1","drag",point[1],point[2]) event("card1","up",point[1],point[2])
+        drain(ui) event("card1","endDrag",point[1],point[2])
         click("endTurn") click("potion1") click("card1")
-        assert(#battle.hand == 2 and battle.hand[1].uid == uid and battle.energy == energy and battle.turn == turn)
+        assert(battle.turn == turn and battle.energy == energy-(plays and 1 or 0),tostring(point[2]))
+        assert(#battle.hand == (plays and 1 or 2) and (plays or battle.hand[1].uid == uid))
         assert(ui.selected == nil and not stage.children.dragLayer.visible)
         for _ = 1, 2 do
             event("card1","down",stage.children.card1.x,stage.children.card1.y)
             event("card1","up",stage.children.card1.x,stage.children.card1.y)
             event("card1","click",stage.children.card1.x,stage.children.card1.y)
         end
-        assert(#battle.hand == 1,"a fresh tap must retain the fallback")
+        assert(#battle.hand == (plays and 0 or 1),"a fresh tap must retain the fallback")
     end
 end)
 test("drag validates current availability and ignores other touches and stale encounters",function()

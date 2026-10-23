@@ -119,31 +119,41 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step, width, portrait, step
     end
     -- Judge the card the player sees, not the pointer hidden under it: a quarter of
-    -- the dragged card above the gold line (or the pointer itself) counts as crossed.
+    -- the dragged card above the gold line (or the pointer itself) arms the play.
     local function dragPose(g)
         local origin, h = g.origin or {g.sx,g.sy}, L.card.size[2]*D.scale
         local x, y = origin[1]+g.x-g.sx, origin[2]+g.y-g.sy
-        return x, y, y+h/2-D.commitOverlap*h >= D.lineY or g.y >= D.lineY
+        return x, y, y+h/2-D.commitOverlap*h >= D.lineY or g.y >= D.lineY, y < D.cancelY
     end
-    -- Returns valid, target, aiming. Targeted cards aim once crossed; every living
-    -- enemy then owns its whole column, so the pointer never needs to hit a portrait.
+    -- Once armed, only pulling the card clearly back into the hand disarms it, so a
+    -- wobble or release jitter near the line never turns an intended play into a cancel.
+    local function arm(g)
+        local _, _, crossed, back = dragPose(g)
+        if crossed then g.armed = true elseif back then g.armed = false end
+    end
+    -- Returns valid, target, aiming. Armed targeted cards always aim: the pointer's
+    -- column wins, otherwise the nearest living enemy. A locked enemy that falls
+    -- mid-drag is never silently swapped; the player must aim at another column.
     local function dragTarget(g)
         if not dragReady(g) then return false end
         local battle = g.battle
-        local _, _, crossed = dragPose(g)
-        local inside = math.abs(g.x-D.playArea[1]) <= D.playArea[3]/2 and g.y <= D.playArea[2]+D.playArea[4]/2
         local ok, reason = Combat.canPlay(battle,g.uid,nil)
-        if ok then return crossed and inside, nil end
+        if ok then return g.armed == true, nil end
         if reason ~= "invalid_target" then return false end
-        if not (crossed and inside) then return false, nil, crossed end
-        local count, best, distance = #battle.enemies, nil, math.huge
+        if not g.armed then return false end
+        local count, column, nearest, distance = #battle.enemies, nil, nil, math.huge
         for i, enemy in ipairs(battle.enemies) do
             local x, _, _, step = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             local d = math.abs(g.x-x)
-            if d <= reach and d < distance and Combat.canPlay(battle,g.uid,i) then best, distance = i, d end
+            if Combat.canPlay(battle,g.uid,i) then
+                if d <= reach then column = i end
+                if d < distance then nearest, distance = i, d end
+            end
         end
-        return best ~= nil, best, true
+        local lost = g.lock and not (g.lock.hp > 0 and battle.enemies[g.lockIndex] == g.lock)
+        local target = column or not lost and nearest or nil
+        return target ~= nil, target, true
     end
     local function button(name, enabled, primary, caption)
         local box = child(name)
@@ -369,7 +379,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]
             layer:GetChild("hint").text = enemy and "松手攻击 · " .. enemy.name or valid and "松手出牌"
-                or aiming and "移向一名敌人瞄准；移回手牌区取消"
+                or aiming and "目标已倒下，请重新瞄准；移回手牌区取消"
                 or needsTarget(g.battle,{uid=g.uid}) and "向上拖出手牌，再瞄准敌人" or "拖过金线松手出牌；移回手牌区取消"
             -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
             local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
@@ -553,6 +563,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         g.x,g.y = x,y
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
         if g.moving then
+            arm(g)
+            local _, target = dragTarget(g)
+            if target then g.lock, g.lockIndex = g.battle.enemies[target], target end
             self.suppressClick,self.selected = true,g.uid
             self:render()
         end
