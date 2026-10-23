@@ -343,6 +343,13 @@
       "tier": "normal",
       "hp": 48,
       "hpRange": { "min": 46, "max": 50 },
+      "ai": {
+        "kind": "blue_slaver",
+        "stabIntent": "blue_slaver_1",
+        "rakeIntent": "blue_slaver_2",
+        "rollRange": 100,
+        "stabCutoff": 40
+      },
       "intents": [
         {
           "id": "blue_slaver_1",

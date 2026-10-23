@@ -152,8 +152,16 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob'], `${ap}.kind`);
-      if (a.kind === 'gremlin_nob') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver'], `${ap}.kind`);
+      if (a.kind === 'blue_slaver') {
+        keys(a, ['kind', 'stabIntent', 'rakeIntent', 'rollRange', 'stabCutoff'], ap);
+        intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');
+        intentReference(a.rakeIntent, `${ap}.rakeIntent`, 'attack');
+        if (a.stabIntent === a.rakeIntent) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.stabCutoff, `${ap}.stabCutoff`, 0, 65536);
+        if (!(a.stabCutoff < a.rollRange)) fail(`${ap}.stabCutoff`, 'cutoff must be below rollRange');
+      } else if (a.kind === 'gremlin_nob') {
         keys(a, ['kind', 'bellowIntent', 'bashIntent', 'rushIntent', 'rollRange', 'bashCutoff'], ap);
         intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
         intentReference(a.bashIntent, `${ap}.bashIntent`, 'attack');
