@@ -6,7 +6,7 @@ local Events = require("abyss_events")
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
     loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true,
-    increaseDamageThisCombat = true }
+    increaseDamageThisCombat = true, makeTempCardInDiscard = true }
 
 local function supported(effects, branch)
     if type(effects) ~= "table" then return false, "invalid_effect" end
@@ -95,6 +95,25 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             local bonus = previous + 0.0 + value
             assert(bonus < math.huge and (value == 0 or bonus > previous), "card damage growth cannot advance")
             playedCard.damageBonus = bonus
+        elseif op == "makeTempCardInDiscard" then
+            -- Bounded action ABI: fresh catalog copies, never the Run deck or
+            -- a copy of the resolving card (Anger has a separate operation).
+            assert(type(effect.card) == "string" and state.catalog.cards[effect.card], "unknown temporary card")
+            assert(type(value) == "number" and value % 1 == 0 and value >= 0 and value <= 5, "invalid temporary card count")
+            local uid = state.nextUid
+            assert(type(uid) == "number" and uid > 0 and uid < math.huge and uid % 1 == 0, "invalid nextUid")
+            local nextUid = uid + 0.0 + value
+            -- Check each increment as well as the batch before mutating piles;
+            -- binary64 may round a batch into duplicate/nonadvancing UIDs.
+            for i = 1, value do
+                assert(uid + 0.0 + i > uid + 0.0 + (i - 1), "nextUid cannot advance")
+            end
+            assert(nextUid < math.huge and nextUid - uid == value, "nextUid cannot advance")
+            for i = 0, value - 1 do
+                state.discard[#state.discard + 1] = {uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+            end
+            state.nextUid = nextUid
+            if value > 0 then Events.emit(state, "cards_created", {source = source.id, cardId = effect.card, amount = value, pile = "discard"}) end
         elseif op == "addCardToDiscard" then
             -- This operation copies the resolving card, not its catalog default.
             -- New combat-only instances must never mutate Run's permanent deck.

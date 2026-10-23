@@ -292,7 +292,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 box:GetChild("label").text = text
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
-                box:GetChild("cost").text = definition.costMode == "all_energy" and "X" or tostring(definition.cost)
+                box:GetChild("cost").text = definition.cost == -2 and ""
+                    or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
                 ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
                 tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
                 tint(box:GetChild("border"), selected and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)

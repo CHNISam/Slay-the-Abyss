@@ -9,7 +9,7 @@ const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'h
   'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength',
   'exhaustRandom', 'exhaustChoose', 'putOnDrawPile'];
 const statusOps = ['gainStatus', 'applyStatus', 'applyStatusAll', 'gainStatusPerTurn'];
-const cardOps = ['addCardToDiscard', 'addCardPerTurn'];
+const cardOps = ['addCardToDiscard', 'addCardPerTurn', 'makeTempCardInDiscard'];
 const flagOps = ['damageEqualToBlock', 'doubleBlock', 'noDrawThisTurn', 'healEqualToDamageDealt'];
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
@@ -63,16 +63,16 @@ export function validateContent(bundle) {
       const op = effect.op;
       if (!enumeration(op, [...valueOps, ...statusOps, ...cardOps, ...flagOps, 'conditional'], `${p}.op`)) return;
       const allowed = ['op'];
-      if (valueOps.includes(op) || statusOps.includes(op) || op === 'addCardPerTurn') allowed.push('value');
+      if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
       if (statusOps.includes(op) || op === 'gainTemporaryStrength') allowed.push('status');
       if (cardOps.includes(op)) allowed.push('card');
       if (op === 'conditional') allowed.push('if', 'then');
       if (['damage', 'damageAll'].includes(op)) allowed.push('times');
       if (op === 'discardRandom') allowed.push('mayChoose');
       keys(effect, allowed, p);
-      if (valueOps.includes(op) || statusOps.includes(op) || op === 'addCardPerTurn') {
+      if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);
-        integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0);
+        integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0, op === 'makeTempCardInDiscard' ? 5 : Number.MAX_SAFE_INTEGER);
       }
       if (statusOps.includes(op)) reference(effect.status, 'statuses', `${p}.status`);
       if (op === 'gainTemporaryStrength') {
@@ -92,8 +92,13 @@ export function validateContent(bundle) {
     if (!object(card, path)) return;
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
     if (!partial || card.rarity !== undefined) enumeration(card.rarity, ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
-    if (!partial || card.cost !== undefined) integer(card.cost, `${path}.cost`, 0, 5);
-    if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`);
+    const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
+    if (!unplayableStatus && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
+    if (unplayableStatus) {
+      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'unplayable status must have empty use');
+      if (card.costMode !== undefined) fail(`${path}.costMode`, 'unplayable status has no cost mode');
+      if (card.upgrade !== undefined) fail(`${path}.upgrade`, 'unplayable status upgrades are unsupported');
+    } else if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`);
     if (card.condition !== undefined) enumeration(card.condition, ['only_attacks_in_hand'], `${path}.condition`);
     if (card.costMode !== undefined) enumeration(card.costMode, ['all_energy'], `${path}.costMode`);
     for (const flag of ['exhaust', 'ethereal', 'innate', 'repeatable']) {

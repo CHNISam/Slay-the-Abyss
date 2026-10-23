@@ -57,6 +57,21 @@ end
 local count = 0
 local function test(name, fn) fn() count=count+1 print("ok UI " .. count .. " - " .. name) end
 
+test("Dazed uses existing status art disabled theme blank cost and cannot command play", function()
+    local ui,stage,click=setup()
+    ui.run=Run.new(Data,42)
+    ui.run.deck={{uid=1,cardId="dazed",upgraded=false}}
+    assert(Run.startCombat(ui.run,"cultist_solo"));ui:render()
+    local card=stage.children.card1.children
+    assert(card.name.text==Presentation.dazed.name and card.cost.text=="" and card.type.text=="状态")
+    assert(card.art.imageId==Theme.icon.cardArt.status)
+    assert(card.artPlate.imageColor.r==Theme.color.panelSunken.r)
+    assert(card.border.imageColor.r==Theme.color.line.r)
+    local battle,energy=ui.run.combat,ui.run.combat.energy
+    click("card1");click("enemy1");assert(ui.selected==nil)
+    assert(battle.energy==energy and #battle.hand==1 and #battle.discard==0)
+end)
+
 test("menu starts a real battle with shared-theme cards, energy and current intents", function()
     local ui, stage, click = setup()
     assert(ui.run == nil and stage.children.start.visible and not stage.children.card1.visible)

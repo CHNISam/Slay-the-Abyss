@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 09:28'
+updated_date: '2026-10-23 09:40'
 due_date: '2026-10-28'
 labels:
   - required
@@ -51,6 +51,8 @@ random_float候选切片（基线94c1045）：核实固定STS Random与官方lib
 2026-10-23 死后已排队Roll片：固定RollMoveAction/Thorns/DamageAction/clearPostCombatActions/MonsterGroup链，区分同伴存活和末敌；真实Combat受控RNG红例后新增EnemyAI.afterAction，仅已核实Roll策略在行动后反伤致死且战斗未完时消费，毒死/末敌不消费。
 
 2026-10-23 死后排队ApplyPower片：固定Fat/Blue/Nob takeTurn及Damage/ApplyPower/GainBlock动作guard，保留公开card/potion source-dead保护，仅endTurn私有resolver传瞬时queued上下文；反伤死后战斗继续时只对live player执行单目标applyStatus，末敌/毒死清队列，其它payload不扩张。
+
+Dazed独立7b1236f：状态/common/-2/empty use/ethereal，生成已知card到discard顶部fresh UID，候选ABI0..5原子预检，canPlay拒绝与reward/shop按type排除，平台UI复用批准稿。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -73,4 +75,6 @@ PR100轮末状态片已squash合develop14979df；下一批同步保留该修复�
 709dffe独立增量：新19例9过10败，最终20新状态专项及相关223组定向全绿。真实Fat gang轨迹damage4→Thorns死亡→Weak1；Nob死后Vulnerable使下名Blue Stab18、80→56；实际Strike受Weak只4并后轮衰减。公开M.applyEffects默认guard、atomic monkeypatch/回滚、药水槽位/溢出原子、unknown op错误和context恢复均保留。无data/Inventory/RNG变更，未全量/平台。来源、瞬时上下文边界和未支持队列见QUEUED_ENEMY_STATUS_AFTER_DEATH.md；root需组合Fat rolled_attack/Sneaky opening_roll_attack，不宣称全部动作队列或原版RNG一致。
 
 第二批root d3e9d76全量check exit0，JS643/528pass115skip、全部Lua、Python15pass1权限skip。死后Roll扩展Spike/Fat矩阵21组，queuedStatus20组，独立复审83组子集过；浮点包装候选Java132向量及52 Math.fround复核仍仅工具候选，不接生产。一次超时和Fat fixture身份冲突均留日志并修复后全量重跑，无预算放宽或弱化断言；完整动作队列/原版RNG/实机仍未通过。
+
+Dazed7b真实入口21组先红后绿，8Lua262/JS65/Python15pass1权限skip，无full/platform；root只读复审及独立21专项/14schema打包/3临时probe通过：hand10仍discard+2 UID11/12、卡牌快照双向隔离、deadsource跳过但后续Spike仍行动。固定来源hash重取吻合；>=6仅当前ABI拒绝，不宣称原版不生成。source接口与后续Sentry/Artifact分开交付，严格AC保留。
 <!-- SECTION:NOTES:END -->
