@@ -6,6 +6,7 @@ local Guardian = require("abyss_guardian_ai")
 local JawWorm = require("abyss_jaw_worm_ai")
 local GremlinNob = require("abyss_gremlin_nob_ai")
 local BlueSlaver = require("abyss_blue_slaver_ai")
+local AcidSlimeS = require("abyss_acid_slime_s_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -24,6 +25,7 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
     if enemy.ai.kind == "gremlin_nob" then return GremlinNob.initialize(state, enemy, random) end
     if enemy.ai.kind == "blue_slaver" then return BlueSlaver.initialize(state, enemy, random) end
+    if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
@@ -55,6 +57,7 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
     elseif enemy.ai.kind == "gremlin_nob" then return GremlinNob.advance(state, enemy, random)
     elseif enemy.ai.kind == "blue_slaver" then return BlueSlaver.advance(state, enemy, random)
+    elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
     elseif enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)

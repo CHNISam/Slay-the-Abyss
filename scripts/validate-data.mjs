@@ -152,8 +152,13 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver'], `${ap}.kind`);
-      if (a.kind === 'blue_slaver') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s'], `${ap}.kind`);
+      if (a.kind === 'acid_slime_s') {
+        keys(a, ['kind', 'tackleIntent', 'weakIntent', 'rollRange'], ap);
+        intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
+        intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+      } else if (a.kind === 'blue_slaver') {
         keys(a, ['kind', 'stabIntent', 'rakeIntent', 'rollRange', 'stabCutoff'], ap);
         intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');
         intentReference(a.rakeIntent, `${ap}.rakeIntent`, 'attack');

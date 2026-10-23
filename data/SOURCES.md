@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-23 小型酸液团A0切片：固定社区AcidSlime_S与Random方法体核查HP8–12、基础攻击3/Weak1，开场先消耗主roll再额外Boolean选择动作，之后严格交替而不再roll。来源hash、9组独立回归及共享LCG/布尔适配限制见[专项账本](../docs/reviews/TASK-15-acid-slime-s-ai.md)。没有分裂或继承中毒实现，不是官方源码、原作PC或平台实测；旧固定HP/首动说明对此敌人已被覆盖。
+
 2026-10-23 蓝衣束缚者A0选招切片：复核固定社区SlaverBlue方法体后保留已实现HP46–50、Stab12、Rake7后Weak1；新增随机首动与40边界选招、双动作均不连续三次、历史强制仍消耗主roll。来源hash、900组受控输入及共享LCG/Weak时序限制见[专项账本](../docs/reviews/TASK-15-blue-slaver-ai.md)。不是官方源码、原作PC或平台实测；旧固定循环说明对此敌人已被覆盖。
 
 2026-10-23 怒焰巨魔A0生产切片：固定社区反编译镜像核查HP82–86、开场Enrage2、Skull Bash基础6后易伤2、Bull Rush基础14；按33边界选择攻击，Bull Rush不连续三次，技能牌在效果前触发力量。来源文件hash、队列次序、900组受控决策和共享LCG等剩余差异见[专项账本](../docs/reviews/TASK-15-gremlin-nob-ai.md)。不是官方源码、原作PC或平台实测；旧固定循环说明对此敌人不再适用。

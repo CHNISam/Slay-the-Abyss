@@ -6,7 +6,7 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 08:32'
+updated_date: '2026-10-23 08:39'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -46,6 +46,8 @@ ordinal: 15000
 2026-10-23 独立切片 codex-enemy-parity（feat/continue-enemy-parity，基线52f35dd）：固定社区源码核查 Gremlin Nob A0 与 AngerPower；先写真正 Combat 入口红测，再实现 HP82–86、首动 Enrage2、33边界攻击/易伤与连续限制；沿 EnemyAI 现有钩子接技能反应，验证schema与集成回归。不碰 Combat/Inventory，不开游戏或 live MCP；全池和平台AC保留。
 
 2026-10-23 独立切片 codex-enemy-parity / feat/continue-blue-slaver，暂依赖Nob 2a86eaa：固定社区SlaverBlue源码核查A0 HP46–50、40边界选招、双动作不连三及首动随机请求；先独立Combat红测，再加Blue专属AI与hpRange，保留既有Rake7后Weak1动作值与共享状态时序；定向schema/AI/可达覆盖，不重跑全量；不碰Combat/Inventory、不启动游戏/MCP，原版RNG/平台AC保留。
+
+2026-10-23 连续切片 codex-enemy-parity / Acid Slime S，基线ade3bb5：固定AcidSlime_S与Random源码核查A0 HP8–12、开场主roll后Boolean额外抽样、后续Tackle3/Weak1严格交替且不再roll；先独立Combat红测再专属AI接线、schema及18遭遇可达覆盖。不碰Combat/Actor/Inventory，不改共享Weak时序，不涉及分裂，所有原版RNG与平台AC保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -77,4 +79,6 @@ ordinal: 15000
 执行者 codex-enemy-parity 已核查 aeubanks/sts@319009d SlaverBlue.java，SHA256 A523E2AE8A5B598AD19AF3460A28F13B8BC47152501F9B4E61F46F732D869206。来源为未与正版PC构建hash认证的社区反编译镜像，非官方源码或PC实测。
 
 2026-10-23 codex-enemy-parity / feat/continue-blue-slaver：固定SlaverBlue@319009d复核并新增A0随机首动、40边界和双动作均禁三连；历史强制分支仍消费主roll；原HP46–50与Stab12/Rake7后Weak1保留，未改Combat/Inventory/Actor。9组AI红7→全绿含900受控roll/历史、消费次数、死亡、实例和回滚；既有动作9组原样通过。相关schema与打包53项通过；18遭遇/256种子可达与129组真实Run覆盖通过；build:data、validate:data、定向JS语法与diff检查通过。未重跑本片全量check，主线程统一整合复验。证据docs/reviews/TASK-15-blue-slaver-ai.md；共享16位LCG/独立随机流、Weak共享时序及PC二进制真实性仍未验证，所有全池/平台AC保留，未游戏/MCP/编译或写入存档。
+
+2026-10-23 codex-enemy-parity / Acid Slime S增量，基线ade3bb5：固定AcidSlime_S与Random源码核查并独立实现HP8–12、开场主roll后额外Boolean、攻击3/Weak1后续严格交替且不再AI抽样；不涉及分裂或继承中毒，不改Combat/Actor/Inventory。新增9组真实Combat/Run先5红后全绿；8项schema加现有共61项JS通过；既有Blue9/Nob12组通过；18遭遇/256种子可达、23敌人53意图124组覆盖通过；build:data/validate:data/定向JS语法/diff通过。来源hash和共享LCG/Boolean适配局限见docs/reviews/TASK-15-acid-slime-s-ai.md。未跑本片全量check，由主线程最终组合；工作树尚不含root的Weak调度整合，但本增量不碰或恢复该文件。不开游戏/MCP、不编译或写入存档，原版PC真实性与所有全池/平台AC保留。
 <!-- SECTION:NOTES:END -->
