@@ -163,10 +163,18 @@ test("block gain crystallises in with a block icon pop and cue", function()
     local h = harness({"defend"}, {"jaw_worm"})
     h.play() h.until_(kind("block"))
     local shield = h.part("hero", "shield")
-    assert(shield.visible and shield.localScaleX > 1 and h.part("hero", "blockIcon").localScaleX > 1)
+    assert(shield.visible and shield.localScaleX > 1)
+    for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+        local badge = h.part("hero", name)
+        assert(badge.localScaleX == 1 and badge.localScaleY > 1, "badge pops vertically inside its HP lane")
+    end
     assert(h.sounds[#h.sounds] == "block_gain")
     h.drain()
-    assert(h.part("hero", "blockIcon").localScaleX == 1 and not shield.visible)
+    for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+        local badge = h.part("hero", name)
+        assert(badge.localScaleX == 1 and badge.localScaleY == 1, "badge resets both axes")
+    end
+    assert(not shield.visible)
 end)
 
 test("enemy action: banner, windup, lunge on contact, fully blocked hit shudders without shake, then recover", function()
