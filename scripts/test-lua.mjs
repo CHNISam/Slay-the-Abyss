@@ -14,10 +14,12 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   const cli = require.resolve('fengari-node-cli/src/lua-cli.js');
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
-  const fixture = script.replaceAll('\\', '/').endsWith('tests/lua/battle_ui.lua');
-  // The full native-tree feedback/drag fixture exceeded 15s twice on the Windows
-  // runner. Keep a finite 30s budget for it; other scripts retain 15s by default.
-  timeout ??= fixture ? 30000 : 15000;
+  const normalizedScript = script.replaceAll('\\', '/');
+  const fixture = normalizedScript.endsWith('tests/lua/battle_ui.lua');
+  // Quality runs 39982640775/39985958741 timed out in three different fixtures
+  // (battle UI, game UI, encounter coverage). Allow 30s per independent script,
+  // 60s for the full battle tree; assertions and explicit caller limits remain.
+  timeout ??= fixture ? 60000 : 30000;
   const temporary = fixture ? join(tmpdir(), `abyss-ui-test-${randomUUID()}.lua`) : null;
   if (temporary) writeFileSync(temporary, `ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\ndofile(${luaString(resolve(cwd, script))})\n`);
   let result;
@@ -25,7 +27,15 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
     cwd, encoding: 'utf8', timeout, maxBuffer: 1024 * 1024,
     env: { ...process.env, LUA_PATH: './build/lua/?.lua;./src/lua/?.lua;;', LUA_PATH_5_3: './build/lua/?.lua;./src/lua/?.lua;;', LUA_INIT: '', LUA_INIT_5_3: '' }
   }); } finally { if (temporary) unlinkSync(temporary); }
-  if (result.error) throw new Error(`Lua runner failed (${script}, ${timeout} ms): ${result.error.message}`, { cause: result.error });
+  if (result.error) {
+    // Keep the last completed groups visible on timeout in both CLI and node:test.
+    // The child is still a failure, with its original error retained as the cause.
+    const output = [
+      result.stdout ? `\n--- Lua stdout ---\n${result.stdout}` : '',
+      result.stderr ? `\n--- Lua stderr ---\n${result.stderr}` : '',
+    ].join('');
+    throw new Error(`Lua runner failed (${script}, ${timeout} ms): ${result.error.message}${output}`, { cause: result.error });
+  }
   if (result.signal) throw new Error(`Lua runner terminated by ${result.signal}`);
   return result;
 }
@@ -36,9 +46,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       .filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
     if (!scripts.length) throw new Error('No Lua test files discovered');
     for (const script of scripts) {
+      const startedAt = Date.now();
       const result = runLua(script);
       process.stdout.write(result.stdout);
       process.stderr.write(result.stderr);
+      console.log(`Lua fixture ${script}: ${Date.now() - startedAt} ms`);
       if (result.status !== 0) { process.exitCode = result.status ?? 1; break; }
     }
   } catch (error) { console.error(error.message); process.exitCode = 1; }

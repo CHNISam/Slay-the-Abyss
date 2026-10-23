@@ -1,0 +1,488 @@
+{
+  "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+  "candidateSha256": "8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288",
+  "importedSaveId": "1073741838",
+  "snapshotSha256": "037babcb72d4e13ee29ebb99f473377a333f2f252d29c59d00edd62d48f45e67",
+  "snapshotBytes": 1667743,
+  "officialHashesStable": true,
+  "expectedModuleCount": 32,
+  "actualModuleCount": 32,
+  "modules": [
+    {
+      "name": "abyss_data",
+      "file": "abyss_data.lua",
+      "expectedSha256": "b086e98d5099d752c5c9d172d80a6ca8e2bee45a2788d001956aeaf4b9283eea",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_map_layout",
+      "file": "abyss_map_layout.lua",
+      "expectedSha256": "353384c6d7634c48fd8fc9d47d75cf3871eb45f6b04cd0ae7c973c961b44f1ab",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_narrative",
+      "file": "abyss_narrative.lua",
+      "expectedSha256": "109f55e8252af0b293700f9e73e6bb5a4f55af2b4dcfd870df34fe6779f2bd38",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_presentation",
+      "file": "abyss_presentation.lua",
+      "expectedSha256": "a32d25608e3785c9e8a5724895c7a482fcd8bbe0cee81b85a69ab6fcc18714cb",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_theme",
+      "file": "abyss_theme.lua",
+      "expectedSha256": "6f4fcfc24d1e86034e177bb3e2a5ddc7911ac234decc5ee3e31a842e6e4c73ed",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_acid_slime_s_ai",
+      "file": "abyss_acid_slime_s_ai.lua",
+      "expectedSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_actor",
+      "file": "abyss_actor.lua",
+      "expectedSha256": "8c95eb4c7cecbf69a28c32229039d0e4ffc171d29c2ba47c03b5416d8610a35c",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_battle_ui",
+      "file": "abyss_battle_ui.lua",
+      "expectedSha256": "378b22ea91de31ef95fc0895cd1aff38ecc7427c1145d51abded2d2e46608c79",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_bgm",
+      "file": "abyss_bgm.lua",
+      "expectedSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_blue_slaver_ai",
+      "file": "abyss_blue_slaver_ai.lua",
+      "expectedSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_combat",
+      "file": "abyss_combat.lua",
+      "expectedSha256": "25db974f829a0f591e90f150ccc9623f127c0bcce9dc95182a5deb9b48cdfa2f",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_deck_ui",
+      "file": "abyss_deck_ui.lua",
+      "expectedSha256": "e592e66116682f1c5ea0cd4fb1df53be85e076d22ce6f74e9035fe82e3284d1d",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_effects",
+      "file": "abyss_effects.lua",
+      "expectedSha256": "43cd2f91556cfdfbf90267292e0feadc91e96eb508cef13b4edc14dd90e92fbe",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_enemy_ai",
+      "file": "abyss_enemy_ai.lua",
+      "expectedSha256": "0f18f349f99c8603e4c8e066b214e61324f3734167a0a321d159f902b40e7680",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_events",
+      "file": "abyss_events.lua",
+      "expectedSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_feedback",
+      "file": "abyss_feedback.lua",
+      "expectedSha256": "f54f788ea2d033f491196aee430b6ab52dfa82c367778f1f204ffdde282494d7",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_game_ui",
+      "file": "abyss_game_ui.lua",
+      "expectedSha256": "887eeae7afbcb1c756c1a7ef42312c7ecca06dff86b606907252134a79ad1b48",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_gremlin_nob_ai",
+      "file": "abyss_gremlin_nob_ai.lua",
+      "expectedSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_guardian_ai",
+      "file": "abyss_guardian_ai.lua",
+      "expectedSha256": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_inventory",
+      "file": "abyss_inventory.lua",
+      "expectedSha256": "942f72c51275428eb2d3d9de48f70166b7380202c9f47baf8db9bf8067fb6795",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_jaw_worm_ai",
+      "file": "abyss_jaw_worm_ai.lua",
+      "expectedSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_map",
+      "file": "abyss_map.lua",
+      "expectedSha256": "6b4876bb1764644474642476eb6414919c879ed92425e0dee8f96ffccce83d2c",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_map_ui",
+      "file": "abyss_map_ui.lua",
+      "expectedSha256": "c9850d16259293ae98716caa3e9f736ed69013a5eb57fde419e6ff82b4f63fcd",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_node_ui",
+      "file": "abyss_node_ui.lua",
+      "expectedSha256": "040b18c7718ba80758ff86f41094fd755348598596a32dddf14e230d9ea8053a",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_nodes",
+      "file": "abyss_nodes.lua",
+      "expectedSha256": "5ec8f61ea5aaed76a24a8a2d7083750fa800902d3bcf18de9c38eac652c0e42e",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_random",
+      "file": "abyss_random.lua",
+      "expectedSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_red_slaver_ai",
+      "file": "abyss_red_slaver_ai.lua",
+      "expectedSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_run",
+      "file": "abyss_run.lua",
+      "expectedSha256": "b0a603ef63c84e940d664b40ab03f4afc9837700a7afa3ee8d59c35a251245d6",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_sentry_ai",
+      "file": "abyss_sentry_ai.lua",
+      "expectedSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_ui",
+      "file": "abyss_ui.lua",
+      "expectedSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_unknown",
+      "file": "abyss_unknown.lua",
+      "expectedSha256": "c020229f7e1cffe57df3fc28b74ba86d795341a9729bc515a6417e5faea1d370",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    },
+    {
+      "name": "abyss_viewport",
+      "file": "abyss_viewport.lua",
+      "expectedSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "embeddedMatches": true,
+      "externalMatches": true,
+      "externalStableDuringCopy": true
+    }
+  ],
+  "checks": {
+    "moduleCount32": true,
+    "embeddedAndExternalModules": true,
+    "ui": true,
+    "template": true,
+    "sceneConfiguration": true,
+    "allEntityGraphMounts": true,
+    "graphIdentityAndNodeCount": true,
+    "candidateUnchanged": true,
+    "snapshotUnchanged": true
+  },
+  "differences": {
+    "ui": [],
+    "template": [],
+    "scene": [],
+    "mounts": [],
+    "graphIdentity": []
+  },
+  "uiControls": 1695,
+  "cameras": [
+    {
+      "cameraId": 1073741825,
+      "name": "自定义镜头",
+      "distance": 6,
+      "fieldOfView": 45,
+      "yawRange": [
+        null,
+        null
+      ],
+      "pitchRange": [
+        55,
+        55
+      ],
+      "fixedView": {
+        "yaw": 0,
+        "pitch": 55,
+        "ignoreCollision": true
+      }
+    }
+  ],
+  "players": {
+    "min": 1,
+    "max": 1
+  },
+  "respawnPoints": [
+    {
+      "respawnId": 1,
+      "pointId": 1073741825,
+      "name": "AbyssSpawnRespawn",
+      "position": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "spawnPoints": [
+    {
+      "pointId": 1073741825,
+      "name": "新建预设点",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "spawn": true
+    }
+  ],
+  "factions": [
+    {
+      "factionId": 1,
+      "name": "初始玩家阵营",
+      "hostileTo": [
+        3
+      ],
+      "friendlyTo": [
+        2
+      ],
+      "playerSlots": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "factionId": 2,
+      "name": "初始物件阵营",
+      "hostileTo": [],
+      "friendlyTo": [
+        1,
+        3
+      ],
+      "playerSlots": []
+    },
+    {
+      "factionId": 3,
+      "name": "初始造物阵营",
+      "hostileTo": [
+        1
+      ],
+      "friendlyTo": [
+        2
+      ],
+      "playerSlots": []
+    }
+  ],
+  "entityCount": 11,
+  "graphMounts": [
+    {
+      "id": 1094713345,
+      "name": "关卡实体",
+      "graphMounts": [
+        {
+          "graphId": 1073741825,
+          "category": 20000,
+          "enabled": 1
+        }
+      ]
+    },
+    {
+      "id": 1086324737,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1090519041,
+      "name": "默认模版(角色编辑)",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324738,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324739,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324740,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324741,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324742,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324743,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324744,
+      "name": "默认模版",
+      "graphMounts": []
+    },
+    {
+      "id": 1086324745,
+      "name": "默认模版",
+      "graphMounts": []
+    }
+  ],
+  "graphs": [
+    {
+      "id": 1073741825,
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "type": 20000,
+      "nodeCount": 22
+    }
+  ],
+  "candidateFullGraphPayload": {
+    "ok": true,
+    "graphs": [
+      {
+        "graphId": "1073741825",
+        "ok": true,
+        "sha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b"
+      }
+    ],
+    "issues": []
+  },
+  "officialGraphPayload": {
+    "status": "NOT_CERTIFIED",
+    "nodePayloadObservations": [
+      {
+        "id": 1073741825,
+        "name": "_GSTS_ABYSS_SETTLEMENT",
+        "sourceNodePayloadHash": "97bf143608dfb827e9212596427100c903babf38fe2ae37ba4b385fd18357fe3",
+        "importedNodePayloadHash": "9943c204d6505b2627786a95c24aaf8f286b6237bdd5959ef989212a258fcdd9",
+        "nodePayloadHashEqual": false,
+        "scope": "Adapter node-payload hash only; no strict full raw payload or lossless official roundtrip certification."
+      }
+    ],
+    "note": "Official reserialization differs; full official serialized payload equivalence is not certified. Candidate compile/payload audit and imported graph identity/count/mount checks remain separate."
+  },
+  "ok": true,
+  "provenance": {
+    "report": ".artifacts/m1-live-5165a78/import-readback/report.json",
+    "frozenSave": ".artifacts/m1-live-5165a78/import-readback/imported-1073741838.gil",
+    "frozenExternal": ".artifacts/m1-live-5165a78/import-readback/external_lua_file"
+  },
+  "scope": "Read-only import identity/source/UI/template/configuration and graph mount readback from frozen official snapshot. Only BOM and CRLF normalized in Lua. Does not certify physical spawn safety, camera framing, gameplay, fresh logs, device input, or full serialized graph payload equivalence. Active game run is owned by the parent agent."
+}

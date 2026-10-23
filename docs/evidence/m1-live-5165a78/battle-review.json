@@ -1,0 +1,368 @@
+{
+  "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+  "candidateSha256": "8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288",
+  "runId": "9bb0abe3-9602-418b-a729-25fc739523c2",
+  "importedSaveId": "1073741838",
+  "reviewedScreenshotCount": 16,
+  "archivedScreenshotCount": 10,
+  "reviewedScreens": [
+    {
+      "label": "first-battle",
+      "sha256": "f5b111936a7f66c1fc67ec6d35f5ee506b3086466b14cd5de15411ac59a0b566",
+      "capturedAtUnixMs": 1792771821709,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/first-battle-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/first-battle-0.png"
+    },
+    {
+      "label": "bash-select",
+      "sha256": "a984e04301b55753d2436dc30e9aec8731a3f6d179ee0da1fb74552dc63f72ac",
+      "capturedAtUnixMs": 1792771848380,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/bash-select-0.png"
+    },
+    {
+      "label": "bash-left",
+      "sha256": "0718062a647edb4a85df58f72f632f160a2f2eaecc0d03e3855eaec187816487",
+      "capturedAtUnixMs": 1792771871754,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/bash-left-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/bash-left-0.png"
+    },
+    {
+      "label": "strike-left",
+      "sha256": "05d82cc105bb95b9ae8482b7b014c423585e9e58fcbf1a2b3cbea5790b8f1d72",
+      "capturedAtUnixMs": 1792771911214,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/strike-left-0.png"
+    },
+    {
+      "label": "end-turn-one",
+      "sha256": "905a93d3627d8e7075ea4ff1d6fc0d5eb7ab00b3afbe00527ce3d0a8df9bed9a",
+      "capturedAtUnixMs": 1792771928704,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/end-turn-one-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/end-turn-one-0.png"
+    },
+    {
+      "label": "second-hand",
+      "sha256": "7858d530bedea685270aa7aafc47b5dc0948fbc4ab57432d20c6c5d6efe0a6dc",
+      "capturedAtUnixMs": 1792771945981,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/second-hand-0.png"
+    },
+    {
+      "label": "defend-two",
+      "sha256": "aed70a6f92ee0558b1245add06a6095401ce2e59c2af59b458cc9c00e5ae090a",
+      "capturedAtUnixMs": 1792771980572,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/defend-two-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/defend-two-0.png"
+    },
+    {
+      "label": "strike-blue-one",
+      "sha256": "4ed522d00a324ce7212aa5bbe94e86b07118ef59025845655a6ce735228a6afc",
+      "capturedAtUnixMs": 1792772021268,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/strike-blue-one-0.png"
+    },
+    {
+      "label": "drag-strike-blue",
+      "sha256": "524a30dd3d8adce620b1cb36bfbf37fee810001cb0eefe073a0133d7d42f48b7",
+      "capturedAtUnixMs": 1792772044355,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/drag-strike-blue-0.png"
+    },
+    {
+      "label": "third-hand",
+      "sha256": "3b816b8ea9f0393351a7ebad1224cb6a8f88f06dc96029fc6958b72d9768e8b1",
+      "capturedAtUnixMs": 1792772084829,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/third-hand-0.png"
+    },
+    {
+      "label": "defend-three",
+      "sha256": "bc5fe77f86624bcfca483d1311b7228e0ae729abc7b4a3be7d3e0d4c6a91062d",
+      "capturedAtUnixMs": 1792772112436,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/defend-three-0.png"
+    },
+    {
+      "label": "fourth-hand",
+      "sha256": "e6c65def2afad0027edbbd22b62f5b7cea32c151140d39c5cfa378c3e8011838",
+      "capturedAtUnixMs": 1792772146697,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/fourth-hand-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/fourth-hand-0.png"
+    },
+    {
+      "label": "finishing-strike",
+      "sha256": "d5bf4d8adb3730b38d9a05ef76d08f9f956924293187c35b99492cc905bed74a",
+      "capturedAtUnixMs": 1792772165878,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/finishing-strike-0.png"
+    },
+    {
+      "label": "rewards",
+      "sha256": "a4fcc2031071671cea65b04b403fc6ec6bb8cddae14c09606ce8e655d94dbfcc",
+      "capturedAtUnixMs": 1792772182075,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/rewards-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/rewards-0.png"
+    },
+    {
+      "label": "take-flex",
+      "sha256": "29105925ff9f9fe4b1ff07847bd718d59f7c7b97dfa1c9dad0aab26890a57abe",
+      "capturedAtUnixMs": 1792772266309,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/take-flex-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/take-flex-0.png"
+    },
+    {
+      "label": "shop-enter",
+      "sha256": "78fe2733917bfdccb1c1433af335912db2e481e95b313e68686d5816810ec750",
+      "capturedAtUnixMs": 1792772333130,
+      "reviewerPersonallyViewed": true,
+      "archivedFile": "docs/evidence/m1-live-5165a78/screens/shop-enter-0.png",
+      "sourceArtifact": ".artifacts/m1-live-5165a78/shop-enter-0.png"
+    }
+  ],
+  "archivedScreens": [
+    {
+      "label": "game-menu",
+      "file": "docs/evidence/m1-live-5165a78/screens/game-menu-0.png",
+      "sha256": "987aa321c002786f0daa932274e7376c7106bbb5220686448bfb83ec41321ef6",
+      "capturedAtUnixMs": 1792771680896,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/game-menu-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/game-menu.json",
+      "captureId": "668ceb3b-48dc-49c9-9265-ad414b5c3822",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/0a7a1770-190b-402e-b92d-827c7772b11a.png",
+      "reviewedByBattleReviewer": false,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "first-battle",
+      "file": "docs/evidence/m1-live-5165a78/screens/first-battle-0.png",
+      "sha256": "f5b111936a7f66c1fc67ec6d35f5ee506b3086466b14cd5de15411ac59a0b566",
+      "capturedAtUnixMs": 1792771821709,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/first-battle-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/first-battle.json",
+      "captureId": "24f41a41-4bc1-4d33-b940-4a95990d89f5",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/975e55ba-08fe-4842-9ab1-e97e139b6264.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "bash-left",
+      "file": "docs/evidence/m1-live-5165a78/screens/bash-left-0.png",
+      "sha256": "0718062a647edb4a85df58f72f632f160a2f2eaecc0d03e3855eaec187816487",
+      "capturedAtUnixMs": 1792771871754,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/bash-left-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/bash-left.json",
+      "captureId": "9afedf3c-ca73-4cf2-a840-b604deed0941",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/469057e0-08c4-4cee-9cea-54782644fcdb.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "end-turn-one",
+      "file": "docs/evidence/m1-live-5165a78/screens/end-turn-one-0.png",
+      "sha256": "905a93d3627d8e7075ea4ff1d6fc0d5eb7ab00b3afbe00527ce3d0a8df9bed9a",
+      "capturedAtUnixMs": 1792771928704,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/end-turn-one-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/end-turn-one.json",
+      "captureId": "60408ef8-5054-459f-a520-75cf95142ed9",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/e574fc8f-4d38-4c76-ac12-451760dc25a8.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "defend-two",
+      "file": "docs/evidence/m1-live-5165a78/screens/defend-two-0.png",
+      "sha256": "aed70a6f92ee0558b1245add06a6095401ce2e59c2af59b458cc9c00e5ae090a",
+      "capturedAtUnixMs": 1792771980572,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/defend-two-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/defend-two.json",
+      "captureId": "06cea4ff-8fd8-499a-8ee5-e12187ba8ebe",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/05abef72-5d3c-4bcb-b7d3-7d373292079a.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "fourth-hand",
+      "file": "docs/evidence/m1-live-5165a78/screens/fourth-hand-0.png",
+      "sha256": "e6c65def2afad0027edbbd22b62f5b7cea32c151140d39c5cfa378c3e8011838",
+      "capturedAtUnixMs": 1792772146697,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/fourth-hand-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/fourth-hand.json",
+      "captureId": "dd3827d2-5cf6-4b51-90fd-ec700141e036",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/bddb691b-6b18-4396-bac7-467148e04bc7.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "rewards",
+      "file": "docs/evidence/m1-live-5165a78/screens/rewards-0.png",
+      "sha256": "a4fcc2031071671cea65b04b403fc6ec6bb8cddae14c09606ce8e655d94dbfcc",
+      "capturedAtUnixMs": 1792772182075,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/rewards-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/rewards.json",
+      "captureId": "24406a63-5a1b-4235-b347-35c8b33ca93e",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/e78bc5e0-2c61-4afd-8f72-832b3f5f596c.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "take-flex",
+      "file": "docs/evidence/m1-live-5165a78/screens/take-flex-0.png",
+      "sha256": "29105925ff9f9fe4b1ff07847bd718d59f7c7b97dfa1c9dad0aab26890a57abe",
+      "capturedAtUnixMs": 1792772266309,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/take-flex-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/take-flex.json",
+      "captureId": "906e3966-2ffe-4681-84aa-a71f86542571",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/697147a5-4318-48f1-81d1-28fc5330fcf5.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "shop-enter",
+      "file": "docs/evidence/m1-live-5165a78/screens/shop-enter-0.png",
+      "sha256": "78fe2733917bfdccb1c1433af335912db2e481e95b313e68686d5816810ec750",
+      "capturedAtUnixMs": 1792772333130,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/shop-enter-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/shop-enter.json",
+      "captureId": "2b169873-2dfd-4efd-935e-bdac4864d7b1",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/c8dcc76a-f167-4959-8b0d-2679be55b99a.png",
+      "reviewedByBattleReviewer": true,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    },
+    {
+      "label": "deck-cancel",
+      "file": "docs/evidence/m1-live-5165a78/screens/deck-cancel-0.png",
+      "sha256": "c682c917e2c56f7856e3b2d4312ede67058a50f632dc39b44d6816bc0950c8b1",
+      "capturedAtUnixMs": 1792772433991,
+      "windowTitle": "原神",
+      "foregroundAtCapture": true,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/deck-cancel-0.png",
+      "sourceMetadataArtifact": ".artifacts/m1-live-5165a78/deck-cancel.json",
+      "captureId": "6ab61562-a34f-49ba-b5ee-197544d5a4f0",
+      "originalCaptureArtifact": ".artifacts/m1-live-5165a78/captures/c964b90b-4a70-483b-bd91-d507c98e05a9.png",
+      "reviewedByBattleReviewer": false,
+      "warning": "Screenshot and metadata are evidence; inputSent alone is not acceptance."
+    }
+  ],
+  "acceptanceEvidence": {
+    "1": "sufficient evidence",
+    "2": "sufficient evidence for this PC battle",
+    "3": "sufficient evidence with recorded limitations"
+  },
+  "importAcceptanceEvidence": {
+    "1": "sufficient evidence",
+    "2": "sufficient readback evidence"
+  },
+  "task3TerminalRecommended": false,
+  "m1Complete": false,
+  "exitSpecial": {
+    "runId": "8f623503-7687-4ec7-9620-a987b72cc0cf",
+    "status": "LIMITED_PASS_MENU_CANCEL_AND_CONFIRM",
+    "record": "docs/evidence/m1-live-5165a78/exit-special/run.json",
+    "officialSaveId": "1073741838",
+    "plannedDurationSeconds": 45,
+    "levelEndedAtPlaySeconds": 17.3,
+    "logSha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+    "printCount": 5,
+    "recordCount": 6,
+    "inputsLate": [
+      {
+        "at": 5,
+        "lateSeconds": 0.67
+      }
+    ],
+    "scope": "Same-candidate menu exit confirmation, cancel then confirm to official settlement only; other-page confirmations and phone unverified."
+  },
+  "allNineStatusesProven": false,
+  "physicalRespawnProven": false,
+  "observedBattle": {
+    "initial": {
+      "hp": 80,
+      "maxHp": 80,
+      "gold": 99,
+      "deck": 10,
+      "energy": 3,
+      "hand": 5,
+      "enemies": [
+        {
+          "id": "red_louse_1",
+          "hp": 13,
+          "intent": 6
+        },
+        {
+          "id": "green_louse_2",
+          "hp": 13,
+          "intent": 6
+        }
+      ]
+    },
+    "actions": [
+      "Bash cost2: red louse13→5, Vulnerable2, energy3→1",
+      "Strike: red louse5→0, energy1→0; actual damage5 is remaining-HP truncation",
+      "Enemy attack6: player80→74",
+      "Defend grants5 block, energy3→2",
+      "Two strikes deal6 each: green louse13→7→1",
+      "Enemy applies Weak2; reshuffle and new hand occur",
+      "Defend grants5 block; next enemy attack6 loses1HP, player74→73; Weak2→1",
+      "Final strike defeats last1HP; victory and gold99→114",
+      "Reward page displays79/80HP (consistent with6 postbattle healing); take card returns to map with deck10→11",
+      "Next shop displays79/80HP,114gold and11cards"
+    ],
+    "logCounts": {
+      "prints": 64,
+      "victory": 1,
+      "enemyTurns": 3,
+      "playerTurns": 3,
+      "blockGain5": 2,
+      "reshuffle": 1
+    },
+    "limitations": [
+      "Only this candidate and one PC normal battle are covered.",
+      "Nine-status visual acceptance remains incomplete; only Vulnerable/Weak were observed.",
+      "Physical ground/respawn safety remains untested despite matching imported configuration.",
+      "Chinese battle core text was reviewed as readable; whole approved UI/device gate is not passed.",
+      "Geo icon substitutes for final protagonist and shop top bar has local overlap; retain M4 polishing.",
+      "Audio print events do not certify listening/audibility.",
+      "Explicit prints contain no observed runtime fault; no all-client-zero-error guarantee.",
+      "Earlier WINDOW_NOT_FOREGROUND capture failure is retained in original artifacts.",
+      "Root raw16-screen review is attributed to its independent reviewer; this archive does not invent additional personal review."
+    ]
+  },
+  "provenance": {
+    "structuredReview": ".artifacts/m1-live-5165a78/battle-review/review.json",
+    "narrativeReview": ".artifacts/m1-live-5165a78/battle-review/REVIEW.md"
+  }
+}

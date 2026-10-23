@@ -77,6 +77,8 @@
 
 试玩前提：显示器开着、16:9 全屏、运行期间不要碰键鼠；游戏若以管理员运行，MCP 所在客户端也要管理员。
 
+2026-10-24已实证权限预检：游戏/沙箱为High（已提升）、MCP helper为Medium时，`editor_input`即使报告`inputSent`且窗口前台，Q和鼠标操作也可能无画面变化。宿主提升至同级后，同一Q输入立即切页。开始GUI前先核对权限，失败后看新截图确认实际效果；不要把发送计数当作成功，也不要反复置前或增加holdMs代替权限修正。本轮原始token诊断与A/B截图在根`.artifacts/m1-live-5165a78/diagnostics/`，测试后隐藏helper已退出。
+
 ## 3. 项目管理
 
 - backlog.md CLI（v1.53.0）：`backlog board` / `backlog task create` / `backlog browser`，任务目录 `backlog/`。
