@@ -16,7 +16,7 @@ references:
   - docs/SCOPE.md
   - docs/TOOLCHAIN.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/19'
-priority: medium
+priority: low
 type: enhancement
 ordinal: 25000
 ---

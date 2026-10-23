@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { closeSync, openSync, readFileSync, readSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -17,7 +17,22 @@ export const criticalUiChecks = {
   deck: ['ownedCards', 'upgrades', 'close'],
 };
 
-export function reviewUiAcceptance(manifest, candidateHash, fileExists = existsSync) {
+function isReviewableFile(path) {
+  try {
+    const info = statSync(path);
+    if (!info.isFile() || info.size <= 0) return false;
+    const fd = openSync(path, 'r');
+    try {
+      return readSync(fd, Buffer.alloc(1), 0, 1, 0) === 1;
+    } finally {
+      closeSync(fd);
+    }
+  } catch {
+    return false;
+  }
+}
+
+export function reviewUiAcceptance(manifest, candidateHash, fileExists = isReviewableFile) {
   const errors = [];
   for (const [screen, required] of Object.entries(criticalUiChecks)) {
     const row = manifest.screens?.[screen];

@@ -133,8 +133,8 @@ function M.new(stage, platform, present, complete)
         for _, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
             local box = stage:GetChild(name)
             for _, part in ipairs({"impact", "shield", "floating"}) do pcall(function() box:GetChild(part):SetVisible(false) end) end
-            for _, part in ipairs({"portrait", "impact", "shield", "blockIcon"}) do
-                pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if part ~= "blockIcon" then c:SetAnchoredPosition(0, 0) end end)
+            for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
+                pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)
             end
             tint(box:GetChild("portrait"), name == "hero" and C.geo or C.text)
         end
@@ -308,7 +308,6 @@ function M.new(stage, platform, present, complete)
             end
         end
         if #self.queue == 0 then finish() return end
-        self.busy = true
         self.index = 1 step(self.queue[1], self.styles[1])
     end
     -- Per-actor composition: attacker pose + victim knockback/flash + death collapse, applied once.
@@ -392,7 +391,7 @@ function M.new(stage, platform, present, complete)
                 shield:SetLocalScale(scale, scale, 1) shield:SetAnchoredPosition(wobble, 0)
                 tint(shield, C.block, fade)
                 local pop = 1 + (1 - easeOut(age / T.base)) * OVERSHOOT
-                box:GetChild("blockIcon"):SetLocalScale(pop, pop, 1)
+                for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(pop, pop, 1) end
             end
             -- Number: pops on contact, holds through the hit-stop, settles, rises and fades.
             local p = clamp(age / T.damagePop)
@@ -408,7 +407,7 @@ function M.new(stage, platform, present, complete)
             box:GetChild("hpGhost").fillAmount = effect.oldHp + (effect.hp - effect.oldHp) * ghost
             if age >= math.max(T.damagePop, T.hpGhostDelay + T.hpGhost, effect.stop + window) then
                 self.effects[id] = nil
-                box:GetChild("blockIcon"):SetLocalScale(1, 1, 1)
+                for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(1, 1, 1) end
                 box:GetChild("impact"):SetLocalScale(1, 1, 1)
             end
         end
@@ -497,6 +496,8 @@ function M.new(stage, platform, present, complete)
     end
     -- Called only after the rule transaction; even start/control failure must unlock.
     function self:begin(...)
+        -- Own completion before reset/queue preparation can fail or find no events.
+        self.busy = true
         local ok, failure = pcall(self.start, self, ...)
         if not ok then finish(failure) end
     end

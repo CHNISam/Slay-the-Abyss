@@ -29,7 +29,7 @@ function button(name, position, size, label, primary = false, fontSize = f.headi
 }
 
 function unit(name, position, portrait, player = false) {
-  const [bw, bh] = l.hpBar.size;
+  const [bw, bh] = l.hpBar.size, bb = l.blockBadge;
   return { name, kind: 'container', position, size: [bw, 236], children: [
     panel('border', 0, 0, portrait + s.border * 2, portrait + s.border * 2, player ? c.goldDim : c.line),
     panel('plate', 0, 0, portrait, portrait, c.panelRaised),
@@ -40,8 +40,10 @@ function unit(name, position, portrait, player = false) {
     { ...panel('hpGhost', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpGhost), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     { ...panel('hpFill', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hp), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, l.nativeText.lineHeight, '', f.small),
-    picture('blockIcon', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, 32, theme.icon.block, c.block),
-    text('block', -bw / 2 - s.l, -portrait / 2 - s.xxl - bh / 2, 32, l.nativeText.lineHeight, '', f.small, c.textOnLight),
+    // Solid chip beside the bar: icon 102014 is half hollow, so digits on it were unreadable.
+    panel('blockEdge', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size + s.border * 2, bb.size + s.border * 2, c.panelSunken),
+    panel('blockIcon', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, bb.size, c.block),
+    text('block', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, l.nativeText.lineHeight, '', f.body, c.textOnLight),
     text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, l.nativeText.lineHeight, '', f.small, c.textDim),
     { ...picture('impact', 0, 0, portrait, portrait, im.diamond, c.geo), visible: false },
     { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
@@ -114,6 +116,10 @@ export function battleLayout() {
     { ...hit(width, height), focusable: false },
     panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),
     text('hint', 0, l.cardDrag.lineY + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '', f.body, c.goldBright),
+    // Targeted cards dock below the line and aim with a dotted arc that ends on a reticle.
+    ...Array.from({ length: l.cardDrag.aimDots }, (_, i) =>
+      ({ ...picture(`aim${i + 1}`, 0, 0, l.cardDrag.aimDot[0], l.cardDrag.aimDot[0], im.diamond, c.goldBright), visible: false })),
+    { ...picture('reticle', 0, 0, l.enemyRow.portrait, l.enemyRow.portrait, im.ring, c.goldBright), visible: false },
   ] });
   // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
   const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;

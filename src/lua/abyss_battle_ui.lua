@@ -84,7 +84,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function notice(value) label("notice", value) end
     local cursor = platform.cursorEvents
     self.dragEnabled = cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp and cursor.CursorEndDrag
-    self.instructions = self.dragEnabled and "拖牌至金线以上松手出牌；攻击牌拖至敌人。也可点选出牌。"
+    self.instructions = self.dragEnabled and "拖牌越过金线松手出牌；攻击牌拖出后瞄准敌人。也可点选出牌。"
         or "点选卡牌，再点敌人；无需目标的牌再点一次确认。"
     local function dragReady(g)
         return self.active and not self.busy and self.run == g.run and self.run.phase == "combat"
@@ -105,24 +105,76 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function cancelCardInputs()
         for _, input in ipairs(cardInputs) do input.held, input.released = nil, nil end
     end
-    local function contains(x, y, frame)
-        return math.abs(x-frame[1]) <= frame[3]/2 and math.abs(y-frame[2]) <= frame[4]/2
+    -- Potion controls may be click-only even when cards receive pointer events.
+    -- Once a potion Down is observed, require its own one-shot release token.
+    local potionInputs, potionPointerObserved = {}, false
+    local function potionReady(g)
+        return dragReady(g) and self.run.potions == g.inventory
+            and self.run.potions[g.slot] == g.id
     end
+    local function cancelPotionInputs()
+        for _, input in ipairs(potionInputs) do input.held, input.released = nil, nil end
+    end
+    -- Action buttons have their own pointer capability: some hosts deliver
+    -- card/potion pointers but only Click for these preset buttons.
+    local actionInputs, actionPointerObserved = {}, false
+    local function actionReady(g)
+        local run = self.run
+        if not self.active or self.busy or self.gesture or run ~= g.run then return false end
+        if run and (run.phase ~= g.phase or run.combat ~= g.battle
+            or g.battle and g.battle.turn ~= g.turn) then return false end
+        if g.name == "start" then return not options.embedded and (not run or run.phase == "defeat") end
+        if not run then return false end
+        if g.name == "endTurn" then return dragReady(g) end
+        if g.name == "skip" then return run.phase == "reward" and run.rewards == g.rewards end
+        return g.name == "continue" and not options.embedded and run.phase == "map"
+    end
+    local function cancelActionInputs()
+        for _, input in ipairs(actionInputs) do input.held, input.released = nil, nil end
+    end
+    local D = L.cardDrag
+    local function enemySlot(count, i, enemy)
+        local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
+        local width = math.min(L.hpBar.size[1],count > 1 and step-S.s or L.hpBar.size[1])
+        local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
+        return count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step, width, portrait, step
+    end
+    -- Judge the card the player sees, not the pointer hidden under it: a quarter of
+    -- the dragged card above the gold line (or the pointer itself) arms the play.
+    local function dragPose(g)
+        local origin, h = g.origin or {g.sx,g.sy}, L.card.size[2]*D.scale
+        local x, y = origin[1]+g.x-g.sx, origin[2]+g.y-g.sy
+        return x, y, y+h/2-D.commitOverlap*h >= D.lineY or g.y >= D.lineY, y < D.cancelY
+    end
+    -- Once armed, only pulling the card clearly back into the hand disarms it, so a
+    -- wobble or release jitter near the line never turns an intended play into a cancel.
+    local function arm(g)
+        local _, _, crossed, back = dragPose(g)
+        if crossed then g.armed = true elseif back then g.armed = false end
+    end
+    -- Returns valid, target, aiming. Armed targeted cards always aim: the pointer's
+    -- column wins, otherwise the nearest living enemy. A locked enemy that falls
+    -- mid-drag is never silently swapped; the player must aim at another column.
     local function dragTarget(g)
         if not dragReady(g) then return false end
         local battle = g.battle
         local ok, reason = Combat.canPlay(battle,g.uid,nil)
-        if ok then return contains(g.x,g.y,L.cardDrag.playArea), nil end
+        if ok then return g.armed == true, nil end
         if reason ~= "invalid_target" then return false end
-        local count = #battle.enemies
+        if not g.armed then return false end
+        local count, column, nearest, distance = #battle.enemies, nil, nil, math.huge
         for i, enemy in ipairs(battle.enemies) do
-            local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
-            local width = math.min(L.hpBar.size[1],count > 1 and step-S.s or L.hpBar.size[1])
-            local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
-            local x = count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step
-            if contains(g.x,g.y,{x,L.enemyRow.y,portrait,portrait}) and Combat.canPlay(battle,g.uid,i) then return true,i end
+            local x, _, _, step = enemySlot(count,i,enemy)
+            local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
+            local d = math.abs(g.x-x)
+            if Combat.canPlay(battle,g.uid,i) then
+                if d <= reach then column = i end
+                if d < distance then nearest, distance = i, d end
+            end
         end
-        return false
+        local lost = g.lock and not (g.lock.hp > 0 and battle.enemies[g.lockIndex] == g.lock)
+        local target = column or not lost and nearest or nil
+        return target ~= nil, target, true
     end
     local function button(name, enabled, primary, caption)
         local box = child(name)
@@ -139,6 +191,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     function self:resize(width, height)
         local cancelled = self.gesture ~= nil
         cancelCardInputs()
+        cancelPotionInputs()
+        cancelActionInputs()
         if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -165,23 +219,32 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
+        -- The block chip never covers the bar: wide bars keep their size and the chip sits outside;
+        -- narrow enemy columns hand the bar's left end to the chip.
+        local blocked, chip, gap = actor.block > 0, L.blockBadge.size, L.blockBadge.gap
+        local barWidth, barX, y = width, 0, -portrait / 2 - S.xxl - bh / 2
+        if blocked and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
         for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
             local part = box:GetChild(name)
-            part:SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh / 2)
+            part:SetAnchoredPosition(barX, y)
             local height = name == "hp" and L.nativeText.lineHeight or bh + (name == "hpBorder" and S.border * 2 or 0)
-            part:SetSizeDelta(width + (name == "hpBorder" and S.border * 2 or 0), height)
+            part:SetSizeDelta(barWidth + (name == "hpBorder" and S.border * 2 or 0), height)
         end
-        tint(box:GetChild("hpBorder"), actor.block > 0 and C.block or C.line)
+        tint(box:GetChild("hpBorder"), blocked and C.block or C.line)
+        tint(box:GetChild("hpFill"), blocked and C.hpShielded or C.hp)
         box:GetChild("hpFill").fillAmount = math.max(0, math.min(1, actor.hp / actor.maxHp))
         box:GetChild("hpGhost").fillAmount = box:GetChild("hpFill").fillAmount
         box:GetChild("hp").text = number(actor.hp) .. "/" .. number(actor.maxHp)
-        for _, name in ipairs({"blockIcon", "block"}) do
-            box:GetChild(name):SetVisible(actor.block > 0)
-            local compact = width < L.hpBar.size[1]
-            local shield = compact and L.statusIcon.size or S.xxl
-            box:GetChild(name):SetSizeDelta(shield, name == "block" and L.nativeText.lineHeight or shield)
-            box:GetChild(name):SetAnchoredPosition(-width / 2 + (compact and shield / 2 or -S.l), -portrait / 2 - S.xxl - bh / 2)
+        for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+            local part = box:GetChild(name)
+            part:SetVisible(blocked)
+            local side = name == "blockEdge" and chip + S.border * 2 or chip
+            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or side)
+            part:SetAnchoredPosition(barX - barWidth / 2 - gap - chip / 2, y)
         end
+        tint(box:GetChild("blockEdge"), C.panelSunken)
+        tint(box:GetChild("blockIcon"), C.block)
+        ink(box:GetChild("block"), C.textOnLight)
         box:GetChild("block").text = number(actor.block)
         box:GetChild("statuses").text = statuses(actor)
         box:GetChild("statuses"):SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh - S.l)
@@ -212,6 +275,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for _, input in ipairs(cardInputs) do
             if input.held and not cardReady(input.held) then input.held = nil end
             if input.released and not cardReady(input.released) then input.released = nil end
+        end
+        for _, input in ipairs(potionInputs) do
+            if input.held and not potionReady(input.held) then input.held = nil end
+            if input.released and not potionReady(input.released) then input.released = nil end
+        end
+        for _, input in ipairs(actionInputs) do
+            if input.held and not actionReady(input.held) then input.held = nil end
+            if input.released and not actionReady(input.released) then input.released = nil end
         end
         if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
             self.feedback:cancel() return
@@ -271,10 +342,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local enemy = fighting and battle.enemies[i]
             box:SetVisible(enemy ~= nil and enemy ~= false and (enemy.hp > 0 or self.busy and not self.feedback.deaths[enemy.id]))
             if enemy then
-                local step = count > 1 and (L.enemyRow.xTo - L.enemyRow.xFrom) / (count - 1) or 0
-                local width = math.min(L.hpBar.size[1], count > 1 and step - S.s or L.hpBar.size[1])
-                local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait, width)
-                box:SetAnchoredPosition(count == 1 and (L.enemyRow.xFrom + L.enemyRow.xTo) / 2 or L.enemyRow.xFrom + (i - 1) * step, L.enemyRow.y)
+                local x, width, portrait = enemySlot(count, i, enemy)
+                box:SetAnchoredPosition(x, L.enemyRow.y)
                 local targetable = active and pendingTarget and Combat.canPlay(battle, self.selected, i)
                 if self.gesture and self.gesture.moving then
                     local valid, hovered = dragTarget(self.gesture)
@@ -333,13 +402,44 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         show("dragLayer", g ~= nil and g.moving == true)
         if g and g.moving then
             local box = child("card" .. g.slot)
-            box:SetAnchoredPosition(g.origin[1]+g.x-g.sx,g.origin[2]+g.y-g.sy)
-            box:SetLocalScale(Theme.motion.hoverScale,Theme.motion.hoverScale,1)
+            local valid, target, aiming = dragTarget(g)
+            local x, y = dragPose(g)
+            local h = L.card.size[2]*D.scale
+            -- An aiming card parks under the line so it never hides the enemy row.
+            if aiming then x, y = (g.origin or {g.sx})[1], D.lineY-h/2-S.s end
+            box:SetAnchoredPosition(x,y)
+            box:SetLocalScale(D.scale,D.scale,1)
             box.localRotationZ = 0
-            local valid, target = dragTarget(g)
+            box:GetChild("glow"):SetVisible(valid == true)
             local layer = child("dragLayer")
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
-            layer:GetChild("hint").text = valid and "松手出牌" or needsTarget(g.battle,{uid=g.uid}) and "拖至存活的敌人，松手出牌" or "拖至金线以上；移回手牌区取消"
+            local enemy = target and g.battle.enemies[target]
+            layer:GetChild("hint").text = enemy and "松手攻击 · " .. enemy.name or valid and "松手出牌"
+                or aiming and "目标已倒下，请重新瞄准；移回手牌区取消"
+                or needsTarget(g.battle,{uid=g.uid}) and "向上拖出手牌，再瞄准敌人" or "拖过金线松手出牌；移回手牌区取消"
+            -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
+            local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
+            if enemy then
+                local tx, _, portrait = enemySlot(#g.battle.enemies,target,enemy)
+                ex, ey, ring = tx, L.enemyRow.y, portrait+D.reticlePad
+            end
+            local reticle = layer:GetChild("reticle")
+            reticle:SetVisible(aiming == true)
+            reticle:SetAnchoredPosition(ex,ey)
+            reticle:SetSizeDelta(ring,ring)
+            tint(reticle,enemy and C.goldBright or C.textDim)
+            local sx, sy, fy = x, y+h/2, ey-(enemy and ring/2 or 0)
+            for i = 1, D.aimDots do
+                local dot, t = layer:GetChild("aim" .. i), i/D.aimDots
+                dot:SetVisible(aiming == true)
+                if aiming then
+                    local u, size = 1-t, D.aimDot[1]+(D.aimDot[2]-D.aimDot[1])*t
+                    -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.
+                    dot:SetAnchoredPosition(u*u*sx+2*u*t*sx+t*t*ex,u*u*sy+2*u*t*fy+t*t*fy)
+                    dot:SetSizeDelta(size,size)
+                    tint(dot,enemy and C.goldBright or C.textDim)
+                end
+            end
             layer:SetAsLastSibling()
         end
         button("endTurn", active == true, not playable)
@@ -499,6 +599,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         g.x,g.y = x,y
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
         if g.moving then
+            arm(g)
+            local _, target = dragTarget(g)
+            if target then g.lock, g.lockIndex = g.battle.enemies[target], target end
             self.suppressClick,self.selected = true,g.uid
             self:render()
         end
@@ -557,12 +660,85 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end)
         if self.dragEnabled and not input then control:AddCursorEventListener(cursor.CursorDown,down) end
     end
-    local function bind(name, fn) listen(child(name),fn) end
+    local function bind(name, fn)
+        local control, input = child(name), {}
+        actionInputs[#actionInputs + 1] = input
+        control:AddCursorEventListener(clickEvent, function(event)
+            if actionPointerObserved then
+                local released = input.released
+                if not released or released.touch ~= (event and event.touchId) then return end
+                input.released = nil
+                if not actionReady(released) then return end
+            end
+            if not self.suppressClick and not self.gesture then return fn(event) end
+        end)
+        if self.dragEnabled then
+            control:AddCursorEventListener(cursor.CursorDown, function(event)
+                actionPointerObserved = true
+                down()
+                input.held, input.released = nil, nil
+                local run = self.run
+                local battle = run and run.combat
+                local g = {name = name, run = run, phase = run and run.phase,
+                    battle = battle, turn = battle and battle.turn,
+                    rewards = run and run.rewards, touch = event and event.touchId}
+                if actionReady(g) then input.held = g end
+            end)
+            local function releaseAction(event, ended)
+                local touch, held = event and event.touchId, input.held
+                if held and held.touch == touch then
+                    input.held = nil
+                    input.released = not ended and actionReady(held) and held or nil
+                elseif ended and input.released and input.released.touch == touch then
+                    input.released = nil
+                end
+            end
+            control:AddCursorEventListener(cursor.CursorUp, releaseAction)
+            control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releaseAction(event, true) end)
+        end
+    end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
     bind("skip", function() if self.active and self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh(true) end end)
     bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)
-    for i = 1, 3 do local slot = i bind("potion" .. i, function() self:usePotion(slot) end) end
+    for i = 1, 3 do
+        local slot, control, input = i, child("potion" .. i), {}
+        potionInputs[i] = input
+        control:AddCursorEventListener(clickEvent, function(event)
+            if potionPointerObserved then
+                local released = input.released
+                if not released or released.touch ~= (event and event.touchId) then return end
+                input.released = nil
+                if not potionReady(released) then return end
+            end
+            if not self.suppressClick and not self.gesture then return self:usePotion(slot) end
+        end)
+        if self.dragEnabled then
+            control:AddCursorEventListener(cursor.CursorDown, function(event)
+                potionPointerObserved = true
+                down()
+                input.held, input.released = nil, nil
+                if self.gesture or not self.run then return end
+                local run, binding = self.run, self.potionSlots and self.potionSlots[slot]
+                if not binding or self.potionRun ~= run or self.potionBattle ~= run.combat then return end
+                local g = {slot = binding.slot, id = binding.id, inventory = run.potions,
+                    run = run, battle = run.combat, turn = run.combat and run.combat.turn,
+                    touch = event and event.touchId}
+                if potionReady(g) then input.held = g end
+            end)
+            local function releasePotion(event, ended)
+                local touch, held = event and event.touchId, input.held
+                if held and held.touch == touch then
+                    input.held = nil
+                    input.released = not ended and potionReady(held) and held or nil
+                elseif ended and input.released and input.released.touch == touch then
+                    input.released = nil
+                end
+            end
+            control:AddCursorEventListener(cursor.CursorUp, releasePotion)
+            control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releasePotion(event, true) end)
+        end
+    end
     for i = 1, 10 do
         local slot,hit = i,child("card" .. i):GetChild("hit")
         local input = {}

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 10:40'
-updated_date: '2026-10-23 11:49'
+updated_date: '2026-10-23 11:40'
 labels:
   - ui
   - combat
@@ -16,6 +16,7 @@ references:
   - docs/design/CARD_DRAG_PLATFORM.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/103'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/68#issuecomment-6363058359'
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/105'
 priority: high
 type: bug
 ordinal: 48000
@@ -47,11 +48,11 @@ ordinal: 48000
 
 22组按原断言精确拆为11+11，共享测试setup，不提高15秒预算。部分源码快照首轮npm check额外发现缺基线审计脚本；只从固定67c839a补齐并核对Git blob后，最终645项605过40败，40失败逐一确认为缺Fengari。Python16通过；相关Native Lua成功不替代正式Fengari/当前SHA Quality，未安装依赖。
 
-PR105准确head5e532115双QualitySUCCESS（run39942214170），已squash合developc3c909db7a9b58150667ad8616d02c117be51a33。独立真实Fengari新11+11、原BattleUI43/牌库6、5补充probe全绿，旧源精确8pass14fail；完整集成61425e4再次npm check exit0（JS595pass116skip、全部Lua、Python16pass1skip）。审查材料/原源反证/5probe/hash/fullhistory bundle留根.artifacts/review-pr105-5e5321，bundle已verify，仅本人review树清理。此任务仅本地输入所有权，平台事件/设备/实机仍未测，TASK30认领与AC未动。
+2026-10-23：PR105 已合入 develop c3c909db7a9b58150667ad8616d02c117be51a33。冻结9文件逐 Git blob 与合并树一致；PR head 5e5321159f330fb06dabdec1dd90447652c58e0b 的 Windows check 120376150896 及 presentation 均 success，合并后两项 Quality 亦 success。新增11+11回归和独立12+4+6组验证离线输入所有权与兼容；原生产代码负控8过14败。此前本地缺Fengari不再作为正式CI阻塞。分支已自动删除。仅完成离线输入切片，真实平台事件派发/官方导入/手机鼠标操作仍由TASK30承接，不改其归属及AC。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-中断卡牌触点不再误出牌或领奖，保留有效点选/拖放/无指针事件兼容。PR105合c3c909d，准确SHA双Quality成功，独立22+49+5专项与负控通过；614组合完整check通过。平台事件派发及实机留原关口。
+PR105 修复旧触点跨缩放、牌库、换回合/换局误出牌或领奖；保留新手势、拖放与无指针点击降级。22组先红后绿回归、独立复审及当前head/合并后Quality通过。平台实机未验。
 <!-- SECTION:FINAL_SUMMARY:END -->

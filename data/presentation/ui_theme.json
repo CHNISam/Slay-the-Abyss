@@ -46,6 +46,7 @@
     "hpGhost": "#F3E2C8",
     "hpTrack": "#3A1F22",
     "block": "#5FA8E8",
+    "hpShielded": "#4F86BD",
     "energy": "#E9A93B",
     "energyEmpty": "#4A3E2A",
     "positive": "#7DC77A",
@@ -316,7 +317,14 @@
     "cardDrag": {
       "threshold": 8,
       "playArea": [0, 66, 1200, 272],
-      "lineY": -70
+      "lineY": -70,
+      "scale": 1.1,
+      "commitOverlap": 0.25,
+      "cancelY": -185,
+      "targetColumn": 220,
+      "aimDots": 10,
+      "aimDot": [8, 18],
+      "reticlePad": 28
     },
     "energy": {
       "position": [
@@ -377,6 +385,10 @@
         156,
         16
       ]
+    },
+    "blockBadge": {
+      "size": 28,
+      "gap": 4
     },
     "statusIcon": {
       "size": 26,
@@ -654,6 +666,10 @@
     "nativeNode": {
       "note": "批准稿节点构图的原生实现：共用顶栏；商店单屏卡牌货架、删牌服务格与遗物行；营地双选项与锻造升级前后对比；事件左右结构；宝箱开合。坐标为父容器中心偏移，y 向上。",
       "backdrop": [0, 0, 1240, 680],
+      "swipe": {
+        "note": "卡牌/遗物行横向拖动翻页：松手时水平位移达到 threshold（设计单位）且大于竖直位移才翻页。",
+        "threshold": 40
+      },
       "topBar": {
         "plate": [0, 316, 1200, 48],
         "title": [0, 316, 380, 40],
