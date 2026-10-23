@@ -4,13 +4,15 @@ title: M2 P0 补齐未知事件全池内容与原版版本核验
 status: To Do
 assignee: []
 created_date: '2026-10-23 16:11'
+updated_date: '2026-10-23 16:45'
 due_date: '2026-10-26'
 labels:
   - p0
   - required
   - rule-parity
 milestone: m-3
-dependencies: []
+dependencies:
+  - TASK-13.1.1
 parent_task_id: TASK-13.1
 priority: high
 ordinal: 54000
