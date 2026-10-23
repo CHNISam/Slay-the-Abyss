@@ -1,0 +1,52 @@
+{
+  "sourceCommit": "61425e472baea87a72685237e370d21897ba9f56",
+  "candidate": ".artifacts/continued-status-61425e4/wmvkwjgw1-0/working.gil",
+  "handoffCopy": ".artifacts/handoff-20261023-61425e4/abyss-playtest-61425e4.gil",
+  "sha256": "af2e1060c40d1eb9e6f9f2a017384c2cd590bf1867178d2d829984da9ac8b5cc",
+  "copyHashMatches": true,
+  "fullCheck": {
+    "exitCode": 0,
+    "javascript": { "total": 711, "passed": 595, "skipped": 116 },
+    "lua": "All discovered suites passed at unchanged budgets.",
+    "python": { "total": 17, "passed": 16, "skipped": 1 },
+    "priorFailures": "Legacy static-card count36 required37 after Dazed; two status-definition array offsets required stable IDs. All text/metadata isolation assertions retained, then full check rerun successfully."
+  },
+  "readback": {
+    "report": ".artifacts/continued-status-61425e4-audit/audit.json",
+    "reportSha256": "7549b80c2063589ac62145e2a7371fa020cbc06fdde2ceab9f7e102ec31858a8",
+    "ok": true,
+    "modules": 32,
+    "byteIdenticalModules": 32,
+    "uiTreeNodes": 1590,
+    "maxDirectChildren": 50,
+    "deckColumns": 6,
+    "settlementNodes": 22,
+    "settlementEnabledOnStage": true,
+    "nativeBgmEnabledSection7": false,
+    "nativeBgmEnabledSection8": false,
+    "staticErrors": 0,
+    "staticWarnings": 17,
+    "candidateHashUnchanged": true
+  },
+  "graphPayloadAudit": {
+    "report": ".artifacts/graph-payload-audit-61425e4/graph-payload-audit.json",
+    "reportSha256": "6aaef4ca12d5adbde887b5f41c8847e2ea0861e588fc768b247e9060dd9123be",
+    "ok": true,
+    "actualAndExpectedRoundtripLossless": true,
+    "matchingPayloadSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+    "exclusions": ["GraphNode.x", "GraphNode.y", "GraphNode.comments.x/y", "NodeGraph.comments[].x/y"],
+    "candidateHashUnchanged": true,
+    "notCertified": ["External signal definitions", "Stage/prefab configuration", "Compiler semantics", "Game behavior"]
+  },
+  "baseFileSha256Unchanged": "6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432",
+  "separateUnmergedWork": {
+    "mapCrossingFix": "1cfaba22cc81b7919b5b2634ff3b7cfd71abac48",
+    "topologyOnlyCandidate": "1365d0968b32acb85c65f73fa48165da22a34750",
+    "spikeSlimeMAndSlimed": "Source investigation only; no implementation in this candidate."
+  },
+  "liveWriteEnabled": false,
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED",
+  "releaseGate": "NOT_PASSED"
+}

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 11:36'
+updated_date: '2026-10-23 11:49'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -68,4 +68,6 @@ PR102准确head0c3fd84两Quality作业SUCCESS（run39932782189），已squash合
 root用集成后的显式graph auditor实际复核最新11b901f普通副本exit0：完整NodeGraph与固定源重新编译结果匹配，双方roundtrip lossless，仅列明x/y排除；副本hash4f5de8f...不变。新报告根.artifacts/graph-payload-audit-11b901f/graph-payload-audit.json SHA75dab47274e10a05b381c4a56597a6ba2fa92c19fa1c93a6cb801f8b423a65e1已记原候选证据。只补NodeGraph载荷源一致性，不将原readonly图检查范围追改成已认证，图外/实机/发布仍缺。
 
 整合远程PR103/104/105最新develop至当前规则分支：104实际patch已读、准确f223bc双QualitySUCCESS后ready/squash7bffaed；105独立Fengari新22+旧49+5probe及旧源8pass14fail，准确5e5321双QualitySUCCESS后ready/squashc3c909d。新显式graph CLI实测3路径负例全红（官方junction别名未拒、8.3身份未canonical、nonfile catch重读目录崩溃），复用104路径实现抽共享helper后相关40项39pass1 file-symlink权限skip，独立路径11项10pass1skip，无MCP/真实存档。当前完整检查两次JS683/568pass115skip均绿，Lua分别抓旧静态卡数36应37与状态定义数组位置失效；已保留所有断言改精确37及按ID验证，并补原weak decay/vulnerable stack隔离，statuses35专项过。完整组合仍待重跑，不把中断算全绿。
+
+用户最新要求已可登录原神、优先收敛不扩张。固定61425e4完整check exit0（JS711=595pass116skip、全Lua、Python17=16pass1skip）；新完整副本已编译/写copy、32模块逐byte同源、1590树/max50/六列/22节点stage启用、双BGMfalse、static0error17warning。readonly及完整graph载荷审计均ok/hash前后不变，测试交接copy SHAaf2e1060c40d1eb9e6f9f2a017384c2cd590bf1867178d2d829984da9ac8b5cc在根.artifacts/handoff-20261023-61425e4。docs/PLAYTEST_HANDOFF.md给最小实机步骤；Map1cf/1365冻结分支不接本候选，SpikeM/Slimed不实施。未导入/开游戏/发布，全部严格/平台关口不勾。
 <!-- SECTION:NOTES:END -->
