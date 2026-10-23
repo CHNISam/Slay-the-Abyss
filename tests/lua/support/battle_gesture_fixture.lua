@@ -18,7 +18,12 @@ local function setup(deck, enemies)
         return callback({touchId=touch,GetUIPos=function() return ui.canvasWidth/2+x*k,ui.canvasHeight/2+y*k end})
     end
     local function tap(name,touch)
-        event(name,"down",touch); event(name,"up",touch); event(name,"click",touch)
+        event(name,"down",touch)
+        local box=panel:GetChild(name)
+        local hit=box.listeners and box or box:GetChild("hit")
+        -- Physical Up is a no-op on controls without an Up listener.
+        if hit.listeners and hit.listeners.up then event(name,"up",touch) end
+        event(name,"click",touch)
     end
     local function drain()
         for _=1,400 do if not ui.busy then return end; host:update(0.05) end
