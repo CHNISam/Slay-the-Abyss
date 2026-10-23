@@ -61,6 +61,10 @@ local function intentText(state, index, detailed)
             result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
             compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
             Combat.addStatus(effect.op == "gainStatus" and enemy or player, effect.status, effect.value)
+        elseif effect.op == "makeTempCardInDiscard" then
+            local name = assert(state.catalog.cards[effect.card]).name
+            compact.debuff = compact.debuff or name .. " " .. value
+            result[#result + 1] = "将 " .. value .. " 张" .. name .. "置入弃牌堆"
         else result[#result + 1] = "未知" end
     end
     return detailed and table.concat(result, " / ") or compact[intent.kind] or compact.attack or "?", intent.kind

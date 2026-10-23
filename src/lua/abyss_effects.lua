@@ -59,7 +59,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- source-verified single-player queued status path is enabled.
             -- Later damage, dead-owner Block/buffs and unverified ops stay off.
             if op == "applyStatus" and target == state.player and target.hp > 0 then
-                Actors.status(state, target, effect.status, value, source)
+                Actors.applyPower(state, target, effect.status, value, source)
             end
         elseif op == "damage" or op == "damageAll" then
             local selected = op == "damageAll" and targets(state, source) or { target }
@@ -135,17 +135,16 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "block" then combat.block(state, source, value)
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
-        elseif op == "noDrawThisTurn" then source.noDraw = true
+        elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)
         elseif op == "energy" then state.energy = state.energy + value
-        elseif op == "gainStatus" then Actors.status(state, source, effect.status, value, source)
+        elseif op == "gainStatus" then Actors.applyPower(state, source, effect.status, value, source)
         elseif op == "gainTemporaryStrength" then
-            combat.addTemporaryStrength(source, value)
-            Events.emit(state, "status", {source = source.id, target = source.id, status = "strength", amount = value})
+            combat.addTemporaryStrength(source, value, state)
         elseif op == "applyStatus" then
-            if target and target.hp > 0 then Actors.status(state, target, effect.status, value, source) end
+            if target and target.hp > 0 then Actors.applyPower(state, target, effect.status, value, source) end
         elseif op == "applyStatusAll" then
             for _, victim in ipairs(targets(state, source)) do
-                if victim.hp > 0 then Actors.status(state, victim, effect.status, value, source) end
+                if victim.hp > 0 then Actors.applyPower(state, victim, effect.status, value, source) end
             end
         else error("unsupported effect: " .. tostring(op)) end
     end

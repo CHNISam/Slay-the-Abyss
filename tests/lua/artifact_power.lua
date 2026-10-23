@@ -85,4 +85,13 @@ test("real-context temporary Strength cancels for a dead target without Artifact
     A.addTemporaryStrength(s.player,2,s);eq(s.player.statuses.artifact,1);eq(s.player.statuses.strength or 0,0)
     eq(s.player.temporaryStrength or 0,0);eq(#s.events,n)
 end)
+test("real-context zero Flex is outside the candidate ABI and rejects without mutation",function()
+    local s=battle();artifact(s,s.player);local n=#s.events
+    eq(pcall(A.addTemporaryStrength,s.player,0,s),false);eq(s.player.statuses.artifact,1)
+    eq(s.player.statuses.strength,nil);eq(s.player.temporaryStrength,nil);eq(#s.events,n)
+end)
+test("raw two-argument zero temporary Strength retains its previous compatibility",function()
+    local s=battle();artifact(s,s.player);local n=#s.events;A.addTemporaryStrength(s.player,0)
+    eq(s.player.statuses.artifact,1);eq(s.player.statuses.strength,0);eq(s.player.temporaryStrength,0);eq(#s.events,n)
+end)
 assert(failed==0,tostring(failed).." failed of "..count)

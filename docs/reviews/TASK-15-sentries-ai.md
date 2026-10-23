@@ -53,3 +53,19 @@ Sentry A0为HP38–42，Beam基础9，Bolt生成两张Dazed；A8+HP39–45、A3+
 Sentry/Dazed/schema/原生打包25项JavaScript通过，Dazed既有21组再次通过。当前阶段真实Artifact牌/瓶测试仍有3组红（对应尚未桥接），另已核BattleTrance NoDraw特殊Power缺口，后续独立桥接验证，不能把本阶段三敌绿扩推完整Artifact已接线。
 
 生产仍使用共享16位LCG，HP/AI/洗牌相关、原版独立流/种子映射与同种子轨迹未对齐；setup事件中的预战Power表现次序未作原版动画队列认证。平台等独立AC保持。
+
+## 真实Power桥接、NoDraw与只读意图
+
+独立桥接将Effects的gainStatus/applyStatus/applyStatusAll（包括死source的已排队单目标段）与Inventory真实状态应用改为Actor.applyPower；Inventory忽略“被Artifact拦截”的false结果并成功结束使用，不把正常抵挡当成命令拒绝。Flex真实入口传state，删除原手动重复力量事件；清bookkeeping、事务快照和已排队状态/roll顺序保留。
+
+另实际完整读取 [NoDrawPower.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/NoDrawPower.java)，SHA256 `3206760968D070DE2705010D8FD2718641D674B7571602E00C0D27933382D83A`，及 [BattleTrance.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/BattleTrance.java)，SHA256 `8A13E848B23AF5610B1BCF6A2D57B5E8777B19468B1C269C7ECEC099E5400BA3`。Battle Trance先抽牌再排NoDraw（DEBUFF）；ApplyPowerAction.update的“已有NoDraw则取消”位于Artifact gate之前。因此新增有限Actor.applyNoDraw：死亡/已有flag先取消，不耗Artifact；首次NoDraw才允许Artifact挡。没有把任意boolean字段或未支持Power纳入通用名单。
+
+真实state的临时力量helper现在显式限制amount>0，0会在任何消费前拒绝；raw两参0保留兼容。这是候选ABI收窄，不是原版拒绝Flex0。源中LoseStrength(0)仍可能有对象存在并在轮末触发，本模型没有此存在位，也没有真正Artifact(0)对象；两种零对象语义均不宣称支持。正式Flex2/4不受影响。
+
+库存语义由独立预审重新只读核对同提交PoisonPotion/其它六瓶、PotionPopUp与AbstractPotion：毒瓶排Poison6，使用后销毁瓶槽与后续ApplyPower是否被挡无关；view/canUse不因Artifact而禁用。其余六瓶为正buff或非Power。预审来源仍未认证PC身份，不能将镜像读取当原作实测。实际测试断言7瓶数值沿既有来源，不从当前JSON自生成Oracle。
+
+Bolt原生意图曾实际显示“?”，新增makeTempCardInDiscard只读渲染分支后显示“晕眩 2”，详情说明将2张置入弃牌堆，沿现有debuff图标/配色/布局，不新建模板。完整生成控件树测试先见“?”红灯，再验证外侧/中央两轮标签、图标、Artifact状态文本、实际按钮伤害71→53；重复四次查看意图后整个combat状态与深拷贝逐项相同。
+
+真实Artifact入口5组原有3红，桥接后全绿并扩到9组：Thunderclap同时耗三敌Artifact、后续Bash生效、Bash晚错误原地恢复所有引用/状态/事件、毒瓶被挡仍耗且第二瓶施加6、view连续预检不改live敌人/瓶/事件/seed、已有Poison4被挡不叠加且其tick不再耗层、其它六瓶及正buff封顶不耗、非法瓶效果和死/非法目标不耗层或瓶。NoDraw6组原5红后全绿，含实际Trance、重复flag特殊gate、死亡、只读canPlay与晚错误回滚。Actor基础零Flex新红例修后为18组绿。
+
+完成桥接后顺序复跑15套必要Lua：Artifact基础18/真实入口9/NoDraw6、Sentry9/原生UI、Dazed21、Flex16、signed caps12、atomic play14、inventory11、potion slots6、queued status20/roll15、round debuffs17、card feedback10，全部通过；日志为本地`build/sentry-bridge-*.log`。不把这些有限分类、非事务endTurn、临时状态对象或source hooks扩大为完整原作能力队列认证。未跑本片全量check、未平台构建/导入/实机，交主线程统一组合验收。

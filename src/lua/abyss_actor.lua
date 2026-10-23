@@ -46,6 +46,14 @@ function M.applyPower(state, actor, id, amount, source)
     return true
 end
 
+function M.applyNoDraw(state, actor)
+    -- ApplyPowerAction's duplicate NoDraw gate precedes Artifact's generic gate.
+    if actor.hp <= 0 or actor.noDraw then return false end
+    if blockDebuff(state, actor, "no_draw") then return false end
+    actor.noDraw = true
+    return true
+end
+
 function M.bindStatuses(actor, definitions)
     assert(type(definitions) == "table", "missing status definitions")
     for id, definition in pairs(definitions) do
@@ -75,6 +83,7 @@ end
 
 function M.addTemporaryStrength(actor, amount, state)
     assert(integer(amount) and amount >= 0, "invalid temporary strength")
+    assert(not state or amount > 0, "zero temporary Strength application unsupported")
     if state and actor.hp <= 0 then return false end
     local total = (actor.temporaryStrength or 0) + 0.0 + amount
     assert(integer(total), "temporary strength overflow")
