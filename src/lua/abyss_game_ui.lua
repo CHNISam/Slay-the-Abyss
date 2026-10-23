@@ -386,4 +386,3 @@ function M.new(root, data, presentation, clickEvent, platform)
     return self
 end
 return M
-
