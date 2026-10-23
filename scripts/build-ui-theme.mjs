@@ -1,8 +1,8 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { toLua } from './build-lua-data.mjs';
-import { loadContent } from './validate-data.mjs';
+import { contentFiles, loadContent } from './validate-data.mjs';
 
 // Id ranges of the platform picture library (image_catalog of the miliastra MCP, photographed 2026-10-13).
 export const imageRanges = [
@@ -60,10 +60,33 @@ function convertColours(value) {
   return value;
 }
 
+function rejectInputOutputAlias(themeFile, dataDirectory, output) {
+  let outputStat;
+  let outputRealPath;
+  try {
+    // Keep symlink/.. traversal semantics identical to writeFileSync(output).
+    outputStat = statSync(output, { bigint: true });
+    outputRealPath = realpathSync.native(output);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  // Match the paths actually read: raw themeFile, resolved content-table paths.
+  const inputs = [themeFile, ...contentFiles.map(file => resolve(dataDirectory, `${file}.json`))];
+  for (const input of inputs) {
+    const inputPath = resolve(input);
+    const inputStat = statSync(input, { bigint: true });
+    if (outputRealPath === realpathSync.native(input) ||
+        (outputStat && outputStat.dev === inputStat.dev && outputStat.ino === inputStat.ino)) {
+      throw new Error(`Output must not overwrite an input file: ${inputPath}`);
+    }
+  }
+}
+
 export function buildUiTheme(themeFile = 'data/presentation/ui_theme.json', dataDirectory = 'data', output = 'build/lua/abyss_theme.lua') {
   const theme = JSON.parse(readFileSync(themeFile, 'utf8').replace(/^﻿/, ''));
   const errors = validateTheme(theme, loadContent(dataDirectory));
   if (errors.length) throw new Error(errors.join('\n'));
+  rejectInputOutputAlias(themeFile, dataDirectory, output);
   const { note, ...runtime } = theme;
   const source = `-- Generated from data/presentation/ui_theme.json. Do not edit.\nreturn ${toLua(convertColours(runtime))}\n`;
   mkdirSync(dirname(output), { recursive: true });

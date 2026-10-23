@@ -77,7 +77,7 @@
     {
       "id": "bronze_scales",
       "name": "铜鳞",
-      "rarity": "uncommon",
+      "rarity": "common",
       "trigger": "combat_start",
       "effects": [
         {

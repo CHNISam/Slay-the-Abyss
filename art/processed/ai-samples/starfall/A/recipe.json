@@ -1,0 +1,28 @@
+{
+  "asset": "starfall",
+  "route": "A",
+  "source": "art\\source\\starfall_sword_art.png",
+  "sourceSha256": "2a42eae75955b9c75f0813b9b4f009580026f46758ad04b2718e8266422e5f53",
+  "originalSize": [
+    1448,
+    1086
+  ],
+  "crop": null,
+  "inputSize": [
+    192,
+    144
+  ],
+  "palette": null,
+  "config": {
+    "num_primitives": 256,
+    "allowed_shapes": [
+      "circle"
+    ],
+    "detail_scale": 1,
+    "workers": 4,
+    "transparent_output": false
+  },
+  "fitSeconds": 53.038018200000806,
+  "controls": 256,
+  "randomSeed": "upstream clock seed; exact refit is nondeterministic"
+}

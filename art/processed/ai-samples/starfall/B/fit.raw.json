@@ -1,0 +1,7443 @@
+{
+  "mode": "fill",
+  "image_size": {
+    "width": 288,
+    "height": 128
+  },
+  "config": {
+    "pixel_per_unit": 1,
+    "num_primitives": 256,
+    "allowed_shapes": [
+      "circle"
+    ],
+    "detail_scale": 1,
+    "workers": 4,
+    "transparent_output": false
+  },
+  "elements": [
+    {
+      "id": 0,
+      "type": "ellipse",
+      "center": {
+        "x": 114.685,
+        "y": -63.3714
+      },
+      "relative_position": {
+        "x": -29.315,
+        "y": 0.6286
+      },
+      "relative": {
+        "x": -29.315,
+        "y": 0.6286
+      },
+      "size": {
+        "rx": 142.0619,
+        "ry": 214.3225
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -450.2274
+      },
+      "color": "#6f460e",
+      "alpha": 0.6941,
+      "packed_color": 2976859662,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 1,
+      "type": "ellipse",
+      "center": {
+        "x": 151.3861,
+        "y": -59.7373
+      },
+      "relative_position": {
+        "x": 7.3861,
+        "y": 4.2627
+      },
+      "relative": {
+        "x": 7.3861,
+        "y": 4.2627
+      },
+      "size": {
+        "rx": 67.5673,
+        "ry": 30.9845
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -296.9226
+      },
+      "color": "#ffe5a8",
+      "alpha": 0.7725,
+      "packed_color": 3321882024,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 2,
+      "type": "ellipse",
+      "center": {
+        "x": 11.5505,
+        "y": -94.4374
+      },
+      "relative_position": {
+        "x": -132.4495,
+        "y": -30.4374
+      },
+      "relative": {
+        "x": -132.4495,
+        "y": -30.4374
+      },
+      "size": {
+        "rx": 34.4791,
+        "ry": 91.1746
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -305.4997
+      },
+      "color": "#220901",
+      "alpha": 0.549,
+      "packed_color": 2351040769,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 3,
+      "type": "ellipse",
+      "center": {
+        "x": 260.4298,
+        "y": -29.9989
+      },
+      "relative_position": {
+        "x": 116.4298,
+        "y": 34.0011
+      },
+      "relative": {
+        "x": 116.4298,
+        "y": 34.0011
+      },
+      "size": {
+        "rx": 61.3406,
+        "ry": 36.3216
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -186.9837
+      },
+      "color": "#0d0d1f",
+      "alpha": 0.498,
+      "packed_color": 2131561759,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 4,
+      "type": "ellipse",
+      "center": {
+        "x": 16.6923,
+        "y": -16.875
+      },
+      "relative_position": {
+        "x": -127.3077,
+        "y": 47.125
+      },
+      "relative": {
+        "x": -127.3077,
+        "y": 47.125
+      },
+      "size": {
+        "rx": 44.5335,
+        "ry": 12.5428
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -237.9505
+      },
+      "color": "#1c0a0c",
+      "alpha": 0.6039,
+      "packed_color": 2585528844,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 5,
+      "type": "ellipse",
+      "center": {
+        "x": 78.9123,
+        "y": -70.2605
+      },
+      "relative_position": {
+        "x": -65.0877,
+        "y": -6.2605
+      },
+      "relative": {
+        "x": -65.0877,
+        "y": -6.2605
+      },
+      "size": {
+        "rx": 28.4395,
+        "ry": 14.2306
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -255.193
+      },
+      "color": "#230700",
+      "alpha": 0.5569,
+      "packed_color": 2384660224,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 6,
+      "type": "ellipse",
+      "center": {
+        "x": 161.293,
+        "y": -98.0007
+      },
+      "relative_position": {
+        "x": 17.293,
+        "y": -34.0007
+      },
+      "relative": {
+        "x": 17.293,
+        "y": -34.0007
+      },
+      "size": {
+        "rx": 20.1142,
+        "ry": 75.0869
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -117.6033
+      },
+      "color": "#ffe099",
+      "alpha": 0.4863,
+      "packed_color": 2097143961,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 7,
+      "type": "ellipse",
+      "center": {
+        "x": 126.1947,
+        "y": -21.0262
+      },
+      "relative_position": {
+        "x": -17.8053,
+        "y": 42.9738
+      },
+      "relative": {
+        "x": -17.8053,
+        "y": 42.9738
+      },
+      "size": {
+        "rx": 30.1489,
+        "ry": 19.8474
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -80.2163
+      },
+      "color": "#765637",
+      "alpha": 0.6941,
+      "packed_color": 2977322551,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 8,
+      "type": "ellipse",
+      "center": {
+        "x": 101.4453,
+        "y": -43.9276
+      },
+      "relative_position": {
+        "x": -42.5547,
+        "y": 20.0724
+      },
+      "relative": {
+        "x": -42.5547,
+        "y": 20.0724
+      },
+      "size": {
+        "rx": 43.9702,
+        "ry": 13.6168
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -82.0234
+      },
+      "color": "#f9cd81",
+      "alpha": 0.5686,
+      "packed_color": 2449067393,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 9,
+      "type": "ellipse",
+      "center": {
+        "x": 16.1726,
+        "y": -46.3705
+      },
+      "relative_position": {
+        "x": -127.8274,
+        "y": 17.6295
+      },
+      "relative": {
+        "x": -127.8274,
+        "y": 17.6295
+      },
+      "size": {
+        "rx": 6.5627,
+        "ry": 43.4723
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -306.6932
+      },
+      "color": "#ffedbf",
+      "alpha": 0.5922,
+      "packed_color": 2550132159,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 10,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -73.8566
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": -9.8566
+      },
+      "relative": {
+        "x": 143.0,
+        "y": -9.8566
+      },
+      "size": {
+        "rx": 43.7691,
+        "ry": 13.2324
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -120.9201
+      },
+      "color": "#ffe8a0",
+      "alpha": 0.498,
+      "packed_color": 2147477664,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 11,
+      "type": "ellipse",
+      "center": {
+        "x": 77.8101,
+        "y": -109.0459
+      },
+      "relative_position": {
+        "x": -66.1899,
+        "y": -45.0459
+      },
+      "relative": {
+        "x": -66.1899,
+        "y": -45.0459
+      },
+      "size": {
+        "rx": 35.013,
+        "ry": 7.1033
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -170.4951
+      },
+      "color": "#ffd07f",
+      "alpha": 0.5333,
+      "packed_color": 2298466431,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 12,
+      "type": "ellipse",
+      "center": {
+        "x": 226.055,
+        "y": -94.1844
+      },
+      "relative_position": {
+        "x": 82.055,
+        "y": -30.1844
+      },
+      "relative": {
+        "x": 82.055,
+        "y": -30.1844
+      },
+      "size": {
+        "rx": 13.7715,
+        "ry": 11.3409
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -296.9575
+      },
+      "color": "#1f0906",
+      "alpha": 0.5882,
+      "packed_color": 2518616326,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 13,
+      "type": "ellipse",
+      "center": {
+        "x": 74.9463,
+        "y": -3.1845
+      },
+      "relative_position": {
+        "x": -69.0537,
+        "y": 60.8155
+      },
+      "relative": {
+        "x": -69.0537,
+        "y": 60.8155
+      },
+      "size": {
+        "rx": 20.8989,
+        "ry": 15.9286
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -314.248
+      },
+      "color": "#070318",
+      "alpha": 0.4549,
+      "packed_color": 1946616600,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 14,
+      "type": "ellipse",
+      "center": {
+        "x": 216.5191,
+        "y": -70.8607
+      },
+      "relative_position": {
+        "x": 72.5191,
+        "y": -6.8607
+      },
+      "relative": {
+        "x": 72.5191,
+        "y": -6.8607
+      },
+      "size": {
+        "rx": 29.2743,
+        "ry": 5.7787
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -313.4601
+      },
+      "color": "#ffe987",
+      "alpha": 0.4471,
+      "packed_color": 1929374087,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 15,
+      "type": "ellipse",
+      "center": {
+        "x": 97.9727,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": -46.0273,
+        "y": -63.0
+      },
+      "relative": {
+        "x": -46.0273,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 11.5938,
+        "ry": 25.9784
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -96.671
+      },
+      "color": "#220700",
+      "alpha": 0.5255,
+      "packed_color": 2250376960,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 16,
+      "type": "ellipse",
+      "center": {
+        "x": 0.0,
+        "y": -115.8819
+      },
+      "relative_position": {
+        "x": -144.0,
+        "y": -51.8819
+      },
+      "relative": {
+        "x": -144.0,
+        "y": -51.8819
+      },
+      "size": {
+        "rx": 28.4688,
+        "ry": 40.3322
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -308.965
+      },
+      "color": "#02030e",
+      "alpha": 0.5529,
+      "packed_color": 2365719310,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 17,
+      "type": "ellipse",
+      "center": {
+        "x": 50.0015,
+        "y": -21.7735
+      },
+      "relative_position": {
+        "x": -93.9985,
+        "y": 42.2265
+      },
+      "relative": {
+        "x": -93.9985,
+        "y": 42.2265
+      },
+      "size": {
+        "rx": 7.3696,
+        "ry": 29.4244
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -139.7204
+      },
+      "color": "#ffde88",
+      "alpha": 0.5294,
+      "packed_color": 2281692808,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 18,
+      "type": "ellipse",
+      "center": {
+        "x": 162.6241,
+        "y": -46.9335
+      },
+      "relative_position": {
+        "x": 18.6241,
+        "y": 17.0665
+      },
+      "relative": {
+        "x": 18.6241,
+        "y": 17.0665
+      },
+      "size": {
+        "rx": 9.3935,
+        "ry": 56.9405
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -357.9061
+      },
+      "color": "#ffffe1",
+      "alpha": 0.4941,
+      "packed_color": 2130706401,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 19,
+      "type": "ellipse",
+      "center": {
+        "x": 195.9475,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 51.9475,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 51.9475,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 17.5394,
+        "ry": 6.6165
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -180.6908
+      },
+      "color": "#4d2106",
+      "alpha": 0.5412,
+      "packed_color": 2320310534,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 20,
+      "type": "ellipse",
+      "center": {
+        "x": 66.1652,
+        "y": -58.272
+      },
+      "relative_position": {
+        "x": -77.8348,
+        "y": 5.728
+      },
+      "relative": {
+        "x": -77.8348,
+        "y": 5.728
+      },
+      "size": {
+        "rx": 21.5127,
+        "ry": 7.3359
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -308.8881
+      },
+      "color": "#180c0e",
+      "alpha": 0.5529,
+      "packed_color": 2367163406,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 21,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -123.8115
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": -59.8115
+      },
+      "relative": {
+        "x": 143.0,
+        "y": -59.8115
+      },
+      "size": {
+        "rx": 9.8075,
+        "ry": 10.0398
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -219.7828
+      },
+      "color": "#1d1211",
+      "alpha": 0.8431,
+      "packed_color": 3609006609,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 22,
+      "type": "ellipse",
+      "center": {
+        "x": 128.8153,
+        "y": -102.1666
+      },
+      "relative_position": {
+        "x": -15.1847,
+        "y": -38.1666
+      },
+      "relative": {
+        "x": -15.1847,
+        "y": -38.1666
+      },
+      "size": {
+        "rx": 26.4511,
+        "ry": 13.1035
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -21.8472
+      },
+      "color": "#fff5d0",
+      "alpha": 0.5961,
+      "packed_color": 2566911440,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 23,
+      "type": "ellipse",
+      "center": {
+        "x": 281.5289,
+        "y": -32.4821
+      },
+      "relative_position": {
+        "x": 137.5289,
+        "y": 31.5179
+      },
+      "relative": {
+        "x": 137.5289,
+        "y": 31.5179
+      },
+      "size": {
+        "rx": 4.5453,
+        "ry": 30.2918
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -265.5116
+      },
+      "color": "#ecb160",
+      "alpha": 0.549,
+      "packed_color": 2364322144,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 24,
+      "type": "ellipse",
+      "center": {
+        "x": 243.6727,
+        "y": -95.6305
+      },
+      "relative_position": {
+        "x": 99.6727,
+        "y": -31.6305
+      },
+      "relative": {
+        "x": 99.6727,
+        "y": -31.6305
+      },
+      "size": {
+        "rx": 6.2789,
+        "ry": 6.2009
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -151.3738
+      },
+      "color": "#fcecbe",
+      "alpha": 0.8784,
+      "packed_color": 3774672062,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 25,
+      "type": "ellipse",
+      "center": {
+        "x": 206.5801,
+        "y": -0.0
+      },
+      "relative_position": {
+        "x": 62.5801,
+        "y": 64.0
+      },
+      "relative": {
+        "x": 62.5801,
+        "y": 64.0
+      },
+      "size": {
+        "rx": 37.8558,
+        "ry": 6.8095
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -355.3637
+      },
+      "color": "#f9be62",
+      "alpha": 0.5529,
+      "packed_color": 2381954658,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 26,
+      "type": "ellipse",
+      "center": {
+        "x": 189.0307,
+        "y": -89.6265
+      },
+      "relative_position": {
+        "x": 45.0307,
+        "y": -25.6265
+      },
+      "relative": {
+        "x": 45.0307,
+        "y": -25.6265
+      },
+      "size": {
+        "rx": 4.6498,
+        "ry": 39.4854
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -208.7339
+      },
+      "color": "#ffe6a3",
+      "alpha": 0.549,
+      "packed_color": 2365580963,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 27,
+      "type": "ellipse",
+      "center": {
+        "x": 206.2468,
+        "y": -31.7483
+      },
+      "relative_position": {
+        "x": 62.2468,
+        "y": 32.2517
+      },
+      "relative": {
+        "x": 62.2468,
+        "y": 32.2517
+      },
+      "size": {
+        "rx": 26.0104,
+        "ry": 19.3612
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -121.2864
+      },
+      "color": "#674c3a",
+      "alpha": 0.502,
+      "packed_color": 2154253370,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 28,
+      "type": "ellipse",
+      "center": {
+        "x": 88.7497,
+        "y": -109.6909
+      },
+      "relative_position": {
+        "x": -55.2503,
+        "y": -45.6909
+      },
+      "relative": {
+        "x": -55.2503,
+        "y": -45.6909
+      },
+      "size": {
+        "rx": 77.6216,
+        "ry": 2.0559
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -195.6825
+      },
+      "color": "#ffd583",
+      "alpha": 0.4941,
+      "packed_color": 2130695555,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 29,
+      "type": "ellipse",
+      "center": {
+        "x": 125.0995,
+        "y": -65.4053
+      },
+      "relative_position": {
+        "x": -18.9005,
+        "y": -1.4053
+      },
+      "relative": {
+        "x": -18.9005,
+        "y": -1.4053
+      },
+      "size": {
+        "rx": 18.1458,
+        "ry": 5.8503
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -272.4548
+      },
+      "color": "#b2742e",
+      "alpha": 0.5412,
+      "packed_color": 2326950958,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 30,
+      "type": "ellipse",
+      "center": {
+        "x": 34.1535,
+        "y": -34.5773
+      },
+      "relative_position": {
+        "x": -109.8465,
+        "y": 29.4227
+      },
+      "relative": {
+        "x": -109.8465,
+        "y": 29.4227
+      },
+      "size": {
+        "rx": 11.9489,
+        "ry": 18.0644
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -75.3132
+      },
+      "color": "#432f23",
+      "alpha": 0.6431,
+      "packed_color": 2755866403,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 31,
+      "type": "ellipse",
+      "center": {
+        "x": 121.2249,
+        "y": -2.6431
+      },
+      "relative_position": {
+        "x": -22.7751,
+        "y": 61.3569
+      },
+      "relative": {
+        "x": -22.7751,
+        "y": 61.3569
+      },
+      "size": {
+        "rx": 13.7361,
+        "ry": 17.9144
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -260.1013
+      },
+      "color": "#242634",
+      "alpha": 0.6196,
+      "packed_color": 2653169204,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 32,
+      "type": "ellipse",
+      "center": {
+        "x": 248.1337,
+        "y": -55.2928
+      },
+      "relative_position": {
+        "x": 104.1337,
+        "y": 8.7072
+      },
+      "relative": {
+        "x": 104.1337,
+        "y": 8.7072
+      },
+      "size": {
+        "rx": 25.8413,
+        "ry": 7.1264
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -132.0031
+      },
+      "color": "#0c0e1f",
+      "alpha": 0.4471,
+      "packed_color": 1913392671,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 33,
+      "type": "ellipse",
+      "center": {
+        "x": 245.2668,
+        "y": -104.7787
+      },
+      "relative_position": {
+        "x": 101.2668,
+        "y": -40.7787
+      },
+      "relative": {
+        "x": 101.2668,
+        "y": -40.7787
+      },
+      "size": {
+        "rx": 22.2427,
+        "ry": 5.1929
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -147.7914
+      },
+      "color": "#431908",
+      "alpha": 0.4667,
+      "packed_color": 2000886024,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 34,
+      "type": "ellipse",
+      "center": {
+        "x": 101.6333,
+        "y": -32.0627
+      },
+      "relative_position": {
+        "x": -42.3667,
+        "y": 31.9373
+      },
+      "relative": {
+        "x": -42.3667,
+        "y": 31.9373
+      },
+      "size": {
+        "rx": 5.9059,
+        "ry": 27.1192
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -59.2762
+      },
+      "color": "#ffdc8f",
+      "alpha": 0.4902,
+      "packed_color": 2113920143,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 35,
+      "type": "ellipse",
+      "center": {
+        "x": 60.2633,
+        "y": -44.0584
+      },
+      "relative_position": {
+        "x": -83.7367,
+        "y": 19.9416
+      },
+      "relative": {
+        "x": -83.7367,
+        "y": 19.9416
+      },
+      "size": {
+        "rx": 5.9906,
+        "ry": 23.4555
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -39.1232
+      },
+      "color": "#ffe182",
+      "alpha": 0.5333,
+      "packed_color": 2298470786,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 36,
+      "type": "ellipse",
+      "center": {
+        "x": 203.7879,
+        "y": -99.8184
+      },
+      "relative_position": {
+        "x": 59.7879,
+        "y": -35.8184
+      },
+      "relative": {
+        "x": 59.7879,
+        "y": -35.8184
+      },
+      "size": {
+        "rx": 12.7121,
+        "ry": 14.2865
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -245.412
+      },
+      "color": "#915320",
+      "alpha": 0.5412,
+      "packed_color": 2324779808,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 37,
+      "type": "ellipse",
+      "center": {
+        "x": 246.2439,
+        "y": -10.7495
+      },
+      "relative_position": {
+        "x": 102.2439,
+        "y": 53.2505
+      },
+      "relative": {
+        "x": 102.2439,
+        "y": 53.2505
+      },
+      "size": {
+        "rx": 15.8604,
+        "ry": 31.9105
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -207.5554
+      },
+      "color": "#141929",
+      "alpha": 0.5176,
+      "packed_color": 2215909673,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 38,
+      "type": "ellipse",
+      "center": {
+        "x": 273.4176,
+        "y": -95.6237
+      },
+      "relative_position": {
+        "x": 129.4176,
+        "y": -31.6237
+      },
+      "relative": {
+        "x": 129.4176,
+        "y": -31.6237
+      },
+      "size": {
+        "rx": 5.0408,
+        "ry": 28.8151
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -223.9486
+      },
+      "color": "#ffe6aa",
+      "alpha": 0.5373,
+      "packed_color": 2315249322,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 39,
+      "type": "ellipse",
+      "center": {
+        "x": 93.1865,
+        "y": -75.8288
+      },
+      "relative_position": {
+        "x": -50.8135,
+        "y": -11.8288
+      },
+      "relative": {
+        "x": -50.8135,
+        "y": -11.8288
+      },
+      "size": {
+        "rx": 7.1072,
+        "ry": 23.4656
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -166.9286
+      },
+      "color": "#9d6a36",
+      "alpha": 0.7412,
+      "packed_color": 3181210166,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 40,
+      "type": "ellipse",
+      "center": {
+        "x": 269.4829,
+        "y": -59.4319
+      },
+      "relative_position": {
+        "x": 125.4829,
+        "y": 4.5681
+      },
+      "relative": {
+        "x": 125.4829,
+        "y": 4.5681
+      },
+      "size": {
+        "rx": 13.967,
+        "ry": 15.7758
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -334.5197
+      },
+      "color": "#20151d",
+      "alpha": 0.3333,
+      "packed_color": 1428165917,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 41,
+      "type": "ellipse",
+      "center": {
+        "x": 29.9121,
+        "y": -69.6164
+      },
+      "relative_position": {
+        "x": -114.0879,
+        "y": -5.6164
+      },
+      "relative": {
+        "x": -114.0879,
+        "y": -5.6164
+      },
+      "size": {
+        "rx": 10.3098,
+        "ry": 6.3847
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -70.7424
+      },
+      "color": "#0b0406",
+      "alpha": 0.4745,
+      "packed_color": 2030765062,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 42,
+      "type": "ellipse",
+      "center": {
+        "x": 108.877,
+        "y": -72.9938
+      },
+      "relative_position": {
+        "x": -35.123,
+        "y": -8.9938
+      },
+      "relative": {
+        "x": -35.123,
+        "y": -8.9938
+      },
+      "size": {
+        "rx": 24.6912,
+        "ry": 5.8074
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -94.0056
+      },
+      "color": "#fff5be",
+      "alpha": 0.5373,
+      "packed_color": 2315253182,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 43,
+      "type": "ellipse",
+      "center": {
+        "x": 165.7887,
+        "y": -108.7147
+      },
+      "relative_position": {
+        "x": 21.7887,
+        "y": -44.7147
+      },
+      "relative": {
+        "x": 21.7887,
+        "y": -44.7147
+      },
+      "size": {
+        "rx": 4.2978,
+        "ry": 6.8058
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -251.6697
+      },
+      "color": "#773707",
+      "alpha": 0.6078,
+      "packed_color": 2608281351,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 44,
+      "type": "ellipse",
+      "center": {
+        "x": 259.3733,
+        "y": -80.7903
+      },
+      "relative_position": {
+        "x": 115.3733,
+        "y": -16.7903
+      },
+      "relative": {
+        "x": 115.3733,
+        "y": -16.7903
+      },
+      "size": {
+        "rx": 9.8781,
+        "ry": 25.6844
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -273.5231
+      },
+      "color": "#ffc771",
+      "alpha": 0.3725,
+      "packed_color": 1610598257,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 45,
+      "type": "ellipse",
+      "center": {
+        "x": 147.1263,
+        "y": -40.7737
+      },
+      "relative_position": {
+        "x": 3.1263,
+        "y": 23.2263
+      },
+      "relative": {
+        "x": 3.1263,
+        "y": 23.2263
+      },
+      "size": {
+        "rx": 36.3614,
+        "ry": 4.0872
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -113.6431
+      },
+      "color": "#ffffdf",
+      "alpha": 0.5137,
+      "packed_color": 2214592479,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 46,
+      "type": "ellipse",
+      "center": {
+        "x": 164.111,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 20.111,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 20.111,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 17.614,
+        "ry": 3.0704
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -204.3743
+      },
+      "color": "#260400",
+      "alpha": 0.5216,
+      "packed_color": 2233861120,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 47,
+      "type": "ellipse",
+      "center": {
+        "x": 28.2217,
+        "y": -38.6753
+      },
+      "relative_position": {
+        "x": -115.7783,
+        "y": 25.3247
+      },
+      "relative": {
+        "x": -115.7783,
+        "y": 25.3247
+      },
+      "size": {
+        "rx": 8.6777,
+        "ry": 22.3956
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -322.9623
+      },
+      "color": "#4e3524",
+      "alpha": 0.6667,
+      "packed_color": 2857252132,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 48,
+      "type": "ellipse",
+      "center": {
+        "x": 101.9494,
+        "y": -47.7869
+      },
+      "relative_position": {
+        "x": -42.0506,
+        "y": 16.2131
+      },
+      "relative": {
+        "x": -42.0506,
+        "y": 16.2131
+      },
+      "size": {
+        "rx": 3.7751,
+        "ry": 14.4768
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -354.9532
+      },
+      "color": "#85491a",
+      "alpha": 0.4745,
+      "packed_color": 2038778138,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 49,
+      "type": "ellipse",
+      "center": {
+        "x": 68.4112,
+        "y": -88.8992
+      },
+      "relative_position": {
+        "x": -75.5888,
+        "y": -24.8992
+      },
+      "relative": {
+        "x": -75.5888,
+        "y": -24.8992
+      },
+      "size": {
+        "rx": 8.3567,
+        "ry": 33.0997
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -115.102
+      },
+      "color": "#7d4c20",
+      "alpha": 0.5059,
+      "packed_color": 2172472352,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 50,
+      "type": "ellipse",
+      "center": {
+        "x": 206.768,
+        "y": -63.3105
+      },
+      "relative_position": {
+        "x": 62.768,
+        "y": 0.6895
+      },
+      "relative": {
+        "x": 62.768,
+        "y": 0.6895
+      },
+      "size": {
+        "rx": 30.8446,
+        "ry": 9.643
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -34.8578
+      },
+      "color": "#cb9859",
+      "alpha": 0.5686,
+      "packed_color": 2446039129,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 51,
+      "type": "ellipse",
+      "center": {
+        "x": 19.5502,
+        "y": -83.2529
+      },
+      "relative_position": {
+        "x": -124.4498,
+        "y": -19.2529
+      },
+      "relative": {
+        "x": -124.4498,
+        "y": -19.2529
+      },
+      "size": {
+        "rx": 23.5506,
+        "ry": 5.7426
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -190.3183
+      },
+      "color": "#a7703c",
+      "alpha": 0.5725,
+      "packed_color": 2460446780,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 52,
+      "type": "ellipse",
+      "center": {
+        "x": 41.4403,
+        "y": -66.2311
+      },
+      "relative_position": {
+        "x": -102.5597,
+        "y": -2.2311
+      },
+      "relative": {
+        "x": -102.5597,
+        "y": -2.2311
+      },
+      "size": {
+        "rx": 10.1909,
+        "ry": 6.385
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -270.219
+      },
+      "color": "#fff9b9",
+      "alpha": 0.4549,
+      "packed_color": 1962932665,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 53,
+      "type": "ellipse",
+      "center": {
+        "x": 238.1594,
+        "y": -41.9475
+      },
+      "relative_position": {
+        "x": 94.1594,
+        "y": 22.0525
+      },
+      "relative": {
+        "x": 94.1594,
+        "y": 22.0525
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 20.5992
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -65.8374
+      },
+      "color": "#f9cc7a",
+      "alpha": 0.5843,
+      "packed_color": 2516175994,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 54,
+      "type": "ellipse",
+      "center": {
+        "x": 183.6039,
+        "y": -2.9123
+      },
+      "relative_position": {
+        "x": 39.6039,
+        "y": 61.0877
+      },
+      "relative": {
+        "x": 39.6039,
+        "y": 61.0877
+      },
+      "size": {
+        "rx": 13.5564,
+        "ry": 31.1925
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -556.6268
+      },
+      "color": "#eec77b",
+      "alpha": 0.9647,
+      "packed_color": 4142843771,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 55,
+      "type": "ellipse",
+      "center": {
+        "x": 88.8976,
+        "y": -107.7568
+      },
+      "relative_position": {
+        "x": -55.1024,
+        "y": -43.7568
+      },
+      "relative": {
+        "x": -55.1024,
+        "y": -43.7568
+      },
+      "size": {
+        "rx": 42.2783,
+        "ry": 2.3065
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -350.91
+      },
+      "color": "#fee09a",
+      "alpha": 0.5137,
+      "packed_color": 2214518938,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 56,
+      "type": "ellipse",
+      "center": {
+        "x": 158.1923,
+        "y": -87.2931
+      },
+      "relative_position": {
+        "x": 14.1923,
+        "y": -23.2931
+      },
+      "relative": {
+        "x": 14.1923,
+        "y": -23.2931
+      },
+      "size": {
+        "rx": 7.3689,
+        "ry": 15.3199
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -253.5445
+      },
+      "color": "#e5b053",
+      "alpha": 0.5216,
+      "packed_color": 2246422611,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 57,
+      "type": "ellipse",
+      "center": {
+        "x": 280.0884,
+        "y": -10.5314
+      },
+      "relative_position": {
+        "x": 136.0884,
+        "y": 53.4686
+      },
+      "relative": {
+        "x": 136.0884,
+        "y": 53.4686
+      },
+      "size": {
+        "rx": 9.6064,
+        "ry": 10.9728
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -198.1233
+      },
+      "color": "#070f24",
+      "alpha": 0.5294,
+      "packed_color": 2265386788,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 58,
+      "type": "ellipse",
+      "center": {
+        "x": 65.0793,
+        "y": -127.0831
+      },
+      "relative_position": {
+        "x": -78.9207,
+        "y": -63.0831
+      },
+      "relative": {
+        "x": -78.9207,
+        "y": -63.0831
+      },
+      "size": {
+        "rx": 16.3119,
+        "ry": 10.2429
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -291.259
+      },
+      "color": "#341d11",
+      "alpha": 0.5647,
+      "packed_color": 2419334417,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 59,
+      "type": "ellipse",
+      "center": {
+        "x": 231.583,
+        "y": -125.2703
+      },
+      "relative_position": {
+        "x": 87.583,
+        "y": -61.2703
+      },
+      "relative": {
+        "x": 87.583,
+        "y": -61.2703
+      },
+      "size": {
+        "rx": 14.6008,
+        "ry": 5.2785
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -145.7581
+      },
+      "color": "#ffdc77",
+      "alpha": 0.4863,
+      "packed_color": 2097142903,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 60,
+      "type": "ellipse",
+      "center": {
+        "x": 4.4109,
+        "y": -45.438
+      },
+      "relative_position": {
+        "x": -139.5891,
+        "y": 18.562
+      },
+      "relative": {
+        "x": -139.5891,
+        "y": 18.562
+      },
+      "size": {
+        "rx": 4.6752,
+        "ry": 24.5768
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -105.8
+      },
+      "color": "#fffac0",
+      "alpha": 0.4667,
+      "packed_color": 2013264576,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 61,
+      "type": "ellipse",
+      "center": {
+        "x": 144.01,
+        "y": -64.2026
+      },
+      "relative_position": {
+        "x": 0.01,
+        "y": -0.2026
+      },
+      "relative": {
+        "x": 0.01,
+        "y": -0.2026
+      },
+      "size": {
+        "rx": 22.2591,
+        "ry": 4.2552
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -303.8348
+      },
+      "color": "#e5a434",
+      "alpha": 0.5216,
+      "packed_color": 2246419508,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 62,
+      "type": "ellipse",
+      "center": {
+        "x": 187.774,
+        "y": -90.1644
+      },
+      "relative_position": {
+        "x": 43.774,
+        "y": -26.1644
+      },
+      "relative": {
+        "x": 43.774,
+        "y": -26.1644
+      },
+      "size": {
+        "rx": 28.9897,
+        "ry": 3.2451
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -158.307
+      },
+      "color": "#ffedb0",
+      "alpha": 0.5098,
+      "packed_color": 2197810608,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 63,
+      "type": "ellipse",
+      "center": {
+        "x": 67.0152,
+        "y": -83.7235
+      },
+      "relative_position": {
+        "x": -76.9848,
+        "y": -19.7235
+      },
+      "relative": {
+        "x": -76.9848,
+        "y": -19.7235
+      },
+      "size": {
+        "rx": 7.6183,
+        "ry": 3.5403
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -224.31
+      },
+      "color": "#e0b667",
+      "alpha": 0.7098,
+      "packed_color": 3051402855,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 64,
+      "type": "ellipse",
+      "center": {
+        "x": 89.6555,
+        "y": -47.4073
+      },
+      "relative_position": {
+        "x": -54.3445,
+        "y": 16.5927
+      },
+      "relative": {
+        "x": -54.3445,
+        "y": 16.5927
+      },
+      "size": {
+        "rx": 21.5075,
+        "ry": 3.0435
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -45.1177
+      },
+      "color": "#ffeca2",
+      "alpha": 0.5255,
+      "packed_color": 2264919202,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 65,
+      "type": "ellipse",
+      "center": {
+        "x": 264.4361,
+        "y": -19.0554
+      },
+      "relative_position": {
+        "x": 120.4361,
+        "y": 44.9446
+      },
+      "relative": {
+        "x": 120.4361,
+        "y": 44.9446
+      },
+      "size": {
+        "rx": 8.3552,
+        "ry": 2.9771
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -301.6742
+      },
+      "color": "#fec46c",
+      "alpha": 0.5373,
+      "packed_color": 2315175020,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 66,
+      "type": "ellipse",
+      "center": {
+        "x": 204.1237,
+        "y": -126.7735
+      },
+      "relative_position": {
+        "x": 60.1237,
+        "y": -62.7735
+      },
+      "relative": {
+        "x": 60.1237,
+        "y": -62.7735
+      },
+      "size": {
+        "rx": 9.4207,
+        "ry": 4.4873
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -75.3168
+      },
+      "color": "#341d14",
+      "alpha": 0.6353,
+      "packed_color": 2721324308,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 67,
+      "type": "ellipse",
+      "center": {
+        "x": 2.474,
+        "y": -38.9558
+      },
+      "relative_position": {
+        "x": -141.526,
+        "y": 25.0442
+      },
+      "relative": {
+        "x": -141.526,
+        "y": 25.0442
+      },
+      "size": {
+        "rx": 1.9118,
+        "ry": 4.7437
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -336.396
+      },
+      "color": "#2c0700",
+      "alpha": 0.6118,
+      "packed_color": 2620131072,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 68,
+      "type": "ellipse",
+      "center": {
+        "x": 86.1556,
+        "y": -17.1224
+      },
+      "relative_position": {
+        "x": -57.8444,
+        "y": 46.8776
+      },
+      "relative": {
+        "x": -57.8444,
+        "y": 46.8776
+      },
+      "size": {
+        "rx": 10.6456,
+        "ry": 8.1627
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -138.8766
+      },
+      "color": "#985c25",
+      "alpha": 0.5725,
+      "packed_color": 2459458597,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 69,
+      "type": "ellipse",
+      "center": {
+        "x": 186.3328,
+        "y": -76.4342
+      },
+      "relative_position": {
+        "x": 42.3328,
+        "y": -12.4342
+      },
+      "relative": {
+        "x": 42.3328,
+        "y": -12.4342
+      },
+      "size": {
+        "rx": 5.9069,
+        "ry": 8.1689
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -226.4907
+      },
+      "color": "#653514",
+      "alpha": 0.5725,
+      "packed_color": 2456106260,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 70,
+      "type": "ellipse",
+      "center": {
+        "x": 97.4621,
+        "y": -118.3964
+      },
+      "relative_position": {
+        "x": -46.5379,
+        "y": -54.3964
+      },
+      "relative": {
+        "x": -46.5379,
+        "y": -54.3964
+      },
+      "size": {
+        "rx": 7.2691,
+        "ry": 5.9938
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -267.482
+      },
+      "color": "#ffae46",
+      "alpha": 0.4118,
+      "packed_color": 1778363974,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 71,
+      "type": "ellipse",
+      "center": {
+        "x": 150.1578,
+        "y": -77.2094
+      },
+      "relative_position": {
+        "x": 6.1578,
+        "y": -13.2094
+      },
+      "relative": {
+        "x": 6.1578,
+        "y": -13.2094
+      },
+      "size": {
+        "rx": 4.8403,
+        "ry": 39.4121
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -51.7793
+      },
+      "color": "#ffffe8",
+      "alpha": 0.4863,
+      "packed_color": 2097151976,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 72,
+      "type": "ellipse",
+      "center": {
+        "x": 180.7667,
+        "y": -62.0388
+      },
+      "relative_position": {
+        "x": 36.7667,
+        "y": 1.9612
+      },
+      "relative": {
+        "x": 36.7667,
+        "y": 1.9612
+      },
+      "size": {
+        "rx": 12.0779,
+        "ry": 9.2828
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -283.0705
+      },
+      "color": "#e4bc74",
+      "alpha": 0.6392,
+      "packed_color": 2749676660,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 73,
+      "type": "ellipse",
+      "center": {
+        "x": 186.8659,
+        "y": -114.5725
+      },
+      "relative_position": {
+        "x": 42.8659,
+        "y": -50.5725
+      },
+      "relative": {
+        "x": 42.8659,
+        "y": -50.5725
+      },
+      "size": {
+        "rx": 7.3195,
+        "ry": 15.4364
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -91.5354
+      },
+      "color": "#ffebae",
+      "alpha": 0.4824,
+      "packed_color": 2080369582,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 74,
+      "type": "ellipse",
+      "center": {
+        "x": 227.7017,
+        "y": -58.2308
+      },
+      "relative_position": {
+        "x": 83.7017,
+        "y": 5.7692
+      },
+      "relative": {
+        "x": 83.7017,
+        "y": 5.7692
+      },
+      "size": {
+        "rx": 3.5506,
+        "ry": 9.6703
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -221.1808
+      },
+      "color": "#fff99e",
+      "alpha": 0.4824,
+      "packed_color": 2080373150,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 75,
+      "type": "ellipse",
+      "center": {
+        "x": 72.677,
+        "y": -103.5526
+      },
+      "relative_position": {
+        "x": -71.323,
+        "y": -39.5526
+      },
+      "relative": {
+        "x": -71.323,
+        "y": -39.5526
+      },
+      "size": {
+        "rx": 32.0548,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -191.9212
+      },
+      "color": "#ffffc9",
+      "alpha": 0.4745,
+      "packed_color": 2046820297,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 76,
+      "type": "ellipse",
+      "center": {
+        "x": 146.1198,
+        "y": -23.4638
+      },
+      "relative_position": {
+        "x": 2.1198,
+        "y": 40.5362
+      },
+      "relative": {
+        "x": 2.1198,
+        "y": 40.5362
+      },
+      "size": {
+        "rx": 2.9466,
+        "ry": 54.439
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -21.9162
+      },
+      "color": "#d69844",
+      "alpha": 0.4941,
+      "packed_color": 2127992900,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 77,
+      "type": "ellipse",
+      "center": {
+        "x": 100.6042,
+        "y": -94.3083
+      },
+      "relative_position": {
+        "x": -43.3958,
+        "y": -30.3083
+      },
+      "relative": {
+        "x": -43.3958,
+        "y": -30.3083
+      },
+      "size": {
+        "rx": 18.3108,
+        "ry": 2.8512
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -234.1364
+      },
+      "color": "#e4b264",
+      "alpha": 0.6275,
+      "packed_color": 2699342436,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 78,
+      "type": "ellipse",
+      "center": {
+        "x": 122.0272,
+        "y": -75.7934
+      },
+      "relative_position": {
+        "x": -21.9728,
+        "y": -11.7934
+      },
+      "relative": {
+        "x": -21.9728,
+        "y": -11.7934
+      },
+      "size": {
+        "rx": 7.5,
+        "ry": 14.5146
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -195.6601
+      },
+      "color": "#a15904",
+      "alpha": 0.2353,
+      "packed_color": 1017207044,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 79,
+      "type": "ellipse",
+      "center": {
+        "x": 250.5096,
+        "y": -111.2639
+      },
+      "relative_position": {
+        "x": 106.5096,
+        "y": -47.2639
+      },
+      "relative": {
+        "x": 106.5096,
+        "y": -47.2639
+      },
+      "size": {
+        "rx": 24.4629,
+        "ry": 5.1254
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -9.1938
+      },
+      "color": "#6f4322",
+      "alpha": 0.5059,
+      "packed_color": 2171552546,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 80,
+      "type": "ellipse",
+      "center": {
+        "x": 143.6138,
+        "y": -106.9938
+      },
+      "relative_position": {
+        "x": -0.3862,
+        "y": -42.9938
+      },
+      "relative": {
+        "x": -0.3862,
+        "y": -42.9938
+      },
+      "size": {
+        "rx": 3.828,
+        "ry": 21.8171
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -126.5737
+      },
+      "color": "#fffee7",
+      "alpha": 0.5137,
+      "packed_color": 2214592231,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 81,
+      "type": "ellipse",
+      "center": {
+        "x": 255.0129,
+        "y": -90.8295
+      },
+      "relative_position": {
+        "x": 111.0129,
+        "y": -26.8295
+      },
+      "relative": {
+        "x": 111.0129,
+        "y": -26.8295
+      },
+      "size": {
+        "rx": 15.1259,
+        "ry": 1.6503
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -321.8633
+      },
+      "color": "#fff0bb",
+      "alpha": 0.5176,
+      "packed_color": 2231365819,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 82,
+      "type": "ellipse",
+      "center": {
+        "x": 44.3457,
+        "y": -123.4949
+      },
+      "relative_position": {
+        "x": -99.6543,
+        "y": -59.4949
+      },
+      "relative": {
+        "x": -99.6543,
+        "y": -59.4949
+      },
+      "size": {
+        "rx": 23.257,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -146.8945
+      },
+      "color": "#ffd870",
+      "alpha": 0.5294,
+      "packed_color": 2281691248,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 83,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -95.9843
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": -31.9843
+      },
+      "relative": {
+        "x": 143.0,
+        "y": -31.9843
+      },
+      "size": {
+        "rx": 4.3963,
+        "ry": 9.5057
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -81.9861
+      },
+      "color": "#8e582d",
+      "alpha": 0.6431,
+      "packed_color": 2760792109,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 84,
+      "type": "ellipse",
+      "center": {
+        "x": 1.6566,
+        "y": -2.5222
+      },
+      "relative_position": {
+        "x": -142.3434,
+        "y": 61.4778
+      },
+      "relative": {
+        "x": -142.3434,
+        "y": 61.4778
+      },
+      "size": {
+        "rx": 26.4006,
+        "ry": 19.0503
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -357.938
+      },
+      "color": "#382923",
+      "alpha": 0.6157,
+      "packed_color": 2637703459,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 85,
+      "type": "ellipse",
+      "center": {
+        "x": 224.4943,
+        "y": -0.0
+      },
+      "relative_position": {
+        "x": 80.4943,
+        "y": 64.0
+      },
+      "relative": {
+        "x": 80.4943,
+        "y": 64.0
+      },
+      "size": {
+        "rx": 8.5686,
+        "ry": 10.0136
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -96.4839
+      },
+      "color": "#d19f60",
+      "alpha": 0.6118,
+      "packed_color": 2630983520,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 86,
+      "type": "ellipse",
+      "center": {
+        "x": 1.2689,
+        "y": -24.6867
+      },
+      "relative_position": {
+        "x": -142.7311,
+        "y": 39.3133
+      },
+      "relative": {
+        "x": -142.7311,
+        "y": 39.3133
+      },
+      "size": {
+        "rx": 45.9026,
+        "ry": 1.2412
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -55.542
+      },
+      "color": "#fffbc1",
+      "alpha": 0.5216,
+      "packed_color": 2248145857,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 87,
+      "type": "ellipse",
+      "center": {
+        "x": 66.3231,
+        "y": -64.5621
+      },
+      "relative_position": {
+        "x": -77.6769,
+        "y": -0.5621
+      },
+      "relative": {
+        "x": -77.6769,
+        "y": -0.5621
+      },
+      "size": {
+        "rx": 16.8985,
+        "ry": 10.4049
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -160.5965
+      },
+      "color": "#322018",
+      "alpha": 0.5216,
+      "packed_color": 2234654744,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 88,
+      "type": "ellipse",
+      "center": {
+        "x": 123.3021,
+        "y": -60.4917
+      },
+      "relative_position": {
+        "x": -20.6979,
+        "y": 3.5083
+      },
+      "relative": {
+        "x": -20.6979,
+        "y": 3.5083
+      },
+      "size": {
+        "rx": 2.7161,
+        "ry": 20.2491
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -227.0102
+      },
+      "color": "#e0bf86",
+      "alpha": 0.7176,
+      "packed_color": 3084959622,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 89,
+      "type": "ellipse",
+      "center": {
+        "x": 106.9045,
+        "y": -16.0336
+      },
+      "relative_position": {
+        "x": -37.0955,
+        "y": 47.9664
+      },
+      "relative": {
+        "x": -37.0955,
+        "y": 47.9664
+      },
+      "size": {
+        "rx": 3.8677,
+        "ry": 9.1608
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -360.1072
+      },
+      "color": "#765940",
+      "alpha": 0.7333,
+      "packed_color": 3145095488,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 90,
+      "type": "ellipse",
+      "center": {
+        "x": 34.6077,
+        "y": -17.4872
+      },
+      "relative_position": {
+        "x": -109.3923,
+        "y": 46.5128
+      },
+      "relative": {
+        "x": -109.3923,
+        "y": 46.5128
+      },
+      "size": {
+        "rx": 4.5147,
+        "ry": 9.7199
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -289.5433
+      },
+      "color": "#c9995d",
+      "alpha": 0.6,
+      "packed_color": 2580126045,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 91,
+      "type": "ellipse",
+      "center": {
+        "x": 265.8287,
+        "y": -98.618
+      },
+      "relative_position": {
+        "x": 121.8287,
+        "y": -34.618
+      },
+      "relative": {
+        "x": 121.8287,
+        "y": -34.618
+      },
+      "size": {
+        "rx": 21.1735,
+        "ry": 2.4756
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -126.3093
+      },
+      "color": "#f9e4b1",
+      "alpha": 0.5647,
+      "packed_color": 2432296113,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 92,
+      "type": "ellipse",
+      "center": {
+        "x": 122.7407,
+        "y": -104.169
+      },
+      "relative_position": {
+        "x": -21.2593,
+        "y": -40.169
+      },
+      "relative": {
+        "x": -21.2593,
+        "y": -40.169
+      },
+      "size": {
+        "rx": 3.0471,
+        "ry": 6.7526
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -289.5265
+      },
+      "color": "#c67709",
+      "alpha": 0.4078,
+      "packed_color": 1757837065,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 93,
+      "type": "ellipse",
+      "center": {
+        "x": 57.4767,
+        "y": -17.211
+      },
+      "relative_position": {
+        "x": -86.5233,
+        "y": 46.789
+      },
+      "relative": {
+        "x": -86.5233,
+        "y": 46.789
+      },
+      "size": {
+        "rx": 1.5891,
+        "ry": 33.3963
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -344.968
+      },
+      "color": "#fce2b3",
+      "alpha": 0.4431,
+      "packed_color": 1912398515,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 94,
+      "type": "ellipse",
+      "center": {
+        "x": 278.2932,
+        "y": -68.4023
+      },
+      "relative_position": {
+        "x": 134.2932,
+        "y": -4.4023
+      },
+      "relative": {
+        "x": 134.2932,
+        "y": -4.4023
+      },
+      "size": {
+        "rx": 32.8055,
+        "ry": 3.3858
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -320.8267
+      },
+      "color": "#956b42",
+      "alpha": 0.5137,
+      "packed_color": 2207607618,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 95,
+      "type": "ellipse",
+      "center": {
+        "x": 164.2511,
+        "y": -63.9187
+      },
+      "relative_position": {
+        "x": 20.2511,
+        "y": 0.0813
+      },
+      "relative": {
+        "x": 20.2511,
+        "y": 0.0813
+      },
+      "size": {
+        "rx": 9.3804,
+        "ry": 17.4242
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -34.3758
+      },
+      "color": "#fffbe1",
+      "alpha": 0.6,
+      "packed_color": 2583690209,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 96,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -36.9114
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": 27.0886
+      },
+      "relative": {
+        "x": 143.0,
+        "y": 27.0886
+      },
+      "size": {
+        "rx": 12.4327,
+        "ry": 5.705
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -251.0484
+      },
+      "color": "#dfab60",
+      "alpha": 0.4471,
+      "packed_color": 1927261024,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 97,
+      "type": "ellipse",
+      "center": {
+        "x": 47.8693,
+        "y": -91.269
+      },
+      "relative_position": {
+        "x": -96.1307,
+        "y": -27.269
+      },
+      "relative": {
+        "x": -96.1307,
+        "y": -27.269
+      },
+      "size": {
+        "rx": 5.9793,
+        "ry": 13.3568
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -66.3802
+      },
+      "color": "#1b0b10",
+      "alpha": 0.3922,
+      "packed_color": 1679493904,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 98,
+      "type": "ellipse",
+      "center": {
+        "x": 110.0963,
+        "y": -26.7386
+      },
+      "relative_position": {
+        "x": -33.9037,
+        "y": 37.2614
+      },
+      "relative": {
+        "x": -33.9037,
+        "y": 37.2614
+      },
+      "size": {
+        "rx": 20.3614,
+        "ry": 3.0252
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -159.6319
+      },
+      "color": "#fdd682",
+      "alpha": 0.5647,
+      "packed_color": 2432554626,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 99,
+      "type": "ellipse",
+      "center": {
+        "x": 140.7054,
+        "y": -118.4305
+      },
+      "relative_position": {
+        "x": -3.2946,
+        "y": -54.4305
+      },
+      "relative": {
+        "x": -3.2946,
+        "y": -54.4305
+      },
+      "size": {
+        "rx": 5.8707,
+        "ry": 7.3215
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -165.1561
+      },
+      "color": "#efbb60",
+      "alpha": 0.6275,
+      "packed_color": 2700065632,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 100,
+      "type": "ellipse",
+      "center": {
+        "x": 240.5906,
+        "y": -90.2627
+      },
+      "relative_position": {
+        "x": 96.5906,
+        "y": -26.2627
+      },
+      "relative": {
+        "x": 96.5906,
+        "y": -26.2627
+      },
+      "size": {
+        "rx": 15.0449,
+        "ry": 2.3802
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -285.5366
+      },
+      "color": "#ffe3a3",
+      "alpha": 0.4745,
+      "packed_color": 2046813091,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 101,
+      "type": "ellipse",
+      "center": {
+        "x": 98.3636,
+        "y": -0.0
+      },
+      "relative_position": {
+        "x": -45.6364,
+        "y": 64.0
+      },
+      "relative": {
+        "x": -45.6364,
+        "y": 64.0
+      },
+      "size": {
+        "rx": 3.0995,
+        "ry": 40.1723
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -3.8756
+      },
+      "color": "#ffeda2",
+      "alpha": 0.5686,
+      "packed_color": 2449468834,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 102,
+      "type": "ellipse",
+      "center": {
+        "x": 218.0393,
+        "y": -32.0247
+      },
+      "relative_position": {
+        "x": 74.0393,
+        "y": 31.9753
+      },
+      "relative": {
+        "x": 74.0393,
+        "y": 31.9753
+      },
+      "size": {
+        "rx": 14.5751,
+        "ry": 1.4702
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -146.921
+      },
+      "color": "#faaa4e",
+      "alpha": 0.4118,
+      "packed_color": 1778035278,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 103,
+      "type": "ellipse",
+      "center": {
+        "x": 269.7539,
+        "y": -47.4261
+      },
+      "relative_position": {
+        "x": 125.7539,
+        "y": 16.5739
+      },
+      "relative": {
+        "x": 125.7539,
+        "y": 16.5739
+      },
+      "size": {
+        "rx": 15.8218,
+        "ry": 10.4016
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -167.3078
+      },
+      "color": "#2f2e34",
+      "alpha": 0.7098,
+      "packed_color": 3039768116,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 104,
+      "type": "ellipse",
+      "center": {
+        "x": 222.4466,
+        "y": -87.188
+      },
+      "relative_position": {
+        "x": 78.4466,
+        "y": -23.188
+      },
+      "relative": {
+        "x": 78.4466,
+        "y": -23.188
+      },
+      "size": {
+        "rx": 5.2604,
+        "ry": 16.2237
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -90.2158
+      },
+      "color": "#4a3124",
+      "alpha": 0.502,
+      "packed_color": 2152345892,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 105,
+      "type": "ellipse",
+      "center": {
+        "x": 255.9284,
+        "y": -83.9897
+      },
+      "relative_position": {
+        "x": 111.9284,
+        "y": -19.9897
+      },
+      "relative": {
+        "x": 111.9284,
+        "y": -19.9897
+      },
+      "size": {
+        "rx": 4.467,
+        "ry": 6.5067
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -39.8889
+      },
+      "color": "#725239",
+      "alpha": 0.502,
+      "packed_color": 2154975801,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 106,
+      "type": "ellipse",
+      "center": {
+        "x": 49.4001,
+        "y": -106.5321
+      },
+      "relative_position": {
+        "x": -94.5999,
+        "y": -42.5321
+      },
+      "relative": {
+        "x": -94.5999,
+        "y": -42.5321
+      },
+      "size": {
+        "rx": 4.4863,
+        "ry": 23.1726
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -88.3514
+      },
+      "color": "#472717",
+      "alpha": 0.4353,
+      "packed_color": 1866934039,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 107,
+      "type": "ellipse",
+      "center": {
+        "x": 270.282,
+        "y": -99.3127
+      },
+      "relative_position": {
+        "x": 126.282,
+        "y": -35.3127
+      },
+      "relative": {
+        "x": 126.282,
+        "y": -35.3127
+      },
+      "size": {
+        "rx": 13.2825,
+        "ry": 4.8116
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -249.5757
+      },
+      "color": "#ffefb6",
+      "alpha": 0.4353,
+      "packed_color": 1879044022,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 108,
+      "type": "ellipse",
+      "center": {
+        "x": 254.0031,
+        "y": -36.7515
+      },
+      "relative_position": {
+        "x": 110.0031,
+        "y": 27.2485
+      },
+      "relative": {
+        "x": 110.0031,
+        "y": 27.2485
+      },
+      "size": {
+        "rx": 29.0834,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -160.9623
+      },
+      "color": "#e7b76b",
+      "alpha": 0.5137,
+      "packed_color": 2213001067,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 109,
+      "type": "ellipse",
+      "center": {
+        "x": 8.6951,
+        "y": -25.18
+      },
+      "relative_position": {
+        "x": -135.3049,
+        "y": 38.82
+      },
+      "relative": {
+        "x": -135.3049,
+        "y": 38.82
+      },
+      "size": {
+        "rx": 2.4281,
+        "ry": 13.0758
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -336.2233
+      },
+      "color": "#8a6542",
+      "alpha": 0.702,
+      "packed_color": 3012191554,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 110,
+      "type": "ellipse",
+      "center": {
+        "x": 37.6983,
+        "y": -62.4639
+      },
+      "relative_position": {
+        "x": -106.3017,
+        "y": 1.5361
+      },
+      "relative": {
+        "x": -106.3017,
+        "y": 1.5361
+      },
+      "size": {
+        "rx": 40.4556,
+        "ry": 1.8512
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -218.1623
+      },
+      "color": "#fff6ca",
+      "alpha": 0.4353,
+      "packed_color": 1879045834,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 111,
+      "type": "ellipse",
+      "center": {
+        "x": 54.2055,
+        "y": -37.7198
+      },
+      "relative_position": {
+        "x": -89.7945,
+        "y": 26.2802
+      },
+      "relative": {
+        "x": -89.7945,
+        "y": 26.2802
+      },
+      "size": {
+        "rx": 5.8481,
+        "ry": 10.7682
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -16.2438
+      },
+      "color": "#ce8d3d",
+      "alpha": 0.6039,
+      "packed_color": 2597227837,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 112,
+      "type": "ellipse",
+      "center": {
+        "x": 212.4166,
+        "y": -17.0304
+      },
+      "relative_position": {
+        "x": 68.4166,
+        "y": 46.9696
+      },
+      "relative": {
+        "x": 68.4166,
+        "y": 46.9696
+      },
+      "size": {
+        "rx": 16.4016,
+        "ry": 7.4166
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -218.5021
+      },
+      "color": "#32323d",
+      "alpha": 0.451,
+      "packed_color": 1932669501,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 113,
+      "type": "ellipse",
+      "center": {
+        "x": 89.1283,
+        "y": -107.1934
+      },
+      "relative_position": {
+        "x": -54.8717,
+        "y": -43.1934
+      },
+      "relative": {
+        "x": -54.8717,
+        "y": -43.1934
+      },
+      "size": {
+        "rx": 15.0314,
+        "ry": 2.6595
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -5.4947
+      },
+      "color": "#fff9d0",
+      "alpha": 0.5059,
+      "packed_color": 2181036496,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 114,
+      "type": "ellipse",
+      "center": {
+        "x": 258.6069,
+        "y": -98.9189
+      },
+      "relative_position": {
+        "x": 114.6069,
+        "y": -34.9189
+      },
+      "relative": {
+        "x": 114.6069,
+        "y": -34.9189
+      },
+      "size": {
+        "rx": 6.8232,
+        "ry": 2.8893
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -332.4397
+      },
+      "color": "#4b3323",
+      "alpha": 0.6784,
+      "packed_color": 2907386659,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 115,
+      "type": "ellipse",
+      "center": {
+        "x": 159.3587,
+        "y": -106.8518
+      },
+      "relative_position": {
+        "x": 15.3587,
+        "y": -42.8518
+      },
+      "relative": {
+        "x": 15.3587,
+        "y": -42.8518
+      },
+      "size": {
+        "rx": 7.5358,
+        "ry": 4.0858
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -169.428
+      },
+      "color": "#c28944",
+      "alpha": 0.7922,
+      "packed_color": 3401746756,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 116,
+      "type": "ellipse",
+      "center": {
+        "x": 61.8595,
+        "y": -48.1216
+      },
+      "relative_position": {
+        "x": -82.1405,
+        "y": 15.8784
+      },
+      "relative": {
+        "x": -82.1405,
+        "y": 15.8784
+      },
+      "size": {
+        "rx": 2.1864,
+        "ry": 18.7725
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -47.5027
+      },
+      "color": "#ffd98d",
+      "alpha": 0.5608,
+      "packed_color": 2415909261,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 117,
+      "type": "ellipse",
+      "center": {
+        "x": 45.2634,
+        "y": -31.452
+      },
+      "relative_position": {
+        "x": -98.7366,
+        "y": 32.548
+      },
+      "relative": {
+        "x": -98.7366,
+        "y": 32.548
+      },
+      "size": {
+        "rx": 4.5787,
+        "ry": 6.6184
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -171.8779
+      },
+      "color": "#160809",
+      "alpha": 0.4902,
+      "packed_color": 2098595849,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 118,
+      "type": "ellipse",
+      "center": {
+        "x": 159.1975,
+        "y": -100.6153
+      },
+      "relative_position": {
+        "x": 15.1975,
+        "y": -36.6153
+      },
+      "relative": {
+        "x": 15.1975,
+        "y": -36.6153
+      },
+      "size": {
+        "rx": 2.5878,
+        "ry": 6.4832
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -77.0098
+      },
+      "color": "#fefcf0",
+      "alpha": 0.7686,
+      "packed_color": 3305045232,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 119,
+      "type": "ellipse",
+      "center": {
+        "x": 41.2014,
+        "y": -39.1548
+      },
+      "relative_position": {
+        "x": -102.7986,
+        "y": 24.8452
+      },
+      "relative": {
+        "x": -102.7986,
+        "y": 24.8452
+      },
+      "size": {
+        "rx": 3.7354,
+        "ry": 15.5054
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -319.0933
+      },
+      "color": "#e0b47d",
+      "alpha": 0.2353,
+      "packed_color": 1021359229,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 120,
+      "type": "ellipse",
+      "center": {
+        "x": 74.7129,
+        "y": -34.8805
+      },
+      "relative_position": {
+        "x": -69.2871,
+        "y": 29.1195
+      },
+      "relative": {
+        "x": -69.2871,
+        "y": 29.1195
+      },
+      "size": {
+        "rx": 3.6066,
+        "ry": 12.3422
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -264.8
+      },
+      "color": "#fdce89",
+      "alpha": 0.502,
+      "packed_color": 2164117129,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 121,
+      "type": "ellipse",
+      "center": {
+        "x": 248.5612,
+        "y": -56.4768
+      },
+      "relative_position": {
+        "x": 104.5612,
+        "y": 7.5232
+      },
+      "relative": {
+        "x": 104.5612,
+        "y": 7.5232
+      },
+      "size": {
+        "rx": 12.6095,
+        "ry": 13.8768
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -59.7769
+      },
+      "color": "#382e2d",
+      "alpha": 0.6314,
+      "packed_color": 2704813613,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 122,
+      "type": "ellipse",
+      "center": {
+        "x": 89.9328,
+        "y": -125.6377
+      },
+      "relative_position": {
+        "x": -54.0672,
+        "y": -61.6377
+      },
+      "relative": {
+        "x": -54.0672,
+        "y": -61.6377
+      },
+      "size": {
+        "rx": 3.4753,
+        "ry": 15.1404
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -294.7058
+      },
+      "color": "#0a0910",
+      "alpha": 0.4941,
+      "packed_color": 2114586896,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 123,
+      "type": "ellipse",
+      "center": {
+        "x": 241.3688,
+        "y": -96.8642
+      },
+      "relative_position": {
+        "x": 97.3688,
+        "y": -32.8642
+      },
+      "relative": {
+        "x": 97.3688,
+        "y": -32.8642
+      },
+      "size": {
+        "rx": 7.6522,
+        "ry": 2.7761
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -305.3805
+      },
+      "color": "#fff8d0",
+      "alpha": 0.7098,
+      "packed_color": 3053451472,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 124,
+      "type": "ellipse",
+      "center": {
+        "x": 227.4177,
+        "y": -100.24
+      },
+      "relative_position": {
+        "x": 83.4177,
+        "y": -36.24
+      },
+      "relative": {
+        "x": 83.4177,
+        "y": -36.24
+      },
+      "size": {
+        "rx": 7.0685,
+        "ry": 11.3932
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -35.4969
+      },
+      "color": "#2c1912",
+      "alpha": 0.4627,
+      "packed_color": 1982601490,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 125,
+      "type": "ellipse",
+      "center": {
+        "x": 148.683,
+        "y": -45.3449
+      },
+      "relative_position": {
+        "x": 4.683,
+        "y": 18.6551
+      },
+      "relative": {
+        "x": 4.683,
+        "y": 18.6551
+      },
+      "size": {
+        "rx": 2.888,
+        "ry": 29.7926
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -39.6837
+      },
+      "color": "#fffff6",
+      "alpha": 0.3843,
+      "packed_color": 1660944374,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 126,
+      "type": "ellipse",
+      "center": {
+        "x": 229.3631,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 85.3631,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 85.3631,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 22.6552,
+        "ry": 4.8162
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -14.1081
+      },
+      "color": "#fdc763",
+      "alpha": 0.5216,
+      "packed_color": 2248001379,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 127,
+      "type": "ellipse",
+      "center": {
+        "x": 184.5926,
+        "y": -46.6317
+      },
+      "relative_position": {
+        "x": 40.5926,
+        "y": 17.3683
+      },
+      "relative": {
+        "x": 40.5926,
+        "y": 17.3683
+      },
+      "size": {
+        "rx": 3.3351,
+        "ry": 25.1216
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -199.3525
+      },
+      "color": "#c08943",
+      "alpha": 0.5569,
+      "packed_color": 2394982723,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 128,
+      "type": "ellipse",
+      "center": {
+        "x": 108.4176,
+        "y": -112.1083
+      },
+      "relative_position": {
+        "x": -35.5824,
+        "y": -48.1083
+      },
+      "relative": {
+        "x": -35.5824,
+        "y": -48.1083
+      },
+      "size": {
+        "rx": 4.0445,
+        "ry": 2.5714
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -213.9676
+      },
+      "color": "#3a0c00",
+      "alpha": 0.4941,
+      "packed_color": 2117733376,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 129,
+      "type": "ellipse",
+      "center": {
+        "x": 121.0722,
+        "y": -44.9547
+      },
+      "relative_position": {
+        "x": -22.9278,
+        "y": 19.0453
+      },
+      "relative": {
+        "x": -22.9278,
+        "y": 19.0453
+      },
+      "size": {
+        "rx": 12.5225,
+        "ry": 5.6789
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -281.5742
+      },
+      "color": "#874f22",
+      "alpha": 0.5255,
+      "packed_color": 2257014562,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 130,
+      "type": "ellipse",
+      "center": {
+        "x": 111.0095,
+        "y": -127.5807
+      },
+      "relative_position": {
+        "x": -32.9905,
+        "y": -63.5807
+      },
+      "relative": {
+        "x": -32.9905,
+        "y": -63.5807
+      },
+      "size": {
+        "rx": 7.7669,
+        "ry": 9.2947
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -350.4491
+      },
+      "color": "#160c0e",
+      "alpha": 0.5137,
+      "packed_color": 2199260174,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 131,
+      "type": "ellipse",
+      "center": {
+        "x": 130.2097,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": -13.7903,
+        "y": -63.0
+      },
+      "relative": {
+        "x": -13.7903,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 16.8629,
+        "ry": 2.12
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -183.2435
+      },
+      "color": "#7b4419",
+      "alpha": 0.5686,
+      "packed_color": 2440774681,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 132,
+      "type": "ellipse",
+      "center": {
+        "x": 53.2432,
+        "y": -117.1477
+      },
+      "relative_position": {
+        "x": -90.7568,
+        "y": -53.1477
+      },
+      "relative": {
+        "x": -90.7568,
+        "y": -53.1477
+      },
+      "size": {
+        "rx": 9.2511,
+        "ry": 2.0103
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -142.9009
+      },
+      "color": "#ffce6b",
+      "alpha": 0.5255,
+      "packed_color": 2264911467,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 133,
+      "type": "ellipse",
+      "center": {
+        "x": 276.3775,
+        "y": -65.8103
+      },
+      "relative_position": {
+        "x": 132.3775,
+        "y": -1.8103
+      },
+      "relative": {
+        "x": 132.3775,
+        "y": -1.8103
+      },
+      "size": {
+        "rx": 22.5679,
+        "ry": 1.2355
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -135.2998
+      },
+      "color": "#d3b176",
+      "alpha": 0.5255,
+      "packed_color": 2262020470,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 134,
+      "type": "ellipse",
+      "center": {
+        "x": 84.7121,
+        "y": -92.27
+      },
+      "relative_position": {
+        "x": -59.2879,
+        "y": -28.27
+      },
+      "relative": {
+        "x": -59.2879,
+        "y": -28.27
+      },
+      "size": {
+        "rx": 7.4612,
+        "ry": 11.5135
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -112.9103
+      },
+      "color": "#442719",
+      "alpha": 0.4941,
+      "packed_color": 2118395673,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 135,
+      "type": "ellipse",
+      "center": {
+        "x": 85.2151,
+        "y": -116.5104
+      },
+      "relative_position": {
+        "x": -58.7849,
+        "y": -52.5104
+      },
+      "relative": {
+        "x": -58.7849,
+        "y": -52.5104
+      },
+      "size": {
+        "rx": 13.4632,
+        "ry": 3.8748
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -186.9949
+      },
+      "color": "#80491f",
+      "alpha": 0.4941,
+      "packed_color": 2122336543,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 136,
+      "type": "ellipse",
+      "center": {
+        "x": 256.3097,
+        "y": -125.5421
+      },
+      "relative_position": {
+        "x": 112.3097,
+        "y": -61.5421
+      },
+      "relative": {
+        "x": 112.3097,
+        "y": -61.5421
+      },
+      "size": {
+        "rx": 14.4288,
+        "ry": 11.412
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -114.155
+      },
+      "color": "#b6783b",
+      "alpha": 0.5804,
+      "packed_color": 2494986299,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 137,
+      "type": "ellipse",
+      "center": {
+        "x": 136.6108,
+        "y": -102.4676
+      },
+      "relative_position": {
+        "x": -7.3892,
+        "y": -38.4676
+      },
+      "relative": {
+        "x": -7.3892,
+        "y": -38.4676
+      },
+      "size": {
+        "rx": 5.9016,
+        "ry": 11.783
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -371.4235
+      },
+      "color": "#feffff",
+      "alpha": 0.5255,
+      "packed_color": 2264858623,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 138,
+      "type": "ellipse",
+      "center": {
+        "x": 174.0022,
+        "y": -55.4147
+      },
+      "relative_position": {
+        "x": 30.0022,
+        "y": 8.5853
+      },
+      "relative": {
+        "x": 30.0022,
+        "y": 8.5853
+      },
+      "size": {
+        "rx": 53.327,
+        "ry": 2.9355
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -112.8841
+      },
+      "color": "#fff0bb",
+      "alpha": 0.5176,
+      "packed_color": 2231365819,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 139,
+      "type": "ellipse",
+      "center": {
+        "x": 244.948,
+        "y": -94.5033
+      },
+      "relative_position": {
+        "x": 100.948,
+        "y": -30.5033
+      },
+      "relative": {
+        "x": 100.948,
+        "y": -30.5033
+      },
+      "size": {
+        "rx": 5.7932,
+        "ry": 6.9092
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -231.7487
+      },
+      "color": "#ffedb9",
+      "alpha": 0.6118,
+      "packed_color": 2634018233,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 140,
+      "type": "ellipse",
+      "center": {
+        "x": 115.1036,
+        "y": -70.6118
+      },
+      "relative_position": {
+        "x": -28.8964,
+        "y": -6.6118
+      },
+      "relative": {
+        "x": -28.8964,
+        "y": -6.6118
+      },
+      "size": {
+        "rx": 4.2678,
+        "ry": 5.1865
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -279.5571
+      },
+      "color": "#be8948",
+      "alpha": 0.6157,
+      "packed_color": 2646509896,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 141,
+      "type": "ellipse",
+      "center": {
+        "x": 267.1054,
+        "y": -59.771
+      },
+      "relative_position": {
+        "x": 123.1054,
+        "y": 4.229
+      },
+      "relative": {
+        "x": 123.1054,
+        "y": 4.229
+      },
+      "size": {
+        "rx": 4.278,
+        "ry": 17.405
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -206.2827
+      },
+      "color": "#3d2d28",
+      "alpha": 0.4863,
+      "packed_color": 2084384040,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 142,
+      "type": "ellipse",
+      "center": {
+        "x": 39.5671,
+        "y": -5.6089
+      },
+      "relative_position": {
+        "x": -104.4329,
+        "y": 58.3911
+      },
+      "relative": {
+        "x": -104.4329,
+        "y": 58.3911
+      },
+      "size": {
+        "rx": 31.6075,
+        "ry": 3.8056
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -59.1231
+      },
+      "color": "#f3ca7d",
+      "alpha": 0.6235,
+      "packed_color": 2683554429,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 143,
+      "type": "ellipse",
+      "center": {
+        "x": 248.9465,
+        "y": -107.2056
+      },
+      "relative_position": {
+        "x": 104.9465,
+        "y": -43.2056
+      },
+      "relative": {
+        "x": 104.9465,
+        "y": -43.2056
+      },
+      "size": {
+        "rx": 6.3291,
+        "ry": 6.8761
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -150.1507
+      },
+      "color": "#492d1d",
+      "alpha": 0.5255,
+      "packed_color": 2252942621,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 144,
+      "type": "ellipse",
+      "center": {
+        "x": 88.3371,
+        "y": -70.5284
+      },
+      "relative_position": {
+        "x": -55.6629,
+        "y": -6.5284
+      },
+      "relative": {
+        "x": -55.6629,
+        "y": -6.5284
+      },
+      "size": {
+        "rx": 15.809,
+        "ry": 3.3664
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -28.9185
+      },
+      "color": "#5b3820",
+      "alpha": 0.4745,
+      "packed_color": 2036021280,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 145,
+      "type": "ellipse",
+      "center": {
+        "x": 193.6876,
+        "y": -102.108
+      },
+      "relative_position": {
+        "x": 49.6876,
+        "y": -38.108
+      },
+      "relative": {
+        "x": 49.6876,
+        "y": -38.108
+      },
+      "size": {
+        "rx": 11.7381,
+        "ry": 6.0251
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -331.4252
+      },
+      "color": "#b97b3b",
+      "alpha": 0.502,
+      "packed_color": 2159639355,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 146,
+      "type": "ellipse",
+      "center": {
+        "x": 75.8376,
+        "y": -45.6546
+      },
+      "relative_position": {
+        "x": -68.1624,
+        "y": 18.3454
+      },
+      "relative": {
+        "x": -68.1624,
+        "y": 18.3454
+      },
+      "size": {
+        "rx": 5.9875,
+        "ry": 6.4051
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -176.7764
+      },
+      "color": "#2c2220",
+      "alpha": 0.4941,
+      "packed_color": 2116821536,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 147,
+      "type": "ellipse",
+      "center": {
+        "x": 24.3104,
+        "y": -9.8979
+      },
+      "relative_position": {
+        "x": -119.6896,
+        "y": 54.1021
+      },
+      "relative": {
+        "x": -119.6896,
+        "y": 54.1021
+      },
+      "size": {
+        "rx": 13.2968,
+        "ry": 7.9195
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -249.4025
+      },
+      "color": "#725034",
+      "alpha": 0.6667,
+      "packed_color": 2859618356,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 148,
+      "type": "ellipse",
+      "center": {
+        "x": 183.0614,
+        "y": -83.0143
+      },
+      "relative_position": {
+        "x": 39.0614,
+        "y": -19.0143
+      },
+      "relative": {
+        "x": 39.0614,
+        "y": -19.0143
+      },
+      "size": {
+        "rx": 7.477,
+        "ry": 4.6682
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -130.5426
+      },
+      "color": "#8c4e1d",
+      "alpha": 0.5059,
+      "packed_color": 2173455901,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 149,
+      "type": "ellipse",
+      "center": {
+        "x": 72.8796,
+        "y": -115.4586
+      },
+      "relative_position": {
+        "x": -71.1204,
+        "y": -51.4586
+      },
+      "relative": {
+        "x": -71.1204,
+        "y": -51.4586
+      },
+      "size": {
+        "rx": 4.6123,
+        "ry": 4.7062
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -229.6871
+      },
+      "color": "#b97f3d",
+      "alpha": 0.6471,
+      "packed_color": 2780397373,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 150,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -51.042
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": 12.958
+      },
+      "relative": {
+        "x": 143.0,
+        "y": 12.958
+      },
+      "size": {
+        "rx": 13.8047,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -120.247
+      },
+      "color": "#ffe191",
+      "alpha": 0.6588,
+      "packed_color": 2835341713,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 151,
+      "type": "ellipse",
+      "center": {
+        "x": 109.0394,
+        "y": -76.977
+      },
+      "relative_position": {
+        "x": -34.9606,
+        "y": -12.977
+      },
+      "relative": {
+        "x": -34.9606,
+        "y": -12.977
+      },
+      "size": {
+        "rx": 11.023,
+        "ry": 3.3068
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -55.217
+      },
+      "color": "#fffee4",
+      "alpha": 0.5216,
+      "packed_color": 2248146660,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 152,
+      "type": "ellipse",
+      "center": {
+        "x": 35.1591,
+        "y": -94.3969
+      },
+      "relative_position": {
+        "x": -108.8409,
+        "y": -30.3969
+      },
+      "relative": {
+        "x": -108.8409,
+        "y": -30.3969
+      },
+      "size": {
+        "rx": 3.6836,
+        "ry": 21.9254
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -300.6148
+      },
+      "color": "#af7239",
+      "alpha": 0.4,
+      "packed_color": 1722774073,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 153,
+      "type": "ellipse",
+      "center": {
+        "x": 72.4294,
+        "y": -25.7576
+      },
+      "relative_position": {
+        "x": -71.5706,
+        "y": 38.2424
+      },
+      "relative": {
+        "x": -71.5706,
+        "y": 38.2424
+      },
+      "size": {
+        "rx": 8.4896,
+        "ry": 3.1765
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -285.0353
+      },
+      "color": "#d59f5c",
+      "alpha": 0.6196,
+      "packed_color": 2664800092,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 154,
+      "type": "ellipse",
+      "center": {
+        "x": 191.2404,
+        "y": -66.455
+      },
+      "relative_position": {
+        "x": 47.2404,
+        "y": -2.455
+      },
+      "relative": {
+        "x": 47.2404,
+        "y": -2.455
+      },
+      "size": {
+        "rx": 3.1755,
+        "ry": 5.6849
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -345.3618
+      },
+      "color": "#673b1a",
+      "alpha": 0.5216,
+      "packed_color": 2238135066,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 155,
+      "type": "ellipse",
+      "center": {
+        "x": 133.0936,
+        "y": -29.5674
+      },
+      "relative_position": {
+        "x": -10.9064,
+        "y": 34.4326
+      },
+      "relative": {
+        "x": -10.9064,
+        "y": 34.4326
+      },
+      "size": {
+        "rx": 10.1416,
+        "ry": 8.4248
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -289.7805
+      },
+      "color": "#674b39",
+      "alpha": 0.4706,
+      "packed_color": 2020035385,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 156,
+      "type": "ellipse",
+      "center": {
+        "x": 169.6527,
+        "y": -116.5804
+      },
+      "relative_position": {
+        "x": 25.6527,
+        "y": -52.5804
+      },
+      "relative": {
+        "x": 25.6527,
+        "y": -52.5804
+      },
+      "size": {
+        "rx": 24.9961,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -7.5289
+      },
+      "color": "#fffbce",
+      "alpha": 0.5294,
+      "packed_color": 2281700302,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 157,
+      "type": "ellipse",
+      "center": {
+        "x": 176.278,
+        "y": -98.9793
+      },
+      "relative_position": {
+        "x": 32.278,
+        "y": -34.9793
+      },
+      "relative": {
+        "x": 32.278,
+        "y": -34.9793
+      },
+      "size": {
+        "rx": 4.0183,
+        "ry": 10.5138
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -243.7677
+      },
+      "color": "#ffd569",
+      "alpha": 0.5373,
+      "packed_color": 2315244905,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 158,
+      "type": "ellipse",
+      "center": {
+        "x": 226.0773,
+        "y": -116.3849
+      },
+      "relative_position": {
+        "x": 82.0773,
+        "y": -52.3849
+      },
+      "relative": {
+        "x": 82.0773,
+        "y": -52.3849
+      },
+      "size": {
+        "rx": 14.2497,
+        "ry": 4.6976
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -173.7353
+      },
+      "color": "#bc722b",
+      "alpha": 0.4745,
+      "packed_color": 2042393131,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 159,
+      "type": "ellipse",
+      "center": {
+        "x": 111.1705,
+        "y": -59.8251
+      },
+      "relative_position": {
+        "x": -32.8295,
+        "y": 4.1749
+      },
+      "relative": {
+        "x": -32.8295,
+        "y": 4.1749
+      },
+      "size": {
+        "rx": 2.7542,
+        "ry": 12.5799
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -192.5167
+      },
+      "color": "#fffedc",
+      "alpha": 0.498,
+      "packed_color": 2147483356,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 160,
+      "type": "ellipse",
+      "center": {
+        "x": 131.6382,
+        "y": -92.3566
+      },
+      "relative_position": {
+        "x": -12.3618,
+        "y": -28.3566
+      },
+      "relative": {
+        "x": -12.3618,
+        "y": -28.3566
+      },
+      "size": {
+        "rx": 5.1599,
+        "ry": 2.0695
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -289.141
+      },
+      "color": "#ebbf6e",
+      "alpha": 0.6431,
+      "packed_color": 2766913390,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 161,
+      "type": "ellipse",
+      "center": {
+        "x": 58.7984,
+        "y": -76.914
+      },
+      "relative_position": {
+        "x": -85.2016,
+        "y": -12.914
+      },
+      "relative": {
+        "x": -85.2016,
+        "y": -12.914
+      },
+      "size": {
+        "rx": 7.4668,
+        "ry": 2.9337
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -89.7727
+      },
+      "color": "#7f5731",
+      "alpha": 0.8235,
+      "packed_color": 3531560753,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 162,
+      "type": "ellipse",
+      "center": {
+        "x": 202.7479,
+        "y": -33.8114
+      },
+      "relative_position": {
+        "x": 58.7479,
+        "y": 30.1886
+      },
+      "relative": {
+        "x": 58.7479,
+        "y": 30.1886
+      },
+      "size": {
+        "rx": 3.9635,
+        "ry": 15.2268
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -238.1374
+      },
+      "color": "#3c3a40",
+      "alpha": 0.502,
+      "packed_color": 2151430720,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 163,
+      "type": "ellipse",
+      "center": {
+        "x": 27.6574,
+        "y": -33.7834
+      },
+      "relative_position": {
+        "x": -116.3426,
+        "y": 30.2166
+      },
+      "relative": {
+        "x": -116.3426,
+        "y": 30.2166
+      },
+      "size": {
+        "rx": 3.8854,
+        "ry": 14.6439
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -187.8283
+      },
+      "color": "#0c080e",
+      "alpha": 0.4157,
+      "packed_color": 1779173390,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 164,
+      "type": "ellipse",
+      "center": {
+        "x": 261.5515,
+        "y": -110.7354
+      },
+      "relative_position": {
+        "x": 117.5515,
+        "y": -46.7354
+      },
+      "relative": {
+        "x": 117.5515,
+        "y": -46.7354
+      },
+      "size": {
+        "rx": 2.3438,
+        "ry": 3.7758
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -5.6163
+      },
+      "color": "#fee1a2",
+      "alpha": 0.6118,
+      "packed_color": 2633949602,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 165,
+      "type": "ellipse",
+      "center": {
+        "x": 226.9033,
+        "y": -62.4436
+      },
+      "relative_position": {
+        "x": 82.9033,
+        "y": 1.5564
+      },
+      "relative": {
+        "x": 82.9033,
+        "y": 1.5564
+      },
+      "size": {
+        "rx": 13.43,
+        "ry": 5.2137
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -309.9664
+      },
+      "color": "#fec26f",
+      "alpha": 0.4863,
+      "packed_color": 2097070703,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 166,
+      "type": "ellipse",
+      "center": {
+        "x": 36.6569,
+        "y": -16.7137
+      },
+      "relative_position": {
+        "x": -107.3431,
+        "y": 47.2863
+      },
+      "relative": {
+        "x": -107.3431,
+        "y": 47.2863
+      },
+      "size": {
+        "rx": 9.8527,
+        "ry": 1.7615
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -246.1466
+      },
+      "color": "#f5daa2",
+      "alpha": 0.502,
+      "packed_color": 2163595938,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 167,
+      "type": "ellipse",
+      "center": {
+        "x": 78.2313,
+        "y": -2.6278
+      },
+      "relative_position": {
+        "x": -65.7687,
+        "y": 61.3722
+      },
+      "relative": {
+        "x": -65.7687,
+        "y": 61.3722
+      },
+      "size": {
+        "rx": 3.3949,
+        "ry": 14.1721
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -93.9866
+      },
+      "color": "#221d21",
+      "alpha": 0.4941,
+      "packed_color": 2116164897,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 168,
+      "type": "ellipse",
+      "center": {
+        "x": 181.9134,
+        "y": -0.0
+      },
+      "relative_position": {
+        "x": 37.9134,
+        "y": 64.0
+      },
+      "relative": {
+        "x": 37.9134,
+        "y": 64.0
+      },
+      "size": {
+        "rx": 18.3766,
+        "ry": 10.002
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -73.3649
+      },
+      "color": "#e4a642",
+      "alpha": 0.4,
+      "packed_color": 1726260802,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 169,
+      "type": "ellipse",
+      "center": {
+        "x": 124.1867,
+        "y": -117.0582
+      },
+      "relative_position": {
+        "x": -19.8133,
+        "y": -53.0582
+      },
+      "relative": {
+        "x": -19.8133,
+        "y": -53.0582
+      },
+      "size": {
+        "rx": 2.8683,
+        "ry": 6.6899
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -275.3045
+      },
+      "color": "#c98e3a",
+      "alpha": 0.5373,
+      "packed_color": 2311687738,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 170,
+      "type": "ellipse",
+      "center": {
+        "x": 151.3637,
+        "y": -87.1331
+      },
+      "relative_position": {
+        "x": 7.3637,
+        "y": -23.1331
+      },
+      "relative": {
+        "x": 7.3637,
+        "y": -23.1331
+      },
+      "size": {
+        "rx": 2.5083,
+        "ry": 15.6838
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -225.6614
+      },
+      "color": "#dfa548",
+      "alpha": 0.4549,
+      "packed_color": 1960813896,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 171,
+      "type": "ellipse",
+      "center": {
+        "x": 109.6689,
+        "y": -42.7705
+      },
+      "relative_position": {
+        "x": -34.3311,
+        "y": 21.2295
+      },
+      "relative": {
+        "x": -34.3311,
+        "y": 21.2295
+      },
+      "size": {
+        "rx": 10.6126,
+        "ry": 4.1399
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -97.3242
+      },
+      "color": "#ffdf8d",
+      "alpha": 0.502,
+      "packed_color": 2164252557,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 172,
+      "type": "ellipse",
+      "center": {
+        "x": 49.9098,
+        "y": -59.1045
+      },
+      "relative_position": {
+        "x": -94.0902,
+        "y": 4.8955
+      },
+      "relative": {
+        "x": -94.0902,
+        "y": 4.8955
+      },
+      "size": {
+        "rx": 3.9067,
+        "ry": 6.4192
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -207.9502
+      },
+      "color": "#f0c673",
+      "alpha": 0.7451,
+      "packed_color": 3203450483,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 173,
+      "type": "ellipse",
+      "center": {
+        "x": 40.1941,
+        "y": -74.0678
+      },
+      "relative_position": {
+        "x": -103.8059,
+        "y": -10.0678
+      },
+      "relative": {
+        "x": -103.8059,
+        "y": -10.0678
+      },
+      "size": {
+        "rx": 7.7673,
+        "ry": 1.7186
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -81.3697
+      },
+      "color": "#ebac52",
+      "alpha": 0.6706,
+      "packed_color": 2884349010,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 174,
+      "type": "ellipse",
+      "center": {
+        "x": 219.3016,
+        "y": -100.0918
+      },
+      "relative_position": {
+        "x": 75.3016,
+        "y": -36.0918
+      },
+      "relative": {
+        "x": 75.3016,
+        "y": -36.0918
+      },
+      "size": {
+        "rx": 24.7582,
+        "ry": 2.2609
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -321.9451
+      },
+      "color": "#442a1a",
+      "alpha": 0.4902,
+      "packed_color": 2101619226,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 175,
+      "type": "ellipse",
+      "center": {
+        "x": 279.4753,
+        "y": -110.0159
+      },
+      "relative_position": {
+        "x": 135.4753,
+        "y": -46.0159
+      },
+      "relative": {
+        "x": 135.4753,
+        "y": -46.0159
+      },
+      "size": {
+        "rx": 12.3818,
+        "ry": 4.4211
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -108.0556
+      },
+      "color": "#c69357",
+      "alpha": 0.6118,
+      "packed_color": 2630259543,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 176,
+      "type": "ellipse",
+      "center": {
+        "x": 217.8736,
+        "y": -56.1507
+      },
+      "relative_position": {
+        "x": 73.8736,
+        "y": 7.8493
+      },
+      "relative": {
+        "x": 73.8736,
+        "y": 7.8493
+      },
+      "size": {
+        "rx": 2.6065,
+        "ry": 9.5438
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -37.9119
+      },
+      "color": "#83674c",
+      "alpha": 0.8078,
+      "packed_color": 3464718156,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 177,
+      "type": "ellipse",
+      "center": {
+        "x": 206.8704,
+        "y": -70.8353
+      },
+      "relative_position": {
+        "x": 62.8704,
+        "y": -6.8353
+      },
+      "relative": {
+        "x": 62.8704,
+        "y": -6.8353
+      },
+      "size": {
+        "rx": 15.8122,
+        "ry": 5.1513
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -227.9124
+      },
+      "color": "#e8bb78",
+      "alpha": 0.502,
+      "packed_color": 2162735992,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 178,
+      "type": "ellipse",
+      "center": {
+        "x": 167.5689,
+        "y": -121.5307
+      },
+      "relative_position": {
+        "x": 23.5689,
+        "y": -57.5307
+      },
+      "relative": {
+        "x": 23.5689,
+        "y": -57.5307
+      },
+      "size": {
+        "rx": 1.9503,
+        "ry": 31.6316
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -110.5094
+      },
+      "color": "#ffcf7b",
+      "alpha": 0.4235,
+      "packed_color": 1828704123,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 179,
+      "type": "ellipse",
+      "center": {
+        "x": 153.039,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 9.039,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 9.039,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 8.3087,
+        "ry": 2.0124
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -204.3482
+      },
+      "color": "#fbbe4e",
+      "alpha": 0.6392,
+      "packed_color": 2751184462,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 180,
+      "type": "ellipse",
+      "center": {
+        "x": 130.4263,
+        "y": -56.2596
+      },
+      "relative_position": {
+        "x": -13.5737,
+        "y": 7.7404
+      },
+      "relative": {
+        "x": -13.5737,
+        "y": 7.7404
+      },
+      "size": {
+        "rx": 7.0722,
+        "ry": 2.1724
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -50.0568
+      },
+      "color": "#fff4bf",
+      "alpha": 0.5137,
+      "packed_color": 2214589631,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 181,
+      "type": "ellipse",
+      "center": {
+        "x": 160.1123,
+        "y": -16.3772
+      },
+      "relative_position": {
+        "x": 16.1123,
+        "y": 47.6228
+      },
+      "relative": {
+        "x": 16.1123,
+        "y": 47.6228
+      },
+      "size": {
+        "rx": 20.2,
+        "ry": 7.4464
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -110.3907
+      },
+      "color": "#fff2be",
+      "alpha": 0.6314,
+      "packed_color": 2717905598,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 182,
+      "type": "ellipse",
+      "center": {
+        "x": 80.2861,
+        "y": -106.7502
+      },
+      "relative_position": {
+        "x": -63.7139,
+        "y": -42.7502
+      },
+      "relative": {
+        "x": -63.7139,
+        "y": -42.7502
+      },
+      "size": {
+        "rx": 1.9986,
+        "ry": 16.6521
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -290.2536
+      },
+      "color": "#fff3bd",
+      "alpha": 0.4745,
+      "packed_color": 2046817213,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 183,
+      "type": "ellipse",
+      "center": {
+        "x": 129.4299,
+        "y": -1.4411
+      },
+      "relative_position": {
+        "x": -14.5701,
+        "y": 62.5589
+      },
+      "relative": {
+        "x": -14.5701,
+        "y": 62.5589
+      },
+      "size": {
+        "rx": 12.8132,
+        "ry": 10.3769
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -225.4753
+      },
+      "color": "#363237",
+      "alpha": 0.6118,
+      "packed_color": 2620797495,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 184,
+      "type": "ellipse",
+      "center": {
+        "x": 176.1962,
+        "y": -109.7171
+      },
+      "relative_position": {
+        "x": 32.1962,
+        "y": -45.7171
+      },
+      "relative": {
+        "x": 32.1962,
+        "y": -45.7171
+      },
+      "size": {
+        "rx": 2.5228,
+        "ry": 5.4184
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -402.8643
+      },
+      "color": "#ffffff",
+      "alpha": 0.5373,
+      "packed_color": 2315255807,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 185,
+      "type": "ellipse",
+      "center": {
+        "x": 86.0828,
+        "y": -72.6754
+      },
+      "relative_position": {
+        "x": -57.9172,
+        "y": -8.6754
+      },
+      "relative": {
+        "x": -57.9172,
+        "y": -8.6754
+      },
+      "size": {
+        "rx": 5.8435,
+        "ry": 8.8776
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -179.1274
+      },
+      "color": "#885b34",
+      "alpha": 0.7176,
+      "packed_color": 3079166772,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 186,
+      "type": "ellipse",
+      "center": {
+        "x": 89.6009,
+        "y": -22.4716
+      },
+      "relative_position": {
+        "x": -54.3991,
+        "y": 41.5284
+      },
+      "relative": {
+        "x": -54.3991,
+        "y": 41.5284
+      },
+      "size": {
+        "rx": 15.0526,
+        "ry": 3.8756
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -119.2103
+      },
+      "color": "#c7893f",
+      "alpha": 0.5686,
+      "packed_color": 2445773119,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 187,
+      "type": "ellipse",
+      "center": {
+        "x": 264.9435,
+        "y": -20.5909
+      },
+      "relative_position": {
+        "x": 120.9435,
+        "y": 43.4091
+      },
+      "relative": {
+        "x": 120.9435,
+        "y": 43.4091
+      },
+      "size": {
+        "rx": 6.1599,
+        "ry": 2.7472
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -126.8678
+      },
+      "color": "#fac16b",
+      "alpha": 0.4941,
+      "packed_color": 2130362731,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 188,
+      "type": "ellipse",
+      "center": {
+        "x": 23.7552,
+        "y": -54.9136
+      },
+      "relative_position": {
+        "x": -120.2448,
+        "y": 9.0864
+      },
+      "relative": {
+        "x": -120.2448,
+        "y": 9.0864
+      },
+      "size": {
+        "rx": 3.4464,
+        "ry": 12.6756
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -289.5929
+      },
+      "color": "#fdf0cc",
+      "alpha": 0.5137,
+      "packed_color": 2214457548,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 189,
+      "type": "ellipse",
+      "center": {
+        "x": 41.5557,
+        "y": -21.4439
+      },
+      "relative_position": {
+        "x": -102.4443,
+        "y": 42.5561
+      },
+      "relative": {
+        "x": -102.4443,
+        "y": 42.5561
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 10.4738
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -167.3922
+      },
+      "color": "#361c0f",
+      "alpha": 0.4627,
+      "packed_color": 1983257615,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 190,
+      "type": "ellipse",
+      "center": {
+        "x": 23.0532,
+        "y": -109.739
+      },
+      "relative_position": {
+        "x": -120.9468,
+        "y": -45.739
+      },
+      "relative": {
+        "x": -120.9468,
+        "y": -45.739
+      },
+      "size": {
+        "rx": 30.018,
+        "ry": 4.6689
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -359.9966
+      },
+      "color": "#271c1a",
+      "alpha": 0.5333,
+      "packed_color": 2284264474,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 191,
+      "type": "ellipse",
+      "center": {
+        "x": 56.5683,
+        "y": -113.3898
+      },
+      "relative_position": {
+        "x": -87.4317,
+        "y": -49.3898
+      },
+      "relative": {
+        "x": -87.4317,
+        "y": -49.3898
+      },
+      "size": {
+        "rx": 2.4461,
+        "ry": 5.4249
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -295.3371
+      },
+      "color": "#fddf85",
+      "alpha": 0.651,
+      "packed_color": 2801655685,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 192,
+      "type": "ellipse",
+      "center": {
+        "x": 267.9502,
+        "y": -113.6152
+      },
+      "relative_position": {
+        "x": 123.9502,
+        "y": -49.6152
+      },
+      "relative": {
+        "x": 123.9502,
+        "y": -49.6152
+      },
+      "size": {
+        "rx": 4.3341,
+        "ry": 4.4394
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -274.7628
+      },
+      "color": "#1e070a",
+      "alpha": 0.2863,
+      "packed_color": 1226704650,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 193,
+      "type": "ellipse",
+      "center": {
+        "x": 53.7507,
+        "y": -5.7776
+      },
+      "relative_position": {
+        "x": -90.2493,
+        "y": 58.2224
+      },
+      "relative": {
+        "x": -90.2493,
+        "y": 58.2224
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 6.7082
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -343.5735
+      },
+      "color": "#ffffbd",
+      "alpha": 0.5765,
+      "packed_color": 2483027901,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 194,
+      "type": "ellipse",
+      "center": {
+        "x": 112.5765,
+        "y": -20.6722
+      },
+      "relative_position": {
+        "x": -31.4235,
+        "y": 43.3278
+      },
+      "relative": {
+        "x": -31.4235,
+        "y": 43.3278
+      },
+      "size": {
+        "rx": 5.5078,
+        "ry": 3.6525
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -166.0071
+      },
+      "color": "#e3a94f",
+      "alpha": 0.5922,
+      "packed_color": 2548279631,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 195,
+      "type": "ellipse",
+      "center": {
+        "x": 65.1878,
+        "y": -5.1595
+      },
+      "relative_position": {
+        "x": -78.8122,
+        "y": 58.8405
+      },
+      "relative": {
+        "x": -78.8122,
+        "y": 58.8405
+      },
+      "size": {
+        "rx": 6.8117,
+        "ry": 22.1788
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -363.0434
+      },
+      "color": "#413e41",
+      "alpha": 0.5255,
+      "packed_color": 2252422721,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 196,
+      "type": "ellipse",
+      "center": {
+        "x": 262.7939,
+        "y": -7.0486
+      },
+      "relative_position": {
+        "x": 118.7939,
+        "y": 56.9514
+      },
+      "relative": {
+        "x": 118.7939,
+        "y": 56.9514
+      },
+      "size": {
+        "rx": 20.2993,
+        "ry": 8.0799
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -137.9512
+      },
+      "color": "#333239",
+      "alpha": 0.5725,
+      "packed_color": 2452828729,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 197,
+      "type": "ellipse",
+      "center": {
+        "x": 240.387,
+        "y": -118.6824
+      },
+      "relative_position": {
+        "x": 96.387,
+        "y": -54.6824
+      },
+      "relative": {
+        "x": 96.387,
+        "y": -54.6824
+      },
+      "size": {
+        "rx": 1.8749,
+        "ry": 5.0334
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -55.0382
+      },
+      "color": "#ffebc7",
+      "alpha": 0.5216,
+      "packed_color": 2248141767,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 198,
+      "type": "ellipse",
+      "center": {
+        "x": 42.1313,
+        "y": -53.1558
+      },
+      "relative_position": {
+        "x": -101.8687,
+        "y": 10.8442
+      },
+      "relative": {
+        "x": -101.8687,
+        "y": 10.8442
+      },
+      "size": {
+        "rx": 2.8992,
+        "ry": 10.2132
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -326.3486
+      },
+      "color": "#885224",
+      "alpha": 0.5961,
+      "packed_color": 2559070756,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 199,
+      "type": "ellipse",
+      "center": {
+        "x": 211.3092,
+        "y": -111.614
+      },
+      "relative_position": {
+        "x": 67.3092,
+        "y": -47.614
+      },
+      "relative": {
+        "x": 67.3092,
+        "y": -47.614
+      },
+      "size": {
+        "rx": 1.1784,
+        "ry": 14.9022
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -58.0054
+      },
+      "color": "#fdc55a",
+      "alpha": 0.502,
+      "packed_color": 2164114778,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 200,
+      "type": "ellipse",
+      "center": {
+        "x": 148.4257,
+        "y": -63.3914
+      },
+      "relative_position": {
+        "x": 4.4257,
+        "y": 0.6086
+      },
+      "relative": {
+        "x": 4.4257,
+        "y": 0.6086
+      },
+      "size": {
+        "rx": 20.4528,
+        "ry": 3.648
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -291.5362
+      },
+      "color": "#e6ad46",
+      "alpha": 0.4275,
+      "packed_color": 1843834182,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 201,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -62.5931
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": 1.4069
+      },
+      "relative": {
+        "x": 143.0,
+        "y": 1.4069
+      },
+      "size": {
+        "rx": 16.5619,
+        "ry": 4.1787
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -325.2146
+      },
+      "color": "#6a4f3b",
+      "alpha": 0.4549,
+      "packed_color": 1953124155,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 202,
+      "type": "ellipse",
+      "center": {
+        "x": 8.5896,
+        "y": -5.2037
+      },
+      "relative_position": {
+        "x": -135.4104,
+        "y": 58.7963
+      },
+      "relative": {
+        "x": -135.4104,
+        "y": 58.7963
+      },
+      "size": {
+        "rx": 18.0288,
+        "ry": 8.4712
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -62.1826
+      },
+      "color": "#231c1d",
+      "alpha": 0.5255,
+      "packed_color": 2250447901,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 203,
+      "type": "ellipse",
+      "center": {
+        "x": 34.7844,
+        "y": -79.7884
+      },
+      "relative_position": {
+        "x": -109.2156,
+        "y": -15.7884
+      },
+      "relative": {
+        "x": -109.2156,
+        "y": -15.7884
+      },
+      "size": {
+        "rx": 5.4515,
+        "ry": 2.7559
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -200.2243
+      },
+      "color": "#110b0e",
+      "alpha": 0.5882,
+      "packed_color": 2517699342,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 204,
+      "type": "ellipse",
+      "center": {
+        "x": 67.2619,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": -76.7381,
+        "y": -63.0
+      },
+      "relative": {
+        "x": -76.7381,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 3.6035,
+        "ry": 24.4705
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -242.9266
+      },
+      "color": "#171215",
+      "alpha": 0.5529,
+      "packed_color": 2367099413,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 205,
+      "type": "ellipse",
+      "center": {
+        "x": 77.9655,
+        "y": -18.7744
+      },
+      "relative_position": {
+        "x": -66.0345,
+        "y": 45.2256
+      },
+      "relative": {
+        "x": -66.0345,
+        "y": 45.2256
+      },
+      "size": {
+        "rx": 4.9374,
+        "ry": 11.2758
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -348.3236
+      },
+      "color": "#856549",
+      "alpha": 0.5765,
+      "packed_color": 2474992969,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 206,
+      "type": "ellipse",
+      "center": {
+        "x": 20.1825,
+        "y": -82.4247
+      },
+      "relative_position": {
+        "x": -123.8175,
+        "y": -18.4247
+      },
+      "relative": {
+        "x": -123.8175,
+        "y": -18.4247
+      },
+      "size": {
+        "rx": 8.2226,
+        "ry": 8.3532
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -285.1037
+      },
+      "color": "#966538",
+      "alpha": 0.8667,
+      "packed_color": 3717621048,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 207,
+      "type": "ellipse",
+      "center": {
+        "x": 118.6059,
+        "y": -64.1949
+      },
+      "relative_position": {
+        "x": -25.3941,
+        "y": -0.1949
+      },
+      "relative": {
+        "x": -25.3941,
+        "y": -0.1949
+      },
+      "size": {
+        "rx": 3.9095,
+        "ry": 3.6484
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -162.3587
+      },
+      "color": "#fff8cc",
+      "alpha": 0.5255,
+      "packed_color": 2264922316,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 208,
+      "type": "ellipse",
+      "center": {
+        "x": 170.02,
+        "y": -79.3894
+      },
+      "relative_position": {
+        "x": 26.02,
+        "y": -15.3894
+      },
+      "relative": {
+        "x": 26.02,
+        "y": -15.3894
+      },
+      "size": {
+        "rx": 3.0083,
+        "ry": 17.6771
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -53.7844
+      },
+      "color": "#fce094",
+      "alpha": 0.5608,
+      "packed_color": 2415714452,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 209,
+      "type": "ellipse",
+      "center": {
+        "x": 1.6862,
+        "y": -26.7834
+      },
+      "relative_position": {
+        "x": -142.3138,
+        "y": 37.2166
+      },
+      "relative": {
+        "x": -142.3138,
+        "y": 37.2166
+      },
+      "size": {
+        "rx": 2.2859,
+        "ry": 27.224
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -139.6283
+      },
+      "color": "#ffe4a1",
+      "alpha": 0.4667,
+      "packed_color": 2013258913,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 210,
+      "type": "ellipse",
+      "center": {
+        "x": 127.8164,
+        "y": -63.4456
+      },
+      "relative_position": {
+        "x": -16.1836,
+        "y": 0.5544
+      },
+      "relative": {
+        "x": -16.1836,
+        "y": 0.5544
+      },
+      "size": {
+        "rx": 1.8729,
+        "ry": 6.4542
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -378.3045
+      },
+      "color": "#794928",
+      "alpha": 0.4941,
+      "packed_color": 2121877800,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 211,
+      "type": "ellipse",
+      "center": {
+        "x": 231.9023,
+        "y": -72.7537
+      },
+      "relative_position": {
+        "x": 87.9023,
+        "y": -8.7537
+      },
+      "relative": {
+        "x": 87.9023,
+        "y": -8.7537
+      },
+      "size": {
+        "rx": 7.3573,
+        "ry": 4.2354
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -133.0744
+      },
+      "color": "#574238",
+      "alpha": 0.4588,
+      "packed_color": 1968652856,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 212,
+      "type": "ellipse",
+      "center": {
+        "x": 214.1387,
+        "y": -44.1525
+      },
+      "relative_position": {
+        "x": 70.1387,
+        "y": 19.8475
+      },
+      "relative": {
+        "x": 70.1387,
+        "y": 19.8475
+      },
+      "size": {
+        "rx": 4.995,
+        "ry": 16.9378
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -214.0514
+      },
+      "color": "#876b51",
+      "alpha": 0.4627,
+      "packed_color": 1988586321,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 213,
+      "type": "ellipse",
+      "center": {
+        "x": 70.8548,
+        "y": -67.9909
+      },
+      "relative_position": {
+        "x": -73.1452,
+        "y": -3.9909
+      },
+      "relative": {
+        "x": -73.1452,
+        "y": -3.9909
+      },
+      "size": {
+        "rx": 13.0935,
+        "ry": 10.2392
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -71.8789
+      },
+      "color": "#37241b",
+      "alpha": 0.5137,
+      "packed_color": 2201429019,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 214,
+      "type": "ellipse",
+      "center": {
+        "x": 261.1048,
+        "y": -92.602
+      },
+      "relative_position": {
+        "x": 117.1048,
+        "y": -28.602
+      },
+      "relative": {
+        "x": 117.1048,
+        "y": -28.602
+      },
+      "size": {
+        "rx": 2.699,
+        "ry": 2.2793
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -325.7384
+      },
+      "color": "#10070d",
+      "alpha": 0.5529,
+      "packed_color": 2366637837,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 215,
+      "type": "ellipse",
+      "center": {
+        "x": 255.3598,
+        "y": -104.0585
+      },
+      "relative_position": {
+        "x": 111.3598,
+        "y": -40.0585
+      },
+      "relative": {
+        "x": 111.3598,
+        "y": -40.0585
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 3.1772
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -87.7407
+      },
+      "color": "#ead9ab",
+      "alpha": 0.549,
+      "packed_color": 2364201387,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 216,
+      "type": "ellipse",
+      "center": {
+        "x": 175.5387,
+        "y": -34.9433
+      },
+      "relative_position": {
+        "x": 31.5387,
+        "y": 29.0567
+      },
+      "relative": {
+        "x": 31.5387,
+        "y": 29.0567
+      },
+      "size": {
+        "rx": 4.4088,
+        "ry": 25.0724
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -15.435
+      },
+      "color": "#ffea9c",
+      "alpha": 0.4588,
+      "packed_color": 1979706012,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 217,
+      "type": "ellipse",
+      "center": {
+        "x": 235.2738,
+        "y": -31.3789
+      },
+      "relative_position": {
+        "x": 91.2738,
+        "y": 32.6211
+      },
+      "relative": {
+        "x": 91.2738,
+        "y": 32.6211
+      },
+      "size": {
+        "rx": 8.2293,
+        "ry": 17.8764
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -226.3694
+      },
+      "color": "#2d2322",
+      "alpha": 0.502,
+      "packed_color": 2150441762,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 218,
+      "type": "ellipse",
+      "center": {
+        "x": 58.2231,
+        "y": -85.2314
+      },
+      "relative_position": {
+        "x": -85.7769,
+        "y": -21.2314
+      },
+      "relative": {
+        "x": -85.7769,
+        "y": -21.2314
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 14.2668
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -288.3915
+      },
+      "color": "#341b17",
+      "alpha": 0.3961,
+      "packed_color": 1697913623,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 219,
+      "type": "ellipse",
+      "center": {
+        "x": 65.9208,
+        "y": -40.8427
+      },
+      "relative_position": {
+        "x": -78.0792,
+        "y": 23.1573
+      },
+      "relative": {
+        "x": -78.0792,
+        "y": 23.1573
+      },
+      "size": {
+        "rx": 4.997,
+        "ry": 4.0358
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 115.306
+      },
+      "color": "#fefadf",
+      "alpha": 0.498,
+      "packed_color": 2147416799,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 220,
+      "type": "ellipse",
+      "center": {
+        "x": 134.233,
+        "y": -116.056
+      },
+      "relative_position": {
+        "x": -9.767,
+        "y": -52.056
+      },
+      "relative": {
+        "x": -9.767,
+        "y": -52.056
+      },
+      "size": {
+        "rx": 9.9683,
+        "ry": 4.1698
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -257.9113
+      },
+      "color": "#fdecb9",
+      "alpha": 0.5608,
+      "packed_color": 2415783097,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 221,
+      "type": "ellipse",
+      "center": {
+        "x": 102.1401,
+        "y": -41.0663
+      },
+      "relative_position": {
+        "x": -41.8599,
+        "y": 22.9337
+      },
+      "relative": {
+        "x": -41.8599,
+        "y": 22.9337
+      },
+      "size": {
+        "rx": 9.131,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -82.3378
+      },
+      "color": "#562a13",
+      "alpha": 0.4627,
+      "packed_color": 1985358355,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 222,
+      "type": "ellipse",
+      "center": {
+        "x": 160.7143,
+        "y": -109.8429
+      },
+      "relative_position": {
+        "x": 16.7143,
+        "y": -45.8429
+      },
+      "relative": {
+        "x": 16.7143,
+        "y": -45.8429
+      },
+      "size": {
+        "rx": 3.5346,
+        "ry": 12.2054
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -289.6152
+      },
+      "color": "#a56422",
+      "alpha": 0.3686,
+      "packed_color": 1587897378,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 223,
+      "type": "ellipse",
+      "center": {
+        "x": 130.8837,
+        "y": -78.0987
+      },
+      "relative_position": {
+        "x": -13.1163,
+        "y": -14.0987
+      },
+      "relative": {
+        "x": -13.1163,
+        "y": -14.0987
+      },
+      "size": {
+        "rx": 28.8309,
+        "ry": 2.1028
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -293.0593
+      },
+      "color": "#fffee5",
+      "alpha": 0.4078,
+      "packed_color": 1761607397,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 224,
+      "type": "ellipse",
+      "center": {
+        "x": 195.3703,
+        "y": -117.0471
+      },
+      "relative_position": {
+        "x": 51.3703,
+        "y": -53.0471
+      },
+      "relative": {
+        "x": 51.3703,
+        "y": -53.0471
+      },
+      "size": {
+        "rx": 1.8684,
+        "ry": 18.6047
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -263.4396
+      },
+      "color": "#fff1b3",
+      "alpha": 0.5294,
+      "packed_color": 2281697715,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 225,
+      "type": "ellipse",
+      "center": {
+        "x": 9.0522,
+        "y": -76.7678
+      },
+      "relative_position": {
+        "x": -134.9478,
+        "y": -12.7678
+      },
+      "relative": {
+        "x": -134.9478,
+        "y": -12.7678
+      },
+      "size": {
+        "rx": 4.0135,
+        "ry": 9.9731
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -110.9993
+      },
+      "color": "#5c3d29",
+      "alpha": 0.6863,
+      "packed_color": 2942057769,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 226,
+      "type": "ellipse",
+      "center": {
+        "x": 88.3893,
+        "y": -47.1285
+      },
+      "relative_position": {
+        "x": -55.6107,
+        "y": 16.8715
+      },
+      "relative": {
+        "x": -55.6107,
+        "y": 16.8715
+      },
+      "size": {
+        "rx": 2.8506,
+        "ry": 8.5801
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -315.5786
+      },
+      "color": "#fee5b5",
+      "alpha": 0.502,
+      "packed_color": 2164188597,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 227,
+      "type": "ellipse",
+      "center": {
+        "x": 38.72,
+        "y": -63.9733
+      },
+      "relative_position": {
+        "x": -105.28,
+        "y": 0.0267
+      },
+      "relative": {
+        "x": -105.28,
+        "y": 0.0267
+      },
+      "size": {
+        "rx": 5.2492,
+        "ry": 3.7789
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -190.5128
+      },
+      "color": "#ffffe6",
+      "alpha": 0.5176,
+      "packed_color": 2231369702,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 228,
+      "type": "ellipse",
+      "center": {
+        "x": 208.2242,
+        "y": -87.6636
+      },
+      "relative_position": {
+        "x": 64.2242,
+        "y": -23.6636
+      },
+      "relative": {
+        "x": 64.2242,
+        "y": -23.6636
+      },
+      "size": {
+        "rx": 7.1843,
+        "ry": 3.1058
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -154.2297
+      },
+      "color": "#58341f",
+      "alpha": 0.5176,
+      "packed_color": 2220373023,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 229,
+      "type": "ellipse",
+      "center": {
+        "x": 28.4745,
+        "y": -65.9244
+      },
+      "relative_position": {
+        "x": -115.5255,
+        "y": -1.9244
+      },
+      "relative": {
+        "x": -115.5255,
+        "y": -1.9244
+      },
+      "size": {
+        "rx": 5.5028,
+        "ry": 3.3684
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -108.9242
+      },
+      "color": "#11090c",
+      "alpha": 0.5569,
+      "packed_color": 2383481100,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 230,
+      "type": "ellipse",
+      "center": {
+        "x": 2.6525,
+        "y": -37.422
+      },
+      "relative_position": {
+        "x": -141.3475,
+        "y": 26.578
+      },
+      "relative": {
+        "x": -141.3475,
+        "y": 26.578
+      },
+      "size": {
+        "rx": 2.0697,
+        "ry": 4.0192
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -135.3141
+      },
+      "color": "#5a3a1f",
+      "alpha": 0.6471,
+      "packed_color": 2774153759,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 231,
+      "type": "ellipse",
+      "center": {
+        "x": 262.3372,
+        "y": -87.8147
+      },
+      "relative_position": {
+        "x": 118.3372,
+        "y": -23.8147
+      },
+      "relative": {
+        "x": 118.3372,
+        "y": -23.8147
+      },
+      "size": {
+        "rx": 1.7701,
+        "ry": 12.2161
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -244.4519
+      },
+      "color": "#ffe3a4",
+      "alpha": 0.498,
+      "packed_color": 2147476388,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 232,
+      "type": "ellipse",
+      "center": {
+        "x": 165.8519,
+        "y": -97.4007
+      },
+      "relative_position": {
+        "x": 21.8519,
+        "y": -33.4007
+      },
+      "relative": {
+        "x": 21.8519,
+        "y": -33.4007
+      },
+      "size": {
+        "rx": 11.7536,
+        "ry": 3.7171
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -219.7785
+      },
+      "color": "#fff2c2",
+      "alpha": 0.502,
+      "packed_color": 2164257474,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 233,
+      "type": "ellipse",
+      "center": {
+        "x": 101.7911,
+        "y": -64.8771
+      },
+      "relative_position": {
+        "x": -42.2089,
+        "y": -0.8771
+      },
+      "relative": {
+        "x": -42.2089,
+        "y": -0.8771
+      },
+      "size": {
+        "rx": 8.6364,
+        "ry": 4.7307
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -308.7349
+      },
+      "color": "#f1c87b",
+      "alpha": 0.6196,
+      "packed_color": 2666645627,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 234,
+      "type": "ellipse",
+      "center": {
+        "x": 50.4263,
+        "y": -22.9482
+      },
+      "relative_position": {
+        "x": -93.5737,
+        "y": 41.0518
+      },
+      "relative": {
+        "x": -93.5737,
+        "y": 41.0518
+      },
+      "size": {
+        "rx": 8.8173,
+        "ry": 2.573
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -18.1165
+      },
+      "color": "#ffeea6",
+      "alpha": 0.5176,
+      "packed_color": 2231365286,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 235,
+      "type": "ellipse",
+      "center": {
+        "x": 251.4999,
+        "y": -25.9685
+      },
+      "relative_position": {
+        "x": 107.4999,
+        "y": 38.0315
+      },
+      "relative": {
+        "x": 107.4999,
+        "y": 38.0315
+      },
+      "size": {
+        "rx": 9.0064,
+        "ry": 7.7202
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -389.755
+      },
+      "color": "#37353a",
+      "alpha": 0.7333,
+      "packed_color": 3140957498,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 236,
+      "type": "ellipse",
+      "center": {
+        "x": 96.3124,
+        "y": -32.179
+      },
+      "relative_position": {
+        "x": -47.6876,
+        "y": 31.821
+      },
+      "relative": {
+        "x": -47.6876,
+        "y": 31.821
+      },
+      "size": {
+        "rx": 2.5228,
+        "ry": 6.5271
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -178.2076
+      },
+      "color": "#ffffe8",
+      "alpha": 0.4745,
+      "packed_color": 2046820328,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 237,
+      "type": "ellipse",
+      "center": {
+        "x": 227.8382,
+        "y": -58.883
+      },
+      "relative_position": {
+        "x": 83.8382,
+        "y": 5.117
+      },
+      "relative": {
+        "x": 83.8382,
+        "y": 5.117
+      },
+      "size": {
+        "rx": 2.3779,
+        "ry": 12.8806
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -35.472
+      },
+      "color": "#fdde98",
+      "alpha": 0.4824,
+      "packed_color": 2080235160,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 238,
+      "type": "ellipse",
+      "center": {
+        "x": 41.155,
+        "y": -86.4079
+      },
+      "relative_position": {
+        "x": -102.845,
+        "y": -22.4079
+      },
+      "relative": {
+        "x": -102.845,
+        "y": -22.4079
+      },
+      "size": {
+        "rx": 1.9151,
+        "ry": 1.0751
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -213.9949
+      },
+      "color": "#ffe38c",
+      "alpha": 0.5255,
+      "packed_color": 2264916876,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 239,
+      "type": "ellipse",
+      "center": {
+        "x": 158.5318,
+        "y": -58.3537
+      },
+      "relative_position": {
+        "x": 14.5318,
+        "y": 5.6463
+      },
+      "relative": {
+        "x": 14.5318,
+        "y": 5.6463
+      },
+      "size": {
+        "rx": 3.7967,
+        "ry": 25.6729
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -193.6992
+      },
+      "color": "#fffce9",
+      "alpha": 0.4824,
+      "packed_color": 2080373993,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 240,
+      "type": "ellipse",
+      "center": {
+        "x": 231.2704,
+        "y": -63.1279
+      },
+      "relative_position": {
+        "x": 87.2704,
+        "y": 0.8721
+      },
+      "relative": {
+        "x": 87.2704,
+        "y": 0.8721
+      },
+      "size": {
+        "rx": 9.9054,
+        "ry": 4.7097
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -302.7761
+      },
+      "color": "#c78435",
+      "alpha": 0.349,
+      "packed_color": 1506247733,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 241,
+      "type": "ellipse",
+      "center": {
+        "x": 132.2416,
+        "y": -18.9769
+      },
+      "relative_position": {
+        "x": -11.7584,
+        "y": 45.0231
+      },
+      "relative": {
+        "x": -11.7584,
+        "y": 45.0231
+      },
+      "size": {
+        "rx": 9.4878,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -157.361
+      },
+      "color": "#dda95c",
+      "alpha": 0.5333,
+      "packed_color": 2296228188,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 242,
+      "type": "ellipse",
+      "center": {
+        "x": 287.0,
+        "y": -27.6356
+      },
+      "relative_position": {
+        "x": 143.0,
+        "y": 36.3644
+      },
+      "relative": {
+        "x": 143.0,
+        "y": 36.3644
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 11.5956
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -85.9208
+      },
+      "color": "#ffd97e",
+      "alpha": 0.5373,
+      "packed_color": 2315245950,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 243,
+      "type": "ellipse",
+      "center": {
+        "x": 287.2852,
+        "y": -91.6534
+      },
+      "relative_position": {
+        "x": 143.2852,
+        "y": -27.6534
+      },
+      "relative": {
+        "x": 143.2852,
+        "y": -27.6534
+      },
+      "size": {
+        "rx": 18.0607,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -336.2837
+      },
+      "color": "#a67542",
+      "alpha": 0.5686,
+      "packed_color": 2443605314,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 244,
+      "type": "ellipse",
+      "center": {
+        "x": 189.7714,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 45.7714,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 45.7714,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 23.6515,
+        "ry": 1.8676
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -257.8736
+      },
+      "color": "#ffda95",
+      "alpha": 0.4275,
+      "packed_color": 1845484181,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 245,
+      "type": "ellipse",
+      "center": {
+        "x": 201.7451,
+        "y": -78.3272
+      },
+      "relative_position": {
+        "x": 57.7451,
+        "y": -14.3272
+      },
+      "relative": {
+        "x": 57.7451,
+        "y": -14.3272
+      },
+      "size": {
+        "rx": 4.5398,
+        "ry": 1.9046
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -130.3218
+      },
+      "color": "#592205",
+      "alpha": 0.502,
+      "packed_color": 2153325061,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 246,
+      "type": "ellipse",
+      "center": {
+        "x": 147.1289,
+        "y": -0.0
+      },
+      "relative_position": {
+        "x": 3.1289,
+        "y": 64.0
+      },
+      "relative": {
+        "x": 3.1289,
+        "y": 64.0
+      },
+      "size": {
+        "rx": 6.1368,
+        "ry": 3.4909
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -57.2483
+      },
+      "color": "#544039",
+      "alpha": 0.5804,
+      "packed_color": 2488549433,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 247,
+      "type": "ellipse",
+      "center": {
+        "x": 151.5381,
+        "y": -88.4652
+      },
+      "relative_position": {
+        "x": 7.5381,
+        "y": -24.4652
+      },
+      "relative": {
+        "x": 7.5381,
+        "y": -24.4652
+      },
+      "size": {
+        "rx": 9.1896,
+        "ry": 5.1798
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -321.506
+      },
+      "color": "#e6b053",
+      "alpha": 0.7843,
+      "packed_color": 3370561619,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 248,
+      "type": "ellipse",
+      "center": {
+        "x": 39.3096,
+        "y": -114.5468
+      },
+      "relative_position": {
+        "x": -104.6904,
+        "y": -50.5468
+      },
+      "relative": {
+        "x": -104.6904,
+        "y": -50.5468
+      },
+      "size": {
+        "rx": 11.9064,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 5.7887
+      },
+      "color": "#c88a41",
+      "alpha": 0.4902,
+      "packed_color": 2110294593,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 249,
+      "type": "ellipse",
+      "center": {
+        "x": 33.5266,
+        "y": -122.7644
+      },
+      "relative_position": {
+        "x": -110.4734,
+        "y": -58.7644
+      },
+      "relative": {
+        "x": -110.4734,
+        "y": -58.7644
+      },
+      "size": {
+        "rx": 6.8501,
+        "ry": 6.6361
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -162.9284
+      },
+      "color": "#32221b",
+      "alpha": 0.8667,
+      "packed_color": 3711050267,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 250,
+      "type": "ellipse",
+      "center": {
+        "x": 92.6939,
+        "y": -32.9154
+      },
+      "relative_position": {
+        "x": -51.3061,
+        "y": 31.0846
+      },
+      "relative": {
+        "x": -51.3061,
+        "y": 31.0846
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 27.9629
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -176.5764
+      },
+      "color": "#b77a33",
+      "alpha": 0.4588,
+      "packed_color": 1974958643,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 251,
+      "type": "ellipse",
+      "center": {
+        "x": 212.1192,
+        "y": -55.5561
+      },
+      "relative_position": {
+        "x": 68.1192,
+        "y": 8.4439
+      },
+      "relative": {
+        "x": 68.1192,
+        "y": 8.4439
+      },
+      "size": {
+        "rx": 12.441,
+        "ry": 1.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -330.4965
+      },
+      "color": "#e0c38b",
+      "alpha": 0.498,
+      "packed_color": 2145436555,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 252,
+      "type": "ellipse",
+      "center": {
+        "x": 168.8121,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 24.8121,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 24.8121,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 66.6601
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -284.6179
+      },
+      "color": "#653711",
+      "alpha": 0.3137,
+      "packed_color": 1348810513,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 253,
+      "type": "ellipse",
+      "center": {
+        "x": 169.3708,
+        "y": -127.0
+      },
+      "relative_position": {
+        "x": 25.3708,
+        "y": -63.0
+      },
+      "relative": {
+        "x": 25.3708,
+        "y": -63.0
+      },
+      "size": {
+        "rx": 18.0882,
+        "ry": 1.7904
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -195.2097
+      },
+      "color": "#3f2a1f",
+      "alpha": 0.6039,
+      "packed_color": 2587830815,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 254,
+      "type": "ellipse",
+      "center": {
+        "x": 189.4135,
+        "y": -88.5615
+      },
+      "relative_position": {
+        "x": 45.4135,
+        "y": -24.5615
+      },
+      "relative": {
+        "x": 45.4135,
+        "y": -24.5615
+      },
+      "size": {
+        "rx": 1.0,
+        "ry": 17.2841
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -200.5507
+      },
+      "color": "#fffccc",
+      "alpha": 0.4157,
+      "packed_color": 1795161292,
+      "image_asset_ref": 100002
+    },
+    {
+      "id": 255,
+      "type": "ellipse",
+      "center": {
+        "x": 83.7661,
+        "y": -0.3771
+      },
+      "relative_position": {
+        "x": -60.2339,
+        "y": 63.6229
+      },
+      "relative": {
+        "x": -60.2339,
+        "y": 63.6229
+      },
+      "size": {
+        "rx": 15.8306,
+        "ry": 2.5822
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -91.2259
+      },
+      "color": "#2b170d",
+      "alpha": 0.502,
+      "packed_color": 2150307597,
+      "image_asset_ref": 100002
+    }
+  ]
+}

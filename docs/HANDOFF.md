@@ -1,78 +1,35 @@
-# 交接说明（给接手的 Agent / 结对编程伙伴）
+# 交接说明
 
-> **2026-10-23 美术基线更新：** 用户明确指定 PR #19 为整个游戏的美术与界面设计依据；已 squash 合入 `develop`，提交 `91ae349`。实现前读 `docs/design/UI_DESIGN.md`，对照 `docs/design/prototype/index.html` 与 `docs/design/screens/`，统一使用 `data/presentation/ui_theme.json` / `abyss_theme`。尽可能还原，平台限制造成的差异单独记录；C 档点选保底，A/B 拖动能力仍未平台验证。PR 头提交本地 `npm run check` 通过：58 项 JS、15 项 Lua、11 项 Python（1 项符号链接权限测试跳过），GitHub Quality 通过；这些结果不代表平台编译、存档导入或实机通过。
->
-> **本轮独立任务：** `/root/battle_design` 在 `.worktrees/battle-ui` / `feat/task-10-battle-ui` 推进 TASK-10 战斗界面，`/root/map_design` 在 `.worktrees/map-ui` / `feat/task-12-map-ui` 推进 TASK-12 地图界面。两者以 PR #19 为准，不操作 MCP/游戏，不改核心规则，主代理复审整合。下文为历史快照，当前任务进度以 Backlog CLI、各分支和 PR 为准。
+最新第二批普通副本固定源`11b901f`，已含Acid/Spike小软泥、Fat/Sneaky抽样及反伤致死后已排队选招/减益修正；[证据](evidence/offline-candidate-11b901f.json)。30模块逐byte同源，1590树控件/max50、六列模板、22节点启用结算图，BGM双参数false，静态0error/17warning。真实构建先抓到普通manifest漏注册BGM参数，已修并新目录重建，失败保留。完整规则源`d3e9d76`全量check exit0（JS643/528pass115skip、全部Lua、Python15pass1skip），参数/审计增量专项15过；最终head CI另见PR。Dazed/Sentry/Artifact在下一批，未计入此副本；未导入/开游戏/试听，严格关口仍未完成。下文139/cf候选作为历史证据保留，均不含第二批修正。
 
-> Owner 2026-10-22 最新角色决定：本次参赛采用荧（Lumine）·岩元素；保留单手剑，先参照官方战技、爆发、天赋、命之座，再做必要卡组改编。旧风元素候选已撤回，不作为当前范围。TASK-7.3 继续复用原任务/PR修订表现；角色范围见 `SCOPE.md`，映射见 `design/TRAVELER.md`。
+本轮继续离线推进：PR99（`1182814`）与PR100（`14979df`）均在各自当前head的两个Quality作业全绿后squash合入develop。PR100包含固定第9行地图宝箱、Nob/Blue Slaver A0选招、Weak/Frail/Vulnerable共享轮末及六件开战遗物顺序；各项严格/平台AC仍未勾。地图golden仍FAIL 0/12，原版RNG/拓扑/完整队列与Boss17宝箱事务继续保留，不能把已修某个缺口写成整项一致。
 
-> **2026-10-22 晚人工反馈（本轮更新）：** 创作者奇匠等级已升到 **Lv.2**，自定义外显文本的等级前置**已达成**；卡牌名称/效果文本**尚未实机验证**。此前截图的 Lv.1 为升级前，旧记录 Lv.15 无可信证据。上一个截图显示「已上传」列表已有 GUID `24312086863`，但它是否对应本机超限模式存档、MCP `list_maps` 能否列出仍待测试。**Lv.4「局内存档」仅用于离开关卡后保留玩家数据**，首发 15 层同局跨节点状态不依赖它，不应作为 TASK-14 的阻塞。具体见 `docs/TOOLCHAIN.md` 和 `docs/PUBLISHING.md`。
+最新规则副本源`139de94`，28模块、1590树节点/max50、六列牌库及22节点启用结算图；[证据](evidence/offline-candidate-139de94.json)。另有显式开启BGM的试听副本源`cf6969e`（与合入`14979df`源码树相同）：29模块、22+83节点两图启用，参数实为true；[证据](evidence/offline-bgm-candidate-cf6969e.json)。两者真实MCP静态均0错误/17警告，独立读回匹配固定源，输入底图hash不变。路径/hash及分层状态见[P0-SMOKE](P0-SMOKE.md)。未开原神、未官方导入/实机/试听；普通构建仍默认关闭BGM。下一批Acid S、浮点包装候选和后续队列修正仍在独立分支，不计入这两个副本。
 
-> Sprint Lead 整合更新（2026-10-22，TASK-7 / PR #2）：下文保留上一会话的交接快照。完整75卡原表已原样移至 `data/reference/warrior75.json`（含待核对费用，不代表75张可玩）；`data/cards.json` 为首轮37张战士运行契约。现已补齐19普通变体/14普通遭遇/3精英/1Boss、7遗物、7药水、规则表，详见 `data/README.md`。轻量门禁在TASK-22/PR #1，48项测试已本地复验。游戏窗口运行，但MCP仍列不出存档；未平台编译、未导入、未真机试玩。主Agent领取TASK-7，执行身份在Backlog notes、分支与PR追踪，负责人仍Furinya；其余依赖按实际完成状态解锁。
+上一批源`085f499`的首次点牌修复与26模块副本保留为历史证据，见[P0-SMOKE](P0-SMOKE.md)和[历史证据](evidence/offline-candidate-085f499.json)。宿主15+6共21组与默认15秒预算保持；根旧develop及原有未提交内容不覆盖。
 
-更新时间：2026-10-22。目标：2026-10-30 前完成第一件参赛作品并由**人**正式投稿（官方截止 2026-11-02 11:59 UTC+8）。
+本批离线交付补充：PR66已关闭TASK3.1构建切片；PR69守护者排队转形、PR73祈火徒仪式、PR71原生只读牌库均已合入develop，PR67保护原本正确的IronWave顺序。最新整批副本的实际构建源为PR78固定提交022f22c，含24模块/1220控件/六列牌库模板/22节点结算图，静态0错误；文件与hash见[P0-SMOKE.md](P0-SMOKE.md)和[结构化证据](evidence/offline-candidate-022f22c.json)。源SHA与squash合入SHA分别保留，不冒充官方导入或实机通过。后续继续从最新origin/develop领取可离线任务，不在根旧工作树覆盖他人改动。
 
-## 0. 先读这四份
+更新：2026-10-23。最新状态与逐关口验收标准见 [MILESTONES.md](MILESTONES.md)。这是当前交接，早期快照已被本轮审计取代；历史可从 Git 查阅。
 
-| 文件 | 作用 |
-|---|---|
-| `AGENTS.md` | CLI 工作流 + 分支规范 + 工具链指针（Codex/Claude/Cursor 都读） |
-| `docs/SCOPE.md` | 产品范围、削减优先级、报告纪律 |
-| `docs/TOOLCHAIN.md` | 工具链唯一事实来源（路径、版本、环境变量、MCP 配置） |
-| `docs/HANDOFF.md` | 本文件：当前进度、阻塞、上手步骤 |
+- **M0已完成**（TASK-1/7/22全部Done）。仅初步定位发布入口；正式表单/赛事资格仍在M4 TASK-18/19，投稿在M5 TASK-6。
+- **M1实机关口仍未完成；离线开发继续并行。** 用户2026-10-23明确暂不开原神，并要求已复审、当前SHA Quality全绿的可合并代码直接合入develop，然后继续领取下一批Backlog，不把全部离线开发挂在Draft等待实机。实机/原版一致性AC按证据独立保留，不因合并代码自动完成；发布仍由人执行。
+- 当前最高优先级为 P0 真实主流程回归，复用 TASK-3/5/17。完整UI的60直接子控件限制、Color初始化和SetImage参数错误均已修复；v4已实机到15层Boss失败并重开，v5生命/意图修复、v6失败正式结算已实机确认。不要按早期失败快照重复排查已解决问题，也不要将CI当实机。
+- 尚缺 Boss 胜利及胜利正式结算、本轮新客户端日志、九状态及跨层资源逐项实机账本。TASK-2配置核验和其他未完成关口保留；完整记录见 [P0-SMOKE.md](P0-SMOKE.md)，早期平台记录保留为历史证据。
+- M2本地地图/七节点/库存TASK-12/13/14已Done，平台部分在TASK-12.3。M1关闭之后才转M2主冲刺；不依赖Lv4退出续玩。
+- PR37已合并b1018b1：本地支持30张基本/升级牌（3基础+27奖励/商店），93组全池行为回归；原版逐项来源/算法与30牌平台验收未完成。PR57结算用时/胜场、PR60原生拖牌接线也已合并；拖放鼠标/手机及Boss胜利正式结算仍待实机。37条JSON不等于37张可玩。
+- M4集中美术UI、多设备、候选完整复验、实际表单及物料；M5只保留成功投稿和版本记录。TASK-21投稿后研究及TASK-26跨区发行不阻塞首投。
+- 已批准美术依据仍是PR19 / 91ae349，读docs/design/UI_DESIGN.md并复用共享ui_theme。必要平台差异需留证据，C档点选保留。
+- 用户确认奇匠Lv2、实名认证/收益已开通。等级达标不等于文字已经实测。原神/沙箱/MCP路径以 [TOOLCHAIN.md](TOOLCHAIN.md) 为准；先读workflow/platform-rules，live write保持0，发布由人完成。
+- 持续离线冲刺在`.worktrees/active-sprint`/`feat/active-offline-sprint`及各任务独立worktree；根develop较旧且有未提交任务、vendor及其他worktree，全部保留，不在根目录直接pull覆盖。开始新任务先fetch并从最新origin/develop隔离，不凭旧交接快照重复实现。
+- 合并规则：PR当前SHA的Quality各项全绿后squash进develop。用户不要求分支保护，不将其作为未完成项。
 
-## 1. 仓库与分支
+## P0 实机冒烟进展
 
-- 远端：`https://github.com/CHNISam/Slay-the-Abyss.git`
-- `master` = 生产（只收 release/hotfix + tag）；`develop` = 开发基线，**日常工作在 develop 或 `feat/<slug>` 短分支**
-- 当前工作分支：develop，已推送
-- Conventional Commits；共享分支禁止改写历史
+集成工作树 `.worktrees/p0-integration`，分支 `feat/p0-integration-smoke`。沿用 TASK-3、TASK-5、TASK-17；详情及证据见 `docs/P0-SMOKE.md`。v4 实际完成地图、战斗、奖励、商店离开，抵达第15层 Boss 后失败，重新启程正常。v5 用户已确认生命数字、意图及受伤更新正常。商店新版仍待实机验收。
 
-## 2. 当前进度（真实状态，未虚报）
+第六版测试副本 `.artifacts/p0/abyss-p0-v6.gil` 已生成（产物位于仓库根目录），正式结算节点图已编译并写入；用户截图已确认失败后进入平台官方结算。Boss 胜利、完整资源账本及本轮新客户端日志仍缺证据；不能宣称完整通关通过。不要再要求用户手动反复勾选日志。保持 live write=0，不改正式存档、不发布。
 
-**已完成**
-- backlog.md 项目骨架、6 个里程碑（M0–M5）、21 个任务与依赖，`backlog doctor` 通过
-- 分支规范 + PR 模板 + `.gitignore`
-- `docs/TOOLCHAIN.md`（含官方客户端/千星沙箱路径、MCP 配置、赛事规则要点）
-- 项目级 skill：`.codebuddy/skills/miliastra-wonderland/SKILL.md`，另有 `CLAUDE.md`、`.cursor/rules/miliastra.mdc` 指针
-- `data/cards.json`：**战士 75 张全卡池**（3 基础 + 20 普通 + 36 罕见 + 16 稀有 + 3 状态牌），费用/数值/类型/稀有度**照抄官方 wiki**，只换中文名并保留 `sts_name` 溯源；`cost_verify` 列出 6 张费用待二次核对
-- `data/statuses.json`：9 种状态效果定义
-- `data/README.md`：表驱动约定（改数值不改代码）
-- TASK-1 部分核验：MCP 连通（v0.1.0，workspace/Python 3.12 路径正确，`liveWriteEnabled=false` 确认只写副本）
+早期里程碑审计的本地检查与CI记录仍见MILESTONES.md；P0合并后的最终检查以本PR当前SHA的Quality为准，当前实时状态以Backlog CLI与GitHub为准。
 
-**未开始 / 未完成**
-- TASK-1 剩余：千星沙箱新建超限模式存档（**需人**在游戏内完成）；赛事报名入口与创作者中心收益功能是否开通（**需人**确认）
-- TASK-7 剩余：敌人清单（14 组 / 19 变体 / 3 精英 / 1 Boss）、遗物与药水数值表
-- M1 及之后全部开发工作：战斗核心、卡牌系统、战斗界面、状态框架 → 地图/节点 → Boss/结算 → 物料/验收 → 投稿
-
-## 3. 阻塞（必须由人处理）
-
-1. **游戏内新建千星奇域存档（超限模式）**并保存一次，记录存档名 → 之后 `list_maps` 才能列出，MCP 才有操作对象。
-2. **确认创作者中心「收益功能」已开通**（未满 18/未实名/未开通则票券无法提现，原石不影响）。
-3. 发布与赛事报名只能由人点（投稿上限 2 次且不可更换）。
-
-## 4. 上手命令
-
-```bash
-git checkout develop && git pull
-backlog board                 # 看板
-backlog task list --plain     # 任务清单
-backlog task view TASK-7      # 数值基准任务
-backlog browser --port 6420   # Web UI（127.0.0.1:6420）
-```
-
-环境（MCP 已写入用户级配置，重启客户端生效）：
-- 原神：`G:\Genshin\Genshin Impact Game\YuanShen.exe`（7.1.0）
-- 千星沙箱：`...\BeyondAssets\BeyondAssistEditor\BeyondEditor.exe`
-- MCP：`D:\MiliastraTools\genshin-miliastra-mcp\src\server.mjs`，`MILIASTRA_ALLOW_LIVE_WRITE=0`
-- Python 3.12：`C:\Users\Administrator\AppData\Local\Programs\Python\Python312\python.exe`
-
-## 5. 纪律（务必遵守）
-
-- 用 miliastra MCP 前先读资源 `miliastra://workflow`、`miliastra://platform-rules`
-- `MILIASTRA_ALLOW_LIVE_WRITE` 保持 `0`，只写存档副本
-- **编译通过 / 写入存档 / 游戏内验证三件事分开报告**，不得互相冒充
-- 内容缺口如实报告，不得把未完成功能宣布为通过
-- 投稿成功与否由人确认，Agent 不得虚报
-- 数值一律走 `data/*.json`，禁止在代码里硬编码数值；改数值不动代码
-- 卡牌/敌人数值照抄有公开来源的原版数值，只改名不改数（`cost_verify` 里的 6 张落地前要再核对一次）
+上手：先读AGENTS.md、SCOPE.md、TOOLCHAIN.md及MILESTONES.md，运行backlog instructions overview，再查任务。Backlog变更必须用CLI，不直接编辑其Markdown。

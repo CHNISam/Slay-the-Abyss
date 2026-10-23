@@ -5,7 +5,7 @@ status: Done
 assignee:
   - art-card
 created_date: '2026-10-22 16:36'
-updated_date: '2026-10-22 22:50'
+updated_date: '2026-10-22 22:45'
 labels:
   - art
   - launch
@@ -13,8 +13,8 @@ dependencies:
   - TASK-10.1.1
 references:
   - docs/art/PIPELINE.md
+  - docs/art/CARD_PRODUCTION.md
 parent_task_id: TASK-25
-priority: low
 type: task
 ordinal: 30000
 ---
@@ -35,21 +35,19 @@ ordinal: 30000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-干净art_card_production在独立feat/art-card-production分支交付4种稀有度框、1卡背和3类型徽记，PR42；只复用固定上游与已验证单卡参数。框含4空文字槽，不能重复叠加。主Agent独立复审并集成，组装后官方实机另验。
+干净art_card_production在独立feat/art-card-production分支仅交付4种稀有度框、1卡背和3类型图标；复用CARD_PRODUCTION与固定上游，不改核心UI/规则。框的文字槽不能在装配时叠加，主Agent复核控件预算和差异，再统一实机验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-CLAIM：已验证单卡门槛单独完成，待启动干净art-card-production Session；不得把此依赖调整视为十卡/手机性能或全卡池批产通过。
+2026-10-23：干净Session /root/art_card_production 已启动，独立worktree art-card-production；依赖TASK-10.1.1只批准电脑单卡制作配方，容量由TASK-10.1.2单独验收。
 
-2026-10-23：PR42 commit24dc524已交付；独立只读复审无P1/P2，8份上游重导出逐字节一致、39项哈希匹配，空文字槽h40保留。主Agent已纳入PR30集成分支；新资产尚未实机，维持InProgress。
-
-2026-10-23 P0：暂停非必要美术扩量，保留既有交付。资源优先完整游戏冒烟，TASK-3通过后再恢复。
+PR42共享小套已独立复审（39哈希、8上游导出逐字节一致）并集成；新资产组装/官方实机尚未执行。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-首轮4稀有度卡框、1卡背、3类型徽记交付并经主Agent复审，统一由PR30 squash合入develop ecb69b8。39项哈希和8份固定上游Lua重导出匹配；原生文字槽、尺寸、预算、来源及降级已记录。电脑单卡配方已实机验证；新组合、多卡及目标设备实测保留在既有验收任务，不冒充完成。
+首轮4稀有度卡框、1卡背、3类型徽记交付并经主Agent复审集成PR30。39项哈希和8份固定上游Lua重导出匹配，原生文字槽与预算已记录，独立PR42及离线检查通过。电脑单卡配方已实机验证；新资产组合、多卡与目标设备验证不计入本制作切片，保留在既有验收任务。
 <!-- SECTION:FINAL_SUMMARY:END -->

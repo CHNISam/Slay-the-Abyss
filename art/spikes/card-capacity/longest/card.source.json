@@ -1,0 +1,227 @@
+{
+  "canvas": {
+    "width": 180,
+    "height": 240,
+    "background": "transparent",
+    "mask": {
+      "enabled": false
+    }
+  },
+  "elements": [
+    {
+      "id": "rarity-frame",
+      "name": "rarity-frame",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 120.0,
+      "width": 148,
+      "height": 208,
+      "color": "#8A8F9C",
+      "zIndex": 0
+    },
+    {
+      "id": "card-panel",
+      "name": "card-panel",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 120.0,
+      "width": 144,
+      "height": 204,
+      "color": "#1C1E27",
+      "zIndex": 1
+    },
+    {
+      "id": "name-band",
+      "name": "name-band",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 33.0,
+      "width": 144,
+      "height": 30,
+      "color": "#272A36",
+      "zIndex": 2
+    },
+    {
+      "id": "attack-art-panel",
+      "name": "attack-art-panel",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 80.0,
+      "width": 144,
+      "height": 64,
+      "color": "#4e2b2f",
+      "zIndex": 3
+    },
+    {
+      "id": "geo-crystal-outline",
+      "name": "geo-crystal-outline",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 80.0,
+      "width": 26,
+      "height": 26,
+      "color": "#A8732A",
+      "zIndex": 4,
+      "rotation": 45
+    },
+    {
+      "id": "geo-crystal",
+      "name": "geo-crystal",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 80.0,
+      "width": 20,
+      "height": 20,
+      "color": "#F0B850",
+      "zIndex": 5,
+      "rotation": 45
+    },
+    {
+      "id": "geo-crystal-face",
+      "name": "geo-crystal-face",
+      "type": "triangle",
+      "x": 90.0,
+      "y": 80.0,
+      "width": 12,
+      "height": 18,
+      "color": "#F5D79A",
+      "zIndex": 6
+    },
+    {
+      "id": "type-band",
+      "name": "type-band",
+      "type": "rectangle",
+      "x": 90.0,
+      "y": 121.0,
+      "width": 144,
+      "height": 18,
+      "color": "#13141B",
+      "zIndex": 7
+    },
+    {
+      "id": "card-title",
+      "name": "card-title",
+      "type": "textbox",
+      "x": 90.0,
+      "y": 33.0,
+      "width": 148,
+      "height": 40,
+      "color": "#ECE6DA",
+      "zIndex": 8,
+      "textBox": {
+        "text": "以战养战",
+        "fontSize": 17,
+        "minFontSize": 14,
+        "autoSize": true,
+        "textColor": "#ECE6DA",
+        "bgOpacity": 0,
+        "outlineEnabled": false,
+        "alignH": "center",
+        "alignV": "middle"
+      }
+    },
+    {
+      "id": "card-type",
+      "name": "card-type",
+      "type": "textbox",
+      "x": 90.0,
+      "y": 121.0,
+      "width": 144,
+      "height": 40,
+      "color": "#A9A595",
+      "zIndex": 9,
+      "textBox": {
+        "text": "攻击",
+        "fontSize": 14,
+        "minFontSize": 14,
+        "autoSize": true,
+        "textColor": "#A9A595",
+        "bgOpacity": 0,
+        "outlineEnabled": false,
+        "alignH": "center",
+        "alignV": "middle"
+      }
+    },
+    {
+      "id": "card-description",
+      "name": "card-description",
+      "type": "textbox",
+      "x": 90.0,
+      "y": 174.0,
+      "width": 132,
+      "height": 92,
+      "color": "#ECE6DA",
+      "zIndex": 10,
+      "textBox": {
+        "text": "对每个敌人造成 4 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。",
+        "fontSize": 15,
+        "minFontSize": 14,
+        "autoSize": true,
+        "textColor": "#ECE6DA",
+        "bgOpacity": 0,
+        "outlineEnabled": false,
+        "alignH": "center",
+        "alignV": "middle"
+      }
+    },
+    {
+      "id": "cost-outline",
+      "name": "cost-outline",
+      "type": "ellipse",
+      "x": 26.0,
+      "y": 26.0,
+      "width": 46,
+      "height": 46,
+      "color": "#F5D79A",
+      "zIndex": 11
+    },
+    {
+      "id": "cost-separator",
+      "name": "cost-separator",
+      "type": "ellipse",
+      "x": 26.0,
+      "y": 26.0,
+      "width": 44,
+      "height": 44,
+      "color": "#0F1117",
+      "zIndex": 12
+    },
+    {
+      "id": "cost-energy",
+      "name": "cost-energy",
+      "type": "ellipse",
+      "x": 26.0,
+      "y": 26.0,
+      "width": 40,
+      "height": 40,
+      "color": "#E9A93B",
+      "zIndex": 13
+    },
+    {
+      "id": "card-cost",
+      "name": "card-cost",
+      "type": "textbox",
+      "x": 26.0,
+      "y": 26.0,
+      "width": 40,
+      "height": 40,
+      "color": "#2A2620",
+      "zIndex": 14,
+      "textBox": {
+        "text": "2",
+        "fontSize": 22,
+        "minFontSize": 14,
+        "autoSize": true,
+        "textColor": "#2A2620",
+        "bgOpacity": 0,
+        "outlineEnabled": false,
+        "alignH": "center",
+        "alignV": "middle"
+      }
+    }
+  ],
+  "meta": {
+    "sourceType": "json",
+    "sourceName": "capacity-longest-zh-CN"
+  }
+}

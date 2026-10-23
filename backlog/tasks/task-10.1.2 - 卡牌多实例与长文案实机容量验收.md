@@ -4,7 +4,7 @@ title: 卡牌多实例与长文案实机容量验收
 status: To Do
 assignee: []
 created_date: '2026-10-22 21:55'
-updated_date: '2026-10-22 22:50'
+updated_date: '2026-10-22 22:45'
 labels:
   - art validation
   - queued-after-M3
@@ -14,7 +14,6 @@ dependencies:
 references:
   - docs/art/CARD_PRODUCTION.md
 parent_task_id: TASK-10.1
-priority: low
 type: spike
 ordinal: 35000
 ---
@@ -41,11 +40,7 @@ ordinal: 35000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-2026-10-23：干净Session art_ui_capacity PR43（d06b79b+13e68d1）交付0/1/5/10卡和42字长文独立样本；独立复审发现旧成功索引失效P2并已修正，三路失败注入通过。主Agent正调用实际MCP准备副本；运行时仍未测。
+主Agent在集成分支实际运行prepare-card-capacity.ps1，五项副本prepared同runId03a6a22c-83f2-4651-9506-a9fed8c1acac，MCP静态全部0错/0警告、底图SHA未变。VM从生成的build入口复跑通过。官方导入/实机/目标设备仍未测，AC2保持未勾。
 
-2026-10-23 用户P0指令：暂停独立卡牌小样，优先完整游戏集成冒烟；保留既有产物，不将卡牌实验当成正式可玩游戏。
-
-主Agent实际运行五份容量副本准备，底图SHA保持2f2248a3...，同runId03a6a22c-83f2-4651-9506-a9fed8c1acac，MCP静态全部0错0警告。验收短路径位于art-pipeline/build/art-acceptance。官方导入/试玩仍未测，AC2保持未勾。
-
-用户要求本轮合并清理并结束。已交付样本和复审通过统一PR30合入develop ecb69b8，子PR43关闭；实际多卡/长文/设备官方试玩未做，AC2保持未勾，不追加测试。
+用户2026-10-23明确要求本轮合并清理并结束，不再追加实机测试。样本交付和独立审查已完成；仅官方导入/运行时AC2未测，按M4留待后续，不阻塞本次交付收口。
 <!-- SECTION:NOTES:END -->

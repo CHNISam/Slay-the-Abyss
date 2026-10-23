@@ -1,0 +1,237 @@
+{
+  "date": "2026-10-23",
+  "task": "TASK-10.1",
+  "mcpCommit": "7091060417fe9bd1231e812db4f798c97a5c63d1",
+  "liveWriteEnabled": false,
+  "card": {
+    "textboxes": 4,
+    "preparationRecipe": "scripts/art/prepare-card-candidate.ps1",
+    "performance": "not_measured",
+    "candidateSha256": "30880683ad6a863105f4ced9f988e59b1d4dd3f68d30067feca08d6dfafd43dd",
+    "gameDisplay": "verified_partial_missing_title_and_type",
+    "recipeRun": "passed",
+    "imageTemplateIndex": 1073741845,
+    "clientCheck": {
+      "ok": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    "interaction": "verified_status_changed_to_click_passed_in_user_screenshot",
+    "images": 11,
+    "controls": 15,
+    "officialImport": "verified_manual_import_and_readback",
+    "textTemplateIndex": 1073741846,
+    "workingCopyWritten": true,
+    "importedSourceMatches": {
+      "ART_Card": true,
+      "ART_Probe": true
+    },
+    "importedCopySha256": "de33af1998f1531c8cddf982d9be0c1a31ae8fd6e32dcb5a3079b086182907a5",
+    "readback": {
+      "interface": "ART_Spike",
+      "editorRewritesMetadata": true,
+      "controls": 5,
+      "scripts": [
+        "ART_Card",
+        "ART_Probe"
+      ],
+      "staticCheck": {
+        "ok": true,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    "runtimeEvidence": {
+      "clickScreenshotSha256": "793a0d9d2949385feae1d050ecd828411a2b0ded3576eda290be2a9de8a8e8a6",
+      "visible": [
+        "card frame",
+        "cost 1",
+        "Geo crystal",
+        "damage text",
+        "click button"
+      ],
+      "clickResultText": "点击通过",
+      "missing": [
+        "card-title 打击",
+        "card-type 攻击"
+      ],
+      "firstScreenshotSha256": "8c264f3cf344a17e5ca358569dccc4ba0ba96301382d4d3db5a782dd560c15f8",
+      "localEvidenceDirectory": "build/art-spike/user-evidence",
+      "method": "user operated official playtest and supplied screenshots",
+      "runtimeLogCollected": false
+    }
+  },
+  "importAttempts": [
+    {
+      "state": "failed",
+      "error": "没有弹出导入存档的文件选择框。",
+      "runId": "81b1598a-998c-450c-a87e-fd3f63c9f22b",
+      "elapsedSeconds": 40
+    },
+    {
+      "elapsedSeconds": 29,
+      "logCollected": false,
+      "runId": "eaea49f1-5545-4553-8612-8e0bd2673ca9",
+      "gameScreenshots": 0,
+      "error": "没有弹出导入存档的文件选择框。",
+      "state": "failed"
+    }
+  ],
+  "inputDiagnostics": {
+    "keyboardRDelivered": true,
+    "fileDialogObserved": false,
+    "nativeComputerUse": "native pipe unavailable",
+    "screenCapture": "Explorer 1x1 overlap rejected",
+    "windowCapture": "save list observed; not asset proof",
+    "cause": "unknown; delivered does not establish game response",
+    "mcpClickDelivered": true
+  },
+  "portrait": {
+    "offlineBudgets": [
+      64,
+      256
+    ],
+    "decision": "reject direct Lua for launch portrait",
+    "coordinateRegression": "320 positions pass after adapter",
+    "outOfCanvasEllipses": [
+      27,
+      72
+    ],
+    "gameTest": "not_run"
+  },
+  "scene": {
+    "performance": "not_measured",
+    "buildingProbeInstances": 1,
+    "officialImport": "not_run",
+    "nativeInstances": 7,
+    "gameDisplay": "not_run",
+    "built": true
+  },
+  "production": "limited shared card art may use verified v2 recipe; full playable-pool batch production still gated",
+  "devicePreview": "not_run",
+  "afterManualImportAttempts": [
+    {
+      "screenshots": 0,
+      "runId": "8fd0a901-7030-4b6f-a7a7-a80601b8db31",
+      "error": "无法把窗口切到前台：sandbox",
+      "state": "failed",
+      "elapsedSeconds": 5,
+      "logCollected": false
+    },
+    {
+      "screenshots": 0,
+      "runId": "f891c7e9-bb4d-41b9-9bab-442c3e1b56ec",
+      "error": "无法把窗口切到前台：sandbox",
+      "state": "failed",
+      "elapsedSeconds": 3,
+      "logCollected": false
+    }
+  ],
+  "currentBlocker": "Single-card native Lua route verified; ten-card/dense text/device/re-entry and native scene tests pending",
+  "heightCompatibilityCandidate": {
+    "runtimeDisplay": "passed_title_type_cost_description_shapes",
+    "centresAndFontsUnchanged": true,
+    "source": "art/spikes/card-editor/text-height-compat/card.lua",
+    "metricsLabelAdded": true,
+    "performance": {
+      "p95Ms": 34.0,
+      "method": "10-second client OnUpdate dt shown in native Metrics label",
+      "scope": "one card plus hosts/probe on test map; no claim for ten cards/mobile/console",
+      "meanMs": 33.3,
+      "device": "current user PC",
+      "baselineCompared": false,
+      "gpuTime": false
+    },
+    "file": "build/art-platform/workspace/scenes/saves/abyss-art-card-text-v2.gil",
+    "officialImport": "verified_by_user_official_playtest_screenshots",
+    "sha256": "3d6a717de7929fea2289e21ea42923a88025c2caf3a162ca24d20666bf97ca46",
+    "staticCheck": {
+      "ok": true,
+      "warnings": 0,
+      "errors": 0
+    },
+    "onlyCardVisualChanges": [
+      "card-title height 22 -> 40",
+      "card-type height 18 -> 40"
+    ],
+    "interaction": "passed_status_changed_to_click_passed",
+    "userScreenshotSha256": {
+      "clickAndMetrics": "1fdaba4d6c080e0330b60ae41b30398c06bf48817b6664b999dc31668fa6df52",
+      "initial": "03a3e3627dc87c94b86116ea8649d9700efcc5cf49a58bff27eccc826043a555"
+    }
+  },
+  "capacityPreparation": {
+    "runId": "03a6a22c-83f2-4651-9506-a9fed8c1acac",
+    "state": "prepared",
+    "baseSha256": "2f2248a3db1f99333076b25558a9869abfaa09372fe001e8806836d56d189166",
+    "method": "main agent ran installed MCP on copied base; no GUI",
+    "officialImport": "not_run",
+    "runtime": "not_run",
+    "cases": [
+      {
+        "scenario": "baseline",
+        "activeControls": 6,
+        "sha256": "cfba4ad961d3555dc45f16f2b8c57e3e4b4302eb4fac28ef1eacf79bec413a2a",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "one",
+        "activeControls": 22,
+        "sha256": "f80368345f7242643c4e6b5a9b377e8daf09f206d98e8a672300f4827a8a7a8c",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "five",
+        "activeControls": 86,
+        "sha256": "019526e2a6a2741d3fc1f1e33b60c56afb0ccf7faba2a5f597b3dede06c3c4e4",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "ten",
+        "activeControls": 166,
+        "sha256": "913992cc7acd973c92076fe7d3b19a8d196153811748d9eb9b4a0075207f4e65",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      },
+      {
+        "scenario": "longest",
+        "activeControls": 22,
+        "sha256": "017eff76e509ead18bbf8eb38813b7596bc598a72141556ebdb837c9656eae73",
+        "staticCheck": {
+          "ok": true,
+          "warnings": 0,
+          "errors": 0
+        }
+      }
+    ]
+  },
+  "parallelProduction": {
+    "sharedAssets": {
+      "review": "no P1/P2; 39 hashes and 8 upstream Lua exports matched",
+      "commit": "24dc524941136be0ff25074d624a8d029990db8f",
+      "pr": 42,
+      "newAssetsInGame": "not_run"
+    },
+    "capacity": {
+      "review": "P2 stale successful manifest fixed and failure injection passed; other reviewed concerns clear",
+      "commit": "13e68d16c494187bf534b6529668eb11352bb2d3",
+      "pr": 43,
+      "inGame": "not_run"
+    }
+  }
+}

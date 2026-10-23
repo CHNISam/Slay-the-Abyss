@@ -1,14 +1,13 @@
 ---
 id: TASK-2
-title: M2 战斗场景白盒与镜头/出生点
+title: M1 复用基础场景并补齐镜头/出生/阵营配置
 status: In Progress
-assignee:
-  - '@Codex'
+assignee: []
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 12:40'
-due_date: '2026-10-26'
+updated_date: '2026-10-22 22:24'
+due_date: '2026-10-24'
 labels: []
-milestone: m-3
+milestone: m-2
 dependencies:
   - TASK-1
 priority: high
@@ -31,15 +30,13 @@ ordinal: 2000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-2026-10-23 本轮执行：1. 只读核验61425e4已交付副本的镜头、出生/复苏、玩家数及阵营。2. 仅在独立scene-safe副本将镜头按既有规范锁至yaw0/pitch55、敌对仅1/3，并让复苏点引用已有出生预设点1073741825；保留Lua/UI/节点图、职业开关及复苏数值。3. 写前后读回并逐字节核对脚本/UI/图未变；不导入或操作GUI，原614首轮测试继续。4. 出生/复苏地形安全及实际镜头观感保留待实机，不据离线配置勾AC。
+1. 复用1073741825与既有场景导入记录。2. 在副本补锁镜头、出生/复苏点、单人及阵营最小缺口。3. 导入副本核对实际配置，不重做场景或首发装饰。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-2026-10-23 执行身份：Codex subagent /root/native_candidate，协调人为主Agent，任务负责人@Furinya。根与远端原assignee均为空，本轮按主Agent授权记录负责人；不覆盖其他任务或旧开发工作树。已从stdio MCP读取workflow/platform-rules，保持MILIASTRA_ALLOW_LIVE_WRITE=0。614原副本只读hash为af2e1060c40d1eb9e6f9f2a017384c2cd590bf1867178d2d829984da9ac8b5cc；1-1玩家已设，现镜头自由、三阵营互敌、无复苏点；原出生点(0,0,0)地形安全未测。
+只读核查1073741825：22101bytes，11个默认/关卡实体，已有自定义镜头但未fixedView（yaw -180..180，pitch -89..89）；阵营1/2/3互相敌对。已有存档必须复用，不重复搭建。需查出生/复苏点和1到1玩家配置，补最小配置到副本并核验导入；不能据存在存档直接勾原AC。见docs/MILESTONES.md。
 
-负责人更正：主Agent随后明确原负责人为空时不新增@Furinya，本轮执行负责人改记@Codex（scene代理/root/native_candidate）。此前notes中的@Furinya为已撤销的执行分配说明，不代表原始元数据。根任务保留原M2里程碑字段；最新develop文档中此最小配置属于M1关口，本轮不做旧任务迁移。
-
-2026-10-23 配置副本已准备（未导入/未试玩）：.artifacts/live-acceptance-61425e4/scene-safe/abyss-scene-safe-61425e4-v2.gil，SHA256 2911ed9484cce2bd43d961a519da53f1eb5fb0cac1d60ef6f23ac6f8da4ddfad。源614原副本hash保持af2e1060c40d1eb9e6f9f2a017384c2cd590bf1867178d2d829984da9ac8b5cc。副本已读回fixedView yaw0/pitch55/ignoreCollision=true、只1与3敌对、复苏点1引用出生预设1073741825(0,0,0)，玩家1-1保持。32模块、UI、结算图及挂载逐byte不变；职业移动开关、出生位置/朝向与复苏数值不变。静态0error/17warning。首次审计发现MCP还同步更新player prefab复苏列表（section4），停止后扩展精确审计：section4/5仅复苏点列表改变，section11仅阵营/复苏列表、section18镜头；其余节原字节保留。完整证据scene-safe-evidence.json及preservation-readback.json。地形支撑/复苏安全/真实镜头观感未知，不勾AC；首轮用户仍测试原614，后续如导入派生副本须另记测试身份。
+本轮实际scene_batch仅写副本，镜头yaw0/pitch55、单人1–1及仅1/3敌对已回读；原存档hash不变。复苏点仍空，出生点未证实；完整UI导出受60子控件限制失败，未导入，不勾选AC。证据docs/evidence/milestone-platform-audit.json。
 <!-- SECTION:NOTES:END -->

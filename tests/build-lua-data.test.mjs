@@ -34,7 +34,7 @@ test('validated six-table bundle builds identically and loads as abyss_data in L
   const first = buildLuaData('data', output);
   assert.equal(first, buildLuaData('data', output));
   const script = join(directory, 'load.lua');
-  writeFileSync(script, `package.path=${luaString(directory.replaceAll('\\', '/') + '/?.lua;')}..package.path\nlocal data=require('abyss_data')\nassert(#data.cards.cards>0)\nassert(#data.enemies.enemies>0)\nassert(data.rules.map.floors==15)\nprint('data loaded')\n`);
+  writeFileSync(script, `package.path=${luaString(directory.replaceAll('\\', '/') + '/?.lua;')}..package.path\nlocal data=require('abyss_data')\nassert(#data.cards.cards>0)\nassert(#data.enemies.enemies>0)\nassert(data.rules.map.floors==17 and data.rules.map.generatedRows==15)\nprint('data loaded')\n`);
   const result = runLua(script);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /data loaded/);
@@ -63,7 +63,12 @@ test('Lua runner propagates failures and enforces finite timeout', () => tempora
   assert.notEqual(runLua(script).status, 0);
   assert.notEqual(runLua(join(directory, 'missing.lua')).status, 0);
   writeFileSync(script, 'while true do end');
-  assert.throws(() => runLua(script, { timeout: 200 }), /timed out|ETIMEDOUT/);
+  assert.throws(() => runLua(script, { timeout: 200 }), error => {
+    assert.match(error.message, /timed out|ETIMEDOUT/);
+    assert.ok(error.message.includes(script), 'timeout identifies the failing Lua script');
+    assert.match(error.message, /200 ms/);
+    return true;
+  });
 }));
 
 test('Lua suite discovers every file in order and stops on first failure', () => temporary(directory => {

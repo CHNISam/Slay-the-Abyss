@@ -1,0 +1,1495 @@
+{
+  "source": "image-editor-webui import_scene/export_* APIs",
+  "originalOverflowCount": 74,
+  "edits": [
+    {
+      "id": "lua-1",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 29.310000000000002,
+        "offsetY": 0.6299999999999955,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-2",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -7.389999999999986,
+        "offsetY": 4.260000000000005,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-3",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 132.45,
+        "offsetY": -30.439999999999998,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-4",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -116.43,
+        "offsetY": 34.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-5",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 127.31,
+        "offsetY": 47.120000000000005,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-7",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -17.289999999999992,
+        "offsetY": -34.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-8",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 17.810000000000002,
+        "offsetY": 42.97,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-10",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 127.83,
+        "offsetY": 17.629999999999995,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-11",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": -9.86,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-14",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 69.05,
+        "offsetY": 60.81999999999999,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-16",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 46.03,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-17",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 144.0,
+        "offsetY": -51.879999999999995,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-18",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 94.0,
+        "offsetY": 42.230000000000004,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-19",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -18.620000000000005,
+        "offsetY": 17.069999999999993,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-20",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -51.94999999999999,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-22",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": -59.81,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-24",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -137.52999999999997,
+        "offsetY": 31.519999999999996,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-26",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -62.58000000000001,
+        "offsetY": 64.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-29",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 55.25,
+        "offsetY": -45.69,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-32",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 22.78,
+        "offsetY": 61.36,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-38",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -102.24000000000001,
+        "offsetY": 53.25,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-39",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -129.42000000000002,
+        "offsetY": -31.620000000000005,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-47",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -20.110000000000014,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-52",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 124.45,
+        "offsetY": -19.25,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-55",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -39.599999999999994,
+        "offsetY": 61.09,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-58",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -136.08999999999997,
+        "offsetY": 53.47,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-59",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 78.92,
+        "offsetY": -63.08,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-60",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -87.58000000000001,
+        "offsetY": -61.27000000000001,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-61",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 139.59,
+        "offsetY": 18.560000000000002,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-67",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -60.120000000000005,
+        "offsetY": -62.77000000000001,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-68",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 141.53,
+        "offsetY": 25.040000000000006,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-77",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -2.1200000000000045,
+        "offsetY": 40.540000000000006,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-83",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 99.65,
+        "offsetY": -59.49000000000001,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-84",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": -31.97999999999999,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-85",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 142.34,
+        "offsetY": 61.480000000000004,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-86",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -80.49000000000001,
+        "offsetY": 64.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-87",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 142.73,
+        "offsetY": 39.31,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-94",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 86.52000000000001,
+        "offsetY": 46.790000000000006,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-95",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -134.29000000000002,
+        "offsetY": -4.400000000000006,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-97",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": 27.090000000000003,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-102",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 45.64,
+        "offsetY": 64.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-123",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 54.06999999999999,
+        "offsetY": -61.64,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-127",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -85.36000000000001,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-131",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 32.989999999999995,
+        "offsetY": -63.58,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-132",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 13.789999999999992,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-134",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -132.38,
+        "offsetY": -1.8100000000000023,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-137",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -112.31,
+        "offsetY": -61.53999999999999,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-143",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 104.43,
+        "offsetY": 58.39,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-148",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 119.69,
+        "offsetY": 54.099999999999994,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-151",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": 12.959999999999994,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-168",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 65.77,
+        "offsetY": 61.370000000000005,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-169",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -37.91,
+        "offsetY": 64.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-179",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -23.569999999999993,
+        "offsetY": -57.53,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-180",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -9.039999999999992,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-182",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -16.110000000000014,
+        "offsetY": 47.620000000000005,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-184",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 14.569999999999993,
+        "offsetY": 62.56,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-191",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 120.95,
+        "offsetY": -45.739999999999995,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-194",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 90.25,
+        "offsetY": 58.22,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-196",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 78.81,
+        "offsetY": 58.84,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-197",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -118.79000000000002,
+        "offsetY": 56.95,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-202",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": 1.4099999999999966,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-203",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 135.41,
+        "offsetY": 58.8,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-205",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 76.74,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-210",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 142.31,
+        "offsetY": 37.22,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-226",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 134.95,
+        "offsetY": -12.77000000000001,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-231",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 141.35,
+        "offsetY": 26.58,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-243",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.0,
+        "offsetY": 36.36,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-244",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -143.29000000000002,
+        "offsetY": -27.650000000000006,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-245",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -45.77000000000001,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-247",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -3.1299999999999955,
+        "offsetY": 64.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-250",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 110.47,
+        "offsetY": -58.75999999999999,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-253",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -24.810000000000002,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-254",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": -25.370000000000005,
+        "offsetY": -63.0,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    },
+    {
+      "id": "lua-256",
+      "action": "upstream_rectangular_mask",
+      "mask": {
+        "enabled": true,
+        "imageId": 100001,
+        "imageType": null,
+        "offsetX": 60.230000000000004,
+        "offsetY": 63.620000000000005,
+        "width": 288.0,
+        "height": 128.0,
+        "reverseMaskArea": false,
+        "enableSoftEdge": false,
+        "softEdgeMode": "Pixel",
+        "softEdgeWidthX": 0,
+        "softEdgeWidthY": 0,
+        "horizontalSoftRange": 85,
+        "verticalSoftRange": 85
+      }
+    }
+  ],
+  "imageControls": 257,
+  "maskControls": 74,
+  "controls": 331,
+  "luaRoundtripCoordinates": true,
+  "giaMode": "overlimit upstream class15; official GIA import not yet tested",
+  "inGame": "not_tested",
+  "warnings": [
+    "Imported drawing data only; runtime template IDs, auto-fit, scale and offsets are not applied to the canvas."
+  ]
+}

@@ -35,6 +35,9 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## Approved Art and UI Baseline
 
+- 完整游戏冒烟与取证按 `docs/P0-SMOKE.md`。自动试玩必须显式 `clientScriptLog: true`；每次新导入后由工具确保订阅，不能把反复手动勾选当成用户职责。测试版启动异常须在界面显示诊断；没有本轮日志/ready证据不得判通过，不得复用旧日志冒充本轮。
+- UI交付先对照 `docs/design/PLATFORM_PARITY.md`，核心信息与操作按 `docs/design/ui-acceptance.json` 逐屏实机审查；宣称UI验收通过前运行 `npm run verify:ui -- <候选.gil>`。它校验候选hash、批准稿参考、实机截图和关键检查项；`npm run check`通过不替代此门禁。装饰/动效可记录降级或延后，生命、费用、意图、价格等核心信息不得被静默省略。
+
 - 用户已确认 [PR #19](https://github.com/CHNISam/Slay-the-Abyss/pull/19) 为整个游戏的美术与界面设计依据；已合入 `develop`（`91ae349`）。
 - 实现前必读 `docs/design/UI_DESIGN.md`，对照 `docs/design/prototype/index.html` 与 `docs/design/screens/`；颜色、字号、间距、布局、图标和动效统一读取 `data/presentation/ui_theme.json`，Lua 使用 `npm run build:theme` 生成的 `abyss_theme`。
 - 尽可能按批准稿还原。平台能力导致的差异须记录原因、采用的降级和验证状态，不能自行改换视觉方向。拖牌按规范分档落地，C 档点选始终保留。
@@ -51,3 +54,14 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - Commits follow Conventional Commits: `feat|fix|chore|docs|refactor|test|perf|ci(scope): description`.
 - Squash merge feature → `develop`; merge commit for `release/*` and `hotfix/*` → `master`.
 - Never rewrite shared history; force-push only your own branch with `--force-with-lease`.
+- Finish integration promptly: after a feature PR merges, verify its head has no new work, delete the remote branch, prune remote references, and remove its clean local worktree and branch in the same session. GitHub automatic branch deletion is enabled.
+- Preserve dirty worktrees and independent commits; record why they remain. For squash merges, verify the merged PR head and retain recoverable history before forcing local branch deletion.
+- Put review fixes and closeout notes into the existing task PR where practical. Do not leave completed review branches or create another branch solely to report an already merged change.
+
+## Milestone 顺序验收
+
+- 成果关口与证据标准见 `docs/MILESTONES.md`；严格 M0 → M1 → M2 → M3 → M4 → M5，仅最早未完成关口作为主冲刺。
+- 跨阶段任务拆成可独立验收的本地实现、平台导入/实测和发布工作。合并且证据充分的切片及时 Done，必要平台阻塞仍留原关口。
+- 所有必要任务完成后立即收口；可选研究不阻塞首发。新建前查重，优先复用，重复/过时任务用原生取消/归档机制保留历史。
+- 不能通过降低核心标准或改状态制造完成；记录具体缺失证据和下一动作，避免无证据重复尝试。
+- CI核对PR当前SHA，各作业成功后按规范合并。单人项目不要求分支保护，不将套餐限制列作阻塞。

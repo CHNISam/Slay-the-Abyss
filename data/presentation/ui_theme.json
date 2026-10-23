@@ -30,6 +30,8 @@
     "backdropVeil": "#0F1117CC",
     "panel": "#1C1E27",
     "panelRaised": "#272A36",
+    "buttonHover": "#353949",
+    "buttonPressedText": "#FFFFFF",
     "panelSunken": "#13141B",
     "line": "#3B3E4C",
     "gold": "#E3B866",
@@ -108,8 +110,24 @@
     "shake": 0.15,
     "shakeAmplitude": 6,
     "enemyActionGap": 0.45,
+    "hitStop": 0.05,
+    "hitStopHeavy": 0.1,
+    "heavyHitDamage": 12,
+    "anticipation": 0.3,
     "hoverLift": 36,
     "hoverScale": 1.22
+  },
+  "sound": {
+    "card_play": 50916,
+    "hit": 50936,
+    "hurt": 50936,
+    "block_hit": 50937,
+    "block_gain": 50940,
+    "status": 50928,
+    "turn": 50926,
+    "enemy_die": 50941,
+    "victory": 50919,
+    "defeat": 50931
   },
   "image": {
     "rect": 100001,
@@ -164,7 +182,10 @@
       "boss": 102033
     },
     "status": {
+      "mode_shift": 103066,
+      "sharp_hide": 103055,
       "strength": 103047,
+      "enrage": 103047,
       "dexterity": 103065,
       "vulnerable": 103049,
       "weak": 103053,
@@ -173,6 +194,7 @@
       "thorns": 103055,
       "regen": 103056,
       "barricade": 103066,
+      "ritual": 103047,
       "verify": true
     },
     "potion": {
@@ -253,6 +275,16 @@
     "geo": 102005
   },
   "layout": {
+    "battlePotions": {
+      "count": 3,
+      "origin": [-124, 286],
+      "step": [124, 0],
+      "size": [116, 44]
+    },
+    "battleNotice": {
+      "position": [0, 244],
+      "size": [1140, 32]
+    },
     "topBar": {
       "height": 52,
       "y": 334
@@ -278,6 +310,11 @@
       "spacingMin": 74,
       "arcDegrees": 2.5,
       "arcDrop": 4
+    },
+    "cardDrag": {
+      "threshold": 8,
+      "playArea": [0, 66, 1200, 272],
+      "lineY": -70
     },
     "energy": {
       "position": [
@@ -330,6 +367,9 @@
       "portrait": 120,
       "bossPortrait": 168
     },
+    "nativeText": {
+      "lineHeight": 40
+    },
     "hpBar": {
       "size": [
         156,
@@ -359,6 +399,20 @@
         460
       ]
     },
+    "deckView": {
+      "entry": [568, 310, 64, 48],
+      "title": [0, 315, 1000, 44],
+      "close": [568, 312, 64, 48],
+      "viewport": [0, 0, 1120, 560],
+      "columns": 6,
+      "itemSize": [148, 226],
+      "spacing": [36, 0],
+      "padding": [14, 14, 12, 40],
+      "uidHeight": 18,
+      "pressedScale": 0.96,
+      "battlePiles": [350, 334, 350, 52],
+      "nodeTitleWidth": 1000
+    },
     "button": {
       "primary": [
         220,
@@ -372,6 +426,339 @@
         128,
         40
       ]
+    },
+    "nativeControl": {
+      "origin": [
+        0,
+        0
+      ]
+    },
+    "nativeBattle": {
+      "note": "功能过渡布局，保持现有点选流程；尚未还原批准稿的战斗单位、扇形手牌、图标与动效。",
+      "backdrop": [
+        0,
+        0,
+        1260,
+        700
+      ],
+      "title": [
+        0,
+        313,
+        1160,
+        44
+      ],
+      "player": [
+        -230,
+        265,
+        700,
+        42
+      ],
+      "piles": [
+        380,
+        265,
+        400,
+        42
+      ],
+      "notice": [
+        0,
+        58,
+        1130,
+        46
+      ],
+      "statuses": [
+        0,
+        17,
+        1140,
+        35
+      ],
+      "enemy": {
+        "count": 5,
+        "origin": [
+          -472,
+          165
+        ],
+        "step": [
+          236,
+          0
+        ],
+        "size": [
+          220,
+          140
+        ],
+        "labelSize": [
+          208,
+          132
+        ]
+      },
+      "card": {
+        "count": 10,
+        "columns": 5,
+        "origin": [
+          -464,
+          -72
+        ],
+        "step": [
+          232,
+          -145
+        ],
+        "size": [
+          218,
+          140
+        ],
+        "labelSize": [
+          204,
+          132
+        ]
+      },
+      "endTurn": [
+        438,
+        -316,
+        250,
+        44
+      ],
+      "start": [
+        0,
+        -70,
+        320,
+        60
+      ],
+      "continue": [
+        0,
+        -250,
+        320,
+        60
+      ],
+      "result": [
+        0,
+        168,
+        1110,
+        130
+      ],
+      "skip": [
+        0,
+        -316,
+        250,
+        44
+      ],
+      "buttonInset": [
+        8,
+        4
+      ],
+      "potions": {
+        "count": 3,
+        "origin": [-430, -316],
+        "step": [200, 0],
+        "size": [180, 44]
+      }
+    },
+    "nativeMap": {
+      "note": "五层分页功能过渡布局；批准稿的滚动地图与节点图标待还原。",
+      "backdrop": [
+        0,
+        0,
+        1240,
+        680
+      ],
+      "title": [
+        0,
+        312,
+        1160,
+        44
+      ],
+      "notice": [
+        0,
+        263,
+        1160,
+        42
+      ],
+      "page": [
+        -180,
+        -261,
+        760,
+        40
+      ],
+      "legendPanel": [
+        410,
+        0,
+        330,
+        456
+      ],
+      "legend": [
+        410,
+        0,
+        306,
+        432
+      ],
+      "geometry": {
+        "columns": [
+          -420,
+          -180,
+          60
+        ],
+        "firstY": 192,
+        "rowGap": 96,
+        "rows": 5
+      },
+      "edgeWidth": 3,
+      "floor": [
+        -575,
+        0,
+        62,
+        44
+      ],
+      "nodeSize": [
+        214,
+        70
+      ],
+      "nodeInsetSize": [
+        208,
+        64
+      ],
+      "label": [
+        0,
+        19,
+        206,
+        24
+      ],
+      "status": [
+        0,
+        -3,
+        206,
+        20
+      ],
+      "route": [
+        0,
+        -24,
+        206,
+        20
+      ],
+      "navigation": {
+        "columns": [
+          -420,
+          -180,
+          60
+        ],
+        "y": -314,
+        "size": [
+          180,
+          48
+        ],
+        "inset": [
+          8,
+          4
+        ]
+      }
+    },
+    "nativeNode": {
+      "note": "批准稿节点构图的原生实现：共用顶栏；商店单屏卡牌货架、删牌服务格与遗物行；营地双选项与锻造升级前后对比；事件左右结构；宝箱开合。坐标为父容器中心偏移，y 向上。",
+      "backdrop": [0, 0, 1240, 680],
+      "topBar": {
+        "plate": [0, 316, 1200, 48],
+        "title": [0, 316, 380, 40],
+        "hpIcon": [-570, 316, 28, 28],
+        "hp": [-505, 316, 100, 40],
+        "goldIcon": [-430, 316, 28, 28],
+        "gold": [-385, 316, 60, 40],
+        "potions": [-260, 316, 130, 40],
+        "relics": [330, 316, 130, 40],
+        "deckIcon": [450, 316, 28, 28],
+        "deck": [490, 316, 50, 40]
+      },
+      "notice": [0, 262, 1160, 40],
+      "back": [-490, -290, 180, 52],
+      "confirm": [490, -290, 200, 56],
+      "buttonInset": [20, 8],
+      "buttonStates": { "pressedScale": 0.96, "normalScale": 1 },
+      "arrowIcon": 32,
+      "price": {
+        "size": [100, 40],
+        "coin": 24
+      },
+      "shop": {
+        "cardY": 116,
+        "columns": [-466, -302, -138, 26, 190],
+        "previous": [-574, 116, 44, 208],
+        "next": [300, 116, 44, 208],
+        "removal": [480, 116, 220, 208],
+        "priceY": -12,
+        "page": [-138, -52, 600, 40],
+        "relics": {
+          "y": -122,
+          "columns": [-360, 0, 360],
+          "size": [340, 88],
+          "disc": 60,
+          "priceY": -188
+        },
+        "relicPrevious": [-574, -122, 44, 88],
+        "relicNext": [574, -122, 44, 88]
+      },
+      "picker": {
+        "cardY": 116,
+        "columns": [-410, -246, -82, 82, 246, 410],
+        "previous": [-530, 116, 44, 208],
+        "next": [530, 116, 44, 208],
+        "page": [0, -12, 600, 40],
+        "previewY": -150,
+        "before": -170,
+        "after": 170,
+        "target": 0,
+        "arrow": [0, -150, 48, 48],
+        "label": [-350, -150, 180, 80],
+        "hint": [350, -150, 180, 80],
+        "empty": [0, -150, 480, 40]
+      },
+      "camp": {
+        "medallion": [0, 180, 72, 72],
+        "tiles": [
+          [-140, -30],
+          [140, -30]
+        ],
+        "tileSize": [240, 240],
+        "icon": [0, 70, 72, 72],
+        "name": [0, 4, 220, 44],
+        "description": [0, -70, 224, 72]
+      },
+      "event": {
+        "plate": [-370, -30, 400, 420],
+        "art": [-370, 0, 180, 180],
+        "caption": [-370, -200, 360, 40],
+        "name": [220, 196, 720, 44],
+        "body": [220, 110, 720, 96],
+        "options": {
+          "x": 220,
+          "rows": [10, -82, -174],
+          "size": [720, 84],
+          "title": [0, 20, 680, 40],
+          "description": [0, -20, 680, 40]
+        }
+      },
+      "treasure": {
+        "glow": [0, 60, 420, 420],
+        "chest": [0, 60, 200, 200],
+        "hint": [0, -82, 600, 40],
+        "reward": [0, -126, 480, 88],
+        "rewardDisc": 56,
+        "take": [0, -232, 220, 56]
+      }
+    },
+    "nativeMenu": {
+      "note": "主菜单与通关/失败结算，按批准稿 win.png 的徽记、大标题、四格统计、双按钮构图落地；坐标以舞台中心为原点。动效只改位置与缩放，不改可见性或输入。",
+      "backdrop": [0, 0, 1240, 680],
+      "emblem": [0, 226, 112, 112],
+      "emblemGlow": 48,
+      "emblemInset": 32,
+      "title": [0, 132, 1120, 64],
+      "tagline": [0, 80, 1080, 40],
+      "summary": [0, 4, 1000, 96],
+      "start": [0, -128, 220, 60],
+      "subtitle": [0, 80, 1080, 40],
+      "stats": { "origin": [-276, -14], "step": 184, "size": [168, 110], "label": 30, "value": -12 },
+      "detail": [0, -98, 1080, 40],
+      "resultRestart": [-120, -178, 220, 60],
+      "settle": [120, -178, 220, 60],
+      "status": [0, -252, 1080, 40],
+      "buttonInset": [16, 4],
+      "reveal": { "rise": 16, "emblemFrom": 0.72, "cardFrom": 0.88, "stagger": 0.06, "breathe": 2.8, "breatheScale": 0.04 }
     }
   }
 }

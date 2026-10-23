@@ -1,0 +1,186 @@
+{
+  "url": "https://github.com/Ru5ty0ne/sts_map_oracle",
+  "release": "v1.1.0",
+  "revision": "ea5200f21fa566de77ec14b6155b3bf3756dccbf",
+  "executableSha256": "add3b40d49dd5e2e371818bdc9ebfa991344b494732b0698ecaf392ecb0f3660",
+  "reportedVersion": "sts_map_oracle 1.0.0",
+  "scope": {
+    "act": 1,
+    "ascension": 0,
+    "height": 15,
+    "width": 7,
+    "pathDensity": 6
+  },
+  "evidenceBoundary": "Third-party black-box reference; not original-game verification or a license to reuse source code.",
+  "capturedAt": "2026-10-23T02:31:58.414Z",
+  "records": [
+    {
+      "seed": "0",
+      "arguments": [
+        "--seed=0",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "0.json",
+      "rawSha256": "c7e2d4dc693a7cc75a86f42869c5e9737237fb80b9f83cb2b7af894bf85c301b",
+      "fixtureSha256": "49b0664266b1d8990e2e04d10b2f07f3ace05614a1d29e8ef70eff9201a8069b"
+    },
+    {
+      "seed": "1",
+      "arguments": [
+        "--seed=1",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "1.json",
+      "rawSha256": "0abb45e9c1fc21e2a3cf91450bf3d24cbe02853a13147be80d3c7549bc339cff",
+      "fixtureSha256": "11854fe530402042cb06eb6cc3d6539fb38ed45ba521ee9ab9338c3f9d7729f0"
+    },
+    {
+      "seed": "42",
+      "arguments": [
+        "--seed=42",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "42.json",
+      "rawSha256": "c7fc53f050d0a6be5405274dc74a773a5b2ba7764d36183b5b6ae4cc7fcf5f53",
+      "fixtureSha256": "f24d7e7d1f6386ccab5f421601328d98509ae612f4f2ee7f353294c4112dd87d"
+    },
+    {
+      "seed": "313",
+      "arguments": [
+        "--seed=313",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "313.json",
+      "rawSha256": "b47a7d97389264f6973fd1fc9929527ca37ce0285bf48f0329772e469bd0b4a8",
+      "fixtureSha256": "e84ff3b5985c6d4786725929cf8271eeb3705c1f5b99320be30ceb71f766756d"
+    },
+    {
+      "seed": "65535",
+      "arguments": [
+        "--seed=65535",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "65535.json",
+      "rawSha256": "c8a4246d9863bb33e59752424160ad49cf32861c3ce17258bb8dffd962b077a8",
+      "fixtureSha256": "ef575bc294a86e3528f81f26dd85dd0e89d9c9fb400625fb909bc5863d0a23c1"
+    },
+    {
+      "seed": "673465884448",
+      "arguments": [
+        "--seed=673465884448",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "673465884448.json",
+      "rawSha256": "690009694bbd663812a207912ff2120e45f18041996a0f6fd8f3501a8390dbe8",
+      "fixtureSha256": "cb480979f6a9cf54dca6c318acd0b9f847b9322098d40d426a769f5ec94be2ca"
+    },
+    {
+      "seed": "2780424839485660359",
+      "arguments": [
+        "--seed=2780424839485660359",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "2780424839485660359.json",
+      "rawSha256": "a584f20737f4630f3d39faf53624c447adc415d86a70371af4f5eac2741c64a5",
+      "fixtureSha256": "78d40bf0af3d7bc27093ec8966b8f0753f2fdc4cd531a89178525cb7f595e8a5"
+    },
+    {
+      "seed": "123456789",
+      "arguments": [
+        "--seed=123456789",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "123456789.json",
+      "rawSha256": "a4ced4a1dc9d13343c32fe3d0b6274d218bf9640af6bd1c9a3e170909a99e62d",
+      "fixtureSha256": "46401642f31765b5b855360fbb2799876ba12722f3a560a67d18b90987be8e1f"
+    },
+    {
+      "seed": "-17",
+      "arguments": [
+        "--seed=-17",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "-17.json",
+      "rawSha256": "2ea0afe54b4e268e3c2c5057ea5eab80ec09c70b32c2b7ef7c91f38aee2fe855",
+      "fixtureSha256": "71507c03e5f019834a84126c7ca6f71f4c74d26c84d33c3438906e5e0f02cbaa"
+    },
+    {
+      "seed": "20261023",
+      "arguments": [
+        "--seed=20261023",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "20261023.json",
+      "rawSha256": "526d9658aa9a46e88635a3541df01b1ca45d2a6456636c95269b188e8ee46168",
+      "fixtureSha256": "4df06cf1e0d121b4687d21deea30eb8b136cf2b6c0a74b2abbfd44e3746fe07a"
+    },
+    {
+      "seed": "600",
+      "arguments": [
+        "--seed=600",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "600.json",
+      "rawSha256": "afa9110285974724b4013e08d756bb9683dd7dc73de3432a446756d3d53baaa0",
+      "fixtureSha256": "71fed136b48c03668bab576b5676b39fefeb013260a3cc59c45de412d8e204a5"
+    },
+    {
+      "seed": "200",
+      "arguments": [
+        "--seed=200",
+        "--a0"
+      ],
+      "exitCode": 0,
+      "stderr": "",
+      "invariantErrors": [],
+      "status": "CAPTURED",
+      "file": "200.json",
+      "rawSha256": "6176da7a0ac2d400e2a21c998a8b3c9c9cf021755dd20711bfbbfcb42626a55c",
+      "fixtureSha256": "1f882cf4c622edf9eab13fba5f5908494c6a4e9b229b9302461dc71c06acf68d"
+    }
+  ]
+}

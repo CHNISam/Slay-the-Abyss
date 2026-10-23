@@ -12,9 +12,12 @@
     "potionSlots": 3
   },
   "map": {
-    "floors": 15,
-    "bossFloor": 15,
-    "restFloor": 14,
+    "floors": 17,
+    "generatedRows": 15,
+    "bossFloor": 16,
+    "bossTreasureFloor": 17,
+    "restFloor": 15,
+    "treasureFloor": 9,
     "nodeTypes": [
       "combat",
       "elite",
@@ -28,6 +31,18 @@
   "camp": {
     "healPercent": 30,
     "upgradeCount": 1
+  },
+  "events": {
+    "encounterId": "purifier",
+    "purifier": {
+      "removeCost": 0
+    },
+    "cleric": {
+      "minGold": 35,
+      "healCost": 35,
+      "healPercent": 25,
+      "removeCost": 50
+    }
   },
   "shop": {
     "cardCommon": 50,
@@ -50,7 +65,7 @@
     "frailPercent": 75,
     "rounding": "floor_after_modifiers",
     "enemyAI": "intent_cycle",
-    "statusDurationTick": "owner_turn_end",
+    "statusDurationTick": "round_end",
     "poisonBypassesBlock": true
   }
 }

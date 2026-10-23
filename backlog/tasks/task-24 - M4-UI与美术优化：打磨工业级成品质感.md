@@ -1,15 +1,16 @@
 ---
 id: TASK-24
-title: 当前版本产品原型、前端实现与美术打磨（Opus）
-status: To Do
+title: 批准稿设计规范、主题与交互原型交付
+status: Done
 assignee:
   - '@opus'
 created_date: '2026-10-22 15:33'
-updated_date: '2026-10-22 22:46'
+updated_date: '2026-10-22 22:21'
 labels:
   - ui
   - art
   - polish
+milestone: m-5
 dependencies: []
 references:
   - docs/SCOPE.md
@@ -28,10 +29,7 @@ ordinal: 25000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [x] #1 由 Opus 产出与当前版本范围一致的产品原型，关键流程、界面布局、交互状态和信息层级明确，并随功能进展更新。
-- [ ] #2 由 Opus 将当前版本已具备的流程落实为可交互的前端界面，覆盖相应正常、不可用及结果反馈状态；原型与已实现功能的差异明确记录。
-- [ ] #3 由 Opus 持续统一字体、配色、间距、卡牌、面板、图标及反馈表现；每轮按功能成熟度选择轻量优化或深入精修，保留关键设计与界面截图。
-- [ ] #4 已交付界面在手机与主机画布中无出屏、重叠或关键文字不可读，核心信息及主要操作清晰；分别报告原型、前端实现、平台预览、存档导入和实机验证状态，未验证项如实列明。
+- [x] #1 已交付首发范围的设计规范、主题token、关键流程交互原型和设计截图，并经用户批准PR19
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -55,5 +53,11 @@ CLAIM 2026-10-22 Opus；分支 feat/task-24-ui-design；worktree .worktrees/ui-d
 
 2026-10-23 用户明确批准PR #19作为整个游戏美术与界面设计依据，已squash合入develop（91ae349）。PR头提交本地npm run check通过：58 JS、15 Lua、11 Python（1 skip）；GitHub Quality成功。AGENTS/SCOPE/HANDOFF将持久化准则。战斗界面由/root/battle_design在battle-ui树独立推进TASK-10；地图界面由/root/map_design在map-ui树推进TASK-12，均先对齐共享theme并记录平台差异，不操作MCP/存档或虚报实机。TASK-24仍为In Progress，平台实现AC未验收。源表保护任务重号已用backlog doctor修复为TASK-27，现有美术引用保留。
 
-2026-10-23 用户P0指令：暂停非必要美术扩量、技术研究；资源转TASK-3完整游戏集成冒烟与TASK-5真实15层回归，冒烟通过后才恢复。
+整改：本任务限定已交付设计成果。原AC2实现转TASK-10/12/13（已合并）；原AC3统一打磨和AC4平台多设备转TASK-4/25（M4）。不是删除验收，取消无限期持续优化边界。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR19用户批准并合入91ae349，主题生成/原型同步与测试通过。实现与平台打磨分别由已有任务验收。
+<!-- SECTION:FINAL_SUMMARY:END -->

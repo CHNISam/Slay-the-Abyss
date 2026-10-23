@@ -4,19 +4,19 @@ import { pathToFileURL } from 'node:url';
 import { contentFiles, loadContent, validateContent } from './validate-data.mjs';
 
 function rejectInputOutputAlias(inputDirectory, output) {
-  const outputPath = resolve(output);
   let outputStat;
   let outputRealPath;
   try {
-    outputStat = statSync(outputPath, { bigint: true });
-    outputRealPath = realpathSync(outputPath);
+    // Preserve the same symlink/.. traversal semantics as writeFileSync(output).
+    outputStat = statSync(output, { bigint: true });
+    outputRealPath = realpathSync.native(output);
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
   }
   for (const file of contentFiles) {
     const inputPath = resolve(inputDirectory, `${file}.json`);
     const inputStat = statSync(inputPath, { bigint: true });
-    if (outputPath === inputPath || outputRealPath === realpathSync(inputPath) ||
+    if (outputRealPath === realpathSync.native(inputPath) ||
         (outputStat && outputStat.dev === inputStat.dev && outputStat.ino === inputStat.ino)) {
       throw new Error(`Output must not overwrite an input file: ${inputPath}`);
     }

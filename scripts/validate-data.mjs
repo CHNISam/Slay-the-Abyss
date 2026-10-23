@@ -115,13 +115,20 @@ export function validateContent(bundle) {
     if (!isObject(entry)) return;
     enumeration(entry.kind, ['buff', 'debuff'], `statuses[${i}].kind`);
     enumeration(entry.stack, ['intensity', 'duration', 'none'], `statuses[${i}].stack`);
-    enumeration(entry.decay, ['none', 'turn_end_minus_1', 'turn_start_trigger_then_minus_1', 'turn_end_trigger_then_minus_1'], `statuses[${i}].decay`);
+    enumeration(entry.decay, ['none', 'turn_end_minus_1', 'round_end_minus_1', 'turn_start_trigger_then_minus_1', 'turn_end_trigger_then_minus_1'], `statuses[${i}].decay`);
   });
   lists.enemies.forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `enemies[${i}]`;
     enumeration(entry.tier, tiers, `${p}.tier`);
     integer(entry.hp, `${p}.hp`, 1);
+    if (entry.hpRange !== undefined && object(entry.hpRange, `${p}.hpRange`)) {
+      keys(entry.hpRange, ['min', 'max'], `${p}.hpRange`);
+      integer(entry.hpRange.min, `${p}.hpRange.min`, 1, 2147483647);
+      integer(entry.hpRange.max, `${p}.hpRange.max`, 1, 2147483647);
+      if (entry.hpRange.min > entry.hpRange.max) fail(`${p}.hpRange`, 'min must not exceed max');
+      if (entry.hp < entry.hpRange.min || entry.hp > entry.hpRange.max) fail(`${p}.hp`, 'must lie within hpRange');
+    }
     const intentIds = new Set();
     array(entry.intents, `${p}.intents`).forEach((intent, j) => {
       const ip = `${p}.intents[${j}]`;
@@ -130,16 +137,108 @@ export function validateContent(bundle) {
         if (intentIds.has(intent.id)) fail(`${ip}.id`, `duplicate ID ${intent.id}`);
         intentIds.add(intent.id);
       }
-      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff'], `${ip}.kind`);
-      effects(intent.effects, `${ip}.effects`);
+      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned', 'charge'], `${ip}.kind`);
+      if (intent.kind === 'charge' && (entry.ai?.kind !== 'charge_then_attack' || entry.ai?.chargeIntent !== intent.id)) {
+        fail(`${ip}.kind`, 'charge intent requires matching AI');
+      }
+      if (['sleep', 'stunned', 'charge'].includes(intent.kind)) {
+        if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
+      } else effects(intent.effects, `${ip}.effects`);
     });
+    if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
+      const a = entry.ai, ap = `${p}.ai`;
+      const intentReference = (id, path, kind) => {
+        if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
+        const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
+        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
+      };
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack'], `${ap}.kind`);
+      if (a.kind === 'rolled_attack' || a.kind === 'opening_roll_attack') {
+        keys(a, ['kind', 'attackIntent', 'rollRange'], ap);
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+      } else if (a.kind === 'acid_slime_s') {
+        keys(a, ['kind', 'tackleIntent', 'weakIntent', 'rollRange'], ap);
+        intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
+        intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+      } else if (a.kind === 'blue_slaver') {
+        keys(a, ['kind', 'stabIntent', 'rakeIntent', 'rollRange', 'stabCutoff'], ap);
+        intentReference(a.stabIntent, `${ap}.stabIntent`, 'attack');
+        intentReference(a.rakeIntent, `${ap}.rakeIntent`, 'attack');
+        if (a.stabIntent === a.rakeIntent) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.stabCutoff, `${ap}.stabCutoff`, 0, 65536);
+        if (!(a.stabCutoff < a.rollRange)) fail(`${ap}.stabCutoff`, 'cutoff must be below rollRange');
+      } else if (a.kind === 'gremlin_nob') {
+        keys(a, ['kind', 'bellowIntent', 'bashIntent', 'rushIntent', 'rollRange', 'bashCutoff'], ap);
+        intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
+        intentReference(a.bashIntent, `${ap}.bashIntent`, 'attack');
+        intentReference(a.rushIntent, `${ap}.rushIntent`, 'attack');
+        if (new Set([a.bellowIntent, a.bashIntent, a.rushIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.bashCutoff, `${ap}.bashCutoff`, 0, 65536);
+        if (!(a.bashCutoff < a.rollRange)) fail(`${ap}.bashCutoff`, 'cutoff must be below rollRange');
+        const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.bellowIntent);
+        if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'enrage' && effect.value > 0)) {
+          fail(`${ap}.bellowIntent`, 'must grant a positive Enrage stack');
+        }
+      } else if (a.kind === 'charge_then_attack') {
+        keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
+        integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
+        integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);
+        intentReference(a.chargeIntent, `${ap}.chargeIntent`, 'charge');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+      } else if (a.kind === 'jaw_worm') {
+        keys(a, ['kind', 'chompIntent', 'thrashIntent', 'bellowIntent', 'rollRange', 'chompCutoff', 'thrashCutoff',
+          'bellowAfterChomp', 'chompAfterTwoThrashes', 'chompAfterBellow'], ap);
+        intentReference(a.chompIntent, `${ap}.chompIntent`, 'attack');
+        intentReference(a.thrashIntent, `${ap}.thrashIntent`, 'attack');
+        intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
+        if (new Set([a.chompIntent, a.thrashIntent, a.bellowIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.chompCutoff, `${ap}.chompCutoff`, 0, 65536);
+        integer(a.thrashCutoff, `${ap}.thrashCutoff`, 0, 65536);
+        if (!(a.chompCutoff < a.thrashCutoff && a.thrashCutoff < a.rollRange)) fail(ap, 'invalid cutoff order');
+        for (const key of ['bellowAfterChomp', 'chompAfterTwoThrashes', 'chompAfterBellow']) {
+          if (typeof a[key] !== 'number' || !Number.isFinite(a[key]) || a[key] < 0 || a[key] > 1) fail(`${ap}.${key}`, 'must be a probability in 0..1');
+        }
+      } else if (a.kind === 'ritual_then_attack') {
+        keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
+        intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.ritualIntent);
+        if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'ritual' && effect.value > 0)) {
+          fail(`${ap}.ritualIntent`, 'must grant a positive Ritual stack');
+        }
+      } else if (a.kind === 'guardian') {
+        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
+        integer(a.initialThreshold, `${ap}.initialThreshold`, 1, 2147483647);
+        integer(a.thresholdIncrement, `${ap}.thresholdIncrement`, 1, 2147483647);
+        integer(a.shiftBlock, `${ap}.shiftBlock`, 0, 999);
+        for (const key of ['offenseCycle', 'defenseCycle']) {
+          array(a[key], `${ap}.${key}`).forEach((id, j) => intentReference(id, `${ap}.${key}[${j}]`));
+        }
+        intentReference(a.returnIntent, `${ap}.returnIntent`);
+        if (!Array.isArray(a.offenseCycle) || !a.offenseCycle.includes(a.returnIntent)) fail(`${ap}.returnIntent`, 'must occur in offenseCycle');
+        reference('mode_shift', 'statuses', `${ap}.mode_shift`);
+        reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
+      } else if (a.kind === 'sleep_then_cycle') {
+        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
+        integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
+        integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
+        intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
+        intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
+        array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      }
+    }
   });
   lists.encounters.forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `encounters[${i}]`;
     enumeration(entry.tier, tiers, `${p}.tier`);
-    integer(entry.minFloor, `${p}.minFloor`, 1, 15);
-    integer(entry.maxFloor, `${p}.maxFloor`, 1, 15);
+    integer(entry.minFloor, `${p}.minFloor`, 1, 16);
+    integer(entry.maxFloor, `${p}.maxFloor`, 1, 16);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
     array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
       reference(id, 'enemies', `${p}.enemies[${j}]`);
@@ -147,6 +246,14 @@ export function validateContent(bundle) {
       if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
     });
   });
+  // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
+  for (const [floor, tier] of [[1, 'normal'], [16, 'boss']]) {
+    if (!lists.encounters.some(entry => isObject(entry) && entry.tier === tier &&
+      Number.isSafeInteger(entry.minFloor) && Number.isSafeInteger(entry.maxFloor) &&
+      entry.minFloor <= floor && entry.maxFloor >= floor)) {
+      fail('enemies.encounters', `must include an eligible ${tier} encounter on forced floor ${floor}`);
+    }
+  }
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
@@ -159,7 +266,8 @@ export function validateContent(bundle) {
     enumeration(rules.version, ['0.1.0'], 'rules.version');
     const numericSections = {
       player: { maxHp: [1], energyPerTurn: [1], drawPerTurn: [1], maxHand: [1], startingGold: [0], potionSlots: [1] },
-      map: { floors: [15, 15], bossFloor: [15, 15], restFloor: [1, 14] },
+      map: { floors: [17, 17], generatedRows: [15, 15], bossFloor: [16, 16],
+        restFloor: [15, 15], treasureFloor: [9, 9], bossTreasureFloor: [17, 17] },
       camp: { healPercent: [1, 100], upgradeCount: [1] },
       shop: { cardCommon: [0], cardUncommon: [0], cardRare: [0], relic: [0], removeCard: [0], removeCardIncrement: [0] },
       rewards: { normalGold: [0], eliteGold: [0], bossGold: [0], cardChoices: [1] },
@@ -173,6 +281,15 @@ export function validateContent(bundle) {
       array(rules.player.startingRelics, 'rules.player.startingRelics').forEach((id, i) => reference(id, 'relics', `rules.player.startingRelics[${i}]`));
       if (rules.player.drawPerTurn > rules.player.maxHand) fail('rules.player.drawPerTurn', 'must not exceed maxHand');
     }
+    if (object(rules.events, 'rules.events')) {
+      enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
+      if (object(rules.events.purifier, 'rules.events.purifier')) integer(rules.events.purifier.removeCost, 'rules.events.purifier.removeCost', 0, 0);
+    }
+    if (isObject(rules.events) && object(rules.events.cleric, 'rules.events.cleric')) {
+      for (const field of ['minGold', 'healCost', 'removeCost']) integer(rules.events.cleric[field], `rules.events.cleric.${field}`, 0);
+      integer(rules.events.cleric.healPercent, 'rules.events.cleric.healPercent', 1, 100);
+      if (rules.events.cleric.minGold !== rules.events.cleric.healCost) fail('rules.events.cleric.minGold', 'must equal the cost of the first affordable option');
+    }
     if (isObject(rules.map)) {
       const required = ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'];
       const nodes = array(rules.map.nodeTypes, 'rules.map.nodeTypes');
@@ -180,7 +297,7 @@ export function validateContent(bundle) {
       if (nodes.length !== required.length || new Set(nodes).size !== required.length || required.some(node => !nodes.includes(node))) fail('rules.map.nodeTypes', 'must contain all seven node types exactly once');
     }
     if (isObject(rules.combat)) {
-      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
+      for (const [key, expected] of Object.entries({ blockReset: 'owner_turn_start', rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'round_end' })) enumeration(rules.combat[key], [expected], `rules.combat.${key}`);
       if (typeof rules.combat.poisonBypassesBlock !== 'boolean') fail('rules.combat.poisonBypassesBlock', 'must be boolean');
     }
   }
