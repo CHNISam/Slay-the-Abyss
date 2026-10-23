@@ -64,7 +64,10 @@ function M.new(root, data, presentation, clickEvent, platform)
             else
                 local title = self.mode == "victory" and "首领已击败" or "旅途暂歇"
                 local hp = run.phase == "defeat" and 0 or run.hp
-                menu:GetChild("summary").text = title .. "\n抵达第 " .. self.map.floor .. " / 15 层"
+                local seconds = math.floor(run.elapsedSeconds)
+                local duration = string.format("%02d:%02d", math.floor(seconds / 60), seconds % 60)
+                menu:GetChild("summary").text = title .. " · 用时 " .. duration
+                    .. "\n抵达第 " .. self.map.floor .. " / 15 层 · 胜场 " .. run.victories
                     .. "\n生命 " .. hp .. " / " .. run.maxHp .. " · 金币 " .. run.gold
                     .. "\n卡组 " .. #run.deck .. " 张 · 遗物 " .. #run.relics .. " 件"
                 if self.settlementError then
@@ -108,6 +111,17 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI:resize(width, height)
     end
     function self:update(dt)
+        if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
+            return false, "invalid_delta"
+        end
+        -- Count client update time within this run; menus/results never extend it.
+        -- The terminal rule state can precede the last feedback animation.
+        local run = self.run
+        if run and run.phase ~= "defeat" and self.mode ~= "victory" and self.mode ~= "defeat" then
+            local elapsed = run.elapsedSeconds + dt
+            if elapsed == math.huge then return false, "invalid_delta" end
+            run.elapsedSeconds = elapsed
+        end
         self.battleUI:update(dt)
         return self.mapUI:update(dt)
     end

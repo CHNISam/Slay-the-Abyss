@@ -13,6 +13,7 @@ function M.new(data, seed)
     assert(type(seed) == "number" and seed % 1 == 0, "seed must be an integer")
     local run = { version = data.rules.version, data = Combat.copy(data), seed = seed % 65536,
         phase = "map", floor = 1, hp = data.rules.player.maxHp, maxHp = data.rules.player.maxHp,
+        elapsedSeconds = 0, victories = 0,
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
     for _, id in ipairs(data.cards.starter_deck.cards) do
@@ -80,6 +81,7 @@ function M.finishCombat(run)
         choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
     end
     run.rewards, run.phase = { cards = choices, gold = gold }, "reward"
+    run.victories = run.victories + 1
     return true
 end
 
