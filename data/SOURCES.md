@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-23 中型酸液团A0切片：固定AcidSlime_M/Random方法体核实HP28–32、30/40/30三招及条件Boolean回退、7伤害后Slimed1/普通10伤害/Weak1。只覆盖现有直接生成敌人，复用PR136污染牌和队列接口；来源hash、红绿、0.4f精度与共享LCG/分裂/平台限制见[TASK-15.7账本](../docs/reviews/TASK-15.7-acid-slime-m.md)。不新增卡池，不声明原作完整随机分布或平台一致。
+
 > **规则基线**：历史“适配/简化”不代表获准的最终规则。首发可玩范围按初代 Slay the Spire PC Ascension 0 逐项核对；已修正与剩余偏差以下方专项证据为准，见 [RULE_PARITY.md](../docs/RULE_PARITY.md)。
 
 2026-10-23 中型棘刺团A0切片：固定SpikeSlime_M/Slimed及已排动作方法链核实HP28–32、30/70双动作禁三连、攻击8后塞1张真实费用1可消耗状态牌。只为slimed开放受限空use，保留任意空效果拒绝、奖励/商店/升级隔离与末敌清队列；同伴仍存时荆棘死后的已排塞牌继续。来源hash、红绿及共享LCG/分裂/平台限制见[TASK-15.6账本](../docs/reviews/TASK-15.6-spike-slime-m.md)。不新增奖励牌、不声明全池或原作PC/平台一致。

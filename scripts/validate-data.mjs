@@ -169,8 +169,26 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m'], `${ap}.kind`);
-      if (a.kind === 'spike_slime_m') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m'], `${ap}.kind`);
+      if (a.kind === 'acid_slime_m') {
+        keys(a, ['kind', 'spitIntent', 'weakIntent', 'tackleIntent', 'rollRange', 'spitCutoff', 'tackleCutoff', 'spitChance'], ap);
+        intentReference(a.spitIntent, `${ap}.spitIntent`, 'attack');
+        intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
+        intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
+        if (new Set([a.spitIntent, a.weakIntent, a.tackleIntent]).size !== 3) fail(`${ap}.tackleIntent`, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.spitCutoff, `${ap}.spitCutoff`, 0, 65536);
+        integer(a.tackleCutoff, `${ap}.tackleCutoff`, 0, 65536);
+        if (!(a.spitCutoff < a.tackleCutoff)) fail(`${ap}.spitCutoff`, 'cutoffs must be strictly increasing');
+        if (!(a.tackleCutoff < a.rollRange)) fail(`${ap}.tackleCutoff`, 'cutoff must be below rollRange');
+        if (typeof a.spitChance !== 'number' || !Number.isFinite(a.spitChance) || a.spitChance < 0 || a.spitChance > 1) fail(`${ap}.spitChance`, 'must be a probability in 0..1');
+        const spit = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.spitIntent);
+        const payload = spit?.effects;
+        if (!Array.isArray(payload) || payload.length !== 2 || payload[0]?.op !== 'damage'
+          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== 1) {
+          fail(`${ap}.spitIntent`, 'must contain damage followed by exactly one Slimed creation');
+        }
+      } else if (a.kind === 'spike_slime_m') {
         keys(a, ['kind', 'tackleIntent', 'frailIntent', 'rollRange', 'tackleCutoff'], ap);
         intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
         intentReference(a.frailIntent, `${ap}.frailIntent`, 'debuff');

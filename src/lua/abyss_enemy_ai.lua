@@ -10,6 +10,7 @@ local RedSlaver = require("abyss_red_slaver_ai")
 local AcidSlimeS = require("abyss_acid_slime_s_ai")
 local Sentry = require("abyss_sentry_ai")
 local SpikeSlimeM = require("abyss_spike_slime_m_ai")
+local AcidSlimeM = require("abyss_acid_slime_m_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -53,6 +54,7 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
     if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random) end
     if enemy.ai.kind == "spike_slime_m" then return SpikeSlimeM.initialize(state, enemy, random) end
+    if enemy.ai.kind == "acid_slime_m" then return AcidSlimeM.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         -- Inherited init calls rollMove even though the first move is Ritual.
         random(state, enemy.ai.rollRange)
@@ -107,6 +109,7 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
     elseif enemy.ai.kind == "sentry" then return Sentry.advance(state, enemy, random)
     elseif enemy.ai.kind == "spike_slime_m" then return SpikeSlimeM.advance(state, enemy, random)
+    elseif enemy.ai.kind == "acid_slime_m" then return AcidSlimeM.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
         -- Both Ritual and Strike enqueue RollMoveAction; its result is ignored.
         random(state, enemy.ai.rollRange)
@@ -138,7 +141,7 @@ end
 -- Only these source-verified policies enqueue RollMoveAction during takeTurn.
 -- That action has no owner-death guard and survives while another enemy lives.
 -- Acid S sets its next move directly instead; do not invent a queued roll.
-local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true }
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, acid_slime_m=true }
 function M.afterAction(state, enemy, random)
     if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
         M.advance(state, enemy, random)
