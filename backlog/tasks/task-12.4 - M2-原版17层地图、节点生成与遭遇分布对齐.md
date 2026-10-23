@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 08:26'
+updated_date: '2026-10-23 09:58'
 due_date: '2026-10-26'
 labels:
   - required
@@ -46,6 +46,8 @@ ordinal: 40000
 继续独立整合PR62离线证据切片到最新develop：保留当前15行/Boss16/Boss箱17地图生产代码与已有记录，复核固定Oracle和文件hash，运行最新逐边差分及10000 seed门禁；失败如实报告，问号reducer暂不生产接线。
 
 2026-10-23 /root continued-backlog：核对固定原始方法体生成房间清单，针对随机行额外宝箱写真实Map.generate红例；仅在来源明确后移除不应在随机房间清单的treasure。保留九层固定箱与十七层Boss箱，跑边界/地图/全遭遇回归；三道拓扑、交叉边和原版RNG继续明确未对齐。
+
+2026-10-23 @codex-map-topology，独立worktree continue-map-topology/feat/continue-map-topology，基线origin/develop6014746：先核固定MapGenerator/MapEdge/MapRoomNode与12 golden，仅修可独立证明的生产crossing。真实Map.generate交叉红例；按相邻已有边dst max/min夹限并去重，不变RNG/房型/遭遇抽样；旧两边私有断言替换成来源支持出度范围，保持无交叉/可达/导航/快照原断言。sourceSignature拒旧图。定向源/地图/UI/遭遇与0..9999结构检查、严格12golden实际差分均如实记录；不全check/MCP/游戏，7列6路径/ancestor/RNG/配额仍缺口，所有整体AC不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -68,4 +70,8 @@ PR62与develop ed39f46离线整合完成：修复Golden仅比较生成15行且�
 2026-10-23 /root fixed treasure切片：固定AbstractDungeon方法体和既有第三方golden确认随机地图房清单不含treasure。真实Map.generate seed0/f2_l3修前红；移除随机treasure后128输入固定宝箱/17步/恢复通过，地图10组、层边界128种子、遭遇143组（18遭遇全出现）通过。sourceSignature明确拒绝旧分布快照。来源与限制见docs/reviews/TASK-12.4-fixed-treasure.md；三道拓扑/交叉边/RNG/配额/Boss宝箱事务仍未对齐，全部AC不勾。
 
 本轮golden实际复跑仍FAIL 0/12（11差异/1完整seed不支持），11个成功导出样本的random treasure错误为0。完整check首次发现旧inventory夹具依赖第9层前随机箱；迁移至固定seed36路线并限制仅买一次，保留11/12张卡组、金币、UID、两战与Anchor等全部断言，inventory11组通过。完整组合门禁待最终整合。
+
+2026-10-23 @codex-map-topology 离线领取工具/来源层核对完成：固定319009d5df0a82d9fb0f23cc22322286c6a87ec0三份Map原文实际读取，response保留根.artifacts/map-topology-source-6014746。此为未经正版PC二进制认证的第三方CFR镜像，不复制实现或运行镜像。最小可验证方案已报root。
+
+2026-10-23 @codex-map-topology：最小生产crossing修复完成，真实seed0反向对角先红后绿；相邻边目标max/min夹限后按dst去重，sourceSignature增adjacentEdgeClamp。旧源码128输入逐次12081个RNG调用before/bound/after/value完全相同，6016房间/遭遇记录+生成后双随机seed相同，128真实旧图snapshot以configuration_mismatch拒绝。40个地图/evidence/contract/UI专项，map10组、floor128、treasure128、encounter115组（原18遭遇全到达）均通过。既有50seed分批/15s预算未改，性质0..9999实际10000请求/执行/通过，0失败0执行错误；严格golden仍FAIL0/12（11diff/1完整64位seed不支持），11导出图结构错误0。来源hash/边界见docs/reviews/TASK-12.4-map-crossings.md与docs/rules/evidence/w1-map-crossings.json；raw source/旧源/逐调用脚本/完整差分见根.artifacts/map-topology-source-6014746。不改RNG生产接线/房型/遭遇权重，不以性质绿代替7列6路径/祖先/配额/原版RNG/全拓扑一致；无full/MCP/游戏，全项AC不勾。
 <!-- SECTION:NOTES:END -->

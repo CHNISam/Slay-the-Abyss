@@ -1,0 +1,153 @@
+{
+  "task": "TASK-12.4",
+  "baseCommit": "601474649373c85dd4daad8650a7d01bf3c37b3b",
+  "scope": "Only adjacent-edge destination clamping and duplicate destination coalescing in the existing production three-lane map. Not full original topology or RNG parity.",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": [
+    {
+      "file": "MapGenerator.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/MapGenerator.java",
+      "gitBlob": "b67e889ecb54e2964e32896b914ac45953527a38",
+      "contentSha256": "62c25014d2dec21fa45f8257ed315e2a964661e081658f84b3923b608880e325"
+    },
+    {
+      "file": "MapEdge.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/MapEdge.java",
+      "gitBlob": "065720d172f730510cb1fe0ae90344d9913f369e",
+      "contentSha256": "b10b9c89e72f698cf8940c3a67a9c024f2a2809748ec144ae7e7ba5e36132c04"
+    },
+    {
+      "file": "MapRoomNode.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/map/MapRoomNode.java",
+      "gitBlob": "2e307ca3d96518e87dd7e9d25ade07afa89a4538",
+      "contentSha256": "58d8b19c4d8154de5743df4a359eacdda49b5e46f628c9af7ab0915001bf94f7"
+    }
+  ],
+  "evidenceBoundary": "Third-party CFR decompiled source mirror, not authenticated against the target original PC binary; no mirrored implementation copied or executed.",
+  "beforeSourceSha256": "6b4876bb1764644474642476eb6414919c879ed92425e0dee8f96ffccce83d2c",
+  "afterSourceSha256": "b2f5ad2da13623916fe5b3c7b412a5fe7c61688505f499c4e7383fc76afb66e6",
+  "fixtureManifestSha256": "a79023a778a3d6629c66ecd90822bd93e83c320fd13fd701eaf9860f38084ff7",
+  "red": {
+    "seed": "0",
+    "crossing": [
+      "f1_l1->f2_l2",
+      "f1_l2->f2_l1"
+    ],
+    "expected": "Second destination clamps to f2_l2 and coalesces with the existing straight edge.",
+    "actualBefore": "Production regression exited 1 at the reverse-diagonal assertion.",
+    "actualAfter": "Same regression exited 0; 128 generated maps contain no crossings and reject the old signature."
+  },
+  "oldSourceRegression": {
+    "status": "PASS",
+    "seeds": 128,
+    "randomCallsCompared": 12081,
+    "roomAndEncounterRecords": 6016,
+    "postGeneratorSeedsEqual": true,
+    "oldSourceSnapshotsRejected": 128
+  },
+  "oldSourceRegressionScriptSha256": "01e35c12803ff1ad78304c7091641e455fff674cdb9a407ba11bd39cd3ef9cb7",
+  "properties": {
+    "status": "PASS",
+    "requested": 10000,
+    "executed": 10000,
+    "passed": 10000,
+    "failed": 0,
+    "executionErrors": 0,
+    "seedRange": {
+      "start": "0",
+      "end": "9999"
+    },
+    "examples": [],
+    "scope": "Structural invariants only; not golden parity, quota/ancestor proof, or platform verification."
+  },
+  "golden": {
+    "status": "FAIL",
+    "matches": 0,
+    "requested": 12,
+    "records": [
+      {
+        "seed": "0",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "1",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "42",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "313",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "65535",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "673465884448",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "2780424839485660359",
+        "status": "UNSUPPORTED_PROJECT_SEED",
+        "invariantErrors": null
+      },
+      {
+        "seed": "123456789",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "-17",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "20261023",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "600",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      },
+      {
+        "seed": "200",
+        "status": "MISMATCH",
+        "invariantErrors": []
+      }
+    ],
+    "reportSha256": "e4f59c3984d269702784a9f872ad434e2a5e0aaec99961a9124d8de058ab2c4b"
+  },
+  "otherValidation": {
+    "mapEvidenceContractAndUiNodeTests": 40,
+    "mapLuaGroups": 10,
+    "floorBoundaryInputs": 128,
+    "treasurePlacementInputs": 128,
+    "encounterLuaGroups": 115,
+    "all18EncountersReachable": true,
+    "fullCheck": "NOT_RUN"
+  },
+  "artifacts": ".artifacts/map-topology-source-6014746 (raw source responses, original map source, exact RNG-call comparison script/output, complete golden and property reports)",
+  "remaining": [
+    "Three lanes and 45 generated nodes instead of seven columns/six paths",
+    "Ancestor-gap handling and first-row redundant-edge filtering",
+    "Original room quotas/assignment/sibling constraints",
+    "Original 64-bit RNG, stream initialization and call order",
+    "Full original map golden parity and original PC authentication",
+    "Boss treasure transaction and real-platform acceptance"
+  ],
+  "platformCompile": "NOT_EXECUTED",
+  "saveImport": "NOT_EXECUTED",
+  "realClient": "NOT_EXECUTED",
+  "broadAcceptanceCriteria": "UNCHANGED_UNCHECKED"
+}

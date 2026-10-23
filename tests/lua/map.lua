@@ -53,7 +53,9 @@ test("multiple seeds produce reachable generated rows and separate Boss rooms", 
             elseif node.floor == 16 then
                 assert(node.type == "boss" and node.lane == 2 and #node.nextIds == 1)
             else
-                assert(node.type ~= "boss" and #node.nextIds >= (node.floor == 15 and 1 or 2))
+                -- Original connected rooms may have one outgoing edge; the old
+                -- fixed minimum two encoded the private three-lane algorithm.
+                assert(node.type ~= "boss" and #node.nextIds >= 1 and #node.nextIds <= 3)
             end
             local seen = {}
             for _, id in ipairs(node.nextIds) do

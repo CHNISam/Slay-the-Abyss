@@ -56,7 +56,7 @@ local function configuration(data)
             minFloor = entry.minFloor, maxFloor = entry.maxFloor }
     end
     table.sort(encounters, function(a, b) return a.id < b.id end)
-    local signature = { "map-v2:17:rows15:boss16:rest15:treasure9:bossTreasure17:encounterStream:fixedTreasureOnly" }
+    local signature = { "map-v2:17:rows15:boss16:rest15:treasure9:bossTreasure17:encounterStream:fixedTreasureOnly:adjacentEdgeClamp" }
     for _, entry in ipairs(encounters) do
         signature[#signature + 1] = entry.id .. ":" .. entry.tier .. ":" .. entry.minFloor .. ":" .. entry.maxFloor
     end
@@ -107,12 +107,31 @@ function M.generate(data, seed)
             map.nodes[#map.nodes + 1] = node
         end
     end
+    local nodesById = {}; for _, node in ipairs(map.nodes) do nodesById[node.id] = node end
+    -- Clamp against existing neighboring edges before inserting, then coalesce
+    -- equal destinations. This fixes crossings only; paths/ancestors/RNG remain
+    -- the three-lane local candidate, not the original complete generator.
+    local function connect(node, lane)
+        local left = nodesById[id(node.floor, node.lane - 1)]
+        local right = nodesById[id(node.floor, node.lane + 1)]
+        if left then
+            for _, nextId in ipairs(left.nextIds) do lane = math.max(lane, nodesById[nextId].lane) end
+        end
+        if right then
+            for _, nextId in ipairs(right.nextIds) do lane = math.min(lane, nodesById[nextId].lane) end
+        end
+        local target = id(node.floor + 1, lane)
+        for _, nextId in ipairs(node.nextIds) do if nextId == target then return end end
+        node.nextIds[#node.nextIds + 1] = target
+    end
     for _, node in ipairs(map.nodes) do
         if node.floor >= data.rules.map.generatedRows and node.floor < data.rules.map.floors then
             node.nextIds = { id(node.floor + 1, 2) }
         elseif node.floor < data.rules.map.generatedRows then
             local neighbors = node.lane == 2 and {1, 3} or {2}
-            node.nextIds = { id(node.floor + 1, node.lane), id(node.floor + 1, neighbors[Random.next(random, #neighbors)]) }
+            local neighbor = neighbors[Random.next(random, #neighbors)]
+            connect(node, node.lane)
+            connect(node, neighbor)
         end
     end
     map.randomSeed = random.seed
