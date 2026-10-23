@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-23 00:46'
+updated_date: '2026-10-23 00:58'
 labels:
   - P1
   - battle-feedback
@@ -15,6 +15,7 @@ dependencies:
   - TASK-11
 references:
   - docs/COMBAT_FEEDBACK.md
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/52'
 priority: high
 type: enhancement
 ordinal: 38000
@@ -30,7 +31,7 @@ ordinal: 38000
 <!-- AC:BEGIN -->
 - [x] #1 真实出牌命令驱动攻击飞牌、命中/飘字/血条，格挡获取与吸收、状态、死亡和胜负过渡；本地控件集成可复核
 - [x] #2 敌方回合按行动者和意图顺序展示，多段/多敌/群体/持续伤害/反伤不跳过
-- [ ] #3 自动回归验证规则结果与RNG不变、事件仅消费一次、输入恢复及表现故障恢复；控件复用有界；npm run check和CI通过
+- [x] #3 自动回归验证规则结果与RNG不变、事件仅消费一次、输入恢复及表现故障恢复；控件复用有界；npm run check和CI通过
 - [ ] #4 同一候选经TASK-3.2导入后完成TASK-3基础反馈实机截图/日志或录像；音效编号及听感以平台验证为准，未验证明确记录
 <!-- AC:END -->
 
@@ -44,4 +45,8 @@ ordinal: 38000
 
 <!-- SECTION:NOTES:BEGIN -->
 真实Run命令的攻击/格挡/敌回合、群体、多段多敌、中毒/荆棘、死亡及宿主过渡回归通过；6种子序列比较运行状态与RNG。准备/控件/音效故障、重入、切局与消费帧释放均有回归。保持In Progress：同候选平台实机与音效听感未验。整体变更复核已按large-change-review完成，发现并修复药水槽被快照重建、准备失败后重绘与切局残留等边界。
+
+最新代码ca202b8ca57a459f97b220db4cc57e5463b9f2c5，本地npm run check通过（JS180通过/14权限相关跳过，Lua189通过，Python12通过/1跳过）；正式Quality 39880758640的check/presentation均success。PR52。实际候选20Lua模块静态0错误/12自定义方法警告，结算图22节点/编辑器计数72编译写副本通过。候选SHA256 DB50892159B6F2FB3C059E3EBC1285BC451893E84EA448E873050F3BE53E7C24。首次playtest_start返回DESKTOP_BUSY（美术工作树正在使用GUI），未启动导入或试玩，不抢占。
+
+实际官方自动试玩run 49a81efb-1911-404b-922f-35001a793e82于18秒failed：无法把窗口切到前台game；steps空，无本轮日志/截图/录音，官方导入未证实，不勾AC4。按既有P0流程不循环重试焦点。可手动导入候选F:/New folder/.worktrees/combat-feedback/build/abyss-feedback-ca202b8.gil；源码/证据层次与M4缺口见docs/COMBAT_FEEDBACK.md。
 <!-- SECTION:NOTES:END -->

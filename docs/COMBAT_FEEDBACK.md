@@ -27,6 +27,18 @@
 
 本地、CI、平台静态检查、存档导入和真实试玩分别记录；TASK-29 保持 In Progress，直到实机验收完成。原数值候选由现有完整游戏入口进入，不添加调试战斗或改变初始牌组。
 
+2026-10-23 交付证据（代码提交 `ca202b8ca57a459f97b220db4cc57e5463b9f2c5`，PR #52）：
+
+| 层次 | 本轮实际结果 |
+|---|---|
+| 本地 `npm run check` | 通过；JS 180 通过 / 14 权限相关跳过，Lua 189 通过，Python 12 通过 / 1 权限跳过。战斗 UI 30、事件 3、宿主 9、原子性 14，保留最新荆棘/999 格挡回归。 |
+| 正式 CI | [Quality 39880758640](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39880758640) 的 check / presentation 均 success。后续文档提交的门禁另看 PR 检查。 |
+| 平台构建/写副本 | `build/feedback-candidate`；20 Lua 模块语法/静态检查 0 错误、12 条项目自定义控制器方法警告；结算图 22 节点、编辑器计数 72，编译及副本写入通过。 |
+| 官方存档导入 | **未验证**；首次 `DESKTOP_BUSY` 未启动，等待美术工作树结束后第二次启动，18 秒因无法切游戏前台失败；没有导入成功记录或新存档编号。 |
+| 真实游戏/音频 | **未验证**；run `49a81efb-1911-404b-922f-35001a793e82` 无本轮日志/截图/录音。不得因期待检查的“无脚本错误”未报错就宣称运行正常。 |
+
+可人工导入候选：`build/abyss-feedback-ca202b8.gil`。SHA256：`DB50892159B6F2FB3C059E3EBC1285BC451893E84EA448E873050F3BE53E7C24`。原始 SDK 构建结果在 `build/feedback-candidate/*.json`，失败请求/结果在 `build/feedback-platform/start-retry.json`、`status-resume.json` 和 `playtests/49a81efb-1911-404b-922f-35001a793e82/`。这些是本机未提交产物；源码和本说明随 PR 交付。保持 `liveWriteEnabled=false`；没有改写正式存档或发布。
+
 实机衔接 TASK-3.2 / TASK-3：记录同一 SHA、候选 hash、官方新测试存档编号、runId、屏幕尺寸及本轮截图/日志或录像。先真实出攻击牌、格挡牌、结束回合，观察整个回放，再补多敌、多段、状态和胜负。日志以 `ABYSS_FEEDBACK <kind> source=… target=… amount=…` 对照核心结果；音效另以 `ABYSS_AUDIO` 与实际录音验证。不得拿本地替身或旧 v6 实机截图替代。
 
 M4 TASK-4 只承接更精细的岩元素技能、动作/命中/死亡效果、正式音效选择与节奏、多设备预览和性能/体验验收；不重复实现本次队列及基础反馈。
