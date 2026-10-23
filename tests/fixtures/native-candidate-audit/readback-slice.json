@@ -1,0 +1,1619 @@
+{
+  "provenance": {
+    "candidateSha256": "474516d219689b1e2355023427b2cb74ade1c4f8f6ddf39504ea7730fe516eee",
+    "sourceCommit": "cf6969e768a6102a726948742dd327642043c2ab",
+    "toolCommit": "7091060417fe9bd1231e812db4f798c97a5c63d1",
+    "selection": "Actual readback scripts narrowed to abyss_random; UI narrowed to canvasBackdrop and stage/deckPanel; stage entities only. All selected response fields retained. Ancillary path/id maps omitted.",
+    "rawFiles": [
+      "readback-client-scripts.json",
+      "readback-client-ui.json",
+      "readback-deck-template.json",
+      "readback-inspect-map.json",
+      "readback-bgm-parameter.json",
+      "readback-client-check.json"
+    ]
+  },
+  "actual": {
+    "scripts": {
+      "scripts": [
+        {
+          "scriptId": 1073741849,
+          "name": "abyss_random",
+          "file": "abyss_random.lua",
+          "lines": 24,
+          "on": [],
+          "source": "-- Numeric-only LCG shared by deterministic rules modules. No math.random/global RNG.\r\nlocal M = {}\r\nlocal function integer(value)\r\n    return type(value) == \"number\" and value == value and math.abs(value) <= 9007199254740991\r\n        and value % 1 == 0\r\nend\r\n\r\nfunction M.new(seed)\r\n    if seed == nil then seed = 1 end\r\n    assert(integer(seed), \"seed must be a finite safe integer\")\r\n    return { seed = seed % 65536 }\r\nend\r\n\r\nfunction M.next(state, maximum)\r\n    assert(type(state) == \"table\" and integer(state.seed) and state.seed >= 0 and state.seed < 65536,\r\n        \"invalid random state\")\r\n    assert(integer(maximum) and maximum >= 1 and maximum <= 65536, \"invalid random range\")\r\n    -- Product remains below 2^31, including Fengari's 32-bit integer arithmetic.\r\n    state.seed = (state.seed * 25173 + 13849) % 65536\r\n    return state.seed % maximum + 1\r\nend\r\n\r\nreturn M\r\n"
+        }
+      ]
+    },
+    "ui": {
+      "interface": {
+        "name": "SlayTheAbyss",
+        "scripts": [
+          "abyss_ui"
+        ],
+        "controls": [
+          {
+            "name": "canvasBackdrop",
+            "kind": "image",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              1280,
+              720
+            ],
+            "image": 100001,
+            "colour": "#0f1117",
+            "opacity": 1
+          },
+          {
+            "name": "deckPanel",
+            "kind": "container",
+            "position": [
+              0,
+              0
+            ],
+            "size": [
+              1280,
+              720
+            ],
+            "visible": false,
+            "children": [
+              {
+                "name": "veil",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  1280,
+                  720
+                ],
+                "image": 100001,
+                "colour": "#0f1117",
+                "opacity": 0.8
+              },
+              {
+                "name": "blocker",
+                "kind": "cursorArea",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  1280,
+                  720
+                ]
+              },
+              {
+                "name": "grid",
+                "kind": "grid",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  1120,
+                  560
+                ],
+                "itemTemplate": "AbyssDeckCard",
+                "grid": {
+                  "itemSize": [
+                    148,
+                    226
+                  ],
+                  "spacing": [
+                    36,
+                    0
+                  ],
+                  "padding": [
+                    14,
+                    14,
+                    12,
+                    40
+                  ],
+                  "columns": 6,
+                  "preview": 5
+                }
+              },
+              {
+                "name": "title",
+                "kind": "text",
+                "position": [
+                  0,
+                  315
+                ],
+                "size": [
+                  1000,
+                  44
+                ],
+                "text": {
+                  "fontSize": 24,
+                  "colour": "#f5d79a",
+                  "opacity": 1,
+                  "align": "centre",
+                  "valign": "middle",
+                  "autoSize": true,
+                  "minFontSize": 14
+                }
+              },
+              {
+                "name": "close",
+                "kind": "container",
+                "position": [
+                  568,
+                  312
+                ],
+                "size": [
+                  64,
+                  48
+                ],
+                "children": [
+                  {
+                    "name": "hit",
+                    "kind": "presetButton",
+                    "position": [
+                      0,
+                      0
+                    ],
+                    "size": [
+                      64,
+                      48
+                    ],
+                    "focusable": true,
+                    "states": {
+                      "normal": "normal",
+                      "hover": "hover",
+                      "pressed": "pressed",
+                      "disabled": "disabled"
+                    },
+                    "children": [
+                      {
+                        "name": "normal",
+                        "kind": "container",
+                        "position": [
+                          0,
+                          0
+                        ],
+                        "size": [
+                          64,
+                          48
+                        ],
+                        "children": [
+                          {
+                            "name": "border",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              64,
+                              48
+                            ],
+                            "image": 100001,
+                            "colour": "#8e7448",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "plate",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              60,
+                              44
+                            ],
+                            "image": 100001,
+                            "colour": "#272a36",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "label",
+                            "kind": "text",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              56,
+                              40
+                            ],
+                            "text": {
+                              "content": "关闭",
+                              "fontSize": 16,
+                              "colour": "#f5d79a",
+                              "opacity": 1,
+                              "align": "centre",
+                              "valign": "middle",
+                              "autoSize": true,
+                              "minFontSize": 14
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "hover",
+                        "kind": "container",
+                        "position": [
+                          0,
+                          0
+                        ],
+                        "size": [
+                          64,
+                          48
+                        ],
+                        "children": [
+                          {
+                            "name": "border",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              64,
+                              48
+                            ],
+                            "image": 100001,
+                            "colour": "#f5d79a",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "plate",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              60,
+                              44
+                            ],
+                            "image": 100001,
+                            "colour": "#272a36",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "label",
+                            "kind": "text",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              56,
+                              40
+                            ],
+                            "text": {
+                              "content": "关闭",
+                              "fontSize": 16,
+                              "colour": "#f5d79a",
+                              "opacity": 1,
+                              "align": "centre",
+                              "valign": "middle",
+                              "autoSize": true,
+                              "minFontSize": 14
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "pressed",
+                        "kind": "container",
+                        "position": [
+                          0,
+                          0
+                        ],
+                        "size": [
+                          64,
+                          48
+                        ],
+                        "scale": [
+                          0.9599999785423279,
+                          0.9599999785423279
+                        ],
+                        "children": [
+                          {
+                            "name": "border",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              64,
+                              48
+                            ],
+                            "image": 100001,
+                            "colour": "#f5d79a",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "plate",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              60,
+                              44
+                            ],
+                            "image": 100001,
+                            "colour": "#8e7448",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "label",
+                            "kind": "text",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              56,
+                              40
+                            ],
+                            "text": {
+                              "content": "关闭",
+                              "fontSize": 16,
+                              "colour": "#ece6da",
+                              "opacity": 1,
+                              "align": "centre",
+                              "valign": "middle",
+                              "autoSize": true,
+                              "minFontSize": 14
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "disabled",
+                        "kind": "container",
+                        "position": [
+                          0,
+                          0
+                        ],
+                        "size": [
+                          64,
+                          48
+                        ],
+                        "children": [
+                          {
+                            "name": "border",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              64,
+                              48
+                            ],
+                            "image": 100001,
+                            "colour": "#3b3e4c",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "plate",
+                            "kind": "image",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              60,
+                              44
+                            ],
+                            "image": 100001,
+                            "colour": "#13141b",
+                            "opacity": 1
+                          },
+                          {
+                            "name": "label",
+                            "kind": "text",
+                            "position": [
+                              0,
+                              0
+                            ],
+                            "size": [
+                              56,
+                              40
+                            ],
+                            "text": {
+                              "content": "关闭",
+                              "fontSize": 16,
+                              "colour": "#6e6c66",
+                              "opacity": 1,
+                              "align": "centre",
+                              "valign": "middle",
+                              "autoSize": true,
+                              "minFontSize": 14
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "showCursor": true,
+        "blockKeys": true,
+        "blockCursor": true
+      }
+    },
+    "template": {
+      "templateIndex": 1073741845,
+      "template": {
+        "name": "AbyssDeckCard",
+        "kind": "container",
+        "size": [
+          148,
+          226
+        ],
+        "children": [
+          {
+            "name": "face",
+            "kind": "container",
+            "position": [
+              0,
+              9
+            ],
+            "size": [
+              148,
+              208
+            ],
+            "children": [
+              {
+                "name": "border",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  148,
+                  208
+                ],
+                "image": 100001,
+                "colour": "#8a8f9c",
+                "opacity": 1
+              },
+              {
+                "name": "plate",
+                "kind": "image",
+                "position": [
+                  0,
+                  0
+                ],
+                "size": [
+                  144,
+                  204
+                ],
+                "image": 100001,
+                "colour": "#1c1e27",
+                "opacity": 1
+              },
+              {
+                "name": "nameBand",
+                "kind": "image",
+                "position": [
+                  0,
+                  87
+                ],
+                "size": [
+                  144,
+                  30
+                ],
+                "image": 100001,
+                "colour": "#272a36",
+                "opacity": 1
+              },
+              {
+                "name": "name",
+                "kind": "text",
+                "position": [
+                  20,
+                  87
+                ],
+                "size": [
+                  100,
+                  30
+                ],
+                "text": {
+                  "fontSize": 17,
+                  "colour": "#ece6da",
+                  "opacity": 1,
+                  "align": "centre",
+                  "valign": "middle",
+                  "autoSize": true,
+                  "minFontSize": 14
+                }
+              },
+              {
+                "name": "artPlate",
+                "kind": "image",
+                "position": [
+                  0,
+                  40
+                ],
+                "size": [
+                  144,
+                  64
+                ],
+                "image": 100001,
+                "colour": "#b9483f",
+                "opacity": 1
+              },
+              {
+                "name": "art",
+                "kind": "image",
+                "position": [
+                  0,
+                  40
+                ],
+                "size": [
+                  40,
+                  40
+                ],
+                "image": 102012,
+                "colour": "#ece6da",
+                "opacity": 1
+              },
+              {
+                "name": "type",
+                "kind": "text",
+                "position": [
+                  0,
+                  1
+                ],
+                "size": [
+                  140,
+                  40
+                ],
+                "text": {
+                  "fontSize": 14,
+                  "colour": "#e3b866",
+                  "opacity": 1,
+                  "align": "centre",
+                  "valign": "middle",
+                  "autoSize": true,
+                  "minFontSize": 14
+                }
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "position": [
+                  0,
+                  -54
+                ],
+                "size": [
+                  132,
+                  92
+                ],
+                "text": {
+                  "fontSize": 15,
+                  "colour": "#ece6da",
+                  "opacity": 1,
+                  "align": "centre",
+                  "valign": "middle",
+                  "autoSize": true,
+                  "minFontSize": 14
+                }
+              },
+              {
+                "name": "costDisc",
+                "kind": "image",
+                "position": [
+                  -54,
+                  84
+                ],
+                "size": [
+                  40,
+                  40
+                ],
+                "image": 106025,
+                "colour": "#e9a93b",
+                "opacity": 1
+              },
+              {
+                "name": "cost",
+                "kind": "text",
+                "position": [
+                  -54,
+                  84
+                ],
+                "size": [
+                  40,
+                  40
+                ],
+                "text": {
+                  "fontSize": 22,
+                  "colour": "#2a2620",
+                  "opacity": 1,
+                  "align": "centre",
+                  "valign": "middle",
+                  "autoSize": true,
+                  "minFontSize": 14
+                }
+              }
+            ]
+          },
+          {
+            "name": "uid",
+            "kind": "text",
+            "position": [
+              0,
+              -104
+            ],
+            "size": [
+              148,
+              18
+            ],
+            "text": {
+              "fontSize": 14,
+              "colour": "#a9a595",
+              "opacity": 1,
+              "align": "centre",
+              "valign": "middle",
+              "autoSize": true,
+              "minFontSize": 14
+            }
+          }
+        ]
+      }
+    },
+    "inspected": {
+      "graphs": [
+        {
+          "id": 1073741825,
+          "name": "_GSTS_ABYSS_SETTLEMENT",
+          "type": 20000,
+          "nodeCount": 22,
+          "editorCount": 72,
+          "nodePayloadHash": "326864ca6ef10894a10a40b896b7aae0771fd9d5c4ecb2ade88751485076d49f",
+          "topology": {
+            "version": 1,
+            "nodeCount": 22,
+            "connectionCount": 22,
+            "hash": "39d4aa08ef0a09b0a554bce38b021dbdebe1c318c8c2aed420606dc914d8c547",
+            "scope": "Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime"
+          },
+          "signalReferences": [
+            {
+              "name": "ABYSS_WIN",
+              "role": "monitor",
+              "nodeIndex": 1,
+              "nodeId": 1610612738,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_LOSE",
+              "role": "monitor",
+              "nodeIndex": 12,
+              "nodeId": 1610612742,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            }
+          ],
+          "writable": true
+        },
+        {
+          "id": 1073741826,
+          "name": "_GSTS_ABYSS_BGM",
+          "type": 20000,
+          "nodeCount": 83,
+          "editorCount": 258,
+          "nodePayloadHash": "83037f26b7c1cb09b4e0a12658d5e1a9ae0e38ff9e1f7e4afca00e21fe036801",
+          "topology": {
+            "version": 1,
+            "nodeCount": 83,
+            "connectionCount": 89,
+            "hash": "85d83b3fdc92bd847e75a7d030a7d73b150ec8d457dca82b3138fcbfa5e459da",
+            "scope": "Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime"
+          },
+          "signalReferences": [
+            {
+              "name": "ABYSS_BGM_MAP",
+              "role": "monitor",
+              "nodeIndex": 1,
+              "nodeId": 1610612746,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_BGM_BATTLE",
+              "role": "monitor",
+              "nodeIndex": 13,
+              "nodeId": 1610612750,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_BGM_ELITE",
+              "role": "monitor",
+              "nodeIndex": 25,
+              "nodeId": 1610612754,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_BGM_BOSS",
+              "role": "monitor",
+              "nodeIndex": 37,
+              "nodeId": 1610612758,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_BGM_VICTORY",
+              "role": "monitor",
+              "nodeIndex": 49,
+              "nodeId": 1610612762,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_BGM_DEFEAT",
+              "role": "monitor",
+              "nodeIndex": 61,
+              "nodeId": 1610612766,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            },
+            {
+              "name": "ABYSS_BGM_STOP",
+              "role": "monitor",
+              "nodeIndex": 73,
+              "nodeId": 1610612770,
+              "signalVersion": null,
+              "resolution": "observed-definition-id-match",
+              "gameplay": "not_run"
+            }
+          ],
+          "writable": true
+        }
+      ],
+      "entities": [
+        {
+          "id": 1094713345,
+          "name": "关卡实体",
+          "templateId": 10003004,
+          "graphMounts": [
+            {
+              "graphId": 1073741825,
+              "category": 20000,
+              "enabled": 1
+            },
+            {
+              "graphId": 1073741826,
+              "category": 20000,
+              "enabled": 1
+            }
+          ],
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      ]
+    },
+    "parameters": {
+      "script": "abyss_ui",
+      "records": [
+        {
+          "section": 7,
+          "name": "nativeBgmEnabled",
+          "type": 4,
+          "code": 5,
+          "value": true,
+          "encodedHex": "3a2e12106e617469766542676d456e61626c6564180422120806100122070801a206020804d206020801380640065005"
+        },
+        {
+          "section": 8,
+          "name": "nativeBgmEnabled",
+          "type": 4,
+          "code": 5,
+          "value": true,
+          "encodedHex": "422e12106e617469766542676d456e61626c6564180422120806100122070801a206020804d206020801380640065005"
+        }
+      ]
+    },
+    "checked": {
+      "ok": true,
+      "errors": 0,
+      "warnings": 17,
+      "problems": [
+        {
+          "script": "abyss_battle_ui",
+          "line": 193,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_battle_ui",
+          "line": 387,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":begin() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_battle_ui",
+          "line": 392,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 36,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":open() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 42,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":close() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 168,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":holding() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 171,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":close() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 176,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setActive() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":SetActive()"
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 178,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":SetVisible()"
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 180,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":SetVisible()"
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 183,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":render() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 194,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":setNavigationEnabled() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_game_ui",
+          "line": 195,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":render() is not a method of anything in the client API, nor defined in this script."
+        },
+        {
+          "script": "abyss_ui",
+          "line": 63,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":Resume()"
+        },
+        {
+          "script": "abyss_ui",
+          "line": 76,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":Resume()"
+        },
+        {
+          "script": "abyss_ui",
+          "line": 79,
+          "severity": "warning",
+          "kind": "UNKNOWN_METHOD",
+          "message": ":update() is not a method of anything in the client API, nor defined in this script.",
+          "didYouMean": ":OnUpdate()"
+        },
+        {
+          "script": "abyss_unknown",
+          "line": null,
+          "severity": "warning",
+          "kind": "SCRIPT_NOT_MOUNTED",
+          "message": "No control carries this script: it never runs. scene_add_client_ui {script} puts it on the root of an interface, a control's own script on that control."
+        }
+      ]
+    }
+  },
+  "expected": {
+    "modules": [
+      {
+        "name": "abyss_random",
+        "source": "-- Numeric-only LCG shared by deterministic rules modules. No math.random/global RNG.\nlocal M = {}\nlocal function integer(value)\n    return type(value) == \"number\" and value == value and math.abs(value) <= 9007199254740991\n        and value % 1 == 0\nend\n\nfunction M.new(seed)\n    if seed == nil then seed = 1 end\n    assert(integer(seed), \"seed must be a finite safe integer\")\n    return { seed = seed % 65536 }\nend\n\nfunction M.next(state, maximum)\n    assert(type(state) == \"table\" and integer(state.seed) and state.seed >= 0 and state.seed < 65536,\n        \"invalid random state\")\n    assert(integer(maximum) and maximum >= 1 and maximum <= 65536, \"invalid random range\")\n    -- Product remains below 2^31, including Fengari's 32-bit integer arithmetic.\n    state.seed = (state.seed * 25173 + 13849) % 65536\n    return state.seed % maximum + 1\nend\n\nreturn M\n"
+      }
+    ],
+    "ui": {
+      "name": "SlayTheAbyss",
+      "script": "abyss_ui",
+      "showCursor": true,
+      "blockKeys": true,
+      "blockCursor": true,
+      "controls": [
+        {
+          "name": "canvasBackdrop",
+          "kind": "image",
+          "size": [
+            1280,
+            720
+          ],
+          "image": 100001,
+          "colour": "#0F1117"
+        },
+        {
+          "name": "deckPanel",
+          "kind": "container",
+          "size": [
+            1280,
+            720
+          ],
+          "visible": false,
+          "children": [
+            {
+              "name": "veil",
+              "kind": "image",
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                1280,
+                720
+              ],
+              "image": 100001,
+              "colour": "#0F1117",
+              "opacity": 0.8
+            },
+            {
+              "name": "blocker",
+              "kind": "cursorArea",
+              "size": [
+                1280,
+                720
+              ],
+              "focusable": false
+            },
+            {
+              "name": "grid",
+              "kind": "grid",
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                1120,
+                560
+              ],
+              "itemTemplate": "AbyssDeckCard",
+              "grid": {
+                "columns": 6,
+                "horizontal": false,
+                "itemSize": [
+                  148,
+                  226
+                ],
+                "spacing": [
+                  36,
+                  0
+                ],
+                "padding": [
+                  14,
+                  14,
+                  12,
+                  40
+                ],
+                "scrollbar": true
+              }
+            },
+            {
+              "name": "title",
+              "kind": "text",
+              "position": [
+                0,
+                315
+              ],
+              "size": [
+                1000,
+                44
+              ],
+              "text": {
+                "content": "",
+                "fontSize": 24,
+                "colour": "#F5D79A",
+                "align": "centre",
+                "valign": "middle",
+                "autoSize": true,
+                "minFontSize": 14
+              }
+            },
+            {
+              "name": "close",
+              "kind": "container",
+              "position": [
+                568,
+                312
+              ],
+              "size": [
+                64,
+                48
+              ],
+              "children": [
+                {
+                  "name": "hit",
+                  "kind": "presetButton",
+                  "size": [
+                    64,
+                    48
+                  ],
+                  "focusable": true,
+                  "states": {
+                    "normal": "normal",
+                    "hover": "hover",
+                    "pressed": "pressed",
+                    "disabled": "disabled"
+                  },
+                  "children": [
+                    {
+                      "name": "normal",
+                      "kind": "container",
+                      "size": [
+                        64,
+                        48
+                      ],
+                      "scale": [
+                        1,
+                        1
+                      ],
+                      "children": [
+                        {
+                          "name": "border",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            64,
+                            48
+                          ],
+                          "image": 100001,
+                          "colour": "#8E7448"
+                        },
+                        {
+                          "name": "plate",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            60,
+                            44
+                          ],
+                          "image": 100001,
+                          "colour": "#272A36"
+                        },
+                        {
+                          "name": "label",
+                          "kind": "text",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            56,
+                            40
+                          ],
+                          "text": {
+                            "content": "关闭",
+                            "fontSize": 16,
+                            "colour": "#F5D79A",
+                            "align": "centre",
+                            "valign": "middle",
+                            "autoSize": true,
+                            "minFontSize": 14
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "hover",
+                      "kind": "container",
+                      "size": [
+                        64,
+                        48
+                      ],
+                      "scale": [
+                        1,
+                        1
+                      ],
+                      "children": [
+                        {
+                          "name": "border",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            64,
+                            48
+                          ],
+                          "image": 100001,
+                          "colour": "#F5D79A"
+                        },
+                        {
+                          "name": "plate",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            60,
+                            44
+                          ],
+                          "image": 100001,
+                          "colour": "#272A36"
+                        },
+                        {
+                          "name": "label",
+                          "kind": "text",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            56,
+                            40
+                          ],
+                          "text": {
+                            "content": "关闭",
+                            "fontSize": 16,
+                            "colour": "#F5D79A",
+                            "align": "centre",
+                            "valign": "middle",
+                            "autoSize": true,
+                            "minFontSize": 14
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "pressed",
+                      "kind": "container",
+                      "size": [
+                        64,
+                        48
+                      ],
+                      "scale": [
+                        0.96,
+                        0.96
+                      ],
+                      "children": [
+                        {
+                          "name": "border",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            64,
+                            48
+                          ],
+                          "image": 100001,
+                          "colour": "#F5D79A"
+                        },
+                        {
+                          "name": "plate",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            60,
+                            44
+                          ],
+                          "image": 100001,
+                          "colour": "#8E7448"
+                        },
+                        {
+                          "name": "label",
+                          "kind": "text",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            56,
+                            40
+                          ],
+                          "text": {
+                            "content": "关闭",
+                            "fontSize": 16,
+                            "colour": "#ECE6DA",
+                            "align": "centre",
+                            "valign": "middle",
+                            "autoSize": true,
+                            "minFontSize": 14
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "disabled",
+                      "kind": "container",
+                      "size": [
+                        64,
+                        48
+                      ],
+                      "scale": [
+                        1,
+                        1
+                      ],
+                      "children": [
+                        {
+                          "name": "border",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            64,
+                            48
+                          ],
+                          "image": 100001,
+                          "colour": "#3B3E4C"
+                        },
+                        {
+                          "name": "plate",
+                          "kind": "image",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            60,
+                            44
+                          ],
+                          "image": 100001,
+                          "colour": "#13141B"
+                        },
+                        {
+                          "name": "label",
+                          "kind": "text",
+                          "position": [
+                            0,
+                            0
+                          ],
+                          "size": [
+                            56,
+                            40
+                          ],
+                          "text": {
+                            "content": "关闭",
+                            "fontSize": 16,
+                            "colour": "#6E6C66",
+                            "align": "centre",
+                            "valign": "middle",
+                            "autoSize": true,
+                            "minFontSize": 14
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "template": {
+      "name": "AbyssDeckCard",
+      "kind": "container",
+      "size": [
+        148,
+        226
+      ],
+      "children": [
+        {
+          "name": "face",
+          "kind": "container",
+          "position": [
+            0,
+            9
+          ],
+          "size": [
+            148,
+            208
+          ],
+          "children": [
+            {
+              "name": "border",
+              "kind": "image",
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                148,
+                208
+              ],
+              "image": 100001,
+              "colour": "#8A8F9C"
+            },
+            {
+              "name": "plate",
+              "kind": "image",
+              "position": [
+                0,
+                0
+              ],
+              "size": [
+                144,
+                204
+              ],
+              "image": 100001,
+              "colour": "#1C1E27"
+            },
+            {
+              "name": "nameBand",
+              "kind": "image",
+              "position": [
+                0,
+                87
+              ],
+              "size": [
+                144,
+                30
+              ],
+              "image": 100001,
+              "colour": "#272A36"
+            },
+            {
+              "name": "name",
+              "kind": "text",
+              "position": [
+                20,
+                87
+              ],
+              "size": [
+                100,
+                30
+              ],
+              "text": {
+                "content": "",
+                "fontSize": 17,
+                "colour": "#ECE6DA",
+                "align": "centre",
+                "valign": "middle",
+                "autoSize": true,
+                "minFontSize": 14
+              }
+            },
+            {
+              "name": "artPlate",
+              "kind": "image",
+              "position": [
+                0,
+                40
+              ],
+              "size": [
+                144,
+                64
+              ],
+              "image": 100001,
+              "colour": "#B9483F"
+            },
+            {
+              "name": "art",
+              "kind": "image",
+              "position": [
+                0,
+                40
+              ],
+              "size": [
+                40,
+                40
+              ],
+              "image": 102012,
+              "colour": "#ECE6DA"
+            },
+            {
+              "name": "type",
+              "kind": "text",
+              "position": [
+                0,
+                1
+              ],
+              "size": [
+                140,
+                40
+              ],
+              "text": {
+                "content": "",
+                "fontSize": 14,
+                "colour": "#E3B866",
+                "align": "centre",
+                "valign": "middle",
+                "autoSize": true,
+                "minFontSize": 14
+              }
+            },
+            {
+              "name": "label",
+              "kind": "text",
+              "position": [
+                0,
+                -54
+              ],
+              "size": [
+                132,
+                92
+              ],
+              "text": {
+                "content": "",
+                "fontSize": 15,
+                "colour": "#ECE6DA",
+                "align": "centre",
+                "valign": "middle",
+                "autoSize": true,
+                "minFontSize": 14
+              }
+            },
+            {
+              "name": "costDisc",
+              "kind": "image",
+              "position": [
+                -54,
+                84
+              ],
+              "size": [
+                40,
+                40
+              ],
+              "image": 106025,
+              "colour": "#E9A93B"
+            },
+            {
+              "name": "cost",
+              "kind": "text",
+              "position": [
+                -54,
+                84
+              ],
+              "size": [
+                40,
+                40
+              ],
+              "text": {
+                "content": "",
+                "fontSize": 22,
+                "colour": "#2A2620",
+                "align": "centre",
+                "valign": "middle",
+                "autoSize": true,
+                "minFontSize": 14
+              }
+            }
+          ]
+        },
+        {
+          "name": "uid",
+          "kind": "text",
+          "position": [
+            0,
+            -104
+          ],
+          "size": [
+            148,
+            18
+          ],
+          "text": {
+            "content": "",
+            "fontSize": 14,
+            "colour": "#A9A595",
+            "align": "centre",
+            "valign": "middle",
+            "autoSize": true,
+            "minFontSize": 14
+          }
+        }
+      ]
+    },
+    "graphs": [
+      {
+        "name": "_GSTS_ABYSS_SETTLEMENT",
+        "signals": [
+          "ABYSS_WIN",
+          "ABYSS_LOSE"
+        ]
+      },
+      {
+        "name": "_GSTS_ABYSS_BGM",
+        "signals": [
+          "ABYSS_BGM_MAP",
+          "ABYSS_BGM_BATTLE",
+          "ABYSS_BGM_ELITE",
+          "ABYSS_BGM_BOSS",
+          "ABYSS_BGM_VICTORY",
+          "ABYSS_BGM_DEFEAT",
+          "ABYSS_BGM_STOP"
+        ]
+      }
+    ]
+  }
+}

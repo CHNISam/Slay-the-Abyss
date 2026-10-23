@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 08:50'
+updated_date: '2026-10-23 09:04'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -36,6 +36,8 @@ ordinal: 19000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-23 /root：仅推进不依赖原神的候选取证与缺口报告切片。固定本批source SHA和候选hash，真实MCP编译/副本构建后独立只读核对28模块同源、1590树控件/max50/六列模板与22节点结算挂载；记录完整本地/当前CI结果和仍失败的地图golden，不据此放行官方导入/实机/严格一致性或发布。BGM另用默认关闭与显式试听副本区分。
+
+2026-10-23 可复用只读取证工具片：固定完整source SHA，隔离生成预期；用实际MCP读回模块/完整UI/模板/图/参数，比较源码仅允许BOM与换行规范化、按源树算控件口径，候选hash前后相同，所有差异结构化issues并非零退出。BGM必须显式选项且双参数/两图正确，不认证编译语义/实机。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -46,4 +48,6 @@ ordinal: 19000
 本轮用户明确暂不开原神、授权跨Backlog离线持续并行；TASK5/18/25依赖及所有正式发布前AC仍未满足，领取只做离线报告切片。源139de94规则候选已真实构建，独立只读报告在根.artifacts/continued-batch-139de94/readback-verification.json。不是正式发布候选放行。
 
 PR99/100已在各自当前head两个Quality成功后合入1182814/14979df。源139de94规则副本28模块同源、1590树/max50/6列/22节点结算已启用；源cf6969e显式BGM叠加29模块同源、22+83节点两图启用、参数true。两者静态0error17warning，输入底图及候选只读前后hash相同。docs/P0-SMOKE与两份docs/evidence记录路径/hash/读回报告/源码换行口径。地图golden仍0/12，未导入/开游戏/试听/放行正式发布，所有AC未勾。
+
+3a9a4b0工具独立实现：5组真实响应裁剪fixture比较测试通过；139普通候选28/28与cf BGM29/29实际复读ok，输入hash不变，均0error17warning；错cf SHA核139候选实际exit1并报MODULE_MISMATCH/MISSING。根.artifacts/reusable-audit-139de94-final、reusable-audit-cf6969e-final与reusable-audit-wrong-source-r1留原始响应。仅scripts/tests/docs，无游戏源/依赖/CI变更，CLI详见NATIVE_CANDIDATE_AUDIT.md。与root d12fe89候选证据记录同时保留，全部AC未勾，整体未放行。
 <!-- SECTION:NOTES:END -->
