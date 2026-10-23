@@ -1,5 +1,7 @@
 # 潜行小魔：首幕 A0 生命范围切片
 
+后续[固定动作roll消费切片](../reviews/TASK-15-fixed-gremlin-rolls.md)保留本文HP与伤害，补首动主roll；源码正常动作末是SetMoveAction而非RollMoveAction，因此后续不抽AI随机数。下文为当时HP切片历史记录，不代表随机流或平台认证。
+
 2026-10-23。TASK-15 独立离线候选，保留 @Codex 负责人及全部全池/平台验收。基于 develop `ed39f4653ddb555391c0dfe5a4507d1f58387171`，依赖 PR86 `192efa4bf63c61a99ba61bd121d8ecbf516bf9be` 的通用 hpRange 遭遇测试；其迟缓小魔数据及回归原样保留。仅新增潜行小魔 hpRange10–14，不修改其他条目、共享内核、地图、RNG、名称或任务元数据。
 
 ## 固定只读来源

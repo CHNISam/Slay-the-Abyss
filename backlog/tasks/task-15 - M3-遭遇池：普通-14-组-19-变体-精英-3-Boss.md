@@ -6,7 +6,7 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 08:51'
+updated_date: '2026-10-23 08:58'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -50,6 +50,8 @@ ordinal: 15000
 2026-10-23 连续切片 codex-enemy-parity / Acid Slime S，基线ade3bb5：固定AcidSlime_S与Random源码核查A0 HP8–12、开场主roll后Boolean额外抽样、后续Tackle3/Weak1严格交替且不再roll；先独立Combat红测再专属AI接线、schema及18遭遇可达覆盖。不碰Combat/Actor/Inventory，不改共享Weak时序，不涉及分裂，所有原版RNG与平台AC保留。
 
 2026-10-23 SpikeS切片（独立8a70065）：固定源码核对HP10–14和Tackle5、无条件主roll消费，新增rolled_attack分派；专项/schema/遭遇回归并保留反伤致死后已排队roll的共享红例，交TASK16.1修复。
+
+2026-10-23 Fat/Sneaky抽样切片（独立283e9c3）：固定GremlinFat/GremlinThief方法核对，Fat复用rolled_attack每动Roll，Sneaky用opening_roll_attack仅开场Roll、之后SetMove；保持PR86数值与原动作回归，death/队列与领袖逃跑分别保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -87,4 +89,6 @@ ordinal: 15000
 PR100已在cf6969e双Quality成功后squash合develop14979df；下一批同步保留已合Nob/Blue与新AcidS增量，CLI记录不覆盖已完成切片。
 
 SpikeS源8a70065：8组专项先5红后全绿，68项JS与18遭遇可达/121组覆盖通过，未全量/未平台。共享queued-roll-on-retaliation probe在solo为0/0通过、有同伴为1/0红；源码链及原始hash见TASK-15-spike-slime-s-ai.md，Blue/Nob/Jaw账本已补证据限定，不把现有死亡guard当原版消费一致。整合保留此前PR100/AcidS/CLI所有记录。
+
+283e9c3独立交付：新8组先5红后全绿，旧Sneaky8/Fat11全保留通过，76相关JS/schema/package及18遭遇可达115组覆盖过，未全量/平台。源hash与抽样调用顺序见TASK-15-fixed-gremlin-rolls.md，旧两账本追加指向。root整合新afterAction仅rolled_attack可死后Roll，opening_roll_attack不增消费；Fat反伤死后queuedWeak另由共享规则片核实修复，不宣称完整队列/原作RNG/PC/平台一致。
 <!-- SECTION:NOTES:END -->

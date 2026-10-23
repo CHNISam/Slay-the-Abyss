@@ -484,6 +484,11 @@
       "tier": "normal",
       "hp": 12,
       "hpRange": { "min": 10, "max": 14 },
+      "ai": {
+        "kind": "opening_roll_attack",
+        "attackIntent": "sneaky_gremlin_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "sneaky_gremlin_1",
@@ -503,6 +508,11 @@
       "tier": "normal",
       "hp": 15,
       "hpRange": { "min": 13, "max": 17 },
+      "ai": {
+        "kind": "rolled_attack",
+        "attackIntent": "fat_gremlin_1",
+        "rollRange": 100
+      },
       "intents": [
         {
           "id": "fat_gremlin_1",

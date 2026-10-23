@@ -152,8 +152,8 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack'], `${ap}.kind`);
-      if (a.kind === 'rolled_attack') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack'], `${ap}.kind`);
+      if (a.kind === 'rolled_attack' || a.kind === 'opening_roll_attack') {
         keys(a, ['kind', 'attackIntent', 'rollRange'], ap);
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
