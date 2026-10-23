@@ -59,6 +59,10 @@ local function setup(kind, source, prepare)
         assert(controller.root == root)
         changes[#changes + 1] = { ok = ok, reason = reason }
     end, { color = colour, imageSource = "static" })
+    local notice = root.children.notice.text
+    local width = utf8.len(notice) * Theme.font.body
+    assert(math.max(1, math.ceil(width / Theme.layout.nativeNode.notice[3])) * Theme.layout.nativeText.lineHeight
+        <= Theme.layout.nativeNode.notice[4], "node notice exceeds existing text capacity")
     ui:setVisible(true) -- the host shows the panel in node mode
     local function get(key)
         local node = root
@@ -228,6 +232,8 @@ end)
 test("camp rest heals once through Nodes and holds the result until continue", function()
     local ui, get, click, shown, changes = setup("camp", nil, function(run) run.hp = 20 end)
     local healing = Nodes.view(ui.run, ui.map).node.heal
+    assert(get("notice").text:find("残存的岩灯照亮了短暂的歇脚处。", 1, true))
+    assert(get("notice").text:find("休息或锻造，只能选一项", 1, true))
     assert(click("campView/rest")) assert(ui.run.hp == 20 + healing and ui.run.phase == "map")
     assert(ui:holding() and shown("campView") and get("campView/rest").children.selected.visible)
     assert(get("campView/rest").children.description.text:find("已回复 " .. healing, 1, true))

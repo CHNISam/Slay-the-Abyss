@@ -44,6 +44,9 @@ test('host preserves the approved battle and scrollable map while composing node
   theme.canvas.base = [1600, 900];
   const panels = gameLayout(theme).controls, battle = find(panels, 'battlePanel').children;
   const approvedBattle = find(battleLayout().controls, 'stage').children;
+  const approvedPiles = find(approvedBattle, 'piles');
+  approvedPiles.position = theme.layout.deckView.battlePiles.slice(0, 2);
+  approvedPiles.size = theme.layout.deckView.battlePiles.slice(2);
   assert.deepEqual(battle, approvedBattle);
   assert.deepEqual(find(battle, 'card1').size, nativeTheme.layout.card.size);
   assert.equal(find(battle, 'endTurn').kind, 'presetButton');

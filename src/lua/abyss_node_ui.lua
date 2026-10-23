@@ -6,6 +6,7 @@
 -- without them states are still shown through visibility layers.
 local Nodes = require("abyss_nodes")
 local Theme = require("abyss_theme")
+local Narrative = require("abyss_narrative")
 local M = {}
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
@@ -429,6 +430,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
         elseif screen == "eventView" then hint = renderEvent(view, node, result)
         elseif screen == "treasureView" then hint = renderTreasure(view, node) end
+        if active and self.mode == "main" then
+            local flavor = node.type == "event" and Narrative.specificEvents[node.event.id]
+                or Narrative.nodeFlavor[node.type]
+            if flavor then hint = flavor.compact .. " " .. hint end
+        end
         child("notice").text = self.notice ~= "" and self.notice or hint
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
 

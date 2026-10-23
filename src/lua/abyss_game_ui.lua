@@ -5,7 +5,9 @@ local Nodes = require("abyss_nodes")
 local BattleUI = require("abyss_battle_ui")
 local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
+local DeckUI = require("abyss_deck_ui")
 local Theme = require("abyss_theme")
+local Narrative = require("abyss_narrative")
 local M = {}
 
 function M.new(root, data, presentation, clickEvent, platform)
@@ -17,13 +19,31 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
         platform, { embedded = true, onChange = changed })
     self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, self.seed), function(node)
-        if not self.run or self.mode ~= "map" then return false, "not_on_map" end
+        if not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource })
+    self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
+
+    function self:openDeck()
+        if not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
+            or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
+        if not self.deckUI:open(self.run) then return false end
+        self.battleUI.selected = nil
+        self:refresh()
+        return true
+    end
+    function self:closeDeck()
+        if not self.deckUI:close() then return false end
+        -- The cancelled gesture no longer owns a release/click. A subsequent
+        -- tap starts a fresh selection, so ordinary point-and-click still works.
+        self.battleUI.suppressClick = false
+        self:refresh()
+        return true
+    end
 
     function self:refresh()
         local run = self.run
@@ -40,6 +60,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
+        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
+        local deckOpen = self.deckUI.visible
+        child("deckEntry"):SetVisible(not inMenu and not deckOpen)
+        child("deckEntry"):GetChild("open"):GetChild("hit").interactable = not self.battleUI.busy
         local result = self.mode == "defeat" or self.mode == "victory"
         local startFrame = result and Theme.layout.nativeMenu.resultRestart or Theme.layout.nativeMenu.start
         menu:GetChild("start"):SetAnchoredPosition(startFrame[1], startFrame[2])
@@ -52,17 +76,31 @@ function M.new(root, data, presentation, clickEvent, platform)
         settlement:GetChild("selected"):SetVisible(false)
         settlement:GetChild("label").text = self.settlementRequested and "已发送结算请求" or "结束并结算"
         menu:SetVisible(inMenu)
-        self.battleUI:setActive(self.mode == "battle")
-        self.mapUI:setVisible(self.mode == "map")
-        self.nodeUI:setVisible(self.mode == "node")
-        if self.mode == "battle" then self.battleUI:render()
+        self.battleUI:setActive(self.mode == "battle" and not deckOpen)
+        child("battlePanel"):SetVisible(self.mode == "battle")
+        self.mapUI:setVisible(self.mode == "map" and not deckOpen)
+        child("mapPanel"):SetVisible(self.mode == "map")
+        self.nodeUI:setVisible(self.mode == "node" and not deckOpen)
+        child("nodePanel"):SetVisible(self.mode == "node")
+        if self.mode == "battle" then
+            self.battleUI:render()
+            if run.phase == "combat" and self.presentedBattle ~= run.combat then
+                self.presentedBattle = run.combat
+                local guardian = false
+                for _, enemy in ipairs(run.combat.enemies) do
+                    if enemy.definitionId == "guardian" then guardian = true end
+                end
+                child("battlePanel"):GetChild("notice").text = guardian
+                    and Narrative.flow.bossEntrance.compact or self.battleUI.instructions
+            end
         elseif self.mode == "map" then
-            self.mapUI:setNavigationEnabled(#Nodes.available(run, self.map) > 0)
+            self.mapUI:setNavigationEnabled(not deckOpen and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render()
         elseif inMenu then
             menu:GetChild("start"):GetChild("label").text = run and "重新启程" or "启程"
             if self.mode == "menu" then
-                menu:GetChild("summary").text = "规划路线，构筑卡组\n穿越十五层深渊，挑战终点首领\n\n" .. self.battleUI.instructions
+                menu:GetChild("summary").text = Narrative.flow.intro.compact
+                    .. "\n规划路线，构筑卡组，挑战终点首领。\n\n" .. self.battleUI.instructions
             else
                 local title = self.mode == "victory" and "首领已击败" or "旅途暂歇"
                 local hp = run.phase == "defeat" and 0 or run.hp
@@ -72,6 +110,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                     .. "\n抵达第 " .. self.map.floor .. " / " .. data.rules.map.floors .. " 层 · 胜场 " .. run.victories
                     .. "\n生命 " .. hp .. " / " .. run.maxHp .. " · 金币 " .. run.gold
                     .. "\n卡组 " .. #run.deck .. " 张 · 遗物 " .. #run.relics .. " 件"
+                    .. "\n" .. Narrative.flow[self.mode].compact
                 if self.settlementError then
                     menu:GetChild("summary").text = menu:GetChild("summary").text .. "\n结算请求失败，请重试"
                 elseif type(platform.settle) ~= "function" then
@@ -81,6 +120,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     function self:start()
+        if self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         self.run, self.map = Run.new(data, self.seed), Map.generate(data, self.seed)
@@ -93,6 +133,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     function self:settle()
+        if self.deckUI.visible then return false, "deck_open" end
         if self.mode ~= "victory" and self.mode ~= "defeat" then return false, "not_result" end
         if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
         if type(platform.settle) ~= "function" then return false, "settlement_unavailable" end
@@ -125,10 +166,12 @@ function M.new(root, data, presentation, clickEvent, platform)
             run.elapsedSeconds = elapsed
         end
         self.battleUI:update(dt)
+        self.deckUI:update()
         return self.mapUI:update(dt)
     end
     menu:GetChild("start"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)
     menu:GetChild("settle"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:settle() end)
+    child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
     ready = true
     self:refresh()
     return self

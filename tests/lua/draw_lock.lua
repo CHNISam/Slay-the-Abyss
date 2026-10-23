@@ -118,10 +118,10 @@ test("next player turn resets lock and energy, processes enemy intent and preser
     equal(s.energy, 2); equal(s.player.noDraw, true)
     local hp = s.player.hp
     assert(Combat.endTurn(s))
-    equal(s.player.hp, hp - 1)
+    equal(s.player.hp, hp) -- Cultist's opening Ritual deals no damage.
     equal(s.turn, 2); equal(s.phase, "player"); equal(s.player.noDraw, false)
     equal(s.energy, s.rules.player.energyPerTurn); equal(#s.hand, s.rules.player.drawPerTurn)
-    equal(s.enemies[1].intentIndex, 2); equal(s.enemies[1].noDraw, nil)
+    equal(Combat.intent(s,1).kind, "attack"); equal(s.enemies[1].noDraw, nil)
     same(inventory(s), cards)
     local hand = #s.hand; Combat.draw(s, 1); equal(#s.hand, hand + 1)
 end)
