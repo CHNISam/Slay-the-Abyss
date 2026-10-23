@@ -63,7 +63,12 @@ test('Lua runner propagates failures and enforces finite timeout', () => tempora
   assert.notEqual(runLua(script).status, 0);
   assert.notEqual(runLua(join(directory, 'missing.lua')).status, 0);
   writeFileSync(script, 'while true do end');
-  assert.throws(() => runLua(script, { timeout: 200 }), /timed out|ETIMEDOUT/);
+  assert.throws(() => runLua(script, { timeout: 200 }), error => {
+    assert.match(error.message, /timed out|ETIMEDOUT/);
+    assert.ok(error.message.includes(script), 'timeout identifies the failing Lua script');
+    assert.match(error.message, /200 ms/);
+    return true;
+  });
 }));
 
 test('Lua suite discovers every file in order and stops on first failure', () => temporary(directory => {
