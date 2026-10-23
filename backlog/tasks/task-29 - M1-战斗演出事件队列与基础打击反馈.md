@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-23 01:36'
+updated_date: '2026-10-23 15:56'
 labels:
   - P1
   - battle-feedback
@@ -39,6 +39,8 @@ ordinal: 38000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 保留核心同步事务，补齐有序只读表现事件与轻量状态快照，复用已有主题时序。2. 原生UI增加复用的飞牌/命中/盾牌/飘字/血条残影/震动/死亡和回合横幅，host等队列结束才切结果。3. 真实Run命令集成测试覆盖三主场景及多段、多敌、群体、状态、反伤、胜负、故障和重入；比较完整规则状态和RNG。4. npm run check、独立代码自审和CI后提交PR，符合门禁集成develop；构建同SHA存档副本，衔接TASK-3.2/TASK-3实机，未验证分层记录。
+
+2026-10-23 用户确认选型并授权合并：普通攻击接A3=40313，死亡接D1=20092；A6保留岩系候选，D2/D3待按类型降音量复听。保留原生试听工具与会话证据，修复缩放参数并显示联动组合；全量检查、复核diff、当前SHA CI全绿后squash合develop。只改表现绑定，不写正式存档，实机AC保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -51,4 +53,6 @@ ordinal: 38000
 实际官方自动试玩run 49a81efb-1911-404b-922f-35001a793e82于18秒failed：无法把窗口切到前台game；steps空，无本轮日志/截图/录音，官方导入未证实，不勾AC4。按既有P0流程不循环重试焦点。可手动导入候选F:/New folder/.worktrees/combat-feedback/build/abyss-feedback-ca202b8.gil；源码/证据层次与M4缺口见docs/COMBAT_FEEDBACK.md。
 
 2026-10-23用户已实际导入并明确确认：攻击、格挡、敌方逐次行动三种反馈都看到了，音效尚未确认。MCP list_maps复读新官方存档1073741834、名称abyss-feedback-ca202b8。20个external_lua_file文件与交付代码仅差官方增加的UTF-8 BOM，去除BOM后全部内容一致。当前截图build/feedback-platform/captures/3c0ebc2e-72e6-4022-b74e-fb3ebc2bc13f.png显示真实战斗胜利及三卡奖励（生命80/80、金币114、本场+15），是静态结果证据，三项动态反馈以用户现场确认为准。音效、完整多设备/性能和特殊场景实机未验；没有新日志，仍只有06:29旧故障日志，不冒用。AC4与状态保持未完成。
+
+本轮选型接入：Theme.sound.hit=40313、enemy_die=20092；A6和D2/D3分型方案保留记录，暂不绑定。新增可重建的独立原生试听工具，三参数缩放回归及联动组合可见；无CMD依赖，未写正式存档。npm run check退出0：JS746项/628通过/118既有条件skip/0失败，全部Lua通过，Python17项/16通过/1既有权限skip；专项8项通过。自审确认runtime改动只有两个表现ID、BGM仅更新已试听状态，不改规则/RNG。完整游戏新音效混音/连续播放及UI实机AC继续保留。
 <!-- SECTION:NOTES:END -->
