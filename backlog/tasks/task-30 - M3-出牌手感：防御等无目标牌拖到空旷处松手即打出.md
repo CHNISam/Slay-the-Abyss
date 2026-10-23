@@ -1,17 +1,20 @@
 ---
 id: TASK-30
-title: M3 出牌手感：防御等无目标牌拖到空旷处松手即打出
+title: M4 出牌手感：无目标牌拖到空旷处松手即出
 status: To Do
 assignee: []
 created_date: '2026-10-23 00:59'
-due_date: '2026-10-28'
+updated_date: '2026-10-23 01:58'
+due_date: '2026-10-29'
 labels:
   - ui
   - combat
   - interaction
-milestone: m-4
+milestone: m-5
 dependencies:
   - TASK-10
+  - TASK-3
+  - TASK-17
 references:
   - docs/design/UI_DESIGN.md
   - docs/design/prototype/index.html
@@ -35,3 +38,9 @@ ordinal: 36000
 - [ ] #5 保留点选备用路径；桌面鼠标与手机触摸分别验证拖起、空地松手出牌、取消和连续出牌，说明文案与操作一致。
 - [ ] #6 分别报告离线检查、平台编译、副本导入、游戏内操作验证；平台限制导致未实现时记录证据与降级缺口，不以原型通过或点选可用替代验收。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-23按成果边界迁M4，与TASK-4联动；保留六项拖放AC和高优先级，点选仅保底。独立原版操作观察需标版本/输入/时间；平台降级只记录缺口，不能以点选可用勾拖放验收。M1基础点击/P0仍继续。
+<!-- SECTION:NOTES:END -->
