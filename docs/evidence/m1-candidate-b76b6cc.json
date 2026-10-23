@@ -154,5 +154,35 @@
     "graphPayload": ".artifacts/m1-audit/graph-payload-b76b6cc/graph-payload-audit.json",
     "scene": ".artifacts/m1-audit/platform/b76b6cc/integrated-scene-readback.json",
     "cleanup": ".artifacts/m1-candidate-b76b6cc/script-cleanup.json"
+  },
+  "frozenSourceFullCheck": {
+    "source": "b76b6cc744bf5219baca5864b8292c8ab7c4eaae",
+    "exitCode": 0,
+    "javascript": {
+      "skipped": 118,
+      "total": 704,
+      "failed": 0,
+      "passed": 586
+    },
+    "lua": "All discovered suites passed",
+    "python": {
+      "skipped": 1,
+      "total": 16,
+      "passed": 15
+    },
+    "log": ".artifacts/m1-audit/check-b76b6cc-final.log",
+    "sha256": "e290cab050f1cf3c3a9024a3367db51e154b26630f5146bc04a608fe0c72c5b4",
+    "officialImport": "NOT_TESTED",
+    "playtest": "NOT_TESTED"
+  },
+  "regressionAfterFreeze": {
+    "file": "tests/lua/game_ui_exit_swipe.lua",
+    "oldSource": "257ba092c30a30a2d7aa52322d29394d3c41969b",
+    "oldPassed": 2,
+    "oldFailed": 3,
+    "fixedPassed": 5,
+    "fixedFailed": 0,
+    "runnerBudgetMilliseconds": 15000,
+    "productionSourceUnchanged": true
   }
 }
