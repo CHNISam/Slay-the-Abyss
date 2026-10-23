@@ -194,7 +194,7 @@ test("real map keeps resources across two original-data battles and a newly acqu
     local rewardId = Run.rewardOptions(run)[1]
     assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
-    local acquired, eventPotion, spent, nextBattleType = false, nil, 0, nil
+    local acquired, visitedEvent, spent, nextBattleType = false, false, 0, nil
     while true do
         local node = Nodes.available(run, map)[1]; assert(node)
         assert(Nodes.enter(run, map, node.id))
@@ -205,8 +205,8 @@ test("real map keeps resources across two original-data battles and a newly acqu
             else gold = gold + reward.gold end
             assert(Nodes.claimTreasure(run))
         elseif node.type == "event" then
-            eventPotion = Nodes.view(run, map).node.event.potionId
-            assert(Nodes.chooseEvent(run, "potion"))
+            visitedEvent = true
+            assert(Nodes.chooseEvent(run, "leave"))
         elseif node.type == "shop" then
             local view = Nodes.view(run, map).node
             for _, offer in ipairs(view.cards) do
@@ -215,9 +215,9 @@ test("real map keeps resources across two original-data battles and a newly acqu
             assert(Nodes.leaveShop(run))
         else error("unexpected fixture node " .. node.type) end
     end
-    assert(acquired and eventPotion)
+    assert(acquired and visitedEvent)
     equal(run.combat.player.hp, hp); equal(run.hp, hp); equal(run.gold, gold - spent)
-    same(run.potions, { "regen_potion", eventPotion })
+    same(run.potions, { "regen_potion" })
     equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
     equal(run.combat.player.block, 10); equal(run.combat.energy, 4); equal(#run.combat.hand, 7)
     equal(run.combat.player.statuses.strength, 1); equal(run.combat.player.statuses.dexterity, 1)
@@ -227,7 +227,7 @@ test("real map keeps resources across two original-data battles and a newly acqu
     local expectedReward = nextBattleType == "elite" and source.rules.rewards.eliteGold or source.rules.rewards.normalGold
     equal(run.gold, gold - spent + expectedReward)
     assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
-    same(run.potions, { eventPotion }); equal(run.nextDeckUid, 13)
+    same(run.potions, {}); equal(run.nextDeckUid, 13)
 end)
 
 test("death followed by Run.new resets all same-run resources without sharing catalogs", function()

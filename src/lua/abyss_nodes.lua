@@ -89,13 +89,8 @@ local function prepare(run, node)
         flow.reward = #relics > 0 and { relicId = relics[Combat.random(random, #relics)] }
             or { gold = run.data.rules.rewards.normalGold }
     elseif node.type == "event" then
-        -- First-release minimal event: choose the existing ordinary gold reward OR a catalog potion.
-        -- This is deliberately not a reproduction of any original-game event or new balance table.
-        local potions = {}
-        for _, potion in ipairs(run.data.potions.potions) do potions[#potions + 1] = potion.id end
-        table.sort(potions)
-        flow.event = { gold = run.data.rules.rewards.normalGold }
-        if #potions > 0 then flow.event.potionId = potions[Combat.random(random, #potions)] end
+        -- Explicit supported content, not the original random unknown-room/event-pool sampler.
+        flow.event = { id = node.eventId or run.data.rules.events.encounterId }
     end
     return flow, random.seed
 end
@@ -118,6 +113,13 @@ function M.enter(run, map, nodeId)
     if node.roomKind == "boss_treasure" then return false, "boss_treasure_not_implemented" end
     if not battleKinds[node.type] and node.type ~= "camp" and node.type ~= "shop"
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
+    if node.type == "event" then
+        local id = node.eventId or run.data.rules.events.encounterId
+        if id ~= "cleric" and id ~= "purifier" then return false, "event_unavailable" end
+        if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
+            return false, "event_unavailable"
+        end
+    end
     local flow, seed = prepare(run, node)
     if battleKinds[node.type] then
         -- startCombat validates the encounter using its new floor and constructs the battle before mutation.
@@ -151,6 +153,13 @@ function M.view(run, map)
             node.removePrice = run.data.rules.shop.removeCard
                 + (run.shopRemoveCount or 0) * run.data.rules.shop.removeCardIncrement
             node.removeAvailable = not node.removalUsed
+        elseif node.type == "event" then
+            local rules = run.data.rules.events[node.event.id]
+            node.event.removeCost = rules.removeCost
+            if node.event.id == "cleric" then
+                node.event.healCost = rules.healCost
+                node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
+            end
         end
     end
     return { phase = run.phase, node = node, map = mapView, available = available, navigationEnabled = enabled }
@@ -225,15 +234,30 @@ function M.claimTreasure(run)
     return complete(run)
 end
 
-function M.chooseEvent(run, choice)
+function M.chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
-    if choice == "gold" then run.gold = run.gold + flow.event.gold
-    elseif choice == "potion" and flow.event.potionId then
-        if #run.potions >= run.data.rules.player.potionSlots then return false, "potion_slots_full" end
-        run.potions[#run.potions + 1] = flow.event.potionId
-    else return false, "invalid_event_choice" end
+    local id = flow.event.id
+    if id ~= "cleric" and id ~= "purifier" then return false, "invalid_event_choice" end
+    local rules = run.data.rules.events[id]
+    if choice == "heal" and id == "cleric" then
+        if run.gold < rules.healCost then return false, "insufficient_gold" end
+        run.gold = run.gold - rules.healCost
+        run.hp = math.min(run.maxHp, run.hp + math.floor(run.maxHp * rules.healPercent / 100))
+    elseif (choice == "purify" and id == "cleric") or (choice == "pray" and id == "purifier") then
+        local instance, position = find(run.deck, uid, "uid")
+        if not instance then return false, "invalid_card" end
+        if #run.deck <= 1 then return false, "last_card" end
+        if run.gold < rules.removeCost then return false, "insufficient_gold" end
+        table.remove(run.deck, position)
+        run.gold = run.gold - rules.removeCost
+    elseif choice ~= "leave" then return false, "invalid_event_choice" end
     flow.eventChoice = choice
     return complete(run)
+end
+
+function M.purifyEvent(run, uid)
+    local flow = run.nodeFlow
+    return M.chooseEvent(run, flow and flow.event and flow.event.id == "purifier" and "pray" or "purify", uid)
 end
 
 function M.completeCombat(run, map)

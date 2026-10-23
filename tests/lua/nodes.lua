@@ -223,24 +223,25 @@ test("treasure with all relics owned uses the existing normal gold reward", func
     assert(Nodes.claimTreasure(run)); equal(run.gold, gold + data.rules.rewards.normalGold)
 end)
 
-test("minimal event chooses either existing gold or one catalog potion exactly once", function()
-    local run, map = entered("event")
-    local gold = run.gold
+test("Cleric replaces fabricated gold and potion rewards with a one-time sourced service", function()
+    local source = Combat.copy(data); source.rules.events.encounterId = "cleric"
+    local run, map = entered("event", source)
+    local gold, hp = run.gold, run.hp
     rejected(run, map, function() return Nodes.chooseEvent(run, "fake") end, "invalid_event_choice")
-    assert(Nodes.chooseEvent(run, "gold")); equal(run.gold, gold + data.rules.rewards.normalGold)
+    rejected(run, map, function() return Nodes.chooseEvent(run, "gold") end, "invalid_event_choice")
+    rejected(run, map, function() return Nodes.chooseEvent(run, "potion") end, "invalid_event_choice")
+    assert(Nodes.chooseEvent(run, "heal")); equal(run.gold, gold - data.rules.events.cleric.healCost)
+    equal(run.hp, hp)
     equal(#run.potions, 0); equal(run.phase, "map")
-    rejected(run, map, function() return Nodes.chooseEvent(run, "potion") end)
-    local potionRun, potionMap = entered("event")
-    local potionId = Nodes.view(potionRun, potionMap).node.event.potionId
-    assert(Nodes.chooseEvent(potionRun, "potion")); equal(potionRun.potions[1], potionId)
-    equal(potionRun.gold, data.rules.player.startingGold)
+    rejected(run, map, function() return Nodes.chooseEvent(run, "heal") end)
 end)
 
-test("full potion slots refuse event transaction without consuming the alternate choice", function()
+test("full potion inventory is unchanged when leaving Cleric", function()
     local run, map = entered("event")
     for _ = 1, data.rules.player.potionSlots do run.potions[#run.potions + 1] = "fire_potion" end
-    rejected(run, map, function() return Nodes.chooseEvent(run, "potion") end, "potion_slots_full")
-    assert(Nodes.chooseEvent(run, "gold")); equal(run.phase, "map")
+    local potions, gold = Combat.copy(run.potions), run.gold
+    assert(Nodes.chooseEvent(run, "leave")); equal(run.phase, "map")
+    same(run.potions, potions); equal(run.gold, gold)
 end)
 
 test("battle node stays locked through card reward and completes only once", function()
@@ -293,7 +294,7 @@ test("shops read all configured prices and keep deletion increments and owned re
             finishBattle(run); assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
         elseif node.type == "camp" then assert(Nodes.rest(run))
         elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
-        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "gold"))
+        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave"))
         elseif node.type == "shop" then
             shops = shops + 1
             local view = Nodes.view(run, map).node
@@ -343,7 +344,7 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
         elseif node.type == "camp" then assert(Nodes.rest(run))
         elseif node.type == "shop" then assert(Nodes.leaveShop(run))
         elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
-        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "gold")) end
+        elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave")) end
     end
     equal(#map.path, data.rules.map.bossFloor)
     for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory " .. kind) end

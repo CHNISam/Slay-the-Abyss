@@ -18,6 +18,7 @@ function fixture() {
       player: { maxHp: 80, energyPerTurn: 3, drawPerTurn: 5, maxHand: 10, startingGold: 99, startingRelics: ['blood'], potionSlots: 3 },
       map: { floors: 17, generatedRows: 15, bossFloor: 16, restFloor: 15, treasureFloor: 9, bossTreasureFloor: 17, nodeTypes: ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'] },
       camp: { healPercent: 30, upgradeCount: 1 },
+      events: { encounterId: 'purifier', purifier: { removeCost: 0 }, cleric: { minGold: 35, healCost: 35, healPercent: 25, removeCost: 50 } },
       shop: { cardCommon: 50, cardUncommon: 75, cardRare: 150, relic: 150, removeCard: 75, removeCardIncrement: 25 },
       rewards: { normalGold: 15, eliteGold: 30, bossGold: 100, cardChoices: 3 },
       combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end', poisonBypassesBlock: true }
@@ -41,6 +42,12 @@ test('valid partial upgrades, signed strength and nested conditional references'
 });
 
 const invalidCases = [
+  ['missing cleric rules', d => delete d.rules.events, /rules.events/],
+  ['unimplemented event identity', d => d.rules.events.encounterId = 'gold_or_potion', /rules.events.encounterId/],
+  ['purifier must be free', d => d.rules.events.purifier.removeCost = 1, /rules.events.purifier.removeCost/],
+  ['negative event removal cost', d => d.rules.events.cleric.removeCost = -1, /rules.events.cleric.removeCost/],
+  ['invalid event healing percentage', d => d.rules.events.cleric.healPercent = 101, /rules.events.cleric.healPercent/],
+  ['cleric eligibility below healing price', d => d.rules.events.cleric.minGold = 0, /rules.events.cleric.minGold/],
   ['missing content file', d => delete d.potions, /potions.json/],
   ['empty content list', d => d.cards.cards = [], /nonempty array/],
   ['malformed record', d => d.statuses.statuses[0] = null, /statuses\[0\].*object/],

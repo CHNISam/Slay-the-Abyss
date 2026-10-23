@@ -206,6 +206,15 @@ export function validateContent(bundle) {
       array(rules.player.startingRelics, 'rules.player.startingRelics').forEach((id, i) => reference(id, 'relics', `rules.player.startingRelics[${i}]`));
       if (rules.player.drawPerTurn > rules.player.maxHand) fail('rules.player.drawPerTurn', 'must not exceed maxHand');
     }
+    if (object(rules.events, 'rules.events')) {
+      enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
+      if (object(rules.events.purifier, 'rules.events.purifier')) integer(rules.events.purifier.removeCost, 'rules.events.purifier.removeCost', 0, 0);
+    }
+    if (isObject(rules.events) && object(rules.events.cleric, 'rules.events.cleric')) {
+      for (const field of ['minGold', 'healCost', 'removeCost']) integer(rules.events.cleric[field], `rules.events.cleric.${field}`, 0);
+      integer(rules.events.cleric.healPercent, 'rules.events.cleric.healPercent', 1, 100);
+      if (rules.events.cleric.minGold !== rules.events.cleric.healCost) fail('rules.events.cleric.minGold', 'must equal the cost of the first affordable option');
+    }
     if (isObject(rules.map)) {
       const required = ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'];
       const nodes = array(rules.map.nodeTypes, 'rules.map.nodeTypes');

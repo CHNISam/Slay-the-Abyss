@@ -12,7 +12,7 @@ local reasons = {
     card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满，请选择金币",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
-    invalid_event_choice = "此事件选项不可用", stale_action = "界面已变化，请重新选择",
+    invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 local function find(entries, id, key)
@@ -126,11 +126,34 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
                 end
             end
         elseif active and node.type == "event" then
-            hint = "选择一项收获后继续前进。"
-            rows[1] = descriptor("领取 " .. node.event.gold .. " 金币", "chooseEvent", "gold", true, "已领取金币")
-            local full = #self.run.potions >= self.run.data.rules.player.potionSlots
-            if node.event.potionId then rows[2] = descriptor("领取药水 · " .. named("potions", node.event.potionId) ..
-                (full and " · 药水槽已满" or "") .. details("potions", node.event.potionId), "chooseEvent", "potion", not full, "药水已放入药水槽") end
+            local event = node.event
+            local eventName = event.id == "cleric" and "圣职者" or "净化神龛"
+            hint = eventName .. " · 选择一项，或直接离开。"
+            if self.mode == "purify" then
+                hint = "选择要净化的卡牌 · " .. event.removeCost .. " 金币"
+                for _, instance in ipairs(self.removeRows) do
+                    local owned = find(self.run.deck, instance.uid, "uid")
+                    local allowed = owned ~= nil and #self.run.deck > 1 and self.run.gold >= event.removeCost
+                    local status = not owned and "已删除" or (#self.run.deck <= 1 and "仅剩一张" or
+                        (self.run.gold < event.removeCost and "金币不足" or "净化"))
+                    rows[#rows + 1] = descriptor(named("cards", instance.cardId, instance.upgraded) .. " · #" .. instance.uid ..
+                        " · " .. event.removeCost .. " 金币 · " .. status .. details("cards", instance.cardId, instance.upgraded),
+                        "purifyEvent", instance.uid, allowed, "净化完成，卡牌已删除")
+                end
+            elseif event.id == "cleric" then
+                rows = {
+                    descriptor("治疗 · " .. event.healCost .. " 金币 · 回复 " .. event.heal .. " 点生命", "chooseEvent", "heal",
+                        self.run.gold >= event.healCost, "治疗完成，生命已恢复"),
+                    descriptor("净化 · " .. event.removeCost .. " 金币 · 删除一张卡牌", "purifyMenu", nil,
+                        self.run.gold >= event.removeCost and #self.run.deck > 1),
+                    descriptor("离开", "chooseEvent", "leave", true, "已离开圣职者"),
+                }
+            else
+                rows = {
+                    descriptor("祈祷 · 免费删除一张卡牌", "purifyMenu", nil, #self.run.deck > 1),
+                    descriptor("离开", "chooseEvent", "leave", true, "已离开净化神龛"),
+                }
+            end
         elseif active and node.type == "treasure" then
             hint = "打开宝箱，领取本节点的收获。"
             local reward = node.reward.relicId and named("relics", node.reward.relicId) or (node.reward.gold .. " 金币")
@@ -179,9 +202,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
         end
         child("previous"):SetVisible(self.page > 1)
         child("next"):SetVisible(self.page < self.pageCount)
-        child("leave"):SetVisible((node and node.complete) or (active and (node.type == "shop" or self.mode == "upgrade" and not node.campChoice)) or false)
+        child("leave"):SetVisible((node and node.complete) or (active and (node.type == "shop" or self.mode == "upgrade" and not node.campChoice
+            or node.type == "event" and self.mode == "purify")) or false)
         child("leave"):GetChild("label").text = active and node.type == "camp" and "返回营地" or
-            (active and node.type == "shop" and "离开商店" or "返回路线")
+            (active and node.type == "event" and self.mode == "purify" and "返回事件" or
+                (active and node.type == "shop" and "离开商店" or "返回路线"))
         state("leave", true)
     end
     function self:setVisible(value)
@@ -207,6 +232,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
         local action = self.slots[slot]
         if not action or not action.enabled or view.node.complete or view.phase ~= "node" then return false, "unavailable_action" end
         if action.command == "upgradeMenu" then self.mode, self.page, self.notice = "upgrade", 1, "" self:render() return true end
+        if action.command == "purifyMenu" then self.mode, self.page, self.notice = "purify", 1, "" self:render() return true end
         self.busy = true
         local called, accepted, reason = pcall(Nodes[action.command], self.run, action.argument)
         self.busy = false
@@ -229,6 +255,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
         local ok, view = current() if not ok then return false, view end
         if view.node.complete then return notify(true, "complete") end
         if view.node.type == "camp" and self.mode == "upgrade" and not view.node.campChoice then
+            self.mode, self.page, self.notice = "main", 1, "" self:render() return true
+        end
+        if view.node.type == "event" and self.mode == "purify" then
             self.mode, self.page, self.notice = "main", 1, "" self:render() return true
         end
         if view.node.type ~= "shop" then return false, "unavailable_action" end

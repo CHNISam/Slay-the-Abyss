@@ -8,6 +8,8 @@
 
 - [初代 The Merchant，固定页面修订 oldid=34207](https://slaythespire.wiki.gg/wiki/The_Merchant?oldid=34207)：Card Removal Service；Items；Relic Interactions。2026-10-23 通过网页检索读取当前初代页面，返回检索内容明确标注上述修订链接。该页与二代同名页面区分。
 - [初代 Map Locations](https://slaythespire.wiki.gg/wiki/Map_Locations)：Merchant 节明确每店一次；Monsters/Boss 节列奖励范围。
+- [初代 The Cleric，页面修订 oldid=55508](https://slaythespire.wiki.gg/wiki/The_Cleric?oldid=55508)：Options 与出现条件；2026-10-23 检索读取初代页面。A0净化是50，页面括号75仅A15+，不能拿来当A0价。
+- [初代 Purifier](https://slaythespire.wiki.gg/wiki/Purifier)：全幕神龛，Pray移除所选牌、Leave无事，未列金币前置；2026-10-23检索读取。[Events](https://slaythespire.wiki.gg/wiki/Event) 表明事件与神龛有独立选择流程；当前固定内容不实现该随机过程。
 - [初代 Rest Sites](https://slaythespire.wiki.gg/wiki/Rest_Sites)、[Chests](https://slaythespire.wiki.gg/wiki/Chests)、[Unknown Location](https://slaythespire.wiki.gg/wiki/Unknown_Location)：后续核对入口，本轮未据此改变算法，不能标已核实。
 
 ## 可复核账本
@@ -24,10 +26,17 @@
 | 药水供货/价格 | Merchant：3瓶；common65%/uncommon25%/rare10%；价格48–53/71–79/95–105 | 当前商店不售药水；纳入池无rare，不能把rare10%偷分给已有药水 | 保持原版稀有度概率需明确完整池或未支持内容处理，及槽满原子拒绝 | 已定位，未凭空补全 |
 | 战后金币 | Map Locations：普通10–20、第一二幕Boss95–105 | `rules.rewards` 固定15/100；精英、Boss顺序与独立随机流需进一步核对 | 可控随机上下界；不得把中值视为原版分布 | 未修 |
 | 战后卡牌/药水 | 需核对稀有度偏移、升级概率、药水动态计数及随机流；原文完整算法本轮未取得 | `abyss_run` 当前均匀支持牌池且过滤条件/X牌；暂无药水掉落 | 计数累积/重置、重复领取、满槽与领奖顺序 | 待原作证据；不改其他agent边界 |
-| 事件/未知房/宝箱/营地 | 原版有独立事件条件及结果、未知房动态概率、箱型池、回血取整与升级限制 | `abyss_nodes` 自创金币/药水二选一仍未移除；普通宝箱仅未持有遗物抽取；营地按30%向下取整 | 应逐事件/箱型核对；不得把当前简化作为原版规则 | 后续切片，未计通过 |
+| 圣职者入口与治疗 | Cleric：仅第一幕，至少35金币才出现；治疗付35，回复最大HP25%向下取整 | `rules.events.cleric` / `Nodes.enter` / `chooseEvent`；仅当明确eventId/config指定Cleric时进入，没有完整事件池抽取 | 明确Cleric的34金币入口拒绝且地图/RNG不变；35可进入；83最大HP治疗20；临近满血封顶 | 本地修复/回归；非全事件概率验收 |
+| 圣职者净化与离开 | Cleric：A0付50删所选牌；Leave无事 | `Nodes.purifyEvent`/`chooseEvent`；净化不计商店次数、不改变UID分配；末张牌限制仍是已知平台核心差异 | 49金币拒绝，50成功删除指定重复牌UID，`shopRemoveCount`不变；离开不改资产；失败后可离开 | 本地修复/回归 |
+| 净化神龛与低资金路径 | Purifier：祈祷移除所选牌，没有金币代价；或Leave无事 | `rules.events.purifier.removeCost=0`；命令按明确事件身份区分pray/purify；末张牌限制仍为核心偏差 | 零金币可进入、祈祷或离开；连续两层所有下一节点都是事件仍可Leave推进，不消费随机数；重复领取拒绝 | 本地修复/回归 |
+| 未知房/事件池/宝箱/营地 | 原版有未知房动态概率、事件选择条件、箱型池、回血取整与升级限制 | 自创金币/药水事件已删除；`rules.events.encounterId=purifier`是固定支持内容，**不是原版事件/神龛抽取算法**；不按金币不足换roll、不实现动态转类；普通箱及营地仍待全项核对 | 不可把固定Purifier内容或两个已纳入事件当作原版全池概率；明确Cleric资格不符则原子拒绝；production固定Purifier无此资金软锁 | **未修完整抽取，不计全项通过** |
+
+价格资料还存在边界差异：[旧Fandom Merchant](https://slay-the-spire.fandom.com/wiki/Merchant) 给罕见牌上界82及普通药水上界52，当前Wiki.gg则为83/53。它们都不能替代PC目标版本的随机浮点及取整实现证据；本轮没有据此制造均匀整数价格。
 
 ## 本地验证边界
 
 `tests/lua/nodes.lua` 覆盖失败不消费、重复同/不同 UID、单店用尽后仍可购卡/离店、view不能重置服务、跨店计数、新局复位。跨店测试使用低血敌人和充足金币的显式事务夹具，只验证状态传递，不作为平衡通关证据。`tests/lua/node_ui.lua` 覆盖禁用状态、切换分类后仍禁用、其他调用已消费服务时旧 UI 请求由核心拒绝。未引入新随机抽样，因此无需统计样本；全量快照拒绝断言覆盖既有随机种子不变。
 
 不勾 TASK-13.1 全部验收项；原版严格全项、平台交易账本、真实机验收继续待办。
+
+事件切片由 `tests/lua/cleric.lua` 独立覆盖Cleric六组和Purifier/低资金路径两组场景；节点UI回归覆盖治疗、资金不足、离开、分页UID净化、选牌前取消、陈旧资金重验及零金币神龛两选项。`tests/lua/inventory.lua` 原本依赖虚构事件赠药的夹具已改为Leave，继续验证真实携带药水跨节点保留/消耗，不再制造额外药水。

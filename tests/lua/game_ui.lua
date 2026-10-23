@@ -142,7 +142,13 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
             click(root, "nodePanel", "leave")
         else
             assert(ui.mode == "node")
-            click(root, "nodePanel", "action1")
+            if node.type == "event" then
+                local leaveSlot
+                for i, action in ipairs(ui.nodeUI.slots) do
+                    if action.command == "chooseEvent" and action.argument == "leave" then leaveSlot = i end
+                end
+                assert(leaveSlot); click(root, "nodePanel", "action" .. leaveSlot)
+            else click(root, "nodePanel", "action1") end
         end
         assert(ui.map.floor == floor and ui.run.nodeFlow.complete)
         assert(ui.mode == (floor == data.rules.map.bossFloor and "victory" or "map"))

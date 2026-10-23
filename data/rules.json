@@ -32,6 +32,18 @@
     "healPercent": 30,
     "upgradeCount": 1
   },
+  "events": {
+    "encounterId": "purifier",
+    "purifier": {
+      "removeCost": 0
+    },
+    "cleric": {
+      "minGold": 35,
+      "healCost": 35,
+      "healPercent": 25,
+      "removeCost": 50
+    }
+  },
   "shop": {
     "cardCommon": 50,
     "cardUncommon": 75,
