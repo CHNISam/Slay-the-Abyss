@@ -77,7 +77,10 @@ end)
 
 test("unimplemented boss treasure never falls through to an ordinary relic reward", function()
     local run, map, node = before("treasure")
-    node.roomKind = "boss_treasure"
+    -- Map.available returns detached descriptions; mark the actual source node.
+    for _, original in ipairs(map.nodes) do
+        if original.id == node.id then original.roomKind = "boss_treasure" end
+    end
     rejected(run, map, function() return Nodes.enter(run, map, node.id) end, "boss_treasure_not_implemented")
 end)
 
