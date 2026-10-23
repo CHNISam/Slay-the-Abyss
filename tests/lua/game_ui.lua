@@ -60,7 +60,8 @@ local function mapControl(panel, name)
     error("missing grouped map control " .. name)
 end
 local function click(root, panel, button)
-    local box = panel == "mapPanel" and mapControl(root:GetChild(panel), button) or root:GetChild(panel):GetChild(button)
+    local box = panel == "mapPanel" and mapControl(root:GetChild(panel), button) or root:GetChild(panel)
+    if panel ~= "mapPanel" then for part in button:gmatch("[^/]+") do box = assert(box:GetChild(part), button) end end
     local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
@@ -170,21 +171,33 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
             win(ui, root)
             click(root, "battlePanel", "skip")
         elseif node.type == "shop" then
-            if ui.nodeUI.slots[1] and ui.nodeUI.slots[1].enabled then
+            if ui.nodeUI.actions["shopView/card1"].enabled then
                 local before = ui.run.gold
-                click(root, "nodePanel", "shop1")
+                click(root, "nodePanel", "shopView/card1")
                 assert(ui.run.gold < before)
             end
-            click(root, "nodePanel", "leave")
+            click(root, "nodePanel", "confirm")
         else
             assert(ui.mode == "node")
             if node.type == "event" then
                 local leaveSlot
-                for i, action in ipairs(ui.nodeUI.slots) do
-                    if action.command == "chooseEvent" and action.argument == "leave" then leaveSlot = i end
+                for i = 1, 3 do
+                    local option = root:GetChild("nodePanel"):GetChild("eventView"):GetChild("option" .. i)
+                    if option.visible and option:GetChild("title").text == "［离开］" then leaveSlot = i end
                 end
-                assert(leaveSlot); click(root, "nodePanel", "action" .. leaveSlot)
-            else click(root, "nodePanel", "action1") end
+                assert(leaveSlot); click(root, "nodePanel", "eventView/option" .. leaveSlot)
+            elseif node.type == "treasure" then
+                click(root, "nodePanel", "treasureView/chest"); click(root, "nodePanel", "treasureView/take")
+            elseif ui.nodeUI.actions["campView/rest"].enabled then click(root, "nodePanel", "campView/rest")
+            else
+                click(root, "nodePanel", "campView/forge"); click(root, "nodePanel", "pickerView/card1")
+                click(root, "nodePanel", "confirm")
+            end
+            if node.type == "camp" or node.type == "event" then
+                -- The result stays on the node panel until the player continues.
+                assert(ui.mode == "node" and ui.run.phase == "map" and not ui.mapUI.navigationEnabled)
+                click(root, "nodePanel", "confirm")
+            end
         end
         assert(ui.map.floor == floor and ui.run.nodeFlow.complete)
         assert(ui.mode == (floor == data.rules.map.bossFloor and "victory" or "map"))
@@ -460,15 +473,18 @@ end)
 test("node overlay preserves the node presentation while preventing underlying transactions", function()
     local ui, root = fixture()
     ui:start()
+    ui.run.hp = 20 -- Rest is enabled only below full health in the approved camp UI.
     local available = Nodes.available(ui.run,ui.map)[1]
     for _, node in ipairs(ui.map.nodes) do if node.id == available.id then node.type = "camp" end end
     assert(ui.mapUI:choose(available.id) and ui.mode == "node")
     local before = Combat.copy(ui.run)
     openDeck(ui,root)
     assert(root:GetChild("nodePanel").visible and not ui.nodeUI.visible)
-    assert(not ui.nodeUI:activate(1) and not ui.nodeUI:leave())
+    assert(not ui.nodeUI:press("campView/rest") and not ui.nodeUI:press("confirm"))
     assert(same(before,ui.run))
-    assert(closeDeck(root) and ui.nodeUI:activate(1))
+    assert(closeDeck(root) and ui.nodeUI:press("campView/rest"))
+    assert(ui.mode == "node" and ui.nodeUI:holding())
+    assert(ui.nodeUI:press("confirm"))
     assert(ui.mode == "map")
 end)
 

@@ -15,7 +15,11 @@ export function nativeControls(theme = nativeTheme) {
     },
   });
   const plate = (name, values, colour = theme.color.panelRaised) => ({
-    name, kind: 'image', ...box(values), image: theme.image.rect, colour,
+    name, kind: 'image', ...box(values), image: theme.image.rect,
+    // The client UI importer accepts RGB; alpha is a separate control property.
+    ...(typeof colour === 'string' && /^#[0-9a-f]{8}$/i.test(colour)
+      ? { colour: colour.slice(0, 7), opacity: parseInt(colour.slice(7), 16) / 255 }
+      : { colour }),
   });
   const hit = size => ({ name: 'hit', kind: 'cursorArea', size: [...size], focusable: true });
   const button = (name, values, label = '', { inset, states = false, fontSize = theme.font.body,
