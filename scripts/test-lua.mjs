@@ -25,7 +25,15 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
     cwd, encoding: 'utf8', timeout, maxBuffer: 1024 * 1024,
     env: { ...process.env, LUA_PATH: './build/lua/?.lua;./src/lua/?.lua;;', LUA_PATH_5_3: './build/lua/?.lua;./src/lua/?.lua;;', LUA_INIT: '', LUA_INIT_5_3: '' }
   }); } finally { if (temporary) unlinkSync(temporary); }
-  if (result.error) throw new Error(`Lua runner failed (${script}, ${timeout} ms): ${result.error.message}`, { cause: result.error });
+  if (result.error) {
+    // Keep the last completed groups visible on timeout in both CLI and node:test.
+    // The child is still a failure, with its original error retained as the cause.
+    const output = [
+      result.stdout ? `\n--- Lua stdout ---\n${result.stdout}` : '',
+      result.stderr ? `\n--- Lua stderr ---\n${result.stderr}` : '',
+    ].join('');
+    throw new Error(`Lua runner failed (${script}, ${timeout} ms): ${result.error.message}${output}`, { cause: result.error });
+  }
   if (result.signal) throw new Error(`Lua runner terminated by ${result.signal}`);
   return result;
 }

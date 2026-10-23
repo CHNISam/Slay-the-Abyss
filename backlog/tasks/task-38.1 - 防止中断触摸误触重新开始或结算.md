@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-23 15:55'
-updated_date: '2026-10-23 15:57'
+updated_date: '2026-10-23 16:29'
 labels: []
 dependencies: []
 references:
@@ -33,10 +33,14 @@ ordinal: 50000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 固定95ce2bd复现开始和结算控件过期触摸。2. 最小绑定触点与当前本局/模式及界面代际。3. 回归结算和退出主流程，独立评审后提交正常PR。
+
+4. 当前CI连续在既有UI套件超时，停止盲重试；先修正测试runner丢弃失败子进程输出的问题以取得定位证据，保持全部预算和失败语义。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 固定95ce2bd候选新增20组菜单/结果控件回归：基线19失败1通过，修复20/20；全量91个Native Lua套件通过。仅复用退出控件既有指针归属机制并加入菜单/本局代际，三个旧测试的重开准备改为完整Down-Up-Click而原有卡片/药水/结束回合断言不变。多数结果状态为显式隔离夹具直接设置phase，不冒充自然游戏流程；独立评审另核查公开动作到达失败结果的实际路径。未运行本地npm全检/安装或平台验收。
+
+PR122初头空白门禁失败已删EOF额外空行修正。c72ac997正式CI先battle_ui 30秒超时，单次重试又在JS入口game_ui 15秒超时；未合并。独立核查Node test并发已经为1且runLua同步，不应再虚构并发过高原因。正在独立复审仅保留timeout stdout/stderr的诊断补丁，不增加门限、不删测试或把Native Lua当Fengari通过。
 <!-- SECTION:NOTES:END -->
