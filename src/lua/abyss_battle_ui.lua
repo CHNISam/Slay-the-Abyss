@@ -470,6 +470,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function release(event)
         local g = self.gesture
         if not g or not event or event.touchId ~= g.touch then return end
+        -- Stationary taps do not render in move(), so validate their binding too.
+        -- Never let a queued click from an interrupted gesture act on a new view.
+        local instance = g.battle.hand[g.slot]
+        if not dragReady(g) or not instance or instance.uid ~= g.uid then
+            self.gesture, self.selected, self.suppressClick = nil, nil, true
+            self:render()
+            return
+        end
         move(event)
         -- move/render may have cancelled a gesture belonging to an old battle.
         if self.gesture ~= g then return end

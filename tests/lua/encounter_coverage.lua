@@ -33,7 +33,7 @@ end
 -- Oracle reads the source JSON contract without calling production arithmetic.
 for _, definition in ipairs(data.enemies.enemies) do
     intentCount = intentCount + #definition.intents
-    -- Stateful enemies have independent behavioral oracles in lagavulin_ai.lua;
+    -- Stateful enemies have independent behavioral oracles in their *_ai.lua suites;
     -- forcing only intentIndex would leave their decision state inconsistent.
     if not definition.ai then
     for index, intent in ipairs(definition.intents) do

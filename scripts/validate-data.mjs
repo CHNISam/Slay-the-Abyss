@@ -149,7 +149,7 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian'], `${ap}.kind`);
       if (a.kind === 'ritual_then_attack') {
         keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
         intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
@@ -158,6 +158,18 @@ export function validateContent(bundle) {
         if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'ritual' && effect.value > 0)) {
           fail(`${ap}.ritualIntent`, 'must grant a positive Ritual stack');
         }
+      } else if (a.kind === 'guardian') {
+        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
+        integer(a.initialThreshold, `${ap}.initialThreshold`, 1, 2147483647);
+        integer(a.thresholdIncrement, `${ap}.thresholdIncrement`, 1, 2147483647);
+        integer(a.shiftBlock, `${ap}.shiftBlock`, 0, 999);
+        for (const key of ['offenseCycle', 'defenseCycle']) {
+          array(a[key], `${ap}.${key}`).forEach((id, j) => intentReference(id, `${ap}.${key}[${j}]`));
+        }
+        intentReference(a.returnIntent, `${ap}.returnIntent`);
+        if (!Array.isArray(a.offenseCycle) || !a.offenseCycle.includes(a.returnIntent)) fail(`${ap}.returnIntent`, 'must occur in offenseCycle');
+        reference('mode_shift', 'statuses', `${ap}.mode_shift`);
+        reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
       } else if (a.kind === 'sleep_then_cycle') {
         keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
         integer(a.sleepTurns, `${ap}.sleepTurns`, 1);

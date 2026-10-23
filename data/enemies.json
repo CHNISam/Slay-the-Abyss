@@ -696,6 +696,15 @@
       "name": "深渊守卫",
       "tier": "boss",
       "hp": 240,
+      "ai": {
+        "kind": "guardian",
+        "initialThreshold": 30,
+        "thresholdIncrement": 10,
+        "shiftBlock": 20,
+        "offenseCycle": ["guardian_1", "guardian_2", "guardian_4", "guardian_3"],
+        "defenseCycle": ["guardian_5", "guardian_6", "guardian_7"],
+        "returnIntent": "guardian_3"
+      },
       "intents": [
         {
           "id": "guardian_1",
@@ -734,6 +743,11 @@
           "effects": [
             {
               "op": "applyStatus",
+              "status": "weak",
+              "value": 2
+            },
+            {
+              "op": "applyStatus",
               "status": "vulnerable",
               "value": 2
             }
@@ -741,11 +755,12 @@
         },
         {
           "id": "guardian_5",
-          "kind": "defend",
+          "kind": "buff",
           "effects": [
             {
-              "op": "block",
-              "value": 20
+              "op": "gainStatus",
+              "status": "sharp_hide",
+              "value": 3
             }
           ]
         },
