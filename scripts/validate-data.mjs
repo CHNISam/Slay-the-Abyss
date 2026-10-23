@@ -144,18 +144,32 @@ export function validateContent(bundle) {
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
-      keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
-      enumeration(a.kind, ['sleep_then_cycle'], `${ap}.kind`);
-      integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
-      integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack'], `${ap}.kind`);
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
+        return intent;
       };
-      intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
-      intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
-      array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      if (a.kind === 'ritual_then_attack') {
+        keys(a, ['kind', 'openingIntent', 'attackIntent'], ap);
+        const opening = intentReference(a.openingIntent, `${ap}.openingIntent`, 'buff');
+        const attack = intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        const grant = opening?.effects?.[0], hit = attack?.effects?.[0];
+        if (opening && (opening.effects?.length !== 1 || grant?.op !== 'gainStatus' || grant.status !== 'ritual' || grant.value !== 3)) {
+          fail(`${ap}.openingIntent`, 'must grant exactly 3 Ritual to self, with no other effects');
+        }
+        if (attack && (attack.effects?.length !== 1 || hit?.op !== 'damage' || hit.value !== 6 || (hit.times ?? 1) !== 1)) {
+          fail(`${ap}.attackIntent`, 'must deal exactly one base-6 attack, with no other effects');
+        }
+      } else {
+        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
+        integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
+        integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
+        intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
+        intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
+        array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      }
     }
   });
   lists.encounters.forEach((entry, i) => {

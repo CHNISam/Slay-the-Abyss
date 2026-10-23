@@ -225,6 +225,8 @@ function M.endTurn(state)
             end
         end
     end
+    -- Ritual is a group round-end trigger, after every surviving enemy acts.
+    for _, enemy in ipairs(state.enemies) do EnemyAI.endRound(state, enemy) end
     M.startPlayerTurn(state)
     return true
 end

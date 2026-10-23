@@ -11,10 +11,10 @@ local function same(a, b)
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
 local function test(name, fn) fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name) end
-local function battle(potions, source)
+local function battle(potions, source, encounter)
     local run = Run.new(source or data, 42)
     run.potions = potions or {}
-    assert(Run.startCombat(run, "cultist_solo"))
+    assert(Run.startCombat(run, encounter or "cultist_solo"))
     return run
 end
 local function rejected(run, slot, target, reason)
@@ -86,14 +86,15 @@ test("poison and regeneration use actor timing and current data values", functio
     local source = Combat.copy(data)
     definition(source.potions.potions, "poison_potion").effects[1].value = 7
     definition(source.potions.potions, "regen_potion").effects[1].value = 4
-    local run = battle({ "poison_potion", "regen_potion" }, source)
+    local run = battle({ "poison_potion", "regen_potion" }, source, "jaw_solo")
     run.combat.player.hp = 50
     local enemyHp = run.combat.enemies[1].hp
     assert(Run.usePotion(run, 1, 1)); equal(run.combat.enemies[1].statuses.poison, 7)
     equal(run.combat.enemies[1].hp, enemyHp)
     assert(Run.usePotion(run, 1)); assert(Run.endTurn(run))
     equal(run.combat.enemies[1].hp, enemyHp - 7); equal(run.combat.enemies[1].statuses.poison, 6)
-    equal(run.combat.player.hp, 48); equal(run.combat.player.statuses.regen, 3)
+    equal(run.combat.player.hp, 43); -- 50 + Regen4 - Jaw attack11
+    equal(run.combat.player.statuses.regen, 3)
 end)
 
 test("invalid slots phases and targets preserve every run field and RNG", function()
@@ -237,7 +238,7 @@ test("death followed by Run.new resets all same-run resources without sharing ca
     old.deck[1].upgraded = true
     old.deck[#old.deck + 1] = { uid = old.nextDeckUid, cardId = "cleave", upgraded = true }
     old.nextDeckUid = old.nextDeckUid + 1
-    assert(Run.startCombat(old, "cultist_solo")); assert(Run.endTurn(old)); equal(old.phase, "defeat")
+    assert(Run.startCombat(old, "jaw_solo")); assert(Run.endTurn(old)); equal(old.phase, "defeat")
     rejected(old, 1, 1, "not_in_combat")
     local before = Combat.copy(old)
     local fresh = Run.new(data, 19)

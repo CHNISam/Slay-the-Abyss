@@ -185,6 +185,7 @@
       "thorns": 103055,
       "regen": 103056,
       "barricade": 103066,
+      "ritual": 102020,
       "verify": true
     },
     "potion": {

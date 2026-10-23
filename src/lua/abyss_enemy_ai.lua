@@ -12,6 +12,11 @@ end
 
 function M.initialize(state, enemy)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
+    if enemy.ai.kind == "ritual_then_attack" then
+        enemy.aiPhase = "ritual_opening"
+        select(enemy, enemy.ai.openingIntent)
+        return
+    end
     assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
     enemy.aiPhase, enemy.aiTurns, enemy.aiCycle = "sleep", 0, 1
     select(enemy, enemy.ai.sleepIntent)
@@ -28,6 +33,12 @@ end
 function M.advance(state, enemy)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
+    elseif enemy.ai.kind == "ritual_then_attack" then
+        if enemy.aiPhase == "ritual_opening" then
+            enemy.aiPhase = "ritual_attacking"
+            enemy.ritualSkipRound = true
+        end
+        select(enemy, enemy.ai.attackIntent)
     elseif enemy.aiPhase == "sleep" then
         enemy.aiTurns = enemy.aiTurns + 1
         if enemy.aiTurns < enemy.ai.sleepTurns then
@@ -43,6 +54,19 @@ function M.advance(state, enemy)
     else
         enemy.aiCycle = enemy.aiCycle % #enemy.ai.awakeCycle + 1
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
+    end
+end
+
+-- Called once after the entire enemy group, never from per-enemy advance.
+-- Other status timings are deliberately unchanged by this Cultist slice.
+function M.endRound(state, enemy)
+    if state.player.hp <= 0 or enemy.hp <= 0 or not enemy.ai
+        or enemy.ai.kind ~= "ritual_then_attack" or enemy.aiPhase ~= "ritual_attacking" then return end
+    if enemy.ritualSkipRound then
+        enemy.ritualSkipRound = false
+    else
+        local amount = enemy.statuses.ritual or 0
+        if amount > 0 then Actors.status(state, enemy, "strength", amount) end
     end
 end
 

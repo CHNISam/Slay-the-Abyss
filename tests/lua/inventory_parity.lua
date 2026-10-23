@@ -19,7 +19,8 @@ end
 local function battle(relics, hp)
     local run = Run.new(data, 42)
     run.relics, run.hp = relics or { "burning_blood" }, hp or 40
-    assert(Run.startCombat(run, "cultist_solo"))
+    -- Neutral non-stateful enemy: several potion fixtures replace intents.
+    assert(Run.startCombat(run, "jaw_solo"))
     return run
 end
 

@@ -21,12 +21,12 @@ local function uid(s, id)
     error("missing " .. id)
 end
 -- Arrange only card zones, retaining real catalog definitions and unique instances.
-local function battle(upgraded, hand, draw, discard)
+local function battle(upgraded, hand, draw, discard, enemies)
     local deck = {}
     for _, zone in ipairs({hand, draw or {}, discard or {}}) do
         for _, id in ipairs(zone) do deck[#deck + 1] = {cardId = id, upgraded = id == "battle_trance" and upgraded or false} end
     end
-    local s = Combat.new(data, {seed = 42, deck = deck})
+    local s = Combat.new(data, {seed = 42, deck = deck, enemies = enemies})
     local instances = {}
     for _, zone in ipairs({s.hand, s.draw}) do for _, card in ipairs(zone) do instances[card.uid] = card end end
     s.hand, s.draw, s.discard = {}, {}, {}
@@ -112,7 +112,7 @@ for _, id in ipairs({"shrug_it_off", "pommel_strike"}) do
     end)
 end
 test("next player turn resets lock and energy, processes enemy intent and preserves all cards", function()
-    local s = battle(false, {"battle_trance", "defend"}, {"strike", "defend", "strike", "defend", "strike", "defend", "strike", "defend"})
+    local s = battle(false, {"battle_trance", "defend"}, {"strike", "defend", "strike", "defend", "strike", "defend", "strike", "defend"}, nil, {"red_louse"})
     local cards = inventory(s)
     assert(Combat.play(s, uid(s, "battle_trance"))); assert(Combat.play(s, uid(s, "defend")))
     equal(s.energy, 2); equal(s.player.noDraw, true)
