@@ -75,6 +75,26 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
 end)
+test("Jaw Worm real encounter presents combined Thrash and Bellow effects without changing rules", function()
+    local ui, stage, click = setup()
+    ui.run = Run.new(Data, 42)
+    assert(Run.startCombat(ui.run, "jaw_solo"))
+    ui:render()
+    local battle, enemy = ui.run.combat, ui.run.combat.enemies[1]
+    assert(stage.children.enemy1.children.intent.text == "11")
+    -- Explicit project roll control, not an original STS seed claim.
+    battle.seed = 0 -- next LCG value 13849 => roll 49 => Thrash
+    assert(Combat.endTurn(battle)); ui:render()
+    assert(Combat.intent(battle,1).id == "jaw_worm_2")
+    assert(stage.children.enemy1.children.intent.text == "7")
+    click("enemy1")
+    assert(stage.children.notice.text:find("7 点伤害",1,true) and stage.children.notice.text:find("格挡 5",1,true))
+    enemy.intentIndex = 3 -- inspect the declared Bellow face independently of another roll
+    ui:render(); click("enemy1")
+    assert(stage.children.notice.text:find("力量 3",1,true) and stage.children.notice.text:find("格挡 6",1,true))
+    assert(enemy.statuses.strength == nil and enemy.block == 0, "preview mutated the actor")
+end)
+
 test("selection never spends energy; target click or second self-card click issues one real command", function()
     local ui, stage, click, play = setup() click("start")
     local battle = ui.run.combat
@@ -560,6 +580,7 @@ end)
 test("multiple enemies and multi-hit intents show each actor and actual HP in order, even after a long frame", function()
     local ui, stage, click, battle = feedbackBattle({"defend"}, {"jaw_worm", "cultist"})
     battle.enemies[1].intents = {{id="multi",kind="attack",effects={{op="damage",value=2,times=3}}}}
+    battle.enemies[1].ai=nil; battle.enemies[1].intentIndex=1 -- explicit custom intent fixture
     battle.enemies[2].intents = {{id="cast",kind="defend",effects={{op="block",value=5},{op="applyStatus",status="weak",value=2}}}}
     battle.enemies[2].ai=nil; battle.enemies[2].intentIndex=1 -- explicit custom intent fixture
     ui:render() local hp = battle.player.hp

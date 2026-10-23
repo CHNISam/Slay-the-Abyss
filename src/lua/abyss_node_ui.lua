@@ -4,6 +4,8 @@
 -- onChange(ok, reason, self) refreshes the host after an attempted command.
 -- options.color/options.imageSource are the platform Color constructor and picture source;
 -- without them states are still shown through visibility layers.
+-- options.cursorEvents may inject Enum.CursorEventType; the native host defaults
+-- to that documented global. Missing pointer events retain ordinary click input.
 local Nodes = require("abyss_nodes")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
@@ -64,14 +66,36 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function picture(control, id)
         if options.imageSource and id then control:SetImage(options.imageSource, iconId(id)) end
     end
-    -- Framed buttons: one face per state, border/label colour follow enabled and selected.
-    local function state(box, enabled, selected, primary)
-        box:GetChild("normal"):SetVisible(enabled and not selected)
-        box:GetChild("disabled"):SetVisible(not enabled)
-        box:GetChild("selected"):SetVisible(selected == true)
-        tint(box:GetChild("border"), selected and C.goldBright or enabled and (primary and C.goldBright or C.gold) or C.line)
+    local buttonLooks, buttonHover, buttonPress = {}, nil, nil
+    local function paintButton(box)
+        local look = buttonLooks[box]
+        if not look then return end -- a never-shown view can still receive a late native exit
+        local enabled = look.enabled and not look.selected
+        local pressed = enabled and buttonPress and buttonPress.box == box
+        local hover = enabled and buttonHover == box and not pressed
+        box:GetChild("normal"):SetVisible(look.enabled and not look.selected and not pressed and not hover)
+        box:GetChild("hover"):SetVisible(hover == true)
+        box:GetChild("pressed"):SetVisible(pressed == true)
+        box:GetChild("disabled"):SetVisible(not look.enabled)
+        box:GetChild("selected"):SetVisible(look.selected == true)
+        tint(box:GetChild("hover"), look.primary and C.goldBright or C.buttonHover)
+        tint(box:GetChild("pressed"), C.goldDim)
+        tint(box:GetChild("border"), look.selected and C.goldBright or not look.enabled and C.line
+            or (pressed or hover or look.primary) and C.goldBright or C.gold)
         local label = box:GetChild("label")
-        if label then ink(label, not enabled and C.textMuted or primary and C.textOnLight or C.goldBright) end
+        if label then ink(label, not look.enabled and C.textMuted or pressed and C.buttonPressedText
+            or look.primary and C.textOnLight or C.goldBright) end
+        local scale = pressed and layout.buttonStates.pressedScale or layout.buttonStates.normalScale
+        box:SetLocalScale(scale, scale, 1)
+    end
+    local function resetButtons()
+        buttonHover, buttonPress = nil, nil
+        for box in pairs(buttonLooks) do paintButton(box) end
+    end
+    -- Selected/disabled presentation always takes priority over pointer feedback.
+    local function state(box, enabled, selected, primary)
+        buttonLooks[box] = {enabled=enabled == true, selected=selected == true, primary=primary == true}
+        paintButton(box)
     end
     local function card(id) return find(self.run.data.cards.cards, id) end
     local function cardName(id, upgraded)
@@ -406,6 +430,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     function self:render()
+        resetButtons()
         local view = Nodes.view(self.run, self.map)
         local node = view.node
         if self.renderRun ~= self.run or self.renderMap ~= self.map or self.nodeId ~= (node and node.id) then
@@ -495,6 +520,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
+        if not value then resetButtons() end
         self.visible = value root:SetVisible(value)
     end
     local function current()
@@ -565,7 +591,59 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     for i = 1, OPTIONS do targets[#targets + 1] = "eventView/option" .. i end
     for _, key in ipairs(targets) do
         local name = key
-        path(name):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:press(name) end)
+        local box = path(name)
+        local hit = box:GetChild("hit")
+        hit:AddCursorEventListener(clickEvent, function() return self:press(name) end)
+        local cursor = options.cursorEvents or (Enum and Enum.CursorEventType)
+        -- A framed button keeps its dynamic children at their existing paths.
+        -- Documented pointer events + SetLocalScale scale the complete face;
+        -- card selectors/chest pictures retain their independent click behavior.
+        if box:GetChild("normal") and cursor and cursor.CursorEnter and cursor.CursorExit
+            and cursor.CursorDown and cursor.CursorUp and cursor.CursorEndDrag then
+            local function available()
+                local ok, view = current()
+                if not ok then return false end
+                local entry, look = self.actions[name], buttonLooks[box]
+                if not entry or not entry.enabled or not look or not look.enabled or look.selected then return false end
+                if self.view.phase ~= view.phase or self.view.node.complete ~= view.node.complete then return false end
+                local parent = box
+                while parent do if not parent.visible then return false end parent = parent.parent end
+                return true
+            end
+            local function owned(event)
+                return buttonPress and buttonPress.box == box and buttonPress.touch == (event and event.touchId)
+            end
+            local function release(event)
+                if not owned(event) then return end
+                buttonPress = nil
+                if not available() then buttonHover = nil end
+                paintButton(box)
+            end
+            hit:AddCursorEventListener(cursor.CursorEnter, function()
+                if not available() or buttonPress and buttonPress.box ~= box then return end
+                local previous = buttonHover
+                buttonHover = box
+                if previous and previous ~= box then paintButton(previous) end
+                paintButton(box)
+            end)
+            hit:AddCursorEventListener(cursor.CursorDown, function(event)
+                if not available() or buttonPress then return end
+                buttonPress = {box=box,touch=event and event.touchId}
+                paintButton(box)
+            end)
+            hit:AddCursorEventListener(cursor.CursorExit, function(event)
+                if buttonPress and not owned(event) then return end
+                if buttonHover == box then buttonHover = nil end
+                if owned(event) then buttonPress = nil end
+                paintButton(box)
+            end)
+            hit:AddCursorEventListener(cursor.CursorUp, release)
+            hit:AddCursorEventListener(cursor.CursorEndDrag, function(event)
+                if not owned(event) then return end
+                buttonPress, buttonHover = nil, nil
+                paintButton(box)
+            end)
+        end
     end
     self:render()
     return self

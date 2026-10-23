@@ -37,7 +37,7 @@ local function entered(kind, source, seed, minimumFloor)
 end
 local function easyData()
     local source = Combat.copy(data)
-    for _, enemy in ipairs(source.enemies.enemies) do enemy.hp = 1 end
+    for _, enemy in ipairs(source.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP navigation fixture
     return source
 end
 local function finishBattle(run)
