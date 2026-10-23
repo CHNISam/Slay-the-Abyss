@@ -329,6 +329,47 @@ test("exact actor HP and block remain readable native text after rendering and e
     check(stage.children.enemy1, battle.enemies[1])
 end)
 
+test("block chip sits beside the HP bar with dark digits on solid blue, even in a five-enemy row", function()
+    local ui, stage = setup()
+    ui.run = Run.new(Data, 1)
+    for _, encounter in ipairs(Data.enemies.encounters) do
+        if encounter.id == "gremlin_gang" then ui.run.floor = encounter.minFloor end
+    end
+    assert(Run.startCombat(ui.run, "gremlin_gang"))
+    local battle = ui.run.combat
+    assert(#battle.enemies == 5)
+    battle.player.block = 6
+    for _, enemy in ipairs(battle.enemies) do enemy.block = 7 end
+    ui:render()
+    local function check(box, block)
+        local c = box.children
+        local chipRight = c.blockIcon.x + c.blockIcon.sizeDeltaX / 2
+        local barLeft = c.hpBorder.x - c.hpBorder.sizeDeltaX / 2
+        assert(c.blockIcon.visible and c.blockEdge.visible and c.block.visible)
+        assert(chipRight < barLeft, box.name .. " chip overlaps the HP bar")
+        assert(c.hp.x == c.hpFill.x and c.hp.sizeDeltaX == c.hpFill.sizeDeltaX, "HP text stays on its bar")
+        assert(c.block.text == tostring(block))
+        assert(c.block.x == c.blockIcon.x and c.blockEdge.x == c.blockIcon.x)
+        assert(c.blockIcon.imageColor.b == Theme.color.block.b and c.block.fontColor.r == Theme.color.textOnLight.r)
+        assert(c.hpBorder.imageColor.b == Theme.color.block.b and c.hpFill.imageColor.b == Theme.color.hpShielded.b)
+        return c.blockEdge.x - c.blockEdge.sizeDeltaX / 2, c.hpBorder.x + c.hpBorder.sizeDeltaX / 2
+    end
+    check(stage.children.hero, 6)
+    local previousRight
+    for i = 1, 5 do
+        local box = stage.children["enemy" .. i]
+        local left, right = check(box, 7)
+        if previousRight then assert(box.x + left > previousRight, "enemy" .. i .. " chip collides with its neighbour") end
+        previousRight = box.x + right
+    end
+    battle.player.block = 0
+    ui:render()
+    local hero = stage.children.hero.children
+    assert(not hero.blockIcon.visible and not hero.block.visible and not hero.blockEdge.visible)
+    assert(hero.hpFill.imageColor.r == Theme.color.hp.r and hero.hpBorder.imageColor.r == Theme.color.line.r)
+    assert(hero.hpFill.sizeDeltaX == Theme.layout.hpBar.size[1] and hero.hpFill.x == 0)
+end)
+
 test("potion slots stay fixed after consumption and repeated queued clicks cannot consume the next bottle", function()
     local ui, stage, click = setup()
     ui.run = Run.new(Data, 1)

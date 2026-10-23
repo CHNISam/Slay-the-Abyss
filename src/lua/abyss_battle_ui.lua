@@ -190,23 +190,32 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
+        -- The block chip never covers the bar: wide bars keep their size and the chip sits outside;
+        -- narrow enemy columns hand the bar's left end to the chip.
+        local blocked, chip, gap = actor.block > 0, L.blockBadge.size, L.blockBadge.gap
+        local barWidth, barX, y = width, 0, -portrait / 2 - S.xxl - bh / 2
+        if blocked and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
         for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
             local part = box:GetChild(name)
-            part:SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh / 2)
+            part:SetAnchoredPosition(barX, y)
             local height = name == "hp" and L.nativeText.lineHeight or bh + (name == "hpBorder" and S.border * 2 or 0)
-            part:SetSizeDelta(width + (name == "hpBorder" and S.border * 2 or 0), height)
+            part:SetSizeDelta(barWidth + (name == "hpBorder" and S.border * 2 or 0), height)
         end
-        tint(box:GetChild("hpBorder"), actor.block > 0 and C.block or C.line)
+        tint(box:GetChild("hpBorder"), blocked and C.block or C.line)
+        tint(box:GetChild("hpFill"), blocked and C.hpShielded or C.hp)
         box:GetChild("hpFill").fillAmount = math.max(0, math.min(1, actor.hp / actor.maxHp))
         box:GetChild("hpGhost").fillAmount = box:GetChild("hpFill").fillAmount
         box:GetChild("hp").text = number(actor.hp) .. "/" .. number(actor.maxHp)
-        for _, name in ipairs({"blockIcon", "block"}) do
-            box:GetChild(name):SetVisible(actor.block > 0)
-            local compact = width < L.hpBar.size[1]
-            local shield = compact and L.statusIcon.size or S.xxl
-            box:GetChild(name):SetSizeDelta(shield, name == "block" and L.nativeText.lineHeight or shield)
-            box:GetChild(name):SetAnchoredPosition(-width / 2 + (compact and shield / 2 or -S.l), -portrait / 2 - S.xxl - bh / 2)
+        for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
+            local part = box:GetChild(name)
+            part:SetVisible(blocked)
+            local side = name == "blockEdge" and chip + S.border * 2 or chip
+            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or side)
+            part:SetAnchoredPosition(barX - barWidth / 2 - gap - chip / 2, y)
         end
+        tint(box:GetChild("blockEdge"), C.panelSunken)
+        tint(box:GetChild("blockIcon"), C.block)
+        ink(box:GetChild("block"), C.textOnLight)
         box:GetChild("block").text = number(actor.block)
         box:GetChild("statuses").text = statuses(actor)
         box:GetChild("statuses"):SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh - S.l)
