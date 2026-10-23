@@ -308,7 +308,6 @@ function M.new(stage, platform, present, complete)
             end
         end
         if #self.queue == 0 then finish() return end
-        self.busy = true
         self.index = 1 step(self.queue[1], self.styles[1])
     end
     -- Per-actor composition: attacker pose + victim knockback/flash + death collapse, applied once.
@@ -497,6 +496,8 @@ function M.new(stage, platform, present, complete)
     end
     -- Called only after the rule transaction; even start/control failure must unlock.
     function self:begin(...)
+        -- Own completion before reset/queue preparation can fail or find no events.
+        self.busy = true
         local ok, failure = pcall(self.start, self, ...)
         if not ok then finish(failure) end
     end
