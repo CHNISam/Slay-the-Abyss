@@ -48,7 +48,12 @@ function M.initialize(state, enemy, random)
         select(enemy, enemy.ai.ritualIntent)
         return
     end
-    if enemy.ai.kind == "guardian" then return Guardian.initialize(state, enemy) end
+    if enemy.ai.kind == "guardian" then
+        -- Guardian inherits the opening roll, but later actions and mode
+        -- changes set moves directly and must not consume further AI draws.
+        random(state, enemy.ai.rollRange)
+        return Guardian.initialize(state, enemy)
+    end
     assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
     -- Lagavulin inherits the opening roll even though getMove fixes Sleep.
     random(state, enemy.ai.rollRange)
