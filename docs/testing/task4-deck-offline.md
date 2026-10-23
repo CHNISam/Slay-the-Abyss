@@ -10,7 +10,7 @@
 - Lua 行为覆盖 40 张滚动复用、同名不同 UID、0/1 索引校准、延迟和过期回调、重复开关、永久升级费用 / X 费用、临时成长隔离、空卡组、防止底层规则或随机数改变、反馈/结算门禁和关闭恢复输入。
 - 从固定原始底图 `F:/New folder/.artifacts/m1-offline-be5093f/source-base.gil` 完整运行 `build-native-candidate.mjs` 成功；SHA-256 `6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，源文件未改动。
 - 从零新增候选：`.artifacts/deck-fresh-final/wmvkeu50t-0/working.gil`，SHA-256 `63decf186c4aaf0cf0989503a0c8bc0e9c3b2743ca330194a7c12915563343dc`。
-- 在完整候选副本上再次 `replace:true` 写入模板及界面，读回并对比模板索引、全部控件 ID、结算图、信号与实体图挂载完全一致。结算图仍为 `1073741825 / _GSTS_ABYSS_SETTLEMENT / 22` 节点，无重复挂载。
+- 在完整候选副本上再次 `replace:true` 写入模板及界面，读回并对比模板根索引、界面控件 ID、结算图、信号与实体图挂载相等。模板内部子控件 ID 会重新分配（例如 `AbyssDeckCard/face` 从1073741846变为1073743080）；Lua按名称`GetChild`读取，不依赖这些内部ID。结算图仍为 `1073741825 / _GSTS_ABYSS_SETTLEMENT / 22` 节点，无重复挂载。
 - 最终重入候选：`.artifacts/deck-verified-release/scenes/saves/abyss-deck-offline.gil`，SHA-256 `512959f6d3ae49c26d83cda6e726b24e72808e60b7d66751fdd416711fd5f680`。
 - 两条构建路径 `scene_check_client` 均为 `ok=true, errors=0, warnings=15`。15 条都是检查器不追踪跨模块 Lua 控制器方法而报的 `UNKNOWN_METHOD`（`cancel/begin/open/close/setActive/setVisible/render/setNavigationEnabled/resize/update`），没有信号未监听或新原生 API 错误。
 
