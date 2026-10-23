@@ -580,7 +580,8 @@
         "initialCharge": 1,
         "chargeLimit": 3,
         "chargeIntent": "wizard_gremlin_1",
-        "attackIntent": "wizard_gremlin_3"
+        "attackIntent": "wizard_gremlin_3",
+        "rollRange": 100
       }
     },
     {
