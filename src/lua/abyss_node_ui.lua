@@ -7,6 +7,7 @@ local M = {}
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
 local reasons = {
     insufficient_gold = "金币不足", item_unavailable = "商品已售出或不可购买",
+    removal_unavailable = "本店删牌服务已使用",
     invalid_card = "这张卡牌已不在牌组中", last_card = "必须保留至少一张卡牌",
     card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满，请选择金币",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
@@ -98,9 +99,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange)
             if self.category == "remove" then
                 for _, instance in ipairs(self.removeRows) do
                     local owned = find(self.run.deck, instance.uid, "uid")
-                    local allowed = owned ~= nil and #self.run.deck > 1 and self.run.gold >= node.removePrice
-                    local status = not owned and "已删除" or (#self.run.deck <= 1 and "仅剩一张" or
-                        (self.run.gold < node.removePrice and "金币不足" or "删除"))
+                    local allowed = node.removeAvailable and owned ~= nil and #self.run.deck > 1 and self.run.gold >= node.removePrice
+                    local status = not owned and "已删除" or (not node.removeAvailable and "本店服务已使用" or
+                        (#self.run.deck <= 1 and "仅剩一张" or (self.run.gold < node.removePrice and "金币不足" or "删除")))
                     rows[#rows + 1] = descriptor(named("cards", instance.cardId, instance.upgraded) .. " · #" .. instance.uid ..
                         " · " .. node.removePrice .. " 金币 · " .. status, "removeCard", instance.uid, allowed, "卡牌已删除")
                     local row = rows[#rows]

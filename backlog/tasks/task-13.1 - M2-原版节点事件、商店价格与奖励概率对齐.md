@@ -1,9 +1,11 @@
 ---
 id: TASK-13.1
 title: M2 原版节点事件、商店价格与奖励概率对齐
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '--plan'
 created_date: '2026-10-23 01:56'
+updated_date: '2026-10-23 02:34'
 due_date: '2026-10-26'
 labels:
   - required
@@ -37,3 +39,15 @@ ordinal: 41000
 - [ ] #4 普通/精英/Boss金币范围、奖励稀有度和动态概率、升级率、药水掉落与动态计数、遗物池/排重及领取顺序准确；支持池不得偷改纳入内容的原版概率或费用。
 - [ ] #5 可控随机边界及固定输入测试覆盖价格上下界、概率累积重置、重复领取和失败原子性；统计样本/阈值有依据。本地独立验收，实机交易资源账本归TASK-12.3。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+离线商店切片：核对初代PC A0删牌证据；修复每店仅一次并保留跨店75+25n费用；UI绑定核心服务状态；覆盖失败原子性/重复请求/新店递增/重开；记录价格随机/药水供货等其余待核实差异，整体保持进行中。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-23 离线商店切片：修复同店能无限删牌的真实缺口，每店成功删牌一次后核心拒绝并禁用UI；跨店75+25n递增不变，失败不消费服务。新增失败后可重试/重复UID/新店恢复/新局复位/不可篡改view/旧UI请求重验回归。npm run check完整通过；Nodes20、NodeUI14、NodeTransactions11组(151拒绝断言)，Python13项含1项权限skip；JS符号链接权限skip沿用基线。来源与其余规则缺口见docs/NODE_ECONOMY_PARITY.md。本轮无原作客户端版本号或直接观察、未开原神/MCP/写存档，不勾整体严格一致性或平台AC。
+<!-- SECTION:NOTES:END -->

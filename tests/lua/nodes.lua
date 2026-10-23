@@ -148,7 +148,7 @@ test("shop relic stock excludes owned items and writes inventory after payment",
     rejected(run, map, function() return Nodes.buyRelic(run, offer.id) end, "item_unavailable")
 end)
 
-test("shop deletion targets uid, increments the price, and cannot leave an empty deck", function()
+test("shop deletion targets uid, charges once, and reserves the increase for the next shop", function()
     local run, map = entered("shop")
     local price = data.rules.shop.removeCard
     run.gold = price - 1
@@ -158,10 +158,42 @@ test("shop deletion targets uid, increments the price, and cannot leave an empty
     local uid, otherUid = run.deck[1].uid, run.deck[2].uid
     assert(Nodes.removeCard(run, uid)); equal(#run.deck, 9); equal(run.deck[1].uid, otherUid); equal(run.gold, 0)
     equal(Nodes.view(run, map).node.removePrice, price + data.rules.shop.removeCardIncrement)
-    rejected(run, map, function() return Nodes.removeCard(run, uid) end, "invalid_card")
+    equal(Nodes.view(run, map).node.removeAvailable, false)
+    run.gold = 10000
+    rejected(run, map, function() return Nodes.removeCard(run, uid) end, "removal_unavailable")
+    rejected(run, map, function() return Nodes.removeCard(run, otherUid) end, "removal_unavailable")
+    equal(run.shopRemoveCount, 1)
+    -- The exhausted service does not close the shop or disable independent purchases.
+    local offer = run.nodeFlow.cards[1]
+    assert(Nodes.buyCard(run, offer.id)); assert(Nodes.leaveShop(run))
+end)
+
+test("failed last-card removal does not consume the shop service", function()
+    local run, map = entered("shop")
     while #run.deck > 1 do table.remove(run.deck) end
     run.gold = 10000
     rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "last_card")
+    equal(Nodes.view(run, map).node.removeAvailable, true)
+    local offer = run.nodeFlow.cards[1]
+    assert(Nodes.buyCard(run, offer.id))
+    assert(Nodes.removeCard(run, run.deck[1].uid))
+end)
+
+test("shop service view is read-only and a new run does not inherit its use or price", function()
+    local run, map = entered("shop")
+    local view = Nodes.view(run, map).node
+    equal(view.removeAvailable, true)
+    view.removeAvailable, view.removalUsed = false, true
+    equal(Nodes.view(run, map).node.removeAvailable, true)
+    run.gold = view.removePrice
+    assert(Nodes.removeCard(run, run.deck[1].uid))
+    view = Nodes.view(run, map).node
+    view.removeAvailable, view.removalUsed = true, false
+    rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "removal_unavailable")
+    local restarted, restartedMap = entered("shop")
+    local fresh = Nodes.view(restarted, restartedMap).node
+    equal(fresh.removeAvailable, true); equal(fresh.removePrice, data.rules.shop.removeCard)
+    equal(restarted.shopRemoveCount or 0, 0)
 end)
 
 test("treasure is deterministic, grants an unowned relic once, and copies its view", function()
@@ -257,6 +289,7 @@ test("shops read all configured prices and keep deletion increments and owned re
             shops = shops + 1
             local view = Nodes.view(run, map).node
             equal(view.removePrice, 29 + (shops - 1) * 31)
+            equal(view.removeAvailable, true)
             if shops == 1 then
                 for _, offer in ipairs(view.cards) do
                     local definition
@@ -273,6 +306,8 @@ test("shops read all configured prices and keep deletion increments and owned re
             end
             local gold = run.gold
             assert(Nodes.removeCard(run, run.deck[1].uid)); equal(run.gold, gold - view.removePrice)
+            equal(Nodes.view(run, map).node.removeAvailable, false)
+            rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "removal_unavailable")
             assert(Nodes.leaveShop(run))
         end
     end

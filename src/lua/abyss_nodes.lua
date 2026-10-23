@@ -147,6 +147,7 @@ function M.view(run, map)
         elseif node.type == "shop" then
             node.removePrice = run.data.rules.shop.removeCard
                 + (run.shopRemoveCount or 0) * run.data.rules.shop.removeCardIncrement
+            node.removeAvailable = not node.removalUsed
         end
     end
     return { phase = run.phase, node = node, map = mapView, available = available, navigationEnabled = enabled }
@@ -193,6 +194,8 @@ function M.buyRelic(run, id) return purchase(run, "relics", id) end
 
 function M.removeCard(run, uid)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
+    -- The service is a one-use offer per shop; the price increase belongs to later shops.
+    if flow.removalUsed then return false, "removal_unavailable" end
     local instance, position = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if #run.deck <= 1 then return false, "last_card" end -- Combat.new requires a nonempty permanent deck.
@@ -201,6 +204,7 @@ function M.removeCard(run, uid)
     if run.gold < price then return false, "insufficient_gold" end
     table.remove(run.deck, position)
     run.gold, run.shopRemoveCount = run.gold - price, (run.shopRemoveCount or 0) + 1
+    flow.removalUsed = true
     return true
 end
 
