@@ -14,10 +14,13 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   const cli = require.resolve('fengari-node-cli/src/lua-cli.js');
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
-  const fixture = script.replaceAll('\\', '/').endsWith('tests/lua/battle_ui.lua');
-  // The full native-tree feedback/drag fixture exceeded 15s twice on the Windows
-  // runner. Keep a finite 30s budget for it; other scripts retain 15s by default.
-  timeout ??= fixture ? 30000 : 15000;
+  const normalizedScript = script.replaceAll('\\', '/');
+  const fixture = normalizedScript.endsWith('tests/lua/battle_ui.lua');
+  const hostFixture = normalizedScript.endsWith('tests/lua/game_ui.lua');
+  // Quality run 39982640775 hit the 30s battle-tree and 15s host budgets on
+  // separate attempts. Keep finite, fixture-specific headroom; assertions,
+  // explicit caller timeouts and the 15s budget for other scripts stay intact.
+  timeout ??= fixture ? 60000 : hostFixture ? 30000 : 15000;
   const temporary = fixture ? join(tmpdir(), `abyss-ui-test-${randomUUID()}.lua`) : null;
   if (temporary) writeFileSync(temporary, `ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\ndofile(${luaString(resolve(cwd, script))})\n`);
   let result;

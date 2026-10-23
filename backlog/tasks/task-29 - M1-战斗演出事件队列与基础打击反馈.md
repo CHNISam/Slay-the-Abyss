@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-23 15:56'
+updated_date: '2026-10-23 16:20'
 labels:
   - P1
   - battle-feedback
@@ -55,4 +55,6 @@ ordinal: 38000
 2026-10-23用户已实际导入并明确确认：攻击、格挡、敌方逐次行动三种反馈都看到了，音效尚未确认。MCP list_maps复读新官方存档1073741834、名称abyss-feedback-ca202b8。20个external_lua_file文件与交付代码仅差官方增加的UTF-8 BOM，去除BOM后全部内容一致。当前截图build/feedback-platform/captures/3c0ebc2e-72e6-4022-b74e-fb3ebc2bc13f.png显示真实战斗胜利及三卡奖励（生命80/80、金币114、本场+15），是静态结果证据，三项动态反馈以用户现场确认为准。音效、完整多设备/性能和特殊场景实机未验；没有新日志，仍只有06:29旧故障日志，不冒用。AC4与状态保持未完成。
 
 本轮选型接入：Theme.sound.hit=40313、enemy_die=20092；A6和D2/D3分型方案保留记录，暂不绑定。新增可重建的独立原生试听工具，三参数缩放回归及联动组合可见；无CMD依赖，未写正式存档。npm run check退出0：JS746项/628通过/118既有条件skip/0失败，全部Lua通过，Python17项/16通过/1既有权限skip；专项8项通过。自审确认runtime改动只有两个表现ID、BGM仅更新已试听状态，不改规则/RNG。完整游戏新音效混音/连续播放及UI实机AC继续保留。
+
+PR121门禁补充：c5c0ee5首次CI因Git TLS/earlyEOF未进测试；后两次分别在既有game_ui 15秒及battle_ui 30秒预算超时。保留断言与其他脚本15秒上限，只将两重型UI默认预算改为30/60秒，显式调用timeout仍优先。Lua runner错误传播/有限超时与试听工具7项通过；两重型用例复跑battle_ui 51项/30.08秒、game_ui 15项/13.18秒全部通过。此为测试执行预算，不代表性能验收通过。
 <!-- SECTION:NOTES:END -->
