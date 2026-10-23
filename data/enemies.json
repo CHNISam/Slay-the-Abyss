@@ -195,6 +195,11 @@
             {
               "op": "damage",
               "value": 7
+            },
+            {
+              "op": "makeTempCardInDiscard",
+              "card": "slimed",
+              "value": 1
             }
           ]
         },
@@ -208,8 +213,32 @@
               "value": 1
             }
           ]
+        },
+        {
+          "id": "acid_slime_m_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 10
+            }
+          ]
         }
-      ]
+      ],
+      "hpRange": {
+        "min": 28,
+        "max": 32
+      },
+      "ai": {
+        "kind": "acid_slime_m",
+        "spitIntent": "acid_slime_m_1",
+        "weakIntent": "acid_slime_m_2",
+        "tackleIntent": "acid_slime_m_3",
+        "rollRange": 100,
+        "spitCutoff": 30,
+        "tackleCutoff": 70,
+        "spitChance": 0.4000000059604645
+      }
     },
     {
       "id": "acid_slime_l",
