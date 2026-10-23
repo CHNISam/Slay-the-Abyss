@@ -163,6 +163,13 @@ function M.damage(state, source, target, base, fixed, retaliation)
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
     Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
+    -- Angry is a queued positive Strength Power after an unblocked NORMAL hit.
+    -- Fixed inventory damage, poison and retaliation use non-NORMAL paths.
+    -- For an area action, all targets take damage before top-of-queue reactions.
+    local angry = not fixed and lost > 0 and (target.statuses.angry or 0) or 0
+    if angry > 0 and retaliation then
+        retaliation[#retaliation + 1] = { source = target, target = target, amount = angry, status = "strength" }
+    end
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
     if not fixed and (target.statuses.thorns or 0) > 0 then
@@ -173,6 +180,8 @@ function M.damage(state, source, target, base, fixed, retaliation)
             M.retaliate(state, target, source, thorns)
         end
     end
+    -- A lethal hit still queues the Power, but ApplyPower cancels dead targets.
+    if angry > 0 and not retaliation then M.applyPower(state, target, "strength", angry, target) end
     return lost
 end
 

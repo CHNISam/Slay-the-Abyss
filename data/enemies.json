@@ -472,6 +472,13 @@
       "name": "狂怒小魔",
       "tier": "normal",
       "hp": 22,
+      "hpRange": { "min": 20, "max": 24 },
+      "ai": {
+        "kind": "mad_gremlin",
+        "attackIntent": "mad_gremlin_1",
+        "rollRange": 100,
+        "angryStacks": 1
+      },
       "intents": [
         {
           "id": "mad_gremlin_1",
@@ -480,17 +487,6 @@
             {
               "op": "damage",
               "value": 4
-            }
-          ]
-        },
-        {
-          "id": "mad_gremlin_2",
-          "kind": "buff",
-          "effects": [
-            {
-              "op": "gainStatus",
-              "status": "strength",
-              "value": 2
             }
           ]
         }
