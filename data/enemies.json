@@ -508,23 +508,8 @@
       "intents": [
         {
           "id": "wizard_gremlin_1",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "id": "wizard_gremlin_2",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 3
-            }
-          ]
+          "kind": "charge",
+          "effects": []
         },
         {
           "id": "wizard_gremlin_3",
@@ -536,7 +521,18 @@
             }
           ]
         }
-      ]
+      ],
+      "hpRange": {
+        "min": 21,
+        "max": 25
+      },
+      "ai": {
+        "kind": "charge_then_attack",
+        "initialCharge": 1,
+        "chargeLimit": 3,
+        "chargeIntent": "wizard_gremlin_1",
+        "attackIntent": "wizard_gremlin_3"
+      }
     },
     {
       "id": "shield_gremlin",
