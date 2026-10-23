@@ -35,7 +35,15 @@ local function harness(deck, enemies, prepare)
         sound = function(cue) h.sounds[#h.sounds + 1] = cue end}, function() end,
         function(failure) h.completed[#h.completed + 1] = failure or "ok" end)
     h.battle = Combat.new(Data, {deck = deck, enemies = enemies, seed = 11})
-    if prepare then prepare(h.battle) end
+    if prepare then
+        local original = {}
+        for i, enemy in ipairs(h.battle.enemies) do original[i] = enemy.intents end
+        prepare(h.battle)
+        -- Custom feedback-only intents must not retain an unrelated production policy.
+        for i, enemy in ipairs(h.battle.enemies) do
+            if enemy.intents ~= original[i] then enemy.ai, enemy.intentIndex = nil, 1 end
+        end
+    end
     function h.run(command)
         local before, first = Events.frame(h.battle), #h.battle.events + 1
         assert(command(h.battle))

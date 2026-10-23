@@ -31,6 +31,8 @@ exhaust=true 出牌后消耗；ethereal=true 仅在回合结束还留手时消�
 
 ## 回合、遭遇和经济
 
+石颚兽使用`ai.kind=jaw_worm`：普通首动Chomp；Thrash攻击后格挡、Bellow力量后格挡；按上次/前两次动作与受控条件抽样限制连续动作。HP40–44使用hpRange。决策与数据精度有独立回归，生产随机仍是共享项目LCG，不是原版RandomXS128/独立随机流；见[专项账本](../docs/reviews/TASK-15-jaw-worm-ai.md)。
+
 抽堆空时仅将弃堆种子洗入。角色在自己回合开始清空旧格挡（壁垒例外），结算中毒，若存活再结算回合开始效果。玩家刷新能量、抽牌后行动，弃牌/虚无处理后敌人按已显示意图行动；完成才推进索引，不能执行时重掷。易伤/虚弱/脆弱在拥有者回合结束减 1；再生在拥有者回合结束先回复后减 1。每次伤害后检查胜败，死亡敌人不行动。格挡保留至自己下回合开始才能吸收敌方攻击。
 
 未声明 ai 的敌人按 intents 确定循环；沉眠遗卫使用 ai.sleep_then_cycle：起始睡眠与固定格挡，睡眠计数完成或失去生命后苏醒，受伤唤醒先跳过本次行动，之后只循环 awakeCycle 引用的意图。sleep/stunned 意图 effects 必须为空。hpRange 若存在则覆盖静态 hp 基准值，使用战斗 RNG 在 min/max 闭区间采样，实际 maxHp 等于该次采样；未配置的旧固定HP仍待逐敌核对。时序和来源见 docs/reviews/TASK-15-lagavulin-ai.md。tier 和层数过滤遭遇。
