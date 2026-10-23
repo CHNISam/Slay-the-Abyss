@@ -52,10 +52,22 @@ test('result settlement button starts hidden and uses the approved two-button pl
 
 test('generated Chinese display and native tree exercise the real game entry and run controllers', () => {
   buildUI();
-  const result = runLua('tests/lua/game_ui.lua');
-  assert.equal(result.status, 0, result.stderr + result.stdout);
-  assert.match(result.stdout, /LUA_GAME_UI_PASS/);
-  const previews = Object.fromEntries(result.stdout.split(/\r?\n/).filter(line => line.startsWith('LORE_PREVIEW\t'))
+  const partitions = [
+    ['game_ui.lua', 'flow', 4],
+    ['game_ui_results.lua', 'results', 11],
+    ['game_ui_deck.lua', 'deck', 6],
+  ];
+  const outputs = partitions.map(([file, name, count]) => {
+    const result = runLua(`tests/lua/${file}`);
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    assert.match(result.stdout, new RegExp(`LUA_GAME_UI_PASS ${name} ${count}(?:\\r?\\n|$)`));
+    return result.stdout;
+  });
+  const stdout = outputs.join('\n');
+  const cases = stdout.split(/\r?\n/).filter(line => line.startsWith('ok game UI '));
+  assert.equal(cases.length, 21, 'all GameUI cases must execute');
+  assert.equal(new Set(cases).size, 21, 'GameUI partitions must not repeat cases');
+  const previews = Object.fromEntries(stdout.split(/\r?\n/).filter(line => line.startsWith('LORE_PREVIEW\t'))
     .map(line => { const [, name, text] = line.split('\t'); return [name, text.replaceAll('\\n', '\n')]; }));
   const { nativeMenu: menu, nativeBattle: battle } = nativeTheme.layout, { font: size } = nativeTheme;
   // Each line is checked against the control that actually displays it.
