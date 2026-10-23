@@ -169,8 +169,15 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m'], `${ap}.kind`);
-      if (a.kind === 'acid_slime_m') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m', 'fungi_beast'], `${ap}.kind`);
+      if (a.kind === 'fungi_beast') {
+        keys(a, ['kind', 'biteIntent', 'growIntent', 'rollRange', 'biteCutoff'], ap);
+        intentReference(a.biteIntent, `${ap}.biteIntent`, 'attack');
+        intentReference(a.growIntent, `${ap}.growIntent`, 'buff');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.biteCutoff, `${ap}.biteCutoff`, 0, 65536);
+        if (!(a.biteCutoff < a.rollRange)) fail(`${ap}.biteCutoff`, 'cutoff must be below rollRange');
+      } else if (a.kind === 'acid_slime_m') {
         keys(a, ['kind', 'spitIntent', 'weakIntent', 'tackleIntent', 'rollRange', 'spitCutoff', 'tackleCutoff', 'spitChance'], ap);
         intentReference(a.spitIntent, `${ap}.spitIntent`, 'attack');
         intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');

@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-23 蕈甲兽生命/选招有限切片：固定FungiBeast及AbstractMonster/RollMoveAction方法链核实A0生命22–28、0–59攻击/60–99增力、禁三连攻击/禁连续增力、开场及每次动作主roll。保留基础伤害6/力量3，未改死亡钩子。Spore Cloud死亡易伤2仍是现有可玩池严格缺口，不宣称整只敌人完整；来源hash、红绿、共享LCG和平台限制见[TASK-15.8账本](../docs/reviews/TASK-15.8-fungi-hp-ai.md)。
+
 2026-10-23 中型酸液团A0切片：固定AcidSlime_M/Random方法体核实HP28–32、30/40/30三招及条件Boolean回退、7伤害后Slimed1/普通10伤害/Weak1。只覆盖现有直接生成敌人，复用PR136污染牌和队列接口；来源hash、红绿、0.4f精度与共享LCG/分裂/平台限制见[TASK-15.7账本](../docs/reviews/TASK-15.7-acid-slime-m.md)。不新增卡池，不声明原作完整随机分布或平台一致。
 
 > **规则基线**：历史“适配/简化”不代表获准的最终规则。首发可玩范围按初代 Slay the Spire PC Ascension 0 逐项核对；已修正与剩余偏差以下方专项证据为准，见 [RULE_PARITY.md](../docs/RULE_PARITY.md)。
