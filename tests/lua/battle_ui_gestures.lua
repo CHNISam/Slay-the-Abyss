@@ -129,7 +129,9 @@ test("host restart: old run held pointer cannot confirm a new run card",function
     event("card1","down",7); host:resize(1600,900)
     tap("endTurn",8); drain()
     assert(host.mode=="defeat" and oldRun.phase=="defeat")
-    assert(root:GetChild("menuPanel"):GetChild("start"):GetChild("hit").click({touchId=8}))
+    local restart = root:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
+    restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
+    assert(restart.click({touchId=8}))
     assert(host.run~=oldRun and host.mode=="map")
     -- Real host restart and real map navigation; new battle retains its unmodified starter deck.
     assert(host.mapUI:choose(F.Nodes.available(host.run,host.map)[1].id))
