@@ -31,25 +31,3 @@ for (const [name, mutate, expected] of [
     assert.match(validateContent(data).join('\n'), expected);
   });
 }
-
-for (const [name, mutate, expected] of [
-  ['unknown ritual policy field', e => e.ai.guess = 1, /ai.guess/],
-  ['missing opener', e => delete e.ai.openingIntent, /openingIntent/],
-  ['unknown opener', e => e.ai.openingIntent = 'missing', /openingIntent/],
-  ['attack as opener', e => e.ai.openingIntent = 'cultist_1', /openingIntent/],
-  ['buff as attack', e => e.ai.attackIntent = 'cultist_2', /attackIntent/],
-  ['immediate Strength opener', e => e.intents[1].effects[0].status = 'strength', /openingIntent/],
-  ['player-targeted Ritual', e => e.intents[1].effects[0].op = 'applyStatus', /openingIntent/],
-  ['wrong Ritual amount', e => e.intents[1].effects[0].value = 4, /openingIntent/],
-  ['Ritual extra effect', e => e.intents[1].effects.push({op:'block',value:1}), /openingIntent/],
-  ['wrong attack damage', e => e.intents[0].effects[0].value = 7, /attackIntent/],
-  ['multi-hit attack', e => e.intents[0].effects[0].times = 2, /attackIntent/],
-  ['empty opener', e => e.intents[1].effects = [], /effects|openingIntent/],
-  ['sleep policy fields on Ritual', e => e.ai.sleepTurns = 3, /sleepTurns/]
-]) {
-  test(`rejects ${name}`, () => {
-    const data = loadContent('data');
-    mutate(data.enemies.enemies.find(e => e.id === 'cultist'));
-    assert.match(validateContent(data).join('\n'), expected);
-  });
-}

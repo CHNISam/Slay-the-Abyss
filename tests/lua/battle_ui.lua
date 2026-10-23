@@ -66,6 +66,12 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.card1.children.label.text ~= "")
     assert(stage.children.energy.text == "3/3")
     assert(stage.children.enemy1.children.intent.text == "3")
+    click("enemy1")
+    assert(stage.children.notice.text:find("仪式 3",1,true))
+    click("endTurn")
+    assert(stage.children.enemy1.children.statuses.text:find("仪式 3",1,true))
+    assert(not stage.children.enemy1.children.statuses.text:find("力量",1,true))
+    assert(stage.children.enemy1.children.intent.text == "6")
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
 end)
@@ -262,9 +268,9 @@ test("real defeat shows danger feedback and restart creates a fresh run", functi
 end)
 test("intent previews use core modifiers without changing combat state or consuming effects", function()
     local ui, stage, click = setup() click("start")
-    ui.run.combat = Combat.new(Data, {enemies={"red_louse"}, seed=42})
     local battle = ui.run.combat
     local enemy = battle.enemies[1]
+    enemy.ai=nil; enemy.intentIndex=1 -- isolate preview arithmetic from the Ritual opener.
     Combat.addStatus(enemy, "strength", 2) Combat.addStatus(enemy, "weak", 2)
     Combat.addStatus(battle.player, "vulnerable", 2)
     local hp, seed, events = enemy.hp, battle.seed, #battle.events
@@ -494,7 +500,9 @@ local function feedbackBattle(deck, enemies, options)
     return ui, stage, click, ui.run.combat
 end
 test("block gain and absorption have blue shield feedback without HP shake on a fully blocked hit", function()
-    local ui, stage, click, battle = feedbackBattle({"defend"}, {"red_louse"})
+    local ui, stage, click, battle = feedbackBattle({"defend"}, {"cultist"})
+    -- This feedback fixture needs a six-damage attack, independent of Cultist's opening Ritual.
+    battle.enemies[1].ai=nil; battle.enemies[1].intentIndex=1
     battle.player.block = 2 ui:render()
     click("card1") click("card1")
     assert(battle.player.block == 7 and stage.children.hero.children.block.text == "2")
@@ -517,9 +525,10 @@ test("block gain and absorption have blue shield feedback without HP shake on a 
     assert(hits == 1 and battle.player.hp == hp and battle.player.block == 0)
 end)
 test("multiple enemies and multi-hit intents show each actor and actual HP in order, even after a long frame", function()
-    local ui, stage, click, battle = feedbackBattle({"defend"}, {"jaw_worm", "red_louse"})
+    local ui, stage, click, battle = feedbackBattle({"defend"}, {"jaw_worm", "cultist"})
     battle.enemies[1].intents = {{id="multi",kind="attack",effects={{op="damage",value=2,times=3}}}}
     battle.enemies[2].intents = {{id="cast",kind="defend",effects={{op="block",value=5},{op="applyStatus",status="weak",value=2}}}}
+    battle.enemies[2].ai=nil; battle.enemies[2].intentIndex=1 -- explicit custom intent fixture
     ui:render() local hp = battle.player.hp
     click("endTurn")
     assert(battle.player.hp == hp - 6 and battle.phase == "player")
@@ -813,7 +822,6 @@ test("stateful sleeping enemy shows approved sleep icon and wake intent", functi
     assert(box.children.intent.text == "18")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.attack)
 end)
-
 test("Guardian shows real mode budget and switches visible intention before its Close Up",function()
     local ui,stage,click=setup()
     ui.run=Run.new(Data,42); ui.run.floor=Data.rules.map.bossFloor -- isolated Boss entry, not full-run evidence

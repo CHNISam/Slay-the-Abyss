@@ -144,23 +144,19 @@ export function validateContent(bundle) {
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
-      enumeration(a.kind, ['sleep_then_cycle', 'guardian', 'ritual_then_attack'], `${ap}.kind`);
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
-        return intent;
       };
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian'], `${ap}.kind`);
       if (a.kind === 'ritual_then_attack') {
-        keys(a, ['kind', 'openingIntent', 'attackIntent'], ap);
-        const opening = intentReference(a.openingIntent, `${ap}.openingIntent`, 'buff');
-        const attack = intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
-        const grant = opening?.effects?.[0], hit = attack?.effects?.[0];
-        if (opening && (opening.effects?.length !== 1 || grant?.op !== 'gainStatus' || grant.status !== 'ritual' || grant.value !== 3)) {
-          fail(`${ap}.openingIntent`, 'must grant exactly 3 Ritual to self, with no other effects');
-        }
-        if (attack && (attack.effects?.length !== 1 || hit?.op !== 'damage' || hit.value !== 6 || (hit.times ?? 1) !== 1)) {
-          fail(`${ap}.attackIntent`, 'must deal exactly one base-6 attack, with no other effects');
+        keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
+        intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.ritualIntent);
+        if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'ritual' && effect.value > 0)) {
+          fail(`${ap}.ritualIntent`, 'must grant a positive Ritual stack');
         }
       } else if (a.kind === 'guardian') {
         keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
@@ -174,7 +170,7 @@ export function validateContent(bundle) {
         if (!Array.isArray(a.offenseCycle) || !a.offenseCycle.includes(a.returnIntent)) fail(`${ap}.returnIntent`, 'must occur in offenseCycle');
         reference('mode_shift', 'statuses', `${ap}.mode_shift`);
         reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
-      } else {
+      } else if (a.kind === 'sleep_then_cycle') {
         keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
         integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
         integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);

@@ -1,5 +1,6 @@
 # 来源与适配边界
 
+2026-10-23 祈火徒运行时切片覆盖下文旧固定循环说明：生命48–54实际采样，首动施加仪式3且不立即加力量，此后基础6攻击，每个整组敌方回合结束增长3力量，跳过施加当轮。固定方法体来源及真实性/随机流限制见 [TASK-15运行时账本](../docs/reviews/TASK-15-cultist-runtime.md)。不是正版二进制或平台实测通过；其他敌人的差异继续保留。
 2026-10-23 深渊守卫离线切片：A0常数先参考社区wiki/DB，再只读核实[固定镜像TheGuardian方法体](https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/monsters/exordium/TheGuardian.java#L236-L293)及真实卡牌/动作队列。该镜像声明V2.3.4/2022-12-18，未经正版二进制hash核验，不是官方开源或本轮原作实测。Sharp Hide与Iron Wave次序另交叉[TCK测试答案Problem 1(g)](https://tck.mn/videogame/stsexam/OLD_stsexam1-v1-solu-v1.pdf)。对同卡多段转形、反刺消耗预算和Twin Slam延后重置，采用具体方法调用链纠正wiki摘要不足。来源、hash、24组独立规则轨迹及证据等级见docs/reviews/TASK-17-guardian-ai.md，不据此宣称整体原版或平台通过。
 
 核对日期 2026-10-22（后续局部复核见下文）。参考初代 Slay the Spire，不引用二代。不搬运图片、程序、存档或长文，中文效果文案由本项目编写。基准为 Ascension 0；旧表的固定生命近似仍属待补缺口，已核实并支持 hpRange 的敌人按范围实际采样。

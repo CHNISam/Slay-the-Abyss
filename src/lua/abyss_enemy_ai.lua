@@ -14,8 +14,8 @@ end
 function M.initialize(state, enemy)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "ritual_then_attack" then
-        enemy.aiPhase = "ritual_opening"
-        select(enemy, enemy.ai.openingIntent)
+        enemy.aiPhase, enemy.ritualSkipRound = "opening", true
+        select(enemy, enemy.ai.ritualIntent)
         return
     end
     if enemy.ai.kind == "guardian" then return Guardian.initialize(state, enemy) end
@@ -37,10 +37,7 @@ function M.advance(state, enemy)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
     elseif enemy.ai.kind == "ritual_then_attack" then
-        if enemy.aiPhase == "ritual_opening" then
-            enemy.aiPhase = "ritual_attacking"
-            enemy.ritualSkipRound = true
-        end
+        enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)
     elseif enemy.ai.kind == "guardian" then return Guardian.advance(state, enemy)
     elseif enemy.aiPhase == "sleep" then
@@ -61,6 +58,20 @@ function M.advance(state, enemy)
     end
 end
 
+-- Ritual's first suppression and Strength growth belong to the shared round
+-- boundary, after every living enemy's action and end-of-turn effects.
+function M.endRound(state)
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.hp > 0 and enemy.ai and enemy.ai.kind == "ritual_then_attack" then
+            if enemy.ritualSkipRound then
+                enemy.ritualSkipRound = false
+            elseif (enemy.statuses.ritual or 0) > 0 then
+                Actors.status(state, enemy, "strength", enemy.statuses.ritual)
+            end
+        end
+    end
+end
+
 M.cardReactions, M.afterCard = Guardian.cardReactions, Guardian.afterCard
 
 function M.flush(state, actingSource)
@@ -75,19 +86,6 @@ end
 
 function M.afterEffects(state, source)
     if source.ai and source.ai.kind == "guardian" then Guardian.afterEffects(state, source) end
-end
-
--- Called once after the entire enemy group, never from per-enemy advance.
--- Other status timings are deliberately unchanged by this Cultist slice.
-function M.endRound(state, enemy)
-    if state.player.hp <= 0 or enemy.hp <= 0 or not enemy.ai
-        or enemy.ai.kind ~= "ritual_then_attack" or enemy.aiPhase ~= "ritual_attacking" then return end
-    if enemy.ritualSkipRound then
-        enemy.ritualSkipRound = false
-    else
-        local amount = enemy.statuses.ritual or 0
-        if amount > 0 then Actors.status(state, enemy, "strength", amount) end
-    end
 end
 
 return M

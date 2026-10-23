@@ -92,7 +92,8 @@ end)
 test("loss never heals with starting relic or awards resources", function()
     local run = Run.new(data, 10)
     run.hp = 1
-    assert(Run.startCombat(run, "jaw_solo"))
+    assert(Run.startCombat(run, "cultist_solo"))
+    assert(Run.endTurn(run)) -- opening Ritual is harmless
     assert(Run.endTurn(run))
     equal(run.phase, "defeat"); equal(run.hp, 0)
     equal(run.gold, data.rules.player.startingGold); equal(#run.deck, 10)

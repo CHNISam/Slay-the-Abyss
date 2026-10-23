@@ -33,7 +33,7 @@ end
 -- Oracle reads the source JSON contract without calling production arithmetic.
 for _, definition in ipairs(data.enemies.enemies) do
     intentCount = intentCount + #definition.intents
-    -- Stateful enemies have independent behavioral oracles in *_ai.lua;
+    -- Stateful enemies have independent behavioral oracles in their *_ai.lua suites;
     -- forcing only intentIndex would leave their decision state inconsistent.
     if not definition.ai then
     for index, intent in ipairs(definition.intents) do
@@ -107,19 +107,26 @@ for _, definition in ipairs(data.enemies.enemies) do
     end
 end
 
-test("cultist Ritual persists and grows only after the first attack", function()
+test("configured cultist strength persists into its next natural attack", function()
     local s = Combat.new(data, { enemies = { "cultist" }, seed = 42 })
     local enemy = s.enemies[1]
-    assert(Combat.endTurn(s))
-    equal(s.player.hp, 80, "Ritual opener does not attack")
-    equal(enemy.statuses.ritual, 3, "Ritual retained")
-    equal(enemy.statuses.strength or 0, 0, "application round skipped")
-    assert(Combat.endTurn(s))
-    equal(s.player.hp, 74, "first attack")
-    equal(enemy.statuses.strength, 3, "round-end growth")
-    assert(Combat.endTurn(s))
-    equal(s.player.hp, 65, "second attack")
-    equal(enemy.statuses.strength, 6, "second round-end growth")
+    local attack, buff = enemy.intents[1], enemy.intents[2]
+    equal(attack.effects[1].op, "damage", "configured first intent")
+    equal(buff.effects[1].op, "gainStatus", "configured second intent")
+    equal(buff.effects[1].status, "ritual", "configured buff")
+    local base, strength = attack.effects[1].value, buff.effects[1].value
+    assert(Combat.endTurn(s)) -- actual opening Ritual; no attack or immediate Strength.
+    equal(s.player.hp, s.player.maxHp, "opening HP")
+    equal(enemy.statuses.strength or 0, 0, "opening skips Strength")
+    assert(Combat.endTurn(s)) -- first six-damage attack, then Ritual growth.
+    equal(enemy.statuses.strength, strength, "buff retained after enemy turn")
+    local hp = s.player.hp
+    assert(Combat.endTurn(s)) -- next attack in the natural cycle
+    equal(hp - s.player.hp, base + strength, "buffed attack HP loss")
+    equal(enemy.statuses.strength, strength * 2, "Ritual grows each following round")
+    local damage = events(s, "damage")
+    equal(#damage, 2, "natural attack count")
+    equal(damage[2].amount, base + strength, "buffed damage event")
 end)
 
 local generated, encounterById = {}, {}

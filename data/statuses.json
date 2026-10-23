@@ -74,6 +74,14 @@
       "description": "自己回合开始时格挡不清空"
     },
     {
+      "id": "ritual",
+      "name": "仪式",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "敌方整组回合结束时获得等量力量；施加当轮不触发"
+    },
+    {
       "id": "mode_shift",
       "name": "模式转换",
       "kind": "buff",
@@ -88,14 +96,6 @@
       "stack": "intensity",
       "decay": "none",
       "description": "玩家每打出一张攻击牌后受到等量伤害，可用格挡抵挡，多段只触发一次"
-    },
-    {
-      "id": "ritual",
-      "name": "仪式",
-      "kind": "buff",
-      "stack": "intensity",
-      "decay": "none",
-      "description": "祈火徒施加当轮不触发，此后每轮结束获得等量力量"
     }
   ]
 }

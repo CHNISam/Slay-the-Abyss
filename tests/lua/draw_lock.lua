@@ -21,12 +21,12 @@ local function uid(s, id)
     error("missing " .. id)
 end
 -- Arrange only card zones, retaining real catalog definitions and unique instances.
-local function battle(upgraded, hand, draw, discard, enemies)
+local function battle(upgraded, hand, draw, discard)
     local deck = {}
     for _, zone in ipairs({hand, draw or {}, discard or {}}) do
         for _, id in ipairs(zone) do deck[#deck + 1] = {cardId = id, upgraded = id == "battle_trance" and upgraded or false} end
     end
-    local s = Combat.new(data, {seed = 42, deck = deck, enemies = enemies})
+    local s = Combat.new(data, {seed = 42, deck = deck})
     local instances = {}
     for _, zone in ipairs({s.hand, s.draw}) do for _, card in ipairs(zone) do instances[card.uid] = card end end
     s.hand, s.draw, s.discard = {}, {}, {}
@@ -112,16 +112,16 @@ for _, id in ipairs({"shrug_it_off", "pommel_strike"}) do
     end)
 end
 test("next player turn resets lock and energy, processes enemy intent and preserves all cards", function()
-    local s = battle(false, {"battle_trance", "defend"}, {"strike", "defend", "strike", "defend", "strike", "defend", "strike", "defend"}, nil, {"red_louse"})
+    local s = battle(false, {"battle_trance", "defend"}, {"strike", "defend", "strike", "defend", "strike", "defend", "strike", "defend"})
     local cards = inventory(s)
     assert(Combat.play(s, uid(s, "battle_trance"))); assert(Combat.play(s, uid(s, "defend")))
     equal(s.energy, 2); equal(s.player.noDraw, true)
     local hp = s.player.hp
     assert(Combat.endTurn(s))
-    equal(s.player.hp, hp - 1)
+    equal(s.player.hp, hp) -- Cultist's opening Ritual deals no damage.
     equal(s.turn, 2); equal(s.phase, "player"); equal(s.player.noDraw, false)
     equal(s.energy, s.rules.player.energyPerTurn); equal(#s.hand, s.rules.player.drawPerTurn)
-    equal(s.enemies[1].intentIndex, 2); equal(s.enemies[1].noDraw, nil)
+    equal(Combat.intent(s,1).kind, "attack"); equal(s.enemies[1].noDraw, nil)
     same(inventory(s), cards)
     local hand = #s.hand; Combat.draw(s, 1); equal(#s.hand, hand + 1)
 end)

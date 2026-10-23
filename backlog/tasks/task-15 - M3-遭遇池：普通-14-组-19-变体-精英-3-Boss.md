@@ -1,10 +1,11 @@
 ---
 id: TASK-15
 title: M3 首发遭遇与敌人AI、概率和特殊机制原版对齐
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 03:44'
+updated_date: '2026-10-23 03:34'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -36,6 +37,8 @@ ordinal: 15000
 
 <!-- SECTION:PLAN:BEGIN -->
 本轮独立离线切片：1. 以可复核的初代PC A0资料确认沉眠遗卫睡眠/苏醒、生命随机范围和减益，明确社区二手资料级别。2. 实现109–111真实HP采样、起始8格挡、三次睡眠、HP损失唤醒及当次眩晕、醒后两次攻击接吸魂循环。3. 独立测试随机边界、格挡/失血、毒、固定伤害、致死、多实例、回滚和原循环兼容。4. 最新develop组合check及审查后交付；其他敌人和所有平台AC保留。
+
+继续离线祈火徒切片：独立读取固定镜像Cultist/RitualPower及整组轮末调度。补能区分首动与0/6/9/12/15轨迹、队友时序/死亡/展示的运行时测试，再接入仪式状态和整组轮末钩子；生命48–54沿用现有项目采样，随机流一致性不宣称通过。保留睡眠AI兼容，全部来源/平台AC保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -53,18 +56,6 @@ ordinal: 15000
 2026-10-23 /root/enemy_ai / feat/task-15-lagavulin：睡眠机制、受击/毒/固定伤害唤醒、18伤害两次接敏捷/力量各-1循环已实现。新增9组独立AI测试、13组schema检查、真实控件UI三态通过；20cb936基线完整npm run check通过，已有Windows符号链接权限测试按原规则跳过。接入a6be1b6新基线时保留新的卡牌playedCard参数和全部拖牌用例；新TASK15验收明确真实HP随机范围，因此补109–111采样后再全套复验。来源及证据等级见docs/reviews/TASK-15-lagavulin-ai.md；所有AC保持未勾，暂不开游戏/MCP/不编译或写存档。
 
 最终a6be1b6组合复验：支持hpRange闭区间109–111真实战斗种子采样，seed3/0/5分别得到109/110/111且重复战斗和洗牌一致，maxHp取实际采样值。实际双Strike和Run.usePotion火瓶入口均验证立即唤醒与当次眩晕。新增AI规则12组、schema18组；完整npm run check退出0，Python16组1个既有权限skip；日志build/enemy-ai-check.log。已兼容PR37的严格非空Effects.supported，只有sleep/stunned意图在Combat.new中专门允许空effects，不放宽卡牌验证。原版随机算法/种子映射和原版二进制版本仍未核实；社区二手资料级别明确，五个AC全部未勾。
+
+祈火徒生产接线离线切片：固定镜像方法体重新读取后实现48–54 HP采样、首动仪式3、随后6基础攻击及整组敌方轮末增长3力量（施加当轮跳过）。新运行时9组红→绿，真实首战UI意图/状态展示通过，补10组schema边界。完整npm run check退出0（JS268pass/14既有权限skip，Lua全套，Python15pass/1skip）；最终两个恶形schema新增10/10再通过。原反馈/药水fixture显式关闭自定义敌人AI，真实行为独立测。docs/reviews/TASK-15-cultist-runtime.md列来源与版本真实性/原版随机流限制；所有全池/平台AC保留未勾。独立复核中，未开游戏/平台编译/写存档。
 <!-- SECTION:NOTES:END -->
-
-## Comments
-
-<!-- COMMENTS:BEGIN -->
-created: 2026-10-23 03:44
----
-2026-10-23 Cultist 生产接线及 PR69 后语义集成：在 fcc1dca5d9b512f932e4122c025bf8d13cf25d5a 上只加入 ritual_then_attack、仪式3状态/图标、整组敌方循环之后的轮末回调及既有 HP48–54 采样；保留 Guardian 的 cardReactions/afterCard、afterEffects/flush、beforeAction 和 PR68 拖拽修复。修正只需普通攻击的旧夹具，不删除断言。Ritual UI 原断言独立为 cultist_ui.lua，既有15秒上限不变。原计划、assignee、To Do 和全部AC不变；本条仅追加有限接线记录，不宣称完整原版/平台验收。
----
-
-created: 2026-10-23 03:44
----
-2026-10-23 合并候选本地复验：原 Guardian 基线运行 Cultist 新测试先红；接线后 Lua5.4 全35文件通过，含 Cultist14、Guardian24、Lagavulin12、主战斗UI38、独立Ritual UI1、drag7、IronWave12、遭遇159。数据/主题/UI构建、schema、语法及Python16通过。Node299项292通过、7项缺fengari-node-cli失败，未安装依赖；Fengari15秒实际耗时仍须CI证明。此前PR70 CI为battle_ui超时，本次仅拆分新增Ritual UI用例保留全部断言，不提高超时。社区源未认证正版构建，项目HP采样不代表原版随机映射；TASK-15不关闭、不勾AC。
----
-<!-- COMMENTS:END -->
