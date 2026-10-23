@@ -544,7 +544,9 @@ test("button listeners bind once and click-only hosts retain the existing C fall
     local listeners = get("confirm"):GetChild("hit").listeners
     local n=0 for _ in pairs(listeners) do n=n+1 end
     assert(n == 6)
-    assert(not get("shopView/card1"):GetChild("hit").listeners.down, "card selection is not a framed-button press")
+    get("shopView/card1"):GetChild("hit"):emit("down",1)
+    assert(get("shopView/card1").scale[1] == 1, "card selection is not a framed-button press")
+    get("shopView/card1"):GetChild("hit"):emit("up",1)
     local basic, basicGet, basicClick = setup("camp",nil,function(run) run.hp=20 end,false)
     assert(not basicGet("campView/rest"):GetChild("hit").listeners.down)
     assert(basicClick("campView/rest") and basic:holding())
