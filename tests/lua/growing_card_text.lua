@@ -132,7 +132,7 @@ test("reward remains static even after grown battle", function()
     ui.run.phase="reward"; ui.run.rewards={cards={"rampage"},gold=0}; ui:render()
     eq(label(stage),expected("8",false)); eq(label(stage),Presentation.rampage.text)
 end)
-test("all other 36 card labels are byte for byte static in base and upgrade", function()
+test("all other 37 card labels including Dazed are byte for byte static in base and upgrade", function()
     local seen=0
     for _,def in ipairs(Data.cards.cards) do
         if def.id~="rampage" then
@@ -143,7 +143,7 @@ test("all other 36 card labels are byte for byte static in base and upgrade", fu
             end
         end
     end
-    eq(seen,36)
+    eq(seen,37)
 end)
 test("legacy display without optional fields still renders old static text", function()
     local normal,upgraded=Presentation.rampage.combatText,Presentation.rampage.upgradeCombatText
