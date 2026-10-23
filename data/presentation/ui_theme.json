@@ -406,7 +406,19 @@
     "statusIcon": {
       "size": 26,
       "gap": 4,
-      "perRow": 5
+      "perRow": 5,
+      "rows": 2
+    },
+    "statusInfo": {
+      "width": 360,
+      "pad": 12,
+      "header": 28,
+      "summary": 22,
+      "row": 64,
+      "rows": 6,
+      "icon": 26,
+      "gap": 12,
+      "nameHeight": 22
     },
     "intent": {
       "size": 40,

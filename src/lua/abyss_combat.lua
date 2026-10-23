@@ -128,6 +128,37 @@ function M.cardDefinition(state, instance)
     return card
 end
 
+-- Read-only display numbers for one hand card, from the same modifier arithmetic
+-- resolution uses. Keyed by top-level effect index: {op, low, high}. A single-target
+-- hit uses targetIndex when it names a living enemy, otherwise the range across all
+-- living enemies; area hits always span every living enemy. Nothing is mutated.
+function M.cardPreview(state, instance, targetIndex)
+    local card, player, result = M.cardDefinition(state, instance), state.player, {}
+    local aimed = state.enemies[targetIndex]
+    local function span(op, base)
+        local victims = {}
+        if op == "damage" and aimed and aimed.hp > 0 then victims = {aimed}
+        else for _, enemy in ipairs(state.enemies) do if enemy.hp > 0 then victims[#victims + 1] = enemy end end end
+        if #victims == 0 then victims = {{statuses = {}}} end
+        local low, high
+        for _, victim in ipairs(victims) do
+            local amount = Actors.attackAmount(state, player, victim, base)
+            low, high = math.min(low or amount, amount), math.max(high or amount, amount)
+        end
+        return {op = op, low = low, high = high}
+    end
+    for i, effect in ipairs(card.effects) do
+        if effect.op == "damage" or effect.op == "damageAll" then result[i] = span(effect.op, effect.value)
+        elseif effect.op == "damageEqualToBlock" then result[i] = span("damage", player.block)
+            result[i].op = effect.op
+        elseif effect.op == "block" then
+            local amount = Actors.blockAmount(state, player, effect.value)
+            result[i] = {op = effect.op, low = amount, high = amount}
+        end
+    end
+    return result
+end
+
 local function findInstance(state, uid)
     for i, card in ipairs(state.hand) do if card.uid == uid then return card, i end end
 end

@@ -24,7 +24,9 @@ class PresentationTests(unittest.TestCase):
         before = copy.deepcopy((self.source, self.overlay))
         result = self.m.render_cards(self.source, self.overlay)
         c = result['cards'][0]
-        self.assertEqual(c, {'id': 'guard', 'name': '踏沙守心', 'cost': '1', 'text': '获得7格挡，随机消耗1张牌。', 'upgradeCost': '1', 'upgradeText': '获得9格挡，选择消耗1张牌。'})
+        # Block is modifiable in combat, so only its token stays live; the exhaust count is printed.
+        self.assertEqual(c, {'id': 'guard', 'name': '踏沙守心', 'cost': '1', 'text': '获得7格挡，随机消耗1张牌。', 'upgradeCost': '1', 'upgradeText': '获得9格挡，选择消耗1张牌。',
+                             'combatText': '获得{effects.0.value}格挡，随机消耗1张牌。', 'upgradeCombatText': '获得{effects.0.value}格挡，选择消耗1张牌。'})
         self.assertEqual(before, (self.source, self.overlay))
         self.assertNotIn('Internal', json.dumps(result))
 

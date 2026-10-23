@@ -1,4 +1,5 @@
 import copy
+import re
 import importlib.util
 from pathlib import Path
 import unittest
@@ -13,7 +14,7 @@ class GrowingCardTextTests(unittest.TestCase):
         self.source = r.load_json(ROOT / 'data/cards.json')
         self.overlay = r.load_json(ROOT / 'data/presentation/traveler.zh-CN.json')
 
-    def test_only_rampage_preserves_exact_damage_token_and_renders_growth(self):
+    def test_live_tokens_cover_exactly_modifiable_damage_and_block_values(self):
         before = copy.deepcopy((self.source, self.overlay))
         cards = r.render_cards(self.source, self.overlay)['cards']
         for card in cards:
@@ -25,9 +26,22 @@ class GrowingCardTextTests(unittest.TestCase):
             if card['id'] == 'rampage':
                 self.assertEqual(card.get('combatText'), '对目标造成 {effects.0.value} 点伤害；随后本牌在本场战斗中的伤害增加 5 点。')
                 self.assertEqual(card.get('upgradeCombatText'), '对目标造成 {effects.0.value} 点伤害；随后本牌在本场战斗中的伤害增加 8 点。')
-            else:
-                self.assertNotIn('combatText', card)
-                self.assertNotIn('upgradeCombatText', card)
+            for key, data, printed in (('combatText', source, card['text']), ('upgradeCombatText', upgraded, card['upgradeText'])):
+                live = [i for i, e in enumerate(data['effects']) if e['op'] in ('damage', 'damageAll', 'block')
+                        and f'{{effects.{i}.value}}' in (overlay['textTemplate'] if key == 'combatText' else overlay.get('upgradeTextTemplate', overlay['textTemplate']))]
+                if not live:
+                    self.assertNotIn(key, card)
+                    continue
+                text = card[key]
+                # Only live tokens remain, and filling them with source values gives the printed text.
+                self.assertEqual(set(re.findall(r'\{([^{}]+)\}', text)), {f'effects.{i}.value' for i in live})
+                for i in live:
+                    text = text.replace(f'{{effects.{i}.value}}', str(data['effects'][i]['value']))
+                self.assertEqual(text, printed)
+        self.assertEqual({c['id'] for c in cards if 'combatText' in c}, {
+            'strike', 'defend', 'bash', 'cleave', 'clothesline', 'iron_wave', 'anger', 'clash', 'true_grit',
+            'twin_strike', 'pommel_strike', 'shrug_it_off', 'thunderclap', 'uppercut', 'carnage', 'dropkick',
+            'ghostly_armor', 'hemokinesis', 'rampage', 'whirlwind', 'impervious', 'bludgeon', 'reaper'})
         self.assertEqual(len(cards), 38)
         self.assertEqual(sum(card['id'] != 'dazed' for card in cards), 37)
         self.assertEqual(before, (self.source, self.overlay))

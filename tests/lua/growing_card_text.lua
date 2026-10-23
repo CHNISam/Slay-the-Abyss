@@ -81,16 +81,20 @@ local function expected(value, upgraded)
     return "对目标造成 " .. value .. " 点伤害；随后本牌在本场战斗中的伤害增加 " .. (upgraded and "8" or "5") .. " 点。"
 end
 for _, upgraded in ipairs({false,true}) do
-    test((upgraded and "upgraded" or "normal") .. " actual click play and redraw updates only damage", function()
+    test((upgraded and "upgraded" or "normal") .. " actual click play, redraw and live modifiers update damage", function()
         local ui,stage,play=fixture(upgraded)
         local s=ui.run.combat
         eq(label(stage),expected("8",upgraded))
         play(1); Combat.draw(s,1); ui:render()
         eq(label(stage),expected(upgraded and "16" or "13",upgraded))
+        -- Growth and live modifiers stack: floor((13+3)*0.75*1.5)=18, floor((16+3)*0.75*1.5)=21.
         Combat.addStatus(s.player,"strength",3); Combat.addStatus(s.player,"weak",1)
         Combat.addStatus(s.enemies[1],"vulnerable",1); ui:render()
-        eq(label(stage),expected(upgraded and "16" or "13",upgraded))
-        play(1); Combat.draw(s,1); ui:render()
+        eq(label(stage),expected(upgraded and "21" or "18",upgraded))
+        local hp=s.enemies[1].hp
+        play(1); eq(hp-s.enemies[1].hp,upgraded and 21 or 18)
+        s.player.statuses.strength,s.player.statuses.weak,s.enemies[1].statuses.vulnerable=0,0,0
+        Combat.draw(s,1); ui:render()
         eq(label(stage),expected(upgraded and "24" or "18",upgraded))
     end)
     test((upgraded and "upgraded" or "normal") .. " new combat resets text", function()
@@ -132,18 +136,17 @@ test("reward remains static even after grown battle", function()
     ui.run.phase="reward"; ui.run.rewards={cards={"rampage"},gold=0}; ui:render()
     eq(label(stage),expected("8",false)); eq(label(stage),Presentation.rampage.text)
 end)
-test("all other 37 card labels including Dazed are byte for byte static in base and upgrade", function()
+test("without modifiers all 38 combat labels match printed text; Body Slam adds its current value", function()
     local seen=0
     for _,def in ipairs(Data.cards.cards) do
-        if def.id~="rampage" then
-            seen=seen+1
-            for _,upgraded in ipairs({false,true}) do
-                local ui,stage=fixture(upgraded,{{cardId=def.id,upgraded=upgraded}})
-                eq(label(stage),upgraded and Presentation[def.id].upgradeText or Presentation[def.id].text)
-            end
+        seen=seen+1
+        for _,upgraded in ipairs({false,true}) do
+            local ui,stage=fixture(upgraded,{{cardId=def.id,upgraded=upgraded}})
+            local printed=upgraded and Presentation[def.id].upgradeText or Presentation[def.id].text
+            eq(label(stage),printed .. (def.id=="body_slam" and "（当前 0 点）" or ""))
         end
     end
-    eq(seen,37)
+    eq(seen,38)
 end)
 test("legacy display without optional fields still renders old static text", function()
     local normal,upgraded=Presentation.rampage.combatText,Presentation.rampage.upgradeCombatText

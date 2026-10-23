@@ -44,12 +44,49 @@ function unit(name, position, portrait, player = false) {
     panel('blockEdge', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size + s.border * 2, bb.size + s.border * 2, c.panelSunken),
     panel('blockIcon', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, bb.size, c.block),
     text('block', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, l.nativeText.lineHeight, '', f.body, c.textOnLight),
-    text('statuses', 0, -portrait / 2 - s.xxl - bh - s.l, bw + s.xl, l.nativeText.lineHeight, '', f.small, c.textDim),
+    statusRow(-portrait / 2 - s.xxl - bh - s.l),
     { ...picture('impact', 0, 0, portrait, portrait, im.diamond, c.geo), visible: false },
     { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
     { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
-      text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number), hit(portrait, portrait)] : []),
+      text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number)] : []),
+    // Tapping a portrait opens that unit's status details (enemies also take targets).
+    hit(portrait, portrait),
+  ] };
+}
+
+// Status chips under the HP bar: icon with its stack count at the lower right, up to
+// perRow x rows. Lua lays them out per column width; the hit opens the detail panel.
+function statusRow(top) {
+  const si = l.statusIcon, pitch = si.size + si.gap, [bw] = l.hpBar.size, height = si.rows * pitch;
+  const chips = [];
+  for (let i = 0; i < si.perRow * si.rows; i++) {
+    const x = (i % si.perRow - (si.perRow - 1) / 2) * pitch, y = (si.rows - 1) * pitch / 2 - Math.floor(i / si.perRow) * pitch;
+    chips.push({ ...picture(`icon${i + 1}`, x, y, si.size, si.size, theme.icon.status.strength, c.buff), visible: false },
+      { ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, f.small + si.gap, '', f.small, c.text), visible: false });
+  }
+  return { name: 'statusRow', kind: 'container', position: [0, top - (si.rows - 1) * pitch / 2], size: [bw, height],
+    children: [...chips, hit(bw, height)] };
+}
+
+// One shared detail panel. Its full-stage hit swallows the next tap and closes it.
+function statusInfo() {
+  const [width, height] = theme.canvas.base, si = l.statusInfo;
+  const inner = si.width - si.pad * 2, textWidth = inner - si.icon - si.gap;
+  const rows = [];
+  for (let i = 1; i <= si.rows; i++) {
+    rows.push(picture(`icon${i}`, 0, 0, si.icon, si.icon, theme.icon.status.strength, c.buff),
+      text(`name${i}`, 0, 0, textWidth, si.nameHeight, '', f.label, c.goldBright),
+      text(`text${i}`, 0, 0, textWidth, si.row - si.nameHeight - s.xs, '', f.small, c.text));
+  }
+  return { name: 'statusInfo', kind: 'container', size: [width, height], visible: false, children: [
+    { ...hit(width, height), focusable: false },
+    panel('border', 0, 0, si.width + s.border * 2, si.row + s.border * 2, c.goldDim),
+    panel('plate', 0, 0, si.width, si.row, c.panelSunken),
+    text('title', 0, 0, inner, si.header, '', f.body, c.gold),
+    text('summary', 0, 0, inner, si.summary, '', f.small, c.textDim),
+    ...rows,
+    text('more', 0, 0, inner, si.summary, '', f.small, c.textDim),
   ] };
 }
 
@@ -137,6 +174,7 @@ export function battleLayout() {
       ({ ...picture(`aim${i + 1}`, 0, 0, l.cardDrag.aimDot[0], l.cardDrag.aimDot[0], im.diamond, c.goldBright), visible: false })),
     { ...picture('reticle', 0, 0, l.enemyRow.portrait, l.enemyRow.portrait, im.ring, c.goldBright), visible: false },
   ] });
+  controls.push(statusInfo());
   // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
   const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;
   controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
