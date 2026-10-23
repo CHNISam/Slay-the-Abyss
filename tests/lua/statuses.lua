@@ -82,7 +82,8 @@ test("large block modifiers retain precision without permitting uncapped final s
     local s = battle(); local p = s.player
     status(p, "dexterity", 2); status(p, "frail", 1)
     eq(Actor.blockAmount(s, p, 100000000), 75000001)
-    status(p, "dexterity", 2147483645)
+    -- Arithmetic-only hostile fixture: public status application now caps at 999.
+    p.statuses.dexterity = 2147483647
     eq(Actor.blockAmount(s, p, 2147483647), 3221225470.0)
     eq(Actor.blockAmount(s, p, 2147483647, true), 2147483647)
     Combat.block(s, p, 2147483647); eq(p.block, 999)
