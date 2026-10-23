@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 07:27'
+updated_date: '2026-10-23 07:46'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -66,4 +66,6 @@ TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TAS
 节点按钮 P2 切片 feat/task4-node-button-states（ed39f46）完成离线实现：保留全部直属 GetChild/hit 路径和 C 点选，通过官方 CursorEnter/Exit/Down/Up/EndDrag + SetLocalScale 增加 hover/pressed/0.96 整体按压，主题读取颜色/缩放。禁用与已选结果优先，拖出/EndDrag/异触点、重绘/切页/关闭重开均复位，表现回调不发命令且监听只绑定一次。红测基线缺 enter 监听；实现后节点 Lua 25 项、针对性 JS/主题/宿主 20 项通过，节点每容器≤50。证据 docs/testing/task4-node-button-states.md。本切片真实MCP编译/副本/设备实机未做，交主线程最终集成验证；未开原神，不勾平台AC。
 
 节点按钮hover/pressed/0.96源码切片已在PR91全绿合入；默认点击路径、禁用/选中优先及取消复位保留。最终组合ec455f6完整check退出0(JS469pass115权限skip/Lua全套/Python15pass1skip)，真实MCP副本26模块/1590控件/max50/38按钮状态层/六列模板/22节点图，0error17warning（16自定义方法+未接线unknown）。副本hash a4f90ebb7230201989e89fbb270a98ec601c8f05861fd078bf81617453ffb9bc；正式底图hash不变。设备、颜色/缩放/失焦事件和导入/实机AC未勾，见P0-SMOKE及offline-candidate-ec455f6.json。
+
+PR92 CI39917967054在宿主game_ui.lua默认15s超时，无断言；本机同源5.264s通过。测试整理7fd9782将20组拆为14主流程+6牌库，每组fresh控件，202块内+9helper断言逐字不变，总块hash52fc1a5f8c88927d87e9faa933daef7da56207e162621233ffceebfa18e919d7。默认15s不改，分脚本4.656/1.913s、Node实际双入口/LORE6.107s通过；运行时和构建脚本仍与副本ec455f6零diff。待拆分当前head完整CI，不据旧失败或本机结果合并。
 <!-- SECTION:NOTES:END -->

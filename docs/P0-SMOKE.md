@@ -8,6 +8,8 @@
 
 完整`npm run check`退出0：JS584项=469通过/115个Windows符号链接权限skip，全部Lua通过，Python15通过/1权限skip。新增101个symlink skip来自PR84，不计入已覆盖的通过项。Boss奖励保留128种子及全部断言，拆分为四个默认15秒预算的真实Lua脚本；CI失败与后续修复记录在对应PR。
 
+后续CI在`game_ui.lua`整文件15秒预算超时，没有断言失败；同源本机完整检查通过。20组宿主UI回归现按14组主流程+6组牌库拆分，全部202条块内断言和9条helper断言原样保留，每例仍新建真实控件树，默认15秒预算未改。两脚本实测4.656/1.913秒，Node入口同时运行两份、校验14+6计数并合并全部LORE文案检查；[逐例迁移审计](evidence/game-ui-split-audit.json)记录原/新测试块相同SHA。只调整测试组织，运行时/构建脚本与实构源ec455f6完全一致；最终远端CI仍以PR当前完整head为准。
+
 中间源54e8eef曾真实装入测试生成的`sts1_unknown_vectors.lua`，为27模块/18warning。构建器现只选5个明确的生成运行时模块，全部源模块保留，工具写入前拒绝缺失或同名；新副本为26模块/0错误/17warning，已不含测试向量。17warning分为16条既有跨模块自定义方法，以及1条未接生产的`abyss_unknown`未挂载提示，不能说警告为0或问号分派已实现。
 
 - 实际副本：`.artifacts/offline-sprint-ec455f6/abyss-sprint-offline.gil`。
