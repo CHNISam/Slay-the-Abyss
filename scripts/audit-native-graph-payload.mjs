@@ -5,6 +5,7 @@ import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { requireSourceSha, sha256 } from './native-candidate-audit.mjs';
 import { decodeGraphPayload, compareGraphPayloads } from './native-graph-payload.mjs';
+import { exportedCandidatePath, newEvidenceDirectory } from './native-audit-paths.mjs';
 
 const usage = 'node scripts/audit-native-graph-payload.mjs --source <full-SHA> --candidate <candidate.gil> --output <new-directory> [--bgm]';
 const options = {};
@@ -18,8 +19,7 @@ try {
   }
   const source = requireSourceSha(options.source);
   if (!options.candidate || !options.output) throw new Error(`Usage: ${usage}`);
-  mapPath = resolve(options.candidate); output = resolve(options.output);
-  if (/[/\\]Beyond_Local_Save_Level[/\\]/i.test(mapPath)) throw new Error('Use an exported candidate, not an official save');
+  mapPath = exportedCandidatePath(options.candidate); output = newEvidenceDirectory(options.output);
   if (existsSync(output)) throw new Error('Output must be a new directory');
   const original = readFileSync(mapPath); before = sha256(original);
   mkdirSync(output, { recursive: true });

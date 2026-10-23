@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 09:49'
+updated_date: '2026-10-23 11:36'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -66,4 +66,6 @@ PR102准确head0c3fd84两Quality作业SUCCESS（run39932782189），已squash合
 37d6674独立交付/复审无阻断：139普通结算与cf结算/BGM三图实际最终比较过，inputhash不变；literal/type/variable/binding四真实mutant报PAYLOAD_MISMATCH，unknownwire报SCHEMA_UNSUPPORTED，全部exit1。11相关专项+独立12probe，injector完整替换节点/变量/引脚已核，保留-0/非有限值/注释内容/字段顺序约束。实际候选/GIA原件与rawhash用于复现，JSON仅查阅非无损二进制。旧readonly默认未变；图外signal定义/stage/prefab/编译器语义及实机不认证。根.artifacts/graph-payload-audit-{139de94,cf6969e}-final2留最终报告，negative-inputs及5个negative报告保留，所有正式AC不勾。
 
 root用集成后的显式graph auditor实际复核最新11b901f普通副本exit0：完整NodeGraph与固定源重新编译结果匹配，双方roundtrip lossless，仅列明x/y排除；副本hash4f5de8f...不变。新报告根.artifacts/graph-payload-audit-11b901f/graph-payload-audit.json SHA75dab47274e10a05b381c4a56597a6ba2fa92c19fa1c93a6cb801f8b423a65e1已记原候选证据。只补NodeGraph载荷源一致性，不将原readonly图检查范围追改成已认证，图外/实机/发布仍缺。
+
+整合远程PR103/104/105最新develop至当前规则分支：104实际patch已读、准确f223bc双QualitySUCCESS后ready/squash7bffaed；105独立Fengari新22+旧49+5probe及旧源8pass14fail，准确5e5321双QualitySUCCESS后ready/squashc3c909d。新显式graph CLI实测3路径负例全红（官方junction别名未拒、8.3身份未canonical、nonfile catch重读目录崩溃），复用104路径实现抽共享helper后相关40项39pass1 file-symlink权限skip，独立路径11项10pass1skip，无MCP/真实存档。当前完整检查两次JS683/568pass115skip均绿，Lua分别抓旧静态卡数36应37与状态定义数组位置失效；已保留所有断言改精确37及按ID验证，并补原weak decay/vulnerable stack隔离，statuses35专项过。完整组合仍待重跑，不把中断算全绿。
 <!-- SECTION:NOTES:END -->
