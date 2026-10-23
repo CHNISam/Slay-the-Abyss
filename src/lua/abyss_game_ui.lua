@@ -293,6 +293,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         exitGeneration = exitGeneration + 1
         self.battleUI:resize(width, height)
         self.mapUI:resize(width, height)
+        self.nodeUI:resize(width, height)
     end
     function self:update(dt)
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
