@@ -1,0 +1,1684 @@
+{
+  "provenance": {
+    "candidateSha256": "474516d219689b1e2355023427b2cb74ade1c4f8f6ddf39504ea7730fe516eee",
+    "graphId": 1073741825,
+    "toolCommit": "7091060417fe9bd1231e812db4f798c97a5c63d1",
+    "protocol": "genshin-ts@0.2.2 NodeGraph",
+    "decodedFrom": "F:/New folder/.artifacts/continued-bgm-cf6969e/wmvkq4e3z-0/working.gil"
+  },
+  "record": {
+    "rawSha256": "69d270c49fcc54e84609f1c5a19f7bb986e0340603b94fa031c6b7d58d222e93",
+    "roundtrip": true,
+    "graph": {
+      "id": {
+        "class": "UserDefined",
+        "type": "BasicNode",
+        "kind": "NodeGraph",
+        "id": "1073741825"
+      },
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "nodes": [
+        {
+          "nodeIndex": 1,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysGraph",
+            "nodeId": 1610612738
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysGraph",
+            "nodeId": 1610612738
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "ClientExecNode",
+                "index": 0
+              },
+              "i2": {
+                "kind": "ClientExecNode",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "ABYSS_WIN"
+                }
+              },
+              "type": 6,
+              "clientExecNode": {
+                "kind": "ClientExecNode",
+                "index": 1
+              }
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 3,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 2.89174222946167,
+          "y": 5.797852516174316
+        },
+        {
+          "nodeIndex": 3,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 2
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 2
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "EnumBase",
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bEnum": {}
+              },
+              "type": 4,
+              "connects": [
+                {
+                  "id": 2,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 5,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "connects": [
+                {
+                  "id": 6,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 804.5773315429688,
+          "y": 5.98385763168335
+        },
+        {
+          "nodeIndex": 5,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 19
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 19
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {},
+              "type": 16,
+              "connects": [
+                {
+                  "id": 4,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "EnumBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {
+                      "val": 1
+                    }
+                  }
+                }
+              },
+              "type": 4
+            }
+          ],
+          "x": 1601.9324951171875,
+          "y": 0.7067665457725525
+        },
+        {
+          "nodeIndex": 6,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 323
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 325
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "settlementRequested"
+                }
+              },
+              "type": 6
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 2,
+                  "value": {
+                    "class": "EnumBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {
+                      "val": 1
+                    }
+                  }
+                }
+              },
+              "type": 4
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 2
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 2
+              },
+              "value": {
+                "class": "EnumBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bEnum": {
+                  "val": 0
+                }
+              },
+              "type": 4
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 8,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 1609.5067138671875,
+          "y": 364.22052001953125
+        },
+        {
+          "nodeIndex": 8,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 509
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 510
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 1,
+                  "value": {
+                    "class": "ArrayBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bArray": {}
+                  }
+                }
+              },
+              "type": 13,
+              "connects": [
+                {
+                  "id": 7,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 1,
+                  "value": {
+                    "class": "IdBase",
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bId": {}
+                  }
+                }
+              },
+              "type": 1
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 9,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "connects": [
+                {
+                  "id": 10,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 2400.12744140625,
+          "y": 363.8726806640625
+        },
+        {
+          "nodeIndex": 9,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 652
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 652
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "IdBase",
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bId": {}
+              },
+              "type": 1,
+              "connects": [
+                {
+                  "id": 8,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "value": {
+                "class": "EnumBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bEnum": {
+                  "val": 4101
+                }
+              },
+              "type": 14
+            }
+          ],
+          "x": 3208.125732421875,
+          "y": 362.57110595703125
+        },
+        {
+          "nodeIndex": 10,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 1
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 1
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "ABYSS_SETTLEMENT_VICTORY"
+                }
+              },
+              "type": 6
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 11,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 3201.28857421875,
+          "y": 724.4027709960938
+        },
+        {
+          "nodeIndex": 11,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 77
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 77
+          },
+          "x": 4006.398193359375,
+          "y": 725.0579833984375
+        },
+        {
+          "nodeIndex": 2,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 337
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 340
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "settlementRequested"
+                }
+              },
+              "type": 6
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 3,
+                  "value": {
+                    "class": "EnumBase",
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {}
+                  }
+                }
+              },
+              "type": 4
+            }
+          ],
+          "x": 502.495361328125,
+          "y": 256.2745056152344
+        },
+        {
+          "nodeIndex": 4,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 18
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 18
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "EnumBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {
+                      "val": 0
+                    }
+                  }
+                }
+              },
+              "type": 4
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {},
+              "type": 16
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 1
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "EnumBase",
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {}
+                  }
+                }
+              },
+              "type": 4
+            }
+          ],
+          "x": 1306.279052734375,
+          "y": 256.33148193359375
+        },
+        {
+          "nodeIndex": 7,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 248
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 248
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "ArrayBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bArray": {}
+                  }
+                }
+              },
+              "type": 13
+            }
+          ],
+          "x": 2106.81884765625,
+          "y": 614.0068969726562
+        },
+        {
+          "nodeIndex": 12,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysGraph",
+            "nodeId": 1610612742
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysGraph",
+            "nodeId": 1610612742
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "ClientExecNode",
+                "index": 0
+              },
+              "i2": {
+                "kind": "ClientExecNode",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "ABYSS_LOSE"
+                }
+              },
+              "type": 6,
+              "clientExecNode": {
+                "kind": "ClientExecNode",
+                "index": 1
+              }
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 14,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 3.9008970260620117,
+          "y": 1325.4287109375
+        },
+        {
+          "nodeIndex": 14,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 2
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 2
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "EnumBase",
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bEnum": {}
+              },
+              "type": 4,
+              "connects": [
+                {
+                  "id": 13,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 16,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "connects": [
+                {
+                  "id": 17,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 801.689208984375,
+          "y": 1323.9588623046875
+        },
+        {
+          "nodeIndex": 16,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 19
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 19
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {},
+              "type": 16,
+              "connects": [
+                {
+                  "id": 15,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "EnumBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {
+                      "val": 1
+                    }
+                  }
+                }
+              },
+              "type": 4
+            }
+          ],
+          "x": 1600.249267578125,
+          "y": 1324.1641845703125
+        },
+        {
+          "nodeIndex": 17,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 323
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 325
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "settlementRequested"
+                }
+              },
+              "type": 6
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 2,
+                  "value": {
+                    "class": "EnumBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {
+                      "val": 1
+                    }
+                  }
+                }
+              },
+              "type": 4
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 2
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 2
+              },
+              "value": {
+                "class": "EnumBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bEnum": {
+                  "val": 0
+                }
+              },
+              "type": 4
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 19,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 1603.97705078125,
+          "y": 1680.2608642578125
+        },
+        {
+          "nodeIndex": 19,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 509
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 510
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 1,
+                  "value": {
+                    "class": "ArrayBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bArray": {}
+                  }
+                }
+              },
+              "type": 13,
+              "connects": [
+                {
+                  "id": 18,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 1,
+                  "value": {
+                    "class": "IdBase",
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bId": {}
+                  }
+                }
+              },
+              "type": 1
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 20,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 1
+              },
+              "connects": [
+                {
+                  "id": 21,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 2402.965087890625,
+          "y": 1685.6015625
+        },
+        {
+          "nodeIndex": 20,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 652
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 652
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "IdBase",
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bId": {}
+              },
+              "type": 1,
+              "connects": [
+                {
+                  "id": 19,
+                  "connect": {
+                    "kind": "OutParam",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "OutParam",
+                    "index": 0
+                  }
+                }
+              ]
+            },
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 1
+              },
+              "value": {
+                "class": "EnumBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bEnum": {
+                  "val": 4102
+                }
+              },
+              "type": 14
+            }
+          ],
+          "x": 3202.3681640625,
+          "y": 1680.86572265625
+        },
+        {
+          "nodeIndex": 21,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 1
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 1
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "ABYSS_SETTLEMENT_DEFEAT"
+                }
+              },
+              "type": 6
+            },
+            {
+              "i1": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutFlow",
+                "index": 0
+              },
+              "connects": [
+                {
+                  "id": 22,
+                  "connect": {
+                    "kind": "InFlow",
+                    "index": 0
+                  },
+                  "connect2": {
+                    "kind": "InFlow",
+                    "index": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "x": 3205.87939453125,
+          "y": 2044.3612060546875
+        },
+        {
+          "nodeIndex": 22,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 77
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 77
+          },
+          "x": 4008.596923828125,
+          "y": 2045.0985107421875
+        },
+        {
+          "nodeIndex": 13,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 337
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 340
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "StringBase",
+                "alreadySetVal": true,
+                "itemType": {
+                  "classBase": "Server"
+                },
+                "bString": {
+                  "val": "settlementRequested"
+                }
+              },
+              "type": 6
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "indexOfConcrete": 3,
+                  "value": {
+                    "class": "EnumBase",
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {}
+                  }
+                }
+              },
+              "type": 4
+            }
+          ],
+          "x": 502.9877624511719,
+          "y": 1579.1719970703125
+        },
+        {
+          "nodeIndex": 15,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 18
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 18
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "InParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "EnumBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {
+                      "val": 0
+                    }
+                  }
+                }
+              },
+              "type": 4
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {},
+              "type": 16
+            },
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 1
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 1
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "EnumBase",
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bEnum": {}
+                  }
+                }
+              },
+              "type": 4
+            }
+          ],
+          "x": 1308.248046875,
+          "y": 1573.88623046875
+        },
+        {
+          "nodeIndex": 18,
+          "genericId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 248
+          },
+          "concreteId": {
+            "class": "SystemDefined",
+            "type": "Server",
+            "kind": "SysCall",
+            "nodeId": 248
+          },
+          "pins": [
+            {
+              "i1": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "i2": {
+                "kind": "OutParam",
+                "index": 0
+              },
+              "value": {
+                "class": "ConcreteBase",
+                "alreadySetVal": true,
+                "bConcreteValue": {
+                  "value": {
+                    "class": "ArrayBase",
+                    "alreadySetVal": true,
+                    "itemType": {
+                      "classBase": "Server"
+                    },
+                    "bArray": {}
+                  }
+                }
+              },
+              "type": 13
+            }
+          ],
+          "x": 2104.265869140625,
+          "y": 1932.1304931640625
+        }
+      ],
+      "graphValues": [
+        {
+          "name": "settlementRequested",
+          "type": "Boolean",
+          "values": {
+            "class": "EnumBase",
+            "alreadySetVal": true,
+            "itemType": {
+              "classBase": "Server"
+            },
+            "bEnum": {
+              "val": 0
+            }
+          },
+          "exposed": false,
+          "structId": "0",
+          "keyType": "String",
+          "valueType": "String"
+        }
+      ]
+    }
+  },
+  "unsupportedProbe": {
+    "rawSha256": "0604f6a6147f26aca5b1a106c2c03cc8d341a0f5498a0b318f252d870b16d014",
+    "roundtrip": false,
+    "appendedHex": "f87f01",
+    "description": "Actual source graph plus unknown protobuf field 2047 varint 1, decoded by the installed NodeGraph codec. Decoded graph is identical; codec discards this field on encode."
+  }
+}

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 09:43'
+updated_date: '2026-10-23 09:47'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -38,6 +38,8 @@ ordinal: 19000
 2026-10-23 /root：仅推进不依赖原神的候选取证与缺口报告切片。固定本批source SHA和候选hash，真实MCP编译/副本构建后独立只读核对28模块同源、1590树控件/max50/六列模板与22节点结算挂载；记录完整本地/当前CI结果和仍失败的地图golden，不据此放行官方导入/实机/严格一致性或发布。BGM另用默认关闭与显式试听副本区分。
 
 2026-10-23 可复用只读取证工具片：固定完整source SHA，隔离生成预期；用实际MCP读回模块/完整UI/模板/图/参数，比较源码仅允许BOM与换行规范化、按源树算控件口径，候选hash前后相同，所有差异结构化issues并非零退出。BGM必须显式选项且双参数/两图正确，不认证编译语义/实机。
+
+显式graph-payload审计37d6674：新增单独命令，从固定SHA生成图源并在新output内编译，现有injector仅内存重注入，按既有NodeGraph decoder完整比较；必须decode/encode字节往返无损，仅排除明确布局x/y，不默默把默认readonly命令变成编译/写操作。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -60,4 +62,6 @@ PR99/100已在各自当前head两个Quality成功后合入1182814/14979df。源1
 新普通副本源11b901f真实编译/写copy成功，30模块逐byte同源、1590树/max50/六列、22节点启用结算、双BGM参数false，static0error17warning；完整readonly audit ok且前后hash4f5de8f2ae0c1bfec4a86963cf77ec44cf99a2ad8b6dcb1c420254732560c70b不变，原底图hash不变。源合同审计新增明确false时双记录校验，旧源无声明保留兼容，先7pass1fail后8组绿、相关15组绿及独立9负探针通过。证据docs/evidence/offline-candidate-11b901f.json，不认证图编译参数/官方导入/实机/音频/发布。
 
 PR102准确head0c3fd84两Quality作业SUCCESS（run39932782189），已squash合develop6014746，PR101独立真实指令/合法路线五文件也保留；生产src/data/scripts与PR102 head相同。根旧dirty develop不动，后续continued-status从601新建，原合并树/3源分支仅在确认head/clean及完整bundle verify后清理，日志与历史留根.artifacts/continued-pr102-source-history。未开游戏/官方导入/发布。
+
+37d6674独立交付/复审无阻断：139普通结算与cf结算/BGM三图实际最终比较过，inputhash不变；literal/type/variable/binding四真实mutant报PAYLOAD_MISMATCH，unknownwire报SCHEMA_UNSUPPORTED，全部exit1。11相关专项+独立12probe，injector完整替换节点/变量/引脚已核，保留-0/非有限值/注释内容/字段顺序约束。实际候选/GIA原件与rawhash用于复现，JSON仅查阅非无损二进制。旧readonly默认未变；图外signal定义/stage/prefab/编译器语义及实机不认证。根.artifacts/graph-payload-audit-{139de94,cf6969e}-final2留最终报告，negative-inputs及5个negative报告保留，所有正式AC不勾。
 <!-- SECTION:NOTES:END -->
