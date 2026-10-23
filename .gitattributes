@@ -1,0 +1,2 @@
+# Golden evidence is byte-hashed; keep it identical on Windows and Linux.
+tests/fixtures/sts1/maps/*.json text eol=lf
