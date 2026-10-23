@@ -93,7 +93,7 @@ test("poison and regeneration use actor timing and current data values", functio
     equal(run.combat.enemies[1].hp, enemyHp)
     assert(Run.usePotion(run, 1)); assert(Run.endTurn(run))
     equal(run.combat.enemies[1].hp, enemyHp - 7); equal(run.combat.enemies[1].statuses.poison, 6)
-    equal(run.combat.player.hp, 48); equal(run.combat.player.statuses.regen, 3)
+    equal(run.combat.player.hp, 54); equal(run.combat.player.statuses.regen, 3) -- Ritual opening has no attack.
 end)
 
 test("invalid slots phases and targets preserve every run field and RNG", function()
@@ -237,7 +237,7 @@ test("death followed by Run.new resets all same-run resources without sharing ca
     old.deck[1].upgraded = true
     old.deck[#old.deck + 1] = { uid = old.nextDeckUid, cardId = "cleave", upgraded = true }
     old.nextDeckUid = old.nextDeckUid + 1
-    assert(Run.startCombat(old, "cultist_solo")); assert(Run.endTurn(old)); equal(old.phase, "defeat")
+    assert(Run.startCombat(old, "cultist_solo")); assert(Run.endTurn(old)); assert(Run.endTurn(old)); equal(old.phase, "defeat")
     rejected(old, 1, 1, "not_in_combat")
     local before = Combat.copy(old)
     local fresh = Run.new(data, 19)

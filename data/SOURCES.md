@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-23 祈火徒运行时切片覆盖下文旧固定循环说明：生命48–54实际采样，首动施加仪式3且不立即加力量，此后基础6攻击，每个整组敌方回合结束增长3力量，跳过施加当轮。固定方法体来源及真实性/随机流限制见 [TASK-15运行时账本](../docs/reviews/TASK-15-cultist-runtime.md)。不是正版二进制或平台实测通过；其他敌人的差异继续保留。
+
 核对日期 2026-10-22（后续局部复核见下文）。参考初代 Slay the Spire，不引用二代。不搬运图片、程序、存档或长文，中文效果文案由本项目编写。基准为 Ascension 0；旧表的固定生命近似仍属待补缺口，已核实并支持 hpRange 的敌人按范围实际采样。
 
 2026-10-23 节点切片覆盖旧说明：商店删牌已修复每店仅一次；原虚构金币/药水二选一事件已移除，支持初代第一幕 The Cleric（[来源及修订](https://slaythespire.wiki.gg/wiki/The_Cleric?oldid=55508)）：至少35金币才可出现；治疗花35，回复最大HP25%向下取整；A0净化花50按UID删牌；离开无收益或代价。另支持 [Purifier](https://slaythespire.wiki.gg/wiki/Purifier)：祈祷免费删一张所选牌，或离开。`rules.events.encounterId` 当前显式固定为Purifier，是支持内容基线；**不是原版完整事件池、未知房转类或神龛概率算法**，不会按低金币条件改roll。Cleric可由明确eventId或配置指定。金额来自 `rules.events`。详见 `docs/NODE_ECONOMY_PARITY.md`；没有原作客户端版本或直接观察证据，不计严格全项通过。

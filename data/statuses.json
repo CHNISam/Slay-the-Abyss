@@ -72,6 +72,14 @@
       "stack": "none",
       "decay": "none",
       "description": "自己回合开始时格挡不清空"
+    },
+    {
+      "id": "ritual",
+      "name": "仪式",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "敌方整组回合结束时获得等量力量；施加当轮不触发"
     }
   ]
 }

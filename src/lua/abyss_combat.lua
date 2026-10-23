@@ -225,6 +225,7 @@ function M.endTurn(state)
             end
         end
     end
+    EnemyAI.endRound(state)
     M.startPlayerTurn(state)
     return true
 end

@@ -144,18 +144,28 @@ export function validateContent(bundle) {
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
-      keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
-      enumeration(a.kind, ['sleep_then_cycle'], `${ap}.kind`);
-      integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
-      integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
-      intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
-      array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack'], `${ap}.kind`);
+      if (a.kind === 'ritual_then_attack') {
+        keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
+        intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.ritualIntent);
+        if (!Array.isArray(opening?.effects) || !opening.effects.some(effect => effect?.op === 'gainStatus' && effect.status === 'ritual' && effect.value > 0)) {
+          fail(`${ap}.ritualIntent`, 'must grant a positive Ritual stack');
+        }
+      } else if (a.kind === 'sleep_then_cycle') {
+        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
+        integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
+        integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
+        intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
+        intentReference(a.stunnedIntent, `${ap}.stunnedIntent`, 'stunned');
+        array(a.awakeCycle, `${ap}.awakeCycle`).forEach((id, j) => intentReference(id, `${ap}.awakeCycle[${j}]`));
+      }
     }
   });
   lists.encounters.forEach((entry, i) => {

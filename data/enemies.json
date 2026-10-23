@@ -6,6 +6,8 @@
       "name": "祈火徒",
       "tier": "normal",
       "hp": 50,
+      "hpRange": { "min": 48, "max": 54 },
+      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1" },
       "intents": [
         {
           "id": "cultist_1",
@@ -23,7 +25,7 @@
           "effects": [
             {
               "op": "gainStatus",
-              "status": "strength",
+              "status": "ritual",
               "value": 3
             }
           ]
