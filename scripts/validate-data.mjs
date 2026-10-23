@@ -152,13 +152,27 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'charge_then_attack'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack'], `${ap}.kind`);
       if (a.kind === 'charge_then_attack') {
         keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
         integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
         integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);
         intentReference(a.chargeIntent, `${ap}.chargeIntent`, 'charge');
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+      } else if (a.kind === 'jaw_worm') {
+        keys(a, ['kind', 'chompIntent', 'thrashIntent', 'bellowIntent', 'rollRange', 'chompCutoff', 'thrashCutoff',
+          'bellowAfterChomp', 'chompAfterTwoThrashes', 'chompAfterBellow'], ap);
+        intentReference(a.chompIntent, `${ap}.chompIntent`, 'attack');
+        intentReference(a.thrashIntent, `${ap}.thrashIntent`, 'attack');
+        intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
+        if (new Set([a.chompIntent, a.thrashIntent, a.bellowIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.chompCutoff, `${ap}.chompCutoff`, 0, 65536);
+        integer(a.thrashCutoff, `${ap}.thrashCutoff`, 0, 65536);
+        if (!(a.chompCutoff < a.thrashCutoff && a.thrashCutoff < a.rollRange)) fail(ap, 'invalid cutoff order');
+        for (const key of ['bellowAfterChomp', 'chompAfterTwoThrashes', 'chompAfterBellow']) {
+          if (typeof a[key] !== 'number' || !Number.isFinite(a[key]) || a[key] < 0 || a[key] > 1) fail(`${ap}.${key}`, 'must be a probability in 0..1');
+        }
       } else if (a.kind === 'ritual_then_attack') {
         keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
         intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');

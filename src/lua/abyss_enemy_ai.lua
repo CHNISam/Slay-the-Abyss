@@ -3,6 +3,7 @@ local M = {}
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local Guardian = require("abyss_guardian_ai")
+local JawWorm = require("abyss_jaw_worm_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -11,13 +12,14 @@ local function select(enemy, id)
     error("unknown AI intent: " .. tostring(id))
 end
 
-function M.initialize(state, enemy)
+function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "charge_then_attack" then
         enemy.aiCharge = enemy.ai.initialCharge
         select(enemy, enemy.ai.chargeIntent)
         return
     end
+    if enemy.ai.kind == "jaw_worm" then return JawWorm.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
@@ -38,7 +40,7 @@ function M.hpLost(state, enemy, before)
     Events.emit(state, "enemy_wake", { enemy = enemy.id, reason = "hp_loss" })
 end
 
-function M.advance(state, enemy)
+function M.advance(state, enemy, random)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
     elseif enemy.ai.kind == "charge_then_attack" then
@@ -46,6 +48,7 @@ function M.advance(state, enemy)
             enemy.aiCharge = enemy.aiCharge + 1
         end
         select(enemy, enemy.aiCharge == enemy.ai.chargeLimit and enemy.ai.attackIntent or enemy.ai.chargeIntent)
+    elseif enemy.ai.kind == "jaw_worm" then return JawWorm.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)

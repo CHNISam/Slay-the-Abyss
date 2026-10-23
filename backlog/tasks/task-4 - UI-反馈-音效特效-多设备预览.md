@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 04:27'
+updated_date: '2026-10-23 06:06'
 due_date: '2026-10-29'
 labels: []
 milestone: m-5
@@ -40,6 +40,8 @@ ordinal: 4000
 卡组查看切片：按 PR19 openDeck 提取主题布局；使用有文档的 grid + 卡牌模板与 RefreshItems；在 GameUI 跨地图/战斗/节点接入口并屏蔽底层命令，取消现有拖牌；用真实控件夹具验证滚动刷新、UID/升级文案、状态和随机数不变及输入恢复；离线生成并编译副本，交主线程复审。
 
 整合 PR #75、#77、#79：保留 develop 的卡组查看和叙事接入，逐项解决界面与测试冲突；运行完整 npm run check，核对各 PR 当前 SHA 双 CI 成功后按 squash 合入 develop。实机验收状态保持原记录。
+
+节点按钮 P2 切片（feat/task4-node-button-states，ed39f46）：保留 nodeLayout 全部既有 GetChild 路径与 C 点选，用官方 CursorEnter/Exit/Down/Up/EndDrag 与 SetLocalScale 实现 hover/pressed/0.96 整体按压；增加主题 hover/pressed token 和视觉层，不改规则/RNG。真实原生树控件夹具覆盖悬停→按下→抬起/离开、禁用与已选结果、隐藏/切页/交易重绘复位、触点隔离和事件仅绑定一次；跑节点与宿主针对性测试。平台真实编译/副本/设备实机留主线程集成验证，不勾平台 AC。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -60,4 +62,6 @@ TASK-29已在M1立即实现事件队列与原生UI基础反馈，验收衔接TAS
 本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 
 新版节点/菜单/结果与反馈的真实平台副本：源7013641，首次a76导出17个RGBA colour被拒，nativeControls.plate统一RGB+独立opacity后全check JS297pass/14skip、全部Lua、Python15pass/1skip；真实MCP从零导出0error/16自定义方法warning。独立actualgil核24模块逐字、1552控件/max50、六列模板/graph22启用挂载、17个veil为RGB+0.8，内存重注入字节一致，原底图hash不变。副本60ca982ef78f3e095b1c572f2f414bc5e32e8cd0a26e10eea8a323d328c43517，docs/evidence/offline-candidate-7013641.json。未原神/导入/实机；节点hover/pressed/0.96按压仍P2缺口，不声称完整视觉通过。
+
+节点按钮 P2 切片 feat/task4-node-button-states（ed39f46）完成离线实现：保留全部直属 GetChild/hit 路径和 C 点选，通过官方 CursorEnter/Exit/Down/Up/EndDrag + SetLocalScale 增加 hover/pressed/0.96 整体按压，主题读取颜色/缩放。禁用与已选结果优先，拖出/EndDrag/异触点、重绘/切页/关闭重开均复位，表现回调不发命令且监听只绑定一次。红测基线缺 enter 监听；实现后节点 Lua 25 项、针对性 JS/主题/宿主 20 项通过，节点每容器≤50。证据 docs/testing/task4-node-button-states.md。本切片真实MCP编译/副本/设备实机未做，交主线程最终集成验证；未开原神，不勾平台AC。
 <!-- SECTION:NOTES:END -->

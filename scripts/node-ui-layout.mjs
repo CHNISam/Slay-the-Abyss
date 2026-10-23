@@ -12,13 +12,15 @@ export function nodeLayout(theme = nativeTheme) {
   const hidden = control => ({ ...control, visible: false });
   const group = (name, children, visible = false) => ({ name, kind: 'container', size: [...theme.canvas.base], visible, children });
 
-  // Framed button: border, three state faces, optional centred label and a full-size focusable hit area.
+  // Keep all direct child paths: cursor events select faces and scale the whole
+  // framed container, including its dynamic text/icons and existing hit area.
   function framed(name, values, label = null, { primary = false, fontSize = font.body, children = [] } = {}) {
     const size = values.slice(2), [w, h] = size, b = space.border, centre = [0, 0];
     const face = (state, colour) => plate(state, frame(centre, [w - b * 2, h - b * 2]), colour);
     return { name, kind: 'container', position: values.slice(0, 2), size: [...size], children: [
       plate('border', frame(centre, size), primary ? color.goldBright : color.gold),
       face('normal', primary ? color.geo : color.panelRaised), face('disabled', color.panelSunken),
+      hidden(face('hover', primary ? color.goldBright : color.buttonHover)), hidden(face('pressed', color.goldDim)),
       face('selected', color.goldDim),
       ...children,
       ...(label === null ? [] : [text('label', frame(centre, size.map((value, i) => value - layout.buttonInset[i])), label, fontSize,

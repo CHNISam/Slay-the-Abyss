@@ -1,20 +1,13 @@
 {
-  "note": "v0.1.0 数据基线。生命值参考 A0 区间取定值；意图采用本项目确定循环，非原版完整 AI。详见 SOURCES.md。",
+  "note": "v0.1.0 数据基线。未声明 hpRange/ai 的旧敌人仍用固定生命/意图循环；已接专属策略的敌人见 SOURCES.md，不代表全池或原版随机流一致。",
   "enemies": [
     {
       "id": "cultist",
       "name": "祈火徒",
       "tier": "normal",
       "hp": 50,
-      "hpRange": {
-        "min": 48,
-        "max": 54
-      },
-      "ai": {
-        "kind": "ritual_then_attack",
-        "ritualIntent": "cultist_2",
-        "attackIntent": "cultist_1"
-      },
+      "hpRange": { "min": 48, "max": 54 },
+      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1" },
       "intents": [
         {
           "id": "cultist_1",
@@ -44,6 +37,15 @@
       "name": "石颚兽",
       "tier": "normal",
       "hp": 42,
+      "hpRange": { "min": 40, "max": 44 },
+      "ai": {
+        "kind": "jaw_worm",
+        "chompIntent": "jaw_worm_1", "thrashIntent": "jaw_worm_2", "bellowIntent": "jaw_worm_3",
+        "rollRange": 100, "chompCutoff": 25, "thrashCutoff": 55,
+        "bellowAfterChomp": 0.5625,
+        "chompAfterTwoThrashes": 0.3569999933242798,
+        "chompAfterBellow": 0.41600000858306885
+      },
       "intents": [
         {
           "id": "jaw_worm_1",
@@ -57,11 +59,15 @@
         },
         {
           "id": "jaw_worm_2",
-          "kind": "defend",
+          "kind": "attack",
           "effects": [
             {
+              "op": "damage",
+              "value": 7
+            },
+            {
               "op": "block",
-              "value": 6
+              "value": 5
             }
           ]
         },
@@ -73,6 +79,10 @@
               "op": "gainStatus",
               "status": "strength",
               "value": 3
+            },
+            {
+              "op": "block",
+              "value": 6
             }
           ]
         }
@@ -607,21 +617,14 @@
       "name": "沉眠遗卫",
       "tier": "elite",
       "hp": 110,
-      "hpRange": {
-        "min": 109,
-        "max": 111
-      },
+      "hpRange": { "min": 109, "max": 111 },
       "ai": {
         "kind": "sleep_then_cycle",
         "sleepTurns": 3,
         "sleepBlock": 8,
         "sleepIntent": "lagavulin_1",
         "stunnedIntent": "lagavulin_stunned",
-        "awakeCycle": [
-          "lagavulin_2",
-          "lagavulin_3",
-          "lagavulin_4"
-        ]
+        "awakeCycle": ["lagavulin_2", "lagavulin_3", "lagavulin_4"]
       },
       "intents": [
         {
@@ -711,17 +714,8 @@
         "initialThreshold": 30,
         "thresholdIncrement": 10,
         "shiftBlock": 20,
-        "offenseCycle": [
-          "guardian_1",
-          "guardian_2",
-          "guardian_4",
-          "guardian_3"
-        ],
-        "defenseCycle": [
-          "guardian_5",
-          "guardian_6",
-          "guardian_7"
-        ],
+        "offenseCycle": ["guardian_1", "guardian_2", "guardian_4", "guardian_3"],
+        "defenseCycle": ["guardian_5", "guardian_6", "guardian_7"],
         "returnIntent": "guardian_3"
       },
       "intents": [
