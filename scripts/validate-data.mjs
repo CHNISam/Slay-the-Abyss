@@ -169,8 +169,31 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m', 'fungi_beast'], `${ap}.kind`);
-      if (a.kind === 'fungi_beast') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
+      if (a.kind === 'louse') {
+        keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange'], ap);
+        intentReference(a.biteIntent, `${ap}.biteIntent`, 'attack');
+        intentReference(a.supportIntent, `${ap}.supportIntent`);
+        const support = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.supportIntent);
+        if (support && !['buff', 'debuff'].includes(support.kind)) fail(`${ap}.supportIntent`, 'must be a buff or debuff');
+        if (a.biteIntent === a.supportIntent) fail(`${ap}.supportIntent`, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.supportCutoff, `${ap}.supportCutoff`, 0, 65536);
+        if (!(a.supportCutoff < a.rollRange)) fail(`${ap}.supportCutoff`, 'cutoff must be below rollRange');
+        if (object(a.biteRange, `${ap}.biteRange`)) {
+          keys(a.biteRange, ['min', 'max'], `${ap}.biteRange`);
+          integer(a.biteRange.min, `${ap}.biteRange.min`, 1, 2147483647);
+          integer(a.biteRange.max, `${ap}.biteRange.max`, 1, 2147483647);
+          if (a.biteRange.min > a.biteRange.max) fail(`${ap}.biteRange`, 'min must not exceed max');
+          if (a.biteRange.max - a.biteRange.min + 1 > 65536) fail(`${ap}.biteRange`, 'sampling range must not exceed 65536');
+        }
+        const bite = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.biteIntent);
+        const payload = bite?.effects;
+        if (!Array.isArray(payload) || payload.length !== 1 || payload[0]?.op !== 'damage'
+          || Object.keys(payload[0]).some(key => !['op', 'value'].includes(key))) {
+          fail(`${ap}.biteIntent`, 'must contain exactly one ordinary damage effect');
+        }
+      } else if (a.kind === 'fungi_beast') {
         keys(a, ['kind', 'biteIntent', 'growIntent', 'rollRange', 'biteCutoff', 'sporeCloudStacks'], ap);
         integer(a.sporeCloudStacks, `${ap}.sporeCloudStacks`, 1, 2147483647);
         reference('spore_cloud', 'statuses', `${ap}.spore_cloud`);

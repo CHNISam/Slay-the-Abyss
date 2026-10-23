@@ -325,6 +325,7 @@ function M.new(data, options)
         if enemy.hpRange then
             enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
         end
+        EnemyAI.prepare(state, enemy, M.random)
         for _, intent in ipairs(enemy.intents) do
             if intent.kind == "charge" then
                 assert(enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.ai.chargeIntent == intent.id, "charge intent requires matching AI")
