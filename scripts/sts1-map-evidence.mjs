@@ -64,7 +64,30 @@ export function normalizeProject(map) {
       edges.push({ src_x: node.lane - 1, src_y: node.floor - 1, dst_x: target.lane - 1, dst_y: target.floor - 1 });
     }
   }
-  return canonical(nodes, edges);
+  // Validate the complete graph first; projection must not conceal bad terminal data.
+  const complete = canonical(nodes, edges);
+  return canonical(complete.nodes.filter(node => node.y < 15),
+    complete.edges.filter(edge => edge.src_y < 15 && edge.dst_y < 15));
+}
+
+// Oracle fixtures describe only the fifteen generated rows. Boss/chest are
+// separate rooms and need their own structural gate, not extra golden nodes.
+export function projectTerminalErrors(map) {
+  const errors = [], bosses = map.nodes.filter(n => n.floor === 16), chests = map.nodes.filter(n => n.floor === 17);
+  if (bosses.length !== 1 || bosses[0]?.type !== 'boss') errors.push('expected one Boss on floor 16');
+  if (chests.length !== 1 || chests[0]?.type !== 'treasure' || chests[0]?.roomKind !== 'boss_treasure')
+    errors.push('expected one independent Boss treasure on floor 17');
+  const boss = bosses[0], chest = chests[0];
+  if (boss && (!chest || boss.nextIds.length !== 1 || boss.nextIds[0] !== chest.id)) errors.push('Boss must lead only to Boss treasure');
+  if (chest && chest.nextIds.length !== 0) errors.push('Boss treasure must be terminal');
+  const ids = new Map(map.nodes.map(n => [n.id, n]));
+  for (const node of map.nodes) {
+    if (node.floor === 15 && (!boss || node.nextIds.length !== 1 || node.nextIds[0] !== boss.id))
+      errors.push(`final camp must lead only to Boss: ${node.id}`);
+    if (node.floor < 15 && node.nextIds.some(id => (ids.get(id)?.floor ?? 99) > 15))
+      errors.push(`early terminal-room edge: ${node.id}`);
+  }
+  return errors;
 }
 
 export function diffMaps(expected, actual) {
@@ -174,12 +197,12 @@ export function exportProjectMaps(seeds) {
   const staging = mkdtempSync(join(tmpdir(), 'abyss-map-'));
   try {
     const script = join(staging, 'export.lua');
-    writeFileSync(script, `local Map = require('abyss_map')\nlocal data = require('abyss_data')\nfor _, input in ipairs(${toLua(supported)}) do\nlocal map = Map.generate(data, tonumber(input))\nlocal nodes = {}\nfor _, n in ipairs(map.nodes) do\n local nextIds = {}\n for _, id in ipairs(n.nextIds) do nextIds[#nextIds+1] = string.format('%q', id) end\n nodes[#nodes+1] = string.format('{"id":%q,"floor":%d,"lane":%d,"type":%q,"nextIds":[%s]}', n.id, n.floor, n.lane, n.type, table.concat(nextIds, ','))\nend\nprint('{"seed":' .. string.format('%q',input) .. ',"nodes":[' .. table.concat(nodes, ',') .. ']}')\nend\n`);
+    writeFileSync(script, `local Map = require('abyss_map')\nlocal data = require('abyss_data')\nfor _, input in ipairs(${toLua(supported)}) do\nlocal map = Map.generate(data, tonumber(input))\nlocal nodes = {}\nfor _, n in ipairs(map.nodes) do\n local nextIds = {}\n for _, id in ipairs(n.nextIds) do nextIds[#nextIds+1] = string.format('%q', id) end\n nodes[#nodes+1] = string.format('{"id":%q,"floor":%d,"lane":%d,"type":%q,"roomKind":%q,"nextIds":[%s]}', n.id, n.floor, n.lane, n.type, n.roomKind or '', table.concat(nextIds, ','))\nend\nprint('{"seed":' .. string.format('%q',input) .. ',"nodes":[' .. table.concat(nodes, ',') .. ']}')\nend\n`);
     const result = runLua(script);
     if (result.status !== 0) return [...failures, ...supported.map(seed => ({ status: 'PROJECT_EXECUTION_FAILED', seed, error: result.stderr || result.stdout }))];
     const outputs = result.stdout.trim().split(/\r?\n/).map(line => JSON.parse(line));
     if (outputs.length !== supported.length || outputs.some((map, i) => map.seed !== supported[i])) throw Error('Project exporter returned incomplete or reordered maps');
-    return [...failures, ...outputs.map(map => ({ status: 'EXPORTED', seed: map.seed, graph: normalizeProject(map) }))];
+    return [...failures, ...outputs.map(map => ({ status: 'EXPORTED', seed: map.seed, graph: normalizeProject(map), terminalErrors: projectTerminalErrors(map) }))];
   } finally { removeStaging(staging); }
 }
 
@@ -197,7 +220,7 @@ export function auditProjectSeeds(count, start = 0) {
     for (const result of exportProjectMaps(seeds)) {
       if (result.status !== 'EXPORTED') { report.executionErrors++; report.status = 'FAIL'; continue; }
       report.executed++;
-      const errors = mapInvariants(result.graph);
+      const errors = [...mapInvariants(result.graph), ...result.terminalErrors];
       if (errors.length) {
         report.failed++; report.status = 'FAIL';
         if (report.examples.length < 10) report.examples.push({ seed: result.seed, errors });
@@ -219,6 +242,8 @@ export function compareFixtures(directory = 'tests/fixtures/sts1/maps', exporter
     if (!reference || reference.status !== 'CAPTURED') {
       records.push({ seed, status: reference?.status ?? 'MISSING_FIXTURE', error: reference?.error }); continue;
     }
+    if (reference.exitCode !== 0 || reference.error || reference.invariantErrors?.length !== 0)
+      throw Error(`Invalid captured Oracle process evidence ${seed}`);
     if (reference.file !== `${seed}.json` || JSON.stringify(reference.arguments) !== JSON.stringify([`--seed=${seed}`, '--a0'])) throw Error('Invalid Oracle seed/flags/path');
     const contents = readFileSync(join(directory, reference.file));
     if (digest(contents) !== reference.fixtureSha256) throw Error(`Changed fixture ${seed}`);
@@ -226,7 +251,7 @@ export function compareFixtures(directory = 'tests/fixtures/sts1/maps', exporter
     if (expected.seed !== seed || expected.revision !== manifest.revision || expected.rawSha256 !== reference.rawSha256) throw Error('Fixture provenance mismatch');
     const actual = exporter(seed);
     if (actual.status !== 'EXPORTED') { records.push(actual); continue; }
-    const diff = diffMaps(expected, actual.graph), invariantErrors = mapInvariants(actual.graph);
+    const diff = diffMaps(expected, actual.graph), invariantErrors = [...mapInvariants(actual.graph), ...(actual.terminalErrors ?? [])];
     const matched = Object.values(diff).every(entries => entries.length === 0) && invariantErrors.length === 0;
     records.push({ seed, status: matched ? 'MATCH' : 'MISMATCH', diff, invariantErrors });
   }

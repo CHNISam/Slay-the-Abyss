@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 04:41'
+updated_date: '2026-10-23 06:07'
 due_date: '2026-10-26'
 labels:
   - required
@@ -58,4 +58,6 @@ ordinal: 40000
 2026-10-23 最终离线复验：npm run check exit0；JS188项（174通过，14项符号链接能力跳过），Lua735组通过，Python16项（15通过，1符号链接权限跳过）；另聚焦map/data/UI77项通过。未修改全遭遇覆盖断言。快照验证也覆盖独立遭遇流末态被篡改时拒绝。当前分支不宣称原版算法/概率/17层奖励事务或平台验收，所有AC保持未勾。
 
 PR62旧基线合并冲突采用最新develop的任务元数据，保留既有地图修复、候选构建与未完成AC；PR62新增黄金Seed、严格比较工具及独立问号reducer为证据切片，待当前代码复跑和独立复审，不据此宣布原版地图一致。
+
+PR62与develop ed39f46离线整合完成：修复Golden仅比较生成15行且独立校验Boss16/箱17、完整图先验防隐藏坏边，CAPTURED非零退出/捕获错误拒绝。定向10/10，全check exit0(JS315pass14skip/Lua全套/Python15pass1skip)。最新严格Golden仍FAIL0/12(11差异1完整64位seed不支持)，结构10000实际执行0通过0执行错误，剩余原因含随机宝箱和交叉边；docs/rules/evidence/w1-latest-integration.json记录hash/反例。纯问号reducer未接生产，原版RNG/全地图/实机AC均不勾。待固定head独立复审和当前CI。
 <!-- SECTION:NOTES:END -->
