@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 02:40'
+updated_date: '2026-10-23 03:44'
 due_date: '2026-10-28'
 labels:
   - required
@@ -42,6 +42,8 @@ ordinal: 42000
 
 <!-- SECTION:PLAN:BEGIN -->
 核对首发遗物药水来源并建立逐件账本；为已证实缺口加入固定原版预期回归并证红；最小修复后跑npm run check，平台依赖保持未验收。
+
+药水槽位切片：逐件读取固定镜像7件药水use/getPotency与原版库存方法；对已证实的固定槽位消费/最左空槽填补先写真实Run入口红例，再实现稳定槽位及稀疏视图、UI计数与补货库存命令；不增加发瓶来源/概率，不碰Combat调度。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +56,8 @@ Codex inventory_parity领取离线可推进部分，基线c2c2cd2；不打开原
 同步a6be1b6后完整检查发现PR37新block_damage测试同样固化了0攻击不反刺旧预期，来源支持的契约应为0 Block的Body Slam仍触发3反刺；已修正该用例为损失3HP，不改Body Slam算法。此为可解释的整合回归，继续完整复验。
 
 最终a6be1b6整合基线完整npm run check退出0：JS180通过/14符号链接权限跳过；Lua744组通过（含新增inventory_parity10、BodySlam25、statuses35）；Python15通过/1权限跳过。日志保存在隔离树inventory-check.log。来源账本docs/reviews/TASK-14.1-inventory-parity.md保留所有未证实差异，交主线程复审合并；不以离线门禁替代平台/原作实测。
+
+新切片基线e47bfcf，feat/task14-potion-parity，确认Fire当前及来源均20、Block才12，其他2/2/2/6/5相同，无数值修复。固定镜像AbstractPlayer.obtainPotion为最左PotionSlot原位set；第二固定镜像aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0/TopPanel.destroyPotion明确set(slot,new PotionSlot(slot))，版本字段也声明2.3.4但均未验证正版hash。主线程授权修正真实槽位压缩差异；节点已无自然药水获取链，不制造来源，只补库存obtain命令。
+
+固定槽位切片最终：来源镜像逐件确认7瓶基础量20/12/2/2/2/6/5，无JSON数值改动。消费改为原槽留空、Run.obtainPotion最左空槽填入/满槽与未知id原子拒绝，potionView保持槽号，potionCount显式计数；battle/node UI同步稀疏槽位及补货。potion_slots6组修前5红（3个真实槽位差异、2个缺库存命令），修后6绿；新增同场中槽补货与仅槽3目标瓶、节点计数回归。npm run check退出0：JS260通过/14符号链接权限skip，Lua31脚本780组通过，Python15通过/1权限skip。隔离树potion-check.log、potion-slots-red.log保留日志。docs/reviews/TASK-14.1-potion-slots.md记录固定源码/交叉版本及真实输入；自然获取链尚无，未发明奖励/概率/claim事务；Strength/Dex共享层数上限与原作onUsePotion队列、全池/平台AC仍未完成。
 <!-- SECTION:NOTES:END -->

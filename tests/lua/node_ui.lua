@@ -90,6 +90,17 @@ local function upgradeChange()
     end
 end
 
+test("node resource count includes bottles beyond an empty first slot", function()
+    local ui, get = setup("camp", nil, function(run)
+        run.potions = { [3] = "regen_potion" }
+    end)
+    assert(get("potions").text == "药水 1/3")
+    local ok, slot = Run.obtainPotion(ui.run, "fire_potion")
+    assert(ok and slot == 1) ui:render()
+    assert(get("potions").text == "药水 2/3")
+    assert(ui.run.potions[3] == "regen_potion")
+end)
+
 test("shop shelf shows real card faces with separate core prices and a paged pool", function()
     local ui, get, _, shown = setup("shop", nil, function(run) run.gold = 10000 end)
     local node = Nodes.view(ui.run, ui.map).node

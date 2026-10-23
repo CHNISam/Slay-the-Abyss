@@ -5,6 +5,7 @@
 -- options.color/options.imageSource are the platform Color constructor and picture source;
 -- without them states are still shown through visibility layers.
 local Nodes = require("abyss_nodes")
+local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local M = {}
@@ -155,7 +156,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         child("gold").text = tostring(self.run.gold)
         child("deck").text = tostring(#self.run.deck)
         child("relics").text = "遗物 " .. #self.run.relics
-        child("potions").text = "药水 " .. #self.run.potions .. "/" .. self.run.data.rules.player.potionSlots
+        child("potions").text = "药水 " .. Run.potionCount(self.run) .. "/" .. self.run.data.rules.player.potionSlots
     end
 
     local function renderShop(view, node)
