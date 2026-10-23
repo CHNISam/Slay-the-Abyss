@@ -215,7 +215,8 @@ export function validateContent(bundle) {
           fail(`${ap}.bellowIntent`, 'must grant a positive Enrage stack');
         }
       } else if (a.kind === 'charge_then_attack') {
-        keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
+        keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
         integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);
         intentReference(a.chargeIntent, `${ap}.chargeIntent`, 'charge');
