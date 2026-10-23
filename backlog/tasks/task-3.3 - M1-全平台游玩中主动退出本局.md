@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-23 13:23'
+updated_date: '2026-10-23 13:41'
 labels: []
 milestone: m-2
 dependencies: []
@@ -40,4 +40,8 @@ ordinal: 51000
 
 <!-- SECTION:NOTES:BEGIN -->
 实现常驻退出与模态确认，复用正式结算，不伪造战斗死亡。新增15项真实宿主回归通过；UI集成/主题/布局12项通过。独立审查捕获并修复异触点授权、孤立触摸首Click、foreignExit、旧held跨弹窗代际/resize阻塞；缺Up/回调失败/重入/动画恢复已覆盖。首轮完整JS检查1项结果按钮动画回归，已修并用既有15项GameUI复验通过。接下来固定提交并叠加原614玩法源，完整集成检查后写独立新副本；正式导入和PC/手机退出仍未验，AC保持未勾。
+
+原614玩法叠加退出修复的固定源02a572c已完成完整check：714 JS（598通过116跳过）及全部Lua/17 Python（16通过1权限跳过）通过。真实副本SHA256 410978fb65b690ad5d2fdcfb41abf13a9a6204c6247ad5e56a9e668b08c47835，32模块/UI/结算图完整载荷读回匹配，静态0错误17既有警告。首次UI审计发现原生读回省略默认白文字，已按codec实证新增仅text.colour白缺省等价，9项审计测试及7项独立负探针通过，保留失败记录；候选内容未改。自动退出实机run2e815bf0-87c1-427b-b22e-0fb44c663af6进行中，未宣称实机通过。
+
+新副本交付.artifacts/exit-handoff/abyss-exit-02a572c.gil，SHA256 410978fb65b690ad5d2fdcfb41abf13a9a6204c6247ad5e56a9e668b08c47835。自动run2e815bf0-87c1-427b-b22e-0fb44c663af6在打开编辑器关卡菜单前失败（截图显示浏览器遮挡原神，找不到试玩），已停止并转人工，不重复尝试；本次没有新入口的实机通过证据。副本1653树控件/max50、32模块逐byte同源、22节点结算图载荷匹配、静态0错误17警告。详细分层证据docs/evidence/exit-run-02a572c.json，PC点击及手机触控仍待，AC不勾。
 <!-- SECTION:NOTES:END -->
