@@ -1,13 +1,13 @@
 ---
 id: TASK-16
 title: M3 战士卡池扩展与卡牌升级
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@codex-cards'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-23 02:04'
 due_date: '2026-10-28'
-labels:
-  - queued-after-M2
+labels: []
 milestone: m-4
 dependencies:
   - TASK-9
@@ -28,8 +28,20 @@ ordinal: 16000
 - [ ] #3 卡牌文案与数值来源、表现映射完整，未实现效果不进入候选可玩池
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 从 083d780 隔离工作树盘点 PR37 现有实现，复用已验证规则切片，禁止开启游戏或 MCP。2. 整合现有卡牌规则候选并保留主线战斗反馈和原子出牌修复，使首发至少30张可合法获得并执行。3. 为实际支持池基本/升级逐张建立独立预期回归，验证奖励/商店取得、营地升级和下一战效果，未支持牌保持隔离。4. 执行完整本地门禁，记录来源、可玩池及平台待验边界；提交独立feat分支交主代理复审，不关闭实机验收。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-23审计：37张运行契约不等于37张可玩；PR37七张规则候选尚未合并。当前只承认初始牌组/有限奖励池及营地升级已有测试；首发至少30张实际可用仍为核心阻塞，75张扩展为可选，不阻塞M3。
+
+2026-10-23 离线执行：.worktrees/task-16-offline / feat/task-16-offline，从 origin/develop 083d780 建立。检查到 origin/feat/dot-entrench-candidate ee98643 已覆盖生命支付/条件收益/复制/成长等，无需重复实现；本轮以复用并补全首发逐卡证据为主。
+
+2026-10-23 离线候选已复用 PR37 ee98643：实际支持池30张（3基础+27奖励/商店），7张未完成机制继续拒绝进入可玩选项。新增 card_pool.lua 93组，30张基本/升级固定预期逐张执行，30张经合法商品事务/营地升级后下一战执行；原始数值真实初始卡组胜利覆盖全部27张奖励并确认下一战持有。节点夹具含足额金币/高敌HP，不作完整15层通关证据。文案/来源与候选边界见 docs/CARD_POOL.md。
+
+验证：npm ci --ignore-scripts；npm run check退出0，JS194项=180通过/14符号链接权限跳过，Lua24脚本716组通过，Python16项=15通过/1符号链接权限跳过；定向card_pool93组通过。保留PR37 Draft，不新建重复PR或合develop。未启动原神/MCP、未平台编译/导入/实机；AC#2平台升级效果仍未验，全部AC维持未勾，任务保持In Progress供主代理复审。
 <!-- SECTION:NOTES:END -->

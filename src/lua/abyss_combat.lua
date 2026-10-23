@@ -6,8 +6,8 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
     statusView = Actors.statusView, damage = Actors.damage, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
-function M.applyEffects(state, effects, source, target)
-    return Effects.apply(M, state, effects, source, target)
+function M.applyEffects(state, effects, source, target, playedCard)
+    return Effects.apply(M, state, effects, source, target, playedCard)
 end
 
 local function copy(value)
@@ -81,6 +81,16 @@ end
 function M.cardDefinition(state, instance)
     local card = copy(assert(state.catalog.cards[instance.cardId], "unknown card"))
     if instance.upgraded then for k, v in pairs(card.upgrade or {}) do card[k] = copy(v) end end
+    if instance.damageBonus ~= nil then
+        local bonus = instance.damageBonus
+        assert(type(bonus) == "number" and bonus >= 0 and bonus < math.huge and bonus % 1 == 0, "invalid card damage bonus")
+        for _, effect in ipairs(card.effects) do
+            if effect.op == "damage" then
+                effect.value = effect.value + 0.0 + bonus -- avoid 32-bit integer wrap
+                assert(effect.value < math.huge, "card damage overflow")
+            end
+        end
+    end
     return card
 end
 
@@ -98,7 +108,7 @@ function M.canPlay(state, uid, targetIndex)
     if card.costMode or card.condition then return false, "advanced_card_not_enabled" end
     if state.energy < card.cost then return false, "insufficient_energy" end
     for _, effect in ipairs(card.effects) do
-        if effect.op == "damage" or effect.op == "applyStatus" then
+        if effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus" then
             local enemy = state.enemies[targetIndex]
             if not enemy or enemy.hp <= 0 then return false, "invalid_target" end
         end
@@ -108,8 +118,9 @@ end
 
 -- Only the mutable tables used by a card resolution. Keep original references:
 -- draw may swap piles, and callers may retain actors, statuses, cards or events.
--- Catalog/rules/intents and existing card/event contents are read-only here.
-local function savePlayState(state)
+-- Catalog/rules/intents, other cards and existing events remain read-only.
+-- The resolving instance can gain combat-only damage and must roll back in place.
+local function savePlayState(state, playedCard)
     local saved = {}
     local function save(t)
         if saved[t] then return end
@@ -121,6 +132,7 @@ local function savePlayState(state)
     save(state); actor(state.player); save(state.enemies)
     for _, enemy in ipairs(state.enemies) do actor(enemy) end
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    save(playedCard)
     return function()
         for original, values in pairs(saved) do
             for k in pairs(original) do original[k] = nil end
@@ -133,7 +145,7 @@ local function resolvePlay(state, uid, targetIndex, instance, position, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
-    M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex])
+    M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex], instance)
     local pile
     if card.exhaust or card.type == "power" then pile = state.exhaust else pile = state.discard end
     pile[#pile + 1] = instance
@@ -146,7 +158,7 @@ function M.play(state, uid, targetIndex)
     if not ok then return false, reason end -- validate before changing any state/RNG
     local instance, position = findInstance(state, uid)
     local card = M.cardDefinition(state, instance)
-    local restore = savePlayState(state)
+    local restore = savePlayState(state, instance)
     local called, result = pcall(resolvePlay, state, uid, targetIndex, instance, position, card)
     if not called then
         restore()
