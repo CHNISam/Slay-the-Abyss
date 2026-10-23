@@ -12,9 +12,12 @@
     "potionSlots": 3
   },
   "map": {
-    "floors": 15,
-    "bossFloor": 15,
-    "restFloor": 14,
+    "floors": 17,
+    "generatedRows": 15,
+    "bossFloor": 16,
+    "bossTreasureFloor": 17,
+    "restFloor": 15,
+    "treasureFloor": 9,
     "nodeTypes": [
       "combat",
       "elite",

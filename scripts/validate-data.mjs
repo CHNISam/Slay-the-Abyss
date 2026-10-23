@@ -162,8 +162,8 @@ export function validateContent(bundle) {
     if (!isObject(entry)) return;
     const p = `encounters[${i}]`;
     enumeration(entry.tier, tiers, `${p}.tier`);
-    integer(entry.minFloor, `${p}.minFloor`, 1, 15);
-    integer(entry.maxFloor, `${p}.maxFloor`, 1, 15);
+    integer(entry.minFloor, `${p}.minFloor`, 1, 16);
+    integer(entry.maxFloor, `${p}.maxFloor`, 1, 16);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
     array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
       reference(id, 'enemies', `${p}.enemies[${j}]`);
@@ -172,7 +172,7 @@ export function validateContent(bundle) {
     });
   });
   // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
-  for (const [floor, tier] of [[1, 'normal'], [6, 'elite'], [15, 'boss']]) {
+  for (const [floor, tier] of [[1, 'normal'], [16, 'boss']]) {
     if (!lists.encounters.some(entry => isObject(entry) && entry.tier === tier &&
       Number.isSafeInteger(entry.minFloor) && Number.isSafeInteger(entry.maxFloor) &&
       entry.minFloor <= floor && entry.maxFloor >= floor)) {
@@ -191,7 +191,8 @@ export function validateContent(bundle) {
     enumeration(rules.version, ['0.1.0'], 'rules.version');
     const numericSections = {
       player: { maxHp: [1], energyPerTurn: [1], drawPerTurn: [1], maxHand: [1], startingGold: [0], potionSlots: [1] },
-      map: { floors: [15, 15], bossFloor: [15, 15], restFloor: [14, 14] },
+      map: { floors: [17, 17], generatedRows: [15, 15], bossFloor: [16, 16],
+        restFloor: [15, 15], treasureFloor: [9, 9], bossTreasureFloor: [17, 17] },
       camp: { healPercent: [1, 100], upgradeCount: [1] },
       shop: { cardCommon: [0], cardUncommon: [0], cardRare: [0], relic: [0], removeCard: [0], removeCardIncrement: [0] },
       rewards: { normalGold: [0], eliteGold: [0], bossGold: [0], cardChoices: [1] },

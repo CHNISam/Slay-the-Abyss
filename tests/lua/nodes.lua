@@ -330,10 +330,10 @@ test("lost battle never completes or unlocks a node", function()
     equal(#Nodes.available(run, map), 0)
 end)
 
-test("all seven flows traverse a complete real map without direct navigation or state edits", function()
+test("existing node flows reach Boss16 and expose the separate pending Boss treasure entrance", function()
     local run, map = Run.new(easyData(), 42), Map.generate(easyData(), 42)
     local seen = {}
-    while #Nodes.available(run, map) > 0 do
+    while map.floor < data.rules.map.bossFloor do
         local node = Nodes.available(run, map)[1]; seen[node.type] = true
         assert(Nodes.enter(run, map, node.id)); equal(#Nodes.available(run, map), 0)
         if run.phase == "combat" then
@@ -345,9 +345,12 @@ test("all seven flows traverse a complete real map without direct navigation or 
         elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
         elseif node.type == "event" then assert(Nodes.chooseEvent(run, "gold")) end
     end
-    equal(#map.path, data.rules.map.floors)
+    equal(#map.path, data.rules.map.bossFloor)
     for _, kind in ipairs(data.rules.map.nodeTypes) do assert(seen[kind], "missing " .. kind) end
     equal(run.nodeFlow.result, "boss_victory")
+    local nextRoom = Map.available(map)
+    equal(#nextRoom, 1); equal(nextRoom[1].roomKind, "boss_treasure")
+    equal(nextRoom[1].floor, data.rules.map.bossTreasureFloor)
 end)
 
 print("LUA_NODES_PASS " .. count)

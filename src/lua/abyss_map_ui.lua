@@ -91,15 +91,19 @@ function M.new(root, map, onChoose, clickEvent, options)
         for i = 1, #current.path - 1 do taken[current.path[i] .. ":" .. current.path[i + 1]] = true end
         self.slots, self.breathing = {}, {}
         at("title").text = "第一幕 · 第 " .. current.floor .. " 层"
-        at("notice").text = current.complete and "已抵达首领 · 请完成首领战斗" or
+        at("notice").text = current.complete and "已抵达首领宝箱 · 请完成当前房间" or
+            (current.floor == 16 and "已抵达首领 · 请完成首领战斗与奖励" or
             (self.navigationEnabled and "点选白色节点前往 · 向上查看后续路线，向下回顾已走路线" or "请先完成当前节点 · 地图导航已锁定")
+            )
         at("previous"):SetVisible(self.scroll > 0)
         at("next"):SetVisible(self.scroll < Layout.maxScroll)
         local edge = 0
         for _, node in ipairs(current.nodes) do for _, id in ipairs(node.nextIds) do
             edge = edge + 1
             assert(edge <= Layout.maxEdges, "map UI edge capacity exceeded")
-            line(at("edge" .. edge), node, assert(nodes[id], "map UI dangling route"), taken[node.id .. ":" .. id])
+            local target = assert(nodes[id], "map UI dangling route")
+            if target.roomKind == "boss_treasure" then at("edge" .. edge):SetVisible(false)
+            else line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id]) end
         end end
         for i = edge + 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
         assert(#current.nodes <= Layout.maxNodes, "map UI node capacity exceeded")
@@ -112,7 +116,7 @@ function M.new(root, map, onChoose, clickEvent, options)
                 -- Native container clipping is not established. Cull whole discs,
                 -- including glow/breath extent, so no offscreen hit area can leak.
                 local radius = (size + Layout.glowPadding) * Layout.breathScale / 2
-                visible = y - radius >= Layout.viewport.bottom and y + radius <= Layout.viewport.top
+                visible = node.roomKind ~= "boss_treasure" and y - radius >= Layout.viewport.bottom and y + radius <= Layout.viewport.top
                 box:SetAnchoredPosition(x, y)
                 box:SetSizeDelta(size, size)
                 box.localScaleX, box.localScaleY = 1, 1

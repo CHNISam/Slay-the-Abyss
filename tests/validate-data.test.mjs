@@ -16,14 +16,14 @@ function fixture() {
     rules: {
       version: '0.1.0',
       player: { maxHp: 80, energyPerTurn: 3, drawPerTurn: 5, maxHand: 10, startingGold: 99, startingRelics: ['blood'], potionSlots: 3 },
-      map: { floors: 15, bossFloor: 15, restFloor: 14, nodeTypes: ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'] },
+      map: { floors: 17, generatedRows: 15, bossFloor: 16, restFloor: 15, treasureFloor: 9, bossTreasureFloor: 17, nodeTypes: ['combat', 'elite', 'camp', 'shop', 'event', 'treasure', 'boss'] },
       camp: { healPercent: 30, upgradeCount: 1 },
       shop: { cardCommon: 50, cardUncommon: 75, cardRare: 150, relic: 150, removeCard: 75, removeCardIncrement: 25 },
       rewards: { normalGold: 15, eliteGold: 30, bossGold: 100, cardChoices: 3 },
       combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'owner_turn_end', poisonBypassesBlock: true }
     }
   };
-  for (const [tier, floor] of [['elite', 6], ['boss', 15]]) {
+  for (const [tier, floor] of [['elite', 6], ['boss', 16]]) {
     data.enemies.enemies.push({ ...structuredClone(data.enemies.enemies[0]), id: `${tier}_slime`, tier });
     data.enemies.encounters.push({ id: `${tier}_encounter`, tier, enemies: [`${tier}_slime`], minFloor: floor, maxFloor: floor });
   }
@@ -65,7 +65,7 @@ const invalidCases = [
   ['zero hit count', d => d.cards.cards[0].effects[0].times = 0, /\.times:/],
   ['zero enemy hp', d => d.enemies.enemies[0].hp = 0, /\.hp:/],
   ['unsafe integer', d => d.enemies.enemies[0].hp = Number.MAX_SAFE_INTEGER + 1, /\.hp:/],
-  ['floor outside first act', d => d.enemies.encounters[0].maxFloor = 16, /\.maxFloor:/],
+  ['floor outside combat rooms', d => d.enemies.encounters[0].maxFloor = 17, /\.maxFloor:/],
   ['reversed floor range', d => d.enemies.encounters[0].minFloor = 15, /minFloor must not exceed/],
   ['invalid upgrade cost', d => d.cards.cards[0].upgrade = { cost: -1 }, /upgrade.cost:/],
   ['empty upgrade', d => d.cards.cards[0].upgrade = {}, /must change/],

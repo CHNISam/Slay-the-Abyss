@@ -37,21 +37,23 @@ test("numeric RNG has a known sequence and invalid requests are atomic", functio
     for _ = 1, 1000 do assert(Random.next(a, 97) == Random.next(b, 97)) end
 end)
 
-test("multiple seeds produce reachable 15-floor three-lane graphs with seven types", function()
+test("multiple seeds produce reachable generated rows and separate Boss rooms", function()
     for _, seed in ipairs({0, 1, 42, 313, 65535, -17}) do
         local map = Map.generate(data, seed)
         assert(map.floor == 0 and map.currentNodeId == nil and #map.path == 0)
-        assert(#map.nodes == 43)
+        assert(#map.nodes == 47)
         local index, floors, types = byId(map), {}, {}
         local reachable = {}; for _, node in ipairs(Map.available(map)) do reachable[node.id] = true end
         for _, node in ipairs(map.nodes) do
             assert(reachable[node.id], "unreachable node " .. node.id)
             floors[node.floor] = (floors[node.floor] or 0) + 1; types[node.type] = true
-            if node.floor == 14 then assert(node.type == "camp") end
-            if node.floor == 15 then
-                assert(node.type == "boss" and node.lane == 2 and #node.nextIds == 0)
+            if node.floor == 15 then assert(node.type == "camp") end
+            if node.floor == 17 then
+                assert(node.type == "treasure" and node.roomKind == "boss_treasure" and node.lane == 2 and #node.nextIds == 0)
+            elseif node.floor == 16 then
+                assert(node.type == "boss" and node.lane == 2 and #node.nextIds == 1)
             else
-                assert(node.type ~= "boss" and #node.nextIds >= (node.floor == 14 and 1 or 2))
+                assert(node.type ~= "boss" and #node.nextIds >= (node.floor == 15 and 1 or 2))
             end
             local seen = {}
             for _, id in ipairs(node.nextIds) do
@@ -60,8 +62,7 @@ test("multiple seeds produce reachable 15-floor three-lane graphs with seven typ
                 seen[id], reachable[id] = true, true
             end
         end
-        for floor = 1, 15 do assert(floors[floor] == (floor == 15 and 1 or 3)) end
-        for _, kind in ipairs(data.rules.map.nodeTypes) do assert(types[kind], "missing node type " .. kind) end
+        for floor = 1, 17 do assert(floors[floor] == (floor > 15 and 1 or 3)) end
     end
 end)
 
@@ -88,17 +89,17 @@ test("generation is deterministic and does not depend on input ordering or alias
     assert(not equal(original, Map.generate(data, 313)), "different seeds must vary the map")
 end)
 
-test("navigation follows legal branches and every complete route can contain all seven types", function()
+test("navigation follows legal branches through camp, Boss and Boss treasure", function()
     for _, choice in ipairs({1, 2, 3}) do
         local map, visited = Map.generate(data, 42), {}
-        for floor = 1, 15 do
+        for floor = 1, 17 do
             local available = Map.available(map)
             local node = available[math.min(choice, #available)]
             assert(Map.choose(map, node.id)); assert(map.floor == floor and map.currentNodeId == node.id)
             assert(#map.path == floor and map.path[floor] == node.id); visited[node.type] = true
         end
         assert(#Map.available(map) == 0)
-        for _, kind in ipairs(data.rules.map.nodeTypes) do assert(visited[kind]) end
+        for _, kind in ipairs({"combat", "camp", "treasure", "boss"}) do assert(visited[kind]) end
         local before = Map.snapshot(map)
         local ok, reason = Map.choose(map, map.currentNodeId)
         assert(ok == false and reason == "map_complete"); assertSame(map, before)
@@ -180,7 +181,7 @@ test("invalid map inputs fail instead of dropping required types or encounters",
     local missingElite = copy(data)
     local encounters = {}; for _, e in ipairs(missingElite.enemies.encounters) do if e.tier ~= "elite" then encounters[#encounters+1] = e end end
     missingElite.enemies.encounters = encounters
-    assert(not pcall(Map.generate, missingElite, 1))
+    assert(pcall(Map.generate, missingElite, 1), "optional elite floor must not force an elite")
     local missingType = copy(data); table.remove(missingType.rules.map.nodeTypes)
     assert(not pcall(Map.generate, missingType, 1))
     local duplicate = copy(data); duplicate.enemies.encounters[2].id = duplicate.enemies.encounters[1].id

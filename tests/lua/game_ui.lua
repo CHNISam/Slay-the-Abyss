@@ -115,14 +115,14 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow == nil)
 end)
 
-test("all seven node panels compose through fifteen floors and Boss result then restart", function()
+test("node panels compose through fifteen generated rows and Boss16 then restart", function()
     -- Keep the real rules, commands and UI. Low-HP fixture isolates routing from balance.
     local data = Combat.copy(Data)
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp = 1 end
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
     local seen = {}
-    for floor = 1, data.rules.map.floors do
+    for floor = 1, data.rules.map.bossFloor do
         local node = Nodes.available(ui.run, ui.map)[1]
         assert(node and node.floor == floor)
         local slot
