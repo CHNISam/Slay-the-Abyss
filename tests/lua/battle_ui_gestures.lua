@@ -41,7 +41,7 @@ test("resize and real turn: old touch cannot confirm different hand-slot UID",fu
     local battle=host.run.combat
     local oldUid=battle.hand[1].uid
     event("card1","down",7); host:resize(1600,900)
-    event("endTurn","down",8); event("endTurn","click",8); drain() -- preset button has no custom Up listener
+    tap("endTurn",8); drain()
     assert(battle.turn==2 and battle.hand[1].uid~=oldUid,"turn fixture must replace the original slot UID")
     local newUid=battle.hand[1].uid
     tap("card1",8)
@@ -127,7 +127,7 @@ test("host restart: old run held pointer cannot confirm a new run card",function
     local oldRun,oldBattle=host.run,host.run.combat
     local oldUid=oldBattle.hand[1].uid
     event("card1","down",7); host:resize(1600,900)
-    event("endTurn","down",8); event("endTurn","click",8); drain()
+    tap("endTurn",8); drain()
     assert(host.mode=="defeat" and oldRun.phase=="defeat")
     assert(root:GetChild("menuPanel"):GetChild("start"):GetChild("hit").click({touchId=8}))
     assert(host.run~=oldRun and host.mode=="map")
