@@ -35,6 +35,8 @@ function M.addStatus(actor, id, amount)
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
     local value = (actor.statuses[id] or 0) + 0.0 + amount
     assert(integer(value), "status stack overflow") -- reject before mutating
+    -- Strength/Dexterity clamp after stacking, for either actor and either sign.
+    if signed[id] then value = math.max(-999, math.min(999, value)) end
     if definition.stack == "none" then value = value > 0 and 1 or 0 end
     actor.statuses[id] = signed[id] and value or math.max(0, value)
     return actor.statuses[id]
@@ -82,7 +84,16 @@ function M.attackAmount(state, source, target, base, fixed)
     return math.max(0, math.floor(amount))
 end
 
-function M.damage(state, source, target, base, fixed)
+-- An area attack collects retaliation until all of its targets are damaged.
+-- A dead attacker may still own a queued Thorns hit; dead victims cannot lose HP.
+function M.retaliate(state, source, target, amount)
+    if target.hp <= 0 then return 0 end
+    local blocked = math.min(target.block, amount)
+    target.block = target.block - blocked
+    return directDamage(state, source, target, amount - blocked, "thorns", blocked)
+end
+
+function M.damage(state, source, target, base, fixed, retaliation)
     if target.hp <= 0 or source.hp <= 0 then return 0 end
     local amount = M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
@@ -94,9 +105,11 @@ function M.damage(state, source, target, base, fixed)
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
     if not fixed and (target.statuses.thorns or 0) > 0 then
         local thorns = target.statuses.thorns
-        local blocked = math.min(source.block, thorns)
-        source.block = source.block - blocked
-        directDamage(state, target, source, thorns - blocked, "thorns", blocked)
+        if retaliation then
+            retaliation[#retaliation + 1] = { source = target, target = source, amount = thorns }
+        else
+            M.retaliate(state, target, source, thorns)
+        end
     end
     return lost
 end

@@ -26,11 +26,33 @@ test('node panel composes one container per approved node screen within the MCP 
     assert.ok(find(panel.children, name), name);
   }
   walk(panel, control => {
-    assert.ok((control.children ?? []).length <= 60, control.name);
+    assert.ok((control.children ?? []).length <= 50, control.name);
     const names = (control.children ?? []).map(c => c.name);
     assert.equal(new Set(names).size, names.length, `duplicate child in ${control.name}`);
   });
   for (const view of views) assert.equal(find(panel.children, view).visible, false, view);
+});
+
+test('framed node buttons preserve direct paths and have hidden hover and pressed face layers', () => {
+  let count = 0;
+  walk(panel, control => {
+    if (!find(control.children ?? [], 'normal')) return;
+    count++;
+    for (const name of ['border','normal','hover','pressed','disabled','selected','hit']) {
+      assert.ok(find(control.children,name), `${control.name}/${name}`);
+    }
+    assert.equal(find(control.children,'hit').kind,'cursorArea');
+    for (const name of ['hover','pressed']) {
+      const face=find(control.children,name);
+      assert.equal(face.visible,false);
+      assert.deepEqual(face.size,control.size.map(value=>value-nativeTheme.space.border*2));
+    }
+    const primary = find(control.children,'normal').colour === nativeTheme.color.geo;
+    assert.equal(find(control.children,'hover').colour,primary ? nativeTheme.color.goldBright : nativeTheme.color.buttonHover);
+    assert.equal(find(control.children,'pressed').colour,nativeTheme.color.goldDim);
+  });
+  assert.ok(count >= 15);
+  assert.equal(nativeTheme.layout.nativeNode.buttonStates.pressedScale,0.96);
 });
 
 test('every interactive control is a full-size focusable touch target inside the safe area', () => {

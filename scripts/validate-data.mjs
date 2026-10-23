@@ -137,8 +137,11 @@ export function validateContent(bundle) {
         if (intentIds.has(intent.id)) fail(`${ip}.id`, `duplicate ID ${intent.id}`);
         intentIds.add(intent.id);
       }
-      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned'], `${ip}.kind`);
-      if (['sleep', 'stunned'].includes(intent.kind)) {
+      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned', 'charge'], `${ip}.kind`);
+      if (intent.kind === 'charge' && (entry.ai?.kind !== 'charge_then_attack' || entry.ai?.chargeIntent !== intent.id)) {
+        fail(`${ip}.kind`, 'charge intent requires matching AI');
+      }
+      if (['sleep', 'stunned', 'charge'].includes(intent.kind)) {
         if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
       } else effects(intent.effects, `${ip}.effects`);
     });
@@ -147,10 +150,30 @@ export function validateContent(bundle) {
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
-        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
+        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian'], `${ap}.kind`);
-      if (a.kind === 'ritual_then_attack') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack'], `${ap}.kind`);
+      if (a.kind === 'charge_then_attack') {
+        keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
+        integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
+        integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);
+        intentReference(a.chargeIntent, `${ap}.chargeIntent`, 'charge');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+      } else if (a.kind === 'jaw_worm') {
+        keys(a, ['kind', 'chompIntent', 'thrashIntent', 'bellowIntent', 'rollRange', 'chompCutoff', 'thrashCutoff',
+          'bellowAfterChomp', 'chompAfterTwoThrashes', 'chompAfterBellow'], ap);
+        intentReference(a.chompIntent, `${ap}.chompIntent`, 'attack');
+        intentReference(a.thrashIntent, `${ap}.thrashIntent`, 'attack');
+        intentReference(a.bellowIntent, `${ap}.bellowIntent`, 'buff');
+        if (new Set([a.chompIntent, a.thrashIntent, a.bellowIntent]).size !== 3) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.chompCutoff, `${ap}.chompCutoff`, 0, 65536);
+        integer(a.thrashCutoff, `${ap}.thrashCutoff`, 0, 65536);
+        if (!(a.chompCutoff < a.thrashCutoff && a.thrashCutoff < a.rollRange)) fail(ap, 'invalid cutoff order');
+        for (const key of ['bellowAfterChomp', 'chompAfterTwoThrashes', 'chompAfterBellow']) {
+          if (typeof a[key] !== 'number' || !Number.isFinite(a[key]) || a[key] < 0 || a[key] > 1) fail(`${ap}.${key}`, 'must be a probability in 0..1');
+        }
+      } else if (a.kind === 'ritual_then_attack') {
         keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
         intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');

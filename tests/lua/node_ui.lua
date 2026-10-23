@@ -6,6 +6,7 @@ local Presentation = require("abyss_presentation")
 local Layout = require("abyss_ui_layout")
 local Theme = require("abyss_theme")
 local C = Theme.color
+local cursorEvents = { CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag" }
 local count = 0
 local function test(name, fn) fn() count = count + 1 print("ok node UI " .. count .. " - " .. name) end
 local function findSpec(list, name)
@@ -18,7 +19,7 @@ end
 -- Mock controls are built from the generated native tree, so a renamed control fails here.
 local function control(spec, parent)
     local c = { name = spec.name, children = {}, visible = spec.visible ~= false, parent = parent,
-        text = spec.text and spec.text.content or "", imageId = spec.image }
+        text = spec.text and spec.text.content or "", imageId = spec.image, listeners = {}, scale = {1,1,1} }
     function c:GetChild(key) return self.children[key] end
     function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
     function c:SetImage(...)
@@ -26,7 +27,15 @@ local function control(spec, parent)
         local source, id = ...
         assert(source == "static" and type(id) == "number") self.imageId = id
     end
-    function c:AddCursorEventListener(event, callback) assert(event == "click" and not self.click) self.click = callback end
+    function c:SetLocalScale(x,y,z) self.scale = {x,y,z} end
+    function c:AddCursorEventListener(event, callback)
+        assert(not self.listeners[event], "duplicate listener " .. event)
+        self.listeners[event] = callback
+        if event == "click" then self.click = callback end
+    end
+    function c:emit(event, touchId)
+        return assert(self.listeners[event], "missing listener " .. event)({touchId=touchId})
+    end
     for _, item in ipairs(spec.children or {}) do c.children[item.name] = control(item, c) end
     return c
 end
@@ -48,7 +57,7 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil) end
 end
-local function setup(kind, source, prepare)
+local function setup(kind, source, prepare, events)
     if kind == "event" and not source then
         source = Combat.copy(data); source.rules.events.encounterId = "cleric"
     end
@@ -58,7 +67,7 @@ local function setup(kind, source, prepare)
     local ui = UI.new(root, run, map, Presentation, "click", function(ok, reason, controller)
         assert(controller.root == root)
         changes[#changes + 1] = { ok = ok, reason = reason }
-    end, { color = colour, imageSource = "static" })
+    end, { color = colour, imageSource = "static", cursorEvents = events ~= false and (events or cursorEvents) or nil })
     local notice = root.children.notice.text
     local width = utf8.len(notice) * Theme.font.body
     assert(math.max(1, math.ceil(width / Theme.layout.nativeNode.notice[3])) * Theme.layout.nativeText.lineHeight
@@ -430,5 +439,110 @@ test("a held result belongs to its run; a fresh run renders safely and restart r
     local previousNode = shop.nodeId
     shop.run, shop.map = entered("shop") shop:render()
     assert(shop.nodeId == previousNode and shop.page == 1 and shop.mode == "main")
+end)
+
+test("hover down up and exit paint the real framed button without executing a command", function()
+    local ui, get, click, _, changes = setup("camp", nil, function(run) run.hp = 20 end)
+    local box, before, beforeMap = get("campView/rest"), Combat.copy(ui.run), Map.snapshot(ui.map)
+    local hit = box:GetChild("hit")
+    hit:emit("enter",7)
+    assert(box.children.hover.visible and not box.children.normal.visible and not box.children.pressed.visible)
+    assert(is(box.children.hover.imageColor,C.buttonHover))
+    hit:emit("down",7)
+    assert(box.children.pressed.visible and not box.children.hover.visible)
+    assert(box.scale[1] == 0.96 and box.scale[2] == 0.96)
+    assert(is(box.children.pressed.imageColor,C.goldDim))
+    hit:emit("up",7)
+    assert(box.scale[1] == 1 and box.children.hover.visible)
+    hit:emit("exit",7)
+    assert(box.children.normal.visible and not box.children.hover.visible and box.scale[1] == 1)
+    same(ui.run,before) same(ui.map,beforeMap) assert(#changes == 0)
+    assert(click("campView/rest") and #changes == 1 and ui:holding())
+end)
+
+test("primary press uses white ink and drag-out or end-drag restores the complete button", function()
+    local ui, get = setup("shop")
+    local box, before = get("confirm"), Combat.copy(ui.run)
+    local hit = box:GetChild("hit")
+    hit:emit("enter",1)
+    assert(box.children.hover.visible and is(box.children.hover.imageColor,C.goldBright))
+    hit:emit("down",1)
+    assert(box.children.pressed.visible and is(box.children.label.fontColor,C.buttonPressedText))
+    assert(box.scale[1] == 0.96)
+    hit:emit("exit",1)
+    assert(box.scale[1] == 1 and box.children.normal.visible and not box.children.pressed.visible)
+    assert(is(box.children.label.fontColor,C.textOnLight))
+    hit:emit("up",1)
+    assert(box.children.normal.visible)
+    hit:emit("down",1) hit:emit("endDrag",1)
+    assert(box.scale[1] == 1 and not box.children.pressed.visible)
+    same(ui.run,before)
+end)
+
+test("disabled and selected results cannot be overridden by hover or retain a pressed scale", function()
+    local ui, get, click = setup("camp")
+    local box = get("campView/rest")
+    local hit, before = box:GetChild("hit"), Combat.copy(ui.run)
+    for _, event in ipairs({"enter","down","up","exit","endDrag"}) do hit:emit(event,1) end
+    assert(box.children.disabled.visible and not box.children.hover.visible and not box.children.pressed.visible)
+    assert(box.scale[1] == 1 and not click("campView/rest"))
+    assert(get("notice").text:find("生命已满",1,true)) same(ui.run,before)
+    ui.run.hp = 20 ui:render()
+    hit:emit("down",1) assert(box.scale[1] == 0.96)
+    ui.run.hp = ui.run.maxHp ui:render()
+    assert(box.children.disabled.visible and box.scale[1] == 1)
+    hit:emit("up",1) assert(not box.children.hover.visible)
+    ui.run.hp = 20 ui:render() assert(click("campView/rest"))
+    for _, event in ipairs({"enter","down","up"}) do hit:emit(event,1) end
+    assert(box.children.selected.visible and not box.children.hover.visible and not box.children.pressed.visible)
+    assert(box.scale[1] == 1 and is(box.children.border.imageColor,C.goldBright))
+end)
+
+test("rerender pagination modal hiding and page changes cancel pending button visuals", function()
+    local ui, get = setup("shop", nil, function(run) run.gold=10000 end)
+    local box, before = get("shopView/next"), Combat.copy(ui.run)
+    local hit = box:GetChild("hit")
+    hit:emit("enter",1) hit:emit("down",1) assert(box.scale[1] == 0.96)
+    assert(ui:setPage(2))
+    assert(box.scale[1] == 1 and not box.children.pressed.visible and not box.children.hover.visible)
+    hit:emit("down",1) assert(box.scale[1] == 0.96)
+    ui:setVisible(false)
+    assert(box.scale[1] == 1 and not box.children.pressed.visible)
+    hit:emit("enter",1) hit:emit("down",1) hit:emit("up",1)
+    assert(box.scale[1] == 1 and not box.children.hover.visible)
+    ui:setVisible(true)
+    assert(box.scale[1] == 1 and not box.children.hover.visible)
+    hit:emit("down",1) assert(box.scale[1] == 0.96)
+    assert(ui:press("shopView/removal"))
+    assert(box.scale[1] == 1 and not get("shopView").visible)
+    hit:emit("enter",1) hit:emit("down",1)
+    assert(box.scale[1] == 1 and not box.children.hover.visible)
+    same(ui.run,before)
+end)
+
+test("foreign touches cannot release or move a pressed visual to another button", function()
+    local ui, get = setup("camp", nil, function(run) run.hp=20 end)
+    local rest, forge = get("campView/rest"), get("campView/forge")
+    local a,b = rest:GetChild("hit"),forge:GetChild("hit")
+    a:emit("down",7)
+    a:emit("down",8) a:emit("up",8) a:emit("exit",8) b:emit("down",8) b:emit("up",8)
+    assert(rest.scale[1] == 0.96 and rest.children.pressed.visible and forge.scale[1] == 1)
+    a:emit("endDrag",7)
+    assert(rest.scale[1] == 1 and not rest.children.pressed.visible)
+    a:emit("down",7) ui:render() a:emit("up",7)
+    assert(rest.scale[1] == 1 and not rest.children.pressed.visible)
+end)
+
+test("button listeners bind once and click-only hosts retain the existing C fallback", function()
+    local ui, get = setup("shop")
+    get("eventView/option1"):GetChild("hit"):emit("exit",1) -- never-rendered hidden view
+    for _=1,5 do ui:render() end
+    local listeners = get("confirm"):GetChild("hit").listeners
+    local n=0 for _ in pairs(listeners) do n=n+1 end
+    assert(n == 6)
+    assert(not get("shopView/card1"):GetChild("hit").listeners.down, "card selection is not a framed-button press")
+    local basic, basicGet, basicClick = setup("camp",nil,function(run) run.hp=20 end,false)
+    assert(not basicGet("campView/rest"):GetChild("hit").listeners.down)
+    assert(basicClick("campView/rest") and basic:holding())
 end)
 print("LUA_NODE_UI_PASS " .. count)
