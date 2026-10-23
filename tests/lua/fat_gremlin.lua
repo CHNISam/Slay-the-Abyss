@@ -105,3 +105,4 @@ end)
 
 assert(failed == 0, tostring(failed) .. " Fat Gremlin groups failed")
 print("Fat Gremlin: " .. count .. " groups passed")
+

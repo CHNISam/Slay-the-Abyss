@@ -1,5 +1,5 @@
 {
-  "note": "v0.1.0 数据基线。生命值参考 A0 区间取定值；意图采用本项目确定循环，非原版完整 AI。详见 SOURCES.md。",
+  "note": "v0.1.0 数据基线。未声明 hpRange/ai 的旧敌人仍用固定生命/意图循环；已接专属策略的敌人见 SOURCES.md，不代表全池或原版随机流一致。",
   "enemies": [
     {
       "id": "cultist",
@@ -38,6 +38,14 @@
       "tier": "normal",
       "hp": 42,
       "hpRange": { "min": 40, "max": 44 },
+      "ai": {
+        "kind": "jaw_worm",
+        "chompIntent": "jaw_worm_1", "thrashIntent": "jaw_worm_2", "bellowIntent": "jaw_worm_3",
+        "rollRange": 100, "chompCutoff": 25, "thrashCutoff": 55,
+        "bellowAfterChomp": 0.5625,
+        "chompAfterTwoThrashes": 0.3569999933242798,
+        "chompAfterBellow": 0.41600000858306885
+      },
       "intents": [
         {
           "id": "jaw_worm_1",
@@ -51,6 +59,20 @@
         },
         {
           "id": "jaw_worm_2",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 7
+            },
+            {
+              "op": "block",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "id": "jaw_worm_3",
           "kind": "buff",
           "effects": [
             {
@@ -61,20 +83,6 @@
             {
               "op": "block",
               "value": 6
-            }
-          ]
-        },
-        {
-          "id": "jaw_worm_3",
-          "kind": "attack",
-          "effects": [
-            {
-              "op": "damage",
-              "value": 7
-            },
-            {
-              "op": "block",
-              "value": 5
             }
           ]
         }
@@ -334,6 +342,7 @@
       "name": "蓝衣束缚者",
       "tier": "normal",
       "hp": 48,
+      "hpRange": { "min": 46, "max": 50 },
       "intents": [
         {
           "id": "blue_slaver_1",
@@ -347,12 +356,16 @@
         },
         {
           "id": "blue_slaver_2",
-          "kind": "debuff",
+          "kind": "attack",
           "effects": [
+            {
+              "op": "damage",
+              "value": 7
+            },
             {
               "op": "applyStatus",
               "status": "weak",
-              "value": 2
+              "value": 1
             }
           ]
         }

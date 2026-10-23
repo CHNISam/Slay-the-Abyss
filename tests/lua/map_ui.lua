@@ -313,7 +313,7 @@ end)
 test("embedded Nodes transaction enters once and unlocks only after battle rewards complete", function()
     local Nodes, Run, Combat = require("abyss_nodes"), require("abyss_run"), require("abyss_combat")
     local source = Combat.copy(data)
-    for _, enemy in ipairs(source.enemies.enemies) do enemy.hp = 1 end
+    for _, enemy in ipairs(source.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP navigation fixture
     local run, map, host, calls = Run.new(source, 42), Map.generate(source, 42), mock(), 0
     local ui = makeUI(panel(host), map, function(node)
         calls = calls + 1

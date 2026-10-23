@@ -56,8 +56,17 @@ function M.apply(combat, state, effects, source, target, playedCard)
         if op == "damage" or op == "damageAll" then
             local selected = op == "damageAll" and targets(state, source) or { target }
             for _ = 1, effect.times or 1 do
+                local retaliation = op == "damageAll" and {} or nil
                 for _, victim in ipairs(selected) do
-                    dealt = dealt + combat.damage(state, source, victim, value)
+                    dealt = dealt + combat.damage(state, source, victim, value, nil, retaliation)
+                end
+                -- Thorns is added to the top of the original action queue:
+                -- finish this area hit, then retaliate in reverse target order.
+                if retaliation then
+                    for i = #retaliation, 1, -1 do
+                        local hit = retaliation[i]
+                        combat.retaliate(state, hit.source, hit.target, hit.amount)
+                    end
                 end
                 if combat.outcome(state) then break end
             end

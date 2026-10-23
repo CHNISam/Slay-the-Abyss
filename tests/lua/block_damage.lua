@@ -46,13 +46,17 @@ for _, case in ipairs({
     { name = "negative strength clamps to zero", block = 2, strength = -3, expected = 0 },
     { name = "weak and vulnerable floor once", block = 10, strength = 3, weak = 1, vulnerable = 1, expected = 14 },
     { name = "dexterity and frail do not modify existing block", block = 10, strength = 0, dexterity = 8, frail = 1, expected = 10 },
-    { name = "32 bit base plus strength does not wrap", block = 2147483647, strength = 2147483647, vulnerable = 1, expected = 6442450941.0 }
+    { name = "32 bit base plus strength does not wrap", block = 2147483647, strength = 2147483647, hostileStats = true, vulnerable = 1, expected = 6442450941.0 }
 }) do
     test(case.name .. " and core preview matches damage plus absorption", function()
         local s = battle()
         s.player.block = case.block
         for _, id in ipairs({ "strength", "weak", "dexterity", "frail" }) do
-            if case[id] then Combat.addStatus(s.player, id, case[id]) end
+            if case[id] then
+                -- Arithmetic-only hostile fixture; public signed stats cap at 999.
+                if case.hostileStats then s.player.statuses[id] = case[id]
+                else Combat.addStatus(s.player, id, case[id]) end
+            end
         end
         if case.vulnerable then Combat.addStatus(s.enemies[1], "vulnerable", case.vulnerable) end
         s.enemies[1].hp, s.enemies[1].block = 7000000000.0, 3
