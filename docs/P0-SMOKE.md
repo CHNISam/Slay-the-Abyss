@@ -2,7 +2,22 @@
 
 任务沿用 TASK-3（构建、导入、最小闭环）、TASK-5（真实第一幕回归）、TASK-17（Boss正式结算）。按用户本轮要求，游戏暂不开，离线任务继续并行并在复审/CI全绿后合并。游戏 GUI/MCP 由主 Agent 独占；保持 `MILIASTRA_ALLOW_LIVE_WRITE=0`，不发布。
 
-## 当前离线候选（be5093f，未导入/试玩）
+## 本批集成候选（022f22c，未导入/试玩）
+
+真实构建源为`022f22cf600de140527acb32774c997ea2be17d4`（PR78固定提交，包含Guardian、Cultist、牌库、叙事和药水固定槽位）。PR78已squash进develop `fac093cffb0403b3ab1ffc5479bd61011a95232b`，独立`git diff`确认两者`src/data/scripts`完全相同；中间PR70只新增两份回归。保留实际构建SHA，不用squash提交号替代。完整`npm run check`退出0，JS284通过/14个既有Windows权限skip，Lua全套通过，Python15通过/1个既有skip；各PR的当前SHA Quality和独立复审另按PR记录。
+
+- 实际写入副本的24模块静态检查0错误、15条跨模块方法warning，全部模块非空。
+- 精确读回1220控件，最大50直接子，四主面板及牌库入口/遮罩面板存在；`abyss_ui`根绑定存在。
+- `AbyssDeckCard`模板根索引1073741845，实际grid引用该模板且列数6。该编号只属于本候选，不能硬编码到运行时。
+- 结算服务端图22节点，启用挂载到关卡实体；编译/副本写入完成，胜利正式结算未实测。
+- 原底图SHA256构建前后均`6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`，liveWrite=0。
+- 交接副本：仓库根`.artifacts/offline-integrated-022f22c/abyss-integrated-offline.gil`，SHA256 `a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114`；原始输出、模板/UI读回和校验位于同目录。
+
+独立复核直接解析实际gil：24份模块源文逐份相等；重跑客户端检查并追溯15条warning的真实自定义方法定义；模板/网格/挂载与正式原件hash均核实。另在内存把本轮编译main.gia重注入构建器保存的原件，结果与实际候选逐字节一致，验证编译→写副本链。
+
+结构化证据见[本批候选记录](evidence/offline-candidate-022f22c.json)。未调用playtest、未开原神、未写正式存档、未官方导入。本候选不补足TASK2物理场景/镜头出生、不实现Boss17宝箱事务，也不能替代TASK3.2/3/11.1/12.3或M3/M4实机AC。
+
+## 上一离线候选（be5093f，未导入/试玩）
 
 已合 PR63 的代码提交 `be5093f541724405154c4ee1c656fccc08e329e1` 经 `build:data`、`build:ui`、真实 MCP 副本写入与结算图编译完成。只读正式底图1073741825后复制到工作区；正式文件 SHA256 构建前后均为 `6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432`。
 

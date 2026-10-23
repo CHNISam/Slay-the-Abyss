@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 22:20'
-updated_date: '2026-10-23 03:16'
+updated_date: '2026-10-23 04:04'
 labels: []
 milestone: m-2
 dependencies:
@@ -47,6 +47,8 @@ P0后续已越过旧阻塞：完整UI容器分组、Color和SetImage修复后，
 已从已合代码be5093f构建完整副本，未传playtest且liveWrite=0：21个Lua模块静态检查0errors/12warnings，1178控件、最大50直接子、四主面板/abyss_ui主脚本读回存在；结算服务端图22节点/编辑计数72编译写入并启用挂stage。副本SHA256 3e450284ff5b8096ea5836a1e12639ff702775e301788cf6e40b39e57e1ecb6a；正式底图6e82decfb9b113310ba97c0cad5cf541288c0cada5cb52644a0dd8785004a432前后相同。结构化证据docs/evidence/offline-candidate-be5093f.json，原始工具输出.artifacts/m1-offline-be5093f。21模块非空检查；官方导入/实机NOT_TESTED。等待独立复核12条跨模块方法warning及任务范围后仅收构建切片。
 
 独立复核通过：实际gil中21份Lua源文逐份等于be5093f；重跑checkClientScripts仍0errors/12个已定位跨模块方法warning；UI与图挂载非空。另以原底图和编译main.gia内存重注入，输出字节与候选完全一致。原文件hash与source-base及前后记录一致。关闭的仅为构建副本切片，TASK2/3.2/3继续未完成。
+
+本批代码已合develop fac093c（药水PR78），实际离线构建源022f22cf；git diff确认src/data/scripts与合入代码完全一致。完整check及各PR当前SHA Quality全绿，实际gil独立核实24模块源文、1220控件/六列模板/22节点启用结算图，客户端静态0error/15条已定位自定义方法warning；内存重注入与候选字节相同。候选SHA256 a6d839d45753af0e536142bba7a3cd2322155dda38a67cbcc220bce7b6c8e114，正式底图hash前后相同且liveWrite=0。证据docs/evidence/offline-candidate-022f22c.json及P0-SMOKE。未开原神、未官方导入/实机，所有剩余平台/全项AC保留原状态。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
