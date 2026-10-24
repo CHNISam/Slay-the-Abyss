@@ -488,13 +488,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self:render()
         return self.info~=nil
     end
-    function self:queueHelp(spec,source,held,touch)
+    function self:queueHelp(spec,source,held,touch,card)
         local run=self.run
         if not spec or not self.active or self.busy or not run or run.phase~="combat" then return end
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
         if not actor or actor.hp<=0 then return end
         self.help={spec=spec,source=source,held=held,touch=touch,t=0,run=run,battle=run.combat,
-            turn=run.combat.turn,actor=actor}
+            turn=run.combat.turn,actor=actor,card=card}
     end
     function self:cardHelpSpec(slot)
         local battle=self.run and self.run.phase=="combat" and self.run.combat
@@ -838,7 +838,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local current=self.run and self.run.combat
             local actor=current and (help.spec.index==0 and current.player or current.enemies[help.spec.index])
             if not self.active or self.busy or self.run~=help.run or current~=help.battle
-                or current.turn~=help.turn or actor~=help.actor or actor.hp<=0 or self.gesture and self.gesture.moving then
+                or current.turn~=help.turn or actor~=help.actor or actor.hp<=0 or self.gesture and self.gesture.moving
+                or help.card and (help.card.input.held~=help.card or not cardReady(help.card)) then
                 self.help=nil
             elseif not help.fired then
                 help.t=help.t+dt
@@ -967,6 +968,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             -- Missing/invalid coordinates disable dragging, not ordinary C-mode.
             local held = input and input.held
             if held and held.touch == touch then
+                if self.help and self.help.card == held then self.help = nil end
                 input.held = nil
                 input.released = not ended and cardReady(held) and held or nil
             elseif ended and input and input.released and input.released.touch == touch then
@@ -975,6 +977,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             return
         end
         if touch ~= g.touch or input and input ~= g.input then return end
+        if self.help and self.help.card == g then self.help = nil end
         g.input.held = nil
         -- Stationary taps must keep their binding through Up until Click, too.
         if not cardReady(g) then
@@ -1116,7 +1119,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local g = {uid=uid,slot=slot,run=run,battle=battle,turn=battle and battle.turn,
                     phase=run.phase,rewards=run.rewards,touch=event and event.touchId,input=input}
                 input.held = g
-                self:queueHelp(self:cardHelpSpec(slot),hit,true,event and event.touchId)
+                self:queueHelp(self:cardHelpSpec(slot),hit,true,event and event.touchId,g)
                 local x,y = point(event)
                 if not instance or not x then return end
                 local ok,reason = Combat.canPlay(battle,instance.uid,nil)
