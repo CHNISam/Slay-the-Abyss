@@ -27,7 +27,7 @@ class GrowingCardTextTests(unittest.TestCase):
                 self.assertEqual(card.get('combatText'), '对目标造成 {effects.0.value} 点伤害；随后本牌在本场战斗中的伤害增加 5 点。')
                 self.assertEqual(card.get('upgradeCombatText'), '对目标造成 {effects.0.value} 点伤害；随后本牌在本场战斗中的伤害增加 8 点。')
             for key, data, printed in (('combatText', source, card['text']), ('upgradeCombatText', upgraded, card['upgradeText'])):
-                live = [i for i, e in enumerate(data['effects']) if e['op'] in ('damage', 'damageAll', 'block')
+                live = [i for i, e in enumerate(data['effects']) if e['op'] in ('damage', 'damageAll', 'block','fiendFire','feed','reaper','damageRandom','secondWind')
                         and f'{{effects.{i}.value}}' in (overlay['textTemplate'] if key == 'combatText' else overlay.get('upgradeTextTemplate', overlay['textTemplate']))]
                 if not live:
                     self.assertNotIn(key, card)
@@ -41,9 +41,12 @@ class GrowingCardTextTests(unittest.TestCase):
         self.assertEqual({c['id'] for c in cards if 'combatText' in c}, {
             'strike', 'defend', 'bash', 'cleave', 'clothesline', 'iron_wave', 'anger', 'clash', 'true_grit',
             'twin_strike', 'pommel_strike', 'shrug_it_off', 'thunderclap', 'uppercut', 'carnage', 'dropkick',
-            'ghostly_armor', 'hemokinesis', 'rampage', 'whirlwind', 'impervious', 'bludgeon', 'reaper'})
-        self.assertEqual(len(cards), 40)
-        self.assertEqual(sum(card['type'] not in ('status', 'curse') for card in self.source['cards']), 37)
+            'ghostly_armor', 'hemokinesis', 'rampage', 'whirlwind', 'impervious', 'bludgeon', 'reaper',
+            'armaments','headbutt','heavy_blade','perfected_strike','sword_boomerang','wild_strike',
+            'blood_for_blood','flame_barrier','power_through','pummel','reckless_charge','searing_blow',
+            'second_wind','sentinel','sever_soul','feed','fiend_fire','immolate'})
+        self.assertEqual(len(cards), 80)
+        self.assertEqual(sum(card['type'] not in ('status', 'curse') for card in self.source['cards']), 75)
         self.assertEqual(before, (self.source, self.overlay))
 
     def test_damage_need_not_be_first_number_and_all_occurrences_are_preserved(self):

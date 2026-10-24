@@ -205,7 +205,9 @@ export function validateContent(bundle) {
       const seen=new Set();
       if (!object(pools[kind], `cards.sourcePools.${kind}`)) continue;
       for (const rarity of ['common','uncommon','rare']) {
-        for (const [i,id] of array(pools[kind][rarity],`cards.sourcePools.${kind}.${rarity}`).entries()) {
+        const list=pools[kind][rarity];
+        if (!Array.isArray(list)) { fail(`cards.sourcePools.${kind}.${rarity}`,'must be an array'); continue; }
+        for (const [i,id] of list.entries()) {
           const path=`cards.sourcePools.${kind}.${rarity}[${i}]`;
           if (!byId.has(id) || byId.get(id).rarity!==rarity) fail(path,'must be a class card of this rarity');
           if (seen.has(id)) fail(path,'duplicate class card');

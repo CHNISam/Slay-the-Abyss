@@ -78,8 +78,8 @@
     },
     "warcry": {
       "name": "Warcry",
-      "textTemplate": "消耗。抽 {effects.0.value} 张牌，将 {effects.0.value} 张手牌置于抽牌堆顶。",
-      "upgradeTextTemplate": "消耗。抽 {effects.0.value} 张牌，将 一 张手牌置于抽牌堆顶。"
+      "textTemplate": "消耗。抽 {effects.0.value} 张牌，将一张手牌置于抽牌堆顶。",
+      "upgradeTextTemplate": "消耗。抽 {effects.0.value} 张牌，将一张手牌置于抽牌堆顶。"
     },
     "uppercut": {
       "name": "Uppercut",
@@ -174,7 +174,7 @@
     "demon_form": {
       "name": "Demon Form",
       "textTemplate": "每回合开始时获得 {effects.0.value} 层力量。",
-      "upgradeTextTemplate": "每回合开始时获得 {cost} 层力量。"
+      "upgradeTextTemplate": "每回合开始时获得 {effects.0.value} 层力量。"
     },
     "bludgeon": {
       "name": "Bludgeon",
@@ -200,18 +200,18 @@
     },
     "armaments": {
       "name": "Armaments",
-      "textTemplate": "获得 {effects.0.value} 点格挡，升级手中 {cost} 张牌（本场战斗）。",
+      "textTemplate": "获得 {effects.0.value} 点格挡，升级手中一张牌（本场战斗）。",
       "upgradeTextTemplate": "获得 {effects.0.value} 点格挡，升级手中所有牌（本场战斗）。"
     },
     "havoc": {
       "name": "Havoc",
       "textTemplate": "打出抽牌堆顶的牌，并将其消耗。",
-      "upgradeTextTemplate": "消耗 {cost} 能量，打出抽牌堆顶的牌，并将其消耗。"
+      "upgradeTextTemplate": "打出抽牌堆顶的牌，并将其消耗。"
     },
     "headbutt": {
       "name": "Headbutt",
-      "textTemplate": "造成 {effects.0.value} 点伤害，将弃牌堆中 {cost} 张牌置于抽牌堆顶。",
-      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将弃牌堆中 {cost} 张牌置于抽牌堆顶。"
+      "textTemplate": "造成 {effects.0.value} 点伤害，将弃牌堆中一张牌置于抽牌堆顶。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将弃牌堆中一张牌置于抽牌堆顶。"
     },
     "heavy_blade": {
       "name": "Heavy Blade",
@@ -220,18 +220,18 @@
     },
     "perfected_strike": {
       "name": "Perfected Strike",
-      "textTemplate": "造成 {effects.0.value} 点伤害；你所有名称含“打击”的牌，每张额外造成 {cost} 点伤害。",
-      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害；你所有名称含“打击”的牌，每张额外造成 {strikeBonus} 点伤害。"
+      "textTemplate": "造成 {effects.0.value} 点伤害；每张带有 Strike 标签的牌额外造成 {strikeBonus} 点伤害。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害；每张带有 Strike 标签的牌额外造成 {strikeBonus} 点伤害。"
     },
     "sword_boomerang": {
       "name": "Sword Boomerang",
-      "textTemplate": "对随机敌人造成 {effects.0.value} 点伤害，共 {effects.0.value} 次。",
+      "textTemplate": "对随机敌人造成 {effects.0.value} 点伤害，共 {effects.0.times} 次。",
       "upgradeTextTemplate": "对随机敌人造成 {effects.0.value} 点伤害，共 {effects.0.times} 次。"
     },
     "wild_strike": {
       "name": "Wild Strike",
-      "textTemplate": "造成 {effects.0.value} 点伤害，将 {cost} 张伤口洗入抽牌堆。",
-      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将 {cost} 张伤口洗入抽牌堆。"
+      "textTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。"
     },
     "blood_for_blood": {
       "name": "Blood for Blood",
@@ -240,27 +240,27 @@
     },
     "burning_pact": {
       "name": "Burning Pact",
-      "textTemplate": "消耗 {cost} 张牌，抽 {effects.1.value} 张牌。",
-      "upgradeTextTemplate": "消耗 {cost} 张牌，抽 {effects.1.value} 张牌。"
+      "textTemplate": "消耗手中一张牌，抽 {effects.1.value} 张牌。",
+      "upgradeTextTemplate": "消耗手中一张牌，抽 {effects.1.value} 张牌。"
     },
     "combust": {
       "name": "Combust",
-      "textTemplate": "回合结束时失去 {cost} 点生命，并对所有敌人造成 {effects.0.value} 点伤害。",
-      "upgradeTextTemplate": "回合结束时失去 {cost} 点生命，并对所有敌人造成 {effects.0.value} 点伤害。"
+      "textTemplate": "回合结束时失去一点生命，并对所有敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "回合结束时失去一点生命，并对所有敌人造成 {effects.0.value} 点伤害。"
     },
     "dark_embrace": {
       "name": "Dark Embrace",
       "textTemplate": "每当一张牌被消耗，抽 {effects.0.value} 张牌。",
-      "upgradeTextTemplate": "消耗 {cost} 能量。每当一张牌被消耗，抽 {cost} 张牌。"
+      "upgradeTextTemplate": "每当一张牌被消耗，抽 {effects.0.value} 张牌。"
     },
     "dual_wield": {
       "name": "Dual Wield",
-      "textTemplate": "选一张攻击牌或能力牌，将其 {cost} 张复制加入手中。",
+      "textTemplate": "选一张攻击牌或能力牌，将其 {effects.0.value} 张复制加入手中。",
       "upgradeTextTemplate": "选一张攻击牌或能力牌，将其 {effects.0.value} 张复制加入手中。"
     },
     "evolve": {
       "name": "Evolve",
-      "textTemplate": "每当你抽到状态牌，抽 {cost} 张牌。",
+      "textTemplate": "每当你抽到状态牌，抽 {effects.0.value} 张牌。",
       "upgradeTextTemplate": "每当你抽到状态牌，抽 {effects.0.value} 张牌。"
     },
     "feel_no_pain": {
@@ -280,8 +280,8 @@
     },
     "infernal_blade": {
       "name": "Infernal Blade",
-      "textTemplate": "消耗。将一张随机攻击牌加入手中，本回合其费用为 {effects.0.value}。",
-      "upgradeTextTemplate": "消耗。将一张随机攻击牌加入手中，本回合其费用为 {cost}。"
+      "textTemplate": "消耗。将一张随机攻击牌加入手中，本回合其费用为零。",
+      "upgradeTextTemplate": "消耗。将一张随机攻击牌加入手中，本回合其费用为零。"
     },
     "intimidate": {
       "name": "Intimidate",
@@ -310,7 +310,7 @@
     },
     "rupture": {
       "name": "Rupture",
-      "textTemplate": "每当你因卡牌失去生命，获得 {cost} 层力量。",
+      "textTemplate": "每当你因卡牌失去生命，获得 {effects.0.value} 层力量。",
       "upgradeTextTemplate": "每当你因卡牌失去生命，获得 {effects.0.value} 层力量。"
     },
     "searing_blow": {
@@ -341,12 +341,12 @@
     "berserk": {
       "name": "Berserk",
       "textTemplate": "获得 {effects.0.value} 层易伤。每回合开始时获得 {effects.1.value} 点能量。",
-      "upgradeTextTemplate": "获得 {effects.0.value} 层易伤。每回合开始时获得 {effects.0.value} 点能量。"
+      "upgradeTextTemplate": "获得 {effects.0.value} 层易伤。每回合开始时获得 {effects.1.value} 点能量。"
     },
     "brutality": {
       "name": "Brutality",
-      "textTemplate": "每回合开始时失去{effects.0.value}点生命，额外抽{effects.0.value}张牌。",
-      "upgradeTextTemplate": "固有。每回合开始时失去{effects.0.value}点生命，额外抽{effects.0.value}张牌。"
+      "textTemplate": "每回合开始时失去一点生命，额外抽 {effects.0.value} 张牌。",
+      "upgradeTextTemplate": "固有。每回合开始时失去一点生命，额外抽 {effects.0.value} 张牌。"
     },
     "corruption": {
       "name": "Corruption",
@@ -355,13 +355,13 @@
     },
     "double_tap": {
       "name": "Double Tap",
-      "textTemplate": "本回合你打出的下 {cost} 张攻击牌生效两次。",
-      "upgradeTextTemplate": "本回合你打出的下 {effects.0.value} 张攻击牌各生效两次。"
+      "textTemplate": "本回合你打出的下 {effects.0.value} 张攻击牌生效两次。",
+      "upgradeTextTemplate": "本回合你打出的下 {effects.0.value} 张攻击牌生效两次。"
     },
     "exhume": {
       "name": "Exhume",
-      "textTemplate": "消耗。将消耗堆中 {cost} 张牌放回手中。",
-      "upgradeTextTemplate": "消耗 {cost} 能量。将消耗堆中 一 张牌放回手中。"
+      "textTemplate": "消耗。将消耗堆中一张牌放回手中。",
+      "upgradeTextTemplate": "消耗。将消耗堆中一张牌放回手中。"
     },
     "feed": {
       "name": "Feed",
