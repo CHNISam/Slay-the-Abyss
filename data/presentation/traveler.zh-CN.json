@@ -118,8 +118,8 @@
     },
     "disarm": {
       "name": "压制攻势",
-      "textTemplate": "调整目标力量：{effects.0.value} 层。打出后消耗本牌。",
-      "upgradeTextTemplate": "调整目标力量：{effects.0.value} 层。打出后消耗本牌。"
+      "textTemplate": "目标的力量 {effects.0.value}，攻击伤害随之降低。打出后消耗本牌。",
+      "upgradeTextTemplate": "目标的力量 {effects.0.value}，攻击伤害随之降低。打出后消耗本牌。"
     },
     "dropkick": {
       "name": "乘隙追击",

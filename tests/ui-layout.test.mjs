@@ -51,6 +51,19 @@ test('approved critical actor values and card types have native text line room',
     assert(card.children.find(c => c.name === 'type').size[1] >= theme.layout.nativeText.lineHeight);
   }
 });
+test('status detail panel renders every line natively and fits under the top bar', () => {
+  // A native text box shorter than one line height renders nothing: the panel
+  // once showed only an icon and a single truncated description line.
+  const line = theme.layout.nativeText.lineHeight, si = theme.layout.statusInfo, s = theme.space;
+  const info = stage().children.find(c => c.name === 'statusInfo');
+  for (const name of ['title', 'summary', 'more', ...Array.from({ length: si.rows }, (_, i) => `name${i + 1}`)]) {
+    assert(info.children.find(c => c.name === name).size[1] >= line, name);
+  }
+  for (let i = 1; i <= si.rows; i++) assert(info.children.find(c => c.name === `text${i}`).size[1] >= line + s.l, `text${i} has two lines`);
+  const [, height] = theme.canvas.base;
+  const room = height - theme.layout.topBar.height - s.s - theme.canvas.safe.y;
+  assert(si.pad * 2 + si.header + si.summary * 2 + si.rows * si.row <= room, 'full panel fits on screen');
+});
 function walk(controls, fn, x = 0, y = 0) {
   const names = new Set();
   for (const control of controls) {

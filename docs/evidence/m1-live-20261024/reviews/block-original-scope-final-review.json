@@ -1,0 +1,293 @@
+{
+  "task": "TASK-4.1",
+  "reviewType": "FINAL_ORIGINAL_PROBLEM_SCOPE",
+  "status": "PASS_ORIGINAL_BLOCK_BADGE_ISSUE",
+  "scopeDecision": {
+    "authority": "Latest explicit user decision, relayed by parent agent",
+    "acceptedNormalBehavior": "A flying card briefly crossing HP during its normal flight is accepted and is not a bug or an additional M1 gate.",
+    "originalDefect": "Block badge horizontal scaling grows over the adjacent HP bar; fix that growth while preserving vertical feedback and restoring UI on completion/cancel.",
+    "noNewPlatformStandard": true
+  },
+  "candidate": {
+    "sha256": "01dd39274f42ddaccf73e68fdf7bcbe4986919f96c297e94e6d6c4483bef297a",
+    "officialSaveId": "1073741841",
+    "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+    "scope": "Original successfully imported diagnostic candidate, not 06dd and not a newer normal build"
+  },
+  "preservedEarlierAssessment": {
+    "file": "block-live-review.json",
+    "sha256": "38a8ab0553c8e946c01ebfc799a8bda8637e0827fdedd59ee09b7b92e8701f8b",
+    "previousStatus": "FAIL",
+    "preservedUnchanged": true,
+    "explanation": "Earlier report truthfully recorded normal flying-card occlusion. The user subsequently accepted that normal behavior and rejected using it to extend TASK-4.1; this separate review applies the original badge defect scope and does not edit the prior report."
+  },
+  "nativeEvidence": {
+    "rawLog": "live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/session-log.gia",
+    "logSha256": "7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57",
+    "freshReadyCount": 1,
+    "explicitPrintCount": 837,
+    "blockSampleCount": 108,
+    "cancelledRestoredCount": 6,
+    "complete": {
+      "recordIndex": 817,
+      "elapsedSeconds": "599",
+      "sessionLabel": "2026/10/24_14:23:14",
+      "graphId": null,
+      "entityId": null,
+      "text": "M1_BLOCK case=7 phase=complete wall=212.74 cases=6 samples=108 cancelled=6",
+      "clientScript": true
+    },
+    "unexpectedPrintedFaults": [],
+    "actualPhaseAlignment": "Actual M1_BLOCK baseline/sample/cancelled-restored records, visible enemy counts and Guardian appearance identify each case. Nominal capture schedule alone was not treated as evidence."
+  },
+  "visualReview": {
+    "sourceIntervalSeconds": [
+      380,
+      600
+    ],
+    "intervalIncludesAdjacentStatusAndPreviewFrames": true,
+    "intervalSourceFrames": 394,
+    "consecutiveUniqueOriginalPixelBandsActuallyViewed": 252,
+    "contactPagesActuallyViewed": [
+      "block-visual-review/band-00.png",
+      "block-visual-review/band-01.png",
+      "block-visual-review/band-02.png",
+      "block-visual-review/band-03.png",
+      "block-visual-review/band-04.png",
+      "block-visual-review/band-05.png",
+      "block-visual-review/band-06.png",
+      "block-visual-review/band-07.png",
+      "block-visual-review/band-08.png",
+      "block-visual-review/band-09.png",
+      "block-visual-review/band-10.png",
+      "block-visual-review/band-11.png",
+      "block-visual-review/band-12.png",
+      "block-visual-review/band-13.png",
+      "block-visual-review/band-14.png",
+      "block-visual-review/band-15.png",
+      "block-visual-review/band-16.png",
+      "block-visual-review/band-17.png",
+      "block-visual-review/band-18.png",
+      "block-visual-review/band-19.png",
+      "block-visual-review/band-20.png",
+      "block-visual-review/band-21.png",
+      "block-visual-review/band-22.png",
+      "block-visual-review/band-23.png",
+      "block-visual-review/band-24.png",
+      "block-visual-review/band-25.png",
+      "block-visual-review/band-26.png",
+      "block-visual-review/band-27.png",
+      "block-visual-review/band-28.png",
+      "block-visual-review/band-29.png",
+      "block-visual-review/band-30.png",
+      "block-visual-review/band-31.png",
+      "block-visual-review/band-32.png",
+      "block-visual-review/band-33.png",
+      "block-visual-review/band-34.png",
+      "block-visual-review/band-35.png",
+      "block-visual-review/band-36.png",
+      "block-visual-review/band-37.png",
+      "block-visual-review/band-38.png",
+      "block-visual-review/band-39.png",
+      "block-visual-review/band-40.png",
+      "block-visual-review/band-41.png"
+    ],
+    "indexWithOriginalFilesAndHashes": "block-visual-review/band-index.json",
+    "derivedCropsAreReviewAidsOnly": true,
+    "wholeNativeReferenceImages": [
+      "63-b384.jpg",
+      "65-t385.jpg",
+      "266-b500.jpg",
+      "328-b540.jpg",
+      "407-b580.jpg",
+      "446-b598.jpg"
+    ],
+    "findings": [
+      "Player Block 7 to 12, absorption 12 to 6, and cancellation leaving committed Block 5 remain visibly separate from HP; vertical emphasis remains.",
+      "One through five ordinary enemy columns keep each badge beside its own bar during their sequential block effects, with no collision with the neighboring bar.",
+      "Guardian 240/240 and its Block badge remain separately readable during pop and after ordinary restoration.",
+      "All six cancellation/restore sequences leave ordinary badge dimensions and the committed number visible; no stale scale or stuck effect was observed.",
+      "Normal flying-card movement, shields, actor emphasis, turn announcements and subsequent phase transition remain present; flying-card temporary occlusion is explicitly accepted by the user."
+    ]
+  },
+  "cases": [
+    {
+      "case": 1,
+      "layout": "1 ordinary enemies",
+      "samplePrintCount": 13,
+      "baseline": {
+        "recordIndex": 375,
+        "elapsedSeconds": "387",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=1 phase=baseline wall=0.00 enemies=1 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      "cancelledRestored": {
+        "recordIndex": 431,
+        "elapsedSeconds": "414",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=1 phase=cancelled-restored wall=26.56 hp=60 block=5.0",
+        "clientScript": true
+      },
+      "badgeVisualResult": "PASS",
+      "observation": "Blue Block badge stays in its reserved lane to the left of HP during vertical pop, gain, absorption and restored states; no horizontal expansion over HP and no neighboring badge/bar collision observed."
+    },
+    {
+      "case": 2,
+      "layout": "2 ordinary enemies",
+      "samplePrintCount": 16,
+      "baseline": {
+        "recordIndex": 432,
+        "elapsedSeconds": "415",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=2 phase=baseline wall=27.84 enemies=2 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      "cancelledRestored": {
+        "recordIndex": 498,
+        "elapsedSeconds": "446",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=2 phase=cancelled-restored wall=59.23 hp=60 block=5.0",
+        "clientScript": true
+      },
+      "badgeVisualResult": "PASS",
+      "observation": "Blue Block badge stays in its reserved lane to the left of HP during vertical pop, gain, absorption and restored states; no horizontal expansion over HP and no neighboring badge/bar collision observed."
+    },
+    {
+      "case": 3,
+      "layout": "3 ordinary enemies",
+      "samplePrintCount": 19,
+      "baseline": {
+        "recordIndex": 499,
+        "elapsedSeconds": "448",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=3 phase=baseline wall=60.53 enemies=3 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      "cancelledRestored": {
+        "recordIndex": 575,
+        "elapsedSeconds": "483",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=3 phase=cancelled-restored wall=95.97 hp=60 block=5.0",
+        "clientScript": true
+      },
+      "badgeVisualResult": "PASS",
+      "observation": "Blue Block badge stays in its reserved lane to the left of HP during vertical pop, gain, absorption and restored states; no horizontal expansion over HP and no neighboring badge/bar collision observed."
+    },
+    {
+      "case": 4,
+      "layout": "4 ordinary enemies",
+      "samplePrintCount": 22,
+      "baseline": {
+        "recordIndex": 576,
+        "elapsedSeconds": "484",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=4 phase=baseline wall=97.31 enemies=4 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      "cancelledRestored": {
+        "recordIndex": 662,
+        "elapsedSeconds": "525",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=4 phase=cancelled-restored wall=137.76 hp=60 block=5.0",
+        "clientScript": true
+      },
+      "badgeVisualResult": "PASS",
+      "observation": "Blue Block badge stays in its reserved lane to the left of HP during vertical pop, gain, absorption and restored states; no horizontal expansion over HP and no neighboring badge/bar collision observed."
+    },
+    {
+      "case": 5,
+      "layout": "5 ordinary enemies",
+      "samplePrintCount": 25,
+      "baseline": {
+        "recordIndex": 663,
+        "elapsedSeconds": "526",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=5 phase=baseline wall=139.06 enemies=5 boss=false hp=60 block=7",
+        "clientScript": true
+      },
+      "cancelledRestored": {
+        "recordIndex": 759,
+        "elapsedSeconds": "571",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=5 phase=cancelled-restored wall=183.96 hp=60 block=5.0",
+        "clientScript": true
+      },
+      "badgeVisualResult": "PASS",
+      "observation": "Blue Block badge stays in its reserved lane to the left of HP during vertical pop, gain, absorption and restored states; no horizontal expansion over HP and no neighboring badge/bar collision observed."
+    },
+    {
+      "case": 6,
+      "layout": "Guardian Boss",
+      "samplePrintCount": 13,
+      "baseline": {
+        "recordIndex": 760,
+        "elapsedSeconds": "572",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=6 phase=baseline wall=185.26 enemies=1 boss=true hp=60 block=7",
+        "clientScript": true
+      },
+      "cancelledRestored": {
+        "recordIndex": 816,
+        "elapsedSeconds": "598",
+        "sessionLabel": "2026/10/24_14:23:14",
+        "graphId": null,
+        "entityId": null,
+        "text": "M1_BLOCK case=6 phase=cancelled-restored wall=211.44 hp=60 block=5.0",
+        "clientScript": true
+      },
+      "badgeVisualResult": "PASS",
+      "observation": "Blue Block badge stays in its reserved lane to the left of HP during vertical pop, gain, absorption and restored states; no horizontal expansion over HP and no neighboring badge/bar collision observed."
+    }
+  ],
+  "acceptanceRecommendations": [
+    {
+      "ac": 1,
+      "recommendation": "CHECK",
+      "basis": "Original Block badge growth issue passes actual player, 1–5 enemy and Boss recorded sequences; displayed Block values track the fixture commands and native logs."
+    },
+    {
+      "ac": 2,
+      "recommendation": "CHECK",
+      "basis": "Vertical feedback and the other recorded effects remain present; all six actual cancel/complete sequences restore ordinary UI and committed values."
+    },
+    {
+      "ac": 3,
+      "recommendation": "CHECK_FOR_ORIGINAL_ISSUE",
+      "basis": "The original horizontal-scale negative control failed; corrected local feedback/layout suites passed, and this same-candidate native run provides the missing visual evidence. Parent retains the usual exact-current-PR CI gate; no additional flying-card pass is required."
+    }
+  ],
+  "completionRecommendation": "TASK-4.1 may be completed under its original badge defect scope. Do not make the normal flying-card behavior or the unrun second candidate an M1 blocker.",
+  "secondRound": {
+    "stoppedAtUserDirection": true,
+    "newCandidateAccepted": false,
+    "newCandidatePassClaim": false
+  },
+  "limitations": [
+    "Explicit encounter and Block state fixture; not natural encounter or balance acceptance.",
+    "108 paused timeline samples and six direct cancellation paths; not a claim of physical-device gesture testing, performance approval or complete UI acceptance.",
+    "Does not certify any newer candidate hash from old native images."
+  ]
+}

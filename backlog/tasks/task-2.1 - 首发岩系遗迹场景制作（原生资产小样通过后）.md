@@ -5,17 +5,17 @@ status: To Do
 assignee:
   - '@art-scene'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-24 06:50'
 due_date: '2026-10-28'
 labels:
   - art
   - launch
 milestone: m-5
-dependencies:
-  - TASK-10.1
+dependencies: []
 references:
   - docs/art/scene-spike/README.md
   - docs/backlog-details/TASK-2.1.md
+  - docs/backlog-details/TASK-4.2.md
 parent_task_id: TASK-2
 type: task
 ordinal: 32000

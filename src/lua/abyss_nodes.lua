@@ -243,9 +243,21 @@ function M.upgrade(run, uid)
     return true
 end
 
-local function purchase(run, category, id)
+local function purchase(run, category, reference, bySlot)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
-    local offer = category=='potions' and flow.potions[id] or find(flow[category], id)
+    local offer
+    if bySlot or category=='potions' then offer=flow[category][reference]
+    elseif category=='cards' then
+        -- Courier may legitimately stock the same card at different prices.
+        -- Keep the ID API only when it identifies exactly one shelf offer.
+        for _, candidate in ipairs(flow.cards) do
+            if candidate.id==reference then
+                if offer then return false,'item_unavailable' end
+                offer=candidate
+            end
+        end
+    else offer=find(flow[category],reference) end
+    local id=offer and offer.id
     if not offer or offer.sold or offer.unavailable or (category == "relics" and owns(run.relics, id)) then
         return false, "item_unavailable"
     end
@@ -278,6 +290,10 @@ local function purchase(run, category, id)
 end
 
 function M.buyCard(run, id) return purchase(run, "cards", id) end
+function M.buyCardSlot(run, slot)
+    if type(slot)~='number' or slot%1~=0 or slot<1 or slot>7 then return false,'item_unavailable' end
+    return purchase(run,'cards',slot,true)
+end
 function M.buyRelic(run, id) return purchase(run, "relics", id) end
 function M.buyPotion(run, slot)
     if type(slot)~='number' or slot%1~=0 or slot<1 or slot>3 then return false,'item_unavailable' end

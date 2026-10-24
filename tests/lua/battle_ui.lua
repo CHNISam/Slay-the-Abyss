@@ -94,7 +94,7 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.energy.text == "3/3")
     assert(stage.children.enemy1.children.intent.text == "")
     click("enemy1")
-    assert(stage.children.notice.text:find("准备强化自身",1,true))
+    assert(stage.children.notice.text:find("自身获得 3 层仪式",1,true))
     click("endTurn")
     -- Ritual alone: one buff chip with its stack count, and no Strength chip yet.
     local row = stage.children.enemy1.children.statusRow.children
@@ -117,10 +117,10 @@ test("Jaw Worm real encounter presents combined Thrash and Bellow effects withou
     assert(Combat.intent(battle,1).id == "jaw_worm_2")
     assert(stage.children.enemy1.children.intent.text == "7")
     click("enemy1")
-    assert(stage.children.notice.text:find("7 点伤害",1,true) and stage.children.notice.text:find("格挡 5",1,true))
+    assert(stage.children.notice.text:find("7 点伤害",1,true) and stage.children.notice.text:find("获得 5 点格挡",1,true))
     enemy.intentIndex = 3 -- inspect the declared Bellow face independently of another roll
     ui:render(); click("enemy1")
-    assert(stage.children.notice.text:find("准备强化自身",1,true) and stage.children.notice.text:find("格挡 6",1,true))
+    assert(stage.children.notice.text:find("自身获得 3 层力量",1,true) and stage.children.notice.text:find("获得 6 点格挡",1,true))
     assert(enemy.statuses.strength == nil and enemy.block == 0, "preview mutated the actor")
 end)
 
@@ -341,7 +341,7 @@ test("intent previews use core modifiers without changing combat state or consum
     assert(stage.children.enemy1.children.intent.text == "")
     click("enemy1")
     local preview = stage.children.notice.text
-    assert(preview:find("格挡 9", 1, true) and preview:find("9×2 点伤害", 1, true))
+    assert(preview:find("获得 9 点格挡", 1, true) and preview:find("攻击 2 次，每次 9 点伤害", 1, true))
     assert(not enemy.statuses.dexterity and enemy.block == 0)
 end)
 
@@ -1136,7 +1136,7 @@ test("Guardian shows real mode budget and switches visible intention before its 
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],30,true)
     ui:render(); assert(box.children.intent.text=="")
     assert(box.children.intentIcon.imageId==Theme.icon.intent.buff)
-    click("enemy1"); assert(stage.children.notice.text:find("准备强化自身",1,true))
+    click("enemy1"); assert(stage.children.notice.text:find("自身获得 3 层尖刺甲壳",1,true))
     assert(Combat.endTurn(ui.run.combat)); ui:render()
     assert(details(stage,box):find("尖刺甲壳 3",1,true))
     assert(box.children.intent.text=="9")

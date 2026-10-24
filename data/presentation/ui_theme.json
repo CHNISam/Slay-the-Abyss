@@ -417,12 +417,13 @@
       "rows": 2
     },
     "statusInfo": {
-      "width": 360,
+      "note": "原生文本框低于 nativeText.lineHeight 时整行不渲染；标题/生命/名称各占一行高，说明占两行（lineHeight + space.l）。5 行刚好放进顶栏下到安全区底。",
+      "width": 400,
       "pad": 12,
       "header": 40,
       "summary": 40,
-      "row": 124,
-      "rows": 3,
+      "row": 100,
+      "rows": 5,
       "icon": 26,
       "gap": 12,
       "nameHeight": 40,

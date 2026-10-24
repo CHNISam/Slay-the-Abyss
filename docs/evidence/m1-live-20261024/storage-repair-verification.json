@@ -1,0 +1,112 @@
+{
+  "losslessOriginals": [
+    {
+      "oldPackagePath": "fixture/abyss_ui_unified_probe.lua",
+      "packagedPath": "fixture/abyss_ui_unified_probe.lua.gz",
+      "originalSha256": "4311b9a322c3b8beeff2a4b84a18548bae972dcd9edbc67c4ac1e723147839f0",
+      "originalBytes": 4728,
+      "gzipSha256": "fcb96b02ffe2cf143d49c9dc5cf1e557b393a59140fe74ab5d5976bbdf95eec1",
+      "gzipBytes": 1541,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "historical-red/exact-damage-negative.log",
+      "packagedPath": "historical-red/exact-damage-negative.log.gz",
+      "originalSha256": "f713c827a7a3d76352445211c71cf760882e25c26579f2bc2d686d5c4aacc93f",
+      "originalBytes": 539,
+      "gzipSha256": "499f3b05dc608dd686ba095b1f8d3b663ec749b4967d5469e68d6d22041adbac",
+      "gzipBytes": 259,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "historical-red/exact-damage-red.log",
+      "packagedPath": "historical-red/exact-damage-red.log.gz",
+      "originalSha256": "b01f0b8b4972408bf85001deedba5e97b659758bcd8949126e9e71b5a0820ddc",
+      "originalBytes": 557,
+      "gzipSha256": "83fe5f96e512fa232595128b61dd27f05a50002468951bbd5228c545ab4a4cc3",
+      "gzipBytes": 229,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "historical-red/integer-resources-red-corrected.log",
+      "packagedPath": "historical-red/integer-resources-red-corrected.log.gz",
+      "originalSha256": "4920bb199121eb02e93ccca53fa0fa50567a024ce3f75f341258e4e7b1e2c2a3",
+      "originalBytes": 3374,
+      "gzipSha256": "a571c7fa9a8185fe2e89f6b93952e16bce058224177e4670b846be7fb85186ad",
+      "gzipBytes": 1437,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "historical-red/status-help-red.log",
+      "packagedPath": "historical-red/status-help-red.log.gz",
+      "originalSha256": "e185a91fcbc4aabc902cef3a0576193180c82cfbdf1cbeaab1ac6dff8ab7e9f0",
+      "originalBytes": 513,
+      "gzipSha256": "e768540a388072696ec89a2e4af98607d7f177d4d3a42ef2e19aede23af3eb56",
+      "gzipBytes": 230,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "historical-red/TASK-10.7-original-problem.md",
+      "packagedPath": "historical-red/TASK-10.7-original-problem.md.gz",
+      "originalSha256": "056187cbc884eee882feeca3103e662b17c0aa7baa63f8774f64efaefd2a9f08",
+      "originalBytes": 2367,
+      "gzipSha256": "6327c8bd2bd541c12ae4f4086db8b512f6299b84779f9fb1ecc6331ea87a43b8",
+      "gzipBytes": 1624,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "later-fix-local-only/hp-animation-green.log",
+      "packagedPath": "later-fix-local-only/hp-animation-green.log.gz",
+      "originalSha256": "428a0b827eab32c797cc65e8787b03dc4473dc86eba243daf29cb6d6351ca48f",
+      "originalBytes": 2334,
+      "gzipSha256": "21d1a4b8bca48065e35414af781b3a429e7e1b93e46399010d6f8b2f7fdcb9e6",
+      "gzipBytes": 703,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "later-fix-local-only/hp-animation-red-final.log",
+      "packagedPath": "later-fix-local-only/hp-animation-red-final.log.gz",
+      "originalSha256": "41460bf7496d6e16dba6634d8d56b08b687084250b404360d72c4c89c9d24c5a",
+      "originalBytes": 1459,
+      "gzipSha256": "52faccf9719447294505fb1ea0e6afadc9376b0ef1a49b572d73a38d5d3cb97c",
+      "gzipBytes": 707,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "later-fix-local-only/hp-animation-regressions.log",
+      "packagedPath": "later-fix-local-only/hp-animation-regressions.log.gz",
+      "originalSha256": "9e5a578c6fa60fddb696d0881e7037a95db03e8cdcb832e182f2b981ca808376",
+      "originalBytes": 63132,
+      "gzipSha256": "ba2e1474142561c013bb68eb6425428c63d7ce0ca63818475f637ad8bb0580c2",
+      "gzipBytes": 6694,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "run-request.json",
+      "packagedPath": "run-request.json.gz",
+      "originalSha256": "2e01862ae289ade0d079f42f25c8ae6d5a55a47ede787116cae64f97d78f14c6",
+      "originalBytes": 1499,
+      "gzipSha256": "dd8d1a7fa98cbf944591137c9037e560763231e4c71b81266d59f773c51fec8f",
+      "gzipBytes": 599,
+      "decompressedOriginalHashVerified": true
+    },
+    {
+      "oldPackagePath": "run-status.json",
+      "packagedPath": "run-status.json.gz",
+      "originalSha256": "006622d875c0d9946bf169ba476a59123f3e3535bcb472bad6d482cedae6ac15",
+      "originalBytes": 134792,
+      "gzipSha256": "55f373095448ee503b192c41dcf80eeb7de4a8acc55292f0880c91cc089ac953",
+      "gzipBytes": 9914,
+      "decompressedOriginalHashVerified": true
+    }
+  ],
+  "reviewOriginalHashesUnchanged": {
+    "reviews\\block-live-review.json": "38a8ab0553c8e946c01ebfc799a8bda8637e0827fdedd59ee09b7b92e8701f8b",
+    "reviews\\block-original-scope-final-review.json": "6b1a915c324cb2d56e7b12feff6b2ccf7447b5d4fe6cd048f4582ed5c9095e33",
+    "reviews\\preview-live-review.json": "106879af5e3da3a47715567d8af7f6e6e6a4a549a7fa835a351ec29cbc4009e7",
+    "reviews\\status-live-log-review.json": "88d16e889397827be5f943dc7fa826a67d8ee580709004529b89dbcb5b06a6b6",
+    "reviews\\status-live-review.json": "1fc7bb8a30e417bb95be551eb1abf06115df69f93d0266a6949e3a9e566e93e9"
+  },
+  "userDecisionIsDerived": true,
+  "originalHashesWereNotChanged": true
+}

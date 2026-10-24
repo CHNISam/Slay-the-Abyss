@@ -219,6 +219,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderShop(view, node)
         local shop = child("shopView")
         local offers, relics = node.cards or {}, node.relics or {}
+        local flow, shelf = self.run.nodeFlow, self.run.nodeFlow.cards
         self.pageCount, self.page, self.relicPage = 1, 1, 1
         local relicPages = 1
         for i = 1, SHOP_PAGE do
@@ -238,7 +239,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 fillPrice(price, offer.price, offer.unavailable and 'missing' or offer.sold and "sold" or poor and "poor" or "ok")
                 local name = cardName(offer.id)
                 action("shopView/card" .. i, not offer.sold and not poor and not offer.unavailable, function()
-                    return commit("buyCard", offer.id, function(before)
+                    -- A slot means the current offer, not a reusable quote. Keep
+                    -- this render bound to its run, node and transaction shelf;
+                    -- an old callback must never purchase Courier's replacement.
+                    if not self.visible or self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map
+                        or self.run.nodeFlow~=flow or flow.cards~=shelf then return false,'stale_action' end
+                    return commit("buyCardSlot", i, function(before)
                         return "已购买「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币，加入牌组"
                     end)
                 end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
@@ -641,7 +647,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not called then error(accepted) end
         if accepted then
             local notice, hold = describe(before)
-            if command == "buyCard" or command == "buyRelic" or command == 'buyPotion' or command == "removeCard" then
+            if command == "buyCardSlot" or command == "buyRelic" or command == 'buyPotion' or command == "removeCard" then
                 notice = Narrative.merchant.purchaseSuccess .. " " .. notice
             end
             self.notice, self.failed = notice, false
