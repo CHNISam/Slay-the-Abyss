@@ -33,7 +33,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource,
         cursor = platform.cursorEvents })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
-        presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource })
+        presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
+            cursorEvents = platform.cursorEvents })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
 
     function self:openExit()
@@ -156,7 +157,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         else
             local floor = self.map.floor
             result:GetChild("subtitle").text = Narrative.flow[mode].full
-            local values = { floor .. " / " .. rules.bossFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
+            local values = { floor .. " / " .. rules.floors, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
             for i, name in ipairs({ "抵达层数", "战斗胜场", "用时", "卡组张数" }) do
                 cards[i]:GetChild("label").text, cards[i]:GetChild("value").text = name, values[i]
             end
@@ -190,7 +191,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.battleUI.busy then self.mode = "battle"
         elseif not run then self.mode = "menu"
         elseif run.phase == "defeat" then self.mode = "defeat"
-        elseif run.nodeFlow and run.nodeFlow.complete and run.nodeFlow.result == "boss_victory" then self.mode = "victory"
+        elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
         elseif run.phase == "node" then self.mode = "node"
         -- Camp/event results stay on screen until the player presses 继续.
@@ -264,6 +265,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.battleUI.run, self.battleUI.target = self.run, 1
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
+        self.nodeUI:render()
         self:refresh()
         return true
     end

@@ -142,6 +142,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if id=='smiling_mask' then return '商店删牌服务固定为50金币。' end
         local definition = find(self.run.data.relics.relics, id)
         if not definition then return "" end
+        if definition.description then return definition.description end
         local parts = {}
         for _, effect in ipairs(definition.effects or {}) do
             local value = number(effect.value)
@@ -208,7 +209,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     local function renderTopBar(node)
-        child("title").text = node and ("第 " .. node.floor .. " 层 · " .. (kinds[node.type] or "节点")) or "路线"
+        child("title").text = node and ("第 " .. node.floor .. " 层 · " ..
+            (node.roomKind == "boss_treasure" and "首领宝箱" or kinds[node.type] or "节点")) or "路线"
         child("hp").text = number(self.run.hp) .. "/" .. number(self.run.maxHp)
         child("gold").text = number(self.run.gold)
         child("deck").text = tostring(#self.run.deck)
@@ -497,26 +499,52 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderTreasure(view, node)
         local chest = child("treasureView")
         local reward = node.reward
+        local boss = node.roomKind == "boss_treasure"
+        local choices = boss and reward.relics or nil
+        self.treasureChoice = math.min(self.treasureChoice or 1, choices and #choices or 1)
+        local relicId = boss and choices[self.treasureChoice] or reward.relicId
         local opened = self.opened == true
         show(chest:GetChild("closed"), not opened) show(chest:GetChild("open"), opened)
         show(chest:GetChild("hint"), not opened)
         tint(chest:GetChild("glow"), opened and C.gold or C.goldDim)
         local row, take = chest:GetChild("reward"), chest:GetChild("take")
-        show(row, opened) show(take, opened)
-        local name = reward.relicId and relicName(reward.relicId) or (number(reward.gold) .. " 金币")
-        if opened then
+        local hasReward = not boss or #choices > 0
+        show(row, opened and hasReward) show(take, opened and hasReward)
+        local name = relicId and relicName(relicId) or (not boss and (number(reward.gold) .. " 金币") or "")
+        for _, key in ipairs({"previous", "next", "page", "bossDescription"}) do show(chest:GetChild(key), opened and boss) end
+        take:GetChild("label").text = boss and "领取这件遗物" or "拿取并离开"
+        if opened and hasReward then
             state(row, true) state(take, true, false, true)
-            picture(row:GetChild("icon"), reward.relicId and Theme.icon.relic[reward.relicId] or Theme.icon.gold)
-            row:GetChild("name").text = reward.relicId and ("遗物 · " .. name) or name
-            row:GetChild("description").text = reward.relicId and relicText(reward.relicId) or "遗物已全部持有，改为金币"
+            picture(row:GetChild("icon"), relicId and (Theme.icon.relic[relicId] or Theme.icon.node.treasure) or Theme.icon.gold)
+            row:GetChild("name").text = relicId and ("遗物 · " .. name) or name
+            row:GetChild("description").text = boss and "使用左右按钮查看，领取其中一件" or relicId and relicText(relicId) or "遗物已全部持有，改为金币"
+            if boss then
+                chest:GetChild("page").text = "首领遗物 · " .. self.treasureChoice .. " / " .. #choices .. " · 选择一件"
+                chest:GetChild("bossDescription").text = relicText(relicId)
+                state(chest:GetChild("previous"), self.treasureChoice > 1)
+                state(chest:GetChild("next"), self.treasureChoice < #choices)
+            end
+        end
+        if boss and not hasReward then
+            show(chest:GetChild("previous"), false) show(chest:GetChild("next"), false)
+            chest:GetChild("page").text = "没有可领取的首领遗物"
+            chest:GetChild("bossDescription").text = "可用遗物已持有或不满足领取条件，请跳过奖励。"
+        end
+        for _, step in ipairs({{key="previous", delta=-1}, {key="next", delta=1}}) do
+            local choice = self.treasureChoice + step.delta
+            action("treasureView/" .. step.key, opened and boss and choice >= 1 and choice <= #choices, function()
+                self.treasureChoice, self.notice = choice, "" self:render() return true
+            end)
         end
         action("treasureView/chest", not opened, function()
             self.opened, self.notice = true, "" self:render() return true
         end)
-        action("treasureView/take", opened, function()
-            return commit("claimTreasure", nil, function() return "已获得" .. (reward.relicId and ("遗物「" .. name .. "」") or name) end)
+        action("treasureView/take", opened and hasReward, function()
+            return commit(boss and "claimBossTreasure" or "claimTreasure", boss and self.treasureChoice or nil,
+                function() return "已获得" .. (relicId and ("遗物「" .. name .. "」") or name) end)
         end)
-        return opened and ("宝箱已打开 · 获得" .. (reward.relicId and "遗物" or "金币")) or "宝箱就在眼前"
+        return opened and (boss and "选择一件首领遗物，或跳过奖励后完成本局" or
+            ("宝箱已打开 · 获得" .. (relicId and "遗物" or "金币"))) or "宝箱就在眼前"
     end
 
     function self:holding()
@@ -531,7 +559,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local node = view.node
         if self.renderRun ~= self.run or self.renderMap ~= self.map or self.nodeId ~= (node and node.id) then
             self.page, self.relicPage, self.pickPage, self.mode, self.picker = 1, 1, 1, "main", nil
-            self.selected, self.opened, self.notice, self.result = nil, false, "", nil
+            self.selected, self.opened, self.notice, self.result, self.treasureChoice = nil, false, "", nil, 1
             self.upgradeRows = node and node.upgradeCards or {}
             self.removeRows = snapshotDeck(self.run.deck)
         end
@@ -610,6 +638,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         action("back", backLabel ~= nil, function()
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
+        if active and node.roomKind == "boss_treasure" and self.opened then
+            show(back, true) back:GetChild("label").text = "跳过遗物" state(back, true)
+            action("back", true, function()
+                return commit("claimBossTreasure", 0, function() return "已跳过首领遗物" end)
+            end)
+        end
         action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil)
         self.failed = false
     end
@@ -688,7 +722,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     local targets = { "back", "confirm", "shopView/previous", "shopView/next", "shopView/removal",
         "shopView/relicPrevious", "shopView/relicNext", "campView/rest", "campView/forge",
-        "pickerView/previous", "pickerView/next", "treasureView/chest", "treasureView/take" }
+        "pickerView/previous", "pickerView/next", "treasureView/chest", "treasureView/take",
+        "treasureView/previous", "treasureView/next" }
     for i = 1, SHOP_PAGE do targets[#targets + 1] = "shopView/card" .. i end
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
     for i = 1, 3 do targets[#targets+1]='shopView/potion'..i end
