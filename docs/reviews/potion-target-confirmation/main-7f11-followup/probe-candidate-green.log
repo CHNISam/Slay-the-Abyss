@@ -1,0 +1,49 @@
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS orphan enemy up does not become click-only confirmation
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS orphan enemy endDrag does not become click-only confirmation
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS genuine click-only enemy remains usable with paired bottle
+PASS stale end-turn release does not execute through newer potion aim
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=acid_slime_s_1 target=- amount=0
+ABYSS_FEEDBACK damage source=acid_slime_s_1 target=player amount=3
+ABYSS_FEEDBACK intent source=spike_slime_m_2 target=- amount=0
+ABYSS_FEEDBACK status source=spike_slime_m_2 target=player amount=1
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+PASS fresh end-turn still executes and cancels aim
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS stale enemy EndDrag cannot cancel newer bottle aim
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS current enemy EndDrag cancels aim and requires fresh bottle selection
+PASS real discard and fire_potion refill invalidates aim without redraw
+PASS real discard and block_potion refill invalidates aim without redraw
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS pending enemy token cannot use same-slot same-ID refill
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS same-ID bottle switch changes slot but old enemy click cannot confirm
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS old card release cannot cancel newer potion aim
+PASS same bottle explicit click cancels without mutation
+PASS field click cancels aim without mutation
+ABYSS_FEEDBACK status source=player target=acid_slime_s_1 amount=6
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+PASS real poison transaction overflow is atomic and fresh retry succeeds
+ABYSS_FEEDBACK prepare_failed ../probe.lua:82: TARGET_PREPARE_FAILURE
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS presentation preparation failure preserves state and fresh retry succeeds
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS metadata-free Down Up Click still separates arming and confirmation
+ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=20
+PASS known Down Click without Up remains supported
+LUA_INTEGRATED_POTION_REVIEW 18 passed; 0 failed
