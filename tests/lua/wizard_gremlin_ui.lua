@@ -56,7 +56,7 @@ local ui, stage, click = setup()
 local box = stage.children.enemy1
 for turn=1,11 do
     local attack = turn == 3 or turn == 7 or turn == 11
-    assert(box.children.intent.text == (attack and "25" or "蓄能"), "actual label turn " .. turn)
+    assert(box.children.intent.text == (attack and "25" or "") and box.children.intentLabel.text == (attack and "" or "蓄能"), "actual label turn " .. turn)
     assert(box.children.intentIcon.imageId == (attack and Theme.icon.intent.attack or Theme.icon.intent.unknown), "actual icon turn " .. turn)
     click("enemy1")
     assert(stage.children.notice.text:find(attack and "25 点伤害" or "蓄能",1,true), "detail turn " .. turn)
