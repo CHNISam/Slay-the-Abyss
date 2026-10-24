@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-25",
+  "baseCommit": "eb4e8af42297abfc806e58835a36b044f728d028",
+  "scope": "complete source catalog, independent oracle, fixed vectors and catalog Lua interpreter only; no production wiring/effect implementation",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFiles": 57,
+  "additionalReadCaches": 2,
+  "catalogCounts": {
+    "ironcladTotal": 33,
+    "shared": 30,
+    "exclusive": 3,
+    "common": 17,
+    "uncommon": 9,
+    "rare": 7,
+    "existingIroncladDefinitions": 6,
+    "missingIroncladDefinitions": 27
+  },
+  "verification": {
+    "command": "node --test tests/sts1-ironclad-potion-pool.test.mjs",
+    "exitCode": 0,
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "seedCases": 9,
+    "continuousRecords": 180,
+    "individualDraws": 640,
+    "localLog": ".artifacts/potion-pool-source/final-targeted.log",
+    "localLogSha256": "21e2f83dab0534f204d5517c43625d06504928f3077a0e7c8c498efb3538cb13",
+    "initialRed": {
+      "reason": "catalog JSON not created yet; ENOENT data/catalogs/sts1-ironclad-potions.json",
+      "localLog": ".artifacts/potion-pool-source/catalog-red.log"
+    },
+    "sandboxAttempt": "default sandbox spawn EPERM; authorized targeted rerun with child-process permission passed",
+    "whitespaceCheck": "git diff --check: exit 0"
+  },
+  "notPerformed": [
+    "production Run integration",
+    "27 missing potion effects",
+    "full run same-seed certification",
+    "full check",
+    "GUI/platform build/import/live verification",
+    "push",
+    "merge",
+    "Backlog state/acceptance edits"
+  ]
+}

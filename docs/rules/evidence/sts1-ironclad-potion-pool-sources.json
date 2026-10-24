@@ -1,0 +1,457 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "files": [
+    {
+      "path": "potions/BloodPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/BloodPotion.java",
+      "sha256": "a494503c681b7301e3abed41606fe640550f81806e1d327c78be2e7a15f09865",
+      "gitBlob": "318f460b13dda2fc3ed95a8658e8c578545ec903",
+      "bytes": 2429,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/Elixir.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/Elixir.java",
+      "sha256": "c3434d72bf9b9308688dd097a26d740c0307a3c925858f6a6ef9724aa52c87c8",
+      "gitBlob": "9749907b632cda723a483f9a1b4702f0ac22eb1a",
+      "bytes": 1962,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/HeartOfIron.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/HeartOfIron.java",
+      "sha256": "264b262601f2f96836739d2ed8dde30facae7ffb28e2e2dbb1e3ee7ba6aa826c",
+      "gitBlob": "e52518cecf797b444b095fc0664ce668dbfb3e73",
+      "bytes": 1960,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/BlockPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/BlockPotion.java",
+      "sha256": "6a85ff49754fdbd196b558d79a8962c28242a32830b6bccc8c95b949ff46478a",
+      "gitBlob": "3cc5f04694c2f5362f7908f1a34ae7ffbd311a57",
+      "bytes": 1855,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/DexterityPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/DexterityPotion.java",
+      "sha256": "ecb57e22c84c383c2c3ebae5c8070bc64a22279707be1d1e9783ebb25c7543b4",
+      "gitBlob": "04fcc0b42f18cb111ce4cc5d94b5ff0c9ca2e21b",
+      "bytes": 2248,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/EnergyPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/EnergyPotion.java",
+      "sha256": "f7084fc4bdeea29b2dd8a764b0861614f9e59ea0dee3ad2432480ef49749f5f7",
+      "gitBlob": "8385f033b947b3cc93a3cb9d4ab6d66baf65bde1",
+      "bytes": 1494,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/ExplosivePotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/ExplosivePotion.java",
+      "sha256": "8694c72cf271c60a24c53e86fd5c08d3c9ffdfc3234ba7abd0653f93a8e84ad5",
+      "gitBlob": "4c7b5e9feec9c057a8b5cc8d1379867d0afc12ac",
+      "bytes": 2309,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/FirePotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FirePotion.java",
+      "sha256": "61f3c422e9112c3f8cbd158c681df4724097e58cbe495d42e7431870dbfccc04",
+      "gitBlob": "fafc0b92d3aa8e285a8d7750a45e8bc7c8f0dab9",
+      "bytes": 1859,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/StrengthPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/StrengthPotion.java",
+      "sha256": "66e0432a4e425a165f3df6ebbb2958668c043ca03240c740db4e304ce6308e85",
+      "gitBlob": "9757ea03c5e467d87d33fba61f38ad448af36c3b",
+      "bytes": 2138,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/SwiftPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SwiftPotion.java",
+      "sha256": "07d16f8230f6e5cbe34cd774c8d21565f5f974159926025773b1913635b9d873",
+      "gitBlob": "f1d59bc95b02f20995f6fd586bac79023e92eb6d",
+      "bytes": 1558,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/WeakenPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/WeakenPotion.java",
+      "sha256": "020c66f4b95cfd464aa7ebed1d70b2ec2e2e27f9d502a1c954bc16ad209c9a92",
+      "gitBlob": "0678dd8edb9b31732d5da112003674e4601e460e",
+      "bytes": 1951,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/FearPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FearPotion.java",
+      "sha256": "f428c5d517430585539904ab37e98bbc01ce3596cb1e696201972306f0956d2a",
+      "gitBlob": "f66c9ec8872e238176ec5118deba86813679ebe5",
+      "bytes": 1961,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/AttackPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AttackPotion.java",
+      "sha256": "7da7e45ffc1e2f4a793062d091cf2a24067a8397c3c555f5dcb6ca985edd7153",
+      "gitBlob": "1012cfb62b852a4798ae9515200d7966750f4132",
+      "bytes": 1692,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/SkillPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SkillPotion.java",
+      "sha256": "108b84a25ce3271ac4c765a6692e51fcb24b3c19732f7dec225150749b4e648b",
+      "gitBlob": "1cf602808f85faa90f6c3c70fb66fbe4a13b5714",
+      "bytes": 1684,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/PowerPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/PowerPotion.java",
+      "sha256": "076a751b9048fde6a4aed664ab4051cb30cb7bf48c66bd5787d637066cbcdd4e",
+      "gitBlob": "9b55d68ec5cc617763ecac74d46b5414453fca6f",
+      "bytes": 1683,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/ColorlessPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/ColorlessPotion.java",
+      "sha256": "014768bbe8eb8f20ff6653d18bdcf00b0aa2991eaabbf9c739500d5a7d798feb",
+      "gitBlob": "82171bfd314ec26b4696137bf990b17a63fbad91",
+      "bytes": 1643,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/SteroidPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SteroidPotion.java",
+      "sha256": "f5f68e27e65e9e541c1c51be7b5e0c8df50b28d4872dfd868e1e57f43c274f5c",
+      "gitBlob": "adb5a2b31d1f00cd7cdb1ea75a7e33ca3c792439",
+      "bytes": 2388,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/SpeedPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SpeedPotion.java",
+      "sha256": "9fe217f2354a569f025a15d2fcaf6a35a346223151d25f2d8512e7d1f2dbc7dc",
+      "gitBlob": "6ca711123ca6e56b757c00a20af93d4d73e07df6",
+      "bytes": 2373,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/BlessingOfTheForge.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/BlessingOfTheForge.java",
+      "sha256": "fe57d743917dba26c6e8067363fa2c555bdb1ea2163ae36e5f0542d9049c0a0e",
+      "gitBlob": "9cccfba9a0ed715b1d120787654d2de557ea3300",
+      "bytes": 1924,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/RegenPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/RegenPotion.java",
+      "sha256": "d71d06ab8711458b0dff3697e71d6e51f9678047ee0a04fc1e4681a0c13de823",
+      "gitBlob": "a9b61c4a5d4fac86741b2c66dd762c9fc3ad8ad9",
+      "bytes": 2096,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/AncientPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AncientPotion.java",
+      "sha256": "16ec2072e2f5ff897388235386c1b780653b008c3a0a7eb1059aa3d1ade0eab4",
+      "gitBlob": "ac328b2a7013fb3b4e8df14456afd59de2f8b7f8",
+      "bytes": 2135,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/LiquidBronze.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/LiquidBronze.java",
+      "sha256": "6b7585d7cca17ed5d6c0a5885f360d31af5fcc7a5237c7e19dbf50fb89fe59d8",
+      "gitBlob": "8deca688d00addc95d21d8f68f4aa381f810383c",
+      "bytes": 2206,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/GamblersBrew.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/GamblersBrew.java",
+      "sha256": "812e69f184c7d4798ad591623d79cdaa34f3512cf60901b3f667d4e8ae5ca9e3",
+      "gitBlob": "ad81d238072cecd696a9af143d8354e779911774",
+      "bytes": 1532,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/EssenceOfSteel.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/EssenceOfSteel.java",
+      "sha256": "6f28636b8f819a84c1f03a401b91181a2c4fd8de04bfe68e92695cb468bef245",
+      "gitBlob": "59c2ff478091281c0c2759080db25d9366d280d0",
+      "bytes": 1950,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/DuplicationPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/DuplicationPotion.java",
+      "sha256": "d8020069418f15edcb11bf6a8f10bed575c75036ae5850ab67ba082778eb36fb",
+      "gitBlob": "1cbc30dee95afb7712b7b3127a5249b2c68967cb",
+      "bytes": 2036,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/DistilledChaosPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/DistilledChaosPotion.java",
+      "sha256": "293b4e80fb584be6d409e3b857dc7e45f1a83f18c4234edb9191c96e2e9967d9",
+      "gitBlob": "e923ce657b3f279e14e8141d92ab74ee270c493b",
+      "bytes": 1824,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/LiquidMemories.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/LiquidMemories.java",
+      "sha256": "da40debd7d2293d7a0be170b812d2a23ea959d11bd5aeb0e8667e26f4a61bad8",
+      "gitBlob": "833f6bdd484a69c007ba4653d236cdd3c2764345",
+      "bytes": 1694,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/CultistPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/CultistPotion.java",
+      "sha256": "984b8bdcb6b2957dc98d46b39f7f247bfffe6300797c11aadf6d680f369f5f53",
+      "gitBlob": "10beebad2c4a7feeb4983dc677c7d2aff9e4abd9",
+      "bytes": 3132,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/FruitJuice.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FruitJuice.java",
+      "sha256": "2005c97cf0c2c1d9aa31913e34dceae0427ef36036f2c696395a6dac13bf5a83",
+      "gitBlob": "54ef1d1636eafa9f03b3d3f3dc75f40f901accef",
+      "bytes": 1926,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/SneckoOil.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SneckoOil.java",
+      "sha256": "64c9e9b9a632868db2e4e2409cc83cb76f21b8d92035ae8adc1d6c588c43c74a",
+      "gitBlob": "f47c7317efcc30bab5ef746f3b34f78bdb60fee3",
+      "bytes": 1820,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/FairyPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25",
+      "gitBlob": "a17e62a205adbb9852fa6955e16cfc1c6c46a998",
+      "bytes": 1797,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/SmokeBomb.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SmokeBomb.java",
+      "sha256": "41b2bc615d341a2a4bd29451dfd6546639a3d69e0d5c49d5a781cd5f03807ec2",
+      "gitBlob": "4374b611b154cee6fad4e1e42947c08e5b9bfc9d",
+      "bytes": 2484,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/EntropicBrew.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/EntropicBrew.java",
+      "sha256": "f38cb1eac9159623427c75c8606f42651f3889e2fe7921eb6917b40f2296b8ac",
+      "gitBlob": "7793cd77e7f32073c37c9f70928797beb64816af",
+      "bytes": 2646,
+      "cacheReuse": null
+    },
+    {
+      "path": "potions/AbstractPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AbstractPotion.java",
+      "sha256": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
+      "gitBlob": "8598c2e5a81f5a36060eb8520ee0abd2204991ca",
+      "bytes": 28359,
+      "cacheReuse": null
+    },
+    {
+      "path": "helpers/PotionHelper.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/PotionHelper.java",
+      "sha256": "159ffee06ab09c24063b992f5babe57907916a99a23f4a3ad721b8c922be2a2f",
+      "gitBlob": "271f568db6a9b78f3d1f0e38416cf44f27c4e8bf",
+      "bytes": 12922,
+      "cacheReuse": null
+    },
+    {
+      "path": "shop/StorePotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/StorePotion.java",
+      "sha256": "3b0056290be4e2324f39d079c805055bb0e478e735526aca9cdeb2718986a32e",
+      "gitBlob": "b63265c08a4e169bbece3e1adcbaec92b96d4f34",
+      "bytes": 5556,
+      "cacheReuse": null
+    },
+    {
+      "path": "shop/ShopScreen.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/ShopScreen.java",
+      "sha256": "5637a90f12386df48a323969ddf0c17b06e0288884a1b124fa62994822853855",
+      "gitBlob": "39dab95569ae1586a370366124e7ad5b8f215bff",
+      "bytes": 59154,
+      "cacheReuse": "F:\\New folder\\.artifacts\\card-reward-contract-audit-20261025\\source\\shop_ShopScreen.java"
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "bytes": 115023,
+      "cacheReuse": "F:\\New folder\\.artifacts\\potion-acquisition-86519f4\\potion-source\\AbstractDungeon.java"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "gitBlob": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "bytes": 33565,
+      "cacheReuse": "F:\\New folder\\.artifacts\\potion-acquisition-86519f4\\potion-source\\AbstractRoom.java"
+    },
+    {
+      "path": "rewards/RewardItem.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/RewardItem.java",
+      "sha256": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859",
+      "gitBlob": "a23c192d58c6304acd76505da7365490636f1f31",
+      "bytes": 20082,
+      "cacheReuse": "F:\\New folder\\.artifacts\\potion-acquisition-86519f4\\potion-source\\RewardItem.java"
+    },
+    {
+      "path": "actions/unique/DiscoveryAction.java",
+      "sha256": "6d6832207fab2c93f725c990c8a12cb035cfb2b66f3e59f569bcee727d762478",
+      "gitBlob": "84198cbc8acc9f78d61e69a7df97b874208314e1",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/DiscoveryAction.java"
+    },
+    {
+      "path": "actions/unique/ArmamentsAction.java",
+      "sha256": "3692ce99d8f26b63a5bb92ef6853bcb1d3daf33067da38384f2b4382dae29769",
+      "gitBlob": "6690463b1cbd7e4e1240150406c8ba77bdf19e74",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/ArmamentsAction.java"
+    },
+    {
+      "path": "powers/RitualPower.java",
+      "sha256": "458de56113a2a440524daa413d9142739fe7111366e705038566d8493329ee8d",
+      "gitBlob": "acbecf2f2795b46d18b6ea990393d1c8d642241d",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/RitualPower.java"
+    },
+    {
+      "path": "actions/common/PlayTopCardAction.java",
+      "sha256": "dc0bae486cfa50d1470b54917d08ae240b014d96566e5cf32f3d5b0f4aabfd34",
+      "gitBlob": "cbcde5c0f1d7644b60862bc2dd0df0a374ef225e",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/PlayTopCardAction.java"
+    },
+    {
+      "path": "powers/DuplicationPower.java",
+      "sha256": "c3b32167bd3a6209f8f11ea66adb60c099d64756721bb9950c906ea913dc6dd1",
+      "gitBlob": "6987c302395e36f3fdae3e11a09ef5252c68770f",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/DuplicationPower.java"
+    },
+    {
+      "path": "actions/common/ExhaustAction.java",
+      "sha256": "10fd566a420d2549c3705a564ca6274da189eacad7df1872ddf2867af936f510",
+      "gitBlob": "3c5ad8b321a8528a59c3c39de1448fc5a13f47c8",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ExhaustAction.java"
+    },
+    {
+      "path": "actions/common/ObtainPotionAction.java",
+      "sha256": "4e6158993880af4d6d4c59c52703058d71a88b9fcd4f08211e303f7466d8e300",
+      "gitBlob": "863f9a5f4ee8215736ecd8357ff03c5d1e6ae6ea",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ObtainPotionAction.java"
+    },
+    {
+      "path": "powers/PlatedArmorPower.java",
+      "sha256": "686dbc797a8b2649d36a5332f45037202b17f5213481b11f5a9efd9613013df3",
+      "gitBlob": "5debac0b914ab34c191881a4241f564727485199",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/PlatedArmorPower.java"
+    },
+    {
+      "path": "actions/common/DamageAllEnemiesAction.java",
+      "sha256": "3562ea16a19d0951b36198a4191fd48358c7cb408595ef2c503fc4b7763ec123",
+      "gitBlob": "13cc91e59ae21b8173468c4235849c6677ea3f55",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAllEnemiesAction.java"
+    },
+    {
+      "path": "cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a",
+      "gitBlob": "8cae84b2d3f73198745a901aac61716d2a13b99c",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java"
+    },
+    {
+      "path": "actions/unique/GamblingChipAction.java",
+      "sha256": "860a82ed41e5907ed32118ff0b4355a18ba0d87afbd28a03647960816eadd2ed",
+      "gitBlob": "d61a0e789a9059f9668c2bf110437cda9415e783",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/GamblingChipAction.java"
+    },
+    {
+      "path": "powers/MetallicizePower.java",
+      "sha256": "6f35d8908bde5eb6f470845d27dd6e739fe76fb7c3c5d6d83ff48d7864c9e30f",
+      "gitBlob": "4d7467df6070c0a219d481d81b3d10030f76045d",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/MetallicizePower.java"
+    },
+    {
+      "path": "actions/common/BetterDiscardPileToHandAction.java",
+      "sha256": "afc312c09430196e1cccf584ad27c918cb0321282b5e29f1d1d9279c9d49adb1",
+      "gitBlob": "0515e6caf0857a1117dbbfbf7c69e852d6fc9ad4",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/BetterDiscardPileToHandAction.java"
+    },
+    {
+      "path": "actions/unique/RandomizeHandCostAction.java",
+      "sha256": "a5c85fbd3fdfe510642f3c3f95de21ae93fc06d119a7ed65c9d9ca5679f1c887",
+      "gitBlob": "a6e9a8e8dc7e9555c9cd600636af965ee9747603",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/RandomizeHandCostAction.java"
+    },
+    {
+      "path": "powers/LoseDexterityPower.java",
+      "sha256": "8b9b89f497ddd63a4b57eb5f87bb6269acbd43ffb1523001b3add63543309426",
+      "gitBlob": "a97218fe303e07c76e7391f246880e000e1c0722",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/LoseDexterityPower.java"
+    },
+    {
+      "path": "powers/LoseStrengthPower.java",
+      "sha256": "062155ed7acf49b9c60f1bf1b2583bbc060a762253c3f7a7246f42f995c7d1a1",
+      "gitBlob": "5627a0975da2350ac903e1bb6d9a02b6502f8551",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/LoseStrengthPower.java"
+    },
+    {
+      "path": "ui/panels/PotionPopUp.java",
+      "sha256": "320557c73413bf6a6254c75c380fb4316314fa3602ef33401954d9d7ccd4d8e4",
+      "gitBlob": "fa7207905e726fee91a4b21e293a7c53eea17455",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/panels/PotionPopUp.java"
+    }
+  ],
+  "classPoolEvidence": "helpers/PotionHelper.java getPotions(class,false), original order, not a rarity-sorted list",
+  "additionalReadCaches": [
+    {
+      "path": "characters/AbstractPlayer.java",
+      "localPath": "F:/New folder/.artifacts/m1-live-sprint/AbstractPlayer.java",
+      "purpose": "default A0 slots and Fairy before Lizard Tail / Mark of the Bloom fatal gate",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "bytes": 98339,
+      "lineAnchors": {
+        "defaultSlots": 126,
+        "fatalFairyBeforeLizardTail": 1466
+      },
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "provenance": "existing fixed-source cache; bytes recorded as read"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "localPath": "F:/New folder/.artifacts/potion-acquisition-86519f4/potion-source/MonsterGroup.java",
+      "purpose": "haveMonstersEscaped means every member escaped",
+      "lineAnchors": {
+        "haveMonstersEscaped": 119
+      },
+      "provenance": "existing fixed-source cache; bytes recorded as read",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "gitBlob": "7096970a151840489a3fba89806e6391e0d82d76",
+      "bytes": 10226,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterGroup.java"
+    }
+  ]
+}
