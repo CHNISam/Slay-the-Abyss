@@ -64,7 +64,7 @@ button{font-family:inherit}
 .top{left:0;top:0;width:1280px;height:52px;background:var(--sunken);border-bottom:1px solid var(--gold-dim)}
 
 /* 卡牌 */
-.card{width:148px;height:208px;transition:transform .2s cubic-bezier(.2,.8,.2,1),opacity .2s,filter .2s;transform-origin:50% 100%}
+.card{touch-action:none;width:148px;height:208px;transition:transform .2s cubic-bezier(.2,.8,.2,1),opacity .2s,filter .2s;transform-origin:50% 100%}
 .card .fr{inset:0;border:2px solid var(--rc);background:var(--panel)}
 .card .nb{left:2px;top:2px;width:144px;height:30px;background:var(--raised)}
 .card .nm{left:0;top:6px;width:148px;text-align:center;font-weight:700;font-size:17px;color:var(--text)}
@@ -283,6 +283,12 @@ const PORTRAIT={jaw_worm:'112038',cultist:'112022',guardian:'112046',gremlin_nob
 
 function renderBattle(){
   backdrop();topBar(B.kind==='boss'?'第 15 层 · 首领':B.kind==='elite'?`第 ${RUN.floor} 层 · 精英`:`第 ${RUN.floor} 层 · 战斗`);
+  if(B.sel>=0&&!needsTarget(B.hand[B.sel])){
+    const area=$('<div class="hit" style="left:40px;top:158px;width:1200px;height:272px;touch-action:none;border-bottom:2px solid var(--gold-hi)"></div>');
+    area.append(text(0,240,'出牌区域 · 点击出牌',{fs:18,w:1200,align:'center',c:'var(--gold-hi)'}));
+    bindPlayArea(area);
+    cv.append(area);
+  }
   cv.append($(`<div class="ground"></div>`));
   // 玩家
   const p=$(`<div class="unit" id="u-p" style="left:194px;top:200px;width:132px;height:200px"></div>`);
@@ -339,31 +345,39 @@ function renderBattle(){
     el.onpointerdown=(e)=>dragStart(e,el,i,rot,drop);
     el.onclick=(e)=>{e.stopPropagation();if(B.busy||dragJustEnded)return;
       if(!playable(card)){pop(x0+i*sp+74,470,eff(card).cost>B.energy?'能量不足':'无法打出','var(--danger)');return}
-      if(B.sel===i&&!needsTarget(card)){play(i,null);return}
       B.sel=B.sel===i?-1:i;renderBattle()};
     cv.append(el);
   });
-  cv.append($(`<div id="playline" class="${'ann" data-k="出牌线 y=430（仅拖动时显示）'}" style="left:200px;top:430px;width:880px;height:2px;background:var(--gold-hi);box-shadow:0 0 10px var(--gold);opacity:0;transition:opacity .12s"></div>`));
+  cv.append($(`<div id="playline" class="${'ann" data-k="出牌线 y=430（仅拖动时显示）'}" style="left:40px;top:430px;width:1200px;height:2px;background:var(--gold-hi);box-shadow:0 0 10px var(--gold);opacity:0;transition:opacity .12s"></div>`));
   if(B.sel>=0){
     const c=B.hand[B.sel];
-    cv.append(text(340,458,needsTarget(c)?'点选敌人，或把牌拖到敌人身上':'再点一次本牌，或向上拖出 / 甩出',{fs:18,w:600,align:'center',c:'var(--gold-hi)'}));
+    cv.append(text(340,458,needsTarget(c)?'点选敌人，或把牌拖到敌人身上':'点击战场出牌区域，或拖至该区域松手；再点原牌取消',{fs:18,w:600,align:'center',c:'var(--gold-hi)'}));
   }
   cv.onclick=(e)=>{if(e.target===cv&&B.sel>=0){B.sel=-1;renderBattle()}};
   overlays();
 }
-/* 拖牌与甩牌：按住拖出 8px 后卡牌跟手，按水平速度倾斜；
-   松手在敌人上 = 对它打出；不需要目标的牌拖过出牌线（y<430）或向上甩出 = 打出；否则弹回手牌。 */
+/* 拖牌与点选：按住拖出 8px 后卡牌跟手，按水平速度倾斜；
+   松手在敌人上 = 对它打出；不需要目标的牌在战场有效区域松手 = 打出；否则弹回手牌。 */
 let drag=null,dragJustEnded=false;
 function cvPoint(e){const r=cv.getBoundingClientRect(),k=r.width/1280;return[(e.clientX-r.left)/k,(e.clientY-r.top)/k]}
 function foeAt(x,y){return B.foes.findIndex((f,j)=>{if(f.hp<=0)return false;const u=document.getElementById('u-'+j);const l=parseFloat(u.style.left),t=parseFloat(u.style.top),w=parseFloat(u.style.width),h=parseFloat(u.style.height);return x>l-20&&x<l+w+20&&y>t-60&&y<t+h+40})}
+function playFieldContains(x,y){return x>=40&&x<=1240&&y>=158&&y<=430}
+function bindPlayArea(area){
+  let held=null,released=null;
+  area.onpointerdown=e=>{held=released=null;if(B.busy||drag||B.sel<0)return;const[x,y]=cvPoint(e);held={id:e.pointerId,x,y,index:B.sel,card:B.hand[B.sel]}};
+  area.onpointermove=e=>{if(!held||held.id!==e.pointerId)return;const[x,y]=cvPoint(e);if(Math.hypot(x-held.x,y-held.y)>=8)held=null};
+  area.onpointercancel=e=>{if(held?.id===e.pointerId)held=null;if(released?.id===e.pointerId)released=null};
+  area.onpointerup=e=>{if(!held||held.id!==e.pointerId)return;const h=held;held=null;const[x,y]=cvPoint(e);released=playFieldContains(x,y)&&Math.hypot(x-h.x,y-h.y)<8?h:null};
+  area.onclick=e=>{e.stopPropagation();const h=released;if(!h||h.id!==e.pointerId)return;released=null;if(!dragJustEnded&&h.index===B.sel&&h.card===B.hand[B.sel])play(B.sel,null)};
+}
 function dragStart(e,el,i,rot,drop){
-  if(B.busy||!playable(B.hand[i]))return;
-  const[x,y]=cvPoint(e);drag={el,i,rot,drop,l0:el.style.left,t0:el.style.top,x0:x,y0:y,x,y,t:performance.now(),vx:0,vy:0,on:false,foe:-1};
+  if(drag||B.busy||!playable(B.hand[i]))return;
+  const[x,y]=cvPoint(e);drag={el,i,card:B.hand[i],pointer:e.pointerId,rot,drop,l0:el.style.left,t0:el.style.top,x0:x,y0:y,x,y,t:performance.now(),vx:0,vy:0,on:false,foe:-1};
   el.setPointerCapture(e.pointerId);
   el.onpointermove=dragMove;el.onpointerup=dragEnd;el.onpointercancel=dragEnd;
 }
 function dragMove(e){
-  if(!drag)return;const[x,y]=cvPoint(e),now=performance.now(),dt=Math.max(1,now-drag.t);
+  if(!drag||e.pointerId!==drag.pointer)return;const[x,y]=cvPoint(e),now=performance.now(),dt=Math.max(1,now-drag.t);
   drag.vx=drag.vx*.6+(x-drag.x)/dt*.4;drag.vy=drag.vy*.6+(y-drag.y)/dt*.4;drag.x=x;drag.y=y;drag.t=now;
   if(!drag.on&&Math.hypot(x-drag.x0,y-drag.y0)<8)return;
   if(!drag.on){drag.on=true;B.sel=-1;drag.el.style.transition='none';drag.el.style.zIndex=90;drag.el.classList.add('sel')}
@@ -371,16 +385,17 @@ function dragMove(e){
   drag.el.style.left=(x-74)+'px';drag.el.style.top=(y-104)+'px';drag.el.style.transform=`rotate(${tilt}deg) scale(1.1)`;
   const card=B.hand[drag.i],f=needsTarget(card)?foeAt(x,y):-1;
   if(f!==drag.foe){drag.foe=f;B.foes.forEach((_,j)=>document.getElementById('u-'+j).classList.toggle('target',j===f))}
-  const line=document.getElementById('playline');if(line)line.style.opacity=needsTarget(card)?0:y<430?1:.35;
+  const line=document.getElementById('playline');if(line)line.style.opacity=needsTarget(card)?0:playFieldContains(x,y)?1:.35;
 }
-function dragEnd(){
-  if(!drag)return;const d=drag;drag=null;d.el.onpointermove=d.el.onpointerup=d.el.onpointercancel=null;
+function dragEnd(e){
+  if(!drag||e.pointerId!==drag.pointer)return;
+  if(e.type!=="pointercancel")dragMove(e);const d=drag;drag=null;d.el.onpointermove=d.el.onpointerup=d.el.onpointercancel=null;
   if(!d.on)return;dragJustEnded=true;setTimeout(()=>dragJustEnded=false,0);
-  const card=B.hand[d.i],fling=d.vy<-1.1,alive=B.foes.map((f,j)=>f.hp>0?j:-1).filter(j=>j>=0);
+  const card=B.hand[d.i],cancelled=e.type==="pointercancel"||card!==d.card;
   let target=null,go=false;
-  if(needsTarget(card)){if(d.foe>=0){target=d.foe;go=true}else if(fling&&alive.length===1){target=alive[0];go=true}}
-  else if(d.y<430||fling)go=true;
-  if(go){d.el.style.transition='transform .18s ease-in,opacity .18s';d.el.style.transform=`translateY(-60px) scale(.8)`;d.el.style.opacity=0;setTimeout(()=>play(d.i,target),150*SPEED);return}
+  if(!cancelled&&needsTarget(card)){if(d.foe>=0){target=d.foe;go=true}}
+  else if(!cancelled&&playFieldContains(d.x,d.y))go=true;
+  if(go){d.el.style.transition='transform .18s ease-in,opacity .18s';d.el.style.transform=`translateY(-60px) scale(.8)`;d.el.style.opacity=0;play(d.i,target);return}
   d.el.style.transition='left .25s cubic-bezier(.3,1.4,.5,1),top .25s cubic-bezier(.3,1.4,.5,1),transform .25s';d.el.style.left=d.l0;d.el.style.top=d.t0;d.el.style.transform='rotate('+d.rot+'deg)';const pl=document.getElementById('playline');if(pl)pl.style.opacity=0;B.foes.forEach((_,j)=>document.getElementById('u-'+j).classList.remove('target'));setTimeout(renderBattle,260*SPEED);
 }
 function blockBadge(x,y,v){return $(`<div class="blk${ann('102014 染蓝')}" style="left:${x}px;top:${y}px"><div class="ico">${ic('shield')}</div><div class="t v">${v}</div></div>`)}
@@ -390,7 +405,8 @@ function pile(x,y,g,n,label){const e=$(`<div class="hit${ann('图标 10014x + �
 const needsTarget=(card)=>{const t=eff(card).t;return /目标/.test(t)};
 const playable=(card)=>{const{cost,c}=eff(card);return c.type!=='status'&&c.type!=='curse'&&!B.busy&&(cost==='X'||cost<=B.energy)&&card.id!=='clash'};
 async function play(i,ti){
-  const card=B.hand[i],{c,n,cost,t}=eff(card);
+  const card=B.hand[i];if(!card||!playable(card)||needsTarget(card)&&(ti==null||!B.foes[ti]||B.foes[ti].hp<=0))return;
+  const {c,n,cost,t}=eff(card);
   B.energy-=cost==='X'?B.energy:cost;B.sel=-1;
   B.hand.splice(i,1);B.disc.push(card);
   const str=B.st.str||0;
@@ -638,7 +654,7 @@ function overlays(){
 }
 const SCREENS=[['battle','战斗'],['map','地图'],['reward','奖励'],['pick','选牌'],['camp','营地'],['shop','商店'],['event','事件'],['treasure','宝箱'],['elite','精英'],['boss','首领'],['win','通关'],['lose','失败']];
 const NOTES={
-  battle:[['拖牌与甩牌',['按住拖动 8px 后卡牌跟手，按水平速度倾斜（最多 14°）','攻击牌拖到敌人身上松手 = 对它打出，敌人金色描边','不需要目标的牌拖过金色出牌线或向上快速甩出 = 打出','只剩一个敌人时，攻击牌向上甩出直接打它','没打出：0.25 秒回弹到手牌原位']],['操作（手机优先）',['点一张牌：抬起并放大 1.22 倍','需要目标的牌：再点敌人打出；不需要目标：再点这张牌','点空白处取消选择；电脑上悬停预览','能量不足时牌变灰，费用圆点变红，点了提示「能量不足」']],['反馈',['伤害数字 0.6 秒弹出上浮','血条先跌、白色残影 0.25 秒后追上','被打时整屏抖 0.15 秒','有格挡时血条描蓝边，左侧出现盾牌数字']],['平台控件',['卡牌 = 客户端模板，运行时 <code>InstantiateClientUIControl</code>','血条 = 开遮罩的图片 <code>SetFillHorizontal</code>','意图图标 102035 / 102036 / 102020 / 102045','敌人头像取图库「造物」112xxx']]],
+  battle:[['拖牌与点选',['按住拖动 8px 后卡牌跟手，按水平速度倾斜（最多 14°）','攻击牌拖到敌人身上松手 = 对它打出，敌人金色描边','不需要目标的牌在金线以上的战场有效区域松手 = 打出','目标牌在空地松手取消，不自动选敌','没打出：0.25 秒回弹到手牌原位']],['操作（手机优先）',['点一张牌：抬起并放大 1.22 倍','需要目标的牌：点敌人打出；不需要目标：点战场出牌区域','再次点原牌取消选择；电脑上悬停预览','能量不足时牌变灰，费用圆点变红，点了提示「能量不足」']],['反馈',['伤害数字 0.6 秒弹出上浮','血条先跌、白色残影 0.25 秒后追上','被打时整屏抖 0.15 秒','有格挡时血条描蓝边，左侧出现盾牌数字']],['平台控件',['卡牌 = 客户端模板，运行时 <code>InstantiateClientUIControl</code>','血条 = 开遮罩的图片 <code>SetFillHorizontal</code>','意图图标 102035 / 102036 / 102020 / 102045','敌人头像取图库「造物」112xxx']]],
   map:[['节点状态',['已走过：暗金描边','当前：亮金描边 + 光晕','可前往：白色描边，呼吸缩放 1.0↔1.1','不可达：灰色']],['实现',['600 高视窗容器，内层 Tween anchoredPositionY 滚动','连线 = 4px 纯色矩形 + rotation','进入地图时自动滚到当前层']]],
   reward:[['流程',['金币 / 药水点一下领取，领取后行变暗','卡牌行打开选牌界面','可以不全领，直接前往地图']]],
   pick:[['选牌',['三张卡放大 1.38 倍，选中 1.5 倍并发金光','未选中时「确认选择」不可用','可跳过']]],

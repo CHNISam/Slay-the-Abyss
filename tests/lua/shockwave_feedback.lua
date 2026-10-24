@@ -22,7 +22,7 @@ for _,upgraded in ipairs({false,true}) do
         assert(info:GetChild('name2').text:find('易伤',1,true))
         assert(info:GetChild('name3').text:find('消耗',1,true))
         event('card1','exit',7)
-        tap('card1',8);tap('card1',8);assert(u.busy)
+        tap('card1',8);tap('playArea',8);assert(u.busy)
         eq(u.feedback.flight.tx,(Theme.layout.enemyRow.xFrom+Theme.layout.enemyRow.xTo)/2,'area flight center')
         eq(u.feedback.flight.ty,Theme.layout.enemyRow.y,'enemy row')
         eq(s.energy,1);eq(#s.exhaust,1);eq(#s.discard,0)
