@@ -289,9 +289,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
         local badge = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2)
         local full = L.hpBar.size[1] + badge + L.blockBadge.gap
-        local width = math.min(full, count > 1 and step-S.s or full)
+        local x = count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step
+        local right = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x
+        local playerRight = L.player.position[1] + L.hpBar.size[1] / 2
+        local width = math.min(full, count > 1 and step-S.s or full,
+            2 * (right - x) - S.s, 2 * (x - playerRight - S.s) - S.s)
         local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
-        return count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step, width, portrait, step
+        return x, width, portrait, step
     end
     -- Targeted cards enter the docked aiming pose after crossing the line.
     -- No-target commits use the release point inside the explicit field below.

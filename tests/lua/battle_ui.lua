@@ -719,9 +719,10 @@ test("animated block badges keep HP and neighbouring columns clear for player, o
         end
         local function inspect()
             bounds(stage.children.hero)
-            local previousRight
+            local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2
             for i = 1, #battle.enemies do
                 local left, right = bounds(stage.children["enemy" .. i])
+                assert(left >= -600 and right <= 600, "animated guard/HP outside safe area")
                 assert(not previousRight or left > previousRight, "animated chip crosses neighbouring HP")
                 previousRight = right
             end
