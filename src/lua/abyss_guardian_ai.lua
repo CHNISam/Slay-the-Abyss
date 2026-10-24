@@ -112,6 +112,7 @@ function M.afterCard(state, reactions)
         local blocked = math.min(player.block, reaction.amount)
         local lost = math.min(player.hp, reaction.amount - blocked)
         player.block, player.hp = player.block - blocked, player.hp - lost
+        Actors.hpLostFromDamage(state,player,lost)
         Events.emit(state, "status_damage", {source = reaction.source, target = player.id,
             status = "sharp_hide", amount = lost, blocked = blocked})
     end

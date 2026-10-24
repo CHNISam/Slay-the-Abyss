@@ -15,7 +15,7 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
 function M.damage(state, source, target, base, fixed, retaliation, resolved)
     local before, sourceBefore = target.hp, source.hp
     local thornsCallback = before > 0 and sourceBefore > 0 and not fixed and not retaliation
-        and (target.statuses.thorns or 0) > 0
+        and (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0) > 0
     local lost = Actors.damage(state, source, target, base, fixed, retaliation,resolved)
     EnemyAI.hpLost(state, target, before, before > 0 and sourceBefore > 0)
     if source ~= target then EnemyAI.hpLost(state, source, sourceBefore, thornsCallback) end -- normal thorns

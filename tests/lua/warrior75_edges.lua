@@ -278,4 +278,61 @@ test('Burn and Regret auto-use in hand order and preserve the lethal card in use
         eq(s.cardInUse.cardId,ids[2]);eq(#s.hand,0);eq(s.phase,'defeat')
     end
 end)
+test('blocked Flame Barrier still invokes both large slime damage overrides',function()
+    for _,id in ipairs({'spike_slime_l','acid_slime_l'})do
+        local s=C.new(data,{enemies={id},deck={'defend'},seed=42});local enemy=s.enemies[1]
+        enemy.hp=32;enemy.maxHp=64;enemy.block=5
+        C.addStatus(s.player,'flame_barrier',1);C.damage(s,enemy,s.player,16)
+        eq(enemy.hp,32);eq(enemy.block,4);eq(C.intent(s,1).kind,'split')
+    end
+end)
+
+test('Thorns and Flame Barrier remain distinct reverse-TOP damage actions',function()
+    for _,first in ipairs({'thorns','flame_barrier'})do
+        local s=battle({});local second=first=='thorns'and'flame_barrier'or'thorns'
+        local amounts={thorns=3,flame_barrier=4}
+        C.applyEffects(s,{{op='gainStatus',status=first,value=amounts[first]},
+            {op='gainStatus',status=second,value=amounts[second]}},s.player)
+        C.addStatus(s.enemies[1],'thorns',9)
+        C.damage(s,s.enemies[1],s.player,1)
+        local hits={};for _,e in ipairs(s.events)do
+            if e.kind=='status_damage'and e.detail.target==s.enemies[1].id then hits[#hits+1]=e.detail.amount end
+        end
+        eq(#hits,2);eq(hits[1],amounts[second]);eq(hits[2],amounts[first])
+        eq(s.player.hp,49,'no recursive reflection');eq(s.enemies[1].hp,493)
+    end
+end)
+
+test('Guardian Sharp Hide notifies Blood for Blood once per actual HP-loss event',function()
+    for _,up in ipairs({false,true})do
+        local s=battle({'strike',{'blood_for_blood',up}});local held=s.hand[2]
+        C.addStatus(s.enemies[1],'sharp_hide',3);s.player.statuses.rupture=2
+        play(s);eq(s.player.hp,47);eq(C.cardDefinition(s,held).cost,up and 2 or 3)
+        eq(s.player.damagedThisCombat,1);eq(s.player.statuses.strength,nil)
+        s.hand={newCard(s,'strike'),held};s.player.block=3;play(s)
+        eq(s.player.hp,47);eq(C.cardDefinition(s,held).cost,up and 2 or 3)
+        eq(s.player.damagedThisCombat,1,'fully blocked Sharp Hide is no HP-loss event')
+    end
+end)
+
+test('fresh Blood for Blood inherits prior HP-loss count, including Infernal Blade generation',function()
+    local s=battle({'infernal_blade'})
+    C.applyEffects(s,{{op='loseHp',value=2},{op='loseHp',value=1}},s.player)
+    local fresh=Actions.fresh(C,s,'blood_for_blood');eq(C.cardDefinition(s,fresh).cost,2)
+    local old=C.cardRandom
+    C.cardRandom=function(state,n)
+        local count=0
+        for _,rarity in ipairs({'common','uncommon','rare'})do
+            for _,id in ipairs(state.sourcePools.src[rarity])do
+                local d=state.catalog.cards[id]
+                if d.type=='attack'and not d.healing then count=count+1;if id=='blood_for_blood'then return count end end
+            end
+        end
+        error('source generation pool must include Blood for Blood')
+    end
+    local ok,why=pcall(play,s);C.cardRandom=old;assert(ok,why)
+    local generated=s.hand[1];eq(generated.cardId,'blood_for_blood');eq(C.cardDefinition(s,generated).cost,0)
+    s.rules.player.drawPerTurn=0;s.player.block=1;assert(C.endTurn(s))
+    eq(C.cardDefinition(s,generated).cost,2,'temporary free cost resets to original discounted cost')
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')

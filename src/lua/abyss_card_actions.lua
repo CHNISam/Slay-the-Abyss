@@ -42,6 +42,9 @@ end
 function M.fresh(combat, state, id, prototype)
     assert(state.catalog.cards[id], "unknown generated card")
     local c=prototype and combat.copy(prototype) or {cardId=id,upgraded=false}
+    -- Original BloodForBlood.makeCopy discounts a newly generated card by
+    -- every HP-loss event already recorded this combat, before a temporary cost.
+    if not prototype and id=='blood_for_blood' then c.costReduction=state.player.damagedThisCombat or 0 end
     c.uid=state.nextUid
     state.nextUid=state.nextUid+1.0
     assert(state.nextUid>c.uid and state.nextUid<math.huge,"nextUid cannot advance")

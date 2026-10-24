@@ -204,7 +204,10 @@
       "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BloodForBlood.java",
       "sha256": "00bce85e14d4ac122726ea09e3bb02ebec4af23314626b7b669d093b65390b01",
       "gitBlob": "258da481d1aca68052cb9610cc23173478f8ae91",
-      "bytes": 2429
+      "bytes": 2429,
+      "reviewedFacts": [
+        "makeCopy discounts a fresh card by the player damagedThisCombat counter, including generation after earlier HP-loss events."
+      ]
     },
     {
       "id": "bloodletting",
@@ -1046,6 +1049,28 @@
       "reviewedFacts": [
         "Global random is a separate RandomXS128 instance, not a dungeon seed stream.",
         "random(int range) delegates to nextInt(range+1); its upper endpoint is inclusive."
+      ]
+    },
+    {
+      "id": "FlameBarrierPower",
+      "path": "powers/FlameBarrierPower.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/FlameBarrierPower.java",
+      "sha256": "682dfd7f2ca4405c6cde216d0e349017cd266c9435ba14dc799afcc0ebb7f354",
+      "gitBlob": "226c7f10668ecb8d14b8347ec8c15b5842ac2bfd",
+      "bytes": 3085,
+      "reviewedFacts": [
+        "Both retaliation powers enqueue independent TOP THORNS-type DamageActions on normal attacks, including fully blocked attacks; neither overrides default priority. Equal-priority first-application order therefore reverses at TOP resolution."
+      ]
+    },
+    {
+      "id": "ThornsPower",
+      "path": "powers/ThornsPower.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/ThornsPower.java",
+      "sha256": "cd584c8b4830eaf9722d8adfcd9e586e1d98675364592d8b4148d1ec24812fb6",
+      "gitBlob": "78b02e23e6d6745d1803f264875af34cb92e317c",
+      "bytes": 2758,
+      "reviewedFacts": [
+        "Both retaliation powers enqueue independent TOP THORNS-type DamageActions on normal attacks, including fully blocked attacks; neither overrides default priority. Equal-priority first-application order therefore reverses at TOP resolution."
       ]
     }
   ]

@@ -33,6 +33,7 @@ local function hpLost(state,actor,amount,selfInflicted)
     end
 end
 function M.hpLostFromCard(state,actor,amount) hpLost(state,actor,amount,true) end
+function M.hpLostFromDamage(state,actor,amount) hpLost(state,actor,amount,false) end
 
 function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped end
 
@@ -273,9 +274,12 @@ function M.damage(state, source, target, base, fixed, retaliation, resolved)
     end
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
-    if not fixed and (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0) > 0 then
-        local thorns = (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0)
-        reactions[#reactions + 1] = { source = target, target = source, amount = thorns }
+    if not fixed then
+        for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier'})) do
+            -- Each Power adds its own TOP DamageAction. Combining them would
+            -- erase two distinct damage callbacks and reverse application order.
+            reactions[#reactions + 1] = {source=target,target=source,amount=target.statuses[id]}
+        end
     end
     -- onDeath queues after onAttacked, so its TOP Power resolves before Thorns.
     queueDeathPower(state, target, before, reactions)
