@@ -1,0 +1,109 @@
+{
+  "sourceCommit": "96b80a7a1abfd37188b09ba77e1bf2426f7bcc81",
+  "pr": "https://github.com/CHNISam/Slay-the-Abyss/pull/123",
+  "sourceScope": "Historical first slice before develop PR121/122/124 integration. The later combined game source is ba1c2fa, recorded separately in candidate-ba1c2fa.json.",
+  "candidate": {
+    "sha256Before": "74e4da99bad6f1fe3c7dd699790c48ac7c1ede88d32b7d32d4631c8bc618ad96",
+    "sha256After": "74e4da99bad6f1fe3c7dd699790c48ac7c1ede88d32b7d32d4631c8bc618ad96",
+    "path": "F:\\New folder\\.artifacts\\unknown-events-p0-96b80a7\\abyss-unknown-events-96b80a7.gil"
+  },
+  "inputBase": {
+    "path": "F:/New folder/.artifacts/m1-handoff-b76b6cc/abyss-m1-b76b6cc.gil",
+    "sha256": "95d0b52996cd2204a314391a156f930045c5b8e3a81aa3c89e05da3eb0ee7920"
+  },
+  "liveWriteEnabled": false,
+  "localCheck": {
+    "command": "npm run check",
+    "exitCode": 0,
+    "javascript": {
+      "tests": 747,
+      "pass": 629,
+      "fail": 0,
+      "skipped": 118
+    },
+    "lua": {
+      "files": 91,
+      "result": "ALL_PASS"
+    },
+    "python": {
+      "total": 17,
+      "passed": 16,
+      "skipped": 1,
+      "failed": 0
+    },
+    "log": "F:/New folder/.artifacts/unknown-events-p0-session/unknown-events-p0/check-verified.log",
+    "sha256": "5e4c35e8d29e302dbe08e13f6581e5220f7a2105cc26571ec66dbe855321fc0d"
+  },
+  "modules": {
+    "count": 35,
+    "byteIdentical": 34,
+    "sourceTextIdentical": 35,
+    "normalization": "Only optional UTF-8 BOM and CRLF/LF are normalized; original hashes retained.",
+    "nonByteIdentical": [
+      {
+        "name": "abyss_event_pool",
+        "actualSha256": "1bef02b3b8f38724a8c905ca62823d79dadac1f41ff70e97197e9dd4a1d06361",
+        "expectedSha256": "aa7b957219c3ef4d96d2c44d24aa96bb596975a93b5fd9c229a160b2aa05330c",
+        "byteIdentical": false,
+        "sourceTextIdentical": true
+      }
+    ]
+  },
+  "ui": {
+    "expectedCount": 1695,
+    "actualCount": 1695,
+    "expectedMaxChildren": 51,
+    "actualMaxChildren": 51,
+    "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+  },
+  "staticCheck": {
+    "errors": 0,
+    "warnings": 16,
+    "warningScope": "Cross-module controller methods; no warning in added event/RNG modules."
+  },
+  "graph": {
+    "nodeCount": 22,
+    "completePayload": [
+      {
+        "ok": true,
+        "name": "_GSTS_ABYSS_SETTLEMENT",
+        "actualSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+        "expectedSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+        "exclusions": [
+          "GraphNode.x",
+          "GraphNode.y",
+          "GraphNode.comments.x/y",
+          "NodeGraph.comments[].x/y"
+        ]
+      }
+    ]
+  },
+  "roomResolution": [
+    "combat",
+    "shop",
+    "treasure",
+    "event"
+  ],
+  "productionPool": "restricted-six",
+  "events": [
+    "cleric",
+    "purifier",
+    "goop",
+    "upgrade_shrine",
+    "golden_wing",
+    "shining_light"
+  ],
+  "sourceBlobChecks": 8,
+  "evidenceDirectory": "F:/New folder/.artifacts/unknown-events-p0-96b80a7",
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "uiAcceptance": "NOT_TESTED",
+  "strictPcParity": "UNVERIFIED",
+  "remainingTask": "TASK-13.1.2",
+  "limitations": [
+    "Restricted pool can exhaust or retain only ineligible Cleric; entry rejects without reroll and shows a map diagnostic. All blocked routes require a restart.",
+    "Full catalog is an audit model, not complete playable content.",
+    "Last-card removal guard, original encounter queue, shop/treasure economy, map/global RNG and official PC binary/version remain outside this slice.",
+    "Scrap Ooze off-by-one and Duplicator Act1 eligibility remain unresolved."
+  ]
+}

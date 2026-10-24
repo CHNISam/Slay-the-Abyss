@@ -87,7 +87,7 @@ function M.generate(data, seed)
         local allowed = {}
         for _, kind in ipairs(kinds) do
             -- Ordinary map treasure is the fixed ninth row, never a random room.
-            -- Unknown-room treasure resolution is a separate, unimplemented flow.
+            -- Unknown-room treasure is resolved on entry by Nodes, preserving ?.
             if kind ~= "boss" and kind ~= "treasure" and (kind ~= "elite" or floor >= 6)
                 and (kind ~= "camp" or (floor >= 6 and floor ~= 14))
                 and (not tierFor[kind] or #pool(encounters, kind, floor) > 0) then

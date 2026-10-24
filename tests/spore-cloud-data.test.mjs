@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {loadContent,validateContent} from '../scripts/validate-data.mjs';
+import {validateTheme} from '../scripts/build-ui-theme.mjs';
+const enemy=d=>d.enemies.enemies.find(e=>e.id==='fungi_beast');
+const setup=()=>{const d=loadContent('data');enemy(d).ai.sporeCloudStacks=2;if(!d.statuses.statuses.some(s=>s.id==='spore_cloud'))d.statuses.statuses.push({id:'spore_cloud',name:'临终菌雾',kind:'buff',stack:'intensity',decay:'none',description:'倒下后使玩家获得等量易伤；战斗结束时不触发'});return d;};
+test('Fungi passive is data-driven and visible without copied source name',()=>{const d=loadContent('data');assert.equal(enemy(d).ai.sporeCloudStacks,2);const p=d.statuses.statuses.find(s=>s.id==='spore_cloud');assert.ok(p);assert.equal(p.kind,'buff');assert.equal(p.stack,'intensity');assert.equal(p.decay,'none');assert.match(p.description,/易伤/);assert.notEqual(p.name,'Spore Cloud');assert.deepEqual(validateContent(d),[]);});
+test('bounded Spore data enters runtime schema',()=>assert.deepEqual(validateContent(setup()),[]));
+for(const value of [undefined,0,-1,1.5,2147483648,'2'])test('Spore rejects malformed stack '+value,()=>{const d=setup();enemy(d).ai.sporeCloudStacks=value;if(value===undefined)delete enemy(d).ai.sporeCloudStacks;assert.ok(validateContent(d).some(e=>e.includes('sporeCloudStacks')));});
+test('Spore requires its status definition',()=>{const d=setup();d.statuses.statuses=d.statuses.statuses.filter(s=>s.id!=='spore_cloud');assert.ok(validateContent(d).some(e=>e.includes('spore_cloud')));});
+test('Spore has a supported theme picture and complete theme remains valid',()=>{const t=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));assert.ok(Number.isInteger(t.icon.status.spore_cloud));assert.deepEqual(validateTheme(t,setup()),[]);});

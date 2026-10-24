@@ -12,7 +12,10 @@ function M.damage(state, source, target, base, fixed, retaliation)
     local lost = Actors.damage(state, source, target, base, fixed, retaliation)
     EnemyAI.hpLost(state, target, before)
     if source ~= target then EnemyAI.hpLost(state, source, sourceBefore) end -- normal thorns
-    if not state.resolvingEffects then EnemyAI.flush(state) end
+    if not state.resolvingEffects then
+        EnemyAI.flush(state)
+        if not state.resolvingCard then Actors.flushCurlUp(state) end
+    end
     return lost
 end
 
@@ -36,6 +39,7 @@ local function resolveEffects(state, effects, source, target, playedCard, queued
     if not previous then
         EnemyAI.afterEffects(state, source)
         EnemyAI.flush(state, source)
+        if not state.resolvingCard and not queuedEnemyAction then Actors.flushCurlUp(state) end
     end
     return dealt
 end
@@ -89,6 +93,7 @@ end
 
 local function finish(state)
     local outcome = M.outcome(state)
+    if outcome then Actors.flushCurlUp(state) end
     if outcome and state.phase ~= outcome then
         state.phase = outcome
         event(state, outcome)
@@ -170,7 +175,15 @@ function M.canPlay(state, uid, targetIndex)
     local card = M.cardDefinition(state, instance)
     if card.cost == -2 then return false, "unplayable_card" end
     if card.type == "attack" and (state.player.statuses.entangled or 0) > 0 then return false, "entangled" end
-    local ok, op = Effects.supported(card.effects)
+    local ok, op
+    if card.id == "slimed" then
+        -- Slimed's use is genuinely empty, not a fake zero-value effect.
+        -- Keep this source-verified exception narrower than arbitrary statuses.
+        ok = card.type == "status" and card.cost == 1 and card.exhaust == true
+            and not card.ethereal and not card.costMode and not card.condition
+            and card.upgrade == nil and type(card.effects) == "table" and next(card.effects) == nil
+        op = "invalid_empty_status"
+    else ok, op = Effects.supported(card.effects) end
     if not ok then return false, "unsupported_effect:" .. op end
     if card.costMode or card.condition then return false, "advanced_card_not_enabled" end
     if state.energy < card.cost then return false, "insufficient_energy" end
@@ -199,6 +212,7 @@ local function savePlayState(state, playedCard)
     save(state); actor(state.player); save(state.enemies)
     for _, enemy in ipairs(state.enemies) do actor(enemy) end
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    if state.curlUpQueue then save(state.curlUpQueue) end
     save(playedCard)
     return function()
         for original, values in pairs(saved) do
@@ -209,15 +223,23 @@ local function savePlayState(state, playedCard)
 end
 
 local function resolvePlay(state, uid, targetIndex, instance, position, card)
+    local previous = state.resolvingCard
+    state.resolvingCard = true
     local reactions = EnemyAI.cardReactions(state, card)
     state.energy = state.energy - card.cost
     table.remove(state.hand, position) -- played card cannot be drawn by its own draw
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex], instance)
     EnemyAI.afterCard(state, reactions)
-    local pile
-    if card.exhaust or card.type == "power" then pile = state.exhaust else pile = state.discard end
-    pile[#pile + 1] = instance
+    -- A used Power leaves the combat piles; it is not an exhausted card.
+    -- The Power destination takes precedence over exhaust-on-use, while an
+    -- unplayed Power still follows the ordinary endTurn hand lifecycle.
+    if card.type ~= "power" then
+        local pile = card.exhaust and state.exhaust or state.discard
+        pile[#pile + 1] = instance
+    end
+    state.resolvingCard = previous
+    if not previous then Actors.flushCurlUp(state) end
     finish(state)
     return true
 end
@@ -275,29 +297,36 @@ function M.endTurn(state)
     if finish(state) then return true end
     state.phase = "enemy"
     event(state, "enemy_turn")
+    -- The group pre-turn hook clears every monster's old Block before its
+    -- queued start powers resolve. Drain supported start powers before moves,
+    -- so ally Block granted during a move survives later teammates' actions.
+    for _, enemy in ipairs(state.enemies) do Actors.resetBlock(state, enemy) end
     for _, enemy in ipairs(state.enemies) do
         if enemy.hp > 0 then
             local before = enemy.hp
-            Actors.startTurn(state, enemy)
+            Actors.startTurnEffects(state, enemy)
             EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
             EnemyAI.flush(state)
             if finish(state) then return true end
+        end
+    end
+    for _, enemy in ipairs(state.enemies) do
+        if enemy.hp > 0 then
+            local intent = enemy.intents[enemy.intentIndex]
+            event(state, "intent", { enemy = enemy.id, id = intent.id })
+            EnemyAI.beforeAction(state, enemy)
+            -- takeTurn has already queued this enemy's action payload.
+            resolveEffects(state, intent.effects, enemy, state.player, nil, true)
+            if finish(state) then return true end
+            -- Thorns can kill this attacker while other enemies remain alive.
             if enemy.hp > 0 then
-                local intent = enemy.intents[enemy.intentIndex]
-                event(state, "intent", { enemy = enemy.id, id = intent.id })
-                EnemyAI.beforeAction(state, enemy)
-                -- takeTurn has already queued this enemy's action payload.
-                resolveEffects(state, intent.effects, enemy, state.player, nil, true)
-                if finish(state) then return true end
-                -- Thorns can kill this attacker while other enemies remain alive.
-                if enemy.hp > 0 then
-                    Actors.endTurn(state, enemy)
-                end
-                -- A source-queued RollMove survives its owner's death while
-                -- teammates live. finish above clears it on the final death.
-                EnemyAI.afterAction(state, enemy, M.random)
-                if finish(state) then return true end
+                Actors.endTurn(state, enemy)
             end
+            -- A source-queued RollMove survives its owner's death while
+            -- teammates live. finish above clears it on the final death.
+            EnemyAI.afterAction(state, enemy, M.random)
+            Actors.flushCurlUp(state)
+            if finish(state) then return true end
         end
     end
     -- Duration powers belong to the shared round boundary, after all actions.
@@ -338,6 +367,7 @@ function M.new(data, options)
         if enemy.hpRange then
             enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
         end
+        EnemyAI.prepare(state, enemy, M.random)
         for _, intent in ipairs(enemy.intents) do
             if intent.kind == "charge" then
                 assert(enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.ai.chargeIntent == intent.id, "charge intent requires matching AI")
@@ -353,6 +383,9 @@ function M.new(data, options)
     end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)
+    -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
+    -- deck before calling the group's pre-battle powers in encounter order.
+    for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, M.random) end
     local ok, reason = M.startPlayerTurn(state, options.beforeOpeningDraw)
     if ok == false then return nil, reason end
     return state

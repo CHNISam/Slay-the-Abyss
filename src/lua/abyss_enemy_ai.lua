@@ -9,6 +9,10 @@ local BlueSlaver = require("abyss_blue_slaver_ai")
 local RedSlaver = require("abyss_red_slaver_ai")
 local AcidSlimeS = require("abyss_acid_slime_s_ai")
 local Sentry = require("abyss_sentry_ai")
+local SpikeSlimeM = require("abyss_spike_slime_m_ai")
+local AcidSlimeM = require("abyss_acid_slime_m_ai")
+local FungiBeast = require("abyss_fungi_beast_ai")
+local Louse = require("abyss_louse_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -24,10 +28,32 @@ local function rollAttack(state, enemy, random)
     select(enemy, enemy.ai.attackIntent)
 end
 
+-- Constructor-only sampling must precede the next actor and all opening rolls.
+function M.prepare(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == "louse" then Louse.prepare(state, enemy, random) end
+end
+
+function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random) end
+end
+
 function M.initialize(state, enemy, random)
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
+    if enemy.ai.kind == "shield_gremlin" then
+        random(state, enemy.ai.rollRange)
+        select(enemy, enemy.ai.protectIntent)
+        return
+    end
+    if enemy.ai.kind == "mad_gremlin" then
+        rollAttack(state, enemy, random)
+        Actors.applyPower(state, enemy, "angry", enemy.ai.angryStacks, enemy)
+        return
+    end
     if enemy.ai.kind == "charge_then_attack" then
+        -- Wizard's inherited init rolls once although getMove fixes Charge.
+        -- Its later charge/attack transitions use SetMove, not RollMove.
+        random(state, enemy.ai.rollRange)
         enemy.aiCharge = enemy.ai.initialCharge
         select(enemy, enemy.ai.chargeIntent)
         return
@@ -38,13 +64,26 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "red_slaver" then return RedSlaver.initialize(state, enemy, random) end
     if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
     if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random) end
+    if enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.initialize(state, enemy, random) end
+    if enemy.ai.kind == "acid_slime_m" then return AcidSlimeM.initialize(state, enemy, random) end
+    if enemy.ai.kind == "fungi_beast" then return FungiBeast.initialize(state, enemy, random) end
+    if enemy.ai.kind == "louse" then return Louse.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
+        -- Inherited init calls rollMove even though the first move is Ritual.
+        random(state, enemy.ai.rollRange)
         enemy.aiPhase, enemy.ritualSkipRound = "opening", true
         select(enemy, enemy.ai.ritualIntent)
         return
     end
-    if enemy.ai.kind == "guardian" then return Guardian.initialize(state, enemy) end
+    if enemy.ai.kind == "guardian" then
+        -- Guardian inherits the opening roll, but later actions and mode
+        -- changes set moves directly and must not consume further AI draws.
+        random(state, enemy.ai.rollRange)
+        return Guardian.initialize(state, enemy)
+    end
     assert(enemy.ai.kind == "sleep_then_cycle", "unsupported enemy AI")
+    -- Lagavulin inherits the opening roll even though getMove fixes Sleep.
+    random(state, enemy.ai.rollRange)
     enemy.aiPhase, enemy.aiTurns, enemy.aiCycle = "sleep", 0, 1
     select(enemy, enemy.ai.sleepIntent)
     Actors.block(state, enemy, enemy.ai.sleepBlock, true)
@@ -62,7 +101,15 @@ function M.advance(state, enemy, random)
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
     elseif enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random)
-    elseif enemy.ai.kind == "opening_roll_attack" then select(enemy, enemy.ai.attackIntent)
+    elseif enemy.ai.kind == "opening_roll_attack" or enemy.ai.kind == "mad_gremlin" then select(enemy, enemy.ai.attackIntent)
+    elseif enemy.ai.kind == "shield_gremlin" then
+        -- Protect chooses its next move from the living group. Once Bash is
+        -- selected, later actions set Bash directly and never roll again.
+        if enemy.intents[enemy.intentIndex].id == enemy.ai.protectIntent then
+            local alive = 0
+            for _, ally in ipairs(state.enemies) do if ally.hp > 0 then alive = alive + 1 end end
+            select(enemy, alive > 1 and enemy.ai.protectIntent or enemy.ai.attackIntent)
+        else select(enemy, enemy.ai.attackIntent) end
     elseif enemy.ai.kind == "charge_then_attack" then
         if enemy.intents[enemy.intentIndex].id == enemy.ai.chargeIntent then
             enemy.aiCharge = enemy.aiCharge + 1
@@ -74,23 +121,33 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "red_slaver" then return RedSlaver.advance(state, enemy, random)
     elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
     elseif enemy.ai.kind == "sentry" then return Sentry.advance(state, enemy, random)
+    elseif enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.advance(state, enemy, random)
+    elseif enemy.ai.kind == "acid_slime_m" then return AcidSlimeM.advance(state, enemy, random)
+    elseif enemy.ai.kind == "fungi_beast" then return FungiBeast.advance(state, enemy, random)
+    elseif enemy.ai.kind == "louse" then return Louse.advance(state, enemy, random)
     elseif enemy.ai.kind == "ritual_then_attack" then
+        -- Both Ritual and Strike enqueue RollMoveAction; its result is ignored.
+        random(state, enemy.ai.rollRange)
         enemy.aiPhase = "attacking"
         select(enemy, enemy.ai.attackIntent)
     elseif enemy.ai.kind == "guardian" then return Guardian.advance(state, enemy)
     elseif enemy.aiPhase == "sleep" then
         enemy.aiTurns = enemy.aiTurns + 1
         if enemy.aiTurns < enemy.ai.sleepTurns then
+            random(state, enemy.ai.rollRange)
             Actors.block(state, enemy, enemy.ai.sleepBlock, true)
         else
+            -- Natural third sleep uses SetMove, not RollMove.
             enemy.aiPhase = "awake"
             select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
             Events.emit(state, "enemy_wake", { enemy = enemy.id, reason = "sleep_complete" })
         end
     elseif enemy.aiPhase == "stunned" then
+        random(state, enemy.ai.rollRange)
         enemy.aiPhase = "awake"
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
     else
+        random(state, enemy.ai.rollRange)
         enemy.aiCycle = enemy.aiCycle % #enemy.ai.awakeCycle + 1
         select(enemy, enemy.ai.awakeCycle[enemy.aiCycle])
     end
@@ -99,7 +156,7 @@ end
 -- Only these source-verified policies enqueue RollMoveAction during takeTurn.
 -- That action has no owner-death guard and survives while another enemy lives.
 -- Acid S sets its next move directly instead; do not invent a queued roll.
-local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true }
+local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random)
     if enemy.hp > 0 or (enemy.ai and queuedRoll[enemy.ai.kind]) then
         M.advance(state, enemy, random)

@@ -96,10 +96,10 @@ for _, enemyHp in ipairs({1, 100}) do
         assert(Combat.play(s, c.uid, 1)); equal(s.phase, "defeat"); equal(s.energy, 2); equal(#s.hand, 0); equal(#s.draw, 2)
     end)
 end
-test("lethal target retains vulnerable and finishes remaining effects before victory", function()
+test("final lethal target retains vulnerable but clears queued energy and draw", function()
     local s, c = battle(); vulnerable(s); s.enemies[1].hp = 1
     assert(Combat.play(s, c.uid, 1)); equal(s.phase, "victory"); equal(s.enemies[1].statuses.vulnerable, 1)
-    equal(s.energy, 3); equal(#s.hand, 1)
+    equal(s.energy, 2); equal(#s.hand, 0); equal(#s.draw, 2)
 end)
 test("draw lock blocks draw only, not energy", function()
     local s, c = battle(); vulnerable(s); s.player.noDraw = true

@@ -60,4 +60,61 @@ function M.advance(state, roll, base)
     return selected
 end
 
+-- Source-backed PC adapter. Keep the v1 ideal-percent audit API above intact;
+-- real entry uses binary32 accumulation and the mirror's actual 100-slot fills.
+local F = require('abyss_sts_random').float32
+local pcBase = {monster=F(.1), shop=F(.03), treasure=F(.02)}
+function M.newPc()
+    return {version=2,monster=pcBase.monster,shop=pcBase.shop,treasure=pcBase.treasure,tinyChestCount=0}
+end
+function M.snapshotPc(s)
+    local copy={}
+    for k,v in pairs(s) do
+        if type(v)=='table' then local p={};for a,b in pairs(v) do p[a]=b end;copy[k]=p else copy[k]=v end
+    end
+    return copy
+end
+local function validPc(s)
+    if type(s)~='table' or s.version~=2 or not integer(s.tinyChestCount,0,3) then return false end
+    for _,k in ipairs(keys) do
+        if type(s[k])~='number' or not (s[k]>=pcBase[k] and s[k]<=10000) or F(s[k])~=s[k] then return false end
+    end
+    for k in pairs(s) do
+        if k~='version' and k~='monster' and k~='shop' and k~='treasure' and k~='tinyChestCount' and k~='previous' then return false end
+    end
+    if s.previous then
+        if type(s.previous)~='table' then return false end
+        for _,k in ipairs(keys) do if type(s.previous[k])~='number' or not (s.previous[k]>=pcBase[k] and s.previous[k]<=10000) then return false end end
+    end
+    return true
+end
+function M.restorePc(s)
+    if not validPc(s) then return nil,'invalid_unknown_snapshot' end
+    return M.snapshotPc(s)
+end
+function M.advancePc(s,roll,options)
+    assert(validPc(s),'invalid unknown-room PC state')
+    assert(type(roll)=='number' and roll>=0 and roll<1,'roll must be in [0,1)')
+    options=options or {}
+    local bucket=math.floor(F(roll*100.0));local selected,fill='event',0
+    -- Arrays.fill's min(99, start) is intentional: at overflow later kinds can
+    -- overwrite bucket 99, including a zero-size shop. Documented mirror quirk.
+    for _,key in ipairs(keys) do
+        local size=key=='shop' and options.previousRoom=='shop' and 0 or math.floor(F(s[key]*100.0))
+        if bucket>=math.min(99,fill) and bucket<math.min(100,fill+size) then selected=key end
+        fill=fill+size
+    end
+    s.previous={monster=s.monster,shop=s.shop,treasure=s.treasure}
+    if options.tinyChest then
+        s.tinyChestCount=(s.tinyChestCount+1)%4
+        if s.tinyChestCount==0 then selected='treasure' end
+    end
+    local rolled=selected
+    if selected=='monster' and options.juzu then selected='event' end
+    for _,key in ipairs(keys) do
+        local hit=(key=='monster' and rolled=='monster') or (key~='monster' and selected==key)
+        s[key]=hit and pcBase[key] or F(s[key]+pcBase[key])
+    end
+    return selected
+end
 return M

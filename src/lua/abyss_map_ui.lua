@@ -64,6 +64,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         -- A restarted run can share floor/node ids with the previous run. Identity
         -- resets its presentation and default gate before the host grants access.
         self.observedMap = self.map
+        self.entryError=nil
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
         self.navigationEnabled, self.time = current.floor == 0, 0
         self.scroll = clamp(Layout.firstY + (math.max(1, current.floor) - 1) *
@@ -98,10 +99,10 @@ function M.new(root, map, onChoose, clickEvent, options)
         for i = 1, #current.path - 1 do taken[current.path[i] .. ":" .. current.path[i + 1]] = true end
         self.slots, self.breathing = {}, {}
         at("title").text = "第一幕 · 第 " .. current.floor .. " 层"
-        at("notice").text = current.complete and "已抵达首领宝箱 · 请完成当前房间" or
+        at("notice").text = self.entryError or (current.complete and "已抵达首领宝箱 · 请完成当前房间" or
             (current.floor == 16 and "已抵达首领 · 请完成首领战斗与奖励" or
             (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")
-            )
+            ))
         at("previous"):SetVisible(self.scroll > 0)
         at("next"):SetVisible(self.scroll < Layout.maxScroll)
         local edge = 0
@@ -227,8 +228,15 @@ function M.new(root, map, onChoose, clickEvent, options)
         observeMap(after)
         local changed = self.map ~= beforeMap or after.floor ~= before.floor or after.currentNodeId ~= before.currentNodeId
         if changed then self.navigationEnabled = false self:focusCurrent() end
-        if not called then return false, "choice_callback_error" end
-        if accepted ~= true then return false, reason or "choice_rejected" end
+        if not called or accepted~=true then
+            local messages={event_pool_exhausted='受限事件池已用尽，或剩余事件条件不足；请选择其他路线或重新启程。',
+                event_not_implemented='此事件尚未实现；请选择其他路线。',combat_unavailable='此层没有可用遭遇；请选择其他路线。'}
+            local failure=called and (reason or 'choice_rejected') or 'choice_callback_error'
+            self.entryError=messages[failure] or '暂时无法进入，请完成当前操作后重试。'
+            self:render()
+            return false,failure
+        end
+        self.entryError=nil
         if self.map ~= beforeMap or after.currentNodeId ~= nodeId or after.floor ~= expectedFloor then return false, "selection_not_committed" end
         self.navigationEnabled = false self:focusCurrent() return true
     end

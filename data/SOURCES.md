@@ -1,6 +1,24 @@
 # 来源与适配边界
 
+2026-10-24 大型棘刺团有限切片：固定SpikeSlime_L/M方法链核实HP64–70、30/70双招禁三连、攻击16后Slimed2与Frail2；复用中型决策但保留不同AI kind。真实致死攻击另暴露玩家死后仍塞牌/敌方自盾，按DeathScreen/AbstractRoom链最小停止后续effect，保留当前反应与胜利特例。来源hash、红绿、真实UI及共享LCG/平台限制见[TASK-15.12账本](../docs/reviews/TASK-15.12-large-spike-slime.md)。**半血分裂仍是父任务必要缺口，不声明整只大型敌人一致。**
+
+2026-10-23 红绿虫蜷甲切片：所有HP/咬击构造与开场选招之后，先洗牌再逐只抽取3–7被动值。首次非致命普通伤害立即锁定一次，全部同卡效果、反伤及弃牌完成后按触发顺序获得固定格挡并移除；玩家死亡停止队尾，后续被杀的虫不获盾也不移除状态。原子回滚、真实UI、源码hash及有限队列/共享LCG/平台边界见[TASK-15.11账本](../docs/reviews/TASK-15.11-louse-curl-up.md)。
+
+2026-10-23 红绿虫有限切片：普通HP分别10–15/11–17，每只HP后抽取一次5–7咬击；A0两招25/75选择且均禁三连，开场及每次动作主roll。固定源身份、先红后绿、构造抽样与真实UI/回归见[TASK-15.10账本](../docs/reviews/TASK-15.10-louse-hp-bite-ai.md)。该历史切片未包含Curl Up；后续实现及额外3–7抽样见TASK-15.11。生产仍共享LCG，不宣称完整敌人、随机流或平台一致。
+
+2026-10-23 菌兽死亡能力有限切片：现有蕈甲兽新增菌雾2，按真实死亡、单体/范围伤害反应及末敌清队列边界对玩家施加易伤。空ApplyPower来源与怪物时点分开，Artifact、毒伤、反伤和原地回滚已离线验证；不是完整动作队列/随机流或平台认证。固定13份方法链字节身份、先红后绿及保留缺口见[TASK-15.9账本](../docs/reviews/TASK-15.9-fungi-death-power.md)。下条TASK-15.8的“尚未实现”是当时切片边界，不再代表本片后的状态。
+
+2026-10-23 蕈甲兽生命/选招有限切片：固定FungiBeast及AbstractMonster/RollMoveAction方法链核实A0生命22–28、0–59攻击/60–99增力、禁三连攻击/禁连续增力、开场及每次动作主roll。保留基础伤害6/力量3，未改死亡钩子。Spore Cloud死亡易伤2仍是现有可玩池严格缺口，不宣称整只敌人完整；来源hash、红绿、共享LCG和平台限制见[TASK-15.8账本](../docs/reviews/TASK-15.8-fungi-hp-ai.md)。
+
+2026-10-23 中型酸液团A0切片：固定AcidSlime_M/Random方法体核实HP28–32、30/40/30三招及条件Boolean回退、7伤害后Slimed1/普通10伤害/Weak1。只覆盖现有直接生成敌人，复用PR136污染牌和队列接口；来源hash、红绿、0.4f精度与共享LCG/分裂/平台限制见[TASK-15.7账本](../docs/reviews/TASK-15.7-acid-slime-m.md)。不新增卡池，不声明原作完整随机分布或平台一致。
+
 > **规则基线**：历史“适配/简化”不代表获准的最终规则。首发可玩范围按初代 Slay the Spire PC Ascension 0 逐项核对；已修正与剩余偏差以下方专项证据为准，见 [RULE_PARITY.md](../docs/RULE_PARITY.md)。
+
+2026-10-23 中型棘刺团A0切片：固定SpikeSlime_M/Slimed及已排动作方法链核实HP28–32、30/70双动作禁三连、攻击8后塞1张真实费用1可消耗状态牌。只为slimed开放受限空use，保留任意空效果拒绝、奖励/商店/升级隔离与末敌清队列；同伴仍存时荆棘死后的已排塞牌继续。来源hash、红绿及共享LCG/分裂/平台限制见[TASK-15.6账本](../docs/reviews/TASK-15.6-spike-slime-m.md)。不新增奖励牌、不声明全池或原作PC/平台一致。
+
+2026-10-23 护盾小魔A0切片：固定GremlinTsundere与GainBlockRandomMonsterAction核实HP12–15、开场Protect7随机队友/空列表自身、单队友仍消耗aiRng、独处后永久Bash6；同时按MonsterStartTurnAction/MonsterGroup/Poison/GameActionManager修复全部清盾→全部已支持开始状态→敌方动作，避免后排抹去新格挡。来源hash、红绿及随机流/逃跑/编组/平台限制见[TASK-15.5账本](../docs/reviews/TASK-15.5-shield-gremlin.md)。只覆盖已支持第一幕行为，不能据此宣称全敌人或平台一致。
+
+2026-10-23 蓄能小魔开场抽样切片：固定GremlinWizard、AbstractMonster与Random方法链确认开场即使固定Charge也消费一次0–99主roll；后续Charge/Attack用SetMove，不新增roll。原HP21–25、伤害25和0/0/25节奏保持，来源hash、12组红绿及共享LCG对洗牌/奖励的已知影响见[专项账本](../docs/reviews/TASK-15.1-wizard-opening-roll.md)。不是正版PC认证、原版独立随机流或平台实测，全池/平台AC仍保留。
 
 2026-10-23 哨卫A0切片：固定Sentry方法体核HP38–42、Artifact1、完整敌方列表奇偶错位首动（外侧Bolt2 Dazed/中间Beam9）、此后交替及每次主roll消费；旧Weak替代已移除，使用真实Dazed生成接口。Actor人工制品基础与三敌入口分阶段验证，真实牌/瓶桥接另记。来源hash及认证边界见[专项账本](../docs/reviews/TASK-15-sentries-ai.md)与[Dazed账本](../docs/rules/DAZED_STATUS_CARDS.md)，非官方源码、PC或平台实测，RNG与全池AC仍保留。
 

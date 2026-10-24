@@ -1,0 +1,62 @@
+{
+  "fixture_type": "source-derived conceptual event pool selection, NOT Java seeded RNG oracle",
+  "source": "AbstractDungeon.generateEvent plus getEvent/getShrine, shrineChance=0.25f",
+  "cases": [
+    {
+      "name": "rare_shrine_left_edge",
+      "roll": 0.0,
+      "act_available": true,
+      "rare_available": true,
+      "expected_pool": "shrine_and_eligible_one_time"
+    },
+    {
+      "name": "rare_shrine_below_boundary",
+      "roll": 0.249,
+      "act_available": true,
+      "rare_available": true,
+      "expected_pool": "shrine_and_eligible_one_time"
+    },
+    {
+      "name": "act_at_boundary",
+      "roll": 0.25,
+      "act_available": true,
+      "rare_available": true,
+      "expected_pool": "act1_regular"
+    },
+    {
+      "name": "act_upper_edge",
+      "roll": 0.999,
+      "act_available": true,
+      "rare_available": true,
+      "expected_pool": "act1_regular"
+    },
+    {
+      "name": "rare_pool_empty_fallback",
+      "roll": 0.1,
+      "act_available": true,
+      "rare_available": false,
+      "expected_pool": "act1_regular"
+    },
+    {
+      "name": "act_pool_empty_fallback",
+      "roll": 0.9,
+      "act_available": false,
+      "rare_available": true,
+      "expected_pool": "shrine_and_eligible_one_time"
+    },
+    {
+      "name": "both_pools_empty",
+      "roll": 0.1,
+      "act_available": false,
+      "rare_available": false,
+      "expected_pool": null,
+      "expect": "source returns null/invalid; production must not silently select Purifier"
+    }
+  ],
+  "lifecycle_tests": [
+    "ordinary event removed after selection until act change",
+    "common shrine removed until next act",
+    "one-time event removed for rest of run",
+    "eligibility conditions evaluated before uniform draw"
+  ]
+}

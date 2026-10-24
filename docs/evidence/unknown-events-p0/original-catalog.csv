@@ -1,0 +1,32 @@
+pool,sts1_id,oracle_java_file,A0_behavior_or_condition,prerequisites,target_status_20261023,caveat
+act,Big Fish,BigFish.java,回复maxHp/3;最大HP+5;随机遗物+Regret诅咒,"maxhp,relic,curse",blocked-prerequisite,A0;三选一无普通离开
+act,The Cleric,Cleric.java,≥35金币入池;35金治疗25%最大HP;50金净化;离开,"gold,heal,purge",implemented-not-pooled,"当前存在处理器,生产未随机使用"
+act,Dead Adventurer,DeadAdventurer.java,floor>6;多轮探查/战斗/奖励,"event-combat,relic,miscRng",blocked-prerequisite,必须跟踪探索风险与可战斗入口
+act,Golden Idol,GoldenIdolEvent.java,获取Golden Idol后通过伤害/损失最大HP/诅咒之一结算;可离开,"unique-relic,curse,maxhp",blocked-prerequisite,"A0损血25%,失最大HP8%"
+act,Golden Wing,GoldenWing.java,受伤7净化/符合攻击阈值时取50-80金币/离开,"hp,purge,attack-condition,miscRng",ready-for-implementation,入池前全选项与条件完整
+act,World of Goop,GoopPuddle.java,+75金且受伤11 / 随机损失20–50金且封顶当前金币,"hp,gold,miscRng",ready-for-implementation,goldLoss入场时抽取
+act,Liars Game,Sssserpent.java,+175金币并加入Doubt诅咒/离开,"gold,curse",blocked-prerequisite,中文玩家名 The Ssssserpent
+act,Living Wall,LivingWall.java,选牌移除/转化/升级;不提供无代价离开,"purge,transform,upgrade",blocked-prerequisite,强制三选一;确保变牌同原版
+act,Mushrooms,Mushrooms.java,floor>6;吃后回血25%最大HP+Parasite或战斗获Odd Mushroom,"curse,event-combat,unique-relic",blocked-prerequisite,不是单纯回血事件
+act,Scrap Ooze,ScrapOoze.java,受伤3起跳+1;显示遗物获得几率25起+10;可反复探索/离开,"relic,miscRng,multistage",source-disputed,镜像random>=99-chance显示 off-by-one
+act,Shining Light,ShiningLight.java,损伤round(maxHP×20%);随机升级最多两张牌/离开,"hp,upgrade,miscRng",ready-for-implementation,勿用floor;抽取/洗牌同源
+shrine,Match and Keep!,GremlinMatchGame.java,记牌配对五次尝试,"memory-minigame,cards,curse",blocked-prerequisite,不要伪造随机卡三选一
+shrine,Golden Shrine,GoldShrine.java,+100金/+275金并得Regret诅咒/离开,"gold,curse",blocked-prerequisite,必须完整呈现三选项
+shrine,Transmorgrifier,Transmogrifier.java,变换所选卡牌/离开,"transform,purge",blocked-prerequisite,镜像拼写Transmorgrifier
+shrine,Purifier,PurificationShrine.java,免费删所选卡/离开,purge,implemented-fixed-default,"生产固定为唯一可遇,不是随机"
+shrine,Upgrade Shrine,UpgradeShrine.java,升级所选可升级牌/离开,upgrade,ready-for-implementation,无资格时正确禁用
+shrine,Wheel of Change,GremlinWheelGame.java,转轮随机分支奖励/惩罚,"wheel,relic,gold,curse,hp",blocked-prerequisite,不能化作直接离开
+special,Accursed Blacksmith,AccursedBlacksmith.java,跨幕一次性;能否选须看原版逻辑,variable,requires-source-review,初始化为one-time
+special,Bonfire Elementals,Bonfire.java,献牌并按稀有度得到不同收益,"card-rarity,hp,relic",blocked-prerequisite,当前不支持完整专属遗物
+special,Designer,Designer.java,仅第二/三幕,act>=2,not-eligible-act1,由镜像getShrine判断
+special,Duplicator,Duplicator.java,镜像仅第二/三幕; Wiki Events List写All Acts,act-conflict,source-conflict,不得擅自第一幕默认入池
+special,FaceTrader,FaceTrader.java,镜像第一/二幕可遇,"act1-2,unique-relic",blocked-prerequisite,需验证专属脸型遗物
+special,Fountain of Cleansing,FountainOfCurseRemoval.java,仅持有诅咒时可进,curse,blocked-prerequisite,镜像getShrine.isCursed
+special,Knowing Skull,KnowingSkull.java,镜像仅第二幕且当前HP>12,"act2,hp",not-eligible-act1,镜像getShrine
+special,Lab,Lab.java,跨幕一次性，产出药水,potion,requires-source-review,"药水背包现有,掉率待原版逐项验"
+special,N'loth,Nloth.java,镜像仅第二幕，至少两件遗物,"act2,relic",not-eligible-act1,镜像City重复判断疑似反编译/版本遗留
+special,NoteForYourself,NoteForYourself.java,若isNoteForYourselfAvailable()真才初始化,"save-meta,card",requires-source-review,不是无条件每局出现
+special,SecretPortal,SecretPortal.java,镜像第三幕且累计时间≥800秒,"act3,playtime",not-eligible-act1,镜像getShrine
+special,The Joust,TheJoust.java,镜像第二幕且金币≥50,"act2,gold",not-eligible-act1,镜像getShrine
+special,WeMeetAgain,WeMeetAgain.java,跨幕一次性,"gold,potion,card,relic",blocked-prerequisite,角色/卡牌/药水完整交易
+special,The Woman in Blue,WomanInBlue.java,镜像金币≥50，药水商店选项,"gold,potion",blocked-prerequisite,镜像getShrine

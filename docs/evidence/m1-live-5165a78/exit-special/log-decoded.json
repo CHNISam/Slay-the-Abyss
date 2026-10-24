@@ -1,0 +1,57 @@
+{
+  "sourceHash": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+  "bytes": 3179,
+  "recordCount": 6,
+  "printCount": 5,
+  "ignoredRecords": 1,
+  "matchedPrints": 5,
+  "prints": [
+    {
+      "recordIndex": 0,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_00:24:48",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI init Color=table",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 1,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_00:24:48",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI viewport_ready",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 2,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_00:24:48",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI ready",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 3,
+      "elapsedSeconds": "99",
+      "sessionLabel": "2026/10/24_00:24:48",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI settlement_requested defeat",
+      "clientScript": true
+    },
+    {
+      "recordIndex": 4,
+      "elapsedSeconds": "100",
+      "sessionLabel": "2026/10/24_00:24:48",
+      "graphId": "1073741825",
+      "entityId": "1094713345",
+      "text": "ABYSS_SETTLEMENT_DEFEAT"
+    }
+  ],
+  "nextOffset": null,
+  "scope": "Experimental observed local debug-log format. Only explicit print records are decoded, not graph trace literals. Missing prints do not prove code did not execute; logging subscription can omit events. File authenticity and candidate association must be established independently.",
+  "gameplay": "partial-log-evidence"
+}

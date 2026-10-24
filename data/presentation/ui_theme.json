@@ -120,13 +120,13 @@
   },
   "sound": {
     "card_play": 50916,
-    "hit": 50936,
+    "hit": 40313,
     "hurt": 50936,
     "block_hit": 50937,
     "block_gain": 50940,
     "status": 50928,
     "turn": 50926,
-    "enemy_die": 50941,
+    "enemy_die": 20092,
     "victory": 50919,
     "defeat": 50931
   },
@@ -183,12 +183,15 @@
       "boss": 102033
     },
     "status": {
+      "curl_up": 103066,
+      "spore_cloud": 103059,
       "entangled": 103053,
       "artifact": 103066,
       "mode_shift": 103066,
       "sharp_hide": 103055,
       "strength": 103047,
       "enrage": 103047,
+      "angry": 103047,
       "dexterity": 103065,
       "vulnerable": 103049,
       "weak": 103053,

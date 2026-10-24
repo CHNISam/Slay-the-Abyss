@@ -56,13 +56,13 @@ end)
 test("lethal poison does not execute the selected action or request another roll",function()
     controlled(0,2,function(calls)
         local s=battle({"acid_slime_s","cultist"});local e=s.enemies[1];local requests=#calls
-        Combat.addStatus(e,"poison",99);assert(Combat.endTurn(s));eq(e.hp,0);eq(e.intentIndex,1);eq(s.player.hp,80);eq(#calls,requests);eq(s.enemies[2].statuses.ritual,3)
+        Combat.addStatus(e,"poison",99);assert(Combat.endTurn(s));eq(e.hp,0);eq(e.intentIndex,1);eq(s.player.hp,80);eq(#calls,requests+1);eq(calls[#calls],100);eq(s.enemies[2].statuses.ritual,3) -- surviving Cultist's post-Ritual roll
     end)
 end)
 test("lethal Thorns ends small slime actions while a teammate continues",function()
     controlled(0,2,function(calls)
         local s=battle({"acid_slime_s","cultist"});s.enemies[1].hp=1;Combat.addStatus(s.player,"thorns",1);local requests=#calls
-        assert(Combat.endTurn(s));eq(s.enemies[1].hp,0);eq(s.player.hp,77);eq(s.enemies[2].statuses.ritual,3);eq(#calls,requests)
+        assert(Combat.endTurn(s));eq(s.enemies[1].hp,0);eq(s.player.hp,77);eq(s.enemies[2].statuses.ritual,3);eq(#calls,requests+1);eq(calls[#calls],100) -- Cultist, not the dead slime
     end)
 end)
 test("a failed skill transaction preserves chosen opening HP seed and events",function()

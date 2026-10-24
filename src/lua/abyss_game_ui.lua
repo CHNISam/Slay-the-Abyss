@@ -17,7 +17,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
-    local exitGeneration = 0
+    local exitGeneration, menuGeneration = 0, 0
+    local menuRun, menuMode
     local requestSettlement
     local ready = false
     local function changed() if ready then self:refresh() end end
@@ -195,6 +196,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- Camp/event results stay on screen until the player presses 继续.
         elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
+        if menuRun ~= run or menuMode ~= self.mode then
+            menuGeneration = menuGeneration + 1
+            menuRun, menuMode = run, self.mode
+        end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
         local deckOpen = self.deckUI.visible
@@ -314,21 +319,26 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.deckUI:update()
         return self.mapUI:update(dt)
     end
-    start:GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:start() end)
-    settlement:GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:settle() end)
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
-    local function bindExit(box, kind, action)
+    local function bindCommand(box, kind, action)
         local hit = box:GetChild("hit")
         local held, released, observed
+        local resultAction = kind == "start" or kind == "settle"
         local cursor = platform.cursorEvents or {}
         local function available()
             if self.settlementRequested or self.settlementBusy then return false end
+            if resultAction then
+                if self.exitOpen or self.deckUI.visible then return false end
+                return self.mode == "victory" or self.mode == "defeat"
+                    or kind == "start" and self.mode == "menu"
+            end
             return kind == "open" and not self.exitOpen or kind ~= "open" and self.exitOpen == true
         end
         local function current(token)
-            return token and token.generation == exitGeneration and token.run == self.run and available()
+            return token and token.generation == exitGeneration and token.run == self.run
+                and (not resultAction or token.menuGeneration == menuGeneration) and available()
         end
         local function touch(event) return event and event.touchId end
         if cursor.CursorDown and cursor.CursorUp then
@@ -337,7 +347,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 if released and not current(released) then released = nil end
                 if held and held.touch ~= touch(event) then return end
                 observed, held, released = true, nil, nil
-                if available() then held = {generation=exitGeneration,run=self.run,touch=touch(event)} end
+                if available() then held = {generation=exitGeneration,menuGeneration=menuGeneration,run=self.run,touch=touch(event)} end
             end)
             hit:AddCursorEventListener(cursor.CursorUp, function(event)
                 if not held or held.touch ~= touch(event) then return end
@@ -364,9 +374,13 @@ function M.new(root, data, presentation, clickEvent, platform)
             return action()
         end)
     end
-    bindExit(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
-    bindExit(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
-    bindExit(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
+    -- Result actions use the same pointer ownership as exit actions, and also
+    -- expire whenever their menu/run context is hidden or replaced.
+    bindCommand(start, "start", function() return self:start() end)
+    bindCommand(settlement, "settle", function() return self:settle() end)
+    bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
+    bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
+    bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
     ready = true
     self:refresh()
     return self

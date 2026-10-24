@@ -75,9 +75,9 @@ local function intentText(state, index, detailed)
             compact.attack = compact.attack or amount
             result[#result + 1] = amount .. " 点伤害（已计入当前状态）"
         elseif effect.op == "block" then
-            local amount = number(Combat.blockAmount(state, enemy, effect.value))
+            local amount = number(Combat.blockAmount(state, enemy, effect.value, effect.target == "random_ally"))
             compact.defend = compact.defend or amount
-            result[#result + 1] = "格挡 " .. amount
+            result[#result + 1] = (effect.target == "random_ally" and "随机队友格挡（无队友时自身） " or "格挡 ") .. amount
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
             result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
             compact.buff, compact.debuff = compact.buff or value, compact.debuff or value

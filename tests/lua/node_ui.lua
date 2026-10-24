@@ -314,6 +314,7 @@ end)
 
 test("Purifier prays for free through the picker and shows the removal result", function()
     local source = Combat.copy(data); source.rules.player.startingGold = 0
+    source.rules.events.encounterId='purifier' -- explicit content fixture, independent of room RNG
     local ui, get, click, shown = setup("event", source)
     assert(get("eventView/name").text == "净化神龛" and get("eventView/body").text ~= "")
     assert(get("eventView/option1").children.title.text == "［祈祷］")
@@ -551,5 +552,42 @@ test("button listeners bind once and click-only hosts retain the existing C fall
     local basic, basicGet, basicClick = setup("camp",nil,function(run) run.hp=20 end,false)
     assert(not basicGet("campView/rest"):GetChild("hit").listeners.down)
     assert(basicClick("campView/rest") and basic:holding())
+end)
+local function eventSetup(id,prepare)
+    local source=Combat.copy(data);source.rules.events.encounterId=id
+    return setup('event',source,prepare)
+end
+test('upgrade shrine picker cancel consumes nothing; confirmation upgrades UID and holds a readable result',function()
+    local ui,get,click=eventSetup('upgrade_shrine')
+    assert(get('eventView/caption').text:find('受限事件池'))
+    local before=Combat.copy(ui.run)
+    click('eventView/option1');click('pickerView/card1');click('back');same(ui.run,before)
+    click('eventView/option1');click('pickerView/card1');local uid=ui.selected
+    click('confirm');assert(ui:holding() and get('eventView/body').text:find('已升级'))
+    local found=false;for _,card in ipairs(ui.run.deck) do if card.uid==uid then assert(card.upgraded);found=true end end;assert(found)
+    local after=Combat.copy(ui.run);click('confirm');same(ui.run,after)
+end)
+test('Goop shows real leave loss, applies it once and reports asset changes',function()
+    local ui,get,click=eventSetup('goop')
+    local gold,loss=ui.run.gold,ui.run.nodeFlow.event.goldLoss
+    assert(get('eventView/option2/description').text:find(tostring(loss)))
+    click('eventView/option2');assert(ui.run.gold==gold-loss and ui:holding())
+    assert(get('eventView/body').text:find(tostring(gold-loss)))
+    local after=Combat.copy(ui.run);ui:render();same(ui.run,after);click('confirm');same(ui.run,after)
+end)
+test('Golden Wing commits seven damage before picker; cancel cannot refund or charge it again',function()
+    local ui,get,click=eventSetup('golden_wing')
+    local hp=ui.run.hp;click('eventView/option1');assert(ui.run.hp==hp-7 and not ui:holding())
+    assert(get('eventView/option1/description').text:find('已支付'))
+    click('eventView/option1');click('back');assert(ui.run.hp==hp-7)
+    click('eventView/option1');click('pickerView/card1');local size=#ui.run.deck
+    click('confirm');assert(#ui.run.deck==size-1 and ui.run.hp==hp-7 and ui:holding())
+end)
+test('Shining Light shows fixed damage and permanent upgraded names in its result',function()
+    local ui,get,click=eventSetup('shining_light')
+    local hp=ui.run.hp;local damage=ui.run.nodeFlow.event.damage
+    assert(get('eventView/option1/description').text:find(tostring(damage)))
+    click('eventView/option1');assert(ui.run.hp==hp-damage)
+    assert(get('eventView/body').text:find('已升级'))
 end)
 print("LUA_NODE_UI_PASS " .. count)

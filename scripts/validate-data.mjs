@@ -55,7 +55,7 @@ export function validateContent(bundle) {
   const reference = (value, kind, path) => {
     if (text(value, path) && !ids[kind].has(value)) fail(path, `unknown ${kind} ID ${value}`);
   };
-  function effects(value, path, depth = 0) {
+  function effects(value, path, depth = 0, enemyIntent = false) {
     if (depth > 8) { fail(path, 'conditional nesting exceeds 8'); return; }
     array(value, path).forEach((effect, i) => {
       const p = `${path}[${i}]`;
@@ -69,7 +69,9 @@ export function validateContent(bundle) {
       if (op === 'conditional') allowed.push('if', 'then');
       if (['damage', 'damageAll'].includes(op)) allowed.push('times');
       if (op === 'discardRandom') allowed.push('mayChoose');
+      if (op === 'block' && enemyIntent) allowed.push('target');
       keys(effect, allowed, p);
+      if (effect.target !== undefined) enumeration(effect.target, ['random_ally'], `${p}.target`);
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);
         integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0, op === 'makeTempCardInDiscard' ? 5 : Number.MAX_SAFE_INTEGER);
@@ -93,8 +95,18 @@ export function validateContent(bundle) {
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
     if (!partial || card.rarity !== undefined) enumeration(card.rarity, ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
     const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
+    const slimed = !partial && card.id === 'slimed';
     if (!unplayableStatus && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
-    if (unplayableStatus) {
+    if (slimed) {
+      enumeration(card.type, ['status'], `${path}.type`);
+      enumeration(card.cost, [1], `${path}.cost`);
+      enumeration(card.exhaust, [true], `${path}.exhaust`);
+      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'Slimed must have empty use');
+      if (card.ethereal) fail(`${path}.ethereal`, 'Slimed is not ethereal');
+      for (const field of ['costMode', 'condition', 'upgrade']) {
+        if (card[field] !== undefined) fail(`${path}.${field}`, 'Slimed does not support this field');
+      }
+    } else if (unplayableStatus) {
       if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'unplayable status must have empty use');
       if (card.costMode !== undefined) fail(`${path}.costMode`, 'unplayable status has no cost mode');
       if (card.upgrade !== undefined) fail(`${path}.upgrade`, 'unplayable status upgrades are unsupported');
@@ -148,7 +160,7 @@ export function validateContent(bundle) {
       }
       if (['sleep', 'stunned', 'charge'].includes(intent.kind)) {
         if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
-      } else effects(intent.effects, `${ip}.effects`);
+      } else effects(intent.effects, `${ip}.effects`, 0, true);
     });
     if (entry.ai !== undefined && object(entry.ai, `${p}.ai`)) {
       const a = entry.ai, ap = `${p}.ai`;
@@ -157,8 +169,96 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry'], `${ap}.kind`);
-      if (a.kind === 'sentry') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
+      if (a.kind === 'louse') {
+        keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange', 'curlUpRange'], ap);
+        reference('curl_up', 'statuses', `${ap}.curl_up`);
+        if (object(a.curlUpRange, `${ap}.curlUpRange`)) {
+          keys(a.curlUpRange, ['min', 'max'], `${ap}.curlUpRange`);
+          integer(a.curlUpRange.min, `${ap}.curlUpRange.min`, 1, 2147483647);
+          integer(a.curlUpRange.max, `${ap}.curlUpRange.max`, 1, 2147483647);
+          if (a.curlUpRange.min > a.curlUpRange.max) fail(`${ap}.curlUpRange`, 'min must not exceed max');
+          if (a.curlUpRange.max - a.curlUpRange.min + 1 > 65536) fail(`${ap}.curlUpRange`, 'sampling range must not exceed 65536');
+        }
+        intentReference(a.biteIntent, `${ap}.biteIntent`, 'attack');
+        intentReference(a.supportIntent, `${ap}.supportIntent`);
+        const support = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.supportIntent);
+        if (support && !['buff', 'debuff'].includes(support.kind)) fail(`${ap}.supportIntent`, 'must be a buff or debuff');
+        if (a.biteIntent === a.supportIntent) fail(`${ap}.supportIntent`, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.supportCutoff, `${ap}.supportCutoff`, 0, 65536);
+        if (!(a.supportCutoff < a.rollRange)) fail(`${ap}.supportCutoff`, 'cutoff must be below rollRange');
+        if (object(a.biteRange, `${ap}.biteRange`)) {
+          keys(a.biteRange, ['min', 'max'], `${ap}.biteRange`);
+          integer(a.biteRange.min, `${ap}.biteRange.min`, 1, 2147483647);
+          integer(a.biteRange.max, `${ap}.biteRange.max`, 1, 2147483647);
+          if (a.biteRange.min > a.biteRange.max) fail(`${ap}.biteRange`, 'min must not exceed max');
+          if (a.biteRange.max - a.biteRange.min + 1 > 65536) fail(`${ap}.biteRange`, 'sampling range must not exceed 65536');
+        }
+        const bite = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.biteIntent);
+        const payload = bite?.effects;
+        if (!Array.isArray(payload) || payload.length !== 1 || payload[0]?.op !== 'damage'
+          || Object.keys(payload[0]).some(key => !['op', 'value'].includes(key))) {
+          fail(`${ap}.biteIntent`, 'must contain exactly one ordinary damage effect');
+        }
+      } else if (a.kind === 'fungi_beast') {
+        keys(a, ['kind', 'biteIntent', 'growIntent', 'rollRange', 'biteCutoff', 'sporeCloudStacks'], ap);
+        integer(a.sporeCloudStacks, `${ap}.sporeCloudStacks`, 1, 2147483647);
+        reference('spore_cloud', 'statuses', `${ap}.spore_cloud`);
+        intentReference(a.biteIntent, `${ap}.biteIntent`, 'attack');
+        intentReference(a.growIntent, `${ap}.growIntent`, 'buff');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.biteCutoff, `${ap}.biteCutoff`, 0, 65536);
+        if (!(a.biteCutoff < a.rollRange)) fail(`${ap}.biteCutoff`, 'cutoff must be below rollRange');
+      } else if (a.kind === 'acid_slime_m') {
+        keys(a, ['kind', 'spitIntent', 'weakIntent', 'tackleIntent', 'rollRange', 'spitCutoff', 'tackleCutoff', 'spitChance'], ap);
+        intentReference(a.spitIntent, `${ap}.spitIntent`, 'attack');
+        intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
+        intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
+        if (new Set([a.spitIntent, a.weakIntent, a.tackleIntent]).size !== 3) fail(`${ap}.tackleIntent`, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.spitCutoff, `${ap}.spitCutoff`, 0, 65536);
+        integer(a.tackleCutoff, `${ap}.tackleCutoff`, 0, 65536);
+        if (!(a.spitCutoff < a.tackleCutoff)) fail(`${ap}.spitCutoff`, 'cutoffs must be strictly increasing');
+        if (!(a.tackleCutoff < a.rollRange)) fail(`${ap}.tackleCutoff`, 'cutoff must be below rollRange');
+        if (typeof a.spitChance !== 'number' || !Number.isFinite(a.spitChance) || a.spitChance < 0 || a.spitChance > 1) fail(`${ap}.spitChance`, 'must be a probability in 0..1');
+        const spit = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.spitIntent);
+        const payload = spit?.effects;
+        if (!Array.isArray(payload) || payload.length !== 2 || payload[0]?.op !== 'damage'
+          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== 1) {
+          fail(`${ap}.spitIntent`, 'must contain damage followed by exactly one Slimed creation');
+        }
+      } else if (a.kind === 'spike_slime_m' || a.kind === 'spike_slime_l') {
+        keys(a, ['kind', 'tackleIntent', 'frailIntent', 'rollRange', 'tackleCutoff'], ap);
+        intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
+        intentReference(a.frailIntent, `${ap}.frailIntent`, 'debuff');
+        if (a.tackleIntent === a.frailIntent) fail(ap, 'move intents must be distinct');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.tackleCutoff, `${ap}.tackleCutoff`, 0, 65536);
+        if (!(a.tackleCutoff < a.rollRange)) fail(`${ap}.tackleCutoff`, 'cutoff must be below rollRange');
+        const tackle = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.tackleIntent);
+        const payload = tackle?.effects;
+        const slimedCount = a.kind === 'spike_slime_l' ? 2 : 1;
+        if (!Array.isArray(payload) || payload.length !== 2 || payload[0]?.op !== 'damage'
+          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== slimedCount) {
+          fail(`${ap}.tackleIntent`, `must contain damage followed by exactly ${slimedCount} Slimed creation`);
+        }
+      } else if (a.kind === 'shield_gremlin') {
+        keys(a, ['kind', 'protectIntent', 'attackIntent', 'rollRange'], ap);
+        intentReference(a.protectIntent, `${ap}.protectIntent`, 'defend');
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        const protect = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.protectIntent);
+        if (!Array.isArray(protect?.effects) || !protect.effects.some(effect => effect?.op === 'block' && effect.target === 'random_ally' && effect.value > 0)) {
+          fail(`${ap}.protectIntent`, 'must grant Block to a random ally with a solo fallback');
+        }
+      } else if (a.kind === 'mad_gremlin') {
+        keys(a, ['kind', 'attackIntent', 'rollRange', 'angryStacks'], ap);
+        intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
+        integer(a.angryStacks, `${ap}.angryStacks`, 1, 2147483647);
+        reference('angry', 'statuses', `${ap}.angry`);
+      } else if (a.kind === 'sentry') {
         keys(a, ['kind', 'beamIntent', 'boltIntent', 'artifactStacks', 'rollRange'], ap);
         intentReference(a.beamIntent, `${ap}.beamIntent`, 'attack');
         intentReference(a.boltIntent, `${ap}.boltIntent`, 'debuff');
@@ -215,7 +315,8 @@ export function validateContent(bundle) {
           fail(`${ap}.bellowIntent`, 'must grant a positive Enrage stack');
         }
       } else if (a.kind === 'charge_then_attack') {
-        keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent'], ap);
+        keys(a, ['kind', 'initialCharge', 'chargeLimit', 'chargeIntent', 'attackIntent', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.chargeLimit, `${ap}.chargeLimit`, 1, 2147483647);
         integer(a.initialCharge, `${ap}.initialCharge`, 0, Number.isInteger(a.chargeLimit) ? a.chargeLimit - 1 : 0);
         intentReference(a.chargeIntent, `${ap}.chargeIntent`, 'charge');
@@ -235,7 +336,8 @@ export function validateContent(bundle) {
           if (typeof a[key] !== 'number' || !Number.isFinite(a[key]) || a[key] < 0 || a[key] > 1) fail(`${ap}.${key}`, 'must be a probability in 0..1');
         }
       } else if (a.kind === 'ritual_then_attack') {
-        keys(a, ['kind', 'ritualIntent', 'attackIntent'], ap);
+        keys(a, ['kind', 'ritualIntent', 'attackIntent', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         intentReference(a.ritualIntent, `${ap}.ritualIntent`, 'buff');
         intentReference(a.attackIntent, `${ap}.attackIntent`, 'attack');
         const opening = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.ritualIntent);
@@ -243,7 +345,8 @@ export function validateContent(bundle) {
           fail(`${ap}.ritualIntent`, 'must grant a positive Ritual stack');
         }
       } else if (a.kind === 'guardian') {
-        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent'], ap);
+        keys(a, ['kind', 'initialThreshold', 'thresholdIncrement', 'shiftBlock', 'offenseCycle', 'defenseCycle', 'returnIntent', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.initialThreshold, `${ap}.initialThreshold`, 1, 2147483647);
         integer(a.thresholdIncrement, `${ap}.thresholdIncrement`, 1, 2147483647);
         integer(a.shiftBlock, `${ap}.shiftBlock`, 0, 999);
@@ -255,7 +358,8 @@ export function validateContent(bundle) {
         reference('mode_shift', 'statuses', `${ap}.mode_shift`);
         reference('sharp_hide', 'statuses', `${ap}.sharp_hide`);
       } else if (a.kind === 'sleep_then_cycle') {
-        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle'], ap);
+        keys(a, ['kind', 'sleepTurns', 'sleepBlock', 'sleepIntent', 'stunnedIntent', 'awakeCycle', 'rollRange'], ap);
+        integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.sleepTurns, `${ap}.sleepTurns`, 1);
         integer(a.sleepBlock, `${ap}.sleepBlock`, 0, 999);
         intentReference(a.sleepIntent, `${ap}.sleepIntent`, 'sleep');
@@ -313,7 +417,17 @@ export function validateContent(bundle) {
       if (rules.player.drawPerTurn > rules.player.maxHand) fail('rules.player.drawPerTurn', 'must not exceed maxHand');
     }
     if (object(rules.events, 'rules.events')) {
-      enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
+      if (rules.events.encounterId !== undefined) enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
+      else enumeration(rules.events.poolMode, ['restricted-six'], 'rules.events.poolMode');
+      if (rules.events.poolMode !== undefined) {
+        enumeration(rules.events.poolMode, ['restricted-six'], 'rules.events.poolMode');
+        const amounts = { goop: { damage: 11, gold: 75, lossMin: 20, lossMax: 50 },
+          golden_wing: { damage: 7, goldMin: 50, goldMax: 80, attackThreshold: 10 },
+          shining_light: { damagePercent: 20, upgradeCount: 2 } };
+        for (const [id, fields] of Object.entries(amounts)) if (object(rules.events[id], `rules.events.${id}`)) {
+          for (const [field, value] of Object.entries(fields)) integer(rules.events[id][field], `rules.events.${id}.${field}`, value, value);
+        }
+      }
       if (object(rules.events.purifier, 'rules.events.purifier')) integer(rules.events.purifier.removeCost, 'rules.events.purifier.removeCost', 0, 0);
     }
     if (isObject(rules.events) && object(rules.events.cleric, 'rules.events.cleric')) {

@@ -1,0 +1,50 @@
+[
+  {
+    "path": "杀戮尖塔原码/helpers/EventHelper.java",
+    "expected": "83dca0e2780a6fbbaed70caddfd1004617824dd2",
+    "actual": "83dca0e2780a6fbbaed70caddfd1004617824dd2",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/dungeons/AbstractDungeon.java",
+    "expected": "0b56f48444f990fec0225747f19125eab17233af",
+    "actual": "0b56f48444f990fec0225747f19125eab17233af",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/dungeons/Exordium.java",
+    "expected": "4da51b8f6bbddbdd30eed7d28645037c784da0c6",
+    "actual": "4da51b8f6bbddbdd30eed7d28645037c784da0c6",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/rooms/EventRoom.java",
+    "expected": "ae82e5c02d882f9510857a0b5c35d6c4b27cb6a7",
+    "actual": "ae82e5c02d882f9510857a0b5c35d6c4b27cb6a7",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/events/exordium/GoldenWing.java",
+    "expected": "4bebe490cacf288ad25bd4042f48575cfb3b9bd2",
+    "actual": "4bebe490cacf288ad25bd4042f48575cfb3b9bd2",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/events/exordium/GoopPuddle.java",
+    "expected": "0ce689604c643b416ec36ecc31b11d25fd3295bd",
+    "actual": "0ce689604c643b416ec36ecc31b11d25fd3295bd",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/events/exordium/ShiningLight.java",
+    "expected": "85fd9f7f018f873d28f85fb884cf2386b2f826d2",
+    "actual": "85fd9f7f018f873d28f85fb884cf2386b2f826d2",
+    "matched": true
+  },
+  {
+    "path": "杀戮尖塔原码/events/shrines/UpgradeShrine.java",
+    "expected": "e2140e3fe4937dacfb50ab1c3f6f33dcb5b18d0c",
+    "actual": "e2140e3fe4937dacfb50ab1c3f6f33dcb5b18d0c",
+    "matched": true
+  }
+]

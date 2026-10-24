@@ -42,8 +42,8 @@ class GrowingCardTextTests(unittest.TestCase):
             'strike', 'defend', 'bash', 'cleave', 'clothesline', 'iron_wave', 'anger', 'clash', 'true_grit',
             'twin_strike', 'pommel_strike', 'shrug_it_off', 'thunderclap', 'uppercut', 'carnage', 'dropkick',
             'ghostly_armor', 'hemokinesis', 'rampage', 'whirlwind', 'impervious', 'bludgeon', 'reaper'})
-        self.assertEqual(len(cards), 38)
-        self.assertEqual(sum(card['id'] != 'dazed' for card in cards), 37)
+        self.assertEqual(len(cards), 39)
+        self.assertEqual(sum(card['type'] != 'status' for card in self.source['cards']), 37)
         self.assertEqual(before, (self.source, self.overlay))
 
     def test_damage_need_not_be_first_number_and_all_occurrences_are_preserved(self):

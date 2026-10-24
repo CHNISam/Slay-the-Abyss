@@ -98,7 +98,7 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP flow fixture
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
-    local seen = {}
+    local seen,seenEvents = {},{}
     for floor = 1, data.rules.map.bossFloor do
         local node = Nodes.available(ui.run, ui.map)[1]
         assert(node and node.floor == floor)
@@ -106,6 +106,13 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
         for i, id in pairs(ui.mapUI.slots) do if id == node.id then slot = i break end end
         assert(slot, "next layer missing from focused map page")
         click(root, "mapPanel", "node" .. slot)
+        if not ui.run.nodeFlow or ui.run.nodeFlow.id~=node.id then
+            local _,why=Nodes.enter(ui.run,ui.map,node.id)
+            error('entry failed on floor '..floor..' mode '..ui.mode..' reason '..tostring(why))
+        end
+        node.type=ui.run.nodeFlow.type -- ? retains its map symbol but routes by actual room.
+        if ui.run.nodeFlow.event then seenEvents[ui.run.nodeFlow.event.id]=true end
+        print('UNKNOWN_ROOM_ROUTE '..floor..' '..node.id..' '..node.type..' '..(ui.run.nodeFlow.event and ui.run.nodeFlow.event.id or '-'))
         seen[node.type] = true
         if node.type == "boss" then
             local notice = root:GetChild("battlePanel"):GetChild("notice")
@@ -152,6 +159,8 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
     end
     -- Optional shop/event/elite rooms are no longer artificially forced on every route.
     for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory panel " .. kind) end
+    local eventCount=0;for _ in pairs(seenEvents) do eventCount=eventCount+1 end
+    assert(eventCount>=2,'same real map route must reach multiple different events')
     assert(root:GetChild("menuPanel"):GetChild("title").text == "深渊已被封印")
     assert(statValue(root, "floor") == data.rules.map.bossFloor .. " / " .. data.rules.map.bossFloor)
     assert(resultText(root, "subtitle") == "封印重燃，深渊退去。旅行者继续前行。")

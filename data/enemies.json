@@ -7,7 +7,7 @@
       "tier": "normal",
       "hp": 50,
       "hpRange": { "min": 48, "max": 54 },
-      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1" },
+      "ai": { "kind": "ritual_then_attack", "ritualIntent": "cultist_2", "attackIntent": "cultist_1", "rollRange": 100 },
       "intents": [
         {
           "id": "cultist_1",
@@ -93,6 +93,16 @@
       "name": "赤甲虫",
       "tier": "normal",
       "hp": 13,
+      "hpRange": { "min": 10, "max": 15 },
+      "ai": {
+        "kind": "louse",
+        "biteIntent": "red_louse_1",
+        "supportIntent": "red_louse_2",
+        "rollRange": 100,
+        "supportCutoff": 25,
+        "biteRange": { "min": 5, "max": 7 },
+        "curlUpRange": { "min": 3, "max": 7 }
+      },
       "intents": [
         {
           "id": "red_louse_1",
@@ -122,6 +132,16 @@
       "name": "青甲虫",
       "tier": "normal",
       "hp": 13,
+      "hpRange": { "min": 11, "max": 17 },
+      "ai": {
+        "kind": "louse",
+        "biteIntent": "green_louse_1",
+        "supportIntent": "green_louse_2",
+        "rollRange": 100,
+        "supportCutoff": 25,
+        "biteRange": { "min": 5, "max": 7 },
+        "curlUpRange": { "min": 3, "max": 7 }
+      },
       "intents": [
         {
           "id": "green_louse_1",
@@ -195,6 +215,11 @@
             {
               "op": "damage",
               "value": 7
+            },
+            {
+              "op": "makeTempCardInDiscard",
+              "card": "slimed",
+              "value": 1
             }
           ]
         },
@@ -208,8 +233,32 @@
               "value": 1
             }
           ]
+        },
+        {
+          "id": "acid_slime_m_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 10
+            }
+          ]
         }
-      ]
+      ],
+      "hpRange": {
+        "min": 28,
+        "max": 32
+      },
+      "ai": {
+        "kind": "acid_slime_m",
+        "spitIntent": "acid_slime_m_1",
+        "weakIntent": "acid_slime_m_2",
+        "tackleIntent": "acid_slime_m_3",
+        "rollRange": 100,
+        "spitCutoff": 30,
+        "tackleCutoff": 70,
+        "spitChance": 0.4000000059604645
+      }
     },
     {
       "id": "acid_slime_l",
@@ -269,6 +318,17 @@
       "name": "中型棘刺团",
       "tier": "normal",
       "hp": 30,
+      "hpRange": {
+        "min": 28,
+        "max": 32
+      },
+      "ai": {
+        "kind": "spike_slime_m",
+        "tackleIntent": "spike_slime_m_1",
+        "frailIntent": "spike_slime_m_2",
+        "rollRange": 100,
+        "tackleCutoff": 30
+      },
       "intents": [
         {
           "id": "spike_slime_m_1",
@@ -277,6 +337,11 @@
             {
               "op": "damage",
               "value": 8
+            },
+            {
+              "op": "makeTempCardInDiscard",
+              "card": "slimed",
+              "value": 1
             }
           ]
         },
@@ -298,6 +363,8 @@
       "name": "大型棘刺团",
       "tier": "normal",
       "hp": 68,
+      "hpRange": { "min": 64, "max": 70 },
+      "ai": { "kind": "spike_slime_l", "tackleIntent": "spike_slime_l_1", "frailIntent": "spike_slime_l_2", "rollRange": 100, "tackleCutoff": 30 },
       "intents": [
         {
           "id": "spike_slime_l_1",
@@ -306,6 +373,11 @@
             {
               "op": "damage",
               "value": 16
+            },
+            {
+              "op": "makeTempCardInDiscard",
+              "card": "slimed",
+              "value": 2
             }
           ]
         },
@@ -443,6 +515,15 @@
       "name": "蕈甲兽",
       "tier": "normal",
       "hp": 26,
+      "hpRange": { "min": 22, "max": 28 },
+      "ai": {
+        "kind": "fungi_beast",
+        "sporeCloudStacks": 2,
+        "biteIntent": "fungi_beast_1",
+        "growIntent": "fungi_beast_2",
+        "rollRange": 100,
+        "biteCutoff": 60
+      },
       "intents": [
         {
           "id": "fungi_beast_1",
@@ -472,6 +553,13 @@
       "name": "狂怒小魔",
       "tier": "normal",
       "hp": 22,
+      "hpRange": { "min": 20, "max": 24 },
+      "ai": {
+        "kind": "mad_gremlin",
+        "attackIntent": "mad_gremlin_1",
+        "rollRange": 100,
+        "angryStacks": 1
+      },
       "intents": [
         {
           "id": "mad_gremlin_1",
@@ -480,17 +568,6 @@
             {
               "op": "damage",
               "value": 4
-            }
-          ]
-        },
-        {
-          "id": "mad_gremlin_2",
-          "kind": "buff",
-          "effects": [
-            {
-              "op": "gainStatus",
-              "status": "strength",
-              "value": 2
             }
           ]
         }
@@ -580,7 +657,8 @@
         "initialCharge": 1,
         "chargeLimit": 3,
         "chargeIntent": "wizard_gremlin_1",
-        "attackIntent": "wizard_gremlin_3"
+        "attackIntent": "wizard_gremlin_3",
+        "rollRange": 100
       }
     },
     {
@@ -588,6 +666,8 @@
       "name": "护盾小魔",
       "tier": "normal",
       "hp": 14,
+      "hpRange": { "min": 12, "max": 15 },
+      "ai": { "kind": "shield_gremlin", "protectIntent": "shield_gremlin_1", "attackIntent": "shield_gremlin_2", "rollRange": 100 },
       "intents": [
         {
           "id": "shield_gremlin_1",
@@ -595,7 +675,8 @@
           "effects": [
             {
               "op": "block",
-              "value": 7
+              "value": 7,
+              "target": "random_ally"
             }
           ]
         },
@@ -672,6 +753,7 @@
       "hpRange": { "min": 109, "max": 111 },
       "ai": {
         "kind": "sleep_then_cycle",
+        "rollRange": 100,
         "sleepTurns": 3,
         "sleepBlock": 8,
         "sleepIntent": "lagavulin_1",
@@ -771,6 +853,7 @@
       "hp": 240,
       "ai": {
         "kind": "guardian",
+        "rollRange": 100,
         "initialThreshold": 30,
         "thresholdIncrement": 10,
         "shiftBlock": 20,
@@ -869,7 +952,7 @@
         "cultist"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "jaw_solo",
@@ -878,7 +961,7 @@
         "jaw_worm"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "louse_pair",
@@ -888,7 +971,7 @@
         "green_louse"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "small_slimes",
@@ -898,7 +981,7 @@
         "spike_slime_s"
       ],
       "minFloor": 1,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "louse_trio",
@@ -909,7 +992,7 @@
         "red_louse"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "medium_slimes",
@@ -919,7 +1002,7 @@
         "spike_slime_m"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "large_acid",
@@ -928,7 +1011,7 @@
         "acid_slime_l"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "large_spike",
@@ -937,7 +1020,7 @@
         "spike_slime_l"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "looter_solo",
@@ -946,7 +1029,7 @@
         "looter"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "blue_slaver_solo",
@@ -955,7 +1038,7 @@
         "blue_slaver"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "red_slaver_solo",
@@ -964,7 +1047,7 @@
         "red_slaver"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "fungi_pair",
@@ -974,7 +1057,7 @@
         "fungi_beast"
       ],
       "minFloor": 4,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "gremlin_gang",
@@ -987,7 +1070,7 @@
         "shield_gremlin"
       ],
       "minFloor": 5,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "wildlife",
@@ -997,7 +1080,7 @@
         "green_louse"
       ],
       "minFloor": 5,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "elite_nob",

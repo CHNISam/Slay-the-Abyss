@@ -1,0 +1,156 @@
+{
+  "runId": "9bb0abe3-9602-418b-a729-25fc739523c2",
+  "state": "succeeded",
+  "elapsedSeconds": 1127,
+  "importedSaveId": "1073741838",
+  "steps": [
+    {
+      "at": 17.2,
+      "step": "imported",
+      "officialSaveId": "1073741838"
+    },
+    {
+      "at": 32.7,
+      "step": "confirmed-loading-another-save"
+    },
+    {
+      "at": 55.8,
+      "step": "opened-and-saved"
+    },
+    {
+      "at": 91.7,
+      "step": "client-script-log-ticked"
+    },
+    {
+      "at": 94.1,
+      "step": "log-subscribed",
+      "graphNames": [
+        "_GSTS_ABYSS_SETTLEMENT"
+      ],
+      "clientScripts": true
+    },
+    {
+      "at": 118.5,
+      "step": "playtest-requested"
+    },
+    {
+      "at": 209,
+      "step": "playing"
+    },
+    {
+      "at": 1122.4,
+      "step": "left-playtest"
+    },
+    {
+      "at": 1126.9,
+      "step": "log-collected",
+      "found": true
+    }
+  ],
+  "automaticScreenshotCount": 16,
+  "automaticScreenshots": [
+    {
+      "label": "log-subscribed",
+      "playSeconds": null,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/00-log-subscribed.jpg"
+    },
+    {
+      "label": "t001",
+      "playSeconds": 1,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/01-t001.jpg"
+    },
+    {
+      "label": "t005",
+      "playSeconds": 5,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/02-t005.jpg"
+    },
+    {
+      "label": "t015",
+      "playSeconds": 15,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/03-t015.jpg"
+    },
+    {
+      "label": "t030",
+      "playSeconds": 30,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/04-t030.jpg"
+    },
+    {
+      "label": "t060",
+      "playSeconds": 60,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/05-t060.jpg"
+    },
+    {
+      "label": "t120",
+      "playSeconds": 120,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/06-t120.jpg"
+    },
+    {
+      "label": "t180",
+      "playSeconds": 180,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/07-t180.jpg"
+    },
+    {
+      "label": "t240",
+      "playSeconds": 240,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/08-t240.jpg"
+    },
+    {
+      "label": "t300",
+      "playSeconds": 300,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/09-t300.jpg"
+    },
+    {
+      "label": "t400",
+      "playSeconds": 400,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/10-t400.jpg"
+    },
+    {
+      "label": "t500",
+      "playSeconds": 500,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/11-t500.jpg"
+    },
+    {
+      "label": "t600",
+      "playSeconds": 600,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/12-t600.jpg"
+    },
+    {
+      "label": "t700",
+      "playSeconds": 700,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/13-t700.jpg"
+    },
+    {
+      "label": "t800",
+      "playSeconds": 800,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/14-t800.jpg"
+    },
+    {
+      "label": "end",
+      "playSeconds": 900,
+      "sourceArtifact": ".artifacts/m1-live-5165a78/playtests/9bb0abe3-9602-418b-a729-25fc739523c2/15-end.jpg"
+    }
+  ],
+  "clientScriptLogSubscribed": true,
+  "log": {
+    "file": "docs/evidence/m1-live-5165a78/session-log.gia",
+    "decoded": "docs/evidence/m1-live-5165a78/log-decoded.json",
+    "counts": "docs/evidence/m1-live-5165a78/log-counts.json",
+    "sha256": "9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8",
+    "printCount": 64,
+    "truncated": false
+  },
+  "expectations": {
+    "passed": true,
+    "met": 1,
+    "of": 1,
+    "results": [
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "sourceArtifact": ".artifacts/m1-live-5165a78/live-final-status.json",
+  "scope": "Runner succeeded means automation completed; battle acceptance is separately screenshot/log reviewed."
+}

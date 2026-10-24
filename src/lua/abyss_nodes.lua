@@ -5,6 +5,9 @@ local Run = require("abyss_run")
 local Map = require("abyss_map")
 local Combat = require("abyss_combat")
 local Effects = require("abyss_effects")
+local Unknown = require("abyss_unknown")
+local EventPool = require("abyss_event_pool")
+local EventRandom = require("abyss_sts_random")
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 local priceKeys = { common = "cardCommon", uncommon = "cardUncommon", rare = "cardRare" }
@@ -67,7 +70,21 @@ local function unownedRelics(run)
     return result
 end
 
-local function prepare(run, node)
+local function goldenAttack(run)
+    for _,card in ipairs(run.deck) do
+        local def=find(run.data.cards.cards,card.cardId)
+        if def and def.type=='attack' then
+            local effects=card.upgraded and def.upgrade and def.upgrade.effects or def.effects
+            for _,effect in ipairs(effects) do
+                if (effect.op=='damage' or effect.op=='damageAll')
+                    and (effect.value or 0)>=run.data.rules.events.golden_wing.attackThreshold then return true end
+            end
+        end
+    end
+    return false
+end
+
+local function prepare(run, node, miscRng)
     local flow = { id = node.id, floor = node.floor, type = node.type, complete = false,
         encounterId = node.encounterId }
     local random = { seed = run.seed }
@@ -90,8 +107,14 @@ local function prepare(run, node)
         flow.reward = #relics > 0 and { relicId = relics[Combat.random(random, #relics)] }
             or { gold = run.data.rules.rewards.normalGold }
     elseif node.type == "event" then
-        -- Explicit supported content, not the original random unknown-room/event-pool sampler.
-        flow.event = { id = node.eventId or run.data.rules.events.encounterId }
+        local id=node.eventId or run.data.rules.events.encounterId
+        flow.event = { id = id }
+        if id=='goop' then
+            local r=run.data.rules.events.goop
+            flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
+        elseif id=='shining_light' then
+            flow.event.damage=math.floor(EventRandom.float32(run.maxHp*EventRandom.float32(run.data.rules.events.shining_light.damagePercent/100))+.5)
+        elseif id=='golden_wing' then flow.event.canAttack=goldenAttack(run) end
     end
     return flow, random.seed
 end
@@ -114,14 +137,52 @@ function M.enter(run, map, nodeId)
     if node.roomKind == "boss_treasure" then return false, "boss_treasure_not_implemented" end
     if not battleKinds[node.type] and node.type ~= "camp" and node.type ~= "shop"
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
+    local sourceType=node.type
+    local nextUnknown,nextEventRng,nextMiscRng
+    nextMiscRng=EventRandom.cloneState(run.miscRng)
+    local selectionRng
+    if node.type=='event' and not node.eventId and not run.data.rules.events.encounterId then
+        nextUnknown=Combat.copy(run.unknown)
+        nextEventRng=EventRandom.cloneState(run.eventRng)
+        local kind=Unknown.advancePc(nextUnknown.chances,EventRandom.randomFloat(nextEventRng),{
+            previousRoom=run.nodeFlow and run.nodeFlow.type,
+            tinyChest=owns(run.relics,'tiny_chest'),juzu=owns(run.relics,'juzu_bracelet')})
+        node=Combat.copy(node)
+        node.type=kind=='monster' and 'combat' or kind
+        if kind=='event' then
+            selectionRng=EventRandom.atCounter(run.eventSeed,nextEventRng.counter)
+            local originalId,reason=EventPool.draw(nextUnknown.pools,{floor=node.floor,gold=run.gold,act=1,
+                hp=run.hp,relicCount=#run.relics,elapsedSeconds=run.elapsedSeconds,cursed=false},selectionRng)
+            if not originalId then return false,reason end
+            node.eventId=EventPool.contentId[originalId]
+            if not node.eventId then return false,'event_not_implemented' end
+            node.originalEventId=originalId
+        elseif kind=='monster' then
+            -- Existing encounter candidate: same floor eligibility and uniform
+            -- source list as the map. Original monster queue parity is separate.
+            local candidates={}
+            for _,encounter in ipairs(run.data.enemies.encounters) do
+                if encounter.tier=='normal' and node.floor>=encounter.minFloor and node.floor<=encounter.maxFloor then
+                    candidates[#candidates+1]=encounter.id
+                end
+            end
+            table.sort(candidates)
+            if #candidates==0 then return false,'combat_unavailable' end
+            local encounterRandom={seed=run.seed}
+            node.encounterId=candidates[Combat.random(encounterRandom,#candidates)]
+        end
+    end
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
-        if id ~= "cleric" and id ~= "purifier" then return false, "event_unavailable" end
+        if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
+            and id~='golden_wing' and id~='shining_light' then return false, "event_unavailable" end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
     end
-    local flow, seed = prepare(run, node)
+    local flow, seed = prepare(run, node,nextMiscRng)
+    flow.sourceType=sourceType
+    if selectionRng then flow.selectionRng=EventRandom.snapshot(selectionRng);flow.event.originalId=node.originalEventId end
     if battleKinds[node.type] then
         -- startCombat validates the encounter using its new floor and constructs the battle before mutation.
         -- A failed setup must not consume a map choice, change the floor or create a node claim.
@@ -137,6 +198,8 @@ function M.enter(run, map, nodeId)
     end
     assert(Map.choose(map, nodeId)) -- already validated against the unchanged map above
     flow.mapSeed, flow.mapSignature = map.seed, map.sourceSignature
+    if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
+    run.miscRng=nextMiscRng
     run.nodeFlow = flow
     return true
 end
@@ -155,12 +218,15 @@ function M.view(run, map)
                 + (run.shopRemoveCount or 0) * run.data.rules.shop.removeCardIncrement
             node.removeAvailable = not node.removalUsed
         elseif node.type == "event" then
-            local rules = run.data.rules.events[node.event.id]
-            node.event.removeCost = rules.removeCost
+            local rules = run.data.rules.events[node.event.id] or {}
+            node.event.removeCost = rules.removeCost or 0
+            node.upgradeCards=upgradeCards(run)
+            node.upgradesLeft=1
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
             end
+            node.event.options=M.eventOptions(run,node)
         end
     end
     return { phase = run.phase, node = node, map = mapView, available = available, navigationEnabled = enabled }
@@ -235,11 +301,44 @@ function M.claimTreasure(run)
     return complete(run)
 end
 
+function M.eventOptions(run,flow)
+    local id,e=flow.event.id,flow.event
+    local rows={}
+    local function option(choice,title,description,enabled,picker)
+        rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
+    end
+    local upgrades=#upgradeCards(run)
+    local deckOk=#run.deck>1
+    if id=='cleric' then
+        local r=run.data.rules.events.cleric
+        local heal=math.min(run.maxHp-run.hp,math.floor(run.maxHp*r.healPercent/100))
+        option('heal','治疗','支付 '..r.healCost..' 金币，回复 '..heal..' 点生命',run.gold>=r.healCost)
+        option('purify','净化','支付 '..r.removeCost..' 金币，移除一张卡牌',run.gold>=r.removeCost and deckOk,'purify')
+    elseif id=='purifier' then option('pray','祈祷','免费移除一张卡牌',deckOk,'purify')
+    elseif id=='upgrade_shrine' then option('upgrade','升级',upgrades>0 and '免费升级一张卡牌' or '牌组没有可升级的卡牌',upgrades>0,'event_upgrade')
+    elseif id=='goop' then
+        local r=run.data.rules.events.goop
+        option('gather','拾取金币','受到 '..r.damage..' 点伤害，获得 '..r.gold..' 金币')
+        option('leave','离开','失去 '..e.goldLoss..' 金币');return rows
+    elseif id=='shining_light' then option('accept','触碰光芒',upgrades>0 and ('受到 '..e.damage..' 点伤害，随机升级最多 '..run.data.rules.events.shining_light.upgradeCount..' 张卡牌') or '牌组没有可升级的卡牌',upgrades>0)
+    elseif id=='golden_wing' then
+        local r=run.data.rules.events.golden_wing
+        if e.stage=='purge' then
+            option('purge','移除卡牌','已支付 '..r.damage..' 点生命；选择一张卡牌移除',deckOk,'wing_purge');return rows
+        end
+        option('sacrifice','献出生命','受到 '..r.damage..' 点伤害，然后选择移除一张卡牌',deckOk)
+        option('take_gold','击碎雕像','获得 '..r.goldMin..'–'..r.goldMax..' 金币；需要基础伤害至少 '..r.attackThreshold..' 的攻击牌',e.canAttack)
+    end
+    option('leave','离开','什么也不会发生。')
+    return rows
+end
+
 function M.chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
     local id = flow.event.id
-    if id ~= "cleric" and id ~= "purifier" then return false, "invalid_event_choice" end
-    local rules = run.data.rules.events[id]
+    local rules = run.data.rules.events[id] or {}
+    if id=='golden_wing' and flow.event.stage=='purge' and choice~='purge' then return false,'invalid_event_choice' end
+    local function damage(amount) run.hp=math.max(0,run.hp-amount) end
     if choice == "heal" and id == "cleric" then
         if run.gold < rules.healCost then return false, "insufficient_gold" end
         run.gold = run.gold - rules.healCost
@@ -251,10 +350,48 @@ function M.chooseEvent(run, choice, uid)
         if run.gold < rules.removeCost then return false, "insufficient_gold" end
         table.remove(run.deck, position)
         run.gold = run.gold - rules.removeCost
+    elseif choice=='gather' and id=='goop' then damage(rules.damage);run.gold=run.gold+rules.gold
+    elseif choice=='leave' and id=='goop' then run.gold=math.max(0,run.gold-flow.event.goldLoss)
+    elseif choice=='upgrade' and id=='upgrade_shrine' then
+        local instance=find(run.deck,uid,'uid')
+        if not instance then return false,'invalid_card' end
+        if not upgradeable(run,instance) then return false,'card_not_upgradeable' end
+        instance.upgraded=true;flow.event.upgradedUids={uid}
+    elseif choice=='accept' and id=='shining_light' then
+        local cards=upgradeCards(run)
+        if #cards==0 then return false,'card_not_upgradeable' end
+        local rng=EventRandom.cloneState(run.miscRng)
+        EventRandom.shuffle(rng,cards)
+        damage(flow.event.damage)
+        flow.event.upgradedUids={}
+        for i=1,math.min(rules.upgradeCount,#cards) do
+            find(run.deck,cards[i].uid,'uid').upgraded=true
+            flow.event.upgradedUids[#flow.event.upgradedUids+1]=cards[i].uid
+        end
+        run.miscRng=rng
+    elseif choice=='sacrifice' and id=='golden_wing' then
+        if #run.deck<=1 then return false,'last_card' end
+        damage(rules.damage);flow.event.stage='purge'
+        if run.hp>0 then return true,'choose_purge' end
+    elseif choice=='take_gold' and id=='golden_wing' then
+        if not flow.event.canAttack then return false,'event_condition_unmet' end
+        local rng=EventRandom.cloneState(run.miscRng)
+        local gold=EventRandom.randomIntBetween(rng,rules.goldMin,rules.goldMax)
+        run.gold,run.miscRng=run.gold+gold,rng
+    elseif choice=='purge' and id=='golden_wing' and flow.event.stage=='purge' then
+        local instance,position=find(run.deck,uid,'uid')
+        if not instance then return false,'invalid_card' end
+        if #run.deck<=1 then return false,'last_card' end
+        table.remove(run.deck,position)
     elseif choice ~= "leave" then return false, "invalid_event_choice" end
     flow.eventChoice = choice
-    return complete(run)
+    local ok,result=complete(run)
+    if run.hp==0 then run.phase='defeat' end
+    return ok,result
 end
+
+function M.upgradeEvent(run,uid) return M.chooseEvent(run,'upgrade',uid) end
+function M.purgeWing(run,uid) return M.chooseEvent(run,'purge',uid) end
 
 function M.purifyEvent(run, uid)
     local flow = run.nodeFlow

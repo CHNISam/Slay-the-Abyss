@@ -2,6 +2,14 @@
   "note": "v0.1.0 内容基线，解释见 README.md；未运行时或真机验收。",
   "statuses": [
     {
+      "id": "spore_cloud",
+      "name": "菌雾",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "倒下后使玩家获得等量易伤；战斗结束时不触发"
+    },
+    {
       "id": "entangled",
       "name": "缠绕",
       "kind": "debuff",
@@ -120,6 +128,22 @@
       "stack": "intensity",
       "decay": "none",
       "description": "玩家每打出一张攻击牌后受到等量伤害，可用格挡抵挡，多段只触发一次"
+    },
+    {
+      "id": "angry",
+      "name": "狂怒",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每次受到普通攻击并损失生命后，获得等同本状态层数的力量；药水、毒伤和反伤不触发"
+    },
+    {
+      "id": "curl_up",
+      "name": "蜷甲",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "首次受到非致命普通攻击并损失生命后，在本次行动结束时获得所示格挡；每场战斗一次"
     }
   ]
 }

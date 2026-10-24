@@ -41,7 +41,9 @@ test("old run pointer cannot consume new run bottle after real defeat restart",f
     local old=h.run
     emit("potion1","down",7);emit("endTurn","down",8);emit("endTurn","up",8);emit("endTurn","click",8);d()
     assert(h.mode=="defeat" and h.run==old)
-    assert(r:GetChild("menuPanel"):GetChild("start"):GetChild("hit").click({touchId=8}))
+    local restart = r:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
+    restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
+    assert(restart.click({touchId=8}))
     assert(h.run~=old and h.mode=="map")
     assert(h.mapUI:choose(F.Nodes.available(h.run,h.map)[1].id))
     -- There is no natural acquisition chain yet. Explicit real inventory grant.

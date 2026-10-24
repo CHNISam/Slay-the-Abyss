@@ -2,6 +2,9 @@
 local Combat = require("abyss_combat")
 local Effects = require("abyss_effects")
 local Inventory = require("abyss_inventory")
+local EventRandom = require("abyss_sts_random")
+local Unknown = require("abyss_unknown")
+local EventPool = require("abyss_event_pool")
 local M = {}
 
 local function find(entries, id)
@@ -11,7 +14,10 @@ end
 function M.new(data, seed)
     seed = seed or 1
     assert(type(seed) == "number" and seed % 1 == 0, "seed must be an integer")
+    local eventSeed = string.format('%.0f',seed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = seed % 65536,
+        eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
+        unknown = { chances = Unknown.newPc(), pools = EventPool.new(data.rules.events.poolMode or 'restricted-six') },
         phase = "map", floor = 1, hp = data.rules.player.maxHp, maxHp = data.rules.player.maxHp,
         elapsedSeconds = 0, victories = 0,
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,

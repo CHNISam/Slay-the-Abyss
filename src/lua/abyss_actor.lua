@@ -2,15 +2,18 @@
 local M = {}
 local Events = require("abyss_events")
 
-function M.status(state, actor, id, amount, source)
+function M.status(state, actor, id, amount, source, sourceIsMonster)
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
     if before <= 0 and actor.statuses[id] > 0
         and actor.statusDefinitions[id].decay == "round_end_minus_1" then
-        local monster = source ~= nil and source ~= state.player
+        local monster = sourceIsMonster
+        if monster == nil then monster = source ~= nil and source ~= state.player end
         actor[id .. "JustApplied"] = monster and (id ~= "vulnerable" or state.phase == "enemy") or nil
     end
-    Events.emit(state, "status", {source = (source or actor).id, target = actor.id,
+    local sourceId = (source or actor).id
+    if source == nil and sourceIsMonster ~= nil then sourceId = nil end
+    Events.emit(state, "status", {source = sourceId, target = actor.id,
         status = id, amount = actor.statuses[id] - before})
 end
 
@@ -42,14 +45,14 @@ function M.artifactBlocksPower(actor, id, amount)
         and (debuffs[id] == true or (signed[id] == true and amount <= 0)) or false
 end
 
-function M.applyPower(state, actor, id, amount, source)
+function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
     if actor.hp <= 0 then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
     -- regardless of the target's existing signed total. Zero is not an early exit.
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
-    M.status(state, actor, id, amount, source)
+    M.status(state, actor, id, amount, source, sourceIsMonster)
     return true
 end
 
@@ -126,11 +129,46 @@ function M.statusView(actor)
     return result
 end
 
-local function directDamage(state, source, target, amount, status, blocked)
+-- Death powers join the current damage action's TOP reactions. They must not
+-- run inside an area target loop, or survive that action killing the final foe.
+local function battleEnding(state)
+    if state.phase == "victory" or state.phase == "defeat" then return true end
+    for _, enemy in ipairs(state.enemies) do if enemy.hp > 0 then return false end end
+    return true
+end
+
+local function queueDeathPower(state, target, before, reactions)
+    local amount = target.statuses.spore_cloud or 0
+    if before > 0 and target.hp <= 0 and target ~= state.player and amount > 0 and not battleEnding(state) then
+        -- ApplyPower's source is null, independently of Vulnerable's explicit
+        -- monster-origin flag used for its first enemy-round decay suppression.
+        reactions[#reactions + 1] = {target=state.player, status="vulnerable", amount=amount,
+            sourceIsMonster=true}
+    end
+end
+
+function M.resolveDamageReactions(state, reactions, retaliate)
+    for i = #reactions, 1, -1 do
+        local hit = reactions[i]
+        if hit.status then
+            if not battleEnding(state) then
+                M.applyPower(state, hit.target, hit.status, hit.amount, hit.source, hit.sourceIsMonster)
+            end
+        else
+            -- DAMAGE survives final-kill cleanup; recursive death reactions
+            -- belong above the remaining actions in this local batch.
+            (retaliate or M.retaliate)(state, hit.source, hit.target, hit.amount)
+        end
+    end
+end
+
+local function directDamage(state, source, target, amount, status, blocked, reactions)
+    local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
     Events.emit(state, "status_damage", {
         source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
+    queueDeathPower(state, target, before, reactions)
     return lost
 end
 
@@ -152,27 +190,47 @@ function M.retaliate(state, source, target, amount)
     if target.hp <= 0 then return 0 end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
-    return directDamage(state, source, target, amount - blocked, "thorns", blocked)
+    local reactions = {}
+    local lost = directDamage(state, source, target, amount - blocked, "thorns", blocked, reactions)
+    M.resolveDamageReactions(state, reactions)
+    return lost
 end
 
 function M.damage(state, source, target, base, fixed, retaliation)
     if target.hp <= 0 or source.hp <= 0 then return 0 end
+    local before, reactions = target.hp, retaliation or {}
     local amount = M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
     Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
+    -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
+    -- the BOTTOM, behind every already-queued hit/effect and card disposal.
+    -- Keep this FIFO separate from Angry/Thorns/Spore's reverse TOP reactions.
+    local curl = target.statuses.curl_up or 0
+    if target ~= state.player and not fixed and lost > 0 and target.hp > 0
+        and curl > 0 and not target.curlUpTriggered then
+        target.curlUpTriggered = true
+        state.curlUpQueue = state.curlUpQueue or {}
+        state.curlUpQueue[#state.curlUpQueue + 1] = {target=target, amount=curl}
+    end
+    -- Angry is a queued positive Strength Power after an unblocked NORMAL hit.
+    -- Fixed inventory damage, poison and retaliation use non-NORMAL paths.
+    -- For an area action, all targets take damage before top-of-queue reactions.
+    local angry = not fixed and lost > 0 and (target.statuses.angry or 0) or 0
+    if angry > 0 then
+        reactions[#reactions + 1] = { source = target, target = target, amount = angry, status = "strength" }
+    end
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
     if not fixed and (target.statuses.thorns or 0) > 0 then
         local thorns = target.statuses.thorns
-        if retaliation then
-            retaliation[#retaliation + 1] = { source = target, target = source, amount = thorns }
-        else
-            M.retaliate(state, target, source, thorns)
-        end
+        reactions[#reactions + 1] = { source = target, target = source, amount = thorns }
     end
+    -- onDeath queues after onAttacked, so its TOP Power resolves before Thorns.
+    queueDeathPower(state, target, before, reactions)
+    if not retaliation then M.resolveDamageReactions(state, reactions) end
     return lost
 end
 
@@ -192,6 +250,26 @@ function M.block(state, actor, amount, fixed)
     Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
 end
 
+-- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.
+function M.flushCurlUp(state)
+    local queue = state.curlUpQueue
+    state.curlUpQueue = nil
+    -- The original death screen stops action-manager updates immediately.
+    if not queue or state.player.hp <= 0 then return end
+    for _, entry in ipairs(queue) do
+        local target = entry.target
+        -- GainBlock/RemovePower each reject a dead owner. A later queued hit
+        -- may have killed it after the initial nonlethal trigger.
+        if target.hp > 0 then
+            M.block(state, target, entry.amount, true)
+            local amount = target.statuses.curl_up or 0
+            target.statuses.curl_up = 0
+            Events.emit(state, "status", {source=target.id, target=target.id,
+                status="curl_up", amount=-amount})
+        end
+    end
+end
+
 local function tick(state, actor, phase)
     if actor.hp <= 0 then return end
     local ids = {}
@@ -204,8 +282,9 @@ local function tick(state, actor, phase)
         local skip = phase == "round_end" and actor[id .. "JustApplied"]
         if skip then actor[id .. "JustApplied"] = nil end
         if amount > 0 and decay:sub(1, #phase) == phase and not skip then
+            local reactions = {}
             if decay:find("trigger", 1, true) then
-                if id == "poison" then directDamage(state, actor, actor, amount, "poison")
+                if id == "poison" then directDamage(state, actor, actor, amount, "poison", nil, reactions)
                 elseif id == "regen" then
                     local healed = math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
@@ -219,6 +298,7 @@ local function tick(state, actor, phase)
             else
                 Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
             end
+            M.resolveDamageReactions(state, reactions)
             if actor.hp <= 0 then return end
         end
     end
@@ -248,13 +328,21 @@ function M.endTurn(state, actor)
     end
 end
 
-function M.startTurn(state, actor)
+function M.resetBlock(state, actor)
     if actor.hp <= 0 then return end
     if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
         actor.block = 0
         Events.emit(state, "block_reset", {target = actor.id})
     end
-    tick(state, actor, "turn_start")
+end
+
+function M.startTurnEffects(state, actor)
+    if actor.hp > 0 then tick(state, actor, "turn_start") end
+end
+
+function M.startTurn(state, actor)
+    M.resetBlock(state, actor)
+    M.startTurnEffects(state, actor)
 end
 
 return M
