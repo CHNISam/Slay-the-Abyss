@@ -1,6 +1,6 @@
 # 《杀戮原塔2》Milestone Tree 与验收排期
 
-2026-10-24用户批准路线图。基线develop b92bce6；本轮只修改管理和必要文档，不宣称新增游戏实现或实机通过。原关口文档及其证据保存在[迁移前历史](history/MILESTONES-before-20261024.md)，历史中的阶段编号不再作为当前排期。
+2026-10-24用户批准路线图。初始基线develop b92bce6，执行中同步PR150后的d0bf727；本轮只修改管理和必要文档，不宣称新增游戏实现或实机通过。原关口文档及其证据保存在[迁移前历史](history/MILESTONES-before-20261024.md)，历史中的阶段编号不再作为当前排期。
 
 ## 成果关口与日期
 
@@ -78,7 +78,6 @@ M2证明可通关，M3证明承诺内容齐备，M4证明正式作品品质。�
 | TASK-12.5 M3 地图节点严格规则与随机概率平台验收 | To Do | TASK-12.3, TASK-12.4, TASK-13.1 |
 | TASK-13.1 M3 首发节点事件、商店价格与奖励概率验收 | In Progress | TASK-13, TASK-14 |
 | TASK-13.1.2 M3 首发事件清单齐备与原版版本核验 | To Do | TASK-13.1.1, TASK-13.1.2.3 |
-| TASK-13.1.2.3 接入金币祭坛与手牌损血诅咒 | In Progress | — |
 | TASK-14.1 M3 首发遗物药水效果与触发顺序严格对齐 | In Progress | TASK-14 |
 | TASK-15 M3 首发遭遇与敌人AI、概率和特殊机制原版对齐 | In Progress | TASK-11, TASK-14 |
 | TASK-16 M3 岩元素Ironclad首发卡池、费用与升级原版对齐 | In Progress | TASK-9, TASK-14 |
@@ -164,23 +163,25 @@ Ready只表示当前依赖满足且任务可执行，使用CLI原生isReady/read
 
 | 任务 | 迁移前 | 迁移后 | 状态 |
 | --- | --- | --- | --- |
+| TASK-2 | M1：M1 复用基础场景并补齐镜头/出生/阵营配置 | M1：M1 复用基础场景并补齐镜头/出生/阵营配置 | In Progress → In Progress |
 | TASK-3 | M1：M1 真实平台完整战斗闭环 | M1：M1 真实平台完整战斗闭环 | In Progress → In Progress |
 | TASK-3.3 | M1：M1 全平台游玩中主动退出本局 | M2：M2 全平台游玩中主动退出本局 | In Progress → In Progress |
+| TASK-3.3.1 | M1：阻止取消退出后旧地图手势误入节点 | M2：阻止取消退出后旧地图手势误入节点 | In Progress → In Progress |
 | TASK-5 | M4：M4 原版一致性复验与完整通关体验验收 | M5：M5 同一Release Candidate完整回归与冻结验收 | In Progress → In Progress |
 | TASK-6 | M5：M5 正式投稿（人执行，Agent 出操作说明） | M6：M6 正式发布与赛事报名（人工执行） | To Do → To Do |
 | TASK-12.3 | M2：M2 地图七节点与同局状态平台验收 | M2：M2 七类节点基本可玩与同局资源实机验收 | To Do → To Do |
 | TASK-12.4 | M2：M2 原版17层地图、节点生成与遭遇分布对齐 | M3：M3 原版17层地图拓扑、随机流与遭遇分布验收 | In Progress → In Progress |
-| TASK-12.5 | 新增独立验收切片 | M3：M3 地图节点严格规则与随机概率平台验收 | To Do |
+| TASK-12.5 | 本轮新增管理/独立验收切片 | M3：M3 地图节点严格规则与随机概率平台验收 | To Do |
 | TASK-13.1 | M2：M2 原版节点事件、商店价格与奖励概率对齐 | M3：M3 首发节点事件、商店价格与奖励概率验收 | In Progress → In Progress |
 | TASK-13.1.2 | M2：M2 P0 补齐未知事件全池内容与原版版本核验 | M3：M3 首发事件清单齐备与原版版本核验 | To Do → To Do |
-| TASK-13.1.2.3 | 未分配：接入金币祭坛与手牌损血诅咒 | M3：接入金币祭坛与手牌损血诅咒 | In Progress → In Progress |
+| TASK-13.1.2.3 | 未分配：接入金币祭坛与手牌损血诅咒 | 不绑定阶段：接入金币祭坛与手牌损血诅咒 | In Progress → Done（PR150证据更新） |
 | TASK-14.1 | M3：M3 首发遗物药水效果与触发顺序严格对齐 | M3：M3 首发遗物药水效果与触发顺序严格对齐 | In Progress → In Progress |
 | TASK-15 | M3：M3 首发遭遇与敌人AI、概率和特殊机制原版对齐 | M3：M3 首发遭遇与敌人AI、概率和特殊机制原版对齐 | In Progress → In Progress |
 | TASK-16 | M3：M3 岩元素Ironclad首发卡池、费用与升级原版对齐 | M3：M3 岩元素Ironclad首发卡池、费用与升级原版对齐 | In Progress → In Progress |
 | TASK-16.1 | M3：M3 战斗算法、随机流与结算顺序原版对照 | M3：M3 战斗算法、随机流与结算顺序原版对照 | In Progress → In Progress |
 | TASK-17 | M3：M3 原版Boss阶段、完整第一幕与正式结算 | M2：M2 Boss正常通关与独立宝箱/正式结算闭环实现 | In Progress → In Progress |
-| TASK-17.2 | 新增独立验收切片 | M3：M3 首发Boss原版机制、数值与结算顺序验收 | To Do |
-| TASK-17.3 | 新增独立验收切片 | M2：M2 第一幕17层正常通关、胜败结算与重开实机验收 | To Do |
+| TASK-17.2 | 本轮新增管理/独立验收切片 | M3：M3 首发Boss原版机制、数值与结算顺序验收 | To Do |
+| TASK-17.3 | 本轮新增管理/独立验收切片 | M2：M2 第一幕17层正常通关、胜败结算与重开实机验收 | To Do |
 | TASK-19 | M4：M4 验收与缺口如实报告 | M5：M5 RC放行、资格核验与真实缺口报告 | In Progress → In Progress |
 | TASK-29 | M1：M1 战斗演出事件队列与基础打击反馈 | M4：M4 战斗演出事件队列与基础反馈实机验收 | In Progress → In Progress |
 | TASK-29.1 | 未分配：M1 战斗反馈打击感精修（命中停顿/攻击形态/敌方行动节奏） | M4：M4 战斗反馈打击感精修（含敌人死亡音效） | In Progress → In Progress |
@@ -191,7 +192,8 @@ Ready只表示当前依赖满足且任务可执行，使用CLI原生isReady/read
 | TASK-38.1 | 未分配：防止中断触摸误触重新开始或结算 | M4：防止中断触摸误触重新开始或结算 | In Progress → In Progress |
 | TASK-39 | M4：拒绝空文件或目录冒充验收截图 | M5：拒绝空文件或目录冒充验收截图 | In Progress → In Progress |
 | TASK-42 | 未分配：电脑鼠标键盘游玩适配与完整流程验收（优先排期） | M4：电脑鼠标键盘游玩适配与完整流程验收（优先排期） | To Do → To Do |
-| TASK-47 | 新增独立验收切片 | M3：M3 冻结第一幕首发内容清单与逐项可获得/可执行验收 | To Do |
+| TASK-46 | 本轮新增管理/独立验收切片 | 不绑定阶段：重构已批准的M0–M6首发排期与E1–E5候选路线图 | Done |
+| TASK-47 | 本轮新增管理/独立验收切片 | M3：M3 冻结第一幕首发内容清单与逐项可获得/可执行验收 | To Do |
 | TASK-4.1 | 未分配：防止格挡反馈动画遮挡生命条 | M1：防止格挡反馈动画遮挡生命条 | In Progress → In Progress |
 | TASK-33 | M4：M4 可选：双人合作联机可行性 Spike | 不绑定阶段：独立候选：双人合作联机可行性Spike | To Do → To Do |
 | TASK-45 | 未分配：成就系统：原版判定与杀戮原塔2包装 | 不绑定阶段：成就系统：原版判定与杀戮原塔2包装 | Blocked → Blocked |
@@ -204,13 +206,18 @@ Ready只表示当前依赖满足且任务可执行，使用CLI原生isReady/read
 | TASK-20 | M5：M5 版本与发布记录（v0.1.0） | M6：M6 投稿版本Tag、CHANGELOG与凭证归档 | To Do → To Do |
 | TASK-25 | M4：首发主角视觉与卡牌美术交付 | M4：首发主角视觉与卡牌美术交付 | To Do → To Do |
 | TASK-25.2 | M4：首发荧肖像与卡图制作（先确认原生或低图元替代） | M4：首发荧肖像与卡图制作（先确认原生或低图元替代） | In Progress → In Progress |
+| TASK-48 | 根未提交直播TASK-44（编号冲突） | 不绑定阶段：持续开展《杀戮原塔2》开发直播、项目推广与玩家反馈收集 | To Do |
 
 具体原AC、直接依赖、日期及迁移后AC见[结构化对照](evidence/roadmap-migration-20261024.json)。17原AC1/4转17.2、AC2/3转17.3，原AC5的分层证据约束在各切片保留；12.3严格规则部分转12.5，12.4/13.1实现账本复用。所有原Done任务文件不变，未将未测AC勾选或未完成任务改Done。
 
-PR审计：迁移开始时开放PR为0；执行期间新增PR150（地图旧触摸保护），其TASK-3.3.1及产品实现保留在原PR，TASK-13.1.2.3与本轮仅有管理元数据交集，合并时须保留双方证据和真实状态，不将未合并工作计为交付。PR147已合并，TASK45权限阻塞保持。根目录脏开发文件与旧工作树保留。根未提交直播任务占用TASK44，而develop的TASK44已是Done的Lore文案；本轮保留两份，不覆盖，不混入本次迁移。管理任务TASK46跟踪本次CLI、文档与门禁验证。
+PR审计：迁移开始时开放PR为0；执行期间PR150已合入d0bf727：产品修复原样保留；TASK-13.1.2.3由原PR凭PR149证据更新为Done，本轮保留最新Done文件逐字不改（含未分配Milestone的原样元数据）。TASK-3.3.1保留In Progress、负责人、AC与证据，仅CLI迁入M2并挂入3.3依赖；本地修复已合不等于手机平台验收。PR147已合并，TASK45权限阻塞保持。根目录脏开发文件与旧工作树保留。根未提交直播任务占用TASK44，而develop的TASK44已是Done的Lore文案；本轮保留根原记录作恢复依据，原直播内容经CLI完整承接至TASK-48，规范任务库只保留一个直播入口。管理任务TASK46跟踪本次CLI、文档与门禁验证。
 
 ## 迁移验证
 
-[结构化验证结果](evidence/roadmap-validation-20261024.json)：106项既有任务状态、65份Done文件与199项已勾AC保持；doctor无重复ID/自依赖/环，主线无扩展候选前置，产品实现文件改动为0。语法和数据校验通过；最终PR SHA的Quality两作业须成功后才合并，运行链接以PR时间线为准。
+[结构化验证结果](evidence/roadmap-validation-20261024.json)：原始快照106项既有任务中105项状态不变，1项由PR150凭新证据更新Done；65份原Done文件与199项原已勾AC保持，新增Done的13.1.2.3也逐字保留；doctor无重复ID/自依赖/环，主线无扩展候选前置，产品实现文件改动为0。语法和数据校验通过；最终PR SHA的Quality两作业须成功后才合并，运行链接以PR时间线为准。
 
 未分配主线的其他工作：TASK-31 CI runner（To Do）、TASK-40后续手柄适配（To Do）、TASK-21投稿后研究（To Do）、TASK-26跨区发行核验（To Do）。均未加入首发必过路径；未分配的既有Done子项继续保留。
+
+PR150同步补充：TASK-13.1.2.3（Done）作为TASK-13.1.2的已完成本地支持项保留，不计全部事件池或平台通过；TASK-3.3.1（In Progress）从M1迁M2，截止10/26，仍须按既有AC核验。该原PR状态变化和产品修复不属于本轮新增实现。
+
+长期运营：TASK-48（To Do）承接原直播任务，不绑定Milestone、不阻塞投稿；直播收益补贴token、项目推广与真实玩家反馈均保留原意及全部AC。TASK-46仅为本轮已验证的管理迁移，标Done不代表任何游戏成果关口通过。首轮Quality40053033197在2a81ace双绿，最终记录及同步后的SHA仍须在PR151重验后合并。

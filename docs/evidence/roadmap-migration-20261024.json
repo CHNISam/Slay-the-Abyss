@@ -4,6 +4,61 @@
   "scope": "management-only",
   "changes": [
     {
+      "id": "TASK-2",
+      "before": {
+        "title": "M1 复用基础场景并补齐镜头/出生/阵营配置",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": "2026-10-24",
+        "dependencies": [
+          "TASK-1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "scene_build_blocks + scene_import_assets 导入成功",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "镜头 fixedView 锁死、出生点与复苏点已设、玩家数设为 1 到 1",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "阵营仅玩家与敌人敌对，己方单位不打自家物件",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M1 复用基础场景并补齐镜头/出生/阵营配置",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": "2026-10-24",
+        "dependencies": [
+          "TASK-1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "复用现有基础存档生成安全候选副本，基础场景及必要配置官方导入后可读回；不要求为M1重新制作舞台或批量美术。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "镜头fixedView锁定、出生点与复苏点已设并有真实复苏证据、玩家数1到1。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "阵营仅玩家与敌人敌对，己方单位不打自家物件；同候选实机核对并保留SHA/hash、配置读回、截图与本轮日志。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
       "id": "TASK-3",
       "before": {
         "title": "M1 真实平台完整战斗闭环",
@@ -106,7 +161,10 @@
         "status": "In Progress",
         "milestone": "m-3",
         "dueDate": "2026-10-26",
-        "dependencies": [],
+        "dependencies": [
+          "TASK-3.2",
+          "TASK-3.3.1"
+        ],
         "acceptanceCriteria": [
           {
             "index": 1,
@@ -135,6 +193,68 @@
           }
         ]
       }
+    },
+    {
+      "id": "TASK-3.3.1",
+      "before": {
+        "title": "阻止取消退出后旧地图手势误入节点",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "取消退出后旧地图触点不能进入节点或推进本局",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "第二触点及旧本局回调不能夺取当前地图手势；合法新点击与拖动仍正常",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "真实生成界面与宿主流程回归及独立负例验证通过",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "保留原地图生成、事件规则与视觉布局，区分本地测试和未执行的手机实测",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "阻止取消退出后旧地图手势误入节点",
+        "status": "In Progress",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "取消退出后旧地图触点不能进入节点或推进本局",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "第二触点及旧本局回调不能夺取当前地图手势；合法新点击与拖动仍正常",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "真实生成界面与宿主流程回归及独立负例验证通过",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "保留原地图生成、事件规则与视觉布局，区分本地测试和未执行的手机实测",
+            "checked": false
+          }
+        ]
+      },
+      "source": "PR150; product changes preserved, metadata only"
     },
     {
       "id": "TASK-5",
@@ -611,33 +731,34 @@
       },
       "after": {
         "title": "接入金币祭坛与手牌损血诅咒",
-        "status": "In Progress",
-        "milestone": "m-4",
-        "dueDate": "2026-10-28",
+        "status": "Done",
+        "milestone": null,
+        "dueDate": null,
         "dependencies": [],
         "acceptanceCriteria": [
           {
             "index": 1,
             "text": "固定来源明确三选项收益、正常祭坛池资格/消费与零额外选项随机调用，并保留原版版本/完整随机限制",
-            "checked": false
+            "checked": true
           },
           {
             "index": 2,
             "text": "真实Run/Combat先失败再通过，覆盖诅咒入组/抽到/多张快照/损血顺序与死亡、奖励商店升级排除及原子失败",
-            "checked": false
+            "checked": true
           },
           {
             "index": 3,
             "text": "实际生成控件展示选项收益代价，完成事件后状态正确，相关牌表/Python/原型一致且不覆盖Lore/品牌改动",
-            "checked": false
+            "checked": true
           },
           {
             "index": 4,
             "text": "独立评审与当前SHA正式CI通过；只交付第七个完整事件及该诅咒，完整池/平台与父任务边界保留",
-            "checked": false
+            "checked": true
           }
         ]
-      }
+      },
+      "externalStateChange": "PR150: original PR149 completion evidence; latest Done file preserved verbatim"
     },
     {
       "id": "TASK-14.1",
@@ -1730,6 +1851,34 @@
       }
     },
     {
+      "id": "TASK-46",
+      "before": null,
+      "after": {
+        "title": "重构已批准的M0–M6首发排期与E1–E5候选路线图",
+        "status": "Done",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "M0–M6日期、任务分层和E1–E5独立候选可经CLI读回，既有完成证据和进行中/Blocked状态保留。",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "依赖无循环且基础通关不等待全量内容审计；文档包含阶段任务状态、关键路径、证据及迁移前后对照。",
+            "checked": true
+          },
+          {
+            "index": 3,
+            "text": "迁移变更有可审阅PR，本地检查及当前SHA的Quality门禁结果可追溯；仅在最终SHA全部Quality作业成功后合并。",
+            "checked": true
+          }
+        ]
+      }
+    },
+    {
       "id": "TASK-47",
       "before": null,
       "after": {
@@ -2538,6 +2687,46 @@
           }
         ]
       }
+    },
+    {
+      "id": "TASK-48",
+      "before": null,
+      "after": {
+        "title": "持续开展《杀戮原塔2》开发直播、项目推广与玩家反馈收集",
+        "status": "To Do",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "实际开展开发或试玩直播，并留存每场日期、平台、直播主题及可用的链接或记录；直播频率由实际开发节奏决定。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "直播和推广中提供与当前可用版本相符的项目介绍及试玩或关注入口；尚未开放试玩时如实注明状态。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "持续记录直播间及推广带来的真实玩家反馈，区分原始意见与已确认问题；可执行项关联已有 Backlog 任务或查重后新建，并记录处理结果。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "阶段性记录可获得的观看、关注、试玩转化、直播收益及 token 等开发支出数据；暂无数据或收益为零时如实记录，不把曝光推定为参赛成绩提升。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "明确结束或阶段收口时，依据累计记录复盘直播对开发支持、玩家反馈和项目传播的实际作用，记录后续安排；不要求获得正收益或赛事奖励。",
+            "checked": false
+          }
+        ]
+      },
+      "source": "Root uncommitted livestream TASK-44; retained original as recovery, canonical ID changed due to develop Lore TASK-44 conflict"
     }
-  ]
+  ],
+  "integrationBase": "d0bf727"
 }

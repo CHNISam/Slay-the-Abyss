@@ -1,12 +1,20 @@
 {
   "date": "2026-10-24",
   "base": "b92bce6",
-  "existingStatusesPreserved": 106,
+  "integrationBase": "d0bf727",
+  "existingStatusesPreserved": 105,
+  "externalEvidenceBasedStateUpdates": [
+    {
+      "task": "TASK-13.1.2.3",
+      "source": "PR150",
+      "status": "Done",
+      "latestDoneFileUnchanged": true
+    }
+  ],
   "doneFilesUnchanged": 65,
   "checkedCriteriaPreserved": 199,
   "dependencyCycles": 0,
   "optionalMainlineBlockers": 0,
   "implementationFilesChanged": 0,
-  "scope": "management-only; no game or UI acceptance implied",
-  "managementTask": "TASK-46 is new and excluded from existing-state preservation"
+  "scope": "management-only; no game or UI acceptance implied; newly created TASK-46 excluded from existing-state checks"
 }
