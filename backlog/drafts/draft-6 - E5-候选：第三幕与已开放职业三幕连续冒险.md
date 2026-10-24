@@ -1,0 +1,27 @@
+---
+id: DRAFT-6
+title: E5 候选：第三幕与已开放职业三幕连续冒险
+status: Draft
+assignee: []
+created_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 02:02'
+labels:
+  - optional
+  - candidate
+  - post-release
+dependencies:
+  - TASK-20
+---
+
+## Description
+
+<!-- SECTION:DESCRIPTION:BEGIN -->
+独立扩展候选，不属于M0–M6或10/30必过项。仅首发质量、发布和回归不受影响时才可启动；评估不足保持Draft，实际启动须记录Go/Defer、工作量、依赖、回归预算与验收切片。遵循初代《杀戮尖塔》PC A0规则，不默认跨职业混牌；所有新章节兼容已经发布的职业。先核算第三幕及第二幕接口工作量和依赖，再定日期；实施前第二幕可连续通关。E1/E3/E4是否开放由各自验收决定，不强制同时上线全部职业。
+<!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [ ] #1 激活前记录首发质量与发布不受影响的证据、工作量、依赖、回归预算及Go/Defer决定；未评估不承诺工期，不成为首发任务前置。
+- [ ] #2 评估第三幕独立地图、遭遇、事件、Boss和奖励、跨幕资源与随机流继承；记录对E2第二幕接口的依赖和已开放职业矩阵。
+- [ ] #3 开发获准且第二幕验收后，每个已开放职业正常从第一幕连续完成三幕、Boss与正式结算，验证跨幕状态、失败和重开；逐职业留SHA/hash、种子、截图、日志，不把单幕测试当三幕通关。
+<!-- AC:END -->

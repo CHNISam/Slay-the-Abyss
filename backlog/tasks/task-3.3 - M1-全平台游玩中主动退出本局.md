@@ -1,13 +1,14 @@
 ---
 id: TASK-3.3
-title: M1 全平台游玩中主动退出本局
+title: M2 全平台游玩中主动退出本局
 status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-23 16:34'
+updated_date: '2026-10-24 02:07'
+due_date: '2026-10-26'
 labels: []
-milestone: m-2
+milestone: m-3
 dependencies: []
 parent_task_id: TASK-3
 priority: high

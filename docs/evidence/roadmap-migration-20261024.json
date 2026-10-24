@@ -1,0 +1,2543 @@
+{
+  "date": "2026-10-24",
+  "base": "b92bce6",
+  "scope": "management-only",
+  "changes": [
+    {
+      "id": "TASK-3",
+      "before": {
+        "title": "M1 真实平台完整战斗闭环",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": "2026-10-24",
+        "dependencies": [
+          "TASK-3.2",
+          "TASK-11.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一候选在真实游戏完成至少一场完整战斗：抽牌/出牌/能量/目标/结束回合/敌人行动/胜利奖励，日志和截图可复核",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "真实画面中手牌、血量/格挡/能量/敌人意图及中文可读可操作；与核心状态一致",
+            "checked": true
+          },
+          {
+            "index": 3,
+            "text": "记录候选SHA、导入存档与runId；失败和脚本错误如实列出，CI/替身控件不能代替",
+            "checked": true
+          }
+        ]
+      },
+      "after": {
+        "title": "M1 真实平台完整战斗闭环",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": "2026-10-24",
+        "dependencies": [
+          "TASK-3.2",
+          "TASK-11.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一候选在真实游戏完成至少一场完整战斗：抽牌/出牌/能量/目标/结束回合/敌人行动/胜利奖励，日志和截图可复核",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "真实画面中手牌、血量/格挡/能量/敌人意图及中文可读可操作；与核心状态一致",
+            "checked": true
+          },
+          {
+            "index": 3,
+            "text": "记录候选SHA、导入存档与runId；失败和脚本错误如实列出，CI/替身控件不能代替",
+            "checked": true
+          },
+          {
+            "index": 4,
+            "text": "同一实机战斗完成胜利奖励处理并回到地图，核心信息与状态一致；打击感精修不作为本项阻塞，历史已勾AC保持原样。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-3.3",
+      "before": {
+        "title": "M1 全平台游玩中主动退出本局",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "战斗、奖励、地图、节点及牌库均有可发现的触控鼠标退出入口，不依赖Esc，战斗反馈播放期间仍可唤起",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "退出需明确确认；取消恢复原局且不触发底层出牌交易，陈旧重复手势不误确认退出",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "确认后只发送一次正式结束请求，失败可重试；平台结算可离开当前关卡，不必等待战斗胜负",
+            "checked": true
+          },
+          {
+            "index": 4,
+            "text": "布局使用批准主题，常见画布入口与确认按钮可触达，保留既有出牌奖励结算回归",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "记录同一新候选编译写副本实机分层证据，PC点击及手机触控未测项如实保留",
+            "checked": true
+          }
+        ]
+      },
+      "after": {
+        "title": "M2 全平台游玩中主动退出本局",
+        "status": "In Progress",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "战斗、奖励、地图、节点及牌库均有可发现的触控鼠标退出入口，不依赖Esc，战斗反馈播放期间仍可唤起",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "退出需明确确认；取消恢复原局且不触发底层出牌交易，陈旧重复手势不误确认退出",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "确认后只发送一次正式结束请求，失败可重试；平台结算可离开当前关卡，不必等待战斗胜负",
+            "checked": true
+          },
+          {
+            "index": 4,
+            "text": "布局使用批准主题，常见画布入口与确认按钮可触达，保留既有出牌奖励结算回归",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "记录同一新候选编译写副本实机分层证据，PC点击及手机触控未测项如实保留",
+            "checked": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-5",
+      "before": {
+        "title": "M4 原版一致性复验与完整通关体验验收",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-17",
+          "TASK-4"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一候选以原版数值从开局完成核实的17层第一幕、Boss后奖励和正式胜利结算，无脚本异常/卡死；记录种子/逐层资源/卡组/用时/日志录像，不用低HP夹具或调值通关。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "失败、新局/平台重新挑战、同局跨节点状态与合法多构筑可复核；鼠标/触摸出牌、命中/受击/音效/停顿节奏按TASK-4/30原作观察清单实机验收。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "逐项复验M2地图经济、M3卡牌/AI/Boss/遗物药水/算法对照账本，PASS/差异/待核实/平台限制分列；关键差异未闭合不声明严格一致性通过，问题退回所属任务修正，绝不重新平衡。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M5 同一Release Candidate完整回归与冻结验收",
+        "status": "In Progress",
+        "milestone": "m-6",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-17.3",
+          "TASK-12.5",
+          "TASK-17.2",
+          "TASK-47",
+          "TASK-12.4",
+          "TASK-13.1",
+          "TASK-13.1.2",
+          "TASK-14.1",
+          "TASK-15",
+          "TASK-16",
+          "TASK-16.1",
+          "TASK-4"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一候选以原版数值从开局完成核实的17层第一幕、Boss后奖励和正式胜利结算，无脚本异常/卡死；记录种子/逐层资源/卡组/用时/日志录像，不用低HP夹具或调值通关。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "失败、新局/平台重新挑战、同局跨节点状态与合法多构筑可复核；鼠标/触摸出牌、命中/受击/音效/停顿节奏按TASK-4/30原作观察清单实机验收。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "逐项复验M2地图经济、M3卡牌/AI/Boss/遗物药水/算法对照账本，PASS/差异/待核实/平台限制分列；关键差异未闭合不声明严格一致性通过，问题退回所属任务修正，绝不重新平衡。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "10/29同一RC覆盖成功/失败、核心规则、交互、音画和稳定性，冻结SHA/hash及证据索引；发现必要修复后候选变更必须重验受影响路径，不拼接不同候选冒充通过。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-6",
+      "before": {
+        "title": "M5 正式投稿（人执行，Agent 出操作说明）",
+        "status": "To Do",
+        "milestone": "m-0",
+        "dueDate": "2026-10-30",
+        "dependencies": [
+          "TASK-19"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "Agent 输出逐步发布与赛事报名操作说明 + 发布前检查表",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "人完成发布与投稿，截图留存投稿成功凭证",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "最终确认赛事、作品GUID、版本候选与提交限制；保留发布成功和赛事回查凭证，非仅上传成功",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M6 正式发布与赛事报名（人工执行）",
+        "status": "To Do",
+        "milestone": "m-0",
+        "dueDate": "2026-10-30",
+        "dependencies": [
+          "TASK-19"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "Agent 输出逐步发布与赛事报名操作说明 + 发布前检查表",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "人完成发布与投稿，截图留存投稿成功凭证",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "最终确认赛事、作品GUID、版本候选与提交限制；保留发布成功和赛事回查凭证，非仅上传成功",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-12.3",
+      "before": {
+        "title": "M2 地图七节点与同局状态平台验收",
+        "status": "To Do",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-3",
+          "TASK-12",
+          "TASK-13",
+          "TASK-14",
+          "TASK-12.4",
+          "TASK-13.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一候选真实展示核实后的原版17层计层、路线和合法推进，覆盖已纳入的七类节点；Boss完成和Boss后奖励实际闭环由TASK-17接续，不把到达Boss当胜利。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "按原版对照实际执行营地回血/升级、商店交易/删牌、事件/宝箱和战斗奖励；记录价格、随机种子/结果及资源账本，重复领取/非法推进被拒绝。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "同局生命/金币/卡组UID/遗物/药水及概率计数跨节点保持，重开正确重置；M3效果/AI验收另列，记录本候选已知差异。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M2 七类节点基本可玩与同局资源实机验收",
+        "status": "To Do",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-3",
+          "TASK-12",
+          "TASK-13",
+          "TASK-14"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一候选正常开局沿合法路线推进，覆盖七类节点及15行地图/Boss16/独立Boss宝箱17的入口；不把到达Boss当通关。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "实际执行营地回血/升级、商店购买/删牌、事件选择、宝箱和战斗奖励，资源变化与合法命令一致，重复领取/非法推进被拒绝。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "生命、金币、卡组UID、遗物、药水跨节点保持且重开正确重置；记录逐节点账本；不要求Lv4退出续局。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "候选SHA/hash、种子、本轮日志与截图齐备；严格拓扑/概率归TASK-12.5，通关与正式结算归TASK-17.3，均不得随本项自动勾选。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-12.4",
+      "before": {
+        "title": "M2 原版17层地图、节点生成与遭遇分布对齐",
+        "status": "In Progress",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-3",
+          "TASK-12"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "核对17层统计及地图可选节点/Boss房/Boss奖励宝箱计层边界，形成15→17逐层映射；确认强制楼层、节点权重、路径/交叉/相邻限制及早期战斗/精英条件，不能仅改floors常量。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "生成/导航/UI层号/快照符合核实后的完整第一幕；早晚普通池/精英池、重复限制、随机流初始化与调用顺序按原版，敌人内部AI归TASK-15。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "固定种子和随机边界测试覆盖拓扑可达、强制节点、池抽取及快照；统计列样本数、原版期望和有依据阈值，不以一次出现或数量相同证明概率正确。本地独立验收，平台归TASK-12.3。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 原版17层地图拓扑、随机流与遭遇分布验收",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-12"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "核对17层统计及地图可选节点/Boss房/Boss奖励宝箱计层边界，形成15→17逐层映射；确认强制楼层、节点权重、路径/交叉/相邻限制及早期战斗/精英条件，不能仅改floors常量。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "生成/导航/UI层号/快照符合核实后的完整第一幕；早晚普通池/精英池、重复限制、随机流初始化与调用顺序按原版，敌人内部AI归TASK-15。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "固定种子和随机边界测试覆盖拓扑可达、强制节点、池抽取及快照；统计列样本数、原版期望和有依据阈值，不以一次出现或数量相同证明概率正确。本地独立验收，平台归TASK-12.3。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-12.5",
+      "before": null,
+      "after": {
+        "title": "M3 地图节点严格规则与随机概率平台验收",
+        "status": "To Do",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-12.3",
+          "TASK-12.4",
+          "TASK-13.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "对照TASK-12.4/13.1已核实预期，核验地图拓扑、强制节点、遭遇分布、价格范围、奖励和动态概率计数的固定输入与边界；统计有样本和阈值依据。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "同候选实机交易、节点产出及资源账本符合对照；覆盖重复领取/非法推进/失败原子性，随机种子与调用顺序可追溯，不用一次出现证明概率正确。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "PASS、差异、待核实、平台限制分列；未修复的原版实质差异继续阻塞相关严格验收，不能因M2可通关自动通过。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-13.1",
+      "before": {
+        "title": "M2 原版节点事件、商店价格与奖励概率对齐",
+        "status": "In Progress",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-3",
+          "TASK-13",
+          "TASK-14"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐项核对纳入原版事件的条件/选择/代价/结果/概率，未知房间转类的动态概率、营地回血取整/升级限制、宝箱类别/产出/重复规则；移除自创替代事件，不要求补齐全事件。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "商店库存/职业与无色牌/稀有度、价格随机范围/取整/打折、遗物药水价和删牌递增及修饰结算有准确来源，不保留无依据固定价。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "普通/精英/Boss金币范围、奖励稀有度和动态概率、升级率、药水掉落与动态计数、遗物池/排重及领取顺序准确；支持池不得偷改纳入内容的原版概率或费用。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "可控随机边界及固定输入测试覆盖价格上下界、概率累积重置、重复领取和失败原子性；统计样本/阈值有依据。本地独立验收，实机交易资源账本归TASK-12.3。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 首发节点事件、商店价格与奖励概率验收",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-13",
+          "TASK-14"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐项核对纳入原版事件的条件/选择/代价/结果/概率，未知房间转类的动态概率、营地回血取整/升级限制、宝箱类别/产出/重复规则；移除自创替代事件，不要求补齐全事件。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "商店库存/职业与无色牌/稀有度、价格随机范围/取整/打折、遗物药水价和删牌递增及修饰结算有准确来源，不保留无依据固定价。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "普通/精英/Boss金币范围、奖励稀有度和动态概率、升级率、药水掉落与动态计数、遗物池/排重及领取顺序准确；支持池不得偷改纳入内容的原版概率或费用。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "可控随机边界及固定输入测试覆盖价格上下界、概率累积重置、重复领取和失败原子性；统计样本/阈值有依据。本地独立验收，实机交易资源账本归TASK-12.3。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-13.1.2",
+      "before": {
+        "title": "M2 P0 补齐未知事件全池内容与原版版本核验",
+        "status": "To Do",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-13.1.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "补齐其余事件全部选项与基础能力，生产启用完整池且不修改概率或抽后重试",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "独立核对Scrap Ooze off-by-one与Duplicator第一幕资格，以及官方PC目标版本和全流随机消费",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "耗尽与资格不足有明确诊断，完整候选真实路线按TASK-12.3验收",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 首发事件清单齐备与原版版本核验",
+        "status": "To Do",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-13.1.1",
+          "TASK-13.1.2.3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "按TASK-47冻结首发事件ID逐项完成全部合法选项、代价、结果和基础能力；只有经验证内容进入生产池，未纳入项明确排除并记录，不改变纳入规则/概率，不抽后重试。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "独立核对Scrap Ooze off-by-one与Duplicator第一幕资格，以及官方PC目标版本和全流随机消费；若未纳入，记录清单归属而非宣称其已实现。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "耗尽与资格不足有明确诊断；冻结清单内每个事件均有正常渠道获取/执行证据，基本路线归TASK-12.3，严格资格及概率平台验收归TASK-12.5。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-13.1.2.3",
+      "before": {
+        "title": "接入金币祭坛与手牌损血诅咒",
+        "status": "In Progress",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "固定来源明确三选项收益、正常祭坛池资格/消费与零额外选项随机调用，并保留原版版本/完整随机限制",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "真实Run/Combat先失败再通过，覆盖诅咒入组/抽到/多张快照/损血顺序与死亡、奖励商店升级排除及原子失败",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "实际生成控件展示选项收益代价，完成事件后状态正确，相关牌表/Python/原型一致且不覆盖Lore/品牌改动",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "独立评审与当前SHA正式CI通过；只交付第七个完整事件及该诅咒，完整池/平台与父任务边界保留",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "接入金币祭坛与手牌损血诅咒",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "固定来源明确三选项收益、正常祭坛池资格/消费与零额外选项随机调用，并保留原版版本/完整随机限制",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "真实Run/Combat先失败再通过，覆盖诅咒入组/抽到/多张快照/损血顺序与死亡、奖励商店升级排除及原子失败",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "实际生成控件展示选项收益代价，完成事件后状态正确，相关牌表/Python/原型一致且不覆盖Lore/品牌改动",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "独立评审与当前SHA正式CI通过；只交付第七个完整事件及该诅咒，完整池/平台与父任务边界保留",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-14.1",
+      "before": {
+        "title": "M3 首发遗物药水效果与触发顺序严格对齐",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-14",
+          "TASK-12.3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐件核对纳入遗物药水的值、对象、修正/不受修正规则、层数/时长、触发次数、消耗顺序、满槽及战斗外限制；起始遗物与战后回血时点一致。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "真实库存入口测试开战/回合/出牌/受击/胜利/跨节点触发、叠加冲突、末敌击杀、失败不耗物及重复使用；各例预期来自原版。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "数据完成、独立原版预期的自动测试、平台编译/副本导出、官方导入、千星实机分层报告，附SHA、候选hash、种子/输入、日志与截图或录像，不互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 首发遗物药水效果与触发顺序严格对齐",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-14"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐件核对纳入遗物药水的值、对象、修正/不受修正规则、层数/时长、触发次数、消耗顺序、满槽及战斗外限制；起始遗物与战后回血时点一致。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "真实库存入口测试开战/回合/出牌/受击/胜利/跨节点触发、叠加冲突、末敌击杀、失败不耗物及重复使用；各例预期来自原版。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "数据完成、独立原版预期的自动测试、平台编译/副本导出、官方导入、千星实机分层报告，附SHA、候选hash、种子/输入、日志与截图或录像，不互相替代。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-15",
+      "before": {
+        "title": "M3 首发遭遇与敌人AI、概率和特殊机制原版对齐",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-11",
+          "TASK-14",
+          "TASK-12.3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项记录原版PC版本、可复核来源URL/章节/观察日期、准确数值/算法/概率/结算顺序、现实现位置、差异与验收输入输出；不足标待核实，禁止猜测；未核实或未修正不计一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐个纳入敌人/精英核对HP随机范围、伤害/次数、状态值、首回合、行动权重、连续行动限制及历史状态；替换固定意图循环和固定HP近似，不以精英感觉更难为验收。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "睡眠/苏醒、同伴护盾、塞眩晕、软泥分裂、偷金/逃跑与返金等纳入的特殊机制按来源实现；遭遇编组合法，未支持的效果不得以原创替代后进入池。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "可控随机边界/状态轨迹覆盖每个行动分支、连招限制、死亡和特殊机制；统计样本与阈值有依据，所有纳入敌人本地可执行且有真实平台覆盖记录。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 首发遭遇与敌人AI、概率和特殊机制原版对齐",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-11",
+          "TASK-14"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项记录原版PC版本、可复核来源URL/章节/观察日期、准确数值/算法/概率/结算顺序、现实现位置、差异与验收输入输出；不足标待核实，禁止猜测；未核实或未修正不计一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐个纳入敌人/精英核对HP随机范围、伤害/次数、状态值、首回合、行动权重、连续行动限制及历史状态；替换固定意图循环和固定HP近似，不以精英感觉更难为验收。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "睡眠/苏醒、同伴护盾、塞眩晕、软泥分裂、偷金/逃跑与返金等纳入的特殊机制按来源实现；遭遇编组合法，未支持的效果不得以原创替代后进入池。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "可控随机边界/状态轨迹覆盖每个行动分支、连招限制、死亡和特殊机制；统计样本与阈值有依据，所有纳入敌人本地可执行且有真实平台覆盖记录。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-16",
+      "before": {
+        "title": "M3 岩元素Ironclad首发卡池、费用与升级原版对齐",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-9",
+          "TASK-14",
+          "TASK-12.3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项记录原版PC版本、可复核来源URL/章节/观察日期、准确数值/算法/概率/结算顺序、现实现位置、差异与验收输入输出；不足标待核实，禁止猜测；未核实或未修正不计一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "至少30张实际可获得且可执行首发牌逐张核对基本/升级费用、X费用、伤害/格挡/抽牌/状态/目标/条件/消耗和触发顺序；原版初始牌组与起始遗物正确，参考表中待核费用逐项消除。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "营地升级、奖励/商店获取和文案与真实效果一致，支持池限制不改变已纳入规则；未实现/待核实牌不进入可玩池，不用调试注入或JSON条数冒充。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "以独立来源预期逐牌回归升级前后、状态叠加、费用/条件/消耗边界；力量、格挡、自损、消耗的合法组合可经自然奖励/商店构筑验证，不额外发明流派。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 岩元素Ironclad首发卡池、费用与升级原版对齐",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-9",
+          "TASK-14"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项记录原版PC版本、可复核来源URL/章节/观察日期、准确数值/算法/概率/结算顺序、现实现位置、差异与验收输入输出；不足标待核实，禁止猜测；未核实或未修正不计一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "至少30张实际可获得且可执行首发牌逐张核对基本/升级费用、X费用、伤害/格挡/抽牌/状态/目标/条件/消耗和触发顺序；原版初始牌组与起始遗物正确，参考表中待核费用逐项消除。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "营地升级、奖励/商店获取和文案与真实效果一致，支持池限制不改变已纳入规则；未实现/待核实牌不进入可玩池，不用调试注入或JSON条数冒充。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "以独立来源预期逐牌回归升级前后、状态叠加、费用/条件/消耗边界；力量、格挡、自损、消耗的合法组合可经自然奖励/商店构筑验证，不额外发明流派。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-16.1",
+      "before": {
+        "title": "M3 战斗算法、随机流与结算顺序原版对照",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-8",
+          "TASK-11",
+          "TASK-12.3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "明确伤害/格挡修正及每步取整/上限，力量/虚弱/易伤/脆弱、多段/反伤/自损/中毒、状态叠加衰减、回合开始结束与死亡/胜利队列顺序，给出精确算法和边界输入输出。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "核对抽牌/洗牌/弃牌/消耗/生成、满手、X费用/能量支付、随机目标及随机流初始化与调用顺序，不以可复现代替原版RNG算法一致。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "独立原版预期验证顺序轨迹与边界并保留现有回归；跨卡牌/敌人/库存共享结果一致。未知算法待核实，不得勾相关严格验收。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期的自动测试、平台编译/副本导出、官方导入、千星实机分层报告，附SHA、候选hash、种子/输入、日志与截图或录像，不互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M3 战斗算法、随机流与结算顺序原版对照",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-8",
+          "TASK-11"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "逐项对照账本包含原版PC版本、来源URL/章节/原作观察日期、准确值/范围/算法/概率/结算顺序、当前实现位置、差异、验收输入和预期；资料不足标待核实，禁止猜测，未核实/未修复不计严格一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "明确伤害/格挡修正及每步取整/上限，力量/虚弱/易伤/脆弱、多段/反伤/自损/中毒、状态叠加衰减、回合开始结束与死亡/胜利队列顺序，给出精确算法和边界输入输出。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "核对抽牌/洗牌/弃牌/消耗/生成、满手、X费用/能量支付、随机目标及随机流初始化与调用顺序，不以可复现代替原版RNG算法一致。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "独立原版预期验证顺序轨迹与边界并保留现有回归；跨卡牌/敌人/库存共享结果一致。未知算法待核实，不得勾相关严格验收。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期的自动测试、平台编译/副本导出、官方导入、千星实机分层报告，附SHA、候选hash、种子/输入、日志与截图或录像，不互相替代。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-17",
+      "before": {
+        "title": "M3 原版Boss阶段、完整第一幕与正式结算",
+        "status": "In Progress",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-15",
+          "TASK-16",
+          "TASK-12.3",
+          "TASK-14.1",
+          "TASK-16.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "首发选定Boss的HP范围、行动概率/限制、阶段切换条件、阈值、变形、状态和中断/死亡结算顺序逐项有准确原版来源与可控输入轨迹测试，禁止固定循环替代状态机。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "同一原版数值候选真实从开局走完核实的17层口径、Boss及Boss后奖励/宝箱与正式胜利结算，记录逐层资源/种子/卡组/战绩/用时/SHA/hash/日志录像；低HP夹具和旧15层失败不当通关。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "失败后游戏内新局及平台重新挑战均无旧卡组/状态/随机计数/资产残留；正常死亡、末敌击杀、Boss阶段边界、胜败信号均只结算一次。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "逐项记录原版PC版本、可复核来源URL/章节/观察日期、准确数值/算法/概率/结算顺序、现实现位置、差异与验收输入输出；不足标待核实，禁止猜测；未核实或未修正不计一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M2 Boss正常通关与独立宝箱/正式结算闭环实现",
+        "status": "In Progress",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-12",
+          "TASK-13",
+          "TASK-14",
+          "TASK-8"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "正常规则状态击败Boss后进入独立第17层Boss宝箱，实际执行其合法奖励事务并进入平台正式胜利结算；不得降级为普通宝箱或仅到达Boss。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "失败、末敌击杀、Boss阶段中断及胜败信号只结算一次；游戏内新局/平台重新挑战正确清空旧资源、状态和随机计数，具有真实入口回归证据。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "保留源SHA、本地预期测试、候选编译/写入/导入结果；完整正常游玩证据由TASK-17.3独立验收，Boss严格原版账本由TASK-17.2验收。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-17.2",
+      "before": null,
+      "after": {
+        "title": "M3 首发Boss原版机制、数值与结算顺序验收",
+        "status": "To Do",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-8",
+          "TASK-11"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "首发选定Boss的HP范围、行动概率/限制、阶段切换条件、阈值、变形、状态和中断/死亡结算顺序逐项有准确原版来源与可控输入轨迹测试，禁止固定循环替代状态机。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "逐项记录原版PC版本、可复核来源URL/章节/观察日期、准确数值/算法/概率/结算顺序、现实现位置、差异与验收输入输出；不足标待核实，禁止猜测；未核实或未修正不计一致性通过。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "用独立原版预期覆盖Boss各阶段、随机边界、中断、反伤/同时死亡与一次性结算；本地、平台及实机分层记录，未核实不勾选。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-17.3",
+      "before": null,
+      "after": {
+        "title": "M2 第一幕17层正常通关、胜败结算与重开实机验收",
+        "status": "To Do",
+        "milestone": "m-3",
+        "dueDate": "2026-10-26",
+        "dependencies": [
+          "TASK-17",
+          "TASK-12.3",
+          "TASK-3.3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "同一原版数值候选真实从开局走完核实的17层口径、Boss及Boss后奖励/宝箱与正式胜利结算，记录逐层资源/种子/卡组/战绩/用时/SHA/hash/日志录像；低HP夹具和旧15层失败不当通关。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "失败后游戏内新局及平台重新挑战均无旧卡组/状态/随机计数/资产残留；正常死亡、末敌击杀、Boss阶段边界、胜败信号均只结算一次。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "正常开局经合法路线、七类节点、同局资源、Boss16、独立Boss宝箱17至正式胜利；另验失败与游戏内/平台重开，胜败只结算一次，保留同候选逐层账本。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-19",
+      "before": {
+        "title": "M4 验收与缺口如实报告",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-18",
+          "TASK-5",
+          "TASK-25"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "按发布前检查表逐条核验并勾选",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "未完成项与内容缺口如实写入报告",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "列出已知问题与规避说明",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "同一候选确认赛事资格、报名入口与作品GUID，发布前人工复核；收益已由用户确认，不重复设阻塞",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "发布候选核对M2/M3规则账本与M4反馈/体验验收，实际首发内容无未核实规则或未修正实质偏差才可声明严格一致；可选元素/第二幕未启用不得列缺口阻塞必选投稿。10/30准备硬线不因扩展延后。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M5 RC放行、资格核验与真实缺口报告",
+        "status": "In Progress",
+        "milestone": "m-6",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-5",
+          "TASK-18",
+          "TASK-39"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "按发布前检查表逐条核验并勾选",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "未完成项与内容缺口如实写入报告",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "列出已知问题与规避说明",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "同一候选确认赛事资格、报名入口与作品GUID，发布前人工复核；收益已由用户确认，不重复设阻塞",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "发布候选核对M2/M3规则账本与M4反馈/体验验收，实际首发内容无未核实规则或未修正实质偏差才可声明严格一致；可选元素/第二幕未启用不得列缺口阻塞必选投稿。10/30准备硬线不因扩展延后。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-29",
+      "before": {
+        "title": "M1 战斗演出事件队列与基础打击反馈",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-10",
+          "TASK-11"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "真实出牌命令驱动攻击飞牌、命中/飘字/血条，格挡获取与吸收、状态、死亡和胜负过渡；本地控件集成可复核",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "敌方回合按行动者和意图顺序展示，多段/多敌/群体/持续伤害/反伤不跳过",
+            "checked": true
+          },
+          {
+            "index": 3,
+            "text": "自动回归验证规则结果与RNG不变、事件仅消费一次、输入恢复及表现故障恢复；控件复用有界；npm run check和CI通过",
+            "checked": true
+          },
+          {
+            "index": 4,
+            "text": "同一候选经TASK-3.2导入后完成TASK-3基础反馈实机截图/日志或录像；音效编号及听感以平台验证为准，未验证明确记录",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M4 战斗演出事件队列与基础反馈实机验收",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-10",
+          "TASK-11"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "真实出牌命令驱动攻击飞牌、命中/飘字/血条，格挡获取与吸收、状态、死亡和胜负过渡；本地控件集成可复核",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "敌方回合按行动者和意图顺序展示，多段/多敌/群体/持续伤害/反伤不跳过",
+            "checked": true
+          },
+          {
+            "index": 3,
+            "text": "自动回归验证规则结果与RNG不变、事件仅消费一次、输入恢复及表现故障恢复；控件复用有界；npm run check和CI通过",
+            "checked": true
+          },
+          {
+            "index": 4,
+            "text": "同一候选经TASK-3.2导入后完成TASK-3基础反馈实机截图/日志或录像；音效编号及听感以平台验证为准，未验证明确记录",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-29.1",
+      "before": {
+        "title": "M1 战斗反馈打击感精修（命中停顿/攻击形态/敌方行动节奏）",
+        "status": "In Progress",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "出牌有蓄势与加速飞行，到达帧即接触帧；命中停顿使击退/闪色/数字保持峰值，重击与致命一击停顿更长",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "普通、重击、多段、群体、持续伤害、反伤在冲击形状、击退、抖屏和音效触发上可区分，并有自动回归",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "格挡获得/完全吸收/破盾、状态生效、敌人死亡各有独立反馈；同时击杀一起倒下且只播一次死亡音",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "敌方行动按蓄势→接触前冲与音效→回位顺序播放；非攻击意图不做攻击动作",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "不新增随事件分配的控件（仅 1 个固定横扫控件），输入锁、取消与故障恢复保持；npm run check 通过",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "实机观感与音效听感未验收时如实记录，不宣称通过",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M4 战斗反馈打击感精修（含敌人死亡音效）",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "出牌有蓄势与加速飞行，到达帧即接触帧；命中停顿使击退/闪色/数字保持峰值，重击与致命一击停顿更长",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "普通、重击、多段、群体、持续伤害、反伤在冲击形状、击退、抖屏和音效触发上可区分，并有自动回归",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "格挡获得/完全吸收/破盾、状态生效、敌人死亡各有独立反馈；同时击杀一起倒下且只播一次死亡音",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "敌方行动按蓄势→接触前冲与音效→回位顺序播放；非攻击意图不做攻击动作",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "不新增随事件分配的控件（仅 1 个固定横扫控件），输入锁、取消与故障恢复保持；npm run check 通过",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "实机观感与音效听感未验收时如实记录，不宣称通过",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-30",
+      "before": {
+        "title": "M4 出牌手感：无目标牌拖到空旷处松手即出",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-10",
+          "TASK-3",
+          "TASK-17"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "防御及其他无需指定敌人的可用牌，按住拖至战场空旷出牌区松手即打出，无需第二次点击或确认，不要求落在玩家或敌人身上。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "有效出牌区有清晰反馈；在手牌区或无效区域松手取消并回原位，不误触结束回合、药水等控件。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "指定敌人的牌拖到合法敌人松手打出；多敌人时松在空地不得随机选目标。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "一次拖放最多提交一次；能量不足、不可用牌、敌方回合或结算期间不出牌、不扣能量、不丢牌。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "保留点选备用路径；桌面鼠标与手机触摸分别验证拖起、空地松手出牌、取消和连续出牌，说明文案与操作一致。",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "分别报告离线检查、平台编译、副本导入、游戏内操作验证；平台限制导致未实现时记录证据与降级缺口，不以原型通过或点选可用替代验收。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M4 出牌手感：无目标牌拖到空旷处松手即出",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-10"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "防御及其他无需指定敌人的可用牌，按住拖至战场空旷出牌区松手即打出，无需第二次点击或确认，不要求落在玩家或敌人身上。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "有效出牌区有清晰反馈；在手牌区或无效区域松手取消并回原位，不误触结束回合、药水等控件。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "指定敌人的牌拖到合法敌人松手打出；多敌人时松在空地不得随机选目标。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "一次拖放最多提交一次；能量不足、不可用牌、敌方回合或结算期间不出牌、不扣能量、不丢牌。",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "保留点选备用路径；桌面鼠标与手机触摸分别验证拖起、空地松手出牌、取消和连续出牌，说明文案与操作一致。",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "分别报告离线检查、平台编译、副本导入、游戏内操作验证；平台限制导致未实现时记录证据与降级缺口，不以原型通过或点选可用替代验收。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-34",
+      "before": {
+        "title": "M4 官方 BGM 接入与场景切换",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-17",
+          "TASK-29"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "地图探索、普通战斗、精英战、Boss战、胜利及失败结算均有经实机试听确定的原生BGM，记录最终ID与选择依据",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "同一候选真实播放验证循环、音量平衡、淡入淡出、场景切换和听感，保留含声音录像及试听记录；配置或编译成功不能代替实机验收",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "场景往返、连续进战、结算、重开及平台重新挑战均不叠播、不重复启动、不残留上一曲，有操作与结果证据",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "与TASK-29/TASK-4音效共同试听，关键反馈清楚，不重做音效、不改规则/RNG；平台限制、降级与验证状态分别记录",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M4 官方 BGM 接入与场景切换",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-29"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "地图探索、普通战斗、精英战、Boss战、胜利及失败结算均有经实机试听确定的原生BGM，记录最终ID与选择依据",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "同一候选真实播放验证循环、音量平衡、淡入淡出、场景切换和听感，保留含声音录像及试听记录；配置或编译成功不能代替实机验收",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "场景往返、连续进战、结算、重开及平台重新挑战均不叠播、不重复启动、不残留上一曲，有操作与结果证据",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "与TASK-29/TASK-4音效共同试听，关键反馈清楚，不重做音效、不改规则/RNG；平台限制、降级与验证状态分别记录",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-36.1",
+      "before": {
+        "title": "防止商店与选牌卡片中断触摸误操作",
+        "status": "In Progress",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "翻页、牌库遮挡、重绘及跨局后旧卡片手势不购买或选择当前对象，金币卡组保持不变。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "新的有意触摸和仅点击兼容路径保持正常，选牌与宝箱相关回调不回退。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "提供真实控件先红后绿回归、独立评审和当前提交 CI；实机事件顺序未验单独保留。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "防止商店与选牌卡片中断触摸误操作",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "翻页、牌库遮挡、重绘及跨局后旧卡片手势不购买或选择当前对象，金币卡组保持不变。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "新的有意触摸和仅点击兼容路径保持正常，选牌与宝箱相关回调不回退。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "提供真实控件先红后绿回归、独立评审和当前提交 CI；实机事件顺序未验单独保留。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-38",
+      "before": {
+        "title": "手机触屏游玩适配与完整流程验收（优先排期）",
+        "status": "To Do",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "手机触屏可完成选牌、查看详情、选择目标、出牌、取消及结束回合，不依赖鼠标悬停或键盘",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "触屏可完成地图选路、奖励、商店、营地、事件和胜负结算及重新开始等已实现主流程",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "常用手机画布下文字可读、按钮可触达，界面不出屏；拖动能力受限时保留C档点选出牌",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "记录手机实机操作结果、设备与未通过项；画布预览、平台编译及实机通过分别报告",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "手机触屏游玩适配与完整流程验收（优先排期）",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "手机触屏可完成选牌、查看详情、选择目标、出牌、取消及结束回合，不依赖鼠标悬停或键盘",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "触屏可完成地图选路、奖励、商店、营地、事件和胜负结算及重新开始等已实现主流程",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "常用手机画布下文字可读、按钮可触达，界面不出屏；拖动能力受限时保留C档点选出牌",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "记录手机实机操作结果、设备与未通过项；画布预览、平台编译及实机通过分别报告",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-38.1",
+      "before": {
+        "title": "防止中断触摸误触重新开始或结算",
+        "status": "In Progress",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "遮挡、退出取消、模式或本局切换、缩放后旧触摸不能重新开局或提交当前结算。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "外来触点和重复回放不能执行动作；新有意触摸与仅Click宿主保持可用。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "增加先红后绿真实控件回归并独立复审，保留结算单次请求规则；当前头CI与平台实测分开报告。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "防止中断触摸误触重新开始或结算",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "遮挡、退出取消、模式或本局切换、缩放后旧触摸不能重新开局或提交当前结算。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "外来触点和重复回放不能执行动作；新有意触摸与仅Click宿主保持可用。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "增加先红后绿真实控件回归并独立复审，保留结算单次请求规则；当前头CI与平台实测分开报告。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-39",
+      "before": {
+        "title": "拒绝空文件或目录冒充验收截图",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "参考图与实机截图必须是非空普通文件，目录、空文件、缺失或无法取得文件信息的路径被拒绝。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "有效文件、已有关键检查项及可注入测试接口保持兼容，CLI错误退出且不给出通过结论。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "新增真实文件负例先红后绿，独立评审及当前SHA相关CI通过；不改变TASK19/24归属或平台验收状态。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "拒绝空文件或目录冒充验收截图",
+        "status": "In Progress",
+        "milestone": "m-6",
+        "dueDate": "2026-10-29",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "参考图与实机截图必须是非空普通文件，目录、空文件、缺失或无法取得文件信息的路径被拒绝。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "有效文件、已有关键检查项及可注入测试接口保持兼容，CLI错误退出且不给出通过结论。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "新增真实文件负例先红后绿，独立评审及当前SHA相关CI通过；不改变TASK19/24归属或平台验收状态。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-42",
+      "before": {
+        "title": "电脑鼠标键盘游玩适配与完整流程验收（优先排期）",
+        "status": "To Do",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "鼠标可完成选牌、详情、选目标、出牌、取消及结束回合，拖牌与点选行为一致且不会重复执行命令",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "明确并展示可用键位；键盘可进行焦点导航、确认与取消，且与游戏原生输入无冲突",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "鼠标键盘可完成地图选路、奖励、商店、营地、事件和胜负结算及重新开始等已实现主流程",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "记录电脑实机操作结果和未通过项，平台限制与降级明确说明；预览及编译不冒充实机通过",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "电脑鼠标键盘游玩适配与完整流程验收（优先排期）",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "鼠标可完成选牌、详情、选目标、出牌、取消及结束回合，拖牌与点选行为一致且不会重复执行命令",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "明确并展示可用键位；键盘可进行焦点导航、确认与取消，且与游戏原生输入无冲突",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "鼠标键盘可完成地图选路、奖励、商店、营地、事件和胜负结算及重新开始等已实现主流程",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "记录电脑实机操作结果和未通过项，平台限制与降级明确说明；预览及编译不冒充实机通过",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-47",
+      "before": null,
+      "after": {
+        "title": "M3 冻结第一幕首发内容清单与逐项可获得/可执行验收",
+        "status": "To Do",
+        "milestone": "m-4",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-7"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "冻结逐类具体ID清单、数量、基本/升级版本、获取渠道与对应负责验收任务；后续变更有记录，未纳入或未验证内容不进入首发随机池。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "每项均有真实获取及执行记录，关联来源预期、本地测试和平台证据；覆盖奖励/商店/事件/宝箱/起始套装等合法渠道，不以调试注入代替。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "多种合法构筑可通过正常奖励与商店形成并重复游玩；记录种子、卡组和路径；逐项列缺口而非以数量汇总判完成。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-4.1",
+      "before": {
+        "title": "防止格挡反馈动画遮挡生命条",
+        "status": "In Progress",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "玩家、普通敌人各列宽及Boss的格挡动画全过程不覆盖生命条，显示值继续读取真实格挡。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "保留纵向反馈和其他特效；取消、完成及仅点击兼容宿主恢复正常状态。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "增加真实控制器播放先红后绿回归并独立复审，当前head CI通过；不将坐标测试冒充实机视觉验收。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "防止格挡反馈动画遮挡生命条",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": "2026-10-24",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "玩家、普通敌人各列宽及Boss的格挡动画全过程不覆盖生命条，显示值继续读取真实格挡。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "保留纵向反馈和其他特效；取消、完成及仅点击兼容宿主恢复正常状态。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "增加真实控制器播放先红后绿回归并独立复审，当前head CI通过；不将坐标测试冒充实机视觉验收。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-33",
+      "before": {
+        "title": "M4 可选：双人合作联机可行性 Spike",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "隔离副本中两个真实玩家/客户端共同进入并分别操作同一场战斗，保留两端录像、日志、服务器记录、候选版本/hash及复现步骤；仅入房或模拟双端不能算通过",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "验证客户端命令、服务器权威结算、双方状态同步及去重，覆盖重复/过期/乱序消息、同时输入和网络延迟，记录一致性及平台限制",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "形成并实测双方卡组、手牌、能量、血量及共享敌人、地图、随机数的归属/可见性矩阵，验证回合协调与一致结果",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "真实双端验证掉线/退出、继续或终止策略及UI恢复，明确重连支持边界，不宣称未验证能力",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "交付GO/NO-GO、真实双人证据、成熟方案可复用性、单人Lua必要改造量、分项工时与风险；证据不足不得GO。实验不进入正式存档或提前修改单人架构/STS1规则，不成为M4及投稿前置",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "独立候选：双人合作联机可行性Spike",
+        "status": "To Do",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [
+          "TASK-20"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "隔离副本中两个真实玩家/客户端共同进入并分别操作同一场战斗，保留两端录像、日志、服务器记录、候选版本/hash及复现步骤；仅入房或模拟双端不能算通过",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "验证客户端命令、服务器权威结算、双方状态同步及去重，覆盖重复/过期/乱序消息、同时输入和网络延迟，记录一致性及平台限制",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "形成并实测双方卡组、手牌、能量、血量及共享敌人、地图、随机数的归属/可见性矩阵，验证回合协调与一致结果",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "真实双端验证掉线/退出、继续或终止策略及UI恢复，明确重连支持边界，不宣称未验证能力",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "交付GO/NO-GO、真实双人证据、成熟方案可复用性、单人Lua必要改造量、分项工时与风险；证据不足不得GO。实验不进入正式存档或提前修改单人架构/STS1规则，不成为M4及投稿前置",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-45",
+      "before": {
+        "title": "成就系统：原版判定与杀戮原塔2包装",
+        "status": "Blocked",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "实施前已复核并记录官方等级要求、功能权限和本人账号可用性；用户等级满足要求、平台原生成就可用且具备实机验证条件，才解除阻塞；未为此主动推进账号升级。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "初代46项成就候选清单已完整复核，形成含原版条件、判定机制、单局记录与跨局永久属性及杀戮原塔2名称图标世界观包装的成就树，并取得用户逐项审查通过；审查前不实施。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "审查通过后的成就判定与原版达成条件、判定机制一致，未擅自降低门槛；原生触发、持久化及界面反馈均有实机证据，永久解锁可跨局验证，临时提示不计作永久成就。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "排期保持解除阻塞后P1，不阻塞10月30日封版及11月2日投稿，不进入M0–M5必过验收，也不新增现有主线对本项的依赖。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "成就系统：原版判定与杀戮原塔2包装",
+        "status": "Blocked",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "实施前已复核并记录官方等级要求、功能权限和本人账号可用性；用户等级满足要求、平台原生成就可用且具备实机验证条件，才解除阻塞；未为此主动推进账号升级。",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "初代46项成就候选清单已完整复核，形成含原版条件、判定机制、单局记录与跨局永久属性及杀戮原塔2名称图标世界观包装的成就树，并取得用户逐项审查通过；审查前不实施。",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "审查通过后的成就判定与原版达成条件、判定机制一致，未擅自降低门槛；原生触发、持久化及界面反馈均有实机证据，永久解锁可跨局验证，临时提示不计作永久成就。",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "排期保持解除阻塞后P1，不阻塞10月30日封版及11月2日投稿，不进入M0–M6必过验收，也不新增现有主线对本项的依赖。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-10.1",
+      "before": {
+        "title": "Spike：PNG→GIA/Lua 真机可行性实验",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "记录最小样例输入、GIA/Lua 路径、工具版本及图像尺寸/透明度/容量等平台限制，失败也有可复现证据",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "分别记录编译、写入存档副本、真机显示和交互验证结果及截图；保持 MILIASTRA_ALLOW_LIVE_WRITE=0，发布由人完成",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "给出可行或不可行结论、手机与主机适配风险、正式美术可用规格及不可行时的降级方案",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "Spike：PNG→GIA/Lua 真机可行性实验",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "记录最小样例输入、GIA/Lua 路径、工具版本及图像尺寸/透明度/容量等平台限制，失败也有可复现证据",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "分别记录编译、写入存档副本、真机显示和交互验证结果及截图；保持 MILIASTRA_ALLOW_LIVE_WRITE=0，发布由人完成",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "给出可行或不可行结论、手机与主机适配风险、正式美术可用规格及不可行时的降级方案",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-2.1",
+      "before": {
+        "title": "首发岩系遗迹场景制作（原生资产小样通过后）",
+        "status": "To Do",
+        "milestone": null,
+        "dueDate": null,
+        "dependencies": [
+          "TASK-10.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "原生单建筑和7件景片先完成官方副本导入、GUID读回、固定镜头真机显示和性能检查",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "首发场景按验证过的官方模型与预算制作，角色轮廓/出生/脚高/碰撞/安全区合格，不将二维GIA当3D建筑",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "独立feat分支与PR，逐包导入去重并留截图；主Agent集成质量检查且不覆盖原始存档",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "首发岩系遗迹场景制作（原生资产小样通过后）",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-10.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "原生单建筑和7件景片先完成官方副本导入、GUID读回、固定镜头真机显示和性能检查",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "首发场景按验证过的官方模型与预算制作，角色轮廓/出生/脚高/碰撞/安全区合格，不将二维GIA当3D建筑",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "独立feat分支与PR，逐包导入去重并留截图；主Agent集成质量检查且不覆盖原始存档",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-4",
+      "before": {
+        "title": "M4 批准稿UI打磨、战斗反馈与多设备验收",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-3",
+          "TASK-17",
+          "TASK-29",
+          "TASK-30"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "打击/受击/格挡/状态生效均有特效与音效反馈",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "editor_preview_interface 手机与主机画布 UI 不出屏",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "战斗界面信息可读：血量、格挡、能量、敌人意图",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "承接TASK-10手机安全区与TASK-24前端/主题统一：按PR19逐页核对实际战斗/地图/七节点/结算，正常、禁用、结果状态齐全，差异留截图与降级理由",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "按原版PC观察逐动作记录操作确认→释放→命中→伤害数字/受击→死亡/回合收尾的时序、停顿/音效/节奏参照，标录像时间点/条件；未经测量的时长标待核实，不捏造原作精确值。",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "独立表现覆盖攻击/格挡/自损/群攻/多段/持续伤害/反伤/死亡，声音实际听验；同候选鼠标/触摸/主机与性能反馈有录像和结果，平台限制单列，不修改核心规则结果及随机流。",
+            "checked": false
+          },
+          {
+            "index": 7,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M4 批准稿UI打磨、战斗反馈与多设备验收",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-29",
+          "TASK-29.1",
+          "TASK-30",
+          "TASK-34",
+          "TASK-25",
+          "TASK-38",
+          "TASK-42",
+          "TASK-36.1",
+          "TASK-38.1",
+          "TASK-4.1",
+          "TASK-2.1",
+          "TASK-10.1.2"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "打击/受击/格挡/状态生效均有特效与音效反馈",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "editor_preview_interface 手机与主机画布 UI 不出屏",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "战斗界面信息可读：血量、格挡、能量、敌人意图",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "承接TASK-10手机安全区与TASK-24前端/主题统一：按PR19逐页核对实际战斗/地图/七节点/结算，正常、禁用、结果状态齐全，差异留截图与降级理由",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "按原版PC观察逐动作记录操作确认→释放→命中→伤害数字/受击→死亡/回合收尾的时序、停顿/音效/节奏参照，标录像时间点/条件；未经测量的时长标待核实，不捏造原作精确值。",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "独立表现覆盖攻击/格挡/自损/群攻/多段/持续伤害/反伤/死亡，声音实际听验；同候选鼠标/触摸/主机与性能反馈有录像和结果，平台限制单列，不修改核心规则结果及随机流。",
+            "checked": false
+          },
+          {
+            "index": 7,
+            "text": "数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。",
+            "checked": false
+          },
+          {
+            "index": 8,
+            "text": "按批准稿和ui-acceptance.json逐屏实机核对并运行npm run verify:ui -- <同一候选.gil>；战斗动画、打击/受击/状态、敌人死亡音效、BGM、UI与手机/电脑交互达到用户批准标准。",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-10.1.2",
+      "before": {
+        "title": "卡牌多实例与长文案实机容量验收",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-10.1.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "交付固定上游与已通过40高原生文字路线的基线及1/5/10卡、长文案样本，记录实际控件总数与独立容器布局",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "主Agent分别记录官方导入、试玩显示、点击、10秒dt及重复进入退出；无实机结果的格子保持未测，不能用离线检查冒充",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "独立分支PR和复现步骤可审查，不重写战斗控制器或导出器；手机主机另测",
+            "checked": true
+          }
+        ]
+      },
+      "after": {
+        "title": "卡牌多实例与长文案实机容量验收",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-10.1.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "交付固定上游与已通过40高原生文字路线的基线及1/5/10卡、长文案样本，记录实际控件总数与独立容器布局",
+            "checked": true
+          },
+          {
+            "index": 2,
+            "text": "主Agent分别记录官方导入、试玩显示、点击、10秒dt及重复进入退出；无实机结果的格子保持未测，不能用离线检查冒充",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "独立分支PR和复现步骤可审查，不重写战斗控制器或导出器；手机主机另测",
+            "checked": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-11.1",
+      "before": {
+        "title": "M1 九状态真实平台显示验收",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-11",
+          "TASK-3.2"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "在导入的同一战斗候选中核对九种状态名称/层数/叠加与衰减显示，保留截图和日志",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "状态UI仅只读核心，不改变结算；记录候选SHA、存档副本和未通过项",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M1 九状态真实平台显示验收",
+        "status": "In Progress",
+        "milestone": "m-2",
+        "dueDate": "2026-10-24",
+        "dependencies": [
+          "TASK-11",
+          "TASK-3.2"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "在导入的同一战斗候选中核对九种状态名称/层数/叠加与衰减显示，保留截图和日志",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "状态UI仅只读核心，不改变结算；记录候选SHA、存档副本和未通过项",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-18",
+      "before": {
+        "title": "M4 发布物料：封面/标题/简介/标签/玩法说明",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-29",
+        "dependencies": [
+          "TASK-5"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "publish_kit 出封面与四张图（1600×900）",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "标题、简介、标签齐备并符合官方要求",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "附一页玩法说明（操作/规则/通关条件）",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "实际发布表单字段、图片限制和赛事报名入口已截图核验，关联本机存档与作品GUID；仅定位不发布（由TASK-1迁入）",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M5 发布物料、表单与玩法说明冻结",
+        "status": "To Do",
+        "milestone": "m-6",
+        "dueDate": "2026-10-29",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "publish_kit 出封面与四张图（1600×900）",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "标题、简介、标签齐备并符合官方要求",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "附一页玩法说明（操作/规则/通关条件）",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "实际发布表单字段、图片限制和赛事报名入口已截图核验，关联本机存档与作品GUID；仅定位不发布（由TASK-1迁入）",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-20",
+      "before": {
+        "title": "M5 版本与发布记录（v0.1.0）",
+        "status": "To Do",
+        "milestone": "m-0",
+        "dueDate": "2026-10-30",
+        "dependencies": [
+          "TASK-6"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "v0.1.0 tag 打在已验收的发布提交上",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "CHANGELOG 简洁，遵循 Conventional Commits",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "不创建无意义的 Alpha/RC 中间版本",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "M6 投稿版本Tag、CHANGELOG与凭证归档",
+        "status": "To Do",
+        "milestone": "m-0",
+        "dueDate": "2026-10-30",
+        "dependencies": [
+          "TASK-6"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "v0.1.0 tag 打在已验收的发布提交上",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "CHANGELOG 简洁，遵循 Conventional Commits",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "不创建无意义的 Alpha/RC 中间版本",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-25",
+      "before": {
+        "title": "首发主角视觉与卡牌美术交付",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-10.1",
+          "TASK-3"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "确定首发主角形象与卡牌视觉规范，交付可审阅样张并记录素材来源和使用权限，不搬运其他创作者资产",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "按首发实际可玩卡池清单交付卡图、卡背及所需主角视觉，文件命名与卡牌 ID 对应，缺口明确列出",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "依据 TASK-10.1 结论确认尺寸、透明度、容量和导入规格或降级方案；在 TASK-10 界面及 TASK-4 多设备验收中确认可读性，导出、导入、实机结果分别记录",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "批量前仅审阅1张高质量完整样卡；真实显示、相对基线性能、TASK-10.1.2容量和TASK-4设备证据支持放行，否则保留缺口与降级，不用离线导出冒充实机通过",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "首发主角视觉与卡牌美术交付",
+        "status": "To Do",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-10.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "确定首发主角形象与卡牌视觉规范，交付可审阅样张并记录素材来源和使用权限，不搬运其他创作者资产",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "按首发实际可玩卡池清单交付卡图、卡背及所需主角视觉，文件命名与卡牌 ID 对应，缺口明确列出",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "依据 TASK-10.1 结论确认尺寸、透明度、容量和导入规格或降级方案；在 TASK-10 界面及 TASK-4 多设备验收中确认可读性，导出、导入、实机结果分别记录",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "批量前仅审阅1张高质量完整样卡；真实显示、相对基线性能、TASK-10.1.2容量和TASK-4设备证据支持放行，否则保留缺口与降级，不用离线导出冒充实机通过",
+            "checked": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "TASK-25.2",
+      "before": {
+        "title": "首发荧肖像与卡图制作（先确认原生或低图元替代）",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": null,
+        "dependencies": [
+          "TASK-10.1",
+          "TASK-3",
+          "TASK-25.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "原生荧肖像可用性或手工低图元样张经批准并在游戏显示；直接拟合Lua的溢出风险未解决前不可批用",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "来源和权限明确；肖像/卡图文件与实际可玩卡牌ID映射，无素材缺口伪报",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "手机/主机画布、实际文字可读性和同屏控件成本有证据；独立分支/PR由主Agent审查集成",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "仅1张完整精修样卡通过视觉审阅：144×64焦点/轮廓清晰，148×208与选中缩放层级一致，无明显接缝或溢出，原生中文可读；沿用PR19与theme，保留前后对照和审阅结论",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "登记单卡及整屏控件预算并与同底图实测比较首张可见耗时、10秒dt均值/P95和3次进出清理，记录数值预算及接受理由；图片/文字/蒙版/宿主等分项，不以343控件候选或单卡旧dt作为量产依据",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "批量制作须在样卡质量/平台可行性通过后再决定，并引用TASK-10.1.2多卡长文与TASK-4目标设备证据；未测明确列出、不扩产，不重复TASK-25.1或整体UI实现",
+            "checked": false
+          }
+        ]
+      },
+      "after": {
+        "title": "首发荧肖像与卡图制作（先确认原生或低图元替代）",
+        "status": "In Progress",
+        "milestone": "m-5",
+        "dueDate": "2026-10-28",
+        "dependencies": [
+          "TASK-10.1"
+        ],
+        "acceptanceCriteria": [
+          {
+            "index": 1,
+            "text": "原生荧肖像可用性或手工低图元样张经批准并在游戏显示；直接拟合Lua的溢出风险未解决前不可批用",
+            "checked": false
+          },
+          {
+            "index": 2,
+            "text": "来源和权限明确；肖像/卡图文件与实际可玩卡牌ID映射，无素材缺口伪报",
+            "checked": false
+          },
+          {
+            "index": 3,
+            "text": "手机/主机画布、实际文字可读性和同屏控件成本有证据；独立分支/PR由主Agent审查集成",
+            "checked": false
+          },
+          {
+            "index": 4,
+            "text": "仅1张完整精修样卡通过视觉审阅：144×64焦点/轮廓清晰，148×208与选中缩放层级一致，无明显接缝或溢出，原生中文可读；沿用PR19与theme，保留前后对照和审阅结论",
+            "checked": false
+          },
+          {
+            "index": 5,
+            "text": "登记单卡及整屏控件预算并与同底图实测比较首张可见耗时、10秒dt均值/P95和3次进出清理，记录数值预算及接受理由；图片/文字/蒙版/宿主等分项，不以343控件候选或单卡旧dt作为量产依据",
+            "checked": false
+          },
+          {
+            "index": 6,
+            "text": "批量制作须在样卡质量/平台可行性通过后再决定，并引用TASK-10.1.2多卡长文与TASK-4目标设备证据；未测明确列出、不扩产，不重复TASK-25.1或整体UI实现",
+            "checked": false
+          }
+        ]
+      }
+    }
+  ]
+}

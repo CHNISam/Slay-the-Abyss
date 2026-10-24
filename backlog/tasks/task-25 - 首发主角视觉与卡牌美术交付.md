@@ -4,14 +4,14 @@ title: 首发主角视觉与卡牌美术交付
 status: To Do
 assignee: []
 created_date: '2026-10-22 15:58'
-updated_date: '2026-10-23 03:44'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - art
   - launch
 milestone: m-5
 dependencies:
   - TASK-10.1
-  - TASK-3
 type: task
 ordinal: 27000
 ---
@@ -45,4 +45,6 @@ M4首发主角视觉与卡牌美术交付，追加卡牌美术精修并复用TAS
 2026-10-23 仅规划：远端develop已核实fcc1dca5d9b512f932e4122c025bf8d13cf25d5a；主工作树落后且有既有改动，未切换覆盖。CLI task list --search查重复用TASK-25/25.2；TASK-25.1保持Done。未制作美术、未操作游戏或合并PR49。
 
 合并准备：已在最新develop 1b63afd隔离分支重放本轮CLI规划变更；不带入主工作树其他任务修改。
+
+2026-10-24排期：美术并行，样卡/容量与实机质量门禁保持；不等待完整战斗父任务状态才开始可执行素材工作。
 <!-- SECTION:NOTES:END -->

@@ -1,13 +1,15 @@
 ---
 id: TASK-29.1
-title: M1 战斗反馈打击感精修（命中停顿/攻击形态/敌方行动节奏）
+title: M4 战斗反馈打击感精修（含敌人死亡音效）
 status: In Progress
 assignee:
   - '@Claude'
 created_date: '2026-10-23 03:53'
-updated_date: '2026-10-23 03:55'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - enhancement
+milestone: m-5
 dependencies: []
 parent_task_id: TASK-29
 priority: high

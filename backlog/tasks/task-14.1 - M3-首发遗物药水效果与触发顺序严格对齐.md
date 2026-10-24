@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex-relic-order'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 08:32'
+updated_date: '2026-10-24 02:02'
 due_date: '2026-10-28'
 labels:
   - required
@@ -13,7 +13,6 @@ labels:
 milestone: m-4
 dependencies:
   - TASK-14
-  - TASK-12.3
 references:
   - data/SOURCES.md
   - data/relics.json
@@ -27,7 +26,7 @@ ordinal: 42000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。M1唯一主冲刺，本任务排队不打断P0；10/30内部投稿准备、11/02截止不变。PR #51目前OPEN未合并，仅为待审提案，本要求直接来自用户。 TASK-14库存/有限效果完成不等于原版一致；SOURCES承认药水damage/block及遗物block固定处理为简化。须逐件核对，不能推断所有药水都吃修正。M2负责获取概率/价格，本任务负责取得后的效果。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 TASK-14库存/有限效果完成不等于原版一致；SOURCES承认药水damage/block及遗物block固定处理为简化。须逐件核对，不能推断所有药水都吃修正。M2负责获取概率/价格，本任务负责取得后的效果。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -68,4 +67,6 @@ Codex inventory_parity领取离线可推进部分，基线c2c2cd2；不打开原
 Codex-relic-order在feat/continue-relic-order独立领取开战遗物离线切片，基线52f35dd；不打开原神、不调用live MCP，与Combat调度负责人协调最小函数边界。
 
 开战队列离线切片完成，基线52f35dd。固定镜像aeubanks/sts@319009d5六件方法复核：Lantern首回合TOP先执行，三能力battleStart TOP按持有逆序且在基能/抽牌前，Anchor/Bag BOTTOM保留相对顺序在普通抽牌后；ID表只存钩子位置，全部数值仍读effects。PR87原14组在当前Fengari证红3绿11红；加2混排修前3绿13红，修后16绿。补失败原子性、基础能量overflow、回调不入状态与次回合不重复、真实两战重建后20绿；overflow曾单独19绿1红后修复。首次npm check在JS218后runner无输出持续占CPU，只停止本轮PID9568，命令退出-1，未声称完整check通过。精确UI input保护重放205组104pass101skip、theme保护46组38pass8skip均退出0；后续npm test完整584组469pass115权限skip，0失败退出0；Lua54脚本全过含opening20；Python15pass1权限skip；syntax/schema/theme分别退出0。未再跑组合check，交主线程整合复验。日志保留本worktree不提交；docs/reviews/TASK-14.1-opening-relic-order.md列来源/输入/红绿/限制。没有开原神、平台编译或导出/导入/实机；镜像非认证PC，完整队列/药水上限与onUsePotion缺口仍在，4项AC不勾、任务保持In Progress。
+
+2026-10-24批准路线图：本地原版对照可并行执行，不以基础实机验收作为本地开发前置；本任务既有AC、状态和证据保留。M2通关不等于本项完成，严格实机验收仍须独立取证。
 <!-- SECTION:NOTES:END -->

@@ -5,8 +5,10 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-23 14:56'
-updated_date: '2026-10-23 14:57'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-24'
 labels: []
+milestone: m-2
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/117#issuecomment-6367383439'

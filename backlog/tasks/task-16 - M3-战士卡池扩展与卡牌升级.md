@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-23 09:30'
+updated_date: '2026-10-24 02:02'
 due_date: '2026-10-28'
 labels:
   - queued-after-M2
@@ -13,7 +13,6 @@ milestone: m-4
 dependencies:
   - TASK-9
   - TASK-14
-  - TASK-12.3
 priority: high
 ordinal: 16000
 ---
@@ -21,7 +20,7 @@ ordinal: 16000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-用户2026-10-23决定：首发纳入内容严格对齐初代Slay the Spire PC正式版Ascension 0数值/机制/算法/概率/结算顺序，仅名称/背景/元素表现可包装，禁止自创或凭感觉调平衡。M1唯一主冲刺，后续规则工作排队不打断P0。PR51仍OPEN，仅待审提案；用户指令为本次依据。10/30内部准备、11/02比赛截止不变。 岩元素荧=Ironclad职业体系；保留初始牌组、起始遗物、独有池和力量/格挡/自损/消耗规则，不附加原创元素反应。复用至少30张实际可用目标，75张及其余职业/章节不是本次必须补齐。现有37条JSON不等于可玩；保留合法多种构筑，不为凑流派改值。共享算法独立TASK-16.1。
+用户2026-10-23决定：首发纳入内容严格对齐初代Slay the Spire PC正式版Ascension 0数值/机制/算法/概率/结算顺序，仅名称/背景/元素表现可包装，禁止自创或凭感觉调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。10/30内部准备、11/02比赛截止不变。 岩元素荧=Ironclad职业体系；保留初始牌组、起始遗物、独有池和力量/格挡/自损/消耗规则，不附加原创元素反应。复用至少30张实际可用目标，75张及其余职业/章节不是本次必须补齐。现有37条JSON不等于可玩；保留合法多种构筑，不为凑流派改值。共享算法独立TASK-16.1。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -69,4 +68,6 @@ inventory_parity继续离线领取Iron Wave顺序切片，基线7d809f3，隔离
 Iron Wave切片完成：独立读取固定镜像fc379c875c11e008e9c10548ac8e394c301c532f/IronWave.java，use先GainBlockAction后DamageAction；基本5/5、升级7/7且费用1。当前7d809f3及a6be1b6 JSON早已正确，未修改生产数据或Combat。新增iron_wave_order.lua 12例，覆盖基本/升级Thorns吸收、1HP末敌致死、部分吸收后死亡、0伤害、敌格挡、Dexterity/Frail及提交帧顺序；内存受控倒序变异12/12失败exit1，正常数据12/12通过。npm run check退出0：JS260通过/14权限skip；Lua31脚本783组；Python15通过/1权限skip。证据docs/reviews/TASK-16-iron-wave.md，日志iron-wave-check.log与iron-wave-mutation.log留隔离树；原作PC构建真实性/全卡池/平台AC仍未验、全部未勾。
 
 2026-10-23 Dazed临时状态牌基础设施离线完成，保留原status/common/cost=-2/ethereal，不可用且不消耗能量，生成进入discard、持于手中轮末消耗、永久卡组/奖励/商店/下场隔离。data仍37构筑定义且实际支持30，另Dazed不算构筑卡。固定源链、0..5候选ABI及针对262Lua/65JS/15Python通过+1权限skip见TASK-16.1与DAZED_STATUS_CARDS.md；SentryAI/Artifact后续独立桥接，平台及整项AC保留。
+
+2026-10-24批准路线图：本地原版对照可并行执行，不以基础实机验收作为本地开发前置；本任务既有AC、状态和证据保留。M2通关不等于本项完成，严格实机验收仍须独立取证。
 <!-- SECTION:NOTES:END -->

@@ -1,10 +1,10 @@
 ---
 id: TASK-6
-title: M5 正式投稿（人执行，Agent 出操作说明）
+title: M6 正式发布与赛事报名（人工执行）
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-22 22:25'
+updated_date: '2026-10-24 02:02'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0

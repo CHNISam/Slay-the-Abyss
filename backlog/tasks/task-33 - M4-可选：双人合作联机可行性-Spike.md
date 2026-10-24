@@ -1,14 +1,14 @@
 ---
 id: TASK-33
-title: M4 可选：双人合作联机可行性 Spike
+title: 独立候选：双人合作联机可行性Spike
 status: To Do
 assignee: []
 created_date: '2026-10-23 07:34'
+updated_date: '2026-10-24 02:02'
 labels:
   - P2 optional coop
-milestone: m-5
 dependencies:
-  - TASK-3
+  - TASK-20
 references:
   - docs/SCOPE.md
   - docs/TOOLCHAIN.md
@@ -31,3 +31,9 @@ ordinal: 45000
 - [ ] #4 真实双端验证掉线/退出、继续或终止策略及UI恢复，明确重连支持边界，不宣称未验证能力
 - [ ] #5 交付GO/NO-GO、真实双人证据、成熟方案可复用性、单人Lua必要改造量、分项工时与风险；证据不足不得GO。实验不进入正式存档或提前修改单人架构/STS1规则，不成为M4及投稿前置
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-24：复用DRAFT-3跟踪完整合作候选，不加入M0–M6，不阻塞10/30首投；首发质量及发布不受影响且时间盒批准后才启动。
+<!-- SECTION:NOTES:END -->

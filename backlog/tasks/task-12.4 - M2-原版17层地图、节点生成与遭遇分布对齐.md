@@ -1,18 +1,17 @@
 ---
 id: TASK-12.4
-title: M2 原版17层地图、节点生成与遭遇分布对齐
+title: M3 原版17层地图拓扑、随机流与遭遇分布验收
 status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 11:45'
-due_date: '2026-10-26'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
-milestone: m-3
+milestone: m-4
 dependencies:
-  - TASK-3
   - TASK-12
 references:
   - data/SOURCES.md
@@ -27,7 +26,7 @@ ordinal: 40000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。M1唯一主冲刺，本任务排队不打断P0；10/30内部投稿准备、11/02截止不变。PR #51目前OPEN未合并，仅为待审提案，本要求直接来自用户。 当前rules.json为15层/Boss15/营地14，abyss_map.lua为三列同列链加邻列边、节点及遭遇等概率抽取；这是待核实修正差异。TASK-12已完成的本地15层证据保留，本切片独立验收新规则。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 当前rules.json为15层/Boss15/营地14，abyss_map.lua为三列同列链加邻列边、节点及遭遇等概率抽取；这是待核实修正差异。TASK-12已完成的本地15层证据保留，本切片独立验收新规则。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -80,4 +79,6 @@ PR62与develop ed39f46离线整合完成：修复Golden仅比较生成15行且�
 RNG只读调查原文/13份response及source blob/content hash、12golden seed口径与fixture hash、稀有拒绝采样oracle公式差异已保留根.artifacts/map-rng-source-1cfaba2/investigation.json。原作PC二进制/实际libGDX依赖版本仍未认证；不迁就oracle unsigned拒绝条件、不修改golden。此片不改production RNG及任务广义AC。
 
 2026-10-23 @codex-map-rng 收敛交接：隔离tools/candidates/sts1_map_topology.lua完成，未接生产。新增15专项先0/15（缺候选）后15/15；12未改捕获golden的连接坐标/每条边全部匹配，含完整2780424839485660359输入，无tonumber/16位截断；seed+1回绕及起点/祖先/夹限/父引用/首行过滤独立边界通过。原语/包装器、src/golden/data/CI未改；生产全图另实际FAIL0/12（11diff/1unsafe64）。结构化证据docs/rules/evidence/w1-map-topology-candidate.json，原始13source与各seed实际图/state/runner响应在根.artifacts/map-rng-source-1cfaba2；稀有oracle拒绝采样差异未迁就。生产房型/同raw洗牌、Map v3 stringseed/restore、7列UI92节点容量等具体gate写docs/reviews/TASK-12.4-map-rng-topology-candidate.md，均未实施。用户现可登录原神且要求收敛，停止新范围，仅文档/独立commit/交接；无full/Miliastra/游戏，广义一致性/平台AC不勾。
+
+2026-10-24批准路线图：本地原版对照可并行执行，不以基础实机验收作为本地开发前置；本任务既有AC、状态和证据保留。M2通关不等于本项完成，严格实机验收仍须独立取证。
 <!-- SECTION:NOTES:END -->

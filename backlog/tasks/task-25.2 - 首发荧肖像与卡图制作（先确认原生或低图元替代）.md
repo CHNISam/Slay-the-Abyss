@@ -5,15 +5,14 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-23 12:55'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - art
   - launch
 milestone: m-5
 dependencies:
   - TASK-10.1
-  - TASK-3
-  - TASK-25.1
 references:
   - docs/experiments/art-portrait/README.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/49'

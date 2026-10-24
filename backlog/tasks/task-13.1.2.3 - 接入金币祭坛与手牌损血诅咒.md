@@ -5,7 +5,10 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 01:16'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-28'
 labels: []
+milestone: m-4
 dependencies: []
 parent_task_id: TASK-13.1.2
 priority: high

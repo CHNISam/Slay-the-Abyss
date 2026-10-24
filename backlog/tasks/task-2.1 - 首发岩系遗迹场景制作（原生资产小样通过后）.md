@@ -5,10 +5,12 @@ status: To Do
 assignee:
   - '@art-scene'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-22 16:42'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-28'
 labels:
   - art
   - launch
+milestone: m-5
 dependencies:
   - TASK-10.1
 references:
