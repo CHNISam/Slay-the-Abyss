@@ -128,6 +128,13 @@ export function battleLayout() {
   };
   const controls = [
     panel('topBar', 0, y, width, bar.height, c.panelSunken),
+    // Post-battle card pick: a framed stage that separates reward choosing from playing the hand.
+    { name: 'rewardStage', kind: 'container', position: l.rewardPick.stage.slice(0, 2), size: l.rewardPick.stage.slice(2), visible: false, children: [
+      panel('border', 0, 0, ...l.rewardPick.stage.slice(2), c.goldDim),
+      panel('plate', 0, 0, l.rewardPick.stage[2] - s.border * 2, l.rewardPick.stage[3] - s.border * 2, c.panelSunken),
+      text('title', l.rewardPick.title[0] - l.rewardPick.stage[0], l.rewardPick.title[1] - l.rewardPick.stage[1], l.rewardPick.title[2], l.rewardPick.title[3], '选择一张卡牌', f.display, c.goldBright),
+      text('subtitle', l.rewardPick.subtitle[0] - l.rewardPick.stage[0], l.rewardPick.subtitle[1] - l.rewardPick.stage[1], l.rewardPick.subtitle[2], l.rewardPick.subtitle[3], '', f.body, c.textDim),
+    ] },
     text('title', 0, y, 350, bar.height, '杀戮原塔2 · 战斗', f.heading, c.gold),
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
@@ -169,10 +176,10 @@ export function battleLayout() {
     button('continue', [0, -96], l.button.primary, '再战一场', true),
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
-      button('skip', [0, -96], l.button.secondary, '跳过卡牌'),
-      text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright),
-      button('claimPotion', l.battleRewards.claimPotion, l.button.secondary, '领取药水'),
-      button('skipPotion', l.battleRewards.skipPotion, l.button.secondary, '放弃药水'));
+    button('skip', l.rewardPick.skip.slice(0, 2), l.rewardPick.skip.slice(2), '跳过卡牌'),
+    text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright),
+    button('claimPotion', l.battleRewards.claimPotion, l.button.secondary, '领取药水'),
+    button('skipPotion', l.battleRewards.skipPotion, l.button.secondary, '放弃药水'));
   controls.push({ name: 'dragLayer', kind: 'container', size: [width, height], visible: false, children: [
     { ...hit(width, height), focusable: false },
     panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),

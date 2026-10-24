@@ -14,6 +14,7 @@ end
 test('reward names bottle and claim stores it once through the real controller',function()
     local h,u,p,emit,tap=reward()
     assert(p:GetChild('potionReward').visible)
+    assert(p:GetChild('rewardStage').visible and not p:GetChild('energy').visible)
     local name=h.run.rewards.potion.id
     assert(p:GetChild('potionReward').text:find('选牌时自动领取',1,true))
     tap('claimPotion',7)
@@ -25,8 +26,14 @@ test('full belt leaves card and potion pending until player explicitly abandons 
     local h,u,p,emit,tap=reward()
     for _,id in ipairs({'block_potion','energy_potion','fire_potion'}) do assert(Run.obtainPotion(h.run,id)) end
     h:refresh();assert(not p:GetChild('claimPotion').interactable)
+    assert(p:GetChild('rewardStage').visible and p:GetChild('skipPotion').visible)
+    local reward,gold,nextUid=h.run.rewards,h.run.gold,h.run.nextDeckUid
+    tap('skip',4)
+    assert(h.run.phase=='reward' and not reward.potion.resolved, 'skip card cannot swallow a full-belt potion')
     tap('card1',1)
     assert(h.run.phase=='reward' and #h.run.deck==10)
+    assert(h.run.rewards==reward and h.run.gold==gold and h.run.nextDeckUid==nextUid)
+    assert(p:GetChild('rewardStage').visible and p:GetChild('potionReward').visible)
     assert(p:GetChild('notice').text:find('药水槽已满',1,true))
     tap('skipPotion',2);assert(h.run.rewards.potion.result=='skipped')
     tap('card1',3);assert(h.run.phase=='map' and #h.run.deck==11)
