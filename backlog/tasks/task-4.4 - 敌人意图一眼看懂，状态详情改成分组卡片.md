@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Claude'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-24 10:36'
+updated_date: '2026-10-24 15:43'
 due_date: '2026-10-26'
 labels: []
 milestone: m-5
@@ -31,6 +31,12 @@ ordinal: 85000
 - [ ] #5 原神千星奇域实机截图确认意图与详情面板显示完整、布局正确
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+修正用户截图指出的虚弱上箭头语义：虚弱/缠绕改用主题既有削弱图标，排查其他状态映射并运行主题/布局与战斗UI回归。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -41,4 +47,6 @@ ordinal: 85000
 对照：docs/design/UI_DESIGN.md 意图与提示框、prototype 配色；偏离（宽240→400、左对齐分组）已记入 docs/design/PLATFORM_PARITY.md。
 验证层级：AC1–4 为本地实现+离线预览通过——Lua/JS 测试已更新（分页覆盖全部状态、标签、意图行、行高、对齐）；离线预览 scripts/battle-ui-preview.mjs，截图 docs/evidence/battle-intent-status-ui/（字形代替图库图、系统字体）。未构建候选 .gil、未导入、未实机、未跑 verify:ui，AC5 未勾选。
 待接手：1) 构建候选并实机截图核对：叠放的 40 高文本框（行距 20–24）显示、left/right 对齐、翻页 cursorArea 只吃面板内点按；2) 手机长按后转常驻、点卡片翻页手感；3) 意图/状态图库图标仍标 verify。
+
+2026-10-24：虚弱/缠绕103053改为102045；其余共用图形及新实机核对边界见docs/design/BATTLE_IMPLEMENTATION.md。根工作树验证13项主题/布局与53项战斗UI通过；未构建gil/导入/实机，AC5保持待验。
 <!-- SECTION:NOTES:END -->

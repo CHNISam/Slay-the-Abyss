@@ -365,7 +365,7 @@ test("crowded and narrow units overflow to +N and the panel pages through every 
     eq(#hero, L.statusIcon.perRow * L.statusIcon.rows)
     eq(hero[#hero].icon, nil) eq(hero[#hero].count, "+" .. (#ids - #hero + 1))
     local narrow = chips(panel:GetChild("enemy1"))
-    assert(#narrow < #hero and #narrow % L.statusIcon.rows == 0, "narrow columns fit fewer chips per row")
+    assert(#narrow <= #hero and #narrow % L.statusIcon.rows == 0, "enemy columns respect the shared status row limit")
     eq(narrow[#narrow].count, "+" .. (#ids - #narrow + 1))
     for _, chip in ipairs(narrow) do
         assert(math.abs(chip.x) + L.statusIcon.size / 2 <= panel:GetChild("enemy1"):GetChild("statusRow"):GetChild("hit").sizeDeltaX / 2,

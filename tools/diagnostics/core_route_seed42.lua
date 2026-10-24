@@ -1,6 +1,7 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Nodes,Map,Combat= require('abyss_run'),require('abyss_nodes'),require('abyss_map'),require('abyss_combat')
 local data=require('abyss_data')
+local finishCombatRewards=dofile('tools/diagnostics/finish_combat_rewards.lua')
 local seed=42
 local run,map=Run.new(data,seed),Map.generate(data,seed)
 local function ledger(label)
@@ -21,6 +22,7 @@ for step=1,17 do
  print('ENTER',node.id,node.type,node.encounterId or '',node.roomKind or '')
  local ok,reason=Nodes.enter(run,map,node.id)
  if not ok then print('STOP rejected',reason);break end
+ local nodeType=run.nodeFlow.type -- Unknown rooms may resolve as a shop or treasure.
  if run.phase=='combat' then
   for turn=1,100 do
    turns=turns+1
@@ -53,25 +55,26 @@ for step=1,17 do
   local options=Run.rewardOptions(run);local choice=0
   for i,id in ipairs(options) do if rank(id)>0 and (choice==0 or rank(id)>rank(options[choice])) then choice=i end end
   print('REWARD',table.concat(options,','),'choice='..choice)
-  assert(Run.claimCardReward(run,choice));assert(Nodes.completeCombat(run,map))
- elseif node.type=='camp' then
+  assert(Run.claimCardReward(run,choice));finishCombatRewards(run,map)
+ elseif nodeType=='camp' then
   if run.hp<run.maxHp-15 then print('REST');assert(Nodes.rest(run))
   else
    local cards=Nodes.view(run,map).node.upgradeCards;local c=cards[1]
    for _,v in ipairs(cards) do if rank(v.cardId)>rank(c.cardId) then c=v end end
    print('UPGRADE',c.cardId,c.uid);assert(Nodes.upgrade(run,c.uid))
   end
- elseif node.type=='shop' then
+ elseif nodeType=='shop' then
   local offers=Nodes.view(run,map).node.cards
   table.sort(offers,function(a,b) if rank(a.id)~=rank(b.id) then return rank(a.id)>rank(b.id) end return a.id<b.id end)
   for _,o in ipairs(offers) do if rank(o.id)>0 and run.gold>=o.price then print('BUY',o.id,o.price);assert(Nodes.buyCard(run,o.id));break end end
   assert(Nodes.leaveShop(run))
- elseif node.type=='treasure' then assert(Nodes.claimTreasure(run))
- elseif node.type=='event' then
+ elseif nodeType=='treasure' then assert(Nodes.claimTreasure(run))
+ elseif nodeType=='event' then
   local v=Nodes.view(run,map).node.event
   if v.id=='cleric' and run.hp<run.maxHp-15 and run.gold>=v.healCost then print('EVENT heal');assert(Nodes.chooseEvent(run,'heal'))
   elseif v.id=='purifier' then print('EVENT pray',run.deck[1].uid);assert(Nodes.chooseEvent(run,'pray',run.deck[1].uid))
   else assert(Nodes.chooseEvent(run,'leave')) end
+ else error('unsupported_node_type:'..tostring(nodeType))
  end
  ledger('COMPLETE '..node.id)
 end

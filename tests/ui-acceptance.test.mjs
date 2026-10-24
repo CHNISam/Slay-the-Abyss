@@ -15,6 +15,11 @@ test('UI signoff requires real reviewed evidence for the exact candidate and eve
   }]))};
   const knownFiles = path => ['approved','actual-game'].includes(path);
   assert.deepEqual(reviewUiAcceptance(manifest,hash,knownFiles),[]);
+  for (const field of ['gold', 'hpAndMaxHp']) {
+    const missingResource = structuredClone(manifest);
+    delete missingResource.screens.map.checks[field];
+    assert(reviewUiAcceptance(missingResource,hash,knownFiles).includes(`map: ${field} not verified in game`));
+  }
   const missingHp = structuredClone(manifest); delete missingHp.screens.battle.checks.actorHpAndMaxHp;
   assert(reviewUiAcceptance(missingHp,hash,knownFiles).some(error => error.includes('actorHpAndMaxHp')));
   const mockOnly = structuredClone(manifest); delete mockOnly.screens.shop.screenshot;

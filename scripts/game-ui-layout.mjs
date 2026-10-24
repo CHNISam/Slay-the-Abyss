@@ -20,8 +20,22 @@ export function gameLayout(theme = nativeTheme) {
   mapPanel.visible = false;
   // Leave the existing node potion-counter position free for the shared entry.
   for (const group of mapPanel.children) for (const item of group.children ?? []) {
-    if (item.name === 'title') item.size[0] = theme.layout.nativeNode.topBar.title[2];
+    if (item.name === 'title') {
+      item.position = theme.layout.nativeNode.topBar.title.slice(0, 2);
+      item.size = theme.layout.nativeNode.topBar.title.slice(2);
+    }
   }
+  // Route choices need the same resources as room decisions, before entering a shop.
+  const bar = theme.layout.nativeNode.topBar;
+  const resourceIcon = (name, values, entry, colour) => ({ name, kind: 'image',
+    position: values.slice(0, 2), size: values.slice(2),
+    image: typeof entry === 'object' ? entry.id : entry, colour });
+  mapPanel.children.push({ name: 'resources', kind: 'container', size: [...theme.canvas.base], children: [
+    resourceIcon('hpIcon', bar.hpIcon, theme.icon.hp, color.hp),
+    text('hp', bar.hp, '', font.body, color.text),
+    resourceIcon('goldIcon', bar.goldIcon, theme.icon.gold, color.text),
+    text('gold', bar.gold, '', font.body, color.goldBright),
+  ] });
   const picture = (name, size, id, colour) => ({ name, kind: 'image', position: [...theme.layout.nativeControl.origin],
     size, image: id, colour });
   const [ex, ey, ew, eh] = layout.emblem;

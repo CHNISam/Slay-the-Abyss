@@ -645,6 +645,13 @@ local function feedbackBattle(deck, enemies, options)
 end
 test("Block badges reserve native glyph width for every digit from 1 through 999", function()
     local ui, stage, _, battle = feedbackBattle({"defend"}, {"cultist", "cultist", "cultist", "cultist", "cultist"})
+    for _, enemy in ipairs(battle.enemies) do enemy.hp, enemy.maxHp = 999, 999 end
+    local healthPositions = {}
+    ui:render()
+    for i = 1, 5 do
+        local hp = stage.children["enemy" .. i].children.hp
+        healthPositions[i] = {hp.x, hp.sizeDeltaX}
+    end
     for _, value in ipairs({1, 10, 99, 100, 999}) do
         battle.player.block = value
         for _, enemy in ipairs(battle.enemies) do enemy.block = value end
@@ -652,6 +659,7 @@ test("Block badges reserve native glyph width for every digit from 1 through 999
         for _, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
             local c = stage.children[name].children
             assert(c.block.text == tostring(value), name .. " exact digits")
+            assert(c.block.y == c.hp.y, name .. " Block must stay beside HP at every density")
             -- Native text uses wider digits than the mock; autoSize does not
             -- save a 28px rectangle that clips the second digit of Block 10.
             assert(c.block.sizeDeltaX >= #tostring(value) * Theme.font.body, name .. " clips Block " .. value)
@@ -660,6 +668,17 @@ test("Block badges reserve native glyph width for every digit from 1 through 999
             assert(c.blockEdge.x + c.blockEdge.sizeDeltaX / 2 <= c.hpBorder.x - c.hpBorder.sizeDeltaX / 2
                 or c.blockEdge.y - c.blockEdge.sizeDeltaY / 2 >= c.hpBorder.y + c.hpBorder.sizeDeltaY / 2,
                 name .. " chip overlaps HP")
+        end
+        local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2
+        for i = 1, 5 do
+            local box = stage.children["enemy" .. i]
+            local c = box.children
+            assert(c.hp.x == healthPositions[i][1] and c.hp.sizeDeltaX == healthPositions[i][2], "Block must not move or resize HP")
+            local left = box.x + c.blockEdge.x - c.blockEdge.sizeDeltaX / 2
+            local right = box.x + c.hpBorder.x + c.hpBorder.sizeDeltaX / 2
+            assert(left > previousRight, "guard/HP lanes overlap adjacent actor")
+            assert(left >= -600 and right <= 600, "guard/HP outside safe area")
+            previousRight = right
         end
     end
 end)
@@ -702,9 +721,10 @@ test("animated block badges keep HP and neighbouring columns clear for player, o
         end
         local function inspect()
             bounds(stage.children.hero)
-            local previousRight
+            local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2
             for i = 1, #battle.enemies do
                 local left, right = bounds(stage.children["enemy" .. i])
+                assert(left >= -600 and right <= 600, "animated guard/HP outside safe area")
                 assert(not previousRight or left > previousRight, "animated chip crosses neighbouring HP")
                 previousRight = right
             end
@@ -1019,7 +1039,8 @@ test("aiming parks the card below the line and padded enemy hit areas support to
     for i = 1, 5 do if i ~= 3 then assert(battle.enemies[i].hp + battle.enemies[i].block == hp[i]) end end
 end)
 test("open ground, hand, top bar and outside canvas never auto-target or commit",function()
-    for _,point in ipairs({{-200,40},{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
+    -- Open gap between the player and the newly widened enemy row.
+    for _,point in ipairs({{-285,40},{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
         local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
         grab(1) event("card1","drag",0,0) event("dragLayer","up",point[1],point[2])
         assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == nil)

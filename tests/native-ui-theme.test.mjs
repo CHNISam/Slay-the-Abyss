@@ -72,12 +72,16 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.deepEqual(Object.keys(find(battle, 'endTurn').states).sort(), ['disabled', 'hover', 'normal', 'pressed']);
   const map = find(panels, 'mapPanel').children;
   const standaloneMap = find(find(mapLayout(theme).controls, 'stage').children, 'mapPanel').children;
-  // The shared potion entry needs the existing compact HUD title width. Every
-  // other map field, including scrolling and navigation, remains identical.
+  // The host adds a fixed resource HUD and aligns the title with room headers.
+  // Route geometry, scrolling and navigation must still match the standalone map.
   const title = groups => find(groups.flatMap(group => group.children ?? []), 'title');
-  assert.equal(title(map).size[0], theme.layout.nativeNode.topBar.title[2]);
-  const comparableMap = structuredClone(map);
-  title(comparableMap).size[0] = title(standaloneMap).size[0];
+  assert.deepEqual(title(map).position, theme.layout.nativeNode.topBar.title.slice(0, 2));
+  assert.deepEqual(title(map).size, theme.layout.nativeNode.topBar.title.slice(2));
+  const resources = find(map, 'resources');
+  assert.deepEqual(resources.children.map(control => control.name), ['hpIcon', 'hp', 'goldIcon', 'gold']);
+  const comparableMap = structuredClone(map.filter(group => group.name !== 'resources'));
+  title(comparableMap).position = [...title(standaloneMap).position];
+  title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);
   assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length, 47);
   assert.equal(find(find(panels, 'nodePanel').children, 'confirm').size[0], 220);

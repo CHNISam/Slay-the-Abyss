@@ -1,0 +1,192 @@
+{
+  "day": "2026-10-24",
+  "timezone": "UTC+08:00",
+  "auditedAt": "2026-10-24T23:46:19.727016+08:00",
+  "source": "OpenCode local SQLite read-only; assistant records are not authoritative provider request or quota counters",
+  "groups": [
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "scope": "other",
+      "assistantRecords": 2,
+      "completedRecords": 1,
+      "errorRecords": 1,
+      "recordedCost": 0,
+      "tokens": {
+        "input": 21029,
+        "output": 9,
+        "reasoning": 0,
+        "total": 23086,
+        "cache_read": 2048,
+        "cache_write": 0
+      },
+      "sessions": 1,
+      "first": "2026-10-24T17:03:18.294000+08:00",
+      "last": "2026-10-24T17:05:55.568000+08:00"
+    },
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "scope": "game",
+      "assistantRecords": 35,
+      "completedRecords": 25,
+      "errorRecords": 2,
+      "recordedCost": 0,
+      "tokens": {
+        "input": 67629,
+        "output": 3892,
+        "reasoning": 34253,
+        "total": 447790,
+        "cache_read": 342016,
+        "cache_write": 0
+      },
+      "sessions": 12,
+      "first": "2026-10-24T17:04:49.368000+08:00",
+      "last": "2026-10-24T23:43:54.024000+08:00"
+    },
+    {
+      "provider": "openrouter",
+      "model": "recursive/flint-v1.0:free",
+      "scope": "game",
+      "assistantRecords": 5,
+      "completedRecords": 5,
+      "errorRecords": 0,
+      "recordedCost": 0,
+      "tokens": {
+        "input": 39506,
+        "output": 189,
+        "reasoning": 33380,
+        "total": 72793,
+        "cache_read": 0,
+        "cache_write": 0
+      },
+      "sessions": 2,
+      "first": "2026-10-24T17:08:48.356000+08:00",
+      "last": "2026-10-24T17:11:16.811000+08:00"
+    }
+  ],
+  "errors": [
+    {
+      "time": "2026-10-24T17:03:18.294000+08:00",
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "name": "APIError",
+      "statusCode": 401,
+      "tags": []
+    },
+    {
+      "time": "2026-10-24T17:04:49.368000+08:00",
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "name": "APIError",
+      "statusCode": 403,
+      "tags": [
+        "free_tier"
+      ]
+    },
+    {
+      "time": "2026-10-24T17:07:18.231000+08:00",
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "name": "APIError",
+      "statusCode": 403,
+      "tags": [
+        "free_tier"
+      ]
+    }
+  ],
+  "partTypes": {
+    "text": 24,
+    "step-start": 31,
+    "tool": 39,
+    "step-finish": 31,
+    "reasoning": 29,
+    "patch": 2
+  },
+  "toolStates": [
+    {
+      "tool": "bash",
+      "status": "completed",
+      "count": 10
+    },
+    {
+      "tool": "read",
+      "status": "error",
+      "count": 16
+    },
+    {
+      "tool": "bash",
+      "status": "error",
+      "count": 3
+    },
+    {
+      "tool": "edit",
+      "status": "error",
+      "count": 2
+    },
+    {
+      "tool": "read",
+      "status": "completed",
+      "count": 8
+    }
+  ],
+  "toolStatesByModel": [
+    {
+      "provider": "openrouter",
+      "model": "recursive/flint-v1.0:free",
+      "tool": "bash",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "provider": "openrouter",
+      "model": "recursive/flint-v1.0:free",
+      "tool": "read",
+      "status": "completed",
+      "count": 4
+    },
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "tool": "bash",
+      "status": "completed",
+      "count": 9
+    },
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "tool": "read",
+      "status": "completed",
+      "count": 4
+    },
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "tool": "read",
+      "status": "error",
+      "count": 16
+    },
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "tool": "bash",
+      "status": "error",
+      "count": 3
+    },
+    {
+      "provider": "opencode",
+      "model": "deepseek-v4.1-flash-free",
+      "tool": "edit",
+      "status": "error",
+      "count": 2
+    }
+  ],
+  "limitations": [
+    "Only local assistant records with providerID opencode/openrouter; not authoritative provider requests, allowance, reset time, or billing.",
+    "Tokens.total is the recorded total, including cached input and reasoning where reported; these are not additive to total.",
+    "User reported reaching an allowance limit after a manual trial; daily versus five-hour reset window remains unknown.",
+    "Earlier zero-event calls have no error evidence identifying their cause.",
+    "Log keyword scan supplied no independently verified quota/reset evidence; no raw logs, prompts, credentials, or database are included.",
+    "OpenRouter Flint recorded total 72793 differs from the sum of recorded components 73075 by 282. Preserve both as reported; do not normalize or mix with DeepSeek."
+  ]
+}

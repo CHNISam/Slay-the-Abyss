@@ -219,7 +219,7 @@
       "thievery": 105077,
       "curl_up": 103066,
       "spore_cloud": 103059,
-      "entangled": 103053,
+      "entangled": 102045,
       "artifact": 103066,
       "mode_shift": 103066,
       "sharp_hide": 103055,
@@ -228,7 +228,7 @@
       "angry": 103047,
       "dexterity": 103065,
       "vulnerable": 103049,
-      "weak": 103053,
+      "weak": 102045,
       "frail": 103054,
       "poison": 103059,
       "thorns": 103055,
@@ -443,8 +443,8 @@
     },
     "enemyRow": {
       "y": 64,
-      "xFrom": 80,
-      "xTo": 520,
+      "xFrom": -192,
+      "xTo": 512,
       "portrait": 120,
       "bossPortrait": 168
     },

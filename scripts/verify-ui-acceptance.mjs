@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 // Critical information/actions from the approved PR19 specification. Decoration
 // and animations may remain in the parity ledger; missing HP may not.
 export const criticalUiChecks = {
-  menu: ['start', 'instructions'], map: ['route', 'currentFloor', 'reachableNodes'],
+  menu: ['start', 'instructions'], map: ['route', 'currentFloor', 'reachableNodes', 'gold', 'hpAndMaxHp'],
   battle: ['actorHpAndMaxHp', 'block', 'energy', 'intent', 'cardText', 'enemyAction'],
   rewards: ['gold', 'cardAddedOrSkipped', 'returnToMap'],
   cardChoice: ['readableChoices', 'clearSelection'],
