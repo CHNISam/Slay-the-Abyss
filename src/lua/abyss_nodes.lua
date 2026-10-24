@@ -320,7 +320,6 @@ function M.removeCard(run, uid)
     if flow.removalUsed then return false, "removal_unavailable" end
     local instance, position = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
-    if #run.deck <= 1 then return false, "last_card" end -- Combat.new requires a nonempty permanent deck.
     local price = Shop.removePrice(run)
     if run.gold < price then return false, "insufficient_gold" end
     table.remove(run.deck, position)
@@ -375,7 +374,7 @@ function M.eventOptions(run,flow)
         rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
     end
     local upgrades=#upgradeCards(run)
-    local deckOk=#run.deck>1
+    local deckOk=#run.deck>0
     if id=='cleric' then
         local r=run.data.rules.events.cleric
         local heal=math.min(run.maxHp-run.hp,math.floor(run.maxHp*r.healPercent/100))
@@ -398,7 +397,7 @@ function M.eventOptions(run,flow)
         if e.stage=='purge' then
             option('purge','移除卡牌','已支付 '..r.damage..' 点生命；选择一张卡牌移除',deckOk,'wing_purge');return rows
         end
-        option('sacrifice','献出生命','受到 '..r.damage..' 点伤害，然后选择移除一张卡牌',deckOk)
+        option('sacrifice','献出生命','受到 '..r.damage..' 点伤害，然后选择移除一张卡牌')
         option('take_gold','击碎雕像','获得 '..r.goldMin..'–'..r.goldMax..' 金币；需要基础伤害至少 '..r.attackThreshold..' 的攻击牌',e.canAttack)
     end
     option('leave','离开','什么也不会发生。')
@@ -418,7 +417,6 @@ function M.chooseEvent(run, choice, uid)
     elseif (choice == "purify" and id == "cleric") or (choice == "pray" and id == "purifier") then
         local instance, position = find(run.deck, uid, "uid")
         if not instance then return false, "invalid_card" end
-        if #run.deck <= 1 then return false, "last_card" end
         if run.gold < rules.removeCost then return false, "insufficient_gold" end
         table.remove(run.deck, position)
         run.gold = run.gold - rules.removeCost
@@ -459,9 +457,9 @@ function M.chooseEvent(run, choice, uid)
         end
         run.miscRng=rng
     elseif choice=='sacrifice' and id=='golden_wing' then
-        if #run.deck<=1 then return false,'last_card' end
         damage(rules.damage);flow.event.stage='purge'
-        if run.hp>0 then return true,'choose_purge' end
+        -- An empty purge group cannot keep the event waiting for a nonexistent UID.
+        if run.hp>0 and #run.deck>0 then return true,'choose_purge' end
     elseif choice=='take_gold' and id=='golden_wing' then
         if not flow.event.canAttack then return false,'event_condition_unmet' end
         local rng=EventRandom.cloneState(run.miscRng)
@@ -470,7 +468,6 @@ function M.chooseEvent(run, choice, uid)
     elseif choice=='purge' and id=='golden_wing' and flow.event.stage=='purge' then
         local instance,position=find(run.deck,uid,'uid')
         if not instance then return false,'invalid_card' end
-        if #run.deck<=1 then return false,'last_card' end
         table.remove(run.deck,position)
     elseif choice ~= "leave" then return false, "invalid_event_choice" end
     flow.eventChoice = choice

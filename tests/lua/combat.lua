@@ -147,7 +147,7 @@ test("unknown or advanced effects fail before spending energy", function()
 end)
 
 test("invalid starting snapshots fail rather than fabricate cards", function()
-    equal(pcall(Combat.new, data, { deck = {} }), false)
+    equal(pcall(Combat.new, data, { deck = "invalid" }), false)
     equal(pcall(Combat.new, data, { deck = { "unknown" } }), false)
     equal(pcall(Combat.new, data, { hp = 0 }), false)
     equal(pcall(Combat.new, data, { seed = 0.5 }), false)

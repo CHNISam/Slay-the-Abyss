@@ -90,9 +90,10 @@ test("Purify refusals leave all resources and the pending event intact", functio
         rejected(run, map, function() return Nodes.purifyEvent(run, uid) end, "invalid_card")
     end
     rejected(run, map, function() return Nodes.purifyEvent(run) end, "invalid_card")
-    while #run.deck > 1 do table.remove(run.deck) end
+    local removedUid = run.deck[1].uid
+    run.deck = {}
     run.gold = 50
-    rejected(run, map, function() return Nodes.purifyEvent(run, run.deck[1].uid) end, "last_card")
+    rejected(run, map, function() return Nodes.purifyEvent(run, removedUid) end, "invalid_card")
     assert(Nodes.chooseEvent(run, "leave"))
 end)
 
