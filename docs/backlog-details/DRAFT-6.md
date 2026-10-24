@@ -1,17 +1,7 @@
----
-id: DRAFT-6
-title: E5 候选：第三幕与已开放职业三幕连续冒险
-status: Draft
-assignee: []
-created_date: '2026-10-24 02:02'
-updated_date: '2026-10-24 02:02'
-labels:
-  - optional
-  - candidate
-  - post-release
-dependencies:
-  - TASK-20
----
+# DRAFT-6 开发附件
+
+改写前的范围、技术要求和历史记录保留在这里，执行时仍须遵守。
+
 
 ## Description
 

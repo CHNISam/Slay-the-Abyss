@@ -1,15 +1,17 @@
 ---
 id: TASK-6
-title: M6 正式发布与赛事报名（人工执行）
+title: 正式发布游戏并报名比赛
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 03:10'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
 dependencies:
   - TASK-19
+references:
+  - docs/backlog-details/TASK-6.md
 priority: high
 ordinal: 6000
 ---
@@ -17,20 +19,12 @@ ordinal: 6000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-由人在千星沙箱上传界面勾选「千星之约·奇域创作大赛」并发布。Agent 只提供逐步操作说明与检查表，不得虚报投稿成功。
+10月30日由你完成发布和赛事报名。我负责准备操作说明和发布前检查。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [x] #1 Agent 输出逐步发布与赛事报名操作说明 + 发布前检查表
-- [ ] #2 人完成发布与投稿，截图留存投稿成功凭证
-- [ ] #3 最终确认赛事、作品GUID、版本候选与提交限制；保留发布成功和赛事回查凭证，非仅上传成功
+- [x] #1 发布和报名的操作说明、发布前检查表已准备好。
+- [ ] #2 你完成发布和投稿，保存成功页面截图。
+- [ ] #3 确认报的是正确比赛和作品；报名记录里能查到作品编号和对应版本。
 <!-- AC:END -->
-
-## Implementation Notes
-
-<!-- SECTION:NOTES:BEGIN -->
-修复依赖方向：TASK-20应在真实发布之后记录版本；本任务不再等待TASK-20。原投稿后规则研究迁TASK-21（非M5阻塞），发布前关键限制仍在本任务与TASK-19。
-
-发布操作说明与检查表由PR8合入docs/PUBLISHING.md，AC1已有可复核交付；正式投稿及最终确认AC仍未完成。
-<!-- SECTION:NOTES:END -->

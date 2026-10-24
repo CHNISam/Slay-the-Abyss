@@ -1,11 +1,11 @@
 ---
 id: TASK-3
 title: M1 真实平台完整战斗闭环
-status: In Progress
+status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 02:54'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -13,7 +13,7 @@ dependencies:
   - TASK-3.2
   - TASK-11.1
 priority: high
-ordinal: 1
+ordinal: 54000
 ---
 
 ## Description
@@ -27,7 +27,7 @@ ordinal: 1
 - [x] #1 同一候选在真实游戏完成至少一场完整战斗：抽牌/出牌/能量/目标/结束回合/敌人行动/胜利奖励，日志和截图可复核
 - [x] #2 真实画面中手牌、血量/格挡/能量/敌人意图及中文可读可操作；与核心状态一致
 - [x] #3 记录候选SHA、导入存档与runId；失败和脚本错误如实列出，CI/替身控件不能代替
-- [ ] #4 同一实机战斗完成胜利奖励处理并回到地图，核心信息与状态一致；打击感精修不作为本项阻塞，历史已勾AC保持原样。
+- [x] #4 同一实机战斗完成胜利奖励处理并回到地图，核心信息与状态一致；打击感精修不作为本项阻塞，历史已勾AC保持原样。
 <!-- AC:END -->
 
 ## Implementation Plan

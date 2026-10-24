@@ -1,21 +1,7 @@
----
-id: DRAFT-2
-title: E2 候选：第二幕与跨幕连续通关
-status: Draft
-assignee: []
-created_date: '2026-10-23 01:59'
-updated_date: '2026-10-24 02:02'
-labels:
-  - optional
-  - stretch
-  - candidate
-dependencies:
-  - TASK-20
-references:
-  - docs/SCOPE.md
-priority: low
-type: spike
----
+# DRAFT-2 开发附件
+
+改写前的范围、技术要求和历史记录保留在这里，执行时仍须遵守。
+
 
 ## Description
 

@@ -1,13 +1,16 @@
 ---
 id: TASK-15.14
-title: 修正大型酸液敌人的血量与三招选择
+title: 修正大型酸液敌人的血量和招式
 status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 02:52'
+updated_date: '2026-10-24 03:20'
 labels: []
 milestone: m-4
 dependencies: []
+references:
+  - docs/backlog-details/TASK-15.14.md
 parent_task_id: TASK-15
 priority: high
 type: bug
@@ -17,19 +20,13 @@ ordinal: 80000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-大型酸液敌人当前固定68血且固定循环，缺少原版16伤普通攻击与吐液加入两张污染牌。本切片复用已验证中型酸液策略，先补有限非分裂行为；半血分裂、完整敌人和平台验收仍留父任务，不改父任务认领。
+把大型酸液敌人的血量、三个招式和出招概率做对。这项只管基础招式，半血分裂和完整实机验收另外做。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 固定社区源码及hash核对A0血量65–69、吐液11加Slimed2、攻击16、虚弱2与历史随机调用顺序
-- [ ] #2 真实Combat/Run负例转绿，覆盖边界历史、排队死亡、多实例、回滚与中型酸液回归
-- [ ] #3 严格schema及受影响测试、独立审查、当前SHA正式CI通过，复用既有策略而不复制算法
-- [ ] #4 不改玩家命名和数值规则，不碰UI/Actor/Combat；分裂、完整随机流、PC版本认证及平台缺口明确保留
+- [ ] #1 按原版核对血量65–69、吐液伤害11并塞2张污染牌、普通攻击16、虚弱2，以及出招概率和顺序。
+- [ ] #2 先复现再确认修好，多只敌人、死亡边界和操作失败不会出错，也不影响中型敌人。
+- [ ] #3 数据检查、相关测试和独立审查通过，复用已有的正确做法。
+- [ ] #4 玩家数值和其他界面、战斗逻辑不变；分裂、完整随机规则和游戏实测的缺口仍如实保留。
 <!-- AC:END -->
-
-## Implementation Plan
-
-<!-- SECTION:PLAN:BEGIN -->
-保留23组基线负例；复用AcidM策略并仅接大型派发、正确数据与schema；增加历史/随机顺序及严格负对照；独立审查后当前headCI并集成。
-<!-- SECTION:PLAN:END -->

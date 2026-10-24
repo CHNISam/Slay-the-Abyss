@@ -18,7 +18,7 @@ references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39872050021'
 parent_task_id: TASK-11
 type: bug
-ordinal: 38000
+ordinal: 39000
 ---
 
 ## Description

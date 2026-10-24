@@ -18,7 +18,7 @@ documentation:
   - docs/reviews/TASK-8.5-block-cap.md
 parent_task_id: TASK-8
 type: bug
-ordinal: 39000
+ordinal: 40000
 ---
 
 ## Description
