@@ -374,9 +374,11 @@
   "layout": {
     "battlePotions": {
       "count": 3,
-      "origin": [-124, 268],
-      "step": [124, 0],
-      "size": [116, 44]
+      "origin": [-224, 268],
+      "step": [180, 0],
+      "size": [116, 44],
+      "helpOffset": [84, 0],
+      "helpSize": [44, 44]
     },
     "battleNotice": {
       "position": [0, 228],

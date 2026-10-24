@@ -15,5 +15,5 @@ assert(#found==2 and found[1].uid~=found[2].uid,'two real distinct generated car
 local card=panel:GetChild('card'..found[1].slot);assert(card:GetChild('name').text=='黏滞' and card:GetChild('cost').text=='1')
 tap('card'..found[1].slot,3);tap('playArea',4);drain();assert(s.energy==2 and #s.exhaust==1)
 s.enemies[1].intentIndex=2;host:refresh();tap('enemy1',5);local frail=panel:GetChild('notice').text
-assert(frail:find('使你获得 2 层脆弱',1,true),'upcoming debuff is not an already applied status')
+assert(frail:find('使你获得 2 回合脆弱',1,true),'upcoming debuff is not an already applied status')
 print('LARGE_SPIKE_UI_PASS intent16/detail2/read-only/two-generated-cards/real-exhaust/frail2')

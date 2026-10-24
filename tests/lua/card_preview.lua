@@ -313,13 +313,13 @@ test("player and every enemy show status icons, stacks and full current effects"
     eq(box:GetChild("guard").text, "格挡 0")
     -- Hierarchy: buff section, then debuff section; name + duration, effect, condition.
     eq(box:GetChild("section1").text, "增益") eq(box:GetChild("section2").text, "减益")
-    eq(rows[1].name, "力量 2") eq(rows[1].tag, "本回合") eq(rows[1].text, "攻击每段伤害 +2")
+    eq(rows[1].name, "力量 2") eq(rows[1].tag, "本回合") eq(rows[1].text, "普通攻击每段伤害 +2")
     eq(rows[1].note, "其中 2 层在回合结束时移除")
-    eq(rows[2].name, "易伤 1") eq(rows[2].tag, "剩余 1 回合") eq(rows[2].text, "受到的攻击伤害 +50%")
+    eq(rows[2].name, "易伤 1") eq(rows[2].tag, "剩余 1 回合") eq(rows[2].text, "受到的普通攻击伤害 +50%")
     tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     local expected = {
-        {{"中毒 4", "每回合 -1", "回合开始时失去 4 点生命"}, {"虚弱 2", "剩余 2 回合", "造成的攻击伤害 -25%"}},
-        {{"人工制品 1", "剩余 1 次", "抵挡接下来 1 次减益效果"}, {"力量 -1", "本场战斗", "攻击每段伤害 -1"}},
+        {{"中毒 4", "每回合 -1", "自己的回合开始时失去 4 点生命"}, {"虚弱 2", "剩余 2 回合", "造成的普通攻击伤害 -25%"}},
+        {{"人工制品 1", "剩余 1 次", "抵挡接下来 1 次减益效果"}, {"力量 -1", "本场战斗", "普通攻击每段伤害 -1"}},
         {{"荆棘 3", "本场战斗", "受到攻击时，对攻击者造成 3 点伤害"}},
     }
     for i, lines in ipairs(expected) do

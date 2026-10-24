@@ -13,8 +13,8 @@
     },
     "bash": {
       "name": "破防斩",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层易伤。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层易伤。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合易伤。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合易伤。"
     },
     "cleave": {
       "name": "星陨剑",
@@ -23,8 +23,8 @@
     },
     "clothesline": {
       "name": "压制斩",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱。"
     },
     "iron_wave": {
       "name": "招架还击",
@@ -73,8 +73,8 @@
     },
     "thunderclap": {
       "name": "横扫破防",
-      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 层易伤。",
-      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 层易伤。"
+      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 回合易伤。",
+      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 回合易伤。"
     },
     "warcry": {
       "name": "调整战术",
@@ -83,8 +83,8 @@
     },
     "uppercut": {
       "name": "挑剑破势",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱和 {effects.2.value} 层易伤。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱和 {effects.2.value} 层易伤。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱和 {effects.2.value} 回合易伤。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱和 {effects.2.value} 回合易伤。"
     },
     "inflame": {
       "name": "剑术精进",
@@ -153,8 +153,8 @@
     },
     "shockwave": {
       "name": "震慑敌阵",
-      "textTemplate": "为每个敌人施加 {effects.0.value} 层虚弱和 {effects.1.value} 层易伤。打出后消耗本牌。",
-      "upgradeTextTemplate": "为每个敌人施加 {effects.0.value} 层虚弱和 {effects.1.value} 层易伤。打出后消耗本牌。"
+      "textTemplate": "为每个敌人施加 {effects.0.value} 回合虚弱和 {effects.1.value} 回合易伤。打出后消耗本牌。",
+      "upgradeTextTemplate": "为每个敌人施加 {effects.0.value} 回合虚弱和 {effects.1.value} 回合易伤。打出后消耗本牌。"
     },
     "whirlwind": {
       "name": "岩潮叠嶂",

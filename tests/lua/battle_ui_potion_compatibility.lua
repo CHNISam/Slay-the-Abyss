@@ -53,17 +53,19 @@ test("sparse targeted potion follows fresh target selection without moving slots
     emit("enemy2","down",8); emit("enemy2","click",8)
     assert(u.target==2)
     tap(9,2); d()
+    assert(h.run.potions[2]=="fire_potion")
+    emit("enemy2","down",10); emit("enemy2","click",10); d()
     assert(h.run.potions[2]==nil and b.enemies[1].hp==hp1 and b.enemies[2].hp==hp2-20)
 end)
-test("failed potion transaction consumes gesture but preserves bottle and fresh retry",function()
+test("invalid focus does not submit a potion and fresh enemy confirmation commits once",function()
     local h,u,p,e,t,d,deck,r,emit,tap=fixture({"defend"},{"cultist","jaw_worm"})
     assert(Run.obtainPotion(h.run,"fire_potion")); h:refresh()
-    u.target=99 -- explicit invalid target, real Run.usePotion transaction rejects it
+    u.target=99 -- default focus is never used as the potion's confirmation
     tap(7,2); assert(h.run.potions[2]=="fire_potion" and not u.busy)
+    assert(not Run.usePotion(h.run,2,99))
     emit("potion2","click",7); assert(h.run.potions[2]=="fire_potion")
     emit("enemy2","down",8); emit("enemy2","click",8)
-    local hp=h.run.combat.enemies[2].hp
-    tap(7,2); d(); assert(h.run.combat.enemies[2].hp==hp-20)
+    d(); assert(h.run.potions[2]==nil)
 end)
 test("harmless redraws preserve held and released potion ownership",function()
     local h,u,p,e,t,d,deck,r,emit=fixture()

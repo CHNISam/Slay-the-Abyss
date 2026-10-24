@@ -137,4 +137,13 @@ local slot
 for i, card in ipairs(s.hand) do if card.cardId == "bash" then slot = i end end
 assert(ui:openHelp(ui:cardHelpSpec(slot), stage:GetChild("card" .. slot):GetChild("hit"), true))
 capture("card-keyword", stage)
+-- This potion is an isolated Silent-only fixture, never an Ironclad acquisition.
+ui, stage = setup({"cultist", "jaw_worm"})
+ui.run.potions = {"fire_potion", "poison_potion", "energy_potion"}
+ui:render()
+capture("potion-idle", stage)
+click(stage:GetChild("potion1"))
+capture("potion-aim", stage)
+click(stage:GetChild("potionHelp"):GetChild("potionHelp2"))
+capture("potion-help", stage)
 print(encode(scenes))
