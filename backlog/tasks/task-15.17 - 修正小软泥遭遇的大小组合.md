@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 09:42'
+updated_date: '2026-10-24 10:03'
 due_date: '2026-10-28'
 labels:
   - required
@@ -15,6 +16,7 @@ references:
   - docs/backlog-details/TASK-15.md
   - >-
     https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java
+  - docs/reviews/TASK-15.17-small-slimes.md
 parent_task_id: TASK-15
 priority: high
 type: bug
@@ -40,3 +42,9 @@ ordinal: 85000
 <!-- SECTION:PLAN:BEGIN -->
 先用固定来源和正常seed1第一层入口证明旧两小组合错误，再在既有开战入口选择两种合法组合。统一地图进入与直接开战的随机状态提交，保留失败原子性；不修改medium_slimes、五小魔、地图遭遇分布或原作随机流整体对齐。与PR168最终合入代码接合，独立评审和当前CI通过后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+小软泥两分支与地图进入随机提交已实现；独立原版预期、真实普通和未知房入口、失败重试及其他17遭遇回归已通过。原固定策略的seed3/42由旧胜利变正常战败，已保留全部五局结果；同一原策略seed7可正常完成17层，不以挑出的正控估算胜率。旧实机证据不认证本片。待当前组合CI及PR168前置集成，不算已交付。
+<!-- SECTION:NOTES:END -->

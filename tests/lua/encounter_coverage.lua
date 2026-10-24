@@ -167,15 +167,26 @@ for _, encounter in ipairs(data.enemies.encounters) do
             local run = Run.new(data, 42)
             run.floor = floor -- isolated host-entry fixture, not a completed map route
             assert(Run.startCombat(run, encounter.id))
-            equal(#run.combat.enemies, #encounter.enemies, "encounter size")
-            for i, id in ipairs(encounter.enemies) do
+            -- Seed42's first misc Boolean is true. This independent source
+            -- oracle replaces the obsolete fixed two-S assertion; every other
+            -- encounter keeps its complete existing member/order checks.
+            local expected = encounter.id == "small_slimes" and {"spike_slime_s", "acid_slime_m"} or encounter.enemies
+            equal(#run.combat.enemies, #expected, "encounter size")
+            for i, id in ipairs(expected) do
                 equal(run.combat.enemies[i].definitionId, id, "encounter member")
             end
             for _ = 1, 10 do
                 if run.phase ~= "combat" then break end
                 assert(Run.endTurn(run)) -- no healing, HP edits, or forced victories
             end
-            assert(run.phase == "combat" or run.phase == "defeat", "unexpected no-action outcome")
+            assert(run.phase == "combat" or run.phase == "defeat"
+                or run.phase == "reward" and run.lastResult.allEnemiesEscaped, "unexpected no-action outcome")
+            if run.phase == "reward" then
+                equal(encounter.id, "looter_solo", "only source-backed escape reaches this no-action reward")
+                equal(run.rewards.gold, 0, "all escaped ordinary gold")
+                equal(run.rewards.stolenGold, nil, "escaped stolen gold is not recoverable")
+                equal(#Run.rewardOptions(run), data.rules.rewards.cardChoices, "escape retains card reward")
+            end
             if run.phase == "defeat" then
                 equal(run.hp, 0, "defeat HP")
                 equal(run.lastResult.encounterId, encounter.id, "defeat ownership")

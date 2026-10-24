@@ -433,28 +433,24 @@
       "id": "looter",
       "name": "窃金客",
       "tier": "normal",
-      "hp": 46,
+      "hp": 48,
+      "hpRange": { "min": 44, "max": 48 },
+      "ai": {
+        "kind": "looter",
+        "mugIntent": "looter_1",
+        "lungeIntent": "looter_lunge",
+        "smokeIntent": "looter_2",
+        "escapeIntent": "looter_escape",
+        "stealAmount": 15,
+        "rollRange": 100,
+        "talkChance": 0.6000000238418579,
+        "smokeChance": 0.5
+      },
       "intents": [
-        {
-          "id": "looter_1",
-          "kind": "attack",
-          "effects": [
-            {
-              "op": "damage",
-              "value": 10
-            }
-          ]
-        },
-        {
-          "id": "looter_2",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 6
-            }
-          ]
-        }
+        { "id": "looter_1", "kind": "attack", "effects": [{ "op": "damage", "value": 10 }] },
+        { "id": "looter_lunge", "kind": "attack", "effects": [{ "op": "damage", "value": 12 }] },
+        { "id": "looter_2", "kind": "defend", "effects": [{ "op": "block", "value": 6 }] },
+        { "id": "looter_escape", "kind": "escape", "effects": [] }
       ]
     },
     {
@@ -1013,7 +1009,11 @@
       "tier": "normal",
       "enemies": [
         "acid_slime_s",
-        "spike_slime_s"
+        "spike_slime_m"
+      ],
+      "enemiesOnTrue": [
+        "spike_slime_s",
+        "acid_slime_m"
       ],
       "minFloor": 1,
       "maxFloor": 14

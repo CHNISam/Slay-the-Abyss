@@ -31,6 +31,7 @@ local function snapshot(run,map)
         deck=deck,nextDeckUid=run.nextDeckUid,relics=C.copy(run.relics),potions=potions,
         seed=run.seed,eventRng=C.copy(run.eventRng),miscRng=C.copy(run.miscRng),unknown=C.copy(run.unknown),
         shopRng=C.copy(run.shopRng),potionChanceModifier=run.potionChanceModifier,
+        rewards=C.copy(run.rewards),lastResult=C.copy(run.lastResult),victories=run.victories,
         path=C.copy(map.path),nodeFlow=C.copy(run.nodeFlow),shopRemoveCount=run.shopRemoveCount}
 end
 local cardRank=Policy.scoreCard
@@ -81,6 +82,12 @@ local function runSeed(seed)
         end
         transaction('card_reward',function() return Run.claimCardReward(run,best) end)
         reject('duplicate_card_reward',function() return Run.claimCardReward(run,best) end)
+        if run.phase=='reward' and run.rewards.manualContinue then
+            transaction('stolen_gold_reward',function() return Run.claimStolenGoldReward(run) end)
+            reject('duplicate_stolen_gold_reward',function() return Run.claimStolenGoldReward(run) end)
+            transaction('leave_combat_rewards',function() return Run.leaveCombatRewards(run) end)
+            reject('duplicate_leave_combat_rewards',function() return Run.leaveCombatRewards(run) end)
+        end
         transaction('complete_combat',function() return Nodes.completeCombat(run,map) end)
         reject('duplicate_complete_combat',function() return Nodes.completeCombat(run,map) end)
         return true

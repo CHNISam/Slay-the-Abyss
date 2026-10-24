@@ -2,6 +2,8 @@
 local M = {}
 local Events = require("abyss_events")
 
+function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped end
+
 function M.status(state, actor, id, amount, source, sourceIsMonster)
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
@@ -41,12 +43,12 @@ end
 -- Pure prediction for an already validated application. Artifact's gate occurs
 -- before stackPower, so a blocked application has no prospective stack overflow.
 function M.artifactBlocksPower(actor, id, amount)
-    return actor.hp > 0 and (actor.statuses.artifact or 0) > 0
+    return M.isActive(actor) and (actor.statuses.artifact or 0) > 0
         and (debuffs[id] == true or (signed[id] == true and amount <= 0)) or false
 end
 
 function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
-    if actor.hp <= 0 then return false end -- ApplyPower cancels for a dead target.
+    if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
@@ -58,7 +60,7 @@ end
 
 function M.applyNoDraw(state, actor)
     -- ApplyPowerAction's duplicate NoDraw gate precedes Artifact's generic gate.
-    if actor.hp <= 0 or actor.noDraw then return false end
+    if not M.isActive(actor) or actor.noDraw then return false end
     if blockDebuff(state, actor, "no_draw") then return false end
     actor.noDraw = true
     return true
@@ -94,7 +96,7 @@ end
 function M.addTemporaryStrength(actor, amount, state)
     assert(integer(amount) and amount >= 0, "invalid temporary strength")
     assert(not state or amount > 0, "zero temporary Strength application unsupported")
-    if state and actor.hp <= 0 then return false end
+    if state and not M.isActive(actor) then return false end
     local total = (actor.temporaryStrength or 0) + 0.0 + amount
     -- Positive Strength cannot spend Artifact. If LoseStrength will be blocked,
     -- its old debt is never stacked and must not fail a nonexistent addition.
@@ -133,11 +135,18 @@ end
 -- run inside an area target loop, or survive that action killing the final foe.
 local function battleEnding(state)
     if state.phase == "victory" or state.phase == "defeat" then return true end
-    for _, enemy in ipairs(state.enemies) do if enemy.hp > 0 then return false end end
+    for _, enemy in ipairs(state.enemies) do if M.isActive(enemy) then return false end end
     return true
 end
 
 local function queueDeathPower(state, target, before, reactions)
+    if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
+        and not target.stolenGoldRewarded then
+        local stolen = target.stolenGold or 0
+        local total = (state.stolenGoldReward or 0) + 0.0 + stolen
+        assert(integer(stolen) and stolen >= 0 and integer(total), "stolen gold overflow")
+        state.stolenGoldReward, target.stolenGoldRewarded = total, true
+    end
     local amount = target.statuses.spore_cloud or 0
     if before > 0 and target.hp <= 0 and target ~= state.player and amount > 0 and not battleEnding(state) then
         -- ApplyPower's source is null, independently of Vulnerable's explicit
@@ -187,7 +196,7 @@ end
 -- An area attack collects retaliation until all of its targets are damaged.
 -- A dead attacker may still own a queued Thorns hit; dead victims cannot lose HP.
 function M.retaliate(state, source, target, amount)
-    if target.hp <= 0 then return 0 end
+    if not M.isActive(target) then return 0 end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
     local reactions = {}
@@ -197,7 +206,7 @@ function M.retaliate(state, source, target, amount)
 end
 
 function M.damage(state, source, target, base, fixed, retaliation)
-    if target.hp <= 0 or source.hp <= 0 then return 0 end
+    if not M.isActive(target) or not M.isActive(source) then return 0 end
     local before, reactions = target.hp, retaliation or {}
     local amount = M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
@@ -260,7 +269,7 @@ function M.flushCurlUp(state)
         local target = entry.target
         -- GainBlock/RemovePower each reject a dead owner. A later queued hit
         -- may have killed it after the initial nonlethal trigger.
-        if target.hp > 0 then
+        if M.isActive(target) then
             M.block(state, target, entry.amount, true)
             local amount = target.statuses.curl_up or 0
             target.statuses.curl_up = 0
@@ -271,7 +280,7 @@ function M.flushCurlUp(state)
 end
 
 local function tick(state, actor, phase)
-    if actor.hp <= 0 then return end
+    if not M.isActive(actor) then return end
     local ids = {}
     for id in pairs(actor.statuses) do ids[#ids + 1] = id end
     table.sort(ids) -- deterministic event ordering across Lua runtimes
@@ -299,7 +308,7 @@ local function tick(state, actor, phase)
                 Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
             end
             M.resolveDamageReactions(state, reactions)
-            if actor.hp <= 0 then return end
+            if not M.isActive(actor) then return end
         end
     end
 end
@@ -310,7 +319,7 @@ end
 
 function M.endTurn(state, actor)
     tick(state, actor, "turn_end")
-    if actor.hp <= 0 then return end
+    if not M.isActive(actor) then return end
     -- EntanglePower removes itself only for isPlayer=true, rather than reducing
     -- one stack at the monster round boundary or applying another Power.
     local entangled = actor.statuses.entangled or 0
@@ -329,7 +338,7 @@ function M.endTurn(state, actor)
 end
 
 function M.resetBlock(state, actor)
-    if actor.hp <= 0 then return end
+    if not M.isActive(actor) then return end
     if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
         actor.block = 0
         Events.emit(state, "block_reset", {target = actor.id})
@@ -337,7 +346,7 @@ function M.resetBlock(state, actor)
 end
 
 function M.startTurnEffects(state, actor)
-    if actor.hp > 0 then tick(state, actor, "turn_start") end
+    if M.isActive(actor) then tick(state, actor, "turn_start") end
 end
 
 function M.startTurn(state, actor)

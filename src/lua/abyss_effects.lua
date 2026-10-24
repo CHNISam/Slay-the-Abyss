@@ -66,7 +66,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
     for _, effect in ipairs(effects) do
         -- Defeat stops the action manager, unlike victory's selective clear.
         -- Keep current damage reactions, but never start another queued effect.
-        if state.player.hp <= 0 then break end
+        if state.player.hp <= 0 or source.escaped then break end
         if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
         if cleared and clearedAfterDamage[op] then
@@ -156,7 +156,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 local candidates, member = {}, false
                 for _, ally in ipairs(state.enemies) do
                     if ally == source then member = true
-                    elseif ally.hp > 0 and ally.intents[ally.intentIndex].kind ~= "escape" then
+                    elseif Actors.isActive(ally) and ally.intents[ally.intentIndex].kind ~= "escape" then
                         candidates[#candidates + 1] = ally
                     end
                 end
@@ -174,10 +174,10 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "gainTemporaryStrength" then
             combat.addTemporaryStrength(source, value, state)
         elseif op == "applyStatus" then
-            if target and target.hp > 0 then Actors.applyPower(state, target, effect.status, value, source) end
+            if Actors.isActive(target) then Actors.applyPower(state, target, effect.status, value, source) end
         elseif op == "applyStatusAll" then
             for _, victim in ipairs(targets(state, source)) do
-                if victim.hp > 0 then Actors.applyPower(state, victim, effect.status, value, source) end
+                if Actors.isActive(victim) then Actors.applyPower(state, victim, effect.status, value, source) end
             end
         else error("unsupported effect: " .. tostring(op)) end
         if clearsOnFinalDamage[op] and combat.outcome(state) == "victory" then cleared = true end

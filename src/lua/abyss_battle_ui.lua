@@ -12,7 +12,8 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
     empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
     effect_overflow = "当前状态已达上限", potion_slots_full = "药水槽已满；可放弃这瓶战利品后继续选牌。",
-    potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "持有该遗物时无法获得药水；请放弃战利品。" }
+    potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "持有该遗物时无法获得药水；请放弃战利品。",
+    pending_potion_reward = "请先领取或明确放弃药水，再离开奖励。" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local number = require("abyss_numbers").integer
@@ -39,6 +40,7 @@ local function statusDetail(entry, rules, actor)
     elseif entry.id == "frail" then return "获得的格挡 -" .. number(100 - c.frailPercent) .. "%，持续 " .. n .. " 回合。"
     elseif entry.id == "poison" then return "回合开始时失去 " .. n .. " 点生命，之后每回合少 1 点。"
     elseif entry.id == "regen" then return "回合结束时回复 " .. n .. " 点生命，之后每回合少 1 点。"
+    elseif entry.id == "thievery" then return "每次攻击先窃取最多 " .. n .. " 金币，完全格挡仍会失金；击败后可在战后领取，逃跑则不返还。"
     elseif entry.id == "thorns" then return "受到攻击时，对攻击者造成 " .. n .. " 点伤害。"
     elseif entry.id == "artifact" then return "抵挡接下来 " .. n .. " 次减益效果。"
     elseif entry.id == "entangled" then return "本回合不能打出攻击牌。"
@@ -90,7 +92,8 @@ local function intentBadge(intent)
 end
 local function intentText(state, index, detailed)
     local intent = Combat.intent(state, index)
-    if not intent then return "已击败", "unknown" end
+    if not intent then return state.enemies[index] and state.enemies[index].escaped and "已逃跑" or "已击败", "unknown" end
+    if intent.kind == "escape" then return detailed and "逃离战场，不返还已窃取的金币。" or "逃跑", "unknown" end
     if intent.kind == "charge" then return "蓄能", "unknown" end
     if intent.kind == "sleep" then return "沉睡", "sleep" end
     if intent.kind == "stunned" then return "苏醒中", "unknown" end
@@ -128,6 +131,9 @@ local function intentText(state, index, detailed)
             result[#result + 1] = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆"
         else result[#result + 1] = "未知" end
     end
+    if enemy.ai and enemy.ai.kind == "looter" and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
+        table.insert(result, 1, "先窃取最多 " .. number(enemy.ai.stealAmount) .. " 金币（完全格挡仍会失金）")
+    end
     local badge = intentBadge(intent)
     if not detailed then return intent.kind == "attack" and (compact.attack or "?") or "", intent.kind, badge end
     return #result > 0 and table.concat(result, "；") or "下一步行动未知。", intent.kind, badge
@@ -157,14 +163,32 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- A card click is the final event of one physical pointer sequence. Retain
     -- its original rule identity, not a global permission another Down can reset.
     local cardInputs, pointerObserved = {}, false
+    local function rewardReady(g)
+        local run=self.run
+        if not run or run.phase~='reward' or run.rewards~=g.rewards or run.combat~=g.battle then return false end
+        local rewards,potion=run.rewards,run.rewards.potion
+        local item=rewards.stolenGold
+        if g.manualContinue~=rewards.manualContinue or g.cards~=rewards.cards
+            or #g.cardChoices~=#rewards.cards or g.item~=item
+            or g.goldAmount~=(item and item.amount) or g.goldType~=(item and item.type) then return false end
+        for i,id in ipairs(rewards.cards) do if g.cardChoices[i]~=id then return false end end
+        if g.potion~=potion or g.potionResolved~=(potion and potion.resolved)
+            or g.potionResult~=(potion and potion.result) or g.potionId~=(potion and potion.id)
+            or g.potionUnavailable~=(potion and potion.unavailable) then return false end
+        if rewards.manualContinue then
+            if g.render~=self.rewardRender or g.item~=item or g.claimed~=(item and item.claimed)
+                or g.cardResolved~=rewards.cardResolved then return false end
+        end
+        return true
+    end
     local function cardReady(g)
         if not self.active or self.busy or self.run ~= g.run or self.run.phase ~= g.phase then return false end
         if g.phase == "combat" then
             local instance = g.battle.hand[g.slot]
             return dragReady(g) and instance ~= nil and instance.uid == g.uid
         end
-        return g.phase == "reward" and self.run.rewards == g.rewards
-            and Run.rewardOptions(self.run)[g.slot] == g.uid
+        if g.phase ~= "reward" or not rewardReady(g) then return false end
+        return Run.rewardOptions(self.run)[g.slot] == g.uid
     end
     local function cancelCardInputs()
         for _, input in ipairs(cardInputs) do input.held, input.released = nil, nil end
@@ -190,10 +214,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if g.name == "start" then return not options.embedded and (not run or run.phase == "defeat") end
         if not run then return false end
         if g.name == "endTurn" then return dragReady(g) end
-        if g.name == "skip" then return run.phase == "reward" and run.rewards == g.rewards end
-        if g.name == "claimPotion" or g.name == "skipPotion" then
-            return run.phase == "reward" and run.rewards == g.rewards and run.rewards.potion
-                and not run.rewards.potion.resolved
+        if run.phase == "reward" then
+            if not rewardReady(g) then return false end
+            if g.name == "claimPotion" or g.name == "skipPotion" then
+                return run.rewards.potion and not run.rewards.potion.resolved
+            end
+            if run.rewards.manualContinue then
+                if g.name == "stolenGold" then return not run.rewards.stolenGold.claimed end
+                if g.name == "continue" then return true end
+            end
+            if g.name == "skip" then return not run.rewards.cardResolved end
         end
         return g.name == "continue" and not options.embedded and run.phase == "map"
     end
@@ -204,7 +234,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- the actor object, battle and turn, never a reusable numeric slot alone.
     local enemyInputs, enemyPointerObserved = {}, false
     local function enemyReady(g)
-        return not self.info and dragReady(g) and g.actor.hp > 0 and g.battle.enemies[g.slot] == g.actor
+        return not self.info and dragReady(g) and Actors.isActive(g.actor) and g.battle.enemies[g.slot] == g.actor
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
@@ -246,7 +276,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 if d < distance then nearest, distance = i, d end
             end
         end
-        local lost = g.lock and not (g.lock.hp > 0 and battle.enemies[g.lockIndex] == g.lock)
+        local lost = g.lock and not (Actors.isActive(g.lock) and battle.enemies[g.lockIndex] == g.lock)
         local target = column or not lost and nearest or nil
         return target ~= nil, target, true
     end
@@ -363,7 +393,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function renderInfo(battle)
         local panel, info = child("statusInfo"), self.info
         local actor = info and battle and (info.index == 0 and battle.player or battle.enemies[info.index])
-        if not actor or actor.id ~= info.id or actor.hp <= 0 then
+        if not actor or actor.id ~= info.id or not Actors.isActive(actor) then
             self.info = nil
             panel:SetVisible(false)
             return
@@ -477,7 +507,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local run = self.run
         if not self.active or self.busy or self.gesture or not run or run.phase ~= "combat" then return false end
         local actor = index == 0 and run.combat.player or run.combat.enemies[index]
-        if not actor or actor.hp <= 0 then return false end
+        if not Actors.isActive(actor) then return false end
         if self.info and self.info.index == index and self.info.id == actor.id then closeInfo()
         else self.info = {index = index, id = actor.id, battle = run.combat} end
         self:render()
@@ -553,9 +583,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if slot and not (self.active and not self.busy and run and run.phase == "reward" and Run.rewardOptions(run)[slot]) then slot = nil end
         if self.hover == slot then return end
         self.hover = slot
-        self:render()
+        self:render(true)
     end
-    function self:render()
+    function self:render(presentationOnly)
+        -- Reward entrance/hover animation cannot revoke a finger's live Down.
+        -- Explicit redraws do; authoritative run/reward/item checks always apply.
+        if not presentationOnly then self.rewardRender = (self.rewardRender or 0) + 1 end
         local run = self.run
         if self.gesture and not cardReady(self.gesture) then
             self.gesture, self.selected, self.suppressClick = nil, nil, true
@@ -615,8 +648,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         show("start", not self.busy and not options.embedded and (not run or run.phase == "defeat"))
         button("start", self.active, true, run and "重新启程" or "启程")
         show("endTurn", fighting)
-        show("skip", reward)
+        local manual = reward and run.rewards.manualContinue
+        local stolen = manual and run.rewards.stolenGold
         local potionReward=reward and run.rewards.potion
+        local rewardStep=manual and potionReward and (R.skip[3]+L.button.primary[1])/2+S.m or R.step
+        local potionStep=rewardStep+(L.button.primary[1]+L.button.secondary[1])/2+S.m
+        show("skip", reward and not run.rewards.cardResolved)
+        show("stolenGold", stolen ~= nil and stolen ~= false)
+        show("continue", manual or not options.embedded and run and run.phase == "map")
+        child("skip"):SetAnchoredPosition(manual and not potionReward and -R.step or R.skip[1], R.skip[2])
+        child("stolenGold"):SetAnchoredPosition(manual and potionReward and -rewardStep or R.skip[1], R.skip[2])
+        child("continue"):SetAnchoredPosition(manual and rewardStep or 0, manual and R.skip[2] or -S.xxl * 3)
+        child("claimPotion"):SetAnchoredPosition(manual and -potionStep or L.battleRewards.claimPotion[1], L.battleRewards.claimPotion[2])
+        child("skipPotion"):SetAnchoredPosition(manual and potionStep or L.battleRewards.skipPotion[1], L.battleRewards.skipPotion[2])
         show("potionReward", potionReward~=nil and potionReward~=false)
         local pendingPotion=potionReward and not potionReward.resolved
         show("claimPotion", pendingPotion==true)
@@ -629,7 +673,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             for _,definition in ipairs(data.potions.potions) do if definition.id==name then name=definition.name;break end end
             local detail=potionReward.unavailable and (potionReward.rarity.." 药水尚未实装") or (name or "药水")
             if potionReward.resolved then detail=detail..(potionReward.result=='claimed' and " · 已领取" or " · 已放弃")
-            else detail=detail.." · 选牌时自动领取；满槽请先放弃" end
+            else detail=detail..(manual and " · 单独领取或放弃药水后再离开" or " · 选牌时自动领取；满槽请先放弃") end
             label("potionReward",detail)
         end
         show("rewardStage", reward)
@@ -638,12 +682,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             "draw", "drawLabel", "discardIcon", "discardBadgeRing", "discardBadge", "discard", "discardLabel"}) do
             show(name, not reward)
         end
-        show("continue", not options.embedded and run and run.phase == "map")
         show("result", not fighting and not reward) show("resultPlate", not fighting and not reward)
         show("hero", fighting)
         local player = battle and battle.player
         label("player", number(player and player.hp or run and run.hp or data.rules.player.maxHp) .. "/" .. number(run and run.maxHp or data.rules.player.maxHp))
-        label("piles", number(run and run.gold or 0))
+        label("piles", number(player and player.gold or run and run.gold or 0))
         -- The top bar names the scene, never the game: floor and fight kind.
         local flow = run and run.nodeFlow
         local fightKind = flow and ({ elite = "精英战斗", boss = "首领战斗" })[flow.type] or "战斗"
@@ -661,7 +704,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if fighting then unit(child("hero"), player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
         if not run then label("result", "战斗演练\n点击启程，试用旅行者的初始牌组")
         elseif reward then
-            child("rewardStage"):GetChild("subtitle").text = "战斗胜利 · 金币 ＋" .. number(run.rewards.gold) .. " · 点击卡牌加入牌组，或跳过"
+            child("rewardStage"):GetChild("title").text = run.rewards.cardResolved and "战斗奖励" or "选择一张卡牌"
+            child("rewardStage"):GetChild("subtitle").text = (run.lastResult and run.lastResult.allEnemiesEscaped and "敌人已逃跑" or "战斗胜利")
+                .. " · 金币 ＋" .. number(run.rewards.gold) .. " · "
+                .. (run.rewards.cardResolved and "卡牌奖励已处理" or "点击卡牌加入牌组，或跳过")
         elseif run.phase == "defeat" then label("result", "旅途暂歇\n重新启程，重建牌组")
         elseif run.phase == "map" then label("result", "奖励已处理 · 牌组 " .. #run.deck .. " 张\n可再次挑战，检查新增卡牌") end
         ink(child("result"), run and run.phase == "defeat" and C.danger or C.goldBright)
@@ -675,7 +721,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for i = 1, 5 do
             local box = child("enemy" .. i)
             local enemy = fighting and battle.enemies[i]
-            box:SetVisible(enemy ~= nil and enemy ~= false and (enemy.hp > 0 or self.busy and not self.feedback.deaths[enemy.id]))
+            box:SetVisible(enemy ~= nil and enemy ~= false and (Actors.isActive(enemy) or self.busy and (self.feedback.escaping[enemy.id]
+                or not enemy.escaped and not self.feedback.deaths[enemy.id])))
             if enemy then
                 local x, width, portrait = enemySlot(count, i, enemy)
                 box:SetAnchoredPosition(x, L.enemyRow.y)
@@ -684,20 +731,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     local valid, hovered = dragTarget(self.gesture)
                     targetable = valid and hovered == i
                 end
-                local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and enemy.hp > 0
+                local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and Actors.isActive(enemy)
                 unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
                 -- An intent event is the historical action's starting face.
                 -- Later frames already include its effects: do not apply them
                 -- again. Unacted enemies still preview the current state.
                 local shown = playbackIntents and playbackIntents[enemy.id]
                 local value, kind, badge
-                if shown and enemy.hp > 0 then value, kind, badge = shown[1], shown[2], shown[3]
+                if shown and Actors.isActive(enemy) then value, kind, badge = shown[1], shown[2], shown[3]
                 else value, kind, badge = intentText(battle, i) end
                 local event = enemyPlayback and self.feedback.current
                 if event and event.kind == "intent" and event.detail.enemy == enemy.id then
                     playbackIntents = playbackIntents or {}
                     playbackIntents[enemy.id] = {value, kind, badge}
-                elseif enemy.hp <= 0 and playbackIntents then playbackIntents[enemy.id] = nil end
+                elseif not Actors.isActive(enemy) and playbackIntents then playbackIntents[enemy.id] = nil end
                 box:GetChild("intent").text = value
                 box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
                 box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
@@ -722,7 +769,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if valid and not target then
                 local only, alive = nil, 0
                 for i, enemy in ipairs(battle.enemies) do
-                    if enemy.hp > 0 then only, alive = i, alive + 1 end
+                    if Actors.isActive(enemy) then only, alive = i, alive + 1 end
                 end
                 if alive == 1 then target = only end
             end
@@ -831,8 +878,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             or self.info.battle ~= run.combat) then self.info = nil end
         renderInfo(battle)
         button("endTurn", active == true, not playable)
-        button("skip", self.active and reward == true and not self.busy, false)
-        button("continue", self.active and run and run.phase == "map" and not self.busy, true)
+        button("skip", self.active and reward == true and not run.rewards.cardResolved and not self.busy, false, manual and "跳过卡牌" or "跳过")
+        button("stolenGold", self.active and stolen and not stolen.claimed and not self.busy, true,
+            stolen and (stolen.claimed and "已取回失金 " or "取回失金 ") .. number(stolen.amount) or "取回失金")
+        button("continue", self.active and run and (manual or run.phase == "map") and not self.busy, true,
+            manual and ((not run.rewards.cardResolved or not stolen.claimed) and "离开并放弃未领奖励" or "前往地图") or "再战一场")
         -- Keep physical slots fixed for the encounter: consuming slot one must not
         -- move slot two underneath a queued second click on the same button.
         if fighting and not self.busy then
@@ -853,8 +903,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function refresh(changed)
         if self.run and self.run.phase == "combat" then
             local battle, found = self.run.combat, false
-            if not battle.enemies[self.target] or battle.enemies[self.target].hp <= 0 then
-                for i, enemy in ipairs(battle.enemies) do if enemy.hp > 0 then self.target = i break end end
+            if not battle.enemies[self.target] or not Actors.isActive(battle.enemies[self.target]) then
+                for i, enemy in ipairs(battle.enemies) do if Actors.isActive(enemy) then self.target = i break end end
             end
             for _, card in ipairs(battle.hand) do if card.uid == self.selected then found = true break end end
             if not found then self.selected = nil end
@@ -940,7 +990,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     end
                 end
             end
-            if moving then self:render() end
+            if moving then self:render(true) end
         end
     end
     function self:setActive(active)
@@ -972,7 +1022,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not self.active or not run or self.busy or self.gesture or self.suppressClick then return end
         if run.phase == "reward" then
             local ok,reason = Run.claimCardReward(run, index)
-            notice(ok and "卡牌已加入牌组，其余可领取奖励已收下。" or reasons[reason] or "当前无法领取奖励。")
+            notice(ok and (run.phase=='reward' and "卡牌已加入牌组；其他奖励请单独处理。" or "卡牌已加入牌组，其余可领取奖励已收下。") or reasons[reason] or "当前无法领取奖励。")
             refresh(ok) return
         elseif run.phase == "combat" then
             local instance = run.combat.hand[index]
@@ -1134,7 +1184,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local battle = run and run.combat
                 local g = {name = name, run = run, phase = run and run.phase,
                     battle = battle, turn = battle and battle.turn,
-                    rewards = run and run.rewards, touch = event and event.touchId}
+                    rewards = run and run.rewards, touch = event and event.touchId,
+                    render = self.rewardRender, cardResolved = run and run.rewards and run.rewards.cardResolved,
+                    item = run and run.rewards and run.rewards.stolenGold,
+                    goldAmount = run and run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.amount,
+                    goldType = run and run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.type,
+                    manualContinue = run and run.rewards and run.rewards.manualContinue,
+                    cards = run and run.rewards and run.rewards.cards,
+                    cardChoices = run and run.rewards and Combat.copy(run.rewards.cards),
+                    potion = run and run.rewards and run.rewards.potion,
+                    potionResolved = run and run.rewards and run.rewards.potion and run.rewards.potion.resolved,
+                    potionResult = run and run.rewards and run.rewards.potion and run.rewards.potion.result,
+                    potionId = run and run.rewards and run.rewards.potion and run.rewards.potion.id,
+                    potionUnavailable = run and run.rewards and run.rewards.potion and run.rewards.potion.unavailable,
+                    claimed = run and run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.claimed}
                 if actionReady(g) then input.held = g end
             end)
             local function releaseAction(event, ended)
@@ -1155,7 +1218,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     bind("skip", function()
         if not self.active or not self.run or self.busy then return end
         local ok,reason=Run.claimCardReward(self.run,0)
-        notice(ok and "已跳过卡牌，其余可领取奖励已收下。" or reasons[reason] or "当前无法处理奖励。")
+        notice(ok and (self.run.phase=='reward' and "已跳过卡牌；其他奖励请单独处理。" or "已跳过卡牌，其余可领取奖励已收下。") or reasons[reason] or "当前无法处理奖励。")
         refresh(ok)
     end)
     for _,name in ipairs({'claimPotion','skipPotion'}) do
@@ -1165,7 +1228,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             return self:skipPotionReward()
         end)
     end
-    bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)
+    bind("stolenGold", function()
+        if self.active and self.run and not self.busy and Run.claimStolenGoldReward(self.run) then notice("已取回失金。") refresh(true) end
+    end)
+    bind("continue", function()
+        if not self.active or self.busy or not self.run then return end
+        if self.run.phase == "reward" then
+            local ok,reason=Run.leaveCombatRewards(self.run)
+            if not ok then notice(reasons[reason] or "当前无法离开奖励。") end
+            refresh(ok)
+        elseif not options.embedded and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end
+    end)
     for i = 1, 3 do
         local slot, control, input = i, child("potion" .. i), {}
         potionInputs[i] = input
@@ -1222,7 +1295,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local uid = instance and instance.uid or run.phase == "reward" and Run.rewardOptions(run)[slot]
                 if not uid then return end
                 local g = {uid=uid,slot=slot,run=run,battle=battle,turn=battle and battle.turn,
-                    phase=run.phase,rewards=run.rewards,touch=event and event.touchId,input=input}
+                    phase=run.phase,rewards=run.rewards,touch=event and event.touchId,input=input,
+                    render=self.rewardRender, cardResolved=run.rewards and run.rewards.cardResolved,
+                    item=run.rewards and run.rewards.stolenGold,
+                    goldAmount=run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.amount,
+                    goldType=run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.type,
+                    manualContinue=run.rewards and run.rewards.manualContinue,
+                    cards=run.rewards and run.rewards.cards,
+                    cardChoices=run.rewards and Combat.copy(run.rewards.cards),
+                    potion=run.rewards and run.rewards.potion,
+                    potionResolved=run.rewards and run.rewards.potion and run.rewards.potion.resolved,
+                    potionResult=run.rewards and run.rewards.potion and run.rewards.potion.result,
+                    potionId=run.rewards and run.rewards.potion and run.rewards.potion.id,
+                    potionUnavailable=run.rewards and run.rewards.potion and run.rewards.potion.unavailable,
+                    claimed=run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.claimed}
                 input.held = g
                 self:queueHelp(self:cardHelpSpec(slot),hit,true,event and event.touchId,g)
                 local x,y = point(event)
@@ -1249,7 +1335,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local target, control, input = i, child("enemy" .. i):GetChild("hit"), {}
         enemyInputs[i] = input
         local function chooseEnemy()
-        if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
+        if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and Actors.isActive(self.run.combat.enemies[target]) then
             self.target = target
             local selected
             for _, instance in ipairs(self.run.combat.hand) do

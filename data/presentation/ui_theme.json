@@ -126,6 +126,7 @@
     "shake": 0.15,
     "shakeAmplitude": 6,
     "enemyActionGap": 0.45,
+    "enemyEscape": 3,
     "hitStop": 0.05,
     "hitStopHeavy": 0.1,
     "heavyHitDamage": 12,
@@ -215,6 +216,7 @@
       "boss": 102033
     },
     "status": {
+      "thievery": 105077,
       "curl_up": 103066,
       "spore_cloud": 103059,
       "entangled": 103053,

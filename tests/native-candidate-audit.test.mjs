@@ -126,3 +126,48 @@ test('source SHA is mandatory, complete and hexadecimal; unrelated label is neve
   assert.equal(requireSourceSha(fixture.provenance.sourceCommit), fixture.provenance.sourceCommit);
   for (const sha of [undefined, '', 'cf6969e', 'HEAD', 'x'.repeat(40), '--help']) assert.throws(() => requireSourceSha(sha));
 });
+
+test('native image and text alpha use exact ARGB byte encoding, including opaque defaults', () => {
+  for (const opacity of [0, 0.001, 0.16, 0.32, 0.45, 0.5, 0.55, 0.85, 0.96, 0.999, 1]) {
+    const decoded = Math.round(opacity * 255) / 255;
+    assert.deepEqual(audit(input => {
+      input.expected.ui.controls[0].opacity = opacity;
+      input.actual.ui.interface.controls[0].opacity = decoded;
+      const source = firstText(input.expected.ui.controls).text;
+      const actual = firstText(input.actual.ui.interface.controls).text;
+      source.background = actual.background = '#000000';
+      source.outlineColour = actual.outlineColour = '#000000';
+      for (const field of ['opacity', 'backgroundOpacity', 'outlineOpacity']) {
+        source[field] = opacity; actual[field] = decoded;
+      }
+      if (decoded === 1) {
+        delete input.actual.ui.interface.controls[0].opacity;
+        delete actual.opacity;
+      }
+    }).issues, [], `alpha ${opacity}`);
+  }
+});
+
+test('alpha encoding cannot hide wrong bytes, invalid readback or unrelated float changes', () => {
+  for (const change of [
+    input => { input.expected.ui.controls[0].opacity = 0.5; input.actual.ui.interface.controls[0].opacity = 127 / 255; },
+    input => { input.expected.ui.controls[0].opacity = 0.5; input.actual.ui.interface.controls[0].opacity = 0.5; },
+    input => { input.expected.ui.controls[0].opacity = 1; input.actual.ui.interface.controls[0].opacity = 0.999; },
+    ...[-0.1, 1.1, NaN, Infinity].map(value => input => { input.expected.ui.controls[0].opacity = 0.5; input.actual.ui.interface.controls[0].opacity = value; }),
+    ...['opacity', 'backgroundOpacity', 'outlineOpacity'].map(field => input => {
+      firstText(input.expected.ui.controls).text.background = firstText(input.actual.ui.interface.controls).text.background = '#000000';
+      firstText(input.expected.ui.controls).text.outlineColour = firstText(input.actual.ui.interface.controls).text.outlineColour = '#000000';
+      firstText(input.expected.ui.controls).text[field] = 0.5;
+      firstText(input.actual.ui.interface.controls).text[field] = 127 / 255;
+    }),
+    input => { firstText(input.expected.ui.controls).text.fontSize = 0.5; firstText(input.actual.ui.interface.controls).text.fontSize = 128 / 255; },
+    input => {
+      input.expected.ui.controls[0].unknown = { opacity: 0.5 };
+      input.actual.ui.interface.controls[0].unknown = { opacity: 128 / 255 };
+    },
+    input => {
+      input.expected.ui.script = { name: 'abyss_ui', values: { opacity: 0.5 } };
+      input.actual.ui.interface.scripts = [{ name: 'abyss_ui', values: { opacity: 128 / 255 } }];
+    },
+  ]) assert.ok(audit(change).issues.length);
+});
