@@ -92,15 +92,15 @@ test("single-target damage follows Strength and Weak, and each target's own Vuln
     Combat.addStatus(s.player, "strength", 4) Combat.addStatus(s.player, "weak", 1)
     Combat.addStatus(s.enemies[2], "vulnerable", 2)
     -- (6+4)*0.75 = 7.5 -> 7; against Vulnerable 7.5*1.5 = 11.25 -> 11.
-    local spread = Combat.cardPreview(s, s.hand[1])[1]
-    eq(spread.low, 7) eq(spread.high, 11)
+    local unaimed = Combat.cardPreview(s, s.hand[1])[1]
+    eq(unaimed.low, 7) eq(unaimed.high, 7)
     for target = 1, 2 do
         local aimed = Combat.cardPreview(s, s.hand[1], target)[1]
         local lost = resolve(s, target)
         eq(aimed.low, aimed.high) eq(aimed.low, lost[target], "target " .. target)
         eq(lost[3 - target], 0)
     end
-    -- A dead aim falls back to the living range.
+    -- A dead aim returns to player-only modifiers, never another enemy's powers.
     s.enemies[2].hp = 0
     local alive = Combat.cardPreview(s, s.hand[1], 2)[1]
     eq(alive.low, 7) eq(alive.high, 7)
@@ -110,8 +110,11 @@ test("multi-hit cards show the per-hit value and the core lands exactly that man
     for _, upgraded in ipairs({false, true}) do
         local s = battle({{cardId="twin_strike", upgraded=upgraded}}, {"jaw_worm"})
         Combat.addStatus(s.player, "strength", 2) Combat.addStatus(s.enemies[1], "vulnerable", 1)
-        local hit = Combat.cardPreview(s, s.hand[1])[1]
+        local unaimed = Combat.cardPreview(s, s.hand[1])[1]
         local definition = Combat.cardDefinition(s, s.hand[1])
+        eq(unaimed.low, definition.effects[1].value + 2)
+        eq(unaimed.high, unaimed.low)
+        local hit = Combat.cardPreview(s, s.hand[1], 1)[1]
         eq(hit.low, math.floor((definition.effects[1].value + 2) * 1.5))
         eq(resolve(s, 1)[1], hit.low * definition.effects[1].times, "total of every hit")
     end
@@ -126,8 +129,8 @@ test("area attacks preview every living enemy and match the core's per-enemy dam
         eq(preview.op, "damageAll")
         local lost = resolve(s, 1)
         eq(preview.low, lost[1], id .. " plain") eq(preview.low, lost[3], id .. " plain")
-        eq(preview.high, lost[2], id .. " vulnerable")
-        assert(preview.high > preview.low)
+        eq(preview.high, preview.low, id .. " displays the first monster slot, not a range")
+        eq(preview.targets[1], lost[1]) eq(preview.targets[2], lost[2]) eq(preview.targets[3], lost[3])
         s.enemies[2].hp = 0
         local rest = Combat.cardPreview(s, s.hand[1])[1]
         eq(rest.low, rest.high, id .. " dead enemies excluded")
@@ -188,14 +191,14 @@ test("hand labels update live for every modifier and show the aimed target while
     Combat.addStatus(s.enemies[2], "vulnerable", 1)
     s.player.block = 4
     ui:render()
-    eq(label(panel, slot.strike), "对目标造成 9~13 点伤害。")
-    eq(label(panel, slot.cleave), "对每个敌人造成 11~16 点伤害。")
-    eq(label(panel, slot.twin_strike), "对目标连续攻击 2 次，每次造成 8~12 点伤害。")
+    eq(label(panel, slot.strike), "对目标造成 9 点伤害。")
+    eq(label(panel, slot.cleave), "对每个敌人造成 11 点伤害。")
+    eq(label(panel, slot.twin_strike), "对目标连续攻击 2 次，每次造成 8 点伤害。")
     eq(label(panel, slot.defend), "为自己增加 7 点格挡。")
-    eq(label(panel, slot.body_slam), "对目标造成与自己当前格挡等量的伤害。（当前 7~10 点）")
+    eq(label(panel, slot.body_slam), "对目标造成与自己当前格挡等量的伤害。（当前 7 点）")
     Combat.addStatus(s.player, "weak", 1) Combat.addStatus(s.player, "frail", 1)
     ui:render()
-    eq(label(panel, slot.strike), "对目标造成 6~10 点伤害。")
+    eq(label(panel, slot.strike), "对目标造成 6 点伤害。")
     eq(label(panel, slot.defend), "为自己增加 5 点格挡。")
     -- Aiming at each column shows that target's exact number; releasing deals it.
     local card = panel:GetChild("card" .. slot.strike)
@@ -205,12 +208,29 @@ test("hand labels update live for every modifier and show the aimed target while
     end
     aim(1) eq(label(panel, slot.strike), "对目标造成 6 点伤害。")
     aim(2) eq(label(panel, slot.strike), "对目标造成 10 点伤害。")
-    -- Other hand cards keep their untargeted range while one card is aimed.
-    eq(label(panel, slot.twin_strike), "对目标连续攻击 2 次，每次造成 6~9 点伤害。")
+    -- Other hand cards retain player-only modifiers while one card is aimed.
+    eq(label(panel, slot.twin_strike), "对目标连续攻击 2 次，每次造成 6 点伤害。")
     local hp = s.enemies[2].hp
     event("card" .. slot.strike, "up", L.enemyRow.xTo, L.enemyRow.y)
     drain(ui)
     eq(hp - s.enemies[2].hp, 10, "released damage equals the aimed label")
+end)
+
+test("the reported Weak versus Vulnerable scene shows 4 in hand and 6 only while aimed",function()
+    local ui,panel,event=setup({"strike","defend"},{"jaw_worm","cultist"},true)
+    local s=ui.run.combat
+    Combat.addStatus(s.player,"weak",1)
+    Combat.addStatus(s.enemies[2],"vulnerable",1)
+    local slot
+    for i,card in ipairs(s.hand) do if card.cardId=="strike" then slot=i end end
+    ui:render();eq(label(panel,slot),"对目标造成 4 点伤害。")
+    local card=panel:GetChild("card"..slot)
+    event("card"..slot,"down",card.x,card.y)
+    event("card"..slot,"drag",L.enemyRow.xTo,L.enemyRow.y)
+    eq(label(panel,slot),"对目标造成 6 点伤害。")
+    event("card"..slot,"endDrag",card.x,L.cardDrag.cancelY-20)
+    ui:render();eq(label(panel,slot),"对目标造成 4 点伤害。")
+    assert(s.energy==3 and #s.hand==2)
 end)
 
 test("rewards keep printed numbers; only combat hands are live", function()

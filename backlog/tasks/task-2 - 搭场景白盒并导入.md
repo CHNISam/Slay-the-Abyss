@@ -2,9 +2,10 @@
 id: TASK-2
 title: 确认进场、镜头和复活正常
 status: In Progress
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 03:07'
+updated_date: '2026-10-24 03:48'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -28,3 +29,9 @@ ordinal: 2000
 - [ ] #2 单人进入时出现在正确位置；镜头固定；角色倒下后能在复活点恢复。
 - [ ] #3 玩家与敌人互相敌对，己方不会攻击己方物件；留存这次试玩的截图和记录。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-24本轮测试：安全副本已导入1839；继续核对安全出生、固定镜头和真实复活，仅写测试副本。
+<!-- SECTION:PLAN:END -->
