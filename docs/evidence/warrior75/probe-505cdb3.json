@@ -1,0 +1,485 @@
+{
+  "sourceCommit": "505cdb35f59bfd44f4497b61a543c30653ad1512",
+  "probeBuildCommit": "824a5da (documentation-only after runtime505)",
+  "kind": "explicit native fixtures; not a normal run or natural acquisition",
+  "candidateSha256": "9320316907162ca26f03be42d66ee71d96218e6b65037cf5ddb8f382ade49886",
+  "baseCandidateSha256": "779a6e933fb28d66e349ea3e9d487fe7905e9b5c8c847ee8ad577ff22b2effbd",
+  "runId": "6f322fac-a096-4fcc-8911-19c58dd37baa",
+  "officialSave": "1073741856",
+  "clientScriptLogRequested": true,
+  "sourcePreflight": "official-client-probe-505-before-play.json:62/62 matched before play",
+  "printCount": 244,
+  "expectations": {
+    "passed": true,
+    "met": 7,
+    "of": 7,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CORE all six fixture suites passed\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI searing_blow+3\"",
+        "met": true,
+        "t": 168
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI exhaust choice passed\"",
+        "met": true,
+        "t": 456
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "cards": [
+    {
+      "id": "strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "defend",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "bash",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "anger",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "armaments",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "body_slam",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "clash",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "cleave",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "clothesline",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "flex",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "havoc",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "headbutt",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "heavy_blade",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "iron_wave",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "perfected_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "pommel_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "shrug_it_off",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "sword_boomerang",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "thunderclap",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "true_grit",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "twin_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "warcry",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "wild_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "battle_trance",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "blood_for_blood",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "bloodletting",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "burning_pact",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "carnage",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "combust",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "dark_embrace",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "disarm",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "dropkick",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "dual_wield",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "entrench",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "evolve",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "feel_no_pain",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "fire_breathing",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "flame_barrier",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "ghostly_armor",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "hemokinesis",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "infernal_blade",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "inflame",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "intimidate",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "metallicize",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "power_through",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "pummel",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "rage",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "rampage",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "reckless_charge",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "rupture",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "searing_blow",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "second_wind",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "seeing_red",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "sentinel",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "sever_soul",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "shockwave",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "spot_weakness",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "uppercut",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "whirlwind",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "barricade",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "berserk",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "bludgeon",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "brutality",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "corruption",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "demon_form",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "double_tap",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "exhume",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "feed",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "fiend_fire",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "immolate",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "impervious",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "juggernaut",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "limit_break",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "offering",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "reaper",
+      "base": true,
+      "upgraded": true
+    }
+  ],
+  "nativeCoreSuites": [
+    "ABYSS_W75_NATIVE_CORE pass warrior75",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_edges",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_shuffle",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_acquisition",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_card_text",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_courier"
+  ],
+  "ui": {
+    "repeatedSearingBlow": "actual preview21 ->27 and permanent+3 committed",
+    "fullRewardNames": "Perfected Strike / Wild Strike / Pommel Strike both lines visible",
+    "exhaustChoice": "actual cursorArea click selected Sentinel+; energy6 block8 hand5 exhaust2; UID102 before101",
+    "choiceCosts": "actual modal Sentinel+/Defend cost0 under Corruption"
+  },
+  "strictAcceptance": "pending: explicit native core fixtures and targeted UI only; natural per-card gameplay/full UI gate remain",
+  "files": [
+    {
+      "path": "screens/505cdb3-084-probe505-open-cards-1.png",
+      "sha256": "3485cdc071ffed466ae702b9c478b8708366005805c3b473bc9acc6133ab8e16",
+      "bytes": 179276
+    },
+    {
+      "path": "screens/505cdb3-087-probe505-forge-1.png",
+      "sha256": "226a76164b12185c8abc966ede41794597da59206eb99cfbd50d72c16d6d6992",
+      "bytes": 114391
+    },
+    {
+      "path": "screens/505cdb3-088-probe505-searing-preview-1.png",
+      "sha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01",
+      "bytes": 149830
+    },
+    {
+      "path": "screens/505cdb3-093-probe505-playpact-1.png",
+      "sha256": "99ba165442342bbf513c3452f99d7420091566537b6f171a24683cd47f156561",
+      "bytes": 165267
+    },
+    {
+      "path": "screens/505cdb3-094-probe505-sentinel-1.png",
+      "sha256": "3ab4400a2d2ab13f47904f42265da8b26f09a0183a568b9e864f4c297dc076a3",
+      "bytes": 261796
+    },
+    {
+      "path": "probe-505cdb3-status.json.gz",
+      "sha256": "83132fba8513d2af5044b09b8b4f9efc2b2e3e7a9dab1cbd623749f0d132288d",
+      "bytes": 10915,
+      "originalSha256": "84ad79accff7e4e14de8d3ccdba448493782b2a30e114298fd00898a1933fd68",
+      "originalBytes": 87890
+    },
+    {
+      "path": "probe-505cdb3-log.gia.gz",
+      "sha256": "535269deeb1214bee0892e440c53619f35e63edccef9dd6578f29341ac0b8316",
+      "bytes": 5305,
+      "originalSha256": "47f102815278bdfdef5af45a6a8ecfbf4871202e9d3fc17b4a90a5aab2b36334",
+      "originalBytes": 43370
+    }
+  ]
+}

@@ -30,7 +30,8 @@ for _, card in ipairs(data.cards.cards) do
 end
 assert(rareCount >= data.rules.rewards.cardChoices, 'production supported rare pool must fill every choice')
 -- Keep deterministic replay batches bounded under the unchanged per-file budget.
--- Across both entry points every seed from 1 through 128 is replayed twice.
+-- Across eight entry points every seed from 1 through 128 is replayed twice.
+-- Each constructs real independent runs; no state, draws or assertions are skipped.
 local function deterministicSeeds(first, last)
     for seed = first, last do
         local a, b = bossWin(seed), bossWin(seed)
