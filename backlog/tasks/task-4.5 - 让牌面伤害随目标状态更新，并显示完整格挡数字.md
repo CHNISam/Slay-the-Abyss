@@ -5,11 +5,13 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-24 13:06'
+updated_date: '2026-10-24 13:30'
 due_date: '2026-10-24'
 labels: []
 milestone: m-5
 dependencies: []
+references:
+  - docs/reviews/USER-PLAYTEST-20261024.md
 parent_task_id: TASK-4
 priority: high
 type: bug
@@ -19,7 +21,7 @@ ordinal: 86000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-用户实机指出：敌人已有易伤时手牌仍显示玩家侧伤害，需要心算；格挡10只显示1。修复这两处战斗信息显示，不改变规则数值。
+用户实机发现格挡10只显示1，需要完整显示多位数字。伤害预览按核实后的原版语义验收：普通手牌包含玩家修正，瞄准敌人时加入目标易伤，取消或状态移除后恢复。具体证据和相邻排查见docs/reviews/USER-PLAYTEST-20261024.md。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
