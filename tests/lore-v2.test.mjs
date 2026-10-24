@@ -23,9 +23,9 @@ test('shipped narrative preserves the user packet verbatim and event paragraphs 
   assert.ok(bottom(event.body) >= event.options.rows[0] + event.options.size[1] / 2);
   assert.ok(event.options.rows.at(-1) - event.options.size[1] / 2 >= top(nativeTheme.layout.nativeNode.confirm));
   const menu = nativeTheme.layout.nativeMenu;
-  assert.ok(bottom(menu.title) >= top(menu.tagline));
-  assert.ok(bottom(menu.tagline) >= top(menu.summary));
-  assert.ok(bottom(menu.summary) >= top(menu.start));
+  assert.ok(bottom(menu.title) >= top(menu.summary));
+  assert.ok(bottom(menu.summary) >= top(menu.tagline));
+  assert.ok(bottom(menu.tagline) >= top(menu.start));
   assert.ok(bottom(menu.subtitle) >= menu.stats.origin[1] + menu.stats.size[1] / 2);
   assert.ok(menu.stats.origin[1] - menu.stats.size[1] / 2 >= top(menu.detail));
   assert.ok(bottom(menu.detail) >= top(menu.settle));

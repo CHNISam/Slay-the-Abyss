@@ -46,7 +46,8 @@ export function gameLayout(theme = nativeTheme) {
         plate('backdrop', layout.backdrop, color.backdrop),
         emblem,
         text('title', layout.title, '杀戮原塔2', font.display, color.gold),
-        text('tagline', layout.tagline, '', font.heading, color.text),
+        // Story narration leads into the start action, separately from the title and rules.
+        text('tagline', layout.tagline, '', font.body, color.goldDim),
         text('summary', layout.summary, '', font.body, color.textDim),
         { name: 'result', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
           text('subtitle', layout.subtitle, '', font.body, color.textDim),

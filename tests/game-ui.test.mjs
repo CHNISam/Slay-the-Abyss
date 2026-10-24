@@ -30,6 +30,10 @@ test('menu and result follow the approved win.png composition inside the safe ar
   assert.equal(find(start.children, 'label').text.colour, theme.color.textOnLight);
   assert.equal(find(settle.children, 'border').colour, theme.color.gold);
   assert.deepEqual(start.size, layout.resultRestart.slice(2));
+  // Menu: title, rules summary, story narration, then the start action.
+  assert.ok(layout.title[1] > layout.summary[1] && layout.summary[1] > layout.tagline[1] && layout.tagline[1] > layout.start[1]);
+  assert.equal(find(menu, 'tagline').text.colour, theme.color.goldDim);
+  assert.equal(find(menu, 'tagline').text.fontSize, theme.font.body);
   // Top-down hierarchy: emblem > title > subtitle > stats > detail > buttons > status, all in the safe area.
   const order = [layout.emblem, layout.title, layout.subtitle, [0, layout.stats.origin[1]], layout.detail, layout.settle, layout.status];
   for (let i = 1; i < order.length; i++) assert.ok(order[i][1] < order[i - 1][1]);
@@ -67,7 +71,7 @@ test('generated Chinese display and native tree exercise the real game entry and
     .map(line => { const [, name, text] = line.split('\t'); return [name, text.replaceAll('\\n', '\n')]; }));
   const { nativeMenu: menu, nativeBattle: battle } = nativeTheme.layout, { font: size } = nativeTheme;
   // Each line is checked against the control that actually displays it.
-  const targets = { intro: [menu.tagline, size.heading], menu: [menu.summary, size.body],
+  const targets = { intro: [menu.tagline, size.body], menu: [menu.summary, size.body],
     victory: [menu.subtitle, size.body], defeat: [menu.subtitle, size.body],
     settlementError: [menu.status, size.small], boss: [battle.notice, size.body] };
   for (const [name, [frame, font]] of Object.entries(targets)) {
