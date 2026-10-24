@@ -5,6 +5,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Events = require("abyss_events")
 local Feedback = require("abyss_feedback")
+local CardDisplay = require("abyss_card_display")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
@@ -1056,10 +1057,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     local preview = Combat.cardPreview(battle, instance, instance.uid == aimUid and aimTarget or nil)
                     local combatText = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
                     if combatText then
-                        text = combatText:gsub("{effects%.(%d+)%.value}", function(index)
-                            local i = tonumber(index) + 1
-                            return preview[i] and amount(preview[i]) or number(definition.effects[i].value)
-                        end)
+                        text = CardDisplay.format(combatText, definition, preview, C)
                     end
                     for i = 1, #definition.effects do
                         local entry = preview[i]
