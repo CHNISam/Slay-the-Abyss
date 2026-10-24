@@ -1,0 +1,2904 @@
+{
+  "runtimeSource": "0982b39451af00f2a19d27dbc503a0b6e4695ac5",
+  "date": "2026-10-25",
+  "dataSha256": "f5a1a5ff6238be6419dc79f2e37692c77369d112b6aae6cf30e68114234651ad",
+  "sourceClass": "Pinned decompiled mirror with per-file identities; official PC V2.2 corroboration separate; not original-PC observation",
+  "method": "Derived factual constants/metadata only; no third-party source bodies copied. All75 constructors asserted; all75 numeric/base/up effect mappings manually cross-reviewed. Conditions/queues/keywords rely on linked method sections and shared-system tests.",
+  "cards": [
+    {
+      "id": "strike",
+      "sourceSha256": "69af9efdd1a5e4835a970e24a65b06abd8009d40824f8d84b2bf47a1a1fcb31d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Strike_Red.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "basic",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "6"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 6
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 9
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "defend",
+      "sourceSha256": "836c064235bb452baf16412a829cfb8da89d92e8298045a1fb0dab2766cf7603",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Defend_Red.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "basic",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 5
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 8
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "bash",
+      "sourceSha256": "e8c2156e105c82d392446b494d3839d74454b382afeae347184499d60d0cd635",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bash.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "basic",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "8",
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 2
+        },
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 8
+        },
+        {
+          "op": "applyStatus",
+          "status": "vulnerable",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 10
+          },
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 3
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "anger",
+      "sourceSha256": "7f2a1e31d4b5f6bd27217155f39f66a70e36244d05b0d38f99a0863d7b3e1eea",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Anger.java",
+      "constructor": {
+        "cost": 0,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "6"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 6
+        },
+        {
+          "op": "addCardToDiscard",
+          "card": "anger"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 8
+          },
+          {
+            "op": "addCardToDiscard",
+            "card": "anger"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "armaments",
+      "sourceSha256": "0b784c289f4e29e029cc7abd7ff374f332fee239aae1e328cd4cf4b3888e1ee6",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Armaments.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "common",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "5"
+      },
+      "sourceNumericUpgradeConstants": [],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 5
+        },
+        {
+          "op": "upgradeHand"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 5
+          },
+          {
+            "op": "upgradeHand",
+            "all": true
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "body_slam",
+      "sourceSha256": "ec046f94f2b027c6776e06fc38ff5b1df506d8ca61ec5323240a915f2b47494e",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BodySlam.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "0"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 0
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damageEqualToBlock"
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 0
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "clash",
+      "sourceSha256": "5e98fcd5fc51109f99344b1bd5d3676ffbf61edcd4d600ecffbb4fd8e4785f3d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Clash.java",
+      "constructor": {
+        "cost": 0,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "14"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 4
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 14
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 18
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "cleave",
+      "sourceSha256": "b8acc3ffbad16fd04d287af2916566519265ef3bb67e74048b9e1e551d021e8c",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Cleave.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "8"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damageAll",
+          "value": 8
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damageAll",
+            "value": 11
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "clothesline",
+      "sourceSha256": "1816547a845b82d9486d2bd563ceb760e7a36ae1c4e147e700ddc307469fdbff",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Clothesline.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "12",
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 2
+        },
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 12
+        },
+        {
+          "op": "applyStatus",
+          "status": "weak",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 14
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 3
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "flex",
+      "sourceSha256": "c966ff95af9babc6e7df6c834d08699ac77c2ca092295bd444e85dfccc8c1c9f",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Flex.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "common",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainTemporaryStrength",
+          "status": "strength",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainTemporaryStrength",
+            "status": "strength",
+            "value": 4
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "havoc",
+      "sourceSha256": "82ddf3680c7e187000cfcaff5f6161f21f2d52e30fa9673b39ed72d8f18b833c",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Havoc.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "common",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 0
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "playTop"
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 0
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "headbutt",
+      "sourceSha256": "7b424d7dd5419552cf6d94bb4731789eb18ba40118bb7a8a3bc5b544be192bbe",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Headbutt.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "9"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 9
+        },
+        {
+          "op": "discardToDraw"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 12
+          },
+          {
+            "op": "discardToDraw"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "heavy_blade",
+      "sourceSha256": "c69223723d49724f4c075f46d82ee1f4fa181068e2eb318f95d5af5363d57e1d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/HeavyBlade.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "14",
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 14
+        }
+      ],
+      "runtimeUpgrade": {
+        "strengthMultiplier": 5
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "iron_wave",
+      "sourceSha256": "d51aa511018aa6512971a4474e76cf7bcbc9d546d09d8f242c0858b994e9f39b",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/IronWave.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "5",
+        "baseBlock": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 2
+        },
+        {
+          "operation": "upgradeBlock",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 5
+        },
+        {
+          "op": "damage",
+          "value": 5
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 7
+          },
+          {
+            "op": "damage",
+            "value": 7
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "perfected_strike",
+      "sourceSha256": "d0cb344c770e26ab77acccd1beb600c4b18174764b68b07ef9be40d1cc297a77",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PerfectedStrike.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "6",
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 6
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 6
+          }
+        ],
+        "strikeBonus": 3
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "pommel_strike",
+      "sourceSha256": "a878f072001126cced5b23d935227ebb289ab655a773658b3396f2633d159c64",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PommelStrike.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "9",
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 1
+        },
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 9
+        },
+        {
+          "op": "draw",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 10
+          },
+          {
+            "op": "draw",
+            "value": 2
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "shrug_it_off",
+      "sourceSha256": "cb9b39e35ea13d81bfe5339731541bd798c039a116ff542ea518fba678b34ea1",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ShrugItOff.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "common",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "8"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 8
+        },
+        {
+          "op": "draw",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 11
+          },
+          {
+            "op": "draw",
+            "value": 1
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "sword_boomerang",
+      "sourceSha256": "964c87ebf5489518ab9cc541024dfe99f4f6e723a43166a42c2f6e6017c12f3c",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SwordBoomerang.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "3",
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damageRandom",
+          "value": 3,
+          "times": 3
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damageRandom",
+            "value": 3,
+            "times": 4
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "thunderclap",
+      "sourceSha256": "f6d055f5d38cde0e16ff50d68512cb3a7f8cb5fb2405f49622ac2311ca691fb0",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ThunderClap.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "4"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damageAll",
+          "value": 4
+        },
+        {
+          "op": "applyStatusAll",
+          "status": "vulnerable",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damageAll",
+            "value": 7
+          },
+          {
+            "op": "applyStatusAll",
+            "status": "vulnerable",
+            "value": 1
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "true_grit",
+      "sourceSha256": "0d6647c2379166bc9dba70fab347dd7d300a34792745dd3ae4dd13f975b5b39b",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TrueGrit.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "common",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "7"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 7
+        },
+        {
+          "op": "exhaustRandom",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 9
+          },
+          {
+            "op": "exhaustChoose",
+            "value": 1
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "twin_strike",
+      "sourceSha256": "404d52aed9989628175ce6873b468d5278fe0fb13e13c2e3f50674d8550b5123",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TwinStrike.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 5,
+          "times": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 7,
+            "times": 2
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "warcry",
+      "sourceSha256": "da0d4ca5759a34b521fe9106446a09c64dfe4d5d5eada61d2ad7d724654d7b97",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Warcry.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "common",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "draw",
+          "value": 1
+        },
+        {
+          "op": "handToDraw"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "draw",
+            "value": 2
+          },
+          {
+            "op": "handToDraw"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "wild_strike",
+      "sourceSha256": "4e370203be2e025e4fb167ad9253c536b0d889f036662d4d5b9ff82b89ce205d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/WildStrike.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "common",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "12"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 5
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 12
+        },
+        {
+          "op": "makeTempCardInDraw",
+          "value": 1,
+          "card": "wound"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 17
+          },
+          {
+            "op": "makeTempCardInDraw",
+            "value": 1,
+            "card": "wound"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "battle_trance",
+      "sourceSha256": "e3106d0c77d581823794f3a4fa7aabd20679ec8137915501289fbea162910913",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BattleTrance.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "draw",
+          "value": 3
+        },
+        {
+          "op": "noDrawThisTurn"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "draw",
+            "value": 4
+          },
+          {
+            "op": "noDrawThisTurn"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "blood_for_blood",
+      "sourceSha256": "00bce85e14d4ac122726ea09e3bb02ebec4af23314626b7b669d093b65390b01",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BloodForBlood.java",
+      "constructor": {
+        "cost": 4,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "18"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 3
+        },
+        {
+          "operation": "upgradeDamage",
+          "value": 4
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 18
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 22
+          }
+        ],
+        "cost": 3
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "bloodletting",
+      "sourceSha256": "d8b7c9f4afc697091dc9b73e7835d0ae097a9979739a63b177a2b6fcf716029c",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bloodletting.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "loseHp",
+          "value": 3
+        },
+        {
+          "op": "energy",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "loseHp",
+            "value": 3
+          },
+          {
+            "op": "energy",
+            "value": 3
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "burning_pact",
+      "sourceSha256": "b7ea89390c81cb6fc9e1036502c8d49ba7a0c561b7d1536f94c421c8f79e4070",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BurningPact.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "exhaustChoose",
+          "value": 1
+        },
+        {
+          "op": "draw",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "exhaustChoose",
+            "value": 1
+          },
+          {
+            "op": "draw",
+            "value": 3
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "carnage",
+      "sourceSha256": "3a239448b9e45a8499f251ebdc4764e8b2e47ee3642faaed65f5580169a90975",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Carnage.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "20"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 8
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 20
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 28
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "combust",
+      "sourceSha256": "3cc0635b53d90e2efe38fd443e334da198cb45d28c9c241dae95406c694eaffd",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Combust.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 5,
+          "status": "combust"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 7,
+            "status": "combust"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "dark_embrace",
+      "sourceSha256": "985c41ed430b476575f5add6f653ea58c9cf362ef0d02e5720fb850971b4c162",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DarkEmbrace.java",
+      "constructor": {
+        "cost": 2,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "dark_embrace"
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 1
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "disarm",
+      "sourceSha256": "5a2bb563426e5accaf12abdb43fce2cf613c02964ebec60bdd727f8444f30a25",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Disarm.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "applyStatus",
+          "status": "strength",
+          "value": -2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "applyStatus",
+            "status": "strength",
+            "value": -3
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "dropkick",
+      "sourceSha256": "e29f784be4e16a2307aee120d1f2b22372d78efdb8d7df80809ce1992af4650e",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Dropkick.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 5
+        },
+        {
+          "op": "conditional",
+          "if": "target_vulnerable",
+          "then": [
+            {
+              "op": "energy",
+              "value": 1
+            },
+            {
+              "op": "draw",
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 8
+          },
+          {
+            "op": "conditional",
+            "if": "target_vulnerable",
+            "then": [
+              {
+                "op": "energy",
+                "value": 1
+              },
+              {
+                "op": "draw",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "dual_wield",
+      "sourceSha256": "061cf996b3c9545dfad41b8d95671335b300a3d0ce6871fdfa78e56fe4996439",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DualWield.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "dualWield",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "dualWield",
+            "value": 2
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "entrench",
+      "sourceSha256": "947b4e98fe3e6aa56a2c2114a05643da8b4f31189325e04f6f74d9ed8b2f6f0a",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Entrench.java",
+      "constructor": {
+        "cost": 2,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "doubleBlock"
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 1
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "evolve",
+      "sourceSha256": "0fd6a3afeb7e273d34e2e1ef402dffc407e4d7c08c095fe046f5c37a04eafed2",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Evolve.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "evolve"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 2,
+            "status": "evolve"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "feel_no_pain",
+      "sourceSha256": "186ce3518c93268079fd9fbaa753e87b277da75341ad7c00e036a4fc5f4b46b1",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FeelNoPain.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 3,
+          "status": "feel_no_pain"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 4,
+            "status": "feel_no_pain"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "fire_breathing",
+      "sourceSha256": "c375b642e38af8f7fe9fe8fba1312d215e5ef1750989ff545d4db73d23e65d5d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FireBreathing.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "6"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 4
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 6,
+          "status": "fire_breathing"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 10,
+            "status": "fire_breathing"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "flame_barrier",
+      "sourceSha256": "139c0696d91dcb991fbf63b304a6d0f0672f64e8161e6a647a166668f36c081e",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FlameBarrier.java",
+      "constructor": {
+        "cost": 2,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "12",
+        "baseMagicNumber": "4"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 4
+        },
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 12
+        },
+        {
+          "op": "gainStatus",
+          "value": 4,
+          "status": "flame_barrier"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 16
+          },
+          {
+            "op": "gainStatus",
+            "value": 6,
+            "status": "flame_barrier"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "ghostly_armor",
+      "sourceSha256": "8b7fd64bcbe12109e6f769f70e05442b282d7303d96f04ad3f8516251dc1c781",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/GhostlyArmor.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "10"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 10
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 13
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "hemokinesis",
+      "sourceSha256": "707f60c1f987d34cb42301184e9283c9d2190444b6a1a24404866de3d391134f",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Hemokinesis.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "15",
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 5
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "loseHp",
+          "value": 2
+        },
+        {
+          "op": "damage",
+          "value": 15
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "loseHp",
+            "value": 2
+          },
+          {
+            "op": "damage",
+            "value": 20
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "infernal_blade",
+      "sourceSha256": "44e39d9db205754e92f4343d52463a671080dac066e065f5ad9c21210fda9a45",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/InfernalBlade.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 0
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "generateAttack",
+          "value": 0
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 0
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "inflame",
+      "sourceSha256": "10e22981d47203adb0877be08d7d06fb50619b8f0191338fc2d65b74ca07c45f",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Inflame.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "status": "strength",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 3
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "intimidate",
+      "sourceSha256": "56279439832c604ea29e41b9c9e96e52096c61ab3cd34d71af984ecdb62f2ec1",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Intimidate.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "applyStatusAll",
+          "value": 1,
+          "status": "weak"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "applyStatusAll",
+            "value": 2,
+            "status": "weak"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "metallicize",
+      "sourceSha256": "9bcce83cc034f96f3b06101d9a4278d9fe9d53c16ac9e7f5fd64bed3fa4f7842",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Metallicize.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 3,
+          "status": "metallicize"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 4,
+            "status": "metallicize"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "power_through",
+      "sourceSha256": "e87d237fd5bc2327986a35a8b63379b2b07aa7f1275d2f931701bb03ab7fcedd",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PowerThrough.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "15"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 5
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "makeTempCardInHand",
+          "value": 2,
+          "card": "wound"
+        },
+        {
+          "op": "block",
+          "value": 15
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "makeTempCardInHand",
+            "value": 2,
+            "card": "wound"
+          },
+          {
+            "op": "block",
+            "value": 20
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "pummel",
+      "sourceSha256": "f730aa86ec4ad2d4f9ca85776e53329b90c9be6d24e76bb68f105a68a4feef75",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Pummel.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "2",
+        "baseMagicNumber": "4"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 2,
+          "times": 4
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 5
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "rage",
+      "sourceSha256": "cb49d45d7e9873e33356be50f81f4c6e987388be6276bdab99211b073b429913",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rage.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 3,
+          "status": "rage"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 5,
+            "status": "rage"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "rampage",
+      "sourceSha256": "91546a6c7a55542955f6831d01c5bee83c43be10310cc4e204d736b418afc066",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rampage.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "8",
+        "baseMagicNumber": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 8
+        },
+        {
+          "op": "increaseDamageThisCombat",
+          "value": 5
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 8
+          },
+          {
+            "op": "increaseDamageThisCombat",
+            "value": 8
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "reckless_charge",
+      "sourceSha256": "6593df04e053f74ec9a934d7f01abbd1e1783913cf294fd863a4538939f06d78",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/RecklessCharge.java",
+      "constructor": {
+        "cost": 0,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "7"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 7
+        },
+        {
+          "op": "makeTempCardInDraw",
+          "value": 1,
+          "card": "dazed"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 10
+          },
+          {
+            "op": "makeTempCardInDraw",
+            "value": 1,
+            "card": "dazed"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "rupture",
+      "sourceSha256": "1859d108d11c49f7d3a4a9f7ecccf713c48f01cc56876936268756b16954287e",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rupture.java",
+      "constructor": {
+        "cost": 1,
+        "type": "power",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "rupture"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 2,
+            "status": "rupture"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "searing_blow",
+      "sourceSha256": "4a3775797ba73e8589c30d94060e4760755d9ccc0e2461e6224c607313918eea",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SearingBlow.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "12"
+      },
+      "sourceNumericUpgradeConstants": [],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 12
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 16
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "second_wind",
+      "sourceSha256": "80abdd7147a752e4f3d42ab2b330b055e37aa43473458752c80a4698a78377f9",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SecondWind.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "secondWind",
+          "value": 5
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "secondWind",
+            "value": 7
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "seeing_red",
+      "sourceSha256": "910989bb406a2260811b75aee804bae10b21fcaca53dd5f56ca19f8a5f52f4cd",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SeeingRed.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 0
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "energy",
+          "value": 2
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 0
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "sentinel",
+      "sourceSha256": "d7f1a30872a8831fbb036a02c1bac6baa68592ec95878d965ea53e96385b7b5c",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Sentinel.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 5
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 8
+          }
+        ],
+        "exhaustEnergy": 3
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "sever_soul",
+      "sourceSha256": "a13e15eefe2129cbb45bdd95c6254fdd2f07f863682c196c9067712ed7a0571e",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SeverSoul.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "16"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 6
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "exhaustNonAttacks"
+        },
+        {
+          "op": "damage",
+          "value": 16
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "exhaustNonAttacks"
+          },
+          {
+            "op": "damage",
+            "value": 22
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "shockwave",
+      "sourceSha256": "de4a47a7ae9332bded422d4e4620e3cb3174e05dc51d8647eba93ad3335d033a",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Shockwave.java",
+      "constructor": {
+        "cost": 2,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "applyStatusAll",
+          "status": "weak",
+          "targetGroup": "weak_then_vulnerable",
+          "value": 3
+        },
+        {
+          "op": "applyStatusAll",
+          "status": "vulnerable",
+          "targetGroup": "weak_then_vulnerable",
+          "value": 3
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "applyStatusAll",
+            "status": "weak",
+            "targetGroup": "weak_then_vulnerable",
+            "value": 5
+          },
+          {
+            "op": "applyStatusAll",
+            "status": "vulnerable",
+            "targetGroup": "weak_then_vulnerable",
+            "value": 5
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "spot_weakness",
+      "sourceSha256": "5b40ebaca89b4bf1fe8c0a02aaa9725ccab4762a56e7d05b600b924a155ad348",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SpotWeakness.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "uncommon",
+        "target": "SELF_AND_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "spotWeakness",
+          "value": 3
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "spotWeakness",
+            "value": 4
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "uppercut",
+      "sourceSha256": "af1c49cb4b3075336be696450bd0f4d42996c0370831284209a9cfeafd3cebde",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Uppercut.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "13",
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 13
+        },
+        {
+          "op": "applyStatus",
+          "status": "weak",
+          "value": 1
+        },
+        {
+          "op": "applyStatus",
+          "status": "vulnerable",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 13
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "whirlwind",
+      "sourceSha256": "89fb648fece06df53361fedf2e67a5c371daa5dc9157386b73d9d212172e3a39",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Whirlwind.java",
+      "constructor": {
+        "cost": -1,
+        "type": "attack",
+        "rarity": "uncommon",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damageAll",
+          "value": 5,
+          "times": "X"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damageAll",
+            "value": 8,
+            "times": "X"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "barricade",
+      "sourceSha256": "fd0d75660eebf157a7d54d0bb4acae0005d6110f7341cf0a8ef4cd327a86e15a",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Barricade.java",
+      "constructor": {
+        "cost": 3,
+        "type": "power",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "status": "barricade",
+          "value": 1
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 2
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "berserk",
+      "sourceSha256": "9917b0cf3b333a0e608e0f626b78c6814585d67b2625d7c8f9f100b406babf9f",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Berserk.java",
+      "constructor": {
+        "cost": 0,
+        "type": "power",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": -1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 2,
+          "status": "vulnerable"
+        },
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "berserk"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 1,
+            "status": "vulnerable"
+          },
+          {
+            "op": "gainStatus",
+            "value": 1,
+            "status": "berserk"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "bludgeon",
+      "sourceSha256": "8986014d8875ad6fd86441eca249c3ff1f23706dd6859b049fc119e71c73966d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bludgeon.java",
+      "constructor": {
+        "cost": 3,
+        "type": "attack",
+        "rarity": "rare",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "32"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 10
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damage",
+          "value": 32
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 42
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "brutality",
+      "sourceSha256": "6275b739d69c86bb4b159a26d37f8f6ec26446fc7aef9c3524feba66af13e206",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Brutality.java",
+      "constructor": {
+        "cost": 0,
+        "type": "power",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "brutality"
+        }
+      ],
+      "runtimeUpgrade": {
+        "innate": true,
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 1,
+            "status": "brutality"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "corruption",
+      "sourceSha256": "699333d522ad952d570155848cac4cfd7e9bfe1d06b18025d7adb8a0410f477d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Corruption.java",
+      "constructor": {
+        "cost": 3,
+        "type": "power",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "corruption"
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 2
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "demon_form",
+      "sourceSha256": "a8f5f61b321072950123c74426eb0c51f8b24c95de5029e2a15efa9ee9843f7e",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DemonForm.java",
+      "constructor": {
+        "cost": 3,
+        "type": "power",
+        "rarity": "rare",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "2"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 2,
+          "status": "demon_form"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 3,
+            "status": "demon_form"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "double_tap",
+      "sourceSha256": "15f6e8fb000f4e2f83d4f47535f9e909a222b546fda8d5d8fc51576cc6caa1c1",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DoubleTap.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "1"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "double_tap"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 2,
+            "status": "double_tap"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "exhume",
+      "sourceSha256": "4b14ccf101319b7c620b1417326255d438d72cb7613c6c94cc63a0f0b50ce88f",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Exhume.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "rare",
+        "target": "NONE"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBaseCost",
+          "value": 0
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "recoverExhaust"
+        }
+      ],
+      "runtimeUpgrade": {
+        "cost": 0
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "feed",
+      "sourceSha256": "901eb9cd1f51cab2daa2fda18f030a52a2f74918ef138c3f9cc84dd8fbf6eecf",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Feed.java",
+      "constructor": {
+        "cost": 1,
+        "type": "attack",
+        "rarity": "rare",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "10",
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 2
+        },
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "feed",
+          "value": 10,
+          "maxHp": 3
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "feed",
+            "value": 12,
+            "maxHp": 4
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "fiend_fire",
+      "sourceSha256": "bdcb0bcd2f1ad7e295232275393ea73f2b40ea729d3d2daadef0849866dcc61d",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FiendFire.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "rare",
+        "target": "ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "7"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 3
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "fiendFire",
+          "value": 7
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "fiendFire",
+            "value": 10
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "immolate",
+      "sourceSha256": "aa2d562d7bafdf7d32c1287588bcc23c412bef7e51c1a4f06ea5916f8a8c92fa",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Immolate.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "rare",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "21"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 7
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "damageAll",
+          "value": 21
+        },
+        {
+          "op": "makeTempCardInDiscard",
+          "value": 1,
+          "card": "burn"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "damageAll",
+            "value": 28
+          },
+          {
+            "op": "makeTempCardInDiscard",
+            "value": 1,
+            "card": "burn"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "impervious",
+      "sourceSha256": "e0534bf07507ae43932255db6a7ccf9b2be8d3e2066475c04fa309dad224fc84",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Impervious.java",
+      "constructor": {
+        "cost": 2,
+        "type": "skill",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseBlock": "30"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeBlock",
+          "value": 10
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "block",
+          "value": 30
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 40
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "juggernaut",
+      "sourceSha256": "d6618db3fd9cb580ff5b9c99a2b619ffd8a0448cc41a70cc070338de469227b8",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Juggernaut.java",
+      "constructor": {
+        "cost": 2,
+        "type": "power",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "5"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "gainStatus",
+          "value": 5,
+          "status": "juggernaut"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 7,
+            "status": "juggernaut"
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "limit_break",
+      "sourceSha256": "d76bfdc393b5a2bdee7632f9e4d02e595048fbc9431e2ec318ef590620b2ec50",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/LimitBreak.java",
+      "constructor": {
+        "cost": 1,
+        "type": "skill",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {},
+      "sourceNumericUpgradeConstants": [],
+      "runtimeBaseEffects": [
+        {
+          "op": "doubleStrength"
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "doubleStrength"
+          }
+        ],
+        "exhaust": false
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "offering",
+      "sourceSha256": "fc693dd1d097683f03caa2187d05489e1c9be609836d37e5ac5295a2b04c47c0",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Offering.java",
+      "constructor": {
+        "cost": 0,
+        "type": "skill",
+        "rarity": "rare",
+        "target": "SELF"
+      },
+      "sourceNumericInitializers": {
+        "baseMagicNumber": "3"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeMagicNumber",
+          "value": 2
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "loseHp",
+          "value": 6
+        },
+        {
+          "op": "energy",
+          "value": 2
+        },
+        {
+          "op": "draw",
+          "value": 3
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "loseHp",
+            "value": 6
+          },
+          {
+            "op": "energy",
+            "value": 2
+          },
+          {
+            "op": "draw",
+            "value": 5
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    },
+    {
+      "id": "reaper",
+      "sourceSha256": "fcacc35e503503bc33409bce8a40e1c0e335ec9c1560a6e4dd3ff7ce41258817",
+      "sourceUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Reaper.java",
+      "constructor": {
+        "cost": 2,
+        "type": "attack",
+        "rarity": "rare",
+        "target": "ALL_ENEMY"
+      },
+      "sourceNumericInitializers": {
+        "baseDamage": "4"
+      },
+      "sourceNumericUpgradeConstants": [
+        {
+          "operation": "upgradeDamage",
+          "value": 1
+        }
+      ],
+      "runtimeBaseEffects": [
+        {
+          "op": "reaper",
+          "value": 4
+        }
+      ],
+      "runtimeUpgrade": {
+        "effects": [
+          {
+            "op": "reaper",
+            "value": 5
+          }
+        ]
+      },
+      "review": "Base/up numerical effects and special mappings reviewed in three25-card batches; initializers alone do not prove action semantics. Refer to per-card use/upgrade sections and independent execution/order tests."
+    }
+  ]
+}

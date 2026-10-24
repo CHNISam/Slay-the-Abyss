@@ -1,0 +1,87 @@
+{
+  "runtimeSource": "0982b39451af00f2a19d27dbc503a0b6e4695ac5",
+  "probeBuildCommit": "c8b65f8",
+  "candidateSha256": "101d6c992042b263f06fbd2499e18f0bdeffbf13ae4684d9612ef44497ac09e1",
+  "baseCandidateSha256": "bdc61889051951e761e365209a6dcb19248ba70467a4b24eebfaa199ffbac3f2",
+  "officialSave": "1073741863",
+  "sourcePreflight": "official-client-probe-c8-before-play.json:62/62 before play",
+  "runId": "382e3c33-040d-4d49-838b-86de5325dd0e",
+  "clientScriptLogRequested": true,
+  "printCount": 381,
+  "expectations": {
+    "passed": true,
+    "met": 6,
+    "of": 6,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CORE all six fixture suites passed\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CHANNELS all75\"",
+        "met": true,
+        "t": 6
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "testSourceSha256": "07474881b5ccbe0db2919eb62f41fc4ec64a80de7bb0e8b242ebc2bdb2a94859",
+  "passed": "150 independent base/up executions now each assert identity leaves hand/draw and original discard/exhaust/Power destination;42 edge groups;six core suites;75 public acquisition/camp/next-battle transactions",
+  "boundary": "Supplementary native explicit fixtures. Manual Exit after core/channel assertions, ordinary platform defeat; no additional targeted UI or natural-run claim. Prior same-runtime9/9 targeted UI and actual normal17-floor victory retained separately.",
+  "files": [
+    {
+      "path": "probe-c8b65f8-status.json.gz",
+      "sha256": "83562e58d5c0433240299c6452d774751a73cde5227acd41ca20a555d4f749e1",
+      "bytes": 12073,
+      "originalSha256": "731eeec621013d90ccbdb8e8d1d269df846e49290ea650a65ea1c51019fce6e6"
+    },
+    {
+      "path": "probe-c8b65f8-log.gia.gz",
+      "sha256": "9ada48ac75eee31911016e55de2dd2315e1b3e6c251a844e73c3bc741c30e83f",
+      "bytes": 6324,
+      "originalSha256": "c59737bb7cf9ab21e2058a17b4a1920dce024ec1f83f79434538b72c31b6304f"
+    },
+    {
+      "path": "official-client-probe-c8-before-play.json",
+      "sha256": "817d53806bd5e5584f77b3d455b0fbfbb497edf37c95bf0e6a3d4a648be31ec8",
+      "bytes": 36829,
+      "originalSha256": "817d53806bd5e5584f77b3d455b0fbfbb497edf37c95bf0e6a3d4a648be31ec8"
+    },
+    {
+      "path": "screens/probe-c8b65f8-251-probe-disposal-focus-1.png",
+      "sha256": "fdb5075d00aa9d8d8894e67eba9eb3cf1ca5b80aeb5c01e46d873c6d43fef51d",
+      "bytes": 82396,
+      "originalSha256": "fdb5075d00aa9d8d8894e67eba9eb3cf1ca5b80aeb5c01e46d873c6d43fef51d"
+    },
+    {
+      "path": "screens/probe-c8b65f8-252-probe-disposal-exit-1.png",
+      "sha256": "9d2e43429430caf6e7128e00914817b4609969e6cf59f45727e3ed740e105051",
+      "bytes": 96315,
+      "originalSha256": "9d2e43429430caf6e7128e00914817b4609969e6cf59f45727e3ed740e105051"
+    },
+    {
+      "path": "screens/probe-c8b65f8-253-probe-disposal-confirm-exit-1.png",
+      "sha256": "1b7119697f152650d03cbefad704756b4db7203c55f183d441993fe415d65137",
+      "bytes": 105853,
+      "originalSha256": "1b7119697f152650d03cbefad704756b4db7203c55f183d441993fe415d65137"
+    }
+  ]
+}
