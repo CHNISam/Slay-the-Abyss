@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 17:26'
 due_date: '2026-10-28'
 labels:
   - required
@@ -38,3 +38,9 @@ ordinal: 43000
 - [ ] #4 用原版预期结果检查特殊情况；卡牌、敌人和道具用同一套正确规则。
 - [ ] #5 保存测试与实际游戏记录，明确各部分验证到了哪一步。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-25承接完整75卡：共用动作队列支持真实选牌暂停/恢复、消耗钩子TOP/BOTTOM顺序、费用与抽牌触发；优先验证Burning Pact/Fiend Fire/Corruption/Dark Embrace/FNP/True Grit/Second Wind/Exhume联动和死亡中断，再补X费用、复制、持续能力及既有30卡回归。
+<!-- SECTION:PLAN:END -->

@@ -1,0 +1,4969 @@
+{
+  "schemaVersion": 1,
+  "baseline": "695d94d2f8f238964ad23958d5ee92a667cbabb4",
+  "updated": "2026-10-25",
+  "scope": "75 cards required; not accepted",
+  "sourceEvidenceClass": "Pinned third-party decompiled mirror; not authenticated PC binary",
+  "originalGameObserved": false,
+  "cards": [
+    {
+      "id": "strike",
+      "name": "Strike",
+      "rarity": "basic",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "strike",
+        "path": "cards/red/Strike_Red.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Strike_Red.java",
+        "sha256": "69af9efdd1a5e4835a970e24a65b06abd8009d40824f8d84b2bf47a1a1fcb31d",
+        "gitBlob": "777580ce425672028a92fa76d0bbf2f175f08910",
+        "bytes": 3102
+      },
+      "sections": {
+        "use": {
+          "start": 35,
+          "end": 54
+        },
+        "upgrade": {
+          "start": 56,
+          "end": 63
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "starter_deck",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "defend",
+      "name": "Defend",
+      "rarity": "basic",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "defend",
+        "path": "cards/red/Defend_Red.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Defend_Red.java",
+        "sha256": "836c064235bb452baf16412a829cfb8da89d92e8298045a1fb0dab2766cf7603",
+        "gitBlob": "95755357d141dabfca6736175cb753ad4b63eb35",
+        "bytes": 1917
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 43
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#defend",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "starter_deck",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "bash",
+      "name": "Bash",
+      "rarity": "basic",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "bash",
+        "path": "cards/red/Bash.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bash.java",
+        "sha256": "e8c2156e105c82d392446b494d3839d74454b382afeae347184499d60d0cd635",
+        "gitBlob": "ee10c05647bba5bc40a989f7a6c2d74206f1aad2",
+        "bytes": 2797
+      },
+      "sections": {
+        "use": {
+          "start": 35,
+          "end": 49
+        },
+        "upgrade": {
+          "start": 51,
+          "end": 59
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#bash",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "starter_deck",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "anger",
+      "name": "Anger",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "anger",
+        "path": "cards/red/Anger.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Anger.java",
+        "sha256": "7f2a1e31d4b5f6bd27217155f39f66a70e36244d05b0d38f99a0863d7b3e1eea",
+        "gitBlob": "d2aae968e92166f03e836a6eb12865147e083d16",
+        "bytes": 2313
+      },
+      "sections": {
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#anger",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "armaments",
+      "name": "Armaments",
+      "rarity": "common",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "armaments",
+        "path": "cards/red/Armaments.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Armaments.java",
+        "sha256": "0b784c289f4e29e029cc7abd7ff374f332fee239aae1e328cd4cf4b3888e1ee6",
+        "gitBlob": "dacf829c2dd0fd94dc8870d346e1911bf9886f5c",
+        "bytes": 1841
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 40
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#armaments",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "body_slam",
+      "name": "Body Slam",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "body_slam",
+        "path": "cards/red/BodySlam.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BodySlam.java",
+        "sha256": "ec046f94f2b027c6776e06fc38ff5b1df506d8ca61ec5323240a915f2b47494e",
+        "gitBlob": "fa5197b8c1245af64a9560fe052e0b03fc6e5eb3",
+        "bytes": 3164
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 78,
+          "end": 85
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#body_slam",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "clash",
+      "name": "Clash",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "clash",
+        "path": "cards/red/Clash.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Clash.java",
+        "sha256": "5e98fcd5fc51109f99344b1bd5d3676ffbf61edcd4d600ecffbb4fd8e4785f3d",
+        "gitBlob": "b9e735f1cb165ac324ae88515d20af5e1945b273",
+        "bytes": 2740
+      },
+      "sections": {
+        "use": {
+          "start": 31,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 58,
+          "end": 65
+        },
+        "canUse": {
+          "start": 38,
+          "end": 56
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#clash",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "cleave",
+      "name": "Cleave",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "cleave",
+        "path": "cards/red/Cleave.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Cleave.java",
+        "sha256": "b8acc3ffbad16fd04d287af2916566519265ef3bb67e74048b9e1e551d021e8c",
+        "gitBlob": "65daa36c1dd3a1a550654dfefed67fdee5f87089",
+        "bytes": 2174
+      },
+      "sections": {
+        "use": {
+          "start": 31,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 45
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#cleave",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "clothesline",
+      "name": "Clothesline",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "clothesline",
+        "path": "cards/red/Clothesline.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Clothesline.java",
+        "sha256": "1816547a845b82d9486d2bd563ceb760e7a36ae1c4e147e700ddc307469fdbff",
+        "gitBlob": "f6cc9bda00d3c15f26d19772c242010f08cfc72a",
+        "bytes": 2210
+      },
+      "sections": {
+        "use": {
+          "start": 31,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 45
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#clothesline",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "flex",
+      "name": "Flex",
+      "rarity": "common",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "flex",
+        "path": "cards/red/Flex.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Flex.java",
+        "sha256": "c966ff95af9babc6e7df6c834d08699ac77c2ca092295bd444e85dfccc8c1c9f",
+        "gitBlob": "326ede35e61c000aee7a5271745303464ffdf383",
+        "bytes": 1921
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#flex",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "havoc",
+      "name": "Havoc",
+      "rarity": "common",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "havoc",
+        "path": "cards/red/Havoc.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Havoc.java",
+        "sha256": "82ddf3680c7e187000cfcaff5f6161f21f2d52e30fa9673b39ed72d8f18b833c",
+        "gitBlob": "e2631d08bd35ca534f57c9ed6302495f68c5c29e",
+        "bytes": 1863
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#havoc",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "headbutt",
+      "name": "Headbutt",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "headbutt",
+        "path": "cards/red/Headbutt.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Headbutt.java",
+        "sha256": "7b424d7dd5419552cf6d94bb4731789eb18ba40118bb7a8a3bc5b544be192bbe",
+        "gitBlob": "9494aaf4d5b91e124a7686ae3ed130ffc652b3c1",
+        "bytes": 2000
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#headbutt",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "heavy_blade",
+      "name": "Heavy Blade",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "heavy_blade",
+        "path": "cards/red/HeavyBlade.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/HeavyBlade.java",
+        "sha256": "c69223723d49724f4c075f46d82ee1f4fa181068e2eb318f95d5af5363d57e1d",
+        "gitBlob": "976450a48c8a01cde4a7bff1b15c3333f014ca5a",
+        "bytes": 3190
+      },
+      "sections": {
+        "use": {
+          "start": 35,
+          "end": 40
+        },
+        "upgrade": {
+          "start": 62,
+          "end": 71
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#heavy_blade",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "iron_wave",
+      "name": "Iron Wave",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "iron_wave",
+        "path": "cards/red/IronWave.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/IronWave.java",
+        "sha256": "d51aa511018aa6512971a4474e76cf7bcbc9d546d09d8f242c0858b994e9f39b",
+        "gitBlob": "5e42c1afea6647b791b3a998fa77e0b221bd00cc",
+        "bytes": 2438
+      },
+      "sections": {
+        "use": {
+          "start": 33,
+          "end": 40
+        },
+        "upgrade": {
+          "start": 42,
+          "end": 50
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#iron_wave",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "perfected_strike",
+      "name": "Perfected Strike",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "perfected_strike",
+        "path": "cards/red/PerfectedStrike.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PerfectedStrike.java",
+        "sha256": "d0cb344c770e26ab77acccd1beb600c4b18174764b68b07ef9be40d1cc297a77",
+        "gitBlob": "b73dadd34b99d0d598cd06b581b0539059c25e45",
+        "bytes": 3933
+      },
+      "sections": {
+        "use": {
+          "start": 70,
+          "end": 73
+        },
+        "upgrade": {
+          "start": 98,
+          "end": 107
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#perfected_strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "pommel_strike",
+      "name": "Pommel Strike",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "pommel_strike",
+        "path": "cards/red/PommelStrike.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PommelStrike.java",
+        "sha256": "a878f072001126cced5b23d935227ebb289ab655a773658b3396f2633d159c64",
+        "gitBlob": "7a978296e590ea81b306d32f9651a6d40dbb2bb7",
+        "bytes": 2338
+      },
+      "sections": {
+        "use": {
+          "start": 32,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 48
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#pommel_strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "shrug_it_off",
+      "name": "Shrug It Off",
+      "rarity": "common",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "shrug_it_off",
+        "path": "cards/red/ShrugItOff.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ShrugItOff.java",
+        "sha256": "cb9b39e35ea13d81bfe5339731541bd798c039a116ff542ea518fba678b34ea1",
+        "gitBlob": "6e3c479dded526f57526c37318a02ba11ad8ca04",
+        "bytes": 1780
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#shrug_it_off",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "sword_boomerang",
+      "name": "Sword Boomerang",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "sword_boomerang",
+        "path": "cards/red/SwordBoomerang.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SwordBoomerang.java",
+        "sha256": "964c87ebf5489518ab9cc541024dfe99f4f6e723a43166a42c2f6e6017c12f3c",
+        "gitBlob": "34c705b314d807f27c662c8eb31b472119b0dc8d",
+        "bytes": 1998
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 42
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#sword_boomerang",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "thunderclap",
+      "name": "Thunderclap",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "thunderclap",
+        "path": "cards/red/ThunderClap.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ThunderClap.java",
+        "sha256": "f6d055f5d38cde0e16ff50d68512cb3a7f8cb5fb2405f49622ac2311ca691fb0",
+        "gitBlob": "ede079a98d8d557ac818d0d09dad13a9ce7d5f17",
+        "bytes": 3244
+      },
+      "sections": {
+        "use": {
+          "start": 38,
+          "end": 55
+        },
+        "upgrade": {
+          "start": 57,
+          "end": 64
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#thunderclap",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "true_grit",
+      "name": "True Grit",
+      "rarity": "common",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "true_grit",
+        "path": "cards/red/TrueGrit.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TrueGrit.java",
+        "sha256": "0d6647c2379166bc9dba70fab347dd7d300a34792745dd3ae4dd13f975b5b39b",
+        "gitBlob": "375c05382392809dcbcad8478ddd624c8ad16a43",
+        "bytes": 1968
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 44
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#true_grit",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "twin_strike",
+      "name": "Twin Strike",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "twin_strike",
+        "path": "cards/red/TwinStrike.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TwinStrike.java",
+        "sha256": "404d52aed9989628175ce6873b468d5278fe0fb13e13c2e3f50674d8550b5123",
+        "gitBlob": "237ba8128a7cadce7b5a6a2291196c6dac0812ac",
+        "bytes": 2165
+      },
+      "sections": {
+        "use": {
+          "start": 29,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 42
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#twin_strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "warcry",
+      "name": "Warcry",
+      "rarity": "common",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "warcry",
+        "path": "cards/red/Warcry.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Warcry.java",
+        "sha256": "da0d4ca5759a34b521fe9106446a09c64dfe4d5d5eada61d2ad7d724654d7b97",
+        "gitBlob": "1d7887bf7b4bcc42a17111664f13bcef1db259ea",
+        "bytes": 2325
+      },
+      "sections": {
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 48
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#warcry",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "wild_strike",
+      "name": "Wild Strike",
+      "rarity": "common",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "wild_strike",
+        "path": "cards/red/WildStrike.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/WildStrike.java",
+        "sha256": "4e370203be2e025e4fb167ad9253c536b0d889f036662d4d5b9ff82b89ce205d",
+        "gitBlob": "b19e83b42168486640b5341d7d248b85f84da30e",
+        "bytes": 2243
+      },
+      "sections": {
+        "use": {
+          "start": 32,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 45
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#wild_strike",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "battle_trance",
+      "name": "Battle Trance",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "battle_trance",
+        "path": "cards/red/BattleTrance.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BattleTrance.java",
+        "sha256": "e3106d0c77d581823794f3a4fa7aabd20679ec8137915501289fbea162910913",
+        "gitBlob": "9ba4908438fcae76a7c5e63d325b7740b10bc010",
+        "bytes": 1922
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#battle_trance",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "blood_for_blood",
+      "name": "Blood for Blood",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "blood_for_blood",
+        "path": "cards/red/BloodForBlood.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BloodForBlood.java",
+        "sha256": "00bce85e14d4ac122726ea09e3bb02ebec4af23314626b7b669d093b65390b01",
+        "gitBlob": "258da481d1aca68052cb9610cc23173478f8ae91",
+        "bytes": 2429
+      },
+      "sections": {
+        "use": {
+          "start": 33,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 54
+        },
+        "tookDamage": {
+          "start": 28,
+          "end": 31
+        }
+      },
+      "baseCost": 4,
+      "upgradedCost": 3,
+      "implementation": [
+        "data/cards.json#blood_for_blood",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "bloodletting",
+      "name": "Bloodletting",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "bloodletting",
+        "path": "cards/red/Bloodletting.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bloodletting.java",
+        "sha256": "d8b7c9f4afc697091dc9b73e7835d0ae097a9979739a63b177a2b6fcf716029c",
+        "gitBlob": "5e706fabdfa5eae7ebe6dfdede235376aee258fb",
+        "bytes": 1944
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 42
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#bloodletting",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "burning_pact",
+      "name": "Burning Pact",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "burning_pact",
+        "path": "cards/red/BurningPact.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BurningPact.java",
+        "sha256": "b7ea89390c81cb6fc9e1036502c8d49ba7a0c561b7d1536f94c421c8f79e4070",
+        "gitBlob": "5b99eb181e68b70b16b97d4b31849a3e181ab3d9",
+        "bytes": 1841
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 40
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#burning_pact",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "carnage",
+      "name": "Carnage",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "carnage",
+        "path": "cards/red/Carnage.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Carnage.java",
+        "sha256": "3a239448b9e45a8499f251ebdc4764e8b2e47ee3642faaed65f5580169a90975",
+        "gitBlob": "14bb88f1823207254d84e932f9dc5bdad853169b",
+        "bytes": 2721
+      },
+      "sections": {
+        "use": {
+          "start": 34,
+          "end": 50
+        },
+        "upgrade": {
+          "start": 52,
+          "end": 59
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#carnage",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "combust",
+      "name": "Combust",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "combust",
+        "path": "cards/red/Combust.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Combust.java",
+        "sha256": "3cc0635b53d90e2efe38fd443e334da198cb45d28c9c241dae95406c694eaffd",
+        "gitBlob": "eb843a3ee1d4941d12791f75981c0345f613b099",
+        "bytes": 1792
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#combust",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "dark_embrace",
+      "name": "Dark Embrace",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "dark_embrace",
+        "path": "cards/red/DarkEmbrace.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DarkEmbrace.java",
+        "sha256": "985c41ed430b476575f5add6f653ea58c9cf362ef0d02e5720fb850971b4c162",
+        "gitBlob": "b568d148d59bf73e381ca03adead85bc19e79ba7",
+        "bytes": 1740
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 37
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#dark_embrace",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "disarm",
+      "name": "Disarm",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "ENEMY",
+      "source": {
+        "id": "disarm",
+        "path": "cards/red/Disarm.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Disarm.java",
+        "sha256": "5a2bb563426e5accaf12abdb43fce2cf613c02964ebec60bdd727f8444f30a25",
+        "gitBlob": "88a7e71d8439078c7bab14501e7aeef8f0b377fb",
+        "bytes": 1811
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 40
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#disarm",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "dropkick",
+      "name": "Dropkick",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "dropkick",
+        "path": "cards/red/Dropkick.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Dropkick.java",
+        "sha256": "e29f784be4e16a2307aee120d1f2b22372d78efdb8d7df80809ce1992af4650e",
+        "gitBlob": "4700381d4124798d74db67551e580405933f1009",
+        "bytes": 2618
+      },
+      "sections": {
+        "use": {
+          "start": 33,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 54,
+          "end": 61
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#dropkick",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "dual_wield",
+      "name": "Dual Wield",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "dual_wield",
+        "path": "cards/red/DualWield.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DualWield.java",
+        "sha256": "061cf996b3c9545dfad41b8d95671335b300a3d0ce6871fdfa78e56fe4996439",
+        "gitBlob": "4c0e0afd505d3b7fd84becb78f5216ecaaad6bcb",
+        "bytes": 1819
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 29
+        },
+        "upgrade": {
+          "start": 31,
+          "end": 40
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#dual_wield",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "entrench",
+      "name": "Entrench",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "entrench",
+        "path": "cards/red/Entrench.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Entrench.java",
+        "sha256": "947b4e98fe3e6aa56a2c2114a05643da8b4f31189325e04f6f74d9ed8b2f6f0a",
+        "gitBlob": "9322db4950bc204765d59db09271c7c0fff7ce6e",
+        "bytes": 1917
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 44
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#entrench",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "evolve",
+      "name": "Evolve",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "evolve",
+        "path": "cards/red/Evolve.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Evolve.java",
+        "sha256": "0fd6a3afeb7e273d34e2e1ef402dffc407e4d7c08c095fe046f5c37a04eafed2",
+        "gitBlob": "17c05a26a2cb6eb2232d90a15e9aaf56dc75707b",
+        "bytes": 1880
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 41
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#evolve",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "feel_no_pain",
+      "name": "Feel No Pain",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "feel_no_pain",
+        "path": "cards/red/FeelNoPain.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FeelNoPain.java",
+        "sha256": "186ce3518c93268079fd9fbaa753e87b277da75341ad7c00e036a4fc5f4b46b1",
+        "gitBlob": "c709c1779cdc7f1b0860676cea0e3d45a6384f69",
+        "bytes": 1827
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#feel_no_pain",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "fire_breathing",
+      "name": "Fire Breathing",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "fire_breathing",
+        "path": "cards/red/FireBreathing.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FireBreathing.java",
+        "sha256": "c375b642e38af8f7fe9fe8fba1312d215e5ef1750989ff545d4db73d23e65d5d",
+        "gitBlob": "5b5c758010f27c019a206d979f36968fadea1766",
+        "bytes": 1853
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#fire_breathing",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "flame_barrier",
+      "name": "Flame Barrier",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "flame_barrier",
+        "path": "cards/red/FlameBarrier.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FlameBarrier.java",
+        "sha256": "139c0696d91dcb991fbf63b304a6d0f0672f64e8161e6a647a166668f36c081e",
+        "gitBlob": "9791c3b51c265bdb32833597c865b14db21ff679",
+        "bytes": 2454
+      },
+      "sections": {
+        "use": {
+          "start": 33,
+          "end": 41
+        },
+        "upgrade": {
+          "start": 43,
+          "end": 51
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#flame_barrier",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "ghostly_armor",
+      "name": "Ghostly Armor",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "ghostly_armor",
+        "path": "cards/red/GhostlyArmor.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/GhostlyArmor.java",
+        "sha256": "8b7fd64bcbe12109e6f769f70e05442b282d7303d96f04ad3f8516251dc1c781",
+        "gitBlob": "f5e9b0354ebcd18235fb1505260865a8dbb9b9ac",
+        "bytes": 1900
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#ghostly_armor",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "hemokinesis",
+      "name": "Hemokinesis",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "hemokinesis",
+        "path": "cards/red/Hemokinesis.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Hemokinesis.java",
+        "sha256": "707f60c1f987d34cb42301184e9283c9d2190444b6a1a24404866de3d391134f",
+        "gitBlob": "e1d4a0134916fae41699de68795978135ed6d898",
+        "bytes": 2376
+      },
+      "sections": {
+        "use": {
+          "start": 33,
+          "end": 39
+        },
+        "upgrade": {
+          "start": 41,
+          "end": 48
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#hemokinesis",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "infernal_blade",
+      "name": "Infernal Blade",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "infernal_blade",
+        "path": "cards/red/InfernalBlade.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/InfernalBlade.java",
+        "sha256": "44e39d9db205754e92f4343d52463a671080dac066e065f5ad9c21210fda9a45",
+        "gitBlob": "446d68ee4633cb16f2e5ad463711733f2c703bc2",
+        "bytes": 1943
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 40
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#infernal_blade",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "inflame",
+      "name": "Inflame",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "inflame",
+        "path": "cards/red/Inflame.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Inflame.java",
+        "sha256": "10e22981d47203adb0877be08d7d06fb50619b8f0191338fc2d65b74ca07c45f",
+        "gitBlob": "eb93b63bca7cc8f06a735493164f2a19bbe15763",
+        "bytes": 2012
+      },
+      "sections": {
+        "use": {
+          "start": 29,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 43
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#inflame",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "intimidate",
+      "name": "Intimidate",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "intimidate",
+        "path": "cards/red/Intimidate.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Intimidate.java",
+        "sha256": "56279439832c604ea29e41b9c9e96e52096c61ab3cd34d71af984ecdb62f2ec1",
+        "gitBlob": "64b65bbff065ed6d155bc56e0f68a3447303f1d0",
+        "bytes": 2785
+      },
+      "sections": {
+        "use": {
+          "start": 38,
+          "end": 46
+        },
+        "upgrade": {
+          "start": 48,
+          "end": 55
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#intimidate",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "metallicize",
+      "name": "Metallicize",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "metallicize",
+        "path": "cards/red/Metallicize.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Metallicize.java",
+        "sha256": "9bcce83cc034f96f3b06101d9a4278d9fe9d53c16ac9e7f5fd64bed3fa4f7842",
+        "gitBlob": "ebb59c6b4a0d9aba823a4521d242d55283f9e117",
+        "bytes": 1829
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#metallicize",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "power_through",
+      "name": "Power Through",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "power_through",
+        "path": "cards/red/PowerThrough.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PowerThrough.java",
+        "sha256": "e87d237fd5bc2327986a35a8b63379b2b07aa7f1275d2f931701bb03ab7fcedd",
+        "gitBlob": "4e06758526795d6b02be50cdb1f2ffe80446653d",
+        "bytes": 1915
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#power_through",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "pummel",
+      "name": "Pummel",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "pummel",
+        "path": "cards/red/Pummel.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Pummel.java",
+        "sha256": "f730aa86ec4ad2d4f9ca85776e53329b90c9be6d24e76bb68f105a68a4feef75",
+        "gitBlob": "b834363b1890c7de3389f73990294852aa82b865",
+        "bytes": 2265
+      },
+      "sections": {
+        "use": {
+          "start": 31,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 48
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#pummel",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "rage",
+      "name": "Rage",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "rage",
+        "path": "cards/red/Rage.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rage.java",
+        "sha256": "cb49d45d7e9873e33356be50f81f4c6e987388be6276bdab99211b073b429913",
+        "gitBlob": "99a5f9bfcb4ecd4f60eed22352ef985a073cc05c",
+        "bytes": 2236
+      },
+      "sections": {
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#rage",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "rampage",
+      "name": "Rampage",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "rampage",
+        "path": "cards/red/Rampage.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rampage.java",
+        "sha256": "91546a6c7a55542955f6831d01c5bee83c43be10310cc4e204d736b418afc066",
+        "gitBlob": "d1daf061456dfc90b2ea3a57fd172cd733486a30",
+        "bytes": 2106
+      },
+      "sections": {
+        "use": {
+          "start": 30,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 44
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#rampage",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "reckless_charge",
+      "name": "Reckless Charge",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "reckless_charge",
+        "path": "cards/red/RecklessCharge.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/RecklessCharge.java",
+        "sha256": "6593df04e053f74ec9a934d7f01abbd1e1783913cf294fd863a4538939f06d78",
+        "gitBlob": "24ff4349ddc4fff0b58d42bfce2b46e2baedeb15",
+        "bytes": 2169
+      },
+      "sections": {
+        "use": {
+          "start": 30,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 43
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#reckless_charge",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "rupture",
+      "name": "Rupture",
+      "rarity": "uncommon",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "rupture",
+        "path": "cards/red/Rupture.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rupture.java",
+        "sha256": "1859d108d11c49f7d3a4a9f7ecccf713c48f01cc56876936268756b16954287e",
+        "gitBlob": "b927489159511ae31b2c20af8fb28f5560496933",
+        "bytes": 1789
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#rupture",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "searing_blow",
+      "name": "Searing Blow",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "searing_blow",
+        "path": "cards/red/SearingBlow.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SearingBlow.java",
+        "sha256": "4a3775797ba73e8589c30d94060e4760755d9ccc0e2461e6224c607313918eea",
+        "gitBlob": "e3ec02a4a86131bcee6b34fcecfd76abd705ca53",
+        "bytes": 2510
+      },
+      "sections": {
+        "use": {
+          "start": 36,
+          "end": 41
+        },
+        "upgrade": {
+          "start": 43,
+          "end": 50
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#searing_blow",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "second_wind",
+      "name": "Second Wind",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "second_wind",
+        "path": "cards/red/SecondWind.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SecondWind.java",
+        "sha256": "80abdd7147a752e4f3d42ab2b330b055e37aa43473458752c80a4698a78377f9",
+        "gitBlob": "8d4fa9ac7e82417b572900ef3f31ddae8748a28e",
+        "bytes": 1681
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 37
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#second_wind",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "seeing_red",
+      "name": "Seeing Red",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "seeing_red",
+        "path": "cards/red/SeeingRed.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SeeingRed.java",
+        "sha256": "910989bb406a2260811b75aee804bae10b21fcaca53dd5f56ca19f8a5f52f4cd",
+        "gitBlob": "4de8c8805759c4cb3490a3fa8ff5197b504bee5a",
+        "bytes": 1659
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 37
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#seeing_red",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "sentinel",
+      "name": "Sentinel",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "sentinel",
+        "path": "cards/red/Sentinel.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Sentinel.java",
+        "sha256": "d7f1a30872a8831fbb036a02c1bac6baa68592ec95878d965ea53e96385b7b5c",
+        "gitBlob": "4cf6afc9da2b5bcc4faaf1d1bf8a7890f93adef4",
+        "bytes": 2000
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 29
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 48
+        },
+        "triggerOnExhaust": {
+          "start": 31,
+          "end": 37
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#sentinel",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "sever_soul",
+      "name": "Sever Soul",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "sever_soul",
+        "path": "cards/red/SeverSoul.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SeverSoul.java",
+        "sha256": "a13e15eefe2129cbb45bdd95c6254fdd2f07f863682c196c9067712ed7a0571e",
+        "gitBlob": "dadf65f9f2c456fc8ed0f3eec3ebe34c014cbbab",
+        "bytes": 2001
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#sever_soul",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "shockwave",
+      "name": "Shockwave",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "shockwave",
+        "path": "cards/red/Shockwave.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Shockwave.java",
+        "sha256": "de4a47a7ae9332bded422d4e4620e3cb3174e05dc51d8647eba93ad3335d033a",
+        "gitBlob": "d9b15b8ec402b8c45a0de78bdf0009adec06d3c1",
+        "bytes": 2640
+      },
+      "sections": {
+        "use": {
+          "start": 35,
+          "end": 44
+        },
+        "upgrade": {
+          "start": 46,
+          "end": 53
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#shockwave",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "spot_weakness",
+      "name": "Spot Weakness",
+      "rarity": "uncommon",
+      "type": "skill",
+      "target": "SELF_AND_ENEMY",
+      "source": {
+        "id": "spot_weakness",
+        "path": "cards/red/SpotWeakness.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SpotWeakness.java",
+        "sha256": "5b40ebaca89b4bf1fe8c0a02aaa9725ccab4762a56e7d05b600b924a155ad348",
+        "gitBlob": "215e75a99b588892de3e59447db0388e154f94cd",
+        "bytes": 1758
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 29
+        },
+        "upgrade": {
+          "start": 31,
+          "end": 38
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#spot_weakness",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "uppercut",
+      "name": "Uppercut",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "uppercut",
+        "path": "cards/red/Uppercut.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Uppercut.java",
+        "sha256": "af1c49cb4b3075336be696450bd0f4d42996c0370831284209a9cfeafd3cebde",
+        "gitBlob": "38122afc85d1476c6844f6511ec4ee9282830e60",
+        "bytes": 2316
+      },
+      "sections": {
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#uppercut",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "whirlwind",
+      "name": "Whirlwind",
+      "rarity": "uncommon",
+      "type": "attack",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "whirlwind",
+        "path": "cards/red/Whirlwind.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Whirlwind.java",
+        "sha256": "89fb648fece06df53361fedf2e67a5c371daa5dc9157386b73d9d212172e3a39",
+        "gitBlob": "4680ae0d7f4218bf09d44dba101ddda85b2ea542",
+        "bytes": 1800
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": "X",
+      "upgradedCost": "X",
+      "implementation": [
+        "data/cards.json#whirlwind",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "barricade",
+      "name": "Barricade",
+      "rarity": "rare",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "barricade",
+        "path": "cards/red/Barricade.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Barricade.java",
+        "sha256": "fd0d75660eebf157a7d54d0bb4acae0005d6110f7341cf0a8ef4cd327a86e15a",
+        "gitBlob": "9ea02e89cce3dec5a3c37e3608272eeda6fe43fa",
+        "bytes": 2232
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 44
+        },
+        "upgrade": {
+          "start": 46,
+          "end": 53
+        }
+      },
+      "baseCost": 3,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#barricade",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "berserk",
+      "name": "Berserk",
+      "rarity": "rare",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "berserk",
+        "path": "cards/red/Berserk.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Berserk.java",
+        "sha256": "9917b0cf3b333a0e608e0f626b78c6814585d67b2625d7c8f9f100b406babf9f",
+        "gitBlob": "eb5c47b86c23ed733d08678eebd9167981e0373c",
+        "bytes": 1925
+      },
+      "sections": {
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#berserk",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "bludgeon",
+      "name": "Bludgeon",
+      "rarity": "rare",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "bludgeon",
+        "path": "cards/red/Bludgeon.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bludgeon.java",
+        "sha256": "8986014d8875ad6fd86441eca249c3ff1f23706dd6859b049fc119e71c73966d",
+        "gitBlob": "1307e755b634e64030f8abce82597b187956ad67",
+        "bytes": 2236
+      },
+      "sections": {
+        "use": {
+          "start": 31,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "baseCost": 3,
+      "upgradedCost": 3,
+      "implementation": [
+        "data/cards.json#bludgeon",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "brutality",
+      "name": "Brutality",
+      "rarity": "rare",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "brutality",
+        "path": "cards/red/Brutality.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Brutality.java",
+        "sha256": "6275b739d69c86bb4b159a26d37f8f6ec26446fc7aef9c3524feba66af13e206",
+        "gitBlob": "f0f62e3181a5a07b9ca3187c81d5cf090b86475b",
+        "bytes": 1810
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 39
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#brutality",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "corruption",
+      "name": "Corruption",
+      "rarity": "rare",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "corruption",
+        "path": "cards/red/Corruption.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Corruption.java",
+        "sha256": "699333d522ad952d570155848cac4cfd7e9bfe1d06b18025d7adb8a0410f477d",
+        "gitBlob": "08d0be00f7620504bece746a14805b296964e4c0",
+        "bytes": 3076
+      },
+      "sections": {
+        "use": {
+          "start": 36,
+          "end": 57
+        },
+        "upgrade": {
+          "start": 59,
+          "end": 66
+        }
+      },
+      "baseCost": 3,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#corruption",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "demon_form",
+      "name": "Demon Form",
+      "rarity": "rare",
+      "type": "power",
+      "target": "NONE",
+      "source": {
+        "id": "demon_form",
+        "path": "cards/red/DemonForm.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DemonForm.java",
+        "sha256": "a8f5f61b321072950123c74426eb0c51f8b24c95de5029e2a15efa9ee9843f7e",
+        "gitBlob": "6c300ec2319b3c45339e610176be64ec3cf9da2e",
+        "bytes": 1809
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 3,
+      "upgradedCost": 3,
+      "implementation": [
+        "data/cards.json#demon_form",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "double_tap",
+      "name": "Double Tap",
+      "rarity": "rare",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "double_tap",
+        "path": "cards/red/DoubleTap.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/DoubleTap.java",
+        "sha256": "15f6e8fb000f4e2f83d4f47535f9e909a222b546fda8d5d8fc51576cc6caa1c1",
+        "gitBlob": "2859eedc7071addb3ea9990828ea30a2ae113d6a",
+        "bytes": 1910
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 41
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#double_tap",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "exhume",
+      "name": "Exhume",
+      "rarity": "rare",
+      "type": "skill",
+      "target": "NONE",
+      "source": {
+        "id": "exhume",
+        "path": "cards/red/Exhume.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Exhume.java",
+        "sha256": "4b14ccf101319b7c620b1417326255d438d72cb7613c6c94cc63a0f0b50ce88f",
+        "gitBlob": "fa27b0a6dc445b9810e75b3bf5812225485512c9",
+        "bytes": 1623
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 37
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#exhume",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "feed",
+      "name": "Feed",
+      "rarity": "rare",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "feed",
+        "path": "cards/red/Feed.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Feed.java",
+        "sha256": "901eb9cd1f51cab2daa2fda18f030a52a2f74918ef138c3f9cc84dd8fbf6eecf",
+        "gitBlob": "09e76e4a0f7ae013a328dc9009a40c0368aa6eb7",
+        "bytes": 2342
+      },
+      "sections": {
+        "use": {
+          "start": 36,
+          "end": 41
+        },
+        "upgrade": {
+          "start": 43,
+          "end": 51
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#feed",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "fiend_fire",
+      "name": "Fiend Fire",
+      "rarity": "rare",
+      "type": "attack",
+      "target": "ENEMY",
+      "source": {
+        "id": "fiend_fire",
+        "path": "cards/red/FiendFire.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/FiendFire.java",
+        "sha256": "bdcb0bcd2f1ad7e295232275393ea73f2b40ea729d3d2daadef0849866dcc61d",
+        "gitBlob": "affc1a2f34f108396d8726897a78c8226157990a",
+        "bytes": 1774
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#fiend_fire",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "immolate",
+      "name": "Immolate",
+      "rarity": "rare",
+      "type": "attack",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "immolate",
+        "path": "cards/red/Immolate.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Immolate.java",
+        "sha256": "aa2d562d7bafdf7d32c1287588bcc23c412bef7e51c1a4f06ea5916f8a8c92fa",
+        "gitBlob": "22b028660bfa555ee6654e1890b70f741f2b86d3",
+        "bytes": 2131
+      },
+      "sections": {
+        "use": {
+          "start": 31,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#immolate",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "impervious",
+      "name": "Impervious",
+      "rarity": "rare",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "impervious",
+        "path": "cards/red/Impervious.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Impervious.java",
+        "sha256": "e0534bf07507ae43932255db6a7ccf9b2be8d3e2066475c04fa309dad224fc84",
+        "gitBlob": "af9cc28aff132cf34f2dd85a53c7d11e3f51f306",
+        "bytes": 1690
+      },
+      "sections": {
+        "use": {
+          "start": 26,
+          "end": 29
+        },
+        "upgrade": {
+          "start": 31,
+          "end": 38
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#impervious",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "juggernaut",
+      "name": "Juggernaut",
+      "rarity": "rare",
+      "type": "power",
+      "target": "SELF",
+      "source": {
+        "id": "juggernaut",
+        "path": "cards/red/Juggernaut.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Juggernaut.java",
+        "sha256": "d6618db3fd9cb580ff5b9c99a2b619ffd8a0448cc41a70cc070338de469227b8",
+        "gitBlob": "bb70b853aa0efb624752c363754ad9e164940ad3",
+        "bytes": 1815
+      },
+      "sections": {
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 32,
+          "end": 39
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#juggernaut",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "limit_break",
+      "name": "Limit Break",
+      "rarity": "rare",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "limit_break",
+        "path": "cards/red/LimitBreak.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/LimitBreak.java",
+        "sha256": "d76bfdc393b5a2bdee7632f9e4d02e595048fbc9431e2ec318ef590620b2ec50",
+        "gitBlob": "6de7197677692c7356a7252b2c835d9bf0920fe5",
+        "bytes": 1760
+      },
+      "sections": {
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 44
+        }
+      },
+      "baseCost": 1,
+      "upgradedCost": 1,
+      "implementation": [
+        "data/cards.json#limit_break",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "offering",
+      "name": "Offering",
+      "rarity": "rare",
+      "type": "skill",
+      "target": "SELF",
+      "source": {
+        "id": "offering",
+        "path": "cards/red/Offering.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Offering.java",
+        "sha256": "fc693dd1d097683f03caa2187d05489e1c9be609836d37e5ac5295a2b04c47c0",
+        "gitBlob": "9ef755ff73758c567fee03ac8a36fe8a0ee864a1",
+        "bytes": 2246
+      },
+      "sections": {
+        "use": {
+          "start": 30,
+          "end": 39
+        },
+        "upgrade": {
+          "start": 41,
+          "end": 50
+        }
+      },
+      "baseCost": 0,
+      "upgradedCost": 0,
+      "implementation": [
+        "data/cards.json#offering",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    },
+    {
+      "id": "reaper",
+      "name": "Reaper",
+      "rarity": "rare",
+      "type": "attack",
+      "target": "ALL_ENEMY",
+      "source": {
+        "id": "reaper",
+        "path": "cards/red/Reaper.java",
+        "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Reaper.java",
+        "sha256": "fcacc35e503503bc33409bce8a40e1c0e335ec9c1560a6e4dd3ff7ce41258817",
+        "gitBlob": "45c5bf1c97035cd7ecee440e8468b7eb63422a84",
+        "bytes": 2202
+      },
+      "sections": {
+        "use": {
+          "start": 33,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "baseCost": 2,
+      "upgradedCost": 2,
+      "implementation": [
+        "data/cards.json#reaper",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_effects.lua",
+        "src/lua/abyss_card_actions.lua",
+        "src/lua/abyss_actor.lua"
+      ],
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "data": {
+        "status": "defined"
+      },
+      "code": {
+        "status": "implemented-candidate-awaiting-full-review"
+      },
+      "localTests": {
+        "base": "passed-ordinary-execution",
+        "upgraded": "passed-ordinary-execution",
+        "file": "tests/lua/warrior75.lua",
+        "specialInteractions": "tests/lua/warrior75_edges.lua",
+        "fullRegression": "pending"
+      },
+      "platform": {
+        "build": "pending",
+        "import": "pending",
+        "live": "pending",
+        "evidence": []
+      },
+      "strictAcceptance": "pending",
+      "remaining": [
+        "原版cardRng/cardRandomRng/shuffleRng调用及池内顺序尚未全部对齐",
+        "奖励稀有度/获取概率待完整验收",
+        "完整集成回归与逐项自然平台使用待验",
+        "来源为固定社区反编译镜像，未获正版PC二进制认证"
+      ]
+    }
+  ]
+}
