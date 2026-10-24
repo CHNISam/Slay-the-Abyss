@@ -896,11 +896,13 @@
         {
           "op": "applyStatusAll",
           "status": "weak",
+          "targetGroup": "weak_then_vulnerable",
           "value": 3
         },
         {
           "op": "applyStatusAll",
           "status": "vulnerable",
+          "targetGroup": "weak_then_vulnerable",
           "value": 3
         }
       ],
@@ -910,11 +912,13 @@
           {
             "op": "applyStatusAll",
             "status": "weak",
+            "targetGroup": "weak_then_vulnerable",
             "value": 5
           },
           {
             "op": "applyStatusAll",
             "status": "vulnerable",
+            "targetGroup": "weak_then_vulnerable",
             "value": 5
           }
         ]

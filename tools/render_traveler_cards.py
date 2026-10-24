@@ -123,10 +123,24 @@ KNOWN_OPS = {
 }
 
 
-def validate_effects(effects):
+def validate_effects(effects, *, nested=False):
     require(isinstance(effects, list), 'effects: expected array')
+    members = [i for i, effect in enumerate(effects) if isinstance(effect, dict) and 'targetGroup' in effect]
+    if members:
+        require(not nested and len(members) == 2 and members[1] == members[0] + 1,
+                'invalid targetGroup: expected one adjacent top-level pair')
+        first, second = (effects[i] for i in members)
+        for effect, status in ((first, 'weak'), (second, 'vulnerable')):
+            require(set(effect) == {'op', 'status', 'value', 'targetGroup'}
+                    and effect['targetGroup'] == 'weak_then_vulnerable'
+                    and effect['op'] == 'applyStatusAll' and effect['status'] == status,
+                    'invalid targetGroup: expected Weak then Vulnerable')
+            value = effect['value']
+            require(numeric(value) and 1 <= value <= 2147483647 and value % 1 == 0,
+                    'invalid targetGroup: expected positive signed-32-bit integer')
+        require(first['value'] == second['value'], 'invalid targetGroup: unequal amounts')
     for effect in effects:
-        object_fields(effect, {'op','value','times','status','card','if','then'}, {'op'}, 'effect')
+        object_fields(effect, {'op','value','times','status','card','if','then','targetGroup'}, {'op'}, 'effect')
         require(isinstance(effect['op'], str) and effect['op'] in KNOWN_OPS, 'unknown effect operation')
         for key in ('value', 'times'):
             if key in effect:
@@ -139,7 +153,7 @@ def validate_effects(effects):
         else:
             require('if' not in effect and 'then' not in effect, 'unexpected conditional fields')
         if 'then' in effect:
-            validate_effects(effect['then'])
+            validate_effects(effect['then'], nested=True)
 
 
 def render_cards(source, overlay):
