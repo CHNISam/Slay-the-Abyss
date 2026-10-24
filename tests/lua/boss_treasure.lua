@@ -66,6 +66,19 @@ test('eligibility excludes owned relics and Black Blood without its starter',fun
     same(run.nodeFlow.reward.relics,{'slavers_collar'})
     assert(Nodes.claimBossTreasure(run,1));same(run.relics,{'sozu','slavers_collar'})
 end)
+test('an exhausted supported pool remains skippable without a fabricated reward',function()
+    local run,map=beforeChest();run.relics={'black_blood','sozu','slavers_collar'}
+    local gold=run.gold
+    assert(Nodes.enter(run,map,Nodes.available(run,map)[1].id));equal(#run.nodeFlow.reward.relics,0)
+    equal(Nodes.claimBossTreasure(run,1),false)
+    assert(Nodes.claimBossTreasure(run,0));equal(run.phase,'victory');equal(run.gold,gold)
+end)
+test('identical chest-entry RNG replays the offer without consuming state on view',function()
+    local a,am=chest(17);local b,bm=chest(17)
+    same(a.nodeFlow.reward,b.nodeFlow.reward);equal(a.seed,b.seed)
+    local seed=a.seed;for _=1,5 do Nodes.view(a,am);Nodes.view(b,bm) end
+    equal(a.seed,seed);equal(b.seed,seed)
+end)
 test('Black Blood replacement rechecks eligibility before committing',function()
     local run=chest();local index
     for i,id in ipairs(run.nodeFlow.reward.relics) do if id=='black_blood' then index=i end end

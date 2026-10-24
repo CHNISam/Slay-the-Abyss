@@ -28,6 +28,14 @@ test('conditional collar stacks with Sozu and Lantern only on the opening turn',
     local run=battle({'burning_blood','slavers_collar','sozu','lantern'},'elite')
     equal(run.combat.energy,6);assert(Run.endTurn(run));equal(run.combat.energy,5)
 end)
+test('an elite victory does not leave Collar energy in the following ordinary fight',function()
+    local run=battle({'burning_blood','slavers_collar'},'elite')
+    equal(run.combat.energy,4)
+    for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
+    assert(Run.finishCombat(run));assert(Run.claimCardReward(run,0));run.floor=1
+    assert(Run.startCombat(run,'cultist_solo'));equal(run.combat.energy,3)
+    assert(Run.endTurn(run));equal(run.combat.energy,3)
+end)
 test('Sozu blocks new bottles in a vacant slot while owned bottles remain usable',function()
     local run=Run.new(data,42);assert(Run.obtainPotion(run,'fire_potion'));run.relics={'burning_blood','sozu'}
     for _,phase in ipairs({'map','node','reward','combat'}) do
