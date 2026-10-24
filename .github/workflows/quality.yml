@@ -14,9 +14,10 @@ jobs:
   check:
     # Fork code stays on GitHub-hosted infrastructure.
     runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
-    # The complete JS + Lua suite now exceeds 15 minutes on this host.
-    # Keep every fixture and its own timeout; only allow the full job to finish.
-    timeout-minutes: 20
+    # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of
+    # 207 Lua fixtures had run on Node 22. Keep every fixture and its own
+    # timeout; this bound allows the complete serial suite to finish.
+    timeout-minutes: 45
     defaults:
       run:
         shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh -NoProfile -File {0}' || 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' }}
@@ -70,7 +71,13 @@ jobs:
             exit 1
           }
       - run: npm ci --ignore-scripts
-      - run: npm run check:rules
+      # Same commands and order as check:rules, with each phase visible in CI.
+      - run: npm run verify:backlog
+      - run: npm run check:syntax
+      - run: npm test
+      - run: npm run validate:data
+      - run: npm run test:lua
+      - run: npm run build:theme
   presentation:
     # These filesystem tests include symlinks; keep the local service unprivileged.
     runs-on: ubuntu-latest
