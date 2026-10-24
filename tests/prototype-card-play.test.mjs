@@ -59,6 +59,8 @@ test('prototype explicit field requires a fresh stationary tap and consumes its 
     if (mode === 'swipe') context.area.onpointermove(event(600, 300));
     if (mode === 'cancel') context.area.onpointercancel(event(500, 300));
     context.area.onpointerup(event(mode === 'outside' ? 1300 : 500, 300));
+    context.area.onclick({ ...event(500, 300), pointerId: 8 });
+    assert.equal(calls.length, 0, 'foreign click must not submit or consume the owned click');
     context.area.onclick(event(500, 300));
     context.area.onclick(event(500, 300));
     assert.equal(calls.length, mode === 'tap' ? 1 : 0, mode);

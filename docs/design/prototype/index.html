@@ -366,9 +366,9 @@ function bindPlayArea(area){
   let held=null,released=null;
   area.onpointerdown=e=>{held=released=null;if(B.busy||drag||B.sel<0)return;const[x,y]=cvPoint(e);held={id:e.pointerId,x,y,index:B.sel,card:B.hand[B.sel]}};
   area.onpointermove=e=>{if(!held||held.id!==e.pointerId)return;const[x,y]=cvPoint(e);if(Math.hypot(x-held.x,y-held.y)>=8)held=null};
-  area.onpointercancel=()=>{held=released=null};
+  area.onpointercancel=e=>{if(held?.id===e.pointerId)held=null;if(released?.id===e.pointerId)released=null};
   area.onpointerup=e=>{if(!held||held.id!==e.pointerId)return;const h=held;held=null;const[x,y]=cvPoint(e);released=playFieldContains(x,y)&&Math.hypot(x-h.x,y-h.y)<8?h:null};
-  area.onclick=e=>{e.stopPropagation();const h=released;released=null;if(h&&!dragJustEnded&&h.index===B.sel&&h.card===B.hand[B.sel])play(B.sel,null)};
+  area.onclick=e=>{e.stopPropagation();const h=released;if(!h||h.id!==e.pointerId)return;released=null;if(!dragJustEnded&&h.index===B.sel&&h.card===B.hand[B.sel])play(B.sel,null)};
 }
 function dragStart(e,el,i,rot,drop){
   if(drag||B.busy||!playable(B.hand[i]))return;
