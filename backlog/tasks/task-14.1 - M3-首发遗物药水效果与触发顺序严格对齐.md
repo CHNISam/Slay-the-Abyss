@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 11:57'
+updated_date: '2026-10-24 17:07'
 due_date: '2026-10-28'
 labels:
   - required
@@ -47,6 +47,8 @@ ordinal: 42000
 原版PotionPopUp与AbstractPotion.canDiscard明确支持主动丢弃，当前缺入口。追加离线切片：先写Run.discardPotion真实槽位和无效输入原子性红例，再最小新增库存命令；UI接线由主线程随后处理。本树不碰UI。
 
 2026-10-24 用户确认原神已开并授权任意必要验收：从develop31a8f37固定源构建新副本并独立读回；确认窗口/同级权限，clientScriptLog=true导入新存档，取本轮ready/日志/截图。正常资源下验证战后发瓶、跨节点用瓶、丢弃后换瓶与资源账本；明确自动命令驱动和物理UI输入的证据边界，不外推全件实玩或M3整体通过。
+
+2026-10-25 用户批准完整原版内容池：分别固定Ironclad A0第一幕遗物和药水完整来源/顺序/消费目录、实际可达渠道与机制依赖，再按效果钩子分组补齐。13遗物/6可获药水只是历史基线，不能通过受限桶或缺项重抽保持自报概率；跨色等合法依赖必须明确，不静默删池。目录、实现、平台与自然实玩仍分层验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
