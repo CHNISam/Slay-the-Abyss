@@ -1,0 +1,1029 @@
+{
+  "localBaselineCommit": "eb4e8af42297abfc806e58835a36b044f728d028",
+  "localFilesSha256": {
+    "data/cards.json": "82b62ec0a06f8e1a4ad3fbb6015e4138cc505f06c016133d3f98bb7e125dad1a",
+    "data/release/launch-content.json": "de33bd989a52d9b670a05b651e3454cc360b9f2802a7ea37a9dca3646398db8c"
+  },
+  "boundary": "Definition/recorded-launch membership only; no assertion of effect support, platform or playtest acceptance.",
+  "sourceRedAll": 75,
+  "sourceRedNonbasic": 72,
+  "recordedLaunchRed": 30,
+  "redMissingFromRecordedLaunch": [
+    {
+      "sourceId": "Armaments",
+      "class": "Armaments",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Berserk",
+      "class": "Berserk",
+      "cost": 0,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Blood for Blood",
+      "class": "BloodForBlood",
+      "cost": 4,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Brutality",
+      "class": "Brutality",
+      "cost": 0,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Burning Pact",
+      "class": "BurningPact",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Clash",
+      "class": "Clash",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "localDefinitionId": "clash",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Combust",
+      "class": "Combust",
+      "cost": 1,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Corruption",
+      "class": "Corruption",
+      "cost": 3,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Dark Embrace",
+      "class": "DarkEmbrace",
+      "cost": 2,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Demon Form",
+      "class": "DemonForm",
+      "cost": 3,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": "demon_form",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Double Tap",
+      "class": "DoubleTap",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Dual Wield",
+      "class": "DualWield",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Evolve",
+      "class": "Evolve",
+      "cost": 1,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Exhume",
+      "class": "Exhume",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Feed",
+      "class": "Feed",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Feel No Pain",
+      "class": "FeelNoPain",
+      "cost": 1,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Fiend Fire",
+      "class": "FiendFire",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Fire Breathing",
+      "class": "FireBreathing",
+      "cost": 1,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Flame Barrier",
+      "class": "FlameBarrier",
+      "cost": 2,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Havoc",
+      "class": "Havoc",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Headbutt",
+      "class": "Headbutt",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Heavy Blade",
+      "class": "HeavyBlade",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Immolate",
+      "class": "Immolate",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Infernal Blade",
+      "class": "InfernalBlade",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Intimidate",
+      "class": "Intimidate",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Juggernaut",
+      "class": "Juggernaut",
+      "cost": 2,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Limit Break",
+      "class": "LimitBreak",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Metallicize",
+      "class": "Metallicize",
+      "cost": 1,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": "metallicize",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Perfected Strike",
+      "class": "PerfectedStrike",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Power Through",
+      "class": "PowerThrough",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Pummel",
+      "class": "Pummel",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Rage",
+      "class": "Rage",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Reaper",
+      "class": "Reaper",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "RARE",
+      "localDefinitionId": "reaper",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Reckless Charge",
+      "class": "RecklessCharge",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Rupture",
+      "class": "Rupture",
+      "cost": 1,
+      "type": "POWER",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Searing Blow",
+      "class": "SearingBlow",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Second Wind",
+      "class": "SecondWind",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Sentinel",
+      "class": "Sentinel",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Sever Soul",
+      "class": "SeverSoul",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Spot Weakness",
+      "class": "SpotWeakness",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Sword Boomerang",
+      "class": "SwordBoomerang",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "True Grit",
+      "class": "TrueGrit",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "COMMON",
+      "localDefinitionId": "true_grit",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Warcry",
+      "class": "Warcry",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "COMMON",
+      "localDefinitionId": "warcry",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Whirlwind",
+      "class": "Whirlwind",
+      "cost": -1,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": "whirlwind",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Wild Strike",
+      "class": "WildStrike",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    }
+  ],
+  "colorlessShop": [
+    {
+      "sourceId": "Apotheosis",
+      "class": "Apotheosis",
+      "cost": 2,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Bandage Up",
+      "class": "BandageUp",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Blind",
+      "class": "Blind",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Chrysalis",
+      "class": "Chrysalis",
+      "cost": 2,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Dark Shackles",
+      "class": "DarkShackles",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Deep Breath",
+      "class": "DeepBreath",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Discovery",
+      "class": "Discovery",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Dramatic Entrance",
+      "class": "DramaticEntrance",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Enlightenment",
+      "class": "Enlightenment",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Finesse",
+      "class": "Finesse",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Flash of Steel",
+      "class": "FlashOfSteel",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Forethought",
+      "class": "Forethought",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Good Instincts",
+      "class": "GoodInstincts",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "HandOfGreed",
+      "class": "HandOfGreed",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Impatience",
+      "class": "Impatience",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Jack Of All Trades",
+      "class": "JackOfAllTrades",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Madness",
+      "class": "Madness",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Magnetism",
+      "class": "Magnetism",
+      "cost": 2,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Master of Strategy",
+      "class": "MasterOfStrategy",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Mayhem",
+      "class": "Mayhem",
+      "cost": 2,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Metamorphosis",
+      "class": "Metamorphosis",
+      "cost": 2,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Mind Blast",
+      "class": "MindBlast",
+      "cost": 2,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Panacea",
+      "class": "Panacea",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Panache",
+      "class": "Panache",
+      "cost": 0,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "PanicButton",
+      "class": "PanicButton",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Purity",
+      "class": "Purity",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Sadistic Nature",
+      "class": "SadisticNature",
+      "cost": 0,
+      "type": "POWER",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Secret Technique",
+      "class": "SecretTechnique",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Secret Weapon",
+      "class": "SecretWeapon",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Swift Strike",
+      "class": "SwiftStrike",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "The Bomb",
+      "class": "TheBomb",
+      "cost": 2,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Thinking Ahead",
+      "class": "ThinkingAhead",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Transmutation",
+      "class": "Transmutation",
+      "cost": -1,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Trip",
+      "class": "Trip",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Violence",
+      "class": "Violence",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "RARE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    }
+  ],
+  "genericCurse": [
+    {
+      "sourceId": "Clumsy",
+      "class": "Clumsy",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Decay",
+      "class": "Decay",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Doubt",
+      "class": "Doubt",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Injury",
+      "class": "Injury",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Normality",
+      "class": "Normality",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Pain",
+      "class": "Pain",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Parasite",
+      "class": "Parasite",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Regret",
+      "class": "Regret",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": "regret",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Shame",
+      "class": "Shame",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Writhe",
+      "class": "Writhe",
+      "cost": -2,
+      "type": "CURSE",
+      "rarity": "CURSE",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    }
+  ],
+  "status": [
+    {
+      "sourceId": "Burn",
+      "class": "Burn",
+      "cost": -2,
+      "type": "STATUS",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Dazed",
+      "class": "Dazed",
+      "cost": -2,
+      "type": "STATUS",
+      "rarity": "COMMON",
+      "localDefinitionId": "dazed",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Slimed",
+      "class": "Slimed",
+      "cost": 1,
+      "type": "STATUS",
+      "rarity": "COMMON",
+      "localDefinitionId": "slimed",
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Void",
+      "class": "VoidCard",
+      "cost": -2,
+      "type": "STATUS",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Wound",
+      "class": "Wound",
+      "cost": -2,
+      "type": "STATUS",
+      "rarity": "COMMON",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    }
+  ],
+  "specialRegistryNotAutomaticallyAct1Reachable": [
+    {
+      "sourceId": "Ghostly",
+      "class": "Apparition",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Beta",
+      "class": "Beta",
+      "cost": 2,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Bite",
+      "class": "Bite",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "J.A.X.",
+      "class": "JAX",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Insight",
+      "class": "Insight",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Miracle",
+      "class": "Miracle",
+      "cost": 0,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Omega",
+      "class": "Omega",
+      "cost": 3,
+      "type": "POWER",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "RitualDagger",
+      "class": "RitualDagger",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Safety",
+      "class": "Safety",
+      "cost": 1,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Shiv",
+      "class": "Shiv",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Smite",
+      "class": "Smite",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "ThroughViolence",
+      "class": "ThroughViolence",
+      "cost": 0,
+      "type": "ATTACK",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "BecomeAlmighty",
+      "class": "BecomeAlmighty",
+      "cost": -2,
+      "type": "POWER",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "FameAndFortune",
+      "class": "FameAndFortune",
+      "cost": -2,
+      "type": "SKILL",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "LiveForever",
+      "class": "LiveForever",
+      "cost": -2,
+      "type": "POWER",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    },
+    {
+      "sourceId": "Expunger",
+      "class": "Expunger",
+      "cost": 1,
+      "type": "ATTACK",
+      "rarity": "SPECIAL",
+      "localDefinitionId": null,
+      "inRecordedLaunch": false
+    }
+  ],
+  "redDefinitionMetadataMismatches": [
+    {
+      "sourceId": "Whirlwind",
+      "localId": "whirlwind",
+      "field": "cost",
+      "source": -1,
+      "current": 0
+    }
+  ]
+}
