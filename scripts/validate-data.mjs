@@ -169,7 +169,7 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
       if (a.kind === 'louse') {
         keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange', 'curlUpRange'], ap);
         reference('curl_up', 'statuses', `${ap}.curl_up`);
@@ -228,7 +228,7 @@ export function validateContent(bundle) {
           || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== 1) {
           fail(`${ap}.spitIntent`, 'must contain damage followed by exactly one Slimed creation');
         }
-      } else if (a.kind === 'spike_slime_m') {
+      } else if (a.kind === 'spike_slime_m' || a.kind === 'spike_slime_l') {
         keys(a, ['kind', 'tackleIntent', 'frailIntent', 'rollRange', 'tackleCutoff'], ap);
         intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
         intentReference(a.frailIntent, `${ap}.frailIntent`, 'debuff');
@@ -238,9 +238,10 @@ export function validateContent(bundle) {
         if (!(a.tackleCutoff < a.rollRange)) fail(`${ap}.tackleCutoff`, 'cutoff must be below rollRange');
         const tackle = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.tackleIntent);
         const payload = tackle?.effects;
+        const slimedCount = a.kind === 'spike_slime_l' ? 2 : 1;
         if (!Array.isArray(payload) || payload.length !== 2 || payload[0]?.op !== 'damage'
-          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== 1) {
-          fail(`${ap}.tackleIntent`, 'must contain damage followed by exactly one Slimed creation');
+          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== slimedCount) {
+          fail(`${ap}.tackleIntent`, `must contain damage followed by exactly ${slimedCount} Slimed creation`);
         }
       } else if (a.kind === 'shield_gremlin') {
         keys(a, ['kind', 'protectIntent', 'attackIntent', 'rollRange'], ap);
