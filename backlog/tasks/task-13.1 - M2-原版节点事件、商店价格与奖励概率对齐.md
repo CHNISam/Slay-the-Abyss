@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 09:16'
+updated_date: '2026-10-24 16:55'
 due_date: '2026-10-28'
 labels:
   - required
@@ -46,6 +46,8 @@ ordinal: 41000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-24 商店专项：在 feat/shop-parity 隔离工作树复用既有价格证据与 Lua 算术；按固定来源核对库存/稀有度，先红后绿覆盖 7 牌/3 遗物/3 药水与一次删除、价格、折扣、事务和重入；移除正常商店分页，保留选牌器分页与触摸归属保护。缺少内容保留明确不可售槽位，不重分概率；记录受限池、原版种子轨迹与实机证据差距；独立 PR 交付，整体 AC 不因 CI 勾选。
+
+2026-10-25 战后金币最小切片：先固定AbstractRoom等原版来源，确认普通与精英的treasure流闭区间、Boss按层misc流、全逃跑与修饰结算；独立向量及真实红例后替换正式入口固定15/30/100，显式领取与重复拒绝保持。只改Run和必要局部模块；失败原子、同局续流和legacy边界逐项验证。宝箱共享全轨迹仍未接，明确保留，不扩卡牌或新遗物，整体AC不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
