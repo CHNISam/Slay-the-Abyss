@@ -154,11 +154,14 @@ export function validateContent(bundle) {
         if (intentIds.has(intent.id)) fail(`${ip}.id`, `duplicate ID ${intent.id}`);
         intentIds.add(intent.id);
       }
-      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned', 'charge'], `${ip}.kind`);
+      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned', 'charge', 'split'], `${ip}.kind`);
       if (intent.kind === 'charge' && (entry.ai?.kind !== 'charge_then_attack' || entry.ai?.chargeIntent !== intent.id)) {
         fail(`${ip}.kind`, 'charge intent requires matching AI');
       }
-      if (['sleep', 'stunned', 'charge'].includes(intent.kind)) {
+      if (intent.kind === 'split' && (entry.ai?.kind !== 'spike_slime_l' || entry.ai?.splitIntent !== intent.id)) {
+        fail(`${ip}.kind`, 'split intent requires matching AI');
+      }
+      if (['sleep', 'stunned', 'charge', 'split'].includes(intent.kind)) {
         if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
       } else effects(intent.effects, `${ip}.effects`, 0, true);
     });
@@ -167,7 +170,7 @@ export function validateContent(bundle) {
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
-        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
+        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge', 'split'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
       enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
       if (a.kind === 'louse') {
@@ -229,7 +232,17 @@ export function validateContent(bundle) {
           fail(`${ap}.spitIntent`, 'must contain damage followed by exactly one Slimed creation');
         }
       } else if (a.kind === 'spike_slime_m' || a.kind === 'spike_slime_l') {
-        keys(a, ['kind', 'tackleIntent', 'frailIntent', 'rollRange', 'tackleCutoff'], ap);
+        const splitKeys = a.kind === 'spike_slime_l' ? ['splitIntent', 'splitEnemy', 'splitCount', 'splitHpDivisor'] : [];
+        keys(a, ['kind', 'tackleIntent', 'frailIntent', 'rollRange', 'tackleCutoff', ...splitKeys], ap);
+        if (a.kind === 'spike_slime_l') {
+          intentReference(a.splitIntent, `${ap}.splitIntent`, 'split');
+          enumeration(a.splitEnemy, ['spike_slime_m'], `${ap}.splitEnemy`);
+          reference(a.splitEnemy, 'enemies', `${ap}.splitEnemy`);
+          const child = lists.enemies.find(e => isObject(e) && e.id === a.splitEnemy);
+          if (child?.ai?.kind !== 'spike_slime_m') fail(`${ap}.splitEnemy`, 'requires the supported medium policy');
+          integer(a.splitCount, `${ap}.splitCount`, 2, 2);
+          integer(a.splitHpDivisor, `${ap}.splitHpDivisor`, 2, 2);
+        }
         intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
         intentReference(a.frailIntent, `${ap}.frailIntent`, 'debuff');
         if (a.tackleIntent === a.frailIntent) fail(ap, 'move intents must be distinct');
@@ -375,11 +388,14 @@ export function validateContent(bundle) {
     integer(entry.minFloor, `${p}.minFloor`, 1, 16);
     integer(entry.maxFloor, `${p}.maxFloor`, 1, 16);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
+    let expandedSlots = 0;
     array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
       reference(id, 'enemies', `${p}.enemies[${j}]`);
       const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
+      expandedSlots += enemy?.ai?.kind === 'spike_slime_l' ? 3 : 1;
       if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
     });
+    if (expandedSlots > 5) fail(`${p}.enemies`, 'must fit five UI slots including retained split parents');
   });
   // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
   for (const [floor, tier] of [[1, 'normal'], [16, 'boss']]) {

@@ -364,7 +364,7 @@
       "tier": "normal",
       "hp": 68,
       "hpRange": { "min": 64, "max": 70 },
-      "ai": { "kind": "spike_slime_l", "tackleIntent": "spike_slime_l_1", "frailIntent": "spike_slime_l_2", "rollRange": 100, "tackleCutoff": 30 },
+      "ai": { "kind": "spike_slime_l", "tackleIntent": "spike_slime_l_1", "frailIntent": "spike_slime_l_2", "rollRange": 100, "tackleCutoff": 30, "splitIntent": "spike_slime_l_split", "splitEnemy": "spike_slime_m", "splitCount": 2, "splitHpDivisor": 2 },
       "intents": [
         {
           "id": "spike_slime_l_1",
@@ -391,7 +391,8 @@
               "value": 2
             }
           ]
-        }
+        },
+        { "id": "spike_slime_l_split", "kind": "split", "effects": [] }
       ]
     },
     {

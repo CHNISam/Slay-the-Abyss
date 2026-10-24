@@ -65,6 +65,9 @@ local function intentText(state, index, detailed)
     if intent.kind == "charge" then return "蓄能", "unknown" end
     if intent.kind == "sleep" then return "沉睡", "sleep" end
     if intent.kind == "stunned" then return "苏醒中", "unknown" end
+    if intent.kind == "split" then
+        return detailed and "分裂为两只中型棘刺团，各自生命等于分裂时的当前生命。" or "分裂", "unknown"
+    end
     local result, compact = {}, {}
     local enemy, player = Combat.copy(state.enemies[index]), Combat.copy(state.player)
     for _, effect in ipairs(intent.effects) do
@@ -153,6 +156,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function cancelActionInputs()
         for _, input in ipairs(actionInputs) do input.held, input.released = nil, nil end
     end
+    -- Dynamic spawns can occupy an old enemy slot. Pointer ownership follows
+    -- the actor object, battle and turn, never a reusable numeric slot alone.
+    local enemyInputs, enemyPointerObserved = {}, false
+    local function enemyReady(g)
+        return not self.info and dragReady(g) and g.actor.hp > 0 and g.battle.enemies[g.slot] == g.actor
+    end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
         local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
@@ -215,6 +224,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         cancelCardInputs()
         cancelPotionInputs()
         cancelActionInputs()
+        for _, input in ipairs(enemyInputs) do input.held, input.released = nil, nil end
         if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
         if closeInfo() then cancelled = true end
         self.canvasWidth, self.canvasHeight = width, height
@@ -417,6 +427,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for _, input in ipairs(actionInputs) do
             if input.held and not actionReady(input.held) then input.held = nil end
             if input.released and not actionReady(input.released) then input.released = nil end
+        end
+        for _, input in ipairs(enemyInputs) do
+            if input.held and not enemyReady(input.held) then input.held = nil end
+            if input.released and not enemyReady(input.released) then input.released = nil end
         end
         if self.busy and self.feedback and (self.feedbackRun ~= run or self.feedbackBattle ~= (run and run.combat)) then
             self.feedback:cancel() return
@@ -955,7 +969,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         hit:AddCursorEventListener(cursor.CursorUp,release)
         hit:AddCursorEventListener(cursor.CursorEndDrag,function(event) release(event,nil,true) end)
     end
-    for i = 1, 5 do local target = i listen(child("enemy" .. i):GetChild("hit"),function()
+    for i = 1, 5 do
+        local target, control, input = i, child("enemy" .. i):GetChild("hit"), {}
+        enemyInputs[i] = input
+        local function chooseEnemy()
         if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and self.run.combat.enemies[target].hp > 0 then
             self.target = target
             local selected
@@ -968,7 +985,50 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 notice(prefix .. "意图：" .. intentText(self.run.combat, target, true)) refresh()
             end
         end
-    end) end
+        end
+        control:AddCursorEventListener(clickEvent, function(event)
+            if swallowed(event) then
+                -- Dismissal consumes this pointer too, but cannot consume a
+                -- newer token owned by a different touch on the same actor.
+                local touch = event and event.touchId
+                if input.held and input.held.touch == touch then input.held = nil end
+                if input.released and input.released.touch == touch then input.released = nil end
+                return
+            end
+            if enemyPointerObserved then
+                -- Existing enemy hosts may send Down/Click without Up. Both
+                -- forms consume the same actor-bound, one-shot ownership.
+                local released = input.released or input.held
+                if not released or released.touch ~= (event and event.touchId) then return end
+                input.held, input.released = nil, nil
+                if not enemyReady(released) then return end
+            end
+            if not self.suppressClick and not self.gesture then return chooseEnemy() end
+        end)
+        if self.dragEnabled then
+            control:AddCursorEventListener(cursor.CursorDown, function(event)
+                enemyPointerObserved = true
+                local dismissed = down(event)
+                input.held, input.released = nil, nil
+                if dismissed then return end
+                local run, battle = self.run, self.run and self.run.combat
+                local actor = battle and battle.enemies[target]
+                if not actor then return end
+                local g = {slot=target, actor=actor, run=run, battle=battle,
+                    turn=battle.turn, touch=event and event.touchId}
+                if enemyReady(g) then input.held = g end
+            end)
+            local function releaseEnemy(event, ended)
+                local touch, held = event and event.touchId, input.held
+                if held and held.touch == touch then
+                    input.held = nil
+                    input.released = not ended and enemyReady(held) and held or nil
+                elseif ended and input.released and input.released.touch == touch then input.released = nil end
+            end
+            control:AddCursorEventListener(cursor.CursorUp, releaseEnemy)
+            control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releaseEnemy(event, true) end)
+        end
+    end
     -- Enemy portraits keep targeting; the hero portrait and every status row only open
     -- details, so a status tap never plays a card or moves the potion target.
     listen(child("hero"):GetChild("hit"), function() self:showStatus(0) end)

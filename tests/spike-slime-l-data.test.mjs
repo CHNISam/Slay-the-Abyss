@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent,validateContent} from '../scripts/validate-data.mjs';
 const enemy=d=>d.enemies.enemies.find(e=>e.id==='spike_slime_l');
-const policy={kind:'spike_slime_l',tackleIntent:'spike_slime_l_1',frailIntent:'spike_slime_l_2',rollRange:100,tackleCutoff:30};
+const policy={kind:'spike_slime_l',tackleIntent:'spike_slime_l_1',frailIntent:'spike_slime_l_2',rollRange:100,tackleCutoff:30,splitIntent:'spike_slime_l_split',splitEnemy:'spike_slime_m',splitCount:2,splitHpDivisor:2};
 const setup=()=>{const d=loadContent('data'),e=enemy(d);e.ai={...policy};e.hpRange={min:64,max:70};e.intents[0].effects=[{op:'damage',value:16},{op:'makeTempCardInDiscard',card:'slimed',value:2}];return d;};
 test('existing playable Large Spike declares source-proven A0 HP policy and payload',()=>{const d=loadContent('data'),e=enemy(d);assert.deepEqual(e.hpRange,{min:64,max:70});assert.deepEqual(e.ai,policy);assert.deepEqual(e.intents[0].effects,[{op:'damage',value:16},{op:'makeTempCardInDiscard',card:'slimed',value:2}]);assert.deepEqual(e.intents[1].effects,[{op:'applyStatus',status:'frail',value:2}]);assert.deepEqual(validateContent(d),[]);});
 test('bounded Large Spike policy is accepted',()=>assert.deepEqual(validateContent(setup()),[]));

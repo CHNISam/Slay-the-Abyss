@@ -286,8 +286,11 @@ function M.new(stage, platform, present, complete)
             elseif entry.kind ~= "damage" then area = false end
             self.queue[#self.queue + 1] = entry
             if entry.frame then
-                for j, a in ipairs(entry.frame.enemies) do
-                    if previous.enemies[j].hp > 0 and a.hp <= 0 then pending[#pending + 1] = a.id end
+                local priorActors = {}
+                for _, a in ipairs(previous.enemies) do priorActors[a.id] = a end
+                for _, a in ipairs(entry.frame.enemies) do
+                    local prior = priorActors[a.id]
+                    if prior and prior.hp > 0 and a.hp <= 0 then pending[#pending + 1] = a.id end
                 end
                 previous = entry.frame
             end
