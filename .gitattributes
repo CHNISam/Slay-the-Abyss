@@ -3,3 +3,8 @@ tests/fixtures/sts1/maps/*.json text eol=lf
 # Preserve the supplied lore packet hashes on Windows checkouts.
 data/presentation/narrative.zh-CN.json text eol=lf
 docs/lore/source/** text eol=lf
+# These live evidence files are checked against their original byte hashes.
+docs/evidence/m1-live-5165a78/log-decoded.json text eol=lf
+docs/evidence/m1-live-5165a78/log-counts.json text eol=lf
+docs/evidence/m1-live-5165a78/exit-special/log-decoded.json text eol=lf
+docs/evidence/m1-live-5165a78/exit-special/log-counts.json text eol=lf
