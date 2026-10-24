@@ -1,0 +1,27 @@
+{
+  "base": "76bbefade36b66c21c3c50964c8f28d8da9169a5",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "productionQueueWired": false,
+  "contentBindingsComplete": false,
+  "bindings": [
+    {"source":"Cultist","status":"bound","ids":["cultist_solo"],"enemies":["cultist"]},
+    {"source":"Jaw Worm","status":"bound","ids":["jaw_solo"],"enemies":["jaw_worm"]},
+    {"source":"2 Louse","status":"blocked","ids":["louse_pair"],"reason":"Each original slot calls getLouse/misc Boolean; current group fixes red,green."},
+    {"source":"Small Slimes","status":"bound","ids":["small_slimes"],"enemies":["acid_slime_s","spike_slime_m"],"enemiesOnTrue":["spike_slime_s","acid_slime_m"]},
+    {"source":"Blue Slaver","status":"bound","ids":["blue_slaver_solo"],"enemies":["blue_slaver"]},
+    {"source":"Gremlin Gang","status":"bound","ids":["gremlin_gang"],"gremlinPool":["mad_gremlin","mad_gremlin","sneaky_gremlin","sneaky_gremlin","fat_gremlin","fat_gremlin","shield_gremlin","wizard_gremlin"],"gremlinCount":4},
+    {"source":"Looter","status":"bound","ids":["looter_solo"],"enemies":["looter"]},
+    {"source":"Large Slime","status":"blocked","ids":["large_acid","large_spike"],"reason":"One original group consumes a misc Boolean to choose acid/spike. Current map treats two IDs as separate queue entries."},
+    {"source":"Lots of Slimes","status":"blocked","ids":[],"reason":"Missing five-slot source group: three SpikeSlime_S and two AcidSlime_S, drawn without replacement in source order. medium_slimes is not a legal substitute."},
+    {"source":"Exordium Thugs","status":"blocked","ids":[],"reason":"Missing weak-wildlife plus strong-humanoid dynamic group, including source misc offsets, eager candidate construction and selection consumption."},
+    {"source":"Exordium Wildlife","status":"blocked","ids":["wildlife"],"reason":"Current jaw+green louse is only one variant. Original strong wildlife selects Fungi/Jaw, weak wildlife selects random Louse/SpikeM/AcidM, with misc offsets and eager candidate construction."},
+    {"source":"Red Slaver","status":"bound","ids":["red_slaver_solo"],"enemies":["red_slaver"]},
+    {"source":"3 Louse","status":"blocked","ids":["louse_trio"],"reason":"Each original slot calls getLouse/misc Boolean; current group fixes red,green,red."},
+    {"source":"2 Fungi Beasts","status":"bound","ids":["fungi_pair"],"enemies":["fungi_beast","fungi_beast"]},
+    {"source":"Gremlin Nob","status":"bound","ids":["elite_nob"],"enemies":["gremlin_nob"]},
+    {"source":"Lagavulin","status":"bound","ids":["elite_lagavulin"],"enemies":["lagavulin"]},
+    {"source":"3 Sentries","status":"bound","ids":["elite_sentries"],"enemies":["sentry","sentry","sentry"]}
+  ],
+  "unmappedProductionEntries": ["medium_slimes"],
+  "boundary": "bound means group identity/member assembly mapping only; HP/AI/shuffle/misc room reseeding and actual PC/platform parity are not certified"
+}
