@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 14:10'
+updated_date: '2026-10-24 14:24'
 due_date: '2026-10-28'
 labels:
   - required
@@ -13,6 +14,7 @@ dependencies: []
 references:
   - >-
     https://github.com/CHNISam/Slay-the-Abyss/pull/183#pullrequestreview-5638534554
+  - docs/reviews/TASK-30.1-play-area-coordinates.md
 parent_task_id: TASK-30
 priority: high
 type: bug
@@ -38,3 +40,9 @@ ordinal: 90000
 <!-- SECTION:PLAN:BEGIN -->
 复用PR183评审四例和最新3c3b660主线。仅在坐标解析与playArea确认门槛区分明确坏坐标和未提供API，保持原C档与其他调用契约；不修改战斗数值/卡牌规则/布局。补有限/无API/NaN/正负Infinity及取消重试，覆盖迟到事件和已有手势回归，当前CI后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+最小修复仅给明确NaN/正负无穷坐标增加局部拒绝标记，保留缺API与原未知坐标C档。真实31专项先13过18败后全过，9负变异被捕获；独立96矩阵、173原生Lua、1090纯Node、22Python通过。首次15模块寻址环境失败保留，补正确LUA_PATH后全量重跑；无安装或预算变化。尚待本PR当前SHA CI与合并，未改父任务平台AC，未认证PR182组合或实机。
+<!-- SECTION:NOTES:END -->

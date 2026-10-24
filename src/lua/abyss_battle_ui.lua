@@ -1260,7 +1260,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function point(event)
         if not event or type(event.GetUIPos) ~= "function" then return end
         local x,y = event:GetUIPos()
-        if type(x) ~= "number" or type(y) ~= "number" or x ~= x or y ~= y or math.abs(x) == math.huge or math.abs(y) == math.huge then return end
+        -- Keep unavailable coordinates compatible, but let field taps reject explicit bad numbers.
+        if type(x) == "number" and (x ~= x or math.abs(x) == math.huge)
+            or type(y) == "number" and (y ~= y or math.abs(y) == math.huge) then return nil,nil,true end
+        if type(x) ~= "number" or type(y) ~= "number" then return end
         local width,height = self.canvasWidth or Theme.canvas.base[1],self.canvasHeight or Theme.canvas.base[2]
         local k = math.min(width/Theme.canvas.base[1],height/Theme.canvas.base[2])
         return (x-width/2)/k,(y-height/2)/k
@@ -1394,18 +1397,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     potionUnavailable = run and run.rewards and run.rewards.potion and run.rewards.potion.unavailable,
                     claimed = run and run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.claimed}
                 if name == "playArea" and battle then
-                    g.x,g.y = point(event)
+                    g.x,g.y,g.invalidPoint = point(event)
                     for i,instance in ipairs(battle.hand) do if instance.uid == self.selected then g.slot = i break end end
                 end
-                if actionReady(g) then input.held = g end
+                if not g.invalidPoint and actionReady(g) then input.held = g end
             end)
             local function releaseAction(event, ended)
                 local touch, held = event and event.touchId, input.held
                 if held and held.touch == touch then
                     input.held = nil
-                    local x,y = point(event)
-                    local fieldValid = name ~= "playArea" or not x or inPlayArea(x,y)
-                        and (not held.x or (x-held.x)^2+(y-held.y)^2 < D.threshold^2)
+                    local x,y,invalidPoint = point(event)
+                    local fieldValid = name ~= "playArea" or not invalidPoint and (not x or inPlayArea(x,y)
+                        and (not held.x or (x-held.x)^2+(y-held.y)^2 < D.threshold^2))
                     input.released = not ended and fieldValid and actionReady(held) and held or nil
                 elseif ended and input.released and input.released.touch == touch then
                     input.released = nil
