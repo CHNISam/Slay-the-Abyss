@@ -179,11 +179,11 @@ test("shop deletion targets uid, charges once, and reserves the increase for the
     assert(Nodes.buyCard(run, offer.id)); assert(Nodes.leaveShop(run))
 end)
 
-test("failed last-card removal does not consume the shop service", function()
+test("invalid UID does not consume the last-card shop service", function()
     local run, map = entered("shop")
     while #run.deck > 1 do table.remove(run.deck) end
     run.gold = 10000
-    rejected(run, map, function() return Nodes.removeCard(run, run.deck[1].uid) end, "last_card")
+    rejected(run, map, function() return Nodes.removeCard(run, -1) end, "invalid_card")
     equal(Nodes.view(run, map).node.removeAvailable, true)
     local offer = run.nodeFlow.cards[1]
     assert(Nodes.buyCard(run, offer.id))

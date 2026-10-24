@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 10:29'
-updated_date: '2026-10-24 10:49'
+updated_date: '2026-10-24 11:07'
 due_date: '2026-10-28'
 labels:
   - required
@@ -46,5 +46,5 @@ ordinal: 86000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-四敌候选池与成功后提交已实现，1680种选择分支、真实入口和失败重试已有红绿及独立回归。161份native Lua与1029项所选Node通过；正式当前提交CI待运行，不等于Fengari或实机通过。原策略seed1真实战胜四小魔后在16层正常失败，全部五局结果与随机流边界如实保留。由dot原生Agent实施和独立审查；当前PATH未找到OpenCode，未新增安装或调用用户Codex/外部模型，额度和费用节省未测。
+原版四敌抽取代码已提交PR178，e410934a的Quality40087672805两项成功。现接合已合PR177的首发清单：旧门禁直接读取固定enemies会崩溃，已独立复现并完成四文件兼容；保留medium_slimes与所有未验收标记。组合目标仍须自身CI和合并，不算已交付。dot原生Agent执行与独立评审，未新增安装或使用用户Codex/外部模型；额度与费用节省未测。
 <!-- SECTION:NOTES:END -->

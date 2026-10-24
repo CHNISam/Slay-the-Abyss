@@ -246,6 +246,22 @@ function M.obtainPotion(run, id)
     return false, "potion_slots_full"
 end
 
+-- Discard never executes a potion effect and does not require a player turn.
+-- The original WeMeetAgain event veto is outside the supported event pool.
+function M.discardPotion(run, slot)
+    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
+        return false, "invalid_potion_slot"
+    end
+    local id = run.potions[slot]
+    if not id then return false, "empty_potion_slot" end
+    if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    -- Like usePotion, a destructive transaction expires old physical gestures,
+    -- even if the same bottle ID is immediately acquired in the vacant slot.
+    run.potions = Combat.copy(run.potions)
+    run.potions[slot] = nil
+    return true
+end
+
 local function potionCandidate(run, slot, targetIndex)
     if run.phase ~= "combat" then return nil, "not_in_combat" end
     if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end

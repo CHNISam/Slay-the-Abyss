@@ -1,0 +1,1772 @@
+{
+  "schemaVersion": 1,
+  "scope": "Ironclad / Geo Lumine / Act 1 / PC A0",
+  "baseline": "6e8714f",
+  "integratedBaseline": "b757705",
+  "status": "scope-baseline-awaiting-per-item-acceptance",
+  "updated": "2026-10-24",
+  "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
+  "knownBlockers": [
+    { "ids": ["medium_slimes"], "status": "production-composition-needs-correction", "evidence": "docs/reviews/TASK-15-encounter-composition-audit-20261024.md", "tasks": ["TASK-15", "TASK-47"] },
+    { "ids": ["map"], "status": "full-parity-candidate-not-deployed", "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md", "tasks": ["TASK-12.4", "TASK-12.5"] },
+    { "ids": ["shockwave", "barricade"], "status": "strict-sequence-difference-recorded", "evidence": "docs/reviews/TASK-16-m3-card-audit.md", "tasks": ["TASK-16", "TASK-16.1"] }
+  ],
+  "profiles": {
+    "cards": {
+      "tasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-12.5"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_battle_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/card_pool.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "30 base/upgraded rules have existing local fixtures. Shop/camp setup is isolated and not a natural full-run proof; rarity/RNG parity remains TASK-16.1."
+    },
+    "generatedCards": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-15",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_actor.lua",
+        "src/lua/abyss_nodes.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/golden_shrine.lua",
+          "tests/lua/encounter_coverage.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Statuses and curses are not part of the 30 collectible/playable class cards."
+    },
+    "enemies": {
+      "tasks": [
+        "TASK-15",
+        "TASK-47",
+        "TASK-12.5"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_enemy_ai.lua",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_battle_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/encounter_coverage.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Encounter construction coverage does not establish every AI branch, source parity or natural victory."
+    },
+    "encounters": {
+      "tasks": [
+        "TASK-12.5",
+        "TASK-15",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_map.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_run.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/encounter_coverage.lua",
+          "tests/lua/map.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "14 normal + 3 elite + 1 Boss combinations; topology/selection/RNG parity remains open. A populated ID does not prove original encounter rules."
+    },
+    "events": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-12.5",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_event_pool.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/unknown_events.lua",
+          "tests/lua/cleric.lua",
+          "tests/lua/golden_shrine.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Restricted seven-event pool; not the full original pool. Per-option natural eligibility and real-game execution remain pending."
+    },
+    "relics": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-13.1",
+        "TASK-47",
+        "TASK-12.5"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_inventory.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_shop.lua",
+        "src/lua/abyss_run.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/inventory_parity.lua",
+          "tests/lua/opening_relic_order.lua",
+          "tests/lua/shop.lua",
+          "tests/lua/boss_relic_effects.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Restricted relic pool; acquisition route and effect must both be verified. Shop-only effects use merchant rules."
+    },
+    "potions": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-12.5"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_potion_rewards.lua",
+        "src/lua/abyss_shop.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_battle_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/inventory_parity.lua",
+          "tests/lua/potion_rewards.lua",
+          "tests/lua/potion_slots.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Six obtainable Ironclad potions; rare bucket unavailable, never rerolled. Poison Potion is Silent-exclusive and excluded."
+    },
+    "bosses": {
+      "tasks": [
+        "TASK-17.2",
+        "TASK-17.3",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_guardian_ai.lua",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_nodes.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/guardian_ai.lua",
+          "tests/lua/boss_treasure.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "One Boss on floor 16, separate treasure on 17. M2 completion does not prove every Guardian transition."
+    }
+  },
+  "cards": [
+    {
+      "id": "strike",
+      "source": "data/cards.json#strike",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "basic",
+      "channels": [
+        "starter_deck",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "defend",
+      "source": "data/cards.json#defend",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "basic",
+      "channels": [
+        "starter_deck",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "bash",
+      "source": "data/cards.json#bash",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "basic",
+      "channels": [
+        "starter_deck",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "cleave",
+      "source": "data/cards.json#cleave",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "clothesline",
+      "source": "data/cards.json#clothesline",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "iron_wave",
+      "source": "data/cards.json#iron_wave",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "anger",
+      "source": "data/cards.json#anger",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "body_slam",
+      "source": "data/cards.json#body_slam",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "flex",
+      "source": "data/cards.json#flex",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "twin_strike",
+      "source": "data/cards.json#twin_strike",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "pommel_strike",
+      "source": "data/cards.json#pommel_strike",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "shrug_it_off",
+      "source": "data/cards.json#shrug_it_off",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "thunderclap",
+      "source": "data/cards.json#thunderclap",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "common",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "uppercut",
+      "source": "data/cards.json#uppercut",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "inflame",
+      "source": "data/cards.json#inflame",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "battle_trance",
+      "source": "data/cards.json#battle_trance",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "bloodletting",
+      "source": "data/cards.json#bloodletting",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "barricade",
+      "source": "data/cards.json#barricade",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "rare",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": true
+    },
+    {
+      "id": "carnage",
+      "source": "data/cards.json#carnage",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "disarm",
+      "source": "data/cards.json#disarm",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "dropkick",
+      "source": "data/cards.json#dropkick",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "entrench",
+      "source": "data/cards.json#entrench",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "ghostly_armor",
+      "source": "data/cards.json#ghostly_armor",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "hemokinesis",
+      "source": "data/cards.json#hemokinesis",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "rampage",
+      "source": "data/cards.json#rampage",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "seeing_red",
+      "source": "data/cards.json#seeing_red",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "shockwave",
+      "source": "data/cards.json#shockwave",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "uncommon",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": false
+    },
+    {
+      "id": "offering",
+      "source": "data/cards.json#offering",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "rare",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": true
+    },
+    {
+      "id": "impervious",
+      "source": "data/cards.json#impervious",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "rare",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": true
+    },
+    {
+      "id": "bludgeon",
+      "source": "data/cards.json#bludgeon",
+      "profile": "cards",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "rarity": "rare",
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ],
+      "bossReward": true
+    }
+  ],
+  "generatedCards": [
+    {
+      "id": "dazed",
+      "source": "data/cards.json#dazed",
+      "profile": "generatedCards",
+      "type": "status",
+      "channels": [
+        "enemy:sentry:intent"
+      ],
+      "versions": [
+        "base"
+      ],
+      "countsTowardThirty": false
+    },
+    {
+      "id": "slimed",
+      "source": "data/cards.json#slimed",
+      "profile": "generatedCards",
+      "type": "status",
+      "channels": [
+        "enemy:acid_slime_m:intent",
+        "enemy:acid_slime_l:intent",
+        "enemy:spike_slime_m:intent",
+        "enemy:spike_slime_l:intent"
+      ],
+      "versions": [
+        "base"
+      ],
+      "countsTowardThirty": false
+    },
+    {
+      "id": "regret",
+      "source": "data/cards.json#regret",
+      "profile": "generatedCards",
+      "type": "curse",
+      "channels": [
+        "event:golden_shrine:desecrate"
+      ],
+      "versions": [
+        "base"
+      ],
+      "countsTowardThirty": false
+    }
+  ],
+  "enemies": [
+    {
+      "id": "cultist",
+      "source": "data/enemies.json#cultist",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:cultist_solo"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "jaw_worm",
+      "source": "data/enemies.json#jaw_worm",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:jaw_solo",
+        "encounter:wildlife"
+      ],
+      "aiEntry": "src/lua/abyss_jaw_worm_ai.lua"
+    },
+    {
+      "id": "red_louse",
+      "source": "data/enemies.json#red_louse",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:louse_pair",
+        "encounter:louse_trio"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "green_louse",
+      "source": "data/enemies.json#green_louse",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:louse_pair",
+        "encounter:louse_trio",
+        "encounter:wildlife"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "acid_slime_s",
+      "source": "data/enemies.json#acid_slime_s",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:small_slimes"
+      ],
+      "aiEntry": "src/lua/abyss_acid_slime_s_ai.lua"
+    },
+    {
+      "id": "acid_slime_m",
+      "source": "data/enemies.json#acid_slime_m",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:small_slimes",
+        "encounter:medium_slimes"
+      ],
+      "aiEntry": "src/lua/abyss_acid_slime_m_ai.lua"
+    },
+    {
+      "id": "acid_slime_l",
+      "source": "data/enemies.json#acid_slime_l",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:large_acid"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "spike_slime_s",
+      "source": "data/enemies.json#spike_slime_s",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:small_slimes"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "spike_slime_m",
+      "source": "data/enemies.json#spike_slime_m",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:small_slimes",
+        "encounter:medium_slimes"
+      ],
+      "aiEntry": "src/lua/abyss_spike_slime_m_ai.lua"
+    },
+    {
+      "id": "spike_slime_l",
+      "source": "data/enemies.json#spike_slime_l",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:large_spike"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "looter",
+      "source": "data/enemies.json#looter",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:looter_solo"
+      ],
+      "aiEntry": "src/lua/abyss_looter_ai.lua"
+    },
+    {
+      "id": "blue_slaver",
+      "source": "data/enemies.json#blue_slaver",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:blue_slaver_solo"
+      ],
+      "aiEntry": "src/lua/abyss_blue_slaver_ai.lua"
+    },
+    {
+      "id": "red_slaver",
+      "source": "data/enemies.json#red_slaver",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:red_slaver_solo"
+      ],
+      "aiEntry": "src/lua/abyss_red_slaver_ai.lua"
+    },
+    {
+      "id": "fungi_beast",
+      "source": "data/enemies.json#fungi_beast",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:fungi_pair"
+      ],
+      "aiEntry": "src/lua/abyss_fungi_beast_ai.lua"
+    },
+    {
+      "id": "mad_gremlin",
+      "source": "data/enemies.json#mad_gremlin",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:gremlin_gang"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "sneaky_gremlin",
+      "source": "data/enemies.json#sneaky_gremlin",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:gremlin_gang"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "fat_gremlin",
+      "source": "data/enemies.json#fat_gremlin",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:gremlin_gang"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "wizard_gremlin",
+      "source": "data/enemies.json#wizard_gremlin",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:gremlin_gang"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "shield_gremlin",
+      "source": "data/enemies.json#shield_gremlin",
+      "profile": "enemies",
+      "tier": "normal",
+      "channels": [
+        "encounter:gremlin_gang"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "gremlin_nob",
+      "source": "data/enemies.json#gremlin_nob",
+      "profile": "enemies",
+      "tier": "elite",
+      "channels": [
+        "encounter:elite_nob"
+      ],
+      "aiEntry": "src/lua/abyss_gremlin_nob_ai.lua"
+    },
+    {
+      "id": "lagavulin",
+      "source": "data/enemies.json#lagavulin",
+      "profile": "enemies",
+      "tier": "elite",
+      "channels": [
+        "encounter:elite_lagavulin"
+      ],
+      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+    },
+    {
+      "id": "sentry",
+      "source": "data/enemies.json#sentry",
+      "profile": "enemies",
+      "tier": "elite",
+      "channels": [
+        "encounter:elite_sentries"
+      ],
+      "aiEntry": "src/lua/abyss_sentry_ai.lua"
+    },
+    {
+      "id": "guardian",
+      "source": "data/enemies.json#guardian",
+      "profile": "enemies",
+      "tier": "boss",
+      "channels": [
+        "encounter:boss_guardian"
+      ],
+      "aiEntry": "src/lua/abyss_guardian_ai.lua"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "cultist_solo",
+      "tier": "normal",
+      "enemies": [
+        "cultist"
+      ],
+      "minFloor": 1,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/cultist_solo",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "jaw_solo",
+      "tier": "normal",
+      "enemies": [
+        "jaw_worm"
+      ],
+      "minFloor": 1,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/jaw_solo",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "louse_pair",
+      "tier": "normal",
+      "enemies": [
+        "red_louse",
+        "green_louse"
+      ],
+      "minFloor": 1,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/louse_pair",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "small_slimes",
+      "tier": "normal",
+      "enemies": [
+        "acid_slime_s",
+        "spike_slime_m"
+      ],
+      "enemiesOnTrue": [
+        "spike_slime_s",
+        "acid_slime_m"
+      ],
+      "minFloor": 1,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/small_slimes",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "louse_trio",
+      "tier": "normal",
+      "enemies": [
+        "red_louse",
+        "green_louse",
+        "red_louse"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/louse_trio",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "medium_slimes",
+      "tier": "normal",
+      "enemies": [
+        "acid_slime_m",
+        "spike_slime_m"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/medium_slimes",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "large_acid",
+      "tier": "normal",
+      "enemies": [
+        "acid_slime_l"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/large_acid",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "large_spike",
+      "tier": "normal",
+      "enemies": [
+        "spike_slime_l"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/large_spike",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "looter_solo",
+      "tier": "normal",
+      "enemies": [
+        "looter"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/looter_solo",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "blue_slaver_solo",
+      "tier": "normal",
+      "enemies": [
+        "blue_slaver"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/blue_slaver_solo",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "red_slaver_solo",
+      "tier": "normal",
+      "enemies": [
+        "red_slaver"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/red_slaver_solo",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "fungi_pair",
+      "tier": "normal",
+      "enemies": [
+        "fungi_beast",
+        "fungi_beast"
+      ],
+      "minFloor": 4,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/fungi_pair",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "gremlin_gang",
+      "tier": "normal",
+      "minFloor": 5,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/gremlin_gang",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ],
+      "gremlinPool": [
+        "mad_gremlin",
+        "mad_gremlin",
+        "sneaky_gremlin",
+        "sneaky_gremlin",
+        "fat_gremlin",
+        "fat_gremlin",
+        "shield_gremlin",
+        "wizard_gremlin"
+      ],
+      "gremlinCount": 4
+    },
+    {
+      "id": "wildlife",
+      "tier": "normal",
+      "enemies": [
+        "jaw_worm",
+        "green_louse"
+      ],
+      "minFloor": 5,
+      "maxFloor": 14,
+      "source": "data/enemies.json#encounters/wildlife",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "elite_nob",
+      "tier": "elite",
+      "enemies": [
+        "gremlin_nob"
+      ],
+      "minFloor": 6,
+      "maxFloor": 13,
+      "source": "data/enemies.json#encounters/elite_nob",
+      "profile": "encounters",
+      "channels": [
+        "map:elite"
+      ]
+    },
+    {
+      "id": "elite_lagavulin",
+      "tier": "elite",
+      "enemies": [
+        "lagavulin"
+      ],
+      "minFloor": 6,
+      "maxFloor": 13,
+      "source": "data/enemies.json#encounters/elite_lagavulin",
+      "profile": "encounters",
+      "channels": [
+        "map:elite"
+      ]
+    },
+    {
+      "id": "elite_sentries",
+      "tier": "elite",
+      "enemies": [
+        "sentry",
+        "sentry",
+        "sentry"
+      ],
+      "minFloor": 6,
+      "maxFloor": 13,
+      "source": "data/enemies.json#encounters/elite_sentries",
+      "profile": "encounters",
+      "channels": [
+        "map:elite"
+      ]
+    },
+    {
+      "id": "boss_guardian",
+      "tier": "boss",
+      "enemies": [
+        "guardian"
+      ],
+      "minFloor": 16,
+      "maxFloor": 16,
+      "source": "data/enemies.json#encounters/boss_guardian",
+      "profile": "encounters",
+      "channels": [
+        "map:boss:floor16"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "cleric",
+      "originalId": "The Cleric",
+      "choices": [
+        "heal",
+        "purify",
+        "leave"
+      ],
+      "eligibility": "gold >= 35",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    },
+    {
+      "id": "purifier",
+      "originalId": "Purifier",
+      "choices": [
+        "pray",
+        "leave"
+      ],
+      "eligibility": "remove requires deck size > 0; final card may be removed",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    },
+    {
+      "id": "goop",
+      "originalId": "World of Goop",
+      "choices": [
+        "gather",
+        "leave"
+      ],
+      "eligibility": "always eligible",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    },
+    {
+      "id": "upgrade_shrine",
+      "originalId": "Upgrade Shrine",
+      "choices": [
+        "upgrade",
+        "leave"
+      ],
+      "eligibility": "upgrade requires an upgradeable card",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    },
+    {
+      "id": "golden_wing",
+      "originalId": "Golden Wing",
+      "choices": [
+        "sacrifice",
+        "purge",
+        "take_gold",
+        "leave"
+      ],
+      "eligibility": "take_gold requires a base damage effect >= 10; purge follows sacrifice",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    },
+    {
+      "id": "shining_light",
+      "originalId": "Shining Light",
+      "choices": [
+        "accept",
+        "leave"
+      ],
+      "eligibility": "accept requires an upgradeable card",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    },
+    {
+      "id": "golden_shrine",
+      "originalId": "Golden Shrine",
+      "choices": [
+        "pray",
+        "desecrate",
+        "leave"
+      ],
+      "eligibility": "desecrate adds regret",
+      "source": "src/lua/abyss_event_pool.lua#contentId",
+      "profile": "events",
+      "channels": [
+        "unknown_room:event"
+      ],
+      "poolMode": "restricted-seven"
+    }
+  ],
+  "relics": [
+    {
+      "id": "membership_card",
+      "source": "data/relics.json#membership_card",
+      "profile": "relics",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "courier",
+      "source": "data/relics.json#courier",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure"
+      ]
+    },
+    {
+      "id": "smiling_mask",
+      "source": "data/relics.json#smiling_mask",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure"
+      ]
+    },
+    {
+      "id": "burning_blood",
+      "source": "data/relics.json#burning_blood",
+      "profile": "relics",
+      "rarity": "starter",
+      "channels": [
+        "starting_relic"
+      ]
+    },
+    {
+      "id": "anchor",
+      "source": "data/relics.json#anchor",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "vajra",
+      "source": "data/relics.json#vajra",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "bag_of_preparation",
+      "source": "data/relics.json#bag_of_preparation",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "lantern",
+      "source": "data/relics.json#lantern",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "oddly_smooth_stone",
+      "source": "data/relics.json#oddly_smooth_stone",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "bronze_scales",
+      "source": "data/relics.json#bronze_scales",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ]
+    },
+    {
+      "id": "black_blood",
+      "source": "data/relics.json#black_blood",
+      "profile": "relics",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained after the final combat; Act 1 has no subsequent combat in which to trigger this effect. Local follow-up-combat fixtures are not natural launch-run execution.",
+      "prerequisite": "burning_blood"
+    },
+    {
+      "id": "slavers_collar",
+      "source": "data/relics.json#slavers_collar",
+      "profile": "relics",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained after the final combat; Act 1 has no subsequent combat in which to trigger this effect. Local follow-up-combat fixtures are not natural launch-run execution.",
+      "prerequisite": "none"
+    },
+    {
+      "id": "sozu",
+      "source": "data/relics.json#sozu",
+      "profile": "relics",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained after the final combat; Act 1 has no subsequent combat in which to trigger this effect. Local follow-up-combat fixtures are not natural launch-run execution.",
+      "prerequisite": "none"
+    }
+  ],
+  "potions": [
+    {
+      "id": "fire_potion",
+      "source": "data/potions.json#fire_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "versions": [
+        "base"
+      ]
+    },
+    {
+      "id": "block_potion",
+      "source": "data/potions.json#block_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "versions": [
+        "base"
+      ]
+    },
+    {
+      "id": "strength_potion",
+      "source": "data/potions.json#strength_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "versions": [
+        "base"
+      ]
+    },
+    {
+      "id": "dexterity_potion",
+      "source": "data/potions.json#dexterity_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "versions": [
+        "base"
+      ]
+    },
+    {
+      "id": "energy_potion",
+      "source": "data/potions.json#energy_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "versions": [
+        "base"
+      ]
+    },
+    {
+      "id": "regen_potion",
+      "source": "data/potions.json#regen_potion",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "versions": [
+        "base"
+      ]
+    }
+  ],
+  "bosses": [
+    {
+      "id": "guardian",
+      "encounterId": "boss_guardian",
+      "source": "data/enemies.json#guardian",
+      "profile": "bosses",
+      "channels": [
+        "map:boss:floor16"
+      ],
+      "rewardDestination": "boss_treasure:floor17"
+    }
+  ],
+  "exclusions": {
+    "cards": [
+      {
+        "id": "clash",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      },
+      {
+        "id": "true_grit",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      },
+      {
+        "id": "warcry",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      },
+      {
+        "id": "metallicize",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      },
+      {
+        "id": "whirlwind",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      },
+      {
+        "id": "demon_form",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      },
+      {
+        "id": "reaper",
+        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
+      }
+    ],
+    "potions": [
+      {
+        "id": "poison_potion",
+        "reason": "Silent-exclusive; data and isolated effect fixtures do not make it obtainable by launch Ironclad."
+      }
+    ],
+    "events": [
+      {
+        "id": "Match and Keep!",
+        "path": "tools/candidates/match_game.lua",
+        "reason": "Independent candidate, no production route."
+      },
+      {
+        "id": "Transmorgrifier",
+        "path": "tools/candidates/transform_card.lua",
+        "reason": "Independent candidate, no production route."
+      },
+      {
+        "id": "full-original-event-pool",
+        "reason": "Only the seven explicit production events above are included; full/once catalog is an audit model."
+      }
+    ],
+    "other": [
+      "Remaining reference/warrior75 cards",
+      "Other characters and element/class rule packages",
+      "Act 2 and Act 3",
+      "Other Bosses",
+      "Co-op",
+      "Achievements",
+      "External asset files without approved production wiring"
+    ]
+  },
+  "gaps": [
+    {
+      "id": "natural-builds",
+      "tasks": [
+        "TASK-16",
+        "TASK-47"
+      ],
+      "status": "pending",
+      "required": "Seeds, legal reward/shop paths and final decks for distinct repeatable builds; no debug inventory injection."
+    },
+    {
+      "id": "per-item-live-evidence",
+      "tasks": [
+        "TASK-47",
+        "TASK-12.5",
+        "TASK-17.3"
+      ],
+      "status": "pending",
+      "required": "Candidate hash/SHA, natural acquisition/use, screenshots and fresh client log per listed item/option. M2 full-run evidence alone is insufficient."
+    },
+    {
+      "id": "boss-relic-post-combat-trigger",
+      "tasks": [
+        "TASK-17.2",
+        "TASK-47"
+      ],
+      "status": "unreachable-in-first-act",
+      "required": "Record award-only boundary honestly; no second Act or debug fight may be presented as normal first-act execution."
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-10-24",
+      "change": "TASK-15.18 corrects gremlin_gang from fixed five to four ordered draws without replacement from an eight-slot pool; all five enemy types retain their existing encounter channel. Local evidence: docs/reviews/TASK-15.18-gremlin-gang.md. Other 17 encounters, scope counts, per-item acceptance, and medium_slimes blocker remain unchanged."
+    },
+    {
+      "date": "2026-10-24",
+      "change": "Initial production inventory at 6e8714f. Includes the already-integrated seventh event Golden Shrine; no new content admitted."
+    }
+  ]
+}
