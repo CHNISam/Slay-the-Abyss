@@ -67,7 +67,8 @@ test('generated Chinese display and native tree exercise the real game entry and
     .map(line => { const [, name, text] = line.split('\t'); return [name, text.replaceAll('\\n', '\n')]; }));
   const { nativeMenu: menu, nativeBattle: battle } = nativeTheme.layout, { font: size } = nativeTheme;
   // Each line is checked against the control that actually displays it.
-  const targets = { intro: [menu.tagline, size.heading], menu: [menu.summary, size.body],
+  assert.equal(previews.menu, '', 'the start screen has no route or control instructions');
+  const targets = { intro: [menu.tagline, size.heading],
     victory: [menu.subtitle, size.body], defeat: [menu.subtitle, size.body],
     settlementError: [menu.status, size.small], boss: [battle.notice, size.body] };
   for (const [name, [frame, font]] of Object.entries(targets)) {
