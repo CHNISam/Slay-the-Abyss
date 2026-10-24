@@ -45,7 +45,7 @@ export function gameLayout(theme = nativeTheme) {
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
         plate('backdrop', layout.backdrop, color.backdrop),
         emblem,
-        text('title', layout.title, '杀戮深渊', font.display, color.gold),
+        text('title', layout.title, '杀戮原塔2', font.display, color.gold),
         text('tagline', layout.tagline, '', font.heading, color.text),
         text('summary', layout.summary, '', font.body, color.textDim),
         { name: 'result', kind: 'container', size: [...theme.canvas.base], visible: false, children: [

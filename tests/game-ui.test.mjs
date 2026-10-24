@@ -19,7 +19,7 @@ test('menu and result follow the approved win.png composition inside the safe ar
   const theme = nativeTheme, layout = theme.layout.nativeMenu;
   const menu = gameLayout().controls.find(control => control.name === 'menuPanel').children;
   const find = (list, name) => list.find(control => control.name === name);
-  assert.equal(find(menu, 'title').text.content, '杀戮深渊');
+  assert.equal(find(menu, 'title').text.content, '杀戮原塔2');
   const result = find(menu, 'result');
   assert.equal(result.visible, false, 'result cells must not bleed into the main menu');
   assert.deepEqual(resultStats.map(key => find(result.children, `stat_${key}`).position[0]),
