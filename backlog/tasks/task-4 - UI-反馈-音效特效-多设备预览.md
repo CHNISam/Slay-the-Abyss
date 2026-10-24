@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-24 03:48'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -44,3 +44,9 @@ ordinal: 4000
 - [ ] #7 保存同一个版本的测试与试玩记录，分清本地做好和游戏里验过。
 - [ ] #8 按已定界面检查表逐屏验收，音画和手机电脑操作达到你批准的标准。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-24用户明确删除首页层数流程及拖牌教学两行；源码e116ca7已修，15组界面回归和4组布局/控制器检查通过，修正版副本独立读回通过，尚未导入。原计划及记录完整保存在本轮Git stash与.artifacts/m1-live-sprint/backlog-changes-preserved.patch。
+<!-- SECTION:NOTES:END -->

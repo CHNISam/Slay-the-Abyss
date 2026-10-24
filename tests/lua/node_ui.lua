@@ -577,6 +577,7 @@ test('Goop shows real leave loss, applies it once and reports asset changes',fun
     if loss>0 then assert(body:find(string.format('金币 %d → %d',gold,gold-loss),1,true))
     else assert(body=='什么也没有发生。','a no-op result must not list unchanged resources') end
     assert(not body:find('生命',1,true))
+    assert(not body:find('%d+%.%d+'),'integer gold must not expose a decimal suffix')
     local after=Combat.copy(ui.run);ui:render();same(ui.run,after);click('confirm');same(ui.run,after)
 end)
 test('Golden Wing commits seven damage before picker; cancel cannot refund or charge it again',function()
@@ -608,5 +609,19 @@ test('Golden Shrine exposes complete costs, permanent curse result and repeat sa
     assert(get('eventView/body').text:find(string.format('金币 %d → %d',gold,gold+275),1,true))
     assert(not get('eventView/body').text:find('生命',1,true),'unchanged HP must not be listed')
     local before=Combat.copy(ui.run);ui:render();click('confirm');same(before,ui.run)
+end)
+test("integer-valued floating resources never expose decimal suffixes", function()
+    for _,kind in ipairs({"shop","camp","event","treasure"}) do
+        local ui, get = setup(kind, nil, function(run)
+            run.hp, run.maxHp, run.gold = 68.0, 80.0, 129.0
+        end)
+        assert(get("hp").text == "68/80", "HP must display 68/80, got " .. get("hp").text)
+        assert(get("gold").text == "129", "gold must be an integer")
+        local before=Combat.copy(ui.run); ui:render(); same(before,ui.run)
+        ui.run.hp=68.5
+        local ok,reason=pcall(function() ui:render() end)
+        assert(not ok and tostring(reason):find("finite integer",1,true),"a real fraction must not be rounded away")
+        assert(ui.run.hp==68.5)
+    end
 end)
 print("LUA_NODE_UI_PASS " .. count)

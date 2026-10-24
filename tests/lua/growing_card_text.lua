@@ -87,10 +87,11 @@ for _, upgraded in ipairs({false,true}) do
         eq(label(stage),expected("8",upgraded))
         play(1); Combat.draw(s,1); ui:render()
         eq(label(stage),expected(upgraded and "16" or "13",upgraded))
-        -- Growth and live modifiers stack: floor((13+3)*0.75*1.5)=18, floor((16+3)*0.75*1.5)=21.
+        -- The unaimed label includes growth, Strength and Weak (12/14).
+        -- Actual targeted damage also includes Vulnerable (18/21).
         Combat.addStatus(s.player,"strength",3); Combat.addStatus(s.player,"weak",1)
         Combat.addStatus(s.enemies[1],"vulnerable",1); ui:render()
-        eq(label(stage),expected(upgraded and "21" or "18",upgraded))
+        eq(label(stage),expected(upgraded and "14" or "12",upgraded))
         local hp=s.enemies[1].hp
         play(1); eq(hp-s.enemies[1].hp,upgraded and 21 or 18)
         s.player.statuses.strength,s.player.statuses.weak,s.enemies[1].statuses.vulnerable=0,0,0

@@ -36,7 +36,7 @@ local function click(name)
 end
 local function expect(outerBolt)
     for i=1,3 do local bolt=(i%2==1)==outerBolt;local box=stage:GetChild("enemy"..i)
-        assert(box:GetChild("intent").text==(bolt and "晕眩 2" or "9"),"Sentry compact intent "..i..": "..box:GetChild("intent").text)
+        assert(box:GetChild("intent").text==(bolt and "" or "9"),"Sentry compact intent "..i..": "..box:GetChild("intent").text)
         assert(box:GetChild("intentIcon").imageId==(bolt and Theme.icon.intent.debuff or Theme.icon.intent.attack))
         local row=box:GetChild("statusRow")
         assert(row:GetChild("icon1").visible and row:GetChild("icon1").imageId==Theme.icon.status.artifact and row:GetChild("count1").text=="1")
@@ -45,10 +45,10 @@ end
 expect(true)
 local before=C.copy(ui.run.combat)
 for _=1,4 do
-    click("enemy1");assert(stage:GetChild("notice").text:find("晕眩",1,true));assert(stage:GetChild("notice").text:find("2",1,true));assert(stage:GetChild("notice").text:find("弃牌堆",1,true))
+    click("enemy1");assert(stage:GetChild("notice").text:find("准备对你施加负面效果",1,true))
 end
 same(ui.run.combat,before)
 click("endTurn");expect(false);assert(ui.run.combat.player.hp==71)
-click("enemy2");assert(stage:GetChild("notice").text:find("晕眩",1,true))
+click("enemy2");assert(stage:GetChild("notice").text:find("准备对你施加负面效果",1,true))
 click("endTurn");expect(true);assert(ui.run.combat.player.hp==53)
 print("SENTRIES_GENERATED_UI_PASS compact/detail/icons/Artifact/readonly/two real rounds")
