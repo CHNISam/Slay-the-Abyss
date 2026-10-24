@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 04:23'
-updated_date: '2026-10-24 04:29'
+updated_date: '2026-10-24 04:54'
 labels: []
 milestone: m-2
 dependencies: []
@@ -42,4 +42,6 @@ ordinal: 82000
 
 <!-- SECTION:NOTES:BEGIN -->
 现有说明标题裁切与悬停/长按入口已修；八组专项回归通过，完整检查进行中。平台实测仍待进行，首领文案由用户调研。
+
+已将81df9e1整合为fc2c709；当前44c2296含原生cursorArea悬停崩溃修复及严格回归。保留59306e7的非攻击意图不显示层数、第三返回值badge、intentHit及播放缓存。UI专项52组通过，原生帮助/分裂专项重跑通过，JS927通过118跳过0失败，Python17项含1跳过。check:rules两次在acid_slime_l默认30秒处超时；独立诊断完整收集129文件，遗留split预览旧期望已修并专项通过，但未把诊断当默认检查成功。初版候选已官方导入1073741840并读回核对，实机暴露帮助热区interactable非法字段；修复版副本在根.artifacts/intent-compound/abyss-intent-compound-fixed.gil，静态检查无错误，尚未重新导入/取得下颚虫或中型酸液团角标截图。全UI验收门禁仍未通过，本任务保持In Progress。
 <!-- SECTION:NOTES:END -->
