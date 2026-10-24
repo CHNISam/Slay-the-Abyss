@@ -130,7 +130,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         title.text = victory and "深渊已被封印" or defeat and "旅途在此中断" or "杀戮原塔2"
         title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
         menu:GetChild("tagline"):SetVisible(not outcome)
-        menu:GetChild("summary"):SetVisible(not outcome)
+        menu:GetChild("summary"):SetVisible(false)
         result:SetVisible(outcome)
         local startFrame = outcome and L.resultRestart or L.start
         start:SetAnchoredPosition(startFrame[1], startFrame[2])
@@ -151,8 +151,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if targetX ~= m.settleX then m.slide, m.settleX = { from = m.settleX, to = targetX, t = 0 }, targetX end
         if not outcome then
             menu:GetChild("tagline").text = Narrative.flow.intro.full
-            menu:GetChild("summary").text = "规划 " .. rules.generatedRows .. " 层岔路，构筑卡组，第 "
-                .. rules.bossFloor .. " 层迎战首领。\n" .. self.battleUI.instructions
+            menu:GetChild("summary").text = ""
         else
             local floor = self.map.floor
             result:GetChild("subtitle").text = Narrative.flow[mode].full

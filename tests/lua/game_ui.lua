@@ -49,7 +49,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     local intro = root:GetChild("menuPanel"):GetChild("tagline").text
     local guide = root:GetChild("menuPanel"):GetChild("summary").text
     assert(intro == "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。")
-    assert(guide:find(ui.battleUI.instructions, 1, true))
+    assert(guide == "" and not root:GetChild("menuPanel"):GetChild("summary").visible)
     assert(not (intro .. guide):find("十五", 1, true) and not (intro .. guide):find("十七", 1, true))
     preview("intro", intro) preview("menu", guide)
     click(root, "menuPanel", "start")
@@ -256,16 +256,15 @@ test("settlement callback failure is visible and retryable without claiming offi
     assert(line:find("暂不可用", 1, true) and not unavailable.root:GetChild("menuPanel"):GetChild("settle"):GetChild("normal").visible)
 end)
 
-test("menu copy follows the current map rules instead of the legacy fifteen-floor line", function()
+test("menu keeps the introduction and start without route or control instructions", function()
     local ui, root = fixture()
-    local menu, rules = root:GetChild("menuPanel"), Data.rules.map
+    local menu = root:GetChild("menuPanel")
     assert(ui.mode == "menu" and menu:GetChild("tagline").visible and not menu:GetChild("result").visible)
-    local route = menu:GetChild("summary").text
-    assert(route:find(rules.generatedRows .. " 层岔路", 1, true) and route:find("第 " .. rules.bossFloor .. " 层", 1, true))
+    assert(menu:GetChild("summary").text == "" and not menu:GetChild("summary").visible)
     for _, name in ipairs({"title", "tagline", "summary"}) do
         assert(not menu:GetChild(name).text:find("十五层", 1, true), name .. " keeps the stale floor count")
     end
-    assert(menu:GetChild("summary").text:find(ui.battleUI.instructions, 1, true))
+    assert(ui.battleUI.instructions ~= "", "battle control guidance remains available")
     assert(menu:GetChild("start"):GetChild("label").text == "启程" and not menu:GetChild("settle").visible)
 end)
 
