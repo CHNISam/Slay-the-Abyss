@@ -72,7 +72,7 @@ test("Cultist displays Ritual opener, persistent status and next modified attack
     assert(box.children.intent.text == "")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.buff)
     click("enemy1")
-    assert(stage.children.notice.text:find("准备强化自身",1,true))
+    assert(stage.children.notice.text:find("自身获得 3 层仪式",1,true))
     click("endTurn")
     local text = details(stage, box)
     assert(text:find("仪式 3",1,true))

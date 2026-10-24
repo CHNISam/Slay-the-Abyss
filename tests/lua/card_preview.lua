@@ -286,8 +286,8 @@ test("player and every enemy show status icons, stacks and full current effects"
     eq(rows[2].name, "易伤 1 · 减益") eq(rows[2].text, "受到的攻击伤害 +50%，持续 1 回合。")
     tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     local expected = {
-        {"中毒 4 · 减益", "回合开始时失去 4 点生命，然后层数 -1。", "虚弱 2 · 减益", "造成的攻击伤害 -25%，持续 2 回合。"},
-        {"人工制品 1 · 增益", "抵挡接下来 1 次减益施加；不抵挡生成的状态牌。", "力量 -1 · 减益", "攻击每段伤害 -1。"},
+        {"中毒 4 · 减益", "回合开始时失去 4 点生命，之后每回合少 1 点。", "虚弱 2 · 减益", "造成的攻击伤害 -25%，持续 2 回合。"},
+        {"人工制品 1 · 增益", "抵挡接下来 1 次减益效果。", "力量 -1 · 减益", "攻击每段伤害 -1。"},
         {"荆棘 3 · 增益", "受到攻击时，对攻击者造成 3 点伤害。"},
     }
     for i, lines in ipairs(expected) do
@@ -298,13 +298,24 @@ test("player and every enemy show status icons, stacks and full current effects"
         for r = 1, #rows do eq(rows[r].name, lines[r * 2 - 1]) eq(rows[r].text, lines[r * 2]) end
         tap({"statusInfo", "hit"})
     end
-    -- Statuses without a dedicated sentence: the data description plus its live stack count.
-    s.enemies[3].statuses.thorns = 0 Combat.addStatus(s.enemies[3], "ritual", 5)
-    ui:render()
-    tap({"enemy3", "statusRow", "hit"})
-    open, rows = info(panel)
-    eq(rows[1].name, "仪式 5 · 增益")
-    eq(rows[1].text, s.catalog.statuses.ritual.description .. "（当前 5 层）")
+    -- Every status has its own plain sentence with the live number: never the raw
+    -- data description, never jargon, and short enough for the two-line text box.
+    local I = L.statusInfo
+    local perLine = math.floor((I.width - I.pad * 2 - I.icon - I.gap) / Theme.font.small)
+    for id, definition in pairs(s.catalog.statuses) do
+        s.enemies[3].statuses = {[id] = 5}
+        ui:render()
+        tap({"enemy3", "statusRow", "hit"})
+        open, rows = info(panel)
+        assert(open and #rows == 1, id)
+        local text = rows[1].text
+        for _, jargon in ipairs({"所示", "等量", "层数", "（当前"}) do
+            assert(not text:find(jargon, 1, true), id .. " contains " .. jargon .. ": " .. text)
+        end
+        assert(definition.stack == "none" or id == "entangled" or text:find("5", 1, true), id .. " hides its number: " .. text)
+        assert(utf8.len(text) <= perLine * 2, id .. " overflows two lines: " .. text)
+        tap({"statusInfo", "hit"})
+    end
 end)
 
 test("crowded and narrow units overflow to +N and the panel reports unlisted statuses", function()
