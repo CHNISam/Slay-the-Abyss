@@ -202,7 +202,7 @@ test("real starter reward joins permanent deck and is usable in next battle", fu
     end
     assert(selected, "dropkick never offered in real victory rewards")
     local old = Combat.copy(selected.deck)
-    assert(Run.claimCardReward(selected, choice)); equal(#selected.deck, #old + 1)
+    assert(Run.claimCardReward(selected, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(selected); equal(#selected.deck, #old + 1)
     for i, c in ipairs(old) do same(selected.deck[i], c) end
     equal(selected.deck[#selected.deck].cardId, "dropkick")
     assert(Run.startCombat(selected, "cultist_solo"))

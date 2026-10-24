@@ -2,6 +2,12 @@ local F=dofile('tests/lua/support/looter_potion_ui_fixture.lua')
 local Run,C,Theme,reward=F.Run,F.C,F.Theme,F.reward
 local passed,failed=0,0
 local function test(name,fn) local ok,e=pcall(fn);if ok then passed=passed+1;print('PASS '..name) else failed=failed+1;print('FAIL '..name..': '..tostring(e)) end end
+local function resolvedAction(h,name)
+ if name=='card1' or name=='skip' then
+  return h.run.phase=='reward' and h.run.rewards.cardResolved and not h.run.rewards.potion.resolved and Run.potionCount(h.run)==0
+ end
+ return h.run.phase=='reward' and h.run.rewards.potion.resolved
+end
 test('manual five-action row uses existing tokens without overlap',function()
  local h,u,p=reward(true);local names={'claimPotion','stolenGold','skip','continue','skipPotion'}
  for i,name in ipairs(names) do local a=p:GetChild(name);assert(a.visible,name)
@@ -45,13 +51,13 @@ test('no-loss pure redraw retains the unchanged 170 reward owner gesture',functi
   local h,u,p,e=reward(false)
   e(name,'down',1);if released then e(name,'up',1) end;u:render()
   if not released then e(name,'up',1) end;e(name,'click',1)
-  assert(h.run.phase=='map' or h.run.rewards.potion.resolved,'unchanged 170 gesture lost '..name)
+  assert(resolvedAction(h,name),'unchanged reward gesture lost '..name)
  end end
 end)
 test('no-loss visual animation retains valid card and bottle gestures',function()
  for _,name in ipairs({'card1','skip','claimPotion','skipPotion'}) do
   local h,u,p,e=reward(false);e(name,'down',1);h:update(.05);u:setHover(1);h:update(.05);e(name,'up',1);h:update(.05);e(name,'click',1)
-  assert(h.run.phase=='map' or h.run.rewards.potion.resolved,'animation swallowed '..name)
+  assert(resolvedAction(h,name),'animation swallowed '..name)
  end
 end)
 print('LOOTER_POTION_UI '..passed..' passed '..failed..' failed');assert(failed==0)

@@ -1,0 +1,712 @@
+{
+  "sourceCommit": "31a8f371b53b9b55f03f2e0a7af7f21488c2cd71",
+  "candidate": {
+    "sha256Before": "8cec5746b51bdac99cb747f2bd146d364d30f31fa3ac4d04852834fa7273d042",
+    "sha256After": "8cec5746b51bdac99cb747f2bd146d364d30f31fa3ac4d04852834fa7273d042",
+    "path": "F:\\New folder\\.artifacts\\m3-live-20261024\\abyss-m3-normal-31a8f37.gil"
+  },
+  "modules": [
+    {
+      "name": "abyss_data",
+      "actualSha256": "056c424e1413d5be8b271f6861d5f1079dd9fb75e901158d2a2d56801edbdd15",
+      "expectedSha256": "056c424e1413d5be8b271f6861d5f1079dd9fb75e901158d2a2d56801edbdd15",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_map_layout",
+      "actualSha256": "62dd2fee62fb342fdd6e0cfb94804e62c228ce3fbbdecb64bacb6fda82db9d8e",
+      "expectedSha256": "62dd2fee62fb342fdd6e0cfb94804e62c228ce3fbbdecb64bacb6fda82db9d8e",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_narrative",
+      "actualSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+      "expectedSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_presentation",
+      "actualSha256": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+      "expectedSha256": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_theme",
+      "actualSha256": "91ed934fc80e9094b3530e4c8a16a73d561038af4119286871e26df53edc30c7",
+      "expectedSha256": "91ed934fc80e9094b3530e4c8a16a73d561038af4119286871e26df53edc30c7",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_acid_slime_s_ai",
+      "actualSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "expectedSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_actor",
+      "actualSha256": "b4ced083fef23eb0e107475d4a66cf8463fa72bcb92169c84dcf8b08f8dfec9c",
+      "expectedSha256": "b4ced083fef23eb0e107475d4a66cf8463fa72bcb92169c84dcf8b08f8dfec9c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_battle_ui",
+      "actualSha256": "bd30dffe5076602d7f59de9802dfc49dbd05a9b69c9c32842c07888a021bec4d",
+      "expectedSha256": "bd30dffe5076602d7f59de9802dfc49dbd05a9b69c9c32842c07888a021bec4d",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_bgm",
+      "actualSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "expectedSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_blue_slaver_ai",
+      "actualSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "expectedSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_combat",
+      "actualSha256": "ed0c89e1c7f9a810af60c4885cc15edea2185c09e99c5f7af06ca00442f81dae",
+      "expectedSha256": "ed0c89e1c7f9a810af60c4885cc15edea2185c09e99c5f7af06ca00442f81dae",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_deck_ui",
+      "actualSha256": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+      "expectedSha256": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_effects",
+      "actualSha256": "a2dae1d8f844dca5ab9540a87bb40f14ad16d7958c95b0d35ffcd59124285824",
+      "expectedSha256": "a2dae1d8f844dca5ab9540a87bb40f14ad16d7958c95b0d35ffcd59124285824",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_enemy_ai",
+      "actualSha256": "6e0ed0d2ec2c705a40cbd73c207716018abbf9dee27ae17e6247a25c6e0e2b3b",
+      "expectedSha256": "6e0ed0d2ec2c705a40cbd73c207716018abbf9dee27ae17e6247a25c6e0e2b3b",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_events",
+      "actualSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "expectedSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_feedback",
+      "actualSha256": "250a608fe44512be287e2765da4a64790753f55ab26bcb70aeb7a086d0a3a13f",
+      "expectedSha256": "250a608fe44512be287e2765da4a64790753f55ab26bcb70aeb7a086d0a3a13f",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_game_ui",
+      "actualSha256": "cc85e1a288fcbb3309b105293a13a120151657e51effd6a1f0e19022625cf808",
+      "expectedSha256": "cc85e1a288fcbb3309b105293a13a120151657e51effd6a1f0e19022625cf808",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_gremlin_nob_ai",
+      "actualSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "expectedSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_guardian_ai",
+      "actualSha256": "bcc0534cb53e8a9c8c1570d9c5b9536565a8be62951d22281dce4c1748b1244f",
+      "expectedSha256": "bcc0534cb53e8a9c8c1570d9c5b9536565a8be62951d22281dce4c1748b1244f",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_inventory",
+      "actualSha256": "640237619a98363b502d88643a853ddd4f8ed19f1b1675f8d76598e02d95190c",
+      "expectedSha256": "640237619a98363b502d88643a853ddd4f8ed19f1b1675f8d76598e02d95190c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_jaw_worm_ai",
+      "actualSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "expectedSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_map",
+      "actualSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+      "expectedSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_map_ui",
+      "actualSha256": "970e3f54e6d5284a2ce896c65db6a45ee165e6d6426868d9f1abaee3e8fb87f5",
+      "expectedSha256": "970e3f54e6d5284a2ce896c65db6a45ee165e6d6426868d9f1abaee3e8fb87f5",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_node_ui",
+      "actualSha256": "e6ec6c10f00bb316c720c040f54b32604e614abaa2a7ca6c6e5fb713aaa6615c",
+      "expectedSha256": "e6ec6c10f00bb316c720c040f54b32604e614abaa2a7ca6c6e5fb713aaa6615c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_nodes",
+      "actualSha256": "600d088d590fbf7ae663ba7bc27212139d0e652faec5a8ba1fa8db9f304ac2cf",
+      "expectedSha256": "600d088d590fbf7ae663ba7bc27212139d0e652faec5a8ba1fa8db9f304ac2cf",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_random",
+      "actualSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "expectedSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_red_slaver_ai",
+      "actualSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "expectedSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_run",
+      "actualSha256": "861e3dcdc9142cd2ab3b294bcbbfc85ecc0f505ee212c831e97062da553b5d86",
+      "expectedSha256": "861e3dcdc9142cd2ab3b294bcbbfc85ecc0f505ee212c831e97062da553b5d86",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_sentry_ai",
+      "actualSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "expectedSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_ui",
+      "actualSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+      "expectedSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_unknown",
+      "actualSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+      "expectedSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_viewport",
+      "actualSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "expectedSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_acid_slime_m_ai",
+      "actualSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+      "expectedSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_event_pool",
+      "actualSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+      "expectedSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_fungi_beast_ai",
+      "actualSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+      "expectedSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_louse_ai",
+      "actualSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+      "expectedSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_numbers",
+      "actualSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+      "expectedSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_randomxs128",
+      "actualSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+      "expectedSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_spike_slime_m_ai",
+      "actualSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+      "expectedSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_sts_random",
+      "actualSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+      "expectedSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_potion_rewards",
+      "actualSha256": "f836310969b61ebb6f8754571b88eb010cbf4e5d14c7e09684a44d0f179a80d1",
+      "expectedSha256": "f836310969b61ebb6f8754571b88eb010cbf4e5d14c7e09684a44d0f179a80d1",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_shop",
+      "actualSha256": "82ff3a6cca54eaa440047cd02134e52142ff84242c88a395f39c14bf7ed401a3",
+      "expectedSha256": "82ff3a6cca54eaa440047cd02134e52142ff84242c88a395f39c14bf7ed401a3",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_shop_price",
+      "actualSha256": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+      "expectedSha256": "53095e7d7a4deaac3e9dfe0f2d5a2d39849805e43f8383232e518af7f588fb70",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_looter_ai",
+      "actualSha256": "5566c57d23211f580b7296023e79a074240a36667122437ac5790a2d9bb73d66",
+      "expectedSha256": "5566c57d23211f580b7296023e79a074240a36667122437ac5790a2d9bb73d66",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_merchant",
+      "actualSha256": "65c4b0de0640ae1515d94496b331ef3559859fd47183f28ce5e12ba74bebfa82",
+      "expectedSha256": "65c4b0de0640ae1515d94496b331ef3559859fd47183f28ce5e12ba74bebfa82",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_potion_discard_ui",
+      "actualSha256": "5c2849f37fe0ce59e471e428483eefe9bfe56e059bfab695fcc5af19e6889f72",
+      "expectedSha256": "5c2849f37fe0ce59e471e428483eefe9bfe56e059bfab695fcc5af19e6889f72",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    },
+    {
+      "name": "abyss_prologue",
+      "actualSha256": "b7248c4d837fa085c4990db89c4fda3c2855d680c14eeed6a2f8878b0e1202da",
+      "expectedSha256": "b7248c4d837fa085c4990db89c4fda3c2855d680c14eeed6a2f8878b0e1202da",
+      "byteIdentical": true,
+      "sourceTextIdentical": true
+    }
+  ],
+  "sourceNormalization": "Only optional UTF-8 BOM and CRLF/LF are normalized; original hashes retained.",
+  "ui": {
+    "expectedCount": 2298,
+    "actualCount": 2298,
+    "expectedMaxChildren": 57,
+    "actualMaxChildren": 57,
+    "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+  },
+  "graphs": [
+    {
+      "id": 1073741825,
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "type": 20000,
+      "nodeCount": 22,
+      "editorCount": 72,
+      "nodePayloadHash": "ec42bb7f22b9d43d3dd95aa527f27d5a46c60c92fa7c4ab6e5ad70e7acf09a76",
+      "topology": {
+        "version": 1,
+        "nodeCount": 22,
+        "connectionCount": 22,
+        "hash": "39d4aa08ef0a09b0a554bce38b021dbdebe1c318c8c2aed420606dc914d8c547",
+        "scope": "Node indices, generic/concrete IDs and directed pin connections only; excludes layout, literal values, pin types, graph variables, bindings and runtime"
+      },
+      "signalReferences": [
+        {
+          "name": "ABYSS_WIN",
+          "role": "monitor",
+          "nodeIndex": 1,
+          "nodeId": 1610612738,
+          "signalVersion": null,
+          "resolution": "observed-definition-id-match",
+          "gameplay": "not_run"
+        },
+        {
+          "name": "ABYSS_LOSE",
+          "role": "monitor",
+          "nodeIndex": 12,
+          "nodeId": 1610612742,
+          "signalVersion": null,
+          "resolution": "observed-definition-id-match",
+          "gameplay": "not_run"
+        }
+      ],
+      "writable": true
+    }
+  ],
+  "bgmEnabled": false,
+  "parameters": [
+    {
+      "section": 7,
+      "name": "nativeBgmEnabled",
+      "type": 4,
+      "code": 5,
+      "value": false,
+      "encodedHex": "3a2a12106e617469766542676d456e61626c65641804220e080622070801a206020804d20600380640065005"
+    },
+    {
+      "section": 8,
+      "name": "nativeBgmEnabled",
+      "type": 4,
+      "code": 5,
+      "value": false,
+      "encodedHex": "422a12106e617469766542676d456e61626c65641804220e080622070801a206020804d20600380640065005"
+    }
+  ],
+  "staticCheck": {
+    "mapPath": "F:\\New folder\\.artifacts\\m3-live-20261024\\abyss-m3-normal-31a8f37.gil",
+    "checked": [
+      "abyss_data",
+      "abyss_map_layout",
+      "abyss_narrative",
+      "abyss_presentation",
+      "abyss_theme",
+      "abyss_acid_slime_s_ai",
+      "abyss_actor",
+      "abyss_battle_ui",
+      "abyss_bgm",
+      "abyss_blue_slaver_ai",
+      "abyss_combat",
+      "abyss_deck_ui",
+      "abyss_effects",
+      "abyss_enemy_ai",
+      "abyss_events",
+      "abyss_feedback",
+      "abyss_game_ui",
+      "abyss_gremlin_nob_ai",
+      "abyss_guardian_ai",
+      "abyss_inventory",
+      "abyss_jaw_worm_ai",
+      "abyss_map",
+      "abyss_map_ui",
+      "abyss_node_ui",
+      "abyss_nodes",
+      "abyss_random",
+      "abyss_red_slaver_ai",
+      "abyss_run",
+      "abyss_sentry_ai",
+      "abyss_ui",
+      "abyss_unknown",
+      "abyss_viewport",
+      "abyss_acid_slime_m_ai",
+      "abyss_event_pool",
+      "abyss_fungi_beast_ai",
+      "abyss_louse_ai",
+      "abyss_numbers",
+      "abyss_randomxs128",
+      "abyss_spike_slime_m_ai",
+      "abyss_sts_random",
+      "abyss_potion_rewards",
+      "abyss_shop",
+      "abyss_shop_price",
+      "abyss_looter_ai",
+      "abyss_merchant",
+      "abyss_potion_discard_ui",
+      "abyss_prologue"
+    ],
+    "ok": true,
+    "errors": 0,
+    "warnings": 32,
+    "problems": [
+      {
+        "script": "abyss_battle_ui",
+        "line": 951,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":begin() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 50,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":open() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 54,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 70,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 94,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":open() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 101,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 236,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":covering() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 236,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 237,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":covering() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 240,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":opaque() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 246,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":holding() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 253,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 255,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 266,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 275,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setActive() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetActive()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 277,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetVisible()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 279,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetVisible()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 282,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 294,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setNavigationEnabled() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 295,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 329,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 332,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":play() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Play()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 366,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 382,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":covering() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 80,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":tap() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 591,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":enter() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 697,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":react() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 698,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":react() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 725,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":react() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_ui",
+        "line": 63,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Resume()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 76,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Resume()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 79,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":update() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":OnUpdate()"
+      }
+    ],
+    "note": "Each problem names the script and the line. An error is something the game will not complain about and that will not work; a warning may be on purpose. Only names written as literals are checked."
+  },
+  "issues": [],
+  "ok": true,
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED",
+  "expectedGraphs": [
+    {
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "signals": [
+        "ABYSS_WIN",
+        "ABYSS_LOSE"
+      ],
+      "generatedSourceSha256": "48db63ddc8e3466046b7c795a9a8f439bb0537d9b33999a0421f08cc5045b2ad"
+    }
+  ],
+  "graphCheckScope": "Graph identity, server type, nonempty payload, monitored signal names and enabled mount; compiled node parameters/semantics are not certified.",
+  "evidenceDirectory": "F:\\New folder\\.artifacts\\m3-live-20261024\\normal-readback",
+  "liveWriteEnabled": false,
+  "checkedAt": "2026-10-24T11:14:26.581Z"
+}

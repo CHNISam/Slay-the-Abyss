@@ -13,6 +13,7 @@ for choice = 0, 3 do
     equal(Run.claimCardReward(run, nil), false); same(run, before)
     local selected = before.rewards.cards[choice]
     assert(Run.claimCardReward(run, choice))
+    dofile('tests/lua/support/finish_combat_rewards.lua')(run)
     equal(run.gold, before.gold); equal(run.seed, before.seed)
     equal(run.hp, before.hp); equal(run.victories, before.victories)
     equal(#run.deck, #before.deck + (choice > 0 and 1 or 0))

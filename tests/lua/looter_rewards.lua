@@ -23,8 +23,10 @@ local function win(stolen)
  if stolen and r.rewards.potion then assert(Run.skipPotionReward(r)) end
  return r
 end
-test('old no-stolen real starter victory still auto-returns to map',function()
- local r=win();eq(r.gold,114);local seed=r.seed;assert(Run.claimCardReward(r,1));eq(r.phase,'map');eq(r.seed,seed);eq(#r.deck,11)
+test('no-stolen real starter victory returns to map after an explicit bottle decision',function()
+ local r=win();eq(r.gold,114);local seed=r.seed;assert(Run.claimCardReward(r,1))
+ dofile('tests/lua/support/finish_combat_rewards.lua')(r)
+ eq(r.phase,'map');eq(r.seed,seed);eq(#r.deck,11)
 end)
 test('stolen contract creates separate unclaimed item, no immediate money',function()
  local r=win(30);eq(r.gold,114);assert(r.rewards.stolenGold,'missing separate stolen reward');eq(r.rewards.stolenGold.amount,30);eq(r.rewards.stolenGold.claimed,false);eq(r.rewards.manualContinue,true)

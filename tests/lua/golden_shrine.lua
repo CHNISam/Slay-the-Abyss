@@ -97,7 +97,7 @@ test('curse never enters upgrade, reward, or shop pools but purifier removes its
  for _,card in ipairs(Nodes.view(run,map).node.upgradeCards)do assert(card.cardId~='regret')end
  assert(not Nodes.upgrade(run,curse.uid));assert(Nodes.rest(run));run.nodeFlow=nil
  map=Map.generate(Data,42);map.nodes[1].type='shop';assert(Nodes.enter(run,map,map.nodes[1].id));for _,card in ipairs(run.nodeFlow.cards)do assert(card.id~='regret')end;assert(Nodes.leaveShop(run));run.nodeFlow=nil
- assert(Run.startCombat(run,'cultist_solo'));run.combat.enemies[1].hp=0;assert(Run.finishCombat(run));for _,id in ipairs(Run.rewardOptions(run))do assert(id~='regret')end;assert(Run.claimCardReward(run,0))
+ assert(Run.startCombat(run,'cultist_solo'));run.combat.enemies[1].hp=0;assert(Run.finishCombat(run));for _,id in ipairs(Run.rewardOptions(run))do assert(id~='regret')end;assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
  map=Map.generate(Data,42);map.nodes[1].type='event';map.nodes[1].eventId='purifier';assert(Nodes.enter(run,map,map.nodes[1].id));assert(Nodes.chooseEvent(run,'pray',curse.uid));for _,card in ipairs(run.deck)do assert(card.uid~=curse.uid)end
 end)
 test('normal unknown-room selection reaches Golden Shrine and records one consumed shrine',function()

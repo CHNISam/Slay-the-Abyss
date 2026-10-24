@@ -119,7 +119,7 @@ for _, upgraded in ipairs({false, true}) do
             if run.phase == "combat" then assert(Run.endTurn(run)) end
         end
         equal(run.phase, "reward"); same(run.deck, before); equal(run.deck[1], permanent)
-        assert(Run.claimCardReward(run, 0)); assert(Run.startCombat(run, "cultist_solo"))
+        assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Run.startCombat(run, "cultist_solo"))
         equal(#run.combat.exhaust, 0); equal(run.nextDeckUid, 4); same(run.deck, before)
         local found = 0
         for _, card in ipairs(run.combat.hand) do

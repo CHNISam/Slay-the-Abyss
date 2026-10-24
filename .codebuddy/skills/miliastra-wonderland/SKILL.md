@@ -9,6 +9,8 @@ description: 原神「千星奇域」(Miliastra Wonderland) UGC 关卡开发。�
 
 工具链的完整路径、版本、环境变量：`docs/TOOLCHAIN.md`（仓库内）。
 
+启动游戏、打开或导入存档、订阅日志、恢复卡住的自动试玩时，读 [官方客户端操作](references/official-client.md)。其中的会话脚本保留同级权限 MCP 宿主和每次操作的截图，避免每轮重新拼接临时桥接器。
+
 ## 本机已装好的东西
 
 - 原神客户端 7.1.0：`G:\Genshin\Genshin Impact Game\YuanShen.exe`

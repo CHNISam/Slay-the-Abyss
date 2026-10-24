@@ -25,7 +25,7 @@ local function beforeBoss(settle)
 end
 local function enterTreasure(settle, prepare)
     local ui, root = beforeBoss(settle)
-    assert(Run.claimCardReward(ui.run,0)); ui:refresh()
+    assert(Run.claimCardReward(ui.run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(ui.run); ui:refresh()
     assert(ui.mode=="map" and ui.run.nodeFlow.result=="boss_victory")
     if prepare then prepare(ui.run) end
     assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
@@ -38,7 +38,7 @@ test("Boss card reward and unopened treasure cannot submit victory",function()
     local calls=0
     local ui,root=beforeBoss(function() calls=calls+1 end)
     assert(ui.mode=="battle" and ui.run.phase=="reward" and not ui:settle())
-    assert(Run.claimCardReward(ui.run,0)); ui:refresh()
+    assert(Run.claimCardReward(ui.run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(ui.run); ui:refresh()
     assert(ui.mode=="map" and not ui:settle() and calls==0)
     assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
     assert(ui.mode=="node" and not ui:settle())

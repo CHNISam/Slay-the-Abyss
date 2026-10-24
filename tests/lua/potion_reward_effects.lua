@@ -26,7 +26,7 @@ local rows={
 for _,row in ipairs(rows) do
     local run=Run.new(data,row[1]);assert(Run.startCombat(run,'cultist_solo'));win(run)
     equal(run.rewards.potion.id,row[2]);assert(Run.claimPotionReward(run));equal(run.potions[1],row[2])
-    assert(Run.claimCardReward(run,0));equal(run.phase,'map');equal(run.potions[1],row[2])
+    assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run);equal(run.phase,'map');equal(run.potions[1],row[2])
     -- No route navigation is claimed here: this isolates the retained-bottle
     -- bridge between two legal combat entries, using production combat data.
     assert(Run.startCombat(run,'cultist_solo'))

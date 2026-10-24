@@ -103,7 +103,7 @@ test("status type stays outside reward and shop pools even with a supported fixt
  local run=Run.new(data,42);assert(Run.startCombat(run,"cultist_solo"))
  C.applyEffects(run.combat,{{op="damage",value=999}},run.combat.player,run.combat.enemies[1]);assert(Run.finishCombat(run))
  eq(#Run.rewardOptions(run),0)
- assert(Run.claimCardReward(run,0))
+ assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
  local map=Map.generate(data,42)
  for _=1,17 do
   local available=Map.available(map);assert(#available>0)
@@ -123,7 +123,7 @@ test("temporary Dazed never enters permanent run deck or next combat",function()
  generate(run.combat,2);same(deck,run.deck)
  C.applyEffects(run.combat,{{op="damage",value=999}},run.combat.player,run.combat.enemies[1]);assert(Run.finishCombat(run))
  for _,id in ipairs(Run.rewardOptions(run)) do assert(id~="dazed") end
- assert(Run.claimCardReward(run,0));assert(Run.startCombat(run,"cultist_solo"));same(deck,run.deck)
+ assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run);assert(Run.startCombat(run,"cultist_solo"));same(deck,run.deck)
  for _,pile in ipairs({run.combat.hand,run.combat.draw,run.combat.discard,run.combat.exhaust}) do
   for _,card in ipairs(pile) do assert(card.cardId~="dazed") end
  end
