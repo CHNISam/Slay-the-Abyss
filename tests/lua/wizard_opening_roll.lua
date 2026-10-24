@@ -150,18 +150,18 @@ end)
 
 test("Run encounter constructor uses the same Wizard opening policy", function()
     observe(function(calls)
-        local run = Run.new(data, 42)
-        -- Existing five-enemy encounter is a project integration fixture, not
-        -- a claim that this grouping or its shared RNG matches original STS1.
+        -- Current seed0 selects fat,wizard,mad,sneaky. The source group has
+        -- four actors; HP/AI still use the existing shared Combat stream.
+        local run = Run.new(data, 0)
         run.floor = 5
         run.deck = {{uid=1, cardId="defend", upgraded=false}}
         assert(Run.startCombat(run, "gremlin_gang"))
         local primary = 0
         for _, n in ipairs(calls) do if n == 100 then primary = primary + 1 end end
-        eq(primary, 5, "Mad, Fat, Sneaky, Wizard and Shield each have an opening primary draw")
-        eq(run.phase, "combat"); eq(#run.combat.enemies, 5)
-        eq(run.combat.enemies[4].definitionId, "wizard_gremlin")
-        eq(Combat.intent(run.combat, 4).id, "wizard_gremlin_1")
+        eq(primary, 4, "every selected slot has one opening primary draw")
+        eq(run.phase, "combat"); eq(#run.combat.enemies, 4)
+        eq(run.combat.enemies[2].definitionId, "wizard_gremlin")
+        eq(Combat.intent(run.combat, 2).id, "wizard_gremlin_1")
     end)
 end)
 

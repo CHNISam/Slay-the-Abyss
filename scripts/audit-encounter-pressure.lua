@@ -13,6 +13,7 @@ for _, encounter in ipairs(data.enemies.encounters) do
     local run = Run.new(data, 42)
     run.floor = encounter.minFloor
     assert(Run.startCombat(run, encounter.id))
+    local enemyCount = #run.combat.enemies
     local hp, totalHp, losses, turn = run.hp, 0, {}, 0
     for _, enemy in ipairs(run.combat.enemies) do totalHp = totalHp + enemy.hp end
     while run.phase == "combat" and turn < limit do
@@ -24,7 +25,7 @@ for _, encounter in ipairs(data.enemies.encounters) do
     local first = {}
     for i = 1, 3 do first[i] = losses[i] and tostring(losses[i]) or "—" end
     local defeat = run.phase == "defeat" and tostring(turn) or ">" .. limit
-    print("| " .. encounter.id .. " | " .. encounter.tier .. " | " .. #encounter.enemies
+    print("| " .. encounter.id .. " | " .. encounter.tier .. " | " .. enemyCount
         .. " | " .. totalHp .. " | " .. table.concat(first, " / ") .. " | " .. defeat .. " |")
 end
 print("Loss is actual HP lost (capped by remaining HP); no-action survival is not player difficulty.")

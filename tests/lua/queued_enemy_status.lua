@@ -23,10 +23,11 @@ local rows={{"fat_gremlin","fat_gremlin_1","weak",1,4},
  {"blue_slaver","blue_slaver_2","weak",1,7},{"gremlin_nob","gremlin_nob_2","vulnerable",2,6}}
 
 test("real gremlin_gang retains Fat's queued Weak after lethal Thorns",function()
- local run=Run.new(Data,42);run.floor=5;assert(Run.startCombat(run,"gremlin_gang"))
+ -- Current seed0 gives one Fat plus three living allies, not a fixed five-species group.
+ local run=Run.new(Data,0);run.floor=5;assert(Run.startCombat(run,"gremlin_gang"))
  local s=run.combat;local fat
  for _,e in ipairs(s.enemies) do if e.definitionId=="fat_gremlin" then fat=e end end
- assert(fat);eq(#s.enemies,5);fat.hp=1;C.addStatus(s.player,"thorns",1);s.events={}
+ assert(fat);eq(#s.enemies,4);fat.hp=1;C.addStatus(s.player,"thorns",1);s.events={}
  assert(Run.endTurn(run));eq(fat.hp,0);eq(s.player.statuses.weak,1)
  local weak,index=statusEvent(s,fat.id,"weak");assert(weak,"Fat must still apply Weak")
  local retaliation,damage

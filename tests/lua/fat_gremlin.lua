@@ -95,7 +95,8 @@ test("poison-killed instance cannot attack or apply Weak while teammate survives
 end)
 
 test("Run host entry at floor 5 reaches combined attack with original encounter data", function()
-    local run = Run.new(data, 42)
+    -- Current seed0 has exactly one Fat; source groups may contain zero or two.
+    local run = Run.new(data, 0)
     run.floor = 5 -- isolated host-entry fixture, not a completed map route
     assert(Run.startCombat(run, "gremlin_gang"))
     local found

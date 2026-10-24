@@ -379,10 +379,11 @@ end)
 test("block chip sits beside the HP bar with dark digits on solid blue, even in a five-enemy row", function()
     local ui, stage = setup()
     ui.run = Run.new(Data, 1)
-    for _, encounter in ipairs(Data.enemies.encounters) do
-        if encounter.id == "gremlin_gang" then ui.run.floor = encounter.minFloor end
-    end
-    assert(Run.startCombat(ui.run, "gremlin_gang"))
+    -- Explicit capacity fixture: real gremlin_gang now has four actors. Keep
+    -- all five UI slots under test without claiming this is a legal encounter.
+    ui.run.floor, ui.run.phase = 5, "combat"
+    ui.run.combat = Combat.new(Data, {seed=1, deck=ui.run.deck,
+        enemies={"mad_gremlin", "sneaky_gremlin", "fat_gremlin", "wizard_gremlin", "shield_gremlin"}})
     local battle = ui.run.combat
     assert(#battle.enemies == 5)
     battle.player.block = 6

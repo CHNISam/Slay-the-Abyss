@@ -424,14 +424,38 @@ export function validateContent(bundle) {
     integer(entry.minFloor, `${p}.minFloor`, 1, 16);
     integer(entry.maxFloor, `${p}.maxFloor`, 1, 16);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
-    let expandedSlots = 0;
-    array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
-      reference(id, 'enemies', `${p}.enemies[${j}]`);
-      const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
-      expandedSlots += ['spike_slime_l', 'acid_slime_l'].includes(enemy?.ai?.kind) ? 3 : 1;
-      if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
-    });
-    if (expandedSlots > 5) fail(`${p}.enemies`, 'must fit five UI slots including retained split parents');
+    const gremlin = entry.id === 'gremlin_gang';
+    const sourcePool = ['mad_gremlin', 'mad_gremlin', 'sneaky_gremlin', 'sneaky_gremlin',
+      'fat_gremlin', 'fat_gremlin', 'shield_gremlin', 'wizard_gremlin'];
+    if (gremlin) {
+      integer(entry.gremlinCount, `${p}.gremlinCount`, 4, 4);
+      if (!Array.isArray(entry.gremlinPool) || entry.gremlinPool.length !== sourcePool.length
+          || sourcePool.some((id, j) => entry.gremlinPool[j] !== id)) {
+        fail(`${p}.gremlinPool`, 'must match the ordered eight-item source pool');
+      }
+      for (const field of ['enemies', 'enemiesOnTrue']) {
+        if (entry[field] !== undefined) fail(`${p}.${field}`, 'cannot coexist with gremlinPool');
+      }
+    } else {
+      for (const field of ['gremlinPool', 'gremlinCount']) {
+        if (entry[field] !== undefined) fail(`${p}.${field}`, 'is only supported by gremlin_gang');
+      }
+    }
+    const fields = gremlin ? ['gremlinPool'] : ['enemies', ...(entry.enemiesOnTrue === undefined ? [] : ['enemiesOnTrue'])];
+    for (const field of fields) {
+      const slots = [];
+      array(entry[field], `${p}.${field}`).forEach((id, j) => {
+        reference(id, 'enemies', `${p}.${field}[${j}]`);
+        const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
+        slots.push(['spike_slime_l', 'acid_slime_l'].includes(enemy?.ai?.kind) ? 3 : 1);
+        if (enemy && enemy.tier !== entry.tier) fail(`${p}.${field}[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
+      });
+      // The pool contains candidates, not eight simultaneous actors. Check the
+      // largest legal four-slot draw, still including retained split parents.
+      if (gremlin) slots.sort((a, b) => b - a);
+      const expandedSlots = (gremlin ? slots.slice(0, 4) : slots).reduce((sum, n) => sum + n, 0);
+      if (expandedSlots > 5) fail(`${p}.${field}`, 'must fit five UI slots including retained split parents');
+    }
   });
   // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
   for (const [floor, tier] of [[1, 'normal'], [16, 'boss']]) {

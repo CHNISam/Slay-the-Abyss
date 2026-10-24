@@ -70,13 +70,14 @@ test("a failed skill transaction preserves chosen opening HP seed and events",fu
     s.catalog.cards.defend.effects={{op="draw",value=1},{op="gainStatus",status="missing",value=1}}
     assert(not pcall(Combat.play,s,s.hand[1].uid,1));eq(e.intentIndex,intent);eq(e.hp,hp);eq(s.seed,seed);eq(#s.events,n)
 end)
-test("real small_slimes Run encounter retains members and resolves source actions",function()
+test("real false-branch small_slimes Run resolves Acid S and Spike M source actions",function()
     controlled(0,2,function()
-        local run=Run.new(Data,42)
+        local run=Run.new(Data,222) -- real misc Boolean is false; Combat rolls remain controlled below.
         for _,e in ipairs(Data.enemies.encounters) do if e.id=="small_slimes" then run.floor=e.minFloor end end
         assert(Run.startCombat(run,"small_slimes"));eq(#run.combat.enemies,2)
-        eq(run.combat.enemies[1].definitionId,"acid_slime_s");eq(run.combat.enemies[2].definitionId,"spike_slime_s")
-        assert(Run.endTurn(run));eq(run.combat.player.hp,72);eq(run.combat.enemies[1].intentIndex,2)
+        eq(run.combat.enemies[1].definitionId,"acid_slime_s");eq(run.combat.enemies[2].definitionId,"spike_slime_m")
+        assert(Run.endTurn(run));eq(run.combat.player.hp,69,"Acid S Tackle3 + Spike M Flame Tackle8")
+        eq(run.combat.enemies[1].intentIndex,2);eq(run.miscRng.counter,1)
     end)
 end)
 assert(failed==0,tostring(failed).." failed of "..count)

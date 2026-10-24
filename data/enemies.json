@@ -1009,7 +1009,11 @@
       "tier": "normal",
       "enemies": [
         "acid_slime_s",
-        "spike_slime_s"
+        "spike_slime_m"
+      ],
+      "enemiesOnTrue": [
+        "spike_slime_s",
+        "acid_slime_m"
       ],
       "minFloor": 1,
       "maxFloor": 14
@@ -1093,13 +1097,17 @@
     {
       "id": "gremlin_gang",
       "tier": "normal",
-      "enemies": [
+      "gremlinPool": [
+        "mad_gremlin",
         "mad_gremlin",
         "sneaky_gremlin",
+        "sneaky_gremlin",
         "fat_gremlin",
-        "wizard_gremlin",
-        "shield_gremlin"
+        "fat_gremlin",
+        "shield_gremlin",
+        "wizard_gremlin"
       ],
+      "gremlinCount": 4,
       "minFloor": 5,
       "maxFloor": 14
     },

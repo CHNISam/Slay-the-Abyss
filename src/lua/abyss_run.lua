@@ -45,8 +45,25 @@ function M.startCombat(run, encounterId)
     combatData.rules = Combat.copy(run.data.rules)
     combatData.rules.player.energyPerTurn = combatData.rules.player.energyPerTurn + 0.0 + bonus
     if combatData.rules.player.energyPerTurn > 2147483647 then return false, "invalid_relic_energy" end
+    -- Source-ordered group assembly uses the current misc stream (MonsterHelper,
+    -- fixed 319009d). Keep this separate from Combat's HP/AI/shuffle stream and
+    -- publish neither the choice nor its RNG state until all setup succeeds.
+    local enemies, nextMiscRng = encounter.enemies
+    if encounter.enemiesOnTrue then
+        nextMiscRng = EventRandom.cloneState(run.miscRng)
+        if EventRandom.randomBoolean(nextMiscRng) then enemies = encounter.enemiesOnTrue end
+    elseif encounter.gremlinPool then
+        nextMiscRng = EventRandom.cloneState(run.miscRng)
+        local pool = Combat.copy(encounter.gremlinPool)
+        enemies = {}
+        for slot = 1, encounter.gremlinCount do
+            -- Inclusive Java bound: 7, 6, 5, 4. Remove only this occurrence;
+            -- duplicates carry weight, and draw order is construction order.
+            enemies[slot] = table.remove(pool, EventRandom.randomInt(nextMiscRng, #pool - 1) + 1)
+        end
+    end
     local battle
-    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, gold = run.gold, deck = run.deck, enemies = encounter.enemies,
+    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, gold = run.gold, deck = run.deck, enemies = enemies,
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -54,6 +71,7 @@ function M.startCombat(run, encounterId)
     ok, reason = Inventory.applyOpening(battle, opening.afterDraw)
     if not ok then return false, reason end
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
+    if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
     return true
 end

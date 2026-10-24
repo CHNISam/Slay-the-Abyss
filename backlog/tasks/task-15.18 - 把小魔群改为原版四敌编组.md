@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 10:29'
-updated_date: '2026-10-24 10:29'
+updated_date: '2026-10-24 10:49'
 due_date: '2026-10-28'
 labels:
   - required
@@ -16,6 +16,7 @@ references:
   - docs/backlog-details/TASK-15.md
   - >-
     https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java
+  - docs/reviews/TASK-15.18-gremlin-gang.md
 parent_task_id: TASK-15
 priority: high
 type: bug
@@ -41,3 +42,9 @@ ordinal: 86000
 <!-- SECTION:PLAN:BEGIN -->
 复用TASK15.17的暂存开战事务，先对固定八项池的不放回四抽写独立纯选择预期和真实Run红例，再最小接线。保留原构造槽序与既有HP/AI实现，不改medium_slimes或地图分布，不擅自全局按房间重建随机流。穷举选择器与少量真实入口分层验证，避免每个纯组合都重复构造完整世界。PR174先合后才集成本片，完整原作随机流差异继续留TASK16.1。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+四敌候选池与成功后提交已实现，1680种选择分支、真实入口和失败重试已有红绿及独立回归。161份native Lua与1029项所选Node通过；正式当前提交CI待运行，不等于Fengari或实机通过。原策略seed1真实战胜四小魔后在16层正常失败，全部五局结果与随机流边界如实保留。由dot原生Agent实施和独立审查；当前PATH未找到OpenCode，未新增安装或调用用户Codex/外部模型，额度和费用节省未测。
+<!-- SECTION:NOTES:END -->
