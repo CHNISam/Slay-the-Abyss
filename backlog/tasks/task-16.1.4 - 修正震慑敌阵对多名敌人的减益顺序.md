@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 13:04'
+updated_date: '2026-10-24 13:16'
 due_date: '2026-10-28'
 labels:
   - required
@@ -38,4 +39,12 @@ ordinal: 88000
 
 <!-- SECTION:PLAN:BEGIN -->
 已用30真实入口复现22多活敌顺序/快照负例并核固定来源。保留两条平铺applyStatusAll与现有表现索引，用受限显式targetGroup=weak_then_vulnerable两项组实现逐敌执行，schema与supported校验局部组，apply仅预检新标记而不改变无标记旧错误时机。保持共享Actor、Run、RNG及现有死敌/源死亡/末敌清理和出牌事务。先红后绿，独立评审后按当前CI交付。
+
+全量构建实证发现Python表现生成器也严格校验effect字段：在tools/render_traveler_cards.py仅补同一受限targetGroup协议，保留其他字段门禁与全部模板/索引，新增Python正负例。重新build-ui并用新产物复验文案/详情/群体反馈，不能复用旧生成文件冒充新数据通过。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+1313首候选30真实入口顺序/帧已过，但build-ui因Python unknown fields targetGroup失败，4个Node构建链回归同因失败；另3个wrapper缺Fengari不计通过。已限定新增第4生产路径为现有表现验证器并补先红后绿，未改UI设计、数值或预算。
+<!-- SECTION:NOTES:END -->
