@@ -547,7 +547,7 @@
   "artifacts": [
     {
       "path": "build/readability-red.log",
-      "sha256": "bfb2d9ace2162073204ca919152837306027d4ec57d4bf0502e3c1af47f777e6"
+      "sha256": "8cbe4dd2887127ad847aa401365b9ec0c10043612b8c93444aa8417a2790e693"
     },
     {
       "path": "build/reward-readability.json",
