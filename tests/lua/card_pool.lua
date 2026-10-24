@@ -120,21 +120,72 @@ for _, case in ipairs(cases) do
     end
 end
 
+-- Reuse only immutable, same-seed source maps and genuinely entered cold rooms.
+-- Every caller receives deep copies before changing gold/deck/stock/RNG state.
+local function fixtureCopy(value, seen)
+    seen = seen or {}
+    if seen[value] then return seen[value] end
+    local result = {}; seen[value] = result
+    for key, entry in pairs(value) do
+        result[key] = type(entry) == 'table' and fixtureCopy(entry, seen) or entry
+    end
+    return result
+end
+local function sameFixture(a, b)
+    assert(type(a) == 'table' and type(b) == 'table')
+    for key, value in pairs(a) do
+        if type(value) == 'table' then sameFixture(value, b[key]) else equal(value, b[key]) end
+    end
+    for key in pairs(b) do assert(a[key] ~= nil, 'extra cached field: ' .. tostring(key)) end
+end
+local function coldState(run)
+    return {deck=run.deck, nextDeckUid=run.nextDeckUid, shopRng=run.shopRng,
+        cardRng=run.cardRng, cardRarityOffset=run.cardRarityOffset, miscRng=run.miscRng,
+        eventRng=run.eventRng, treasureRng=run.treasureRng, cards=run.nodeFlow.cards,
+        campChoice=run.nodeFlow.campChoice, upgradesLeft=run.nodeFlow.upgradesLeft}
+end
+local function cloneEntry(cached)
+    -- Copy the whole bundle once: independent copies of run/flow would break
+    -- genuine entry's shared merchant/potion RNG references.
+    local bundle = fixtureCopy(cached.bundle)
+    if bundle.run.nodeFlow.type == 'shop' then
+        assert(cached.bundle.run.shopRng == cached.bundle.run.nodeFlow.shopRng)
+        assert(bundle.run.shopRng == bundle.run.nodeFlow.shopRng)
+        assert(bundle.run.shopRng ~= cached.bundle.run.shopRng)
+    end
+    assert(bundle.run.deck ~= cached.bundle.run.deck)
+    return bundle.run, bundle.map
+end
+local mapTemplates, entryTemplates = {}, {}
+local function mapForSeed(seed)
+    if not mapTemplates[seed] then mapTemplates[seed] = Map.generate(data, seed) end
+    return fixtureCopy(mapTemplates[seed])
+end
 local function entered(kind,seed)
-    local run, map = Run.new(data, seed or 42), Map.generate(data, seed or 42)
+    seed = seed or 42
+    local key = kind .. ":" .. seed
+    local cached = entryTemplates[key]
+    if cached then return cloneEntry(cached) end
+    local run, map = Run.new(data, seed), mapForSeed(seed)
     -- Stage prior navigation as a node-unit fixture, then use actual enter.
     local path=dofile('tests/lua/support/map_routes.lua').to(map,function(node)return node.type==kind end)
     for i=1,#path-1 do assert(Map.choose(map,path[i]))end
-    assert(Nodes.enter(run,map,path[#path]));return run,map
+    assert(Nodes.enter(run,map,path[#path]))
+    cached = {bundle={run=run, map=map}, pristine=fixtureCopy(coldState(run))}
+    entryTemplates[key] = cached
+    return cloneEntry(cached)
 end
 local shopSeedByCard, lastShopSeed = {}, 0
 local function seedOffering(id)
     while not shopSeedByCard[id] and lastShopSeed<1000 do
         lastShopSeed=lastShopSeed+1
-        local map=Map.generate(data,lastShopSeed);local hasShop=false
+        local map=mapForSeed(lastShopSeed);local hasShop=false
         for _,node in ipairs(map.nodes)do if node.type=='shop'then hasShop=true end end
         if hasShop then
-            local stock=require('abyss_shop').prepare(Run.new(data,lastShopSeed))
+            -- Inspect the complete actual stock reached by this seed's legal
+            -- route. Keep that unpurchased room for independent later cases.
+            local shop=entered('shop',lastShopSeed)
+            local stock=shop.nodeFlow
             for _,o in ipairs(stock.cards) do if not o.unavailable and not shopSeedByCard[o.id] then shopSeedByCard[o.id]=lastShopSeed end end
         end
     end
@@ -172,6 +223,9 @@ for _, case in ipairs(cases) do
         execute(case, true, camp)
     end)
 end
+
+-- All30 real purchases/upgrades must leave their shared cold templates intact.
+for _, cached in pairs(entryTemplates) do sameFixture(coldState(cached.bundle.run), cached.pristine) end
 
 test("incomplete cards never appear in the generated shop inventory or camp upgrades", function()
     local shop = entered("shop")
