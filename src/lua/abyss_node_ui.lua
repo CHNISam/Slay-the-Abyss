@@ -13,7 +13,7 @@ local Narrative = require("abyss_narrative")
 local M = {}
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
-local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态" }
+local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local reasons = {
     insufficient_gold = "金币不足", item_unavailable = "商品已售出或不可购买",
     removal_unavailable = "本店删牌服务已使用",
@@ -22,6 +22,7 @@ local reasons = {
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
     invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
+    event_content_unavailable = "事件所需卡牌数据不可用", invalid_deck_uid = "卡牌编号异常，未领取奖励",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
@@ -34,6 +35,7 @@ local events = {
     upgrade_shrine = {name="升级神龛",body="一道微光停在石龛上。你可以在此精进一式招数。",leave="你将这次机会留在身后。"},
     golden_wing = {name="金翼雕像",body="残破的金翼守着山道。献出生命可以舍弃一式招数；足够强的攻击也能击碎外壳，取出金币。",leave="你绕过了雕像。"},
     shining_light = {name="闪耀之光",body="石隙间涌出耀眼的光。靠近它会灼伤身体，也会让尚未精进的招数获得提升。",leave="你避开了光芒。"},
+    golden_shrine = {name="鎏金石龛",body="石龛中存着一份馈赠。你可以收下少量金币，也可以取走更多，但未散的执念会随你同行。",leave="你没有取走石龛中的金币。"},
 }
 local triggers = { combat_start = "战斗开始时，", combat_end = "战斗结束时，" }
 local layout = Theme.layout.nativeNode
@@ -147,7 +149,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         ink(box:GetChild("description"), look.dim and C.textDim or C.text)
         local cost = upgraded and display.upgradeCost or display.cost
         if cost == nil then cost = definition.cost end
-        box:GetChild("cost").text = definition.costMode == "all_energy" and "X" or tostring(cost or "")
+        box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(cost or "")
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
@@ -356,7 +358,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local id = node.event and node.event.id or (result and result.eventId)
         local copy = events[id] or { name = kinds.event, body = "", leave = "你离开了。" }
         event:GetChild("name").text = copy.name
-        event:GetChild("caption").text = self.run.data.rules.events.poolMode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
+        local mode=self.run.data.rules.events.poolMode
+        event:GetChild("caption").text = mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
+            or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         event:GetChild("body").text = result and result.text or copy.body
         local rows = {}
         if not result then
@@ -387,6 +391,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                                     local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true)
                                 end
                                 text=text..'\n已升级：'..table.concat(names,'、')
+                            end
+                            if outcome.obtainedCardUid then
+                                local obtained=find(self.run.deck,outcome.obtainedCardUid,'uid')
+                                text=text..'\n已获得诅咒：'..cardName(obtained.cardId,false)
                             end
                             return text,{text=text}
                         end)

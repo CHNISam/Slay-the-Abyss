@@ -136,7 +136,7 @@ test("reward remains static even after grown battle", function()
     ui.run.phase="reward"; ui.run.rewards={cards={"rampage"},gold=0}; ui:render()
     eq(label(stage),expected("8",false)); eq(label(stage),Presentation.rampage.text)
 end)
-test("without modifiers all 39 combat labels including Dazed and Slimed match printed text; Body Slam adds its current value", function()
+test("without modifiers all 40 combat labels including statuses and curse match printed text; Body Slam adds its current value", function()
     local seen=0
     for _,def in ipairs(Data.cards.cards) do
         seen=seen+1
@@ -146,7 +146,7 @@ test("without modifiers all 39 combat labels including Dazed and Slimed match pr
             eq(label(stage),printed .. (def.id=="body_slam" and "（当前 0 点）" or ""))
         end
     end
-    eq(seen,39)
+    eq(seen,40)
 end)
 test("legacy display without optional fields still renders old static text", function()
     local normal,upgraded=Presentation.rampage.combatText,Presentation.rampage.upgradeCombatText

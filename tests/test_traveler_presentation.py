@@ -88,6 +88,7 @@ class PresentationTests(unittest.TestCase):
 
     def test_status_cost_sentinel_is_blank_and_other_negative_costs_reject(self):
         self.assertEqual(self.m.cost_label({'type': 'status', 'cost': -2}), '')
+        self.assertEqual(self.m.cost_label({'id': 'regret', 'type': 'curse', 'cost': -2}), '')
         for card in ({'type': 'attack', 'cost': -2}, {'type': 'status', 'cost': -1},
                      {'type': 'status', 'cost': -2, 'costMode': 'all_energy'}):
             with self.subTest(card=card), self.assertRaises(self.m.PresentationError):
@@ -105,9 +106,13 @@ class PresentationTests(unittest.TestCase):
         source_data = self.m.load_json(source)
         data = self.m.render_cards(source_data, self.m.load_json(overlay))
         cards = {card['id']: card for card in data['cards']}
-        self.assertEqual(len(cards), 39)
-        self.assertEqual(len({c['name'] for c in cards.values()}), 39)
-        self.assertEqual(sum(c['type'] != 'status' for c in source_data['cards']), 37)
+        self.assertEqual(len(cards), 40)
+        self.assertEqual(len({c['name'] for c in cards.values()}), 40)
+        self.assertEqual(sum(c['type'] not in ('status', 'curse') for c in source_data['cards']), 37)
+        self.assertEqual(cards['regret']['name'], '余悔')
+        self.assertEqual(cards['regret']['cost'], '')
+        self.assertEqual(cards['regret']['upgradeCost'], '')
+        self.assertIn('手牌', cards['regret']['text'])
         self.assertEqual(cards['slimed']['cost'], '1')
         self.assertEqual(cards['slimed']['upgradeCost'], '1')
         self.assertEqual(cards['slimed']['name'], '黏滞')

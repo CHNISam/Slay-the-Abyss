@@ -33,7 +33,8 @@
     "upgradeCount": 1
   },
   "events": {
-    "poolMode": "restricted-six",
+    "poolMode": "restricted-seven",
+    "golden_shrine": { "gold": 100, "curseGold": 275, "curse": "regret" },
     "goop": { "damage": 11, "gold": 75, "lossMin": 20, "lossMax": 50 },
     "golden_wing": { "damage": 7, "goldMin": 50, "goldMax": 80, "attackThreshold": 10 },
     "shining_light": { "damagePercent": 20, "upgradeCount": 2 },
