@@ -70,7 +70,7 @@ function statusRow(top) {
   for (let i = 0; i < si.perRow * si.rows; i++) {
     const x = (i % si.perRow - (si.perRow - 1) / 2) * pitch, y = (si.rows - 1) * pitch / 2 - Math.floor(i / si.perRow) * pitch;
     chips.push({ ...picture(`icon${i + 1}`, x, y, si.size, si.size, theme.icon.status.strength, c.buff), visible: false },
-      { ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, f.small + si.gap, '', f.small, c.text), visible: false });
+      { ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, l.nativeText.lineHeight, '', f.small, c.text), visible: false });
     targets.push({ ...hit(si.minimumTouch, si.minimumTouch), name: `hit${i + 1}`, position: [0, 0], visible: false });
   }
   return { name: 'statusRow', kind: 'container', position: [0, top - (si.rows - 1) * pitch / 2], size: [bw, height],
@@ -144,7 +144,7 @@ export function battleLayout() {
       picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
       picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, c.goldDim),
       picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
-      text(name, bx, by, b.disc, b.disc, '', f.label, c.goldBright),
+      text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.label, c.goldBright),
       text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
     ];
   };

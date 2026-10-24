@@ -51,6 +51,38 @@ test('approved critical actor values and card types have native text line room',
     assert(card.children.find(c => c.name === 'type').size[1] >= theme.layout.nativeText.lineHeight);
   }
 });
+
+test('all dynamic battle numbers retain a native text line without intercepting input', () => {
+  const controls = stage().children;
+  const numbers = controls.filter(c => ['player', 'piles', 'exhaust', 'energy', 'draw', 'discard'].includes(c.name))
+    .map(control => ({ path: control.name, control }));
+  for (const actor of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+    for (const control of actor.children.filter(c => ['hp', 'block', 'intent'].includes(c.name))) {
+      numbers.push({ path: `${actor.name}/${control.name}`, control });
+    }
+    const row = actor.children.find(c => c.name === 'statusRow');
+    for (const control of row.children.filter(c => /^count\d+$/.test(c.name))) {
+      numbers.push({ path: `${actor.name}/statusRow/${control.name}`, control });
+    }
+  }
+  for (const card of controls.filter(c => /^card\d+$/.test(c.name))) {
+    numbers.push({ path: `${card.name}/cost`, control: card.children.find(c => c.name === 'cost') });
+  }
+  // These are the controller's numeric fields, including hidden slots populated
+  // by live state. autoSize cannot rescue a native box shorter than one line.
+  assert(numbers.some(({ path }) => path === 'draw'));
+  assert(numbers.some(({ path }) => path === 'discard'));
+  assert(numbers.some(({ path }) => path === 'enemy5/statusRow/count10'));
+  const tooShort = [];
+  for (const { path, control } of numbers) {
+    assert.equal(control?.kind, 'text', path);
+    assert.notEqual(control.focusable, true, `${path} must not take pointer focus`);
+    assert(control.text.minFontSize >= theme.font.minimum, path);
+    if (control.size[1] < theme.layout.nativeText.lineHeight) tooShort.push(path);
+  }
+  assert.deepEqual(tooShort, [], 'dynamic numbers need a complete native text line');
+});
+
 test('status detail card renders every line natively, left-aligned, and a full page fits under the top bar', () => {
   // A native text box shorter than one line height renders nothing: the panel
   // once showed only an icon and a single truncated description line. Boxes keep
