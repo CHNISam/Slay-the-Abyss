@@ -95,7 +95,7 @@ test('generated full-belt rejection remains visible and list continue permits ma
     for _,id in ipairs({'fire_potion','energy_potion','block_potion'})do assert(Run.obtainPotion(h.run,id))end
     h:refresh();assert(p:GetChild('claimPotion').interactable)
     t('claimPotion',1);assert(not h.run.rewards.potion.resolved)
-    assert(p:GetChild('potionReward').text:find('丢弃旧药水',1,true) and not p:GetChild('notice').visible)
+    assert(p:GetChild('potionHelp'):GetChild('potionReward').text:find('丢弃旧药水',1,true) and not p:GetChild('notice').visible)
     t('continue',2);assert(h.run.phase=='map' and h.run.pendingCombatRewards)
     local root=h.root;local back=root:GetChild('combatRewards'):GetChild('hit')
     assert(root:GetChild('combatRewards').visible)

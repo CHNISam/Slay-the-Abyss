@@ -186,7 +186,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name)
-        local parent = name:match("^potionHelp%d$") and stage:GetChild("potionHelp") or stage
+        local parent = (name:match("^potionHelp%d$") or name == "potionReward") and stage:GetChild("potionHelp") or stage
         return assert(parent:GetChild(name), "missing UI control " .. name)
     end
     local function show(name, value) child(name):SetVisible(value == true) end

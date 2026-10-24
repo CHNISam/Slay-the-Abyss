@@ -16,7 +16,7 @@ test('reward list rows use existing tokens without overlap and hide picker actio
   assert(math.abs(a.x)+a.sizeDeltaX/2<=Theme.canvas.base[1]/2-Theme.canvas.safe.x,'safe area '..name)
   if i>1 then local b=p:GetChild(names[i-1]);assert(b.y-b.sizeDeltaY/2-(a.y+a.sizeDeltaY/2)>=Theme.space.m,'overlap '..name) end
  end
- assert(not p:GetChild('potionReward').text:find('选牌时自动领取',1,true),'manual copy promises auto-claim')
+ assert(not p:GetChild('potionHelp'):GetChild('potionReward').text:find('选牌时自动领取',1,true),'manual copy promises auto-claim')
  assert(not p:GetChild('skip').visible and p:GetChild('skipPotion')==nil)
 end)
 test('card and gold resolve without hiding bottle; Proceed leaves it pending',function()

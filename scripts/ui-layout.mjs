@@ -198,6 +198,9 @@ export function battleLayout() {
     for (const state of help.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.helpSize[0] - s.s, l.nativeText.lineHeight];
     potionHelp.push(help);
   }
+  // Keep potion explanations in the existing full-canvas group. This avoids
+  // exceeding the platform's 60 direct children when rewards and aiming coexist.
+  potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
   for (let i = 1; i <= 10; i++) {
@@ -222,7 +225,6 @@ export function battleLayout() {
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
     button('skip', l.rewardPick.skip.slice(0, 2), l.rewardPick.skip.slice(2), '跳过卡牌'),
-    text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright),
     button('goldReward', l.battleRewards.rowOrigin, l.battleRewards.rowSize, '金币', false, f.body),
     button('cardReward', l.battleRewards.rowOrigin, l.battleRewards.rowSize, '选择一张卡牌加入牌组', false, f.body),
     button('claimPotion', l.battleRewards.claimPotion, l.battleRewards.rowSize, '领取药水', false, f.body),

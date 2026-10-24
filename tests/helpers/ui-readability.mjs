@@ -32,8 +32,8 @@ export function capacityProblems(nodes, lineHeight = 40) {
   });
 }
 export function rewardRole(path) {
+  if (/^\/battlePanel\/(notice|(?:potionHelp\/)?potionReward)$/.test(path)) return 'feedback';
   if (/^\/battlePanel\/(rewardStage|rewardList)\//.test(path)) return 'header';
-  if (/^\/battlePanel\/(notice|potionReward)$/.test(path)) return 'feedback';
   if (/^\/battlePanel\/(goldReward|cardReward|claimPotion|stolenGold|skip|skipPotion|continue)\//.test(path)) return 'action';
   if (/^\/battlePanel\/card\d+\/(name|type|label|cost)$/.test(path)) return 'card';
   return null;

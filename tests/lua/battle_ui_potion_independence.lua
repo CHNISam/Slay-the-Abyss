@@ -30,7 +30,7 @@ test('bottle label names its effect quantity and explicit full-belt replacement'
     assert(caption:find(assert(expected[h.run.rewards.potion.id]),1,true),caption)
     for _,id in ipairs({'block_potion','energy_potion','fire_potion'}) do assert(Run.obtainPotion(h.run,id)) end
     h:refresh()
-    assert(p:GetChild('potionReward').text:find('丢弃旧药水',1,true))
+    assert(p:GetChild('potionHelp'):GetChild('potionReward').text:find('丢弃旧药水',1,true))
     assert(p:GetChild('claimPotion').interactable)
 end)
 finish()

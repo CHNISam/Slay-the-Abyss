@@ -55,7 +55,7 @@ test('reward list, card choice, feedback and leave action have consistent render
   for (const name of ['card-pick', 'card-pick-settled', 'card-pick-hover']) {
     const state = cases[name];
     assert.ok(shown(state, '/battlePanel/rewardStage') && shown(state, '/battlePanel/card1'), `${name}: choices must be visible`);
-    for (const path of ['rewardList', 'continue', 'claimPotion', 'stolenGold', 'goldReward', 'cardReward', 'potionReward', 'notice'])
+    for (const path of ['rewardList', 'continue', 'claimPotion', 'stolenGold', 'goldReward', 'cardReward', 'potionHelp/potionReward', 'notice'])
       assert.ok(!shown(state, `/battlePanel/${path}`), `${name}: ${path} leaks into card choice`);
     assert.ok(shown(state, '/battlePanel/skip'), `${name}: card-choice back action missing`);
   }
@@ -67,8 +67,8 @@ test('reward list, card choice, feedback and leave action have consistent render
   assert.notEqual(feedback('card-added'), feedback('reward-list'), 'card result must replace idle instructions');
   assert.notEqual(feedback('potion-claimed'), feedback('card-added'), 'potion result must replace stale card feedback');
   for (const name of ['potion-full', 'potion-full-rejected'])
-    assert.ok(visibleText(cases[name].nodes).some(row => row.path === '/battlePanel/potionReward'), `${name}: full-belt explanation missing`);
-  assert.ok(!visibleText(cases['potion-claimed'].nodes).some(row => row.path === '/battlePanel/potionReward'),
+    assert.ok(visibleText(cases[name].nodes).some(row => row.path === '/battlePanel/potionHelp/potionReward'), `${name}: full-belt explanation missing`);
+  assert.ok(!visibleText(cases['potion-claimed'].nodes).some(row => row.path === '/battlePanel/potionHelp/potionReward'),
     'resolved bottle must hide its former full-belt explanation');
 });
 
@@ -96,7 +96,7 @@ test('the rendered-text guard rejects feedback and caption collisions without fl
   assert.equal(textConflicts([title, { ...feedback, visible: false }], rewardRole).length, 0, 'hidden feedback has no glyphs');
   assert.equal(textConflicts([title, { ...feedback, kind: 'image' }], rewardRole).length, 0, 'background overlap is legal');
   const caption = { ...feedback, path: '/battlePanel/claimPotion/normal/label', text: '领取药水' };
-  assert.equal(textConflicts([caption, { ...feedback, path: '/battlePanel/potionReward' }], rewardRole).length, 1,
+  assert.equal(textConflicts([caption, { ...feedback, path: '/battlePanel/potionHelp/potionReward' }], rewardRole).length, 1,
     'action captions must not share a text box with explanations');
   assert.equal(capacityProblems([{ ...caption, size: [500, 39] }]).length, 1, 'short native frame must reject');
 });
