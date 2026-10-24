@@ -50,6 +50,20 @@ function P.tick(view)
   assert(s.energy==6 and s.player.block==8 and #s.hand==5,'native exhaust/energy/draw/block order mismatch')
   assert(s.exhaust[1].uid==102 and s.exhaust[2].uid==101,'native exhaust UID order mismatch')
   step=4;print('ABYSS_W75_NATIVE_UI exhaust choice passed: Sentinel+ then Pact, energy6 block8 hand5')
+ elseif step==4 and fixture.combat.turn>1 then
+  local run,map=R.new(data,42),M.generate(data,42);assert(R.startCombat(run,'cultist_solo'))
+  local s=run.combat
+  s.hand={{uid=201,cardId='dual_wield',upgraded=true},{uid=202,cardId='rampage',upgraded=true,damageBonus=8,costForTurn=0},{uid=203,cardId='defend'},{uid=204,cardId='anger'}}
+  s.draw={};s.discard={};s.exhaust={};s.nextUid=205;s.events={}
+  attach(view,run,map);fixture=run;step=5
+  print('ABYSS_W75_FIXTURE copy: play Dual Wield+, choose modified Rampage+; explicit hand')
+ elseif step==5 and #fixture.combat.hand==5 and not fixture.combat.pendingChoice then
+  local s=fixture.combat;assert(s.energy==2 and #s.discard==1,'native copy payment/disposal mismatch')
+  assert(s.hand[1].uid==204 and s.hand[2].uid==203,'native selected-copy return order mismatch')
+  for i=3,5 do
+   local c=s.hand[i];assert(c.uid~=202 and c.cardId=='rampage' and c.upgraded and c.damageBonus==8 and c.costForTurn==0,'native selected-copy stat/identity mismatch')
+  end
+  step=6;print('ABYSS_W75_NATIVE_UI selected copy passed: three fresh Rampage+ cost0 damage16, original UID202 removed')
  end
 end
 return P

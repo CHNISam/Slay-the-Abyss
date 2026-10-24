@@ -18,6 +18,17 @@ for(const name of suites){
  checks+=`do\n${source.replace(/^package\.path[^\r\n]*(?:\r?\n)?/mg,'')}\nprint('ABYSS_W75_NATIVE_CORE pass ${name}')\nend\n`;
 }
 checks+="print('ABYSS_W75_NATIVE_CORE all six fixture suites passed; UI and natural acquisition separate')\nend\n";
+// Bundle only our explicit, allowlisted test helpers. The client has no dofile
+// filesystem API. Preserve original fixture hashes and all 75 transactions.
+let channels=readFileSync('tests/lua/warrior75_channels.lua','utf8');
+for(const path of ['tests/fixtures/warrior75-shop-seeds.lua','tests/lua/support/map_routes.lua']){
+ const source=readFileSync(path,'utf8');
+ report.suites.push({file:path,sha256:hash(source),kind:'inlined own test helper'});
+ channels=channels.replace(`dofile('${path}')`,`(function()\n${source}\nend)()`);
+}
+if(/\bdofile\s*\(/.test(channels))throw Error('Unresolved native channel fixture dependency');
+report.suites.push({file:'tests/lua/warrior75_channels.lua',sha256:hash(readFileSync('tests/lua/warrior75_channels.lua')),groups:['common','uncommon','rare']});
+checks=checks.replace(/end\n$/,`for _,rarity in ipairs({'common','uncommon','rare'}) do\nWARRIOR75_CHANNEL_RARITY=rarity\ndo\n${channels.replace(/^package\.path[^\r\n]*(?:\r?\n)?/mg,'')}\nend\nend\nWARRIOR75_CHANNEL_RARITY=nil\nprint('ABYSS_W75_NATIVE_CHANNELS all75 acquisition/camp/next-battle fixtures passed; navigation/funding are explicit')\nend\n`);
 const files={abyss_warrior75_checks:checks,abyss_warrior75_probe:readFileSync('scripts/warrior75-native-probe.lua','utf8')};
 let ui=readFileSync('src/lua/abyss_ui.lua','utf8');
 if(!ui.includes('local view, Viewport')||!ui.includes('print("ABYSS_UI ready")')||!ui.includes('view:update(dt)'))throw Error('UI hook changed; review probe injection');
