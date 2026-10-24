@@ -1,5 +1,32 @@
 # 战后药水独立领取
 
+## 当前修正：按初代奖励列表与选牌页交互
+
+2026-10-24，用户实机指出五种动作同时堆在奖励页、领牌后提示与标题叠字，并明确要求严格参照初代 PC。**本节取代下文旧修复中“药水必须明确放弃后才能离开”和“无药水选牌后自动回图”的方案。** 旧证据保留为历史，不能据此继续保留自创确认规则。
+
+战斗结束先进入条目列表；金币、失金、药水各自点击领取。点击卡牌条目才进入独立三选一页；PC 点牌立即入组并返回列表，没有二次确认。跳过只关闭选牌页，原卡牌条目仍可重开。继续打开地图，不领取也不立即销毁剩余奖励；地图的“返回战利品”可回看，下一房间成功进入后才失效，失败进入保留奖励与地图位置。满槽药水点击拒绝且保留条目，提示从顶部药水入口丢弃旧瓶后重试；Sozu 点击消耗该条目但不入背包。界面不再提供“放弃药水”或“离开并放弃未领奖励”。
+
+### 固定来源与交叉核对
+
+本轮完整重读 `aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0`，本地只读副本位于本工作树 `.artifacts/reward-source/`；不部署原版代码。
+
+- [CombatRewardScreen.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/CombatRewardScreen.java)：`setupItemReward` 建立条目列表；`rewardViewUpdate` 只在领取返回 true 时移除条目；`reopen` 恢复列表，不删除 CARD。
+- [RewardItem.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/RewardItem.java#L245)：GOLD/STOLEN_GOLD 点击时加钱；POTION 满槽取得失败返回 false；Sozu 分支返回 true，不取得药水；CARD 只打开独立选牌页。
+- [CardRewardScreen.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/CardRewardScreen.java#L214)：PC 点牌 `acquireCard → takeReward → closeCurrentScreen`，触屏确认是独立分支，本片不把触屏方案强加给 PC。
+- [SkipCardButton.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/buttons/SkipCardButton.java#L64) 只关闭当前页；交叉读 `CardRewardScreen.onClose` 与 [AbstractDungeon.closeCurrentScreen](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java#L2376) 未见领取或移除 CARD 的副作用。项目内部 `claimCardReward(0)` 保留为旧非 UI 驱动的明确弃牌命令，正常 UI 的“跳过”不调用它。
+- [ProceedButton.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/buttons/ProceedButton.java#L104) 普通奖励分支进入地图并保留 previousScreen；首次 FTUE 教学提示是一次性教学，不是逐项奖励确认。本片不增加教学弹窗。Boss 原作转独立宝箱房；项目既有第 17 层地图宝箱接线保留。
+- [AbstractRoom.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java#L306) 先生成金币奖励而非直接加钱。当前固定 15/30/100 金币量及随机链仍未完成同 seed 原版审计；本片修正到账时机，不更改掉落数值、卡池或随机流。
+
+### 实现与离线验收
+
+奖励列表和选牌页互斥。列表继续采用 PR19 颜色/卡面与中央面板，因失金是第四条独立奖励，面板从示例 460 高增加至主题中的 516 高；四行、局部提示和底部继续按钮分别留出文字盒。PC 直接领取遵从用户本轮原作要求，取代原型的选中后二次确认。选牌 subtitle 与跳过按钮补足原生 40 高文字容量。战斗通用 notice 在奖励页隐藏，动作结果显示在列表局部 subtitle；独立控件树守卫要求反馈实际可见，不能靠隐藏反馈蒙混通过。
+
+Run 保存待回看奖励及原战斗/房间身份；宿主返回入口绑定可见性代际、当前局和待领奖励对象；Nodes 只在成功入房提交后清理待回看项。原卡牌/条目数组、药水结果、失金类型/金额和 held/released 输入身份防护保留，并加入页面代际及普通金币状态。没有直接清状态绕开旧触摸测试。原生战斗直属子项保持 60 上限。
+
+新增真实 Run/宿主回归覆盖独立金币、满槽原子性、Sozu、列表/选牌互斥、跳过可重开、旧页 held/released、地图回看、返回入口跨牌库/重开输入、失败入房保留奖励。既有夹具按真实奖励行/继续动作迁移，保留原数值、原子性和身份断言；详细本地命令结果由本轮结构化证据记录。独立可读性守卫与其原始红例见 [UI 根因与守卫](TASK-52-UI-READABILITY.md)。
+
+本片仅源码与本地生成树/回归：**未制作新的 `.gil` 副本、未官方导入、未实机试玩、未通过 `verify:ui`**；任务保持 In Progress。完整组合 check 与最终候选由集成线程执行，不能复用 1847 旧截图认证本片。
+
 2026-10-24。用户打完整局，直到三个槽满才知道何时得到药水。根因是 `Run.claimCardReward` 在普通战后选牌/跳过时调用 `claimPotionReward`，随后回图；既有测试把自动收取写成正确行为。
 
 ## 修复

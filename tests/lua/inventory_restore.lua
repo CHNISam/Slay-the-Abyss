@@ -74,7 +74,7 @@ local function rewardPending()
 end
 local function atShop()
     local run, map = rewardPending()
-    assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
+    assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
     for _, id in ipairs({"f2_l1", "f3_l1"}) do
         enter(run, map, id, "event"); assert(Nodes.chooseEvent(run, "leave"))
     end
@@ -101,6 +101,7 @@ test("restoring during reward keeps the same pending owner and grants exactly on
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.deck[11].cardId, cardId)
     equal(run.nextDeckUid, 12); equal(#Nodes.available(run, restored), 0)
     refuse(run, restored, function() return Run.claimCardReward(run, 1) end, "no_pending_reward")
+    dofile('tests/lua/support/finish_combat_rewards.lua')(run)
     assert(Nodes.completeCombat(run, restored))
     enter(run, restored, "f2_l1", "event")
     equal(map.floor, 1); equal(snapshot.floor, 1); equal(restored.floor, 2)

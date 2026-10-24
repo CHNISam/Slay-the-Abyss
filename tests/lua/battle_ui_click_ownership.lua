@@ -135,8 +135,9 @@ test("reward card after a real killing play requires a fresh pointer but remains
     local before=#host.run.deck
     event("card1","click",7)
     assert(host.run.phase=="reward" and #host.run.deck==before)
+    tap('cardReward',9)
     tap("card1",8)
-    assert(host.run.phase=="map" and #host.run.deck==before+1)
+    assert(host.run.phase=="reward" and #host.run.deck==before+1 and panel:GetChild('rewardList').visible)
 end)
 
 print("LUA_BATTLE_CLICK_OWNERSHIP "..passed.." passed; "..failed.." failed")

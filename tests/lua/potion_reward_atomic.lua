@@ -71,7 +71,7 @@ test('lethal potion commits the new reward stream exactly once on success', func
     local gold, nextUid = run.gold, run.nextDeckUid
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil and run.combat.enemies[1].hp == 0)
-    assert(run.gold == gold + 15 and run.nextDeckUid == nextUid and #run.deck == 10)
+    assert(run.gold == gold and run.rewards.gold == 15 and not run.rewards.goldClaimed and run.nextDeckUid == nextUid and #run.deck == 10)
     assert(run.rewards.potion.id == 'fire_potion' and not run.rewards.potion.resolved)
     assert(run.potionChanceModifier == -20)
     -- Recorded from the verified unmodified provider for seed 4: the second

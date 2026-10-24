@@ -265,6 +265,7 @@ test("rewards keep printed numbers; only combat hands are live", function()
     ui:render() eq(label(panel), "对目标造成 11 点伤害。")
     ui.run.phase = "reward" ui.run.rewards = {cards={"strike", "defend"}, gold=0}
     ui:render()
+    panel:GetChild('cardReward').click()
     eq(label(panel, 1), Presentation.strike.text) eq(label(panel, 2), Presentation.defend.text)
 end)
 

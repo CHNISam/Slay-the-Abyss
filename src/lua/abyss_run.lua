@@ -73,6 +73,7 @@ function M.startCombat(run, encounterId)
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
+    run.pendingCombatRewards = nil
     return true
 end
 
@@ -112,15 +113,14 @@ function M.finishCombat(run)
     -- The content table calls ordinary encounters 'normal'.
     assert(type(gold) == "number", "unknown encounter reward tier")
     if allEscaped then gold = 0 end
-    run.gold = run.gold + gold
     local pool, choices = rewardCandidates(run), {}
     for _ = 1, math.min(run.data.rules.rewards.cardChoices, #pool) do
         choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
     end
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
-    run.rewards, run.phase = { cards = choices, gold = gold, potion = potion,
-        cardResolved = false, manualContinue = potion ~= nil }, "reward"
+    run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,
+        cardResolved = false, manualContinue = true }, "reward"
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
         run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}
@@ -145,13 +145,24 @@ function M.claimCardReward(run, choice)
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = run.rewards.cards[choice], upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
     end
-    if run.rewards.manualContinue then run.rewards.cardResolved = true
-    else run.phase, run.rewards, run.combat = "map", nil, nil end
+    -- choice=0 is the internal explicit-abandon command retained for old
+    -- non-UI drivers. PC Skip merely closes the picker and never calls this.
+    run.rewards.cardResolved = true
     return true
 end
 
 local function validGold(n)
     return type(n) == "number" and n == n and n % 1 == 0 and n >= 0 and n <= 2147483647
+end
+
+-- RewardItem.GOLD: the victory creates an offer; clicking it grants the money.
+function M.claimGoldReward(run)
+    local rewards = run.phase == "reward" and run.rewards
+    if not rewards or rewards.goldClaimed ~= false then return false, "no_pending_gold" end
+    if not validGold(rewards.gold) or rewards.gold == 0 or not validGold(run.gold)
+        or run.gold + 0.0 + rewards.gold > 2147483647 then return false, "invalid_gold_reward" end
+    run.gold, rewards.goldClaimed = run.gold + rewards.gold, true
+    return true
 end
 
 function M.claimStolenGoldReward(run)
@@ -170,10 +181,18 @@ function M.leaveCombatRewards(run)
     if run.phase ~= "reward" or not run.rewards or run.rewards.manualContinue ~= true then
         return false, "no_pending_reward"
     end
-    -- Bottles require their own explicit claim/skip. Leaving may forfeit only
-    -- the independently offered card and stolen gold, never a pending bottle.
-    if run.rewards.potion and not run.rewards.potion.resolved then return false, "pending_potion_reward" end
+    -- Proceed opens the map without consuming unclaimed items. They remain
+    -- accessible until a successful room transition commits.
+    run.pendingCombatRewards = { rewards = run.rewards, combat = run.combat, flow = run.nodeFlow }
     run.phase, run.rewards, run.combat = "map", nil, nil
+    return true
+end
+
+function M.reopenCombatRewards(run)
+    local pending = run.pendingCombatRewards
+    if run.phase ~= "map" or not pending or pending.flow ~= run.nodeFlow then return false, "no_pending_reward" end
+    run.rewards, run.combat, run.phase = pending.rewards, pending.combat, "reward"
+    run.pendingCombatRewards = nil
     return true
 end
 
@@ -181,6 +200,13 @@ function M.claimPotionReward(run)
     if run.phase~='reward' then return false,'no_pending_reward' end
     local offer=run.rewards and run.rewards.potion
     if not offer or offer.resolved then return false,'no_pending_potion_reward' end
+    for _, id in ipairs(run.relics) do
+        local relic = find(run.data.relics.relics, id)
+        if relic and relic.blocksPotions then
+            offer.resolved, offer.result = true, 'blocked'
+            return true, 'potion_blocked_by_sozu'
+        end
+    end
     if offer.unavailable then return false,'potion_content_unavailable' end
     local ok,slot=M.obtainPotion(run,offer.id)
     if not ok then return false,slot end

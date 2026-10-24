@@ -156,6 +156,7 @@ test("reward view cannot claim or skip beneath the deck overlay and resumes afte
     local ui, root = fixture()
     ui:start() assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     win(ui,root)
+    click(root,'battlePanel','cardReward')
     local before = Combat.copy(ui.run)
     local grid = openDeck(ui,root)
     assert(grid.itemCount == #ui.run.deck and grid.itemCount ~= #ui.run.rewards.cards)
@@ -164,7 +165,8 @@ test("reward view cannot claim or skip beneath the deck overlay and resumes afte
     assert(same(before,ui.run))
     assert(closeDeck(root))
     click(root,"battlePanel","skip")
-    assert(ui.mode == "map" and #ui.run.deck == #before.deck)
+    assert(ui.mode == "battle" and ui.run.phase=='reward' and not ui.run.rewards.cardResolved and #ui.run.deck == #before.deck)
+    click(root,'battlePanel','continue');assert(ui.mode=='map')
 end)
 
 print("LUA_GAME_UI_DECK_PASS " .. count)

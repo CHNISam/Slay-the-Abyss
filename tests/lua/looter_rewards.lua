@@ -18,6 +18,7 @@ local function win(stolen)
   if r.phase=='combat' then assert(Run.endTurn(r)) end
  end
  eq(r.phase,'reward')
+ assert(r.gold==99 and not r.rewards.goldClaimed);assert(Run.claimGoldReward(r))
  -- This prior contract suite isolates stolen gold/card ordering. Decline the
  -- newly available PR170 bottle explicitly; joint rewards have their own suite.
  if stolen and r.rewards.potion then assert(Run.skipPotionReward(r)) end

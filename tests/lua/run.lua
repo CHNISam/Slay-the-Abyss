@@ -32,6 +32,8 @@ test("real ten-card starter wins a complete encounter without state edits", func
     local run = win(42)
     equal(#run.deck, 10); equal(run.lastResult.outcome, "victory")
     assert(run.hp > 0 and run.hp <= run.maxHp)
+    equal(run.gold, data.rules.player.startingGold)
+    assert(Run.claimGoldReward(run))
     equal(run.gold, data.rules.player.startingGold + data.rules.rewards.normalGold)
     equal(#Run.rewardOptions(run), data.rules.rewards.cardChoices)
 end)
@@ -59,6 +61,7 @@ end)
 
 test("invalid and repeated claims do not award a card or money", function()
     local run = win(5)
+    assert(Run.claimGoldReward(run))
     local gold, seed = run.gold, run.seed
     for _, choice in ipairs({ -1, 0.5, 4, "1", false, {} }) do
         equal(Run.claimCardReward(run, choice), false)

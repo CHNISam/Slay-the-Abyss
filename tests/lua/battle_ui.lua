@@ -219,7 +219,7 @@ test("reward HUD shows committed relic healing and clears battle-only counters",
     assert(disc.r == empty.r and disc.g == empty.g and disc.b == empty.b and disc.a == empty.a)
     assert(not stage.children.piles.text:find("消耗", 1, true) and stage.children.statuses.text == "")
     assert(not stage.children.hero.visible and not stage.children.enemy1.visible)
-    click("skip")
+    click("continue")
     assert(ui.run.phase == "map" and stage.children.player.text == "56/80" and stage.children.energy.text == "0/3")
     click("continue")
     assert(ui.run.phase == "combat" and ui.run.combat.player.hp == 56 and stage.children.player.text == "56/80")
@@ -306,13 +306,14 @@ test("real victory displays feedback and claims a reward into the next battle de
         end
         if ui.run.phase == "combat" then click("endTurn") end
     end
-    assert(ui.run.phase == "reward" and stage.children.skip.visible)
-    assert(stage.children.rewardStage.visible and stage.children.rewardStage.children.subtitle.text:find("战斗胜利", 1, true))
+    assert(ui.run.phase == "reward" and stage.children.cardReward.visible)
+    assert(stage.children.rewardList.visible and not stage.children.rewardStage.visible)
     assert(not stage.children.endTurn.visible and not stage.children.enemy1.visible)
     local chosen = ui.run.rewards.cards[1]
+    click('cardReward')
     click("card1")
-    assert(ui.run.phase == "map" and #ui.run.deck == 11 and stage.children.continue.visible)
-    click("continue")
+    assert(ui.run.phase == "reward" and #ui.run.deck == 11 and stage.children.continue.visible)
+    click("continue");assert(ui.run.phase=='map');click('continue')
     local found = false
     for _, pile in ipairs({ui.run.combat.draw, ui.run.combat.hand}) do
         for _, card in ipairs(pile) do if card.cardId == chosen then found = true end end
@@ -463,7 +464,7 @@ test("potion victory commits rewards and relic healing then hides combat potion 
     ui.run.combat.enemies[1].hp, ui.run.combat.player.hp = 20, 30
     ui:render() click("potion1")
     assert(ui.run.phase == "reward" and ui.run.hp == 36 and #ui.run.potions == 0)
-    assert(stage.children.player.text == "36/80" and stage.children.skip.visible)
+    assert(stage.children.player.text == "36/80" and stage.children.cardReward.visible)
     assert(not stage.children.potion1.visible and not stage.children.endTurn.visible)
     local gold = ui.run.gold
     stage.children.potion1.click()
@@ -489,8 +490,9 @@ test("embedded battle uses host controls and scaling and reports each successful
     click("endTurn") assert(changes == 3)
     ui.run.combat.enemies[1].hp = 1
     click("potion2") assert(changes == 4 and ui.run.phase == "reward")
-    assert(root.children.skip.visible and not root.children.continue.visible)
-    click("skip") assert(changes == 5 and ui.run.phase == "map")
+    assert(root.children.cardReward.visible and root.children.continue.visible and not root.children.skip.visible)
+    click('cardReward');click('skip');assert(changes==4 and ui.run.phase=='reward')
+    click("continue") assert(changes == 5 and ui.run.phase == "map")
     root.children.continue.click()
     assert(changes == 5 and ui.run.phase == "map")
 end)
@@ -1175,11 +1177,13 @@ test("reward pick is a centred stage apart from the bottom hand", function()
     local hand = {}
     for i = 1, 5 do hand[i] = stage.children["card" .. i].y end
     assert(stage.children.card1.y < -150 and not stage.children.rewardStage.visible and stage.children.energy.visible)
-    ui.run.phase, ui.run.rewards = "reward", {gold = 12, cards = {"strike", "defend", "bash"}}
+    ui.run.phase, ui.run.rewards = "reward", {gold = 12, goldClaimed=false, manualContinue=true, cardResolved=false, cards = {"strike", "defend", "bash"}}
     ui:render()
+    assert(stage.children.rewardList.visible and not stage.children.rewardStage.visible)
+    click('cardReward')
     local deck = #ui.run.deck
     assert(stage.children.rewardStage.visible and not stage.children.endTurn.visible and not stage.children.energy.visible)
-    assert(stage.children.rewardStage.children.subtitle.text:find("金币 ＋12", 1, true))
+    assert(stage.children.rewardStage.children.subtitle.text:find("点击卡牌加入牌组", 1, true))
     assert(stage.children.card1.visible and stage.children.card3.visible and not stage.children.card4.visible)
     -- Settle the entrance, then the three cards share one row at the middle of the screen.
     for _ = 1, 40 do ui:update(0.05) end
@@ -1199,20 +1203,22 @@ test("reward pick is a centred stage apart from the bottom hand", function()
     assert(stage.children.card2.localScaleX == R.scale and stage.children.card2.y == R.y)
     -- One click claims once; a second click on the same slot cannot claim again.
     click("card2")
-    assert(ui.run.phase == "map" and #ui.run.deck == deck + 1 and not stage.children.rewardStage.visible)
+    assert(ui.run.phase == "reward" and #ui.run.deck == deck + 1 and not stage.children.rewardStage.visible)
     click("card2") assert(#ui.run.deck == deck + 1)
     ui:setHover(1) assert(ui.hover == nil)
     -- Battle hands are untouched: a fresh fight deals the bottom arc again.
-    click("continue")
+    click("continue");assert(ui.run.phase=='map');click('continue')
     assert(ui.run.phase == "combat" and stage.children.energy.visible and stage.children.card1.y == hand[1])
 end)
-test("skip leaves the reward stage and cannot be repeated", function()
+test("skip returns to the list without consuming the unclaimed card row", function()
     local ui, stage, click = setup() click("start")
-    ui.run.phase, ui.run.rewards = "reward", {gold = 0, cards = {"strike", "defend", "bash"}}
+    ui.run.phase, ui.run.rewards = "reward", {gold = 0, goldClaimed=true, manualContinue=true, cardResolved=false, cards = {"strike", "defend", "bash"}}
     ui:render() local deck = #ui.run.deck
+    click('cardReward')
     assert(stage.children.skip.visible and stage.children.skip.y == Theme.layout.rewardPick.skip[2])
     click("skip")
-    assert(ui.run.phase == "map" and #ui.run.deck == deck and not stage.children.rewardStage.visible)
+    assert(ui.run.phase == "reward" and #ui.run.deck == deck and not stage.children.rewardStage.visible)
+    assert(stage.children.rewardList.visible and stage.children.cardReward.visible and not ui.run.rewards.cardResolved)
     click("skip") assert(#ui.run.deck == deck)
 end)
 print("LUA_UI_PASS " .. count)

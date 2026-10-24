@@ -3,6 +3,7 @@
 return function(run)
     local Run=require('abyss_run')
     if run.phase~='reward' or not run.rewards.manualContinue then return end
+    if run.rewards.goldClaimed == false then assert(Run.claimGoldReward(run)) end
     local potion=run.rewards.potion
     if potion and not potion.resolved then
         local ok,why=Run.claimPotionReward(run)

@@ -152,7 +152,8 @@ test("last-enemy potion kill finishes normally and awards gold and end healing o
     run.combat.player.hp = 40; run.combat.enemies[1].hp = 20
     local gold, root = run.gold, run.combat
     assert(Run.usePotion(run, 1, 1)); equal(run.combat, root); equal(root.phase, "victory")
-    equal(run.phase, "reward"); equal(run.hp, 46); equal(run.gold, gold + data.rules.rewards.normalGold)
+    equal(run.phase, "reward"); equal(run.hp, 46); equal(run.gold, gold)
+    assert(Run.claimGoldReward(run)); equal(run.gold, gold + data.rules.rewards.normalGold)
     equal(#Run.rewardOptions(run), data.rules.rewards.cardChoices)
     rejected(run, 1, 1, "not_in_combat"); equal(Run.finishCombat(run), false)
     equal(run.hp, 46); equal(run.gold, gold + data.rules.rewards.normalGold)
@@ -192,10 +193,11 @@ test("real map keeps resources across two original-data battles and a newly acqu
     equal(#run.combat.hand, 7); equal(run.combat.energy, 4)
     assert(Run.usePotion(run, 1)); equal(run.combat.player.statuses.strength, 3)
     finishBattle(run)
+    assert(Run.claimGoldReward(run))
     local hp, gold = run.hp, run.gold
     equal(gold, 1000 + source.rules.rewards.normalGold)
     local rewardId = Run.rewardOptions(run)[1]
-    assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
+    assert(Run.claimCardReward(run, 1)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
     local acquired, visitedEvent, boughtCard, spent, nextBattleType = false, false, false, 0, nil
     while true do
@@ -229,9 +231,10 @@ test("real map keeps resources across two original-data battles and a newly acqu
     equal(run.combat.player.statuses.thorns, 3); equal(run.combat.player.statuses.regen, nil)
     assert(Run.usePotion(run, 2)); equal(run.combat.player.statuses.regen, 5)
     finishBattle(run)
+    assert(Run.claimGoldReward(run))
     local expectedReward = nextBattleType == "elite" and source.rules.rewards.eliteGold or source.rules.rewards.normalGold
     equal(run.gold, gold - spent + expectedReward)
-    assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
+    assert(Run.claimCardReward(run, 0)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     same(run.potions, {}); equal(run.nextDeckUid, 13)
 end)
 

@@ -213,6 +213,8 @@ function M.enter(run, map, nodeId)
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
     if flow.type == 'shop' then run.shopRng=flow.shopRng end
+    -- The old room's unclaimed rewards expire only after this entry succeeds.
+    run.pendingCombatRewards = nil
     return true
 end
 

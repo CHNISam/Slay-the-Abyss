@@ -7,7 +7,7 @@ local count = 0
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
 local function leavePotionRewards(ui, root)
     if ui.run.phase=='reward' and ui.run.rewards.manualContinue then
-        if ui.run.rewards.potion and not ui.run.rewards.potion.resolved then click(root,'battlePanel','skipPotion') end
+        if ui.run.rewards.goldClaimed == false then click(root,'battlePanel','goldReward') end
         click(root,'battlePanel','continue')
     end
 end
@@ -27,7 +27,7 @@ test("new encounter resets stale target before the first attack-card tap", funct
     for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
     assert(Run.finishCombat(run))
     ui:refresh()
-    click(root, "battlePanel", "skip")
+    click(root, "battlePanel", "cardReward");click(root, "battlePanel", "skip")
     leavePotionRewards(ui, root)
     assert(run.phase == "map")
     assert(Run.startCombat(run, "cultist_solo"))
@@ -73,6 +73,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     win(ui, root)
     assert(ui.mode == "battle" and ui.run.nodeFlow.complete == false)
     local chosen = ui.run.rewards.cards[1]
+    click(root, "battlePanel", "cardReward")
     click(root, "battlePanel", "card1")
     leavePotionRewards(ui, root)
     assert(ui.mode == "map" and ui.run.nodeFlow.complete and #ui.run.deck == 11)
@@ -133,7 +134,7 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
         end
         if ui.mode == "battle" then
             win(ui, root)
-            click(root, "battlePanel", "skip")
+            click(root, "battlePanel", "cardReward");click(root, "battlePanel", "skip")
             leavePotionRewards(ui, root)
         elseif node.type == "shop" then
             if ui.nodeUI.actions["shopView/card1"].enabled then
