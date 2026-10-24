@@ -1,11 +1,11 @@
 ---
 id: TASK-44
 title: M4 按用户 Lore v2 修正主线与事件文案
-status: In Progress
+status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-24 00:50'
-updated_date: '2026-10-24 00:56'
+updated_date: '2026-10-24 00:57'
 labels: []
 milestone: m-5
 dependencies: []
@@ -36,3 +36,9 @@ ordinal: 72000
 <!-- SECTION:NOTES:BEGIN -->
 v2 原包19项manifest逐一匹配；真实控制器专项5项通过、节点Lua29项通过；完整check运行中。未生成或实测新候选，商人形象/遭遇长文显示未完成，不计整包平台验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+按用户 Lore v2 接入四段完整原文、商人反馈及两个事件正文，删除 compact 和旧节点风味句。原包19文件哈希匹配；真实控制器专项5项和节点Lua29项、原文一致/容量检查通过。仅完成本地文案切片，商人形象、遭遇正文与新候选实机仍待验收。
+<!-- SECTION:FINAL_SUMMARY:END -->
