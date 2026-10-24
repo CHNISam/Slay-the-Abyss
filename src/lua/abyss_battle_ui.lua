@@ -586,6 +586,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local player = battle and battle.player
         label("player", number(player and player.hp or run and run.hp or data.rules.player.maxHp) .. "/" .. number(run and run.maxHp or data.rules.player.maxHp))
         label("piles", number(run and run.gold or 0))
+        -- The top bar names the scene, never the game: floor and fight kind.
+        local flow = run and run.nodeFlow
+        local fightKind = flow and ({ elite = "精英战斗", boss = "首领战斗" })[flow.type] or "战斗"
+        label("title", flow and flow.floor and ("第 " .. flow.floor .. " 层 · " .. fightKind) or fightKind)
         label("exhaust", battle and tostring(#battle.exhaust) or "0")
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
         local charged = battle and battle.energy > 0

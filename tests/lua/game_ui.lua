@@ -48,10 +48,11 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(ui.mode == "menu" and not root:GetChild("mapPanel").visible)
     local intro = root:GetChild("menuPanel"):GetChild("tagline").text
     local guide = root:GetChild("menuPanel"):GetChild("summary").text
-    assert(intro == "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。")
+    -- The title screen names the chapter; the approved opening story is told by the cinematic.
+    assert(intro == "岩脉残响")
     assert(guide == "" and not root:GetChild("menuPanel"):GetChild("summary").visible)
     assert(not (intro .. guide):find("十五", 1, true) and not (intro .. guide):find("十七", 1, true))
-    preview("intro", intro) preview("menu", guide)
+    preview("menu", guide)
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 3)
     local original = ui.run
@@ -131,6 +132,10 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
                 click(root, "nodePanel", "shopView/card1")
                 assert(ui.run.gold < before)
             end
+            click(root, "nodePanel", "confirm")
+            -- The merchant's farewell holds the shop panel until the player continues.
+            assert(ui.mode == "node" and ui.run.phase == "map" and not ui.mapUI.navigationEnabled)
+            assert(root:GetChild("nodePanel"):GetChild("merchant").visible)
             click(root, "nodePanel", "confirm")
         else
             assert(ui.mode == "node")
@@ -407,7 +412,13 @@ test("native lifecycle loads every composed control and registers its listeners 
     assert(root.scale[1] == 1.25)
     assert(script.updating)
     click(root, "menuPanel", "start")
-    assert(root:GetChild("mapPanel").visible and not root:GetChild("menuPanel").visible)
+    -- The production host opens the first run with the cinematic; skipping it uncovers the map.
+    assert(root:GetChild("prologuePanel").visible and not root:GetChild("mapPanel").visible)
+    assert(not root:GetChild("menuPanel").visible and not root:GetChild("deckEntry").visible)
+    click(root, "prologuePanel", "skip")
+    for _ = 1, 8 do OnUpdate(0.25) end
+    assert(root:GetChild("mapPanel").visible and not root:GetChild("prologuePanel").visible)
+    assert(not root:GetChild("menuPanel").visible)
     width, height = 2340, 1080
     OnUpdate(0.25)
     assert(root.scale[1] == 1.5 and canvas:GetChild("canvasBackdrop").size[1] == width)

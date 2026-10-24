@@ -9,7 +9,7 @@ import { writeFileSync } from 'node:fs';
 test('composed native tree has exactly one menu, battle, map and node panel', () => {
   const layout = gameLayout();
   assert.equal(layout.script, 'abyss_ui');
-  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel']);
+  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'prologuePanel']);
   for (const control of layout.controls.filter(control => !['menuPanel', 'exitEntry'].includes(control.name))) {
     assert.equal(control.visible, false, `${control.name} must not bleed through during startup`);
   }
@@ -56,6 +56,7 @@ test('generated Chinese display and native tree exercise the real game entry and
   const scripts = [
     ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 15$/m],
     ['tests/lua/game_ui_deck.lua', /^LUA_GAME_UI_DECK_PASS 6$/m],
+    ['tests/lua/game_ui_prologue.lua', /^LUA_GAME_UI_PROLOGUE_PASS 10$/m],
   ];
   const output = scripts.map(([script, marker]) => {
     const result = runLua(script);
@@ -65,10 +66,11 @@ test('generated Chinese display and native tree exercise the real game entry and
   }).join('\n');
   const previews = Object.fromEntries(output.split(/\r?\n/).filter(line => line.startsWith('LORE_PREVIEW\t'))
     .map(line => { const [, name, text] = line.split('\t'); return [name, text.replaceAll('\\n', '\n')]; }));
-  const { nativeMenu: menu, nativeBattle: battle } = nativeTheme.layout, { font: size } = nativeTheme;
+  const { nativeMenu: menu, nativeBattle: battle, prologue } = nativeTheme.layout, { font: size } = nativeTheme;
   // Each line is checked against the control that actually displays it.
   assert.equal(previews.menu, '', 'the start screen has no route or control instructions');
-  const targets = { intro: [menu.tagline, size.heading],
+  // The approved intro is told sentence by sentence on the cinematic's single line.
+  const targets = { intro1: [prologue.line, size.title], intro2: [prologue.line, size.title], intro3: [prologue.line, size.title],
     victory: [menu.subtitle, size.body], defeat: [menu.subtitle, size.body],
     settlementError: [menu.status, size.small], boss: [battle.notice, size.body] };
   for (const [name, [frame, font]] of Object.entries(targets)) {
@@ -79,4 +81,34 @@ test('generated Chinese display and native tree exercise the real game entry and
     assert.ok(rows * nativeTheme.layout.nativeText.lineHeight <= frame[3], `${name} overflows its existing control`);
   }
   writeFileSync('build/lore-preview.json', JSON.stringify(previews, null, 2) + '\n');
+});
+
+test('the game name appears only on the title screen; other pages name their own scene', () => {
+  const layout = gameLayout();
+  const named = [];
+  const walk = (list, path) => { for (const control of list) {
+    const here = path + '/' + control.name;
+    if (control.text?.content?.includes('杀戮原塔')) named.push(here);
+    walk(control.children ?? [], here);
+  } };
+  walk(layout.controls, '');
+  assert.deepEqual(named, ['/menuPanel/title']);
+  const battleTitle = layout.controls.find(c => c.name === 'battlePanel').children.find(c => c.name === 'title');
+  assert.equal(battleTitle.text.content, '战斗');
+});
+
+test('cinematic and merchant controls stay inside the phone safe area and clear of shop goods', () => {
+  const theme = nativeTheme, [w, h] = theme.canvas.base, { x, y } = theme.canvas.safe;
+  const { prologue, merchant, nativeNode: node } = theme.layout;
+  const inside = ([cx, cy, cw, ch]) => Math.abs(cx) + cw / 2 <= w / 2 - x && Math.abs(cy) + ch / 2 <= h / 2 - y;
+  for (const frame of [prologue.line, prologue.chapter, prologue.hint, prologue.skip, merchant.box, merchant.portrait, merchant.name])
+    assert.ok(inside(frame), JSON.stringify(frame));
+  // The dialogue box sits under the relic prices and between the two bottom buttons.
+  const top = (f) => f[1] + f[3] / 2, bottom = (f) => f[1] - f[3] / 2;
+  const relicPriceBottom = node.shop.relics.priceY - node.price.size[1] / 2;
+  for (const frame of [merchant.box, merchant.portrait, merchant.name]) assert.ok(top(frame) <= relicPriceBottom, JSON.stringify(frame));
+  assert.ok(merchant.box[0] - merchant.box[2] / 2 > node.back[0] + node.back[2] / 2);
+  assert.ok(merchant.box[0] + merchant.box[2] / 2 < node.confirm[0] - node.confirm[2] / 2);
+  // The skip button lives in the lower letterbox, away from the persistent exit entry.
+  assert.ok(bottom(prologue.skip) >= -h / 2 + y - 1 && top(prologue.skip) <= -h / 2 + prologue.barHeight + 4);
 });

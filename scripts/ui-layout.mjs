@@ -128,7 +128,7 @@ export function battleLayout() {
   };
   const controls = [
     panel('topBar', 0, y, width, bar.height, c.panelSunken),
-    text('title', 0, y, 350, bar.height, '杀戮原塔2 · 战斗', f.heading, c.gold),
+    text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
     glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim), chip('exhaust', bar.exhaust, c.textDim),

@@ -49,11 +49,13 @@ local function control(spec, parent)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
 end
-local function fixture(data, settle, music, cursorEvents)
+-- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
+local function fixture(data, settle, music, cursorEvents, prologue, sound)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents })
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
+          prologue = prologue == true, sound = sound })
     root.ui = ui
     return ui, root
 end
