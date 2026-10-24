@@ -51,6 +51,18 @@ local function setup()
     end
     return ui,stage,click
 end
+-- Read a unit's statuses the way a player does: open its detail panel, then close it.
+local function details(stage, box)
+    box.children.statusRow.children.hit.click()
+    local info, lines = stage.children.statusInfo, {}
+    assert(info.visible)
+    for i = 1, Theme.layout.statusInfo.rows do
+        if info.children["name" .. i].visible then lines[#lines + 1] = info.children["name" .. i].text end
+    end
+    info.children.hit.click()
+    assert(not info.visible)
+    return table.concat(lines, " | ")
+end
 local count = 0
 local function test(name,fn) fn(); count=count+1; print("ok Cultist UI "..count.." - "..name) end
 
@@ -62,12 +74,14 @@ test("Cultist displays Ritual opener, persistent status and next modified attack
     click("enemy1")
     assert(stage.children.notice.text:find("仪式 3",1,true))
     click("endTurn")
-    assert(box.children.statuses.text:find("仪式 3",1,true))
-    assert(not box.children.statuses.text:find("力量",1,true))
+    local text = details(stage, box)
+    assert(text:find("仪式 3",1,true))
+    assert(not text:find("力量",1,true))
     assert(box.children.intent.text == "6")
     click("endTurn")
-    assert(box.children.statuses.text:find("仪式 3",1,true))
-    assert(box.children.statuses.text:find("力量 3",1,true))
+    text = details(stage, box)
+    assert(text:find("仪式 3",1,true))
+    assert(text:find("力量 3",1,true))
     assert(box.children.intent.text == "9")
 end)
 print("LUA_CULTIST_UI_PASS " .. count)

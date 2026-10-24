@@ -15,9 +15,14 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local face = control:GetChild("face")
         face:GetChild("name").text = display.name .. (instance.upgraded and "＋" or "")
         face:GetChild("name").fontColor = colour(instance.upgraded and Theme.color.positive or Theme.color.text)
+        -- Permanent cards carry no combat modifiers: fill live tokens with their own values.
         local text = instance.upgraded and display.upgradeText or display.text
-        local growth = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
-        if growth then text = growth:gsub("{effects%.0%.value}", string.format("%.0f", definition.effects[1].value)) end
+        local live = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
+        if live then
+            text = live:gsub("{effects%.(%d+)%.value}", function(index)
+                return string.format("%.0f", definition.effects[tonumber(index) + 1].value)
+            end)
+        end
         face:GetChild("label").text = text
         face:GetChild("type").text = typeNames[definition.type] or definition.type
         face:GetChild("cost").text = definition.costMode == "all_energy" and "X" or tostring(definition.cost)

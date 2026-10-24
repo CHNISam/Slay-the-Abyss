@@ -53,7 +53,22 @@ PATH = re.compile(r'(?:cost|effects\.(?:0|[1-9][0-9]*)(?:\.then\.(?:0|[1-9][0-9]
 TOKEN = re.compile(r'\{([^{}]+)\}')
 
 
-def render_template(template, card, *, combat_damage=False):
+# Combat numbers the core can modify (Strength, Weak, Vulnerable, Dexterity, Frail,
+# per-instance growth). In combat text these stay as tokens the battle UI fills.
+LIVE_OPS = {'damage', 'damageAll', 'block'}
+LIVE = re.compile(r'effects\.(0|[1-9][0-9]*)\.value\Z')
+
+
+def live_path(card, path):
+    match = LIVE.match(path)
+    if match is None:
+        return False
+    effects = card.get('effects')
+    index = int(match.group(1))
+    return isinstance(effects, list) and index < len(effects) and effects[index].get('op') in LIVE_OPS
+
+
+def render_template(template, card, *, combat_live=False):
     nonempty(template, 'template')
     literal = TOKEN.sub('', template)
     require('{' not in literal and '}' not in literal, 'malformed template braces')
@@ -73,7 +88,7 @@ def render_template(template, card, *, combat_damage=False):
                 require(isinstance(value, dict) and segment in value, f'unresolved placeholder: {path}')
                 value = value[segment]
         require(numeric(value), f'placeholder is not finite numeric data: {path}')
-        if combat_damage and path == 'effects.0.value':
+        if combat_live and live_path(card, path):
             return match.group(0)
         return str(value)
 
@@ -161,10 +176,13 @@ def render_cards(source, overlay):
             result.append({'id': identity, 'name': presentation['name'],
                            'cost': cost_label(card), 'text': render_template(presentation['textTemplate'], card),
                            'upgradeCost': cost_label(upgraded), 'upgradeText': render_template(upgrade_template, upgraded)})
-            if identity == 'rampage':
-                # Only the instance's base damage varies in combat; growth stays static.
-                result[-1]['combatText'] = render_template(presentation['textTemplate'], card, combat_damage=True)
-                result[-1]['upgradeCombatText'] = render_template(upgrade_template, upgraded, combat_damage=True)
+            # Only modifiable damage/block values vary in combat; growth, counts and
+            # status stacks stay static. Cards without such a value keep static text.
+            combat = render_template(presentation['textTemplate'], card, combat_live=True)
+            upgrade_combat = render_template(upgrade_template, upgraded, combat_live=True)
+            if combat != result[-1]['text'] or upgrade_combat != result[-1]['upgradeText']:
+                result[-1]['combatText'] = combat
+                result[-1]['upgradeCombatText'] = upgrade_combat
         except PresentationError as exc:
             raise PresentationError(f'{identity}: {exc}') from exc
     return {'locale': overlay['locale'], 'cards': result}
