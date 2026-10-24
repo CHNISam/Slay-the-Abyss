@@ -59,7 +59,7 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil) end
 end
-local function setup(kind, source, prepare, events)
+local function setup(kind, source, prepare, events, sound)
     if kind == "event" and not source then
         source = Combat.copy(data); source.rules.events.encounterId = "cleric"
     end
@@ -69,7 +69,7 @@ local function setup(kind, source, prepare, events)
     local ui = UI.new(root, run, map, Presentation, "click", function(ok, reason, controller)
         assert(controller.root == root)
         changes[#changes + 1] = { ok = ok, reason = reason }
-    end, { color = colour, imageSource = "static", cursorEvents = events ~= false and (events or cursorEvents) or nil })
+    end, { sound = sound, color = colour, imageSource = "static", cursorEvents = events ~= false and (events or cursorEvents) or nil })
     local notice = root.children.notice.text
     local width = utf8.len(notice) * Theme.font.body
     assert(math.max(1, math.ceil(width / Theme.layout.nativeNode.notice[3])) * Theme.layout.nativeText.lineHeight
@@ -96,6 +96,34 @@ local function setup(kind, source, prepare, events)
     end
     return ui, get, click, shown, changes
 end
+test("forge sounds only after upgrade succeeds; refresh and repeated confirm are silent", function()
+    local sounds = {}
+    local ui, get, click = setup("camp", nil, nil, nil, function(cue) sounds[#sounds + 1] = cue end)
+    click("campView/forge")
+    assert(#sounds == 0)
+    click("pickerView/card1")
+    assert(#sounds == 0)
+    assert(click("confirm"))
+    assert(#sounds == 1 and sounds[1] == "forge")
+    ui:render(); ui:render()
+    assert(#sounds == 1)
+    assert(click("confirm")) -- continue, not a second upgrade
+    assert(#sounds == 1)
+end)
+test("rest and treasure sound once per action and audio errors cannot undo a committed action", function()
+    local sounds = {}
+    local function sound(cue) sounds[#sounds + 1] = cue end
+    local ui, get, click = setup("camp", nil, function(run) run.hp = 20 end, nil, sound)
+    assert(click("campView/rest") and sounds[1] == "rest")
+    ui:render(); assert(not ui:press("campView/rest") and #sounds == 1)
+    ui, get, click = setup("treasure", nil, nil, nil, sound)
+    assert(click("treasureView/chest") and sounds[2] == "treasure_open")
+    ui:render(); assert(not ui:press("treasureView/chest") and #sounds == 2)
+    assert(click("treasureView/take") and sounds[3] == "reward")
+    ui:render(); assert(not ui:press("treasureView/take") and #sounds == 3)
+    ui, get, click = setup("camp", nil, function(run) run.hp = 20 end, nil, function() error("audio unavailable") end)
+    assert(click("campView/rest") and ui.run.hp > 20)
+end)
 local function is(value, expected) return value and value.r == expected.r and value.g == expected.g and value.b == expected.b end
 local function upgradeChange()
     for _, card in ipairs(data.cards.cards) do

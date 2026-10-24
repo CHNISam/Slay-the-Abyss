@@ -115,6 +115,7 @@ end)
 test("heavy attack: uniform shard burst, larger knockback and number, screen shake and longer hold", function()
     local h = harness({"bludgeon"}, {"jaw_worm"}, function(s) s.enemies[1].hp, s.enemies[1].maxHp = 80, 80 end)
     h.play() h.until_(kind("damage"))
+    assert(h.sounds[#h.sounds] == "hit_heavy", "one heavy contact cue, not a second layered hit")
     local impact = h.part("enemy1", "impact")
     assert(near(impact.localScaleX, impact.localScaleY), "heavy hit bursts instead of streaking")
     assert(near(h.portrait("enemy1").x, S.l) and near(h.part("enemy1", "floating").localScaleX, 2))
@@ -273,5 +274,15 @@ test("an effect failure mid-hit-stop releases once and leaves no pose or shake b
     assert(h.stage.x == 0 and h.portrait("hero").x == 0 and h.portrait("enemy1").x == 0)
 end)
 
+test("deaths match enemy material without random draws or additional voices", function()
+    for _, item in ipairs({{"cultist", "enemy_die_human"}, {"acid_slime_s", "enemy_die_magic"},
+        {"sentry", "enemy_die_metal"}, {"gremlin_nob", "enemy_die_large"}, {"jaw_worm", "enemy_die"}}) do
+        local h = harness({"strike"}, {item[1]}, function(s) s.enemies[1].hp = 1 end)
+        h.play(); h.drain()
+        local deaths = 0
+        for _, cue in ipairs(h.sounds) do if cue:find("enemy_die", 1, true) then deaths = deaths + 1 assert(cue == item[2]) end end
+        assert(deaths == 1)
+    end
+end)
 assert(failed == 0, failed .. " feedback polish tests failed")
 print("LUA_FEEDBACK_POLISH_PASS " .. tests)

@@ -7,6 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "build:native": "node scripts/build-native-audio-game.mjs",
     "verify:sts1-map": "npm run build:data && node scripts/sts1-map-evidence.mjs compare",
     "verify:sts1-map:properties": "npm run build:data && node scripts/sts1-map-evidence.mjs properties 10000",
     "verify:ui": "node scripts/verify-ui-acceptance.mjs docs/design/ui-acceptance.json",
