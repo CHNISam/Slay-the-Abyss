@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 23:35'
+updated_date: '2026-10-24 23:39'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -74,4 +74,6 @@ ordinal: 16000
 进一步按固定GameActionManager477–480与BrutalityPower核对：普通抽牌与抽牌后能力应先排队，抽牌触发的Evolve/Fire Breathing追加在既有Brutality抽牌/HP支付之后。1HP的Brutality+Fire Breathing+Wound组合在冻结00c97b6先红，修正后按原版先死亡而非错误存活/胜利；LoseHPAction原类型DAMAGE须在胜利清队时保留，第二独立红例也已转绿。全部48组边界通过，红例使用隔离冻结模块，不改写旧实机。最终运行源重新冻结后再做本地、候选与原生验收。
 
 原版SharpHidePower.onUseCard在UseCardAction之前排入反伤。新红例确认尖刺致死后仍错误弃牌/消耗了攻击牌；现已在死亡时停止实体牌离场，保留cardInUse，不触发Dark Embrace/FNP，Strike与Pummel均覆盖。全部49组边界通过。19afc50诊断导入81bbf05e等待导入存档界面超时，无日志/无官方源读回，不计导入或实机通过；失败截图保留，待确认客户端状态后用最终冻结源重试。
+
+最终冻结运行源5ceef2c：干净HEAD重跑十组专项全部通过，含150基本/升级实体去向、49交互与75渠道事务；新正常候选416a0d2f…全部60模块源码/UI审计通过，0错误。当前候选尚未官方导入/实玩。19af导入超时的客户端截图显示已不在编辑器，已询问是否可恢复测试；此时先继续离线构建/CI，不能把098历史9/9、6/6或17层胜利记为当前源通过。matrix与HANDOFF已明确撤除当前源的平台通过归属；全部严格AC仍未勾。
 <!-- SECTION:NOTES:END -->
