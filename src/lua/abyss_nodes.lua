@@ -130,6 +130,8 @@ end
 function M.enter(run, map, nodeId)
     if run.nodeFlow and not run.nodeFlow.complete then return false, "node_pending" end
     if run.phase ~= "map" then return false, "not_on_map" end
+    if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
+        or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if run.runSeed~=map.runSeed or not matchingMap(run.nodeFlow, map) then return false, "map_mismatch" end
     local node = find(map.nodes, nodeId)
     if not node then return false, "invalid_node" end
@@ -199,6 +201,9 @@ function M.enter(run, map, nodeId)
         run.floor, run.phase, run.combat = stagedRun.floor, stagedRun.phase, stagedRun.combat
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
         run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
+        run.roomGeneration=stagedRun.roomGeneration
+    else
+        run.roomGeneration=run.roomGeneration+1
     end
     flow.mapSeed, flow.mapSignature = map.seed, map.sourceSignature
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end

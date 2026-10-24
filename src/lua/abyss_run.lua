@@ -19,7 +19,7 @@ function M.new(data, seed)
     local eventSeed = RunSeed.normalize(seed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
-        encounters=EncounterQueue.new(eventSeed),
+        encounters=EncounterQueue.new(eventSeed),roomGeneration=0,
         -- Launch supports the exact source !isBossSeen(GUARDIAN) branch. It
         -- duplicates Guardian and spends no monsterRng; no all-unlocked claim.
         bossInitialization={profile='guardian-unseen',bossList={'The Guardian','The Guardian'}},
@@ -110,6 +110,8 @@ end
 
 function M.startRoomCombat(run,tier)
     if run.phase~='map' then return false,'not_on_map' end
+    if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
+        or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
     if type(run.floor)~='number' or run.floor%1~=0 or run.floor<1 or run.floor>16 then return false,'wrong_floor' end
     local encounter,nextQueue
@@ -136,22 +138,34 @@ function M.startRoomCombat(run,tier)
     staged.miscRng=room.miscRng
     for _,key in ipairs({'combat','encounterId','encounterTier','encounterSource','phase','miscRng'})do run[key]=staged[key]end
     if nextQueue then run.encounters=nextQueue end
+    run.roomGeneration=run.roomGeneration+1
     run.pendingCombatRewards=nil
     return true
 end
 
 -- Queue checkpoint boundary only, not exit/resume or a complete Run save file.
 function M.snapshotEncounters(run)
-    return {version=1,runSeed=run.runSeed,floor=run.floor,queue=EncounterQueue.snapshot(run.encounters)}
+    return {version=2,runSeed=run.runSeed,floor=run.floor,roomGeneration=run.roomGeneration,
+        queue=EncounterQueue.snapshot(run.encounters)}
 end
 function M.restoreEncounters(run,snapshot)
     if run.phase~='map' or (run.nodeFlow and not run.nodeFlow.complete) then return false,'node_pending' end
     if type(snapshot)~='table' or getmetatable(snapshot)~=nil then return false,'invalid_snapshot' end
-    for k in pairs(snapshot)do if k~='version' and k~='runSeed' and k~='floor' and k~='queue' then return false,'invalid_snapshot' end end
-    if snapshot.version~=1 or snapshot.runSeed~=run.runSeed then return false,'run_seed_mismatch' end
+    for k in pairs(snapshot)do if k~='version' and k~='runSeed' and k~='floor' and k~='roomGeneration' and k~='queue' then return false,'invalid_snapshot' end end
+    if snapshot.version~=2 then return false,'invalid_snapshot' end
+    if snapshot.runSeed~=run.runSeed then return false,'run_seed_mismatch' end
     if snapshot.floor~=run.floor then return false,'floor_mismatch' end
+    if type(snapshot.roomGeneration)~='number' or snapshot.roomGeneration%1~=0
+        or snapshot.roomGeneration<0 or snapshot.roomGeneration>2147483647
+        or snapshot.roomGeneration~=run.roomGeneration then return false,'stale_encounter_checkpoint' end
     local ok,queue=pcall(EncounterQueue.restore,snapshot.queue)
     if not ok or queue.rawSeed~=run.runSeed then return false,'invalid_snapshot' end
+    -- A generation tag alone cannot authorize rewinding queue consumption.
+    -- This API replaces a checkpoint at the current boundary, not Run progress.
+    if type(run.encounters)~='table' or type(run.encounters.normal)~='table' or type(run.encounters.elite)~='table'
+        or #queue.normal~=#run.encounters.normal or #queue.elite~=#run.encounters.elite then
+        return false,'encounter_progress_mismatch'
+    end
     run.encounters=queue
     return true
 end

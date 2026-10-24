@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-25",
+  "task": "TASK-12.4",
+  "reviewedBase": "52a691c0d89c4dcc24f79039cfe727dcf235287e",
+  "issue": "Initial map boundary and completed first room both have run.floor=1; v1 checkpoint could restore 16 normal entries over 15 after a real accepted room",
+  "red": {
+    "fixture": "tests/lua/encounter_checkpoint.lua",
+    "status": 1,
+    "log": ".artifacts\\encounter-runtime\\checkpoint-red.log",
+    "sha256": "79745a2a8fcf3e8a448cb9fcca867723a9b3ee3c0b75702436a7c6e9da55797f",
+    "assertion": "restoreEncounters returned true after real first-room victory, public Proceed and Nodes.completeCombat"
+  },
+  "repair": {
+    "snapshotVersion": 2,
+    "ownership": [
+      "immutable raw run seed",
+      "floor",
+      "accepted roomGeneration",
+      "current remaining normal and elite queue lengths"
+    ],
+    "generationAdvance": "Formal Run.startRoomCombat advances only after complete setup succeeds; Nodes publishes staged generation for battle and advances once for accepted noncombat rooms",
+    "atomicRejection": "All ownership/schema/queue checks complete before replacing run.encounters; failure does not mutate any old table reference",
+    "validRestore": "Initial and completed-room checkpoints at the same current generation and consumption counts remain independently restorable",
+    "legacyV1": "explicitly rejected"
+  },
+  "verification": [
+    {
+      "fixture": "encounter_checkpoint",
+      "status": 0,
+      "log": ".artifacts\\encounter-runtime\\checkpoint-green.log",
+      "sha256": "4d7afcc88ad52118c21e1d30adfb188be438987c4a0bb660db862391bc5c31ef",
+      "summary": "LUA_ENCOUNTER_CHECKPOINT_PASS 4"
+    },
+    {
+      "fixture": "encounter_runtime",
+      "status": 0,
+      "log": ".artifacts/encounter-runtime/checkpoint-encounter_runtime.log",
+      "sha256": "33468d4291fbbd13adf07c7feb25cabdb959e9321507b8756fc469e3ecfb3003",
+      "summary": "LUA_ENCOUNTER_RUNTIME_PASS 10"
+    },
+    {
+      "fixture": "nodes",
+      "status": 0,
+      "log": ".artifacts/encounter-runtime/checkpoint-nodes.log",
+      "sha256": "dd535dbf21341f7f8b4f074442c9512ebecfaa376d21719ce27c4d2ffb1366da",
+      "summary": "LUA_NODES_PASS 21"
+    },
+    {
+      "fixture": "inventory_restore",
+      "status": 0,
+      "log": ".artifacts/encounter-runtime/checkpoint-inventory_restore.log",
+      "sha256": "b4392f6503d8822a810db1a53e41884d8ebf282ed7625a332f74da1719cc96fb",
+      "summary": "LUA_INVENTORY_RESTORE_PASS 5 rejected_snapshots=8"
+    }
+  ],
+  "newFixtureCases": [
+    "Real seed42 starter play wins first room without HP or content edits; stale same-floor checkpoint rejected and every old reference preserved",
+    "Initial and post-room current boundary restore still succeed; snapshot tables do not alias live queue",
+    "Failed battle setup does not advance generation; altering only the generation tag cannot authorize old queue lengths",
+    "Accepted noncombat room advances exactly once without queue consumption; v1, missing and fractional generations rejected atomically"
+  ],
+  "scope": [
+    "Run",
+    "Nodes",
+    "focused Lua regression",
+    "review evidence"
+  ],
+  "fullCheck": false,
+  "gui": false,
+  "platformBuildImportPlaytest": false,
+  "backlogBodyChanged": false
+}
