@@ -1,0 +1,95 @@
+{
+  "at": "2026-10-24T08:29:36.797Z",
+  "request": {
+    "name": "focus-input",
+    "label": "leave-official-victory",
+    "arguments": {
+      "kind": "click",
+      "y": 850,
+      "x": 1140
+    }
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"window\":{\"windowId\":\"658108:12456\",\"hwnd\":658108,\"pid\":12456,\"activeFamily\":true,\"title\":\"原神\",\"executable\":\"G:\\\\Genshin\\\\Genshin Impact Game\\\\YuanShen.exe\",\"minimized\":false,\"foreground\":true,\"rect\":{\"left\":1920,\"top\":-443,\"right\":5760,\"bottom\":1717}},\"backend\":\"pillow-printwindow\",\"pillowVersion\":\"12.0.0\",\"windowsBuild\":26200,\"capturedAtUnixMs\":1792830576685,\"path\":\"F:\\\\New folder\\\\.artifacts\\\\m2-session\\\\live\\\\captures\\\\68cce36d-4cdb-4f15-9aad-6e4bf86c7188.png\",\"width\":3840,\"height\":2160,\"previewWidth\":1600,\"previewHeight\":900,\"captureRect\":{\"left\":1920,\"top\":-443,\"right\":5760,\"bottom\":1717},\"coordinateSpace\":\"editor_input uses returned preview pixels; pass preview coordinates directly without scaling. PNG/captureRect use physical pixels; the server applies previewToImageScale and imageOffsetInWindow.\",\"previewToImageScale\":{\"x\":2.4,\"y\":2.4},\"imageOffsetInWindow\":{\"x\":0,\"y\":0},\"suspectBlank\":false,\"blackFraction\":0,\"luminanceStddev\":35.2261,\"warnings\":[\"PrintWindow may return stale or incomplete GPU content. Inspect the image; success does not prove correct game rendering.\"],\"captureId\":\"94bb0a8e-f5d1-469f-b905-6859514cb549\",\"action\":{\"inputSent\":true,\"kind\":\"click\",\"window\":{\"windowId\":\"658108:12456\",\"hwnd\":658108,\"pid\":12456,\"activeFamily\":true,\"title\":\"原神\",\"executable\":\"G:\\\\Genshin\\\\Genshin Impact Game\\\\YuanShen.exe\",\"minimized\":false,\"foreground\":true,\"rect\":{\"left\":1920,\"top\":-443,\"right\":5760,\"bottom\":1717}},\"verification\":\"Inspect the fresh screenshot; sent input alone does not establish success.\"}}"
+      },
+      {
+        "type": "image",
+        "data": "[saved locally]",
+        "mimeType": "image/png"
+      }
+    ],
+    "structuredContent": {
+      "window": {
+        "windowId": "658108:12456",
+        "hwnd": 658108,
+        "pid": 12456,
+        "activeFamily": true,
+        "title": "原神",
+        "executable": "G:\\Genshin\\Genshin Impact Game\\YuanShen.exe",
+        "minimized": false,
+        "foreground": true,
+        "rect": {
+          "left": 1920,
+          "top": -443,
+          "right": 5760,
+          "bottom": 1717
+        }
+      },
+      "backend": "pillow-printwindow",
+      "pillowVersion": "12.0.0",
+      "windowsBuild": 26200,
+      "capturedAtUnixMs": 1792830576685,
+      "path": "F:\\New folder\\.artifacts\\m2-session\\live\\captures\\68cce36d-4cdb-4f15-9aad-6e4bf86c7188.png",
+      "width": 3840,
+      "height": 2160,
+      "previewWidth": 1600,
+      "previewHeight": 900,
+      "captureRect": {
+        "left": 1920,
+        "top": -443,
+        "right": 5760,
+        "bottom": 1717
+      },
+      "coordinateSpace": "editor_input uses returned preview pixels; pass preview coordinates directly without scaling. PNG/captureRect use physical pixels; the server applies previewToImageScale and imageOffsetInWindow.",
+      "previewToImageScale": {
+        "x": 2.4,
+        "y": 2.4
+      },
+      "imageOffsetInWindow": {
+        "x": 0,
+        "y": 0
+      },
+      "suspectBlank": false,
+      "blackFraction": 0,
+      "luminanceStddev": 35.2261,
+      "warnings": [
+        "PrintWindow may return stale or incomplete GPU content. Inspect the image; success does not prove correct game rendering."
+      ],
+      "captureId": "94bb0a8e-f5d1-469f-b905-6859514cb549",
+      "action": {
+        "inputSent": true,
+        "kind": "click",
+        "window": {
+          "windowId": "658108:12456",
+          "hwnd": 658108,
+          "pid": 12456,
+          "activeFamily": true,
+          "title": "原神",
+          "executable": "G:\\Genshin\\Genshin Impact Game\\YuanShen.exe",
+          "minimized": false,
+          "foreground": true,
+          "rect": {
+            "left": 1920,
+            "top": -443,
+            "right": 5760,
+            "bottom": 1717
+          }
+        },
+        "verification": "Inspect the fresh screenshot; sent input alone does not establish success."
+      }
+    }
+  }
+}
