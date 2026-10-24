@@ -1,11 +1,11 @@
 ---
 id: TASK-52.1
-title: 修复旧路线诊断的领奖步骤
+title: 修复旧路线诊断的领奖与节点推进
 status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 14:44'
-updated_date: '2026-10-24 14:49'
+updated_date: '2026-10-24 14:53'
 due_date: '2026-10-28'
 labels:
   - required
@@ -40,4 +40,12 @@ ordinal: 91000
 复用PR182已迁移m2-resource-audit的公开领奖接口顺序，只修tools/diagnostics/core_route_seed42.lua旧调用处并补独立fixture。已有单独76bbefa真实首战reward_pending负例，先在最新b91再次核对，再按明确领/弃药、独立失金、leave、complete顺序迁移，防满槽/重复/无待领项死循环；保留真实死亡路径，不改生产或测试预算。
 
 为直接测试诊断实际使用的逻辑，增加仅供诊断的tools/diagnostics/finish_combat_rewards.lua最小helper，由旧脚本与真实Run/Nodes fixture共同调用；不导入生产、不改原选卡策略，不扩成通用框架。
+
+修好领奖后自然seed42到f14_l3又复现旧event分派访问nil。只在成功enter后按真实已解析节点类型分派到原处理分支，保留路径排序/ID/事件策略；补问号→战斗/商店/宝箱/事件回归，不静默跳过未知类型，不改生产。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+已实证原首战reward_pending；最小领奖修复后推进13层7胜、71HP/234金币/3瓶，但f14_l3旧脚本按原event类型访问nil事件。获准补同文件必要的已解析类型分派，不把此中途停止记为自然胜败或通关。
+<!-- SECTION:NOTES:END -->
