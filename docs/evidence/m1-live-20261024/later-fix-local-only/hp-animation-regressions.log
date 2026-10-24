@@ -1,0 +1,1067 @@
+ok UI 1 - Dazed uses existing status art disabled theme blank cost and cannot command play
+ABYSS_UI combat_started
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 2 - menu starts a real battle with shared-theme cards, energy and current intents
+ok UI 3 - Jaw Worm real encounter presents combined Thrash and Bellow effects without changing rules
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 4 - selection never spends energy; target click or second self-card click issues one real command
+ABYSS_UI combat_started
+ok UI 5 - pending attack highlights valid live enemies and changing selection does not play
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ok UI 6 - enemy intent click never confirms a selected non-target card
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok UI 7 - reward HUD shows committed relic healing and clears battle-only counters
+ABYSS_UI combat_started
+ok UI 8 - enemy phase and command lock block card and end-turn input
+ok UI 9 - resize scales the whole stage uniformly and covers wide-screen side bars
+ABYSS_UI combat_started
+ok UI 10 - runtime ten-card poses keep complete rotated and selected hit regions inside the phone safe area
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=5 amount=0
+ABYSS_FEEDBACK damage source=player target=sentry_5 amount=6
+ok UI 11 - five enemies retain separate touch targets and a boss uses the approved larger portrait
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=4
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=7
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=4
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok UI 12 - real victory displays feedback and claims a reward into the next battle deck
+ABYSS_UI combat_started
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=6
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=9
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=12
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=15
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=18
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=20
+ABYSS_FEEDBACK defeat source=- target=- amount=0
+ABYSS_UI combat_started
+ok UI 13 - real defeat shows danger feedback and restart creates a fresh run
+ABYSS_UI combat_started
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=9
+ABYSS_FEEDBACK status source=player target=player amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 14 - intent previews use core modifiers without changing combat state or consuming effects
+ABYSS_UI combat_started
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 15 - exact actor HP and block remain readable native text after rendering and enemy actions
+ok UI 16 - block chip sits beside the HP bar with dark digits on solid blue, even in a five-enemy row
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ok UI 17 - potion slots stay fixed after consumption and repeated queued clicks cannot consume the next bottle
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=12
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ok UI 18 - refilling a middle potion slot refreshes only its physical button
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok UI 19 - potion victory commits rewards and relic healing then hides combat potion input
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=1
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok UI 20 - embedded battle uses host controls and scaling and reports each successful command once
+ABYSS_UI combat_started
+ok UI 21 - inactive battle rejects stale card enemy potion end-turn reward and menu callbacks
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ok UI 22 - host run replacement clears selected UID target and consumed potion mapping before restart
+ABYSS_UI combat_started
+ok UI 23 - runtime potion touch regions clear boss and five-enemy portraits intents and notice
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+ok UI 24 - targeted potion shows its effect and current enemy selection before damaging only that enemy
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+ok UI 25 - a targeted bottle in slot three remains selectable when both earlier slots are empty
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ok UI 26 - real attack holds HP until flight finishes and rejects repeat input until playback drains
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5
+ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_3 target=cultist_3 amount=5
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_4 amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5
+ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_3 target=cultist_3 amount=5
+ABYSS_FEEDBACK intent source=cultist_4 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_4 target=cultist_4 amount=5
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_2 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_3 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_4 amount=0
+ABYSS_FEEDBACK block_reset source=- target=cultist_5 amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_1 target=cultist_1 amount=5
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5
+ABYSS_FEEDBACK intent source=cultist_3 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_3 target=cultist_3 amount=5
+ABYSS_FEEDBACK intent source=cultist_4 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_4 target=cultist_4 amount=5
+ABYSS_FEEDBACK intent source=cultist_5 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_5 target=cultist_5 amount=5
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=guardian_1 amount=0
+ABYSS_FEEDBACK intent source=guardian_1 target=- amount=0
+ABYSS_FEEDBACK block source=guardian_1 target=guardian_1 amount=5
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 27 - animated block badges keep HP and neighbouring columns clear for player, one to five enemies and boss
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 28 - block gain and absorption have blue shield feedback without HP shake on a fully blocked hit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK recovered cancelled
+ok UI 29 - cancelling block playback resets every badge part without hiding the committed value
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0
+ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=2
+ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=2
+ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=2
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK block source=cultist_2 target=cultist_2 amount=5
+ABYSS_FEEDBACK status source=cultist_2 target=player amount=2
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 30 - multiple enemies and multi-hit intents show each actor and actual HP in order, even after a long frame
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=8
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=8
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK status source=player target=player amount=2
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=4
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=4
+ABYSS_FEEDBACK status source=player target=jaw_worm_1 amount=1
+ABYSS_FEEDBACK status source=player target=cultist_2 amount=1
+ok UI 31 - multi-hit player cards, area damage, ability and debuff cards use real events and distinct feedback
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK status_damage source=jaw_worm_1 target=jaw_worm_1 amount=1
+ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_2 target=cultist_2 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK status_damage source=cultist_1 target=player amount=3
+ok UI 32 - poison identifies its source and killed enemies never act; retaliation shows the defender as source
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=4
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=7
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=4
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=9
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=2
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=4
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=12
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=5
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=4
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=2
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=5
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=6
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=12
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=9
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=6
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=12
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=4
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok UI 33 - playback preserves every rule field and RNG against direct commands and cannot replay consumed events
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK recovered ...r\.worktrees\m1-hp-animation-fix\tests\lua\battle_ui.lua:862: INJECTED_EFFECT_FAILURE
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok UI 34 - effect setter failure restores final HP and input, and idle failure cannot repeat host notifications
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK recovered cancelled
+ok UI 35 - a replacement run cancels stale playback and late updates cannot change or lock the new run
+ABYSS_FEEDBACK prepare_failed ...r\.worktrees\m1-hp-animation-fix\tests\lua\battle_ui.lua:888: PREPARE_FAILURE
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_AUDIO unavailable card_play ...r\.worktrees\m1-hp-animation-fix\tests\lua\battle_ui.lua:901: AUDIO_UNAVAILABLE
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_AUDIO unavailable hit ...r\.worktrees\m1-hp-animation-fix\tests\lua\battle_ui.lua:901: AUDIO_UNAVAILABLE
+ok UI 36 - prepare failure does not execute a command and sound failure cannot interrupt feedback
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ok UI 37 - idle effect cleanup cannot paint the prior encounter into a replacement battle
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK status source=player target=player amount=2
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=4
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=1
+ok UI 38 - native drag releases representative no-target rule cards into open ground once, with real commands
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ok UI 39 - targeted drags cancel only when pulled back into the hand; the aimed column's enemy is hit
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=3 amount=0
+ok UI 40 - aiming parks the card below the line and the pointer's column, not a portrait pixel, picks the enemy
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ok UI 41 - an armed attack never falls through: open ground snaps to the nearest living enemy
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ok UI 42 - release jitter after crossing keeps the play armed until the card is back in the hand
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_UI combat_started
+ok UI 43 - a card a quarter over the gold line plays even while the pointer is still under it
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ok UI 44 - an armed card stays armed off the play area; only the hand or end turn cancel, never clicking through
+ABYSS_UI combat_started
+ABYSS_UI combat_started
+ABYSS_UI combat_started
+ABYSS_UI combat_started
+ABYSS_UI combat_started
+ABYSS_UI combat_started
+ABYSS_UI combat_started
+ok UI 45 - drag validates current availability and ignores other touches and stale encounters
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=- amount=0
+ok UI 46 - drag coordinates follow actual canvas scaling and rapid consecutive cards do not reuse slots
+ABYSS_UI combat_started
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ok UI 47 - resize cancels a moving drag, hides the capture layer and permits a fresh tap
+ABYSS_UI combat_started
+ok UI 48 - mixed enemy moves show a compound intent badge like STS ATTACK_DEBUFF
+ok UI 49 - stateful sleeping enemy shows approved sleep icon and wake intent
+ok UI 50 - Guardian shows real mode budget and switches visible intention before its Close Up
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ok UI 51 - committed encounter identity preserves target across real animation frames
+ok UI 52 - same-run battle replacement clears valid-looking old selection and target
+LUA_UI_PASS 52
+TARGETED_FIXTURE tests/lua/battle_ui.lua 21146ms status=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6
+ok feedback_polish 1 - normal attack: card lifts then lands on contact, hit-stop holds the knockback and the cue fires at contact
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=32
+ok feedback_polish 2 - heavy attack: uniform shard burst, larger knockback and number, screen shake and longer hold
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5
+ok feedback_polish 3 - multi-hit: each strike re-lunges and alternates shard orientation and number drift
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=1
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=2
+ABYSS_FEEDBACK damage source=player target=jaw_worm_3 amount=8
+ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0
+ABYSS_FEEDBACK death source=- target=jaw_worm_2 amount=0
+ok feedback_polish 4 - area attack: one ripple across the row, one sweep, one cue; deaths wait for the sweep without rewinding HP
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ok feedback_polish 5 - block gain crystallises in with a block icon pop and cue
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0
+ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=0
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok feedback_polish 6 - enemy action: banner, windup, lunge on contact, fully blocked hit shudders without shake, then recover
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0
+ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=7
+ok feedback_polish 7 - partial block shatters the shield before HP damage and shakes the screen
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0
+ok feedback_polish 8 - non-attack intent rises instead of pulling back
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK status_damage source=jaw_worm_1 target=jaw_worm_1 amount=3
+ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6
+ABYSS_FEEDBACK status_damage source=jaw_worm_1 target=player amount=3
+ok feedback_polish 9 - poison and thorns: status icon pulse, no hit-stop; poison never knocks back
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=8
+ABYSS_FEEDBACK status source=player target=jaw_worm_1 amount=2
+ok feedback_polish 10 - status application stamps its icon and drifts by polarity
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=3
+ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok feedback_polish 11 - killing blow: heavy hold, then the enemy gleams, collapses and is hidden
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5
+ABYSS_FEEDBACK recovered cancelled
+ok feedback_polish 12 - frame cost: no image swaps while effects settle, and cancel restores every pose
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=32
+ABYSS_FEEDBACK recovered ...ktrees\m1-hp-animation-fix\tests\lua\feedback_polish.lua:270: INJECTED_SHIELD_FAILURE
+ok feedback_polish 13 - an effect failure mid-hit-stop releases once and leaves no pose or shake behind
+LUA_FEEDBACK_POLISH_PASS 13
+TARGETED_FIXTURE tests/lua/feedback_polish.lua 933ms status=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ok game UI 1 - new encounter resets stale target before the first attack-card tap
+LORE_PREVIEW	intro	岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。
+LORE_PREVIEW	menu	
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=6
+ABYSS_FEEDBACK block source=red_louse_1 target=red_louse_1 amount=6
+ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=-6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0
+ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=1
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK damage source=green_louse_2 target=player amount=7
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=2
+ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK damage source=green_louse_2 target=player amount=2
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK status source=green_louse_2 target=player amount=2
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=6
+ABYSS_FEEDBACK status source=player target=green_louse_2 amount=2
+ABYSS_FEEDBACK block source=green_louse_2 target=green_louse_2 amount=7
+ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-7
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK status source=green_louse_2 target=player amount=2
+ABYSS_FEEDBACK status source=player target=player amount=-1
+ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-1
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=6
+ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok game UI 2 - menu starts real map, enters actual encounter, consumes reward and unlocks next layer
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0
+ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=1
+ABYSS_FEEDBACK defeat source=- target=- amount=0
+LORE_PREVIEW	defeat	封印仍在崩解，遗迹深处的回廊再一次归于黑暗。
+ok game UI 3 - defeat returns to menu and restart replaces the complete same-run state
+UNKNOWN_ROOM_ROUTE 1 f1_l1 combat -
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=1
+ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=1
+ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+UNKNOWN_ROOM_ROUTE 2 f2_l1 shop -
+UNKNOWN_ROOM_ROUTE 3 f3_l1 event cleric
+UNKNOWN_ROOM_ROUTE 4 f4_l1 event golden_wing
+UNKNOWN_ROOM_ROUTE 5 f5_l1 combat -
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=looter_1 amount=1
+ABYSS_FEEDBACK death source=- target=looter_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+UNKNOWN_ROOM_ROUTE 6 f6_l1 combat -
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=1
+ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=1
+ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+UNKNOWN_ROOM_ROUTE 7 f7_l1 shop -
+UNKNOWN_ROOM_ROUTE 8 f8_l1 event shining_light
+UNKNOWN_ROOM_ROUTE 9 f9_l1 treasure -
+UNKNOWN_ROOM_ROUTE 10 f10_l1 camp -
+UNKNOWN_ROOM_ROUTE 11 f11_l1 combat -
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=1
+ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=1
+ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+UNKNOWN_ROOM_ROUTE 12 f12_l1 camp -
+UNKNOWN_ROOM_ROUTE 13 f13_l1 combat -
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=1
+ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=1
+ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+UNKNOWN_ROOM_ROUTE 14 f14_l1 shop -
+UNKNOWN_ROOM_ROUTE 15 f15_l1 camp -
+UNKNOWN_ROOM_ROUTE 16 f16_l2 boss -
+LORE_PREVIEW	boss	石门缓缓开启。昔日的封印守卫仍在履行职责，只是漆黑的力量已令它分不清敌友。
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=guardian_1 amount=1
+ABYSS_FEEDBACK death source=- target=guardian_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+LORE_PREVIEW	victory	随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。
+ok game UI 4 - node panels compose through fifteen generated rows and Boss16 then restart
+ok game UI 5 - same-run result records active time and victories, freezes on results and resets on restart
+ok game UI 6 - result settlement sends each outcome once and cannot restart while official settlement is pending
+LORE_PREVIEW	settlementError	结算请求失败，请重试
+LORE_PREVIEW	settlementError	结算请求失败，请重试
+ok game UI 7 - settlement callback failure is visible and retryable without claiming official completion
+ok game UI 8 - menu keeps the introduction and start without route or control instructions
+ok game UI 9 - result page shows only the recorded run stats in the approved four cells
+ok game UI 10 - repeated settlement clicks, clicks during reveal and restart attempts submit exactly once
+ok game UI 11 - result reveal settles exactly on approved frames and feedback motion never hides controls
+ok game UI 12 - viewport scales each device uniformly and covers wider canvas outside the stage
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0
+ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=1
+ABYSS_FEEDBACK defeat source=- target=- amount=0
+ok game UI 13 - host defers defeat routing until the final feedback banner and releases result input once
+ABYSS_UI init Color=table
+ABYSS_UI viewport_ready
+ABYSS_UI ready
+ok game UI 14 - native lifecycle loads every composed control and registers its listeners only once
+ABYSS_UI init Color=nil
+ABYSS_UI viewport_ready
+ABYSS_UI failed startup: ...der\.worktrees\m1-hp-animation-fix\tests\lua\game_ui.lua:421: INJECTED_STARTUP_FAILURE
+ok game UI 15 - startup failure is visible without log subscription and hides the dead start button
+LUA_GAME_UI_PASS 15
+TARGETED_FIXTURE tests/lua/game_ui.lua 8608ms status=0
+ok exit UI 1 - visible mouse/touch exit works before start and from the map without a keyboard
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=6
+ABYSS_FEEDBACK block source=red_louse_1 target=red_louse_1 amount=6
+ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=-6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0
+ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=1
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK damage source=green_louse_2 target=player amount=7
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=2
+ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK damage source=green_louse_2 target=player amount=2
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK status source=green_louse_2 target=player amount=2
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=6
+ABYSS_FEEDBACK status source=player target=green_louse_2 amount=2
+ABYSS_FEEDBACK block source=green_louse_2 target=green_louse_2 amount=7
+ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-7
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK block_reset source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK status source=green_louse_2 target=player amount=2
+ABYSS_FEEDBACK status source=player target=player amount=-1
+ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-1
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=6
+ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok exit UI 2 - battle and reward commands cannot pass through exit confirmation and cancel preserves the run
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ok exit UI 3 - exit remains available during enemy feedback and does not wait for its banner
+ok exit UI 4 - node and deck overlays retain state when exit is cancelled
+ok exit UI 5 - failed platform requests stay visible and retry submits only once
+ok exit UI 6 - a cancelled pointer gesture cannot confirm a subsequently reopened dialog
+ok exit UI 7 - resize invalidates a pending exit confirmation gesture
+ok exit UI 8 - completed victory keeps its earned outcome when leaving through the shared entry
+ok exit UI 9 - one finger cannot borrow another finger's exit confirmation
+ok exit UI 10 - missing platform integration keeps a cancelable exit dialog
+ok exit UI 11 - another touch leaving the button cannot cancel the owner's release
+ok exit UI 12 - a first touch click without its own down and up cannot confirm exit
+ok exit UI 13 - a click missing its up consumes that incomplete confirmation
+ok exit UI 14 - new touches remain usable after dialog replacement or resize cancels an old hold
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0
+ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=6
+ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0
+ABYSS_FEEDBACK damage source=green_louse_2 target=player amount=7
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ok exit UI 15 - cancel during feedback resumes its queue and later accepts game commands
+LUA_GAME_UI_EXIT_PASS 15
+TARGETED_FIXTURE tests/lua/game_ui_exit.lua 5723ms status=0
