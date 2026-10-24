@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "base": "b91a461",
+  "candidateSource": "b6d3cbe",
+  "command": "node scripts/verify-official-client.mjs <candidate-scripts.json> <official.gil> [report.json]",
+  "inventory": {
+    "path": "F:\\New folder\\.artifacts\\m3-integrated-b6d3cbe\\normal-audit\\scripts.json",
+    "rawSha256": "538108140e57ffb13af016f29cffbe958db93cc806207fdbf16387780648dfd7"
+  },
+  "candidateMapPath": "F:\\New folder\\.artifacts\\m3-integrated-b6d3cbe\\abyss-m3-normal-b6d3cbe.gil",
+  "checkerSha256": "aaccce857b8bc755102d7f5c95b4ec19896d5e96165b39a5fe0a319376b5dfc9",
+  "red": {
+    "save": "1073741846",
+    "exitCode": 1,
+    "expected": 48,
+    "matched": 44,
+    "differences": [
+      {
+        "name": "abyss_data",
+        "file": "abyss_data.lua",
+        "actualFile": "abyss_data.lua",
+        "status": "diff",
+        "embedded": {
+          "rawSha256": "5e3560e5d399db157b1f26b472b2834d186d2d0865819c9a8e098f1f30783a13",
+          "normalizedSha256": "5e3560e5d399db157b1f26b472b2834d186d2d0865819c9a8e098f1f30783a13"
+        },
+        "external": {
+          "rawSha256": "1141df8d4ed9417bc4372782022b7d68af215840274f5fc4221a31b1baa45be4",
+          "normalizedSha256": "623ddbfa616df34c1493a4d84f5a17a6087071a583705faba9dd66b6ae6702ad"
+        }
+      },
+      {
+        "name": "abyss_battle_ui",
+        "file": "abyss_battle_ui.lua",
+        "actualFile": "abyss_battle_ui.lua",
+        "status": "diff",
+        "embedded": {
+          "rawSha256": "525fe1803d80216e09eaea47722c23c9f77bd4ccddc6a360dd01904498240f6f",
+          "normalizedSha256": "5f703d87ca3577665d34baf71e8424a03f4a71d4bfcd9f370e2cb363db0fcbcb"
+        },
+        "external": {
+          "rawSha256": "079169b0788148ce552385bcc97a20b6253d101d4fcff20e0a60164ab186821b",
+          "normalizedSha256": "fb72aa0013534d92d9d58efaa18bab45751533871fa29a83e7a1a5afb1e3efc3"
+        }
+      },
+      {
+        "name": "abyss_effects",
+        "file": "abyss_effects.lua",
+        "actualFile": "abyss_effects.lua",
+        "status": "diff",
+        "embedded": {
+          "rawSha256": "31ba6f4215241e6fd31a09c7b9958280b295e8b9bb94a2ede09cd369aaddea21",
+          "normalizedSha256": "e522de399e306f86e0c6f50cf430a5eba8daa959de21b2f27d93186e6fae1781"
+        },
+        "external": {
+          "rawSha256": "6b6c68f4427aabc9f0d31d21934ffdc4338c947ab475ae55036e436c7222a24c",
+          "normalizedSha256": "bf1d99ccf6dc4dcd2938ab97ceac2d2099cf4956f5a47fad55ea0e18f6b0bcdb"
+        }
+      },
+      {
+        "name": "abyss_ui",
+        "file": "abyss_ui.lua",
+        "actualFile": "abyss_ui.lua",
+        "status": "diff",
+        "embedded": {
+          "rawSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+          "normalizedSha256": "196158b3cce74612097ac5c696b82c813acb5b022c699e731903490a01a7331e"
+        },
+        "external": {
+          "rawSha256": "491410cabb07121eb6dc55b15fb18a0fc2f59a93eee46b9752acdfa77de6efbe",
+          "normalizedSha256": "46957a7b590e8643354a82e1a542421cb583472bef8e563be2c8831072c6b81b"
+        }
+      }
+    ],
+    "unexpected": [
+      {
+        "file": "abyss_m3_numeric_probe.lua",
+        "status": "unexpected",
+        "external": {
+          "rawSha256": "0d3c61442cab8a5510f4049317240cf9703134745b592aa0d2624c54496edc40",
+          "normalizedSha256": "4ac7b6dc579d8ebb90e73e9ac2e93c43db85f44ae7b0daa8ba8f16af0e1de67d"
+        }
+      }
+    ]
+  },
+  "green": {
+    "save": "1073741847",
+    "exitCode": 0,
+    "expected": 48,
+    "matched": 48,
+    "issues": []
+  },
+  "regression": {
+    "command": "node --test tests/verify-official-client.test.mjs",
+    "exitCode": 0,
+    "total": 10,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Windows host does not permit fixture file symlink; traversal, hardlink output and regular-file boundary tests ran."
+  },
+  "artifacts": [
+    {
+      "path": ".artifacts/official-client-source-20261024/1846-red.json",
+      "sha256": "53d7dbf8fee34cb6bc801e8f2c6e299b86b035342ae06cf60e495339ad41ef9f"
+    },
+    {
+      "path": ".artifacts/official-client-source-20261024/1846-red.log",
+      "sha256": "abc6eb66971922d769a6150f7a0c3c8871955ba8f453f37bccf741aef78d8b79"
+    },
+    {
+      "path": ".artifacts/official-client-source-20261024/1847-green.json",
+      "sha256": "8cc9a6ee54aa1bbb8f816ec924d62fe6a379c3f70edf723cdf5e6e5a4cb143b2"
+    },
+    {
+      "path": ".artifacts/official-client-source-20261024/1847-green.log",
+      "sha256": "7aa6c9b10a02fb1263df7210d8d0dd42016c9390c27b6ce49026340c01be3b67"
+    },
+    {
+      "path": ".artifacts/official-client-source-20261024/regressions.log",
+      "sha256": "eb2b6a0fcae35011e459efbf620143a59109c6240ddeb0b0d1d1ea1d21e9612c"
+    }
+  ],
+  "boundary": "Read-only comparison of independent candidate embedded Lua inventory against external_lua_file. Official .gil only lstat; no non-Lua sidecar contents, credentials, GUI or external mutations. Source equality is not ready/playable acceptance."
+}

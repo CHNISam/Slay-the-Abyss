@@ -31,10 +31,28 @@ Start-Process -FilePath 'C:\Program Files\nodejs\node.exe' -ArgumentList ('"' + 
 ## 导入与打开
 
 1. 冻结源 SHA 和候选 hash，先做副本静态检查。已有正确副本则不重建。不要重复导入场景资产。
-2. 优先 `playtest_start`，明确 `clientScriptLog: true`；轮询 `playtest_status`，观察实际步骤和截图。不要把 duration 加载等待当成已在玩。
+2. **数字夹具切回普通版时，使用 `editor_open_map` 导入为新存档**，不要用 `playtest_start` 的 `replaceSave` 覆盖旧夹具存档。已实证 replaceSave 可更新 `.gil` 内嵌 Lua，却保留同目录 `external_lua_file` 中的旧入口及其他模块；候选 hash、存档名或 `playing` 状态都不能证明客户端执行的是新源码。
 3. 流程报“文件选择框没出现”后，先列窗口。若实际已有“导入存档”对话框，直接接管它；不要再点击主窗口。文件名使用 `Alt+N` 定位，输入候选绝对路径，等截图显示完整路径后再 Enter。PrintWindow 紧随输入的第一帧可能只显示部分文字，应复拍确认。
 4. 存档列表中核对新候选文件名/时间，再点它的“编辑”。等编辑器工具和画面就绪，不能看到加载画面就调不带 mapPath 的试玩。文件名相同或用户切换过时，读回新官方存档确认模块及外部 Lua；不凭“上次打开”推断源码。
 5. 截图返回 WINDOW_NOT_FOREGROUND 或输入后刷新失败时，输入可能已经成功并打开了子弹窗。先列窗口/重新截图，禁止盲目重发。屏幕快照比 PrintWindow 更适合确认 GPU 画面；不用白图或旧帧决定下一次点击。
+
+### 启动前核对实际客户端源码
+
+每次新导入、替换或切换候选后，在启动试玩前执行项目的只读门禁。输入必须是**冻结候选独立读回**的 inventory JSON（`{mapPath,scripts:[{name,file,source}]}`，例如 `audit-native-candidate.mjs` 输出的 `scripts.json`），不能拿外部目录自己生成的清单与自己比较。官方存档绝对路径来自本轮导入结果；账号目录与工具位置以 `docs/TOOLCHAIN.md` 为准。
+
+```powershell
+node scripts/verify-official-client.mjs `
+  '.artifacts/本轮候选/normal-audit/scripts.json' `
+  'C:\Users\Administrator\AppData\LocalLow\miHoYo\原神\BeyondLocal\本轮账号\Beyond_Local_Save_Level\本轮存档\本轮存档.gil' `
+  '.artifacts/本轮候选/official-client-source.json'
+if ($LASTEXITCODE -ne 0) { throw '官方客户端 Lua 与候选不一致，禁止开始本轮验收试玩' }
+```
+
+它只读取 inventory 和官方 `.gil` 同目录的 `external_lua_file/*.lua`；`.gil` 只核对存在的普通文件，不解析/改写它，也不读取其他 sidecar 或凭证。逐模块比较候选内嵌源码与外部 Lua，只容忍首个 UTF-8 BOM 和 CRLF/LF 等价，保存两侧原始/规范 SHA256。缺失、差异、多余模块、重复模块、不安全文件名或缺少 `abyss_ui.lua` 入口均退出 1；检查不会帮忙同步或覆盖外部文件，报告也禁止写进官方存档目录。先建立报告所在的项目证据目录。
+
+源码不一致时保留失败报告，并按上面的新存档流程重新导入，再跑同一冻结候选的门禁；不手改官方外部 Lua 来制造匹配。2026-10-24 的普通候选 `b6d3cbe` 覆盖官方1846后，发现四个旧模块与额外 `abyss_m3_numeric_probe.lua`；新导入1847为48/48匹配。原始红绿报告固定在项目根 `.artifacts/official-client-source-20261024/`，摘要见 `docs/evidence/official-client-source-20261024.json`。
+
+门禁通过只代表这份 inventory 与外部 Lua 源码一致，不等于客户端 ready、画面正确或游戏可玩。之后才运行 `playtest_start`（`clientScriptLog: true`），轮询 `playtest_status`，核对本轮 `ABYSS_UI ready`、新日志、脚本错误和实际截图。加载等待或 `playing` 状态不替代这些证据。
 
 ## 日志与验收
 
