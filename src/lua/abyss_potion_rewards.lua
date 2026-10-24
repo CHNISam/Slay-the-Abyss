@@ -40,7 +40,7 @@ end
 function P.commit(run,rng,modifier)
     if not run.shopRng then
         local seed=run.eventSeed or string.format('%.0f',run.seed)
-        run.shopRng={merchant=Random.fromSeed(seed),card=Random.fromSeed(seed)}
+        run.shopRng={merchant=Random.fromSeed(seed)}
     end
     run.shopRng.potion=rng
     run.potionChanceModifier=modifier

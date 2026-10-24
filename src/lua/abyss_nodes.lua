@@ -10,6 +10,7 @@ local EventPool = require("abyss_event_pool")
 local EventRandom = require("abyss_sts_random")
 local Inventory = require("abyss_inventory")
 local Shop = require("abyss_shop")
+local CardRandom = require("abyss_card_random")
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -175,7 +176,11 @@ function M.enter(run, map, nodeId)
             return false, "event_unavailable"
         end
     end
-    local flow, seed = prepare(run, node,nextMiscRng)
+    local prepared,flow,seed=pcall(prepare,run,node,nextMiscRng)
+    if not prepared then return false,'node_content_unavailable' end
+    if flow.type=='shop' and not pcall(CardRandom.snapshot,flow.cardRandom) then
+        return false,'node_content_unavailable'
+    end
     flow.sourceType=sourceType
     if selectionRng then flow.selectionRng=EventRandom.snapshot(selectionRng);flow.event.originalId=node.originalEventId end
     local stagedRun
@@ -209,7 +214,11 @@ function M.enter(run, map, nodeId)
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
-    if flow.type == 'shop' then run.shopRng=flow.shopRng end
+    if flow.type == 'shop' then
+        run.shopRng=flow.shopRng
+        CardRandom.commit(run,flow.cardRandom)
+        flow.cardRandom=nil -- Only the Run owns the persistent card stream.
+    end
     -- The old room's unclaimed rewards expire only after this entry succeeds.
     run.pendingCombatRewards = nil
     return true
@@ -306,6 +315,7 @@ local function purchase(run, category, reference, bySlot)
     run.gold = run.gold - offer.price
     flow.cards,flow.relics,flow.potions,flow.shopRng=stagedFlow.cards,stagedFlow.relics,stagedFlow.potions,stagedFlow.shopRng
     run.shopRng=flow.shopRng
+    run.cardRng,run.cardRarityOffset=stagedRun.cardRng,stagedRun.cardRarityOffset
     return true
 end
 
