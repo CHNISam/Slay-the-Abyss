@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Ironclad / Geo Lumine / Act 1 / PC A0",
   "baseline": "6e8714f",
-  "integratedBaseline": "ee9c40d9ee2b9badaab84af8aaa6b9ddc2551f9c",
+  "integratedBaseline": "b757705",
   "status": "scope-baseline-awaiting-per-item-acceptance",
   "updated": "2026-10-24",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
@@ -866,6 +866,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:small_slimes",
         "encounter:medium_slimes"
       ],
       "aiEntry": "src/lua/abyss_acid_slime_m_ai.lua"
@@ -896,6 +897,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:small_slimes",
         "encounter:medium_slimes"
       ],
       "aiEntry": "src/lua/abyss_spike_slime_m_ai.lua"
@@ -1093,7 +1095,11 @@
       "tier": "normal",
       "enemies": [
         "acid_slime_s",
-        "spike_slime_s"
+        "spike_slime_m"
+      ],
+      "enemiesOnTrue": [
+        "spike_slime_s",
+        "acid_slime_m"
       ],
       "minFloor": 1,
       "maxFloor": 14,

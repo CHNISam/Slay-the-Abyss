@@ -29,3 +29,13 @@ test('actual production predicate rejects replacing a supported card with an uni
   manifest.exclusions.cards.find(row => row.id === 'clash').id = 'cleave';
   assert.ok(validateLaunchContent(manifest).some(error => error.includes('Playable card pool drift')));
 });
+
+test('inventory includes and validates the true branch of a dynamic encounter', () => {
+  const manifest = fresh();
+  const branch = manifest.encounters.find(row => row.id === 'small_slimes');
+  delete branch.enemiesOnTrue;
+  assert.ok(validateLaunchContent(manifest, { runtime: false }).some(error => error.includes('enemiesOnTrue')));
+  const missingChannel = fresh();
+  missingChannel.enemies.find(row => row.id === 'acid_slime_m').channels = ['encounter:medium_slimes'];
+  assert.ok(validateLaunchContent(missingChannel, { runtime: false }).some(error => error.includes('enemies/acid_slime_m channels')));
+});
