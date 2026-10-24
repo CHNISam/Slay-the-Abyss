@@ -48,7 +48,7 @@ local sourceName, nextQueue, reason = Queue.consume(run.encounters, "normal")
 | Exordium Thugs | 缺弱野生敌人+强人形敌人动态组。 |
 | Exordium Wildlife | 当前jaw+green louse只是一种合法结果，缺Fungi/Jaw与随机Louse/SpikeM/AcidM的完整分支。 |
 
-特别注意MonsterHelper的wildlife/thugs辅助方法：随机X/Y偏移也消费misc；部分方法先构造全部候选（含getLouse/getSlaver随机分支和各候选HP），最后才抽实际出场项。不能只抽一个已有ID，就把未出场候选的原始消费抹掉后宣称同seed一致。
+特别注意MonsterHelper的wildlife/thugs辅助方法：600..605行明确随机X/Y偏移调用 `MathUtils.random`，属于视觉偏移，**不消费miscRng**。misc只负责成员/颜色选择；部分方法先构造全部候选（含getLouse/getSlaver随机分支和各候选HP），最后才抽实际出场项，构造HP则属于monsterHpRng。此前本附件把视觉偏移误写为misc消费，现按固定方法体纠正；正确队列逻辑不变。不能只抽一个已有ID，就抹掉未出场候选的构造消费；三类边界应分别核对。
 
 因此**不按现有受限内容删除Lots/Thugs再归一化，也不把medium_slimes偷偷改名，不接Run/Nodes**。未来生产接线至少还需：
 
