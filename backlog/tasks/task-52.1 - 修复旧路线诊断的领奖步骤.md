@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 14:44'
+updated_date: '2026-10-24 14:49'
 due_date: '2026-10-28'
 labels:
   - required
@@ -37,4 +38,6 @@ ordinal: 91000
 
 <!-- SECTION:PLAN:BEGIN -->
 复用PR182已迁移m2-resource-audit的公开领奖接口顺序，只修tools/diagnostics/core_route_seed42.lua旧调用处并补独立fixture。已有单独76bbefa真实首战reward_pending负例，先在最新b91再次核对，再按明确领/弃药、独立失金、leave、complete顺序迁移，防满槽/重复/无待领项死循环；保留真实死亡路径，不改生产或测试预算。
+
+为直接测试诊断实际使用的逻辑，增加仅供诊断的tools/diagnostics/finish_combat_rewards.lua最小helper，由旧脚本与真实Run/Nodes fixture共同调用；不导入生产、不改原选卡策略，不扩成通用框架。
 <!-- SECTION:PLAN:END -->
