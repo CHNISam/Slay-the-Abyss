@@ -1317,6 +1317,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             self.selected = nil
             self.selectionEpoch = (self.selectionEpoch or 0) + 1
             cancelCardInputs()
+            cancelActionInputs()
             local battle = self.run.combat
             local aim = {run=self.run,battle=battle,turn=battle.turn,inventory=self.run.potions,
                 slot=binding.slot,id=binding.id,actors={},living={}}
@@ -1716,6 +1717,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 if enemyReady(g) then input.held = g end
             end)
             local function releaseEnemy(event, ended)
+                enemyPointerObserved = true
                 local touch, held = event and event.touchId, input.held
                 if held and held.touch == touch then
                     input.held = nil
