@@ -17,8 +17,8 @@ local function setup()
     host.run.gold = 10000
     host:refresh()
     local ui = host.nodeUI
-    assert(ui.swipeEnabled and ui.pageCount > 1)
-    assert(ui:setPage(2))
+    assert(ui.swipeEnabled and ui.pageCount == 1)
+    assert(not ui:setPage(2))
     local function hit(key)
         local box = root:GetChild("nodePanel")
         for part in key:gmatch("[^/]+") do box = assert(box:GetChild(part)) end
@@ -46,7 +46,7 @@ test("exit cancels old shop swipe, preserves its page and accepts fresh swipe an
     local count, gold = #host.run.deck, host.run.gold
     emit("shopView/card1", "down", 11, 100)
     assert(host:openExit())
-    assert(host:closeExit() and ui.visible and ui.page == 2)
+    assert(host:closeExit() and ui.visible and ui.page == 1)
     emit("shopView/card1", "up", 11, 400)
     assert(not emit("shopView/card1", "click", 11), "old swipe purchased after exit cancel")
     assert(#host.run.deck == count and host.run.gold == gold)
@@ -66,12 +66,12 @@ test("simulated callbacks below exit cannot page or survive cancellation", funct
     -- that the native client dispatches physical events through its blocker.
     emit("shopView/card1", "down", 11, 100)
     emit("shopView/card1", "up", 11, 400)
-    assert(not emit("shopView/card1", "click", 11) and ui.page == 2)
+    assert(not emit("shopView/card1", "click", 11) and ui.page == 1)
     emit("shopView/card1", "down", 22, 100)
     assert(host:closeExit())
     emit("shopView/card1", "up", 22, 400)
     assert(not emit("shopView/card1", "click", 22))
-    assert(ui.page == 2 and #host.run.deck == count and host.run.gold == gold)
+    assert(ui.page == 1 and #host.run.deck == count and host.run.gold == gold)
 end)
 
 test("old leave hold cannot execute after exit cancel and fresh input works", function()
@@ -80,19 +80,19 @@ test("old leave hold cannot execute after exit cancel and fresh input works", fu
     assert(host:openExit() and host:closeExit())
     emit("confirm", "up", 11)
     assert(not emit("confirm", "click", 11))
-    assert(not host.run.nodeFlow.complete and ui.page == 2)
+    assert(not host.run.nodeFlow.complete and ui.page == 1)
     assert(tap("confirm", 22) and host.run.nodeFlow.complete)
 end)
 
 test("old relic hold cannot buy after exit cancel and fresh input works", function()
     local host, ui, emit, tap = setup()
     local gold, count = host.run.gold, #host.run.relics
-    emit("shopView/relic1", "down", 11)
+    emit("shopView/relic3", "down", 11)
     assert(host:openExit() and host:closeExit())
-    emit("shopView/relic1", "up", 11)
-    assert(not emit("shopView/relic1", "click", 11))
-    assert(host.run.gold == gold and #host.run.relics == count and ui.page == 2)
-    assert(tap("shopView/relic1", 22))
+    emit("shopView/relic3", "up", 11)
+    assert(not emit("shopView/relic3", "click", 11))
+    assert(host.run.gold == gold and #host.run.relics == count and ui.page == 1)
+    assert(tap("shopView/relic3", 22))
     assert(#host.run.relics == count + 1 and host.run.gold < gold)
 end)
 

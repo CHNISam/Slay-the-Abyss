@@ -101,12 +101,15 @@ test('cinematic and merchant controls stay inside the phone safe area and clear 
   const theme = nativeTheme, [w, h] = theme.canvas.base, { x, y } = theme.canvas.safe;
   const { prologue, merchant, nativeNode: node } = theme.layout;
   const inside = ([cx, cy, cw, ch]) => Math.abs(cx) + cw / 2 <= w / 2 - x && Math.abs(cy) + ch / 2 <= h / 2 - y;
-  for (const frame of [prologue.line, prologue.chapter, prologue.hint, prologue.skip, merchant.box, merchant.portrait, merchant.name])
+  for (const frame of [prologue.line, prologue.chapter, prologue.hint, prologue.skip, merchant.frame, merchant.box, merchant.portrait, merchant.name, merchant.line])
     assert.ok(inside(frame), JSON.stringify(frame));
   // The dialogue box sits under the relic prices and between the two bottom buttons.
   const top = (f) => f[1] + f[3] / 2, bottom = (f) => f[1] - f[3] / 2;
-  const relicPriceBottom = node.shop.relics.priceY - node.price.size[1] / 2;
-  for (const frame of [merchant.box, merchant.portrait, merchant.name]) assert.ok(top(frame) <= relicPriceBottom, JSON.stringify(frame));
+  for (const priceY of [node.shop.relics.priceY, node.shop.potions.priceY, node.shop.removalPriceY]) {
+    const priceBottom = priceY - node.price.size[1] / 2;
+    for (const frame of [merchant.frame, merchant.box, merchant.portrait, merchant.name, merchant.line])
+      assert.ok(top(frame) <= priceBottom, JSON.stringify(frame));
+  }
   assert.ok(merchant.box[0] - merchant.box[2] / 2 > node.back[0] + node.back[2] / 2);
   assert.ok(merchant.box[0] + merchant.box[2] / 2 < node.confirm[0] - node.confirm[2] / 2);
   // The skip button lives in the lower letterbox, away from the persistent exit entry.

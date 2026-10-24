@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-24",
+  "sourceCommit": "988aa2231c2b8646b5029866d7da83ba88dd9d49",
+  "pullRequest": "https://github.com/CHNISam/Slay-the-Abyss/pull/163",
+  "check": {
+    "command": "npm run check",
+    "exitCode": 0,
+    "js": { "total": 1045, "passed": 927, "skipped": 118, "failed": 0 },
+    "luaFixturesPassed": 133,
+    "python": { "total": 17, "skipped": 1, "failed": 0 },
+    "log": ".artifacts/shop-parity-988aa22/check.log",
+    "laterTestOnlyDelta": "tests/lua/shop.lua adds relic/potion binary32 price endpoints; same production source; SHOP_PRICE_ENDPOINTS_PASS"
+  },
+  "candidate": {
+    "path": ".artifacts/shop-parity-988aa22/abyss-shop-988aa22.gil",
+    "sha256": "33f0b982850ed3280e3d186a97c5e41f43ed79e96425df4613537666f0df5ef7",
+    "sourceAudit": ".artifacts/shop-parity-988aa22/audit/audit.json",
+    "sourceMatches": true,
+    "modules": 42,
+    "uiControls": 1997,
+    "maxChildren": 52,
+    "settlementNodes": 22,
+    "staticErrors": 0,
+    "staticWarnings": 14,
+    "liveWriteEnabled": false,
+    "officialImport": "NOT_REACHED"
+  },
+  "liveAttempt": {
+    "runId": "16a0b150-7d65-4827-89fe-9821b5c6d5eb",
+    "clientScriptLog": true,
+    "state": "FAILED_BEFORE_IMPORT",
+    "error": "无法把窗口切到前台：game",
+    "completedSteps": 0,
+    "screenshots": 0,
+    "logCollected": false,
+    "readyObserved": false,
+    "fallback": "Computer Use native pipe unavailable after retry and kernel reset",
+    "rawEvidence": ".artifacts/shop-parity-988aa22/live/playtests/16a0b150-7d65-4827-89fe-9821b5c6d5eb/",
+    "result": "NOT_VERIFIED"
+  },
+  "uiGate": {
+    "command": "npm run verify:ui -- <same candidate>",
+    "result": "FAIL",
+    "reason": "Candidate-specific real screenshots and review checks are missing",
+    "log": ".artifacts/shop-parity-988aa22/ui-gate.log"
+  },
+  "strictOriginalParity": "PARTIAL: restricted content pools, shared reward RNG/offset history and global relic queues still incomplete; see docs/SHOP_PARITY.md",
+  "ci": "Use PR current-head Quality; first attempt failed during checkout with GitHub connection reset/early EOF, before tests. Never infer runtime or original parity from CI."
+}

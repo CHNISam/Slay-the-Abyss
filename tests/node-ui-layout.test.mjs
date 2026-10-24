@@ -78,6 +78,8 @@ test('each screen keeps its readable elements and buttons free of sibling overla
     const content = screen(view);
     for (let i = 0; i < content.length; i++) for (let j = i + 1; j < content.length; j++) {
       const [a, b] = [content[i], content[j]];
+      // Normal shops never show the retained compatibility controls.
+      if (view === 'shopView' && [a,b].some(c => ['previous','next','relicPrevious','relicNext'].includes(c.name) && c.visible === false)) continue;
       // Picker previews alternate: before/after for forging, a single target for removal.
       if ([a.name, b.name].includes('target') && [a.name, b.name].some(n => ['before', 'after', 'arrow', 'empty'].includes(n))) continue;
       if ([a.name, b.name].includes('empty') && [a.name, b.name].some(n => ['before', 'after', 'arrow'].includes(n))) continue;
@@ -99,9 +101,9 @@ test('native text boxes use the verified 40-unit line height and the readable mi
   });
 });
 
-test('shop restores the approved shelf: five card faces, prices beneath, removal service and relic row', () => {
+test('shop restores the approved shelf: seven card faces, prices beneath, removal service and relic row', () => {
   const shop = find(panel.children, 'shopView').children;
-  const cards = [1, 2, 3, 4, 5].map(i => find(shop, `card${i}`));
+  const cards = [1, 2, 3, 4, 5, 6, 7].map(i => find(shop, `card${i}`));
   const card = nativeTheme.layout.card;
   for (const [i, c] of cards.entries()) {
     assert.deepEqual(c.size, card.size);
@@ -118,7 +120,7 @@ test('shop restores the approved shelf: five card faces, prices beneath, removal
     assert.ok(find(price.children, 'coin') && find(price.children, 'value'));
   }
   const removal = find(shop, 'removal');
-  assert.ok(bounds(removal).left > bounds(cards[4]).right, 'removal service is right of the shelf');
+  assert.ok(bounds(removal).top < bounds(cards[0]).bottom, 'removal service is in the second row');
   assert.equal(find(shop, 'removalPrice').position[0], removal.position[0]);
   const relics = [1, 2, 3].map(i => find(shop, `relic${i}`));
   for (const relic of relics) assert.ok(bounds(relic).top < bounds(find(shop, 'price1')).bottom, 'relic row below the shelf');
