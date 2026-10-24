@@ -55,7 +55,9 @@ local function candidates(run,category,rarity,kind,color,stock)
             for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
         elseif category=='potions' then
             -- Ironclad's potion pool excludes Silent's class-specific Poison Potion.
-            allowed=allowed and def.id~='poison_potion'
+            -- Temporary effect-only isolation; complete 33-item source selection
+            -- must remove this exclusion rather than skip or reroll pending items.
+            allowed=allowed and def.id~='poison_potion' and not def.acquisitionPending
         end
         if allowed then pool[#pool+1]=def end
     end

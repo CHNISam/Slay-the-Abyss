@@ -298,6 +298,11 @@
       "energy_potion": 111047,
       "poison_potion": 111048,
       "regen_potion": 111047,
+      "swift_potion": 111047,
+      "weak_potion": 111048,
+      "fear_potion": 111046,
+      "ancient_potion": 111047,
+      "liquid_bronze": 111046,
       "empty": 106026,
       "verify": true
     },
@@ -308,7 +313,12 @@
       "dexterity_potion": "#FFFFFF",
       "energy_potion": "#FFE7A6",
       "poison_potion": "#BFF0B0",
-      "regen_potion": "#D8FFC8"
+      "regen_potion": "#D8FFC8",
+      "swift_potion": "#B9DCFF",
+      "weak_potion": "#BFF0B0",
+      "fear_potion": "#FFB09A",
+      "ancient_potion": "#FFE7A6",
+      "liquid_bronze": "#F0B850"
     },
     "relic": {
       "membership_card": 102026,
