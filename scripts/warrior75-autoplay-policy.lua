@@ -32,6 +32,8 @@ function P.chooseCombat(run)
     if run.phase~='combat' or not battle or battle.phase~='player' then return nil end
     local best,score=nil,0
     local need=math.max(0,incoming(battle)-battle.player.block)
+    local enrage=0
+    for _,enemy in ipairs(battle.enemies)do if enemy.hp>0 then enrage=enrage+(enemy.statuses.enrage or 0)end end
     for handIndex,card in ipairs(battle.hand) do for target,e in ipairs(battle.enemies) do
         if e.hp>0 and C.canPlay(battle,card.uid,target) then
             local def=C.cardDefinition(battle,card)
@@ -72,6 +74,9 @@ function P.chooseCombat(run)
                 elseif effect.op=='increaseDamageThisCombat' then value=value+effect.value*.7 end
             end
             value=value+damage+math.min(block,need)*1.6
+            -- Visible Enrage makes defensive skills strengthen the next attack.
+            -- This is a test player's score, not an altered enemy/card rule.
+            if def.type=='skill' then value=value-enrage*8 end
             if damage>=e.hp+e.block then value=value+incoming(battle,target)*1.6+4 end
             value=value/math.max(.6,def.costMode=='all_energy' and battle.energy or def.cost)
             if payment>=battle.player.hp then value=-10000 end
@@ -93,7 +98,8 @@ function P.chooseNode(run,map,coverage)
     for _,node in ipairs(Nodes.available(run,map)) do
         local score=({combat=10,event=40,shop=15,camp=35,treasure=50,elite=0,boss=0})[node.type] or 0
         if not coverage[node.type] then score=score+18 end
-        if node.type=='elite' then score=run.hp>65 and not coverage.elite and 60 or -20 end
+        -- A small starter-heavy deck takes a legal safer route when available.
+        if node.type=='elite' then score=-50 end
         if node.type=='camp' then score=score+(run.maxHp-run.hp)*.4 end
         if node.type=='shop' then score=score+(run.gold>=125 and 40 or run.gold>=75 and 12 or -25) end
         if score>best then chosen,best=node,score end

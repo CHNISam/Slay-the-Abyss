@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 21:42'
+updated_date: '2026-10-24 22:26'
 due_date: '2026-10-28'
 labels:
   - required
@@ -57,4 +57,6 @@ ordinal: 43000
 整合develop9ae1aec时复核AbstractRoom.endTurn发现临时费用边界：原版在回合末只重置手/抽/弃牌堆，排除消耗堆。先新增跨回合零费Bludgeon→Exhume取回红例（错误3费），再把重置移到回合末且排除消耗堆，40组边界通过。正规房间HP/AI/misc/洗牌流、手动金币奖励与完整75卡奖励cardRng已共同接线；combat_gold13、reward_flow10、Boss奖励事务及药水失败原子性专项通过。历史529原生150基础升级/六专项通过但选牌脚本错误、卡名第二行和选择费用未通过；cursorArea及新标题布局需新同源官方Lua门禁后实测。
 
 新增严格复审发现两个复制语义差异，均先红后绿：Anger stat-equivalent副本须保留实例伤害修正和costForTurn；Dual Wield多个候选的选择分支须移除原选择、生成amount+1个新身份副本，并把暂存非候选放回剩余候选之后；单候选快路径保留原身份。修复后warrior75_edges42组、copied_attack34组通过。固定源依据与SHA补sources.json。505原生证据不被后续改动冒用，新运行源须另建构建/导入/实机证据。
+
+补Mega Crit官方PC V2.2公告的独立数值复核：Bloodletting能量2/3、Hemokinesis伤害15/20与自损2、Rupture+费用1与每次力量2，均与当前实现一致；来源docs/evidence/warrior75/official-v2.2.json。正常规则driver首轮seed42在第6层Nob战败（2胜，HP0，牌组12），不计通关；保留失败并调整仅测试策略：读取可见Enrage避免无谓技能，合法路线优先避开起始牌组高风险精英；未改任何产品数值/规则/卡池。
 <!-- SECTION:NOTES:END -->
