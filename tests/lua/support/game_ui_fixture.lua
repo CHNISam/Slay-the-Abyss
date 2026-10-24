@@ -109,7 +109,7 @@ local function win(ui, root)
             local instance = ui.run.phase == "combat" and battle.hand[slot]
             if instance and ui.battleUI.selected == instance.uid then
                 local _, reason = Combat.canPlay(battle, instance.uid, nil)
-                click(root, "battlePanel", reason == "invalid_target" and "enemy" .. ui.battleUI.target or "card" .. slot)
+                click(root, "battlePanel", reason == "invalid_target" and "enemy" .. ui.battleUI.target or "playArea")
             end
         end
         if ui.run.phase == "combat" then click(root, "battlePanel", "endTurn") end
