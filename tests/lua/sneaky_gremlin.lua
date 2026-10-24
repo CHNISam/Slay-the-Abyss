@@ -71,7 +71,7 @@ test("real player Strike uses sampled HP and preserves maxHp", function()
 end)
 
 test("Run encounter entry samples the same inclusive HP range", function()
-    local seen={}
+    local seen,present,absent={},0,0
     for seed=0,127 do
         local run=Run.new(data,seed); run.floor=5 -- host-entry fixture, not map traversal
         assert(Run.startCombat(run,"gremlin_gang")); local found
@@ -81,8 +81,12 @@ test("Run encounter entry samples the same inclusive HP range", function()
                 eq(Combat.intent(run.combat,i).effects[1].value,9)
             end
         end
-        assert(found)
+        eq(#run.combat.enemies,4)
+        if found then present=present+1 else absent=absent+1 end
     end
+    -- Selection can omit Sneaky; retain the integration HP range/intent checks
+    -- for every selected instance and prove all five HP values are exercised.
+    assert(present>0 and absent>0, "must cover both selected and omitted Sneaky")
     for hp=10,14 do assert(seen[hp],"missing Run HP " .. hp) end
 end)
 

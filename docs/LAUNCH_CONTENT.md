@@ -2,7 +2,7 @@
 
 TASK-47，2026-10-24。生产代码基线 `6e8714f`。本清单冻结本轮**既有生产接线范围**，逐项自然获取、执行和实机验收仍未完成，TASK-47 保持 In Progress。已完成的 M2 第一幕通关证据保留；它不能扩张为所有内容逐项通过。
 
-本次整合已承接 `ee9c40d` 的窃金客完整闭环（AI入口 `abyss_looter_ai`）及 `b757705` 的 PR174 动态小软泥组合；清单同时核对两个Boolean分支和两种中型敌人的新增获取渠道。**这是一份首发清单基线，尚不是内容合规放行表**：`medium_slimes`组合缺原版依据、`gremlin_gang`固定五人组与来源四人抽样不符，见[遭遇审计](reviews/TASK-15-encounter-composition-audit-20261024.md)。完整地图候选12/12也还未接生产。这些已接入但未修正的项目继续阻止 M3 Done，不能因为清单校验通过就放行。
+本次整合已承接 `ee9c40d` 的窃金客完整闭环（AI入口 `abyss_looter_ai`）及 `b757705` 的 PR174 动态小软泥组合；清单同时核对两个Boolean分支和两种中型敌人的新增获取渠道。**这是一份首发清单基线，尚不是内容合规放行表**：`medium_slimes`组合仍缺原版依据，见[遭遇审计](reviews/TASK-15-encounter-composition-audit-20261024.md)。`gremlin_gang`原固定五人组已由[TASK-15.18](reviews/TASK-15.18-gremlin-gang.md)修正为八槽有序池不放回抽四次；这是局部生产代码与本地证据更新，不是逐项自然获取、平台或实机验收。完整地图候选12/12也还未接生产。这些已接入但未修正的项目继续阻止 M3 Done，不能因为清单校验通过就放行。
 
 机器清单：[launch-content.json](../data/release/launch-content.json)。每项的 `profile` 关联生产入口、现有本地覆盖文件、平台/实机状态和负责验收任务；这是证据账本，不是运行时放行开关。
 
@@ -25,7 +25,7 @@ node scripts/verify-launch-content.mjs
 node --test tests/launch-content.test.mjs
 ```
 
-校验会比对实际 JSON 定义、遭遇成员和楼层、合法渠道、基本/升级版与实际 Lua 支持谓词、当前事件池和 Boss 遗物资格；遗漏、新增支持内容或候选误入会报错。它不证明原版概率/AI已完全一致，也不提供编译、导入、实机或素材批准证据。
+校验会比对实际 JSON 定义、遭遇成员和楼层、动态池顺序/重复槽位/抽样数量、合法渠道、基本/升级版与实际 Lua 支持谓词、当前事件池和 Boss 遗物资格；遗漏、新增支持内容或候选误入会报错。它不证明原版概率/AI已完全一致，也不提供编译、导入、实机或素材批准证据。
 
 本轮实际运行：清单 CLI 通过；Node 清单初版4项、承接动态小软泥后的5项均通过。动态分支遗漏和渠道遗漏有真实失败回归；与小软泥数据专项合跑12项通过、0失败、0跳过。首次沙箱执行因 Node 子进程 spawn EPERM 未运行，按正常审批重跑后通过。没有启动游戏、调用 MCP 或制作新存档。
 
@@ -124,7 +124,7 @@ node --test tests/launch-content.test.mjs
 | blue_slaver_solo | blue_slaver | 4–14 | 地图普通战斗、问号战斗 |
 | red_slaver_solo | red_slaver | 4–14 | 地图普通战斗、问号战斗 |
 | fungi_pair | fungi_beast、fungi_beast | 4–14 | 地图普通战斗、问号战斗 |
-| gremlin_gang | mad_gremlin、sneaky_gremlin、fat_gremlin、wizard_gremlin、shield_gremlin | 5–14 | 地图普通战斗、问号战斗 |
+| gremlin_gang | 有序八槽池：mad×2、sneaky×2、fat×2、shield×1、wizard×1；逐次移除抽中槽位，共四只 | 5–14 | 地图普通战斗、问号战斗；staged misc四次抽样，完整成功后提交 |
 | wildlife | jaw_worm、green_louse | 5–14 | 地图普通战斗、问号战斗 |
 | elite_nob | gremlin_nob | 6–13 | 地图精英 |
 | elite_lagavulin | lagavulin | 6–13 | 地图精英 |

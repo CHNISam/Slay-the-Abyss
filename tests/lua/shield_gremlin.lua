@@ -81,7 +81,10 @@ test('first enemy lethal attack cannot suppress a later enemy preturn poison',fu
  local s=battle({'sneaky_gremlin','mad_gremlin'});s.player.hp=1;local hp=s.enemies[2].hp;C.addStatus(s.enemies[2],'poison',1);assert(C.endTurn(s));eq(s.phase,'defeat');eq(s.enemies[2].hp,hp-1);eq(s.enemies[2].statuses.poison,0)
 end)
 test('Run gang uses Protect on one real teammate and no self shield',function()
- local r=Run.new(Data,42);r.floor=5;assert(Run.startCombat(r,'gremlin_gang'));assert(Run.endTurn(r));local s=r.combat;local total=0;for i=1,4 do total=total+s.enemies[i].block end;eq(total,7);eq(s.enemies[5].block,0);eq(C.intent(s,5).id,'shield_gremlin_1')
+ -- Current seed60 selects shield,mad,wizard,fat; preserve the real Run path.
+ local r=Run.new(Data,60);r.floor=5;assert(Run.startCombat(r,'gremlin_gang'));eq(#r.combat.enemies,4)
+ eq(r.combat.enemies[1].definitionId,'shield_gremlin');assert(Run.endTurn(r));local s=r.combat
+ local total=0;for i=2,4 do total=total+s.enemies[i].block end;eq(total,7);eq(s.enemies[1].block,0);eq(C.intent(s,1).id,'shield_gremlin_1')
 end)
 test('failed player action restores Shield decision RNG and effects',function()
  local s=battle({'shield_gremlin','sneaky_gremlin'});s.catalog.cards.defend.effects={{op='draw',value=1},{op='gainStatus',status='missing',value=1}};local before=C.copy(s);assert(not pcall(C.play,s,s.hand[1].uid,1));same(s,before)

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 09:42'
-updated_date: '2026-10-24 10:15'
+updated_date: '2026-10-24 10:45'
 due_date: '2026-10-28'
 labels:
   - required
@@ -46,11 +46,11 @@ ordinal: 85000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-两种一小一中组合、正确槽序、随机状态只提交一次已完成；当前代码7cba34fb完整Quality通过。PR168已合入ee9c40d9，接续集成并保留其全部奖励测试分片。固定旧策略的真实败局及新seed7胜利均见专项报告；本地通过不替代官方导入或手机实机。
+两种一小一中组合、槽序和开战随机提交已交付。PR174以最终231dd0ff通过Quality40085439301后合入b757705e；合后Quality40086468750也通过。固定旧策略的真实败局及新seed7离线胜利均见专项报告；旧实机证据不用于认证此组合。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-小软泥一小一中合法编组与随机事务的有限代码切片已验证：源预期36项、其他17遭遇34个完整状态差分、正常地图及未知房入口、失败重试均通过。代码提交7cba34fb的Quality40084575004两项成功，组合160份native Lua、1008所选Node及17Python通过；最终文档/任务并集提交仍须自身CI并合入后才算交付。旧seed3/42正常战败及全部五局记录保留；同一未改策略seed7离线17层胜利仅作正控，不估算胜率、不沿用旧实机。完整遭遇分布、原PC随机流和此组合官方导入/实机仍未验证。
+PR174已合入develop b757705e，最终提交与合后Quality均成功，功能分支已自动清理。独立核对11拥有文件与冻结源码一致，并保留并行合入的173/175/172成果。真实入口、失败重试、36项独立预期和其他17遭遇回归通过；本片组合为160份native Lua、1008所选Node、17Python。完整遭遇分布、原PC随机流和新组合官方导入/实机仍未验证。
 <!-- SECTION:FINAL_SUMMARY:END -->
