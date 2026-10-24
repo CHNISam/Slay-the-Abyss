@@ -34,6 +34,7 @@ for _,potionState in ipairs({'none','pending','full','claimed','skipped','unavai
     local seed=potionState=='none' and 0 or (potionState=='unavailable' and 33 or 42)
     local run,map=reward(seed,goldState~='none')
     local rewards=run.rewards
+    local quotedGold=rewards.gold
     assert(rewards.goldClaimed==false and run.gold==99,'victory gold must remain an independent offer')
     local offer=run.rewards.potion
     assert((offer~=nil)==(potionState~='none'),'fixture potion precondition')
@@ -50,7 +51,8 @@ for _,potionState in ipairs({'none','pending','full','claimed','skipped','unavai
     finish(run,map)
     assert(run.phase=='map' and run.nodeFlow.complete,'reward did not finish the real map node')
     assert(#run.deck==10+choice,'card choice changed')
-    assert(rewards.goldClaimed and run.gold==(goldState=='none' and 114 or 144),'victory/stolen gold lost or duplicated')
+    assert(rewards.goldClaimed and run.gold==99+quotedGold+(goldState=='none' and 0 or 30),'victory/stolen gold lost or duplicated')
+    assert(not Run.claimGoldReward(run),'resolved victory gold must not be paid twice')
     local counts={none=0,pending=1,full=3,claimed=1,skipped=0,unavailable=0}
     assert(Run.potionCount(run)==counts[potionState],'wrong potion inventory')
     if potionState~='pending' then same(run.potions,beforePotions) end
@@ -87,6 +89,7 @@ end)
 
 test('Sozu consumes the clicked offer without a bottle or a false diagnostic error',function()
  local run,map=reward(42,false)
+ local quotedGold=run.rewards.gold
  run.relics[#run.relics+1]='sozu'
  assert(Run.claimCardReward(run,0))
  local offer=run.rewards.potion
@@ -95,16 +98,18 @@ test('Sozu consumes the clicked offer without a bottle or a false diagnostic err
  assert(offer.resolved and offer.result=='blocked' and offer.slot==nil)
  same(run.potions,potions);same(run.shopRng.potion,rng)
  assert(run.seed==seed and Run.potionCount(run)==0)
- assert(run.phase=='map' and run.nodeFlow.complete and run.gold==114)
+ assert(run.phase=='map' and run.nodeFlow.complete and run.gold==99+quotedGold)
  assert(not Run.claimPotionReward(run),'consumed Sozu offer must not be claimable twice')
 end)
 
 test('already claimed victory gold is not claimed again by the diagnostic',function()
  local run,map=reward(0,false)
+ local quotedGold=run.rewards.gold
  assert(Run.claimGoldReward(run));assert(Run.claimCardReward(run,0))
  local gold=run.gold
  dofile('tools/diagnostics/finish_combat_rewards.lua')(run,map)
- assert(run.gold==gold and gold==114 and run.nodeFlow.complete)
+ assert(run.gold==gold and gold==99+quotedGold and run.nodeFlow.complete)
+ assert(not Run.claimGoldReward(run),'claimed victory gold must stay resolved')
 end)
 
 test('a genuine victory-gold API rejection is not silently forfeited',function()
@@ -138,7 +143,8 @@ test('a sparse belt claims into its vacancy without replacing other bottles',fun
 end)
 
 test('retry after a gold rejection does not claim the already acquired bottle again',function()
- local run,map=reward(42,true);assert(Run.claimGoldReward(run));assert(Run.claimCardReward(run,0))
+ local run,map=reward(42,true);local quotedGold=run.rewards.gold
+ assert(Run.claimGoldReward(run));assert(Run.claimCardReward(run,0))
  local offer=run.rewards.potion
  local finish=dofile('tools/diagnostics/finish_combat_rewards.lua')
  run.gold=2147483640 -- Explicit overflow fixture.
@@ -146,25 +152,28 @@ test('retry after a gold rejection does not claim the already acquired bottle ag
  assert(not ok and tostring(reason):find('invalid_stolen_gold',1,true))
  assert(offer.result=='claimed' and Run.potionCount(run)==1)
  assert(run.phase=='reward' and not run.rewards.stolenGold.claimed and not run.nodeFlow.complete)
- run.gold=114 -- Repair only the injected fixture error before the explicit retry.
+ run.gold=99+quotedGold -- Repair only the injected fixture error before the explicit retry.
  finish(run,map)
- assert(Run.potionCount(run)==1 and run.gold==144 and run.nodeFlow.complete)
+ assert(Run.potionCount(run)==1 and run.gold==99+quotedGold+30 and run.nodeFlow.complete)
 end)
 
 test('final node rejection is preserved and explicit retry does not duplicate rewards',function()
- local run,map=reward(42,true);assert(Run.claimCardReward(run,0))
+ local run,map=reward(42,true);local quotedGold=run.rewards.gold
+ assert(Run.claimCardReward(run,0))
  local finish=dofile('tools/diagnostics/finish_combat_rewards.lua')
  local ok,reason=pcall(finish,run,Map.generate(Data,43))
  assert(not ok and tostring(reason):find('map_mismatch',1,true))
- assert(run.phase=='map' and not run.nodeFlow.complete and run.gold==144 and Run.potionCount(run)==1)
+ assert(run.phase=='map' and not run.nodeFlow.complete and run.gold==99+quotedGold+30 and Run.potionCount(run)==1)
  finish(run,map)
- assert(run.nodeFlow.complete and run.gold==144 and Run.potionCount(run)==1)
+ assert(run.nodeFlow.complete and run.gold==99+quotedGold+30 and Run.potionCount(run)==1)
 end)
 
 -- These cases run the actual diagnostic with explicit fixture seeds. The
 -- wrappers only choose a seed and observe real Nodes.enter/Run transitions;
 -- they do not resolve rooms, choose another route, or manufacture victories.
-for _,case in ipairs({{seed=0,kind='event'},{seed=7,kind='combat'},{seed=51,kind='treasure'},{seed=58,kind='shop'}}) do
+-- Source seed89's first unknown is f2_l1, previous room combat, bucket14:
+-- the unchanged diagnostic policy therefore reaches an actual treasure room.
+for _,case in ipairs({{seed=0,kind='event'},{seed=7,kind='combat'},{seed=89,kind='treasure'},{seed=58,kind='shop'}}) do
  test('the actual diagnostic handles an unknown room resolved as '..case.kind,function()
   local run,unknownId
   local completed={}
@@ -218,9 +227,32 @@ end)
 
 test('the actual seed42 diagnostic reaches a real terminal result without hiding a stop',function()
  local first,later,ending,lossGate,fresh=false,false,false,false,false
- local phase,stopped
- local environment=setmetatable({print=function(label,...)
-  if label=='COMPLETE f1_l1' then first=true end
+ local phase,stopped,bossTreasureClaimed,firstNodeId,observedRun
+ local observedNodes=setmetatable({enter=function(run,map,id)
+  local ok,reason=Nodes.enter(run,map,id)
+  if ok then
+   observedRun=run
+   if not firstNodeId then assert(run.floor==1);firstNodeId=id end
+  end
+  return ok,reason
+ end,claimBossTreasure=function(run,choice)
+  assert(run.floor==17 and run.nodeFlow.roomKind=='boss_treasure')
+  local selected=run.nodeFlow.reward.relics[choice]
+  assert((choice==0 and #run.nodeFlow.reward.relics==0) or (choice>0 and selected),'diagnostic selected no legal Boss relic')
+  local ok,reason=Nodes.claimBossTreasure(run,choice)
+  assert(ok and run.phase=='victory' and run.nodeFlow.chosenRelic==selected)
+  local after=Combat.copy(run);assert(not Nodes.claimBossTreasure(run,choice));same(run,after)
+  bossTreasureClaimed=true
+  return ok,reason
+ end},{__index=Nodes})
+ local environment=setmetatable({require=function(name)
+  if name=='abyss_nodes' then return observedNodes end
+  return require(name)
+ end,print=function(label,...)
+  if firstNodeId and label=='COMPLETE '..firstNodeId then
+   assert(observedRun.phase=='map' and observedRun.nodeFlow.complete,'first source room did not return to the map')
+   first=true
+  end
   if tostring(label):match('^COMPLETE f[2-9]_') then later=true end
   if tostring(label):match('^END turns=') then
    ending=true
@@ -239,6 +271,7 @@ test('the actual seed42 diagnostic reaches a real terminal result without hiding
  -- Its original loss-gate assertions must execute if this strategy loses.
  -- This is not an artificial win or an alternate route policy.
  if phase=='defeat' then assert(lossGate and fresh,'original defeat/restart assertions did not execute') end
+ if phase=='victory' then assert(bossTreasureClaimed,'victory must follow the real independent Boss chest claim') end
  print('NATURAL_ROUTE first='..tostring(first)..' later='..tostring(later)..' phase='..phase..' loss_gate='..tostring(lossGate))
 end)
 

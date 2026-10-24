@@ -195,9 +195,13 @@ test("real map keeps resources across two original-data battles and a newly acqu
     equal(#run.combat.hand, 7); equal(run.combat.energy, 4)
     assert(Run.usePotion(run, 1)); equal(run.combat.player.statuses.strength, 3)
     finishBattle(run)
+    local quotedGold=run.rewards.gold
+    assert(quotedGold>=10 and quotedGold<=20 and not run.rewards.goldClaimed)
+    equal(run.gold,1000)
     assert(Run.claimGoldReward(run))
     local hp, gold = run.hp, run.gold
-    equal(gold, 1000 + source.rules.rewards.normalGold)
+    equal(gold, 1000 + quotedGold)
+    assert(not Run.claimGoldReward(run));equal(run.gold,gold)
     local rewardId = Run.rewardOptions(run)[1]
     assert(Run.claimCardReward(run, 1)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
@@ -238,9 +242,13 @@ test("real map keeps resources across two original-data battles and a newly acqu
     equal(run.combat.player.statuses.thorns, 3); equal(run.combat.player.statuses.regen, nil)
     assert(Run.usePotion(run, 2)); equal(run.combat.player.statuses.regen, 5)
     finishBattle(run)
+    local expectedReward=run.rewards.gold
+    local minimum,maximum=nextBattleType=='elite' and 25 or 10,nextBattleType=='elite' and 35 or 20
+    assert(expectedReward>=minimum and expectedReward<=maximum and not run.rewards.goldClaimed)
+    equal(run.gold,gold-spent)
     assert(Run.claimGoldReward(run))
-    local expectedReward = nextBattleType == "elite" and source.rules.rewards.eliteGold or source.rules.rewards.normalGold
     equal(run.gold, gold - spent + expectedReward)
+    assert(not Run.claimGoldReward(run));equal(run.gold,gold-spent+expectedReward)
     assert(Run.claimCardReward(run, 0)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     same(run.potions, {}); equal(run.nextDeckUid, 13)
 end)
