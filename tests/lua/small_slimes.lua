@@ -211,13 +211,12 @@ local unchangedGroups={
     louse_trio={'red_louse','green_louse','red_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
     large_acid={'acid_slime_l'},large_spike={'spike_slime_l'},looter_solo={'looter'},
     blue_slaver_solo={'blue_slaver'},red_slaver_solo={'red_slaver'},fungi_pair={'fungi_beast','fungi_beast'},
-    gremlin_gang={'mad_gremlin','sneaky_gremlin','fat_gremlin','wizard_gremlin','shield_gremlin'},
     wildlife={'jaw_worm','green_louse'},elite_nob={'gremlin_nob'},elite_lagavulin={'lagavulin'},
     elite_sentries={'sentry','sentry','sentry'},boss_guardian={'guardian'}
 }
-test('other 17 encounter groups retain their member order and consume no misc selection draw',function()
+test('other 16 static encounter groups retain their member order and consume no misc selection draw',function()
     local seen=0
-    for _,e in ipairs(Data.enemies.encounters) do if e.id~='small_slimes' then
+    for _,e in ipairs(Data.enemies.encounters) do if e.id~='small_slimes' and e.id~='gremlin_gang' then
         seen=seen+1;local run=Run.new(Data,42);run.floor=e.minFloor
         local misc=run.miscRng;local stable=freeze(misc)
         assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchangedGroups[e.id]))
@@ -225,7 +224,7 @@ test('other 17 encounter groups retain their member order and consume no misc se
         local reference=C.new(Data,{seed=42,enemies=unchangedGroups[e.id],deck=run.deck})
         same(run.combat,reference)
     end end
-    eq(seen,17)
+    eq(seen,16)
 end)
 assert(failed==0,tostring(failed)..' failed of '..count)
 print('SMALL_SLIMES_PASS '..count)

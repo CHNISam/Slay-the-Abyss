@@ -27,35 +27,37 @@ local function statusKind(entry) return entry.amount < 0 and "debuff" or entry.k
 local kindNames = { buff = "增益", debuff = "减益" }
 local function signed(value) return (value < 0 and "-" or "+") .. number(math.abs(value)) end
 -- Text only: amounts come from statusView, percentages from the shared rules.
--- Every sentence names the real number so players never decode "所示/等量/层数".
+-- Every line names the real number so players never decode "所示/等量/层数".
 -- "你" is always the player; the owner is whoever's panel is open.
+-- Returns the effect, how long it lasts (right of the name) and an optional condition.
 local function statusDetail(entry, rules, actor)
-    local n, c = number(entry.amount), rules.combat
-    if entry.id == "strength" then
-        return "攻击每段伤害 " .. signed(entry.amount) .. "。" .. (entry.temporary ~= 0
-            and "其中 " .. number(entry.temporary) .. " 层在回合结束时移除。" or "")
-    elseif entry.id == "dexterity" then return "获得的格挡 " .. signed(entry.amount) .. "。"
-    elseif entry.id == "vulnerable" then return "受到的攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%，持续 " .. n .. " 回合。"
-    elseif entry.id == "weak" then return "造成的攻击伤害 -" .. number(100 - c.weakPercent) .. "%，持续 " .. n .. " 回合。"
-    elseif entry.id == "frail" then return "获得的格挡 -" .. number(100 - c.frailPercent) .. "%，持续 " .. n .. " 回合。"
-    elseif entry.id == "poison" then return "回合开始时失去 " .. n .. " 点生命，之后每回合少 1 点。"
-    elseif entry.id == "regen" then return "回合结束时回复 " .. n .. " 点生命，之后每回合少 1 点。"
-    elseif entry.id == "thievery" then return "每次攻击先窃取最多 " .. n .. " 金币，完全格挡仍会失金；击败后可在战后领取，逃跑则不返还。"
-    elseif entry.id == "thorns" then return "受到攻击时，对攻击者造成 " .. n .. " 点伤害。"
-    elseif entry.id == "artifact" then return "抵挡接下来 " .. n .. " 次减益效果。"
-    elseif entry.id == "entangled" then return "本回合不能打出攻击牌。"
-    elseif entry.id == "barricade" then return "回合开始时格挡不会清空。"
-    elseif entry.id == "ritual" then return "每个敌方回合结束时，获得 " .. n .. " 层力量。"
-    elseif entry.id == "enrage" then return "你每打出一张技能牌，它获得 " .. n .. " 层力量。"
-    elseif entry.id == "angry" then return "每次被攻击并损失生命，获得 " .. n .. " 层力量。"
-    elseif entry.id == "curl_up" then return "第一次被攻击并损失生命后，获得 " .. n .. " 点格挡。"
-    elseif entry.id == "spore_cloud" then return "它倒下时，你获得 " .. n .. " 层易伤。"
-    elseif entry.id == "sharp_hide" then return "你每打出一张攻击牌，受到 " .. n .. " 点伤害（可被格挡）。"
-    elseif entry.id == "mode_shift" then
+    local n, c, id, always = number(entry.amount), rules.combat, entry.id, "本场战斗"
+    if id == "strength" then
+        local t = entry.temporary or 0
+        return "攻击每段伤害 " .. signed(entry.amount), t ~= 0 and t == entry.amount and "本回合" or always,
+            t ~= 0 and "其中 " .. number(t) .. " 层在回合结束时移除" or nil
+    elseif id == "dexterity" then return "获得的格挡 " .. signed(entry.amount), always
+    elseif id == "vulnerable" then return "受到的攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%", "剩余 " .. n .. " 回合"
+    elseif id == "weak" then return "造成的攻击伤害 -" .. number(100 - c.weakPercent) .. "%", "剩余 " .. n .. " 回合"
+    elseif id == "frail" then return "获得的格挡 -" .. number(100 - c.frailPercent) .. "%", "剩余 " .. n .. " 回合"
+    elseif id == "poison" then return "回合开始时失去 " .. n .. " 点生命", "每回合 -1", "随后层数减 1，减到 0 消失"
+    elseif id == "regen" then return "回合结束时回复 " .. n .. " 点生命", "每回合 -1", "随后层数减 1，减到 0 消失"
+    elseif id == "thievery" then return "每次攻击先窃取最多 " .. n .. " 金币", always, "完全格挡仍会失金；击败它可在战后取回，逃跑则不返还"
+    elseif id == "thorns" then return "受到攻击时，对攻击者造成 " .. n .. " 点伤害", always
+    elseif id == "artifact" then return "抵挡接下来 " .. n .. " 次减益效果", "剩余 " .. n .. " 次", "每抵挡一次减 1；不抵挡塞入的状态牌"
+    elseif id == "entangled" then return "本回合不能打出攻击牌", "本回合", "你的回合结束时移除"
+    elseif id == "barricade" then return "回合开始时格挡不会清空", always
+    elseif id == "ritual" then return "每个敌方回合结束时，获得 " .. n .. " 层力量", always, "获得它的那一轮不触发"
+    elseif id == "enrage" then return "你每打出一张技能牌，它获得 " .. n .. " 层力量", always
+    elseif id == "angry" then return "每次被攻击并损失生命，获得 " .. n .. " 层力量", always, "药水、中毒和荆棘的伤害不触发"
+    elseif id == "curl_up" then return "首次被攻击并损失生命后，获得 " .. n .. " 点格挡", "仅一次", "在那次攻击结束时生效"
+    elseif id == "spore_cloud" then return "它倒下时，你获得 " .. n .. " 层易伤", "倒下时"
+    elseif id == "sharp_hide" then return "你每打出一张攻击牌，受到 " .. n .. " 点伤害", always, "可被格挡；多段攻击也只触发一次"
+    elseif id == "mode_shift" then
         local block = actor and actor.ai and actor.ai.shiftBlock
-        return "再损失 " .. n .. " 点生命，就转入防守形态" .. (block and "并获得 " .. number(block) .. " 点格挡" or "") .. "。"
+        return "再损失 " .. n .. " 点生命，就转入防守形态", "形态转换", block and "转换时获得 " .. number(block) .. " 点格挡" or nil
     end
-    return entry.description .. (entry.stack == "none" and "" or "（" .. n .. "）")
+    return entry.description, entry.stack == "none" and "" or n
 end
 local function needsTarget(state, instance)
     -- Ask the core to validate the same card with and without a target.
@@ -90,53 +92,90 @@ local function intentBadge(intent)
         end
     end
 end
-local function intentText(state, index, detailed)
+-- Short names written beside a non-attack intent icon; attacks show their damage instead.
+local intentLabels = { defend = "防御", buff = "强化", debuff = "削弱", charge = "蓄能", sleep = "沉睡",
+    stunned = "苏醒", split = "分裂", escape = "逃跑" }
+-- One read of the next move: the compact face (value, icon kind, badge, label),
+-- the joined sentence, and one row per effect for the detail card.
+local function intentView(state, index)
     local intent = Combat.intent(state, index)
-    if not intent then return state.enemies[index] and state.enemies[index].escaped and "已逃跑" or "已击败", "unknown" end
-    if intent.kind == "escape" then return detailed and "逃离战场，不返还已窃取的金币。" or "逃跑", "unknown" end
-    if intent.kind == "charge" then return "蓄能", "unknown" end
-    if intent.kind == "sleep" then return "沉睡", "sleep" end
-    if intent.kind == "stunned" then return "苏醒中", "unknown" end
-    if intent.kind == "split" then
-        local child = state.catalog.enemies[state.enemies[index].ai.splitEnemy]
-        return detailed and "分裂为两只" .. child.name .. "，各自生命等于分裂时的当前生命。" or "分裂", "unknown"
+    if not intent then
+        local gone = state.enemies[index] and state.enemies[index].escaped and "已逃跑" or "已击败"
+        return { value = "", kind = "unknown", label = gone, text = gone, rows = {} }
     end
-    local result, compact = {}, {}
+    local enemy = state.enemies[index]
+    local function special(kind, icon, text, note)
+        return { value = "", kind = icon, label = intentLabels[kind], text = text,
+            rows = {{ icon = icon, colour = C.textDim, name = intentLabels[kind], text = text, note = note }} }
+    end
+    if intent.kind == "escape" then return special("escape", "unknown", "逃离战场，不返还已窃取的金币。") end
+    if intent.kind == "charge" then return special("charge", "unknown", "本回合不攻击，正在蓄能。", "蓄满后发动攻击") end
+    if intent.kind == "sleep" then return special("sleep", "sleep", "沉睡中，本回合不行动。", "损失生命就会惊醒") end
+    if intent.kind == "stunned" then return special("stunned", "unknown", "刚被惊醒，本回合不行动。") end
+    if intent.kind == "split" then
+        local child = state.catalog.enemies[enemy.ai.splitEnemy]
+        return special("split", "unknown", "分裂为两只" .. child.name .. "，各自生命等于分裂时的当前生命。")
+    end
+    local result, rows, attack = {}, {}, nil
     -- ApplyPower must gate each copied status before stacking it: Artifact can
     -- block an otherwise overflowing addition and is spent in effect order.
     local preview = Events.frame(state)
     preview.events = {}
-    local enemy, player = preview.enemies[index], preview.player
+    local copy, player = preview.enemies[index], preview.player
+    if enemy.ai and enemy.ai.kind == "looter" and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
+        local gold = number(enemy.ai.stealAmount)
+        result[#result + 1] = "先窃取最多 " .. gold .. " 金币（完全格挡仍会失金）"
+        rows[#rows + 1] = { icon = Theme.icon.gold.id, colour = C.debuff, name = "窃金 " .. gold,
+            text = "先窃取你最多 " .. gold .. " 金币", note = "完全格挡仍会失金" }
+    end
     for _, effect in ipairs(intent.effects) do
         if effect.op == "damage" then
-            local each = number(Combat.attackAmount(state, enemy, player, effect.value))
-            local times = effect.times or 1
-            compact.attack = compact.attack or each .. (times > 1 and "×" .. times or "")
             -- The number already includes Strength, Weak and Vulnerable on both sides.
+            local amount = Combat.attackAmount(state, copy, player, effect.value)
+            local each, times = number(amount), effect.times or 1
+            local face = each .. (times > 1 and "×" .. times or "")
+            attack = attack or face
             result[#result + 1] = times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害"
                 or "攻击造成 " .. each .. " 点伤害"
+            rows[#rows + 1] = { icon = "attack", colour = C.danger, name = "攻击 " .. face,
+                tag = times > 1 and "共 " .. number(amount * times) or nil,
+                text = times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害" or "造成 " .. each .. " 点伤害",
+                note = amount ~= effect.value and "基础 " .. number(effect.value) .. "，已计入双方力量、虚弱与易伤" or nil }
         elseif effect.op == "block" then
-            local amount = number(Combat.blockAmount(state, enemy, effect.value, effect.target == "random_ally"))
-            compact.defend = compact.defend or amount
-            result[#result + 1] = effect.target == "random_ally"
-                and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+            local amount = number(Combat.blockAmount(state, copy, effect.value, effect.target == "random_ally"))
+            local ally = effect.target == "random_ally"
+            result[#result + 1] = ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+            rows[#rows + 1] = { icon = "defend", colour = C.block, name = "格挡 " .. amount,
+                text = ally and "让一名随机队友获得 " .. amount .. " 点格挡" or "自身获得 " .. amount .. " 点格挡",
+                note = ally and "没有队友时给自己" or nil }
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
-            Actors.applyPower(preview, effect.op == "gainStatus" and enemy or player, effect.status, effect.value, enemy)
-            local name, size = assert(state.catalog.statuses[effect.status]).name, number(math.abs(effect.value))
-            local who = effect.op == "gainStatus" and "自身" or "使你"
-            result[#result + 1] = who .. (effect.value < 0 and "失去 " or "获得 ") .. size .. " 层" .. name
+            local gain = effect.op == "gainStatus"
+            Actors.applyPower(preview, gain and copy or player, effect.status, effect.value, copy)
+            local status = assert(state.catalog.statuses[effect.status])
+            local size = number(math.abs(effect.value))
+            local sentence = (gain and "自身" or "使你") .. (effect.value < 0 and "失去 " or "获得 ") .. size .. " 层" .. status.name
+            result[#result + 1] = sentence
+            local entry = { id = effect.status, amount = effect.value, temporary = 0, kind = status.kind,
+                description = status.description, stack = status.stack }
+            local kind = gain and statusKind(entry) == "buff" and "buff" or "debuff"
+            rows[#rows + 1] = { icon = kind, colour = intentColors[kind],
+                name = status.name .. " " .. (effect.value < 0 and signed(effect.value) or size),
+                tag = status.stack == "duration" and "持续 " .. size .. " 回合" or nil,
+                text = sentence, note = (statusDetail(entry, state.rules, enemy)) }
         elseif effect.op == "makeTempCardInDiscard" then
             local value = number(effect.value)
             local name = assert(state.catalog.cards[effect.card]).name
             result[#result + 1] = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆"
-        else result[#result + 1] = "未知" end
+            rows[#rows + 1] = { icon = "debuff", colour = C.debuff, name = "塞入「" .. name .. "」×" .. value,
+                text = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆" }
+        else
+            result[#result + 1] = "未知"
+            rows[#rows + 1] = { icon = "unknown", colour = C.textDim, name = "未知", text = "下一步行动未知" }
+        end
     end
-    if enemy.ai and enemy.ai.kind == "looter" and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
-        table.insert(result, 1, "先窃取最多 " .. number(enemy.ai.stealAmount) .. " 金币（完全格挡仍会失金）")
-    end
-    local badge = intentBadge(intent)
-    if not detailed then return intent.kind == "attack" and (compact.attack or "?") or "", intent.kind, badge end
-    return #result > 0 and table.concat(result, "；") or "下一步行动未知。", intent.kind, badge
+    return { value = intent.kind == "attack" and (attack or "?") or "", kind = intent.kind, badge = intentBadge(intent),
+        label = intent.kind ~= "attack" and intentLabels[intent.kind] or nil,
+        text = #result > 0 and table.concat(result, "；") or "下一步行动未知。", rows = rows }
 end
 
 function M.new(root, data, presentation, clickEvent, platform, options)
@@ -389,59 +428,136 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
     end
-    -- Shared detail panel beside its unit; rows list every status with its current effect.
-    local function renderInfo(battle)
-        local panel, info = child("statusInfo"), self.info
-        local actor = info and battle and (info.index == 0 and battle.player or battle.enemies[info.index])
-        if not actor or actor.id ~= info.id or not Actors.isActive(actor) then
-            self.info = nil
-            panel:SetVisible(false)
-            return
+    -- Lines a left-aligned small-font sentence takes in the card's text column.
+    -- CJK glyphs are one font size wide, digits and Latin about half.
+    local function lines(text)
+        if not text or text == "" then return 0 end
+        local I, width = L.statusInfo, 0
+        -- Bytes, not the utf8 library: ASCII ~half a glyph, each multi-byte lead one glyph.
+        for i = 1, #text do
+            local b = text:byte(i)
+            width = width + (b < 128 and 0.55 or b >= 192 and 1 or 0)
         end
-        local I, entries = L.statusInfo, Combat.statusView(actor)
-        local title, summary = actor.name or "旅行者", "生命 " .. number(actor.hp) .. "/" .. number(actor.maxHp) .. " · 格挡 " .. number(actor.block)
+        local per = math.floor((I.width - I.pad * 2 - I.icon - I.gap) / Theme.font.small)
+        return math.max(1, math.ceil(width / per))
+    end
+    -- The detail card for one unit, intent or card: a header, then sections of rows.
+    -- Statuses group buffs before debuffs; every row is name + duration, effect, condition.
+    local function describeInfo(battle, info, actor)
+        local entries = Combat.statusView(actor)
+        local card = { title = actor.name or "旅行者", tag = "当前状态", accent = C.gold,
+            hp = actor.hp, maxHp = actor.maxHp, block = actor.block, sections = {} }
+        local function statusRow(entry)
+            local text, tag, note = statusDetail(entry, battle.rules, actor)
+            local kind = statusKind(entry)
+            return { status = entry.id, colour = kind == "buff" and C.buff or C.debuff, tag = tag, text = text, note = note,
+                name = entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) }
+        end
         if info.kind == "intent" then
-            local description, kind = intentText(battle, info.index, true)
-            local names = {attack="攻击",defend="防御",buff="强化",debuff="削弱",charge="蓄能",sleep="沉睡",stunned="苏醒中",split="分裂"}
-            entries = {{heading=names[kind] or "未知",text=description,intent=kind}}
-            title, summary = title .. " · 行动意图", "下一次行动，尚未执行"
+            local view = intentView(battle, info.index)
+            card.tag, card.accent, card.hp = "下一步行动", intentColors[view.kind] or C.textDim, nil
+            card.subtitle = "尚未执行 · 敌方回合时发生"
+            card.sections[1] = { rows = view.rows }
+            return card
         elseif info.kind == "card" then
             local instance
-            for _, card in ipairs(battle.hand) do if card.uid == info.uid then instance=card break end end
-            if not instance then self.info=nil;panel:SetVisible(false);return end
-            local definition = Combat.cardDefinition(battle,instance)
-            entries={}
+            for _, held in ipairs(battle.hand) do if held.uid == info.uid then instance = held break end end
+            if not instance then return end
+            local definition, rows = Combat.cardDefinition(battle, instance), {}
             local function keywords(effects)
                 for _, effect in ipairs(effects) do
-                    local id=effect.status or effect.op=="gainTemporaryStrength" and "strength"
-                    local status=id and battle.catalog.statuses[id]
+                    local id = effect.status or effect.op == "gainTemporaryStrength" and "strength"
+                    local status = id and battle.catalog.statuses[id]
                     if status then
-                        local entry={id=id,name=status.name,amount=effect.value,temporary=0,kind=status.kind,
-                            description=status.description,stack=status.stack}
-                        entry.heading,entry.text=status.name .. " · 关键词",statusDetail(entry,battle.rules)
-                        entries[#entries+1]=entry
+                        local row = statusRow({id = id, name = status.name, amount = effect.value, temporary = 0,
+                            kind = status.kind, description = status.description, stack = status.stack})
+                        -- A keyword is not on anyone yet: say how long it would last, not what remains.
+                        row.tag = status.stack == "duration" and "持续 " .. number(effect.value) .. " 回合" or nil
+                        rows[#rows + 1] = row
                     end
                     if effect["then"] then keywords(effect["then"]) end
                 end
             end
             keywords(definition.effects)
-            if definition.exhaust then entries[#entries+1]={heading="消耗",text="打出后移出本场战斗，不进入弃牌堆。",intent="unknown"} end
-            if definition.ethereal then entries[#entries+1]={heading="虚无",text="回合结束时若仍在手中，将被消耗。",intent="unknown"} end
-            title,summary=(presentation[instance.cardId].name) .. " · 关键词","卡牌效果说明，不代表已施加状态"
-            if #entries==0 then self.info=nil;panel:SetVisible(false);return end
+            if definition.exhaust then rows[#rows + 1] = {icon = Theme.icon.exhaust, colour = C.goldBright, name = "消耗",
+                text = "打出后移出本场战斗", note = "不进入弃牌堆"} end
+            if definition.ethereal then rows[#rows + 1] = {intent = "unknown", colour = C.goldBright, name = "虚无",
+                text = "回合结束时若仍在手中，将被消耗"} end
+            if #rows == 0 then return end
+            card.title, card.tag, card.hp = presentation[instance.cardId].name, "关键词", nil
+            card.subtitle = "卡牌效果说明，尚未生效"
+            card.sections[1] = { rows = rows }
+            return card
         elseif info.statusId then
-            local selected={}
-            for _, entry in ipairs(entries) do if entry.id==info.statusId then selected[1]=entry break end end
-            entries=selected
-            if #entries==0 then self.info=nil;panel:SetVisible(false);return end
+            local selected
+            for _, entry in ipairs(entries) do if entry.id == info.statusId then selected = entry break end end
+            if not selected then return end
+            entries = {selected}
         elseif info.offset then
-            local remaining={}
-            for i=info.offset,#entries do remaining[#remaining+1]=entries[i] end
-            entries=remaining
+            local remaining = {}
+            for i = info.offset, #entries do remaining[#remaining + 1] = entries[i] end
+            entries = remaining
         end
-        local rows = math.min(#entries, I.rows)
-        local extra = #entries == 0 or #entries > I.rows
-        local height = I.pad * 2 + I.header + I.summary + rows * I.row + (extra and I.summary or 0)
+        for _, kind in ipairs({"buff", "debuff"}) do
+            local rows = {}
+            for _, entry in ipairs(entries) do if statusKind(entry) == kind then rows[#rows + 1] = statusRow(entry) end end
+            if #rows > 0 then card.sections[#card.sections + 1] = { label = kindNames[kind], colour = kind == "buff" and C.buff or C.debuff, rows = rows } end
+        end
+        if #card.sections == 0 then card.empty = "暂无状态" end
+        return card
+    end
+    -- Split sections into pages that fit under the top bar; a section continuing
+    -- onto the next page repeats its label so every row keeps its group.
+    local function paginate(card)
+        local I = L.statusInfo
+        local room = Theme.canvas.base[2] - L.topBar.height - S.s - Theme.canvas.safe.y
+        local budget = room - I.pad * 2 - I.header - I.summary - I.divider - I.footer
+        local pages, page, used = {}, nil, 0
+        local function open() page = {items = {}, rows = 0, sections = 0}; pages[#pages + 1] = page; used = 0 end
+        open()
+        for _, section in ipairs(card.sections) do
+            local labelled, continued = false, false
+            for _, row in ipairs(section.rows) do
+                row.textLines, row.noteLines = lines(row.text), lines(row.note)
+                local height = I.name + (row.textLines + row.noteLines) * I.line + I.entryGap
+                local head = section.label and not labelled and I.section or 0
+                if page.rows > 0 and (page.rows >= I.rows or used + head + height > budget
+                    or head > 0 and page.sections >= I.sections) then
+                    open(); continued, labelled = labelled, false
+                end
+                if section.label and not labelled then
+                    page.items[#page.items + 1] = {label = section.label .. (continued and "（续）" or ""), colour = section.colour}
+                    page.sections, used, labelled = page.sections + 1, used + I.section, true
+                end
+                page.items[#page.items + 1] = {row = row}
+                page.rows, used = page.rows + 1, used + height
+            end
+        end
+        return pages
+    end
+    -- Shared detail card beside its unit. Rows show every status with its current effect;
+    -- more than a page turns with a tap on the card, a tap elsewhere closes it.
+    local function renderInfo(battle)
+        local panel, info = child("statusInfo"), self.info
+        local actor = info and battle and (info.index == 0 and battle.player or battle.enemies[info.index])
+        local card = actor and actor.id == info.id and Actors.isActive(actor) and describeInfo(battle, info, actor)
+        if not card then
+            self.info = nil
+            panel:SetVisible(false)
+            return
+        end
+        local I = L.statusInfo
+        local pages = paginate(card)
+        info.page = math.max(1, math.min(info.page or 1, #pages))
+        info.pages = #pages
+        local page = pages[info.page]
+        local footer = not info.transient and (#pages > 1 and "第 " .. info.page .. "/" .. #pages .. " 页 · 点按卡片翻页"
+            or "点按任意处关闭") or #pages > 1 and "共 " .. #pages .. " 页 · 点击查看全部" or nil
+        local body = card.empty and I.section or 0
+        for _, item in ipairs(page.items) do
+            body = body + (item.label and I.section or I.name + (item.row.textLines + item.row.noteLines) * I.line + I.entryGap)
+        end
+        local height = I.pad * 2 + I.header + I.summary + I.divider + body + (footer and I.footer or 0)
         local x, portrait
         if info.index == 0 then
             x, portrait = L.player.position[1], L.player.portrait
@@ -457,42 +573,108 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local unitY = info.index == 0 and L.player.position[2] or L.enemyRow.y
         local y = math.min(top - height / 2, unitY + portrait / 2 - height / 2)
         y = math.max(-Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + height / 2, y)
-        for _, name in ipairs({"border", "plate"}) do
-            local delta = name == "border" and S.border * 2 or 0
-            panel:GetChild(name):SetAnchoredPosition(x, y)
-            panel:GetChild(name):SetSizeDelta(I.width + delta, height + delta)
+        local function place(name, px, py, w, h)
+            local part = panel:GetChild(name)
+            part:SetAnchoredPosition(px, py)
+            if w then part:SetSizeDelta(w, h) end
+            return part
         end
-        local left, cursor = x - I.width / 2 + I.pad, y + height / 2 - I.pad
-        local textX = left + I.icon + I.gap + (I.width - I.pad * 2 - I.icon - I.gap) / 2
-        panel:GetChild("title"):SetAnchoredPosition(x, cursor - I.header / 2)
-        panel:GetChild("title").text = title
+        place("shadow", x + S.s, y - S.s, I.width + S.border * 2, height + S.border * 2)
+        place("border", x, y, I.width + S.border * 2, height + S.border * 2)
+        place("plate", x, y, I.width, height)
+        place("page", x, y, I.width, height)
+        tint(place("accent", x, y + height / 2 - I.accent / 2, I.width, I.accent), card.accent)
+        local line, inner = L.nativeText.lineHeight, I.width - I.pad * 2
+        local left, right, cursor = x - I.width / 2 + I.pad, x + I.width / 2 - I.pad, y + height / 2 - I.pad
+        local title = place("title", left + (inner - I.tagWidth) / 2, cursor - I.header / 2)
+        title.text = card.title
+        local tag = place("tag", right - I.tagWidth / 2, cursor - I.header / 2)
+        tag.text = card.tag
+        ink(tag, card.accent)
         cursor = cursor - I.header
-        panel:GetChild("summary"):SetAnchoredPosition(x, cursor - I.summary / 2)
-        panel:GetChild("summary").text = summary
+        -- Vitals first for units; intent and keyword cards say they have not happened yet.
+        local mid, glyph = cursor - I.summary / 2, Theme.font.label
+        local summary = panel:GetChild("summary")
+        for _, name in ipairs({"hpIcon", "blockIcon", "guard"}) do panel:GetChild(name):SetVisible(card.hp ~= nil) end
+        if card.hp then
+            place("hpIcon", left + glyph / 2, mid)
+            place("summary", left + glyph + S.xs + (inner / 2 - glyph - S.xs) / 2, mid, inner / 2 - glyph - S.xs, line)
+            summary.text = "生命 " .. number(card.hp) .. "/" .. number(card.maxHp)
+            ink(summary, C.text)
+            place("blockIcon", left + inner / 2 + glyph / 2, mid)
+            local guard = place("guard", left + inner / 2 + glyph + S.xs + (inner / 2 - glyph - S.xs) / 2, mid, inner / 2 - glyph - S.xs, line)
+            guard.text = "格挡 " .. number(card.block)
+            ink(guard, card.block > 0 and C.block or C.textMuted)
+            tint(panel:GetChild("blockIcon"), card.block > 0 and C.block or C.textMuted)
+        else
+            place("summary", x, mid, inner, line)
+            summary.text = card.subtitle
+            ink(summary, C.textDim)
+        end
         cursor = cursor - I.summary
-        for i = 1, I.rows do
-            local entry = i <= rows and entries[i]
-            local icon, name, text = panel:GetChild("icon" .. i), panel:GetChild("name" .. i), panel:GetChild("text" .. i)
-            for _, part in ipairs({icon, name, text}) do part:SetVisible(entry and true or false) end
-            if entry then
-                local colour = entry.heading and C.goldBright or statusKind(entry) == "buff" and C.buff or C.debuff
-                icon:SetAnchoredPosition(left + I.icon / 2, cursor - I.nameHeight / 2)
-                picture(icon, entry.intent and (Theme.icon.intent[entry.intent] or Theme.icon.intent.unknown) or Theme.icon.status[entry.id])
-                tint(icon, colour)
-                name:SetAnchoredPosition(textX, cursor - I.nameHeight / 2)
-                name.text = entry.heading or entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) .. " · " .. kindNames[statusKind(entry)]
-                ink(name, colour)
-                text:SetAnchoredPosition(textX, cursor - I.nameHeight - S.xs - (I.row - I.nameHeight - S.xs) / 2)
-                text.text = entry.text or statusDetail(entry, battle.rules, actor)
-                cursor = cursor - I.row
+        place("rule", x, cursor - I.divider / 2)
+        cursor = cursor - I.divider
+        local sectionCount, rowCount = 0, 0
+        if card.empty then
+            sectionCount = 1
+            local label = place("section1", x + S.xs + S.s, cursor - I.section / 2)
+            label.text = card.empty
+            ink(label, C.textMuted)
+            panel:GetChild("sectionMark1"):SetVisible(false)
+            panel:GetChild("section1"):SetVisible(true)
+            cursor = cursor - I.section
+        end
+        local textX = left + I.icon + I.gap + (inner - I.icon - I.gap) / 2
+        for _, item in ipairs(page.items) do
+            if item.label then
+                sectionCount = sectionCount + 1
+                local mark = place("sectionMark" .. sectionCount, left + S.xs / 2, cursor - I.section / 2)
+                local label = place("section" .. sectionCount, x + S.xs + S.s, cursor - I.section / 2)
+                tint(mark, item.colour)
+                label.text = item.label
+                ink(label, item.colour)
+                mark:SetVisible(true) label:SetVisible(true)
+                cursor = cursor - I.section
+            else
+                rowCount = rowCount + 1
+                local row, i = item.row, rowCount
+                local icon = place("icon" .. i, left + I.icon / 2, cursor - I.name / 2)
+                picture(icon, row.icon and type(row.icon) == "number" and row.icon
+                    or row.status and Theme.icon.status[row.status]
+                    or Theme.icon.intent[row.icon or row.intent] or Theme.icon.intent.unknown)
+                tint(icon, row.colour)
+                local name = place("name" .. i, textX, cursor - I.name / 2)
+                name.text = row.name
+                ink(name, row.colour)
+                local rowTag = place("tag" .. i, right - I.tagWidth / 2, cursor - I.name / 2)
+                rowTag.text = row.tag or ""
+                cursor = cursor - I.name
+                local text = place("text" .. i, textX, cursor - row.textLines * I.line / 2,
+                    inner - I.icon - I.gap, math.max(line, row.textLines * I.line + I.line))
+                text.text = row.text
+                cursor = cursor - row.textLines * I.line
+                local note = place("note" .. i, textX, cursor - row.noteLines * I.line / 2,
+                    inner - I.icon - I.gap, math.max(line, row.noteLines * I.line + I.line))
+                note.text = row.note or ""
+                cursor = cursor - row.noteLines * I.line - I.entryGap
+                for _, part in ipairs({icon, name, rowTag, text, note}) do part:SetVisible(true) end
+                note:SetVisible(row.note ~= nil)
             end
         end
+        for i = sectionCount + 1, I.sections do
+            panel:GetChild("sectionMark" .. i):SetVisible(false)
+            panel:GetChild("section" .. i):SetVisible(false)
+        end
+        for i = rowCount + 1, I.rows do
+            for _, name in ipairs({"icon", "name", "tag", "text", "note"}) do panel:GetChild(name .. i):SetVisible(false) end
+        end
         local more = panel:GetChild("more")
-        more:SetVisible(extra)
-        more:SetAnchoredPosition(x, cursor - I.summary / 2)
-        more.text = #entries == 0 and "暂无状态" or "另有 " .. (#entries - I.rows) .. " 项状态未列出"
+        more:SetVisible(footer ~= nil)
+        more:SetAnchoredPosition(x, y - height / 2 + I.pad + I.footer / 2)
+        more.text = footer or ""
         panel:SetVisible(true)
         panel:GetChild("hit"):SetVisible(not info.transient)
+        panel:GetChild("page"):SetVisible(not info.transient)
         panel.disableCursorEventPassthrough = not info.transient
         panel:SetAsLastSibling()
     end
@@ -737,22 +919,27 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 -- Later frames already include its effects: do not apply them
                 -- again. Unacted enemies still preview the current state.
                 local shown = playbackIntents and playbackIntents[enemy.id]
-                local value, kind, badge
-                if shown and Actors.isActive(enemy) then value, kind, badge = shown[1], shown[2], shown[3]
-                else value, kind, badge = intentText(battle, i) end
+                local face = shown and Actors.isActive(enemy) and shown or intentView(battle, i)
                 local event = enemyPlayback and self.feedback.current
                 if event and event.kind == "intent" and event.detail.enemy == enemy.id then
                     playbackIntents = playbackIntents or {}
-                    playbackIntents[enemy.id] = {value, kind, badge}
+                    playbackIntents[enemy.id] = face
                 elseif not Actors.isActive(enemy) and playbackIntents then playbackIntents[enemy.id] = nil end
-                box:GetChild("intent").text = value
-                box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
-                box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
-                box:GetChild("intentHit"):SetAnchoredPosition(0, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
+                local kind, badge = face.kind, face.badge
+                -- Icon, then the damage or a two-character kind name in the icon's colour.
+                local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
+                local valueX = -S.xl + L.intent.size / 2 + S.xs + L.intent.valueWidth / 2
+                box:GetChild("intent").text = face.value
+                box:GetChild("intent"):SetAnchoredPosition(valueX, iconY)
+                local label = box:GetChild("intentLabel")
+                label.text = face.label or ""
+                label:SetAnchoredPosition(valueX, iconY)
+                ink(label, intentColors[kind] or C.textDim)
+                box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, iconY)
+                box:GetChild("intentHit"):SetAnchoredPosition(0, iconY)
                 picture(box:GetChild("intentIcon"), Theme.icon.intent[kind] or Theme.icon.intent.unknown)
                 tint(box:GetChild("intentIcon"), intentColors[kind] or C.textDim)
                 local badgeIcon = box:GetChild("intentBadge")
-                local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
                 local inset = (L.intent.size - L.intent.badge) / 2
                 badgeIcon:SetAnchoredPosition(-S.xl + inset, iconY - inset)
                 badgeIcon:SetVisible(badge ~= nil)
@@ -1344,7 +1531,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if selected and needsTarget(self.run.combat, selected) then self:playSelected(target)
             else
                 local prefix = self.potionTargetAvailable and "药水目标：" .. self.run.combat.enemies[target].name .. "；" or ""
-                notice(prefix .. "意图：" .. intentText(self.run.combat, target, true)) refresh()
+                notice(prefix .. "意图：" .. intentView(self.run.combat, target).text) refresh()
             end
         end
         end
@@ -1401,6 +1588,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local info = child("statusInfo")
     info.disableCursorEventPassthrough = true
     listen(info:GetChild("hit"), function() if closeInfo() then self:render() end end)
+    -- A tap on the card itself turns to the next page; a single page closes like any tap.
+    -- Not routed through listen(): that dismisses the open card before any handler runs.
+    info:GetChild("page"):AddCursorEventListener(clickEvent, function()
+        local open = self.info
+        if not open then return end
+        self.swallow = nil
+        if (open.pages or 1) > 1 then open.page = open.page % open.pages + 1 self:render()
+        elseif closeInfo() then self:render() end
+    end)
     -- hoverSlot: a reward card also reports pointer enter/exit for its hover pose (one listener per event).
     local function bindHelp(control,describe,clickable,hoverSlot)
         local input={}

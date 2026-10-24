@@ -75,14 +75,14 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   same(ids(manifest.encounters), ids(data.enemies.encounters), 'encounters');
   for (const encounter of manifest.encounters) {
     const definition = data.enemies.encounters.find(row => row.id === encounter.id);
-    for (const field of ['tier', 'minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue']) same(encounter[field], definition?.[field], `encounters/${encounter.id}/${field}`);
+    for (const field of ['tier', 'minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount']) same(encounter[field], definition?.[field], `encounters/${encounter.id}/${field}`);
   }
   for (const enemy of manifest.enemies) {
     const definition = data.enemies.enemies.find(row => row.id === enemy.id);
     check(enemy.tier === definition?.tier, `enemies/${enemy.id}: tier drift`);
     check(existsSync(resolve(root, enemy.aiEntry)), `enemies/${enemy.id}: AI entry missing`);
-    same(enemy.channels, data.enemies.encounters.filter(row => row.enemies.includes(enemy.id)
-      || row.enemiesOnTrue?.includes(enemy.id)).map(row => `encounter:${row.id}`), `enemies/${enemy.id} channels`);
+    same(enemy.channels, data.enemies.encounters.filter(row => row.enemies?.includes(enemy.id)
+      || row.enemiesOnTrue?.includes(enemy.id) || row.gremlinPool?.includes(enemy.id)).map(row => `encounter:${row.id}`), `enemies/${enemy.id} channels`);
   }
   same(ids(manifest.relics), ids(data.relics.relics), 'relic definitions');
   same(ids([...manifest.potions, ...manifest.exclusions.potions]), ids(data.potions.potions), 'potions including class exclusions');

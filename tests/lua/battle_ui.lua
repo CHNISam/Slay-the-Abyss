@@ -341,7 +341,7 @@ test("intent previews use core modifiers without changing combat state or consum
     assert(stage.children.enemy1.children.intent.text == "9")
     stage.children.enemy1.children.statusRow.children.hit.click()
     local info = stage.children.statusInfo.children
-    assert(stage.children.statusInfo.visible and info.name1.text == "力量 2 · 增益" and info.name2.text == "虚弱 2 · 减益")
+    assert(stage.children.statusInfo.visible and info.name1.text == "力量 2" and info.name2.text == "虚弱 2")
     stage.children.statusInfo.children.hit.click()
     assert(not stage.children.statusInfo.visible)
     assert(enemy.hp == hp and battle.seed == seed and #battle.events == events)
@@ -379,10 +379,11 @@ end)
 test("block chip sits beside the HP bar with dark digits on solid blue, even in a five-enemy row", function()
     local ui, stage = setup()
     ui.run = Run.new(Data, 1)
-    for _, encounter in ipairs(Data.enemies.encounters) do
-        if encounter.id == "gremlin_gang" then ui.run.floor = encounter.minFloor end
-    end
-    assert(Run.startCombat(ui.run, "gremlin_gang"))
+    -- Explicit capacity fixture: real gremlin_gang now has four actors. Keep
+    -- all five UI slots under test without claiming this is a legal encounter.
+    ui.run.floor, ui.run.phase = 5, "combat"
+    ui.run.combat = Combat.new(Data, {seed=1, deck=ui.run.deck,
+        enemies={"mad_gremlin", "sneaky_gremlin", "fat_gremlin", "wizard_gremlin", "shield_gremlin"}})
     local battle = ui.run.combat
     assert(#battle.enemies == 5)
     battle.player.block = 6
@@ -1127,13 +1128,13 @@ test("stateful sleeping enemy shows approved sleep icon and wake intent", functi
     assert(Run.startCombat(ui.run,"elite_lagavulin"))
     ui:render()
     local box = stage.children.enemy1
-    assert(box.children.intent.text == "沉睡")
+    assert(box.children.intent.text == "" and box.children.intentLabel.text == "沉睡")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)
     click("enemy1")
     assert(stage.children.notice.text:find("沉睡",1,true))
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],9,true)
     ui:render()
-    assert(box.children.intent.text == "苏醒中")
+    assert(box.children.intent.text == "" and box.children.intentLabel.text == "苏醒")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.unknown)
     assert(Combat.endTurn(ui.run.combat))
     ui:render()

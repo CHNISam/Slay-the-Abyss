@@ -7,6 +7,7 @@ const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text
   name, kind: 'text', position: [x, y], size: [w, h],
   text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: f.minimum },
 });
+const aligned = (control, align = 'left') => ({ ...control, text: { ...control.text, align } });
 const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image, colour });
 const panel = (name, x, y, w, h, colour) => picture(name, x, y, w, h, im.rect, colour);
 const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
@@ -52,7 +53,9 @@ function unit(name, position, portrait, player = false) {
       // Secondary effect of a mixed move (STS ATTACK_DEBUFF etc.), on the icon's lower-right corner.
       { ...picture('intentBadge', -s.xl + (l.intent.size - l.intent.badge) / 2, l.intent.offsetY - (l.intent.size - l.intent.badge) / 2,
         l.intent.badge, l.intent.badge, theme.icon.intent.debuff, c.debuff), visible: false },
-      text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number),
+      // Attack value (or a two-character kind name) reads left to right from the icon.
+      aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.number)),
+      aligned(text('intentLabel', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.label, c.textDim)),
       { ...hit(l.intent.size * 3, l.intent.size + s.s), name: 'intentHit', position: [0, l.intent.offsetY] }] : []),
     // Tapping a portrait opens that unit's status details (enemies also take targets).
     hit(portrait, portrait),
@@ -74,24 +77,43 @@ function statusRow(top) {
     children: [...chips, hit(bw, height), ...targets] };
 }
 
-// One shared detail panel. Its full-stage hit swallows the next tap and closes it.
+// One shared detail card. Its full-stage hit swallows the next tap and closes it; the
+// card's own hit turns pages, so every status stays reachable however many there are.
+// Lua places every child: left-aligned hierarchy of unit -> HP/Block -> buff/debuff
+// sections -> name and stacks (duration on the right) -> effect -> condition.
 function statusInfo() {
-  const [width, height] = theme.canvas.base, si = l.statusInfo;
+  const [width, height] = theme.canvas.base, si = l.statusInfo, line = l.nativeText.lineHeight;
   const inner = si.width - si.pad * 2, textWidth = inner - si.icon - si.gap;
-  const rows = [];
+  const sections = [], rows = [];
+  for (let i = 1; i <= si.sections; i++) {
+    sections.push(panel(`sectionMark${i}`, 0, 0, s.xs, f.small, c.buff),
+      aligned(text(`section${i}`, 0, 0, inner, line, '', f.small, c.buff)));
+  }
   for (let i = 1; i <= si.rows; i++) {
     rows.push(picture(`icon${i}`, 0, 0, si.icon, si.icon, theme.icon.status.strength, c.buff),
-      text(`name${i}`, 0, 0, textWidth, si.nameHeight, '', f.label, c.goldBright),
-      text(`text${i}`, 0, 0, textWidth, si.row - si.nameHeight - s.xs, '', f.small, c.text));
+      aligned(text(`name${i}`, 0, 0, textWidth, line, '', f.label, c.goldBright)),
+      aligned(text(`tag${i}`, 0, 0, si.tagWidth, line, '', f.small, c.textDim), 'right'),
+      aligned(text(`text${i}`, 0, 0, textWidth, line, '', f.small, c.text)),
+      aligned(text(`note${i}`, 0, 0, textWidth, line, '', f.small, c.textDim)));
   }
   return { name: 'statusInfo', kind: 'container', size: [width, height], visible: false, children: [
     { ...hit(width, height), focusable: false },
-    panel('border', 0, 0, si.width + s.border * 2, si.row + s.border * 2, c.goldDim),
-    panel('plate', 0, 0, si.width, si.row, c.panelSunken),
-    text('title', 0, 0, inner, si.header, '', f.body, c.gold),
-    text('summary', 0, 0, inner, si.summary, '', f.small, c.textDim),
+    // Native image colours are RGB with a separate opacity (see native-ui-theme).
+    { ...panel('shadow', 0, 0, si.width, si.width, c.backdropVeil.slice(0, 7)), opacity: parseInt(c.backdropVeil.slice(7), 16) / 255 },
+    panel('border', 0, 0, si.width + s.border * 2, si.width + s.border * 2, c.goldDim),
+    panel('plate', 0, 0, si.width, si.width, c.panelSunken),
+    panel('accent', 0, 0, si.width, si.accent, c.gold),
+    aligned(text('title', 0, 0, inner - si.tagWidth, line, '', f.body, c.goldBright)),
+    aligned(text('tag', 0, 0, si.tagWidth, line, '', f.small, c.textDim), 'right'),
+    picture('hpIcon', 0, 0, f.label, f.label, theme.icon.hp, c.hp),
+    aligned(text('summary', 0, 0, inner, line, '', f.label, c.text)),
+    picture('blockIcon', 0, 0, f.label, f.label, theme.icon.block, c.block),
+    aligned(text('guard', 0, 0, inner / 2, line, '', f.label, c.block)),
+    panel('rule', 0, 0, inner, s.hairline, c.line),
+    ...sections,
     ...rows,
-    text('more', 0, 0, inner, si.summary, '', f.small, c.textDim),
+    text('more', 0, 0, inner, line, '', f.small, c.textDim),
+    { ...hit(si.width, si.width), name: 'page' },
   ] };
 }
 
