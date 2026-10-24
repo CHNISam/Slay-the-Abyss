@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 14:56'
-updated_date: '2026-10-24 06:59'
+updated_date: '2026-10-24 07:09'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -53,5 +53,5 @@ ordinal: 49000
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-原格挡徽标遮血条问题已由实机六布局/108样本/6取消及既有先红后绿回归证明修好。正常飞牌短暂遮盖经用户明确接受，不扩为M1阻塞；最终生产源码保持01dd已测版本，新可选层级试验不交付。
+原格挡徽标遮血条问题已由01dd实机六布局/108样本/6取消及既有先红后绿回归证明修好。正常飞牌短暂遮盖经用户明确接受，不扩为M1阻塞；额外绘制层试验不交付。旧截图不认证随后develop独立规则更改。
 <!-- SECTION:FINAL_SUMMARY:END -->

@@ -21,6 +21,6 @@
 
 最新裁决见 [user-acceptance-decision.json](user-acceptance-decision.json)：用户接受现有正常飞牌的短暂遮挡，原格挡角标要求按既有证据验收，二轮停止。原审核FAIL及原始截图不改写；最终接受依据同时记录技术观察与用户决定。
 
-原问题范围最终独立复核见 [block-original-scope-final-review.json](reviews/block-original-scope-final-review.json)：六布局的格挡徽标与HP分离、数值及取消恢复通过；额外飞牌层级优化已从最终生产代码撤出，源代码保持已测版本。
+原问题范围最终独立复核见 [block-original-scope-final-review.json](reviews/block-original-scope-final-review.json)：六布局的格挡徽标与HP分离、数值及取消恢复通过；额外飞牌层级优化已从交付撤出。证据仍只认证固定源c0f2076；后来develop独立合入的其他规则/内容更改不由旧截图认证。
 
 Original CRLF text artifacts are stored as lossless `.gz` wrappers so unchanged original bytes and hashes coexist with the normal Git whitespace check. Rebuilding uses `build-package.py` followed by `repair-byte-storage.py`; no CI rule or original hash is weakened.
