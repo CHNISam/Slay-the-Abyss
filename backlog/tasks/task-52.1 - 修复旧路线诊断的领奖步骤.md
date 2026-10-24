@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 14:44'
-updated_date: '2026-10-24 14:53'
+updated_date: '2026-10-24 15:00'
 due_date: '2026-10-28'
 labels:
   - required
@@ -14,6 +14,7 @@ dependencies: []
 references:
   - >-
     https://github.com/CHNISam/Slay-the-Abyss/pull/182#pullrequestreview-5638511037
+  - docs/reviews/TASK-52.1-diagnostic-reward-protocol.md
 parent_task_id: TASK-52
 priority: medium
 type: bug
@@ -48,4 +49,6 @@ ordinal: 91000
 
 <!-- SECTION:NOTES:BEGIN -->
 已实证原首战reward_pending；最小领奖修复后推进13层7胜、71HP/234金币/3瓶，但f14_l3旧脚本按原event类型访问nil事件。获准补同文件必要的已解析类型分派，不把此中途停止记为自然胜败或通关。
+
+最终四文件候选只改诊断脚本、诊断专用helper、fixture与报告。两个真实红例（首战reward_pending和f14问号解析商店访问nil）均修复，47专项、原6份54回归、13负变异与独立4边界通过。自然seed42完成诊断到第16层Guardian合法败亡，7胜/188金币/3瓶，LOSS_GATE/FRESH_RUN原断言通过；不是17层通关，不改生产或强制胜利。root亦独立复跑47及完整自然脚本成功。当前SHA CI与合并仍待，不声明Fengari或平台通过。
 <!-- SECTION:NOTES:END -->
