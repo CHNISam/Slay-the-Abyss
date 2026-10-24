@@ -12,7 +12,7 @@ test("stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with
     assert(Combat.endTurn(copy))
     eq(copy.player.statuses.weak, 2147483646); eq(copy.player.statuses.artifact, 0)
     local compact, detail = refresh(h, p, tap)
-    eq(compact, "4"); assert(detail:find("准备对你施加负面效果", 1, true))
+    eq(compact, "4"); assert(detail:find("使你获得 1 层虚弱", 1, true))
     assert(u:showStatus(0))
     eq(p:GetChild("statusInfo"):GetChild("name2").text, "虚弱 2147483647 · 减益")
     local recoveries = counters.recoveries
@@ -145,7 +145,7 @@ test("without Artifact ordered status modifiers still reach later damage and blo
         {op="gainStatus", status="dexterity", value=3}, {op="gainStatus", status="frail", value=1},
         {op="block", value=10}})
     local compact, detail = refresh(h, p, tap)
-    eq(compact, "6"); assert(detail:find("格挡 9", 1, true))
+    eq(compact, "6"); assert(detail:find("获得 9 点格挡", 1, true))
     eq(resolve(h.run.combat).enemies[1].block, 9)
 end)
 

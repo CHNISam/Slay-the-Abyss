@@ -25,7 +25,9 @@ local function statusKind(entry) return entry.amount < 0 and "debuff" or entry.k
 local kindNames = { buff = "增益", debuff = "减益" }
 local function signed(value) return (value < 0 and "-" or "+") .. number(math.abs(value)) end
 -- Text only: amounts come from statusView, percentages from the shared rules.
-local function statusDetail(entry, rules)
+-- Every sentence names the real number so players never decode "所示/等量/层数".
+-- "你" is always the player; the owner is whoever's panel is open.
+local function statusDetail(entry, rules, actor)
     local n, c = number(entry.amount), rules.combat
     if entry.id == "strength" then
         return "攻击每段伤害 " .. signed(entry.amount) .. "。" .. (entry.temporary ~= 0
@@ -34,12 +36,23 @@ local function statusDetail(entry, rules)
     elseif entry.id == "vulnerable" then return "受到的攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%，持续 " .. n .. " 回合。"
     elseif entry.id == "weak" then return "造成的攻击伤害 -" .. number(100 - c.weakPercent) .. "%，持续 " .. n .. " 回合。"
     elseif entry.id == "frail" then return "获得的格挡 -" .. number(100 - c.frailPercent) .. "%，持续 " .. n .. " 回合。"
-    elseif entry.id == "poison" then return "回合开始时失去 " .. n .. " 点生命，然后层数 -1。"
-    elseif entry.id == "regen" then return "回合结束时回复 " .. n .. " 点生命，然后层数 -1。"
+    elseif entry.id == "poison" then return "回合开始时失去 " .. n .. " 点生命，之后每回合少 1 点。"
+    elseif entry.id == "regen" then return "回合结束时回复 " .. n .. " 点生命，之后每回合少 1 点。"
     elseif entry.id == "thorns" then return "受到攻击时，对攻击者造成 " .. n .. " 点伤害。"
-    elseif entry.id == "artifact" then return "抵挡接下来 " .. n .. " 次减益施加；不抵挡生成的状态牌。"
+    elseif entry.id == "artifact" then return "抵挡接下来 " .. n .. " 次减益效果。"
+    elseif entry.id == "entangled" then return "本回合不能打出攻击牌。"
+    elseif entry.id == "barricade" then return "回合开始时格挡不会清空。"
+    elseif entry.id == "ritual" then return "每个敌方回合结束时，获得 " .. n .. " 层力量。"
+    elseif entry.id == "enrage" then return "你每打出一张技能牌，它获得 " .. n .. " 层力量。"
+    elseif entry.id == "angry" then return "每次被攻击并损失生命，获得 " .. n .. " 层力量。"
+    elseif entry.id == "curl_up" then return "第一次被攻击并损失生命后，获得 " .. n .. " 点格挡。"
+    elseif entry.id == "spore_cloud" then return "它倒下时，你获得 " .. n .. " 层易伤。"
+    elseif entry.id == "sharp_hide" then return "你每打出一张攻击牌，受到 " .. n .. " 点伤害（可被格挡）。"
+    elseif entry.id == "mode_shift" then
+        local block = actor and actor.ai and actor.ai.shiftBlock
+        return "再损失 " .. n .. " 点生命，就转入防守形态" .. (block and "并获得 " .. number(block) .. " 点格挡" or "") .. "。"
     end
-    return entry.description .. (entry.stack == "none" and "" or "（当前 " .. n .. " 层）")
+    return entry.description .. (entry.stack == "none" and "" or "（" .. n .. "）")
 end
 local function needsTarget(state, instance)
     -- Ask the core to validate the same card with and without a target.
@@ -90,30 +103,34 @@ local function intentText(state, index, detailed)
     preview.events = {}
     local enemy, player = preview.enemies[index], preview.player
     for _, effect in ipairs(intent.effects) do
+        local value = effect.value and number(effect.value) or ""
         if effect.op == "damage" then
-            local amount = number(Combat.attackAmount(state, enemy, player, effect.value))
-                .. ((effect.times or 1) > 1 and "×" .. effect.times or "")
-            compact.attack = compact.attack or amount
-            result[#result + 1] = "准备攻击，造成 " .. amount .. " 点伤害。"
+            local each = number(Combat.attackAmount(state, enemy, player, effect.value))
+            local times = effect.times or 1
+            compact.attack = compact.attack or each .. (times > 1 and "×" .. times or "")
+            -- The number already includes Strength, Weak and Vulnerable on both sides.
+            result[#result + 1] = times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害"
+                or "攻击造成 " .. each .. " 点伤害"
         elseif effect.op == "block" then
             local amount = number(Combat.blockAmount(state, enemy, effect.value, effect.target == "random_ally"))
             compact.defend = compact.defend or amount
-            result[#result + 1] = (effect.target == "random_ally" and "准备使随机队友（无队友时自身）获得格挡 " or "准备获得格挡 ") .. amount .. "。"
+            result[#result + 1] = effect.target == "random_ally"
+                and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
-            assert(state.catalog.statuses[effect.status], "unknown status")
-            if effect.op == "gainStatus" then compact.buff=true else compact.debuff=true end
+            local name, size = assert(state.catalog.statuses[effect.status]).name, number(math.abs(effect.value))
+            local who = effect.op == "gainStatus" and "自身" or "使你"
+            result[#result + 1] = who .. (effect.value < 0 and "失去 " or "获得 ") .. size .. " 层" .. name
+            compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
             Actors.applyPower(preview, effect.op == "gainStatus" and enemy or player, effect.status, effect.value, enemy)
         elseif effect.op == "makeTempCardInDiscard" then
-            assert(state.catalog.cards[effect.card], "unknown card")
-            compact.debuff=true
-        end
+            local name = assert(state.catalog.cards[effect.card]).name
+            compact.debuff = compact.debuff or name .. " " .. value
+            result[#result + 1] = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆"
+        else result[#result + 1] = "未知" end
     end
     local badge = intentBadge(intent)
     if not detailed then return intent.kind == "attack" and (compact.attack or "?") or "", intent.kind, badge end
-    local description = result
-    if compact.buff then description[#description + 1] = "准备强化自身。" end
-    if compact.debuff then description[#description + 1] = "准备对你施加负面效果。" end
-    return #description > 0 and table.concat(description, "") or "下一步行动未知。", intent.kind, badge
+    return #result > 0 and table.concat(result, "；") or "下一步行动未知。", intent.kind, badge
 end
 
 function M.new(root, data, presentation, clickEvent, platform, options)
@@ -432,7 +449,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 name.text = entry.heading or entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) .. " · " .. kindNames[statusKind(entry)]
                 ink(name, colour)
                 text:SetAnchoredPosition(textX, cursor - I.nameHeight - S.xs - (I.row - I.nameHeight - S.xs) / 2)
-                text.text = entry.text or statusDetail(entry, battle.rules)
+                text.text = entry.text or statusDetail(entry, battle.rules, actor)
                 cursor = cursor - I.row
             end
         end

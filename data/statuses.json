@@ -7,7 +7,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "倒下后使玩家获得等量易伤；战斗结束时不触发"
+      "description": "它倒下时，玩家获得与层数相同的易伤；若战斗已因此结束则不触发"
     },
     {
       "id": "entangled",
@@ -15,7 +15,7 @@
       "kind": "debuff",
       "stack": "intensity",
       "decay": "none",
-      "description": "不能打出攻击牌；玩家回合结束时移除"
+      "description": "本回合不能打出攻击牌；玩家回合结束时移除"
     },
     {
       "id": "artifact",
@@ -23,7 +23,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "每层抵挡一次减益能力的施加；不抵挡生成的状态牌"
+      "description": "每层抵挡一次减益效果；不抵挡塞入牌堆的状态牌"
     },
     {
       "id": "strength",
@@ -71,7 +71,7 @@
       "kind": "debuff",
       "stack": "intensity",
       "decay": "turn_start_trigger_then_minus_1",
-      "description": "回合开始按层数受到伤害，然后 -1"
+      "description": "回合开始时失去与层数相同的生命，然后层数减 1"
     },
     {
       "id": "thorns",
@@ -79,7 +79,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "受到攻击时对攻击者反弹等量伤害"
+      "description": "受到攻击时，对攻击者造成与层数相同的伤害"
     },
     {
       "id": "regen",
@@ -87,7 +87,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "turn_end_trigger_then_minus_1",
-      "description": "回合结束回复等量生命，然后 -1"
+      "description": "回合结束时回复与层数相同的生命，然后层数减 1"
     },
     {
       "id": "barricade",
@@ -95,7 +95,7 @@
       "kind": "buff",
       "stack": "none",
       "decay": "none",
-      "description": "自己回合开始时格挡不清空"
+      "description": "回合开始时格挡不会清空"
     },
     {
       "id": "enrage",
@@ -103,7 +103,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "玩家每打出一张技能牌，拥有者在牌效果结算前获得等量力量"
+      "description": "玩家每打出一张技能牌，拥有者先获得与层数相同的力量，再结算那张牌"
     },
     {
       "id": "ritual",
@@ -111,7 +111,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "敌方整组回合结束时获得等量力量；施加当轮不触发"
+      "description": "每个敌方回合结束时获得与层数相同的力量；获得本状态的那一轮不触发"
     },
     {
       "id": "mode_shift",
@@ -119,7 +119,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "进攻阶段再损失所示生命后转为防守阶段"
+      "description": "层数是转入防守形态前还能损失的生命；降到 0 时转入防守形态并获得格挡"
     },
     {
       "id": "sharp_hide",
@@ -127,7 +127,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "玩家每打出一张攻击牌后受到等量伤害，可用格挡抵挡，多段只触发一次"
+      "description": "玩家每打出一张攻击牌，受到与层数相同的伤害，可被格挡；多段攻击也只触发一次"
     },
     {
       "id": "angry",
@@ -135,7 +135,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "每次受到普通攻击并损失生命后，获得等同本状态层数的力量；药水、毒伤和反伤不触发"
+      "description": "每次被普通攻击并损失生命，获得与层数相同的力量；药水、中毒和反伤不触发"
     },
     {
       "id": "curl_up",
@@ -143,7 +143,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "首次受到非致命普通攻击并损失生命后，在本次行动结束时获得所示格挡；每场战斗一次"
+      "description": "第一次被非致命的普通攻击并损失生命后，在本次行动结束时获得与层数相同的格挡；每场战斗一次"
     }
   ]
 }
