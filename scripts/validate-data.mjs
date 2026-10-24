@@ -169,7 +169,7 @@ export function validateContent(bundle) {
       if (intent.kind === 'charge' && (entry.ai?.kind !== 'charge_then_attack' || entry.ai?.chargeIntent !== intent.id)) {
         fail(`${ip}.kind`, 'charge intent requires matching AI');
       }
-      if (intent.kind === 'split' && (entry.ai?.kind !== 'spike_slime_l' || entry.ai?.splitIntent !== intent.id)) {
+      if (intent.kind === 'split' && (!['spike_slime_l', 'acid_slime_l'].includes(entry.ai?.kind) || entry.ai?.splitIntent !== intent.id)) {
         fail(`${ip}.kind`, 'split intent requires matching AI');
       }
       if (['sleep', 'stunned', 'charge', 'split'].includes(intent.kind)) {
@@ -225,7 +225,17 @@ export function validateContent(bundle) {
         integer(a.biteCutoff, `${ap}.biteCutoff`, 0, 65536);
         if (!(a.biteCutoff < a.rollRange)) fail(`${ap}.biteCutoff`, 'cutoff must be below rollRange');
       } else if (a.kind === 'acid_slime_m' || a.kind === 'acid_slime_l') {
-        keys(a, ['kind', 'spitIntent', 'weakIntent', 'tackleIntent', 'rollRange', 'spitCutoff', 'tackleCutoff', 'spitChance'], ap);
+        const splitKeys = a.kind === 'acid_slime_l' ? ['splitIntent', 'splitEnemy', 'splitCount', 'splitHpDivisor'] : [];
+        keys(a, ['kind', 'spitIntent', 'weakIntent', 'tackleIntent', 'rollRange', 'spitCutoff', 'tackleCutoff', 'spitChance', ...splitKeys], ap);
+        if (a.kind === 'acid_slime_l') {
+          intentReference(a.splitIntent, `${ap}.splitIntent`, 'split');
+          enumeration(a.splitEnemy, ['acid_slime_m'], `${ap}.splitEnemy`);
+          reference(a.splitEnemy, 'enemies', `${ap}.splitEnemy`);
+          const child = lists.enemies.find(e => isObject(e) && e.id === a.splitEnemy);
+          if (child?.ai?.kind !== 'acid_slime_m') fail(`${ap}.splitEnemy`, 'requires the supported medium policy');
+          integer(a.splitCount, `${ap}.splitCount`, 2, 2);
+          integer(a.splitHpDivisor, `${ap}.splitHpDivisor`, 2, 2);
+        }
         intentReference(a.spitIntent, `${ap}.spitIntent`, 'attack');
         intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
         intentReference(a.tackleIntent, `${ap}.tackleIntent`, 'attack');
@@ -404,7 +414,7 @@ export function validateContent(bundle) {
     array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
       reference(id, 'enemies', `${p}.enemies[${j}]`);
       const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
-      expandedSlots += enemy?.ai?.kind === 'spike_slime_l' ? 3 : 1;
+      expandedSlots += ['spike_slime_l', 'acid_slime_l'].includes(enemy?.ai?.kind) ? 3 : 1;
       if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
     });
     if (expandedSlots > 5) fail(`${p}.enemies`, 'must fit five UI slots including retained split parents');

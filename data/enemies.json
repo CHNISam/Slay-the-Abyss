@@ -277,7 +277,11 @@
         "rollRange": 100,
         "spitCutoff": 30,
         "tackleCutoff": 70,
-        "spitChance": 0.4000000059604645
+        "spitChance": 0.4000000059604645,
+        "splitIntent": "acid_slime_l_split",
+        "splitEnemy": "acid_slime_m",
+        "splitCount": 2,
+        "splitHpDivisor": 2
       },
       "intents": [
         {
@@ -315,7 +319,8 @@
               "value": 16
             }
           ]
-        }
+        },
+        { "id": "acid_slime_l_split", "kind": "split", "effects": [] }
       ]
     },
     {

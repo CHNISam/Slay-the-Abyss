@@ -1,5 +1,4 @@
 -- Shared A0 Spike decisions; Large's interrupt is restored after queued rolls.
-local Events = require("abyss_events")
 local M = {}
 
 function M.choose(ai, last, previous, roll)
@@ -30,11 +29,5 @@ function M.advance(state, enemy, random)
     if enemy.hp > 0 and enemy.splitTriggered then select(enemy, enemy.ai.splitIntent) end
 end
 
-function M.damaged(state, enemy)
-    if enemy.hp <= 0 or enemy.splitTriggered or enemy.hp > enemy.maxHp / enemy.ai.splitHpDivisor then return end
-    enemy.splitTriggered = true
-    select(enemy, enemy.ai.splitIntent)
-    Events.emit(state, "enemy_interrupt", {enemy=enemy.id, id=enemy.ai.splitIntent})
-end
 
 return M
