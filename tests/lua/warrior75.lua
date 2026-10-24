@@ -59,6 +59,18 @@ local cases={
 }
 eq(#cases,75,'fixture covers exactly 75')
 local seen={}
+-- Independently transcribed source keywords; never infer the expected pile
+-- from the runtime card definition being exercised.
+local exhausted={warcry=true,disarm=true,infernal_blade=true,intimidate=true,
+ pummel=true,seeing_red=true,shockwave=true,exhume=true,feed=true,fiend_fire=true,
+ impervious=true,limit_break=true,offering=true,reaper=true}
+local powers={combust=true,dark_embrace=true,evolve=true,feel_no_pain=true,
+ fire_breathing=true,inflame=true,metallicize=true,rupture=true,barricade=true,
+ berserk=true,brutality=true,corruption=true,demon_form=true,juggernaut=true}
+local function contains(pile,instance)
+ for _,held in ipairs(pile) do if held==instance then return true end end
+ return false
+end
 for _,case in ipairs(cases) do
     assert(not seen[case[1]]);seen[case[1]]=true
     for _,up in ipairs({false,true}) do
@@ -72,6 +84,11 @@ for _,case in ipairs(cases) do
                 eq((enemy and s.enemies[1] or s.player).statuses[enemy and case[8]:sub(7) or case[8]],case[9+n],'status')
             end
             eq(s.pendingChoice,nil,'no unresolved choice');eq(s.cardActions,nil,'queue drained')
+            local exhaust=exhausted[case[1]] and not (case[1]=='limit_break' and up) or false
+            eq(contains(s.hand,c),false,'used identity leaves hand')
+            eq(contains(s.draw,c),false,'used identity is not in draw')
+            eq(contains(s.exhaust,c),exhaust,'original Exhaust keyword destination')
+            eq(contains(s.discard,c),not exhaust and not powers[case[1]],'original discard/Power destination')
             if case[1]=='offering' then eq(s.player.hp,44);eq(#s.hand,up and 5 or 3) end
             if case[1]=='bloodletting' then eq(s.player.hp,47) end
             if case[1]=='hemokinesis' then eq(s.player.hp,48) end
