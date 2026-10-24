@@ -1,0 +1,31 @@
+
+> slay-the-abyss@0.1.0 test:presentation
+> python -m unittest discover -s tests -p test_*.py -v
+
+test_damage_need_not_be_first_number_and_all_occurrences_are_preserved (test_growing_card_text.GrowingCardTextTests.test_damage_need_not_be_first_number_and_all_occurrences_are_preserved) ... ok
+test_live_tokens_cover_exactly_modifiable_damage_and_block_values (test_growing_card_text.GrowingCardTextTests.test_live_tokens_cover_exactly_modifiable_damage_and_block_values) ... ok
+test_preserved_damage_token_still_requires_valid_numeric_path (test_growing_card_text.GrowingCardTextTests.test_preserved_damage_token_still_requires_valid_numeric_path) ... ok
+test_unknown_source_does_not_mutate_or_make_backup (test_platform_focus_patch.FocusPatchTests.test_unknown_source_does_not_mutate_or_make_backup) ... ok
+test_embedded_cards_match_source_and_presentation (test_prototype_cards.PrototypeCardTests.test_embedded_cards_match_source_and_presentation) ... ok
+test_bounded_pair_and_surrounding_ordinary_effects (test_shockwave_presentation.ShockwavePresentationTests.test_bounded_pair_and_surrounding_ordinary_effects) ... ok
+test_malformed_pair_is_not_silently_rendered (test_shockwave_presentation.ShockwavePresentationTests.test_malformed_pair_is_not_silently_rendered) ... ok
+test_nested_group_rejected_even_in_unreachable_condition (test_shockwave_presentation.ShockwavePresentationTests.test_nested_group_rejected_even_in_unreachable_condition) ... ok
+test_real_variants_keep_original_text_cost_name_and_indices (test_shockwave_presentation.ShockwavePresentationTests.test_real_variants_keep_original_text_cost_name_and_indices) ... ok
+test_unmarked_contract_and_unknown_fields_are_unchanged (test_shockwave_presentation.ShockwavePresentationTests.test_unmarked_contract_and_unknown_fields_are_unchanged) ... ok
+test_base_upgrade_and_inputs_unchanged (test_traveler_presentation.PresentationTests.test_base_upgrade_and_inputs_unchanged) ... ok
+test_cli_rejects_symlink_output_alias_when_supported (test_traveler_presentation.PresentationTests.test_cli_rejects_symlink_output_alias_when_supported) ... skipped 'Windows account lacks symlink privilege; hardlink alias is tested separately'
+test_cli_stdout_errors_and_no_input_overwrite (test_traveler_presentation.PresentationTests.test_cli_stdout_errors_and_no_input_overwrite) ... ok
+test_cost_upgrade_inherits_effects (test_traveler_presentation.PresentationTests.test_cost_upgrade_inherits_effects) ... ok
+test_invalid_templates (test_traveler_presentation.PresentationTests.test_invalid_templates) ... ok
+test_missing_unknown_duplicate_and_bad_fields (test_traveler_presentation.PresentationTests.test_missing_unknown_duplicate_and_bad_fields) ... ok
+test_nested_numeric_and_negative_values (test_traveler_presentation.PresentationTests.test_nested_numeric_and_negative_values) ... ok
+test_repository_class_pool_and_status_integration (test_traveler_presentation.PresentationTests.test_repository_class_pool_and_status_integration) ... ok
+test_semantics_change_needs_explicit_upgrade_template (test_traveler_presentation.PresentationTests.test_semantics_change_needs_explicit_upgrade_template) ... ok
+test_status_cost_sentinel_is_blank_and_other_negative_costs_reject (test_traveler_presentation.PresentationTests.test_status_cost_sentinel_is_blank_and_other_negative_costs_reject) ... ok
+test_unknown_effect_contract_and_invalid_numeric_rejected (test_traveler_presentation.PresentationTests.test_unknown_effect_contract_and_invalid_numeric_rejected) ... ok
+test_x_cost (test_traveler_presentation.PresentationTests.test_x_cost) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 2.164s
+
+OK (skipped=1)

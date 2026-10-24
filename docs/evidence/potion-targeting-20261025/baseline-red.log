@@ -1,0 +1,55 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+FAIL P01/P02 bottle first is read-only until second enemy confirmation: ...targeting-baseline\source\tests\lua\potion_targeting.lua:28: selecting fire potion must not execute the transaction
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+FAIL P03 repeated bottle and field cancel with no transaction: ...targeting-baseline\source\tests\lua\potion_targeting.lua:40: assertion failed!
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+FAIL P04 fire fixed damage ignores ordinary attack multipliers: ...targeting-baseline\source\tests\lua\potion_targeting.lua:49: assertion failed!
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+FAIL P05 actor replacement or death during confirmation never inherits a gesture: ...targeting-baseline\source\tests\lua\potion_targeting.lua:58: assertion failed!
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+FAIL P06/P07/P08 lifecycle boundaries expire aiming and old enemy tokens: ...targeting-baseline\source\tests\lua\potion_targeting.lua:75: turn
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+FAIL P08 enemy EndDrag cancels rather than submits: ...targeting-baseline\source\tests\lua\potion_targeting.lua:81: assertion failed!
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+FAIL P09/P11 sparse slot3 selects enemy3 with no default even for one enemy: ...targeting-baseline\source\tests\lua\potion_targeting.lua:87: assertion failed!
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK block source=player target=player amount=12
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK status source=player target=player amount=2
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK status source=player target=player amount=2
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK status source=player target=player amount=5
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+PASS P10 self potions still commit without enemy selection
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=6
+FAIL P13 Artifact blocks poison application but successful use consumes bottle: ...targeting-baseline\source\tests\lua\potion_targeting.lua:101: assertion failed!
+ABYSS_RUN seed=1 source=explicit
+FAIL S01/S02/S12 explicit help opens before use without changing rules state or target: ...targeting-baseline\source\tests\lua\potion_targeting.lua:107: attempt to index a nil value
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+FAIL S13 long press and release never use or arm a potion: ...targeting-baseline\source\tests\lua\potion_targeting.lua:123: assertion failed!
+FAIL P12 all seven potions declare target policy without changing acquisition pools: ...targeting-baseline\source\tests\lua\potion_targeting.lua:129: missing explicit targetPolicy: fire_potion
+LUA_POTION_TARGETING 1 passed; 11 failed
+tests/lua/support/potion_gesture_fixture.lua:27: Potion pointer failures: 11
+stack traceback:
+	[JS]: in function 'assert'
+	tests/lua/support/potion_gesture_fixture.lua:27: in local 'finish'
+	...targeting-baseline\source\tests\lua\potion_targeting.lua:134: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/potion_targeting.lua: 7305 ms
