@@ -13,8 +13,8 @@ for _,upgraded in ipairs({false,true}) do
         local s=h.run.combat;local amount=upgraded and 5 or 3
         local card=p:GetChild('card1')
         assert(card:GetChild('label').text:find('每个敌人',1,true))
-        assert(card:GetChild('label').text:find(tostring(amount)..' 层虚弱',1,true))
-        assert(card:GetChild('label').text:find(tostring(amount)..' 层易伤',1,true))
+        assert(card:GetChild('label').text:find(tostring(amount)..' 回合虚弱',1,true))
+        assert(card:GetChild('label').text:find(tostring(amount)..' 回合易伤',1,true))
         assert(card:GetChild('label').text:find('消耗',1,true))
         event('card1','enter',7);h:update(0.4)
         local info=p:GetChild('statusInfo');assert(info.visible)

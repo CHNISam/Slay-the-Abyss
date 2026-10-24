@@ -17,8 +17,30 @@ export function readTaskHeader(source) {
     parentTaskId: scalar('parent_task_id'), assignees: list('assignee'), labels: list('labels') };
 }
 
-export function auditRoadmap(tasks, roadmap, milestones) {
-  const errors = [], byId = new Map(tasks.map(task => [task.id, task]));
+// Match Backlog's identity comparison, not a task-ID format requirement.
+function taskIdentity(id) {
+  const value = id.trim(), prefix = value.match(/^([a-z]+)-/i)?.[1] ?? 'TASK';
+  const suffix = value.replace(new RegExp(`^${prefix}-`, 'i'), '');
+  const normalized = /^\d+(?:\.\d+)*$/.test(suffix)
+    ? suffix.split('.').map(part => part.replace(/^0+/, '') || '0').join('.') : suffix;
+  return `${prefix}-${normalized}`.toUpperCase();
+}
+
+export function auditRoadmap(tasks, roadmap, milestones, completed = []) {
+  const errors = [], identities = new Map();
+  for (const task of [...tasks, ...completed]) {
+    if (!task.id) continue;
+    const id = taskIdentity(task.id), matches = identities.get(id) ?? [];
+    matches.push(task.filePath ?? task.id);
+    identities.set(id, matches);
+  }
+  for (const [id, paths] of identities) {
+    if (paths.length > 1) errors.push(`${id}: 重复任务编号：${paths.join('；')}`);
+  }
+  // Ambiguous identities cannot safely resolve parents or roadmap entries.
+  if (errors.length) return errors;
+  // Completed parents retain launch ancestry, but only active-directory tasks are audited below.
+  const byId = new Map([...tasks, ...completed].map(task => [task.id, task]));
   const sections = new Map();
   let section;
   for (const line of roadmap.split(/\r?\n/)) {
@@ -42,18 +64,20 @@ export function auditRoadmap(tasks, roadmap, milestones) {
 }
 
 export function verifyBacklogRoadmap(root = '.') {
-  const files = directory => readdirSync(join(root, directory)).filter(name => name.endsWith('.md')).map(name => readFileSync(join(root, directory, name), 'utf8'));
-  const tasks = [...files('backlog/tasks'), ...files('backlog/completed')].map(readTaskHeader);
-  const milestones = Object.fromEntries(files('backlog/milestones').map(source => {
+  const files = directory => readdirSync(join(root, directory)).filter(name => name.endsWith('.md')).sort().map(name => ({
+    filePath: `${directory}/${name}`, source: readFileSync(join(root, directory, name), 'utf8') }));
+  const readTasks = directory => files(directory).map(({ filePath, source }) => ({ ...readTaskHeader(source), filePath }));
+  const tasks = readTasks('backlog/tasks'), completed = readTasks('backlog/completed');
+  const milestones = Object.fromEntries(files('backlog/milestones').map(({ source }) => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
     const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
     const stage = title.match(/^(M[1-6])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
-  return auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones);
+  return auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = verifyBacklogRoadmap();
   if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
-  else console.log('未完成首发任务的里程碑、排期和负责人检查通过；不认证平台或实机。');
+  else console.log('活动及已完成任务编号唯一；未完成首发任务的里程碑、排期和负责人检查通过；不认证平台或实机。');
 }

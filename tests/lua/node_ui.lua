@@ -718,6 +718,13 @@ test('Golden Shrine exposes complete costs, permanent curse result and repeat sa
 end)
 test('shop potion stock buys into a vacancy and rejects full sold and missing slots',function()
     local ui,get,click=setup('shop',nil,function(run)run.gold=10000 end)
+    local original=ui.run.nodeFlow.potions[1]
+    for _,id in ipairs({'fire_potion','block_potion','energy_potion'}) do
+        ui.run.nodeFlow.potions[1]={id=id,price=50};ui:render()
+        local text=get('shopView/potion1/description').text
+        assert(text:find(id=='fire_potion' and '单敌' or '自己',1,true),'shop must explain potion target before purchase')
+    end
+    ui.run.nodeFlow.potions[1]=original;ui:render()
     local slot
     for i,o in ipairs(ui.run.nodeFlow.potions) do if not o.unavailable then slot=i;break end end
     assert(slot)

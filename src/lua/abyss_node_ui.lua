@@ -128,13 +128,14 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local parts={}
         for _,effect in ipairs(definition and definition.effects or {}) do
             local value=number(effect.value)
-            if effect.op=='damage' then parts[#parts+1]='造成'..value..'点伤害'
-            elseif effect.op=='block' then parts[#parts+1]='获得'..value..'点格挡'
-            elseif effect.op=='energy' then parts[#parts+1]='获得'..value..'点能量'
+            if effect.op=='damage' then parts[#parts+1]='单敌固定伤害'..value
+            elseif effect.op=='block' then parts[#parts+1]='自己固定格挡'..value
+            elseif effect.op=='energy' then parts[#parts+1]='自己能量+'..value..'（本回合）'
             elseif effect.op=='draw' then parts[#parts+1]='抽'..value..'张牌'
             elseif effect.op=='gainStatus' or effect.op=='applyStatus' then
                 local status=find(self.run.data.statuses.statuses,effect.status)
-                parts[#parts+1]=(effect.op=='applyStatus' and '施加' or '获得')..value..'层'..(status and status.name or effect.status)
+                parts[#parts+1]=(effect.op=='applyStatus' and '单敌' or '自己')..(status and status.name or effect.status)..value
+                    ..(status and status.stack=='duration' and '回合' or effect.status=='regen' and '（回合结束回复）' or '')
             end
         end
         return table.concat(parts,'，')

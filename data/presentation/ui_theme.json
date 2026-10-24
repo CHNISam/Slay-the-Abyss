@@ -50,6 +50,8 @@
     "energy": "#E9A93B",
     "energyEmpty": "#4A3E2A",
     "positive": "#7DC77A",
+    "cardValueIncrease": "#7DC77A",
+    "cardValueDecrease": "#EF7672",
     "danger": "#E5574B",
     "buff": "#E6A24A",
     "debuff": "#A77BE0",
@@ -374,9 +376,11 @@
   "layout": {
     "battlePotions": {
       "count": 3,
-      "origin": [-124, 268],
-      "step": [124, 0],
-      "size": [116, 44]
+      "origin": [-224, 268],
+      "step": [180, 0],
+      "size": [116, 44],
+      "helpOffset": [84, 0],
+      "helpSize": [44, 44]
     },
     "battleNotice": {
       "position": [0, 228],

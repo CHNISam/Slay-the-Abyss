@@ -12,7 +12,7 @@ function fixture() {
     statuses: { statuses: [{ id: 'strength', name: '力量', kind: 'buff', stack: 'intensity', decay: 'none' }] },
     enemies: { enemies: [{ id: 'slime', name: '史莱姆', tier: 'normal', hp: 12, intents: [{ id: 'attack', kind: 'attack', effects: [{ op: 'damage', value: 3 }] }] }], encounters: [{ id: 'slime_pair', tier: 'normal', enemies: ['slime', 'slime'], minFloor: 1, maxFloor: 14 }] },
     relics: { relics: [{ id: 'blood', name: '血', rarity: 'starter', trigger: 'combat_end', effects: [{ op: 'heal', value: 6 }] }] },
-    potions: { potions: [{ id: 'strength', name: '力量药水', rarity: 'common', effects: [{ op: 'gainStatus', status: 'strength', value: 2 }] }] },
+    potions: { potions: [{ id: 'strength', name: '力量药水', rarity: 'common', targetPolicy: 'self', effects: [{ op: 'gainStatus', status: 'strength', value: 2 }] }] },
     rules: {
       version: '0.1.0',
       player: { maxHp: 80, energyPerTurn: 3, drawPerTurn: 5, maxHand: 10, startingGold: 99, startingRelics: ['blood'], potionSlots: 3 },
@@ -54,6 +54,9 @@ test('valid partial upgrades, signed strength and nested conditional references'
 });
 
 const invalidCases = [
+  ['missing potion target policy', d => delete d.potions.potions[0].targetPolicy, /targetPolicy/],
+  ['unknown potion target policy', d => d.potions.potions[0].targetPolicy = 'thrown', /targetPolicy/],
+  ['potion policy disagrees with effects', d => d.potions.potions[0].targetPolicy = 'enemy_one', /targetPolicy/],
   ['missing cleric rules', d => delete d.rules.events, /rules.events/],
   ['unimplemented event identity', d => d.rules.events.encounterId = 'gold_or_potion', /rules.events.encounterId/],
   ['purifier must be free', d => d.rules.events.purifier.removeCost = 1, /rules.events.purifier.removeCost/],

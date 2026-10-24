@@ -178,10 +178,19 @@ export function battleLayout() {
     ...pile('draw', theme.icon.drawPile, l.drawPile.position, '抽牌堆', 1),
     ...pile('discard', theme.icon.discardPile, l.discardPile.position, '弃牌堆', -1),
   ];
+  const potionHelp = [];
   for (let i = 0; i < l.battlePotions.count; i++) {
-    controls.push(button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),
-      l.battlePotions.size, '空药水槽', false, f.small));
+    const potion = button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),
+      l.battlePotions.size, '空药水槽', false, f.small);
+    // Two lines at the existing readable font must fit without shrinking them.
+    for (const state of potion.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.size[0] - s.s, l.battlePotions.size[1]];
+    controls.push(potion);
+    const help = button(`potionHelp${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i + l.battlePotions.helpOffset[axis]),
+      l.battlePotions.helpSize, '说明', false, f.small);
+    for (const state of help.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.helpSize[0] - s.s, l.nativeText.lineHeight];
+    potionHelp.push(help);
   }
+  controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
   for (let i = 1; i <= 10; i++) {
     const [w, h] = l.card.size;

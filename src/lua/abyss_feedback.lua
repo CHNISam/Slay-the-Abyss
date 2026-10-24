@@ -269,6 +269,10 @@ function M.new(stage, platform, present, complete)
                 elseif kind == "status" then
                     local status = self.shadow.catalog.statuses[d.status]
                     text = (status and status.name or d.status) .. (d.amount >= 0 and " ＋" or " ") .. n(d.amount)
+                    if d.blockedStatus then
+                        local blocked = self.shadow.catalog.statuses[d.blockedStatus]
+                        text = "人工制品抵挡\n未施加" .. (blocked and blocked.name or d.blockedStatus)
+                    end
                     ink = status and status.kind == "buff" and C.buff or C.debuff
                     sound("status")
                 elseif kind == "heal" then

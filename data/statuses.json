@@ -39,7 +39,7 @@
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
-      "description": "每层使获得的格挡 +1"
+      "description": "每层使卡牌获得的格挡 +1；本场战斗有效，不影响固定格挡药水"
     },
     {
       "id": "vulnerable",
@@ -47,7 +47,7 @@
       "kind": "debuff",
       "stack": "duration",
       "decay": "round_end_minus_1",
-      "description": "受到攻击伤害 +50%"
+      "description": "受到普通攻击伤害 +50%；数字表示持续回合，轮末递减，不放大中毒"
     },
     {
       "id": "weak",
@@ -55,7 +55,7 @@
       "kind": "debuff",
       "stack": "duration",
       "decay": "round_end_minus_1",
-      "description": "造成攻击伤害 -25%"
+      "description": "造成普通攻击伤害 -25%；数字表示持续回合，轮末递减，不减少中毒"
     },
     {
       "id": "frail",
@@ -63,7 +63,7 @@
       "kind": "debuff",
       "stack": "duration",
       "decay": "round_end_minus_1",
-      "description": "获得格挡 -25%"
+      "description": "卡牌获得的格挡 -25%；数字表示持续回合，轮末递减，不影响固定格挡药水"
     },
     {
       "id": "poison",
@@ -71,7 +71,7 @@
       "kind": "debuff",
       "stack": "intensity",
       "decay": "turn_start_trigger_then_minus_1",
-      "description": "回合开始时失去与层数相同的生命，然后层数减 1"
+      "description": "自己的回合开始时失去与层数相同的生命，无视格挡，然后层数减 1；施加时不立即扣血"
     },
     {
       "id": "thorns",

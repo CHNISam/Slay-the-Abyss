@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "33eebfc46b12b66f333e1ccaf1006897b6d5c03b",
+  "developBase": "7f11cc2f589b676d10a494edd6b79f1167254c63",
+  "normalCandidate": {
+    "path": ".artifacts/card-integrated-candidate/scenes/saves/abyss-card-inline-normal.gil",
+    "sha256": "d6f43d15db46335806a593506b08ae3c7c98af8ceb7decb75ad81b1f51240088",
+    "hashUnchanged": true,
+    "modules": 49,
+    "moduleMatches": false,
+    "ui": {
+      "expectedCount": 2391,
+      "actualCount": 2391,
+      "expectedMaxChildren": 59,
+      "actualMaxChildren": 59,
+      "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+    },
+    "errors": 0,
+    "warnings": 32,
+    "bgmEnabled": true,
+    "issues": [],
+    "officialImport": "NOT_RUN"
+  },
+  "fixture": {
+    "path": ".artifacts/card-integrated-fixture/scenes/saves/abyss-card-value-fixture.gil",
+    "sha256": "a8085c2236157fded96b1b1809d2230e82602b3497044f70dd610f3718068c2d",
+    "officialSaveId": 1073741852,
+    "officialSnapshotSha256": "1b43da60ff0c0cf8e212e2b0db36ff42a59b5a6c026f46980736ae3aec41c64a",
+    "officialModules": 50,
+    "inventoryMatch": true,
+    "uiMatch": true,
+    "controlledStates": true,
+    "entryModified": true
+  },
+  "nativeRun": {
+    "id": "da4d856f-c606-4557-bd2b-71d2d9f76034",
+    "state": "succeeded",
+    "clientScriptLog": true,
+    "printCount": 33,
+    "prints": [
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_UI init Color=table",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_UI viewport_ready",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_BGM_REQUEST ABYSS_BGM_STOP",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_RUN seed=57992 source=clock",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_BGM_REQUEST ABYSS_BGM_MAP",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_UI ready",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_BGM_REQUEST ABYSS_BGM_BATTLE",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=neutral hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": "1073741826",
+        "text": "ABYSS_BGM_APPLIED stop"
+      },
+      {
+        "t": 1,
+        "graphId": "1073741826",
+        "text": "ABYSS_BGM_APPLIED map id=10040"
+      },
+      {
+        "t": 1,
+        "graphId": "1073741826",
+        "text": "ABYSS_BGM_APPLIED battle id=10044"
+      },
+      {
+        "t": 7,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=frail hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 14,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=dexterity hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=weak hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 28,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=aim hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 35,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=cancel hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 42,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=mixed hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 49,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=ten hand=10",
+        "clientScript": true
+      },
+      {
+        "t": 56,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=neutral hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 63,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=frail hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 70,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=dexterity hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 77,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=weak hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 84,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=aim hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 91,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=cancel hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 98,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=mixed hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 105,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=ten hand=10",
+        "clientScript": true
+      },
+      {
+        "t": 112,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=neutral hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 119,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=frail hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 126,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=dexterity hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 133,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=weak hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 140,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=aim hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 147,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=cancel hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 152,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=mixed hand=5",
+        "clientScript": true
+      }
+    ],
+    "steps": [
+      {
+        "at": 28,
+        "step": "left-editor"
+      },
+      {
+        "at": 72.4,
+        "step": "imported"
+      },
+      {
+        "at": 129.5,
+        "step": "opened-and-saved"
+      },
+      {
+        "at": 155,
+        "step": "client-script-log-ticked"
+      },
+      {
+        "at": 159.8,
+        "step": "log-subscribed",
+        "clientScripts": true
+      },
+      {
+        "at": 196.5,
+        "step": "playtest-requested"
+      },
+      {
+        "at": 288.5,
+        "step": "playing"
+      },
+      {
+        "at": 375.1,
+        "step": "left-playtest"
+      },
+      {
+        "at": 384.2,
+        "step": "log-collected"
+      }
+    ],
+    "screenshots": [
+      {
+        "scene": "weak",
+        "path": "native-integrated/weak.png",
+        "sha256": "d261ea217de6a339d823a93c18cd10dcdd7157c38e66696d4d59c6354c4ea185",
+        "rawSha256": "f166025437111ba35977454736a9042758029670f2195f6291ec4088fbd33c3e",
+        "playSeconds": 6
+      },
+      {
+        "scene": "aim",
+        "path": "native-integrated/aim.png",
+        "sha256": "3274f31c752953154cf5a687c0fca4bdbfdfbaf92cb3bc1167ca8f0cd6b1dcba",
+        "rawSha256": "f8599266bd0e3a1220f4c825e26e608d97f1dfaf8362b38c6125ea3d16f271bc",
+        "playSeconds": 12
+      },
+      {
+        "scene": "cancel",
+        "path": "native-integrated/cancel.png",
+        "sha256": "4c439c1a5e699f45b76704d1efefd7b6925cb7a0e3cae241466e29a3d14a64f9",
+        "rawSha256": "6b9301d82329c82aba212e0834768597fd62bc6a040405d31d9cd24e25db29d7",
+        "playSeconds": 19
+      },
+      {
+        "scene": "mixed",
+        "path": "native-integrated/mixed.png",
+        "sha256": "43651113401db4bdd41cda83d55cd0eb85dac4807b9eb8622e8a18283c12d1c2",
+        "rawSha256": "2782b23d2718962ab3ad935aa1ceeb6ada7d50b5ccf7cf30c9a8f652e3b9f87e",
+        "playSeconds": 26
+      },
+      {
+        "scene": "ten",
+        "path": "native-integrated/ten.png",
+        "sha256": "e43ea7ae98ec603d03eec61f23bf0ea979c43babe2ec2cbd963bb42385e59b0f",
+        "rawSha256": "f72cd848ca5d0a3adfe4bb0d2efd924bbfe1be5a1bc0e81e643f41676341aa06",
+        "playSeconds": 33
+      },
+      {
+        "scene": "neutral",
+        "path": "native-integrated/neutral.png",
+        "sha256": "4c439c1a5e699f45b76704d1efefd7b6925cb7a0e3cae241466e29a3d14a64f9",
+        "rawSha256": "6b9301d82329c82aba212e0834768597fd62bc6a040405d31d9cd24e25db29d7",
+        "playSeconds": 40
+      },
+      {
+        "scene": "frail",
+        "path": "native-integrated/frail.png",
+        "sha256": "b007c9ea87d42da3ecb305c7309b8b2f8fc6359efde3661eb688e87ab13ba6e6",
+        "rawSha256": "dedd71e0402d14074bbcc4f09d59dd237799fdc26e977575e72acfc77752029a",
+        "playSeconds": 47
+      },
+      {
+        "scene": "dexterity",
+        "path": "native-integrated/dexterity.png",
+        "sha256": "0467f53046dedbf9b9206ca13987b62e22dcb01aaba993c7dd7686bf97c3ed11",
+        "rawSha256": "0d857a50177b19cd7a6bf9356dc84247826a052b8994ff6dedda77765af85b02",
+        "playSeconds": 54
+      }
+    ],
+    "scope": "PC controlled rendering only; no natural acquisition, physical drag, phone or full-game certification"
+  },
+  "localFullCheck": {
+    "status": "PASS",
+    "log": "integrated-check.log",
+    "sha256": "083f28014d0f3d525dfcb3c90248ec0aaf111fb7e4378e43559f1b0fb61662fd",
+    "hashScope": "Committed archive: LF line endings, one trailing tab removed; raw output retained separately",
+    "rawWindowsCrlfSha256": "e17fda5b3230ab903587b816f677220f0f388fdd505fbdf4bd1454645081f8d2"
+  },
+  "integrationCI": {
+    "runId": 40120982021,
+    "headSha": "33eebfc46b12b66f333e1ccaf1006897b6d5c03b",
+    "check": "success",
+    "presentation": "success"
+  },
+  "uiGate": {
+    "status": "FAIL",
+    "partial": [
+      "menu",
+      "map",
+      "battle",
+      "rewards",
+      "cardChoice",
+      "result"
+    ],
+    "pending": [
+      "camp",
+      "shop",
+      "event",
+      "treasure",
+      "deck"
+    ]
+  },
+  "mobilePhysical": "NOT_RUN",
+  "fullPhysicalDrag": "NOT_RUN",
+  "published": false,
+  "liveWriteEnabled": false,
+  "checkedAt": "2026-10-24T18:48:56.609Z"
+}

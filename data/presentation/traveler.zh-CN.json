@@ -13,8 +13,8 @@
     },
     "bash": {
       "name": "Bash",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层易伤。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层易伤。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合易伤。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合易伤。"
     },
     "cleave": {
       "name": "Cleave",
@@ -23,8 +23,8 @@
     },
     "clothesline": {
       "name": "Clothesline",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱。"
     },
     "iron_wave": {
       "name": "Iron Wave",
@@ -73,8 +73,8 @@
     },
     "thunderclap": {
       "name": "Thunderclap",
-      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 层易伤。",
-      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 层易伤。"
+      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 回合易伤。",
+      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并各施加 {effects.1.value} 回合易伤。"
     },
     "warcry": {
       "name": "Warcry",
@@ -83,8 +83,8 @@
     },
     "uppercut": {
       "name": "Uppercut",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱和 {effects.2.value} 层易伤。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 层虚弱和 {effects.2.value} 层易伤。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱和 {effects.2.value} 回合易伤。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再施加 {effects.1.value} 回合虚弱和 {effects.2.value} 回合易伤。"
     },
     "inflame": {
       "name": "Inflame",
@@ -153,8 +153,8 @@
     },
     "shockwave": {
       "name": "Shockwave",
-      "textTemplate": "为每个敌人施加 {effects.0.value} 层虚弱和 {effects.1.value} 层易伤。打出后消耗本牌。",
-      "upgradeTextTemplate": "为每个敌人施加 {effects.0.value} 层虚弱和 {effects.1.value} 层易伤。打出后消耗本牌。"
+      "textTemplate": "为每个敌人施加 {effects.0.value} 回合虚弱和 {effects.1.value} 回合易伤。打出后消耗本牌。",
+      "upgradeTextTemplate": "为每个敌人施加 {effects.0.value} 回合虚弱和 {effects.1.value} 回合易伤。打出后消耗本牌。"
     },
     "whirlwind": {
       "name": "Whirlwind",
@@ -285,8 +285,8 @@
     },
     "intimidate": {
       "name": "Intimidate",
-      "textTemplate": "消耗。对所有敌人施加 {effects.0.value} 层虚弱。",
-      "upgradeTextTemplate": "消耗。对所有敌人施加 {effects.0.value} 层虚弱。"
+      "textTemplate": "消耗。对所有敌人施加 {effects.0.value} 回合虚弱。",
+      "upgradeTextTemplate": "消耗。对所有敌人施加 {effects.0.value} 回合虚弱。"
     },
     "power_through": {
       "name": "Power Through",
@@ -340,8 +340,8 @@
     },
     "berserk": {
       "name": "Berserk",
-      "textTemplate": "获得 {effects.0.value} 层易伤。每回合开始时获得 {effects.1.value} 点能量。",
-      "upgradeTextTemplate": "获得 {effects.0.value} 层易伤。每回合开始时获得 {effects.1.value} 点能量。"
+      "textTemplate": "获得 {effects.0.value} 回合易伤。每回合开始时获得 {effects.1.value} 点能量。",
+      "upgradeTextTemplate": "获得 {effects.0.value} 回合易伤。每回合开始时获得 {effects.1.value} 点能量。"
     },
     "brutality": {
       "name": "Brutality",
