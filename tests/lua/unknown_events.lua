@@ -56,7 +56,7 @@ local function setup(id,seed)
     map.nodes[1].type='event';map.nodes[1].eventId=id
     return run,map,map.nodes[1].id
 end
-test('natural unknown rooms route all four handlers and never change the map symbol',function()
+test('220 seeded unknown entries route four handlers without changing the symbol on fixed topology',function()
     runtime()
     -- All220 real Run seeds exercise source routing/handlers. Map topology is
     -- held fixed here; per-seed source topology belongs to the map fixtures.
