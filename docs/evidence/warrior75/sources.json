@@ -945,6 +945,11 @@
       "sha256": "52c359a5b977ac55d80d7c7fbfe94570a94e75a91e985d98dea2a9fcac6aa478",
       "gitBlob": "931cded5ae1aed78771e0a5389e8358946b78f8f",
       "bytes": 29916
+    },
+    {
+      "id": "AbstractCard",
+      "path": "cards/AbstractCard.java",
+      "error": "HTTP Error 403: rate limit exceeded"
     }
   ]
 }

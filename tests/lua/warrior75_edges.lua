@@ -169,4 +169,16 @@ test('Sever Soul exhausts only the original non-Attacks, then hits before exhaus
     s.draw={newCard(s,'strike'),newCard(s,'strike')};play(s)
     eq(#s.hand,3);eq(#s.exhaust,2);eq(s.enemies[1].hp,484)
 end)
+test('generated temporary zero cost survives discard and redraw within the same turn',function()
+    local s=battle({'bludgeon'});local c=s.hand[1];c.costForTurn=0
+    play(s);eq(s.energy,20);C.draw(s,1);eq(s.hand[1],c);eq(C.cardDefinition(s,c).cost,0)
+    s.hand={};s.discard={c};C.startPlayerTurn(s);eq(C.cardDefinition(s,c).cost,3)
+end)
+test('repeated Corruption does not emit a second zero-stack power application',function()
+    local s=battle({'corruption','corruption'});play(s);local count=0
+    for _,e in ipairs(s.events) do if e.kind=='status' and e.detail.status=='corruption' then count=count+1 end end
+    eq(count,1);play(s);local after=0
+    for _,e in ipairs(s.events) do if e.kind=='status' and e.detail.status=='corruption' then after=after+1 end end
+    eq(after,1);eq(#s.exhaust,0)
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')

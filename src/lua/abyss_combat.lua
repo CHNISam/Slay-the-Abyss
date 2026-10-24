@@ -429,7 +429,6 @@ function M.disposeCard(state,item)
     -- The Power destination takes precedence over exhaust-on-use, while an
     -- unplayed Power still follows the ordinary endTurn hand lifecycle.
     if e.cardType ~= "power" and not e.purge then
-        instance.costForTurn=nil
         if e.exhaust then CardActions.exhaust(M,state,instance)
         else state.discard[#state.discard+1]=instance end
     end
