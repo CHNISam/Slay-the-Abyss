@@ -1,78 +1,54 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "locale": "zh-CN",
   "title": "岩脉残响",
   "role": "Copy source for narrative presentation only; NOT a runtime schema, rule table, or already integrated code.",
   "flow": {
     "intro": {
-      "status": "approved_draft",
-      "displayHint": "menu/subtitle; preserve start guidance and avoid overflow",
-      "full": "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。",
-      "compact": "岩脉失序，封印将破。循着共鸣，深入遗迹。"
+      "status": "user_approved_verbatim",
+      "full": "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。"
     },
     "bossEntrance": {
-      "status": "approved_draft",
-      "displayHint": "optional boss entry copy if a safe existing hook exists; no modal is required",
-      "full": "石门缓缓开启。昔日的封印守卫仍在履行职责，只是漆黑的力量已令它分不清敌友。",
-      "compact": "昔日的封印守卫，已被深渊侵蚀。"
+      "status": "user_approved_verbatim",
+      "full": "石门缓缓开启。昔日的封印守卫仍在履行职责，只是漆黑的力量已令它分不清敌友。"
     },
     "victory": {
-      "status": "approved_draft",
-      "displayHint": "result summary secondary line, never replace stats/settle controls",
-      "full": "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。",
-      "compact": "封印重燃，深渊退去。旅行者继续前行。"
+      "status": "user_approved_verbatim",
+      "full": "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。"
     },
     "defeat": {
-      "status": "approved_draft",
-      "displayHint": "result summary secondary line; keep retry and platform settlement",
-      "full": "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。",
-      "compact": "封印尚未修复，旅途仍可重启。"
+      "status": "user_approved_verbatim",
+      "full": "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。"
     }
   },
-  "nodeFlavor": {
-    "normal": {
-      "status": "candidate",
-      "compact": "破碎的回廊中，异变的敌人挡住了去路。"
-    },
-    "elite": {
-      "status": "candidate",
-      "compact": "地脉深处，更危险的气息正逐渐逼近。"
-    },
-    "camp": {
-      "status": "candidate",
-      "compact": "残存的岩灯照亮了短暂的歇脚处。"
-    },
-    "shop": {
-      "status": "candidate",
-      "compact": "断壁之间，有旅人摆开了货架。"
-    },
-    "event": {
-      "status": "candidate",
-      "compact": "遗迹中的偶遇，未必都指向战斗。"
-    },
-    "treasure": {
-      "status": "candidate",
-      "compact": "封尘的古匣中，仍留着微弱的光。"
-    },
-    "boss": {
-      "status": "candidate",
-      "compact": "石门尽头，昔日的封印守卫正在等待。"
-    }
+  "merchant": {
+    "encounter": "转过一道石廊，荧看到一块旧毯子，上面摆着卷册和古物。毯子后坐着一位老人，像是早就知道会有客人来到这里。",
+    "greet": "路不好走吧？来，看看有没有用得上的。",
+    "purchaseSuccess": "眼光不错。",
+    "insufficientGold": "这可不够啊，小姑娘。",
+    "originHint": "做生意嘛，总得知道哪条路安全。",
+    "leave": "前面可不像这里太平。一路小心。"
   },
-  "specificEvents": {
+  "combatIntros": {
+    "looter": "石廊尽头，一道人影突然冲了出来。那人蒙着脸，目光却始终盯着荧腰间的钱袋。",
+    "cultist": "火光映在岩壁上。一名披着灰袍的人正在低声祈祷，手中的火焰随着祷词愈发明亮。察觉到荧的脚步，他缓缓转过身来。"
+  },
+  "eventCopy": {
     "cleric": {
-      "status": "candidate",
-      "compact": "幽暗的回廊里，有人提出了一笔交换。"
+      "intro": "一位披着长袍的陌生人拦住了去路。\n\n「哎呀，旅行者！伤口要治吗？或者有什么不想再带着的招式？我都能帮上忙。」\n\n他笑着指了指身旁的价目表。\n\n「当然，得收一点金币。」",
+      "choices": [
+        "heal",
+        "purify",
+        "leave"
+      ]
     },
-    "shrine": {
-      "status": "candidate",
-      "compact": "古老的神龛仍散发着微弱的净化之光。"
+    "purifier": {
+      "intro": "破损的石龛静静立在路旁，表面的古老纹路仍散发着微光。\n\n当荧靠近时，一股平静的力量从中传来，仿佛能够让人放下一些不再需要的战斗方式。",
+      "choices": [
+        "pray",
+        "leave"
+      ]
     }
   },
-  "guidance": {
-    "floorNumber": "Do not hardcode 15 or 17 floors in narrative. Use runtime floor only where needed.",
-    "mechanics": "No changes to existing node choices, effects, rewards, enemies, shop, probabilities, or battle rules.",
-    "statusSemantics": "approved_draft = original user-favored sentence; candidate = newly suggested optional copy",
-    "mobile": "Compact text takes precedence over hiding core controls, small fonts, or oversized panels."
-  }
+  "source": "docs/lore/v2/04-copy"
 }

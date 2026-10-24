@@ -48,7 +48,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(ui.mode == "menu" and not root:GetChild("mapPanel").visible)
     local intro = root:GetChild("menuPanel"):GetChild("tagline").text
     local guide = root:GetChild("menuPanel"):GetChild("summary").text
-    assert(intro == "岩脉失序，封印将破。循着共鸣，深入遗迹。")
+    assert(intro == "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。")
     assert(guide:find(ui.battleUI.instructions, 1, true))
     assert(not (intro .. guide):find("十五", 1, true) and not (intro .. guide):find("十七", 1, true))
     preview("intro", intro) preview("menu", guide)
@@ -84,7 +84,7 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     click(root, "battlePanel", "endTurn")
     assert(ui.mode == "defeat" and root:GetChild("menuPanel").visible)
     local ending = resultText(root, "subtitle")
-    assert(ending == "封印尚未修复，旅途仍可重启。")
+    assert(ending == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
     preview("defeat", ending)
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.run ~= previous and ui.map.floor == 0)
@@ -116,7 +116,7 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
         seen[node.type] = true
         if node.type == "boss" then
             local notice = root:GetChild("battlePanel"):GetChild("notice")
-            assert(notice.text == "昔日的封印守卫，已被深渊侵蚀。")
+            assert(notice.text == "石门缓缓开启。昔日的封印守卫仍在履行职责，只是漆黑的力量已令它分不清敌友。")
             preview("boss", notice.text)
             notice.text = "操作提示优先"
             ui:refresh()
@@ -163,7 +163,7 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
     assert(eventCount>=2,'same real map route must reach multiple different events')
     assert(root:GetChild("menuPanel"):GetChild("title").text == "深渊已被封印")
     assert(statValue(root, "floor") == data.rules.map.bossFloor .. " / " .. data.rules.map.bossFloor)
-    assert(resultText(root, "subtitle") == "封印重燃，深渊退去。旅行者继续前行。")
+    assert(resultText(root, "subtitle") == "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。")
     preview("victory", resultText(root, "subtitle"))
     click(root, "menuPanel", "start")
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
@@ -277,7 +277,7 @@ test("result page shows only the recorded run stats in the approved four cells",
     local menu = root:GetChild("menuPanel")
     assert(menu:GetChild("result").visible and not menu:GetChild("summary").visible and not menu:GetChild("tagline").visible)
     assert(menu:GetChild("title").text == "旅途在此中断")
-    assert(resultText(root, "subtitle") == "封印尚未修复，旅途仍可重启。")
+    assert(resultText(root, "subtitle") == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
     assert(statValue(root, "floor") == ui.map.floor .. " / " .. Data.rules.map.bossFloor)
     assert(statValue(root, "victories") == "7" and statValue(root, "time") == "62:05")
     assert(statValue(root, "deck") == tostring(#ui.run.deck))
@@ -295,7 +295,7 @@ test("result page shows only the recorded run stats in the approved four cells",
     assert(resultText(root, "status"):find("不会提交", 1, true))
     ui.run.phase = "map" ui.run.nodeFlow = {complete=true, result="boss_victory"} ui:refresh()
     assert(menu:GetChild("title").text == "深渊已被封印" and resultText(root, "detail"):find("生命 33 / ", 1, true))
-    assert(resultText(root, "subtitle") == "封印重燃，深渊退去。旅行者继续前行。")
+    assert(resultText(root, "subtitle") == "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。")
 end)
 
 test("repeated settlement clicks, clicks during reveal and restart attempts submit exactly once", function()

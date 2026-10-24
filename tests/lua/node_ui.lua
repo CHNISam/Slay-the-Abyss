@@ -5,6 +5,7 @@ local data = require("abyss_data")
 local Presentation = require("abyss_presentation")
 local Layout = require("abyss_ui_layout")
 local Theme = require("abyss_theme")
+local Narrative = require("abyss_narrative")
 local C = Theme.color
 local cursorEvents = { CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag" }
 local count = 0
@@ -144,7 +145,7 @@ test("unaffordable goods turn the price red, grey the card and explain without c
     assert(is(box.children.border.imageColor, C.line) and is(box.children.description.fontColor, C.textDim))
     local before = Combat.copy(ui.run)
     assert(not click("shopView/card1")) same(ui.run, before)
-    assert(get("notice").text == "金币不足：需要 " .. offer.price .. "，还差 1" and is(get("notice").fontColor, C.danger))
+    assert(get("notice").text == "这可不够啊，小姑娘。 金币不足：需要 " .. offer.price .. "，还差 1" and is(get("notice").fontColor, C.danger))
     assert(#changes == 0)
     ui.run.gold = offer.price ui:render()
     assert(is(price.children.value.fontColor, C.goldBright) and is(box.children.description.fontColor, C.text))
@@ -215,7 +216,7 @@ test("removal service shows shortfall and last-card protection without opening t
     local price = Nodes.view(ui.run, ui.map).node.removePrice
     assert(is(get("shopView/removalPrice").children.value.fontColor, C.danger))
     assert(not click("shopView/removal") and shown("shopView"))
-    assert(get("notice").text == "金币不足：需要 " .. price .. "，还差 " .. (price - 10))
+    assert(get("notice").text == "这可不够啊，小姑娘。 金币不足：需要 " .. price .. "，还差 " .. (price - 10))
     local single, singleGet, singleClick = setup("shop", nil, function(run) while #run.deck > 1 do table.remove(run.deck) end run.gold = 10000 end)
     assert(singleGet("shopView/removal").children.description.text == "牌组仅剩一张")
     local before = Combat.copy(single.run)
@@ -256,7 +257,6 @@ end)
 test("camp rest heals once through Nodes and holds the result until continue", function()
     local ui, get, click, shown, changes = setup("camp", nil, function(run) run.hp = 20 end)
     local healing = Nodes.view(ui.run, ui.map).node.heal
-    assert(get("notice").text:find("残存的岩灯照亮了短暂的歇脚处。", 1, true))
     assert(get("notice").text:find("休息或锻造，只能选一项", 1, true))
     assert(click("campView/rest")) assert(ui.run.hp == 20 + healing and ui.run.phase == "map")
     assert(ui:holding() and shown("campView") and get("campView/rest").children.selected.visible)
@@ -316,7 +316,7 @@ test("Purifier prays for free through the picker and shows the removal result", 
     local source = Combat.copy(data); source.rules.player.startingGold = 0
     source.rules.events.encounterId='purifier' -- explicit content fixture, independent of room RNG
     local ui, get, click, shown = setup("event", source)
-    assert(get("eventView/name").text == "净化神龛" and get("eventView/body").text ~= "")
+    assert(get("eventView/name").text == "净化神龛" and get("eventView/body").text == Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"))
     assert(get("eventView/option1").children.title.text == "［祈祷］")
     assert(get("eventView/option1").children.description.text == "免费从牌组移除一张卡牌")
     assert(get("eventView/option2").children.title.text == "［离开］" and not shown("eventView/option3"))
@@ -337,6 +337,7 @@ end)
 
 test("Cleric options show sourced costs, disabled reasons and the healing result", function()
     local ui, get, click, shown = setup("event", nil, function(run) run.hp, run.gold = 10, 35 end)
+    assert(get("eventView/body").text == Narrative.eventCopy.cleric.intro:gsub("\n\n", "\n"))
     local heal = get("eventView/option1").children.description.text
     assert(heal == "支付 35 金币，回复 20 点生命（生命 10 → 30）")
     local purify = get("eventView/option2")

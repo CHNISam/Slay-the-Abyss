@@ -1,3 +1,11 @@
+# 岩脉残响 · 当前叙事基线
+
+当前以用户指定的 [Lore v2](v2/README.md) 为准。四段主线必须逐字完整呈现，禁止 compact 退回。
+
+当前实现与平台缺口见 [V2-IMPLEMENTATION.md](V2-IMPLEMENTATION.md)。运行时文字源为 data/presentation/narrative.zh-CN.json；v2/ 保留用户包原始文件。下方仅是 TASK-32 的旧版验收历史，不再是当前实施要求。
+
+---
+
 # 岩脉残响 · 叙事接入
 
 TASK-32 的本地实现。主角沿用岩元素荧，终点为现有 guardian「深渊守卫」。遗迹与封印故事是本作品原创设定，不是原神官方任务。
