@@ -1,0 +1,106 @@
+{
+  "sourceCommit": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66",
+  "developIntegrated": "7f11cc2f589b676d10a494edd6b79f1167254c63",
+  "candidateSha256": "d76d7ded6008c6dbacfd79b202388d322f73badef0dad6e73de6784209a11660",
+  "runId": "d03a0dd9-f08b-4a2d-a1f7-f41fb6500f8c",
+  "officialSave": "1073741853",
+  "state": "succeeded",
+  "clientScriptLogRequested": true,
+  "freshReady": true,
+  "printCount": 64,
+  "expectations": {
+    "passed": true,
+    "met": 4,
+    "of": 4,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_RUN seed=\"",
+        "met": true,
+        "t": 81
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "normalValues": true,
+  "physicalInput": "documented elevated editor_input bridge; actual C-band clicks and enemy targets",
+  "battle": {
+    "result": "victory",
+    "enemies": {
+      "acid_slime_s": 12,
+      "spike_slime_m": 31
+    },
+    "startingHp": 80,
+    "endingHp": 80,
+    "startingGold": 99,
+    "endingGold": 114,
+    "observations": [
+      "Strike deals6 before Vulnerable",
+      "Bash deals8 and applies Vulnerable2",
+      "Strike deals9 against Vulnerable target",
+      "Defend grants3 with Frail",
+      "Final target death, victory, reward screen, reward claim and return to map observed"
+    ]
+  },
+  "acquisition": {
+    "id": "wild_strike",
+    "channel": "normal combat card reward",
+    "deckBefore": 10,
+    "deckAfter": 11,
+    "playedInNextBattle": false
+  },
+  "knownUiDefect": "Long reward names and Perfected Strike text clipped in this candidate; subsequent source fixes require their own native verification",
+  "boundaries": [
+    "One real normal battle, not a complete run",
+    "Only base starter card observations and one normal Wild Strike acquisition; no per-card 75 acceptance",
+    "Current 529c8af candidate is a different source and must be imported/tested separately"
+  ],
+  "files": [
+    {
+      "path": "screens/a891451-050-play-defend-1.png",
+      "bytes": 230601,
+      "sha256": "cee5ca0b971ca25e58e4e1a6e608ed6fd6ee38c9546850d5cce5341ad291629a"
+    },
+    {
+      "path": "screens/a891451-051-lethal-strike-1.png",
+      "bytes": 187742,
+      "sha256": "56ae05a7db99c99640c97b5b68ef1bdcf9b26ab3c310e5781dfe6615539e4042"
+    },
+    {
+      "path": "screens/a891451-052-reward-1.png",
+      "bytes": 168790,
+      "sha256": "10e2e3dc3074fc8f7c355dbaa4ae9f9f5a384190fcbf62a7d4687029b1cd9b6c"
+    },
+    {
+      "path": "screens/a891451-054-take-wild-1.png",
+      "bytes": 214528,
+      "sha256": "a3ee86e4ac23c7d3e97e726b3067f435b15181da202205f6c5c516f48d02ad00"
+    },
+    {
+      "path": "normal-a891451-status.json.gz",
+      "bytes": 3111,
+      "sha256": "d1126620975d9a823bbe97732663b54f7681d0e4b83ab9e000606e5d40af367f",
+      "originalBytes": 31395,
+      "originalSha256": "e2c9417888db853a492bdcea260bef26869680427c8fa1069f65498f07b93f6c"
+    },
+    {
+      "path": "normal-a891451-log.gia.gz",
+      "bytes": 1068,
+      "sha256": "914694ec6833975336b0d1d632b4278df7448bb62a020a0b0d4c5e608bb81698",
+      "originalBytes": 10728,
+      "originalSha256": "31d12a5a182dabd714820102a7ea7d6059b57df20695c68443fe1bc9b86495c9"
+    }
+  ]
+}

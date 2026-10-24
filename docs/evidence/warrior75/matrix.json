@@ -55,22 +55,28 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
-        "evidence": []
+        "evidence": [
+          "normal-a891451.json"
+        ],
+        "historicalPartialObservation": "base card played in one normal a891451 battle; upgraded and current source unverified"
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
-        "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证"
+        "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -122,22 +128,28 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
-        "evidence": []
+        "evidence": [
+          "normal-a891451.json"
+        ],
+        "historicalPartialObservation": "base card played in one normal a891451 battle; upgraded and current source unverified"
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
-        "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证"
+        "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -189,22 +201,28 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
-        "evidence": []
+        "evidence": [
+          "normal-a891451.json"
+        ],
+        "historicalPartialObservation": "base card played in one normal a891451 battle; upgraded and current source unverified"
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
-        "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证"
+        "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -257,23 +275,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -326,23 +346,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -395,23 +417,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -468,23 +492,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -537,23 +563,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -606,23 +634,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -675,23 +705,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -744,23 +776,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -813,23 +847,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -882,23 +918,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -951,23 +989,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1020,23 +1060,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1089,23 +1131,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1158,23 +1202,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1227,23 +1273,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1296,23 +1344,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1365,23 +1415,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1434,23 +1486,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1503,23 +1557,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1572,23 +1628,28 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
-        "evidence": []
+        "evidence": [
+          "normal-a891451.json"
+        ],
+        "historicalPartialObservation": "legal normal reward claim only; next battle use unverified"
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1641,23 +1702,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1714,23 +1777,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1783,23 +1848,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1852,23 +1919,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1921,23 +1990,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -1990,23 +2061,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2059,23 +2132,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2128,23 +2203,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2197,23 +2274,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2266,23 +2345,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2335,23 +2416,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2404,23 +2487,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2473,23 +2558,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2542,23 +2629,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2611,23 +2700,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2680,23 +2771,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2749,23 +2842,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2818,23 +2913,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2887,23 +2984,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -2956,23 +3055,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3025,23 +3126,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3094,23 +3197,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3163,23 +3268,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3232,23 +3339,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3301,23 +3410,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3370,23 +3481,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3439,23 +3552,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3508,23 +3623,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3577,23 +3694,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3646,23 +3765,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3719,23 +3840,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3788,23 +3911,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3857,23 +3982,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3926,23 +4053,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -3995,23 +4124,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4064,23 +4195,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4133,23 +4266,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4202,23 +4337,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4271,23 +4408,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4340,23 +4479,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4409,23 +4550,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4478,23 +4621,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4547,23 +4692,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4616,23 +4763,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4685,23 +4834,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4754,23 +4905,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4823,23 +4976,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4892,23 +5047,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -4961,23 +5118,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -5030,23 +5189,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -5099,23 +5260,25 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     },
     {
@@ -5168,29 +5331,39 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua",
-        "fullRegression": "running-after-develop-integration",
+        "fullRegression": "CI 40129254276 running; not accepted",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
-        "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66"
+        "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+        "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
+        "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified"
       },
       "platform": {
-        "build": "pending-current-source",
-        "import": "pending-current-source",
+        "build": "passed-current-source-audit",
+        "import": "pending-normal-current-source",
         "live": "not-accepted-per-card",
         "evidence": []
       },
       "strictAcceptance": "pending",
       "remaining": [
-        "同源完整回归仍在运行，未宣称整体通过",
+        "同源完整回归CI 40129254276正在运行，未宣称整体通过",
         "逐卡平台实际使用、升级和多卡联动未全部实测",
         "固定社区反编译镜像与池序oracle已核对，正版PC构建身份尚未认证",
-        "Courier补货的独立MathUtils身份随机源未接入，不计严格商店规则通过"
+        "Courier独立会话熵与cardRng消费路径本地通过；原作外部历史与自然取得后的平台购买待验"
       ]
     }
   ],
-  "runtimeSource": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66",
-  "localEvidence": ".artifacts/warrior75-local-a891451/results.json",
-  "currentCandidate": "building; not imported or played",
+  "runtimeSource": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+  "localEvidence": ".artifacts/warrior75-local-529c8af/results.json",
+  "currentCandidate": {
+    "source": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+    "sha256": "0ed96e096502a3b46513080899bfb23dc4929143eebe6a77d99d823fe0a659b2",
+    "path": ".artifacts/warrior75-native-529c8af/wmvmujrg1-0/working.gil",
+    "audit": "passed: 52 modules, 2391 controls, max59 children; static 0 errors/34 warnings",
+    "officialImport": "pending normal candidate",
+    "play": "pending normal candidate",
+    "uiGate": "failed; all exact-candidate screen reviews incomplete"
+  },
   "historicalCandidates": [
     {
       "source": "6c8f0545bd126a033ea8e0f0193d93b9a7347093",
@@ -5200,6 +5373,21 @@
       "bootRun": "712d60d5-c23d-4979-aa04-cce22762ce3e (original imported source 32370b8)",
       "normalRun": "92549853-f293-4da2-8d4d-cc8a50371b51",
       "boundary": "Fresh ready/no-error logs and normal map/battle entry only; not per-card live acceptance; newer develop integration still pending."
+    },
+    {
+      "source": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66",
+      "sha256": "d76d7ded6008c6dbacfd79b202388d322f73badef0dad6e73de6784209a11660",
+      "officialSave": "1073741853",
+      "normalRun": "d03a0dd9-f08b-4a2d-a1f7-f41fb6500f8c",
+      "evidence": "normal-a891451.json",
+      "boundary": "One original-value normal battle won and Wild Strike legally claimed, not played next battle; reward text clipping found, current source fixes pending native review."
     }
-  ]
+  ],
+  "nativeDiagnostic": {
+    "kind": "explicit test fixtures, separate from normal acquisition",
+    "source": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+    "candidateSha256": "e42ce8e4fc52d302fd592930551f26d7fd9e7759686015022c17b12d1b25a522",
+    "runId": "f4d29923-3eb9-4717-b86d-e5878c6eb623",
+    "status": "running; no acceptance yet"
+  }
 }
