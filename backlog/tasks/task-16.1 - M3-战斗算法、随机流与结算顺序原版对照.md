@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 16:39'
+updated_date: '2026-10-24 20:35'
 due_date: '2026-10-28'
 labels:
   - required
@@ -44,3 +44,9 @@ ordinal: 43000
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-25 PR193已合入9ae1aec，check/presentation完整通过。新卡牌状态切片建立唯一run.cardRng+offset owner，Shop准备与购买成功后才提交，不再持久shopRng.card；8组状态/入口、商店15组、致死药水4组及独立oracle 228原语/148稀有度偏移全部通过。完整卡牌身份/奖励概率尚未接，不能计整池或平台AC；见docs/reviews/TASK-16.1-card-random-owner.md。
+<!-- SECTION:NOTES:END -->

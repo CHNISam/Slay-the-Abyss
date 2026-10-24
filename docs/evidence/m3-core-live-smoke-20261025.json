@@ -1,0 +1,44 @@
+{
+  "sourceCommit": "9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db",
+  "candidateSha256": "473f7018231b0e14a0fc976ffffab8845248b7ad552053e17d8d144463e0ebf4",
+  "artifactRoot": ".artifacts/m3-combined-9ae1aec/live-smoke",
+  "evidenceHashes": {
+    "official-1073741854-before-play.gil":"618e3a0fd9adbe060ab67367307699bee9143287045c7ea339fdfa95a32e4681",
+    "official-sourceguard-formal-cli.json":"b9f2fd937161e8cd3563edd30c8d5c4462e6ae33fbc761736bf4d411e04af128",
+    "playtest-1/session-log.gia":"d861e1596c79478b2cd786c8c48620e881aab389f28860abc11c844ba5a78090",
+    "playtest-1/decoded.json":"f4656f5f4092c3de303f2ac5edf924865bf9f252761cc69806d03571687531bb",
+    "other-workspace-busy-status.json":"43de6a58c1f553602512e271eedff55d3287ff4ea929644f6db32c367f3db852",
+    "REPORT.md":"4a714864cbc98fb9fdc8770acf440af4dc87969ab7fbf5adc32ffe2dca78c44e"
+  },
+  "officialSaveId": "1073741854",
+  "import": {"runId":"91240696-478e-47b8-8f66-b9734e40d996","state":"succeeded","openedAndSaved":true},
+  "sourceguard": {
+    "frozenCli":"scripts/verify-official-client.mjs",
+    "report":"official-sourceguard-formal-cli.json",
+    "exitCode":0,"matched":57,"missing":[],"diff":[],"unexpected":[],
+    "normalization":"Leading UTF-8 BOM and CRLF to LF only; raw/normalized hashes retained separately",
+    "rawSidecarByteEquality":false,
+    "rawDifference":"Official editor added one leading UTF-8 BOM to each external file"
+  },
+  "playtest": {
+    "runId":"52225f03-dd80-4aec-91e3-b7bef57e2412","state":"succeeded",
+    "clientScriptLogRequested":true,"subscriptionVerified":true,
+    "log":"2026-10-25_04-18-25_41_217122260.gia","actualPrints":27,
+    "readyRecord":2,"seedRecord":3,"seed":25757,"seedSource":"clock",
+    "runtimeErrorsInCapturedPrints":0,
+    "observed":["normal menu","fresh map at 80 HP and 99 gold","Small Slimes battle: Spike S14 / Acid M29","two Strike hits of 6","enemy hits 5 and 10","next player turn at 65 HP"],
+    "notObserved":["battle victory","reward list","card picker and return","separate gold/potion claim","return to map"],
+    "endedAndDesktopReleased":true,
+    "excludedInputs":"Four inputs after automatic exit reached editor; preserved as invalid operation evidence, never counted as combat"
+  },
+  "secondAttempt": {
+    "started":false,"result":"DESKTOP_BUSY",
+    "otherRunId":"f4d29923-3eb9-4717-b86d-e5878c6eb623",
+    "otherWorkspace":".worktrees/warrior75/.artifacts/warrior75-live-high",
+    "stateObserved":"running","interference":false
+  },
+  "offlineReadback":{"luaModules":57,"uiControls":2824,"templateControls":13,"maximumDirectChildren":60,"fullGraphPayload":"PASS, excluding editing coordinates only"},
+  "uiAcceptanceGate":"NOT_PASSED",
+  "milestone3":"INCOMPLETE",
+  "boundary":"Only this exact 9ae candidate. Later card-state, potion and event implementation slices require their own candidate/live verification."
+}
