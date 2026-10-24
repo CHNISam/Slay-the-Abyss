@@ -330,6 +330,21 @@
       "arcDegrees": 2.5,
       "arcDrop": 4
     },
+    "rewardPick": {
+      "note": "战后选牌：居中三张大牌，与底部战斗手牌分开。scale/hoverScale 与批准稿 pick.png 的 1.38/1.5 一致；step 留足缝隙，悬停放大后相邻牌不重叠。",
+      "stage": [0, 28, 960, 452],
+      "title": [0, 226, 760, 44],
+      "subtitle": [0, 186, 760, 28],
+      "y": -20,
+      "step": 268,
+      "scale": 1.38,
+      "hoverScale": 1.5,
+      "hoverLift": 12,
+      "ease": 14,
+      "enterScale": 0.88,
+      "enterRise": 28,
+      "skip": [0, -250, 250, 44]
+    },
     "cardDrag": {
       "threshold": 8,
       "playArea": [0, 66, 1200, 272],
