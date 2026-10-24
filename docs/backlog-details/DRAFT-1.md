@@ -1,22 +1,7 @@
----
-id: DRAFT-1
-title: E1 候选：风元素荧 / Silent 第二职业
-status: Draft
-assignee: []
-created_date: '2026-10-23 01:59'
-updated_date: '2026-10-24 02:02'
-labels:
-  - optional
-  - stretch
-  - candidate
-dependencies:
-  - TASK-20
-references:
-  - data/SOURCES.md
-  - docs/SCOPE.md
-priority: low
-type: spike
----
+# DRAFT-1 开发附件
+
+改写前的范围、技术要求和历史记录保留在这里，执行时仍须遵守。
+
 
 ## Description
 

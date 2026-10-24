@@ -1,19 +1,7 @@
----
-id: DRAFT-3
-title: 完整双人合作模式（候选）
-status: Draft
-assignee: []
-created_date: '2026-10-23 07:35'
-updated_date: '2026-10-24 02:07'
-labels:
-  - optional
-  - coop
-  - future
-dependencies:
-  - TASK-20
-  - TASK-33
-priority: low
----
+# DRAFT-3 开发附件
+
+改写前的范围、技术要求和历史记录保留在这里，执行时仍须遵守。
+
 
 ## Description
 

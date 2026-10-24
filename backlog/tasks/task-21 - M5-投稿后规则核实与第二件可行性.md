@@ -1,33 +1,29 @@
 ---
 id: TASK-21
-title: 可选：投稿后规则更新与第二件可行性研究
+title: 投稿后再查：能否更新、要不要做第二件作品
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-24 03:15'
 labels:
   - optional
   - post-submission
   - not-current-sprint
 dependencies: []
+references:
+  - docs/backlog-details/TASK-21.md
 ordinal: 21000
 ---
 
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-核实已投稿作品能否更新及对应评审规则；评估第二件作品是否有完整内容且时间允许。
+首件作品投稿后，再核实更新规则，并看看是否还有时间做一件完整的第二作品。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 核实已投稿作品能否更新及对应评审规则
-- [ ] #2 评估第二件作品是否完整且时间允许
-- [ ] #3 结论写入决策记录
+- [ ] #1 查清已投稿作品能否更新，以及更新会怎样影响评审。
+- [ ] #2 评估第二件作品是否完整、时间是否足够。
+- [ ] #3 把结论和理由记下来。
 <!-- AC:END -->
-
-## Implementation Notes
-
-<!-- SECTION:NOTES:BEGIN -->
-从M5移出：属于投稿后额外研究。发布前资格/不可更换规则仍必须由TASK-19/6确认，不因移除此任务降低发布标准。
-<!-- SECTION:NOTES:END -->

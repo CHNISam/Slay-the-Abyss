@@ -1,10 +1,11 @@
 ---
 id: TASK-31
 title: 将妹妹的电脑配置为 CI runner（用户回家后主导）
-status: To Do
+status: Done
 assignee:
   - user
 created_date: '2026-10-23 02:25'
+updated_date: '2026-10-24 03:13'
 labels:
   - user-led
   - manual-trigger
@@ -25,7 +26,19 @@ ordinal: 37000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 用户回家并主动发起后，妹妹的电脑已注册为该项目的 CI runner，且在线可用
-- [ ] #2 至少一次项目 CI 作业在该电脑上实际运行成功，并记录结果
-- [ ] #3 记录该电脑 runner 的启动、停止与维护方式
+- [x] #1 用户回家并主动发起后，妹妹的电脑已注册为该项目的 CI runner，且在线可用
+- [x] #2 至少一次项目 CI 作业在该电脑上实际运行成功，并记录结果
+- [x] #3 记录该电脑 runner 的启动、停止与维护方式
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-24：你确认这项已经完成。
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+新增电脑的自动检查环境已配置完成，由用户确认。
+<!-- SECTION:FINAL_SUMMARY:END -->

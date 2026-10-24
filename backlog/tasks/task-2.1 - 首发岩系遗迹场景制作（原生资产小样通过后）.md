@@ -1,11 +1,11 @@
 ---
 id: TASK-2.1
-title: 首发岩系遗迹场景制作（原生资产小样通过后）
+title: 制作首发岩系遗迹场景
 status: To Do
 assignee:
   - '@art-scene'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-24 02:01'
+updated_date: '2026-10-24 03:15'
 due_date: '2026-10-28'
 labels:
   - art
@@ -15,6 +15,7 @@ dependencies:
   - TASK-10.1
 references:
   - docs/art/scene-spike/README.md
+  - docs/backlog-details/TASK-2.1.md
 parent_task_id: TASK-2
 type: task
 ordinal: 32000
@@ -23,12 +24,12 @@ ordinal: 32000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-复用PR25现成官方原生模型方案；当前仅完成7/1件GIA离线构建与读回。无额外框架；发布由人完成。
+用官方可用的模型制作正式场景。先验证一个小样在游戏里能用，再做完整布景。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 原生单建筑和7件景片先完成官方副本导入、GUID读回、固定镜头真机显示和性能检查
-- [ ] #2 首发场景按验证过的官方模型与预算制作，角色轮廓/出生/脚高/碰撞/安全区合格，不将二维GIA当3D建筑
-- [ ] #3 独立feat分支与PR，逐包导入去重并留截图；主Agent集成质量检查且不覆盖原始存档
+- [ ] #1 先把单个建筑和7件景片放进游戏，确认位置、固定镜头和性能正常。
+- [ ] #2 完整场景里角色站位、脚下高度、碰撞和安全区域正确，画面符合已定方案。
+- [ ] #3 分批导入并留截图，不重复堆放资产，也不覆盖原来的正式存档。
 <!-- AC:END -->
