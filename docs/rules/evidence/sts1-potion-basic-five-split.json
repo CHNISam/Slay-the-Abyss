@@ -1,0 +1,111 @@
+{
+  "baseCommit": "0b34ca6aef4c95640166a1e3365f50d2935a7a8b",
+  "originalFixtureGitBytesSha256": "1c174e3ce35a75022f17cd8ad19463262efc00115a261bc8554b3f2606f259d5",
+  "sharedPrefixByteIdentical": true,
+  "originalSharedPrefixSha256": "21e0fe6e21c7970cac0263ebd1d2e15e0c967d8488bd0793f63459dddc67464a",
+  "totalOriginalBlocks": 11,
+  "perFixtureTimeoutMs": 30000,
+  "partitions": [
+    {
+      "file": "tests/lua/potion_basic_five.lua",
+      "originalGroups": [
+        1,
+        11
+      ],
+      "marker": "LUA_POTION_BASIC_FIVE_PASS",
+      "count": 2,
+      "blockSha256": [
+        "29a2eabc3b0acecfca276cad2110b4742cd270b6a5c0109505339190493a08ee",
+        "191df4f0b838410538949fc426af04454329806b3900e1c1207017c51f56735d"
+      ],
+      "blocksByteIdentical": true
+    },
+    {
+      "file": "tests/lua/potion_basic_five_draw.lua",
+      "originalGroups": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "marker": "LUA_POTION_BASIC_FIVE_DRAW_PASS",
+      "count": 5,
+      "blockSha256": [
+        "3f6952674d62aa3bb4d230c6e0dd3475db6e23f020d610a51709acf6663f875d",
+        "2b6840fdcc431d3cb9271ae2105a552be4854cfd885684f2e06612b917d32659",
+        "cd5450ff3ca8b94718e5a278b6234065762b1141948ce493b43170405b22645b",
+        "6d1474a5581e63438cf911199f0e4818d8ab7cb9101132e19481460c7f307b24",
+        "f1e0bc74adcce025f2df450ee233f42ec4e779f437b27ddc73bc621f5a102785"
+      ],
+      "blocksByteIdentical": true
+    },
+    {
+      "file": "tests/lua/potion_basic_five_status.lua",
+      "originalGroups": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "marker": "LUA_POTION_BASIC_FIVE_STATUS_PASS",
+      "count": 4,
+      "blockSha256": [
+        "14fd3ae7f61fc5c34aad31c82a18337ab49e546e3f4c760f02ad9a1909894916",
+        "bb83abf214a21ac25983135c7b4698caf9f119c3e28dd1b319774341217ab022",
+        "e652e0e13e87f6faa0477719b971dbf9790e2af636be788c9abdfaaa4e19618f",
+        "139f5bc4eb424c5732c7805e266a63f6032138a7d6f4131d6fb52d7684abd36c"
+      ],
+      "blocksByteIdentical": true
+    }
+  ],
+  "acquisitionUnchangedGitSha256": "288636fa51e979b4e0a935774f0fd269cea76284d9aab71cc018c250985e69f4",
+  "definitionJsUnchanged": true,
+  "acquisitionJsUnchanged": true,
+  "verification": {
+    "command": "C:/Program Files/nodejs/node.exe --test tests/potion-basic-five.test.mjs",
+    "nodeVersion": "v22.22.1",
+    "nodeBinary": "C:/Program Files/nodejs/node.exe",
+    "exitCode": 0,
+    "attempts": 1,
+    "jsTests": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "caseCounts": [
+      2,
+      5,
+      4
+    ],
+    "allOriginalGroups": 11,
+    "acquisitionRuns": 1,
+    "perFixtureElapsedMs": {
+      "potion_basic_five.lua": 10270,
+      "potion_basic_five_draw.lua": 2642,
+      "potion_basic_five_status.lua": 5479
+    },
+    "acquisitionJsTestElapsedMs": 3755.679,
+    "totalGateElapsedMs": 22296.9726,
+    "timeoutMs": 30000,
+    "timeouts": 0,
+    "resourcePolicy": "only after root granted exclusive serial narrow window; released immediately after single gate",
+    "sourceGeneration": "only original buildLuaData call; no UI build/cache generation",
+    "logPath": ".artifacts/potion-basic-five-node22.log",
+    "logSha256": "5e0eb7b29e973c1002ee105e583ae112ad210521fa7722543db2f0919546a709",
+    "diffCheck": "git diff --check exit0",
+    "cost": "unknown",
+    "notPerformed": [
+      "full suite/build",
+      "GUI",
+      "push",
+      "merge",
+      "other feature/tree changes"
+    ]
+  },
+  "baselineFailure": {
+    "ciRun": 40139999800,
+    "head": "0b34ca6aef4c95640166a1e3365f50d2935a7a8b",
+    "originalFixtureTimeoutMs": 30000,
+    "rootRawLog": "F:/New folder/.artifacts/m3-pr197-0b34ca6-job-raw.log"
+  }
+}
