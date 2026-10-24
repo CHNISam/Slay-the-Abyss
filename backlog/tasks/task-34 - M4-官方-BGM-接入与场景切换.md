@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 16:14'
+updated_date: '2026-10-24 16:19'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -24,6 +24,7 @@ references:
   - docs/DELIVERY-CLOSEOUT.md
   - docs/evidence/delivery-platform-20261024.json
   - docs/AUDIO_RICHNESS.md
+  - docs/evidence/audio-richness-integrated-20261025.json
 priority: high
 type: enhancement
 ordinal: 46000
@@ -62,4 +63,6 @@ ordinal: 46000
 独立冻结源1da28a8读回通过：全部模块逐byte一致、2334控件/max58、结算22节点和BGM83节点，两个nativeBgmEnabled记录均boolean true，候选hash ae1d4d9fe859652f80164d40c89bfac1dae3c016666d1ca6b19f06f766c095b4。证据docs/evidence/audio-richness-20261024.json；未官方导入/听验。
 
 用户明确本版直接采用、不等试听，不合适后续改。补行动发声后的e974c25完整check和带BGM候选独立读回均通过；与develop最新UI集成后再重建最终副本，未冒称此前副本为当前集成版。
+
+最终集成候选冻结源277c2a8、hash04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac，路径在新证据中。原生BGM图83节点、双true且全部模块独立读回匹配；保持liveWrite=0。用户取消试听前置，直接采用后再反馈；实际听验状态仍NOT_TESTED。
 <!-- SECTION:NOTES:END -->

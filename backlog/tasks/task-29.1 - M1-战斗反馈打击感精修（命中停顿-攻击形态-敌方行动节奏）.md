@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 03:53'
-updated_date: '2026-10-24 16:14'
+updated_date: '2026-10-24 16:19'
 due_date: '2026-10-28'
 labels:
   - enhancement
@@ -48,4 +48,6 @@ ordinal: 44000
 2026-10-24用户指出只按招式/命中分音会漏角色与怪物自身发声。本轮读仓库已有Cultist/Looter/JawWorm资料，明确原版不是全动作统一一声；补23敌人按身份固定行动音、玩家统一动作音，每intent/play一次，睡眠/眩晕/逃跑静默，命中和死亡独立。荧战斗语音在目录未确认，未冒称剑动作音为语音。生产夹具17组通过；新增主题配置覆盖门禁，重建完整音频副本及全量回归进行中。用户已要求直接采用、后续不合适再改；不等待用户试听但不伪造实机证据。
 
 行动声音切片e974c25完整check exit0：JS1092通过/118跳过、175个Lua夹具全部通过、Python22项1跳过；精修17组。23敌人和玩家行动音覆盖门禁通过，独立完整副本读回通过，hash71e5d4f034ac1f2f5d68488be62e0591793aa55392de2087e0be8f70fea9e5ac。用户要求直接采用，不等试听。随后集成develop最新界面；TASK-4并行任务说明完整保留develop版本，音频证据集中在本任务、34和专项文档，未丢玩法/界面改动。
+
+最终与develop ead3513集成的冻结源277c2a8已重建完整音频副本，17组行动/命中/死亡与39组房间回归通过，全部模块逐byte、BGM双true、原生图及UI读回通过；hash04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac。详见docs/evidence/audio-richness-integrated-20261025.json。未官方导入/听验；用户要求先采用。
 <!-- SECTION:NOTES:END -->
