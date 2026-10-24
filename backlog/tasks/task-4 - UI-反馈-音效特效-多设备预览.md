@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 06:51'
+updated_date: '2026-10-24 07:03'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -26,6 +26,7 @@ dependencies:
 references:
   - docs/backlog-details/TASK-4.md
   - docs/backlog-details/TASK-4.2.md
+  - docs/DELIVERY-CLOSEOUT.md
 ordinal: 4000
 ---
 
@@ -45,6 +46,7 @@ ordinal: 4000
 - [ ] #6 群攻、多段、中毒、反伤和死亡等表现完整，实际听过声音并检查设备性能。
 - [ ] #7 保存同一个版本的测试与试玩记录，分清本地做好和游戏里验过。
 - [ ] #8 按已定界面检查表逐屏验收，音画和手机电脑操作达到你批准的标准。
+- [ ] #9 本任务负责人核对所有已交付首发资产与本地切片的正式装配、平台导入和实机结果；占位或缺测均有承接任务、责任人和下一动作，不用子任务Done代替整体验收。
 <!-- AC:END -->
 
 ## Implementation Notes

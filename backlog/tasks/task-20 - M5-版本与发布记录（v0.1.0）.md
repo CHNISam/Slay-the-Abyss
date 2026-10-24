@@ -2,9 +2,10 @@
 id: TASK-20
 title: 保存发布版本、更新说明和投稿凭证
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
@@ -12,6 +13,7 @@ dependencies:
   - TASK-6
 references:
   - docs/backlog-details/TASK-20.md
+  - docs/DELIVERY-CLOSEOUT.md
 ordinal: 20000
 ---
 

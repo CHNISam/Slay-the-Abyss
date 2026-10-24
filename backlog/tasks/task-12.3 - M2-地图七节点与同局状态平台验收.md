@@ -2,9 +2,10 @@
 id: TASK-12.3
 title: 实测地图、七类房间和跨房间资源
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 22:21'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -15,6 +16,7 @@ dependencies:
   - TASK-14
 references:
   - docs/backlog-details/TASK-12.3.md
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-12
 priority: high
 ordinal: 36000

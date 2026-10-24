@@ -2,13 +2,17 @@
 id: TASK-10.5.1
 title: 状态详情与敌人意图改成白话，并修复详情面板只显示一行
 status: In Progress
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-24 04:39'
-updated_date: '2026-10-24 05:14'
+updated_date: '2026-10-24 07:01'
+due_date: '2026-10-24'
 labels: []
+milestone: m-2
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/159'
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-10.5
 priority: high
 type: bug

@@ -3,9 +3,9 @@ id: TASK-13.1
 title: 核对事件、商店价格和奖励规则
 status: In Progress
 assignee:
-  - '--plan'
+  - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-28'
 labels:
   - required
@@ -19,6 +19,7 @@ references:
   - src/lua/abyss_nodes.lua
   - src/lua/abyss_run.lua
   - docs/backlog-details/TASK-13.1.md
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-13
 priority: high
 type: enhancement

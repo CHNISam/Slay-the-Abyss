@@ -2,9 +2,10 @@
 id: TASK-12.5
 title: 实测地图、价格和掉落概率是否正确
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -14,6 +15,7 @@ dependencies:
   - TASK-13.1
 references:
   - docs/backlog-details/TASK-12.5.md
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-12
 priority: high
 type: task

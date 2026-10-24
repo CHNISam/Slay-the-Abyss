@@ -2,9 +2,10 @@
 id: TASK-17.3
 title: 实测第一幕17层能正常通关和重开
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -14,6 +15,7 @@ dependencies:
   - TASK-3.3
 references:
   - docs/backlog-details/TASK-17.3.md
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-17
 priority: high
 type: task

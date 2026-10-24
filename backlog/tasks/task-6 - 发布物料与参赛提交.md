@@ -2,9 +2,10 @@
 id: TASK-6
 title: 正式发布游戏并报名比赛
 status: To Do
-assignee: []
+assignee:
+  - user
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
@@ -12,6 +13,7 @@ dependencies:
   - TASK-19
 references:
   - docs/backlog-details/TASK-6.md
+  - docs/DELIVERY-CLOSEOUT.md
 priority: high
 ordinal: 6000
 ---
