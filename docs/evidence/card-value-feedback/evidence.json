@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "runtimeSource": "bd7620d8fa4adafe254cdeaddec93315c2c94b8e",
+  "fixtureSource": "6e22f2028043d276087fa904363a8ff023a9fb9d",
+  "tier": "A_NATIVE_INLINE_PC_VERIFIED",
+  "normalCandidate": {
+    "path": ".artifacts/card-inline-candidate/scenes/saves/abyss-card-inline-normal.gil",
+    "sha256": "5e8e5705a60cb6a39be5be017bce0499173d2f084855ecf14c0bc526141814cc",
+    "modules": 49,
+    "controls": 2339,
+    "maxChildren": 58,
+    "auditOk": true,
+    "errors": 0,
+    "warnings": 32,
+    "officialImport": "NOT_RUN"
+  },
+  "fixture": {
+    "path": ".artifacts/card-inline-fixture/scenes/saves/abyss-card-value-fixture.gil",
+    "sha256": "f51581d390bd7c7cfbbd0cccb058f94e7a43520be8887827eb691e4686712e4f",
+    "officialSaveId": 1073741851,
+    "officialSnapshotSha256": "328e2f89b2f57d7888f1fb79b3e91a566c408e02f4ebb2388a0f140df608005a",
+    "officialModuleCount": 50,
+    "inventoryMatch": true,
+    "uiMatch": true,
+    "controlledStates": true,
+    "entryModified": true
+  },
+  "nativeRun": {
+    "id": "ccd6fe38-95ad-4d93-9d2d-5fca20f4bcc7",
+    "state": "succeeded",
+    "clientScriptLog": true,
+    "printCount": 33,
+    "prints": [
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_UI init Color=table",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_UI viewport_ready",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_BGM_REQUEST ABYSS_BGM_STOP",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_RUN seed=48048 source=clock",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_BGM_REQUEST ABYSS_BGM_MAP",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_UI ready",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "ABYSS_BGM_REQUEST ABYSS_BGM_BATTLE",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=neutral hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 1,
+        "graphId": "1073741826",
+        "text": "ABYSS_BGM_APPLIED stop"
+      },
+      {
+        "t": 1,
+        "graphId": "1073741826",
+        "text": "ABYSS_BGM_APPLIED map id=10040"
+      },
+      {
+        "t": 1,
+        "graphId": "1073741826",
+        "text": "ABYSS_BGM_APPLIED battle id=10044"
+      },
+      {
+        "t": 7,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=frail hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 14,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=dexterity hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 21,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=weak hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 28,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=aim hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 35,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=cancel hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 42,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=mixed hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 49,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=ten hand=10",
+        "clientScript": true
+      },
+      {
+        "t": 56,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=neutral hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 63,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=frail hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 70,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=dexterity hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 77,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=weak hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 84,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=aim hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 91,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=cancel hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 98,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=mixed hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 105,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=ten hand=10",
+        "clientScript": true
+      },
+      {
+        "t": 112,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=neutral hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 119,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=frail hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 126,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=dexterity hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 133,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=weak hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 140,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=aim hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 147,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=cancel hand=5",
+        "clientScript": true
+      },
+      {
+        "t": 154,
+        "graphId": null,
+        "text": "CARD_VALUE_FIXTURE stage=mixed hand=5",
+        "clientScript": true
+      }
+    ],
+    "physicalWindow": [
+      3840,
+      2160
+    ],
+    "exportedFrames": [
+      1600,
+      900
+    ],
+    "screenshotRedaction": {
+      "rectangle": [
+        1280,
+        878,
+        1600,
+        900
+      ],
+      "purpose": "UID only; card content unchanged"
+    },
+    "naturalAcquisition": "NOT_RUN",
+    "physicalDrag": "NOT_RUN",
+    "mouseSelection": "OBSERVED_SELECTED_CARD_WITH_3_ENERGY_AND_5_CARDS"
+  },
+  "local": {
+    "cardPreviewGroups": 19,
+    "valueModelGroups": 10,
+    "growthGroups": 11,
+    "fixtureStages": 8,
+    "layoutTests": 4,
+    "fullCheck": "FAIL_TIMEOUT",
+    "failedFixture": "tests/lua/gremlin_gang.lua",
+    "timeoutMs": 30000,
+    "isolatedRetry": {
+      "status": "PASS",
+      "groups": 29,
+      "selectionPaths": 1680,
+      "durationMs": 19332
+    },
+    "js": {
+      "total": 1226,
+      "pass": 1108,
+      "skip": 118,
+      "fail": 0
+    }
+  },
+  "implementationCi": {
+    "sha": "6e22f2028043d276087fa904363a8ff023a9fb9d",
+    "runId": 40118154321,
+    "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40118154321",
+    "check": "success",
+    "presentation": "success",
+    "luaFixtureCount": 180
+  },
+  "mergeCi": "Must inspect current PR194 SHA; this file records the implementation CI above.",
+  "mobilePhysical": "NOT_RUN",
+  "strictUiGate": "FAIL_PARTIAL_PENDING",
+  "strictUiScreens": [
+    "menu:partial",
+    "map:partial",
+    "battle:partial",
+    "rewards:partial",
+    "cardChoice:partial",
+    "camp:pending",
+    "shop:pending",
+    "event:pending",
+    "treasure:pending",
+    "result:partial",
+    "deck:pending"
+  ],
+  "contrast": {
+    "backgroundToken": "#1C1E27",
+    "nativeJpegSample": [
+      28,
+      28,
+      38
+    ],
+    "increase": 8.164,
+    "decrease": 5.935,
+    "certification": "No whole-game WCAG claim"
+  },
+  "rulesChanged": false,
+  "published": false
+}

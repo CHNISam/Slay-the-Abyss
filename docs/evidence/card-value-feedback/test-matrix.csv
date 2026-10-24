@@ -1,0 +1,33 @@
+ID,场景,卡牌/界面,环境与状态,预期有效数值,方向,显示/测试断言,建议验证层,本地结果,原生结果,证据,范围与缺口
+T01,静止无状态基础打击,strike,base damage=6; no statuses,6,same,手牌无箭头、中性文字,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T02,力量 +2,strike,strength=2,8,up,伤害数字↑绿；描述其余文字正常,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,力量+2打击精确场景本地通过；原生敏捷增益与目标易伤已验，但不替代本场景
+T03,虚弱1,strike,weak=1,4,down,伤害数字↓红；当前伤害非生命损失,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T04,力量+2与虚弱1抵消,strike,"strength=2,weak=1",6,same,净效果为6，不显示假增减,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T05,目标易伤但未瞄准,strike,enemy[2].vulnerable=1; aim=nil,6,same,不得将目标易伤预加载到手牌,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T06,拖到易伤敌人,strike,enemy[2].vulnerable=1; aim=2,9,up,仅正在拖拽的牌变化,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T07,取消指向后恢复,strike,aim=2 then cancel,6,same,符号与颜色同步清理，无残影,UI+INPUT,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T08,由目标A切换目标B,strike,enemy1 no powers; enemy2 vulnerable; aim 1→2,6→9,same→up,仅当前被指牌重算，其他牌不污染,UI+INPUT,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T09,虚弱加目标易伤,strike,weak=1; enemy2 vulnerable=1; aim=nil→2→nil,4→6→4,down→same→down,只最终 floor，取消恢复红,CORE+UI+INPUT,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T10,基础防御,defend,base block=5; no powers,5,same,中性、无符号,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T11,脆弱1基础防御,defend,frail=1,3,down,5×0.75 floor=3，数字和颜色+↓同步,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T12,敏捷+3,defend,dexterity=3,8,up,5→8 绿色↑,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T13,敏捷+3同时脆弱1,defend,"dexterity=3,frail=1",6,up,与base5比较，不能按脆弱存在染红,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T14,升级防御+脆弱,defend+,upgraded=true; frail=1,6,down,升级base8，8×0.75 floor=6,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T15,极大负敏捷下限,defend,dexterity=-20,0,down,归零、不负数、不溢出文字,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T16,多段攻击力量修正,twin_strike,strength=2,each-hit core preview,up,每段显示，不把合计误写成单段,CORE+UI,PASS,PARTIAL_RENDER_SUBSET,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,原生多段虚弱3↓已观察；力量+2的7↑精确场景仅本地验证
+T17,多效果牌混合方向,iron_wave,"strength=-1,dexterity=2",each-effect preview,mixed,攻击与格挡分别标记，不整段同色,CORE+UI,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T18,格挡等伤害特殊牌,body_slam,"player.block=9,strength=1",10 current,context,当前值可见，未知可比基准不伪造↑,CORE+UI,PASS,PARTIAL_RENDER_SUBSET,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,原生Body Slam当前0中性已观察；格挡9+力量1的当前10仅本地验证
+T19,群攻多敌有不同易伤,cleave,enemy1 none; enemy2 vulnerable,per-target core values,context,不误称同一数字适用于所有敌人,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T20,奖励选牌,strike,after combat; player strength=5,printed base6,same,只显示印刷值，不带战斗修正,UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T21,牌库/商店/营地,defend,combat frail=1 elsewhere,printed5 or upgraded8,same,永久卡片不被战斗状态污染,UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T22,费用不足,strike,energy=0; base6; no status,6,same,费用禁用红色不等于伤害↓,UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T23,回血药水/遗物固定格挡,non-card,fixed block granted,no card token,NA,不得染色或改公式,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T24,无效状态层数值,bash,apply vulnerable 2 stacks,2 stacks,NA,状态层数不是卡牌 damage buff,UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T25,十张手牌卡牌旋转,any 10,"10 cards, select drag, 1280x720",all full text,varies,无截断、触控不拦截、成本可读,LAYOUT+LIVE,PASS,PARTIAL,card-value-feedback.test.mjs; native/; evidence.json,原生十牌扇形/五牌鼠标选中已观察；十牌选中/各方向真实拖动仍待测。扇形原有叠放不冒充逐牌全文同时可见
+T26,同候选电脑实机,defend,frail 1 applied in official client,3↓,down,官方导入候选画面+日志+hash,LIVE_PC,PASS,PASS_CONTROLLED_RENDER,native/frail.png; nativeRun/fixture hashes in evidence.json,1851受控状态渲染；瞄准/取消为夹具上下文，不认证真实拖动或自然获取
+T27,同候选手机实机,defend,"frail 1, 1280x720 and wide phone",3↓,down,真实手机端安全区、完整可见、非悬停,LIVE_MOBILE,PASS,NOT_RUN_PHYSICAL_PHONE,card-value-feedback.test.mjs; native/; evidence.json,只有1280x720/1560x720/1600x900本地几何回归；无物理手机触摸证据
+T28,灰阶与色弱模拟,strike/defend,no colours perceived; increases/decreases,symbols legible,up/down,从文字方向依然可判断，无颜色唯一线索,ACCESSIBILITY,PASS,PASS_IMAGE_GRAYSCALE_SIMULATION,card-value-feedback.test.mjs; native/; evidence.json,原生mixed截图软件灰阶模拟；不是手机灰阶模式或全游戏认证
+T29,当前有效颜色对比,any,panel #272A36; down #EF7672,~5.10:1,NA,实际面板若更亮须重测,A11Y+LIVE,PASS,PASS_BACKGROUND_OBSERVATION,card-value-feedback.test.mjs; native/; evidence.json,"理论对比度8.164/5.935，原生JPEG背景采样(28,28,38)；未认证HDR/所有显示器"
+T30,状态移除实时还原,defend,frail=1→0 while hand still present,3→5,down→same,无缓存残留、不要求重新抽牌,CORE+UI,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T31,重绘不出牌不改种子,any,re-render with no actions,unchanged state,NA,"pure read-only preview, no events/seed/hand changes",INVARIANTS,PASS,NOT_RUN,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,本地逻辑与生成树，不代替手机实机
+T32,原生兼容或降级证据,defend,A/B/C platform experiment,A or documented fallback,NA,候选截图、hash、可复现限制、无假pass,PLATFORM,PASS,PASS_CONTROLLED_RENDER,card_preview.lua/card_value_display.lua/growing_card_text.lua; evidence.json,1849探针+1851真实卡面已验证A档原生行内颜色；手机、全屏门禁仍未过
