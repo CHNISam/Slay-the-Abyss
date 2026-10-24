@@ -127,7 +127,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         emblem:GetChild("icon").imageColor = colour(defeat and C.danger or C.geo)
         emblem:GetChild("glow").imageColor = colour(defeat and C.danger or C.goldBright)
         local title = menu:GetChild("title")
-        title.text = victory and "深渊已被封印" or defeat and "旅途在此中断" or "杀戮深渊"
+        title.text = victory and "深渊已被封印" or defeat and "旅途在此中断" or "杀戮原塔2"
         title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
         menu:GetChild("tagline"):SetVisible(not outcome)
         menu:GetChild("summary"):SetVisible(not outcome)
