@@ -18,7 +18,7 @@ M2证明可通关，M3证明承诺内容齐备，M4证明正式作品品质。�
 
 ## Milestone Tree：任务ID与状态
 
-此表由Backlog CLI读回生成。Done任务文件、AC和证据逐字保留；已完成子项未补写Milestone的仍作为历史支持记录，不能因其未分配而重开或重建。In Progress和Blocked保持原状态。TASK-46仅管理迁移，不进入首发必过路径。
+此表由Backlog CLI读回生成。Done任务文件、AC和证据逐字保留；已完成子项未补写Milestone的仍作为历史支持记录，不能因其未分配而重开或重建。In Progress和Blocked保持真实状态；PR150的外部Done更新另行注明。TASK-46仅管理迁移，不进入首发必过路径。
 
 ### M0
 
@@ -61,7 +61,8 @@ M2证明可通关，M3证明承诺内容齐备，M4证明正式作品品质。�
 
 | 任务 | 状态 | 直接依赖 |
 | --- | --- | --- |
-| TASK-3.3 M2 全平台游玩中主动退出本局 | In Progress | — |
+| TASK-3.3 M2 全平台游玩中主动退出本局 | In Progress | TASK-3.2, TASK-3.3.1 |
+| TASK-3.3.1 阻止取消退出后旧地图手势误入节点 | In Progress | — |
 | TASK-12 M2 15层地图与导航本地实现 | Done | TASK-8 |
 | TASK-12.3 M2 七类节点基本可玩与同局资源实机验收 | To Do | TASK-3, TASK-12, TASK-13, TASK-14 |
 | TASK-13.1.1 M2 P0 未知房转类与六事件受限池离线闭环 | Done | — |
