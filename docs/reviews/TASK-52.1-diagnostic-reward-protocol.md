@@ -49,3 +49,7 @@ LUA_PATH='./build/lua/?.lua;./src/lua/?.lua;;' LUA_INIT='' \
 交接归档保留 `source-proof.json`、`3c3-to-b91.json`、`baseline-red.log`、`fixture-red.log`、`route-event-probe.log`、`resolved-dispatch-red.log`、`fixture-green.log`、`route-green.log`、`narrow-results.json`、`final-mutation-results.json` 及独立审查日志。失败日志不覆盖为通过。
 
 本切片没有重跑全量重型检查；集成线程负责当前 SHA 的正式 CI。本环境未找到既有 Fengari 安装，因此不冒称其兼容性或30秒预算已实跑。未认证 Boss宝箱路径、新候选编译/官方导入、平台日志、实机 UI 或完整规则同源一致性。TASK-52父任务和其他来源待定的规则工作不由本切片关闭。
+
+## 最新集成基线
+
+最终集成基于已合PR184的1511f0a9，保留其坐标保护及全部PR182/183成果。诊断依赖的Run/Nodes/Combat/数据与原b91来源未变；本次仅携入诊断四文件、当前任务记录及已合PR181/184的有限任务收口，不夹带待确认的甲虫候选，也不改变原作规则基准。最终SHA CI另验，不能把原离线回归当正式平台通过。
