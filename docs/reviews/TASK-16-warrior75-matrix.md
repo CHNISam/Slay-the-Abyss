@@ -6,17 +6,17 @@
 
 同源本地十组专项通过（干净HEAD71f7a0c，运行源码与098相同）：150个普通/升级独立执行、6组原始消耗组合、42组边界/触发顺序、独立洗牌、7组获取契约、75个公共获取→营地升级→下一战事务、原生类型的UID选牌控件树、160种卡面文字和Courier独立熵/原子性。回合末费用只重置手/抽/弃牌、排除消耗堆；Anger保留实例伤害与临时费用；Dual Wield多候选选择移除原实例并生成amount+1新身份副本，单候选保留原身份。新增均有先红后绿测试。渠道组按23/36/16分开，保留全部事务与30秒时限；导航/资金是显式测试前缀，不能冒充自然通关。
 
-df64701的完整[Quality40135005162](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40135005162)通过。修正复制后的71f7a0c在[Quality40136371944](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40136371944)的旧意图预览批次超时；保留12个测试体逐字拆成四个3例文件，加既有回放/次数/取消3例共15例，专项通过，完整新回归待跑。先前Boss奖励超时也保留全部1–128种子的两次真实构造，拆八个16种子文件通过。900菌兽/每色800虱虫/1680Gremlin路径与全部回滚断言保留；未放宽时限。
+df64701的完整[Quality40135005162](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40135005162)通过。修正复制后的71f7a0c在[Quality40136371944](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40136371944)的旧意图预览批次超时；保留12个测试体逐字拆成四个3例文件，加既有回放/次数/取消3例共15例，专项通过；完整新回归[Quality40138123646](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40138123646)在3c262e95全绿，check与presentation均成功，运行源码仍为098。先前Boss奖励超时也保留全部1–128种子的两次真实构造，拆八个16种子文件通过。900菌兽/每色800虱虫/1680Gremlin路径与全部回滚断言保留；未放宽时限。
 
 [当前原生诊断](../evidence/warrior75/probe-0b4061c.json)在新官方1073741859运行，试玩前独立读回与外部Lua62/62一致，9/9且无客户端脚本错误。75张基础/升级150例、42组边界、六组核心专项及75条获取/升级/下战事务通过。实际点击确认完整卡名、Searing21→27/+3、腐化Pact消耗Sentinel+后能量6/格挡8/手牌5/消耗2及UID先后、双持选Rampage+生成三个新身份零费16伤害副本。前一轮[单回调批量诊断](../evidence/warrior75/probe-0982b39-failed.json)触发平台Lua看门狗，保留4/9失败记录；新轮每帧一张完整事务，不改规则和平台限制。所有测试库存/导航/资金均显式标记，不替代自然构筑。正式候选审计60模块、2824控件、0错误35警告。
 
-[505正常指针试玩](../evidence/warrior75/normal-505cdb3.json)先核对60/60源码：钟表种子65477、原数值首战胜利、手动金币14、奖励Power Through、实得金币购买Armaments49与Iron Wave52，下一战实际生成两Wound/格挡15、Iron Wave先格挡再攻击、Armaments选择Strike升级并执行。自动预期7/8：错写了不存在的enemy_attack打印，实际为enemy_turn；失败原样保留，无脚本故障。900秒工具结束于第二战途中，不作通关或当前098完整自然验收。当前正常规则自动试玩副本正独立导入；它只配置初始种子并发合法公开命令，不写库存/HP/导航。
+[505正常指针试玩](../evidence/warrior75/normal-505cdb3.json)先核对60/60源码：钟表种子65477、原数值首战胜利、手动金币14、奖励Power Through、实得金币购买Armaments49与Iron Wave52，下一战实际生成两Wound/格挡15、Iron Wave先格挡再攻击、Armaments选择Strike升级并执行。自动预期7/8：错写了不存在的enemy_attack打印，实际为enemy_turn；失败原样保留，无脚本故障。900秒工具结束于第二战途中，不作通关或当前098完整自然验收。两轮当前098正常规则公开命令试玩均先核对62/62脚本：[首轮](../evidence/warrior75/autoplay-c6d39d3-defeat.json)种子42、110条命令全部成功，2胜，第6层战败；[第二轮](../evidence/warrior75/autoplay-4010d04-defeat.json)354条命令全部成功，8胜，第16层首领战败，生命0/80、金币133、牌组18。第二轮12种卡有自然战斗执行记录，未使用已获得药水；第三轮仅补测试驾驶器合法药水操作后重跑。两轮均无客户端脚本错误；失败和完整GIA保留，不作17层通关。试玩只配置初始种子并发合法公开命令，不写库存/HP/导航；控制器调用不等于物理触摸认证。
 
 [529c8af原生诊断](../evidence/warrior75/probe-529c8af.json)的旧失败仍保留：消耗选牌曾触发容器不支持AddCursorEventListener的脚本错误，长标题第二行和选择费用未通过，整轮5/7；54/54源码匹配是试玩后核对。当前已通过原生重测的cursorArea命中区、战斗费用和完整标题修复不改写历史结果。
 
 **撤销历史同源归属**：[较早普通战斗](../evidence/warrior75/normal-a891451.json)确有正常数值战斗、胜利和Wild Strike领取画面，但官方1073741853的外部Lua与当时请求a891451仅42/51匹配（8不同、1缺失），不能证明运行该候选。保留原打印/截图及[失败读回](../evidence/warrior75/normal-a891-external-source-mismatch.json)，不把它计作该版本或当前75卡实机通过。后续必须editor_open_map新建存档，先核对独立候选inventory与官方外部Lua，再开启本轮clientScriptLog试玩。
 
-完整72红奖励池、原稀有度偏移、共享cardRng、房间洗牌及[Courier外部熵](TASK-16-warrior75-courier.md)均有固定源与本地契约。原作外部随机历史、逐卡自然实玩和整体UI门禁仍有缺口；无色商店槽位未实装也保留原池依赖，不当整个商店通过。严格状态全部pending。
+完整72红奖励池、原稀有度偏移、共享cardRng、房间洗牌及[Courier外部熵](TASK-16-warrior75-courier.md)均有固定源与本地契约。原作外部随机历史、逐卡自然实玩和整体UI门禁仍有缺口；无色商店槽位未实装也保留原池依赖，不当整个商店通过。当前098正式候选的verify:ui仍失败：menu/map/battle/rewards/cardChoice/result为partial，camp/shop/event/treasure/deck为pending。严格状态全部pending。官方[PC V2.2公告](https://steamcommunity.com/games/646570/announcements/detail/2922236321913519365)交叉印证Bloodletting能量2/3、Hemokinesis伤害15/20并失去2HP、Rupture+仍1费但力量2，见[留档](../evidence/warrior75/official-v2.2.json)。
 
 | 卡牌 | 稀有度 | 基础/升级费用 | 数据 | 代码 | 本地基础/升级 | 平台实机 |
 |---|---|---|---|---|---|---|
