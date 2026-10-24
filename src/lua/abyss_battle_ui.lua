@@ -1048,7 +1048,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local enabled = reward or active and Combat.canPlay(battle, instance.uid, self.target)
                 playable = playable or enabled
                 local selected = instance and instance.uid == self.selected
-                box:GetChild("name").text = display.name .. (instance and instance.upgraded and "＋" or "")
+                CardDisplay.writeTitle(box:GetChild("name"),display.name,instance and instance.upgraded,
+                    instance and definition.repeatable and (instance.upgrades or 1) or nil)
                 ink(box:GetChild("name"), instance and instance.upgraded and C.positive or enabled and C.text or C.textMuted)
                 local text = instance and instance.upgraded and display.upgradeText or display.text
                 if instance then
@@ -1064,7 +1065,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                         if entry and entry.op == "damageEqualToBlock" then text = text .. "（当前 " .. amount(entry) .. " 点）" end
                     end
                 end
-                box:GetChild("label").text = text
+                CardDisplay.writeBody(box:GetChild("label"),text)
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
                 box:GetChild("cost").text = definition.cost == -2 and ""

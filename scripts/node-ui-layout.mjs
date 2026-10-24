@@ -43,7 +43,7 @@ export function nodeLayout(theme = nativeTheme) {
       plate('border', frame([0, 0], [w, h]), color.rarity.basic),
       plate('plate', frame([0, 0], [w - b * 2, h - b * 2]), color.panel),
       plate('nameBand', frame([0, top - card.nameBand / 2 - b], [w - b * 2, card.nameBand]), color.panelRaised),
-      text('name', frame([card.costDisc / 2, top - card.nameBand / 2 - b], [w - card.costDisc - space.s, lineHeight]),
+      text('name', frame([card.costDisc / 2, top - card.nameBand / 2 - b], [w - card.costDisc - space.s, card.nameBand]),
         '', font.cardName),
       plate('artPlate', frame([0, artY], [w - b * 2, card.art]), color.cardType.attack),
       ...Object.entries(icon.cardArt).map(([kind, id]) => hidden(picture(`art_${kind}`, [0, artY, lineHeight, lineHeight], id))),

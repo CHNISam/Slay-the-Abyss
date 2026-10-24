@@ -37,8 +37,10 @@ local function color(id,low,high)
  end)
  test(id..' 800 controlled decisions honor each independent two-action history',function()
   local rows={{1,nil,2,1},{2,nil,2,1},{1,id..'_1',2,2},{2,id..'_2',1,1},{1,id..'_2',2,1},{2,id..'_1',2,1},{1,'other',2,1},{2,'other',2,1}}
-  for _,row in ipairs(rows)do for roll=0,99 do local s=battle({id});local e=s.enemies[1];e.intentIndex=row[1];e.louseLast=row[2];local n=0
+  local s=battle({id});local original=C.copy(s.enemies[1]);local seed=s.seed
+  for _,row in ipairs(rows)do for roll=0,99 do local e=C.copy(original);s.enemies={e};s.events={};e.intentIndex=row[1];e.louseLast=row[2];local n=0
    AI.advance(s,e,function(_,max)eq(max,100);n=n+1;return roll+1 end);eq(n,1);eq(C.intent(s,1).id,id..'_'..(roll<25 and row[3] or row[4]));eq(e.lousePrevious,row[2]);eq(e.louseLast,id..'_'..row[1])
+   eq(s.seed,seed);eq(s.player.hp,80);eq(next(s.player.statuses),nil)
   end end
  end)
  test(id..' Bite uses sampled damage plus Strength, Weak and player Block',function()

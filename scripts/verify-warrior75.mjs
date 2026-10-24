@@ -16,7 +16,7 @@ mkdirSync(output,{recursive:true});
 const report={schemaVersion:1,at:new Date().toISOString(),sourceSha:source.stdout.trim(),
   boundary:'Local Lua execution and fixture acquisition; no original-PC or platform acceptance',
   inputs:{'data/cards.json':hash('data/cards.json')},suites:[],cards:[],ok:false};
-for(const name of ['warrior75','warrior75_edges','warrior75_shuffle','warrior75_acquisition','warrior75_channels','warrior75_choice_ui']){
+for(const name of ['warrior75','warrior75_edges','warrior75_shuffle','warrior75_acquisition','warrior75_channels','warrior75_choice_ui','warrior75_card_text']){
   const file=`tests/lua/${name}.lua`;
   const row={file,sha256:hash(file),passed:false};
   report.suites.push(row);

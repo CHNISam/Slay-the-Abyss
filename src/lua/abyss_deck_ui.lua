@@ -1,6 +1,7 @@
 -- Read-only permanent-deck snapshot. No Run commands, combat piles or RNG.
 local Combat = require("abyss_combat")
 local Theme = require("abyss_theme")
+local CardDisplay = require('abyss_card_display')
 local M = {}
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 
@@ -13,17 +14,12 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local definition = Combat.cardDefinition({catalog=catalog}, instance)
         local display = assert(presentation[instance.cardId], "missing deck presentation " .. instance.cardId)
         local face = control:GetChild("face")
-        face:GetChild("name").text = display.name .. (instance.upgraded and "＋" or "")
+        CardDisplay.writeTitle(face:GetChild("name"),display.name,instance.upgraded,
+            definition.repeatable and (instance.upgrades or 1) or nil)
         face:GetChild("name").fontColor = colour(instance.upgraded and Theme.color.positive or Theme.color.text)
         -- Permanent cards carry no combat modifiers: fill live tokens with their own values.
-        local text = instance.upgraded and display.upgradeText or display.text
-        local live = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
-        if live then
-            text = live:gsub("{effects%.(%d+)%.value}", function(index)
-                return string.format("%.0f", definition.effects[tonumber(index) + 1].value)
-            end)
-        end
-        face:GetChild("label").text = text
+        local text=CardDisplay.permanentText(display,definition,instance)
+        CardDisplay.writeBody(face:GetChild("label"),text)
         face:GetChild("type").text = typeNames[definition.type] or definition.type
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)

@@ -220,8 +220,8 @@
     },
     "perfected_strike": {
       "name": "Perfected Strike",
-      "textTemplate": "造成 {effects.0.value} 点伤害；每张带有 Strike 标签的牌额外造成 {strikeBonus} 点伤害。",
-      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害；每张带有 Strike 标签的牌额外造成 {strikeBonus} 点伤害。"
+      "textTemplate": "造成{effects.0.value}点伤害。每张Strike牌提升{strikeBonus}点伤害。",
+      "upgradeTextTemplate": "造成{effects.0.value}点伤害。每张Strike牌提升{strikeBonus}点伤害。"
     },
     "sword_boomerang": {
       "name": "Sword Boomerang",

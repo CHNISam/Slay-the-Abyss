@@ -137,14 +137,14 @@ test("reward remains static even after grown battle", function()
     ui.run.phase="reward"; ui.run.rewards={cards={"rampage"},gold=0}; ui:render()
     eq(label(stage),expected("8",false)); eq(label(stage),Presentation.rampage.text)
 end)
-test("without modifiers all 40 combat labels including statuses and curse match printed text; Body Slam adds its current value", function()
+test("without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value", function()
     local seen=0
     for _,def in ipairs(Data.cards.cards) do
         seen=seen+1
         for _,upgraded in ipairs({false,true}) do
             local ui,stage=fixture(upgraded,{{cardId=def.id,upgraded=upgraded}})
             local printed=upgraded and Presentation[def.id].upgradeText or Presentation[def.id].text
-            if def.id=='perfected_strike' then printed=printed:gsub('造成 %d+ 点伤害','造成 '..(upgraded and 9 or 8)..' 点伤害',1) end
+            if def.id=='perfected_strike' then printed=printed:gsub('造成%d+点伤害','造成'..(upgraded and 9 or 8)..'点伤害',1) end
             eq(label(stage),printed .. (def.id=="body_slam" and "（当前 0 点）" or ""))
         end
     end
