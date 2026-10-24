@@ -14,7 +14,9 @@
     "officialSnapshotSha256": "037babcb72d4e13ee29ebb99f473377a333f2f252d29c59d00edd62d48f45e67",
     "readback": {
       "file": "docs/evidence/m1-live-5165a78/import-readback.json",
-      "sha256": "fa61f14aeca9bb9907df4221fb99c1123638039c0e9170a5dbfe84009f06fba1"
+      "sha256": "c44a41a89975c17531b3e7f9436b680c165e679a8c13732ada3ae99486f1e82d",
+      "workingTreeSha256": "fa61f14aeca9bb9907df4221fb99c1123638039c0e9170a5dbfe84009f06fba1",
+      "hashScope": "sha256: committed Git blob bytes; workingTreeSha256: Windows CRLF checkout bytes."
     },
     "players": {
       "min": 1,
