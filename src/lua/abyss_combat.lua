@@ -182,27 +182,30 @@ function M.cardDefinition(state, instance)
 end
 
 -- Read-only display numbers for one hand card, from the same modifier arithmetic
--- resolution uses. Keyed by top-level effect index: {op, low, high}. A single-target
--- hit uses targetIndex when it names a living enemy, otherwise the range across all
--- living enemies; area hits always span every living enemy. Nothing is mutated.
+-- resolution uses. Without an aimed enemy, only player modifiers apply. Aimed
+-- cards add receiving modifiers; area calculations retain per-monster values
+-- and display the first monster slot. Never invent a min/max damage range.
 function M.cardPreview(state, instance, targetIndex)
     local card, player, result = M.cardDefinition(state, instance), state.player, {}
     local aimed = state.enemies[targetIndex]
-    local function span(op, base)
-        local victims = {}
-        if op == "damage" and aimed and aimed.hp > 0 then victims = {aimed}
-        else for _, enemy in ipairs(state.enemies) do if enemy.hp > 0 then victims[#victims + 1] = enemy end end end
-        if #victims == 0 then victims = {{statuses = {}}} end
-        local low, high
-        for _, victim in ipairs(victims) do
-            local amount = Actors.attackAmount(state, player, victim, base)
-            low, high = math.min(low or amount, amount), math.max(high or amount, amount)
+    local function previewDamage(op, base)
+        local neutral = {statuses = {}}
+        local targeted = aimed and aimed.hp > 0
+        local targets, value
+        if op == "damageAll" and targeted then
+            targets = {}
+            for i, enemy in ipairs(state.enemies) do
+                targets[i] = Actors.attackAmount(state, player, enemy.hp > 0 and enemy or neutral, base)
+            end
+            value = targets[1]
+        else
+            value = Actors.attackAmount(state, player, targeted and aimed or neutral, base)
         end
-        return {op = op, low = low, high = high}
+        return {op = op, low = value, high = value, targets = targets}
     end
     for i, effect in ipairs(card.effects) do
-        if effect.op == "damage" or effect.op == "damageAll" then result[i] = span(effect.op, effect.value)
-        elseif effect.op == "damageEqualToBlock" then result[i] = span("damage", player.block)
+        if effect.op == "damage" or effect.op == "damageAll" then result[i] = previewDamage(effect.op, effect.value)
+        elseif effect.op == "damageEqualToBlock" then result[i] = previewDamage("damage", player.block)
             result[i].op = effect.op
         elseif effect.op == "block" then
             local amount = Actors.blockAmount(state, player, effect.value)

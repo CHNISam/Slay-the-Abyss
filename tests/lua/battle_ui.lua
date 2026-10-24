@@ -92,9 +92,9 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.card1.visible and not stage.children.card6.visible)
     assert(stage.children.card1.children.label.text ~= "")
     assert(stage.children.energy.text == "3/3")
-    assert(stage.children.enemy1.children.intent.text == "3")
+    assert(stage.children.enemy1.children.intent.text == "")
     click("enemy1")
-    assert(stage.children.notice.text:find("仪式 3",1,true))
+    assert(stage.children.notice.text:find("准备强化自身",1,true))
     click("endTurn")
     -- Ritual alone: one buff chip with its stack count, and no Strength chip yet.
     local row = stage.children.enemy1.children.statusRow.children
@@ -120,7 +120,7 @@ test("Jaw Worm real encounter presents combined Thrash and Bellow effects withou
     assert(stage.children.notice.text:find("7 点伤害",1,true) and stage.children.notice.text:find("格挡 5",1,true))
     enemy.intentIndex = 3 -- inspect the declared Bellow face independently of another roll
     ui:render(); click("enemy1")
-    assert(stage.children.notice.text:find("力量 3",1,true) and stage.children.notice.text:find("格挡 6",1,true))
+    assert(stage.children.notice.text:find("准备强化自身",1,true) and stage.children.notice.text:find("格挡 6",1,true))
     assert(enemy.statuses.strength == nil and enemy.block == 0, "preview mutated the actor")
 end)
 
@@ -338,7 +338,7 @@ test("intent previews use core modifiers without changing combat state or consum
         {op="gainStatus", status="dexterity", value=3}, {op="block", value=10}, {op="damage", value=6, times=2}}}
     Combat.addStatus(enemy, "frail", 2)
     ui:render()
-    assert(stage.children.enemy1.children.intent.text == "9")
+    assert(stage.children.enemy1.children.intent.text == "")
     click("enemy1")
     local preview = stage.children.notice.text
     assert(preview:find("格挡 9", 1, true) and preview:find("9×2 点伤害", 1, true))
@@ -753,7 +753,7 @@ test("multiple enemies and multi-hit intents show each actor and actual HP in or
             local index = entry.detail.enemy == battle.enemies[1].id and 1 or 2
             local border = stage.children["enemy" .. index].children.border.imageColor
             assert(border.r == Theme.color.goldBright.r)
-            assert(stage.children["enemy" .. index].children.intent.text ~= "")
+            assert((stage.children["enemy" .. index].children.intent.text ~= "") == (index == 1))
         elseif entry.kind == "damage" then
             hits = hits + 1
             assert(stage.children.hero.children.hp.text == (hp - hits * 2) .. "/80")
@@ -1104,11 +1104,11 @@ test("Guardian shows real mode budget and switches visible intention before its 
     assert(Run.startCombat(ui.run,"boss_guardian")); ui:render()
     local box=stage.children.enemy1
     assert(details(stage,box):find("模式转换 30",1,true))
-    assert(box.children.intent.text=="9")
+    assert(box.children.intent.text=="")
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],30,true)
-    ui:render(); assert(box.children.intent.text=="3")
+    ui:render(); assert(box.children.intent.text=="")
     assert(box.children.intentIcon.imageId==Theme.icon.intent.buff)
-    click("enemy1"); assert(stage.children.notice.text:find("尖刺甲壳 3",1,true))
+    click("enemy1"); assert(stage.children.notice.text:find("准备强化自身",1,true))
     assert(Combat.endTurn(ui.run.combat)); ui:render()
     assert(details(stage,box):find("尖刺甲壳 3",1,true))
     assert(box.children.intent.text=="9")

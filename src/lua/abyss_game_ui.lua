@@ -10,6 +10,7 @@ local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
 local M = {}
+local number = require("abyss_numbers").integer
 
 function M.new(root, data, presentation, clickEvent, platform)
     local self = { root = root, data = data, seed = 1, mode = "menu" }
@@ -161,7 +162,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
             cards[1]:GetChild("value").fontColor = colour(victory and C.goldBright or C.text)
             local hp = run.phase == "defeat" and 0 or run.hp
-            result:GetChild("detail").text = "生命 " .. hp .. " / " .. run.maxHp .. " · 金币 " .. run.gold
+            result:GetChild("detail").text = "生命 " .. number(hp) .. " / " .. number(run.maxHp) .. " · 金币 " .. number(run.gold)
                 .. " · 遗物 " .. #run.relics .. " 件"
             local status, ink = "「结束并结算」提交本局结果并进入平台结算；「重新启程」不会提交", C.textMuted
             if self.settlementRequested then status, ink = "结算请求已发送，等待平台结算界面", C.positive
