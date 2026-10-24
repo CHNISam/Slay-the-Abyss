@@ -27,7 +27,7 @@ test('native image colours serialize as RGB with independent opacity', () => {
   const node = nodeLayout().controls[0].children;
   const veils = [];
   walk(node, control => { if (control.name === 'veil') veils.push(control); });
-  assert.equal(veils.length, 17, 'every shop/picker veil uses the supported colour representation');
+  assert.equal(veils.length, 22, 'every shop/picker veil uses the supported colour representation');
   for (const veil of veils) {
     assert.equal(veil.colour, nativeTheme.color.backdropVeil.slice(0, 7));
     assert.equal(veil.opacity, parseInt(nativeTheme.color.backdropVeil.slice(7), 16) / 255);
@@ -49,7 +49,7 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   const allowed = [theme.image.rect, theme.image.disc, theme.image.glow, ...Object.values(theme.icon.cardArt),
     theme.icon.node.treasure, theme.icon.medallion.camp, theme.icon.medallion.treasure, theme.icon.medallion.chestOpen,
     theme.icon.hp, theme.icon.upgrade, theme.icon.remove, theme.icon.back, theme.icon.next, theme.icon.geo,
-    id(theme.icon.gold), id(theme.icon.deck)];
+    id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion)];
   walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);

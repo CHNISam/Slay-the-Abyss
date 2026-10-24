@@ -14,11 +14,13 @@ local M = {}
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
+local rarityNames = {common='普通',uncommon='罕见',rare='稀有',shop='商店专属'}
 local reasons = {
     insufficient_gold = "金币不足", item_unavailable = "商品已售出或不可购买",
+    shop_content_unavailable = "商店补货状态异常，本次未付款，请离店或重新开始",
     removal_unavailable = "本店删牌服务已使用",
     invalid_card = "这张卡牌已不在牌组中", last_card = "必须保留至少一张卡牌",
-    card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满，请选择金币",
+    card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满", potions_blocked = "遗物效果禁止获得药水",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
     invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
@@ -116,8 +118,27 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local definition = find(self.run.data.relics.relics, id)
         return definition and definition.name or id
     end
+    local function potionText(id)
+        local definition=find(self.run.data.potions.potions,id)
+        local parts={}
+        for _,effect in ipairs(definition and definition.effects or {}) do
+            local value=tostring(effect.value)
+            if effect.op=='damage' then parts[#parts+1]='造成'..value..'点伤害'
+            elseif effect.op=='block' then parts[#parts+1]='获得'..value..'点格挡'
+            elseif effect.op=='energy' then parts[#parts+1]='获得'..value..'点能量'
+            elseif effect.op=='draw' then parts[#parts+1]='抽'..value..'张牌'
+            elseif effect.op=='gainStatus' or effect.op=='applyStatus' then
+                local status=find(self.run.data.statuses.statuses,effect.status)
+                parts[#parts+1]=(effect.op=='applyStatus' and '施加' or '获得')..value..'层'..(status and status.name or effect.status)
+            end
+        end
+        return table.concat(parts,'，')
+    end
     -- Relic data has no prose; describe its sourced trigger and effects.
     local function relicText(id)
+        if id=='membership_card' then return '所有商店商品半价。' end
+        if id=='courier' then return '商店商品八折，购买后补货。' end
+        if id=='smiling_mask' then return '商店删牌服务固定为50金币。' end
         local definition = find(self.run.data.relics.relics, id)
         if not definition then return "" end
         local parts = {}
@@ -163,9 +184,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     -- price status: "ok" gold, "poor" red (cannot afford), "sold" muted without a coin.
     local function fillPrice(box, value, status)
         box:SetVisible(true)
-        box:GetChild("value").text = status == "sold" and "已售出" or tostring(value)
+        box:GetChild("value").text = status == 'missing' and '未实装' or status == "sold" and "已售出" or tostring(value)
         ink(box:GetChild("value"), status == "poor" and C.danger or status == "sold" and C.textMuted or C.goldBright)
-        show(box:GetChild("coin"), status ~= "sold")
+        show(box:GetChild("coin"), status ~= "sold" and status ~= 'missing')
     end
     local function action(key, enabled, handler, reason)
         self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason }
@@ -196,31 +217,35 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderShop(view, node)
         local shop = child("shopView")
         local offers, relics = node.cards or {}, node.relics or {}
-        self.pageCount = math.max(1, math.ceil(#offers / SHOP_PAGE))
-        self.page = math.max(1, math.min(self.page, self.pageCount))
-        local relicPages = math.max(1, math.ceil(#relics / RELIC_PAGE))
-        self.relicPage = math.max(1, math.min(self.relicPage, relicPages))
+        self.pageCount, self.page, self.relicPage = 1, 1, 1
+        local relicPages = 1
         for i = 1, SHOP_PAGE do
             local offer = offers[(self.page - 1) * SHOP_PAGE + i]
             local box, price = shop:GetChild("card" .. i), shop:GetChild("price" .. i)
             show(box, offer ~= nil) show(price, offer ~= nil)
             if offer then
                 local poor = not offer.sold and self.run.gold < offer.price
-                fillCard(box, offer.id, false, { dim = offer.sold or poor, veil = offer.sold, stamp = offer.sold and "已售出" or nil })
-                fillPrice(price, offer.price, offer.sold and "sold" or poor and "poor" or "ok")
+                fillCard(box, offer.id, false, { dim = offer.sold or poor or offer.unavailable, veil = offer.sold,
+                    stamp = offer.unavailable and '未实装' or offer.sold and "已售出" or offer.sale and '特价 -50%' or nil })
+                if offer.unavailable then
+                    box:GetChild('name').text=(offer.color=='colorless' and '无色' or '')..(rarityNames[offer.rarity] or '')..'牌 · 缺口'
+                    box:GetChild('description').text='此类别与稀有度尚无可售内容'
+                    box:GetChild('cost').text=''
+                    box:GetChild('type').text=typeNames[offer.type] or ''
+                end
+                fillPrice(price, offer.price, offer.unavailable and 'missing' or offer.sold and "sold" or poor and "poor" or "ok")
                 local name = cardName(offer.id)
-                action("shopView/card" .. i, not offer.sold and not poor, function()
+                action("shopView/card" .. i, not offer.sold and not poor and not offer.unavailable, function()
                     return commit("buyCard", offer.id, function(before)
                         return "已购买「" .. name .. "」· 支付 " .. (before.gold - self.run.gold) .. " 金币，加入牌组"
                     end)
-                end, offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
+                end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
             end
         end
         pageArrows(shop, "", self.page, self.pageCount)
         action("shopView/previous", self.page > 1, function() return self:setPage(self.page - 1) end)
         action("shopView/next", self.page < self.pageCount, function() return self:setPage(self.page + 1) end)
-        shop:GetChild("page").text = self.pageCount > 1 and ("卡牌 第 " .. self.page .. "/" .. self.pageCount .. " 页 · 共 " .. #offers .. " 种"
-            .. (self.swipeEnabled and " · 左右拖动翻页" or "")) or ""
+        shop:GetChild("page").text = '职业牌：2攻击 / 2技能 / 1能力　无色牌：罕见 / 稀有'
 
         local removal, removalPrice = shop:GetChild("removal"), shop:GetChild("removalPrice")
         local poor = node.removeAvailable and self.run.gold < node.removePrice
@@ -244,19 +269,19 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             show(tile, offer ~= nil) show(price, offer ~= nil)
             if offer then
                 local relicPoor = not offer.sold and self.run.gold < offer.price
-                state(tile, not offer.sold and not relicPoor)
+                state(tile, not offer.sold and not relicPoor and not offer.unavailable)
                 picture(tile:GetChild("icon"), Theme.icon.relic[offer.id])
-                tile:GetChild("name").text = relicName(offer.id) .. (offer.sold and " · 已售出" or "")
-                tile:GetChild("description").text = relicText(offer.id)
+                tile:GetChild("name").text = offer.unavailable and (rarityNames[offer.rarity] or '')..'遗物' or relicName(offer.id) .. (offer.sold and " · 已售出" or "")
+                tile:GetChild("description").text = offer.unavailable and '此稀有度暂无可售内容' or relicText(offer.id)
                 ink(tile:GetChild("name"), (offer.sold or relicPoor) and C.textMuted or C.text)
                 show(tile:GetChild("veil"), offer.sold)
-                fillPrice(price, offer.price, offer.sold and "sold" or relicPoor and "poor" or "ok")
+                fillPrice(price, offer.price, offer.unavailable and 'missing' or offer.sold and "sold" or relicPoor and "poor" or "ok")
                 local name = relicName(offer.id)
-                action("shopView/relic" .. i, not offer.sold and not relicPoor, function()
+                action("shopView/relic" .. i, not offer.sold and not relicPoor and not offer.unavailable, function()
                     return commit("buyRelic", offer.id, function(before)
                         return "已购买遗物「" .. name .. "」· 支付 " .. (before.gold - self.run.gold) .. " 金币"
                     end)
-                end, offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
+                end, offer.unavailable and '此遗物尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
             end
         end
         pageArrows(shop, "relic", self.relicPage, relicPages)
@@ -264,7 +289,23 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.relicPage, self.notice = self.relicPage - 1, "" self:render() return true end)
         action("shopView/relicNext", self.relicPage < relicPages, function()
             self.relicPage, self.notice = self.relicPage + 1, "" self:render() return true end)
-        return "行商的摊位 · 点选商品直接购买，价格变红表示金币不足"
+        for i,offer in ipairs(node.potions or {}) do
+            local tile,price=shop:GetChild('potion'..i),shop:GetChild('potionPrice'..i)
+            local definition=find(self.run.data.potions.potions,offer.id)
+            local full=Run.potionCount(self.run)>=self.run.data.rules.player.potionSlots
+            local poor=self.run.gold<offer.price
+            local enabled=not offer.sold and not offer.unavailable and not poor and not full
+            state(tile,enabled)
+            picture(tile:GetChild('icon'),Theme.icon.potion[offer.id])
+            tile:GetChild('name').text=definition and definition.name or (rarityNames[offer.rarity] or '')..'药水'
+            tile:GetChild('description').text=offer.unavailable and '此稀有度暂无可售内容' or offer.sold and '已售出' or full and '药水槽已满' or potionText(offer.id)
+            show(tile:GetChild('veil'),offer.sold)
+            fillPrice(price,offer.price,offer.unavailable and 'missing' or offer.sold and 'sold' or poor and 'poor' or 'ok')
+            action('shopView/potion'..i,enabled,function()
+                return commit('buyPotion',i,function(before) return '已购买药水 · 支付 '..(before.gold-self.run.gold)..' 金币' end)
+            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price))
+        end
+        return "点选商品购买 · 未实装槽位不可购买"
     end
 
     local function renderCamp(view, node, result)
@@ -593,7 +634,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not called then error(accepted) end
         if accepted then
             local notice, hold = describe(before)
-            if command == "buyCard" or command == "buyRelic" or command == "removeCard" then
+            if command == "buyCard" or command == "buyRelic" or command == 'buyPotion' or command == "removeCard" then
                 notice = Narrative.merchant.purchaseSuccess .. " " .. notice
             end
             self.notice, self.failed = notice, false
@@ -637,6 +678,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         "pickerView/previous", "pickerView/next", "treasureView/chest", "treasureView/take" }
     for i = 1, SHOP_PAGE do targets[#targets + 1] = "shopView/card" .. i end
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
+    for i = 1, 3 do targets[#targets+1]='shopView/potion'..i end
     for i = 1, PICK_PAGE do targets[#targets + 1] = "pickerView/card" .. i end
     for i = 1, OPTIONS do targets[#targets + 1] = "eventView/option" .. i end
     local cursor = options.cursorEvents or (Enum and Enum.CursorEventType)

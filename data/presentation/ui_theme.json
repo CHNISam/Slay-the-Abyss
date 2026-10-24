@@ -224,6 +224,9 @@
       "regen_potion": "#D8FFC8"
     },
     "relic": {
+      "membership_card": 102026,
+      "courier": 102007,
+      "smiling_mask": 102031,
       "burning_blood": 102005,
       "anchor": 102036,
       "vajra": 102012,
@@ -721,19 +724,21 @@
       },
       "shop": {
         "cardY": 116,
-        "columns": [-466, -302, -138, 26, 190],
+        "columns": [-510, -340, -170, 0, 170, 340, 510],
         "previous": [-574, 116, 44, 208],
         "next": [300, 116, 44, 208],
-        "removal": [480, 116, 220, 208],
+        "removal": [510, -134, 148, 112],
+        "removalPriceY": -220,
         "priceY": -12,
-        "page": [-138, -52, 600, 40],
+        "page": [0, -52, 1168, 40],
         "relics": {
-          "y": -122,
-          "columns": [-360, 0, 360],
-          "size": [340, 88],
-          "disc": 60,
-          "priceY": -188
+          "y": -134,
+          "columns": [-510, -340, -170],
+          "size": [148, 112],
+          "disc": 32,
+          "priceY": -220
         },
+        "potions": { "columns": [0, 170, 340], "y": -134, "size": [148, 112], "priceY": -220 },
         "relicPrevious": [-574, -122, 44, 88],
         "relicNext": [574, -122, 44, 88]
       },

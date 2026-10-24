@@ -420,9 +420,12 @@ export function validateContent(bundle) {
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
-    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
-    if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end'], `${p}.trigger`);
-    effects(entry.effects, `${p}.effects`);
+    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
+    if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end', 'shop'], `${p}.trigger`);
+    if (kind === 'relics' && entry.trigger === 'shop') {
+      if (!['membership_card', 'courier', 'smiling_mask'].includes(entry.id)) fail(`${p}.id`, 'unsupported shop relic');
+      if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'shop relic uses merchant hooks and must have empty combat effects');
+    } else effects(entry.effects, `${p}.effects`);
   });
   const rules = bundle.rules;
   if (object(rules, 'rules.json')) {
