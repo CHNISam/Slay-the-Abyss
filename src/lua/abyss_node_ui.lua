@@ -10,6 +10,7 @@ local Nodes = require("abyss_nodes")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
+local Merchant = require("abyss_merchant")
 local M = {}
 local number = require("abyss_numbers").integer
 local C = Theme.color
@@ -75,6 +76,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function picture(control, id)
         if options.imageSource and id then control:SetImage(options.imageSource, iconId(id)) end
     end
+    local merchant = Merchant.new(child("merchant"), { color = options.color, sound = options.sound })
+    child("merchant"):GetChild("talk"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return merchant:tap() end)
+    self.merchant = merchant
     local buttonLooks, buttonHover, buttonPress = {}, nil, nil
     local function paintButton(box)
         local look = buttonLooks[box]
@@ -142,6 +146,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if id=='smiling_mask' then return '商店删牌服务固定为50金币。' end
         local definition = find(self.run.data.relics.relics, id)
         if not definition then return "" end
+        if definition.description then return definition.description end
         local parts = {}
         for _, effect in ipairs(definition.effects or {}) do
             local value = number(effect.value)
@@ -190,11 +195,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         ink(box:GetChild("value"), status == "poor" and C.danger or status == "sold" and C.textMuted or C.goldBright)
         show(box:GetChild("coin"), status ~= "sold" and status ~= 'missing')
     end
-    local function action(key, enabled, handler, reason)
-        self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason }
+    -- poor marks an offer refused only for lack of gold, so the merchant can answer it.
+    local function action(key, enabled, handler, reason, poor)
+        self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason, poor = poor == true }
         return enabled == true
     end
-    local function shortfall(price) return Narrative.merchant.insufficientGold .. " 金币不足：需要 " .. number(price) .. "，还差 " .. number(price - self.run.gold) end
+    local function shortfall(price) return "金币不足：需要 " .. number(price) .. "，还差 " .. number(price - self.run.gold) end
 
     local commit -- forward declaration; renders and notifies
     local function pageArrows(view, prefix, page, count)
@@ -208,7 +214,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     local function renderTopBar(node)
-        child("title").text = node and ("第 " .. node.floor .. " 层 · " .. (kinds[node.type] or "节点")) or "路线"
+        child("title").text = node and ("第 " .. node.floor .. " 层 · " ..
+            (node.roomKind == "boss_treasure" and "首领宝箱" or kinds[node.type] or "节点")) or "路线"
         child("hp").text = number(self.run.hp) .. "/" .. number(self.run.maxHp)
         child("gold").text = number(self.run.gold)
         child("deck").text = tostring(#self.run.deck)
@@ -247,7 +254,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     return commit("buyCardSlot", i, function(before)
                         return "已购买「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币，加入牌组"
                     end)
-                end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
+                end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price), poor and not offer.sold and not offer.unavailable)
             end
         end
         pageArrows(shop, "", self.page, self.pageCount)
@@ -269,7 +276,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         action("shopView/removal", open, function()
             self.mode, self.picker, self.pickPage, self.selected, self.notice = "picker", "remove", 1, nil, ""
             self:render() return true
-        end, reason)
+        end, reason, poor)
 
         for i = 1, RELIC_PAGE do
             local offer = relics[(self.relicPage - 1) * RELIC_PAGE + i]
@@ -289,7 +296,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     return commit("buyRelic", offer.id, function(before)
                         return "已购买遗物「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币"
                     end)
-                end, offer.unavailable and '此遗物尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
+                end, offer.unavailable and '此遗物尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price), relicPoor and not offer.sold and not offer.unavailable)
             end
         end
         pageArrows(shop, "relic", self.relicPage, relicPages)
@@ -311,7 +318,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             fillPrice(price,offer.price,offer.unavailable and 'missing' or offer.sold and 'sold' or poor and 'poor' or 'ok')
             action('shopView/potion'..i,enabled,function()
                 return commit('buyPotion',i,function(before) return '已购买药水 · 支付 '..number(before.gold-self.run.gold)..' 金币' end)
-            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price))
+            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price),poor and not full and not offer.sold and not offer.unavailable)
         end
         return "点选商品购买 · 未实装槽位不可购买"
     end
@@ -497,26 +504,52 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderTreasure(view, node)
         local chest = child("treasureView")
         local reward = node.reward
+        local boss = node.roomKind == "boss_treasure"
+        local choices = boss and reward.relics or nil
+        self.treasureChoice = math.min(self.treasureChoice or 1, choices and #choices or 1)
+        local relicId = boss and choices[self.treasureChoice] or reward.relicId
         local opened = self.opened == true
         show(chest:GetChild("closed"), not opened) show(chest:GetChild("open"), opened)
         show(chest:GetChild("hint"), not opened)
         tint(chest:GetChild("glow"), opened and C.gold or C.goldDim)
         local row, take = chest:GetChild("reward"), chest:GetChild("take")
-        show(row, opened) show(take, opened)
-        local name = reward.relicId and relicName(reward.relicId) or (number(reward.gold) .. " 金币")
-        if opened then
+        local hasReward = not boss or #choices > 0
+        show(row, opened and hasReward) show(take, opened and hasReward)
+        local name = relicId and relicName(relicId) or (not boss and (number(reward.gold) .. " 金币") or "")
+        for _, key in ipairs({"previous", "next", "page", "bossDescription"}) do show(chest:GetChild(key), opened and boss) end
+        take:GetChild("label").text = boss and "领取这件遗物" or "拿取并离开"
+        if opened and hasReward then
             state(row, true) state(take, true, false, true)
-            picture(row:GetChild("icon"), reward.relicId and Theme.icon.relic[reward.relicId] or Theme.icon.gold)
-            row:GetChild("name").text = reward.relicId and ("遗物 · " .. name) or name
-            row:GetChild("description").text = reward.relicId and relicText(reward.relicId) or "遗物已全部持有，改为金币"
+            picture(row:GetChild("icon"), relicId and (Theme.icon.relic[relicId] or Theme.icon.node.treasure) or Theme.icon.gold)
+            row:GetChild("name").text = relicId and ("遗物 · " .. name) or name
+            row:GetChild("description").text = boss and "使用左右按钮查看，领取其中一件" or relicId and relicText(relicId) or "遗物已全部持有，改为金币"
+            if boss then
+                chest:GetChild("page").text = "首领遗物 · " .. self.treasureChoice .. " / " .. #choices .. " · 选择一件"
+                chest:GetChild("bossDescription").text = relicText(relicId)
+                state(chest:GetChild("previous"), self.treasureChoice > 1)
+                state(chest:GetChild("next"), self.treasureChoice < #choices)
+            end
+        end
+        if boss and not hasReward then
+            show(chest:GetChild("previous"), false) show(chest:GetChild("next"), false)
+            chest:GetChild("page").text = "没有可领取的首领遗物"
+            chest:GetChild("bossDescription").text = "可用遗物已持有或不满足领取条件，请跳过奖励。"
+        end
+        for _, step in ipairs({{key="previous", delta=-1}, {key="next", delta=1}}) do
+            local choice = self.treasureChoice + step.delta
+            action("treasureView/" .. step.key, opened and boss and choice >= 1 and choice <= #choices, function()
+                self.treasureChoice, self.notice = choice, "" self:render() return true
+            end)
         end
         action("treasureView/chest", not opened, function()
             self.opened, self.notice = true, "" self:render() return true
         end)
-        action("treasureView/take", opened, function()
-            return commit("claimTreasure", nil, function() return "已获得" .. (reward.relicId and ("遗物「" .. name .. "」") or name) end)
+        action("treasureView/take", opened and hasReward, function()
+            return commit(boss and "claimBossTreasure" or "claimTreasure", boss and self.treasureChoice or nil,
+                function() return "已获得" .. (relicId and ("遗物「" .. name .. "」") or name) end)
         end)
-        return opened and ("宝箱已打开 · 获得" .. (reward.relicId and "遗物" or "金币")) or "宝箱就在眼前"
+        return opened and (boss and "选择一件首领遗物，或跳过奖励后完成本局" or
+            ("宝箱已打开 · 获得" .. (relicId and "遗物" or "金币"))) or "宝箱就在眼前"
     end
 
     function self:holding()
@@ -531,7 +564,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local node = view.node
         if self.renderRun ~= self.run or self.renderMap ~= self.map or self.nodeId ~= (node and node.id) then
             self.page, self.relicPage, self.pickPage, self.mode, self.picker = 1, 1, 1, "main", nil
-            self.selected, self.opened, self.notice, self.result = nil, false, "", nil
+            self.selected, self.opened, self.notice, self.result, self.treasureChoice = nil, false, "", nil, 1
             self.upgradeRows = node and node.upgradeCards or {}
             self.removeRows = snapshotDeck(self.run.deck)
         end
@@ -552,9 +585,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
         elseif screen == "eventView" then hint = renderEvent(view, node, result)
         elseif screen == "treasureView" then hint = renderTreasure(view, node) end
-        if active and self.mode == "main" and node.type == "shop" then
-            hint = Narrative.merchant.greet .. " " .. hint
+        -- The merchant speaks in his own dialogue box; the notice keeps only shop facts.
+        if node and node.type == "shop" and (self.merchantNode ~= node.id or self.merchantRun ~= self.run) then
+            self.merchantNode, self.merchantRun = node.id, self.run
+            merchant:enter(self.run)
         end
+        merchant:setVisible(node ~= nil and node.type == "shop" and self.mode == "main" and (active or node.complete))
         child("notice").text = self.notice ~= "" and self.notice or hint
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
 
@@ -573,7 +609,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "shopView" then
             confirmLabel, confirmOk = "离开商店", true
             confirmFn = function()
-                return commit("leaveShop", nil, function() return Narrative.merchant.leave end)
+                -- The farewell stays on screen like a camp/event result, so it is actually seen.
+                return commit("leaveShop", nil, function() return "", {} end)
             end
         elseif screen == "pickerView" then
             local selected = self.selected
@@ -610,6 +647,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         action("back", backLabel ~= nil, function()
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
+        if active and node.roomKind == "boss_treasure" and self.opened then
+            show(back, true) back:GetChild("label").text = "跳过遗物" state(back, true)
+            action("back", true, function()
+                return commit("claimBossTreasure", 0, function() return "已跳过首领遗物" end)
+            end)
+        end
         action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil)
         self.failed = false
     end
@@ -618,6 +661,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function self:resize(width, height)
         resetButtons()
         self.canvasWidth, self.canvasHeight = width, height
+    end
+    function self:update(dt)
+        if self.visible then merchant:update(dt) end
     end
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
@@ -647,15 +693,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not called then error(accepted) end
         if accepted then
             local notice, hold = describe(before)
-            if command == "buyCardSlot" or command == "buyRelic" or command == 'buyPotion' or command == "removeCard" then
-                notice = Narrative.merchant.purchaseSuccess .. " " .. notice
-            end
+            if command == "buyCardSlot" or command == "buyRelic" or command == "buyPotion" or command == "removeCard" then
+                merchant:react("buy")
+            elseif command == "leaveShop" then merchant:react("leave") end
             self.notice, self.failed = notice, false
             if command == "removeCard" then self.mode, self.picker, self.selected = "main", nil, nil end
             local flow = self.run.nodeFlow
-            if hold and flow and flow.complete and (node.type == "camp" or node.type == "event") then
+            if hold and flow and flow.complete and (node.type == "camp" or node.type == "event" or node.type == "shop") then
                 hold.run, hold.map, hold.nodeId = self.run, self.map, flow.id
-                hold.view = node.type == "event" and "eventView" or (hold.choice == "upgrade" and "pickerView" or "campView")
+                -- A shop farewell shows no shelf: only the merchant and 继续 remain.
+                hold.view = node.type == "event" and "eventView" or node.type == "shop" and "farewell"
+                    or (hold.choice == "upgrade" and "pickerView" or "campView")
                 hold.eventId = node.event and node.event.id
                 self.result = hold
             end
@@ -674,6 +722,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local entry = self.actions[key]
         if not entry then return false, "unavailable_action" end
         if not entry.enabled then
+            if entry.poor then merchant:react("poor") end
             if entry.reason then self.notice, self.failed = entry.reason, true self:render() end
             return false, "unavailable_action"
         end
@@ -688,7 +737,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     local targets = { "back", "confirm", "shopView/previous", "shopView/next", "shopView/removal",
         "shopView/relicPrevious", "shopView/relicNext", "campView/rest", "campView/forge",
-        "pickerView/previous", "pickerView/next", "treasureView/chest", "treasureView/take" }
+        "pickerView/previous", "pickerView/next", "treasureView/chest", "treasureView/take",
+        "treasureView/previous", "treasureView/next" }
     for i = 1, SHOP_PAGE do targets[#targets + 1] = "shopView/card" .. i end
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
     for i = 1, 3 do targets[#targets+1]='shopView/potion'..i end

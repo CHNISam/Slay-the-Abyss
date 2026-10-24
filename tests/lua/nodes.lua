@@ -75,13 +75,13 @@ test("invalid selection and failed combat setup leave the map and run unchanged"
     rejected(run, map, function() return Nodes.enter(run, map, map.nodes[1].id) end, "unknown_encounter")
 end)
 
-test("unimplemented boss treasure never falls through to an ordinary relic reward", function()
+test("an ordinary treasure cannot impersonate the earned Boss chest", function()
     local run, map, node = before("treasure")
     -- Map.available returns detached descriptions; mark the actual source node.
     for _, original in ipairs(map.nodes) do
         if original.id == node.id then original.roomKind = "boss_treasure" end
     end
-    rejected(run, map, function() return Nodes.enter(run, map, node.id) end, "boss_treasure_not_implemented")
+    rejected(run, map, function() return Nodes.enter(run, map, node.id) end, "boss_treasure_unavailable")
 end)
 
 test("camp healing uses current rules, caps hp and consumes the single choice", function()
@@ -341,7 +341,11 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
         local node = Nodes.available(run, map)[1]; seen[node.type] = true
         assert(Nodes.enter(run, map, node.id)); equal(#Nodes.available(run, map), 0)
         if run.phase == "combat" then
-            finishBattle(run); assert(Run.claimCardReward(run, 0))
+            finishBattle(run)
+            -- This one-HP navigation fixture declines bottles explicitly; the
+            -- normal-data resource route exercises acquisition and full belts.
+            if run.rewards.potion then assert(Run.skipPotionReward(run)) end
+            assert(Run.claimCardReward(run, 0))
             local ok, result = Nodes.completeCombat(run, map); assert(ok)
             if node.type == "boss" then equal(result, "boss_victory") end
         elseif node.type == "camp" then assert(Nodes.rest(run))

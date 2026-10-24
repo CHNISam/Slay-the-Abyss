@@ -9,6 +9,7 @@ local function control(spec, parent)
     function box:GetChild(key) return self.children[key] end
     function box:SetVisible(value) self.visible=value end
     function box:SetLocalScale(x,y,z) self.scale={x,y,z} end
+    function box:SetAnchoredPosition(x,y) self.x,self.y=x,y end
     function box:AddCursorEventListener(event, fn)
         assert(not self.listeners[event], "duplicate listener") self.listeners[event]=fn
     end

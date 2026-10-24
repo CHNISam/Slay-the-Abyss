@@ -7,27 +7,39 @@ local Theme = require("abyss_theme")
 local Presentation = require("abyss_presentation")
 
 -- Compose the controller with the actual generated native tree, not a permissive mock.
+-- These methods capture no node state. Keep them as own fields so overrides
+-- and pairs/rawget see the same control shape without per-node closures.
+local Control = {}
+function Control:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
+function Control:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
+function Control:AddCursorEventListener(event, fn)
+    self.listeners = self.listeners or {}
+    self.listeners[event] = fn
+    if event == "click" then self.click = fn end
+end
+function Control:SetAnchoredPosition(x, y) self.x, self.y = x, y end
+function Control:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
+function Control:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
+function Control:SetImage(...)
+    assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+    local source, id = ...
+    assert(source == "static" and type(id) == "number") self.imageId = id
+end
+function Control:SetAsLastSibling() self.raised = true end
+
 local function control(definition)
     local c = { name = definition.name, visible = definition.visible ~= false, children = {}, text = "",
         sizeDeltaX = definition.size[1], sizeDeltaY = definition.size[2], interactable = true,
         x = definition.position and definition.position[1] or 0, y = definition.position and definition.position[2] or 0 }
     for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
-    function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
-    function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:AddCursorEventListener(event, fn)
-        self.listeners = self.listeners or {}
-        self.listeners[event] = fn
-        if event == "click" then self.click = fn end
-    end
-    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
-    function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(...)
-        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
-        local source, id = ...
-        assert(source == "static" and type(id) == "number") self.imageId = id
-    end
-    function c:SetAsLastSibling() self.raised = true end
+    c.GetChild = Control.GetChild
+    c.SetVisible = Control.SetVisible
+    c.AddCursorEventListener = Control.AddCursorEventListener
+    c.SetAnchoredPosition = Control.SetAnchoredPosition
+    c.SetSizeDelta = Control.SetSizeDelta
+    c.SetLocalScale = Control.SetLocalScale
+    c.SetImage = Control.SetImage
+    c.SetAsLastSibling = Control.SetAsLastSibling
     return c
 end
 local function setup(options)
@@ -134,7 +146,9 @@ test("selection never spends energy; target click or second self-card click issu
     local _, reason = Combat.canPlay(battle, id, nil)
     click(reason == "invalid_target" and "enemy1" or "card1")
     assert(#battle.hand == 4 and battle.discard[1].uid == id and ui.selected == nil)
-    assert(not stage.children.card5.visible and stage.children.energy.text == battle.energy .. "/3")
+    -- Energy preparation uses float arithmetic to detect overflow before wrapping.
+    assert(battle.energy % 1 == 0, "energy must retain its integer value contract")
+    assert(not stage.children.card5.visible and stage.children.energy.text == string.format("%.0f/3", battle.energy))
     while #battle.hand > 0 and Combat.canPlay(battle, battle.hand[1].uid, 1) do play(1) end
     local hp, hand, remaining = battle.enemies[1].hp, #battle.hand, battle.energy
     if hand > 0 then
@@ -293,7 +307,7 @@ test("real victory displays feedback and claims a reward into the next battle de
         if ui.run.phase == "combat" then click("endTurn") end
     end
     assert(ui.run.phase == "reward" and stage.children.skip.visible)
-    assert(stage.children.result.text:find("战斗胜利", 1, true))
+    assert(stage.children.rewardStage.visible and stage.children.rewardStage.children.subtitle.text:find("战斗胜利", 1, true))
     assert(not stage.children.endTurn.visible and not stage.children.enemy1.visible)
     local chosen = ui.run.rewards.cards[1]
     click("card1")
@@ -1167,5 +1181,51 @@ test("same-run battle replacement clears valid-looking old selection and target"
     ui.run.combat = Combat.new(Data, {deck={"strike"}, enemies={"cultist","cultist"}})
     ui:render()
     assert(ui.target == 1 and ui.selected == nil, "old encounter selection retained")
+end)
+test("reward pick is a centred stage apart from the bottom hand", function()
+    local ui, stage, click = setup() click("start")
+    local R = Theme.layout.rewardPick
+    local hand = {}
+    for i = 1, 5 do hand[i] = stage.children["card" .. i].y end
+    assert(stage.children.card1.y < -150 and not stage.children.rewardStage.visible and stage.children.energy.visible)
+    ui.run.phase, ui.run.rewards = "reward", {gold = 12, cards = {"strike", "defend", "bash"}}
+    ui:render()
+    local deck = #ui.run.deck
+    assert(stage.children.rewardStage.visible and not stage.children.endTurn.visible and not stage.children.energy.visible)
+    assert(stage.children.rewardStage.children.subtitle.text:find("金币 ＋12", 1, true))
+    assert(stage.children.card1.visible and stage.children.card3.visible and not stage.children.card4.visible)
+    -- Settle the entrance, then the three cards share one row at the middle of the screen.
+    for _ = 1, 40 do ui:update(0.05) end
+    for i = 1, 3 do
+        local box = stage.children["card" .. i]
+        assert(math.abs(box.x - (i - 2) * R.step) < 0.01 and math.abs(box.y - R.y) < 0.01)
+        assert(box.localScaleX == R.scale and not box.children.glow.visible)
+        assert(box.rotation == nil or box.rotation == 0)
+    end
+    local width = Theme.layout.card.size[1] * R.hoverScale
+    assert(R.step - width > 16, "hovered card must not overlap its neighbour")
+    -- Hover grows only the hovered card; leaving restores it without moving the others.
+    ui:setHover(2) for _ = 1, 40 do ui:update(0.05) end
+    assert(stage.children.card2.localScaleX == R.hoverScale and stage.children.card2.children.glow.visible)
+    assert(stage.children.card1.localScaleX == R.scale and stage.children.card2.y == R.y + R.hoverLift)
+    ui:setHover(nil) for _ = 1, 40 do ui:update(0.05) end
+    assert(stage.children.card2.localScaleX == R.scale and stage.children.card2.y == R.y)
+    -- One click claims once; a second click on the same slot cannot claim again.
+    click("card2")
+    assert(ui.run.phase == "map" and #ui.run.deck == deck + 1 and not stage.children.rewardStage.visible)
+    click("card2") assert(#ui.run.deck == deck + 1)
+    ui:setHover(1) assert(ui.hover == nil)
+    -- Battle hands are untouched: a fresh fight deals the bottom arc again.
+    click("continue")
+    assert(ui.run.phase == "combat" and stage.children.energy.visible and stage.children.card1.y == hand[1])
+end)
+test("skip leaves the reward stage and cannot be repeated", function()
+    local ui, stage, click = setup() click("start")
+    ui.run.phase, ui.run.rewards = "reward", {gold = 0, cards = {"strike", "defend", "bash"}}
+    ui:render() local deck = #ui.run.deck
+    assert(stage.children.skip.visible and stage.children.skip.y == Theme.layout.rewardPick.skip[2])
+    click("skip")
+    assert(ui.run.phase == "map" and #ui.run.deck == deck and not stage.children.rewardStage.visible)
+    click("skip") assert(#ui.run.deck == deck)
 end)
 print("LUA_UI_PASS " .. count)

@@ -15,8 +15,9 @@ function walk(control, visit, origin = [0, 0]) {
   for (const child of control.children ?? []) walk(child, visit, next);
 }
 const clickable = c => c.kind === 'container' && (c.children ?? []).some(child => child.kind === 'cursorArea');
-// What the player sees together: shared chrome plus one view.
-const screen = view => [...panel.children.filter(c => !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)),
+// What the player sees together: shared chrome plus one view. The merchant appears only with the shop.
+const screen = view => [...panel.children.filter(c => !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)
+    && (c.name !== 'merchant' || view === 'shopView')),
   ...find(panel.children, view).children.filter(c => c.kind !== 'image' || !['glow', 'plate', 'plateBorder'].includes(c.name))];
 
 test('node panel composes one container per approved node screen within the MCP child limit', () => {
@@ -85,6 +86,8 @@ test('each screen keeps its readable elements and buttons free of sibling overla
       // The chest hit area deliberately covers the closed/open pictures; the hint is replaced by the reward row.
       if (view === 'treasureView' && ([a.name, b.name].includes('chest') || ([a.name, b.name].includes('hint') && [a.name, b.name].includes('reward')))) continue;
       if (view === 'treasureView' && ['closed', 'open'].includes(a.name) && ['closed', 'open'].includes(b.name)) continue;
+      // Closed-chest copy disappears before the Boss candidate selector appears.
+      if (view === 'treasureView' && [a.name, b.name].includes('hint') && [a.name, b.name].some(n => ['page', 'previous', 'next'].includes(n))) continue;
       assert.ok(!overlaps(bounds(a), bounds(b)), `${view}: ${a.name} overlaps ${b.name}`);
     }
   }

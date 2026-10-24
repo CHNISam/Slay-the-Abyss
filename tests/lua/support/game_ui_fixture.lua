@@ -10,27 +10,39 @@ local Theme = require("abyss_theme")
 local function preview(name, text)
     print("LORE_PREVIEW\t" .. name .. "\t" .. text:gsub("\n", "\\n"))
 end
+-- These methods capture no node state. Keep them as own fields so overrides
+-- and pairs/rawget see the same control shape without per-node closures.
+local Control = {}
+function Control:GetChild(name) return self.children[name] end
+function Control:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
+function Control:SetSizeDelta(width, height) self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
+function Control:SetLocalScale(x, y, z) self.scale = {x, y, z}; self.localScaleX, self.localScaleY = x, y end
+function Control:SetAnchoredPosition(x, y) self.x, self.y = x, y end
+function Control:SetImage(...)
+    assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+    local source, id = ...
+    assert(source == "static" and type(id) == "number"); self.imageId = id
+end
+function Control:SetAsLastSibling() self.raised = true end
+function Control:AddCursorEventListener(event, fn)
+    self.listeners = self.listeners or {}
+    assert(not self.listeners[event], "duplicate cursor listener: " .. tostring(event))
+    self.listeners[event] = fn
+    if event == "click" then self.click = fn end
+end
+
 local function control(spec, parent)
     local self = { name = spec.name, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, interactable = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
-    function self:GetChild(name) return self.children[name] end
-    function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
-    function self:SetSizeDelta(width, height) self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
-    function self:SetLocalScale(x, y, z) self.scale = {x, y, z}; self.localScaleX, self.localScaleY = x, y end
-    function self:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function self:SetImage(...)
-        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
-        local source, id = ...
-        assert(source == "static" and type(id) == "number"); self.imageId = id
-    end
-    function self:SetAsLastSibling() self.raised = true end
-    function self:AddCursorEventListener(event, fn)
-        self.listeners = self.listeners or {}
-        assert(not self.listeners[event], "duplicate cursor listener: " .. tostring(event))
-        self.listeners[event] = fn
-        if event == "click" then self.click = fn end
-    end
+    self.GetChild = Control.GetChild
+    self.SetVisible = Control.SetVisible
+    self.SetSizeDelta = Control.SetSizeDelta
+    self.SetLocalScale = Control.SetLocalScale
+    self.SetAnchoredPosition = Control.SetAnchoredPosition
+    self.SetImage = Control.SetImage
+    self.SetAsLastSibling = Control.SetAsLastSibling
+    self.AddCursorEventListener = Control.AddCursorEventListener
     if spec.kind == "grid" then
         self.items, self.indexBase = {}, 0
         function self:recycle(slot, index)
@@ -49,11 +61,13 @@ local function control(spec, parent)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return self
 end
-local function fixture(data, settle, music, cursorEvents)
+-- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
+local function fixture(data, settle, music, cursorEvents, prologue, sound)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents })
+        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
+          prologue = prologue == true, sound = sound })
     root.ui = ui
     return ui, root
 end

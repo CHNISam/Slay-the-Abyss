@@ -89,6 +89,33 @@
           "value": 3
         }
       ]
+    },
+    {
+      "id": "black_blood",
+      "name": "深燃之心",
+      "description": "替换余烬之心。每场战斗胜利后回复12点生命。",
+      "rarity": "boss",
+      "trigger": "combat_end",
+      "replaces": "burning_blood",
+      "effects": [{ "op": "heal", "value": 12 }]
+    },
+    {
+      "id": "slavers_collar",
+      "name": "缚岩项圈",
+      "description": "在精英和首领战斗中，每回合开始时额外获得1点能量。",
+      "rarity": "boss",
+      "trigger": "turn_start",
+      "encounterTiers": ["elite", "boss"],
+      "effects": [{ "op": "energy", "value": 1 }]
+    },
+    {
+      "id": "sozu",
+      "name": "静泉竹筒",
+      "description": "每回合开始时额外获得1点能量。无法再获得药水，已有药水仍可使用。",
+      "rarity": "boss",
+      "trigger": "turn_start",
+      "blocksPotions": true,
+      "effects": [{ "op": "energy", "value": 1 }]
     }
   ]
 }

@@ -165,14 +165,17 @@ export function validateContent(bundle) {
         if (intentIds.has(intent.id)) fail(`${ip}.id`, `duplicate ID ${intent.id}`);
         intentIds.add(intent.id);
       }
-      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned', 'charge', 'split'], `${ip}.kind`);
+      enumeration(intent.kind, ['attack', 'defend', 'buff', 'debuff', 'sleep', 'stunned', 'charge', 'split', 'escape'], `${ip}.kind`);
+      if (intent.kind === 'escape' && (entry.ai?.kind !== 'looter' || entry.ai?.escapeIntent !== intent.id)) {
+        fail(`${ip}.kind`, 'escape intent requires matching Looter AI');
+      }
       if (intent.kind === 'charge' && (entry.ai?.kind !== 'charge_then_attack' || entry.ai?.chargeIntent !== intent.id)) {
         fail(`${ip}.kind`, 'charge intent requires matching AI');
       }
       if (intent.kind === 'split' && (!['spike_slime_l', 'acid_slime_l'].includes(entry.ai?.kind) || entry.ai?.splitIntent !== intent.id)) {
         fail(`${ip}.kind`, 'split intent requires matching AI');
       }
-      if (['sleep', 'stunned', 'charge', 'split'].includes(intent.kind)) {
+      if (['sleep', 'stunned', 'charge', 'split', 'escape'].includes(intent.kind)) {
         if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
       } else effects(intent.effects, `${ip}.effects`, 0, true);
     });
@@ -181,10 +184,21 @@ export function validateContent(bundle) {
       const intentReference = (id, path, kind) => {
         if (text(id, path) && !intentIds.has(id)) fail(path, 'unknown intent ID');
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
-        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge', 'split'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
+        if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge', 'split', 'escape'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'acid_slime_l', 'fungi_beast', 'louse'], `${ap}.kind`);
-      if (a.kind === 'louse') {
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'acid_slime_l', 'fungi_beast', 'louse', 'looter'], `${ap}.kind`);
+      if (a.kind === 'looter') {
+        keys(a, ['kind', 'mugIntent', 'lungeIntent', 'smokeIntent', 'escapeIntent', 'stealAmount', 'rollRange', 'talkChance', 'smokeChance'], ap);
+        reference('thievery', 'statuses', `${ap}.thievery`);
+        for (const [key, kind] of [['mugIntent','attack'], ['lungeIntent','attack'], ['smokeIntent','defend'], ['escapeIntent','escape']]) intentReference(a[key], `${ap}.${key}`, kind);
+        for (const [key, value] of [['stealAmount',15], ['rollRange',100], ['talkChance',Math.fround(0.6)], ['smokeChance',0.5]]) {
+          if (a[key] !== value) fail(`${ap}.${key}`, `must match source A0 value ${value}`);
+        }
+        for (const [key, op, value] of [['mugIntent','damage',10], ['lungeIntent','damage',12], ['smokeIntent','block',6]]) {
+          const move = Array.isArray(entry.intents) && entry.intents.find(x => x?.id === a[key]);
+          if (move && (move.effects?.length !== 1 || move.effects[0]?.op !== op || move.effects[0]?.value !== value || Object.keys(move.effects[0] ?? {}).sort().join(',') !== 'op,value')) fail(`${ap}.${key}`, 'must match the single source A0 effect');
+        }
+      } else if (a.kind === 'louse') {
         keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange', 'curlUpRange'], ap);
         reference('curl_up', 'statuses', `${ap}.curl_up`);
         if (object(a.curlUpRange, `${ap}.curlUpRange`)) {
@@ -430,8 +444,12 @@ export function validateContent(bundle) {
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
-    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
+    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'boss', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
     if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end', 'shop'], `${p}.trigger`);
+    if (entry.replaces !== undefined) reference(entry.replaces, 'relics', `${p}.replaces`);
+    if (entry.blocksPotions !== undefined && typeof entry.blocksPotions !== 'boolean') fail(`${p}.blocksPotions`, 'must be boolean');
+    if (entry.description !== undefined && typeof entry.description !== 'string') fail(`${p}.description`, 'must be text');
+    if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
     if (kind === 'relics' && entry.trigger === 'shop') {
       if (!['membership_card', 'courier', 'smiling_mask'].includes(entry.id)) fail(`${p}.id`, 'unsupported shop relic');
       if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'shop relic uses merchant hooks and must have empty combat effects');

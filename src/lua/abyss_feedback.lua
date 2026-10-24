@@ -66,6 +66,8 @@ local function duration(entry, style)
     if kind == "play" then return T.base end
     if banners[kind] then return T.banner end
     if kind == "intent" then return T.enemyActionGap end
+    if kind == "enemy_escape" then return T.enemyEscape end
+    if kind == "gold_stolen" then return T.base end
     if kind == "death" then return entry.detail.chained and 0 or T.slow end
     -- Area hits land on consecutive rendered frames: one shockwave rippling across the row.
     if kind == "damage" and style.form == "area" and style.hit < style.hits then return 0 end
@@ -88,7 +90,7 @@ local function pose(keys, age)
 end
 
 function M.new(stage, platform, present, complete)
-    local self = { busy = false, effects = {}, deaths = {}, dying = {}, poses = {} }
+    local self = { busy = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {} }
     local overlay = stage:GetChild("feedback")
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
@@ -138,7 +140,7 @@ function M.new(stage, platform, present, complete)
             end
             tint(box:GetChild("portrait"), name == "hero" and C.geo or C.text)
         end
-        self.effects, self.deaths, self.dying, self.poses, self.sweep = {}, {}, {}, {}, nil
+        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, {}, {}, {}, nil, {}
     end
     local function finish(failure)
         local wasBusy = self.busy
@@ -163,6 +165,8 @@ function M.new(stage, platform, present, complete)
         for k, v in pairs(entry.frame or old) do nextView[k] = v end
         -- The played card stays for the contact frame and dissolves into the strike.
         local landing = self.current and self.current.kind == "play" and entry.kind ~= "play"
+        if self.current and self.current.kind == "enemy_escape" then self.escaping[self.current.detail.enemy] = nil end
+        if entry.kind == "enemy_escape" then self.escaping[entry.detail.enemy] = true end
         self.shadow, self.current, self.style, self.elapsed = nextView, entry, style, 0
         hideOverlay(landing)
         if landing then
@@ -202,7 +206,7 @@ function M.new(stage, platform, present, complete)
         elseif banners[kind] then
             if kind == "enemy_turn" then banner("敌方回合") sound("turn")
             elseif kind == "player_turn" then banner("我方回合 " .. n(self.shadow.turn)) sound("turn")
-            elseif kind == "victory" then banner("战斗胜利") sound("victory")
+            elseif kind == "victory" then banner(d.allEnemiesEscaped and "敌人已逃跑" or "战斗胜利") sound("victory")
             else banner("旅途暂歇", true) sound("defeat") end
         elseif kind == "intent" then
             local a = actor(d.enemy)
@@ -212,6 +216,11 @@ function M.new(stage, platform, present, complete)
             self.poses[d.enemy] = {age = 0, keys = style.attacks
                 and {{0, 0, 1}, {gather, S.m, 1 + SWELL}, {T.enemyActionGap, S.m, 1 + SWELL}}
                 or {{0, 0, 1}, {gather, 0, 1 + OVERSHOOT}, {T.enemyActionGap + T.slow, 0, 1}}}
+        elseif kind == "enemy_escape" then
+            local a = actor(d.enemy)
+            stage:GetChild("notice").text = (a and a.name or "敌人") .. "正在逃离，已窃取的金币不会返还。"
+            -- Dedicated escape hold. No death collapse, death cue or death flag.
+            self.poses[d.enemy] = nil
         elseif kind == "death" then
             self.deaths[d.target] = true
             local _, box = actor(d.target)
@@ -248,7 +257,8 @@ function M.new(stage, platform, present, complete)
                     text = (status and status.name or d.status) .. (d.amount >= 0 and " ＋" or " ") .. n(d.amount)
                     ink = status and status.kind == "buff" and C.buff or C.debuff
                     sound("status")
-                elseif kind == "heal" then text, ink = "＋" .. n(d.amount), C.positive end
+                elseif kind == "heal" then text, ink = "＋" .. n(d.amount), C.positive
+                elseif kind == "gold_stolen" then text, ink = "失金 −" .. n(d.amount), C.goldBright end
                 if text ~= "" then
                     local floating = box:GetChild("floating")
                     floating.text, floating.fontColor = text, colour(ink)

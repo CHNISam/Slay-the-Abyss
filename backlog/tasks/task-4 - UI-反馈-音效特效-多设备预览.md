@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 06:51'
+updated_date: '2026-10-24 08:44'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -47,8 +47,16 @@ ordinal: 4000
 - [ ] #8 按已定界面检查表逐屏验收，音画和手机电脑操作达到你批准的标准。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+PR171整合切片：保留develop最新商店原子交易和战后独立选牌界面，解决开场与商人对话冲突；对话框避让全部商品价格；完整本地检查和当前SHA双Quality通过后squash合入develop，保留平台实机验收。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-24用户明确删除首页层数流程及拖牌教学两行；源码e116ca7已修，15组界面回归和4组布局/控制器检查通过，修正版副本独立读回通过，尚未导入。原计划及记录完整保存在本轮Git stash与.artifacts/m1-live-sprint/backlog-changes-preserved.patch。
+
+PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交易及独立选牌台；修复价格行遮挡和新局同编号商店不播旁白。JS全量950通过/118环境跳过，商店Lua35项与开场10项回归通过；完整检查与最终SHA Quality继续核实。平台导入、电脑手机及UI门禁未验收。
 <!-- SECTION:NOTES:END -->
