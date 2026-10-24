@@ -10,6 +10,7 @@ local Nodes = require("abyss_nodes")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
+local Merchant = require("abyss_merchant")
 local M = {}
 local number = require("abyss_numbers").integer
 local C = Theme.color
@@ -75,6 +76,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function picture(control, id)
         if options.imageSource and id then control:SetImage(options.imageSource, iconId(id)) end
     end
+    local merchant = Merchant.new(child("merchant"), { color = options.color, sound = options.sound })
+    child("merchant"):GetChild("talk"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return merchant:tap() end)
+    self.merchant = merchant
     local buttonLooks, buttonHover, buttonPress = {}, nil, nil
     local function paintButton(box)
         local look = buttonLooks[box]
@@ -190,11 +194,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         ink(box:GetChild("value"), status == "poor" and C.danger or status == "sold" and C.textMuted or C.goldBright)
         show(box:GetChild("coin"), status ~= "sold" and status ~= 'missing')
     end
-    local function action(key, enabled, handler, reason)
-        self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason }
+    -- poor marks an offer refused only for lack of gold, so the merchant can answer it.
+    local function action(key, enabled, handler, reason, poor)
+        self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason, poor = poor == true }
         return enabled == true
     end
-    local function shortfall(price) return Narrative.merchant.insufficientGold .. " 金币不足：需要 " .. number(price) .. "，还差 " .. number(price - self.run.gold) end
+    local function shortfall(price) return "金币不足：需要 " .. number(price) .. "，还差 " .. number(price - self.run.gold) end
 
     local commit -- forward declaration; renders and notifies
     local function pageArrows(view, prefix, page, count)
@@ -247,7 +252,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     return commit("buyCardSlot", i, function(before)
                         return "已购买「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币，加入牌组"
                     end)
-                end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
+                end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price), poor and not offer.sold and not offer.unavailable)
             end
         end
         pageArrows(shop, "", self.page, self.pageCount)
@@ -269,7 +274,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         action("shopView/removal", open, function()
             self.mode, self.picker, self.pickPage, self.selected, self.notice = "picker", "remove", 1, nil, ""
             self:render() return true
-        end, reason)
+        end, reason, poor)
 
         for i = 1, RELIC_PAGE do
             local offer = relics[(self.relicPage - 1) * RELIC_PAGE + i]
@@ -289,7 +294,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     return commit("buyRelic", offer.id, function(before)
                         return "已购买遗物「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币"
                     end)
-                end, offer.unavailable and '此遗物尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
+                end, offer.unavailable and '此遗物尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price), relicPoor and not offer.sold and not offer.unavailable)
             end
         end
         pageArrows(shop, "relic", self.relicPage, relicPages)
@@ -311,7 +316,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             fillPrice(price,offer.price,offer.unavailable and 'missing' or offer.sold and 'sold' or poor and 'poor' or 'ok')
             action('shopView/potion'..i,enabled,function()
                 return commit('buyPotion',i,function(before) return '已购买药水 · 支付 '..number(before.gold-self.run.gold)..' 金币' end)
-            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price))
+            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price),poor and not full and not offer.sold and not offer.unavailable)
         end
         return "点选商品购买 · 未实装槽位不可购买"
     end
@@ -552,9 +557,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
         elseif screen == "eventView" then hint = renderEvent(view, node, result)
         elseif screen == "treasureView" then hint = renderTreasure(view, node) end
-        if active and self.mode == "main" and node.type == "shop" then
-            hint = Narrative.merchant.greet .. " " .. hint
+        -- The merchant speaks in his own dialogue box; the notice keeps only shop facts.
+        if node and node.type == "shop" and (self.merchantNode ~= node.id or self.merchantRun ~= self.run) then
+            self.merchantNode, self.merchantRun = node.id, self.run
+            merchant:enter(self.run)
         end
+        merchant:setVisible(node ~= nil and node.type == "shop" and self.mode == "main" and (active or node.complete))
         child("notice").text = self.notice ~= "" and self.notice or hint
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
 
@@ -573,7 +581,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "shopView" then
             confirmLabel, confirmOk = "离开商店", true
             confirmFn = function()
-                return commit("leaveShop", nil, function() return Narrative.merchant.leave end)
+                -- The farewell stays on screen like a camp/event result, so it is actually seen.
+                return commit("leaveShop", nil, function() return "", {} end)
             end
         elseif screen == "pickerView" then
             local selected = self.selected
@@ -619,6 +628,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         resetButtons()
         self.canvasWidth, self.canvasHeight = width, height
     end
+    function self:update(dt)
+        if self.visible then merchant:update(dt) end
+    end
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
         if not value then resetButtons() end
@@ -647,15 +659,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not called then error(accepted) end
         if accepted then
             local notice, hold = describe(before)
-            if command == "buyCardSlot" or command == "buyRelic" or command == 'buyPotion' or command == "removeCard" then
-                notice = Narrative.merchant.purchaseSuccess .. " " .. notice
-            end
+            if command == "buyCardSlot" or command == "buyRelic" or command == "buyPotion" or command == "removeCard" then
+                merchant:react("buy")
+            elseif command == "leaveShop" then merchant:react("leave") end
             self.notice, self.failed = notice, false
             if command == "removeCard" then self.mode, self.picker, self.selected = "main", nil, nil end
             local flow = self.run.nodeFlow
-            if hold and flow and flow.complete and (node.type == "camp" or node.type == "event") then
+            if hold and flow and flow.complete and (node.type == "camp" or node.type == "event" or node.type == "shop") then
                 hold.run, hold.map, hold.nodeId = self.run, self.map, flow.id
-                hold.view = node.type == "event" and "eventView" or (hold.choice == "upgrade" and "pickerView" or "campView")
+                -- A shop farewell shows no shelf: only the merchant and 继续 remain.
+                hold.view = node.type == "event" and "eventView" or node.type == "shop" and "farewell"
+                    or (hold.choice == "upgrade" and "pickerView" or "campView")
                 hold.eventId = node.event and node.event.id
                 self.result = hold
             end
@@ -674,6 +688,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local entry = self.actions[key]
         if not entry then return false, "unavailable_action" end
         if not entry.enabled then
+            if entry.poor then merchant:react("poor") end
             if entry.reason then self.notice, self.failed = entry.reason, true self:render() end
             return false, "unavailable_action"
         end

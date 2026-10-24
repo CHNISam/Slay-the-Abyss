@@ -61,6 +61,7 @@ local function control(spec, parent)
     function box:SetVisible(value) self.visible = value end
     function box:SetImage(source, id) self.imageId = id end
     function box:SetLocalScale(...) end
+    function box:SetAnchoredPosition(x, y) self.position = {x, y} end
     function box:AddCursorEventListener(event, handler)
         assert(not self.listeners[event], 'duplicate native event listener')
         self.listeners[event] = handler

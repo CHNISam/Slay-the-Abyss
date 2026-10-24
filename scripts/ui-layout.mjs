@@ -135,7 +135,7 @@ export function battleLayout() {
       text('title', l.rewardPick.title[0] - l.rewardPick.stage[0], l.rewardPick.title[1] - l.rewardPick.stage[1], l.rewardPick.title[2], l.rewardPick.title[3], '选择一张卡牌', f.display, c.goldBright),
       text('subtitle', l.rewardPick.subtitle[0] - l.rewardPick.stage[0], l.rewardPick.subtitle[1] - l.rewardPick.stage[1], l.rewardPick.subtitle[2], l.rewardPick.subtitle[3], '', f.body, c.textDim),
     ] },
-    text('title', 0, y, 350, bar.height, '杀戮原塔2 · 战斗', f.heading, c.gold),
+    text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
     glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim), chip('exhaust', bar.exhaust, c.textDim),
