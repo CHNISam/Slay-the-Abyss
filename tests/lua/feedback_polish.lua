@@ -143,7 +143,7 @@ test("area attack: one ripple across the row, one sweep, one cue; deaths wait fo
     for _, e in ipairs(h.feedback.queue) do kinds[#kinds + 1] = e.kind end
     assert(table.concat(kinds, ",") == "play,damage,damage,damage,death,death", table.concat(kinds, ","))
     h.until_(kind("damage"))
-    assert(h.stage:GetChild("feedback"):GetChild("sweep").visible)
+    assert(h.stage:GetChild("feedbackForeground"):GetChild("sweep").visible)
     local frames = h.until_(function(e) return e == h.feedback.queue[4] end)
     assert(frames == 2, "remaining targets are hit on consecutive frames")
     for i = 1, 3 do
@@ -258,7 +258,7 @@ test("frame cost: no image swaps while effects settle, and cancel restores every
         local p = h.portrait(name)
         assert(p.x == 0 and p.y == 0 and p.localScaleX == 1 and h.part(name, "impact").localScaleX == 1)
     end
-    assert(h.stage.x == 0 and not h.stage:GetChild("feedback"):GetChild("sweep").visible)
+    assert(h.stage.x == 0 and not h.stage:GetChild("feedbackForeground"):GetChild("sweep").visible)
     assert(next(h.feedback.poses) == nil and next(h.feedback.dying) == nil)
     h.feedback:update(0.1)
     assert(#h.completed == 1)

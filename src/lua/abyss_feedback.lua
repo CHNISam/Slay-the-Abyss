@@ -90,6 +90,10 @@ end
 function M.new(stage, platform, present, complete)
     local self = { busy = false, effects = {}, deaths = {}, dying = {}, poses = {} }
     local overlay = stage:GetChild("feedback")
+    local foreground = stage:GetChild("feedbackForeground")
+    local function part(name)
+        return (name == "playedCard" and overlay or foreground):GetChild(name)
+    end
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
     local function actor(id)
@@ -103,10 +107,10 @@ function M.new(stage, platform, present, complete)
         end
     end
     local function banner(text, danger)
-        local label = overlay:GetChild("banner")
+        local label = part("banner")
         self.bannerInk = danger and C.danger or C.goldBright
         label.text, label.fontColor = text, colour(self.bannerInk)
-        label:SetVisible(true) overlay:GetChild("bannerPlate"):SetVisible(true)
+        label:SetVisible(true) part("bannerPlate"):SetVisible(true)
     end
     -- Steps keep the sweep and a landing card; reset and finish clear everything.
     local function hideOverlay(landing, all)
@@ -115,7 +119,7 @@ function M.new(stage, platform, present, complete)
         local names = {"banner", "bannerPlate"}
         if not landing then names[#names + 1] = "playedCard" end
         if all then names[#names + 1] = "sweep" end
-        for _, name in ipairs(names) do pcall(function() overlay:GetChild(name):SetVisible(false) end) end
+        for _, name in ipairs(names) do pcall(function() part(name):SetVisible(false) end) end
     end
     local function sound(cue)
         -- IDs come from the platform catalogue. Candidate audibility still needs real playtest.
@@ -128,7 +132,7 @@ function M.new(stage, platform, present, complete)
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
         for _, name in ipairs({"banner", "bannerPlate"}) do
-            pcall(function() local part = overlay:GetChild(name) part:SetAnchoredPosition(0, S.xxl) part:SetLocalScale(1, 1, 1) end)
+            pcall(function() local control = part(name) control:SetAnchoredPosition(0, S.xxl) control:SetLocalScale(1, 1, 1) end)
         end
         for _, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
             local box = stage:GetChild(name)
@@ -193,7 +197,7 @@ function M.new(stage, platform, present, complete)
             if area then x = ROW end
             self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
             card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
-            card:SetVisible(true) overlay:SetAsLastSibling() sound("card_play")
+            card:SetVisible(true) foreground:SetAsLastSibling() sound("card_play")
             -- The traveler draws back while the card lifts, then leans in as it lands.
             local lift = T.base * T.anticipation
             self.poses.player = {age = 0, keys = attack
@@ -466,7 +470,7 @@ function M.new(stage, platform, present, complete)
                 -- Slide in, hold, slide out; the plate wipes open before the text arrives.
                 local age, travel = self.elapsed, S.xxl * 2
                 local enter, exit = easeOut(age / T.fast), easeIn((age - T.banner + T.fast) / T.fast)
-                local label, plate = overlay:GetChild("banner"), overlay:GetChild("bannerPlate")
+                local label, plate = part("banner"), part("bannerPlate")
                 label:SetAnchoredPosition(-travel * (1 - enter) + travel * exit, S.xxl)
                 label.fontColor = colour(self.bannerInk, enter * (1 - exit))
                 plate:SetLocalScale(1, enter * (1 - exit), 1)
@@ -481,7 +485,7 @@ function M.new(stage, platform, present, complete)
             if self.sweep then
                 self.sweep.age = self.sweep.age + dt
                 local p = clamp(self.sweep.age / T.base)
-                local sweep = overlay:GetChild("sweep")
+                local sweep = part("sweep")
                 sweep:SetVisible(p < 1)
                 sweep:SetLocalScale(easeOut(p), 1 - p / 2, 1)
                 tint(sweep, C.geo, 1 - easeIn(p))
