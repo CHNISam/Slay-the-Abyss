@@ -2,9 +2,10 @@
 id: TASK-30
 title: 拖牌到场上，松手就出牌
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -17,6 +18,7 @@ references:
   - docs/design/UI_DESIGN.md
   - docs/design/prototype/index.html
   - docs/backlog-details/TASK-30.md
+  - docs/DELIVERY-CLOSEOUT.md
 priority: high
 type: enhancement
 ordinal: 36000

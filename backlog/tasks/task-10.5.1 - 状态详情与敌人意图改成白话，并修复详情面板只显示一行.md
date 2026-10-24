@@ -1,14 +1,21 @@
 ---
 id: TASK-10.5.1
 title: 状态详情与敌人意图改成白话，并修复详情面板只显示一行
-status: In Progress
-assignee: []
+status: Done
+assignee:
+  - '@Codex'
 created_date: '2026-10-24 04:39'
-updated_date: '2026-10-24 05:14'
+updated_date: '2026-10-24 07:34'
+due_date: '2026-10-24'
 labels: []
+milestone: m-2
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/159'
+  - docs/DELIVERY-CLOSEOUT.md
+  - docs/evidence/m1-live-20261024/report.md
+  - docs/evidence/m1-live-20261024/screens/01-t001.jpg
+  - docs/evidence/m1-live-20261024/reviews/preview-live-review.json
 parent_task_id: TASK-10.5
 priority: high
 type: bug
@@ -26,7 +33,7 @@ ordinal: 81000
 - [x] #1 所有状态详情都有专门白话句子并带实时数值，不出现所示/等量/层数/（当前，长度不超过两行
 - [x] #2 详情面板标题、生命、状态名、说明行高均不低于原生行高，满 5 行时不超出屏幕
 - [x] #3 敌人意图详情写清是谁获得什么（自身获得/使你获得/攻击 N 次每次 M 点）
-- [ ] #4 原神千星奇域实机截图确认面板各行完整显示
+- [x] #4 原神千星奇域实机截图确认面板各行完整显示
 <!-- AC:END -->
 
 ## Implementation Notes
@@ -37,4 +44,12 @@ ordinal: 81000
 集成 PR #159：https://github.com/CHNISam/Slay-the-Abyss/pull/159，目标 develop。fetch 后基线仍为 b3c2ecb，无需 rebase。本地 npm run check 的 JavaScript 928 通过/118 跳过，数据校验通过；acid_slime_l.lua 首次 ETIMEDOUT，使用原超时单独重跑 29 组通过，其余检查与当前 SHA CI 继续完成后合并。实机截图尚未验证；本轮未构建或导入存档，未游戏内验证。任务保持 In Progress，AC4 保持未勾选。
 
 合并前 develop 新增 PR #157（ece758d），已 rebase 并解决冲突：保留精确伤害预览、复合意图图标、非攻击意图不显示数字、详情延迟与意图行；状态详情采用本任务白话句及 400 宽/100 行高/5 行布局。同步新基线的哨卫、黏滞和大型棘刺团文案断言。新基线完整检查与当前 SHA CI 通过后 squash 合并；实机验收仍缺。
+
+2026-10-24交付审计复核PR165新合证据：直接查看原生01-t001截图，标题祈火徒、生命38/48及格挡7、力量2增益、完整说明四部分均显示；519-b636关键词面板亦完整。固定源c0f2076、官方1841、run ced168e4，837条本轮日志及43模块/UI读回见报告。此为既有同源面板显示证据复用，不是新试玩，也不认证所有18状态自然获取、五行同时物理输入、手机或本轮BGM候选；前三项本地AC原已勾选，AC4按其面板各行显示原范围收口。PR165后续仅改卡牌短按help生命周期，不改状态面板渲染。保留M1已归档，不重新制造阻塞。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+原三项本地白话/布局/意图AC保留；AC4复用PR165固定c0f2076/官方1841真实截图及报告，已直接核对标题、生命、状态和说明完整显示。本任务有限面板修复完成；全UI、多状态上限、设备和正常流程仍由TASK-4/38/42/5验收，不冒充新候选实机。
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -18,7 +18,8 @@
     "build:theme": "node scripts/build-ui-theme.mjs",
     "test:lua": "npm run build:data && npm run build:ui && node scripts/map-ui-layout.mjs && node scripts/test-lua.mjs",
     "test:presentation": "python -m unittest discover -s tests -p test_*.py -v",
-    "check:rules": "npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme",
+    "verify:backlog": "node scripts/verify-backlog-roadmap.mjs",
+    "check:rules": "npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme",
     "check": "npm run check:rules && npm run test:presentation"
   },
   "devDependencies": {
