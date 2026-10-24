@@ -70,7 +70,14 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.equal(find(battle, 'endTurn').kind, 'presetButton');
   assert.deepEqual(Object.keys(find(battle, 'endTurn').states).sort(), ['disabled', 'hover', 'normal', 'pressed']);
   const map = find(panels, 'mapPanel').children;
-  assert.deepEqual(map, find(find(mapLayout(theme).controls, 'stage').children, 'mapPanel').children);
+  const standaloneMap = find(find(mapLayout(theme).controls, 'stage').children, 'mapPanel').children;
+  // The shared potion entry needs the existing compact HUD title width. Every
+  // other map field, including scrolling and navigation, remains identical.
+  const title = groups => find(groups.flatMap(group => group.children ?? []), 'title');
+  assert.equal(title(map).size[0], theme.layout.nativeNode.topBar.title[2]);
+  const comparableMap = structuredClone(map);
+  title(comparableMap).size[0] = title(standaloneMap).size[0];
+  assert.deepEqual(comparableMap, standaloneMap);
   assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length, 47);
   assert.equal(find(find(panels, 'nodePanel').children, 'confirm').size[0], 220);
   assert.equal(find(find(panels, 'menuPanel').children, 'start').position[1], -220);

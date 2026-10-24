@@ -65,7 +65,9 @@ function M.beforeAction(state, enemy)
 end
 
 function M.afterEffects(state, enemy)
-    if not enemy.aiReturning then return end
+    -- Lethal Twin Slam opens the death screen before its queued Remove Power,
+    -- Apply Mode Shift and Reset Threshold actions can run.
+    if not enemy.aiReturning or state.player.hp <= 0 then return end
     enemy.aiReturning, enemy.aiSkipAdvance, enemy.aiReturnDamage = nil, true, nil
     if enemy.hp > 0 then
         status(state, enemy, "sharp_hide", 0)

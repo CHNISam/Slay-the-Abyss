@@ -464,7 +464,8 @@ function M.new(data, options)
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     Actors.bindStatuses(state.player, state.catalog.statuses)
     local deck = options.deck or data.cards.starter_deck.cards
-    assert(#deck > 0, "empty deck")
+    -- Removing the final permanent card is legal; draw already handles empty piles.
+    assert(type(deck) == "table", "invalid deck")
     for _, value in ipairs(deck) do
         local id = type(value) == "table" and value.cardId or value
         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))

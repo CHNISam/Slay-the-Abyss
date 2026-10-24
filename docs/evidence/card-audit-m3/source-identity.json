@@ -1,0 +1,840 @@
+{
+  "mirrorCommit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+  "evidenceClass": "Pinned third-party decompiled mirror; not authenticated PC binary or original-game observation",
+  "observedOriginalGame": false,
+  "sources": [
+    {
+      "id": "anger",
+      "file": "Anger.java",
+      "path": "杀戮尖塔原码/cards/red/Anger.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Anger.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Anger.java",
+      "gitBlob": "d2aae968e92166f03e836a6eb12865147e083d16",
+      "sha256": "7f2a1e31d4b5f6bd27217155f39f66a70e36244d05b0d38f99a0863d7b3e1eea",
+      "bytes": 2313,
+      "sections": {
+        "constructor": {
+          "start": 26,
+          "end": 30
+        },
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "barricade",
+      "file": "Barricade.java",
+      "path": "杀戮尖塔原码/cards/red/Barricade.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Barricade.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Barricade.java",
+      "gitBlob": "9ea02e89cce3dec5a3c37e3608272eeda6fe43fa",
+      "sha256": "fd0d75660eebf157a7d54d0bb4acae0005d6110f7341cf0a8ef4cd327a86e15a",
+      "bytes": 2232,
+      "sections": {
+        "constructor": {
+          "start": 23,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 44
+        },
+        "upgrade": {
+          "start": 46,
+          "end": 53
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "bash",
+      "file": "Bash.java",
+      "path": "杀戮尖塔原码/cards/red/Bash.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bash.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Bash.java",
+      "gitBlob": "ee10c05647bba5bc40a989f7a6c2d74206f1aad2",
+      "sha256": "e8c2156e105c82d392446b494d3839d74454b382afeae347184499d60d0cd635",
+      "bytes": 2797,
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 33
+        },
+        "use": {
+          "start": 35,
+          "end": 49
+        },
+        "upgrade": {
+          "start": 51,
+          "end": 59
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "battle_trance",
+      "file": "BattleTrance.java",
+      "path": "杀戮尖塔原码/cards/red/BattleTrance.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BattleTrance.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/BattleTrance.java",
+      "gitBlob": "9ba4908438fcae76a7c5e63d325b7740b10bc010",
+      "sha256": "e3106d0c77d581823794f3a4fa7aabd20679ec8137915501289fbea162910913",
+      "bytes": 1922,
+      "sections": {
+        "constructor": {
+          "start": 21,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "bloodletting",
+      "file": "Bloodletting.java",
+      "path": "杀戮尖塔原码/cards/red/Bloodletting.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bloodletting.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Bloodletting.java",
+      "gitBlob": "5e706fabdfa5eae7ebe6dfdede235376aee258fb",
+      "sha256": "d8b7c9f4afc697091dc9b73e7835d0ae097a9979739a63b177a2b6fcf716029c",
+      "bytes": 1944,
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 25
+        },
+        "use": {
+          "start": 27,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 42
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "bludgeon",
+      "file": "Bludgeon.java",
+      "path": "杀戮尖塔原码/cards/red/Bludgeon.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Bludgeon.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Bludgeon.java",
+      "gitBlob": "1307e755b634e64030f8abce82597b187956ad67",
+      "sha256": "8986014d8875ad6fd86441eca249c3ff1f23706dd6859b049fc119e71c73966d",
+      "bytes": 2236,
+      "sections": {
+        "constructor": {
+          "start": 25,
+          "end": 29
+        },
+        "use": {
+          "start": 31,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "body_slam",
+      "file": "BodySlam.java",
+      "path": "杀戮尖塔原码/cards/red/BodySlam.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/BodySlam.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/BodySlam.java",
+      "gitBlob": "fa5197b8c1245af64a9560fe052e0b03fc6e5eb3",
+      "sha256": "ec046f94f2b027c6776e06fc38ff5b1df506d8ca61ec5323240a915f2b47494e",
+      "bytes": 3164,
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 78,
+          "end": 85
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "carnage",
+      "file": "Carnage.java",
+      "path": "杀戮尖塔原码/cards/red/Carnage.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Carnage.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Carnage.java",
+      "gitBlob": "14bb88f1823207254d84e932f9dc5bdad853169b",
+      "sha256": "3a239448b9e45a8499f251ebdc4764e8b2e47ee3642faaed65f5580169a90975",
+      "bytes": 2721,
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 32
+        },
+        "use": {
+          "start": 34,
+          "end": 50
+        },
+        "upgrade": {
+          "start": 52,
+          "end": 59
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "cleave",
+      "file": "Cleave.java",
+      "path": "杀戮尖塔原码/cards/red/Cleave.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Cleave.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Cleave.java",
+      "gitBlob": "65daa36c1dd3a1a550654dfefed67fdee5f87089",
+      "sha256": "b8acc3ffbad16fd04d287af2916566519265ef3bb67e74048b9e1e551d021e8c",
+      "bytes": 2174,
+      "sections": {
+        "constructor": {
+          "start": 24,
+          "end": 29
+        },
+        "use": {
+          "start": 31,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 45
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "clothesline",
+      "file": "Clothesline.java",
+      "path": "杀戮尖塔原码/cards/red/Clothesline.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Clothesline.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Clothesline.java",
+      "gitBlob": "f6cc9bda00d3c15f26d19772c242010f08cfc72a",
+      "sha256": "1816547a845b82d9486d2bd563ceb760e7a36ae1c4e147e700ddc307469fdbff",
+      "bytes": 2210,
+      "sections": {
+        "constructor": {
+          "start": 23,
+          "end": 29
+        },
+        "use": {
+          "start": 31,
+          "end": 35
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 45
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "defend",
+      "file": "Defend_Red.java",
+      "path": "杀戮尖塔原码/cards/red/Defend_Red.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Defend_Red.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Defend_Red.java",
+      "gitBlob": "95755357d141dabfca6736175cb753ad4b63eb35",
+      "sha256": "836c064235bb452baf16412a829cfb8da89d92e8298045a1fb0dab2766cf7603",
+      "bytes": 1917,
+      "sections": {
+        "constructor": {
+          "start": 21,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 43
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "disarm",
+      "file": "Disarm.java",
+      "path": "杀戮尖塔原码/cards/red/Disarm.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Disarm.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Disarm.java",
+      "gitBlob": "88a7e71d8439078c7bab14501e7aeef8f0b377fb",
+      "sha256": "5a2bb563426e5accaf12abdb43fce2cf613c02964ebec60bdd727f8444f30a25",
+      "bytes": 1811,
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 31
+        },
+        "upgrade": {
+          "start": 33,
+          "end": 40
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "dropkick",
+      "file": "Dropkick.java",
+      "path": "杀戮尖塔原码/cards/red/Dropkick.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Dropkick.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Dropkick.java",
+      "gitBlob": "4700381d4124798d74db67551e580405933f1009",
+      "sha256": "e29f784be4e16a2307aee120d1f2b22372d78efdb8d7df80809ce1992af4650e",
+      "bytes": 2618,
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 31
+        },
+        "use": {
+          "start": 33,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 54,
+          "end": 61
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "entrench",
+      "file": "Entrench.java",
+      "path": "杀戮尖塔原码/cards/red/Entrench.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Entrench.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Entrench.java",
+      "gitBlob": "9322db4950bc204765d59db09271c7c0fff7ce6e",
+      "sha256": "947b4e98fe3e6aa56a2c2114a05643da8b4f31189325e04f6f74d9ed8b2f6f0a",
+      "bytes": 1917,
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 23
+        },
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 44
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "flex",
+      "file": "Flex.java",
+      "path": "杀戮尖塔原码/cards/red/Flex.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Flex.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Flex.java",
+      "gitBlob": "326ede35e61c000aee7a5271745303464ffdf383",
+      "sha256": "c966ff95af9babc6e7df6c834d08699ac77c2ca092295bd444e85dfccc8c1c9f",
+      "bytes": 1921,
+      "sections": {
+        "constructor": {
+          "start": 21,
+          "end": 26
+        },
+        "use": {
+          "start": 28,
+          "end": 32
+        },
+        "upgrade": {
+          "start": 34,
+          "end": 41
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "ghostly_armor",
+      "file": "GhostlyArmor.java",
+      "path": "杀戮尖塔原码/cards/red/GhostlyArmor.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/GhostlyArmor.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/GhostlyArmor.java",
+      "gitBlob": "f5e9b0354ebcd18235fb1505260865a8dbb9b9ac",
+      "sha256": "8b7fd64bcbe12109e6f769f70e05442b282d7303d96f04ad3f8516251dc1c781",
+      "bytes": 1900,
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 25
+        },
+        "use": {
+          "start": 27,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "hemokinesis",
+      "file": "Hemokinesis.java",
+      "path": "杀戮尖塔原码/cards/red/Hemokinesis.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Hemokinesis.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Hemokinesis.java",
+      "gitBlob": "e1d4a0134916fae41699de68795978135ed6d898",
+      "sha256": "707f60c1f987d34cb42301184e9283c9d2190444b6a1a24404866de3d391134f",
+      "bytes": 2376,
+      "sections": {
+        "constructor": {
+          "start": 25,
+          "end": 31
+        },
+        "use": {
+          "start": 33,
+          "end": 39
+        },
+        "upgrade": {
+          "start": 41,
+          "end": 48
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "impervious",
+      "file": "Impervious.java",
+      "path": "杀戮尖塔原码/cards/red/Impervious.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Impervious.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Impervious.java",
+      "gitBlob": "af9cc28aff132cf34f2dd85a53c7d11e3f51f306",
+      "sha256": "e0534bf07507ae43932255db6a7ccf9b2be8d3e2066475c04fa309dad224fc84",
+      "bytes": 1690,
+      "sections": {
+        "constructor": {
+          "start": 19,
+          "end": 24
+        },
+        "use": {
+          "start": 26,
+          "end": 29
+        },
+        "upgrade": {
+          "start": 31,
+          "end": 38
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "inflame",
+      "file": "Inflame.java",
+      "path": "杀戮尖塔原码/cards/red/Inflame.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Inflame.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Inflame.java",
+      "gitBlob": "eb93b63bca7cc8f06a735493164f2a19bbe15763",
+      "sha256": "10e22981d47203adb0877be08d7d06fb50619b8f0191338fc2d65b74ca07c45f",
+      "bytes": 2012,
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 27
+        },
+        "use": {
+          "start": 29,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 43
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "iron_wave",
+      "file": "IronWave.java",
+      "path": "杀戮尖塔原码/cards/red/IronWave.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/IronWave.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/IronWave.java",
+      "gitBlob": "5e42c1afea6647b791b3a998fa77e0b221bd00cc",
+      "sha256": "d51aa511018aa6512971a4474e76cf7bcbc9d546d09d8f242c0858b994e9f39b",
+      "bytes": 2438,
+      "sections": {
+        "constructor": {
+          "start": 26,
+          "end": 31
+        },
+        "use": {
+          "start": 33,
+          "end": 40
+        },
+        "upgrade": {
+          "start": 42,
+          "end": 50
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "offering",
+      "file": "Offering.java",
+      "path": "杀戮尖塔原码/cards/red/Offering.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Offering.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Offering.java",
+      "gitBlob": "9ef755ff73758c567fee03ac8a36fe8a0ee864a1",
+      "sha256": "fc693dd1d097683f03caa2187d05489e1c9be609836d37e5ac5295a2b04c47c0",
+      "bytes": 2246,
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 28
+        },
+        "use": {
+          "start": 30,
+          "end": 39
+        },
+        "upgrade": {
+          "start": 41,
+          "end": 50
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "pommel_strike",
+      "file": "PommelStrike.java",
+      "path": "杀戮尖塔原码/cards/red/PommelStrike.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/PommelStrike.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/PommelStrike.java",
+      "gitBlob": "7a978296e590ea81b306d32f9651a6d40dbb2bb7",
+      "sha256": "a878f072001126cced5b23d935227ebb289ab655a773658b3396f2633d159c64",
+      "bytes": 2338,
+      "sections": {
+        "constructor": {
+          "start": 23,
+          "end": 30
+        },
+        "use": {
+          "start": 32,
+          "end": 36
+        },
+        "upgrade": {
+          "start": 38,
+          "end": 48
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "rampage",
+      "file": "Rampage.java",
+      "path": "杀戮尖塔原码/cards/red/Rampage.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Rampage.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Rampage.java",
+      "gitBlob": "d1daf061456dfc90b2ea3a57fd172cd733486a30",
+      "sha256": "91546a6c7a55542955f6831d01c5bee83c43be10310cc4e204d736b418afc066",
+      "bytes": 2106,
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 28
+        },
+        "use": {
+          "start": 30,
+          "end": 34
+        },
+        "upgrade": {
+          "start": 36,
+          "end": 44
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "seeing_red",
+      "file": "SeeingRed.java",
+      "path": "杀戮尖塔原码/cards/red/SeeingRed.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/SeeingRed.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/SeeingRed.java",
+      "gitBlob": "4de8c8805759c4cb3490a3fa8ff5197b504bee5a",
+      "sha256": "910989bb406a2260811b75aee804bae10b21fcaca53dd5f56ca19f8a5f52f4cd",
+      "bytes": 1659,
+      "sections": {
+        "constructor": {
+          "start": 19,
+          "end": 23
+        },
+        "use": {
+          "start": 25,
+          "end": 28
+        },
+        "upgrade": {
+          "start": 30,
+          "end": 37
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "shockwave",
+      "file": "Shockwave.java",
+      "path": "杀戮尖塔原码/cards/red/Shockwave.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Shockwave.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Shockwave.java",
+      "gitBlob": "d9b15b8ec402b8c45a0de78bdf0009adec06d3c1",
+      "sha256": "de4a47a7ae9332bded422d4e4620e3cb3174e05dc51d8647eba93ad3335d033a",
+      "bytes": 2640,
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 33
+        },
+        "use": {
+          "start": 35,
+          "end": 44
+        },
+        "upgrade": {
+          "start": 46,
+          "end": 53
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "shrug_it_off",
+      "file": "ShrugItOff.java",
+      "path": "杀戮尖塔原码/cards/red/ShrugItOff.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ShrugItOff.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/ShrugItOff.java",
+      "gitBlob": "6e3c479dded526f57526c37318a02ba11ad8ca04",
+      "sha256": "cb9b39e35ea13d81bfe5339731541bd798c039a116ff542ea518fba678b34ea1",
+      "bytes": 1780,
+      "sections": {
+        "constructor": {
+          "start": 20,
+          "end": 24
+        },
+        "use": {
+          "start": 26,
+          "end": 30
+        },
+        "upgrade": {
+          "start": 37,
+          "end": 44
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "strike",
+      "file": "Strike_Red.java",
+      "path": "杀戮尖塔原码/cards/red/Strike_Red.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Strike_Red.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Strike_Red.java",
+      "gitBlob": "777580ce425672028a92fa76d0bbf2f175f08910",
+      "sha256": "69af9efdd1a5e4835a970e24a65b06abd8009d40824f8d84b2bf47a1a1fcb31d",
+      "bytes": 3102,
+      "sections": {
+        "constructor": {
+          "start": 27,
+          "end": 33
+        },
+        "use": {
+          "start": 35,
+          "end": 54
+        },
+        "upgrade": {
+          "start": 56,
+          "end": 63
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "thunderclap",
+      "file": "ThunderClap.java",
+      "path": "杀戮尖塔原码/cards/red/ThunderClap.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/ThunderClap.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/ThunderClap.java",
+      "gitBlob": "ede079a98d8d557ac818d0d09dad13a9ce7d5f17",
+      "sha256": "f6d055f5d38cde0e16ff50d68512cb3a7f8cb5fb2405f49622ac2311ca691fb0",
+      "bytes": 3244,
+      "sections": {
+        "constructor": {
+          "start": 31,
+          "end": 36
+        },
+        "use": {
+          "start": 38,
+          "end": 55
+        },
+        "upgrade": {
+          "start": 57,
+          "end": 64
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "twin_strike",
+      "file": "TwinStrike.java",
+      "path": "杀戮尖塔原码/cards/red/TwinStrike.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/TwinStrike.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/TwinStrike.java",
+      "gitBlob": "237ba8128a7cadce7b5a6a2291196c6dac0812ac",
+      "sha256": "404d52aed9989628175ce6873b468d5278fe0fb13e13c2e3f50674d8550b5123",
+      "bytes": 2165,
+      "sections": {
+        "constructor": {
+          "start": 22,
+          "end": 27
+        },
+        "use": {
+          "start": 29,
+          "end": 33
+        },
+        "upgrade": {
+          "start": 35,
+          "end": 42
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "id": "uppercut",
+      "file": "Uppercut.java",
+      "path": "杀戮尖塔原码/cards/red/Uppercut.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Uppercut.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/red/Uppercut.java",
+      "gitBlob": "38122afc85d1476c6844f6511ec4ee9282830e60",
+      "sha256": "af1c49cb4b3075336be696450bd0f4d42996c0370831284209a9cfeafd3cebde",
+      "bytes": 2316,
+      "sections": {
+        "constructor": {
+          "start": 24,
+          "end": 30
+        },
+        "use": {
+          "start": 32,
+          "end": 37
+        },
+        "upgrade": {
+          "start": 39,
+          "end": 46
+        }
+      },
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    }
+  ],
+  "sharedSources": [
+    {
+      "path": "杀戮尖塔原码/cards/AbstractCard.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/AbstractCard.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/cards/AbstractCard.java",
+      "gitBlob": "28010e74c3a9c7c97ca6cd3fd0654a451735172b",
+      "sha256": "f11601db66e8df3699481076763b858672ce83d4a6eea6c1abf0715f254b5c5c",
+      "bytes": 133454,
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "path": "杀戮尖塔原码/characters/Ironclad.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/characters/Ironclad.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/characters/Ironclad.java",
+      "gitBlob": "5f43b50acac9a180f88be8afee938476a9734524",
+      "sha256": "c118faa361c7569db76b17d834dd7f27d75891f914757d6f7f4150314e2c613c",
+      "bytes": 9648,
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "path": "杀戮尖塔原码/powers/EntanglePower.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/EntanglePower.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/powers/EntanglePower.java",
+      "gitBlob": "52dfbddcd71fb7e47289754c36d8fca561781c64",
+      "sha256": "9a6be3f4a261a48c88247fd31059661119602cad6e71bcbd23f24f3e695fb8c3",
+      "bytes": 1667,
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    },
+    {
+      "path": "杀戮尖塔原码/core/CardCrawlGame.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/core/CardCrawlGame.java",
+      "rawUrl": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/core/CardCrawlGame.java",
+      "gitBlob": "6875b2676f1c91e5fb9576f0f0783432719dce68",
+      "sha256": "0ec95374a3a976ab08f5e270ae0f2860fbae8e0971a4e61b14b7396843006715",
+      "bytes": 60523,
+      "retrieved": "2026-10-24",
+      "verifiedGitBlob": true
+    }
+  ],
+  "versionDeclaration": {
+    "version": "[V2.3.4] (12-18-2022)",
+    "date": "2022-12-18",
+    "source": "core/CardCrawlGame.java",
+    "lines": [
+      1403,
+      1404
+    ],
+    "authenticatedLicensedBinary": false
+  },
+  "rawLocalArtifact": ".artifacts/card-audit-source (untracked raw third-party source; not part of delivery)"
+}

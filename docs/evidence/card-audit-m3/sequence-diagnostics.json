@@ -1,0 +1,49 @@
+{
+  "baseline": "ecade28",
+  "seed": 42,
+  "kind": "isolated-production-diagnostic",
+  "strictParityPass": false,
+  "platformRun": false,
+  "cases": [
+    {
+      "finding": "shockwave",
+      "strictExpectedMatch": false,
+      "expected": [
+        "cultist_1:weak:3",
+        "cultist_1:vulnerable:3",
+        "jaw_worm_2:weak:3",
+        "jaw_worm_2:vulnerable:3"
+      ],
+      "actual": [
+        "cultist_1:weak:3",
+        "jaw_worm_2:weak:3",
+        "cultist_1:vulnerable:3",
+        "jaw_worm_2:vulnerable:3"
+      ]
+    },
+    {
+      "finding": "shockwave+",
+      "strictExpectedMatch": false,
+      "expected": [
+        "cultist_1:weak:5",
+        "cultist_1:vulnerable:5",
+        "jaw_worm_2:weak:5",
+        "jaw_worm_2:vulnerable:5"
+      ],
+      "actual": [
+        "cultist_1:weak:5",
+        "jaw_worm_2:weak:5",
+        "cultist_1:vulnerable:5",
+        "jaw_worm_2:vulnerable:5"
+      ]
+    },
+    {
+      "finding": "barricade-repeat",
+      "strictExpectedMatch": false,
+      "expected": [],
+      "actual": [
+        "player:barricade:0"
+      ]
+    }
+  ]
+}

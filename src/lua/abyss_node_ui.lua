@@ -21,7 +21,7 @@ local reasons = {
     insufficient_gold = "金币不足", item_unavailable = "商品已售出或不可购买",
     shop_content_unavailable = "商店补货状态异常，本次未付款，请离店或重新开始",
     removal_unavailable = "本店删牌服务已使用",
-    invalid_card = "这张卡牌已不在牌组中", last_card = "必须保留至少一张卡牌",
+    invalid_card = "这张卡牌已不在牌组中",
     card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满", potions_blocked = "遗物效果禁止获得药水",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
@@ -264,12 +264,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
         local removal, removalPrice = shop:GetChild("removal"), shop:GetChild("removalPrice")
         local poor = node.removeAvailable and self.run.gold < node.removePrice
-        local open = node.removeAvailable and #self.run.deck > 1 and not poor
+        local open = node.removeAvailable and #self.run.deck > 0 and not poor
         local reason = not node.removeAvailable and "本店删牌服务已使用，每家商店限一次" or
-            (#self.run.deck <= 1 and "牌组仅剩一张，必须保留至少一张卡牌" or shortfall(node.removePrice))
+            (#self.run.deck == 0 and "牌组为空，没有可移除的卡牌" or shortfall(node.removePrice))
         state(removal, open)
         removal:GetChild("description").text = not node.removeAvailable and "本店已使用" or
-            (#self.run.deck <= 1 and "牌组仅剩一张" or ("每家商店限一次\n之后的商店 +" .. self.run.data.rules.shop.removeCardIncrement))
+            (#self.run.deck == 0 and "牌组为空" or ("每家商店限一次\n之后的商店 +" .. self.run.data.rules.shop.removeCardIncrement))
         ink(removal:GetChild("name"), open and C.text or C.textMuted)
         fillPrice(removalPrice, node.removePrice, not node.removeAvailable and "sold" or poor and "poor" or "ok")
         if not node.removeAvailable then removalPrice:GetChild("value").text = "已使用" end
@@ -420,7 +420,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         event:GetChild("body").text = result and result.text or copy.body
         local rows = {}
         if not result then
-            local info, gold, deckOk = node.event, self.run.gold, #self.run.deck > 1
+            local info, gold, deckOk = node.event, self.run.gold, #self.run.deck > 0
             local function need(cost) return "金币不足（需要 " .. cost .. "，现有 " .. gold .. "）" end
             local function purify(cost)
                 return function()
@@ -476,11 +476,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 local purifyOk = gold >= info.removeCost and deckOk
                 rows[2] = { title = "［净化］", enabled = purifyOk, handler = purify(info.removeCost),
                     description = gold < info.removeCost and need(info.removeCost) or
-                        (deckOk and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌") or "牌组仅剩一张，无法移除") }
+                        (deckOk and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌") or "牌组为空，没有可移除的卡牌") }
             else
                 rows[1] = { title = "［祈祷］", enabled = deckOk, handler = purify(info.removeCost),
                     description = deckOk and (info.removeCost > 0 and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌")
-                        or "免费从牌组移除一张卡牌") or "牌组仅剩一张，无法移除" }
+                        or "免费从牌组移除一张卡牌") or "牌组为空，没有可移除的卡牌" }
             end
             if id=='cleric' or id=='purifier' then rows[#rows + 1] = { title = "［离开］", enabled = true, description = "什么也不会发生。", handler = function()
                 return commit("chooseEvent", "leave", function() return "已离开" .. copy.name, { text = copy.leave } end)

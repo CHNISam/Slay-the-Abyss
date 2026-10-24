@@ -215,15 +215,15 @@ test("removal service selects a uid first, confirms with the core price and is s
     assert(get("notice").text:find("每家商店限一次", 1, true))
 end)
 
-test("removal service shows shortfall and last-card protection without opening the picker", function()
+test("removal service shows shortfall and empty-deck diagnostic without opening the picker", function()
     local ui, get, click, shown = setup("shop", nil, function(run) run.gold = 10 end)
     local price = Nodes.view(ui.run, ui.map).node.removePrice
     assert(is(get("shopView/removalPrice").children.value.fontColor, C.danger))
     assert(not click("shopView/removal") and shown("shopView"))
     assert(get("notice").text == "金币不足：需要 " .. price .. "，还差 " .. (price - 10))
     assert(ui.merchant.current.kind == "poor")
-    local single, singleGet, singleClick = setup("shop", nil, function(run) while #run.deck > 1 do table.remove(run.deck) end run.gold = 10000 end)
-    assert(singleGet("shopView/removal").children.description.text == "牌组仅剩一张")
+    local single, singleGet, singleClick = setup("shop", nil, function(run) run.deck = {} run.gold = 10000 end)
+    assert(singleGet("shopView/removal").children.description.text == "牌组为空")
     local before = Combat.copy(single.run)
     assert(not singleClick("shopView/removal")) same(single.run, before)
 end)
@@ -723,6 +723,33 @@ test("integer-valued floating resources never expose decimal suffixes", function
         local ok,reason=pcall(function() ui:render() end)
         assert(not ok and tostring(reason):find("finite integer",1,true),"a real fraction must not be rounded away")
         assert(ui.run.hp==68.5)
+    end
+end)
+test("single-card shop removal completes through the existing picker", function()
+    local ui, get, click = setup("shop", nil, function(run)
+        run.deck = {run.deck[1]}; run.gold = 10000
+    end)
+    assert(click("shopView/removal"))
+    assert(click("pickerView/card1"))
+    assert(get("pickerView/hint").text == "牌组 1 → 0 张")
+    assert(click("confirm")); assert(#ui.run.deck == 0)
+end)
+
+test("single-card event purification is enabled, empty-deck purification is disabled", function()
+    for _, id in ipairs({"cleric", "purifier"}) do
+        local source = Combat.copy(data); source.rules.events.encounterId = id
+        local ui, get, click = setup("event", source, function(run)
+            run.deck = {run.deck[1]}; run.gold = 10000
+        end)
+        assert(click("eventView/option" .. (id == "cleric" and 2 or 1)))
+        assert(click("pickerView/card1")); assert(click("confirm"))
+        assert(#ui.run.deck == 0)
+        local empty, _, emptyClick = setup("event", source, function(run)
+            run.deck = {}; run.gold = 10000
+        end)
+        local before = Combat.copy(empty.run)
+        assert(not emptyClick("eventView/option" .. (id == "cleric" and 2 or 1)))
+        same(empty.run, before)
     end
 end)
 print("LUA_NODE_UI_PASS " .. count)
