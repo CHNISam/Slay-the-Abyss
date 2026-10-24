@@ -29,7 +29,7 @@ test("debuff intent is an upcoming action, not an existing status or a stack cou
     local info=p:GetChild("statusInfo")
     assert(info.visible and info:GetChild("title").text:find("行动意图",1,true))
     assert(info:GetChild("summary").text:find("尚未执行",1,true))
-    assert(info:GetChild("text1").text:find("准备",1,true))
+    assert(info:GetChild("text1").text:find("使你获得 1 层脆弱",1,true))
     assert((s.player.statuses.frail or 0)==0 and (s.enemies[1].statuses.frail or 0)==0)
 end)
 test("actual Vulnerable names its owner, name, stack and effect in visible text frames",function()
@@ -42,7 +42,9 @@ test("actual Vulnerable names its owner, name, stack and effect in visible text 
     for _,name in ipairs({"title","summary","name1","text1"}) do
         assert(info:GetChild(name).sizeDeltaY>=H.F.Theme.layout.nativeText.lineHeight,name.." would clip on the native client")
     end
-    assert(info:GetChild("plate").sizeDeltaY<=600,"detail panel must fit below the top bar")
+    local theme=H.F.Theme
+    local room=theme.canvas.base[2]-theme.layout.topBar.height-theme.space.s-theme.canvas.safe.y
+    assert(info:GetChild("plate").sizeDeltaY<=room,"detail panel must fit below the top bar")
 end)
 test("hover opens a read-only tooltip and exits without changing combat or target",function()
     local h,u,p,s,emit=setup()

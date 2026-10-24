@@ -45,10 +45,10 @@ end
 expect(true)
 local before=C.copy(ui.run.combat)
 for _=1,4 do
-    click("enemy1");assert(stage:GetChild("notice").text:find("准备对你施加负面效果",1,true))
+    click("enemy1");assert(stage:GetChild("notice").text:find("放入你的弃牌堆",1,true))
 end
 same(ui.run.combat,before)
 click("endTurn");expect(false);assert(ui.run.combat.player.hp==71)
-click("enemy2");assert(stage:GetChild("notice").text:find("准备对你施加负面效果",1,true))
+click("enemy2");assert(stage:GetChild("notice").text:find("放入你的弃牌堆",1,true))
 click("endTurn");expect(true);assert(ui.run.combat.player.hp==53)
 print("SENTRIES_GENERATED_UI_PASS compact/detail/icons/Artifact/readonly/two real rounds")
