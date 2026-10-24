@@ -140,7 +140,14 @@ test('real Run withholds reward until two children die and settles exactly once'
         eq(r.phase,i==1 and 'combat' or 'reward')
         if i==1 then eq(r.gold,gold) end
     end
-    eq(r.victories,victories+1);eq(r.gold,gold+D.rules.rewards.normalGold)
+    eq(r.victories,victories+1);eq(r.gold,gold,'victory offers gold without claiming it')
+    eq(r.rewards.gold,D.rules.rewards.normalGold);eq(r.rewards.goldClaimed,false)
+    assert(Run.claimGoldReward(r));eq(r.gold,gold+D.rules.rewards.normalGold)
+    eq(r.rewards.goldClaimed,true)
+    local claimed=C.copy(r)
+    local ok,why=Run.claimGoldReward(r);eq(ok,false);eq(why,'no_pending_gold')
+    eq(r.gold,claimed.gold);eq(r.rewards.goldClaimed,claimed.rewards.goldClaimed)
+    eq(r.phase,'reward');eq(r.victories,claimed.victories);eq(r.nextDeckUid,claimed.nextDeckUid)
     local after=r.gold;assert(not Run.endTurn(r));eq(r.gold,after)
 end)
 
