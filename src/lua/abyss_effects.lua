@@ -220,7 +220,11 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             assert(type(uid) == "number" and uid > 0 and uid % 1 == 0, "invalid nextUid")
             local nextUid = uid + 1.0 -- do not wrap signed 32-bit Fengari integers
             assert(nextUid > uid and nextUid < math.huge, "nextUid cannot advance")
-            state.discard[#state.discard + 1] = { uid = uid, cardId = effect.card, upgraded = playedCard.upgraded == true }
+            -- Anger uses a stat-equivalent copy, including combat damage and
+            -- costForTurn. The new identity remains independent of its source.
+            local created = combat.copy(playedCard)
+            created.uid = uid
+            state.discard[#state.discard + 1] = created
             state.nextUid = nextUid
         elseif op == "loseHp" then
             -- HP payment is not an attack or a status tick. The next effect's

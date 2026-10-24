@@ -65,6 +65,35 @@ test('Dual Wield+ preserves upgrade growth and temporary cost in two fresh copie
     for i=2,3 do local c=s.hand[i];assert(c~=original);eq(c.damageBonus,8);eq(c.upgraded,true);eq(C.cardDefinition(s,c).cost,0) end
     assert(s.hand[2].uid~=s.hand[3].uid)
 end)
+
+test('Anger stat-equivalent copy preserves instance damage and temporary cost with a fresh UID',function()
+    for _,up in ipairs({false,true}) do
+        local s=battle({{'anger',up}});local original=s.hand[1]
+        original.damageBonus=4;original.costForTurn=1
+        play(s);local generated=s.discard[1]
+        assert(generated~=original and generated.uid~=original.uid)
+        eq(generated.upgraded,up);eq(C.cardDefinition(s,generated).cost,1)
+        eq(C.cardDefinition(s,generated).effects[1].value,up and 12 or 10)
+        generated.damageBonus=7;eq(original.damageBonus,4)
+        assert(C.endTurn(s));eq(C.cardDefinition(s,generated).cost,0)
+    end
+end)
+
+test('Dual Wield selected-card path replaces the selection with fresh stat-equivalent instances',function()
+    for _,up in ipairs({false,true}) do
+        local s=battle({{'dual_wield',up},'rampage','defend','anger'})
+        local selected,defend,anger=s.hand[2],s.hand[3],s.hand[4]
+        selected.damageBonus=5;selected.costForTurn=0
+        play(s);local p=assert(s.pendingChoice)
+        assert(C.chooseCard(s,p.token,selected.uid))
+        eq(#s.hand,up and 5 or 4);eq(s.hand[1],anger);eq(s.hand[2],defend)
+        local seen={}
+        for i=3,#s.hand do
+            local c=s.hand[i];assert(c~=selected and c.uid~=selected.uid and not seen[c.uid]);seen[c.uid]=true
+            eq(c.cardId,'rampage');eq(c.damageBonus,5);eq(c.costForTurn,0)
+        end
+    end
+end)
 test('Rupture is queued before later effects but cannot increase already calculated Hemokinesis damage',function()
     local s=battle({'hemokinesis'});s.player.statuses.rupture=2
     play(s);eq(s.player.hp,48);eq(s.player.statuses.strength,2);eq(s.enemies[1].hp,485)

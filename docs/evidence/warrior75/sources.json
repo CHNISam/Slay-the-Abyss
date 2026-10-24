@@ -33,7 +33,10 @@
       "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/red/Anger.java",
       "sha256": "7f2a1e31d4b5f6bd27217155f39f66a70e36244d05b0d38f99a0863d7b3e1eea",
       "gitBlob": "d2aae968e92166f03e836a6eb12865147e083d16",
-      "bytes": 2313
+      "bytes": 2313,
+      "reviewedFacts": [
+        "use queues a stat-equivalent copy in discard, after damage."
+      ]
     },
     {
       "id": "armaments",
@@ -718,7 +721,11 @@
       "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/unique/DualWieldAction.java",
       "sha256": "5340144f125e3b1b0b3f6bfa1bea160bc6f3d9637e2c4d3062bbffdc14db419c",
       "gitBlob": "87b550ff8376616e4777bcc8f0623f10e5ba1c37",
-      "bytes": 5024
+      "bytes": 5024,
+      "reviewedFacts": [
+        "One eligible card: keep original, add amount copies.",
+        "Multiple eligible: selected original is removed; make amount+1 stat-equivalent copies; return noneligible after remaining eligible cards."
+      ]
     },
     {
       "id": "CorruptionPower",
@@ -953,7 +960,14 @@
     {
       "id": "AbstractCard",
       "path": "cards/AbstractCard.java",
-      "error": "HTTP Error 403: rate limit exceeded"
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/AbstractCard.java",
+      "sha256": "f11601db66e8df3699481076763b858672ce83d4a6eea6c1abf0715f254b5c5c",
+      "gitBlob": "28010e74c3a9c7c97ca6cd3fd0654a451735172b",
+      "bytes": 133454,
+      "previousRetrievalError": "HTTP Error 403: rate limit exceeded",
+      "reviewedFacts": [
+        "makeStatEquivalentCopy lines1120-1145 preserves upgrades, base damage/block/magic, cost and costForTurn, misc and freeToPlayOnce; fresh identity."
+      ]
     },
     {
       "id": "AbstractPower",

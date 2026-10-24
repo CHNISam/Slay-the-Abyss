@@ -71,6 +71,10 @@ local function selection(combat,state,item)
     local options=candidates(combat,state,op)
     if #options==0 then return end
     if #options==1 then return M.applyChoice(combat,state,item,options[1]) end
+    -- Dual Wield's actual selection branch consumes the selected original
+    -- and returns amount+1 stat-equivalent copies; its one-eligible-card fast
+    -- path retains the original and only adds amount copies.
+    if op=="dualWield" then item.replaceSelected=true end
     state.choiceSerial=(state.choiceSerial or 0)+1
     state.pendingChoice={token=state.choiceSerial,op=op,uids=options,item=item}
     Events.emit(state,"card_choice",{token=state.choiceSerial,op=op})
@@ -92,7 +96,24 @@ function M.applyChoice(combat,state,item,uid)
         for _,v in ipairs(state.hand) do if v.uid==uid then c=v; break end end
         assert(c,"stale hand choice")
         if op=="upgradeHand" then combat.upgrade(state,c)
-        else for _=1,e.value do M.toHand(state,M.fresh(combat,state,c.cardId,c)) end end
+        else
+            local count=e.value
+            if item.replaceSelected then
+                remove(state.hand,uid)
+                local eligible,other={},{}
+                for _,v in ipairs(state.hand) do
+                    local kind=combat.cardDefinition(state,v).type
+                    local pile=(kind=="attack" or kind=="power") and eligible or other
+                    pile[#pile+1]=v
+                end
+                -- The hand selector temporarily removes noneligible cards;
+                -- returnCards puts them after the remaining eligible cards.
+                for i=#state.hand,1,-1 do state.hand[i]=nil end
+                for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
+                count=count+1
+            end
+            for _=1,count do M.toHand(state,M.fresh(combat,state,c.cardId,c)) end
+        end
     else error("invalid choice operation") end
     Events.emit(state,"card_choice_resolved",{op=op,uid=uid})
 end

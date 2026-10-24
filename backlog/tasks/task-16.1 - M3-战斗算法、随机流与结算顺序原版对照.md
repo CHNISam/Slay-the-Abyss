@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 21:13'
+updated_date: '2026-10-24 21:42'
 due_date: '2026-10-28'
 labels:
   - required
@@ -55,4 +55,6 @@ ordinal: 43000
 2026-10-25：Courier职业补货身份改走独立MathUtils语义的会话熵，稀有度仍共用cardRng；6组外部熵/失败原子性、15组重复卡槽、既有商店专项通过。依据与精确边界见docs/reviews/TASK-16-warrior75-courier.md。原作全局外部随机历史、PC二进制认证和平台商店实玩仍未验；不勾选严格验收。7854a5e修复完整牌名/效果裁切、重复Searing Blow升级预览，900条菌兽与每色800条虱虫决策断言均保留，构造优化后分别约2.5/3.4秒；完整CI待新SHA。
 
 整合develop9ae1aec时复核AbstractRoom.endTurn发现临时费用边界：原版在回合末只重置手/抽/弃牌堆，排除消耗堆。先新增跨回合零费Bludgeon→Exhume取回红例（错误3费），再把重置移到回合末且排除消耗堆，40组边界通过。正规房间HP/AI/misc/洗牌流、手动金币奖励与完整75卡奖励cardRng已共同接线；combat_gold13、reward_flow10、Boss奖励事务及药水失败原子性专项通过。历史529原生150基础升级/六专项通过但选牌脚本错误、卡名第二行和选择费用未通过；cursorArea及新标题布局需新同源官方Lua门禁后实测。
+
+新增严格复审发现两个复制语义差异，均先红后绿：Anger stat-equivalent副本须保留实例伤害修正和costForTurn；Dual Wield多个候选的选择分支须移除原选择、生成amount+1个新身份副本，并把暂存非候选放回剩余候选之后；单候选快路径保留原身份。修复后warrior75_edges42组、copied_attack34组通过。固定源依据与SHA补sources.json。505原生证据不被后续改动冒用，新运行源须另建构建/导入/实机证据。
 <!-- SECTION:NOTES:END -->
