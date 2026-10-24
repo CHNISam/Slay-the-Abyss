@@ -265,6 +265,20 @@
       "name": "大型酸液团",
       "tier": "normal",
       "hp": 68,
+      "hpRange": {
+        "min": 65,
+        "max": 69
+      },
+      "ai": {
+        "kind": "acid_slime_l",
+        "spitIntent": "acid_slime_l_1",
+        "weakIntent": "acid_slime_l_2",
+        "tackleIntent": "acid_slime_l_3",
+        "rollRange": 100,
+        "spitCutoff": 30,
+        "tackleCutoff": 70,
+        "spitChance": 0.4000000059604645
+      },
       "intents": [
         {
           "id": "acid_slime_l_1",
@@ -273,6 +287,11 @@
             {
               "op": "damage",
               "value": 11
+            },
+            {
+              "op": "makeTempCardInDiscard",
+              "card": "slimed",
+              "value": 2
             }
           ]
         },
@@ -284,6 +303,16 @@
               "op": "applyStatus",
               "status": "weak",
               "value": 2
+            }
+          ]
+        },
+        {
+          "id": "acid_slime_l_3",
+          "kind": "attack",
+          "effects": [
+            {
+              "op": "damage",
+              "value": 16
             }
           ]
         }
