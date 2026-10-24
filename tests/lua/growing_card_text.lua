@@ -75,7 +75,7 @@ end
 local function label(stage, slot)
     local value = stage:GetChild("card" .. (slot or 1)):GetChild("label").text
     assert(not value:find("{",1,true) and not value:find("}",1,true), "unresolved template in label")
-    return value
+    return (value:gsub('<color=#[%x]+>',''):gsub('</color>',''):gsub('↑',''):gsub('↓',''))
 end
 local function expected(value, upgraded)
     return "对目标造成 " .. value .. " 点伤害；随后本牌在本场战斗中的伤害增加 " .. (upgraded and "8" or "5") .. " 点。"

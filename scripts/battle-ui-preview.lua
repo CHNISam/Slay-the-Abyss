@@ -67,6 +67,7 @@ local function setup(enemies, deck)
     local root = control({ name = "root", size = { 1280, 720 }, children = assert(ABYSS_TEST_LAYOUT).controls })
     local stage = root:GetChild("stage")
     local ui = UI.new(root, Data, Presentation, "click", { imageSource = "static",
+        cursorEvents={CursorDown='down',CursorDrag='drag',CursorUp='up',CursorEndDrag='endDrag'},
         color = function(r, g, b, a) return { r = r, g = g, b = b, a = a } end })
     ui:resize(1280, 720)
     ui.run = Run.new(Data, 42)
@@ -137,6 +138,36 @@ local slot
 for i, card in ipairs(s.hand) do if card.cardId == "bash" then slot = i end end
 assert(ui:openHelp(ui:cardHelpSpec(slot), stage:GetChild("card" .. slot):GetChild("hit"), true))
 capture("card-keyword", stage)
+
+-- Dynamic-value QA: real core states, offline evidence only.
+for _,scene in ipairs({
+    {'value-neutral',{}}, {'value-frail',{frail=1}}, {'value-dexterity',{dexterity=3}},
+    {'value-weak',{weak=1}}, {'value-mixed',{strength=-1,dexterity=2}},
+}) do
+    ui,stage=setup({'jaw_worm','cultist'},{'strike','defend','iron_wave','twin_strike','body_slam'})
+    s=ui.run.combat
+    for id,n in pairs(scene[2]) do Combat.addStatus(s.player,id,n) end
+    ui:render() capture(scene[1],stage)
+end
+ui,stage=setup({'jaw_worm','cultist'},{'strike','strike','defend'})
+s=ui.run.combat Combat.addStatus(s.enemies[2],'vulnerable',1)
+local slot
+for i,card in ipairs(s.hand) do if card.cardId=='strike' then slot=i break end end
+local card=stage:GetChild('card'..slot)
+local function event(kind,x,y)
+    card:GetChild('hit').listeners[kind]({touchId=7,GetUIPos=function()return 640+x,360+y end})
+end
+event('down',card.x,card.y) event('drag',require('abyss_theme').layout.enemyRow.xTo,require('abyss_theme').layout.enemyRow.y)
+capture('value-aim',stage)
+event('endDrag',card.x,-350) ui:render() capture('value-cancel',stage)
+ui,stage=setup({'cultist'},{'iron_wave','iron_wave','iron_wave','iron_wave','iron_wave'})
+s=ui.run.combat
+-- Reuse legal instances to stress ten slots; this is a layout fixture, not a gameplay path.
+for i=6,10 do s.hand[i]=Combat.copy(s.hand[i-5]); s.hand[i].uid='value_fixture_'..i end
+Combat.addStatus(s.player,'strength',-1) Combat.addStatus(s.player,'dexterity',2)
+ui:render() capture('value-ten',stage)
+ui.selected=s.hand[1].uid ui:render() capture('value-ten-selected',stage)
+
 -- This potion is an isolated Silent-only fixture, never an Ironclad acquisition.
 ui, stage = setup({"cultist", "jaw_worm"})
 ui.run.potions = {"fire_potion", "poison_potion", "energy_potion"}

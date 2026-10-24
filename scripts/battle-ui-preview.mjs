@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import { luaString, toLua } from './build-lua-data.mjs';
 import { battleLayout, theme } from './ui-layout.mjs';
+import { nativeInlinePreview } from './native-inline-preview.mjs';
 
 const require = createRequire(import.meta.url);
 const prototype = resolve('docs/design/prototype/index.html');
@@ -40,7 +41,7 @@ function draw(control, parentSize) {
   if (control.kind === 'text') {
     const t = control.text, align = t.align === 'left' ? 'flex-start' : t.align === 'right' ? 'flex-end' : 'center';
     return `<div class="t" data-min="${t.minFontSize}" style="${box};color:${css(t.colour)};font-size:${t.fontSize}px;justify-content:${align};text-align:${t.align === 'centre' ? 'center' : t.align}">` +
-      `<span>${t.content.replace(/[<&]/g, c => (c === '<' ? '&lt;' : '&amp;'))}</span></div>`;
+      `<span>${nativeInlinePreview(t.content)}</span></div>`;
   }
   if (control.kind === 'image') {
     if (control.image === image.rect) return `<div style="${box};background:${css(control.colour)};opacity:${control.opacity ?? 1}"></div>`;
