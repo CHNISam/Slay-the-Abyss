@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:45'
-updated_date: '2026-10-24 15:42'
+updated_date: '2026-10-24 15:44'
 labels:
   - required ui rule-parity
 milestone: m-4
@@ -50,4 +50,6 @@ ordinal: 87000
 按用户最新实机反馈重做为原版列表→选牌→列表；Skip只返回，Proceed可先看地图并回看，合法换房成功才失效。普通金币改独立点击到账，Sozu点击消耗、满槽原子拒绝。新增10组Run/生成宿主和独立5项可读性守卫；22项奖励/宿主/布局组合已通过，既有奖励夹具定向迁移正在收尾。发现并修复返回入口跨牌库旧手势及60直属子项上限，未清状态绕断言。无新副本/导入/实机/verify:ui，保持进行中；完整check交集成线程。免费委派路径未重试，Codex实施与审查，费用及额度节省未知。
 
 本片定向收尾：首轮59个相关Lua文件收集的28个失败均已有对应修后通过证据（包含一次并行构建读到半写生成树的宿主重跑）；额外混合宿主与held/released组合通过，独立battle_ui 53组通过。新10组真实奖励生命周期、独立5项可读性守卫及宿主/布局组合22项通过；check:syntax、validate:data、diff --check通过。保留初始失败与逐项修后JSON，未重跑全项目check，未修改超时预算；源码/生成树通过不代表副本/导入/实机或UI总门禁。
+
+生产41320fe已由独立reward_ui_guard最终重跑：5项守卫全绿、23状态，日志SHA256 e2e5d04fda66eeb0bf87d009392febfd88a113a416014a55d07e0308e0369ea3，快照020ec636bb4b8c564bc7ee159680441d7b3612a29766ed77f2f8d8aef8b0208c；来源与各批证据见docs/evidence/reward-flow-parity-20261024.json。没有将源码/机器门禁替作本轮实机，任务状态保持进行中。
 <!-- SECTION:NOTES:END -->

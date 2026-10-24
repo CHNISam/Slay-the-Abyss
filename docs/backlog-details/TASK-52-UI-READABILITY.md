@@ -48,4 +48,6 @@
 
 ## 给集成任务的备注建议
 
+固定生产 `41320fe` 的独立重跑已取得 5/5 绿、23 状态、退出码 0。命令为 `node --test --test-concurrency=1 tests/reward-readability.test.mjs`，日志 `.artifacts/reward-readability-green-41320fe.log` 的 SHA256 为 `e2e5d04fda66eeb0bf87d009392febfd88a113a416014a55d07e0308e0369ea3`，本轮 `build/reward-readability.json` 为 `020ec636bb4b8c564bc7ee159680441d7b3612a29766ed77f2f8d8aef8b0208c`。本轮没有 `.gil`、导入、实机或 `verify:ui` 通过，结构化记录见 [奖励流程](../evidence/reward-flow-parity-20261024.json)。
+
 「奖励页叠字已补真实生成树＋23 渲染状态守卫；旧 b91a461 先红（7 状态标题/notice相交、原生短框和页面所有权失败），组合绿以对应提交/日志为准。CI 通过现有 npm test glob 接入。相邻头部碰撞抽查未见同因，地图28高/战斗32高提示只记原生合同风险。没有新副本、导入、实机截图或 verify:ui 通过。」
