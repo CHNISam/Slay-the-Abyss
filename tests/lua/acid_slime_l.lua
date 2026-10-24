@@ -43,12 +43,22 @@ test('all 13 source histories and 100 rolls through runtime request only require
  {'t','s','s','p','w'},{'t','t','s','p','w'},{'t','w','s','p','w'},
  {'w','s','s','t','w'},{'w','t','s','t','w'},{'w','w','s','t','p'}}
  local ids={s='acid_slime_l_1',t='acid_slime_l_3',w='acid_slime_l_2'}
+ -- Each case still enters real Combat.new/endTurn. Only omit unrelated
+ -- catalog definitions from this matrix's repeated defensive deep copies.
+ local matrixData={rules=Data.rules,statuses=Data.statuses,cards={cards={}},enemies={enemies={}}}
+ for _,card in ipairs(Data.cards.cards)do
+  if card.id=='defend' or card.id=='slimed'then matrixData.cards.cards[#matrixData.cards.cards+1]=card end
+ end
+ for _,enemy in ipairs(Data.enemies.enemies)do
+  if enemy.id=='acid_slime_l'then matrixData.enemies.enemies[1]=enemy end
+ end
+ assert(#matrixData.cards.cards==2 and #matrixData.enemies.enemies==1,'matrix dependency definitions missing')
  for _,h in ipairs(cases)do for roll=0,99 do for _,flag in ipairs({false,true})do
   observe(roll,flag,flag and 0 or 65535,function(calls)
    -- Keep five cards in the draw pile so the next owner turn does not shuffle
    -- newly generated Slimed; this matrix isolates only enemy AI requests.
    local deck=h[1] and {'defend','defend','defend','defend','defend','defend','defend','defend','defend','defend'} or nil
-   local s=battle(nil,deck);local e=s.enemies[1];local start=0
+   local s=C.new(matrixData,{enemies={'acid_slime_l'},deck=deck or {'defend'},seed=42});local e=s.enemies[1];local start=0
    if h[1]then force(e,ids[h[1]]);e.acidLast=ids[h[2]];start=#calls;assert(C.endTurn(s))else start=1 end
    local mode=h[roll<30 and 3 or(roll<70 and 4 or 5)]
    local want=mode
