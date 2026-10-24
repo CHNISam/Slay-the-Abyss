@@ -98,3 +98,10 @@ Run只返回map，不直接触发victory。保留170的GameUI.refresh→Nodes.co
 额外方法定位：Random79–82严格nextFloat()<chance；SetMoveAction50–52无死亡门禁；BurningBlood26–32存活heal6。AbstractRoom309–330区分普通金与卡牌/药水路径，415–424触发onVictory，582–609为药水概率及RNG；MonsterGroup119–125为全部escaped判定，AbstractPlayer1933–1942转发遗物胜利钩子。
 
 最终上游合入核验：f065b7d417bf6f758d938ca38f994dba5206a464 与17ebb共享Git tree `c3a25e91cd6b7131d05019bc2e6487fc3598e81f`。最终追加独立正式 `potion_reward_atomic.lua` 四组自然末击成功/抛错/拒绝/旧形状回滚测试，以及只共享无捕获方法的两处原生UI测试helper；既有测试体和时间预算未改，不影响生产。最终native157/157文件通过；此前156计数只属于追加前冻结，不叠加宣称新总数。
+
+
+## 2026-10-24 CI 超时后的测试分片
+
+代码提交 b3b967 的完整 Quality 已成功；最终收口 7f1fe9 在旧 Windows runner 的 looter_potion_ui.lua 单入口 30 秒处超时（Quality 40082506794 / job 120838773571），不能据先前成功宣称本次通过。任务最终CI/集成项已重新打开。
+
+仅将原 74 次完整真实树夹具拆成基础 24 次、held 25 次、released 25 次三个入口；全部数据、动作、断言和 50 项身份矩阵保持。独立逐 case 比较 setup、事件、状态、对象归属、RNG及控件树记录等价，去掉新增身份保护的负例仍被矩阵捕获。原生 Lua 全套由 157 文件变为 159 文件并全部通过，但不是 Fengari/Windows 性能认证。每入口仍默认 30 秒，三入口可用超时上界由原 30 秒合计增至 90 秒，总作业仍 20 分钟；未删用例、未修改生产或降低真实验收要求。实际效果以新提交完整 CI 为准。

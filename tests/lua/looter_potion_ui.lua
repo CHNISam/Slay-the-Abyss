@@ -1,16 +1,7 @@
-local H=dofile('tests/lua/support/battle_action_fixture.lua')
-local Run,C,Theme=require('abyss_run'),require('abyss_combat'),require('abyss_theme')
+local F=dofile('tests/lua/support/looter_potion_ui_fixture.lua')
+local Run,C,Theme,reward=F.Run,F.C,F.Theme,F.reward
 local passed,failed=0,0
 local function test(name,fn) local ok,e=pcall(fn);if ok then passed=passed+1;print('PASS '..name) else failed=failed+1;print('FAIL '..name..': '..tostring(e)) end end
-local function reward(manual)
- local h,u,p,e,t,d=H.setup();h.run=Run.new(H.F.Data,42);h.battleUI.run=h.run
- assert(Run.startCombat(h.run,'cultist_solo'))
- -- Terminal/ledger fixture isolates the real generated controller.
- for _,enemy in ipairs(h.run.combat.enemies) do enemy.hp=0 end
- if manual then h.run.combat.stolenGoldReward=30 end
- assert(Run.finishCombat(h.run));h:refresh();assert(h.run.rewards.potion)
- return h,u,p,e,t,d
-end
 test('manual five-action row uses existing tokens without overlap',function()
  local h,u,p=reward(true);local names={'claimPotion','stolenGold','skip','continue','skipPotion'}
  for i,name in ipairs(names) do local a=p:GetChild(name);assert(a.visible,name)
@@ -48,22 +39,6 @@ end)
 test('visual animation preserves a fresh bottle gesture',function()
  local h,u,p,e=reward(true);e('claimPotion','down',1);h:update(.05);u:setHover(1);h:update(.05);e('claimPotion','up',1);h:update(.05);e('claimPotion','click',1)
  assert(h.run.rewards.potion.result=='claimed' and Run.potionCount(h.run)==1)
-end)
-test('held and released reward actions reject changed card bundle, gold value or manual mode',function()
- for _,name in ipairs({'card1','skip','stolenGold','claimPotion','skipPotion'}) do
-  for _,change in ipairs({'cards','choice','amount','type','mode'}) do for _,released in ipairs({false,true}) do
-   local h,u,p,e=reward(true);local run=h.run;local gold,uid=run.gold,run.nextDeckUid
-   e(name,'down',1);if released then e(name,'up',1) end
-   if change=='cards' then run.rewards.cards=C.copy(run.rewards.cards)
-   elseif change=='choice' then run.rewards.cards[2]='strike'
-   elseif change=='amount' then run.rewards.stolenGold.amount=31
-   elseif change=='type' then run.rewards.stolenGold.type='GOLD'
-   else run.rewards.manualContinue=false end
-   if not released then e(name,'up',1) end;e(name,'click',1)
-   assert(run.phase=='reward' and run.gold==gold and run.nextDeckUid==uid and not run.rewards.cardResolved
-    and not run.rewards.stolenGold.claimed and not run.rewards.potion.resolved,name..' '..change)
-  end end
- end
 end)
 test('no-loss pure redraw retains the unchanged 170 reward owner gesture',function()
  for _,name in ipairs({'card1','skip','claimPotion','skipPotion'}) do for _,released in ipairs({false,true}) do

@@ -45,7 +45,6 @@ test('documented native UI float fields retain finite precision tolerance', () =
   for (const change of [
     input => { input.actual.ui.interface.controls[0].size[0] += 0.00005; },
     input => { input.actual.ui.interface.controls[1].children[3].position[1] += 0.00005; },
-    input => { input.actual.ui.interface.controls[1].children[0].opacity += 0.00005; },
     input => { input.actual.ui.interface.controls[1].children[3].text.fontSize += 0.00005; },
     input => { input.actual.ui.interface.controls[1].children[3].text.minFontSize += 0.00005; },
     ...['itemSize', 'spacing', 'padding'].map(field => input => { input.actual.ui.interface.controls[1].children.find(control => control.grid).grid[field][0] += 0.00005; }),
@@ -53,6 +52,7 @@ test('documented native UI float fields retain finite precision tolerance', () =
   ]) assert.deepEqual(audit(change).issues, []);
   rejects(input => { input.actual.ui.interface.controls[0].size[0] += 0.001; }, 'UI_MISMATCH');
   rejects(input => { input.actual.ui.interface.controls[0].size[0] = Infinity; }, 'UI_MISMATCH');
+  rejects(input => { input.actual.ui.interface.controls[1].children[0].opacity += 0.00005; }, 'UI_MISMATCH');
 });
 
 for (const value of [undefined, null, 0, -1, 0.5, 22.5, NaN, Infinity, -Infinity, '22', 'invalid', Number.MAX_SAFE_INTEGER + 1]) {
