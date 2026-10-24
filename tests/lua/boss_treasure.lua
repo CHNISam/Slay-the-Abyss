@@ -18,7 +18,8 @@ local function beforeChest(seed)
     equal(run.phase,'combat');equal(run.floor,16)
     for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
     assert(Run.finishCombat(run)); equal(run.phase,'reward')
-    assert(Run.claimCardReward(run,0)); assert(Nodes.completeCombat(run,map))
+    assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
+    assert(Nodes.completeCombat(run,map))
     equal(run.phase,'map');equal(run.nodeFlow.result,'boss_victory')
     return run,map
 end

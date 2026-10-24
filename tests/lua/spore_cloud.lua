@@ -139,7 +139,7 @@ end)
 test('a new encounter has fresh death powers and no previous player debuff',function()
  local r=Run.new(Data,42);r.floor=5;assert(Run.startCombat(r,'fungi_pair'));local s=r.combat
  s.enemies[1].hp=1;C.damage(s,s.player,s.enemies[1],1);eq(vuln(s),2)
- s.enemies[2].hp=1;C.damage(s,s.player,s.enemies[2],1);assert(Run.finishCombat(r));assert(Run.claimCardReward(r,0))
+ s.enemies[2].hp=1;C.damage(s,s.player,s.enemies[2],1);assert(Run.finishCombat(r));assert(Run.claimCardReward(r,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(r)
  r.floor=6;assert(Run.startCombat(r,'fungi_pair'));eq(vuln(r.combat),0);for _,e in ipairs(r.combat.enemies)do eq(e.statuses.spore_cloud,2)end
 end)
 print('SPORE_CLOUD '..passed..' passed; '..failed..' failed');assert(failed==0)

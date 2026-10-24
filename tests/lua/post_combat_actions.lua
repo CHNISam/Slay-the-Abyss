@@ -167,7 +167,7 @@ for _,id in ipairs({"pommel_strike","dropkick"}) do
         for _=1,3 do rewardSeed=(rewardSeed*25173+13849)%65536 end
         assert(Run.play(run,c.uid,1)); equal(run.phase,"reward"); equal(s.seed,seed); equal(run.seed,rewardSeed)
         equal(#Run.rewardOptions(run),3); equal(run.victories,1); equal(reshuffles(s),0); same(run.deck,deck)
-        assert(Run.claimCardReward(run,0)); equal(run.phase,"map"); equal(run.combat,nil); same(run.deck,deck)
+        assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); equal(run.phase,"map"); equal(run.combat,nil); same(run.deck,deck)
     end)
 end
 assert(failed==0,failed.." / "..count.." post combat action groups failed")

@@ -32,7 +32,7 @@ test('an elite victory does not leave Collar energy in the following ordinary fi
     local run=battle({'burning_blood','slavers_collar'},'elite')
     equal(run.combat.energy,4)
     for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
-    assert(Run.finishCombat(run));assert(Run.claimCardReward(run,0));run.floor=1
+    assert(Run.finishCombat(run));assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run);run.floor=1
     assert(Run.startCombat(run,'cultist_solo'));equal(run.combat.energy,3)
     assert(Run.endTurn(run));equal(run.combat.energy,3)
 end)

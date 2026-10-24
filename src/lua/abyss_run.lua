@@ -119,7 +119,8 @@ function M.finishCombat(run)
     end
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
-    run.rewards, run.phase = { cards = choices, gold = gold, potion = potion }, "reward"
+    run.rewards, run.phase = { cards = choices, gold = gold, potion = potion,
+        cardResolved = false, manualContinue = potion ~= nil }, "reward"
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
         run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}
@@ -139,13 +140,7 @@ function M.claimCardReward(run, choice)
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
-    -- Confirming a card also collects the remaining obtainable bottle. A full
-    -- belt requires an explicit claim/skip decision; no reward is silently lost.
-    local potion=run.rewards.potion
-    if not run.rewards.manualContinue and potion and not potion.resolved and not potion.unavailable then
-        local ok,reason=M.claimPotionReward(run)
-        if not ok then return false,reason end
-    end
+    -- A card choice never owns the independent potion reward (RewardItem).
     if choice > 0 then
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = run.rewards.cards[choice], upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1

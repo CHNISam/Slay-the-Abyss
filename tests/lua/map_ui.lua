@@ -357,7 +357,12 @@ test("embedded Nodes transaction enters once and unlocks only after battle rewar
     assert(run.phase == "reward" and not Nodes.completeCombat(run, map))
     ui:setNavigationEnabled(#Nodes.available(run, map) > 0)
     assert(not ui.navigationEnabled and #map.path == 1)
-    assert(Run.claimCardReward(run, 0) and Nodes.completeCombat(run, map))
+    assert(Run.claimCardReward(run, 0))
+    if run.phase=='reward' and run.rewards.manualContinue then
+        if run.rewards.potion and not run.rewards.potion.resolved then assert(Run.skipPotionReward(run)) end
+        assert(Run.leaveCombatRewards(run))
+    end
+    assert(Nodes.completeCombat(run, map))
     ui:setVisible(true)
     ui:setNavigationEnabled(#Nodes.available(run, map) > 0)
     assert(ui.navigationEnabled and clickNode(host, map, Nodes.available(run, map)[1].id))

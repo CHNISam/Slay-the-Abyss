@@ -91,7 +91,7 @@ test('status type remains excluded from rewards and shop even with a supported p
  local data=C.copy(Data)
  local found=false;for _,c in ipairs(data.cards.cards)do if c.id=='slimed' then found=true end end;assert(found)
  for _,c in ipairs(data.cards.cards)do if c.id=='slimed' then c.effects={{op='block',value=1}} else c.rarity='basic' end end
- local r=Run.new(data,42);assert(Run.startCombat(r,'cultist_solo'));C.applyEffects(r.combat,{{op='damage',value=999}},r.combat.player,r.combat.enemies[1]);assert(Run.finishCombat(r));eq(#Run.rewardOptions(r),0);assert(Run.claimCardReward(r,0))
+ local r=Run.new(data,42);assert(Run.startCombat(r,'cultist_solo'));C.applyEffects(r.combat,{{op='damage',value=999}},r.combat.player,r.combat.enemies[1]);assert(Run.finishCombat(r));eq(#Run.rewardOptions(r),0);assert(Run.claimCardReward(r,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(r)
  local map=Map.generate(data,42);for _=1,17 do local available=Map.available(map);for _,node in ipairs(available)do if node.type=='shop' then assert(Nodes.enter(r,map,node.id));eq(#r.nodeFlow.cards,7);for _,o in ipairs(r.nodeFlow.cards) do assert(o.unavailable and o.id~='slimed') end;return end end;assert(Map.choose(map,available[1].id))end;error('expected shop fixture')
 end)
 test('camp and upgrade shrine reject Slimed without spending their choice',function()
@@ -108,7 +108,7 @@ test('new enemy instances do not inherit history from another Spike M',function(
 end)
 test('temporary Slimed never reaches permanent deck or the next combat',function()
  local r=Run.new(Data,42);r.floor=5;assert(Run.startCombat(r,'medium_slimes'));local deck=C.copy(r.deck);generate(r.combat);eq(count(r.combat,'slimed'),1);same(r.deck,deck)
- C.applyEffects(r.combat,{{op='damageAll',value=999}},r.combat.player);assert(Run.finishCombat(r));for _,id in ipairs(Run.rewardOptions(r))do assert(id~='slimed')end;assert(Run.claimCardReward(r,0));assert(Run.startCombat(r,'medium_slimes'));eq(count(r.combat,'slimed'),0);same(r.deck,deck)
+ C.applyEffects(r.combat,{{op='damageAll',value=999}},r.combat.player);assert(Run.finishCombat(r));for _,id in ipairs(Run.rewardOptions(r))do assert(id~='slimed')end;assert(Run.claimCardReward(r,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(r);assert(Run.startCombat(r,'medium_slimes'));eq(count(r.combat,'slimed'),0);same(r.deck,deck)
 end)
 test('failing player effect rolls back Spike decision history and RNG',function()
  local s=battle();s.catalog.cards.defend.effects={{op='draw',value=1},{op='gainStatus',status='missing',value=1}};local before=C.copy(s);assert(not pcall(C.play,s,s.hand[1].uid,1));same(s,before)

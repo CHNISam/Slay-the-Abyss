@@ -86,7 +86,7 @@ for _, upgraded in ipairs({false, true}) do
         end
         equal(run.phase, "reward"); equal(#run.deck, 3); equal(run.deck[1], permanent)
         equal(permanent.upgraded, upgraded); equal(run.nextDeckUid, 4)
-        assert(Run.claimCardReward(run, 0)); assert(Run.startCombat(run, "cultist_solo"))
+        assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Run.startCombat(run, "cultist_solo"))
         local fresh = assert(find(run.combat.hand, fixture.id))
         assert(fresh ~= used and fresh ~= permanent); equal(fresh.upgraded, upgraded)
         equal(#run.combat.exhaust, 0); equal(run.combat.player.statuses[fixture.status], nil)

@@ -251,7 +251,7 @@ test("battle node stays locked through card reward and completes only once", fun
     finishBattle(run)
     rejected(run, map, function() return Nodes.completeCombat(run, map) end, "reward_pending")
     equal(#Nodes.available(run, map), 0)
-    assert(Run.claimCardReward(run, 1)); equal(#Nodes.available(run, map), 0)
+    assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); equal(#Nodes.available(run, map), 0)
     assert(Nodes.completeCombat(run, map)); assert(#Nodes.available(run, map) > 0)
     rejected(run, map, function() return Nodes.completeCombat(run, map) end, "no_pending_node")
 end)
@@ -265,7 +265,7 @@ test("real starter wins a map-dispatched encounter without combat or content sta
     assert(selected, "fixed seed must offer the ordinary cultist encounter")
     assert(Nodes.enter(run, map, selected.id)); finishBattle(run)
     assert(run.hp > 0); equal(run.lastResult.outcome, "victory"); equal(#run.deck, 10)
-    assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
+    assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); assert(#Nodes.available(run, map) > 0)
 end)
 
@@ -293,7 +293,7 @@ test("shops keep configured deletion increments and purchases across independent
         local node = Nodes.available(run, map)[1]; assert(node)
         assert(Nodes.enter(run, map, node.id))
         if run.phase == "combat" then
-            finishBattle(run); assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
+            finishBattle(run); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
         elseif node.type == "camp" then assert(Nodes.rest(run))
         elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
         elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave"))
@@ -345,7 +345,7 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
             -- This one-HP navigation fixture declines bottles explicitly; the
             -- normal-data resource route exercises acquisition and full belts.
             if run.rewards.potion then assert(Run.skipPotionReward(run)) end
-            assert(Run.claimCardReward(run, 0))
+            assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
             local ok, result = Nodes.completeCombat(run, map); assert(ok)
             if node.type == "boss" then equal(result, "boss_victory") end
         elseif node.type == "camp" then assert(Nodes.rest(run))

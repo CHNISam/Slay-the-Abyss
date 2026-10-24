@@ -5,6 +5,12 @@ local preview, control, fixture = F.preview, F.control, F.fixture
 local statValue, resultText, mapControl, click, win = F.statValue, F.resultText, F.mapControl, F.click, F.win
 local count = 0
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
+local function leavePotionRewards(ui, root)
+    if ui.run.phase=='reward' and ui.run.rewards.manualContinue then
+        if ui.run.rewards.potion and not ui.run.rewards.potion.resolved then click(root,'battlePanel','skipPotion') end
+        click(root,'battlePanel','continue')
+    end
+end
 
 test("new encounter resets stale target before the first attack-card tap", function()
     local Run = require("abyss_run")
@@ -22,6 +28,7 @@ test("new encounter resets stale target before the first attack-card tap", funct
     assert(Run.finishCombat(run))
     ui:refresh()
     click(root, "battlePanel", "skip")
+    leavePotionRewards(ui, root)
     assert(run.phase == "map")
     assert(Run.startCombat(run, "cultist_solo"))
     ui:refresh() -- This is the same host refresh used after Nodes.enter.
@@ -67,6 +74,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(ui.mode == "battle" and ui.run.nodeFlow.complete == false)
     local chosen = ui.run.rewards.cards[1]
     click(root, "battlePanel", "card1")
+    leavePotionRewards(ui, root)
     assert(ui.mode == "map" and ui.run.nodeFlow.complete and #ui.run.deck == 11)
     assert(ui.run.deck[11].cardId == chosen and ui.mapUI.navigationEnabled)
     local before = #ui.run.deck
@@ -126,6 +134,7 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
         if ui.mode == "battle" then
             win(ui, root)
             click(root, "battlePanel", "skip")
+            leavePotionRewards(ui, root)
         elseif node.type == "shop" then
             if ui.nodeUI.actions["shopView/card1"].enabled then
                 local before = ui.run.gold

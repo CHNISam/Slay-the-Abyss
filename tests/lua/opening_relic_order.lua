@@ -156,7 +156,7 @@ test('a second real battle gets a fresh opening queue exactly once',function()
         end
         if chosen then assert(Run.play(run,chosen.uid,1)) else assert(Run.endTurn(run)) end
     end
-    equal(run.phase,'reward'); assert(Run.claimCardReward(run,0))
+    equal(run.phase,'reward'); assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
     assert(Run.startCombat(run,'cultist_solo'))
     local state=run.combat; local events=statuses(state)
     equal(#events,1); equal(events[1].frame.energy,1); equal(#events[1].frame.hand,0)

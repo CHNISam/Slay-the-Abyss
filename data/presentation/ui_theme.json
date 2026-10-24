@@ -540,7 +540,7 @@
       ]
     },
     "battleRewards": {
-      "potionLabel": [0, -306, 820, 44],
+      "potionLabel": [0, -306, 1160, 56],
       "claimPotion": [-268, -250],
       "skipPotion": [268, -250]
     },
