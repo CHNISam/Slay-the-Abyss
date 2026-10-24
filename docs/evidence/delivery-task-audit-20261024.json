@@ -1,0 +1,2366 @@
+{
+  "checkedAt": "2026-10-24",
+  "sourceCommit": "0b1d460048ea8e228f61f1696d5e39b116b86b59",
+  "scope": "CLI views of 120 existing tasks including 74 Done; TASK-49 is the new remediation task and excluded from this initial audit census.",
+  "method": "CLI task view JSON for each active/completed ID; latest TASK-15.14 and 15.15 re-read after PR164. Observed metadata is the discovery snapshot, not the post-remediation current state. Final responsibility and changes: docs/DELIVERY-CLOSEOUT.md.",
+  "doneDoesNotImplyInGame": true,
+  "tasks": [
+    {
+      "id": "TASK-1",
+      "title": "M0 开发工具链与发布入口初步定位",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-1",
+      "observedAssignees": [],
+      "sliceBoundary": "MCP连通且liveWriteEnabled=false；list_maps复检杀戮深渊1073741825/22101bytes；用户已确认收益开通。PR8发布SOP已合并。正式报名未验证，保留TASK-18/19/6。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-10.1.1",
+      "title": "单卡原生Lua导出链路实机门槛",
+      "observedStatus": "Done",
+      "parent": "TASK-10.1",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@codex"
+      ],
+      "sliceBoundary": "用户v2截图SHA03a3e362.../1fdaba4d...证实完整单卡显示与点击更新；本地导出/3项差异回归/Fengari及副本静态检查通过。客户端10秒dt均值33.3/P95 34.0ms；无基线/多卡/多设备容量结论。规范CARD_PRODUCTION.md。",
+      "references": [
+        "docs/art/CARD_PRODUCTION.md",
+        "docs/art/evidence/2026-10-23.json"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.1.2",
+        "TASK-25",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-10.1.2",
+      "title": "验证多张卡牌和长文字是否撑得住",
+      "observedStatus": "To Do",
+      "parent": "TASK-10.1",
+      "observedMilestone": "m-5",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/art/CARD_PRODUCTION.md",
+        "docs/backlog-details/TASK-10.1.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.1.2"
+      ]
+    },
+    {
+      "id": "TASK-10.1",
+      "title": "先验证卡图能不能放进游戏",
+      "observedStatus": "To Do",
+      "parent": "TASK-10",
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-10.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.1"
+      ]
+    },
+    {
+      "id": "TASK-10.2",
+      "title": "独立审查 TASK-10 原生战斗UI与构建资源",
+      "observedStatus": "Done",
+      "parent": "TASK-10",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "追加复审外部视觉f7d5d75发现HUD回退与无目标敌人点击误出牌；独立修复0ab57f1后原冻结负例不改转绿，完整86JS/70Lua/Python与隐藏态隔离探针通过。当前固定离线UI组合无剩余阻断；资源theme/API/安全区已核，实际手机可读性与游戏验收仍未证明。报告docs/reviews/TASK-10.2-ui-review.md，PR23。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1",
+        "TASK-10.7",
+        "TASK-10.8",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-10.3",
+      "title": "修复本机MCP试玩前台切换阻断",
+      "observedStatus": "Done",
+      "parent": "TASK-10",
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": "本机runner双队列焦点最小修补完成，非作者复核、四类模拟与未知版本失败关闭测试通过；已保存原件/diff/前后hash。真实run7675e481通过焦点后停在文件选择框，未实机通过。只读Token证实自动化中0x2000而游戏/编辑器高0x3000，已请用户统一权限；正式存档SHA256与修改前完全相同。后续导入/游戏在TASK10继续。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1",
+        "TASK-10.7",
+        "TASK-10.8",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-10.4",
+      "title": "修复奖励HUD回血与非目标牌敌人点击误触",
+      "observedStatus": "Done",
+      "parent": "TASK-10",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Furinya"
+      ],
+      "sliceBoundary": "PR35及上层PR20已合并；真实Lua控件处理器回归通过，集成门禁通过，非实机声明。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/35"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1",
+        "TASK-10.7",
+        "TASK-10.8",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-10.5.1",
+      "title": "状态详情与敌人意图改成白话，并修复详情面板只显示一行",
+      "observedStatus": "In Progress",
+      "parent": "TASK-10.5",
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/159"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1"
+      ]
+    },
+    {
+      "id": "TASK-10.5",
+      "title": "M1 战斗动态数值与状态详情（P1 本地实现）",
+      "observedStatus": "Done",
+      "parent": "TASK-10",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@claude"
+      ],
+      "sliceBoundary": "战斗手牌实时伤害/群攻/格挡预览和单位状态图标、详情及输入隔离已完成本地验收。合并 develop b2ed278 后完整 npm run check 退出 0（JS848通过/118跳过、Lua117文件、Python16通过/1跳过），保留39张卡牌和蜷缩/孢子云回归。平台导入与实机UI验收仍归 TASK-11.1/TASK-4。",
+      "references": [
+        "docs/design/UI_DESIGN.md",
+        "src/lua/abyss_battle_ui.lua"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1",
+        "TASK-10.7",
+        "TASK-10.8",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-10.6",
+      "title": "修复负面状态被抵消时的意图显示报错",
+      "observedStatus": "Done",
+      "parent": "TASK-10",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "复用真实核心Artifact门控修正只读意图预览，并防止演出完成后的意图重复预演。原版红绿/突变证据、PR152精确head双绿CI及最新7e1123b上的15组Artifact/52组战斗UI复跑充分，按原本地AC完成；不认证实机性能或UI门禁。",
+      "references": [
+        "docs/backlog-details/TASK-10.6.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1",
+        "TASK-10.7",
+        "TASK-10.8",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-10.7",
+      "title": "卡牌显示准确伤害，不再把不同目标合成范围",
+      "observedStatus": "In Progress",
+      "parent": "TASK-10",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-10.7"
+      ]
+    },
+    {
+      "id": "TASK-10.8",
+      "title": "按原版区分行动意图和状态，并补齐解释",
+      "observedStatus": "In Progress",
+      "parent": "TASK-10",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-10.8"
+      ]
+    },
+    {
+      "id": "TASK-10",
+      "title": "M1 战斗UI本地实现与控件回归",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [],
+      "sliceBoundary": "PR20/29战斗UI与宿主已集成；本轮真实控件UI19组、整套153 Lua通过。本任务仅本地实现；TASK-3保留M1实机闭环，TASK-4保留多设备验收。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/29"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-10.5.1",
+        "TASK-10.7",
+        "TASK-10.8",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-11.1",
+      "title": "实测九种状态显示是否正确",
+      "observedStatus": "In Progress",
+      "parent": "TASK-11",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-11.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-11.1"
+      ]
+    },
+    {
+      "id": "TASK-11.2",
+      "title": "M1 修复荆棘伤害错误绕过格挡",
+      "observedStatus": "Done",
+      "parent": "TASK-11",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "荆棘现先消耗攻击者格挡，仅余量扣HP，保留其他反伤时序及毒逻辑。修复经过5组TDD负对照、本地165组Lua与独立2430断言验证；PR48已合并develop1eaba2c，正式CI39872050021两项成功（JS133通过、状态31通过）。来源为第三方反编译镜像，非官方认证；不宣称平台导入或实机验收。",
+      "references": [
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java#L158-L185",
+        "https://github.com/fadedwind/refgameSource/blob/462da73b934eaf8a833791f3cab74dc792fdeeb6/Slaythespire.src/com/megacrit/cardcrawl/core/AbstractCreature.java#L164-L165",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/48",
+        "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39872050021"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-11.1",
+        "TASK-14.1",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-11",
+      "title": "M1 九状态规则框架与本地回归",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Furinya"
+      ],
+      "sliceBoundary": "九状态叠加/衰减/时序规则已集成，本轮27状态组通过。真实屏幕验收由TASK-11.1保留在M1。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/29"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-11.1",
+        "TASK-14.1",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-12.1",
+      "title": "独立审查 TASK-12 地图路线与快照安全",
+      "observedStatus": "Done",
+      "parent": "TASK-12",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@Furinya"
+      ],
+      "sliceBoundary": "独立非作者审查无阻断，54JS+25Lua及Python10通过1环境跳过；16种子全图路径与非法快照验证通过，同值输入别名被安全复制归一化。证据docs/reviews/TASK-12.1-map-review.md。实际地图界面与游戏验证仍由TASK12 AC3跟踪。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-12.3",
+        "TASK-12.5"
+      ]
+    },
+    {
+      "id": "TASK-12.2",
+      "title": "独立审查 TASK-12 地图UI与节点事务边界",
+      "observedStatus": "Done",
+      "parent": "TASK-12",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "地图UI切片d3c6c41非作者离线复核无阻断，完整87JS/69Lua/Python及真实候选Nodes事务联调通过；核准图/主题/bounds/API和受限全局边界。候选Nodes未提交时以文件hash固定证据，最终宿主/平台需再验；未勾原任务游戏界面验收。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-12.3",
+        "TASK-12.5"
+      ]
+    },
+    {
+      "id": "TASK-12.3",
+      "title": "实测地图、七类房间和跨房间资源",
+      "observedStatus": "To Do",
+      "parent": "TASK-12",
+      "observedMilestone": "m-3",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-12.3.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-12.3"
+      ]
+    },
+    {
+      "id": "TASK-12.4",
+      "title": "把第一幕地图规则对准原版",
+      "observedStatus": "In Progress",
+      "parent": "TASK-12",
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@codex-map17"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "data/SOURCES.md",
+        "data/rules.json",
+        "src/lua/abyss_map.lua",
+        "docs/backlog-details/TASK-12.4.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-12.4"
+      ]
+    },
+    {
+      "id": "TASK-12.5",
+      "title": "实测地图、价格和掉落概率是否正确",
+      "observedStatus": "To Do",
+      "parent": "TASK-12",
+      "observedMilestone": "m-4",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-12.5.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-12.5"
+      ]
+    },
+    {
+      "id": "TASK-12",
+      "title": "M2 15层地图与导航本地实现",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "15层规则、滚动地图和协调器已合并且本地回归通过。平台地图验收拆TASK-12.3，M2仍待真机。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/29"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-12.3",
+        "TASK-12.5"
+      ]
+    },
+    {
+      "id": "TASK-13.1.1",
+      "title": "M2 P0 未知房转类与六事件受限池离线闭环",
+      "observedStatus": "Done",
+      "parent": "TASK-13.1",
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "codex"
+      ],
+      "sliceBoundary": "用户批准的离线六事件受限池及真实未知房四类路由已完成；完整npm run check exit0（JS629pass118skip，Lua91文件全过，Python16pass1skip），候选96b80a7/74e4da99通过35模块、1695控件max51和22节点完整载荷读回。离线本地完成不代表平台或严格PC一致；集成以PR123最终SHA的Quality及实际合并记录为准。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-13.1.2",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-13.1.2.1",
+      "title": "实现事件配对翻牌状态机候选",
+      "observedStatus": "Done",
+      "parent": "TASK-13.1.2",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR126 / 9d81126 已合并。17专项、独立模型及负控通过；合后CI39997931163成功。仅独立配对候选完成，未接生产/永久发奖/UI，父任务与平台未完成。",
+      "references": [
+        "TASK-13.1.2",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/126"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-13.1.2",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-13.1.2.2",
+      "title": "实现事件卡牌转化选择候选",
+      "observedStatus": "Done",
+      "parent": "TASK-13.1.2",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR127 / f175aca 已合并。20专项、独立1500差分用例及负控通过；合后CI40000372880成功。仅转化选择候选完成，完整牌池/库存事务/可玩事件仍在父任务。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/127"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-13.1.2",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-13.1.2.3",
+      "title": "接入金币祭坛与手牌损血诅咒",
+      "observedStatus": "Done",
+      "parent": "TASK-13.1.2",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR149 已合入 b92bce64，实际组合树70caa664与独立评审完全一致，地图PR148与品牌均保留。122项native Lua与相关JS/17Python、真实生成节点及自然地图→祭坛→诅咒战斗流程通过。head074a1836 Quality40050743021双绿，合后b92bce64 Quality40051640565双绿；证据见PR149评论6378501998。仅第七个完整事件与单张诅咒代码完成，父任务、完整事件池/随机流及平台实测不扩写。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/149"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-13.1.2",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-13.1.2",
+      "title": "把首发选定的事件做完整",
+      "observedStatus": "To Do",
+      "parent": "TASK-13.1",
+      "observedMilestone": "m-4",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-13.1.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-13.1.2"
+      ]
+    },
+    {
+      "id": "TASK-13.1",
+      "title": "核对事件、商店价格和奖励规则",
+      "observedStatus": "In Progress",
+      "parent": "TASK-13",
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "--plan"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "data/SOURCES.md",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_run.lua",
+        "docs/backlog-details/TASK-13.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-13.1"
+      ]
+    },
+    {
+      "id": "TASK-13",
+      "title": "M2 七节点规则与本地UI事务",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "七节点规则与控件事务已集成并本地验收；正式平台节点覆盖待TASK-12.3。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/29"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-13.1.2",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-14.1",
+      "title": "核对遗物和药水的实际效果",
+      "observedStatus": "In Progress",
+      "parent": "TASK-14",
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@Codex-relic-order"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "data/SOURCES.md",
+        "data/relics.json",
+        "data/potions.json",
+        "docs/backlog-details/TASK-14.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-14.1"
+      ]
+    },
+    {
+      "id": "TASK-14",
+      "title": "M2 同局跨节点库存与遗物药水本地实现",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "同局库存、遗物真实效果、七药水与新局重置已合入PR29，本地inventory10组通过；平台保持待验收。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/29"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-14.1",
+        "TASK-12.3"
+      ]
+    },
+    {
+      "id": "TASK-15.1",
+      "title": "补齐蓄力敌人的开场意图随机消耗",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR130 / 20a0418 已合并。12专项、97原生Lua文件及独立全65536项目seed验证通过；合后CI40010001402成功。仅Wizard开场调用修复完成，共享LCG不等同原版分流，完整AI/平台与父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/130"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.10",
+      "title": "修正红绿虫的血量咬击与招式选择",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR140 / bf0602b 已合并。26专项、111原生Lua文件、相关JS/Python及独立15边界/10负控/336非Louse轨迹一致性通过；合后Quality40039720321成功。有限红绿虫HP/Bite/AI切片完成，蜷缩由独立TASK-15.11承接，完整随机流/平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/140"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.11",
+      "title": "补齐红绿虫首次受击蜷缩护盾",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR141 / ef72148 已合并。28专项、113原生Lua文件、支持JS/Python及独立16探针/13负控通过；合后Quality40041514876成功。有限蜷缩护盾及事务队尾行为完成，完整动作管理器、随机流/实机动画与父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/141"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.12",
+      "title": "修正大型尖刺敌人的血量招式与污染牌",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR142 / b2ed278 已合并。大型尖刺17专项、致死队列8专项、116原生Lua文件和相关JS/Python、独立39矩阵/7负控通过；合后Quality40043594020成功。有限数值/招式及玩家死后停止效果切片完成；分裂由独立TASK-15.13承接，完整随机流/平台与父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/142"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.13",
+      "title": "实现大型尖刺敌人的分裂流程",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR144 / 85be6f4 已合并，最终组合保留PR143动态数值和详情。119原生Lua文件、相关JS/Python及独立输入/身份/分裂/变异通过；原85be合后作业取消不算通过，后续1181764组合Quality40048253721双绿且分裂源码/测试未变。有限大型尖刺分裂及安全目标/反馈接入完成；完整随机流、分裂动画与平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/144"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.14",
+      "title": "修正大型酸液敌人的血量和招式",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "基础血量与三招规则已通过 PR153、测试成本修复 PR155 合入。组合主线 331cb097 的 Quality40067378345 和 059295b0 的 Quality40068174376 均通过；原失败/取消记录保留。最初29组专项在后续拆为28组加3个矩阵入口，完整2600情形与独立负控不减。仅本项有限范围完成，半血分裂、完整随机规则与游戏实测未宣称完成。",
+      "references": [
+        "docs/backlog-details/TASK-15.14.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.15",
+      "title": "实现大型酸液敌人的半血分裂",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "半血分裂的有限代码切片已实现：15项合同、138个原生Lua入口、独立128种子与回滚/五槽探针通过。PR164代码提交5ce18441的正式Quality40071605101两个作业通过；任务收口提交仍须精确CI后合并。不关闭父任务或实机关口，不声称子体初始化异常下的整轮原子性。",
+      "references": [
+        "docs/reviews/TASK-15.14-acid-slime-l.md",
+        "docs/reviews/TASK-15.15-acid-slime-split.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/164"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.2",
+      "title": "补齐仪式敌人的意图随机消耗",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR131 / ac90e1e 已合并。14专项先红后绿、98原生Lua文件、119相关JS检查及独立负控通过；合后Quality40014564780成功。仅Cultist意图随机调用修复完成，保留仪式时点及数值。共享LCG与原版分流仍不同，完整AI/平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/131"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.3",
+      "title": "补齐沉睡精英的意图随机消耗",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR132 / 2bf87d6 已合并。17专项先红后绿、99原生Lua文件和独立对抗/变异验证通过；合后Quality40017468210成功。仅Lagavulin阶段随机调用切片完成，完整AI、原版分流随机和平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/132"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.4",
+      "title": "修正愤怒敌人的受击增力与出招",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR134 / 8d9a37f 已合并。25专项先红后绿、101原生Lua文件、独立149可用JS及8负控通过；合后Quality40023419280成功。有限MadGremlin受击增力/出招修复完成，完整反应队列、分流随机与平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/134"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.5",
+      "title": "修正护盾敌人的援护目标与出招",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR135 / 7b09fdb 已合并。22专项、103原生Lua文件、164相关JS与独立20对抗/8负控通过；合后Quality40026878761成功。有限Shield援护/必要敌群前置时序修复完成，固定格挡意图已验证。完整随机流、平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/135"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.6",
+      "title": "修正中型尖刺敌人的招式与污染牌",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR136 / 05aa11c 已合并。22专项含900决策输入、105原生Lua文件、206相关JS、16Python及独立边界/负控通过；合后Quality40030726954成功。有限SpikeM与黏滞牌代码切片完成，完整遭遇、分流随机及平台与父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/136"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.7",
+      "title": "修正中型酸液敌人的三招选择与污染牌",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR137 / 28c2aaf 已合并。21专项含2600决策输入、106原生Lua文件、343相关JS、17Python及独立策略/适配值/负控通过；合后Quality40033159636成功。有限AcidM三招选择切片完成，完整分流随机、分裂与平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/137"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.8",
+      "title": "修正菌兽血量与攻击增力选择",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR138 / 02e2f75 已合并。14专项、107原生Lua文件、相关JS/Python及独立8负控和真实轨迹通过；合后Quality40035545112成功。有限菌兽HP/AI切片完成，死亡孢子云由独立TASK-15.9承接，完整随机流和平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/138"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15.9",
+      "title": "补齐菌兽死亡后的易伤效果",
+      "observedStatus": "Done",
+      "parent": "TASK-15",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR139 / dabaaf1 已合并。27专项、109原生Lua文件、相关JS/Python与独立19对抗/8负控通过；合后Quality40037395696成功。有限菌兽死亡易伤与反应顺序完成，完整动作队列、随机流与平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/139"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15",
+        "TASK-12.5",
+        "TASK-17.3",
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-15",
+      "title": "把首发敌人的数值和招式做对",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@Codex",
+        "@codex-enemy-parity"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-15.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-15"
+      ]
+    },
+    {
+      "id": "TASK-16.1.1",
+      "title": "修复能力牌打出后误入消耗堆",
+      "observedStatus": "Done",
+      "parent": "TASK-16.1",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR128 / a804e98 已合并。19专项、95原生Lua文件及独立10负控通过；合后CI40003011666成功。能力牌去向修复完成，完整hooks/平台与父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/128"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-12.5"
+      ]
+    },
+    {
+      "id": "TASK-16.1.2",
+      "title": "修复击败末敌后多执行排队效果",
+      "observedStatus": "Done",
+      "parent": "TASK-16.1",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR129 / 329e813 已合并。35专项、96原生Lua文件、独立10对抗序列和15负控通过；合后CI40006652080成功。已支持动作末敌清队列修复完成，完整调度/平台与父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/129"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-12.5"
+      ]
+    },
+    {
+      "id": "TASK-16.1",
+      "title": "把伤害、抽牌和结算顺序算对",
+      "observedStatus": "In Progress",
+      "parent": "TASK-16",
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "src/lua/abyss_combat.lua",
+        "data/SOURCES.md",
+        "docs/backlog-details/TASK-16.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16.1"
+      ]
+    },
+    {
+      "id": "TASK-16",
+      "title": "做好首发卡牌、费用和升级效果",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-4",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-16.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16"
+      ]
+    },
+    {
+      "id": "TASK-17.1",
+      "title": "补齐守卫首领的开场意图随机消耗",
+      "observedStatus": "Done",
+      "parent": "TASK-17",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR133 / 5913a3f 已合并。14专项先红后绿、100原生Lua文件、42相关schema及独立边界/负控通过；合后Quality40019919545成功。只完成Guardian开场调用修复，完整首领、分流随机与平台及父任务未完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/133"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-17.2",
+        "TASK-17.3"
+      ]
+    },
+    {
+      "id": "TASK-17.2",
+      "title": "把Boss的数值和各阶段招式做对",
+      "observedStatus": "To Do",
+      "parent": "TASK-17",
+      "observedMilestone": "m-4",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-17.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-17.2"
+      ]
+    },
+    {
+      "id": "TASK-17.3",
+      "title": "实测第一幕17层能正常通关和重开",
+      "observedStatus": "To Do",
+      "parent": "TASK-17",
+      "observedMilestone": "m-3",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-17.3.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-17.3"
+      ]
+    },
+    {
+      "id": "TASK-17",
+      "title": "接通Boss、Boss宝箱和胜败结算",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-17.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-17"
+      ]
+    },
+    {
+      "id": "TASK-18",
+      "title": "准备并确定投稿封面、截图和介绍",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-6",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-18.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-18"
+      ]
+    },
+    {
+      "id": "TASK-19",
+      "title": "投稿前检查资格、材料和剩余问题",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-6",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-19.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-19"
+      ]
+    },
+    {
+      "id": "TASK-2.1",
+      "title": "制作首发岩系遗迹场景",
+      "observedStatus": "To Do",
+      "parent": "TASK-2",
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@art-scene"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/art/scene-spike/README.md",
+        "docs/backlog-details/TASK-2.1.md",
+        "docs/backlog-details/TASK-4.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-2.1"
+      ]
+    },
+    {
+      "id": "TASK-2",
+      "title": "确认进场、镜头和复活正常",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "按用户2026-10-24明确整体认可，收口现有最小测试场景。官方1838配置断言及20份既有截图/日志等证据Git blob哈希复核通过，证据见docs/evidence/task2-closeout-20261024.json。未将人工整体确认写成代理新做物理复苏、1839取证或全M1通过；TASK-2.1场景美术独立保留。",
+      "references": [
+        "docs/backlog-details/TASK-2.md",
+        "docs/evidence/task2-closeout-20261024.json"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-17.3",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-20",
+      "title": "保存发布版本、更新说明和投稿凭证",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-0",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-20.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-21",
+      "title": "投稿后再查：能否更新、要不要做第二件作品",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-21.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-21"
+      ]
+    },
+    {
+      "id": "TASK-22.1",
+      "title": "修复地图强制楼层数据契约漏检",
+      "observedStatus": "Done",
+      "parent": "TASK-22",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "已补齐既有地图合同：restFloor固定14，强制1层normal、6层elite、15层boss要求闭区间可用遭遇；不新增候选数量或可选层限制。77项相关回归和独立探针通过，正式CI两项成功后合并 PR #38：https://github.com/CHNISam/Slay-the-Abyss/pull/38 。CI：https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39856992706 。本任务Done仅指数据校验修复交付。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-22.2",
+      "title": "Milestone 顺序验收与证据收口",
+      "observedStatus": "Done",
+      "parent": "TASK-22",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "M0完成；本地切片及时Done，M1保留必要真实平台验收；M2-M5关口和依赖已校准。完整本地检查通过，PR44 head5b9ede2 Quality39864993592两作业成功。原存档hash未改、原工作区未改。最终记录提交后仍须精确head全绿才squash；合并结果由GitHub PR和develop记录核验。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/44"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-22",
+      "title": "M0 轻量质量门禁：数据校验与自动测试 CI",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-1",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "内容正负例、有限并发CI已交付；远端develop Quality 39860850079成功。采用维护者先CI全绿后合并，无强制分支保护要求。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-23",
+      "title": "本机专用 runner 与 CI 门禁接入",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "完成独立自启动 self-hosted runner 和零 npm 依赖门禁；PR #4 已合入 develop，PR及合入后push均实跑通过。最终开发推送check18秒、presentation5秒。未改变其他runner、GitHub套餐或仓库可见性；正式游戏发布仍由人完成。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-24",
+      "title": "批准稿设计规范、主题与交互原型交付",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@opus"
+      ],
+      "sliceBoundary": "PR19用户批准并合入91ae349，主题生成/原型同步与测试通过。实现与平台打磨分别由已有任务验收。",
+      "references": [
+        "docs/SCOPE.md",
+        "docs/TOOLCHAIN.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/19"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-12.3",
+        "TASK-18"
+      ]
+    },
+    {
+      "id": "TASK-25.1",
+      "title": "首发卡牌框与图标制作（实机门槛后）",
+      "observedStatus": "Done",
+      "parent": "TASK-25",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "art-card"
+      ],
+      "sliceBoundary": "首轮4稀有度卡框、1卡背、3类型徽记交付并经主Agent复审集成PR30。39项哈希和8份固定上游Lua重导出匹配，原生文字槽与预算已记录，独立PR42及离线检查通过。电脑单卡配方已实机验证；新资产组合、多卡与目标设备验证不计入本制作切片，保留在既有验收任务。",
+      "references": [
+        "docs/art/PIPELINE.md",
+        "docs/art/CARD_PRODUCTION.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-25",
+        "TASK-10.1.2",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-25.2",
+      "title": "先做好一张完整样卡和荧的肖像",
+      "observedStatus": "In Progress",
+      "parent": "TASK-25",
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/experiments/art-portrait/README.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/49",
+        "docs/art/CARD_SHARED_ASSETS.md",
+        "docs/art/AI_ART_SAMPLES.md",
+        "docs/backlog-details/TASK-25.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-25.2"
+      ]
+    },
+    {
+      "id": "TASK-25",
+      "title": "完成首发角色和卡牌美术",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-25.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-25"
+      ]
+    },
+    {
+      "id": "TASK-26",
+      "title": "首发以后再评估国际服发行",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-26.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-26"
+      ]
+    },
+    {
+      "id": "TASK-27.1",
+      "title": "M1 修复Lua导出器实际路径输入保护",
+      "observedStatus": "Done",
+      "parent": "TASK-27",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "主题与数据Lua导出均按实际IO文件身份保护输入，覆盖软硬链接及目录软链父级遍历，并保留合法输出。PR46实际合并b4c552cf；最终head c10e05e正式Windows CI39872476051两项成功，179JS通过0失败、14文件symlink权限skip，目录语义测试实跑通过。Linux79保护、独立主题49/数据41及生成字节一致性证据保留。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-27",
+      "title": "防止 Lua 数据导出覆盖源表",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "PR17已合并，输入自覆盖缺陷修复。写前路径/realpath/dev+ino检查保护六表；25保护测试、独立边界测试及最新完整CI通过，Windows6项权限skip如实记录，Linux对应项已实跑。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/5#issuecomment-6344069207"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-28",
+      "title": "清理已合并分支并收敛待合并PR",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "远端分支41→7，本地34→12，worktree30→11；完成已合并分支归档清理和PR32/33/40合入，保留5个草稿候选及所有未提交工作。自动删分支已开启，及时清理纪律已通过PR40写入AGENTS.md；Git引用、PR、工作区计数及备份完整性均已实查。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-29.1",
+      "title": "打磨战斗动画、打击感和死亡音效",
+      "observedStatus": "In Progress",
+      "parent": "TASK-29",
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@Claude"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-29.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-29.1"
+      ]
+    },
+    {
+      "id": "TASK-29.2",
+      "title": "修复战斗演出启动异常后无法继续操作",
+      "observedStatus": "Done",
+      "parent": "TASK-29",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "离线启动失败输入恢复已合并；独立红绿与正常/空队列/取消/后续命令回归通过，PR106最终SHA Quality全绿。平台验收不计入本任务完成。",
+      "references": [
+        "docs/COMBAT_FEEDBACK.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/52",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/106"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-29",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-29",
+      "title": "让出牌、受击和敌人行动都有反馈",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/COMBAT_FEEDBACK.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/52",
+        "docs/backlog-details/TASK-29.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-29"
+      ]
+    },
+    {
+      "id": "TASK-3.1",
+      "title": "M1 战斗候选平台构建与副本导出",
+      "observedStatus": "Done",
+      "parent": "TASK-3",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "从be5093f生成真实完整平台副本，21模块检查0错误，1178控件及22节点结算图已写入挂载；候选SHA256 3e450284ff5b8096ea5836a1e12639ff702775e301788cf6e40b39e57e1ecb6a，正式底图前后hash相同。独立解析、源文比对和内存重注入验证通过；官方导入/实机未执行。证据docs/evidence/offline-candidate-be5093f.json。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-17.3",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-3.2",
+      "title": "M1 战斗存档副本导入验收",
+      "observedStatus": "Done",
+      "parent": "TASK-3",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "官方同候选导入切片通过：测试存档1073741838、run9bb0abe3，32内嵌/外部Lua及1695UI和场景配置复读相符；真实战斗与奖励已可打开操作。图完整往返、九状态、真实复苏与UI总门禁不随本任务关闭。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-17.3",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-3.3.1",
+      "title": "阻止取消退出后旧地图手势误入节点",
+      "observedStatus": "Done",
+      "parent": "TASK-3.3",
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR150 合入d0bf7276，实际树4c2c2b83与独立审查版一致。35专项、17独立探针、124组合native Lua、44直接JS、17Python与7负对照完成；合前Quality40052708784和合后40053305522均双绿，见PR150评论6378807578。仅地图输入身份与取消安全代码完成；玩法和布局未改，手机/原神平台未测。保留PR151的新m-3里程碑与日期，父TASK3.3归属和平台验收边界不变。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/150"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38",
+        "TASK-42",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-3.3",
+      "title": "游戏中随时可以退出本局",
+      "observedStatus": "In Progress",
+      "parent": "TASK-3",
+      "observedMilestone": "m-3",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-3.3.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-3.3"
+      ]
+    },
+    {
+      "id": "TASK-3",
+      "title": "M1 真实平台完整战斗闭环",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "用户已确认最小实战闭环完成；仅覆盖其三项战斗/领奖/回图标准，九状态与完整UI等独立关口继续保留。证据docs/M1-LIVE-ACCEPTANCE.md及docs/evidence/m1-live-5165a78.json。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-17.3",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-30",
+      "title": "拖牌到场上，松手就出牌",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/design/UI_DESIGN.md",
+        "docs/design/prototype/index.html",
+        "docs/backlog-details/TASK-30.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-30"
+      ]
+    },
+    {
+      "id": "TASK-31",
+      "title": "将妹妹的电脑配置为 CI runner（用户回家后主导）",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [
+        "user"
+      ],
+      "sliceBoundary": "新增电脑的自动检查环境已配置完成，由用户确认。",
+      "references": [
+        "TASK-23"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-32",
+      "title": "M4 岩脉残响轻量叙事接入（本地实现）",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@codex"
+      ],
+      "sliceBoundary": "本地叙事实现与验收完成：素材原样保留，开场/Boss/胜败及四类非战斗节点复用现有文本位，规则和控件不变。8cedaaf基线npm run check退出0：JS260通过14权限跳过，Lua23组通过，Python15通过1权限跳过；实际控制器输出及保守容量回归通过。集成走本轮独立PR，当前SHA CI继续核对。仅本地切片Done，平台构建/导入、原生字体裁切、真实试玩和verify:ui未执行，详见docs/lore/README.md，沿用现有P0/UI关口。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-12.3",
+        "TASK-18"
+      ]
+    },
+    {
+      "id": "TASK-33",
+      "title": "先试试两个人能不能合作玩",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/SCOPE.md",
+        "docs/TOOLCHAIN.md",
+        "docs/backlog-details/TASK-33.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-33"
+      ]
+    },
+    {
+      "id": "TASK-34",
+      "title": "配好背景音乐和场景切歌",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@codex-native-bgm"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhq9b601kh9k",
+        "https://github.com/8itlab/genshin-miliastra-mcp/blob/main/src/scene/media/music.json",
+        "docs/COMBAT_FEEDBACK.md",
+        "docs/NATIVE_BGM.md",
+        "docs/evidence/task34-native-bgm.json",
+        "docs/backlog-details/TASK-34.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-34"
+      ]
+    },
+    {
+      "id": "TASK-35",
+      "title": "修复切换战斗后首次点牌失效",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "切换战斗清理旧目标和选牌，保留同场刷新及动画选择。真实GameUI红转绿、两种负向变异、52原生Lua套件及Windows CI通过，PR93已合并；平台完整验收仍在TASK-3。",
+      "references": [
+        "src/lua/abyss_battle_ui.lua",
+        "tests/lua/game_ui.lua"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38",
+        "TASK-42",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-36.1",
+      "title": "翻页或关弹窗后，不要误买东西",
+      "observedStatus": "In Progress",
+      "parent": "TASK-36",
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/103",
+        "docs/backlog-details/TASK-36.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-36.1"
+      ]
+    },
+    {
+      "id": "TASK-36",
+      "title": "修复节点按钮中断手势误执行新动作",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "已防止中断旧手势误删牌或误离店，保留有效新手势与仅点击宿主。PR103已合并67c839a；独立复审通过，head deb1a3f 双Quality成功，真实Fengari新增15组通过。平台验证不在本修复完成范围。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/75#issuecomment-6361780399",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/103",
+        "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/39934233651"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38",
+        "TASK-42",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-37",
+      "title": "防止中断触摸误出牌或领奖",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "PR105 修复旧触点跨缩放、牌库、换回合/换局误出牌或领奖；保留新手势、拖放与无指针点击降级。22组先红后绿回归、独立复审及当前head/合并后Quality通过。平台实机未验。",
+      "references": [
+        "docs/design/CARD_DRAG_PLATFORM.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/103",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/68#issuecomment-6363058359",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/105"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38",
+        "TASK-42",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-38.1",
+      "title": "取消退出后，不要误重开或误结算",
+      "observedStatus": "In Progress",
+      "parent": "TASK-38",
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "src/lua/abyss_game_ui.lua",
+        "docs/backlog-details/TASK-38.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38.1"
+      ]
+    },
+    {
+      "id": "TASK-38",
+      "title": "在手机上完整玩一遍",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "TASK-4",
+        "TASK-10",
+        "docs/design/UI_DESIGN.md",
+        "docs/backlog-details/TASK-38.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38"
+      ]
+    },
+    {
+      "id": "TASK-39",
+      "title": "检查验收截图是不是真图片",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-6",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "scripts/verify-ui-acceptance.mjs",
+        "docs/design/ui-acceptance.json",
+        "docs/backlog-details/TASK-39.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-39"
+      ]
+    },
+    {
+      "id": "TASK-4.1",
+      "title": "格挡动画不能挡住血条",
+      "observedStatus": "In Progress",
+      "parent": "TASK-4",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/117#issuecomment-6367383439",
+        "docs/backlog-details/TASK-4.1.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-4.1"
+      ]
+    },
+    {
+      "id": "TASK-4.2",
+      "title": "补齐开场高塔和第一幕战斗背景",
+      "observedStatus": "To Do",
+      "parent": "TASK-4",
+      "observedMilestone": "m-5",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/art/scene-spike/README.md",
+        "docs/backlog-details/TASK-4.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-4.2"
+      ]
+    },
+    {
+      "id": "TASK-4",
+      "title": "把界面、音画和操作打磨到正式作品水平",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-4.md",
+        "docs/backlog-details/TASK-4.2.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-40",
+      "title": "以后再做手柄支持",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "TASK-4",
+        "docs/design/UI_DESIGN.md",
+        "docs/backlog-details/TASK-40.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-40"
+      ]
+    },
+    {
+      "id": "TASK-41",
+      "title": "防止中断触摸误用药水",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "离线药水手势修复、红绿复证及独立62项回归完成，PR110最终SHA Quality全绿并合入develop。平台实机不计入本离线完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/105",
+        "docs/design/CARD_DRAG_PLATFORM.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/110"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38",
+        "TASK-42",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-42",
+      "title": "在电脑上用鼠标和键盘完整玩一遍",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "TASK-4",
+        "TASK-10",
+        "TASK-30",
+        "docs/design/UI_DESIGN.md",
+        "docs/backlog-details/TASK-42.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-42"
+      ]
+    },
+    {
+      "id": "TASK-43",
+      "title": "防止过期触摸结束回合或跳过奖励",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "@dot"
+      ],
+      "sliceBoundary": "四类BattleUI动作的中断/旧上下文手势离线修复已合并；64项独立回归及3项红绿复证通过，原PR112最终head Quality全绿。真实平台派发不计本任务通过。",
+      "references": [
+        "src/lua/abyss_battle_ui.lua",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/110",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/112"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-38",
+        "TASK-42",
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-44",
+      "title": "M4 按用户 Lore v2 修正主线与事件文案",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-5",
+      "observedAssignees": [
+        "@codex"
+      ],
+      "sliceBoundary": "按用户 Lore v2 接入四段完整原文、商人反馈及两个事件正文，删除 compact 和旧节点风味句。原包19文件哈希匹配；真实控制器专项5项和节点Lua29项、原文一致/容量检查通过。仅完成本地文案切片，商人形象、遭遇正文与新候选实机仍待验收。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-4",
+        "TASK-12.3",
+        "TASK-18"
+      ]
+    },
+    {
+      "id": "TASK-45",
+      "title": "成就系统：等账号权限具备后再做",
+      "observedStatus": "Blocked",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/SCOPE.md",
+        "docs/TOOLCHAIN.md",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/147",
+        "docs/backlog-details/TASK-45.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-45"
+      ]
+    },
+    {
+      "id": "TASK-46",
+      "title": "重构已批准的M0–M6首发排期与E1–E5候选路线图",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": "已交付M0–M6阶段、任务切片与依赖、E1–E5独立候选、迁移表及文档统一。CLI/doctor、Done文件与已勾AC保全、语法及数据检查通过；PR151首轮Quality40053033197双绿。游戏任务状态仅保留PR150已证实的外部Done更新，未宣称游戏验收或投稿完成；最终提交门禁与合并结果见PR151时间线。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/151"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-5",
+        "TASK-19",
+        "TASK-20"
+      ]
+    },
+    {
+      "id": "TASK-47",
+      "title": "确定首发内容，并逐项确认真的能玩",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-4",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-47.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-47"
+      ]
+    },
+    {
+      "id": "TASK-48",
+      "title": "持续做开发直播、推广和收集反馈",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": null,
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/MILESTONES.md",
+        "docs/backlog-details/TASK-48.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-48"
+      ]
+    },
+    {
+      "id": "TASK-5",
+      "title": "投稿前完整试玩最后一个版本",
+      "observedStatus": "In Progress",
+      "parent": null,
+      "observedMilestone": "m-6",
+      "observedAssignees": [
+        "@Codex"
+      ],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-5.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-5"
+      ]
+    },
+    {
+      "id": "TASK-6",
+      "title": "正式发布游戏并报名比赛",
+      "observedStatus": "To Do",
+      "parent": null,
+      "observedMilestone": "m-0",
+      "observedAssignees": [],
+      "sliceBoundary": null,
+      "references": [
+        "docs/backlog-details/TASK-6.md"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-6"
+      ]
+    },
+    {
+      "id": "TASK-7.1",
+      "title": "独立审查 TASK-7 内容基线与契约",
+      "observedStatus": "Done",
+      "parent": "TASK-7",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "独立审查六表、README/SOURCES及75卡原表存证；最终2e5b15c上active37满足30+首轮，19普通/14遭遇/3精英/1Boss及全部引用通过；37牌基础/升级规范化语义与reference一致，原表逐字节无损。3初审阻断及文案问题均复核修复，无剩余内容阻断；离线校验通过，未声明75可玩、编译、导入或游戏通过。详见docs/reviews/TASK-7.1-content-review.md。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-7.2",
+      "title": "旅行者卡牌名称与效果文案",
+      "observedStatus": "Done",
+      "parent": "TASK-7",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "交付旅行者37张中文表现模板、只读渲染器和10项测试；数值从原表读取，未改机制数据。独立评审通过当前37张；尚未接入游戏或真机验收。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/2"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-7.3",
+      "title": "按荧的官方岩元素设定重做卡牌表现",
+      "observedStatus": "Done",
+      "parent": "TASK-7",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "荧·岩元素表现已通过PR10合入develop。37显示名保留剑术，优先采用适配的官方技能参照；74模板、数值不变。独立审查、Python11、数据48及真实CI通过，主线回读一致。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-7.4",
+      "title": "同步评审原型的岩元素荧卡牌表现",
+      "observedStatus": "Done",
+      "parent": "TASK-7",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "已通过 PR #31 同步原型37张岩元素荧卡名并加入标准库数据合同回归；保留其余7字段及批准布局/主题/交互，仅恢复已说明的TASK24身份标签。独立静态评审、Python12/12、Node48/48与对应head的GitHub CI通过。交付：https://github.com/CHNISam/Slay-the-Abyss/pull/31 。浏览器及实机未验证，不属于本任务验收。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-7",
+      "title": "M0 数值基准与内容清单（战士卡池/敌人/遗物/状态）",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-1",
+      "observedAssignees": [],
+      "sliceBoundary": "完成首轮37张战士运行数据与75卡原表无损存证，补齐19普通变体/14普通遭遇/3精英/1Boss及状态、遗物、药水、规则表。六表校验和独立内容复审通过，验收仅为内容基线；平台与游戏待后续任务。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-8.1",
+      "title": "Lua5.3同源数据构建与测试运行器",
+      "observedStatus": "Done",
+      "parent": "TASK-8",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "六表确定性生成Lua模块并使用锁定Fengari执行同一生产Lua；错误/语法/缺文件/超时非零回归通过。整体PR7本地和远端CI通过；仅离线规则验收。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-8.2",
+      "title": "独立审查 TASK-8 战斗核心与同源Lua工具",
+      "observedStatus": "Done",
+      "parent": "TASK-8",
+      "observedMilestone": null,
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "独立发现并复验修复抽牌溢出重洗及catalog跨战斗别名问题；bdef54a三Lua模块复审无剩余基础核心阻断。完整53JS+15Lua与六表门禁、原始负例及额外失败路径探针通过。数据从JSON单源生成，纯Lua核心不依赖package/io/load等不可用全局；仍须后续卡牌/状态实现及官方游戏验收。证据docs/reviews/TASK-8.2-combat-review.md。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-8.3",
+      "title": "修复出牌报错后仍扣能量和丢牌",
+      "observedStatus": "Done",
+      "parent": "TASK-8",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "修复出牌规则抛错后仍扣能量、丢牌及污染状态的问题；失败原地恢复原对象，成功效果只执行一次。14组红绿回归、正式Fengari153组、JS124通过6跳过、Python13及独立审查通过。实现已在PR41分支验证，尚待合并交付。\n\n2026-10-23已核实PR41合入develop77744e2，集成Quality39860850079成功，交付完成。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/29#issuecomment-6351642696",
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/41"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-8.4",
+      "title": "修复手牌已满时仍抽牌并丢弃",
+      "observedStatus": "Done",
+      "parent": "TASK-8",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "满手抽牌立即停止且不移动牌堆、不额外洗牌；保留出牌腾出的手牌空间。容量、对象身份、UID、RNG/events及真实Run路径回归通过，PR37兼容增量独立审查无阻断。PR45最终head366753f经CI39868328456双成功后合并为1217abb；生产JSON未变，旧README契约已纠正。",
+      "references": [
+        "https://store.steampowered.com/news/posts/?appids=646570&enddate=1542372031"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-8.5",
+      "title": "M1 纠正最终格挡未封顶999",
+      "observedStatus": "Done",
+      "parent": "TASK-8",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "恢复最终格挡999上限，保留modifier精度、合法生产入口与PR48荆棘。红绿、独立1622字段断言和正式CI通过，PR50已真实合并7fee95e12e14537271e20324ef3e61bfdd734aeb。平台/实机验收不在此任务范围。",
+      "references": [
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java#L412-L438",
+        "https://github.com/fadedwind/refgameSource/blob/462da73b934eaf8a833791f3cab74dc792fdeeb6/Slaythespire.src/com/megacrit/cardcrawl/core/AbstractCreature.java#L507-L508"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-8",
+      "title": "M1 回合制战斗核心（回合/能量/抽弃牌/伤害/格挡/敌人意图）",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [],
+      "sliceBoundary": "纯Lua53基础战斗循环与确定随机、牌堆、能量、伤害/格挡、只读意图、胜败中止完成，经独立审查、真实源码正负例及CI。20张基础op牌可接受，17张高级牌明确拒绝待TASK16；实际界面及三层游戏验证见TASK10/TASK3。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-9.1",
+      "title": "独立审查 TASK-9 初始牌组与奖励入组",
+      "observedStatus": "Done",
+      "parent": "TASK-9",
+      "observedMilestone": "m-2",
+      "observedAssignees": [
+        "Furinya"
+      ],
+      "sliceBoundary": "PR15审查及PR13实现均已合并；既有独立探针与本轮完整门禁通过，仅本地规则层。",
+      "references": [
+        "https://github.com/CHNISam/Slay-the-Abyss/pull/15"
+      ],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    },
+    {
+      "id": "TASK-9",
+      "title": "M1 卡牌系统与战士初始卡组",
+      "observedStatus": "Done",
+      "parent": null,
+      "observedMilestone": "m-2",
+      "observedAssignees": [],
+      "sliceBoundary": "真实初始牌组完成战斗，确定性三选一卡奖励加入永久牌组并出现在下场抽牌池；错误、重放、失败路径拒绝发奖。独立审查TASK9.1/PR15无阻断，54JS+23Lua及Python10通过1环境跳过。仅规则验收；平台导入、屏幕与实机验证由TASK10/3继续，不代表版本验收。",
+      "references": [],
+      "finalDeliveryTasks": [
+        "TASK-16",
+        "TASK-16.1",
+        "TASK-47",
+        "TASK-4"
+      ]
+    }
+  ],
+  "finalReconciliation": {
+    "sourceCommit": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+    "cause": "PR165 merged during review; retain original M1 closure and archive. Orphan10.5.1 AC4 checked from original native screenshots, not a new playtest.",
+    "tasks": [
+      {
+        "id": "TASK-4.1",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 3,
+        "acceptanceCriteriaCount": 3,
+        "milestone": "m-2",
+        "references": [
+          "https://github.com/CHNISam/Slay-the-Abyss/pull/117#issuecomment-6367383439",
+          "docs/backlog-details/TASK-4.1.md"
+        ],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-11.1",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 2,
+        "acceptanceCriteriaCount": 2,
+        "milestone": "m-2",
+        "references": [
+          "docs/backlog-details/TASK-11.1.md"
+        ],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-10.7",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 4,
+        "acceptanceCriteriaCount": 4,
+        "milestone": "m-2",
+        "references": [],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-10.8",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 3,
+        "acceptanceCriteriaCount": 3,
+        "milestone": "m-2",
+        "references": [],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-10.5.1",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 4,
+        "acceptanceCriteriaCount": 4,
+        "milestone": "m-2",
+        "references": [
+          "https://github.com/CHNISam/Slay-the-Abyss/pull/159",
+          "docs/DELIVERY-CLOSEOUT.md",
+          "docs/evidence/m1-live-20261024/report.md",
+          "docs/evidence/m1-live-20261024/screens/01-t001.jpg",
+          "docs/evidence/m1-live-20261024/reviews/preview-live-review.json"
+        ],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      }
+    ],
+    "archivedM1TaskCount": 14,
+    "archivedM1IncompleteTaskCount": 0,
+    "laterShopIntegration": {
+      "sourceCommit": "53a52bb3cd4c2e49fa2abe83d9f8e7155e433b99",
+      "pr": 163,
+      "task": "TASK-13.1",
+      "status": "In Progress",
+      "assignees": [
+        "@Codex"
+      ],
+      "milestone": "m-4",
+      "taskNotesPreserved": true,
+      "platformAcceptanceComplete": false,
+      "handoffTasks": [
+        "TASK-13.1",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    },
+    "laterRewardIntegration": {
+      "sourceCommit": "e3310bcf91d456b08ed7c231340b20a133083134",
+      "pr": 169,
+      "task": "TASK-50",
+      "status": "In Progress",
+      "assignees": [
+        "@Codex"
+      ],
+      "milestone": "m-5",
+      "runtimeMerged": true,
+      "officialImport": "NOT_TESTED",
+      "playtest": "NOT_TESTED",
+      "handoffTasks": [
+        "TASK-50",
+        "TASK-4",
+        "TASK-5"
+      ]
+    }
+  },
+  "inFlightWorktreeTasks": [
+    {
+      "id": "TASK-50",
+      "title": "战后选牌改为居中独立界面",
+      "status": "In Progress",
+      "milestone": "m-5",
+      "dueDate": "2026-10-28",
+      "assignees": [
+        "@Codex"
+      ],
+      "acceptanceCriteria": [
+        {
+          "index": 1,
+          "text": "战斗手牌仍在底部，战后奖励卡牌位于屏幕中心区域，一眼能和出牌状态区分",
+          "checked": false
+        },
+        {
+          "index": 2,
+          "text": "悬停放大不遮挡相邻卡牌，点击一次只领取一张，可正常跳过，选完后不残留界面",
+          "checked": false
+        },
+        {
+          "index": 3,
+          "text": "实机截图或录屏确认长说明卡牌完整可读（电脑鼠标和手机触屏各一次）",
+          "checked": false
+        }
+      ],
+      "sourceBranch": "feat/reward-card-pick-ui",
+      "registrationSourceCommit": "c47394630ad1f8c5aac3531ae425c44ea9572c2d",
+      "registrationIncludedInThisPr": true,
+      "runtimeChangesIncluded": false,
+      "officialImport": "NOT_TESTED",
+      "playtest": "NOT_TESTED",
+      "remainingDeliveryTasks": [
+        "TASK-50",
+        "TASK-4",
+        "TASK-5"
+      ],
+      "note": "Registered existing worktree task by CLI owner/due/handoff edit and a task-only Git commit/cherry-pick; original uncommitted runtime files preserved."
+    }
+  ]
+}

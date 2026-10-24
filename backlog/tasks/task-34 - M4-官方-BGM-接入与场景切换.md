@@ -3,9 +3,9 @@ id: TASK-34
 title: 配好背景音乐和场景切歌
 status: In Progress
 assignee:
-  - '@codex-native-bgm'
+  - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-24 07:45'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -21,6 +21,8 @@ references:
   - docs/NATIVE_BGM.md
   - docs/evidence/task34-native-bgm.json
   - docs/backlog-details/TASK-34.md
+  - docs/DELIVERY-CLOSEOUT.md
+  - docs/evidence/delivery-platform-20261024.json
 priority: high
 type: enhancement
 ordinal: 46000
@@ -38,4 +40,13 @@ ordinal: 46000
 - [ ] #2 循环、音量、淡入淡出和切歌自然，保存带声音的试玩录像。
 - [ ] #3 来回切场景、连续战斗、结算和重开时，不叠播、不残留上一首。
 - [ ] #4 背景音乐不盖住出牌、命中等声音；做不到的地方说明原因。
+- [ ] #5 本任务负责人交付正式完整游戏的启用BGM候选，读回启用参数与原生图，完成导入、切歌和含声音录像；普通静音构建不得作为M4或RC音频验收版本。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-24已从固定0b1d460完整源重建启用BGM的独立候选，40模块/UI/双true参数/图身份读回通过，0错误14警告。源推进造成首份6模块不符已保留并纠正。最终路径和hash见delivery-platform-20261024证据；未官方导入/试听，不重复同条件焦点失败。由本任务负责完整游戏启用、切歌、含声音录像及混音，交4和5收口。
+
+最终跟进PR165：从固定3bd3afa完整源又重建开启BGM候选，40模块/1914控件/max52、双true及原生图读回全部匹配，0错误14警告；hash f699624e98f326e208d0752d6e17a6ad46a541bdd59f272310ae7a1b37df4deb，已归档根.artifacts/delivery-closeout-20261024/delivery-platform/bgm-3bd3afa/wmvm3d0jo-0/working.gil。旧0b及首份失败候选保留。新候选未官方导入/试听，后续按同版本录音和真实流程AC验收；不称RC。
+<!-- SECTION:NOTES:END -->

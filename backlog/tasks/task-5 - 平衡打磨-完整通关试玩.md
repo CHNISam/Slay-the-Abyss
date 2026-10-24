@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:03'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -24,6 +24,7 @@ dependencies:
   - TASK-4
 references:
   - docs/backlog-details/TASK-5.md
+  - docs/DELIVERY-CLOSEOUT.md
 priority: high
 ordinal: 2
 ---
@@ -41,4 +42,5 @@ ordinal: 2
 - [ ] #3 地图、商店、卡牌、敌人、Boss和道具的规则逐项核对，有问题回到对应任务修。
 - [ ] #4 保存这个版本的试玩录像、截图和测试记录，分清做完、导入和实际玩过。
 - [ ] #5 10月29日确定最终版本；修过问题后重测受影响的地方，不能拼用不同版本的结果。
+- [ ] #6 RC候选中首发资产、背景及音频的实际启用状态与最终批准清单一致；逐项引用TASK-4及47证据，未接入、静音或未导入不能作为已验收版本。
 <!-- AC:END -->

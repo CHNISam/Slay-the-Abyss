@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:03'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -18,6 +18,7 @@ references:
   - docs/COMBAT_FEEDBACK.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/52'
   - docs/backlog-details/TASK-29.md
+  - docs/DELIVERY-CLOSEOUT.md
 priority: high
 type: enhancement
 ordinal: 38000
@@ -35,4 +36,5 @@ ordinal: 38000
 - [x] #2 敌人按行动顺序演出，多段攻击、多个敌人、群攻、中毒和反伤不会漏掉。
 - [x] #3 自动测试确认不改玩法和随机结果，不重复播放，演出出错后还能继续操作。
 - [ ] #4 在同一个游戏版本实测画面和声音，保存截图或录像，没听验的音效写明。
+- [ ] #5 本任务负责人收集TASK-29.1及4.1同版本原生演出和音效证据，交TASK-4审阅，独立音效存档试听不能替代正式游戏混音。
 <!-- AC:END -->

@@ -14,7 +14,9 @@ jobs:
   check:
     # Fork code stays on GitHub-hosted infrastructure.
     runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
-    timeout-minutes: 15
+    # The complete JS + Lua suite now exceeds 15 minutes on this host.
+    # Keep every fixture and its own timeout; only allow the full job to finish.
+    timeout-minutes: 20
     defaults:
       run:
         shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh -NoProfile -File {0}' || 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' }}

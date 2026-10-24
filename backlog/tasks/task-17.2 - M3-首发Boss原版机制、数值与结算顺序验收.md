@@ -2,9 +2,10 @@
 id: TASK-17.2
 title: 把Boss的数值和各阶段招式做对
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -13,6 +14,7 @@ dependencies:
   - TASK-11
 references:
   - docs/backlog-details/TASK-17.2.md
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-17
 priority: high
 type: task

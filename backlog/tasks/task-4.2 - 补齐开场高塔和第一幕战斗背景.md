@@ -2,9 +2,10 @@
 id: TASK-4.2
 title: 补齐开场高塔和第一幕战斗背景
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-24 06:50'
-updated_date: '2026-10-24 06:51'
+updated_date: '2026-10-24 07:03'
 due_date: '2026-10-28'
 labels:
   - art
@@ -16,6 +17,8 @@ dependencies:
 references:
   - docs/art/scene-spike/README.md
   - docs/backlog-details/TASK-4.2.md
+  - docs/DELIVERY-CLOSEOUT.md
+  - docs/design/BACKGROUND_PROPOSAL.md
 parent_task_id: TASK-4
 priority: high
 type: task
@@ -37,4 +40,6 @@ ordinal: 83000
 - [ ] #5 界面切换正确：菜单、地图、战斗、奖励回图、胜败和重开间背景、遮罩及控件层序一致，无黑屏、残影、穿透点击和旧场景残留。
 - [ ] #6 设备与性能合格：留电脑实机及手机目标画布对照截图并检查安全区；同版本同设备对比空场景与布景版性能、输入响应，手机真实设备未测须保持待验，编辑器预览不能代替。
 - [ ] #7 同版本证据齐全：保留源码SHA、候选身份、静态检查、官方导入读回、实机截图日志、设备、视觉差异和用户审阅结果，通过项目verify:ui及M4门禁；未经证明的项保持待验。
+- [ ] #8 单独提交开场及战斗2D背景插画的技术与美术方案，经用户审阅决定采用或不采用；批准前不批量制作，3D景片不冒充2D插画交付。
+- [ ] #9 若批准采用2D背景，本任务负责人完成素材到正式界面、平台导入和同版本实机显示的闭环；若不采用，保存用户决定并明确3D方案的验收边界。
 <!-- AC:END -->

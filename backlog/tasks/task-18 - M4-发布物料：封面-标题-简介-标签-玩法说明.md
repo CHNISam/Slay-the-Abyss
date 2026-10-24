@@ -2,15 +2,17 @@
 id: TASK-18
 title: 准备并确定投稿封面、截图和介绍
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-24 07:01'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
 dependencies: []
 references:
   - docs/backlog-details/TASK-18.md
+  - docs/DELIVERY-CLOSEOUT.md
 ordinal: 18000
 ---
 

@@ -1,0 +1,501 @@
+{
+  "checkedAt": "2026-10-24",
+  "sourceCommit": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+  "archive": ".artifacts/delivery-closeout-20261024",
+  "scope": "Offline full-game/BGM and independent readback; reused starfall probe attempted only",
+  "liveWriteEnabled": false,
+  "fullGame": {
+    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/full-3bd3afa/wmvm3bxnq-0/working.gil",
+    "sha256": "80bb049f1f204e821a97f4f53be5353255ad9663a1884dcf8e4c459c5dd23d9c",
+    "staticErrors": 0,
+    "staticWarnings": 14,
+    "officialImport": "NOT_TESTED",
+    "playtest": "NOT_TESTED"
+  },
+  "bgm": {
+    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/bgm-3bd3afa/wmvm3d0jo-0/working.gil",
+    "sha256": "f699624e98f326e208d0752d6e17a6ad46a541bdd59f272310ae7a1b37df4deb",
+    "baseSha256": "80bb049f1f204e821a97f4f53be5353255ad9663a1884dcf8e4c459c5dd23d9c",
+    "baseAfter": "80bb049f1f204e821a97f4f53be5353255ad9663a1884dcf8e4c459c5dd23d9c",
+    "compiledNodes": 83,
+    "editorNodes": 258,
+    "readbackOk": true,
+    "moduleCount": 40,
+    "allSourceTextIdentical": true,
+    "modules": [
+      {
+        "name": "abyss_data",
+        "actualSha256": "dacd5c7318266d75a0a8e79a0774542403277ab6461a639360078016a7137597",
+        "expectedSha256": "dacd5c7318266d75a0a8e79a0774542403277ab6461a639360078016a7137597",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_map_layout",
+        "actualSha256": "353384c6d7634c48fd8fc9d47d75cf3871eb45f6b04cd0ae7c973c961b44f1ab",
+        "expectedSha256": "353384c6d7634c48fd8fc9d47d75cf3871eb45f6b04cd0ae7c973c961b44f1ab",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_narrative",
+        "actualSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+        "expectedSha256": "a190f16474d0e5603710c38a2bf3c5e8700a0ce94f584fd47f24ca10477639db",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_presentation",
+        "actualSha256": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+        "expectedSha256": "f07e975860e5240b30e316bd6b3dd408b640d184dc40f775ca568a9d6cf44625",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_theme",
+        "actualSha256": "8867c4c2a596e37ec627388df3e069d376a2bd122953c7a1ae9eb1b14b42345b",
+        "expectedSha256": "8867c4c2a596e37ec627388df3e069d376a2bd122953c7a1ae9eb1b14b42345b",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_acid_slime_s_ai",
+        "actualSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+        "expectedSha256": "c100602f15af332ef85d4b8897e10a97442b5924fe59b1d2e4eb938bc24ba204",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_actor",
+        "actualSha256": "606fe3498355bf1f1aee03c671d07cbc73bcedd6fba24ead619ba7e28b34a935",
+        "expectedSha256": "606fe3498355bf1f1aee03c671d07cbc73bcedd6fba24ead619ba7e28b34a935",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_battle_ui",
+        "actualSha256": "b2bb08d9c5fc0556baf0db1cadc2d1140a23924c7c5d81cd7d51b066f0d7553f",
+        "expectedSha256": "b2bb08d9c5fc0556baf0db1cadc2d1140a23924c7c5d81cd7d51b066f0d7553f",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_bgm",
+        "actualSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+        "expectedSha256": "c202344ab9a923f46be97603858c25e30f893a3c68fac1d3d091b9c4cd440525",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_blue_slaver_ai",
+        "actualSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+        "expectedSha256": "b7d21d343d44b931b078243f18194171e3dccd75ba875bd177a277a4d28e6132",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_combat",
+        "actualSha256": "5712df6a3ff7990ad07057c4e76b4d15fc98d2d187f579f0b2d3138bacca6399",
+        "expectedSha256": "5712df6a3ff7990ad07057c4e76b4d15fc98d2d187f579f0b2d3138bacca6399",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_deck_ui",
+        "actualSha256": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+        "expectedSha256": "c6c3572b259a92f69926b5416041ba660cc8982e602a0b3bb7daead1e1a38e47",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_effects",
+        "actualSha256": "50aceb0e2cb83a7b486d6667207d3a4cfeeed9cd4004530830b1c2214cdd3eb0",
+        "expectedSha256": "50aceb0e2cb83a7b486d6667207d3a4cfeeed9cd4004530830b1c2214cdd3eb0",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_enemy_ai",
+        "actualSha256": "207293da418e7e8356f740124a59e6570719e3c7758ba7b7ad297f2114f81bb0",
+        "expectedSha256": "207293da418e7e8356f740124a59e6570719e3c7758ba7b7ad297f2114f81bb0",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_events",
+        "actualSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+        "expectedSha256": "5b67f1d1741011b0787006a0e056f7363793164f5b788e23db0b417e59c150ba",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_feedback",
+        "actualSha256": "c70931c7478c2d693c50db77e59735be1bfe31c8e4fd24fdaca4c7b5ae5ea8c6",
+        "expectedSha256": "c70931c7478c2d693c50db77e59735be1bfe31c8e4fd24fdaca4c7b5ae5ea8c6",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_game_ui",
+        "actualSha256": "99398648c35f0a5f78acbe151f5bf3e2dda1a76e91b494667e283b0e4ae3abb5",
+        "expectedSha256": "99398648c35f0a5f78acbe151f5bf3e2dda1a76e91b494667e283b0e4ae3abb5",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_gremlin_nob_ai",
+        "actualSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+        "expectedSha256": "a33ba959aa080c2e37adb2c6d1255eb582af77e1b5b8957fff4a75c545a8c6ee",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_guardian_ai",
+        "actualSha256": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7",
+        "expectedSha256": "bcb5f6c0792722bc85427281fb59a456f47a298f6e430bf039328ea8ff2badf7",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_inventory",
+        "actualSha256": "942f72c51275428eb2d3d9de48f70166b7380202c9f47baf8db9bf8067fb6795",
+        "expectedSha256": "942f72c51275428eb2d3d9de48f70166b7380202c9f47baf8db9bf8067fb6795",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_jaw_worm_ai",
+        "actualSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+        "expectedSha256": "26be5aac1d0174ee0a238e22cdd5ca8813a5534e2d0a604d521c70d9f4361583",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_map",
+        "actualSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+        "expectedSha256": "b10f77f63455d0466d6c936a231b95e38440b0e0c790e6da77b56e14e884e130",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_map_ui",
+        "actualSha256": "debfa32ddff4ef8716fedb0a98d2226e32f6281bead5e4a76f1a3796ee79d4ab",
+        "expectedSha256": "debfa32ddff4ef8716fedb0a98d2226e32f6281bead5e4a76f1a3796ee79d4ab",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_node_ui",
+        "actualSha256": "9ae8d4b9bd5abc1467403d58c63475e7d12fc6354a2e2b80a38eadf23f807541",
+        "expectedSha256": "9ae8d4b9bd5abc1467403d58c63475e7d12fc6354a2e2b80a38eadf23f807541",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_nodes",
+        "actualSha256": "8cd68251c20e5cec7b4cb5811071927da1ece08222ae2c114f3d644eecc668c6",
+        "expectedSha256": "8cd68251c20e5cec7b4cb5811071927da1ece08222ae2c114f3d644eecc668c6",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_random",
+        "actualSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+        "expectedSha256": "2104296392c6cc52e4813eb05c4138319de0297a3b72c30598fba8ad4dbf4c93",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_red_slaver_ai",
+        "actualSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+        "expectedSha256": "3b46f147effecf60debbccd4f293cdc81832692227308ba2226e12b35760b91f",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_run",
+        "actualSha256": "8e30508640e4c2d80d2fcb097be282d70b6fced28d54d36fae4534b8670eddc0",
+        "expectedSha256": "8e30508640e4c2d80d2fcb097be282d70b6fced28d54d36fae4534b8670eddc0",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_sentry_ai",
+        "actualSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+        "expectedSha256": "72db97c39b83eabe25ec5329129598d6b3946611ed15aed2c22e9e0c79f0e2cb",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_ui",
+        "actualSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+        "expectedSha256": "b416c72a0707dfd16405ac877f021d23fea56bf5ee7cb63fc67c11f990860d4c",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_unknown",
+        "actualSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+        "expectedSha256": "06fd62a6f679f0cee51e42c47314735b39420001e97952cca81db4656dc4128e",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_viewport",
+        "actualSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+        "expectedSha256": "7d7fc4973b47c60ced3915d930fec57ac6c16ea3f7f5dee6d588fbf2aed5be0a",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_acid_slime_m_ai",
+        "actualSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+        "expectedSha256": "e275b82b4da6f2d37e62f6b288b2e98823c3a125e2cb447088f80a98bda583d2",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_event_pool",
+        "actualSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+        "expectedSha256": "3e05f9b827b4a638586128a1066653744ee3f65112e63345ba57d6c09433aacd",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_fungi_beast_ai",
+        "actualSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+        "expectedSha256": "736b296bc6150db5424affc358be518ee5411fb83485e6c6efd4b6f6a6e7aadf",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_louse_ai",
+        "actualSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+        "expectedSha256": "a321b56a78b22f7b0b3770190acf16232217a721e19cf275bb24372f207ae38c",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_numbers",
+        "actualSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+        "expectedSha256": "c65422fc6a2661f96067b6135c848a34b4255caba2f505ef2b651e67b77e81d8",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_randomxs128",
+        "actualSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+        "expectedSha256": "11104d5e2f1158566d2db6abbe4a358df9d02526edfff5632147e79d04d99986",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_spike_slime_m_ai",
+        "actualSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+        "expectedSha256": "234caee12229e1a9c693e8cda5ad19534e0334ad9eb391894d07470b956dc3b5",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      },
+      {
+        "name": "abyss_sts_random",
+        "actualSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+        "expectedSha256": "6728ffa86944e578852ad9dfc4c5a23d825e917e2d24ab12f93fc1730a6d24ac",
+        "byteIdentical": true,
+        "sourceTextIdentical": true
+      }
+    ],
+    "ui": {
+      "expectedCount": 1914,
+      "actualCount": 1914,
+      "expectedMaxChildren": 52,
+      "actualMaxChildren": 52,
+      "shellNodesExcluded": "Native interface container/root are outside interface.controls; counts use source controls scope."
+    },
+    "parameters": [
+      {
+        "section": 7,
+        "name": "nativeBgmEnabled",
+        "type": 4,
+        "code": 5,
+        "value": true,
+        "encodedHex": "3a2e12106e617469766542676d456e61626c6564180422120806100122070801a206020804d206020801380640065005"
+      },
+      {
+        "section": 8,
+        "name": "nativeBgmEnabled",
+        "type": 4,
+        "code": 5,
+        "value": true,
+        "encodedHex": "422e12106e617469766542676d456e61626c6564180422120806100122070801a206020804d206020801380640065005"
+      }
+    ],
+    "graphs": [
+      {
+        "id": 1073741825,
+        "name": "_GSTS_ABYSS_SETTLEMENT",
+        "type": 20000,
+        "nodeCount": 22
+      },
+      {
+        "id": 1073741826,
+        "name": "_GSTS_ABYSS_BGM",
+        "type": 20000,
+        "nodeCount": 83
+      }
+    ],
+    "graphCheckScope": "Graph identity, server type, nonempty payload, monitored signal names and enabled mount; compiled node parameters/semantics are not certified.",
+    "staticErrors": 0,
+    "staticWarnings": 14,
+    "officialImport": "NOT_TESTED",
+    "playtest": "NOT_TESTED",
+    "audio": "NOT_TESTED",
+    "userVisualApproval": "NOT_TESTED"
+  },
+  "rejectedFirstCandidate": {
+    "sourceCommit": "262ea6b5be393ebfba75799fd821f3300d1cad61",
+    "comparedAgainst": "0b1d460048ea8e228f61f1696d5e39b116b86b59",
+    "sha256": "3b9747879d44a96c60a63fc6c319a21945bcb8799a54fc3ef8ae4bd0646c9937",
+    "readbackOk": false,
+    "issues": [
+      {
+        "code": "MODULE_MISMATCH",
+        "detail": "abyss_data"
+      },
+      {
+        "code": "MODULE_MISMATCH",
+        "detail": "abyss_battle_ui"
+      },
+      {
+        "code": "MODULE_MISMATCH",
+        "detail": "abyss_combat"
+      },
+      {
+        "code": "MODULE_MISMATCH",
+        "detail": "abyss_enemy_ai"
+      },
+      {
+        "code": "MODULE_MISMATCH",
+        "detail": "abyss_acid_slime_m_ai"
+      },
+      {
+        "code": "MODULE_MISMATCH",
+        "detail": "abyss_spike_slime_m_ai"
+      }
+    ],
+    "cause": "PR164 merged during audit; old candidate retained, branch updated, rebuilt and checked."
+  },
+  "starfallAttempt": {
+    "runId": "04377b7a-8cf0-411b-844f-463fcc294c47",
+    "runDir": "F:\\New folder\\.worktrees\\register-launch-background\\build\\delivery-platform\\art-playtest\\playtests\\04377b7a-8cf0-411b-844f-463fcc294c47",
+    "state": "failed",
+    "elapsedSeconds": 2,
+    "steps": [],
+    "error": "无法把窗口切到前台：game",
+    "screenshots": [],
+    "log": {
+      "file": null,
+      "note": "No log was collected."
+    },
+    "verification": "Read the prints and LOOK at the screenshots. A finished run only means the level was played for the requested time; it does not mean the gameplay is correct.",
+    "imagesShown": []
+  },
+  "originalBase": {
+    "path": ".artifacts/m1-closeout-20261024/abyss-m1-normal-c0f2076.gil",
+    "sha256": "1db5c9aa1ac68518b74253714509dfc88636196abf0476b7281ebf8bb3672eea",
+    "expectedSha256": "1db5c9aa1ac68518b74253714509dfc88636196abf0476b7281ebf8bb3672eea"
+  },
+  "tests": {
+    "targetedNodeTestsPassed": 21,
+    "failed": 0,
+    "skipped": 0,
+    "backlogDoctor": "PASS",
+    "roadmapOwnership": "PASS",
+    "fullCi": "See PR current SHA checks; local targeted checks do not replace CI",
+    "verifyUi": "NOT_RUN: no claim of UI acceptance",
+    "reviewRegression": {
+      "reviewId": 5637423845,
+      "red": {
+        "passed": 7,
+        "failed": 2
+      },
+      "green": {
+        "passed": 9,
+        "failed": 0
+      },
+      "fixedCases": [
+        "Scheduled root loses both milestone and owner",
+        "Milestone heading has human-readable title"
+      ]
+    },
+    "priorFullCiFailure": {
+      "runId": 40075992997,
+      "sha": "f760b6247245ceebb5fee736ca5dfcdc20274a2c",
+      "jsPassed": 955,
+      "jsFailed": 0,
+      "jsSkipped": 118,
+      "failure": "battle_ui.lua ETIMEDOUT at unchanged60000ms",
+      "isolatedRerun": {
+        "groupsPassed": 52,
+        "elapsedMs": 50791,
+        "timeoutMs": 60000,
+        "assertionsChanged": false
+      },
+      "finalShaCiStillRequired": true
+    },
+    "fullSuiteBudget": {
+      "observedRun": 40078471799,
+      "sha": "e66cd5a547752ef4bf32e2213989db6a0e7d0bf0",
+      "jsPassed": 957,
+      "jsFailed": 0,
+      "jsSkipped": 118,
+      "luaCompleted": 131,
+      "luaDiscovered": 141,
+      "recordedLuaElapsedMs": 679158,
+      "oldJobMinutes": 15,
+      "newJobMinutes": 20,
+      "reason": "Whole job cancelled at15minutes after131Lua fixtures; no assertion failure.",
+      "perFixtureTimeoutsUnchanged": true,
+      "fixtureSetUnchanged": true,
+      "assertionsUnchanged": true,
+      "presentationMinutesUnchanged": 5,
+      "newShaFullCiRequired": true
+    }
+  },
+  "laterSourceReconciliation": {
+    "currentDevelop": "e3310bcf91d456b08ed7c231340b20a133083134",
+    "frozenCandidateSource": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+    "candidateIncludesLaterCardHelpReleaseFix": true,
+    "isFinalRc": false,
+    "nextAction": "Frozen audio candidate is3bd3afa, not the later shop/reward release tree. TASK-34/25/4/5 rebuild a unified latest-source candidate for combined release/device acceptance; do not reuse old screenshot/audio evidence.",
+    "panelReview": {
+      "task": "TASK-10.5.1",
+      "sourceCommit": "c0f20766519a248f1a02df60985f3a832aa529b1",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "reviewedOriginalScreens": [
+        "docs/evidence/m1-live-20261024/screens/01-t001.jpg",
+        "docs/evidence/m1-live-20261024/screens/519-b636.jpg"
+      ],
+      "verifiedTitleLifeStatusDescription": true,
+      "newPlaytestClaimed": false,
+      "originalScreenshotHashes": [
+        {
+          "path": "docs/evidence/m1-live-20261024/screens/01-t001.jpg",
+          "sha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759"
+        },
+        {
+          "path": "docs/evidence/m1-live-20261024/screens/519-b636.jpg",
+          "sha256": "fbbc0cebf8d19347eae19123b7d8c6c99f11290d27e4eedb192f23a9f9281c16"
+        }
+      ]
+    },
+    "candidateIncludesLaterShopPr163": false,
+    "candidateIncludesLaterRewardPr169": false
+  },
+  "previousValidatedCandidate": {
+    "sourceCommit": "0b1d460048ea8e228f61f1696d5e39b116b86b59",
+    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/bgm-0b1d460/wmvm2e6j5-0/working.gil",
+    "sha256": "d3959d418118efa6679f35835c6dd1ad2745339d3fce695cae07d1c65212f3e1",
+    "readbackOk": true,
+    "scope": "Earlier validated offline candidate before PR165 short-press fix; retained as history."
+  }
+}

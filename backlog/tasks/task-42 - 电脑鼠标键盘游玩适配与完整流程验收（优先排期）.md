@@ -2,9 +2,10 @@
 id: TASK-42
 title: 在电脑上用鼠标和键盘完整玩一遍
 status: To Do
-assignee: []
+assignee:
+  - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-24 07:12'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -15,6 +16,7 @@ references:
   - TASK-30
   - docs/design/UI_DESIGN.md
   - docs/backlog-details/TASK-42.md
+  - docs/DELIVERY-CLOSEOUT.md
 priority: high
 type: feature
 ordinal: 40000
@@ -32,4 +34,5 @@ ordinal: 40000
 - [ ] #2 可用键位有说明，键盘能切换焦点、确认和取消，不与原神按键冲突。
 - [ ] #3 鼠标键盘能完成地图、各类房间、领奖、胜败结算和重开。
 - [ ] #4 保存电脑实测结果，有限制或没做好的地方写清楚。
+- [ ] #5 同一候选实测跨战斗首次点牌、旧触点、药水、奖励、弹窗和取消退出的真实事件派发；已完成本地手势切片不能代替电脑验收。
 <!-- AC:END -->
