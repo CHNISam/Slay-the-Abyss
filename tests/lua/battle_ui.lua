@@ -54,6 +54,18 @@ local function setup(options)
     end
     return ui, stage, click, play, root
 end
+-- Read a unit's statuses the way a player does: open its detail panel, then close it.
+local function details(stage, box)
+    box.children.statusRow.children.hit.click()
+    local info, lines = stage.children.statusInfo, {}
+    assert(info.visible)
+    for i = 1, Theme.layout.statusInfo.rows do
+        if info.children["name" .. i].visible then lines[#lines + 1] = info.children["name" .. i].text end
+    end
+    info.children.hit.click()
+    assert(not info.visible)
+    return table.concat(lines, " | ")
+end
 local count = 0
 local function test(name, fn) fn() count=count+1 print("ok UI " .. count .. " - " .. name) end
 
@@ -84,8 +96,10 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     click("enemy1")
     assert(stage.children.notice.text:find("仪式 3",1,true))
     click("endTurn")
-    assert(stage.children.enemy1.children.statuses.text:find("仪式 3",1,true))
-    assert(not stage.children.enemy1.children.statuses.text:find("力量",1,true))
+    -- Ritual alone: one buff chip with its stack count, and no Strength chip yet.
+    local row = stage.children.enemy1.children.statusRow.children
+    assert(row.icon1.visible and row.icon1.imageId == Theme.icon.status.ritual and row.count1.text == "3")
+    assert(row.icon1.imageColor.r == Theme.color.buff.r and not row.icon2.visible and not row.count2.visible)
     assert(stage.children.enemy1.children.intent.text == "6")
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
@@ -311,7 +325,11 @@ test("intent previews use core modifiers without changing combat state or consum
     local hp, seed, events = enemy.hp, battle.seed, #battle.events
     ui:render() ui:render()
     assert(stage.children.enemy1.children.intent.text == "9")
-    assert(stage.children.enemy1.children.statuses.text:find("力量 2", 1, true))
+    stage.children.enemy1.children.statusRow.children.hit.click()
+    local info = stage.children.statusInfo.children
+    assert(stage.children.statusInfo.visible and info.name1.text == "力量 2 · 增益" and info.name2.text == "虚弱 2 · 减益")
+    stage.children.statusInfo.children.hit.click()
+    assert(not stage.children.statusInfo.visible)
     assert(enemy.hp == hp and battle.seed == seed and #battle.events == events)
     local playerHp = battle.player.hp
     click("endTurn")
@@ -332,7 +350,7 @@ test("exact actor HP and block remain readable native text after rendering and e
     local battle = ui.run.combat
     local function check(box, actor)
         assert(box.children.hp.text == tostring(actor.hp) .. "/" .. tostring(actor.maxHp))
-        for _, name in ipairs({"name", "hp", "block", "statuses"}) do
+        for _, name in ipairs({"name", "hp", "block"}) do
             assert(box.children[name].sizeDeltaY >= Theme.layout.nativeText.lineHeight, name .. " native line height")
         end
         assert(box.children.name.text ~= "")
@@ -742,7 +760,10 @@ test("multiple enemies and multi-hit intents show each actor and actual HP in or
             assert(stage.children.hero.children.impact.visible)
         elseif entry.kind == "block" then assert(stage.children.enemy2.children.shield.visible)
         elseif entry.kind == "status" and entry.detail.status == "weak" then
-            assert(stage.children.hero.children.statuses.text:find("虚弱 2",1,true))
+            -- Playback frames drive the chips: Weak appears as a debuff chip with 2 stacks.
+            local row = stage.children.hero.children.statusRow.children
+            assert(row.icon1.visible and row.icon1.imageId == Theme.icon.status.weak and row.count1.text == "2")
+            assert(row.icon1.imageColor.r == Theme.color.debuff.r)
         end
     end)
     assert(table.concat(kinds,",") == "intent,damage,damage,damage,intent,block,status,reshuffle,player_turn")
@@ -764,7 +785,8 @@ test("multi-hit player cards, area damage, ability and debuff cards use real eve
             if entry.kind == "status" then
                 statuses = statuses + 1
                 local target = entry.detail.target == "player" and stage.children.hero or stage.children[entry.detail.target == battle.enemies[1].id and "enemy1" or "enemy2"]
-                assert(target.children.floating.text ~= "" and target.children.statuses.text ~= "")
+                local chip = target.children.statusRow.children
+                assert(target.children.floating.text ~= "" and chip.icon1.visible and chip.count1.text ~= "")
             end
         end)
         assert(hits == (id == "inflame" and 0 or 2))
@@ -1081,14 +1103,14 @@ test("Guardian shows real mode budget and switches visible intention before its 
     ui.run=Run.new(Data,42); ui.run.floor=Data.rules.map.bossFloor -- isolated Boss entry, not full-run evidence
     assert(Run.startCombat(ui.run,"boss_guardian")); ui:render()
     local box=stage.children.enemy1
-    assert(box.children.statuses.text:find("模式转换 30",1,true))
+    assert(details(stage,box):find("模式转换 30",1,true))
     assert(box.children.intent.text=="9")
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],30,true)
     ui:render(); assert(box.children.intent.text=="3")
     assert(box.children.intentIcon.imageId==Theme.icon.intent.buff)
     click("enemy1"); assert(stage.children.notice.text:find("尖刺甲壳 3",1,true))
     assert(Combat.endTurn(ui.run.combat)); ui:render()
-    assert(box.children.statuses.text:find("尖刺甲壳 3",1,true))
+    assert(details(stage,box):find("尖刺甲壳 3",1,true))
     assert(box.children.intent.text=="9")
 end)
 test("committed encounter identity preserves target across real animation frames", function()

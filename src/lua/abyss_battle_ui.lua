@@ -14,10 +14,31 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态" }
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local function number(value) return string.format("%.0f", value) end
-local function statuses(actor)
-    local result = {}
-    for _, entry in ipairs(Combat.statusView(actor)) do result[#result + 1] = entry.name .. " " .. number(entry.amount) end
-    return table.concat(result, " · ")
+-- One core preview entry: an exact value, or the range across living targets.
+local function amount(preview)
+    if preview.low == preview.high then return number(preview.low) end
+    return number(preview.low) .. "~" .. number(preview.high)
+end
+-- Negative Strength/Dexterity are debuffs, as the core's Artifact gate treats them.
+local function statusKind(entry) return entry.amount < 0 and "debuff" or entry.kind end
+local kindNames = { buff = "增益", debuff = "减益" }
+local function signed(value) return (value < 0 and "-" or "+") .. number(math.abs(value)) end
+-- Text only: amounts come from statusView, percentages from the shared rules.
+local function statusDetail(entry, rules)
+    local n, c = number(entry.amount), rules.combat
+    if entry.id == "strength" then
+        return "攻击每段伤害 " .. signed(entry.amount) .. "。" .. (entry.temporary ~= 0
+            and "其中 " .. number(entry.temporary) .. " 层在回合结束时移除。" or "")
+    elseif entry.id == "dexterity" then return "获得的格挡 " .. signed(entry.amount) .. "。"
+    elseif entry.id == "vulnerable" then return "受到的攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%，持续 " .. n .. " 回合。"
+    elseif entry.id == "weak" then return "造成的攻击伤害 -" .. number(100 - c.weakPercent) .. "%，持续 " .. n .. " 回合。"
+    elseif entry.id == "frail" then return "获得的格挡 -" .. number(100 - c.frailPercent) .. "%，持续 " .. n .. " 回合。"
+    elseif entry.id == "poison" then return "回合开始时失去 " .. n .. " 点生命，然后层数 -1。"
+    elseif entry.id == "regen" then return "回合结束时回复 " .. n .. " 点生命，然后层数 -1。"
+    elseif entry.id == "thorns" then return "受到攻击时，对攻击者造成 " .. n .. " 点伤害。"
+    elseif entry.id == "artifact" then return "抵挡接下来 " .. n .. " 次减益施加；不抵挡生成的状态牌。"
+    end
+    return entry.description .. (entry.stack == "none" and "" or "（当前 " .. n .. " 层）")
 end
 local function needsTarget(state, instance)
     -- Ask the core to validate the same card with and without a target.
@@ -139,7 +160,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- the actor object, battle and turn, never a reusable numeric slot alone.
     local enemyInputs, enemyPointerObserved = {}, false
     local function enemyReady(g)
-        return dragReady(g) and g.actor.hp > 0 and g.battle.enemies[g.slot] == g.actor
+        return not self.info and dragReady(g) and g.actor.hp > 0 and g.battle.enemies[g.slot] == g.actor
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
@@ -197,6 +218,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
     end
+    local closeInfo -- defined with the detail panel below
     function self:resize(width, height)
         local cancelled = self.gesture ~= nil
         cancelCardInputs()
@@ -204,6 +226,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         cancelActionInputs()
         for _, input in ipairs(enemyInputs) do input.held, input.released = nil, nil end
         if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
+        if closeInfo() then cancelled = true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
         child("dragLayer"):GetChild("hit"):SetSizeDelta(width/k,height/k)
@@ -219,7 +242,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local delta = name == "border" and S.border * 2 or name == "portrait" and -S.l or 0
             box:GetChild(name):SetSizeDelta(portrait + delta, portrait + delta)
         end
-        if box.name ~= "hero" then box:GetChild("hit"):SetSizeDelta(portrait, portrait) end
+        box:GetChild("hit"):SetSizeDelta(portrait, portrait)
         box:GetChild("impact"):SetSizeDelta(portrait, portrait)
         box:GetChild("shield"):SetSizeDelta(portrait, portrait)
         box:GetChild("floating"):SetSizeDelta(width + S.xl, L.nativeText.lineHeight * 2)
@@ -256,9 +279,120 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         tint(box:GetChild("blockIcon"), C.block)
         ink(box:GetChild("block"), C.textOnLight)
         box:GetChild("block").text = number(actor.block)
-        box:GetChild("statuses").text = statuses(actor)
-        box:GetChild("statuses"):SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh - S.l)
-        box:GetChild("statuses"):SetSizeDelta(width, L.nativeText.lineHeight)
+        -- Status chips: rows centred under the bar; the last slot turns into "+N" on overflow.
+        local si, entries, row = L.statusIcon, Combat.statusView(actor), box:GetChild("statusRow")
+        local pitch = si.size + si.gap
+        local perRow = math.max(1, math.min(si.perRow, math.floor((width + si.gap) / pitch)))
+        local slots = perRow * si.rows
+        local shown = math.min(#entries, slots)
+        row:SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh - S.l - (si.rows - 1) * pitch / 2)
+        row:GetChild("hit"):SetSizeDelta(width, si.rows * pitch)
+        for i = 1, si.perRow * si.rows do
+            local icon, count, entry = row:GetChild("icon" .. i), row:GetChild("count" .. i), i <= shown and entries[i]
+            local overflow = entry and i == slots and #entries > slots
+            icon:SetVisible(entry and not overflow or false)
+            count:SetVisible(entry and true or false)
+            if entry then
+                local k = i - 1
+                local line = math.floor(k / perRow)
+                local x = (k % perRow - (math.min(perRow, shown - line * perRow) - 1) / 2) * pitch
+                local y = (si.rows - 1) * pitch / 2 - line * pitch
+                icon:SetAnchoredPosition(x, y)
+                picture(icon, Theme.icon.status[entry.id])
+                tint(icon, statusKind(entry) == "buff" and C.buff or C.debuff)
+                if overflow then
+                    count:SetAnchoredPosition(x, y)
+                    count.text = "+" .. (#entries - slots + 1)
+                    ink(count, C.textDim)
+                else
+                    count:SetAnchoredPosition(x + si.size / 2, y - si.size / 2 + si.gap)
+                    count.text = entry.stack == "none" and "" or number(entry.amount)
+                    ink(count, C.text)
+                end
+            end
+        end
+    end
+    -- Shared detail panel beside its unit; rows list every status with its current effect.
+    local function renderInfo(battle)
+        local panel, info = child("statusInfo"), self.info
+        local actor = info and battle and (info.index == 0 and battle.player or battle.enemies[info.index])
+        if not actor or actor.id ~= info.id or actor.hp <= 0 then
+            self.info = nil
+            panel:SetVisible(false)
+            return
+        end
+        local I, entries = L.statusInfo, Combat.statusView(actor)
+        local rows = math.min(#entries, I.rows)
+        local extra = #entries == 0 or #entries > I.rows
+        local height = I.pad * 2 + I.header + I.summary + rows * I.row + (extra and I.summary or 0)
+        local x, portrait
+        if info.index == 0 then
+            x, portrait = L.player.position[1], L.player.portrait
+            x = x + portrait / 2 + S.l + I.width / 2
+        else
+            local enemyX, _, size = enemySlot(#battle.enemies, info.index, actor)
+            x, portrait = enemyX - size / 2 - S.l - I.width / 2, size
+        end
+        local edge = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x - I.width / 2
+        x = math.max(-edge, math.min(edge, x))
+        local top = Theme.canvas.base[2] / 2 - L.topBar.height - S.s
+        -- Top edge level with the portrait's top, kept under the top bar and above the safe edge.
+        local unitY = info.index == 0 and L.player.position[2] or L.enemyRow.y
+        local y = math.min(top - height / 2, unitY + portrait / 2 - height / 2)
+        y = math.max(-Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + height / 2, y)
+        for _, name in ipairs({"border", "plate"}) do
+            local delta = name == "border" and S.border * 2 or 0
+            panel:GetChild(name):SetAnchoredPosition(x, y)
+            panel:GetChild(name):SetSizeDelta(I.width + delta, height + delta)
+        end
+        local left, cursor = x - I.width / 2 + I.pad, y + height / 2 - I.pad
+        local textX = left + I.icon + I.gap + (I.width - I.pad * 2 - I.icon - I.gap) / 2
+        panel:GetChild("title"):SetAnchoredPosition(x, cursor - I.header / 2)
+        panel:GetChild("title").text = actor.name or "旅行者"
+        cursor = cursor - I.header
+        panel:GetChild("summary"):SetAnchoredPosition(x, cursor - I.summary / 2)
+        panel:GetChild("summary").text = "生命 " .. number(actor.hp) .. "/" .. number(actor.maxHp) .. " · 格挡 " .. number(actor.block)
+        cursor = cursor - I.summary
+        for i = 1, I.rows do
+            local entry = i <= rows and entries[i]
+            local icon, name, text = panel:GetChild("icon" .. i), panel:GetChild("name" .. i), panel:GetChild("text" .. i)
+            for _, part in ipairs({icon, name, text}) do part:SetVisible(entry and true or false) end
+            if entry then
+                local colour = statusKind(entry) == "buff" and C.buff or C.debuff
+                icon:SetAnchoredPosition(left + I.icon / 2, cursor - I.nameHeight / 2)
+                picture(icon, Theme.icon.status[entry.id])
+                tint(icon, colour)
+                name:SetAnchoredPosition(textX, cursor - I.nameHeight / 2)
+                name.text = entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) .. " · " .. kindNames[statusKind(entry)]
+                ink(name, colour)
+                text:SetAnchoredPosition(textX, cursor - I.nameHeight - S.xs - (I.row - I.nameHeight - S.xs) / 2)
+                text.text = statusDetail(entry, battle.rules)
+                cursor = cursor - I.row
+            end
+        end
+        local more = panel:GetChild("more")
+        more:SetVisible(extra)
+        more:SetAnchoredPosition(x, cursor - I.summary / 2)
+        more.text = #entries == 0 and "暂无状态" or "另有 " .. (#entries - I.rows) .. " 项状态未列出"
+        panel:SetVisible(true)
+        panel:SetAsLastSibling()
+    end
+    closeInfo = function()
+        if not self.info then return false end
+        self.info = nil
+        child("statusInfo"):SetVisible(false)
+        return true
+    end
+    -- index 0 is the hero. Opening the same unit again closes it.
+    function self:showStatus(index)
+        local run = self.run
+        if not self.active or self.busy or self.gesture or not run or run.phase ~= "combat" then return false end
+        local actor = index == 0 and run.combat.player or run.combat.enemies[index]
+        if not actor or actor.hp <= 0 then return false end
+        if self.info and self.info.index == index and self.info.id == actor.id then closeInfo()
+        else self.info = {index = index, id = actor.id, battle = run.combat} end
+        self:render()
+        return true
     end
     local function placeCard(box, count, index, selected)
         local w, h = L.card.size[1], L.card.size[2]
@@ -380,6 +514,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
         local rewards = reward and Run.rewardOptions(run) or {}
+        local aimUid, aimTarget
+        if self.gesture and self.gesture.moving then
+            local _, target = dragTarget(self.gesture)
+            aimUid, aimTarget = self.gesture.uid, target
+        end
         self.cardPositions = {}
         local playable, selectedBox = false, nil
         for i = 1, 10 do
@@ -397,10 +536,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 box:GetChild("name").text = display.name .. (instance and instance.upgraded and "＋" or "")
                 ink(box:GetChild("name"), instance and instance.upgraded and C.positive or enabled and C.text or C.textMuted)
                 local text = instance and instance.upgraded and display.upgradeText or display.text
-                local combatText = instance and (instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText)
-                if combatText then
-                    -- The core already applied upgrade and this instance's combat growth.
-                    text = combatText:gsub("{effects%.0%.value}", number(definition.effects[1].value))
+                if instance then
+                    -- The core previews upgrade, growth and every current modifier;
+                    -- a card being aimed shows the value for that target.
+                    local preview = Combat.cardPreview(battle, instance, instance.uid == aimUid and aimTarget or nil)
+                    local combatText = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
+                    if combatText then
+                        text = combatText:gsub("{effects%.(%d+)%.value}", function(index)
+                            local i = tonumber(index) + 1
+                            return preview[i] and amount(preview[i]) or number(definition.effects[i].value)
+                        end)
+                    end
+                    for i = 1, #definition.effects do
+                        local entry = preview[i]
+                        if entry and entry.op == "damageEqualToBlock" then text = text .. "（当前 " .. amount(entry) .. " 点）" end
+                    end
                 end
                 box:GetChild("label").text = text
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
@@ -461,6 +611,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
             layer:SetAsLastSibling()
         end
+        -- Details describe the committed battle only while the player can read them.
+        if self.info and (not self.active or self.busy or self.gesture or not fighting
+            or self.info.battle ~= run.combat) then self.info = nil end
+        renderInfo(battle)
         button("endTurn", active == true, not playable)
         button("skip", self.active and reward == true and not self.busy, false)
         button("continue", self.active and run and run.phase == "map" and not self.busy, true)
@@ -606,9 +760,23 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local k = math.min(width/Theme.canvas.base[1],height/Theme.canvas.base[2])
         return (x-width/2)/k,(y-height/2)/k
     end
-    local function down()
+    -- An open detail panel owns the next pointer sequence: its Down closes the panel and
+    -- the matching Click is swallowed, so no card, target or button acts underneath it.
+    local function down(event)
         pointerObserved = true
         if not self.gesture then self.suppressClick = false end
+        self.swallow = nil
+        if self.gesture or not closeInfo() then return false end
+        self.swallow = {touch = event and event.touchId}
+        self:render()
+        return true
+    end
+    local function swallowed(event)
+        local swallow = self.swallow
+        if swallow and swallow.touch == (event and event.touchId) then self.swallow = nil return true end
+        if not closeInfo() then return false end -- click-only hosts dismiss on the click itself
+        self:render()
+        return true
     end
     local function move(event)
         local g = self.gesture
@@ -667,6 +835,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local function listen(control, fn, input)
         control:AddCursorEventListener(clickEvent,function(event)
+            if swallowed(event) then return end
             if input and pointerObserved then
                 local released = input.released
                 -- Never borrow a foreign or missing touch ID, nor fall back to
@@ -683,6 +852,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local control, input = child(name), {}
         actionInputs[#actionInputs + 1] = input
         control:AddCursorEventListener(clickEvent, function(event)
+            if swallowed(event) then return end
             if actionPointerObserved then
                 local released = input.released
                 if not released or released.touch ~= (event and event.touchId) then return end
@@ -694,8 +864,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if self.dragEnabled then
             control:AddCursorEventListener(cursor.CursorDown, function(event)
                 actionPointerObserved = true
-                down()
+                local dismissed = down(event)
                 input.held, input.released = nil, nil
+                if dismissed then return end
                 local run = self.run
                 local battle = run and run.combat
                 local g = {name = name, run = run, phase = run and run.phase,
@@ -724,6 +895,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local slot, control, input = i, child("potion" .. i), {}
         potionInputs[i] = input
         control:AddCursorEventListener(clickEvent, function(event)
+            if swallowed(event) then return end
             if potionPointerObserved then
                 local released = input.released
                 if not released or released.touch ~= (event and event.touchId) then return end
@@ -735,9 +907,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if self.dragEnabled then
             control:AddCursorEventListener(cursor.CursorDown, function(event)
                 potionPointerObserved = true
-                down()
+                local dismissed = down(event)
                 input.held, input.released = nil, nil
-                if self.gesture or not self.run then return end
+                if dismissed or self.gesture or not self.run then return end
                 local run, binding = self.run, self.potionSlots and self.potionSlots[slot]
                 if not binding or self.potionRun ~= run or self.potionBattle ~= run.combat then return end
                 local g = {slot = binding.slot, id = binding.id, inventory = run.potions,
@@ -767,9 +939,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             hit:AddCursorEventListener(cursor.CursorDown,function(event)
                 pointerObserved = true
                 if self.gesture then return end
-                down()
+                local dismissed = down(event)
                 input.held, input.released = nil, nil
-                if not self.active or self.busy or not self.run then return end
+                if dismissed or not self.active or self.busy or not self.run then return end
                 local run, battle = self.run, self.run.combat
                 local instance = run.phase == "combat" and battle.hand[slot]
                 local uid = instance and instance.uid or run.phase == "reward" and Run.rewardOptions(run)[slot]
@@ -815,6 +987,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         end
         control:AddCursorEventListener(clickEvent, function(event)
+            if swallowed(event) then
+                -- Dismissal consumes this pointer too, but cannot consume a
+                -- newer token owned by a different touch on the same actor.
+                local touch = event and event.touchId
+                if input.held and input.held.touch == touch then input.held = nil end
+                if input.released and input.released.touch == touch then input.released = nil end
+                return
+            end
             if enemyPointerObserved then
                 -- Existing enemy hosts may send Down/Click without Up. Both
                 -- forms consume the same actor-bound, one-shot ownership.
@@ -828,8 +1008,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if self.dragEnabled then
             control:AddCursorEventListener(cursor.CursorDown, function(event)
                 enemyPointerObserved = true
-                down()
+                local dismissed = down(event)
                 input.held, input.released = nil, nil
+                if dismissed then return end
                 local run, battle = self.run, self.run and self.run.combat
                 local actor = battle and battle.enemies[target]
                 if not actor then return end
@@ -848,6 +1029,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releaseEnemy(event, true) end)
         end
     end
+    -- Enemy portraits keep targeting; the hero portrait and every status row only open
+    -- details, so a status tap never plays a card or moves the potion target.
+    listen(child("hero"):GetChild("hit"), function() self:showStatus(0) end)
+    for i, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
+        local index = i - 1
+        listen(child(name):GetChild("statusRow"):GetChild("hit"), function() self:showStatus(index) end)
+    end
+    local info = child("statusInfo")
+    info.disableCursorEventPassthrough = true
+    listen(info:GetChild("hit"), function() if closeInfo() then self:render() end end)
     refresh()
     return self
 end

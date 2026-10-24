@@ -24,7 +24,62 @@ local h,u,p,e,t,d=H.setup({'strike'},{'sneaky_gremlin','spike_slime_l','spike_sl
 local b=h.run.combat;local old=b.enemies[2];C.damage(b,b.player,old,old.hp-30,true);h:refresh();t('endTurn',20);d()
 assert(#b.enemies==5 and b.enemies[3]==old,'maximum supported row retains original parent')
 for i=1,5 do assert(p:GetChild('enemy'..i).visible==(i~=3),'five-slot visibility '..i)end
+-- PR143's live preview/status controls must also describe newly inserted actors.
+C.addStatus(b.enemies[2], 'vulnerable', 2)
+u.target=2;h:refresh()
+assert(p:GetChild('card1'):GetChild('label').text:find('9',1,true),'live preview follows the new child target')
+local function statusTap(panel,index,touch)
+    local hit=panel:GetChild('enemy'..index):GetChild('statusRow'):GetChild('hit')
+    for _,kind in ipairs({'down','up','click'}) do
+        if hit.listeners[kind] then hit.listeners[kind]({touchId=touch}) end
+    end
+end
+statusTap(p,2,23)
+assert(p:GetChild('statusInfo').visible and u.info.id==b.enemies[2].id,'status details keep the spawned child identity')
+t('hero',24)
+assert(not p:GetChild('statusInfo').visible,'dismissal does not replace child details with another actor')
 local hp=b.enemies[5].hp;t('card1',21);t('enemy5',22);d();assert(b.enemies[5].hp==hp-6,'last existing ally stays targetable after index shift')
 assert(not recovered,'mixed row feedback must not recover')
+
+-- Merged detail dismissal must never resurrect an enemy's one-shot ownership.
+local test,finish=H.suite('SPIKE_SPLIT_STATUS_INPUT')
+local function statusCase(name,sequence)
+    test(name,function()
+        local hh,uu,pp,ee,tt,dd=H.setup({'strike'},{'jaw_worm','cultist'})
+        local ss=hh.run.combat
+        tt('card1',9)
+        local hp,energy,hand=ss.enemies[2].hp,ss.energy,#ss.hand
+        sequence(hh,uu,pp,ee,tt)
+        dd()
+        assert(ss.energy==energy and ss.enemies[2].hp==hp and #ss.hand==hand,'interrupted pointer cannot spend or damage')
+        -- A genuinely new Down may reuse the rejected pointer's numeric touch ID.
+        tt('enemy2',11);dd()
+        assert(ss.energy==energy-1 and ss.enemies[2].hp==hp-6,'fresh tap after interruption must still play once')
+        ee('enemy2','click',11);dd()
+        assert(ss.energy==energy-1 and ss.enemies[2].hp==hp-6,'successful pointer is also one-shot')
+    end)
+end
+statusCase('two touches cannot revive a status-dismissal target',function(hh,uu,pp,ee,tt)
+    statusTap(pp,2,10)
+    assert(pp:GetChild('statusInfo').visible)
+    ee('enemy2','down',11);assert(not pp:GetChild('statusInfo').visible)
+    ee('hero','down',12);ee('enemy2','click',11)
+end)
+for _,up in ipairs({true,false}) do
+    statusCase('swallowed '..(up and 'released' or 'held')..' pointer is consumed',function(hh,uu,pp,ee,tt)
+        ee('enemy2','down',11);tt('hero',12)
+        assert(pp:GetChild('statusInfo').visible)
+        if up then ee('enemy2','up',11) end
+        ee('enemy2','click',11);assert(not pp:GetChild('statusInfo').visible)
+        ee('enemy2','click',11)
+    end)
+end
+statusCase('opening details invalidates an older target even when another touch closes it',function(hh,uu,pp,ee,tt)
+    ee('enemy2','down',11);tt('hero',12)
+    assert(pp:GetChild('statusInfo').visible)
+    tt('hero',13);assert(not pp:GetChild('statusInfo').visible)
+    ee('enemy2','up',11);ee('enemy2','click',11)
+end)
+finish()
 print=originalPrint
 print('SPIKE_SPLIT_UI_PASS visible-intent/details/identity-frames/child-target/stale-parent-pointer')

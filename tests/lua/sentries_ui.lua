@@ -38,7 +38,8 @@ local function expect(outerBolt)
     for i=1,3 do local bolt=(i%2==1)==outerBolt;local box=stage:GetChild("enemy"..i)
         assert(box:GetChild("intent").text==(bolt and "晕眩 2" or "9"),"Sentry compact intent "..i..": "..box:GetChild("intent").text)
         assert(box:GetChild("intentIcon").imageId==(bolt and Theme.icon.intent.debuff or Theme.icon.intent.attack))
-        assert(box:GetChild("statuses").text:find("人工制品 1",1,true))
+        local row=box:GetChild("statusRow")
+        assert(row:GetChild("icon1").visible and row:GetChild("icon1").imageId==Theme.icon.status.artifact and row:GetChild("count1").text=="1")
     end
 end
 expect(true)

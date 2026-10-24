@@ -22,10 +22,26 @@ test('feedback uses a fixed non-interactive native pool within the per-parent pl
   assert.equal(sweep[0].image, theme.image.diamond);
   assert.equal(overlay.children.length, 4);
 });
+test('every actor has a status chip grid within platform limits and a portrait detail hit', () => {
+  const si = theme.layout.statusIcon;
+  for (const unit of stage().children.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+    const row = unit.children.find(c => c.name === 'statusRow');
+    assert.equal(row.children.filter(c => /^icon\d+$/.test(c.name)).length, si.perRow * si.rows);
+    assert.equal(row.children.filter(c => /^count\d+$/.test(c.name)).length, si.perRow * si.rows);
+    assert.equal(row.children.at(-1).kind, 'cursorArea', `${unit.name} status hit sits above its chips`);
+    for (const chip of row.children.filter(c => c.kind !== 'cursorArea')) assert.equal(chip.visible, false);
+    assert(unit.children.some(c => c.name === 'hit' && c.kind === 'cursorArea'), `${unit.name} portrait hit`);
+  }
+  const info = stage().children.find(c => c.name === 'statusInfo');
+  for (let i = 1; i <= theme.layout.statusInfo.rows; i++) {
+    for (const name of [`icon${i}`, `name${i}`, `text${i}`]) assert(info.children.some(c => c.name === name), name);
+  }
+  assert(info.children.length <= 60);
+});
 test('approved critical actor values and card types have native text line room', () => {
   const controls = stage().children;
   for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
-    for (const name of ['name', 'hp', 'block', 'statuses']) {
+    for (const name of ['name', 'hp', 'block']) {
       const label = unit.children.find(c => c.name === name);
       assert(label && label.size[1] >= theme.layout.nativeText.lineHeight, `${unit.name}/${name}`);
       assert(label.text.minFontSize >= theme.font.minimum);
@@ -82,6 +98,12 @@ test('native buttons provide all four states and touch hit areas stay inside the
   assert.equal(drag.visible, false);
   assert.equal(capture.focusable, false);
   assert.deepEqual(capture.size, theme.canvas.base);
+  // The status detail panel dismisses on any tap through its own hidden full-canvas catcher.
+  const info = controls.find(c => c.name === 'statusInfo');
+  const dismiss = info.children.find(c => c.name === 'hit');
+  assert.equal(info.visible, false);
+  assert.equal(dismiss.focusable, false);
+  assert.deepEqual(dismiss.size, theme.canvas.base);
   assert.equal(controls.filter(c => /^card\d+$/.test(c.name)).length, 10);
   walk(controls, (c, x, y) => {
     if (c.kind === 'presetButton') {
@@ -92,7 +114,7 @@ test('native buttons provide all four states and touch hit areas stay inside the
     }
     if (c.kind === 'cursorArea' || c.kind === 'presetButton') {
       assert(Math.min(...c.size) >= 44);
-      if (c === capture) return; // invisible gesture catcher covers the canvas, ordinary touch controls stay safe
+      if (c === capture || c === dismiss) return; // invisible catchers cover the canvas, ordinary touch controls stay safe
       assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x');
       assert(Math.abs(y) + c.size[1] / 2 <= 340 + 1e-8, c.name + ' safe y');
     }
