@@ -1,7 +1,17 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local C,Data=require('abyss_combat'),require('abyss_data')
+-- Each case still enters real Combat.new/endTurn. Only omit unrelated
+-- catalog definitions from this matrix's repeated defensive deep copies.
+local matrixData={rules=Data.rules,statuses=Data.statuses,cards={cards={}},enemies={enemies={}}}
+for _,card in ipairs(Data.cards.cards)do
+ if card.id=='defend' or card.id=='slimed'then matrixData.cards.cards[#matrixData.cards.cards+1]=card end
+end
+for _,enemy in ipairs(Data.enemies.enemies)do
+ if enemy.id=='acid_slime_l'then matrixData.enemies.enemies[1]=enemy end
+end
+assert(#matrixData.cards.cards==2 and #matrixData.enemies.enemies==1,'matrix dependency definitions missing')
 local function eq(a,b) assert(a==b,'expected '..tostring(b)..', got '..tostring(a)) end
-local function battle(deck) return C.new(Data,{enemies={'acid_slime_l'},deck=deck or {'defend'},seed=42}) end
+local function battle(deck) return C.new(matrixData,{enemies={'acid_slime_l'},deck=deck or {'defend'},seed=42}) end
 local function observe(roll,boolean,unit,f)
  local old,calls=C.random,{}
  C.random=function(s,n)
