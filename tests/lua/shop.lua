@@ -109,3 +109,25 @@ local called,ok,why=pcall(Nodes.buyCard,broken,broken.nodeFlow.cards[1].id)
 assert(called and not ok and why=='shop_content_unavailable','restock failure must refuse the whole purchase')
 same(broken,before)
 print('SHOP_ATOMIC_RESTOCK_PASS')
+-- Inject only the documented float endpoints; keep real selection and quoting.
+-- In binary32, 50 * 1.05F is just below 52.5, so the upper quote is 52, not 53.
+local R=require('abyss_sts_random');local original=R.randomFloatBetween
+local expectedRelics={common={143,158},uncommon={238,263},rare={285,315},shop={143,158}}
+local expectedPotions={common={48,52},uncommon={71,79},rare={95,105}}
+local observed={}
+local called,err=pcall(function()
+    for endpoint=1,2 do
+        R.randomFloatBetween=function(_,low,high) return endpoint==1 and low or high end
+        for seed=1,20 do
+            local stock=S.prepare(Run.new(data,seed))
+            for _,o in ipairs(stock.relics) do
+                assert(o.price==expectedRelics[o.rarity][endpoint],'relic price endpoint')
+                observed[o.rarity]=true
+            end
+            for _,o in ipairs(stock.potions) do assert(o.price==expectedPotions[o.rarity][endpoint],'potion price endpoint') end
+        end
+    end
+end)
+R.randomFloatBetween=original
+assert(called,err);assert(observed.common and observed.uncommon and observed.rare and observed.shop)
+print('SHOP_PRICE_ENDPOINTS_PASS')
