@@ -17,3 +17,5 @@
 ## 验证边界
 
 证据目录：根工作区 `.artifacts/m1-live-sprint/`。`exact-damage-negative.log`、`integer-resources-red-corrected.log` 保留失败证据；最终完整检查见 `final-check.log` 和对应退出码。源码合并不等于新副本已导入或实机通过，任务的实机条件继续保留。
+
+CI 在 16d708b 完成全部 JavaScript 检查后，既有 `acid_slime_l.lua` 的 2600 组穷举矩阵超过默认 30 秒。将同一矩阵无删减地拆为三份自动发现的测试入口（1000/800/800），共用原有字面预期和真实 Combat 路径；默认时限、生产代码和断言均未放宽。本地三份分别约 11/9/9 秒通过，主文件其余 28 组也通过。原失败日志保留在 `ci16d-failure.log`。是否最终全绿以 PR 当前提交的 Quality 结果为准。

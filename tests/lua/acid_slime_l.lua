@@ -36,32 +36,8 @@ local function same(a,b)
  for k in pairs(b)do assert(a[k]~=nil,'unexpected field '..tostring(k))end
 end
 
-test('all 13 source histories and 100 rolls through runtime request only required fallbacks',function()
- -- Literal source oracle: low/middle/high branch; b is nextBoolean, p is nextFloat.
- local cases={{nil,nil,'s','t','w'},{'s',nil,'s','t','w'},{'t',nil,'s','p','w'},{'w',nil,'s','t','w'},
- {'s','s','b','t','w'},{'s','t','s','t','w'},{'s','w','s','t','w'},
- {'t','s','s','p','w'},{'t','t','s','p','w'},{'t','w','s','p','w'},
- {'w','s','s','t','w'},{'w','t','s','t','w'},{'w','w','s','t','p'}}
- local ids={s='acid_slime_l_1',t='acid_slime_l_3',w='acid_slime_l_2'}
- for _,h in ipairs(cases)do for roll=0,99 do for _,flag in ipairs({false,true})do
-  observe(roll,flag,flag and 0 or 65535,function(calls)
-   -- Keep five cards in the draw pile so the next owner turn does not shuffle
-   -- newly generated Slimed; this matrix isolates only enemy AI requests.
-   local deck=h[1] and {'defend','defend','defend','defend','defend','defend','defend','defend','defend','defend'} or nil
-   local s=battle(nil,deck);local e=s.enemies[1];local start=0
-   if h[1]then force(e,ids[h[1]]);e.acidLast=ids[h[2]];start=#calls;assert(C.endTurn(s))else start=1 end
-   local mode=h[roll<30 and 3 or(roll<70 and 4 or 5)]
-   local want=mode
-   if mode=='b'then want=flag and't'or'w'elseif mode=='p'then want=flag and's'or(roll<70 and'w'or't')end
-   eq(C.intent(s,1).id,ids[want]);eq(primary(calls,start),1)
-   eq(calls[start+1],100)
-   local extra=(mode=='b'or mode=='p')and 1 or 0
-   eq(#calls-start,1+extra)
-   if extra==1 then eq(calls[start+2],mode=='b'and 2 or 65536)end
-   if h[1]then eq(e.acidLast,ids[h[1]]);eq(e.acidPrevious,ids[h[2]])end
-  end)
- end end end
-end)
+-- The unchanged 2600-case exhaustive matrix runs in three independently
+-- discovered fixtures, each retaining the runner's default 30-second limit.
 
 test('Artifact blocks Weak2 without canceling next-move roll',function()
  observe(70,false,0,function(calls)local s=battle();C.addStatus(s.player,'artifact',1);local before=#calls
