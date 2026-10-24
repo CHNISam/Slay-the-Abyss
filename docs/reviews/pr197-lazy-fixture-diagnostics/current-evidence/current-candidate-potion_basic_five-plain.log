@@ -1,0 +1,4 @@
+ok basic five 1 - five production bottles use normal obtain/view/use and preserve surrounding fixed slots
+ok basic five 2 - target, phase, slot and overflow failures leave all Run fields and identities unchanged
+LUA_POTION_BASIC_FIVE_PASS 2
+exit=0 elapsed=0.21272354000007
