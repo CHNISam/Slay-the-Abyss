@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-24 20:35'
+updated_date: '2026-10-24 20:56'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -50,4 +50,6 @@ ordinal: 54000
 M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方法核对后，去除项目自加的至少两张限制，空牌组能正常开战、抽牌和失败。事件/商店原生控件37组与核心8组红绿及相关71组回归通过；金翼空组献祭仍扣7生命并完成，避免死选牌器。配对/转化仍不进入首发七事件池。来源blob、精确输入及原生空列表降级见docs/reviews/TASK-13.1.2-empty-permanent-deck.md。未编译/写副本/官方导入/实机，整体AC保持未勾。
 
 2026-10-25 用户已批准完整25事件，纠正旧restricted-seven首页。Living Wall显式入口及Forget/Change/Grow已实现：42组定向通过，完整72槽34当前内容可用/38原子守卫；未接正常概率池，完整牌池/无色/诅咒与onRemove/onObtain/Searing Blow钩子仍须父线齐备。来源及边界 docs/reviews/TASK-13.1.2-living-wall.md。未知事件原220seed夹具30秒超时保留，正在原覆盖原预算优化；未宣称平台/完整事件池Done。
+
+合并前补查纠正P2：旧备注把34个有定义结果称可用不准确，其中7牌实际未实现。已补共享card capability（变换/旧奖励/商店/升级共用），独立首发清单核33包含/7排除；72槽强制抽样修为27成功/45原子守卫，7项旧对象引用、牌组、UID与全部RNG不变，不缩池/不重抽。原夹具红10组1失败，修后10组通过9846ms。前次守卫无P1/P2判断已撤回并复审。完整25事件、全卡及平台AC仍未完成。
 <!-- SECTION:NOTES:END -->

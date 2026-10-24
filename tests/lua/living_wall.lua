@@ -75,6 +75,24 @@ test('Grow rejects no-upgrade groups and stale selections atomically',function()
  refuse(run,'grow',1,'card_not_upgradeable');refuse(run,'grow',1.5,'invalid_card')
 end)
 local pools=dofile('tests/lua/support/living_wall_source_pools.lua')
+-- Independent frozen launch exclusions: definitions exist, core execution does not.
+local notImplemented={clash=true,true_grit=true,warcry=true,metallicize=true,
+ whirlwind=true,demon_form=true,reaper=true}
+local function references(root)
+ local saved={}
+ local function visit(value)
+  if type(value)~='table' or saved[value] then return end
+  local fields={};saved[value]=fields
+  for key,child in pairs(value)do fields[key]=child;visit(child)end
+ end
+ visit(root)
+ return function()
+  for value,fields in pairs(saved)do
+   for key,child in pairs(fields)do assert(value[key]==child,'changed reference '..tostring(key))end
+   for key in pairs(value)do assert(fields[key]~=nil,'new field '..tostring(key))end
+  end
+ end
+end
 local function context(run)
  local result={pools=C.copy(pools),cards={strike={sourceId='Strike_R',category='colored'}},sourceToLocal={}}
  for _,card in ipairs(run.data.cards.cards) do
@@ -96,9 +114,10 @@ test('full 72-card source transform draws each original slot once with no unsupp
   run=C.copy(original);run.deck={{uid=1,cardId='strike',upgraded=true}};run.nextDeckUid=20
   run.miscRng=state(i-1);run.transformContext=context(run)
   assert(Nodes.chooseEvent(run,'change'));local before=C.copy(run)
-  local ok,reason=Nodes.chooseEvent(run,'change',1)
   local localId=run.transformContext.sourceToLocal[sourceId]
-  if localId then
+  local unchanged=localId and notImplemented[localId] and references(run)
+  local ok,reason=Nodes.chooseEvent(run,'change',1)
+  if localId and not notImplemented[localId] then
    assert(ok,reason);eq(run.deck[1].cardId,localId);eq(run.deck[1].upgraded,false);eq(run.deck[1].uid,20)
    eq(run.nextDeckUid,21);eq(run.nodeFlow.event.obtainedSourceId,sourceId);eq(run.phase,'map')
    same(R.snapshot(run.miscRng),{words={string.format('%016x',i-1),string.format('%016x',i-1)},counter=8})
@@ -106,9 +125,11 @@ test('full 72-card source transform draws each original slot once with no unsupp
    refuse(run,'change',1,'no_pending_node');accepted=accepted+1
   else
    eq(ok,false);eq(reason,'event_content_unavailable');same(run,before);rejected=rejected+1
+   if unchanged then unchanged()end
   end
  end
- assert(accepted>0 and rejected>0);print('FULL_SOURCE_TRANSFORM slots=72 supported='..accepted..' unavailable='..rejected)
+ eq(accepted,27);eq(rejected,45)
+ print('FULL_SOURCE_TRANSFORM slots=72 supported='..accepted..' unavailable='..rejected)
 end)
 test('failed transform preflight preserves old UID, next UID, all streams, and pending choice',function()
  local run=enter();run.transformContext=context(run);run.miscRng=state(0)

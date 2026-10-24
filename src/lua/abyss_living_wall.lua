@@ -1,6 +1,7 @@
 -- LivingWall at fixed source 319009d5. No event-pool registration here.
 local C = require('abyss_combat')
 local Transform = require('abyss_transform_card')
+local Capability = require('abyss_card_capability')
 local M = {}
 local function find(entries,id,key)
     for i,entry in ipairs(entries) do if entry[key or 'id']==id then return entry,i end end
@@ -32,7 +33,8 @@ local function transformed(run,instance)
     local selected,rng=Transform.select(original.category,original.sourceId,context.pools,run.miscRng)
     if not selected then return nil,'event_content_unavailable' end
     local id=context.sourceToLocal[selected.cardId]
-    if type(id)~='string' or not find(run.data.cards.cards,id) then return nil,'event_content_unavailable' end
+    local definition=type(id)=='string' and find(run.data.cards.cards,id)
+    if not Capability.isImplemented(definition) then return nil,'event_content_unavailable' end
     local uid=run.nextDeckUid
     if type(uid)~='number' or uid%1~=0 or uid<1 or uid>=9007199254740991.0 or find(run.deck,uid,'uid') then
         return nil,'invalid_deck_uid'

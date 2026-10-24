@@ -1,6 +1,6 @@
 -- Same-run deck and reward ownership. Platform/UI adapters issue these commands.
 local Combat = require("abyss_combat")
-local Effects = require("abyss_effects")
+local Capability = require("abyss_card_capability")
 local Inventory = require("abyss_inventory")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
@@ -179,10 +179,10 @@ local function rewardCandidates(run)
     local candidates = {}
     for _, card in ipairs(run.data.cards.cards) do
         if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special" and not card.condition and not card.costMode
+            and card.rarity ~= "basic" and card.rarity ~= "special"
             -- Boss rewards are rare-only; other tiers retain their current pool.
             and (run.encounterTier ~= "boss" or card.rarity == "rare")
-            and Effects.supported(card.effects) then candidates[#candidates + 1] = card.id end
+            and Capability.isImplemented(card) then candidates[#candidates + 1] = card.id end
     end
     return candidates
 end

@@ -4,7 +4,7 @@
 local Run = require("abyss_run")
 local Map = require("abyss_map")
 local Combat = require("abyss_combat")
-local Effects = require("abyss_effects")
+local Capability = require("abyss_card_capability")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local EventRandom = require("abyss_sts_random")
@@ -26,7 +26,7 @@ end
 
 local function playable(card)
     return card.type ~= "status" and card.type ~= "curse"
-        and not card.condition and not card.costMode and Effects.supported(card.effects)
+        and Capability.isImplemented(card)
 end
 
 local function upgradeable(run, instance)

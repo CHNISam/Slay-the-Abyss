@@ -3,7 +3,7 @@
 local R = require('abyss_sts_random')
 local Price = require('abyss_shop_price')
 local C = require('abyss_combat')
-local Effects = require('abyss_effects')
+local Capability = require('abyss_card_capability')
 local CardRandom = require('abyss_card_random')
 local S = {}
 local f32, floor = R.float32, math.floor
@@ -48,7 +48,7 @@ local function candidates(run,category,rarity,kind,color,stock)
         if category=='cards' then
             allowed=allowed and (not kind or def.type==kind) and (def.color or 'colored')==color
                 and (def.type=='attack' or def.type=='skill' or def.type=='power')
-                and not def.condition and not def.costMode and Effects.supported(def.effects)
+                and Capability.isImplemented(def)
         elseif category=='relics' then
             -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
             allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
