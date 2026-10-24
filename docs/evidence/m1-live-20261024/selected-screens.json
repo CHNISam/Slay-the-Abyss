@@ -1,0 +1,1423 @@
+{
+  "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+  "originalUnmodifiedScreenshots": true,
+  "screenshots": [
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\00-log-subscribed.jpg",
+      "sourceSha256": "1c3394f945cc42fb49e544c0ae0c673e4c1a00f496dc712276cde45797563a07",
+      "sourceBytes": 88464,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/00-log-subscribed.jpg",
+      "packagedSha256": "1c3394f945cc42fb49e544c0ae0c673e4c1a00f496dc712276cde45797563a07",
+      "packagedBytes": 88464,
+      "reviewReferences": [
+        {
+          "purpose": "Actual log subscription"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\01-t001.jpg",
+      "sourceSha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+      "sourceBytes": 162104,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/01-t001.jpg",
+      "packagedSha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+      "packagedBytes": 162104,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792822999.2658863,
+          "actualPlaySeconds": 1
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\02-t002.jpg",
+      "sourceSha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+      "sourceBytes": 162104,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/02-t002.jpg",
+      "packagedSha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+      "packagedBytes": 162104,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial strength duplicate",
+          "renderedAmount": 2,
+          "wallTime": 1792823000.2030647,
+          "actualPlaySeconds": 2
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\03-t006.jpg",
+      "sourceSha256": "03182d0d74aa8c3fee1cf127949f56d3c68967ad959dc89bea4cfb3e6089eb9f",
+      "sourceBytes": 162918,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/03-t006.jpg",
+      "packagedSha256": "03182d0d74aa8c3fee1cf127949f56d3c68967ad959dc89bea4cfb3e6089eb9f",
+      "packagedBytes": 162918,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823004.2104113,
+          "actualPlaySeconds": 6
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\04-t010.jpg",
+      "sourceSha256": "df9b7771ab66238a0fc6ed65183a26e75abffc5d838e1c7960179974245a7637",
+      "sourceBytes": 162020,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/04-t010.jpg",
+      "packagedSha256": "df9b7771ab66238a0fc6ed65183a26e75abffc5d838e1c7960179974245a7637",
+      "packagedBytes": 162020,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823008.2114027,
+          "actualPlaySeconds": 10
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\06-t037.jpg",
+      "sourceSha256": "41e522500760587b634a43c0ca779d1c8645430e964ef90e8ae4b783b1f1dec8",
+      "sourceBytes": 160661,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/06-t037.jpg",
+      "packagedSha256": "41e522500760587b634a43c0ca779d1c8645430e964ef90e8ae4b783b1f1dec8",
+      "packagedBytes": 160661,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 5,
+          "wallTime": 1792823035.7740636,
+          "actualPlaySeconds": 37.5
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\07-t041.jpg",
+      "sourceSha256": "2ec6337e26edc0148c0a473efb1a184528421d4b5c5016b0452b902fd3ea3418",
+      "sourceBytes": 162033,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/07-t041.jpg",
+      "packagedSha256": "2ec6337e26edc0148c0a473efb1a184528421d4b5c5016b0452b902fd3ea3418",
+      "packagedBytes": 162033,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823039.7768707,
+          "actualPlaySeconds": 41.5
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\08-t045.jpg",
+      "sourceSha256": "ca1b11f99220c8be627a7a4bf6b560a29c3a76ee5e7eea04084162515e685ca5",
+      "sourceBytes": 161349,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/08-t045.jpg",
+      "packagedSha256": "ca1b11f99220c8be627a7a4bf6b560a29c3a76ee5e7eea04084162515e685ca5",
+      "packagedBytes": 161349,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823043.7851572,
+          "actualPlaySeconds": 45.5
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\09-t049.jpg",
+      "sourceSha256": "d1228542cf2d0ad6e3c32f712e502058edbf395953b6d9f638d4747a94e86bb5",
+      "sourceBytes": 162411,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/09-t049.jpg",
+      "packagedSha256": "d1228542cf2d0ad6e3c32f712e502058edbf395953b6d9f638d4747a94e86bb5",
+      "packagedBytes": 162411,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823048.5400434,
+          "actualPlaySeconds": 50.4
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\10-t053.jpg",
+      "sourceSha256": "36af525dd0d3d3c3315dbfd5299c1bc6cedff01d7959a7d0fd940bef5c9b846d",
+      "sourceBytes": 161731,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/10-t053.jpg",
+      "packagedSha256": "36af525dd0d3d3c3315dbfd5299c1bc6cedff01d7959a7d0fd940bef5c9b846d",
+      "packagedBytes": 161731,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823051.2626789,
+          "actualPlaySeconds": 53
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\12-t080.jpg",
+      "sourceSha256": "da205202140a60d1b0cfcbef2ef74b3c7c8ef8d13941c632698097601fcfbde3",
+      "sourceBytes": 160426,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/12-t080.jpg",
+      "packagedSha256": "da205202140a60d1b0cfcbef2ef74b3c7c8ef8d13941c632698097601fcfbde3",
+      "packagedBytes": 160426,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 5,
+          "wallTime": 1792823078.276853,
+          "actualPlaySeconds": 80
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\13-t084.jpg",
+      "sourceSha256": "76d7b66e8b331d30bef5676fa0291bab8ae6ac026ee474856e934beaf455dc71",
+      "sourceBytes": 164516,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/13-t084.jpg",
+      "packagedSha256": "76d7b66e8b331d30bef5676fa0291bab8ae6ac026ee474856e934beaf455dc71",
+      "packagedBytes": 164516,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823082.2820506,
+          "actualPlaySeconds": 84
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\14-t088.jpg",
+      "sourceSha256": "161e981b6d038868c3c648d512e139cd9ab6611b55bcc86d97e1e08710ee9866",
+      "sourceBytes": 163609,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/14-t088.jpg",
+      "packagedSha256": "161e981b6d038868c3c648d512e139cd9ab6611b55bcc86d97e1e08710ee9866",
+      "packagedBytes": 163609,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823086.346266,
+          "actualPlaySeconds": 88
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\15-t092.jpg",
+      "sourceSha256": "57dc1805cea648d26ca665d8d9cda1786c1a5c9981546eeaeef6c2623c17a835",
+      "sourceBytes": 164497,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/15-t092.jpg",
+      "packagedSha256": "57dc1805cea648d26ca665d8d9cda1786c1a5c9981546eeaeef6c2623c17a835",
+      "packagedBytes": 164497,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823090.4593647,
+          "actualPlaySeconds": 92
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\16-t096.jpg",
+      "sourceSha256": "8c7a7aa2319d9d371e05cf06e8af99f3a4c99f37e541ed5ff8a2bff13282f0fb",
+      "sourceBytes": 163584,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/16-t096.jpg",
+      "packagedSha256": "8c7a7aa2319d9d371e05cf06e8af99f3a4c99f37e541ed5ff8a2bff13282f0fb",
+      "packagedBytes": 163584,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823094.4126503,
+          "actualPlaySeconds": 96
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\18-t123.jpg",
+      "sourceSha256": "2a50e72829c44a23c7284ea6bf70aa030346b1462b90d5741d0a525448693198",
+      "sourceBytes": 162053,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/18-t123.jpg",
+      "packagedSha256": "2a50e72829c44a23c7284ea6bf70aa030346b1462b90d5741d0a525448693198",
+      "packagedBytes": 162053,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823121.2923927,
+          "actualPlaySeconds": 123
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\19-t127.jpg",
+      "sourceSha256": "e107675d9651a8442ceb26a3f4cac305a77c8c144dc0267bf9809e89624d7557",
+      "sourceBytes": 164451,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/19-t127.jpg",
+      "packagedSha256": "e107675d9651a8442ceb26a3f4cac305a77c8c144dc0267bf9809e89624d7557",
+      "packagedBytes": 164451,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823125.3144872,
+          "actualPlaySeconds": 127
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\20-t131.jpg",
+      "sourceSha256": "fa351df76c97715eaddc3962d94fa4526f3b0fbedc08fe84b0bcf463d4293e07",
+      "sourceBytes": 163524,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/20-t131.jpg",
+      "packagedSha256": "fa351df76c97715eaddc3962d94fa4526f3b0fbedc08fe84b0bcf463d4293e07",
+      "packagedBytes": 163524,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823129.341393,
+          "actualPlaySeconds": 131
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\21-t135.jpg",
+      "sourceSha256": "52fb7e710627062e2f1dbf0a5c4e6519247c7f88050729c555127f901e9cfb96",
+      "sourceBytes": 164349,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/21-t135.jpg",
+      "packagedSha256": "52fb7e710627062e2f1dbf0a5c4e6519247c7f88050729c555127f901e9cfb96",
+      "packagedBytes": 164349,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823133.2613306,
+          "actualPlaySeconds": 135
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\22-t139.jpg",
+      "sourceSha256": "c08e41d1d99413d61000955d05bcaad0e3cbe7eb39e0c0820e761f185340c9b7",
+      "sourceBytes": 163595,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/22-t139.jpg",
+      "packagedSha256": "c08e41d1d99413d61000955d05bcaad0e3cbe7eb39e0c0820e761f185340c9b7",
+      "packagedBytes": 163595,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823137.3030763,
+          "actualPlaySeconds": 139
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\24-t166.jpg",
+      "sourceSha256": "c131ad0b91ba7e4e5b52b38e024f584fb34ba468ddf184ffbdffd55a12747a57",
+      "sourceBytes": 162036,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/24-t166.jpg",
+      "packagedSha256": "c131ad0b91ba7e4e5b52b38e024f584fb34ba468ddf184ffbdffd55a12747a57",
+      "packagedBytes": 162036,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823164.2896364,
+          "actualPlaySeconds": 166
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\25-t170.jpg",
+      "sourceSha256": "e65fa32e25ad339847373c62206d71d43c96eb635c71cf74f632fadfb3ee8f3c",
+      "sourceBytes": 163958,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/25-t170.jpg",
+      "packagedSha256": "e65fa32e25ad339847373c62206d71d43c96eb635c71cf74f632fadfb3ee8f3c",
+      "packagedBytes": 163958,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823168.2769396,
+          "actualPlaySeconds": 170
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\26-t174.jpg",
+      "sourceSha256": "b3c824acccc93a196d512cb59b95a47a389232408a35994379e65a03e323c654",
+      "sourceBytes": 163172,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/26-t174.jpg",
+      "packagedSha256": "b3c824acccc93a196d512cb59b95a47a389232408a35994379e65a03e323c654",
+      "packagedBytes": 163172,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823172.2688248,
+          "actualPlaySeconds": 174
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\266-b500.jpg",
+      "sourceSha256": "7573c2a5cba2da20789ab24dd9da9e04afa49197692ce3ef53e583a8cc6ce4a6",
+      "sourceBytes": 129342,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/266-b500.jpg",
+      "packagedSha256": "7573c2a5cba2da20789ab24dd9da9e04afa49197692ce3ef53e583a8cc6ce4a6",
+      "packagedBytes": 129342,
+      "reviewReferences": [
+        {
+          "review": "block"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\27-t178.jpg",
+      "sourceSha256": "7bcab262b843e2e68ab0340b484414866e964485d47be78bf9585640cd382fd8",
+      "sourceBytes": 163999,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/27-t178.jpg",
+      "packagedSha256": "7bcab262b843e2e68ab0340b484414866e964485d47be78bf9585640cd382fd8",
+      "packagedBytes": 163999,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823176.3176687,
+          "actualPlaySeconds": 178
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\28-t182.jpg",
+      "sourceSha256": "c13557579a9bce4be3735c16f106cb615c1eaf62c5790a27669d22be8df22b56",
+      "sourceBytes": 163146,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/28-t182.jpg",
+      "packagedSha256": "c13557579a9bce4be3735c16f106cb615c1eaf62c5790a27669d22be8df22b56",
+      "packagedBytes": 163146,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823180.275887,
+          "actualPlaySeconds": 182
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\30-t209.jpg",
+      "sourceSha256": "4e4520f951650f97866838fd72c6eca6ad07aee792505fc77f3a15a788d1c5fd",
+      "sourceBytes": 161772,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/30-t209.jpg",
+      "packagedSha256": "4e4520f951650f97866838fd72c6eca6ad07aee792505fc77f3a15a788d1c5fd",
+      "packagedBytes": 161772,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823207.28412,
+          "actualPlaySeconds": 209
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\31-t213.jpg",
+      "sourceSha256": "fbf457ba79062555ee9fc6b69d07de10911252e099e37c68c31dc77963cb62ea",
+      "sourceBytes": 165465,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/31-t213.jpg",
+      "packagedSha256": "fbf457ba79062555ee9fc6b69d07de10911252e099e37c68c31dc77963cb62ea",
+      "packagedBytes": 165465,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823211.231222,
+          "actualPlaySeconds": 213
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\32-t217.jpg",
+      "sourceSha256": "76688bc4fe02cf306c8a169ae259208196fbb47a3e04d516e344645060e5a549",
+      "sourceBytes": 164709,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/32-t217.jpg",
+      "packagedSha256": "76688bc4fe02cf306c8a169ae259208196fbb47a3e04d516e344645060e5a549",
+      "packagedBytes": 164709,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823215.3104215,
+          "actualPlaySeconds": 217
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\328-b540.jpg",
+      "sourceSha256": "1f1fd7cc261b14dee243ab2d7027a336dfe90274ad72c18e16802697477db86b",
+      "sourceBytes": 126236,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/328-b540.jpg",
+      "packagedSha256": "1f1fd7cc261b14dee243ab2d7027a336dfe90274ad72c18e16802697477db86b",
+      "packagedBytes": 126236,
+      "reviewReferences": [
+        {
+          "review": "block"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\33-t221.jpg",
+      "sourceSha256": "79480ef7821f133476c59e67c94dab9076724b89ca91328eaa2d7b7b5c9fcdfe",
+      "sourceBytes": 165323,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/33-t221.jpg",
+      "packagedSha256": "79480ef7821f133476c59e67c94dab9076724b89ca91328eaa2d7b7b5c9fcdfe",
+      "packagedBytes": 165323,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823219.2481718,
+          "actualPlaySeconds": 221
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\34-t225.jpg",
+      "sourceSha256": "5b7eb7c4ceefba2ea413d591efa3b079edc67db0686704d253da6ffd4cf1f1a4",
+      "sourceBytes": 164738,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/34-t225.jpg",
+      "packagedSha256": "5b7eb7c4ceefba2ea413d591efa3b079edc67db0686704d253da6ffd4cf1f1a4",
+      "packagedBytes": 164738,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823223.230843,
+          "actualPlaySeconds": 225
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\36-t252.jpg",
+      "sourceSha256": "2541105c575af93d38f89470b3f74cb156e023055b124219de42e73b1d07f665",
+      "sourceBytes": 162996,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/36-t252.jpg",
+      "packagedSha256": "2541105c575af93d38f89470b3f74cb156e023055b124219de42e73b1d07f665",
+      "packagedBytes": 162996,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823250.3414152,
+          "actualPlaySeconds": 252
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\37-t256.jpg",
+      "sourceSha256": "bde0a7e5e60393eb20acedaf8c07bdc1e62e654ac985f6866247dbd20c2f1503",
+      "sourceBytes": 165542,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/37-t256.jpg",
+      "packagedSha256": "bde0a7e5e60393eb20acedaf8c07bdc1e62e654ac985f6866247dbd20c2f1503",
+      "packagedBytes": 165542,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823254.2521079,
+          "actualPlaySeconds": 256
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\38-t260.jpg",
+      "sourceSha256": "36e61462ab6bff8e303ef44ee3d4d8a1fcc9870f1b6eac5ded5139f39514926c",
+      "sourceBytes": 164603,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/38-t260.jpg",
+      "packagedSha256": "36e61462ab6bff8e303ef44ee3d4d8a1fcc9870f1b6eac5ded5139f39514926c",
+      "packagedBytes": 164603,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823258.249263,
+          "actualPlaySeconds": 260
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\39-t264.jpg",
+      "sourceSha256": "6961b60d22a3dd4c2d62267a68880be134dfe26ecf05891f34936a615cffc431",
+      "sourceBytes": 165506,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/39-t264.jpg",
+      "packagedSha256": "6961b60d22a3dd4c2d62267a68880be134dfe26ecf05891f34936a615cffc431",
+      "packagedBytes": 165506,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823262.3374867,
+          "actualPlaySeconds": 264
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\40-t268.jpg",
+      "sourceSha256": "32a358a2d0940ff1869ba02b62af20350596c7b08afe4530342e5f1b59979ffd",
+      "sourceBytes": 164558,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/40-t268.jpg",
+      "packagedSha256": "32a358a2d0940ff1869ba02b62af20350596c7b08afe4530342e5f1b59979ffd",
+      "packagedBytes": 164558,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823266.4059079,
+          "actualPlaySeconds": 268
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\407-b580.jpg",
+      "sourceSha256": "5c730255b7bf7eadc5ac331ded496eeced50ca6d1b96d96dd8ec1f836f76f55a",
+      "sourceBytes": 126949,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/407-b580.jpg",
+      "packagedSha256": "5c730255b7bf7eadc5ac331ded496eeced50ca6d1b96d96dd8ec1f836f76f55a",
+      "packagedBytes": 126949,
+      "reviewReferences": [
+        {
+          "review": "block"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\42-t295.jpg",
+      "sourceSha256": "3f5f8430edd1bd4b3aa55b3f8002b985b081f4431fb6c4a039910da66483338e",
+      "sourceBytes": 163189,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/42-t295.jpg",
+      "packagedSha256": "3f5f8430edd1bd4b3aa55b3f8002b985b081f4431fb6c4a039910da66483338e",
+      "packagedBytes": 163189,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 5,
+          "wallTime": 1792823293.4352124,
+          "actualPlaySeconds": 295
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\43-t299.jpg",
+      "sourceSha256": "c54567b1bf675f6c73183566d04e1c860b0042b8664425572141faefb7ea7a2a",
+      "sourceBytes": 166140,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/43-t299.jpg",
+      "packagedSha256": "c54567b1bf675f6c73183566d04e1c860b0042b8664425572141faefb7ea7a2a",
+      "packagedBytes": 166140,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823297.3939476,
+          "actualPlaySeconds": 299
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\44-t303.jpg",
+      "sourceSha256": "7530ce133dc76e82e15e186c07757b18f54d13e56410d0532eca40ac81df1272",
+      "sourceBytes": 165353,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/44-t303.jpg",
+      "packagedSha256": "7530ce133dc76e82e15e186c07757b18f54d13e56410d0532eca40ac81df1272",
+      "packagedBytes": 165353,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823301.3341203,
+          "actualPlaySeconds": 303
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\443-t596.jpg",
+      "sourceSha256": "ee5bdddf58c45d21e6012f70ca8f5663fa2b93d40ed34088bb28e8689e5866a9",
+      "sourceBytes": 166489,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/443-t596.jpg",
+      "packagedSha256": "ee5bdddf58c45d21e6012f70ca8f5663fa2b93d40ed34088bb28e8689e5866a9",
+      "packagedBytes": 166489,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "unaimed",
+          "logT": 599,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=unaimed elapsed=0.00 expected=strike=4 twin=3x2 cleave=6 defend=5; costs=1/1/1/1/2; AcidSpit=7+Slimed, Bellow=Strength+3/Block6 detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 596.8,
+          "wallTime": 1792823595.0407777,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "普通攻击4；双重每段3/2段；顺劈6；防御5；破防斩6+易伤2。费用2/1/1/1/1，能量3/3、HP60/80、金币99，敌HP30/30和44/44；复合意图图标及角标可见。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\446-b598.jpg",
+      "sourceSha256": "4a023368a34706a75908dab7621c0489ad5fa1e198df7710ce7aaacb18bf1973",
+      "sourceBytes": 156809,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/446-b598.jpg",
+      "packagedSha256": "4a023368a34706a75908dab7621c0489ad5fa1e198df7710ce7aaacb18bf1973",
+      "packagedBytes": 156809,
+      "reviewReferences": [
+        {
+          "review": "block"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\45-t307.jpg",
+      "sourceSha256": "e69cd3595609c80576dd15b4ed642aadc1009231480744ba8d6233fc7046f4ee",
+      "sourceBytes": 166022,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/45-t307.jpg",
+      "packagedSha256": "e69cd3595609c80576dd15b4ed642aadc1009231480744ba8d6233fc7046f4ee",
+      "packagedBytes": 166022,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823305.3154304,
+          "actualPlaySeconds": 307
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\450-t600.jpg",
+      "sourceSha256": "ff8399e68e5cb82d01683c6a3c799b9ecf857c18c2d2fce67e46188931493b7d",
+      "sourceBytes": 177147,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/450-t600.jpg",
+      "packagedSha256": "ff8399e68e5cb82d01683c6a3c799b9ecf857c18c2d2fce67e46188931493b7d",
+      "packagedBytes": 177147,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "strike-aim-plain",
+          "logT": 603,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=strike-aim-plain elapsed=4.03 expected=4 detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 600.9,
+          "wallTime": 1792823599.2934008,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "普通攻击拖向中型酸液团，牌上确定值4。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\459-t604.jpg",
+      "sourceSha256": "c06b15c476291e2d6374a1a2d193fb5b9a20ac231a01e67f290052c1bd5db60d",
+      "sourceBytes": 177884,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/459-t604.jpg",
+      "packagedSha256": "c06b15c476291e2d6374a1a2d193fb5b9a20ac231a01e67f290052c1bd5db60d",
+      "packagedBytes": 177884,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "strike-aim-vulnerable",
+          "logT": 607,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=strike-aim-vulnerable elapsed=8.06 expected=6; other hand cards unchanged detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 604.8,
+          "wallTime": 1792823603.0824928,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "普通攻击拖向易伤石颚兽，牌上确定值6；其余手牌仍各自原值。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\46-t311.jpg",
+      "sourceSha256": "da80863a36176332177449753f6331a1a09d36d4bd6aee729abb2b5248d9d292",
+      "sourceBytes": 133940,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/46-t311.jpg",
+      "packagedSha256": "da80863a36176332177449753f6331a1a09d36d4bd6aee729abb2b5248d9d292",
+      "packagedBytes": 133940,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "actual Defend rather than planned enemy Regen5",
+          "renderedAmount": null,
+          "wallTime": 1792823312.423176,
+          "actualPlaySeconds": 314
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\468-t608.jpg",
+      "sourceSha256": "ee5bdddf58c45d21e6012f70ca8f5663fa2b93d40ed34088bb28e8689e5866a9",
+      "sourceBytes": 166489,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/468-t608.jpg",
+      "packagedSha256": "ee5bdddf58c45d21e6012f70ca8f5663fa2b93d40ed34088bb28e8689e5866a9",
+      "packagedBytes": 166489,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "strike-cancel",
+          "logT": 611,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=strike-cancel elapsed=12.07 expected=4; zero cards played, RNG unchanged detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 608.8,
+          "wallTime": 1792823607.0626967,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "取消拖动回手牌，普通攻击恢复4；敌HP和能量未变。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\476-t612.jpg",
+      "sourceSha256": "7147a485ff4d0e62ecf5325f3ad1ff94023cadafddef48b9ec6b904601f5ce85",
+      "sourceBytes": 179176,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/476-t612.jpg",
+      "packagedSha256": "7147a485ff4d0e62ecf5325f3ad1ff94023cadafddef48b9ec6b904601f5ce85",
+      "packagedBytes": 179176,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "multi-aim-vulnerable",
+          "logT": 615,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=multi-aim-vulnerable elapsed=16.10 expected=5x2; floor(5*0.75*1.5)=5 per hit detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 613,
+          "wallTime": 1792823611.3672225,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "双重打击（当前中文名重击）拖向易伤敌人，完整显示连续2次、每次5。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\48-t338.jpg",
+      "sourceSha256": "18aefac66fbeea6d6b44c2cdd7fa223ccfccaf5083fff792b977997558bd1b7c",
+      "sourceBytes": 163848,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/48-t338.jpg",
+      "packagedSha256": "18aefac66fbeea6d6b44c2cdd7fa223ccfccaf5083fff792b977997558bd1b7c",
+      "packagedBytes": 163848,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823336.4807482,
+          "actualPlaySeconds": 338
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\482-b616.jpg",
+      "sourceSha256": "771fcf0fa5794d28a737d72fd1800d6b5da2a83f625f373ddf6115ada20df878",
+      "sourceBytes": 154194,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/482-b616.jpg",
+      "packagedSha256": "771fcf0fa5794d28a737d72fd1800d6b5da2a83f625f373ddf6115ada20df878",
+      "packagedBytes": 154194,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "aoe-aim",
+          "logT": 619,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=aoe-aim elapsed=20.10 expected=label6; per targets6/9, never6~9 range detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 616.01,
+          "wallTime": 1792823613.9426413,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "顺劈斩（当前中文名星陨剑）拖动时仍显示对每个敌人6，没有6～9跨目标范围。逐目标实际6/9由独立核心副本oracle证明，未在本段实际出群攻牌。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\49-t342.jpg",
+      "sourceSha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+      "sourceBytes": 163487,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/49-t342.jpg",
+      "packagedSha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+      "packagedBytes": 163487,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": null,
+          "wallTime": 1792823340.5536857,
+          "actualPlaySeconds": 342.1
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\490-b620.jpg",
+      "sourceSha256": "4f5c9dc4cb5244aa6182ee2f699b9d36fb8b93f0b6ff6ac9d574a65f7982760f",
+      "sourceBytes": 168808,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/490-b620.jpg",
+      "packagedSha256": "4f5c9dc4cb5244aa6182ee2f699b9d36fb8b93f0b6ff6ac9d574a65f7982760f",
+      "packagedBytes": 168808,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "acid-intent-tap",
+          "logT": 623,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=acid-intent-tap elapsed=24.12 expected=upcoming damage7 and 1 Slimed; not applied player Weak detail=中型酸液团 · 行动意图 | 攻击 | 攻击造成 7 点伤害；将 1 张「黏滞」放入你的弃牌堆 seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 620.01,
+          "wallTime": 1792823617.9374247,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "完整可读：中型酸液团·行动意图；下一次行动，尚未执行；攻击造成7点伤害，将1张黏滞放入弃牌堆。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\497-b624.jpg",
+      "sourceSha256": "7b63856ce551e96713925bef132052ec96eb410735e011eb2ad61c2fc4ed9324",
+      "sourceBytes": 164277,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/497-b624.jpg",
+      "packagedSha256": "7b63856ce551e96713925bef132052ec96eb410735e011eb2ad61c2fc4ed9324",
+      "packagedBytes": 164277,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "jaw-bellow-tap",
+          "logT": 627,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=jaw-bellow-tap elapsed=28.13 expected=upcoming Strength+3 and Block6; existing Strength2 remains on Jaw detail=石颚兽 · 行动意图 | 强化 | 自身获得 3 层力量；获得 6 点格挡 seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 624.65,
+          "wallTime": 1792823622.5754223,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "完整可读：石颚兽·行动意图；下一次行动，尚未执行；强化；自身获得3层力量，获得6点格挡。头顶强化+防御角标没有伪装成现有层数或伤害。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\50-t346.jpg",
+      "sourceSha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+      "sourceBytes": 162801,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/50-t346.jpg",
+      "packagedSha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+      "packagedBytes": 162801,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": null,
+          "wallTime": 1792823344.4277647,
+          "actualPlaySeconds": 346
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\508-b630.jpg",
+      "sourceSha256": "dfa2a92d98ea1cdf662d86145916bbf4fd85a5d9e1fb2660fe0b63a7fdb2996e",
+      "sourceBytes": 161792,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/508-b630.jpg",
+      "packagedSha256": "dfa2a92d98ea1cdf662d86145916bbf4fd85a5d9e1fb2660fe0b63a7fdb2996e",
+      "packagedBytes": 161792,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "status-held",
+          "logT": 631,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=status-held elapsed=32.15 expected=actual Jaw status name/layers/detail; pending Bellow not yet applied detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 630.01,
+          "wallTime": 1792823627.9403136,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "合成Down等待生产长按延迟后，详情显示石颚兽、生命44/44·格挡0、力量2·增益、攻击每段伤害+2。不是下一行动将获得的3。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\51-t350.jpg",
+      "sourceSha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+      "sourceBytes": 163487,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/51-t350.jpg",
+      "packagedSha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+      "packagedBytes": 163487,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": null,
+          "wallTime": 1792823348.2656002,
+          "actualPlaySeconds": 350
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\512-b632.jpg",
+      "sourceSha256": "dfa2a92d98ea1cdf662d86145916bbf4fd85a5d9e1fb2660fe0b63a7fdb2996e",
+      "sourceBytes": 161792,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/512-b632.jpg",
+      "packagedSha256": "dfa2a92d98ea1cdf662d86145916bbf4fd85a5d9e1fb2660fe0b63a7fdb2996e",
+      "packagedBytes": 161792,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "status-release",
+          "logT": 635,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=status-release elapsed=36.18 expected=no extra play/target/RNG change detail=石颚兽 | 力量 2 · 增益 | 攻击每段伤害 +2。 seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 632.01,
+          "wallTime": 1792823629.9416,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "同触点释放并Click后，力量2说明持续显示；仍5张手牌、能量3/3、敌44/44。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\519-b636.jpg",
+      "sourceSha256": "fbbc0cebf8d19347eae19123b7d8c6c99f11290d27e4eedb192f23a9f9281c16",
+      "sourceBytes": 167502,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/519-b636.jpg",
+      "packagedSha256": "fbbc0cebf8d19347eae19123b7d8c6c99f11290d27e4eedb192f23a9f9281c16",
+      "packagedBytes": 167502,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "bash-keyword-hover",
+          "logT": 639,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=bash-keyword-hover elapsed=40.20 expected=Vulnerable keyword; not an applied state detail= seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 636.72,
+          "wallTime": 1792823634.646381,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "完整可读：破防斩·关键词；卡牌效果说明，不代表已施加状态；易伤·关键词；受到攻击伤害+50%，持续2回合。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\52-t354.jpg",
+      "sourceSha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+      "sourceBytes": 162801,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/52-t354.jpg",
+      "packagedSha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+      "packagedBytes": 162801,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": null,
+          "wallTime": 1792823352.2717636,
+          "actualPlaySeconds": 354
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\526-b640.jpg",
+      "sourceSha256": "d5f9dcf96f2f0b3132aef41292dd7963e40f52ad862ae3d52072bc15e9992643",
+      "sourceBytes": 164377,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/526-b640.jpg",
+      "packagedSha256": "d5f9dcf96f2f0b3132aef41292dd7963e40f52ad862ae3d52072bc15e9992643",
+      "packagedBytes": 164377,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "player-weak-tap",
+          "logT": 643,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=player-weak-tap elapsed=44.22 expected=Weak2 belongs to player; never enemy upcoming action detail=旅行者 | 虚弱 2 · 减益 | 造成的攻击伤害 -25%，持续 2 回合。 seed=11009 hp=60 energy=3 gold=99",
+          "playSeconds": 640.01,
+          "wallTime": 1792823637.9363189,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "完整可读：旅行者；生命60/80·格挡0；虚弱2·减益；造成攻击伤害-25%，持续2回合。实际承受者为玩家。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\534-b644.jpg",
+      "sourceSha256": "82b3a5bedfa3792da814b542165dd897851d213a1e826c842a5219c60d457a43",
+      "sourceBytes": 131634,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/534-b644.jpg",
+      "packagedSha256": "82b3a5bedfa3792da814b542165dd897851d213a1e826c842a5219c60d457a43",
+      "packagedBytes": 131634,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "normal-strike-resolution",
+          "logT": 647,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=normal-strike-resolution elapsed=48.24 expected=actual enemy HP-6 energy3->2 hand5->4; production feedback detail= seed=11009 hp=60 energy=2 gold=99",
+          "playSeconds": 644.01,
+          "wallTime": 1792823641.9398727,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "生产普通攻击出牌动画真实出现；能量已为2/3，手牌减至4张，未用静态模拟页面代替。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\541-b648.jpg",
+      "sourceSha256": "2d79b5a3dcc580a13a60e0eb773a48c6d2954eb0788b7a35b2ad33bc739a89f3",
+      "sourceBytes": 147643,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/541-b648.jpg",
+      "packagedSha256": "2d79b5a3dcc580a13a60e0eb773a48c6d2954eb0788b7a35b2ad33bc739a89f3",
+      "packagedBytes": 147643,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "phase": "complete",
+          "logT": 651,
+          "logText": "M1_PREVIEW fixtureOnly=true syntheticEvents=true phase=complete elapsed=52.28 expected=read-only previews/help plus exactly one normal Strike; no natural-acquisition or full-run claim detail= seed=11009 hp=60 energy=2 gold=99",
+          "playSeconds": 648.54,
+          "wallTime": 1792823646.4675155,
+          "visuallyInspected": true,
+          "result": "PASS",
+          "observation": "反馈已结束：石颚兽38/44，酸液30/30，玩家60/80、能量2/3、4张手牌、弃牌1、金币99；最终655帧保持相同结果。"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\544-t655.jpg",
+      "sourceSha256": "7691145717a9aee788d93ae181a2569fdc30977e6a88d55396c3e93780f933ee",
+      "sourceBytes": 156799,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/544-t655.jpg",
+      "packagedSha256": "7691145717a9aee788d93ae181a2569fdc30977e6a88d55396c3e93780f933ee",
+      "packagedBytes": 156799,
+      "reviewReferences": [
+        {
+          "review": "preview",
+          "playSeconds": 655,
+          "visuallyInspected": true,
+          "enemyHp": "38/44",
+          "energy": "2/3",
+          "hand": 4,
+          "discard": 1
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\545-end.jpg",
+      "sourceSha256": "7691145717a9aee788d93ae181a2569fdc30977e6a88d55396c3e93780f933ee",
+      "sourceBytes": 156799,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/545-end.jpg",
+      "packagedSha256": "7691145717a9aee788d93ae181a2569fdc30977e6a88d55396c3e93780f933ee",
+      "packagedBytes": 156799,
+      "reviewReferences": [
+        {
+          "purpose": "Run end context; not acceptance"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\56-t381.jpg",
+      "sourceSha256": "4cb669133a61f9cc447ec88c692f3bd9c318de3f405e8b80672dce91474438d2",
+      "sourceBytes": 162778,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/56-t381.jpg",
+      "packagedSha256": "4cb669133a61f9cc447ec88c692f3bd9c318de3f405e8b80672dce91474438d2",
+      "packagedBytes": 162778,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": null,
+          "wallTime": 1792823379.2870638,
+          "actualPlaySeconds": 381
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\63-b384.jpg",
+      "sourceSha256": "15bdddef248a2184c3d0d2c6481cdd8ae09ac2f0320e01f38a52e9c3e67ebf09",
+      "sourceBytes": 113233,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/63-b384.jpg",
+      "packagedSha256": "15bdddef248a2184c3d0d2c6481cdd8ae09ac2f0320e01f38a52e9c3e67ebf09",
+      "packagedBytes": 113233,
+      "reviewReferences": [
+        {
+          "review": "block"
+        }
+      ]
+    },
+    {
+      "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\65-t385.jpg",
+      "sourceSha256": "e03921a8f0bce61c79b70ad4c21bade553c566350a60a8875220bc277f547c1c",
+      "sourceBytes": 124543,
+      "role": "Original screenshot explicitly selected by an independent reviewer",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "packagedPath": "screens/65-t385.jpg",
+      "packagedSha256": "e03921a8f0bce61c79b70ad4c21bade553c566350a60a8875220bc277f547c1c",
+      "packagedBytes": 124543,
+      "reviewReferences": [
+        {
+          "review": "status",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "next block fixture, excluded from nine-status proof",
+          "renderedAmount": null,
+          "wallTime": 1792823383.2708151,
+          "actualPlaySeconds": 385
+        },
+        {
+          "review": "block"
+        }
+      ]
+    }
+  ]
+}
