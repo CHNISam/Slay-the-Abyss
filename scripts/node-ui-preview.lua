@@ -19,6 +19,7 @@ local function control(spec)
         text = spec.text and spec.text.content or "", imageId = spec.image }
     function c:GetChild(key) return self.children[key] end
     function c:SetVisible(value) self.visible = value end
+    function c:SetLocalScale() end -- snapshot renderer records resting geometry only
     function c:SetImage(_, id) self.imageId = id end
     function c:AddCursorEventListener(_, callback) self.click = callback end
     for _, item in ipairs(spec.children or {}) do
@@ -52,7 +53,7 @@ local function encode(value)
 end
 local function dump(c)
     local spec, children = c.spec, {}
-    for _, item in ipairs(c.order) do children[#children + 1] = dump(item) end
+    for _, item in ipairs(c.order) do if item.visible then children[#children + 1] = dump(item) end end
     return { name = spec.name, kind = spec.kind, position = spec.position or { 0, 0 }, size = spec.size,
         visible = c.visible, image = c.imageId, colour = hex(c.imageColor) or spec.colour,
         text = spec.text and { content = c.text, fontSize = spec.text.fontSize, minFontSize = spec.text.minFontSize,
@@ -110,7 +111,8 @@ ui, root = scene("event", cleric, function(run) run.hp, run.gold = 41, 40 end)
 capture("event-cleric", root)
 assert(ui:press("eventView/option1"))
 capture("event-result", root)
-ui, root = scene("event", nil, midRun)
+local purifier = Combat.copy(data);purifier.rules.events.encounterId='purifier'
+ui, root = scene("event", purifier, midRun)
 capture("event-purifier", root)
 
 ui, root = scene("treasure", nil, midRun)

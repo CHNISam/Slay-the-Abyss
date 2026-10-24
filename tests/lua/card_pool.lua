@@ -120,8 +120,8 @@ for _, case in ipairs(cases) do
     end
 end
 
-local function entered(kind)
-    local run, map = Run.new(data, 42), Map.generate(data, 42)
+local function entered(kind,seed)
+    local run, map = Run.new(data, seed or 42), Map.generate(data, seed or 42)
     -- Stage prior navigation as a node-unit fixture, then use actual enter.
     while true do
         local available = Map.available(map)
@@ -131,12 +131,24 @@ local function entered(kind)
         assert(#available > 0, "route needs " .. kind); assert(Map.choose(map, available[1].id))
     end
 end
+local shopSeedByCard, lastShopSeed = {}, 0
+local function seedOffering(id)
+    while not shopSeedByCard[id] and lastShopSeed<1000 do
+        lastShopSeed=lastShopSeed+1
+        local stock=require('abyss_shop').prepare(Run.new(data,lastShopSeed))
+        for _,o in ipairs(stock.cards) do if not o.unavailable and not shopSeedByCard[o.id] then shopSeedByCard[o.id]=lastShopSeed end end
+    end
+    return shopSeedByCard[id]
+end
 for _, case in ipairs(cases) do
     test(case.id .. " obtained legally and camp-upgraded permanent instance executes next battle", function()
         local run
         if find(data.cards.cards, case.id).rarity == "basic" then run = Run.new(data, 42)
         else
-            run = entered("shop")
+            -- Find a deterministic sampled shop, rather than requiring a catalogue.
+            local seed=seedOffering(case.id)
+            assert(seed,'supported card must be reachable in sampled stock: '..case.id)
+            run = entered("shop",seed)
             local offer = assert(find(run.nodeFlow.cards, case.id), "not offered: " .. case.id)
             -- Economic boundary fixture: exact purchase price, no free award.
             run.gold = offer.price
