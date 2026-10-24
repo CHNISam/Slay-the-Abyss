@@ -6,6 +6,7 @@ local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local PotionRewards = require("abyss_potion_rewards")
+local GoldRewards = require("abyss_gold_rewards")
 local RunSeed = require("abyss_run_seed")
 local EncounterQueue = require("abyss_encounter_queue")
 local RoomEncounters = require("abyss_room_encounters")
@@ -19,6 +20,7 @@ function M.new(data, seed)
     local eventSeed = RunSeed.normalize(seed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
+        treasureRng = EventRandom.fromSeed(eventSeed),
         encounters=EncounterQueue.new(eventSeed),roomGeneration=0,
         -- Launch supports the exact source !isBossSeen(GUARDIAN) branch. It
         -- duplicates Guardian and spends no monsterRng; no all-unlocked claim.
@@ -182,7 +184,7 @@ local function rewardCandidates(run)
     return candidates
 end
 
-function M.finishCombat(run)
+local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
     if not result then return false, "battle_unfinished" end
@@ -202,10 +204,16 @@ function M.finishCombat(run)
             end
         end
     end
-    local gold = run.data.rules.rewards[run.encounterTier .. "Gold"]
-    -- The content table calls ordinary encounters 'normal'.
-    assert(type(gold) == "number", "unknown encounter reward tier")
-    if allEscaped then gold = 0 end
+    local gold, goldStream, nextGoldRng
+    if run.combat.roomSeed then
+        gold, goldStream, nextGoldRng = GoldRewards.prepare(run.encounterTier, run, {allEscaped=allEscaped})
+    else
+        -- Historical explicit-ID fixtures retain their fixed reward contract;
+        -- only the actual source-room path claims the source gold RNG boundary.
+        gold = run.data.rules.rewards[run.encounterTier .. "Gold"]
+        assert(type(gold) == "number", "unknown encounter reward tier")
+        if allEscaped then gold = 0 end
+    end
     local pool, choices = rewardCandidates(run), {}
     for _ = 1, math.min(run.data.rules.rewards.cardChoices, #pool) do
         choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
@@ -220,6 +228,22 @@ function M.finishCombat(run)
         run.rewards.cardResolved, run.rewards.manualContinue = false, true
     end
     run.victories = run.victories + 1
+    if goldStream then run[goldStream] = nextGoldRng end
+    return true
+end
+
+function M.finishCombat(run)
+    if run.phase ~= "combat" then return false, "not_in_combat" end
+    if not run.combat.roomSeed then return finishCombat(run) end
+    -- A formal reward is one transaction: invalid source RNG or a later potion
+    -- failure must not publish healed HP, card/treasure progress or lastResult.
+    local staged = {}
+    for key, value in pairs(run) do staged[key] = value end
+    staged.shopRng = run.shopRng and Combat.copy(run.shopRng)
+    local ok, reason = finishCombat(staged)
+    if not ok then return false, reason end
+    for key in pairs(run) do run[key] = staged[key] end
+    for key, value in pairs(staged) do run[key] = value end
     return true
 end
 
