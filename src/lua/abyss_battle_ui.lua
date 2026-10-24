@@ -1269,7 +1269,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not self.active or not self.run or self.busy or self.gesture or self.suppressClick then return false end
         local ok,reason=(claim and Run.claimPotionReward or Run.skipPotionReward)(self.run)
         notice(ok and (claim and "药水已放入背包。" or "已放弃药水。") or reasons[reason] or "当前无法处理药水。")
-        refresh()
+        refresh(ok)
         return ok,reason
     end
     function self:claimPotionReward() return processPotionReward(true) end
