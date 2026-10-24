@@ -53,17 +53,25 @@ test("sparse targeted potion follows fresh target selection without moving slots
     emit("enemy2","down",8); emit("enemy2","click",8)
     assert(u.target==2)
     tap(9,2); d()
+    assert(h.run.potions[2]=="fire_potion" and b.enemies[2].hp==hp2)
+    emit("enemy2","down",10); emit("enemy2","click",10); d()
     assert(h.run.potions[2]==nil and b.enemies[1].hp==hp1 and b.enemies[2].hp==hp2-20)
 end)
-test("failed potion transaction consumes gesture but preserves bottle and fresh retry",function()
+test("failed target transaction preserves bottle and fresh explicit UI retry",function()
     local h,u,p,e,t,d,deck,r,emit,tap=fixture({"defend"},{"cultist","jaw_worm"})
     assert(Run.obtainPotion(h.run,"fire_potion")); h:refresh()
-    u.target=99 -- explicit invalid target, real Run.usePotion transaction rejects it
+    -- The UI no longer submits its stale/default target. Preserve the original
+    -- atomic core-refusal assertion, then retry through the new confirmation flow.
+    local inventory=h.run.potions
+    local hp,events=h.run.combat.enemies[2].hp,#h.run.combat.events
+    local ok,why=Run.usePotion(h.run,2,99)
+    assert(not ok and why=="invalid_target" and h.run.potions==inventory)
+    assert(h.run.combat.enemies[2].hp==hp and #h.run.combat.events==events)
+    u.target=99
     tap(7,2); assert(h.run.potions[2]=="fire_potion" and not u.busy)
     emit("potion2","click",7); assert(h.run.potions[2]=="fire_potion")
-    emit("enemy2","down",8); emit("enemy2","click",8)
-    local hp=h.run.combat.enemies[2].hp
-    tap(7,2); d(); assert(h.run.combat.enemies[2].hp==hp-20)
+    emit("enemy2","down",8); emit("enemy2","click",8); d()
+    assert(h.run.potions[2]==nil and h.run.combat.enemies[2].hp==hp-20)
 end)
 test("harmless redraws preserve held and released potion ownership",function()
     local h,u,p,e,t,d,deck,r,emit=fixture()

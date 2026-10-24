@@ -242,6 +242,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return dragReady(g) and self.run.potions == g.inventory
             and self.run.potions[g.slot] == g.id
     end
+    -- Pending use owns a bottle instance, not the previously highlighted enemy.
+    local function cancelPotionTarget()
+        if not self.pendingPotion then return false end
+        self.pendingPotion = nil
+        notice("")
+        return true
+    end
+    local function potionInputReady(g)
+        return potionReady(g) and g.pendingPotion == self.pendingPotion
+    end
     local function cancelPotionInputs()
         for _, input in ipairs(potionInputs) do input.held, input.released = nil, nil end
     end
@@ -283,6 +293,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function enemyReady(g)
         return not self.info and dragReady(g) and Actors.isActive(g.actor) and g.battle.enemies[g.slot] == g.actor
             and self.selected == g.uid and self.selectionEpoch == g.selectionEpoch
+            and self.pendingPotion == g.pendingPotion
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
@@ -349,7 +360,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local closeInfo -- defined with the detail panel below
     function self:resize(width, height)
-        local cancelled = self.gesture ~= nil
+        local cancelled = cancelPotionTarget() or self.gesture ~= nil
         cancelCardInputs()
         cancelPotionInputs()
         cancelActionInputs()
@@ -798,6 +809,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         -- Explicit redraws do; authoritative run/reward/item checks always apply.
         if not presentationOnly then self.rewardRender = (self.rewardRender or 0) + 1 end
         local run = self.run
+        if self.pendingPotion and (not potionReady(self.pendingPotion) or self.info or self.gesture or self.selected) then
+            cancelPotionTarget()
+        end
         if self.gesture and not cardReady(self.gesture) then
             self.gesture, self.selected, self.suppressClick = nil, nil, true
         end
@@ -806,8 +820,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if input.released and not cardReady(input.released) then input.released = nil end
         end
         for _, input in ipairs(potionInputs) do
-            if input.held and not potionReady(input.held) then input.held = nil end
-            if input.released and not potionReady(input.released) then input.released = nil end
+            if input.held and not potionInputReady(input.held) then input.held = nil end
+            if input.released and not potionInputReady(input.released) then input.released = nil end
         end
         for _, input in ipairs(actionInputs) do
             if input.held and not actionReady(input.held) then input.held = nil end
@@ -949,7 +963,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     local valid, hovered = dragTarget(self.gesture)
                     targetable = valid and hovered == i
                 end
-                local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and Actors.isActive(enemy)
+                local potionTarget = self.potionTargetAvailable and not pendingTarget and Actors.isActive(enemy)
+                    and (self.pendingPotion ~= nil or self.target == i)
                 unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
                 -- An intent event is the historical action's starting face.
                 -- Later frames already include its effects: do not apply them
@@ -1113,7 +1128,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local binding = self.potionSlots and self.potionSlots[i]
             local item = binding and potions[binding.slot]
             if item and item.id ~= binding.id then item = nil end
-            button("potion" .. i, active and item and item.canUse, false, item and potionText(item, battle) or "空药水槽")
+            button("potion" .. i, active and item and item.canUse, self.pendingPotion and self.pendingPotion.slot == i,
+                item and potionText(item, battle) or "空药水槽")
         end
     end
     local function refresh(changed)
@@ -1168,6 +1184,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return ok, reason
     end
     function self:update(dt)
+        if self.pendingPotion and not potionReady(self.pendingPotion) then cancelPotionTarget(); self:render() end
         local help=self.help
         if help then
             local current=self.run and self.run.combat
@@ -1236,6 +1253,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     function self:playSlot(index)
         local run = self.run
         if not self.active or not run or self.busy or self.gesture or self.suppressClick then return end
+        cancelPotionTarget()
         if run.phase == "reward" then
             local ok,reason = Run.claimCardReward(run, index)
             notice(ok and (run.phase=='reward' and "卡牌已加入牌组；其他奖励请单独处理。" or "卡牌已加入牌组。") or reasons[reason] or "当前无法领取奖励。")
@@ -1257,18 +1275,40 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.selected = nil
         perform(function() return Run.endTurn(self.run) end)
     end
+    local function submitPotion(binding, target)
+        -- Consume the UI intent before playback or a reentrant callback, while
+        -- the existing Run command remains the only effect/inventory transaction.
+        cancelPotionTarget()
+        local ok, reason = perform(function() return Run.usePotion(self.run, binding.slot, target) end)
+        if ok then self.potionSlots[binding.slot] = nil end
+        notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
+        if reason ~= "presentation_unavailable" then refresh() end
+        return ok, reason
+    end
     function self:usePotion(index)
         if not self.active or self.busy or self.gesture or self.suppressClick or not self.run or self.run.phase ~= "combat" then return false end
         local binding = self.potionSlots and self.potionSlots[index]
         if not binding or self.potionRun ~= self.run or self.potionBattle ~= self.run.combat
             or self.run.potions[binding.slot] ~= binding.id then return false end
-        local ok, reason = perform(function() return Run.usePotion(self.run, binding.slot, self.target) end)
-        if ok then
-            self.potionSlots[index] = nil
+        local pending = self.pendingPotion
+        if pending and not potionReady(pending) then cancelPotionTarget(); refresh(); return false end
+        if pending and pending.slot == binding.slot then cancelPotionTarget(); refresh(); return false end
+        local item = Run.potionView(self.run)[binding.slot]
+        if item and item.needTarget then
+            cancelPotionTarget()
+            if not item.canUse then notice(reasons[item.reason] or "当前无法使用此药水。"); refresh(); return false end
+            -- A new targeting intent also revokes older card/action releases.
+            cancelCardInputs()
+            cancelActionInputs()
+            self.selected = nil
+            self.selectionEpoch = (self.selectionEpoch or 0) + 1
+            self.pendingPotion = {slot = binding.slot, id = binding.id, inventory = self.run.potions,
+                run = self.run, battle = self.run.combat, turn = self.run.combat.turn}
+            notice("点选一个敌人使用「" .. item.name .. "」；再点药水取消")
+            refresh()
+            return true
         end
-        notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
-        if reason ~= "presentation_unavailable" then refresh() end
-        return ok, reason
+        return submitPotion(binding, nil)
     end
     local function processPotionReward(claim)
         if not self.active or not self.run or self.busy or self.gesture or self.suppressClick then return false end
@@ -1492,7 +1532,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local released = input.released
                 if not released or released.touch ~= (event and event.touchId) then return end
                 input.released = nil
-                if not potionReady(released) then return end
+                if not potionInputReady(released) then return end
             end
             if not self.suppressClick and not self.gesture then return self:usePotion(slot) end
         end)
@@ -1506,14 +1546,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 if not binding or self.potionRun ~= run or self.potionBattle ~= run.combat then return end
                 local g = {slot = binding.slot, id = binding.id, inventory = run.potions,
                     run = run, battle = run.combat, turn = run.combat and run.combat.turn,
-                    touch = event and event.touchId}
-                if potionReady(g) then input.held = g end
+                    touch = event and event.touchId, pendingPotion = self.pendingPotion}
+                if potionInputReady(g) then input.held = g end
             end)
             local function releasePotion(event, ended)
                 local touch, held = event and event.touchId, input.held
                 if held and held.touch == touch then
                     input.held = nil
-                    input.released = not ended and potionReady(held) and held or nil
+                    input.released = not ended and potionInputReady(held) and held or nil
                 elseif ended and input.released and input.released.touch == touch then
                     input.released = nil
                 end
@@ -1534,6 +1574,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local dismissed = down(event)
                 input.held, input.released = nil, nil
                 if dismissed or not self.active or self.busy or not self.run then return end
+                if cancelPotionTarget() then self:render() end
                 local run, battle = self.run, self.run.combat
                 local instance = run.phase == "combat" and battle.hand[slot]
                 local uid = instance and instance.uid or run.phase == "reward" and Run.rewardOptions(run)[slot]
@@ -1579,8 +1620,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local target, control, input = i, child("enemy" .. i):GetChild("hit"), {}
         enemyInputs[i] = input
         local function chooseEnemy()
+        local pending = self.pendingPotion
+        if pending and not potionReady(pending) then cancelPotionTarget(); refresh(); return end
         if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and Actors.isActive(self.run.combat.enemies[target]) then
             self.target = target
+            if pending then return submitPotion(pending, target) end
             local selected
             for _, instance in ipairs(self.run.combat.hand) do
                 if instance.uid == self.selected then selected = instance break end
@@ -1621,11 +1665,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local actor = battle and battle.enemies[target]
                 if not actor then return end
                 local g = {slot=target, actor=actor, run=run, battle=battle,
-                    uid=self.selected, selectionEpoch=self.selectionEpoch,
+                    uid=self.selected, selectionEpoch=self.selectionEpoch, pendingPotion=self.pendingPotion,
                     turn=battle.turn, touch=event and event.touchId}
                 if enemyReady(g) then input.held = g end
             end)
             local function releaseEnemy(event, ended)
+                -- Even an orphan Up/EndDrag proves this control family sends
+                -- pointer events; it cannot mint a click-only confirmation.
+                enemyPointerObserved = true
                 local touch, held = event and event.touchId, input.held
                 if held and held.touch == touch then
                     input.held = nil
