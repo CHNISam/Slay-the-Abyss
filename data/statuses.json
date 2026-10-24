@@ -144,6 +144,14 @@
       "stack": "intensity",
       "decay": "none",
       "description": "第一次被非致命的普通攻击并损失生命后，在本次行动结束时获得与层数相同的格挡；每场战斗一次"
+    },
+    {
+      "id": "thievery",
+      "name": "窃金",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "攻击时先窃取最多等于层数的金币，完全格挡也会失金；击败后可在奖励中取回，逃跑则不返还"
     }
   ]
 }

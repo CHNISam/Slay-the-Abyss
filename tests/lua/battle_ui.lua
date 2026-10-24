@@ -7,27 +7,39 @@ local Theme = require("abyss_theme")
 local Presentation = require("abyss_presentation")
 
 -- Compose the controller with the actual generated native tree, not a permissive mock.
+-- These methods capture no node state. Keep them as own fields so overrides
+-- and pairs/rawget see the same control shape without per-node closures.
+local Control = {}
+function Control:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
+function Control:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
+function Control:AddCursorEventListener(event, fn)
+    self.listeners = self.listeners or {}
+    self.listeners[event] = fn
+    if event == "click" then self.click = fn end
+end
+function Control:SetAnchoredPosition(x, y) self.x, self.y = x, y end
+function Control:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
+function Control:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
+function Control:SetImage(...)
+    assert(select("#", ...) == 2, "SetImage expects exactly source and id")
+    local source, id = ...
+    assert(source == "static" and type(id) == "number") self.imageId = id
+end
+function Control:SetAsLastSibling() self.raised = true end
+
 local function control(definition)
     local c = { name = definition.name, visible = definition.visible ~= false, children = {}, text = "",
         sizeDeltaX = definition.size[1], sizeDeltaY = definition.size[2], interactable = true,
         x = definition.position and definition.position[1] or 0, y = definition.position and definition.position[2] or 0 }
     for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
-    function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
-    function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:AddCursorEventListener(event, fn)
-        self.listeners = self.listeners or {}
-        self.listeners[event] = fn
-        if event == "click" then self.click = fn end
-    end
-    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
-    function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(...)
-        assert(select("#", ...) == 2, "SetImage expects exactly source and id")
-        local source, id = ...
-        assert(source == "static" and type(id) == "number") self.imageId = id
-    end
-    function c:SetAsLastSibling() self.raised = true end
+    c.GetChild = Control.GetChild
+    c.SetVisible = Control.SetVisible
+    c.AddCursorEventListener = Control.AddCursorEventListener
+    c.SetAnchoredPosition = Control.SetAnchoredPosition
+    c.SetSizeDelta = Control.SetSizeDelta
+    c.SetLocalScale = Control.SetLocalScale
+    c.SetImage = Control.SetImage
+    c.SetAsLastSibling = Control.SetAsLastSibling
     return c
 end
 local function setup(options)

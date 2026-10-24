@@ -81,10 +81,11 @@ local function makeEnemy(state, id, serial, explicitHp)
     end
     EnemyAI.prepare(state, enemy, M.random)
     for _, intent in ipairs(enemy.intents) do
-        if intent.kind == "charge" or intent.kind == "split" then
+        if intent.kind == "charge" or intent.kind == "split" or intent.kind == "escape" then
             local kind = intent.kind
             local policy = enemy.ai and enemy.ai.kind
-            local supported = kind == "charge" and policy == "charge_then_attack"
+            local supported = kind == "escape" and policy == "looter"
+                or kind == "charge" and policy == "charge_then_attack"
                 or kind == "split" and (policy == "spike_slime_l" or policy == "acid_slime_l")
             assert(supported and enemy.ai[kind .. "Intent"] == intent.id,
                 kind .. " intent requires matching AI")
@@ -130,8 +131,35 @@ local function event(state, kind, detail)
     Events.emit(state, kind, detail)
 end
 
+function M.allEnemiesEscaped(state)
+    if #state.enemies == 0 then return false end
+    for _, enemy in ipairs(state.enemies) do if not enemy.escaped then return false end end
+    return true
+end
+
+local function goldInteger(n)
+    return type(n) == "number" and n == n and n % 1 == 0 and n >= 0 and n <= 2147483647
+end
+function M.stealGold(state, enemy, limit)
+    assert(enemy.ai and enemy.ai.kind == "looter" and Actors.isActive(enemy) and Actors.isActive(state.player), "invalid thief")
+    assert(goldInteger(limit) and goldInteger(state.player.gold) and goldInteger(enemy.stolenGold), "invalid gold")
+    local amount = math.min(limit, state.player.gold)
+    local total = enemy.stolenGold + 0.0 + amount
+    assert(goldInteger(total), "stolen gold overflow")
+    enemy.stolenGold, state.player.gold = total, state.player.gold - amount
+    if amount > 0 then event(state, "gold_stolen", {enemy=enemy.id, target=state.player.id, amount=amount}) end
+    return amount
+end
+function M.escapeEnemy(state, enemy)
+    if not Actors.isActive(enemy) or not enemy.ai or enemy.ai.kind ~= "looter"
+        or enemy.intents[enemy.intentIndex].id ~= enemy.ai.escapeIntent then return false end
+    enemy.escaped, state.mugged = true, true
+    event(state, "enemy_escape", {enemy=enemy.id})
+    return true
+end
+
 local function aliveEnemies(state)
-    for _, enemy in ipairs(state.enemies) do if enemy.hp > 0 then return true end end
+    for _, enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then return true end end
     return false
 end
 
@@ -143,10 +171,13 @@ end
 
 local function finish(state)
     local outcome = M.outcome(state)
-    if outcome then Actors.flushCurlUp(state) end
+    if outcome then
+        Actors.flushCurlUp(state)
+        for _, enemy in ipairs(state.enemies) do enemy.looterQueuedIntent = nil end
+    end
     if outcome and state.phase ~= outcome then
         state.phase = outcome
-        event(state, outcome)
+        event(state, outcome, {allEnemiesEscaped=M.allEnemiesEscaped(state), mugged=state.mugged})
     end
     return outcome
 end
@@ -192,12 +223,12 @@ function M.cardPreview(state, instance, targetIndex)
     local aimed = state.enemies[targetIndex]
     local function previewDamage(op, base)
         local neutral = {statuses = {}}
-        local targeted = aimed and aimed.hp > 0
+        local targeted = Actors.isActive(aimed)
         local targets, value
         if op == "damageAll" and targeted then
             targets = {}
             for i, enemy in ipairs(state.enemies) do
-                targets[i] = Actors.attackAmount(state, player, enemy.hp > 0 and enemy or neutral, base)
+                targets[i] = Actors.attackAmount(state, player, Actors.isActive(enemy) and enemy or neutral, base)
             end
             value = targets[1]
         else
@@ -243,7 +274,7 @@ function M.canPlay(state, uid, targetIndex)
     for _, effect in ipairs(card.effects) do
         if effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus" then
             local enemy = state.enemies[targetIndex]
-            if not enemy or enemy.hp <= 0 then return false, "invalid_target" end
+            if not Actors.isActive(enemy) then return false, "invalid_target" end
         end
     end
     return true
@@ -313,7 +344,7 @@ end
 
 function M.intent(state, enemyIndex)
     local enemy = state.enemies[enemyIndex]
-    if not enemy or enemy.hp <= 0 then return nil end
+    if not Actors.isActive(enemy) then return nil end
     return copy(enemy.intents[enemy.intentIndex]) -- UI cannot mutate the queued intent
 end
 
@@ -370,9 +401,9 @@ function M.endTurn(state)
     -- The group pre-turn hook clears every monster's old Block before its
     -- queued start powers resolve. Drain supported start powers before moves,
     -- so ally Block granted during a move survives later teammates' actions.
-    for _, enemy in ipairs(state.enemies) do Actors.resetBlock(state, enemy) end
+    for _, enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then Actors.resetBlock(state, enemy) end end
     for _, enemy in ipairs(state.enemies) do
-        if enemy.hp > 0 then
+        if Actors.isActive(enemy) then
             local before = enemy.hp
             Actors.startTurnEffects(state, enemy)
             EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
@@ -383,16 +414,21 @@ function M.endTurn(state)
     local actionQueue = {}
     for i, enemy in ipairs(state.enemies) do actionQueue[i] = enemy end
     for _, enemy in ipairs(actionQueue) do
-        if enemy.hp > 0 then
+        if Actors.isActive(enemy) then
             local intent = enemy.intents[enemy.intentIndex]
             event(state, "intent", { enemy = enemy.id, id = intent.id })
-            EnemyAI.beforeAction(state, enemy)
+            EnemyAI.beforeAction(state, enemy, M.random, intent)
             -- takeTurn has already queued this enemy's action payload.
+            if enemy.ai and enemy.ai.kind == "looter"
+                and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
+                M.stealGold(state, enemy, enemy.ai.stealAmount)
+            end
             if intent.kind == "split" then splitEnemy(state, enemy)
+            elseif intent.kind == "escape" then assert(M.escapeEnemy(state, enemy), "invalid escape")
             else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
             if finish(state) then return true end
             -- Thorns can kill this attacker while other enemies remain alive.
-            if enemy.hp > 0 then
+            if Actors.isActive(enemy) then
                 Actors.endTurn(state, enemy)
             end
             -- A source-queued RollMove survives its owner's death while
@@ -406,7 +442,7 @@ function M.endTurn(state)
     -- A new monster-sourced power can suppress its first reduction.
     Actors.endRound(state, state.player)
     for _, enemy in ipairs(state.enemies) do
-        if enemy.hp > 0 then Actors.endRound(state, enemy) end
+        if Actors.isActive(enemy) then Actors.endRound(state, enemy) end
     end
     EnemyAI.endRound(state)
     M.startPlayerTurn(state)
@@ -419,10 +455,12 @@ function M.new(data, options)
     local rules = copy(data.rules)
     local hp = options.hp or rules.player.maxHp
     assert(hp > 0 and hp <= rules.player.maxHp and hp % 1 == 0, "invalid starting hp")
-    local state = { rules = rules, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
+    local gold = options.gold == nil and rules.player.startingGold or options.gold
+    assert(goldInteger(gold), "invalid starting gold")
+    local state = { stolenGoldReward = 0, mugged = false, rules = rules, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
             statuses = index(copy(data.statuses.statuses)) },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
-        player = { id = "player", hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
+        player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     Actors.bindStatuses(state.player, state.catalog.statuses)
     local deck = options.deck or data.cards.starter_deck.cards

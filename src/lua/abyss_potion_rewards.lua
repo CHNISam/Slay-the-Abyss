@@ -9,12 +9,16 @@ function P.rarity(roll)
     return roll<65 and 'common' or roll<90 and 'uncommon' or 'rare'
 end
 
-function P.prepare(run, rewardCount)
+function P.prepare(run, rewardCount, context)
     local streams=run.shopRng
     local rng=streams and Random.cloneState(streams.potion)
         or Random.fromSeed(run.eventSeed or string.format('%.0f',run.seed))
     local modifier=run.potionChanceModifier or 0
     local chance=40+modifier
+    -- AbstractRoom keeps chance zero when all monsters escape a normal room;
+    -- it still draws once and increments the modifier on failure. White Beast
+    -- Statue's later override is outside this project's supported relic pool.
+    if context and context.allEscaped and run.encounterTier=='normal' then chance=0 end
     -- No reward-count suppression is currently reached by the supported normal,
     -- elite or Act-one Boss bundle; retain the source boundary explicitly.
     if (rewardCount or 0)>=4 then chance=0 end

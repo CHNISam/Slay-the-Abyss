@@ -175,7 +175,14 @@ for _, encounter in ipairs(data.enemies.encounters) do
                 if run.phase ~= "combat" then break end
                 assert(Run.endTurn(run)) -- no healing, HP edits, or forced victories
             end
-            assert(run.phase == "combat" or run.phase == "defeat", "unexpected no-action outcome")
+            assert(run.phase == "combat" or run.phase == "defeat"
+                or run.phase == "reward" and run.lastResult.allEnemiesEscaped, "unexpected no-action outcome")
+            if run.phase == "reward" then
+                equal(encounter.id, "looter_solo", "only source-backed escape reaches this no-action reward")
+                equal(run.rewards.gold, 0, "all escaped ordinary gold")
+                equal(run.rewards.stolenGold, nil, "escaped stolen gold is not recoverable")
+                equal(#Run.rewardOptions(run), data.rules.rewards.cardChoices, "escape retains card reward")
+            end
             if run.phase == "defeat" then
                 equal(run.hp, 0, "defeat HP")
                 equal(run.lastResult.encounterId, encounter.id, "defeat ownership")

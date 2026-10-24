@@ -46,7 +46,7 @@ function M.startCombat(run, encounterId)
     combatData.rules.player.energyPerTurn = combatData.rules.player.energyPerTurn + 0.0 + bonus
     if combatData.rules.player.energyPerTurn > 2147483647 then return false, "invalid_relic_energy" end
     local battle
-    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies,
+    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, gold = run.gold, deck = run.deck, enemies = encounter.enemies,
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -74,8 +74,9 @@ function M.finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
     if not result then return false, "battle_unfinished" end
-    run.hp, run.seed = run.combat.player.hp, run.combat.seed
-    run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId }
+    run.hp, run.seed, run.gold = run.combat.player.hp, run.combat.seed, run.combat.player.gold
+    local allEscaped = Combat.allEnemiesEscaped(run.combat)
+    run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
     if result == "defeat" then
         run.phase, run.rewards = "defeat", nil
         return true
@@ -92,32 +93,38 @@ function M.finishCombat(run)
     local gold = run.data.rules.rewards[run.encounterTier .. "Gold"]
     -- The content table calls ordinary encounters 'normal'.
     assert(type(gold) == "number", "unknown encounter reward tier")
+    if allEscaped then gold = 0 end
     run.gold = run.gold + gold
     local pool, choices = rewardCandidates(run), {}
     for _ = 1, math.min(run.data.rules.rewards.cardChoices, #pool) do
         choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
     end
-    local potion,potionRng,potionModifier=PotionRewards.prepare(run,2)
+    local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, gold = gold, potion = potion }, "reward"
+    local stolen = run.combat.stolenGoldReward or 0
+    if stolen > 0 then
+        run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}
+        run.rewards.cardResolved, run.rewards.manualContinue = false, true
+    end
     run.victories = run.victories + 1
     return true
 end
 
 function M.rewardOptions(run)
-    if run.phase ~= "reward" then return {} end
+    if run.phase ~= "reward" or run.rewards.cardResolved then return {} end
     return Combat.copy(run.rewards.cards)
 end
 
 function M.claimCardReward(run, choice)
-    if run.phase ~= "reward" then return false, "no_pending_reward" end
+    if run.phase ~= "reward" or run.rewards.cardResolved then return false, "no_pending_reward" end
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
     -- Confirming a card also collects the remaining obtainable bottle. A full
     -- belt requires an explicit claim/skip decision; no reward is silently lost.
     local potion=run.rewards.potion
-    if potion and not potion.resolved and not potion.unavailable then
+    if not run.rewards.manualContinue and potion and not potion.resolved and not potion.unavailable then
         local ok,reason=M.claimPotionReward(run)
         if not ok then return false,reason end
     end
@@ -125,6 +132,34 @@ function M.claimCardReward(run, choice)
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = run.rewards.cards[choice], upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
     end
+    if run.rewards.manualContinue then run.rewards.cardResolved = true
+    else run.phase, run.rewards, run.combat = "map", nil, nil end
+    return true
+end
+
+local function validGold(n)
+    return type(n) == "number" and n == n and n % 1 == 0 and n >= 0 and n <= 2147483647
+end
+
+function M.claimStolenGoldReward(run)
+    local rewards = run.phase == "reward" and run.rewards
+    local item = type(rewards) == "table" and rewards.stolenGold
+    if type(item) ~= "table" or rewards.manualContinue ~= true or item.type ~= "STOLEN_GOLD" or item.claimed ~= false then
+        return false, "no_pending_stolen_gold"
+    end
+    if not validGold(item.amount) or item.amount == 0 or not validGold(run.gold)
+        or run.gold + 0.0 + item.amount > 2147483647 then return false, "invalid_stolen_gold" end
+    run.gold, item.claimed = run.gold + item.amount, true
+    return true
+end
+
+function M.leaveCombatRewards(run)
+    if run.phase ~= "reward" or not run.rewards or run.rewards.manualContinue ~= true then
+        return false, "no_pending_reward"
+    end
+    -- Bottles require their own explicit claim/skip. Leaving may forfeit only
+    -- the independently offered card and stolen gold, never a pending bottle.
+    if run.rewards.potion and not run.rewards.potion.resolved then return false, "pending_potion_reward" end
     run.phase, run.rewards, run.combat = "map", nil, nil
     return true
 end
@@ -151,14 +186,20 @@ end
 function M.play(run, uid, targetIndex)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.play(run.combat, uid, targetIndex)
-    if ok and Combat.outcome(run.combat) then M.finishCombat(run) end
+    if ok then
+        run.gold = run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
     return ok, reason
 end
 
 function M.endTurn(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.endTurn(run.combat)
-    if ok and Combat.outcome(run.combat) then M.finishCombat(run) end
+    if ok then
+        run.gold = run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
     return ok, reason
 end
 
@@ -211,15 +252,18 @@ function M.usePotion(run, slot, targetIndex)
     local outcome = Combat.outcome(battle)
     if outcome then
         battle.phase = outcome
-        require("abyss_events").emit(battle, outcome)
+        require("abyss_events").emit(battle, outcome, {allEnemiesEscaped=Combat.allEnemiesEscaped(battle), mugged=battle.mugged})
     end
     -- Stage the complete transaction, including rewards and their RNG, before committing.
     -- Persistent deck UIDs are owned by Run and are never regenerated from combat instances.
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
-    candidate.combat, candidate.potions = battle, Combat.copy(run.potions)
+    candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(run.potions), battle.player.gold
     candidate.potions[slot] = nil
     if outcome then
+        -- Reward preparation commits the continuous potion stream. Do not let
+        -- an exception mutate a table still owned by the live run.
+        candidate.shopRng = run.shopRng and Combat.copy(run.shopRng)
         local called, ok = pcall(M.finishCombat, candidate)
         if not called or not ok then return false, "potion_effect_failed" end
     end
@@ -244,7 +288,7 @@ function M.potionView(run)
             local candidate, reason
             if needTarget and run.combat then
                 for index, enemy in ipairs(run.combat.enemies) do
-                    if enemy.hp > 0 then
+                    if require("abyss_actor").isActive(enemy) then
                         candidate, reason = potionCandidate(run, slot, index)
                         if candidate then break end
                     end

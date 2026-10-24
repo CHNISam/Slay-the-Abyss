@@ -13,6 +13,7 @@ local SpikeSlimeM = require("abyss_spike_slime_m_ai")
 local AcidSlimeM = require("abyss_acid_slime_m_ai")
 local FungiBeast = require("abyss_fungi_beast_ai")
 local Louse = require("abyss_louse_ai")
+local Looter = require("abyss_looter_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -34,10 +35,12 @@ function M.prepare(state, enemy, random)
 end
 
 function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy) end
     if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random) end
 end
 
 function M.initialize(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == "looter" then return Looter.initialize(state, enemy, random) end
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
     if enemy.ai.kind == "shield_gremlin" then
@@ -121,7 +124,7 @@ function M.advance(state, enemy, random)
         -- selected, later actions set Bash directly and never roll again.
         if enemy.intents[enemy.intentIndex].id == enemy.ai.protectIntent then
             local alive = 0
-            for _, ally in ipairs(state.enemies) do if ally.hp > 0 then alive = alive + 1 end end
+            for _, ally in ipairs(state.enemies) do if Actors.isActive(ally) then alive = alive + 1 end end
             select(enemy, alive > 1 and enemy.ai.protectIntent or enemy.ai.attackIntent)
         else select(enemy, enemy.ai.attackIntent) end
     elseif enemy.ai.kind == "charge_then_attack" then
@@ -172,6 +175,7 @@ end
 -- Acid S sets its next move directly instead; do not invent a queued roll.
 local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind == "looter" then return Looter.afterAction(state, enemy) end
     -- Acid's split queues child init only. Its ordinary attack may have been
     -- interrupted by Thorns, so inspect the captured payload, not current intent.
     if enemy.ai and enemy.ai.kind == "acid_slime_l" and executedIntent.kind == "split" then return end
@@ -184,7 +188,7 @@ end
 -- boundary, after every living enemy's action and end-of-turn effects.
 function M.endRound(state)
     for _, enemy in ipairs(state.enemies) do
-        if enemy.hp > 0 and enemy.ai and enemy.ai.kind == "ritual_then_attack" then
+        if Actors.isActive(enemy) and enemy.ai and enemy.ai.kind == "ritual_then_attack" then
             if enemy.ritualSkipRound then
                 enemy.ritualSkipRound = false
             elseif (enemy.statuses.ritual or 0) > 0 then
@@ -207,7 +211,8 @@ function M.flush(state, actingSource)
     end
 end
 
-function M.beforeAction(state, enemy)
+function M.beforeAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind == "looter" then return Looter.beforeAction(state, enemy, random, executedIntent) end
     if enemy.ai and enemy.ai.kind == "red_slaver" then RedSlaver.beforeAction(enemy) end
     if enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.intents[enemy.intentIndex].id == enemy.ai.attackIntent then
         enemy.aiCharge = 0 -- Reset before damage, including lethal retaliation.

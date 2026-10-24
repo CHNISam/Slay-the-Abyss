@@ -92,7 +92,7 @@ end
 
 local function validate(state, effects, targetIndex)
     if M.needTarget(effects) then
-        if not integer(targetIndex) or not state.enemies[targetIndex] or state.enemies[targetIndex].hp <= 0 then
+        if not integer(targetIndex) or not Actors.isActive(state.enemies[targetIndex]) then
             return false, "invalid_target"
         end
     end
