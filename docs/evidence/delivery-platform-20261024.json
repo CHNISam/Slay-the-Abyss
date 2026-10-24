@@ -441,6 +441,24 @@
         "assertionsChanged": false
       },
       "finalShaCiStillRequired": true
+    },
+    "fullSuiteBudget": {
+      "observedRun": 40078471799,
+      "sha": "e66cd5a547752ef4bf32e2213989db6a0e7d0bf0",
+      "jsPassed": 957,
+      "jsFailed": 0,
+      "jsSkipped": 118,
+      "luaCompleted": 131,
+      "luaDiscovered": 141,
+      "recordedLuaElapsedMs": 679158,
+      "oldJobMinutes": 15,
+      "newJobMinutes": 20,
+      "reason": "Whole job cancelled at15minutes after131Lua fixtures; no assertion failure.",
+      "perFixtureTimeoutsUnchanged": true,
+      "fixtureSetUnchanged": true,
+      "assertionsUnchanged": true,
+      "presentationMinutesUnchanged": 5,
+      "newShaFullCiRequired": true
     }
   },
   "laterSourceReconciliation": {
