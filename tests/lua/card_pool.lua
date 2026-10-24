@@ -132,14 +132,9 @@ local function entered(kind,seed)
         assert(#available > 0, "route needs " .. kind); assert(Map.choose(map, available[1].id))
     end
 end
-local shopSeedByCard, lastShopSeed = {}, 0
+local shopSeedByCard=dofile('tests/fixtures/warrior75-shop-seeds.lua')
 local function seedOffering(id)
-    while not shopSeedByCard[id] and lastShopSeed<1000 do
-        lastShopSeed=lastShopSeed+1
-        local stock=require('abyss_shop').prepare(Run.new(data,lastShopSeed))
-        for _,o in ipairs(stock.cards) do if not o.unavailable and not shopSeedByCard[o.id] then shopSeedByCard[o.id]=lastShopSeed end end
-    end
-    return shopSeedByCard[id]
+    return shopSeedByCard[id] and shopSeedByCard[id].seed
 end
 for _, case in ipairs(cases) do
     test(case.id .. " obtained legally and camp-upgraded permanent instance executes next battle", function()

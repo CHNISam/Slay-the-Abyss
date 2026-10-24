@@ -233,4 +233,11 @@ test('copying a suspended card transaction preserves its actor and instance alia
     eq(clone.cardInUse,nil);eq(clone.pendingChoice,nil);eq(#clone.exhaust,1);eq(#clone.hand,3)
     assert(s.pendingChoice);eq(#s.hand,2);eq(#s.exhaust,0)
 end)
+test('Burn and Regret auto-use in hand order and preserve the lethal card in use',function()
+    for _,ids in ipairs({{'burn','regret'},{'regret','burn'}}) do
+        local s=battle(ids);s.player.hp=3
+        assert(C.endTurn(s));eq(s.player.hp,0);eq(#s.discard,1);eq(s.discard[1].cardId,ids[1])
+        eq(s.cardInUse.cardId,ids[2]);eq(#s.hand,0);eq(s.phase,'defeat')
+    end
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')

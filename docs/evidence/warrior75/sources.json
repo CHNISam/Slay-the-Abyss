@@ -994,6 +994,28 @@
       "reviewedFacts": [
         "Includes cardInUse, draw, discard, exhaust, limbo, and hand; deduplicates object references."
       ]
+    },
+    {
+      "id": "Regret",
+      "path": "cards/curses/Regret.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/curses/Regret.java",
+      "sha256": "e2d3cf822d20162e779b7b0eca90967a6dd4538b3fb79774e4974a2604001738",
+      "gitBlob": "f8d952467eefb802fe536757e59c3016d2a6e9d6",
+      "bytes": 2116,
+      "reviewedFacts": [
+        "Snapshots hand size when queued at end turn; self HP loss is queued at top during auto-use."
+      ]
+    },
+    {
+      "id": "Burn",
+      "path": "cards/status/Burn.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/cards/status/Burn.java",
+      "sha256": "07825ddb7651e2d8ee252b5813d66630bb9f239fa09533f9e410d4f9f8f5b7d4",
+      "gitBlob": "33c9dd40037380d684796a4a4fa4f54efb4dd48b",
+      "bytes": 2402,
+      "reviewedFacts": [
+        "Auto-use queues fixed THORNS self damage in hand iteration order; normal used-card disposal follows."
+      ]
     }
   ]
 }

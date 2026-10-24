@@ -575,26 +575,23 @@ function M.endTurn(state)
     end
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
-    local handSize, regrets = #state.hand, {}
+    local handSize, endCards = #state.hand, {}
     for _, instance in ipairs(state.hand) do
-        if instance.cardId == "regret" then regrets[#regrets + 1] = instance.uid end
+        if instance.cardId=="regret" or instance.cardId=="burn" then endCards[#endCards+1]=instance.uid end
     end
-    for _, uid in ipairs(regrets) do
+    for _, uid in ipairs(endCards) do
         local instance, position = findInstance(state, uid)
         table.remove(state.hand, position)
         state.cardInUse = instance
-        M.applyEffects(state, {{op="loseHp", value=handSize}}, state.player, state.player)
+        if instance.cardId=="regret" then
+            M.applyEffects(state,{{op="loseHp",value=handSize}},state.player,state.player)
+        else M.damage(state,state.player,state.player,M.cardDefinition(state,instance).endTurnDamage,true) end
+        CardActions.drain(M,state)
         -- Death opens the source death screen before UseCardAction can discard.
         -- Keep the current UID in cardInUse; later cards and cleanup never run.
         if finish(state) then return true end
         state.discard[#state.discard + 1] = instance
         state.cardInUse = nil
-    end
-    for _,instance in ipairs(state.hand) do
-        if instance.cardId=="burn" then
-            M.damage(state,state.player,state.player,2,true)
-            if finish(state) then return true end
-        end
     end
     local p=state.player
     if (p.statuses.combust or 0)>0 then
