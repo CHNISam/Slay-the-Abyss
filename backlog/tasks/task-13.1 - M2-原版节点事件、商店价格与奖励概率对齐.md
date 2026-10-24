@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '--plan'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 02:11'
 due_date: '2026-10-28'
 labels:
   - required
@@ -27,7 +27,7 @@ ordinal: 41000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 rules.json固定金币/商店价，nodes商店遍历支持池、事件仅金币或药水、宝箱仅未持有遗物抽取；run奖励均匀抽牌且排除条件/X牌，均待原作核对。保留TASK-13本地事务完成证据，库存效果归TASK-14.1。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 历史差异快照：当时rules.json固定金币/商店价，nodes商店遍历支持池、事件仅金币或药水、宝箱仅未持有遗物抽取；run奖励均匀抽牌且排除条件/X牌，均待原作核对。保留TASK-13本地事务完成证据，库存效果归TASK-14.1。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

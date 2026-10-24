@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 02:11'
 due_date: '2026-10-28'
 labels:
   - required
@@ -26,7 +26,7 @@ ordinal: 43000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 保留核心/九状态/满手/荆棘/格挡封顶有效修复，先查已合并PR，不重复M1缺陷。此切片核对共享算法；卡牌清单归TASK-16，AI归15，Boss阶段归17，库存效果归14.1。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 保留核心/九状态/满手/荆棘/格挡封顶有效修复，先查已合并PR，不重复M1缺陷。此切片核对共享算法；卡牌清单归TASK-16，AI归15，Boss阶段归17.2，库存效果归14.1。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

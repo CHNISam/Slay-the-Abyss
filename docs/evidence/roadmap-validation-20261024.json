@@ -1,11 +1,12 @@
 {
   "date": "2026-10-24",
   "base": "b92bce6",
-  "existingStatusesPreserved": 107,
+  "existingStatusesPreserved": 106,
   "doneFilesUnchanged": 65,
   "checkedCriteriaPreserved": 199,
   "dependencyCycles": 0,
   "optionalMainlineBlockers": 0,
   "implementationFilesChanged": 0,
-  "scope": "management-only; no game or UI acceptance implied"
+  "scope": "management-only; no game or UI acceptance implied",
+  "managementTask": "TASK-46 is new and excluded from existing-state preservation"
 }

@@ -5,9 +5,11 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 01:58'
-updated_date: '2026-10-24 02:09'
+updated_date: '2026-10-24 02:14'
 labels: []
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/151'
 priority: high
 type: docs
 ordinal: 74000
@@ -35,5 +37,5 @@ ordinal: 74000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-CLI读回与doctor通过；107项既有状态、65份Done文件、199项已勾AC均保全；依赖无环，可选候选不阻塞主线。语法与数据校验通过。PR与最终Quality尚待执行。
+CLI读回与doctor通过；106项迁移前既有任务状态、65份Done文件、199项已勾AC保全；另有本轮新建管理任务46。依赖无环，可选候选不阻塞主线。语法与数据校验通过。PR151首轮SHA 2a81ace已获presentation通过，check正在运行，尚不合并。
 <!-- SECTION:NOTES:END -->

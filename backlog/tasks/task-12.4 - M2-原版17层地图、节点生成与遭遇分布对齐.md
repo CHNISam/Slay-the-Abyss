@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-map17'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 02:11'
 due_date: '2026-10-28'
 labels:
   - required
@@ -26,7 +26,7 @@ ordinal: 40000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 当前rules.json为15层/Boss15/营地14，abyss_map.lua为三列同列链加邻列边、节点及遭遇等概率抽取；这是待核实修正差异。TASK-12已完成的本地15层证据保留，本切片独立验收新规则。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 历史差异快照：当时rules.json为15层/Boss15/营地14，abyss_map.lua为三列同列链加邻列边、节点及遭遇等概率抽取；这是待核实修正差异。TASK-12已完成的本地15层证据保留，本切片独立验收新规则。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

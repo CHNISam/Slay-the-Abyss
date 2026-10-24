@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex-relic-order'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 02:11'
 due_date: '2026-10-28'
 labels:
   - required
@@ -26,7 +26,7 @@ ordinal: 42000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 TASK-14库存/有限效果完成不等于原版一致；SOURCES承认药水damage/block及遗物block固定处理为简化。须逐件核对，不能推断所有药水都吃修正。M2负责获取概率/价格，本任务负责取得后的效果。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 TASK-14库存/有限效果完成不等于原版一致；SOURCES承认药水damage/block及遗物block固定处理为简化。须逐件核对，不能推断所有药水都吃修正。TASK-13.1/12.5负责获取概率/价格，本任务负责取得后的效果。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
