@@ -41,7 +41,9 @@ function M.start(view)
     end
     return function(dt)
         time=time+dt
-        local index=math.min(#scenes,math.floor(time/7)+1)
+        -- The official runner may spend time recognising the native loading UI.
+        -- Repeat controlled scenes so every requested snapshot still has a stage.
+        local index=math.floor(time/7)%#scenes+1
         if index~=last then render(index) last=index end
     end
 end
