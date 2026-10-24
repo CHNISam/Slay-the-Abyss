@@ -3,6 +3,7 @@ local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
 local Events = require("abyss_events")
 local EnemyAI = require("abyss_enemy_ai")
+local Formation = require("abyss_encounter_formation")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
@@ -451,6 +452,11 @@ end
 
 function M.new(data, options)
     options = options or {}
+    if options.sourceEncounter ~= nil then
+        assert(Formation.supports(options.sourceEncounter), "unknown source formation")
+        assert(options.enemies == nil, "source formation cannot mix with explicit enemies")
+        assert(type(options.encounterBoundary) == "table", "source formation needs explicit boundaries")
+    end
     assert(type(options.seed or 1) == "number" and (options.seed or 1) % 1 == 0, "seed must be an integer")
     local rules = copy(data.rules)
     local hp = options.hp or rules.player.maxHp
@@ -472,11 +478,29 @@ function M.new(data, options)
         state.draw[#state.draw + 1] = { uid = state.nextUid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true }
         state.nextUid = state.nextUid + 1
     end
-    local enemyIds = options.enemies or { "cultist" }
-    assert(#enemyIds > 0, "empty encounter")
-    for i, id in ipairs(enemyIds) do
-        state.enemies[#state.enemies + 1] = makeEnemy(state, id, i)
-        state.nextEnemyId = i + 1
+    if options.sourceEncounter ~= nil then
+        local callbacks, constructors = options.encounterBoundary, 0
+        state.enemies = Formation.assemble(options.sourceEncounter, {
+            misc = callbacks.misc, visualFloat = callbacks.visualFloat,
+            construct = function(id, x, y)
+                constructors = constructors + 1
+                local actor = makeEnemy(state, id, constructors)
+                actor.sourcePosition = {x = x, y = y}
+                return actor
+            end,
+        })
+        state.sourceEncounter = options.sourceEncounter
+        -- Only selected actors receive live slot IDs and opening/pre-battle AI.
+        -- Discarded candidates already spent constructor HP/Bite draws above.
+        for i, enemy in ipairs(state.enemies) do enemy.id = enemy.definitionId .. "_" .. i end
+        state.nextEnemyId = #state.enemies + 1
+    else
+        local enemyIds = options.enemies or { "cultist" }
+        assert(#enemyIds > 0, "empty encounter")
+        for i, id in ipairs(enemyIds) do
+            state.enemies[#state.enemies + 1] = makeEnemy(state, id, i)
+            state.nextEnemyId = i + 1
+        end
     end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)

@@ -47,7 +47,7 @@ test('actual game module set includes current AI and all generated runtime depen
   buildLuaData('data', join(build, 'abyss_data.lua'));
   writeFileSync(join(build, 'sts1_unknown_vectors.lua'), 'error("test fixture")');
   const names = candidateScriptFiles('src/lua', build).map(item => item.name);
-  for (const name of ['abyss_ui', 'abyss_new_run_seed', 'abyss_encounter_queue', 'abyss_run_seed', 'abyss_map_topology', 'abyss_map_rooms', 'abyss_randomxs128', 'abyss_sts_random', 'abyss_jaw_worm_ai', 'abyss_gremlin_nob_ai', 'abyss_blue_slaver_ai', 'abyss_red_slaver_ai', 'abyss_acid_slime_s_ai', 'abyss_sentry_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
+  for (const name of ['abyss_ui', 'abyss_encounter_formation', 'abyss_new_run_seed', 'abyss_encounter_queue', 'abyss_run_seed', 'abyss_map_topology', 'abyss_map_rooms', 'abyss_randomxs128', 'abyss_sts_random', 'abyss_jaw_worm_ai', 'abyss_gremlin_nob_ai', 'abyss_blue_slaver_ai', 'abyss_red_slaver_ai', 'abyss_acid_slime_s_ai', 'abyss_sentry_ai', 'abyss_enemy_ai', ...generated]) assert(names.includes(name), name);
   assert(!names.includes('sts1_unknown_vectors'));
   assert.equal(new Set(names).size, names.length);
 }));
