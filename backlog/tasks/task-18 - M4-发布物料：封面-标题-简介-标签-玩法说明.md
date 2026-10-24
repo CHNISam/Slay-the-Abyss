@@ -1,37 +1,29 @@
 ---
 id: TASK-18
-title: M5 发布物料、表单与玩法说明冻结
+title: 准备并确定投稿封面、截图和介绍
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 02:02'
+updated_date: '2026-10-24 03:15'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
 dependencies: []
+references:
+  - docs/backlog-details/TASK-18.md
 ordinal: 18000
 ---
 
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-用 publish_kit 出封面与截图，补齐标题、简介、标签与一页玩法说明。
+准备好封面、四张截图、标题、简介、标签和一页玩法说明。10月29日按最终投稿版本确定下来。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 publish_kit 出封面与四张图（1600×900）
-- [ ] #2 标题、简介、标签齐备并符合官方要求
-- [ ] #3 附一页玩法说明（操作/规则/通关条件）
-- [ ] #4 实际发布表单字段、图片限制和赛事报名入口已截图核验，关联本机存档与作品GUID；仅定位不发布（由TASK-1迁入）
+- [ ] #1 封面和四张截图做好，制作尺寸为1600×900；实际上传限制按平台要求核对。
+- [ ] #2 标题、简介和标签齐全，符合发布要求。
+- [ ] #3 一页玩法说明讲清操作、规则和通关条件。
+- [ ] #4 实际打开发布和报名页面核对字段、图片要求和作品编号，留截图；这里只检查，不代你发布。
 <!-- AC:END -->
-
-## Implementation Notes
-
-<!-- SECTION:NOTES:BEGIN -->
-2026-10-23 Milestone整改：承接TASK-1未完成的正式表单/赛事入口核验；不计M0前置。已有发布SOP在PR8，真实字段仍未取证。
-
-2026-10-23 Milestone整改：承接TASK-1未完成的正式表单/赛事入口核验；不计M0前置。已有发布SOP在PR8，真实字段仍未取证。
-
-2026-10-24排期：物料可提前准备，10/29按最终RC截图及实际表单冻结，正式名《杀戮原塔2》。不依赖TASK-5完成才开始，以免与RC验收相互等待。
-<!-- SECTION:NOTES:END -->

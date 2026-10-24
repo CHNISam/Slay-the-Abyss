@@ -1,15 +1,17 @@
 ---
 id: TASK-10.6
-title: 修复抵消负面状态时意图预览溢出
+title: 修复负面状态被抵消时的意图显示报错
 status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 02:42'
-updated_date: '2026-10-24 02:48'
+updated_date: '2026-10-24 03:24'
 labels: []
 milestone: m-2
 dependencies:
   - TASK-10.5
+references:
+  - docs/backlog-details/TASK-10.6.md
 parent_task_id: TASK-10
 priority: medium
 type: bug
@@ -19,21 +21,13 @@ ordinal: 75000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-真实 GameUI 在 Weak=2147483647、Artifact=1 且敌人施加虚弱时刷新报状态溢出；同一状态的真实核心可正常消耗 Artifact。属于受支持数值边界的只读意图预览缺陷，不声称普通实机频发，也不接管平台验收。
+状态层数极大、又能抵消负面效果时，敌人意图预览会报错。修好显示，不改变实际战斗结果。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Artifact 可抵消的负面状态在支持数值上界不使 GameUI 意图预览报错
-- [ ] #2 预览按真实状态门控顺序处理，核心本局保持只读；无 Artifact 的真实非法溢出不被静默掩盖
-- [ ] #3 保留正常意图、状态详情与卡牌预览行为，真实宿主红例转绿并独立回归通过
-- [ ] #4 现有 PR/CI 流程验证，不更改游戏数值、批准布局、其他任务认领或平台验收状态
+- [ ] #1 能被抵消的负面状态，即使层数很大，也不会让意图预览报错。
+- [ ] #2 显示按实际战斗规则处理，不能改本局结果，也不能把真正非法的数值错误藏起来。
+- [ ] #3 正常意图、状态详情和卡牌预览仍正常；先复现问题，再确认修好。
+- [ ] #4 相关检查和审查通过，不改战斗数值、已批准布局或其他任务的状态。
 <!-- AC:END -->
-
-## Implementation Plan
-
-<!-- SECTION:PLAN:BEGIN -->
-固定 GameUI 与 core 对照负例；核查当前核心门控接口，最小修正 UI 副本预览而不新增规则或吞异常；增加 Artifact/多效果/边界/只读回归；独立评审与当前 head CI。
-
-独立探针发现演出中间帧会重复预演已执行意图；仍限定 battle_ui 只读层：使用真实核心门控在副本上计算，已行动敌人当前阶段保持其意图事件显示，未行动敌人动态刷新；阶段/actor/换局/中断恢复清理，真实宿主演出断言不得触发恢复。
-<!-- SECTION:PLAN:END -->

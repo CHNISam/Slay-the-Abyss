@@ -1,14 +1,16 @@
 ---
 id: TASK-40
-title: 手柄游玩支持（后续适配，待设备验证）
+title: 以后再做手柄支持
 status: To Do
 assignee: []
 created_date: '2026-10-23 12:24'
+updated_date: '2026-10-24 03:15'
 labels: []
 dependencies: []
 references:
   - TASK-4
   - docs/design/UI_DESIGN.md
+  - docs/backlog-details/TASK-40.md
 priority: low
 type: feature
 ordinal: 41000
@@ -17,12 +19,12 @@ ordinal: 41000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-用户希望后续支持手柄，但目前本人没有手柄，无法实机测试。先纳入Backlog，暂不安排实现或作为本次发布承诺；手机与电脑键鼠优先。启动本任务前需落实可用手柄或测试人员，并确认平台输入能力。
+目前没有手柄可测，先保留这个任务。等找到设备或测试人员，再确认平台能力并安排，不挡手机和电脑首发。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 确认平台手柄输入能力并记录按钮映射、焦点导航及按键提示规范
-- [ ] #2 手柄可完成战斗出牌、目标切换、确认取消与结束回合，以及地图和各节点主流程，无焦点陷阱
-- [ ] #3 在实际手柄设备上记录完整游玩验证结果；无设备时明确标记未验证，不宣称已支持
+- [ ] #1 确认平台支持哪些手柄操作，约定按键、焦点切换和提示。
+- [ ] #2 手柄能完成出牌、选目标、确认取消、结束回合、地图和各类房间，不会卡住焦点。
+- [ ] #3 用真实手柄完整玩过；没有设备时明确写未验证，不能说已经支持。
 <!-- AC:END -->
