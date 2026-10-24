@@ -89,7 +89,13 @@ function M.initialize(state, enemy, random)
     Actors.block(state, enemy, enemy.ai.sleepBlock, true)
 end
 
-function M.hpLost(state, enemy, before)
+function M.hpLost(state, enemy, before, damageCall)
+    if enemy.ai and enemy.ai.kind == "spike_slime_l" then
+        -- The source damage override runs even on blocked/zero damage. Start
+        -- powers invoke this hook only on real HP loss, not on a plain turn.
+        if damageCall or enemy.hp < before then SpikeSlimeM.damaged(state, enemy) end
+        return
+    end
     if enemy.ai and enemy.ai.kind == "guardian" then return Guardian.hpLost(state, enemy, before) end
     if enemy.aiPhase ~= "sleep" or enemy.hp >= before or enemy.hp <= 0 then return end
     enemy.aiPhase = "stunned"

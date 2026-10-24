@@ -9,9 +9,11 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
 
 function M.damage(state, source, target, base, fixed, retaliation)
     local before, sourceBefore = target.hp, source.hp
+    local thornsCallback = before > 0 and sourceBefore > 0 and not fixed and not retaliation
+        and (target.statuses.thorns or 0) > 0
     local lost = Actors.damage(state, source, target, base, fixed, retaliation)
-    EnemyAI.hpLost(state, target, before)
-    if source ~= target then EnemyAI.hpLost(state, source, sourceBefore) end -- normal thorns
+    EnemyAI.hpLost(state, target, before, before > 0 and sourceBefore > 0)
+    if source ~= target then EnemyAI.hpLost(state, source, sourceBefore, thornsCallback) end -- normal thorns
     if not state.resolvingEffects then
         EnemyAI.flush(state)
         if not state.resolvingCard then Actors.flushCurlUp(state) end
@@ -22,7 +24,7 @@ end
 function M.retaliate(state, source, target, amount)
     local before = target.hp
     local lost = Actors.retaliate(state, source, target, amount)
-    EnemyAI.hpLost(state, target, before)
+    EnemyAI.hpLost(state, target, before, before > 0)
     if not state.resolvingEffects then EnemyAI.flush(state) end
     return lost
 end
@@ -67,6 +69,52 @@ function M.random(state, maximum)
     assert(maximum >= 1 and maximum % 1 == 0, "invalid random range")
     state.seed = (state.seed * 25173 + 13849) % 65536
     return state.seed % maximum + 1
+end
+
+-- Both ordinary enemies and spawned children use the same actor contract.
+-- Split children use the source's explicit-HP constructor, without an HP draw.
+local function makeEnemy(state, id, serial, explicitHp)
+    local enemy = copy(assert(state.catalog.enemies[id], "unknown enemy: " .. tostring(id)))
+    if explicitHp then enemy.hp = explicitHp
+    elseif enemy.hpRange then
+        enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
+    end
+    EnemyAI.prepare(state, enemy, M.random)
+    for _, intent in ipairs(enemy.intents) do
+        if intent.kind == "charge" or intent.kind == "split" then
+            local kind = intent.kind
+            local policy = kind == "charge" and "charge_then_attack" or "spike_slime_l"
+            assert(enemy.ai and enemy.ai.kind == policy and enemy.ai[kind .. "Intent"] == intent.id,
+                kind .. " intent requires matching AI")
+            assert(type(intent.effects) == "table" and next(intent.effects) == nil, kind .. " intent has effects")
+        elseif intent.kind == "sleep" or intent.kind == "stunned" then
+            assert(type(intent.effects) == "table" and next(intent.effects) == nil, "inactive enemy intent has effects")
+        else assert(Effects.supported(intent.effects), "unsupported enemy intent") end
+    end
+    enemy.definitionId, enemy.id, enemy.maxHp = id, id .. "_" .. serial, enemy.hp
+    enemy.block, enemy.statuses, enemy.intentIndex = 0, {}, 1
+    Actors.bindStatuses(enemy, state.catalog.statuses)
+    return enemy
+end
+
+local function splitEnemy(state, parent)
+    local ai, position = parent.ai, nil
+    assert(ai and ai.kind == "spike_slime_l" and ai.splitCount == 2, "unsupported enemy split")
+    for i, enemy in ipairs(state.enemies) do if enemy == parent then position = i; break end end
+    assert(position and parent.hp > 0, "invalid split parent")
+    local children, hp = {}, parent.hp -- capture before the non-triggering death
+    for i = 1, ai.splitCount do
+        children[i] = makeEnemy(state, ai.splitEnemy, state.nextEnemyId, hp)
+        state.nextEnemyId = state.nextEnemyId + 1
+    end
+    -- Suicide(false): no damage, death Power, relic callback or extra reward.
+    -- Complete both spawns before checking outcome (source CannotLose/CanLose).
+    parent.hp = 0
+    for i, child in ipairs(children) do
+        EnemyAI.initialize(state, child, M.random)
+        table.insert(state.enemies, position + (i - 1) * 2, child)
+    end
+    Events.emit(state, "enemy_split", {enemy=parent.id, children={children[1].id, children[2].id}, hp=hp})
 end
 
 local function shuffle(state, pile)
@@ -279,13 +327,16 @@ function M.endTurn(state)
             if finish(state) then return true end
         end
     end
-    for _, enemy in ipairs(state.enemies) do
+    local actionQueue = {}
+    for i, enemy in ipairs(state.enemies) do actionQueue[i] = enemy end
+    for _, enemy in ipairs(actionQueue) do
         if enemy.hp > 0 then
             local intent = enemy.intents[enemy.intentIndex]
             event(state, "intent", { enemy = enemy.id, id = intent.id })
             EnemyAI.beforeAction(state, enemy)
             -- takeTurn has already queued this enemy's action payload.
-            resolveEffects(state, intent.effects, enemy, state.player, nil, true)
+            if intent.kind == "split" then splitEnemy(state, enemy)
+            else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
             if finish(state) then return true end
             -- Thorns can kill this attacker while other enemies remain alive.
             if enemy.hp > 0 then
@@ -317,7 +368,7 @@ function M.new(data, options)
     assert(hp > 0 and hp <= rules.player.maxHp and hp % 1 == 0, "invalid starting hp")
     local state = { rules = rules, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
             statuses = index(copy(data.statuses.statuses)) },
-        seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1,
+        seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     Actors.bindStatuses(state.player, state.catalog.statuses)
@@ -332,23 +383,8 @@ function M.new(data, options)
     local enemyIds = options.enemies or { "cultist" }
     assert(#enemyIds > 0, "empty encounter")
     for i, id in ipairs(enemyIds) do
-        local enemy = copy(assert(state.catalog.enemies[id], "unknown enemy: " .. tostring(id)))
-        if enemy.hpRange then
-            enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
-        end
-        EnemyAI.prepare(state, enemy, M.random)
-        for _, intent in ipairs(enemy.intents) do
-            if intent.kind == "charge" then
-                assert(enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.ai.chargeIntent == intent.id, "charge intent requires matching AI")
-                assert(type(intent.effects) == "table" and next(intent.effects) == nil, "charge intent has effects")
-            elseif intent.kind == "sleep" or intent.kind == "stunned" then
-                assert(type(intent.effects) == "table" and next(intent.effects) == nil, "inactive enemy intent has effects")
-            else assert(Effects.supported(intent.effects), "unsupported enemy intent") end
-        end
-        enemy.definitionId, enemy.id, enemy.maxHp = id, id .. "_" .. i, enemy.hp
-        enemy.block, enemy.statuses, enemy.intentIndex = 0, {}, 1
-        Actors.bindStatuses(enemy, state.catalog.statuses)
-        state.enemies[#state.enemies + 1] = enemy
+        state.enemies[#state.enemies + 1] = makeEnemy(state, id, i)
+        state.nextEnemyId = i + 1
     end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)

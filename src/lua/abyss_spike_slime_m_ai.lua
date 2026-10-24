@@ -1,5 +1,5 @@
--- Shared A0 pre-split Spike M/L decisions: TASK-15.6 and TASK-15.12 ledgers.
--- Large splitting is a separate required gap, not implemented by this policy.
+-- Shared A0 Spike decisions; Large's interrupt is restored after queued rolls.
+local Events = require("abyss_events")
 local M = {}
 
 function M.choose(ai, last, previous, roll)
@@ -25,6 +25,16 @@ end
 function M.advance(state, enemy, random)
     enemy.spikePrevious, enemy.spikeLast = enemy.spikeLast, enemy.intents[enemy.intentIndex].id
     select(enemy, M.choose(enemy.ai, enemy.spikeLast, enemy.spikePrevious, random(state, enemy.ai.rollRange) - 1))
+    -- damage() queues SetMove behind an already queued RollMove. Retaliation
+    -- cannot replace that action's payload, nor erase next turn's split.
+    if enemy.hp > 0 and enemy.splitTriggered then select(enemy, enemy.ai.splitIntent) end
+end
+
+function M.damaged(state, enemy)
+    if enemy.hp <= 0 or enemy.splitTriggered or enemy.hp > enemy.maxHp / enemy.ai.splitHpDivisor then return end
+    enemy.splitTriggered = true
+    select(enemy, enemy.ai.splitIntent)
+    Events.emit(state, "enemy_interrupt", {enemy=enemy.id, id=enemy.ai.splitIntent})
 end
 
 return M
