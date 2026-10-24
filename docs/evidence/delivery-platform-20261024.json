@@ -405,13 +405,43 @@
     "expectedSha256": "1db5c9aa1ac68518b74253714509dfc88636196abf0476b7281ebf8bb3672eea"
   },
   "tests": {
-    "targetedNodeTestsPassed": 19,
+    "targetedNodeTestsPassed": 21,
     "failed": 0,
     "skipped": 0,
     "backlogDoctor": "PASS",
     "roadmapOwnership": "PASS",
     "fullCi": "See PR current SHA checks; local targeted checks do not replace CI",
-    "verifyUi": "NOT_RUN: no claim of UI acceptance"
+    "verifyUi": "NOT_RUN: no claim of UI acceptance",
+    "reviewRegression": {
+      "reviewId": 5637423845,
+      "red": {
+        "passed": 7,
+        "failed": 2
+      },
+      "green": {
+        "passed": 9,
+        "failed": 0
+      },
+      "fixedCases": [
+        "Scheduled root loses both milestone and owner",
+        "Milestone heading has human-readable title"
+      ]
+    },
+    "priorFullCiFailure": {
+      "runId": 40075992997,
+      "sha": "f760b6247245ceebb5fee736ca5dfcdc20274a2c",
+      "jsPassed": 955,
+      "jsFailed": 0,
+      "jsSkipped": 118,
+      "failure": "battle_ui.lua ETIMEDOUT at unchanged60000ms",
+      "isolatedRerun": {
+        "groupsPassed": 52,
+        "elapsedMs": 50791,
+        "timeoutMs": 60000,
+        "assertionsChanged": false
+      },
+      "finalShaCiStillRequired": true
+    }
   },
   "laterSourceReconciliation": {
     "currentDevelop": "53a52bb3cd4c2e49fa2abe83d9f8e7155e433b99",

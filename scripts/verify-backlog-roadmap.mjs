@@ -22,14 +22,15 @@ export function auditRoadmap(tasks, roadmap, milestones) {
   const sections = new Map();
   let section;
   for (const line of roadmap.split(/\r?\n/)) {
-    if (/^### M[1-6]\s*$/.test(line)) section = line.slice(4).trim();
+    const heading = line.match(/^###\s+(M[1-6])(?:\s|[｜:：]|$)/);
+    if (heading) section = heading[1];
     else if (/^#{1,3} /.test(line)) section = null;
     if (section) for (const match of line.matchAll(/^- (TASK-\d+(?:\.\d+)*)(?=[：:\s])/g)) sections.set(match[1], section);
   }
   function isLaunch(task, seen = new Set()) {
     if (!task || seen.has(task.id)) return false;
     seen.add(task.id);
-    return Boolean(task.milestone || task.labels?.includes('launch') || isLaunch(byId.get(task.parentTaskId), seen));
+    return Boolean(sections.has(task.id) || task.milestone || task.labels?.includes('launch') || isLaunch(byId.get(task.parentTaskId), seen));
   }
   for (const task of tasks) {
     if (task.status === 'Done' || !isLaunch(task)) continue;

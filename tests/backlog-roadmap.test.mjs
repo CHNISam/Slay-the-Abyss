@@ -37,3 +37,12 @@ test('completed slices and optional work do not become new launch blockers', () 
 test('valid launch tasks pass with exact IDs in their milestone section', () => {
   assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4\n- TASK-4.2：背景', milestone), []);
 });
+test('scheduled launch roots remain audited after both milestone and owner are lost', () => {
+  const errors = auditRoadmap([task('TASK-47', { milestone: null, assignees: [] })],
+    '### M3\n- TASK-47：首发清单', milestone);
+  assert.ok(errors.some(error => error.includes('TASK-47') && error.includes('里程碑')));
+  assert.ok(errors.some(error => error.includes('TASK-47') && error.includes('负责人')));
+});
+test('milestone headings can include a human-readable explanation', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4 达到正式作品品质\n- TASK-4.2：背景', milestone), []);
+});
