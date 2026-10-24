@@ -83,8 +83,10 @@ local function makeEnemy(state, id, serial, explicitHp)
     for _, intent in ipairs(enemy.intents) do
         if intent.kind == "charge" or intent.kind == "split" then
             local kind = intent.kind
-            local policy = kind == "charge" and "charge_then_attack" or "spike_slime_l"
-            assert(enemy.ai and enemy.ai.kind == policy and enemy.ai[kind .. "Intent"] == intent.id,
+            local policy = enemy.ai and enemy.ai.kind
+            local supported = kind == "charge" and policy == "charge_then_attack"
+                or kind == "split" and (policy == "spike_slime_l" or policy == "acid_slime_l")
+            assert(supported and enemy.ai[kind .. "Intent"] == intent.id,
                 kind .. " intent requires matching AI")
             assert(type(intent.effects) == "table" and next(intent.effects) == nil, kind .. " intent has effects")
         elseif intent.kind == "sleep" or intent.kind == "stunned" then
@@ -99,7 +101,7 @@ end
 
 local function splitEnemy(state, parent)
     local ai, position = parent.ai, nil
-    assert(ai and ai.kind == "spike_slime_l" and ai.splitCount == 2, "unsupported enemy split")
+    assert(ai and (ai.kind == "spike_slime_l" or ai.kind == "acid_slime_l") and ai.splitCount == 2, "unsupported enemy split")
     for i, enemy in ipairs(state.enemies) do if enemy == parent then position = i; break end end
     assert(position and parent.hp > 0, "invalid split parent")
     local children, hp = {}, parent.hp -- capture before the non-triggering death
@@ -395,7 +397,7 @@ function M.endTurn(state)
             end
             -- A source-queued RollMove survives its owner's death while
             -- teammates live. finish above clears it on the final death.
-            EnemyAI.afterAction(state, enemy, M.random)
+            EnemyAI.afterAction(state, enemy, M.random, intent)
             Actors.flushCurlUp(state)
             if finish(state) then return true end
         end

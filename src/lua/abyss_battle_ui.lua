@@ -94,7 +94,8 @@ local function intentText(state, index, detailed)
     if intent.kind == "sleep" then return "沉睡", "sleep" end
     if intent.kind == "stunned" then return "苏醒中", "unknown" end
     if intent.kind == "split" then
-        return detailed and "分裂为两只中型棘刺团，各自生命等于分裂时的当前生命。" or "分裂", "unknown"
+        local child = state.catalog.enemies[state.enemies[index].ai.splitEnemy]
+        return detailed and "分裂为两只" .. child.name .. "，各自生命等于分裂时的当前生命。" or "分裂", "unknown"
     end
     local result, compact = {}, {}
     -- ApplyPower must gate each copied status before stacking it: Artifact can

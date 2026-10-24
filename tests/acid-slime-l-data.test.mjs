@@ -16,20 +16,20 @@ const payloads = [
 function setup() {
   const data = loadContent('data');
   const entry = enemy(data);
-  entry.ai = { ...policy };
+  Object.assign(entry.ai, policy);
   entry.hpRange = { min: 65, max: 69 };
-  entry.intents = payloads.map((effects, index) => ({
+  entry.intents = [...payloads.map((effects, index) => ({
     id: `acid_slime_l_${index + 1}`, kind: index === 1 ? 'debuff' : 'attack',
     effects: structuredClone(effects),
-  }));
+  })), ...entry.intents.filter(intent => intent.kind === 'split')];
   return data;
 }
 
 test('Large Acid carries the source non-split actions, HP range and exact float fallback', () => {
   const data = loadContent('data'), entry = enemy(data);
-  assert.deepEqual(entry.ai, policy);
+  assert.deepEqual(Object.fromEntries(Object.keys(policy).map(key => [key, entry.ai[key]])), policy);
   assert.deepEqual(entry.hpRange, { min: 65, max: 69 });
-  assert.deepEqual(entry.intents.map(intent => intent.effects), payloads);
+  assert.deepEqual(entry.intents.filter(intent => intent.kind !== 'split').map(intent => intent.effects), payloads);
   assert.deepEqual(validateContent(data), []);
 });
 test('strict Large Acid non-split policy is accepted', () => assert.deepEqual(validateContent(setup()), []));
