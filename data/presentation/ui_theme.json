@@ -50,6 +50,8 @@
     "energy": "#E9A93B",
     "energyEmpty": "#4A3E2A",
     "positive": "#7DC77A",
+    "cardValueIncrease": "#7DC77A",
+    "cardValueDecrease": "#EF7672",
     "danger": "#E5574B",
     "buff": "#E6A24A",
     "debuff": "#A77BE0",
@@ -372,6 +374,13 @@
     "geo": 102005
   },
   "layout": {
+    "cardValueFeedback": {
+      "rows": 2,
+      "size": [132, 56],
+      "rowGap": 24,
+      "caption": [34, 56],
+      "value": [-34, 64]
+    },
     "battlePotions": {
       "count": 3,
       "origin": [-124, 268],

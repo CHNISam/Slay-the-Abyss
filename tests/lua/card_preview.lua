@@ -466,4 +466,101 @@ test("the panel follows live values and closes for playback, a dead unit or a ne
     assert(not panel:GetChild("statusInfo").visible, "a replacement battle closes stale details")
 end)
 
+local function valueRows(panel, slot)
+    local card = panel:GetChild('card' .. (slot or 1))
+    return card:GetChild('valueFeedback'), card
+end
+local function rgb(actual, expected)
+    for _, key in ipairs({'r','g','b','a'}) do eq(actual[key], expected[key], 'numeric ink '..key) end
+end
+test('value feedback: unchanged, increased, decreased, net zero, upgraded base and zero floor', function()
+    for _, case in ipairs({
+        {'strike',{},'6',nil}, {'strike',{strength=2},'8','↑'}, {'strike',{weak=1},'4','↓'},
+        {'strike',{strength=2,weak=1},'6',nil}, {'defend',{},'5',nil}, {'defend',{frail=1},'3','↓'},
+        {'defend',{dexterity=3},'8','↑'}, {'defend',{dexterity=3,frail=1},'6','↑'},
+        {'defend',{frail=1},'6','↓',true}, {'defend',{dexterity=-20},'0','↓'},
+    }) do
+        local ui,panel=setup({{cardId=case[1],upgraded=case[5]}},{'cultist'})
+        local s=ui.run.combat
+        for id,n in pairs(case[2]) do Combat.addStatus(s.player,id,n) end
+        ui:render()
+        local rows,card=valueRows(panel)
+        assert(label(panel):find(case[3],1,true), 'full live description retained')
+        eq(rows.visible,case[4]~=nil)
+        eq(card:GetChild('art').visible,case[4]==nil)
+        rgb(card:GetChild('label').fontColor,Theme.color.text)
+        if case[4] then
+            eq(rows:GetChild('value1').text,case[3]..case[4])
+            rgb(rows:GetChild('value1').fontColor,case[4]=='↑' and Theme.color.cardValueIncrease or Theme.color.cardValueDecrease)
+            rgb(rows:GetChild('caption1').fontColor,Theme.color.text)
+            eq(rows:GetChild('caption1').text,case[1]=='defend' and '格挡' or '伤害')
+        end
+        assert(not rows:GetChild('value2').visible)
+    end
+end)
+test('value feedback: mixed effects are indexed, multi-hit is per hit, special damage stays neutral', function()
+    local ui,panel=setup({'iron_wave'},{'cultist'})
+    Combat.addStatus(ui.run.combat.player,'strength',-1)
+    Combat.addStatus(ui.run.combat.player,'dexterity',2)
+    ui:render()
+    local rows=valueRows(panel)
+    eq(rows:GetChild('caption1').text,'格挡') eq(rows:GetChild('value1').text,'7↑')
+    eq(rows:GetChild('caption2').text,'伤害') eq(rows:GetChild('value2').text,'4↓')
+    rgb(rows:GetChild('value1').fontColor,Theme.color.cardValueIncrease)
+    rgb(rows:GetChild('value2').fontColor,Theme.color.cardValueDecrease)
+    ui,panel=setup({'twin_strike'},{'cultist'})
+    Combat.addStatus(ui.run.combat.player,'strength',2) ui:render()
+    rows=valueRows(panel) eq(rows:GetChild('caption1').text,'每段') eq(rows:GetChild('value1').text,'7↑')
+    assert(label(panel):find('2 次',1,true))
+    ui,panel=setup({'body_slam'},{'cultist'})
+    ui.run.combat.player.block=9 Combat.addStatus(ui.run.combat.player,'strength',1) ui:render()
+    rows=valueRows(panel) assert(not rows.visible) assert(label(panel):find('当前 10 点',1,true))
+end)
+test('value feedback: aim, target switch, cancellation, slot reuse, removal and disabled cost are independent', function()
+    local ui,panel,event=setup({'strike','strike'},{'jaw_worm','cultist'},true)
+    local s=ui.run.combat
+    Combat.addStatus(s.player,'weak',1) Combat.addStatus(s.enemies[2],'vulnerable',1) ui:render()
+    local rows,card=valueRows(panel)
+    eq(rows:GetChild('value1').text,'4↓')
+    event('card1','down',card.x,card.y)
+    event('card1','drag',L.enemyRow.xFrom,L.enemyRow.y)
+    eq(rows:GetChild('value1').text,'4↓')
+    event('card1','drag',L.enemyRow.xTo,L.enemyRow.y)
+    assert(not rows.visible) eq(rows:GetChild('value1').text,'')
+    rgb(rows:GetChild('value1').fontColor,Theme.color.text)
+    eq(valueRows(panel,2):GetChild('value1').text,'4↓')
+    event('card1','endDrag',card.x,L.cardDrag.cancelY-20) ui:render()
+    eq(rows:GetChild('value1').text,'4↓')
+    s.player.statuses.weak=nil s.energy=0 ui:render()
+    assert(not rows.visible) rgb(card:GetChild('cost').fontColor,Theme.color.danger)
+    Combat.addStatus(s.player,'strength',2) ui:render()
+    eq(rows:GetChild('value1').text,'8↑') rgb(rows:GetChild('value1').fontColor,Theme.color.cardValueIncrease)
+    s.hand[1],s.hand[2]=s.hand[2],s.hand[1] ui:render()
+    eq(rows:GetChild('value1').text,'8↑')
+    ui.run.phase='reward' ui.run.rewards={cards={'strike','defend'},gold=0} ui:render()
+    assert(not rows.visible and not valueRows(panel,2).visible)
+    eq(rows:GetChild('value1').text,'') eq(label(panel),Presentation.strike.text)
+end)
+test('value feedback: repeated render reads state only and feedback adds no input listeners',function()
+    local ui,panel=setup({'defend'},{'cultist'})
+    local s=ui.run.combat Combat.addStatus(s.player,'frail',1)
+    local function stable(v)
+        if type(v)~='table' then return tostring(v) end
+        local keys={} for k in pairs(v) do keys[#keys+1]=k end
+        table.sort(keys,function(a,b) return tostring(a)<tostring(b) end)
+        local out={} for _,k in ipairs(keys) do out[#out+1]=tostring(k)..'='..stable(v[k]) end
+        return '{'..table.concat(out,';')..'}'
+    end
+    local before=stable(s)
+    for _=1,4 do ui:render() end
+    eq(stable(s),before,'state, RNG, hand and events unchanged')
+    local rows=valueRows(panel)
+    local function noInput(c)
+        assert(not c.listeners,'feedback is passive')
+        for _,child in pairs(c.children) do noInput(child) end
+    end
+    noInput(rows)
+    s.player.statuses.frail=nil ui:render() assert(not rows.visible)
+end)
+
 print("LUA_CARD_PREVIEW_PASS " .. count)
