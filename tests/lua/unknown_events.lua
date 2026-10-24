@@ -64,7 +64,7 @@ test('natural unknown rooms route all four handlers and never change the map sym
         assert(not Nodes.enter(run,map,id));same(run.unknown,state)
     end
     assert(types.combat and types.shop and types.treasure and types.event)
-    local count=0;for _ in pairs(events) do count=count+1 end;assert(count==6,'all six events must be reachable across seeds')
+    local count=0;for _ in pairs(events) do count=count+1 end;assert(count==7,'all seven events must be reachable across seeds')
 end)
 test('Goop entry loss is fixed, capped and death stops navigation',function()
     local run,map,id=setup('goop');run.gold=12

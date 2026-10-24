@@ -11,8 +11,8 @@
   --text:#ECE6DA;--text-dim:#A9A595;--muted:#6E6C66;
   --hp:#D2524A;--hp-ghost:#F3E2C8;--hp-track:#3A1F22;--block:#5FA8E8;--energy:#E9A93B;--energy-empty:#4A3E2A;
   --good:#7DC77A;--danger:#E5574B;--buff:#E6A24A;--debuff:#A77BE0;
-  --t-attack:#B9483F;--t-skill:#3F7FB9;--t-power:#B98A35;--t-status:#5C5F6B;
-  --r-basic:#8A8F9C;--r-common:#5F8FD6;--r-uncommon:#A974E0;--r-rare:#E0A243;
+  --t-attack:#B9483F;--t-skill:#3F7FB9;--t-power:#B98A35;--t-status:#5C5F6B;--t-curse:var(--t-status);
+  --r-basic:#8A8F9C;--r-common:#5F8FD6;--r-uncommon:#A974E0;--r-rare:#E0A243;--r-curse:var(--line);
   --shell:#0A0B10;--shell-fg:#C9C4B6;
   --f-game:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -166,10 +166,10 @@ button{font-family:inherit}
 <script>
 const CARDS=[["strike","普通攻击","attack","basic","1","对目标造成 6 点伤害。","1","对目标造成 9 点伤害。"],["defend","防御","skill","basic","1","为自己增加 5 点格挡。","1","为自己增加 8 点格挡。"],["bash","破防斩","attack","basic","2","对目标造成 8 点伤害，再施加 2 层易伤。","2","对目标造成 10 点伤害，再施加 3 层易伤。"],["cleave","星陨剑","attack","common","1","对每个敌人造成 8 点伤害。","1","对每个敌人造成 11 点伤害。"],["clothesline","压制斩","attack","common","2","对目标造成 12 点伤害，再施加 2 层虚弱。","2","对目标造成 14 点伤害，再施加 3 层虚弱。"],["iron_wave","招架还击","attack","common","1","先增加 5 点格挡，再对目标造成 5 点伤害。","1","先增加 7 点格挡，再对目标造成 7 点伤害。"],["anger","连续出剑","attack","common","0","对目标造成 6 点伤害，再将本牌的一张复制放入弃牌堆。","0","对目标造成 8 点伤害，再将本牌的一张复制放入弃牌堆。"],["body_slam","格挡反击","attack","common","1","对目标造成与自己当前格挡等量的伤害。","0","费用：0 能量。对目标造成与自己当前格挡等量的伤害。"],["clash","全力进攻","attack","common","0","只有手牌全为攻击牌时才能打出。对目标造成 14 点伤害。","0","只有手牌全为攻击牌时才能打出。对目标造成 18 点伤害。"],["flex","蓄力","skill","common","0","增加 2 层力量；本回合结束时移除这部分力量。","0","增加 4 层力量；本回合结束时移除这部分力量。"],["true_grit","稳住阵脚","skill","common","1","增加 7 点格挡，再随机消耗 1 张手牌。","1","增加 9 点格挡，再选择并消耗 1 张手牌。"],["twin_strike","重击","attack","common","1","对目标连续攻击 2 次，每次造成 5 点伤害。","1","对目标连续攻击 2 次，每次造成 7 点伤害。"],["pommel_strike","试探一击","attack","common","1","对目标造成 9 点伤害，再抽 1 张牌。","1","对目标造成 10 点伤害，再抽 2 张牌。"],["shrug_it_off","伺机而动","skill","common","1","增加 8 点格挡，再抽 1 张牌。","1","增加 11 点格挡，再抽 1 张牌。"],["thunderclap","横扫破防","attack","common","1","对每个敌人造成 4 点伤害，并各施加 1 层易伤。","1","对每个敌人造成 7 点伤害，并各施加 1 层易伤。"],["warcry","调整战术","skill","common","0","抽 1 张牌，再选择 1 张手牌放到抽牌堆顶。打出后消耗本牌。","0","抽 2 张牌，再选择 1 张手牌放到抽牌堆顶。打出后消耗本牌。"],["uppercut","挑剑破势","attack","uncommon","2","对目标造成 13 点伤害，再施加 1 层虚弱和 1 层易伤。","2","对目标造成 13 点伤害，再施加 2 层虚弱和 2 层易伤。"],["inflame","剑术精进","power","uncommon","1","为自己增加 2 层力量。","1","为自己增加 3 层力量。"],["metallicize","持续防守","power","uncommon","1","每个己方回合结束时，增加 3 点格挡。","1","每个己方回合结束时，增加 4 点格挡。"],["battle_trance","集中精神","skill","uncommon","0","抽 3 张牌；此后本回合不能再抽牌。","0","抽 4 张牌；此后本回合不能再抽牌。"],["bloodletting","透支","skill","uncommon","0","失去 3 点生命，换取 2 点能量。","0","失去 3 点生命，换取 3 点能量。"],["barricade","永世的磐岩","power","rare","3","自己的回合开始时，保留已有格挡。","2","费用：2 能量。自己的回合开始时，保留已有格挡。"],["carnage","抓住战机","attack","uncommon","2","对目标造成 20 点伤害。回合结束时若仍在手中，消耗本牌。","2","对目标造成 28 点伤害。回合结束时若仍在手中，消耗本牌。"],["disarm","压制攻势","skill","uncommon","1","调整目标力量：-2 层。打出后消耗本牌。","1","调整目标力量：-3 层。打出后消耗本牌。"],["dropkick","乘隙追击","attack","uncommon","1","对目标造成 5 点伤害。若目标处于易伤，增加 1 点能量并抽 1 张牌。","1","对目标造成 8 点伤害。若目标处于易伤，增加 1 点能量并抽 1 张牌。"],["entrench","加固防线","skill","uncommon","2","将自己当前的格挡翻倍。","1","费用：1 能量。将自己当前的格挡翻倍。"],["ghostly_armor","及时招架","skill","uncommon","1","为自己增加 10 点格挡。回合结束时若仍在手中，消耗本牌。","1","为自己增加 13 点格挡。回合结束时若仍在手中，消耗本牌。"],["hemokinesis","舍身进攻","attack","uncommon","1","失去 2 点生命，再对目标造成 15 点伤害。","1","失去 2 点生命，再对目标造成 20 点伤害。"],["rampage","越战越勇","attack","uncommon","1","对目标造成 8 点伤害；随后本牌在本场战斗中的伤害增加 5 点。","1","对目标造成 8 点伤害；随后本牌在本场战斗中的伤害增加 8 点。"],["seeing_red","重整旗鼓","skill","uncommon","1","增加 2 点能量。打出后消耗本牌。","0","费用：0 能量。增加 2 点能量。打出后消耗本牌。"],["shockwave","震慑敌阵","skill","uncommon","2","为每个敌人施加 3 层虚弱和 3 层易伤。打出后消耗本牌。","2","为每个敌人施加 5 层虚弱和 5 层易伤。打出后消耗本牌。"],["whirlwind","岩潮叠嶂","attack","uncommon","X","耗尽剩余能量；每耗用一点，对每个敌人造成 5 点伤害。","X","耗尽剩余能量；每耗用一点，对每个敌人造成 8 点伤害。"],["offering","奋力一搏","skill","rare","0","失去 6 点生命，增加 2 点能量，再抽 3 张牌。打出后消耗本牌。","0","失去 6 点生命，增加 2 点能量，再抽 5 张牌。打出后消耗本牌。"],["impervious","坚守","skill","rare","2","为自己增加 30 点格挡。打出后消耗本牌。","2","为自己增加 40 点格挡。打出后消耗本牌。"],["demon_form","渐入佳境","power","rare","3","每个己方回合开始时，增加 2 层力量。","3","每个己方回合开始时，增加 3 层力量。"],["bludgeon","全力一击","attack","rare","3","对目标造成 32 点伤害。","3","对目标造成 42 点伤害。"],["reaper","以战养战","attack","rare","2","对每个敌人造成 4 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。","2","对每个敌人造成 5 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。"],["dazed","晕眩","status","common","","无法打出。回合结束时若仍在手中，消耗本牌。","","无法打出。回合结束时若仍在手中，消耗本牌。"],
   ["slimed","黏滞","status","common","1","花费 1 点能量移出本场战斗。","1","花费 1 点能量移出本场战斗。"]
-];
+,["regret","余悔","curse","curse","","无法打出。回合结束时，失去等同手牌张数的生命。","","无法打出。回合结束时，失去等同手牌张数的生命。"]];
 const C={};for(const[id,name,type,rarity,cost,text,ucost,utext] of CARDS)C[id]={id,name,type,rarity,cost:cost===''?'':cost==='X'?'X':+cost,text,ucost:ucost===''?'':ucost==='X'?'X':+ucost,utext};
-const TYPE={attack:'攻击',skill:'技能',power:'能力',status:'状态'};
-const ICON_OF_TYPE={attack:'sword',skill:'shield',power:'geo',status:'deck'};
+const TYPE={attack:'攻击',skill:'技能',power:'能力',status:'状态',curse:'诅咒'};
+const ICON_OF_TYPE={attack:'sword',skill:'shield',power:'geo',status:'deck',curse:'deck'};
 const cv=document.getElementById('cv'),frame=document.getElementById('frame');
 const $=(h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstElementChild};
 const ic=(n)=>`<svg><use href="#i-${n}"/></svg>`;
@@ -196,7 +196,7 @@ function cardEl(c,{up=false,cant=false}={}){
   return $(`<div class="card${up?' up':''}${cant?' cant':''}" style="--rc:var(--r-${c.rarity});--tc:var(--t-${c.type})">
     <div class="fr${ann('rect 100001 · 稀有度色框')}"></div><div class="nb"></div>
     <div class="t nm">${c.name}${up?'+':''}</div>
-    <div class="art${ann('图标 '+{attack:102012,skill:102014,power:102024,status:100122}[c.type])}"><div class="ico">${ic(ICON_OF_TYPE[c.type])}</div></div>
+    <div class="art${ann('图标 '+{attack:102012,skill:102014,power:102024,status:100122,curse:100122}[c.type])}"><div class="ico">${ic(ICON_OF_TYPE[c.type])}</div></div>
     <div class="tl">${TYPE[c.type]}</div>
     <div class="tx"><span>${hl(text)}</span></div>
     <div class="cost num${ann('disc 106025')}">${cost}</div></div>`);

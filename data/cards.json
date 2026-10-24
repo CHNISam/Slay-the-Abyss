@@ -1116,6 +1116,16 @@
       "exhaust": true,
       "text": "花费 1 点能量移出本场战斗。",
       "sts_name": "Slimed"
+    },
+    {
+      "id": "regret",
+      "name": "余悔",
+      "sts_name": "Regret",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。回合结束时，失去等同手牌张数的生命。"
     }
   ],
   "sourceCatalog": "reference/warrior75.json"

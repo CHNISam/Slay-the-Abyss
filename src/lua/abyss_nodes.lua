@@ -175,7 +175,7 @@ function M.enter(run, map, nodeId)
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
-            and id~='golden_wing' and id~='shining_light' then return false, "event_unavailable" end
+            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' then return false, "event_unavailable" end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -316,6 +316,11 @@ function M.eventOptions(run,flow)
         option('purify','净化','支付 '..r.removeCost..' 金币，移除一张卡牌',run.gold>=r.removeCost and deckOk,'purify')
     elseif id=='purifier' then option('pray','祈祷','免费移除一张卡牌',deckOk,'purify')
     elseif id=='upgrade_shrine' then option('upgrade','升级',upgrades>0 and '免费升级一张卡牌' or '牌组没有可升级的卡牌',upgrades>0,'event_upgrade')
+    elseif id=='golden_shrine' then
+        local r=run.data.rules.events.golden_shrine
+        local curse=find(run.data.cards.cards,r.curse)
+        option('pray','领受馈赠','获得 '..r.gold..' 金币')
+        option('desecrate','取走供物','获得 '..r.curseGold..' 金币，并将诅咒「'..(curse and curse.name or '余悔')..'」加入牌组')
     elseif id=='goop' then
         local r=run.data.rules.events.goop
         option('gather','拾取金币','受到 '..r.damage..' 点伤害，获得 '..r.gold..' 金币')
@@ -350,6 +355,23 @@ function M.chooseEvent(run, choice, uid)
         if run.gold < rules.removeCost then return false, "insufficient_gold" end
         table.remove(run.deck, position)
         run.gold = run.gold - rules.removeCost
+    elseif choice=='pray' and id=='golden_shrine' then run.gold=run.gold+0.0+rules.gold
+    elseif choice=='desecrate' and id=='golden_shrine' then
+        local curse=find(run.data.cards.cards,rules.curse)
+        -- Preflight the sole supported curse ABI and permanent identity before paying gold.
+        if not curse or curse.id~='regret' or curse.type~='curse' or curse.rarity~='curse'
+            or curse.cost~=-2 or type(curse.effects)~='table' or next(curse.effects)~=nil
+            or curse.upgrade~=nil or curse.condition~=nil or curse.costMode~=nil
+            or curse.ethereal or curse.exhaust or curse.innate or curse.repeatable then
+            return false,'event_content_unavailable'
+        end
+        local uid=run.nextDeckUid
+        if type(uid)~='number' or uid%1~=0 or uid<1 or uid>=9007199254740991.0
+            or find(run.deck,uid,'uid') then return false,'invalid_deck_uid' end
+        run.deck[#run.deck+1]={uid=uid,cardId=curse.id,upgraded=false}
+        run.nextDeckUid=uid+1.0
+        run.gold=run.gold+0.0+rules.curseGold
+        flow.event.obtainedCardUid=uid
     elseif choice=='gather' and id=='goop' then damage(rules.damage);run.gold=run.gold+rules.gold
     elseif choice=='leave' and id=='goop' then run.gold=math.max(0,run.gold-flow.event.goldLoss)
     elseif choice=='upgrade' and id=='upgrade_shrine' then

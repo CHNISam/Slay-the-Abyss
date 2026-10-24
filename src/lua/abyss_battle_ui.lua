@@ -11,7 +11,7 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
     empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
     effect_overflow = "当前状态已达上限" }
-local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态" }
+local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local function number(value) return string.format("%.0f", value) end
 -- One core preview entry: an exact value, or the range across living targets.

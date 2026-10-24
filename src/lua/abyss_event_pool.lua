@@ -1,20 +1,21 @@
 -- Source-derived Act1 catalog and pool lifecycle. Full mode is an audit model;
--- launch explicitly uses the user-approved six complete event implementations.
+-- launch explicitly uses seven complete event implementations, not the full pool.
 -- Mirror fc379c875c11e008e9c10548ac8e394c301c532f, Exordium + AbstractDungeon.
 local R = require('abyss_sts_random')
 local M = {}
 local act={'Big Fish','The Cleric','Dead Adventurer','Golden Idol','Golden Wing','World of Goop','Liars Game','Living Wall','Mushrooms','Scrap Ooze','Shining Light'}
 local shrine={'Match and Keep!','Golden Shrine','Transmorgrifier','Purifier','Upgrade Shrine','Wheel of Change'}
 local once={'Accursed Blacksmith','Bonfire Elementals','Designer','Duplicator','FaceTrader','Fountain of Cleansing','Knowing Skull','Lab',"N'loth",'SecretPortal','The Joust','WeMeetAgain','The Woman in Blue'}
-M.contentId={['The Cleric']='cleric',Purifier='purifier',['World of Goop']='goop',['Upgrade Shrine']='upgrade_shrine',['Golden Wing']='golden_wing',['Shining Light']='shining_light'}
+M.contentId={['The Cleric']='cleric',Purifier='purifier',['World of Goop']='goop',['Upgrade Shrine']='upgrade_shrine',['Golden Wing']='golden_wing',['Shining Light']='shining_light',['Golden Shrine']='golden_shrine'}
 local function copy(t) local r={};for i,v in ipairs(t) do r[i]=v end;return r end
 function M.new(mode, noteAvailable)
-    assert(mode=='full' or mode=='restricted-six','unknown event pool mode')
+    assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     local p={mode=mode,act=copy(act),shrine=copy(shrine),once=copy(once)}
     if noteAvailable then table.insert(p.once,10,'NoteForYourself') end
-    if mode=='restricted-six' then
+    if mode=='restricted-six' or mode=='restricted-seven' then
         p.act={'The Cleric','Golden Wing','World of Goop','Shining Light'}
         p.shrine={'Purifier','Upgrade Shrine'};p.once={}
+        if mode=='restricted-seven' then table.insert(p.shrine,1,'Golden Shrine') end
     end
     return p
 end

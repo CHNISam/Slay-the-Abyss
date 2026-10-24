@@ -92,12 +92,23 @@ export function validateContent(bundle) {
   }
   function card(card, path, partial = false) {
     if (!object(card, path)) return;
+    const regret = !partial && card.id === 'regret';
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
-    if (!partial || card.rarity !== undefined) enumeration(card.rarity, ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
+    if (!partial || card.rarity !== undefined) enumeration(card.rarity, regret ? ['curse'] : ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
     const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
     const slimed = !partial && card.id === 'slimed';
-    if (!unplayableStatus && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
-    if (slimed) {
+    if (!unplayableStatus && !regret && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
+    if (regret) {
+      enumeration(card.type, ['curse'], `${path}.type`);
+      enumeration(card.cost, [-2], `${path}.cost`);
+      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'Regret must have empty ordinary use');
+      for (const flag of ['exhaust', 'ethereal', 'innate', 'repeatable']) {
+        if (card[flag]) fail(`${path}.${flag}`, 'Regret does not support this flag');
+      }
+      for (const field of ['costMode', 'condition', 'upgrade']) {
+        if (card[field] !== undefined) fail(`${path}.${field}`, 'Regret does not support this field');
+      }
+    } else if (slimed) {
       enumeration(card.type, ['status'], `${path}.type`);
       enumeration(card.cost, [1], `${path}.cost`);
       enumeration(card.exhaust, [true], `${path}.exhaust`);
@@ -434,14 +445,22 @@ export function validateContent(bundle) {
     }
     if (object(rules.events, 'rules.events')) {
       if (rules.events.encounterId !== undefined) enumeration(rules.events.encounterId, ['cleric', 'purifier'], 'rules.events.encounterId');
-      else enumeration(rules.events.poolMode, ['restricted-six'], 'rules.events.poolMode');
+      else enumeration(rules.events.poolMode, ['restricted-six', 'restricted-seven'], 'rules.events.poolMode');
       if (rules.events.poolMode !== undefined) {
-        enumeration(rules.events.poolMode, ['restricted-six'], 'rules.events.poolMode');
+        enumeration(rules.events.poolMode, ['restricted-six', 'restricted-seven'], 'rules.events.poolMode');
         const amounts = { goop: { damage: 11, gold: 75, lossMin: 20, lossMax: 50 },
           golden_wing: { damage: 7, goldMin: 50, goldMax: 80, attackThreshold: 10 },
           shining_light: { damagePercent: 20, upgradeCount: 2 } };
         for (const [id, fields] of Object.entries(amounts)) if (object(rules.events[id], `rules.events.${id}`)) {
           for (const [field, value] of Object.entries(fields)) integer(rules.events[id][field], `rules.events.${id}.${field}`, value, value);
+        }
+        if (rules.events.poolMode === 'restricted-seven') {
+          if (object(rules.events.golden_shrine, 'rules.events.golden_shrine')) {
+            integer(rules.events.golden_shrine.gold, 'rules.events.golden_shrine.gold', 100, 100);
+            integer(rules.events.golden_shrine.curseGold, 'rules.events.golden_shrine.curseGold', 275, 275);
+            enumeration(rules.events.golden_shrine.curse, ['regret'], 'rules.events.golden_shrine.curse');
+            reference(rules.events.golden_shrine.curse, 'cards', 'rules.events.golden_shrine.curse');
+          }
         }
       }
       if (object(rules.events.purifier, 'rules.events.purifier')) integer(rules.events.purifier.removeCost, 'rules.events.purifier.removeCost', 0, 0);

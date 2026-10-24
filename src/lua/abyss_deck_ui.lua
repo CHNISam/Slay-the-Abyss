@@ -2,7 +2,7 @@
 local Combat = require("abyss_combat")
 local Theme = require("abyss_theme")
 local M = {}
-local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态" }
+local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 
 function M.new(root, presentation, clickEvent, platform, onClose)
     local self = { root = root, visible = false, generation = 0 }
@@ -25,7 +25,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end
         face:GetChild("label").text = text
         face:GetChild("type").text = typeNames[definition.type] or definition.type
-        face:GetChild("cost").text = definition.costMode == "all_energy" and "X" or tostring(definition.cost)
+        face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
         face:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
