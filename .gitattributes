@@ -1,5 +1,8 @@
 # Golden evidence is byte-hashed; keep it identical on Windows and Linux.
 tests/fixtures/sts1/maps/*.json text eol=lf
+# The independent encounter oracle and its fixture carry byte hashes.
+tools/oracles/sts1_encounter_queue.py text eol=lf
+tests/fixtures/sts1-encounter-queue-vectors.json text eol=lf
 # Preserve the supplied lore packet hashes on Windows checkouts.
 data/presentation/narrative.zh-CN.json text eol=lf
 docs/lore/source/** text eol=lf
