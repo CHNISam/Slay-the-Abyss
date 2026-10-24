@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 15:29'
+updated_date: '2026-10-24 15:32'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -57,4 +57,6 @@ ordinal: 46000
 最终跟进PR165：从固定3bd3afa完整源又重建开启BGM候选，40模块/1914控件/max52、双true及原生图读回全部匹配，0错误14警告；hash f699624e98f326e208d0752d6e17a6ad46a541bdd59f272310ae7a1b37df4deb，已归档根.artifacts/delivery-closeout-20261024/delivery-platform/bgm-3bd3afa/wmvm3d0jo-0/working.gil。旧0b及首份失败候选保留。新候选未官方导入/试听，后续按同版本录音和真实流程AC验收；不称RC。
 
 2026-10-24新增npm run build:native完整音频入口：先全量源码/界面，再启用原生BGM，不再交付静音诊断副本。已实际构建audio-richness-20261024，原生图83节点/258editor，双true参数仍需独立读回复核；完整游戏地图/战斗/精英/Boss/结算曲目沿用配置。未官方导入或本轮试听，AC保持未勾。
+
+独立冻结源1da28a8读回通过：全部模块逐byte一致、2334控件/max58、结算22节点和BGM83节点，两个nativeBgmEnabled记录均boolean true，候选hash ae1d4d9fe859652f80164d40c89bfac1dae3c016666d1ca6b19f06f766c095b4。证据docs/evidence/audio-richness-20261024.json；未官方导入/听验。
 <!-- SECTION:NOTES:END -->
