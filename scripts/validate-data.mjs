@@ -430,8 +430,12 @@ export function validateContent(bundle) {
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
-    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
+    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'boss'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
     if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end'], `${p}.trigger`);
+    if (entry.replaces !== undefined) reference(entry.replaces, 'relics', `${p}.replaces`);
+    if (entry.blocksPotions !== undefined && typeof entry.blocksPotions !== 'boolean') fail(`${p}.blocksPotions`, 'must be boolean');
+    if (entry.description !== undefined && typeof entry.description !== 'string') fail(`${p}.description`, 'must be text');
+    if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
     effects(entry.effects, `${p}.effects`);
   });
   const rules = bundle.rules;

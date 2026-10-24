@@ -36,8 +36,16 @@ function M.startCombat(run, encounterId)
     if run.floor < encounter.minFloor or run.floor > encounter.maxFloor then return false, "wrong_floor" end
     local opening, reason = Inventory.opening(run.data.relics.relics, run.relics)
     if not opening then return false, reason end
+    local bonus
+    bonus, reason = Inventory.energyBonus(run.data.relics.relics, run.relics, encounter.tier)
+    if not bonus then return false, reason end
+    local combatData = {}
+    for key, value in pairs(run.data) do combatData[key] = value end
+    combatData.rules = Combat.copy(run.data.rules)
+    combatData.rules.player.energyPerTurn = combatData.rules.player.energyPerTurn + 0.0 + bonus
+    if combatData.rules.player.energyPerTurn > 2147483647 then return false, "invalid_relic_energy" end
     local battle
-    battle, reason = Combat.new(run.data, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies,
+    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies,
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -137,6 +145,10 @@ end
 
 function M.obtainPotion(run, id)
     if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    for _, owned in ipairs(run.relics) do
+        local relic = find(run.data.relics.relics, owned)
+        if relic and relic.blocksPotions then return false, "potion_blocked_by_sozu" end
+    end
     for slot = 1, run.data.rules.player.potionSlots do
         if not run.potions[slot] then
             run.potions[slot] = id

@@ -6,6 +6,43 @@ local M = {}
 local supported = { damage = true, block = true, draw = true, energy = true,
     gainStatus = true, applyStatus = true }
 local maximum = 2147483647
+local bossRelics = { black_blood = true, slavers_collar = true, sozu = true }
+
+function M.bossEligible(relic, owned)
+    if relic.rarity ~= "boss" or not bossRelics[relic.id] then return false end
+    local prerequisite = relic.replaces == nil
+    for _, id in ipairs(owned) do
+        if id == relic.id then return false end
+        if id == relic.replaces then prerequisite = true end
+    end
+    return prerequisite
+end
+
+-- These two relics modify the prepared energy master, not a queued opening
+-- energy action (Lantern). Give Combat its own adjusted rules copy per battle.
+function M.energyBonus(definitions, owned, tier)
+    local bonus = 0
+    for _, id in ipairs(owned) do
+        local relic
+        for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
+        if not relic then return nil, "unknown_relic" end
+        if relic.trigger == "turn_start" then
+            if id ~= "sozu" and id ~= "slavers_collar" then return nil, "unsupported_turn_relic:" .. id end
+            local eligible = not relic.encounterTiers
+            for _, allowed in ipairs(relic.encounterTiers or {}) do if tier == allowed then eligible = true end end
+            if eligible then
+                for _, effect in ipairs(relic.effects) do
+                    if effect.op ~= "energy" or type(effect.value) ~= "number" or effect.value < 0
+                        or effect.value % 1 ~= 0 or bonus + 0.0 + effect.value > maximum then
+                        return nil, "invalid_relic_energy"
+                    end
+                    bonus = bonus + effect.value
+                end
+            end
+        end
+    end
+    return bonus
+end
 
 -- Source-defined hook/queue positions, not effect values. New relics need their
 -- own ordering evidence before entering this supported opening set.
