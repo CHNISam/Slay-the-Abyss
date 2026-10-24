@@ -1,0 +1,3842 @@
+{
+  "provenance": "Independent integer/IEEE-754 interpretation of pinned source, not PC execution.\n\nExordium + AbstractDungeon + MonsterInfo at aeubanks/sts@319009d5;\nRandomXS128 at libGDX@3b1fda1. Never imports or executes production Lua.\n",
+  "generatorSha256": "cd2a95a026fa90db07a2977910044d02837e4c186383916f98790e3c5b8f1a76",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "cases": [
+    {
+      "seed": "0",
+      "normal": [
+        "Cultist",
+        "Small Slimes",
+        "Jaw Worm",
+        "2 Fungi Beasts",
+        "Looter",
+        "Exordium Thugs",
+        "Red Slaver",
+        "2 Fungi Beasts",
+        "3 Louse",
+        "Large Slime",
+        "Blue Slaver",
+        "Exordium Thugs",
+        "2 Fungi Beasts",
+        "Exordium Wildlife",
+        "Red Slaver",
+        "Gremlin Gang"
+      ],
+      "elite": [
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob"
+      ],
+      "afterWeak": {
+        "words": [
+          "64e5fcd2a7151c1a",
+          "fee60553238444e4"
+        ],
+        "counter": 5
+      },
+      "afterNormal": {
+        "words": [
+          "6563c2f491c710c5",
+          "a5a6aa6de3873d27"
+        ],
+        "counter": 19
+      },
+      "afterInitial": {
+        "words": [
+          "cffdb2b0d71daa74",
+          "563592c5af095b6e"
+        ],
+        "counter": 32
+      },
+      "draws": [
+        {
+          "value": 0.15942496061325073,
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.9108003377914429,
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.9517466425895691,
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.7742902040481567,
+          "after": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.38983166217803955,
+          "after": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.9461438059806824,
+          "after": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.5916756987571716,
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.277741014957428,
+          "after": {
+            "words": [
+              "a427991d6d1fcfd8",
+              "a2f2709904a41b20"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.1692792773246765,
+          "after": {
+            "words": [
+              "a2f2709904a41b20",
+              "88637303b25ab236"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.9314971566200256,
+          "after": {
+            "words": [
+              "88637303b25ab236",
+              "6613268d2f6823a8"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.8349095582962036,
+          "after": {
+            "words": [
+              "6613268d2f6823a8",
+              "6fa97c132dd66678"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.7454754114151001,
+          "after": {
+            "words": [
+              "6fa97c132dd66678",
+              "4f2dfed675af3caf"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.469731867313385,
+          "after": {
+            "words": [
+              "4f2dfed675af3caf",
+              "29125afa6496e7a1"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.21129965782165527,
+          "after": {
+            "words": [
+              "29125afa6496e7a1",
+              "0d0561b3968b7480"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.399089515209198,
+          "after": {
+            "words": [
+              "0d0561b3968b7480",
+              "59255a296b0125cf"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.9025944471359253,
+          "after": {
+            "words": [
+              "59255a296b0125cf",
+              "8deb1451e6d83050"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.3062589168548584,
+          "after": {
+            "words": [
+              "8deb1451e6d83050",
+              "c07be8017dc1c7a6"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.14794409275054932,
+          "after": {
+            "words": [
+              "c07be8017dc1c7a6",
+              "6563c2f491c710c5"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.04312783479690552,
+          "after": {
+            "words": [
+              "6563c2f491c710c5",
+              "a5a6aa6de3873d27"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.37579625844955444,
+          "after": {
+            "words": [
+              "a5a6aa6de3873d27",
+              "ba8d84ade9d4cf39"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.8922143578529358,
+          "after": {
+            "words": [
+              "ba8d84ade9d4cf39",
+              "29daa4db8e4b6167"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.9355221390724182,
+          "after": {
+            "words": [
+              "29daa4db8e4b6167",
+              "c5a3bc273ad3a217"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.2788369059562683,
+          "after": {
+            "words": [
+              "c5a3bc273ad3a217",
+              "81be1f73af42545b"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.8486137986183167,
+          "after": {
+            "words": [
+              "81be1f73af42545b",
+              "5780a1ba9b6d320e"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.7789557576179504,
+          "after": {
+            "words": [
+              "5780a1ba9b6d320e",
+              "6fe903c226abc992"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.3322346806526184,
+          "after": {
+            "words": [
+              "6fe903c226abc992",
+              "e524519ccb17c523"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.3164454698562622,
+          "after": {
+            "words": [
+              "e524519ccb17c523",
+              "6bde40fe46bb1c56"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.6737947463989258,
+          "after": {
+            "words": [
+              "6bde40fe46bb1c56",
+              "409f8f3a0683cbaf"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.5820640921592712,
+          "after": {
+            "words": [
+              "409f8f3a0683cbaf",
+              "54629824c2632fa5"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.8686647415161133,
+          "after": {
+            "words": [
+              "54629824c2632fa5",
+              "89fe38206ca905bb"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.35150015354156494,
+          "after": {
+            "words": [
+              "89fe38206ca905bb",
+              "cffdb2b0d71daa74"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.149219810962677,
+          "after": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          }
+        }
+      ],
+      "eliteRefill": [
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "512297dd133ae814",
+          "9e28d40735c1484c"
+        ],
+        "counter": 46
+      }
+    },
+    {
+      "seed": "1",
+      "normal": [
+        "Cultist",
+        "Jaw Worm",
+        "Small Slimes",
+        "Exordium Wildlife",
+        "2 Fungi Beasts",
+        "3 Louse",
+        "Looter",
+        "Exordium Thugs",
+        "Lots of Slimes",
+        "3 Louse",
+        "Blue Slaver",
+        "Red Slaver",
+        "2 Fungi Beasts",
+        "Looter",
+        "Exordium Wildlife",
+        "Blue Slaver"
+      ],
+      "elite": [
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries"
+      ],
+      "afterWeak": {
+        "words": [
+          "ab89235541870f7d",
+          "2d25c9924d25b67b"
+        ],
+        "counter": 3
+      },
+      "afterNormal": {
+        "words": [
+          "f85e16a13f919df7",
+          "716ac3655911f28a"
+        ],
+        "counter": 17
+      },
+      "afterInitial": {
+        "words": [
+          "ede50a6d028057ec",
+          "dd29a1c096ecb4cf"
+        ],
+        "counter": 31
+      },
+      "draws": [
+        {
+          "value": 0.2053411602973938,
+          "after": {
+            "words": [
+              "7d6e4ac38b2b1be2",
+              "b722f2631cb7b14d"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.3854382634162903,
+          "after": {
+            "words": [
+              "b722f2631cb7b14d",
+              "ab89235541870f7d"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.846419095993042,
+          "after": {
+            "words": [
+              "ab89235541870f7d",
+              "2d25c9924d25b67b"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.3484184145927429,
+          "after": {
+            "words": [
+              "2d25c9924d25b67b",
+              "2c0c29df0b39a216"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.9535394906997681,
+          "after": {
+            "words": [
+              "2c0c29df0b39a216",
+              "c80f009cd532dbfd"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.8265050053596497,
+          "after": {
+            "words": [
+              "c80f009cd532dbfd",
+              "0b86d4640c4c5ec2"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.5992719531059265,
+          "after": {
+            "words": [
+              "0b86d4640c4c5ec2",
+              "8de30ea50ab309e5"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.25889480113983154,
+          "after": {
+            "words": [
+              "8de30ea50ab309e5",
+              "b463e00d661948c3"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.12270689010620117,
+          "after": {
+            "words": [
+              "b463e00d661948c3",
+              "6b05d8b2ad42be66"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.2689708471298218,
+          "after": {
+            "words": [
+              "6b05d8b2ad42be66",
+              "d9d56d691df959c2"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.7709271311759949,
+          "after": {
+            "words": [
+              "d9d56d691df959c2",
+              "eb860d9b4a1672c2"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.44683408737182617,
+          "after": {
+            "words": [
+              "eb860d9b4a1672c2",
+              "86ddaac99f8eb3ae"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.1557070016860962,
+          "after": {
+            "words": [
+              "86ddaac99f8eb3ae",
+              "a0febf5b80a36680"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.8903104662895203,
+          "after": {
+            "words": [
+              "a0febf5b80a36680",
+              "42eca3eac14a2789"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.5732259154319763,
+          "after": {
+            "words": [
+              "42eca3eac14a2789",
+              "4fd24b8dcdb5dbe8"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.281988263130188,
+          "after": {
+            "words": [
+              "4fd24b8dcdb5dbe8",
+              "f85e16a13f919df7"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.41322100162506104,
+          "after": {
+            "words": [
+              "f85e16a13f919df7",
+              "716ac3655911f28a"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.2933051586151123,
+          "after": {
+            "words": [
+              "716ac3655911f28a",
+              "d9ab497628875423"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.9535014629364014,
+          "after": {
+            "words": [
+              "d9ab497628875423",
+              "1a6d633f7b8af52b"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.5751911997795105,
+          "after": {
+            "words": [
+              "1a6d633f7b8af52b",
+              "78d258ba5cbb7255"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.460282564163208,
+          "after": {
+            "words": [
+              "78d258ba5cbb7255",
+              "fd02bc09d5055eec"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.8359588980674744,
+          "after": {
+            "words": [
+              "fd02bc09d5055eec",
+              "d8feabcbe11095d1"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.976891815662384,
+          "after": {
+            "words": [
+              "d8feabcbe11095d1",
+              "2116e9af62ec6847"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.23900973796844482,
+          "after": {
+            "words": [
+              "2116e9af62ec6847",
+              "1c18d4a13f061286"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.026733696460723877,
+          "after": {
+            "words": [
+              "1c18d4a13f061286",
+              "eabf306eb792f238"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.5662757158279419,
+          "after": {
+            "words": [
+              "eabf306eb792f238",
+              "a63841bfcf8cc510"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.1331343650817871,
+          "after": {
+            "words": [
+              "a63841bfcf8cc510",
+              "7bdcd67396858d12"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.49170321226119995,
+          "after": {
+            "words": [
+              "7bdcd67396858d12",
+              "02036d5fe5d27721"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.2581828832626343,
+          "after": {
+            "words": [
+              "02036d5fe5d27721",
+              "4014d8e1b0d62208"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.1795942187309265,
+          "after": {
+            "words": [
+              "4014d8e1b0d62208",
+              "ede50a6d028057ec"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.7931926250457764,
+          "after": {
+            "words": [
+              "ede50a6d028057ec",
+              "dd29a1c096ecb4cf"
+            ],
+            "counter": 31
+          }
+        }
+      ],
+      "eliteRefill": [
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "05f7d9df05b9023d",
+          "db64a2cb11021c34"
+        ],
+        "counter": 45
+      }
+    },
+    {
+      "seed": "42",
+      "normal": [
+        "Cultist",
+        "Small Slimes",
+        "Jaw Worm",
+        "Exordium Wildlife",
+        "Large Slime",
+        "Blue Slaver",
+        "Looter",
+        "Exordium Thugs",
+        "Lots of Slimes",
+        "Large Slime",
+        "Blue Slaver",
+        "Red Slaver",
+        "Lots of Slimes",
+        "2 Fungi Beasts",
+        "Blue Slaver",
+        "Looter"
+      ],
+      "elite": [
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries"
+      ],
+      "afterWeak": {
+        "words": [
+          "0d8705047342f11a",
+          "6f40089d8138d665"
+        ],
+        "counter": 6
+      },
+      "afterNormal": {
+        "words": [
+          "3bc18329354c765c",
+          "4e7b8b044c9ad3c0"
+        ],
+        "counter": 23
+      },
+      "afterInitial": {
+        "words": [
+          "be0aa7355abb1446",
+          "2d87407124de9a8b"
+        ],
+        "counter": 42
+      },
+      "draws": [
+        {
+          "value": 0.19263231754302979,
+          "after": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.8996939063072205,
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.159640371799469,
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.16089284420013428,
+          "after": {
+            "words": [
+              "42ce675251912b41",
+              "e661df094dc7e080"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.9527723789215088,
+          "after": {
+            "words": [
+              "e661df094dc7e080",
+              "0d8705047342f11a"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.4874122738838196,
+          "after": {
+            "words": [
+              "0d8705047342f11a",
+              "6f40089d8138d665"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.3134605288505554,
+          "after": {
+            "words": [
+              "6f40089d8138d665",
+              "e0feeb25fd467f3e"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.6347252130508423,
+          "after": {
+            "words": [
+              "e0feeb25fd467f3e",
+              "c17e6f2b3b3f39f8"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.45697861909866333,
+          "after": {
+            "words": [
+              "c17e6f2b3b3f39f8",
+              "b37e1e0122efbd2b"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.6058942079544067,
+          "after": {
+            "words": [
+              "b37e1e0122efbd2b",
+              "e79dc4ebc20ce704"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.23463016748428345,
+          "after": {
+            "words": [
+              "e79dc4ebc20ce704",
+              "5472f4fa26fdbb68"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.10353779792785645,
+          "after": {
+            "words": [
+              "5472f4fa26fdbb68",
+              "c60e7f491b0042e3"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.7089596390724182,
+          "after": {
+            "words": [
+              "c60e7f491b0042e3",
+              "ef6fe1efcf71e2b3"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.4896860718727112,
+          "after": {
+            "words": [
+              "ef6fe1efcf71e2b3",
+              "8dec2ffd81bdeee3"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.13794958591461182,
+          "after": {
+            "words": [
+              "8dec2ffd81bdeee3",
+              "95647a8440c8b848"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.4831111431121826,
+          "after": {
+            "words": [
+              "95647a8440c8b848",
+              "e648b23d916e8fa5"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.09114795923233032,
+          "after": {
+            "words": [
+              "e648b23d916e8fa5",
+              "310cc77e68e68aed"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.9789050221443176,
+          "after": {
+            "words": [
+              "310cc77e68e68aed",
+              "c98cbe486a84fb25"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.06739872694015503,
+          "after": {
+            "words": [
+              "c98cbe486a84fb25",
+              "47b44d5d4dd06ce1"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.9443677067756653,
+          "after": {
+            "words": [
+              "47b44d5d4dd06ce1",
+              "aa0dc7a5a6dd3c95"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.9264658689498901,
+          "after": {
+            "words": [
+              "aa0dc7a5a6dd3c95",
+              "431f166d4a4927b5"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.49561458826065063,
+          "after": {
+            "words": [
+              "431f166d4a4927b5",
+              "3bc18329354c765c"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.5399941205978394,
+          "after": {
+            "words": [
+              "3bc18329354c765c",
+              "4e7b8b044c9ad3c0"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.18598198890686035,
+          "after": {
+            "words": [
+              "4e7b8b044c9ad3c0",
+              "e120f9a85bbd6929"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.05710333585739136,
+          "after": {
+            "words": [
+              "e120f9a85bbd6929",
+              "2d7d59d35c2f06b2"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.2731589078903198,
+          "after": {
+            "words": [
+              "2d7d59d35c2f06b2",
+              "187064425fca7cd2"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.9573314189910889,
+          "after": {
+            "words": [
+              "187064425fca7cd2",
+              "dca3487de1d46860"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.7602556943893433,
+          "after": {
+            "words": [
+              "dca3487de1d46860",
+              "e5fcd5993f7210af"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.9284036159515381,
+          "after": {
+            "words": [
+              "e5fcd5993f7210af",
+              "07af06c040b7f66a"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.21282225847244263,
+          "after": {
+            "words": [
+              "07af06c040b7f66a",
+              "2ecc7ee175cce2ac"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.4689873456954956,
+          "after": {
+            "words": [
+              "2ecc7ee175cce2ac",
+              "494310161df91640"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.3768419623374939,
+          "after": {
+            "words": [
+              "494310161df91640",
+              "1735a7af22b9e08d"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "value": 0.4245310425758362,
+          "after": {
+            "words": [
+              "1735a7af22b9e08d",
+              "55786a11246783f9"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "value": 0.9192711710929871,
+          "after": {
+            "words": [
+              "55786a11246783f9",
+              "95dcf10963eb5521"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "value": 0.36748450994491577,
+          "after": {
+            "words": [
+              "95dcf10963eb5521",
+              "c8368609e0d8f8f3"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "value": 0.6311349868774414,
+          "after": {
+            "words": [
+              "c8368609e0d8f8f3",
+              "d95b8a2e9c43d61f"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "value": 0.9334802627563477,
+          "after": {
+            "words": [
+              "d95b8a2e9c43d61f",
+              "159d060e26c369e7"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "value": 0.9419832229614258,
+          "after": {
+            "words": [
+              "159d060e26c369e7",
+              "db88cac407a3f590"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "value": 0.6428135633468628,
+          "after": {
+            "words": [
+              "db88cac407a3f590",
+              "c906a40f030f47d7"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "value": 0.22492259740829468,
+          "after": {
+            "words": [
+              "c906a40f030f47d7",
+              "708de3c6009ad656"
+            ],
+            "counter": 40
+          }
+        },
+        {
+          "value": 0.182015061378479,
+          "after": {
+            "words": [
+              "708de3c6009ad656",
+              "be0aa7355abb1446"
+            ],
+            "counter": 41
+          }
+        },
+        {
+          "value": 0.9201950430870056,
+          "after": {
+            "words": [
+              "be0aa7355abb1446",
+              "2d87407124de9a8b"
+            ],
+            "counter": 42
+          }
+        }
+      ],
+      "eliteRefill": [
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "a19df5c6feb0ad69",
+          "651aabaacecc651f"
+        ],
+        "counter": 57
+      }
+    },
+    {
+      "seed": "65535",
+      "normal": [
+        "Jaw Worm",
+        "Small Slimes",
+        "Cultist",
+        "3 Louse",
+        "Exordium Wildlife",
+        "Lots of Slimes",
+        "Blue Slaver",
+        "3 Louse",
+        "Looter",
+        "Gremlin Gang",
+        "3 Louse",
+        "2 Fungi Beasts",
+        "Looter",
+        "Large Slime",
+        "Gremlin Gang",
+        "Red Slaver"
+      ],
+      "elite": [
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin"
+      ],
+      "afterWeak": {
+        "words": [
+          "6efeeb64aaa3e9a5",
+          "d0dfbad546fa4a18"
+        ],
+        "counter": 3
+      },
+      "afterNormal": {
+        "words": [
+          "6aa87eef954c7210",
+          "bbdb3192b9465aca"
+        ],
+        "counter": 21
+      },
+      "afterInitial": {
+        "words": [
+          "8b26b76430911e77",
+          "ca6e2993f44d5931"
+        ],
+        "counter": 34
+      },
+      "draws": [
+        {
+          "value": 0.3166033625602722,
+          "after": {
+            "words": [
+              "e99399c0284f9866",
+              "677951b2b0be10c8"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.8377721905708313,
+          "after": {
+            "words": [
+              "677951b2b0be10c8",
+              "6efeeb64aaa3e9a5"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.24949109554290771,
+          "after": {
+            "words": [
+              "6efeeb64aaa3e9a5",
+              "d0dfbad546fa4a18"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.864565372467041,
+          "after": {
+            "words": [
+              "d0dfbad546fa4a18",
+              "0c746e24d47f2afd"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.7597257494926453,
+          "after": {
+            "words": [
+              "0c746e24d47f2afd",
+              "b608f4e9e066ccad"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.3676699995994568,
+          "after": {
+            "words": [
+              "b608f4e9e066ccad",
+              "a816aa7ae07c0957"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.0742906928062439,
+          "after": {
+            "words": [
+              "a816aa7ae07c0957",
+              "6aee0ca330f78031"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.4158763289451599,
+          "after": {
+            "words": [
+              "6aee0ca330f78031",
+              "ff88d2748ab78454"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.7676932215690613,
+          "after": {
+            "words": [
+              "ff88d2748ab78454",
+              "c4feb8937b450d7c"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.7742011547088623,
+          "after": {
+            "words": [
+              "c4feb8937b450d7c",
+              "013353f22087fdad"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.5532743334770203,
+          "after": {
+            "words": [
+              "013353f22087fdad",
+              "8c700f46241ceefb"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.0029822587966918945,
+          "after": {
+            "words": [
+              "8c700f46241ceefb",
+              "74536378461eb9dc"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.8106208443641663,
+          "after": {
+            "words": [
+              "74536378461eb9dc",
+              "5b3175e50bc225f8"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.9314414858818054,
+          "after": {
+            "words": [
+              "5b3175e50bc225f8",
+              "93417def5993b169"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.8055302500724792,
+          "after": {
+            "words": [
+              "93417def5993b169",
+              "3af5bde6347514a6"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.5978694558143616,
+          "after": {
+            "words": [
+              "3af5bde6347514a6",
+              "5e183ba9be122acb"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.9611827731132507,
+          "after": {
+            "words": [
+              "5e183ba9be122acb",
+              "97f7d8259cdfe7b8"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.7076497077941895,
+          "after": {
+            "words": [
+              "97f7d8259cdfe7b8",
+              "1d30afdf23e5a9dd"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.7079168558120728,
+          "after": {
+            "words": [
+              "1d30afdf23e5a9dd",
+              "98095a92f4fa99c2"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.01052623987197876,
+          "after": {
+            "words": [
+              "98095a92f4fa99c2",
+              "6aa87eef954c7210"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.15044689178466797,
+          "after": {
+            "words": [
+              "6aa87eef954c7210",
+              "bbdb3192b9465aca"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.3850875496864319,
+          "after": {
+            "words": [
+              "bbdb3192b9465aca",
+              "a6b9e7dbbead02d2"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.48034971952438354,
+          "after": {
+            "words": [
+              "a6b9e7dbbead02d2",
+              "d43e4c0e05cd40d4"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.4515249729156494,
+          "after": {
+            "words": [
+              "d43e4c0e05cd40d4",
+              "9f58d8d2855e2a51"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.9208519458770752,
+          "after": {
+            "words": [
+              "9f58d8d2855e2a51",
+              "4c641bc569f269c2"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.02688896656036377,
+          "after": {
+            "words": [
+              "4c641bc569f269c2",
+              "ba7e171ce6c96426"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.8092761635780334,
+          "after": {
+            "words": [
+              "ba7e171ce6c96426",
+              "14aea2ab80c60ea4"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.20828896760940552,
+          "after": {
+            "words": [
+              "14aea2ab80c60ea4",
+              "20a3cb06e770ba86"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.50953608751297,
+          "after": {
+            "words": [
+              "20a3cb06e770ba86",
+              "61cd2a157d921cf8"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.14029228687286377,
+          "after": {
+            "words": [
+              "61cd2a157d921cf8",
+              "c21d08be9305f119"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.42010343074798584,
+          "after": {
+            "words": [
+              "c21d08be9305f119",
+              "a96ede2ce458428c"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.8658595681190491,
+          "after": {
+            "words": [
+              "a96ede2ce458428c",
+              "343a1aeae549376e"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "value": 0.7475711107254028,
+          "after": {
+            "words": [
+              "343a1aeae549376e",
+              "8b26b76430911e77"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "value": 0.3343029022216797,
+          "after": {
+            "words": [
+              "8b26b76430911e77",
+              "ca6e2993f44d5931"
+            ],
+            "counter": 34
+          }
+        }
+      ],
+      "eliteRefill": [
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "08988bdf9f18fb2a",
+          "7c38c8cc177201cc"
+        ],
+        "counter": 52
+      }
+    },
+    {
+      "seed": "65536",
+      "normal": [
+        "2 Louse",
+        "Small Slimes",
+        "Jaw Worm",
+        "Looter",
+        "Exordium Wildlife",
+        "3 Louse",
+        "2 Fungi Beasts",
+        "Looter",
+        "Blue Slaver",
+        "Exordium Wildlife",
+        "Looter",
+        "2 Fungi Beasts",
+        "Large Slime",
+        "Blue Slaver",
+        "Gremlin Gang",
+        "3 Louse"
+      ],
+      "elite": [
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin"
+      ],
+      "afterWeak": {
+        "words": [
+          "03c47ab216a032b1",
+          "7b5ddac7c9f89fa7"
+        ],
+        "counter": 5
+      },
+      "afterNormal": {
+        "words": [
+          "927bd4b863bafcba",
+          "372ed6843f78fe8b"
+        ],
+        "counter": 24
+      },
+      "afterInitial": {
+        "words": [
+          "989d2182dbdd145c",
+          "f1e5476b283fe6ff"
+        ],
+        "counter": 37
+      },
+      "draws": [
+        {
+          "value": 0.7499367594718933,
+          "after": {
+            "words": [
+              "0e39d0ab31c467a8",
+              "b1c20b074e6e5a6b"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.6099414229393005,
+          "after": {
+            "words": [
+              "b1c20b074e6e5a6b",
+              "ea63146342648ef2"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.759418785572052,
+          "after": {
+            "words": [
+              "ea63146342648ef2",
+              "d80631413f5af1be"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.8585612177848816,
+          "after": {
+            "words": [
+              "d80631413f5af1be",
+              "03c47ab216a032b1"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.4966176152229309,
+          "after": {
+            "words": [
+              "03c47ab216a032b1",
+              "7b5ddac7c9f89fa7"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.6130480170249939,
+          "after": {
+            "words": [
+              "7b5ddac7c9f89fa7",
+              "2192dd15c5fbbbf4"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.3544743061065674,
+          "after": {
+            "words": [
+              "2192dd15c5fbbbf4",
+              "392bf7c928706c1e"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.7950359582901001,
+          "after": {
+            "words": [
+              "392bf7c928706c1e",
+              "925b82b74d123a5d"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.8837836980819702,
+          "after": {
+            "words": [
+              "925b82b74d123a5d",
+              "4fe423b31b7d6828"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.8358983993530273,
+          "after": {
+            "words": [
+              "4fe423b31b7d6828",
+              "86194cf404328f7a"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.5880417227745056,
+          "after": {
+            "words": [
+              "86194cf404328f7a",
+              "10709ae6439f5ded"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.9877364635467529,
+          "after": {
+            "words": [
+              "10709ae6439f5ded",
+              "ec6bb15c4c52b79e"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.4830096960067749,
+          "after": {
+            "words": [
+              "ec6bb15c4c52b79e",
+              "8f3ad5874905e7ef"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.3620949983596802,
+          "after": {
+            "words": [
+              "8f3ad5874905e7ef",
+              "cd776c85c8e1f00a"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.310066819190979,
+          "after": {
+            "words": [
+              "cd776c85c8e1f00a",
+              "81e91d8d000569d5"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.5640165209770203,
+          "after": {
+            "words": [
+              "81e91d8d000569d5",
+              "0e7a4619399d1c6f"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.3420066833496094,
+          "after": {
+            "words": [
+              "0e7a4619399d1c6f",
+              "49137a97c21506b6"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.582175076007843,
+          "after": {
+            "words": [
+              "49137a97c21506b6",
+              "4bf5f361cc9d3827"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.5819924473762512,
+          "after": {
+            "words": [
+              "4bf5f361cc9d3827",
+              "4907821e90feaa68"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.9808924198150635,
+          "after": {
+            "words": [
+              "4907821e90feaa68",
+              "b2144278d0fdfa65"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.6501444578170776,
+          "after": {
+            "words": [
+              "b2144278d0fdfa65",
+              "f45b9c380fb61c46"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.4316942095756531,
+          "after": {
+            "words": [
+              "f45b9c380fb61c46",
+              "7a27e7bee56e191e"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.04937338829040527,
+          "after": {
+            "words": [
+              "7a27e7bee56e191e",
+              "927bd4b863bafcba"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.7877604365348816,
+          "after": {
+            "words": [
+              "927bd4b863bafcba",
+              "372ed6843f78fe8b"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.1897515058517456,
+          "after": {
+            "words": [
+              "372ed6843f78fe8b",
+              "f964b86ace94bc63"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.5223789215087891,
+          "after": {
+            "words": [
+              "f964b86ace94bc63",
+              "8c55e837583fe527"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.7995054721832275,
+          "after": {
+            "words": [
+              "8c55e837583fe527",
+              "40567c214b4b2b18"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.09384512901306152,
+          "after": {
+            "words": [
+              "40567c214b4b2b18",
+              "d7afc0086e8923b2"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.37127596139907837,
+          "after": {
+            "words": [
+              "d7afc0086e8923b2",
+              "875c31f0aee86914"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.8598793745040894,
+          "after": {
+            "words": [
+              "875c31f0aee86914",
+              "54c4dc848c21ed49"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.5022661089897156,
+          "after": {
+            "words": [
+              "54c4dc848c21ed49",
+              "2bcfa6d03b1cb70a"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.4105992317199707,
+          "after": {
+            "words": [
+              "2bcfa6d03b1cb70a",
+              "3d4d61e9866dfa1d"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "value": 0.7340818643569946,
+          "after": {
+            "words": [
+              "3d4d61e9866dfa1d",
+              "7e9f68847f6ce878"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "value": 0.2097284197807312,
+          "after": {
+            "words": [
+              "7e9f68847f6ce878",
+              "b7115b487bd1770c"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "value": 0.2607874274253845,
+          "after": {
+            "words": [
+              "b7115b487bd1770c",
+              "8bb19bc593936cdc"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "value": 0.14182645082473755,
+          "after": {
+            "words": [
+              "8bb19bc593936cdc",
+              "989d2182dbdd145c"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "value": 0.5410523414611816,
+          "after": {
+            "words": [
+              "989d2182dbdd145c",
+              "f1e5476b283fe6ff"
+            ],
+            "counter": 37
+          }
+        }
+      ],
+      "eliteRefill": [
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "56a20fecc67380e2",
+          "42427cff516bcd18"
+        ],
+        "counter": 52
+      }
+    },
+    {
+      "seed": "-1",
+      "normal": [
+        "2 Louse",
+        "Jaw Worm",
+        "Small Slimes",
+        "Exordium Thugs",
+        "Looter",
+        "2 Fungi Beasts",
+        "Exordium Thugs",
+        "Gremlin Gang",
+        "Large Slime",
+        "2 Fungi Beasts",
+        "Blue Slaver",
+        "Exordium Thugs",
+        "Large Slime",
+        "Blue Slaver",
+        "Red Slaver",
+        "Lots of Slimes"
+      ],
+      "elite": [
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries"
+      ],
+      "afterWeak": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      },
+      "afterNormal": {
+        "words": [
+          "4d1a67e4f7ef02b1",
+          "ce8c51af59316487"
+        ],
+        "counter": 25
+      },
+      "afterInitial": {
+        "words": [
+          "cbcbbf6d388b2728",
+          "11cbcf60fe8307db"
+        ],
+        "counter": 40
+      },
+      "draws": [
+        {
+          "value": 0.585223913192749,
+          "after": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.37000811100006104,
+          "after": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.9637035131454468,
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.19340121746063232,
+          "after": {
+            "words": [
+              "336d48ad86da3b4c",
+              "fe15758e148abc7f"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.6008429527282715,
+          "after": {
+            "words": [
+              "fe15758e148abc7f",
+              "9bbb62d6a3d5f4db"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.24364763498306274,
+          "after": {
+            "words": [
+              "9bbb62d6a3d5f4db",
+              "a2a44eaffe6fe889"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.9568336606025696,
+          "after": {
+            "words": [
+              "a2a44eaffe6fe889",
+              "524ebededd3fd087"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.9741895198822021,
+          "after": {
+            "words": [
+              "524ebededd3fd087",
+              "a715bd3c48d252ce"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.25505441427230835,
+          "after": {
+            "words": [
+              "a715bd3c48d252ce",
+              "9a3582b303998204"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.23916316032409668,
+          "after": {
+            "words": [
+              "9a3582b303998204",
+              "a3044a184b21ebe3"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.014475762844085693,
+          "after": {
+            "words": [
+              "a3044a184b21ebe3",
+              "60b06598ac93ef39"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.18851172924041748,
+          "after": {
+            "words": [
+              "60b06598ac93ef39",
+              "cf91e8fdd75dbfa1"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.19936341047286987,
+          "after": {
+            "words": [
+              "cf91e8fdd75dbfa1",
+              "637792d21503f7e4"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.20906251668930054,
+          "after": {
+            "words": [
+              "637792d21503f7e4",
+              "d20d8c55ec2bff2e"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.6659873723983765,
+          "after": {
+            "words": [
+              "d20d8c55ec2bff2e",
+              "d8709a7601dfee30"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.9725967645645142,
+          "after": {
+            "words": [
+              "d8709a7601dfee30",
+              "208b7f97aa07b10b"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.8926846385002136,
+          "after": {
+            "words": [
+              "208b7f97aa07b10b",
+              "c3fb7ba6abc7363e"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.9243305921554565,
+          "after": {
+            "words": [
+              "c3fb7ba6abc7363e",
+              "28a5727644b9f95c"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.37770581245422363,
+          "after": {
+            "words": [
+              "28a5727644b9f95c",
+              "380be216953c8890"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.3890480399131775,
+          "after": {
+            "words": [
+              "380be216953c8890",
+              "2b8cc551ea388135"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.2670043110847473,
+          "after": {
+            "words": [
+              "2b8cc551ea388135",
+              "18cda0a96a1c3341"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.705106258392334,
+          "after": {
+            "words": [
+              "18cda0a96a1c3341",
+              "9bb43802c5442072"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.4511857032775879,
+          "after": {
+            "words": [
+              "9bb43802c5442072",
+              "d7ccb0a8b58e76cc"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.1441512107849121,
+          "after": {
+            "words": [
+              "d7ccb0a8b58e76cc",
+              "4d1a67e4f7ef02b1"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.10801273584365845,
+          "after": {
+            "words": [
+              "4d1a67e4f7ef02b1",
+              "ce8c51af59316487"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.2518605589866638,
+          "after": {
+            "words": [
+              "ce8c51af59316487",
+              "71ed9e499d78da57"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.8544155359268188,
+          "after": {
+            "words": [
+              "71ed9e499d78da57",
+              "68cd5bd89820a1ef"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.6513013243675232,
+          "after": {
+            "words": [
+              "68cd5bd89820a1ef",
+              "3dee53778c9cd6e2"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.9662731885910034,
+          "after": {
+            "words": [
+              "3dee53778c9cd6e2",
+              "b96f5ab03d6c9d3e"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.9715327620506287,
+          "after": {
+            "words": [
+              "b96f5ab03d6c9d3e",
+              "3f47049695a8991d"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.11519795656204224,
+          "after": {
+            "words": [
+              "3f47049695a8991d",
+              "de3698df107a70b0"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.5329901576042175,
+          "after": {
+            "words": [
+              "de3698df107a70b0",
+              "aa3b72346e99d3fd"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "value": 0.7724762558937073,
+          "after": {
+            "words": [
+              "aa3b72346e99d3fd",
+              "1b858f26facc8a6b"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "value": 0.7775798439979553,
+          "after": {
+            "words": [
+              "1b858f26facc8a6b",
+              "ab89e9fb94d85824"
+            ],
+            "counter": 34
+          }
+        },
+        {
+          "value": 0.8085201978683472,
+          "after": {
+            "words": [
+              "ab89e9fb94d85824",
+              "237144cecd5f4b0c"
+            ],
+            "counter": 35
+          }
+        },
+        {
+          "value": 0.5962551832199097,
+          "after": {
+            "words": [
+              "237144cecd5f4b0c",
+              "7532ea30553de3f7"
+            ],
+            "counter": 36
+          }
+        },
+        {
+          "value": 0.6497810482978821,
+          "after": {
+            "words": [
+              "7532ea30553de3f7",
+              "3125234da76d8141"
+            ],
+            "counter": 37
+          }
+        },
+        {
+          "value": 0.5522844791412354,
+          "after": {
+            "words": [
+              "3125234da76d8141",
+              "5c3d610c7af86681"
+            ],
+            "counter": 38
+          }
+        },
+        {
+          "value": 0.1563892364501953,
+          "after": {
+            "words": [
+              "5c3d610c7af86681",
+              "cbcbbf6d388b2728"
+            ],
+            "counter": 39
+          }
+        },
+        {
+          "value": 0.8655937910079956,
+          "after": {
+            "words": [
+              "cbcbbf6d388b2728",
+              "11cbcf60fe8307db"
+            ],
+            "counter": 40
+          }
+        }
+      ],
+      "eliteRefill": [
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "fca093895bac6037",
+          "24e9d018a316a3d5"
+        ],
+        "counter": 61
+      }
+    },
+    {
+      "seed": "2780424839485660359",
+      "normal": [
+        "Small Slimes",
+        "2 Louse",
+        "Jaw Worm",
+        "Large Slime",
+        "Exordium Wildlife",
+        "2 Fungi Beasts",
+        "Exordium Thugs",
+        "Gremlin Gang",
+        "Exordium Wildlife",
+        "Looter",
+        "Blue Slaver",
+        "Exordium Thugs",
+        "Looter",
+        "2 Fungi Beasts",
+        "Gremlin Gang",
+        "Looter"
+      ],
+      "elite": [
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob"
+      ],
+      "afterWeak": {
+        "words": [
+          "b3fa7fd0d054db7a",
+          "ae11ae66e63144cd"
+        ],
+        "counter": 4
+      },
+      "afterNormal": {
+        "words": [
+          "c08f6fbd280b3f13",
+          "ceda537cb3cbc176"
+        ],
+        "counter": 20
+      },
+      "afterInitial": {
+        "words": [
+          "10c385065875608f",
+          "35c4f5e847830109"
+        ],
+        "counter": 34
+      },
+      "draws": [
+        {
+          "value": 0.8834655284881592,
+          "after": {
+            "words": [
+              "da7b1a134bf15d5a",
+              "07afb2c0498ee615"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.859877347946167,
+          "after": {
+            "words": [
+              "07afb2c0498ee615",
+              "d471399335cdf825"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.532893717288971,
+          "after": {
+            "words": [
+              "d471399335cdf825",
+              "b3fa7fd0d054db7a"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.38299834728240967,
+          "after": {
+            "words": [
+              "b3fa7fd0d054db7a",
+              "ae11ae66e63144cd"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.6390001773834229,
+          "after": {
+            "words": [
+              "ae11ae66e63144cd",
+              "f583d63925d0b0a4"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.3687288761138916,
+          "after": {
+            "words": [
+              "f583d63925d0b0a4",
+              "68e12e719ef63a78"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.9172602891921997,
+          "after": {
+            "words": [
+              "68e12e719ef63a78",
+              "81f064824e5dad53"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.3273695707321167,
+          "after": {
+            "words": [
+              "81f064824e5dad53",
+              "d1de19d9ba04e6c3"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.8863418698310852,
+          "after": {
+            "words": [
+              "d1de19d9ba04e6c3",
+              "110933d28f754e10"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.2385774850845337,
+          "after": {
+            "words": [
+              "110933d28f754e10",
+              "2c0a36fd9b6831b2"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.0012050867080688477,
+          "after": {
+            "words": [
+              "2c0a36fd9b6831b2",
+              "d444c3a45a2a037e"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.35461682081222534,
+          "after": {
+            "words": [
+              "d444c3a45a2a037e",
+              "86836817c8007aee"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.02902442216873169,
+          "after": {
+            "words": [
+              "86836817c8007aee",
+              "80eabda766a28ef7"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.556523323059082,
+          "after": {
+            "words": [
+              "80eabda766a28ef7",
+              "0d8d931e5718c240"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.42336899042129517,
+          "after": {
+            "words": [
+              "0d8d931e5718c240",
+              "5ed45651df2e85b3"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.2315424680709839,
+          "after": {
+            "words": [
+              "5ed45651df2e85b3",
+              "dc72086a129c6808"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.5263057947158813,
+          "after": {
+            "words": [
+              "dc72086a129c6808",
+              "aa49f253e8397468"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.92768394947052,
+          "after": {
+            "words": [
+              "aa49f253e8397468",
+              "4332c09acff683d4"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.014681816101074219,
+          "after": {
+            "words": [
+              "4332c09acff683d4",
+              "c08f6fbd280b3f13"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.5602075457572937,
+          "after": {
+            "words": [
+              "c08f6fbd280b3f13",
+              "ceda537cb3cbc176"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.6234670281410217,
+          "after": {
+            "words": [
+              "ceda537cb3cbc176",
+              "d0c1366011c5718c"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.44146621227264404,
+          "after": {
+            "words": [
+              "d0c1366011c5718c",
+              "a042b889f20d2c9b"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.8781406879425049,
+          "after": {
+            "words": [
+              "a042b889f20d2c9b",
+              "408b1c1ddf0a1489"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.8934924602508545,
+          "after": {
+            "words": [
+              "408b1c1ddf0a1489",
+              "a430d04f9d4fe0a3"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.5567206144332886,
+          "after": {
+            "words": [
+              "a430d04f9d4fe0a3",
+              "ea546e43467a2a08"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.3281062841415405,
+          "after": {
+            "words": [
+              "ea546e43467a2a08",
+              "69aa58392471bc1d"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.04699361324310303,
+          "after": {
+            "words": [
+              "69aa58392471bc1d",
+              "a25d6e8ea536b961"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.4756261706352234,
+          "after": {
+            "words": [
+              "a25d6e8ea536b961",
+              "d76534dd28ef33ad"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.03832864761352539,
+          "after": {
+            "words": [
+              "d76534dd28ef33ad",
+              "326ab3bd1efdb75d"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.7422847151756287,
+          "after": {
+            "words": [
+              "326ab3bd1efdb75d",
+              "8b9bac0ddb9c1480"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.9496118426322937,
+          "after": {
+            "words": [
+              "8b9bac0ddb9c1480",
+              "677e173b6bb9f895"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.3184553384780884,
+          "after": {
+            "words": [
+              "677e173b6bb9f895",
+              "ea08339e1ea3ef01"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "value": 0.9796710014343262,
+          "after": {
+            "words": [
+              "ea08339e1ea3ef01",
+              "10c385065875608f"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "value": 0.2755199670791626,
+          "after": {
+            "words": [
+              "10c385065875608f",
+              "35c4f5e847830109"
+            ],
+            "counter": 34
+          }
+        }
+      ],
+      "eliteRefill": [
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "ee4ea5f0ae25b79b",
+          "4e7c2a98142373a7"
+        ],
+        "counter": 45
+      }
+    },
+    {
+      "seed": "9223372036854775807",
+      "normal": [
+        "2 Louse",
+        "Cultist",
+        "Small Slimes",
+        "2 Fungi Beasts",
+        "Exordium Wildlife",
+        "Exordium Thugs",
+        "Red Slaver",
+        "3 Louse",
+        "Exordium Wildlife",
+        "Blue Slaver",
+        "Gremlin Gang",
+        "Red Slaver",
+        "Lots of Slimes",
+        "Looter",
+        "Exordium Thugs",
+        "Exordium Wildlife"
+      ],
+      "elite": [
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin"
+      ],
+      "afterWeak": {
+        "words": [
+          "c38024b9f06aa366",
+          "2ee419a7e7a82a8c"
+        ],
+        "counter": 4
+      },
+      "afterNormal": {
+        "words": [
+          "7ef200e14ef7d5d1",
+          "da9a2c11a8c79563"
+        ],
+        "counter": 18
+      },
+      "afterInitial": {
+        "words": [
+          "ae312c359b7bec6b",
+          "b5ac9236dc519121"
+        ],
+        "counter": 34
+      },
+      "draws": [
+        {
+          "value": 0.6091547012329102,
+          "after": {
+            "words": [
+              "e72306068b6e596a",
+              "b4ce8a4fcd5c1b3a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.021344363689422607,
+          "after": {
+            "words": [
+              "b4ce8a4fcd5c1b3a",
+              "50a8497b9805ce94"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.07874190807342529,
+          "after": {
+            "words": [
+              "50a8497b9805ce94",
+              "c38024b9f06aa366"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.9468420743942261,
+          "after": {
+            "words": [
+              "c38024b9f06aa366",
+              "2ee419a7e7a82a8c"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.8769589066505432,
+          "after": {
+            "words": [
+              "2ee419a7e7a82a8c",
+              "b19c47f81530c1a6"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.9928014278411865,
+          "after": {
+            "words": [
+              "b19c47f81530c1a6",
+              "4c8bf4ed355045fb"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.30336010456085205,
+          "after": {
+            "words": [
+              "4c8bf4ed355045fb",
+              "011d0dadbe51dc08"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.23500597476959229,
+          "after": {
+            "words": [
+              "011d0dadbe51dc08",
+              "3b0c4c6a9fa516f4"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.15567487478256226,
+          "after": {
+            "words": [
+              "3b0c4c6a9fa516f4",
+              "ecce02c6f4460d73"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.809991717338562,
+          "after": {
+            "words": [
+              "ecce02c6f4460d73",
+              "e28d9b3ded1358e8"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.31163930892944336,
+          "after": {
+            "words": [
+              "e28d9b3ded1358e8",
+              "6d39fd1f1353bc03"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.49409186840057373,
+          "after": {
+            "words": [
+              "6d39fd1f1353bc03",
+              "1142d1a84d776fa6"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.020351707935333252,
+          "after": {
+            "words": [
+              "1142d1a84d776fa6",
+              "f3f2f435257030df"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.1661672592163086,
+          "after": {
+            "words": [
+              "f3f2f435257030df",
+              "3696fca472b59d0b"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.08810043334960938,
+          "after": {
+            "words": [
+              "3696fca472b59d0b",
+              "dff6c434bbec21b0"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.6066906452178955,
+          "after": {
+            "words": [
+              "dff6c434bbec21b0",
+              "bb59503e625dca0f"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.2277117371559143,
+          "after": {
+            "words": [
+              "bb59503e625dca0f",
+              "7ef200e14ef7d5d1"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.3497951030731201,
+          "after": {
+            "words": [
+              "7ef200e14ef7d5d1",
+              "da9a2c11a8c79563"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.6852033138275146,
+          "after": {
+            "words": [
+              "da9a2c11a8c79563",
+              "d4cf500615be97e3"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.8567012548446655,
+          "after": {
+            "words": [
+              "d4cf500615be97e3",
+              "068176cf18c08fa6"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.842865526676178,
+          "after": {
+            "words": [
+              "068176cf18c08fa6",
+              "d14492619b05599c"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.5060771703720093,
+          "after": {
+            "words": [
+              "d14492619b05599c",
+              "b049b45b8aa52bbc"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.007973194122314453,
+          "after": {
+            "words": [
+              "b049b45b8aa52bbc",
+              "51c0d47e45abce40"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.11739063262939453,
+          "after": {
+            "words": [
+              "51c0d47e45abce40",
+              "cc4c7c62125cd03f"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.4335140585899353,
+          "after": {
+            "words": [
+              "cc4c7c62125cd03f",
+              "a2ae4ab96424b42e"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.010157585144042969,
+          "after": {
+            "words": [
+              "a2ae4ab96424b42e",
+              "5feb66396b6fcca6"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.00736469030380249,
+          "after": {
+            "words": [
+              "5feb66396b6fcca6",
+              "a1f741c3cee34f40"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.5180808901786804,
+          "after": {
+            "words": [
+              "a1f741c3cee34f40",
+              "e2a9b19be3b36f22"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.5210468173027039,
+          "after": {
+            "words": [
+              "e2a9b19be3b36f22",
+              "a2b9a1cf3f0e71eb"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.18987274169921875,
+          "after": {
+            "words": [
+              "a2b9a1cf3f0e71eb",
+              "8de1de67d7c3545f"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.33852720260620117,
+          "after": {
+            "words": [
+              "8de1de67d7c3545f",
+              "c8c7da2076415906"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.24837613105773926,
+          "after": {
+            "words": [
+              "c8c7da2076415906",
+              "76cdbadaa0127965"
+            ],
+            "counter": 32
+          }
+        },
+        {
+          "value": 0.14451450109481812,
+          "after": {
+            "words": [
+              "76cdbadaa0127965",
+              "ae312c359b7bec6b"
+            ],
+            "counter": 33
+          }
+        },
+        {
+          "value": 0.3901022672653198,
+          "after": {
+            "words": [
+              "ae312c359b7bec6b",
+              "b5ac9236dc519121"
+            ],
+            "counter": 34
+          }
+        }
+      ],
+      "eliteRefill": [
+        "3 Sentries",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "ac9332de4b5dd560",
+          "5842847241df95ce"
+        ],
+        "counter": 48
+      }
+    },
+    {
+      "seed": "-9223372036854775808",
+      "normal": [
+        "Cultist",
+        "Small Slimes",
+        "Jaw Worm",
+        "2 Fungi Beasts",
+        "Looter",
+        "Exordium Thugs",
+        "Red Slaver",
+        "2 Fungi Beasts",
+        "3 Louse",
+        "Large Slime",
+        "Blue Slaver",
+        "Exordium Thugs",
+        "2 Fungi Beasts",
+        "Exordium Wildlife",
+        "Red Slaver",
+        "Gremlin Gang"
+      ],
+      "elite": [
+        "Lagavulin",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob"
+      ],
+      "afterWeak": {
+        "words": [
+          "64e5fcd2a7151c1a",
+          "fee60553238444e4"
+        ],
+        "counter": 5
+      },
+      "afterNormal": {
+        "words": [
+          "6563c2f491c710c5",
+          "a5a6aa6de3873d27"
+        ],
+        "counter": 19
+      },
+      "afterInitial": {
+        "words": [
+          "cffdb2b0d71daa74",
+          "563592c5af095b6e"
+        ],
+        "counter": 32
+      },
+      "draws": [
+        {
+          "value": 0.15942496061325073,
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "value": 0.9108003377914429,
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "value": 0.9517466425895691,
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "value": 0.7742902040481567,
+          "after": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "value": 0.38983166217803955,
+          "after": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "value": 0.9461438059806824,
+          "after": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "value": 0.5916756987571716,
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "value": 0.277741014957428,
+          "after": {
+            "words": [
+              "a427991d6d1fcfd8",
+              "a2f2709904a41b20"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "value": 0.1692792773246765,
+          "after": {
+            "words": [
+              "a2f2709904a41b20",
+              "88637303b25ab236"
+            ],
+            "counter": 9
+          }
+        },
+        {
+          "value": 0.9314971566200256,
+          "after": {
+            "words": [
+              "88637303b25ab236",
+              "6613268d2f6823a8"
+            ],
+            "counter": 10
+          }
+        },
+        {
+          "value": 0.8349095582962036,
+          "after": {
+            "words": [
+              "6613268d2f6823a8",
+              "6fa97c132dd66678"
+            ],
+            "counter": 11
+          }
+        },
+        {
+          "value": 0.7454754114151001,
+          "after": {
+            "words": [
+              "6fa97c132dd66678",
+              "4f2dfed675af3caf"
+            ],
+            "counter": 12
+          }
+        },
+        {
+          "value": 0.469731867313385,
+          "after": {
+            "words": [
+              "4f2dfed675af3caf",
+              "29125afa6496e7a1"
+            ],
+            "counter": 13
+          }
+        },
+        {
+          "value": 0.21129965782165527,
+          "after": {
+            "words": [
+              "29125afa6496e7a1",
+              "0d0561b3968b7480"
+            ],
+            "counter": 14
+          }
+        },
+        {
+          "value": 0.399089515209198,
+          "after": {
+            "words": [
+              "0d0561b3968b7480",
+              "59255a296b0125cf"
+            ],
+            "counter": 15
+          }
+        },
+        {
+          "value": 0.9025944471359253,
+          "after": {
+            "words": [
+              "59255a296b0125cf",
+              "8deb1451e6d83050"
+            ],
+            "counter": 16
+          }
+        },
+        {
+          "value": 0.3062589168548584,
+          "after": {
+            "words": [
+              "8deb1451e6d83050",
+              "c07be8017dc1c7a6"
+            ],
+            "counter": 17
+          }
+        },
+        {
+          "value": 0.14794409275054932,
+          "after": {
+            "words": [
+              "c07be8017dc1c7a6",
+              "6563c2f491c710c5"
+            ],
+            "counter": 18
+          }
+        },
+        {
+          "value": 0.04312783479690552,
+          "after": {
+            "words": [
+              "6563c2f491c710c5",
+              "a5a6aa6de3873d27"
+            ],
+            "counter": 19
+          }
+        },
+        {
+          "value": 0.37579625844955444,
+          "after": {
+            "words": [
+              "a5a6aa6de3873d27",
+              "ba8d84ade9d4cf39"
+            ],
+            "counter": 20
+          }
+        },
+        {
+          "value": 0.8922143578529358,
+          "after": {
+            "words": [
+              "ba8d84ade9d4cf39",
+              "29daa4db8e4b6167"
+            ],
+            "counter": 21
+          }
+        },
+        {
+          "value": 0.9355221390724182,
+          "after": {
+            "words": [
+              "29daa4db8e4b6167",
+              "c5a3bc273ad3a217"
+            ],
+            "counter": 22
+          }
+        },
+        {
+          "value": 0.2788369059562683,
+          "after": {
+            "words": [
+              "c5a3bc273ad3a217",
+              "81be1f73af42545b"
+            ],
+            "counter": 23
+          }
+        },
+        {
+          "value": 0.8486137986183167,
+          "after": {
+            "words": [
+              "81be1f73af42545b",
+              "5780a1ba9b6d320e"
+            ],
+            "counter": 24
+          }
+        },
+        {
+          "value": 0.7789557576179504,
+          "after": {
+            "words": [
+              "5780a1ba9b6d320e",
+              "6fe903c226abc992"
+            ],
+            "counter": 25
+          }
+        },
+        {
+          "value": 0.3322346806526184,
+          "after": {
+            "words": [
+              "6fe903c226abc992",
+              "e524519ccb17c523"
+            ],
+            "counter": 26
+          }
+        },
+        {
+          "value": 0.3164454698562622,
+          "after": {
+            "words": [
+              "e524519ccb17c523",
+              "6bde40fe46bb1c56"
+            ],
+            "counter": 27
+          }
+        },
+        {
+          "value": 0.6737947463989258,
+          "after": {
+            "words": [
+              "6bde40fe46bb1c56",
+              "409f8f3a0683cbaf"
+            ],
+            "counter": 28
+          }
+        },
+        {
+          "value": 0.5820640921592712,
+          "after": {
+            "words": [
+              "409f8f3a0683cbaf",
+              "54629824c2632fa5"
+            ],
+            "counter": 29
+          }
+        },
+        {
+          "value": 0.8686647415161133,
+          "after": {
+            "words": [
+              "54629824c2632fa5",
+              "89fe38206ca905bb"
+            ],
+            "counter": 30
+          }
+        },
+        {
+          "value": 0.35150015354156494,
+          "after": {
+            "words": [
+              "89fe38206ca905bb",
+              "cffdb2b0d71daa74"
+            ],
+            "counter": 31
+          }
+        },
+        {
+          "value": 0.149219810962677,
+          "after": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          }
+        }
+      ],
+      "eliteRefill": [
+        "Gremlin Nob",
+        "3 Sentries",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "Gremlin Nob",
+        "Lagavulin",
+        "3 Sentries",
+        "Lagavulin",
+        "3 Sentries"
+      ],
+      "afterEliteRefill": {
+        "words": [
+          "512297dd133ae814",
+          "9e28d40735c1484c"
+        ],
+        "counter": 46
+      }
+    }
+  ]
+}

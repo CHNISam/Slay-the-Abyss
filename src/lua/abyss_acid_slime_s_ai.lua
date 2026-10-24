@@ -1,6 +1,7 @@
 -- Small Acid Slime / A0. Initial Boolean, then no further AI draws.
 -- Evidence and adapter limits: TASK-15-acid-slime-s-ai.md.
 local M = {}
+local R=require('abyss_enemy_random')
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -11,9 +12,8 @@ end
 
 function M.initialize(state, enemy, random)
     random(state, enemy.ai.rollRange) -- AbstractMonster.rollMove's ignored primary.
-    -- The current adapter maps its two-value integer domain to false/true.
-    -- It is not the original RandomXS128.nextBoolean stream.
-    select(enemy, random(state, 2) == 2 and enemy.ai.tackleIntent or enemy.ai.weakIntent)
+    -- Source rooms use nextBoolean; explicit legacy fixtures retain their callback.
+    select(enemy, R.boolean(state,random) and enemy.ai.tackleIntent or enemy.ai.weakIntent)
 end
 
 function M.advance(state, enemy)

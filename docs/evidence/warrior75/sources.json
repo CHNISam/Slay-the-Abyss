@@ -915,7 +915,11 @@
       "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/rooms/AbstractRoom.java",
       "sha256": "48d977bbf796863b354db6ec82e966525b5bce212f39c6c4d2f8692a56ba4ef6",
       "gitBlob": "cbd3b988e267bbf5dc8c4fd981ccc201e8bcec9e",
-      "bytes": 41251
+      "bytes": 41251,
+      "reviewedFacts": [
+        "endTurn resets attributes of draw/discard/hand and the hovered card before queued cleanup; exhaust is excluded.",
+        "A temporary zero-cost card already in exhaust retains its turn cost across turns; Exhume returns that same instance."
+      ]
     },
     {
       "id": "MonsterRoomElite",

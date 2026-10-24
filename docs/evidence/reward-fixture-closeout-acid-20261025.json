@@ -1,0 +1,39 @@
+{
+  "baseCommit": "88c7373",
+  "scope": "test fixture migration only; production code, Backlog, GUI and complete npm check unchanged",
+  "fixture": "tests/lua/acid_slime_split.lua",
+  "preserved": "All original split timing, children, actor identity, RNG, poison, thorns and transaction assertions remain in place.",
+  "migration": "Victory offers the gold without granting it; the real Run explicitly claims the offer once and rejects a duplicate without adding money or changing phase, victory count or deck UID.",
+  "red": {
+    "command": "node scripts/test-lua.mjs tests/lua/acid_slime_split.lua",
+    "exitCode": 1,
+    "passed": 14,
+    "failed": 1,
+    "failure": "real Run withholds reward until two children die and settles exactly once: expected 114, got 99",
+    "log": ".artifacts/acid-split-reward-red.log",
+    "sha256": "43814dcd54270c84e67756f99149dcbe4458b89ac06132e57fa441d8f8735873"
+  },
+  "green": [
+    {
+      "family": "acid",
+      "passed": 15,
+      "failed": 0,
+      "exitCode": 0,
+      "log": ".artifacts/acid-split-reward-green.log",
+      "sha256": "9f9733befb5bc2f6c2504f01569aaab41ff5f435feeea9e96fdbafa4fdb39a12"
+    },
+    {
+      "family": "spike",
+      "environment": "SPLIT_FAMILY=spike for this process only",
+      "passed": 15,
+      "failed": 0,
+      "exitCode": 0,
+      "log": ".artifacts/spike-split-reward-green.log",
+      "sha256": "436809a0288386ae648678af339c0b461c97b80ae9e72aea07c59ad6a2bca2c7"
+    }
+  ],
+  "fixtureSha256": "6b6e3f167b6e62a444524187f17dbb63af41061319dd1ee569dec4a1f4067abd",
+  "timeoutChanged": false,
+  "fullCheckRun": false,
+  "platformVerified": false
+}

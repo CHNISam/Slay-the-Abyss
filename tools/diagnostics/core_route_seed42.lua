@@ -69,7 +69,11 @@ for step=1,17 do
   for _,o in ipairs(offers) do if rank(o.id)>0 and run.gold>=o.price then print('BUY',o.id,o.price);assert(Nodes.buyCard(run,o.id));break end end
   assert(Nodes.leaveShop(run))
  elseif nodeType=='treasure' then
-  if run.nodeFlow.roomKind=='boss_treasure' then assert(Nodes.claimBossTreasure(run,0))
+  if run.nodeFlow.roomKind=='boss_treasure' then
+   local relics=Nodes.view(run,map).node.reward.relics
+   local choice=#relics>0 and 1 or 0
+   print('BOSS_TREASURE',relics[choice] or 'skip','choice='..choice)
+   assert(Nodes.claimBossTreasure(run,choice))
   else assert(Nodes.claimTreasure(run)) end
  elseif nodeType=='event' then
   local v=Nodes.view(run,map).node.event

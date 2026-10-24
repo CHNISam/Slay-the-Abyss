@@ -21,20 +21,32 @@ local function counter(r,amount)
     end
 end
 
-test('reward claim refreshes every counter state immediately and skip or repeated input preserves the count',function()
-    for _,action in ipairs({'claimPotion','skipPotion'})do
+test('reward claim refreshes every counter state while Proceed preserves the pending bottle and rejects old input',function()
+    for _,action in ipairs({'claimPotion','continue'})do
         local h,r=F.fixture();assert(h:start())
         h.run=Run.new(F.Data,42);h.battleUI.run=h.run;h.nodeUI.run=h.run
         assert(Run.startCombat(h.run,'cultist_solo'))
         for _,enemy in ipairs(h.run.combat.enemies)do enemy.hp=0 end
         assert(Run.finishCombat(h.run));assert(h.run.rewards.potion);h:refresh()
+        local offered=h.run.rewards.potion
         counter(r,0)
-        local control=r:GetChild('battlePanel'):GetChild(action)
-        assert(control.listeners.click())
+        local panel=r:GetChild('battlePanel')
+        equal(panel:GetChild('skipPotion'),nil)
+        local control=panel:GetChild(action)
+        control.listeners.click() -- Proceed is an event callback, not a Run command return value.
         local amount=action=='claimPotion' and 1 or 0
-        equal(h.run.phase,'reward');equal(h.mode,'battle');equal(Run.potionCount(h.run),amount)
+        equal(h.run.phase,action=='claimPotion' and 'reward' or 'map')
+        equal(h.mode,action=='claimPotion' and 'battle' or 'map');equal(Run.potionCount(h.run),amount)
         counter(r,amount)
-        control.listeners.click();equal(Run.potionCount(h.run),amount);counter(r,amount)
+        assert(not control.listeners.click());equal(Run.potionCount(h.run),amount);counter(r,amount)
+        if action=='continue' then
+            assert(h.run.pendingCombatRewards and not offered.resolved)
+            r:GetChild('combatRewards'):GetChild('hit').click()
+            equal(h.run.phase,'reward');equal(Run.potionCount(h.run),0);counter(r,0)
+            assert(panel:GetChild('claimPotion').listeners.click())
+            equal(Run.potionCount(h.run),1);counter(r,1)
+            assert(not panel:GetChild('claimPotion').listeners.click());counter(r,1)
+        end
     end
 end)
 
@@ -56,7 +68,9 @@ test('full reward can discard an old bottle then claim the offered bottle in its
     assert(Run.finishCombat(h.run));h:refresh();equal(h.run.rewards.potion.id,'dexterity_potion')
     counter(r,3)
     local claim=r:GetChild('battlePanel'):GetChild('claimPotion')
-    equal(claim.interactable,false);claim.listeners.click();counter(r,3)
+    local gold,seed,nextUid,offered=h.run.gold,h.run.seed,h.run.nextDeckUid,h.run.rewards.potion
+    equal(claim.interactable,true);equal(claim.listeners.click(),false);counter(r,3)
+    equal(h.run.gold,gold);equal(h.run.seed,seed);equal(h.run.nextDeckUid,nextUid);equal(h.run.rewards.potion,offered)
     assert(not h.run.rewards.potion.resolved)
     open(r);assert(click(r,'potionPanel','slot2'));assert(click(r,'potionPanel','discard'));assert(click(r,'potionPanel','cancel'))
     counter(r,2)
@@ -66,12 +80,10 @@ test('full reward can discard an old bottle then claim the offered bottle in its
 end)
 
 test('shop counter allows replacing a full belt without bypassing purchase price or stock',function()
-    local h,r=setup();local found
-    while not found do
-        local choices=Map.available(h.map)
-        for _,node in ipairs(choices)do if node.type=='shop' then assert(F.Nodes.enter(h.run,h.map,node.id));found=true;break end end
-        if not found then assert(Map.choose(h.map,choices[1].id))end
-    end
+    local h,r=setup()
+    local path=dofile('tests/lua/support/map_routes.lua').to(h.map,function(node)return node.type=='shop'end)
+    for i=1,#path-1 do assert(Map.choose(h.map,path[i]))end
+    assert(F.Nodes.enter(h.run,h.map,path[#path]))
     h.run.gold=1000;h:refresh();open(r)
     assert(click(r,'potionPanel','slot2'));assert(click(r,'potionPanel','discard'));assert(click(r,'potionPanel','cancel'))
     local offer

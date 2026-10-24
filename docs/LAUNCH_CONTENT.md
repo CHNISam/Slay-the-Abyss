@@ -1,8 +1,10 @@
 # 第一幕首发内容清单与验收边界
 
-TASK-47。2026-10-25正式范围改为完整75张，当前分支是尚未完整验收的75卡候选。四层证据见[验收矩阵](reviews/TASK-16-warrior75-matrix.md)。历史生产代码基线 `6e8714f`。本清单冻结本轮**既有生产接线范围**，逐项自然获取、执行和实机验收仍未完成，TASK-47 保持 In Progress。已完成的 M2 第一幕通关证据保留；它不能扩张为所有内容逐项通过。
+**2026-10-25 范围更新**：用户要求补齐首发涉及的完整原版内容池并保持原版概率，详见[SCOPE](SCOPE.md)。本分支已接入完整75张铁甲战士候选，四层证据见[验收矩阵](reviews/TASK-16-warrior75-matrix.md)，尚未严格验收。旧30牌/13遗物/6可获药水不是完整M3目标，其他原池与必要依赖仍须补齐；清单校验、受限池重抽或占位不能代替完整验收。
 
-本次整合已承接 `ee9c40d` 的窃金客完整闭环（AI入口 `abyss_looter_ai`）及 `b757705` 的 PR174 动态小软泥组合；清单同时核对两个Boolean分支和两种中型敌人的新增获取渠道。**这是一份首发清单基线，尚不是内容合规放行表**：`medium_slimes`组合仍缺原版依据，见[遭遇审计](reviews/TASK-15-encounter-composition-audit-20261024.md)。`gremlin_gang`原固定五人组已由[TASK-15.18](reviews/TASK-15.18-gremlin-gang.md)修正为八槽有序池不放回抽四次；这是局部生产代码与本地证据更新，不是逐项自然获取、平台或实机验收。完整地图候选12/12也还未接生产。这些已接入但未修正的项目继续阻止 M3 Done，不能因为清单校验通过就放行。
+TASK-47，2026-10-25。初始盘点基线 `6e8714f`，本次正式运行时接线基线 `d3369bb`。本清单冻结本轮**既有生产接线范围**，逐项自然获取、执行和实机验收仍未完成，TASK-47 保持 In Progress。已完成的 M2 第一幕通关证据保留；它不能扩张为所有内容逐项通过。
+
+Map v3、17个来源队列绑定、动态编组及 `Nodes.enter → Run.startRoomCombat` 已接入正式源码，见[地图接线](reviews/TASK-12.4-map-production.md)与[遭遇接线](reviews/TASK-12.4-encounter-runtime.md)。此前“地图候选未部署”和“medium_slimes仍是正式池阻塞”的说法是历史状态：`medium_slimes`、`large_acid`、`large_spike`现在仅为显式ID开发/回放入口，不能登记自然路线渠道。**源码接线不是逐项自然获取、平台或实机验收**，清单仍不是内容合规放行表；洗牌、奖励经济等规则差异及逐项证据由原任务继续验收。
 
 机器清单：[launch-content.json](../data/release/launch-content.json)。每项的 `profile` 关联生产入口、现有本地覆盖文件、平台/实机状态和负责验收任务；这是证据账本，不是运行时放行开关。
 
@@ -13,7 +15,8 @@ TASK-47。2026-10-25正式范围改为完整75张，当前分支是尚未完整�
 | 职业牌 | 75 张，每张基本版和升级版；3 张初始牌、72 张非基础牌，完整必做 |
 | 状态与诅咒 | dazed、slimed、regret、wound、burn；不计入75张职业牌 |
 | 敌人 | 19 种普通、3 种精英、1 个 Boss，共 23 个定义 |
-| 遭遇 | 14 种普通组合、3 种精英、1 种 Boss，共 18 种 |
+| 正式遭遇 | 14 个普通来源、3 个精英来源，加 Guardian，共18个绑定；由来源名驱动动态编组 |
+| 旧显式ID盘点 | `legacyData.encounters`保留Data的18条定义；与正式18绑定不是同一组ID，不是额外自然池 |
 | 事件 | 7 种；当前生产已是 restricted-seven，含已接入的 Golden Shrine |
 | 遗物 | 1 件初始、8 件普通宝箱候选、1 件商店专属、3 件 Boss，共 13 件 |
 | 药水 | 岩元素/战士可获得 6 种；另 1 种毒药水只保留数据，不进入此职业奖励或商店 |
@@ -25,9 +28,11 @@ node scripts/verify-launch-content.mjs
 node --test tests/launch-content.test.mjs
 ```
 
-校验会比对实际 JSON 定义、遭遇成员和楼层、动态池顺序/重复槽位/抽样数量、合法渠道、基本/升级版与实际 Lua 支持谓词、当前事件池和 Boss 遗物资格；遗漏、新增支持内容或候选误入会报错。它不证明原版概率/AI已完全一致，也不提供编译、导入、实机或素材批准证据。
+schema2校验直接读取真实 `Queue.rules`、`Bindings.resolve`，穷举 `Formation.assemble` 的有限Boolean/整数决策路径；只统计最终返回成员，不把被丢弃的预构造敌人当作在场成员。它比较来源名、运行时ID、队列资格、成员范围、合法渠道、每条形成路径及池顺序/重复槽位/抽取数。旧Data的楼层、分支和池继续单独逐字段盘点，不能反向决定正式队列。正式入口还用一个明确的节点预览ID污染夹具证明实际房间服从队列；这不是自然通关证据。
 
-本轮实际运行：清单 CLI 通过；Node 清单初版4项、承接动态小软泥后的5项均通过。动态分支遗漏和渠道遗漏有真实失败回归；与小软泥数据专项合跑12项通过、0失败、0跳过。首次沙箱执行因 Node 子进程 spawn EPERM 未运行，按正常审批重跑后通过。没有启动游戏、调用 MCP 或制作新存档。
+同时核对新模块require关系和实际候选打包器的源码模块发现规则。打包器的生成文件存在性预检使用隔离临时元数据占位，仅读模块名，不执行/部署占位内容，也不生成候选。卡牌支持谓词、事件池、Boss遗物资格和平台/live必须pending的防伪门禁全部保留。它不证明原版概率/AI已完全一致，也不提供编译、导入、实机或素材批准证据。
+
+本轮实际运行：旧清单先因三个精英legacy楼层陈旧而失败；新增正式来源红例后9项中4项失败。迁移后清单CLI与13项定向测试通过；覆盖漏绑定、ID漂移、旧入口误入、把两种大型软泥当独立来源、Thugs/Wildlife成员与渠道遗漏、动态池顺序/数量及模块部署关系。此前4/5项历史结果不能认证schema2。首次扩展负例生成大对象断言差异触发Node内存失败，改用同等严格的布尔深比较后完整13项约4秒通过，没有放宽Lua预算。没有启动游戏、调用MCP或制作新存档。
 
 ## 每项的状态如何阅读
 
@@ -123,24 +128,24 @@ Dazed/Slimed沿用敌人生成；Wound由Wild Strike/Power Through生成；Burn�
 
 ## 敌人与遭遇
 
-定义均来自 `data/enemies.json`。地图选择 `abyss_map` → `abyss_nodes.enter` → `abyss_run.startCombat` → `abyss_combat`；意图分派在 `abyss_enemy_ai` 和各专用 AI 模块。TASK-15/47、TASK-12.5 验普通/精英；Boss 另由 TASK-17.2/17.3。现有 `encounter_coverage.lua` 只证明构造及有限本地行为，不能外推每个自然遭遇和 AI 分支都通过。
+23种敌人定义来自 `data/enemies.json`。正式路径为 `abyss_map` → `abyss_nodes.enter` → `abyss_run.startRoomCombat` → 来源队列/绑定 → `abyss_combat`/动态形成器；`Run.startCombat(id)`保留为legacy开发入口。意图分派在 `abyss_enemy_ai` 和各专用AI模块。TASK-15/47、TASK-12.5验普通/精英；Boss另由TASK-17.2/17.3负责。现有构造、形成器和126个来源解释向量是本地覆盖，不能外推逐项自然实机通过。
 
 | 敌人 ID | 类别 | 所在遭遇 |
 | --- | --- | --- |
-| cultist | 普通 | cultist_solo |
+| cultist | 普通 | cultist_solo、exordium_thugs |
 | jaw_worm | 普通 | jaw_solo、wildlife |
-| red_louse | 普通 | louse_pair、louse_trio |
-| green_louse | 普通 | louse_pair、louse_trio、wildlife |
-| acid_slime_s | 普通 | small_slimes |
-| acid_slime_m | 普通 | small_slimes的true分支、medium_slimes |
-| acid_slime_l | 普通 | large_acid |
-| spike_slime_s | 普通 | small_slimes |
-| spike_slime_m | 普通 | small_slimes的false分支、medium_slimes |
-| spike_slime_l | 普通 | large_spike |
-| looter | 普通 | looter_solo |
-| blue_slaver | 普通 | blue_slaver_solo |
-| red_slaver | 普通 | red_slaver_solo |
-| fungi_beast | 普通 | fungi_pair |
+| red_louse | 普通 | louse_pair、louse_trio、exordium_thugs、wildlife |
+| green_louse | 普通 | louse_pair、louse_trio、exordium_thugs、wildlife |
+| acid_slime_s | 普通 | small_slimes、lots_of_slimes |
+| acid_slime_m | 普通 | small_slimes、exordium_thugs、wildlife |
+| acid_slime_l | 普通 | large_slime |
+| spike_slime_s | 普通 | small_slimes、lots_of_slimes |
+| spike_slime_m | 普通 | small_slimes、exordium_thugs、wildlife |
+| spike_slime_l | 普通 | large_slime |
+| looter | 普通 | looter_solo、exordium_thugs |
+| blue_slaver | 普通 | blue_slaver_solo、exordium_thugs |
+| red_slaver | 普通 | red_slaver_solo、exordium_thugs |
+| fungi_beast | 普通 | fungi_pair、wildlife |
 | mad_gremlin | 普通 | gremlin_gang |
 | sneaky_gremlin | 普通 | gremlin_gang |
 | fat_gremlin | 普通 | gremlin_gang |
@@ -151,26 +156,28 @@ Dazed/Slimed沿用敌人生成；Wound由Wild Strike/Power Through生成；Burn�
 | sentry | 精英 | elite_sentries |
 | guardian | Boss | boss_guardian |
 
-| 遭遇 ID | 敌人组成 | 合法层数 | 渠道 |
+| 正式来源 → 运行时ID | 敌人组成 | 队列资格 | 渠道 |
 | --- | --- | --- | --- |
-| cultist_solo | cultist | 1–14 | 地图普通战斗、问号战斗 |
-| jaw_solo | jaw_worm | 1–14 | 地图普通战斗、问号战斗 |
-| louse_pair | red_louse、green_louse | 1–14 | 地图普通战斗、问号战斗 |
-| small_slimes | false：acid_slime_s→spike_slime_m；true：spike_slime_s→acid_slime_m | 1–14 | 地图普通战斗、问号战斗；misc Boolean一次 |
-| louse_trio | red_louse、green_louse、red_louse | 4–14 | 地图普通战斗、问号战斗 |
-| medium_slimes | acid_slime_m、spike_slime_m | 4–14 | 地图普通战斗、问号战斗 |
-| large_acid | acid_slime_l | 4–14 | 地图普通战斗、问号战斗 |
-| large_spike | spike_slime_l | 4–14 | 地图普通战斗、问号战斗 |
-| looter_solo | looter | 4–14 | 地图普通战斗、问号战斗 |
-| blue_slaver_solo | blue_slaver | 4–14 | 地图普通战斗、问号战斗 |
-| red_slaver_solo | red_slaver | 4–14 | 地图普通战斗、问号战斗 |
-| fungi_pair | fungi_beast、fungi_beast | 4–14 | 地图普通战斗、问号战斗 |
-| gremlin_gang | 有序八槽池：mad×2、sneaky×2、fat×2、shield×1、wizard×1；逐次移除抽中槽位，共四只 | 5–14 | 地图普通战斗、问号战斗；staged misc四次抽样，完整成功后提交 |
-| wildlife | jaw_worm、green_louse | 5–14 | 地图普通战斗、问号战斗 |
-| elite_nob | gremlin_nob | 6–13 | 地图精英 |
-| elite_lagavulin | lagavulin | 6–13 | 地图精英 |
-| elite_sentries | sentry、sentry、sentry | 6–13 | 地图精英 |
-| boss_guardian | guardian | 16–16 | 第16层Boss |
+| Cultist → cultist_solo | cultist | weak | 地图普通战斗、问号战斗 |
+| Jaw Worm → jaw_solo | jaw_worm | weak | 地图普通战斗、问号战斗 |
+| 2 Louse → louse_pair | 两个槽各自Boolean选择红/绿 | weak | 地图普通战斗、问号战斗 |
+| Small Slimes → small_slimes | false：acid_s、spike_m；true：spike_s、acid_m | weak | 地图普通战斗、问号战斗 |
+| Blue Slaver → blue_slaver_solo | blue_slaver | strong | 地图普通战斗、问号战斗 |
+| Gremlin Gang → gremlin_gang | mad×2、sneaky×2、fat×2、shield×1、wizard×1有序池，不放回抽四次 | strong | 地图普通战斗、问号战斗 |
+| Looter → looter_solo | looter | strong | 地图普通战斗、问号战斗 |
+| Large Slime → large_slime | 一个Boolean选择acid_l或spike_l | strong | 地图普通战斗、问号战斗 |
+| Lots of Slimes → lots_of_slimes | spike_s×3、acid_s×2有序池，不放回抽五次 | strong | 地图普通战斗、问号战斗 |
+| Exordium Thugs → exordium_thugs | 弱敌槽：红/绿虱、spike_m、acid_m；人形槽：cultist、蓝/红奴隶、looter | strong | 地图普通战斗、问号战斗 |
+| Exordium Wildlife → wildlife | 强敌槽：fungi_beast/jaw_worm；弱敌槽同Thugs；固定两个在场槽 | strong | 地图普通战斗、问号战斗 |
+| Red Slaver → red_slaver_solo | red_slaver | strong | 地图普通战斗、问号战斗 |
+| 3 Louse → louse_trio | 三个槽各自Boolean选择红/绿 | strong | 地图普通战斗、问号战斗 |
+| 2 Fungi Beasts → fungi_pair | fungi_beast×2 | strong | 地图普通战斗、问号战斗 |
+| Gremlin Nob → elite_nob | gremlin_nob | elite | 地图精英 |
+| Lagavulin → elite_lagavulin | lagavulin | elite | 地图精英 |
+| 3 Sentries → elite_sentries | sentry×3 | elite | 地图精英 |
+| The Guardian → boss_guardian | guardian | guardian-unseen | 第16层Boss |
+
+weak/strong按普通遭遇消费次数推进（前三个weak，之后strong），不是旧Data的楼层过滤。Thugs/Wildlife会预先构造候选再选择，候选构造的HP/Bite消耗不等于候选都在场。`legacyData.encounters`完整保留旧18条的楼层、Boolean分支与Gremlin池供开发回放校验；`medium_slimes`、`large_acid`、`large_spike`没有正式地图/问号渠道。正式大型软泥只有一个来源 `Large Slime`，不拆成两份独立抽奖权重。
 
 Boss 固定 `guardian` / `boss_guardian`，第16层战斗、第17层独立宝箱。完整转阶段、反伤、易伤和结算须按 TASK-17.2/17.3 的来源与本轮候选证据核对，不能用一个胜利截图替代。
 

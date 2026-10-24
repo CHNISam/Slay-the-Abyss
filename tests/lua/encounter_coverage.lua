@@ -133,18 +133,24 @@ test("configured cultist strength persists into its next natural attack", functi
     equal(damage[2].amount, base + strength, "buffed damage event")
 end)
 
-local generated, encounterById = {}, {}
-for _, encounter in ipairs(data.enemies.encounters) do encounterById[encounter.id] = encounter end
+local generated,sourceCounts = {},{}
+local Q,Bindings=require('abyss_encounter_queue'),require('abyss_room_encounters')
 for seed = 1, 256 do
-    local map = Map.generate(data, seed)
-    for _, node in ipairs(map.nodes) do
-        if node.encounterId then
-            local encounter = assert(encounterById[node.encounterId], "unknown generated encounter")
-            assert(node.floor >= encounter.minFloor and node.floor <= encounter.maxFloor, "illegal encounter floor")
-            generated[encounter.id] = (generated[encounter.id] or 0) + 1
+    local queues=Q.new(tostring(seed))
+    for _,tier in ipairs({'normal','elite'})do
+        for _,source in ipairs(queues[tier])do
+            local binding=assert(Bindings.resolve(source,tier))
+            generated[binding.id]=(generated[binding.id]or 0)+1
+            sourceCounts[source]=(sourceCounts[source]or 0)+1
         end
     end
 end
+test('all seventeen source queue identities appear without adding historical medium_slimes',function()
+    local total=0;for source in pairs(sourceCounts)do total=total+1 end;equal(total,17,'source pool size')
+    assert(generated.medium_slimes==nil and generated.large_acid==nil and generated.large_spike==nil)
+    assert(generated.large_slime and generated.lots_of_slimes and generated.exordium_thugs)
+end)
+generated.boss_guardian=256 -- fixed launch Guardian-unseen profile, not a monster queue item
 for _, encounter in ipairs(data.enemies.encounters) do
     test(encounter.id .. " rejects both adjacent out-of-range floors without mutation", function()
         for _, floor in ipairs({ encounter.minFloor - 1, encounter.maxFloor + 1 }) do
@@ -158,10 +164,12 @@ for _, encounter in ipairs(data.enemies.encounters) do
             same(run, before, "rejected run")
         end
     end)
-    test(encounter.id .. " appears in deterministic map sample", function()
-        assert(generated[encounter.id], "encounter absent across seeds 1..256: " .. encounter.id)
-        print("coverage " .. encounter.id .. " nodes=" .. generated[encounter.id])
-    end)
+    if encounter.id~='medium_slimes' and encounter.id~='large_acid' and encounter.id~='large_spike'then
+        test(encounter.id .. " has a source binding in deterministic queue samples", function()
+            assert(generated[encounter.id], "source binding absent across seeds 1..256: " .. encounter.id)
+            print("coverage " .. encounter.id .. " queueItems=" .. generated[encounter.id])
+        end)
+    end
     test(encounter.id .. " starts at both legal floor endpoints and resolves original-data turns", function()
         for _, floor in ipairs({ encounter.minFloor, encounter.maxFloor }) do
             local run = Run.new(data, 42)

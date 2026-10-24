@@ -12,15 +12,19 @@ end
 function P.start(view)
  require('abyss_warrior75_checks')()
  local run,map=R.new(data,42),M.generate(data,42)
- run.phase='reward';run.rewards={gold=0,cards={'perfected_strike','wild_strike','pommel_strike'}}
+ run.phase='reward';run.rewards={gold=0,goldClaimed=true,manualContinue=true,cardResolved=false,
+  cards={'perfected_strike','wild_strike','pommel_strike'}}
  attach(view,run,map);fixture=run;step=1
- for i=1,3 do
-  local title=view.root:GetChild('battlePanel'):GetChild('card'..i):GetChild('name')
-  print('ABYSS_W75_TEXT_DIAG slot='..i..' text='..title.text:gsub('\n','<NL>')..' font='..tostring(title.fontSize))
- end
  print('ABYSS_W75_FIXTURE reward: explicit cards, not natural acquisition')
 end
 function P.tick(view)
+ if step==1 and view.battleUI.rewardScreen=='cards' and not P.printedTitles then
+  P.printedTitles=true
+  for i=1,3 do
+   local title=view.root:GetChild('battlePanel'):GetChild('card'..i):GetChild('name')
+   print('ABYSS_W75_TEXT_DIAG slot='..i..' text='..title.text:gsub('\n','<NL>')..' font='..tostring(title.fontSize))
+  end
+ end
  if step==1 and fixture.phase=='map'then
   local run,map=R.new(data,42),M.generate(data,42)
   run.deck={{uid=1,cardId='searing_blow',upgraded=true,upgrades=2}};run.nextDeckUid=2

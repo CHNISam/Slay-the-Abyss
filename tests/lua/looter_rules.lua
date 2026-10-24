@@ -39,7 +39,11 @@ test('death registers once for ordinary damage, poison, retaliation and fixed bo
   elseif kind=='poison' then A.addStatus(e,'poison',100);assert(R.endTurn(r))
   elseif kind=='thorns' then A.addStatus(b.player,'thorns',100);assert(R.endTurn(r))
   else C.damage(b,b.player,e,e.hp-1);assert(R.obtainPotion(r,'fire_potion'));assert(R.usePotion(r,1,1)) end
-  local expected=kind=='thorns' and 30 or 15;eq(r.rewards.stolenGold.amount,expected);eq(b.stolenGoldReward,expected);eq(r.gold,114-expected);e=b.enemies[1];C.damage(b,b.player,e,100);eq(b.stolenGoldReward,expected);assert(R.claimStolenGoldReward(r));eq(r.gold,114)
+  local expected=kind=='thorns' and 30 or 15;eq(r.rewards.stolenGold.amount,expected);eq(b.stolenGoldReward,expected)
+  eq(r.gold,99-expected);eq(r.rewards.gold,D.rules.rewards.normalGold);eq(r.rewards.goldClaimed,false)
+  assert(R.claimGoldReward(r));eq(r.gold,114-expected);eq(r.rewards.goldClaimed,true)
+  local claimed=C.copy(r);local ok,why=R.claimGoldReward(r);eq(ok,false);eq(why,'no_pending_gold');same(r,claimed)
+  e=b.enemies[1];C.damage(b,b.player,e,100);eq(b.stolenGoldReward,expected);assert(R.claimStolenGoldReward(r));eq(r.gold,114)
  end
 end)
 test('escaped actor retains identity and HP but cannot be hit, selected, buffed or act',function()

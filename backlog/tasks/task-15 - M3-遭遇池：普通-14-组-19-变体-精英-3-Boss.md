@@ -6,7 +6,7 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-24 10:35'
+updated_date: '2026-10-24 16:17'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -33,6 +33,12 @@ ordinal: 15000
 - [ ] #4 各个招式和特殊情况都测到，也有游戏里的实际验证记录。
 - [ ] #5 保存对应版本的测试、截图或录像，不能把数据表存在当成敌人已经做好。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-25 正式运行时编组切片：接完整17源名绑定，保持 eager constructor 的未选成员HP/Bite消耗及选中敌人才初始化AI；HP/AI/misc按原始种子与层独立，视觉MathUtils偏移单独处理。真实Run/Nodes入口与成功提交事务一并验证，不用旧uniform或中型软泥替代缺组；其余未认证随机链明确保留，整体AC不勾。
+<!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 

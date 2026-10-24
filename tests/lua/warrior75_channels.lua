@@ -2,19 +2,23 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Nodes,Map,C=require('abyss_run'),require('abyss_nodes'),require('abyss_map'),require('abyss_combat')
 local data=require('abyss_data')
 local seeds=dofile('tests/fixtures/warrior75-shop-seeds.lua')
+local Routes=dofile('tests/lua/support/map_routes.lua')
 local function enterNext(run,map,kind)
     -- Navigation prefix only: these are node transaction fixtures, explicitly
     -- not a natural full run or per-item platform acceptance.
     if run.nodeFlow and run.nodeFlow.complete then run.nodeFlow=nil end -- discard completed navigation fixture only
-    while true do
-        local options=Map.available(map)
-        for _,n in ipairs(options) do if n.type==kind then assert(Nodes.enter(run,map,n.id));return end end
-        assert(#options>0,'route has no '..kind);assert(Map.choose(map,options[1].id))
-    end
+    local path=Routes.to(map,function(node)return node.type==kind end)
+    for i=1,#path-1 do assert(Map.choose(map,path[i]))end
+    assert(Nodes.enter(run,map,path[#path]))
 end
 local n=0
+-- Separate original rarity groups retain every transaction under the unchanged
+-- per-fixture budget after the source six-column map/encounter integration.
+local group=WARRIOR75_CHANNEL_RARITY or 'common'
+local expected=assert(({common=23,uncommon=36,rare=16})[group])
 for _,definition in ipairs(data.cards.cards) do
-    if definition.type~='status' and definition.type~='curse' then
+    if definition.type~='status' and definition.type~='curse'
+        and (definition.rarity==group or group=='common' and definition.rarity=='basic') then
         local seed=seeds[definition.id] and seeds[definition.id].seed or 1
         local run,map=Run.new(data,seed),Map.generate(data,seed)
         local instance
@@ -42,5 +46,5 @@ for _,definition in ipairs(data.cards.cards) do
         n=n+1;print('ok channel '..n..' - '..definition.id..' public acquisition / camp / next battle')
     end
 end
-assert(n==75)
-print('75 public acquisition and upgrade transactions passed; fixture navigation/funding, not natural platform evidence.')
+assert(n==expected)
+print(group..': '..n..' public acquisition and upgrade transactions passed; fixture navigation/funding, not natural platform evidence.')

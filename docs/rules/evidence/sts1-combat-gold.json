@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "task": "TASK-13.1",
+  "base": "d037c4b",
+  "profile": "Act1 PC A0 normal non-Daily run, supported launch inventory",
+  "source": {
+    "repository": "https://github.com/aeubanks/sts",
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "identityBoundary": "Re-read fixed public mirror raw bytes; local SHA256 and computed Git blob identity. No original PC binary authentication or live observation.",
+    "rawUrlTemplate": "https://raw.githubusercontent.com/aeubanks/sts/319009d5df0a82d9fb0f23cc22322286c6a87ec0/{path}",
+    "files": [
+      {"path": "rooms/AbstractRoom.java", "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05", "computedGitBlob": "c2a1a029a9f59b1b94026dff46d4155824b85f86", "sections": ["276-315", "612-630"]},
+      {"path": "dungeons/AbstractDungeon.java", "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26", "computedGitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0", "sections": ["377-392", "1727-1731"]},
+      {"path": "monsters/MonsterGroup.java", "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221", "computedGitBlob": "7096970a151840489a3fba89806e6391e0d82d76", "sections": ["119-125"]},
+      {"path": "rewards/RewardItem.java", "sha256": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859", "computedGitBlob": "a23c192d58c6304acd76505da7365490636f1f31", "sections": ["88-119", "246-264"]},
+      {"path": "characters/AbstractPlayer.java", "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95", "computedGitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7", "sections": ["702-718"]},
+      {"path": "relics/GoldenIdol.java", "sha256": "063065e1da41f27eb786b89935bd0ec32be4c7e93b59fa693eb2c92a3bb16dd4", "computedGitBlob": "aba9ee2f79708cd8f7a14cd8007775102eb1db67", "sections": ["MULTIPLIER"]},
+      {"path": "relics/Ectoplasm.java", "sha256": "717861865521c87b8b3dfbfd94a33a336ee968ce728a1f011f87dafb9471a7d7", "computedGitBlob": "013800d6b5c62fc216c0b5f3c064a9f6f88a3f8e", "sections": ["identity", "onEquip", "canSpawn"]}
+    ]
+  },
+  "rules": {
+    "normal": {"stream": "treasureRng", "minimum": 10, "maximum": 20, "inclusive": true, "allEscaped": "no Gold item and no treasure draw"},
+    "elite": {"stream": "treasureRng", "minimum": 25, "maximum": 35, "inclusive": true},
+    "boss": {"stream": "miscRng", "base": 100, "randomMinimum": -5, "randomMaximum": 5, "inclusive": true},
+    "treasureInitialization": "raw signed64 run seed once; continuous across floors",
+    "miscInitialization": "existing source room raw signed64 seed plus floor, preserving Java long wrap",
+    "claim": "Independent explicit click; no random draw and no duplicate payout",
+    "unsupportedModifiers": "Golden Idol snapshots round(base*0.25F) bonus at RewardItem construction except theft/TreasureRoom; Ectoplasm blocks gainGold on claim. Neither is admitted to the current launch inventory. Daily/mods/A13 excluded."
+  },
+  "verification": {
+    "oracle": "tools/oracles/sts1_combat_gold.py",
+    "vectors": "tests/fixtures/sts1-combat-gold-vectors.json",
+    "vectorSteps": 42,
+    "controlledExactRangeOutcomes": 33,
+    "luaGroups": 13,
+    "initialRed": {"nodePassed": 1, "nodeFailed": 2, "reason": "rawseed0 normal fixed15 instead of independent expected11; missing treasure state"},
+    "followupRed": {"nodePassed": 2, "nodeFailed": 1, "reason": "invalid RNG reward failure had already published lastResult"},
+    "nodeCommand": "node --test tests/combat-gold.test.mjs tests/reward-flow-parity.test.mjs tests/event-random.test.mjs",
+    "nodePassed": 5,
+    "nodeFailed": 0,
+    "oracleRegeneration": "Byte-identical local regeneration; LF and CRLF generator copies produce equal vectors and canonical generator identity",
+    "diffCheck": "passed",
+    "existingLua": {"run": 8, "potion_reward_atomic": 4, "looter_potion_rewards": 10, "potion_rewards": 7, "looter_rewards": 5, "boss_reward_transactions": "passed", "boss_reward_rarity": "128 seeds passed", "boss_reward_determinism": "seeds1-64 passed", "boss_reward_determinism_upper": "seeds65-128 passed"},
+    "isolatedMutationsDetected": ["boss_wrong_treasury", "normal_upper_exclusive", "reset_treasury_to_room_seed", "escaped_still_rewards", "victory_auto_claims", "omit_gold_stream_commit", "bypass_formal_staging", "alias_existing_potion_stream"]
+  },
+  "remaining": ["other shared treasure consumers including chest type and chest gold", "card reward randomness and rarity offset", "global relic queues", "same-combination natural route replay", "per-item platform and live acceptance"],
+  "notPerformed": ["full check", "GUI", "MCP", "platform compile", "save export", "official import", "live gameplay", "push", "merge"]
+}

@@ -26,13 +26,27 @@ local function rejected(run, map, command, reason)
 end
 local function enterShop(run, map)
     -- Navigation-only prefix: explicit supported relic/funding, real stock and RNG.
-    while true do
-        local choices = Map.available(map)
-        for _, node in ipairs(choices) do
-            if node.type == 'shop' then assert(Nodes.enter(run, map, node.id)); return end
+    local Routes=dofile('tests/lua/support/map_routes.lua')
+    local path=Routes.to(map,function(node)return node.type=='shop'end)
+    for i=1,#path-1 do
+        if not run.nodeFlow then assert(Map.choose(map,path[i])) -- navigation-only initial prefix
+        else
+            local node=Routes.at(map,path[i]);assert(Nodes.enter(run,map,node.id))
+            if run.phase=='combat'then
+                for _=1,300 do
+                    if run.phase~='combat'then break end
+                    local target;for j,e in ipairs(run.combat.enemies)do if e.hp>0 then target=j;break end end
+                    local selected;for _,card in ipairs(run.combat.hand)do if C.canPlay(run.combat,card.uid,target)then selected=card;if C.cardDefinition(run.combat,card).type=='attack'then break end end end
+                    if selected then assert(Run.play(run,selected.uid,target))else assert(Run.endTurn(run))end
+                end
+                assert(run.phase=='reward');assert(Run.claimCardReward(run,0));dofile('tests/lua/support/finish_combat_rewards.lua')(run);assert(Nodes.completeCombat(run,map))
+            elseif node.type=='event'then assert(Nodes.chooseEvent(run,'leave'))
+            elseif node.type=='camp'then assert(Nodes.rest(run))
+            elseif node.type=='treasure'then assert(Nodes.claimTreasure(run))
+            else error('unexpected intermediate room '..node.type)end
         end
-        assert(#choices > 0); assert(Map.choose(map, choices[1].id))
     end
+    assert(Nodes.enter(run,map,path[#path]))
 end
 local function shop(courier)
     local run, map = Run.new(data, 42), Map.generate(data, 42)

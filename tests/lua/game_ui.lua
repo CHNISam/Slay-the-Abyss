@@ -7,7 +7,7 @@ local count = 0
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
 local function leavePotionRewards(ui, root)
     if ui.run.phase=='reward' and ui.run.rewards.manualContinue then
-        if ui.run.rewards.potion and not ui.run.rewards.potion.resolved then click(root,'battlePanel','skipPotion') end
+        if ui.run.rewards.goldClaimed == false then click(root,'battlePanel','goldReward') end
         click(root,'battlePanel','continue')
     end
 end
@@ -27,7 +27,7 @@ test("new encounter resets stale target before the first attack-card tap", funct
     for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
     assert(Run.finishCombat(run))
     ui:refresh()
-    click(root, "battlePanel", "skip")
+    click(root, "battlePanel", "cardReward");click(root, "battlePanel", "skip")
     leavePotionRewards(ui, root)
     assert(run.phase == "map")
     assert(Run.startCombat(run, "cultist_solo"))
@@ -61,7 +61,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(not (intro .. guide):find("十五", 1, true) and not (intro .. guide):find("十七", 1, true))
     preview("menu", guide)
     click(root, "menuPanel", "start")
-    assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 3)
+    assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 2)
     local original = ui.run
     assert(ui:start() == false and ui.run == original)
     click(root, "mapPanel", "node1")
@@ -73,6 +73,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     win(ui, root)
     assert(ui.mode == "battle" and ui.run.nodeFlow.complete == false)
     local chosen = ui.run.rewards.cards[1]
+    click(root, "battlePanel", "cardReward")
     click(root, "battlePanel", "card1")
     leavePotionRewards(ui, root)
     assert(ui.mode == "map" and ui.run.nodeFlow.complete and #ui.run.deck == 11)
@@ -90,7 +91,12 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     click(root, "menuPanel", "start") click(root, "mapPanel", "node1")
     local previous = ui.run
     previous.combat.player.hp = 1
-    click(root, "battlePanel", "endTurn")
+    -- A legal weak encounter can open with a buff/debuff instead of damage.
+    -- Exercise the real turn/UI path until its attack defeats this 1-HP player.
+    for _ = 1, 8 do
+        if previous.phase ~= "combat" then break end
+        click(root, "battlePanel", "endTurn")
+    end
     assert(ui.mode == "defeat" and root:GetChild("menuPanel").visible)
     local ending = resultText(root, "subtitle")
     assert(ending == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
@@ -107,9 +113,11 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP flow fixture
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
+    local route=dofile('tests/lua/support/map_routes.lua').best(ui.map,function(node)return node.type=='event' and 1 or 0 end)
     local seen,seenEvents = {},{}
     for floor = 1, data.rules.map.floors do
-        local node = Nodes.available(ui.run, ui.map)[1]
+        local node
+        for _,available in ipairs(Nodes.available(ui.run,ui.map))do if available.id==route[floor]then node=available;break end end
         assert(node and node.floor == floor)
         local slot
         for i, id in pairs(ui.mapUI.slots) do if id == node.id then slot = i break end end
@@ -133,7 +141,7 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
         end
         if ui.mode == "battle" then
             win(ui, root)
-            click(root, "battlePanel", "skip")
+            click(root, "battlePanel", "cardReward");click(root, "battlePanel", "skip")
             leavePotionRewards(ui, root)
         elseif node.type == "shop" then
             if ui.nodeUI.actions["shopView/card1"].enabled then
@@ -389,7 +397,16 @@ test("host defers defeat routing until the final feedback banner and releases re
     local ui, root = fixture()
     assert(ui:start()) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     ui.run.combat.player.hp = 1 ui.battleUI:render()
-    ui.battleUI:endTurn()
+    for _ = 1, 8 do
+        ui.battleUI:endTurn()
+        if ui.run.phase == "defeat" then break end
+        -- Drain nonlethal turn feedback, but retain the lethal banner below.
+        for _ = 1, 400 do
+            if not ui.battleUI.busy then break end
+            ui:update(0.05)
+        end
+        assert(not ui.battleUI.busy)
+    end
     assert(ui.run.phase == "defeat" and ui.battleUI.busy)
     ui:refresh()
     assert(ui.mode == "battle" and not root:GetChild("menuPanel").visible)

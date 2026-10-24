@@ -268,6 +268,7 @@ test("rewards keep printed numbers; only combat hands are live", function()
     ui:render() eq(label(panel), "对目标造成 11 点伤害。")
     ui.run.phase = "reward" ui.run.rewards = {cards={"strike", "defend"}, gold=0}
     ui:render()
+    panel:GetChild('cardReward').click()
     eq(label(panel, 1), Presentation.strike.text) eq(label(panel, 2), Presentation.defend.text)
 end)
 
@@ -521,7 +522,7 @@ test('value feedback: mixed effects are indexed, multi-hit is per hit, special d
     eq(#spans(panel),0) assert(label(panel):find('当前 10 点',1,true))
 end)
 test('value feedback: aim, target switch, cancellation, slot reuse, removal and disabled cost are independent', function()
-    local ui,panel,event=setup({'strike','strike'},{'jaw_worm','cultist'},true)
+    local ui,panel,event,tap=setup({'strike','strike'},{'jaw_worm','cultist'},true)
     local s=ui.run.combat
     Combat.addStatus(s.player,'weak',1) Combat.addStatus(s.enemies[2],'vulnerable',1) ui:render()
     local card=panel:GetChild('card1')
@@ -541,6 +542,9 @@ test('value feedback: aim, target switch, cancellation, slot reuse, removal and 
     s.hand[1],s.hand[2]=s.hand[2],s.hand[1] ui:render()
     eq(spans(panel)[1].text,'8↑')
     ui.run.phase='reward' ui.run.rewards={cards={'strike','defend'},gold=0} ui:render()
+    assert(panel:GetChild('rewardList').visible)
+    tap('cardReward')
+    assert(panel:GetChild('rewardStage').visible and panel:GetChild('card1').visible)
     eq(#spans(panel),0) eq(#spans(panel,2),0)
     eq(inline(panel),Presentation.strike.text)
 end)

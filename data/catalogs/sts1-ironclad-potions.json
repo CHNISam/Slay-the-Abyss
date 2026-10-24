@@ -1,0 +1,1257 @@
+{
+  "schemaVersion": 1,
+  "purpose": "source_catalog_and_implementation_plan_only",
+  "productionWired": false,
+  "source": {
+    "repository": "aeubanks/sts",
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "targetProfile": {
+      "class": "IRONCLAD",
+      "ascension": 0,
+      "defaultPotionSlots": 3
+    },
+    "authenticity": "community decompilation mirror; not authenticated official PC binary or PC playtest",
+    "sourceManifest": "docs/rules/evidence/sts1-ironclad-potion-pool-sources.json"
+  },
+  "counts": {
+    "total": 33,
+    "shared": 30,
+    "ironcladExclusive": 3,
+    "byRarity": {
+      "common": 17,
+      "uncommon": 9,
+      "rare": 7
+    },
+    "existingObtainableDefinitions": 6,
+    "missingDefinitionsAndEffects": 27
+  },
+  "pool": [
+    {
+      "index": 0,
+      "sourceId": "BloodPotion",
+      "sourceClass": "BloodPotion",
+      "owner": "IRONCLAD",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 20,
+      "proposedProjectId": "blood_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "health_and_revival",
+      "effectSummary": "按binary32的最大生命百分比截断回血；战内排HealAction，战外直接heal。",
+      "dependencies": [
+        "run_health_sync",
+        "combat_and_outside_use",
+        "heal_hooks_and_mark_of_bloom"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "combat_or_outside_except_WeMeetAgain",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/BloodPotion.java",
+        "constructorLine": 22,
+        "useLine": 37,
+        "potencyLine": 54,
+        "canUseOverrideLine": 46
+      }
+    },
+    {
+      "index": 1,
+      "sourceId": "ElixirPotion",
+      "sourceClass": "Elixir",
+      "owner": "IRONCLAD",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 0,
+      "proposedProjectId": "elixir",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_zone_selection",
+      "effectSummary": "玩家选择任意张手牌消耗，可以选零张。",
+      "dependencies": [
+        "multi_hand_selection",
+        "exhaust_pipeline_and_triggers"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "no_potency_dependent_effect",
+      "source": {
+        "path": "potions/Elixir.java",
+        "constructorLine": 23,
+        "useLine": 39,
+        "potencyLine": 46,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 2,
+      "sourceId": "HeartOfIron",
+      "sourceClass": "HeartOfIron",
+      "owner": "IRONCLAD",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 6,
+      "proposedProjectId": "heart_of_iron",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "sustained_powers",
+      "effectSummary": "获得Metallicize，在preEndTurnCards时排固定格挡。",
+      "dependencies": [
+        "metallicize_power",
+        "pre_end_turn_cards_hook"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/HeartOfIron.java",
+        "constructorLine": 22,
+        "useLine": 37,
+        "potencyLine": 45,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 3,
+      "sourceId": "Block Potion",
+      "sourceClass": "BlockPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 12,
+      "proposedProjectId": "block_potion",
+      "currentProjectId": "block_potion",
+      "currentStatus": "existing_definition_effect_requires_full_pool_integration",
+      "effectGroup": "existing_six",
+      "effectSummary": "固定格挡12。",
+      "dependencies": [
+        "fixed_inventory_block"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/BlockPotion.java",
+        "constructorLine": 21,
+        "useLine": 36,
+        "potencyLine": 41,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 4,
+      "sourceId": "Dexterity Potion",
+      "sourceClass": "DexterityPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 2,
+      "proposedProjectId": "dexterity_potion",
+      "currentProjectId": "dexterity_potion",
+      "currentStatus": "existing_definition_effect_requires_full_pool_integration",
+      "effectGroup": "existing_six",
+      "effectSummary": "对自己依序列应用敏捷2。",
+      "dependencies": [
+        "apply_power_and_caps"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/DexterityPotion.java",
+        "constructorLine": 24,
+        "useLine": 39,
+        "potencyLine": 46,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 5,
+      "sourceId": "Energy Potion",
+      "sourceClass": "EnergyPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 2,
+      "proposedProjectId": "energy_potion",
+      "currentProjectId": "energy_potion",
+      "currentStatus": "existing_definition_effect_requires_full_pool_integration",
+      "effectGroup": "existing_six",
+      "effectSummary": "当前回合能量加2。",
+      "dependencies": [
+        "energy_action"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/EnergyPotion.java",
+        "constructorLine": 18,
+        "useLine": 32,
+        "potencyLine": 37,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 6,
+      "sourceId": "Explosive Potion",
+      "sourceClass": "ExplosivePotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 10,
+      "proposedProjectId": "explosive_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "null owner的NORMAL全体伤害，伤害矩阵使用pureDamage=true；不能当Fire的THORNS路径。",
+      "dependencies": [
+        "inventory_aoe_damage",
+        "normal_damage_null_owner_and_matrix",
+        "damage_action_hooks"
+      ],
+      "targetRequired": false,
+      "isThrown": true,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/ExplosivePotion.java",
+        "constructorLine": 25,
+        "useLine": 39,
+        "potencyLine": 49,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 7,
+      "sourceId": "Fire Potion",
+      "sourceClass": "FirePotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 20,
+      "proposedProjectId": "fire_potion",
+      "currentProjectId": "fire_potion",
+      "currentStatus": "existing_definition_effect_requires_full_pool_integration",
+      "effectGroup": "existing_six",
+      "effectSummary": "对选定敌人造成20点THORNS类伤害。",
+      "dependencies": [
+        "fixed_inventory_target_damage"
+      ],
+      "targetRequired": true,
+      "isThrown": true,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/FirePotion.java",
+        "constructorLine": 21,
+        "useLine": 36,
+        "potencyLine": 43,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 8,
+      "sourceId": "Strength Potion",
+      "sourceClass": "StrengthPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 2,
+      "proposedProjectId": "strength_potion",
+      "currentProjectId": "strength_potion",
+      "currentStatus": "existing_definition_effect_requires_full_pool_integration",
+      "effectGroup": "existing_six",
+      "effectSummary": "对自己应用力量2。",
+      "dependencies": [
+        "apply_power_and_caps"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/StrengthPotion.java",
+        "constructorLine": 23,
+        "useLine": 38,
+        "potencyLine": 46,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 9,
+      "sourceId": "Swift Potion",
+      "sourceClass": "SwiftPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 3,
+      "proposedProjectId": "swift_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "排抽牌3张。",
+      "dependencies": [
+        "draw_pipeline_and_no_draw"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/SwiftPotion.java",
+        "constructorLine": 19,
+        "useLine": 33,
+        "potencyLine": 38,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 10,
+      "sourceId": "Weak Potion",
+      "sourceClass": "WeakenPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 3,
+      "proposedProjectId": "weak_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "对选定敌人应用虚弱3，来源是玩家。",
+      "dependencies": [
+        "targeted_apply_power",
+        "artifact_and_debuff_timing"
+      ],
+      "targetRequired": true,
+      "isThrown": true,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/WeakenPotion.java",
+        "constructorLine": 22,
+        "useLine": 38,
+        "potencyLine": 43,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 11,
+      "sourceId": "FearPotion",
+      "sourceClass": "FearPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 3,
+      "proposedProjectId": "fear_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "对选定敌人应用易伤3，来源是玩家。",
+      "dependencies": [
+        "targeted_apply_power",
+        "artifact_and_debuff_timing"
+      ],
+      "targetRequired": true,
+      "isThrown": true,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/FearPotion.java",
+        "constructorLine": 22,
+        "useLine": 38,
+        "potencyLine": 43,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 12,
+      "sourceId": "AttackPotion",
+      "sourceClass": "AttackPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 1,
+      "proposedProjectId": "attack_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_discovery",
+      "effectSummary": "从非HEALING的完整职业攻击源池产生3个不同ID选项；选定牌生成1份，本回合0费。",
+      "dependencies": [
+        "full_ironclad_card_source_pool",
+        "discovery_unique_three",
+        "temporary_cost_for_turn",
+        "hand_capacity_overflow",
+        "card_random_rng"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/AttackPotion.java",
+        "constructorLine": 20,
+        "useLine": 34,
+        "potencyLine": 39,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 13,
+      "sourceId": "SkillPotion",
+      "sourceClass": "SkillPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 1,
+      "proposedProjectId": "skill_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_discovery",
+      "effectSummary": "从非HEALING的完整职业技能源池产生3个不同ID选项；选定牌生成1份，本回合0费。",
+      "dependencies": [
+        "full_ironclad_card_source_pool",
+        "discovery_unique_three",
+        "temporary_cost_for_turn",
+        "hand_capacity_overflow",
+        "card_random_rng"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/SkillPotion.java",
+        "constructorLine": 20,
+        "useLine": 34,
+        "potencyLine": 39,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 14,
+      "sourceId": "PowerPotion",
+      "sourceClass": "PowerPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 1,
+      "proposedProjectId": "power_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_discovery",
+      "effectSummary": "从非HEALING的完整职业能力源池产生3个不同ID选项；选定牌生成1份，本回合0费。",
+      "dependencies": [
+        "full_ironclad_card_source_pool",
+        "discovery_unique_three",
+        "temporary_cost_for_turn",
+        "hand_capacity_overflow",
+        "card_random_rng"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/PowerPotion.java",
+        "constructorLine": 20,
+        "useLine": 34,
+        "potencyLine": 39,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 15,
+      "sourceId": "ColorlessPotion",
+      "sourceClass": "ColorlessPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 1,
+      "proposedProjectId": "colorless_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_discovery",
+      "effectSummary": "从非HEALING的完整无色源池产生3个不同ID选项；选定牌生成1份，本回合0费。",
+      "dependencies": [
+        "full_colorless_card_source_pool",
+        "discovery_unique_three",
+        "temporary_cost_for_turn",
+        "hand_capacity_overflow",
+        "card_random_rng"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/ColorlessPotion.java",
+        "constructorLine": 19,
+        "useLine": 33,
+        "potencyLine": 38,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 16,
+      "sourceId": "SteroidPotion",
+      "sourceClass": "SteroidPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 5,
+      "proposedProjectId": "flex_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "先应用力量5，再单独应用LoseStrength5；后者可被Artifact拦截。",
+      "dependencies": [
+        "ordered_power_actions",
+        "lose_strength_end_turn",
+        "artifact_per_application"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/SteroidPotion.java",
+        "constructorLine": 24,
+        "useLine": 39,
+        "potencyLine": 48,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 17,
+      "sourceId": "SpeedPotion",
+      "sourceClass": "SpeedPotion",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 5,
+      "proposedProjectId": "speed_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "先应用敏捷5，再单独应用LoseDexterity5。",
+      "dependencies": [
+        "ordered_power_actions",
+        "lose_dexterity_end_turn",
+        "artifact_per_application"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/SpeedPotion.java",
+        "constructorLine": 24,
+        "useLine": 39,
+        "potencyLine": 48,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 18,
+      "sourceId": "BlessingOfTheForge",
+      "sourceClass": "BlessingOfTheForge",
+      "owner": "shared",
+      "rarity": "common",
+      "basePrice": 50,
+      "basePotencyA0": 0,
+      "proposedProjectId": "blessing_of_the_forge",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_zone_selection",
+      "effectSummary": "升级当前全部可升级手牌实例，不改永久牌组。",
+      "dependencies": [
+        "upgrade_battle_instances",
+        "armaments_action",
+        "card_upgrade_event_order"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "no_potency_dependent_effect",
+      "source": {
+        "path": "potions/BlessingOfTheForge.java",
+        "constructorLine": 22,
+        "useLine": 37,
+        "potencyLine": 44,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 19,
+      "sourceId": "Regen Potion",
+      "sourceClass": "RegenPotion",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 5,
+      "proposedProjectId": "regen_potion",
+      "currentProjectId": "regen_potion",
+      "currentStatus": "existing_definition_effect_requires_full_pool_integration",
+      "effectGroup": "existing_six",
+      "effectSummary": "应用再生5，沿再生轮末先回血后减层。",
+      "dependencies": [
+        "regen_power_and_owner_end"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/RegenPotion.java",
+        "constructorLine": 23,
+        "useLine": 38,
+        "potencyLine": 45,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 20,
+      "sourceId": "Ancient Potion",
+      "sourceClass": "AncientPotion",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 1,
+      "proposedProjectId": "ancient_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "对自己应用Artifact1。",
+      "dependencies": [
+        "artifact_power"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/AncientPotion.java",
+        "constructorLine": 23,
+        "useLine": 38,
+        "potencyLine": 46,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 21,
+      "sourceId": "LiquidBronze",
+      "sourceClass": "LiquidBronze",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 3,
+      "proposedProjectId": "liquid_bronze",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "immediate_and_status",
+      "effectSummary": "对自己应用荆棘3。",
+      "dependencies": [
+        "thorns_power_and_retaliation_queue"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/LiquidBronze.java",
+        "constructorLine": 24,
+        "useLine": 39,
+        "potencyLine": 47,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 22,
+      "sourceId": "GamblersBrew",
+      "sourceClass": "GamblersBrew",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 0,
+      "proposedProjectId": "gamblers_brew",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_zone_selection",
+      "effectSummary": "选择任意手牌丢弃，随后按丢弃数抽牌。",
+      "dependencies": [
+        "multi_hand_selection",
+        "discard_hooks",
+        "draw_pipeline_and_no_draw",
+        "gambling_chip_action"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "no_potency_dependent_effect",
+      "source": {
+        "path": "potions/GamblersBrew.java",
+        "constructorLine": 19,
+        "useLine": 32,
+        "potencyLine": 39,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 23,
+      "sourceId": "EssenceOfSteel",
+      "sourceClass": "EssenceOfSteel",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 4,
+      "proposedProjectId": "essence_of_steel",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "sustained_powers",
+      "effectSummary": "应用PlatedArmor4，preEndTurnCards加盾；符合来源的正HP损失扣1层。",
+      "dependencies": [
+        "plated_armor_power",
+        "pre_end_turn_cards_hook",
+        "hp_loss_type_owner_gate",
+        "power_caps"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/EssenceOfSteel.java",
+        "constructorLine": 22,
+        "useLine": 36,
+        "potencyLine": 44,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 24,
+      "sourceId": "DuplicationPotion",
+      "sourceClass": "DuplicationPotion",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 1,
+      "proposedProjectId": "duplication_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_duplication",
+      "effectSummary": "应用Duplication层数，符合条件的出牌入复制牌队列并减层，轮末还按源方法减1层。",
+      "dependencies": [
+        "on_use_card_power_hooks",
+        "card_queue_clone_and_purge_guard",
+        "energy_on_use_preservation",
+        "duplication_end_round_decay"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/DuplicationPotion.java",
+        "constructorLine": 22,
+        "useLine": 36,
+        "potencyLine": 43,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 25,
+      "sourceId": "DistilledChaos",
+      "sourceClass": "DistilledChaosPotion",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 3,
+      "proposedProjectId": "distilled_chaos",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "autoplay_and_random_cost",
+      "effectSummary": "排3次打出牌堆顶；每次入队前先用cardRandomRng取随机敌人，空牌堆可触发洗牌。",
+      "dependencies": [
+        "autoplay_card_queue",
+        "card_random_target_rng",
+        "empty_deck_shuffle",
+        "card_play_restrictions_and_outcomes"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/DistilledChaosPotion.java",
+        "constructorLine": 20,
+        "useLine": 34,
+        "potencyLine": 41,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 26,
+      "sourceId": "LiquidMemories",
+      "sourceClass": "LiquidMemories",
+      "owner": "shared",
+      "rarity": "uncommon",
+      "basePrice": 75,
+      "basePotencyA0": 1,
+      "proposedProjectId": "liquid_memories",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "card_zone_selection",
+      "effectSummary": "从弃牌堆选1张回手，本回合费用设0；遵守10手牌容量。",
+      "dependencies": [
+        "discard_grid_selection",
+        "discard_to_hand_identity",
+        "temporary_cost_for_turn",
+        "hand_capacity_limit"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/LiquidMemories.java",
+        "constructorLine": 19,
+        "useLine": 33,
+        "potencyLine": 38,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 27,
+      "sourceId": "CultistPotion",
+      "sourceClass": "CultistPotion",
+      "owner": "shared",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 1,
+      "proposedProjectId": "cultist_potion",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "sustained_powers",
+      "effectSummary": "对玩家应用Ritual1，按玩家专用轮末钩子增力；音效随机属于MathUtils。",
+      "dependencies": [
+        "player_ritual_power",
+        "player_turn_end_power_order",
+        "cosmetic_mathutils_not_gameplay_rng"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/CultistPotion.java",
+        "constructorLine": 28,
+        "useLine": 44,
+        "potencyLine": 65,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 28,
+      "sourceId": "Fruit Juice",
+      "sourceClass": "FruitJuice",
+      "owner": "shared",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 5,
+      "proposedProjectId": "fruit_juice",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "health_and_revival",
+      "effectSummary": "最大生命增加5并同步当前生命/战斗与Run。",
+      "dependencies": [
+        "increase_max_hp",
+        "run_combat_max_hp_sync",
+        "combat_and_outside_use"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "combat_or_outside_except_WeMeetAgain",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/FruitJuice.java",
+        "constructorLine": 20,
+        "useLine": 34,
+        "potencyLine": 47,
+        "canUseOverrideLine": 39
+      }
+    },
+    {
+      "index": 29,
+      "sourceId": "SneckoOil",
+      "sourceClass": "SneckoOil",
+      "owner": "shared",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 5,
+      "proposedProjectId": "snecko_oil",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "autoplay_and_random_cost",
+      "effectSummary": "先抽5张，再逐张给非负基础费手牌用cardRandomRng抽0..3，改cost及costForTurn。",
+      "dependencies": [
+        "draw_then_action_order",
+        "card_random_rng",
+        "persistent_combat_cost_and_turn_cost",
+        "negative_cost_exclusion"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "base_combat_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/SneckoOil.java",
+        "constructorLine": 21,
+        "useLine": 35,
+        "potencyLine": 43,
+        "canUseOverrideLine": null
+      }
+    },
+    {
+      "index": 30,
+      "sourceId": "FairyPotion",
+      "sourceClass": "FairyPotion",
+      "owner": "shared",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 30,
+      "proposedProjectId": "fairy_in_a_bottle",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "health_and_revival",
+      "effectSummary": "不可主动使用；致死时自动回最大生命30%（截断，至少1），优先于LizardTail，MarkOfBloom可阻断。",
+      "dependencies": [
+        "fatal_damage_interception",
+        "automatic_inventory_consumption",
+        "fairy_before_lizard_tail",
+        "heal_rounding_and_mark_of_bloom",
+        "outcome_cancellation"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "automatic_fatal_only",
+      "sacredBark": "AbstractPotion.getPotency doubles base; effect-specific stack/copy semantics still apply",
+      "source": {
+        "path": "potions/FairyPotion.java",
+        "constructorLine": 18,
+        "useLine": 32,
+        "potencyLine": 48,
+        "canUseOverrideLine": 43
+      }
+    },
+    {
+      "index": 31,
+      "sourceId": "SmokeBomb",
+      "sourceClass": "SmokeBomb",
+      "owner": "shared",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 0,
+      "proposedProjectId": "smoke_bomb",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "combat_escape",
+      "effectSummary": "主动逃离战斗，拒绝含Boss或BackAttack能力敌人的房间。",
+      "dependencies": [
+        "player_escape_state",
+        "smoked_room_no_rewards",
+        "boss_and_back_attack_gate",
+        "navigation_after_escape"
+      ],
+      "targetRequired": false,
+      "isThrown": true,
+      "useScope": "combat_with_smoke_exclusions",
+      "sacredBark": "no_potency_dependent_effect",
+      "source": {
+        "path": "potions/SmokeBomb.java",
+        "constructorLine": 22,
+        "useLine": 30,
+        "potencyLine": 59,
+        "canUseOverrideLine": 44
+      }
+    },
+    {
+      "index": 32,
+      "sourceId": "EntropicBrew",
+      "sourceClass": "EntropicBrew",
+      "owner": "shared",
+      "rarity": "rare",
+      "basePrice": 100,
+      "basePotencyA0": 3,
+      "proposedProjectId": "entropic_brew",
+      "currentProjectId": null,
+      "currentStatus": "missing_definition_and_effect",
+      "effectGroup": "potion_generation",
+      "effectSummary": "按玩家potionSlots生成药水，不按空槽数；战内limited，战外普通抽样。",
+      "dependencies": [
+        "variable_potion_capacity",
+        "full_potion_pool_rejection",
+        "limited_initial_discard_and_fruit_exclusion",
+        "queued_obtain_vs_outside_effect",
+        "sozu_and_overflow_consumption"
+      ],
+      "targetRequired": false,
+      "isThrown": false,
+      "useScope": "combat_or_outside_except_WeMeetAgain",
+      "sacredBark": "unused_potency_does_not_increase_slot_attempts",
+      "source": {
+        "path": "potions/EntropicBrew.java",
+        "constructorLine": 23,
+        "useLine": 32,
+        "potencyLine": 55,
+        "canUseOverrideLine": 47
+      }
+    }
+  ],
+  "excludedOtherClassPools": {
+    "THE_SILENT": [
+      "Poison Potion",
+      "CunningPotion",
+      "GhostInAJar"
+    ],
+    "DEFECT": [
+      "FocusPotion",
+      "PotionOfCapacity",
+      "EssenceOfDarkness"
+    ],
+    "WATCHER": [
+      "BottledMiracle",
+      "StancePotion",
+      "Ambrosia"
+    ]
+  },
+  "excludedOtherClassBasis": "PotionHelper.getPotions(chosenClass,false) executes exactly one class branch before appending the common shared list; getAll=true is a separate 42-item inspection list, not the Ironclad production pool",
+  "otherCurrentDefinitions": [
+    {
+      "projectId": "poison_potion",
+      "sourceId": "Poison Potion",
+      "owner": "THE_SILENT",
+      "inIroncladPool": false
+    }
+  ],
+  "selection": {
+    "initialization": "PotionHelper.initialize(player.chosenClass) saves getPotions(class,false) in declared order",
+    "rarityRoll": {
+      "stream": "potionRng",
+      "inclusive": [
+        0,
+        99
+      ],
+      "common": [
+        0,
+        64
+      ],
+      "uncommon": [
+        65,
+        89
+      ],
+      "rare": [
+        90,
+        99
+      ]
+    },
+    "candidateSelection": {
+      "pool": "all33OriginalOrder",
+      "inclusiveIndex": [
+        0,
+        32
+      ],
+      "strategy": "repeat full-pool draw until selected rarity matches; every rejected candidate consumes the same potionRng",
+      "sortOrRarityBucketsAllowed": false
+    },
+    "limited": {
+      "normalShopAndDrop": false,
+      "combatEntropicBrew": true,
+      "outsideEntropicBrew": false,
+      "initialFullPoolCandidateAlwaysDiscardedWhenTrue": true,
+      "laterFruitJuiceRejectedWhenTrue": true,
+      "normalFalseFruitJuiceAllowed": true,
+      "noSourceRetryCap": true
+    },
+    "totallyRandomPotion": {
+      "stream": "potionRng",
+      "inclusiveIndex": [
+        0,
+        32
+      ],
+      "rarityRoll": false
+    },
+    "normalMarginalPerItemConditionalOnPotion": [
+      {
+        "rarity": "common",
+        "fraction": [
+          13,
+          340
+        ]
+      },
+      {
+        "rarity": "uncommon",
+        "fraction": [
+          1,
+          36
+        ]
+      },
+      {
+        "rarity": "rare",
+        "fraction": [
+          1,
+          70
+        ]
+      }
+    ]
+  },
+  "streams": {
+    "potionRng": "single persistent raw-run-seed stream shared by initial shop selection, successful Courier restock selection, combat drop chance and item selection, and potion creation; not floor-reseeded",
+    "merchantRng": "separate shop price jitter only in this domain; other shop consumers precede initPotions",
+    "cardRandomRng": "effects such as Discovery, Distilled Chaos targets and Snecko random costs; excluded from pool vectors",
+    "MathUtils": "cosmetics/sounds only; not potionRng"
+  },
+  "drop": {
+    "initialModifier": 0,
+    "baseChancePercent": 40,
+    "successModifierDelta": -10,
+    "failureModifierDelta": 10,
+    "chanceClamp": false,
+    "rollInclusive": [
+      0,
+      99
+    ],
+    "eliteAndEventCombat": "40+modifier",
+    "normalOrBossMonsterRoom": "40+modifier unless all monsters escaped, then0",
+    "whiteBeastStatueOverride": 100,
+    "rewardCountAtLeast4OverrideAfterStatue": 0,
+    "stillConsumesChanceDrawOnGuaranteedOrSuppressed": true,
+    "failedAcquisitionDoesNotRerollReward": true
+  },
+  "acquisition": {
+    "shopInitial": "generate3 potions at shop setup, even if not purchased; potionRng selection then merchantRng price for each slot",
+    "courier": "only successful obtain+payment causes replacement selection and new merchant price",
+    "rewardClick": "Sozu returns claimed=true without obtaining; otherwise obtainPotion success claims, full inventory false leaves reward unclaimed; no selection reroll",
+    "discard": "destroy selected slot, no potion use/onUsePotion and no potionRng draw",
+    "ordinaryUseOrder": "PotionPopUp calls use, then each held relic.onUsePotion, then destroys source slot; Fairy uses fatal-damage automatic path",
+    "entropic": "for i<potionSlots, not empty slots; generated attempts may overflow and still spent RNG; outside Sozu branch skips generation, combat source enqueues generated candidates before ObtainPotionAction checks Sozu"
+  },
+  "effectGroups": [
+    {
+      "id": "existing_six",
+      "summary": "已有基础库存效果（仍需全池/源流接线）",
+      "sourceIds": [
+        "Fire Potion",
+        "Block Potion",
+        "Strength Potion",
+        "Dexterity Potion",
+        "Energy Potion",
+        "Regen Potion"
+      ],
+      "count": 6
+    },
+    {
+      "id": "immediate_and_status",
+      "summary": "直接伤害/抽牌/增减益",
+      "sourceIds": [
+        "Explosive Potion",
+        "Swift Potion",
+        "Weak Potion",
+        "FearPotion",
+        "SteroidPotion",
+        "SpeedPotion",
+        "Ancient Potion",
+        "LiquidBronze"
+      ],
+      "count": 8
+    },
+    {
+      "id": "sustained_powers",
+      "summary": "持续能力与玩家轮末钩子",
+      "sourceIds": [
+        "HeartOfIron",
+        "EssenceOfSteel",
+        "CultistPotion"
+      ],
+      "count": 3
+    },
+    {
+      "id": "health_and_revival",
+      "summary": "战外回血/最大生命/自动复活",
+      "sourceIds": [
+        "BloodPotion",
+        "Fruit Juice",
+        "FairyPotion"
+      ],
+      "count": 3
+    },
+    {
+      "id": "card_zone_selection",
+      "summary": "手牌和弃牌区选择",
+      "sourceIds": [
+        "ElixirPotion",
+        "GamblersBrew",
+        "BlessingOfTheForge",
+        "LiquidMemories"
+      ],
+      "count": 4
+    },
+    {
+      "id": "card_discovery",
+      "summary": "完整池三选一生成卡",
+      "sourceIds": [
+        "AttackPotion",
+        "SkillPotion",
+        "PowerPotion",
+        "ColorlessPotion"
+      ],
+      "count": 4
+    },
+    {
+      "id": "autoplay_and_random_cost",
+      "summary": "牌队列自动打牌与随机费用",
+      "sourceIds": [
+        "DistilledChaos",
+        "SneckoOil"
+      ],
+      "count": 2
+    },
+    {
+      "id": "card_duplication",
+      "summary": "重复打牌队列",
+      "sourceIds": [
+        "DuplicationPotion"
+      ],
+      "count": 1
+    },
+    {
+      "id": "combat_escape",
+      "summary": "玩家逃离战斗",
+      "sourceIds": [
+        "SmokeBomb"
+      ],
+      "count": 1
+    },
+    {
+      "id": "potion_generation",
+      "summary": "按槽位数生成完整池药水",
+      "sourceIds": [
+        "EntropicBrew"
+      ],
+      "count": 1
+    }
+  ],
+  "remainingVerification": [
+    "Production remains six obtainable potion definitions; catalog must not be mistaken for implemented pool",
+    "Full item effects, card pools/selection UI, power/action sequencing, variable inventory capacity and successful acquisition flows require implementation and independent validation",
+    "Pool vectors isolate potion selection/drop stream, not actual production Run, full merchant initialization/price stream, card effect RNG, cosmetic frames or complete same-seed run",
+    "SacredBark/full relic interactions, no-reward escape, fatal revival and MarkOfBloom need combination acceptance",
+    "The exact update cadence of DiscoveryAction can add cardRandomRng draws; no frame-independent full effect replay claimed"
+  ]
+}

@@ -6,9 +6,17 @@ import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 test('each battle bottle has a separate discoverable explanation target within the safe area', () => {
   const battle = gameLayout().controls.find(c => c.name === 'battlePanel');
   const help = battle.children.find(c => c.name === 'potionHelp');
-  assert.equal(help.children.length, 3);
+  const buttons = help.children.filter(c => /^potionHelp\d$/.test(c.name));
+  assert.equal(buttons.length, 3);
+  assert.equal(help.children.length, 4);
+  const note = help.children.find(c => c.name === 'potionReward');
+  assert.equal(note.kind, 'text');
+  assert.deepEqual(help.position ?? [0, 0], [0, 0]);
+  assert.deepEqual(help.size, theme.canvas.base);
+  assert.deepEqual(note.position, theme.layout.battleRewards.potionLabel.slice(0, 2));
+  assert.deepEqual(note.size, theme.layout.battleRewards.potionLabel.slice(2));
   const overlaps = (a, b) => a.position.every((p, i) => Math.abs(p - b.position[i]) < (a.size[i] + b.size[i]) / 2);
-  const controls = [...help.children, ...battle.children.filter(c => /^potion\d$/.test(c.name))];
+  const controls = [...buttons, ...battle.children.filter(c => /^potion\d$/.test(c.name))];
   const notice = battle.children.find(c => c.name === 'notice');
   for (const [i, c] of controls.entries()) {
     assert.ok(c.size.every(n => n >= 44), c.name);

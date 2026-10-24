@@ -1128,7 +1128,7 @@
         "gremlin_nob"
       ],
       "minFloor": 6,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "elite_lagavulin",
@@ -1137,7 +1137,7 @@
         "lagavulin"
       ],
       "minFloor": 6,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "elite_sentries",
@@ -1148,7 +1148,7 @@
         "sentry"
       ],
       "minFloor": 6,
-      "maxFloor": 13
+      "maxFloor": 14
     },
     {
       "id": "boss_guardian",

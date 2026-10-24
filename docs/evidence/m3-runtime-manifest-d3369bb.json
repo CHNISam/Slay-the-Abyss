@@ -1,0 +1,164 @@
+{
+  "date": "2026-10-25",
+  "base": "d3369bb",
+  "schemaVersion": 2,
+  "red": {
+    "oldGateExit": 1,
+    "oldGateFailures": "three stale elite legacy maxFloor values",
+    "tests": 9,
+    "passed": 5,
+    "failed": 4,
+    "newFailure": "formal source names absent and legacy IDs admitted"
+  },
+  "green": {
+    "command": "node --test tests/launch-content.test.mjs",
+    "tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "cliExit": 0
+  },
+  "runtime": {
+    "formalBindings": 18,
+    "queueSources": 17,
+    "legacyExplicitIds": 18,
+    "finiteDecisionLeaves": 1874,
+    "modules": [
+      {
+        "name": "abyss_nodes",
+        "source": "src/lua/abyss_nodes.lua",
+        "requires": [
+          "abyss_run"
+        ]
+      },
+      {
+        "name": "abyss_run",
+        "source": "src/lua/abyss_run.lua",
+        "requires": [
+          "abyss_encounter_queue",
+          "abyss_room_encounters"
+        ]
+      },
+      {
+        "name": "abyss_room_encounters",
+        "source": "src/lua/abyss_room_encounters.lua",
+        "requires": [
+          "abyss_encounter_formation"
+        ]
+      },
+      {
+        "name": "abyss_combat",
+        "source": "src/lua/abyss_combat.lua",
+        "requires": [
+          "abyss_encounter_formation"
+        ]
+      },
+      {
+        "name": "abyss_encounter_formation",
+        "source": "src/lua/abyss_encounter_formation.lua",
+        "requires": [
+          "abyss_sts_random"
+        ]
+      },
+      {
+        "name": "abyss_encounter_queue",
+        "source": "src/lua/abyss_encounter_queue.lua",
+        "requires": [
+          "abyss_sts_random"
+        ]
+      }
+    ],
+    "channels": {
+      "Exordium Thugs": {
+        "runtimeId": "exordium_thugs",
+        "members": [
+          "acid_slime_m",
+          "blue_slaver",
+          "cultist",
+          "green_louse",
+          "looter",
+          "red_louse",
+          "red_slaver",
+          "spike_slime_m"
+        ],
+        "leaves": 36
+      },
+      "Exordium Wildlife": {
+        "runtimeId": "wildlife",
+        "members": [
+          "acid_slime_m",
+          "fungi_beast",
+          "green_louse",
+          "jaw_worm",
+          "red_louse",
+          "spike_slime_m"
+        ],
+        "leaves": 12
+      }
+    }
+  },
+  "coverage": [
+    "missing binding/runtime ID drift/legacy medium and fixed-color examples promoted",
+    "every selected Thugs/Wildlife member and legal enemy channel",
+    "ordered duplicate pool slots/counts and both Boolean branches",
+    "exact legacy Data floor/branch/pool inventory with explicit-only channels",
+    "actual source-module packager discovery and declared require/entry relationships",
+    "all original card/event/relic/exclusion and pending platform/live guards retained"
+  ],
+  "profiles": {
+    "cards": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "generatedCards": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "enemies": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "encounters": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "events": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "relics": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "potions": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "bosses": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    },
+    "legacyEncounters": {
+      "platform": "pending-per-item",
+      "live": "pending-natural-acquisition-and-execution"
+    }
+  },
+  "artifacts": [
+    {
+      "path": ".artifacts/m3-runtime-manifest-d3369bb/old-gate.log",
+      "sha256": "4a3029ef025d05f21b47fdf338a05e8dbfba081055ffb5ec01b4eb3db35c304f"
+    },
+    {
+      "path": ".artifacts/m3-runtime-manifest-d3369bb/red.log",
+      "sha256": "54fb7254bd31cbf30afffaed358a65e9a4a96fc1139f33f4f0295c38ac85dae9"
+    },
+    {
+      "path": ".artifacts/m3-runtime-manifest-d3369bb/green-tests.log",
+      "sha256": "8cee201d537e35e6a4330895b9ddca24bea6ec0351612ecbb8cadb518cb536c5"
+    },
+    {
+      "path": ".artifacts/m3-runtime-manifest-d3369bb/green-cli.log",
+      "sha256": "d090368cc93200e449d03002ce905e0def55cca36e22075702e74b9f19aad3b7"
+    }
+  ],
+  "boundary": "No production Lua/UI, Backlog, candidate, GUI, full check or network changes. Metadata placeholders only inspect source-module deployment discovery; they are never executed/deployed. First expanded negative run exhausted Node memory formatting large assert differences; strict boolean deep equality retained and focused suite then passed in about four seconds. Per-item evidence schema remains deferred and all acceptance statuses pending."
+}

@@ -8,13 +8,11 @@ local function has(node, target)
     return false
 end
 
--- Independent clamp example: the left source already reaches lane 2. A lane-2
--- proposal to lane 1 must become lane 2 and deduplicate its existing straight edge.
+-- Source golden seed0 starts at connected lanes2/3/5/6/7; no phantom lane1.
 local sample = Map.generate(data, 0)
 local nodes = indexed(sample)
-assert(has(nodes.f1_l1, "f2_l2"))
-assert(not has(nodes.f1_l2, "f2_l1"), "seed0 crossing: f1_l1->f2_l2 / f1_l2->f2_l1")
-assert(#nodes.f1_l2.nextIds == 1 and nodes.f1_l2.nextIds[1] == "f2_l2", "clamp must deduplicate the straight edge")
+assert(nodes.f1_l1==nil and has(nodes.f1_l2,'f2_l1'))
+assert(#nodes.f1_l3.nextIds==1 and has(nodes.f1_l3,'f2_l3'))
 
 for seed = 0, 127 do
     local map = Map.generate(data, seed)
@@ -32,7 +30,7 @@ for seed = 0, 127 do
         end
     end
     local old = Map.snapshot(map)
-    old.sourceSignature = old.sourceSignature:gsub(":adjacentEdgeClamp", "")
+    old.sourceSignature = 'map-v2:'..old.sourceSignature
     local restored, reason = Map.restore(data, old)
     assert(not restored and reason == "configuration_mismatch", "old crossing graphs must not restore silently")
 end

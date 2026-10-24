@@ -1,0 +1,33 @@
+{
+  "base": "386bc27ca892fda580a76bacdfd079817e8b40dc",
+  "red": {
+    "run": "40123242940",
+    "head": "386bc27ca892fda580a76bacdfd079817e8b40dc",
+    "javascript": {"passed":1163,"failed":4,"skipped":119},
+    "cause": "Combined reward and potion-help UI contained 61 direct children in standalone stage and composed battlePanel; platform limit remains 60",
+    "tests": ["deck-ui-layout", "exit-ui-layout", "map-ui-layout", "ui-layout"],
+    "log": ".artifacts/m3-pr193-386bc27-ci-failed.log",
+    "fullLua": "NOT_EXECUTED"
+  },
+  "repair": {
+    "directChildrenBefore":61,
+    "directChildrenAfter":60,
+    "change":"Move the existing potionReward explanation into the existing full-canvas, zero-origin potionHelp container; preserve coordinates, font, text, explicit actions and listing/pending visibility",
+    "runtime":"Resolve the real new parent in Lua; do not invent recursive platform lookups",
+    "regressions":"Migrate positive full-belt presence, claimed/picker absence and negative overlap mutations to the real nested path; retain all three explanation buttons and their geometry"
+  },
+  "prevention": {
+    "entry":"scripts/build-ui.mjs buildUI",
+    "guard":"Recursively validate standalone, viewport-composed and template trees before renderer spawn or any output write; hidden children still count",
+    "boundaryCases":{"passed":3,"cases":["60 accepted","hidden 61 rejected","nested template 61 rejected with offending path"]},
+    "scope":"This preflight protects buildUI's export batch; it does not claim every unrelated standalone CLI uses this entry"
+  },
+  "focused": {
+    "layoutReadability":{"passed":27,"failed":0,"log":".artifacts/native-container-limit-focused.log"},
+    "nativeBuild":"PASS",
+    "lua":{"passedFiles":5,"failedFiles":0,"files":["battle_ui","battle_ui_potion_rewards","battle_ui_potion_independence","looter_potion_ui","reward_flow_parity"],"milliseconds":[32942,2841,2861,17060,8002],"budgetsUnchanged":true,"logs":".artifacts/native-limit-*.log"},
+    "inputProtection":{"passed":142,"failed":0,"skipped":109,"log":".artifacts/native-capacity-input-protection.log"},
+    "independentReadOnlyReview":"No confirmed P1/P2"
+  },
+  "acceptanceBoundary":"Current-head full CI still required. No new candidate, official import, ready log, live UI acceptance or M3 completion is claimed."
+}

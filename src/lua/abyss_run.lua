@@ -6,6 +6,10 @@ local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local PotionRewards = require("abyss_potion_rewards")
 local CardPool = require("abyss_card_pool")
+local GoldRewards = require("abyss_gold_rewards")
+local RunSeed = require("abyss_run_seed")
+local EncounterQueue = require("abyss_encounter_queue")
+local RoomEncounters = require("abyss_room_encounters")
 local M = {}
 
 local function find(entries, id)
@@ -13,12 +17,15 @@ local function find(entries, id)
 end
 
 function M.new(data, seed)
-    seed = seed or 1
-    assert(type(seed) == "number" and seed % 1 == 0, "seed must be an integer")
-    local eventSeed = string.format('%.0f',seed)
-    local run = { version = data.rules.version, data = Combat.copy(data), seed = seed % 65536,
+    local eventSeed = RunSeed.normalize(seed)
+    local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
         cardRng=EventRandom.fromSeed(eventSeed),cardRarityOffset=5,
+        treasureRng = EventRandom.fromSeed(eventSeed),
+        encounters=EncounterQueue.new(eventSeed),roomGeneration=0,
+        -- Launch supports the exact source !isBossSeen(GUARDIAN) branch. It
+        -- duplicates Guardian and spends no monsterRng; no all-unlocked claim.
+        bossInitialization={profile='guardian-unseen',bossList={'The Guardian','The Guardian'}},
         unknown = { chances = Unknown.newPc(), pools = EventPool.new(data.rules.events.poolMode or 'restricted-six') },
         phase = "map", floor = 1, hp = data.rules.player.maxHp, maxHp = data.rules.player.maxHp,
         elapsedSeconds = 0, victories = 0,
@@ -31,11 +38,10 @@ function M.new(data, seed)
     return run
 end
 
-function M.startCombat(run, encounterId)
+local function startEncounter(run, encounter, sourceRoom)
     if run.phase ~= "map" then return false, "not_on_map" end
-    local encounter = find(run.data.enemies.encounters, encounterId)
     if not encounter then return false, "unknown_encounter" end
-    if run.floor < encounter.minFloor or run.floor > encounter.maxFloor then return false, "wrong_floor" end
+    if not sourceRoom and (run.floor < encounter.minFloor or run.floor > encounter.maxFloor) then return false, "wrong_floor" end
     local opening, reason = Inventory.opening(run.data.relics.relics, run.relics)
     if not opening then return false, reason end
     local bonus
@@ -50,10 +56,10 @@ function M.startCombat(run, encounterId)
     -- fixed 319009d). Keep this separate from Combat's HP/AI/shuffle stream and
     -- publish neither the choice nor its RNG state until all setup succeeds.
     local enemies, nextMiscRng = encounter.enemies
-    if encounter.enemiesOnTrue then
+    if not sourceRoom and encounter.enemiesOnTrue then
         nextMiscRng = EventRandom.cloneState(run.miscRng)
         if EventRandom.randomBoolean(nextMiscRng) then enemies = encounter.enemiesOnTrue end
-    elseif encounter.gremlinPool then
+    elseif not sourceRoom and encounter.gremlinPool then
         nextMiscRng = EventRandom.cloneState(run.miscRng)
         local pool = Combat.copy(encounter.gremlinPool)
         enemies = {}
@@ -64,22 +70,111 @@ function M.startCombat(run, encounterId)
         end
     end
     local battle
-    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp,maxHp=run.maxHp, gold = run.gold, deck = run.deck, enemies = enemies,
-        cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),
-        shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),
-        beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
+    local options={seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
+        cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),
+        beforeOpeningDraw=function(state)return Inventory.applyOpening(state,opening.beforeDraw)end}
+    if sourceRoom then
+        options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
+        if encounter.sourceEncounter then
+            options.enemies=nil;options.sourceEncounter=encounter.sourceEncounter
+            options.encounterBoundary={
+                misc={boolean=function()return EventRandom.randomBoolean(sourceRoom.miscRng)end,
+                    integer=function(lo,hi)return EventRandom.randomIntBetween(sourceRoom.miscRng,lo,hi)end},
+                -- Cosmetic-only independent stream; not a replay of global
+                -- libGDX MathUtils animation/offset entropy. Never spends misc.
+                visualFloat=function(lo,hi)return EventRandom.randomFloatBetween(sourceRoom.visualRng,lo,hi)end}
+        end
+    end
+    battle, reason = Combat.new(combatData, options)
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
     local ok
     ok, reason = Inventory.applyOpening(battle, opening.afterDraw)
     if not ok then return false, reason end
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
+    run.encounterSource,battle.encounterSource=encounter.source,encounter.source
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
+    run.pendingCombatRewards = nil
     return true
 end
 
-function M.finishCombat(run)
+-- Explicit-ID development/replay entry; ordinary map rooms use startRoomCombat.
+-- Historical medium_slimes and fixed-color examples never enter the source pool.
+function M.startCombat(run,encounterId)
+    return startEncounter(run,find(run.data.enemies.encounters,encounterId))
+end
+
+function M.roomStreams(run,floor)
+    local seed=RunSeed.forFloor(run.runSeed,floor)
+    return {seed=seed,monsterHpRng=EventRandom.fromSeed(seed),aiRng=EventRandom.fromSeed(seed),
+        shuffleRng=EventRandom.fromSeed(seed),cardRandomRng=EventRandom.fromSeed(seed),
+        miscRng=EventRandom.fromSeed(seed),visualRng=EventRandom.fromSeed(seed)}
+end
+
+function M.startRoomCombat(run,tier)
+    if run.phase~='map' then return false,'not_on_map' end
+    if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
+        or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
+    if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
+    if type(run.floor)~='number' or run.floor%1~=0 or run.floor<1 or run.floor>16 then return false,'wrong_floor' end
+    local encounter,nextQueue
+    if tier=='boss' then
+        if run.floor~=16 or not run.bossInitialization or run.bossInitialization.profile~='guardian-unseen' then
+            return false,'unsupported_boss_initialization'
+        end
+        encounter={id='boss_guardian',tier='boss',source='The Guardian',enemies={'guardian'}}
+    else
+        local source,reason
+        local valid
+        valid,source,nextQueue,reason=pcall(EncounterQueue.consume,run.encounters,tier)
+        if not valid then return false,'invalid_encounter_state' end
+        if not source then return false,reason end
+        encounter,reason=RoomEncounters.resolve(source,tier)
+        if not encounter then return false,reason end
+    end
+    local staged={};for k,v in pairs(run)do staged[k]=v end
+    local ready,room=pcall(M.roomStreams,run,run.floor)
+    if not ready then return false,'invalid_room_seed' end
+    local called,ok,reason=pcall(startEncounter,staged,encounter,room)
+    if not called then return false,'combat_unavailable' end
+    if not ok then return false,reason end
+    staged.miscRng=room.miscRng
+    for _,key in ipairs({'combat','encounterId','encounterTier','encounterSource','phase','miscRng'})do run[key]=staged[key]end
+    if nextQueue then run.encounters=nextQueue end
+    run.roomGeneration=run.roomGeneration+1
+    run.pendingCombatRewards=nil
+    return true
+end
+
+-- Queue checkpoint boundary only, not exit/resume or a complete Run save file.
+function M.snapshotEncounters(run)
+    return {version=2,runSeed=run.runSeed,floor=run.floor,roomGeneration=run.roomGeneration,
+        queue=EncounterQueue.snapshot(run.encounters)}
+end
+function M.restoreEncounters(run,snapshot)
+    if run.phase~='map' or (run.nodeFlow and not run.nodeFlow.complete) then return false,'node_pending' end
+    if type(snapshot)~='table' or getmetatable(snapshot)~=nil then return false,'invalid_snapshot' end
+    for k in pairs(snapshot)do if k~='version' and k~='runSeed' and k~='floor' and k~='roomGeneration' and k~='queue' then return false,'invalid_snapshot' end end
+    if snapshot.version~=2 then return false,'invalid_snapshot' end
+    if snapshot.runSeed~=run.runSeed then return false,'run_seed_mismatch' end
+    if snapshot.floor~=run.floor then return false,'floor_mismatch' end
+    if type(snapshot.roomGeneration)~='number' or snapshot.roomGeneration%1~=0
+        or snapshot.roomGeneration<0 or snapshot.roomGeneration>2147483647
+        or snapshot.roomGeneration~=run.roomGeneration then return false,'stale_encounter_checkpoint' end
+    local ok,queue=pcall(EncounterQueue.restore,snapshot.queue)
+    if not ok or queue.rawSeed~=run.runSeed then return false,'invalid_snapshot' end
+    -- A generation tag alone cannot authorize rewinding queue consumption.
+    -- This API replaces a checkpoint at the current boundary, not Run progress.
+    if type(run.encounters)~='table' or type(run.encounters.normal)~='table' or type(run.encounters.elite)~='table'
+        or #queue.normal~=#run.encounters.normal or #queue.elite~=#run.encounters.elite then
+        return false,'encounter_progress_mismatch'
+    end
+    run.encounters=queue
+    return true
+end
+
+local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
     if not result then return false, "battle_unfinished" end
@@ -100,23 +195,44 @@ function M.finishCombat(run)
             end
         end
     end
-    local gold = run.data.rules.rewards[run.encounterTier .. "Gold"]
-    -- The content table calls ordinary encounters 'normal'.
-    assert(type(gold) == "number", "unknown encounter reward tier")
-    if allEscaped then gold = 0 end
-    run.gold = run.gold + gold
+    local gold, goldStream, nextGoldRng
+    if run.combat.roomSeed then
+        gold, goldStream, nextGoldRng = GoldRewards.prepare(run.encounterTier, run, {allEscaped=allEscaped})
+    else
+        -- Historical explicit-ID fixtures retain their fixed reward contract;
+        -- only the actual source-room path claims the source gold RNG boundary.
+        gold = run.data.rules.rewards[run.encounterTier .. "Gold"]
+        assert(type(gold) == "number", "unknown encounter reward tier")
+        if allEscaped then gold = 0 end
+    end
     local choices,nextCardRng,offset=CardPool.prepareRewards(run)
     run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
-    run.rewards, run.phase = { cards = choices, gold = gold, potion = potion,
-        cardResolved = false, manualContinue = potion ~= nil }, "reward"
+    run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,
+        cardResolved = false, manualContinue = true }, "reward"
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
         run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}
         run.rewards.cardResolved, run.rewards.manualContinue = false, true
     end
     run.victories = run.victories + 1
+    if goldStream then run[goldStream] = nextGoldRng end
+    return true
+end
+
+function M.finishCombat(run)
+    if run.phase ~= "combat" then return false, "not_in_combat" end
+    if not run.combat.roomSeed then return finishCombat(run) end
+    -- A formal reward is one transaction: invalid source RNG or a later potion
+    -- failure must not publish healed HP, card/treasure progress or lastResult.
+    local staged = {}
+    for key, value in pairs(run) do staged[key] = value end
+    staged.shopRng = run.shopRng and Combat.copy(run.shopRng)
+    local ok, reason = finishCombat(staged)
+    if not ok then return false, reason end
+    for key in pairs(run) do run[key] = staged[key] end
+    for key, value in pairs(staged) do run[key] = value end
     return true
 end
 
@@ -135,13 +251,24 @@ function M.claimCardReward(run, choice)
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = run.rewards.cards[choice], upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
     end
-    if run.rewards.manualContinue then run.rewards.cardResolved = true
-    else run.phase, run.rewards, run.combat = "map", nil, nil end
+    -- choice=0 is the internal explicit-abandon command retained for old
+    -- non-UI drivers. PC Skip merely closes the picker and never calls this.
+    run.rewards.cardResolved = true
     return true
 end
 
 local function validGold(n)
     return type(n) == "number" and n == n and n % 1 == 0 and n >= 0 and n <= 2147483647
+end
+
+-- RewardItem.GOLD: the victory creates an offer; clicking it grants the money.
+function M.claimGoldReward(run)
+    local rewards = run.phase == "reward" and run.rewards
+    if not rewards or rewards.goldClaimed ~= false then return false, "no_pending_gold" end
+    if not validGold(rewards.gold) or rewards.gold == 0 or not validGold(run.gold)
+        or run.gold + 0.0 + rewards.gold > 2147483647 then return false, "invalid_gold_reward" end
+    run.gold, rewards.goldClaimed = run.gold + rewards.gold, true
+    return true
 end
 
 function M.claimStolenGoldReward(run)
@@ -160,10 +287,18 @@ function M.leaveCombatRewards(run)
     if run.phase ~= "reward" or not run.rewards or run.rewards.manualContinue ~= true then
         return false, "no_pending_reward"
     end
-    -- Bottles require their own explicit claim/skip. Leaving may forfeit only
-    -- the independently offered card and stolen gold, never a pending bottle.
-    if run.rewards.potion and not run.rewards.potion.resolved then return false, "pending_potion_reward" end
+    -- Proceed opens the map without consuming unclaimed items. They remain
+    -- accessible until a successful room transition commits.
+    run.pendingCombatRewards = { rewards = run.rewards, combat = run.combat, flow = run.nodeFlow }
     run.phase, run.rewards, run.combat = "map", nil, nil
+    return true
+end
+
+function M.reopenCombatRewards(run)
+    local pending = run.pendingCombatRewards
+    if run.phase ~= "map" or not pending or pending.flow ~= run.nodeFlow then return false, "no_pending_reward" end
+    run.rewards, run.combat, run.phase = pending.rewards, pending.combat, "reward"
+    run.pendingCombatRewards = nil
     return true
 end
 
@@ -171,6 +306,13 @@ function M.claimPotionReward(run)
     if run.phase~='reward' then return false,'no_pending_reward' end
     local offer=run.rewards and run.rewards.potion
     if not offer or offer.resolved then return false,'no_pending_potion_reward' end
+    for _, id in ipairs(run.relics) do
+        local relic = find(run.data.relics.relics, id)
+        if relic and relic.blocksPotions then
+            offer.resolved, offer.result = true, 'blocked'
+            return true, 'potion_blocked_by_sozu'
+        end
+    end
     if offer.unavailable then return false,'potion_content_unavailable' end
     local ok,slot=M.obtainPotion(run,offer.id)
     if not ok then return false,slot end

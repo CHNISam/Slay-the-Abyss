@@ -13,6 +13,7 @@ local Bgm = require("abyss_bgm")
 local Prologue = require("abyss_prologue")
 local M = {}
 local number = require("abyss_numbers").integer
+local RunSeed = require("abyss_run_seed")
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
@@ -267,6 +268,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
         local potionOpen=self.potionUI.visible
         local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy
+        local returnAvailable = self.mode == "map" and run and run.pendingCombatRewards ~= nil
+            and not deckOpen and not potionOpen and not blocked and not covering or false
+        if self.rewardReturnAvailable ~= returnAvailable then
+            self.rewardReturnAvailable = returnAvailable
+            self.rewardReturnGeneration = (self.rewardReturnGeneration or 0) + 1
+        end
+        child("combatRewards"):SetVisible(returnAvailable)
         child("deckEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
         child("potionEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
@@ -339,13 +347,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         local opening = self.mode == "menu" and not self.prologueSeen
         local explicitSeed = self.seed ~= nil
         local seed = explicitSeed and self.seed or newSeed()
-        assert(type(seed) == "number" and seed == seed and math.abs(seed) <= 9007199254740991
-            and seed % 1 == 0, "new-run seed must be a finite safe integer")
-        local run, map = Run.new(data, seed), Map.generate(data, seed)
-        self.run, self.map, self.runSeed = run, map, seed
+        local rawSeed=RunSeed.normalize(seed)
+        local run, map = Run.new(data, rawSeed), Map.generate(data, rawSeed)
+        self.run, self.map, self.runSeed = run, map, rawSeed
         self.settlementRequested, self.settlementBusy, self.settlementError = false, false, nil
-        if explicitSeed then self.seed = (seed + 1) % 65536 end
-        print("ABYSS_RUN seed=" .. string.format("%.0f", seed)
+        if explicitSeed then self.seed = type(seed)=='number' and (seed + 1) % 65536 or RunSeed.increment(rawSeed) end
+        print("ABYSS_RUN seed=" .. rawSeed
             .. " source=" .. (explicitSeed and "explicit" or "clock"))
         self.battleUI.run, self.battleUI.target = self.run, 1
         self.mapUI.map = self.map
@@ -423,9 +430,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         local hit = box:GetChild("hit")
         local held, released, observed
         local resultAction = kind == "start" or kind == "settle"
+        local rewardAction = kind == "combatRewards"
         local cursor = platform.cursorEvents or {}
         local function available()
             if self.settlementRequested or self.settlementBusy then return false end
+            if rewardAction then
+                return self.rewardReturnAvailable == true and self.mode == "map" and self.run and self.run.phase == "map" and self.run.pendingCombatRewards ~= nil
+                    and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
+            end
             if resultAction then
                 if self.exitOpen or self.deckUI.visible then return false end
                 return self.mode == "victory" or self.mode == "defeat"
@@ -436,6 +448,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         local function current(token)
             return token and token.generation == exitGeneration and token.run == self.run
                 and (not resultAction or token.menuGeneration == menuGeneration) and available()
+                and (not rewardAction or token.menuGeneration == menuGeneration and token.pending == self.run.pendingCombatRewards
+                    and token.rewardGeneration == self.rewardReturnGeneration)
         end
         local function touch(event) return event and event.touchId end
         if cursor.CursorDown and cursor.CursorUp then
@@ -444,7 +458,8 @@ function M.new(root, data, presentation, clickEvent, platform)
                 if released and not current(released) then released = nil end
                 if held and held.touch ~= touch(event) then return end
                 observed, held, released = true, nil, nil
-                if available() then held = {generation=exitGeneration,menuGeneration=menuGeneration,run=self.run,touch=touch(event)} end
+                if available() then held = {generation=exitGeneration,menuGeneration=menuGeneration,run=self.run,touch=touch(event),
+                    pending=self.run and self.run.pendingCombatRewards,rewardGeneration=self.rewardReturnGeneration} end
             end)
             hit:AddCursorEventListener(cursor.CursorUp, function(event)
                 if not held or held.touch ~= touch(event) then return end
@@ -475,6 +490,11 @@ function M.new(root, data, presentation, clickEvent, platform)
     -- expire whenever their menu/run context is hidden or replaced.
     bindCommand(start, "start", function() return self:start() end)
     bindCommand(settlement, "settle", function() return self:settle() end)
+    bindCommand(child("combatRewards"), "combatRewards", function()
+        local ok, reason = Run.reopenCombatRewards(self.run)
+        if ok then self:refresh() end
+        return ok, reason
+    end)
     bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
     bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
     bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)

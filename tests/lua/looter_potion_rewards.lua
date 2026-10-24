@@ -11,6 +11,7 @@ local function reward(stolen)
  -- Completed-battle/registered-ledger fixture isolates reward transactions.
  for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
  run.combat.stolenGoldReward=stolen or 0;assert(Run.finishCombat(run));assert(run.rewards.potion)
+ assert(Run.claimGoldReward(run))
  return run
 end
 local function rejectUnchanged(run,fn,reason)
@@ -25,22 +26,24 @@ test('manual card does not auto-claim its independent bottle',function()
  assert(run.phase=='reward' and run.rewards.cardResolved and not bottle.resolved and Run.potionCount(run)==0,'card consumed potion')
  assert(Run.claimPotionReward(run));assert(Run.claimStolenGoldReward(run));assert(Run.leaveCombatRewards(run));assert(run.phase=='map')
 end)
-test('manual leave refuses a pending bottle before any state changes',function()
- local run=reward(30);rejectUnchanged(run,function() return Run.leaveCombatRewards(run) end,'pending_potion_reward')
- assert(Run.skipPotionReward(run));assert(Run.leaveCombatRewards(run));assert(run.phase=='map' and #run.deck==10 and run.gold==114)
+test('Proceed preserves a pending bottle for returning from the map',function()
+ local run=reward(30);local rewards=run.rewards;assert(Run.leaveCombatRewards(run))
+ assert(run.pendingCombatRewards.rewards==rewards and not rewards.potion.resolved)
+ assert(Run.reopenCombatRewards(run));assert(Run.skipPotionReward(run));assert(Run.leaveCombatRewards(run));assert(run.phase=='map' and #run.deck==10 and run.gold==114)
 end)
 test('full belt blocks only bottle claim in manual flow and retains card/gold decisions',function()
  local run=reward(30);for _,id in ipairs({'block_potion','energy_potion','fire_potion'}) do assert(Run.obtainPotion(run,id)) end
  assert(Run.claimCardReward(run,1),'full belt blocked independent card');assert(Run.claimStolenGoldReward(run))
  rejectUnchanged(run,function() return Run.claimPotionReward(run) end,'potion_slots_full')
- rejectUnchanged(run,function() return Run.leaveCombatRewards(run) end,'pending_potion_reward')
+ assert(Run.leaveCombatRewards(run));assert(Run.reopenCombatRewards(run))
  assert(Run.skipPotionReward(run));assert(Run.leaveCombatRewards(run));assert(#run.deck==11 and run.gold==144)
 end)
 test('Sozu blocks bottle acquisition but not independent card or stolen gold',function()
  local run=reward(30);run.relics[#run.relics+1]='sozu'
  assert(Run.claimCardReward(run,0),'Sozu blocked independent card');assert(Run.claimStolenGoldReward(run))
- rejectUnchanged(run,function() return Run.claimPotionReward(run) end,'potion_blocked_by_sozu')
- assert(Run.skipPotionReward(run));assert(Run.leaveCombatRewards(run));assert(Run.potionCount(run)==0)
+ local ok,why=Run.claimPotionReward(run);assert(ok and why=='potion_blocked_by_sozu')
+ assert(run.rewards.potion.resolved and run.rewards.potion.result=='blocked')
+ assert(Run.leaveCombatRewards(run));assert(Run.potionCount(run)==0)
 end)
 test('normal all-escaped provider consumes only drop roll and increases modifier',function()
  local run=Run.new(Data,42);run.encounterTier='normal'
@@ -81,7 +84,7 @@ test('manual leave retains the earned Boss16 to separate chest17 route',function
   for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
   run.combat.stolenGoldReward=30;assert(Run.finishCombat(run));assert(run.rewards.potion)
   assert(Run.claimCardReward(run,1));assert(Run.claimStolenGoldReward(run))
-  rejectUnchanged(run,function() return Run.leaveCombatRewards(run) end,'pending_potion_reward')
+  assert(Run.leaveCombatRewards(run));assert(Run.reopenCombatRewards(run))
   assert(Run.skipPotionReward(run));assert(Run.leaveCombatRewards(run))
   assert(run.phase=='map' and not run.nodeFlow.complete and run.floor==16)
   assert(Nodes.completeCombat(run,map));assert(run.nodeFlow.result=='boss_victory' and run.phase=='map')

@@ -1,0 +1,50 @@
+{
+  "task": "TASK-52",
+  "baseCommit": "61b9846a4464e588f436149e3ae0020084a31bd7",
+  "scope": "diagnostic script and regression evidence only; frozen production core and UI unchanged",
+  "command": "node --test --test-concurrency=1 tests/m2-resource-audit.test.mjs",
+  "baseline": {
+    "scriptCommit": "61b9846",
+    "passed": 0,
+    "failed": 3,
+    "failures": [
+      "gold offer must be a recorded transaction",
+      "parked rewards must be visible in snapshots",
+      "restart precondition has a parked reward"
+    ],
+    "log": ".artifacts/m2-resource-audit-rewards-red.log",
+    "logSha256": "ba8c2f7baebd0d058192c6adddc6b1f079d8f7d0825c94f13d05afefabfb2c6f",
+    "note": "Three initial assertions were red before adding the fourth successful-next-room observation. A later intermediate run exposed an overbroad test comparison: room completion legitimately updates flow.complete, while reward identities and claim states stay unchanged. The final test separately asserts the detached earlier and later flow snapshots."
+  },
+  "final": {
+    "passed": 4,
+    "failed": 0,
+    "exitCode": 0,
+    "log": ".artifacts/m2-resource-audit-rewards-green.log",
+    "logSha256": "5aca2a41fe7142eef2b15cc0af346b77c85d7c9f4b62b6c1cb71cc1c7f994b2d",
+    "report": "build/m2-resource-audit-rewards.json",
+    "reportSha256": "8378d76f362e32dc03e51fd443215295e487ae68a466e28ff8bd400073c184c9",
+    "seed": 42,
+    "unmodifiedProductionData": true,
+    "stopBeforeFloors": [2, 3],
+    "firstGoldClaim": { "before": 99, "offer": 15, "after": 114 },
+    "duplicateGoldClaimRejected": true,
+    "pendingObservedAfterProceed": true,
+    "successfulNextRoomClearsPendingOwner": true,
+    "laterPendingOwnerComparison": "not applicable: the second room is an event; pending remains false after its completion",
+    "newRunPendingIsFalse": true,
+    "newRunGold": 99,
+    "newRunVictories": 0,
+    "newRunPhase": "map"
+  },
+  "diagnosticHashes": {
+    "scripts/m2-resource-audit.lua": "b4348927c0b20c3326ef8f9dfb9646b930f0fe2000f2db26149ec78b46223469",
+    "tests/m2-resource-audit.test.mjs": "f079d3bfdee209ef1da3be5a8b8b0ed99cb0c64b394591446179c9a948bd8e86",
+    "tests/lua/m2_resource_audit_rewards.lua": "60a459ef0508cbdcab25c1305093b8ee26ddd8770ca2a876bc480fbef8c0c6ad"
+  },
+  "fullCheckRun": false,
+  "normalSeventeenFloorAuditRerun": false,
+  "newGilCandidate": false,
+  "officialImport": false,
+  "livePlaytest": false
+}

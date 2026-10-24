@@ -1,0 +1,855 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "generatorSha256": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8",
+  "boundary": "Independent fixed-source normal A0/non-Daily interpretation. No Golden Idol/Ectoplasm or unsupported modifiers; no chest treasure-stream migration or PC execution claim.",
+  "cases": [
+    {
+      "seed": "0",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "1",
+          "gold": 11,
+          "treasure": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "2",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "7",
+          "gold": 26,
+          "treasure": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "8",
+          "gold": 13,
+          "treasure": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "11",
+          "gold": 33,
+          "treasure": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "16",
+          "gold": 99,
+          "treasure": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "ccb954bc7af860a2",
+              "2ab98db97070fe1b"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "43",
+          "gold": 15,
+          "treasure": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "44",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "49",
+          "gold": 32,
+          "treasure": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "50",
+          "gold": 14,
+          "treasure": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "53",
+          "gold": 34,
+          "treasure": {
+            "words": [
+              "42ce675251912b41",
+              "e661df094dc7e080"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "58",
+          "gold": 102,
+          "treasure": {
+            "words": [
+              "42ce675251912b41",
+              "e661df094dc7e080"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "bafcdc47db1a6d81",
+              "5f348851ef490cd6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "65537",
+          "gold": 10,
+          "treasure": {
+            "words": [
+              "0e39d0ab31c467a8",
+              "b1c20b074e6e5a6b"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "65538",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "0e39d0ab31c467a8",
+              "b1c20b074e6e5a6b"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "65543",
+          "gold": 32,
+          "treasure": {
+            "words": [
+              "b1c20b074e6e5a6b",
+              "ea63146342648ef2"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "65544",
+          "gold": 16,
+          "treasure": {
+            "words": [
+              "ea63146342648ef2",
+              "d80631413f5af1be"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "65547",
+          "gold": 25,
+          "treasure": {
+            "words": [
+              "d80631413f5af1be",
+              "03c47ab216a032b1"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "65552",
+          "gold": 102,
+          "treasure": {
+            "words": [
+              "d80631413f5af1be",
+              "03c47ab216a032b1"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "1717cb957d21221c",
+              "be2180d44e7669d3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "0",
+          "gold": 17,
+          "treasure": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "1",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "6",
+          "gold": 25,
+          "treasure": {
+            "words": [
+              "9b70dcd6b42485f6",
+              "c347fe1c7f4b1e37"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "7",
+          "gold": 13,
+          "treasure": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "10",
+          "gold": 32,
+          "treasure": {
+            "words": [
+              "336d48ad86da3b4c",
+              "fe15758e148abc7f"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "15",
+          "gold": 101,
+          "treasure": {
+            "words": [
+              "336d48ad86da3b4c",
+              "fe15758e148abc7f"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "0ffb070fbb36b98d",
+              "8be5ccc90f5c9f69"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "2780424839485660360",
+          "gold": 12,
+          "treasure": {
+            "words": [
+              "da7b1a134bf15d5a",
+              "07afb2c0498ee615"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "2780424839485660361",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "da7b1a134bf15d5a",
+              "07afb2c0498ee615"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "2780424839485660366",
+          "gold": 26,
+          "treasure": {
+            "words": [
+              "07afb2c0498ee615",
+              "d471399335cdf825"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "2780424839485660367",
+          "gold": 16,
+          "treasure": {
+            "words": [
+              "d471399335cdf825",
+              "b3fa7fd0d054db7a"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "2780424839485660370",
+          "gold": 31,
+          "treasure": {
+            "words": [
+              "b3fa7fd0d054db7a",
+              "ae11ae66e63144cd"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "2780424839485660375",
+          "gold": 103,
+          "treasure": {
+            "words": [
+              "b3fa7fd0d054db7a",
+              "ae11ae66e63144cd"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "c79ebe996d52bd43",
+              "807c0b26618201f0"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775808",
+          "gold": 14,
+          "treasure": {
+            "words": [
+              "e72306068b6e596a",
+              "b4ce8a4fcd5c1b3a"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "-9223372036854775807",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "e72306068b6e596a",
+              "b4ce8a4fcd5c1b3a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775802",
+          "gold": 35,
+          "treasure": {
+            "words": [
+              "b4ce8a4fcd5c1b3a",
+              "50a8497b9805ce94"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775801",
+          "gold": 13,
+          "treasure": {
+            "words": [
+              "50a8497b9805ce94",
+              "c38024b9f06aa366"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775798",
+          "gold": 25,
+          "treasure": {
+            "words": [
+              "c38024b9f06aa366",
+              "2ee419a7e7a82a8c"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775793",
+          "gold": 100,
+          "treasure": {
+            "words": [
+              "c38024b9f06aa366",
+              "2ee419a7e7a82a8c"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "fa11c714e90e6d2f",
+              "5c23fbfdbd9ffe12"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "steps": [
+        {
+          "tier": "normal",
+          "floor": 1,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775807",
+          "gold": 11,
+          "treasure": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 2,
+          "allEscaped": true,
+          "roomSeed": "-9223372036854775806",
+          "gold": 0,
+          "treasure": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "tier": "elite",
+          "floor": 7,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775801",
+          "gold": 26,
+          "treasure": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "normal",
+          "floor": 8,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775800",
+          "gold": 13,
+          "treasure": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            10,
+            20
+          ]
+        },
+        {
+          "tier": "elite",
+          "floor": 11,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775797",
+          "gold": 33,
+          "treasure": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "owner": "treasureRng",
+          "bounds": [
+            25,
+            35
+          ]
+        },
+        {
+          "tier": "boss",
+          "floor": 16,
+          "allEscaped": false,
+          "roomSeed": "-9223372036854775792",
+          "gold": 101,
+          "treasure": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "owner": "miscRng",
+          "bounds": [
+            -5,
+            5
+          ],
+          "bossMisc": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    }
+  ]
+}

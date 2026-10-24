@@ -1,6 +1,7 @@
 -- Acid Slime M/L / A0. Fixed-source decisions: TASK-15.7-acid-slime-m.md.
--- Choice inputs are explicit; the runtime adapter remains the project LCG.
+-- Source rooms use independent aiRng; explicit fixtures retain their legacy callback.
 local M = {}
+local R=require('abyss_enemy_random')
 
 function M.choose(ai, last, previous, roll, boolean, unit)
     if roll < ai.spitCutoff then
@@ -24,8 +25,8 @@ end
 local function choose(state, enemy, random)
     local id = M.choose(enemy.ai, enemy.acidLast, enemy.acidPrevious,
         random(state, enemy.ai.rollRange) - 1,
-        function() return random(state, 2) == 2 end,
-        function() return (random(state, 65536) - 1) / 65536 end)
+        function() return R.boolean(state,random) end,
+        function() return R.float(state,random) end)
     select(enemy, id)
 end
 

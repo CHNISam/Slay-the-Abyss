@@ -189,15 +189,14 @@ export function captureOracle(executable, directory = 'tests/fixtures/sts1/maps'
 }
 
 export function exportProjectMaps(seeds) {
-  // Never round a 64-bit Oracle seed or quietly substitute a different seed.
-  const supported = seeds.filter(seed => Number.isSafeInteger(Number(seed)));
-  const failures = seeds.filter(seed => !Number.isSafeInteger(Number(seed)))
-    .map(seed => ({ status: 'UNSUPPORTED_PROJECT_SEED', seed }));
+  // Production v3 consumes canonical raw signed64 strings directly.
+  const supported = seeds;
+  const failures = [];
   if (!supported.length) return failures;
   const staging = mkdtempSync(join(tmpdir(), 'abyss-map-'));
   try {
     const script = join(staging, 'export.lua');
-    writeFileSync(script, `local Map = require('abyss_map')\nlocal data = require('abyss_data')\nfor _, input in ipairs(${toLua(supported)}) do\nlocal map = Map.generate(data, tonumber(input))\nlocal nodes = {}\nfor _, n in ipairs(map.nodes) do\n local nextIds = {}\n for _, id in ipairs(n.nextIds) do nextIds[#nextIds+1] = string.format('%q', id) end\n nodes[#nodes+1] = string.format('{"id":%q,"floor":%d,"lane":%d,"type":%q,"roomKind":%q,"nextIds":[%s]}', n.id, n.floor, n.lane, n.type, n.roomKind or '', table.concat(nextIds, ','))\nend\nprint('{"seed":' .. string.format('%q',input) .. ',"nodes":[' .. table.concat(nodes, ',') .. ']}')\nend\n`);
+    writeFileSync(script, `local Map = require('abyss_map')\nlocal data = require('abyss_data')\nfor _, input in ipairs(${toLua(supported)}) do\nlocal map = Map.generate(data, input)\nlocal nodes = {}\nfor _, n in ipairs(map.nodes) do\n local nextIds = {}\n for _, id in ipairs(n.nextIds) do nextIds[#nextIds+1] = string.format('%q', id) end\n nodes[#nodes+1] = string.format('{"id":%q,"floor":%d,"lane":%d,"type":%q,"roomKind":%q,"nextIds":[%s]}', n.id, n.floor, n.lane, n.type, n.roomKind or '', table.concat(nextIds, ','))\nend\nprint('{"seed":' .. string.format('%q',input) .. ',"nodes":[' .. table.concat(nodes, ',') .. ']}')\nend\n`);
     const result = runLua(script);
     if (result.status !== 0) return [...failures, ...supported.map(seed => ({ status: 'PROJECT_EXECUTION_FAILED', seed, error: result.stderr || result.stdout }))];
     const outputs = result.stdout.trim().split(/\r?\n/).map(line => JSON.parse(line));

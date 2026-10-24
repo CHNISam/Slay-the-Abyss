@@ -11,9 +11,9 @@ local function reachShop(ui,root)
         next.type=ui.run.nodeFlow.type
         if next.type=="shop" then return ui,root end
         if ui.mode=="battle" then
-            F.win(ui,root); F.click(root,"battlePanel","skip")
+            F.win(ui,root); F.click(root,"battlePanel","cardReward"); F.click(root,"battlePanel","skip")
             if ui.run.phase=="reward" and ui.run.rewards.manualContinue then
-                if ui.run.rewards.potion and not ui.run.rewards.potion.resolved then F.click(root,"battlePanel","skipPotion") end
+                if ui.run.rewards.goldClaimed == false then F.click(root,"battlePanel","goldReward") end
                 F.click(root,"battlePanel","continue")
             end
         elseif next.type=="camp" then

@@ -125,7 +125,7 @@ test("initial controls show legal starts, shared icons and four states across al
         assert(seen[node.id] == true)
     end
     for kind in pairs(Theme.icon.node) do assert(types[kind], "all seven real node types displayed") end
-    local boss = boxFor(root, map, "f16_l2")
+    local boss = boxFor(root, map, "f16_l4")
     assert(boss.w == Theme.layout.map.bossNode and boss:GetChild("icon").image == Theme.icon.node.boss)
 end)
 
@@ -164,11 +164,12 @@ test("invalid, locked, backward, disconnected, culled and hidden clicks never mu
     assert(not click(root, "node43")); assert(callbacks == 0)
     ui:setVisible(false)
     assert(not click(root, "node1")); click(root, "next"); assert(ui.scroll == 0)
-    ui:setVisible(true); assert(clickNode(root, map, "f1_l1"))
+    local first=Map.available(map)[1].id
+    ui:setVisible(true); assert(clickNode(root, map, first))
     ui:setNavigationEnabled(true)
     local allowed = {}; for _, node in ipairs(Map.available(map)) do allowed[node.id] = true end
-    for lane = 1, 3 do if not allowed["f2_l" .. lane] then assert(not ui:choose("f2_l" .. lane)) end end
-    assert(not ui:choose("f1_l1")); assert(map.floor == 1 and callbacks == 1)
+    for lane = 1, 7 do if not allowed["f2_l" .. lane] then assert(not ui:choose("f2_l" .. lane)) end end
+    assert(not ui:choose(first)); assert(map.floor == 1 and callbacks == 1)
     for _, bad in ipairs({false, "2", 0/0, math.huge, -math.huge}) do assert(not ui:setScroll(bad)) end
     assert(ui:setScroll(-100) and ui.scroll == 0)
     assert(ui:setScroll(10000) and ui.scroll == Layout.maxScroll)
@@ -187,15 +188,15 @@ test("scroll follows Boss16 and exposes the independent legal treasure17 entry",
         visibleBounds(root, map)
     end
     ui:setNavigationEnabled(true)
-    assert(not ui:choose("f16_l2") and callbacks == 16 and #map.path == 16)
+    assert(not ui:choose("f16_l4") and callbacks == 16 and #map.path == 16)
     assert(mapControl(panel(root), "notice").text == "首领奖励已处理 · 请选择首领宝箱")
-    assert(boxFor(root, map, "f17_l2").visible)
+    assert(boxFor(root, map, "f17_l4").visible)
     assert(ui.scroll == Layout.maxScroll)
     assert(click(root, "previous")); ui:update(Theme.motion.base)
     assert(ui.scroll < Layout.maxScroll)
     click(root, "focus"); ui:update(Theme.motion.base); assert(ui.scroll == Layout.maxScroll)
-    assert(clickNode(root, map, "f17_l2") and callbacks == 17 and #map.path == 17)
-    assert(not ui:choose("f17_l2") and callbacks == 17)
+    assert(clickNode(root, map, "f17_l4") and callbacks == 17 and #map.path == 17)
+    assert(not ui:choose("f17_l4") and callbacks == 17)
 end)
 
 test("restored maps start locked and reopening focuses actual current floor", function()
@@ -240,11 +241,11 @@ test("callback errors release reentrancy guard and commits always lock even if c
             if failure == "throw" then error("host failure") end
             return false, "host_rejected_after_commit"
         end)
-        assert(not clickNode(root, map, "f1_l1") and map.floor == 1 and not ui.navigationEnabled and not ui.choosing)
+        assert(not clickNode(root, map, Map.available(map)[1].id) and map.floor == 1 and not ui.navigationEnabled and not ui.choosing)
         assert(not ui:choose(Map.available(map)[1].id) and #map.path == 1)
     end
     local root, map, ui = fixture(1, function() error("before commit") end)
-    local ok, reason = clickNode(root, map, "f1_l1")
+    local ok, reason = clickNode(root, map, Map.available(map)[1].id)
     assert(not ok and reason == "choice_callback_error" and ui.navigationEnabled and map.floor == 0 and not ui.choosing)
 end)
 test('exhausted event pool explains the rejected entry on the map without spending the route',function()

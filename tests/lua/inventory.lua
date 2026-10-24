@@ -152,7 +152,8 @@ test("last-enemy potion kill finishes normally and awards gold and end healing o
     run.combat.player.hp = 40; run.combat.enemies[1].hp = 20
     local gold, root = run.gold, run.combat
     assert(Run.usePotion(run, 1, 1)); equal(run.combat, root); equal(root.phase, "victory")
-    equal(run.phase, "reward"); equal(run.hp, 46); equal(run.gold, gold + data.rules.rewards.normalGold)
+    equal(run.phase, "reward"); equal(run.hp, 46); equal(run.gold, gold)
+    assert(Run.claimGoldReward(run)); equal(run.gold, gold + data.rules.rewards.normalGold)
     equal(#Run.rewardOptions(run), data.rules.rewards.cardChoices)
     rejected(run, 1, 1, "not_in_combat"); equal(Run.finishCombat(run), false)
     equal(run.hp, 46); equal(run.gold, gold + data.rules.rewards.normalGold)
@@ -179,28 +180,35 @@ test("real map keeps resources across two original-data battles and the acquired
     local source = Combat.copy(data)
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
     source.rules.events.encounterId='purifier' -- explicit content fixture; unknown RNG has its own route tests
-    -- Seed 36 follows shops/events to the fixed ninth-row chest, then combat.
-    -- Do not depend on the removed extra random chests before floor 9.
-    local run, map = Run.new(source, 36), Map.generate(source, 36)
+    -- A real connected source-map route reaches events/shop/camp/chest before
+    -- its second battle. No room symbols or edges are replaced by the fixture.
+    local route={'f1_l4','f2_l5','f3_l5','f4_l5','f5_l4','f6_l4','f7_l3','f8_l2','f9_l2','f10_l2'}
+    local run, map = Run.new(source, 70), Map.generate(source, 70)
     for _, relic in ipairs(source.relics.relics) do
         if relic.trigger == "combat_start" and relic.id ~= "anchor" then run.relics[#run.relics + 1] = relic.id end
     end
     run.potions = { "strength_potion", "regen_potion" }
     run.hp = 70
-    local first = Nodes.available(run, map)[1]
+    local Routes=dofile('tests/lua/support/map_routes.lua')
+    local first = Routes.at(map,route[1])
     assert(Nodes.enter(run, map, first.id)); equal(run.combat.player.block, 0)
     equal(#run.combat.hand, 7); equal(run.combat.energy, 4)
     assert(Run.usePotion(run, 1)); equal(run.combat.player.statuses.strength, 3)
     finishBattle(run)
+    local quotedGold=run.rewards.gold
+    assert(quotedGold>=10 and quotedGold<=20 and not run.rewards.goldClaimed)
+    equal(run.gold,1000)
+    assert(Run.claimGoldReward(run))
     local hp, gold = run.hp, run.gold
-    equal(gold, 1000 + source.rules.rewards.normalGold)
+    equal(gold, 1000 + quotedGold)
+    assert(not Run.claimGoldReward(run));equal(run.gold,gold)
     local rewardId = Run.rewardOptions(run)[1]
-    assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
+    assert(Run.claimCardReward(run, 1)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
     local acquired, visitedEvent, boughtCard, spent, nextBattleType = false, false, false, 0, nil
-    local acquiredId
+    local acquiredId,boughtCardId
     while true do
-        local node = Nodes.available(run, map)[1]; assert(node)
+        local node = Routes.at(map,route[#map.path+1])
         assert(Nodes.enter(run, map, node.id))
         if run.phase == "combat" then nextBattleType = node.type break
         elseif node.type == "treasure" then
@@ -215,25 +223,34 @@ test("real map keeps resources across two original-data battles and the acquired
             local view = Nodes.view(run, map).node
             for _, offer in ipairs(view.cards) do
                 if not offer.unavailable and not boughtCard then
-                    assert(Nodes.buyCard(run, offer.id)); spent = spent + offer.price; boughtCard = true
+                    assert(Nodes.buyCard(run, offer.id)); spent = spent + offer.price; boughtCard = true; boughtCardId=offer.id
                 end
             end
             assert(Nodes.leaveShop(run))
+        elseif node.type=='camp' then
+            local before=run.hp;local uid
+            for _,card in ipairs(run.deck)do if not card.upgraded then uid=card.uid;break end end
+            assert(uid and Nodes.upgrade(run,uid));equal(run.hp,before)
         else error("unexpected fixture node " .. node.type) end
     end
     assert(acquired and visitedEvent and boughtCard)
     equal(run.combat.player.hp, hp); equal(run.hp, hp); equal(run.gold, gold - spent)
     same(run.potions, { [2] = "regen_potion" })
-    equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
+    equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12);equal(run.deck[12].cardId,boughtCardId); equal(run.nextDeckUid, 13)
     assert(acquiredId);local owned=false;for _,id in ipairs(run.relics)do if id==acquiredId then owned=true end end;assert(owned)
     equal(run.combat.player.block, acquiredId=="anchor" and 10 or 0); equal(run.combat.energy, 4); equal(#run.combat.hand, 7)
     equal(run.combat.player.statuses.strength, 1); equal(run.combat.player.statuses.dexterity, 1)
     equal(run.combat.player.statuses.thorns, 3); equal(run.combat.player.statuses.regen, nil)
     assert(Run.usePotion(run, 2)); equal(run.combat.player.statuses.regen, 5)
     finishBattle(run)
-    local expectedReward = nextBattleType == "elite" and source.rules.rewards.eliteGold or source.rules.rewards.normalGold
+    local expectedReward=run.rewards.gold
+    local minimum,maximum=nextBattleType=='elite' and 25 or 10,nextBattleType=='elite' and 35 or 20
+    assert(expectedReward>=minimum and expectedReward<=maximum and not run.rewards.goldClaimed)
+    equal(run.gold,gold-spent)
+    assert(Run.claimGoldReward(run))
     equal(run.gold, gold - spent + expectedReward)
-    assert(Run.claimCardReward(run, 0)); assert(Nodes.completeCombat(run, map))
+    assert(not Run.claimGoldReward(run));equal(run.gold,gold-spent+expectedReward)
+    assert(Run.claimCardReward(run, 0)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     same(run.potions, {}); equal(run.nextDeckUid, 13)
 end)
 

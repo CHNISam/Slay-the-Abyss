@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-24 17:26'
+updated_date: '2026-10-24 20:58'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -33,12 +33,15 @@ ordinal: 75000
 - [ ] #2 能自然组成不同合法卡组并重复游玩；未完成项逐项列出。
 - [ ] #3 首发清单同时注明每项代码或素材实际接入入口、对应平台及实机验收任务和当前占位；独立候选与离线文件不能登记为玩家可用。
 - [ ] #4 首发清单包括完整75张铁甲战士牌及1个Boss，逐项注明合法获取/生成规则、实现状态与未验证缺口；75张未齐不得通过首发验收。
+- [ ] #5 首发涉及的原版内容池与必要依赖齐备，保留原版概率；删池、未实现占位或缺项重抽不能算完成。
 <!-- AC:END -->
 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 从生产代码枚举各类首发内容及合法入口，明确候选排除。 2. 建立逐项机器清单和中文说明，列明验收任务、本地、平台和实机边界。 3. 定向核对清单与生产池，保留自然获取和实机缺口，不因建表转Done。
+
+整合develop9ae1aec：正式17项队列绑定及Guardian与legacy显式ID分开盘点，保留large_slime/lots_of_slimes/exordium_thugs等动态成员与模块部署门禁。全解锁Ironclad A0第一幕完整原池/随机消费/机制依赖须逐项核验；旧30/13/6仅历史基线，完整75张不可缩减，逐项自然获取和同源实机证据仍未勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

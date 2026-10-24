@@ -1,5 +1,5 @@
 -- Red/Green Louse A0: actor-local Bite sampling and the shared two-move policy.
--- The runtime still uses a shared RNG, not the original independent streams.
+-- Source rooms separate constructor/preBattle HP from AI; explicit fixtures may use LCG.
 local M = {}
 local Actors = require("abyss_actor")
 

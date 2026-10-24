@@ -171,6 +171,7 @@ test("real starter victory can award entrench and play it next battle without st
     equal(selected.deck[#selected.deck].cardId, "entrench")
     local before = Combat.copy(selected)
     equal(Run.claimCardReward(selected, choice), false); same(selected, before)
+    dofile('tests/lua/support/finish_combat_rewards.lua')(selected)
     assert(Run.startCombat(selected, "cultist_solo"))
     for _ = 1, 20 do
         assert(selected.phase == "combat", "battle ended before entrench was played")

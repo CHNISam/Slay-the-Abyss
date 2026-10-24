@@ -1,0 +1,5477 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "boundary": "Independent fixed-source interpretation; no PC/platform claim. No Innate, bottled cards or unsupported draw/shuffle hooks.",
+  "generatorSha256": "840420950e9ecd5c2e2b81863c0ae05e16591541225e1a317a03fa8906b855a5",
+  "initial": [
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "size": 2,
+      "beforeDraw": [
+        2,
+        1
+      ],
+      "hand": [
+        1,
+        2
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            2,
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "size": 10,
+      "beforeDraw": [
+        7,
+        9,
+        2,
+        5,
+        3,
+        1,
+        4,
+        8,
+        10,
+        6
+      ],
+      "hand": [
+        6,
+        10,
+        8,
+        4,
+        1
+      ],
+      "draw": [
+        7,
+        9,
+        2,
+        5,
+        3
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            7,
+            9,
+            2,
+            5,
+            3,
+            1,
+            4,
+            8,
+            10,
+            6
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "size": 15,
+      "beforeDraw": [
+        7,
+        13,
+        14,
+        12,
+        2,
+        11,
+        4,
+        3,
+        9,
+        8,
+        10,
+        15,
+        5,
+        6,
+        1
+      ],
+      "hand": [
+        1,
+        6,
+        5,
+        15,
+        10
+      ],
+      "draw": [
+        7,
+        13,
+        14,
+        12,
+        2,
+        11,
+        4,
+        3,
+        9,
+        8
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            7,
+            13,
+            14,
+            12,
+            2,
+            11,
+            4,
+            3,
+            9,
+            8,
+            10,
+            15,
+            5,
+            6,
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "eb527cff273e8ef5",
+          "502fba754a78ddb7"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "3b82377471b76cac",
+          "after": {
+            "words": [
+              "eb527cff273e8ef5",
+              "502fba754a78ddb7"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "size": 2,
+      "beforeDraw": [
+        2,
+        1
+      ],
+      "hand": [
+        1,
+        2
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "eb527cff273e8ef5",
+          "502fba754a78ddb7"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            2,
+            1
+          ],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "3b82377471b76cac",
+          "after": {
+            "words": [
+              "eb527cff273e8ef5",
+              "502fba754a78ddb7"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "size": 10,
+      "beforeDraw": [
+        4,
+        7,
+        6,
+        1,
+        10,
+        5,
+        2,
+        9,
+        3,
+        8
+      ],
+      "hand": [
+        8,
+        3,
+        9,
+        2,
+        5
+      ],
+      "draw": [
+        4,
+        7,
+        6,
+        1,
+        10
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            4,
+            7,
+            6,
+            1,
+            10,
+            5,
+            2,
+            9,
+            3,
+            8
+          ],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "size": 15,
+      "beforeDraw": [
+        7,
+        15,
+        8,
+        14,
+        4,
+        1,
+        5,
+        9,
+        11,
+        12,
+        2,
+        3,
+        6,
+        10,
+        13
+      ],
+      "hand": [
+        13,
+        10,
+        6,
+        3,
+        2
+      ],
+      "draw": [
+        7,
+        15,
+        8,
+        14,
+        4,
+        1,
+        5,
+        9,
+        11,
+        12
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            7,
+            15,
+            8,
+            14,
+            4,
+            1,
+            5,
+            9,
+            11,
+            12,
+            2,
+            3,
+            6,
+            10,
+            13
+          ],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a1e4733f6b9d7a4a",
+          "c29acf3dd640773e"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "647f427d41ddf188",
+          "after": {
+            "words": [
+              "a1e4733f6b9d7a4a",
+              "c29acf3dd640773e"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "size": 2,
+      "beforeDraw": [
+        2,
+        1
+      ],
+      "hand": [
+        1,
+        2
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a1e4733f6b9d7a4a",
+          "c29acf3dd640773e"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            2,
+            1
+          ],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "647f427d41ddf188",
+          "after": {
+            "words": [
+              "a1e4733f6b9d7a4a",
+              "c29acf3dd640773e"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "size": 10,
+      "beforeDraw": [
+        6,
+        8,
+        4,
+        7,
+        10,
+        2,
+        5,
+        1,
+        9,
+        3
+      ],
+      "hand": [
+        3,
+        9,
+        1,
+        5,
+        2
+      ],
+      "draw": [
+        6,
+        8,
+        4,
+        7,
+        10
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            6,
+            8,
+            4,
+            7,
+            10,
+            2,
+            5,
+            1,
+            9,
+            3
+          ],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "size": 15,
+      "beforeDraw": [
+        2,
+        1,
+        14,
+        15,
+        3,
+        4,
+        12,
+        7,
+        10,
+        8,
+        11,
+        5,
+        6,
+        9,
+        13
+      ],
+      "hand": [
+        13,
+        9,
+        6,
+        5,
+        11
+      ],
+      "draw": [
+        2,
+        1,
+        14,
+        15,
+        3,
+        4,
+        12,
+        7,
+        10,
+        8
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            2,
+            1,
+            14,
+            15,
+            3,
+            4,
+            12,
+            7,
+            10,
+            8,
+            11,
+            5,
+            6,
+            9,
+            13
+          ],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "size": 2,
+      "beforeDraw": [
+        2,
+        1
+      ],
+      "hand": [
+        1,
+        2
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            2,
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "size": 10,
+      "beforeDraw": [
+        7,
+        9,
+        2,
+        5,
+        3,
+        1,
+        4,
+        8,
+        10,
+        6
+      ],
+      "hand": [
+        6,
+        10,
+        8,
+        4,
+        1
+      ],
+      "draw": [
+        7,
+        9,
+        2,
+        5,
+        3
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            7,
+            9,
+            2,
+            5,
+            3,
+            1,
+            4,
+            8,
+            10,
+            6
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "size": 15,
+      "beforeDraw": [
+        7,
+        13,
+        14,
+        12,
+        2,
+        11,
+        4,
+        3,
+        9,
+        8,
+        10,
+        15,
+        5,
+        6,
+        1
+      ],
+      "hand": [
+        1,
+        6,
+        5,
+        15,
+        10
+      ],
+      "draw": [
+        7,
+        13,
+        14,
+        12,
+        2,
+        11,
+        4,
+        3,
+        9,
+        8
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            7,
+            13,
+            14,
+            12,
+            2,
+            11,
+            4,
+            3,
+            9,
+            8,
+            10,
+            15,
+            5,
+            6,
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "763303d1412e64e3",
+          "9f14c08b72c27d32"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "1547c45cb3f0e215",
+          "after": {
+            "words": [
+              "763303d1412e64e3",
+              "9f14c08b72c27d32"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "size": 2,
+      "beforeDraw": [
+        1,
+        2
+      ],
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "763303d1412e64e3",
+          "9f14c08b72c27d32"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            1,
+            2
+          ],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "1547c45cb3f0e215",
+          "after": {
+            "words": [
+              "763303d1412e64e3",
+              "9f14c08b72c27d32"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "size": 10,
+      "beforeDraw": [
+        5,
+        10,
+        7,
+        1,
+        8,
+        6,
+        3,
+        4,
+        2,
+        9
+      ],
+      "hand": [
+        9,
+        2,
+        4,
+        3,
+        6
+      ],
+      "draw": [
+        5,
+        10,
+        7,
+        1,
+        8
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            5,
+            10,
+            7,
+            1,
+            8,
+            6,
+            3,
+            4,
+            2,
+            9
+          ],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "size": 15,
+      "beforeDraw": [
+        10,
+        13,
+        3,
+        12,
+        5,
+        2,
+        8,
+        6,
+        14,
+        15,
+        1,
+        11,
+        9,
+        7,
+        4
+      ],
+      "hand": [
+        4,
+        7,
+        9,
+        11,
+        1
+      ],
+      "draw": [
+        10,
+        13,
+        3,
+        12,
+        5,
+        2,
+        8,
+        6,
+        14,
+        15
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            10,
+            13,
+            3,
+            12,
+            5,
+            2,
+            8,
+            6,
+            14,
+            15,
+            1,
+            11,
+            9,
+            7,
+            4
+          ],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "size": 2,
+      "beforeDraw": [
+        2,
+        1
+      ],
+      "hand": [
+        1,
+        2
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            2,
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "size": 10,
+      "beforeDraw": [
+        7,
+        9,
+        2,
+        5,
+        3,
+        1,
+        4,
+        8,
+        10,
+        6
+      ],
+      "hand": [
+        6,
+        10,
+        8,
+        4,
+        1
+      ],
+      "draw": [
+        7,
+        9,
+        2,
+        5,
+        3
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            7,
+            9,
+            2,
+            5,
+            3,
+            1,
+            4,
+            8,
+            10,
+            6
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "size": 15,
+      "beforeDraw": [
+        7,
+        13,
+        14,
+        12,
+        2,
+        11,
+        4,
+        3,
+        9,
+        8,
+        10,
+        15,
+        5,
+        6,
+        1
+      ],
+      "hand": [
+        1,
+        6,
+        5,
+        15,
+        10
+      ],
+      "draw": [
+        7,
+        13,
+        14,
+        12,
+        2,
+        11,
+        4,
+        3,
+        9,
+        8
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            7,
+            13,
+            14,
+            12,
+            2,
+            11,
+            4,
+            3,
+            9,
+            8,
+            10,
+            15,
+            5,
+            6,
+            1
+          ],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "size": 0,
+      "beforeDraw": [],
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "size": 1,
+      "beforeDraw": [
+        1
+      ],
+      "hand": [
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "f39ae772b34ebd2c",
+          "2caab054fcdac8f4"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 1,
+          "cards": [
+            1
+          ],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "204597c7b0298620",
+          "after": {
+            "words": [
+              "f39ae772b34ebd2c",
+              "2caab054fcdac8f4"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "size": 2,
+      "beforeDraw": [
+        1,
+        2
+      ],
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "f39ae772b34ebd2c",
+          "2caab054fcdac8f4"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 2,
+          "cards": [
+            1,
+            2
+          ],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "204597c7b0298620",
+          "after": {
+            "words": [
+              "f39ae772b34ebd2c",
+              "2caab054fcdac8f4"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "size": 10,
+      "beforeDraw": [
+        5,
+        2,
+        8,
+        3,
+        4,
+        7,
+        10,
+        6,
+        1,
+        9
+      ],
+      "hand": [
+        9,
+        1,
+        6,
+        10,
+        7
+      ],
+      "draw": [
+        5,
+        2,
+        8,
+        3,
+        4
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 10,
+          "cards": [
+            5,
+            2,
+            8,
+            3,
+            4,
+            7,
+            10,
+            6,
+            1,
+            9
+          ],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "size": 15,
+      "beforeDraw": [
+        7,
+        5,
+        3,
+        10,
+        2,
+        13,
+        8,
+        12,
+        6,
+        9,
+        4,
+        1,
+        15,
+        11,
+        14
+      ],
+      "hand": [
+        14,
+        11,
+        15,
+        1,
+        4
+      ],
+      "draw": [
+        7,
+        5,
+        3,
+        10,
+        2,
+        13,
+        8,
+        12,
+        6,
+        9
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 15,
+          "cards": [
+            7,
+            5,
+            3,
+            10,
+            2,
+            13,
+            8,
+            12,
+            6,
+            9,
+            4,
+            1,
+            15,
+            11,
+            14
+          ],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    }
+  ],
+  "redraw": [
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        101,
+        102
+      ],
+      "draw": [
+        103,
+        104
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            103,
+            104,
+            102,
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        101,
+        102
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "9253c52fcfbd932b",
+          "6151e5f6a4a2df86"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            102,
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "f3a5ab26746072b1",
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "floor": 0,
+      "roomSeed": "0",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "eb527cff273e8ef5",
+          "502fba754a78ddb7"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "3b82377471b76cac",
+          "after": {
+            "words": [
+              "eb527cff273e8ef5",
+              "502fba754a78ddb7"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        102,
+        103
+      ],
+      "draw": [
+        101,
+        104
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "eb527cff273e8ef5",
+          "502fba754a78ddb7"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            101,
+            104,
+            103,
+            102
+          ],
+          "rawHex": "3b82377471b76cac",
+          "after": {
+            "words": [
+              "eb527cff273e8ef5",
+              "502fba754a78ddb7"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "eb527cff273e8ef5",
+          "502fba754a78ddb7"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "3b82377471b76cac",
+          "after": {
+            "words": [
+              "eb527cff273e8ef5",
+              "502fba754a78ddb7"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        101,
+        102
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "502fba754a78ddb7",
+          "c4ee13b9edf4e0cf"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            102,
+            101
+          ],
+          "rawHex": "3b82377471b76cac",
+          "after": {
+            "words": [
+              "eb527cff273e8ef5",
+              "502fba754a78ddb7"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "151dce2f386dbe86",
+          "after": {
+            "words": [
+              "502fba754a78ddb7",
+              "c4ee13b9edf4e0cf"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "floor": 1,
+      "roomSeed": "43",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "a9eeb425265e56a4",
+          "eb527cff273e8ef5"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "954131244d9ce599",
+          "after": {
+            "words": [
+              "a9eeb425265e56a4",
+              "eb527cff273e8ef5"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a1e4733f6b9d7a4a",
+          "c29acf3dd640773e"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "647f427d41ddf188",
+          "after": {
+            "words": [
+              "a1e4733f6b9d7a4a",
+              "c29acf3dd640773e"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        102,
+        103
+      ],
+      "draw": [
+        101,
+        104
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "a1e4733f6b9d7a4a",
+          "c29acf3dd640773e"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            101,
+            104,
+            103,
+            102
+          ],
+          "rawHex": "647f427d41ddf188",
+          "after": {
+            "words": [
+              "a1e4733f6b9d7a4a",
+              "c29acf3dd640773e"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a1e4733f6b9d7a4a",
+          "c29acf3dd640773e"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "647f427d41ddf188",
+          "after": {
+            "words": [
+              "a1e4733f6b9d7a4a",
+              "c29acf3dd640773e"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        101,
+        102
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "c29acf3dd640773e",
+          "fccb6da7e0afe54f"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            102,
+            101
+          ],
+          "rawHex": "647f427d41ddf188",
+          "after": {
+            "words": [
+              "a1e4733f6b9d7a4a",
+              "c29acf3dd640773e"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "bf663ce5b6f05c8d",
+          "after": {
+            "words": [
+              "c29acf3dd640773e",
+              "fccb6da7e0afe54f"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "floor": 7,
+      "roomSeed": "65543",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "69554814578b03ab",
+          "a1e4733f6b9d7a4a"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "0b39bb53c3287df5",
+          "after": {
+            "words": [
+              "69554814578b03ab",
+              "a1e4733f6b9d7a4a"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        101,
+        102
+      ],
+      "draw": [
+        103,
+        104
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            103,
+            104,
+            102,
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        101,
+        102
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "9253c52fcfbd932b",
+          "6151e5f6a4a2df86"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            102,
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "f3a5ab26746072b1",
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "floor": 1,
+      "roomSeed": "0",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "763303d1412e64e3",
+          "9f14c08b72c27d32"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "1547c45cb3f0e215",
+          "after": {
+            "words": [
+              "763303d1412e64e3",
+              "9f14c08b72c27d32"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        104,
+        101
+      ],
+      "draw": [
+        102,
+        103
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "763303d1412e64e3",
+          "9f14c08b72c27d32"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            102,
+            103,
+            101,
+            104
+          ],
+          "rawHex": "1547c45cb3f0e215",
+          "after": {
+            "words": [
+              "763303d1412e64e3",
+              "9f14c08b72c27d32"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "763303d1412e64e3",
+          "9f14c08b72c27d32"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "1547c45cb3f0e215",
+          "after": {
+            "words": [
+              "763303d1412e64e3",
+              "9f14c08b72c27d32"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        102,
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "9f14c08b72c27d32",
+          "01871b064d2da35a"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            101,
+            102
+          ],
+          "rawHex": "1547c45cb3f0e215",
+          "after": {
+            "words": [
+              "763303d1412e64e3",
+              "9f14c08b72c27d32"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "a09bdb91bff0208c",
+          "after": {
+            "words": [
+              "9f14c08b72c27d32",
+              "01871b064d2da35a"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "floor": 14,
+      "roomSeed": "2780424839485660373",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "b4ed54bb95c6dfe2",
+          "763303d1412e64e3"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "2b20588cd6f544c5",
+          "after": {
+            "words": [
+              "b4ed54bb95c6dfe2",
+              "763303d1412e64e3"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        101,
+        102
+      ],
+      "draw": [
+        103,
+        104
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            103,
+            104,
+            102,
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        101,
+        102
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "9253c52fcfbd932b",
+          "6151e5f6a4a2df86"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            102,
+            101
+          ],
+          "rawHex": "e92a367b780e0221",
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "f3a5ab26746072b1",
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "floor": 1,
+      "roomSeed": "-9223372036854775808",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "d1f9a22af8e83383",
+          "56d6714ba8506ef6"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "28d01376a138a279",
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "empty",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "one-discard",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101
+        ],
+        "amount": 1,
+        "noDraw": false
+      },
+      "hand": [
+        101
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "f39ae772b34ebd2c",
+          "2caab054fcdac8f4"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 1,
+          "cards": [
+            101
+          ],
+          "rawHex": "204597c7b0298620",
+          "after": {
+            "words": [
+              "f39ae772b34ebd2c",
+              "2caab054fcdac8f4"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "old-pile-first",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [
+          101,
+          102,
+          103,
+          104
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1,
+        102,
+        104
+      ],
+      "draw": [
+        103,
+        101
+      ],
+      "discard": [],
+      "after": {
+        "words": [
+          "f39ae772b34ebd2c",
+          "2caab054fcdac8f4"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 4,
+          "cards": [
+            103,
+            101,
+            104,
+            102
+          ],
+          "rawHex": "204597c7b0298620",
+          "after": {
+            "words": [
+              "f39ae772b34ebd2c",
+              "2caab054fcdac8f4"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "overdraw-empty-discard",
+      "input": {
+        "hand": [],
+        "draw": [
+          1,
+          2
+        ],
+        "discard": [],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        2,
+        1
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "f39ae772b34ebd2c",
+          "2caab054fcdac8f4"
+        ],
+        "counter": 2
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "204597c7b0298620",
+          "after": {
+            "words": [
+              "f39ae772b34ebd2c",
+              "2caab054fcdac8f4"
+            ],
+            "counter": 2
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "overdraw-both-piles",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 5,
+        "noDraw": false
+      },
+      "hand": [
+        101,
+        102
+      ],
+      "draw": [],
+      "discard": [],
+      "after": {
+        "words": [
+          "2caab054fcdac8f4",
+          "6669d512532e7240"
+        ],
+        "counter": 3
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "size": 2,
+          "cards": [
+            102,
+            101
+          ],
+          "rawHex": "204597c7b0298620",
+          "after": {
+            "words": [
+              "f39ae772b34ebd2c",
+              "2caab054fcdac8f4"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9314856750093b34",
+          "after": {
+            "words": [
+              "2caab054fcdac8f4",
+              "6669d512532e7240"
+            ],
+            "counter": 3
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "full-hand",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 3,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "capped-before-split",
+      "input": {
+        "hand": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 4,
+        "noDraw": false
+      },
+      "hand": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        1
+      ],
+      "draw": [],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "no-draw",
+      "input": {
+        "hand": [],
+        "draw": [],
+        "discard": [
+          101,
+          102
+        ],
+        "amount": 4,
+        "noDraw": true
+      },
+      "hand": [],
+      "draw": [],
+      "discard": [
+        101,
+        102
+      ],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "floor": 16,
+      "roomSeed": "-9223372036854775792",
+      "name": "zero-amount",
+      "input": {
+        "hand": [],
+        "draw": [
+          1
+        ],
+        "discard": [
+          101
+        ],
+        "amount": 0,
+        "noDraw": false
+      },
+      "hand": [],
+      "draw": [
+        1
+      ],
+      "discard": [
+        101
+      ],
+      "after": {
+        "words": [
+          "a29a0efb546cf3c2",
+          "f39ae772b34ebd2c"
+        ],
+        "counter": 1
+      },
+      "trace": [
+        {
+          "size": 0,
+          "cards": [],
+          "rawHex": "9634f66e07bbb0ee",
+          "after": {
+            "words": [
+              "a29a0efb546cf3c2",
+              "f39ae772b34ebd2c"
+            ],
+            "counter": 1
+          }
+        }
+      ]
+    }
+  ]
+}

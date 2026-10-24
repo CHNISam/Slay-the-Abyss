@@ -5,6 +5,9 @@ local Events = require("abyss_events")
 local EnemyAI = require("abyss_enemy_ai")
 local CardActions = require("abyss_card_actions")
 local CardRandom = require("abyss_sts_random")
+local EnemyRandom = require("abyss_enemy_random")
+local SourceRandom = require("abyss_sts_random")
+local Formation = require("abyss_encounter_formation")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
@@ -81,6 +84,11 @@ function M.cardRandom(state,maximum)
     assert(maximum>=1 and maximum%1==0,'invalid card random range')
     return CardRandom.randomInt(state.cardRandomRng,maximum-1)+1
 end
+local function aiRandom(state,maximum)return EnemyRandom.integer(state,maximum,M.random)end
+local function hpRandom(state,maximum)
+    if state.monsterHpRng then return SourceRandom.randomInt(state.monsterHpRng,maximum-1)+1 end
+    return M.random(state,maximum)
+end
 
 -- Both ordinary enemies and spawned children use the same actor contract.
 -- Split children use the source's explicit-HP constructor, without an HP draw.
@@ -88,9 +96,12 @@ local function makeEnemy(state, id, serial, explicitHp)
     local enemy = copy(assert(state.catalog.enemies[id], "unknown enemy: " .. tostring(id)))
     if explicitHp then enemy.hp = explicitHp
     elseif enemy.hpRange then
-        enemy.hp = enemy.hpRange.min + M.random(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
+        enemy.hp = enemy.hpRange.min + hpRandom(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
+    elseif state.monsterHpRng then
+        -- AbstractMonster.setHp(hp) delegates to setHp(hp,hp), drawing even at 0..0.
+        hpRandom(state,1)
     end
-    EnemyAI.prepare(state, enemy, M.random)
+    EnemyAI.prepare(state, enemy, hpRandom)
     for _, intent in ipairs(enemy.intents) do
         if intent.kind == "charge" or intent.kind == "split" or intent.kind == "escape" then
             local kind = intent.kind
@@ -125,14 +136,19 @@ local function splitEnemy(state, parent)
     -- Complete both spawns before checking outcome (source CannotLose/CanLose).
     parent.hp = 0
     for i, child in ipairs(children) do
-        EnemyAI.initialize(state, child, M.random)
+        EnemyAI.initialize(state, child, aiRandom)
         table.insert(state.enemies, position + (i - 1) * 2, child)
     end
     Events.emit(state, "enemy_split", {enemy=parent.id, children={children[1].id, children[2].id}, hp=hp})
 end
 
 local function shuffle(state, pile)
-    if state.shuffleRng then CardRandom.shuffle(state.shuffleRng,pile); return end
+    if state.shuffleRng then
+        -- CardGroup.shuffle: one source nextLong seeds Java48/Collections,
+        -- even for an empty or singleton group. Legacy fixtures stay below.
+        SourceRandom.shuffle(state.shuffleRng, pile)
+        return
+    end
     for i = #pile, 2, -1 do
         local j = M.random(state, i)
         pile[i], pile[j] = pile[j], pile[i]
@@ -197,15 +213,19 @@ end
 function M.draw(state, count)
     if state.player.noDraw then return end
     if state.shuffleRng then
-        if count<=0 or #state.draw+#state.discard==0 or #state.hand>=state.rules.player.maxHand then return end
-        count=math.min(count,state.rules.player.maxHand-#state.hand)
-        local oldSize=#state.draw
-        if count>oldSize then
-            if oldSize>0 then M.draw(state,oldSize) end
-            shuffle(state,state.discard)
-            state.draw,state.discard=state.discard,{}
-            event(state,"reshuffle")
-            M.draw(state,count-oldSize)
+        -- DrawCardAction splits a request before EmptyDeckShuffleAction.
+        -- Draw the old pile first, then shuffle the discard even when empty;
+        -- only a wholly empty request or a full hand skips that source call.
+        if count <= 0 or #state.draw + #state.discard == 0
+            or #state.hand >= state.rules.player.maxHand then return end
+        count = math.min(count, state.rules.player.maxHand - #state.hand)
+        local oldSize = #state.draw
+        if count > oldSize then
+            if oldSize > 0 then M.draw(state, oldSize) end
+            shuffle(state, state.discard)
+            state.draw, state.discard = state.discard, {}
+            event(state, "reshuffle")
+            M.draw(state, count - oldSize)
             return
         end
     end
@@ -369,6 +389,11 @@ local function savePlayState(state, playedCard)
     save(state); actor(state.player); save(state.enemies)
     for _, enemy in ipairs(state.enemies) do actor(enemy) end
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    if state.shuffleRng then
+        -- Source shuffle advances the counter and replaces primitive words.
+        -- Restore these existing objects along with the piles on a failed play.
+        save(state.shuffleRng); save(state.shuffleRng.primitive)
+    end
     if state.curlUpQueue then save(state.curlUpQueue) end
     -- Selection, upgrades, Blood for Blood and exhaust callbacks mutate other
     -- instances too. Roll back each original table rather than replacing it.
@@ -385,6 +410,7 @@ local function savePlayState(state, playedCard)
     if state.pendingChoice then mutable(state.pendingChoice) end
     if state.cardRandomRng then mutable(state.cardRandomRng) end
     if state.shuffleRng then mutable(state.shuffleRng) end
+    mutable(state.aiRng);mutable(state.monsterHpRng)
     save(playedCard)
     return function()
         for original, values in pairs(saved) do
@@ -543,7 +569,6 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
         if state.energy + 0.0 + state.rules.player.energyPerTurn > 2147483647 then return false, "effect_overflow" end
     end
     state.energy = state.energy + state.rules.player.energyPerTurn
-    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
     for _,id in ipairs({"rage","double_tap","flame_barrier"}) do state.player.statuses[id]=nil end
     local p=state.player
     for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
@@ -568,6 +593,12 @@ end
 function M.endTurn(state)
     if state.phase ~= "player" then return false, "not_player_turn" end
     if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
+    -- AbstractRoom.endTurn resets these three piles before queued end-turn
+    -- cleanup; exhaust is deliberately excluded. Exhume can recover a card
+    -- that kept a temporary cost while it was out of those piles.
+    for _,pile in ipairs({state.hand,state.draw,state.discard}) do
+        for _,c in ipairs(pile) do c.costForTurn=nil end
+    end
     if (state.player.statuses.metallicize or 0)>0 then
         CardActions.enqueue(state,{op="block",value=state.player.statuses.metallicize,fixed=true})
         CardActions.drain(M,state)
@@ -641,7 +672,7 @@ function M.endTurn(state)
         if Actors.isActive(enemy) then
             local intent = enemy.intents[enemy.intentIndex]
             event(state, "intent", { enemy = enemy.id, id = intent.id })
-            EnemyAI.beforeAction(state, enemy, M.random, intent)
+            EnemyAI.beforeAction(state, enemy, aiRandom, intent)
             -- takeTurn has already queued this enemy's action payload.
             if enemy.ai and enemy.ai.kind == "looter"
                 and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
@@ -658,7 +689,7 @@ function M.endTurn(state)
             end
             -- A source-queued RollMove survives its owner's death while
             -- teammates live. finish above clears it on the final death.
-            EnemyAI.afterAction(state, enemy, M.random, intent)
+            EnemyAI.afterAction(state, enemy, aiRandom, intent)
             Actors.flushCurlUp(state)
             if finish(state) then return true end
         end
@@ -676,6 +707,11 @@ end
 
 function M.new(data, options)
     options = options or {}
+    if options.sourceEncounter ~= nil then
+        assert(Formation.supports(options.sourceEncounter), "unknown source formation")
+        assert(options.enemies == nil, "source formation cannot mix with explicit enemies")
+        assert(type(options.encounterBoundary) == "table", "source formation needs explicit boundaries")
+    end
     assert(type(options.seed or 1) == "number" and (options.seed or 1) % 1 == 0, "seed must be an integer")
     local rules = copy(data.rules)
     rules.player.maxHp=options.maxHp or rules.player.maxHp
@@ -690,6 +726,16 @@ function M.new(data, options)
         shuffleRng=options.shuffleSeed and CardRandom.fromSeed(options.shuffleSeed) or nil,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
+    if options.roomStreams then
+        assert(type(options.roomSeed)=='string','source room needs raw room seed')
+        state.roomSeed=options.roomSeed
+        state.monsterHpRng=SourceRandom.cloneState(options.roomStreams.monsterHpRng)
+        state.aiRng=SourceRandom.cloneState(options.roomStreams.aiRng)
+        -- Shuffle is consumed by initial setup and DrawCardAction below.
+        -- cardRandomRng remains an explicit boundary for its separate migration.
+        state.shuffleRng=SourceRandom.cloneState(options.roomStreams.shuffleRng)
+        state.cardRandomRng=SourceRandom.cloneState(options.roomStreams.cardRandomRng)
+    end
     Actors.bindStatuses(state.player, state.catalog.statuses)
     local deck = options.deck or data.cards.starter_deck.cards
     -- Removing the final permanent card is legal; draw already handles empty piles.
@@ -701,13 +747,31 @@ function M.new(data, options)
             upgrades=type(value)=="table" and value.upgrades or nil }
         state.nextUid = state.nextUid + 1
     end
-    local enemyIds = options.enemies or { "cultist" }
-    assert(#enemyIds > 0, "empty encounter")
-    for i, id in ipairs(enemyIds) do
-        state.enemies[#state.enemies + 1] = makeEnemy(state, id, i)
-        state.nextEnemyId = i + 1
+    if options.sourceEncounter ~= nil then
+        local callbacks, constructors = options.encounterBoundary, 0
+        state.enemies = Formation.assemble(options.sourceEncounter, {
+            misc = callbacks.misc, visualFloat = callbacks.visualFloat,
+            construct = function(id, x, y)
+                constructors = constructors + 1
+                local actor = makeEnemy(state, id, constructors)
+                actor.sourcePosition = {x = x, y = y}
+                return actor
+            end,
+        })
+        state.sourceEncounter = options.sourceEncounter
+        -- Only selected actors receive live slot IDs and opening/pre-battle AI.
+        -- Discarded candidates already spent constructor HP/Bite draws above.
+        for i, enemy in ipairs(state.enemies) do enemy.id = enemy.definitionId .. "_" .. i end
+        state.nextEnemyId = #state.enemies + 1
+    else
+        local enemyIds = options.enemies or { "cultist" }
+        assert(#enemyIds > 0, "empty encounter")
+        for i, id in ipairs(enemyIds) do
+            state.enemies[#state.enemies + 1] = makeEnemy(state, id, i)
+            state.nextEnemyId = i + 1
+        end
     end
-    for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
+    for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, aiRandom) end
     shuffle(state, state.draw)
     local innate,ordinary={},{}
     for _,c in ipairs(state.draw) do
@@ -718,7 +782,7 @@ function M.new(data, options)
     if #innate>rules.player.drawPerTurn then state.openingInnateExtra=#innate-rules.player.drawPerTurn end
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
-    for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, M.random) end
+    for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, hpRandom) end
     local ok, reason = M.startPlayerTurn(state, options.beforeOpeningDraw)
     if ok == false then return nil, reason end
     return state

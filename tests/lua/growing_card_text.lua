@@ -135,6 +135,7 @@ test("reward remains static even after grown battle", function()
     local ui,stage,play=fixture(true); local s=ui.run.combat
     play(1); Combat.draw(s,1)
     ui.run.phase="reward"; ui.run.rewards={cards={"rampage"},gold=0}; ui:render()
+    stage:GetChild('cardReward').click()
     eq(label(stage),expected("8",false)); eq(label(stage),Presentation.rampage.text)
 end)
 test("without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value", function()

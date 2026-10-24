@@ -169,6 +169,7 @@ test("real starter victory awards trance and next battle uses it without state e
     equal(selected.deck[#selected.deck].cardId, "battle_trance")
     local before = Combat.copy(selected)
     equal(Run.claimCardReward(selected, choice), false); same(selected, before)
+    dofile('tests/lua/support/finish_combat_rewards.lua')(selected)
     assert(Run.startCombat(selected, "cultist_solo"))
     equal(selected.combat.player.noDraw, false)
     for _ = 1, 10 do

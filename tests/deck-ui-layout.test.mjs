@@ -21,7 +21,11 @@ test('approved deck uses a six-column vertical native scroller and a read-only r
   assert.equal(panel.children.find(c => c.name === 'blocker').kind, 'cursorArea');
   const template = deckCardTemplate();
   walk(template, c => {
-    assert.ok(!['cursorArea', 'presetButton'].includes(c.kind), 'read-only cards cannot steal scroll gestures');
+    if(c.name==='hit'){
+      assert.equal(c.kind,'cursorArea','choices need a native cursor receiver');
+      assert.equal(c.visible,false,'read-only cards cannot steal scroll gestures');
+      assert.deepEqual(c.size,theme.layout.card.size);
+    }else assert.ok(!['cursorArea','presetButton'].includes(c.kind),'only the hidden choice receiver may handle input');
     assert.ok((c.children?.length ?? 0) <= 60);
   });
   assert.ok(template.children.find(c => c.name === 'uid'));

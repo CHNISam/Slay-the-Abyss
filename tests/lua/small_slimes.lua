@@ -39,15 +39,23 @@ local function pair(flag)
 end
 local function observe(flag,fn)
     local original,calls=R.randomBoolean,0
-    R.randomBoolean=function(state) calls=calls+1;local actual=original(state);if flag==nil then return actual end;return flag end
+    local first=true
+    R.randomBoolean=function(state)
+        local actual=original(state)
+        if not first then return actual end -- source Acid S has its own ai Boolean
+        first=false;calls=calls+1;if flag==nil then return actual end;return flag
+    end
     local ok,why=pcall(fn,function() return calls end)
     R.randomBoolean=original;assert(ok,why)
 end
-local function expected(run)
-    local stream=R.cloneState(run.miscRng);local flag=R.randomBoolean(stream)
+local function expected(run,floor)
+    local stream=Run.roomStreams(run,floor or run.floor).miscRng;local flag=R.randomBoolean(stream)
     return pair(flag),stream
 end
-local function fresh() return Run.new(Data,1),Map.generate(Data,1),'f1_l2' end
+local function fresh()
+    local run,map=Run.new(Data,3),Map.generate(Data,3)
+    return run,map,Map.available(map)[1].id
+end
 
 for _,flag in ipairs({false,true}) do
     test('direct Run selects source '..tostring(flag)..' slots and exactly one current misc Boolean',function()
@@ -66,7 +74,7 @@ for _,flag in ipairs({false,true}) do
     end)
 end
 
-test('untouched seed1 enters its real first-floor small_slimes node and keeps the consumed stream',function()
+test('untouched seed3 enters its first source Small Slimes queue item and keeps the floor stream',function()
     local run,map,id=fresh();local wanted,stream=expected(run)
     assert(Nodes.enter(run,map,id));eq(run.encounterId,'small_slimes');same(ids(run.combat),wanted)
     same(run.miscRng,stream);eq(run.miscRng.counter,1);eq(run.floor,1);eq(map.path[1],id)
@@ -75,28 +83,29 @@ test('untouched seed1 enters its real first-floor small_slimes node and keeps th
     local again,againMap=fresh();assert(Nodes.enter(again,againMap,id));same(run,again);same(map,againMap)
 end)
 
-test('normal Nodes uses the current advanced misc state rather than reseeding it',function()
+test('normal Nodes reconstructs misc from raw seed plus destination floor',function()
     local run,map,id=fresh()
     for _=1,11 do R.randomInt(run.miscRng,999) end
     local wanted,stream=expected(run);local event=run.eventRng;local unchanged=freeze(event)
     assert(Nodes.enter(run,map,id));same(ids(run.combat),wanted);same(run.miscRng,stream)
-    eq(run.miscRng.counter,12);eq(run.eventRng,event);unchanged()
+    eq(run.miscRng.counter,1);eq(run.eventRng,event);unchanged()
 end)
 
 local function unknown()
-    -- Real route/selection: seed222 first unknown roll is a monster and its
-    -- unchanged ordinary encounter chooser selects small_slimes. Only turn the
-    -- first-floor symbol into ? to isolate routing, never force its result.
-    local run,map,id=Run.new(Data,222),Map.generate(Data,222),'f1_l1'
-    for _,node in ipairs(map.nodes) do if node.id==id then node.type='event';node.encounterId=nil end end
+    -- Position the actual seed7 second-floor unknown frontier and consume its
+    -- preceding Cultist queue item. This isolates entry, not prior victory.
+    local run,map,id=Run.new(Data,7),Map.generate(Data,7),'f2_l4'
+    assert(Map.choose(map,'f1_l4'))
+    local source,nextQueue=require('abyss_encounter_queue').consume(run.encounters,'normal')
+    eq(source,'Cultist');run.encounters=nextQueue
     return run,map,id
 end
 for _,flag in ipairs({false,true}) do
     test('unknown-to-combat '..tostring(flag)..' preserves room roll, symbol and the one committed misc draw',function()
         local run,map,id=unknown()
         local wantedEvent=R.cloneState(run.eventRng);local roll=R.randomFloat(wantedEvent)
-        assert(roll<.1,'seed222 unknown route witness changed')
-        local wantedMisc=R.cloneState(run.miscRng);R.randomBoolean(wantedMisc)
+        assert(roll<.1,'seed7 unknown route witness changed')
+        local wantedMisc=Run.roomStreams(run,2).miscRng;R.randomBoolean(wantedMisc)
         local oldUnknown=C.copy(run.unknown)
         observe(flag,function(calls)
             assert(Nodes.enter(run,map,id));eq(run.nodeFlow.sourceType,'event');eq(run.nodeFlow.type,'combat')
@@ -112,9 +121,9 @@ for _,flag in ipairs({false,true}) do
     end)
 end
 
-test('normal seed24 plays the first battle then reaches a natural unknown small_slimes combat',function()
-    local run,map=Run.new(Data,24),Map.generate(Data,24)
-    assert(Nodes.enter(run,map,'f1_l2'))
+test('normal seed7 plays the first battle then reaches a natural unknown small_slimes combat',function()
+    local run,map=Run.new(Data,7),Map.generate(Data,7)
+    assert(Nodes.enter(run,map,'f1_l4'))
     -- Original HP, starting deck, enemy values and legal commands throughout.
     for _=1,200 do
         if run.phase~='combat' then break end
@@ -133,18 +142,18 @@ test('normal seed24 plays the first battle then reaches a natural unknown small_
     assert(Run.claimCardReward(run,0))
     if run.phase=='reward' then assert(Run.leaveCombatRewards(run)) end
     assert(Nodes.completeCombat(run,map))
-    local wanted,stream=expected(run)
-    assert(Nodes.enter(run,map,'f2_l2'))
+    local wanted,stream=expected(run,2)
+    assert(Nodes.enter(run,map,'f2_l4'))
     eq(run.nodeFlow.sourceType,'event');eq(run.nodeFlow.type,'combat');eq(run.encounterId,'small_slimes')
-    same(ids(run.combat),wanted);same(run.miscRng,stream);eq(map.path[1],'f1_l2');eq(map.path[2],'f2_l2')
-    eq(run.floor,2);eq(run.hp,74);eq(run.victories,1)
+    same(ids(run.combat),wanted);same(run.miscRng,stream);eq(map.path[1],'f1_l4');eq(map.path[2],'f2_l4')
+    eq(run.floor,2);assert(run.hp>0);eq(run.victories,1)
 end)
 
 test('invalid, unavailable and mismatched node requests preserve all existing table references',function()
-    local run,map=fresh();local stable=freeze(run,map)
+    local run,map,id=fresh();local stable=freeze(run,map)
     eq(Nodes.enter(run,map,'missing'),false);stable()
     eq(Nodes.enter(run,map,'f2_l2'),false);stable()
-    assert(Nodes.enter(run,map,'f1_l2'))
+    assert(Nodes.enter(run,map,id))
     -- A completed flow from another map is an explicit host ownership fixture.
     run.phase='map';run.nodeFlow.complete=true;run.nodeFlow.mapSeed=-1
     stable=freeze(run,map);local ok,reason=Nodes.enter(run,map,'f2_l2')

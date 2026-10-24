@@ -124,13 +124,9 @@ end
 local function entered(kind,seed)
     local run, map = Run.new(data, seed or 42), Map.generate(data, seed or 42)
     -- Stage prior navigation as a node-unit fixture, then use actual enter.
-    while true do
-        local available = Map.available(map)
-        for _, node in ipairs(available) do
-            if node.type == kind then assert(Nodes.enter(run, map, node.id)); return run, map end
-        end
-        assert(#available > 0, "route needs " .. kind); assert(Map.choose(map, available[1].id))
-    end
+    local path=dofile('tests/lua/support/map_routes.lua').to(map,function(node)return node.type==kind end)
+    for i=1,#path-1 do assert(Map.choose(map,path[i]))end
+    assert(Nodes.enter(run,map,path[#path]));return run,map
 end
 local shopSeedByCard=dofile('tests/fixtures/warrior75-shop-seeds.lua')
 local function seedOffering(id)

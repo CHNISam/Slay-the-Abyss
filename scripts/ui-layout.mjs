@@ -163,6 +163,14 @@ export function battleLayout() {
       text('title', l.rewardPick.title[0] - l.rewardPick.stage[0], l.rewardPick.title[1] - l.rewardPick.stage[1], l.rewardPick.title[2], l.rewardPick.title[3], '选择一张卡牌', f.display, c.goldBright),
       text('subtitle', l.rewardPick.subtitle[0] - l.rewardPick.stage[0], l.rewardPick.subtitle[1] - l.rewardPick.stage[1], l.rewardPick.subtitle[2], l.rewardPick.subtitle[3], '', f.body, c.textDim),
     ] },
+    { name: 'rewardList', kind: 'container', position: l.battleRewards.stage.slice(0, 2), size: l.battleRewards.stage.slice(2), visible: false, children: [
+      panel('border', 0, 0, ...l.battleRewards.stage.slice(2), c.goldDim),
+      panel('plate', 0, 0, l.battleRewards.stage[2] - s.border * 2, l.battleRewards.stage[3] - s.border * 2, c.panelSunken),
+      ...['title', 'subtitle'].map(name => text(name,
+        l.battleRewards[name][0] - l.battleRewards.stage[0], l.battleRewards[name][1] - l.battleRewards.stage[1],
+        ...l.battleRewards[name].slice(2), name === 'title' ? '战斗奖励' : '', name === 'title' ? f.display : f.body,
+        name === 'title' ? c.goldBright : c.textDim)),
+    ] },
     text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
@@ -190,6 +198,9 @@ export function battleLayout() {
     for (const state of help.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.helpSize[0] - s.s, l.nativeText.lineHeight];
     potionHelp.push(help);
   }
+  // Keep potion explanations in the existing full-canvas group. This avoids
+  // exceeding the platform's 60 direct children when rewards and aiming coexist.
+  potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
   for (let i = 1; i <= 10; i++) {
@@ -210,14 +221,14 @@ export function battleLayout() {
   }
   controls.push(button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合'),
     button('start', [0, -96], l.button.primary, '启程', true),
-    button('continue', [0, -96], l.button.primary, '再战一场', true),
+    button('continue', l.battleRewards.continue.slice(0, 2), l.battleRewards.continue.slice(2), '前往地图', true),
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
     button('skip', l.rewardPick.skip.slice(0, 2), l.rewardPick.skip.slice(2), '跳过卡牌'),
-    text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright),
-    button('claimPotion', l.battleRewards.claimPotion, l.button.secondary, '领取药水'),
-    button('skipPotion', l.battleRewards.skipPotion, l.button.secondary, '放弃药水'),
-    button('stolenGold', l.rewardPick.skip.slice(0, 2), l.button.primary, '取回失金', true));
+    button('goldReward', l.battleRewards.rowOrigin, l.battleRewards.rowSize, '金币', false, f.body),
+    button('cardReward', l.battleRewards.rowOrigin, l.battleRewards.rowSize, '选择一张卡牌加入牌组', false, f.body),
+    button('claimPotion', l.battleRewards.claimPotion, l.battleRewards.rowSize, '领取药水', false, f.body),
+    button('stolenGold', l.battleRewards.rowOrigin, l.battleRewards.rowSize, '取回失金', false, f.body));
   controls.push({ name: 'dragLayer', kind: 'container', size: [width, height], visible: false, children: [
     { ...hit(width, height), focusable: false },
     panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),

@@ -14,9 +14,11 @@ const source=spawnSync('git',['rev-parse','HEAD'],{encoding:'utf8'});
 if(source.status!==0) throw Error(source.stderr);
 mkdirSync(output,{recursive:true});
 const report={schemaVersion:1,at:new Date().toISOString(),sourceSha:source.stdout.trim(),
+  workingTreeStatus:spawnSync('git',['status','--porcelain'],{encoding:'utf8'}).stdout.trim(),
   boundary:'Local Lua execution and fixture acquisition; no original-PC or platform acceptance',
-  inputs:{'data/cards.json':hash('data/cards.json')},suites:[],cards:[],ok:false};
-for(const name of ['warrior75','warrior75_edges','warrior75_shuffle','warrior75_acquisition','warrior75_channels','warrior75_choice_ui','warrior75_card_text','warrior75_courier']){
+  inputs:Object.fromEntries(['data/cards.json','data/presentation/ui_theme.json','data/presentation/traveler.zh-CN.json',
+    ...['combat','card_actions','card_display','actor','run','nodes','card_pool','shop','deck_ui'].map(n=>`src/lua/abyss_${n}.lua`)].map(f=>[f,hash(f)])),suites:[],cards:[],ok:false};
+for(const name of ['warrior75','warrior75_edges','warrior75_shuffle','warrior75_acquisition','warrior75_channels','warrior75_channels_uncommon','warrior75_channels_rare','warrior75_choice_ui','warrior75_card_text','warrior75_courier']){
   const file=`tests/lua/${name}.lua`;
   const row={file,sha256:hash(file),passed:false};
   report.suites.push(row);
@@ -26,11 +28,11 @@ for(const name of ['warrior75','warrior75_edges','warrior75_shuffle','warrior75_
   }catch(e){row.error=e.message;}
   console.log(`${row.passed?'PASS':'FAIL'} ${file}`);
 }
-const execution=report.suites[0],channels=report.suites[4];
+const execution=report.suites[0],channels=report.suites.filter(s=>s.file.includes('/warrior75_channels'));
 for(const c of definitions){
   const base=execution.passed&&execution.stdout.includes(`- ${c.id} independent ordinary execution\n`);
   const upgraded=execution.passed&&execution.stdout.includes(`- ${c.id}+ independent ordinary execution\n`);
-  const acquisition=channels.passed&&channels.stdout.includes(`- ${c.id} public acquisition / camp / next battle\n`);
+  const acquisition=channels.every(s=>s.passed)&&channels.some(s=>s.stdout.includes(`- ${c.id} public acquisition / camp / next battle\n`));
   report.cards.push({id:c.id,base,upgraded,acquisition,platform:'pending',strictAcceptance:'pending'});
 }
 report.ok=report.suites.every(s=>s.passed)&&report.cards.every(c=>c.base&&c.upgraded&&c.acquisition);
