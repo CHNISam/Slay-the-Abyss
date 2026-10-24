@@ -1,17 +1,19 @@
 ---
 id: TASK-10.1
-title: Spike：PNG→GIA/Lua 真机可行性实验
+title: 先验证卡图能不能放进游戏
 status: To Do
 assignee:
   - '@codex'
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-24 02:01'
+updated_date: '2026-10-24 03:15'
 due_date: '2026-10-28'
 labels:
   - technical-spike
   - queued-after-M3
 milestone: m-5
 dependencies: []
+references:
+  - docs/backlog-details/TASK-10.1.md
 parent_task_id: TASK-10
 priority: low
 type: spike
@@ -21,22 +23,12 @@ ordinal: 26000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-独立验证 PNG 图像经 GIA/Lua 路径在千星客户端实际显示的可行性，为首发视觉资产规格提供证据。关联 TASK-4 的多设备验收、TASK-10 的战斗 UI 与 TASK-24 的原型美术工作（已合入的 [PR #19 界面设计与原型](https://github.com/CHNISam/Slay-the-Abyss/pull/19)）；不承担正式美术制作，不以生成文件或编译成功冒充真机通过。
+用一张小样验证图片能否在游戏里正常显示和点击，再决定正式卡图怎么制作。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 记录最小样例输入、GIA/Lua 路径、工具版本及图像尺寸/透明度/容量等平台限制，失败也有可复现证据
-- [ ] #2 分别记录编译、写入存档副本、真机显示和交互验证结果及截图；保持 MILIASTRA_ALLOW_LIVE_WRITE=0，发布由人完成
-- [ ] #3 给出可行或不可行结论、手机与主机适配风险、正式美术可用规格及不可行时的降级方案
+- [ ] #1 记录样图、导入方法和尺寸、透明度、容量限制；失败也能复现。
+- [ ] #2 分别记清文件做出、导入、游戏显示和点击的结果；不改正式存档，不自动发布。
+- [ ] #3 给出可用规格、手机等设备的风险；做不到时说明替代办法。
 <!-- AC:END -->
-
-## Implementation Notes
-
-<!-- SECTION:NOTES:BEGIN -->
-美术技术探针属于M4发布表现前置，不阻塞M1基础C档操作；现有PR25/26/27/30/42/43及根工作区未提交子任务均保留，不把未合并成果计为交付。
-
-2026-10-23已完成切片：用户v2官方试玩截图确认标题/类型/费用/说明/图形完整及点击通过；10秒客户端dt均值33.3/P9534.0ms，非GPU且无基线。TASK-10.1.1单卡门槛Done，规范docs/art/CARD_PRODUCTION.md。三个干净实验PR25/26/27及制作PR42/容量PR43集成到PR30；共享资产已独立审查，容量P2清单失效问题修正，五份实际MCP副本静态0/0。原始GIL未改、未发布，截图/GIL留本机。父任务遵循最新M4排期保持ToDo，未完成的多卡/设备/场景和肖像不阻塞M1基础C档。
-
-本轮按用户要求收口：单卡门槛10.1.1及共享资产制作25.1完成；容量样本已交付，实际多卡/长文/设备及原生场景待测，留既有任务。集成PR30通过当前SHA的CI后合并，已集成子PR关闭并清理分支/工作树，原始本地证据归档到build/art-closeout-20261023。
-<!-- SECTION:NOTES:END -->
