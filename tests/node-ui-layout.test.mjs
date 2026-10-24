@@ -15,8 +15,9 @@ function walk(control, visit, origin = [0, 0]) {
   for (const child of control.children ?? []) walk(child, visit, next);
 }
 const clickable = c => c.kind === 'container' && (c.children ?? []).some(child => child.kind === 'cursorArea');
-// What the player sees together: shared chrome plus one view.
-const screen = view => [...panel.children.filter(c => !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)),
+// What the player sees together: shared chrome plus one view. The merchant appears only with the shop.
+const screen = view => [...panel.children.filter(c => !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)
+    && (c.name !== 'merchant' || view === 'shopView')),
   ...find(panel.children, view).children.filter(c => c.kind !== 'image' || !['glow', 'plate', 'plateBorder'].includes(c.name))];
 
 test('node panel composes one container per approved node screen within the MCP child limit', () => {

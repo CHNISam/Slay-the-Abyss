@@ -9,6 +9,7 @@ local DeckUI = require("abyss_deck_ui")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
+local Prologue = require("abyss_prologue")
 local M = {}
 local number = require("abyss_numbers").integer
 
@@ -34,8 +35,17 @@ function M.new(root, data, presentation, clickEvent, platform)
         cursor = platform.cursorEvents })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
-            cursorEvents = platform.cursorEvents })
+            cursorEvents = platform.cursorEvents, sound = platform.sound })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
+    -- The opening cinematic plays once per session, from the title screen only; hosts
+    -- without the panel, or with platform.prologue == false, go straight to the map.
+    local prologuePanel = root:GetChild("prologuePanel")
+    if prologuePanel and platform.prologue ~= false then
+        self.prologue = Prologue.new(prologuePanel, { clickEvent = clickEvent, cursorEvents = platform.cursorEvents,
+            color = platform.color, sound = platform.sound,
+            blocked = function() return self.exitOpen or self.settlementRequested or self.settlementBusy end,
+            onPhase = changed })
+    elseif prologuePanel then prologuePanel:SetVisible(false) end
 
     function self:openExit()
         if self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
@@ -84,6 +94,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local R = L.reveal
     local result = menu:GetChild("result")
     local emblem, start, settlement = menu:GetChild("emblem"), menu:GetChild("start"), menu:GetChild("settle")
+    local vista = menu:GetChild("vista")
     local risers = { { menu:GetChild("title"), L.title }, { menu:GetChild("tagline"), L.tagline },
         { result:GetChild("subtitle"), L.subtitle } }
     local cards = {}
@@ -118,6 +129,17 @@ function M.new(root, data, presentation, clickEvent, platform)
             x = x + T.shakeAmplitude * math.sin(s * math.pi * 4) * (1 - s)
         end
         settlement:SetAnchoredPosition(x, L.settle[2])
+        -- Title vista: embers drift up past the ruins and the seal breathes; nothing here takes input.
+        local V = Theme.layout.vista
+        for i, at in ipairs(V.motes) do
+            local rise = (m.t * V.drift + i * 53) % 220
+            local mote = vista:GetChild("mote" .. i)
+            mote:SetAnchoredPosition(at[1] + 10 * math.sin(m.t + i), at[2] + rise)
+            mote.imageColor = colour({ r = C.goldBright.r, g = C.goldBright.g, b = C.goldBright.b,
+                a = math.floor(180 * math.sin(math.pi * rise / 220)) })
+        end
+        local seal = 1 + 0.03 * math.sin(2 * math.pi * m.t / V.breathe)
+        vista:GetChild("seal"):SetLocalScale(seal, seal, 1)
     end
     local function present()
         local mode, run, m = self.mode, self.run, self.motion
@@ -128,6 +150,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         local rules = data.rules.map
         emblem:GetChild("icon").imageColor = colour(defeat and C.danger or C.geo)
         emblem:GetChild("glow").imageColor = colour(defeat and C.danger or C.goldBright)
+        -- The distant seal answers the outcome: broken red after a defeat, settled gold otherwise.
+        vista:GetChild("seal"):GetChild("heart").imageColor = colour(defeat and C.danger or C.goldBright)
+        vista:GetChild("seal"):GetChild("ring").imageColor = colour(defeat and C.danger or C.gold)
         local title = menu:GetChild("title")
         title.text = victory and "深渊已被封印" or defeat and "旅途在此中断" or "杀戮原塔2"
         title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
@@ -152,7 +177,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         local targetX = self.settlementRequested and 0 or L.settle[1]
         if targetX ~= m.settleX then m.slide, m.settleX = { from = m.settleX, to = targetX, t = 0 }, targetX end
         if not outcome then
-            menu:GetChild("tagline").text = Narrative.flow.intro.full
+            -- The title screen names the chapter only; the opening story belongs to the cinematic.
+            menu:GetChild("tagline").text = Narrative.title
             menu:GetChild("summary").text = ""
         else
             local floor = self.map.floor
@@ -188,8 +214,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
+        local prologue = self.prologue
+        if prologue and prologue:covering() and (not run or self.settlementRequested) then prologue:cancel() end
+        local covering = prologue and prologue:covering() or false
         if self.battleUI.busy then self.mode = "battle"
         elseif not run then self.mode = "menu"
+        elseif prologue and prologue:opaque() then self.mode = "prologue"
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
@@ -205,7 +235,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
         local deckOpen = self.deckUI.visible
         local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy
-        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not blocked)
+        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not blocked and not covering)
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
         deckHit.interactable = not self.battleUI.busy
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
@@ -232,7 +262,8 @@ function M.new(root, data, presentation, clickEvent, platform)
                     and Narrative.flow.bossEntrance.full or ""
             end
         elseif self.mode == "map" then
-            self.mapUI:setNavigationEnabled(not deckOpen and not blocked and #Nodes.available(run, self.map) > 0)
+            -- While the cinematic's last fade uncovers the map, the map is visible but inert.
+            self.mapUI:setNavigationEnabled(not deckOpen and not blocked and not covering and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render() end
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
@@ -259,6 +290,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.exitOpen or self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
+        -- Restarting from a result goes straight back to the map: the story is told once.
+        local opening = self.mode == "menu" and not self.prologueSeen
         self.run, self.map = Run.new(data, self.seed), Map.generate(data, self.seed)
         self.settlementRequested, self.settlementBusy, self.settlementError = false, false, nil
         self.seed = (self.seed + 1) % 65536
@@ -266,6 +299,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self.nodeUI:render()
+        if opening and self.prologue then
+            self.prologueSeen = true
+            self.prologue:play()
+        end
         self:refresh()
         return true
     end
@@ -311,13 +348,16 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- Count client update time within this run; menus/results never extend it.
         -- The terminal rule state can precede the last feedback animation.
         local run = self.run
-        if run and run.phase ~= "defeat" and self.mode ~= "victory" and self.mode ~= "defeat" then
+        if run and run.phase ~= "defeat" and self.mode ~= "victory" and self.mode ~= "defeat"
+            and not (self.prologue and self.prologue:covering()) then
             local elapsed = run.elapsedSeconds + dt
             if elapsed == math.huge then return false, "invalid_delta" end
             run.elapsedSeconds = elapsed
         end
         self:animate(dt)
+        if self.prologue then self.prologue:update(dt) end
         self.battleUI:update(dt)
+        self.nodeUI:update(dt)
         self.deckUI:update()
         return self.mapUI:update(dt)
     end

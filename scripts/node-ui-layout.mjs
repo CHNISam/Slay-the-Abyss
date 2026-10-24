@@ -1,4 +1,5 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
+import { merchantControl } from './cinematic-ui-layout.mjs';
 
 // Approved PR19 node screens (shop, camp/forge, event, treasure) as one native
 // tree. Every view is its own container so no control exceeds the MCP child limit.
@@ -167,7 +168,7 @@ export function nodeLayout(theme = nativeTheme) {
   ];
 
   controls.push(group('shopView', shopControls), group('campView', campControls), group('pickerView', pickerControls),
-    group('eventView', eventControls), group('treasureView', treasureControls),
+    group('eventView', eventControls), group('treasureView', treasureControls), merchantControl(theme),
     framed('back', layout.back, '返回'), framed('confirm', layout.confirm, '确认', { primary: true, fontSize: font.heading }));
   return { name: 'AbyssNodes', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true,
     controls: [{ name: 'nodePanel', kind: 'container', size: [...theme.canvas.base], children: controls }] };

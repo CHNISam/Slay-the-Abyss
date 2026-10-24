@@ -29,6 +29,7 @@ local function control(spec, parent)
         assert(source == "static" and type(id) == "number") self.imageId = id
     end
     function c:SetLocalScale(x,y,z) self.scale = {x,y,z} end
+    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
     function c:AddCursorEventListener(event, callback)
         assert(not self.listeners[event], "duplicate listener " .. event)
         self.listeners[event] = callback
@@ -145,7 +146,10 @@ test("unaffordable goods turn the price red, grey the card and explain without c
     assert(is(box.children.border.imageColor, C.line) and is(box.children.description.fontColor, C.textDim))
     local before = Combat.copy(ui.run)
     assert(not click("shopView/card1")) same(ui.run, before)
-    assert(get("notice").text == "这可不够啊，小姑娘。 金币不足：需要 " .. offer.price .. "，还差 1" and is(get("notice").fontColor, C.danger))
+    -- The notice states the shortfall; the merchant answers in his own dialogue box.
+    assert(get("notice").text == "金币不足：需要 " .. offer.price .. "，还差 1" and is(get("notice").fontColor, C.danger))
+    ui:update(5)
+    assert(get("merchant/line").text == "「" .. Narrative.merchant.insufficientGold .. "」" and ui.merchant.shake == nil)
     assert(#changes == 0)
     ui.run.gold = offer.price ui:render()
     assert(is(price.children.value.fontColor, C.goldBright) and is(box.children.description.fontColor, C.text))
@@ -216,7 +220,8 @@ test("removal service shows shortfall and last-card protection without opening t
     local price = Nodes.view(ui.run, ui.map).node.removePrice
     assert(is(get("shopView/removalPrice").children.value.fontColor, C.danger))
     assert(not click("shopView/removal") and shown("shopView"))
-    assert(get("notice").text == "这可不够啊，小姑娘。 金币不足：需要 " .. price .. "，还差 " .. (price - 10))
+    assert(get("notice").text == "金币不足：需要 " .. price .. "，还差 " .. (price - 10))
+    assert(ui.merchant.current.kind == "poor")
     local single, singleGet, singleClick = setup("shop", nil, function(run) while #run.deck > 1 do table.remove(run.deck) end run.gold = 10000 end)
     assert(singleGet("shopView/removal").children.description.text == "牌组仅剩一张")
     local before = Combat.copy(single.run)
@@ -233,6 +238,79 @@ test("an external removal invalidates a selected removal before charging gold", 
     assert(ui.run.deck[1].uid == second and ui.run.shopRemoveCount == 1)
     assert(get("notice").text == "本店删牌服务已使用")
     assert(#changes == 1 and changes[1].reason == "removal_unavailable" and not changes[1].ok)
+end)
+
+test("merchant opens with the scene narration once per run, then greets, and stays out of the way", function()
+    local ui, get, click, shown = setup("shop", nil, function(run) run.gold = 10000 end)
+    local m = Narrative.merchant
+    assert(shown("merchant") and shown("merchant/portrait") and not shown("merchant/namePlate"))
+    assert(get("merchant/line").text == "" and ui.merchant.current.kind == "encounter")
+    ui:update(0.5)
+    local partial = get("merchant/line").text
+    assert(#partial > 0 and #partial < #m.encounter, "narration is typed, not dumped")
+    -- Tapping the box first completes the sentence, then moves to the greeting.
+    assert(get("merchant/talk/hit").click())
+    assert(get("merchant/line").text == m.encounter and is(get("merchant/line").fontColor, C.textDim))
+    assert(shown("merchant/next"))
+    assert(get("merchant/talk/hit").click() and ui.merchant.current.kind == "greet")
+    ui:update(5)
+    assert(get("merchant/line").text == "「" .. m.greet .. "」" and shown("merchant/namePlate"))
+    assert(get("merchant/name").text == "旧路商人" and not shown("merchant/next"))
+    assert(not get("merchant/talk/hit").click(), "nothing left to advance")
+    -- Repeated purchases react instantly and never wait for the previous line.
+    assert(click("shopView/card1") and ui.merchant.current.kind == "buy" and ui.merchant.nod ~= nil)
+    assert(click("shopView/card2") and ui.merchant.current.kind == "buy")
+    ui:update(5)
+    assert(get("merchant/line").text == "「" .. m.purchaseSuccess .. "」" and ui.merchant.nod == nil)
+    assert(get("notice").text:find("已购买「", 1, true) and not get("notice").text:find(m.purchaseSuccess, 1, true))
+    -- The merchant steps aside for the removal picker and returns after it.
+    assert(click("shopView/removal") and shown("pickerView") and not shown("merchant"))
+    assert(click("back") and shown("merchant"))
+    -- A lingering player hears the one unprompted remark, once.
+    ui:update(Theme.layout.merchant.idle + 1) ui:update(3)
+    assert(get("merchant/line").text == "「" .. m.originHint .. "」")
+    ui:update(Theme.layout.merchant.idle + 1)
+    assert(ui.merchant.current.kind == "idle")
+    -- Leaving holds the farewell on screen like a camp/event result; no shelf remains.
+    assert(click("confirm") and ui.merchant.current.kind == "leave" and ui:holding())
+    ui:update(5)
+    assert(shown("merchant") and not shown("shopView") and get("merchant/line").text == "「" .. m.leave .. "」")
+    assert(get("confirm").children.label.text == "继续" and get("notice").text ~= "")
+    assert(not shown("back"))
+    assert(click("confirm") and not ui:holding())
+    -- The next shop of the same run skips the narration and greets directly.
+    local run = ui.run
+    ui.merchantNode = nil ui:render()
+    assert(ui.merchant.current.kind == "greet" and ui.run == run)
+    -- A restarted run may reach a shop with the same map ID; it must get its own first greeting.
+    local nextRun, nextMap = entered("shop")
+    ui.run, ui.map = nextRun, nextMap
+    ui.merchantNode = Nodes.view(nextRun, nextMap).node.id
+    ui:render()
+    assert(ui.merchant.current.kind == "encounter", "same-ID shop in a new run restores the narration")
+end)
+
+test("merchant reaction sounds are requested only for sales and refusals", function()
+    local cues = {}
+    local run, map = entered("shop")
+    run.gold = 10000
+    local root = control(findSpec(Layout, "nodePanel"))
+    local ui = UI.new(root, run, map, Presentation, "click", nil, { color = colour, imageSource = "static",
+        sound = function(cue) cues[#cues + 1] = cue end })
+    ui:setVisible(true)
+    assert(#cues == 0, "entering and greeting are silent")
+    assert(ui:press("shopView/card1"))
+    run.gold = 0 ui:render()
+    assert(not ui:press("shopView/card2"))
+    assert(cues[1] == "merchant_buy" and cues[2] == "merchant_deny" and #cues == 2)
+    assert(Theme.sound.merchant_buy and Theme.sound.merchant_deny)
+end)
+
+test("merchant never appears outside a shop", function()
+    for _, kind in ipairs({ "camp", "treasure" }) do
+        local _, _, _, shown = setup(kind)
+        assert(not shown("merchant"), kind)
+    end
 end)
 
 test("camp shows rest healing projection and forge count; full health disables rest only when forging is possible", function()
@@ -622,9 +700,16 @@ test('shop potion stock buys into a vacancy and rejects full sold and missing sl
     ui.run.potions[2]=nil;ui:render()
     local offer=Combat.copy(ui.run.nodeFlow.potions[slot]);local gold=ui.run.gold
     assert(click('shopView/potion'..slot));assert(ui.run.potions[2]==offer.id and ui.run.gold==gold-offer.price)
+    assert(ui.merchant.current.kind=='buy', 'potion transactions trigger the merchant sale reaction')
     before=Combat.copy(ui.run);assert(not click('shopView/potion'..slot));same(before,ui.run)
     assert(get('shopView/potionPrice'..slot..'/value').text=='已售出')
     for i=6,7 do before=Combat.copy(ui.run);assert(not click('shopView/card'..i));same(before,ui.run) end
+    ui.run.gold=0;ui:render()
+    assert(not click('shopView/card6') and ui.merchant.current.kind=='buy', 'missing stock is not a gold refusal')
+    ui.run.nodeFlow.potions[slot].sold=false;ui.run.potions[2]=nil;ui:render()
+    before=Combat.copy(ui.run)
+    assert(not click('shopView/potion'..slot));same(before,ui.run)
+    assert(ui.merchant.current.kind=='poor', 'available potion shortfall triggers the merchant refusal')
 end)
 test("integer-valued floating resources never expose decimal suffixes", function()
     for _,kind in ipairs({"shop","camp","event","treasure"}) do
