@@ -115,6 +115,7 @@ end)
 test("heavy attack: uniform shard burst, larger knockback and number, screen shake and longer hold", function()
     local h = harness({"bludgeon"}, {"jaw_worm"}, function(s) s.enemies[1].hp, s.enemies[1].maxHp = 80, 80 end)
     h.play() h.until_(kind("damage"))
+    assert(h.sounds[#h.sounds] == "hit_heavy", "one heavy contact cue, not a second layered hit")
     local impact = h.part("enemy1", "impact")
     assert(near(impact.localScaleX, impact.localScaleY), "heavy hit bursts instead of streaking")
     assert(near(h.portrait("enemy1").x, S.l) and near(h.part("enemy1", "floating").localScaleX, 2))
@@ -192,7 +193,7 @@ test("enemy action: banner, windup, lunge on contact, fully blocked hit shudders
     h.drain()
     assert(h.portrait("enemy1").x == 0 and h.feedback.shadow.player.hp == h.battle.player.hp)
     local order = table.concat(h.sounds, ",")
-    assert(order:find("turn,block_hit", 1, true) and order:sub(-4) == "turn", order)
+    assert(order:find("turn,action_jaw_worm,block_hit", 1, true) and order:sub(-4) == "turn", order)
 end)
 
 test("partial block shatters the shield before HP damage and shakes the screen", function()
@@ -273,5 +274,54 @@ test("an effect failure mid-hit-stop releases once and leaves no pose or shake b
     assert(h.stage.x == 0 and h.portrait("hero").x == 0 and h.portrait("enemy1").x == 0)
 end)
 
+test("deaths match enemy material without random draws or additional voices", function()
+    for _, item in ipairs({{"cultist", "enemy_die_human"}, {"acid_slime_s", "enemy_die_magic"},
+        {"sentry", "enemy_die_metal"}, {"gremlin_nob", "enemy_die_large"}, {"jaw_worm", "enemy_die"}}) do
+        local h = harness({"strike"}, {item[1]}, function(s) s.enemies[1].hp = 1 end)
+        h.play(); h.drain()
+        local deaths = 0
+        for _, cue in ipairs(h.sounds) do if cue:find("enemy_die", 1, true) then deaths = deaths + 1 assert(cue == item[2]) end end
+        assert(deaths == 1)
+    end
+end)
+test("one actor voice per action survives multi-hit and buff effects without per-hit yelling", function()
+    local h = harness({"strike"}, {"jaw_worm"}, function(s)
+        s.player.hp = 80
+        s.enemies[1].intents = intent({{op="damage",value=1},{op="damage",value=1},{op="block",value=5}})
+    end)
+    h.run(Combat.endTurn); h.drain()
+    assert(count(h.sounds, "action_jaw_worm") == 1 and count(h.sounds, "hurt") == 2)
+    local firstVoice, firstContact
+    for i, cue in ipairs(h.sounds) do
+        if cue == "action_jaw_worm" then firstVoice = i end
+        if cue == "hurt" and not firstContact then firstContact = i end
+    end
+    assert(firstVoice < firstContact)
+    h = harness({"strike"}, {"jaw_worm"}, function(s)
+        s.enemies[1].intents = {{id="buff",kind="defend",effects={{op="block",value=5}}}}
+    end)
+    h.run(Combat.endTurn); h.drain()
+    assert(count(h.sounds, "action_jaw_worm") == 1, "same actor keeps its sound for a non-attack action")
+end)
+test("voice identity follows each monster and sleeping or stunned actors stay silent", function()
+    local h = harness({"strike"}, {"jaw_worm", "cultist"})
+    h.run(Combat.endTurn); h.drain()
+    assert(count(h.sounds, "action_jaw_worm") == 1 and count(h.sounds, "action_cultist") == 1)
+    for _, k in ipairs({"sleep", "stunned"}) do
+        h = harness({"strike"}, {"jaw_worm"}, function(s)
+            s.enemies[1].intents = {{id="silent",kind=k,effects={}}}
+        end)
+        h.run(Combat.endTurn); h.drain()
+        assert(count(h.sounds, "action_jaw_worm") == 0)
+    end
+end)
+test("player uses one stable action sound across attack and skill cards", function()
+    for _, card in ipairs({"strike", "defend", "inflame", "twin_strike", "cleave"}) do
+        local h = harness({card}, {"jaw_worm"})
+        h.play(); h.drain()
+        assert(count(h.sounds, "player_action") == 1)
+        assert(count(h.sounds, "card_play") == 0, "do not layer a second generic card sound over the actor")
+    end
+end)
 assert(failed == 0, failed .. " feedback polish tests failed")
 print("LUA_FEEDBACK_POLISH_PASS " .. tests)
