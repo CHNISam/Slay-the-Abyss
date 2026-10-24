@@ -209,8 +209,8 @@ local function actChoice(ui,s)
         end
         assert(card,'native driver choice UID missing')
         local def=require('abyss_combat').cardDefinition(battle,card)
-        local score=Policy.scoreCard(ui.run,card.cardId)+(def.type=='attack' and 10 or 0)
-        if def.type=='status' or def.type=='curse' then score=-100 end
+        local score=math.max(1,Policy.scoreCard(ui.run,card.cardId))+(def.type=='attack' and 10 or 0)
+        if def.type=='status' or def.type=='curse' then score=-10000 end
         if choice.op=='exhaustChoose' or choice.op=='handToDraw' then score=-score end
         if not best or score>best then chosen,best=uid,score end
     end
