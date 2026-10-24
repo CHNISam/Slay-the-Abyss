@@ -287,9 +287,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
         local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
-        local width = math.min(L.hpBar.size[1],count > 1 and step-S.s or L.hpBar.size[1])
+        local badge = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2)
+        local full = L.hpBar.size[1] + badge + L.blockBadge.gap
+        local x = count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step
+        local right = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x
+        local playerRight = L.player.position[1] + L.hpBar.size[1] / 2
+        local width = math.min(full, count > 1 and step-S.s or full,
+            2 * (right - x) - S.s, 2 * (x - playerRight - S.s) - S.s)
         local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
-        return count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step, width, portrait, step
+        return x, width, portrait, step
     end
     -- Targeted cards enter the docked aiming pose after crossing the line.
     -- No-target commits use the release point inside the explicit field below.
@@ -375,16 +381,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
-        -- The block chip never covers the bar: wide bars keep their size and the chip sits outside;
-        -- narrow enemy columns hand the bar's left end to the chip.
+        -- Block always sits beside the health bar's left end; enemy columns
+        -- reserve space for both rather than relocating guard onto the portrait.
         -- Native digits can occupy a full glyph: the fixed 28px chip cut
         -- Block 10 down to "1". Widen the chip, never shrink away its digits.
         local blocked, gap = actor.block > 0, L.blockBadge.gap
         local chip = math.max(L.blockBadge.size, #number(actor.block) * Theme.font.body + L.blockBadge.padding * 2)
         local hpText = number(actor.hp) .. "/" .. number(actor.maxHp)
-        local compact = blocked and width < chip + gap + #hpText * Theme.font.small
         local barWidth, barX, y = width, 0, -portrait / 2 - S.xxl - bh / 2
-        if blocked and not compact and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
+        if box.name ~= "hero" then
+            -- Reserve the same three-digit guard lane even with zero Block:
+            -- gaining/losing Block must never move or resize the health bar.
+            local reserve = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2) + gap
+            barWidth, barX = math.min(L.hpBar.size[1], width - reserve), reserve / 2
+        end
         for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
             local part = box:GetChild(name)
             part:SetAnchoredPosition(barX, y)
@@ -402,12 +412,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local side = name == "blockEdge" and chip + S.border * 2 or chip
             local height = L.blockBadge.size + (name == "blockEdge" and S.border * 2 or 0)
             part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or height)
-            -- If a narrow enemy column cannot fit both complete numbers,
-            -- move the chip inside the portrait's lower-left corner. Preserve
-            -- the HP lane instead of fixing Block by clipping life digits.
-            local chipX = compact and (-portrait / 2 + chip / 2) or (barX - barWidth / 2 - gap - chip / 2)
-            local chipY = compact and (-portrait / 2 + L.blockBadge.size / 2 + S.s) or y
-            part:SetAnchoredPosition(chipX, chipY)
+            part:SetAnchoredPosition(barX - barWidth / 2 - gap - chip / 2, y)
         end
         tint(box:GetChild("blockEdge"), C.panelSunken)
         tint(box:GetChild("blockIcon"), C.block)
@@ -1721,9 +1726,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 if not actor or actor.hp<=0 then return end
                 local entries=Combat.statusView(actor)
                 local count=#battle.enemies
-                local width=index==0 and L.hpBar.size[1] or select(4,enemySlot(count,index,actor))
-                -- enemySlot's fourth result is column spacing; use the same width clamp as unit().
-                if index>0 then width=math.min(L.hpBar.size[1],count>1 and width-S.s or L.hpBar.size[1]) end
+                local width=index==0 and L.hpBar.size[1] or select(2,enemySlot(count,index,actor))
                 local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))
                 local slots=perRow*L.statusIcon.rows
                 if not entries[position] then return end
