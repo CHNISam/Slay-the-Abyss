@@ -4,6 +4,8 @@
 
 用户追加要求：考虑Flash模型在长任务中的能力限制，默认使用支持的最高推理档位；当前已验证Max。长任务拆成短步骤，每段单独给范围、必要上下文和验收，验证与交接后再推进下一段；关键设计和高风险逻辑仍由Codex承担。
 
+后续按用户授权已提炼为跨项目用户级[opencode-delegation skill](https://github.com/CHNISam/agent-skills/pull/7)，通过原有分发工具安装到共享skills目录。源码在技能源仓库，不将该skill复制到本游戏。项目规则仍自包含，skill可用时按其原生CLI细节执行。
+
 ## 原生CLI调用
 
 OpenCode CLI 1.18.24；Provider `opencode`；模型 `deepseek-v4.1-flash-free`。目录声明输入、输出、缓存读写价格均为0，variants包含`max`。本次实际使用`--variant max`并成功返回。
@@ -45,3 +47,14 @@ opencode run --model opencode/deepseek-v4.1-flash-free --variant max --format js
 OpenRouter按用户后续授权另试`recursive/flint-v1.0:free`，固定主/辅助模型、仅开放该Provider/模型，设置零价格上限并禁止Provider回退。修正权限后真实执行1次bash及4次read，但最终`reason=length`、无核查报告，故未通过验收；记录费用0。目录里的DeepSeek V4.1 Flash 1017为收费条目，未调用。目录“零价”不保证auto等路由最终免费，不能用作收费回退。
 
 官方配置与权限语义参考：[OpenCode配置](https://opencode.ai/docs/config/)、[OpenCode权限](https://opencode.ai/docs/permissions/)；OpenRouter当次定价参考[官方模型目录](https://openrouter.ai/api/v1/models)。有效配置及实际事件优先于界面默认模型或模型自报。
+
+## 实际收益与质量复核
+
+| 切片 | 实际交付与验收 | 对协作方式的结论 |
+| --- | --- | --- |
+| DeepSeek Max文档审计 | 5次真实工具调用、完整报告、核心发现复核通过；事件费用0 | 证明这一条执行路径能够完成有价值的短任务 |
+| OpenRouter免费Flint | 读取成功，但length终止，没有报告；事件费用0 | 未通过，不能因为免费或退出0而计入产出 |
+| 两路隔离文档编辑 | 第一轮相对路径权限匹配错误，执行者重复尝试被拒调用；修正后重试无事件推进，已停止，未采用文件 | 并发实际收益尚未成立，不作为默认能力，不扩大并发数 |
+| 地图导航首段代码委派 | 固定免费DeepSeek Max，但5分钟以上无事件或文件改动，停止后由Codex接管 | 不能宣称代码已被模型完成，启动/首响应的卡点未定位；不据此推断模型编码智力 |
+
+本轮协调、权限调试、失败重试和接管增加了耗时；没有测得Codex额度节省或净效率提升，不能把零推理费用当作净收益。后续先串行、短切片、90秒无事件停止、独立验收，在原任务备注中记录结果，只有稳定的合格产出降低监督成本后才扩大任务跨度与并发。地图实现由TASK-4.3单独交付，不计入DeepSeek产出。
