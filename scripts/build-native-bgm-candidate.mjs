@@ -50,5 +50,5 @@ try {
     baseMap, baseSha256, baseAfter, liveWriteEnabled: false, compiled, checked,
     officialImport: 'NOT_TESTED', playtest: 'NOT_TESTED', listening: 'NOT_TESTED' }, null, 2));
   console.log(`BGM candidate compiled and copy written: ${mapPath}`);
-  console.log('All tracks remain unheard candidates. Official import, playback and listening are NOT TESTED.');
+  console.log('Official import, playback and listening for this candidate are NOT TESTED.');
 } finally { await client.close(); }

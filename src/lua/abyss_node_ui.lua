@@ -542,7 +542,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end)
         end
         action("treasureView/chest", not opened, function()
-            self.opened, self.notice = true, "" self:render() return true
+            self.opened, self.notice = true, ""
+            if options.sound then pcall(options.sound, "treasure_open") end
+            self:render() return true
         end)
         action("treasureView/take", opened and hasReward, function()
             return commit(boss and "claimBossTreasure" or "claimTreasure", boss and self.treasureChoice or nil,
@@ -692,6 +694,13 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.busy = false
         if not called then error(accepted) end
         if accepted then
+            -- Sound confirms a committed action, never a preview or a refresh.
+            local cue = command == "upgrade" and "forge"
+                or command == "upgradeEvent" and "reward"
+                or command == "rest" and "rest"
+                or (command == "claimTreasure" or command == "claimBossTreasure") and argument ~= 0 and "reward"
+                or (command == "removeCard" or command == "purifyEvent" or command == "purgeWing") and "card_remove"
+            if cue and options.sound then pcall(options.sound, cue) end
             local notice, hold = describe(before)
             if command == "buyCardSlot" or command == "buyRelic" or command == "buyPotion" or command == "removeCard" then
                 merchant:react("buy")

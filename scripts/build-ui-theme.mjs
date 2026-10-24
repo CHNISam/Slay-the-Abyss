@@ -49,6 +49,9 @@ export function validateTheme(theme, content) {
   requireIcons(errors, theme.icon.potion, content.potions.potions.map(potion => potion.id), 'potion');
   requireIcons(errors, theme.icon.relic, content.relics.relics.map(relic => relic.id), 'relic');
   requireIcons(errors, theme.icon.node, content.rules.map.nodeTypes, 'node');
+  for (const id of ['player_action', ...content.enemies.enemies.map(enemy => `action_${enemy.id}`)]) {
+    if (!Number.isSafeInteger(theme.sound?.[id]) || theme.sound[id] <= 0) errors.push(`sound.${id} has no actor action sound`);
+  }
   return errors;
 }
 

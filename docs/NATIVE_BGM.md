@@ -28,6 +28,8 @@ Lua 宿主从可见界面和已结算状态选场景，敌方最后受击/死亡
 
 ## 构建输入/输出契约
 
+2026-10-24起，完整音频交付优先使用 `npm run build:native -- <底图.gil> <新输出目录>`：先重建所有Lua和界面，再为完整副本开启原生BGM，最终清单在输出目录的 `audio/candidate.json`。低层静音构建命令继续用于隔离诊断；它不能作为本轮用户要求的带音乐交付。场景配置仍来自 `data/presentation/native_bgm.json`，不会把未试听曲目写成已精选定稿。
+
 常规 `build-native-candidate.mjs` 保持关闭：`abyss_ui` 的脚本变量 `nativeBgmEnabled` 缺省/false 时不发送 BGM 信号。只有专用副本显式设置 boolean true 才开启。
 
 ```powershell

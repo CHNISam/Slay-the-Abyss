@@ -25,6 +25,14 @@ test('shipped theme passes validation and covers every enemy, status, potion, re
   assert.deepEqual(validateTheme(theme(), content), []);
 });
 
+test('actor action sounds cannot silently disappear from a player or enemy profile', () => {
+  for (const key of ['player_action', ...content.enemies.enemies.map(enemy => `action_${enemy.id}`)]) {
+    const broken = theme();
+    delete broken.sound[key];
+    assert.ok(validateTheme(broken, content).includes(`sound.${key} has no actor action sound`));
+  }
+});
+
 test('validation rejects unreadable fonts, bad colours, unknown pictures and missing portraits', () => {
   const broken = theme();
   broken.font.card = 11;

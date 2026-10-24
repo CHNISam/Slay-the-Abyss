@@ -197,7 +197,7 @@ function M.new(stage, platform, present, complete)
             if area then x = ROW end
             self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
             card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
-            card:SetVisible(true) overlay:SetAsLastSibling() sound("card_play")
+            card:SetVisible(true) overlay:SetAsLastSibling() sound("player_action")
             -- The traveler draws back while the card lifts, then leans in as it lands.
             local lift = T.base * T.anticipation
             self.poses.player = {age = 0, keys = attack
@@ -210,6 +210,16 @@ function M.new(stage, platform, present, complete)
             else banner("旅途暂歇", true) sound("defeat") end
         elseif kind == "intent" then
             local a = actor(d.enemy)
+            -- Actor identity belongs to the action, not each damage/status tick.
+            local silent = not a or a.hp <= 0
+            for _, intent in ipairs(a and a.intents or {}) do
+                if intent.id == d.id then
+                    silent = silent or intent.kind == "sleep" or intent.kind == "stunned" or intent.kind == "escape"
+                    break
+                end
+            end
+            local cue = a and a.definitionId and ("action_" .. a.definitionId)
+            if not silent and Theme.sound[cue] then sound(cue) end
             stage:GetChild("notice").text = (a and a.name or "敌人") .. " · 正在行动"
             -- Windup fills the existing action gap; non-attacks rise instead of pulling back.
             local gather = T.enemyActionGap * (1 - T.anticipation)
@@ -227,7 +237,10 @@ function M.new(stage, platform, present, complete)
             box:SetVisible(true)
             self.dying[d.target] = {age = 0}
             box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
-            if not d.quiet then sound("enemy_die") end
+            if not d.quiet then
+                local victim = actor(d.target)
+                sound(Theme.deathSound[victim and victim.definitionId] or "enemy_die")
+            end
         elseif d.target then
             local a, box = actor(d.target)
             if box then
@@ -246,7 +259,8 @@ function M.new(stage, platform, present, complete)
                     end
                     -- One cue per contact; an area ripple shares the first target's cue.
                     if style.form ~= "area" or style.hit == 1 then
-                        if (d.amount or 0) > 0 then sound(d.target == "player" and "hurt" or "hit")
+                        if (d.amount or 0) > 0 then
+                            sound(d.target == "player" and "hurt" or style.weight == "heavy" and "hit_heavy" or "hit")
                         elseif (d.blocked or 0) > 0 then sound("block_hit") end
                     end
                     if kind == "damage" and d.source and d.source ~= d.target then strike(d.source, style.stop or 0) end
@@ -257,7 +271,9 @@ function M.new(stage, platform, present, complete)
                     text = (status and status.name or d.status) .. (d.amount >= 0 and " ＋" or " ") .. n(d.amount)
                     ink = status and status.kind == "buff" and C.buff or C.debuff
                     sound("status")
-                elseif kind == "heal" then text, ink = "＋" .. n(d.amount), C.positive
+                elseif kind == "heal" then
+                    text, ink = "＋" .. n(d.amount), C.positive
+                    if (d.amount or 0) > 0 then sound("heal") end
                 elseif kind == "gold_stolen" then text, ink = "失金 −" .. n(d.amount), C.goldBright end
                 if text ~= "" then
                     local floating = box:GetChild("floating")
