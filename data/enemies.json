@@ -1009,7 +1009,11 @@
       "tier": "normal",
       "enemies": [
         "acid_slime_s",
-        "spike_slime_s"
+        "spike_slime_m"
+      ],
+      "enemiesOnTrue": [
+        "spike_slime_s",
+        "acid_slime_m"
       ],
       "minFloor": 1,
       "maxFloor": 14
