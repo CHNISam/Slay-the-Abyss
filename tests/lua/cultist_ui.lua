@@ -69,10 +69,10 @@ local function test(name,fn) fn(); count=count+1; print("ok Cultist UI "..count.
 test("Cultist displays Ritual opener, persistent status and next modified attack", function()
     local ui, stage, click = setup()
     local box = stage.children.enemy1
-    assert(box.children.intent.text == "3")
+    assert(box.children.intent.text == "")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.buff)
     click("enemy1")
-    assert(stage.children.notice.text:find("仪式 3",1,true))
+    assert(stage.children.notice.text:find("准备强化自身",1,true))
     click("endTurn")
     local text = details(stage, box)
     assert(text:find("仪式 3",1,true))

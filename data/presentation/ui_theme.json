@@ -412,23 +412,26 @@
     "statusIcon": {
       "size": 26,
       "gap": 4,
+      "minimumTouch": 44,
       "perRow": 5,
       "rows": 2
     },
     "statusInfo": {
       "width": 360,
       "pad": 12,
-      "header": 28,
-      "summary": 22,
-      "row": 64,
-      "rows": 6,
+      "header": 40,
+      "summary": 40,
+      "row": 124,
+      "rows": 3,
       "icon": 26,
       "gap": 12,
-      "nameHeight": 22
+      "nameHeight": 40,
+      "delay": 0.35
     },
     "intent": {
       "size": 40,
-      "offsetY": 104
+      "offsetY": 104,
+      "badge": 22
     },
     "map": {
       "floorGap": 76,

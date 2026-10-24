@@ -11,6 +11,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local M = {}
+local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
@@ -122,7 +123,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local definition=find(self.run.data.potions.potions,id)
         local parts={}
         for _,effect in ipairs(definition and definition.effects or {}) do
-            local value=tostring(effect.value)
+            local value=number(effect.value)
             if effect.op=='damage' then parts[#parts+1]='造成'..value..'点伤害'
             elseif effect.op=='block' then parts[#parts+1]='获得'..value..'点格挡'
             elseif effect.op=='energy' then parts[#parts+1]='获得'..value..'点能量'
@@ -143,7 +144,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not definition then return "" end
         local parts = {}
         for _, effect in ipairs(definition.effects or {}) do
-            local value = effect.value
+            local value = number(effect.value)
             if effect.op == "heal" then parts[#parts + 1] = "回复 " .. value .. " 点生命"
             elseif effect.op == "block" then parts[#parts + 1] = "获得 " .. value .. " 点格挡"
             elseif effect.op == "draw" then parts[#parts + 1] = "抽 " .. value .. " 张牌"
@@ -168,9 +169,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local text = upgraded and display.upgradeText or display.text
         box:GetChild("description").text = type(text) == "string" and text or ""
         ink(box:GetChild("description"), look.dim and C.textDim or C.text)
-        local cost = upgraded and display.upgradeCost or display.cost
-        if cost == nil then cost = definition.cost end
-        box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(cost or "")
+        -- Presentation costs can be strings; format the numeric rule value.
+        local cost = definition.cost
+        if upgraded and definition.upgrade and definition.upgrade.cost ~= nil then cost = definition.upgrade.cost end
+        box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or cost ~= nil and number(cost) or ""
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
@@ -184,7 +186,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     -- price status: "ok" gold, "poor" red (cannot afford), "sold" muted without a coin.
     local function fillPrice(box, value, status)
         box:SetVisible(true)
-        box:GetChild("value").text = status == 'missing' and '未实装' or status == "sold" and "已售出" or tostring(value)
+        box:GetChild("value").text = status == 'missing' and '未实装' or status == "sold" and "已售出" or number(value)
         ink(box:GetChild("value"), status == "poor" and C.danger or status == "sold" and C.textMuted or C.goldBright)
         show(box:GetChild("coin"), status ~= "sold" and status ~= 'missing')
     end
@@ -192,7 +194,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason }
         return enabled == true
     end
-    local function shortfall(price) return Narrative.merchant.insufficientGold .. " 金币不足：需要 " .. price .. "，还差 " .. (price - self.run.gold) end
+    local function shortfall(price) return Narrative.merchant.insufficientGold .. " 金币不足：需要 " .. number(price) .. "，还差 " .. number(price - self.run.gold) end
 
     local commit -- forward declaration; renders and notifies
     local function pageArrows(view, prefix, page, count)
@@ -207,8 +209,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     local function renderTopBar(node)
         child("title").text = node and ("第 " .. node.floor .. " 层 · " .. (kinds[node.type] or "节点")) or "路线"
-        child("hp").text = self.run.hp .. "/" .. self.run.maxHp
-        child("gold").text = tostring(self.run.gold)
+        child("hp").text = number(self.run.hp) .. "/" .. number(self.run.maxHp)
+        child("gold").text = number(self.run.gold)
         child("deck").text = tostring(#self.run.deck)
         child("relics").text = "遗物 " .. #self.run.relics
         child("potions").text = "药水 " .. Run.potionCount(self.run) .. "/" .. self.run.data.rules.player.potionSlots
@@ -237,7 +239,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 local name = cardName(offer.id)
                 action("shopView/card" .. i, not offer.sold and not poor and not offer.unavailable, function()
                     return commit("buyCard", offer.id, function(before)
-                        return "已购买「" .. name .. "」· 支付 " .. (before.gold - self.run.gold) .. " 金币，加入牌组"
+                        return "已购买「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币，加入牌组"
                     end)
                 end, offer.unavailable and '此商品尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
             end
@@ -279,7 +281,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 local name = relicName(offer.id)
                 action("shopView/relic" .. i, not offer.sold and not relicPoor and not offer.unavailable, function()
                     return commit("buyRelic", offer.id, function(before)
-                        return "已购买遗物「" .. name .. "」· 支付 " .. (before.gold - self.run.gold) .. " 金币"
+                        return "已购买遗物「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币"
                     end)
                 end, offer.unavailable and '此遗物尚未实装，不可购买' or offer.sold and "「" .. name .. "」已售出" or shortfall(offer.price))
             end
@@ -302,7 +304,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             show(tile:GetChild('veil'),offer.sold)
             fillPrice(price,offer.price,offer.unavailable and 'missing' or offer.sold and 'sold' or poor and 'poor' or 'ok')
             action('shopView/potion'..i,enabled,function()
-                return commit('buyPotion',i,function(before) return '已购买药水 · 支付 '..(before.gold-self.run.gold)..' 金币' end)
+                return commit('buyPotion',i,function(before) return '已购买药水 · 支付 '..number(before.gold-self.run.gold)..' 金币' end)
             end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price))
         end
         return "点选商品购买 · 未实装槽位不可购买"
@@ -314,7 +316,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if result then
             state(rest, false, result.choice == "rest") state(forge, false, result.choice == "upgrade")
             rest:GetChild("description").text = result.choice == "rest" and
-                ("已回复 " .. result.healed .. " 点生命\n生命 " .. self.run.hp .. "/" .. self.run.maxHp) or "未选择"
+                ("已回复 " .. number(result.healed) .. " 点生命\n生命 " .. number(self.run.hp) .. "/" .. number(self.run.maxHp)) or "未选择"
             forge:GetChild("description").text = result.choice == "upgrade" and "已升级" or "未选择"
             return
         end
@@ -323,14 +325,14 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local restOpen = node.heal > 0 or not forgeable
         state(rest, restOpen) state(forge, forgeable)
         rest:GetChild("description").text = node.heal > 0 and
-            ("回复 " .. node.heal .. " 点生命\n生命 " .. self.run.hp .. " → " .. (self.run.hp + node.heal)) or
+            ("回复 " .. number(node.heal) .. " 点生命\n生命 " .. number(self.run.hp) .. " → " .. number(self.run.hp + node.heal)) or
             (forgeable and "生命已满" or "生命已满 · 休息后继续前进")
         forge:GetChild("description").text = forgeable and
             ("升级一张卡牌\n可升级 " .. #node.upgradeCards .. " 张") or "没有可升级的卡牌"
         action("campView/rest", restOpen, function()
             return commit("rest", nil, function(before)
                 local healed = self.run.hp - before.hp
-                return "休息完成 · 回复 " .. healed .. " 点生命", { choice = "rest", healed = healed }
+                return "休息完成 · 回复 " .. number(healed) .. " 点生命", { choice = "rest", healed = healed }
             end)
         end, "生命已满，休息不会回复；可以选择锻造")
         action("campView/forge", forgeable, function()
@@ -425,18 +427,23 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                         end
                         return commit('chooseEvent',selected.choice,function(before)
                             local outcome=self.run.nodeFlow.event
-                            local text='生命 '..before.hp..' → '..self.run.hp..'；金币 '..before.gold..' → '..self.run.gold
-                            if outcome.upgradedUids then
+                            -- 只列出实际变化的资源，未变化的生命/金币不显示
+                            local lines,changes={},{}
+                            if self.run.hp~=before.hp then changes[#changes+1]='生命 '..number(before.hp)..' → '..number(self.run.hp) end
+                            if self.run.gold~=before.gold then changes[#changes+1]='金币 '..number(before.gold)..' → '..number(self.run.gold) end
+                            if #changes>0 then lines[1]=table.concat(changes,'；') end
+                            if outcome.upgradedUids and #outcome.upgradedUids>0 then
                                 local names={}
                                 for _,uid in ipairs(outcome.upgradedUids) do
                                     local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true)
                                 end
-                                text=text..'\n已升级：'..table.concat(names,'、')
+                                lines[#lines+1]='已升级：'..table.concat(names,'、')
                             end
                             if outcome.obtainedCardUid then
                                 local obtained=find(self.run.deck,outcome.obtainedCardUid,'uid')
-                                text=text..'\n已获得诅咒：'..cardName(obtained.cardId,false)
+                                lines[#lines+1]='已获得诅咒：'..cardName(obtained.cardId,false)
                             end
+                            local text=#lines>0 and table.concat(lines,'\n') or '什么也没有发生。'
                             return text,{text=text}
                         end)
                     end}
@@ -446,12 +453,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 rows[1] = { title = "［治疗］", enabled = healOk, handler = function()
                         return commit("chooseEvent", "heal", function(before)
                             local healed = self.run.hp - before.hp
-                            return "治疗完成 · 回复 " .. healed .. " 点生命", { text = "圣职者的祝祷落在你身上，伤口渐渐愈合。\n支付 " ..
-                                (before.gold - self.run.gold) .. " 金币，回复 " .. healed .. " 点生命（生命 " .. before.hp .. " → " .. self.run.hp .. "）。" }
+                            return "治疗完成 · 回复 " .. number(healed) .. " 点生命", { text = "圣职者的祝祷落在你身上，伤口渐渐愈合。\n支付 " ..
+                                number(before.gold - self.run.gold) .. " 金币，回复 " .. number(healed) .. " 点生命（生命 " .. number(before.hp) .. " → " .. number(self.run.hp) .. "）。" }
                         end)
                     end,
                     description = not healOk and need(info.healCost) or (info.heal > 0 and
-                        ("支付 " .. info.healCost .. " 金币，回复 " .. info.heal .. " 点生命（生命 " .. self.run.hp .. " → " .. (self.run.hp + info.heal) .. "）")
+                        ("支付 " .. number(info.healCost) .. " 金币，回复 " .. number(info.heal) .. " 点生命（生命 " .. number(self.run.hp) .. " → " .. number(self.run.hp + info.heal) .. "）")
                         or ("支付 " .. info.healCost .. " 金币；生命已满，不会回复")) }
                 local purifyOk = gold >= info.removeCost and deckOk
                 rows[2] = { title = "［净化］", enabled = purifyOk, handler = purify(info.removeCost),
@@ -490,7 +497,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         tint(chest:GetChild("glow"), opened and C.gold or C.goldDim)
         local row, take = chest:GetChild("reward"), chest:GetChild("take")
         show(row, opened) show(take, opened)
-        local name = reward.relicId and relicName(reward.relicId) or (reward.gold .. " 金币")
+        local name = reward.relicId and relicName(reward.relicId) or (number(reward.gold) .. " 金币")
         if opened then
             state(row, true) state(take, true, false, true)
             picture(row:GetChild("icon"), reward.relicId and Theme.icon.relic[reward.relicId] or Theme.icon.gold)
@@ -585,9 +592,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                         return text, { choice = "upgrade", card = instance, text=text }
                     end
                     local paid = before.gold - self.run.gold
-                    local text = "已移除「" .. name .. "」" .. (paid > 0 and (" · 支付 " .. paid .. " 金币") or "")
+                    local text = "已移除「" .. name .. "」" .. (paid > 0 and (" · 支付 " .. number(paid) .. " 金币") or "")
                     return text, { card = instance, text = "「" .. name .. "」已从牌组中移除" ..
-                        (paid > 0 and ("，支付 " .. paid .. " 金币。") or "。") .. "\n牌组现有 " .. #self.run.deck .. " 张。" }
+                        (paid > 0 and ("，支付 " .. number(paid) .. " 金币。") or "。") .. "\n牌组现有 " .. #self.run.deck .. " 张。" }
                 end)
             end
         end

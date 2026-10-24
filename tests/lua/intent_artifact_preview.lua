@@ -12,7 +12,7 @@ test("stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with
     assert(Combat.endTurn(copy))
     eq(copy.player.statuses.weak, 2147483646); eq(copy.player.statuses.artifact, 0)
     local compact, detail = refresh(h, p, tap)
-    eq(compact, "4"); assert(detail:find("虚弱 1", 1, true))
+    eq(compact, "4"); assert(detail:find("准备对你施加负面效果", 1, true))
     assert(u:showStatus(0))
     eq(p:GetChild("statusInfo"):GetChild("name2").text, "虚弱 2147483647 · 减益")
     local recoveries = counters.recoveries
@@ -123,7 +123,9 @@ test("signed power type depends on incoming amount including zero, not current t
         local h, _, p, tap = setup(effects, row.tail.op == "block" and "defend" or "attack")
         Combat.addStatus(h.run.combat.enemies[1], row.status, 5)
         Combat.addStatus(h.run.combat.enemies[1], "artifact", 1)
-        eq(refresh(h, p, tap), row.want)
+        local compact, detail=refresh(h, p, tap)
+        eq(compact, row.tail.op=="block" and "" or row.want)
+        if row.tail.op=="block" then assert(detail:find("格挡 "..row.want,1,true)) end
     end
 end)
 

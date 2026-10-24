@@ -14,11 +14,11 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     effect_overflow = "当前状态已达上限" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
-local function number(value) return string.format("%.0f", value) end
--- One core preview entry: an exact value, or the range across living targets.
+local number = require("abyss_numbers").integer
+-- A displayed damage variable is exact, never a cross-target range.
 local function amount(preview)
-    if preview.low == preview.high then return number(preview.low) end
-    return number(preview.low) .. "~" .. number(preview.high)
+    assert(preview.low == preview.high, "card damage display must be exact")
+    return number(preview.low)
 end
 -- Negative Strength/Dexterity are debuffs, as the core's Artifact gate treats them.
 local function statusKind(entry) return entry.amount < 0 and "debuff" or entry.kind end
@@ -60,6 +60,20 @@ local function potionText(item, battle)
     end
     return item.name .. "\n" .. table.concat(effects, "，")
 end
+-- STS shows mixed moves as one compound intent (ATTACK_DEBUFF, ATTACK_DEFEND,
+-- DEFEND_BUFF...). Data keeps a single kind, so the second icon comes from the
+-- effects themselves: the first effect class that differs from the kind.
+local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
+    applyStatus = "debuff", makeTempCardInDiscard = "debuff" }
+local function intentBadge(intent)
+    for _, kind in ipairs({ "debuff", "defend", "buff", "attack" }) do
+        if kind ~= intent.kind then
+            for _, effect in ipairs(intent.effects or {}) do
+                if effectKinds[effect.op] == kind then return kind end
+            end
+        end
+    end
+end
 local function intentText(state, index, detailed)
     local intent = Combat.intent(state, index)
     if not intent then return "已击败", "unknown" end
@@ -76,27 +90,30 @@ local function intentText(state, index, detailed)
     preview.events = {}
     local enemy, player = preview.enemies[index], preview.player
     for _, effect in ipairs(intent.effects) do
-        local value = effect.value and number(effect.value) or ""
         if effect.op == "damage" then
             local amount = number(Combat.attackAmount(state, enemy, player, effect.value))
                 .. ((effect.times or 1) > 1 and "×" .. effect.times or "")
             compact.attack = compact.attack or amount
-            result[#result + 1] = amount .. " 点伤害（已计入当前状态）"
+            result[#result + 1] = "准备攻击，造成 " .. amount .. " 点伤害。"
         elseif effect.op == "block" then
             local amount = number(Combat.blockAmount(state, enemy, effect.value, effect.target == "random_ally"))
             compact.defend = compact.defend or amount
-            result[#result + 1] = (effect.target == "random_ally" and "随机队友格挡（无队友时自身） " or "格挡 ") .. amount
+            result[#result + 1] = (effect.target == "random_ally" and "准备使随机队友（无队友时自身）获得格挡 " or "准备获得格挡 ") .. amount .. "。"
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
-            result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
-            compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
+            assert(state.catalog.statuses[effect.status], "unknown status")
+            if effect.op == "gainStatus" then compact.buff=true else compact.debuff=true end
             Actors.applyPower(preview, effect.op == "gainStatus" and enemy or player, effect.status, effect.value, enemy)
         elseif effect.op == "makeTempCardInDiscard" then
-            local name = assert(state.catalog.cards[effect.card]).name
-            compact.debuff = compact.debuff or name .. " " .. value
-            result[#result + 1] = "将 " .. value .. " 张" .. name .. "置入弃牌堆"
-        else result[#result + 1] = "未知" end
+            assert(state.catalog.cards[effect.card], "unknown card")
+            compact.debuff=true
+        end
     end
-    return detailed and table.concat(result, " / ") or compact[intent.kind] or compact.attack or "?", intent.kind
+    local badge = intentBadge(intent)
+    if not detailed then return intent.kind == "attack" and (compact.attack or "?") or "", intent.kind, badge end
+    local description = result
+    if compact.buff then description[#description + 1] = "准备强化自身。" end
+    if compact.debuff then description[#description + 1] = "准备对你施加负面效果。" end
+    return #description > 0 and table.concat(description, "") or "下一步行动未知。", intent.kind, badge
 end
 
 function M.new(root, data, presentation, clickEvent, platform, options)
@@ -295,6 +312,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         row:GetChild("hit"):SetSizeDelta(width, si.rows * pitch)
         for i = 1, si.perRow * si.rows do
             local icon, count, entry = row:GetChild("icon" .. i), row:GetChild("count" .. i), i <= shown and entries[i]
+            local target = row:GetChild("hit" .. i)
+            target:SetVisible(entry and true or false)
             local overflow = entry and i == slots and #entries > slots
             icon:SetVisible(entry and not overflow or false)
             count:SetVisible(entry and true or false)
@@ -304,6 +323,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local x = (k % perRow - (math.min(perRow, shown - line * perRow) - 1) / 2) * pitch
                 local y = (si.rows - 1) * pitch / 2 - line * pitch
                 icon:SetAnchoredPosition(x, y)
+                target:SetAnchoredPosition(x, y)
                 picture(icon, Theme.icon.status[entry.id])
                 tint(icon, statusKind(entry) == "buff" and C.buff or C.debuff)
                 if overflow then
@@ -328,6 +348,46 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             return
         end
         local I, entries = L.statusInfo, Combat.statusView(actor)
+        local title, summary = actor.name or "旅行者", "生命 " .. number(actor.hp) .. "/" .. number(actor.maxHp) .. " · 格挡 " .. number(actor.block)
+        if info.kind == "intent" then
+            local description, kind = intentText(battle, info.index, true)
+            local names = {attack="攻击",defend="防御",buff="强化",debuff="削弱",charge="蓄能",sleep="沉睡",stunned="苏醒中",split="分裂"}
+            entries = {{heading=names[kind] or "未知",text=description,intent=kind}}
+            title, summary = title .. " · 行动意图", "下一次行动，尚未执行"
+        elseif info.kind == "card" then
+            local instance
+            for _, card in ipairs(battle.hand) do if card.uid == info.uid then instance=card break end end
+            if not instance then self.info=nil;panel:SetVisible(false);return end
+            local definition = Combat.cardDefinition(battle,instance)
+            entries={}
+            local function keywords(effects)
+                for _, effect in ipairs(effects) do
+                    local id=effect.status or effect.op=="gainTemporaryStrength" and "strength"
+                    local status=id and battle.catalog.statuses[id]
+                    if status then
+                        local entry={id=id,name=status.name,amount=effect.value,temporary=0,kind=status.kind,
+                            description=status.description,stack=status.stack}
+                        entry.heading,entry.text=status.name .. " · 关键词",statusDetail(entry,battle.rules)
+                        entries[#entries+1]=entry
+                    end
+                    if effect["then"] then keywords(effect["then"]) end
+                end
+            end
+            keywords(definition.effects)
+            if definition.exhaust then entries[#entries+1]={heading="消耗",text="打出后移出本场战斗，不进入弃牌堆。",intent="unknown"} end
+            if definition.ethereal then entries[#entries+1]={heading="虚无",text="回合结束时若仍在手中，将被消耗。",intent="unknown"} end
+            title,summary=(presentation[instance.cardId].name) .. " · 关键词","卡牌效果说明，不代表已施加状态"
+            if #entries==0 then self.info=nil;panel:SetVisible(false);return end
+        elseif info.statusId then
+            local selected={}
+            for _, entry in ipairs(entries) do if entry.id==info.statusId then selected[1]=entry break end end
+            entries=selected
+            if #entries==0 then self.info=nil;panel:SetVisible(false);return end
+        elseif info.offset then
+            local remaining={}
+            for i=info.offset,#entries do remaining[#remaining+1]=entries[i] end
+            entries=remaining
+        end
         local rows = math.min(#entries, I.rows)
         local extra = #entries == 0 or #entries > I.rows
         local height = I.pad * 2 + I.header + I.summary + rows * I.row + (extra and I.summary or 0)
@@ -354,25 +414,25 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local left, cursor = x - I.width / 2 + I.pad, y + height / 2 - I.pad
         local textX = left + I.icon + I.gap + (I.width - I.pad * 2 - I.icon - I.gap) / 2
         panel:GetChild("title"):SetAnchoredPosition(x, cursor - I.header / 2)
-        panel:GetChild("title").text = actor.name or "旅行者"
+        panel:GetChild("title").text = title
         cursor = cursor - I.header
         panel:GetChild("summary"):SetAnchoredPosition(x, cursor - I.summary / 2)
-        panel:GetChild("summary").text = "生命 " .. number(actor.hp) .. "/" .. number(actor.maxHp) .. " · 格挡 " .. number(actor.block)
+        panel:GetChild("summary").text = summary
         cursor = cursor - I.summary
         for i = 1, I.rows do
             local entry = i <= rows and entries[i]
             local icon, name, text = panel:GetChild("icon" .. i), panel:GetChild("name" .. i), panel:GetChild("text" .. i)
             for _, part in ipairs({icon, name, text}) do part:SetVisible(entry and true or false) end
             if entry then
-                local colour = statusKind(entry) == "buff" and C.buff or C.debuff
+                local colour = entry.heading and C.goldBright or statusKind(entry) == "buff" and C.buff or C.debuff
                 icon:SetAnchoredPosition(left + I.icon / 2, cursor - I.nameHeight / 2)
-                picture(icon, Theme.icon.status[entry.id])
+                picture(icon, entry.intent and (Theme.icon.intent[entry.intent] or Theme.icon.intent.unknown) or Theme.icon.status[entry.id])
                 tint(icon, colour)
                 name:SetAnchoredPosition(textX, cursor - I.nameHeight / 2)
-                name.text = entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) .. " · " .. kindNames[statusKind(entry)]
+                name.text = entry.heading or entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) .. " · " .. kindNames[statusKind(entry)]
                 ink(name, colour)
                 text:SetAnchoredPosition(textX, cursor - I.nameHeight - S.xs - (I.row - I.nameHeight - S.xs) / 2)
-                text.text = statusDetail(entry, battle.rules)
+                text.text = entry.text or statusDetail(entry, battle.rules)
                 cursor = cursor - I.row
             end
         end
@@ -381,6 +441,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         more:SetAnchoredPosition(x, cursor - I.summary / 2)
         more.text = #entries == 0 and "暂无状态" or "另有 " .. (#entries - I.rows) .. " 项状态未列出"
         panel:SetVisible(true)
+        panel:GetChild("hit"):SetVisible(not info.transient)
+        panel.disableCursorEventPassthrough = not info.transient
         panel:SetAsLastSibling()
     end
     closeInfo = function()
@@ -399,6 +461,36 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         else self.info = {index = index, id = actor.id, battle = run.combat} end
         self:render()
         return true
+    end
+    function self:openHelp(spec, source, transient)
+        local run=self.run
+        if not self.active or self.busy or not run or run.phase~="combat" then return false end
+        local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
+        if not actor or actor.hp<=0 then return false end
+        self.info={index=spec.index,id=actor.id,battle=run.combat,kind=spec.kind,statusId=spec.statusId,
+            offset=spec.offset,uid=spec.uid,source=source,transient=transient==true}
+        self:render()
+        return self.info~=nil
+    end
+    function self:queueHelp(spec,source,held,touch)
+        local run=self.run
+        if not spec or not self.active or self.busy or not run or run.phase~="combat" then return end
+        local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
+        if not actor or actor.hp<=0 then return end
+        self.help={spec=spec,source=source,held=held,touch=touch,t=0,run=run,battle=run.combat,
+            turn=run.combat.turn,actor=actor}
+    end
+    function self:cardHelpSpec(slot)
+        local battle=self.run and self.run.phase=="combat" and self.run.combat
+        local instance=battle and battle.hand[slot]
+        if not instance then return end
+        local card=Combat.cardDefinition(battle,instance)
+        local function hasKeyword(effects)
+            for _,effect in ipairs(effects) do
+                if effect.status or effect.op=="gainTemporaryStrength" or effect["then"] and hasKeyword(effect["then"]) then return true end
+            end
+        end
+        if card.exhaust or card.ethereal or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
     end
     local function placeCard(box, count, index, selected)
         local w, h = L.card.size[1], L.card.size[2]
@@ -490,7 +582,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         label("statuses", fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
         if fighting then unit(child("hero"), player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
         if not run then label("result", "战斗演练\n点击启程，试用旅行者的初始牌组")
-        elseif reward then label("result", "战斗胜利 · 金币 ＋" .. run.rewards.gold .. "\n选择一张牌加入牌组，或跳过")
+        elseif reward then label("result", "战斗胜利 · 金币 ＋" .. number(run.rewards.gold) .. "\n选择一张牌加入牌组，或跳过")
         elseif run.phase == "defeat" then label("result", "旅途暂歇\n重新启程，重建牌组")
         elseif run.phase == "map" then label("result", "奖励已处理 · 牌组 " .. #run.deck .. " 张\n可再次挑战，检查新增卡牌") end
         ink(child("result"), run and run.phase == "defeat" and C.danger or C.goldBright)
@@ -519,25 +611,42 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 -- Later frames already include its effects: do not apply them
                 -- again. Unacted enemies still preview the current state.
                 local shown = playbackIntents and playbackIntents[enemy.id]
-                local value, kind
-                if shown and enemy.hp > 0 then value, kind = shown[1], shown[2]
-                else value, kind = intentText(battle, i) end
+                local value, kind, badge
+                if shown and enemy.hp > 0 then value, kind, badge = shown[1], shown[2], shown[3]
+                else value, kind, badge = intentText(battle, i) end
                 local event = enemyPlayback and self.feedback.current
                 if event and event.kind == "intent" and event.detail.enemy == enemy.id then
                     playbackIntents = playbackIntents or {}
-                    playbackIntents[enemy.id] = {value, kind}
+                    playbackIntents[enemy.id] = {value, kind, badge}
                 elseif enemy.hp <= 0 and playbackIntents then playbackIntents[enemy.id] = nil end
                 box:GetChild("intent").text = value
                 box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
                 box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
+                box:GetChild("intentHit"):SetAnchoredPosition(0, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
                 picture(box:GetChild("intentIcon"), Theme.icon.intent[kind] or Theme.icon.intent.unknown)
                 tint(box:GetChild("intentIcon"), intentColors[kind] or C.textDim)
+                local badgeIcon = box:GetChild("intentBadge")
+                local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
+                local inset = (L.intent.size - L.intent.badge) / 2
+                badgeIcon:SetAnchoredPosition(-S.xl + inset, iconY - inset)
+                badgeIcon:SetVisible(badge ~= nil)
+                if badge then
+                    picture(badgeIcon, Theme.icon.intent[badge])
+                    tint(badgeIcon, intentColors[badge])
+                end
             end
         end
         local rewards = reward and Run.rewardOptions(run) or {}
         local aimUid, aimTarget
         if self.gesture and self.gesture.moving then
-            local _, target = dragTarget(self.gesture)
+            local valid, target = dragTarget(self.gesture)
+            if valid and not target then
+                local only, alive = nil, 0
+                for i, enemy in ipairs(battle.enemies) do
+                    if enemy.hp > 0 then only, alive = i, alive + 1 end
+                end
+                if alive == 1 then target = only end
+            end
             aimUid, aimTarget = self.gesture.uid, target
         end
         self.cardPositions = {}
@@ -577,7 +686,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
                 box:GetChild("cost").text = definition.cost == -2 and ""
-                    or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
+                    or definition.costMode == "all_energy" and "X" or number(definition.cost)
                 ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
                 tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
                 tint(box:GetChild("border"), selected and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
@@ -708,6 +817,24 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return ok, reason
     end
     function self:update(dt)
+        local help=self.help
+        if help then
+            local current=self.run and self.run.combat
+            local actor=current and (help.spec.index==0 and current.player or current.enemies[help.spec.index])
+            if not self.active or self.busy or self.run~=help.run or current~=help.battle
+                or current.turn~=help.turn or actor~=help.actor or actor.hp<=0 or self.gesture and self.gesture.moving then
+                self.help=nil
+            elseif not help.fired then
+                help.t=help.t+dt
+                if help.t+0.000001>=L.statusInfo.delay then
+                    help.fired=true
+                    if help.held and help.spec.kind=="card" then
+                        self.gesture=nil;cancelCardInputs();self.suppressClick=true
+                    end
+                    self:openHelp(help.spec,help.source,true)
+                end
+            end
+        end
         if self.feedbackRun and (self.feedbackRun ~= self.run or self.feedbackBattle ~= (self.run and self.run.combat)) then
             self.feedback:cancel()
             self.feedbackRun, self.feedbackBattle = nil, nil
@@ -718,6 +845,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     function self:setActive(active)
         assert(type(active) == "boolean", "active must be boolean")
         self.active = active
+        if not active then self.help=nil end
         root:SetVisible(active)
         self:render()
     end
@@ -786,6 +914,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- the matching Click is swallowed, so no card, target or button acts underneath it.
     local function down(event)
         pointerObserved = true
+        self.help=nil
         if not self.gesture then self.suppressClick = false end
         self.swallow = nil
         if self.gesture or not closeInfo() then return false end
@@ -971,6 +1100,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local g = {uid=uid,slot=slot,run=run,battle=battle,turn=battle and battle.turn,
                     phase=run.phase,rewards=run.rewards,touch=event and event.touchId,input=input}
                 input.held = g
+                self:queueHelp(self:cardHelpSpec(slot),hit,true,event and event.touchId)
                 local x,y = point(event)
                 if not instance or not x then return end
                 local ok,reason = Combat.canPlay(battle,instance.uid,nil)
@@ -1061,6 +1191,87 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local info = child("statusInfo")
     info.disableCursorEventPassthrough = true
     listen(info:GetChild("hit"), function() if closeInfo() then self:render() end end)
+    local function bindHelp(control,describe,clickable)
+        local input={}
+        local function cancel()
+            input.held,input.released=nil,nil
+            if self.help and self.help.source==control then self.help=nil end
+            if self.info and self.info.source==control and self.info.transient then closeInfo();self:render() end
+        end
+        if cursor and cursor.CursorEnter and cursor.CursorExit then
+            control:AddCursorEventListener(cursor.CursorEnter,function() self:queueHelp(describe(),control,false) end)
+            control:AddCursorEventListener(cursor.CursorExit,cancel)
+        end
+        if not clickable then return end
+        local function ready(token)
+            local run=self.run
+            return token and self.active and not self.busy and not self.gesture and run==token.run
+                and run.phase=="combat" and run.combat==token.battle and run.combat.turn==token.turn
+                and (token.spec.index==0 and run.combat.player or run.combat.enemies[token.spec.index])==token.actor
+                and token.actor.hp>0
+        end
+        control:AddCursorEventListener(clickEvent,function(event)
+            local touch=event and event.touchId
+            if input.consumed and input.consumed.touch==touch then input.consumed=nil;return end
+            if input.pointerObserved then
+                local token=input.released;input.released=nil
+                if not ready(token) or token.touch~=touch then return end
+            end
+            if swallowed(event) then return end
+            local spec=describe()
+            if spec then self:openHelp(spec,control,false) end
+        end)
+        if cursor and cursor.CursorDown and cursor.CursorUp then
+            control:AddCursorEventListener(cursor.CursorDown,function(event)
+                input.pointerObserved=true;input.held,input.released,input.consumed=nil,nil,nil
+                if down(event) then return end
+                local run=self.run
+                if not run or run.phase~="combat" then return end
+                local spec=describe()
+                if not spec then return end
+                local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
+                local token={run=run,battle=run.combat,turn=run.combat.turn,touch=event and event.touchId,spec=spec,actor=actor}
+                if ready(token) then input.held=token;self:queueHelp(describe(),control,true,token.touch) end
+            end)
+            control:AddCursorEventListener(cursor.CursorUp,function(event)
+                local token=input.held;input.held=nil
+                if not ready(token) or token.touch~=(event and event.touchId) then return end
+                local help=self.help
+                if help and help.source==control and help.fired then
+                    input.consumed={touch=token.touch}
+                    if self.info and self.info.source==control then self.info.transient=false;self:render() end
+                else input.released=token end
+                if help and help.source==control then self.help=nil end
+            end)
+            if cursor.CursorEndDrag then control:AddCursorEventListener(cursor.CursorEndDrag,cancel) end
+        end
+    end
+    for i,name in ipairs({"hero","enemy1","enemy2","enemy3","enemy4","enemy5"}) do
+        local index=i-1
+        if index>0 then bindHelp(child(name):GetChild("intentHit"),function() return {kind="intent",index=index} end,true) end
+        for slot=1,L.statusIcon.perRow*L.statusIcon.rows do
+            local position=slot
+            bindHelp(child(name):GetChild("statusRow"):GetChild("hit"..slot),function()
+                local battle=self.run and self.run.combat
+                local actor=battle and (index==0 and battle.player or battle.enemies[index])
+                if not actor or actor.hp<=0 then return end
+                local entries=Combat.statusView(actor)
+                local count=#battle.enemies
+                local width=index==0 and L.hpBar.size[1] or select(4,enemySlot(count,index,actor))
+                -- enemySlot's fourth result is column spacing; use the same width clamp as unit().
+                if index>0 then width=math.min(L.hpBar.size[1],count>1 and width-S.s or L.hpBar.size[1]) end
+                local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))
+                local slots=perRow*L.statusIcon.rows
+                if not entries[position] then return end
+                return {index=index,statusId=not(position==slots and #entries>slots) and entries[position].id or nil,
+                    offset=position==slots and #entries>slots and position or nil}
+            end,true)
+        end
+    end
+    for slot=1,10 do
+        local index=slot
+        bindHelp(child("card"..slot):GetChild("hit"),function() return self:cardHelpSpec(index) end,false)
+    end
     refresh()
     return self
 end
