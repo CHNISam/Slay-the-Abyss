@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 09:10'
+updated_date: '2026-10-24 15:34'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -53,6 +53,8 @@ ordinal: 4000
 
 <!-- SECTION:PLAN:BEGIN -->
 PR171整合切片：保留develop最新商店原子交易和战后独立选牌界面，解决开场与商人对话冲突；对话框避让全部商品价格；完整本地检查和当前SHA双Quality通过后squash合入develop，保留平台实机验收。
+
+地图金币缺失修复：复用节点页顶栏的生命/金币图标与位置，在地图常显真实局内资源；补选路前可见、归图更新及布局避让回归，记录本地与实机边界。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -61,4 +63,6 @@ PR171整合切片：保留develop最新商店原子交易和战后独立选牌�
 2026-10-24用户明确删除首页层数流程及拖牌教学两行；源码e116ca7已修，15组界面回归和4组布局/控制器检查通过，修正版副本独立读回通过，尚未导入。原计划及记录完整保存在本轮Git stash与.artifacts/m1-live-sprint/backlog-changes-preserved.patch。
 
 PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交易及独立选牌台；修复价格行遮挡和新局同编号商店不播旁白。JS全量950通过/118环境跳过，商店Lua35项与开场10项回归通过；完整检查与最终SHA Quality继续核实。平台导入、电脑手机及UI门禁未验收。
+
+用户第9层截图确认地图漏显示金币与生命。已在地图左上补真实资源，复用房间顶栏主题；两项新回归及药水栏两项避让检查通过，语法通过。完整check进行中；尚未新副本/官方导入/实机，保持整体验收未勾。
 <!-- SECTION:NOTES:END -->
