@@ -1,11 +1,11 @@
 ---
 id: TASK-16.1.4
 title: 修正震慑敌阵对多名敌人的减益顺序
-status: In Progress
+status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 13:04'
-updated_date: '2026-10-24 13:22'
+updated_date: '2026-10-24 15:00'
 due_date: '2026-10-28'
 labels:
   - required
@@ -30,10 +30,10 @@ ordinal: 88000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 基础和升级牌都按敌人顺序先虚弱后易伤，费用、层数、消耗与原表现不变。
-- [ ] #2 免疫逐次正确消耗，死亡或逃跑目标跳过；事件快照与实际状态一致。
-- [ ] #3 旧无标记群体效果保持原顺序，坏分组在本次效果副作用前拒绝，合法出牌失败完整回滚。
-- [ ] #4 固定来源、真实入口、状态帧、文案与详情回归通过独立评审及当前CI；平台实测单独记录。
+- [x] #1 基础和升级牌都按敌人顺序先虚弱后易伤，费用、层数、消耗与原表现不变。
+- [x] #2 免疫逐次正确消耗，死亡或逃跑目标跳过；事件快照与实际状态一致。
+- [x] #3 旧无标记群体效果保持原顺序，坏分组在本次效果副作用前拒绝，合法出牌失败完整回滚。
+- [x] #4 固定来源、真实入口、状态帧、文案与详情回归通过独立评审及当前CI；平台实测单独记录。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -50,4 +50,14 @@ ordinal: 88000
 1313首候选30真实入口顺序/帧已过，但build-ui因Python unknown fields targetGroup失败，4个Node构建链回归同因失败；另3个wrapper缺Fengari不计通过。已限定新增第4生产路径为现有表现验证器并补先红后绿，未改UI设计、数值或预算。
 
 1320候选已补Python生成链并将新标记发现改为显式工作栈，修复独立评审实证的1万层无标记RangeError回归。正式data/UI/theme构建、171原生Lua、1085纯Node、22Python与9个负变异通过；独立141运行、59schema、深树/DAG及整份表现输出全等通过。旧1313/1317失败记录保留；仍待当前提交CI与合并，无Fengari本地或平台验收声明。
+
+PR181当前9c5df6c3的Quality40098324844 check与presentation双成功后，已squash合入d18d511c。仍无官方导入/原神或手机实测；完整原版规则和随机流未整体关闭。
+
+补记已核合后CI40099034137的check/presentation双成功；此处只收口已交付PR181的离线切片，不扩大父任务严格规则或平台验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+按每敌先虚弱后易伤执行，保留2费、3/5层、消耗和全部表现输出；schema/Lua/Python严格协议及回滚通过独立审查与CI。已合https://github.com/CHNISam/Slay-the-Abyss/pull/181；CI https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40098324844。
+<!-- SECTION:FINAL_SUMMARY:END -->
