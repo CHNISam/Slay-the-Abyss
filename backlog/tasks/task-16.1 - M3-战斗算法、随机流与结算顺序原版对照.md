@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 19:21'
+updated_date: '2026-10-24 20:11'
 due_date: '2026-10-28'
 labels:
   - required
@@ -49,4 +49,6 @@ ordinal: 43000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-25随TASK-16完整75张候选推进：共享牌动作队列与独立牌队列、UID选牌、完整消耗/抽牌触发、房间shuffleRng和cardRandomRng、run.cardRng+稀有度偏移已接入并有专项回归。补正同优先级能力按施加顺序触发、Double Tap/Rampage共享身份成长、暂停事务克隆引用，以及Burn/Regret回合末顺序。原始75卡名保留，旧附件允许自定义名称仅为历史口径。仍缺Courier补货MathUtils身份熵接线、正版PC构建身份认证、完整同源回归和逐卡平台联动证据，不将可复现当原版一致性通过。源a891451整合develop7f11cc2，150普通/升级与75获取升级下一战事务通过；平台新组合正在重建，历史启动/普通实战不移算到新组合。
+
+2026-10-25：Courier职业补货身份改走独立MathUtils语义的会话熵，稀有度仍共用cardRng；6组外部熵/失败原子性、15组重复卡槽、既有商店专项通过。依据与精确边界见docs/reviews/TASK-16-warrior75-courier.md。原作全局外部随机历史、PC二进制认证和平台商店实玩仍未验；不勾选严格验收。7854a5e修复完整牌名/效果裁切、重复Searing Blow升级预览，900条菌兽与每色800条虱虫决策断言均保留，构造优化后分别约2.5/3.4秒；完整CI待新SHA。
 <!-- SECTION:NOTES:END -->

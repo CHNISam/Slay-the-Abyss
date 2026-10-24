@@ -3,6 +3,7 @@ package.path = 'src/lua/?.lua;build/lua/?.lua;' .. package.path
 local Nodes, Run, Map, C = require('abyss_nodes'), require('abyss_run'), require('abyss_map'), require('abyss_combat')
 local UI, Layout, Presentation = require('abyss_node_ui'), require('abyss_ui_layout'), require('abyss_presentation')
 local data = require('abyss_data')
+local External,Primitive=require('abyss_external_random'),require('abyss_randomxs128')
 local cursor = {CursorEnter='enter', CursorExit='exit', CursorDown='down', CursorUp='up', CursorEndDrag='endDrag'}
 local passed, failed = 0, 0
 local function test(name, fn)
@@ -42,8 +43,11 @@ local function shop(courier)
 end
 local function duplicate()
     local run, map = shop(true)
-    for _ = 1, 21 do assert(Nodes.buyCardSlot(run, 1)) end
-    assert(run.nodeFlow.cards[1].id == 'clothesline' and run.nodeFlow.cards[1].price == 41)
+    -- Only the original MathUtils external entropy is injected; real rarity,
+    -- canonical typed pool, purchase and quote paths remain active.
+    External.setReplayState(Primitive.snapshot(Primitive.fromSeed('6')))
+    assert(Nodes.buyCardSlot(run,1))
+    assert(run.nodeFlow.cards[1].id == 'clothesline' and run.nodeFlow.cards[1].price == 36)
     assert(run.nodeFlow.cards[2].id == 'clothesline' and run.nodeFlow.cards[2].price == 42)
     return run, map
 end
@@ -98,7 +102,7 @@ for _, slot in ipairs({2, 1}) do
     test('real Courier duplicate UI buys only slot ' .. slot, function()
         local run, map = duplicate(); local ui = uiFor(run, map); local before = C.copy(run)
         assert(ui:press('shopView/card' .. slot))
-        bought(run, before, slot, slot == 2 and 42 or 41)
+        bought(run, before, slot, slot == 2 and 42 or 36)
     end)
 end
 test('legacy ID rejects ambiguous duplicate stock atomically', function()
@@ -112,7 +116,7 @@ test('slot API selects the expensive duplicate instead of first matching ID', fu
 end)
 test('expensive slot rejects funds sufficient only for cheaper duplicate', function()
     local run, map = duplicate(); local ui = uiFor(run, map)
-    run.gold = 41 -- stale enabled UI must still revalidate the selected 42-gold quote
+    run.gold = 36 -- stale enabled UI must still revalidate the selected 42-gold quote
     rejected(run, map, function() return ui:press('shopView/card2') end, 'insufficient_gold')
     ui:render()
     rejected(run, map, function() return ui:press('shopView/card2') end, 'unavailable_action')

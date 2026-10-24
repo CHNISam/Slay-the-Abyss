@@ -1,5 +1,7 @@
 # 商店修复：规则、内容缺口与验收边界
 
+2026-10-25 TASK-16 更新：完整72张非基础红牌及原 cardID 类型池已接入；战后奖励、初始商店与补货稀有度共用正式 cardRng 和动态偏移。Courier 职业补货身份已改用独立会话熵，见[补货专项依据与边界](reviews/TASK-16-warrior75-courier.md)。以下2026-10-24记录中的受限职业池、未共用奖励流及补货错误随机源属于历史；无色效果、遗物/药水全池和本机实玩缺口仍按原记录保留，不因此认定全商店通过。
+
 2026-10-24，承接 TASK-13.1；独立分支 `feat/shop-parity`，起点 `b3c2ecb`。复用 [价格证据](reviews/TASK-13.1-shop-card-price-evidence.md)、[Lua 算术候选](reviews/TASK-13.1-shop-price-lua-candidate.md) 和 [既有节点账本](NODE_ECONOMY_PARITY.md)。没有启动原作或认证目标 PC 二进制。此文是该商店切片的当前说明；旧账本“未售药水、全池商店、固定最终价”的描述保留为历史。
 
 ## 当前实现

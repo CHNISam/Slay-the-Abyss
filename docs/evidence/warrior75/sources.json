@@ -1016,6 +1016,19 @@
       "reviewedFacts": [
         "Auto-use queues fixed THORNS self damage in hand iteration order; normal used-card disposal follows."
       ]
+    },
+    {
+      "id": "libGDX_MathUtils",
+      "repository": "libgdx/libgdx",
+      "commit": "3b1fda1fc2e1f6b3c74851471870062d871ed16f",
+      "path": "gdx/src/com/badlogic/gdx/math/MathUtils.java",
+      "url": "https://raw.githubusercontent.com/libgdx/libgdx/3b1fda1fc2e1f6b3c74851471870062d871ed16f/gdx/src/com/badlogic/gdx/math/MathUtils.java",
+      "sha256": "f9015ad213302be0f78724311d801ef8ed0cb82348b7e7db67820449ff98e95d",
+      "bytes": 13301,
+      "reviewedFacts": [
+        "Global random is a separate RandomXS128 instance, not a dungeon seed stream.",
+        "random(int range) delegates to nextInt(range+1); its upper endpoint is inclusive."
+      ]
     }
   ]
 }

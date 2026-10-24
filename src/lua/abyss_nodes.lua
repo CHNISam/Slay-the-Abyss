@@ -10,6 +10,7 @@ local EventPool = require("abyss_event_pool")
 local EventRandom = require("abyss_sts_random")
 local Inventory = require("abyss_inventory")
 local Shop = require("abyss_shop")
+local External=require('abyss_external_random')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -297,8 +298,11 @@ local function purchase(run, category, reference, bySlot)
         stagedRun.relics=Combat.copy(run.relics)
         stagedRun.relics[#stagedRun.relics+1]=id
     end
-    local called=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
+    local called,transaction=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
     if not called then return false,'shop_content_unavailable' end
+    -- Only colored Courier cards use external entropy. Commit its staged draw
+    -- before the infallible card grant; rejected purchases never advance it.
+    if transaction and not pcall(External.commit,transaction) then return false,'shop_content_unavailable' end
     if category == "cards" then
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1

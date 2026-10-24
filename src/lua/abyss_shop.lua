@@ -5,6 +5,8 @@ local Price = require('abyss_shop_price')
 local C = require('abyss_combat')
 local Effects = require('abyss_effects')
 local CardPool=require('abyss_card_pool')
+local External=require('abyss_external_random')
+local Primitive=require('abyss_randomxs128')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -64,7 +66,7 @@ local function candidates(run,category,rarity,kind,color,stock)
     table.sort(pool,function(a,b) return (a.sourceId or a.id)<(b.sourceId or b.id) end)
     return pool
 end
-local function cardOffer(run,rng,slot,kind,color,rarity,previous,restock)
+local function cardOffer(run,rng,slot,kind,color,rarity,previous,restock,external)
     local def,sourceCardId
     -- The original rerolls both rarity and card for duplicate attack/skill.
     -- Bounded only to prevent an incomplete supported pool hanging the game.
@@ -73,7 +75,9 @@ local function cardOffer(run,rng,slot,kind,color,rarity,previous,restock)
             rarity=S.cardRarity(R.randomInt(rng.card,99),run.cardRarityOffset)
             if kind=='power' and rarity=='common' then rarity='uncommon' end
         end
-        def=pick(rng.card,candidates(run,'cards',rarity,kind,color))
+        local pool=candidates(run,'cards',rarity,kind,color)
+        if external and #pool>0 then def=pool[Primitive.nextInt(external,#pool)+1]
+        else def=pick(rng.card,pool) end
     until not def or def.id~=previous
     if color=='colorless' and not def then
         local pool=assert(run.data.cards.sourcePools.colorless[rarity])
@@ -130,13 +134,16 @@ function S.afterPurchase(run,flow,category,offer)
         end
     end
     if not owns(run,'courier') then offer.sold=true;return end
-    local fresh
+    local fresh,transaction
     if category=='cards' then
         local rarity=offer.rarity
         if offer.color=='colorless' then rarity=R.randomFloat(flow.shopRng.merchant)<f32(.3) and 'rare' or 'uncommon' end
-        fresh=cardOffer(run,flow.shopRng,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true)
+        if offer.color=='colored' then transaction=External.begin() end
+        fresh=cardOffer(run,flow.shopRng,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true,
+            transaction and transaction.state)
     else fresh=itemOffer(run,flow.shopRng,category,offer.slot,flow.relics,true) end
     flow[category][offer.slot]=fresh
     run.shopRng=flow.shopRng
+    return transaction
 end
 return S
