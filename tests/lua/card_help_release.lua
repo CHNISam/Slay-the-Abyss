@@ -25,7 +25,7 @@ end
 local function hidden(p) assert(not p:GetChild('statusInfo').visible, 'released/cancelled card opened help') end
 local function keyword(p)
     local info = p:GetChild('statusInfo')
-    assert(info.visible and info:GetChild('title').text:find('关键词',1,true), 'live card hold/hover lost help')
+    assert(info.visible and info:GetChild('tag').text:find('关键词',1,true), 'live card hold/hover lost help')
     assert(info:GetChild('name1').text:find('易伤',1,true))
 end
 
