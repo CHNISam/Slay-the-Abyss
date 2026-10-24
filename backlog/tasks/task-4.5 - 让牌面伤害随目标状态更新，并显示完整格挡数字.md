@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-24 14:27'
+updated_date: '2026-10-24 15:52'
 due_date: '2026-10-24'
 labels: []
 milestone: m-5
@@ -36,6 +36,8 @@ ordinal: 86000
 
 <!-- SECTION:PLAN:BEGIN -->
 保留原版普通手牌/瞄准/取消区分，撤回尚未提交的整手牌目标修正试改。格挡按位数拓宽，窄敌列采用不挤压生命数字的排布；同根因状态层数和抽弃牌行高补统一门禁。保留旧版证红、定向回归与同候选实机证据。
+
+用户追加要求格挡位置一致：移除窄列搬至头像分支；参照固定AbstractCreature.renderHealth/renderBlockIconAndValue的血条左端锚定关系，扩大敌人行可用跨度，列内预留三位格挡区域；增加1到5敌人/首领多位数字、同高、无重叠回归。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -44,4 +46,6 @@ ordinal: 86000
 用户随后要求先核实原版。固定AbstractPlayer.renderHand 1678-1715证明calculateCardDamage目标后渲染，随后applyPowers还原；普通手牌不直接算敌方易伤是正确语义。补瞄准/取消/目标状态移除/玩家力量虚弱恢复回归15组通过。格挡旧版真实树证红hero clips Block10；首次拓宽又被相邻生命容量契约证红enemy1 clips HP while showing Block10，改窄列放入画像下角，保留完整生命带，55组UI含动画均绿。全项实机尚未复验，不勾AC。
 
 本轮76bbefa数字视觉夹具官方导入1846，29号新日志24条含两次ready/六阶段/complete/正式结算。玩家及五敌1/10/99/100/999、Boss100与240/240、状态和牌堆10实际截图完整；用户帮助启动，自动启动失败保留。仅数字显示复验，预览/普通奖励及整体UI未验。详见docs/M3-NUMERIC-LIVE-20261024.md。后续develop拖牌同步b6d3cbe另有15预览/53UI回归通过，截图不认证全部新组合。
+
+2026-10-24 用户追加一致性修正：移除窄列搬格挡到头像分支，按固定AbstractCreature血条左端锚定；敌人行-192～512，固定预留三位格挡空间，生命位置不随格挡变化。先红后绿；53战斗UI、15预览、10反馈及13主题/布局回归通过。源码依据与验证边界见docs/reviews/consistent-block-layout.md；未导入/实机，不勾AC。
 <!-- SECTION:NOTES:END -->

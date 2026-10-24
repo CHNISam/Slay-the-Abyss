@@ -443,8 +443,8 @@
     },
     "enemyRow": {
       "y": 64,
-      "xFrom": 80,
-      "xTo": 520,
+      "xFrom": -192,
+      "xTo": 512,
       "portrait": 120,
       "bossPortrait": 168
     },
