@@ -2,6 +2,8 @@
 
 用户于2026-10-24确认采用“Codex决策和验收，OpenCode免费DeepSeek优先执行低风险任务”的日常分工。本次只增加项目AGENTS.md的简短约定，不安装skill、不开发调度框架、不修改全局配置。
 
+用户追加要求：考虑Flash模型在长任务中的能力限制，默认使用支持的最高推理档位；当前已验证Max。长任务拆成短步骤，每段单独给范围、必要上下文和验收，验证与交接后再推进下一段；关键设计和高风险逻辑仍由Codex承担。
+
 ## 原生CLI调用
 
 OpenCode CLI 1.18.24；Provider `opencode`；模型 `deepseek-v4.1-flash-free`。目录声明输入、输出、缓存读写价格均为0，variants包含`max`。本次实际使用`--variant max`并成功返回。

@@ -79,7 +79,7 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 ## 免费模型委派（默认分工）
 
 - Codex负责总体决策、任务拆分、关键代码、集成和最终验收；低风险、重复性强、可独立验收的任务优先交给OpenCode + DeepSeek。单次委派写清目标、允许修改的文件、禁止事项、验收标准和验证命令；遵守本仓库Backlog与工作树流程，不覆盖其他Agent的改动。
-- 使用原生CLI：`opencode run --model opencode/deepseek-v4.1-flash-free --format json`；先用`opencode models opencode --verbose`核对零定价与variants，支持Max则加`--variant max`，否则不传档位。不依赖界面默认模型；本轮普通CLI成功、`--pure`调用返回403，默认不加`--pure`。
+- 使用原生CLI：`opencode run --model opencode/deepseek-v4.1-flash-free --format json`；先用`opencode models opencode --verbose`核对零定价与variants，默认使用支持的最高推理档位（当前`--variant max`；无variants时不传）。Flash模型的长任务先拆成短步骤，每段只交必要上下文、验证并交接后再继续，避免一次承包长链路；关键设计与高风险逻辑由Codex处理。不依赖界面默认模型；本轮普通CLI成功、`--pure`调用返回403，默认不加`--pure`。
 - 用进程级`OPENCODE_CONFIG_CONTENT`将主模型和`small_model`固定为同一免费模型、`enabled_providers`只保留`opencode`、模型白名单只保留该免费ID，并限制本任务工具/文件权限；用`debug config`核对生效值但仅输出白名单字段，禁止输出凭证。临时覆盖用完即恢复，不持久改写全局配置。
 - 不自动回退到收费模型。免费服务不可用或连续两次未达验收时停止该路径，由Codex接管并报告；OpenRouter仅在用户明确授权后试用当时已核价的免费模型，不用`auto`路由冒充免费模型。
 - Codex必须检查JSON事件中的真实工具调用、成果/文件Diff和相关验证；退出码0、模型自报完成或普通文本里的工具标签都不代表通过。只向执行者提供必要上下文，保存脱敏证据；不另建调度框架。
