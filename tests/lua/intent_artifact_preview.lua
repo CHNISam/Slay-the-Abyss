@@ -14,7 +14,7 @@ test("stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with
     local compact, detail = refresh(h, p, tap)
     eq(compact, "4"); assert(detail:find("使你获得 1 层虚弱", 1, true))
     assert(u:showStatus(0))
-    eq(p:GetChild("statusInfo"):GetChild("name2").text, "虚弱 2147483647 · 减益")
+    eq(p:GetChild("statusInfo"):GetChild("name2").text, "虚弱 2147483647")
     local recoveries = counters.recoveries
     tap("hero", 12); tap("endTurn", 13); drain()
     eq(counters.recoveries, recoveries, "the complete boundary playback must not need recovery")
@@ -34,8 +34,8 @@ test("ordinary stock values retain status details, card preview and command beha
     end
     assert(u:showStatus(0))
     local info = p:GetChild("statusInfo")
-    eq(info:GetChild("name1").text, "人工制品 1 · 增益")
-    eq(info:GetChild("name2").text, "虚弱 2 · 减益")
+    eq(info:GetChild("name1").text, "人工制品 1")
+    eq(info:GetChild("name2").text, "虚弱 2")
     same(s, before)
     tap("hero", 21); tap("endTurn", 22); drain()
     eq(s.player.statuses.weak, 1); eq(s.player.statuses.artifact, 0)

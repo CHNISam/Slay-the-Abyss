@@ -255,7 +255,9 @@ local function info(panel)
     local box, rows = panel:GetChild("statusInfo"), {}
     for i = 1, L.statusInfo.rows do
         if box:GetChild("name" .. i).visible then
-            rows[#rows + 1] = {name = box:GetChild("name" .. i).text, text = box:GetChild("text" .. i).text}
+            local note = box:GetChild("note" .. i)
+            rows[#rows + 1] = {name = box:GetChild("name" .. i).text, text = box:GetChild("text" .. i).text,
+                tag = box:GetChild("tag" .. i).text, note = note.visible and note.text or nil}
         end
     end
     return box.visible, rows, box
@@ -281,21 +283,25 @@ test("player and every enemy show status icons, stacks and full current effects"
     tap({"hero", "hit"})
     local open, rows, box = info(panel)
     assert(open and box:GetChild("title").text == "旅行者")
-    eq(box:GetChild("summary").text, "生命 " .. s.player.hp .. "/" .. s.player.maxHp .. " · 格挡 0")
-    eq(rows[1].name, "力量 2 · 增益") eq(rows[1].text, "攻击每段伤害 +2。其中 2 层在回合结束时移除。")
-    eq(rows[2].name, "易伤 1 · 减益") eq(rows[2].text, "受到的攻击伤害 +50%，持续 1 回合。")
+    eq(box:GetChild("summary").text, "生命 " .. s.player.hp .. "/" .. s.player.maxHp)
+    eq(box:GetChild("guard").text, "格挡 0")
+    -- Hierarchy: buff section, then debuff section; name + duration, effect, condition.
+    eq(box:GetChild("section1").text, "增益") eq(box:GetChild("section2").text, "减益")
+    eq(rows[1].name, "力量 2") eq(rows[1].tag, "本回合") eq(rows[1].text, "攻击每段伤害 +2")
+    eq(rows[1].note, "其中 2 层在回合结束时移除")
+    eq(rows[2].name, "易伤 1") eq(rows[2].tag, "剩余 1 回合") eq(rows[2].text, "受到的攻击伤害 +50%")
     tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     local expected = {
-        {"中毒 4 · 减益", "回合开始时失去 4 点生命，之后每回合少 1 点。", "虚弱 2 · 减益", "造成的攻击伤害 -25%，持续 2 回合。"},
-        {"人工制品 1 · 增益", "抵挡接下来 1 次减益效果。", "力量 -1 · 减益", "攻击每段伤害 -1。"},
-        {"荆棘 3 · 增益", "受到攻击时，对攻击者造成 3 点伤害。"},
+        {{"中毒 4", "每回合 -1", "回合开始时失去 4 点生命"}, {"虚弱 2", "剩余 2 回合", "造成的攻击伤害 -25%"}},
+        {{"人工制品 1", "剩余 1 次", "抵挡接下来 1 次减益效果"}, {"力量 -1", "本场战斗", "攻击每段伤害 -1"}},
+        {{"荆棘 3", "本场战斗", "受到攻击时，对攻击者造成 3 点伤害"}},
     }
     for i, lines in ipairs(expected) do
         tap({"enemy" .. i, "statusRow", "hit"})
         open, rows, box = info(panel)
         assert(open and box:GetChild("title").text == s.enemies[i].name)
-        eq(#rows, #lines / 2)
-        for r = 1, #rows do eq(rows[r].name, lines[r * 2 - 1]) eq(rows[r].text, lines[r * 2]) end
+        eq(#rows, #lines)
+        for r = 1, #rows do eq(rows[r].name, lines[r][1]) eq(rows[r].tag, lines[r][2]) eq(rows[r].text, lines[r][3]) end
         tap({"statusInfo", "hit"})
     end
     -- Every status has its own plain sentence with the live number: never the raw
@@ -308,17 +314,20 @@ test("player and every enemy show status icons, stacks and full current effects"
         tap({"enemy3", "statusRow", "hit"})
         open, rows = info(panel)
         assert(open and #rows == 1, id)
-        local text = rows[1].text
-        for _, jargon in ipairs({"所示", "等量", "层数", "（当前"}) do
+        local row = rows[1]
+        local text = row.text .. "|" .. row.tag .. "|" .. (row.note or "")
+        for _, jargon in ipairs({"所示", "等量", "层数是", "与层数", "（当前"}) do
             assert(not text:find(jargon, 1, true), id .. " contains " .. jargon .. ": " .. text)
         end
         assert(definition.stack == "none" or id == "entangled" or text:find("5", 1, true), id .. " hides its number: " .. text)
-        assert(utf8.len(text) <= perLine * 2, id .. " overflows two lines: " .. text)
+        assert(row.text ~= "" and utf8.len(row.text) <= perLine * 2, id .. " effect overflows two lines: " .. row.text)
+        assert(not row.note or utf8.len(row.note) <= perLine * 2, id .. " condition overflows two lines: " .. tostring(row.note))
+        assert(utf8.len(row.tag) <= math.floor(I.tagWidth / Theme.font.small), id .. " duration tag too long: " .. row.tag)
         tap({"statusInfo", "hit"})
     end
 end)
 
-test("crowded and narrow units overflow to +N and the panel reports unlisted statuses", function()
+test("crowded and narrow units overflow to +N and the panel pages through every status", function()
     local ui, panel, _, tap = setup({"strike"}, {"jaw_worm", "cultist", "cultist", "cultist", "jaw_worm"})
     local s = ui.run.combat
     local ids = {"strength", "dexterity", "vulnerable", "weak", "frail", "poison", "thorns", "regen",
@@ -337,14 +346,32 @@ test("crowded and narrow units overflow to +N and the panel reports unlisted sta
     end
     tap({"hero", "statusRow", "hit"})
     local open, rows, box = info(panel)
-    assert(open) eq(#rows, L.statusInfo.rows)
-    assert(box:GetChild("more").visible and box:GetChild("more").text == "另有 " .. (#ids - L.statusInfo.rows) .. " 项状态未列出")
-    eq(rows[1].name, "人工制品 1 · 增益") eq(rows[2].name, "壁垒 · 增益") -- stack "none" shows no count
-    tap({"statusInfo", "hit"})
+    assert(open and #rows > 0 and #rows <= L.statusInfo.rows)
+    local pages = tonumber(box:GetChild("more").text:match("^第 1/(%d+) 页"))
+    assert(pages and pages > 1, "a crowded unit pages instead of hiding statuses: " .. box:GetChild("more").text)
+    local seen, kinds = {}, {}
+    for page = 1, pages do
+        if page > 1 then tap({"statusInfo", "page"}) open, rows, box = info(panel) end
+        assert(open and box:GetChild("more").text:find("第 " .. page .. "/" .. pages .. " 页", 1, true))
+        local room = Theme.canvas.base[2] - L.topBar.height - Theme.space.s - Theme.canvas.safe.y
+        assert(box:GetChild("plate").sizeDeltaY <= room, "page " .. page .. " fits under the top bar")
+        for _, row in ipairs(rows) do seen[#seen + 1] = row.name end
+        kinds[box:GetChild("section1").text] = true
+    end
+    eq(#seen, #ids, "every status is reachable across pages")
+    assert(kinds["增益"], "buff section labels its rows")
+    local barricade
+    for _, name in ipairs(seen) do if name == "壁垒" then barricade = true end end
+    assert(barricade, "stack \"none\" shows no count")
+    tap({"statusInfo", "page"}) open = info(panel)
+    assert(open and box:GetChild("more").text:find("第 1/", 1, true), "the last page turns back to the first")
+    tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     s.enemies[2].statuses = {} ui:render()
     tap({"enemy2", "statusRow", "hit"})
     open, rows, box = info(panel)
-    assert(open and #rows == 0 and box:GetChild("more").text == "暂无状态")
+    assert(open and #rows == 0 and box:GetChild("section1").text == "暂无状态")
+    eq(box:GetChild("more").text, "点按任意处关闭")
+    tap({"statusInfo", "page"}) assert(not panel:GetChild("statusInfo").visible, "a single page closes on its own tap")
 end)
 
 for _, drag in ipairs({false, true}) do
@@ -401,7 +428,7 @@ test("the panel follows live values and closes for playback, a dead unit or a ne
     tap({"enemy1", "statusRow", "hit"})
     Combat.addStatus(s.enemies[1], "vulnerable", 2) ui:render()
     local open, rows = info(panel)
-    assert(open) eq(rows[1].name, "易伤 2 · 减益")
+    assert(open) eq(rows[1].name, "易伤 2")
     ui:endTurn() -- a command starts playback: details never cover the animation
     assert(ui.busy and not panel:GetChild("statusInfo").visible)
     drain(ui)

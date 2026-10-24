@@ -23,6 +23,10 @@ test('map uses the approved stage, external backdrop, viewport and shared theme 
   altered.color.node.current = '#123456';
   altered.image.disc = 106026;
   altered.layout.map.node = 60;
+  altered.layout.map.scrollStepFloors = 1;
+  altered.motion.base = .24;
+  assert.equal(mapGeometry(altered).scrollStep, altered.layout.map.floorGap);
+  assert.equal(mapGeometry(altered).scrollSeconds, .24);
   const changed = mapLayout(altered).controls[1].children[0].children.flatMap(group => group.children).find(c => c.name === 'node1');
   assert.equal(changed.children.find(c => c.name === 'current').colour, '#123456');
   assert.equal(changed.children.find(c => c.name === 'current').image, 106026);
@@ -87,7 +91,7 @@ test('actual Lua controller validates navigation, scroll, locked input, path and
   buildMapLayout();
   const result = runLua('tests/lua/map_ui.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
-  assert.match(result.stdout, /LUA_MAP_UI_PASS 19/);
+  assert.match(result.stdout, /LUA_MAP_UI_PASS 27/);
 });
 
  test('complete native interface respects MCP per-container import limits', async () => {
