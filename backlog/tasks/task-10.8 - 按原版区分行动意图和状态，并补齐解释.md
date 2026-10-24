@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 04:23'
-updated_date: '2026-10-24 04:24'
+updated_date: '2026-10-24 04:29'
 labels: []
 milestone: m-2
 dependencies: []
@@ -34,6 +34,8 @@ ordinal: 82000
 
 <!-- SECTION:PLAN:BEGIN -->
 修复已复现的标题裁切和入口缺失，检查触摸归属与只读性；首领模式转换文案由用户调研，本轮不改。
+
+整合81df9e1复合意图角标；保留59306e7的说明交互与非攻击数字语义，运行check:rules，重建候选并尝试新候选官方导入与中型酸液团/下颚虫截图取证。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
