@@ -1,16 +1,30 @@
 # 战斗卡牌动态数值反馈验收记录
 
-数字已按原版方式留在原说明句中，只有发生变化的数字及紧邻↑/↓局部红绿；原卡面图标、费用、排版和命中区保留。**PC受控渲染已验证；物理手机和全UI验收未通过，TASK-4.6仍在进行中。**
+数字已按原版方式留在原说明句中，只有发生变化的数字及紧邻↑/↓局部红绿；原卡面图标、费用、排版和命中区保留。**PC受控渲染已验证；物理手机尚未测试，全UI门禁未通过，TASK-4.6仍在进行中。**
 
 ## 实现与来源
 
 - PR：[194](https://github.com/CHNISam/Slay-the-Abyss/pull/194)，按当前SHA两项CI成功后才能合并develop。
-- 初始develop `695d94d`，已同步 `35fc111`编号修复；生产运行源码冻结 `bd7620d8fa4adafe254cdeaddec93315c2c94b8e`，循环夹具为 `6e22f2028043d276087fa904363a8ff023a9fb9d`。后续证据提交不改运行源码。
+- 初始develop `695d94d`，先同步 `35fc111`编号修复，随后同步 `7f11cc2`药水目标/说明任务。当前组合运行源码冻结 `33eebfc46b12b66f333e1ccaf1006897b6d5c03b`；下方1851是组合前的专项证据，不能认证新组合。
 - A档原生句内着色。1849探针确认颜色标签解析和箭头字形后才接入生产控件；不使用HTML/CSS，也不借离线图声称平台支持。
-- `abyss_card_display.lua`只读比较本卡当前定义与同效果预览。战斗公式、状态持续时间、目标判定、结算和随机流：**未修改**。
+- `abyss_card_display.lua`只读比较本卡当前定义与同效果预览。本任务相对develop的战斗公式、状态持续时间、目标判定、结算和随机流：**未修改**。
 - [实现契约](../../backlog-details/card-value-feedback.md)、[逐用例矩阵](test-matrix.csv)、[机器证据](evidence.json)。
 
-## 功能与实机证据
+## 最新develop组合验证（1852）
+
+已保留`7f11cc2`的药水选目标与说明按钮改动，并重新构建整个UI和受影响模块。普通候选SHA256 `d6f43d15db46335806a593506b08ae3c7c98af8ceb7decb75ad81b1f51240088`，独立核对49模块、2391控件、最大直属59，0错误32警告，音乐图与启用参数保留，输入副本hash不变。普通候选没有认证自然流程试玩。
+
+新专项夹具SHA256 `a8085c2236157fded96b1b1809d2230e82602b3497044f70dd610f3718068c2d`，官方导入1852回读50模块与UI完全匹配。run `da4d856f-c606-4557-bd2b-71d2d9f76034`显式开启客户端日志，有33条本轮打印，包含init/viewport_ready/ready及八阶段；逐图已观察句内颜色、箭头、原卡图保留和取消恢复。截图只遮挡底部UID。
+
+本轮截图：[中性](native-integrated/neutral.png)、[脆弱3↓](native-integrated/frail.png)、[敏捷8↑](native-integrated/dexterity.png)、[虚弱4↓](native-integrated/weak.png)、[瞄准9↑](native-integrated/aim.png)、[取消恢复6](native-integrated/cancel.png)、[同牌混合红绿](native-integrated/mixed.png)、[十牌扇形](native-integrated/ten.png)。这是受控PC渲染，不能认证自然状态获取、物理拖动、手机触摸或完整游戏。1851的一次真实鼠标选中不冒充1852组合验证。
+
+组合后专项回归：卡牌预览19组、药水目标12组、状态规则10组、布局/对比度及药水布局5项通过。组合本地JS为1230项：1112通过、118跳过、0失败。运行源码`33eebfc`的[完整CI](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40120982021)两项作业成功；合并前仍须核对最终PR当前SHA。
+
+组合版完整本地`npm run check`已退出0：上述JS结果、**182个Lua文件通过、Python22项含1跳过**。[完整日志](integrated-check.log)。本轮`gremlin_gang`为15.230秒通过，没有修改超时阈值；下方旧版超时保留为历史失败，未冒称首次即通过。
+
+本轮同普通候选`verify:ui`仍为**FAIL**；物理手机、完整真实拖动保持**NOT_RUN**。未降低全局UI清单。机器证据见[integration.json](integration.json)。
+
+## 组合前的专项实机证据（1851）
 
 | 场景 | 本地 | PC原生受控渲染 |
 | --- | --- | --- |
@@ -30,7 +44,7 @@
 
 PC专项为上述普通候选的独立夹具副本，入口和状态受控，SHA256 `f51581d390bd7c7cfbbd0cccb058f94e7a43520be8887827eb691e4686712e4f`。官方导入1851的50模块与UI树逐项匹配，官方快照hash `328e2f89b2f57d7888f1fb79b3e91a566c408e02f4ebb2388a0f140df608005a`。run `ccd6fe38-95ad-4d93-9d2d-5fca20f4bcc7`显式开启客户端日志；本轮33打印含init/viewport_ready/ready及各场景。**夹具不证明正常获取状态、物理瞄准/取消、完整通关或普通候选自然流程。**
 
-## 自动化与严格门禁
+## 组合前自动化历史与严格门禁
 
 | 验收层 | 结果 |
 | --- | --- |

@@ -306,5 +306,7 @@
     "certification": "No whole-game WCAG claim"
   },
   "rulesChanged": false,
-  "published": false
+  "published": false,
+  "scope": "Historical 1851 pre-potion integration verification; latest integrated result is integration.json",
+  "latestIntegration": "integration.json"
 }
