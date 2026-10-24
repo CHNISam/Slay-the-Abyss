@@ -55,14 +55,57 @@ export function validateContent(bundle) {
   const reference = (value, kind, path) => {
     if (text(value, path) && !ids[kind].has(value)) fail(path, `unknown ${kind} ID ${value}`);
   };
-  function effects(value, path, depth = 0, enemyIntent = false) {
+  // A bounded opt-in pair, not a general target/effect DSL. Walk all own
+  // values so falsey, sparse, container and unreachable nested markers fail.
+  function targetGroup(value, path, cardEffects) {
+    let found = false, misplaced = false, cyclic = false;
+    const seen = new Set(), active = new Set();
+    const pending = [{node: value, topMember: false}];
+    while (pending.length) {
+      const {node, topMember, leaving} = pending.pop();
+      if (node === null || typeof node !== 'object') continue;
+      if (leaving) { active.delete(node); continue; }
+      if (Object.hasOwn(node, 'targetGroup')) {
+        found = true;
+        if (!topMember) misplaced = true;
+      }
+      if (active.has(node)) { cyclic = true; continue; }
+      if (seen.has(node)) continue;
+      seen.add(node); active.add(node);
+      pending.push({node, leaving: true});
+      for (const [key, child] of Object.entries(node)) {
+        pending.push({node: child, topMember: node === value && /^(0|[1-9][0-9]*)$/.test(key)});
+      }
+    }
+    if (!found) return;
+    const invalid = () => fail(`${path}.targetGroup`, 'invalid target group');
+    if (!cardEffects || misplaced || cyclic || !Array.isArray(value)
+      || Object.keys(value).length !== value.length
+      || Object.keys(value).some((key, i) => key !== String(i))) { invalid(); return; }
+    const members = [];
+    for (let i = 0; i < value.length; i++) {
+      const effect = value[i];
+      if (!isObject(effect)) { invalid(); return; }
+      if (!Object.hasOwn(effect, 'targetGroup')) continue;
+      if (effect.targetGroup !== 'weak_then_vulnerable' || effect.op !== 'applyStatusAll'
+        || !Number.isInteger(effect.value) || effect.value < 1 || effect.value > 2147483647
+        || Object.keys(effect).some(key => !['op','status','value','targetGroup'].includes(key))) { invalid(); return; }
+      members.push(i);
+    }
+    if (members.length !== 2 || members[1] !== members[0] + 1
+      || value[members[0]].status !== 'weak' || value[members[1]].status !== 'vulnerable'
+      || value[members[0]].value !== value[members[1]].value) invalid();
+  }
+  function effects(value, path, depth = 0, enemyIntent = false, cardEffects = false) {
     if (depth > 8) { fail(path, 'conditional nesting exceeds 8'); return; }
+    targetGroup(value, path, cardEffects && depth === 0);
     array(value, path).forEach((effect, i) => {
       const p = `${path}[${i}]`;
       if (!object(effect, p)) return;
       const op = effect.op;
       if (!enumeration(op, [...valueOps, ...statusOps, ...cardOps, ...flagOps, 'conditional'], `${p}.op`)) return;
       const allowed = ['op'];
+      if (cardEffects && depth === 0) allowed.push('targetGroup');
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
       if (statusOps.includes(op) || op === 'gainTemporaryStrength') allowed.push('status');
       if (cardOps.includes(op)) allowed.push('card');
@@ -97,6 +140,7 @@ export function validateContent(bundle) {
     if (!partial || card.rarity !== undefined) enumeration(card.rarity, regret ? ['curse'] : ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
     const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
     const slimed = !partial && card.id === 'slimed';
+    if (regret || slimed || unplayableStatus) targetGroup(card.effects, `${path}.effects`, false);
     if (!unplayableStatus && !regret && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
     if (regret) {
       enumeration(card.type, ['curse'], `${path}.type`);
@@ -121,7 +165,7 @@ export function validateContent(bundle) {
       if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'unplayable status must have empty use');
       if (card.costMode !== undefined) fail(`${path}.costMode`, 'unplayable status has no cost mode');
       if (card.upgrade !== undefined) fail(`${path}.upgrade`, 'unplayable status upgrades are unsupported');
-    } else if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`);
+    } else if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`, 0, false, true);
     if (card.condition !== undefined) enumeration(card.condition, ['only_attacks_in_hand'], `${path}.condition`);
     if (card.costMode !== undefined) enumeration(card.costMode, ['all_energy'], `${path}.costMode`);
     for (const flag of ['exhaust', 'ethereal', 'innate', 'repeatable']) {
@@ -176,6 +220,7 @@ export function validateContent(bundle) {
         fail(`${ip}.kind`, 'split intent requires matching AI');
       }
       if (['sleep', 'stunned', 'charge', 'split', 'escape'].includes(intent.kind)) {
+        targetGroup(intent.effects, `${ip}.effects`, false);
         if (!Array.isArray(intent.effects) || intent.effects.length !== 0) fail(`${ip}.effects`, 'must be empty for an inactive intent');
       } else effects(intent.effects, `${ip}.effects`, 0, true);
     });
@@ -475,6 +520,7 @@ export function validateContent(bundle) {
     if (entry.description !== undefined && typeof entry.description !== 'string') fail(`${p}.description`, 'must be text');
     if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
     if (kind === 'relics' && entry.trigger === 'shop') {
+      targetGroup(entry.effects, `${p}.effects`, false);
       if (!['membership_card', 'courier', 'smiling_mask'].includes(entry.id)) fail(`${p}.id`, 'unsupported shop relic');
       if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'shop relic uses merchant hooks and must have empty combat effects');
     } else effects(entry.effects, `${p}.effects`);

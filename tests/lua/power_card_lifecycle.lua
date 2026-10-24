@@ -118,7 +118,7 @@ test("native battle counter distinguishes used Power from true Exhaust cards", f
     local function play(id)
         local slot
         for i, card in ipairs(ui.run.combat.hand) do if card.cardId == id then slot = i end end
-        assert(slot); F.click(root, "battlePanel", "card" .. slot); F.click(root, "battlePanel", "card" .. slot)
+        assert(slot); F.click(root, "battlePanel", "card" .. slot); F.click(root, "battlePanel", "playArea")
     end
     play("inflame"); equal(panel:GetChild("exhaust").text, "0")
     equal(panel:GetChild("discard").text, "0"); equal(ui.run.combat.player.statuses.strength, 2)

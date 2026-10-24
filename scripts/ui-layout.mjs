@@ -149,6 +149,12 @@ export function battleLayout() {
     ];
   };
   const controls = [
+    // Behind actors and hand: a distinct C-mode confirmation surface on open ground.
+    { name: 'playArea', kind: 'container', position: l.cardDrag.playArea.slice(0, 2), size: l.cardDrag.playArea.slice(2), visible: false, children: [
+      panel('line', 0, -l.cardDrag.playArea[3] / 2, l.cardDrag.playArea[2], s.border, c.goldBright),
+      text('label', 0, -l.cardDrag.playArea[3] / 2 + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '出牌区域 · 点击出牌', f.body, c.goldBright),
+      hit(...l.cardDrag.playArea.slice(2)),
+    ] },
     panel('topBar', 0, y, width, bar.height, c.panelSunken),
     // Post-battle card pick: a framed stage that separates reward choosing from playing the hand.
     { name: 'rewardStage', kind: 'container', position: l.rewardPick.stage.slice(0, 2), size: l.rewardPick.stage.slice(2), visible: false, children: [

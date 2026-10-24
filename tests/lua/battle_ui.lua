@@ -61,7 +61,7 @@ local function setup(options)
         local instance = ui.run.phase == "combat" and ui.run.combat.hand[slot]
         if instance and ui.selected == instance.uid then
             local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
-            click(reason == "invalid_target" and "enemy" .. (target or 1) or "card" .. slot)
+            click(reason == "invalid_target" and "enemy" .. (target or 1) or "playArea")
         end
     end
     return ui, stage, click, play, root
@@ -136,7 +136,7 @@ test("Jaw Worm real encounter presents combined Thrash and Bellow effects withou
     assert(enemy.statuses.strength == nil and enemy.block == 0, "preview mutated the actor")
 end)
 
-test("selection never spends energy; target click or second self-card click issues one real command", function()
+test("selection never spends energy; target click or explicit battlefield click issues one real command", function()
     local ui, stage, click, play = setup() click("start")
     local battle = ui.run.combat
     local id, energy = battle.hand[1].uid, battle.energy
@@ -144,7 +144,7 @@ test("selection never spends energy; target click or second self-card click issu
     assert(#battle.hand == 5 and battle.energy == energy and ui.selected == id)
     assert(stage.children.card1.children.glow.visible and stage.children.card1.localScaleX == Theme.motion.hoverScale)
     local _, reason = Combat.canPlay(battle, id, nil)
-    click(reason == "invalid_target" and "enemy1" or "card1")
+    click(reason == "invalid_target" and "enemy1" or "playArea")
     assert(#battle.hand == 4 and battle.discard[1].uid == id and ui.selected == nil)
     -- Energy preparation uses float arithmetic to detect overflow before wrapping.
     assert(battle.energy % 1 == 0, "energy must retain its integer value contract")
@@ -175,7 +175,7 @@ test("pending attack highlights valid live enemies and changing selection does n
             assert(stage.children.enemy1.children.border.imageColor.r == Theme.color.goldBright.r)
             local selected = ui.selected
             click("card" .. i)
-            assert(ui.selected == selected and #battle.hand == 5)
+            assert(ui.selected == nil and #battle.hand == 5)
             return
         end
     end
@@ -189,7 +189,7 @@ test("enemy intent click never confirms a selected non-target card", function()
     assert(slot, "fixture should contain defend")
     click("card" .. slot)
     local selected = ui.selected
-    assert(stage.children.notice.text == "再次点击确认出牌")
+    assert(stage.children.notice.text == "点击战场出牌区域；再点原牌取消")
     local energy, hand, block = battle.energy, #battle.hand, battle.player.block
     local discard, events, seed = #battle.discard, #battle.events, battle.seed
     click("enemy1")
@@ -197,7 +197,7 @@ test("enemy intent click never confirms a selected non-target card", function()
     assert(battle.energy == energy and #battle.hand == hand and battle.player.block == block)
     assert(#battle.discard == discard and #battle.events == events and battle.seed == seed)
     assert(stage.children.notice.text:find("意图：", 1, true))
-    click("card" .. slot)
+    click("playArea")
     assert(ui.selected == nil and battle.energy == energy - 1 and #battle.hand == hand - 1)
     assert(battle.player.block == block + 5 and battle.discard[#battle.discard].uid == selected)
 end)
@@ -484,7 +484,7 @@ test("embedded battle uses host controls and scaling and reports each successful
     click("card1") assert(changes == 0)
     local instance = ui.run.combat.hand[1]
     local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
-    click(reason == "invalid_target" and "enemy1" or "card1") assert(changes == 1)
+    click(reason == "invalid_target" and "enemy1" or "playArea") assert(changes == 1)
     click("potion1") assert(changes == 2)
     click("endTurn") assert(changes == 3)
     ui.run.combat.enemies[1].hp = 1
@@ -714,7 +714,7 @@ test("animated block badges keep HP and neighbouring columns clear for player, o
             end
             error("block playback did not finish")
         end
-        click("card1") click("card1") playback()
+        click("card1") click("playArea") playback()
         assert(popped.hero, "actual Defend must retain vertical badge feedback")
         click("endTurn") playback()
         for i = 1, #battle.enemies do
@@ -731,7 +731,7 @@ test("block gain and absorption have blue shield feedback without HP shake on a 
     -- This feedback fixture needs a six-damage attack, independent of Cultist's opening Ritual.
     battle.enemies[1].ai=nil; battle.enemies[1].intentIndex=1
     battle.player.block = 2 ui:render()
-    click("card1") click("card1")
+    click("card1") click("playArea")
     assert(battle.player.block == 7 and stage.children.hero.children.block.text == "2")
     assert(ui.feedback.flight.tx == Theme.layout.player.position[1], "self card must fly to the player, regardless of selected enemy")
     ui:update(Theme.motion.base)
@@ -759,7 +759,7 @@ test("block gain and absorption have blue shield feedback without HP shake on a 
 end)
 test("cancelling block playback resets every badge part without hiding the committed value", function()
     local ui, stage, click, battle = feedbackBattle({"defend"}, {"cultist"})
-    click("card1") click("card1")
+    click("card1") click("playArea")
     local c = stage.children.hero.children
     for _ = 1, 50 do
         ui:update(0.02)
@@ -812,7 +812,7 @@ test("multi-hit player cards, area damage, ability and debuff cards use real eve
         local ui, stage, click, battle = feedbackBattle({id}, {"jaw_worm", "cultist"})
         click("card1")
         local _, reason = Combat.canPlay(battle, battle.hand[1].uid, nil)
-        click(reason == "invalid_target" and "enemy1" or "card1")
+        click(reason == "invalid_target" and "enemy1" or "playArea")
         assert(ui.busy and stage.children.feedback.children.playedCard.visible)
         if id == "inflame" then assert(ui.feedback.flight.tx == Theme.layout.player.position[1])
         elseif id ~= "twin_strike" then assert(ui.feedback.flight.tx == (Theme.layout.enemyRow.xFrom + Theme.layout.enemyRow.xTo) / 2) end
@@ -881,7 +881,7 @@ test("playback preserves every rule field and RNG against direct commands and ca
                 assert(Run.play(direct,uid,1))
                 click("card" .. slot)
                 local _, reason = Combat.canPlay(battle, uid, nil)
-                click(reason == "invalid_target" and "enemy1" or "card" .. slot)
+                click(reason == "invalid_target" and "enemy1" or "playArea")
             else assert(Run.endTurn(direct)) click("endTurn") end
             same(ui.run,direct,"committed")
             drain(ui) same(ui.run,direct,"after playback")
@@ -985,7 +985,7 @@ test("native drag releases representative no-target rule cards into open ground 
         assert(not stage.children.dragLayer.visible and #battle.hand == 0)
     end
 end)
-test("targeted drags cancel only when pulled back into the hand; the aimed column's enemy is hit",function()
+test("targeted drags cancel in hand and hit the explicitly aimed enemy",function()
     local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
     local energy,hp1,hp2 = battle.energy,battle.enemies[1].hp,battle.enemies[2].hp
     grab(1) event("card1","drag",-200,0) event("card1","drag",0,-240) event("card1","up",0,-240)
@@ -997,7 +997,7 @@ test("targeted drags cancel only when pulled back into the hand; the aimed colum
     event("dragLayer","up",stage.children.enemy2.x,stage.children.enemy2.y)
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6 and #battle.hand == 0)
 end)
-test("aiming parks the card below the line and the pointer's column, not a portrait pixel, picks the enemy",function()
+test("aiming parks the card below the line and padded enemy hit areas support touch",function()
     local enemies = {"mad_gremlin","sneaky_gremlin","fat_gremlin","shield_gremlin","wizard_gremlin"}
     local ui,stage,click,event,grab,battle = dragBattle({"strike"},enemies)
     local D,h = Theme.layout.cardDrag,Theme.layout.card.size[2]*Theme.layout.cardDrag.scale
@@ -1016,59 +1016,22 @@ test("aiming parks the card below the line and the pointer's column, not a portr
     assert(#battle.hand == 0 and battle.enemies[3].hp + battle.enemies[3].block < hp[3])
     for i = 1, 5 do if i ~= 3 then assert(battle.enemies[i].hp + battle.enemies[i].block == hp[i]) end end
 end)
-test("an armed attack never falls through: open ground snaps to the nearest living enemy",function()
-    local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
-    local hp1,hp2 = battle.enemies[1].hp,battle.enemies[2].hp
-    grab(1) event("card1","drag",-200,40)
-    assert(stage.children.dragLayer.children.reticle.x == stage.children.enemy1.x)
-    event("dragLayer","up",-200,40)
-    assert(#battle.hand == 0 and battle.enemies[1].hp == hp1-6 and battle.enemies[2].hp == hp2)
-end)
-test("release jitter after crossing keeps the play armed until the card is back in the hand",function()
-    local ui,stage,click,event,grab,battle = dragBattle()
-    local box = stage.children.card1
-    grab(1) event("card1","drag",box.x,0) event("card1","drag",box.x,-170)
-    assert(stage.children.dragLayer.children.line.imageColor.r == Theme.color.goldBright.r, "armed play lights the line")
-    event("dragLayer","up",box.x,-170)
-    assert(#battle.hand == 1 and battle.player.block == 5)
-end)
-test("a card a quarter over the gold line plays even while the pointer is still under it",function()
-    local D,h = Theme.layout.cardDrag,Theme.layout.card.size[2]*Theme.layout.cardDrag.scale
-    for _,over in ipairs({D.commitOverlap*h+1,D.commitOverlap*h-6}) do
-        local ui,stage,click,event,grab,battle = dragBattle()
-        local box = stage.children.card1
-        local sx,sy = box.x,box.y-80 -- grab low on the card
-        event("card1","down",sx,sy)
-        local cy = D.lineY+over-h/2 -- desired dragged card centre
-        local py = sy+cy-box.y
-        assert(py < D.lineY,"pointer stays under the line")
-        event("card1","drag",sx,py)
-        local plays = over > D.commitOverlap*h
-        local lit = stage.children.dragLayer.children.line.imageColor.r == Theme.color.goldBright.r
-        assert(lit == plays and stage.children.dragLayer.children.hint.text == "")
-        event("dragLayer","up",sx,py)
-        assert(#battle.hand == (plays and 1 or 2),tostring(over))
+test("open ground, hand, top bar and outside canvas never auto-target or commit",function()
+    for _,point in ipairs({{-200,40},{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
+        local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
+        grab(1) event("card1","drag",0,0) event("dragLayer","up",point[1],point[2])
+        assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == nil)
     end
 end)
-test("an armed card stays armed off the play area; only the hand or end turn cancel, never clicking through",function()
-    for _,point in ipairs({{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
+
+test("non-target release outside the battlefield cancels even after arming",function()
+    for _,point in ipairs({{0,-170},{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
         local ui,stage,click,event,grab,battle = dragBattle()
-        local uid,energy,turn = battle.hand[1].uid,battle.energy,battle.turn
-        local plays = point[2] > -185
-        grab(1) event("card1","drag",point[1],point[2]) event("card1","up",point[1],point[2])
-        drain(ui) event("card1","endDrag",point[1],point[2])
-        click("endTurn") click("potion1") click("card1")
-        assert(battle.turn == turn and battle.energy == energy-(plays and 1 or 0),tostring(point[2]))
-        assert(#battle.hand == (plays and 1 or 2) and (plays or battle.hand[1].uid == uid))
-        assert(ui.selected == nil and not stage.children.dragLayer.visible)
-        for _ = 1, 2 do
-            event("card1","down",stage.children.card1.x,stage.children.card1.y)
-            event("card1","up",stage.children.card1.x,stage.children.card1.y)
-            event("card1","click",stage.children.card1.x,stage.children.card1.y)
-        end
-        assert(#battle.hand == (plays and 0 or 1),"a fresh tap must retain the fallback")
+        grab(1) event("card1","drag",0,0) event("dragLayer","up",point[1],point[2])
+        assert(battle.energy == 3 and #battle.hand == 2 and battle.player.block == 0)
     end
 end)
+
 test("drag validates current availability and ignores other touches and stale encounters",function()
     for _,kind in ipairs({"energy","phase","busy","inactive","replacement","unplayable","removed"}) do
         local ui,stage,click,event,grab,battle = dragBattle(kind == "unplayable" and {"clash","defend"} or {"defend"})
@@ -1114,7 +1077,7 @@ test("resize cancels a moving drag, hides the capture layer and permits a fresh 
         grab(1) event("card1","up",stage.children.card1.x,stage.children.card1.y)
         event("card1","click",stage.children.card1.x,stage.children.card1.y)
     end
-    assert(#battle.hand == 1 and battle.player.block == 5)
+    assert(#battle.hand == 2 and battle.player.block == 0 and ui.selected == nil)
 end)
 test("mixed enemy moves show a compound intent badge like STS ATTACK_DEBUFF", function()
     local ui, stage, click = setup() click("start")
@@ -1188,7 +1151,7 @@ test("committed encounter identity preserves target across real animation frames
     local selected = ui.selected
     ui:render()
     assert(ui.target == 2 and ui.selected == selected, "same encounter selection lost")
-    click("card" .. slot)
+    click("playArea")
     assert(ui.busy and ui.displayBattle ~= battle)
     assert(ui.target == 2, "target reset by initial animation snapshot")
     local frames = 0

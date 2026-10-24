@@ -13,7 +13,7 @@ test("control: resize cancelled touch remains inert with no interleaving input",
     event("card1","down",7); host:resize(1600,900)
     event("card1","up",7); event("card1","click",7)
     assert(ui.selected==nil and battle.energy==3 and #battle.hand==2)
-    tap("card1",8); tap("card1",8)
+    tap("card1",8); tap("playArea",8)
     assert(battle.energy==2 and battle.player.block==5)
 end)
 
@@ -94,7 +94,7 @@ test("moving resize cancellation remains inert for Up and EndDrag after other po
     event("card1","up",7,0,0); event("card1","endDrag",7,0,0)
     assert(battle.energy==3 and #battle.hand==2 and ui.gesture==nil)
     assert(not panel:GetChild("dragLayer").visible)
-    tap("card1",8); tap("card1",8)
+    tap("card1",8); tap("playArea",8)
     assert(battle.energy==2 and battle.player.block==5)
 end)
 
@@ -115,7 +115,7 @@ test("repeated resize permits same-touch-ID fresh taps after old release is cons
     event("card1","down",7); host:resize(1600,900); host:resize(1560,720)
     event("card1","up",7); event("card1","click",7)
     assert(ui.selected==nil and battle.energy==3)
-    tap("card1",7); tap("card1",7)
+    tap("card1",7); tap("playArea",8)
     assert(battle.energy==2 and #battle.hand==1 and battle.player.block==5)
 end)
 

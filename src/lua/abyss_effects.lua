@@ -17,6 +17,63 @@ local clearedAfterDamage = { draw=true, energy=true, applyStatus=true, applyStat
     addCardToDiscard=true, increaseDamageThisCombat=true, makeTempCardInDiscard=true, conditional=true }
 local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=true, loseHp=true }
 
+-- Only the opt-in Weak/Vulnerable pair is target-first. Discover markers in
+-- the entire input before any effect, including holes and unreachable branches.
+-- Unmarked inputs deliberately keep their old validation/error timing.
+local function targetGroup(effects)
+    local found, misplaced, cyclic = false, false, false
+    local seen, active = {}, {}
+    local pending = {{value=effects}}
+    while #pending > 0 do
+        local visit = table.remove(pending)
+        local value = visit.value
+        if type(value) == "table" then
+            if visit.leaving then active[value] = nil
+            else
+                if value.targetGroup ~= nil then
+                    found = true
+                    if not visit.topMember then misplaced = true end
+                end
+                if active[value] then cyclic = true
+                elseif not seen[value] then
+                    seen[value], active[value] = true, true
+                    pending[#pending + 1] = {value=value, leaving=true}
+                    for key, child in pairs(value) do
+                        pending[#pending + 1] = {value=key}
+                        pending[#pending + 1] = {value=child, topMember=value == effects and type(key) == "number"}
+                    end
+                end
+            end
+        end
+    end
+    if not found then return nil end
+    if misplaced or cyclic then return nil, "invalid_target_group" end
+    local count = 0
+    for key in pairs(effects) do
+        if type(key) ~= "number" or key % 1 ~= 0 or key < 1 then return nil, "invalid_target_group" end
+        count = count + 1
+    end
+    local members = {}
+    local allowed = { op=true, status=true, value=true, targetGroup=true }
+    for i = 1, count do
+        local effect = effects[i]
+        if type(effect) ~= "table" then return nil, "invalid_target_group" end
+        if effect.targetGroup ~= nil then
+            if effect.targetGroup ~= "weak_then_vulnerable" or effect.op ~= "applyStatusAll"
+                or type(effect.value) ~= "number" or effect.value < 1 or effect.value > 2147483647
+                or effect.value % 1 ~= 0 then return nil, "invalid_target_group" end
+            for key in pairs(effect) do if not allowed[key] then return nil, "invalid_target_group" end end
+            members[#members + 1] = i
+        end
+    end
+    if #members ~= 2 or members[2] ~= members[1] + 1 then return nil, "invalid_target_group" end
+    local first, second = effects[members[1]], effects[members[2]]
+    if first.status ~= "weak" or second.status ~= "vulnerable" or first.value ~= second.value then
+        return nil, "invalid_target_group"
+    end
+    return members[1]
+end
+
 local function supported(effects, branch)
     if type(effects) ~= "table" then return false, "invalid_effect" end
     -- Both levels must be nonempty dense arrays: ipairs alone would silently
@@ -52,6 +109,8 @@ local function supported(effects, branch)
 end
 
 function M.supported(effects)
+    local _, invalid = targetGroup(effects)
+    if invalid then return false, invalid end
     return supported(effects, false)
 end
 
@@ -61,15 +120,20 @@ local function targets(state, source)
 end
 
 function M.apply(combat, state, effects, source, target, playedCard, queuedEnemyAction)
+    local groupStart, invalid = targetGroup(effects)
+    assert(not invalid and (not groupStart or (source == state.player and not queuedEnemyAction)),
+        "invalid_target_group")
     local dealt = 0
     local cleared = false
-    for _, effect in ipairs(effects) do
+    for index, effect in ipairs(effects) do
         -- Defeat stops the action manager, unlike victory's selective clear.
         -- Keep current damage reactions, but never start another queued effect.
         if state.player.hp <= 0 or source.escaped then break end
         if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
-        if cleared and clearedAfterDamage[op] then
+        if groupStart and index == groupStart + 1 then
+            -- The adjacent second member was consumed by the first, not queued again.
+        elseif cleared and clearedAfterDamage[op] then
             -- Cancel only still-queued mapped actions, never earlier effects or
             -- retained Block/HP-loss. Card disposal remains owned by Combat.
         elseif source.hp <= 0 and op ~= "makeTempCardInDiscard" then
@@ -188,8 +252,23 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "applyStatus" then
             if Actors.isActive(target) then Actors.applyPower(state, target, effect.status, value, source) end
         elseif op == "applyStatusAll" then
-            for _, victim in ipairs(targets(state, source)) do
-                if Actors.isActive(victim) then Actors.applyPower(state, victim, effect.status, value, source) end
+            if index == groupStart then
+                for _, victim in ipairs(state.enemies) do
+                    for member = groupStart, groupStart + 1 do
+                        -- Recheck before each application, not just each target.
+                        -- Keep Artifact consumption and independent event frames in Actor.
+                        if not Actors.isActive(source) then break end
+                        if Actors.isActive(victim) then
+                            local status = effects[member]
+                            Actors.applyPower(state, victim, status.status, status.value, source)
+                        end
+                    end
+                    if not Actors.isActive(source) then break end
+                end
+            else
+                for _, victim in ipairs(targets(state, source)) do
+                    if Actors.isActive(victim) then Actors.applyPower(state, victim, effect.status, value, source) end
+                end
             end
         else error("unsupported effect: " .. tostring(op)) end
         if clearsOnFinalDamage[op] and combat.outcome(state) == "victory" then cleared = true end

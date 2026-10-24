@@ -8,8 +8,7 @@
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
   "knownBlockers": [
     { "ids": ["medium_slimes"], "status": "production-composition-needs-correction", "evidence": "docs/reviews/TASK-15-encounter-composition-audit-20261024.md", "tasks": ["TASK-15", "TASK-47"] },
-    { "ids": ["map"], "status": "full-parity-candidate-not-deployed", "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md", "tasks": ["TASK-12.4", "TASK-12.5"] },
-    { "ids": ["shockwave"], "status": "strict-sequence-difference-recorded", "evidence": "docs/reviews/TASK-16-m3-card-audit.md", "tasks": ["TASK-16", "TASK-16.1"] }
+    { "ids": ["map"], "status": "full-parity-candidate-not-deployed", "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md", "tasks": ["TASK-12.4", "TASK-12.5"] }
   ],
   "profiles": {
     "cards": {
@@ -1760,6 +1759,7 @@
     }
   ],
   "history": [
+    {"date": "2026-10-24", "change": "TASK-16.1.4 corrects the existing Shockwave pair to apply Weak then Vulnerable per active enemy, preserving values, cost, exhaust, presentation and shared Actor rules. Local evidence: docs/reviews/TASK-16.1.4-shockwave-order.md. Historical sequence diagnostics remain unchanged; other blockers and all per-item live acceptance remain pending."},
     {"date": "2026-10-24", "change": "TASK-16.1.3 removes the repeated Barricade zero-stack feedback for the existing normal non-stacking power only. Local evidence: docs/reviews/TASK-16.1.3-barricade-repeat.md. Historical sequence diagnostics remain unchanged; Shockwave order, all other blockers and per-item live acceptance remain pending."},
     {
       "date": "2026-10-24",
