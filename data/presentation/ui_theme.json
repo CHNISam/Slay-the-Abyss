@@ -459,7 +459,8 @@
     },
     "blockBadge": {
       "size": 28,
-      "gap": 4
+      "gap": 4,
+      "padding": 4
     },
     "statusIcon": {
       "size": 26,

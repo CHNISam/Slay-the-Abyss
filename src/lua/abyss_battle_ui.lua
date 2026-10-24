@@ -367,9 +367,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
         -- The block chip never covers the bar: wide bars keep their size and the chip sits outside;
         -- narrow enemy columns hand the bar's left end to the chip.
-        local blocked, chip, gap = actor.block > 0, L.blockBadge.size, L.blockBadge.gap
+        -- Native digits can occupy a full glyph: the fixed 28px chip cut
+        -- Block 10 down to "1". Widen the chip, never shrink away its digits.
+        local blocked, gap = actor.block > 0, L.blockBadge.gap
+        local chip = math.max(L.blockBadge.size, #number(actor.block) * Theme.font.body + L.blockBadge.padding * 2)
+        local hpText = number(actor.hp) .. "/" .. number(actor.maxHp)
+        local compact = blocked and width < chip + gap + #hpText * Theme.font.small
         local barWidth, barX, y = width, 0, -portrait / 2 - S.xxl - bh / 2
-        if blocked and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
+        if blocked and not compact and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
         for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
             local part = box:GetChild(name)
             part:SetAnchoredPosition(barX, y)
@@ -380,13 +385,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         tint(box:GetChild("hpFill"), blocked and C.hpShielded or C.hp)
         box:GetChild("hpFill").fillAmount = math.max(0, math.min(1, actor.hp / actor.maxHp))
         box:GetChild("hpGhost").fillAmount = box:GetChild("hpFill").fillAmount
-        box:GetChild("hp").text = number(actor.hp) .. "/" .. number(actor.maxHp)
+        box:GetChild("hp").text = hpText
         for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
             local part = box:GetChild(name)
             part:SetVisible(blocked)
             local side = name == "blockEdge" and chip + S.border * 2 or chip
-            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or side)
-            part:SetAnchoredPosition(barX - barWidth / 2 - gap - chip / 2, y)
+            local height = L.blockBadge.size + (name == "blockEdge" and S.border * 2 or 0)
+            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or height)
+            -- If a narrow enemy column cannot fit both complete numbers,
+            -- move the chip inside the portrait's lower-left corner. Preserve
+            -- the HP lane instead of fixing Block by clipping life digits.
+            local chipX = compact and (-portrait / 2 + chip / 2) or (barX - barWidth / 2 - gap - chip / 2)
+            local chipY = compact and (-portrait / 2 + L.blockBadge.size / 2 + S.s) or y
+            part:SetAnchoredPosition(chipX, chipY)
         end
         tint(box:GetChild("blockEdge"), C.panelSunken)
         tint(box:GetChild("blockIcon"), C.block)

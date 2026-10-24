@@ -177,6 +177,32 @@ test("negative Strength floors damage at zero and previews never mutate the batt
     same(s, before)
 end)
 
+test("source-backed hand and aimed values reset when target powers disappear or aiming is cancelled", function()
+    local ui, panel, event = setup({"strike", "strike"}, {"jaw_worm", "cultist"}, true)
+    local s = ui.run.combat
+    Combat.addStatus(s.player, "strength", 2)
+    ui:render(); eq(label(panel), "对目标造成 8 点伤害。")
+    Combat.addStatus(s.player, "weak", 1)
+    Combat.addStatus(s.enemies[2], "vulnerable", 1)
+    ui:render(); eq(label(panel), "对目标造成 6 点伤害。")
+    local card = panel:GetChild("card1")
+    event("card1", "down", card.x, card.y)
+    event("card1", "drag", L.enemyRow.xTo, L.enemyRow.y)
+    eq(label(panel), "对目标造成 9 点伤害。")
+    eq(label(panel, 2), "对目标造成 6 点伤害。", "the other card keeps player-only modifiers")
+    s.enemies[2].statuses.vulnerable = nil -- The duration owner has removed the power.
+    ui:render(); eq(label(panel), "对目标造成 6 点伤害。", "removed target power is not cached")
+    Combat.addStatus(s.enemies[2], "vulnerable", 1)
+    ui:render(); eq(label(panel), "对目标造成 9 点伤害。")
+    event("card1", "endDrag", card.x, L.cardDrag.cancelY - 20)
+    ui:render(); eq(label(panel), "对目标造成 6 点伤害。")
+    s.player.statuses.weak = nil
+    ui:render(); eq(label(panel), "对目标造成 8 点伤害。")
+    Combat.addStatus(s.player, "strength", -2)
+    ui:render(); eq(label(panel), "对目标造成 6 点伤害。")
+    eq(s.energy, 3); eq(#s.hand, 2)
+end)
+
 test("hand labels update live for every modifier and show the aimed target while dragging", function()
     local ui, panel, event = setup({"strike", "defend", "cleave", "twin_strike", "body_slam"}, {"jaw_worm", "cultist"}, true)
     local s = ui.run.combat
