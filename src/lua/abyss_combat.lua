@@ -53,10 +53,15 @@ function M.applyEffects(state, effects, source, target, playedCard)
 end
 
 local function copy(value)
-    if type(value) ~= "table" then return value end
-    local result = {}
-    for k, v in pairs(value) do result[k] = copy(v) end
-    return result
+    local seen={}
+    local function visit(v)
+        if type(v)~="table" then return v end
+        if seen[v] then return seen[v] end
+        local result={};seen[v]=result
+        for k,entry in pairs(v) do result[k]=visit(entry) end
+        return result
+    end
+    return visit(value)
 end
 M.copy = copy
 

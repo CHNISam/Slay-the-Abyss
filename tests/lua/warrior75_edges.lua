@@ -224,4 +224,13 @@ test('Double Tap Rampage shares growth with the queued copy and the original aft
     local c=play(s);eq(s.enemies[1].hp,479);eq(c.damageBonus,10);eq(#s.discard,1)
     C.draw(s,1);eq(s.hand[1],c);play(s);eq(s.enemies[1].hp,461);eq(c.damageBonus,15)
 end)
+test('copying a suspended card transaction preserves its actor and instance aliases',function()
+    local s=battle({'burning_pact','strike','defend'});s.draw={newCard(s,'anger'),newCard(s,'strike')}
+    play(s);assert(s.pendingChoice)
+    local clone=C.copy(s);eq(clone.pendingChoice.item.source,clone.player)
+    eq(clone.cardActions[#clone.cardActions].instance,clone.cardInUse)
+    local uid=clone.pendingChoice.uids[1];assert(C.chooseCard(clone,clone.pendingChoice.token,uid))
+    eq(clone.cardInUse,nil);eq(clone.pendingChoice,nil);eq(#clone.exhaust,1);eq(#clone.hand,3)
+    assert(s.pendingChoice);eq(#s.hand,2);eq(#s.exhaust,0)
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')
