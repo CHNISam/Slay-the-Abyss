@@ -2,17 +2,25 @@
 
 ## Deliverable
 
-Apply only `current-helper.patch` to head `308c1afa07fabb00f33d909a5a27739d8ec4bbae`. It changes exactly one line in `tests/lua/support/potion_basic_five_fixture.lua`: construct the existing `a ~= b` failure message only when the comparison fails. The original `assert(a==b, ...)`, message text and line number remain unchanged. No test body, expected value, setup, cache, seed, Run operation, timeout, split, production source, task or build-lua-data test is changed.
+Apply only `current-helper.patch` to head `308c1afa07fabb00f33d909a5a27739d8ec4bbae`. It changes exactly one line in `tests/lua/support/potion_basic_five_fixture.lua`: construct the existing `a ~= b` failure message only when the comparison fails. Equality is evaluated once. Only on failure, `assert(false, ...)` constructs the original message; diagnostic text and helper line number remain unchanged. No test body, expected value, setup, cache, seed, Run operation, timeout, split, production source, task or build-lua-data test is changed.
 
 Original helper Git blob: `aafe7f86ce2ed069dc420eee3cfd5635c2481e37`.
-Candidate helper Git blob: `f260544bf52f89af259b2ab44a4348f35fd69aff`.
-Candidate helper SHA256: `6a375d548837ace25d1d2c942d26da80b377e58053cb7376625d7ac387361487`.
+Candidate helper Git blob: `55043be4d13a76754ebb1641e9d64e20217ab8f9`.
+Candidate helper SHA256: `75593c31653541d6c935fa092ef0ca8bfce4359591c1f6850b1a2fdfa4a764b7`.
 
 `superseded-0b34-candidate.patch` and everything under `baseline`, `candidate`, `evidence` are historical investigation evidence for the prior unsplit head, not the delivery patch. Do not apply the old patch or replace current split fixtures. The original author already changed the current fixture execution boundaries; this candidate neither introduces that split nor claims the aggregate timeout budget is unchanged.
 
 ## Current-head source verification
 
 The five current files (basic/draw/status/helper and JavaScript entry) were fetched at 308c and each Git blob checked. `current-evidence/head-delta.json` confirms all runtime source/data files and the acquisition fixture are unchanged from 0b34. The previous 87-file Git-blob-verified source/materialization supplies those unchanged inputs. Generated `abyss_data.lua` came from the actual data builder. This is a minimal executed-source snapshot, not a complete checkout of every 308c documentation file.
+
+## Failure-path semantic correction, 2026-10-24 23:34 UTC
+
+The earlier optional candidate evaluated equality twice on a failure: once in `a~=b`, again in `assert(a==b, ...)`. A controlled stateful `__eq` returning false then true reproduced a real semantic defect: the original helper rejected after one comparison, but that candidate compared twice and incorrectly passed. Its red result is retained under `failure-path-evidence/pre-fix-current-candidate.log`.
+
+The delivered one-line helper now uses `if a~=b then assert(false, originalMessage) end`. Three controlled `__eq` cases (false then true, always false, true then false) confirm both the original and corrected helpers evaluate equality exactly once, preserve pass/fail outcome, and produce exactly the same error on the two failing cases. The real current 2/5/4+1 fixtures, all eight earlier negative mutations, and cold-template/alias helper contracts were rerun on original and corrected candidates and passed their expected outcomes. Only the failure branch changed; the previously measured equality/tostring success-path counts below remain applicable. Full graph traces and full instruction profiling were not rerun or relabeled as new evidence.
+
+A read-only PR197 check at correction still returned head `308c1afa07fabb00f33d909a5a27739d8ec4bbae`. No original branch or remote resource was changed. The superseded optional patch/report/hash are retained under `failure-path-evidence/pre-fix-*`; apply only the updated `current-helper.patch`.
 
 ## Measured work reduction, not a Windows performance claim
 
@@ -38,7 +46,7 @@ Independent cold-template checks passed on both versions: six Run.new templates 
 
 Eight deliberate negative mutations fail on both current versions with the same normalized diagnostic: rejection changes seed, Data, deck identity, potion identity, combat identity, or shuffle RNG counter; cold copy shares Data; fresh opening splits the status-definition alias. The first six are rejected by the existing real fixture assertions, the latter two by the independent review guard. Native pointer addresses in identity failure messages naturally vary.
 
-`node --check tests/potion-basic-five.test.mjs` and `git diff --no-index --check` passed. No full npm check, installation, user-computer access, production edit, remote write, push or merge occurred. Fengari is unavailable (`MODULE_NOT_FOUND`), so neither the old 30-second failure nor the current per-script 30-second budgets have been validated here. Current-head Windows CI remains necessary.
+`node --check tests/potion-basic-five.test.mjs` passed. `git diff --no-index --check` emitted no whitespace diagnostics; its exit 1 represents the expected content difference. A direct whitespace scan also passed. No full npm check, installation, user-computer access, production edit, remote write, push or merge occurred. Fengari is unavailable (`MODULE_NOT_FOUND`), so neither the old 30-second failure nor the current per-script 30-second budgets have been validated here. Current-head Windows CI remains necessary.
 
 ## Rejected approaches retained, not shipped
 
@@ -50,4 +58,4 @@ Working directory: `<review-directory>/current-candidate`.
 Runner: `python3 $LUA54_RUNNER`.
 Run each `tests/lua/potion_basic_five.lua`, `tests/lua/potion_basic_five_draw.lua`, `tests/lua/potion_basic_five_status.lua`, and `tests/lua/potion_basic_five_acquisition.lua` separately.
 
-For short evidence delivery, use `current-helper.patch`, `REPORT.md`, `CURRENT-RESULT.json`, `current-evidence/checks.json`, `current-evidence/mutations.json`, and short `*-plain.log` files. Do not upload the large `*-graph.trace` files.
+For short evidence delivery, use `current-helper.patch`, `REPORT.md`, `CURRENT-RESULT.json`, `current-evidence/checks.json`, `current-evidence/mutations.json`, and short `*-plain.log` files. The newest correction evidence is `failure-path-evidence/checks.json`, `failure-path-evidence/mutations.json`, `failure-path-evidence/post-fix-*-eq-contract.log`, and `failure-path-eq-contract.lua`. Do not upload the large `*-graph.trace` files.

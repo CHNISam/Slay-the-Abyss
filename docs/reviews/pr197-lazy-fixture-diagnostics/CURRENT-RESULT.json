@@ -3,8 +3,8 @@
   "changedPath": "tests/lua/support/potion_basic_five_fixture.lua",
   "patch": "current-helper.patch",
   "originalGitBlob": "aafe7f86ce2ed069dc420eee3cfd5635c2481e37",
-  "candidateGitBlob": "f260544bf52f89af259b2ab44a4348f35fd69aff",
-  "candidateSha256": "6a375d548837ace25d1d2c942d26da80b377e58053cb7376625d7ac387361487",
+  "candidateGitBlob": "55043be4d13a76754ebb1641e9d64e20217ab8f9",
+  "candidateSha256": "75593c31653541d6c935fa092ef0ca8bfce4359591c1f6850b1a2fdfa4a764b7",
   "cases": {
     "basic": 2,
     "draw": 5,
@@ -97,7 +97,26 @@
   "fengari30SecondClaim": false,
   "fullCheckRun": false,
   "nodeSyntaxCheck": "pass",
-  "diffWhitespaceCheck": "pass",
+  "diffWhitespaceCheck": "no whitespace diagnostics; no-index exit 1 represents the expected single-line content diff",
   "remoteWrites": false,
-  "supersededPatch": "superseded-0b34-candidate.patch"
+  "supersededPatch": "superseded-0b34-candidate.patch",
+  "failurePathCorrection": {
+    "change": "assert(false, originalMessage) after the single inequality comparison",
+    "priorCandidateGitBlob": "f260544bf52f89af259b2ab44a4348f35fd69aff",
+    "statefulEqualityCases": [
+      "false then true",
+      "always false",
+      "true then false"
+    ],
+    "originalAndCorrectedComparisonCallsEach": 1,
+    "sameErrorMessageForFailures": true,
+    "redBeforeFix": true,
+    "greenAfterFix": true,
+    "testsRerun": "current 308c 2/5/4+1, all eight mutations and helper contracts",
+    "priorSuccessfulPathCountsStillApplicable": true,
+    "fullGraphTraceRerun": false,
+    "profileRerun": false,
+    "evidenceDirectory": "failure-path-evidence",
+    "readOnlyPrHeadAtCorrection": "308c1afa07fabb00f33d909a5a27739d8ec4bbae"
+  }
 }

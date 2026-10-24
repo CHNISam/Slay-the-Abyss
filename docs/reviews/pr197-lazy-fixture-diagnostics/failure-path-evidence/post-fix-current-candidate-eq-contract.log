@@ -1,0 +1,5 @@
+false then true	comparisonCalls=1	ok=false	message=tests/lua/support/potion_basic_five_fixture.lua:6: left ~= right
+always false	comparisonCalls=1	ok=false	message=tests/lua/support/potion_basic_five_fixture.lua:6: left ~= right
+true then false	comparisonCalls=1	ok=true	message=nil
+SINGLE_COMPARISON_EQ_CONTRACT_PASS 3
+exit=0
