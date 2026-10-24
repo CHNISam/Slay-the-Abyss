@@ -280,6 +280,11 @@ function M.new(root, data, presentation, clickEvent, platform)
         child("battlePanel"):SetVisible(self.mode == "battle")
         self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
         child("mapPanel"):SetVisible(self.mode == "map")
+        if run then
+            local resources = child("mapPanel"):GetChild("resources")
+            resources:GetChild("hp").text = number(run.hp) .. "/" .. number(run.maxHp)
+            resources:GetChild("gold").text = number(run.gold)
+        end
         self.nodeUI:setVisible(self.mode == "node" and not deckOpen and not potionOpen and not blocked)
         child("nodePanel"):SetVisible(self.mode == "node")
         if self.mode == "battle" then
