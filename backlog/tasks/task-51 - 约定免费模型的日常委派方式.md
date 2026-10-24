@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-24 09:15'
-updated_date: '2026-10-24 10:07'
+updated_date: '2026-10-24 15:51'
 labels: []
 dependencies: []
 documentation:
@@ -35,6 +35,8 @@ ordinal: 85000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 验收本轮CLI真实工具记录和文档报告。2. 在AGENTS.md加入简短默认分工与调用边界，附最小证据。3. 检查Diff与规则文件，通过现有PR流程交付。
+
+2026-10-24额度反馈修订：只读聚合本地当天用量，区分限额反馈和无事件未知原因；调整仓库委派策略与附件，保留断网TASK-53，通过校验和当前SHA CI后PR合入develop。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -45,6 +47,10 @@ DeepSeek普通原生CLI + Max成功：1次bash、4次read均completed，完整�
 按用户追加要求明确默认最高推理档位（当前Max），长任务分成短步骤逐段验证和交接；关键设计与高风险逻辑留给Codex。
 
 后续按用户要求提炼用户级opencode-delegation skill并推送agent-skills PR7；独立并发编辑未通过（路径拒绝后重试无事件），地图代码首段超过5分钟无事件/改动，停止并交Codex实现。实际净节省未测且本轮协调成本上升，规则加入90秒无事件停止与质量/耗时/返工记录，默认先串行。
+
+2026-10-24用户反馈亲自试用发现限额，日限或五小时窗口未明；明确将Backlog CLI查重、建任务和补备注列为可委派杂活。本轮只读审计当天本地记录：DeepSeek合计470876记录token，含344064缓存读取、34253推理；真实工具13完成/21错误。另一次Backlog试跑117.6秒零事件后由Codex接管TASK-53；不能确定其原因就是限额。已更新AGENTS及附件：限额后暂停受限路径，不猜重置、不轮询；恢复依据出现才用一个真实短任务验证，短批次合并Backlog操作、先修权限错误，极小机械操作可直接处理，保留Max与免费锁定。明细、口径及边界见docs/backlog-details/TASK-51.md和docs/evidence/opencode-usage-20261024.json。没有模型新请求或收费回退，净节省未知。
+
+按用户要求学习现有实现：核对OpenCode v1.18.24官方固定提交57e8055的stats/retry/run源码，采用原生stats、错误分类及Retry-After/有界退避，不新增额度管理或外层重试。确认JSON不透出retry状态，零事件原因继续未知；Flint记录total与分项相差282，保留原值不混算。源码链接和实际原生stats交叉核对已加入附件。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
