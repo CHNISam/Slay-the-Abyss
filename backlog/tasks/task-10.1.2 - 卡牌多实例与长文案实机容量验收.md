@@ -4,7 +4,8 @@ title: 卡牌多实例与长文案实机容量验收
 status: To Do
 assignee: []
 created_date: '2026-10-22 21:55'
-updated_date: '2026-10-22 22:45'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-28'
 labels:
   - art validation
   - queued-after-M3

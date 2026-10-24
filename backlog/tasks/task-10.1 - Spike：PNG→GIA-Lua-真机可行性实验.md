@@ -5,7 +5,8 @@ status: To Do
 assignee:
   - '@codex'
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-22 22:45'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-28'
 labels:
   - technical-spike
   - queued-after-M3

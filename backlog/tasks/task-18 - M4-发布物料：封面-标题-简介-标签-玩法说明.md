@@ -1,15 +1,14 @@
 ---
 id: TASK-18
-title: M4 发布物料：封面/标题/简介/标签/玩法说明
+title: M5 发布物料、表单与玩法说明冻结
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 22:19'
+updated_date: '2026-10-24 02:02'
 due_date: '2026-10-29'
 labels: []
-milestone: m-5
-dependencies:
-  - TASK-5
+milestone: m-6
+dependencies: []
 ordinal: 18000
 ---
 
@@ -33,4 +32,6 @@ ordinal: 18000
 2026-10-23 Milestone整改：承接TASK-1未完成的正式表单/赛事入口核验；不计M0前置。已有发布SOP在PR8，真实字段仍未取证。
 
 2026-10-23 Milestone整改：承接TASK-1未完成的正式表单/赛事入口核验；不计M0前置。已有发布SOP在PR8，真实字段仍未取证。
+
+2026-10-24排期：物料可提前准备，10/29按最终RC截图及实际表单冻结，正式名《杀戮原塔2》。不依赖TASK-5完成才开始，以免与RC验收相互等待。
 <!-- SECTION:NOTES:END -->

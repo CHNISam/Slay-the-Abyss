@@ -1,14 +1,17 @@
 ---
 id: TASK-3.3
-title: M1 全平台游玩中主动退出本局
+title: M2 全平台游玩中主动退出本局
 status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-23 16:34'
+updated_date: '2026-10-24 02:17'
+due_date: '2026-10-26'
 labels: []
-milestone: m-2
-dependencies: []
+milestone: m-3
+dependencies:
+  - TASK-3.2
+  - TASK-3.3.1
 parent_task_id: TASK-3
 priority: high
 type: bug
@@ -50,4 +53,6 @@ ordinal: 51000
 2026-10-23退出修复已无冲突集成到最新15f62a6，固定集成76c93d7独立75项交叉回归通过，包括退出取消后旧卡牌/药水手势失效、牌库隔离、演出冻结/恢复；主代理相关16项JS也全过。PR116继续真实构建与Quality；新集成候选实机未验，AC保持原证据边界。
 
 2026-10-24同源5165新增实机：run9bb0abe3在奖励/地图/商店/牌库各打开退出并取消，截图确认页面、金币114和卡组11保持，牌库取消后仍保留覆盖层；900秒到期中断后的结果不计主动退出。独立短run8f623503-7687-4ec7-9620-a987b72cc0cf同save1838复用32同源Lua，菜单第2秒打开、第5秒取消、第8秒再打开、第11秒确认，17.3秒进入官方失败结算；新gia hash33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26，5打印含ready、客户端settlement_requested defeat及服务端ABYSS_SETTLEMENT_DEFEAT各1。计划45秒，非计时中断。第5秒输入迟0.67秒已保留。正式证据docs/evidence/m1-live-5165a78/exit-special及总报告。手机/旧跨触点/演出期间/其余页面确认未新增实测，不扩大全平台AC。
+
+2026-10-24同步PR150：地图旧手势本地修复已合入d0bf727，TASK-3.3.1仍In Progress且其平台证据未通过；原负责人/AC/笔记不改，按M2退出与重开边界验收。
 <!-- SECTION:NOTES:END -->

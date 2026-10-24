@@ -1,18 +1,17 @@
 ---
 id: TASK-13.1
-title: M2 原版节点事件、商店价格与奖励概率对齐
+title: M3 首发节点事件、商店价格与奖励概率验收
 status: In Progress
 assignee:
   - '--plan'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-23 02:49'
-due_date: '2026-10-26'
+updated_date: '2026-10-24 02:11'
+due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
-milestone: m-3
+milestone: m-4
 dependencies:
-  - TASK-3
   - TASK-13
   - TASK-14
 references:
@@ -28,7 +27,7 @@ ordinal: 41000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。M1唯一主冲刺，本任务排队不打断P0；10/30内部投稿准备、11/02截止不变。PR #51目前OPEN未合并，仅为待审提案，本要求直接来自用户。 rules.json固定金币/商店价，nodes商店遍历支持池、事件仅金币或药水、宝箱仅未持有遗物抽取；run奖励均匀抽牌且排除条件/X牌，均待原作核对。保留TASK-13本地事务完成证据，库存效果归TASK-14.1。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 历史差异快照：当时rules.json固定金币/商店价，nodes商店遍历支持池、事件仅金币或药水、宝箱仅未持有遗物抽取；run奖励均匀抽牌且排除条件/X牌，均待原作核对。保留TASK-13本地事务完成证据，库存效果归TASK-14.1。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -56,4 +55,6 @@ ordinal: 41000
 2026-10-23 离线商店切片：修复同店能无限删牌的真实缺口，每店成功删牌一次后核心拒绝并禁用UI；跨店75+25n递增不变，失败不消费服务。新增失败后可重试/重复UID/新店恢复/新局复位/不可篡改view/旧UI请求重验回归。npm run check完整通过；Nodes20、NodeUI14、NodeTransactions11组(151拒绝断言)，Python13项含1项权限skip；JS符号链接权限skip沿用基线。来源与其余规则缺口见docs/NODE_ECONOMY_PARITY.md。本轮无原作客户端版本号或直接观察、未开原神/MCP/写存档，不勾整体严格一致性或平台AC。
 
 2026-10-23 第二切片：移除虚构金币/药水事件，新增Cleric与Purifier真实执行器和选牌UI。生产rules.events.encounterId显式固定purifier；这是支持内容基线，不是原版完整事件池、未知房转类或神龛概率，不按金币改roll。Cleric明确ID入口要求35金；治疗35/最大HP25%floor，净化A0为50，Leave不改资产；Purifier免费选UID删牌/Leave。两者净化不涨商店删除计数。8组事件+17组UI通过，覆盖零金连续两层全事件出口可Leave推进、失败原子性、UID、防重复、选牌取消和陈旧资金重验。npm run check完整通过：JS200项(186过14权限skip)，全部Lua，Python16项(1权限skip)。原依赖虚构赠药的库存夹具迁移后保留跨节点持有/消耗断言。来源/限制见docs/NODE_ECONOMY_PARITY.md；未开游戏/MCP/写存档，原版全项AC保持未勾。
+
+2026-10-24批准路线图：本地原版对照可并行执行，不以基础实机验收作为本地开发前置；本任务既有AC、状态和证据保留。M2通关不等于本项完成，严格实机验收仍须独立取证。
 <!-- SECTION:NOTES:END -->

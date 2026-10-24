@@ -5,9 +5,10 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-23 12:55'
-updated_date: '2026-10-23 13:00'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-29'
 labels: []
-milestone: m-5
+milestone: m-6
 dependencies: []
 references:
   - scripts/verify-ui-acceptance.mjs

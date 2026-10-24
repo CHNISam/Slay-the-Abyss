@@ -5,13 +5,13 @@ status: In Progress
 assignee:
   - '@codex-native-bgm'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-23 15:51'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - P1
   - bgm
 milestone: m-5
 dependencies:
-  - TASK-17
   - TASK-29
 references:
   - 'https://act.mihoyo.com/ys/ugc/tutorial/detail/mhq9b601kh9k'
@@ -58,4 +58,6 @@ ordinal: 46000
 最终接线补充：换曲后明确调用 startPausePlayerBackgroundMusic(player,true)，避免依赖换曲自动解除菜单暂停。最终图重新编译写副本通过，83节点/editor258、0编译警告；新增图回归重跑3/3通过。此前77/editor252为中间版本，最终证据与hash以docs/evidence/task34-native-bgm.json为准。
 
 用户已试听并确认当前战斗曲10044够用，暂保留。2026-10-23_23:18:48新会话248秒有应用记录；BGM45、音效65，后续有死亡/连击，但连击用已淘汰A8。记录docs/SFX_SELECTION.md与docs/evidence/sfx-review-20261023.json；分关卡换曲为可选优化，复用现有原生cue。完整游戏循环/切换/无叠播/多设备及混音AC仍保留。
+
+2026-10-24排期：BGM可并行实现；最终Boss/结算场景试听复用M2闭环，不等待整个内容审计任务才能启动。
 <!-- SECTION:NOTES:END -->

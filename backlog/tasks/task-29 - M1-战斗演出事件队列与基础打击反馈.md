@@ -1,15 +1,16 @@
 ---
 id: TASK-29
-title: M1 战斗演出事件队列与基础打击反馈
+title: M4 战斗演出事件队列与基础反馈实机验收
 status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-23 16:31'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - P1
   - battle-feedback
-milestone: m-2
+milestone: m-5
 dependencies:
   - TASK-10
   - TASK-11
@@ -59,4 +60,6 @@ ordinal: 38000
 PR121门禁补充：c5c0ee5首次CI因Git TLS/earlyEOF未进测试；后两次分别在既有game_ui 15秒及battle_ui 30秒预算超时。保留断言与其他脚本15秒上限，只将两重型UI默认预算改为30/60秒，显式调用timeout仍优先。Lua runner错误传播/有限超时与试听工具7项通过；两重型用例复跑battle_ui 51项/30.08秒、game_ui 15项/13.18秒全部通过。此为测试执行预算，不代表性能验收通过。
 
 a77fee0的CI已通过battle/game UI，但又在encounter_coverage旧15秒预算超时，连续三种不同脚本说明不能只逐个补UI例外。最终统一独立Lua脚本30秒、完整battle树60秒，显式timeout仍优先，CLI增加逐脚本耗时。未删/改任何断言，整作业超时仍保留，不计性能验收。错误传播/显式200毫秒超时/首错停止/试听回归7项通过；encounter覆盖23敌人54意图18遭遇、105组在5.60秒通过。最终新SHA需重新跑CI全绿再合并。
+
+2026-10-24路线图：现有已勾本地AC及记录保留；剩余表现实机AC归M4，不阻塞M1基础战斗。
 <!-- SECTION:NOTES:END -->

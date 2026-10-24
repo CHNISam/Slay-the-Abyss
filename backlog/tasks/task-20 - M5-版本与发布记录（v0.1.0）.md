@@ -1,10 +1,10 @@
 ---
 id: TASK-20
-title: M5 版本与发布记录（v0.1.0）
+title: M6 投稿版本Tag、CHANGELOG与凭证归档
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-22 22:21'
+updated_date: '2026-10-24 02:02'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0

@@ -1,16 +1,26 @@
 ---
 id: TASK-5
-title: M4 原版一致性复验与完整通关体验验收
+title: M5 同一Release Candidate完整回归与冻结验收
 status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 01:58'
+updated_date: '2026-10-24 02:07'
 due_date: '2026-10-29'
 labels: []
-milestone: m-5
+milestone: m-6
 dependencies:
-  - TASK-17
+  - TASK-17.3
+  - TASK-12.5
+  - TASK-17.2
+  - TASK-47
+  - TASK-12.4
+  - TASK-13.1
+  - TASK-13.1.2
+  - TASK-14.1
+  - TASK-15
+  - TASK-16
+  - TASK-16.1
   - TASK-4
 priority: high
 ordinal: 2
@@ -19,7 +29,7 @@ ordinal: 2
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-用户2026-10-23决定：首发纳入内容严格对齐初代Slay the Spire PC正式版Ascension 0数值/机制/算法/概率/结算顺序，仅名称/背景/元素表现可包装，禁止自创或凭感觉调平衡。M1唯一主冲刺，后续规则工作排队不打断P0。PR51仍OPEN，仅待审提案；用户指令为本次依据。10/30内部准备、11/02比赛截止不变。 原平衡打磨改为严格规则复验，禁止凭感觉调数值/AI/概率或为通关降难度。复用P0历史试玩证据，最终候选在M3规则与M4反馈完成后整体验收；保留In Progress身份仅便于持续P0证据跟踪，不宣称M4已激活。
+M5在M2正常通关、M3首发内容齐备和M4正式品质均有证据后，对同一Release Candidate进行最终回归与冻结。初代PC A0规则、数值、概率、AI与结算顺序贯穿相关任务，发现差异回归所属专项修复，不自行调平衡。10/29仅回归、必要修复及物料冻结，10/30人工投稿不因扩展延期。保留历史P0证据及In Progress状态，但不把旧候选拼接成当前RC通过。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -28,6 +38,7 @@ ordinal: 2
 - [ ] #2 失败、新局/平台重新挑战、同局跨节点状态与合法多构筑可复核；鼠标/触摸出牌、命中/受击/音效/停顿节奏按TASK-4/30原作观察清单实机验收。
 - [ ] #3 逐项复验M2地图经济、M3卡牌/AI/Boss/遗物药水/算法对照账本，PASS/差异/待核实/平台限制分列；关键差异未闭合不声明严格一致性通过，问题退回所属任务修正，绝不重新平衡。
 - [ ] #4 数据完成、独立原版预期自动测试、平台编译/副本导出、官方导入和千星实机分层报告，附SHA/hash/种子/日志和截图录像，不能互相替代。
+- [ ] #5 10/29同一RC覆盖成功/失败、核心规则、交互、音画和稳定性，冻结SHA/hash及证据索引；发现必要修复后候选变更必须重验受影响路径，不拼接不同候选冒充通过。
 <!-- AC:END -->
 
 ## Implementation Notes

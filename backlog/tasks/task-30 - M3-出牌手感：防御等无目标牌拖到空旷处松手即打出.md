@@ -4,8 +4,8 @@ title: M4 出牌手感：无目标牌拖到空旷处松手即出
 status: To Do
 assignee: []
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-23 02:18'
-due_date: '2026-10-29'
+updated_date: '2026-10-24 02:02'
+due_date: '2026-10-28'
 labels:
   - ui
   - combat
@@ -13,8 +13,6 @@ labels:
 milestone: m-5
 dependencies:
   - TASK-10
-  - TASK-3
-  - TASK-17
 references:
   - docs/design/UI_DESIGN.md
   - docs/design/prototype/index.html

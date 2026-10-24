@@ -5,9 +5,13 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 01:50'
+updated_date: '2026-10-24 02:16'
+due_date: '2026-10-26'
 labels: []
-milestone: m-2
+milestone: m-3
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/150'
 parent_task_id: TASK-3.3
 priority: high
 type: bug

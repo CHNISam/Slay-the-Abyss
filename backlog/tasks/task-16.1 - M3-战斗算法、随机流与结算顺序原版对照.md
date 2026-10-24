@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-23 09:40'
+updated_date: '2026-10-24 02:11'
 due_date: '2026-10-28'
 labels:
   - required
@@ -14,7 +14,6 @@ milestone: m-4
 dependencies:
   - TASK-8
   - TASK-11
-  - TASK-12.3
 references:
   - src/lua/abyss_combat.lua
   - data/SOURCES.md
@@ -27,7 +26,7 @@ ordinal: 43000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。M1唯一主冲刺，本任务排队不打断P0；10/30内部投稿准备、11/02截止不变。PR #51目前OPEN未合并，仅为待审提案，本要求直接来自用户。 保留核心/九状态/满手/荆棘/格挡封顶有效修复，先查已合并PR，不重复M1缺陷。此切片核对共享算法；卡牌清单归TASK-16，AI归15，Boss阶段归17，库存效果归14.1。
+2026-10-23用户要求：首发实际纳入的第一幕内容严格还原初代Slay the Spire PC正式版Ascension 0的数值、机制、算法、概率及结算顺序。只允许名称/背景/元素表现包装，禁止自创机制、简化AI或自行调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。 保留核心/九状态/满手/荆棘/格挡封顶有效修复，先查已合并PR，不重复M1缺陷。此切片核对共享算法；卡牌清单归TASK-16，AI归15，Boss阶段归17.2，库存效果归14.1。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -77,4 +76,6 @@ PR100轮末状态片已squash合develop14979df；下一批同步保留该修复�
 第二批root d3e9d76全量check exit0，JS643/528pass115skip、全部Lua、Python15pass1权限skip。死后Roll扩展Spike/Fat矩阵21组，queuedStatus20组，独立复审83组子集过；浮点包装候选Java132向量及52 Math.fround复核仍仅工具候选，不接生产。一次超时和Fat fixture身份冲突均留日志并修复后全量重跑，无预算放宽或弱化断言；完整动作队列/原版RNG/实机仍未通过。
 
 Dazed7b真实入口21组先红后绿，8Lua262/JS65/Python15pass1权限skip，无full/platform；root只读复审及独立21专项/14schema打包/3临时probe通过：hand10仍discard+2 UID11/12、卡牌快照双向隔离、deadsource跳过但后续Spike仍行动。固定来源hash重取吻合；>=6仅当前ABI拒绝，不宣称原版不生成。source接口与后续Sentry/Artifact分开交付，严格AC保留。
+
+2026-10-24批准路线图：本地原版对照可并行执行，不以基础实机验收作为本地开发前置；本任务既有AC、状态和证据保留。M2通关不等于本项完成，严格实机验收仍须独立取证。
 <!-- SECTION:NOTES:END -->

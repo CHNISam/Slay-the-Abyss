@@ -6,15 +6,13 @@ assignee:
   - '@Codex'
   - '@codex-enemy-parity'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-23 09:56'
+updated_date: '2026-10-24 02:11'
 due_date: '2026-10-28'
-labels:
-  - queued-after-M2
+labels: []
 milestone: m-4
 dependencies:
   - TASK-11
   - TASK-14
-  - TASK-12.3
 priority: high
 ordinal: 15000
 ---
@@ -22,7 +20,7 @@ ordinal: 15000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-用户2026-10-23决定：首发纳入内容严格对齐初代Slay the Spire PC正式版Ascension 0数值/机制/算法/概率/结算顺序，仅名称/背景/元素表现可包装，禁止自创或凭感觉调平衡。M1唯一主冲刺，后续规则工作排队不打断P0。PR51仍OPEN，仅待审提案；用户指令为本次依据。10/30内部准备、11/02比赛截止不变。 复用已有14普通遭遇/19变体/3精英/1Boss数据，不以数量相同代表机制正确。SOURCES已知差异含固定意图循环、固定HP代替范围、遗卫无睡眠、小魔自加盾/虚弱替眩晕、软泥无分裂、窃金客无偷金逃跑及非原版五敌组合。只要求实际首发内容准确，未纳入内容不硬补；Boss内部阶段归TASK-17，地图分布归12.4。
+用户2026-10-23决定：首发纳入内容严格对齐初代Slay the Spire PC正式版Ascension 0数值/机制/算法/概率/结算顺序，仅名称/背景/元素表现可包装，禁止自创或凭感觉调平衡。主冲刺按最早未完成成果关口推进，离线工作可并行。PR #51已合并，现有实现以最新develop与专项证据为准。10/30内部准备、11/02比赛截止不变。 复用已有14普通遭遇/19变体/3精英/1Boss数据，不以数量相同代表机制正确。SOURCES已知差异含固定意图循环、固定HP代替范围、遗卫无睡眠、小魔自加盾/虚弱替眩晕、软泥无分裂、窃金客无偷金逃跑及非原版五敌组合。只要求实际首发内容准确，未纳入内容不硬补；Boss内部阶段归TASK-17.2，地图分布归12.4。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -107,4 +105,6 @@ Sentry69df9bc阶段9真实Combat/Run专项先全红后绿：三敌开场只9伤/
 阶段3实际桥接80684bd（root f465d74）及6f21b8：Effects/Inventory真实ApplyPower、Flex真实state单力量事件、毒瓶被挡仍成功消费；NoDraw固定重复gate/先抽后应用6组红绿，zeroFlex新ABI>0/raw0保兼容。Sentry原生意图UI从问号改晕眩2/弃牌说明，两轮整状态只读。独立复审发现两被挡overflow红例后用纯Artifact gate修复：Poison=intMax+Art1使用成功瓶空/Art0/毒不增；Flex旧debt=intMax+Art1只挡新失力、保旧debt。无Art/raw原overflow拒绝和原地回滚保留。最新19基础/13真实runtime/Inventory11/Flex16绿，15套必要Lua先过；待固定SHA独立最终复核/root全量。原作零层对象/RNG/完整Power hooks/平台仍未通过，全部严格AC保留。
 
 Red7e506f8独立交付29真实入口绿、13Lua188组/遭遇110组/JS74项绿，初26中25红含1已修floor夹具。覆盖实际网被Artifact挡仍已用、两Red单Artifact、技能/能力/Fire药水允许、owner-end移除与Flex独立扣Art、原地回滚/死亡roll。只cherry Red独立增量，不重复806桥接；root保留Sentry与Red的schema/queuedRoll/原生打包并集、Dazed -2及entangled两preflight。0输入仅验证Artifact gate，0层Power对象存在未建模；原作RNG/完整power优先级/平台AC保留，待独立组合复审/full。
+
+2026-10-24批准路线图：本地原版对照可并行执行，不以基础实机验收作为本地开发前置；本任务既有AC、状态和证据保留。M2通关不等于本项完成，严格实机验收仍须独立取证。
 <!-- SECTION:NOTES:END -->

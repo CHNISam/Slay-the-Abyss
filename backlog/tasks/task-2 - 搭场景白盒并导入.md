@@ -4,7 +4,7 @@ title: M1 复用基础场景并补齐镜头/出生/阵营配置
 status: In Progress
 assignee: []
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-23 16:34'
+updated_date: '2026-10-24 02:15'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -17,14 +17,14 @@ ordinal: 2000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-搭建战斗场景白盒并锁定镜头与出生点，为卡牌战斗提供稳定的 3D 舞台。
+M1复用现有基础场景与安全副本，核验卡牌战斗所需的固定镜头、出生/复苏和阵营配置；不重搭场景或把成品美术作为基础战斗阻塞。M4首发岩系场景由TASK-2.1验收。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 scene_build_blocks + scene_import_assets 导入成功
-- [ ] #2 镜头 fixedView 锁死、出生点与复苏点已设、玩家数设为 1 到 1
-- [ ] #3 阵营仅玩家与敌人敌对，己方单位不打自家物件
+- [ ] #1 复用现有基础存档生成安全候选副本，基础场景及必要配置官方导入后可读回；不要求为M1重新制作舞台或批量美术。
+- [ ] #2 镜头fixedView锁定、出生点与复苏点已设并有真实复苏证据、玩家数1到1。
+- [ ] #3 阵营仅玩家与敌人敌对，己方单位不打自家物件；同候选实机核对并保留SHA/hash、配置读回、截图与本轮日志。
 <!-- AC:END -->
 
 ## Implementation Plan

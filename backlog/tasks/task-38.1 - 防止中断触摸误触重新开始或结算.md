@@ -5,8 +5,10 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-23 15:55'
-updated_date: '2026-10-23 16:29'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-28'
 labels: []
+milestone: m-5
 dependencies: []
 references:
   - src/lua/abyss_game_ui.lua

@@ -4,7 +4,10 @@ title: 手机触屏游玩适配与完整流程验收（优先排期）
 status: To Do
 assignee: []
 created_date: '2026-10-23 12:23'
+updated_date: '2026-10-24 02:01'
+due_date: '2026-10-28'
 labels: []
+milestone: m-5
 dependencies: []
 references:
   - TASK-4
