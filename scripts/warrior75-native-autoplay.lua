@@ -219,6 +219,10 @@ end
 local function actCombat(ui,s)
     local b,run=ui.battleUI,ui.run
     if run.combat.phase~="player" then return end
+    if not s.card then
+        local slot,id=Policy.choosePotion(run)
+        if slot then return perform(ui,s,"usePotion",function()return b:usePotion(slot)end,{slot=slot,id=id}) end
+    end
     if s.card then
         local chosen=s.card;s.card=nil
         return perform(ui,s,"playSelected",function()

@@ -92,6 +92,21 @@ function P.chooseReward(run)
     end
     return best
 end
+-- Spend legitimately acquired bottles using visible danger and room type.
+function P.choosePotion(run)
+    if run.phase~='combat' or not run.combat or run.combat.phase~='player' then return nil end
+    local b=run.combat
+    local danger=math.max(0,incoming(b)-b.player.block)
+    local hard=run.nodeFlow and (run.nodeFlow.type=='elite' or run.nodeFlow.type=='boss')
+    for slot=1,run.data.rules.player.potionSlots do
+        local id=run.potions[slot]
+        if (id=='regen_potion' and b.player.hp<=b.player.maxHp-15)
+            or (id=='block_potion' and danger>=10)
+            or (hard and (id=='strength_potion' or id=='dexterity_potion')) then
+            return slot,id
+        end
+    end
+end
 function P.chooseNode(run,map,coverage)
     coverage=coverage or {}
     local chosen,best=nil,-math.huge
