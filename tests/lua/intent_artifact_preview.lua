@@ -1,73 +1,7 @@
-package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
-local H = dofile("tests/lua/support/battle_action_fixture.lua")
-local Combat = H.F.Combat
-local passed, failed = 0, 0
-local originalPrint, recoveryCount = print, 0
-print = function(...)
-    local message = tostring(select(1, ...))
-    if message:find("ABYSS_FEEDBACK recovered", 1, true) then recoveryCount = recoveryCount + 1 end
-    originalPrint(...)
-end
-local function eq(actual, expected, label)
-    assert(actual == expected, (label or "value") .. ": expected " .. tostring(expected) .. ", got " .. tostring(actual))
-end
-local function same(actual, expected, path)
-    path = path or "combat"
-    eq(type(actual), type(expected), path)
-    if type(actual) ~= "table" then eq(actual, expected, path); return end
-    for key, value in pairs(actual) do same(value, expected[key], path .. "." .. tostring(key)) end
-    for key in pairs(expected) do assert(actual[key] ~= nil, path .. "." .. tostring(key)) end
-end
-local function test(name, fn)
-    local ok, why = pcall(fn)
-    if ok then passed = passed + 1 else failed = failed + 1 end
-    print((ok and "PASS " or "FAIL ") .. name .. (ok and "" or ": " .. tostring(why)))
-end
-local function setup(effects, kind)
-    local h, u, p, emit, tap, drain = H.setup({"strike", "defend"}, {"fat_gremlin"})
-    if effects then
-        -- Synthetic supported sequences isolate ordering, not new stock enemy moves.
-        local enemy = h.run.combat.enemies[1]
-        enemy.ai, enemy.intentIndex = nil, 1
-        enemy.intents = {{id="preview_order", kind=kind or "attack", effects=effects}}
-    end
-    return h, u, p, tap, drain
-end
-local function refresh(h, p, tap)
-    local before = Combat.copy(h.run.combat)
-    h:refresh(); h:refresh(); tap("enemy1", 11)
-    same(h.run.combat, before)
-    return p:GetChild("enemy1"):GetChild("intent").text, p:GetChild("notice").text
-end
-local function rejects(h, reason)
-    local before = Combat.copy(h.run.combat)
-    local ok, why = pcall(function() h:refresh() end)
-    eq(ok, false, "refresh must reject")
-    assert(tostring(why):find(reason, 1, true), tostring(why))
-    same(h.run.combat, before)
-end
-local function resolve(s)
-    local copy = Combat.copy(s)
-    copy.events = {}
-    Combat.applyEffects(copy, Combat.intent(copy, 1).effects, copy.enemies[1], copy.player)
-    return copy
-end
-local function drainChecked(h, u, observe)
-    local s, events = h.run.combat, h.run.combat.events
-    local player, enemy, committed = s.player, s.enemies[1], Combat.copy(s)
-    local recoveries = recoveryCount
-    for _ = 1, 400 do
-        if not u.busy then break end
-        if observe then observe(u.feedback.current, u.displayBattle) end
-        h:update(0.05)
-        eq(h.run.combat, s); eq(s.player, player); eq(s.enemies[1], enemy); eq(s.events, events)
-        if u.busy then same(s, committed) end
-    end
-    assert(not u.busy, "feedback remained stuck")
-    eq(recoveryCount, recoveries, "playback must not need recovery")
-    committed.events = {}
-    same(s, committed)
-end
+local F = dofile("tests/lua/support/intent_artifact_fixture.lua")
+local H, Combat, counters = F.H, F.Combat, F.counters
+local eq, same, test = F.eq, F.same, F.test
+local setup, refresh, rejects, resolve = F.setup, F.refresh, F.rejects, F.resolve
 
 test("stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with Artifact", function()
     local h, u, p, tap, drain = setup()
@@ -81,9 +15,9 @@ test("stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with
     eq(compact, "4"); assert(detail:find("虚弱 1", 1, true))
     assert(u:showStatus(0))
     eq(p:GetChild("statusInfo"):GetChild("name2").text, "虚弱 2147483647 · 减益")
-    local recoveries = recoveryCount
+    local recoveries = counters.recoveries
     tap("hero", 12); tap("endTurn", 13); drain()
-    eq(recoveryCount, recoveries, "the complete boundary playback must not need recovery")
+    eq(counters.recoveries, recoveries, "the complete boundary playback must not need recovery")
     eq(s.player.statuses.weak, 2147483646); eq(s.player.statuses.artifact, 0)
     eq(p:GetChild("hero"):GetChild("statusRow"):GetChild("count1").text, "2147483646")
 end)
@@ -221,77 +155,4 @@ test("Artifact does not suppress invalid power amounts before core validation", 
     end
 end)
 
-test("each enemy keeps its executed face while later enemies still see new statuses", function()
-    local h, u, p, _, tap = H.setup({"defend"}, {"fat_gremlin", "jaw_worm"})
-    local s = h.run.combat
-    for _, enemy in ipairs(s.enemies) do enemy.ai, enemy.intentIndex = nil, 1 end
-    s.enemies[1].intents = {{id="expose", kind="debuff", effects={{op="applyStatus", status="vulnerable", value=1}}}}
-    s.enemies[2].intents = {{id="strike", kind="attack", effects={{op="gainStatus", status="strength", value=2}, {op="damage", value=10}}}}
-    h:refresh(); eq(p:GetChild("enemy2"):GetChild("intent").text, "12")
-    tap("endTurn", 31)
-    local sawExposed, sawStrength, sawSecondIntent = false, false, false
-    drainChecked(h, u, function(entry, frame)
-        if entry.kind == "status" and entry.detail.status == "vulnerable" then
-            sawExposed = true
-            eq(p:GetChild("enemy2"):GetChild("intent").text, "18", "unacted enemy must see Vulnerable")
-        elseif entry.kind == "intent" and entry.detail.enemy == s.enemies[2].id then
-            sawSecondIntent = true; eq(p:GetChild("enemy2"):GetChild("intent").text, "18")
-        elseif entry.kind == "status" and entry.detail.status == "strength" then
-            sawStrength = true; eq(frame.enemies[2].statuses.strength, 2)
-            eq(p:GetChild("enemy2"):GetChild("intent").text, "18", "completed self buff must not be forecast twice")
-        end
-    end)
-    assert(sawExposed and sawSecondIntent and sawStrength)
-    eq(s.player.hp, s.player.maxHp - 18)
-    eq(p:GetChild("enemy2"):GetChild("intent").text, "21", "new player phase must preview the next action")
-    tap("endTurn", 32)
-    local sawNextAction = false
-    drainChecked(h, u, function(entry)
-        if entry.kind == "status" and entry.detail.status == "strength" then
-            sawNextAction = true; eq(p:GetChild("enemy2"):GetChild("intent").text, "21")
-        end
-    end)
-    assert(sawNextAction)
-    eq(s.player.hp, s.player.maxHp - 39)
-    eq(p:GetChild("enemy2"):GetChild("intent").text, "24")
-end)
-
-test("two stock applying enemies exhaust exactly two charges without historical-frame recovery", function()
-    local h, u, p, _, tap = H.setup({"defend"}, {"fat_gremlin", "fat_gremlin"})
-    local s = h.run.combat
-    Combat.addStatus(s.player, "weak", 2147483647); Combat.addStatus(s.player, "artifact", 2)
-    h:refresh(); tap("endTurn", 41)
-    local blocks = {}
-    drainChecked(h, u, function(entry, frame)
-        if entry.kind == "status" and entry.detail.status == "artifact" then
-            blocks[frame.player.statuses.artifact] = true
-            eq(p:GetChild("enemy1"):GetChild("intent").text, "4")
-            eq(p:GetChild("enemy2"):GetChild("intent").text, "4")
-        end
-    end)
-    assert(blocks[1] and blocks[0])
-    eq(s.player.statuses.artifact, 0); eq(s.player.statuses.weak, 2147483646)
-end)
-
-test("cancelled playback and replacement battle cannot retain an old actor's intent", function()
-    local h, u, p, tap = setup({{op="gainStatus", status="strength", value=2}, {op="damage", value=10}})
-    h:refresh(); tap("endTurn", 51)
-    for _ = 1, 100 do
-        if u.feedback.current.kind == "intent" then break end
-        h:update(0.05)
-    end
-    eq(u.feedback.current.kind, "intent")
-    eq(p:GetChild("enemy1"):GetChild("intent").text, "12")
-    u.feedback:cancel()
-    assert(not u.busy)
-    eq(p:GetChild("enemy1"):GetChild("intent").text, "14")
-    h.run.combat = Combat.new(H.F.Data, {deck={"defend"}, enemies={"fat_gremlin"}})
-    Combat.addStatus(h.run.combat.enemies[1], "strength", 3)
-    h:refresh(); eq(p:GetChild("enemy1"):GetChild("intent").text, "7")
-    Combat.addStatus(h.run.combat.player, "weak", 2147483647)
-    rejects(h, "status stack overflow")
-end)
-
-print("LUA_INTENT_ARTIFACT_PREVIEW " .. passed .. " passed; " .. failed .. " failed")
-print = originalPrint
-assert(failed == 0, "Intent Artifact preview failures: " .. failed)
+F.finish("LUA_INTENT_ARTIFACT_PREVIEW")

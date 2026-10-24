@@ -74,3 +74,40 @@ stopped at module resolution, with no install or retry. Full `npm run check`
 and current-head CI remain separate integration gates, not claimed here.
 No candidate export, official import, live game, device visual or UI acceptance
 was performed by this local fix.
+
+## CI timeout follow-up (same PR)
+
+The first formal Fengari run did **not** pass: PR152
+[run 40056551045, job 120760685203](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40056551045/job/120760685203)
+on `STA-Sister-Win` ended with `ETIMEDOUT` at the existing 30,000 ms limit.
+The JS suite reported 895 pass / 1 fail / 118 skip. Thirteen intent groups had
+completed; the double-Fat group reached its `player_turn` event but had not
+finished its final checks. There was no logged assertion failure. Buffered
+stdout timestamps cannot establish individual group durations.
+
+Native diagnostic profiling identified the expensive test path, not a proven
+production stall: `drainChecked` repeatedly traverses the whole committed state
+and event frames, while the old equality helper eagerly formatted error strings
+on every successful comparison. The two multi-frame groups visited 940,187 and
+582,397 nodes. Building messages and field paths only on mismatch preserves
+these exact counts and all per-frame comparisons; native measured CPU fell
+from approximately 1.123/0.646 seconds to 0.211/0.135 seconds. These are local
+diagnostic measurements, not predictions or substitutes for Fengari results.
+
+Coverage is split by concern, following the existing GameUI fixture pattern:
+
+- `intent_artifact_preview.lua`: original groups 1–12, from the stock Fat
+  Gremlin boundary through invalid-amount validation.
+- `intent_artifact_playback.lua`: original groups 13–15, covering ordered
+  enemies/next command, two stock applying enemies and cancellation/replacement.
+- `support/intent_artifact_fixture.lua`: shared setup, comparison and playback
+  helpers; not discovered as an independent test by the top-level Lua runner.
+
+All 15 named test bodies and assertions are retained, with only the shared
+recovery-counter alias changed. The complete `drainChecked` loop is unchanged.
+The JS wrapper explicitly runs both files and requires 12 and 3 passed groups,
+zero failed groups and no unexpected recovery. No runner, timeout, production
+source, frame frequency or tested field was changed. All four original
+mutations remain detected after the split. Comparator controls also reject
+nested-value, type, missing-field, extra-field and Boolean differences.
+The corrective commit still requires a successful formal Fengari CI run.
