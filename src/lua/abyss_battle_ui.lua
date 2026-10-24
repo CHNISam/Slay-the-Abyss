@@ -525,6 +525,31 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:SetAsLastSibling()
         return {x, y}
     end
+    -- Post-battle pick: centred cards on their own stage, never the hand arc.
+    -- Hover/press only changes scale and a small lift, so a card's edge stays
+    -- under the pointer and neighbours never overlap (step > hover width).
+    local R = L.rewardPick
+    local function rewardTarget(slot)
+        local hot = self.hover == slot
+        return hot and R.hoverScale or R.scale, hot and R.hoverLift or 0
+    end
+    local function placeReward(box, count, index, anim, hot)
+        local x = (index - 1 - (count - 1) / 2) * R.step
+        box:SetAnchoredPosition(x, R.y + anim.lift + anim.rise)
+        box:SetLocalScale(anim.scale, anim.scale, 1)
+        box.localRotationZ = 0
+        box:GetChild("glow"):SetVisible(hot)
+        -- Later siblings draw on top: neighbours first, the hovered card last.
+        if not hot then box:SetAsLastSibling() end
+        return {x, R.y}
+    end
+    function self:setHover(slot)
+        local run = self.run
+        if slot and not (self.active and not self.busy and run and run.phase == "reward" and Run.rewardOptions(run)[slot]) then slot = nil end
+        if self.hover == slot then return end
+        self.hover = slot
+        self:render()
+    end
     function self:render()
         local run = self.run
         if self.gesture and not cardReady(self.gesture) then
@@ -566,6 +591,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local enemyPlayback = self.busy and self.displayBattle and battle.phase == "enemy"
         if not enemyPlayback then playbackIntents = nil end
         local reward = not self.busy and run and run.phase == "reward"
+        if not reward then self.hover = nil end
+        -- A new reward object restarts the entrance so cards rise into place.
+        if reward and (not self.rewardView or self.rewardView.rewards ~= run.rewards) then
+            self.rewardView = {rewards = run.rewards, cards = {}}
+            for i = 1, 10 do self.rewardView.cards[i] = {scale = R.scale * R.enterScale, lift = 0, rise = -R.enterRise} end
+        elseif not reward then self.rewardView = nil end
         local active = self.active and fighting and battle.phase == "player" and not self.busy
         -- Validation stages potion transactions; do it once while input is available,
         -- never copy the event journal once per animation step.
@@ -580,8 +611,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         button("start", self.active, true, run and "重新启程" or "启程")
         show("endTurn", fighting)
         show("skip", reward)
+        show("rewardStage", reward)
+        -- The battle HUD (energy, piles) belongs to playing cards; clear it while choosing a reward.
+        for _, name in ipairs({"energyRing", "energyDisc", "energyIcon", "energy", "drawIcon", "drawBadgeRing", "drawBadge",
+            "draw", "drawLabel", "discardIcon", "discardBadgeRing", "discardBadge", "discard", "discardLabel"}) do
+            show(name, not reward)
+        end
         show("continue", not options.embedded and run and run.phase == "map")
-        show("result", not fighting) show("resultPlate", not fighting)
+        show("result", not fighting and not reward) show("resultPlate", not fighting and not reward)
         show("hero", fighting)
         local player = battle and battle.player
         label("player", number(player and player.hp or run and run.hp or data.rules.player.maxHp) .. "/" .. number(run and run.maxHp or data.rules.player.maxHp))
@@ -598,7 +635,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         label("statuses", fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
         if fighting then unit(child("hero"), player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
         if not run then label("result", "战斗演练\n点击启程，试用旅行者的初始牌组")
-        elseif reward then label("result", "战斗胜利 · 金币 ＋" .. number(run.rewards.gold) .. "\n选择一张牌加入牌组，或跳过")
+        elseif reward then
+            child("rewardStage"):GetChild("subtitle").text = "战斗胜利 · 金币 ＋" .. number(run.rewards.gold) .. " · 点击卡牌加入牌组，或跳过"
         elseif run.phase == "defeat" then label("result", "旅途暂歇\n重新启程，重建牌组")
         elseif run.phase == "map" then label("result", "奖励已处理 · 牌组 " .. #run.deck .. " 张\n可再次挑战，检查新增卡牌") end
         ink(child("result"), run and run.phase == "defeat" and C.danger or C.goldBright)
@@ -705,10 +743,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     or definition.costMode == "all_energy" and "X" or number(definition.cost)
                 ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
                 tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
-                tint(box:GetChild("border"), selected and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
+                local hovered = reward and not fighting and self.hover == i
+                tint(box:GetChild("border"), (selected or hovered) and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
                 tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
                 picture(box:GetChild("art"), Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
-                local pose = placeCard(box, fighting and #battle.hand or #rewards, i - 1, selected == true)
+                local pose
+                if reward and not fighting then
+                    local hot = self.hover == i
+                    pose = placeReward(box, #rewards, i, self.rewardView.cards[i], hot)
+                    if hot then selectedBox = box end
+                else pose = placeCard(box, fighting and #battle.hand or #rewards, i - 1, selected == true) end
                 if instance then self.cardPositions[instance.uid] = pose end
                 if selected then selectedBox = box end
             end
@@ -858,6 +902,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             self:render() return
         end
         self.feedback:update(dt)
+        local view = self.rewardView
+        if view and self.active and not self.busy and self.run and self.run.phase == "reward" and view.rewards == self.run.rewards then
+            local k, moving = 1 - math.exp(-R.ease * dt), false
+            for i, anim in ipairs(view.cards) do
+                local scale, lift = rewardTarget(i)
+                for key, goal in pairs({scale = scale, lift = lift, rise = 0}) do
+                    local gap = goal - anim[key]
+                    if math.abs(gap) > 0.002 then
+                        anim[key] = math.abs(gap) < 0.05 and goal or anim[key] + gap * k
+                        moving = true
+                    end
+                end
+            end
+            if moving then self:render() end
+        end
     end
     function self:setActive(active)
         assert(type(active) == "boolean", "active must be boolean")
@@ -1210,15 +1269,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local info = child("statusInfo")
     info.disableCursorEventPassthrough = true
     listen(info:GetChild("hit"), function() if closeInfo() then self:render() end end)
-    local function bindHelp(control,describe,clickable)
+    -- hoverSlot: a reward card also reports pointer enter/exit for its hover pose (one listener per event).
+    local function bindHelp(control,describe,clickable,hoverSlot)
         local input={}
         local function cancel()
             input.held,input.released=nil,nil
+            if hoverSlot and self.hover==hoverSlot then self:setHover(nil) end
             if self.help and self.help.source==control then self.help=nil end
             if self.info and self.info.source==control and self.info.transient then closeInfo();self:render() end
         end
         if cursor and cursor.CursorEnter and cursor.CursorExit then
-            control:AddCursorEventListener(cursor.CursorEnter,function() self:queueHelp(describe(),control,false) end)
+            control:AddCursorEventListener(cursor.CursorEnter,function()
+                if hoverSlot then self:setHover(hoverSlot) end
+                self:queueHelp(describe(),control,false)
+            end)
             control:AddCursorEventListener(cursor.CursorExit,cancel)
         end
         if not clickable then return end
@@ -1289,7 +1353,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     for slot=1,10 do
         local index=slot
-        bindHelp(child("card"..slot):GetChild("hit"),function() return self:cardHelpSpec(index) end,false)
+        bindHelp(child("card"..slot):GetChild("hit"),function() return self:cardHelpSpec(index) end,false,slot)
     end
     refresh()
     return self
