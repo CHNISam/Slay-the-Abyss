@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-m3-map'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 10:18'
+updated_date: '2026-10-24 10:30'
 due_date: '2026-10-28'
 labels:
   - required
@@ -48,4 +48,6 @@ ordinal: 40000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-24 @codex-m3-map：新增隔离完整房型候选（未接生产）。固定源RoomTypeAssigner/AbstractDungeon/Exordium与Java洗牌行为独立转译；路径结束snapshot恢复同一mapRng原语，再raw倒序洗牌，wrapper counter不增。新15项真实缺模块红0/15后绿15/15，12未改golden完整坐标/边/房型全匹配，含2780424839485660359；配额0..105 binary32边界、父/兄弟/行限制、独立raw状态向量和fallback通过。旧拓扑/RNG专项40/40；候选0..127结构128/128/0执行错误。生产另实际FAIL0/12（11diff/1unsafe64），未改src/Run/Combat/UI。账本、源码hash和逐seed双state见docs/reviews/TASK-12.4-map-room-candidate.md及docs/rules/evidence/w1-map-room-candidate.json；原始红绿/全差分在根.artifacts/m3-map-room-6e8714f。具体Map v3/rawRunSeed/四模块部署/7列92节点与1011地图控件的下一迁移gate已列清单；目标PC认证、生产接线、遭遇队列、平台实机均缺，所有整体AC不勾，不Done，无full/MCP/游戏。
+
+2026-10-24迁移清单更正：基线已有生产abyss_randomxs128/abyss_sts_random，原语实际仅首行注释不同、wrapper保留基础方法并扩展事件API。下一片应复用两现有模块，仅新增map_topology/map_rooms；不得用旧候选覆盖生产模块，也不得误用事件shuffle（randomLong播种Java Random）作为地图raw同原语洗牌。更正和TASK15/47两遭遇只读审计均在本次文档补充提交，未改src。
 <!-- SECTION:NOTES:END -->
