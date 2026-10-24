@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-m3-map'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 14:18'
+updated_date: '2026-10-24 16:17'
 due_date: '2026-10-28'
 labels:
   - required
@@ -48,6 +48,8 @@ ordinal: 40000
 2026-10-24 @codex-fresh-run-rng：独立feat/fresh-run-rng从5afd8a4处理正常Host固定seed根因。先写真实Host入口红例，核实原生种子来源后最小接线，覆盖初始化/宿主重建/同会话重开/显式seed复现及部署清单。只读核对固定Exordium/AbstractDungeon弱敌池、权重、重复限制和流隔离，明确生产缺口，不重复地图隔离候选、不操作游戏/MCP导入、不勾广义AC。
 
 2026-10-24 @codex-sts1-encounter-queue：从76bbefa独立实现原版第一幕遭遇队列核心，先核全部MonsterHelper编组映射；缺少Lots/Thugs及动态颜色/野生/大软泥组时不删池或强接Run。先写独立Python整数source-interpretation固定向量和阈值/拒重红例，复用生产STS Random及binary32；完成源名队列、normal/elite共享monsterRng、raw signed64种子、耗尽补队列和原子consume/snapshot/restore。只跑相关定向检查，不做UI/地图拓扑/药水/GUI/MCP/live/push；完整check由主线统一。
+
+2026-10-25 正式运行时接线切片：Run统一拥有源名遭遇队列，Nodes普通/精英/问号怪物只在成功换房时原子消费；Map显示与快照不预抽。raw64种子与按层独立HP/AI/misc随机流接入完整17源编组及构造顺序；固定Guardian初始化边界、其余洗牌/卡牌/奖励随机链明确保留。覆盖源级向量、失败/恢复、既有节点与地图回归，整体AC不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

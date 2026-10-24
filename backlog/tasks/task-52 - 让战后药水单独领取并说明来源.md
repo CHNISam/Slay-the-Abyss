@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:45'
-updated_date: '2026-10-24 15:44'
+updated_date: '2026-10-24 16:18'
 labels:
   - required ui rule-parity
 milestone: m-4
@@ -35,7 +35,7 @@ ordinal: 87000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. 重读固定319009d奖励列表、选牌、条目、房间及Proceed源码。2. 将列表与选牌作为互斥界面子状态，金币/失金/药水各自领取，PC点牌直接入组，跳过回列表。3. 保留完整奖励/输入身份并加入页面epoch，覆盖旧触摸、满槽、Sozu、重复及跨局输入。4. 回归真实Run和生成控件树，记录本地与副本/导入/实机证据边界。
+1. 以固定PC原文核对战利品列表、独立选牌页、Skip和Proceed的页面归属。2. 用真实Run与生成UI复现复杂并行动作和标题叠字，再重做列表与选牌互斥、金币药水分别领取和回看未领奖励。3. 将23状态可读性、旧输入归属、满槽及金币资源账本纳入现有自动检查；新导入前核验官方外部Lua。4. 组合完整检查、构建只读副本和独立读回，官方新导入并收集本轮日志/截图；实机与verify:ui缺口明确保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -52,4 +52,6 @@ ordinal: 87000
 本片定向收尾：首轮59个相关Lua文件收集的28个失败均已有对应修后通过证据（包含一次并行构建读到半写生成树的宿主重跑）；额外混合宿主与held/released组合通过，独立battle_ui 53组通过。新10组真实奖励生命周期、独立5项可读性守卫及宿主/布局组合22项通过；check:syntax、validate:data、diff --check通过。保留初始失败与逐项修后JSON，未重跑全项目check，未修改超时预算；源码/生成树通过不代表副本/导入/实机或UI总门禁。
 
 生产41320fe已由独立reward_ui_guard最终重跑：5项守卫全绿、23状态，日志SHA256 e2e5d04fda66eeb0bf87d009392febfd88a113a416014a55d07e0308e0369ea3，快照020ec636bb4b8c564bc7ee159680441d7b3612a29766ed77f2f8d8aef8b0208c；来源与各批证据见docs/evidence/reward-flow-parity-20261024.json。没有将源码/机器门禁替作本轮实机，任务状态保持进行中。
+
+2026-10-25 分工交付已组合到c68470f：原版式战利品列表/独立选牌、Skip只回列表、Proceed可回看；奖励页反馈拥有独立区域，23真实渲染状态回归先红后绿；资源审计补显式金币与待领奖励快照。冻结生产e2eefaa副本SHA256=226463ca068f726eab59adb69c497c34781954ca5a8062d2e73193c629854eb8，独立源码/UI/结算图读回通过。首次完整JS1111过/2失败/119跳过：一项Oracle已有CRLF工作区未随eol属性重写，恢复约定LF后原hash断言3/3通过；另一项新返回战利品按钮被旧整页断言误分类，由独立Agent处理。尚未本轮官方导入/实机/verify:ui，保持进行中。
 <!-- SECTION:NOTES:END -->
