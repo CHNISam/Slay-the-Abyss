@@ -478,6 +478,11 @@
         40
       ]
     },
+    "battleRewards": {
+      "potionLabel": [0, 192, 820, 44],
+      "claimPotion": [-112, -22],
+      "skipPotion": [112, -22]
+    },
     "nativeControl": {
       "origin": [
         0,
