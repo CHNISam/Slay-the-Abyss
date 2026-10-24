@@ -1233,6 +1233,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         notice(ok and "" or reasons[reason] or "当前无法使用这张牌。")
         if reason ~= "presentation_unavailable" then refresh() end
     end
+    function self:chooseCard(token,uid)
+        if self.busy or not self.run or self.run.phase~="combat" then return false end
+        local ok,reason=perform(function() return Run.chooseCard(self.run,token,uid) end)
+        notice(ok and "" or reasons[reason] or "这次选牌已失效。")
+        refresh()
+        return ok,reason
+    end
     function self:playSlot(index)
         local run = self.run
         if not self.active or not run or self.busy or self.gesture or self.suppressClick then return end

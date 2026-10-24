@@ -3,15 +3,17 @@ local Actors = require("abyss_actor")
 local Effects = require("abyss_effects")
 local Events = require("abyss_events")
 local EnemyAI = require("abyss_enemy_ai")
+local CardActions = require("abyss_card_actions")
+local CardRandom = require("abyss_sts_random")
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
-function M.damage(state, source, target, base, fixed, retaliation)
+function M.damage(state, source, target, base, fixed, retaliation, resolved)
     local before, sourceBefore = target.hp, source.hp
     local thornsCallback = before > 0 and sourceBefore > 0 and not fixed and not retaliation
         and (target.statuses.thorns or 0) > 0
-    local lost = Actors.damage(state, source, target, base, fixed, retaliation)
+    local lost = Actors.damage(state, source, target, base, fixed, retaliation,resolved)
     EnemyAI.hpLost(state, target, before, before > 0 and sourceBefore > 0)
     if source ~= target then EnemyAI.hpLost(state, source, sourceBefore, thornsCallback) end -- normal thorns
     if not state.resolvingEffects then
@@ -69,6 +71,10 @@ function M.random(state, maximum)
     assert(maximum >= 1 and maximum % 1 == 0, "invalid random range")
     state.seed = (state.seed * 25173 + 13849) % 65536
     return state.seed % maximum + 1
+end
+function M.cardRandom(state,maximum)
+    assert(maximum>=1 and maximum%1==0,'invalid card random range')
+    return CardRandom.randomInt(state.cardRandomRng,maximum-1)+1
 end
 
 -- Both ordinary enemies and spawned children use the same actor contract.
@@ -195,12 +201,36 @@ function M.draw(state, count)
         end
         local card = table.remove(state.draw)
         state.hand[#state.hand + 1] = card
+        local kind=state.catalog.cards[card.cardId].type
+        if kind=="status" and (state.player.statuses.evolve or 0)>0 then
+            CardActions.enqueue(state,{op="draw",value=state.player.statuses.evolve})
+        end
+        if (kind=="status" or kind=="curse") and (state.player.statuses.fire_breathing or 0)>0 then
+            CardActions.enqueue(state,{op="damageAll",value=state.player.statuses.fire_breathing,fixed=true})
+        end
     end
 end
 
 function M.cardDefinition(state, instance)
     local card = copy(assert(state.catalog.cards[instance.cardId], "unknown card"))
     if instance.upgraded then for k, v in pairs(card.upgrade or {}) do card[k] = copy(v) end end
+    if card.id=="searing_blow" then
+        local n=instance.upgrades or (instance.upgraded and 1 or 0)
+        card.effects[1].value=12+3.5*n+0.5*n*n
+    end
+    if card.id=="blood_for_blood" then card.cost=math.max(0,card.cost-(instance.costReduction or 0)) end
+    if instance.costForTurn~=nil then card.cost=instance.costForTurn end
+    if state.player and card.type=="skill" and (state.player.statuses.corruption or 0)>0 then card.cost=0 end
+    if card.id=="perfected_strike" and state.hand then
+        local count=0
+        for _,pile in ipairs({state.hand,state.draw,state.discard}) do
+            for _,held in ipairs(pile) do if state.catalog.cards[held.cardId].strikeTag then count=count+1 end end
+        end
+        card.effects[1].value=6+count*card.strikeBonus
+    end
+    if card.strengthMultiplier and state.player then
+        card.effects[1].value=card.effects[1].value+(state.player.statuses.strength or 0)*(card.strengthMultiplier-1)
+    end
     if instance.damageBonus ~= nil then
         local bonus = instance.damageBonus
         assert(type(bonus) == "number" and bonus >= 0 and bonus < math.huge and bonus % 1 == 0, "invalid card damage bonus")
@@ -212,6 +242,17 @@ function M.cardDefinition(state, instance)
         end
     end
     return card
+end
+
+function M.canUpgrade(state,instance)
+    local d=state.catalog.cards[instance.cardId]
+    return d and d.upgrade~=nil and (not instance.upgraded or d.repeatable==true)
+end
+function M.upgrade(state,instance)
+    if not M.canUpgrade(state,instance) then return false end
+    instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
+    instance.upgraded=true
+    return true
 end
 
 -- Read-only display numbers for one hand card, from the same modifier arithmetic
@@ -237,12 +278,18 @@ function M.cardPreview(state, instance, targetIndex)
         return {op = op, low = value, high = value, targets = targets}
     end
     for i, effect in ipairs(card.effects) do
-        if effect.op == "damage" or effect.op == "damageAll" then result[i] = previewDamage(effect.op, effect.value)
+        if effect.op == "damage" or effect.op == "damageAll" or effect.op=="fiendFire"
+            or effect.op=="feed" or effect.op=="reaper" or effect.op=="damageRandom" then
+            result[i] = previewDamage(effect.op=="reaper" and "damageAll" or effect.op=="damageAll" and "damageAll" or "damage", effect.value)
+            result[i].op=effect.op
         elseif effect.op == "damageEqualToBlock" then result[i] = previewDamage("damage", player.block)
             result[i].op = effect.op
         elseif effect.op == "block" then
             local amount = Actors.blockAmount(state, player, effect.value)
             result[i] = {op = effect.op, low = amount, high = amount}
+        elseif effect.op=="secondWind" then
+            local amount=Actors.blockAmount(state,player,effect.value)
+            result[i]={op=effect.op,low=amount,high=amount}
         end
     end
     return result
@@ -254,6 +301,7 @@ end
 
 function M.canPlay(state, uid, targetIndex)
     if state.phase ~= "player" then return false, "not_player_turn" end
+    if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
     local instance = findInstance(state, uid)
     if not instance then return false, "card_not_in_hand" end
     local card = M.cardDefinition(state, instance)
@@ -269,10 +317,15 @@ function M.canPlay(state, uid, targetIndex)
         op = "invalid_empty_status"
     else ok, op = Effects.supported(card.effects) end
     if not ok then return false, "unsupported_effect:" .. op end
-    if card.costMode or card.condition then return false, "advanced_card_not_enabled" end
+    if card.condition=="only_attacks_in_hand" then
+        for _,held in ipairs(state.hand) do
+            if state.catalog.cards[held.cardId].type~="attack" then return false,"requires_only_attacks" end
+        end
+    elseif card.condition then return false,"advanced_card_not_enabled" end
     if state.energy < card.cost then return false, "insufficient_energy" end
     for _, effect in ipairs(card.effects) do
-        if effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus" then
+        if effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus"
+            or effect.op=="feed" or effect.op=="fiendFire" or effect.op=="spotWeakness" then
             local enemy = state.enemies[targetIndex]
             if not Actors.isActive(enemy) then return false, "invalid_target" end
         end
@@ -297,6 +350,20 @@ local function savePlayState(state, playedCard)
     for _, enemy in ipairs(state.enemies) do actor(enemy) end
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
     if state.curlUpQueue then save(state.curlUpQueue) end
+    -- Selection, upgrades, Blood for Blood and exhaust callbacks mutate other
+    -- instances too. Roll back each original table rather than replacing it.
+    local visited={}
+    local function mutable(t)
+        if type(t)~="table" or visited[t] then return end
+        visited[t]=true; save(t)
+        for k,v in pairs(t) do
+            if k~="catalog" and k~="rules" and k~="statusDefinitions" and k~="intents"
+                and k~="ai" and k~="frame" then mutable(v) end
+        end
+    end
+    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust,state.cardActions or {}}) do mutable(pile) end
+    if state.pendingChoice then mutable(state.pendingChoice) end
+    if state.cardRandomRng then mutable(state.cardRandomRng) end
     save(playedCard)
     return function()
         for original, values in pairs(saved) do
@@ -306,26 +373,111 @@ local function savePlayState(state, playedCard)
     end
 end
 
-local function resolvePlay(state, uid, targetIndex, instance, position, card)
-    local previous = state.resolvingCard
+local function queuePlay(state, uid, targetIndex, instance, card, free, forceExhaust, purge, top)
     state.resolvingCard = true
+    state.cardInUse=instance
     local reactions = EnemyAI.cardReactions(state, card)
-    state.energy = state.energy - card.cost
-    table.remove(state.hand, position) -- played card cannot be drawn by its own draw
+    local x=state.energy
+    if not free then state.energy=state.energy-(card.costMode=="all_energy" and state.energy or card.cost) end
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
-    M.applyEffects(state, card.effects, state.player, state.enemies[targetIndex], instance)
-    EnemyAI.afterCard(state, reactions)
+    local items={}
+    for i,effect in ipairs(card.effects) do
+        if not (effect.targetGroup and card.effects[i-1] and card.effects[i-1].targetGroup) then
+            local e=copy(effect)
+            if e.op=="damage" or e.op=="damageAll" or e.op=="fiendFire" or e.op=="feed"
+                or e.op=="reaper" or e.op=="damageRandom" or e.op=="damageEqualToBlock" then
+                e.resolved={}
+                for j,enemy in ipairs(state.enemies) do
+                    e.resolved[enemy.id]=Actors.attackAmount(state,state.player,enemy,e.op=="damageEqualToBlock" and state.player.block or e.value)
+                end
+            end
+            if e.targetGroup then e={op="effectBatch",effects={e,copy(card.effects[i+1])}} end
+            if e.times=="X" then e.times=x; if x==0 then e=nil end end
+            if e then items[#items+1]=e end
+        end
+    end
+    local coreOnly=true
+    for _,e in ipairs(items) do if CardActions.supports(e.op) then coreOnly=false end end
+    if coreOnly and not (state.player.statuses.rupture and state.player.statuses.rupture>0) then
+        local batch={}
+        for _,e in ipairs(items) do
+            if e.op=="effectBatch" then for _,part in ipairs(e.effects) do batch[#batch+1]=part end
+            else batch[#batch+1]=e end
+        end
+        if #batch>0 then items={{op="effectBatch",effects=batch}} end
+    end
+    if card.type=="attack" and (state.player.statuses.rage or 0)>0 then
+        items[#items+1]={op="block",value=state.player.statuses.rage,fixed=true}
+    end
+    local exhaust=card.exhaust or forceExhaust or card.type=="skill" and (state.player.statuses.corruption or 0)>0
+    items[#items+1]={op="dispose",exhaust=exhaust,purge=purge,cardType=card.type,reactions=reactions}
+    local repeats=card.type=="attack" and not purge and (state.player.statuses.double_tap or 0)>0
+    if repeats then
+        state.player.statuses.double_tap=state.player.statuses.double_tap-1
+        items[#items+1]={op="repeatCard",card=copy(instance),targetIndex=targetIndex}
+    end
+    if top then
+        for i=#items,1,-1 do CardActions.enqueue(state,items[i],state.player,state.enemies[targetIndex],instance,true) end
+    else for _,e in ipairs(items) do CardActions.enqueue(state,e,state.player,state.enemies[targetIndex],instance) end end
+end
+
+function M.disposeCard(state,item)
+    local e,instance=item.effect,item.instance
+    EnemyAI.afterCard(state,e.reactions)
+    if state.cardInUse==instance then state.cardInUse=nil end
     -- A used Power leaves the combat piles; it is not an exhausted card.
     -- The Power destination takes precedence over exhaust-on-use, while an
     -- unplayed Power still follows the ordinary endTurn hand lifecycle.
-    if card.type ~= "power" then
-        local pile = card.exhaust and state.exhaust or state.discard
-        pile[#pile + 1] = instance
+    if e.cardType ~= "power" and not e.purge then
+        instance.costForTurn=nil
+        if e.exhaust then CardActions.exhaust(M,state,instance)
+        else state.discard[#state.discard+1]=instance end
     end
-    state.resolvingCard = previous
-    if not previous then Actors.flushCurlUp(state) end
+end
+
+local function resolvePlay(state,uid,targetIndex,instance,position,card)
+    table.remove(state.hand,position)
+    queuePlay(state,uid,targetIndex,instance,card)
+    CardActions.drain(M,state)
+    if not state.pendingChoice then Actors.flushCurlUp(state) end
     finish(state)
     return true
+end
+
+function M.chooseCard(state,token,uid)
+    local restore=savePlayState(state,{})
+    local called,ok,reason=pcall(CardActions.choose,M,state,token,uid)
+    if not called then restore(); error(ok,0) end
+    if ok and not state.pendingChoice then Actors.flushCurlUp(state); finish(state) end
+    return ok,reason
+end
+
+function M.repeatCard(state,e)
+    local target=state.enemies[e.targetIndex]
+    if target and not Actors.isActive(target) then
+        local pool={}; for i,v in ipairs(state.enemies) do if Actors.isActive(v) then pool[#pool+1]=i end end
+        if #pool==0 then return end
+        e.targetIndex=pool[M.cardRandom(state,#pool)]
+    end
+    local c=e.card
+    queuePlay(state,c.uid,e.targetIndex,c,M.cardDefinition(state,c),true,false,true,true)
+end
+
+function M.autoplayTop(state)
+    if #state.draw==0 then
+        if #state.discard==0 then return end
+        state.draw,state.discard=state.discard,{}; shuffle(state,state.draw); event(state,"reshuffle")
+    end
+    local c=table.remove(state.draw)
+    local d=M.cardDefinition(state,c)
+    local targets={}; for i,v in ipairs(state.enemies) do if Actors.isActive(v) then targets[#targets+1]=i end end
+    local target=#targets>0 and targets[M.cardRandom(state,#targets)] or nil
+    local invalid=d.cost==-2 or d.type=="attack" and (state.player.statuses.entangled or 0)>0
+    if d.condition=="only_attacks_in_hand" then
+        for _,held in ipairs(state.hand) do if state.catalog.cards[held.cardId].type~="attack" then invalid=true end end
+    end
+    if invalid then CardActions.exhaust(M,state,c);return end
+    queuePlay(state,c.uid,target,c,d,true,true,false,true)
 end
 
 function M.play(state, uid, targetIndex)
@@ -364,13 +516,31 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
         if state.energy + 0.0 + state.rules.player.energyPerTurn > 2147483647 then return false, "effect_overflow" end
     end
     state.energy = state.energy + state.rules.player.energyPerTurn
+    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
+    for _,id in ipairs({"rage","double_tap","flame_barrier"}) do state.player.statuses[id]=nil end
+    local p=state.player
+    if (p.statuses.demon_form or 0)>0 then CardActions.enqueue(state,{op="gainStatus",status="strength",value=p.statuses.demon_form}) end
+    if (p.statuses.berserk or 0)>0 then CardActions.enqueue(state,{op="energy",value=p.statuses.berserk}) end
+    CardActions.drain(M,state)
+    if finish(state) then return end
     M.draw(state, state.rules.player.drawPerTurn)
+    if (p.statuses.brutality or 0)>0 then
+        CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
+        CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
+    end
+    CardActions.drain(M,state)
     event(state, "player_turn", state.turn)
     return true
 end
 
 function M.endTurn(state)
     if state.phase ~= "player" then return false, "not_player_turn" end
+    if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
+    if (state.player.statuses.metallicize or 0)>0 then
+        CardActions.enqueue(state,{op="block",value=state.player.statuses.metallicize,fixed=true})
+        CardActions.drain(M,state)
+        if finish(state) then return true end
+    end
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, regrets = #state.hand, {}
@@ -388,12 +558,37 @@ function M.endTurn(state)
         state.discard[#state.discard + 1] = instance
         state.cardInUse = nil
     end
-    for _, instance in ipairs(state.hand) do
-        local card = M.cardDefinition(state, instance)
-        local pile = card.ethereal and state.exhaust or state.discard
-        pile[#pile + 1] = instance
+    for _,instance in ipairs(state.hand) do
+        if instance.cardId=="burn" then
+            M.damage(state,state.player,state.player,2,true)
+            if finish(state) then return true end
+        end
     end
-    state.hand = {}
+    local p=state.player
+    if (p.statuses.combust or 0)>0 then
+        CardActions.enqueue(state,{op="loseHp",value=p.combustHpLoss})
+        CardActions.enqueue(state,{op="damageAll",value=p.statuses.combust,fixed=true})
+    end
+    CardActions.drain(M,state)
+    if finish(state) then return true end
+    for _,id in ipairs({'rage','double_tap'}) do
+        local amount=state.player.statuses[id] or 0
+        if amount>0 then
+            state.player.statuses[id]=nil
+            event(state,'status',{source=state.player.id,target=state.player.id,status=id,amount=-amount})
+        end
+    end
+    local endingHand={}; for i,c in ipairs(state.hand) do endingHand[i]=c end
+    for _, instance in ipairs(endingHand) do
+        local card = M.cardDefinition(state, instance)
+        if card.ethereal then CardActions.exhaust(M,state,instance,state.hand) end
+    end
+    -- End-turn exhaust draws occur before DiscardAtEndOfTurn in the original;
+    -- the detailed end-turn action ordering remains guarded by dedicated tests.
+    CardActions.drain(M,state)
+    if finish(state) then return true end
+    for _,instance in ipairs(state.hand) do state.discard[#state.discard+1]=instance end
+    state.hand={}
     Actors.endTurn(state, state.player)
     if finish(state) then return true end
     state.phase = "enemy"
@@ -426,6 +621,7 @@ function M.endTurn(state)
             if intent.kind == "split" then splitEnemy(state, enemy)
             elseif intent.kind == "escape" then assert(M.escapeEnemy(state, enemy), "invalid escape")
             else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
+            CardActions.drain(M,state)
             if finish(state) then return true end
             -- Thorns can kill this attacker while other enemies remain alive.
             if Actors.isActive(enemy) then
@@ -453,13 +649,15 @@ function M.new(data, options)
     options = options or {}
     assert(type(options.seed or 1) == "number" and (options.seed or 1) % 1 == 0, "seed must be an integer")
     local rules = copy(data.rules)
+    rules.player.maxHp=options.maxHp or rules.player.maxHp
     local hp = options.hp or rules.player.maxHp
     assert(hp > 0 and hp <= rules.player.maxHp and hp % 1 == 0, "invalid starting hp")
     local gold = options.gold == nil and rules.player.startingGold or options.gold
     assert(goldInteger(gold), "invalid starting gold")
-    local state = { stolenGoldReward = 0, mugged = false, rules = rules, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
+    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=copy(data.cards.sourcePools), catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
             statuses = index(copy(data.statuses.statuses)) },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
+        cardRandomRng=CardRandom.fromSeed(options.cardRandomSeed or string.format('%.0f',options.seed or 1)),
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     Actors.bindStatuses(state.player, state.catalog.statuses)
@@ -469,7 +667,8 @@ function M.new(data, options)
     for _, value in ipairs(deck) do
         local id = type(value) == "table" and value.cardId or value
         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))
-        state.draw[#state.draw + 1] = { uid = state.nextUid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true }
+        state.draw[#state.draw + 1] = { uid = state.nextUid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
+            upgrades=type(value)=="table" and value.upgrades or nil }
         state.nextUid = state.nextUid + 1
     end
     local enemyIds = options.enemies or { "cultist" }
@@ -480,6 +679,12 @@ function M.new(data, options)
     end
     for _, enemy in ipairs(state.enemies) do EnemyAI.initialize(state, enemy, M.random) end
     shuffle(state, state.draw)
+    local innate,ordinary={},{}
+    for _,c in ipairs(state.draw) do
+        if M.cardDefinition(state,c).innate then innate[#innate+1]=c else ordinary[#ordinary+1]=c end
+    end
+    for _,c in ipairs(innate) do ordinary[#ordinary+1]=c end
+    state.draw=ordinary
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
     for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, M.random) end

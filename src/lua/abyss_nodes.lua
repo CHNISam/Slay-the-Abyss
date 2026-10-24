@@ -24,12 +24,12 @@ end
 
 local function playable(card)
     return card.type ~= "status" and card.type ~= "curse"
-        and not card.condition and not card.costMode and Effects.supported(card.effects)
+        and Effects.supported(card.effects)
 end
 
 local function upgradeable(run, instance)
-    if instance.upgraded then return false end
     local definition = find(run.data.cards.cards, instance.cardId)
+    if instance.upgraded and not (definition and definition.repeatable) then return false end
     if not definition or not definition.upgrade or not next(definition.upgrade) then return false end
     local upgraded = Combat.copy(definition)
     for key, value in pairs(definition.upgrade) do upgraded[key] = value end
@@ -212,7 +212,7 @@ function M.enter(run, map, nodeId)
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
-    if flow.type == 'shop' then run.shopRng=flow.shopRng end
+    if flow.type == 'shop' then run.shopRng=flow.shopRng;run.cardRng=flow.shopRng.card end
     return true
 end
 
@@ -258,6 +258,7 @@ function M.upgrade(run, uid)
     local instance = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if flow.upgradesLeft <= 0 or not upgradeable(run, instance) then return false, "card_not_upgradeable" end
+    instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
     instance.upgraded, flow.campChoice = true, "upgrade"
     flow.upgradesLeft = flow.upgradesLeft - 1
     if flow.upgradesLeft == 0 or #upgradeCards(run) == 0 then return complete(run) end
@@ -307,6 +308,7 @@ local function purchase(run, category, reference, bySlot)
     run.gold = run.gold - offer.price
     flow.cards,flow.relics,flow.potions,flow.shopRng=stagedFlow.cards,stagedFlow.relics,stagedFlow.potions,stagedFlow.shopRng
     run.shopRng=flow.shopRng
+    run.cardRng=flow.shopRng.card
     return true
 end
 
@@ -450,6 +452,7 @@ function M.chooseEvent(run, choice, uid)
         local instance=find(run.deck,uid,'uid')
         if not instance then return false,'invalid_card' end
         if not upgradeable(run,instance) then return false,'card_not_upgradeable' end
+        instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
         instance.upgraded=true;flow.event.upgradedUids={uid}
     elseif choice=='accept' and id=='shining_light' then
         local cards=upgradeCards(run)
@@ -459,7 +462,9 @@ function M.chooseEvent(run, choice, uid)
         damage(flow.event.damage)
         flow.event.upgradedUids={}
         for i=1,math.min(rules.upgradeCount,#cards) do
-            find(run.deck,cards[i].uid,'uid').upgraded=true
+            local instance=find(run.deck,cards[i].uid,'uid')
+            instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
+            instance.upgraded=true
             flow.event.upgradedUids[#flow.event.upgradedUids+1]=cards[i].uid
         end
         run.miscRng=rng

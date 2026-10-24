@@ -9,13 +9,13 @@ local function set(rows) local r = {}; for _, row in ipairs(rows) do r[row.id] =
 local expected, blocked = set(manifest.cards), set(manifest.exclusions.cards)
 for _, card in ipairs(data.cards.cards) do
     if card.type == 'attack' or card.type == 'skill' or card.type == 'power' then
-        local supported = not card.condition and not card.costMode and Effects.supported(card.effects)
+        local supported = Effects.supported(card.effects)
         assert(not not supported == not not expected[card.id], 'Playable card pool drift: ' .. card.id)
         assert(not supported == not not blocked[card.id], 'Excluded card support drift: ' .. card.id)
         if expected[card.id] then
             local upgraded = Combat.copy(card)
             for key, value in pairs(card.upgrade) do upgraded[key] = value end
-            assert(not upgraded.condition and not upgraded.costMode and Effects.supported(upgraded.effects), 'Unsupported upgrade: ' .. card.id)
+            assert(Effects.supported(upgraded.effects), 'Unsupported upgrade: ' .. card.id)
         end
     end
 end

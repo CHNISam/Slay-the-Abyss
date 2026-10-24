@@ -23,11 +23,10 @@ test('inventory gate rejects reward/encounter drift and omitted final-floor reli
   const relic = fresh(); delete relic.relics.find(row => row.id === 'sozu').naturalExecutionLimitation;
   assert.ok(validateLaunchContent(relic, { runtime: false }).some(error => error.includes('final-floor')));
 });
-test('actual production predicate rejects replacing a supported card with an unimplemented definition', () => {
+test('production inventory rejects an unknown card in place of a required card', () => {
   const manifest = fresh();
-  manifest.cards.find(row => row.id === 'cleave').id = 'clash';
-  manifest.exclusions.cards.find(row => row.id === 'clash').id = 'cleave';
-  assert.ok(validateLaunchContent(manifest).some(error => error.includes('Playable card pool drift')));
+  manifest.cards.find(row => row.id === 'cleave').id = 'unknown_card';
+  assert.ok(validateLaunchContent(manifest).some(error => error.includes('cards')));
 });
 
 test('inventory includes and validates the true branch of a dynamic encounter', () => {

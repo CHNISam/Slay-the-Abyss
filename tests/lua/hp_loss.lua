@@ -72,7 +72,7 @@ for _, upgraded in ipairs({ false, true }) do
         equal(state.events[events + 2].detail.amount, hp)
         equal(state.events[events + 2].frame.player.hp, 0)
         equal(state.events[#state.events].kind, "defeat")
-        equal(#state.exhaust, id == "offering" and 1 or 0)
+        equal(#state.exhaust,0);equal(#state.discard,0);equal(state.cardInUse,instance)
         refused(state, instance.uid, 1, "not_player_turn")
     end)
     end
@@ -143,6 +143,7 @@ end)
 
 test("unrelated unsupported effects remain rejected without mutating state", function()
     local state = Combat.new(data, { deck = { "true_grit" } })
+    state.catalog.cards.true_grit.effects={{op="unsupported_test_action"}}
     local before = Combat.copy(state)
     local ok, reason = Combat.play(state, state.hand[1].uid)
     equal(ok, false); assert(reason:find("unsupported_effect:", 1, true)); same(state, before)

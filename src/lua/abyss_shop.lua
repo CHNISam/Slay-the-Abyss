@@ -4,6 +4,7 @@ local R = require('abyss_sts_random')
 local Price = require('abyss_shop_price')
 local C = require('abyss_combat')
 local Effects = require('abyss_effects')
+local CardPool=require('abyss_card_pool')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -32,9 +33,11 @@ function S.removePrice(run)
     return floor(f32(base*f32(multiplier))+.5)
 end
 local function streams(run)
-    if run.shopRng then return C.copy(run.shopRng) end
+    if run.shopRng then
+        local rng=C.copy(run.shopRng);rng.card=R.cloneState(run.cardRng);return rng
+    end
     local seed=run.eventSeed or string.format('%.0f',run.seed)
-    return { merchant=R.fromSeed(seed),card=R.fromSeed(seed),potion=R.fromSeed(seed) }
+    return { merchant=R.fromSeed(seed),card=R.cloneState(run.cardRng),potion=R.fromSeed(seed) }
 end
 local function pick(rng,list)
     if #list==0 then return nil end
@@ -47,7 +50,7 @@ local function candidates(run,category,rarity,kind,color,stock)
         if category=='cards' then
             allowed=allowed and (not kind or def.type==kind) and (def.color or 'colored')==color
                 and (def.type=='attack' or def.type=='skill' or def.type=='power')
-                and not def.condition and not def.costMode and Effects.supported(def.effects)
+                and Effects.supported(def.effects)
         elseif category=='relics' then
             -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
             allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
@@ -58,25 +61,28 @@ local function candidates(run,category,rarity,kind,color,stock)
         end
         if allowed then pool[#pool+1]=def end
     end
-    table.sort(pool,function(a,b) return a.id<b.id end)
+    table.sort(pool,function(a,b) return (a.sourceId or a.id)<(b.sourceId or b.id) end)
     return pool
 end
 local function cardOffer(run,rng,slot,kind,color,rarity,previous,restock)
-    local def
+    local def,sourceCardId
     -- The original rerolls both rarity and card for duplicate attack/skill.
     -- Bounded only to prevent an incomplete supported pool hanging the game.
-    for _=1,256 do
+    repeat
         if color=='colored' then
             rarity=S.cardRarity(R.randomInt(rng.card,99),run.cardRarityOffset)
             if kind=='power' and rarity=='common' then rarity='uncommon' end
         end
         def=pick(rng.card,candidates(run,'cards',rarity,kind,color))
-        if not def or def.id~=previous then break end
+    until not def or def.id~=previous
+    if color=='colorless' and not def then
+        local pool=assert(run.data.cards.sourcePools.colorless[rarity])
+        sourceCardId=pool[R.randomInt(rng.card,#pool-1)+1]
     end
     if def and def.id==previous then def=nil end
     local multiplier=R.randomFloatBetween(rng.merchant,f32(.9),f32(1.1))
     return { slot=slot, id=def and def.id or '__missing_card_'..slot, type=def and def.type or kind or 'skill',color=color,
-        rarity=rarity, unavailable=not def, sold=false,
+        rarity=rarity, unavailable=not def, sold=false,sourceCardId=sourceCardId or def and def.sourceId,
         price=Price.quoteCard({rarity=rarity,multiplier=multiplier,color=color,
             phase=restock and 'restock' or 'initial',courier=restock and owns(run,'courier') or false,
             membership=restock and owns(run,'membership_card') or false}) }

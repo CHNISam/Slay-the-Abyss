@@ -50,7 +50,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   if (errors.length) return errors;
   const listedCards = [...manifest.cards, ...manifest.generatedCards, ...manifest.exclusions.cards];
   same(ids(listedCards), ids(data.cards.cards), 'cards including explicit exclusions');
-  check(manifest.cards.length === 30, 'Frozen launch scope requires exactly 30 class cards');
+  check(manifest.cards.length === 75, 'Frozen launch scope requires exactly 75 class cards');
   for (const card of manifest.cards) {
     const definition = data.cards.cards.find(row => row.id === card.id);
     same(card.versions, ['base', 'upgraded'], `cards/${card.id} versions`);
@@ -65,10 +65,12 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   same(ids(manifest.generatedCards), ids(data.cards.cards.filter(row => ['status', 'curse'].includes(row.type))), 'generated status/curse cards');
   for (const card of manifest.generatedCards) {
     const definition = data.cards.cards.find(row => row.id === card.id);
-    check(card.type === definition?.type && card.countsTowardThirty === false, `generatedCards/${card.id}: classification drift`);
+    check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
     const channels = card.type === 'curse' ? ['event:golden_shrine:desecrate']
-      : data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
-        .map(enemy => `enemy:${enemy.id}:intent`);
+      : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
+        .map(enemy => `enemy:${enemy.id}:intent`),
+        ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
+          .map(c=>`card:${c.id}:effect`)];
     same(card.channels, channels, `generatedCards/${card.id} channels`);
   }
   same(ids(manifest.enemies), ids(data.enemies.enemies), 'enemy definitions');

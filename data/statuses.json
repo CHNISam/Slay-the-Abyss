@@ -152,6 +152,126 @@
       "stack": "intensity",
       "decay": "none",
       "description": "攻击时先窃取最多等于层数的金币，完全格挡也会失金；击败后可在奖励中取回，逃跑则不返还"
+    },
+    {
+      "id": "dark_embrace",
+      "name": "Dark Embrace",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每消耗一张牌，抽对应层数张牌。"
+    },
+    {
+      "id": "feel_no_pain",
+      "name": "Feel No Pain",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每消耗一张牌，获得固定格挡。"
+    },
+    {
+      "id": "corruption",
+      "name": "Corruption",
+      "kind": "buff",
+      "stack": "none",
+      "decay": "none",
+      "description": "技能费用变为0，使用后消耗。"
+    },
+    {
+      "id": "evolve",
+      "name": "Evolve",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "抽到状态牌时额外抽牌。"
+    },
+    {
+      "id": "fire_breathing",
+      "name": "Fire Breathing",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "抽到状态或诅咒时对所有敌人造成固定伤害。"
+    },
+    {
+      "id": "flame_barrier",
+      "name": "Flame Barrier",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "本轮受到攻击时反击；下回合开始移除。"
+    },
+    {
+      "id": "rage",
+      "name": "Rage",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "本回合每使用攻击牌获得固定格挡。"
+    },
+    {
+      "id": "combust",
+      "name": "Combust",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "回合结束时失去生命并对所有敌人造成固定伤害。"
+    },
+    {
+      "id": "rupture",
+      "name": "Rupture",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "因自己的效果失去生命时获得力量。"
+    },
+    {
+      "id": "demon_form",
+      "name": "Demon Form",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每回合开始时获得力量。"
+    },
+    {
+      "id": "berserk",
+      "name": "Berserk",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每回合开始时获得额外能量。"
+    },
+    {
+      "id": "brutality",
+      "name": "Brutality",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每回合开始时失去生命并额外抽牌。"
+    },
+    {
+      "id": "double_tap",
+      "name": "Double Tap",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "本回合接下来的攻击牌额外使用一次。"
+    },
+    {
+      "id": "juggernaut",
+      "name": "Juggernaut",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "每次获得格挡，对随机敌人造成固定伤害。"
+    },
+    {
+      "id": "metallicize",
+      "name": "Metallicize",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "回合结束时获得固定格挡。"
     }
   ]
 }

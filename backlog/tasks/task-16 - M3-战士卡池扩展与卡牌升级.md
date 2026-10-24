@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 17:16'
+updated_date: '2026-10-24 18:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -15,6 +15,7 @@ dependencies:
 references:
   - docs/backlog-details/TASK-16.md
   - docs/reviews/TASK-16-m3-card-audit.md
+  - docs/reviews/TASK-16-warrior75-matrix.md
 priority: high
 ordinal: 16000
 ---
@@ -46,4 +47,6 @@ ordinal: 16000
 2026-10-24逐卡审计：30张constructor/use/upgrade重新下载并逐件验证Git blob，另核AbstractCard、Ironclad、EntanglePower和版本字段4件；来源身份及逐卡费用、基本升级效果、目标、条件、测试映射见docs/reviews/TASK-16-m3-card-audit.md及docs/evidence/card-audit-m3。没有找到需要改费用/数值的差异。确认两项严格差异：Shockwave双敌Weak/Vulnerable由逐敌变成逐状态；重复Barricade多发amount0状态帧，三条基本/升级诊断strictExpectedMatch=false，按协调留TASK16/16.1待修，未动Combat/Effects。已有card_pool 93/93、新card_use_requirements 60/60通过；原作构建真实性、共享完整队列/钩子、自然构筑和平台/实机仍未验，AC全未勾，保持In Progress。
 
 2026-10-25用户否决首轮30张缩减，完整75张为正式交付和最终验收目标，覆盖旧30张口径。隔离基线origin/develop 695d94d；不复用旧30卡实机证据冒充75卡。
+
+2026-10-25隔离候选：75张基本/升级150组真实Combat基础执行、6组消耗联动、28组边界、7组原版奖励/商店随机契约、75条公共获取/营地/下一战事务及1项真实控件树选牌通过；均非平台/自然实玩。复用051f9a1原版池目录，接72非基础奖励/typed商店原序、共享cardRng和独立cardRandomRng。正在修复完整旧回归及统一候选，AC仍全部未勾。免费委派未调用：既往限额窗口未知，本机CLI日志路径当前不可写；Codex接管，费用节省未知。
 <!-- SECTION:NOTES:END -->

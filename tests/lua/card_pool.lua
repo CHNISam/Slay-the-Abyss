@@ -101,17 +101,18 @@ local function execute(case, upgraded, run)
     equal(Combat.play(s, card.uid, 1), false, "stale UID")
 end
 
-test("supported pool is exactly 30 cards; all seven incomplete rules stay disabled", function()
+test("the historical 30-card regression remains inside the complete 75-card pool", function()
     local supported = {}
     for _, card in ipairs(data.cards.cards) do
-        if not card.costMode and not card.condition and Effects.supported(card.effects) then supported[card.id] = true end
+        if card.type~="status" and card.type~="curse" and Effects.supported(card.effects) then supported[card.id] = true end
     end
     equal(#cases, 30)
     for _, case in ipairs(cases) do assert(supported[case.id], case.id); supported[case.id] = nil end
-    equal(next(supported), nil)
+    local remaining=0;for _ in pairs(supported) do remaining=remaining+1 end;equal(remaining,45)
     for _, id in ipairs(blocked) do
         local s = Combat.new(data, {deck={id}})
-        equal(Combat.canPlay(s, s.hand[1].uid, 1), false, id)
+        s.energy=10
+        equal(Combat.canPlay(s, s.hand[1].uid, 1), true, id)
     end
 end)
 for _, case in ipairs(cases) do
@@ -173,24 +174,23 @@ for _, case in ipairs(cases) do
     end)
 end
 
-test("incomplete cards never appear in the generated shop inventory or camp upgrades", function()
+test("the seven formerly disabled cards have ordinary camp upgrades", function()
     local shop = entered("shop")
     local camp, map = entered("camp")
     for _, id in ipairs(blocked) do
-        equal(find(shop.nodeFlow.cards, id), nil)
         camp.deck[#camp.deck+1] = {uid=camp.nextDeckUid, cardId=id, upgraded=false}
         camp.nextDeckUid = camp.nextDeckUid + 1
     end
     local options = Nodes.view(camp, map).node.upgradeCards
-    for _, instance in ipairs(options) do
-        for _, id in ipairs(blocked) do assert(instance.cardId ~= id, "incomplete camp upgrade: " .. id) end
-    end
+    local found={};for _,instance in ipairs(options) do found[instance.cardId]=true end
+    for _,id in ipairs(blocked) do assert(found[id],'missing real upgrade: '..id) end
 end)
 
-test("all 27 reward cards occur after real original-data starter victories and can be claimed", function()
+test("all audited nonrare rewards occur after real starter victories; first A0 rewards contain no rare", function()
     local wanted, remaining = {}, 0
     for _, case in ipairs(cases) do
-        if find(data.cards.cards, case.id).rarity ~= "basic" then wanted[case.id], remaining = true, remaining + 1 end
+        local rarity=find(data.cards.cards,case.id).rarity
+        if rarity=="common" or rarity=="uncommon" then wanted[case.id], remaining = true, remaining + 1 end
     end
     for seed = 1, 128 do
         local run = Run.new(data, seed)
@@ -207,7 +207,7 @@ test("all 27 reward cards occur after real original-data starter victories and c
         end
         equal(run.phase, "reward", "original starter victory")
         for choice, id in ipairs(Run.rewardOptions(run)) do
-            for _, incomplete in ipairs(blocked) do assert(id ~= incomplete, "incomplete reward: " .. id) end
+            assert(find(data.cards.cards,id).rarity~='rare','initial A0 pity offset prevents rare cards')
             if wanted[id] then
                 local claimed = Combat.copy(run)
                 assert(Run.claimCardReward(claimed, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(claimed)

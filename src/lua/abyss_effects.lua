@@ -2,6 +2,7 @@
 local M = {}
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
+local CardActions = require("abyss_card_actions")
 
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
@@ -97,7 +98,7 @@ local function supported(effects, branch)
                 or effect["else"] ~= nil then return false, "conditional" end
             local ok, unsupported = supported(effect["then"], true)
             if not ok then return false, unsupported end
-        elseif not coreOps[op] or (branch and op ~= "energy" and op ~= "draw") then
+        elseif (not coreOps[op] and not CardActions.supports(op)) or (branch and op ~= "energy" and op ~= "draw") then
             return false, op or "invalid_effect"
         end
         if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally") then
@@ -124,7 +125,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
     assert(not invalid and (not groupStart or (source == state.player and not queuedEnemyAction)),
         "invalid_target_group")
     local dealt = 0
-    local cleared = false
+    local cleared = combat.outcome(state)=="victory"
     for index, effect in ipairs(effects) do
         -- Defeat stops the action manager, unlike victory's selective clear.
         -- Keep current damage reactions, but never start another queued effect.
@@ -144,12 +145,14 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             if op == "applyStatus" and target == state.player and target.hp > 0 then
                 Actors.applyPower(state, target, effect.status, value, source)
             end
+        elseif CardActions.supports(op) then
+            CardActions.apply(combat,state,{effect=effect,source=source,target=target,instance=playedCard})
         elseif op == "damage" or op == "damageAll" then
             local selected = op == "damageAll" and targets(state, source) or { target }
             for _ = 1, effect.times or 1 do
                 local retaliation = op == "damageAll" and {} or nil
                 for _, victim in ipairs(selected) do
-                    dealt = dealt + combat.damage(state, source, victim, value, nil, retaliation)
+                    dealt = dealt + combat.damage(state, source, victim, value, effect.fixed, retaliation,effect.resolved and effect.resolved[victim.id])
                 end
                 -- Angry, Thorns and death powers add reactions to the top:
                 -- finish this area hit, then resolve in reverse target order.
@@ -160,7 +163,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             end
         elseif op == "damageEqualToBlock" then
             -- Current block is the attack base, not a payment or fixed damage.
-            dealt = dealt + combat.damage(state, source, target, source.block)
+            dealt = dealt + combat.damage(state, source, target, source.block,nil,nil,effect.resolved and effect.resolved[target.id])
         elseif op == "conditional" then
             -- Damage leaves the target's statuses intact, even on a lethal hit.
             -- The outer source-alive guard still stops thorns-killed attackers.
@@ -214,6 +217,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             local before = source.hp
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
+            Actors.hpLostFromCard(state,source,before-source.hp)
         elseif op == "block" then
             if effect.target == "random_ally" then
                 assert(source ~= state.player, "random ally Block requires an enemy")
@@ -229,7 +233,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 -- for the empty-list self fallback. Use fixed Block, not cards.
                 local recipient = #candidates > 0 and candidates[combat.random(state, #candidates)] or source
                 combat.block(state, recipient, value, true)
-            else combat.block(state, source, value) end
+            else combat.block(state, source, value, effect.fixed) end
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)
@@ -239,14 +243,15 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Match only the card's valid one-layer application; explicit zero,
             -- malformed amounts/old stacks and other definitions still take
             -- the original Actor validation path, not a generic no-op filter.
-            local repeatBarricade = source == state.player and effect.status == "barricade"
-                and value == 1 and source.statuses.barricade == 1
+            local repeatBarricade = source == state.player and (effect.status == "barricade" or effect.status=="corruption")
+                and value == 1 and source.statuses[effect.status] == 1
             if repeatBarricade then
                 local definitions = source.statusDefinitions
-                local definition = type(definitions) == "table" and definitions.barricade
+                local definition = type(definitions) == "table" and definitions[effect.status]
                 repeatBarricade = type(definition) == "table" and definition.stack == "none"
             end
             if not repeatBarricade then Actors.applyPower(state, source, effect.status, value, source) end
+            if effect.status=="combust" then source.combustHpLoss=(source.combustHpLoss or 0)+1 end
         elseif op == "gainTemporaryStrength" then
             combat.addTemporaryStrength(source, value, state)
         elseif op == "applyStatus" then

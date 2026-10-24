@@ -4,11 +4,31 @@
   "baseline": "6e8714f",
   "integratedBaseline": "b757705",
   "status": "scope-baseline-awaiting-per-item-acceptance",
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
   "knownBlockers": [
-    { "ids": ["medium_slimes"], "status": "production-composition-needs-correction", "evidence": "docs/reviews/TASK-15-encounter-composition-audit-20261024.md", "tasks": ["TASK-15", "TASK-47"] },
-    { "ids": ["map"], "status": "full-parity-candidate-not-deployed", "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md", "tasks": ["TASK-12.4", "TASK-12.5"] }
+    {
+      "ids": [
+        "medium_slimes"
+      ],
+      "status": "production-composition-needs-correction",
+      "evidence": "docs/reviews/TASK-15-encounter-composition-audit-20261024.md",
+      "tasks": [
+        "TASK-15",
+        "TASK-47"
+      ]
+    },
+    {
+      "ids": [
+        "map"
+      ],
+      "status": "full-parity-candidate-not-deployed",
+      "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md",
+      "tasks": [
+        "TASK-12.4",
+        "TASK-12.5"
+      ]
+    }
   ],
   "profiles": {
     "cards": {
@@ -26,7 +46,9 @@
       "local": {
         "status": "coverage-recorded",
         "testFiles": [
-          "tests/lua/card_pool.lua"
+          "tests/lua/card_pool.lua",
+          "tests/lua/warrior75.lua",
+          "tests/lua/warrior75_edges.lua"
         ]
       },
       "platform": {
@@ -38,7 +60,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "30 base/upgraded rules have existing local fixtures. Shop/camp setup is isolated and not a natural full-run proof; rarity/RNG parity remains TASK-16.1."
+      "limitation": "75 base/upgraded ordinary executions and focused interactions covered locally; full source/queue/RNG/acquisition parity and natural per-item platform evidence remain required."
     },
     "generatedCards": {
       "tasks": [
@@ -67,7 +89,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Statuses and curses are not part of the 30 collectible/playable class cards."
+      "limitation": "Statuses and curses do not count toward the required 75 class cards."
     },
     "enemies": {
       "tasks": [
@@ -254,554 +276,1332 @@
   "cards": [
     {
       "id": "strike",
-      "source": "data/cards.json#strike",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "basic",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "basic",
+      "bossReward": false,
       "channels": [
         "starter_deck",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
       "id": "defend",
-      "source": "data/cards.json#defend",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "basic",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "basic",
+      "bossReward": false,
       "channels": [
         "starter_deck",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
       "id": "bash",
-      "source": "data/cards.json#bash",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "basic",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "basic",
+      "bossReward": false,
       "channels": [
         "starter_deck",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
-    },
-    {
-      "id": "cleave",
-      "source": "data/cards.json#cleave",
-      "profile": "cards",
-      "versions": [
-        "base",
-        "upgraded"
-      ],
-      "rarity": "common",
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ],
-      "bossReward": false
-    },
-    {
-      "id": "clothesline",
-      "source": "data/cards.json#clothesline",
-      "profile": "cards",
-      "versions": [
-        "base",
-        "upgraded"
-      ],
-      "rarity": "common",
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ],
-      "bossReward": false
-    },
-    {
-      "id": "iron_wave",
-      "source": "data/cards.json#iron_wave",
-      "profile": "cards",
-      "versions": [
-        "base",
-        "upgraded"
-      ],
-      "rarity": "common",
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
       "id": "anger",
-      "source": "data/cards.json#anger",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "common",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "armaments",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "body_slam",
-      "source": "data/cards.json#body_slam",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "common",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "clash",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "cleave",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "clothesline",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "flex",
-      "source": "data/cards.json#flex",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "common",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
-      "id": "twin_strike",
-      "source": "data/cards.json#twin_strike",
+      "id": "havoc",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "common",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "headbutt",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "heavy_blade",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "iron_wave",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "perfected_strike",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "pommel_strike",
-      "source": "data/cards.json#pommel_strike",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "common",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
       "id": "shrug_it_off",
-      "source": "data/cards.json#shrug_it_off",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "common",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "sword_boomerang",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "thunderclap",
-      "source": "data/cards.json#thunderclap",
       "profile": "cards",
-      "versions": [
-        "base",
-        "upgraded"
-      ],
+      "source": "docs/evidence/warrior75/matrix.json",
       "rarity": "common",
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ],
-      "bossReward": false
-    },
-    {
-      "id": "uppercut",
-      "source": "data/cards.json#uppercut",
-      "profile": "cards",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
-      "id": "inflame",
-      "source": "data/cards.json#inflame",
+      "id": "true_grit",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "twin_strike",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "warcry",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "wild_strike",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "common",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "battle_trance",
-      "source": "data/cards.json#battle_trance",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "blood_for_blood",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "bloodletting",
-      "source": "data/cards.json#bloodletting",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
-      "id": "barricade",
-      "source": "data/cards.json#barricade",
+      "id": "burning_pact",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "rare",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": true
+      ]
     },
     {
       "id": "carnage",
-      "source": "data/cards.json#carnage",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "combust",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "dark_embrace",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "disarm",
-      "source": "data/cards.json#disarm",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
       "id": "dropkick",
-      "source": "data/cards.json#dropkick",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "dual_wield",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "entrench",
-      "source": "data/cards.json#entrench",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "evolve",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "feel_no_pain",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "fire_breathing",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "flame_barrier",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "ghostly_armor",
-      "source": "data/cards.json#ghostly_armor",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": false
+      ]
     },
     {
       "id": "hemokinesis",
-      "source": "data/cards.json#hemokinesis",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "infernal_blade",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "inflame",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "intimidate",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "metallicize",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "power_through",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "pummel",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "rage",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "rampage",
-      "source": "data/cards.json#rampage",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "reckless_charge",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "rupture",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "searing_blow",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "second_wind",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "seeing_red",
-      "source": "data/cards.json#seeing_red",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "uncommon",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "sentinel",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": false
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "sever_soul",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "shockwave",
-      "source": "data/cards.json#shockwave",
       "profile": "cards",
-      "versions": [
-        "base",
-        "upgraded"
-      ],
+      "source": "docs/evidence/warrior75/matrix.json",
       "rarity": "uncommon",
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ],
-      "bossReward": false
-    },
-    {
-      "id": "offering",
-      "source": "data/cards.json#offering",
-      "profile": "cards",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "rare",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
-      ],
-      "bossReward": true
+      ]
     },
     {
-      "id": "impervious",
-      "source": "data/cards.json#impervious",
+      "id": "spot_weakness",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "rare",
+      "bossReward": false,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "uppercut",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": true
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "whirlwind",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "uncommon",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": false,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "barricade",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "berserk",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     },
     {
       "id": "bludgeon",
-      "source": "data/cards.json#bludgeon",
       "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
       "versions": [
         "base",
         "upgraded"
       ],
-      "rarity": "rare",
+      "bossReward": true,
       "channels": [
         "combat_card_reward",
         "shop_colored_card",
         "camp_upgrade",
         "event_upgrade"
+      ]
+    },
+    {
+      "id": "brutality",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
       ],
-      "bossReward": true
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "corruption",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "demon_form",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "double_tap",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "exhume",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "feed",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "fiend_fire",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "immolate",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "impervious",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "juggernaut",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "limit_break",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "offering",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
+    },
+    {
+      "id": "reaper",
+      "profile": "cards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "rarity": "rare",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "bossReward": true,
+      "channels": [
+        "combat_card_reward",
+        "shop_colored_card",
+        "camp_upgrade",
+        "event_upgrade"
+      ]
     }
   ],
   "generatedCards": [
     {
       "id": "dazed",
-      "source": "data/cards.json#dazed",
       "profile": "generatedCards",
+      "source": "docs/evidence/warrior75/matrix.json",
       "type": "status",
+      "countsTowardSeventyFive": false,
       "channels": [
-        "enemy:sentry:intent"
-      ],
-      "versions": [
-        "base"
-      ],
-      "countsTowardThirty": false
+        "enemy:sentry:intent",
+        "card:reckless_charge:effect"
+      ]
     },
     {
       "id": "slimed",
-      "source": "data/cards.json#slimed",
       "profile": "generatedCards",
+      "source": "docs/evidence/warrior75/matrix.json",
       "type": "status",
+      "countsTowardSeventyFive": false,
       "channels": [
         "enemy:acid_slime_m:intent",
         "enemy:acid_slime_l:intent",
         "enemy:spike_slime_m:intent",
         "enemy:spike_slime_l:intent"
-      ],
-      "versions": [
-        "base"
-      ],
-      "countsTowardThirty": false
+      ]
     },
     {
       "id": "regret",
-      "source": "data/cards.json#regret",
       "profile": "generatedCards",
+      "source": "docs/evidence/warrior75/matrix.json",
       "type": "curse",
+      "countsTowardSeventyFive": false,
       "channels": [
         "event:golden_shrine:desecrate"
-      ],
-      "versions": [
-        "base"
-      ],
-      "countsTowardThirty": false
+      ]
+    },
+    {
+      "id": "wound",
+      "profile": "generatedCards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "type": "status",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "card:wild_strike:effect",
+        "card:power_through:effect"
+      ]
+    },
+    {
+      "id": "burn",
+      "profile": "generatedCards",
+      "source": "docs/evidence/warrior75/matrix.json",
+      "type": "status",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "card:immolate:effect"
+      ]
     }
   ],
   "enemies": [
@@ -1666,36 +2466,7 @@
     }
   ],
   "exclusions": {
-    "cards": [
-      {
-        "id": "clash",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      },
-      {
-        "id": "true_grit",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      },
-      {
-        "id": "warcry",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      },
-      {
-        "id": "metallicize",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      },
-      {
-        "id": "whirlwind",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      },
-      {
-        "id": "demon_form",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      },
-      {
-        "id": "reaper",
-        "reason": "Unsupported condition, cost mode or effect; absent from playable/reward/shop/upgrade pools."
-      }
-    ],
+    "cards": [],
     "potions": [
       {
         "id": "poison_potion",
@@ -1759,8 +2530,14 @@
     }
   ],
   "history": [
-    {"date": "2026-10-24", "change": "TASK-16.1.4 corrects the existing Shockwave pair to apply Weak then Vulnerable per active enemy, preserving values, cost, exhaust, presentation and shared Actor rules. Local evidence: docs/reviews/TASK-16.1.4-shockwave-order.md. Historical sequence diagnostics remain unchanged; other blockers and all per-item live acceptance remain pending."},
-    {"date": "2026-10-24", "change": "TASK-16.1.3 removes the repeated Barricade zero-stack feedback for the existing normal non-stacking power only. Local evidence: docs/reviews/TASK-16.1.3-barricade-repeat.md. Historical sequence diagnostics remain unchanged; Shockwave order, all other blockers and per-item live acceptance remain pending."},
+    {
+      "date": "2026-10-24",
+      "change": "TASK-16.1.4 corrects the existing Shockwave pair to apply Weak then Vulnerable per active enemy, preserving values, cost, exhaust, presentation and shared Actor rules. Local evidence: docs/reviews/TASK-16.1.4-shockwave-order.md. Historical sequence diagnostics remain unchanged; other blockers and all per-item live acceptance remain pending."
+    },
+    {
+      "date": "2026-10-24",
+      "change": "TASK-16.1.3 removes the repeated Barricade zero-stack feedback for the existing normal non-stacking power only. Local evidence: docs/reviews/TASK-16.1.3-barricade-repeat.md. Historical sequence diagnostics remain unchanged; Shockwave order, all other blockers and per-item live acceptance remain pending."
+    },
     {
       "date": "2026-10-24",
       "change": "TASK-15.18 corrects gremlin_gang from fixed five to four ordered draws without replacement from an eight-slot pool; all five enemy types retain their existing encounter channel. Local evidence: docs/reviews/TASK-15.18-gremlin-gang.md. Other 17 encounters, scope counts, per-item acceptance, and medium_slimes blocker remain unchanged."

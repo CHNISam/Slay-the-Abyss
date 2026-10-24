@@ -108,7 +108,7 @@ class PresentationTests(unittest.TestCase):
         cards = {card['id']: card for card in data['cards']}
         self.assertEqual(len(cards), 40)
         self.assertEqual(len({c['name'] for c in cards.values()}), 40)
-        self.assertEqual(sum(c['type'] not in ('status', 'curse') for c in source_data['cards']), 37)
+        self.assertEqual(sum(c['type'] not in ('status', 'curse') for c in source_data['cards']), 75)
         self.assertEqual(cards['regret']['name'], '余悔')
         self.assertEqual(cards['regret']['cost'], '')
         self.assertEqual(cards['regret']['upgradeCost'], '')

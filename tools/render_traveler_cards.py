@@ -49,13 +49,13 @@ def cost_label(card):
     return str(card['cost'])
 
 
-PATH = re.compile(r'(?:cost|effects\.(?:0|[1-9][0-9]*)(?:\.then\.(?:0|[1-9][0-9]*))*\.(?:value|times))\Z')
+PATH = re.compile(r'(?:cost|strengthMultiplier|strikeBonus|exhaustEnergy|endTurnDamage|effects\.(?:0|[1-9][0-9]*)(?:\.then\.(?:0|[1-9][0-9]*))*\.(?:value|times|maxHp))\Z')
 TOKEN = re.compile(r'\{([^{}]+)\}')
 
 
 # Combat numbers the core can modify (Strength, Weak, Vulnerable, Dexterity, Frail,
 # per-instance growth). In combat text these stay as tokens the battle UI fills.
-LIVE_OPS = {'damage', 'damageAll', 'block'}
+LIVE_OPS = {'damage', 'damageAll', 'block','fiendFire','feed','reaper','damageRandom','secondWind'}
 LIVE = re.compile(r'effects\.(0|[1-9][0-9]*)\.value\Z')
 
 
@@ -107,8 +107,8 @@ def semantics(value):
 
 
 CARD_FIELDS = {'id','name','sts_name','cost','effects','upgrade','text','upgradeText',
-               'type','rarity','condition','exhaust','innate','ethereal','costMode'}
-UPGRADE_FIELDS = {'cost','effects','condition','exhaust','innate','ethereal','costMode'}
+               'type','rarity','condition','exhaust','innate','ethereal','costMode','strikeTag','strengthMultiplier','repeatable','healing','strikeBonus','exhaustEnergy','endTurnDamage','target','sourceId'}
+UPGRADE_FIELDS = {'cost','effects','condition','exhaust','innate','ethereal','costMode','strengthMultiplier','repeatable','strikeBonus','exhaustEnergy'}
 
 
 # Deliberately bounded to the normalized first-pool source contract. A new op
@@ -120,6 +120,10 @@ KNOWN_OPS = {
     'draw', 'putOnDrawPile', 'blockPerTurn', 'noDrawThisTurn', 'loseHp',
     'energy', 'conditional', 'doubleBlock', 'increaseDamageThisCombat',
     'healEqualToDamageDealt',
+    'exhaustNonAttacks','secondWind','fiendFire','recoverExhaust','upgradeHand',
+    'discardToDraw','handToDraw','dualWield','generateAttack','makeTempCardInHand',
+    'makeTempCardInDraw','doubleStrength','spotWeakness','feed','reaper','playTop',
+    'damageRandom','makeTempCardInDiscard',
 }
 
 
@@ -140,11 +144,11 @@ def validate_effects(effects, *, nested=False):
                     'invalid targetGroup: expected positive signed-32-bit integer')
         require(first['value'] == second['value'], 'invalid targetGroup: unequal amounts')
     for effect in effects:
-        object_fields(effect, {'op','value','times','status','card','if','then','targetGroup'}, {'op'}, 'effect')
+        object_fields(effect, {'op','value','times','status','card','if','then','targetGroup','maxHp','all'}, {'op'}, 'effect')
         require(isinstance(effect['op'], str) and effect['op'] in KNOWN_OPS, 'unknown effect operation')
         for key in ('value', 'times'):
             if key in effect:
-                require(numeric(effect[key]), f'effect.{key}: expected finite number')
+                require(numeric(effect[key]) or key=='times' and effect[key]=='X', f'effect.{key}: expected finite number')
         for key in ('status', 'card', 'if'):
             if key in effect:
                 nonempty(effect[key], f'effect.{key}')

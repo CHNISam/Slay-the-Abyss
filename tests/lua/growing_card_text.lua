@@ -144,10 +144,11 @@ test("without modifiers all 40 combat labels including statuses and curse match 
         for _,upgraded in ipairs({false,true}) do
             local ui,stage=fixture(upgraded,{{cardId=def.id,upgraded=upgraded}})
             local printed=upgraded and Presentation[def.id].upgradeText or Presentation[def.id].text
+            if def.id=='perfected_strike' then printed=printed:gsub('造成 %d+ 点伤害','造成 '..(upgraded and 9 or 8)..' 点伤害',1) end
             eq(label(stage),printed .. (def.id=="body_slam" and "（当前 0 点）" or ""))
         end
     end
-    eq(seen,40)
+    eq(seen,80)
 end)
 test("legacy display without optional fields still renders old static text", function()
     local normal,upgraded=Presentation.rampage.combatText,Presentation.rampage.upgradeCombatText

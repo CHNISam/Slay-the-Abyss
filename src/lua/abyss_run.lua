@@ -6,6 +6,7 @@ local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local PotionRewards = require("abyss_potion_rewards")
+local CardPool = require("abyss_card_pool")
 local M = {}
 
 local function find(entries, id)
@@ -18,6 +19,7 @@ function M.new(data, seed)
     local eventSeed = string.format('%.0f',seed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = seed % 65536,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
+        cardRng=EventRandom.fromSeed(eventSeed),cardRarityOffset=5,
         unknown = { chances = Unknown.newPc(), pools = EventPool.new(data.rules.events.poolMode or 'restricted-six') },
         phase = "map", floor = 1, hp = data.rules.player.maxHp, maxHp = data.rules.player.maxHp,
         elapsedSeconds = 0, victories = 0,
@@ -63,7 +65,8 @@ function M.startCombat(run, encounterId)
         end
     end
     local battle
-    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, gold = run.gold, deck = run.deck, enemies = enemies,
+    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp,maxHp=run.maxHp, gold = run.gold, deck = run.deck, enemies = enemies,
+        cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -80,7 +83,7 @@ local function rewardCandidates(run)
     local candidates = {}
     for _, card in ipairs(run.data.cards.cards) do
         if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special" and not card.condition and not card.costMode
+            and card.rarity ~= "basic" and card.rarity ~= "special"
             -- Boss rewards are rare-only; other tiers retain their current pool.
             and (run.encounterTier ~= "boss" or card.rarity == "rare")
             and Effects.supported(card.effects) then candidates[#candidates + 1] = card.id end
@@ -93,6 +96,7 @@ function M.finishCombat(run)
     local result = Combat.outcome(run.combat)
     if not result then return false, "battle_unfinished" end
     run.hp, run.seed, run.gold = run.combat.player.hp, run.combat.seed, run.combat.player.gold
+    run.maxHp=run.combat.player.maxHp
     local allEscaped = Combat.allEnemiesEscaped(run.combat)
     run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
     if result == "defeat" then
@@ -113,10 +117,8 @@ function M.finishCombat(run)
     assert(type(gold) == "number", "unknown encounter reward tier")
     if allEscaped then gold = 0 end
     run.gold = run.gold + gold
-    local pool, choices = rewardCandidates(run), {}
-    for _ = 1, math.min(run.data.rules.rewards.cardChoices, #pool) do
-        choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
-    end
+    local choices,nextCardRng,offset=CardPool.prepareRewards(run)
+    run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, gold = gold, potion = potion,
@@ -194,6 +196,16 @@ function M.skipPotionReward(run)
     if not offer or offer.resolved then return false,'no_pending_potion_reward' end
     offer.resolved,offer.result=true,'skipped'
     return true
+end
+
+function M.chooseCard(run,token,uid)
+    if run.phase~="combat" then return false,"not_in_combat" end
+    local ok,reason=Combat.chooseCard(run.combat,token,uid)
+    if ok then
+        run.gold=run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
+    return ok,reason
 end
 
 function M.play(run, uid, targetIndex)
