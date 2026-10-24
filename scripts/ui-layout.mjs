@@ -176,7 +176,10 @@ export function battleLayout() {
     button('continue', [0, -96], l.button.primary, '再战一场', true),
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),
     text('result', 0, 80, 780, 122, '', f.title, c.goldBright),
-    button('skip', l.rewardPick.skip.slice(0, 2), l.rewardPick.skip.slice(2), '跳过'));
+    button('skip', l.rewardPick.skip.slice(0, 2), l.rewardPick.skip.slice(2), '跳过卡牌'),
+    text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright),
+    button('claimPotion', l.battleRewards.claimPotion, l.button.secondary, '领取药水'),
+    button('skipPotion', l.battleRewards.skipPotion, l.button.secondary, '放弃药水'));
   controls.push({ name: 'dragLayer', kind: 'container', size: [width, height], visible: false, children: [
     { ...hit(width, height), focusable: false },
     panel('line', l.cardDrag.playArea[0], l.cardDrag.lineY, l.cardDrag.playArea[2], s.border, c.goldBright),

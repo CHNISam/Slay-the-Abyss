@@ -162,6 +162,9 @@ export function nodeLayout(theme = nativeTheme) {
     { name: 'chest', kind: 'container', position: chest.chest.slice(0, 2), size: chest.chest.slice(2), children: [hit(chest.chest.slice(2))] },
     text('hint', chest.hint, '点击打开宝箱', font.heading, color.textDim),
     hidden(reward), hidden(framed('take', chest.take, '拿取并离开', { primary: true, fontSize: font.heading })),
+    hidden(arrow('previous', chest.previous, icon.back)), hidden(arrow('next', chest.next, icon.next)),
+    hidden(text('page', chest.page, '', font.label, color.goldBright)),
+    hidden(text('bossDescription', chest.bossDescription, '', font.small, color.textDim)),
   ];
 
   controls.push(group('shopView', shopControls), group('campView', campControls), group('pickerView', pickerControls),

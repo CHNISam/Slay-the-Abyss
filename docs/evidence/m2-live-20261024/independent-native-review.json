@@ -1,0 +1,2362 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/m2_review",
+  "writtenAt": "2026-10-24T08:46:52.245Z",
+  "result": "PASS_NATIVE_NORMAL_SEED42_VICTORY_WITH_EXPLICIT_REMAINING_GAPS",
+  "scope": {
+    "productionSourceCommit": "522e5479add2b123403bdfb3621ebbb495882d03",
+    "runId": "bd08cab4-08c5-4a4c-86cc-336097059d58",
+    "candidateSha256": "601f94013f2051db3fb4568739a2f315ab6794eb5179c3045e319d3e27595214",
+    "officialSave": "1073741843",
+    "configuredSeed": 42,
+    "normalValues": true,
+    "testDriver": true,
+    "physicalInputCertified": false,
+    "newerSourceNotCovered": "1b36dfc centered card-picker UI combination has no evidence from this older 522e547 native run."
+  },
+  "methods": [
+    "只读检查已有截图、request/status和新官方gia；未操作GUI、未capture/input、未更改游戏源码或存档。",
+    "使用D:/MiliastraTools/genshin-miliastra-mcp/src/debug-log.mjs inspectDebugLog(bytes,{limit:10000})；只统计显式客户端/节点图print，不把图trace中的字符串当执行日志。",
+    "重建全部主ledger与DECK/RELICS/POTIONS/PATH/RNG分片，检查record连续、分片first/total、永久UID唯一、生命界限与动作连续成功。",
+    "对照已查看的本轮真实截图和账本；在冻结源Map.generate(seed42)上逐条调用Map.choose验证日志完整路径合法。此路径复验是离线拓扑校验，不冒充另一次实机。",
+    "本报告整理已完成的独立复核，没有重新运行完整新测试。"
+  ],
+  "provenance": {
+    "originalOfficialLog": {
+      "path": "C:/Users/Administrator/AppData/LocalLow/miHoYo/原神/BeyondLocal/217122260/Beyond_Debug_Log/2026-10-24_16-17-23_25_217122260.gia",
+      "bytes": 1400985,
+      "sha256": "6920b5aafb1e335ce4063a3585fd5795218883f729b42775c6bb264389f665cc",
+      "mtimeIso": "2026-10-24T08:29:59.711Z",
+      "reportedLocalMtime": "2026-10-24 16:29:59 UTC+08:00"
+    },
+    "copiedLog": {
+      "path": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/session-log-manual-flush.gia",
+      "bytes": 1400985,
+      "sha256": "6920b5aafb1e335ce4063a3585fd5795218883f729b42775c6bb264389f665cc"
+    },
+    "originalAndCopyHashesEqual": true,
+    "sessionLabels": [
+      "2026/10/24_16:17:23"
+    ],
+    "manualDelayedFlush": {
+      "originalRunnerStatus": "succeeded",
+      "originalRunnerLogFile": null,
+      "originalRunnerLogCollectedFound": false,
+      "statusUnmodified": true,
+      "explanation": "原runner记录left-playtest后，实际游戏仍停在官方胜利页，自动收集未见新日志。主线程依据新截图真点离开后，本轮25号官方日志于16:29:59延迟落盘，再只读复制为session-log-manual-flush.gia。真实离开动作由主线程执行，本复核仅独立核对新官方原件与副本hash及会话时间。"
+    },
+    "candidateAssociation": {
+      "candidateReport": "F:/New folder/.artifacts/m2-session/autoplay-candidate.json",
+      "officialReadback": "F:/New folder/.artifacts/m2-session/official-readback.json",
+      "readbackModuleCount": 45,
+      "readbackAllExpectedHashesEqual": true,
+      "note": "模块身份依据主线程产出的官方读回逐模块比较文件；本复核重新读取该文件，但未再次通过GUI导出存档。旧0720失败run和旧14:23日志均未用于本报告。"
+    }
+  },
+  "decodedLog": {
+    "recordCount": 4033,
+    "printCount": 4032,
+    "ignoredNonPrintRecords": 1,
+    "nextOffset": null,
+    "decoderLimit": 10000,
+    "allRecordsDecoded": true,
+    "readiness": {
+      "abyssUiReady": 1,
+      "driverReady": [
+        {
+          "logRecordIndex": 3,
+          "elapsedSeconds": 18,
+          "text": "M2_DRIVER_READY {\"interval\":0.65,\"normalData\":true,\"physicalTouchCertified\":false,\"seed\":42}"
+        }
+      ]
+    },
+    "errors": {
+      "rejectedActionCount": 0,
+      "explicitFailureStopOrRecoveryPrints": [],
+      "scope": "没有发现显式错误/失败/停止/演出恢复打印；一个非print图记录不计作执行打印。本解码器不认证所有未知二进制错误记录类型。"
+    }
+  },
+  "timing": {
+    "sessionLabel": "2026/10/24_16:17:23",
+    "uiReadyLogElapsedSeconds": 1,
+    "driverReadyLogElapsedSeconds": 18,
+    "firstAction": {
+      "action": "start",
+      "configuredSeed": 42,
+      "details": {
+        "testConfigurationSeed": 42
+      },
+      "index": 1,
+      "mode": "menu",
+      "ok": true,
+      "result": true,
+      "time": 0.669,
+      "logRecordIndex": 4,
+      "logElapsedSeconds": 18
+    },
+    "victoryLedger": {
+      "record": 284,
+      "logRecordIndex": 4004,
+      "logElapsedSeconds": 265,
+      "driverTime": 248.21599999998,
+      "elapsedSeconds": 247.49399999998
+    },
+    "settlementAction": {
+      "action": "settle_victory",
+      "configuredSeed": 42,
+      "details": {
+        "observedVictorySeconds": 8.0159999999982
+      },
+      "floor": 17,
+      "index": 266,
+      "mode": "victory",
+      "ok": true,
+      "phase": "victory",
+      "reason": "settlement_requested",
+      "result": true,
+      "time": 256.23199999998,
+      "logRecordIndex": 4006,
+      "logElapsedSeconds": 273
+    },
+    "minimumActionIntervalSeconds": 0.6499999999999986,
+    "victoryHoldSeconds": 8.01600000000002,
+    "runnerLevelEndedPlaySeconds": 275.5,
+    "note": "driverTime、游戏run.elapsedSeconds、日志elapsedSeconds、runner.playSeconds采用不同起点；不混用。游戏最终247.494秒与截图04:07相符。"
+  },
+  "counts": {
+    "successfulActions": 266,
+    "ledgerSnapshots": 286,
+    "allLedgerFragmentsComplete": true,
+    "enteredFloors": 17,
+    "eachFloorEnteredOnce": true,
+    "legalMapChooseTransitionsIncludingInitialEntry": 17,
+    "interFloorEdges": 16,
+    "actionIndicesContinuous": true,
+    "ledgerIndicesContinuous": true,
+    "combatVictoryPrints": 8
+  },
+  "route": {
+    "path": [
+      "f1_l1",
+      "f2_l2",
+      "f3_l2",
+      "f4_l2",
+      "f5_l2",
+      "f6_l2",
+      "f7_l2",
+      "f8_l2",
+      "f9_l2",
+      "f10_l2",
+      "f11_l3",
+      "f12_l3",
+      "f13_l3",
+      "f14_l3",
+      "f15_l3",
+      "f16_l2",
+      "f17_l2"
+    ],
+    "validation": "PASS: 17次Map.choose均接受，含0层起点进入1层；其中16条层间边。",
+    "rooms": [
+      {
+        "floor": 1,
+        "node": "f1_l1",
+        "type": "combat",
+        "ledgerRecord": 4,
+        "logRecordIndex": 35
+      },
+      {
+        "floor": 2,
+        "node": "f2_l2",
+        "type": "event",
+        "event": "shining_light",
+        "ledgerRecord": 27,
+        "logRecordIndex": 314
+      },
+      {
+        "floor": 3,
+        "node": "f3_l2",
+        "type": "combat",
+        "ledgerRecord": 31,
+        "logRecordIndex": 351
+      },
+      {
+        "floor": 4,
+        "node": "f4_l2",
+        "type": "combat",
+        "ledgerRecord": 55,
+        "logRecordIndex": 666
+      },
+      {
+        "floor": 5,
+        "node": "f5_l2",
+        "type": "event",
+        "event": "purifier",
+        "ledgerRecord": 65,
+        "logRecordIndex": 792
+      },
+      {
+        "floor": 6,
+        "node": "f6_l2",
+        "type": "elite",
+        "ledgerRecord": 71,
+        "logRecordIndex": 849
+      },
+      {
+        "floor": 7,
+        "node": "f7_l2",
+        "type": "shop",
+        "ledgerRecord": 99,
+        "logRecordIndex": 1239
+      },
+      {
+        "floor": 8,
+        "node": "f8_l2",
+        "type": "camp",
+        "ledgerRecord": 106,
+        "logRecordIndex": 1308
+      },
+      {
+        "floor": 9,
+        "node": "f9_l2",
+        "type": "treasure",
+        "ledgerRecord": 110,
+        "logRecordIndex": 1347
+      },
+      {
+        "floor": 10,
+        "node": "f10_l2",
+        "type": "elite",
+        "ledgerRecord": 114,
+        "logRecordIndex": 1388
+      },
+      {
+        "floor": 11,
+        "node": "f11_l3",
+        "type": "camp",
+        "ledgerRecord": 139,
+        "logRecordIndex": 1737
+      },
+      {
+        "floor": 12,
+        "node": "f12_l3",
+        "type": "combat",
+        "ledgerRecord": 146,
+        "logRecordIndex": 1815
+      },
+      {
+        "floor": 13,
+        "node": "f13_l3",
+        "type": "combat",
+        "ledgerRecord": 181,
+        "logRecordIndex": 2334
+      },
+      {
+        "floor": 14,
+        "node": "f14_l3",
+        "type": "shop",
+        "ledgerRecord": 201,
+        "logRecordIndex": 2624
+      },
+      {
+        "floor": 15,
+        "node": "f15_l3",
+        "type": "camp",
+        "ledgerRecord": 205,
+        "logRecordIndex": 2671
+      },
+      {
+        "floor": 16,
+        "node": "f16_l2",
+        "type": "boss",
+        "ledgerRecord": 212,
+        "logRecordIndex": 2758
+      },
+      {
+        "floor": 17,
+        "node": "f17_l2",
+        "type": "treasure",
+        "roomKind": "boss_treasure",
+        "ledgerRecord": 281,
+        "logRecordIndex": 3966
+      }
+    ],
+    "sevenRoomTypesPresent": [
+      "boss",
+      "camp",
+      "combat",
+      "elite",
+      "event",
+      "shop",
+      "treasure"
+    ]
+  },
+  "resourceClosure": {
+    "initial": {
+      "hp": 80,
+      "maxHp": 80,
+      "gold": 99,
+      "deck": [
+        {
+          "cardId": "strike",
+          "uid": 1,
+          "upgraded": false
+        },
+        {
+          "cardId": "strike",
+          "uid": 2,
+          "upgraded": false
+        },
+        {
+          "cardId": "strike",
+          "uid": 3,
+          "upgraded": false
+        },
+        {
+          "cardId": "strike",
+          "uid": 4,
+          "upgraded": false
+        },
+        {
+          "cardId": "strike",
+          "uid": 5,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 6,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 7,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 8,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 9,
+          "upgraded": false
+        },
+        {
+          "cardId": "bash",
+          "uid": 10,
+          "upgraded": false
+        }
+      ],
+      "relics": [
+        "burning_blood"
+      ],
+      "potions": [
+        {
+          "id": false,
+          "slot": 1
+        },
+        {
+          "id": false,
+          "slot": 2
+        },
+        {
+          "id": false,
+          "slot": 3
+        }
+      ],
+      "nextDeckUid": 11
+    },
+    "final": {
+      "hp": 34,
+      "maxHp": 80,
+      "gold": 131,
+      "deck": [
+        {
+          "cardId": "strike",
+          "uid": 3,
+          "upgraded": false
+        },
+        {
+          "cardId": "strike",
+          "uid": 4,
+          "upgraded": false
+        },
+        {
+          "cardId": "strike",
+          "uid": 5,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 6,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 7,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 8,
+          "upgraded": false
+        },
+        {
+          "cardId": "defend",
+          "uid": 9,
+          "upgraded": false
+        },
+        {
+          "cardId": "bash",
+          "uid": 10,
+          "upgraded": false
+        },
+        {
+          "cardId": "iron_wave",
+          "uid": 11,
+          "upgraded": false
+        },
+        {
+          "cardId": "carnage",
+          "uid": 12,
+          "upgraded": false
+        },
+        {
+          "cardId": "inflame",
+          "uid": 13,
+          "upgraded": true
+        },
+        {
+          "cardId": "shrug_it_off",
+          "uid": 14,
+          "upgraded": false
+        },
+        {
+          "cardId": "anger",
+          "uid": 15,
+          "upgraded": true
+        },
+        {
+          "cardId": "shrug_it_off",
+          "uid": 16,
+          "upgraded": false
+        },
+        {
+          "cardId": "uppercut",
+          "uid": 17,
+          "upgraded": false
+        },
+        {
+          "cardId": "inflame",
+          "uid": 18,
+          "upgraded": false
+        },
+        {
+          "cardId": "offering",
+          "uid": 19,
+          "upgraded": false
+        }
+      ],
+      "relics": [
+        "burning_blood",
+        "vajra",
+        "sozu"
+      ],
+      "potions": [
+        {
+          "id": "dexterity_potion",
+          "slot": 1
+        },
+        {
+          "id": "fire_potion",
+          "slot": 2
+        },
+        {
+          "id": "block_potion",
+          "slot": 3
+        }
+      ],
+      "nextDeckUid": 20,
+      "shopRemoveCount": 1,
+      "victories": 8,
+      "phase": "victory",
+      "node": {
+        "complete": true,
+        "id": "f17_l2",
+        "result": "boss_treasure_complete",
+        "roomKind": "boss_treasure",
+        "type": "treasure"
+      }
+    },
+    "goldEquation": "99 + 5*15(normal) + 2*30(elite) + 100(boss) - 53(anger) - 75(remove) - 75(inflame) = 131",
+    "deckEquation": "10 starter + 7 chosen combat rewards + 2 shop purchases - 1 event removal - 1 shop removal = 17",
+    "allSnapshotPermanentUidsUnique": true,
+    "allSnapshotHpWithinZeroAnd80": true,
+    "sharedRngCountersMonotonic": true,
+    "finalRngCounters": {
+      "event": 4,
+      "misc": 0,
+      "card": 20,
+      "merchant": 36,
+      "potion": 28
+    },
+    "transactions": [
+      {
+        "actionIndex": 22,
+        "logRecordIndex": 280,
+        "floor": 1,
+        "action": "claimPotionReward",
+        "details": {
+          "id": "dexterity_potion",
+          "reason": "available"
+        },
+        "result": true,
+        "reason": 1,
+        "beforeLedger": 23,
+        "afterLedger": 24,
+        "gold": [
+          114,
+          114
+        ],
+        "hp": [
+          80,
+          80
+        ],
+        "deckSize": [
+          10,
+          10
+        ],
+        "nextDeckUid": [
+          11,
+          11
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": false,
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 23,
+        "logRecordIndex": 289,
+        "floor": 1,
+        "action": "card_reward",
+        "details": {
+          "index": 3,
+          "options": [
+            "entrench",
+            "twin_strike",
+            "iron_wave"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 24,
+        "afterLedger": 25,
+        "gold": [
+          114,
+          114
+        ],
+        "hp": [
+          80,
+          80
+        ],
+        "deckSize": [
+          10,
+          11
+        ],
+        "nextDeckUid": [
+          11,
+          12
+        ],
+        "addedCards": [
+          {
+            "cardId": "iron_wave",
+            "uid": 11,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 49,
+        "logRecordIndex": 639,
+        "floor": 3,
+        "action": "card_reward",
+        "details": {
+          "index": 3,
+          "options": [
+            "battle_trance",
+            "thunderclap",
+            "carnage"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 52,
+        "afterLedger": 53,
+        "gold": [
+          129,
+          129
+        ],
+        "hp": [
+          80,
+          80
+        ],
+        "deckSize": [
+          11,
+          12
+        ],
+        "nextDeckUid": [
+          12,
+          13
+        ],
+        "addedCards": [
+          {
+            "cardId": "carnage",
+            "uid": 12,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 58,
+        "logRecordIndex": 767,
+        "floor": 4,
+        "action": "card_reward",
+        "details": {
+          "index": 3,
+          "options": [
+            "bloodletting",
+            "ghostly_armor",
+            "inflame"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 62,
+        "afterLedger": 63,
+        "gold": [
+          144,
+          144
+        ],
+        "hp": [
+          80,
+          80
+        ],
+        "deckSize": [
+          12,
+          13
+        ],
+        "nextDeckUid": [
+          13,
+          14
+        ],
+        "addedCards": [
+          {
+            "cardId": "inflame",
+            "uid": 13,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 62,
+        "logRecordIndex": 811,
+        "floor": 5,
+        "action": "node_confirm",
+        "details": {
+          "method": "chooseEvent",
+          "uid": 1
+        },
+        "result": true,
+        "reason": "complete",
+        "beforeLedger": 67,
+        "afterLedger": 68,
+        "gold": [
+          144,
+          144
+        ],
+        "hp": [
+          80,
+          80
+        ],
+        "deckSize": [
+          13,
+          12
+        ],
+        "nextDeckUid": [
+          14,
+          14
+        ],
+        "addedCards": [],
+        "removedCards": [
+          {
+            "cardId": "strike",
+            "uid": 1,
+            "upgraded": false
+          }
+        ],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 89,
+        "logRecordIndex": 1200,
+        "floor": 6,
+        "action": "claimPotionReward",
+        "details": {
+          "id": "fire_potion",
+          "reason": "available"
+        },
+        "result": true,
+        "reason": 2,
+        "beforeLedger": 95,
+        "afterLedger": 96,
+        "gold": [
+          174,
+          174
+        ],
+        "hp": [
+          55,
+          55
+        ],
+        "deckSize": [
+          12,
+          12
+        ],
+        "nextDeckUid": [
+          14,
+          14
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": false,
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 90,
+        "logRecordIndex": 1211,
+        "floor": 6,
+        "action": "card_reward",
+        "details": {
+          "index": 3,
+          "options": [
+            "bloodletting",
+            "flex",
+            "shrug_it_off"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 96,
+        "afterLedger": 97,
+        "gold": [
+          174,
+          174
+        ],
+        "hp": [
+          55,
+          55
+        ],
+        "deckSize": [
+          12,
+          13
+        ],
+        "nextDeckUid": [
+          14,
+          15
+        ],
+        "addedCards": [
+          {
+            "cardId": "shrug_it_off",
+            "uid": 14,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 92,
+        "logRecordIndex": 1240,
+        "floor": 7,
+        "action": "node_shopView/card2",
+        "details": {
+          "coverage": "buy_card",
+          "id": "anger",
+          "method": "buyCardSlot",
+          "slot": 2
+        },
+        "result": true,
+        "beforeLedger": 99,
+        "afterLedger": 100,
+        "gold": [
+          174,
+          121
+        ],
+        "hp": [
+          55,
+          55
+        ],
+        "deckSize": [
+          13,
+          14
+        ],
+        "nextDeckUid": [
+          15,
+          16
+        ],
+        "addedCards": [
+          {
+            "cardId": "anger",
+            "uid": 15,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 95,
+        "logRecordIndex": 1270,
+        "floor": 7,
+        "action": "node_confirm",
+        "details": {
+          "method": "removeCard",
+          "uid": 2
+        },
+        "result": true,
+        "beforeLedger": 102,
+        "afterLedger": 103,
+        "gold": [
+          121,
+          46
+        ],
+        "hp": [
+          55,
+          55
+        ],
+        "deckSize": [
+          14,
+          13
+        ],
+        "nextDeckUid": [
+          16,
+          16
+        ],
+        "addedCards": [],
+        "removedCards": [
+          {
+            "cardId": "strike",
+            "uid": 2,
+            "upgraded": false
+          }
+        ],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 98,
+        "logRecordIndex": 1309,
+        "floor": 8,
+        "action": "node_campView/rest",
+        "details": {
+          "method": "rest"
+        },
+        "result": true,
+        "reason": "complete",
+        "beforeLedger": 106,
+        "afterLedger": 107,
+        "gold": [
+          46,
+          46
+        ],
+        "hp": [
+          55,
+          79
+        ],
+        "deckSize": [
+          13,
+          13
+        ],
+        "nextDeckUid": [
+          16,
+          16
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 101,
+        "logRecordIndex": 1348,
+        "floor": 9,
+        "action": "node_treasureView/chest",
+        "result": true,
+        "beforeLedger": 110,
+        "afterLedger": 111,
+        "gold": [
+          46,
+          46
+        ],
+        "hp": [
+          79,
+          79
+        ],
+        "deckSize": [
+          13,
+          13
+        ],
+        "nextDeckUid": [
+          16,
+          16
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 102,
+        "logRecordIndex": 1358,
+        "floor": 9,
+        "action": "node_treasureView/take",
+        "details": {
+          "index": 1,
+          "method": "claimTreasure"
+        },
+        "result": true,
+        "reason": "complete",
+        "beforeLedger": 111,
+        "afterLedger": 112,
+        "gold": [
+          46,
+          46
+        ],
+        "hp": [
+          79,
+          79
+        ],
+        "deckSize": [
+          13,
+          13
+        ],
+        "nextDeckUid": [
+          16,
+          16
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 125,
+        "logRecordIndex": 1696,
+        "floor": 10,
+        "action": "claimPotionReward",
+        "details": {
+          "id": "block_potion",
+          "reason": "available"
+        },
+        "result": true,
+        "reason": 3,
+        "beforeLedger": 135,
+        "afterLedger": 136,
+        "gold": [
+          76,
+          76
+        ],
+        "hp": [
+          74,
+          74
+        ],
+        "deckSize": [
+          13,
+          13
+        ],
+        "nextDeckUid": [
+          16,
+          16
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": false,
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 131,
+        "logRecordIndex": 1771,
+        "floor": 11,
+        "action": "node_confirm",
+        "details": {
+          "method": "upgrade",
+          "uid": 13
+        },
+        "result": true,
+        "reason": "complete",
+        "beforeLedger": 142,
+        "afterLedger": 143,
+        "gold": [
+          76,
+          76
+        ],
+        "hp": [
+          74,
+          74
+        ],
+        "deckSize": [
+          13,
+          13
+        ],
+        "nextDeckUid": [
+          16,
+          16
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [
+          {
+            "cardId": "inflame",
+            "uid": 13,
+            "upgraded": true
+          }
+        ],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 166,
+        "logRecordIndex": 2301,
+        "floor": 12,
+        "action": "card_reward",
+        "details": {
+          "index": 1,
+          "options": [
+            "shrug_it_off",
+            "dropkick",
+            "body_slam"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 178,
+        "afterLedger": 179,
+        "gold": [
+          91,
+          91
+        ],
+        "hp": [
+          66,
+          66
+        ],
+        "deckSize": [
+          13,
+          14
+        ],
+        "nextDeckUid": [
+          16,
+          17
+        ],
+        "addedCards": [
+          {
+            "cardId": "shrug_it_off",
+            "uid": 16,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 184,
+        "logRecordIndex": 2581,
+        "floor": 13,
+        "action": "skipPotionReward",
+        "details": {
+          "id": "dexterity_potion",
+          "reason": "full_or_unavailable"
+        },
+        "result": true,
+        "beforeLedger": 197,
+        "afterLedger": 198,
+        "gold": [
+          106,
+          106
+        ],
+        "hp": [
+          65,
+          65
+        ],
+        "deckSize": [
+          14,
+          14
+        ],
+        "nextDeckUid": [
+          17,
+          17
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 185,
+        "logRecordIndex": 2593,
+        "floor": 13,
+        "action": "card_reward",
+        "details": {
+          "index": 1,
+          "options": [
+            "uppercut",
+            "seeing_red",
+            "body_slam"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 198,
+        "afterLedger": 199,
+        "gold": [
+          106,
+          106
+        ],
+        "hp": [
+          65,
+          65
+        ],
+        "deckSize": [
+          14,
+          15
+        ],
+        "nextDeckUid": [
+          17,
+          18
+        ],
+        "addedCards": [
+          {
+            "cardId": "uppercut",
+            "uid": 17,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 187,
+        "logRecordIndex": 2625,
+        "floor": 14,
+        "action": "node_shopView/card5",
+        "details": {
+          "coverage": "buy_card",
+          "id": "inflame",
+          "method": "buyCardSlot",
+          "slot": 5
+        },
+        "result": true,
+        "beforeLedger": 201,
+        "afterLedger": 202,
+        "gold": [
+          106,
+          31
+        ],
+        "hp": [
+          65,
+          65
+        ],
+        "deckSize": [
+          15,
+          16
+        ],
+        "nextDeckUid": [
+          18,
+          19
+        ],
+        "addedCards": [
+          {
+            "cardId": "inflame",
+            "uid": 18,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 193,
+        "logRecordIndex": 2708,
+        "floor": 15,
+        "action": "node_confirm",
+        "details": {
+          "method": "upgrade",
+          "uid": 15
+        },
+        "result": true,
+        "reason": "complete",
+        "beforeLedger": 208,
+        "afterLedger": 209,
+        "gold": [
+          31,
+          31
+        ],
+        "hp": [
+          65,
+          65
+        ],
+        "deckSize": [
+          16,
+          16
+        ],
+        "nextDeckUid": [
+          19,
+          19
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [
+          {
+            "cardId": "anger",
+            "uid": 15,
+            "upgraded": true
+          }
+        ],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 261,
+        "logRecordIndex": 3915,
+        "floor": 16,
+        "action": "skipPotionReward",
+        "details": {
+          "id": "block_potion",
+          "reason": "full_or_unavailable"
+        },
+        "result": true,
+        "beforeLedger": 277,
+        "afterLedger": 278,
+        "gold": [
+          131,
+          131
+        ],
+        "hp": [
+          34,
+          34
+        ],
+        "deckSize": [
+          16,
+          16
+        ],
+        "nextDeckUid": [
+          19,
+          19
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 262,
+        "logRecordIndex": 3929,
+        "floor": 16,
+        "action": "card_reward",
+        "details": {
+          "index": 2,
+          "options": [
+            "bludgeon",
+            "offering",
+            "impervious"
+          ]
+        },
+        "result": true,
+        "reason": "reward_not_consumed",
+        "beforeLedger": 278,
+        "afterLedger": 279,
+        "gold": [
+          131,
+          131
+        ],
+        "hp": [
+          34,
+          34
+        ],
+        "deckSize": [
+          16,
+          17
+        ],
+        "nextDeckUid": [
+          19,
+          20
+        ],
+        "addedCards": [
+          {
+            "cardId": "offering",
+            "uid": 19,
+            "upgraded": false
+          }
+        ],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 264,
+        "logRecordIndex": 3967,
+        "floor": 17,
+        "action": "node_treasureView/chest",
+        "result": true,
+        "beforeLedger": 281,
+        "afterLedger": 282,
+        "gold": [
+          131,
+          131
+        ],
+        "hp": [
+          34,
+          34
+        ],
+        "deckSize": [
+          17,
+          17
+        ],
+        "nextDeckUid": [
+          20,
+          20
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      },
+      {
+        "actionIndex": 265,
+        "logRecordIndex": 3980,
+        "floor": 17,
+        "action": "node_treasureView/take",
+        "details": {
+          "index": 1,
+          "method": "claimBossTreasure"
+        },
+        "result": true,
+        "reason": "boss_treasure_complete",
+        "beforeLedger": 282,
+        "afterLedger": 283,
+        "gold": [
+          131,
+          131
+        ],
+        "hp": [
+          34,
+          34
+        ],
+        "deckSize": [
+          17,
+          17
+        ],
+        "nextDeckUid": [
+          20,
+          20
+        ],
+        "addedCards": [],
+        "removedCards": [],
+        "upgradedCards": [],
+        "relics": [
+          [
+            "burning_blood",
+            "vajra"
+          ],
+          [
+            "burning_blood",
+            "vajra",
+            "sozu"
+          ]
+        ],
+        "potions": [
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ],
+          [
+            {
+              "id": "dexterity_potion",
+              "slot": 1
+            },
+            {
+              "id": "fire_potion",
+              "slot": 2
+            },
+            {
+              "id": "block_potion",
+              "slot": 3
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "bossTreasureAndSettlement": {
+    "bossRewardCard": "offering",
+    "bossRewardAction": 262,
+    "enterIndependentFloor17Action": 263,
+    "openChestAction": 264,
+    "claimBossTreasureAction": 265,
+    "claimedRelic": "sozu",
+    "beforeRelics": [
+      "burning_blood",
+      "vajra"
+    ],
+    "afterRelics": [
+      "burning_blood",
+      "vajra",
+      "sozu"
+    ],
+    "claimDoesNotChangeGoldHpDeck": true,
+    "finalNodeResult": "boss_treasure_complete",
+    "settleActionCount": 1,
+    "clientVictorySettlementPrintCount": 1,
+    "serverVictorySettlementPrintCount": 1,
+    "defeatSettlementPrintCount": 0,
+    "officialVictoryScreenshots": [
+      "26-t270.jpg",
+      "27-level-ended.jpg"
+    ],
+    "nativeVictorySupported": true
+  },
+  "screenshotChecks": [
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/00-log-subscribed.jpg",
+      "sha256": "4a6afe836e5a30d0b3ef04261beba46b98b102043d4415ef8bc8853838d27bc0",
+      "observation": "客户端脚本日志订阅复选框已勾选；不单靠此图推断日志已落盘。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/02-t002.jpg",
+      "sha256": "6c08741b8f4b68dae171fe415cd1bab1bb59d14b9c3ca7668052a1e762220ec9",
+      "observation": "正常战斗：80/80生命、99金币、10卡、3空药水槽、能量0/3；小酸12最大生命、小棘14最大生命。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/06-t020.jpg",
+      "sha256": "fa1ba5fca158151e7b10693571cfea4c4213996842ac99c8d26eca4ef2807312",
+      "observation": "80/80、114金币、11卡、敏捷药水、能量3/3，祈火徒52最大生命。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/10-t060.jpg",
+      "sha256": "0699e0406d4b6644600d6d70c9c21550cfc85a46ab4c473fe888633502f5468c",
+      "observation": "正常精英Nob84最大生命，能量2/3。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/12-t090.jpg",
+      "sha256": "783523cd2f1c34c5177773f61ad6c75cb5d7265d3516a781ddbcee3e3c5e9dfd",
+      "observation": "地图第7层，当前商店与下一营地可达。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/14-t120.jpg",
+      "sha256": "0009308d81aad9e5655356e3bf131d58783ed77578e9099cc1b6821254d26329",
+      "observation": "地图第11层，下一问号/营地入口可见。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/15-t135.jpg",
+      "sha256": "f236923422634ffdc68354be4d348227b349c4158fafb9d19de0980bb61d40cd",
+      "observation": "玩家68/80、76金币、13卡，三药水跨战斗保留；大型棘刺70最大生命。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/16-t150.jpg",
+      "sha256": "42a51c474cf2a037d66b2faa080fcf47a353071b4e3fecd973438bbd42213cc0",
+      "observation": "分裂后中型棘刺17最大生命，玩家60/80。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/18-t180.jpg",
+      "sha256": "1db1351a6dcdf39db1630b8b4ba6c5c2b0e0caff5f1ba09d29f592d7785b9813",
+      "observation": "Boss231/240、玩家65/80、31金币、16卡。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/23-t240.jpg",
+      "sha256": "34c36f43124c7171e089f16e243d6a32773eb3a451d9acbc0058757bd3f973f8",
+      "observation": "Boss0/240、玩家28/80、131金币、16卡。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/24-t250.jpg",
+      "sha256": "d897109bfcbbeec2505125f835bbf20d24284ef0ed23f26b697258cbd599413f",
+      "observation": "游戏胜利页17/17、8胜、04:07、17卡、34/80、131金币、3遗物；与最终账本一致。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/26-t270.jpg",
+      "sha256": "974142175e6ec26a8e0fbbf266ba966d9be3341fbb3dd7283b2a33b26af3df57",
+      "observation": "平台原生胜利过场。"
+    },
+    {
+      "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/27-level-ended.jpg",
+      "sha256": "90563a331286bcc4b52d4b0882aa1cde74bc54868f8f33f001ff251e32400004",
+      "observation": "平台官方胜利结算卡片，离开与重新挑战按钮可见；按钮存在不等于已经重挑战。"
+    }
+  ],
+  "remainingGaps": [
+    "本轮仅一次new_run，未验证战败、游戏内重新启程后的资源清空或平台官方重新挑战。",
+    "本轮无药水使用命令，也未实际商店买药；自然掉落、三槽保持和满槽显式放弃已有证据。",
+    "自动driver调用公开控制器命令，request.inputs为空；不认证鼠标、手机触控、拖牌或陈旧手势的物理输入。",
+    "日志补齐了间隔截图间的节点事务，但不是各节点逐屏UI视觉验收；仍不能替代verify:ui同候选门禁。",
+    "本轮没有直接测试Sozu取得后的下一战/商店禁药：它在第一幕最终宝箱取得后本局结束。",
+    "规则/受限内容与原版随机流一致性不因一次正常通关被整体认证。",
+    "当前1b36dfc及以后选牌居中UI变动未包含在本522e547实机证据中。"
+  ],
+  "conclusion": "本轮正常数值seed42在真实客户端完成合法17层路线、七类房间事务、独立Boss宝箱合法领取和一次平台正式胜利。此前自动收集日志失败已被真实离开后的本轮延迟落盘原件补足；失败/重开/平台重挑战、物理输入及UI总门禁仍独立保留。"
+}

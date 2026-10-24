@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 08:43'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -34,3 +34,15 @@ ordinal: 51000
 - [ ] #4 退出按钮和确认框符合已批准的界面样式，手机电脑都点得到。
 - [x] #5 留存这次测试记录，分别写清电脑和手机哪些已测、哪些没测。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-24 M2：并行复核退出可达性、取消恢复、结算重试与单次提交；统一候选补电脑原生操作证据，手机未测保持明确。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+M2原生新截图覆盖各阶段可见退出入口，生成树/真实控件退出与取消回归继续通过；本轮自动正常流程未执行物理退出取消、物理手机或平台重挑战，剩余AC不外推完成。
+<!-- SECTION:NOTES:END -->

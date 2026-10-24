@@ -1,0 +1,598 @@
+{
+  "sourceCommit": "522e5479add2b123403bdfb3621ebbb495882d03",
+  "runId": "bd08cab4-08c5-4a4c-86cc-336097059d58",
+  "log": {
+    "file": "F:/New folder/.artifacts/m2-session/playtests/bd08cab4-08c5-4a4c-86cc-336097059d58/session-log-manual-flush.gia",
+    "sha256": "6920b5aafb1e335ce4063a3585fd5795218883f729b42775c6bb264389f665cc",
+    "printCount": 4032
+  },
+  "ready": [
+    {
+      "recordIndex": 2,
+      "elapsedSeconds": "1",
+      "sessionLabel": "2026/10/24_16:17:23",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI ready",
+      "clientScript": true
+    }
+  ],
+  "driver": [
+    {
+      "recordIndex": 3,
+      "elapsedSeconds": "18",
+      "sessionLabel": "2026/10/24_16:17:23",
+      "graphId": null,
+      "entityId": null,
+      "text": "M2_DRIVER_READY {\"interval\":0.65,\"normalData\":true,\"physicalTouchCertified\":false,\"seed\":42}",
+      "clientScript": true
+    }
+  ],
+  "entered": [
+    {
+      "actions": 2,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 80,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 0.953,
+      "event": "enter_floor",
+      "floor": 1,
+      "gold": 99,
+      "hp": 80,
+      "mapFloor": 1,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 11,
+      "node": {
+        "complete": false,
+        "id": "f1_l1",
+        "type": "combat"
+      },
+      "phase": "combat",
+      "record": 4,
+      "seed": 42,
+      "time": 1.622,
+      "victories": 0
+    },
+    {
+      "actions": 24,
+      "configuredSeed": 42,
+      "elapsedSeconds": 23.691,
+      "event": "enter_floor",
+      "floor": 2,
+      "gold": 114,
+      "hp": 80,
+      "mapFloor": 2,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 12,
+      "node": {
+        "complete": false,
+        "event": "shining_light",
+        "id": "f2_l2",
+        "type": "event"
+      },
+      "phase": "node",
+      "record": 27,
+      "seed": 9727,
+      "time": 24.36,
+      "victories": 1
+    },
+    {
+      "actions": 27,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 80,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 25.739,
+      "event": "enter_floor",
+      "floor": 3,
+      "gold": 114,
+      "hp": 80,
+      "mapFloor": 3,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 12,
+      "node": {
+        "complete": false,
+        "id": "f3_l2",
+        "type": "combat"
+      },
+      "phase": "combat",
+      "record": 31,
+      "seed": 9727,
+      "time": 26.408,
+      "victories": 1
+    },
+    {
+      "actions": 50,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 80,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 48.945,
+      "event": "enter_floor",
+      "floor": 4,
+      "gold": 129,
+      "hp": 80,
+      "mapFloor": 4,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 13,
+      "node": {
+        "complete": false,
+        "id": "f4_l2",
+        "type": "combat"
+      },
+      "phase": "combat",
+      "record": 55,
+      "seed": 21938,
+      "time": 49.614,
+      "victories": 2
+    },
+    {
+      "actions": 59,
+      "configuredSeed": 42,
+      "elapsedSeconds": 58.703,
+      "event": "enter_floor",
+      "floor": 5,
+      "gold": 144,
+      "hp": 80,
+      "mapFloor": 5,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 14,
+      "node": {
+        "complete": false,
+        "event": "purifier",
+        "id": "f5_l2",
+        "type": "event"
+      },
+      "phase": "node",
+      "record": 65,
+      "seed": 32061,
+      "time": 59.372,
+      "victories": 3
+    },
+    {
+      "actions": 64,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 80,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 61.946,
+      "event": "enter_floor",
+      "floor": 6,
+      "gold": 144,
+      "hp": 80,
+      "mapFloor": 6,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 14,
+      "node": {
+        "complete": false,
+        "id": "f6_l2",
+        "type": "elite"
+      },
+      "phase": "combat",
+      "record": 71,
+      "seed": 32061,
+      "time": 62.615,
+      "victories": 3
+    },
+    {
+      "actions": 91,
+      "configuredSeed": 42,
+      "elapsedSeconds": 89.521000000001,
+      "event": "enter_floor",
+      "floor": 7,
+      "gold": 174,
+      "hp": 55,
+      "mapFloor": 7,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 15,
+      "node": {
+        "complete": false,
+        "id": "f7_l2",
+        "type": "shop"
+      },
+      "phase": "node",
+      "record": 99,
+      "seed": 41782,
+      "time": 90.190000000001,
+      "victories": 4
+    },
+    {
+      "actions": 97,
+      "configuredSeed": 42,
+      "elapsedSeconds": 93.477000000001,
+      "event": "enter_floor",
+      "floor": 8,
+      "gold": 46,
+      "hp": 55,
+      "mapFloor": 8,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 16,
+      "node": {
+        "complete": false,
+        "id": "f8_l2",
+        "type": "camp"
+      },
+      "phase": "node",
+      "record": 106,
+      "seed": 41782,
+      "shopRemoveCount": 1,
+      "time": 94.146000000001,
+      "victories": 4
+    },
+    {
+      "actions": 100,
+      "configuredSeed": 42,
+      "elapsedSeconds": 95.433000000001,
+      "event": "enter_floor",
+      "floor": 9,
+      "gold": 46,
+      "hp": 79,
+      "mapFloor": 9,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 16,
+      "node": {
+        "complete": false,
+        "id": "f9_l2",
+        "type": "treasure"
+      },
+      "phase": "node",
+      "record": 110,
+      "seed": 4871,
+      "shopRemoveCount": 1,
+      "time": 96.102000000002,
+      "victories": 4
+    },
+    {
+      "actions": 103,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 79,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 97.499000000002,
+      "event": "enter_floor",
+      "floor": 10,
+      "gold": 46,
+      "hp": 79,
+      "mapFloor": 10,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 16,
+      "node": {
+        "complete": false,
+        "id": "f10_l2",
+        "type": "elite"
+      },
+      "phase": "combat",
+      "record": 114,
+      "seed": 4871,
+      "shopRemoveCount": 1,
+      "time": 98.168000000002,
+      "victories": 4
+    },
+    {
+      "actions": 127,
+      "configuredSeed": 42,
+      "elapsedSeconds": 120.971,
+      "event": "enter_floor",
+      "floor": 11,
+      "gold": 76,
+      "hp": 74,
+      "mapFloor": 11,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 16,
+      "node": {
+        "complete": false,
+        "id": "f11_l3",
+        "type": "camp"
+      },
+      "phase": "node",
+      "record": 139,
+      "seed": 26889,
+      "shopRemoveCount": 1,
+      "time": 121.64,
+      "victories": 5
+    },
+    {
+      "actions": 133,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 74,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 125.025,
+      "event": "enter_floor",
+      "floor": 12,
+      "gold": 76,
+      "hp": 74,
+      "mapFloor": 12,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 16,
+      "node": {
+        "complete": false,
+        "id": "f12_l3",
+        "type": "combat"
+      },
+      "phase": "combat",
+      "record": 146,
+      "seed": 26889,
+      "shopRemoveCount": 1,
+      "time": 125.694,
+      "victories": 5
+    },
+    {
+      "actions": 167,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 66,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 157.374,
+      "event": "enter_floor",
+      "floor": 13,
+      "gold": 91,
+      "hp": 66,
+      "mapFloor": 13,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 17,
+      "node": {
+        "complete": false,
+        "id": "f13_l3",
+        "type": "combat"
+      },
+      "phase": "combat",
+      "record": 181,
+      "seed": 8629,
+      "shopRemoveCount": 1,
+      "time": 158.043,
+      "victories": 6
+    },
+    {
+      "actions": 186,
+      "configuredSeed": 42,
+      "elapsedSeconds": 175.52799999999,
+      "event": "enter_floor",
+      "floor": 14,
+      "gold": 106,
+      "hp": 65,
+      "mapFloor": 14,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 18,
+      "node": {
+        "complete": false,
+        "id": "f14_l3",
+        "type": "shop"
+      },
+      "phase": "node",
+      "record": 201,
+      "seed": 16854,
+      "shopRemoveCount": 1,
+      "time": 176.19699999999,
+      "victories": 7
+    },
+    {
+      "actions": 189,
+      "configuredSeed": 42,
+      "elapsedSeconds": 177.52099999999,
+      "event": "enter_floor",
+      "floor": 15,
+      "gold": 31,
+      "hp": 65,
+      "mapFloor": 15,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 19,
+      "node": {
+        "complete": false,
+        "id": "f15_l3",
+        "type": "camp"
+      },
+      "phase": "node",
+      "record": 205,
+      "seed": 16854,
+      "shopRemoveCount": 1,
+      "time": 178.18999999999,
+      "victories": 7
+    },
+    {
+      "actions": 195,
+      "combat": {
+        "block": 0,
+        "energy": 3,
+        "hp": 65,
+        "phase": "player",
+        "turn": 1
+      },
+      "configuredSeed": 42,
+      "elapsedSeconds": 181.74299999999,
+      "event": "enter_floor",
+      "floor": 16,
+      "gold": 31,
+      "hp": 65,
+      "mapFloor": 16,
+      "maxHp": 80,
+      "mode": "battle",
+      "nextDeckUid": 19,
+      "node": {
+        "complete": false,
+        "id": "f16_l2",
+        "type": "boss"
+      },
+      "phase": "combat",
+      "record": 212,
+      "seed": 16854,
+      "shopRemoveCount": 1,
+      "time": 182.41199999999,
+      "victories": 7
+    },
+    {
+      "actions": 263,
+      "configuredSeed": 42,
+      "elapsedSeconds": 246.23499999998,
+      "event": "enter_floor",
+      "floor": 17,
+      "gold": 131,
+      "hp": 34,
+      "mapFloor": 17,
+      "maxHp": 80,
+      "mode": "node",
+      "nextDeckUid": 20,
+      "node": {
+        "complete": false,
+        "id": "f17_l2",
+        "roomKind": "boss_treasure",
+        "type": "treasure"
+      },
+      "phase": "node",
+      "record": 281,
+      "seed": 1712,
+      "shopRemoveCount": 1,
+      "time": 246.90399999998,
+      "victories": 8
+    }
+  ],
+  "victory": [
+    {
+      "actions": 265,
+      "configuredSeed": 42,
+      "elapsedSeconds": 247.49399999998,
+      "event": "victory",
+      "floor": 17,
+      "gold": 131,
+      "hp": 34,
+      "mapFloor": 17,
+      "maxHp": 80,
+      "mode": "victory",
+      "nextDeckUid": 20,
+      "node": {
+        "complete": true,
+        "id": "f17_l2",
+        "result": "boss_treasure_complete",
+        "roomKind": "boss_treasure",
+        "type": "treasure"
+      },
+      "phase": "victory",
+      "record": 284,
+      "seed": 1712,
+      "shopRemoveCount": 1,
+      "time": 248.21599999998,
+      "victories": 8
+    }
+  ],
+  "settled": [
+    {
+      "actions": 266,
+      "configuredSeed": 42,
+      "elapsedSeconds": 247.49399999998,
+      "event": "settlement_requested",
+      "floor": 17,
+      "gold": 131,
+      "hp": 34,
+      "mapFloor": 17,
+      "maxHp": 80,
+      "mode": "victory",
+      "nextDeckUid": 20,
+      "node": {
+        "complete": true,
+        "id": "f17_l2",
+        "result": "boss_treasure_complete",
+        "roomKind": "boss_treasure",
+        "type": "treasure"
+      },
+      "phase": "victory",
+      "record": 286,
+      "seed": 1712,
+      "shopRemoveCount": 1,
+      "time": 256.23199999998,
+      "victories": 8
+    }
+  ],
+  "requests": [
+    {
+      "recordIndex": 4005,
+      "elapsedSeconds": "273",
+      "sessionLabel": "2026/10/24_16:17:23",
+      "graphId": null,
+      "entityId": null,
+      "text": "ABYSS_UI settlement_requested victory",
+      "clientScript": true
+    }
+  ],
+  "server": [
+    {
+      "recordIndex": 4031,
+      "elapsedSeconds": "273",
+      "sessionLabel": "2026/10/24_16:17:23",
+      "graphId": "1073741825",
+      "entityId": "1094713345",
+      "text": "ABYSS_SETTLEMENT_VICTORY"
+    }
+  ],
+  "actions": 266,
+  "actionTypes": [
+    "start",
+    "choose_map_node",
+    "playSlot",
+    "playSelected",
+    "endTurn",
+    "claimPotionReward",
+    "card_reward",
+    "node_eventView/option2",
+    "node_confirm",
+    "node_eventView/option1",
+    "node_pickerView/card1",
+    "node_shopView/card2",
+    "node_shopView/removal",
+    "node_campView/rest",
+    "node_treasureView/chest",
+    "node_treasureView/take",
+    "node_campView/forge",
+    "node_pickerView/next",
+    "node_pickerView/card5",
+    "skipPotionReward",
+    "node_shopView/card5",
+    "node_pickerView/card6",
+    "settle_victory"
+  ],
+  "faults": [],
+  "recovery": "Runner exit click did not leave the official result. A later observed native Leave action flushed this new log; original runner status is preserved."
+}

@@ -5,6 +5,7 @@ local Inventory = require("abyss_inventory")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
+local PotionRewards = require("abyss_potion_rewards")
 local M = {}
 
 local function find(entries, id)
@@ -36,8 +37,16 @@ function M.startCombat(run, encounterId)
     if run.floor < encounter.minFloor or run.floor > encounter.maxFloor then return false, "wrong_floor" end
     local opening, reason = Inventory.opening(run.data.relics.relics, run.relics)
     if not opening then return false, reason end
+    local bonus
+    bonus, reason = Inventory.energyBonus(run.data.relics.relics, run.relics, encounter.tier)
+    if not bonus then return false, reason end
+    local combatData = {}
+    for key, value in pairs(run.data) do combatData[key] = value end
+    combatData.rules = Combat.copy(run.data.rules)
+    combatData.rules.player.energyPerTurn = combatData.rules.player.energyPerTurn + 0.0 + bonus
+    if combatData.rules.player.energyPerTurn > 2147483647 then return false, "invalid_relic_energy" end
     local battle
-    battle, reason = Combat.new(run.data, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies,
+    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, deck = run.deck, enemies = encounter.enemies,
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -88,7 +97,9 @@ function M.finishCombat(run)
     for _ = 1, math.min(run.data.rules.rewards.cardChoices, #pool) do
         choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
     end
-    run.rewards, run.phase = { cards = choices, gold = gold }, "reward"
+    local potion,potionRng,potionModifier=PotionRewards.prepare(run,2)
+    PotionRewards.commit(run,potionRng,potionModifier)
+    run.rewards, run.phase = { cards = choices, gold = gold, potion = potion }, "reward"
     run.victories = run.victories + 1
     return true
 end
@@ -103,11 +114,37 @@ function M.claimCardReward(run, choice)
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
+    -- Confirming a card also collects the remaining obtainable bottle. A full
+    -- belt requires an explicit claim/skip decision; no reward is silently lost.
+    local potion=run.rewards.potion
+    if potion and not potion.resolved and not potion.unavailable then
+        local ok,reason=M.claimPotionReward(run)
+        if not ok then return false,reason end
+    end
     if choice > 0 then
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = run.rewards.cards[choice], upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
     end
     run.phase, run.rewards, run.combat = "map", nil, nil
+    return true
+end
+
+function M.claimPotionReward(run)
+    if run.phase~='reward' then return false,'no_pending_reward' end
+    local offer=run.rewards and run.rewards.potion
+    if not offer or offer.resolved then return false,'no_pending_potion_reward' end
+    if offer.unavailable then return false,'potion_content_unavailable' end
+    local ok,slot=M.obtainPotion(run,offer.id)
+    if not ok then return false,slot end
+    offer.resolved,offer.result,offer.slot=true,'claimed',slot
+    return true,slot
+end
+
+function M.skipPotionReward(run)
+    if run.phase~='reward' then return false,'no_pending_reward' end
+    local offer=run.rewards and run.rewards.potion
+    if not offer or offer.resolved then return false,'no_pending_potion_reward' end
+    offer.resolved,offer.result=true,'skipped'
     return true
 end
 
@@ -137,6 +174,10 @@ end
 
 function M.obtainPotion(run, id)
     if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    for _, owned in ipairs(run.relics) do
+        local relic = find(run.data.relics.relics, owned)
+        if relic and relic.blocksPotions then return false, "potion_blocked_by_sozu" end
+    end
     for slot = 1, run.data.rules.player.potionSlots do
         if not run.potions[slot] then
             run.potions[slot] = id
