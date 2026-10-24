@@ -1078,6 +1078,34 @@ test("resize cancels a moving drag, hides the capture layer and permits a fresh 
     end
     assert(#battle.hand == 1 and battle.player.block == 5)
 end)
+test("mixed enemy moves show a compound intent badge like STS ATTACK_DEBUFF", function()
+    local ui, stage, click = setup() click("start")
+    local function show(enemyId, intentId)
+        ui.run.combat = Combat.new(Data, {enemies={enemyId}})
+        local enemy = ui.run.combat.enemies[1]
+        for i, intent in ipairs(enemy.intents) do if intent.id == intentId then enemy.intentIndex = i end end
+        assert(enemy.intents[enemy.intentIndex].id == intentId, "missing intent " .. intentId)
+        ui:render()
+        return stage.children.enemy1.children
+    end
+    local box = show("acid_slime_m", "acid_slime_m_1") -- damage + Slimed into discard
+    assert(box.intentIcon.imageId == Theme.icon.intent.attack)
+    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.debuff)
+    assert(box.intent.text ~= "", "mixed attacks retain their damage number")
+    assert(box.intentBadge.x > box.intentIcon.x and box.intentBadge.y < box.intentIcon.y,
+        "compound badge must sit on the main icon's lower-right corner")
+    assert(box.intentBadge.imageColor.r == Theme.color.debuff.r)
+    box = show("gremlin_nob", "gremlin_nob_2") -- damage + Vulnerable
+    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.debuff)
+    box = show("jaw_worm", "jaw_worm_2") -- Thrash: damage + block
+    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.defend)
+    box = show("jaw_worm", "jaw_worm_3") -- Bellow: strength + block
+    assert(box.intentIcon.imageId == Theme.icon.intent.buff)
+    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.defend)
+    assert(box.intent.text == "", "non-attack intent must not display future status stacks")
+    box = show("jaw_worm", "jaw_worm_1") -- Chomp: damage only
+    assert(not box.intentBadge.visible)
+end)
 test("stateful sleeping enemy shows approved sleep icon and wake intent", function()
     local ui, stage, click = setup()
     ui.run = Run.new(Data,42)

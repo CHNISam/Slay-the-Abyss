@@ -427,7 +427,8 @@
     },
     "intent": {
       "size": 40,
-      "offsetY": 104
+      "offsetY": 104,
+      "badge": 22
     },
     "map": {
       "floorGap": 76,

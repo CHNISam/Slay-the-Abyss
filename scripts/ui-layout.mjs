@@ -49,6 +49,9 @@ function unit(name, position, portrait, player = false) {
     { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
     { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
+      // Secondary effect of a mixed move (STS ATTACK_DEBUFF etc.), on the icon's lower-right corner.
+      { ...picture('intentBadge', -s.xl + (l.intent.size - l.intent.badge) / 2, l.intent.offsetY - (l.intent.size - l.intent.badge) / 2,
+        l.intent.badge, l.intent.badge, theme.icon.intent.debuff, c.debuff), visible: false },
       text('intent', s.l, l.intent.offsetY, 100, l.intent.size, '', f.number),
       { ...hit(l.intent.size * 3, l.intent.size + s.s), name: 'intentHit', position: [0, l.intent.offsetY] }] : []),
     // Tapping a portrait opens that unit's status details (enemies also take targets).

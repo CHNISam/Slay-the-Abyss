@@ -60,6 +60,20 @@ local function potionText(item, battle)
     end
     return item.name .. "\n" .. table.concat(effects, "，")
 end
+-- STS shows mixed moves as one compound intent (ATTACK_DEBUFF, ATTACK_DEFEND,
+-- DEFEND_BUFF...). Data keeps a single kind, so the second icon comes from the
+-- effects themselves: the first effect class that differs from the kind.
+local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
+    applyStatus = "debuff", makeTempCardInDiscard = "debuff" }
+local function intentBadge(intent)
+    for _, kind in ipairs({ "debuff", "defend", "buff", "attack" }) do
+        if kind ~= intent.kind then
+            for _, effect in ipairs(intent.effects or {}) do
+                if effectKinds[effect.op] == kind then return kind end
+            end
+        end
+    end
+end
 local function intentText(state, index, detailed)
     local intent = Combat.intent(state, index)
     if not intent then return "已击败", "unknown" end
@@ -94,11 +108,12 @@ local function intentText(state, index, detailed)
             compact.debuff=true
         end
     end
-    if not detailed then return intent.kind == "attack" and (compact.attack or "?") or "", intent.kind end
+    local badge = intentBadge(intent)
+    if not detailed then return intent.kind == "attack" and (compact.attack or "?") or "", intent.kind, badge end
     local description = result
     if compact.buff then description[#description + 1] = "准备强化自身。" end
     if compact.debuff then description[#description + 1] = "准备对你施加负面效果。" end
-    return #description > 0 and table.concat(description, "") or "下一步行动未知。", intent.kind
+    return #description > 0 and table.concat(description, "") or "下一步行动未知。", intent.kind, badge
 end
 
 function M.new(root, data, presentation, clickEvent, platform, options)
@@ -596,13 +611,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 -- Later frames already include its effects: do not apply them
                 -- again. Unacted enemies still preview the current state.
                 local shown = playbackIntents and playbackIntents[enemy.id]
-                local value, kind
-                if shown and enemy.hp > 0 then value, kind = shown[1], shown[2]
-                else value, kind = intentText(battle, i) end
+                local value, kind, badge
+                if shown and enemy.hp > 0 then value, kind, badge = shown[1], shown[2], shown[3]
+                else value, kind, badge = intentText(battle, i) end
                 local event = enemyPlayback and self.feedback.current
                 if event and event.kind == "intent" and event.detail.enemy == enemy.id then
                     playbackIntents = playbackIntents or {}
-                    playbackIntents[enemy.id] = {value, kind}
+                    playbackIntents[enemy.id] = {value, kind, badge}
                 elseif enemy.hp <= 0 and playbackIntents then playbackIntents[enemy.id] = nil end
                 box:GetChild("intent").text = value
                 box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
@@ -610,6 +625,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 box:GetChild("intentHit"):SetAnchoredPosition(0, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
                 picture(box:GetChild("intentIcon"), Theme.icon.intent[kind] or Theme.icon.intent.unknown)
                 tint(box:GetChild("intentIcon"), intentColors[kind] or C.textDim)
+                local badgeIcon = box:GetChild("intentBadge")
+                local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
+                local inset = (L.intent.size - L.intent.badge) / 2
+                badgeIcon:SetAnchoredPosition(-S.xl + inset, iconY - inset)
+                badgeIcon:SetVisible(badge ~= nil)
+                if badge then
+                    picture(badgeIcon, Theme.icon.intent[badge])
+                    tint(badgeIcon, intentColors[badge])
+                end
             end
         end
         local rewards = reward and Run.rewardOptions(run) or {}
