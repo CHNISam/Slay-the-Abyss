@@ -182,18 +182,14 @@ export function battleLayout() {
   controls.push(statusInfo());
   // Area attacks: one Geo shard band across the enemy row, scaled out from the landing point.
   const row = (l.enemyRow.xFrom + l.enemyRow.xTo) / 2;
-  // A flying card can cross an actor's HP lane. Draw it behind the actors while
-  // announcements and the area sweep retain their foreground layer.
-  controls.unshift({ name: 'feedback', kind: 'container', size: [width, height], children: [
+  controls.push({ name: 'feedback', kind: 'container', size: [width, height], children: [
+    { ...picture('sweep', row, l.enemyRow.y, l.enemyRow.xTo - l.enemyRow.xFrom + l.enemyRow.bossPortrait, s.xl, im.diamond, c.geo), visible: false },
     { name: 'playedCard', kind: 'container', size: l.card.size, visible: false, children: [
       panel('border', 0, 0, ...l.card.size, c.gold),
       panel('plate', 0, 0, l.card.size[0] - s.border * 2, l.card.size[1] - s.border * 2, c.cardType.attack),
       picture('art', 0, s.xl, l.card.art, l.card.art, theme.icon.cardArt.attack, c.goldBright),
       text('name', 0, -s.xxl, l.card.size[0] - s.s, l.nativeText.lineHeight * 2, '', f.cardName, c.text),
     ] },
-  ] });
-  controls.push({ name: 'feedbackForeground', kind: 'container', size: [width, height], children: [
-    { ...picture('sweep', row, l.enemyRow.y, l.enemyRow.xTo - l.enemyRow.xFrom + l.enemyRow.bossPortrait, s.xl, im.diamond, c.geo), visible: false },
     { ...panel('bannerPlate', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, c.panelSunken), visible: false },
     { ...text('banner', 0, s.xxl, width / 2, l.nativeText.lineHeight * 2, '', f.title, c.goldBright), visible: false },
   ] });

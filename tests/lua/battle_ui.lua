@@ -743,7 +743,7 @@ test("multiple enemies and multi-hit intents show each actor and actual HP in or
     ui:render() local hp = battle.player.hp
     click("endTurn")
     assert(battle.player.hp == hp - 6 and battle.phase == "player")
-    assert(ui.busy and stage.children.feedbackForeground.children.banner.text == "敌方回合")
+    assert(ui.busy and stage.children.feedback.children.banner.text == "敌方回合")
     ui:update(100)
     assert(ui.busy and ui.feedback.current.kind == "intent", "a long frame must not skip the enemy turn")
     local kinds, hits = {}, 0

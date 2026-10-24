@@ -3866,9 +3866,10 @@
       "sourceBytes": 1499,
       "role": "Exact runner request",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "run-request.json",
-      "packagedSha256": "2e01862ae289ade0d079f42f25c8ae6d5a55a47ede787116cae64f97d78f14c6",
-      "packagedBytes": 1499
+      "packagedPath": "run-request.json.gz",
+      "packagedSha256": "dd8d1a7fa98cbf944591137c9037e560763231e4c71b81266d59f773c51fec8f",
+      "packagedBytes": 599,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\status.json",
@@ -3876,9 +3877,10 @@
       "sourceBytes": 134792,
       "role": "Exact terminal runner status; succeeded is execution completion, not visual acceptance",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "run-status.json",
-      "packagedSha256": "006622d875c0d9946bf169ba476a59123f3e3535bcb472bad6d482cedae6ac15",
-      "packagedBytes": 134792
+      "packagedPath": "run-status.json.gz",
+      "packagedSha256": "55f373095448ee503b192c41dcf80eeb7de4a8acc55292f0880c91cc089ac953",
+      "packagedBytes": 9914,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\session-log.gia",
@@ -4010,9 +4012,10 @@
       "sourceBytes": 4728,
       "role": "Frozen diagnostic source module",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "fixture/abyss_ui_unified_probe.lua",
-      "packagedSha256": "4311b9a322c3b8beeff2a4b84a18548bae972dcd9edbc67c4ac1e723147839f0",
-      "packagedBytes": 4728
+      "packagedPath": "fixture/abyss_ui_unified_probe.lua.gz",
+      "packagedSha256": "fcb96b02ffe2cf143d49c9dc5cf1e557b393a59140fe74ab5d5976bbdf95eec1",
+      "packagedBytes": 1541,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\exact-damage-negative.log",
@@ -4020,9 +4023,10 @@
       "sourceBytes": 539,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/exact-damage-negative.log",
-      "packagedSha256": "f713c827a7a3d76352445211c71cf760882e25c26579f2bc2d686d5c4aacc93f",
-      "packagedBytes": 539
+      "packagedPath": "historical-red/exact-damage-negative.log.gz",
+      "packagedSha256": "499f3b05dc608dd686ba095b1f8d3b663ec749b4967d5469e68d6d22041adbac",
+      "packagedBytes": 259,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\exact-damage-negative.lua",
@@ -4040,9 +4044,10 @@
       "sourceBytes": 557,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/exact-damage-red.log",
-      "packagedSha256": "b01f0b8b4972408bf85001deedba5e97b659758bcd8949126e9e71b5a0820ddc",
-      "packagedBytes": 557
+      "packagedPath": "historical-red/exact-damage-red.log.gz",
+      "packagedSha256": "83fe5f96e512fa232595128b61dd27f05a50002468951bbd5228c545ab4a4cc3",
+      "packagedBytes": 229,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\integer-resources-red-corrected.log",
@@ -4050,9 +4055,10 @@
       "sourceBytes": 3374,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/integer-resources-red-corrected.log",
-      "packagedSha256": "4920bb199121eb02e93ccca53fa0fa50567a024ce3f75f341258e4e7b1e2c2a3",
-      "packagedBytes": 3374
+      "packagedPath": "historical-red/integer-resources-red-corrected.log.gz",
+      "packagedSha256": "a571c7fa9a8185fe2e89f6b93952e16bce058224177e4670b846be7fb85186ad",
+      "packagedBytes": 1437,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\status-help-red.log",
@@ -4060,9 +4066,10 @@
       "sourceBytes": 513,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/status-help-red.log",
-      "packagedSha256": "e185a91fcbc4aabc902cef3a0576193180c82cfbdf1cbeaab1ac6dff8ab7e9f0",
-      "packagedBytes": 513
+      "packagedPath": "historical-red/status-help-red.log.gz",
+      "packagedSha256": "e768540a388072696ec89a2e4af98607d7f177d4d3a42ef2e19aede23af3eb56",
+      "packagedBytes": 230,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.worktrees\\m1-closeout-integration\\docs\\backlog-details\\TASK-10.7.md",
@@ -4070,9 +4077,10 @@
       "sourceBytes": 2367,
       "role": "Original user-reported damage-range problem and prior local implementation notes",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/TASK-10.7-original-problem.md",
-      "packagedSha256": "056187cbc884eee882feeca3103e662b17c0aa7baa63f8774f64efaefd2a9f08",
-      "packagedBytes": 2367
+      "packagedPath": "historical-red/TASK-10.7-original-problem.md.gz",
+      "packagedSha256": "6327c8bd2bd541c12ae4f4086db8b512f6299b84779f9fb1ecc6331ea87a43b8",
+      "packagedBytes": 1624,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\hp-animation-red-final.log",
@@ -4080,9 +4088,10 @@
       "sourceBytes": 1459,
       "role": "Later HP-animation fix local regression only. Does not change the failed candidate identity or prove a second native run.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "later-fix-local-only/hp-animation-red-final.log",
-      "packagedSha256": "41460bf7496d6e16dba6634d8d56b08b687084250b404360d72c4c89c9d24c5a",
-      "packagedBytes": 1459
+      "packagedPath": "later-fix-local-only/hp-animation-red-final.log.gz",
+      "packagedSha256": "52faccf9719447294505fb1ea0e6afadc9376b0ef1a49b572d73a38d5d3cb97c",
+      "packagedBytes": 707,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\hp-animation-green.log",
@@ -4090,9 +4099,10 @@
       "sourceBytes": 2334,
       "role": "Later HP-animation fix local regression only. Does not change the failed candidate identity or prove a second native run.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "later-fix-local-only/hp-animation-green.log",
-      "packagedSha256": "428a0b827eab32c797cc65e8787b03dc4473dc86eba243daf29cb6d6351ca48f",
-      "packagedBytes": 2334
+      "packagedPath": "later-fix-local-only/hp-animation-green.log.gz",
+      "packagedSha256": "21d1a4b8bca48065e35414af781b3a429e7e1b93e46399010d6f8b2f7fdcb9e6",
+      "packagedBytes": 703,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\hp-animation-regressions.log",
@@ -4100,9 +4110,10 @@
       "sourceBytes": 63132,
       "role": "Later HP-animation fix local regression only. Does not change the failed candidate identity or prove a second native run.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "later-fix-local-only/hp-animation-regressions.log",
-      "packagedSha256": "9e5a578c6fa60fddb696d0881e7037a95db03e8cdcb832e182f2b981ca808376",
-      "packagedBytes": 63132
+      "packagedPath": "later-fix-local-only/hp-animation-regressions.log.gz",
+      "packagedSha256": "ba2e1474142561c013bb68eb6425428c63d7ce0ca63818475f637ad8bb0580c2",
+      "packagedBytes": 6694,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\status-live-review.json",
@@ -4842,9 +4853,10 @@
       "sourceBytes": 1499,
       "role": "Exact runner request",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "run-request.json",
-      "packagedSha256": "2e01862ae289ade0d079f42f25c8ae6d5a55a47ede787116cae64f97d78f14c6",
-      "packagedBytes": 1499
+      "packagedPath": "run-request.json.gz",
+      "packagedSha256": "dd8d1a7fa98cbf944591137c9037e560763231e4c71b81266d59f773c51fec8f",
+      "packagedBytes": 599,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\status.json",
@@ -4852,9 +4864,10 @@
       "sourceBytes": 134792,
       "role": "Exact terminal runner status; succeeded is execution completion, not visual acceptance",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "run-status.json",
-      "packagedSha256": "006622d875c0d9946bf169ba476a59123f3e3535bcb472bad6d482cedae6ac15",
-      "packagedBytes": 134792
+      "packagedPath": "run-status.json.gz",
+      "packagedSha256": "55f373095448ee503b192c41dcf80eeb7de4a8acc55292f0880c91cc089ac953",
+      "packagedBytes": 9914,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\live\\playtests\\ced168e4-7e7a-4699-97b4-4873610e0c41\\session-log.gia",
@@ -4965,9 +4978,10 @@
       "sourceBytes": 4728,
       "role": "Frozen diagnostic source module",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "fixture/abyss_ui_unified_probe.lua",
-      "packagedSha256": "4311b9a322c3b8beeff2a4b84a18548bae972dcd9edbc67c4ac1e723147839f0",
-      "packagedBytes": 4728
+      "packagedPath": "fixture/abyss_ui_unified_probe.lua.gz",
+      "packagedSha256": "fcb96b02ffe2cf143d49c9dc5cf1e557b393a59140fe74ab5d5976bbdf95eec1",
+      "packagedBytes": 1541,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\exact-damage-negative.log",
@@ -4975,9 +4989,10 @@
       "sourceBytes": 539,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/exact-damage-negative.log",
-      "packagedSha256": "f713c827a7a3d76352445211c71cf760882e25c26579f2bc2d686d5c4aacc93f",
-      "packagedBytes": 539
+      "packagedPath": "historical-red/exact-damage-negative.log.gz",
+      "packagedSha256": "499f3b05dc608dd686ba095b1f8d3b663ec749b4967d5469e68d6d22041adbac",
+      "packagedBytes": 259,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\exact-damage-negative.lua",
@@ -4995,9 +5010,10 @@
       "sourceBytes": 557,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/exact-damage-red.log",
-      "packagedSha256": "b01f0b8b4972408bf85001deedba5e97b659758bcd8949126e9e71b5a0820ddc",
-      "packagedBytes": 557
+      "packagedPath": "historical-red/exact-damage-red.log.gz",
+      "packagedSha256": "83fe5f96e512fa232595128b61dd27f05a50002468951bbd5228c545ab4a4cc3",
+      "packagedBytes": 229,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\integer-resources-red-corrected.log",
@@ -5005,9 +5021,10 @@
       "sourceBytes": 3374,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/integer-resources-red-corrected.log",
-      "packagedSha256": "4920bb199121eb02e93ccca53fa0fa50567a024ce3f75f341258e4e7b1e2c2a3",
-      "packagedBytes": 3374
+      "packagedPath": "historical-red/integer-resources-red-corrected.log.gz",
+      "packagedSha256": "a571c7fa9a8185fe2e89f6b93952e16bce058224177e4670b846be7fb85186ad",
+      "packagedBytes": 1437,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-live-sprint\\status-help-red.log",
@@ -5015,9 +5032,10 @@
       "sourceBytes": 513,
       "role": "Existing local negative/red regression evidence. Not a new run of an older native client.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/status-help-red.log",
-      "packagedSha256": "e185a91fcbc4aabc902cef3a0576193180c82cfbdf1cbeaab1ac6dff8ab7e9f0",
-      "packagedBytes": 513
+      "packagedPath": "historical-red/status-help-red.log.gz",
+      "packagedSha256": "e768540a388072696ec89a2e4af98607d7f177d4d3a42ef2e19aede23af3eb56",
+      "packagedBytes": 230,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.worktrees\\m1-closeout-integration\\docs\\backlog-details\\TASK-10.7.md",
@@ -5025,9 +5043,10 @@
       "sourceBytes": 2367,
       "role": "Original user-reported damage-range problem and prior local implementation notes",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "historical-red/TASK-10.7-original-problem.md",
-      "packagedSha256": "056187cbc884eee882feeca3103e662b17c0aa7baa63f8774f64efaefd2a9f08",
-      "packagedBytes": 2367
+      "packagedPath": "historical-red/TASK-10.7-original-problem.md.gz",
+      "packagedSha256": "6327c8bd2bd541c12ae4f4086db8b512f6299b84779f9fb1ecc6331ea87a43b8",
+      "packagedBytes": 1624,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\hp-animation-red-final.log",
@@ -5035,9 +5054,10 @@
       "sourceBytes": 1459,
       "role": "Later HP-animation fix local regression only. Does not change the failed candidate identity or prove a second native run.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "later-fix-local-only/hp-animation-red-final.log",
-      "packagedSha256": "41460bf7496d6e16dba6634d8d56b08b687084250b404360d72c4c89c9d24c5a",
-      "packagedBytes": 1459
+      "packagedPath": "later-fix-local-only/hp-animation-red-final.log.gz",
+      "packagedSha256": "52faccf9719447294505fb1ea0e6afadc9376b0ef1a49b572d73a38d5d3cb97c",
+      "packagedBytes": 707,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\hp-animation-green.log",
@@ -5045,9 +5065,10 @@
       "sourceBytes": 2334,
       "role": "Later HP-animation fix local regression only. Does not change the failed candidate identity or prove a second native run.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "later-fix-local-only/hp-animation-green.log",
-      "packagedSha256": "428a0b827eab32c797cc65e8787b03dc4473dc86eba243daf29cb6d6351ca48f",
-      "packagedBytes": 2334
+      "packagedPath": "later-fix-local-only/hp-animation-green.log.gz",
+      "packagedSha256": "21d1a4b8bca48065e35414af781b3a429e7e1b93e46399010d6f8b2f7fdcb9e6",
+      "packagedBytes": 703,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\hp-animation-regressions.log",
@@ -5055,9 +5076,10 @@
       "sourceBytes": 63132,
       "role": "Later HP-animation fix local regression only. Does not change the failed candidate identity or prove a second native run.",
       "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
-      "packagedPath": "later-fix-local-only/hp-animation-regressions.log",
-      "packagedSha256": "9e5a578c6fa60fddb696d0881e7037a95db03e8cdcb832e182f2b981ca808376",
-      "packagedBytes": 63132
+      "packagedPath": "later-fix-local-only/hp-animation-regressions.log.gz",
+      "packagedSha256": "ba2e1474142561c013bb68eb6425428c63d7ce0ca63818475f637ad8bb0580c2",
+      "packagedBytes": 6694,
+      "packagedEncoding": "gzip of exact original bytes"
     },
     {
       "sourcePath": "F:\\New folder\\.artifacts\\m1-closeout-20261024\\status-live-review.json",
@@ -5780,5 +5802,111 @@
       "packagedBytes": 124543
     }
   ],
-  "note": "Manifest SHA covers original byte files. gzip SHA separately identifies the exact compressed package; decompression returns the original source hash. Derived report/log-index files carry their source identities separately."
+  "note": "Manifest SHA covers original byte files. gzip SHA separately identifies the exact compressed package; decompression returns the original source hash. Derived report/log-index files carry their source identities separately.",
+  "storageRepair": {
+    "reason": "PR165 run40071788515 normal git diff --check reported CR bytes as trailing whitespace in byte-preserved original text.",
+    "policy": "Lossless gzip of original CRLF bytes. Preserve every sourceSha256 and every review original. Do not relax CI.",
+    "files": [
+      {
+        "oldPackagePath": "fixture/abyss_ui_unified_probe.lua",
+        "packagedPath": "fixture/abyss_ui_unified_probe.lua.gz",
+        "originalSha256": "4311b9a322c3b8beeff2a4b84a18548bae972dcd9edbc67c4ac1e723147839f0",
+        "originalBytes": 4728,
+        "gzipSha256": "fcb96b02ffe2cf143d49c9dc5cf1e557b393a59140fe74ab5d5976bbdf95eec1",
+        "gzipBytes": 1541,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "historical-red/exact-damage-negative.log",
+        "packagedPath": "historical-red/exact-damage-negative.log.gz",
+        "originalSha256": "f713c827a7a3d76352445211c71cf760882e25c26579f2bc2d686d5c4aacc93f",
+        "originalBytes": 539,
+        "gzipSha256": "499f3b05dc608dd686ba095b1f8d3b663ec749b4967d5469e68d6d22041adbac",
+        "gzipBytes": 259,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "historical-red/exact-damage-red.log",
+        "packagedPath": "historical-red/exact-damage-red.log.gz",
+        "originalSha256": "b01f0b8b4972408bf85001deedba5e97b659758bcd8949126e9e71b5a0820ddc",
+        "originalBytes": 557,
+        "gzipSha256": "83fe5f96e512fa232595128b61dd27f05a50002468951bbd5228c545ab4a4cc3",
+        "gzipBytes": 229,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "historical-red/integer-resources-red-corrected.log",
+        "packagedPath": "historical-red/integer-resources-red-corrected.log.gz",
+        "originalSha256": "4920bb199121eb02e93ccca53fa0fa50567a024ce3f75f341258e4e7b1e2c2a3",
+        "originalBytes": 3374,
+        "gzipSha256": "a571c7fa9a8185fe2e89f6b93952e16bce058224177e4670b846be7fb85186ad",
+        "gzipBytes": 1437,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "historical-red/status-help-red.log",
+        "packagedPath": "historical-red/status-help-red.log.gz",
+        "originalSha256": "e185a91fcbc4aabc902cef3a0576193180c82cfbdf1cbeaab1ac6dff8ab7e9f0",
+        "originalBytes": 513,
+        "gzipSha256": "e768540a388072696ec89a2e4af98607d7f177d4d3a42ef2e19aede23af3eb56",
+        "gzipBytes": 230,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "historical-red/TASK-10.7-original-problem.md",
+        "packagedPath": "historical-red/TASK-10.7-original-problem.md.gz",
+        "originalSha256": "056187cbc884eee882feeca3103e662b17c0aa7baa63f8774f64efaefd2a9f08",
+        "originalBytes": 2367,
+        "gzipSha256": "6327c8bd2bd541c12ae4f4086db8b512f6299b84779f9fb1ecc6331ea87a43b8",
+        "gzipBytes": 1624,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "later-fix-local-only/hp-animation-green.log",
+        "packagedPath": "later-fix-local-only/hp-animation-green.log.gz",
+        "originalSha256": "428a0b827eab32c797cc65e8787b03dc4473dc86eba243daf29cb6d6351ca48f",
+        "originalBytes": 2334,
+        "gzipSha256": "21d1a4b8bca48065e35414af781b3a429e7e1b93e46399010d6f8b2f7fdcb9e6",
+        "gzipBytes": 703,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "later-fix-local-only/hp-animation-red-final.log",
+        "packagedPath": "later-fix-local-only/hp-animation-red-final.log.gz",
+        "originalSha256": "41460bf7496d6e16dba6634d8d56b08b687084250b404360d72c4c89c9d24c5a",
+        "originalBytes": 1459,
+        "gzipSha256": "52faccf9719447294505fb1ea0e6afadc9376b0ef1a49b572d73a38d5d3cb97c",
+        "gzipBytes": 707,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "later-fix-local-only/hp-animation-regressions.log",
+        "packagedPath": "later-fix-local-only/hp-animation-regressions.log.gz",
+        "originalSha256": "9e5a578c6fa60fddb696d0881e7037a95db03e8cdcb832e182f2b981ca808376",
+        "originalBytes": 63132,
+        "gzipSha256": "ba2e1474142561c013bb68eb6425428c63d7ce0ca63818475f637ad8bb0580c2",
+        "gzipBytes": 6694,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "run-request.json",
+        "packagedPath": "run-request.json.gz",
+        "originalSha256": "2e01862ae289ade0d079f42f25c8ae6d5a55a47ede787116cae64f97d78f14c6",
+        "originalBytes": 1499,
+        "gzipSha256": "dd8d1a7fa98cbf944591137c9037e560763231e4c71b81266d59f773c51fec8f",
+        "gzipBytes": 599,
+        "decompressedOriginalHashVerified": true
+      },
+      {
+        "oldPackagePath": "run-status.json",
+        "packagedPath": "run-status.json.gz",
+        "originalSha256": "006622d875c0d9946bf169ba476a59123f3e3535bcb472bad6d482cedae6ac15",
+        "originalBytes": 134792,
+        "gzipSha256": "55f373095448ee503b192c41dcf80eeb7de4a8acc55292f0880c91cc089ac953",
+        "gzipBytes": 9914,
+        "decompressedOriginalHashVerified": true
+      }
+    ],
+    "userDecisionDerivedFile": "user-acceptance-decision.json"
+  }
 }

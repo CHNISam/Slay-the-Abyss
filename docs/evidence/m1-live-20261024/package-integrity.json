@@ -32,9 +32,9 @@
       "bytes": 11106
     },
     {
-      "file": "fixture/abyss_ui_unified_probe.lua",
-      "sha256": "4311b9a322c3b8beeff2a4b84a18548bae972dcd9edbc67c4ac1e723147839f0",
-      "bytes": 4728
+      "file": "fixture/abyss_ui_unified_probe.lua.gz",
+      "sha256": "fcb96b02ffe2cf143d49c9dc5cf1e557b393a59140fe74ab5d5976bbdf95eec1",
+      "bytes": 1541
     },
     {
       "file": "fixture-offline-entry.json",
@@ -42,9 +42,9 @@
       "bytes": 2402
     },
     {
-      "file": "historical-red/exact-damage-negative.log",
-      "sha256": "f713c827a7a3d76352445211c71cf760882e25c26579f2bc2d686d5c4aacc93f",
-      "bytes": 539
+      "file": "historical-red/exact-damage-negative.log.gz",
+      "sha256": "499f3b05dc608dd686ba095b1f8d3b663ec749b4967d5469e68d6d22041adbac",
+      "bytes": 259
     },
     {
       "file": "historical-red/exact-damage-negative.lua",
@@ -52,39 +52,39 @@
       "bytes": 339
     },
     {
-      "file": "historical-red/exact-damage-red.log",
-      "sha256": "b01f0b8b4972408bf85001deedba5e97b659758bcd8949126e9e71b5a0820ddc",
-      "bytes": 557
+      "file": "historical-red/exact-damage-red.log.gz",
+      "sha256": "83fe5f96e512fa232595128b61dd27f05a50002468951bbd5228c545ab4a4cc3",
+      "bytes": 229
     },
     {
-      "file": "historical-red/integer-resources-red-corrected.log",
-      "sha256": "4920bb199121eb02e93ccca53fa0fa50567a024ce3f75f341258e4e7b1e2c2a3",
-      "bytes": 3374
+      "file": "historical-red/integer-resources-red-corrected.log.gz",
+      "sha256": "a571c7fa9a8185fe2e89f6b93952e16bce058224177e4670b846be7fb85186ad",
+      "bytes": 1437
     },
     {
-      "file": "historical-red/status-help-red.log",
-      "sha256": "e185a91fcbc4aabc902cef3a0576193180c82cfbdf1cbeaab1ac6dff8ab7e9f0",
-      "bytes": 513
+      "file": "historical-red/status-help-red.log.gz",
+      "sha256": "e768540a388072696ec89a2e4af98607d7f177d4d3a42ef2e19aede23af3eb56",
+      "bytes": 230
     },
     {
-      "file": "historical-red/TASK-10.7-original-problem.md",
-      "sha256": "056187cbc884eee882feeca3103e662b17c0aa7baa63f8774f64efaefd2a9f08",
-      "bytes": 2367
+      "file": "historical-red/TASK-10.7-original-problem.md.gz",
+      "sha256": "6327c8bd2bd541c12ae4f4086db8b512f6299b84779f9fb1ecc6331ea87a43b8",
+      "bytes": 1624
     },
     {
-      "file": "later-fix-local-only/hp-animation-green.log",
-      "sha256": "428a0b827eab32c797cc65e8787b03dc4473dc86eba243daf29cb6d6351ca48f",
-      "bytes": 2334
+      "file": "later-fix-local-only/hp-animation-green.log.gz",
+      "sha256": "21d1a4b8bca48065e35414af781b3a429e7e1b93e46399010d6f8b2f7fdcb9e6",
+      "bytes": 703
     },
     {
-      "file": "later-fix-local-only/hp-animation-red-final.log",
-      "sha256": "41460bf7496d6e16dba6634d8d56b08b687084250b404360d72c4c89c9d24c5a",
-      "bytes": 1459
+      "file": "later-fix-local-only/hp-animation-red-final.log.gz",
+      "sha256": "52faccf9719447294505fb1ea0e6afadc9376b0ef1a49b572d73a38d5d3cb97c",
+      "bytes": 707
     },
     {
-      "file": "later-fix-local-only/hp-animation-regressions.log",
-      "sha256": "9e5a578c6fa60fddb696d0881e7037a95db03e8cdcb832e182f2b981ca808376",
-      "bytes": 63132
+      "file": "later-fix-local-only/hp-animation-regressions.log.gz",
+      "sha256": "ba2e1474142561c013bb68eb6425428c63d7ce0ca63818475f637ad8bb0580c2",
+      "bytes": 6694
     },
     {
       "file": "log-decoded.json",
@@ -93,8 +93,8 @@
     },
     {
       "file": "manifest.json",
-      "sha256": "77e9262bbe3460550614bf7821a7349f2fba254e9860f50208114db080400626",
-      "bytes": 329532
+      "sha256": "314879266fabee3ce3cce1f60c54ae2989988a3d4efd82e7bcbb6e7b6453b460",
+      "bytes": 336102
     },
     {
       "file": "official-script-readback.json.gz",
@@ -118,23 +118,33 @@
     },
     {
       "file": "README.md",
-      "sha256": "9a24e9d8ca65195358a967670628d0c7d6692877a549804f30c9805fa28324f9",
-      "bytes": 1252
+      "sha256": "5b02889c209a78c14a54a7e3509b214feecd1261ac44d5767dd2107cca8b9580",
+      "bytes": 1684
+    },
+    {
+      "file": "repair-byte-storage.py",
+      "sha256": "4ee855e81df1de6bf3240aa7aeb95c754651fe88ec2e814f0cb90743e14d8287",
+      "bytes": 9319
     },
     {
       "file": "report.json",
-      "sha256": "6df4f6fd42d568289c4c89f461d01ffa2b8130ce67b737558791883b2bebd356",
-      "bytes": 6741
+      "sha256": "500913b965c74499217733b81e2bb3fd392dd85fc8aef499bcff69bed4f15ff5",
+      "bytes": 6849
     },
     {
       "file": "report.md",
-      "sha256": "a9e2776345b3b96db5ff727bde4d6a76b9b53252b795473612b0fbaed6ee75ba",
-      "bytes": 3743
+      "sha256": "bdb6f8ba8d1a90ae03781ff8290e1c091d5964b8a9082e224b7f9f634dee4a10",
+      "bytes": 4747
     },
     {
       "file": "reviews/block-live-review.json",
       "sha256": "38a8ab0553c8e946c01ebfc799a8bda8637e0827fdedd59ee09b7b92e8701f8b",
       "bytes": 5283
+    },
+    {
+      "file": "reviews/block-original-scope-final-review.json",
+      "sha256": "6b1a915c324cb2d56e7b12feff6b2ccf7447b5d4fe6cd048f4582ed5c9095e33",
+      "bytes": 12815
     },
     {
       "file": "reviews/preview-live-review.json",
@@ -157,14 +167,14 @@
       "bytes": 20640
     },
     {
-      "file": "run-request.json",
-      "sha256": "2e01862ae289ade0d079f42f25c8ae6d5a55a47ede787116cae64f97d78f14c6",
-      "bytes": 1499
+      "file": "run-request.json.gz",
+      "sha256": "dd8d1a7fa98cbf944591137c9037e560763231e4c71b81266d59f773c51fec8f",
+      "bytes": 599
     },
     {
-      "file": "run-status.json",
-      "sha256": "006622d875c0d9946bf169ba476a59123f3e3535bcb472bad6d482cedae6ac15",
-      "bytes": 134792
+      "file": "run-status.json.gz",
+      "sha256": "55f373095448ee503b192c41dcf80eeb7de4a8acc55292f0880c91cc089ac953",
+      "bytes": 9914
     },
     {
       "file": "screens/00-log-subscribed.jpg",
@@ -520,6 +530,16 @@
       "file": "session-log.gia",
       "sha256": "7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57",
       "bytes": 152602
+    },
+    {
+      "file": "storage-repair-verification.json",
+      "sha256": "fd012106e4d0a15b8e43d7630f73030ac4002268c5ed25a4be116a9aa395655b",
+      "bytes": 5374
+    },
+    {
+      "file": "user-acceptance-decision.json",
+      "sha256": "cfef79401ae5724f764e02e270ea94d043ad164f4b8e86a7087e0d7e05ebd320",
+      "bytes": 1653
     }
   ],
   "scope": "Every packaged file except this integrity file itself; original source hashes additionally live in manifest.json."

@@ -99,33 +99,25 @@
     ]
   },
   "originalProblemAndRedEvidence": {
-    "originalProblem": "historical-red/TASK-10.7-original-problem.md",
+    "originalProblem": "historical-red/TASK-10.7-original-problem.md.gz",
     "rawRegressions": [
-      "historical-red/exact-damage-negative.log",
+      "historical-red/exact-damage-negative.log.gz",
       "historical-red/exact-damage-negative.lua",
-      "historical-red/exact-damage-red.log",
-      "historical-red/integer-resources-red-corrected.log",
-      "historical-red/status-help-red.log"
+      "historical-red/exact-damage-red.log.gz",
+      "historical-red/integer-resources-red-corrected.log.gz",
+      "historical-red/status-help-red.log.gz"
     ],
     "scope": "Original problem and prior local red/negative regression artifacts. This live package did not run an old native client to manufacture a new red result."
   },
   "task4_1": {
-    "status": "FAIL_CURRENT_CANDIDATE",
-    "finding": "Live diagnostic run revealed flying-card animation covering the HP area. A production fix and a separately identified second candidate/run are required; this old run cannot certify the new fix.",
-    "review": "reviews/block-live-review.json",
-    "reviewerRecommendation": {
-      "ac1": "KEEP_UNCHECKED: complete-animation HP readability failed",
-      "ac2": "KEEP_UNCHECKED pending corrected-candidate verification; observed animation/cancel runs are recorded",
-      "ac3": "KEEP_UNCHECKED until corrected native candidate passes; current actual image is a valid defect reproduction"
-    },
-    "laterFixNotCertifiedByThisRun": {
-      "commit": "6d1a5ae",
-      "productionChanges": "Split card underlay from foreground banners/sweep. Preserve card path, timing, dimensions, fonts and all gameplay values.",
-      "redLog": "hp-animation-red-final.log",
-      "greenLog": "hp-animation-green.log",
-      "regressionLog": "hp-animation-regressions.log",
-      "nativeRetest": "REQUIRED on new candidate"
-    }
+    "status": "ACCEPTED_BY_USER_CURRENT_CANDIDATE",
+    "historicalReviewerStatus": "FAIL",
+    "historicalFinding": "Flying Defend transiently overlaps hero HP; original independent observation and original frames retained.",
+    "historicalReview": "reviews/block-live-review.json",
+    "userDecision": "user-acceptance-decision.json",
+    "decision": "User accepts normal flying-card overlap and existing6-layout/108-sample/6-cancellation block-badge evidence; do not delay M1 for this optional optimization.",
+    "secondRound": "CANCELLED_BY_USER",
+    "newFixNativeValidationClaimed": false
   },
   "wholeMilestone1": "NOT_CLOSED_BY_PACKAGING",
   "wholeUiGate": "NOT_CERTIFIED_BY_PACKAGING",
@@ -133,9 +125,12 @@
     "Explicitly injected status/block/preview fixture, not natural acquisition or a normal complete game.",
     "Synthetic callback events are not physical mouse or phone gesture proof.",
     "43 of54 individual status detail phases were pictured in the initial visual review; missing phases remain listed.",
-    "Runner succeeded and4/4 printed expectations do not override the real HP occlusion failure.",
-    "A later production fix has a different identity and needs separate new native verification."
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior."
   ],
   "selectedOriginalScreenshots": 68,
-  "completeRawFileCount": 549
+  "completeRawFileCount": 549,
+  "userAcceptanceDecision": "user-acceptance-decision.json"
 }

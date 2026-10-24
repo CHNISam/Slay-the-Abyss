@@ -1,0 +1,25 @@
+{
+  "recordType": "derived user acceptance decision; original independent reviews retained unchanged",
+  "recordedAt": "2026-10-24T07:03:28.474787+00:00",
+  "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+  "officialSaveId": "1073741841",
+  "candidateSha256": "01dd39274f42ddaccf73e68fdf7bcbe4986919f96c297e94e6d6c4483bef297a",
+  "authority": "Latest explicit user instruction relayed by the coordinating agent in this conversation,2026-10-24.",
+  "relayedInstruction": "正常飞牌动画短暂遮挡不算bug，不得小优化拖住M1；接受该表现并停止二轮。",
+  "historicalObservationPreserved": "The initial independent block review recorded flying Defend temporarily overlapping hero HP and marked FAIL. Its original images and reviewer record remain unchanged.",
+  "acceptedBehavior": "The user explicitly accepts ordinary flying-card transient overlap. It is not treated as a blocking defect or a reason to extend M1.",
+  "originalBlockBadgeEvidence": {
+    "layouts": 6,
+    "samples": 108,
+    "cancelledRestored": 6,
+    "sourceReview": "reviews/block-live-review.json",
+    "userAcceptsExistingEvidenceForOriginalRequirement": true
+  },
+  "task4_1Disposition": "ACCEPTED_BY_USER_ON_EXISTING_DIAGNOSTIC_CANDIDATE",
+  "secondRound": "CANCELLED_AS_UNNECESSARY_BY_USER",
+  "newRuntimeOptimization": "Not required for M1 acceptance; its Git history is preserved by the coordinator.",
+  "newNativeFixValidationClaimed": false,
+  "originalCandidateHashChanged": false,
+  "originalReviewerBytesChanged": false,
+  "scope": "This is an acceptance decision, not a fabricated new technical test or a replacement of the historical review."
+}

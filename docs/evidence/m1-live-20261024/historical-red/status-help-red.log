@@ -1,9 +1,0 @@
-Lua fixture tests/lua/status_help.lua: 823 ms
-...lder\.worktrees\m1-live-sprint\tests\lua\status_help.lua:19: non-attack intent must not display a status stack
-stack traceback:
-	[JS]: in function 'assert'
-	...lder\.worktrees\m1-live-sprint\tests\lua\status_help.lua:19: in local 'fn'
-	...lder\.worktrees\m1-live-sprint\tests\lua\status_help.lua:4: in local 'test'
-	...lder\.worktrees\m1-live-sprint\tests\lua\status_help.lua:17: in main chunk
-	[JS]: in function 'dofile'
-	(command line):1: in main chunk

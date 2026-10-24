@@ -14,19 +14,13 @@ test('feedback uses a fixed non-interactive native pool within the per-parent pl
     if (name !== 'hpGhost') assert.equal(pool[0].visible, false);
   }
   const overlay = stage().children.find(c => c.name === 'feedback');
-  const foreground = stage().children.find(c => c.name === 'feedbackForeground');
-  walk([overlay, foreground], control => assert.ok(!['cursorArea', 'presetButton'].includes(control.kind)));
+  walk([overlay], control => assert.ok(!['cursorArea', 'presetButton'].includes(control.kind)));
   // Polish adds exactly one shared area sweep; every other effect reuses the per-actor pool.
-  const sweep = foreground.children.filter(c => c.name === 'sweep');
+  const sweep = overlay.children.filter(c => c.name === 'sweep');
   assert.equal(sweep.length, 1);
   assert.equal(sweep[0].visible, false);
   assert.equal(sweep[0].image, theme.image.diamond);
-  assert.equal(overlay.children.length, 1);
-  assert.equal(foreground.children.length, 3);
-  for (const actor of actors) {
-    assert(stage().children.findIndex(c => c.name === overlay.name) < stage().children.findIndex(c => c.name === actor.name));
-    assert(stage().children.findIndex(c => c.name === foreground.name) > stage().children.findIndex(c => c.name === actor.name));
-  }
+  assert.equal(overlay.children.length, 4);
 });
 test('every actor has a status chip grid within platform limits and a portrait detail hit', () => {
   const si = theme.layout.statusIcon;
