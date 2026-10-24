@@ -940,6 +940,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if reason ~= "presentation_unavailable" then refresh() end
         return ok, reason
     end
+    local function processPotionReward(claim)
+        if not self.active or not self.run or self.busy or self.gesture or self.suppressClick then return false end
+        local ok,reason=(claim and Run.claimPotionReward or Run.skipPotionReward)(self.run)
+        notice(ok and (claim and "药水已放入背包。" or "已放弃药水。") or reasons[reason] or "当前无法处理药水。")
+        refresh()
+        return ok,reason
+    end
+    function self:claimPotionReward() return processPotionReward(true) end
+    function self:skipPotionReward() return processPotionReward(false) end
     local function point(event)
         if not event or type(event.GetUIPos) ~= "function" then return end
         local x,y = event:GetUIPos()
@@ -1089,10 +1098,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     for _,name in ipairs({'claimPotion','skipPotion'}) do
         local claim=name=='claimPotion'
         bind(name,function()
-            if not self.active or not self.run or self.busy then return end
-            local ok,reason=(claim and Run.claimPotionReward or Run.skipPotionReward)(self.run)
-            notice(ok and (claim and "药水已放入背包。" or "已放弃药水。") or reasons[reason] or "当前无法处理药水。")
-            refresh()
+            if claim then return self:claimPotionReward() end
+            return self:skipPotionReward()
         end)
     end
     bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)

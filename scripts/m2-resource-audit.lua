@@ -127,9 +127,15 @@ local function runSeed(seed)
             end
             if chosenOffer then
                 local gold,uid=run.gold,run.nextDeckUid
-                transaction('buy_card',function() return Nodes.buyCard(run,chosenOffer.id) end)
+                local function buy()
+                    if Nodes.buyCardSlot and chosenOffer.slot then return Nodes.buyCardSlot(run,chosenOffer.slot) end
+                    return Nodes.buyCard(run,chosenOffer.id)
+                end
+                transaction('buy_card',buy)
                 assert(run.gold==gold-chosenOffer.price and run.deck[#run.deck].uid==uid)
-                if not run.nodeFlow.shopRng then reject('duplicate_buy_card',function() return Nodes.buyCard(run,chosenOffer.id) end) end
+                local restocks=false
+                for _,id in ipairs(run.relics) do if id=='courier' then restocks=true end end
+                if not restocks then reject('duplicate_buy_card',buy) end
             end
             view=Nodes.view(run,map).node
             if not result.coverage.remove_card and view.removeAvailable and run.gold>=view.removePrice then
@@ -165,8 +171,9 @@ local function runSeed(seed)
             transaction('event_'..id..'_'..choice,function() return Nodes.chooseEvent(run,choice,uid) end)
             reject('duplicate_event',function() return Nodes.chooseEvent(run,choice,uid) end)
         elseif run.nodeFlow.type=='treasure' then
-            if chosen.roomKind=='boss_treasure' and Nodes.claimBossRelic then
-                transaction('boss_treasure',function() return Nodes.claimBossRelic(run,1) end)
+            if chosen.roomKind=='boss_treasure' and Nodes.claimBossTreasure then
+                transaction('boss_treasure',function() return Nodes.claimBossTreasure(run,1) end)
+                reject('duplicate_boss_treasure',function() return Nodes.claimBossTreasure(run,1) end)
             else transaction('treasure',function() return Nodes.claimTreasure(run) end)
                 reject('duplicate_treasure',function() return Nodes.claimTreasure(run) end)
             end

@@ -104,7 +104,8 @@ function P.suggestNodeAction(run,map,coverage,localDone)
                     local score=P.scoreCard(run,offer.id);if score>rank then best,rank=offer,score end
                 end
             end
-            if best then return {method='buyCard',id=best.id,coverage='buy_card'} end
+            if best then return {method=Nodes.buyCardSlot and best.slot and 'buyCardSlot' or 'buyCard',
+                id=best.id,slot=best.slot,coverage='buy_card'} end
         end
         if not coverage.remove_card and view.removeAvailable and run.gold>=view.removePrice then
             for _,card in ipairs(run.deck) do if card.cardId=='strike' then
@@ -129,7 +130,7 @@ function P.suggestNodeAction(run,map,coverage,localDone)
         end
         return {method='chooseEvent',choice=choice,uid=uid}
     elseif flow.type=='treasure' then
-        return {method=flow.roomKind=='boss_treasure' and 'claimBossRelic' or 'claimTreasure',index=1}
+        return {method=flow.roomKind=='boss_treasure' and 'claimBossTreasure' or 'claimTreasure',index=1}
     end
 end
 return P

@@ -34,6 +34,10 @@ report.source = { sha: git('rev-parse', 'HEAD'), dirty: git('status', '--porcela
 for (const dir of ['src/lua', 'data']) for (const file of readdirSync(dir).filter(file => /\.(lua|json)$/.test(file))) {
   report.source.files[`${dir}/${file}`] = sha256(readFileSync(`${dir}/${file}`));
 }
+for (const file of ['data/presentation/ui_theme.json', 'scripts/m2-autoplay-policy.lua',
+  'scripts/m2-resource-audit.lua', 'scripts/m2-resource-evidence.mjs']) {
+  report.source.files[file] = sha256(readFileSync(file));
+}
 report.executedAt = new Date().toISOString();
 report.command = `node scripts/m2-resource-evidence.mjs ${args.join(' ')}`.trim();
 mkdirSync(dirname(output), { recursive: true });

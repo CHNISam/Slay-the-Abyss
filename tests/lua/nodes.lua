@@ -341,7 +341,11 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
         local node = Nodes.available(run, map)[1]; seen[node.type] = true
         assert(Nodes.enter(run, map, node.id)); equal(#Nodes.available(run, map), 0)
         if run.phase == "combat" then
-            finishBattle(run); assert(Run.claimCardReward(run, 0))
+            finishBattle(run)
+            -- This one-HP navigation fixture declines bottles explicitly; the
+            -- normal-data resource route exercises acquisition and full belts.
+            if run.rewards.potion then assert(Run.skipPotionReward(run)) end
+            assert(Run.claimCardReward(run, 0))
             local ok, result = Nodes.completeCombat(run, map); assert(ok)
             if node.type == "boss" then equal(result, "boss_victory") end
         elseif node.type == "camp" then assert(Nodes.rest(run))
