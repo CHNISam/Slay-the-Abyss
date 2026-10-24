@@ -78,26 +78,34 @@ export function nodeLayout(theme = nativeTheme) {
 
   const shop = layout.shop, relic = shop.relics;
   const removal = framed('removal', shop.removal, null, { children: [
-    picture('icon', [0, 50, 56, 56], icon.remove, color.textDim),
-    text('name', frame([0, -6], [shop.removal[2] - space.l, lineHeight]), '移除一张卡牌', font.label, color.text),
-    text('description', frame([0, -60], [shop.removal[2] - space.l, lineHeight + space.l]), '', font.small, color.textDim),
+    picture('icon', [-48, 32, 24, 24], icon.remove, color.textDim),
+    text('name', frame([12, 32], [110, lineHeight]), '移除一张牌', font.small, color.text),
+    text('description', frame([0, -16], [shop.removal[2] - space.l, 64]), '', font.small, color.textDim),
   ] });
-  const shopControls = [arrow('previous', shop.previous, icon.back), arrow('next', shop.next, icon.next),
-    text('page', shop.page, '', font.small, color.textDim), removal, price('removalPrice', shop.removal[0], shop.priceY)];
+  const shopControls = [hidden(arrow('previous', shop.previous, icon.back)), hidden(arrow('next', shop.next, icon.next)),
+    text('page', shop.page, '', font.small, color.textDim), removal, price('removalPrice', shop.removal[0], shop.removalPriceY)];
   shop.columns.forEach((x, i) => shopControls.push(card(`card${i + 1}`, [x, shop.cardY]), price(`price${i + 1}`, x, shop.priceY)));
   relic.columns.forEach((x, i) => {
-    const [w, h] = relic.size, left = -w / 2 + space.l + relic.disc / 2, start = left + relic.disc / 2 + space.m;
-    const textX = (start + w / 2 - space.m) / 2, textW = w / 2 - space.m - start;
+    const [w, h] = relic.size, left = -w / 2 + space.l + relic.disc / 2;
     const tile = framed(`relic${i + 1}`, [x, relic.y, w, h], null, { children: [
-      { ...plate('disc', frame([left, 0], [relic.disc, relic.disc]), color.panelSunken), image: image.disc },
-      picture('icon', [left, 0, relic.disc - space.l, relic.disc - space.l], icon.node.treasure, color.geo),
-      text('name', frame([textX, h / 4], [textW, lineHeight]), '', font.body, color.text),
-      text('description', frame([textX, -h / 4], [textW, lineHeight]), '', font.small, color.textDim),
+      { ...plate('disc', frame([left, h/4], [relic.disc, relic.disc]), color.panelSunken), image: image.disc },
+      picture('icon', [left, h/4, relic.disc, relic.disc], icon.node.treasure, color.geo),
+      text('name', frame([20, h/4], [94, lineHeight]), '', font.small, color.text),
+      text('description', frame([0, -h/6], [w-space.l, 60]), '', font.small, color.textDim),
       hidden(plate('veil', frame([0, 0], [w, h]), color.backdropVeil)),
     ] });
     shopControls.push(tile, price(`relicPrice${i + 1}`, x, relic.priceY));
   });
-  shopControls.push(arrow('relicPrevious', shop.relicPrevious, icon.back), arrow('relicNext', shop.relicNext, icon.next));
+  shop.potions.columns.forEach((x,i) => {
+    const [w,h]=shop.potions.size;
+    shopControls.push(framed(`potion${i+1}`, [x,shop.potions.y,w,h], null, { children: [
+      picture('icon', [-44,h/4,32,32], icon.potion.fire_potion, color.text),
+      text('name', frame([20,h/4],[94,lineHeight]), '', font.small, color.text),
+      text('description', frame([0,-h/6],[w-space.l,60]), '', font.small, color.textDim),
+      hidden(plate('veil', frame([0,0],[w,h]), color.backdropVeil)),
+    ] }), price(`potionPrice${i+1}`,x,shop.potions.priceY));
+  });
+  shopControls.push(hidden(arrow('relicPrevious', shop.relicPrevious, icon.back)), hidden(arrow('relicNext', shop.relicNext, icon.next)));
 
   const picker = layout.picker, previewY = picker.previewY;
   const pickerControls = [arrow('previous', picker.previous, icon.back), arrow('next', picker.next, icon.next),

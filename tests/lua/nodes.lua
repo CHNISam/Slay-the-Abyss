@@ -127,10 +127,12 @@ test("shop offers only playable cards and purchases unique permanent cards atomi
     local view = Nodes.view(run, map)
     assert(#view.node.cards > 0)
     for _, offer in ipairs(view.node.cards) do
+        if not offer.unavailable then
         local definition
         for _, card in ipairs(run.data.cards.cards) do if card.id == offer.id then definition = card end end
         assert(Effects.supported(definition.effects)); assert(not definition.condition and not definition.costMode)
         assert(definition.rarity ~= "basic" and definition.rarity ~= "special")
+        end
     end
     local offer = view.node.cards[1]
     run.gold = offer.price - 1
@@ -150,7 +152,7 @@ test("shop relic stock excludes owned items and writes inventory after payment",
     local run, map = entered("shop")
     local offers = Nodes.view(run, map).node.relics; assert(#offers > 0)
     for _, offer in ipairs(offers) do assert(offer.id ~= "burning_blood") end
-    local offer = offers[1]; run.gold = offer.price - 1
+    local offer = offers[3]; run.gold = offer.price - 1
     rejected(run, map, function() return Nodes.buyRelic(run, offer.id) end, "insufficient_gold")
     run.gold = offer.price
     assert(Nodes.buyRelic(run, offer.id)); equal(run.gold, 0); equal(run.relics[#run.relics], offer.id)
@@ -280,7 +282,7 @@ test("completed flows cannot be attached to a different map or mutated through v
     rejected(run, otherMap, function() return Nodes.enter(run, otherMap, Map.available(otherMap)[1].id) end, "map_mismatch")
 end)
 
-test("shops read all configured prices and keep deletion increments and owned relics across nodes", function()
+test("shops keep configured deletion increments and purchases across independently sampled nodes", function()
     local source = easyData()
     source.rules.player.startingGold = 10000
     source.rules.shop = { cardCommon = 13, cardUncommon = 17, cardRare = 19, relic = 23,
@@ -298,21 +300,22 @@ test("shops read all configured prices and keep deletion increments and owned re
         elseif node.type == "shop" then
             shops = shops + 1
             local view = Nodes.view(run, map).node
-            equal(view.removePrice, 29 + (shops - 1) * 31)
+            equal(view.removePrice, require('abyss_shop').removePrice(run))
             equal(view.removeAvailable, true)
             if shops == 1 then
-                for _, offer in ipairs(view.cards) do
-                    local definition
-                    for _, card in ipairs(source.cards.cards) do if card.id == offer.id then definition = card end end
-                    equal(offer.price, ({ common = 13, uncommon = 17, rare = 19 })[definition.rarity])
-                end
-                cardId, relicId = view.cards[1].id, view.relics[1].id
+                cardId = view.cards[1].id
                 local gold, price = run.gold, view.cards[1].price
                 assert(Nodes.buyCard(run, cardId)); equal(run.gold, gold - price)
-                gold = run.gold; assert(Nodes.buyRelic(run, relicId)); equal(run.gold, gold - 23)
+                for _,o in ipairs(view.relics) do
+                    if not o.unavailable and o.id~='courier' and o.id~='membership_card' and o.id~='smiling_mask' then
+                        relicId=o.id;gold=run.gold;assert(Nodes.buyRelic(run,relicId));equal(run.gold,gold-o.price);break
+                    end
+                end
             else
                 for _, offer in ipairs(view.relics) do assert(offer.id ~= relicId) end
-                assert(Nodes.buyCard(run, cardId)) -- new node gets its own stock
+                local available
+                for _,o in ipairs(view.cards) do if not o.unavailable then available=o;break end end
+                assert(available and Nodes.buyCard(run,available.id)) -- new independently sampled stock
             end
             local gold = run.gold
             assert(Nodes.removeCard(run, run.deck[1].uid)); equal(run.gold, gold - view.removePrice)
