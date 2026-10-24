@@ -1,0 +1,1026 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "hashEncoding": "exact archive bytes, UTF-8 with source LF",
+  "files": {
+    "helpers/RelicLibrary.java": {
+      "sha256": "e0fed2c9c4559dcf0bf3a19190a46af09a3300a9741757cc62550fdc5889874c",
+      "gitBlob": "12e7dcb60c32be44237d226c611c18e860c6a50e",
+      "bytes": 33191
+    },
+    "relics/Abacus.java": {
+      "sha256": "5274d6820601725bb16b93154a3bd934c4e13a31b1b6f2889fa456c08991ef8d",
+      "gitBlob": "7dcf3160a1deabe5a9c97ffce8a610a8b2831814",
+      "bytes": 1124
+    },
+    "relics/Akabeko.java": {
+      "sha256": "a7cc0b9c09e60cc6c612568e756285dae521271784b4d8a2b2dfcf43dedd2149",
+      "gitBlob": "d86c24e11167b68dd2bc76c07169fa032ce45d92",
+      "bytes": 1159
+    },
+    "relics/Anchor.java": {
+      "sha256": "4986383e75f8cf68f7f8abe5fbc49fcb335bb647cb460bf4590ca22c28b0b358",
+      "gitBlob": "ac5b096a6a9adf4217e68170e8e2dd55256eb59f",
+      "bytes": 1317
+    },
+    "relics/AncientTeaSet.java": {
+      "sha256": "f531d420b0d2cc6f5c4e96ef73eb225c52e45f28be532442ae4f0de11b42e5ae",
+      "gitBlob": "d1e23ec3f4811f2b37e52df562611aff09e09ae5",
+      "bytes": 2440
+    },
+    "relics/ArtOfWar.java": {
+      "sha256": "3e161957d440222c1ef779c4636ed903ab1dc9668362df4fecb3bffdcaaf40c8",
+      "gitBlob": "08b5d6814b2a6d0a3b8f74a55955d695aff838c7",
+      "bytes": 2555
+    },
+    "relics/Astrolabe.java": {
+      "sha256": "245a8ffc9cae98ebda447c6534c1b76c7762e529099175c10433457b901d3dfb",
+      "gitBlob": "a56b4bdf139884fd6cf255cda840517c49f31728",
+      "bytes": 3089
+    },
+    "relics/BagOfMarbles.java": {
+      "sha256": "fde07b2c796ae5110779eebb974217d5d4468cadacdf5155f87ae9856c3b7172",
+      "gitBlob": "c6a16354d8e7930f77963447cbae9fd09c58abf1",
+      "bytes": 1449
+    },
+    "relics/BagOfPreparation.java": {
+      "sha256": "58e487c9e94fc83e97372cf2686500f901b405c72385666196c66d1c245b8df0",
+      "gitBlob": "df4f68457cf1f5974a808830d2c46416d953eea5",
+      "bytes": 1076
+    },
+    "relics/BirdFacedUrn.java": {
+      "sha256": "1dfed44bacc34ddc626f11e50a50253afa7100b45d89a6643b691e8532ac535a",
+      "gitBlob": "8219a2431393955defcb15ebd1ddfff20408e22e",
+      "bytes": 1295
+    },
+    "relics/BlackStar.java": {
+      "sha256": "74308ad3606083cb7055b0b508fadd523e77934a7a9824342a473371ce233f0e",
+      "gitBlob": "b46071a18679f16cf7377d861b21455703ff5f58",
+      "bytes": 1146
+    },
+    "relics/BloodVial.java": {
+      "sha256": "f442eb8c42dbfbc22c8fcf77bdcccf7c638500a91d8a4e043db187bb51ed95b4",
+      "gitBlob": "48dfb0b6941453061f940a93bd97040a27788c9c",
+      "bytes": 1071
+    },
+    "relics/BloodyIdol.java": {
+      "sha256": "a0e2df9fb4df47adbdecfa6f85450f20a16673cb2f1d8ff6c54857267fd44743",
+      "gitBlob": "f791837ce50880e0286b398f68a2d84a5ceebad1",
+      "bytes": 969
+    },
+    "relics/BlueCandle.java": {
+      "sha256": "3f4745b871f7fe98057c782362f8ff6b64f898561b6e3388c25997054632f01a",
+      "gitBlob": "5860f263782c5fcc46203296e0593b8141b1f2e5",
+      "bytes": 1337
+    },
+    "relics/Boot.java": {
+      "sha256": "6ec0f798900aa64140cc307f6247275acf38f49059e12002889ffb73d425db2d",
+      "gitBlob": "330b22f2a1070266f5e1784ae5d3ee33f7ab4d91",
+      "bytes": 1212
+    },
+    "relics/BottledFlame.java": {
+      "sha256": "fc553fe0e7dee00231eaa39fe31d0c90d7f27a9ca2874795e9625c2152954d11",
+      "gitBlob": "5aa4670069c002c7a9a6c5e68a93ce942d526f2a",
+      "bytes": 3613
+    },
+    "relics/BottledLightning.java": {
+      "sha256": "8bbb65a76267bee3c035b952057597cb165a5ef8151d49a2e44eec61f98be6b0",
+      "gitBlob": "703c32b7702502ab202810cb969098e05d739425",
+      "bytes": 3638
+    },
+    "relics/BottledTornado.java": {
+      "sha256": "3f7c8f3387abbc119bb8a80936ce6a99c53f301d3777f48f677e9bcdcea0855e",
+      "gitBlob": "d6dc8f789ffa8202c4d6fe1c3360aa1a560045af",
+      "bytes": 3502
+    },
+    "relics/BronzeScales.java": {
+      "sha256": "4d1bee3e37f208a5bfd50842cd9ede9097b9ee6c59e6e5b07bb6946032da7ac7",
+      "gitBlob": "3f09ec547ae46010ab64d3225958e2c8ba0b9840",
+      "bytes": 1026
+    },
+    "relics/BustedCrown.java": {
+      "sha256": "d5898ec2c64b3d3ec0d0c3e7f244e41ec1b77aeba3b69ff4c8da991859fb9d5d",
+      "gitBlob": "b01cd5f362c1e52f77df31d2f90a015e37589651",
+      "bytes": 1630
+    },
+    "relics/Calipers.java": {
+      "sha256": "828d5ecc097cb7f28405611262dbaa72752022f4c9f6382a1875981d9da7eeb1",
+      "gitBlob": "e6ee6e7e6870f6249c0af21fc7734b301baba324",
+      "bytes": 622
+    },
+    "relics/CallingBell.java": {
+      "sha256": "8ce46d4d2051de0c6693e6f343787a58dce3713f581e7546ef92272e765ca4f4",
+      "gitBlob": "7a6f167addd8f817fc6ff14ecfdf7d72de6c357a",
+      "bytes": 2732
+    },
+    "relics/CaptainsWheel.java": {
+      "sha256": "855d616e28d280084fe0da4680c14af97dd2f7945300a3b13db2b4dc04341aa9",
+      "gitBlob": "50d74c39cdd57421809680eeedd0e6050bb865f8",
+      "bytes": 1546
+    },
+    "relics/Cauldron.java": {
+      "sha256": "123d3e9e9e8ed54763caa3641bff1b30fb774c449dd538abcfe088873bb00709",
+      "gitBlob": "8eebde015848ba83f12472d88202f2472c31513e",
+      "bytes": 1423
+    },
+    "relics/CentennialPuzzle.java": {
+      "sha256": "b1069310819ff2fdd812467a1d0f461d9d40cea376e244268dfdc270217dd56e",
+      "gitBlob": "d90f52999b180df687297b2f5daa9f9f990020b8",
+      "bytes": 1765
+    },
+    "relics/CeramicFish.java": {
+      "sha256": "bf8a18d2488d17304a0c9bd153c42898065aa00cbecb424cd1e59e66b2d6fa1c",
+      "gitBlob": "77b06f9a3cfb60ac52b8f4d8a4670c0c2fb139f1",
+      "bytes": 1243
+    },
+    "relics/ChemicalX.java": {
+      "sha256": "531c458f7a88debb7abba11d6a713e30964627f97ff89381f3b9a50f8498543a",
+      "gitBlob": "0061afa044b9e7a11abdf32f6af1b60c74fb55b2",
+      "bytes": 811
+    },
+    "relics/ClockworkSouvenir.java": {
+      "sha256": "b0d5eaeeea47a5d23a5301805266a1b605b37c5893311dcd95fa157d1f30ce44",
+      "gitBlob": "07fb1d3e82708d6de77b4467040a51da392aec01",
+      "bytes": 976
+    },
+    "relics/CoffeeDripper.java": {
+      "sha256": "555a94cf161d24a196a01aa27ed2e99746eb07e1aec86a8797e4a34a1dd0b3ad",
+      "gitBlob": "c3a4cd56ad6adae88e02b27e3fdeb8db78130b2f",
+      "bytes": 1914
+    },
+    "relics/Courier.java": {
+      "sha256": "5283e08649c0477f78f0b76e060f0504e2d79e310b665585530051727d88af8b",
+      "gitBlob": "76d740c3145cff9614cd3f2e91c93676cacd3670",
+      "bytes": 1203
+    },
+    "relics/CultistMask.java": {
+      "sha256": "06e998d57429f765f0ad8111afb4fa87027d06c3d7dfd6fd88824b8f3abfdfee",
+      "gitBlob": "667f59cd781c9f5cebb3688956ac772954b3e75e",
+      "bytes": 1106
+    },
+    "relics/CursedKey.java": {
+      "sha256": "193182ca300dccea9aef8487a2cd9204eee4bdcb9da3d4ba344fb095915768a0",
+      "gitBlob": "14a1a33afe7affaee803a8f82df6db421dc5a79a",
+      "bytes": 2324
+    },
+    "relics/DarkstonePeriapt.java": {
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde",
+      "gitBlob": "7cff88ec76f796024b9b8f7bb567215dd14d1933",
+      "bytes": 1434
+    },
+    "relics/DeadBranch.java": {
+      "sha256": "dbace8181345b67bb9c704b83dea61c9754c3268fc5d93c192f1bd47908c2d6f",
+      "gitBlob": "cdfaea6ce7c91ce4e95a467edef1d1d81b71a2a8",
+      "bytes": 1195
+    },
+    "relics/DollysMirror.java": {
+      "sha256": "217331b13ed72139028ef90da67da1ee5153b6ebc29358c743abc14115deed00",
+      "gitBlob": "584e543a3995e5ff8e7e0ef42694f8b27ba9c73f",
+      "bytes": 2204
+    },
+    "relics/DreamCatcher.java": {
+      "sha256": "9200ea143475b2abbc3fee50462fe2e12cfc9bcc7f13b92d91d48ba94062a528",
+      "gitBlob": "e94d4820190320e07b79510c99ccac56834a3317",
+      "bytes": 797
+    },
+    "relics/DuVuDoll.java": {
+      "sha256": "ee65de1fbb3148200fef2aaff6b65937ee5c131174bccc7a744a31cac9714ff5",
+      "gitBlob": "bca43719d7d31d1c64ac1164ef420755fff3354b",
+      "bytes": 2994
+    },
+    "relics/Ectoplasm.java": {
+      "sha256": "717861865521c87b8b3dfbfd94a33a336ee968ce728a1f011f87dafb9471a7d7",
+      "gitBlob": "013800d6b5c62fc216c0b5f3c064a9f6f88a3f8e",
+      "bytes": 1551
+    },
+    "relics/EmptyCage.java": {
+      "sha256": "8367783324c879841e59d1d4c8021381dc4111db629f08599447bd06e459fbab",
+      "gitBlob": "3788f022c18e98b5ecdc19505e8a46ac1c103b11",
+      "bytes": 2826
+    },
+    "relics/Enchiridion.java": {
+      "sha256": "1d3ced35ff60c63d6b532e21acdbcf396a96577c2b57c80a6059c73c2784e6f2",
+      "gitBlob": "db604eb5f4f62d96f149a6d8b6bde8815e2a2139",
+      "bytes": 1157
+    },
+    "relics/EternalFeather.java": {
+      "sha256": "5873f80f388a6dc2832852a763497e9c6d54d42901d34e541cb8bbec5f0eef53",
+      "gitBlob": "1f030951c8263f87e91bf3f070d80137e0a01fa4",
+      "bytes": 1075
+    },
+    "relics/FaceOfCleric.java": {
+      "sha256": "a9b6ad33e655ec200adc897ce8cd2186fe1c9bfeccadbadf2fc8aefbca0c454e",
+      "gitBlob": "2abfab8230bf3a0bd17498ce12918808fada3339",
+      "bytes": 754
+    },
+    "relics/FossilizedHelix.java": {
+      "sha256": "38abbfbf2078e8beb032963b01f574dec99a36c3a33c28a06e2564661596bffa",
+      "gitBlob": "ceb27158187494329c9c4e833e5cc9a410fe8b36",
+      "bytes": 1301
+    },
+    "relics/FrozenEgg2.java": {
+      "sha256": "0f6c1e60f11ff22d6fa343128d1740947a6a53efb2042f76782a2d1dbf6b8c2e",
+      "gitBlob": "0514c731b6de152621d5ec09c870e0a474a00abd",
+      "bytes": 1476
+    },
+    "relics/FrozenEye.java": {
+      "sha256": "82896453f8e5a96a919d97db0fd006c269503338b191bb3b04199dc5da3b5900",
+      "gitBlob": "28d32ca14bc0a009494c9f03b450bfce831b440d",
+      "bytes": 555
+    },
+    "relics/FusionHammer.java": {
+      "sha256": "bf2f5ad2864cb9188d27f5a17bb7788becefb6e6410ae2b66ad1affb85b84623",
+      "gitBlob": "e5f528bb27cd535a20e22c47e6fb47cea51edd88",
+      "bytes": 1911
+    },
+    "relics/GamblingChip.java": {
+      "sha256": "04a624dc2e08c2e8ce6ef39e17b0159717be9e102f8e850dbf873792600fab1c",
+      "gitBlob": "f798154052fde214e0f7fcdbc0e3425411e2ae2e",
+      "bytes": 1219
+    },
+    "relics/Ginger.java": {
+      "sha256": "9f3b296e068c8a696990640096c01ad38f68ec66b28d110da8a5150dbd61cc44",
+      "gitBlob": "137b1d10ee9859f978a804592afe46d11174494e",
+      "bytes": 538
+    },
+    "relics/Girya.java": {
+      "sha256": "43fc9e0284c22024a9bbfc572ba6145cbc685a3cec516ffe15f1aa5868dcc920",
+      "gitBlob": "17d7ef3a3bfb2901b592bfd542a8fc2aeb7d303f",
+      "bytes": 2115
+    },
+    "relics/GoldenIdol.java": {
+      "sha256": "063065e1da41f27eb786b89935bd0ec32be4c7e93b59fa693eb2c92a3bb16dd4",
+      "gitBlob": "aba9ee2f79708cd8f7a14cd8007775102eb1db67",
+      "bytes": 618
+    },
+    "relics/GremlinHorn.java": {
+      "sha256": "61354492b5a2db332925153d70afa0995af4c9a5563242ebed5afb403b7e6b17",
+      "gitBlob": "2743695474dbe1497b86afa3ad9aa34837faa9a8",
+      "bytes": 1945
+    },
+    "relics/GremlinMask.java": {
+      "sha256": "774416b12f4ee6572ef15f1716549f9f47c17dc4d9287369f2ef459d92cae4f3",
+      "gitBlob": "a03fa01d6cc74b1137331898c22f7b217eeebb3c",
+      "bytes": 1110
+    },
+    "relics/HandDrill.java": {
+      "sha256": "ad963a8a161f0e956d56853895d85759eade8639bd3c8c9d27f3f4c5e1af93d5",
+      "gitBlob": "2c54062b3a49330b4d494ae4af0efacf080ce239",
+      "bytes": 1160
+    },
+    "relics/HappyFlower.java": {
+      "sha256": "5429390e02823690905578f63e5fd22c0578886b6220fc84b8b4fa1a60d79e2d",
+      "gitBlob": "a9c7a6d2311d2861e4e2c1aacec17b8cd451e03c",
+      "bytes": 1933
+    },
+    "relics/HornCleat.java": {
+      "sha256": "dd1d8c0d3ef2ece2e4165f6a78b2e88517e9bc6d7f87578e0a3a5033080452d0",
+      "gitBlob": "c064a07ebb04df597a809629a8cc1f401d9ac46e",
+      "bytes": 1532
+    },
+    "relics/IceCream.java": {
+      "sha256": "579ed7713500763feb5a9d651a585c34e91c3d33bb544252c582a4b906cd716f",
+      "gitBlob": "c65239822be05d194293349e8437bc4916c16469",
+      "bytes": 549
+    },
+    "relics/IncenseBurner.java": {
+      "sha256": "b06bcba92f86d7f5130e0f48071fb1ac5033834295cd894170d1311ab786fbe2",
+      "gitBlob": "916fbb507f5591b89095074351888c7d57d1c124",
+      "bytes": 1401
+    },
+    "relics/InkBottle.java": {
+      "sha256": "a65bdae94d227d95c66eec058b70ee3d596ce01a97851fe82c56338a09732be2",
+      "gitBlob": "68e91e6c6ab3fee6d5b76a4d96266c57f8b0d21e",
+      "bytes": 1570
+    },
+    "relics/JuzuBracelet.java": {
+      "sha256": "27a57f3303212ce7216c66ab7672286436cab8e396b31b64451171ad5179dd97",
+      "gitBlob": "c3191cc3fbf90b8d1595761919e6177fb7763dd4",
+      "bytes": 797
+    },
+    "relics/Kunai.java": {
+      "sha256": "342a886bb5af0e8b80ba692306b12b161a229566bf395ed7b960cd11616412a2",
+      "gitBlob": "18b6ba80c9f31cc83544b462933bb3bba57f0fd6",
+      "bytes": 1735
+    },
+    "relics/Lantern.java": {
+      "sha256": "9769d3b271374e6035793319ca783613b4c5067885c9307fc7d3ac4e8fcdb40e",
+      "gitBlob": "d475146ac9eb3253e14b75abf50b6cd1cc14c14f",
+      "bytes": 1954
+    },
+    "relics/LetterOpener.java": {
+      "sha256": "bd0b62e40b2064af6f7415be77c575990b608a2d3ebbf4f2ae2fdf794bdceba6",
+      "gitBlob": "6943a71986368a7fe40b2cfdc8bc2dabfb0e24ed",
+      "bytes": 1786
+    },
+    "relics/LizardTail.java": {
+      "sha256": "9ee5bd6aad4aa34a4d79cdd69f97160913b71d0f9e727f9ae8d7b26e2f281b90",
+      "gitBlob": "a76788838fa438e6f98bd284e5633d69ba2d950e",
+      "bytes": 1214
+    },
+    "relics/Mango.java": {
+      "sha256": "670553fc34c9819d0c6bae2bd0b1f664185a0329bea2d5e88d5a62036941ded4",
+      "gitBlob": "4764f9155ae84801994798f2ca32bed33fa4f6bd",
+      "bytes": 828
+    },
+    "relics/MarkOfTheBloom.java": {
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434",
+      "gitBlob": "4e0567e0376a2a68107b6664a76533db2c4bddfd",
+      "bytes": 685
+    },
+    "relics/Matryoshka.java": {
+      "sha256": "18f56dcf6cf8be165550846d67dcafdbe87ffb1a4759cf0178ea1c40c2fdfc14",
+      "gitBlob": "70e74ed4615a181e05e95409374c705fba863c30",
+      "bytes": 1870
+    },
+    "relics/MawBank.java": {
+      "sha256": "273fc7f610adf3ca8114c4dbf7bcff1da719138a0c357fc538a4e7491030d917",
+      "gitBlob": "ae8c105165a9ebbb095e5336cae2a72a7f7c7ef8",
+      "bytes": 1526
+    },
+    "relics/MealTicket.java": {
+      "sha256": "d64a626e79522648dab9d361b614b653b17eca9f7198cf1eaa643597239e08c7",
+      "gitBlob": "843a4733cb95ce4d3124e92163c38f6275bb01a6",
+      "bytes": 1303
+    },
+    "relics/MeatOnTheBone.java": {
+      "sha256": "7f4f808bc1898ee41a2e79982bb45a1cca5a0e8d284d73b07175fc2de97083b5",
+      "gitBlob": "7a152348b2fd675cfa7c25e910757bc898aba5ab",
+      "bytes": 1546
+    },
+    "relics/MedicalKit.java": {
+      "sha256": "d59ad0637e6651a9914a55d20b8c786a386f4895377738341178391018ff2634",
+      "gitBlob": "e62884b53fcd91c388b96025bc2f24c0e8a9f2a0",
+      "bytes": 1015
+    },
+    "relics/MembershipCard.java": {
+      "sha256": "36d16ca593c99a94f797b80302db072755d5577174f7cc8b3479dd96ed523b3a",
+      "gitBlob": "dde9b09847af75d38e113e90d2d885999fb6fd9f",
+      "bytes": 953
+    },
+    "relics/MercuryHourglass.java": {
+      "sha256": "5a7b2fd169e721a4be61cbde69d99d535f50945fe8096c08451c81379f4d0375",
+      "gitBlob": "28a3cbb1fd7dac8d2b4fb40c562824b27594ea0b",
+      "bytes": 1284
+    },
+    "relics/MoltenEgg2.java": {
+      "sha256": "415e68f17fd5fa4fb123344341c12adfa8318bc6a942c9c283f38341b035183f",
+      "gitBlob": "c08e2f0072cf72746785525fff54b569965d4c5d",
+      "bytes": 1476
+    },
+    "relics/MummifiedHand.java": {
+      "sha256": "48d8f5909f56fdbe6cf216bd60bcabeafe10082a3d3a760a769a855428db06a8",
+      "gitBlob": "d8f2085dbc598cbb513d00f3dba4647330078d65",
+      "bytes": 2609
+    },
+    "relics/MutagenicStrength.java": {
+      "sha256": "6406fb486c27d2b43ae919f84189825a0b675e7ad8bbeb0703c42e447e3ed536",
+      "gitBlob": "089bfe976e1d4a3dbae9e4a714d595fde9c9a9b3",
+      "bytes": 1429
+    },
+    "relics/Necronomicon.java": {
+      "sha256": "56411b7d95078cebc070ec5270ad1d03346cf6ca872bdbd8fbfe423a9a9343dc",
+      "gitBlob": "089d80d9f8c60a54b50e223a361f3bd16f638c03",
+      "bytes": 3335
+    },
+    "relics/NeowsLament.java": {
+      "sha256": "5e50ad24e9978828078619d789a0c4830e4a72c51e9b1bfb2799a7c7e69ea4cc",
+      "gitBlob": "74365e0991cb75c5bd3b1366bad1f286efe2a4e4",
+      "bytes": 1702
+    },
+    "relics/NilrysCodex.java": {
+      "sha256": "892d88cf117a5b525984c1f32bc4c5e4225ec7ac0225187470f0d6b024b0cf60",
+      "gitBlob": "8bf21e551d26a5e9436183dbd573360c1d6d4a66",
+      "bytes": 932
+    },
+    "relics/NlothsGift.java": {
+      "sha256": "94981b2c8cfa81a343a727235998e5afd3a307eff2e3ced2719c9783f7ef4237",
+      "gitBlob": "544ae415be6e8fe10243406c4dca8dcaa31bbf53",
+      "bytes": 732
+    },
+    "relics/NlothsMask.java": {
+      "sha256": "7dbfb6c5390e870ce11ff70627f731bd50d3c3fef9deeeb184847826a68ddd37",
+      "gitBlob": "e62b2d2b9e60b81b6f359426ab44a01668ba5a50",
+      "bytes": 1183
+    },
+    "relics/Nunchaku.java": {
+      "sha256": "dafa9d5af519123932a629b6eb2743b48cb5693a344bdc888519199d14e93f47",
+      "gitBlob": "5240258f3706b010bc772e49b08107235ca1245e",
+      "bytes": 1706
+    },
+    "relics/OddlySmoothStone.java": {
+      "sha256": "1380417fe10620488852063e37c1f9f1dfa7f03003bb101b829aff58387eed45",
+      "gitBlob": "316ae5f66edefe8115db341d3471420c33b70ce7",
+      "bytes": 1204
+    },
+    "relics/OddMushroom.java": {
+      "sha256": "bae781f3cce6428879fe784abf29a41ca26d6251a83d02e44530ef972d19edcb",
+      "gitBlob": "33cc1205c8b4cc6c2bf6e4853a48ad3f6b3c0cb4",
+      "bytes": 677
+    },
+    "relics/OldCoin.java": {
+      "sha256": "298fefbd5afdec4f63d7efae0b1344691208c15baced3e1d35fce74cf6d5e775",
+      "gitBlob": "d500c5df95542ae8492b01ef6ef87aca8e340c9b",
+      "bytes": 1109
+    },
+    "relics/Omamori.java": {
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f",
+      "gitBlob": "cdd7410338a2e8e9d8a08f51e0c8a4d596a4dcec",
+      "bytes": 1276
+    },
+    "relics/OrangePellets.java": {
+      "sha256": "532949f32e3bd1d164dacedc6c22579d47823c4f9109804748739837fd4bd806",
+      "gitBlob": "2f90ef01986cf08912529e720735b200051d3f5d",
+      "bytes": 1805
+    },
+    "relics/Orichalcum.java": {
+      "sha256": "8ee08427f57fe1b825510271d514dfff8c258dcd6eb86be5af29c74df2e4e1e3",
+      "gitBlob": "aa3fc9f8b734e574d9a60455a7f10781a5ab155b",
+      "bytes": 1840
+    },
+    "relics/OrnamentalFan.java": {
+      "sha256": "eefffc4c7de0ff85910884dd367773436038bdad965929078b5185f1ea2bc58a",
+      "gitBlob": "3012c5d4738677d912392870194a32226c1123ce",
+      "bytes": 1671
+    },
+    "relics/Orrery.java": {
+      "sha256": "fdce89eb48ad1b0239a675ca329d1369ecea9bff9d049210df4d079394562d90",
+      "gitBlob": "c5cf5f9d3e0b6a6145cd7c8ce8738e47d3ab661d",
+      "bytes": 889
+    },
+    "relics/PandorasBox.java": {
+      "sha256": "62e3efeb5a23b9f6ddb267b0302150a21293c5ddfb04c27d9fbd20bfccb87833",
+      "gitBlob": "08ada51acff0c0beb871a67e4bf9a214cb066e30",
+      "bytes": 2889
+    },
+    "relics/Pantograph.java": {
+      "sha256": "c7a4b198b0d8dbe9d3f884160c893cbf9f84c531d9395ba5e1ef650ac2437fd0",
+      "gitBlob": "e71329c5fb3674a1784a8c7cff0109a04b86f5bf",
+      "bytes": 1317
+    },
+    "relics/PeacePipe.java": {
+      "sha256": "feed8193be08a2baaa65ddd81ddcc78fb0a8911cd70e2923f48e85b307c2422e",
+      "gitBlob": "2f02d85db3cd3c855ca3103aebea8e198ac99271",
+      "bytes": 1626
+    },
+    "relics/Pear.java": {
+      "sha256": "3136851cc3cf007688e612a3e15ecec576bf3986157bc0e1490f0c3c2b0723fb",
+      "gitBlob": "a91d24a02b55b41c51b2f692bac1a08d325e4a4f",
+      "bytes": 827
+    },
+    "relics/PenNib.java": {
+      "sha256": "fc60a7f13e7a4778c10a3a9bd3181f8f27f939464ef75cc031697ac77a80d314",
+      "gitBlob": "b7d5c301d7e792207054aecf848294ced7101fba",
+      "bytes": 2298
+    },
+    "relics/PhilosopherStone.java": {
+      "sha256": "95373866751700e50a26b1699ede8be4b5b1fa9e82fe49a2650c067dfc21e67d",
+      "gitBlob": "9a47eade37acd4c7ad7251ea9cb035d576c2c70c",
+      "bytes": 1945
+    },
+    "relics/Pocketwatch.java": {
+      "sha256": "6b45c2c90c9310645797b0711dd25c8a276098868ec333d41be208c472c3a840",
+      "gitBlob": "8a3373a9f572fa27983f878240705d241928ced7",
+      "bytes": 1569
+    },
+    "relics/PotionBelt.java": {
+      "sha256": "9371cba06872c023a583e4ae3a8a0451fb91107b0f9e80860b3ffceec2ef2e0f",
+      "gitBlob": "1e70276030e6306acae186c99261e8c0de1b9a28",
+      "bytes": 1133
+    },
+    "relics/PrayerWheel.java": {
+      "sha256": "619a8d3903cd520d4fd5c94b0c4f690865686dc7a944254ba824d31447389473",
+      "gitBlob": "d491c492a0c52507b02466a8df26c6e3cd87a687",
+      "bytes": 788
+    },
+    "relics/PreservedInsect.java": {
+      "sha256": "303c04bda8c9c7d94f540daf9db786a5cabb02761241f0680ed10a419a35abe9",
+      "gitBlob": "7af46200a22d07014f21daf71f8d036e2bd4b523",
+      "bytes": 1570
+    },
+    "relics/PrismaticShard.java": {
+      "sha256": "e9813b8cbf06ca83e9e81a4c7896c93f26f36afe3b25c6bdd38645091e00c809",
+      "gitBlob": "c7d4d394457b23529eaeae7417546cdc981391a1",
+      "bytes": 930
+    },
+    "relics/QuestionCard.java": {
+      "sha256": "ef7faee05ad55e0d90f3f8e850641f36a549054c02a302bfcc4c9a5c718db608",
+      "gitBlob": "d1ec7991f3b9c2355088bcf90cec85f0f384509f",
+      "bytes": 961
+    },
+    "relics/RedMask.java": {
+      "sha256": "870885c0415d842394a8ed487570ce11429b43f951afc96cd523593f1125cb82",
+      "gitBlob": "92da26da38141a323c49120e4a3d309520a00da6",
+      "bytes": 1418
+    },
+    "relics/RegalPillow.java": {
+      "sha256": "a35f1eae407ff645a16321860f72f5a35a56dcfb7f96019e607b0546d6167d44",
+      "gitBlob": "b103e1a32c6a0d16b969b5574d7a671dc635ad1f",
+      "bytes": 864
+    },
+    "relics/RunicDome.java": {
+      "sha256": "8f55d0754de1e7fcd47fae587eb8da5173ff2b12999a42780f8105bb8e79f301",
+      "gitBlob": "0010d4ecec0e75af48f9c0c08906949edf15280e",
+      "bytes": 1456
+    },
+    "relics/RunicPyramid.java": {
+      "sha256": "f0fc358207c4bbccffe042e125080b8bb2e47c3ca808523a4b3b5519707a2c2b",
+      "gitBlob": "436682ea39ee7bd51f141f408b51be17d68f7fdd",
+      "bytes": 569
+    },
+    "relics/SacredBark.java": {
+      "sha256": "3e1f0b507ccad7536e9bc2e621f3a186bf8c43e01f7bd24cebe85e32a4130f45",
+      "gitBlob": "5a951d27504a04112cf92a0c67775954a5580acb",
+      "bytes": 822
+    },
+    "relics/Shovel.java": {
+      "sha256": "364b66b56467781092d3575d42fec356b94c364a290a4717007b5b120a82206e",
+      "gitBlob": "d68691087e338768e375bac239cdb78cfa02951d",
+      "bytes": 1461
+    },
+    "relics/Shuriken.java": {
+      "sha256": "31a3c71bdde5647c21ac7769728a347f776e35803863d08c57a1e5533fcd465d",
+      "gitBlob": "d0c15396a36da5775c948250e5250fafde82683b",
+      "bytes": 1748
+    },
+    "relics/SingingBowl.java": {
+      "sha256": "20d70521e99d435b8c732b2b4988113f95578e401e45dcfdacd50001d7933c72",
+      "gitBlob": "96f38072d3c11e9be7ecb8793eedeb47acacea6f",
+      "bytes": 1234
+    },
+    "relics/SlaversCollar.java": {
+      "sha256": "79865baf66c4a193817b461989123bba326aa89f4bf76d76cf991454ccd97a2e",
+      "gitBlob": "b4de99731f85e60ead1971bd0d4496d1afd42ee4",
+      "bytes": 1932
+    },
+    "relics/Sling.java": {
+      "sha256": "d61f5d299e65be3f8fbccffc3077d3b161f438646046d3ca0698c0002768d0c3",
+      "gitBlob": "54199bb62d1da40ccfa7a855b7d6517e02895a10",
+      "bytes": 1223
+    },
+    "relics/SmilingMask.java": {
+      "sha256": "d48d19c138eb0ee8efc7032ca60a75b5b452460b314a75b39d5669cd7cc628d8",
+      "gitBlob": "479e93ce6716bc9081fa10ff6a6e7f1e5dacfd4f",
+      "bytes": 1237
+    },
+    "relics/SneckoEye.java": {
+      "sha256": "00edd6a0dfa78effb07ffae64138c4fd3f4312d583d6e69159b16d981289a5c8",
+      "gitBlob": "fbb0fc28f7d7781f27aa60f8d7b1051fa24a24ed",
+      "bytes": 1193
+    },
+    "relics/Sozu.java": {
+      "sha256": "5ceacde709751ed3d8ca9cbc49644a56677ad3c789206fe59f0ee5267ffb0454",
+      "gitBlob": "a92a1546758458cc27e4cfdc1937c90cef8ec7b4",
+      "bytes": 1429
+    },
+    "relics/SpiritPoop.java": {
+      "sha256": "01f0474bec5667f13efe68f0be1207198ecc35cb36b1c370625ca0657214d0c3",
+      "gitBlob": "730944f45b643e1e9ba4ade2829a049c0bef7e6f",
+      "bytes": 565
+    },
+    "relics/SsserpentHead.java": {
+      "sha256": "ed9fac18a5b5827466e5e62bb26f013f6539c44873cf5f452fa610bc6837684c",
+      "gitBlob": "a95ca000550758b3c69b467682a77aabecceb8bc",
+      "bytes": 996
+    },
+    "relics/StoneCalendar.java": {
+      "sha256": "1ac0672030735a48fe2cba22443416122785e8b9dd754d2e30f1618c6d40174a",
+      "gitBlob": "1a368c2ac774df0ad69227da82a1288eb69176a8",
+      "bytes": 1956
+    },
+    "relics/StrangeSpoon.java": {
+      "sha256": "e319dca794cae7abfa9ecc18cedd3cb32ac6fd041d4c947e6ad012d03246526d",
+      "gitBlob": "53b115dc47592e9b285cb9e7cb633e2ad545383c",
+      "bytes": 615
+    },
+    "relics/Strawberry.java": {
+      "sha256": "23138d8d36c8ae7fc3e56fc714e484bb2311b9bd2cf4cb619be6567552ab828e",
+      "gitBlob": "3cced5fa5dc14fc3aecb1a08d2e77f5da3df1396",
+      "bytes": 852
+    },
+    "relics/StrikeDummy.java": {
+      "sha256": "9a144086b2375d5b11e99cf5444820e3ea70828c5a211fcac8cdeae34e000ba1",
+      "gitBlob": "6aa3b400102998e6ea7ce16d5b0ed66c6189d1ee",
+      "bytes": 845
+    },
+    "relics/Sundial.java": {
+      "sha256": "98fc50fbc8a0f3baaa161f858d6de3d1efd89b29762785d9e65efbec10f8eda1",
+      "gitBlob": "4fba8af973b3338ecea8a480edc5ba57e59b3481",
+      "bytes": 1546
+    },
+    "relics/ThreadAndNeedle.java": {
+      "sha256": "7f9dde1f010217fc8cca7092ff11ab236e0df89b42b83840f56509a1f8d238b0",
+      "gitBlob": "775b0b71e0b37595c649a58fb7f4d48535f771d7",
+      "bytes": 1207
+    },
+    "relics/TinyChest.java": {
+      "sha256": "64edae6b13a3718173ba86caecc09d885a00d2b782310ea3fee587571e3d91c2",
+      "gitBlob": "8d07075350a89cd481d866eefec76b092f2e07b6",
+      "bytes": 953
+    },
+    "relics/TinyHouse.java": {
+      "sha256": "325b33e5b14511b4173296b43ea47f87173f0ff327b1c030e12851166e36fc95",
+      "gitBlob": "bf7ebd857a1f8a263884e1d8880f1fa412da16a0",
+      "bytes": 3051
+    },
+    "relics/Toolbox.java": {
+      "sha256": "b3a6b409a2635fec0d298a45e001b19bdb10bda37b183cdb4905888de3d0f96d",
+      "gitBlob": "126ef7355dc513b75d529b1fb4b2739bf5fc65d4",
+      "bytes": 931
+    },
+    "relics/Torii.java": {
+      "sha256": "981540a0d16dcfe5f7738b0539c9df603d1ae22fffa93f4b28170d3e737a2e62",
+      "gitBlob": "77767ad78361f81af666ab9841bb1632b2aa6791",
+      "bytes": 1204
+    },
+    "relics/ToxicEgg2.java": {
+      "sha256": "1149dee0de59c4bd756bf453daf62ecd4dba8e593193d08c941c6ac42445155d",
+      "gitBlob": "6cc52d5ec2412e78850a8b3ac62ff11fc27721b3",
+      "bytes": 1471
+    },
+    "relics/ToyOrnithopter.java": {
+      "sha256": "2c818ca4e6b7b1fc88793dd628c9bf1ec8ff6050561c8d43eebd6df39e663e73",
+      "gitBlob": "bee359bae370f198e65dfa3887bce05acf478505",
+      "bytes": 1292
+    },
+    "relics/TungstenRod.java": {
+      "sha256": "690106967f973f2a478b48bb0b5561023474289b99d8a65cd30437e2265fe09a",
+      "gitBlob": "2aeee63cd656a23ec0b0c00eda16923877f3f5e3",
+      "bytes": 791
+    },
+    "relics/Turnip.java": {
+      "sha256": "e124c02afbb77b8207c0f73249c7faae21272e558361e09b9d7cea0ee51889d8",
+      "gitBlob": "4d390a036649ef8ff1d223864f00949bd55abbd5",
+      "bytes": 538
+    },
+    "relics/UnceasingTop.java": {
+      "sha256": "3246b51e3830ed3be09e7773f9bc29110591ef62d4ce21bf759a329e5184c074",
+      "gitBlob": "06762684b9ca327eb1a9fa9ad158bd61f5934bfc",
+      "bytes": 1890
+    },
+    "relics/Vajra.java": {
+      "sha256": "057aa34c6a4d336226e0190319ecfae229bedf83465a66b1bf51da000324cf9e",
+      "gitBlob": "edb6c1d339b1895c298dec4c586e76ea3b5ef664",
+      "bytes": 1145
+    },
+    "relics/VelvetChoker.java": {
+      "sha256": "e9c3c480bd53dfb4f13331ff2fbe43728ef25664bc948875c91af971bad2b538",
+      "gitBlob": "e59576295b4b2bf84f46f06e05e035042b16d5eb",
+      "bytes": 2364
+    },
+    "relics/Waffle.java": {
+      "sha256": "f19081fb6511225cafc834932b1dd3a39262ee58ab3e3657e563abb056743d94",
+      "gitBlob": "93873c6b20681147528b0cd1dc353449a4f511a1",
+      "bytes": 844
+    },
+    "relics/WarPaint.java": {
+      "sha256": "cb07c8d4b13eb6546288b2b8e10fb160c39257f0e0231da977cc171b8510e086",
+      "gitBlob": "bff6b00086ae59b9c02744406ce62fb89f175700",
+      "bytes": 2991
+    },
+    "relics/WarpedTongs.java": {
+      "sha256": "17f015fffb23e22f755e3fe768bb8d0f42bc7a5792b0c8101d3e29d4332175ab",
+      "gitBlob": "aceecf5fb242ef4e261b9ff3d205c68b9580604a",
+      "bytes": 978
+    },
+    "relics/Whetstone.java": {
+      "sha256": "162d1075b71ac9744cb31a5a0955f38eac0da2387bd899038a2f4743d491e2df",
+      "gitBlob": "e7ce7369895bd57bd61d51d0054fe2d6f11658b3",
+      "bytes": 2996
+    },
+    "relics/WhiteBeast.java": {
+      "sha256": "7d92fc2769fa3e7b340c53ec60e2246e67928bd702233905f12a50ad9dbed05a",
+      "gitBlob": "e0b16d0dd41e1ad8afc87acb577ab725637774d6",
+      "bytes": 571
+    },
+    "relics/WingBoots.java": {
+      "sha256": "b2b3ba13a5475e1a33e4c8f78382790cd05fdbf46ce0a15c2295854064c77719",
+      "gitBlob": "23dc576db127e1470ca94ec63ff88d777ab8f3e6",
+      "bytes": 1006
+    },
+    "relics/BlackBlood.java": {
+      "sha256": "4edfd4e0939b94846c7705c07e38b18d3be2d8a3be07caea71bb1a36725a213f",
+      "gitBlob": "2b090b3fc12ffbcc18160a00d37a8d3fc0a2d9d2",
+      "bytes": 1144
+    },
+    "relics/Brimstone.java": {
+      "sha256": "c2b96bf11e3531a4e22776c257cff87078952611d2afa52d5fa374418d6845c2",
+      "gitBlob": "5f3b8624ca4f3dac74ddd89aae2457354a8b9280",
+      "bytes": 1464
+    },
+    "relics/BurningBlood.java": {
+      "sha256": "8217a4a05a80474158ade3f7d77e51f802c9701512bbf1ab90321d7f74d5d65d",
+      "gitBlob": "3b262d9830955000488efc98bcc5c9b56e77fea4",
+      "bytes": 1106
+    },
+    "relics/ChampionsBelt.java": {
+      "sha256": "9389e841ad6c9c84de6f9054b3681f562f784a85bd675138c30c03054f3352a8",
+      "gitBlob": "783dbecb426f6b374a6fe42fd062a3d685b22fbf",
+      "bytes": 1200
+    },
+    "relics/CharonsAshes.java": {
+      "sha256": "0cafa20d8db7b9b786dd7bddf0dc8611bb39829a19aaaebf4bc8412c318b4135",
+      "gitBlob": "6c4607d0b2f36d17be770dd2af004444bbc9ef7c",
+      "bytes": 1492
+    },
+    "relics/MagicFlower.java": {
+      "sha256": "e3940116e47e36eb3eea9f048a1808ffe2f8b6654db9e30cab9cce8496054eaf",
+      "gitBlob": "735a49a5424c867a26d4d2b62c461424d39aa0d7",
+      "bytes": 1083
+    },
+    "relics/MarkOfPain.java": {
+      "sha256": "1e542976858cbb01c4982fccf0223c01291f1b7a58ad421a60df629d8b7d088e",
+      "gitBlob": "fbaa53d94cf9ea6619f7c744036ae37e0627483e",
+      "bytes": 1313
+    },
+    "relics/PaperFrog.java": {
+      "sha256": "c9d44e30ffd26b97ea565ebc0290900dcae7b52d1a80cebe812ddce75b291cbf",
+      "gitBlob": "340f0b9c5cf65a2089b6659b07ed8967b7de3407",
+      "bytes": 671
+    },
+    "relics/RedSkull.java": {
+      "sha256": "c109afe84adbe8fec6edf72aa786a363bc6e497ecc8fbbf4fea2053f2ccdeffb",
+      "gitBlob": "0ff095dbd1c78aebd7280bff1dae5b5501ac9342",
+      "bytes": 2871
+    },
+    "relics/RunicCube.java": {
+      "sha256": "13d791a05c6f00be754010408b58d4a8bb8852fe12a3868167a90d5eb09a1e46",
+      "gitBlob": "5ca60a5755481004bc50f85f771f39dec46471e4",
+      "bytes": 1231
+    },
+    "relics/SelfFormingClay.java": {
+      "sha256": "b91193f3b98ae8746b1d002eb46bb30340e66bd27c922eb54e395de18aabba64",
+      "gitBlob": "20843c69c4775214776bb96e7fbaf5f33bd84635",
+      "bytes": 1244
+    },
+    "relics/Circlet.java": {
+      "sha256": "b8038556fcc22e49a8f3489b0f2e79ad69fae10c50500b4863d94e131387652c",
+      "gitBlob": "cdac3edd3513a60be49315cb6a39f3ba8c8de0a0",
+      "bytes": 695
+    },
+    "relics/RedCirclet.java": {
+      "sha256": "2ee2ab8c454ffd0036a2fe91a4b252de78c705327157f60662c3be6ef868264e",
+      "gitBlob": "66bf79324b9c104ca038908f65d3e6c7855835d1",
+      "bytes": 563
+    },
+    "dungeons/AbstractDungeon.java": {
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "bytes": 115023
+    },
+    "dungeons/Exordium.java": {
+      "sha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08",
+      "gitBlob": "dffde662864871956ca9fac5dbf45784b45fdc30",
+      "bytes": 9354
+    },
+    "rooms/MonsterRoomElite.java": {
+      "sha256": "c5207d745f383e1de615e613da8e5c8f832e237444c3b757d85a61f8b3f5ee3f",
+      "gitBlob": "bb938c13a8ad71f710b75bb7c50eab07a2bba686",
+      "bytes": 4609
+    },
+    "rooms/AbstractRoom.java": {
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "gitBlob": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "bytes": 33565
+    },
+    "rewards/chests/AbstractChest.java": {
+      "sha256": "83fd088898de377d06165981d929f2a1f7e86675108680b05f10cc9d1f720147",
+      "gitBlob": "72a42aa9cca3b882f9a4a6c77b4e26f2f78df1a8",
+      "bytes": 6014
+    },
+    "rewards/chests/SmallChest.java": {
+      "sha256": "5932c81a6b086cd616dfa28a0f89689bcaad50bc8c5f024d7627347e06e1f810",
+      "gitBlob": "2c19be9f9920e07b9ccdb5bf3a2b2d5e63ee9a9f",
+      "bytes": 805
+    },
+    "rewards/chests/MediumChest.java": {
+      "sha256": "a7333b5b1b8f6c29fa60aede8667968f4d839062487335cf1fa6939efc26800a",
+      "gitBlob": "41d5895e37251c91f6d8666d665609e6cbcbfa05",
+      "bytes": 807
+    },
+    "rewards/chests/LargeChest.java": {
+      "sha256": "732c222bb4756c7cf962c82c4913f5406408b5999abcbc23a11126eae452f18b",
+      "gitBlob": "7be804d54adac610cbb5a8354bce72f814ba1898",
+      "bytes": 805
+    },
+    "rewards/chests/BossChest.java": {
+      "sha256": "bad4fa7b36ffe2662030b6310414bbd5a5dc5108e2ff432f0322b262075b221a",
+      "gitBlob": "ae26ed781a8c4b9802fb649b92ed5aaf5edc13e8",
+      "bytes": 2774
+    },
+    "shop/ShopScreen.java": {
+      "sha256": "5637a90f12386df48a323969ddf0c17b06e0288884a1b124fa62994822853855",
+      "gitBlob": "39dab95569ae1586a370366124e7ad5b8f215bff",
+      "bytes": 59154
+    },
+    "shop/StoreRelic.java": {
+      "sha256": "d0b73b74224f161544d89a85ba2d321601100ef7233d3a876d593067a88d54a1",
+      "gitBlob": "64d5b744c7a447b73238fa371f53199269938eaf",
+      "bytes": 6746
+    },
+    "relics/AbstractRelic.java": {
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+      "gitBlob": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "bytes": 39442
+    },
+    "neow/NeowEvent.java": {
+      "sha256": "0ac56abd6001eb1452b06b9ccaefba3de3fc9e2d88588ac907be0a0afafa5a83",
+      "gitBlob": "b9c6153581889ffd7cf7d8dc1161b92f2991e29b",
+      "bytes": 17111
+    },
+    "neow/NeowReward.java": {
+      "sha256": "b3a61dcf11b694d9dae54ad0a57f972388593051793097e5eb7204090af17f36",
+      "gitBlob": "a41ef63e5b30058568d014c574f7b6f96a782c71",
+      "bytes": 20991
+    },
+    "helpers/CardLibrary.java": {
+      "sha256": "ac123d5376862fb1d1d382284e14a9dc0e955395f415265ae29f9aa8a2b6237a",
+      "gitBlob": "0775b5df368e428a7d919ce80cf8df7f1d06b2af",
+      "bytes": 54244
+    },
+    "helpers/CardHelper.java": {
+      "sha256": "a3ded368496bb998dc80fc5c9d6ca6bf10a958aad679644786fb325ecc5ce4fc",
+      "gitBlob": "403495954e1dc01f6528d4ee7db5ec5f4ba99e98",
+      "bytes": 4801
+    },
+    "cards/CardGroup.java": {
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "gitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "bytes": 45485
+    },
+    "characters/Ironclad.java": {
+      "sha256": "6fc9b761251a96f9e3a8e31adb3698f87dbaca07a7d3f0b931c9a9ea0bbcf132",
+      "gitBlob": "30fb4ebc4b27f9cbcf4f0fb1bce6d88ee146561e",
+      "bytes": 9585
+    },
+    "random/Random.java": {
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "gitBlob": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "bytes": 2596
+    },
+    "unlock/UnlockTracker.java": {
+      "sha256": "3f735cfb6d729b338cd6c55a70caa24d1b421bea676447a6ef72c4f8f267e388",
+      "gitBlob": "3984bc45c1af4125456e20cd0d7cac3cb3dc05d5",
+      "bytes": 36699
+    },
+    "events/exordium/BigFish.java": {
+      "sha256": "d14eba34d182ae3a73bb94d247616d280964ec56ee4a4abf4a96a0cfdc5c371f",
+      "gitBlob": "6121be7dd6c0d0b25a53ba3ca665d4924dab2732",
+      "bytes": 3827
+    },
+    "events/exordium/DeadAdventurer.java": {
+      "sha256": "359b1281b82dea46d7bc62b6fae61925e0d15adf241a9d5a6b57da54fd149559",
+      "gitBlob": "8fee3cc721e2ae4e757f8d99e93d5a6a1eba9d4b",
+      "bytes": 9554
+    },
+    "events/exordium/ScrapOoze.java": {
+      "sha256": "40e759bb4fc7bf076a45654a3f33bf88134ecaddb0e945c270a6bf0fe169abca",
+      "gitBlob": "5ec17d0073e5867242590a5ef8080bccd7fe238b",
+      "bytes": 4420
+    },
+    "events/exordium/GoldenIdolEvent.java": {
+      "sha256": "3b3cab0799bb027281f7e4784d83efc9c9f6771bf56d039a1d0694e7d02351aa",
+      "gitBlob": "71e4bdf67bafbfd5cc45a862cc120b01320109dc",
+      "bytes": 7054
+    },
+    "events/exordium/Mushrooms.java": {
+      "sha256": "0cd9d3b4b9b17a69daada1aba5b5d6e4c60ccf8937673d10c395db4ebfd0f31b",
+      "gitBlob": "a1843654f45a2b686bbfcbfb3e87e55ed5a2a535",
+      "bytes": 5606
+    },
+    "events/shrines/Bonfire.java": {
+      "sha256": "6bb73acaac6dd7426c229957d832fcaa3f9b1d56aabc38b1b86cf1d03357688e",
+      "gitBlob": "a7a0b8a333bb934ff60281c3a0f6cde46a034612",
+      "bytes": 6373
+    },
+    "events/shrines/FaceTrader.java": {
+      "sha256": "c65459eb800c8dc697acbc34741566e98fb47e616acbf129ea3246dadafe69da",
+      "gitBlob": "5ce301b7ccdd30c4bef80b0a239a0602b6489d68",
+      "bytes": 4942
+    },
+    "events/shrines/AccursedBlacksmith.java": {
+      "sha256": "d90c2723d66685fde57fe3b50e39b29a565b64bc3d665aa2bc68ba347d17808a",
+      "gitBlob": "d7176e6eaaf724d82c4d8dfc1db1218bf0ecd325",
+      "bytes": 5079
+    },
+    "events/shrines/WeMeetAgain.java": {
+      "sha256": "933f366a64c29bc9a9ab5d558d7521cfc69a73f80995279dbbe94b7b8153cc86",
+      "gitBlob": "e32400527a3764dd7d340380613b1c4c04c28701",
+      "bytes": 6129
+    },
+    "events/shrines/GremlinWheelGame.java": {
+      "sha256": "73e9e0fbf5408c919e5df77ba72cd9a4b31226a36c2dce2526b5964899b30bb7",
+      "gitBlob": "917917a4859933b9550ac4c6cefead7f884b3558",
+      "bytes": 16113
+    },
+    "vfx/campfire/CampfireDigEffect.java": {
+      "sha256": "bfc6165c66d7f14aa29867f54f9ba62ae3f03af14334f4fc47b813e21f8b061d",
+      "gitBlob": "1858bfed9e4aca8063f10bc4f84a7e382c0261f1",
+      "bytes": 2460
+    },
+    "map/MapRoomNode.java": {
+      "sha256": "58d8b19c4d8154de5743df4a359eacdda49b5e46f628c9af7ab0915001bf94f7",
+      "gitBlob": "2e307ca3d96518e87dd7e9d25ade07afa89a4538",
+      "bytes": 17753
+    },
+    "rooms/CampfireUI.java": {
+      "sha256": "1bc85262c11c37f733ca9bfadb8cc8592621d38aa29e454e1f5a17e58281120b",
+      "gitBlob": "96cdc49fe16e8bd00d3a7f4d429ed4b77d3625b6",
+      "bytes": 15285
+    },
+    "screens/CombatRewardScreen.java": {
+      "sha256": "7929ca75599e96c076f9abe2c90576a606c87984174328d10533ada8ee37e70b",
+      "gitBlob": "b14151ac95f94dea592226932495d8d225ea4640",
+      "bytes": 13558
+    },
+    "screens/CardRewardScreen.java": {
+      "sha256": "6883c6684c11f15b6e3a10466813b01354b05a41d33379e6a084da3ada429aae",
+      "gitBlob": "aac934d0b4c785a6982b3e9db01e021972c2bb39",
+      "bytes": 36589
+    },
+    "ui/buttons/SingingBowlButton.java": {
+      "sha256": "c3561fa2842ecb57967879390eb3d78c8182a8345567dc06eb00aa23cae974a1",
+      "gitBlob": "05ae373df7ee30350aa8aebccef6984bdb59d59f",
+      "bytes": 5647
+    },
+    "unlock/relics/defect/TurnipUnlock.java": {
+      "sha256": "c1e599f8d9edaf70cd96c212469f1dd060fb5fe66e49899abf4a4a15661faec0",
+      "gitBlob": "2f726d0f79254a7729c0bc22576027cfcb9cb86d",
+      "bytes": 469
+    },
+    "unlock/relics/ironclad/BlueCandleUnlock.java": {
+      "sha256": "74182a3830745c7ab4bc6d83db9f1fd1df0bb9efc77e635093f7d9c1740c99f2",
+      "gitBlob": "41f28a6687974c822da7452e56a48c2e1a37eb87",
+      "bytes": 484
+    },
+    "unlock/relics/ironclad/DeadBranchUnlock.java": {
+      "sha256": "b063db5dac3c5f74455b2419e7faf2387915a7c21d6bd9cf2165159cea1b7ea5",
+      "gitBlob": "a2a636b9de6bbb55fa9068a8d1bf471bb757872f",
+      "bytes": 484
+    },
+    "unlock/relics/ironclad/OmamoriUnlock.java": {
+      "sha256": "0585a484e171b1453d55e42172ff128b603aa2bc525956d251e7989d9a3aa2de",
+      "gitBlob": "9b36f6b2b82f8aad42e9779d9ead618b809fc282",
+      "bytes": 474
+    },
+    "unlock/relics/ironclad/PrayerWheelUnlock.java": {
+      "sha256": "a814bde097d25e1334996bc81edb676f6d895fb8b3e1f90b545ca3c85bb39d0b",
+      "gitBlob": "34ed028d0f37ffa3e25f87b7da65a11b018bb001",
+      "bytes": 487
+    },
+    "unlock/relics/ironclad/ShovelUnlock.java": {
+      "sha256": "dc730e668018165129bb490a92b3eadfd9a67f68c0ddf7cfe5325e0ae8664f1e",
+      "gitBlob": "6ea0822a23bb4d83845f1db3a4b97721089687c9",
+      "bytes": 471
+    },
+    "unlock/relics/ironclad/SingingBowlUnlock.java": {
+      "sha256": "e8354f3f8cc1b3bfaededb442b149565a9ed414c9967e9ccf7479740d484fa30",
+      "gitBlob": "e8863aa4c282cf5fa8bbc7aebb1059638b7b6488",
+      "bytes": 487
+    },
+    "unlock/relics/silent/ArtOfWarUnlock.java": {
+      "sha256": "685d90fa69676c5a3f70a92f92007e5b29bcf27d71ce7d16df056c41de05415c",
+      "gitBlob": "e3e59392a6a4c67b3bf4ad69dbffc8173155d897",
+      "bytes": 477
+    },
+    "unlock/relics/silent/CourierUnlock.java": {
+      "sha256": "33485930b8b500d687b8f440ea7bad2ca04846eb332a46dffa3e4e207d73d8fa",
+      "gitBlob": "080fd123a7ff7a5ec212ab3c11e1afefde6f6db5",
+      "bytes": 476
+    },
+    "unlock/relics/silent/DuvuDollUnlock.java": {
+      "sha256": "07d647eb6b327267202a71a2e7e40a1b4218de62fefc1f6c373d02d6b5e869c5",
+      "gitBlob": "3da174be27c7dc7f2d2cb575dc409d30635fae7f",
+      "bytes": 477
+    },
+    "unlock/relics/silent/PandorasBoxUnlock.java": {
+      "sha256": "e8f90585ab5db546b556d37eb4ff40e2be425cf3efdb9be92fc53bf76a5c4610",
+      "gitBlob": "769465ab7fe325a5c4bd19b550717b0d4ffddcb1",
+      "bytes": 486
+    },
+    "unlock/relics/silent/SmilingMaskUnlock.java": {
+      "sha256": "15cba991d194d1545a6524e18e30280f87a21d84ad20afeedf770c957243ea72",
+      "gitBlob": "5d90b8d7c4bc614e9c9791a3e476c22cf35ef62c",
+      "bytes": 485
+    },
+    "unlock/relics/silent/TinyChestUnlock.java": {
+      "sha256": "2487c91a2d04ce816a68823eb9bd9ee05f416bec8ef7c17abfca24ab010b89c0",
+      "gitBlob": "5d446da8c98f322d4478fb5efc09a9bf349f4427",
+      "bytes": 479
+    },
+    "unlock/relics/watcher/AkabekoUnlock.java": {
+      "sha256": "3107f419bfb6b680c98747c906e2b3d6999fbfb962521c8ce4f3629142e2cd1c",
+      "gitBlob": "c23038c856343924d519237f0625911a2a136b74",
+      "bytes": 473
+    },
+    "unlock/relics/watcher/CeramicFishUnlock.java": {
+      "sha256": "712b0959ff006296d38885555645d9ee7b7129b2eb09a52cb825adb34f8df638",
+      "gitBlob": "427c9641554005d13dd1c5115d98552fe041f115",
+      "bytes": 485
+    },
+    "unlock/relics/watcher/StrikeDummyUnlock.java": {
+      "sha256": "2292291a7d8aed8812201f72f7111f7b0ec0012d6c1eeed11853aad63ad673a5",
+      "gitBlob": "56aa439dc3d73b84aa460eea427fa7cb229edbf8",
+      "bytes": 485
+    }
+  }
+}
