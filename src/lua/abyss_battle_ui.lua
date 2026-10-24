@@ -1,5 +1,6 @@
 -- Read state, issue Run commands. No damage/energy/outcome rules live in this view.
 local Combat = require("abyss_combat")
+local Actors = require("abyss_actor")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Events = require("abyss_events")
@@ -69,7 +70,11 @@ local function intentText(state, index, detailed)
         return detailed and "分裂为两只中型棘刺团，各自生命等于分裂时的当前生命。" or "分裂", "unknown"
     end
     local result, compact = {}, {}
-    local enemy, player = Combat.copy(state.enemies[index]), Combat.copy(state.player)
+    -- ApplyPower must gate each copied status before stacking it: Artifact can
+    -- block an otherwise overflowing addition and is spent in effect order.
+    local preview = Events.frame(state)
+    preview.events = {}
+    local enemy, player = preview.enemies[index], preview.player
     for _, effect in ipairs(intent.effects) do
         local value = effect.value and number(effect.value) or ""
         if effect.op == "damage" then
@@ -84,7 +89,7 @@ local function intentText(state, index, detailed)
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
             result[#result + 1] = assert(state.catalog.statuses[effect.status]).name .. " " .. value
             compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
-            Combat.addStatus(effect.op == "gainStatus" and enemy or player, effect.status, effect.value)
+            Actors.applyPower(preview, effect.op == "gainStatus" and enemy or player, effect.status, effect.value, enemy)
         elseif effect.op == "makeTempCardInDiscard" then
             local name = assert(state.catalog.cards[effect.card]).name
             compact.debuff = compact.debuff or name .. " " .. value
@@ -97,6 +102,7 @@ end
 function M.new(root, data, presentation, clickEvent, platform, options)
     options = options or {}
     local self = { root = root, data = data, presentation = presentation, target = 1, seed = 1, busy = false, active = true }
+    local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name) return assert(stage:GetChild(name), "missing UI control " .. name) end
     local function show(name, value) child(name):SetVisible(value == true) end
@@ -438,15 +444,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if self.viewRun ~= run then
             self.viewRun, self.target, self.selected = run, 1, nil
             self.potionRun, self.potionBattle, self.potionSlots = nil, nil, nil
+            playbackIntents = nil
         end
         -- A Run survives between encounters, but its combat and enemy indices do not.
         -- Use the committed combat identity, never transient playback frame tables.
         local currentBattle = run and run.combat
         if self.viewBattle ~= currentBattle then
             self.viewBattle, self.target, self.selected = currentBattle, 1, nil
+            playbackIntents = nil
         end
         local fighting = self.displayBattle ~= nil or run and run.phase == "combat"
         local battle = self.displayBattle or fighting and run.combat
+        local enemyPlayback = self.busy and self.displayBattle and battle.phase == "enemy"
+        if not enemyPlayback then playbackIntents = nil end
         local reward = not self.busy and run and run.phase == "reward"
         local active = self.active and fighting and battle.phase == "player" and not self.busy
         -- Validation stages potion transactions; do it once while input is available,
@@ -505,7 +515,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 end
                 local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and enemy.hp > 0
                 unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
-                local value, kind = intentText(battle, i)
+                -- An intent event is the historical action's starting face.
+                -- Later frames already include its effects: do not apply them
+                -- again. Unacted enemies still preview the current state.
+                local shown = playbackIntents and playbackIntents[enemy.id]
+                local value, kind
+                if shown and enemy.hp > 0 then value, kind = shown[1], shown[2]
+                else value, kind = intentText(battle, i) end
+                local event = enemyPlayback and self.feedback.current
+                if event and event.kind == "intent" and event.detail.enemy == enemy.id then
+                    playbackIntents = playbackIntents or {}
+                    playbackIntents[enemy.id] = {value, kind}
+                elseif enemy.hp <= 0 and playbackIntents then playbackIntents[enemy.id] = nil end
                 box:GetChild("intent").text = value
                 box:GetChild("intent"):SetAnchoredPosition(S.l, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
                 box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, math.max(L.intent.offsetY, portrait / 2 + S.xxl))
@@ -652,6 +673,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self:render()
     end, function(failure)
         self.busy, self.displayBattle, self.acting = false, nil, nil
+        playbackIntents = nil
         if self.feedbackRun == self.run and self.feedbackBattle == (self.run and self.run.combat)
             and #self.feedbackBattle.events == self.feedbackLast then
             -- UI is the event consumer. Release consumed frames; the event table identity stays stable.
