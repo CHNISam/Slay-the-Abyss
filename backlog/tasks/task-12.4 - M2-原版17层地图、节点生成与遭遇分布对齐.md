@@ -3,9 +3,9 @@ id: TASK-12.4
 title: 把第一幕地图规则对准原版
 status: In Progress
 assignee:
-  - '@codex-map17'
+  - '@codex-m3-map'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 10:18'
 due_date: '2026-10-28'
 labels:
   - required
@@ -37,3 +37,15 @@ ordinal: 40000
 - [ ] #3 敌人出现范围、重复限制和随机抽取方式符合原版，地图显示和保存也正确。
 - [ ] #4 用多组测试检查路线、房间和出现概率；实际游戏里的结果另行确认。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-24 M3独立切片：先核对固定RoomTypeAssigner/Exordium/AbstractDungeon及Java浮点/洗牌行为；保留12原golden与已有拓扑候选接口，先写完整房型golden失败及独立配额/父兄弟/洗牌边界测试，再补同状态房型候选，跑严格完整12图与专项结构回归。生产迁移另需raw seed/restore/七列UI容量，不在本片猜接；不勾广义AC、不Done、不游戏/MCP/full。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-24 @codex-m3-map：新增隔离完整房型候选（未接生产）。固定源RoomTypeAssigner/AbstractDungeon/Exordium与Java洗牌行为独立转译；路径结束snapshot恢复同一mapRng原语，再raw倒序洗牌，wrapper counter不增。新15项真实缺模块红0/15后绿15/15，12未改golden完整坐标/边/房型全匹配，含2780424839485660359；配额0..105 binary32边界、父/兄弟/行限制、独立raw状态向量和fallback通过。旧拓扑/RNG专项40/40；候选0..127结构128/128/0执行错误。生产另实际FAIL0/12（11diff/1unsafe64），未改src/Run/Combat/UI。账本、源码hash和逐seed双state见docs/reviews/TASK-12.4-map-room-candidate.md及docs/rules/evidence/w1-map-room-candidate.json；原始红绿/全差分在根.artifacts/m3-map-room-6e8714f。具体Map v3/rawRunSeed/四模块部署/7列92节点与1011地图控件的下一迁移gate已列清单；目标PC认证、生产接线、遭遇队列、平台实机均缺，所有整体AC不勾，不Done，无full/MCP/游戏。
+<!-- SECTION:NOTES:END -->
