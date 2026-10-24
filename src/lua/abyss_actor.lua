@@ -7,6 +7,19 @@ local Events = require("abyss_events")
 local function enqueue(state,e,source,top)
     require("abyss_card_actions").enqueue(state,e,source,nil,nil,top)
 end
+-- Equal-priority original Powers are stably sorted: their hooks retain the
+-- order of first application. Legacy raw-status fixtures get an explicit order.
+function M.powerSequence(actor,ids)
+    local allowed,seen,result={},{},{}
+    for _,id in ipairs(ids) do allowed[id]=true end
+    for _,id in ipairs(actor.powerOrder or {}) do
+        if allowed[id] and (actor.statuses[id] or 0)~=0 and not seen[id] then
+            result[#result+1]=id;seen[id]=true
+        end
+    end
+    for _,id in ipairs(ids) do if not seen[id] and (actor.statuses[id] or 0)~=0 then result[#result+1]=id end end
+    return result
+end
 local function hpLost(state,actor,amount,selfInflicted)
     if actor~=state.player or amount<=0 then return end
     actor.damagedThisCombat=(actor.damagedThisCombat or 0)+1
@@ -26,6 +39,12 @@ function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.es
 function M.status(state, actor, id, amount, source, sourceIsMonster)
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
+    if before==0 or actor.statuses[id]==0 then
+        local order={}
+        for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
+        if actor.statuses[id]~=0 then order[#order+1]=id end
+        actor.powerOrder=order
+    end
     if before <= 0 and actor.statuses[id] > 0
         and actor.statusDefinitions[id].decay == "round_end_minus_1" then
         local monster = sourceIsMonster

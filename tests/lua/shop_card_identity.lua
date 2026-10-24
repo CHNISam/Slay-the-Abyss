@@ -42,9 +42,9 @@ local function shop(courier)
 end
 local function duplicate()
     local run, map = shop(true)
-    for _ = 1, 6 do assert(Nodes.buyCard(run, run.nodeFlow.cards[1].id)) end
-    assert(run.nodeFlow.cards[1].id == 'anger' and run.nodeFlow.cards[1].price == 37)
-    assert(run.nodeFlow.cards[2].id == 'anger' and run.nodeFlow.cards[2].price == 42)
+    for _ = 1, 21 do assert(Nodes.buyCardSlot(run, 1)) end
+    assert(run.nodeFlow.cards[1].id == 'clothesline' and run.nodeFlow.cards[1].price == 41)
+    assert(run.nodeFlow.cards[2].id == 'clothesline' and run.nodeFlow.cards[2].price == 42)
     return run, map
 end
 local function findSpec(list, name)
@@ -82,7 +82,7 @@ end
 local function bought(run, before, slot, price)
     assert(before.gold - run.gold == price, 'clicked slot must charge its own quote')
     assert(#run.deck == #before.deck + 1 and run.nextDeckUid == before.nextDeckUid + 1, 'exactly one permanent card UID')
-    same(run.deck[#run.deck], {uid=before.nextDeckUid, cardId='anger', upgraded=false})
+    same(run.deck[#run.deck], {uid=before.nextDeckUid, cardId='clothesline', upgraded=false})
     for i, card in ipairs(before.deck) do same(run.deck[i], card) end
     for i, offer in ipairs(before.nodeFlow.cards) do
         if i ~= slot then same(run.nodeFlow.cards[i], offer) end
@@ -98,12 +98,12 @@ for _, slot in ipairs({2, 1}) do
     test('real Courier duplicate UI buys only slot ' .. slot, function()
         local run, map = duplicate(); local ui = uiFor(run, map); local before = C.copy(run)
         assert(ui:press('shopView/card' .. slot))
-        bought(run, before, slot, slot == 2 and 42 or 37)
+        bought(run, before, slot, slot == 2 and 42 or 41)
     end)
 end
 test('legacy ID rejects ambiguous duplicate stock atomically', function()
     local run, map = duplicate()
-    rejected(run, map, function() return Nodes.buyCard(run, 'anger') end, 'item_unavailable')
+    rejected(run, map, function() return Nodes.buyCard(run, 'clothesline') end, 'item_unavailable')
 end)
 test('slot API selects the expensive duplicate instead of first matching ID', function()
     local run, map = duplicate(); local before = C.copy(run)
@@ -112,7 +112,7 @@ test('slot API selects the expensive duplicate instead of first matching ID', fu
 end)
 test('expensive slot rejects funds sufficient only for cheaper duplicate', function()
     local run, map = duplicate(); local ui = uiFor(run, map)
-    run.gold = 37 -- stale enabled UI must still revalidate the selected 42-gold quote
+    run.gold = 41 -- stale enabled UI must still revalidate the selected 42-gold quote
     rejected(run, map, function() return ui:press('shopView/card2') end, 'insufficient_gold')
     ui:render()
     rejected(run, map, function() return ui:press('shopView/card2') end, 'unavailable_action')

@@ -154,7 +154,7 @@ end
 
 test("real starter victory awards trance and next battle uses it without state edits", function()
     local selected, choice
-    for seed = 1, 64 do
+    for _,seed in ipairs({dofile("tests/lua/support/first_reward_seed.lua")(data,"battle_trance")}) do
         local run = win(seed)
         for i, id in ipairs(Run.rewardOptions(run)) do
             if id == "battle_trance" then selected, choice = run, i; break end
@@ -163,7 +163,7 @@ test("real starter victory awards trance and next battle uses it without state e
     end
     assert(selected, "battle_trance never offered in real victory rewards")
     local oldDeck = Combat.copy(selected.deck)
-    assert(Run.claimCardReward(selected, choice))
+    assert(Run.claimCardReward(selected, choice)); dofile("tests/lua/support/finish_combat_rewards.lua")(selected)
     equal(#selected.deck, #oldDeck + 1)
     for i, card in ipairs(oldDeck) do same(selected.deck[i], card) end
     equal(selected.deck[#selected.deck].cardId, "battle_trance")

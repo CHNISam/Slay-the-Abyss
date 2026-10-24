@@ -45,11 +45,14 @@ for _, tier in ipairs({'normal', 'elite'}) do
         run.combat.seed = fixture[4]
         for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
         assert(Run.finishCombat(run))
-        equal(run.seed, fixture[2]); equal(table.concat(Run.rewardOptions(run), ','), fixture[3])
+        equal(run.seed, fixture[4]) -- card rewards no longer consume combat/shuffle LCG
+        local replay=Run.new(data,fixture[1]);replay.encounterTier=tier
+        local expected,rng,offset=require('abyss_card_pool').prepareRewards(replay)
+        same(Run.rewardOptions(run),expected);same(run.cardRng,rng);equal(run.cardRarityOffset,offset)
         equal(run.gold, data.rules.player.startingGold + data.rules.rewards[tier .. 'Gold'])
     end
 end
-print('ok normal and elite frozen reward outputs and RNG remain unchanged')
+print('ok normal and elite dispatch commit shared card RNG and leave combat RNG unchanged')
 local run = Run.new(data, 42)
 run.floor = 16
 assert(Run.startCombat(run, 'boss_guardian'))

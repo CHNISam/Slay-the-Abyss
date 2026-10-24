@@ -90,7 +90,7 @@ for _, hp in ipairs({1, 40}) do
         local s, c = battle(); s.player.hp = 3; s.enemies[1].hp = hp
         Combat.addStatus(s.enemies[1], "thorns", 3)
         assert(Combat.play(s, c.uid, 1)); equal(s.phase, "defeat")
-        equal(s.nextUid, 2); equal(#s.discard, 1); equal(s.discard[1], c)
+        equal(s.nextUid, 2); equal(#s.discard, 0);equal(s.cardInUse,c)
     end)
 end
 test("final lethal target clears queued copy before victory", function()
@@ -187,7 +187,7 @@ test("real reward followed by next combat uses copy without leaking generated ca
     end
     assert(run, "anger never offered by real victory")
     local oldSize = #run.deck
-    assert(Run.claimCardReward(run,choice)); equal(#run.deck,oldSize+1)
+    assert(Run.claimCardReward(run,choice)); dofile("tests/lua/support/finish_combat_rewards.lua")(run); equal(#run.deck,oldSize+1)
     local checkDeck, nextDeckUid = unchangedAfter(run.deck), run.nextDeckUid
     assert(Run.startCombat(run,"cultist_solo"))
     local played = false
@@ -205,7 +205,7 @@ test("real reward followed by next combat uses copy without leaking generated ca
     end
     assert(played); checkDeck(); equal(run.nextDeckUid,nextDeckUid)
     finishBattle(run); equal(run.phase,"reward"); checkDeck()
-    assert(Run.claimCardReward(run,0)); assert(Run.startCombat(run,"cultist_solo"))
+    assert(Run.claimCardReward(run,0)); dofile("tests/lua/support/finish_combat_rewards.lua")(run); assert(Run.startCombat(run,"cultist_solo"))
     equal(unique(run.combat),#run.deck); equal(run.combat.nextUid,#run.deck+1)
     checkDeck(); equal(run.nextDeckUid,nextDeckUid)
 end)

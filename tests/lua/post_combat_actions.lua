@@ -162,11 +162,12 @@ for _,id in ipairs({"pommel_strike","dropkick"}) do
         local c=prepare(s,id,"discard"); s.enemies[1].hp=1
         if id=="dropkick" then Combat.addStatus(s.enemies[1],"vulnerable",1) end
         local seed,deck=s.seed,Combat.copy(run.deck)
+        local shuffleCount,shuffleCounter=reshuffles(s),s.shuffleRng.counter
         local rewardSeed=seed
-        -- Independent expectation: exactly three existing reward selections, no shuffle draws.
-        for _=1,3 do rewardSeed=(rewardSeed*25173+13849)%65536 end
+        -- Source cardRng owns rewards; neither final-hit draw nor rewards may
+        -- advance the battle shuffle/AI stream.
         assert(Run.play(run,c.uid,1)); equal(run.phase,"reward"); equal(s.seed,seed); equal(run.seed,rewardSeed)
-        equal(#Run.rewardOptions(run),3); equal(run.victories,1); equal(reshuffles(s),0); same(run.deck,deck)
+        equal(#Run.rewardOptions(run),3); equal(run.victories,1); equal(reshuffles(s),shuffleCount);equal(s.shuffleRng.counter,shuffleCounter); same(run.deck,deck)
         assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); equal(run.phase,"map"); equal(run.combat,nil); same(run.deck,deck)
     end)
 end

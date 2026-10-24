@@ -27,11 +27,10 @@ function M.exhaust(combat, state, instance, pile)
     state.exhaust[#state.exhaust+1] = instance
     Events.emit(state, "exhaust", {uid=instance.uid,cardId=instance.cardId})
     local p = state.player
-    if (p.statuses.dark_embrace or 0)>0 and not combat.outcome(state) then
-        M.enqueue(state, {op="draw",value=p.statuses.dark_embrace})
-    end
-    if (p.statuses.feel_no_pain or 0)>0 then
-        M.enqueue(state, {op="block",value=p.statuses.feel_no_pain,fixed=true})
+    for _,id in ipairs(Actors.powerSequence(p,{'dark_embrace','feel_no_pain'})) do
+        if id=='dark_embrace' and not combat.outcome(state) then
+            M.enqueue(state,{op="draw",value=p.statuses[id]})
+        elseif id=='feel_no_pain' then M.enqueue(state,{op="block",value=p.statuses[id],fixed=true}) end
     end
     local energy=combat.cardDefinition(state,instance).exhaustEnergy
     if energy then

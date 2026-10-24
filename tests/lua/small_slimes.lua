@@ -112,8 +112,8 @@ for _,flag in ipairs({false,true}) do
     end)
 end
 
-test('normal seed23 plays the first battle then reaches a natural unknown small_slimes combat',function()
-    local run,map=Run.new(Data,23),Map.generate(Data,23)
+test('normal seed24 plays the first battle then reaches a natural unknown small_slimes combat',function()
+    local run,map=Run.new(Data,24),Map.generate(Data,24)
     assert(Nodes.enter(run,map,'f1_l2'))
     -- Original HP, starting deck, enemy values and legal commands throughout.
     for _=1,200 do
@@ -137,7 +137,7 @@ test('normal seed23 plays the first battle then reaches a natural unknown small_
     assert(Nodes.enter(run,map,'f2_l2'))
     eq(run.nodeFlow.sourceType,'event');eq(run.nodeFlow.type,'combat');eq(run.encounterId,'small_slimes')
     same(ids(run.combat),wanted);same(run.miscRng,stream);eq(map.path[1],'f1_l2');eq(map.path[2],'f2_l2')
-    eq(run.floor,2);eq(run.hp,66);eq(run.victories,1)
+    eq(run.floor,2);eq(run.hp,74);eq(run.victories,1)
 end)
 
 test('invalid, unavailable and mismatched node requests preserve all existing table references',function()
@@ -221,7 +221,7 @@ test('other 16 static encounter groups retain their member order and consume no 
         local misc=run.miscRng;local stable=freeze(misc)
         assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchangedGroups[e.id]))
         eq(run.miscRng,misc);stable()
-        local reference=C.new(Data,{seed=42,enemies=unchangedGroups[e.id],deck=run.deck})
+        local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck})
         same(run.combat,reference)
     end end
     eq(seen,16)

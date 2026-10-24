@@ -192,7 +192,10 @@ test("all audited nonrare rewards occur after real starter victories; first A0 r
         local rarity=find(data.cards.cards,case.id).rarity
         if rarity=="common" or rarity=="uncommon" then wanted[case.id], remaining = true, remaining + 1 end
     end
-    for seed = 1, 128 do
+    for seed = 1, 4096 do
+        local predicted=require("abyss_card_pool").prepareRewards({data=data,cardRng=require("abyss_sts_random").fromSeed(tostring(seed)),cardRarityOffset=5,encounterTier="normal"})
+        local useful=false;for _,id in ipairs(predicted) do if wanted[id] then useful=true end end
+        if useful then
         local run = Run.new(data, seed)
         assert(Run.startCombat(run, "cultist_solo"))
         for _ = 1, 100 do
@@ -221,6 +224,7 @@ test("all audited nonrare rewards occur after real starter victories; first A0 r
                 wanted[id], remaining = nil, remaining - 1
             end
         end
+        end -- selected coverage seed
         if remaining == 0 then break end
     end
     equal(remaining, 0, "unseen playable rewards")

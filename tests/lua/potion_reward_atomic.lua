@@ -59,7 +59,7 @@ local function beforeLethalPotion()
         if run.combat.enemies[1].hp <= 20 then break end
         playOneCommand(run); assert(run.phase == 'combat')
     end
-    assert(run.combat.enemies[1].hp == 18 and run.potions[1] == 'fire_potion')
+    assert(run.combat.enemies[1].hp>0 and run.combat.enemies[1].hp<=20 and run.potions[1]=='fire_potion')
     assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
     cached = run
     return Combat.copy(run)

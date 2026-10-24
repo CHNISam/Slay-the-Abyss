@@ -174,10 +174,21 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "increaseDamageThisCombat" then
             assert(type(playedCard) == "table", "growth requires played card")
             assert(type(value) == "number" and value >= 0 and value < math.huge and value % 1 == 0, "invalid card damage growth")
-            local previous = playedCard.damageBonus or 0
-            local bonus = previous + 0.0 + value
-            assert(bonus < math.huge and (value == 0 or bonus > previous), "card damage growth cannot advance")
-            playedCard.damageBonus = bonus
+            -- Double Tap's makeSameInstanceOf shares the original UUID. Its
+            -- queued copy, resolving instance and all matching combat piles
+            -- grow together; stat-equivalent copies have a fresh UID instead.
+            local seen={}
+            local function grow(c)
+                if not c or c.uid~=playedCard.uid or seen[c] then return end
+                seen[c]=true
+                local previous=c.damageBonus or 0
+                local bonus=previous+0.0+value
+                assert(bonus<math.huge and (value==0 or bonus>previous),"card damage growth cannot advance")
+                c.damageBonus=bonus
+            end
+            grow(playedCard);grow(state.cardInUse)
+            for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust}) do for _,c in ipairs(pile) do grow(c) end end
+            for _,queued in ipairs(state.queuedCards or {}) do grow(queued.card) end
         elseif op == "makeTempCardInDiscard" then
             -- Bounded action ABI: fresh catalog copies, never the Run deck or
             -- a copy of the resolving card (Anger has a separate operation).

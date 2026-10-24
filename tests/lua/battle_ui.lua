@@ -149,7 +149,12 @@ test("selection never spends energy; target click or explicit battlefield click 
     -- Energy preparation uses float arithmetic to detect overflow before wrapping.
     assert(battle.energy % 1 == 0, "energy must retain its integer value contract")
     assert(not stage.children.card5.visible and stage.children.energy.text == string.format("%.0f/3", battle.energy))
-    while #battle.hand > 0 and Combat.canPlay(battle, battle.hand[1].uid, 1) do play(1) end
+    while true do
+        local legal
+        for i,c in ipairs(battle.hand) do if Combat.canPlay(battle,c.uid,1) then legal=i;break end end
+        if not legal then break end
+        play(legal)
+    end
     local hp, hand, remaining = battle.enemies[1].hp, #battle.hand, battle.energy
     if hand > 0 then
         click("card1")

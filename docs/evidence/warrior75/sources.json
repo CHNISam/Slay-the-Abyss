@@ -950,6 +950,50 @@
       "id": "AbstractCard",
       "path": "cards/AbstractCard.java",
       "error": "HTTP Error 403: rate limit exceeded"
+    },
+    {
+      "id": "AbstractPower",
+      "path": "powers/AbstractPower.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/AbstractPower.java",
+      "sha256": "3da50ad77705700c98b49337414a9d5b1e976d8874eb4121009a1fa6ac90a793",
+      "gitBlob": "3b42a1378440f8502d586744cacc94025d756996",
+      "bytes": 14398,
+      "reviewedFacts": [
+        "Default priority is 5; compareTo compares priority only."
+      ]
+    },
+    {
+      "id": "ApplyPowerAction",
+      "path": "actions/common/ApplyPowerAction.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/ApplyPowerAction.java",
+      "sha256": "6064bffdc602f7a81f2b2ec88130f0abf87c8da456b711617dfda894fff29467",
+      "gitBlob": "2b9c1d950af65d3353cf59e20ec40745c08b2a45",
+      "bytes": 12527,
+      "reviewedFacts": [
+        "New powers append then Collections.sort; equal priorities retain application order."
+      ]
+    },
+    {
+      "id": "ModifyDamageAction",
+      "path": "actions/common/ModifyDamageAction.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/ModifyDamageAction.java",
+      "sha256": "c0113442b66ce81b218e3f839d30abe76ac5160bc0493268c9452d5cd607d1bf",
+      "gitBlob": "3038e6b2a36afef78e95ab7d94278fafac563d1a",
+      "bytes": 1208,
+      "reviewedFacts": [
+        "Damage growth applies to all battle instances sharing the UUID."
+      ]
+    },
+    {
+      "id": "GetAllInBattleInstances",
+      "path": "helpers/GetAllInBattleInstances.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/helpers/GetAllInBattleInstances.java",
+      "sha256": "5257f9e8ecd59168ef439ba8b247576e855e014b69cd55f465abc22726fd2441",
+      "gitBlob": "c75963e270325197fe377ac851a037cc4b659953",
+      "bytes": 2372,
+      "reviewedFacts": [
+        "Includes cardInUse, draw, discard, exhaust, limbo, and hand; deduplicates object references."
+      ]
     }
   ]
 }

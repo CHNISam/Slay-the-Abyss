@@ -216,11 +216,12 @@ function M.draw(state, count)
         local card = table.remove(state.draw)
         state.hand[#state.hand + 1] = card
         local kind=state.catalog.cards[card.cardId].type
-        if kind=="status" and (state.player.statuses.evolve or 0)>0 then
-            CardActions.enqueue(state,{op="draw",value=state.player.statuses.evolve})
-        end
-        if (kind=="status" or kind=="curse") and (state.player.statuses.fire_breathing or 0)>0 then
-            CardActions.enqueue(state,{op="damageAll",value=state.player.statuses.fire_breathing,fixed=true})
+        for _,id in ipairs(Actors.powerSequence(state.player,{'evolve','fire_breathing'})) do
+            if id=='evolve' and kind=='status' then
+                CardActions.enqueue(state,{op="draw",value=state.player.statuses[id]})
+            elseif id=='fire_breathing' and (kind=='status' or kind=='curse') then
+                CardActions.enqueue(state,{op="damageAll",value=state.player.statuses[id],fixed=true})
+            end
         end
     end
 end
@@ -540,8 +541,10 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
     for _,id in ipairs({"rage","double_tap","flame_barrier"}) do state.player.statuses[id]=nil end
     local p=state.player
-    if (p.statuses.demon_form or 0)>0 then CardActions.enqueue(state,{op="gainStatus",status="strength",value=p.statuses.demon_form}) end
-    if (p.statuses.berserk or 0)>0 then CardActions.enqueue(state,{op="energy",value=p.statuses.berserk}) end
+    for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
+        CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
+            or {op="energy",value=p.statuses[id]})
+    end
     CardActions.drain(M,state)
     if finish(state) then return end
     M.draw(state, state.rules.player.drawPerTurn)

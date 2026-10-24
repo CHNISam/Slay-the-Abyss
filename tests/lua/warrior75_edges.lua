@@ -199,4 +199,29 @@ test('Double Tap keeps its original target when the first hit kills it',function
     s.player.statuses.double_tap=1;s.enemies[1].hp=6
     play(s);eq(other.hp,500);eq(#s.discard,1);eq(#s.exhaust,0)
 end)
+test('exhaust Power hooks preserve application order, not a fixed Dark Embrace first order',function()
+    for _,first in ipairs({'dark_embrace','feel_no_pain'}) do
+        local s=battle({'true_grit','defend'});s.draw={newCard(s,'strike')}
+        local second=first=='dark_embrace' and 'feel_no_pain' or 'dark_embrace'
+        C.applyEffects(s,{{op='gainStatus',status=first,value=1},{op='gainStatus',status=second,value=1}},s.player)
+        play(s)
+        local blocks={};for _,e in ipairs(s.events) do if e.kind=='block' then blocks[#blocks+1]=e end end
+        eq(#blocks,2);eq(#blocks[2].frame.hand,first=='dark_embrace' and 1 or 0)
+    end
+end)
+test('draw Power hooks preserve application order across Evolve and Fire Breathing',function()
+    for _,first in ipairs({'evolve','fire_breathing'}) do
+        local s=battle({});s.draw={newCard(s,'strike'),newCard(s,'wound')}
+        local second=first=='evolve' and 'fire_breathing' or 'evolve'
+        C.applyEffects(s,{{op='gainStatus',status=first,value=1},{op='gainStatus',status=second,value=1}},s.player)
+        C.draw(s,1);Actions.drain(C,s)
+        local hit;for _,e in ipairs(s.events) do if e.kind=='damage' then hit=e end end
+        assert(hit);eq(#hit.frame.hand,first=='evolve' and 2 or 1)
+    end
+end)
+test('Double Tap Rampage shares growth with the queued copy and the original after disposal',function()
+    local s=battle({'rampage'});s.player.statuses.double_tap=1
+    local c=play(s);eq(s.enemies[1].hp,479);eq(c.damageBonus,10);eq(#s.discard,1)
+    C.draw(s,1);eq(s.hand[1],c);play(s);eq(s.enemies[1].hp,461);eq(c.damageBonus,15)
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')
