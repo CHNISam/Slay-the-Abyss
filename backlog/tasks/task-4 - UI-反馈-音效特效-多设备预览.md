@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-24 03:48'
+updated_date: '2026-10-24 06:51'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -22,8 +22,10 @@ dependencies:
   - TASK-4.1
   - TASK-2.1
   - TASK-10.1.2
+  - TASK-4.2
 references:
   - docs/backlog-details/TASK-4.md
+  - docs/backlog-details/TASK-4.2.md
 ordinal: 4000
 ---
 
