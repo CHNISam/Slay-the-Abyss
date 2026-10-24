@@ -36,7 +36,8 @@ function M.new(root, map, onChoose, clickEvent, options)
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map,
         observedNodeId = view.currentNodeId, observedFloor = view.floor }
-    local drag, released, pointerObserved
+    local drag, released, pointerObserved, scrollAnimation
+    local buttonHover, buttonPress
     local function cancelSelection()
         if drag then drag.selection = nil end
         released = nil
@@ -45,6 +46,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         if drag then self.dragged = true end
         cancelSelection()
         drag = nil
+        scrollAnimation, buttonHover, buttonPress = nil, nil, nil
     end
     local function at(name)
         local i = 1
@@ -59,6 +61,28 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
     local function bind(name, fn) child(at(name), "hit"):AddCursorEventListener(clickEvent, fn) end
+    local function buttonEnabled(name)
+        return self.visible and (name == "focus" or name == "previous" and self.scroll > 0
+            or name == "next" and self.scroll < Layout.maxScroll)
+    end
+    local function paintButton(name)
+        local box, enabled = at(name), buttonEnabled(name)
+        local pressed = enabled and buttonPress and buttonPress.name == name
+        local hover = enabled and buttonHover == name and not pressed
+        box:SetVisible(true)
+        child(box,"hit"):SetVisible(enabled)
+        child(box,"hit").canControllerFocus = enabled
+        tint(child(box,"frame"), not enabled and Theme.color.line
+            or (pressed or hover) and Theme.color.goldBright or Theme.color.goldDim)
+        tint(child(box,"body"), pressed and Theme.color.goldDim
+            or hover and Theme.color.buttonHover or Theme.color.panel)
+        local ink = not enabled and Theme.color.textMuted
+            or pressed and Theme.color.buttonPressedText or Theme.color.text
+        child(box,"label").fontColor = colour(ink.r,ink.g,ink.b,ink.a)
+        local scale = pressed and Theme.layout.nativeNode.buttonStates.pressedScale
+            or Theme.layout.nativeNode.buttonStates.normalScale
+        box:SetLocalScale(scale,scale,1)
+    end
     local function position(node)
         return (node.lane - (Layout.lanes + 1) / 2) * Theme.layout.map.columnGap,
             Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - self.scroll
@@ -109,8 +133,8 @@ function M.new(root, map, onChoose, clickEvent, options)
             (current.floor == 16 and (self.navigationEnabled and "首领奖励已处理 · 请选择首领宝箱" or "已抵达首领 · 请完成首领战斗与奖励") or
             (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")
             ))
-        at("previous"):SetVisible(self.scroll > 0)
-        at("next"):SetVisible(self.scroll < Layout.maxScroll)
+        buttonHover, buttonPress = nil, nil
+        for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         local edge = 0
         for _, node in ipairs(current.nodes) do for _, id in ipairs(node.nextIds) do
             edge = edge + 1
@@ -151,7 +175,8 @@ function M.new(root, map, onChoose, clickEvent, options)
                 tint(icon, Theme.color.node[state == "available" and "reachable" or state])
                 local hit = child(box, "hit")
                 hit:SetSizeDelta(size, size)
-                local clickable = visible and state == "available" and self.navigationEnabled and not self.choosing
+                local clickable = visible and state == "available" and self.navigationEnabled
+                    and not self.choosing and not scrollAnimation
                 hit:SetVisible(clickable)
                 hit.canControllerFocus = clickable
                 if visible then self.slots[i] = node.id end
@@ -164,6 +189,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     function self:resize(width, height)
         if not finite(width) or not finite(height) or width <= 0 or height <= 0 then return false, "invalid_canvas" end
         cancelDrag()
+        for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         self.canvasWidth, self.canvasHeight = width, height
         if embedded then self.scale = 1 return true end
         local scale = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -176,6 +202,22 @@ function M.new(root, map, onChoose, clickEvent, options)
         if not finite(dt) or dt < 0 then return false, "invalid_delta" end
         if not self.visible then return true end
         self.time = (self.time + dt) % Layout.breathSeconds
+        if scrollAnimation and dt > 0 then
+            -- A coordinator may replace/advance the map before the next render.
+            if self.map ~= self.observedMap or self.map.floor ~= self.observedFloor
+                or self.map.currentNodeId ~= self.observedNodeId then
+                cancelDrag()
+            else
+                scrollAnimation.elapsed = scrollAnimation.elapsed + dt
+                local t = clamp(scrollAnimation.elapsed / Layout.scrollSeconds,0,1)
+                local from, target = scrollAnimation.from, scrollAnimation.target
+                self.scroll = clamp(from + (target - from) * (1 - (1 - t)^3),0,Layout.maxScroll)
+                if t == 1 then self.scroll, scrollAnimation = target, nil end
+            end
+            -- render's update(0) only paints breathing; it cannot advance/recurse.
+            self:render()
+            return true
+        end
         local scale = self.reducedMotion and 1 or 1 + (Layout.breathScale - 1) *
             (1 - math.cos(self.time * 2 * math.pi / Layout.breathSeconds)) / 2
         for _, box in ipairs(self.breathing) do box.localScaleX, box.localScaleY = scale, scale end
@@ -183,22 +225,37 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setReducedMotion(value)
         assert(type(value) == "boolean", "reduced motion must be boolean")
-        self.reducedMotion = value self:update(0)
+        self.reducedMotion = value
+        if value and scrollAnimation then return self:setScroll(scrollAnimation.target) end
+        self:update(0)
     end
     function self:setScroll(value)
         if not finite(value) then return false, "invalid_scroll" end
         value = clamp(value, 0, Layout.maxScroll)
-        if value ~= self.scroll then cancelSelection() end
+        if value ~= self.scroll or scrollAnimation then cancelSelection() end
+        scrollAnimation = nil
         self.scroll = value self:render() return true
+    end
+    local function animateScrollTo(value)
+        if not self.visible then return false,"map_hidden" end
+        value = clamp(value,0,Layout.maxScroll)
+        if scrollAnimation and scrollAnimation.target == value then return true end
+        cancelDrag()
+        if value == self.scroll or self.reducedMotion then return self:setScroll(value) end
+        scrollAnimation = {from=self.scroll,target=value,elapsed=0}
+        self:render()
+        return true
     end
     function self:scrollBy(delta)
         if not self.visible then return false, "map_hidden" end
         if not finite(delta) then return false, "invalid_scroll" end
         return self:setScroll(self.scroll + delta)
     end
-    function self:focusCurrent()
+    function self:focusCurrent(animated)
         local current = Map.view(self.map)
-        return self:setScroll(Layout.firstY + (math.max(1, current.floor) - 1) * Theme.layout.map.floorGap - Layout.focusY)
+        local target = Layout.firstY + (math.max(1,current.floor) - 1) * Theme.layout.map.floorGap - Layout.focusY
+        if animated then return animateScrollTo(target) end
+        return self:setScroll(target)
     end
     function self:setNavigationEnabled(enabled)
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
@@ -283,9 +340,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         cancelSelection()
         self.dragged = false
         local y = pointY(event)
+        local wasAnimating = scrollAnimation ~= nil
+        scrollAnimation = nil
         -- Position is optional for a tap. Ownership must still work on hosts
         -- that supply Down/Up but omit drag events or pointer coordinates.
-        drag = {touch=touch(event), startY=y, y=y, selection=selectionFor(slot,event), slot=slot}
+        drag = {touch=touch(event), startY=y, y=y,
+            selection=not wasAnimating and selectionFor(slot,event) or nil, slot=slot}
+        if wasAnimating then self:render() end
     end
     local function move(event, slot)
         if not self.visible then cancelDrag() return end
@@ -325,6 +386,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     draggable(at("dragArea"))
     for i = 1, Layout.maxNodes do local slot = i bind("node" .. slot, function(event)
+        if scrollAnimation then return false,"map_scrolling" end
         if pointerInput and (pointerObserved or touch(event) ~= nil) then
             -- Up grants only its original map/node one Click. A foreign callback
             -- cannot consume that grant or borrow a newer active gesture.
@@ -342,9 +404,33 @@ function M.new(root, map, onChoose, clickEvent, options)
         if self.slots[slot] then return self:choose(self.slots[slot]) end
         return false, "node_outside_viewport"
     end) draggable(child(at("node" .. slot), "hit"), slot) end
-    bind("previous", function() return self:scrollBy(-Layout.scrollStep) end)
-    bind("next", function() return self:scrollBy(Layout.scrollStep) end)
-    bind("focus", function() if self.visible then return self:focusCurrent() end return false, "map_hidden" end)
+    local function step(name,delta)
+        if not buttonEnabled(name) then return false,self.visible and "scroll_boundary" or "map_hidden" end
+        local target = scrollAnimation and scrollAnimation.target or self.scroll
+        return animateScrollTo(target + delta)
+    end
+    bind("previous", function() return step("previous",-Layout.scrollStep) end)
+    bind("next", function() return step("next",Layout.scrollStep) end)
+    bind("focus", function() if self.visible then return self:focusCurrent(true) end return false,"map_hidden" end)
+    -- Reuse existing faces and documented events; no extra controls or timers.
+    for _, key in ipairs({"previous","next","focus"}) do
+        local name, hit = key, child(at(key),"hit")
+        local function listen(event,callback) if event then hit:AddCursorEventListener(event,callback) end end
+        local function clear(event,terminal)
+            if buttonPress and buttonPress.name == name and (terminal or touch(event) == buttonPress.touch) then buttonPress = nil end
+            if buttonHover == name then buttonHover = nil end
+            paintButton(name)
+        end
+        listen(cursor and cursor.CursorEnter,function(event)
+            if buttonEnabled(name) and touch(event) == nil then buttonHover = name paintButton(name) end
+        end)
+        listen(cursor and cursor.CursorDown,function(event)
+            if buttonEnabled(name) then buttonPress = {name=name,touch=touch(event)} paintButton(name) end
+        end)
+        listen(cursor and cursor.CursorUp,clear)
+        listen(cursor and cursor.CursorExit,function(event) clear(event,true) end)
+        listen(cursor and cursor.CursorEndDrag,function(event) clear(event,true) end)
+    end
     self:resize(Theme.canvas.base[1], Theme.canvas.base[2])
     self:focusCurrent()
     return self

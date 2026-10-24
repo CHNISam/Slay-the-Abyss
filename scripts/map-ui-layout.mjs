@@ -13,7 +13,8 @@ export function mapGeometry(theme = loadMapTheme()) {
     viewport: { left: -460, right: 440, bottom: -308, top: -308 + viewportHeight },
     firstY: -308 + 60, contentHeight: 17 * floorGap + 120,
     maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -128,
-    scrollStep: floorGap * 3, breathSeconds: 1.4, breathScale: 1.1,
+    scrollStep: floorGap * theme.layout.map.scrollStepFloors, scrollSeconds: theme.motion.base,
+    breathSeconds: 1.4, breathScale: 1.1,
     glowPadding: 12, lineWidth: 4, dragThreshold: theme.layout.cardDrag.threshold };
 }
 
