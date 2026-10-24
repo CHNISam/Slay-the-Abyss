@@ -6,12 +6,13 @@ export function requireSourceSha(source) {
   if (typeof source !== 'string' || !/^[a-f0-9]{40}$/i.test(source)) throw new TypeError('source must be a complete 40-character Git commit SHA');
   return source.toLowerCase();
 }
+const validAlpha = value => typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1;
 
 // The native reader expands defaults and lowercases colours. Fill implies mask.
 // Keep geometry, text, assets, grid, button states and child order in the comparison.
-export function normalizeUi(value, context = Array.isArray(value) ? 'controls' : 'control') {
+export function normalizeUi(value, context = Array.isArray(value) ? 'controls' : 'control', source = false) {
   if (typeof value === 'string') return context === 'colour' && /^#[0-9a-f]{6}$/i.test(value) ? value.toLowerCase() : value;
-  if (Array.isArray(value)) return value.map(item => normalizeUi(item, context === 'controls' ? 'control' : 'opaque'));
+  if (Array.isArray(value)) return value.map(item => normalizeUi(item, context === 'controls' ? 'control' : 'opaque', source));
   if (!value || typeof value !== 'object') return value;
   const result = {};
   for (const name of Object.keys(value).sort()) {
@@ -20,6 +21,10 @@ export function normalizeUi(value, context = Array.isArray(value) ? 'controls' :
       || name === 'visible' && item === true || name === 'rotation' && item === 0
       || name === 'scale' && ['[1,1]', '[1,1,1]'].includes(JSON.stringify(item)) || name === 'focusable' && item === false)
       || ['control', 'text'].includes(context) && name === 'opacity' && item === 1
+      // Native image/text ink is packed as ARGB, so values rounding to 255
+      // have the same omitted opaque default as an explicit opacity of 1.
+      || source && (context === 'control' && value.kind === 'image' || context === 'text')
+        && name === 'opacity' && validAlpha(item) && Math.round(item * 255) === 255
       || context === 'grid' && (name === 'horizontal' && item === false || name === 'scrollbar' && item === true || name === 'preview')
       // The native reader omits text ink only when its ARGB is 0xffffffff.
       // Keep opacity separate, and never apply this default to opaque metadata.
@@ -28,7 +33,7 @@ export function normalizeUi(value, context = Array.isArray(value) ? 'controls' :
     const next = context === 'control' && name === 'children' ? 'controls'
       : context === 'control' && ['text', 'grid'].includes(name) ? name
       : context === 'control' && name === 'colour' || context === 'text' && ['colour', 'background', 'outlineColour'].includes(name) ? 'colour' : 'opaque';
-    result[name] = normalizeUi(item, next);
+    result[name] = normalizeUi(item, next, source);
   }
   return result;
 }
@@ -40,18 +45,24 @@ function interfaceMetadata(spec) {
   }
   return metadata;
 }
-function uiComparisonContext(context, key) {
+function uiComparisonContext(context, key, value) {
   if (context === 'control') {
     if (key === 'children') return 'controls';
     if (['text', 'grid'].includes(key)) return key;
     if (['position', 'size', 'scale'].includes(key)) return 'float-vector';
+    if (key === 'opacity' && value.kind === 'image') return 'alpha-byte';
     if (['rotation', 'opacity'].includes(key)) return 'float';
   }
-  if (context === 'text' && ['fontSize', 'minFontSize', 'opacity'].includes(key)) return 'float';
+  if (context === 'text' && (key === 'opacity' || key === 'backgroundOpacity' && value.background !== undefined
+    || key === 'outlineOpacity' && value.outlineColour !== undefined)) return 'alpha-byte';
+  if (context === 'text' && ['fontSize', 'minFontSize'].includes(key)) return 'float';
   if (context === 'grid' && ['itemSize', 'spacing', 'padding'].includes(key)) return 'float-vector';
   return 'opaque';
 }
 function equivalent(left, right, context = 'opaque') {
+  if (context === 'alpha-byte') {
+    return validAlpha(left) && validAlpha(right) && Math.round(left * 255) / 255 === right;
+  }
   if (context === 'float' && typeof left === 'number' && typeof right === 'number') {
     return Number.isFinite(left) && Number.isFinite(right) && Math.abs(left - right) <= 0.0001;
   }
@@ -59,7 +70,7 @@ function equivalent(left, right, context = 'opaque') {
   if (Array.isArray(left) !== Array.isArray(right) || Object.keys(left).length !== Object.keys(right).length) return false;
   return Object.keys(left).every(key => {
     const next = Array.isArray(left) ? context === 'controls' ? 'control' : context === 'float-vector' ? 'float' : 'opaque'
-      : uiComparisonContext(context, key);
+      : uiComparisonContext(context, key, left);
     return Object.hasOwn(right, key) && equivalent(left[key], right[key], next);
   });
 }
@@ -85,8 +96,8 @@ export function compareNativeCandidate({ actual, expected, sourceSha, candidateB
   if (new Set(modules.map(module => module.name)).size !== modules.length) add('MODULE_DUPLICATE', 'Script names must be unique');
   const sourceControls = expected.ui.controls, controls = actual.ui.interface.controls;
   const sourceStats = controlTreeStats(sourceControls), stats = controlTreeStats(controls);
-  if (!equivalent(normalizeUi(sourceControls), normalizeUi(controls), 'controls')) add('UI_MISMATCH', 'Controls differ from same-source generated UI');
-  if (!equivalent(normalizeUi(expected.template), normalizeUi(actual.template.template), 'control')) add('TEMPLATE_MISMATCH', 'Deck template differs from same-source generated template');
+  if (!equivalent(normalizeUi(sourceControls, 'controls', true), normalizeUi(controls), 'controls')) add('UI_MISMATCH', 'Controls differ from same-source generated UI');
+  if (!equivalent(normalizeUi(expected.template, 'control', true), normalizeUi(actual.template.template), 'control')) add('TEMPLATE_MISMATCH', 'Deck template differs from same-source generated template');
   if (!equivalent(interfaceMetadata(expected.ui), interfaceMetadata(actual.ui.interface))) add('INTERFACE_MISMATCH', 'Interface identity, flags, scripts or other root metadata differ');
   const graphContracts = expected.graphs.filter(graph => bgm || graph.name !== '_GSTS_ABYSS_BGM');
   if (actual.inspected.graphs.length !== graphContracts.length) add('GRAPH_COUNT', 'Unexpected/missing server graph');
