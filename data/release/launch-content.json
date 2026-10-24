@@ -1,14 +1,25 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "scope": "Ironclad / Geo Lumine / Act 1 / PC A0",
   "baseline": "6e8714f",
-  "integratedBaseline": "b757705",
+  "integratedBaseline": "d3369bb",
   "status": "scope-baseline-awaiting-per-item-acceptance",
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
   "knownBlockers": [
-    { "ids": ["medium_slimes"], "status": "production-composition-needs-correction", "evidence": "docs/reviews/TASK-15-encounter-composition-audit-20261024.md", "tasks": ["TASK-15", "TASK-47"] },
-    { "ids": ["map"], "status": "full-parity-candidate-not-deployed", "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md", "tasks": ["TASK-12.4", "TASK-12.5"] }
+    {
+      "ids": [
+        "formal-encounters",
+        "map"
+      ],
+      "status": "integrated-offline-per-item-platform-live-pending",
+      "evidence": "docs/LAUNCH_CONTENT.md",
+      "tasks": [
+        "TASK-12.5",
+        "TASK-15",
+        "TASK-47"
+      ]
+    }
   ],
   "profiles": {
     "cards": {
@@ -78,7 +89,9 @@
       "entryPoints": [
         "src/lua/abyss_enemy_ai.lua",
         "src/lua/abyss_combat.lua",
-        "src/lua/abyss_battle_ui.lua"
+        "src/lua/abyss_battle_ui.lua",
+        "src/lua/abyss_room_encounters.lua",
+        "src/lua/abyss_encounter_formation.lua"
       ],
       "local": {
         "status": "coverage-recorded",
@@ -106,13 +119,22 @@
       "entryPoints": [
         "src/lua/abyss_map.lua",
         "src/lua/abyss_nodes.lua",
-        "src/lua/abyss_run.lua"
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_room_encounters.lua",
+        "src/lua/abyss_combat.lua",
+        "src/lua/abyss_encounter_formation.lua",
+        "src/lua/abyss_encounter_queue.lua",
+        "scripts/native-candidate-scripts.mjs"
       ],
       "local": {
         "status": "coverage-recorded",
         "testFiles": [
           "tests/lua/encounter_coverage.lua",
-          "tests/lua/map.lua"
+          "tests/lua/map.lua",
+          "tests/encounter-runtime.test.mjs",
+          "tests/lua/encounter_runtime.lua",
+          "tests/lua/encounter_formations.lua",
+          "tests/encounter-queue.test.mjs"
         ]
       },
       "platform": {
@@ -124,7 +146,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "14 normal + 3 elite + 1 Boss combinations; topology/selection/RNG parity remains open. A populated ID does not prove original encounter rules."
+      "limitation": "17 source queue bindings plus Guardian-unseen Boss. Formal Nodes entry and finite formation member ranges are inspected separately from legacy explicit IDs. Per-item natural acquisition, platform and live verification remain pending."
     },
     "events": {
       "tasks": [
@@ -249,6 +271,35 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "One Boss on floor 16, separate treasure on 17. M2 completion does not prove every Guardian transition."
+    },
+    "legacyEncounters": {
+      "tasks": [
+        "TASK-12.5",
+        "TASK-15",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "data/enemies.json",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_combat.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/encounter_coverage.lua",
+          "tests/lua/map.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Historical explicit-ID development/replay inputs, not the formal source queue or natural acquisition channels."
     }
   },
   "cards": [
@@ -811,7 +862,8 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
-        "encounter:cultist_solo"
+        "encounter:cultist_solo",
+        "encounter:exordium_thugs"
       ],
       "aiEntry": "src/lua/abyss_enemy_ai.lua"
     },
@@ -832,8 +884,10 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:exordium_thugs",
         "encounter:louse_pair",
-        "encounter:louse_trio"
+        "encounter:louse_trio",
+        "encounter:wildlife"
       ],
       "aiEntry": "src/lua/abyss_enemy_ai.lua"
     },
@@ -843,6 +897,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:exordium_thugs",
         "encounter:louse_pair",
         "encounter:louse_trio",
         "encounter:wildlife"
@@ -855,6 +910,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:lots_of_slimes",
         "encounter:small_slimes"
       ],
       "aiEntry": "src/lua/abyss_acid_slime_s_ai.lua"
@@ -865,8 +921,9 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:exordium_thugs",
         "encounter:small_slimes",
-        "encounter:medium_slimes"
+        "encounter:wildlife"
       ],
       "aiEntry": "src/lua/abyss_acid_slime_m_ai.lua"
     },
@@ -876,7 +933,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
-        "encounter:large_acid"
+        "encounter:large_slime"
       ],
       "aiEntry": "src/lua/abyss_enemy_ai.lua"
     },
@@ -886,6 +943,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:lots_of_slimes",
         "encounter:small_slimes"
       ],
       "aiEntry": "src/lua/abyss_enemy_ai.lua"
@@ -896,8 +954,9 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:exordium_thugs",
         "encounter:small_slimes",
-        "encounter:medium_slimes"
+        "encounter:wildlife"
       ],
       "aiEntry": "src/lua/abyss_spike_slime_m_ai.lua"
     },
@@ -907,7 +966,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
-        "encounter:large_spike"
+        "encounter:large_slime"
       ],
       "aiEntry": "src/lua/abyss_enemy_ai.lua"
     },
@@ -917,6 +976,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:exordium_thugs",
         "encounter:looter_solo"
       ],
       "aiEntry": "src/lua/abyss_looter_ai.lua"
@@ -927,7 +987,8 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
-        "encounter:blue_slaver_solo"
+        "encounter:blue_slaver_solo",
+        "encounter:exordium_thugs"
       ],
       "aiEntry": "src/lua/abyss_blue_slaver_ai.lua"
     },
@@ -937,6 +998,7 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
+        "encounter:exordium_thugs",
         "encounter:red_slaver_solo"
       ],
       "aiEntry": "src/lua/abyss_red_slaver_ai.lua"
@@ -947,7 +1009,8 @@
       "profile": "enemies",
       "tier": "normal",
       "channels": [
-        "encounter:fungi_pair"
+        "encounter:fungi_pair",
+        "encounter:wildlife"
       ],
       "aiEntry": "src/lua/abyss_fungi_beast_ai.lua"
     },
@@ -1045,13 +1108,22 @@
   "encounters": [
     {
       "id": "cultist_solo",
+      "runtimeId": "cultist_solo",
+      "sourceName": "Cultist",
       "tier": "normal",
-      "enemies": [
+      "queuePools": [
+        "weak"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "cultist"
+        ]
+      },
+      "memberIds": [
         "cultist"
       ],
-      "minFloor": 1,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/cultist_solo",
+      "source": "src/lua/abyss_room_encounters.lua#Cultist",
       "profile": "encounters",
       "channels": [
         "map:combat",
@@ -1060,13 +1132,22 @@
     },
     {
       "id": "jaw_solo",
+      "runtimeId": "jaw_solo",
+      "sourceName": "Jaw Worm",
       "tier": "normal",
-      "enemies": [
+      "queuePools": [
+        "weak"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "jaw_worm"
+        ]
+      },
+      "memberIds": [
         "jaw_worm"
       ],
-      "minFloor": 1,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/jaw_solo",
+      "source": "src/lua/abyss_room_encounters.lua#Jaw Worm",
       "profile": "encounters",
       "channels": [
         "map:combat",
@@ -1075,14 +1156,34 @@
     },
     {
       "id": "louse_pair",
+      "runtimeId": "louse_pair",
+      "sourceName": "2 Louse",
       "tier": "normal",
-      "enemies": [
-        "red_louse",
-        "green_louse"
+      "queuePools": [
+        "weak"
       ],
-      "minFloor": 1,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/louse_pair",
+      "formation": {
+        "kind": "slots",
+        "slots": [
+          {
+            "boolean": [
+              "green_louse",
+              "red_louse"
+            ]
+          },
+          {
+            "boolean": [
+              "green_louse",
+              "red_louse"
+            ]
+          }
+        ]
+      },
+      "memberIds": [
+        "green_louse",
+        "red_louse"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#2 Louse",
       "profile": "encounters",
       "channels": [
         "map:combat",
@@ -1091,96 +1192,30 @@
     },
     {
       "id": "small_slimes",
+      "runtimeId": "small_slimes",
+      "sourceName": "Small Slimes",
       "tier": "normal",
-      "enemies": [
-        "acid_slime_s",
-        "spike_slime_m"
+      "queuePools": [
+        "weak"
       ],
-      "enemiesOnTrue": [
-        "spike_slime_s",
-        "acid_slime_m"
-      ],
-      "minFloor": 1,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/small_slimes",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "louse_trio",
-      "tier": "normal",
-      "enemies": [
-        "red_louse",
-        "green_louse",
-        "red_louse"
-      ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/louse_trio",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "medium_slimes",
-      "tier": "normal",
-      "enemies": [
+      "formation": {
+        "kind": "boolean",
+        "onFalse": [
+          "acid_slime_s",
+          "spike_slime_m"
+        ],
+        "onTrue": [
+          "spike_slime_s",
+          "acid_slime_m"
+        ]
+      },
+      "memberIds": [
         "acid_slime_m",
-        "spike_slime_m"
+        "acid_slime_s",
+        "spike_slime_m",
+        "spike_slime_s"
       ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/medium_slimes",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "large_acid",
-      "tier": "normal",
-      "enemies": [
-        "acid_slime_l"
-      ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/large_acid",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "large_spike",
-      "tier": "normal",
-      "enemies": [
-        "spike_slime_l"
-      ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/large_spike",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "looter_solo",
-      "tier": "normal",
-      "enemies": [
-        "looter"
-      ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/looter_solo",
+      "source": "src/lua/abyss_room_encounters.lua#Small Slimes",
       "profile": "encounters",
       "channels": [
         "map:combat",
@@ -1189,44 +1224,22 @@
     },
     {
       "id": "blue_slaver_solo",
+      "runtimeId": "blue_slaver_solo",
+      "sourceName": "Blue Slaver",
       "tier": "normal",
-      "enemies": [
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "blue_slaver"
+        ]
+      },
+      "memberIds": [
         "blue_slaver"
       ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/blue_slaver_solo",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "red_slaver_solo",
-      "tier": "normal",
-      "enemies": [
-        "red_slaver"
-      ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/red_slaver_solo",
-      "profile": "encounters",
-      "channels": [
-        "map:combat",
-        "unknown_room:monster"
-      ]
-    },
-    {
-      "id": "fungi_pair",
-      "tier": "normal",
-      "enemies": [
-        "fungi_beast",
-        "fungi_beast"
-      ],
-      "minFloor": 4,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/fungi_pair",
+      "source": "src/lua/abyss_room_encounters.lua#Blue Slaver",
       "profile": "encounters",
       "channels": [
         "map:combat",
@@ -1235,37 +1248,307 @@
     },
     {
       "id": "gremlin_gang",
+      "runtimeId": "gremlin_gang",
+      "sourceName": "Gremlin Gang",
       "tier": "normal",
-      "minFloor": 5,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/gremlin_gang",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "without-replacement",
+        "pool": [
+          "mad_gremlin",
+          "mad_gremlin",
+          "sneaky_gremlin",
+          "sneaky_gremlin",
+          "fat_gremlin",
+          "fat_gremlin",
+          "shield_gremlin",
+          "wizard_gremlin"
+        ],
+        "count": 4
+      },
+      "memberIds": [
+        "fat_gremlin",
+        "mad_gremlin",
+        "shield_gremlin",
+        "sneaky_gremlin",
+        "wizard_gremlin"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#Gremlin Gang",
       "profile": "encounters",
       "channels": [
         "map:combat",
         "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "looter_solo",
+      "runtimeId": "looter_solo",
+      "sourceName": "Looter",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
       ],
-      "gremlinPool": [
-        "mad_gremlin",
-        "mad_gremlin",
-        "sneaky_gremlin",
-        "sneaky_gremlin",
-        "fat_gremlin",
-        "fat_gremlin",
-        "shield_gremlin",
-        "wizard_gremlin"
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "looter"
+        ]
+      },
+      "memberIds": [
+        "looter"
       ],
-      "gremlinCount": 4
+      "source": "src/lua/abyss_room_encounters.lua#Looter",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "large_slime",
+      "runtimeId": "large_slime",
+      "sourceName": "Large Slime",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "boolean",
+        "onFalse": [
+          "spike_slime_l"
+        ],
+        "onTrue": [
+          "acid_slime_l"
+        ]
+      },
+      "memberIds": [
+        "acid_slime_l",
+        "spike_slime_l"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#Large Slime",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "lots_of_slimes",
+      "runtimeId": "lots_of_slimes",
+      "sourceName": "Lots of Slimes",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "without-replacement",
+        "pool": [
+          "spike_slime_s",
+          "spike_slime_s",
+          "spike_slime_s",
+          "acid_slime_s",
+          "acid_slime_s"
+        ],
+        "count": 5
+      },
+      "memberIds": [
+        "acid_slime_s",
+        "spike_slime_s"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#Lots of Slimes",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "exordium_thugs",
+      "runtimeId": "exordium_thugs",
+      "sourceName": "Exordium Thugs",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "slots",
+        "slots": [
+          {
+            "candidates": [
+              {
+                "boolean": [
+                  "green_louse",
+                  "red_louse"
+                ]
+              },
+              "spike_slime_m",
+              "acid_slime_m"
+            ]
+          },
+          {
+            "candidates": [
+              "cultist",
+              {
+                "boolean": [
+                  "blue_slaver",
+                  "red_slaver"
+                ]
+              },
+              "looter"
+            ]
+          }
+        ]
+      },
+      "memberIds": [
+        "acid_slime_m",
+        "blue_slaver",
+        "cultist",
+        "green_louse",
+        "looter",
+        "red_louse",
+        "red_slaver",
+        "spike_slime_m"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#Exordium Thugs",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
     },
     {
       "id": "wildlife",
+      "runtimeId": "wildlife",
+      "sourceName": "Exordium Wildlife",
       "tier": "normal",
-      "enemies": [
-        "jaw_worm",
-        "green_louse"
+      "queuePools": [
+        "strong"
       ],
-      "minFloor": 5,
-      "maxFloor": 14,
-      "source": "data/enemies.json#encounters/wildlife",
+      "formation": {
+        "kind": "slots",
+        "slots": [
+          {
+            "candidates": [
+              "fungi_beast",
+              "jaw_worm"
+            ]
+          },
+          {
+            "candidates": [
+              {
+                "boolean": [
+                  "green_louse",
+                  "red_louse"
+                ]
+              },
+              "spike_slime_m",
+              "acid_slime_m"
+            ]
+          }
+        ]
+      },
+      "memberIds": [
+        "acid_slime_m",
+        "fungi_beast",
+        "green_louse",
+        "jaw_worm",
+        "red_louse",
+        "spike_slime_m"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#Exordium Wildlife",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "red_slaver_solo",
+      "runtimeId": "red_slaver_solo",
+      "sourceName": "Red Slaver",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "red_slaver"
+        ]
+      },
+      "memberIds": [
+        "red_slaver"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#Red Slaver",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "louse_trio",
+      "runtimeId": "louse_trio",
+      "sourceName": "3 Louse",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "slots",
+        "slots": [
+          {
+            "boolean": [
+              "green_louse",
+              "red_louse"
+            ]
+          },
+          {
+            "boolean": [
+              "green_louse",
+              "red_louse"
+            ]
+          },
+          {
+            "boolean": [
+              "green_louse",
+              "red_louse"
+            ]
+          }
+        ]
+      },
+      "memberIds": [
+        "green_louse",
+        "red_louse"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#3 Louse",
+      "profile": "encounters",
+      "channels": [
+        "map:combat",
+        "unknown_room:monster"
+      ]
+    },
+    {
+      "id": "fungi_pair",
+      "runtimeId": "fungi_pair",
+      "sourceName": "2 Fungi Beasts",
+      "tier": "normal",
+      "queuePools": [
+        "strong"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "fungi_beast",
+          "fungi_beast"
+        ]
+      },
+      "memberIds": [
+        "fungi_beast"
+      ],
+      "source": "src/lua/abyss_room_encounters.lua#2 Fungi Beasts",
       "profile": "encounters",
       "channels": [
         "map:combat",
@@ -1274,13 +1557,22 @@
     },
     {
       "id": "elite_nob",
+      "runtimeId": "elite_nob",
+      "sourceName": "Gremlin Nob",
       "tier": "elite",
-      "enemies": [
+      "queuePools": [
+        "elite"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "gremlin_nob"
+        ]
+      },
+      "memberIds": [
         "gremlin_nob"
       ],
-      "minFloor": 6,
-      "maxFloor": 13,
-      "source": "data/enemies.json#encounters/elite_nob",
+      "source": "src/lua/abyss_room_encounters.lua#Gremlin Nob",
       "profile": "encounters",
       "channels": [
         "map:elite"
@@ -1288,13 +1580,22 @@
     },
     {
       "id": "elite_lagavulin",
+      "runtimeId": "elite_lagavulin",
+      "sourceName": "Lagavulin",
       "tier": "elite",
-      "enemies": [
+      "queuePools": [
+        "elite"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "lagavulin"
+        ]
+      },
+      "memberIds": [
         "lagavulin"
       ],
-      "minFloor": 6,
-      "maxFloor": 13,
-      "source": "data/enemies.json#encounters/elite_lagavulin",
+      "source": "src/lua/abyss_room_encounters.lua#Lagavulin",
       "profile": "encounters",
       "channels": [
         "map:elite"
@@ -1302,15 +1603,24 @@
     },
     {
       "id": "elite_sentries",
+      "runtimeId": "elite_sentries",
+      "sourceName": "3 Sentries",
       "tier": "elite",
-      "enemies": [
-        "sentry",
-        "sentry",
+      "queuePools": [
+        "elite"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "sentry",
+          "sentry",
+          "sentry"
+        ]
+      },
+      "memberIds": [
         "sentry"
       ],
-      "minFloor": 6,
-      "maxFloor": 13,
-      "source": "data/enemies.json#encounters/elite_sentries",
+      "source": "src/lua/abyss_room_encounters.lua#3 Sentries",
       "profile": "encounters",
       "channels": [
         "map:elite"
@@ -1318,13 +1628,22 @@
     },
     {
       "id": "boss_guardian",
+      "runtimeId": "boss_guardian",
+      "sourceName": "The Guardian",
       "tier": "boss",
-      "enemies": [
+      "queuePools": [
+        "boss:guardian-unseen"
+      ],
+      "formation": {
+        "kind": "fixed",
+        "members": [
+          "guardian"
+        ]
+      },
+      "memberIds": [
         "guardian"
       ],
-      "minFloor": 16,
-      "maxFloor": 16,
-      "source": "data/enemies.json#encounters/boss_guardian",
+      "source": "src/lua/abyss_run.lua#startRoomCombat:guardian-unseen",
       "profile": "encounters",
       "channels": [
         "map:boss:floor16"
@@ -1759,8 +2078,18 @@
     }
   ],
   "history": [
-    {"date": "2026-10-24", "change": "TASK-16.1.4 corrects the existing Shockwave pair to apply Weak then Vulnerable per active enemy, preserving values, cost, exhaust, presentation and shared Actor rules. Local evidence: docs/reviews/TASK-16.1.4-shockwave-order.md. Historical sequence diagnostics remain unchanged; other blockers and all per-item live acceptance remain pending."},
-    {"date": "2026-10-24", "change": "TASK-16.1.3 removes the repeated Barricade zero-stack feedback for the existing normal non-stacking power only. Local evidence: docs/reviews/TASK-16.1.3-barricade-repeat.md. Historical sequence diagnostics remain unchanged; Shockwave order, all other blockers and per-item live acceptance remain pending."},
+    {
+      "date": "2026-10-25",
+      "change": "Schema2 tracks integrated d3369bb formal source bindings and all finite formation branches. Legacy Data.encounters remain separately inventoried as explicit-ID inputs; medium_slimes/large_acid/large_spike are not formal source entries. Map and runtime source are integrated offline; all per-item platform/live statuses remain pending."
+    },
+    {
+      "date": "2026-10-24",
+      "change": "TASK-16.1.4 corrects the existing Shockwave pair to apply Weak then Vulnerable per active enemy, preserving values, cost, exhaust, presentation and shared Actor rules. Local evidence: docs/reviews/TASK-16.1.4-shockwave-order.md. Historical sequence diagnostics remain unchanged; other blockers and all per-item live acceptance remain pending."
+    },
+    {
+      "date": "2026-10-24",
+      "change": "TASK-16.1.3 removes the repeated Barricade zero-stack feedback for the existing normal non-stacking power only. Local evidence: docs/reviews/TASK-16.1.3-barricade-repeat.md. Historical sequence diagnostics remain unchanged; Shockwave order, all other blockers and per-item live acceptance remain pending."
+    },
     {
       "date": "2026-10-24",
       "change": "TASK-15.18 corrects gremlin_gang from fixed five to four ordered draws without replacement from an eight-slot pool; all five enemy types retain their existing encounter channel. Local evidence: docs/reviews/TASK-15.18-gremlin-gang.md. Other 17 encounters, scope counts, per-item acceptance, and medium_slimes blocker remain unchanged."
@@ -1769,5 +2098,333 @@
       "date": "2026-10-24",
       "change": "Initial production inventory at 6e8714f. Includes the already-integrated seventh event Golden Shrine; no new content admitted."
     }
-  ]
+  ],
+  "runtime": {
+    "nodeEntry": "abyss_nodes.enter",
+    "roomEntry": "abyss_run.startRoomCombat",
+    "sourcePool": "abyss_encounter_queue.rules",
+    "modules": [
+      {
+        "name": "abyss_nodes",
+        "source": "src/lua/abyss_nodes.lua",
+        "requires": [
+          "abyss_run"
+        ]
+      },
+      {
+        "name": "abyss_run",
+        "source": "src/lua/abyss_run.lua",
+        "requires": [
+          "abyss_encounter_queue",
+          "abyss_room_encounters"
+        ]
+      },
+      {
+        "name": "abyss_room_encounters",
+        "source": "src/lua/abyss_room_encounters.lua",
+        "requires": [
+          "abyss_encounter_formation"
+        ]
+      },
+      {
+        "name": "abyss_combat",
+        "source": "src/lua/abyss_combat.lua",
+        "requires": [
+          "abyss_encounter_formation"
+        ]
+      },
+      {
+        "name": "abyss_encounter_formation",
+        "source": "src/lua/abyss_encounter_formation.lua",
+        "requires": [
+          "abyss_sts_random"
+        ]
+      },
+      {
+        "name": "abyss_encounter_queue",
+        "source": "src/lua/abyss_encounter_queue.lua",
+        "requires": [
+          "abyss_sts_random"
+        ]
+      }
+    ]
+  },
+  "legacyData": {
+    "role": "explicit-id-development-replay-not-formal-source-pool",
+    "encounters": [
+      {
+        "id": "cultist_solo",
+        "tier": "normal",
+        "enemies": [
+          "cultist"
+        ],
+        "minFloor": 1,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/cultist_solo",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "jaw_solo",
+        "tier": "normal",
+        "enemies": [
+          "jaw_worm"
+        ],
+        "minFloor": 1,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/jaw_solo",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "louse_pair",
+        "tier": "normal",
+        "enemies": [
+          "red_louse",
+          "green_louse"
+        ],
+        "minFloor": 1,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/louse_pair",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "small_slimes",
+        "tier": "normal",
+        "enemies": [
+          "acid_slime_s",
+          "spike_slime_m"
+        ],
+        "enemiesOnTrue": [
+          "spike_slime_s",
+          "acid_slime_m"
+        ],
+        "minFloor": 1,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/small_slimes",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "louse_trio",
+        "tier": "normal",
+        "enemies": [
+          "red_louse",
+          "green_louse",
+          "red_louse"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/louse_trio",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "medium_slimes",
+        "tier": "normal",
+        "enemies": [
+          "acid_slime_m",
+          "spike_slime_m"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/medium_slimes",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "large_acid",
+        "tier": "normal",
+        "enemies": [
+          "acid_slime_l"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/large_acid",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "large_spike",
+        "tier": "normal",
+        "enemies": [
+          "spike_slime_l"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/large_spike",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "looter_solo",
+        "tier": "normal",
+        "enemies": [
+          "looter"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/looter_solo",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "blue_slaver_solo",
+        "tier": "normal",
+        "enemies": [
+          "blue_slaver"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/blue_slaver_solo",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "red_slaver_solo",
+        "tier": "normal",
+        "enemies": [
+          "red_slaver"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/red_slaver_solo",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "fungi_pair",
+        "tier": "normal",
+        "enemies": [
+          "fungi_beast",
+          "fungi_beast"
+        ],
+        "minFloor": 4,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/fungi_pair",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "gremlin_gang",
+        "tier": "normal",
+        "gremlinPool": [
+          "mad_gremlin",
+          "mad_gremlin",
+          "sneaky_gremlin",
+          "sneaky_gremlin",
+          "fat_gremlin",
+          "fat_gremlin",
+          "shield_gremlin",
+          "wizard_gremlin"
+        ],
+        "gremlinCount": 4,
+        "minFloor": 5,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/gremlin_gang",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "wildlife",
+        "tier": "normal",
+        "enemies": [
+          "jaw_worm",
+          "green_louse"
+        ],
+        "minFloor": 5,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/wildlife",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "elite_nob",
+        "tier": "elite",
+        "enemies": [
+          "gremlin_nob"
+        ],
+        "minFloor": 6,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/elite_nob",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "elite_lagavulin",
+        "tier": "elite",
+        "enemies": [
+          "lagavulin"
+        ],
+        "minFloor": 6,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/elite_lagavulin",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "elite_sentries",
+        "tier": "elite",
+        "enemies": [
+          "sentry",
+          "sentry",
+          "sentry"
+        ],
+        "minFloor": 6,
+        "maxFloor": 14,
+        "source": "data/enemies.json#encounters/elite_sentries",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      },
+      {
+        "id": "boss_guardian",
+        "tier": "boss",
+        "enemies": [
+          "guardian"
+        ],
+        "minFloor": 16,
+        "maxFloor": 16,
+        "source": "data/enemies.json#encounters/boss_guardian",
+        "profile": "legacyEncounters",
+        "channels": [
+          "explicit:Run.startCombat"
+        ]
+      }
+    ]
+  }
 }
