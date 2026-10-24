@@ -13,8 +13,9 @@ for _,choice in ipairs({0,1}) do
     assert(Run.potionCount(run)==0,'card choice must never acquire a potion')
     assert(run.phase=='reward' and run.rewards.potion==offer and not offer.resolved)
     assert(#run.deck==10+choice)
-    local ok,why=Run.leaveCombatRewards(run)
-    assert(not ok and why=='pending_potion_reward')
+    local rewards=run.rewards
+    assert(Run.leaveCombatRewards(run));assert(run.pendingCombatRewards.rewards==rewards and not offer.resolved)
+    assert(Run.reopenCombatRewards(run))
     assert(Run.claimPotionReward(run));assert(run.phase=='reward')
     assert(Run.leaveCombatRewards(run));assert(run.phase=='map')
 end

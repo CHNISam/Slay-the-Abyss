@@ -141,6 +141,7 @@ test("real starter reward body_slam joins permanent deck and plays after defend 
     assert(Run.claimCardReward(selected, choice)); equal(#selected.deck, #oldDeck + 1)
     for i, instance in ipairs(oldDeck) do same(selected.deck[i], instance) end
     equal(selected.deck[#selected.deck].cardId, "body_slam")
+    dofile('tests/lua/support/finish_combat_rewards.lua')(selected)
     assert(Run.startCombat(selected, "cultist_solo"))
     for _ = 1, 10 do
         assert(selected.phase == "combat", "battle ended before card was played")

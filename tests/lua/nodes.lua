@@ -56,11 +56,12 @@ local function finishBattle(run)
     equal(run.phase, "reward")
 end
 
-test("legal map selection starts the matching ordinary, elite and boss encounters", function()
+test("legal map selection starts the matching source queue tier or Guardian", function()
     for _, kind in ipairs({ "combat", "elite", "boss" }) do
         local run, map, node = entered(kind)
         equal(map.currentNodeId, node.id); equal(run.floor, node.floor)
-        equal(run.phase, "combat"); equal(run.encounterId, node.encounterId)
+        equal(run.phase, "combat"); equal(run.encounterTier,kind=='combat' and 'normal' or kind)
+        equal(run.nodeFlow.encounterId,run.encounterId);assert(run.encounterSource)
         equal(#Nodes.available(run, map), 0)
         rejected(run, map, function() return Nodes.enter(run, map, Map.available(map)[1] and Map.available(map)[1].id) end)
         rejected(run, map, function() return Nodes.completeCombat(run, map) end, "battle_unfinished")
@@ -71,8 +72,8 @@ test("invalid selection and failed combat setup leave the map and run unchanged"
     local run, map = Run.new(data, 3), Map.generate(data, 3)
     rejected(run, map, function() return Nodes.enter(run, map, "f15_l2") end, "node_unavailable")
     rejected(run, map, function() return Nodes.enter(run, map, "missing") end, "invalid_node")
-    map.nodes[1].encounterId = "missing"
-    rejected(run, map, function() return Nodes.enter(run, map, map.nodes[1].id) end, "unknown_encounter")
+    run.relics={'missing'}
+    rejected(run, map, function() return Nodes.enter(run, map, Map.available(map)[1].id) end, "unknown_relic")
 end)
 
 test("an ordinary treasure cannot impersonate the earned Boss chest", function()
@@ -258,11 +259,8 @@ end)
 
 test("real starter wins a map-dispatched encounter without combat or content state edits", function()
     local run, map = Run.new(data, 42), Map.generate(data, 42)
-    local selected
-    for _, node in ipairs(Map.available(map)) do
-        if node.encounterId == "cultist_solo" then selected = node end
-    end
-    assert(selected, "fixed seed must offer the ordinary cultist encounter")
+    local selected=Map.available(map)[1]
+    equal(require('abyss_encounter_queue').peek(run.encounters,'normal'),'Cultist')
     assert(Nodes.enter(run, map, selected.id)); finishBattle(run)
     assert(run.hp > 0); equal(run.lastResult.outcome, "victory"); equal(#run.deck, 10)
     assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
@@ -288,9 +286,10 @@ test("shops keep configured deletion increments and purchases across independent
     source.rules.shop = { cardCommon = 13, cardUncommon = 17, cardRare = 19, relic = 23,
         removeCard = 29, removeCardIncrement = 31 }
     local run, map, shops = Run.new(source, 1), Map.generate(source, 1), 0
+    local route=dofile('tests/lua/support/map_routes.lua').best(map,function(n)return n.type=='shop'and 1 or 0 end)
     local relicId, cardId
     while shops < 2 do
-        local node = Nodes.available(run, map)[1]; assert(node)
+        local node = dofile('tests/lua/support/map_routes.lua').at(map,route[#map.path+1])
         assert(Nodes.enter(run, map, node.id))
         if run.phase == "combat" then
             finishBattle(run); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
@@ -329,7 +328,9 @@ end)
 
 test("lost battle never completes or unlocks a node", function()
     local run, map, node = before("combat"); run.hp = 1
-    assert(Nodes.enter(run, map, node.id)); assert(Run.endTurn(run)); equal(run.phase, "defeat")
+    assert(Nodes.enter(run, map, node.id))
+    for _=1,3 do if run.phase=='combat'then assert(Run.endTurn(run))end end
+    equal(run.phase, "defeat") -- Cultist's first source move is Ritual, then Attack.
     rejected(run, map, function() return Nodes.completeCombat(run, map) end, "run_defeated")
     equal(#Nodes.available(run, map), 0)
 end)

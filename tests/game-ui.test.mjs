@@ -9,7 +9,7 @@ import { writeFileSync } from 'node:fs';
 test('composed native tree has exactly one menu, battle, map and node panel', () => {
   const layout = gameLayout();
   assert.equal(layout.script, 'abyss_ui');
-  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'potionEntry', 'potionPanel', 'prologuePanel']);
+  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'combatRewards', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'potionEntry', 'potionPanel', 'prologuePanel']);
   for (const control of layout.controls.filter(control => !['menuPanel', 'exitEntry'].includes(control.name))) {
     assert.equal(control.visible, false, `${control.name} must not bleed through during startup`);
   }
@@ -52,7 +52,7 @@ test('result settlement button starts hidden and uses the approved two-button pl
 
 test('generated Chinese display and native tree exercise the real game entry and run controllers', () => {
   buildUI();
-  // Keep every real-tree case within the runner's unchanged per-script deadline.
+  // Each real-tree fixture retains its bounded runner deadline and all cases.
   const scripts = [
     ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 15$/m],
     ['tests/lua/game_ui_deck.lua', /^LUA_GAME_UI_DECK_PASS 6$/m],

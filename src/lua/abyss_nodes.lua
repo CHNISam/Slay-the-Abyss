@@ -122,7 +122,7 @@ local function prepare(run, node, miscRng)
 end
 
 function M.available(run, map)
-    if run.phase ~= "map" or (run.nodeFlow and not run.nodeFlow.complete)
+    if run.runSeed~=map.runSeed or run.phase ~= "map" or (run.nodeFlow and not run.nodeFlow.complete)
         or not matchingMap(run.nodeFlow, map) then return {} end
     return Map.available(map)
 end
@@ -130,7 +130,9 @@ end
 function M.enter(run, map, nodeId)
     if run.nodeFlow and not run.nodeFlow.complete then return false, "node_pending" end
     if run.phase ~= "map" then return false, "not_on_map" end
-    if not matchingMap(run.nodeFlow, map) then return false, "map_mismatch" end
+    if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
+        or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
+    if run.runSeed~=map.runSeed or not matchingMap(run.nodeFlow, map) then return false, "map_mismatch" end
     local node = find(map.nodes, nodeId)
     if not node then return false, "invalid_node" end
     if not find(Map.available(map), nodeId) then return false, "node_unavailable" end
@@ -143,7 +145,9 @@ function M.enter(run, map, nodeId)
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
     local sourceType=node.type
     local nextUnknown,nextEventRng,nextMiscRng
-    nextMiscRng=EventRandom.cloneState(run.miscRng)
+    -- nextRoomTransition reconstructs misc from raw run seed + destination
+    -- floor for every room, before event constructors or encounter assembly.
+    nextMiscRng=Run.roomStreams(run,node.floor).miscRng
     local selectionRng
     if node.type=='event' and not node.eventId and not run.data.rules.events.encounterId then
         nextUnknown=Combat.copy(run.unknown)
@@ -161,19 +165,6 @@ function M.enter(run, map, nodeId)
             node.eventId=EventPool.contentId[originalId]
             if not node.eventId then return false,'event_not_implemented' end
             node.originalEventId=originalId
-        elseif kind=='monster' then
-            -- Existing encounter candidate: same floor eligibility and uniform
-            -- source list as the map. Original monster queue parity is separate.
-            local candidates={}
-            for _,encounter in ipairs(run.data.enemies.encounters) do
-                if encounter.tier=='normal' and node.floor>=encounter.minFloor and node.floor<=encounter.maxFloor then
-                    candidates[#candidates+1]=encounter.id
-                end
-            end
-            table.sort(candidates)
-            if #candidates==0 then return false,'combat_unavailable' end
-            local encounterRandom={seed=run.seed}
-            node.encounterId=candidates[Combat.random(encounterRandom,#candidates)]
         end
     end
     if node.type == "event" then
@@ -195,11 +186,13 @@ function M.enter(run, map, nodeId)
         stagedRun = {}
         for key, value in pairs(run) do stagedRun[key] = value end
         stagedRun.floor, stagedRun.miscRng = node.floor, nextMiscRng
-        local called, ok, reason = pcall(Run.startCombat, stagedRun, node.encounterId)
+        local tier=node.type=='combat' and 'normal' or node.type
+        local called, ok, reason = pcall(Run.startRoomCombat, stagedRun, tier)
         if not called or not ok then
             return false, called and reason or "combat_unavailable"
         end
         nextMiscRng = stagedRun.miscRng
+        flow.encounterId,flow.encounterSource=stagedRun.encounterId,stagedRun.encounterSource
     else
         run.floor, run.phase, run.seed = node.floor, "node", seed
     end
@@ -207,12 +200,18 @@ function M.enter(run, map, nodeId)
     if stagedRun then
         run.floor, run.phase, run.combat = stagedRun.floor, stagedRun.phase, stagedRun.combat
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
+        run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
+        run.roomGeneration=stagedRun.roomGeneration
+    else
+        run.roomGeneration=run.roomGeneration+1
     end
     flow.mapSeed, flow.mapSignature = map.seed, map.sourceSignature
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
     if flow.type == 'shop' then run.shopRng=flow.shopRng end
+    -- The old room's unclaimed rewards expire only after this entry succeeds.
+    run.pendingCombatRewards = nil
     return true
 end
 

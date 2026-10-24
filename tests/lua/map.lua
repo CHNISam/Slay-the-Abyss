@@ -41,7 +41,7 @@ test("multiple seeds produce reachable generated rows and separate Boss rooms", 
     for _, seed in ipairs({0, 1, 42, 313, 65535, -17}) do
         local map = Map.generate(data, seed)
         assert(map.floor == 0 and map.currentNodeId == nil and #map.path == 0)
-        assert(#map.nodes == 47)
+        assert(#map.nodes >= 17 and #map.nodes <= 92)
         local index, floors, types = byId(map), {}, {}
         local reachable = {}; for _, node in ipairs(Map.available(map)) do reachable[node.id] = true end
         for _, node in ipairs(map.nodes) do
@@ -49,9 +49,9 @@ test("multiple seeds produce reachable generated rows and separate Boss rooms", 
             floors[node.floor] = (floors[node.floor] or 0) + 1; types[node.type] = true
             if node.floor == 15 then assert(node.type == "camp") end
             if node.floor == 17 then
-                assert(node.type == "treasure" and node.roomKind == "boss_treasure" and node.lane == 2 and #node.nextIds == 0)
+                assert(node.type == "treasure" and node.roomKind == "boss_treasure" and node.lane == 4 and #node.nextIds == 0)
             elseif node.floor == 16 then
-                assert(node.type == "boss" and node.lane == 2 and #node.nextIds == 1)
+                assert(node.type == "boss" and node.lane == 4 and #node.nextIds == 1)
             else
                 -- Original connected rooms may have one outgoing edge; the old
                 -- fixed minimum two encoded the private three-lane algorithm.
@@ -64,19 +64,16 @@ test("multiple seeds produce reachable generated rows and separate Boss rooms", 
                 seen[id], reachable[id] = true, true
             end
         end
-        for floor = 1, 17 do assert(floors[floor] == (floor > 15 and 1 or 3)) end
+        for floor = 1, 17 do
+            assert(floors[floor]>=1 and floors[floor]<=(floor>15 and 1 or 6))
+        end
     end
 end)
 
-test("combat encounter selection respects identity, tier and floor", function()
-    local encounters = {}; for _, e in ipairs(data.enemies.encounters) do encounters[e.id] = e end
+test("map generates room kinds without preselecting source encounters", function()
     for _, seed in ipairs({1, 42, 65535}) do
         for _, node in ipairs(Map.generate(data, seed).nodes) do
-            local tier = ({combat="normal", elite="elite", boss="boss"})[node.type]
-            if tier then
-                local encounter = assert(encounters[node.encounterId])
-                assert(encounter.tier == tier and encounter.minFloor <= node.floor and encounter.maxFloor >= node.floor)
-            else assert(node.encounterId == nil) end
+            assert(node.encounterId == nil)
         end
     end
 end)
@@ -154,8 +151,8 @@ test("malformed graphs, progress, references and configuration drift cannot rest
     local changes = {
         function(s) s.version = 999 end,
         function(s) s.seed = math.huge end,
-        function(s) s.randomSeed = s.randomSeed + 1 end,
-        function(s) s.encounterRandomSeed = s.encounterRandomSeed + 1 end,
+        function(s) s.randomState.counter = s.randomState.counter + 1 end,
+        function(s) s.encounterRandomSeed = 1 end,
         function(s) s.nodes[1].nextIds[1] = s.nodes[10].id end,
         function(s) s.nodes[1].encounterId = "missing" end,
         function(s) s.nodes[43].floor = 14 end,
@@ -180,11 +177,13 @@ test("malformed graphs, progress, references and configuration drift cannot rest
     assert(Map.restore(changed, valid) == nil, "changed map configuration accepted")
 end)
 
-test("invalid map inputs fail instead of dropping required types or encounters", function()
+test("map rejects invalid structure while source pools remain Run-owned", function()
     local missingElite = copy(data)
     local encounters = {}; for _, e in ipairs(missingElite.enemies.encounters) do if e.tier ~= "elite" then encounters[#encounters+1] = e end end
     missingElite.enemies.encounters = encounters
-    assert(pcall(Map.generate, missingElite, 1), "optional elite floor must not force an elite")
+    local source=Map.generate(data,1);local map=Map.generate(missingElite,1)
+    for i,node in ipairs(source.nodes)do assert(equal(map.nodes[i].type,node.type))end
+    -- Removing old explicit-ID examples must not remove elite source rooms.
     local missingType = copy(data); table.remove(missingType.rules.map.nodeTypes)
     assert(not pcall(Map.generate, missingType, 1))
     local duplicate = copy(data); duplicate.enemies.encounters[2].id = duplicate.enemies.encounters[1].id

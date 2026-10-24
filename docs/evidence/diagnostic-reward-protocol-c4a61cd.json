@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "base": "c4a61cd",
+  "scope": [
+    "tools/diagnostics/finish_combat_rewards.lua",
+    "tests/lua/diagnostic_reward_protocol.lua"
+  ],
+  "red": {
+    "command": "node scripts/test-lua.mjs tests/lua/diagnostic_reward_protocol.lua",
+    "exitCode": 1,
+    "passed": 9,
+    "failed": 38,
+    "cause": "Victory gold offer was never claimed; Sozu success/blocked was treated as the former rejection and assumed a bottle slot."
+  },
+  "green": {
+    "command": "node scripts/test-lua.mjs tests/lua/diagnostic_reward_protocol.lua",
+    "exitCode": 0,
+    "passed": 50,
+    "failed": 0,
+    "timeoutMs": 30000
+  },
+  "coverage": [
+    "All 36 original potion x stolen-gold x card-choice combinations retained",
+    "Sozu resolves the clicked offer as blocked with no bottle and no duplicate claim",
+    "Already claimed normal gold is not duplicated",
+    "Real unknown-potion, normal-gold overflow and stolen-gold overflow errors propagate",
+    "Partial potion success and explicit stolen-gold retry do not duplicate rewards",
+    "Sparse slots, duplicate completion, map mismatch, unknown-room routing, unsupported nodes, STOP and defeat/restart gates retained"
+  ],
+  "natural": {
+    "command": "node scripts/test-lua.mjs tools/diagnostics/core_route_seed42.lua",
+    "beforeExitCode": 0,
+    "afterExitCode": 0,
+    "seed": 42,
+    "phase": "defeat",
+    "floor": 16,
+    "turns": 30,
+    "plays": 68,
+    "victories": 7,
+    "potions": 3,
+    "guardianRemainingHp": 20,
+    "beforeGold": 53,
+    "afterGold": 188,
+    "explicitVictoryGold": 135.0,
+    "lossGate": "run_defeated available=0",
+    "freshRun": [
+      80,
+      99,
+      10,
+      1,
+      0
+    ],
+    "unchangedStrategyBlob": "f5b9e5060ea388811e3aa05a4d67774efc8d78fa",
+    "currentStrategyBlob": "f5b9e5060ea388811e3aa05a4d67774efc8d78fa",
+    "unchangedRunnerBlob": "535465f56eb17464656987302dd9934229704dce",
+    "currentRunnerBlob": "535465f56eb17464656987302dd9934229704dce"
+  },
+  "artifacts": [
+    {
+      "path": ".artifacts/reward-diagnostic-protocol-c4a61cd/red.log",
+      "sha256": "9986bcf6875b5c5f357f535781aa5283b1bf7290410e5542032b31061ed8c51c"
+    },
+    {
+      "path": ".artifacts/reward-diagnostic-protocol-c4a61cd/green.log",
+      "sha256": "d89f621ca2525698200bd14f62f89139e966a381073a7f04dedbdbb3b9b96293"
+    },
+    {
+      "path": ".artifacts/reward-diagnostic-protocol-c4a61cd/natural-before.log",
+      "sha256": "e7b7f1505e0f274b5578fd26dad1b5cda5a2255c69dc16645d0669dab5945ea7"
+    },
+    {
+      "path": ".artifacts/reward-diagnostic-protocol-c4a61cd/natural-after.log",
+      "sha256": "336434acc6887d8f200ee9cb77a069face76ecae80c6ca579a4fdfad19298dbf"
+    }
+  ],
+  "boundary": "Offline diagnostic only, naturally reaches defeat, not normal victory or platform validation. Corrupt-catalog and overflow cases are explicit error fixtures. No production, route strategy, data file, timeout, Backlog, GUI or full-check changes."
+}

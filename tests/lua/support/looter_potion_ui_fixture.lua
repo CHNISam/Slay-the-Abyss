@@ -12,9 +12,10 @@ end
 -- Each entry runs one half of the same 50-case Cartesian product. Every case
 -- still creates its own full generated UI tree and seed-42 reward fixture.
 local function changedRewardActions(released)
- for _,name in ipairs({'card1','skip','stolenGold','claimPotion','skipPotion'}) do
+ for _,name in ipairs({'card1','skip','stolenGold','claimPotion','goldReward'}) do
   for _,change in ipairs({'cards','choice','amount','type','mode'}) do
-   local h,u,p,e=reward(true);local run=h.run;local gold,uid=run.gold,run.nextDeckUid
+   local h,u,p,e,t=reward(true);local run=h.run;local gold,uid=run.gold,run.nextDeckUid
+   if name=='card1' or name=='skip' then t('cardReward',0) end
    e(name,'down',1);if released then e(name,'up',1) end
    if change=='cards' then run.rewards.cards=C.copy(run.rewards.cards)
    elseif change=='choice' then run.rewards.cards[2]='strike'

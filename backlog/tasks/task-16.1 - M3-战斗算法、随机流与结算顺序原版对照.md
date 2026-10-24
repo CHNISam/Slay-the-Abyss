@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 03:10'
+updated_date: '2026-10-24 16:39'
 due_date: '2026-10-28'
 labels:
   - required
@@ -38,3 +38,9 @@ ordinal: 43000
 - [ ] #4 用原版预期结果检查特殊情况；卡牌、敌人和道具用同一套正确规则。
 - [ ] #5 保存测试与实际游戏记录，明确各部分验证到了哪一步。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
+<!-- SECTION:PLAN:END -->

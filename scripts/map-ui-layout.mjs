@@ -9,7 +9,7 @@ export const loadMapTheme = () => JSON.parse(readFileSync('data/presentation/ui_
 // These are presentation capacities, never a replacement for Map.view's graph.
 export function mapGeometry(theme = loadMapTheme()) {
   const { floorGap, viewportHeight } = theme.layout.map;
-  return { floors: 17, generatedRows: 15, lanes: 3, maxNodes: 47, maxEdges: 126,
+  return { floors: 17, generatedRows: 15, lanes: 7, maxNodes: 92, maxEdges: 126,
     viewport: { left: -460, right: 440, bottom: -308, top: -308 + viewportHeight },
     firstY: -308 + 60, contentHeight: 17 * floorGap + 120,
     maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -128,

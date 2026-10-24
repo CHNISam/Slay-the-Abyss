@@ -56,7 +56,7 @@ test('actual exit cancel cannot revive old map input after a newer touch begins'
     assert(not hit(1).click(pointer(11)), 'cancelled touch entered battle')
     assert(same(ui.run,beforeRun) and same(ui.map,beforeMap) and ui.mode=='map')
     hit(2).listeners.up(pointer(22))
-    assert(hit(2).click(pointer(22)) and ui.mode=='battle' and ui.map.currentNodeId=='f1_l2')
+    assert(hit(2).click(pointer(22)) and ui.mode=='battle' and ui.map.currentNodeId==ui.map.nodes[2].id)
 end)
 
 test('second finger cannot choose a node or consume the original owner', function()
@@ -65,7 +65,7 @@ test('second finger cannot choose a node or consume the original owner', functio
     emit(1,'down',11); emit(2,'down',22); emit(2,'up',22)
     assert(not emit(2,'click',22)); unchanged(ui,before,calls)
     emit(1,'up',11); assert(emit(1,'click',11))
-    assert(#calls==1 and map.currentNodeId=='f1_l1')
+    assert(#calls==1 and map.currentNodeId==map.nodes[1].id)
 end)
 
 test('foreign release and click cannot consume the owners completed tap', function()
@@ -90,7 +90,7 @@ for _, boundary in ipairs({'overlay','resize','replacement','navigation'}) do
         emit(2,'down',22); emit(1,'up',11)
         assert(not emit(1,'click',11)); unchanged(ui,before,calls)
         emit(2,'up',22); assert(emit(2,'click',22))
-        assert(#calls==1 and ui.map.currentNodeId=='f1_l2')
+        assert(#calls==1 and ui.map.currentNodeId==ui.map.nodes[2].id)
     end)
 end
 
@@ -169,7 +169,7 @@ test('a release on another node cannot finish or consume the original tap', func
     local before=Map.snapshot(map)
     emit(1,'down',11); emit(2,'up',11)
     assert(not emit(2,'click',11)); assert(not emit(1,'click',11)); unchanged(ui,before,calls)
-    emit(1,'up',11); assert(emit(1,'click',11) and map.currentNodeId=='f1_l1' and #calls==1)
+    emit(1,'up',11); assert(emit(1,'click',11) and map.currentNodeId==map.nodes[1].id and #calls==1)
 end)
 
 test('Down and Up ownership does not require optional drag events', function()
@@ -224,7 +224,7 @@ test('old control release cannot consume a newer gesture with a reused touch ID'
     emit(1,'down',11); ui:setVisible(false); ui:setVisible(true)
     emit(2,'down',11); emit(1,'up',11)
     assert(not emit(1,'click',11) and map.floor==0 and #calls==0)
-    emit(2,'up',11); assert(emit(2,'click',11) and map.currentNodeId=='f1_l2' and #calls==1)
+    emit(2,'up',11); assert(emit(2,'click',11) and map.currentNodeId==map.nodes[2].id and #calls==1)
 end)
 
 for _,afterUp in ipairs({false,true}) do
@@ -235,7 +235,7 @@ for _,afterUp in ipairs({false,true}) do
         if afterUp then emit(2,'up',11) end
         emit(1,'exit',11); emit(1,'endDrag',11)
         if not afterUp then emit(2,'up',11) end
-        assert(emit(2,'click',11) and map.currentNodeId=='f1_l2' and #calls==1)
+        assert(emit(2,'click',11) and map.currentNodeId==map.nodes[2].id and #calls==1)
     end)
 end
 
@@ -245,14 +245,14 @@ test('old control drag cannot scroll or consume a newer same-ID node gesture', f
     emit(2,'down',11)
     emit(1,'drag',11,100)
     assert(ui.scroll==0 and #calls==0)
-    emit(2,'up',11); assert(emit(2,'click',11) and map.currentNodeId=='f1_l2')
+    emit(2,'up',11); assert(emit(2,'click',11) and map.currentNodeId==map.nodes[2].id)
 end)
 
 test('a second control Down cannot replace the active same-ID owner', function()
     local ui,map,calls,emit = setup()
     emit(1,'down',11); emit(2,'down',11); emit(2,'up',11)
     assert(not emit(2,'click',11) and map.floor==0 and #calls==0)
-    emit(1,'up',11); assert(emit(1,'click',11) and map.currentNodeId=='f1_l1')
+    emit(1,'up',11); assert(emit(1,'click',11) and map.currentNodeId==map.nodes[1].id)
 end)
 
 for _, boundary in ipairs({'exit','scroll'}) do

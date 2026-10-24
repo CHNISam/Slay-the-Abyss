@@ -1,6 +1,7 @@
 -- Act 1 Jaw Worm decision only. Source: TASK-15-jaw-worm-ai.md.
--- Rolls are explicit inputs: the runtime adapter uses the project RNG, not STS1 aiRng.
+-- Source rooms use independent STS aiRng; explicit fixtures retain their callback.
 local M = {}
+local R=require('abyss_enemy_random')
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -32,8 +33,8 @@ function M.advance(state, enemy, random)
     enemy.jawPrevious, enemy.jawLast = enemy.jawLast, executed
     local roll = random(state, enemy.ai.rollRange) - 1
     local next = M.choose(enemy.ai, enemy.jawLast, enemy.jawPrevious, roll, function()
-        -- Current 16-bit LCG domain; not RandomXS128's 24-bit nextFloat stream.
-        return (random(state, 65536) - 1) / 65536
+        -- Source conditional probabilities use the 24-bit nextFloat primitive.
+        return R.float(state,random)
     end)
     select(enemy, next)
 end

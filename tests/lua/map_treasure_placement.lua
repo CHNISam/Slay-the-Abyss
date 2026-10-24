@@ -20,8 +20,7 @@ for seed = 0, 127 do
             end
         end
     end
-    -- Current three-lane candidate, not an assertion of original map width.
-    assert(ordinaryChests == 3 and bossChests == 1, "fixed treasure boundaries changed")
+    assert(ordinaryChests >= 1 and ordinaryChests <= 6 and bossChests == 1, "fixed treasure boundaries changed")
     for floor = 1, 17 do
         assert(Map.choose(map, Map.available(map)[1].id))
     end
@@ -30,7 +29,7 @@ for seed = 0, 127 do
     assert(restored.floor == 17)
 end
 local old = Map.snapshot(Map.generate(data, 0))
-old.sourceSignature = old.sourceSignature:gsub(":fixedTreasureOnly", "")
+old.sourceSignature = 'map-v2:'..old.sourceSignature
 local restored, reason = Map.restore(data, old)
 assert(restored == nil and reason == "configuration_mismatch", "old room distributions must not restore silently")
 print("LUA_MAP_TREASURE_PLACEMENT_PASS 128")

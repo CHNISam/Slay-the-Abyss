@@ -57,6 +57,38 @@ local function finishBattle(run)
     end
     equal(run.phase, "reward"); equal(run.lastResult.outcome, "victory")
 end
+local Routes=dofile('tests/lua/support/map_routes.lua')
+-- Complete intervening source rooms through public commands. This preserves the
+-- ownership fixture without assuming the old generator's adjacent shop rooms.
+local function reach(run,map,kind)
+    local path=Routes.to(map,function(node)return node.type==kind end)
+    local expectedGold=0
+    for i=1,#path-1 do
+        local id=path[i];local node
+        for _,n in ipairs(Nodes.available(run,map))do if n.id==id then node=n end end
+        assert(node);assert(Nodes.enter(run,map,id))
+        if run.phase=='combat'then
+            finishBattle(run)
+            local beforeReward=run.gold
+            assert(Run.claimCardReward(run,0))
+            if run.phase=='reward' then
+                if run.rewards.potion and not run.rewards.potion.resolved then assert(Run.skipPotionReward(run))end
+                assert(Run.leaveCombatRewards(run))
+            end
+            expectedGold=expectedGold+run.gold-beforeReward
+            assert(Nodes.completeCombat(run,map))
+        elseif node.type=='event'then assert(Nodes.chooseEvent(run,'leave'))
+        elseif node.type=='shop'then assert(Nodes.leaveShop(run))
+        elseif node.type=='camp'then
+            local uid
+            for j=#run.deck,1,-1 do local card=run.deck[j];if card.uid~=2 and not card.upgraded then uid=card.uid;break end end
+            assert(uid and Nodes.upgrade(run,uid))
+        elseif node.type=='treasure'then
+            expectedGold=expectedGold+(Nodes.view(run,map).node.reward.gold or 0);assert(Nodes.claimTreasure(run))
+        else error('unexpected intermediate room '..node.type)end
+    end
+    return path[#path],expectedGold
+end
 local function rewardPending()
     local source = copy(data)
     -- Funding + explicit event fixture: unchanged cards, combat stats, offers, relic and potion effects.
@@ -66,7 +98,7 @@ local function rewardPending()
     assert(Run.obtainPotion(run, "fire_potion"))
     assert(Run.obtainPotion(run, "energy_potion"))
     assert(Run.obtainPotion(run, "regen_potion"))
-    enter(run, map, "f1_l1", "combat")
+    enter(run, map, Map.available(map)[1].id, "combat")
     assert(Run.usePotion(run, 2))
     finishBattle(run)
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
@@ -74,12 +106,10 @@ local function rewardPending()
 end
 local function atShop()
     local run, map = rewardPending()
-    assert(Run.claimCardReward(run, 1)); assert(Nodes.completeCombat(run, map))
-    for _, id in ipairs({"f2_l1", "f3_l1"}) do
-        enter(run, map, id, "event"); assert(Nodes.chooseEvent(run, "leave"))
-    end
+    assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
+    local shop=reach(run,map,'shop')
     local previous = Map.snapshot(map)
-    enter(run, map, "f4_l1", "shop")
+    enter(run, map, shop, "shop")
     return run, map, previous
 end
 local function offer(list, id)
@@ -101,8 +131,10 @@ test("restoring during reward keeps the same pending owner and grants exactly on
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.deck[11].cardId, cardId)
     equal(run.nextDeckUid, 12); equal(#Nodes.available(run, restored), 0)
     refuse(run, restored, function() return Run.claimCardReward(run, 1) end, "no_pending_reward")
+    dofile('tests/lua/support/finish_combat_rewards.lua')(run)
     assert(Nodes.completeCombat(run, restored))
-    enter(run, restored, "f2_l1", "event")
+    local nextRoom=Nodes.available(run,restored)[1]
+    enter(run, restored, nextRoom.id, nextRoom.type)
     equal(map.floor, 1); equal(snapshot.floor, 1); equal(restored.floor, 2)
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
 end)
@@ -134,7 +166,7 @@ test("invalid restored snapshots leave a purchased shop and its valid continuati
     equal(#Nodes.available(run, restored), 0)
     refuse(run, restored, function() return Nodes.buyCard(run, "clothesline") end, "item_unavailable")
     refuse(run, restored, function() return Nodes.buyRelic(run, "oddly_smooth_stone") end, "item_unavailable")
-    assert(Nodes.leaveShop(run)); enter(run, restored, "f5_l1", "shop")
+    assert(Nodes.leaveShop(run)); enter(run, restored, reach(run,restored,'shop'), "shop")
     for _, item in ipairs(Nodes.view(run, restored).node.relics) do assert(item.id ~= "oddly_smooth_stone") end
     equal(run.deck[12].cardId, "clothesline"); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
@@ -150,10 +182,11 @@ test("valid but stale restored progress cannot reenter a completed purchase or s
     local current = assert(Map.restore(run.data, Map.snapshot(map)))
     local stale = assert(Map.restore(run.data, previous))
     equal(#Nodes.available(run, stale), 0)
-    refuse(run, stale, function() return Nodes.enter(run, stale, "f4_l1") end, "map_mismatch")
+    refuse(run, stale, function() return Nodes.enter(run, stale, run.nodeFlow.id) end, "map_mismatch")
     refuse(run, current, function() return Nodes.buyRelic(run, "oddly_smooth_stone") end, "no_pending_node")
-    enter(run, current, "f5_l1", "shop")
-    equal(run.gold, gold - price); equal(run.nextDeckUid, 13)
+    local shop,earned=reach(run,current,'shop')
+    enter(run, current, shop, "shop")
+    equal(run.gold, gold - price + earned); equal(run.nextDeckUid, 13)
     local ok, slot = Run.obtainPotion(run, "block_potion"); equal(ok, true); equal(slot, 2)
     same(run.potions, {"fire_potion", "block_potion", "regen_potion"})
 end)
@@ -163,19 +196,18 @@ test("restored route preserves removed and upgraded permanent UIDs and relics in
     assert(Nodes.buyCard(run, "clothesline")); assert(Nodes.buyRelic(run, "oddly_smooth_stone"))
     assert(Nodes.removeCard(run, 1)); assert(Nodes.leaveShop(run))
     map = assert(Map.restore(run.data, Map.snapshot(map)))
-    enter(run, map, "f5_l1", "shop"); assert(Nodes.leaveShop(run))
-    enter(run, map, "f6_l1", "event"); assert(Nodes.chooseEvent(run, "leave"))
-    enter(run, map, "f7_l2", "camp")
+    enter(run, map, reach(run,map,'shop'), "shop"); assert(Nodes.leaveShop(run))
+    enter(run, map, reach(run,map,'camp'), "camp")
     map = assert(Map.restore(run.data, Map.snapshot(map)))
     assert(Nodes.upgrade(run, 2))
-    enter(run, map, "f8_l2", "shop"); assert(Nodes.leaveShop(run))
-    enter(run, map, "f9_l2", "treasure")
+    enter(run, map, reach(run,map,'treasure'), "treasure")
     local relic = Nodes.view(run, map).node.reward.relicId
     assert(relic and relic ~= "oddly_smooth_stone" and relic ~= "burning_blood")
     assert(Nodes.claimTreasure(run))
     map = assert(Map.restore(run.data, Map.snapshot(map)))
+    local elite=reach(run,map,'elite')
     local deck, owned, hp, gold, nextUid = copy(run.deck), copy(run.relics), run.hp, run.gold, run.nextDeckUid
-    enter(run, map, "f10_l2", "elite")
+    enter(run, map, elite, "elite")
     equal(run.hp, hp); equal(run.combat.player.hp, hp); equal(run.gold, gold); equal(run.nextDeckUid, nextUid)
     same(run.deck, deck); same(run.relics, owned)
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
@@ -201,16 +233,18 @@ end)
 test("equal-valued snapshot aliases are normalized instead of becoming shared live edges", function()
     local map = Map.generate(data, 36)
     local snapshot = Map.snapshot(map)
-    -- Three camp lanes all lead to the same Boss room; an input alias has equal values.
-    snapshot.nodes[44].nextIds = snapshot.nodes[43].nextIds
+    local camps={};for i,node in ipairs(map.nodes)do if node.floor==15 then camps[#camps+1]=i end end
+    local a,b=assert(camps[1]),assert(camps[2])
+    -- Connected camp nodes lead to the same Boss; an input alias has equal values.
+    snapshot.nodes[b].nextIds = snapshot.nodes[a].nextIds
     local before = copy(snapshot)
     local restored = assert(Map.restore(data, snapshot))
     same(snapshot, before)
-    assert(restored.nodes[43].nextIds ~= restored.nodes[44].nextIds, "restored edges still alias")
-    assert(restored.nodes[43].nextIds ~= snapshot.nodes[43].nextIds, "restored edge aliases snapshot")
-    restored.nodes[43].nextIds[1] = "changed"
-    equal(restored.nodes[44].nextIds[1], "f16_l2")
-    equal(snapshot.nodes[43].nextIds[1], "f16_l2"); equal(map.nodes[43].nextIds[1], "f16_l2")
+    assert(restored.nodes[a].nextIds ~= restored.nodes[b].nextIds, "restored edges still alias")
+    assert(restored.nodes[a].nextIds ~= snapshot.nodes[a].nextIds, "restored edge aliases snapshot")
+    restored.nodes[a].nextIds[1] = "changed"
+    equal(restored.nodes[b].nextIds[1], "f16_l4")
+    equal(snapshot.nodes[a].nextIds[1], "f16_l4"); equal(map.nodes[a].nextIds[1], "f16_l4")
 end)
 
 print("LUA_INVENTORY_RESTORE_PASS " .. count .. " rejected_snapshots=" .. rejectedSnapshots)

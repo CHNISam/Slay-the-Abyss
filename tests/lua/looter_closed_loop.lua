@@ -14,7 +14,8 @@ local function win()
   if chosen then assert(R.play(r,chosen.uid,1)) else assert(R.endTurn(r)) end
  end
  eq(r.phase,'reward');eq(r.combat.enemies[1].hp,0);eq(r.combat.enemies[1].escaped,false)
- eq(r.combat.turn,4);eq(r.rewards.stolenGold.amount,45);eq(r.gold,69);eq(r.combat.player.gold,54)
+ eq(r.combat.turn,4);eq(r.rewards.stolenGold.amount,45);eq(r.gold,54);eq(r.combat.player.gold,54)
+ assert(R.claimGoldReward(r));eq(r.gold,69)
  return r
 end
 for _,first in ipairs({'gold','card','skip','leave'}) do

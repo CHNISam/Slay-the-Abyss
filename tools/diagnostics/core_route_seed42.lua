@@ -68,7 +68,13 @@ for step=1,17 do
   table.sort(offers,function(a,b) if rank(a.id)~=rank(b.id) then return rank(a.id)>rank(b.id) end return a.id<b.id end)
   for _,o in ipairs(offers) do if rank(o.id)>0 and run.gold>=o.price then print('BUY',o.id,o.price);assert(Nodes.buyCard(run,o.id));break end end
   assert(Nodes.leaveShop(run))
- elseif nodeType=='treasure' then assert(Nodes.claimTreasure(run))
+ elseif nodeType=='treasure' then
+  if run.nodeFlow.roomKind=='boss_treasure' then
+   local relics=Nodes.view(run,map).node.reward.relics
+   local choice=#relics>0 and 1 or 0
+   print('BOSS_TREASURE',relics[choice] or 'skip','choice='..choice)
+   assert(Nodes.claimBossTreasure(run,choice))
+  else assert(Nodes.claimTreasure(run)) end
  elseif nodeType=='event' then
   local v=Nodes.view(run,map).node.event
   if v.id=='cleric' and run.hp<run.maxHp-15 and run.gold>=v.healCost then print('EVENT heal');assert(Nodes.chooseEvent(run,'heal'))

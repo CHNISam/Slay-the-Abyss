@@ -4,6 +4,7 @@ local equal, same = fixture.equal, fixture.same
 local Combat = require('abyss_combat')
 for choice = 0, 3 do
     local run = bossWin(42)
+    assert(Run.claimGoldReward(run)) -- isolate the following card transaction
     local options, before = Run.rewardOptions(run), Combat.copy(run)
     options[1] = 'strike'
     same(run, before)
@@ -46,6 +47,8 @@ for _, tier in ipairs({'normal', 'elite'}) do
         for _, enemy in ipairs(run.combat.enemies) do enemy.hp = 0 end
         assert(Run.finishCombat(run))
         equal(run.seed, fixture[2]); equal(table.concat(Run.rewardOptions(run), ','), fixture[3])
+        equal(run.gold, data.rules.player.startingGold)
+        assert(Run.claimGoldReward(run))
         equal(run.gold, data.rules.player.startingGold + data.rules.rewards[tier .. 'Gold'])
     end
 end
@@ -60,6 +63,7 @@ assert(Run.finishCombat(run)); equal(run.phase, 'defeat')
 equal(run.gold, data.rules.player.startingGold); equal(#run.deck, #before.deck)
 equal(#Run.rewardOptions(run), 0); equal(Run.claimCardReward(run, 1), false)
 run = bossWin(42)
+equal(run.gold, data.rules.player.startingGold);assert(Run.claimGoldReward(run))
 equal(run.gold, data.rules.player.startingGold + data.rules.rewards.bossGold)
 before = Combat.copy(run)
 equal(Run.finishCombat(run), false); same(run, before)

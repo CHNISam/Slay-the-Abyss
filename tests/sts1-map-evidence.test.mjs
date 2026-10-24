@@ -144,10 +144,10 @@ test('evidence checker rejects missing fixtures, changed hashes and omitted A0 f
   }
 });
 
-test('actual Lua maps are exported in batches while unsupported 64-bit seeds stay explicit failures', () => {
+test('actual Lua maps export full signed64 strings in original batch order', () => {
   const records = exportProjectMaps(['0', '2780424839485660359', '1']);
-  assert.equal(records.find(record => record.seed === '2780424839485660359').status, 'UNSUPPORTED_PROJECT_SEED');
-  for (const seed of ['0', '1']) {
+  assert.deepEqual(records.map(record=>record.seed),['0','2780424839485660359','1']);
+  for (const seed of ['0', '2780424839485660359', '1']) {
     const record = records.find(entry => entry.seed === seed);
     assert.equal(record.status, 'EXPORTED');
     assert(record.graph.nodes.length > 0);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { nativeControls, nativeTheme } from '../scripts/native-ui-theme.mjs';
 import { battleLayout } from '../scripts/ui-layout.mjs';
-import { mapLayout } from '../scripts/map-ui-layout.mjs';
+import { mapGeometry, mapLayout } from '../scripts/map-ui-layout.mjs';
 import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 
@@ -62,6 +62,7 @@ test('host preserves the approved battle and scrollable map while composing node
   const theme = structuredClone(nativeTheme);
   theme.layout.nativeNode.confirm[2] = 220;
   theme.layout.nativeMenu.start[1] = -220;
+  theme.layout.battleRewards.return = [-480, -72, 156, 56];
   theme.canvas.base = [1600, 900];
   const panels = gameLayout(theme).controls, battle = find(panels, 'battlePanel').children;
   const approvedBattle = find(battleLayout().controls, 'stage').children;
@@ -82,10 +83,30 @@ test('host preserves the approved battle and scrollable map while composing node
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);
-  assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length, 47);
+  assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length,
+    mapGeometry(theme).maxNodes);
   assert.equal(find(find(panels, 'nodePanel').children, 'confirm').size[0], 220);
   assert.equal(find(find(panels, 'menuPanel').children, 'start').position[1], -220);
-  panels.forEach(panel => assert.deepEqual(panel.size, theme.canvas.base));
+  // Page/overlay roots still fill the canvas. The reward-return control is
+  // a standalone button on the same stage, with its own themed touch region.
+  const rewardReturn = find(panels, 'combatRewards');
+  assert.ok(rewardReturn, 'the standalone reward-return action must exist');
+  panels.filter(panel => panel !== rewardReturn).forEach(panel =>
+    assert.deepEqual(panel.size, theme.canvas.base, `${panel.name}: full-page root`));
+  for (const currentTheme of [nativeTheme, theme]) {
+    const action = find(gameLayout(currentTheme).controls, 'combatRewards');
+    const frame = currentTheme.layout.battleRewards.return;
+    assert.deepEqual([...action.position, ...action.size], frame, 'return action must follow its theme frame');
+    assert.equal(action.visible, false, 'return action must not leak into startup or unrelated pages');
+    assert.equal(find(action.children, 'label').text.content, '返回战利品');
+    const hit = find(action.children, 'hit');
+    assert.equal(hit.kind, 'cursorArea');
+    assert.equal(hit.focusable, true);
+    assert.deepEqual(hit.size, action.size, 'touch region must match the compact action');
+    const [width, height] = currentTheme.canvas.base, safe = currentTheme.canvas.safe;
+    assert.ok(Math.abs(frame[0]) + frame[2] / 2 <= width / 2 - safe.x, 'return action horizontal safe area');
+    assert.ok(Math.abs(frame[1]) + frame[3] / 2 <= height / 2 - safe.y, 'return action vertical safe area');
+  }
 });
 
 test('building and mutating output trees cannot mutate the source theme', () => {

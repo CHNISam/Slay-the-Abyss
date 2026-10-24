@@ -58,6 +58,8 @@ export function gameLayout(theme = nativeTheme) {
     controls: [
       { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: battleControls },
       mapPanel,
+      { ...button('combatRewards', theme.layout.battleRewards.return, '返回战利品', {
+        inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false },
       ...nodeLayout(theme).controls.map(control => ({ ...control, visible: false, children: control.children.map(child =>
         child.name === 'title' ? { ...child, size: [theme.layout.nativeNode.topBar.title[2], child.size[1]] }
           : child.name === 'notice' ? { ...child, position: theme.layout.exitMenu.nodeNotice.slice(0, 2),

@@ -1,0 +1,64 @@
+{
+  "baseCommit": "88c7373",
+  "collectionSource": "88c7373 plus the acid fixture-only migration 8d138f1",
+  "scope": "Lua test fixture migration and evidence only; src, scripts, data, Backlog and GUI unchanged",
+  "collection": {
+    "method": "Sequential runLua for every sorted tests/lua/*.lua, without fail-fast; one build before collection, no concurrent builds; original per-file timeout retained.",
+    "total": 179,
+    "passed": 176,
+    "failed": 3,
+    "elapsedSeconds": 492.599,
+    "timeouts": 0,
+    "artifact": ".artifacts/lua-collection-88c7373.json",
+    "sha256": "a36613198cbf0df97b70f98a706a30f1fbf677c9fd6950dc6a7fac647a75ba15"
+  },
+  "failuresAndMigration": [
+    {
+      "fixture": "tests/lua/game_ui_exit.lua",
+      "cause": "The reward list no longer directly shows the card-picker Skip button.",
+      "change": "Open the card row before testing exit-overlay isolation; after cancel, Skip returns to the list without resolving cards, then Continue opens the map.",
+      "preserved": "The whole-run equality assertion across exit confirmation/cancel and all other exit/gesture assertions remain intact.",
+      "redLog": ".artifacts/game_ui_exit-red.log",
+      "redSha256": "9cdb43dce1f7bb835fc03aa7d58d549aaba07915e8e2edc68a8110b8e5859b7d",
+      "greenGroups": 15,
+      "greenLog": ".artifacts/game_ui_exit-green.log",
+      "greenSha256": "130ad1fac66b1613476c15f31938389089f1c08779cc8776453b58498826c989"
+    },
+    {
+      "fixture": "tests/lua/looter_rules.lua",
+      "cause": "Four death-source cases expected normal victory gold to arrive automatically before the independent stolen-gold claim.",
+      "change": "Assert the post-theft wallet first, claim the normal gold offer once, reject a duplicate with full-state equality, then retain the original dead-enemy ledger and stolen-gold claim assertions.",
+      "preserved": "Damage, poison, Thorns and potion death-registration cases; original theft values, RNG, actor identity and transaction assertions.",
+      "redLog": ".artifacts/looter_rules-red.log",
+      "redSha256": "955b9f68ef77ce473797eb7869f5c12050e1e5bdd6c663ca416ece7456c06fe9",
+      "greenGroups": 8,
+      "greenLog": ".artifacts/looter_rules-green.log",
+      "greenSha256": "acd7ddaa61b7f08e3f3d2ed02611cc821df348085a4b134a5c3f9340e29dae23"
+    },
+    {
+      "fixture": "tests/lua/spike_slime_split.lua",
+      "cause": "The independent Spike split contract expected automatic normal victory gold, like the earlier acid fixture.",
+      "change": "Assert the offered gold, explicitly claim once, reject a duplicate without wallet, owner, UID, victory-count or phase changes.",
+      "preserved": "Every original split threshold, child HP/RNG, actor identity, queued action, poison, retaliation and failed-transaction assertion.",
+      "redLog": ".artifacts/spike_slime_split-red.log",
+      "redSha256": "f3fbfb2f7ea4d2c5dbf8e59052db3baa94578d18ceeefd4f9defa73fc1790b3",
+      "greenGroups": 18,
+      "greenLog": ".artifacts/spike_slime_split-green.log",
+      "greenSha256": "b7a3162968dca399f18fe1470f1a603b758fd5fac10ed61673a276247a0ed0d5"
+    }
+  ],
+  "targetedRerun": {
+    "files": 3,
+    "passed": 3,
+    "failed": 0,
+    "artifact": ".artifacts/reward-fixture-rerun-88c7373.json",
+    "sha256": "a243945f4ec92a366fe2207795aeac7a78c6f3db4e6b85135f71fad2fa28a3ac"
+  },
+  "interpretation": "All 179 collected Lua files now have a passing result: 176 in the full collection, followed by the three changed fixtures in a targeted rerun. This is not a second same-commit full Lua run or a complete npm check.",
+  "secondFullLuaRun": false,
+  "fullNpmCheckRun": false,
+  "javascriptSuiteRun": false,
+  "productionFailuresFound": false,
+  "timeoutChanged": false,
+  "platformVerified": false
+}

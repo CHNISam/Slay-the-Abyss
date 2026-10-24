@@ -16,10 +16,17 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const normalizedScript = script.replaceAll('\\', '/');
   const fixture = normalizedScript.endsWith('tests/lua/battle_ui.lua');
+  const mapProperties = ['map_floor_boundaries.lua', 'map_no_crossings.lua', 'map_treasure_placement.lua']
+    .some(name => normalizedScript.endsWith(`tests/lua/${name}`));
   // Quality runs 39982640775/39985958741 timed out in three different fixtures
   // (battle UI, game UI, encounter coverage). Allow 30s per independent script,
-  // 60s for the full battle tree; assertions and explicit caller limits remain.
-  timeout ??= fixture ? 60000 : 30000;
+  // 60s for the full battle/host trees; assertions and explicit caller limits remain.
+  // Raw seven-column source maps use limb RNG arithmetic in Fengari. Keep all
+  // 128 seeds and strict restores; these three bounded fixtures need more time.
+  // The composed host runs the real 17-floor route and seven-column/raw-RNG
+  // setup; the unchanged cases exceeded 30s after that production migration.
+  const composedHost = normalizedScript.endsWith('tests/lua/game_ui.lua');
+  timeout ??= normalizedScript.endsWith('tests/lua/encounter_coverage.lua') ? 120000 : mapProperties ? 120000 : fixture || composedHost ? 60000 : 30000;
   const temporary = fixture ? join(tmpdir(), `abyss-ui-test-${randomUUID()}.lua`) : null;
   if (temporary) writeFileSync(temporary, `ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\ndofile(${luaString(resolve(cwd, script))})\n`);
   let result;

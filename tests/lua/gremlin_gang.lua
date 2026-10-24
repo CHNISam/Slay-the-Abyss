@@ -79,16 +79,26 @@ local function nodeSetup(seed,id)
  local path=assert(paths(map)[id]);for i=1,#path-1 do assert(Map.choose(map,path[i])) end
  return run,map,id
 end
--- Frontier positioning proves graph reachability plus real host entry, NOT
--- completed battles on prior floors. Neither room symbol nor route RNG is faked.
-local function normal() return nodeSetup(1,'f10_l2') end
-local function unknown() return nodeSetup(60,'f8_l1') end
+-- Position a real map frontier plus three consumed weak queue entries. These
+-- are isolated entry fixtures, not claimed completed preceding victories.
+local function frontier(seed,kind)
+ local run,map=Run.new(Data,seed),Map.generate(Data,seed)
+ local path=dofile('tests/lua/support/map_routes.lua').to(map,function(n)return n.floor>=4 and n.type==kind end)
+ for i=1,#path-1 do assert(Map.choose(map,path[i]))end
+ local Q=require('abyss_encounter_queue')
+ for _=1,3 do local _,nextQueue=Q.consume(run.encounters,'normal');run.encounters=nextQueue end
+ eq(Q.peek(run.encounters,'normal'),'Gremlin Gang')
+ return run,map,path[#path]
+end
+local function normal()return frontier(5,'combat')end
+local function unknown()return frontier(91,'event')end
 local function enter(entry,run,map,id)
  if entry=='direct' then return Run.startCombat(run,'gremlin_gang') end
  return Nodes.enter(run,map,id)
 end
-local function streamAfter(run)
- local s=R.cloneState(run.miscRng);for _,upper in ipairs({7,6,5,4}) do R.randomInt(s,upper) end;return s
+local function streamAfter(run,floor)
+ local s=floor and Run.roomStreams(run,floor).miscRng or R.cloneState(run.miscRng)
+ for _,upper in ipairs({7,6,5,4}) do R.randomInt(s,upper) end;return s
 end
 
 test('all 1680 selection paths match independent remaining-index oracle without constructing worlds',function()
@@ -159,13 +169,16 @@ test('each battle owns a fresh candidate pool and repeated species remain separa
  end
  eq(run.miscRng.counter,8)
 end)
-for _,entry in ipairs({'normal','unknown'}) do test(entry..' natural map entry commits four misc draws and never redraws on view/reentry',function()
+for _,entry in ipairs({'normal','unknown'}) do test(entry..' source queue frontier commits four room misc draws and never redraws on view/reentry',function()
  local setup=entry=='normal' and normal or unknown;local run,map,id=setup();local again,againMap=setup()
- local wanted=streamAfter(run);local oldMisc=run.miscRng;local oldStable=freeze(oldMisc)
+ local target;for _,n in ipairs(Map.available(map))do if n.id==id then target=n end end
+ local wanted=streamAfter(run,target.floor);local indices={};local before=Run.roomStreams(run,target.floor).miscRng
+ for _,upper in ipairs({7,6,5,4})do indices[#indices+1]=R.randomInt(before,upper)end
+ local oldMisc=run.miscRng;local oldStable=freeze(oldMisc)
  local oldEvent=run.eventRng;local eventAfter=R.cloneState(oldEvent)
  if entry=='unknown' then R.randomFloat(eventAfter) end
  assert(Nodes.enter(run,map,id));eq(run.encounterId,'gremlin_gang');eq(#run.combat.enemies,4)
- same(ids(run.combat),entry=='normal' and seeded[2][3] or {'shield_gremlin','mad_gremlin','wizard_gremlin','fat_gremlin'})
+ same(ids(run.combat),oracle(indices))
  same(run.miscRng,wanted);eq(run.miscRng.counter,4);oldStable();same(run.eventRng,eventAfter)
  eq(run.nodeFlow.sourceType,entry=='normal' and 'combat' or 'event');eq(run.nodeFlow.type,'combat')
  if entry=='unknown' then

@@ -21,6 +21,10 @@ local function reward()
     -- Initial deterministic one-hit fixture; every following transition is real.
     local h, u, p, emit, tap, drain, deckToggle, root = setup({"bludgeon"}, {"acid_slime_s"})
     tap("card1", 8); tap("enemy1", 8); drain(); assert(h.run.phase == "reward")
+    -- Gesture suites exercise the picker after opening its real reward row.
+    -- Click-only navigation retains mixed-host action capability tests: only
+    -- the combat cards have observed pointer events until each test emits one.
+    p:GetChild("cardReward").click()
     return h, u, p, emit, tap, drain, deckToggle, root
 end
 local function suite(label)

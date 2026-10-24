@@ -123,20 +123,20 @@ end
 local function entered(kind,seed)
     local run, map = Run.new(data, seed or 42), Map.generate(data, seed or 42)
     -- Stage prior navigation as a node-unit fixture, then use actual enter.
-    while true do
-        local available = Map.available(map)
-        for _, node in ipairs(available) do
-            if node.type == kind then assert(Nodes.enter(run, map, node.id)); return run, map end
-        end
-        assert(#available > 0, "route needs " .. kind); assert(Map.choose(map, available[1].id))
-    end
+    local path=dofile('tests/lua/support/map_routes.lua').to(map,function(node)return node.type==kind end)
+    for i=1,#path-1 do assert(Map.choose(map,path[i]))end
+    assert(Nodes.enter(run,map,path[#path]));return run,map
 end
 local shopSeedByCard, lastShopSeed = {}, 0
 local function seedOffering(id)
     while not shopSeedByCard[id] and lastShopSeed<1000 do
         lastShopSeed=lastShopSeed+1
-        local stock=require('abyss_shop').prepare(Run.new(data,lastShopSeed))
-        for _,o in ipairs(stock.cards) do if not o.unavailable and not shopSeedByCard[o.id] then shopSeedByCard[o.id]=lastShopSeed end end
+        local map=Map.generate(data,lastShopSeed);local hasShop=false
+        for _,node in ipairs(map.nodes)do if node.type=='shop'then hasShop=true end end
+        if hasShop then
+            local stock=require('abyss_shop').prepare(Run.new(data,lastShopSeed))
+            for _,o in ipairs(stock.cards) do if not o.unavailable and not shopSeedByCard[o.id] then shopSeedByCard[o.id]=lastShopSeed end end
+        end
     end
     return shopSeedByCard[id]
 end

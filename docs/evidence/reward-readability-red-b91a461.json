@@ -1,0 +1,562 @@
+{
+  "source": "b91a461",
+  "date": "2026-10-24",
+  "command": "node --test tests/reward-readability.test.mjs",
+  "exitCode": 1,
+  "tests": {
+    "total": 5,
+    "pass": 2,
+    "fail": 3
+  },
+  "capturedStates": [
+    "reward-list",
+    "card-pick",
+    "card-pick-settled",
+    "card-pick-hover",
+    "card-added",
+    "potion-claimed",
+    "reward-redraw",
+    "card-skipped",
+    "potion-full",
+    "potion-full-card-added",
+    "potion-full-rejected",
+    "stolen-gold-list",
+    "stolen-gold-claimed",
+    "menu",
+    "map",
+    "map-feedback",
+    "map-feedback-cleared",
+    "battle",
+    "battle-feedback",
+    "battle-feedback-cleared",
+    "camp",
+    "camp-feedback",
+    "camp-feedback-cleared"
+  ],
+  "conflicts": [
+    {
+      "state": "card-added",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "战斗奖励",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "卡牌已加入牌组；其他奖励请单独处理。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    },
+    {
+      "state": "potion-claimed",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "战斗奖励",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "药水已放入背包。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    },
+    {
+      "state": "reward-redraw",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "战斗奖励",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "药水已放入背包。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    },
+    {
+      "state": "card-skipped",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "战斗奖励",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "已跳过卡牌；其他奖励请单独处理。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    },
+    {
+      "state": "potion-full-card-added",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "战斗奖励",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "卡牌已加入牌组；其他奖励请单独处理。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    },
+    {
+      "state": "potion-full-rejected",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "战斗奖励",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "药水槽已满；可点顶部药水槽丢弃旧药水后再领取，或放弃这瓶战利品。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    },
+    {
+      "state": "stolen-gold-claimed",
+      "message": "/battlePanel/rewardStage/title [0,226,760,44] intersects /battlePanel/notice [0,228,1080,32]",
+      "title": {
+        "path": "/battlePanel/rewardStage/title",
+        "kind": "text",
+        "visible": true,
+        "text": "选择一张卡牌",
+        "rect": [
+          0,
+          226,
+          760,
+          44
+        ],
+        "size": [
+          760,
+          44
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 40,
+        "minimum": 14
+      },
+      "notice": {
+        "path": "/battlePanel/notice",
+        "kind": "text",
+        "visible": true,
+        "text": "已取回失金。",
+        "rect": [
+          0,
+          228,
+          1080,
+          32
+        ],
+        "size": [
+          1080,
+          32
+        ],
+        "scale": [
+          1,
+          1
+        ],
+        "font": 18,
+        "minimum": 14
+      }
+    }
+  ],
+  "capacity": [
+    {
+      "state": "reward-list",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "reward-list",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "reward-list",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "card-pick",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "card-pick",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "card-pick",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "card-pick-settled",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "card-pick-settled",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "card-pick-settled",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "card-pick-hover",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "card-pick-hover",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "card-pick-hover",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "card-added",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 卡牌奖励已处理\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "card-added",
+      "message": "/battlePanel/notice: \"卡牌已加入牌组；其他奖励请单独处理。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "card-added",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "potion-claimed",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 卡牌奖励已处理\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "potion-claimed",
+      "message": "/battlePanel/notice: \"药水已放入背包。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "reward-redraw",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 卡牌奖励已处理\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "reward-redraw",
+      "message": "/battlePanel/notice: \"药水已放入背包。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "card-skipped",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 卡牌奖励已处理\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "card-skipped",
+      "message": "/battlePanel/notice: \"已跳过卡牌；其他奖励请单独处理。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "card-skipped",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "potion-full",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "potion-full",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "potion-full",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n药水槽已满；点顶部药水槽丢弃旧药水后再领取，或放弃\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "potion-full-card-added",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 卡牌奖励已处理\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "potion-full-card-added",
+      "message": "/battlePanel/notice: \"卡牌已加入牌组；其他奖励请单独处理。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "potion-full-card-added",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n药水槽已满；点顶部药水槽丢弃旧药水后再领取，或放弃\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "potion-full-rejected",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 卡牌奖励已处理\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "potion-full-rejected",
+      "message": "/battlePanel/notice: \"药水槽已满；可点顶部药水槽丢弃旧药水后再领取，或放弃这瓶战利品。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "potion-full-rejected",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n药水槽已满；点顶部药水槽丢弃旧药水后再领取，或放弃\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "stolen-gold-list",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "stolen-gold-list",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "stolen-gold-list",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    },
+    {
+      "state": "stolen-gold-claimed",
+      "message": "/battlePanel/rewardStage/subtitle: \"战斗胜利 · 金币 ＋15 · 点击卡牌加入牌组，或跳过\" needs 1 native lines (40), box height 28"
+    },
+    {
+      "state": "stolen-gold-claimed",
+      "message": "/battlePanel/notice: \"已取回失金。\" needs 1 native lines (40), box height 32"
+    },
+    {
+      "state": "stolen-gold-claimed",
+      "message": "/battlePanel/skip/normal/label: \"跳过卡牌\" needs 1 native lines (40), box height 36"
+    },
+    {
+      "state": "stolen-gold-claimed",
+      "message": "/battlePanel/potionReward: \"敏捷药水 · 敏捷 2 · ×1\\n单独领取或放弃，再前往地图\" needs 2 native lines (80), box height 56"
+    }
+  ],
+  "ownershipFailure": "reward-list: reward list must own its title and feedback",
+  "adjacent": {
+    "collisionCount": 0,
+    "capacityRisks": {
+      "menu": [],
+      "map": [
+        "/mapPanel/mapGroup1/notice: \"上下拖动查看路线 · 点选可前往的节点出发\" needs 1 native lines (40), box height 28"
+      ],
+      "map-feedback": [
+        "/mapPanel/mapGroup1/notice: \"当前路线不可达，请选择亮起的节点。\" needs 1 native lines (40), box height 28"
+      ],
+      "battle": [],
+      "battle-feedback": [
+        "/battlePanel/notice: \"能量不足，请选择其他卡牌。\" needs 1 native lines (40), box height 32"
+      ],
+      "camp": [],
+      "camp-feedback": []
+    }
+  },
+  "artifacts": [
+    {
+      "path": "build/readability-red.log",
+      "sha256": "8cbe4dd2887127ad847aa401365b9ec0c10043612b8c93444aa8417a2790e693"
+    },
+    {
+      "path": "build/reward-readability.json",
+      "sha256": "0d7abe9a62ed1091cbe7d8ec7a33987d27e2f994c4c982ad22fcc6425a9d4f67"
+    },
+    {
+      "path": "build/ui-readability-adjacent-risks.json",
+      "sha256": "42dfa87d79fa3069b773a926183f66adb9495be67be2ce52e1273f6b46dd73d3"
+    }
+  ],
+  "boundary": "Generated import tree plus real Run/UI commands. No candidate, import, native screenshot, font measurement or verify:ui pass."
+}

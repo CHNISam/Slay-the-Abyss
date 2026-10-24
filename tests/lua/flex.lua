@@ -107,6 +107,7 @@ test("real starter victory can award flex and use it next battle without resourc
     assert(Run.claimCardReward(selected, choice)); equal(#selected.deck, #oldDeck + 1)
     for i, instance in ipairs(oldDeck) do same(selected.deck[i], instance) end
     equal(selected.deck[#selected.deck].cardId, "flex")
+    dofile('tests/lua/support/finish_combat_rewards.lua')(selected)
     assert(Run.startCombat(selected, "cultist_solo"))
     for _ = 1, 10 do
         assert(selected.phase == "combat", "battle ended before flex was played")

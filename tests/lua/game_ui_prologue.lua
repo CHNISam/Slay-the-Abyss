@@ -89,7 +89,7 @@ test("the last fade uncovers an inert map, then hands over cleanly with no overl
     run(ui, P.reveal / 2 + 0.05)
     assert(not ui.prologue.playing and not panel(root).visible)
     assert(ui.mode == "map" and ui.mapUI.navigationEnabled and root:GetChild("deckEntry").visible)
-    assert(#Nodes.available(ui.run, ui.map) == 3)
+    assert(#Nodes.available(ui.run, ui.map) == 2)
     click(root, "mapPanel", "node1")
     assert(ui.mode == "battle", "the map takes input once the cinematic is gone")
     ui:update(1)

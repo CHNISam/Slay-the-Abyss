@@ -428,8 +428,8 @@
     "rewardPick": {
       "note": "战后选牌：居中三张大牌，与底部战斗手牌分开。scale/hoverScale 与批准稿 pick.png 的 1.38/1.5 一致；step 留足缝隙，悬停放大后相邻牌不重叠。",
       "stage": [0, 28, 960, 452],
-      "title": [0, 226, 760, 44],
-      "subtitle": [0, 186, 760, 28],
+      "title": [0, 230, 760, 44],
+      "subtitle": [0, 184, 760, 40],
       "y": -20,
       "step": 268,
       "scale": 1.38,
@@ -438,7 +438,7 @@
       "ease": 14,
       "enterScale": 0.88,
       "enterRise": 28,
-      "skip": [0, -250, 250, 44]
+      "skip": [0, -250, 250, 52]
     },
     "cardDrag": {
       "threshold": 8,
@@ -595,9 +595,18 @@
       ]
     },
     "battleRewards": {
-      "potionLabel": [0, -306, 1160, 56],
-      "claimPotion": [-268, -250],
-      "skipPotion": [268, -250]
+      "note": "批准奖励列表构图；第四行容纳独立失金条目。列表和选牌台互斥，继续不增加逐项放弃确认。",
+      "stage": [0, 28, 640, 516],
+      "title": [0, 242, 560, 44],
+      "subtitle": [0, 194, 560, 40],
+      "rowOrigin": [0, 132],
+      "rowStep": 76,
+      "rowSize": [520, 64],
+      "continue": [0, -190, 200, 60],
+      "return": [-522, -60, 148, 52],
+      "potionLabel": [0, -264, 1040, 64],
+      "claimPotion": [0, 56],
+      "skipPotion": [0, -250]
     },
     "nativeControl": {
       "origin": [

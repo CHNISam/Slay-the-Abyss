@@ -42,7 +42,7 @@ test("disabled Down does not become valid after the deck closes", function()
 end)
 test("old reward skip cannot consume a replacement reward object", function()
     local h,u,p,e,t,d=H.reward();local old=h.run.rewards;e("skip","down",7)
-    t("card1",8);assert(h.run.phase=="map");assert(H.Run.startCombat(h.run,"cultist_solo"));h:refresh()
+    t("card1",8);t('continue',9);assert(h.run.phase=="map");assert(H.Run.startCombat(h.run,"cultist_solo"));h:refresh()
     -- Drive the actual new starter-deck battle through public Run commands.
     for _=1,40 do
         if h.run.phase~="combat" then break end
@@ -56,7 +56,7 @@ test("old reward skip cannot consume a replacement reward object", function()
         end
         if h.run.phase=="combat" then assert(H.Run.endTurn(h.run)) end
     end
-    h:refresh();assert(h.run.phase=="reward" and h.run.rewards~=old)
-    e("skip","up",7);e("skip","click",7);assert(h.run.phase=="reward")
+    h:refresh();assert(h.run.phase=="reward" and h.run.rewards~=old);t('cardReward',10)
+    e("skip","up",7);e("skip","click",7);assert(h.run.phase=="reward" and p:GetChild('rewardStage').visible)
 end)
 finish()

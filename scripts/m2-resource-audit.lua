@@ -19,6 +19,14 @@ local function json(value)
     for _,k in ipairs(keys) do result[#result+1]=json(tostring(k))..':'..json(value[k]) end
     return '{'..table.concat(result,',')..'}'
 end
+-- Stable observation IDs detect replacement by an equal-looking object as
+-- well as mutations inside it; snapshots themselves never keep live aliases.
+local observedIds,nextObservedId=setmetatable({}, {__mode='k'}),0
+local function identity(value)
+    if type(value)~='table' then return false end
+    if not observedIds[value] then nextObservedId=nextObservedId+1;observedIds[value]=nextObservedId end
+    return observedIds[value]
+end
 local function snapshot(run,map)
     local deck,potions,seen={},{},{}
     for _,card in ipairs(run.deck) do
@@ -27,11 +35,17 @@ local function snapshot(run,map)
         deck[#deck+1]={uid=card.uid,cardId=card.cardId,upgraded=card.upgraded}
     end
     for slot=1,run.data.rules.player.potionSlots do potions[#potions+1]={slot=slot,id=run.potions[slot] or false} end
+    local pending=run.pendingCombatRewards
+    local parked=pending and {identity=identity(pending),rewardIdentity=identity(pending.rewards),
+        combatIdentity=identity(pending.combat),flowIdentity=identity(pending.flow),
+        rewards=C.copy(pending.rewards),flow=C.copy(pending.flow)} or false
     return {phase=run.phase,floor=run.floor,mapFloor=map.floor,hp=run.hp,maxHp=run.maxHp,gold=run.gold,
         deck=deck,nextDeckUid=run.nextDeckUid,relics=C.copy(run.relics),potions=potions,
         seed=run.seed,eventRng=C.copy(run.eventRng),miscRng=C.copy(run.miscRng),unknown=C.copy(run.unknown),
         shopRng=C.copy(run.shopRng),potionChanceModifier=run.potionChanceModifier,
-        rewards=C.copy(run.rewards),lastResult=C.copy(run.lastResult),victories=run.victories,
+        rewards=C.copy(run.rewards),rewardIdentity=identity(run.rewards),combatIdentity=identity(run.combat),
+        flowIdentity=identity(run.nodeFlow),pendingCombatRewards=parked,
+        lastResult=C.copy(run.lastResult),victories=run.victories,
         path=C.copy(map.path),nodeFlow=C.copy(run.nodeFlow),shopRemoveCount=run.shopRemoveCount}
 end
 local cardRank=Policy.scoreCard
@@ -72,6 +86,10 @@ local function runSeed(seed)
         assert(run.phase~='combat','strategy action/turn budget exhausted')
         if run.phase=='defeat' then result.status='defeat';return false end
         reject('complete_before_reward',function() return Nodes.completeCombat(run,map) end)
+        if run.rewards.goldClaimed==false then
+            transaction('gold_reward',function() return Run.claimGoldReward(run) end)
+            reject('duplicate_gold_reward',function() return Run.claimGoldReward(run) end)
+        end
         local best,rank=0,28
         for i,id in ipairs(Run.rewardOptions(run)) do local r=cardRank(run,id);if r>rank then best,rank=i,r end end
         local offer=run.rewards.potion
@@ -191,7 +209,9 @@ local function runSeed(seed)
     if map.floor==17 and run.nodeFlow.complete then result.status='offline_route_complete' end
     result.final=snapshot(run,map)
     local restarted,restartedMap=Run.new(data,seed),Map.generate(data,seed)
-    assert(json(snapshot(restarted,restartedMap))==fresh,'new run retained prior assets or random counters')
+    result.resetSnapshot=snapshot(restarted,restartedMap)
+    assert(result.resetSnapshot.pendingCombatRewards==false,'new run retained parked combat rewards')
+    assert(json(result.resetSnapshot)==fresh,'new run retained prior assets or random counters')
     result.resetVerified=true
     return result
 end

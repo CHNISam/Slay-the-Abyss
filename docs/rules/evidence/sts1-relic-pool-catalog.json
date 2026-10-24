@@ -1,0 +1,4832 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceRepository": "https://github.com/aeubanks/sts",
+  "sourceDeclaration": "V2.3.4 (12-18-2022), community decompilation mirror; not authenticated against licensed PC binary",
+  "profile": {
+    "class": "IRONCLAD",
+    "ascension": 0,
+    "act": 1,
+    "allRelicUnlocks": true,
+    "dailyMods": false,
+    "endless": false
+  },
+  "projectBaseline": "eb4e8af",
+  "implementationEvidence": "pending",
+  "pcBinaryAuthentication": "pending",
+  "liveEvidence": "pending",
+  "queueInitializationOrder": [
+    "common",
+    "uncommon",
+    "rare",
+    "shop",
+    "boss"
+  ],
+  "registrationOrder": [
+    "TheAbacus",
+    "Akabeko",
+    "Anchor",
+    "Ancient Tea Set",
+    "Art of War",
+    "Astrolabe",
+    "Bag of Marbles",
+    "Bag of Preparation",
+    "Bird Faced Urn",
+    "Black Star",
+    "Blood Vial",
+    "Bloody Idol",
+    "Blue Candle",
+    "Boot",
+    "Bottled Flame",
+    "Bottled Lightning",
+    "Bottled Tornado",
+    "Bronze Scales",
+    "Busted Crown",
+    "Calipers",
+    "Calling Bell",
+    "CaptainsWheel",
+    "Cauldron",
+    "Centennial Puzzle",
+    "CeramicFish",
+    "Chemical X",
+    "ClockworkSouvenir",
+    "Coffee Dripper",
+    "The Courier",
+    "CultistMask",
+    "Cursed Key",
+    "Darkstone Periapt",
+    "Dead Branch",
+    "DollysMirror",
+    "Dream Catcher",
+    "Du-Vu Doll",
+    "Ectoplasm",
+    "Empty Cage",
+    "Enchiridion",
+    "Eternal Feather",
+    "FaceOfCleric",
+    "FossilizedHelix",
+    "Frozen Egg 2",
+    "Frozen Eye",
+    "Fusion Hammer",
+    "Gambling Chip",
+    "Ginger",
+    "Girya",
+    "Golden Idol",
+    "Gremlin Horn",
+    "GremlinMask",
+    "HandDrill",
+    "Happy Flower",
+    "HornCleat",
+    "Ice Cream",
+    "Incense Burner",
+    "InkBottle",
+    "Juzu Bracelet",
+    "Kunai",
+    "Lantern",
+    "Letter Opener",
+    "Lizard Tail",
+    "Mango",
+    "Mark of the Bloom",
+    "Matryoshka",
+    "MawBank",
+    "MealTicket",
+    "Meat on the Bone",
+    "Medical Kit",
+    "Membership Card",
+    "Mercury Hourglass",
+    "Molten Egg 2",
+    "Mummified Hand",
+    "MutagenicStrength",
+    "Necronomicon",
+    "NeowsBlessing",
+    "Nilry's Codex",
+    "Nloth's Gift",
+    "NlothsMask",
+    "Nunchaku",
+    "Oddly Smooth Stone",
+    "Odd Mushroom",
+    "Old Coin",
+    "Omamori",
+    "OrangePellets",
+    "Orichalcum",
+    "Ornamental Fan",
+    "Orrery",
+    "Pandora's Box",
+    "Pantograph",
+    "Peace Pipe",
+    "Pear",
+    "Pen Nib",
+    "Philosopher's Stone",
+    "Pocketwatch",
+    "Potion Belt",
+    "Prayer Wheel",
+    "PreservedInsect",
+    "PrismaticShard",
+    "Question Card",
+    "Red Mask",
+    "Regal Pillow",
+    "Runic Dome",
+    "Runic Pyramid",
+    "SacredBark",
+    "Shovel",
+    "Shuriken",
+    "Singing Bowl",
+    "SlaversCollar",
+    "Sling",
+    "Smiling Mask",
+    "Snecko Eye",
+    "Sozu",
+    "Spirit Poop",
+    "SsserpentHead",
+    "StoneCalendar",
+    "Strange Spoon",
+    "Strawberry",
+    "StrikeDummy",
+    "Sundial",
+    "Thread and Needle",
+    "Tiny Chest",
+    "Tiny House",
+    "Toolbox",
+    "Torii",
+    "Toxic Egg 2",
+    "Toy Ornithopter",
+    "TungstenRod",
+    "Turnip",
+    "Unceasing Top",
+    "Vajra",
+    "Velvet Choker",
+    "Lee's Waffle",
+    "War Paint",
+    "WarpedTongs",
+    "Whetstone",
+    "White Beast Statue",
+    "WingedGreaves",
+    "Black Blood",
+    "Brimstone",
+    "Burning Blood",
+    "Champion Belt",
+    "Charon's Ashes",
+    "Magic Flower",
+    "Mark of Pain",
+    "Paper Frog",
+    "Red Skull",
+    "Runic Cube",
+    "Self Forming Clay"
+  ],
+  "summary": {
+    "queue": 130,
+    "act1Special": 10,
+    "starter": 1,
+    "laterActExcluded": 8,
+    "existingLocalEffects": 13,
+    "queueMissing": 118,
+    "act1Missing": 128
+  },
+  "queueProtocol": {
+    "initialization": {
+      "population": "shared HashMap entry order, then red HashMap entry order; locked IDs filtered before shuffle",
+      "shuffle": "five Collections.shuffle calls, each seeded by one relicRng.randomLong; common/uncommon/rare/shop/boss order",
+      "removal": "relicsToRemoveOnStart removed after all five shuffles; no re-shuffle or random re-pick",
+      "saveRestore": "saved five queues restored, not reconstructed from supported/remaining IDs"
+    },
+    "drawing": {
+      "front": "normal, elite, chest, Neow, boss and wrappers",
+      "tail": "shop, except boss always uses front",
+      "failedCanSpawn": "candidate permanently removed; continue same tier from tail even if first request was front",
+      "emptyFallback": {
+        "common": "uncommon FRONT",
+        "uncommon": "rare FRONT",
+        "rare": "Circlet",
+        "shop": "uncommon FRONT",
+        "boss": "Red Circlet requested / Circlet resolved by missing-library fallback"
+      },
+      "ownership": "single shared queues spent at OFFER creation; not only when claimed; no per-channel replenishment",
+      "randomSelection": "no RNG call per ordinary queue draw; rarity RNG belongs to the source channel"
+    }
+  },
+  "acquisitionChannels": {
+    "elite": {
+      "source": "rooms/MonsterRoomElite.java",
+      "rng": "one relicRng.random(0,99) per ordinary relic; 50 common / 33 uncommon / 17 rare",
+      "draw": "front"
+    },
+    "chest": {
+      "source": "rewards/chests/AbstractChest.java",
+      "rng": "treasureRng chooses chest type 50/33/17, then ONE 0..99 roll shared by gold eligibility and relic tier; optional gold float jitter",
+      "draw": "front",
+      "small": [
+        75,
+        25,
+        0
+      ],
+      "medium": [
+        35,
+        50,
+        15
+      ],
+      "large": [
+        0,
+        75,
+        25
+      ],
+      "goldChance": [
+        50,
+        35,
+        50
+      ]
+    },
+    "boss-chest": {
+      "source": "rewards/chests/BossChest.java",
+      "rng": "no rarity roll; create 3 front boss offers, all 3 spent before choice",
+      "draw": "front"
+    },
+    "shop-normal": {
+      "source": "shop/ShopScreen.java",
+      "rng": "first two slots each merchantRng.random(99), 48 common / 34 uncommon / 18 rare; each item has separate non-daily price float jitter",
+      "draw": "tail"
+    },
+    "shop-exclusive": {
+      "source": "shop/ShopScreen.java",
+      "rng": "third initial slot forced SHOP, no rarity roll; separate price jitter",
+      "draw": "tail"
+    },
+    "courier-restock": {
+      "source": "shop/StoreRelic.java",
+      "rng": "new ordinary rarity roll for every retry, INCLUDING restock of initial SHOP slot; price jitter after valid relic",
+      "draw": "tail"
+    },
+    "neow-common": {
+      "source": "neow/NeowReward.java",
+      "rng": "forced common, no rarity roll",
+      "draw": "front"
+    },
+    "neow-rare": {
+      "source": "neow/NeowReward.java",
+      "rng": "forced rare, no rarity roll",
+      "draw": "front"
+    },
+    "neow-swap": {
+      "source": "neow/NeowReward.java",
+      "rng": "lose starter before forced boss draw; Black Blood canSpawn then fails and is consumed if encountered",
+      "draw": "front"
+    },
+    "neow-lament": {
+      "source": "neow/NeowReward.java",
+      "rng": "direct NeowsBlessing, not any tier queue"
+    },
+    "random-event-screenless": {
+      "source": "dungeons/AbstractDungeon.java",
+      "events": [
+        "Big Fish",
+        "Scrap Ooze",
+        "Dead Adventurer search",
+        "Wheel of Change",
+        "We Meet Again"
+      ],
+      "rng": "one relicRng rarity roll 50/33/17; screenless wrapper repeatedly draws SAME tier and spends Bottled Flame/Lightning/Tornado and Whetstone",
+      "draw": "front"
+    },
+    "dead-adventurer-fight": {
+      "source": "events/exordium/DeadAdventurer.java",
+      "rng": "remaining RELIC reward uses general 50/33/17 rarity and ordinary draw, not screenless wrapper",
+      "draw": "front"
+    },
+    "shovel": {
+      "source": "vfx/campfire/CampfireDigEffect.java",
+      "rng": "one relicRng general rarity roll 50/33/17",
+      "draw": "front"
+    },
+    "black-star-extra": {
+      "source": "rooms/MonsterRoomElite.java",
+      "rng": "additional elite rarity roll 50/33/17; non-campfire wrapper spends Girya/Peace Pipe/Shovel and retries SAME tier",
+      "draw": "front"
+    },
+    "calling-bell": {
+      "source": "relics/CallingBell.java",
+      "rng": "one common, one uncommon, one rare using screenless wrapper; no rarity rolls",
+      "draw": "front"
+    },
+    "matryoshka": {
+      "source": "relics/Matryoshka.java",
+      "rng": "one relicRng.randomBoolean(0.75) -> common else uncommon; before ordinary non-boss chest relic",
+      "draw": "front"
+    },
+    "golden-idol": {
+      "source": "events/exordium/GoldenIdolEvent.java",
+      "rng": "direct Golden Idol; duplicate becomes Circlet; not a queue"
+    },
+    "mushrooms-fight": {
+      "source": "events/exordium/Mushrooms.java",
+      "rng": "fight choice direct Odd Mushroom reward; duplicate becomes Circlet"
+    },
+    "accursed-blacksmith": {
+      "source": "events/shrines/AccursedBlacksmith.java",
+      "rng": "Rummage gives WarpedTongs and Pain; not a tier draw"
+    },
+    "bonfire-curse": {
+      "source": "events/shrines/Bonfire.java",
+      "rng": "offer curse for Spirit Poop; duplicate becomes Circlet"
+    },
+    "face-trader": {
+      "source": "events/shrines/FaceTrader.java",
+      "rng": "miscRng.randomLong seeds shuffle of unowned faces in CultistMask/FaceOfCleric/GremlinMask/NlothsMask/SsserpentHead order; first face; all owned -> Circlet"
+    },
+    "ironclad-start": {
+      "source": "characters/Ironclad.java",
+      "rng": "direct Burning Blood, outside tier queues"
+    }
+  },
+  "relics": [
+    {
+      "id": "TheAbacus",
+      "class": "Abacus",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onShuffle"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Abacus.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Akabeko",
+      "class": "Akabeko",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Akabeko.java",
+      "unlockSource": "unlock/relics/watcher/AkabekoUnlock.java"
+    },
+    {
+      "id": "Anchor",
+      "class": "Anchor",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "justEnteredRoom"
+      ],
+      "projectId": "anchor",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Anchor.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Ancient Tea Set",
+      "class": "AncientTeaSet",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "atTurnStart",
+        "atPreBattle",
+        "setCounter",
+        "onEnterRestRoom",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/AncientTeaSet.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Art of War",
+      "class": "ArtOfWar",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "atPreBattle",
+        "atTurnStart",
+        "onUseCard",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ArtOfWar.java",
+      "unlockSource": "unlock/relics/silent/ArtOfWarUnlock.java"
+    },
+    {
+      "id": "Astrolabe",
+      "class": "Astrolabe",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "update"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Astrolabe.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bag of Marbles",
+      "class": "BagOfMarbles",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BagOfMarbles.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bag of Preparation",
+      "class": "BagOfPreparation",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": "bag_of_preparation",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/BagOfPreparation.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bird Faced Urn",
+      "class": "BirdFacedUrn",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onUseCard"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BirdFacedUrn.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Black Star",
+      "class": "BlackStar",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEnterRoom",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BlackStar.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Blood Vial",
+      "class": "BloodVial",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BloodVial.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bloody Idol",
+      "class": "BloodyIdol",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onGainGold"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BloodyIdol.java",
+      "excludedReason": "Act2 Forgotten Altar",
+      "unlockSource": null
+    },
+    {
+      "id": "Blue Candle",
+      "class": "BlueCandle",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onUseCard"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BlueCandle.java",
+      "unlockSource": "unlock/relics/ironclad/BlueCandleUnlock.java"
+    },
+    {
+      "id": "Boot",
+      "class": "Boot",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onAttackToChangeDamage"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Boot.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bottled Flame",
+      "class": "BottledFlame",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "nonbasic-card-type",
+        "cardType": "ATTACK"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onUnequip",
+        "update",
+        "atBattleStart",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BottledFlame.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bottled Lightning",
+      "class": "BottledLightning",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "nonbasic-card-type",
+        "cardType": "SKILL"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onUnequip",
+        "update",
+        "atBattleStart",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BottledLightning.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bottled Tornado",
+      "class": "BottledTornado",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "card-type",
+        "cardType": "POWER"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onUnequip",
+        "update",
+        "atBattleStart",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BottledTornado.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Bronze Scales",
+      "class": "BronzeScales",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": "bronze_scales",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/BronzeScales.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Busted Crown",
+      "class": "BustedCrown",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip",
+        "changeNumberOfCardsInReward"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/BustedCrown.java",
+      "unlockSource": null,
+      "dependencyNote": "Subtracts two card reward options via ordered hook; energy boss relic may enter Act1 through Neow swap."
+    },
+    {
+      "id": "Calipers",
+      "class": "Calipers",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Calipers.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Calling Bell",
+      "class": "CallingBell",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "update"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CallingBell.java",
+      "unlockSource": null,
+      "dependencyNote": "Obtains Curse of the Bell then creates common/uncommon/rare screenless rewards, spending all offers and rejected candidates; recursive pending-reward flow required."
+    },
+    {
+      "id": "CaptainsWheel",
+      "class": "CaptainsWheel",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "atTurnStart",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CaptainsWheel.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Cauldron",
+      "class": "Cauldron",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Cauldron.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Centennial Puzzle",
+      "class": "CentennialPuzzle",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atPreBattle",
+        "wasHPLost",
+        "justEnteredRoom",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CentennialPuzzle.java",
+      "unlockSource": null
+    },
+    {
+      "id": "CeramicFish",
+      "class": "CeramicFish",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onObtainCard",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CeramicFish.java",
+      "unlockSource": "unlock/relics/watcher/CeramicFishUnlock.java"
+    },
+    {
+      "id": "Chemical X",
+      "class": "ChemicalX",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ChemicalX.java",
+      "unlockSource": null
+    },
+    {
+      "id": "ClockworkSouvenir",
+      "class": "ClockworkSouvenir",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ClockworkSouvenir.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Coffee Dripper",
+      "class": "CoffeeDripper",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip",
+        "canUseCampfireOption"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CoffeeDripper.java",
+      "unlockSource": null
+    },
+    {
+      "id": "The Courier",
+      "class": "Courier",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true,
+        "excludeRoom": "shop"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEnterRoom",
+        "canSpawn"
+      ],
+      "projectId": "courier",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Courier.java",
+      "unlockSource": "unlock/relics/silent/CourierUnlock.java"
+    },
+    {
+      "id": "CultistMask",
+      "class": "CultistMask",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "face-trader"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CultistMask.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Cursed Key",
+      "class": "CursedKey",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "justEnteredRoom",
+        "onChestOpen",
+        "updateDescription",
+        "onEquip",
+        "onUnequip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CursedKey.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Darkstone Periapt",
+      "class": "DarkstonePeriapt",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onObtainCard",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/DarkstonePeriapt.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Dead Branch",
+      "class": "DeadBranch",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onExhaust"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/DeadBranch.java",
+      "unlockSource": "unlock/relics/ironclad/DeadBranchUnlock.java"
+    },
+    {
+      "id": "DollysMirror",
+      "class": "DollysMirror",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "update"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/DollysMirror.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Dream Catcher",
+      "class": "DreamCatcher",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/DreamCatcher.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Du-Vu Doll",
+      "class": "DuVuDoll",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "setCounter",
+        "onMasterDeckChange",
+        "onEquip",
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/DuVuDoll.java",
+      "unlockSource": "unlock/relics/silent/DuvuDollUnlock.java"
+    },
+    {
+      "id": "Ectoplasm",
+      "class": "Ectoplasm",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "max-act",
+        "act": 1
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Ectoplasm.java",
+      "unlockSource": null,
+      "dependencyNote": "canSpawn act <=1; may be Neow swap or Act1 boss offer. Gold prohibition must cover every route and stolen-gold behavior."
+    },
+    {
+      "id": "Empty Cage",
+      "class": "EmptyCage",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "update"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/EmptyCage.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Enchiridion",
+      "class": "Enchiridion",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "atPreBattle"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Enchiridion.java",
+      "excludedReason": "Act2 Cursed Tome",
+      "unlockSource": null
+    },
+    {
+      "id": "Eternal Feather",
+      "class": "EternalFeather",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "onEnterRoom"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/EternalFeather.java",
+      "unlockSource": null
+    },
+    {
+      "id": "FaceOfCleric",
+      "class": "FaceOfCleric",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "face-trader"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/FaceOfCleric.java",
+      "unlockSource": null
+    },
+    {
+      "id": "FossilizedHelix",
+      "class": "FossilizedHelix",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "justEnteredRoom"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/FossilizedHelix.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Frozen Egg 2",
+      "class": "FrozenEgg2",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onPreviewObtainCard",
+        "onObtainCard",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/FrozenEgg2.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Frozen Eye",
+      "class": "FrozenEye",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/FrozenEye.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Fusion Hammer",
+      "class": "FusionHammer",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip",
+        "canUseCampfireOption"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/FusionHammer.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Gambling Chip",
+      "class": "GamblingChip",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "atBattleStartPreDraw",
+        "atTurnStartPostDraw"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/GamblingChip.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Ginger",
+      "class": "Ginger",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Ginger.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Girya",
+      "class": "Girya",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "campfire-limit",
+        "maxExclusiveFloor": 48,
+        "maxCampfireRelics": 2
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "canSpawn",
+        "addCampfireOption"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Girya.java",
+      "unlockSource": null,
+      "dependencyNote": "Adds Lift campfire option, maximum three lifts; accumulated strength at battle start. Shares two-campfire-relic spawn cap with Peace Pipe/Shovel."
+    },
+    {
+      "id": "Golden Idol",
+      "class": "GoldenIdol",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "golden-idol"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/GoldenIdol.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Gremlin Horn",
+      "class": "GremlinHorn",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onMonsterDeath"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/GremlinHorn.java",
+      "unlockSource": null
+    },
+    {
+      "id": "GremlinMask",
+      "class": "GremlinMask",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "face-trader"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/GremlinMask.java",
+      "unlockSource": null
+    },
+    {
+      "id": "HandDrill",
+      "class": "HandDrill",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onBlockBroken"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/HandDrill.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Happy Flower",
+      "class": "HappyFlower",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "atTurnStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/HappyFlower.java",
+      "unlockSource": null
+    },
+    {
+      "id": "HornCleat",
+      "class": "HornCleat",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "atTurnStart",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/HornCleat.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Ice Cream",
+      "class": "IceCream",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/IceCream.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Incense Burner",
+      "class": "IncenseBurner",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "atTurnStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/IncenseBurner.java",
+      "unlockSource": null
+    },
+    {
+      "id": "InkBottle",
+      "class": "InkBottle",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onUseCard",
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/InkBottle.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Juzu Bracelet",
+      "class": "JuzuBracelet",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/JuzuBracelet.java",
+      "unlockSource": null,
+      "projectPartialHookNote": "The baseline passes a juzu_bracelet ownership flag to the unknown-room selector, but has no data entry or ordinary acquisition route; selector-level support is not a delivered full relic."
+    },
+    {
+      "id": "Kunai",
+      "class": "Kunai",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart",
+        "onUseCard",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Kunai.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Lantern",
+      "class": "Lantern",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "atPreBattle",
+        "atTurnStart"
+      ],
+      "projectId": "lantern",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Lantern.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Letter Opener",
+      "class": "LetterOpener",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart",
+        "onUseCard",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/LetterOpener.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Lizard Tail",
+      "class": "LizardTail",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "setCounter",
+        "onTrigger"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/LizardTail.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Mango",
+      "class": "Mango",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Mango.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Mark of the Bloom",
+      "class": "MarkOfTheBloom",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onPlayerHeal"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MarkOfTheBloom.java",
+      "excludedReason": "Act3 Mind Bloom",
+      "unlockSource": null
+    },
+    {
+      "id": "Matryoshka",
+      "class": "Matryoshka",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 40,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onChestOpen",
+        "setCounter",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Matryoshka.java",
+      "unlockSource": null,
+      "dependencyNote": "Next two non-boss chests add a relic before ordinary chest draw; 75% common else uncommon via relicRng; normal canSpawn applies."
+    },
+    {
+      "id": "MawBank",
+      "class": "MawBank",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true,
+        "excludeRoom": "shop"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEnterRoom",
+        "onSpendGold",
+        "setCounter",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MawBank.java",
+      "unlockSource": null
+    },
+    {
+      "id": "MealTicket",
+      "class": "MealTicket",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true,
+        "excludeRoom": "shop"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "justEnteredRoom",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MealTicket.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Meat on the Bone",
+      "class": "MeatOnTheBone",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onTrigger",
+        "onBloodied",
+        "onNotBloodied",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MeatOnTheBone.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Medical Kit",
+      "class": "MedicalKit",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onUseCard"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MedicalKit.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Membership Card",
+      "class": "MembershipCard",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEnterRoom"
+      ],
+      "projectId": "membership_card",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/MembershipCard.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Mercury Hourglass",
+      "class": "MercuryHourglass",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MercuryHourglass.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Molten Egg 2",
+      "class": "MoltenEgg2",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onPreviewObtainCard",
+        "onObtainCard",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MoltenEgg2.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Mummified Hand",
+      "class": "MummifiedHand",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onUseCard"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MummifiedHand.java",
+      "unlockSource": null
+    },
+    {
+      "id": "MutagenicStrength",
+      "class": "MutagenicStrength",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MutagenicStrength.java",
+      "excludedReason": "Act2 Augmenter",
+      "unlockSource": null
+    },
+    {
+      "id": "Necronomicon",
+      "class": "Necronomicon",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onUnequip",
+        "onUseCard",
+        "atTurnStart",
+        "checkTrigger"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Necronomicon.java",
+      "excludedReason": "Act2 Cursed Tome",
+      "unlockSource": null
+    },
+    {
+      "id": "NeowsBlessing",
+      "class": "NeowsLament",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "neow-lament"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "setCounter"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/NeowsLament.java",
+      "unlockSource": null,
+      "dependencyNote": "NeowsLament class: three battles set each starting monster HP to one; special Neow choice, not common/rare/boss queue."
+    },
+    {
+      "id": "Nilry's Codex",
+      "class": "NilrysCodex",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onPlayerEndTurn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/NilrysCodex.java",
+      "excludedReason": "Act2 Cursed Tome",
+      "unlockSource": null
+    },
+    {
+      "id": "Nloth's Gift",
+      "class": "NlothsGift",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "changeRareCardRewardChance"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/NlothsGift.java",
+      "excludedReason": "Act2 Nloth",
+      "unlockSource": null
+    },
+    {
+      "id": "NlothsMask",
+      "class": "NlothsMask",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "face-trader"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onChestOpenAfter",
+        "setCounter"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/NlothsMask.java",
+      "unlockSource": null,
+      "dependencyNote": "After ordinary chest rewards exist, removes one relic reward; spent queue entries remain spent. Does not affect boss chest."
+    },
+    {
+      "id": "Nunchaku",
+      "class": "Nunchaku",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onUseCard"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Nunchaku.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Oddly Smooth Stone",
+      "class": "OddlySmoothStone",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": "oddly_smooth_stone",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/OddlySmoothStone.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Odd Mushroom",
+      "class": "OddMushroom",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "mushrooms-fight"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/OddMushroom.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Old Coin",
+      "class": "OldCoin",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true,
+        "excludeRoom": "shop"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/OldCoin.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Omamori",
+      "class": "Omamori",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "setCounter",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Omamori.java",
+      "unlockSource": "unlock/relics/ironclad/OmamoriUnlock.java"
+    },
+    {
+      "id": "OrangePellets",
+      "class": "OrangePellets",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart",
+        "onUseCard"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/OrangePellets.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Orichalcum",
+      "class": "Orichalcum",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onPlayerEndTurn",
+        "atTurnStart",
+        "onPlayerGainedBlock",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Orichalcum.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Ornamental Fan",
+      "class": "OrnamentalFan",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart",
+        "onUseCard",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/OrnamentalFan.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Orrery",
+      "class": "Orrery",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Orrery.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Pandora's Box",
+      "class": "PandorasBox",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "update"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PandorasBox.java",
+      "unlockSource": "unlock/relics/silent/PandorasBoxUnlock.java"
+    },
+    {
+      "id": "Pantograph",
+      "class": "Pantograph",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Pantograph.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Peace Pipe",
+      "class": "PeacePipe",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "campfire-limit",
+        "maxExclusiveFloor": 48,
+        "maxCampfireRelics": 2
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "canSpawn",
+        "addCampfireOption"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PeacePipe.java",
+      "unlockSource": null,
+      "dependencyNote": "Adds one-card removal campfire option; bottled/removal eligibility and confirmation required; shares campfire relic spawn cap."
+    },
+    {
+      "id": "Pear",
+      "class": "Pear",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Pear.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Pen Nib",
+      "class": "PenNib",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onUseCard",
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PenNib.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Philosopher's Stone",
+      "class": "PhilosopherStone",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "atBattleStart",
+        "onSpawnMonster",
+        "onEquip",
+        "onUnequip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PhilosopherStone.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Pocketwatch",
+      "class": "Pocketwatch",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "atTurnStartPostDraw",
+        "onPlayCard",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Pocketwatch.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Potion Belt",
+      "class": "PotionBelt",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PotionBelt.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Prayer Wheel",
+      "class": "PrayerWheel",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PrayerWheel.java",
+      "unlockSource": "unlock/relics/ironclad/PrayerWheelUnlock.java",
+      "dependencyNote": "CombatRewardScreen adds second card reward only to ordinary MonsterRoom, excluding elite and boss; source relic class has no gameplay hook override."
+    },
+    {
+      "id": "PreservedInsect",
+      "class": "PreservedInsect",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 52,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PreservedInsect.java",
+      "unlockSource": null
+    },
+    {
+      "id": "PrismaticShard",
+      "class": "PrismaticShard",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PrismaticShard.java",
+      "unlockSource": null,
+      "dependencyNote": "Card rewards use every unlocked eligible color at rolled rarity, including colorless; grant one orb slot to non-Defect with zero slots. Requires other classes card/power/orb/stance/discard mechanics. Does NOT add other-color relic libraries."
+    },
+    {
+      "id": "Question Card",
+      "class": "QuestionCard",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "canSpawn",
+        "changeNumberOfCardsInReward"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/QuestionCard.java",
+      "unlockSource": null,
+      "dependencyNote": "Adds one card to reward options through ordered changeNumberOfCardsInReward hook, including colorless reward generation."
+    },
+    {
+      "id": "Red Mask",
+      "class": "RedMask",
+      "library": "shared",
+      "tier": "special",
+      "scope": "later-act-only",
+      "channels": [],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/RedMask.java",
+      "excludedReason": "Act2 Masked Bandits / Act3 Red Mask Tomb",
+      "unlockSource": null
+    },
+    {
+      "id": "Regal Pillow",
+      "class": "RegalPillow",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/RegalPillow.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Runic Dome",
+      "class": "RunicDome",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/RunicDome.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Runic Pyramid",
+      "class": "RunicPyramid",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/RunicPyramid.java",
+      "unlockSource": null
+    },
+    {
+      "id": "SacredBark",
+      "class": "SacredBark",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/SacredBark.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Shovel",
+      "class": "Shovel",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "campfire-limit",
+        "maxExclusiveFloor": 48,
+        "maxCampfireRelics": 2
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "canSpawn",
+        "addCampfireOption"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Shovel.java",
+      "unlockSource": "unlock/relics/ironclad/ShovelUnlock.java",
+      "dependencyNote": "Adds Dig campfire action and normal shared-queue reward with 50/33/17 rarity; shares campfire relic spawn cap."
+    },
+    {
+      "id": "Shuriken",
+      "class": "Shuriken",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart",
+        "onUseCard",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Shuriken.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Singing Bowl",
+      "class": "SingingBowl",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "update",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/SingingBowl.java",
+      "unlockSource": "unlock/relics/ironclad/SingingBowlUnlock.java",
+      "dependencyNote": "Card reward screen provides alternative +2 max HP; source relic class alone does not implement the choice. Must resolve only the chosen reward item."
+    },
+    {
+      "id": "SlaversCollar",
+      "class": "SlaversCollar",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onVictory"
+      ],
+      "projectId": "slavers_collar",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/SlaversCollar.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Sling",
+      "class": "Sling",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Sling.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Smiling Mask",
+      "class": "SmilingMask",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true,
+        "excludeRoom": "shop"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEnterRoom",
+        "canSpawn"
+      ],
+      "projectId": "smiling_mask",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/SmilingMask.java",
+      "unlockSource": "unlock/relics/silent/SmilingMaskUnlock.java"
+    },
+    {
+      "id": "Snecko Eye",
+      "class": "SneckoEye",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onUnequip",
+        "atPreBattle"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/SneckoEye.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Sozu",
+      "class": "Sozu",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip"
+      ],
+      "projectId": "sozu",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Sozu.java",
+      "unlockSource": null,
+      "dependencyNote": "Energy plus potion acquisition prohibition; claim consumes blocked potion offer per current original-list protocol, not a permanently pending reward."
+    },
+    {
+      "id": "Spirit Poop",
+      "class": "SpiritPoop",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "bonfire-curse"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/SpiritPoop.java",
+      "unlockSource": null
+    },
+    {
+      "id": "SsserpentHead",
+      "class": "SsserpentHead",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "face-trader"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "onEnterRoom"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/SsserpentHead.java",
+      "unlockSource": null
+    },
+    {
+      "id": "StoneCalendar",
+      "class": "StoneCalendar",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "atTurnStart",
+        "onPlayerEndTurn",
+        "justEnteredRoom",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/StoneCalendar.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Strange Spoon",
+      "class": "StrangeSpoon",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/StrangeSpoon.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Strawberry",
+      "class": "Strawberry",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Strawberry.java",
+      "unlockSource": null
+    },
+    {
+      "id": "StrikeDummy",
+      "class": "StrikeDummy",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atDamageModify"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/StrikeDummy.java",
+      "unlockSource": "unlock/relics/watcher/StrikeDummyUnlock.java"
+    },
+    {
+      "id": "Sundial",
+      "class": "Sundial",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onShuffle"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Sundial.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Thread and Needle",
+      "class": "ThreadAndNeedle",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ThreadAndNeedle.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Tiny Chest",
+      "class": "TinyChest",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 35,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/TinyChest.java",
+      "unlockSource": "unlock/relics/silent/TinyChestUnlock.java",
+      "projectPartialHookNote": "The baseline passes a tiny_chest ownership flag to the unknown-room selector, but has no data entry, acquisition route or complete persisted every-fourth-question counter effect; remains an implementation gap."
+    },
+    {
+      "id": "Tiny House",
+      "class": "TinyHouse",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/TinyHouse.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Toolbox",
+      "class": "Toolbox",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "atBattleStartPreDraw"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Toolbox.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Torii",
+      "class": "Torii",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onAttacked"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Torii.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Toxic Egg 2",
+      "class": "ToxicEgg2",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 48,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip",
+        "onPreviewObtainCard",
+        "onObtainCard",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ToxicEgg2.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Toy Ornithopter",
+      "class": "ToyOrnithopter",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onUsePotion"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ToyOrnithopter.java",
+      "unlockSource": null
+    },
+    {
+      "id": "TungstenRod",
+      "class": "TungstenRod",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onLoseHpLast"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/TungstenRod.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Turnip",
+      "class": "Turnip",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Turnip.java",
+      "unlockSource": "unlock/relics/defect/TurnipUnlock.java"
+    },
+    {
+      "id": "Unceasing Top",
+      "class": "UnceasingTop",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "card-lifecycle-generation"
+      ],
+      "sourceHooks": [
+        "atPreBattle",
+        "atTurnStart",
+        "onRefreshHand"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/UnceasingTop.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Vajra",
+      "class": "Vajra",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart"
+      ],
+      "projectId": "vajra",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Vajra.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Velvet Choker",
+      "class": "VelvetChoker",
+      "library": "shared",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "updateDescription",
+        "onEquip",
+        "onUnequip",
+        "atBattleStart",
+        "atTurnStart",
+        "onPlayCard",
+        "canPlay",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/VelvetChoker.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Lee's Waffle",
+      "class": "Waffle",
+      "library": "shared",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Waffle.java",
+      "unlockSource": null
+    },
+    {
+      "id": "War Paint",
+      "class": "WarPaint",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/WarPaint.java",
+      "unlockSource": null
+    },
+    {
+      "id": "WarpedTongs",
+      "class": "WarpedTongs",
+      "library": "shared",
+      "tier": "special",
+      "scope": "act1-special",
+      "channels": [
+        "accursed-blacksmith"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStartPostDraw"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/WarpedTongs.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Whetstone",
+      "class": "Whetstone",
+      "library": "shared",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [
+        "onEquip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Whetstone.java",
+      "unlockSource": null
+    },
+    {
+      "id": "White Beast Statue",
+      "class": "WhiteBeast",
+      "library": "shared",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "rewards-shop-acquisition"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/WhiteBeast.java",
+      "unlockSource": null
+    },
+    {
+      "id": "WingedGreaves",
+      "class": "WingBoots",
+      "library": "shared",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "max-floor",
+        "floor": 40,
+        "endlessBypass": true
+      },
+      "dependencyGroups": [
+        "map-camp-events"
+      ],
+      "sourceHooks": [
+        "setCounter",
+        "canSpawn"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/WingBoots.java",
+      "unlockSource": null,
+      "dependencyNote": "WingBoots class / display Wing Boots: three persisted charges; next-row non-edge traversal checked by MapRoomNode; decrement only on winged move, not normal edge."
+    },
+    {
+      "id": "Black Blood",
+      "class": "BlackBlood",
+      "library": "red",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest"
+      ],
+      "spawnGate": {
+        "kind": "owns-relic",
+        "id": "Burning Blood"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onVictory",
+        "canSpawn"
+      ],
+      "projectId": "black_blood",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/BlackBlood.java",
+      "unlockSource": null,
+      "dependencyNote": "Requires Burning Blood at draw time; Neow swap removes starter first, so cannot offer Black Blood then. After Act1 boss replacement permitted if starter retained."
+    },
+    {
+      "id": "Brimstone",
+      "class": "Brimstone",
+      "library": "red",
+      "tier": "shop",
+      "scope": "act1-queue",
+      "channels": [
+        "shop-exclusive"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atTurnStart"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/Brimstone.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Burning Blood",
+      "class": "BurningBlood",
+      "library": "red",
+      "tier": "starter",
+      "scope": "starter",
+      "channels": [
+        "ironclad-start"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onVictory"
+      ],
+      "projectId": "burning_blood",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/BurningBlood.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Champion Belt",
+      "class": "ChampionsBelt",
+      "library": "red",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onTrigger"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/ChampionsBelt.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Charon's Ashes",
+      "class": "CharonsAshes",
+      "library": "red",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "onExhaust"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/CharonsAshes.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Magic Flower",
+      "class": "MagicFlower",
+      "library": "red",
+      "tier": "rare",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-rare"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "health-gold-curse"
+      ],
+      "sourceHooks": [
+        "onPlayerHeal"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MagicFlower.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Mark of Pain",
+      "class": "MarkOfPain",
+      "library": "red",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "onEquip",
+        "onUnequip"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/MarkOfPain.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Paper Frog",
+      "class": "PaperFrog",
+      "library": "red",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/PaperFrog.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Red Skull",
+      "class": "RedSkull",
+      "library": "red",
+      "tier": "common",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "neow-common",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "atBattleStart",
+        "update",
+        "onBloodied",
+        "onNotBloodied",
+        "onVictory"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/RedSkull.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Runic Cube",
+      "class": "RunicCube",
+      "library": "red",
+      "tier": "boss",
+      "scope": "act1-queue",
+      "channels": [
+        "boss-chest",
+        "neow-swap"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "wasHPLost"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/RunicCube.java",
+      "unlockSource": null
+    },
+    {
+      "id": "Self Forming Clay",
+      "class": "SelfFormingClay",
+      "library": "red",
+      "tier": "uncommon",
+      "scope": "act1-queue",
+      "channels": [
+        "elite",
+        "chest",
+        "shovel",
+        "dead-adventurer-fight",
+        "shop-normal",
+        "courier-restock",
+        "random-event-screenless",
+        "calling-bell",
+        "black-star-extra",
+        "matryoshka"
+      ],
+      "spawnGate": {
+        "kind": "always"
+      },
+      "dependencyGroups": [
+        "combat-hooks"
+      ],
+      "sourceHooks": [
+        "wasHPLost"
+      ],
+      "projectId": null,
+      "status": "unimplemented",
+      "source": "relics/SelfFormingClay.java",
+      "unlockSource": null
+    }
+  ],
+  "fallbacks": [
+    {
+      "requestedId": "Circlet",
+      "resolvedId": "Circlet",
+      "reason": "rare queue exhausted / duplicate event special / all faces owned"
+    },
+    {
+      "requestedId": "Red Circlet",
+      "resolvedId": "Circlet",
+      "reason": "boss queue exhausted; mirror getRelic does not register Red Circlet and falls back to Circlet"
+    }
+  ]
+}
