@@ -2266,7 +2266,7 @@
     },
     {
       "id": "dazed",
-      "name": "晕眩",
+      "name": "Dazed",
       "type": "status",
       "rarity": "common",
       "cost": -2,
@@ -2277,7 +2277,7 @@
     },
     {
       "id": "slimed",
-      "name": "黏滞",
+      "name": "Slimed",
       "type": "status",
       "rarity": "common",
       "cost": 1,
@@ -2288,7 +2288,7 @@
     },
     {
       "id": "regret",
-      "name": "余悔",
+      "name": "Regret",
       "sts_name": "Regret",
       "type": "curse",
       "rarity": "curse",

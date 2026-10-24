@@ -1056,14 +1056,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     -- The core previews upgrade, growth and every current modifier;
                     -- a card being aimed shows the value for that target.
                     local preview = Combat.cardPreview(battle, instance, instance.uid == aimUid and aimTarget or nil)
-                    local combatText = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
-                    if combatText then
-                        text = CardDisplay.format(combatText, definition, preview, C)
-                    end
-                    for i = 1, #definition.effects do
-                        local entry = preview[i]
-                        if entry and entry.op == "damageEqualToBlock" then text = text .. "（当前 " .. amount(entry) .. " 点）" end
-                    end
+                    text=CardDisplay.combatText(display,definition,instance,preview)
                 end
                 CardDisplay.writeBody(box:GetChild("label"),text)
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)

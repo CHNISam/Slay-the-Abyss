@@ -399,7 +399,7 @@ function M.eventOptions(run,flow)
         local r=run.data.rules.events.golden_shrine
         local curse=find(run.data.cards.cards,r.curse)
         option('pray','领受馈赠','获得 '..r.gold..' 金币')
-        option('desecrate','取走供物','获得 '..r.curseGold..' 金币，并将诅咒「'..(curse and curse.name or '余悔')..'」加入牌组')
+        option('desecrate','取走供物','获得 '..r.curseGold..' 金币，并将诅咒「'..(curse and curse.name or 'Regret')..'」加入牌组')
     elseif id=='goop' then
         local r=run.data.rules.events.goop
         option('gather','拾取金币','受到 '..r.damage..' 点伤害，获得 '..r.gold..' 金币')

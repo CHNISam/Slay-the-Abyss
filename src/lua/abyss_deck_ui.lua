@@ -11,14 +11,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     local function colour(value) return platform.color(value.r, value.g, value.b, value.a) end
     local function tint(control, value) control.imageColor = colour(value) end
     local function fill(control, instance, catalog)
-        local definition = Combat.cardDefinition({catalog=catalog}, instance)
+        local battle=self.choiceToken and self.battle
+        local definition = Combat.cardDefinition(battle or {catalog=catalog}, instance)
         local display = assert(presentation[instance.cardId], "missing deck presentation " .. instance.cardId)
         local face = control:GetChild("face")
         CardDisplay.writeTitle(face:GetChild("name"),display.name,instance.upgraded,
             definition.repeatable and (instance.upgrades or 1) or nil)
         face:GetChild("name").fontColor = colour(instance.upgraded and Theme.color.positive or Theme.color.text)
         -- Permanent cards carry no combat modifiers: fill live tokens with their own values.
-        local text=CardDisplay.permanentText(display,definition,instance)
+        local text=battle and CardDisplay.combatText(display,definition,instance,Combat.cardPreview(battle,instance))
+            or CardDisplay.permanentText(display,definition,instance)
         CardDisplay.writeBody(face:GetChild("label"),text)
         face:GetChild("type").text = typeNames[definition.type] or definition.type
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
@@ -26,9 +28,11 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
         face:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
         control:GetChild("uid").text = "UID " .. instance.uid
+        local hit=control:GetChild('hit')
+        hit:SetVisible(self.choiceToken~=nil)
         if not self.bindings[control] then
             self.bindings[control]={}
-            control:AddCursorEventListener(clickEvent,function()
+            hit:AddCursorEventListener(clickEvent,function()
                 local b=self.bindings[control]
                 if not self.visible or not self.choiceToken or b.generation~=self.generation
                     or not self.run or self.run.combat~=self.battle

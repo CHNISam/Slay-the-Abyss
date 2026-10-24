@@ -46,7 +46,7 @@ export function nodeLayout(theme = nativeTheme) {
       text('name', frame([card.costDisc / 2, top - card.nameBand / 2 - b], [w - card.costDisc - space.s, card.nameBand]),
         '', font.cardName),
       plate('artPlate', frame([0, artY], [w - b * 2, card.art]), color.cardType.attack),
-      ...Object.entries(icon.cardArt).map(([kind, id]) => hidden(picture(`art_${kind}`, [0, artY, lineHeight, lineHeight], id))),
+      ...Object.entries(icon.cardArt).map(([kind, id]) => hidden(picture(`art_${kind}`, [0, artY, Math.min(lineHeight,card.art), Math.min(lineHeight,card.art)], id))),
       text('type', frame([0, typeY], [w - space.s, lineHeight]), '', font.small, color.gold),
       text('description', frame([0, -top + card.textBox[1] / 2 + space.xs], card.textBox), '', font.card),
       { ...plate('costDisc', frame(disc, [card.costDisc, card.costDisc]), color.energy), image: image.disc },

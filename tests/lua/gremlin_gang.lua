@@ -3,11 +3,20 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
 local C,R,I,Data=require('abyss_combat'),require('abyss_sts_random'),require('abyss_inventory'),require('abyss_data')
 local count,failed=0,0
-local function eq(a,b,label) assert(a==b,(label or 'value')..': expected '..tostring(b)..', got '..tostring(a)) end
-local function same(a,b,path)
+local function eq(a,b,label)
+ if a~=b then error((label or 'value')..': expected '..tostring(b)..', got '..tostring(a),2)end
+end
+local function same(a,b,path,seen,reverse)
  path=path or 'state';eq(type(a),type(b),path)
  if type(a)~='table' then eq(a,b,path);return end
- for k,v in pairs(a) do same(v,b[k],path..'.'..tostring(k)) end
+ -- Visit each shared graph pair once, retaining every field comparison and
+ -- additionally rejecting alias splits/merges. Freeze separately guards old
+ -- reference identity; never replace real construction or remove cases.
+ seen,reverse=seen or {},reverse or {}
+ if seen[a]then eq(seen[a],b,path..' alias');return end
+ if reverse[b]then eq(reverse[b],a,path..' reverse alias');return end
+ seen[a],reverse[b]=b,a
+ for k,v in pairs(a) do same(v,b[k],path..'.'..tostring(k),seen,reverse) end
  for k in pairs(b) do assert(a[k]~=nil,path..' missing '..tostring(k)) end
 end
 local function freeze(...)

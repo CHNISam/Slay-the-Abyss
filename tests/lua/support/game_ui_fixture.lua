@@ -25,6 +25,7 @@ function Control:SetImage(...)
 end
 function Control:SetAsLastSibling() self.raised = true end
 function Control:AddCursorEventListener(event, fn)
+    assert(self.kind~='container','Native containers do not support AddCursorEventListener; use a cursorArea')
     self.listeners = self.listeners or {}
     assert(not self.listeners[event], "duplicate cursor listener: " .. tostring(event))
     self.listeners[event] = fn
@@ -32,7 +33,7 @@ function Control:AddCursorEventListener(event, fn)
 end
 
 local function control(spec, parent)
-    local self = { name = spec.name, children = {}, visible = spec.visible ~= false,
+    local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, interactable = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
     self.GetChild = Control.GetChild

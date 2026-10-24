@@ -708,10 +708,10 @@ test('Golden Shrine exposes complete costs, permanent curse result and repeat sa
     assert(get('eventView/caption').text:find('7种',1,true))
     assert(get('eventView/option1/description').text:find('100',1,true))
     assert(get('eventView/option2/description').text:find('275',1,true))
-    assert(get('eventView/option2/description').text:find('余悔',1,true))
+    assert(get('eventView/option2/description').text:find('Regret',1,true))
     local gold,size=ui.run.gold,#ui.run.deck
     click('eventView/option2');assert(ui:holding() and ui.run.gold==gold+275 and #ui.run.deck==size+1)
-    assert(get('eventView/body').text:find('余悔',1,true),'curse must not be hidden by a gold-only result')
+    assert(get('eventView/body').text:find('Regret',1,true),'curse must not be hidden by a gold-only result')
     assert(get('eventView/body').text:find(string.format('金币 %d → %d',gold,gold+275),1,true))
     assert(not get('eventView/body').text:find('生命',1,true),'unchanged HP must not be listed')
     local before=Combat.copy(ui.run);ui:render();click('confirm');same(before,ui.run)
