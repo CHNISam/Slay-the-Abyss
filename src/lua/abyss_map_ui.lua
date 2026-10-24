@@ -36,9 +36,14 @@ function M.new(root, map, onChoose, clickEvent, options)
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map,
         observedNodeId = view.currentNodeId, observedFloor = view.floor }
-    local drag
+    local drag, released, pointerObserved
+    local function cancelSelection()
+        if drag then drag.selection = nil end
+        released = nil
+    end
     local function cancelDrag()
         if drag then self.dragged = true end
+        cancelSelection()
         drag = nil
     end
     local function at(name)
@@ -92,6 +97,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         local current, nodes, taken = Map.view(self.map), {}, {}
         observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
+            cancelDrag()
             self.navigationEnabled = false
         end
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
@@ -182,7 +188,9 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setScroll(value)
         if not finite(value) then return false, "invalid_scroll" end
-        self.scroll = clamp(value, 0, Layout.maxScroll) self:render() return true
+        value = clamp(value, 0, Layout.maxScroll)
+        if value ~= self.scroll then cancelSelection() end
+        self.scroll = value self:render() return true
     end
     function self:scrollBy(delta)
         if not self.visible then return false, "map_hidden" end
@@ -195,6 +203,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setNavigationEnabled(enabled)
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
+        if not enabled then cancelDrag() end
         -- An explicit coordinator grant acknowledges any external map advance.
         local current = Map.view(self.map)
         observeMap(current)
@@ -243,6 +252,23 @@ function M.new(root, map, onChoose, clickEvent, options)
     -- Dragging the route scrolls it with the finger. A press that moved past the
     -- threshold is a scroll, never a node choice, even if it ends on a node.
     local cursor = options.cursor
+    local pointerInput = cursor and cursor.CursorDown and cursor.CursorUp
+    local function touch(event) return event and event.touchId end
+    local function selectionFor(slot, event)
+        if not slot or not self.visible or not self.navigationEnabled then return end
+        local nodeId = self.slots[slot]
+        for _, node in ipairs(Map.available(self.map)) do
+            if node.id == nodeId then
+                return {slot=slot, nodeId=nodeId, map=self.map, floor=self.map.floor,
+                    currentNodeId=self.map.currentNodeId, touch=touch(event)}
+            end
+        end
+    end
+    local function validSelection(selection, slot)
+        return selection and selection.slot == slot and selection.map == self.map
+            and selection.floor == self.map.floor and selection.currentNodeId == self.map.currentNodeId
+            and selection.nodeId == self.slots[slot] and self.visible and self.navigationEnabled
+    end
     local function pointY(event)
         if not event or type(event.GetUIPos) ~= "function" then return end
         local _, y = event:GetUIPos()
@@ -250,39 +276,73 @@ function M.new(root, map, onChoose, clickEvent, options)
         local width, height = self.canvasWidth or Theme.canvas.base[1], self.canvasHeight or Theme.canvas.base[2]
         return y / math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
     end
-    local function press(event)
-        if not self.visible or drag and event and event.touchId ~= drag.touch then return end
+    local function press(event, slot)
+        pointerObserved = true
+        -- Down is idempotent until the owner releases or is cancelled. A repeated
+        -- callback cannot rearm a selection that already exited or began scrolling.
+        if not self.visible or drag then return end
+        cancelSelection()
         self.dragged = false
         local y = pointY(event)
-        drag = self.visible and y and { touch = event.touchId, startY = y, y = y } or nil
+        -- Position is optional for a tap. Ownership must still work on hosts
+        -- that supply Down/Up but omit drag events or pointer coordinates.
+        drag = {touch=touch(event), startY=y, y=y, selection=selectionFor(slot,event), slot=slot}
     end
-    local function move(event)
+    local function move(event, slot)
         if not self.visible then cancelDrag() return end
-        if not drag or not event or event.touchId ~= drag.touch then return end
+        if not drag or touch(event) ~= drag.touch or slot ~= drag.slot then return end
         local y = pointY(event)
-        if not y then return end
+        if not y or not drag.startY then return end
         if not drag.moving and math.abs(y - drag.startY) < Layout.dragThreshold then return end
         drag.moving, self.dragged = true, true
         -- UI y grows upward; content follows the finger, so scroll moves the other way.
-        self:setScroll(self.scroll - (y - drag.y))
+        local delta = y - drag.y
         drag.y = y
+        -- Rendering may observe a replaced/advanced map and cancel this drag.
+        self:setScroll(self.scroll - delta)
     end
-    local function release(event)
-        if drag and event and event.touchId == drag.touch then move(event) drag = nil end
+    local function release(event, slot)
+        if not drag or touch(event) ~= drag.touch or slot ~= drag.slot then return end
+        move(event, slot)
+        if drag and not drag.moving and validSelection(drag.selection, slot) then
+            released = drag.selection
+        end
+        drag = nil
     end
-    local function draggable(control)
-        if not (cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp) then return end
-        control:AddCursorEventListener(cursor.CursorDown, press)
-        control:AddCursorEventListener(cursor.CursorDrag, move)
-        control:AddCursorEventListener(cursor.CursorUp, release)
-        if cursor.CursorEndDrag then control:AddCursorEventListener(cursor.CursorEndDrag, release) end
+    local function cancelPointer(event, slot, terminal)
+        if released and touch(event) == released.touch and slot == released.slot then released = nil end
+        if drag and touch(event) == drag.touch and slot == drag.slot then
+            drag.selection = nil
+            if terminal then cancelDrag() end
+        end
+    end
+    local function draggable(control, slot)
+        if not pointerInput then return end
+        control:AddCursorEventListener(cursor.CursorDown, function(event) press(event, slot) end)
+        if cursor.CursorDrag then control:AddCursorEventListener(cursor.CursorDrag, function(event) move(event, slot) end) end
+        control:AddCursorEventListener(cursor.CursorUp, function(event) release(event, slot) end)
+        if cursor.CursorExit then control:AddCursorEventListener(cursor.CursorExit, function(event) cancelPointer(event, slot) end) end
+        if cursor.CursorEndDrag then control:AddCursorEventListener(cursor.CursorEndDrag, function(event) cancelPointer(event, slot, true) end) end
     end
     draggable(at("dragArea"))
-    for i = 1, Layout.maxNodes do local slot = i bind("node" .. slot, function()
+    for i = 1, Layout.maxNodes do local slot = i bind("node" .. slot, function(event)
+        if pointerInput and (pointerObserved or touch(event) ~= nil) then
+            -- Up grants only its original map/node one Click. A foreign callback
+            -- cannot consume that grant or borrow a newer active gesture.
+            local selection = released
+            if drag or not selection or touch(event) ~= nil and touch(event) ~= selection.touch then
+                return false, "stale_gesture"
+            end
+            if selection.slot ~= slot then return false, "stale_gesture" end
+            released = nil
+            if not validSelection(selection, slot) then return false, "stale_gesture" end
+            return self:choose(selection.nodeId)
+        end
+        -- Click-only/accessibility hosts retain the existing intentional click path.
         if self.dragged then self.dragged = false return false, "dragged" end
         if self.slots[slot] then return self:choose(self.slots[slot]) end
         return false, "node_outside_viewport"
-    end) draggable(child(at("node" .. slot), "hit")) end
+    end) draggable(child(at("node" .. slot), "hit"), slot) end
     bind("previous", function() return self:scrollBy(-Layout.scrollStep) end)
     bind("next", function() return self:scrollBy(Layout.scrollStep) end)
     bind("focus", function() if self.visible then return self:focusCurrent() end return false, "map_hidden" end)
