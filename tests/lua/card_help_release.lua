@@ -168,8 +168,9 @@ for _, boundary in ipairs({'turn','combat','run'}) do
 end
 test('movement cancels pending help and keeps drag targeting functional', function()
     local h,u,p,event,tap,s,name = setup()
-    event(name,'down',17); h:update(0.05); event(name,'drag',17,300,64); h:update(0.4); hidden(p)
-    event('dragLayer','up',17,300,64)
+    local enemy = p:GetChild('enemy1')
+    event(name,'down',17); h:update(0.05); event(name,'drag',17,enemy.x,enemy.y); h:update(0.4); hidden(p)
+    event('dragLayer','up',17,enemy.x,enemy.y)
     assert(s.enemies[1].hp == 44 and s.energy == 1 and #s.hand == 2)
 end)
 test('release immediately before the deadline cannot fire before a delayed Click', function()

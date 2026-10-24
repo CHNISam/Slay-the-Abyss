@@ -21,7 +21,8 @@ test("Defend drops on open battlefield once; late Up EndDrag Click stay inert",f
 end)
 test("attack released on open ground never chooses a nearest enemy",function()
     local host,ui,panel,event=H.setup({"strike"},{"cultist","jaw_worm"})
-    event("card1","down",7);event("card1","drag",7,-200,0);event("dragLayer","up",7,-200,0)
+    local gap = -285 -- between the player and the widened enemy row
+    event("card1","down",7);event("card1","drag",7,gap,0);event("dragLayer","up",7,gap,0)
     assert(host.run.combat.energy==3 and #host.run.combat.hand==1 and ui.selected==nil)
 end)
 test("outside field and returning to hand cancel even after crossing field",function()
