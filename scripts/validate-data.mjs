@@ -183,7 +183,7 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge', 'split'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'fungi_beast', 'louse'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'acid_slime_l', 'fungi_beast', 'louse'], `${ap}.kind`);
       if (a.kind === 'louse') {
         keys(a, ['kind', 'biteIntent', 'supportIntent', 'rollRange', 'supportCutoff', 'biteRange', 'curlUpRange'], ap);
         reference('curl_up', 'statuses', `${ap}.curl_up`);
@@ -224,7 +224,7 @@ export function validateContent(bundle) {
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.biteCutoff, `${ap}.biteCutoff`, 0, 65536);
         if (!(a.biteCutoff < a.rollRange)) fail(`${ap}.biteCutoff`, 'cutoff must be below rollRange');
-      } else if (a.kind === 'acid_slime_m') {
+      } else if (a.kind === 'acid_slime_m' || a.kind === 'acid_slime_l') {
         keys(a, ['kind', 'spitIntent', 'weakIntent', 'tackleIntent', 'rollRange', 'spitCutoff', 'tackleCutoff', 'spitChance'], ap);
         intentReference(a.spitIntent, `${ap}.spitIntent`, 'attack');
         intentReference(a.weakIntent, `${ap}.weakIntent`, 'debuff');
@@ -238,9 +238,10 @@ export function validateContent(bundle) {
         if (typeof a.spitChance !== 'number' || !Number.isFinite(a.spitChance) || a.spitChance < 0 || a.spitChance > 1) fail(`${ap}.spitChance`, 'must be a probability in 0..1');
         const spit = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === a.spitIntent);
         const payload = spit?.effects;
+        const slimedCount = a.kind === 'acid_slime_l' ? 2 : 1;
         if (!Array.isArray(payload) || payload.length !== 2 || payload[0]?.op !== 'damage'
-          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== 1) {
-          fail(`${ap}.spitIntent`, 'must contain damage followed by exactly one Slimed creation');
+          || payload[1]?.op !== 'makeTempCardInDiscard' || payload[1].card !== 'slimed' || payload[1].value !== slimedCount) {
+          fail(`${ap}.spitIntent`, `must contain damage followed by exactly ${slimedCount} Slimed creation`);
         }
       } else if (a.kind === 'spike_slime_m' || a.kind === 'spike_slime_l') {
         const splitKeys = a.kind === 'spike_slime_l' ? ['splitIntent', 'splitEnemy', 'splitCount', 'splitHpDivisor'] : [];
