@@ -4,20 +4,32 @@ local R,M,N,C=require('abyss_run'),require('abyss_map'),require('abyss_nodes'),r
 local data=require('abyss_data')
 local P={}
 local step,fixture=0,nil
+local checks,channelCards,channelIndex
 local function attach(view,run,map)
  view.run,view.map=run,map
  view.battleUI.run=run;view.mapUI.map=map;view.nodeUI.run,view.nodeUI.map=run,map
  view.prologueSeen=true;view:refresh()
 end
 function P.start(view)
- require('abyss_warrior75_checks')()
+ checks=require('abyss_warrior75_checks');checks.core()
+ channelCards={};channelIndex=1
+ for _,c in ipairs(data.cards.cards)do if c.type~='status'and c.type~='curse'then channelCards[#channelCards+1]=c end end
+ assert(#channelCards==75)
+end
+function P.tick(view)
+ if step==0 then
+  local c=channelCards[channelIndex]
+  if c then
+   checks.channel(c.id,c.rarity=='basic'and'common'or c.rarity)
+   channelIndex=channelIndex+1;return
+  end
+  print('ABYSS_W75_NATIVE_CHANNELS all75 acquisition/camp/next-battle fixtures passed; navigation/funding are explicit')
  local run,map=R.new(data,42),M.generate(data,42)
  run.phase='reward';run.rewards={gold=0,goldClaimed=true,manualContinue=true,cardResolved=false,
   cards={'perfected_strike','wild_strike','pommel_strike'}}
  attach(view,run,map);fixture=run;step=1
  print('ABYSS_W75_FIXTURE reward: explicit cards, not natural acquisition')
-end
-function P.tick(view)
+ end
  if step==1 and view.battleUI.rewardScreen=='cards' and not P.printedTitles then
   P.printedTitles=true
   for i=1,3 do

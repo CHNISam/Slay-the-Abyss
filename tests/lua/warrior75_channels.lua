@@ -15,9 +15,10 @@ local n=0
 -- Separate original rarity groups retain every transaction under the unchanged
 -- per-fixture budget after the source six-column map/encounter integration.
 local group=WARRIOR75_CHANNEL_RARITY or 'common'
-local expected=assert(({common=23,uncommon=36,rare=16})[group])
+local expected=WARRIOR75_CHANNEL_CARD and 1 or assert(({common=23,uncommon=36,rare=16})[group])
 for _,definition in ipairs(data.cards.cards) do
     if definition.type~='status' and definition.type~='curse'
+        and (not WARRIOR75_CHANNEL_CARD or definition.id==WARRIOR75_CHANNEL_CARD)
         and (definition.rarity==group or group=='common' and definition.rarity=='basic') then
         local seed=seeds[definition.id] and seeds[definition.id].seed or 1
         local run,map=Run.new(data,seed),Map.generate(data,seed)

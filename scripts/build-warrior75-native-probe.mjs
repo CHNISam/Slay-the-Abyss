@@ -10,7 +10,7 @@ const directory=resolve(output);mkdirSync(directory,{recursive:true});
 const suites=['warrior75','warrior75_edges','warrior75_shuffle','warrior75_acquisition','warrior75_card_text','warrior75_courier'];
 const hash=text=>createHash('sha256').update(text).digest('hex');
 const report={kind:'explicit native test fixtures; not normal acquisition or full UI acceptance',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),base:resolve(base),baseHash:hash(readFileSync(base)),suites:[]};
-let checks='return function()\n';
+let checks='local M={}\nfunction M.core()\n';
 for(const name of suites){
  const file=`tests/lua/${name}.lua`,source=readFileSync(file,'utf8');
  if(/\bdofile\s*\(/.test(source))throw Error(`Filesystem fixture cannot run in client: ${file}`);
@@ -28,7 +28,7 @@ for(const path of ['tests/fixtures/warrior75-shop-seeds.lua','tests/lua/support/
 }
 if(/\bdofile\s*\(/.test(channels))throw Error('Unresolved native channel fixture dependency');
 report.suites.push({file:'tests/lua/warrior75_channels.lua',sha256:hash(readFileSync('tests/lua/warrior75_channels.lua')),groups:['common','uncommon','rare']});
-checks=checks.replace(/end\n$/,`for _,rarity in ipairs({'common','uncommon','rare'}) do\nWARRIOR75_CHANNEL_RARITY=rarity\ndo\n${channels.replace(/^package\.path[^\r\n]*(?:\r?\n)?/mg,'')}\nend\nend\nWARRIOR75_CHANNEL_RARITY=nil\nprint('ABYSS_W75_NATIVE_CHANNELS all75 acquisition/camp/next-battle fixtures passed; navigation/funding are explicit')\nend\n`);
+checks+=`function M.channel(id,rarity)\nlocal WARRIOR75_CHANNEL_CARD,WARRIOR75_CHANNEL_RARITY=id,rarity\n${channels.replace(/^package\.path[^\r\n]*(?:\r?\n)?/mg,'')}\nend\nreturn M\n`;
 const files={abyss_warrior75_checks:checks,abyss_warrior75_probe:readFileSync('scripts/warrior75-native-probe.lua','utf8')};
 let ui=readFileSync('src/lua/abyss_ui.lua','utf8');
 if(!ui.includes('local view, Viewport')||!ui.includes('print("ABYSS_UI ready")')||!ui.includes('view:update(dt)'))throw Error('UI hook changed; review probe injection');
