@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { nativeControls, nativeTheme } from '../scripts/native-ui-theme.mjs';
 import { battleLayout } from '../scripts/ui-layout.mjs';
-import { mapLayout } from '../scripts/map-ui-layout.mjs';
+import { mapGeometry, mapLayout } from '../scripts/map-ui-layout.mjs';
 import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 
@@ -83,7 +83,8 @@ test('host preserves the approved battle and scrollable map while composing node
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);
-  assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length, 47);
+  assert.equal(map.flatMap(group => group.children).filter(control => /^node\d+$/.test(control.name)).length,
+    mapGeometry(theme).maxNodes);
   assert.equal(find(find(panels, 'nodePanel').children, 'confirm').size[0], 220);
   assert.equal(find(find(panels, 'menuPanel').children, 'start').position[1], -220);
   // Page/overlay roots still fill the canvas. The reward-return control is

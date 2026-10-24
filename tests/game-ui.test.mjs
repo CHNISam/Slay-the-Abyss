@@ -52,7 +52,7 @@ test('result settlement button starts hidden and uses the approved two-button pl
 
 test('generated Chinese display and native tree exercise the real game entry and run controllers', () => {
   buildUI();
-  // Keep every real-tree case within the runner's unchanged per-script deadline.
+  // Each real-tree fixture retains its bounded runner deadline and all cases.
   const scripts = [
     ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 15$/m],
     ['tests/lua/game_ui_deck.lua', /^LUA_GAME_UI_DECK_PASS 6$/m],

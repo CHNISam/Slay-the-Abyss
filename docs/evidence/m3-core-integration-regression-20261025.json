@@ -1,0 +1,13 @@
+{
+  "base": "6fa23b1ce9a4eae8ba3353237e486a44e09e6449",
+  "completeJavaScriptAttempt": {"total":1254,"passed":1133,"failed":2,"skipped":119,"log":".artifacts/m3-combined-6fa23b1-full-check.log"},
+  "failures": [
+    {"fixture":"tests/native-ui-theme.test.mjs","cause":"Old host capacity assertion still expected 47 instead of the actual seven-column capacity 92","repair":"Compare generated count with the real mapGeometry.maxNodes contract, retaining complete host/standalone geometry comparison"},
+    {"fixture":"tests/lua/game_ui.lua","cause":"Two defeat-routing cases assumed every legal first enemy attacked on turn one","repair":"Run real turns through a bounded eight-turn window; retain defeat/restart, busy banner and deferred result input assertions"}
+  ],
+  "intermediateFailures": ["An added assertion mistakenly expected a return value from a void UI callback; removed without changing phase/busy checks", "After the old assumptions were repaired, the composed real-map host exceeded its existing 30000ms deadline; ETIMEDOUT evidence retained"],
+  "deadlineChange": {"fixture":"tests/lua/game_ui.lua","milliseconds":60000,"reason":"All existing host cases include the real 17-floor route and newly promoted seven-column raw-RNG production maps; no cases, seeds or assertions removed","otherExplicitLimitsUnchanged":true},
+  "targetedFinal": {"command":"node --test tests/native-ui-theme.test.mjs tests/game-ui.test.mjs","passed":11,"failed":0,"milliseconds":40338.7514,"log":".artifacts/m3-core-regression-6fa23b1-final-60s.log"},
+  "candidate": {"source":"6fa23b1ce9a4eae8ba3353237e486a44e09e6449","file":".artifacts/m3-combined-6fa23b1/abyss-m3-core-6fa23b1.gil","sha256":"53e919a8818c884caecaba5b5fe236ff6acda549b68efcc368231532ebabdff7","sourceUiReadback":true,"fullGraphReadback":true,"officialImport":"NOT_EXECUTED","live":"NOT_EXECUTED"},
+  "completionBoundary":"This targeted green and static candidate are not a full-project pass, official import, live UI acceptance, complete original content pool, or M3 completion. Current-head CI and remaining checks remain required."
+}

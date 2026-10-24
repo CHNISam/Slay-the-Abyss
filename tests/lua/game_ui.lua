@@ -91,7 +91,12 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     click(root, "menuPanel", "start") click(root, "mapPanel", "node1")
     local previous = ui.run
     previous.combat.player.hp = 1
-    click(root, "battlePanel", "endTurn")
+    -- A legal weak encounter can open with a buff/debuff instead of damage.
+    -- Exercise the real turn/UI path until its attack defeats this 1-HP player.
+    for _ = 1, 8 do
+        if previous.phase ~= "combat" then break end
+        click(root, "battlePanel", "endTurn")
+    end
     assert(ui.mode == "defeat" and root:GetChild("menuPanel").visible)
     local ending = resultText(root, "subtitle")
     assert(ending == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
@@ -392,7 +397,16 @@ test("host defers defeat routing until the final feedback banner and releases re
     local ui, root = fixture()
     assert(ui:start()) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     ui.run.combat.player.hp = 1 ui.battleUI:render()
-    ui.battleUI:endTurn()
+    for _ = 1, 8 do
+        ui.battleUI:endTurn()
+        if ui.run.phase == "defeat" then break end
+        -- Drain nonlethal turn feedback, but retain the lethal banner below.
+        for _ = 1, 400 do
+            if not ui.battleUI.busy then break end
+            ui:update(0.05)
+        end
+        assert(not ui.battleUI.busy)
+    end
     assert(ui.run.phase == "defeat" and ui.battleUI.busy)
     ui:refresh()
     assert(ui.mode == "battle" and not root:GetChild("menuPanel").visible)
