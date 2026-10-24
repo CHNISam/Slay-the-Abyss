@@ -488,6 +488,7 @@
     },
     "map": {
       "floorGap": 76,
+      "scrollStepFloors": 2,
       "columns": 7,
       "columnGap": 112,
       "node": 56,

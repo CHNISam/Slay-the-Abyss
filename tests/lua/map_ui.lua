@@ -11,6 +11,7 @@ local function control()
     function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
     function self:SetAnchoredPosition(x, y) self.x, self.y = x, y end
     function self:SetSizeDelta(w, h) self.w, self.h = w, h end
+    function self:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
     function self:SetImage(...)
         assert(select("#", ...) == 2, "SetImage expects exactly source and id")
         local source, id = ...
@@ -104,7 +105,8 @@ end
 test("initial controls show legal starts, shared icons and four states across all 15 floors", function()
     local root, map, ui = fixture()
     assert(ui.scroll == 0 and ui.navigationEnabled)
-    assert(not mapControl(panel(root), "previous").visible and mapControl(panel(root), "next").visible)
+    assert(mapControl(panel(root), "previous").visible and mapControl(panel(root), "next").visible)
+    assert(not mapControl(panel(root), "previous"):GetChild("hit").visible)
     local seen, types = {}, {}
     for offset = 0, Layout.maxScroll + 60, 60 do
         assert(ui:setScroll(offset))
@@ -189,8 +191,9 @@ test("scroll follows Boss16 and exposes the independent legal treasure17 entry",
     assert(mapControl(panel(root), "notice").text == "首领奖励已处理 · 请选择首领宝箱")
     assert(boxFor(root, map, "f17_l2").visible)
     assert(ui.scroll == Layout.maxScroll)
-    assert(click(root, "previous") and ui.scroll < Layout.maxScroll)
-    click(root, "focus"); assert(ui.scroll == Layout.maxScroll)
+    assert(click(root, "previous")); ui:update(Theme.motion.base)
+    assert(ui.scroll < Layout.maxScroll)
+    click(root, "focus"); ui:update(Theme.motion.base); assert(ui.scroll == Layout.maxScroll)
     assert(clickNode(root, map, "f17_l2") and callbacks == 17 and #map.path == 17)
     assert(not ui:choose("f17_l2") and callbacks == 17)
 end)
@@ -464,6 +467,150 @@ test("a second finger cannot replace the active map drag", function()
     assert(ui.scroll == 0, "unrelated finger cannot scroll")
     area.listeners.drag(pointer(300,7))
     assert(ui.scroll == 100, "original finger retains the drag")
+end)
+
+local function motionFixture()
+    local root, map, chosen = mock(), Map.generate(data, 42), 0
+    local ui = MapUI.new(root, map, function(node) chosen = chosen + 1 return Map.choose(map, node.id) end, "click", {
+        imageSource="static", cursor={CursorDown="down", CursorDrag="drag", CursorUp="up",
+            CursorEnter="enter", CursorExit="exit", CursorEndDrag="end"},
+        color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+    })
+    local function pointer(y,id) return {touchId=id,GetUIPos=function() return 640,y end} end
+    return root, map, ui, pointer, function() return chosen end
+end
+
+test("navigation buttons remain visible and truly disabled at both scroll limits", function()
+    local root, _, ui = fixture()
+    local previous, nextButton = mapControl(panel(root), "previous"), mapControl(panel(root), "next")
+    assert(previous.visible and nextButton.visible)
+    assert(not previous:GetChild("hit").visible and not previous:GetChild("hit").canControllerFocus)
+    assert(sameColor(previous:GetChild("label").fontColor, Theme.color.textMuted))
+    assert(not click(root,"previous") and ui.scroll == 0)
+    ui:setScroll(Layout.maxScroll)
+    assert(previous.visible and nextButton.visible and previous:GetChild("hit").visible)
+    assert(not nextButton:GetChild("hit").visible and not nextButton:GetChild("hit").canControllerFocus)
+    assert(not click(root,"next") and ui.scroll == Layout.maxScroll)
+end)
+
+test("button scroll eases over the shared base duration without an initial jump", function()
+    local root, _, ui = fixture()
+    assert(Layout.scrollStep == Theme.layout.map.floorGap * 2)
+    assert(Layout.scrollSeconds == Theme.motion.base)
+    assert(click(root,"next") and ui.scroll == 0)
+    ui:update(Theme.motion.base / 2)
+    assert(ui.scroll > Layout.scrollStep / 2 and ui.scroll < Layout.scrollStep)
+    ui:update(Theme.motion.base / 2)
+    assert(ui.scroll == Layout.scrollStep)
+end)
+
+test("rapid clicks accumulate bounded targets and reversing retargets without snapping", function()
+    local root, _, ui = fixture()
+    click(root,"next"); ui:update(.04)
+    local first = ui.scroll
+    click(root,"next"); assert(ui.scroll == first)
+    ui:update(.04)
+    local second = ui.scroll
+    assert(second > first)
+    click(root,"previous"); assert(ui.scroll == second)
+    ui:update(.02); assert(ui.scroll < second,"down must reverse the displayed motion immediately")
+    ui:update(Theme.motion.base)
+    assert(ui.scroll == math.max(0,second - Layout.scrollStep))
+    ui:setScroll(0)
+    for _ = 1, 10 do click(root,"next") end
+    ui:update(.04)
+    local queued = ui.scroll
+    click(root,"previous"); ui:update(.02)
+    assert(ui.scroll < queued,"a distant queued target must not keep moving upward after down")
+    ui:update(Theme.motion.base)
+    assert(ui.scroll == math.max(0,queued - Layout.scrollStep))
+    for _ = 1, 20 do click(root,"next") end
+    ui:update(Theme.motion.base)
+    assert(ui.scroll == Layout.maxScroll and not click(root,"next"))
+    for _ = 1, 20 do click(root,"previous") end
+    ui:update(Theme.motion.base)
+    assert(ui.scroll == 0 and not click(root,"previous"))
+end)
+
+test("current progress button animates to the exact floor while automatic focus stays immediate", function()
+    local root, map, ui = fixture()
+    for _ = 1, 5 do assert(Map.choose(map,Map.available(map)[1].id)) end
+    ui:render(); ui:setScroll(0)
+    local target = math.max(0, math.min(Layout.maxScroll,
+        Layout.firstY + (map.floor - 1) * Theme.layout.map.floorGap - Layout.focusY))
+    assert(click(root,"focus") and ui.scroll == 0)
+    ui:update(Theme.motion.base / 2); assert(ui.scroll > 0 and ui.scroll < target)
+    ui:update(Theme.motion.base / 2); assert(ui.scroll == target)
+    ui:setScroll(0); ui:focusCurrent(); assert(ui.scroll == target)
+end)
+
+test("a pointer immediately takes over the displayed scroll and cannot accidentally select a node", function()
+    local root, map, ui, pointer, chosen = motionFixture()
+    click(root,"next"); ui:update(.04)
+    local before = ui.scroll
+    local area = mapControl(panel(root),"dragArea")
+    area.listeners.down(pointer(400,7)); ui:update(Theme.motion.base)
+    assert(ui.scroll == before)
+    area.listeners.drag(pointer(340,7)); assert(ui.scroll == before + 60)
+    area.listeners.up(pointer(340,7)); assert(chosen() == 0)
+    ui:setScroll(Layout.scrollStep); click(root,"previous"); ui:update(Theme.motion.base / 2)
+    local box, slot = boxFor(root,map,Map.available(map)[1].id)
+    local hit = box:GetChild("hit")
+    before = ui.scroll
+    hit.listeners.down(pointer(200,7)); ui:update(Theme.motion.base)
+    hit.listeners.up(pointer(200,7))
+    assert(ui.scroll == before and not click(root,"node"..slot) and chosen() == 0)
+end)
+
+test("pending animations expire on hide resize map changes direct scroll and reduced motion", function()
+    for _, boundary in ipairs({"hide","resize","restart","advance","direct","reduced"}) do
+        local root, map, ui = fixture()
+        click(root,"next"); ui:update(.04)
+        if boundary == "hide" then ui:setVisible(false); ui:setVisible(true)
+        elseif boundary == "resize" then ui:resize(1600,900)
+        elseif boundary == "restart" then ui.map = Map.generate(data,43); ui:render()
+        elseif boundary == "advance" then Map.choose(map,Map.available(map)[1].id); ui:render()
+        elseif boundary == "direct" then ui:setScroll(17)
+        else ui:setReducedMotion(true); assert(ui.scroll == Layout.scrollStep) end
+        local before = ui.scroll
+        ui:update(1)
+        assert(ui.scroll == before, boundary.." must terminate the old animation")
+    end
+    local root, _, ui = fixture(); ui:setReducedMotion(true)
+    click(root,"next"); assert(ui.scroll == Layout.scrollStep)
+end)
+
+test("starting a button scroll immediately invalidates a pending node click", function()
+    local root, map, ui, pointer, chosen = motionFixture()
+    local box, slot = boxFor(root,map,Map.available(map)[1].id)
+    box:GetChild("hit").listeners.down(pointer(200,7))
+    box:GetChild("hit").listeners.up(pointer(200,7))
+    click(root,"next"); ui:setScroll(0)
+    assert(not click(root,"node"..slot) and chosen() == 0)
+    local clickRoot, clickMap, clickUI = fixture()
+    click(clickRoot,"next")
+    assert(not click(clickRoot,"node1") and clickMap.floor == 0)
+    clickUI:update(Theme.motion.base)
+end)
+
+test("button feedback reuses theme tokens and resets on cancellation redraw and disabled state", function()
+    local root, _, ui, pointer = motionFixture()
+    ui:setScroll(Layout.scrollStep)
+    local box = mapControl(panel(root),"previous")
+    local hit = box:GetChild("hit")
+    hit.listeners.enter({}); assert(sameColor(box:GetChild("body").imageColor,Theme.color.buttonHover))
+    hit.listeners.down(pointer(0,7))
+    assert(sameColor(box:GetChild("label").fontColor,Theme.color.buttonPressedText))
+    assert(box.localScaleX < 1)
+    hit.listeners.up(pointer(0,8)); assert(box.localScaleX < 1)
+    hit.listeners["end"](pointer(0,7)); assert(box.localScaleX == 1)
+    hit.listeners.exit({}); hit.listeners.enter(pointer(0,7))
+    assert(sameColor(box:GetChild("body").imageColor,Theme.color.panel),"touch must not leave a hover")
+    hit.listeners.down(pointer(0,7)); ui:render(); assert(box.localScaleX == 1)
+    hit.listeners.down(pointer(0,7)); ui:resize(1600,900); assert(box.localScaleX == 1)
+    ui:setScroll(0); hit.listeners.down(pointer(0,7))
+    assert(box.visible and box.localScaleX == 1)
+    assert(sameColor(box:GetChild("label").fontColor,Theme.color.textMuted))
 end)
 
 print("LUA_MAP_UI_PASS " .. count)
