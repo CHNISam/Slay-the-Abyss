@@ -1,5 +1,5 @@
 ---
-id: TASK-52.1
+id: TASK-52.2
 title: 领取药水后立即刷新顶部药水栏
 status: Done
 assignee:
