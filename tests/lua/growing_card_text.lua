@@ -50,7 +50,7 @@ local function setup(options)
         local instance = ui.run.phase == "combat" and ui.run.combat.hand[slot]
         if instance and ui.selected == instance.uid then
             local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
-            click(reason == "invalid_target" and "enemy" .. (target or 1) or "card" .. slot)
+            click(reason == "invalid_target" and "enemy" .. (target or 1) or "playArea")
         end
         drain()
     end

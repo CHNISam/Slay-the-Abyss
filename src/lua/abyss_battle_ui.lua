@@ -193,8 +193,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function notice(value) label("notice", value) end
     local cursor = platform.cursorEvents
     self.dragEnabled = cursor and cursor.CursorDown and cursor.CursorDrag and cursor.CursorUp and cursor.CursorEndDrag
-    self.instructions = self.dragEnabled and "拖牌越过金线出牌，攻击牌拖向敌人；也可点选。"
-        or "点选卡牌，再点敌人；无需目标的牌再点一次。"
+    self.instructions = self.dragEnabled and "拖到战场出牌区域松手，目标牌拖向敌人；再点原牌取消。"
+        or "点选卡牌，再点敌人或战场出牌区域；再点原牌取消。"
     local function dragReady(g)
         return self.active and not self.busy and self.run == g.run and self.run.phase == "combat"
             and self.run.combat == g.battle and g.battle.phase == "player" and g.battle.turn == g.turn
@@ -244,7 +244,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     -- Action buttons have their own pointer capability: some hosts deliver
     -- card/potion pointers but only Click for these preset buttons.
-    local actionInputs, actionPointerObserved = {}, false
+    local actionInputs, actionPointerObserved, fieldPointerObserved = {}, false, false
     local function actionReady(g)
         local run = self.run
         if not self.active or self.busy or self.gesture or run ~= g.run then return false end
@@ -252,6 +252,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             or g.battle and g.battle.turn ~= g.turn) then return false end
         if g.name == "start" then return not options.embedded and (not run or run.phase == "defeat") end
         if not run then return false end
+        if g.name == "playArea" then
+            local instance = g.battle and g.battle.hand[g.slot or 0]
+            return dragReady(g) and instance and instance.uid == g.uid and self.selected == g.uid
+                and self.selectionEpoch == g.selectionEpoch and not needsTarget(g.battle, instance)
+        end
         if g.name == "endTurn" then return dragReady(g) end
         if run.phase == "reward" then
             if not rewardReady(g) then return false end
@@ -274,6 +279,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local enemyInputs, enemyPointerObserved = {}, false
     local function enemyReady(g)
         return not self.info and dragReady(g) and Actors.isActive(g.actor) and g.battle.enemies[g.slot] == g.actor
+            and self.selected == g.uid and self.selectionEpoch == g.selectionEpoch
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
@@ -282,8 +288,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
         return count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step, width, portrait, step
     end
-    -- Judge the card the player sees, not the pointer hidden under it: a quarter of
-    -- the dragged card above the gold line (or the pointer itself) arms the play.
+    -- Targeted cards enter the docked aiming pose after crossing the line.
+    -- No-target commits use the release point inside the explicit field below.
     local function dragPose(g)
         local origin, h = g.origin or {g.sx,g.sy}, L.card.size[2]*D.scale
         local x, y = origin[1]+g.x-g.sx, origin[2]+g.y-g.sy
@@ -295,29 +301,30 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local _, _, crossed, back = dragPose(g)
         if crossed then g.armed = true elseif back then g.armed = false end
     end
-    -- Returns valid, target, aiming. Armed targeted cards always aim: the pointer's
-    -- column wins, otherwise the nearest living enemy. A locked enemy that falls
-    -- mid-drag is never silently swapped; the player must aim at another column.
+    local function inPlayArea(x,y)
+        local area = D.playArea
+        return math.abs(x-area[1]) <= area[3]/2 and math.abs(y-area[2]) <= area[4]/2
+    end
+    -- Target cards require an explicit enemy hit, including a little touch padding.
+    -- Open ground never substitutes the nearest enemy, even when only one remains.
     local function dragTarget(g)
         if not dragReady(g) then return false end
         local battle = g.battle
         local ok, reason = Combat.canPlay(battle,g.uid,nil)
-        if ok then return g.armed == true, nil end
+        if ok then return inPlayArea(g.x,g.y), nil end
         if reason ~= "invalid_target" then return false end
         if not g.armed then return false end
-        local count, column, nearest, distance = #battle.enemies, nil, nil, math.huge
+        local count = #battle.enemies
         for i, enemy in ipairs(battle.enemies) do
-            local x, _, _, step = enemySlot(count,i,enemy)
+            local x, _, portrait, step = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
-            local d = math.abs(g.x-x)
-            if Combat.canPlay(battle,g.uid,i) then
-                if d <= reach then column = i end
-                if d < distance then nearest, distance = i, d end
+            if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
+                and math.abs(g.y-L.enemyRow.y) <= portrait/2+D.reticlePad
+                and Combat.canPlay(battle,g.uid,i) then
+                return true, i, true
             end
         end
-        local lost = g.lock and not (Actors.isActive(g.lock) and battle.enemies[g.lockIndex] == g.lock)
-        local target = column or not lost and nearest or nil
-        return target ~= nil, target, true
+        return false, nil, true
     end
     local function button(name, enabled, primary, caption)
         local box = child(name)
@@ -859,6 +866,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             label("potionReward",detail)
         end
         show("rewardStage", reward)
+        local fieldSelected = false
+        if active and not self.gesture then
+            for _,instance in ipairs(battle.hand) do
+                if instance.uid == self.selected and not needsTarget(battle,instance) then fieldSelected = true break end
+            end
+        end
+        show("playArea", fieldSelected)
         -- The battle HUD (energy, piles) belongs to playing cards; clear it while choosing a reward.
         for _, name in ipairs({"energyRing", "energyDisc", "energyIcon", "energy", "drawIcon", "drawBadgeRing", "drawBadge",
             "draw", "drawLabel", "discardIcon", "discardBadgeRing", "discardBadge", "discard", "discardLabel"}) do
@@ -952,14 +966,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local rewards = reward and Run.rewardOptions(run) or {}
         local aimUid, aimTarget
         if self.gesture and self.gesture.moving then
-            local valid, target = dragTarget(self.gesture)
-            if valid and not target then
-                local only, alive = nil, 0
-                for i, enemy in ipairs(battle.enemies) do
-                    if Actors.isActive(enemy) then only, alive = i, alive + 1 end
-                end
-                if alive == 1 then target = only end
-            end
+            local _, target = dragTarget(self.gesture)
             aimUid, aimTarget = self.gesture.uid, target
         end
         self.cardPositions = {}
@@ -1197,7 +1204,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         print("ABYSS_UI combat_started")
     end
     function self:playSelected(target)
-        if not self.active or not self.selected or self.busy or not self.run or self.run.phase ~= "combat" then return end
+        if not self.active or not self.selected or self.busy or self.gesture or not self.run or self.run.phase ~= "combat" then return end
         local uid, origin = self.selected, self.cardPositions[self.selected]
         local ok, reason = perform(function() return Run.play(self.run, uid, target) end, origin)
         if ok then self.selected = nil end
@@ -1214,11 +1221,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         elseif run.phase == "combat" then
             local instance = run.combat.hand[index]
             if not instance then return end
+            self.selectionEpoch = (self.selectionEpoch or 0) + 1
+            if self.selected == instance.uid then self.selected = nil notice("") refresh() return end
             local ok, reason = Combat.canPlay(run.combat, instance.uid, self.target)
             if not ok then notice(reasons[reason] or "当前无法使用这张牌。") refresh() return end
-            if self.selected == instance.uid and not needsTarget(run.combat, instance) then self:playSelected(self.target) return end
             self.selected = instance.uid
-            notice(needsTarget(run.combat, instance) and "点选一个敌人" or "再次点击确认出牌")
+            notice(needsTarget(run.combat, instance) and "点选一个敌人；再点原牌取消" or "点击战场出牌区域；再点原牌取消")
         end
         refresh()
     end
@@ -1285,8 +1293,6 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
         if g.moving then
             arm(g)
-            local _, target = dragTarget(g)
-            if target then g.lock, g.lockIndex = g.battle.enemies[target], target end
             self.suppressClick,self.selected = true,g.uid
             self:render()
         end
@@ -1350,10 +1356,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local function bind(name, fn)
         local control, input = child(name), {}
+        if name == "playArea" then control = control:GetChild("hit") end
         actionInputs[#actionInputs + 1] = input
         control:AddCursorEventListener(clickEvent, function(event)
             if swallowed(event) then return end
-            if actionPointerObserved then
+            if name == "playArea" and fieldPointerObserved or name ~= "playArea" and actionPointerObserved then
                 local released = input.released
                 if not released or released.touch ~= (event and event.touchId) then return end
                 input.released = nil
@@ -1363,13 +1370,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end)
         if self.dragEnabled then
             control:AddCursorEventListener(cursor.CursorDown, function(event)
-                actionPointerObserved = true
+                if name == "playArea" then fieldPointerObserved = true else actionPointerObserved = true end
                 local dismissed = down(event)
                 input.held, input.released = nil, nil
                 if dismissed then return end
                 local run = self.run
                 local battle = run and run.combat
                 local g = {name = name, run = run, phase = run and run.phase,
+                    uid = self.selected, selectionEpoch = self.selectionEpoch,
                     battle = battle, turn = battle and battle.turn,
                     rewards = run and run.rewards, touch = event and event.touchId,
                     render = self.rewardRender, cardResolved = run and run.rewards and run.rewards.cardResolved,
@@ -1385,23 +1393,47 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     potionId = run and run.rewards and run.rewards.potion and run.rewards.potion.id,
                     potionUnavailable = run and run.rewards and run.rewards.potion and run.rewards.potion.unavailable,
                     claimed = run and run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.claimed}
+                if name == "playArea" and battle then
+                    g.x,g.y = point(event)
+                    for i,instance in ipairs(battle.hand) do if instance.uid == self.selected then g.slot = i break end end
+                end
                 if actionReady(g) then input.held = g end
             end)
             local function releaseAction(event, ended)
                 local touch, held = event and event.touchId, input.held
                 if held and held.touch == touch then
                     input.held = nil
-                    input.released = not ended and actionReady(held) and held or nil
+                    local x,y = point(event)
+                    local fieldValid = name ~= "playArea" or not x or inPlayArea(x,y)
+                        and (not held.x or (x-held.x)^2+(y-held.y)^2 < D.threshold^2)
+                    input.released = not ended and fieldValid and actionReady(held) and held or nil
                 elseif ended and input.released and input.released.touch == touch then
                     input.released = nil
                 end
             end
             control:AddCursorEventListener(cursor.CursorUp, releaseAction)
             control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releaseAction(event, true) end)
+            if name == "playArea" then
+                control:AddCursorEventListener(cursor.CursorDrag, function(event)
+                    local held = input.held
+                    if not held or held.touch ~= (event and event.touchId) then return end
+                    local x,y = point(event)
+                    if not x or not held.x or (x-held.x)^2+(y-held.y)^2 >= D.threshold^2 then
+                        input.held, input.released = nil, nil
+                    end
+                end)
+            end
         end
     end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
+    bind("playArea", function()
+        local battle = self.run and self.run.phase == "combat" and self.run.combat
+        if not battle then return end
+        for _,instance in ipairs(battle.hand) do
+            if instance.uid == self.selected and not needsTarget(battle,instance) then self:playSelected(nil) return end
+        end
+    end)
     bind("skip", function()
         if not self.active or not self.run or self.busy then return end
         local ok,reason=Run.claimCardReward(self.run,0)
@@ -1564,6 +1596,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local actor = battle and battle.enemies[target]
                 if not actor then return end
                 local g = {slot=target, actor=actor, run=run, battle=battle,
+                    uid=self.selected, selectionEpoch=self.selectionEpoch,
                     turn=battle.turn, touch=event and event.touchId}
                 if enemyReady(g) then input.held = g end
             end)

@@ -43,7 +43,7 @@ test("stale A events cannot cancel or consume live B ownership on the same slot"
     assert(ui.selected==nil and battle.energy==3)
     event("card1","click",8)
     assert(ui.selected==battle.hand[1].uid and battle.energy==3)
-    tap("card1",8)
+    tap("playArea",8)
     assert(battle.energy==2 and battle.player.block==5)
 end)
 
@@ -53,7 +53,7 @@ test("resize between stationary Up and Click cancels the released binding",funct
     host:resize(1600,900)
     event("enemy1","down",8); event("card1","click",7)
     assert(ui.selected==nil and host.run.combat.energy==3)
-    tap("card1",8); tap("card1",8)
+    tap("card1",8); tap("playArea",8)
     assert(host.run.combat.energy==2)
 end)
 
@@ -64,7 +64,7 @@ test("same-slot UID replacement between Up and Click cannot select the replaceme
     local old=table.remove(battle.hand,1) -- explicit hand-mutation boundary, not a full-run claim
     event("card1","click",7)
     assert(ui.selected==nil and battle.energy==3 and battle.hand[1].uid~=old.uid)
-    tap("card1",8); tap("card1",8)
+    tap("card1",8); tap("playArea",8)
     assert(battle.energy==2 and #battle.hand==0)
 end)
 
@@ -79,7 +79,10 @@ test("no coordinates and no touch IDs retain complete stationary C-mode sequence
         end
         tapWithout()
         assert(ui.selected==host.run.combat.hand[1].uid,kind)
-        tapWithout()
+        local field=panel:GetChild("playArea"):GetChild("hit")
+        if kind=="no_coordinates" then
+            field.listeners.down({touchId=7});field.listeners.up({touchId=7});field.click({touchId=7})
+        else tap("playArea",nil) end
         assert(host.run.combat.energy==2 and host.run.combat.player.block==5,kind)
     end
 end)
@@ -91,14 +94,14 @@ test("unplayable stationary pointer tap retains energy feedback and fresh recove
     tap("card1",7)
     assert(ui.selected==nil and battle.energy==0 and #battle.hand==2)
     assert(panel:GetChild("notice").text:find("能量不足",1,true))
-    battle.energy=3; ui:render(); tap("card1",7); tap("card1",7)
+    battle.energy=3; ui:render(); tap("card1",7); tap("playArea",8)
     assert(battle.energy==2 and battle.player.block==5)
 end)
 
 test("click-only hosts remain usable even when pointer enums are available",function()
     local host,ui,panel,event,tap=setup()
     local hit=panel:GetChild("card1"):GetChild("hit")
-    hit.click(); hit.click()
+    hit.click(); panel:GetChild("playArea"):GetChild("hit").click()
     assert(host.run.combat.energy==2 and host.run.combat.player.block==5)
 end)
 
@@ -119,7 +122,7 @@ test("cancelled click cannot fall back through a different unobserved card slot"
     assert(ui.selected==nil and host.run.combat.energy==3)
     panel:GetChild("card2"):GetChild("hit").click()
     assert(ui.selected==nil)
-    tap("card2",8); tap("card2",8)
+    tap("card2",8); tap("playArea",8)
     assert(host.run.combat.energy==2 and host.run.combat.player.block==5)
 end)
 

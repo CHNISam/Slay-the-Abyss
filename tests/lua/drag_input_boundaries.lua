@@ -74,7 +74,7 @@ test("stationary release from an old battle cannot click the replacement hand",f
     assert(ui.selected == nil,"stale stationary release selected a replacement card")
     assert(#current.hand == 2 and current.energy == 3 and current.player.block == 0)
     assert(#old.hand == 2 and old.energy == 3)
-    tap("card1") tap("card1")
+    tap("card1") tap("playArea")
     assert(#current.hand == 1 and current.energy == 2 and current.player.block == 5)
 end)
 
@@ -100,7 +100,7 @@ test("stationary cancellation guards turn, run, phase, inactive and busy changes
         assert(ui.selected == nil and ui.gesture == nil,kind)
         assert(#battle.hand == 2 and battle.energy == 3 and battle.player.block == 0,kind)
         ui:render()
-        tap("card1") tap("card1")
+        tap("card1") tap("playArea")
         assert(#battle.hand == 1 and battle.energy == 2 and battle.player.block == 5,kind)
     end
 end)
@@ -114,7 +114,7 @@ test("fresh stationary taps retain click fallback and a foreign touch cannot rel
     assert(ui.gesture and ui.selected == nil and #battle.hand == 2)
     event("card1","up",x,y,7) event("card1","click",x,y,7)
     assert(ui.selected == battle.hand[1].uid and #battle.hand == 2)
-    tap("card1",7)
+    tap("playArea",7)
     assert(#battle.hand == 1 and battle.energy == 2 and battle.player.block == 5)
 end)
 
@@ -129,7 +129,7 @@ test("cancelled drags back in the hand never click through and accept the next t
         event("card1","click",x,y)
         assert(#battle.hand == 2 and battle.energy == 3 and battle.turn == 1)
         assert(ui.selected == nil and not panel:GetChild("dragLayer").visible)
-        tap("card1") tap("card1")
+        tap("card1") tap("playArea")
         assert(#battle.hand == 1 and battle.player.block == 5)
     end
 end)
@@ -152,14 +152,14 @@ end)
 test("real feedback rejects new drag input until playback ends",function()
     local ui,panel,event,tap = setup()
     local battle = ui.run.combat
-    tap("card1") tap("card1")
+    tap("card1") tap("playArea")
     assert(ui.busy and #battle.hand == 1)
     local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
     event("card1","down",x,y) event("card1","drag",0,0) event("card1","up",0,0)
     event("card1","click",x,y)
     assert(ui.gesture == nil and #battle.hand == 1 and battle.energy == 2)
     drain(ui)
-    tap("card1") tap("card1")
+    tap("card1") tap("playArea")
     assert(#battle.hand == 0 and battle.energy == 1 and battle.player.block == 10)
 end)
 
@@ -176,7 +176,7 @@ test("stationary release cannot select a shifted or missing hand slot",function(
         assert(ui.selected == nil and ui.gesture == nil,"stale slot must cancel: "..kind)
         assert(ui.suppressClick == true,"missing slot must consume queued clicks")
         assert(#battle.hand == 1 and battle.energy == 3 and battle.player.block == 0)
-        tap("card1") tap("card1")
+        tap("card1") tap("playArea")
         assert(#battle.hand == 0 and battle.energy == 2 and battle.player.block == 5)
     end
 end)
