@@ -33,6 +33,8 @@ for _,potionState in ipairs({'none','pending','full','claimed','skipped','unavai
     local finish=dofile('tools/diagnostics/finish_combat_rewards.lua')
     local seed=potionState=='none' and 0 or (potionState=='unavailable' and 33 or 42)
     local run,map=reward(seed,goldState~='none')
+    local rewards=run.rewards
+    assert(rewards.goldClaimed==false and run.gold==99,'victory gold must remain an independent offer')
     local offer=run.rewards.potion
     assert((offer~=nil)==(potionState~='none'),'fixture potion precondition')
     if potionState=='full' then
@@ -48,7 +50,7 @@ for _,potionState in ipairs({'none','pending','full','claimed','skipped','unavai
     finish(run,map)
     assert(run.phase=='map' and run.nodeFlow.complete,'reward did not finish the real map node')
     assert(#run.deck==10+choice,'card choice changed')
-    assert(run.gold==(goldState=='none' and 114 or 144),'stolen gold lost or duplicated')
+    assert(rewards.goldClaimed and run.gold==(goldState=='none' and 114 or 144),'victory/stolen gold lost or duplicated')
     local counts={none=0,pending=1,full=3,claimed=1,skipped=0,unavailable=0}
     assert(Run.potionCount(run)==counts[potionState],'wrong potion inventory')
     if potionState~='pending' then same(run.potions,beforePotions) end
@@ -70,16 +72,53 @@ end
 
 test('a genuine potion API rejection is not silently skipped or retried',function()
  local run,map=reward(42,false)
- run.relics[#run.relics+1]='sozu'
+ -- Explicit invalid-catalog fixture: leave the generated reward untouched,
+ -- but make its definition unavailable to the real obtainPotion API.
+ run.data=Combat.copy(run.data)
+ for i,potion in ipairs(run.data.potions.potions) do
+  if potion.id==run.rewards.potion.id then table.remove(run.data.potions.potions,i);break end
+ end
  assert(Run.claimCardReward(run,0))
  local before=Combat.copy(run)
  local ok,reason=pcall(dofile('tools/diagnostics/finish_combat_rewards.lua'),run,map)
- assert(not ok and tostring(reason):find('potion_blocked_by_sozu',1,true),'real potion error was swallowed')
+ assert(not ok and tostring(reason):find('unknown_potion',1,true),'real potion error was swallowed')
+ same(run,before);assert(not run.nodeFlow.complete)
+end)
+
+test('Sozu consumes the clicked offer without a bottle or a false diagnostic error',function()
+ local run,map=reward(42,false)
+ run.relics[#run.relics+1]='sozu'
+ assert(Run.claimCardReward(run,0))
+ local offer=run.rewards.potion
+ local potions,seed,rng=Combat.copy(run.potions),run.seed,Combat.copy(run.shopRng.potion)
+ dofile('tools/diagnostics/finish_combat_rewards.lua')(run,map)
+ assert(offer.resolved and offer.result=='blocked' and offer.slot==nil)
+ same(run.potions,potions);same(run.shopRng.potion,rng)
+ assert(run.seed==seed and Run.potionCount(run)==0)
+ assert(run.phase=='map' and run.nodeFlow.complete and run.gold==114)
+ assert(not Run.claimPotionReward(run),'consumed Sozu offer must not be claimable twice')
+end)
+
+test('already claimed victory gold is not claimed again by the diagnostic',function()
+ local run,map=reward(0,false)
+ assert(Run.claimGoldReward(run));assert(Run.claimCardReward(run,0))
+ local gold=run.gold
+ dofile('tools/diagnostics/finish_combat_rewards.lua')(run,map)
+ assert(run.gold==gold and gold==114 and run.nodeFlow.complete)
+end)
+
+test('a genuine victory-gold API rejection is not silently forfeited',function()
+ local run,map=reward(0,false);assert(Run.claimCardReward(run,0))
+ run.gold=2147483640 -- Explicit overflow fixture, not a normal route balance.
+ local before=Combat.copy(run)
+ local ok,reason=pcall(dofile('tools/diagnostics/finish_combat_rewards.lua'),run,map)
+ assert(not ok and tostring(reason):find('invalid_gold_reward',1,true),'real victory-gold error was swallowed')
  same(run,before);assert(not run.nodeFlow.complete)
 end)
 
 test('a genuine stolen-gold API rejection is not silently forfeited',function()
  local run,map=reward(0,true)
+ assert(Run.claimGoldReward(run)) -- Isolate stolen-gold overflow after normal gold resolves.
  assert(Run.claimCardReward(run,0))
  run.gold=2147483640 -- Explicit overflow fixture, not a normal route balance.
  local before=Combat.copy(run)
@@ -99,7 +138,7 @@ test('a sparse belt claims into its vacancy without replacing other bottles',fun
 end)
 
 test('retry after a gold rejection does not claim the already acquired bottle again',function()
- local run,map=reward(42,true);assert(Run.claimCardReward(run,0))
+ local run,map=reward(42,true);assert(Run.claimGoldReward(run));assert(Run.claimCardReward(run,0))
  local offer=run.rewards.potion
  local finish=dofile('tools/diagnostics/finish_combat_rewards.lua')
  run.gold=2147483640 -- Explicit overflow fixture.
