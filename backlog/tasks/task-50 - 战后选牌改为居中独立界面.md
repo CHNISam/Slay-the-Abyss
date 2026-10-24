@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 07:42'
-updated_date: '2026-10-24 08:03'
+updated_date: '2026-10-24 08:30'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -59,4 +59,6 @@ ordinal: 84000
 2026-10-24交付审计补齐承接：正式集成与平台验收负责人为@Codex，M4/10月28日。当前代码留在feat/reward-card-pick-ui工作树，尚未PR/合入，不覆盖独立改动；先审查并提交本任务既有代码，再按批准稿逐项导入新候选，电脑及手机实测长文、缩放热区、一次领取/跳过/清理及C档降级，保留SHA/hash/本轮截图日志并交TASK-4/5。离线预览不是实机；实现、集成、导入和实测分别记录。
 
 2026-10-24 Codex 集成接手：用户明确要求合并 feat/reward-card-pick-ui。已核对实现提交 06b95ac，创建 PR169（https://github.com/CHNISam/Slay-the-Abyss/pull/169），与当前 develop 53a52bb 可无冲突合并。最终合并与当前 SHA 的 Quality 结果以该 PR 为准。本轮仅进行源码集成，不宣称编译候选、官方导入、电脑/手机实机或 UI 总门禁通过；任务保持 In Progress，原验收项继续保留。
+
+最新状态：PR169已squash合入develop e3310bc，前文未开PR/未合入是历史交接。源码集成已完成；本任务仍由@Codex负责新候选官方导入及电脑/手机三项AC，交TASK-4/5。离线预览与源码CI不作为实机通过。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,81 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { auditRoadmap, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
+
+const milestone = { 'm-2': 'M1', 'm-5': 'M4' };
+const task = (id, extra = {}) => ({ id, status: 'To Do', milestone: 'm-5', assignees: ['@Codex'], ...extra });
+test('CLI-written inline and block lists retain owner, milestone and parent identity', () => {
+  for (const assignee of ['assignee: ["@Codex"]', "assignee:\r\n  - '@Codex'"]) {
+    const parsed = readTaskHeader(`---\r\nid: TASK-10.5.1\r\nstatus: In Progress\r\n${assignee}\r\nmilestone: m-2\r\nparent_task_id: TASK-10.5\r\nlabels: []\r\n---\r\n`);
+    assert.deepEqual(parsed.assignees, ['@Codex']);
+    assert.equal(parsed.milestone, 'm-2');
+    assert.equal(parsed.parentTaskId, 'TASK-10.5');
+  }
+});
+test('a newly registered launch task cannot disappear from the roadmap', () => {
+  const errors = auditRoadmap([task('TASK-4.2')], '### M4\n- TASK-4：总验收', milestone);
+  assert.ok(errors.some(e => e.includes('TASK-4.2') && e.includes('排期')));
+});
+test('an unowned or malformed owner fails even when the task is scheduled', () => {
+  for (const assignees of [[], ['--plan']]) {
+    assert.ok(auditRoadmap([task('TASK-4.2', { assignees })], '### M4\n- TASK-4.2：背景', milestone).some(e => e.includes('负责人')));
+  }
+});
+test('wrong milestone section and unknown milestone fail', () => {
+  assert.ok(auditRoadmap([task('TASK-4.2')], '### M1\n- TASK-4.2：背景', milestone).length);
+  assert.ok(auditRoadmap([task('TASK-4.2', { milestone: 'missing' })], '', milestone).length);
+});
+test('active children of a completed launch slice still require their own milestone', () => {
+  const tasks = [task('TASK-10.5', { status: 'Done', milestone: 'm-2' }),
+    task('TASK-10.5.1', { milestone: null, parentTaskId: 'TASK-10.5' })];
+  assert.ok(auditRoadmap(tasks, '', milestone).some(e => e.includes('TASK-10.5.1') && e.includes('里程碑')));
+});
+test('completed slices and optional work do not become new launch blockers', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-25.1', { status: 'Done', assignees: [] }),
+    task('TASK-45', { milestone: null, assignees: [] })], '', milestone), []);
+});
+test('valid launch tasks pass with exact IDs in their milestone section', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4\n- TASK-4.2：背景', milestone), []);
+});
+test('scheduled launch roots remain audited after both milestone and owner are lost', () => {
+  const errors = auditRoadmap([task('TASK-47', { milestone: null, assignees: [] })],
+    '### M3\n- TASK-47：首发清单', milestone);
+  assert.ok(errors.some(error => error.includes('TASK-47') && error.includes('里程碑')));
+  assert.ok(errors.some(error => error.includes('TASK-47') && error.includes('负责人')));
+});
+test('milestone headings can include a human-readable explanation', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4 达到正式作品品质\n- TASK-4.2：背景', milestone), []);
+});
+
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { verifyBacklogRoadmap } from '../scripts/verify-backlog-roadmap.mjs';
+
+test('roadmap phase headings support an adjacent ASCII pipe without confusing phase prefixes', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4|达到正式作品品质\n- TASK-4.2：背景', milestone), []);
+  for (const heading of ['M40', 'M4x', 'M4other']) {
+    assert.ok(auditRoadmap([task('TASK-4.2')], `### ${heading}\n- TASK-4.2：背景`, milestone)
+      .some(error => error.includes('排期')));
+  }
+});
+
+test('CLI milestone titles use phase identity rather than one display separator', t => {
+  const root = mkdtempSync(join(tmpdir(), 'backlog-roadmap-title-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  for (const directory of ['backlog/tasks', 'backlog/completed', 'backlog/milestones', 'docs']) {
+    mkdirSync(join(root, directory), { recursive: true });
+  }
+  writeFileSync(join(root, 'backlog/tasks/task-4.2.md'), '---\nid: TASK-4.2\nstatus: To Do\nmilestone: m-5\nassignee: ["@Codex"]\n---\n');
+  writeFileSync(join(root, 'docs/MILESTONES.md'), '### M4\n- TASK-4.2：背景\n');
+  for (const newline of ['\n', '\r\n']) for (const quote of ['', '"', "'"]) {
+    for (const title of ['M4｜正式作品品质', 'M4|正式作品品质', 'M4 正式作品品质', 'M4：正式作品品质', 'M4: 正式作品品质', 'M4']) {
+      writeFileSync(join(root, 'backlog/milestones/m-5.md'), ['---', 'id: m-5', `title: ${quote}${title}${quote}`, '---', ''].join(newline));
+      assert.deepEqual(verifyBacklogRoadmap(root), [], `${quote}${title}${quote}, newline=${JSON.stringify(newline)}`);
+    }
+    for (const title of ['M40', 'M4x', 'M4other']) {
+      writeFileSync(join(root, 'backlog/milestones/m-5.md'), ['---', 'id: m-5', `title: ${quote}${title}${quote}`, '---', ''].join(newline));
+      assert.ok(verifyBacklogRoadmap(root).some(error => error.includes('里程碑')), title);
+    }
+  }
+});

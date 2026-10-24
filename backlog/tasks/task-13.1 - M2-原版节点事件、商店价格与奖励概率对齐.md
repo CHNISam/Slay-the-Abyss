@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 07:48'
+updated_date: '2026-10-24 09:16'
 due_date: '2026-10-28'
 labels:
   - required
@@ -20,6 +20,7 @@ references:
   - src/lua/abyss_run.lua
   - docs/backlog-details/TASK-13.1.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/163'
+  - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-13
 priority: high
 type: enhancement
