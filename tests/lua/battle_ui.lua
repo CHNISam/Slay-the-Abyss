@@ -134,7 +134,9 @@ test("selection never spends energy; target click or second self-card click issu
     local _, reason = Combat.canPlay(battle, id, nil)
     click(reason == "invalid_target" and "enemy1" or "card1")
     assert(#battle.hand == 4 and battle.discard[1].uid == id and ui.selected == nil)
-    assert(not stage.children.card5.visible and stage.children.energy.text == battle.energy .. "/3")
+    -- Energy preparation uses float arithmetic to detect overflow before wrapping.
+    assert(battle.energy % 1 == 0, "energy must retain its integer value contract")
+    assert(not stage.children.card5.visible and stage.children.energy.text == string.format("%.0f/3", battle.energy))
     while #battle.hand > 0 and Combat.canPlay(battle, battle.hand[1].uid, 1) do play(1) end
     local hp, hand, remaining = battle.enemies[1].hp, #battle.hand, battle.energy
     if hand > 0 then
