@@ -1,5 +1,4 @@
 {
-  "sourceCommit": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66",
   "developIntegrated": "7f11cc2f589b676d10a494edd6b79f1167254c63",
   "candidateSha256": "d76d7ded6008c6dbacfd79b202388d322f73badef0dad6e73de6784209a11660",
   "runId": "d03a0dd9-f08b-4a2d-a1f7-f41fb6500f8c",
@@ -65,7 +64,8 @@
   "boundaries": [
     "One real normal battle, not a complete run",
     "Only base starter card observations and one normal Wild Strike acquisition; no per-card 75 acceptance",
-    "Current 529c8af candidate is a different source and must be imported/tested separately"
+    "Current 529c8af candidate is a different source and must be imported/tested separately",
+    "No attribution to the requested a891451 payload; retain normal battle observations only. Replaced .gil did not update every external Lua module."
   ],
   "files": [
     {
@@ -102,5 +102,10 @@
       "originalBytes": 10728,
       "originalSha256": "31d12a5a182dabd714820102a7ea7d6059b57df20695c68443fe1bc9b86495c9"
     }
-  ]
+  ],
+  "requestedSourceCommit": "a891451ce497fd71dd8da0bdcc5dae5866b6ce66",
+  "sourceCommit": null,
+  "sourceAttribution": "REJECTED: subsequent official external Lua readback matches only42/51;8different,1missing",
+  "sameSourceAcceptance": false,
+  "readback": "normal-a891-external-source-mismatch.json"
 }

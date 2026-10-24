@@ -500,5 +500,12 @@
       "originalSha256": "9b4fcda47d7c0440f72d39eeed19a81263d51c8851bd90066cc2c35b9376ac4b",
       "originalBytes": 42998
     }
-  ]
+  ],
+  "officialClientSourceReadback": {
+    "report": "official-client-probe-529-after-play.json",
+    "checkedAfterPlay": true,
+    "matched": 54,
+    "total": 54,
+    "boundary": "A retrospective source check; not fabricated as a pre-play gate."
+  }
 }
