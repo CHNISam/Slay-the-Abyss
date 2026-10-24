@@ -15,7 +15,11 @@ local M = {}
 local number = require("abyss_numbers").integer
 
 function M.new(root, data, presentation, clickEvent, platform)
-    local self = { root = root, data = data, seed = 1, mode = "menu" }
+    -- A seed is an explicit replay/test override. Normal runs sample at Start,
+    -- never while constructing the title-screen preview or refreshing the UI.
+    local self = { root = root, data = data, seed = platform.seed, mode = "menu" }
+    local previewSeed = self.seed or 1
+    local newSeed = platform.newSeed or function() return require("abyss_new_run_seed").next() end
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
@@ -27,14 +31,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function changed() if ready then self:refresh() end end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
         platform, { embedded = true, onChange = changed })
-    self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, self.seed), function(node)
+    self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, previewSeed), function(node)
         if not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource,
         cursor = platform.cursorEvents })
-    self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, self.seed), self.mapUI.map,
+    self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, previewSeed), self.mapUI.map,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
             cursorEvents = platform.cursorEvents, sound = platform.sound })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
@@ -320,9 +324,16 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         -- Restarting from a result goes straight back to the map: the story is told once.
         local opening = self.mode == "menu" and not self.prologueSeen
-        self.run, self.map = Run.new(data, self.seed), Map.generate(data, self.seed)
+        local explicitSeed = self.seed ~= nil
+        local seed = explicitSeed and self.seed or newSeed()
+        assert(type(seed) == "number" and seed == seed and math.abs(seed) <= 9007199254740991
+            and seed % 1 == 0, "new-run seed must be a finite safe integer")
+        local run, map = Run.new(data, seed), Map.generate(data, seed)
+        self.run, self.map, self.runSeed = run, map, seed
         self.settlementRequested, self.settlementBusy, self.settlementError = false, false, nil
-        self.seed = (self.seed + 1) % 65536
+        if explicitSeed then self.seed = (seed + 1) % 65536 end
+        print("ABYSS_RUN seed=" .. string.format("%.0f", seed)
+            .. " source=" .. (explicitSeed and "explicit" or "clock"))
         self.battleUI.run, self.battleUI.target = self.run, 1
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map

@@ -16,8 +16,9 @@ end
 local function rejectUnchanged(run,fn,reason)
  local before=C.copy(run);local ok,why=fn();assert(ok==false and why==reason,tostring(ok)..' '..tostring(why));same(run,before)
 end
-test('170 no-loss card still auto-claims the bottle and returns to map',function()
- local run=reward();local id=run.rewards.potion.id;assert(Run.claimCardReward(run,1));assert(run.phase=='map' and run.potions[1]==id)
+test('ordinary no-loss card keeps the independent bottle pending',function()
+ local run=reward();local id=run.rewards.potion.id;assert(Run.claimCardReward(run,1));assert(run.phase=='reward' and Run.potionCount(run)==0)
+ assert(Run.claimPotionReward(run));assert(run.potions[1]==id);assert(Run.leaveCombatRewards(run))
 end)
 test('manual card does not auto-claim its independent bottle',function()
  local run=reward(30);local bottle=run.rewards.potion;assert(Run.claimCardReward(run,1))
@@ -59,7 +60,7 @@ test('new run resets provider history after an escape',function()
  local run=Run.new(Data,42);assert(run.shopRng==nil and run.potionChanceModifier==nil)
 end)
 test('terminal potion failure restores preexisting shared potion RNG by identity',function()
- local run=reward();assert(Run.claimCardReward(run,0));assert(Run.startCombat(run,'cultist_solo'))
+ local run=reward();assert(Run.claimCardReward(run,0));assert(Run.skipPotionReward(run));assert(Run.leaveCombatRewards(run));assert(Run.startCombat(run,'cultist_solo'))
  assert(Run.obtainPotion(run,'fire_potion'));local slot
  for i=1,3 do if run.potions[i]=='fire_potion' then slot=i end end
  -- One-HP terminal fixture and injected commit failure test existing transaction scope.

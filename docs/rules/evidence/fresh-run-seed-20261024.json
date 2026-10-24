@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-24",
+  "base": "dc487e6",
+  "scope": "normal Host seed and read-only encounter audit; no map candidate production migration",
+  "sourceCertification": "Fixed third-party decompiled mirrors, not matched to an owned PC binary",
+  "sources": [
+    {
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/Exordium.java",
+      "sha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08",
+      "artifact": "dungeons-Exordium.java"
+    },
+    {
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "artifact": "dungeons-AbstractDungeon.java"
+    },
+    {
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterInfo.java",
+      "sha256": "7dc947c8de9d0c0d4addcf7aa676ad177ffb5527c85ed4988501ccc76a842d25",
+      "artifact": "monsters-MonsterInfo.java"
+    },
+    {
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/杀戮尖塔原码/dungeons/Exordium.java",
+      "sha256": "e96ee3dfbcb4ad84f24fbf2775016fd1cdeb669f3913113acc1f96ffb002217c",
+      "artifact": "butterfly-Exordium.java"
+    }
+  ],
+  "rootCause": "Host constructor reset seed to 1; increment only survived within that Host",
+  "normalSeed": { "domain": [0, 65535], "source": ["os.time", "os.clock", "accepted-start serial"], "repeatPrevention": false, "pcSeedParity": false },
+  "regression": { "test": "tests/lua/game_ui_seed.lua", "red": "normal Host ignored its new-run source (historically fixed seed=1)", "greenGroups": 6, "nativeLifecycle": "real OnStart, same wall second, different CPU sample, module recreation" },
+  "platform": { "compiledCandidate": false, "imported": false, "liveVerified": false },
+  "openCode": { "version": "1.18.24", "model": "opencode/deepseek-v4.1-flash-free", "variant": "max", "catalogPrices": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }, "events": 0, "result": "stopped after no events for 90 seconds; Codex took over", "costFromEvents": null, "measuredCodexSavings": null }
+}

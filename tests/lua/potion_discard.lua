@@ -64,7 +64,7 @@ test('full reward belt can discard an old bottle then claim into the same vacanc
     assert(Run.discardPotion(run,2));local ok,slot=Run.claimPotionReward(run)
     assert(ok);equal(slot,2);same(run.potions,{'fire_potion','dexterity_potion','regen_potion'})
     equal(Run.claimPotionReward(run),false)
-    assert(Run.claimCardReward(run,0));equal(run.phase,'map')
+    assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run);equal(run.phase,'map')
 end)
 
 if #failures>0 then error(table.concat(failures,'\n')) end

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 14:10'
-updated_date: '2026-10-24 14:24'
+updated_date: '2026-10-24 14:54'
 due_date: '2026-10-28'
 labels:
   - required
@@ -45,4 +45,6 @@ ordinal: 90000
 
 <!-- SECTION:NOTES:BEGIN -->
 最小修复仅给明确NaN/正负无穷坐标增加局部拒绝标记，保留缺API与原未知坐标C档。真实31专项先13过18败后全过，9负变异被捕获；独立96矩阵、173原生Lua、1090纯Node、22Python通过。首次15模块寻址环境失败保留，补正确LUA_PATH后全量重跑；无安装或预算变化。尚待本PR当前SHA CI与合并，未改父任务平台AC，未认证PR182组合或实机。
+
+原头097c622的Quality40102429513双成功后，主线新合PR182到b91a461，故重新接合而未直接沿用旧头认证。以3c3为共同祖先自然合并UI/MILESTONES，保留182其余424份代码/数据/测试；最新并集31专项、BattleUI53、176原生Lua、1091纯Node、22Python及独立96+7通过。新并集仍须自身SHA CI，不认证平台或旧候选实机。
 <!-- SECTION:NOTES:END -->

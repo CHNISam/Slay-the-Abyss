@@ -641,6 +641,27 @@ local function feedbackBattle(deck, enemies, options)
     ui:render()
     return ui, stage, click, ui.run.combat
 end
+test("Block badges reserve native glyph width for every digit from 1 through 999", function()
+    local ui, stage, _, battle = feedbackBattle({"defend"}, {"cultist", "cultist", "cultist", "cultist", "cultist"})
+    for _, value in ipairs({1, 10, 99, 100, 999}) do
+        battle.player.block = value
+        for _, enemy in ipairs(battle.enemies) do enemy.block = value end
+        ui:render()
+        for _, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
+            local c = stage.children[name].children
+            assert(c.block.text == tostring(value), name .. " exact digits")
+            -- Native text uses wider digits than the mock; autoSize does not
+            -- save a 28px rectangle that clips the second digit of Block 10.
+            assert(c.block.sizeDeltaX >= #tostring(value) * Theme.font.body, name .. " clips Block " .. value)
+            assert(c.blockIcon.sizeDeltaX >= c.block.sizeDeltaX, name .. " number spills off its chip")
+            assert(c.hp.sizeDeltaX >= #c.hp.text * Theme.font.small, name .. " clips HP while showing Block " .. value)
+            assert(c.blockEdge.x + c.blockEdge.sizeDeltaX / 2 <= c.hpBorder.x - c.hpBorder.sizeDeltaX / 2
+                or c.blockEdge.y - c.blockEdge.sizeDeltaY / 2 >= c.hpBorder.y + c.hpBorder.sizeDeltaY / 2,
+                name .. " chip overlaps HP")
+        end
+    end
+end)
+
 test("animated block badges keep HP and neighbouring columns clear for player, one to five enemies and boss", function()
     for count = 1, 6 do
         local enemies = {}
@@ -664,7 +685,9 @@ test("animated block badges keep HP and neighbouring columns clear for player, o
                 for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
                     local part = c[name]
                     local half = part.sizeDeltaX * (part.localScaleX or 1) / 2
-                    assert(part.x + half <= barLeft + 0.000001, box.name .. "/" .. name .. " animated over HP")
+                    local above = part.y - part.sizeDeltaY * (part.localScaleY or 1) / 2
+                        >= c.hpBorder.y + c.hpBorder.sizeDeltaY / 2
+                    assert(part.x + half <= barLeft + 0.000001 or above, box.name .. "/" .. name .. " animated over HP")
                     left = math.min(left, part.x - half)
                     assert(part.localScaleY == c.blockIcon.localScaleY, "chip parts animate together")
                 end

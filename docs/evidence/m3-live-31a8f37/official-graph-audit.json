@@ -1,0 +1,51 @@
+{
+  "ok": false,
+  "sourceCommit": "31a8f371b53b9b55f03f2e0a7af7f21488c2cd71",
+  "candidate": {
+    "path": "F:\\New folder\\.artifacts\\m3-live-20261024\\official-import-1845.gil",
+    "sha256Before": "6b6210a12e0a926b0b421a378ff825c0784b12a422c42d725c014c7b3213df7d",
+    "sha256After": "6b6210a12e0a926b0b421a378ff825c0784b12a422c42d725c014c7b3213df7d"
+  },
+  "liveWriteEnabled": false,
+  "graphs": [
+    {
+      "ok": false,
+      "graphId": "1073741825",
+      "name": "_GSTS_ABYSS_SETTLEMENT",
+      "actualRawSha256": "cf91c4f949d11f1c98f16bc16400db6fc5f9017aaeda5c25b95780b904de1449",
+      "expectedRawSha256": "623eda6e49350147d8838396b652919c2a7a808954d639f302c9f72db24fb28d",
+      "actualSha256": "ef90dd1f357f17d625fb0827626f959a7877c7d0086686352db7be7c52663ea2",
+      "expectedSha256": "2928bf3dde73c541a81630df78820692588c64f0c728a9a10fca962e04ea593b",
+      "actualRoundtrip": true,
+      "expectedRoundtrip": true,
+      "issues": [
+        {
+          "code": "GRAPH_PAYLOAD_MISMATCH",
+          "detail": "_GSTS_ABYSS_SETTLEMENT"
+        }
+      ],
+      "exclusions": [
+        "GraphNode.x",
+        "GraphNode.y",
+        "GraphNode.comments.x/y",
+        "NodeGraph.comments[].x/y"
+      ],
+      "scope": "All decoded NodeGraph fields and ordered arrays; no default hydration, field filtering or node renumbering beyond the listed layout coordinates.",
+      "sourceSha256": "48db63ddc8e3466046b7c795a9a8f439bb0537d9b33999a0421f08cc5045b2ad",
+      "gia": "F:\\New folder\\.artifacts\\m3-live-20261024\\official-graph-readback-1845\\compiler\\graph-0\\builds\\23745eea-70e5-427c-97cf-b65f173bbfce\\dist\\src\\main.gia",
+      "giaSha256": "8e8e1b4327e0991fe8ca9e220c45c053183eacb47a62a942ee06b2ed88c28dcd"
+    }
+  ],
+  "issues": [
+    {
+      "code": "GRAPH_PAYLOAD_MISMATCH",
+      "detail": "_GSTS_ABYSS_SETTLEMENT",
+      "graphId": "1073741825"
+    }
+  ],
+  "externalBindings": "Signal definition IDs are resolved by the existing injector against the input. External signal definitions, stage/prefab settings and runtime behavior are not source-certified by this payload comparison.",
+  "writes": "Explicit command writes source/GIA/logs and, for single-graph compilation, an input copy inside output/compiler only. Expected injection is in memory; input is never applied or written.",
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "audio": "NOT_TESTED"
+}

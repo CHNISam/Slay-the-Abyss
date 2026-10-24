@@ -162,7 +162,7 @@ test("real battle reward rejects stale node and malformed reward commands before
     local id, uid, size = options[1], run.nextDeckUid, #run.deck
     options[1] = "forged"
     equal(Run.rewardOptions(run)[1], id)
-    assert(Run.claimCardReward(run, 1))
+    assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
     equal(#run.deck, size + 1); equal(run.deck[#run.deck].cardId, id)
     equal(run.deck[#run.deck].uid, uid); equal(run.nextDeckUid, uid + 1)
     rejected(run, map, function() return Run.claimCardReward(run, 1) end)

@@ -176,7 +176,7 @@ test("real reward to next battle to following battle keeps permanent deck and re
         if run then break end
     end
     assert(run,"rampage not offered"); local oldSize=#run.deck
-    assert(Run.claimCardReward(run,choice)); equal(#run.deck,oldSize+1)
+    assert(Run.claimCardReward(run,choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); equal(#run.deck,oldSize+1)
     local checkDeck,nextUid=unchangedAfter(run.deck),run.nextDeckUid
     assert(Run.startCombat(run,"cultist_solo"))
     local played=false
@@ -193,7 +193,7 @@ test("real reward to next battle to following battle keeps permanent deck and re
     end
     assert(played); checkDeck(); equal(run.nextDeckUid,nextUid)
     finishBattle(run); equal(run.phase,"reward"); checkDeck()
-    assert(Run.claimCardReward(run,0)); assert(Run.startCombat(run,"cultist_solo"))
+    assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Run.startCombat(run,"cultist_solo"))
     local found=false
     for _,pile in ipairs({run.combat.hand,run.combat.draw}) do
         for _,c in ipairs(pile) do if c.cardId=="rampage" then equal(base(run.combat,c),8); equal(c.damageBonus,nil); found=true end end

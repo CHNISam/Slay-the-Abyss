@@ -210,7 +210,7 @@ test("all 27 reward cards occur after real original-data starter victories and c
             for _, incomplete in ipairs(blocked) do assert(id ~= incomplete, "incomplete reward: " .. id) end
             if wanted[id] then
                 local claimed = Combat.copy(run)
-                assert(Run.claimCardReward(claimed, choice))
+                assert(Run.claimCardReward(claimed, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(claimed)
                 equal(#claimed.deck, 11); equal(claimed.deck[11].cardId, id)
                 assert(Run.startCombat(claimed, "cultist_solo"))
                 local acquired = 0

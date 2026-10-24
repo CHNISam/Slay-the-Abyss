@@ -85,7 +85,7 @@ test("six opening relics apply their published amounts once and reset next comba
     equal(state.player.statuses.strength, 1); equal(state.player.statuses.dexterity, 1)
     equal(state.player.statuses.thorns, 3)
     state.enemies[1].hp = 20; run.potions = { "fire_potion" }
-    assert(Run.usePotion(run, 1, 1)); assert(Run.claimCardReward(run, 0))
+    assert(Run.usePotion(run, 1, 1)); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
     run.floor = 1
     assert(Run.startCombat(run, "cultist_solo"))
     equal(run.combat.player.block, 10); equal(#run.combat.hand, 7); equal(run.combat.energy, 4)

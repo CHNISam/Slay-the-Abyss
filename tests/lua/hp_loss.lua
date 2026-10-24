@@ -180,7 +180,7 @@ test(id .. " is acquired in real starter victory rewards and played next battle"
     end
     assert(selected, id .. " never offered")
     local oldDeck = Combat.copy(selected.deck)
-    assert(Run.claimCardReward(selected, choice))
+    assert(Run.claimCardReward(selected, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(selected)
     equal(#selected.deck, #oldDeck + 1)
     for i, card in ipairs(oldDeck) do same(selected.deck[i], card) end
     equal(selected.deck[#selected.deck].cardId, id)

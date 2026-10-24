@@ -1,0 +1,25 @@
+{
+  "CapturedAt": "2026-10-24T20:51:50.8384727+08:00",
+  "Cutoff": "2026-10-24T19:25:00.0000000",
+  "SourceDirectory": "C:\\Users\\Administrator\\AppData\\LocalLow\\miHoYo\\原神\\BeyondLocal\\217122260\\Beyond_Debug_Log",
+  "Files": [
+    {
+      "Name": "2026-10-24_19-25-50_26_217122260.gia",
+      "Length": 1214,
+      "LastWriteTime": "2026-10-24T19:29:08.0682383+08:00",
+      "Sha256": "e8c7145662f8011f0d9506e81e27ca600bb717d60af2b46650a80e9bd8fbcd80"
+    },
+    {
+      "Name": "2026-10-24_19-31-08_27_217122260.gia",
+      "Length": 17740,
+      "LastWriteTime": "2026-10-24T19:51:16.3310499+08:00",
+      "Sha256": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c"
+    },
+    {
+      "Name": "2026-10-24_19-59-24_28_217122260.gia",
+      "Length": 163575,
+      "LastWriteTime": "2026-10-24T20:47:06.3664451+08:00",
+      "Sha256": "2a7e23fc04f34dd0b1911377031e51a060def626dcec80a8d574494821b60e50"
+    }
+  ]
+}

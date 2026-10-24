@@ -108,7 +108,7 @@ test('floor14 unknown combat has eligible ordinary encounters and can finish wit
     assert(Nodes.enter(run,map,node.id),'floor14 cannot reject a legitimate unknown-room monster')
     assert(run.phase=='combat' and run.nodeFlow.type=='combat')
     for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
-    assert(Run.finishCombat(run));assert(Run.claimCardReward(run,0));assert(Nodes.completeCombat(run,map))
+    assert(Run.finishCombat(run));assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run);assert(Nodes.completeCombat(run,map))
     assert(run.phase=='map' and #Nodes.available(run,map)>0)
 end)
 test('pool exhaustion and battle setup failure preserve every map, probability, stream and pool field',function()

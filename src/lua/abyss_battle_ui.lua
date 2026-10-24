@@ -11,7 +11,7 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
     empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
-    effect_overflow = "当前状态已达上限", potion_slots_full = "药水槽已满；可放弃这瓶战利品后继续选牌。",
+    effect_overflow = "当前状态已达上限", potion_slots_full = "药水槽已满；可点顶部药水槽丢弃旧药水后再领取，或放弃这瓶战利品。",
     potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "持有该遗物时无法获得药水；请放弃战利品。",
     pending_potion_reward = "请先领取或明确放弃药水，再离开奖励。" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
@@ -215,7 +215,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             or g.potionResult~=(potion and potion.result) or g.potionId~=(potion and potion.id)
             or g.potionUnavailable~=(potion and potion.unavailable) then return false end
         if rewards.manualContinue then
-            if g.render~=self.rewardRender or g.item~=item or g.claimed~=(item and item.claimed)
+            -- Keep the no-loss reward owner's gesture through a pure redraw.
+            -- Stolen-gold pages retain their existing explicit-redraw boundary;
+            -- potion/card identity and resolution changes invalidate either page.
+            if (item and g.render~=self.rewardRender) or g.item~=item or g.claimed~=(item and item.claimed)
                 or g.cardResolved~=rewards.cardResolved then return false end
         end
         return true
@@ -264,7 +267,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 return run.rewards.potion and not run.rewards.potion.resolved
             end
             if run.rewards.manualContinue then
-                if g.name == "stolenGold" then return not run.rewards.stolenGold.claimed end
+                if g.name == "stolenGold" then return run.rewards.stolenGold and not run.rewards.stolenGold.claimed end
                 if g.name == "continue" then return true end
             end
             if g.name == "skip" then return not run.rewards.cardResolved end
@@ -374,9 +377,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
         -- The block chip never covers the bar: wide bars keep their size and the chip sits outside;
         -- narrow enemy columns hand the bar's left end to the chip.
-        local blocked, chip, gap = actor.block > 0, L.blockBadge.size, L.blockBadge.gap
+        -- Native digits can occupy a full glyph: the fixed 28px chip cut
+        -- Block 10 down to "1". Widen the chip, never shrink away its digits.
+        local blocked, gap = actor.block > 0, L.blockBadge.gap
+        local chip = math.max(L.blockBadge.size, #number(actor.block) * Theme.font.body + L.blockBadge.padding * 2)
+        local hpText = number(actor.hp) .. "/" .. number(actor.maxHp)
+        local compact = blocked and width < chip + gap + #hpText * Theme.font.small
         local barWidth, barX, y = width, 0, -portrait / 2 - S.xxl - bh / 2
-        if blocked and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
+        if blocked and not compact and width < L.hpBar.size[1] then barWidth, barX = width - chip - gap, (chip + gap) / 2 end
         for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
             local part = box:GetChild(name)
             part:SetAnchoredPosition(barX, y)
@@ -387,13 +395,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         tint(box:GetChild("hpFill"), blocked and C.hpShielded or C.hp)
         box:GetChild("hpFill").fillAmount = math.max(0, math.min(1, actor.hp / actor.maxHp))
         box:GetChild("hpGhost").fillAmount = box:GetChild("hpFill").fillAmount
-        box:GetChild("hp").text = number(actor.hp) .. "/" .. number(actor.maxHp)
+        box:GetChild("hp").text = hpText
         for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
             local part = box:GetChild(name)
             part:SetVisible(blocked)
             local side = name == "blockEdge" and chip + S.border * 2 or chip
-            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or side)
-            part:SetAnchoredPosition(barX - barWidth / 2 - gap - chip / 2, y)
+            local height = L.blockBadge.size + (name == "blockEdge" and S.border * 2 or 0)
+            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or height)
+            -- If a narrow enemy column cannot fit both complete numbers,
+            -- move the chip inside the portrait's lower-left corner. Preserve
+            -- the HP lane instead of fixing Block by clipping life digits.
+            local chipX = compact and (-portrait / 2 + chip / 2) or (barX - barWidth / 2 - gap - chip / 2)
+            local chipY = compact and (-portrait / 2 + L.blockBadge.size / 2 + S.s) or y
+            part:SetAnchoredPosition(chipX, chipY)
         end
         tint(box:GetChild("blockEdge"), C.panelSunken)
         tint(box:GetChild("blockIcon"), C.block)
@@ -858,11 +872,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             and Run.potionCount(run)<run.data.rules.player.potionSlots, false)
         button("skipPotion", self.active and pendingPotion==true, false)
         if potionReward then
-            local name=potionReward.id
-            for _,definition in ipairs(data.potions.potions) do if definition.id==name then name=definition.name;break end end
-            local detail=potionReward.unavailable and (potionReward.rarity.." 药水尚未实装") or (name or "药水")
+            local definition
+            for _,item in ipairs(data.potions.potions) do if item.id==potionReward.id then definition=item;break end end
+            local detail=potionReward.unavailable and (potionReward.rarity.." 药水尚未实装")
+                or (definition and potionText(definition,run.combat):gsub("\n"," · ") .. " · ×1" or "药水 ×1")
             if potionReward.resolved then detail=detail..(potionReward.result=='claimed' and " · 已领取" or " · 已放弃")
-            else detail=detail..(manual and " · 单独领取或放弃药水后再离开" or " · 选牌时自动领取；满槽请先放弃") end
+            elseif Run.potionCount(run)>=run.data.rules.player.potionSlots then
+                detail=detail.."\n药水槽已满；点顶部药水槽丢弃旧药水后再领取，或放弃"
+            else detail=detail.."\n单独领取或放弃，再前往地图" end
             label("potionReward",detail)
         end
         show("rewardStage", reward)
@@ -1076,7 +1093,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         button("stolenGold", self.active and stolen and not stolen.claimed and not self.busy, true,
             stolen and (stolen.claimed and "已取回失金 " or "取回失金 ") .. number(stolen.amount) or "取回失金")
         button("continue", self.active and run and (manual or run.phase == "map") and not self.busy, true,
-            manual and ((not run.rewards.cardResolved or not stolen.claimed) and "离开并放弃未领奖励" or "前往地图") or "再战一场")
+            manual and ((not run.rewards.cardResolved or stolen and not stolen.claimed) and "离开并放弃未领奖励" or "前往地图") or "再战一场")
         -- Keep physical slots fixed for the encounter: consuming slot one must not
         -- move slot two underneath a queued second click on the same button.
         if fighting and not self.busy then
@@ -1216,7 +1233,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not self.active or not run or self.busy or self.gesture or self.suppressClick then return end
         if run.phase == "reward" then
             local ok,reason = Run.claimCardReward(run, index)
-            notice(ok and (run.phase=='reward' and "卡牌已加入牌组；其他奖励请单独处理。" or "卡牌已加入牌组，其余可领取奖励已收下。") or reasons[reason] or "当前无法领取奖励。")
+            notice(ok and (run.phase=='reward' and "卡牌已加入牌组；其他奖励请单独处理。" or "卡牌已加入牌组。") or reasons[reason] or "当前无法领取奖励。")
             refresh(ok) return
         elseif run.phase == "combat" then
             local instance = run.combat.hand[index]
@@ -1440,7 +1457,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     bind("skip", function()
         if not self.active or not self.run or self.busy then return end
         local ok,reason=Run.claimCardReward(self.run,0)
-        notice(ok and (self.run.phase=='reward' and "已跳过卡牌；其他奖励请单独处理。" or "已跳过卡牌，其余可领取奖励已收下。") or reasons[reason] or "当前无法处理奖励。")
+        notice(ok and (self.run.phase=='reward' and "已跳过卡牌；其他奖励请单独处理。" or "已跳过卡牌。") or reasons[reason] or "当前无法处理奖励。")
         refresh(ok)
     end)
     for _,name in ipairs({'claimPotion','skipPotion'}) do

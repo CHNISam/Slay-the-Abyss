@@ -1,0 +1,72 @@
+{
+  "at": "2026-10-24T14:20:42.029Z",
+  "request": {
+    "arguments": {
+      "windowId": "656322:35884"
+    },
+    "label": "117-after-numeric-cases",
+    "name": "focus_editor_window"
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"window\":{\"windowId\":\"656322:35884\",\"hwnd\":656322,\"pid\":35884,\"activeFamily\":true,\"title\":\"原神\",\"executable\":\"G:\\\\Genshin\\\\Genshin Impact Game\\\\YuanShen.exe\",\"minimized\":false,\"foreground\":true,\"rect\":{\"left\":1920,\"top\":-443,\"right\":5760,\"bottom\":1717}},\"backend\":\"pillow-printwindow\",\"pillowVersion\":\"12.0.0\",\"windowsBuild\":26200,\"capturedAtUnixMs\":1792851641956,\"path\":\"F:\\\\New folder\\\\.artifacts\\\\m3-live-20261024\\\\live\\\\captures\\\\24fc8eb9-fa6f-4f00-9e83-9c463a5f329b.png\",\"width\":3840,\"height\":2160,\"previewWidth\":1600,\"previewHeight\":900,\"captureRect\":{\"left\":1920,\"top\":-443,\"right\":5760,\"bottom\":1717},\"coordinateSpace\":\"editor_input uses returned preview pixels; pass preview coordinates directly without scaling. PNG/captureRect use physical pixels; the server applies previewToImageScale and imageOffsetInWindow.\",\"previewToImageScale\":{\"x\":2.4,\"y\":2.4},\"imageOffsetInWindow\":{\"x\":0,\"y\":0},\"suspectBlank\":false,\"blackFraction\":0,\"luminanceStddev\":38.5614,\"warnings\":[\"PrintWindow may return stale or incomplete GPU content. Inspect the image; success does not prove correct game rendering.\"],\"captureId\":\"546a7bce-3bc9-4b8a-a3f9-636a3480adaa\"}"
+      },
+      {
+        "type": "image",
+        "data": "[saved locally]",
+        "mimeType": "image/png"
+      }
+    ],
+    "structuredContent": {
+      "window": {
+        "windowId": "656322:35884",
+        "hwnd": 656322,
+        "pid": 35884,
+        "activeFamily": true,
+        "title": "原神",
+        "executable": "G:\\Genshin\\Genshin Impact Game\\YuanShen.exe",
+        "minimized": false,
+        "foreground": true,
+        "rect": {
+          "left": 1920,
+          "top": -443,
+          "right": 5760,
+          "bottom": 1717
+        }
+      },
+      "backend": "pillow-printwindow",
+      "pillowVersion": "12.0.0",
+      "windowsBuild": 26200,
+      "capturedAtUnixMs": 1792851641956,
+      "path": "F:\\New folder\\.artifacts\\m3-live-20261024\\live\\captures\\24fc8eb9-fa6f-4f00-9e83-9c463a5f329b.png",
+      "width": 3840,
+      "height": 2160,
+      "previewWidth": 1600,
+      "previewHeight": 900,
+      "captureRect": {
+        "left": 1920,
+        "top": -443,
+        "right": 5760,
+        "bottom": 1717
+      },
+      "coordinateSpace": "editor_input uses returned preview pixels; pass preview coordinates directly without scaling. PNG/captureRect use physical pixels; the server applies previewToImageScale and imageOffsetInWindow.",
+      "previewToImageScale": {
+        "x": 2.4,
+        "y": 2.4
+      },
+      "imageOffsetInWindow": {
+        "x": 0,
+        "y": 0
+      },
+      "suspectBlank": false,
+      "blackFraction": 0,
+      "luminanceStddev": 38.5614,
+      "warnings": [
+        "PrintWindow may return stale or incomplete GPU content. Inspect the image; success does not prove correct game rendering."
+      ],
+      "captureId": "546a7bce-3bc9-4b8a-a3f9-636a3480adaa"
+    }
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "sourceCommit": "76bbefade36b66c21c3c50964c8f28d8da9169a5",
+  "fixtureOnly": true,
+  "inputCertification": false,
+  "normal": {
+    "path": "F:/New folder/.artifacts/m3-integrated-76bbefa/abyss-m3-normal-76bbefa.gil",
+    "sha256": "2f508448f39ca69d5fcee2b81157ba7d939213512f47a1a6e89569fe54133d6b"
+  },
+  "candidate": {
+    "path": "F:/New folder/.artifacts/m3-integrated-76bbefa/abyss-m3-numeric-fixture-76bbefa.gil",
+    "sha256": "f8e44138ffe679986a9e8f2b39cae2514f9d34983744e479c97f4770d140cd58"
+  },
+  "unchangedProductionModules": 47,
+  "checked": {
+    "mapPath": "F:\\New folder\\.artifacts\\m3-integrated-76bbefa\\numeric-build\\scenes\\saves\\abyss-m3-numeric-fixture.gil",
+    "checked": [
+      "abyss_data",
+      "abyss_map_layout",
+      "abyss_narrative",
+      "abyss_presentation",
+      "abyss_theme",
+      "abyss_acid_slime_s_ai",
+      "abyss_actor",
+      "abyss_battle_ui",
+      "abyss_bgm",
+      "abyss_blue_slaver_ai",
+      "abyss_combat",
+      "abyss_deck_ui",
+      "abyss_effects",
+      "abyss_enemy_ai",
+      "abyss_events",
+      "abyss_feedback",
+      "abyss_game_ui",
+      "abyss_gremlin_nob_ai",
+      "abyss_guardian_ai",
+      "abyss_inventory",
+      "abyss_jaw_worm_ai",
+      "abyss_map",
+      "abyss_map_ui",
+      "abyss_node_ui",
+      "abyss_nodes",
+      "abyss_random",
+      "abyss_red_slaver_ai",
+      "abyss_run",
+      "abyss_sentry_ai",
+      "abyss_ui",
+      "abyss_unknown",
+      "abyss_viewport",
+      "abyss_acid_slime_m_ai",
+      "abyss_event_pool",
+      "abyss_fungi_beast_ai",
+      "abyss_louse_ai",
+      "abyss_numbers",
+      "abyss_randomxs128",
+      "abyss_spike_slime_m_ai",
+      "abyss_sts_random",
+      "abyss_potion_rewards",
+      "abyss_shop",
+      "abyss_shop_price",
+      "abyss_looter_ai",
+      "abyss_merchant",
+      "abyss_new_run_seed",
+      "abyss_potion_discard_ui",
+      "abyss_prologue",
+      "abyss_m3_numeric_probe"
+    ],
+    "ok": true,
+    "errors": 0,
+    "warnings": 38,
+    "problems": [
+      {
+        "script": "abyss_battle_ui",
+        "line": 1155,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":begin() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 54,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":open() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 58,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 74,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 98,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":open() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 105,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 240,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":covering() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 240,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 241,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":covering() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 244,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":opaque() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 250,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":holding() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 257,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 259,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 270,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 279,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setActive() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetActive()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 281,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetVisible()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 283,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setVisible() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":SetVisible()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 286,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 298,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":setNavigationEnabled() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 299,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 340,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 343,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":play() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Play()"
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 377,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":close() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_game_ui",
+        "line": 393,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":covering() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 80,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":tap() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 591,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":enter() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 697,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":react() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 698,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":react() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_node_ui",
+        "line": 725,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":react() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_ui",
+        "line": 63,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Resume()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 77,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":resize() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":Resume()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 80,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":update() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":OnUpdate()"
+      },
+      {
+        "script": "abyss_ui",
+        "line": 80,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":update() is not a method of anything in the client API, nor defined in this script.",
+        "didYouMean": ":OnUpdate()"
+      },
+      {
+        "script": "abyss_m3_numeric_probe",
+        "line": 24,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":cancel() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_m3_numeric_probe",
+        "line": 28,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":refresh() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_m3_numeric_probe",
+        "line": 28,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":render() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_m3_numeric_probe",
+        "line": 39,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":openExit() is not a method of anything in the client API, nor defined in this script."
+      },
+      {
+        "script": "abyss_m3_numeric_probe",
+        "line": 39,
+        "severity": "warning",
+        "kind": "UNKNOWN_METHOD",
+        "message": ":confirmExit() is not a method of anything in the client API, nor defined in this script."
+      }
+    ],
+    "note": "Each problem names the script and the line. An error is something the game will not complain about and that will not work; a warning may be on purpose. Only names written as literals are checked."
+  },
+  "officialImport": "NOT_TESTED",
+  "liveWriteEnabled": false
+}

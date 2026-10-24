@@ -90,7 +90,7 @@ test("last-enemy fire kill and defeat preserve untouched slot identity", functio
     equal(run.phase, "reward"); equal(run.hp, 46)
     equal(run.potions[2], nil); equal(run.potions[3], "regen_potion")
     rejected(run, 3, nil, "not_in_combat")
-    assert(Run.claimCardReward(run, 0)); assert(Run.startCombat(run, "cultist_solo"))
+    assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Run.startCombat(run, "cultist_solo"))
     equal(run.potions[3], "regen_potion")
     run.combat.player.hp = 1
     for _ = 1, 10 do if run.phase ~= "combat" then break end; assert(Run.endTurn(run)) end

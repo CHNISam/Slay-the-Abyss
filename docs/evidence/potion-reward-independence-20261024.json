@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-24",
+  "normalRoute": {
+    "seed": 3,
+    "floor": 16,
+    "evidenceSha256": "aff443e0235d5d94a48b014cce60e33dcfa09fe2937d3a2055c7c7953dbb68b9",
+    "result": "defeat",
+    "gold": 19,
+    "hp": 0
+  },
+  "platform": {
+    "imported": false,
+    "compiled": false,
+    "liveVerified": false,
+    "uiAccepted": false
+  },
+  "sourceMirror": {
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "files": {
+      "MonsterGroup.java": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "AbstractDungeon.java": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "PotionHelper.java": "159ffee06ab09c24063b992f5babe57907916a99a23f4a3ad721b8c922be2a2f",
+      "MonsterRoomBoss.java": "0e6e49235af6fbcfa3047c204ccde983f6152eac8fc845c47c2d36d63b0c8d21",
+      "RewardItem.java": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859",
+      "AbstractRoom.java": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    "repository": "https://github.com/aeubanks/sts"
+  },
+  "base": "dc487e6",
+  "targetedGreen": {
+    "bottleUI": 3,
+    "runIndependence": 3,
+    "looterPotionComposition": 10,
+    "gameAndMapJS": 12,
+    "generatedUIIndependence": 2,
+    "rewardLayoutJS": 1,
+    "potionRewards": 7
+  },
+  "task": "TASK-52",
+  "red": {
+    "generatedUI": "card input secretly acquired potion; missing quantity",
+    "run": "card choice must never acquire a potion"
+  },
+  "limitations": [
+    "restricted rarity buckets use different random consumption than original full-pool rejection sampling",
+    "same-seed complete potion/shop trajectory unverified",
+    "Sozu reward-consumption semantic difference retained in TASK-13.1",
+    "gold/card/elite-relic full reward parity outside this fix"
+  ],
+  "regressionMigration": {
+    "previousLuaFileCount": 169,
+    "previousFailedFiles": 27,
+    "firstTargetedPass": 26,
+    "firstTargetedFailure": "looter_potion_ui.lua",
+    "failureCause": "new ordinary potion manualContinue selected the stolen-gold redraw invalidation policy; unchanged no-loss card gesture was swallowed",
+    "fix": "retain redraw-version invalidation for stolen-gold pages; preserve no-loss redraw gesture while checking card/potion owner and resolution snapshots",
+    "failedSetLatestResults": [
+      {
+        "file": "boss_relic_effects.lua",
+        "status": 0
+      },
+      {
+        "file": "boss_reward_transactions.lua",
+        "status": 0
+      },
+      {
+        "file": "boss_treasure.lua",
+        "status": 0
+      },
+      {
+        "file": "card_pool.lua",
+        "status": 0
+      },
+      {
+        "file": "dazed.lua",
+        "status": 0
+      },
+      {
+        "file": "ethereal_card_lifecycle.lua",
+        "status": 0
+      },
+      {
+        "file": "golden_shrine.lua",
+        "status": 0
+      },
+      {
+        "file": "growing_attack.lua",
+        "status": 0
+      },
+      {
+        "file": "hp_loss.lua",
+        "status": 0
+      },
+      {
+        "file": "inventory_parity.lua",
+        "status": 0
+      },
+      {
+        "file": "looter_potion_ui.lua",
+        "status": 0
+      },
+      {
+        "file": "looter_rewards.lua",
+        "status": 0
+      },
+      {
+        "file": "node_card_ownership.lua",
+        "status": 0
+      },
+      {
+        "file": "node_transactions.lua",
+        "status": 0
+      },
+      {
+        "file": "nodes.lua",
+        "status": 0
+      },
+      {
+        "file": "opening_relic_order.lua",
+        "status": 0
+      },
+      {
+        "file": "post_combat_actions.lua",
+        "status": 0
+      },
+      {
+        "file": "potion_discard.lua",
+        "status": 0
+      },
+      {
+        "file": "potion_reward_atomic.lua",
+        "status": 0
+      },
+      {
+        "file": "potion_reward_effects.lua",
+        "status": 0
+      },
+      {
+        "file": "potion_slots.lua",
+        "status": 0
+      },
+      {
+        "file": "power_card_lifecycle.lua",
+        "status": 0
+      },
+      {
+        "file": "run.lua",
+        "status": 0
+      },
+      {
+        "file": "spike_slime_m.lua",
+        "status": 0
+      },
+      {
+        "file": "spore_cloud.lua",
+        "status": 0
+      },
+      {
+        "file": "unknown_events.lua",
+        "status": 0
+      },
+      {
+        "file": "vulnerable_combo.lua",
+        "status": 0
+      }
+    ],
+    "relatedTargetedPass": 9,
+    "relatedFiles": [
+      "looter_potion_ui.lua",
+      "looter_potion_ui_held.lua",
+      "looter_potion_ui_released.lua",
+      "looter_reward_ui.lua",
+      "looter_reward_stage.lua",
+      "battle_ui_potion_rewards.lua",
+      "battle_ui_potion_independence.lua",
+      "potion_reward_independence.lua",
+      "looter_potion_rewards.lua"
+    ],
+    "javascriptTargetedPass": 13,
+    "javascriptCommand": "node --test tests/reward-potion-layout.test.mjs tests/game-ui.test.mjs tests/map-ui-layout.test.mjs",
+    "dataValidation": true,
+    "fullLuaRerun": false,
+    "timeoutChanged": false,
+    "logs": {
+      ".artifacts/potion-lua-failures.json": "1877365c18b5a974761dede8e4b06bc90580a7ea1d3ecaf9a0255d330f07afe4",
+      ".artifacts/potion-lua-migration-results.json": "e37376fb2834661b0a4d34dde803434bc8e58e5c4e005dc0e7ae85d49ecdf8e4",
+      ".artifacts/potion-related-closeout-results.json": "688ac7bf11d76d0ca90d7f74e4d5333306af2c33269cf0574ea18dc76494c53d"
+    },
+    "syntaxCheck": true
+  }
+}

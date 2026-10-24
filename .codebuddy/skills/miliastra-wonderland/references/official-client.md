@@ -1,0 +1,46 @@
+# 官方客户端操作
+
+适用本项目的 Windows 原神、千星沙箱和本机 miliastra MCP。路径和版本以 `docs/TOOLCHAIN.md` 为准。技能提供操作办法，不新增发布、覆盖正式存档或挤掉另一设备登录的授权。
+
+## 接管已有状态
+
+- 先列窗口，再截图区分：本地存档列表、文件选择框、编辑器、试玩菜单、正在战斗、官方结算、加载画面。用户已打开的界面直接接着用；不要为了符合自动流程先退出重来。
+- 没有游戏进程才启动 TOOLCHAIN 中的 `YuanShen.exe`；游戏需要用户看见和操作，勿后台重复启动。登录验证由用户处理。重复登录涉及其他设备时，沿用本会话已明确的设备选择。
+- 同时只让一个执行者操作原神。自动流程仍在运行时，先看其 status，不并行点击菜单。用户帮忙切换后，重新观察，不继续旧坐标序列。
+- 比较游戏与实际输入宿主的 Windows token integrity。工具调用的 `require_escalated` 不等于 Windows 管理员权限；High 游戏需要 High 宿主。普通权限的 `inputSent` 不能证明游戏接收了输入。
+
+## 保留同级宿主
+
+优先直接使用可用 MCP 工具。若当前客户端没有注册 miliastra，使用此技能的 `scripts/live-session.mjs`，通过已安装 MCP SDK 连接同一服务，不重写输入后端。
+
+```powershell
+$sessionOutput = 'F:\New folder\.artifacts\本轮唯一目录'
+$sessionScript = 'F:\New folder\.codebuddy\skills\miliastra-wonderland\scripts\live-session.mjs'
+# 下例仅在已确认游戏为 High 时使用；普通游戏直接 node 即可。
+Start-Process -FilePath 'C:\Program Files\nodejs\node.exe' -ArgumentList ('"' + $sessionScript + '" "' + $sessionOutput + '"') -Verb RunAs -WindowStyle Hidden
+```
+
+脚本读取 workflow/platform-rules，保存 tool-schemas 和 bridge-ready；先读这些文件。它强制 liveWrite=0。每轮用新目录，不复用此前 ready。请求写入 `queue/001-说明.json`，结构：
+
+```json
+{"label":"unique-label","name":"list_editor_windows","arguments":{}}
+```
+
+实际工具名/参数从本轮 tool-schemas 取。窗口编号必须由本轮发现。辅助操作 `focus-capture` 接受 `{windowId}`，在同一宿主里置前后立刻拍 screen；`focus-input` 接受 `{windowId,kind,...}`，置前取得新 captureId 后只输入一次。其余操作直接调用 MCP。结果与图片保存到会话目录；`.done` 只表示请求已处理，须读结果是否报错。结束后创建 `queue/STOP`。先结束仍在运行的试玩，再停宿主。
+
+## 导入与打开
+
+1. 冻结源 SHA 和候选 hash，先做副本静态检查。已有正确副本则不重建。不要重复导入场景资产。
+2. 优先 `playtest_start`，明确 `clientScriptLog: true`；轮询 `playtest_status`，观察实际步骤和截图。不要把 duration 加载等待当成已在玩。
+3. 流程报“文件选择框没出现”后，先列窗口。若实际已有“导入存档”对话框，直接接管它；不要再点击主窗口。文件名使用 `Alt+N` 定位，输入候选绝对路径，等截图显示完整路径后再 Enter。PrintWindow 紧随输入的第一帧可能只显示部分文字，应复拍确认。
+4. 存档列表中核对新候选文件名/时间，再点它的“编辑”。等编辑器工具和画面就绪，不能看到加载画面就调不带 mapPath 的试玩。文件名相同或用户切换过时，读回新官方存档确认模块及外部 Lua；不凭“上次打开”推断源码。
+5. 截图返回 WINDOW_NOT_FOREGROUND 或输入后刷新失败时，输入可能已经成功并打开了子弹窗。先列窗口/重新截图，禁止盲目重发。屏幕快照比 PrintWindow 更适合确认 GPU 画面；不用白图或旧帧决定下一次点击。
+
+## 日志与验收
+
+- 每次新导入都确认客户端脚本订阅，工具自动负责，不能把反复手动勾选交给用户。正常 ready 为 `ABYSS_UI ready`，不能填错成 `ABYSS_READY`。
+- 用户已经手动进入试玩时，先识别当前状态；自动 runner 的“开编辑器菜单→试玩”不能直接用于正在试玩的画面。可完成当前观察，再真实退出到编辑器后订阅并重开；也可使用已经在本轮订阅后启动的新局，但须关联本轮 ready 和日志，不冒用上一局。
+- 加载超过一次正常等待范围时复拍并报具体步骤。连续同一失败不重复整套导入；依据现有窗口改走可观察的手动恢复。每分钟告知用户正在加载、正在操作或正在收日志，避免长时间无反馈。
+- 主动退出要看到官方结算，再点“离开”，确认实际返回编辑器；日志可能在真正离开后延迟落盘。保留新文件的时间、hash、ready 和脚本错误检查。到时中断不等于正常退出。
+- 编译、副本、官方读回、物理操作和命令驱动分别记。官方序列化可能省略 protobuf 默认字段；严格图载荷审计失败保留原结果，另列差异，不能默默放宽审计。
+- 只保存已观察事实。例如 20 点药水击杀 12 血敌人证明消耗与致死路径，不单独证明精确 20 点未截断伤害。无本轮日志/ready 不判完整冒烟通过。

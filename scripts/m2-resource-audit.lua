@@ -83,8 +83,10 @@ local function runSeed(seed)
         transaction('card_reward',function() return Run.claimCardReward(run,best) end)
         reject('duplicate_card_reward',function() return Run.claimCardReward(run,best) end)
         if run.phase=='reward' and run.rewards.manualContinue then
-            transaction('stolen_gold_reward',function() return Run.claimStolenGoldReward(run) end)
-            reject('duplicate_stolen_gold_reward',function() return Run.claimStolenGoldReward(run) end)
+            if run.rewards.stolenGold then
+                transaction('stolen_gold_reward',function() return Run.claimStolenGoldReward(run) end)
+                reject('duplicate_stolen_gold_reward',function() return Run.claimStolenGoldReward(run) end)
+            end
             transaction('leave_combat_rewards',function() return Run.leaveCombatRewards(run) end)
             reject('duplicate_leave_combat_rewards',function() return Run.leaveCombatRewards(run) end)
         end
