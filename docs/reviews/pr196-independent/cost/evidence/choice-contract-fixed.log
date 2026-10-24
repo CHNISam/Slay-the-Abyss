@@ -1,0 +1,93 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC armaments stale_card_choice
+ATOMIC armaments invalid_card_choice
+ATOMIC armaments stale_card_choice
+ATOMIC armaments stale_card_choice
+ATOMIC armaments invalid_card_choice
+ATOMIC armaments stale_card_choice
+ATOMIC armaments invalid_card_choice
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+PASS_UI armaments options=2 selected=102 energy=9
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=9
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC true_grit+ stale_card_choice
+ATOMIC true_grit+ invalid_card_choice
+ATOMIC true_grit+ stale_card_choice
+ATOMIC true_grit+ stale_card_choice
+ATOMIC true_grit+ invalid_card_choice
+ATOMIC true_grit+ stale_card_choice
+ATOMIC true_grit+ invalid_card_choice
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+PASS_UI true_grit+ options=2 selected=102 energy=9
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC burning_pact stale_card_choice
+ATOMIC burning_pact invalid_card_choice
+ATOMIC burning_pact stale_card_choice
+ATOMIC burning_pact stale_card_choice
+ATOMIC burning_pact invalid_card_choice
+ATOMIC burning_pact stale_card_choice
+ATOMIC burning_pact invalid_card_choice
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+PASS_UI burning_pact options=2 selected=102 energy=9
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=9
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC headbutt stale_card_choice
+ATOMIC headbutt invalid_card_choice
+ATOMIC headbutt stale_card_choice
+ATOMIC headbutt stale_card_choice
+ATOMIC headbutt invalid_card_choice
+ATOMIC headbutt stale_card_choice
+ATOMIC headbutt invalid_card_choice
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+ABYSS_FEEDBACK block source=red_louse_1 target=red_louse_1 amount=4
+ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=-4
+PASS_UI headbutt options=2 selected=102 energy=9
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC warcry stale_card_choice
+ATOMIC warcry invalid_card_choice
+ATOMIC warcry stale_card_choice
+ATOMIC warcry stale_card_choice
+ATOMIC warcry invalid_card_choice
+ATOMIC warcry stale_card_choice
+ATOMIC warcry invalid_card_choice
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+PASS_UI warcry options=2 selected=102 energy=10
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC dual_wield stale_card_choice
+ATOMIC dual_wield invalid_card_choice
+ATOMIC dual_wield stale_card_choice
+ATOMIC dual_wield stale_card_choice
+ATOMIC dual_wield invalid_card_choice
+ATOMIC dual_wield stale_card_choice
+ATOMIC dual_wield invalid_card_choice
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+PASS_UI dual_wield options=2 selected=102 energy=9
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ATOMIC exhume stale_card_choice
+ATOMIC exhume invalid_card_choice
+ATOMIC exhume stale_card_choice
+ATOMIC exhume stale_card_choice
+ATOMIC exhume invalid_card_choice
+ATOMIC exhume stale_card_choice
+ATOMIC exhume invalid_card_choice
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+PASS_UI exhume options=2 selected=102 energy=9

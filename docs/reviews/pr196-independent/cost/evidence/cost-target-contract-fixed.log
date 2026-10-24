@@ -1,0 +1,14 @@
+PASS_TARGET strike 8 malformed targets rejected atomically; valid target accepted
+PASS_TARGET feed 8 malformed targets rejected atomically; valid target accepted
+PASS_TARGET fiend_fire 8 malformed targets rejected atomically; valid target accepted
+PASS_TARGET spot_weakness 8 malformed targets rejected atomically; valid target accepted
+PASS_TARGET disarm 8 malformed targets rejected atomically; valid target accepted
+PASS_TARGET body_slam 8 malformed targets rejected atomically; valid target accepted
+PASS_X upgraded=false energy=0 damage=0
+PASS_X upgraded=false energy=2 damage=14
+PASS_X upgraded=true energy=0 damage=0
+PASS_X upgraded=true energy=2 damage=20
+PASS_TEMP Body Slam zero turn cost + upgrade stays zero next turn
+PASS_TEMP Existing Blood for Blood damage reduction + temporary zero + upgrade resets to two
+PASS_ENERGY Insufficient energy preserves full combat state
+Contract total: 54 malformed target/UID rejections, 4 X-cost cases, 2 temporary-cost upgrade cases, 1 energy rejection.

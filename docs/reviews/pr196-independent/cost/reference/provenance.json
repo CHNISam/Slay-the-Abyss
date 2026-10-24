@@ -1,0 +1,38 @@
+{
+  "sourceCommit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+  "evidenceClass": "Pinned third-party decompiled mirror; not authenticated PC binary",
+  "originalGameObserved": false,
+  "files": [
+    {
+      "path": "actions/unique/WhirlwindAction.java",
+      "sha256": "349e2d1a75c7ab3437078a06a4910cc87df75d3175a01866c08ae4f8b7a4a9fb",
+      "gitBlob": "fa1f7152b3f98d06ca76f5fa087784b6e8353430",
+      "matchesRepositorySourceManifest": false
+    },
+    {
+      "path": "cards/AbstractCard.java",
+      "sha256": "f11601db66e8df3699481076763b858672ce83d4a6eea6c1abf0715f254b5c5c",
+      "gitBlob": "28010e74c3a9c7c97ca6cd3fd0654a451735172b",
+      "matchesRepositorySourceManifest": false
+    },
+    {
+      "path": "cards/red/BloodForBlood.java",
+      "sha256": "00bce85e14d4ac122726ea09e3bb02ebec4af23314626b7b669d093b65390b01",
+      "gitBlob": "258da481d1aca68052cb9610cc23173478f8ae91",
+      "matchesRepositorySourceManifest": true
+    },
+    {
+      "path": "cards/red/InfernalBlade.java",
+      "sha256": "44e39d9db205754e92f4343d52463a671080dac066e065f5ad9c21210fda9a45",
+      "gitBlob": "446d68ee4633cb16f2e5ad463711733f2c703bc2",
+      "matchesRepositorySourceManifest": true
+    },
+    {
+      "path": "powers/CorruptionPower.java",
+      "sha256": "853fb0355a3c13c74c0d028c1e7e78cfe88ef9be2af463d411f4dc4a5c1ccf49",
+      "gitBlob": "3ee36d89fb9a03f588d1e5bb421321c3d6a617bd",
+      "matchesRepositorySourceManifest": true
+    }
+  ],
+  "abstractCard": "Downloaded exact fc379c8 source matched copied local bytes in six bounded chunks; sources.json originally had 403 instead of a hash."
+}

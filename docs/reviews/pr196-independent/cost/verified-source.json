@@ -1,0 +1,380 @@
+{
+  "head": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+  "files": [
+    {
+      "path": "data/cards.json",
+      "gitBlob": "feef9467019f509c007c69f162fb85107f50c269",
+      "sha256": "3a8214cc290b55a35fa90183c7b113a1cb2eeb6317414b23ea7a85572732a870"
+    },
+    {
+      "path": "data/enemies.json",
+      "gitBlob": "1d76ac8504ff4172631cb08aae81c511d8fcc589",
+      "sha256": "834621089dcee17cc09c98804daa0c76217e4a1efe8bbb71ab6500fddfa51330"
+    },
+    {
+      "path": "data/potions.json",
+      "gitBlob": "aa01b331a21eef569a52ae96d67339bfaba272f5",
+      "sha256": "5cc20f852d69a5066e9e5f1a8a54383208038c0e7e7f9c0753162873a52c96c4"
+    },
+    {
+      "path": "data/presentation/narrative.zh-CN.json",
+      "gitBlob": "5a18d4f600cd2f275f0ad7f596e4d6ada93910e7",
+      "sha256": "7d55e58f4532fe41785e305b48d2ee36b97c3928853bac1d79568af4154e2919"
+    },
+    {
+      "path": "data/presentation/native_bgm.json",
+      "gitBlob": "628602ec3a5e53ce158717a3380f1e35b5af5bbe",
+      "sha256": "4c132bc542646b668011e8217c1af1fc5d145dd8db2003be939a25473d0d9764"
+    },
+    {
+      "path": "data/presentation/traveler.zh-CN.json",
+      "gitBlob": "5d2bf5870ba739123cdfe489760934556e97a0d8",
+      "sha256": "34b85fde9884f8a0d241e7716a06209888daf9d752f55a4461a9950b72bd61fe"
+    },
+    {
+      "path": "data/presentation/ui_theme.json",
+      "gitBlob": "8bd368074d35f7409164ffe50c88c58356f1f30c",
+      "sha256": "f0dfd26e2ec7022ae720bf0adf5ed6984f3d45db70d358cfbc106688297b22a7"
+    },
+    {
+      "path": "data/relics.json",
+      "gitBlob": "9f6d28fe2be7b3c902c87431f4e280c88f2cf724",
+      "sha256": "0a5f78a86f4df663289f3595a0bf3d149d3869c42fc105c99d18114298d96ae8"
+    },
+    {
+      "path": "data/rules.json",
+      "gitBlob": "046a3e0fe51e73f9d10efa9204cba77b5381e327",
+      "sha256": "caf17a7c7f5bcd53811da1895ec42bb6df790982b3ede42351317f4997872f32"
+    },
+    {
+      "path": "data/statuses.json",
+      "gitBlob": "da48d3875ba6d23b5b2b0318eaa881dd0cdbee69",
+      "sha256": "90a98ad8ae92dce93c5704ffd88d4737fc1b910b34bd3574fe805e28d0c44c1f"
+    },
+    {
+      "path": "scripts/build-lua-data.mjs",
+      "gitBlob": "50366a8235fbac844b452ef6e7174c8f59790e28",
+      "sha256": "c93b9f10f3542484d9473b599e9611e6ffdbd771181b8b7884b0171c9e938950"
+    },
+    {
+      "path": "scripts/build-ui-theme.mjs",
+      "gitBlob": "adce092e3f7783bff998c98288906152bb8ce1ef",
+      "sha256": "cc8db4ca412fdc746bb298440bc577639979970d3481e2d27cd82480f5f0a018"
+    },
+    {
+      "path": "scripts/build-ui.mjs",
+      "gitBlob": "9b8b7bcd244317cfb95fe1891a7747bf70dd9ab2",
+      "sha256": "cf84efa18a99c7d0bd4c16ca643515ab641635d1836ac63cf7173350b6af49ab"
+    },
+    {
+      "path": "scripts/cinematic-ui-layout.mjs",
+      "gitBlob": "83dc97b6275f3975e8df51138174257c238cbf64",
+      "sha256": "6d92368fca0165c8643841e5c4352881473c8478cceced295a841663da1a0e7e"
+    },
+    {
+      "path": "scripts/deck-ui-layout.mjs",
+      "gitBlob": "c976c976592d5897f1cb0f521bb8098e1667e9f0",
+      "sha256": "2e1ed70cd567c5d6c13e45cbb001559b32a6876a461ff847dd3a01e77a977c9c"
+    },
+    {
+      "path": "scripts/exit-ui-layout.mjs",
+      "gitBlob": "073ccf565e1b45f9c2c4dceb2e98b5957d7c05dc",
+      "sha256": "86e3410c2fd78e3c49726d5af57c06971c154f295b6474f0876d6c599f586223"
+    },
+    {
+      "path": "scripts/game-ui-layout.mjs",
+      "gitBlob": "feae9fcb5bc42139146a67539ee7d4e4e9c3d719",
+      "sha256": "22140195fbb8979289a0d7309c711f97c6feee639c6384ede9ad070e5c1148e3"
+    },
+    {
+      "path": "scripts/map-ui-layout.mjs",
+      "gitBlob": "f1fcfea50262671175bf14c221e3c4c02fad0298",
+      "sha256": "82601111145b7d2dbdbe8e78df16cc8ac34cdf8c0bd41f82bc56497981828d90"
+    },
+    {
+      "path": "scripts/native-ui-theme.mjs",
+      "gitBlob": "3163c029c17972510972430e41ad2899f22063bb",
+      "sha256": "e806da0d515677ba6ba6965052e65b117e8141588727a91921ed7ce10de85ea8"
+    },
+    {
+      "path": "scripts/node-ui-layout.mjs",
+      "gitBlob": "9ebd724dc9dd9e9ee23096edd5b4d01bf4931eaf",
+      "sha256": "526c9d53d750dc8766396e61f99a0ed21c97d96a72cd6440478a93983aa5b0c8"
+    },
+    {
+      "path": "scripts/potion-discard-layout.mjs",
+      "gitBlob": "578dec50578167073da8fb5c0ecc8b308e3f869e",
+      "sha256": "f77b4ddae505bf3df7869be85f94a122fb88c932dd5e23443dc942fab4a238c5"
+    },
+    {
+      "path": "scripts/ui-layout.mjs",
+      "gitBlob": "281af7dc72cc58a56155d77ddbb87b46d4221cf3",
+      "sha256": "768ec102501569f78d1000f7f4009bbc3c9be4d6c52af0f420a14fbf4af335a0"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "gitBlob": "6a666ca0a896f35bd02cbc6e5c71aa03ae8ed68a",
+      "sha256": "c214de92de89aa4d38ba10e43287f6dbdda8fca97b9811853f3e30974216ccca"
+    },
+    {
+      "path": "scripts/viewport-layout.mjs",
+      "gitBlob": "ad8911354f967e79f16b0781f0ae10e6c2db5478",
+      "sha256": "5803bd1c8ef5f9dd342ac86bf7b147c9f16b007899cf696ae84ee4fc21073448"
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_m_ai.lua",
+      "gitBlob": "07b034743dbf644f7d9e5df23b0d777da0aade74",
+      "sha256": "6232ee3fffc533109cbbe42e3a22f6753810044b4b1d2a8968bef6ec7b5fcb08"
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_s_ai.lua",
+      "gitBlob": "69b0f8a9361a1b539f6aa7df87e35335662cd57b",
+      "sha256": "ce2c02720a20d538bf20234b9a3550302d58974b82bf44a6dc33633b0562fcbe"
+    },
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "gitBlob": "8fe006cf545c833532adf58eb4921837ef9757c2",
+      "sha256": "428bdbe38864f789cf4875fd3e74af4dad3f6fa3b511219b56f9f9f17687dc97"
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "gitBlob": "053e4d2b22f1298a395aca3923a1a1fe79139b37",
+      "sha256": "8afc80eddd9fdca13c1ca0afd75fde522d25a4edc05c92cf5994d511e8084921"
+    },
+    {
+      "path": "src/lua/abyss_bgm.lua",
+      "gitBlob": "c18e9e1cbcaa7de65ca408848f5077ba7e7c74be",
+      "sha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+    },
+    {
+      "path": "src/lua/abyss_blue_slaver_ai.lua",
+      "gitBlob": "fcdadec44bb2094b09dc800f73aa3d7a5acb39a7",
+      "sha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+    },
+    {
+      "path": "src/lua/abyss_card_actions.lua",
+      "gitBlob": "a73d264d6c2e540d9fc2c9c5809e373b89c8c4cb",
+      "sha256": "1186b4c4c32f51f8ef3ed4ef1b9e4799498da0c47a212d49d4e5cef87d107f33"
+    },
+    {
+      "path": "src/lua/abyss_card_display.lua",
+      "gitBlob": "eb9b1eddb4785e15464877364792f6b0fe51da8e",
+      "sha256": "ba97acaf3997cc196ff03ee67a615a7dcc471c1b8c9b5fdd596342bd0fa14f01"
+    },
+    {
+      "path": "src/lua/abyss_card_pool.lua",
+      "gitBlob": "cebd3a8501cb81b2afb58775bc7a3285aeb6db03",
+      "sha256": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d"
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "gitBlob": "981342e26f455f0d20aa1780a2b9bcddfc064865",
+      "sha256": "d926c69694cf307b98cb29ae472dea26fdfe0df90b5fc4e56baa0eebc60e11ab"
+    },
+    {
+      "path": "src/lua/abyss_deck_ui.lua",
+      "gitBlob": "494226e1cc25da68393729ba0c3f728b20d7c0d5",
+      "sha256": "0527af7f5187353f8b84a46416fd2f24cf7da43964760a929ca197f31f57c048"
+    },
+    {
+      "path": "src/lua/abyss_effects.lua",
+      "gitBlob": "f3832d69fea49e0cf90e856c0ab0f0934f26bd01",
+      "sha256": "0a69877377291de70466eb83049879bdcd4466d1e8429a5ccc4193f25dc635c7"
+    },
+    {
+      "path": "src/lua/abyss_enemy_ai.lua",
+      "gitBlob": "184f1ab606727119947a9b5e1afb804c64e15f91",
+      "sha256": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f"
+    },
+    {
+      "path": "src/lua/abyss_event_pool.lua",
+      "gitBlob": "3ff688fc63e297d0e6baad7b210a150e133db43b",
+      "sha256": "beefb0883371b13d998eb48f71f8ded3ee803175a1979a7f6a071f0772d8bc2f"
+    },
+    {
+      "path": "src/lua/abyss_events.lua",
+      "gitBlob": "10d1bb68b801b22d0cc38b4f88ecba114ee8e61b",
+      "sha256": "a20b685fb142503d8bba488af02c2d202ce2e33be0aa9b7faf67511cc82cc251"
+    },
+    {
+      "path": "src/lua/abyss_external_random.lua",
+      "gitBlob": "72b488f58eb211eedaef13a1b558861502605c33",
+      "sha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+    },
+    {
+      "path": "src/lua/abyss_feedback.lua",
+      "gitBlob": "f299878ab7b2170ec7365872198012bd76aa22ac",
+      "sha256": "730246e8c501ce054eea594c85401b2d4bf50b4b519c64642feddf252cae4400"
+    },
+    {
+      "path": "src/lua/abyss_fungi_beast_ai.lua",
+      "gitBlob": "bfec5d04c4abb65332b51f5ef84ec7677b5900a6",
+      "sha256": "1719491618f47b5870f0d3fef5d20256082393aa2b73b08f901d47c49db1a65a"
+    },
+    {
+      "path": "src/lua/abyss_game_ui.lua",
+      "gitBlob": "8cae2a6fc37a23fbc66c63b442964ff8b1b5e107",
+      "sha256": "5a07a6ed22398d5e55eb080de0777e1b5b7a01f7e78ff6fd2e901f8549f6eb45"
+    },
+    {
+      "path": "src/lua/abyss_gremlin_nob_ai.lua",
+      "gitBlob": "53873e283b941f9e25405d2f817511fb7341d2df",
+      "sha256": "218d7c84a3658885a4e5623d19e9d116c2067b349652a432d36a337cb0012396"
+    },
+    {
+      "path": "src/lua/abyss_guardian_ai.lua",
+      "gitBlob": "fca0c7c312161379a9e7d3445bcc4148391f09be",
+      "sha256": "cc88c070e54cf67c1892afc93650c5400d98ac0f476c579b06d871116218fd8b"
+    },
+    {
+      "path": "src/lua/abyss_inventory.lua",
+      "gitBlob": "8c9d696b8a96106c2d81ecf69fb876865ebe2e75",
+      "sha256": "57d58e3a754b49a574f9b34d17314ed5f0ca84af8d5de6c4118ee058c6a4ca60"
+    },
+    {
+      "path": "src/lua/abyss_jaw_worm_ai.lua",
+      "gitBlob": "97476257fe496fe556a7614c0e1b2f9de42fe439",
+      "sha256": "3fe2f2e714d087cc5d643ef1f898809c99231b5ff639fd62e570a2acf2736494"
+    },
+    {
+      "path": "src/lua/abyss_looter_ai.lua",
+      "gitBlob": "d021e8f5e1652e3047f7935fc928f44fd89f39ef",
+      "sha256": "5cda94e9d936ab6e5fd004a91ea55728a65c793dcd1837a7e1dfe7c19f791bf9"
+    },
+    {
+      "path": "src/lua/abyss_louse_ai.lua",
+      "gitBlob": "b26f0856c487091130588330af1c5bb2d3cd8747",
+      "sha256": "f7bc7058a9b709410a0f3eb921a4ab2be9d4f776174998e876f319ae19ad632c"
+    },
+    {
+      "path": "src/lua/abyss_map.lua",
+      "gitBlob": "3bed9000909feae0dc5121326e385666572fe08d",
+      "sha256": "ea3d0ad5add18ad0369d1d00685b09045122d633d2fc645f3d3a37c0612220fd"
+    },
+    {
+      "path": "src/lua/abyss_map_ui.lua",
+      "gitBlob": "0a308e1375465032816bd122c6e81a03988bd4d3",
+      "sha256": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836"
+    },
+    {
+      "path": "src/lua/abyss_merchant.lua",
+      "gitBlob": "ce35e55f3c43b9ad2180f7f61d55c8ad9dbf2df5",
+      "sha256": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9"
+    },
+    {
+      "path": "src/lua/abyss_new_run_seed.lua",
+      "gitBlob": "efae54fdb70149e3f085fe9fc5b23810e4d9fa75",
+      "sha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+    },
+    {
+      "path": "src/lua/abyss_node_ui.lua",
+      "gitBlob": "3866d72ed445934692e21c819d16e2823587e7ff",
+      "sha256": "c2832998ea21fc25f90e04be984f492f5517b2e8ac7d4e6a6a8dcc64869dd243"
+    },
+    {
+      "path": "src/lua/abyss_nodes.lua",
+      "gitBlob": "5d2cd31da0aa42fe44fb32b0890c7fafe60bfeae",
+      "sha256": "1a291833818dead89dd922c1b71aa2bb7dbda9fc6cd8e64ac28c489f2c958357"
+    },
+    {
+      "path": "src/lua/abyss_numbers.lua",
+      "gitBlob": "80763d45a36c1ea978e2f823fc40abb55041f578",
+      "sha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+    },
+    {
+      "path": "src/lua/abyss_potion_discard_ui.lua",
+      "gitBlob": "fa2c5ef2997b396efe2134e7a427e81b52daf5a7",
+      "sha256": "a5767995b144c9c57f4b2b3916ea194c183a9972146e13073c44ed64893888c0"
+    },
+    {
+      "path": "src/lua/abyss_potion_rewards.lua",
+      "gitBlob": "e73a5199b6a65269922bbb11b6b5a1710a1fddf2",
+      "sha256": "69773caa8289119f3598e5eef82c71f157b5ea7cd29e18a111bb0ec8fb171ca9"
+    },
+    {
+      "path": "src/lua/abyss_prologue.lua",
+      "gitBlob": "dc0be33be33bc6763252d33ac135aaa8a57a85e6",
+      "sha256": "d7ee727de590abd939f7c452d71a7eb6e42fb36e8b74c1705422ab981f72f39c"
+    },
+    {
+      "path": "src/lua/abyss_random.lua",
+      "gitBlob": "b423a6e7b1c185a83de6c2bdbb9cfe18112cffec",
+      "sha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+    },
+    {
+      "path": "src/lua/abyss_randomxs128.lua",
+      "gitBlob": "6d745648c4d78a71e03b0b0c490e9471c45dcb44",
+      "sha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+    },
+    {
+      "path": "src/lua/abyss_red_slaver_ai.lua",
+      "gitBlob": "fc560a07530ca7b4e819acf50d4385171afb936b",
+      "sha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "gitBlob": "971aeeef130525ebc2ed1508b8a2745b92ae9bc7",
+      "sha256": "b4863df1bcdce6b6e12061017132ebe99d829c7e8f5e9f37f8d3f593c3f33e70"
+    },
+    {
+      "path": "src/lua/abyss_sentry_ai.lua",
+      "gitBlob": "8ace599020f2c465cf261cb2287bfda9c68b919f",
+      "sha256": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651"
+    },
+    {
+      "path": "src/lua/abyss_shop.lua",
+      "gitBlob": "025e30e68e117a682c4faef82e39ab684f5d77f4",
+      "sha256": "74b39dea718107ed185e1614da3e675754ffc0f72f548299470c6c75447b0361"
+    },
+    {
+      "path": "src/lua/abyss_shop_price.lua",
+      "gitBlob": "11a57631de01eee2762a96e8228bb730dec66a96",
+      "sha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+    },
+    {
+      "path": "src/lua/abyss_spike_slime_m_ai.lua",
+      "gitBlob": "425fa064dc34cc3f56c747b602a0c718a53209f2",
+      "sha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+    },
+    {
+      "path": "src/lua/abyss_sts_random.lua",
+      "gitBlob": "00d059441a1e2263884c420c74535d5d91a6927b",
+      "sha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+    },
+    {
+      "path": "src/lua/abyss_ui.lua",
+      "gitBlob": "e982f1d55f99b03c175b657cdd36b8346c3eb345",
+      "sha256": "196158b3cce74612097ac5c696b82c813acb5b022c699e731903490a01a7331e"
+    },
+    {
+      "path": "src/lua/abyss_unknown.lua",
+      "gitBlob": "5b46b6f65134ecc444b9da8142ed7f07f412cae5",
+      "sha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+    },
+    {
+      "path": "src/lua/abyss_viewport.lua",
+      "gitBlob": "06d2aae2c9074a8f5ff96953b9923c5f512755cb",
+      "sha256": "9b425d8774508718083d64bef520aa7b655c48e7ed216a8aa2e81067cdac7a25"
+    },
+    {
+      "path": "tests/lua/support/game_ui_fixture.lua",
+      "gitBlob": "078c7a06e1758eb916efdcb231c5340ca14db8c5",
+      "sha256": "2eab51b45c218ae069e74485c76a9c5f196eebcce1a89a7f95dc4740e8cfbd77"
+    },
+    {
+      "path": "tests/lua/warrior75_choice_ui.lua",
+      "gitBlob": "71cf5184d0b1ccdcfe17f2cdf385acf8068aa6d6",
+      "sha256": "f0b0acade2bdd876fc0a0c5c85382eda24b302635e709b18c9664447967ccc51"
+    },
+    {
+      "path": "tests/lua/warrior75_edges.lua",
+      "gitBlob": "52064c47cfea8a77d5922db75d47c38b30ca7711",
+      "sha256": "6a9b320e5b91524d5a139fe3dd999d87558ba2a9b35c7ca6303aed67419b5396"
+    },
+    {
+      "path": "tools/render_traveler_cards.py",
+      "gitBlob": "cf43da3a2ead65babedc5dfa90c238999ea550f8",
+      "sha256": "b1624840402b4aec6402e185d5a35f8054493a2cc6116a13117cf973189449fa"
+    }
+  ]
+}
