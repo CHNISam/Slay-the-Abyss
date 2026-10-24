@@ -313,7 +313,7 @@ function M.potionView(run)
         local id = run.potions[slot]
         if id then
             local potion = find(run.data.potions.potions, id)
-            local needTarget = potion and Inventory.needTarget(potion.effects) or false
+            local needTarget = potion and potion.targetPolicy == "enemy_one" or false
             local candidate, reason
             if needTarget and run.combat then
                 for index, enemy in ipairs(run.combat.enemies) do
@@ -325,6 +325,7 @@ function M.potionView(run)
             end
             if not candidate and not reason then candidate, reason = potionCandidate(run, slot) end
             result[slot] = { slot = slot, id = id, name = potion and potion.name or id,
+                targetPolicy = potion and potion.targetPolicy,
                 effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
                 canUse = candidate ~= nil, reason = reason }
         end

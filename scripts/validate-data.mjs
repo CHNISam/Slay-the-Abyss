@@ -513,6 +513,13 @@ export function validateContent(bundle) {
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
+    if (kind === 'potions') {
+      enumeration(entry.targetPolicy, ['self', 'enemy_one', 'enemy_all', 'random_enemy'], `${p}.targetPolicy`);
+      // Current effects operate on self or one enemy. Future group/random effects
+      // need their own runtime implementation before entering the playable data.
+      const single = Array.isArray(entry.effects) && entry.effects.some(effect => effect && ['damage', 'applyStatus'].includes(effect.op));
+      if (entry.targetPolicy !== (single ? 'enemy_one' : 'self')) fail(`${p}.targetPolicy`, 'must match implemented effect targets');
+    }
     enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'boss', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
     if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end', 'shop'], `${p}.trigger`);
     if (entry.replaces !== undefined) reference(entry.replaces, 'relics', `${p}.replaces`);

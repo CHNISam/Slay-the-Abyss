@@ -12,7 +12,7 @@ test("stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with
     assert(Combat.endTurn(copy))
     eq(copy.player.statuses.weak, 2147483646); eq(copy.player.statuses.artifact, 0)
     local compact, detail = refresh(h, p, tap)
-    eq(compact, "4"); assert(detail:find("使你获得 1 层虚弱", 1, true))
+    eq(compact, "4"); assert(detail:find("使你获得 1 回合虚弱", 1, true))
     assert(u:showStatus(0))
     eq(p:GetChild("statusInfo"):GetChild("name2").text, "虚弱 2147483647")
     local recoveries = counters.recoveries

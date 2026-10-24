@@ -167,4 +167,14 @@ for i=6,10 do s.hand[i]=Combat.copy(s.hand[i-5]); s.hand[i].uid='value_fixture_'
 Combat.addStatus(s.player,'strength',-1) Combat.addStatus(s.player,'dexterity',2)
 ui:render() capture('value-ten',stage)
 ui.selected=s.hand[1].uid ui:render() capture('value-ten-selected',stage)
+
+-- This potion is an isolated Silent-only fixture, never an Ironclad acquisition.
+ui, stage = setup({"cultist", "jaw_worm"})
+ui.run.potions = {"fire_potion", "poison_potion", "energy_potion"}
+ui:render()
+capture("potion-idle", stage)
+click(stage:GetChild("potion1"))
+capture("potion-aim", stage)
+click(stage:GetChild("potionHelp"):GetChild("potionHelp2"))
+capture("potion-help", stage)
 print(encode(scenes))
