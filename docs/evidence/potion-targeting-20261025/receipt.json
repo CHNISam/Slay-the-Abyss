@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "package": {
+    "name": "STA2_Potion_Targeting_Status_Research_20261025.zip",
+    "sha256": "ff915609e5f8bb6eac067bc0af4d2a136957eece85c2b04dde9de6bdcf503928"
+  },
+  "task": "TASK-14.1.1",
+  "initialBaseline": "695d94d",
+  "integratedBaseline": "35fc11143e70b7fc6da0dce376ce8fd15d0160ba",
+  "sourceCommit": "951c2bb47bda3ce62d66272447bb4eb81ecdd624",
+  "baselineRegression": {
+    "command": "node scripts/test-lua.mjs tests/lua/potion_targeting.lua",
+    "passed": 1,
+    "failed": 11,
+    "exitCode": 1,
+    "log": "baseline-red.log"
+  },
+  "targetingRegression": {
+    "passed": 12,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "targeting-final-green.log"
+  },
+  "statusRegression": {
+    "passed": 10,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "status-final-green.log"
+  },
+  "fullCheck": {
+    "command": "npm run check",
+    "status": "PASS",
+    "exitCode": 0,
+    "log": "full-check.log",
+    "javascript": {
+      "total": 1226,
+      "passed": 1108,
+      "failed": 0,
+      "skipped": 118
+    },
+    "lua": {
+      "files": 180,
+      "allPassed": true
+    },
+    "python": {
+      "total": 22,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Windows account lacks symlink privilege; hardlink alias tested separately"
+    }
+  },
+  "offlinePreview": {
+    "scenes": 13,
+    "clippedText": 0,
+    "nativeGameEvidence": false,
+    "log": "preview.log"
+  },
+  "candidate": {
+    "path": "F:\\New folder\\.artifacts\\potion-targeting-candidate-final\\wmvmor9te-0\\working.gil",
+    "sha256": "7d978a106508b364e9406c9d27baa20c0a04d56aec86e1da2245cf6a11b75ea2",
+    "buildExitCode": 0,
+    "modules": 48,
+    "staticErrors": 0,
+    "staticWarnings": 32,
+    "readback": "PASS",
+    "liveWriteEnabled": false,
+    "readbackExitCode": 0,
+    "readbackReport": "candidate-readback.json"
+  },
+  "officialImport": "NOT_TESTED",
+  "playtest": "NOT_TESTED",
+  "physicalPhone": "NOT_TESTED",
+  "uiAcceptanceGate": "NOT_RUN_NO_CURRENT_NATIVE_SCREENSHOTS",
+  "commercialModelDelegation": "NOT_USED_QUOTA_PATH_PAUSED",
+  "codexQuotaSavings": "UNKNOWN",
+  "recordedAtUtc": "2026-10-24T18:12:07.4830260Z"
+}

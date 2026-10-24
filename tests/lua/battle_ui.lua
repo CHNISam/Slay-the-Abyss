@@ -426,16 +426,16 @@ test("potion slots stay fixed after consumption and repeated queued clicks canno
     assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
     local battle = ui.run.combat
     local hp, energy = battle.enemies[1].hp, battle.energy
-    assert(stage.children.potion1.children.normal.children.label.text == "火焰药水\n固定伤害 20")
+    assert(stage.children.potion1.children.normal.children.label.text == "火焰药水\n单敌·固定20")
     local queued = stage.children.potion1.click
-    click("potion1") queued()
+    click("potion1") click("enemy1") queued()
     assert(ui.run.combat == battle and battle.enemies[1].hp == hp - 20)
     assert(Run.potionCount(ui.run) == 2 and battle.energy == energy)
     assert(stage.children.potion1.children.normal.children.label.text == "空药水槽")
     assert(not stage.children.potion1.interactable)
     click("potion2")
     assert(battle.energy == energy + 2 and Run.potionCount(ui.run) == 1)
-    click("potion3")
+    click("potion3") click("enemy1")
     assert(battle.enemies[1].hp == hp - 40 and #ui.run.potions == 0)
 end)
 
@@ -462,7 +462,7 @@ test("potion victory commits rewards and relic healing then hides combat potion 
     ui.run = Run.new(Data, 1) ui.run.potions = {"fire_potion"}
     assert(Run.startCombat(ui.run, "cultist_solo"))
     ui.run.combat.enemies[1].hp, ui.run.combat.player.hp = 20, 30
-    ui:render() click("potion1")
+    ui:render() click("potion1") click("enemy1")
     assert(ui.run.phase == "reward" and ui.run.hp == 36 and #ui.run.potions == 0)
     assert(stage.children.player.text == "36/80" and stage.children.cardReward.visible)
     assert(not stage.children.potion1.visible and not stage.children.endTurn.visible)
@@ -489,7 +489,7 @@ test("embedded battle uses host controls and scaling and reports each successful
     click("potion1") assert(changes == 2)
     click("endTurn") assert(changes == 3)
     ui.run.combat.enemies[1].hp = 1
-    click("potion2") assert(changes == 4 and ui.run.phase == "reward")
+    click("potion2") assert(changes == 3) click("enemy1") assert(changes == 4 and ui.run.phase == "reward")
     assert(root.children.cardReward.visible and root.children.continue.visible and not root.children.skip.visible)
     click('cardReward');click('skip');assert(changes==4 and ui.run.phase=='reward')
     click("continue") assert(changes == 5 and ui.run.phase == "map")
@@ -569,12 +569,12 @@ test("targeted potion shows its effect and current enemy selection before damagi
         local colour, gold = stage.children["enemy" .. index].children.border.imageColor, Theme.color.goldBright
         return colour.r == gold.r and colour.g == gold.g and colour.b == gold.b
     end
-    assert(not ui.selected and marked(1) and not marked(2))
+    assert(not ui.selected and not marked(1) and not marked(2))
     for _, state in ipairs({"normal", "hover", "pressed", "disabled"}) do
-        assert(stage.children.potion1.children[state].children.label.text == "火焰药水\n固定伤害 20")
+        assert(stage.children.potion1.children[state].children.label.text == "火焰药水\n单敌·固定20")
     end
     click("enemy2")
-    assert(ui.target == 2 and marked(2) and not marked(1))
+    assert(ui.target == 2 and not marked(2) and not marked(1))
     assert(stage.children.notice.text:find("药水目标：" .. battle.enemies[2].name, 1, true))
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2)
     assert(battle.energy == energy and #battle.hand == hand and #battle.events == events)
@@ -585,10 +585,13 @@ test("targeted potion shows its effect and current enemy selection before damagi
     local selected = ui.selected
     click("enemy1") click("enemy2")
     assert(ui.selected == selected and battle.energy == energy and #battle.hand == hand and battle.player.block == 0)
-    assert(marked(2) and not marked(1))
+    assert(not marked(2) and not marked(1))
     click("potion1")
+    assert(ui.potionAim and ui.selected == nil and marked(1) and marked(2))
+    assert(battle.enemies[2].hp == hp2)
+    click("enemy2")
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2 - 20 and #ui.run.potions == 0)
-    assert(not marked(1) and not marked(2) and ui.selected == selected)
+    assert(not marked(1) and not marked(2) and ui.selected == nil)
 end)
 test("a targeted bottle in slot three remains selectable when both earlier slots are empty", function()
     local ui, stage, click = setup()
@@ -601,6 +604,8 @@ test("a targeted bottle in slot three remains selectable when both earlier slots
     local hp1, hp2 = ui.run.combat.enemies[1].hp, ui.run.combat.enemies[2].hp
     click("enemy2") assert(ui.target == 2)
     click("potion3")
+    assert(ui.run.combat.enemies[2].hp == hp2)
+    click("enemy2")
     assert(ui.run.combat.enemies[1].hp == hp1 and ui.run.combat.enemies[2].hp == hp2 - 20)
     assert(Run.potionCount(ui.run) == 0)
 end)

@@ -30,7 +30,7 @@ test("debuff intent is an upcoming action, not an existing status or a stack cou
     local info=p:GetChild("statusInfo")
     assert(info.visible and info:GetChild("tag").text:find("下一步行动",1,true))
     assert(info:GetChild("summary").text:find("尚未执行",1,true))
-    assert(info:GetChild("text1").text:find("使你获得 1 层脆弱",1,true))
+    assert(info:GetChild("text1").text:find("使你获得 1 回合脆弱",1,true))
     -- The row names the status and stack, says how long it would last and what it would do.
     assert(info:GetChild("name1").text=="脆弱 1" and info:GetChild("tag1").text=="持续 1 回合")
     assert(info:GetChild("note1").text:find("25%",1,true))

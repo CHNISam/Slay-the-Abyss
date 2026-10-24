@@ -33,13 +33,13 @@ local function statusDetail(entry, rules, actor)
     local n, c, id, always = number(entry.amount), rules.combat, entry.id, "本场战斗"
     if id == "strength" then
         local t = entry.temporary or 0
-        return "攻击每段伤害 " .. signed(entry.amount), t ~= 0 and t == entry.amount and "本回合" or always,
-            t ~= 0 and "其中 " .. number(t) .. " 层在回合结束时移除" or nil
-    elseif id == "dexterity" then return "获得的格挡 " .. signed(entry.amount), always
-    elseif id == "vulnerable" then return "受到的攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%", "剩余 " .. n .. " 回合"
-    elseif id == "weak" then return "造成的攻击伤害 -" .. number(100 - c.weakPercent) .. "%", "剩余 " .. n .. " 回合"
-    elseif id == "frail" then return "获得的格挡 -" .. number(100 - c.frailPercent) .. "%", "剩余 " .. n .. " 回合"
-    elseif id == "poison" then return "回合开始时失去 " .. n .. " 点生命", "每回合 -1", "随后层数减 1，减到 0 消失"
+        return "普通攻击每段伤害 " .. signed(entry.amount), t ~= 0 and t == entry.amount and "本回合" or always,
+            t ~= 0 and "其中 " .. number(t) .. " 层在回合结束时移除" or "不影响火焰药水的固定伤害"
+    elseif id == "dexterity" then return "卡牌获得的格挡 " .. signed(entry.amount), always, "不影响固定格挡药水"
+    elseif id == "vulnerable" then return "受到的普通攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%", "剩余 " .. n .. " 回合", "数字表示持续回合；不放大中毒，轮末递减"
+    elseif id == "weak" then return "造成的普通攻击伤害 -" .. number(100 - c.weakPercent) .. "%", "剩余 " .. n .. " 回合", "数字表示持续回合；不减少中毒，轮末递减"
+    elseif id == "frail" then return "卡牌获得的格挡 -" .. number(100 - c.frailPercent) .. "%", "剩余 " .. n .. " 回合", "只影响卡牌格挡；不影响固定格挡药水，轮末递减"
+    elseif id == "poison" then return "自己的回合开始时失去 " .. n .. " 点生命", "每回合 -1", "无视格挡；随后剩 " .. number(math.max(0, entry.amount - 1)) .. " 层，减到 0 消失"
     elseif id == "regen" then return "回合结束时回复 " .. n .. " 点生命", "每回合 -1", "随后层数减 1，减到 0 消失"
     elseif id == "thievery" then return "每次攻击先窃取最多 " .. n .. " 金币", always, "完全格挡仍会失金；击败它可在战后取回，逃跑则不返还"
     elseif id == "thorns" then return "受到攻击时，对攻击者造成 " .. n .. " 点伤害", always
@@ -63,16 +63,19 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
-local function potionText(item, battle)
+local function potionText(item, battle, expanded)
     local effects = {}
     for _, effect in ipairs(item.effects) do
         local value = number(effect.value)
-        if effect.op == "damage" then effects[#effects + 1] = "固定伤害 " .. value
-        elseif effect.op == "block" then effects[#effects + 1] = "格挡 " .. value
-        elseif effect.op == "energy" then effects[#effects + 1] = "能量 ＋" .. value
+        if effect.op == "damage" then effects[#effects + 1] = expanded and "对选中敌人造成 " .. value .. " 点固定伤害，先抵消格挡；不受力量、虚弱或易伤修正" or "单敌·固定" .. value
+        elseif effect.op == "block" then effects[#effects + 1] = expanded and "立即使自己获得 " .. value .. " 点固定格挡；不受敏捷或脆弱修正" or "自用·格挡" .. value
+        elseif effect.op == "energy" then effects[#effects + 1] = expanded and "立即获得 " .. value .. " 点能量，仅本回合可用" or "自用·能量" .. value
         elseif effect.op == "draw" then effects[#effects + 1] = "抽牌 " .. value
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
-            effects[#effects + 1] = assert(battle.catalog.statuses[effect.status]).name .. " " .. value
+            local status = assert(battle.catalog.statuses[effect.status])
+            effects[#effects + 1] = (effect.op == "applyStatus" and (expanded and "对选中敌人施加 " or "单敌·") or (expanded and "使自己获得 " or "自用·"))
+                .. (expanded and value .. (status.stack == "duration" and " 回合" or " 层") .. status.name or status.name .. value)
+                .. (expanded and effect.status == "poison" and "；使用时不立即扣血" or "")
         end
     end
     return item.name .. "\n" .. table.concat(effects, "，")
@@ -152,7 +155,7 @@ local function intentView(state, index)
             Actors.applyPower(preview, gain and copy or player, effect.status, effect.value, copy)
             local status = assert(state.catalog.statuses[effect.status])
             local size = number(math.abs(effect.value))
-            local sentence = (gain and "自身" or "使你") .. (effect.value < 0 and "失去 " or "获得 ") .. size .. " 层" .. status.name
+            local sentence = (gain and "自身" or "使你") .. (effect.value < 0 and "失去 " or "获得 ") .. size .. (status.stack == "duration" and " 回合" or " 层") .. status.name
             result[#result + 1] = sentence
             local entry = { id = effect.status, amount = effect.value, temporary = 0, kind = status.kind,
                 description = status.description, stack = status.stack }
@@ -182,7 +185,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local self = { root = root, data = data, presentation = presentation, target = 1, seed = 1, busy = false, active = true }
     local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
-    local function child(name) return assert(stage:GetChild(name), "missing UI control " .. name) end
+    local function child(name)
+        local parent = name:match("^potionHelp%d$") and stage:GetChild("potionHelp") or stage
+        return assert(parent:GetChild(name), "missing UI control " .. name)
+    end
     local function show(name, value) child(name):SetVisible(value == true) end
     local function label(name, value) child(name).text = value end
     local function colour(value) return platform.color(value.r, value.g, value.b, value.a) end
@@ -255,6 +261,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function cancelPotionInputs()
         for _, input in ipairs(potionInputs) do input.held, input.released = nil, nil end
     end
+    local function cancelPotionAim(message)
+        if not self.potionAim then return false end
+        self.potionAim = nil
+        if message then notice(message) end
+        return true
+    end
+    local function aimReady(aim)
+        if not potionReady(aim) then return false end
+        local enemies = aim.battle.enemies
+        if #enemies ~= #aim.actors then return false end
+        for i, actor in ipairs(aim.actors) do
+            if enemies[i] ~= actor or Actors.isActive(actor) ~= aim.living[i] then return false end
+        end
+        return true
+    end
     -- Action buttons have their own pointer capability: some hosts deliver
     -- card/potion pointers but only Click for these preset buttons.
     local actionInputs, actionPointerObserved, fieldPointerObserved = {}, false, false
@@ -266,6 +287,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if g.name == "start" then return not options.embedded and (not run or run.phase == "defeat") end
         if not run then return false end
         if g.name == "playArea" then
+            if g.aim then return self.potionAim == g.aim and aimReady(g.aim) end
             local instance = g.battle and g.battle.hand[g.slot or 0]
             return dragReady(g) and instance and instance.uid == g.uid and self.selected == g.uid
                 and self.selectionEpoch == g.selectionEpoch and not needsTarget(g.battle, instance)
@@ -296,6 +318,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function enemyReady(g)
         return not self.info and dragReady(g) and Actors.isActive(g.actor) and g.battle.enemies[g.slot] == g.actor
             and self.selected == g.uid and self.selectionEpoch == g.selectionEpoch
+            and self.potionAim == g.aim and (not g.aim or aimReady(g.aim))
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
@@ -362,7 +385,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local closeInfo -- defined with the detail panel below
     function self:resize(width, height)
-        local cancelled = self.gesture ~= nil
+        local cancelled = cancelPotionAim("已取消药水瞄准。") or self.gesture ~= nil
         cancelCardInputs()
         cancelPotionInputs()
         cancelActionInputs()
@@ -498,20 +521,29 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             card.subtitle = "尚未执行 · 敌方回合时发生"
             card.sections[1] = { rows = view.rows }
             return card
-        elseif info.kind == "card" then
+        elseif info.kind == "card" or info.kind == "potion" then
             local instance
             for _, held in ipairs(battle.hand) do if held.uid == info.uid then instance = held break end end
-            if not instance then return end
-            local definition, rows = Combat.cardDefinition(battle, instance), {}
+            local definition, rows
+            if info.kind == "potion" then
+                if self.run.potions ~= info.inventory or self.run.potions[info.slot] ~= info.potionId then return end
+                for _, item in ipairs(data.potions.potions) do if item.id == info.potionId then definition = item break end end
+                if not definition then return end
+                rows = {{name = definition.name, text = potionText(definition, battle, true):match("\n(.*)"),
+                    note = definition.targetPolicy == "enemy_one" and "对选中的一名敌人；先选药水，再点击敌人" or "对自己使用；短按药水生效", colour = C.goldBright}}
+            else
+                if not instance then return end
+                definition, rows = Combat.cardDefinition(battle, instance), {}
+            end
             local function keywords(effects)
                 for _, effect in ipairs(effects) do
                     local id = effect.status or effect.op == "gainTemporaryStrength" and "strength"
                     local status = id and battle.catalog.statuses[id]
                     if status then
-                        local row = statusRow({id = id, name = status.name, amount = effect.value, temporary = 0,
+                        local row = statusRow({id = id, name = status.name, amount = effect.value, temporary = effect.op == "gainTemporaryStrength" and effect.value or 0,
                             kind = status.kind, description = status.description, stack = status.stack})
                         -- A keyword is not on anyone yet: say how long it would last, not what remains.
-                        row.tag = status.stack == "duration" and "持续 " .. number(effect.value) .. " 回合" or nil
+                        if status.stack == "duration" then row.tag = "持续 " .. number(effect.value) .. " 回合" end
                         rows[#rows + 1] = row
                     end
                     if effect["then"] then keywords(effect["then"]) end
@@ -523,8 +555,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if definition.ethereal then rows[#rows + 1] = {intent = "unknown", colour = C.goldBright, name = "虚无",
                 text = "回合结束时若仍在手中，将被消耗"} end
             if #rows == 0 then return end
-            card.title, card.tag, card.hp = presentation[instance.cardId].name, "关键词", nil
-            card.subtitle = "卡牌效果说明，尚未生效"
+            card.title, card.tag, card.hp = info.kind == "potion" and definition.name or presentation[instance.cardId].name, "关键词", nil
+            card.subtitle = info.kind == "potion" and "药水说明，尚未使用 · 查看不消耗" or "卡牌效果说明，尚未生效"
             card.sections[1] = { rows = rows }
             return card
         elseif info.statusId then
@@ -729,6 +761,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not self.active or self.busy or self.gesture or not run or run.phase ~= "combat" then return false end
         local actor = index == 0 and run.combat.player or run.combat.enemies[index]
         if not Actors.isActive(actor) then return false end
+        cancelPotionAim("已取消药水瞄准。")
         if self.info and self.info.index == index and self.info.id == actor.id then closeInfo()
         else self.info = {index = index, id = actor.id, battle = run.combat} end
         self:render()
@@ -739,8 +772,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not self.active or self.busy or not run or run.phase~="combat" then return false end
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
         if not actor or actor.hp<=0 then return false end
+        cancelPotionAim("已取消药水瞄准。")
         self.info={index=spec.index,id=actor.id,battle=run.combat,kind=spec.kind,statusId=spec.statusId,
-            offset=spec.offset,uid=spec.uid,source=source,transient=transient==true}
+            offset=spec.offset,uid=spec.uid,source=source,transient=transient==true,
+            slot=spec.slot,potionId=spec.potionId,inventory=spec.inventory}
         self:render()
         return self.info~=nil
     end
@@ -763,6 +798,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
         if card.exhaust or card.ethereal or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
+    end
+    function self:potionHelpSpec(slot)
+        local run = self.run
+        if not run or run.phase ~= "combat" or not run.potions[slot] then return end
+        return {kind="potion",index=0,slot=slot,potionId=run.potions[slot],inventory=run.potions}
     end
     local function placeCard(box, count, index, selected)
         local w, h = L.card.size[1], L.card.size[2]
@@ -812,6 +852,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         -- Explicit redraws do; authoritative run/reward/item checks always apply.
         if not presentationOnly then self.rewardRender = (self.rewardRender or 0) + 1 end
         local run = self.run
+        if self.potionAim and not aimReady(self.potionAim) then cancelPotionAim("药水瞄准已失效，已取消；请重新选择药水。") end
         if self.gesture and not cardReady(self.gesture) then
             self.gesture, self.selected, self.suppressClick = nil, nil, true
         end
@@ -930,7 +971,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 if instance.uid == self.selected and not needsTarget(battle,instance) then fieldSelected = true break end
             end
         end
-        show("playArea", fieldSelected)
+        show("playArea", fieldSelected or active and self.potionAim ~= nil)
+        child("playArea"):GetChild("label").text = self.potionAim and "点击空白处取消药水瞄准" or "出牌区域 · 点击出牌"
         -- The battle HUD (energy, piles) belongs to playing cards; clear it while choosing a reward.
         for _, name in ipairs({"energyRing", "energyDisc", "energyIcon", "energy", "drawIcon", "drawBadgeRing", "drawBadge",
             "draw", "drawLabel", "discardIcon", "discardBadgeRing", "discardBadge", "discard", "discardLabel"}) do
@@ -983,7 +1025,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     local valid, hovered = dragTarget(self.gesture)
                     targetable = valid and hovered == i
                 end
-                local potionTarget = self.potionTargetAvailable and not pendingTarget and self.target == i and Actors.isActive(enemy)
+                local potionTarget = self.potionAim ~= nil and not pendingTarget and Actors.isActive(enemy)
                 unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
                 -- An intent event is the historical action's starting face.
                 -- Later frames already include its effects: do not apply them
@@ -1148,6 +1190,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local item = binding and potions[binding.slot]
             if item and item.id ~= binding.id then item = nil end
             button("potion" .. i, active and item and item.canUse, false, item and potionText(item, battle) or "空药水槽")
+            show("potionHelp" .. i, fighting)
+            button("potionHelp" .. i, active and item ~= nil, false, "说明")
         end
     end
     local function refresh(changed)
@@ -1202,6 +1246,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return ok, reason
     end
     function self:update(dt)
+        if self.potionAim and not aimReady(self.potionAim) then self:render() end
         local help=self.help
         if help then
             local current=self.run and self.run.combat
@@ -1209,6 +1254,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if not self.active or self.busy or self.run~=help.run or current~=help.battle
                 or current.turn~=help.turn or actor~=help.actor or actor.hp<=0 or self.gesture and self.gesture.moving
                 or help.card and (help.card.input.held~=help.card or not cardReady(help.card)) then
+                self.help=nil
+            elseif help.spec.kind=="potion" and (self.run.potions~=help.spec.inventory or self.run.potions[help.spec.slot]~=help.spec.potionId) then
                 self.help=nil
             elseif not help.fired then
                 help.t=help.t+dt
@@ -1246,7 +1293,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     function self:setActive(active)
         assert(type(active) == "boolean", "active must be boolean")
         self.active = active
-        if not active then self.help=nil end
+        if not active then self.help=nil;cancelPotionAim("已取消药水瞄准。") end
         root:SetVisible(active)
         self:render()
     end
@@ -1277,6 +1324,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             notice(ok and "卡牌已加入牌组。" or reasons[reason] or "当前无法领取奖励。")
             refresh(ok) return
         elseif run.phase == "combat" then
+            cancelPotionAim("已取消药水瞄准。")
             local instance = run.combat.hand[index]
             if not instance then return end
             self.selectionEpoch = (self.selectionEpoch or 0) + 1
@@ -1298,9 +1346,36 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local binding = self.potionSlots and self.potionSlots[index]
         if not binding or self.potionRun ~= self.run or self.potionBattle ~= self.run.combat
             or self.run.potions[binding.slot] ~= binding.id then return false end
-        local ok, reason = perform(function() return Run.usePotion(self.run, binding.slot, self.target) end)
+        local item = Run.potionView(self.run)[binding.slot]
+        if not item or not item.canUse then notice(reasons[item and item.reason] or "当前无法使用此药水。") return false end
+        local previous = self.potionAim
+        cancelPotionAim()
+        if previous and previous.slot == binding.slot then notice("已取消药水瞄准。") refresh() return true end
+        if item.targetPolicy == "enemy_one" then
+            self.selected = nil
+            self.selectionEpoch = (self.selectionEpoch or 0) + 1
+            cancelCardInputs()
+            local battle = self.run.combat
+            local aim = {run=self.run,battle=battle,turn=battle.turn,inventory=self.run.potions,
+                slot=binding.slot,id=binding.id,actors={},living={}}
+            for i, actor in ipairs(battle.enemies) do aim.actors[i],aim.living[i]=actor,Actors.isActive(actor) end
+            self.potionAim = aim
+            notice(item.name .. " · 对一名敌人：点击敌人使用；再点药水或空白取消；点说明查看效果。")
+            refresh()
+            return true
+        end
+        return self:commitPotion(binding.slot, nil)
+    end
+    function self:commitPotion(slot, target)
+        if not self.active or self.busy or self.gesture or self.suppressClick or not self.run or self.run.phase ~= "combat" then return false end
+        local aim = self.potionAim
+        if target and (not aim or aim.slot ~= slot or not aimReady(aim)) then
+            cancelPotionAim("药水瞄准已失效，已取消。") refresh() return false
+        end
+        cancelPotionAim()
+        local ok, reason = perform(function() return Run.usePotion(self.run, slot, target) end)
         if ok then
-            self.potionSlots[index] = nil
+            self.potionSlots[slot] = nil
         end
         notice(ok and "药水已生效。" or reasons[reason] or "当前无法使用此药水。")
         if reason ~= "presentation_unavailable" then refresh() end
@@ -1460,6 +1535,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     potionUnavailable = run and run.rewards and run.rewards.potion and run.rewards.potion.unavailable,
                     claimed = run and run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.claimed}
                 if name == "playArea" and battle then
+                    g.aim = self.potionAim
                     g.x,g.y,g.invalidPoint = point(event)
                     for i,instance in ipairs(battle.hand) do if instance.uid == self.selected then g.slot = i break end end
                 end
@@ -1494,6 +1570,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
     bind("playArea", function()
+        if cancelPotionAim("已取消药水瞄准。") then refresh() return end
         local battle = self.run and self.run.phase == "combat" and self.run.combat
         if not battle then return end
         for _,instance in ipairs(battle.hand) do
@@ -1537,6 +1614,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local slot, control, input = i, child("potion" .. i), {}
         potionInputs[i] = input
         control:AddCursorEventListener(clickEvent, function(event)
+            if input.consumed and input.consumed.touch == (event and event.touchId) then input.consumed=nil return end
             if swallowed(event) then return end
             if potionPointerObserved then
                 local released = input.released
@@ -1550,20 +1628,28 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             control:AddCursorEventListener(cursor.CursorDown, function(event)
                 potionPointerObserved = true
                 local dismissed = down(event)
-                input.held, input.released = nil, nil
+                input.held, input.released, input.consumed = nil, nil, nil
                 if dismissed or self.gesture or not self.run then return end
                 local run, binding = self.run, self.potionSlots and self.potionSlots[slot]
                 if not binding or self.potionRun ~= run or self.potionBattle ~= run.combat then return end
                 local g = {slot = binding.slot, id = binding.id, inventory = run.potions,
                     run = run, battle = run.combat, turn = run.combat and run.combat.turn,
                     touch = event and event.touchId}
-                if potionReady(g) then input.held = g end
+                if potionReady(g) then input.held = g; self:queueHelp(self:potionHelpSpec(slot),control,true,g.touch) end
             end)
             local function releasePotion(event, ended)
                 local touch, held = event and event.touchId, input.held
                 if held and held.touch == touch then
                     input.held = nil
                     input.released = not ended and potionReady(held) and held or nil
+                    if self.help and self.help.source == control then
+                        if self.help.fired then
+                            input.released = nil
+                            input.consumed = {touch=touch}
+                            if self.info then self.info.transient=false; self:render() end
+                        end
+                        self.help = nil
+                    end
                 elseif ended and input.released and input.released.touch == touch then
                     input.released = nil
                 end
@@ -1607,6 +1693,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     potionUnavailable=run.rewards and run.rewards.potion and run.rewards.potion.unavailable,
                     claimed=run.rewards and run.rewards.stolenGold and run.rewards.stolenGold.claimed}
                 input.held = g
+                cancelPotionAim("已取消药水瞄准。")
                 self:queueHelp(self:cardHelpSpec(slot),hit,true,event and event.touchId,g)
                 local x,y = point(event)
                 if not instance or not x then return end
@@ -1632,6 +1719,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local target, control, input = i, child("enemy" .. i):GetChild("hit"), {}
         enemyInputs[i] = input
         local function chooseEnemy()
+        if self.potionAim then
+            local slot = self.potionAim.slot
+            self.target = target
+            return self:commitPotion(slot, target)
+        end
         if self.active and self.run and not self.busy and self.run.phase == "combat" and self.run.combat.enemies[target] and Actors.isActive(self.run.combat.enemies[target]) then
             self.target = target
             local selected
@@ -1674,7 +1766,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local actor = battle and battle.enemies[target]
                 if not actor then return end
                 local g = {slot=target, actor=actor, run=run, battle=battle,
-                    uid=self.selected, selectionEpoch=self.selectionEpoch,
+                    uid=self.selected, selectionEpoch=self.selectionEpoch,aim=self.potionAim,
                     turn=battle.turn, touch=event and event.touchId}
                 if enemyReady(g) then input.held = g end
             end)
@@ -1683,7 +1775,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 if held and held.touch == touch then
                     input.held = nil
                     input.released = not ended and enemyReady(held) and held or nil
-                elseif ended and input.released and input.released.touch == touch then input.released = nil end
+                    if ended and cancelPotionAim("已取消药水瞄准。") then self:render() end
+                elseif ended and input.released and input.released.touch == touch then
+                    input.released = nil
+                    if cancelPotionAim("已取消药水瞄准。") then self:render() end
+                end
             end
             control:AddCursorEventListener(cursor.CursorUp, releaseEnemy)
             control:AddCursorEventListener(cursor.CursorEndDrag, function(event) releaseEnemy(event, true) end)
@@ -1731,6 +1827,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 and run.phase=="combat" and run.combat==token.battle and run.combat.turn==token.turn
                 and (token.spec.index==0 and run.combat.player or run.combat.enemies[token.spec.index])==token.actor
                 and token.actor.hp>0
+                and (token.spec.kind~="potion" or run.potions==token.spec.inventory and run.potions[token.spec.slot]==token.spec.potionId)
         end
         control:AddCursorEventListener(clickEvent,function(event)
             local touch=event and event.touchId
@@ -1791,6 +1888,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     for slot=1,10 do
         local index=slot
         bindHelp(child("card"..slot):GetChild("hit"),function() return self:cardHelpSpec(index) end,false,slot)
+    end
+    for slot=1,3 do
+        local index=slot
+        bindHelp(child("potionHelp"..slot),function() return self:potionHelpSpec(index) end,true)
+        bindHelp(child("potion"..slot),function() return self:potionHelpSpec(index) end,false)
     end
     refresh()
     return self

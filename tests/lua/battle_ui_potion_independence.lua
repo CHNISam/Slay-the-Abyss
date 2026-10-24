@@ -26,7 +26,7 @@ test('bottle label names its effect quantity and explicit full-belt replacement'
     local h,u,p=reward()
     local caption=p:GetChild('claimPotion'):GetChild('normal'):GetChild('label').text
     assert(caption:find('×1',1,true))
-    local expected={fire_potion='固定伤害 20',block_potion='格挡 12',strength_potion='力量 2',dexterity_potion='敏捷 2',energy_potion='能量 ＋2',regen_potion='再生 5'}
+    local expected={fire_potion='单敌·固定20',block_potion='自用·格挡12',strength_potion='自用·力量2',dexterity_potion='自用·敏捷2',energy_potion='自用·能量2',regen_potion='自用·再生5'}
     assert(caption:find(assert(expected[h.run.rewards.potion.id]),1,true),caption)
     for _,id in ipairs({'block_potion','energy_potion','fire_potion'}) do assert(Run.obtainPotion(h.run,id)) end
     h:refresh()
