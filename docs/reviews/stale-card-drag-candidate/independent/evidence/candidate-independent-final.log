@@ -1,0 +1,37 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS saved foreign control callback after cancellation cannot change the new card preview
+ABYSS_RUN seed=1 source=explicit
+PASS foreign Drag cannot arm a stationary card while genuine own Drag still can
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS same UID and slot survives explicit and presentation-only redraw generations
+ABYSS_RUN seed=1 source=explicit
+PASS same card type at fixed slot but changed UID invalidates Drag before mutation
+ABYSS_RUN seed=1 source=explicit
+PASS diagnostic current held token is revoked: overlay cannot move stale g
+ABYSS_RUN seed=1 source=explicit
+PASS diagnostic current held token is replaced: overlay cannot move stale g
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS owner Up and EndDrag each accept final coordinates without a last Drag
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS coordinate-less owner release cancels and resize permits a fresh same-slot retry
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS C-mode paired card and enemy DownClick remain valid; card missing Up stays rejected
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS pure Click card and field retain existing C-mode behavior
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS targeted potion still needs fresh confirmation and survives cancelled foreign card Drag
+INDEPENDENT_DRAG_REVIEW 11 passed; 0 failed

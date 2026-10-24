@@ -1,0 +1,196 @@
+{
+  "develop": "9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db",
+  "pr196Initial": "824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+  "pr196Rechecked": "df64701a6a618b0a24e7352e04f68acff4ddb984",
+  "pr197": "6457b61f9f600178ad8279839243c82f52b772cd",
+  "pr196RuntimeComparison": {
+    "repository_full_name": "CHNISam/Slay-the-Abyss",
+    "base": "824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+    "head": "df64701a6a618b0a24e7352e04f68acff4ddb984",
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "too_large": null,
+    "base_commit": {
+      "sha": "824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+      "url": "https://api.github.com/repos/CHNISam/Slay-the-Abyss/commits/824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+      "html_url": "https://github.com/CHNISam/Slay-the-Abyss/commit/824a5da106525a95e7a0e8cf5c1e8ec0b411123a"
+    },
+    "merge_base_commit": {
+      "sha": "824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+      "url": "https://api.github.com/repos/CHNISam/Slay-the-Abyss/commits/824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+      "html_url": "https://github.com/CHNISam/Slay-the-Abyss/commit/824a5da106525a95e7a0e8cf5c1e8ec0b411123a"
+    },
+    "files": [
+      {
+        "filename": "backlog/tasks/task-16 - M3-战士卡池扩展与卡牌升级.md",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 1,
+        "changes": 4,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/matrix.json",
+        "status": "modified",
+        "additions": 836,
+        "deletions": 679,
+        "changes": 1515,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/official-client-probe-505-before-play.json",
+        "status": "added",
+        "additions": 886,
+        "deletions": 0,
+        "changes": 886,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/probe-505cdb3-log.gia.gz",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/probe-505cdb3-status.json.gz",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/probe-505cdb3.json",
+        "status": "added",
+        "additions": 485,
+        "deletions": 0,
+        "changes": 485,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/screens/505cdb3-084-probe505-open-cards-1.png",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/screens/505cdb3-087-probe505-forge-1.png",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/screens/505cdb3-088-probe505-searing-preview-1.png",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/screens/505cdb3-093-probe505-playpact-1.png",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/warrior75/screens/505cdb3-094-probe505-sentinel-1.png",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0,
+        "changes": 0,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/reviews/TASK-16-warrior75-matrix.md",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 2,
+        "changes": 6,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/helpers/boss_rewards.lua",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism.lua",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2,
+        "changes": 4,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_017_032.lua",
+        "status": "added",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_033_048.lua",
+        "status": "added",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_049_064.lua",
+        "status": "added",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_065_080.lua",
+        "status": "added",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_081_096.lua",
+        "status": "added",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_097_112.lua",
+        "status": "added",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": "tests/lua/boss_reward_determinism_upper.lua",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2,
+        "changes": 4,
+        "previous_filename": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+ABYSS_RUN seed=1 source=explicit
+PASS cancelled card1 Drag cannot change card2 preview or reticle with reused touch
+ABYSS_RUN seed=1 source=explicit
+PASS foreign card Drag cannot start a stationary current gesture
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS release recomputes legitimate target and consumes only once
+ABYSS_RUN seed=1 source=explicit
+PASS coordinate-less release still cancels after stale source traffic
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS own card and drag layer keep normal target-sensitive preview isolated by UID
+ABYSS_RUN seed=1 source=explicit
+PASS hand reorder rejects stale UID before moving or rendering another card
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS old battle and turn are rejected before gesture coordinates mutate
+ABYSS_RUN seed=1 source=explicit
+PASS wrong touch cannot move current drag and cancellation permits a fresh same-card drag
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS current gesture requires its exact still-held token, not an equal-field copy
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS pure Click host remains compatible
+LUA_BATTLE_DRAG_SOURCE 10 passed; 0 failed

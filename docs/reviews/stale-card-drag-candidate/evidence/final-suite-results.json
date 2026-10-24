@@ -1,0 +1,95 @@
+[
+  {
+    "test": "battle_ui.lua",
+    "exit": 0,
+    "seconds": 0.027,
+    "finalEvidence": "suite-battle-ui-corrected-runner.log",
+    "initialRun": "Missing ABYSS_TEST_LAYOUT; also reproduced on exact base; retained both failures."
+  },
+  {
+    "test": "battle_ui_action_compatibility.lua",
+    "exit": 0,
+    "seconds": 0.268
+  },
+  {
+    "test": "battle_ui_action_gestures.lua",
+    "exit": 0,
+    "seconds": 0.278
+  },
+  {
+    "test": "battle_ui_action_ownership.lua",
+    "exit": 0,
+    "seconds": 0.283
+  },
+  {
+    "test": "battle_ui_action_standalone.lua",
+    "exit": 0,
+    "seconds": 0.112
+  },
+  {
+    "test": "battle_ui_card_play.lua",
+    "exit": 0,
+    "seconds": 0.712
+  },
+  {
+    "test": "battle_ui_click_ownership.lua",
+    "exit": 0,
+    "seconds": 0.374
+  },
+  {
+    "test": "battle_ui_drag_source.lua",
+    "exit": 0,
+    "seconds": 0.301,
+    "finalEvidence": "green-final.log"
+  },
+  {
+    "test": "battle_ui_gestures.lua",
+    "exit": 0,
+    "seconds": 0.372
+  },
+  {
+    "test": "battle_ui_potion_compatibility.lua",
+    "exit": 0,
+    "seconds": 0.379
+  },
+  {
+    "test": "battle_ui_potion_gestures.lua",
+    "exit": 0,
+    "seconds": 0.313
+  },
+  {
+    "test": "battle_ui_potion_independence.lua",
+    "exit": 0,
+    "seconds": 0.134
+  },
+  {
+    "test": "battle_ui_potion_ownership.lua",
+    "exit": 0,
+    "seconds": 0.389
+  },
+  {
+    "test": "battle_ui_potion_rewards.lua",
+    "exit": 0,
+    "seconds": 0.124
+  },
+  {
+    "test": "drag_input_boundaries.lua",
+    "exit": 0,
+    "seconds": 0.258
+  },
+  {
+    "test": "card_preview.lua",
+    "exit": 0,
+    "seconds": 0.338
+  },
+  {
+    "test": "growing_card_text.lua",
+    "exit": 0,
+    "seconds": 0.504
+  },
+  {
+    "test": "card_help_release.lua",
+    "exit": 0,
+    "seconds": 0.823
+  }
+]
