@@ -2302,6 +2302,24 @@
         "TASK-12.5",
         "TASK-47"
       ]
+    },
+    "laterRewardIntegration": {
+      "sourceCommit": "e3310bcf91d456b08ed7c231340b20a133083134",
+      "pr": 169,
+      "task": "TASK-50",
+      "status": "In Progress",
+      "assignees": [
+        "@Codex"
+      ],
+      "milestone": "m-5",
+      "runtimeMerged": true,
+      "officialImport": "NOT_TESTED",
+      "playtest": "NOT_TESTED",
+      "handoffTasks": [
+        "TASK-50",
+        "TASK-4",
+        "TASK-5"
+      ]
     }
   },
   "inFlightWorktreeTasks": [

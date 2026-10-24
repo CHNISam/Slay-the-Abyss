@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 07:42'
-updated_date: '2026-10-24 07:50'
+updated_date: '2026-10-24 08:30'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -16,6 +16,7 @@ references:
   - docs/evidence/reward-pick-ui/reward-pick-hover.png
   - docs/design/PLATFORM_PARITY.md
   - docs/DELIVERY-CLOSEOUT.md
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/169'
 priority: high
 type: enhancement
 ordinal: 84000
@@ -34,6 +35,12 @@ ordinal: 84000
 - [ ] #3 实机截图或录屏确认长说明卡牌完整可读（电脑鼠标和手机触屏各一次）
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+集成收尾：审查 feat/reward-card-pick-ui 与最新 develop 的兼容性；运行完整本地检查并核对 PR 当前 SHA 的全部 Quality 作业；通过后 squash 合并并清理分支。平台导入、电脑与手机实机及正式 UI 门禁仍按原验收项继续。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -50,4 +57,8 @@ ordinal: 84000
 待接手：1) 后端/集成同学导入候选并实机截图（电脑鼠标+手机触屏），确认悬停监听、长说明、缩放后的点击热区；2) 视情况跑 npm run verify:ui；3) 平台不支持悬停的设备上只有点击，无放大预览（可接受降级，需实机确认）。
 
 2026-10-24交付审计补齐承接：正式集成与平台验收负责人为@Codex，M4/10月28日。当前代码留在feat/reward-card-pick-ui工作树，尚未PR/合入，不覆盖独立改动；先审查并提交本任务既有代码，再按批准稿逐项导入新候选，电脑及手机实测长文、缩放热区、一次领取/跳过/清理及C档降级，保留SHA/hash/本轮截图日志并交TASK-4/5。离线预览不是实机；实现、集成、导入和实测分别记录。
+
+2026-10-24 Codex 集成接手：用户明确要求合并 feat/reward-card-pick-ui。已核对实现提交 06b95ac，创建 PR169（https://github.com/CHNISam/Slay-the-Abyss/pull/169），与当前 develop 53a52bb 可无冲突合并。最终合并与当前 SHA 的 Quality 结果以该 PR 为准。本轮仅进行源码集成，不宣称编译候选、官方导入、电脑/手机实机或 UI 总门禁通过；任务保持 In Progress，原验收项继续保留。
+
+最新状态：PR169已squash合入develop e3310bc，前文未开PR/未合入是历史交接。源码集成已完成；本任务仍由@Codex负责新候选官方导入及电脑/手机三项AC，交TASK-4/5。离线预览与源码CI不作为实机通过。
 <!-- SECTION:NOTES:END -->

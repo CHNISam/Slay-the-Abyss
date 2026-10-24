@@ -444,11 +444,11 @@
     }
   },
   "laterSourceReconciliation": {
-    "currentDevelop": "53a52bb3cd4c2e49fa2abe83d9f8e7155e433b99",
+    "currentDevelop": "e3310bcf91d456b08ed7c231340b20a133083134",
     "frozenCandidateSource": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
     "candidateIncludesLaterCardHelpReleaseFix": true,
     "isFinalRc": false,
-    "nextAction": "Candidate remains a minimal offline audio integration pinned to3bd3afa. Latest develop also includes PR163 shop; TASK-34/25/4/5 must rebuild a unified candidate from latest source for combined release/device acceptance. No old screenshot or audio result applies to it.",
+    "nextAction": "Frozen audio candidate is3bd3afa, not the later shop/reward release tree. TASK-34/25/4/5 rebuild a unified latest-source candidate for combined release/device acceptance; do not reuse old screenshot/audio evidence.",
     "panelReview": {
       "task": "TASK-10.5.1",
       "sourceCommit": "c0f20766519a248f1a02df60985f3a832aa529b1",
@@ -470,7 +470,8 @@
         }
       ]
     },
-    "candidateIncludesLaterShopPr163": false
+    "candidateIncludesLaterShopPr163": false,
+    "candidateIncludesLaterRewardPr169": false
   },
   "previousValidatedCandidate": {
     "sourceCommit": "0b1d460048ea8e228f61f1696d5e39b116b86b59",
