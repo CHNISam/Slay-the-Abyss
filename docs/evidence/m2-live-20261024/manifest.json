@@ -34,20 +34,20 @@
       "compressed": true
     },
     {
-      "path": "runner-status-original.json",
-      "bytes": 8119,
-      "sha256": "5d9a5f587524f2a8d8744acb7088297dc3bbc2663657eb0f1534277630a28f5c",
+      "path": "runner-status-original.json.gz",
+      "bytes": 1616,
+      "sha256": "61534093ea5fff8b42cca153d9d838c3d81cc4d3ea28f1d5ee26e36ae9fcbabd",
       "originalBytes": 8119,
       "originalSha256": "5d9a5f587524f2a8d8744acb7088297dc3bbc2663657eb0f1534277630a28f5c",
-      "compressed": false
+      "compressed": true
     },
     {
-      "path": "request.json",
-      "bytes": 859,
-      "sha256": "722b405ea12e9696c3eac69a794767907508b937336c741e2b53d1dff9925d2e",
+      "path": "request.json.gz",
+      "bytes": 450,
+      "sha256": "b687e1bb9348c072eca49c60f30fc5c05b2c07a1ae28a8a31d488d9bd0ee16b9",
       "originalBytes": 859,
       "originalSha256": "722b405ea12e9696c3eac69a794767907508b937336c741e2b53d1dff9925d2e",
-      "compressed": false
+      "compressed": true
     },
     {
       "path": "native-log-review.json",
