@@ -1,0 +1,62 @@
+[
+  {
+    "file": "tests/lua/intent_artifact_preview.lua",
+    "name": "stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with Artifact",
+    "unchangedBodySha256": "8e5c39ccad68c4dda89023f00d4a8e1e076cb4d625685e7a265dc92129b96825"
+  },
+  {
+    "file": "tests/lua/intent_artifact_preview.lua",
+    "name": "ordinary stock values retain status details, card preview and command behavior",
+    "unchangedBodySha256": "3293d43cdb3dc1fe9ef0e61441fa8f7c9409ce4cde05e2e839c589f70410c1fa"
+  },
+  {
+    "file": "tests/lua/intent_artifact_preview.lua",
+    "name": "neighboring boundary and stock non-applying intent remain valid",
+    "unchangedBodySha256": "257d876d57eb31f7ef1f520b925343cd309c54f9c5c26011ac8e5e0fe1fba348"
+  },
+  {
+    "file": "tests/lua/intent_artifact_debuffs.lua",
+    "name": "Artifact gates each supported ordinary debuff before either recipient's stack arithmetic",
+    "unchangedBodySha256": "ae4ea769cb013b2d718236757943c10e8ec96e82782a799591af0025dde04691"
+  },
+  {
+    "file": "tests/lua/intent_artifact_debuffs.lua",
+    "name": "unblocked true overflow remains visible and leaves the live state untouched",
+    "unchangedBodySha256": "f982f80b9b8e8c751c98915e7196b2b73ef94298341ab5a6610ad074f01d2af7"
+  },
+  {
+    "file": "tests/lua/intent_artifact_debuffs.lua",
+    "name": "repeated applications spend separate Artifact charges and expose overflow when exhausted",
+    "unchangedBodySha256": "420f1d4a79897947a2c685e5998dc642140d9db1cb9fec9cd23d832e1d0989ee"
+  },
+  {
+    "file": "tests/lua/intent_artifact_ordered.lua",
+    "name": "damage between repeated Vulnerable applications observes the consumed copied charge",
+    "unchangedBodySha256": "415bb3ad7231169c5253f10d0039981d9c113c372c6b662edd78d7f6263bf962"
+  },
+  {
+    "file": "tests/lua/intent_artifact_ordered.lua",
+    "name": "self buffs and target debuffs consume only their own actor's Artifact",
+    "unchangedBodySha256": "19ba0947dd08067596f3f7af2820b729efe54db159f662ddfe1cf5aa01318de6"
+  },
+  {
+    "file": "tests/lua/intent_artifact_ordered.lua",
+    "name": "signed power type depends on incoming amount including zero, not current total",
+    "unchangedBodySha256": "cebbed49872d754fce640d4f4a70c13f2d161c5c5ac22f126a93ea784d75c0ad"
+  },
+  {
+    "file": "tests/lua/intent_artifact_validation.lua",
+    "name": "positive self buff preserves Artifact for the later debuff",
+    "unchangedBodySha256": "d01f4564130e51c4184f6f0292f60b3a472ebfff849dddd06ae559ee593dbd25"
+  },
+  {
+    "file": "tests/lua/intent_artifact_validation.lua",
+    "name": "without Artifact ordered status modifiers still reach later damage and block",
+    "unchangedBodySha256": "775d60ee9598bc7211f2ac49a0576ce43c00d3bf89448e64a4830e7fde4c4364"
+  },
+  {
+    "file": "tests/lua/intent_artifact_validation.lua",
+    "name": "Artifact does not suppress invalid power amounts before core validation",
+    "unchangedBodySha256": "324e186e09789928b3867fd4369f6948e66e4fbac99590e9bfead4d286235205"
+  }
+]
