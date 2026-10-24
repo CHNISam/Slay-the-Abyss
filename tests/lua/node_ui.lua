@@ -574,7 +574,9 @@ test('Goop shows real leave loss, applies it once and reports asset changes',fun
     assert(get('eventView/option2/description').text:find(tostring(loss)))
     click('eventView/option2');assert(ui.run.gold==gold-loss and ui:holding())
     local body=get('eventView/body').text
-    assert(body:find(string.format('%.0f',gold-loss),1,true))
+    if loss>0 then assert(body:find(string.format('金币 %d → %d',gold,gold-loss),1,true))
+    else assert(body=='什么也没有发生。','a no-op result must not list unchanged resources') end
+    assert(not body:find('生命',1,true))
     assert(not body:find('%d+%.%d+'),'integer gold must not expose a decimal suffix')
     local after=Combat.copy(ui.run);ui:render();same(ui.run,after);click('confirm');same(ui.run,after)
 end)
@@ -591,7 +593,9 @@ test('Shining Light shows fixed damage and permanent upgraded names in its resul
     local hp=ui.run.hp;local damage=ui.run.nodeFlow.event.damage
     assert(get('eventView/option1/description').text:find(tostring(damage)))
     click('eventView/option1');assert(ui.run.hp==hp-damage)
-    assert(get('eventView/body').text:find('已升级'))
+    local body=get('eventView/body').text
+    assert(body:find('已升级') and body:find(string.format('生命 %d → %d',hp,hp-damage),1,true))
+    assert(not body:find('金币',1,true),'unchanged gold must not be listed')
 end)
 test('Golden Shrine exposes complete costs, permanent curse result and repeat safety',function()
     local ui,get,click=eventSetup('golden_shrine')
@@ -602,6 +606,8 @@ test('Golden Shrine exposes complete costs, permanent curse result and repeat sa
     local gold,size=ui.run.gold,#ui.run.deck
     click('eventView/option2');assert(ui:holding() and ui.run.gold==gold+275 and #ui.run.deck==size+1)
     assert(get('eventView/body').text:find('余悔',1,true),'curse must not be hidden by a gold-only result')
+    assert(get('eventView/body').text:find(string.format('金币 %d → %d',gold,gold+275),1,true))
+    assert(not get('eventView/body').text:find('生命',1,true),'unchanged HP must not be listed')
     local before=Combat.copy(ui.run);ui:render();click('confirm');same(before,ui.run)
 end)
 test("integer-valued floating resources never expose decimal suffixes", function()
