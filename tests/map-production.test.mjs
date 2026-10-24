@@ -12,7 +12,7 @@ test('production Map matches every unchanged complete A0 golden including full s
   assert.equal(report.matches,12,JSON.stringify(report.records.map(({seed,status})=>({seed,status}))));
   assert.equal(report.status,'PASS');
 });
-test('production Map preserves raw seed, strict v3 restoration and separate legacy encounter state',()=>{
+test('production Map preserves raw seed and strict v3 restoration without preselecting encounters',()=>{
   const directory=mkdtempSync(join(tmpdir(),'abyss-production-map-'));
   try {
     const file=join(directory,'case.lua');
@@ -20,7 +20,8 @@ test('production Map preserves raw seed, strict v3 restoration and separate lega
 local m=Map.generate(Data,'2780424839485660359')
 assert(m.version==3 and m.runSeed=='2780424839485660359' and m.mapSeed=='2780424839485660360')
 assert(m.topologyState.words[1] and m.randomState.words[2])
-assert(m.encounterRandomSeed>=0 and m.encounterRandomSeed<65536)
+assert(m.encounterRandomSeed==nil and m.encounterSeed==nil)
+for _,node in ipairs(m.nodes)do assert(node.encounterId==nil)end
 for _=1,17 do assert(Map.choose(m,Map.available(m)[1].id))end
 local r=assert(Map.restore(Data,Map.snapshot(m)));assert(r.floor==17)
 local before=Map.snapshot(m);assert(not Map.choose(m,'f1_l1'));assert(#m.path==#before.path)

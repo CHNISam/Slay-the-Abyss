@@ -1,4 +1,4 @@
--- Source-name Exordium queues. Not wired to Run until every content binding is legal.
+-- Source-name Exordium queues owned by Run; accepted room entry commits consume.
 -- Fixed source: aeubanks/sts@319009d5, Exordium / AbstractDungeon / MonsterInfo.
 -- Uses the production STS wrapper, preserving the raw signed64 decimal seed.
 local R = require("abyss_sts_random")

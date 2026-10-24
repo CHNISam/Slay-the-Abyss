@@ -1,0 +1,467 @@
+{
+  "date": "2026-10-25",
+  "tasks": [
+    "TASK-12.4",
+    "TASK-15"
+  ],
+  "base": "e2eefaaa3fd0a0cba371dc751ace9a8a28ea1873",
+  "prerequisiteOriginalCommits": [
+    "bfee54d",
+    "1344fd8",
+    "38445f9"
+  ],
+  "prerequisiteLocalCommits": [
+    "5bddef9",
+    "4d5d0fc",
+    "7f7f871"
+  ],
+  "rewardThemeTestCorrection": "149284e",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "productionQueueWired": true,
+  "contentBindingsComplete": true,
+  "originalSameSeedRunCertified": false,
+  "pcBinaryCertified": false,
+  "sources": [
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "localArtifact": ".artifacts\\map-rng-source-1cfaba2\\dungeons-AbstractDungeon.java.response.json",
+      "hashBytes": "decoded structuredContent.content UTF-8"
+    },
+    {
+      "path": "dungeons/Exordium.java",
+      "sha256": "93808b9da69b76da6b8f0471cc3533fa113fa28298939bbc48eb55566a976c08",
+      "localArtifact": ".artifacts\\map-rng-source-1cfaba2\\dungeons-Exordium.java.response.json",
+      "hashBytes": "decoded structuredContent.content UTF-8"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "localArtifact": ".artifacts/m3-encounter-audit-231dd0ff/MonsterHelper.java"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "localArtifact": ".artifacts/m1-live-sprint/AbstractMonster.java"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "localArtifact": ".artifacts/m1-live-sprint/AbstractPlayer.java"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "localArtifact": ".artifacts/potion-acquisition-86519f4/potion-source/MonsterGroup.java"
+    },
+    {
+      "path": "monsters/exordium/TheGuardian.java",
+      "sha256": "40571fa4c941d70c1814b0c0ff5cffa7d8933e24b49d95f2b531a3dc05598d56",
+      "localArtifact": ".artifacts\\source\\TheGuardian.java"
+    },
+    {
+      "path": "monsters/exordium/AcidSlime_L.java",
+      "sha256": "56eaec2de1c6344701613e5643f3161c5acf6591890b7859f062f420a692dd72",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\AcidSlime_L.java"
+    },
+    {
+      "path": "monsters/exordium/AcidSlime_M.java",
+      "sha256": "34fe1c1000d351ffd3ee1e5902a0af14ebb10fe3885bd181feeb75c1942cb400",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\AcidSlime_M.java"
+    },
+    {
+      "path": "monsters/exordium/AcidSlime_S.java",
+      "sha256": "57cf3cb408a2dac4e96a30b01e4ee3860be173fb9157d0ae55ec7eb2d45c21df",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\AcidSlime_S.java"
+    },
+    {
+      "path": "monsters/exordium/Cultist.java",
+      "sha256": "93e6404234a9c57f794c1f98f7943b60c62e66c464dd19d7579913fd75ad7f4f",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\Cultist.java"
+    },
+    {
+      "path": "monsters/exordium/FungiBeast.java",
+      "sha256": "cdec8d58bd0a0476c8dab7b9deb9846bdd9b6c07557c905487909f9aa9188e71",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\FungiBeast.java"
+    },
+    {
+      "path": "monsters/exordium/JawWorm.java",
+      "sha256": "e0950443e76332942fe556687782e8e18d91ee683a6c22ca0eb2e5663d4a312e",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\JawWorm.java"
+    },
+    {
+      "path": "monsters/exordium/Looter.java",
+      "sha256": "8e4a94a8f8404a3ed64f5fa12dd301d597bc86abc0d750d7b296daf5663ce0cc",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\Looter.java"
+    },
+    {
+      "path": "monsters/exordium/LouseDefensive.java",
+      "sha256": "48a0b5c54a745c1842d10f61754edf0ea28efeb676816efa5a131bce1a7a5bd0",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\LouseDefensive.java"
+    },
+    {
+      "path": "monsters/exordium/LouseNormal.java",
+      "sha256": "b9a875b240236ac28e5c427584f56af1751604b7781bc6c1a5535fa888f9775f",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\LouseNormal.java"
+    },
+    {
+      "path": "monsters/exordium/SlaverBlue.java",
+      "sha256": "a523e2ae8a5b598ad19af3460a28f13b8bc47152501f9b4e61f46f732d869206",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\SlaverBlue.java"
+    },
+    {
+      "path": "monsters/exordium/SlaverRed.java",
+      "sha256": "2e92dfad2ddee766d9f95b45c028b80b5abae3e966eb3dff1656d60c253da7c4",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\SlaverRed.java"
+    },
+    {
+      "path": "monsters/exordium/SpikeSlime_L.java",
+      "sha256": "a6a6976050a4f16507e0bbda75d4946f5eee3bbfc3d9787bc4e7a99f1d22269c",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\SpikeSlime_L.java"
+    },
+    {
+      "path": "monsters/exordium/SpikeSlime_M.java",
+      "sha256": "6eb1991db8ac36b1037871537c8669b135a58705ab2b33ca74550dcf84cad707",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\SpikeSlime_M.java"
+    },
+    {
+      "path": "monsters/exordium/SpikeSlime_S.java",
+      "sha256": "3ebda589dc277d9d0a5f0a59ab3fb03783cb4e74ee0f03a1a9f40ca9126302b5",
+      "localArtifact": ".artifacts\\sts1-encounter-bindings-source\\SpikeSlime_S.java"
+    }
+  ],
+  "bindings": [
+    {
+      "source": "Cultist",
+      "runtimeId": "cultist_solo",
+      "tier": "normal",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "cultist_solo"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Jaw Worm",
+      "runtimeId": "jaw_solo",
+      "tier": "normal",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "jaw_solo"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "2 Louse",
+      "runtimeId": "louse_pair",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [
+        "louse_pair"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Small Slimes",
+      "runtimeId": "small_slimes",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [
+        "small_slimes"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Blue Slaver",
+      "runtimeId": "blue_slaver_solo",
+      "tier": "normal",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "blue_slaver_solo"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Gremlin Gang",
+      "runtimeId": "gremlin_gang",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [
+        "gremlin_gang"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Looter",
+      "runtimeId": "looter_solo",
+      "tier": "normal",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "looter_solo"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Large Slime",
+      "runtimeId": "large_slime",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [
+        "large_acid",
+        "large_spike"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Lots of Slimes",
+      "runtimeId": "lots_of_slimes",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [],
+      "status": "production_bound"
+    },
+    {
+      "source": "Exordium Thugs",
+      "runtimeId": "exordium_thugs",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [],
+      "status": "production_bound"
+    },
+    {
+      "source": "Exordium Wildlife",
+      "runtimeId": "wildlife",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [
+        "wildlife"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Red Slaver",
+      "runtimeId": "red_slaver_solo",
+      "tier": "normal",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "red_slaver_solo"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "3 Louse",
+      "runtimeId": "louse_trio",
+      "tier": "normal",
+      "assembly": "immediate sourceEncounter constructors",
+      "legacyFixtureIds": [
+        "louse_trio"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "2 Fungi Beasts",
+      "runtimeId": "fungi_pair",
+      "tier": "normal",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "fungi_pair"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Gremlin Nob",
+      "runtimeId": "elite_nob",
+      "tier": "elite",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "elite_nob"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "Lagavulin",
+      "runtimeId": "elite_lagavulin",
+      "tier": "elite",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "elite_lagavulin"
+      ],
+      "status": "production_bound"
+    },
+    {
+      "source": "3 Sentries",
+      "runtimeId": "elite_sentries",
+      "tier": "elite",
+      "assembly": "fixed source member order",
+      "legacyFixtureIds": [
+        "elite_sentries"
+      ],
+      "status": "production_bound"
+    }
+  ],
+  "unmappedLegacyFixtureIds": [
+    "medium_slimes"
+  ],
+  "distinctRuntimeIds": [
+    "large_slime",
+    "lots_of_slimes",
+    "exordium_thugs"
+  ],
+  "bossInitialization": {
+    "profile": "guardian-unseen",
+    "sourceBranch": "!UnlockTracker.isBossSeen(GUARDIAN)",
+    "bossList": [
+      "The Guardian",
+      "The Guardian"
+    ],
+    "extraMonsterRngDrawsAfterQueueInitialization": 0,
+    "otherProfiles": "unsupported_boss_initialization"
+  },
+  "streams": {
+    "monsterRng": "shared normal/elite persistent source queue state",
+    "monsterHpRng": "raw run seed plus destination floor; constructor HP/Bite, later CurlUp",
+    "aiRng": "separate raw run seed plus destination floor; primary int, Boolean and float, ongoing enemy rolls",
+    "miscRng": "raw run seed plus destination floor; member/color/index selection",
+    "visualFloat": "independent cosmetic stream, not complete global MathUtils replay",
+    "shuffleRng": "fresh source boundary exposed; actual deck consumers still legacy",
+    "cardRandomRng": "fresh source boundary exposed; consumers still legacy",
+    "rewards": "existing lifecycle preserved; complete source reward RNG remains required"
+  },
+  "map": {
+    "version": 3,
+    "selectionOwner": "Run.startRoomCombat",
+    "perNodeUniformPreselection": false,
+    "goldensChanged": false,
+    "completeGoldenMatches": 12,
+    "obsoleteSnapshots": "signature mismatch, no silent migration"
+  },
+  "vectors": {
+    "cases": 126,
+    "generator": "tools/oracles/sts1_encounter_runtime.py",
+    "generatorSha256": "6f593c39e76385deb286c79c3e5fc58decbacf1ecb1790e8fbc53ca4a705d6cf",
+    "fixture": "tests/fixtures/sts1-encounter-runtime-vectors.json",
+    "fixtureSha256": "98e644fe8d945a33d9821dd53f21380bdc7ef5497d3911a909dd26d585e660a7",
+    "claims": "identity, HP, Bite, CurlUp, opening intent, every HP/AI/misc operation and state; no card/shuffle/reward/cosmetic replay"
+  },
+  "verification": {
+    "node": {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/encounter-runtime.test.mjs",
+        "tests/encounter-queue.test.mjs",
+        "tests/map-production.test.mjs",
+        "tests/native-candidate-scripts.test.mjs"
+      ],
+      "status": 0,
+      "elapsedMs": 31588,
+      "signal": null,
+      "error": null,
+      "logSha256": "89a99c121ef3db1cb1a2328c5e040acb73d1e0998e72f32f98a5c2caf3b2ec20"
+    },
+    "lua": [
+      {
+        "fixture": "map",
+        "status": 0,
+        "elapsedMs": 5736,
+        "log": ".artifacts/encounter-runtime/map.log",
+        "sha256": "538a940508e2d511c095fb45b259b75eb39f577fd6df2a08157097969bb423c0",
+        "summary": "LUA_MAP_PASS 10"
+      },
+      {
+        "fixture": "nodes",
+        "status": 0,
+        "elapsedMs": 17127,
+        "log": ".artifacts/encounter-runtime/nodes.log",
+        "sha256": "dd535dbf21341f7f8b4f074442c9512ebecfaa376d21719ce27c4d2ffb1366da",
+        "summary": "LUA_NODES_PASS 21"
+      },
+      {
+        "fixture": "inventory_restore",
+        "status": 0,
+        "elapsedMs": 7262,
+        "log": ".artifacts/encounter-runtime/inventory_restore.log",
+        "sha256": "b4392f6503d8822a810db1a53e41884d8ebf282ed7625a332f74da1719cc96fb",
+        "summary": "LUA_INVENTORY_RESTORE_PASS 5 rejected_snapshots=8"
+      },
+      {
+        "fixture": "small_slimes",
+        "status": 0,
+        "elapsedMs": 11334,
+        "log": ".artifacts/encounter-runtime/small_slimes.log",
+        "sha256": "dfd4151cf13c601ba3a5429a77c7711e49d8cd6e30207d79031b7ae9bf6706ed",
+        "summary": "SMALL_SLIMES_PASS 18"
+      },
+      {
+        "fixture": "gremlin_gang",
+        "status": 0,
+        "elapsedMs": 26462,
+        "log": ".artifacts/encounter-runtime/gremlin_gang.log",
+        "sha256": "a91586f9f080c58dedf8d355f78971dee2b9169201347dd7e82a4219a82c23fa",
+        "summary": "GREMLIN_GANG_PASS 29; exhaustive selection paths=1680; full constructions only for targeted integration"
+      },
+      {
+        "fixture": "unknown_events",
+        "status": 0,
+        "elapsedMs": 46627,
+        "log": ".artifacts/encounter-runtime/unknown_events.log",
+        "sha256": "6f14de5f6e52497cd4b4f06ceb2820ea68f60cd3bb4b59ea74c09f5699d9a8ef",
+        "summary": "LUA_UNKNOWN_EVENTS_PASS 14"
+      },
+      {
+        "fixture": "encounter_formations",
+        "status": 0,
+        "elapsedMs": 610,
+        "log": ".artifacts/encounter-runtime/encounter_formations.log",
+        "sha256": "fca9a403472f0305cbd4f2328ad4a91f8fb19aa95a1be515f5c6692714c2f42f",
+        "summary": "LUA_ENCOUNTER_FORMATIONS_PASS 7"
+      },
+      {
+        "fixture": "encounter_formation_combat",
+        "status": 0,
+        "elapsedMs": 713,
+        "log": ".artifacts/encounter-runtime/encounter_formation_combat.log",
+        "sha256": "d01b9bcd6932aa49471e28d30ff7e74d7fe882984182f16f010d7efeb8423e7a",
+        "summary": "LUA_ENCOUNTER_FORMATION_COMBAT_PASS 4"
+      },
+      {
+        "fixture": "encounter_queue",
+        "status": 0,
+        "elapsedMs": 1861,
+        "log": ".artifacts/encounter-runtime/encounter_queue.log",
+        "sha256": "42dd24b9bc9a1edf5052e0a45b5f21862ab4fa4cdf53bdff30b4779d54a22853",
+        "summary": "ENCOUNTER_QUEUE_CORE_PASS 12"
+      },
+      {
+        "fixture": "combat",
+        "status": 0,
+        "elapsedMs": 961,
+        "log": ".artifacts/encounter-runtime/combat.log",
+        "sha256": "f335272c2ad5ee8bfdc216b2fa4114281ebe7e4de6bbe403de6c2e2a61089766",
+        "summary": "LUA_COMBAT_PASS 23"
+      }
+    ],
+    "syntax": "npm run check:syntax exit 0",
+    "coverageObservedEarlier": "256 source queue seeds, all 17 source identities; encounter_coverage 53 groups exit 0",
+    "fullCheck": false,
+    "platformBuild": false,
+    "import": false,
+    "playtest": false
+  },
+  "limitations": [
+    "Full shuffle/card/reward source consumers remain necessary work, not certified by construction vectors",
+    "Only the explicit Guardian-unseen source initialization profile is supported; account unlock/Daily/all-unlocked not implemented",
+    "Cosmetic offset API is independent of gameplay streams but is not global libGDX MathUtils replay",
+    "Queue snapshot/restore is only a same-run queue checkpoint, not a complete save file or authentication signature",
+    "New runtime IDs must be reconciled into launch-content acceptance by the integration owner",
+    "unknown_events 220-seed fixture took 46627 ms using explicit 60000 ms targeted budget; default 30000 ms runner may need this fixture-specific budget in integrated check",
+    "No official PC binary certification or current platform candidate/import/playtest"
+  ],
+  "delegation": {
+    "executor": "Codex direct high-coupling integration",
+    "externalModelsUsed": false,
+    "paidFallback": false,
+    "quotaSavings": "unknown"
+  }
+}

@@ -1,12 +1,10 @@
 -- Same-run map navigation only; no platform storage, UI or combat dependencies.
-local Random = require("abyss_random")
 local Rooms = require("abyss_map_rooms")
 local Seed = require("abyss_run_seed")
 local M = {}
 local kinds = { "combat", "elite", "camp", "shop", "event", "treasure", "boss" }
-local tierFor = { combat = "normal", elite = "elite", boss = "boss" }
--- Topology and rooms use the raw source stream. Encounter preselection remains
--- the explicit legacy uniform 16-bit candidate until the Run queue is connected.
+-- Topology and room kinds only. Actual encounters belong to the Run queue and
+-- are selected after a legal room entry succeeds; rendering/restoring draws none.
 
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -57,34 +55,22 @@ local function configuration(data)
             minFloor = entry.minFloor, maxFloor = entry.maxFloor }
     end
     table.sort(encounters, function(a, b) return a.id < b.id end)
-    local signature = { "map-v3:sts-a0-319009d5:15x7x6:boss16:chest17:legacyEncounterLCG16-uniform" }
+    local signature = { "map-v3:sts-a0-319009d5:15x7x6:boss16:chest17:run-source-queue-v1" }
     for _, entry in ipairs(encounters) do
         signature[#signature + 1] = entry.id .. ":" .. entry.tier .. ":" .. entry.minFloor .. ":" .. entry.maxFloor
     end
     return encounters, table.concat(signature, "|")
 end
 
-local function pool(encounters, kind, floor)
-    local result = {}
-    for _, encounter in ipairs(encounters) do
-        if encounter.tier == tierFor[kind] and encounter.minFloor <= floor and encounter.maxFloor >= floor then
-            result[#result + 1] = encounter.id
-        end
-    end
-    return result
-end
-
 function M.generate(data, seed)
-    local encounters, signature = configuration(data)
+    local _, signature = configuration(data)
     local runSeed=Seed.normalize(seed)
     local generated=Rooms.generate(runSeed)
-    local encounterSeed=Seed.legacy(runSeed)
-    local encounterRandom=Random.new(encounterSeed)
     -- seed preserves the Nodes map-identity ABI; both identities are immutable
     -- raw run strings. mapSeed is the distinct raw+actNum source RNG seed.
     local map = { version = 3, seed = runSeed, runSeed=runSeed, mapSeed=generated.mapSeed,
         topologyState=copy(generated.topologyState),randomState=copy(generated.randomState),
-        encounterSeed=encounterSeed, encounterRandomSeed = encounterRandom.seed, sourceSignature = signature,
+        sourceSignature = signature,
         floor = 0, path = {}, nodes = {} }
     for _,source in ipairs(generated.nodes)do
         map.nodes[#map.nodes+1]={id=id(source.y+1,source.x+1),floor=source.y+1,lane=source.x+1,
@@ -99,13 +85,7 @@ function M.generate(data, seed)
     end
     for _,node in ipairs(map.nodes)do
         if node.floor==15 then node.nextIds={id(16,4)}end
-        if tierFor[node.type]then
-            local candidates=pool(encounters,node.type,node.floor)
-            assert(#candidates>0,'no eligible '..node.type..' encounter on floor '..node.floor)
-            node.encounterId=candidates[Random.next(encounterRandom,#candidates)]
-        end
     end
-    map.encounterRandomSeed = encounterRandom.seed
     return map
 end
 

@@ -18,4 +18,11 @@ function M.legacy(seed)
     return negative and (65536-value)%65536 or value
 end
 function M.increment(seed)return require('abyss_map_topology').seedForActOne(M.normalize(seed))end
+-- Java long addition, including signed64 wrap, without a binary64 conversion.
+function M.forFloor(seed,floor)
+    assert(type(floor)=='number' and floor%1==0 and floor>=0 and floor<=17,'invalid room floor')
+    seed=M.normalize(seed)
+    for _=1,floor do seed=M.increment(seed) end
+    return seed
+end
 return M

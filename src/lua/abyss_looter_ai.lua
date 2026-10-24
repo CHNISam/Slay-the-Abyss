@@ -1,6 +1,7 @@
 -- Fixed community source: Looter.takeTurn, TASK-15.16 source ledger.
--- Shared project LCG adapter, not an original aiRng/seed-equivalence claim.
+-- Source rooms use independent STS aiRng; explicit fixtures retain the LCG adapter.
 local M = {}
+local R=require('abyss_enemy_random')
 local Actors = require("abyss_actor")
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do if intent.id == id then enemy.intentIndex = i; return end end
@@ -21,11 +22,11 @@ function M.beforeAction(state, enemy, random, executedIntent)
     if id == ai.mugIntent then
         if enemy.looterSlashCount == 0 then
             -- Source's float literal is binary32 0.6000000238418579, strictly <.
-            enemy.looterTalk = (random(state, 65536) - 1) / 65536 < ai.talkChance
+            enemy.looterTalk = R.float(state,random) < ai.talkChance
         end
         enemy.looterSlashCount = enemy.looterSlashCount + 1
         if enemy.looterSlashCount == 2 then
-            if (random(state, 65536) - 1) / 65536 < ai.smokeChance then select(enemy, ai.smokeIntent)
+            if R.float(state,random) < ai.smokeChance then select(enemy, ai.smokeIntent)
             else enemy.looterQueuedIntent = ai.lungeIntent end
         else enemy.looterQueuedIntent = ai.mugIntent end
     elseif id == ai.lungeIntent then

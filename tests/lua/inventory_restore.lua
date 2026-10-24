@@ -69,12 +69,13 @@ local function reach(run,map,kind)
         assert(node);assert(Nodes.enter(run,map,id))
         if run.phase=='combat'then
             finishBattle(run)
-            expectedGold=expectedGold+(run.lastResult.allEnemiesEscaped and 0 or run.data.rules.rewards[run.encounterTier..'Gold'])
+            local beforeReward=run.gold
             assert(Run.claimCardReward(run,0))
             if run.phase=='reward' then
                 if run.rewards.potion and not run.rewards.potion.resolved then assert(Run.skipPotionReward(run))end
                 assert(Run.leaveCombatRewards(run))
             end
+            expectedGold=expectedGold+run.gold-beforeReward
             assert(Nodes.completeCombat(run,map))
         elseif node.type=='event'then assert(Nodes.chooseEvent(run,'leave'))
         elseif node.type=='shop'then assert(Nodes.leaveShop(run))

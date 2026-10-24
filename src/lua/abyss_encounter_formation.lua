@@ -1,11 +1,11 @@
--- Source-method boundary, not a production room RNG/reseed implementation.
+-- Source-method boundary. Run supplies privately staged, floor-reseeded streams.
 -- MonsterHelper @319009d5:403..428, 600..605, 700..729, 774..829.
 -- misc owns color/index decisions. MathUtils offsets use visualFloat, never misc.
 -- construct runs immediately, including candidates later discarded. Its caller
 -- owns HP/Bite and cosmetic constructor draws and must supply staged streams.
 local M={}
 local f32=require('abyss_sts_random').float32
-local sources={['2 Louse']=true,['3 Louse']=true,['Large Slime']=true,
+local sources={['Small Slimes']=true,['Gremlin Gang']=true,['2 Louse']=true,['3 Louse']=true,['Large Slime']=true,
  ['Lots of Slimes']=true,['Exordium Thugs']=true,['Exordium Wildlife']=true}
 function M.supports(source)return sources[source]==true end
 function M.assemble(source,boundary)
@@ -54,7 +54,15 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='2 Louse' or source=='3 Louse'then
+ if source=='Small Slimes'then
+  if boolean()then
+   result[1]=make('spike_slime_s',-230,32);result[2]=make('acid_slime_m',35,8)
+  else result[1]=make('acid_slime_s',-230,32);result[2]=make('spike_slime_m',35,8)end
+ elseif source=='Gremlin Gang'then
+  local pool={'mad_gremlin','mad_gremlin','sneaky_gremlin','sneaky_gremlin','fat_gremlin','fat_gremlin','shield_gremlin','wizard_gremlin'}
+  local positions={{-320,25},{-160,-12},{25,-35},{205,40}}
+  for i,p in ipairs(positions)do result[i]=make(table.remove(pool,integer(#pool-1)),p[1],p[2])end
+ elseif source=='2 Louse' or source=='3 Louse'then
   local positions=source=='2 Louse' and {{-200,10},{80,30}} or {{-350,25},{-125,10},{80,30}}
   for i,p in ipairs(positions)do result[i]=louse(p[1],p[2])end
  elseif source=='Large Slime'then result[1]=make(boolean() and 'acid_slime_l' or 'spike_slime_l',0,0)
