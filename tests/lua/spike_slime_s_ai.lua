@@ -53,13 +53,14 @@ test("failed card transaction restores selected attack HP seed and event count",
     s.catalog.cards.defend.effects={{op="draw",value=1},{op="gainStatus",status="missing",value=1}}
     assert(not pcall(Combat.play,s,s.hand[1].uid,1));eq(e.intentIndex,intent);eq(e.hp,hp);eq(s.seed,seed);eq(#s.events,n)
 end)
-test("small_slimes Run keeps both original members and their current source actions",function()
+test("real true-branch small_slimes Run resolves Spike S and Acid M source actions",function()
     controlled(0,function()
         local run=Run.new(Data,42)
         for _,e in ipairs(Data.enemies.encounters) do if e.id=="small_slimes" then run.floor=e.minFloor end end
         assert(Run.startCombat(run,"small_slimes"));eq(#run.combat.enemies,2)
-        eq(run.combat.enemies[1].definitionId,"acid_slime_s");eq(run.combat.enemies[2].definitionId,"spike_slime_s")
-        assert(Run.endTurn(run));eq(run.combat.player.hp,75,"Acid Boolean false opens Weak; Spike attacks5")
+        eq(run.combat.enemies[1].definitionId,"spike_slime_s");eq(run.combat.enemies[2].definitionId,"acid_slime_m")
+        assert(Run.endTurn(run));eq(run.combat.player.hp,68,"Spike S Tackle5 + Acid M Spit7")
+        eq(run.combat.enemies[1].intentIndex,1);eq(run.miscRng.counter,1)
     end)
 end)
 assert(failed==0,tostring(failed).." failed of "..count)

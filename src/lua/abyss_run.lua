@@ -45,8 +45,16 @@ function M.startCombat(run, encounterId)
     combatData.rules = Combat.copy(run.data.rules)
     combatData.rules.player.energyPerTurn = combatData.rules.player.energyPerTurn + 0.0 + bonus
     if combatData.rules.player.energyPerTurn > 2147483647 then return false, "invalid_relic_energy" end
+    -- Small Slimes has two source-ordered groups, selected once by the current
+    -- misc stream (MonsterHelper.spawnSmallSlimes, 319009d). Never draw from
+    -- Combat's HP/AI/shuffle stream, or publish the choice before setup succeeds.
+    local enemies, nextMiscRng = encounter.enemies
+    if encounter.enemiesOnTrue then
+        nextMiscRng = EventRandom.cloneState(run.miscRng)
+        if EventRandom.randomBoolean(nextMiscRng) then enemies = encounter.enemiesOnTrue end
+    end
     local battle
-    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, gold = run.gold, deck = run.deck, enemies = encounter.enemies,
+    battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp, gold = run.gold, deck = run.deck, enemies = enemies,
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -54,6 +62,7 @@ function M.startCombat(run, encounterId)
     ok, reason = Inventory.applyOpening(battle, opening.afterDraw)
     if not ok then return false, reason end
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
+    if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
     return true
 end

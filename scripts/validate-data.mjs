@@ -424,14 +424,16 @@ export function validateContent(bundle) {
     integer(entry.minFloor, `${p}.minFloor`, 1, 16);
     integer(entry.maxFloor, `${p}.maxFloor`, 1, 16);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
-    let expandedSlots = 0;
-    array(entry.enemies, `${p}.enemies`).forEach((id, j) => {
-      reference(id, 'enemies', `${p}.enemies[${j}]`);
-      const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
-      expandedSlots += ['spike_slime_l', 'acid_slime_l'].includes(enemy?.ai?.kind) ? 3 : 1;
-      if (enemy && enemy.tier !== entry.tier) fail(`${p}.enemies[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
-    });
-    if (expandedSlots > 5) fail(`${p}.enemies`, 'must fit five UI slots including retained split parents');
+    for (const field of ['enemies', ...(entry.enemiesOnTrue === undefined ? [] : ['enemiesOnTrue'])]) {
+      let expandedSlots = 0;
+      array(entry[field], `${p}.${field}`).forEach((id, j) => {
+        reference(id, 'enemies', `${p}.${field}[${j}]`);
+        const enemy = lists.enemies.find(candidate => isObject(candidate) && candidate.id === id);
+        expandedSlots += ['spike_slime_l', 'acid_slime_l'].includes(enemy?.ai?.kind) ? 3 : 1;
+        if (enemy && enemy.tier !== entry.tier) fail(`${p}.${field}[${j}]`, `enemy tier ${enemy.tier} does not match encounter tier ${entry.tier}`);
+      });
+      if (expandedSlots > 5) fail(`${p}.${field}`, 'must fit five UI slots including retained split parents');
+    }
   });
   // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
   for (const [floor, tier] of [[1, 'normal'], [16, 'boss']]) {

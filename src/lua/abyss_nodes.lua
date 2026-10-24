@@ -187,20 +187,27 @@ function M.enter(run, map, nodeId)
     local flow, seed = prepare(run, node,nextMiscRng)
     flow.sourceType=sourceType
     if selectionRng then flow.selectionRng=EventRandom.snapshot(selectionRng);flow.event.originalId=node.originalEventId end
+    local stagedRun
     if battleKinds[node.type] then
-        -- startCombat validates the encounter using its new floor and constructs the battle before mutation.
-        -- A failed setup must not consume a map choice, change the floor or create a node claim.
-        local oldFloor = run.floor
-        run.floor = node.floor
-        local called, ok, reason = pcall(Run.startCombat, run, node.encounterId)
+        -- Keep the new floor and room misc state private until real battle setup
+        -- succeeds. startCombat may advance this stream when assembling a group;
+        -- use that resulting state, not the pre-battle clone, at commit below.
+        stagedRun = {}
+        for key, value in pairs(run) do stagedRun[key] = value end
+        stagedRun.floor, stagedRun.miscRng = node.floor, nextMiscRng
+        local called, ok, reason = pcall(Run.startCombat, stagedRun, node.encounterId)
         if not called or not ok then
-            run.floor = oldFloor
             return false, called and reason or "combat_unavailable"
         end
+        nextMiscRng = stagedRun.miscRng
     else
         run.floor, run.phase, run.seed = node.floor, "node", seed
     end
     assert(Map.choose(map, nodeId)) -- already validated against the unchanged map above
+    if stagedRun then
+        run.floor, run.phase, run.combat = stagedRun.floor, stagedRun.phase, stagedRun.combat
+        run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
+    end
     flow.mapSeed, flow.mapSignature = map.seed, map.sourceSignature
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
