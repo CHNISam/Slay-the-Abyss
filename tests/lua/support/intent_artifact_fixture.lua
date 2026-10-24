@@ -50,6 +50,26 @@ local function setup(effects, kind)
     end
     return h, u, p, tap, drain
 end
+-- Playback compares every committed field on every 0.05s frame. These two
+-- multi-enemy cases need only these stock definitions, not the whole catalog.
+-- Keep all rules/statuses and enter the real Combat.new, host and feedback path.
+local playbackData = {rules=H.F.Data.rules, statuses=H.F.Data.statuses,
+    cards={cards={}}, enemies={enemies={}}}
+for _, card in ipairs(H.F.Data.cards.cards) do
+    if card.id == "defend" then playbackData.cards.cards[#playbackData.cards.cards+1] = card end
+end
+for _, enemy in ipairs(H.F.Data.enemies.enemies) do
+    if enemy.id == "fat_gremlin" or enemy.id == "jaw_worm" then
+        playbackData.enemies.enemies[#playbackData.enemies.enemies+1] = enemy
+    end
+end
+assert(#playbackData.cards.cards == 1 and #playbackData.enemies.enemies == 2, "playback dependencies missing")
+local function playbackSetup(deck, enemies)
+    local h, u, p, emit, tap, drain, deckToggle, root = H.setup(deck, enemies)
+    h.run.combat = Combat.new(playbackData, {deck=deck, enemies=enemies})
+    h:refresh()
+    return h, u, p, emit, tap, drain, deckToggle, root
+end
 local function refresh(h, p, tap)
     local before = Combat.copy(h.run.combat)
     h:refresh(); h:refresh(); tap("enemy1", 11)
@@ -92,4 +112,5 @@ local function finish(label)
     assert(failed == 0, "Intent Artifact failures: " .. failed)
 end
 return {H=H, Combat=Combat, counters=counters, eq=eq, same=same, test=test, setup=setup,
-    refresh=refresh, rejects=rejects, resolve=resolve, drainChecked=drainChecked, finish=finish}
+    refresh=refresh, rejects=rejects, resolve=resolve, drainChecked=drainChecked, finish=finish,
+    playbackSetup=playbackSetup, playbackData=playbackData}

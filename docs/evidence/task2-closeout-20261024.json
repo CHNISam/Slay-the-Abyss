@@ -1,0 +1,290 @@
+{
+  "task": "TASK-2",
+  "date": "2026-10-24",
+  "decision": "User accepted the current minimum scene; close TASK-2 with official configuration readback and explicit manual overall acceptance.",
+  "userAcceptance": {
+    "source": "User message in this conversation, 2026-10-24",
+    "quote": "目前至少这个task two 我是认为已经可以了",
+    "scope": "Overall acceptance of TASK-2 as it currently stands. This is not a new agent-run physical respawn test or a detailed user-provided sequence of respawn observations."
+  },
+  "importedConfiguration": {
+    "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+    "candidateSha256": "8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288",
+    "importedSaveId": "1073741838",
+    "officialSnapshotSha256": "037babcb72d4e13ee29ebb99f473377a333f2f252d29c59d00edd62d48f45e67",
+    "readback": {
+      "file": "docs/evidence/m1-live-5165a78/import-readback.json",
+      "sha256": "c44a41a89975c17531b3e7f9436b680c165e679a8c13732ada3ae99486f1e82d",
+      "workingTreeSha256": "fa61f14aeca9bb9907df4221fb99c1123638039c0e9170a5dbfe84009f06fba1",
+      "hashScope": "sha256: committed Git blob bytes; workingTreeSha256: Windows CRLF checkout bytes."
+    },
+    "players": {
+      "min": 1,
+      "max": 1
+    },
+    "cameras": [
+      {
+        "cameraId": 1073741825,
+        "name": "自定义镜头",
+        "distance": 6,
+        "fieldOfView": 45,
+        "yawRange": [
+          null,
+          null
+        ],
+        "pitchRange": [
+          55,
+          55
+        ],
+        "fixedView": {
+          "yaw": 0,
+          "pitch": 55,
+          "ignoreCollision": true
+        }
+      }
+    ],
+    "spawnPoints": [
+      {
+        "pointId": 1073741825,
+        "name": "新建预设点",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "spawn": true
+      }
+    ],
+    "respawnPoints": [
+      {
+        "respawnId": 1,
+        "pointId": 1073741825,
+        "name": "AbyssSpawnRespawn",
+        "position": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "factions": [
+      {
+        "factionId": 1,
+        "name": "初始玩家阵营",
+        "hostileTo": [
+          3
+        ],
+        "friendlyTo": [
+          2
+        ],
+        "playerSlots": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "factionId": 2,
+        "name": "初始物件阵营",
+        "hostileTo": [],
+        "friendlyTo": [
+          1,
+          3
+        ],
+        "playerSlots": []
+      },
+      {
+        "factionId": 3,
+        "name": "初始造物阵营",
+        "hostileTo": [
+          1
+        ],
+        "friendlyTo": [
+          2
+        ],
+        "playerSlots": []
+      }
+    ],
+    "freshVerification": "Archived official readback assertions and every archived manifest file committed Git blob hash rechecked on 2026-10-24; no game/client operation performed."
+  },
+  "existingPlaytestEvidence": {
+    "report": "docs/M1-LIVE-ACCEPTANCE.md",
+    "sourceCommit": "5165a78c86e9a3cecd0fda3d5fa7bf59b5409ef9",
+    "importedSaveId": "1073741838",
+    "files": [
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/game-menu-0.png",
+        "sha256": "987aa321c002786f0daa932274e7376c7106bbb5220686448bfb83ec41321ef6",
+        "bytes": 139927,
+        "workingTreeSha256": "987aa321c002786f0daa932274e7376c7106bbb5220686448bfb83ec41321ef6",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/first-battle-0.png",
+        "sha256": "f5b111936a7f66c1fc67ec6d35f5ee506b3086466b14cd5de15411ac59a0b566",
+        "bytes": 278888,
+        "workingTreeSha256": "f5b111936a7f66c1fc67ec6d35f5ee506b3086466b14cd5de15411ac59a0b566",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/bash-left-0.png",
+        "sha256": "0718062a647edb4a85df58f72f632f160a2f2eaecc0d03e3855eaec187816487",
+        "bytes": 246937,
+        "workingTreeSha256": "0718062a647edb4a85df58f72f632f160a2f2eaecc0d03e3855eaec187816487",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/end-turn-one-0.png",
+        "sha256": "905a93d3627d8e7075ea4ff1d6fc0d5eb7ab00b3afbe00527ce3d0a8df9bed9a",
+        "bytes": 138391,
+        "workingTreeSha256": "905a93d3627d8e7075ea4ff1d6fc0d5eb7ab00b3afbe00527ce3d0a8df9bed9a",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/defend-two-0.png",
+        "sha256": "aed70a6f92ee0558b1245add06a6095401ce2e59c2af59b458cc9c00e5ae090a",
+        "bytes": 225203,
+        "workingTreeSha256": "aed70a6f92ee0558b1245add06a6095401ce2e59c2af59b458cc9c00e5ae090a",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/fourth-hand-0.png",
+        "sha256": "e6c65def2afad0027edbbd22b62f5b7cea32c151140d39c5cfa378c3e8011838",
+        "bytes": 260160,
+        "workingTreeSha256": "e6c65def2afad0027edbbd22b62f5b7cea32c151140d39c5cfa378c3e8011838",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/rewards-0.png",
+        "sha256": "a4fcc2031071671cea65b04b403fc6ec6bb8cddae14c09606ce8e655d94dbfcc",
+        "bytes": 217125,
+        "workingTreeSha256": "a4fcc2031071671cea65b04b403fc6ec6bb8cddae14c09606ce8e655d94dbfcc",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/take-flex-0.png",
+        "sha256": "29105925ff9f9fe4b1ff07847bd718d59f7c7b97dfa1c9dad0aab26890a57abe",
+        "bytes": 209266,
+        "workingTreeSha256": "29105925ff9f9fe4b1ff07847bd718d59f7c7b97dfa1c9dad0aab26890a57abe",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/shop-enter-0.png",
+        "sha256": "78fe2733917bfdccb1c1433af335912db2e481e95b313e68686d5816810ec750",
+        "bytes": 287850,
+        "workingTreeSha256": "78fe2733917bfdccb1c1433af335912db2e481e95b313e68686d5816810ec750",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/screens/deck-cancel-0.png",
+        "sha256": "c682c917e2c56f7856e3b2d4312ede67058a50f632dc39b44d6816bc0950c8b1",
+        "bytes": 214703,
+        "workingTreeSha256": "c682c917e2c56f7856e3b2d4312ede67058a50f632dc39b44d6816bc0950c8b1",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/session-log.gia",
+        "sha256": "9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8",
+        "bytes": 10651,
+        "workingTreeSha256": "9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/log-decoded.json",
+        "sha256": "4c9aca7af283f905e980e7e1355cc5c5aad36ad2c2b3676986b1dd740abd8002",
+        "bytes": 16761,
+        "workingTreeSha256": "b6bee61bb438b4a058e062571bfcfd849cea9c5935827beb7e8c3edcd2972c08",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/log-counts.json",
+        "sha256": "bcee4b9556b9a831be10c4269ff95ce0be1e615ea91aad51cce0cd4bc3708a30",
+        "bytes": 2809,
+        "workingTreeSha256": "289194731550b16f25d24bd91fba95d31b3862db36f3fc26ab6b8447d008cc0f",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/01-t004.jpg",
+        "sha256": "ff692208a50ad13d28bdc59f2ed438337974256550669d53cc396df0f9a8a4ed",
+        "bytes": 50912,
+        "workingTreeSha256": "ff692208a50ad13d28bdc59f2ed438337974256550669d53cc396df0f9a8a4ed",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/02-t007.jpg",
+        "sha256": "0a0845eaf4f3e31844aff8c86d68c89e78c9cd7c9ba2b609fcf1a932d1a1a923",
+        "bytes": 60034,
+        "workingTreeSha256": "0a0845eaf4f3e31844aff8c86d68c89e78c9cd7c9ba2b609fcf1a932d1a1a923",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/03-t010.jpg",
+        "sha256": "f7f92308b99b65cd08b836991f1d7131fbe08d789163a2bfdb60eb052028da32",
+        "bytes": 50913,
+        "workingTreeSha256": "f7f92308b99b65cd08b836991f1d7131fbe08d789163a2bfdb60eb052028da32",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/04-t013.jpg",
+        "sha256": "9b5ecf183b5f8c9fd3e29ea6a65cbd2973eb3ebca66e85ffc1e4222ad56f0062",
+        "bytes": 90959,
+        "workingTreeSha256": "9b5ecf183b5f8c9fd3e29ea6a65cbd2973eb3ebca66e85ffc1e4222ad56f0062",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/session-log.gia",
+        "sha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+        "bytes": 3179,
+        "workingTreeSha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/log-decoded.json",
+        "sha256": "f0033da1947499506af803db5cbbd300b259d623b568eff8e4fb6abc1274175c",
+        "bytes": 1686,
+        "workingTreeSha256": "e10de14e60080011d650b37cbdd525ccb51ded1abb0b4b5c5ddbeea2ba87d4f2",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      },
+      {
+        "file": "docs/evidence/m1-live-5165a78/exit-special/log-counts.json",
+        "sha256": "217fdf1f81d68e8ad66e98bd1e480050729539f12c0ddb953e3e5f972328a1dc",
+        "bytes": 168,
+        "workingTreeSha256": "f85a0b53b6c6e4a7a9a6d156af1dbde683390f4b9a41bb75a2964bda904ff6a3",
+        "hashScope": "Committed Git blob; text checkout can convert LF to CRLF."
+      }
+    ],
+    "scope": "Historical same-candidate PC battle/import screenshots and fresh-session log originally archived for save 1838. Their hashes are rechecked here; these are not new screenshots or new session logs."
+  },
+  "acceptanceCriteria": [
+    {
+      "index": 1,
+      "evidence": "Official import/readback and archived PC playtest for save1838."
+    },
+    {
+      "index": 2,
+      "evidence": "Official fixedView/spawn/respawn/1-to-1 configuration readback plus the user’s explicit overall TASK-2 acceptance."
+    },
+    {
+      "index": 3,
+      "evidence": "Official faction readback, hash-verified existing screenshots/log archive, and this explicit acceptance record."
+    }
+  ],
+  "boundaries": {
+    "agentPhysicalRespawnRetest": "NOT_PERFORMED_IN_THIS_CLOSEOUT",
+    "save1839NewReadbackScreenshotsOrLog": "NOT_CLAIMED",
+    "newOfficialImport": "NOT_PERFORMED",
+    "task2_1SceneArt": "SEPARATE_ACCEPTANCE_REQUIRED",
+    "milestone1": "NOT_CLOSED_BY_THIS_TASK",
+    "fullUiAcceptanceAndOtherDevices": "NOT_CERTIFIED_BY_THIS_TASK"
+  }
+}

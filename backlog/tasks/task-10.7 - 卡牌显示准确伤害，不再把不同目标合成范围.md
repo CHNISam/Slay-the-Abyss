@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 04:23'
-updated_date: '2026-10-24 04:24'
+updated_date: '2026-10-24 05:53'
 labels: []
 milestone: m-2
 dependencies: []
@@ -41,4 +41,6 @@ ordinal: 81000
 
 <!-- SECTION:NOTES:BEGIN -->
 本地修复与回归已实施，完整检查进行中；新副本实机复验尚未完成，详见技术附件。
+
+2026-10-24预览专项夹具14阶段离线通过：未瞄准4/易伤目标6、双击5×2、群攻基础6及实际6/9、格挡/费用/整数资源和拒绝非法小数；核心副本结算oracle及唯一一次正常Strike一致。统一诊断副本hash01dd3927…已编译写副本，尚未官方导入/实机复验，保留AC。
 <!-- SECTION:NOTES:END -->

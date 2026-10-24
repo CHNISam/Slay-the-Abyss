@@ -111,3 +111,52 @@ source, frame frequency or tested field was changed. All four original
 mutations remain detected after the split. Comparator controls also reject
 nested-value, type, missing-field, extra-field and Boolean differences.
 The corrective commit still requires a successful formal Fengari CI run.
+
+## M1 closeout: unchanged 30-second fixture budget
+
+PR162 run `40066537158` exposed a further real timeout: the combined three-case
+playback fixture completed the first case and reached the second case's
+`player_turn`, then hit 30,000 ms without a logged assertion failure. On the
+independent `5c6dbcc` baseline, that same unchanged fixture passed locally in
+26.0 seconds; this local pass does not invalidate the slower CI failure.
+
+The two multi-enemy cases now enter real `Combat.new` with Defend and the stock
+Fat Gremlin/Jaw Worm definitions they exercise, every rule and every status.
+The existing generated GameUI, pointer callbacks, production commands, real
+feedback and complete `drainChecked` loop remain in use. The host still starts
+normally; only its test battle is replaced with this dependency-scoped battle.
+The twelve preview cases and cancellation/replacement case retain the complete
+catalog. No production, layout, runner or deadline changes.
+
+The original three playback bodies are independent and now have separate
+top-level fixtures: ordered enemies/next command in `intent_artifact_playback`,
+two stock Artifact charges in `intent_artifact_charges`, cancellation and battle
+replacement in `intent_artifact_cancellation`. The JS wrapper explicitly
+requires all twelve preview groups plus one group from each playback fixture.
+All three original bodies and assertions are byte-preserved after normalizing
+only the first two setup calls. The entire 0.05-second `drainChecked` loop,
+including every committed-state comparison and actor/event identity assertion,
+and the runner are byte-identical to the baseline.
+
+Independent local evidence is under root `.artifacts/m1-artifact-test-cost/`:
+
+- `catalog-equivalence.lua` compares full versus dependency-scoped catalogs in
+  both original multi-enemy scenarios through three complete real `endTurn`
+  traces. Every core field, event snapshot and retained definition matches;
+  only unused catalog entries differ. Initial state traversal falls from
+  2807/2796 values to 1234/1223. The helper still compares all remaining fields.
+- The unsplit scoped fixture passed all three groups in 20.1 seconds. Final
+  independent fixtures measured 10.25, 6.98 and 1.13 seconds, each under the
+  unchanged 30-second deadline. All original feedback and PASS lines match the
+  baseline exactly and in order.
+- `node --test tests/intent-artifact-preview.test.mjs` passed the complete
+  wrapper in 30.4 seconds, with every child using its default runner deadline.
+- An isolated in-memory mutation disabling historical intent caching fails
+  the retained self-buff assertion (`expected 18, got 21`). Production files
+  remain unchanged. An earlier diagnostic attempt hit Fengari's unavailable
+  `io.open`; that harness error is retained separately and is not counted as
+  mutation detection.
+
+These are fixed-source local results, not a claim that the current PR SHA has
+passed formal CI or that any platform/UI acceptance is complete. Task ownership
+and unchecked acceptance criteria are left for the integrating coordinator.
