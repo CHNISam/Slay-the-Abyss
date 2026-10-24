@@ -132,6 +132,12 @@ local function splitEnemy(state, parent)
 end
 
 local function shuffle(state, pile)
+    if state.shuffleRng then
+        -- CardGroup.shuffle: one source nextLong seeds Java48/Collections,
+        -- even for an empty or singleton group. Legacy fixtures stay below.
+        SourceRandom.shuffle(state.shuffleRng, pile)
+        return
+    end
     for i = #pile, 2, -1 do
         local j = M.random(state, i)
         pile[i], pile[j] = pile[j], pile[i]
@@ -195,6 +201,23 @@ end
 
 function M.draw(state, count)
     if state.player.noDraw then return end
+    if state.shuffleRng then
+        -- DrawCardAction splits a request before EmptyDeckShuffleAction.
+        -- Draw the old pile first, then shuffle the discard even when empty;
+        -- only a wholly empty request or a full hand skips that source call.
+        if count <= 0 or #state.draw + #state.discard == 0
+            or #state.hand >= state.rules.player.maxHand then return end
+        count = math.min(count, state.rules.player.maxHand - #state.hand)
+        local oldSize = #state.draw
+        if count > oldSize then
+            if oldSize > 0 then M.draw(state, oldSize) end
+            shuffle(state, state.discard)
+            state.draw, state.discard = state.discard, {}
+            event(state, "reshuffle")
+            M.draw(state, count - oldSize)
+            return
+        end
+    end
     for _ = 1, count do
         -- Full hands stop drawing before touching either pile or the shuffle RNG.
         if #state.hand >= state.rules.player.maxHand then break end
@@ -307,6 +330,11 @@ local function savePlayState(state, playedCard)
     save(state); actor(state.player); save(state.enemies)
     for _, enemy in ipairs(state.enemies) do actor(enemy) end
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
+    if state.shuffleRng then
+        -- Source shuffle advances the counter and replaces primitive words.
+        -- Restore these existing objects along with the piles on a failed play.
+        save(state.shuffleRng); save(state.shuffleRng.primitive)
+    end
     if state.curlUpQueue then save(state.curlUpQueue) end
     save(playedCard)
     return function()
@@ -483,8 +511,8 @@ function M.new(data, options)
         state.roomSeed=options.roomSeed
         state.monsterHpRng=SourceRandom.cloneState(options.roomStreams.monsterHpRng)
         state.aiRng=SourceRandom.cloneState(options.roomStreams.aiRng)
-        -- Boundaries for the next independent card/shuffle migration. These are
-        -- staged source states; legacy card/shuffle consumers remain explicit.
+        -- Shuffle is consumed by initial setup and DrawCardAction below.
+        -- cardRandomRng remains an explicit boundary for its separate migration.
         state.shuffleRng=SourceRandom.cloneState(options.roomStreams.shuffleRng)
         state.cardRandomRng=SourceRandom.cloneState(options.roomStreams.cardRandomRng)
     end

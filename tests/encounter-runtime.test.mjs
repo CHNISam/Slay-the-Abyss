@@ -72,7 +72,7 @@ for _,v in ipairs(${toLua(vectors.cases)})do
   if event.stream=='hp'then expected[i].value=event.value-event.args[1];expected[i].args={0,event.args[2]-event.args[1]}end
  end
  same(trace,expected,'interleaving '..v.source..' '..v.seed)
- assert(battle.shuffleRng.counter==0 and battle.cardRandomRng.counter==0,'unmigrated streams must remain explicit')
+ assert(battle.shuffleRng.counter==1 and battle.cardRandomRng.counter==0,'empty initializeDeck shuffles once; cardRandom remains unmigrated')
 end
 print('SOURCE_ROOM_VECTORS_PASS 126')`);
   const result=runLua(file,{timeout:60000});assert.equal(result.status,0,result.stderr||result.stdout);

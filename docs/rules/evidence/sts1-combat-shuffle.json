@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "task": "TASK-16.1",
+  "base": "52a691c0d89c4dcc24f79039cfe727dcf235287e",
+  "source": {
+    "repository": "https://github.com/aeubanks/sts",
+    "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "identityBoundary": "Re-read fixed public mirror raw bytes; local SHA256 and computed Git blob identity. Not original PC binary authentication or original-game observation.",
+    "files": [
+      {"path": "cards/CardGroup.java", "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8", "computedGitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c", "sections": ["438-455", "544-550", "911-940"]},
+      {"path": "characters/AbstractPlayer.java", "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95", "computedGitBlob": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7", "sections": ["1546-1584", "1616-1646"]},
+      {"path": "actions/common/DrawCardAction.java", "sha256": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18", "computedGitBlob": "8f6ada68af6cce8c3acc5b7a397830b19c564633", "sections": ["update"]},
+      {"path": "actions/common/EmptyDeckShuffleAction.java", "sha256": "b4fc6be1df7caa1906705469500c40e81135a41614b54448346ddb0fec0bb2b2", "computedGitBlob": "14cb880060af4f609ab3887048c4e02518bc5671", "sections": ["constructor", "update"]},
+      {"path": "cards/Soul.java", "sha256": "8e4105a9df83d93ad4f66d35c54b63720e90f71b80c7594a6faa454d19b545c0", "computedGitBlob": "1a8dd9aef1fff6140524b45063b89ea7bb69fcc8", "sections": ["91-104"]},
+      {"path": "cards/SoulGroup.java", "sha256": "c3b44b69f2ebcff77b8a1d49c492973900cc42d597d66c651c4f41399af031cb", "computedGitBlob": "6cb6517e2fda3af6590cddd3053a6cc0bc12f78f", "sections": ["88-106"]},
+      {"path": "random/Random.java", "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172", "computedGitBlob": "c4b71d5645688f6e764c46c593223eb91a5249bc", "sections": ["randomLong"]}
+    ],
+    "rawUrlTemplate": "https://raw.githubusercontent.com/aeubanks/sts/319009d5df0a82d9fb0f23cc22322286c6a87ec0/{path}"
+  },
+  "oracle": {
+    "path": "tools/oracles/sts1_combat_shuffle.py",
+    "vectors": "tests/fixtures/sts1-combat-shuffle-vectors.json",
+    "initialCases": 35,
+    "redrawCases": 63,
+    "boundary": "Independent Python integer/source interpretation, no production imports/game-data reads/Lua execution; not original PC oracle. No Innate, bottled or unsupported shuffle/draw hooks."
+  },
+  "verification": {
+    "initialRed": {"nodeTests": 4, "passed": 1, "failed": 3, "reason": "Formal source shuffleRng not consumed by legacy shuffling"},
+    "followupRed": {"nodeTests": 4, "passed": 3, "failed": 1, "reason": "Real redraw followed by effect failure restored piles but not nested shuffle RNG state"},
+    "nodeCommand": "node --test tests/combat-shuffle.test.mjs tests/event-random.test.mjs tests/encounter-runtime.test.mjs",
+    "nodePassed": 8,
+    "nodeFailed": 0,
+    "oracleRegeneration": "Identical vectors and canonical LF generator identity after executing both LF and CRLF copies",
+    "luaGroups": {"room_shuffle": 6, "combat": 23, "atomic_play": 14, "draw_lock": 15, "artifact_no_draw": 6, "opening_relic_order": 20, "card_pool": 93},
+    "isolatedMutationsDetected": ["skip_empty_singleton", "wrong_card_stream", "reverse_shuffled_array", "skip_old_draw", "reverse_discard_before_shuffle", "omit_rng_rollback"],
+    "legacyUnchangedBaseline": {"source": "Executed unchanged 52a691c Combat with same Data", "seed": 42, "afterSeed": 13745, "handUids": [2, 9, 8, 7, 4]},
+    "diffCheck": "passed"
+  },
+  "notPerformed": ["full check", "GUI", "MCP", "platform compile", "save copy export", "official import", "live gameplay", "push", "merge"],
+  "remaining": ["cardRandom consumers", "card rewards and dynamic rarity history", "gold and relic rewards", "full supported hooks audit", "same-candidate natural run and per-item platform/live acceptance"]
+}
