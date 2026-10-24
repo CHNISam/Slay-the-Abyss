@@ -958,7 +958,10 @@
       "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/GameActionManager.java",
       "sha256": "52c359a5b977ac55d80d7c7fbfe94570a94e75a91e985d98dea2a9fcac6aa478",
       "gitBlob": "931cded5ae1aed78771e0a5389e8358946b78f8f",
-      "bytes": 29916
+      "bytes": 29916,
+      "reviewedFacts": [
+        "Lines477-480 enqueue normal DrawCardAction, then post-draw relics/powers, before draining; draw-hook tails therefore follow already queued Brutality actions."
+      ]
     },
     {
       "id": "AbstractCard",
@@ -1071,6 +1074,17 @@
       "bytes": 2758,
       "reviewedFacts": [
         "Both retaliation powers enqueue independent TOP THORNS-type DamageActions on normal attacks, including fully blocked attacks; neither overrides default priority. Equal-priority first-application order therefore reverses at TOP resolution."
+      ]
+    },
+    {
+      "id": "LoseHPAction",
+      "path": "actions/common/LoseHPAction.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/LoseHPAction.java",
+      "sha256": "70bc238864d55d88a6d189bb446689bce16596988b287cbf3456735caf073e6f",
+      "gitBlob": "b17ea693ee62134f4d7f10d56e72f4c25d5fd460",
+      "bytes": 2204,
+      "reviewedFacts": [
+        "LoseHPAction has DAMAGE actionType and therefore survives clearPostCombatActions; update applies while its target is alive."
       ]
     }
   ]

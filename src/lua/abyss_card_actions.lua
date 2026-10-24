@@ -235,7 +235,7 @@ end
 
 -- Only source-supported retained actions may survive victory. Selection and
 -- draws are cleared, but disposal, damage, ordinary block and healing survive.
-local retained={dispose=true,damage=true,damageAll=true,damageRandom=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
+local retained={dispose=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true

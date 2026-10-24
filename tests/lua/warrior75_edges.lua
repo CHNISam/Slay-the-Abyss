@@ -335,4 +335,22 @@ test('fresh Blood for Blood inherits prior HP-loss count, including Infernal Bla
     s.rules.player.drawPerTurn=0;s.player.block=1;assert(C.endTurn(s))
     eq(C.cardDefinition(s,generated).cost,2,'temporary free cost resets to original discounted cost')
 end)
+test('Brutality post-draw actions are queued before Fire Breathing draw-hook tails',function()
+    local s=battle({});s.player.hp=1;s.enemies[1].hp=1
+    s.enemies[1].intents[1].effects={{op='damage',value=0}}
+    s.player.statuses.brutality=1;s.player.statuses.fire_breathing=6
+    s.draw={newCard(s,'strike'),newCard(s,'wound')};s.rules.player.drawPerTurn=1
+    assert(C.endTurn(s));eq(s.phase,'defeat');eq(s.player.hp,0);eq(s.enemies[1].hp,1)
+    eq(#s.hand,2,'both normal and Brutality draws precede its lethal payment')
+end)
+
+test('queued LoseHP is a retained DAMAGE action after victory, but stops on defeat',function()
+    for _,hp in ipairs({5,1})do
+        local s=battle({});s.player.hp=hp;s.enemies[1].hp=1
+        Actions.enqueue(s,{op='damageAll',value=1,fixed=true},s.player)
+        Actions.enqueue(s,{op='loseHp',value=2},s.player)
+        Actions.drain(C,s)
+        eq(s.player.hp,hp==5 and 3 or 0);eq(C.outcome(s),hp==5 and 'victory'or'defeat')
+    end
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')

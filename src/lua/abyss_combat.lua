@@ -575,17 +575,18 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
         CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
             or {op="energy",value=p.statuses[id]})
     end
-    CardActions.drain(M,state)
-    if finish(state) then return end
-    M.draw(state, state.rules.player.drawPerTurn)
+    -- The source queues ordinary draw and post-draw Powers before executing
+    -- DrawCardAction. Draw hooks append behind those already queued actions.
+    CardActions.enqueue(state,{op='draw',value=state.rules.player.drawPerTurn})
     if state.turn==1 and state.openingInnateExtra then
-        M.draw(state,state.openingInnateExtra);state.openingInnateExtra=nil
+        CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
     end
     if (p.statuses.brutality or 0)>0 then
         CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
         CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
     end
     CardActions.drain(M,state)
+    if finish(state) then return end
     event(state, "player_turn", state.turn)
     return true
 end
