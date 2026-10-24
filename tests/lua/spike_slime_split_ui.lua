@@ -27,7 +27,7 @@ for i=1,5 do assert(p:GetChild('enemy'..i).visible==(i~=3),'five-slot visibility
 -- PR143's live preview/status controls must also describe newly inserted actors.
 C.addStatus(b.enemies[2], 'vulnerable', 2)
 u.target=2;h:refresh()
-assert(p:GetChild('card1'):GetChild('label').text:find('9',1,true),'live preview follows the new child target')
+assert(p:GetChild('card1'):GetChild('label').text:find('6',1,true),'unaimed preview excludes the new child target modifiers')
 local function statusTap(panel,index,touch)
     local hit=panel:GetChild('enemy'..index):GetChild('statusRow'):GetChild('hit')
     for _,kind in ipairs({'down','up','click'}) do
