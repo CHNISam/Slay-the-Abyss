@@ -61,6 +61,15 @@ test('reward list, card choice, feedback and leave action have consistent render
   }
   assert.ok(!shown(cases['potion-claimed'], '/battlePanel/claimPotion'), 'claimed bottle must not retain a live row');
   assert.ok(!shown(cases['stolen-gold-claimed'], '/battlePanel/stolenGold'), 'claimed gold must not retain a live row');
+  const feedback = name => visibleText(cases[name].nodes).find(row => row.path === '/battlePanel/rewardList/subtitle')?.text;
+  for (const name of ['card-added', 'potion-claimed', 'potion-full-rejected', 'stolen-gold-claimed'])
+    assert.ok(feedback(name), `${name}: hiding the global notice must preserve visible local feedback`);
+  assert.notEqual(feedback('card-added'), feedback('reward-list'), 'card result must replace idle instructions');
+  assert.notEqual(feedback('potion-claimed'), feedback('card-added'), 'potion result must replace stale card feedback');
+  for (const name of ['potion-full', 'potion-full-rejected'])
+    assert.ok(visibleText(cases[name].nodes).some(row => row.path === '/battlePanel/potionReward'), `${name}: full-belt explanation missing`);
+  assert.ok(!visibleText(cases['potion-claimed'].nodes).some(row => row.path === '/battlePanel/potionReward'),
+    'resolved bottle must hide its former full-belt explanation');
 });
 
 test('adjacent menu, map, node and battle headers do not share boxes with active feedback', () => {
