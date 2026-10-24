@@ -1,0 +1,17 @@
+[
+  {
+    "name": "result_visibility",
+    "exit": 2,
+    "stderr": "tests/lua/battle_ui.lua:98: assertion failed!"
+  },
+  {
+    "name": "defeat_colour",
+    "exit": 2,
+    "stderr": "tests/lua/battle_ui.lua:108: assertion failed!"
+  },
+  {
+    "name": "missing_binding",
+    "exit": 2,
+    "stderr": "tests/lua/battle_ui.lua:13: unknown control stage/result"
+  }
+]
