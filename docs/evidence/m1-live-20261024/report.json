@@ -1,0 +1,137 @@
+{
+  "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+  "candidateSource": "c0f20766519a248f1a02df60985f3a832aa529b1",
+  "candidateSha256": "01dd39274f42ddaccf73e68fdf7bcbe4986919f96c297e94e6d6c4483bef297a",
+  "officialSaveId": "1073741841",
+  "fixtureOnly": true,
+  "runnerTerminalState": "succeeded",
+  "decodedPrintCount": 837,
+  "runnerExpectations": {
+    "passed": true,
+    "met": 4,
+    "of": 4,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"M1_PROBE complete 9\"",
+        "met": true,
+        "t": 387
+      },
+      {
+        "expect": "print \"M1_UNIFIED_PHASE preview\"",
+        "met": true,
+        "t": 599
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "visualAcceptanceIsSeparate": true,
+  "reviewAvailability": {
+    "status": true,
+    "statusLog": true,
+    "preview": true,
+    "combat": false,
+    "block": true
+  },
+  "statusReviewerRecommendation": {
+    "status": "PASS_FOR_TASK_11_1_DIAGNOSTIC_DETAILS_SCOPE",
+    "ac1": "PASS: same imported copy has readable evidence for all nine names/amounts/stacking and decay or permanent persistence, with this run54 complete state records and54 readonly prints.",
+    "ac2": "PASS: source/candidate/save/run and missing phases recorded; real-turn amounts/HP/blocks match all9 expectations, full-Run UI readonly assertions emitted54 times, fresh ready and complete9 present without unexpected status faults.",
+    "taskMutationPerformed": false,
+    "wholeUiGatePassed": false,
+    "normalGameCompletionClaim": false,
+    "mobileInputClaim": false,
+    "remainingScope": [
+      "43/54 individual detail phases pictured; missing11 listed per status",
+      "Normal natural acquisition and complete-game coverage not established by injection",
+      "Actual mouse/phone tooltip gestures are not certified by scripted fixture",
+      "Always-visible chip-adjacent count text is not readable in reviewed full frames; numeric amounts are readable in the detail panel. Retain as a HUD/UI limitation for main UI acceptance.",
+      "Original-game parity and M1 overall closure require their own evidence"
+    ]
+  },
+  "previewReviewerRecommendations": {
+    "TASK-10.7": [
+      {
+        "ac": 1,
+        "supported": true,
+        "evidence": "Native unaimed4 / plain aim4 / Vulnerable aim6 / cancel4 with no range; same-candidate source identity confirmed."
+      },
+      {
+        "ac": 2,
+        "supported": true,
+        "evidence": "Native single/multi/AoE/block/cost/intent display plus archived4 core-copy resolution oracles. Native singleStrike resolves6; block actual animation audited separately. Preview/help runtime read-only assertions pass; seed stable."
+      },
+      {
+        "ac": 3,
+        "supported": true,
+        "condition": "Link existing prior red reproduction .artifacts/m1-live-sprint/exact-damage-red.log / exact-damage-negative.log in final closeout. This review independently sees old logs failing11~=7 and current same diagnostic candidate native success; it did not recreate an old executable client session."
+      },
+      {
+        "ac": 4,
+        "supported": true,
+        "evidence": "Native HP/energy/cost/gold/hand/discard all shown as integers. Illegal fractional and non-finite inputs are rejected by independent offline validator, not injected into this live run."
+      }
+    ],
+    "TASK-10.8": [
+      {
+        "ac": 1,
+        "supported": true,
+        "evidence": "Native compound upcoming actions and badges; actual Strength2 remains Jaw-owned and Weak2 player-owned, clearly distinct in details."
+      },
+      {
+        "ac": 2,
+        "supported": true,
+        "scope": "Native production handler responses to explicitly synthetic hover/hold/tap callbacks. Full names/layers/descriptions visibly readable. No certification of physical mobile/keyboard/mouse input routing."
+      },
+      {
+        "ac": 3,
+        "supported": true,
+        "evidence": "Details follow committed current actors; live runtime read-only assertions and unchangedHP/energy/hand before the only intended play; exactly1 play+1 damage print after preview start."
+      }
+    ]
+  },
+  "originalProblemAndRedEvidence": {
+    "originalProblem": "historical-red/TASK-10.7-original-problem.md.gz",
+    "rawRegressions": [
+      "historical-red/exact-damage-negative.log.gz",
+      "historical-red/exact-damage-negative.lua",
+      "historical-red/exact-damage-red.log.gz",
+      "historical-red/integer-resources-red-corrected.log.gz",
+      "historical-red/status-help-red.log.gz"
+    ],
+    "scope": "Original problem and prior local red/negative regression artifacts. This live package did not run an old native client to manufacture a new red result."
+  },
+  "task4_1": {
+    "status": "ACCEPTED_BY_USER_CURRENT_CANDIDATE",
+    "historicalReviewerStatus": "FAIL",
+    "historicalFinding": "Flying Defend transiently overlaps hero HP; original independent observation and original frames retained.",
+    "historicalReview": "reviews/block-live-review.json",
+    "userDecision": "user-acceptance-decision.json",
+    "decision": "User accepts normal flying-card overlap and existing6-layout/108-sample/6-cancellation block-badge evidence; do not delay M1 for this optional optimization.",
+    "secondRound": "CANCELLED_BY_USER",
+    "newFixNativeValidationClaimed": false
+  },
+  "wholeMilestone1": "NOT_CLOSED_BY_PACKAGING",
+  "wholeUiGate": "NOT_CERTIFIED_BY_PACKAGING",
+  "limitations": [
+    "Explicitly injected status/block/preview fixture, not natural acquisition or a normal complete game.",
+    "Synthetic callback events are not physical mouse or phone gesture proof.",
+    "43 of54 individual status detail phases were pictured in the initial visual review; missing phases remain listed.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior.",
+    "Historical HP overlap observation is retained; the latest user decision accepts it. No second native-fix verification is claimed or required for this accepted behavior."
+  ],
+  "selectedOriginalScreenshots": 68,
+  "completeRawFileCount": 549,
+  "userAcceptanceDecision": "user-acceptance-decision.json"
+}

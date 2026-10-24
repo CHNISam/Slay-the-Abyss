@@ -1,0 +1,2743 @@
+{
+  "task": "TASK-11.1",
+  "reviewedAt": "2026-10-24T06:38:09.480Z",
+  "reviewer": "status_platform subagent",
+  "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+  "sourceCommit": "c0f20766519a248f1a02df60985f3a832aa529b1",
+  "fixtureOnly": true,
+  "officialSaveId": "1073741841",
+  "candidate": {
+    "path": "F:/New folder/.artifacts/m1-closeout-20261024/abyss-m1-unified-diagnostic.gil",
+    "sha256": "01dd39274f42ddaccf73e68fdf7bcbe4986919f96c297e94e6d6c4483bef297a"
+  },
+  "importedScriptReadback": {
+    "status": "Coordinator verified43 modules match this candidate",
+    "record": "F:/New folder/.artifacts/m1-closeout-20261024/live/official-1841-script-readback.json",
+    "independentlyRecheckedByThisReviewer": false
+  },
+  "runStateAtReview": "succeeded",
+  "clientScriptLogRequested": true,
+  "subscriptionEvidence": [
+    {
+      "at": 38.7,
+      "step": "client-script-log-ticked"
+    },
+    {
+      "at": 41.5,
+      "step": "log-subscribed",
+      "graphNames": [
+        "_GSTS_ABYSS_SETTLEMENT"
+      ],
+      "clientScripts": true
+    }
+  ],
+  "screenshotReview": {
+    "personallyViewed": true,
+    "method": "Original full screenshots and unmodified pixel crops assembled with PIL for analysis; originals retained. Phase identified by rendered owner/status/value, never planned label.",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "uniqueStatusDetailPhases": 43,
+    "plannedDetailPhases": 54,
+    "missingDetailPhases": 11,
+    "allNineTypesHaveReadableNamesStacksOrNonstackingRuleAndPostTurnEvidence": true,
+    "fixtureBannerVisible": "M1验收夹具 · 非正常获取 / 非通关",
+    "timingCaveat": "Tool playSeconds starts after probe.new; screenshot content is about4–6s ahead of planned stage. t041 is player Dexterity2, t084 player Vulnerable2, t311 already Defend, t385 already block fixture.",
+    "extraViewedExamples": [
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/02-t002.jpg",
+        "sha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+        "personallyViewed": true,
+        "owner": "enemy",
+        "phase": "initial strength duplicate",
+        "renderedAmount": 2,
+        "wallTime": 1792823000.2030647,
+        "actualPlaySeconds": 2
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/46-t311.jpg",
+        "sha256": "da80863a36176332177449753f6331a1a09d36d4bd6aee729abb2b5248d9d292",
+        "personallyViewed": true,
+        "owner": "player",
+        "phase": "actual Defend rather than planned enemy Regen5",
+        "renderedAmount": null,
+        "wallTime": 1792823312.423176,
+        "actualPlaySeconds": 314
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/65-t385.jpg",
+        "sha256": "e03921a8f0bce61c79b70ad4c21bade553c566350a60a8875220bc277f547c1c",
+        "personallyViewed": true,
+        "owner": "player",
+        "phase": "next block fixture, excluded from nine-status proof",
+        "renderedAmount": null,
+        "wallTime": 1792823383.2708151,
+        "actualPlaySeconds": 385
+      }
+    ]
+  },
+  "perStatus": [
+    {
+      "id": "strength",
+      "name": "力量",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        5
+      ],
+      "effectText": "攻击每段伤害 +2/+5。",
+      "observedBehavior": "Enemy HP38→34; permanent Strength remains5",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/01-t001.jpg",
+          "sha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792822999.2658863,
+          "actualPlaySeconds": 1
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/03-t006.jpg",
+          "sha256": "03182d0d74aa8c3fee1cf127949f56d3c68967ad959dc89bea4cfb3e6089eb9f",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823004.2104113,
+          "actualPlaySeconds": 6
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/04-t010.jpg",
+          "sha256": "df9b7771ab66238a0fc6ed65183a26e75abffc5d838e1c7960179974245a7637",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823008.2114027,
+          "actualPlaySeconds": 10
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/06-t037.jpg",
+          "sha256": "41e522500760587b634a43c0ca779d1c8645430e964ef90e8ae4b783b1f1dec8",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 5,
+          "wallTime": 1792823035.7740636,
+          "actualPlaySeconds": 37.5
+        }
+      ],
+      "missingDetailScreens": [
+        "player initial2",
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "strength",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          5
+        ],
+        "afterTurnHp": [
+          60,
+          34
+        ],
+        "records": [
+          {
+            "t": 2,
+            "text": "M1_PROBE strength initial2 elapsed=0.0 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "initial2",
+            "elapsed": 0,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 4,
+            "text": "M1_PROBE strength initial2-enemy elapsed=4.0 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "initial2-enemy",
+            "elapsed": 4,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 8,
+            "text": "M1_PROBE strength stacked5 elapsed=8.0 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "stacked5",
+            "elapsed": 8,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 12,
+            "text": "M1_PROBE strength stacked5-enemy elapsed=12.0 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "stacked5-enemy",
+            "elapsed": 12,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 35,
+            "text": "M1_PROBE strength afterTurn elapsed=35.0 caseTime=35.0 player=5.0 enemy=5.0 hp=60/34 block=0/0 turn=2",
+            "id": "strength",
+            "phase": "afterTurn",
+            "elapsed": 35,
+            "caseTime": 35,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 34,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 39,
+            "text": "M1_PROBE strength afterTurn-enemy elapsed=39.0 caseTime=39.0 player=5.0 enemy=5.0 hp=60/34 block=0/0 turn=2",
+            "id": "strength",
+            "phase": "afterTurn-enemy",
+            "elapsed": 39,
+            "caseTime": 39,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 34,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "dexterity",
+      "name": "敏捷",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        5
+      ],
+      "effectText": "获得的格挡 +2/+5。",
+      "observedBehavior": "Permanent Dexterity remains5; Defend preview10 is visible in full t053",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/07-t041.jpg",
+          "sha256": "2ec6337e26edc0148c0a473efb1a184528421d4b5c5016b0452b902fd3ea3418",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823039.7768707,
+          "actualPlaySeconds": 41.5
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/08-t045.jpg",
+          "sha256": "ca1b11f99220c8be627a7a4bf6b560a29c3a76ee5e7eea04084162515e685ca5",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823043.7851572,
+          "actualPlaySeconds": 45.5
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/09-t049.jpg",
+          "sha256": "d1228542cf2d0ad6e3c32f712e502058edbf395953b6d9f638d4747a94e86bb5",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823048.5400434,
+          "actualPlaySeconds": 50.4
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/10-t053.jpg",
+          "sha256": "36af525dd0d3d3c3315dbfd5299c1bc6cedff01d7959a7d0fd940bef5c9b846d",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823051.2626789,
+          "actualPlaySeconds": 53
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/12-t080.jpg",
+          "sha256": "da205202140a60d1b0cfcbef2ef74b3c7c8ef8d13941c632698097601fcfbde3",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 5,
+          "wallTime": 1792823078.276853,
+          "actualPlaySeconds": 80
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "dexterity",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          5
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 43,
+            "text": "M1_PROBE dexterity initial2 elapsed=43.0 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "initial2",
+            "elapsed": 43,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 47,
+            "text": "M1_PROBE dexterity initial2-enemy elapsed=47.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "initial2-enemy",
+            "elapsed": 47.1,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 51,
+            "text": "M1_PROBE dexterity stacked5 elapsed=51.0 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "stacked5",
+            "elapsed": 51,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 55,
+            "text": "M1_PROBE dexterity stacked5-enemy elapsed=55.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "stacked5-enemy",
+            "elapsed": 55.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 78,
+            "text": "M1_PROBE dexterity afterTurn elapsed=78.0 caseTime=35.0 player=5.0 enemy=5.0 hp=60/38 block=0/0 turn=2",
+            "id": "dexterity",
+            "phase": "afterTurn",
+            "elapsed": 78,
+            "caseTime": 35,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 82,
+            "text": "M1_PROBE dexterity afterTurn-enemy elapsed=82.1 caseTime=39.0 player=5.0 enemy=5.0 hp=60/38 block=0/0 turn=2",
+            "id": "dexterity",
+            "phase": "afterTurn-enemy",
+            "elapsed": 82.1,
+            "caseTime": 39,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "vulnerable",
+      "name": "易伤",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        4
+      ],
+      "effectText": "受到的攻击伤害 +50%，持续 2/5/4 回合。",
+      "observedBehavior": "Enemy HP38→36;5→4 duration",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/13-t084.jpg",
+          "sha256": "76d7b66e8b331d30bef5676fa0291bab8ae6ac026ee474856e934beaf455dc71",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823082.2820506,
+          "actualPlaySeconds": 84
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/14-t088.jpg",
+          "sha256": "161e981b6d038868c3c648d512e139cd9ab6611b55bcc86d97e1e08710ee9866",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823086.346266,
+          "actualPlaySeconds": 88
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/15-t092.jpg",
+          "sha256": "57dc1805cea648d26ca665d8d9cda1786c1a5c9981546eeaeef6c2623c17a835",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823090.4593647,
+          "actualPlaySeconds": 92
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/16-t096.jpg",
+          "sha256": "8c7a7aa2319d9d371e05cf06e8af99f3a4c99f37e541ed5ff8a2bff13282f0fb",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823094.4126503,
+          "actualPlaySeconds": 96
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/18-t123.jpg",
+          "sha256": "2a50e72829c44a23c7284ea6bf70aa030346b1462b90d5741d0a525448693198",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823121.2923927,
+          "actualPlaySeconds": 123
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "vulnerable",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          60,
+          36
+        ],
+        "records": [
+          {
+            "t": 86,
+            "text": "M1_PROBE vulnerable initial2 elapsed=86.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "initial2",
+            "elapsed": 86.1,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 90,
+            "text": "M1_PROBE vulnerable initial2-enemy elapsed=90.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "initial2-enemy",
+            "elapsed": 90.1,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 94,
+            "text": "M1_PROBE vulnerable stacked5 elapsed=94.1 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "stacked5",
+            "elapsed": 94.1,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 98,
+            "text": "M1_PROBE vulnerable stacked5-enemy elapsed=98.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "stacked5-enemy",
+            "elapsed": 98.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 121,
+            "text": "M1_PROBE vulnerable afterTurn elapsed=121.1 caseTime=35.0 player=4.0 enemy=4.0 hp=60/36 block=0/0 turn=2",
+            "id": "vulnerable",
+            "phase": "afterTurn",
+            "elapsed": 121.1,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 36,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 125,
+            "text": "M1_PROBE vulnerable afterTurn-enemy elapsed=125.1 caseTime=39.0 player=4.0 enemy=4.0 hp=60/36 block=0/0 turn=2",
+            "id": "vulnerable",
+            "phase": "afterTurn-enemy",
+            "elapsed": 125.1,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 36,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "weak",
+      "name": "虚弱",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        4
+      ],
+      "effectText": "造成的攻击伤害 -25%，持续 2/5/4 回合。",
+      "observedBehavior": "Enemy HP38;5→4 duration",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/19-t127.jpg",
+          "sha256": "e107675d9651a8442ceb26a3f4cac305a77c8c144dc0267bf9809e89624d7557",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823125.3144872,
+          "actualPlaySeconds": 127
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/20-t131.jpg",
+          "sha256": "fa351df76c97715eaddc3962d94fa4526f3b0fbedc08fe84b0bcf463d4293e07",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823129.341393,
+          "actualPlaySeconds": 131
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/21-t135.jpg",
+          "sha256": "52fb7e710627062e2f1dbf0a5c4e6519247c7f88050729c555127f901e9cfb96",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823133.2613306,
+          "actualPlaySeconds": 135
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/22-t139.jpg",
+          "sha256": "c08e41d1d99413d61000955d05bcaad0e3cbe7eb39e0c0820e761f185340c9b7",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823137.3030763,
+          "actualPlaySeconds": 139
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/24-t166.jpg",
+          "sha256": "c131ad0b91ba7e4e5b52b38e024f584fb34ba468ddf184ffbdffd55a12747a57",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823164.2896364,
+          "actualPlaySeconds": 166
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "weak",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 129,
+            "text": "M1_PROBE weak initial2 elapsed=129.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "initial2",
+            "elapsed": 129.1,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 133,
+            "text": "M1_PROBE weak initial2-enemy elapsed=133.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "initial2-enemy",
+            "elapsed": 133.1,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 137,
+            "text": "M1_PROBE weak stacked5 elapsed=137.1 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "stacked5",
+            "elapsed": 137.1,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 141,
+            "text": "M1_PROBE weak stacked5-enemy elapsed=141.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "stacked5-enemy",
+            "elapsed": 141.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 164,
+            "text": "M1_PROBE weak afterTurn elapsed=164.1 caseTime=35.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "weak",
+            "phase": "afterTurn",
+            "elapsed": 164.1,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 168,
+            "text": "M1_PROBE weak afterTurn-enemy elapsed=168.2 caseTime=39.1 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "weak",
+            "phase": "afterTurn-enemy",
+            "elapsed": 168.2,
+            "caseTime": 39.1,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "frail",
+      "name": "脆弱",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        4
+      ],
+      "effectText": "获得的格挡 -25%，持续 2/5/4 回合。",
+      "observedBehavior": "Enemy HP38;5→4 duration",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/25-t170.jpg",
+          "sha256": "e65fa32e25ad339847373c62206d71d43c96eb635c71cf74f632fadfb3ee8f3c",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823168.2769396,
+          "actualPlaySeconds": 170
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/26-t174.jpg",
+          "sha256": "b3c824acccc93a196d512cb59b95a47a389232408a35994379e65a03e323c654",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823172.2688248,
+          "actualPlaySeconds": 174
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/27-t178.jpg",
+          "sha256": "7bcab262b843e2e68ab0340b484414866e964485d47be78bf9585640cd382fd8",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823176.3176687,
+          "actualPlaySeconds": 178
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/28-t182.jpg",
+          "sha256": "c13557579a9bce4be3735c16f106cb615c1eaf62c5790a27669d22be8df22b56",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823180.275887,
+          "actualPlaySeconds": 182
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/30-t209.jpg",
+          "sha256": "4e4520f951650f97866838fd72c6eca6ad07aee792505fc77f3a15a788d1c5fd",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823207.28412,
+          "actualPlaySeconds": 209
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "frail",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 172,
+            "text": "M1_PROBE frail initial2 elapsed=172.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "initial2",
+            "elapsed": 172.1,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 176,
+            "text": "M1_PROBE frail initial2-enemy elapsed=176.2 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "initial2-enemy",
+            "elapsed": 176.2,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 180,
+            "text": "M1_PROBE frail stacked5 elapsed=180.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "stacked5",
+            "elapsed": 180.2,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 184,
+            "text": "M1_PROBE frail stacked5-enemy elapsed=184.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "stacked5-enemy",
+            "elapsed": 184.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 207,
+            "text": "M1_PROBE frail afterTurn elapsed=207.2 caseTime=35.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "frail",
+            "phase": "afterTurn",
+            "elapsed": 207.2,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 211,
+            "text": "M1_PROBE frail afterTurn-enemy elapsed=211.2 caseTime=39.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "frail",
+            "phase": "afterTurn-enemy",
+            "elapsed": 211.2,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "poison",
+      "name": "中毒",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        4
+      ],
+      "effectText": "回合开始时失去 2/5/4 点生命，之后每回合少 1 点。",
+      "observedBehavior": "Full t252: player60→55HP;enemy38→33HP;Poison5→4",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/31-t213.jpg",
+          "sha256": "fbf457ba79062555ee9fc6b69d07de10911252e099e37c68c31dc77963cb62ea",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823211.231222,
+          "actualPlaySeconds": 213
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/32-t217.jpg",
+          "sha256": "76688bc4fe02cf306c8a169ae259208196fbb47a3e04d516e344645060e5a549",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823215.3104215,
+          "actualPlaySeconds": 217
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/33-t221.jpg",
+          "sha256": "79480ef7821f133476c59e67c94dab9076724b89ca91328eaa2d7b7b5c9fcdfe",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823219.2481718,
+          "actualPlaySeconds": 221
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/34-t225.jpg",
+          "sha256": "5b7eb7c4ceefba2ea413d591efa3b079edc67db0686704d253da6ffd4cf1f1a4",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823223.230843,
+          "actualPlaySeconds": 225
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/36-t252.jpg",
+          "sha256": "2541105c575af93d38f89470b3f74cb156e023055b124219de42e73b1d07f665",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823250.3414152,
+          "actualPlaySeconds": 252
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "poison",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          55,
+          33
+        ],
+        "records": [
+          {
+            "t": 215,
+            "text": "M1_PROBE poison initial2 elapsed=215.2 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "initial2",
+            "elapsed": 215.2,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 219,
+            "text": "M1_PROBE poison initial2-enemy elapsed=219.2 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "initial2-enemy",
+            "elapsed": 219.2,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 223,
+            "text": "M1_PROBE poison stacked5 elapsed=223.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "stacked5",
+            "elapsed": 223.2,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 227,
+            "text": "M1_PROBE poison stacked5-enemy elapsed=227.2 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "stacked5-enemy",
+            "elapsed": 227.2,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 250,
+            "text": "M1_PROBE poison afterTurn elapsed=250.2 caseTime=35.0 player=4.0 enemy=4.0 hp=55.0/33.0 block=0/0 turn=2",
+            "id": "poison",
+            "phase": "afterTurn",
+            "elapsed": 250.2,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 55,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 254,
+            "text": "M1_PROBE poison afterTurn-enemy elapsed=254.2 caseTime=39.0 player=4.0 enemy=4.0 hp=55.0/33.0 block=0/0 turn=2",
+            "id": "poison",
+            "phase": "afterTurn-enemy",
+            "elapsed": 254.2,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 55,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "thorns",
+      "name": "荆棘",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        5
+      ],
+      "effectText": "受到攻击时，对攻击者造成 2/5 点伤害。",
+      "observedBehavior": "Full t295: player60HP;enemy38→33HP;Thorns remains5",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/37-t256.jpg",
+          "sha256": "bde0a7e5e60393eb20acedaf8c07bdc1e62e654ac985f6866247dbd20c2f1503",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823254.2521079,
+          "actualPlaySeconds": 256
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/38-t260.jpg",
+          "sha256": "36e61462ab6bff8e303ef44ee3d4d8a1fcc9870f1b6eac5ded5139f39514926c",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823258.249263,
+          "actualPlaySeconds": 260
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/39-t264.jpg",
+          "sha256": "6961b60d22a3dd4c2d62267a68880be134dfe26ecf05891f34936a615cffc431",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823262.3374867,
+          "actualPlaySeconds": 264
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/40-t268.jpg",
+          "sha256": "32a358a2d0940ff1869ba02b62af20350596c7b08afe4530342e5f1b59979ffd",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823266.4059079,
+          "actualPlaySeconds": 268
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/42-t295.jpg",
+          "sha256": "3f5f8430edd1bd4b3aa55b3f8002b985b081f4431fb6c4a039910da66483338e",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 5,
+          "wallTime": 1792823293.4352124,
+          "actualPlaySeconds": 295
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "thorns",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          5
+        ],
+        "afterTurnHp": [
+          60,
+          33
+        ],
+        "records": [
+          {
+            "t": 258,
+            "text": "M1_PROBE thorns initial2 elapsed=258.2 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "initial2",
+            "elapsed": 258.2,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 262,
+            "text": "M1_PROBE thorns initial2-enemy elapsed=262.3 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "initial2-enemy",
+            "elapsed": 262.3,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 266,
+            "text": "M1_PROBE thorns stacked5 elapsed=266.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "stacked5",
+            "elapsed": 266.2,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 270,
+            "text": "M1_PROBE thorns stacked5-enemy elapsed=270.2 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "stacked5-enemy",
+            "elapsed": 270.2,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 293,
+            "text": "M1_PROBE thorns afterTurn elapsed=293.2 caseTime=35.0 player=5.0 enemy=5.0 hp=60.0/33.0 block=0/0 turn=2",
+            "id": "thorns",
+            "phase": "afterTurn",
+            "elapsed": 293.2,
+            "caseTime": 35,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 297,
+            "text": "M1_PROBE thorns afterTurn-enemy elapsed=297.2 caseTime=39.0 player=5.0 enemy=5.0 hp=60.0/33.0 block=0/0 turn=2",
+            "id": "thorns",
+            "phase": "afterTurn-enemy",
+            "elapsed": 297.2,
+            "caseTime": 39,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "regen",
+      "name": "再生",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        2,
+        5,
+        4
+      ],
+      "effectText": "回合结束时回复 2/5/4 点生命，之后每回合少 1 点。",
+      "observedBehavior": "Full t338:player60→65HP;enemy38→43HP;Regen5→4",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/43-t299.jpg",
+          "sha256": "c54567b1bf675f6c73183566d04e1c860b0042b8664425572141faefb7ea7a2a",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823297.3939476,
+          "actualPlaySeconds": 299
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/44-t303.jpg",
+          "sha256": "7530ce133dc76e82e15e186c07757b18f54d13e56410d0532eca40ac81df1272",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": 2,
+          "wallTime": 1792823301.3341203,
+          "actualPlaySeconds": 303
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/45-t307.jpg",
+          "sha256": "e69cd3595609c80576dd15b4ed642aadc1009231480744ba8d6233fc7046f4ee",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": 5,
+          "wallTime": 1792823305.3154304,
+          "actualPlaySeconds": 307
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/48-t338.jpg",
+          "sha256": "18aefac66fbeea6d6b44c2cdd7fa223ccfccaf5083fff792b977997558bd1b7c",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": 4,
+          "wallTime": 1792823336.4807482,
+          "actualPlaySeconds": 338
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn",
+        "enemy stacked5"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "regen",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          65,
+          43
+        ],
+        "records": [
+          {
+            "t": 301,
+            "text": "M1_PROBE regen initial2 elapsed=301.3 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "initial2",
+            "elapsed": 301.3,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 305,
+            "text": "M1_PROBE regen initial2-enemy elapsed=305.3 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "initial2-enemy",
+            "elapsed": 305.3,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 309,
+            "text": "M1_PROBE regen stacked5 elapsed=309.3 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "stacked5",
+            "elapsed": 309.3,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 313,
+            "text": "M1_PROBE regen stacked5-enemy elapsed=313.3 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "stacked5-enemy",
+            "elapsed": 313.3,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 336,
+            "text": "M1_PROBE regen afterTurn elapsed=336.3 caseTime=35.0 player=4.0 enemy=4.0 hp=65.0/43.0 block=0/0 turn=2",
+            "id": "regen",
+            "phase": "afterTurn",
+            "elapsed": 336.3,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 65,
+            "enemyHp": 43,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 340,
+            "text": "M1_PROBE regen afterTurn-enemy elapsed=340.3 caseTime=39.0 player=4.0 enemy=4.0 hp=65.0/43.0 block=0/0 turn=2",
+            "id": "regen",
+            "phase": "afterTurn-enemy",
+            "elapsed": 340.3,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 65,
+            "enemyHp": 43,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "barricade",
+      "name": "壁垒",
+      "fixtureInjected": true,
+      "detailsVisualStatus": "PASS",
+      "namesAndEffectsReadable": true,
+      "logicalAmounts": [
+        1,
+        1,
+        1
+      ],
+      "effectText": "回合开始时格挡不会清空。",
+      "observedBehavior": "No displayed stack count is intentional for nonstacking Barricade;full t381 retained playerBlock6/enemyBlock1",
+      "screenshots": [
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/49-t342.jpg",
+          "sha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "initial",
+          "renderedAmount": null,
+          "wallTime": 1792823340.5536857,
+          "actualPlaySeconds": 342.1
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/50-t346.jpg",
+          "sha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "initial",
+          "renderedAmount": null,
+          "wallTime": 1792823344.4277647,
+          "actualPlaySeconds": 346
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/51-t350.jpg",
+          "sha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+          "personallyViewed": true,
+          "owner": "player",
+          "phase": "stacked",
+          "renderedAmount": null,
+          "wallTime": 1792823348.2656002,
+          "actualPlaySeconds": 350
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/52-t354.jpg",
+          "sha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "stacked",
+          "renderedAmount": null,
+          "wallTime": 1792823352.2717636,
+          "actualPlaySeconds": 354
+        },
+        {
+          "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/56-t381.jpg",
+          "sha256": "4cb669133a61f9cc447ec88c692f3bd9c318de3f405e8b80672dce91474438d2",
+          "personallyViewed": true,
+          "owner": "enemy",
+          "phase": "afterTurn",
+          "renderedAmount": null,
+          "wallTime": 1792823379.2870638,
+          "actualPlaySeconds": 381
+        }
+      ],
+      "missingDetailScreens": [
+        "player afterTurn"
+      ],
+      "visualCoverageExplanation": "Both actors have readable state details; stacking and post-turn result are directly pictured in the same imported diagnostic candidate. Missing individual phases remain explicit; final log gate is separate.",
+      "logEvidence": {
+        "id": "barricade",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          1,
+          1,
+          1
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 344,
+            "text": "M1_PROBE barricade initial2 elapsed=344.3 caseTime=0.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "initial2",
+            "elapsed": 344.3,
+            "caseTime": 0,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 348,
+            "text": "M1_PROBE barricade initial2-enemy elapsed=348.3 caseTime=4.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "initial2-enemy",
+            "elapsed": 348.3,
+            "caseTime": 4,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 352,
+            "text": "M1_PROBE barricade stacked5 elapsed=352.3 caseTime=8.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "stacked5",
+            "elapsed": 352.3,
+            "caseTime": 8,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 356,
+            "text": "M1_PROBE barricade stacked5-enemy elapsed=356.3 caseTime=12.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "stacked5-enemy",
+            "elapsed": 356.3,
+            "caseTime": 12,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 379,
+            "text": "M1_PROBE barricade afterTurn elapsed=379.3 caseTime=35.0 player=1 enemy=1 hp=60/38 block=6.0/1 turn=2",
+            "id": "barricade",
+            "phase": "afterTurn",
+            "elapsed": 379.3,
+            "caseTime": 35,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 6,
+            "enemyBlock": 1,
+            "turn": 2
+          },
+          {
+            "t": 383,
+            "text": "M1_PROBE barricade afterTurn-enemy elapsed=383.3 caseTime=39.1 player=1 enemy=1 hp=60/38 block=6.0/1 turn=2",
+            "id": "barricade",
+            "phase": "afterTurn-enemy",
+            "elapsed": 383.3,
+            "caseTime": 39.1,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 6,
+            "enemyBlock": 1,
+            "turn": 2
+          }
+        ]
+      }
+    }
+  ],
+  "logGate": {
+    "status": "PASS",
+    "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+    "runState": "succeeded",
+    "rawLog": {
+      "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/session-log.gia",
+      "sha256": "7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57",
+      "officialFile": "C:\\Users\\Administrator\\AppData\\LocalLow\\miHoYo\\原神\\BeyondLocal\\217122260\\Beyond_Debug_Log\\2026-10-24_14-23-14_24_217122260.gia"
+    },
+    "decodedLog": {
+      "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/verified-probe-status-final.json",
+      "sha256": "08645a68267c541f2949575df3a848228c95c899b8d10ce36c456634e5673728",
+      "printCount": 837,
+      "truncated": false
+    },
+    "readyVerified": true,
+    "readyRecord": {
+      "t": 2,
+      "graphId": null,
+      "text": "ABYSS_UI ready",
+      "clientScript": true
+    },
+    "completionVerified": true,
+    "completionRecord": {
+      "t": 387,
+      "graphId": null,
+      "text": "M1_PROBE complete 9",
+      "clientScript": true
+    },
+    "readonlyRecordsVerified": true,
+    "readonlyRecordCount": 54,
+    "stateRecordCount": 54,
+    "perStatus": [
+      {
+        "id": "strength",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          5
+        ],
+        "afterTurnHp": [
+          60,
+          34
+        ],
+        "records": [
+          {
+            "t": 2,
+            "text": "M1_PROBE strength initial2 elapsed=0.0 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "initial2",
+            "elapsed": 0,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 4,
+            "text": "M1_PROBE strength initial2-enemy elapsed=4.0 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "initial2-enemy",
+            "elapsed": 4,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 8,
+            "text": "M1_PROBE strength stacked5 elapsed=8.0 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "stacked5",
+            "elapsed": 8,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 12,
+            "text": "M1_PROBE strength stacked5-enemy elapsed=12.0 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "strength",
+            "phase": "stacked5-enemy",
+            "elapsed": 12,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 35,
+            "text": "M1_PROBE strength afterTurn elapsed=35.0 caseTime=35.0 player=5.0 enemy=5.0 hp=60/34 block=0/0 turn=2",
+            "id": "strength",
+            "phase": "afterTurn",
+            "elapsed": 35,
+            "caseTime": 35,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 34,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 39,
+            "text": "M1_PROBE strength afterTurn-enemy elapsed=39.0 caseTime=39.0 player=5.0 enemy=5.0 hp=60/34 block=0/0 turn=2",
+            "id": "strength",
+            "phase": "afterTurn-enemy",
+            "elapsed": 39,
+            "caseTime": 39,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 34,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "dexterity",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          5
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 43,
+            "text": "M1_PROBE dexterity initial2 elapsed=43.0 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "initial2",
+            "elapsed": 43,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 47,
+            "text": "M1_PROBE dexterity initial2-enemy elapsed=47.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "initial2-enemy",
+            "elapsed": 47.1,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 51,
+            "text": "M1_PROBE dexterity stacked5 elapsed=51.0 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "stacked5",
+            "elapsed": 51,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 55,
+            "text": "M1_PROBE dexterity stacked5-enemy elapsed=55.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "dexterity",
+            "phase": "stacked5-enemy",
+            "elapsed": 55.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 78,
+            "text": "M1_PROBE dexterity afterTurn elapsed=78.0 caseTime=35.0 player=5.0 enemy=5.0 hp=60/38 block=0/0 turn=2",
+            "id": "dexterity",
+            "phase": "afterTurn",
+            "elapsed": 78,
+            "caseTime": 35,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 82,
+            "text": "M1_PROBE dexterity afterTurn-enemy elapsed=82.1 caseTime=39.0 player=5.0 enemy=5.0 hp=60/38 block=0/0 turn=2",
+            "id": "dexterity",
+            "phase": "afterTurn-enemy",
+            "elapsed": 82.1,
+            "caseTime": 39,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "vulnerable",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          60,
+          36
+        ],
+        "records": [
+          {
+            "t": 86,
+            "text": "M1_PROBE vulnerable initial2 elapsed=86.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "initial2",
+            "elapsed": 86.1,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 90,
+            "text": "M1_PROBE vulnerable initial2-enemy elapsed=90.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "initial2-enemy",
+            "elapsed": 90.1,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 94,
+            "text": "M1_PROBE vulnerable stacked5 elapsed=94.1 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "stacked5",
+            "elapsed": 94.1,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 98,
+            "text": "M1_PROBE vulnerable stacked5-enemy elapsed=98.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "vulnerable",
+            "phase": "stacked5-enemy",
+            "elapsed": 98.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 121,
+            "text": "M1_PROBE vulnerable afterTurn elapsed=121.1 caseTime=35.0 player=4.0 enemy=4.0 hp=60/36 block=0/0 turn=2",
+            "id": "vulnerable",
+            "phase": "afterTurn",
+            "elapsed": 121.1,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 36,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 125,
+            "text": "M1_PROBE vulnerable afterTurn-enemy elapsed=125.1 caseTime=39.0 player=4.0 enemy=4.0 hp=60/36 block=0/0 turn=2",
+            "id": "vulnerable",
+            "phase": "afterTurn-enemy",
+            "elapsed": 125.1,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 36,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "weak",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 129,
+            "text": "M1_PROBE weak initial2 elapsed=129.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "initial2",
+            "elapsed": 129.1,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 133,
+            "text": "M1_PROBE weak initial2-enemy elapsed=133.1 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "initial2-enemy",
+            "elapsed": 133.1,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 137,
+            "text": "M1_PROBE weak stacked5 elapsed=137.1 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "stacked5",
+            "elapsed": 137.1,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 141,
+            "text": "M1_PROBE weak stacked5-enemy elapsed=141.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "weak",
+            "phase": "stacked5-enemy",
+            "elapsed": 141.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 164,
+            "text": "M1_PROBE weak afterTurn elapsed=164.1 caseTime=35.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "weak",
+            "phase": "afterTurn",
+            "elapsed": 164.1,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 168,
+            "text": "M1_PROBE weak afterTurn-enemy elapsed=168.2 caseTime=39.1 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "weak",
+            "phase": "afterTurn-enemy",
+            "elapsed": 168.2,
+            "caseTime": 39.1,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "frail",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 172,
+            "text": "M1_PROBE frail initial2 elapsed=172.1 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "initial2",
+            "elapsed": 172.1,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 176,
+            "text": "M1_PROBE frail initial2-enemy elapsed=176.2 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "initial2-enemy",
+            "elapsed": 176.2,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 180,
+            "text": "M1_PROBE frail stacked5 elapsed=180.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "stacked5",
+            "elapsed": 180.2,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 184,
+            "text": "M1_PROBE frail stacked5-enemy elapsed=184.1 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "frail",
+            "phase": "stacked5-enemy",
+            "elapsed": 184.1,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 207,
+            "text": "M1_PROBE frail afterTurn elapsed=207.2 caseTime=35.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "frail",
+            "phase": "afterTurn",
+            "elapsed": 207.2,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 211,
+            "text": "M1_PROBE frail afterTurn-enemy elapsed=211.2 caseTime=39.0 player=4.0 enemy=4.0 hp=60/38 block=0/0 turn=2",
+            "id": "frail",
+            "phase": "afterTurn-enemy",
+            "elapsed": 211.2,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "poison",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          55,
+          33
+        ],
+        "records": [
+          {
+            "t": 215,
+            "text": "M1_PROBE poison initial2 elapsed=215.2 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "initial2",
+            "elapsed": 215.2,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 219,
+            "text": "M1_PROBE poison initial2-enemy elapsed=219.2 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "initial2-enemy",
+            "elapsed": 219.2,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 223,
+            "text": "M1_PROBE poison stacked5 elapsed=223.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "stacked5",
+            "elapsed": 223.2,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 227,
+            "text": "M1_PROBE poison stacked5-enemy elapsed=227.2 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "poison",
+            "phase": "stacked5-enemy",
+            "elapsed": 227.2,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 250,
+            "text": "M1_PROBE poison afterTurn elapsed=250.2 caseTime=35.0 player=4.0 enemy=4.0 hp=55.0/33.0 block=0/0 turn=2",
+            "id": "poison",
+            "phase": "afterTurn",
+            "elapsed": 250.2,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 55,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 254,
+            "text": "M1_PROBE poison afterTurn-enemy elapsed=254.2 caseTime=39.0 player=4.0 enemy=4.0 hp=55.0/33.0 block=0/0 turn=2",
+            "id": "poison",
+            "phase": "afterTurn-enemy",
+            "elapsed": 254.2,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 55,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "thorns",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          5
+        ],
+        "afterTurnHp": [
+          60,
+          33
+        ],
+        "records": [
+          {
+            "t": 258,
+            "text": "M1_PROBE thorns initial2 elapsed=258.2 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "initial2",
+            "elapsed": 258.2,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 262,
+            "text": "M1_PROBE thorns initial2-enemy elapsed=262.3 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "initial2-enemy",
+            "elapsed": 262.3,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 266,
+            "text": "M1_PROBE thorns stacked5 elapsed=266.2 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "stacked5",
+            "elapsed": 266.2,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 270,
+            "text": "M1_PROBE thorns stacked5-enemy elapsed=270.2 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "thorns",
+            "phase": "stacked5-enemy",
+            "elapsed": 270.2,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 293,
+            "text": "M1_PROBE thorns afterTurn elapsed=293.2 caseTime=35.0 player=5.0 enemy=5.0 hp=60.0/33.0 block=0/0 turn=2",
+            "id": "thorns",
+            "phase": "afterTurn",
+            "elapsed": 293.2,
+            "caseTime": 35,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 297,
+            "text": "M1_PROBE thorns afterTurn-enemy elapsed=297.2 caseTime=39.0 player=5.0 enemy=5.0 hp=60.0/33.0 block=0/0 turn=2",
+            "id": "thorns",
+            "phase": "afterTurn-enemy",
+            "elapsed": 297.2,
+            "caseTime": 39,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 33,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "regen",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          2,
+          5,
+          4
+        ],
+        "afterTurnHp": [
+          65,
+          43
+        ],
+        "records": [
+          {
+            "t": 301,
+            "text": "M1_PROBE regen initial2 elapsed=301.3 caseTime=0.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "initial2",
+            "elapsed": 301.3,
+            "caseTime": 0,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 305,
+            "text": "M1_PROBE regen initial2-enemy elapsed=305.3 caseTime=4.0 player=2.0 enemy=2.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "initial2-enemy",
+            "elapsed": 305.3,
+            "caseTime": 4,
+            "playerAmount": 2,
+            "enemyAmount": 2,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 309,
+            "text": "M1_PROBE regen stacked5 elapsed=309.3 caseTime=8.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "stacked5",
+            "elapsed": 309.3,
+            "caseTime": 8,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 313,
+            "text": "M1_PROBE regen stacked5-enemy elapsed=313.3 caseTime=12.0 player=5.0 enemy=5.0 hp=60/38 block=7/7 turn=1",
+            "id": "regen",
+            "phase": "stacked5-enemy",
+            "elapsed": 313.3,
+            "caseTime": 12,
+            "playerAmount": 5,
+            "enemyAmount": 5,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 336,
+            "text": "M1_PROBE regen afterTurn elapsed=336.3 caseTime=35.0 player=4.0 enemy=4.0 hp=65.0/43.0 block=0/0 turn=2",
+            "id": "regen",
+            "phase": "afterTurn",
+            "elapsed": 336.3,
+            "caseTime": 35,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 65,
+            "enemyHp": 43,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          },
+          {
+            "t": 340,
+            "text": "M1_PROBE regen afterTurn-enemy elapsed=340.3 caseTime=39.0 player=4.0 enemy=4.0 hp=65.0/43.0 block=0/0 turn=2",
+            "id": "regen",
+            "phase": "afterTurn-enemy",
+            "elapsed": 340.3,
+            "caseTime": 39,
+            "playerAmount": 4,
+            "enemyAmount": 4,
+            "playerHp": 65,
+            "enemyHp": 43,
+            "playerBlock": 0,
+            "enemyBlock": 0,
+            "turn": 2
+          }
+        ]
+      },
+      {
+        "id": "barricade",
+        "status": "PASS",
+        "sixPhasesPresent": true,
+        "readonlyCount": 6,
+        "expectedBothSides": [
+          1,
+          1,
+          1
+        ],
+        "afterTurnHp": [
+          60,
+          38
+        ],
+        "records": [
+          {
+            "t": 344,
+            "text": "M1_PROBE barricade initial2 elapsed=344.3 caseTime=0.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "initial2",
+            "elapsed": 344.3,
+            "caseTime": 0,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 348,
+            "text": "M1_PROBE barricade initial2-enemy elapsed=348.3 caseTime=4.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "initial2-enemy",
+            "elapsed": 348.3,
+            "caseTime": 4,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 352,
+            "text": "M1_PROBE barricade stacked5 elapsed=352.3 caseTime=8.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "stacked5",
+            "elapsed": 352.3,
+            "caseTime": 8,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 356,
+            "text": "M1_PROBE barricade stacked5-enemy elapsed=356.3 caseTime=12.0 player=1 enemy=1 hp=60/38 block=7/7 turn=1",
+            "id": "barricade",
+            "phase": "stacked5-enemy",
+            "elapsed": 356.3,
+            "caseTime": 12,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 7,
+            "enemyBlock": 7,
+            "turn": 1
+          },
+          {
+            "t": 379,
+            "text": "M1_PROBE barricade afterTurn elapsed=379.3 caseTime=35.0 player=1 enemy=1 hp=60/38 block=6.0/1 turn=2",
+            "id": "barricade",
+            "phase": "afterTurn",
+            "elapsed": 379.3,
+            "caseTime": 35,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 6,
+            "enemyBlock": 1,
+            "turn": 2
+          },
+          {
+            "t": 383,
+            "text": "M1_PROBE barricade afterTurn-enemy elapsed=383.3 caseTime=39.1 player=1 enemy=1 hp=60/38 block=6.0/1 turn=2",
+            "id": "barricade",
+            "phase": "afterTurn-enemy",
+            "elapsed": 383.3,
+            "caseTime": 39.1,
+            "playerAmount": 1,
+            "enemyAmount": 1,
+            "playerHp": 60,
+            "enemyHp": 38,
+            "playerBlock": 6,
+            "enemyBlock": 1,
+            "turn": 2
+          }
+        ]
+      }
+    ],
+    "noUnexpectedStatusErrorsVerified": true,
+    "statusSegmentFaults": [],
+    "expectations": {
+      "passed": true,
+      "met": 4,
+      "of": 4,
+      "results": [
+        {
+          "expect": "print \"ABYSS_UI ready\"",
+          "met": true,
+          "t": 2
+        },
+        {
+          "expect": "print \"M1_PROBE complete 9\"",
+          "met": true,
+          "t": 387
+        },
+        {
+          "expect": "print \"M1_UNIFIED_PHASE preview\"",
+          "met": true,
+          "t": 599
+        },
+        {
+          "expect": "no fault in a client script",
+          "met": true
+        }
+      ],
+      "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+    },
+    "wholeRunCancellationPrints": [
+      {
+        "t": 414,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 446,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 483,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 525,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 571,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      },
+      {
+        "t": 598,
+        "graphId": null,
+        "text": "ABYSS_FEEDBACK recovered cancelled",
+        "clientScript": true
+      }
+    ],
+    "caveats": [
+      "Client-script explicit prints were independently parsed; this is not an independent binary re-decode or all-client-zero-error guarantee.",
+      "Six later recovered cancelled prints belong to the separate block cancellation fixture; none occurred in the nine-status segment.",
+      "Log elapsed/t and screenshot playSeconds have different origins; visual owner/name/value determines image phase."
+    ]
+  },
+  "acceptanceRecommendation": {
+    "status": "PASS_FOR_TASK_11_1_DIAGNOSTIC_DETAILS_SCOPE",
+    "ac1": "PASS: same imported copy has readable evidence for all nine names/amounts/stacking and decay or permanent persistence, with this run54 complete state records and54 readonly prints.",
+    "ac2": "PASS: source/candidate/save/run and missing phases recorded; real-turn amounts/HP/blocks match all9 expectations, full-Run UI readonly assertions emitted54 times, fresh ready and complete9 present without unexpected status faults.",
+    "taskMutationPerformed": false,
+    "wholeUiGatePassed": false,
+    "normalGameCompletionClaim": false,
+    "mobileInputClaim": false,
+    "remainingScope": [
+      "43/54 individual detail phases pictured; missing11 listed per status",
+      "Normal natural acquisition and complete-game coverage not established by injection",
+      "Actual mouse/phone tooltip gestures are not certified by scripted fixture",
+      "Always-visible chip-adjacent count text is not readable in reviewed full frames; numeric amounts are readable in the detail panel. Retain as a HUD/UI limitation for main UI acceptance.",
+      "Original-game parity and M1 overall closure require their own evidence"
+    ]
+  }
+}
