@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 15:32'
+updated_date: '2026-10-24 16:14'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -23,6 +23,7 @@ references:
   - docs/backlog-details/TASK-34.md
   - docs/DELIVERY-CLOSEOUT.md
   - docs/evidence/delivery-platform-20261024.json
+  - docs/AUDIO_RICHNESS.md
 priority: high
 type: enhancement
 ordinal: 46000
@@ -59,4 +60,6 @@ ordinal: 46000
 2026-10-24新增npm run build:native完整音频入口：先全量源码/界面，再启用原生BGM，不再交付静音诊断副本。已实际构建audio-richness-20261024，原生图83节点/258editor，双true参数仍需独立读回复核；完整游戏地图/战斗/精英/Boss/结算曲目沿用配置。未官方导入或本轮试听，AC保持未勾。
 
 独立冻结源1da28a8读回通过：全部模块逐byte一致、2334控件/max58、结算22节点和BGM83节点，两个nativeBgmEnabled记录均boolean true，候选hash ae1d4d9fe859652f80164d40c89bfac1dae3c016666d1ca6b19f06f766c095b4。证据docs/evidence/audio-richness-20261024.json；未官方导入/听验。
+
+用户明确本版直接采用、不等试听，不合适后续改。补行动发声后的e974c25完整check和带BGM候选独立读回均通过；与develop最新UI集成后再重建最终副本，未冒称此前副本为当前集成版。
 <!-- SECTION:NOTES:END -->
