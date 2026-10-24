@@ -11,7 +11,7 @@ function checkLua(body) {
   const directory = mkdtempSync(join(tmpdir(), 'abyss-price-'));
   const script = join(directory, 'case.lua');
   try {
-    writeFileSync(script, `local price = dofile('tools/candidates/sts1_shop_price.lua')\n${body}\nprint('price candidate passed')\n`);
+    writeFileSync(script, `for _, module in ipairs({'tools/candidates/sts1_shop_price.lua', 'src/lua/abyss_shop_price.lua'}) do\nlocal price = dofile(module)\n${body}\nend\nprint('price candidate passed')\n`);
     const result = runLua(script);
     assert.equal(result.status, 0, result.stderr || result.stdout);
     assert.match(result.stdout, /price candidate passed/);

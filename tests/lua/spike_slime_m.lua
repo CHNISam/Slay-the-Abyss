@@ -92,7 +92,7 @@ test('status type remains excluded from rewards and shop even with a supported p
  local found=false;for _,c in ipairs(data.cards.cards)do if c.id=='slimed' then found=true end end;assert(found)
  for _,c in ipairs(data.cards.cards)do if c.id=='slimed' then c.effects={{op='block',value=1}} else c.rarity='basic' end end
  local r=Run.new(data,42);assert(Run.startCombat(r,'cultist_solo'));C.applyEffects(r.combat,{{op='damage',value=999}},r.combat.player,r.combat.enemies[1]);assert(Run.finishCombat(r));eq(#Run.rewardOptions(r),0);assert(Run.claimCardReward(r,0))
- local map=Map.generate(data,42);for _=1,17 do local available=Map.available(map);for _,node in ipairs(available)do if node.type=='shop' then assert(Nodes.enter(r,map,node.id));eq(#r.nodeFlow.cards,0);return end end;assert(Map.choose(map,available[1].id))end;error('expected shop fixture')
+ local map=Map.generate(data,42);for _=1,17 do local available=Map.available(map);for _,node in ipairs(available)do if node.type=='shop' then assert(Nodes.enter(r,map,node.id));eq(#r.nodeFlow.cards,7);for _,o in ipairs(r.nodeFlow.cards) do assert(o.unavailable and o.id~='slimed') end;return end end;assert(Map.choose(map,available[1].id))end;error('expected shop fixture')
 end)
 test('camp and upgrade shrine reject Slimed without spending their choice',function()
  assert(battle().catalog.cards.slimed)

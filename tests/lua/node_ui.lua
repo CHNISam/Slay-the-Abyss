@@ -115,7 +115,7 @@ test("node resource count includes bottles beyond an empty first slot", function
     assert(ui.run.potions[3] == "regen_potion")
 end)
 
-test("shop shelf shows real card faces with separate core prices and a paged pool", function()
+test("shop shelf shows five colored and two unavailable colorless cards without pages", function()
     local ui, get, _, shown = setup("shop", nil, function(run) run.gold = 10000 end)
     local node = Nodes.view(ui.run, ui.map).node
     assert(shown("shopView") and not shown("campView") and not shown("pickerView"))
@@ -130,9 +130,9 @@ test("shop shelf shows real card faces with separate core prices and a paged poo
         assert(get("shopView/price" .. i).children.value.text == tostring(offer.price))
         assert(is(get("shopView/price" .. i).children.value.fontColor, C.goldBright) and not box.children.veil.visible)
     end
-    local pages = math.ceil(#node.cards / 5)
-    assert(ui.pageCount == pages and get("shopView/page").text:find("1/" .. pages, 1, true))
-    assert(not shown("shopView/previous") == (pages == 1) and shown("shopView/next") == (pages > 1))
+    assert(#node.cards==7 and ui.pageCount==1 and not ui:setPage(2))
+    assert(not shown('shopView/previous') and not shown('shopView/next'))
+    for i=6,7 do assert(shown('shopView/card'..i) and get('shopView/price'..i).children.value.text=='未实装') end
     assert(get("confirm").children.label.text == "离开商店" and not shown("back"))
 end)
 
@@ -161,11 +161,11 @@ end)
 test("shop relic row shows sourced effect text and buys through Nodes", function()
     local ui, get, click = setup("shop", nil, function(run) run.gold = 10000 end)
     local node = Nodes.view(ui.run, ui.map).node
-    local first = node.relics[1]
-    local tile = get("shopView/relic1")
+    local first = node.relics[3]
+    local tile = get("shopView/relic3")
     assert(tile.children.icon.imageId == Theme.icon.relic[first.id])
     local relic for _, item in ipairs(data.relics.relics) do if item.id == first.id then relic = item end end
-    assert(tile.children.name.text == relic.name and tile.children.description.text:find("战斗", 1, true))
+    assert(tile.children.name.text == relic.name and tile.children.description.text=='所有商店商品半价。')
     local descriptions = {}
     for page = 1, math.ceil(#node.relics / 3) do
         for i = 1, 3 do
@@ -174,10 +174,10 @@ test("shop relic row shows sourced effect text and buys through Nodes", function
         end
         if page * 3 < #node.relics then assert(click("shopView/relicNext") and ui.relicPage == page + 1) end
     end
-    assert(descriptions["裂岩杵"] == "战斗开始时，获得 1 层力量。" and descriptions["铜鳞"] == "战斗开始时，获得 3 层荆棘。")
+    assert(descriptions['会员卡']=='所有商店商品半价。')
     while ui.relicPage > 1 do assert(click("shopView/relicPrevious")) end
-    assert(click("shopView/relic1") and ui.run.relics[#ui.run.relics] == first.id and ui.run.gold == 10000 - first.price)
-    assert(tile.children.veil.visible and get("shopView/relicPrice1").children.value.text == "已售出")
+    assert(click("shopView/relic3") and ui.run.relics[#ui.run.relics] == first.id and ui.run.gold == 10000 - first.price)
+    assert(tile.children.veil.visible and get("shopView/relicPrice3").children.value.text == "已售出")
     if #node.relics > 3 then
         assert(click("shopView/relicNext") and ui.relicPage == 2)
         assert(get("shopView/relic1").children.name.text == (function()
@@ -441,7 +441,7 @@ test("a held result belongs to its run; a fresh run renders safely and restart r
     assert(not ui:holding() and ui.nodeId == nil and not shown("campView") and not shown("confirm"))
     assert(get("title").text == "路线")
     local shop, _, shopClick = setup("shop")
-    shopClick("shopView/next") assert(shop.page == 2)
+    assert(not shop:press("shopView/next") and shop.page == 1)
     local previousNode = shop.nodeId
     shop.run, shop.map = entered("shop") shop:render()
     assert(shop.nodeId == previousNode and shop.page == 1 and shop.mode == "main")
@@ -504,12 +504,12 @@ test("disabled and selected results cannot be overridden by hover or retain a pr
     assert(box.scale[1] == 1 and is(box.children.border.imageColor,C.goldBright))
 end)
 
-test("rerender pagination modal hiding and page changes cancel pending button visuals", function()
+test("rerender and modal hiding cancel pending button visuals", function()
     local ui, get = setup("shop", nil, function(run) run.gold=10000 end)
-    local box, before = get("shopView/next"), Combat.copy(ui.run)
+    local box, before = get("shopView/removal"), Combat.copy(ui.run)
     local hit = box:GetChild("hit")
     hit:emit("enter",1) hit:emit("down",1) assert(box.scale[1] == 0.96)
-    assert(ui:setPage(2))
+    ui:render()
     assert(box.scale[1] == 1 and not box.children.pressed.visible and not box.children.hover.visible)
     hit:emit("down",1) assert(box.scale[1] == 0.96)
     ui:setVisible(false)
@@ -609,6 +609,22 @@ test('Golden Shrine exposes complete costs, permanent curse result and repeat sa
     assert(get('eventView/body').text:find(string.format('金币 %d → %d',gold,gold+275),1,true))
     assert(not get('eventView/body').text:find('生命',1,true),'unchanged HP must not be listed')
     local before=Combat.copy(ui.run);ui:render();click('confirm');same(before,ui.run)
+end)
+test('shop potion stock buys into a vacancy and rejects full sold and missing slots',function()
+    local ui,get,click=setup('shop',nil,function(run)run.gold=10000 end)
+    local slot
+    for i,o in ipairs(ui.run.nodeFlow.potions) do if not o.unavailable then slot=i;break end end
+    assert(slot)
+    ui.run.potions={'fire_potion','block_potion','regen_potion'};ui:render()
+    local before=Combat.copy(ui.run)
+    assert(not click('shopView/potion'..slot));same(before,ui.run)
+    assert(get('shopView/potion'..slot..'/description').text=='药水槽已满')
+    ui.run.potions[2]=nil;ui:render()
+    local offer=Combat.copy(ui.run.nodeFlow.potions[slot]);local gold=ui.run.gold
+    assert(click('shopView/potion'..slot));assert(ui.run.potions[2]==offer.id and ui.run.gold==gold-offer.price)
+    before=Combat.copy(ui.run);assert(not click('shopView/potion'..slot));same(before,ui.run)
+    assert(get('shopView/potionPrice'..slot..'/value').text=='已售出')
+    for i=6,7 do before=Combat.copy(ui.run);assert(not click('shopView/card'..i));same(before,ui.run) end
 end)
 test("integer-valued floating resources never expose decimal suffixes", function()
     for _,kind in ipairs({"shop","camp","event","treasure"}) do
