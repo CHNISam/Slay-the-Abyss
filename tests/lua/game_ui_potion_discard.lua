@@ -14,6 +14,29 @@ local function setup(cursor)
 end
 local function click(r,p,n)return assert(hit(r,p,n).click,'unbound '..p..'/'..n)()end
 local function open(r)assert(click(r,'potionEntry','open'));assert(r:GetChild('potionPanel').visible)end
+local function counter(r,amount)
+    local entry=hit(r,'potionEntry','open')
+    for _,state in ipairs({'normal','hover','pressed','disabled'})do
+        equal(entry:GetChild(state):GetChild('label').text,'药水 '..amount..'/3')
+    end
+end
+
+test('reward claim refreshes every counter state immediately and skip or repeated input preserves the count',function()
+    for _,action in ipairs({'claimPotion','skipPotion'})do
+        local h,r=F.fixture();assert(h:start())
+        h.run=Run.new(F.Data,42);h.battleUI.run=h.run;h.nodeUI.run=h.run
+        assert(Run.startCombat(h.run,'cultist_solo'))
+        for _,enemy in ipairs(h.run.combat.enemies)do enemy.hp=0 end
+        assert(Run.finishCombat(h.run));assert(h.run.rewards.potion);h:refresh()
+        counter(r,0)
+        local control=r:GetChild('battlePanel'):GetChild(action)
+        assert(control.listeners.click())
+        local amount=action=='claimPotion' and 1 or 0
+        equal(h.run.phase,'reward');equal(h.mode,'battle');equal(Run.potionCount(h.run),amount)
+        counter(r,amount)
+        control.listeners.click();equal(Run.potionCount(h.run),amount);counter(r,amount)
+    end
+end)
 
 test('real generated counter opens three physical slots; selection and confirmation discard only the chosen bottle',function()
     local h,r=setup();local hp,gold,seed=h.run.hp,h.run.gold,h.run.seed
@@ -31,9 +54,15 @@ test('full reward can discard an old bottle then claim the offered bottle in its
     assert(Run.startCombat(h.run,'cultist_solo'))
     for _,enemy in ipairs(h.run.combat.enemies)do enemy.hp=0 end
     assert(Run.finishCombat(h.run));h:refresh();equal(h.run.rewards.potion.id,'dexterity_potion')
+    counter(r,3)
+    local claim=r:GetChild('battlePanel'):GetChild('claimPotion')
+    equal(claim.interactable,false);claim.listeners.click();counter(r,3)
+    assert(not h.run.rewards.potion.resolved)
     open(r);assert(click(r,'potionPanel','slot2'));assert(click(r,'potionPanel','discard'));assert(click(r,'potionPanel','cancel'))
+    counter(r,2)
     assert(r:GetChild('battlePanel'):GetChild('claimPotion').listeners.click())
     equal(h.run.potions[1],'fire_potion');equal(h.run.potions[2],'dexterity_potion');equal(h.run.potions[3],'regen_potion')
+    equal(h.run.phase,'reward');counter(r,3)
 end)
 
 test('shop counter allows replacing a full belt without bypassing purchase price or stock',function()
