@@ -1,0 +1,169 @@
+{
+  "reviewedDate": "2026-10-24",
+  "baseline": "6e8714f",
+  "scope": "STS1 PC A0; community decompilation mirrors, not authenticated binaries or live observations",
+  "entries": [
+    {
+      "path": "relics/BurningBlood.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BurningBlood.java",
+      "gitBlob": "3b262d9830955000488efc98bcc5c9b56e77fea4",
+      "retrieved": true
+    },
+    {
+      "path": "relics/Anchor.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Anchor.java",
+      "gitBlob": "ac5b096a6a9adf4217e68170e8e2dd55256eb59f",
+      "retrieved": true
+    },
+    {
+      "path": "relics/Vajra.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Vajra.java",
+      "gitBlob": "edb6c1d339b1895c298dec4c586e76ea3b5ef664",
+      "retrieved": true
+    },
+    {
+      "path": "relics/BagOfPreparation.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BagOfPreparation.java",
+      "gitBlob": "df4f68457cf1f5974a808830d2c46416d953eea5",
+      "retrieved": true
+    },
+    {
+      "path": "relics/Lantern.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Lantern.java",
+      "gitBlob": "d475146ac9eb3253e14b75abf50b6cd1cc14c14f",
+      "retrieved": true
+    },
+    {
+      "path": "relics/OddlySmoothStone.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/OddlySmoothStone.java",
+      "gitBlob": "316ae5f66edefe8115db341d3471420c33b70ce7",
+      "retrieved": true
+    },
+    {
+      "path": "relics/BronzeScales.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BronzeScales.java",
+      "gitBlob": "3f09ec547ae46010ab64d3225958e2c8ba0b9840",
+      "retrieved": true
+    },
+    {
+      "path": "relics/MembershipCard.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MembershipCard.java",
+      "gitBlob": "dde9b09847af75d38e113e90d2d885999fb6fd9f",
+      "retrieved": true
+    },
+    {
+      "path": "relics/Courier.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Courier.java",
+      "gitBlob": "76d740c3145cff9614cd3f2e91c93676cacd3670",
+      "retrieved": true
+    },
+    {
+      "path": "relics/SmilingMask.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/SmilingMask.java",
+      "gitBlob": "479e93ce6716bc9081fa10ff6a6e7f1e5dacfd4f",
+      "retrieved": true
+    },
+    {
+      "path": "relics/BlackBlood.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BlackBlood.java",
+      "gitBlob": "2b090b3fc12ffbcc18160a00d37a8d3fc0a2d9d2",
+      "retrieved": true
+    },
+    {
+      "path": "relics/SlaversCollar.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/SlaversCollar.java",
+      "gitBlob": "b4de99731f85e60ead1971bd0d4496d1afd42ee4",
+      "retrieved": true
+    },
+    {
+      "path": "relics/Sozu.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Sozu.java",
+      "gitBlob": "a92a1546758458cc27e4cfdc1937c90cef8ec7b4",
+      "retrieved": true
+    },
+    {
+      "path": "potions/FirePotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FirePotion.java",
+      "gitBlob": "fafc0b92d3aa8e285a8d7750a45e8bc7c8f0dab9",
+      "retrieved": true
+    },
+    {
+      "path": "potions/BlockPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/BlockPotion.java",
+      "gitBlob": "3cc5f04694c2f5362f7908f1a34ae7ffbd311a57",
+      "retrieved": true
+    },
+    {
+      "path": "potions/StrengthPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/StrengthPotion.java",
+      "gitBlob": "9757ea03c5e467d87d33fba61f38ad448af36c3b",
+      "retrieved": true
+    },
+    {
+      "path": "potions/DexterityPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/DexterityPotion.java",
+      "gitBlob": "04fcc0b42f18cb111ce4cc5d94b5ff0c9ca2e21b",
+      "retrieved": true
+    },
+    {
+      "path": "potions/EnergyPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/EnergyPotion.java",
+      "gitBlob": "8385f033b947b3cc93a3cb9d4ab6d66baf65bde1",
+      "retrieved": true
+    },
+    {
+      "path": "杀戮尖塔原码/potions/PoisonPotion.java",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/potions/PoisonPotion.java",
+      "gitBlob": "bf6400130c7048e9148f0c701b8b91b2b065a9fd",
+      "retrieved": true
+    },
+    {
+      "path": "potions/RegenPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/RegenPotion.java",
+      "gitBlob": "a9b61c4a5d4fac86741b2c66dd762c9fc3ad8ad9",
+      "retrieved": true
+    },
+    {
+      "path": "powers/StrengthPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/StrengthPower.java",
+      "gitBlob": "fbb46a2d532cde9bf116527c8d426ad0179877bc",
+      "retrieved": true
+    },
+    {
+      "path": "powers/DexterityPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/DexterityPower.java",
+      "gitBlob": "a58984bf479a3d53ff98bd1098c34a91d98bffe1",
+      "retrieved": true
+    },
+    {
+      "path": "powers/RegenPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/RegenPower.java",
+      "gitBlob": "e589f313e6c9146c302b53b5c8d87eceeef34c3f",
+      "retrieved": true
+    },
+    {
+      "path": "powers/AbstractPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/AbstractPower.java",
+      "gitBlob": "70347e8e642e8c45e6c6aadbe6e34f0472220c18",
+      "retrieved": true
+    },
+    {
+      "path": "potions/AbstractPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AbstractPotion.java",
+      "gitBlob": "8598c2e5a81f5a36060eb8520ee0abd2204991ca",
+      "retrieved": true
+    },
+    {
+      "path": "ui/panels/PotionPopUp.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/panels/PotionPopUp.java",
+      "gitBlob": "fa7207905e726fee91a4b21e293a7c53eea17455",
+      "retrieved": true
+    },
+    {
+      "path": "actions/unique/RegenAction.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/RegenAction.java",
+      "gitBlob": "83968a79398da53e1e23f21d58ddde822b6667fe",
+      "retrieved": true
+    }
+  ]
+}
