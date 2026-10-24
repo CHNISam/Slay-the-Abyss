@@ -125,15 +125,15 @@ test('a failed staged next-combat setup retains original pending rewards and map
     local pending,current,floor=r.pendingCombatRewards,map.currentNodeId,map.floor
     local nextNode=assert(Nodes.available(r,map)[1])
     -- Controlled room-setup rejection; route legality and Map.choose stay real.
-    local startCombat=Run.startCombat
+    local startCombat=Run.startRoomCombat
     if nextNode.type~='combat' and nextNode.type~='elite' and nextNode.type~='boss' then
         local node
         for _,candidate in ipairs(map.nodes)do if candidate.id==nextNode.id then node=candidate end end
         node.type,nextNode.type='combat','combat';node.encounterId='cultist_solo'
     end
-    Run.startCombat=function()return false,'injected_room_setup_failure'end
+    Run.startRoomCombat=function()return false,'injected_room_setup_failure'end
     local ok,why=Nodes.enter(r,map,nextNode.id)
-    Run.startCombat=startCombat
+    Run.startRoomCombat=startCombat
     assert(not ok and why=='injected_room_setup_failure')
     assert(r.phase=='map' and r.pendingCombatRewards==pending and map.currentNodeId==current and map.floor==floor)
     assert(Run.reopenCombatRewards(r) and r.rewards==pending.rewards)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-24 10:41'
+updated_date: '2026-10-24 16:39'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -39,6 +39,8 @@ ordinal: 75000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 从生产代码枚举各类首发内容及合法入口，明确候选排除。 2. 建立逐项机器清单和中文说明，列明验收任务、本地、平台和实机边界。 3. 定向核对清单与生产池，保留自然获取和实机缺口，不因建表转Done。
+
+2026-10-25 同步正式遭遇运行时：保留旧Data显式入口盘点，另核Run正式源名队列/完整17项绑定、large_slime/lots_of_slimes/exordium_thugs及动态成员合法渠道与模块部署。机器清单不能只比较旧数组或靠改数量通过；补遗漏/误映射负例，平台和逐项自然证据仍pending，不扩改实机证据schema、不勾整体AC。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
