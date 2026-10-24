@@ -237,6 +237,9 @@ function M.discardPotion(run, slot)
     local id = run.potions[slot]
     if not id then return false, "empty_potion_slot" end
     if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    -- Like usePotion, a destructive transaction expires old physical gestures,
+    -- even if the same bottle ID is immediately acquired in the vacant slot.
+    run.potions = Combat.copy(run.potions)
     run.potions[slot] = nil
     return true
 end

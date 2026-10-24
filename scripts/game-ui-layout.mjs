@@ -4,6 +4,7 @@ import { nodeLayout } from './node-ui-layout.mjs';
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
+import { potionDiscardControls } from './potion-discard-layout.mjs';
 import { prologueControl, vistaControl } from './cinematic-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
@@ -17,6 +18,10 @@ export function gameLayout(theme = nativeTheme) {
   const map = structuredClone(mapLayout(theme));
   const mapPanel = map.controls.find(control => control.name === 'stage').children.find(control => control.name === 'mapPanel');
   mapPanel.visible = false;
+  // Leave the existing node potion-counter position free for the shared entry.
+  for (const group of mapPanel.children) for (const item of group.children ?? []) {
+    if (item.name === 'title') item.size[0] = theme.layout.nativeNode.topBar.title[2];
+  }
   const picture = (name, size, id, colour) => ({ name, kind: 'image', position: [...theme.layout.nativeControl.origin],
     size, image: id, colour });
   const [ex, ey, ew, eh] = layout.emblem;
@@ -40,7 +45,7 @@ export function gameLayout(theme = nativeTheme) {
       { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: battleControls },
       mapPanel,
       ...nodeLayout(theme).controls.map(control => ({ ...control, visible: false, children: control.children.map(child =>
-        child.name === 'title' ? { ...child, size: [theme.layout.deckView.nodeTitleWidth, child.size[1]] }
+        child.name === 'title' ? { ...child, size: [theme.layout.nativeNode.topBar.title[2], child.size[1]] }
           : child.name === 'notice' ? { ...child, position: theme.layout.exitMenu.nodeNotice.slice(0, 2),
             size: theme.layout.exitMenu.nodeNotice.slice(2) } : child) })),
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
@@ -64,6 +69,7 @@ export function gameLayout(theme = nativeTheme) {
       // Above every page so its last fade can uncover the map; below the deck and exit overlays.
       prologueControl(theme),
       ...deckControls(theme),
+      ...potionDiscardControls(theme),
       ...exitControls(theme),
     ],
   };

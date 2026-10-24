@@ -6,6 +6,7 @@ local BattleUI = require("abyss_battle_ui")
 local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
 local DeckUI = require("abyss_deck_ui")
+local PotionDiscardUI = require("abyss_potion_discard_ui")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
@@ -37,6 +38,22 @@ function M.new(root, data, presentation, clickEvent, platform)
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
             cursorEvents = platform.cursorEvents, sound = platform.sound })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
+    local function canManagePotions(run)
+        return run~=nil and self.run==run and not self.exitOpen and not self.deckUI.visible
+            and not self.battleUI.busy and not self.settlementBusy and not self.settlementRequested
+            and (self.mode=="map" or self.mode=="battle" or self.mode=="node")
+            and (run.phase=="map" or run.phase=="node" or run.phase=="reward" or run.phase=="combat")
+    end
+    self.potionUI=PotionDiscardUI.new(child("potionPanel"),clickEvent,platform,canManagePotions,changed,
+        function()return self:closePotions()end)
+    function self:openPotions()
+        if not self.potionUI:open(self.run)then return false end
+        self.battleUI.selected=nil;self:refresh();return true
+    end
+    function self:closePotions()
+        if not self.potionUI:close()then return false end
+        self.battleUI.suppressClick=false;self:refresh();return true
+    end
     -- The opening cinematic plays once per session, from the title screen only; hosts
     -- without the panel, or with platform.prologue == false, go straight to the map.
     local prologuePanel = root:GetChild("prologuePanel")
@@ -50,6 +67,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     function self:openExit()
         if self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
+        self.potionUI:close()
         self.exitOpen, self.exitError = true, nil
         self.battleUI.selected = nil
         self:refresh()
@@ -71,7 +89,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
 
     function self:openDeck()
-        if self.exitOpen or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
+        if self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
         if not self.deckUI:open(self.run) then return false end
         self.battleUI.selected = nil
@@ -234,8 +252,18 @@ function M.new(root, data, presentation, clickEvent, platform)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
         local deckOpen = self.deckUI.visible
+        if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
+        local potionOpen=self.potionUI.visible
         local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy
-        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not blocked and not covering)
+        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("potionEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
+        potionHit.interactable=canManagePotions(run)
+        for _,state in ipairs({"normal","hover","pressed","disabled"})do
+            potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..run.data.rules.player.potionSlots or "药水"
+        end
+        child("nodePanel"):GetChild("potions"):SetVisible(false)
+        if potionOpen then self.potionUI:render()end
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
         deckHit.interactable = not self.battleUI.busy
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
@@ -244,11 +272,11 @@ function M.new(root, data, presentation, clickEvent, platform)
             if variant then variant:GetChild("label").text = run and "卡组 " .. #run.deck or "卡组" end
         end
         menu:SetVisible(inMenu)
-        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not blocked)
+        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked)
         child("battlePanel"):SetVisible(self.mode == "battle")
-        self.mapUI:setVisible(self.mode == "map" and not deckOpen and not blocked)
+        self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
         child("mapPanel"):SetVisible(self.mode == "map")
-        self.nodeUI:setVisible(self.mode == "node" and not deckOpen and not blocked)
+        self.nodeUI:setVisible(self.mode == "node" and not deckOpen and not potionOpen and not blocked)
         child("nodePanel"):SetVisible(self.mode == "node")
         if self.mode == "battle" then
             self.battleUI:render()
@@ -263,7 +291,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
         elseif self.mode == "map" then
             -- While the cinematic's last fade uncovers the map, the map is visible but inert.
-            self.mapUI:setNavigationEnabled(not deckOpen and not blocked and not covering and #Nodes.available(run, self.map) > 0)
+            self.mapUI:setNavigationEnabled(not deckOpen and not potionOpen and not blocked and not covering and #Nodes.available(run, self.map) > 0)
         elseif self.mode == "node" then self.nodeUI:render() end
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
@@ -335,9 +363,11 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     function self:resize(width, height)
         exitGeneration = exitGeneration + 1
+        local closed=self.potionUI:close()
         self.battleUI:resize(width, height)
         self.mapUI:resize(width, height)
         self.nodeUI:resize(width, height)
+        if closed then self:refresh()end
     end
     function self:update(dt)
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
@@ -362,6 +392,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return self.mapUI:update(dt)
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
+    child("potionEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()return self:openPotions()end)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
     local function bindCommand(box, kind, action)
