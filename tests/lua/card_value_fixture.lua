@@ -12,11 +12,11 @@ for index=1,8 do
         local box=panel:GetChild('card'..i)
         seen[instance.cardId]=box
     end
-    if index==2 then assert(seen.defend:GetChild('valueFeedback'):GetChild('value1').text=='3↓') end
-    if index==3 then assert(seen.defend:GetChild('valueFeedback'):GetChild('value1').text=='8↑') end
-    if index==4 then assert(seen.strike:GetChild('valueFeedback'):GetChild('value1').text=='4↓') end
-    if index==5 then assert(seen.strike:GetChild('valueFeedback'):GetChild('value1').text=='9↑') end
-    if index==6 then assert(not seen.strike:GetChild('valueFeedback').visible) end
+    if index==2 then assert(seen.defend:GetChild('label').text:find('<color=#EF7672>3↓</color>',1,true)) end
+    if index==3 then assert(seen.defend:GetChild('label').text:find('<color=#7DC77A>8↑</color>',1,true)) end
+    if index==4 then assert(seen.strike:GetChild('label').text:find('<color=#EF7672>4↓</color>',1,true)) end
+    if index==5 then assert(seen.strike:GetChild('label').text:find('<color=#7DC77A>9↑</color>',1,true)) end
+    if index==6 then assert(not seen.strike:GetChild('label').text:find('<color=',1,true)) end
     if index==8 then assert(#view.run.combat.hand==10) end
 end
 print('LUA_CARD_VALUE_FIXTURE_PASS 8')

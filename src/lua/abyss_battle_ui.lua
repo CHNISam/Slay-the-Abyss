@@ -996,17 +996,6 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local playable, selectedBox = false, nil
         for i = 1, 10 do
             local box = child("card" .. i)
-            local valueFeedback = box:GetChild("valueFeedback")
-            valueFeedback:SetVisible(false)
-            box:GetChild("art"):SetVisible(true)
-            for row = 1, L.cardValueFeedback.rows do
-                for _, prefix in ipairs({"caption", "value"}) do
-                    local field = valueFeedback:GetChild(prefix .. row)
-                    field.text = ""
-                    ink(field, C.text)
-                    field:SetVisible(false)
-                end
-            end
             local instance = fighting and battle.hand[i]
             local id = instance and instance.cardId or rewards[i]
             box:SetVisible(id ~= nil and id ~= false)
@@ -1024,32 +1013,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     -- The core previews upgrade, growth and every current modifier;
                     -- a card being aimed shows the value for that target.
                     local preview = Combat.cardPreview(battle, instance, instance.uid == aimUid and aimTarget or nil)
-                    local values = CardDisplay.values(definition, preview)
-                    local row = 0
-                    for index, effect in ipairs(definition.effects) do
-                        local token = values[index]
-                        if token and token.direction ~= "same" then
-                            row = row + 1
-                            -- The supported card catalog is checked against this capacity.
-                            -- Keep full accurate description even for future overflow effects.
-                            if row <= L.cardValueFeedback.rows then
-                                local caption = valueFeedback:GetChild("caption" .. row)
-                                local value = valueFeedback:GetChild("value" .. row)
-                                caption.text = effect.op == "block" and "格挡" or (effect.times or 1) > 1 and "每段" or "伤害"
-                                value.text = token.text
-                                ink(value, C[token.colourKey])
-                                caption:SetVisible(true) value:SetVisible(true)
-                            end
-                        end
-                    end
-                    valueFeedback:SetVisible(row > 0)
-                    box:GetChild("art"):SetVisible(row == 0)
                     local combatText = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
                     if combatText then
-                        text = combatText:gsub("{effects%.(%d+)%.value}", function(index)
-                            local i = tonumber(index) + 1
-                            return preview[i] and amount(preview[i]) or number(definition.effects[i].value)
-                        end)
+                        text = CardDisplay.format(combatText, definition, preview, C)
                     end
                     for i = 1, #definition.effects do
                         local entry = preview[i]

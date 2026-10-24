@@ -16,4 +16,23 @@ function M.values(definition, preview)
     end
     return result
 end
+-- Encodes only the numeric dynamic variable, never the surrounding sentence.
+-- Native colour parsing verified by the independent 1849 probe (see evidence).
+function M.format(template, definition, preview, palette)
+    local values = M.values(definition, preview)
+    return (template:gsub('{effects%.(%d+)%.value}', function(rawIndex)
+        local index = tonumber(rawIndex) + 1
+        local token, entry = values[index], preview[index]
+        if token and token.direction ~= 'same' then
+            local colour = assert(palette[token.colourKey])
+            local hex = string.format('#%02X%02X%02X', colour.r, colour.g, colour.b)
+            return '<color=' .. hex .. '>' .. token.text .. '</color>'
+        end
+        if entry then
+            assert(entry.low == entry.high, 'card damage display must be exact')
+            return integer(entry.low)
+        end
+        return integer(definition.effects[index].value)
+    end))
+end
 return M

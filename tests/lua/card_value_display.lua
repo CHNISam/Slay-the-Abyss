@@ -39,4 +39,18 @@ for _,t in ipairs({{nil,4,'down'},{2,6,'same'},{nil,4,'down'}}) do
 end
 local invalid=Display.values({effects={{op='draw',value=2},{op='damage',value=6}}},{{op='draw',low=3,high=3},{op='damage',low=4,high=9}})
 eq(next(invalid),nil)
+local palette=require('abyss_theme').color
+local function format(id,statuses,template,target)
+ local s,card=state(id,statuses)
+ if target then Combat.addStatus(s.enemies[target],'vulnerable',1) end
+ return Display.format(template,Combat.cardDefinition(s,card),Combat.cardPreview(s,card,target),palette)
+end
+eq(format('defend',{frail=1},'获得 {effects.0.value} 点格挡。'),'获得 <color=#EF7672>3↓</color> 点格挡。')
+eq(format('strike',{weak=1},'造成 {effects.0.value} 点伤害。'),'造成 <color=#EF7672>4↓</color> 点伤害。')
+eq(format('defend',{dexterity=3},'获得 {effects.0.value} 点格挡。'),'获得 <color=#7DC77A>8↑</color> 点格挡。')
+eq(format('strike',{strength=2,weak=1},'造成 {effects.0.value} 点伤害。'),'造成 6 点伤害。')
+eq(format('iron_wave',{strength=-1,dexterity=2},'先获得 {effects.0.value} 格挡，再造成 {effects.1.value} 伤害。'),
+ '先获得 <color=#7DC77A>7↑</color> 格挡，再造成 <color=#EF7672>4↓</color> 伤害。')
+eq(format('bash',{strength=2},'造成 {effects.0.value} 伤害，施加 {effects.1.value} 层易伤。'),
+ '造成 <color=#7DC77A>10↑</color> 伤害，施加 2 层易伤。')
 print('LUA_CARD_VALUE_DISPLAY_PASS '..count)

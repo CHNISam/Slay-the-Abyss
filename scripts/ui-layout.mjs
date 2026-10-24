@@ -131,17 +131,6 @@ export function handPose(count, index, selected = false) {
     rotation: selected ? 0 : angle, scale: [scale, scale] };
 }
 
-function cardValueFeedback(y) {
-  const v = l.cardValueFeedback;
-  return { name: 'valueFeedback', kind: 'container', position: [0, y], size: v.size, visible: false,
-    children: [panel('plate', 0, 0, ...v.size, c.panelRaised),
-      ...Array.from({ length: v.rows }, (_, index) => {
-        const py = ((v.rows - 1) / 2 - index) * v.rowGap;
-        return [text(`caption${index + 1}`, v.caption[0], py, v.caption[1], l.nativeText.lineHeight, '', f.small),
-          text(`value${index + 1}`, v.value[0], py, v.value[1], l.nativeText.lineHeight, '', f.small)];
-      }).flat()] };
-}
-
 export function battleLayout() {
   const [width, height] = theme.canvas.base;
   const bar = l.topBar, y = bar.y, iconId = entry => (typeof entry === 'object' ? entry.id : entry);
@@ -203,9 +192,6 @@ export function battleLayout() {
       text('name', l.card.costDisc / 2, h / 2 - l.card.nameBand / 2 - s.border, w - l.card.costDisc - s.s, l.card.nameBand, '', f.cardName),
       panel('artPlate', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, w - s.border * 2, l.card.art, c.cardType.attack),
       picture('art', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, 40, 40, theme.icon.cardArt.attack, c.text),
-      // B-tier: preserve the complete description; separately colour the numeric
-      // value, with an arrow and a neutral effect caption on a known dark panel.
-      cardValueFeedback(h / 2 - l.card.nameBand - l.card.art / 2 - s.border),
       text('type', 0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.nativeText.lineHeight, '', f.small, c.gold),
       text('label', 0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox, '', f.card),
       picture('costDisc', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, im.disc, c.energy),

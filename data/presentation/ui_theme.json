@@ -374,13 +374,6 @@
     "geo": 102005
   },
   "layout": {
-    "cardValueFeedback": {
-      "rows": 2,
-      "size": [132, 56],
-      "rowGap": 24,
-      "caption": [34, 56],
-      "value": [-34, 64]
-    },
     "battlePotions": {
       "count": 3,
       "origin": [-124, 268],

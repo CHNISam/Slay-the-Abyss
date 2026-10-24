@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 17:08'
+updated_date: '2026-10-24 17:37'
 labels: []
 milestone: m-5
 dependencies: []
@@ -30,5 +31,11 @@ ordinal: 92000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. 冻结基线与矩阵；2. 先红后绿实现只读逐效果展示；3. 原生能力核查与最小布局；4. 自动回归、候选与分层证据；5. 当前SHA CI通过后PR合并develop。
+1. 撤销B档额外标签和图标替换；2. 对照原版方法级证据验证原生行内色；3. 实现原句内数字红绿与紧邻的克制非颜色线索；4. 重做布局、输入、数值与原生/手机分层回归；5. 当前SHA CI成功后合并develop。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+用户明确否决割裂的独立数值标签及替换卡面图标；当前PR194不得按B档标签版合入。改为原说明行内局部数字颜色，保持卡面/图标/原句整体；先实测原生行内能力，必要时在说明区做独立原生数值片段，不再占用插图区。旧本地PASS只认证被否决候选，不认证重做结果。
+<!-- SECTION:NOTES:END -->
