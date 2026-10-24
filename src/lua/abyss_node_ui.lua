@@ -26,9 +26,9 @@ local reasons = {
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
-    purifier = { name = "净化神龛", body = "山道旁立着一座覆满苔痕的石龛，龛前香炉里还飘着细烟。\n据说在此诚心祈祷，便能放下一式多余的招数。",
+    purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
         leave = "你向神龛行了一礼，转身继续赶路。" },
-    cleric = { name = "圣职者", body = "一位披着长袍的圣职者拦住去路，笑容满面：\n「旅行者，要不要来点小小的祝福？治疗、净化，明码标价。」",
+    cleric = { name = "圣职者", body = Narrative.eventCopy.cleric.intro:gsub("\n\n", "\n"),
         leave = "你婉拒了圣职者的服务，继续赶路。" },
     goop = {name="黏液金币",body="湿滑的泥潭中露出几枚金币。要取回它们，就得忍受黏液的侵蚀；绕道离开也会丢失部分盘缠。",leave="你收好剩下的盘缠，绕过泥潭。"},
     upgrade_shrine = {name="升级神龛",body="一道微光停在石龛上。你可以在此精进一式招数。",leave="你将这次机会留在身后。"},
@@ -169,7 +169,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason }
         return enabled == true
     end
-    local function shortfall(price) return "金币不足：需要 " .. price .. "，还差 " .. (price - self.run.gold) end
+    local function shortfall(price) return Narrative.merchant.insufficientGold .. " 金币不足：需要 " .. price .. "，还差 " .. (price - self.run.gold) end
 
     local commit -- forward declaration; renders and notifies
     local function pageArrows(view, prefix, page, count)
@@ -490,10 +490,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
         elseif screen == "eventView" then hint = renderEvent(view, node, result)
         elseif screen == "treasureView" then hint = renderTreasure(view, node) end
-        if active and self.mode == "main" then
-            local flavor = node.type == "event" and Narrative.specificEvents[node.event.id]
-                or Narrative.nodeFlavor[node.type]
-            if flavor then hint = flavor.compact .. " " .. hint end
+        if active and self.mode == "main" and node.type == "shop" then
+            hint = Narrative.merchant.greet .. " " .. hint
         end
         child("notice").text = self.notice ~= "" and self.notice or hint
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
@@ -513,7 +511,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "shopView" then
             confirmLabel, confirmOk = "离开商店", true
             confirmFn = function()
-                return commit("leaveShop", nil, function() return "已离开商店" end)
+                return commit("leaveShop", nil, function() return Narrative.merchant.leave end)
             end
         elseif screen == "pickerView" then
             local selected = self.selected
@@ -587,6 +585,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not called then error(accepted) end
         if accepted then
             local notice, hold = describe(before)
+            if command == "buyCard" or command == "buyRelic" or command == "removeCard" then
+                notice = Narrative.merchant.purchaseSuccess .. " " .. notice
+            end
             self.notice, self.failed = notice, false
             if command == "removeCard" then self.mode, self.picker, self.selected = "main", nil, nil end
             local flow = self.run.nodeFlow

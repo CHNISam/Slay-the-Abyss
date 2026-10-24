@@ -150,12 +150,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         local targetX = self.settlementRequested and 0 or L.settle[1]
         if targetX ~= m.settleX then m.slide, m.settleX = { from = m.settleX, to = targetX, t = 0 }, targetX end
         if not outcome then
-            menu:GetChild("tagline").text = Narrative.flow.intro.compact
+            menu:GetChild("tagline").text = Narrative.flow.intro.full
             menu:GetChild("summary").text = "规划 " .. rules.generatedRows .. " 层岔路，构筑卡组，第 "
                 .. rules.bossFloor .. " 层迎战首领。\n" .. self.battleUI.instructions
         else
             local floor = self.map.floor
-            result:GetChild("subtitle").text = Narrative.flow[mode].compact
+            result:GetChild("subtitle").text = Narrative.flow[mode].full
             local values = { floor .. " / " .. rules.bossFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
             for i, name in ipairs({ "抵达层数", "战斗胜场", "用时", "卡组张数" }) do
                 cards[i]:GetChild("label").text, cards[i]:GetChild("value").text = name, values[i]
@@ -228,7 +228,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                     if enemy.definitionId == "guardian" then guardian = true end
                 end
                 child("battlePanel"):GetChild("notice").text = guardian
-                    and Narrative.flow.bossEntrance.compact or ""
+                    and Narrative.flow.bossEntrance.full or ""
             end
         elseif self.mode == "map" then
             self.mapUI:setNavigationEnabled(not deckOpen and not blocked and #Nodes.available(run, self.map) > 0)

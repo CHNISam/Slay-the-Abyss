@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "locale": "zh-CN",
+  "workTitle": "岩脉残响",
+  "status": "provisionally_approved_2026-10-23",
+  "kind": "narrative_copy_asset_not_runtime_schema",
+  "flow": {
+    "intro": {
+      "status": "user_approved_verbatim",
+      "full": "岩层深处传来了异常的共鸣。古老的封印正在崩解……旅行者，深入遗迹，阻止深渊的侵蚀。"
+    },
+    "bossEntrance": {
+      "status": "user_approved_verbatim",
+      "full": "石门缓缓开启。昔日的封印守卫仍在履行职责，只是漆黑的力量已令它分不清敌友。"
+    },
+    "victory": {
+      "status": "user_approved_verbatim",
+      "full": "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。"
+    },
+    "defeat": {
+      "status": "user_approved_verbatim",
+      "full": "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。"
+    }
+  },
+  "rules": {
+    "verbatim": "no paraphrase or compact fallback without user review",
+    "mechanics": "no new numbers, RNG, AI, choices or reward effects",
+    "layout": "preserve gameplay controls and settlement actions"
+  }
+}
