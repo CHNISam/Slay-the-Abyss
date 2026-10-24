@@ -20,7 +20,7 @@
 
 组合后专项回归：卡牌预览19组、药水目标12组、状态规则10组、布局/对比度及药水布局5项通过。组合本地JS为1230项：1112通过、118跳过、0失败。运行源码`33eebfc`的[完整CI](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40120982021)两项作业成功；合并前仍须核对最终PR当前SHA。
 
-组合版完整本地`npm run check`已退出0：上述JS结果、**182个Lua文件通过、Python22项含1跳过**。[完整日志](integrated-check.log)。本轮`gremlin_gang`为15.230秒通过，没有修改超时阈值；下方旧版超时保留为历史失败，未冒称首次即通过。
+组合版完整本地`npm run check`已退出0：上述JS结果、**182个Lua文件通过、Python22项含1跳过**。[完整日志](integrated-check.log)归档仅统一换行并移除一处行尾制表符，机器证据同时保留原始Windows输出哈希。本轮`gremlin_gang`为15.230秒通过，没有修改超时阈值；下方旧版超时保留为历史失败，未冒称首次即通过。
 
 本轮同普通候选`verify:ui`仍为**FAIL**；物理手机、完整真实拖动保持**NOT_RUN**。未降低全局UI清单。机器证据见[integration.json](integration.json)。
 

@@ -336,8 +336,8 @@
   "localFullCheck": {
     "status": "PASS",
     "log": "integrated-check.log",
-    "sha256": "8a5f68ff7965703488f4d72a1f9d88ae5461efbdf8d9286420deddb8c66d4a92",
-    "hashScope": "Committed Git blob with LF line endings",
+    "sha256": "083f28014d0f3d525dfcb3c90248ec0aaf111fb7e4378e43559f1b0fb61662fd",
+    "hashScope": "Committed archive: LF line endings, one trailing tab removed; raw output retained separately",
     "rawWindowsCrlfSha256": "e17fda5b3230ab903587b816f677220f0f388fdd505fbdf4bd1454645081f8d2"
   },
   "integrationCI": {
