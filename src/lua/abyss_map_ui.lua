@@ -406,7 +406,12 @@ function M.new(root, map, onChoose, clickEvent, options)
     end) draggable(child(at("node" .. slot), "hit"), slot) end
     local function step(name,delta)
         if not buttonEnabled(name) then return false,self.visible and "scroll_boundary" or "map_hidden" end
-        local target = scrollAnimation and scrollAnimation.target or self.scroll
+        -- Queue same-direction steps; an opposite click must reverse what is
+        -- actually displayed, even when many earlier clicks queued a far target.
+        local target = self.scroll
+        if scrollAnimation and (scrollAnimation.target - self.scroll) * delta > 0 then
+            target = scrollAnimation.target
+        end
         return animateScrollTo(target + delta)
     end
     bind("previous", function() return step("previous",-Layout.scrollStep) end)

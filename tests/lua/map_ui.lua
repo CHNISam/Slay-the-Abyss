@@ -513,8 +513,17 @@ test("rapid clicks accumulate bounded targets and reversing retargets without sn
     local second = ui.scroll
     assert(second > first)
     click(root,"previous"); assert(ui.scroll == second)
+    ui:update(.02); assert(ui.scroll < second,"down must reverse the displayed motion immediately")
     ui:update(Theme.motion.base)
-    assert(ui.scroll == Layout.scrollStep)
+    assert(ui.scroll == math.max(0,second - Layout.scrollStep))
+    ui:setScroll(0)
+    for _ = 1, 10 do click(root,"next") end
+    ui:update(.04)
+    local queued = ui.scroll
+    click(root,"previous"); ui:update(.02)
+    assert(ui.scroll < queued,"a distant queued target must not keep moving upward after down")
+    ui:update(Theme.motion.base)
+    assert(ui.scroll == math.max(0,queued - Layout.scrollStep))
     for _ = 1, 20 do click(root,"next") end
     ui:update(Theme.motion.base)
     assert(ui.scroll == Layout.maxScroll and not click(root,"next"))

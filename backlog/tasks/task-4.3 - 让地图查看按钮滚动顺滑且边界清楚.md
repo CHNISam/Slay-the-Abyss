@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-24 09:36'
-updated_date: '2026-10-24 10:31'
+updated_date: '2026-10-24 10:42'
 labels: []
 milestone: m-5
 dependencies: []
@@ -46,6 +46,8 @@ ordinal: 85000
 
 <!-- SECTION:NOTES:BEGIN -->
 已核对批准稿和宿主OnUpdate。DeepSeek首段Max委派5分钟以上无事件/改动后停止，最终代码与测试由Codex接管，不能计入模型产出。固定按钮/边界禁用、0.2秒ease-out、两层152px步长、连续点击及拖动接管、防旧节点点击、取消反馈均有离线回归。新增需求先红后绿；目标7JS含27地图UI/35手势通过；完整check exit0，JS962pass118skip、147Lua文件、Python16pass1skip。未构建gil/官方导入/物理PC或触屏/verify:ui；平台关口保留在TASK4/38/42。
+
+自审补强大量同向点击后的反向用例：反向以实际显示位置单步重定向，避免仍追逐旧远目标。新断言先红后绿，修后目标7JS（含27地图UI与35手势）再次通过；最终全套复验保存offline-check-final.log。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
