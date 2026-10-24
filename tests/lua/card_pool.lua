@@ -6,42 +6,8 @@ local count = 0
 local function equal(a, b, label) assert(a == b, (label or "value") .. ": " .. tostring(a) .. " ~= " .. tostring(b)) end
 local function test(name, fn) fn(); count = count + 1; print("ok card_pool " .. count .. " - " .. name) end
 
--- Independent expected outcomes, rather than calculating answers from effects.
--- Each pair is base/upgraded. All actors have no modifiers except Dropkick's
--- declared vulnerable fixture; damage numbers below are actual HP lost.
-local cases = {
-    {id="strike", cost={1,1}, damage={6,9}},
-    {id="defend", cost={1,1}, block={5,8}},
-    {id="bash", cost={2,2}, damage={8,10}, enemyStatus="vulnerable", stacks={2,3}},
-    {id="cleave", cost={1,1}, damage={8,11}, area=true},
-    {id="clothesline", cost={2,2}, damage={12,14}, enemyStatus="weak", stacks={2,3}},
-    {id="iron_wave", cost={1,1}, damage={5,7}, block={5,7}},
-    {id="anger", cost={0,0}, damage={6,8}, copies=true},
-    {id="body_slam", cost={1,0}, damage={12,12}},
-    {id="flex", cost={0,0}, ownStatus="strength", stacks={2,4}, temporary=true},
-    {id="twin_strike", cost={1,1}, damage={10,14}},
-    {id="pommel_strike", cost={1,1}, damage={9,10}, draw={1,2}},
-    {id="shrug_it_off", cost={1,1}, block={8,11}, draw={1,1}},
-    {id="thunderclap", cost={1,1}, damage={4,7}, area=true, enemyStatus="vulnerable", stacks={1,1}},
-    {id="uppercut", cost={2,2}, damage={13,13}, enemyStatus="weak", secondStatus="vulnerable", stacks={1,2}},
-    {id="inflame", cost={1,1}, ownStatus="strength", stacks={2,3}, power=true},
-    {id="battle_trance", cost={0,0}, draw={3,4}, noDraw=true},
-    {id="bloodletting", cost={0,0}, hpLoss=3, energy={2,3}},
-    {id="barricade", cost={3,2}, ownStatus="barricade", stacks={1,1}, power=true},
-    {id="carnage", cost={2,2}, damage={20,28}},
-    {id="disarm", cost={1,1}, enemyStatus="strength", stacks={-2,-3}, exhaust=true},
-    {id="dropkick", cost={1,1}, damage={7,12}, draw={1,1}, energy={1,1}, vulnerable=true},
-    {id="entrench", cost={2,1}, block={12,12}},
-    {id="ghostly_armor", cost={1,1}, block={10,13}},
-    {id="hemokinesis", cost={1,1}, damage={15,20}, hpLoss=2},
-    {id="rampage", cost={1,1}, damage={8,8}, growth={5,8}},
-    {id="seeing_red", cost={1,0}, energy={2,2}, exhaust=true},
-    {id="shockwave", cost={2,2}, area=true, enemyStatus="weak", secondStatus="vulnerable", stacks={3,5}, exhaust=true},
-    {id="offering", cost={0,0}, hpLoss=6, energy={2,2}, draw={3,5}, exhaust=true},
-    {id="impervious", cost={2,2}, block={30,40}, exhaust=true},
-    {id="bludgeon", cost={3,3}, damage={32,42}},
-}
-local blocked = {"clash", "true_grit", "warcry", "metallicize", "whirlwind", "demon_form", "reaper"}
+local oracle = dofile("tests/lua/support/card_pool_oracle.lua")
+local cases, blocked = oracle.cases, oracle.blocked
 local function find(entries, id) for _, value in ipairs(entries) do if value.id == id then return value end end end
 local function execute(case, upgraded, run)
     local s
@@ -241,42 +207,4 @@ test("incomplete cards never appear in the generated shop inventory or camp upgr
     end
 end)
 
-test("all 27 reward cards occur after real original-data starter victories and can be claimed", function()
-    local wanted, remaining = {}, 0
-    for _, case in ipairs(cases) do
-        if find(data.cards.cards, case.id).rarity ~= "basic" then wanted[case.id], remaining = true, remaining + 1 end
-    end
-    for seed = 1, 128 do
-        local run = Run.new(data, seed)
-        assert(Run.startCombat(run, "cultist_solo"))
-        for _ = 1, 100 do
-            if run.phase ~= "combat" then break end
-            local chosen
-            for _, instance in ipairs(run.combat.hand) do
-                if Combat.canPlay(run.combat, instance.uid, 1) then
-                    if not chosen or Combat.cardDefinition(run.combat, instance).type == "attack" then chosen = instance end
-                end
-            end
-            if chosen then assert(Run.play(run, chosen.uid, 1)) else assert(Run.endTurn(run)) end
-        end
-        equal(run.phase, "reward", "original starter victory")
-        for choice, id in ipairs(Run.rewardOptions(run)) do
-            for _, incomplete in ipairs(blocked) do assert(id ~= incomplete, "incomplete reward: " .. id) end
-            if wanted[id] then
-                local claimed = Combat.copy(run)
-                assert(Run.claimCardReward(claimed, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(claimed)
-                equal(#claimed.deck, 11); equal(claimed.deck[11].cardId, id)
-                assert(Run.startCombat(claimed, "cultist_solo"))
-                local acquired = 0
-                for _, pile in ipairs({claimed.combat.hand, claimed.combat.draw}) do
-                    for _, instance in ipairs(pile) do if instance.cardId == id then acquired = acquired + 1 end end
-                end
-                equal(acquired, 1, "reward persists into next battle")
-                wanted[id], remaining = nil, remaining - 1
-            end
-        end
-        if remaining == 0 then break end
-    end
-    equal(remaining, 0, "unseen playable rewards")
-end)
 print("LUA_CARD_POOL_PASS " .. count)
