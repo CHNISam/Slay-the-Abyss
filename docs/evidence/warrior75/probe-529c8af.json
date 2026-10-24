@@ -1,0 +1,504 @@
+{
+  "sourceCommit": "529c8af1c2fd0bc6d501260824b04eb6f18821ee",
+  "kind": "explicit native test fixtures; not a normal run or natural acquisition",
+  "candidateSha256": "e42ce8e4fc52d302fd592930551f26d7fd9e7759686015022c17b12d1b25a522",
+  "baseCandidateSha256": "0ed96e096502a3b46513080899bfb23dc4929143eebe6a77d99d823fe0a659b2",
+  "runId": "f4d29923-3eb9-4717-b86d-e5878c6eb623",
+  "officialSave": "1073741855",
+  "clientScriptLogRequested": true,
+  "printCount": 235,
+  "expectations": {
+    "passed": false,
+    "met": 5,
+    "of": 7,
+    "firstNotMet": {
+      "expect": "print \"ABYSS_W75_NATIVE_UI exhaust choice passed\"",
+      "met": false,
+      "found": "never printed",
+      "after": [
+        "304: ABYSS_W75_NATIVE_UI searing_blow+3 permanent upgrade committed",
+        "304: ABYSS_W75_FIXTURE combat: play Burning Pact, choose Sentinel+; explicit hand/powers",
+        "327: ABYSS_FEEDBACK play source=- target=- amount=0",
+        "327: ABYSS_AUDIO player_action id=40313 instance=1022",
+        "327: ABYSS_FEEDBACK card_choice source=- target=- amount=0"
+      ]
+    },
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CORE all six fixture suites passed\"",
+        "met": true,
+        "t": 1
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI searing_blow+3\"",
+        "met": true,
+        "t": 304
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI exhaust choice passed\"",
+        "met": false,
+        "found": "never printed",
+        "after": [
+          "304: ABYSS_W75_NATIVE_UI searing_blow+3 permanent upgrade committed",
+          "304: ABYSS_W75_FIXTURE combat: play Burning Pact, choose Sentinel+; explicit hand/powers",
+          "327: ABYSS_FEEDBACK play source=- target=- amount=0",
+          "327: ABYSS_AUDIO player_action id=40313 instance=1022",
+          "327: ABYSS_FEEDBACK card_choice source=- target=- amount=0"
+        ]
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": false,
+        "found": "327: abyss_deck_ui:31: attempt to call a nil value (method 'AddCursorEventListener')\nstack traceback:\n\tabyss_deck_ui:31: in function 'fill'\n\tabyss_deck_ui: 75: in function <abyss_deck_ui:72>\n\tabyss_deck_ui:72: in function 'open'\n\tabyss_game_ui:261: in function 'refresh'\n\tabyss_game_ui:31: in function 'on"
+      }
+    ],
+    "note": "Not everything expected was printed. The screenshots still have to be looked at for what a print cannot say."
+  },
+  "cards": [
+    {
+      "id": "strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "defend",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "bash",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "anger",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "armaments",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "body_slam",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "clash",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "cleave",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "clothesline",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "flex",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "havoc",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "headbutt",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "heavy_blade",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "iron_wave",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "perfected_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "pommel_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "shrug_it_off",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "sword_boomerang",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "thunderclap",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "true_grit",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "twin_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "warcry",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "wild_strike",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "battle_trance",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "blood_for_blood",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "bloodletting",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "burning_pact",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "carnage",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "combust",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "dark_embrace",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "disarm",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "dropkick",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "dual_wield",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "entrench",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "evolve",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "feel_no_pain",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "fire_breathing",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "flame_barrier",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "ghostly_armor",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "hemokinesis",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "infernal_blade",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "inflame",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "intimidate",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "metallicize",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "power_through",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "pummel",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "rage",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "rampage",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "reckless_charge",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "rupture",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "searing_blow",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "second_wind",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "seeing_red",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "sentinel",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "sever_soul",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "shockwave",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "spot_weakness",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "uppercut",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "whirlwind",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "barricade",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "berserk",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "bludgeon",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "brutality",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "corruption",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "demon_form",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "double_tap",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "exhume",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "feed",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "fiend_fire",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "immolate",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "impervious",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "juggernaut",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "limit_break",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "offering",
+      "base": true,
+      "upgraded": true
+    },
+    {
+      "id": "reaper",
+      "base": true,
+      "upgraded": true
+    }
+  ],
+  "nativeCoreSuites": [
+    "ABYSS_W75_NATIVE_CORE pass warrior75",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_edges",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_shuffle",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_acquisition",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_card_text",
+    "ABYSS_W75_NATIVE_CORE pass warrior75_courier"
+  ],
+  "ui": {
+    "repeatedSearingBlow": "actual preview 21 -> 27 and upgrade+3 committed",
+    "fullRewardNames": "FAILED: second line clipped",
+    "bodyText": "Perfected Strike full bonus text visible",
+    "exhaustChoice": "FAILED: abyss_deck_ui:31 container has no AddCursorEventListener",
+    "choiceCosts": "FAILED: modal shows1 while combat Corruption cost is0"
+  },
+  "strictAcceptance": "pending; whole playtest expectations failed5/7 with script error",
+  "files": [
+    {
+      "path": "screens/529c8af-066-probe-focus-1.png",
+      "sha256": "3fcd35fbe74ad5eb97d71fe14374a80b72821e219495040c3094dcb212c346e7",
+      "bytes": 155255
+    },
+    {
+      "path": "screens/529c8af-072-probe-searing-preview-1.png",
+      "sha256": "093b230486b119b56ad6e3ba28b8a1f8e3bfc3801bed8c68298d5f96a6d21ae3",
+      "bytes": 142274
+    },
+    {
+      "path": "screens/529c8af-073-probe-upgrade-1.png",
+      "sha256": "e3607dc7e01954574edb5edbce26be626b976fdc9dca4398fda103ffdbbc5773",
+      "bytes": 214743
+    },
+    {
+      "path": "screens/529c8af-075-probe-play-pact-1.png",
+      "sha256": "9c71ec94cbee16128506819e0b913beb06c2346964e60a78b39bbdf258912c83",
+      "bytes": 164969
+    },
+    {
+      "path": "screens/529c8af-077-probe-choice-now-1.png",
+      "sha256": "9c71ec94cbee16128506819e0b913beb06c2346964e60a78b39bbdf258912c83",
+      "bytes": 164969
+    },
+    {
+      "path": "probe-529c8af-status.json.gz",
+      "sha256": "2ea801c34efc20338e2c4c474912152d81e4e7ae969c0f8fb6d55eea7aee11a2",
+      "bytes": 11561,
+      "originalSha256": "a396c35b510df0971d0a7b3014a8294b367689adcf46152d321f941ce7e5c2a0",
+      "originalBytes": 91611
+    },
+    {
+      "path": "probe-529c8af-log.gia.gz",
+      "sha256": "36e4a457553c0313a0780e345446ac5adfbc031fa041595ac24be256ddfd4dc7",
+      "bytes": 5364,
+      "originalSha256": "9b4fcda47d7c0440f72d39eeed19a81263d51c8851bd90066cc2c35b9376ac4b",
+      "originalBytes": 42998
+    }
+  ]
+}
