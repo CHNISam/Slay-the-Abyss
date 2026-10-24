@@ -1,0 +1,1900 @@
+{
+  "capturedAt": "2026-10-24T20:51:50.8384727+08:00",
+  "totals": {
+    "rawFiles": 3,
+    "rawBytes": 182529,
+    "records": 1086,
+    "explicitPrints": 1086,
+    "ignoredRecords": 0,
+    "uiLoadCycles": 4
+  },
+  "parser": "D:/MiliastraTools/genshin-miliastra-mcp/src/debug-log.mjs inspectDebugLog; only explicit fields 22/23 print records",
+  "scope": "Only official files currently on disk at capture; files can be flushed late. UI load cycles are observable boundaries, not independent proof of separate game sessions or candidate identity. elapsedSeconds resets within file 28 while sessionLabel stays fixed. No GUI interaction or source/MCP write.",
+  "files": [
+    {
+      "file": "2026-10-24_19-25-50_26_217122260.gia",
+      "sourceHash": "e8c7145662f8011f0d9506e81e27ca600bb717d60af2b46650a80e9bd8fbcd80",
+      "bytes": 1214,
+      "recordCount": 8,
+      "printCount": 8
+    },
+    {
+      "file": "2026-10-24_19-31-08_27_217122260.gia",
+      "sourceHash": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c",
+      "bytes": 17740,
+      "recordCount": 106,
+      "printCount": 106
+    },
+    {
+      "file": "2026-10-24_19-59-24_28_217122260.gia",
+      "sourceHash": "2a7e23fc04f34dd0b1911377031e51a060def626dcec80a8d574494821b60e50",
+      "bytes": 163575,
+      "recordCount": 972,
+      "printCount": 972
+    }
+  ],
+  "cycles": [
+    {
+      "file": "2026-10-24_19-25-50_26_217122260.gia",
+      "cycle": 1,
+      "recordStart": 0,
+      "recordEnd": 7,
+      "printCount": 8,
+      "candidateAssociation": "unknown from log; 27 association independently established by parent investigation",
+      "ready": [
+        {
+          "recordIndex": 2,
+          "elapsedSeconds": "1",
+          "sessionLabel": "2026/10/24_19:25:50",
+          "text": "ABYSS_UI ready"
+        }
+      ],
+      "failed": [],
+      "settlement": [
+        {
+          "recordIndex": 6,
+          "elapsedSeconds": "121",
+          "sessionLabel": "2026/10/24_19:25:50",
+          "text": "ABYSS_UI settlement_requested defeat"
+        },
+        {
+          "recordIndex": 7,
+          "elapsedSeconds": "122",
+          "sessionLabel": "2026/10/24_19:25:50",
+          "text": "ABYSS_SETTLEMENT_DEFEAT"
+        }
+      ],
+      "potions": [],
+      "merchantAudioOnly": [],
+      "exactPlayerBlock10": [],
+      "encounters": []
+    },
+    {
+      "file": "2026-10-24_19-31-08_27_217122260.gia",
+      "cycle": 1,
+      "recordStart": 0,
+      "recordEnd": 105,
+      "printCount": 106,
+      "candidateAssociation": "unknown from log; 27 association independently established by parent investigation",
+      "ready": [
+        {
+          "recordIndex": 2,
+          "elapsedSeconds": "1",
+          "sessionLabel": "2026/10/24_19:31:08",
+          "text": "ABYSS_UI ready"
+        }
+      ],
+      "failed": [],
+      "settlement": [
+        {
+          "recordIndex": 104,
+          "elapsedSeconds": "1093",
+          "sessionLabel": "2026/10/24_19:31:08",
+          "text": "ABYSS_UI settlement_requested defeat"
+        },
+        {
+          "recordIndex": 105,
+          "elapsedSeconds": "1094",
+          "sessionLabel": "2026/10/24_19:31:08",
+          "text": "ABYSS_SETTLEMENT_DEFEAT"
+        }
+      ],
+      "potions": [
+        {
+          "recordIndex": 103,
+          "elapsedSeconds": "977",
+          "sessionLabel": "2026/10/24_19:31:08",
+          "text": "ABYSS_FEEDBACK potion source=- target=1 amount=0"
+        }
+      ],
+      "merchantAudioOnly": [
+        {
+          "recordIndex": 97,
+          "elapsedSeconds": "532",
+          "sessionLabel": "2026/10/24_19:31:08",
+          "text": "ABYSS_AUDIO merchant_buy id=50940 instance=1798"
+        },
+        {
+          "recordIndex": 98,
+          "elapsedSeconds": "640",
+          "sessionLabel": "2026/10/24_19:31:08",
+          "text": "ABYSS_AUDIO merchant_buy id=50940 instance=1803"
+        }
+      ],
+      "exactPlayerBlock10": [],
+      "encounters": [
+        {
+          "number": 1,
+          "observedEnemies": [
+            "spike_slime_s_1",
+            "acid_slime_m_2"
+          ],
+          "firstRecord": 0,
+          "lastRecord": 95,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 12,
+              "elapsedSeconds": "270",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6"
+            },
+            {
+              "recordIndex": 16,
+              "elapsedSeconds": "271",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6"
+            },
+            {
+              "recordIndex": 18,
+              "elapsedSeconds": "271",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK death source=- target=spike_slime_s_1 amount=0"
+            },
+            {
+              "recordIndex": 22,
+              "elapsedSeconds": "273",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 23,
+              "elapsedSeconds": "274",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=2"
+            },
+            {
+              "recordIndex": 25,
+              "elapsedSeconds": "274",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 38,
+              "elapsedSeconds": "283",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 42,
+              "elapsedSeconds": "285",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 43,
+              "elapsedSeconds": "285",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 58,
+              "elapsedSeconds": "299",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 62,
+              "elapsedSeconds": "301",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 63,
+              "elapsedSeconds": "302",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 65,
+              "elapsedSeconds": "302",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 75,
+              "elapsedSeconds": "309",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 79,
+              "elapsedSeconds": "310",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 83,
+              "elapsedSeconds": "327",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 84,
+              "elapsedSeconds": "328",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=5"
+            },
+            {
+              "recordIndex": 91,
+              "elapsedSeconds": "331",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 93,
+              "elapsedSeconds": "332",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK death source=- target=acid_slime_m_2 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "observedEnemies": [
+            "red_louse_1"
+          ],
+          "firstRecord": 96,
+          "lastRecord": 105,
+          "victory": false,
+          "enemyEvidence": [
+            {
+              "recordIndex": 99,
+              "elapsedSeconds": "976",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=12"
+            },
+            {
+              "recordIndex": 101,
+              "elapsedSeconds": "977",
+              "sessionLabel": "2026/10/24_19:31:08",
+              "text": "ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "2026-10-24_19-59-24_28_217122260.gia",
+      "cycle": 1,
+      "recordStart": 0,
+      "recordEnd": 552,
+      "printCount": 553,
+      "candidateAssociation": "unknown from log; 27 association independently established by parent investigation",
+      "ready": [
+        {
+          "recordIndex": 2,
+          "elapsedSeconds": "2",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_UI ready"
+        }
+      ],
+      "failed": [],
+      "settlement": [
+        {
+          "recordIndex": 551,
+          "elapsedSeconds": "1769",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_UI settlement_requested defeat"
+        },
+        {
+          "recordIndex": 552,
+          "elapsedSeconds": "1769",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_SETTLEMENT_DEFEAT"
+        }
+      ],
+      "potions": [
+        {
+          "recordIndex": 547,
+          "elapsedSeconds": "1732",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_FEEDBACK potion source=- target=3 amount=0"
+        },
+        {
+          "recordIndex": 550,
+          "elapsedSeconds": "1734",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_FEEDBACK potion source=- target=3 amount=0"
+        }
+      ],
+      "merchantAudioOnly": [],
+      "exactPlayerBlock10": [],
+      "encounters": [
+        {
+          "number": 1,
+          "observedEnemies": [
+            "spike_slime_s_1",
+            "acid_slime_m_2"
+          ],
+          "firstRecord": 0,
+          "lastRecord": 78,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 8,
+              "elapsedSeconds": "111",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6"
+            },
+            {
+              "recordIndex": 12,
+              "elapsedSeconds": "113",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6"
+            },
+            {
+              "recordIndex": 14,
+              "elapsedSeconds": "114",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=spike_slime_s_1 amount=0"
+            },
+            {
+              "recordIndex": 22,
+              "elapsedSeconds": "118",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 23,
+              "elapsedSeconds": "119",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=2"
+            },
+            {
+              "recordIndex": 25,
+              "elapsedSeconds": "119",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 38,
+              "elapsedSeconds": "133",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 42,
+              "elapsedSeconds": "136",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 43,
+              "elapsedSeconds": "136",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 50,
+              "elapsedSeconds": "151",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=8"
+            },
+            {
+              "recordIndex": 52,
+              "elapsedSeconds": "151",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=acid_slime_m_2 amount=2"
+            },
+            {
+              "recordIndex": 60,
+              "elapsedSeconds": "156",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 61,
+              "elapsedSeconds": "156",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=2"
+            },
+            {
+              "recordIndex": 63,
+              "elapsedSeconds": "156",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 64,
+              "elapsedSeconds": "156",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=acid_slime_m_2 target=acid_slime_m_2 amount=-1"
+            },
+            {
+              "recordIndex": 70,
+              "elapsedSeconds": "161",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=9"
+            },
+            {
+              "recordIndex": 74,
+              "elapsedSeconds": "162",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=7"
+            },
+            {
+              "recordIndex": 76,
+              "elapsedSeconds": "162",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=acid_slime_m_2 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "observedEnemies": [
+            "jaw_worm_1"
+          ],
+          "firstRecord": 79,
+          "lastRecord": 164,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 92,
+              "elapsedSeconds": "252",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 96,
+              "elapsedSeconds": "254",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 97,
+              "elapsedSeconds": "254",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=1"
+            },
+            {
+              "recordIndex": 104,
+              "elapsedSeconds": "272",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=8"
+            },
+            {
+              "recordIndex": 106,
+              "elapsedSeconds": "272",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=jaw_worm_1 amount=2"
+            },
+            {
+              "recordIndex": 110,
+              "elapsedSeconds": "273",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=9"
+            },
+            {
+              "recordIndex": 114,
+              "elapsedSeconds": "275",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 115,
+              "elapsedSeconds": "276",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 117,
+              "elapsedSeconds": "276",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=jaw_worm_1 target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 119,
+              "elapsedSeconds": "276",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=-1"
+            },
+            {
+              "recordIndex": 136,
+              "elapsedSeconds": "377",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 140,
+              "elapsedSeconds": "380",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 141,
+              "elapsedSeconds": "380",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=4"
+            },
+            {
+              "recordIndex": 143,
+              "elapsedSeconds": "381",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=-1"
+            },
+            {
+              "recordIndex": 152,
+              "elapsedSeconds": "391",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 156,
+              "elapsedSeconds": "392",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 160,
+              "elapsedSeconds": "392",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=2"
+            },
+            {
+              "recordIndex": 162,
+              "elapsedSeconds": "393",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "observedEnemies": [
+            "green_louse_2",
+            "red_louse_1"
+          ],
+          "firstRecord": 165,
+          "lastRecord": 282,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 168,
+              "elapsedSeconds": "412",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=6"
+            },
+            {
+              "recordIndex": 170,
+              "elapsedSeconds": "413",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=green_louse_2 target=green_louse_2 amount=4"
+            },
+            {
+              "recordIndex": 172,
+              "elapsedSeconds": "413",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-4"
+            },
+            {
+              "recordIndex": 176,
+              "elapsedSeconds": "414",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=2"
+            },
+            {
+              "recordIndex": 184,
+              "elapsedSeconds": "434",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 185,
+              "elapsedSeconds": "435",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=1"
+            },
+            {
+              "recordIndex": 187,
+              "elapsedSeconds": "435",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 188,
+              "elapsedSeconds": "435",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=green_louse_2 target=player amount=2"
+            },
+            {
+              "recordIndex": 205,
+              "elapsedSeconds": "461",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 206,
+              "elapsedSeconds": "462",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=3"
+            },
+            {
+              "recordIndex": 208,
+              "elapsedSeconds": "462",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 209,
+              "elapsedSeconds": "462",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=green_louse_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 227,
+              "elapsedSeconds": "522",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=4"
+            },
+            {
+              "recordIndex": 229,
+              "elapsedSeconds": "522",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0"
+            },
+            {
+              "recordIndex": 233,
+              "elapsedSeconds": "525",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 234,
+              "elapsedSeconds": "526",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 254,
+              "elapsedSeconds": "610",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=6"
+            },
+            {
+              "recordIndex": 256,
+              "elapsedSeconds": "610",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=red_louse_1 target=red_louse_1 amount=4"
+            },
+            {
+              "recordIndex": 258,
+              "elapsedSeconds": "610",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=-4"
+            },
+            {
+              "recordIndex": 262,
+              "elapsedSeconds": "612",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block_reset source=- target=red_louse_1 amount=0"
+            },
+            {
+              "recordIndex": 263,
+              "elapsedSeconds": "612",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 264,
+              "elapsedSeconds": "613",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 272,
+              "elapsedSeconds": "627",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=8"
+            },
+            {
+              "recordIndex": 274,
+              "elapsedSeconds": "627",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=red_louse_1 amount=2"
+            },
+            {
+              "recordIndex": 278,
+              "elapsedSeconds": "628",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=1"
+            },
+            {
+              "recordIndex": 280,
+              "elapsedSeconds": "628",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "observedEnemies": [
+            "jaw_worm_1"
+          ],
+          "firstRecord": 283,
+          "lastRecord": 383,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 290,
+              "elapsedSeconds": "729",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 294,
+              "elapsedSeconds": "731",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 295,
+              "elapsedSeconds": "731",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 304,
+              "elapsedSeconds": "782",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 308,
+              "elapsedSeconds": "783",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 316,
+              "elapsedSeconds": "787",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 317,
+              "elapsedSeconds": "788",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 319,
+              "elapsedSeconds": "788",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=jaw_worm_1 target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 341,
+              "elapsedSeconds": "809",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=0"
+            },
+            {
+              "recordIndex": 345,
+              "elapsedSeconds": "811",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 346,
+              "elapsedSeconds": "811",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 353,
+              "elapsedSeconds": "819",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 357,
+              "elapsedSeconds": "820",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 361,
+              "elapsedSeconds": "821",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 365,
+              "elapsedSeconds": "822",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 366,
+              "elapsedSeconds": "823",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 368,
+              "elapsedSeconds": "823",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=jaw_worm_1 target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 375,
+              "elapsedSeconds": "827",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=0"
+            },
+            {
+              "recordIndex": 379,
+              "elapsedSeconds": "827",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5"
+            },
+            {
+              "recordIndex": 381,
+              "elapsedSeconds": "828",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "observedEnemies": [
+            "spike_slime_m_2",
+            "acid_slime_m_1"
+          ],
+          "firstRecord": 384,
+          "lastRecord": 511,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 395,
+              "elapsedSeconds": "1155",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=8"
+            },
+            {
+              "recordIndex": 397,
+              "elapsedSeconds": "1155",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=spike_slime_m_2 amount=2"
+            },
+            {
+              "recordIndex": 401,
+              "elapsedSeconds": "1157",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 402,
+              "elapsedSeconds": "1158",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 404,
+              "elapsedSeconds": "1158",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_1 target=- amount=1"
+            },
+            {
+              "recordIndex": 405,
+              "elapsedSeconds": "1158",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=spike_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 406,
+              "elapsedSeconds": "1158",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=spike_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 408,
+              "elapsedSeconds": "1159",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=spike_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 409,
+              "elapsedSeconds": "1159",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=spike_slime_m_2 target=spike_slime_m_2 amount=-1"
+            },
+            {
+              "recordIndex": 416,
+              "elapsedSeconds": "1187",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=9"
+            },
+            {
+              "recordIndex": 420,
+              "elapsedSeconds": "1188",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=9"
+            },
+            {
+              "recordIndex": 424,
+              "elapsedSeconds": "1189",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 426,
+              "elapsedSeconds": "1190",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=spike_slime_m_2 amount=0"
+            },
+            {
+              "recordIndex": 430,
+              "elapsedSeconds": "1192",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 431,
+              "elapsedSeconds": "1192",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=acid_slime_m_1 target=player amount=1"
+            },
+            {
+              "recordIndex": 448,
+              "elapsedSeconds": "1203",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 449,
+              "elapsedSeconds": "1204",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 467,
+              "elapsedSeconds": "1224",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=6"
+            },
+            {
+              "recordIndex": 471,
+              "elapsedSeconds": "1226",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 472,
+              "elapsedSeconds": "1226",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 474,
+              "elapsedSeconds": "1226",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_1 target=- amount=1"
+            },
+            {
+              "recordIndex": 485,
+              "elapsedSeconds": "1238",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=6"
+            },
+            {
+              "recordIndex": 489,
+              "elapsedSeconds": "1239",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=6"
+            },
+            {
+              "recordIndex": 493,
+              "elapsedSeconds": "1241",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 494,
+              "elapsedSeconds": "1242",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_1 target=player amount=2"
+            },
+            {
+              "recordIndex": 496,
+              "elapsedSeconds": "1242",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_1 target=- amount=1"
+            },
+            {
+              "recordIndex": 501,
+              "elapsedSeconds": "1246",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=8"
+            },
+            {
+              "recordIndex": 503,
+              "elapsedSeconds": "1246",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=acid_slime_m_1 amount=2"
+            },
+            {
+              "recordIndex": 507,
+              "elapsedSeconds": "1247",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=3"
+            },
+            {
+              "recordIndex": 509,
+              "elapsedSeconds": "1247",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=acid_slime_m_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "observedEnemies": [
+            "shield_gremlin_5",
+            "mad_gremlin_1",
+            "sneaky_gremlin_2",
+            "fat_gremlin_3",
+            "wizard_gremlin_4"
+          ],
+          "firstRecord": 512,
+          "lastRecord": 552,
+          "victory": false,
+          "enemyEvidence": [
+            {
+              "recordIndex": 521,
+              "elapsedSeconds": "1693",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=shield_gremlin_5 amount=8"
+            },
+            {
+              "recordIndex": 525,
+              "elapsedSeconds": "1694",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=shield_gremlin_5 amount=7"
+            },
+            {
+              "recordIndex": 527,
+              "elapsedSeconds": "1694",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=shield_gremlin_5 amount=0"
+            },
+            {
+              "recordIndex": 531,
+              "elapsedSeconds": "1699",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=mad_gremlin_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 532,
+              "elapsedSeconds": "1700",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=mad_gremlin_1 target=player amount=4"
+            },
+            {
+              "recordIndex": 534,
+              "elapsedSeconds": "1700",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=sneaky_gremlin_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 535,
+              "elapsedSeconds": "1700",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=sneaky_gremlin_2 target=player amount=9"
+            },
+            {
+              "recordIndex": 537,
+              "elapsedSeconds": "1701",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=fat_gremlin_3 target=- amount=0"
+            },
+            {
+              "recordIndex": 538,
+              "elapsedSeconds": "1701",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=fat_gremlin_3 target=player amount=4"
+            },
+            {
+              "recordIndex": 540,
+              "elapsedSeconds": "1701",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=fat_gremlin_3 target=player amount=1"
+            },
+            {
+              "recordIndex": 542,
+              "elapsedSeconds": "1702",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=wizard_gremlin_4 target=- amount=0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "2026-10-24_19-59-24_28_217122260.gia",
+      "cycle": 2,
+      "recordStart": 553,
+      "recordEnd": 971,
+      "printCount": 419,
+      "candidateAssociation": "unknown from log; 27 association independently established by parent investigation",
+      "ready": [
+        {
+          "recordIndex": 555,
+          "elapsedSeconds": "2",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_UI ready"
+        }
+      ],
+      "failed": [],
+      "settlement": [
+        {
+          "recordIndex": 970,
+          "elapsedSeconds": "1006",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_UI settlement_requested defeat"
+        },
+        {
+          "recordIndex": 971,
+          "elapsedSeconds": "1006",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_SETTLEMENT_DEFEAT"
+        }
+      ],
+      "potions": [],
+      "merchantAudioOnly": [
+        {
+          "recordIndex": 781,
+          "elapsedSeconds": "666",
+          "sessionLabel": "2026/10/24_19:59:24",
+          "text": "ABYSS_AUDIO merchant_buy id=50940 instance=2223"
+        }
+      ],
+      "exactPlayerBlock10": [],
+      "encounters": [
+        {
+          "number": 1,
+          "observedEnemies": [
+            "spike_slime_s_1",
+            "acid_slime_m_2"
+          ],
+          "firstRecord": 553,
+          "lastRecord": 636,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 565,
+              "elapsedSeconds": "120",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6"
+            },
+            {
+              "recordIndex": 569,
+              "elapsedSeconds": "121",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=6"
+            },
+            {
+              "recordIndex": 571,
+              "elapsedSeconds": "122",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=spike_slime_s_1 amount=0"
+            },
+            {
+              "recordIndex": 575,
+              "elapsedSeconds": "124",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 576,
+              "elapsedSeconds": "124",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=2"
+            },
+            {
+              "recordIndex": 578,
+              "elapsedSeconds": "124",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 591,
+              "elapsedSeconds": "128",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 595,
+              "elapsedSeconds": "130",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 596,
+              "elapsedSeconds": "130",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 611,
+              "elapsedSeconds": "146",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 615,
+              "elapsedSeconds": "148",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 616,
+              "elapsedSeconds": "148",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 618,
+              "elapsedSeconds": "148",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 624,
+              "elapsedSeconds": "152",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 628,
+              "elapsedSeconds": "153",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 632,
+              "elapsedSeconds": "154",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=6"
+            },
+            {
+              "recordIndex": 634,
+              "elapsedSeconds": "154",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=acid_slime_m_2 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "observedEnemies": [
+            "jaw_worm_1"
+          ],
+          "firstRecord": 637,
+          "lastRecord": 695,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 640,
+              "elapsedSeconds": "466",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=8"
+            },
+            {
+              "recordIndex": 642,
+              "elapsedSeconds": "466",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=jaw_worm_1 amount=2"
+            },
+            {
+              "recordIndex": 646,
+              "elapsedSeconds": "467",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=7"
+            },
+            {
+              "recordIndex": 654,
+              "elapsedSeconds": "474",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 655,
+              "elapsedSeconds": "475",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=6"
+            },
+            {
+              "recordIndex": 657,
+              "elapsedSeconds": "475",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=-1"
+            },
+            {
+              "recordIndex": 663,
+              "elapsedSeconds": "479",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=9"
+            },
+            {
+              "recordIndex": 667,
+              "elapsedSeconds": "481",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=9"
+            },
+            {
+              "recordIndex": 671,
+              "elapsedSeconds": "484",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 672,
+              "elapsedSeconds": "485",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 674,
+              "elapsedSeconds": "485",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=jaw_worm_1 target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 676,
+              "elapsedSeconds": "485",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=-1"
+            },
+            {
+              "recordIndex": 683,
+              "elapsedSeconds": "493",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=0"
+            },
+            {
+              "recordIndex": 687,
+              "elapsedSeconds": "495",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 691,
+              "elapsedSeconds": "496",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=1"
+            },
+            {
+              "recordIndex": 693,
+              "elapsedSeconds": "497",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "observedEnemies": [
+            "green_louse_2",
+            "red_louse_1"
+          ],
+          "firstRecord": 696,
+          "lastRecord": 779,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 699,
+              "elapsedSeconds": "563",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=8"
+            },
+            {
+              "recordIndex": 701,
+              "elapsedSeconds": "563",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=green_louse_2 amount=2"
+            },
+            {
+              "recordIndex": 703,
+              "elapsedSeconds": "564",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=green_louse_2 target=green_louse_2 amount=3"
+            },
+            {
+              "recordIndex": 705,
+              "elapsedSeconds": "564",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-3"
+            },
+            {
+              "recordIndex": 709,
+              "elapsedSeconds": "573",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=4"
+            },
+            {
+              "recordIndex": 717,
+              "elapsedSeconds": "589",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 718,
+              "elapsedSeconds": "590",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=3"
+            },
+            {
+              "recordIndex": 720,
+              "elapsedSeconds": "590",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=green_louse_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 721,
+              "elapsedSeconds": "591",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=green_louse_2 target=player amount=2"
+            },
+            {
+              "recordIndex": 723,
+              "elapsedSeconds": "591",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=green_louse_2 target=green_louse_2 amount=-1"
+            },
+            {
+              "recordIndex": 733,
+              "elapsedSeconds": "601",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=green_louse_2 amount=2"
+            },
+            {
+              "recordIndex": 735,
+              "elapsedSeconds": "601",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=green_louse_2 amount=0"
+            },
+            {
+              "recordIndex": 739,
+              "elapsedSeconds": "603",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 740,
+              "elapsedSeconds": "603",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=5"
+            },
+            {
+              "recordIndex": 757,
+              "elapsedSeconds": "614",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=6"
+            },
+            {
+              "recordIndex": 759,
+              "elapsedSeconds": "615",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=red_louse_1 target=red_louse_1 amount=7"
+            },
+            {
+              "recordIndex": 761,
+              "elapsedSeconds": "615",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=red_louse_1 target=red_louse_1 amount=-7"
+            },
+            {
+              "recordIndex": 765,
+              "elapsedSeconds": "616",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block_reset source=- target=red_louse_1 amount=0"
+            },
+            {
+              "recordIndex": 766,
+              "elapsedSeconds": "616",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=red_louse_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 767,
+              "elapsedSeconds": "617",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=red_louse_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 775,
+              "elapsedSeconds": "620",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=red_louse_1 amount=7"
+            },
+            {
+              "recordIndex": 777,
+              "elapsedSeconds": "620",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=red_louse_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "observedEnemies": [
+            "jaw_worm_1"
+          ],
+          "firstRecord": 780,
+          "lastRecord": 861,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 792,
+              "elapsedSeconds": "695",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=5"
+            },
+            {
+              "recordIndex": 796,
+              "elapsedSeconds": "696",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 797,
+              "elapsedSeconds": "697",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=1"
+            },
+            {
+              "recordIndex": 813,
+              "elapsedSeconds": "715",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=10"
+            },
+            {
+              "recordIndex": 817,
+              "elapsedSeconds": "716",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 818,
+              "elapsedSeconds": "717",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 820,
+              "elapsedSeconds": "717",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=jaw_worm_1 target=jaw_worm_1 amount=6"
+            },
+            {
+              "recordIndex": 837,
+              "elapsedSeconds": "735",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=3"
+            },
+            {
+              "recordIndex": 841,
+              "elapsedSeconds": "739",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 842,
+              "elapsedSeconds": "740",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 844,
+              "elapsedSeconds": "740",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK block source=jaw_worm_1 target=jaw_worm_1 amount=5"
+            },
+            {
+              "recordIndex": 851,
+              "elapsedSeconds": "749",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=7"
+            },
+            {
+              "recordIndex": 853,
+              "elapsedSeconds": "749",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=jaw_worm_1 amount=2"
+            },
+            {
+              "recordIndex": 857,
+              "elapsedSeconds": "750",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=15"
+            },
+            {
+              "recordIndex": 859,
+              "elapsedSeconds": "751",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=jaw_worm_1 amount=0"
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "observedEnemies": [
+            "acid_slime_m_1",
+            "spike_slime_m_2"
+          ],
+          "firstRecord": 862,
+          "lastRecord": 968,
+          "victory": true,
+          "enemyEvidence": [
+            {
+              "recordIndex": 879,
+              "elapsedSeconds": "848",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 880,
+              "elapsedSeconds": "848",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 882,
+              "elapsedSeconds": "848",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_1 target=- amount=1"
+            },
+            {
+              "recordIndex": 883,
+              "elapsedSeconds": "848",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=spike_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 884,
+              "elapsedSeconds": "849",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=spike_slime_m_2 target=player amount=5"
+            },
+            {
+              "recordIndex": 886,
+              "elapsedSeconds": "849",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=spike_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 903,
+              "elapsedSeconds": "868",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=acid_slime_m_1 target=- amount=0"
+            },
+            {
+              "recordIndex": 904,
+              "elapsedSeconds": "869",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=acid_slime_m_1 target=player amount=0"
+            },
+            {
+              "recordIndex": 906,
+              "elapsedSeconds": "869",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=acid_slime_m_1 target=- amount=1"
+            },
+            {
+              "recordIndex": 907,
+              "elapsedSeconds": "869",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=spike_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 908,
+              "elapsedSeconds": "869",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=spike_slime_m_2 target=player amount=1"
+            },
+            {
+              "recordIndex": 916,
+              "elapsedSeconds": "891",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=12"
+            },
+            {
+              "recordIndex": 918,
+              "elapsedSeconds": "891",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=player target=acid_slime_m_1 amount=2"
+            },
+            {
+              "recordIndex": 922,
+              "elapsedSeconds": "910",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=13"
+            },
+            {
+              "recordIndex": 926,
+              "elapsedSeconds": "915",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=acid_slime_m_1 amount=6"
+            },
+            {
+              "recordIndex": 928,
+              "elapsedSeconds": "915",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=acid_slime_m_1 amount=0"
+            },
+            {
+              "recordIndex": 932,
+              "elapsedSeconds": "917",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=spike_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 933,
+              "elapsedSeconds": "917",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK status source=spike_slime_m_2 target=player amount=1"
+            },
+            {
+              "recordIndex": 945,
+              "elapsedSeconds": "933",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=10"
+            },
+            {
+              "recordIndex": 949,
+              "elapsedSeconds": "935",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK intent source=spike_slime_m_2 target=- amount=0"
+            },
+            {
+              "recordIndex": 950,
+              "elapsedSeconds": "935",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=spike_slime_m_2 target=player amount=0"
+            },
+            {
+              "recordIndex": 952,
+              "elapsedSeconds": "935",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK cards_created source=spike_slime_m_2 target=- amount=1"
+            },
+            {
+              "recordIndex": 960,
+              "elapsedSeconds": "938",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=10"
+            },
+            {
+              "recordIndex": 964,
+              "elapsedSeconds": "939",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK damage source=player target=spike_slime_m_2 amount=8"
+            },
+            {
+              "recordIndex": 966,
+              "elapsedSeconds": "940",
+              "sessionLabel": "2026/10/24_19:59:24",
+              "text": "ABYSS_FEEDBACK death source=- target=spike_slime_m_2 amount=0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "kind": "observed repetition",
+      "detail": "Three UI load cycles with combat (27,28 cycle 1,28 cycle 2) first show spike_slime_s_1 + acid_slime_m_2. Both 28 cycles next show jaw_worm_1. This is log evidence of repetition; seed root cause and candidate association require separate source/import evidence."
+    },
+    {
+      "kind": "five explicit enemy IDs",
+      "file": 28,
+      "cycle": 1,
+      "records": [
+        521,
+        527,
+        531,
+        534,
+        537,
+        542
+      ],
+      "detail": "Sixth observed encounter contains shield_gremlin_5, mad_gremlin_1, sneaky_gremlin_2, fat_gremlin_3, wizard_gremlin_4. Verify target encounter rules separately."
+    },
+    {
+      "kind": "damage/status limited evidence",
+      "file": 28,
+      "cycle": 1,
+      "records": [
+        188,
+        227
+      ],
+      "detail": "Green louse applies player status amount=2 at elapsed435; player later deals 4 to green louse at elapsed522. Status name/card id/preview value absent. Consistent with a modifier but does not identify weak independently."
+    },
+    {
+      "kind": "damage/status limited evidence",
+      "file": 28,
+      "cycle": 1,
+      "records": [
+        50,
+        52,
+        70
+      ],
+      "detail": "Player damage 8 to acid slime at elapsed151; player applies unnamed status amount2 to it; later damage9 at elapsed161. No status name or card id. No independent proof of vulnerable calculation or preview bug."
+    },
+    {
+      "kind": "block display cannot be judged",
+      "records27": [
+        30,
+        34
+      ],
+      "records28": [
+        30,
+        34,
+        583,
+        587
+      ],
+      "detail": "No explicit single player block amount10 print in these logs. Two block5 events within same player turn are explicit, consistent with total10. Prints do not capture rendered glyphs/labels, so cannot decide whether a displayed 1 is clipped 10."
+    },
+    {
+      "kind": "potion damage/use",
+      "file": 27,
+      "records": [
+        99,
+        101,
+        103
+      ],
+      "detail": "Elapsed976 player damage red_louse_1 amount12; elapsed977 death followed by potion target1. Logs prove this sequence, but omit potion id/base damage/target prior HP."
+    },
+    {
+      "kind": "potion status/use",
+      "file": 28,
+      "cycle": 1,
+      "records": [
+        545,
+        547,
+        548,
+        550
+      ],
+      "detail": "Elapsed1732 player status amount5 then potion target3; elapsed1734 status amount2 then potion target3. These are two explicit potion events, with unnamed statuses."
+    },
+    {
+      "kind": "acquisition unknown",
+      "detail": "No explicit potion acquisition/item-id print. merchant_buy prints are audio cues only; do not identify purchase type. Absence of acquisition prints does not prove no acquisition."
+    },
+    {
+      "kind": "settlement limited evidence",
+      "detail": "All four UI load cycles end in explicit settlement_requested defeat and ABYSS_SETTLEMENT_DEFEAT. No player death print is present. These entries do not prove combat killed the player; they may be user exit settlement."
+    }
+  ],
+  "limitations": [
+    "No screenshots: cannot verify clipping, card preview text, target preview text, or UI health/block totals.",
+    "No card IDs, status names, pre-hit HP/block, or full state snapshots: damage arithmetic cannot be fully reconstructed.",
+    "No seed/candidate hash printed: do not attribute later cycles to parent-verified candidate solely by visual/log similarity.",
+    "No current explicit failed/error print observed; does not establish error-free execution of unlogged paths."
+  ]
+}
