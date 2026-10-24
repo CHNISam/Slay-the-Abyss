@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 07:19'
+updated_date: '2026-10-24 07:45'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -47,4 +47,6 @@ ordinal: 46000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-24已从固定0b1d460完整源重建启用BGM的独立候选，40模块/UI/双true参数/图身份读回通过，0错误14警告。源推进造成首份6模块不符已保留并纠正。最终路径和hash见delivery-platform-20261024证据；未官方导入/试听，不重复同条件焦点失败。由本任务负责完整游戏启用、切歌、含声音录像及混音，交4和5收口。
+
+最终跟进PR165：从固定3bd3afa完整源又重建开启BGM候选，40模块/1914控件/max52、双true及原生图读回全部匹配，0错误14警告；hash f699624e98f326e208d0752d6e17a6ad46a541bdd59f272310ae7a1b37df4deb，已归档根.artifacts/delivery-closeout-20261024/delivery-platform/bgm-3bd3afa/wmvm3d0jo-0/working.gil。旧0b及首份失败候选保留。新候选未官方导入/试听，后续按同版本录音和真实流程AC验收；不称RC。
 <!-- SECTION:NOTES:END -->

@@ -2196,5 +2196,94 @@
         "TASK-4"
       ]
     }
-  ]
+  ],
+  "finalReconciliation": {
+    "sourceCommit": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+    "cause": "PR165 merged during review; retain original M1 closure and archive. Orphan10.5.1 AC4 checked from original native screenshots, not a new playtest.",
+    "tasks": [
+      {
+        "id": "TASK-4.1",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 3,
+        "acceptanceCriteriaCount": 3,
+        "milestone": "m-2",
+        "references": [
+          "https://github.com/CHNISam/Slay-the-Abyss/pull/117#issuecomment-6367383439",
+          "docs/backlog-details/TASK-4.1.md"
+        ],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-11.1",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 2,
+        "acceptanceCriteriaCount": 2,
+        "milestone": "m-2",
+        "references": [
+          "docs/backlog-details/TASK-11.1.md"
+        ],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-10.7",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 4,
+        "acceptanceCriteriaCount": 4,
+        "milestone": "m-2",
+        "references": [],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-10.8",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 3,
+        "acceptanceCriteriaCount": 3,
+        "milestone": "m-2",
+        "references": [],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      },
+      {
+        "id": "TASK-10.5.1",
+        "status": "Done",
+        "acceptanceCriteriaCompleted": 4,
+        "acceptanceCriteriaCount": 4,
+        "milestone": "m-2",
+        "references": [
+          "https://github.com/CHNISam/Slay-the-Abyss/pull/159",
+          "docs/DELIVERY-CLOSEOUT.md",
+          "docs/evidence/m1-live-20261024/report.md",
+          "docs/evidence/m1-live-20261024/screens/01-t001.jpg",
+          "docs/evidence/m1-live-20261024/reviews/preview-live-review.json"
+        ],
+        "remainingDeliveryTasks": [
+          "TASK-4",
+          "TASK-38",
+          "TASK-42",
+          "TASK-5"
+        ]
+      }
+    ],
+    "archivedM1TaskCount": 14,
+    "archivedM1IncompleteTaskCount": 0
+  }
 }

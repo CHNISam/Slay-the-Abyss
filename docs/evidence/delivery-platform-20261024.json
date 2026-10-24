@@ -1,22 +1,22 @@
 {
   "checkedAt": "2026-10-24",
-  "sourceCommit": "0b1d460048ea8e228f61f1696d5e39b116b86b59",
+  "sourceCommit": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
   "archive": ".artifacts/delivery-closeout-20261024",
   "scope": "Offline full-game/BGM and independent readback; reused starfall probe attempted only",
   "liveWriteEnabled": false,
   "fullGame": {
-    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/full-0b1d460/wmvm2dfu8-0/working.gil",
-    "sha256": "605d95f6865a01ec84f375e80366cb3a32849967e93f96863922f8a2936060ae",
+    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/full-3bd3afa/wmvm3bxnq-0/working.gil",
+    "sha256": "80bb049f1f204e821a97f4f53be5353255ad9663a1884dcf8e4c459c5dd23d9c",
     "staticErrors": 0,
     "staticWarnings": 14,
     "officialImport": "NOT_TESTED",
     "playtest": "NOT_TESTED"
   },
   "bgm": {
-    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/bgm-0b1d460/wmvm2e6j5-0/working.gil",
-    "sha256": "d3959d418118efa6679f35835c6dd1ad2745339d3fce695cae07d1c65212f3e1",
-    "baseSha256": "605d95f6865a01ec84f375e80366cb3a32849967e93f96863922f8a2936060ae",
-    "baseAfter": "605d95f6865a01ec84f375e80366cb3a32849967e93f96863922f8a2936060ae",
+    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/bgm-3bd3afa/wmvm3d0jo-0/working.gil",
+    "sha256": "f699624e98f326e208d0752d6e17a6ad46a541bdd59f272310ae7a1b37df4deb",
+    "baseSha256": "80bb049f1f204e821a97f4f53be5353255ad9663a1884dcf8e4c459c5dd23d9c",
+    "baseAfter": "80bb049f1f204e821a97f4f53be5353255ad9663a1884dcf8e4c459c5dd23d9c",
     "compiledNodes": 83,
     "editorNodes": 258,
     "readbackOk": true,
@@ -74,8 +74,8 @@
       },
       {
         "name": "abyss_battle_ui",
-        "actualSha256": "5a210571705ed1cab2752b27e683a9c55ef5721c55f5343d91f128c178724cae",
-        "expectedSha256": "5a210571705ed1cab2752b27e683a9c55ef5721c55f5343d91f128c178724cae",
+        "actualSha256": "b2bb08d9c5fc0556baf0db1cadc2d1140a23924c7c5d81cd7d51b066f0d7553f",
+        "expectedSha256": "b2bb08d9c5fc0556baf0db1cadc2d1140a23924c7c5d81cd7d51b066f0d7553f",
         "byteIdentical": true,
         "sourceTextIdentical": true
       },
@@ -412,5 +412,40 @@
     "roadmapOwnership": "PASS",
     "fullCi": "See PR current SHA checks; local targeted checks do not replace CI",
     "verifyUi": "NOT_RUN: no claim of UI acceptance"
+  },
+  "laterSourceReconciliation": {
+    "currentDevelop": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+    "frozenCandidateSource": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+    "candidateIncludesLaterCardHelpReleaseFix": true,
+    "isFinalRc": false,
+    "nextAction": "TASK-34 official-import/audition this explicitly frozen candidate; TASK-25/4/5 rebuild a unified art/audio/device candidate when assets or runtime source advance. It is not an accepted RC.",
+    "panelReview": {
+      "task": "TASK-10.5.1",
+      "sourceCommit": "c0f20766519a248f1a02df60985f3a832aa529b1",
+      "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+      "reviewedOriginalScreens": [
+        "docs/evidence/m1-live-20261024/screens/01-t001.jpg",
+        "docs/evidence/m1-live-20261024/screens/519-b636.jpg"
+      ],
+      "verifiedTitleLifeStatusDescription": true,
+      "newPlaytestClaimed": false,
+      "originalScreenshotHashes": [
+        {
+          "path": "docs/evidence/m1-live-20261024/screens/01-t001.jpg",
+          "sha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759"
+        },
+        {
+          "path": "docs/evidence/m1-live-20261024/screens/519-b636.jpg",
+          "sha256": "fbbc0cebf8d19347eae19123b7d8c6c99f11290d27e4eedb192f23a9f9281c16"
+        }
+      ]
+    }
+  },
+  "previousValidatedCandidate": {
+    "sourceCommit": "0b1d460048ea8e228f61f1696d5e39b116b86b59",
+    "path": ".artifacts/delivery-closeout-20261024/delivery-platform/bgm-0b1d460/wmvm2e6j5-0/working.gil",
+    "sha256": "d3959d418118efa6679f35835c6dd1ad2745339d3fce695cae07d1c65212f3e1",
+    "readbackOk": true,
+    "scope": "Earlier validated offline candidate before PR165 short-press fix; retained as history."
   }
 }

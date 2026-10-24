@@ -1,0 +1,108 @@
+{
+  "task": "TASK-4.1",
+  "reviewedBy": "independent combat closeout agent",
+  "candidateSha256": "01dd39274f42ddaccf73e68fdf7bcbe4986919f96c297e94e6d6c4483bef297a",
+  "officialSaveId": "1073741841",
+  "runId": "ced168e4-7e7a-4699-97b4-4873610e0c41",
+  "status": "FAIL",
+  "reason": "Defend flying card temporarily covers hero HP text on its unchanged front overlay. Block badge horizontal-growth defect was not observed in reviewed images.",
+  "newVersionAccepted": false,
+  "rawRun": {
+    "state": "succeeded",
+    "error": null,
+    "clientScriptSubscribed": true,
+    "logSha256": "7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57",
+    "printCount": 837,
+    "ready": 1,
+    "blockSamples": 108,
+    "cancelledRestored": 6,
+    "complete": "M1_BLOCK case=7 phase=complete wall=212.74 cases=6 samples=108 cancelled=6",
+    "explicitFailures": []
+  },
+  "visualReview": {
+    "contactBandPagesActuallyViewed": [
+      "block-visual-review/band-00.png",
+      "block-visual-review/band-01.png",
+      "block-visual-review/band-02.png",
+      "block-visual-review/band-03.png",
+      "block-visual-review/band-04.png",
+      "block-visual-review/band-05.png",
+      "block-visual-review/band-06.png",
+      "block-visual-review/band-07.png",
+      "block-visual-review/band-08.png",
+      "block-visual-review/band-09.png",
+      "block-visual-review/band-10.png",
+      "block-visual-review/band-11.png",
+      "block-visual-review/band-12.png",
+      "block-visual-review/band-13.png",
+      "block-visual-review/band-14.png"
+    ],
+    "consecutiveBandGroupsActuallyViewed": 89,
+    "contactCrop": "original-pixel actor name/HP/Block bands; diagnostic crops are not native source images",
+    "wholeImagesActuallyViewed": [
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/63-b384.jpg",
+        "sha256": "15bdddef248a2184c3d0d2c6481cdd8ae09ac2f0320e01f38a52e9c3e67ebf09"
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/65-t385.jpg",
+        "sha256": "e03921a8f0bce61c79b70ad4c21bade553c566350a60a8875220bc277f547c1c"
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/266-b500.jpg",
+        "sha256": "7573c2a5cba2da20789ab24dd9da9e04afa49197692ce3ef53e583a8cc6ce4a6"
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/328-b540.jpg",
+        "sha256": "1f1fd7cc261b14dee243ab2d7027a336dfe90274ad72c18e16802697477db86b"
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/407-b580.jpg",
+        "sha256": "5c730255b7bf7eadc5ac331ded496eeced50ca6d1b96d96dd8ec1f836f76f55a"
+      },
+      {
+        "file": "F:/New folder/.artifacts/m1-closeout-20261024/live/playtests/ced168e4-7e7a-4699-97b4-4873610e0c41/446-b598.jpg",
+        "sha256": "4a023368a34706a75908dab7621c0489ad5fa1e198df7710ce7aaacb18bf1973"
+      }
+    ],
+    "findings": [
+      {
+        "kind": "defect",
+        "file": "63-b384.jpg",
+        "playSeconds": 384.01,
+        "observation": "Flying Defend blue plate and gold border cover the right side of hero 60/80 HP text and bar. Top HUD HP remains readable. This is actual image occlusion, not inferred font cropping."
+      },
+      {
+        "kind": "adjacent-confirmation",
+        "files": [
+          "64-b384.jpg",
+          "65-t385.jpg"
+        ],
+        "observation": "After the card reaches the portrait the HP text is fully readable again; Block has increased from 7 to 12."
+      },
+      {
+        "kind": "limited-pass",
+        "observation": "Reviewed 1/2-enemy sequences and 3-enemy partial sequences show Block badges at their reserved HP-left lane, including vertical pop, consumption and return to ordinary state. Representative 4/5-enemy and Boss actual frames also keep badges separate. This is not an all-frames pass."
+      }
+    ],
+    "adjacentConfirmationReview": "64-b384.jpg was reviewed as an original-pixel contact band, not as a full-screen image."
+  },
+  "acceptanceRecommendation": {
+    "ac1": "KEEP_UNCHECKED: complete-animation HP readability failed",
+    "ac2": "KEEP_UNCHECKED pending corrected-candidate verification; observed animation/cancel runs are recorded",
+    "ac3": "KEEP_UNCHECKED until corrected native candidate passes; current actual image is a valid defect reproduction"
+  },
+  "minimalFix": {
+    "commit": "6d1a5ae",
+    "productionChanges": "Split card underlay from foreground banners/sweep. Preserve card path, timing, dimensions, fonts and all gameplay values.",
+    "redLog": "hp-animation-red-final.log",
+    "greenLog": "hp-animation-green.log",
+    "regressionLog": "hp-animation-regressions.log",
+    "nativeRetest": "REQUIRED on new candidate"
+  },
+  "limitations": [
+    "Fixture explicitly injects encounter and Block state and pauses feedback ages.",
+    "Six deliberate cancellation calls are fixture API paths, not physical device UI cancellation gestures.",
+    "Old run status succeeded and no printed errors do not override the visible readability failure."
+  ]
+}
