@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-24 10:18'
+updated_date: '2026-10-24 10:35'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -45,4 +45,6 @@ ordinal: 75000
 
 <!-- SECTION:NOTES:BEGIN -->
 已按6e8714f建立生产首发范围清单：30张基本/升级职业牌，另列3种状态/诅咒；19普通敌人、3精英、1Boss及18遭遇；当前已接7事件；13遗物及6种战士可获药水。配对/转化、未实现7牌和Silent专属毒药水明确排除。每项经profile关联代码入口、已有本地测试、平台/自然实机待验状态和负责任务。机器校验与4项定向回归通过，默认Node测试会发现新门禁；未运行游戏/MCP或制作候选。三件Boss遗物第17层才获，本幕无后续战斗自然触发，保留此执行边界。所有AC仍未勾，TASK-47保持In Progress。详见docs/LAUNCH_CONTENT.md。
+
+首发清单已整合ee9c40d窃金客入口及本轮末张移除/药水丢弃。30职业牌/23敌人/18遭遇/7事件/13遗物/6可获得药水为现生产接线盘点，尚非严格合规放行表；medium_slimes/gremlin_gang明确列为已知编组缺口，完整地图12/12仅隔离候选未接生产。逐项自然获取、不同合法构筑、平台与本候选实玩记录仍缺，全部AC保持未勾。
 <!-- SECTION:NOTES:END -->

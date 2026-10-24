@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "scope": "Ironclad / Geo Lumine / Act 1 / PC A0",
   "baseline": "6e8714f",
+  "integratedBaseline": "ee9c40d9ee2b9badaab84af8aaa6b9ddc2551f9c",
   "status": "scope-baseline-awaiting-per-item-acceptance",
   "updated": "2026-10-24",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
+  "knownBlockers": [
+    { "ids": ["medium_slimes", "gremlin_gang"], "status": "production-composition-needs-correction", "evidence": "docs/reviews/TASK-15-encounter-composition-audit-20261024.md", "tasks": ["TASK-15", "TASK-47"] },
+    { "ids": ["map"], "status": "full-parity-candidate-not-deployed", "evidence": "docs/reviews/TASK-12.4-map-room-candidate.md", "tasks": ["TASK-12.4", "TASK-12.5"] },
+    { "ids": ["shockwave", "barricade"], "status": "strict-sequence-difference-recorded", "evidence": "docs/reviews/TASK-16-m3-card-audit.md", "tasks": ["TASK-16", "TASK-16.1"] }
+  ],
   "profiles": {
     "cards": {
       "tasks": [
@@ -912,7 +918,7 @@
       "channels": [
         "encounter:looter_solo"
       ],
-      "aiEntry": "src/lua/abyss_enemy_ai.lua"
+      "aiEntry": "src/lua/abyss_looter_ai.lua"
     },
     {
       "id": "blue_slaver",
@@ -1340,7 +1346,7 @@
         "pray",
         "leave"
       ],
-      "eligibility": "remove requires deck size > 1",
+      "eligibility": "remove requires deck size > 0; final card may be removed",
       "source": "src/lua/abyss_event_pool.lua#contentId",
       "profile": "events",
       "channels": [

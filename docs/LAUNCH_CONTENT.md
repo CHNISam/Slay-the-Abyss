@@ -2,6 +2,8 @@
 
 TASK-47，2026-10-24。生产代码基线 `6e8714f`。本清单冻结本轮**既有生产接线范围**，逐项自然获取、执行和实机验收仍未完成，TASK-47 保持 In Progress。已完成的 M2 第一幕通关证据保留；它不能扩张为所有内容逐项通过。
 
+本次整合已承接 `ee9c40d` 的窃金客完整闭环，AI入口为 `abyss_looter_ai`，对应新增 `looter_*` 回归，未沿用旧固定循环充当完成。**这是一份首发清单基线，尚不是内容合规放行表**：`medium_slimes`组合缺原版依据、`gremlin_gang`固定五人组与来源四人抽样不符，见[遭遇审计](reviews/TASK-15-encounter-composition-audit-20261024.md)。完整地图候选12/12也还未接生产。这些已接入但未修正的项目继续阻止 M3 Done，不能因为清单校验通过就放行。
+
 机器清单：[launch-content.json](../data/release/launch-content.json)。每项的 `profile` 关联生产入口、现有本地覆盖文件、平台/实机状态和负责验收任务；这是证据账本，不是运行时放行开关。
 
 ## 范围和校验
@@ -137,15 +139,15 @@ Boss 固定 `guardian` / `boss_guardian`，第16层战斗、第17层独立宝箱
 
 | ID（原始ID） | 当前可执行命令 | 条件与边界 |
 | --- | --- | --- |
-| cleric（The Cleric） | heal、purify、leave | 入池金币≥35；治疗35金、删牌50金；删牌需牌组>1 |
-| purifier（Purifier） | pray、leave | 免费删牌；需牌组>1 |
+| cleric（The Cleric） | heal、purify、leave | 入池金币≥35；治疗35金、删牌50金；删牌需有可选卡，可以移除末张 |
+| purifier（Purifier） | pray、leave | 免费删牌；需有可选卡，可以移除末张 |
 | goop（World of Goop） | gather、leave | 拾取受11伤害获75金；离开损失入场固定金币 |
 | upgrade_shrine（Upgrade Shrine） | upgrade、leave | 有可升级牌才可选择升级 |
 | golden_wing（Golden Wing） | sacrifice、purge、take_gold、leave | 献祭7血后移除；取金需单个基础伤害效果≥10；purge为献祭后阶段 |
 | shining_light（Shining Light） | accept、leave | 有可升级牌才可接受；扣血、随机升级最多2张 |
 | golden_shrine（Golden Shrine） | pray、desecrate、leave | 祈祷100金；亵渎275金并获regret；离开 |
 
-原六事件文档是历史切片；本清单反映已合入的第七事件，不将配对/转化候选顺带纳入。受限池不是完整原版事件分布；耗尽/资格不足、空牌组限制和严格概率差异仍由 TASK-13.1.2/12.5 承接，不通过重抽隐藏。
+原六事件文档是历史切片；本清单反映已合入的第七事件，不将配对/转化候选顺带纳入。受限池不是完整原版事件分布；耗尽/资格不足和严格概率差异仍由 TASK-13.1.2/12.5 承接，不通过重抽隐藏。末张移除及空牌组开战已补本地回归，见[专项证据](reviews/TASK-13.1.2-empty-permanent-deck.md)；空选牌组的表现降级和平台验收仍明确保留。
 
 ## 遗物
 
