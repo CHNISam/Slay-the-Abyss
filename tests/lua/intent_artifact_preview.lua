@@ -125,7 +125,7 @@ test("signed power type depends on incoming amount including zero, not current t
         Combat.addStatus(h.run.combat.enemies[1], "artifact", 1)
         local compact, detail=refresh(h, p, tap)
         eq(compact, row.tail.op=="block" and "" or row.want)
-        if row.tail.op=="block" then assert(detail:find("格挡 "..row.want,1,true)) end
+        if row.tail.op=="block" then assert(detail:find("获得 "..row.want.." 点格挡",1,true)) end
     end
 end)
 

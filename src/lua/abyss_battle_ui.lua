@@ -103,7 +103,6 @@ local function intentText(state, index, detailed)
     preview.events = {}
     local enemy, player = preview.enemies[index], preview.player
     for _, effect in ipairs(intent.effects) do
-        local value = effect.value and number(effect.value) or ""
         if effect.op == "damage" then
             local each = number(Combat.attackAmount(state, enemy, player, effect.value))
             local times = effect.times or 1
@@ -117,14 +116,13 @@ local function intentText(state, index, detailed)
             result[#result + 1] = effect.target == "random_ally"
                 and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
+            Actors.applyPower(preview, effect.op == "gainStatus" and enemy or player, effect.status, effect.value, enemy)
             local name, size = assert(state.catalog.statuses[effect.status]).name, number(math.abs(effect.value))
             local who = effect.op == "gainStatus" and "自身" or "使你"
             result[#result + 1] = who .. (effect.value < 0 and "失去 " or "获得 ") .. size .. " 层" .. name
-            compact.buff, compact.debuff = compact.buff or value, compact.debuff or value
-            Actors.applyPower(preview, effect.op == "gainStatus" and enemy or player, effect.status, effect.value, enemy)
         elseif effect.op == "makeTempCardInDiscard" then
+            local value = number(effect.value)
             local name = assert(state.catalog.cards[effect.card]).name
-            compact.debuff = compact.debuff or name .. " " .. value
             result[#result + 1] = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆"
         else result[#result + 1] = "未知" end
     end
