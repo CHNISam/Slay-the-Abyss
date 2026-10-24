@@ -64,6 +64,9 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
     local dealt = 0
     local cleared = false
     for _, effect in ipairs(effects) do
+        -- Defeat stops the action manager, unlike victory's selective clear.
+        -- Keep current damage reactions, but never start another queued effect.
+        if state.player.hp <= 0 then break end
         if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
         if cleared and clearedAfterDamage[op] then

@@ -1,4 +1,5 @@
--- Spike Slime M / A0; see TASK-15.6-spike-slime-m.md for the fixed source.
+-- Shared A0 pre-split Spike M/L decisions: TASK-15.6 and TASK-15.12 ledgers.
+-- Large splitting is a separate required gap, not implemented by this policy.
 local M = {}
 
 function M.choose(ai, last, previous, roll)
@@ -13,7 +14,7 @@ local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
         if intent.id == id then enemy.intentIndex = i; return end
     end
-    error("unknown Spike Slime M intent: " .. tostring(id))
+    error("unknown Spike Slime intent: " .. tostring(id))
 end
 
 function M.initialize(state, enemy, random)
