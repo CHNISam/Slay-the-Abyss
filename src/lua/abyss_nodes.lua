@@ -11,6 +11,7 @@ local EventRandom = require("abyss_sts_random")
 local Inventory = require("abyss_inventory")
 local Shop = require("abyss_shop")
 local CardRandom = require("abyss_card_random")
+local LivingWall = require('abyss_living_wall')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -171,7 +172,7 @@ function M.enter(run, map, nodeId)
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
-            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' then return false, "event_unavailable" end
+            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' then return false, "event_unavailable" end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -241,6 +242,7 @@ function M.view(run, map)
             node.event.removeCost = rules.removeCost or 0
             node.upgradeCards=upgradeCards(run)
             node.upgradesLeft=1
+            if node.event.id=='living_wall' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
@@ -391,7 +393,12 @@ function M.eventOptions(run,flow)
     end
     local upgrades=#upgradeCards(run)
     local deckOk=#run.deck>0
-    if id=='cleric' then
+    if id=='living_wall' then
+        option('forget','遗忘','移除一张卡牌',true,#LivingWall.purgeCards(run)>0 and 'living_forget' or nil)
+        option('change','改变','将一张卡牌变换为随机的新卡牌',true,#LivingWall.purgeCards(run)>0 and 'living_change' or nil)
+        option('grow','成长','升级一张卡牌',upgrades>0,#LivingWall.purgeCards(run)>0 and 'living_grow' or nil)
+        return rows
+    elseif id=='cleric' then
         local r=run.data.rules.events.cleric
         local heal=math.min(run.maxHp-run.hp,math.floor(run.maxHp*r.healPercent/100))
         option('heal','治疗','支付 '..r.healCost..' 金币，回复 '..heal..' 点生命',run.gold>=r.healCost)
@@ -424,6 +431,12 @@ function M.chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
     local id = flow.event.id
     local rules = run.data.rules.events[id] or {}
+    if id=='living_wall' then
+        local ok,status=LivingWall.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+        if not ok or status=='choose_card' then return ok,status end
+        flow.eventChoice=choice
+        return complete(run)
+    end
     if id=='golden_wing' and flow.event.stage=='purge' and choice~='purge' then return false,'invalid_event_choice' end
     local function damage(amount) run.hp=math.max(0,run.hp-amount) end
     if choice == "heal" and id == "cleric" then
@@ -493,6 +506,11 @@ function M.chooseEvent(run, choice, uid)
 end
 
 function M.upgradeEvent(run,uid) return M.chooseEvent(run,'upgrade',uid) end
+function M.chooseLivingWallCard(run,uid)
+    local flow,reason=pending(run,'event');if not flow then return false,reason end
+    if flow.event.id~='living_wall' or flow.event.stage~='choose_card' then return false,'invalid_event_choice' end
+    return M.chooseEvent(run,flow.event.choice,uid)
+end
 function M.purgeWing(run,uid) return M.chooseEvent(run,'purge',uid) end
 
 function M.purifyEvent(run, uid)
