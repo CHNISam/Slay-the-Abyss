@@ -49,7 +49,9 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   const allowed = [theme.image.rect, theme.image.disc, theme.image.glow, ...Object.values(theme.icon.cardArt),
     theme.icon.node.treasure, theme.icon.medallion.camp, theme.icon.medallion.treasure, theme.icon.medallion.chestOpen,
     theme.icon.hp, theme.icon.upgrade, theme.icon.remove, theme.icon.back, theme.icon.next, theme.icon.geo,
-    id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion)];
+    id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
+    // The shop merchant's silhouette (hood point, beard) and its next-line marker.
+    theme.image.diamond];
   walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);

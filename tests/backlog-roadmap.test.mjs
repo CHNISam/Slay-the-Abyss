@@ -46,3 +46,36 @@ test('scheduled launch roots remain audited after both milestone and owner are l
 test('milestone headings can include a human-readable explanation', () => {
   assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4 达到正式作品品质\n- TASK-4.2：背景', milestone), []);
 });
+
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { verifyBacklogRoadmap } from '../scripts/verify-backlog-roadmap.mjs';
+
+test('roadmap phase headings support an adjacent ASCII pipe without confusing phase prefixes', () => {
+  assert.deepEqual(auditRoadmap([task('TASK-4.2')], '### M4|达到正式作品品质\n- TASK-4.2：背景', milestone), []);
+  for (const heading of ['M40', 'M4x', 'M4other']) {
+    assert.ok(auditRoadmap([task('TASK-4.2')], `### ${heading}\n- TASK-4.2：背景`, milestone)
+      .some(error => error.includes('排期')));
+  }
+});
+
+test('CLI milestone titles use phase identity rather than one display separator', t => {
+  const root = mkdtempSync(join(tmpdir(), 'backlog-roadmap-title-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  for (const directory of ['backlog/tasks', 'backlog/completed', 'backlog/milestones', 'docs']) {
+    mkdirSync(join(root, directory), { recursive: true });
+  }
+  writeFileSync(join(root, 'backlog/tasks/task-4.2.md'), '---\nid: TASK-4.2\nstatus: To Do\nmilestone: m-5\nassignee: ["@Codex"]\n---\n');
+  writeFileSync(join(root, 'docs/MILESTONES.md'), '### M4\n- TASK-4.2：背景\n');
+  for (const newline of ['\n', '\r\n']) for (const quote of ['', '"', "'"]) {
+    for (const title of ['M4｜正式作品品质', 'M4|正式作品品质', 'M4 正式作品品质', 'M4：正式作品品质', 'M4: 正式作品品质', 'M4']) {
+      writeFileSync(join(root, 'backlog/milestones/m-5.md'), ['---', 'id: m-5', `title: ${quote}${title}${quote}`, '---', ''].join(newline));
+      assert.deepEqual(verifyBacklogRoadmap(root), [], `${quote}${title}${quote}, newline=${JSON.stringify(newline)}`);
+    }
+    for (const title of ['M40', 'M4x', 'M4other']) {
+      writeFileSync(join(root, 'backlog/milestones/m-5.md'), ['---', 'id: m-5', `title: ${quote}${title}${quote}`, '---', ''].join(newline));
+      assert.ok(verifyBacklogRoadmap(root).some(error => error.includes('里程碑')), title);
+    }
+  }
+});

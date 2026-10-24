@@ -22,7 +22,7 @@ export function auditRoadmap(tasks, roadmap, milestones) {
   const sections = new Map();
   let section;
   for (const line of roadmap.split(/\r?\n/)) {
-    const heading = line.match(/^###\s+(M[1-6])(?:\s|[｜:：]|$)/);
+    const heading = line.match(/^###\s+(M[1-6])(?:\s|[｜|:：]|$)/);
     if (heading) section = heading[1];
     else if (/^#{1,3} /.test(line)) section = null;
     if (section) for (const match of line.matchAll(/^- (TASK-\d+(?:\.\d+)*)(?=[：:\s])/g)) sections.set(match[1], section);
@@ -46,7 +46,8 @@ export function verifyBacklogRoadmap(root = '.') {
   const tasks = [...files('backlog/tasks'), ...files('backlog/completed')].map(readTaskHeader);
   const milestones = Object.fromEntries(files('backlog/milestones').map(source => {
     const id = source.match(/^id:\s*(m-\d+)/m)?.[1];
-    const stage = source.match(/^title:\s*["']?(M[1-6])[｜|]/m)?.[1];
+    const title = source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
+    const stage = title.match(/^(M[1-6])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
   return auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones);

@@ -4,6 +4,7 @@ import { nodeLayout } from './node-ui-layout.mjs';
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
+import { prologueControl, vistaControl } from './cinematic-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
 export const resultStats = ['floor', 'victories', 'time', 'deck'];
@@ -44,9 +45,10 @@ export function gameLayout(theme = nativeTheme) {
             size: theme.layout.exitMenu.nodeNotice.slice(2) } : child) })),
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
         plate('backdrop', layout.backdrop, color.backdrop),
+        vistaControl(theme),
         emblem,
         text('title', layout.title, '杀戮原塔2', font.display, color.gold),
-        text('tagline', layout.tagline, '', font.heading, color.text),
+        text('tagline', layout.tagline, '', font.heading, color.goldDim),
         text('summary', layout.summary, '', font.body, color.textDim),
         { name: 'result', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
           text('subtitle', layout.subtitle, '', font.body, color.textDim),
@@ -59,6 +61,8 @@ export function gameLayout(theme = nativeTheme) {
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
       ] },
+      // Above every page so its last fade can uncover the map; below the deck and exit overlays.
+      prologueControl(theme),
       ...deckControls(theme),
       ...exitControls(theme),
     ],
