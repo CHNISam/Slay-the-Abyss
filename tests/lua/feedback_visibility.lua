@@ -7,6 +7,8 @@ local Theme=require("abyss_theme")
 local function fixture()
     local canvas=F.control({children=F.Layout})
     local function bind(c,spec)
+        c.x,c.y=spec.position and spec.position[1] or 0,spec.position and spec.position[2] or 0
+        c.localScaleX,c.localScaleY=spec.scale and spec.scale[1] or 1,spec.scale and spec.scale[2] or 1
         c.order={}
         for _,child in ipairs(spec.children or {}) do
             c.order[#c.order+1]=child.name;bind(c.children[child.name],child)
