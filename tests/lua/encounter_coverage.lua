@@ -167,10 +167,12 @@ for _, encounter in ipairs(data.enemies.encounters) do
             local run = Run.new(data, 42)
             run.floor = floor -- isolated host-entry fixture, not a completed map route
             assert(Run.startCombat(run, encounter.id))
-            -- Seed42's first misc Boolean is true. This independent source
-            -- oracle replaces the obsolete fixed two-S assertion; every other
-            -- encounter keeps its complete existing member/order checks.
-            local expected = encounter.id == "small_slimes" and {"spike_slime_s", "acid_slime_m"} or encounter.enemies
+            -- Current seed42 stream: Small Slimes Boolean true; Gremlins
+            -- indices 0,5,3,3 select these source-ordered slots. These are
+            -- literal source expectations, not a copy of the runtime array.
+            local expected = encounter.id == "small_slimes" and {"spike_slime_s", "acid_slime_m"}
+                or encounter.id == "gremlin_gang" and {"mad_gremlin", "shield_gremlin", "fat_gremlin", "fat_gremlin"}
+                or encounter.enemies
             equal(#run.combat.enemies, #expected, "encounter size")
             for i, id in ipairs(expected) do
                 equal(run.combat.enemies[i].definitionId, id, "encounter member")

@@ -170,7 +170,19 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)
         elseif op == "energy" then state.energy = state.energy + value
-        elseif op == "gainStatus" then Actors.applyPower(state, source, effect.status, value, source)
+        elseif op == "gainStatus" then
+            -- Barricade.use does not queue another Power when already held.
+            -- Match only the card's valid one-layer application; explicit zero,
+            -- malformed amounts/old stacks and other definitions still take
+            -- the original Actor validation path, not a generic no-op filter.
+            local repeatBarricade = source == state.player and effect.status == "barricade"
+                and value == 1 and source.statuses.barricade == 1
+            if repeatBarricade then
+                local definitions = source.statusDefinitions
+                local definition = type(definitions) == "table" and definitions.barricade
+                repeatBarricade = type(definition) == "table" and definition.stack == "none"
+            end
+            if not repeatBarricade then Actors.applyPower(state, source, effect.status, value, source) end
         elseif op == "gainTemporaryStrength" then
             combat.addTemporaryStrength(source, value, state)
         elseif op == "applyStatus" then
