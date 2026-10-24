@@ -476,6 +476,9 @@ end
 function M.disposeCard(state,item)
     local e,instance=item.effect,item.instance
     EnemyAI.afterCard(state,e.reactions)
+    -- Sharp Hide's onUseCard queues damage before UseCardAction. A lethal
+    -- reaction opens the death screen before the physical card can leave limbo.
+    if state.player.hp<=0 then return end
     if state.cardInUse==instance then state.cardInUse=nil end
     -- A used Power leaves the combat piles; it is not an exhausted card.
     -- The Power destination takes precedence over exhaust-on-use, while an

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 23:25'
+updated_date: '2026-10-24 23:35'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -72,4 +72,6 @@ ordinal: 16000
 整体复审发现并红绿修正四项规则边界：Flame Barrier零HP损失也要通知大型史莱姆受击检查；铜鳞荆棘和Flame Barrier按能力应用顺序分别加入TOP反伤，不能合并；守护者尖刺的实际HP损失必须通知Blood for Blood减费；Infernal Blade等新生成Blood for Blood继承本战此前受伤事件计数。四项独立红例均失败后修正，全部46组边界与四组受影响Guardian/死亡/分裂测试通过。新运行源码待冻结/重新构建实测；098的9/9和正常17层胜利保留为其本身证据，不冒充修复后版本。旧8951fa0的CI40141666245主动取消，避免对已知旧运行源继续验收。
 
 进一步按固定GameActionManager477–480与BrutalityPower核对：普通抽牌与抽牌后能力应先排队，抽牌触发的Evolve/Fire Breathing追加在既有Brutality抽牌/HP支付之后。1HP的Brutality+Fire Breathing+Wound组合在冻结00c97b6先红，修正后按原版先死亡而非错误存活/胜利；LoseHPAction原类型DAMAGE须在胜利清队时保留，第二独立红例也已转绿。全部48组边界通过，红例使用隔离冻结模块，不改写旧实机。最终运行源重新冻结后再做本地、候选与原生验收。
+
+原版SharpHidePower.onUseCard在UseCardAction之前排入反伤。新红例确认尖刺致死后仍错误弃牌/消耗了攻击牌；现已在死亡时停止实体牌离场，保留cardInUse，不触发Dark Embrace/FNP，Strike与Pummel均覆盖。全部49组边界通过。19afc50诊断导入81bbf05e等待导入存档界面超时，无日志/无官方源读回，不计导入或实机通过；失败截图保留，待确认客户端状态后用最终冻结源重试。
 <!-- SECTION:NOTES:END -->

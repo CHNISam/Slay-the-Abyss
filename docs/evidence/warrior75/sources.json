@@ -1086,6 +1086,17 @@
       "reviewedFacts": [
         "LoseHPAction has DAMAGE actionType and therefore survives clearPostCombatActions; update applies while its target is alive."
       ]
+    },
+    {
+      "id": "SharpHidePower",
+      "path": "powers/SharpHidePower.java",
+      "url": "https://raw.githubusercontent.com/purewhitelove/ButterflyGame/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/SharpHidePower.java",
+      "sha256": "b653eb08d5c63696d827bf6a6b3dac38ca49636e509eac63a150d166dfecdb95",
+      "gitBlob": "9c2bfa329f0e65cf9ea70370bff606306b303b89",
+      "bytes": 2228,
+      "reviewedFacts": [
+        "onUseCard appends THORNS DamageAction after the Attack effects and before UseCardAction is appended. Lethal retaliation therefore stops physical discard/exhaust, keeping the used card in limbo."
+      ]
     }
   ]
 }

@@ -353,4 +353,13 @@ test('queued LoseHP is a retained DAMAGE action after victory, but stops on defe
         eq(s.player.hp,hp==5 and 3 or 0);eq(C.outcome(s),hp==5 and 'victory'or'defeat')
     end
 end)
+test('lethal Sharp Hide interrupts before discard or Exhaust of the in-use attack',function()
+    for _,id in ipairs({'strike','pummel'})do
+        local s=battle({id});local used=s.hand[1];s.player.hp=3
+        s.player.statuses.dark_embrace=1;s.player.statuses.feel_no_pain=3
+        C.addStatus(s.enemies[1],'sharp_hide',3)
+        play(s);eq(s.phase,'defeat');eq(s.cardInUse,used)
+        eq(#s.discard,0);eq(#s.exhaust,0);eq(s.player.block,0)
+    end
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')
