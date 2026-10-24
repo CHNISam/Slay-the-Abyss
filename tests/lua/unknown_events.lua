@@ -56,28 +56,9 @@ local function setup(id,seed)
     map.nodes[1].type='event';map.nodes[1].eventId=id
     return run,map,map.nodes[1].id
 end
-test('220 seeded unknown entries route four handlers without changing the symbol on fixed topology',function()
-    runtime()
-    -- All220 real Run seeds exercise source routing/handlers. Map topology is
-    -- held fixed here; per-seed source topology belongs to the map fixtures.
-    local routingMap=dofile('tests/lua/support/unknown_event_routing_map.lua')
-    local types,events={},{}
-    for seed=1,220 do
-        local run=Run.new(data,seed)
-        local map,id=routingMap.new(data,run)
-        assert(Nodes.enter(run,map,id));local kind=run.nodeFlow.type;types[kind]=true
-        if kind=='event' then events[run.nodeFlow.event.id]=true end
-        assert(map.nodes[1].type=='event' and run.nodeFlow.sourceType=='event')
-        local state=C.copy(run.unknown)
-        local eventRng,miscRng=R.snapshot(run.eventRng),R.snapshot(run.miscRng)
-        Nodes.view(run,map);Nodes.view(run,map);same(run.unknown,state)
-        same(R.snapshot(run.eventRng),eventRng);same(R.snapshot(run.miscRng),miscRng)
-        assert(not Nodes.enter(run,map,id));same(run.unknown,state)
-        same(R.snapshot(run.eventRng),eventRng);same(R.snapshot(run.miscRng),miscRng)
-    end
-    assert(types.combat and types.shop and types.treasure and types.event)
-    local count=0;for _ in pairs(events) do count=count+1 end;assert(count==7,'all seven events must be reachable across seeds')
-end)
+-- The complete220-seed routing matrix has two independently timed fixtures:
+-- unknown_event_routing.lua and unknown_event_routing_upper.lua. Both halves
+-- preserve every per-seed assertion and prove all four routes/seven events.
 test('Goop entry loss is fixed, capped and death stops navigation',function()
     local run,map,id=setup('goop');run.gold=12
     assert(Nodes.enter(run,map,id));assert(run.nodeFlow.event.goldLoss==12)
