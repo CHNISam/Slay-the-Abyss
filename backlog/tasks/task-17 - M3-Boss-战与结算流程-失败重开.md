@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 07:44'
+updated_date: '2026-10-24 07:48'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -16,6 +16,7 @@ dependencies:
   - TASK-8
 references:
   - docs/backlog-details/TASK-17.md
+  - docs/M2-SPRINT-20261024.md
 priority: high
 ordinal: 3
 ---

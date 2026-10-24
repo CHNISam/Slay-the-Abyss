@@ -3,9 +3,9 @@ id: TASK-13.1
 title: 核对事件、商店价格和奖励规则
 status: In Progress
 assignee:
-  - '--plan'
+  - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 05:51'
+updated_date: '2026-10-24 07:48'
 due_date: '2026-10-28'
 labels:
   - required
@@ -55,4 +55,6 @@ ordinal: 41000
 商店专项已实现固定7牌/3遗物/3药水槽、一次删牌、浮动价格、特价与三遗物交互；缺失无色/稀有内容保留不可售槽，无重分概率。新增故障注入先红后绿：补货失败在付款/发牌前整体拒绝。固定seed、阈值穷举、三类补货、价格差分9组、NodeUI31、手势20、旧触点6、退出遮罩5、节点21、事务11/162拒绝与恢复5组定向通过；当前最终全量check仍在执行。离线图已检查；中间副本静态0error/16warning，最终同源副本需重建审计，未官方导入/实机。来源冲突、受限池与共享奖励RNG/全局遗物队列缺口和实机执行单见docs/SHOP_PARITY.md，整体AC保持未勾。
 
 PR163商店切片：已整合最新develop为988aa22。完整npm run check exit0（JS927pass/118条件skip、133份Lua全过、Python17项含1skip）；后续仅增遗物/药水binary32端点测试并通过，普通药水上界52。独立候选33f0b982…同源审计42模块/1997控件/max52/22节点结算，静态0error14warning；根.artifacts/shop-parity-988aa22保留原始证据。用户确认游戏独占后显式clientScriptLog=true尝试run16a0b150，在导入前无法前台失败，无截图/日志/ready；备用窗口管道重试重置均不可用，已请求用户恢复前台/同权限。verify:ui实际FAIL，整体原版与平台AC不勾。当前head Quality首次checkout网络重置，已重跑，最终状态看PR当前SHA。详见docs/SHOP_PARITY.md及docs/evidence/shop-988aa22.json。
+
+M2组合复用PR163；其快递员同名卡错槽问题已由4bf1786改为精确buyCardSlot及过期报价身份校验，当前SHA两Quality成功。精英战后尚无遗物奖励保留本任务缺口。
 <!-- SECTION:NOTES:END -->
