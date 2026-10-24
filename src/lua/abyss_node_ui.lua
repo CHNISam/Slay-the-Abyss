@@ -384,18 +384,24 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                         end
                         return commit('chooseEvent',selected.choice,function(before)
                             local outcome=self.run.nodeFlow.event
-                            local text='生命 '..before.hp..' → '..self.run.hp..'；金币 '..before.gold..' → '..self.run.gold
-                            if outcome.upgradedUids then
+                            -- 只列出实际变化的资源，未变化的生命/金币不显示
+                            local function whole(n) return n==math.floor(n) and string.format('%d',n) or tostring(n) end
+                            local lines,changes={},{}
+                            if self.run.hp~=before.hp then changes[#changes+1]='生命 '..whole(before.hp)..' → '..whole(self.run.hp) end
+                            if self.run.gold~=before.gold then changes[#changes+1]='金币 '..whole(before.gold)..' → '..whole(self.run.gold) end
+                            if #changes>0 then lines[1]=table.concat(changes,'；') end
+                            if outcome.upgradedUids and #outcome.upgradedUids>0 then
                                 local names={}
                                 for _,uid in ipairs(outcome.upgradedUids) do
                                     local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true)
                                 end
-                                text=text..'\n已升级：'..table.concat(names,'、')
+                                lines[#lines+1]='已升级：'..table.concat(names,'、')
                             end
                             if outcome.obtainedCardUid then
                                 local obtained=find(self.run.deck,outcome.obtainedCardUid,'uid')
-                                text=text..'\n已获得诅咒：'..cardName(obtained.cardId,false)
+                                lines[#lines+1]='已获得诅咒：'..cardName(obtained.cardId,false)
                             end
+                            local text=#lines>0 and table.concat(lines,'\n') or '什么也没有发生。'
                             return text,{text=text}
                         end)
                     end}
