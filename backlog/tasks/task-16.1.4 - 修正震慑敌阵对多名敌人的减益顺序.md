@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@dot'
 created_date: '2026-10-24 13:04'
-updated_date: '2026-10-24 13:16'
+updated_date: '2026-10-24 13:22'
 due_date: '2026-10-28'
 labels:
   - required
@@ -15,6 +15,7 @@ dependencies:
 references:
   - docs/backlog-details/TASK-16.1.md
   - docs/reviews/TASK-16-m3-card-audit.md
+  - docs/reviews/TASK-16.1.4-shockwave-order.md
 parent_task_id: TASK-16.1
 priority: high
 type: bug
@@ -47,4 +48,6 @@ ordinal: 88000
 
 <!-- SECTION:NOTES:BEGIN -->
 1313首候选30真实入口顺序/帧已过，但build-ui因Python unknown fields targetGroup失败，4个Node构建链回归同因失败；另3个wrapper缺Fengari不计通过。已限定新增第4生产路径为现有表现验证器并补先红后绿，未改UI设计、数值或预算。
+
+1320候选已补Python生成链并将新标记发现改为显式工作栈，修复独立评审实证的1万层无标记RangeError回归。正式data/UI/theme构建、171原生Lua、1085纯Node、22Python与9个负变异通过；独立141运行、59schema、深树/DAG及整份表现输出全等通过。旧1313/1317失败记录保留；仍待当前提交CI与合并，无Fengari本地或平台验收声明。
 <!-- SECTION:NOTES:END -->
