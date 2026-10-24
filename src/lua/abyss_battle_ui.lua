@@ -11,7 +11,8 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
     empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
-    effect_overflow = "当前状态已达上限" }
+    effect_overflow = "当前状态已达上限", potion_slots_full = "药水槽已满；可放弃这瓶战利品后继续选牌。",
+    potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "持有该遗物时无法获得药水；请放弃战利品。" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local number = require("abyss_numbers").integer
@@ -190,6 +191,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not run then return false end
         if g.name == "endTurn" then return dragReady(g) end
         if g.name == "skip" then return run.phase == "reward" and run.rewards == g.rewards end
+        if g.name == "claimPotion" or g.name == "skipPotion" then
+            return run.phase == "reward" and run.rewards == g.rewards and run.rewards.potion
+                and not run.rewards.potion.resolved
+        end
         return g.name == "continue" and not options.embedded and run.phase == "map"
     end
     local function cancelActionInputs()
@@ -611,6 +616,22 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         button("start", self.active, true, run and "重新启程" or "启程")
         show("endTurn", fighting)
         show("skip", reward)
+        local potionReward=reward and run.rewards.potion
+        show("potionReward", potionReward~=nil and potionReward~=false)
+        local pendingPotion=potionReward and not potionReward.resolved
+        show("claimPotion", pendingPotion==true)
+        show("skipPotion", pendingPotion==true)
+        button("claimPotion", self.active and pendingPotion and not potionReward.unavailable
+            and Run.potionCount(run)<run.data.rules.player.potionSlots, false)
+        button("skipPotion", self.active and pendingPotion==true, false)
+        if potionReward then
+            local name=potionReward.id
+            for _,definition in ipairs(data.potions.potions) do if definition.id==name then name=definition.name;break end end
+            local detail=potionReward.unavailable and (potionReward.rarity.." 药水尚未实装") or (name or "药水")
+            if potionReward.resolved then detail=detail..(potionReward.result=='claimed' and " · 已领取" or " · 已放弃")
+            else detail=detail.." · 选牌时自动领取；满槽请先放弃" end
+            label("potionReward",detail)
+        end
         show("rewardStage", reward)
         -- The battle HUD (energy, piles) belongs to playing cards; clear it while choosing a reward.
         for _, name in ipairs({"energyRing", "energyDisc", "energyIcon", "energy", "drawIcon", "drawBadgeRing", "drawBadge",
@@ -950,8 +971,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local run = self.run
         if not self.active or not run or self.busy or self.gesture or self.suppressClick then return end
         if run.phase == "reward" then
-            local ok = Run.claimCardReward(run, index)
-            if ok then notice("卡牌已加入牌组。") end
+            local ok,reason = Run.claimCardReward(run, index)
+            notice(ok and "卡牌已加入牌组，其余可领取奖励已收下。" or reasons[reason] or "当前无法领取奖励。")
             refresh(ok) return
         elseif run.phase == "combat" then
             local instance = run.combat.hand[index]
@@ -982,6 +1003,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if reason ~= "presentation_unavailable" then refresh() end
         return ok, reason
     end
+    local function processPotionReward(claim)
+        if not self.active or not self.run or self.busy or self.gesture or self.suppressClick then return false end
+        local ok,reason=(claim and Run.claimPotionReward or Run.skipPotionReward)(self.run)
+        notice(ok and (claim and "药水已放入背包。" or "已放弃药水。") or reasons[reason] or "当前无法处理药水。")
+        refresh()
+        return ok,reason
+    end
+    function self:claimPotionReward() return processPotionReward(true) end
+    function self:skipPotionReward() return processPotionReward(false) end
     local function point(event)
         if not event or type(event.GetUIPos) ~= "function" then return end
         local x,y = event:GetUIPos()
@@ -1122,7 +1152,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     bind("start", function() if not self.run or self.run.phase == "defeat" then self:start() end end)
     bind("endTurn", function() self:endTurn() end)
-    bind("skip", function() if self.active and self.run and not self.busy and Run.claimCardReward(self.run, 0) then notice("已跳过卡牌奖励。") refresh(true) end end)
+    bind("skip", function()
+        if not self.active or not self.run or self.busy then return end
+        local ok,reason=Run.claimCardReward(self.run,0)
+        notice(ok and "已跳过卡牌，其余可领取奖励已收下。" or reasons[reason] or "当前无法处理奖励。")
+        refresh(ok)
+    end)
+    for _,name in ipairs({'claimPotion','skipPotion'}) do
+        local claim=name=='claimPotion'
+        bind(name,function()
+            if claim then return self:claimPotionReward() end
+            return self:skipPotionReward()
+        end)
+    end
     bind("continue", function() if self.active and not options.embedded and not self.busy and self.run and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end end)
     for i = 1, 3 do
         local slot, control, input = i, child("potion" .. i), {}

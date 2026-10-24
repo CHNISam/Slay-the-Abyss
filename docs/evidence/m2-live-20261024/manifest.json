@@ -1,0 +1,237 @@
+{
+  "sourceCommit": "522e5479add2b123403bdfb3621ebbb495882d03",
+  "testRun": "bd08cab4-08c5-4a4c-86cc-336097059d58",
+  "officialSave": "1073741843",
+  "normalValues": true,
+  "physicalInputCertified": false,
+  "logRecovery": {
+    "originalRunnerReported": null,
+    "actualOfficialLog": "2026-10-24_16-17-23_25_217122260.gia",
+    "reason": "The runner did not actually leave the official result. The later verified Leave action flushed this same session to disk.",
+    "flushedAtLocal": "2026-10-24 16:29:59 +08:00",
+    "leaveRequest": "F:/New folder/.artifacts/m2-session/live/leave-official-victory.json"
+  },
+  "boundaries": [
+    "A later independent card reward UI (PR169) was merged after this candidate froze; its combination is locally verified separately.",
+    "Normal defeat, in-game restart and official retry are still pending in this candidate.",
+    "This records native automatic public commands; it does not certify physical mobile/mouse input or global UI parity."
+  ],
+  "files": [
+    {
+      "path": "session-log.gia.gz",
+      "bytes": 69514,
+      "sha256": "9b0037b7f862afb637caced1ec504303a260846a7149e2e184a2df4f7a4f3623",
+      "originalBytes": 1400985,
+      "originalSha256": "6920b5aafb1e335ce4063a3585fd5795218883f729b42775c6bb264389f665cc",
+      "compressed": true
+    },
+    {
+      "path": "decoded-log.json.gz",
+      "bytes": 67485,
+      "sha256": "15960ca803da98f2975b42da944a277073ca9702ae9ad356f20f0055ce532340",
+      "originalBytes": 1880479,
+      "originalSha256": "a10a58503485bc842121562e5319ac248483c88f0667b524ac69d8f542e7ff13",
+      "compressed": true
+    },
+    {
+      "path": "runner-status-original.json.gz",
+      "bytes": 1616,
+      "sha256": "61534093ea5fff8b42cca153d9d838c3d81cc4d3ea28f1d5ee26e36ae9fcbabd",
+      "originalBytes": 8119,
+      "originalSha256": "5d9a5f587524f2a8d8744acb7088297dc3bbc2663657eb0f1534277630a28f5c",
+      "compressed": true
+    },
+    {
+      "path": "request.json.gz",
+      "bytes": 450,
+      "sha256": "b687e1bb9348c072eca49c60f30fc5c05b2c07a1ae28a8a31d488d9bd0ee16b9",
+      "originalBytes": 859,
+      "originalSha256": "722b405ea12e9696c3eac69a794767907508b937336c741e2b53d1dff9925d2e",
+      "compressed": true
+    },
+    {
+      "path": "native-log-review.json",
+      "bytes": 13118,
+      "sha256": "85a84587e3eb1f82e15112db12aff812fe6519ddbd654b14835502ae1da4ba11",
+      "originalBytes": 13118,
+      "originalSha256": "85a84587e3eb1f82e15112db12aff812fe6519ddbd654b14835502ae1da4ba11",
+      "compressed": false
+    },
+    {
+      "path": "independent-native-review.json",
+      "bytes": 53700,
+      "sha256": "e14a4e71e6da4c9ded73f4e026e8fde0179686fc8f7bb5bf355266483a6ada9e",
+      "originalBytes": 53700,
+      "originalSha256": "e14a4e71e6da4c9ded73f4e026e8fde0179686fc8f7bb5bf355266483a6ada9e",
+      "compressed": false
+    },
+    {
+      "path": "fixture/run-autoplay.py.gz",
+      "bytes": 977,
+      "sha256": "efa2b5998a39d44ef80fd159aaf3f1a878984d6f6c73a467b4328a6b58d4a3b2",
+      "originalBytes": 1871,
+      "originalSha256": "38ac2ef6c33352ec7298ab2c3dff3ecf26c596b737b6f0139417661f2e3748e1",
+      "compressed": true
+    },
+    {
+      "path": "verified-native-leave.json",
+      "bytes": 4362,
+      "sha256": "388e00d906bec9661f69847098f7206789c74490416c57399a2c42d24e9787da",
+      "originalBytes": 4362,
+      "originalSha256": "388e00d906bec9661f69847098f7206789c74490416c57399a2c42d24e9787da",
+      "compressed": false
+    },
+    {
+      "path": "official-readback.json",
+      "bytes": 10775,
+      "sha256": "b1823471b7aeceb335029ecf5f25359f304506da2284a33d409bf780a8113f5d",
+      "originalBytes": 10775,
+      "originalSha256": "b1823471b7aeceb335029ecf5f25359f304506da2284a33d409bf780a8113f5d",
+      "compressed": false
+    },
+    {
+      "path": "autoplay-candidate.json",
+      "bytes": 9183,
+      "sha256": "67bec7528c62a40ab12ff1fb540b3e5a0aacd5068d92fc21feb9706dd67bcecb",
+      "originalBytes": 9183,
+      "originalSha256": "67bec7528c62a40ab12ff1fb540b3e5a0aacd5068d92fc21feb9706dd67bcecb",
+      "compressed": false
+    },
+    {
+      "path": "normal-candidate-audit.json",
+      "bytes": 20981,
+      "sha256": "6caa5b9764d03c871ead29189b701e09db32d640916b774ef9651ef06e1bfeab",
+      "originalBytes": 20981,
+      "originalSha256": "6caa5b9764d03c871ead29189b701e09db32d640916b774ef9651ef06e1bfeab",
+      "compressed": false
+    },
+    {
+      "path": "driver-offline-verification.json",
+      "bytes": 8773,
+      "sha256": "15d7e69d1b0090caa0f0c168aebba71c0f06efad1166046b5c6c685169cf3b76",
+      "originalBytes": 8773,
+      "originalSha256": "15d7e69d1b0090caa0f0c168aebba71c0f06efad1166046b5c6c685169cf3b76",
+      "compressed": false
+    },
+    {
+      "path": "normal-routes.json.gz",
+      "bytes": 56105,
+      "sha256": "1fe17b7bc8c424dd9d68d08054c20f42de030cf3954165b8004edaa3657efb1e",
+      "originalBytes": 2337237,
+      "originalSha256": "afe55281026b716d914ac9528dc026c4f8ec23131eb0d887432f68775d39c319",
+      "compressed": true
+    },
+    {
+      "path": "fixture/abyss_m2_driver.lua.gz",
+      "bytes": 4899,
+      "sha256": "2dab0b668f92737e9afbb90ba8fe24eca4a60d0e2aa7acd3b5de30e4a9d0e4bc",
+      "originalBytes": 14787,
+      "originalSha256": "5f4705194e10394cf831fbd1976725a6f020a51886834680b15f987947f59bc9",
+      "compressed": true
+    },
+    {
+      "path": "fixture/abyss_m2_policy.lua.gz",
+      "bytes": 2463,
+      "sha256": "c76e523fc29eb1865941736f02e063d9d94da3060e00754b95b907d2cd49eded",
+      "originalBytes": 8067,
+      "originalSha256": "f126eae72664048f781d40d8dd40029adf7ecb161874361719ad557184c471aa",
+      "compressed": true
+    },
+    {
+      "path": "fixture/abyss_ui_autoplay.lua.gz",
+      "bytes": 1305,
+      "sha256": "ea5c99a516ac2e8f9b86520400406523fbd7d59f60ccf6759a8f859affe797b1",
+      "originalBytes": 3879,
+      "originalSha256": "34ac19a3e3e706134b83d88ac0e37bdbcf63e1ab28b447b866eab8a509db1018",
+      "compressed": true
+    },
+    {
+      "path": "screens/02-t002.jpg",
+      "bytes": 80246,
+      "sha256": "6c08741b8f4b68dae171fe415cd1bab1bb59d14b9c3ca7668052a1e762220ec9",
+      "originalBytes": 80246,
+      "originalSha256": "6c08741b8f4b68dae171fe415cd1bab1bb59d14b9c3ca7668052a1e762220ec9",
+      "compressed": false
+    },
+    {
+      "path": "screens/04-t010.jpg",
+      "bytes": 69547,
+      "sha256": "dc148b1c914f0ed0b04e7a178bf445859c6c9d2cdb50860c3dac8d93c5e0704a",
+      "originalBytes": 69547,
+      "originalSha256": "dc148b1c914f0ed0b04e7a178bf445859c6c9d2cdb50860c3dac8d93c5e0704a",
+      "compressed": false
+    },
+    {
+      "path": "screens/06-t020.jpg",
+      "bytes": 110588,
+      "sha256": "fa1ba5fca158151e7b10693571cfea4c4213996842ac99c8d26eca4ef2807312",
+      "originalBytes": 110588,
+      "originalSha256": "fa1ba5fca158151e7b10693571cfea4c4213996842ac99c8d26eca4ef2807312",
+      "compressed": false
+    },
+    {
+      "path": "screens/10-t060.jpg",
+      "bytes": 112654,
+      "sha256": "0699e0406d4b6644600d6d70c9c21550cfc85a46ab4c473fe888633502f5468c",
+      "originalBytes": 112654,
+      "originalSha256": "0699e0406d4b6644600d6d70c9c21550cfc85a46ab4c473fe888633502f5468c",
+      "compressed": false
+    },
+    {
+      "path": "screens/12-t090.jpg",
+      "bytes": 94108,
+      "sha256": "783523cd2f1c34c5177773f61ad6c75cb5d7265d3516a781ddbcee3e3c5e9dfd",
+      "originalBytes": 94108,
+      "originalSha256": "783523cd2f1c34c5177773f61ad6c75cb5d7265d3516a781ddbcee3e3c5e9dfd",
+      "compressed": false
+    },
+    {
+      "path": "screens/15-t135.jpg",
+      "bytes": 69923,
+      "sha256": "f236923422634ffdc68354be4d348227b349c4158fafb9d19de0980bb61d40cd",
+      "originalBytes": 69923,
+      "originalSha256": "f236923422634ffdc68354be4d348227b349c4158fafb9d19de0980bb61d40cd",
+      "compressed": false
+    },
+    {
+      "path": "screens/18-t180.jpg",
+      "bytes": 93018,
+      "sha256": "1db1351a6dcdf39db1630b8b4ba6c5c2b0e0caff5f1ba09d29f592d7785b9813",
+      "originalBytes": 93018,
+      "originalSha256": "1db1351a6dcdf39db1630b8b4ba6c5c2b0e0caff5f1ba09d29f592d7785b9813",
+      "compressed": false
+    },
+    {
+      "path": "screens/23-t240.jpg",
+      "bytes": 85548,
+      "sha256": "34c36f43124c7171e089f16e243d6a32773eb3a451d9acbc0058757bd3f973f8",
+      "originalBytes": 85548,
+      "originalSha256": "34c36f43124c7171e089f16e243d6a32773eb3a451d9acbc0058757bd3f973f8",
+      "compressed": false
+    },
+    {
+      "path": "screens/24-t250.jpg",
+      "bytes": 82346,
+      "sha256": "d897109bfcbbeec2505125f835bbf20d24284ef0ed23f26b697258cbd599413f",
+      "originalBytes": 82346,
+      "originalSha256": "d897109bfcbbeec2505125f835bbf20d24284ef0ed23f26b697258cbd599413f",
+      "compressed": false
+    },
+    {
+      "path": "screens/26-t270.jpg",
+      "bytes": 49363,
+      "sha256": "974142175e6ec26a8e0fbbf266ba966d9be3341fbb3dd7283b2a33b26af3df57",
+      "originalBytes": 49363,
+      "originalSha256": "974142175e6ec26a8e0fbbf266ba966d9be3341fbb3dd7283b2a33b26af3df57",
+      "compressed": false
+    },
+    {
+      "path": "screens/27-level-ended.jpg",
+      "bytes": 100721,
+      "sha256": "90563a331286bcc4b52d4b0882aa1cde74bc54868f8f33f001ff251e32400004",
+      "originalBytes": 100721,
+      "originalSha256": "90563a331286bcc4b52d4b0882aa1cde74bc54868f8f33f001ff251e32400004",
+      "compressed": false
+    }
+  ]
+}

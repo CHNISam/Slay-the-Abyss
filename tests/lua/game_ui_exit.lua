@@ -133,7 +133,7 @@ test("completed victory keeps its earned outcome when leaving through the shared
     local result
     local ui,root=F.fixture(nil,function(victory) result=victory; return true end)
     assert(ui:start())
-    ui.run.phase="map"; ui.run.nodeFlow={complete=true,result="boss_victory"}
+    ui.run.phase="victory"; ui.run.nodeFlow={complete=true,result="boss_treasure_complete"}
     ui:refresh(); assert(ui.mode=="victory")
     assert(open(root)); assert(confirm(root)); assert(result==true)
 end)

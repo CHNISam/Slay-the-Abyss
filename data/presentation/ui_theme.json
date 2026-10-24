@@ -260,6 +260,9 @@
       "courier": 102007,
       "smiling_mask": 102031,
       "burning_blood": 102005,
+      "black_blood": 102005,
+      "slavers_collar": 102028,
+      "sozu": 102028,
       "anchor": 102036,
       "vajra": 102012,
       "bag_of_preparation": 102026,
@@ -521,6 +524,11 @@
         128,
         40
       ]
+    },
+    "battleRewards": {
+      "potionLabel": [0, -306, 820, 44],
+      "claimPotion": [-268, -250],
+      "skipPotion": [268, -250]
     },
     "nativeControl": {
       "origin": [
@@ -839,7 +847,11 @@
         "hint": [0, -82, 600, 40],
         "reward": [0, -126, 480, 88],
         "rewardDisc": 56,
-        "take": [0, -232, 220, 56]
+        "take": [0, -244, 220, 56],
+        "previous": [-288, -126, 56, 56],
+        "next": [288, -126, 56, 56],
+        "page": [0, -60, 480, 40],
+        "bossDescription": [0, -190, 800, 40]
       }
     },
     "exitMenu": {

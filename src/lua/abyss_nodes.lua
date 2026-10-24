@@ -1,6 +1,6 @@
 -- Seven node flows over the existing same-run state. Adapters must navigate via enter/available.
 -- Battle commands/reward selection remain Run commands, followed by completeCombat.
--- Relic/potion runtime effects, persistence restoration and final Boss settlement belong to other modules.
+-- Combat relic effects and persistence restoration belong to their owning modules.
 local Run = require("abyss_run")
 local Map = require("abyss_map")
 local Combat = require("abyss_combat")
@@ -8,6 +8,7 @@ local Effects = require("abyss_effects")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local EventRandom = require("abyss_sts_random")
+local Inventory = require("abyss_inventory")
 local Shop = require("abyss_shop")
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
@@ -64,7 +65,8 @@ end
 local function unownedRelics(run)
     local result = {}
     for _, relic in ipairs(run.data.relics.relics) do
-        if relic.rarity ~= "starter" and relic.rarity ~= 'shop' and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
+        if relic.rarity ~= "starter" and relic.rarity ~= "boss" and relic.rarity ~= "shop"
+            and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
     end
     table.sort(result)
     return result
@@ -85,13 +87,23 @@ local function goldenAttack(run)
 end
 
 local function prepare(run, node, miscRng)
-    local flow = { id = node.id, floor = node.floor, type = node.type, complete = false,
+    local flow = { id = node.id, floor = node.floor, type = node.type, roomKind = node.roomKind, complete = false,
         encounterId = node.encounterId }
     local random = { seed = run.seed }
     if node.type == "camp" then
         flow.upgradesLeft = run.data.rules.camp.upgradeCount
     elseif node.type == "shop" then
         for k,v in pairs(Shop.prepare(run)) do flow[k]=v end
+    elseif node.roomKind == "boss_treasure" then
+        local pool, choices = {}, {}
+        for _, relic in ipairs(run.data.relics.relics) do
+            if Inventory.bossEligible(relic, run.relics) then pool[#pool + 1] = relic.id end
+        end
+        table.sort(pool)
+        for _ = 1, math.min(3, #pool) do
+            choices[#choices + 1] = table.remove(pool, Combat.random(random, #pool))
+        end
+        flow.reward = { relics = choices }
     elseif node.type == "treasure" then
         local relics = unownedRelics(run)
         flow.reward = #relics > 0 and { relicId = relics[Combat.random(random, #relics)] }
@@ -122,9 +134,11 @@ function M.enter(run, map, nodeId)
     local node = find(map.nodes, nodeId)
     if not node then return false, "invalid_node" end
     if not find(Map.available(map), nodeId) then return false, "node_unavailable" end
-    -- Boss treasure has its own relic pool and choice transaction. Never route it
-    -- through ordinary treasure until that reward flow is implemented.
-    if node.roomKind == "boss_treasure" then return false, "boss_treasure_not_implemented" end
+    -- A Boss chest is earned only after that Boss's card reward is resolved.
+    if node.roomKind == "boss_treasure" and (node.floor ~= run.data.rules.map.bossTreasureFloor
+        or not run.nodeFlow or run.nodeFlow.type ~= "boss" or run.nodeFlow.result ~= "boss_victory") then
+        return false, "boss_treasure_unavailable"
+    end
     if not battleKinds[node.type] and node.type ~= "camp" and node.type ~= "shop"
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
     local sourceType=node.type
@@ -322,11 +336,36 @@ end
 
 function M.claimTreasure(run)
     local flow, reason = pending(run, "treasure"); if not flow then return false, reason end
+    if flow.roomKind == "boss_treasure" then return false, "boss_treasure_choice_required" end
     if flow.reward.relicId then
         if owns(run.relics, flow.reward.relicId) then return false, "relic_already_owned" end
         run.relics[#run.relics + 1] = flow.reward.relicId
     else run.gold = run.gold + flow.reward.gold end
     return complete(run)
+end
+
+function M.claimBossTreasure(run, choice)
+    local flow, reason = pending(run, "treasure"); if not flow then return false, reason end
+    if flow.roomKind ~= "boss_treasure" then return false, "wrong_node_type" end
+    if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #flow.reward.relics then
+        return false, "invalid_boss_relic_choice"
+    end
+    if choice > 0 then
+        local id = flow.reward.relics[choice]
+        local relic = find(run.data.relics.relics, id)
+        if not relic or not Inventory.bossEligible(relic, run.relics) then return false, "boss_relic_unavailable" end
+        -- Preflight finishes before removing the starter. Replacement keeps its
+        -- held position, so no later hook order changes with Black Blood.
+        local position
+        if relic.replaces then
+            for i, owned in ipairs(run.relics) do if owned == relic.replaces then position = i; break end end
+        end
+        if position then run.relics[position] = id else run.relics[#run.relics + 1] = id end
+        flow.chosenRelic = id
+    end
+    complete(run, "boss_treasure_complete")
+    run.phase = "victory"
+    return true, "boss_treasure_complete"
 end
 
 function M.eventOptions(run,flow)

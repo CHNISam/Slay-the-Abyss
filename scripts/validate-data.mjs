@@ -430,8 +430,12 @@ export function validateContent(bundle) {
   for (const kind of ['relics', 'potions']) lists[kind].forEach((entry, i) => {
     if (!isObject(entry)) return;
     const p = `${kind}[${i}]`;
-    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
+    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'boss', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
     if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end', 'shop'], `${p}.trigger`);
+    if (entry.replaces !== undefined) reference(entry.replaces, 'relics', `${p}.replaces`);
+    if (entry.blocksPotions !== undefined && typeof entry.blocksPotions !== 'boolean') fail(`${p}.blocksPotions`, 'must be boolean');
+    if (entry.description !== undefined && typeof entry.description !== 'string') fail(`${p}.description`, 'must be text');
+    if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
     if (kind === 'relics' && entry.trigger === 'shop') {
       if (!['membership_card', 'courier', 'smiling_mask'].includes(entry.id)) fail(`${p}.id`, 'unsupported shop relic');
       if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'shop relic uses merchant hooks and must have empty combat effects');

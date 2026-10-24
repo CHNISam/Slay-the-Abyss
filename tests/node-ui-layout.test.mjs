@@ -86,6 +86,8 @@ test('each screen keeps its readable elements and buttons free of sibling overla
       // The chest hit area deliberately covers the closed/open pictures; the hint is replaced by the reward row.
       if (view === 'treasureView' && ([a.name, b.name].includes('chest') || ([a.name, b.name].includes('hint') && [a.name, b.name].includes('reward')))) continue;
       if (view === 'treasureView' && ['closed', 'open'].includes(a.name) && ['closed', 'open'].includes(b.name)) continue;
+      // Closed-chest copy disappears before the Boss candidate selector appears.
+      if (view === 'treasureView' && [a.name, b.name].includes('hint') && [a.name, b.name].some(n => ['page', 'previous', 'next'].includes(n))) continue;
       assert.ok(!overlaps(bounds(a), bounds(b)), `${view}: ${a.name} overlaps ${b.name}`);
     }
   }

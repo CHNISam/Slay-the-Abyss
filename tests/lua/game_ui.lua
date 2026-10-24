@@ -93,14 +93,14 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow == nil)
 end)
 
-test("node panels compose through fifteen generated rows and Boss16 then restart", function()
+test("node panels compose through Boss16, independent treasure17 then restart", function()
     -- Keep the real rules, commands and UI. Low-HP fixture isolates routing from balance.
     local data = Combat.copy(Data)
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP flow fixture
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
     local seen,seenEvents = {},{}
-    for floor = 1, data.rules.map.bossFloor do
+    for floor = 1, data.rules.map.floors do
         local node = Nodes.available(ui.run, ui.map)[1]
         assert(node and node.floor == floor)
         local slot
@@ -160,14 +160,14 @@ test("node panels compose through fifteen generated rows and Boss16 then restart
             end
         end
         assert(ui.map.floor == floor and ui.run.nodeFlow.complete)
-        assert(ui.mode == (floor == data.rules.map.bossFloor and "victory" or "map"))
+        assert(ui.mode == (floor == data.rules.map.floors and "victory" or "map"))
     end
     -- Optional shop/event/elite rooms are no longer artificially forced on every route.
     for _, kind in ipairs({"combat", "treasure", "camp", "boss"}) do assert(seen[kind], "missing mandatory panel " .. kind) end
     local eventCount=0;for _ in pairs(seenEvents) do eventCount=eventCount+1 end
     assert(eventCount>=2,'same real map route must reach multiple different events')
     assert(root:GetChild("menuPanel"):GetChild("title").text == "深渊已被封印")
-    assert(statValue(root, "floor") == data.rules.map.bossFloor .. " / " .. data.rules.map.bossFloor)
+    assert(statValue(root, "floor") == data.rules.map.floors .. " / " .. data.rules.map.floors)
     assert(resultText(root, "subtitle") == "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。")
     preview("victory", resultText(root, "subtitle"))
     click(root, "menuPanel", "start")
@@ -201,7 +201,8 @@ test("same-run result records active time and victories, freezes on results and 
     assert(ui.run.elapsedSeconds == 63.25)
     assert(ui:start() and ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
     ui:update(3)
-    ui.run.nodeFlow = {complete=true, result="boss_victory"}
+    ui.run.phase = "victory"
+    ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"}
     ui:refresh() ui:update(100)
     assert(ui.run.elapsedSeconds == 3)
     assert(statValue(root, "time") == "00:03")
@@ -225,8 +226,8 @@ test("result settlement sends each outcome once and cannot restart while officia
     assert(not ui:start() and not root:GetChild("menuPanel"):GetChild("start").visible)
     ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory end)
     assert(ui:start())
-    ui.run.phase = "map"
-    ui.run.nodeFlow = {complete=true, result="boss_victory"}
+    ui.run.phase = "victory"
+    ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"}
     ui:refresh() assert(ui.mode == "victory")
     assert(click(root, "menuPanel", "settle"))
     assert(#outcomes == 2 and outcomes[2] == true)
@@ -282,7 +283,7 @@ test("result page shows only the recorded run stats in the approved four cells",
     assert(menu:GetChild("result").visible and not menu:GetChild("summary").visible and not menu:GetChild("tagline").visible)
     assert(menu:GetChild("title").text == "旅途在此中断")
     assert(resultText(root, "subtitle") == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
-    assert(statValue(root, "floor") == ui.map.floor .. " / " .. Data.rules.map.bossFloor)
+    assert(statValue(root, "floor") == ui.map.floor .. " / " .. Data.rules.map.floors)
     assert(statValue(root, "victories") == "7" and statValue(root, "time") == "62:05")
     assert(statValue(root, "deck") == tostring(#ui.run.deck))
     local labels = {}
@@ -297,7 +298,7 @@ test("result page shows only the recorded run stats in the approved four cells",
     end
     assert(menu:GetChild("start"):GetChild("label").text == "重新启程")
     assert(resultText(root, "status"):find("不会提交", 1, true))
-    ui.run.phase = "map" ui.run.nodeFlow = {complete=true, result="boss_victory"} ui:refresh()
+    ui.run.phase = "victory" ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"} ui:refresh()
     assert(menu:GetChild("title").text == "深渊已被封印" and resultText(root, "detail"):find("生命 33 / ", 1, true))
     assert(resultText(root, "subtitle") == "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。")
 end)
@@ -322,7 +323,7 @@ test("repeated settlement clicks, clicks during reveal and restart attempts subm
     -- A fresh host (platform Retry reloads the stage) may settle its own result once.
     ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory return true end)
     hit = root:GetChild("menuPanel"):GetChild("settle"):GetChild("hit")
-    assert(ui:start()) ui.run.phase = "map" ui.run.nodeFlow = {complete=true, result="boss_victory"} ui:refresh()
+    assert(ui:start()) ui.run.phase = "victory" ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"} ui:refresh()
     assert(hit.click() == true and hit.click() == false)
     assert(#outcomes == 2 and outcomes[2] == true)
 end)
