@@ -66,7 +66,7 @@ local function fixture(data, settle, music, cursorEvents, prologue, sound)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
-        { imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
+        { seed = 1, imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
           prologue = prologue == true, sound = sound })
     root.ui = ui
     return ui, root
