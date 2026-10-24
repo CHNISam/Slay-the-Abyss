@@ -441,7 +441,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         more:SetAnchoredPosition(x, cursor - I.summary / 2)
         more.text = #entries == 0 and "暂无状态" or "另有 " .. (#entries - I.rows) .. " 项状态未列出"
         panel:SetVisible(true)
-        panel:GetChild("hit").interactable = not info.transient
+        panel:GetChild("hit"):SetVisible(not info.transient)
         panel.disableCursorEventPassthrough = not info.transient
         panel:SetAsLastSibling()
     end

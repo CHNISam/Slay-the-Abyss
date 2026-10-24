@@ -46,7 +46,7 @@ test("hover opens a read-only tooltip and exits without changing combat or targe
     local info=p:GetChild("statusInfo")
     assert(info.visible and info:GetChild("name1").text=="脆弱 2 · 减益")
     assert(info:GetChild("text1").text:find("25%",1,true))
-    assert(not info:GetChild("hit").interactable,"hover must not cover the play surface with a modal hit")
+    assert(not info:GetChild("hit").visible,"hover must not cover the play surface with a modal hit")
     emit(hit,"exit");assert(not info.visible)
     assert(s.player.hp==before.player.hp and s.seed==before.seed and #s.events==#before.events and u.target==target)
 end)
