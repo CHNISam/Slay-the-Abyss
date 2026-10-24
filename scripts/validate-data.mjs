@@ -197,6 +197,44 @@ export function validateContent(bundle) {
     if (!Object.keys(upgrade).some(key => allowed.includes(key))) fail(path, 'must change at least one field');
   }
   lists.cards.forEach((entry, i) => card(entry, `cards[${i}]`));
+  const pools = bundle.cards.sourcePools;
+  if (object(pools, 'cards.sourcePools')) {
+    const classCards=lists.cards.filter(c=>c.type!=='status' && c.type!=='curse' && c.rarity!=='basic');
+    const byId=new Map(classCards.map(c=>[c.id,c]));
+    for (const kind of ['reward','src']) {
+      const seen=new Set();
+      if (!object(pools[kind], `cards.sourcePools.${kind}`)) continue;
+      for (const rarity of ['common','uncommon','rare']) {
+        for (const [i,id] of array(pools[kind][rarity],`cards.sourcePools.${kind}.${rarity}`).entries()) {
+          const path=`cards.sourcePools.${kind}.${rarity}[${i}]`;
+          if (!byId.has(id) || byId.get(id).rarity!==rarity) fail(path,'must be a class card of this rarity');
+          if (seen.has(id)) fail(path,'duplicate class card');
+          seen.add(id);
+        }
+      }
+      for (const c of classCards) if (!seen.has(c.id)) fail(`cards.sourcePools.${kind}`,`missing class card ${c.id}`);
+    }
+    if (object(pools.shop,'cards.sourcePools.shop')) {
+      const seen=new Set();
+      for (const rarity of ['common','uncommon','rare']) {
+       if (!object(pools.shop[rarity],`cards.sourcePools.shop.${rarity}`)) continue;
+       for (const type of ['attack','skill','power']) {
+        const list=pools.shop[rarity][type];
+        if (!Array.isArray(list)) { fail(`cards.sourcePools.shop.${rarity}.${type}`,'must be an array'); continue; }
+        let previous;
+        for (const [i,id] of list.entries()) {
+          const path=`cards.sourcePools.shop.${rarity}.${type}[${i}]`, c=byId.get(id);
+          if (!c || c.type!==type || c.rarity!==rarity) fail(path,'must be a class card of this type and rarity');
+          if (seen.has(id)) fail(path,'duplicate class card');
+          if (c && (typeof c.sourceId!=='string' || previous!==undefined && previous>=c.sourceId)) fail(path,'must be ordered by unique original card ID');
+          if (c) previous=c.sourceId;
+          seen.add(id);
+        }
+       }
+      }
+      for (const c of classCards) if (!seen.has(c.id)) fail('cards.sourcePools.shop',`missing class card ${c.id}`);
+    }
+  }
   const starter = bundle.cards?.starter_deck;
   if (object(starter, 'cards.starter_deck')) array(starter.cards, 'cards.starter_deck.cards').forEach((id, i) => reference(id, 'cards', `cards.starter_deck.cards[${i}]`));
   lists.statuses.forEach((entry, i) => {

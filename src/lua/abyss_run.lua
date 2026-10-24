@@ -1,6 +1,5 @@
 -- Same-run deck and reward ownership. Platform/UI adapters issue these commands.
 local Combat = require("abyss_combat")
-local Effects = require("abyss_effects")
 local Inventory = require("abyss_inventory")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
@@ -67,6 +66,7 @@ function M.startCombat(run, encounterId)
     local battle
     battle, reason = Combat.new(combatData, { seed = run.seed, hp = run.hp,maxHp=run.maxHp, gold = run.gold, deck = run.deck, enemies = enemies,
         cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),
+        shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),
         beforeOpeningDraw = function(state) return Inventory.applyOpening(state, opening.beforeDraw) end })
     if not battle then return false, reason end
     -- Queue-tail relics follow the ordinary draw, retaining their held order.
@@ -77,18 +77,6 @@ function M.startCombat(run, encounterId)
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
     return true
-end
-
-local function rewardCandidates(run)
-    local candidates = {}
-    for _, card in ipairs(run.data.cards.cards) do
-        if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special"
-            -- Boss rewards are rare-only; other tiers retain their current pool.
-            and (run.encounterTier ~= "boss" or card.rarity == "rare")
-            and Effects.supported(card.effects) then candidates[#candidates + 1] = card.id end
-    end
-    return candidates
 end
 
 function M.finishCombat(run)
@@ -272,6 +260,7 @@ end
 local function potionCandidate(run, slot, targetIndex)
     if run.phase ~= "combat" then return nil, "not_in_combat" end
     if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end
+    if run.combat.pendingChoice or run.combat.cardActions then return nil,"card_choice_pending" end
     if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
         return nil, "invalid_potion_slot"
     end

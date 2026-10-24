@@ -276,9 +276,10 @@ end
 function M.block(state, actor, amount, fixed)
     local before = actor.block
     -- Cap the final state, not the modifier calculation or its float precision.
-    actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
+    local gained=M.blockAmount(state, actor, amount, fixed)
+    actor.block = math.min(999, actor.block + 0.0 + gained)
     Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
-    if actor==state.player and actor.block>before and (actor.statuses.juggernaut or 0)>0 then
+    if actor==state.player and gained>0 and (actor.statuses.juggernaut or 0)>0 then
         enqueue(state,{op="damageRandom",value=actor.statuses.juggernaut,fixed=true},actor)
     end
 end

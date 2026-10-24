@@ -196,7 +196,7 @@ function M.apply(combat,state,item)
         Actors.resolveDamageReactions(state,reactions,combat.retaliate)
         M.enqueue(state,{op="heal",value=healed},source)
     elseif op=="playTop" then
-        combat.autoplayTop(state)
+        combat.autoplayTop(state,e.targetIndex)
     elseif op=="block" and e.fixed then combat.block(state,source,value,true)
     elseif op=="heal" then
         if source.hp>0 then
@@ -204,7 +204,6 @@ function M.apply(combat,state,item)
             source.hp=source.hp+amount
             Events.emit(state,"heal",{target=source.id,amount=amount})
         end
-    elseif op=="repeatCard" then combat.repeatCard(state,e)
     elseif op=="dispose" then
         combat.disposeCard(state,item)
     elseif op=="effectBatch" then combat.applyEffects(state,e.effects,source,target,c)
@@ -217,12 +216,16 @@ local retained={dispose=true,damage=true,damageAll=true,damageRandom=true,block=
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true
-    while state.cardActions and #state.cardActions>0 and not state.pendingChoice do
-        local item=table.remove(state.cardActions,1)
+    while not state.pendingChoice do
         local outcome=combat.outcome(state)
-        if not outcome or outcome=="victory" and retained[item.effect.op] then M.apply(combat,state,item) end
+        if state.cardActions and #state.cardActions>0 then
+            local item=table.remove(state.cardActions,1)
+            if not outcome or outcome=="victory" and retained[item.effect.op] then M.apply(combat,state,item) end
+        elseif not outcome and state.queuedCards and #state.queuedCards>0 then
+            combat.resolveQueuedCard(state,table.remove(state.queuedCards,1))
+        else break end
     end
     state.drainingCardActions=nil
-    if not state.pendingChoice then state.cardActions=nil; state.resolvingCard=nil end
+    if not state.pendingChoice then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
 end
 return M

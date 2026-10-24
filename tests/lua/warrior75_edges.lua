@@ -181,4 +181,22 @@ test('repeated Corruption does not emit a second zero-stack power application',f
     for _,e in ipairs(s.events) do if e.kind=='status' and e.detail.status=='corruption' then after=after+1 end end
     eq(after,1);eq(#s.exhaust,0)
 end)
+test('Havoc disposes before its queued card draws, allowing that draw to reshuffle Havoc',function()
+    local s=battle({'havoc'});local havoc=s.hand[1];s.draw={newCard(s,'pommel_strike')}
+    play(s);eq(#s.hand,1);eq(s.hand[1],havoc);eq(s.exhaust[1].cardId,'pommel_strike');eq(s.enemies[1].hp,491)
+end)
+test('Double Tap Fiend Fire waits for exhaust draw tails before the repeated hand snapshot',function()
+    local s=battle({'fiend_fire','defend','strike'});s.player.statuses.double_tap=1;s.player.statuses.dark_embrace=1
+    for _=1,6 do s.draw[#s.draw+1]=newCard(s,'strike') end
+    play(s);eq(s.enemies[1].hp,465);eq(#s.hand,3);eq(#s.exhaust,6)
+end)
+test('Juggernaut still triggers a positive Block request at the 999 Block cap',function()
+    local s=battle({'defend'});s.player.block=999;s.player.statuses.juggernaut=5
+    play(s);eq(s.player.block,999);eq(s.enemies[1].hp,495)
+end)
+test('Double Tap keeps its original target when the first hit kills it',function()
+    local s=battle({'strike'});local other=C.copy(s.enemies[1]);other.id='other';s.enemies[2]=other
+    s.player.statuses.double_tap=1;s.enemies[1].hp=6
+    play(s);eq(other.hp,500);eq(#s.discard,1);eq(#s.exhaust,0)
+end)
 print('Warrior75 edges: '..N..' groups passed; not platform acceptance.')

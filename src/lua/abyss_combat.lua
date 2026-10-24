@@ -127,6 +127,7 @@ local function splitEnemy(state, parent)
 end
 
 local function shuffle(state, pile)
+    if state.shuffleRng then CardRandom.shuffle(state.shuffleRng,pile); return end
     for i = #pile, 2, -1 do
         local j = M.random(state, i)
         pile[i], pile[j] = pile[j], pile[i]
@@ -190,6 +191,19 @@ end
 
 function M.draw(state, count)
     if state.player.noDraw then return end
+    if state.shuffleRng then
+        if count<=0 or #state.draw+#state.discard==0 or #state.hand>=state.rules.player.maxHand then return end
+        count=math.min(count,state.rules.player.maxHand-#state.hand)
+        local oldSize=#state.draw
+        if count>oldSize then
+            if oldSize>0 then M.draw(state,oldSize) end
+            shuffle(state,state.discard)
+            state.draw,state.discard=state.discard,{}
+            event(state,"reshuffle")
+            M.draw(state,count-oldSize)
+            return
+        end
+    end
     for _ = 1, count do
         -- Full hands stop drawing before touching either pile or the shuffle RNG.
         if #state.hand >= state.rules.player.maxHand then break end
@@ -361,9 +375,10 @@ local function savePlayState(state, playedCard)
                 and k~="ai" and k~="frame" then mutable(v) end
         end
     end
-    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust,state.cardActions or {}}) do mutable(pile) end
+    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust,state.cardActions or {},state.queuedCards or {}}) do mutable(pile) end
     if state.pendingChoice then mutable(state.pendingChoice) end
     if state.cardRandomRng then mutable(state.cardRandomRng) end
+    if state.shuffleRng then mutable(state.shuffleRng) end
     save(playedCard)
     return function()
         for original, values in pairs(saved) do
@@ -373,17 +388,21 @@ local function savePlayState(state, playedCard)
     end
 end
 
-local function queuePlay(state, uid, targetIndex, instance, card, free, forceExhaust, purge, top)
+local function queuePlay(state, uid, targetIndex, instance, card, free, forceExhaust, purge, top, energyOnUse)
     state.resolvingCard = true
     state.cardInUse=instance
     local reactions = EnemyAI.cardReactions(state, card)
-    local x=state.energy
+    local x=energyOnUse or state.energy
     if not free then state.energy=state.energy-(card.costMode=="all_energy" and state.energy or card.cost) end
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     local items={}
     for i,effect in ipairs(card.effects) do
         if not (effect.targetGroup and card.effects[i-1] and card.effects[i-1].targetGroup) then
             local e=copy(effect)
+            if e.op=="playTop" then
+                local pool={}; for j,enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then pool[#pool+1]=j end end
+                if #pool>0 then e.targetIndex=pool[M.cardRandom(state,#pool)] end
+            end
             if e.op=="damage" or e.op=="damageAll" or e.op=="fiendFire" or e.op=="feed"
                 or e.op=="reaper" or e.op=="damageRandom" or e.op=="damageEqualToBlock" then
                 e.resolved={}
@@ -414,7 +433,8 @@ local function queuePlay(state, uid, targetIndex, instance, card, free, forceExh
     local repeats=card.type=="attack" and not purge and (state.player.statuses.double_tap or 0)>0
     if repeats then
         state.player.statuses.double_tap=state.player.statuses.double_tap-1
-        items[#items+1]={op="repeatCard",card=copy(instance),targetIndex=targetIndex}
+        state.queuedCards=state.queuedCards or {}
+        table.insert(state.queuedCards,1,{card=copy(instance),targetIndex=targetIndex,energyOnUse=x,purge=true})
     end
     if top then
         for i=#items,1,-1 do CardActions.enqueue(state,items[i],state.player,state.enemies[targetIndex],instance,true) end
@@ -451,32 +471,34 @@ function M.chooseCard(state,token,uid)
     return ok,reason
 end
 
-function M.repeatCard(state,e)
+function M.resolveQueuedCard(state,e)
     local target=state.enemies[e.targetIndex]
-    if target and not Actors.isActive(target) then
-        local pool={}; for i,v in ipairs(state.enemies) do if Actors.isActive(v) then pool[#pool+1]=i end end
-        if #pool==0 then return end
-        e.targetIndex=pool[M.cardRandom(state,#pool)]
-    end
     local c=e.card
-    queuePlay(state,c.uid,e.targetIndex,c,M.cardDefinition(state,c),true,false,true,true)
+    local d=M.cardDefinition(state,c)
+    -- A queued targeted card whose original target died is removed from limbo;
+    -- it does not retarget, execute, or emit a real exhaust event.
+    if d.target=="ENEMY" and (not target or not Actors.isActive(target)) then return end
+    local invalid=d.cost==-2 or d.type=="attack" and (state.player.statuses.entangled or 0)>0
+    if d.condition=="only_attacks_in_hand" then
+        for _,held in ipairs(state.hand) do if state.catalog.cards[held.cardId].type~="attack" then invalid=true end end
+    end
+    if invalid then
+        if not e.purge then CardActions.exhaust(M,state,c) end
+        return
+    end
+    queuePlay(state,c.uid,e.targetIndex,c,d,true,e.autoplay,e.purge,true,e.energyOnUse)
 end
 
-function M.autoplayTop(state)
+function M.autoplayTop(state,targetIndex)
     if #state.draw==0 then
         if #state.discard==0 then return end
         state.draw,state.discard=state.discard,{}; shuffle(state,state.draw); event(state,"reshuffle")
     end
     local c=table.remove(state.draw)
-    local d=M.cardDefinition(state,c)
-    local targets={}; for i,v in ipairs(state.enemies) do if Actors.isActive(v) then targets[#targets+1]=i end end
-    local target=#targets>0 and targets[M.cardRandom(state,#targets)] or nil
-    local invalid=d.cost==-2 or d.type=="attack" and (state.player.statuses.entangled or 0)>0
-    if d.condition=="only_attacks_in_hand" then
-        for _,held in ipairs(state.hand) do if state.catalog.cards[held.cardId].type~="attack" then invalid=true end end
-    end
-    if invalid then CardActions.exhaust(M,state,c);return end
-    queuePlay(state,c.uid,target,c,d,true,true,false,true)
+    -- Like the original cardQueue, activation waits until all actions from the
+    -- current card (including its disposal and exhaust callbacks) have drained.
+    state.queuedCards=state.queuedCards or {}
+    table.insert(state.queuedCards,1,{card=c,autoplay=true,targetIndex=targetIndex})
 end
 
 function M.play(state, uid, targetIndex)
@@ -523,6 +545,9 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     CardActions.drain(M,state)
     if finish(state) then return end
     M.draw(state, state.rules.player.drawPerTurn)
+    if state.turn==1 and state.openingInnateExtra then
+        M.draw(state,state.openingInnateExtra);state.openingInnateExtra=nil
+    end
     if (p.statuses.brutality or 0)>0 then
         CardActions.enqueue(state,{op="draw",value=p.statuses.brutality})
         CardActions.enqueue(state,{op="loseHp",value=p.statuses.brutality})
@@ -657,6 +682,7 @@ function M.new(data, options)
             statuses = index(copy(data.statuses.statuses)) },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         cardRandomRng=CardRandom.fromSeed(options.cardRandomSeed or string.format('%.0f',options.seed or 1)),
+        shuffleRng=options.shuffleSeed and CardRandom.fromSeed(options.shuffleSeed) or nil,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     Actors.bindStatuses(state.player, state.catalog.statuses)
@@ -684,6 +710,7 @@ function M.new(data, options)
     end
     for _,c in ipairs(innate) do ordinary[#ordinary+1]=c end
     state.draw=ordinary
+    if #innate>rules.player.drawPerTurn then state.openingInnateExtra=#innate-rules.player.drawPerTurn end
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
     for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, M.random) end
