@@ -2284,6 +2284,65 @@
       }
     ],
     "archivedM1TaskCount": 14,
-    "archivedM1IncompleteTaskCount": 0
-  }
+    "archivedM1IncompleteTaskCount": 0,
+    "laterShopIntegration": {
+      "sourceCommit": "53a52bb3cd4c2e49fa2abe83d9f8e7155e433b99",
+      "pr": 163,
+      "task": "TASK-13.1",
+      "status": "In Progress",
+      "assignees": [
+        "@Codex"
+      ],
+      "milestone": "m-4",
+      "taskNotesPreserved": true,
+      "platformAcceptanceComplete": false,
+      "handoffTasks": [
+        "TASK-13.1",
+        "TASK-12.3",
+        "TASK-12.5",
+        "TASK-47"
+      ]
+    }
+  },
+  "inFlightWorktreeTasks": [
+    {
+      "id": "TASK-50",
+      "title": "战后选牌改为居中独立界面",
+      "status": "In Progress",
+      "milestone": "m-5",
+      "dueDate": "2026-10-28",
+      "assignees": [
+        "@Codex"
+      ],
+      "acceptanceCriteria": [
+        {
+          "index": 1,
+          "text": "战斗手牌仍在底部，战后奖励卡牌位于屏幕中心区域，一眼能和出牌状态区分",
+          "checked": false
+        },
+        {
+          "index": 2,
+          "text": "悬停放大不遮挡相邻卡牌，点击一次只领取一张，可正常跳过，选完后不残留界面",
+          "checked": false
+        },
+        {
+          "index": 3,
+          "text": "实机截图或录屏确认长说明卡牌完整可读（电脑鼠标和手机触屏各一次）",
+          "checked": false
+        }
+      ],
+      "sourceBranch": "feat/reward-card-pick-ui",
+      "registrationSourceCommit": "c47394630ad1f8c5aac3531ae425c44ea9572c2d",
+      "registrationIncludedInThisPr": true,
+      "runtimeChangesIncluded": false,
+      "officialImport": "NOT_TESTED",
+      "playtest": "NOT_TESTED",
+      "remainingDeliveryTasks": [
+        "TASK-50",
+        "TASK-4",
+        "TASK-5"
+      ],
+      "note": "Registered existing worktree task by CLI owner/due/handoff edit and a task-only Git commit/cherry-pick; original uncommitted runtime files preserved."
+    }
+  ]
 }

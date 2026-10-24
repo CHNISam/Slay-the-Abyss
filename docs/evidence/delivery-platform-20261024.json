@@ -414,11 +414,11 @@
     "verifyUi": "NOT_RUN: no claim of UI acceptance"
   },
   "laterSourceReconciliation": {
-    "currentDevelop": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
+    "currentDevelop": "53a52bb3cd4c2e49fa2abe83d9f8e7155e433b99",
     "frozenCandidateSource": "3bd3afafc3898ecce23f4d303b9508b8dc3dba2a",
     "candidateIncludesLaterCardHelpReleaseFix": true,
     "isFinalRc": false,
-    "nextAction": "TASK-34 official-import/audition this explicitly frozen candidate; TASK-25/4/5 rebuild a unified art/audio/device candidate when assets or runtime source advance. It is not an accepted RC.",
+    "nextAction": "Candidate remains a minimal offline audio integration pinned to3bd3afa. Latest develop also includes PR163 shop; TASK-34/25/4/5 must rebuild a unified candidate from latest source for combined release/device acceptance. No old screenshot or audio result applies to it.",
     "panelReview": {
       "task": "TASK-10.5.1",
       "sourceCommit": "c0f20766519a248f1a02df60985f3a832aa529b1",
@@ -439,7 +439,8 @@
           "sha256": "fbbc0cebf8d19347eae19123b7d8c6c99f11290d27e4eedb192f23a9f9281c16"
         }
       ]
-    }
+    },
+    "candidateIncludesLaterShopPr163": false
   },
   "previousValidatedCandidate": {
     "sourceCommit": "0b1d460048ea8e228f61f1696d5e39b116b86b59",

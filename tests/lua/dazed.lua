@@ -110,7 +110,8 @@ test("status type stays outside reward and shop pools even with a supported fixt
   local shop
   for _,node in ipairs(available) do if node.type=="shop" then shop=node end end
   if shop then
-   assert(Nodes.enter(run,map,shop.id));eq(#run.nodeFlow.cards,0)
+   assert(Nodes.enter(run,map,shop.id));eq(#run.nodeFlow.cards,7)
+   for _,o in ipairs(run.nodeFlow.cards) do assert(o.unavailable and o.id~='dazed') end
    return
   end
   assert(Map.choose(map,available[1].id))

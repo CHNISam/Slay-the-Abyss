@@ -8,9 +8,9 @@ local Effects = require("abyss_effects")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local EventRandom = require("abyss_sts_random")
+local Shop = require("abyss_shop")
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
-local priceKeys = { common = "cardCommon", uncommon = "cardUncommon", rare = "cardRare" }
 
 local function find(entries, id, field)
     for i, entry in ipairs(entries) do if entry[field or "id"] == id then return entry, i end end
@@ -64,7 +64,7 @@ end
 local function unownedRelics(run)
     local result = {}
     for _, relic in ipairs(run.data.relics.relics) do
-        if relic.rarity ~= "starter" and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
+        if relic.rarity ~= "starter" and relic.rarity ~= 'shop' and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
     end
     table.sort(result)
     return result
@@ -91,17 +91,7 @@ local function prepare(run, node, miscRng)
     if node.type == "camp" then
         flow.upgradesLeft = run.data.rules.camp.upgradeCount
     elseif node.type == "shop" then
-        flow.cards, flow.relics = {}, {}
-        for _, card in ipairs(run.data.cards.cards) do
-            local key = priceKeys[card.rarity]
-            if key and playable(card) then
-                flow.cards[#flow.cards + 1] = { id = card.id, price = run.data.rules.shop[key], sold = false }
-            end
-        end
-        for _, id in ipairs(unownedRelics(run)) do
-            flow.relics[#flow.relics + 1] = { id = id, price = run.data.rules.shop.relic, sold = false }
-        end
-        table.sort(flow.cards, function(a, b) return a.id < b.id end)
+        for k,v in pairs(Shop.prepare(run)) do flow[k]=v end
     elseif node.type == "treasure" then
         local relics = unownedRelics(run)
         flow.reward = #relics > 0 and { relicId = relics[Combat.random(random, #relics)] }
@@ -201,6 +191,7 @@ function M.enter(run, map, nodeId)
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
+    if flow.type == 'shop' then run.shopRng=flow.shopRng end
     return true
 end
 
@@ -214,8 +205,7 @@ function M.view(run, map)
             node.upgradeCards = upgradeCards(run)
             node.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * run.data.rules.camp.healPercent / 100))
         elseif node.type == "shop" then
-            node.removePrice = run.data.rules.shop.removeCard
-                + (run.shopRemoveCount or 0) * run.data.rules.shop.removeCardIncrement
+            node.removePrice = Shop.removePrice(run)
             node.removeAvailable = not node.removalUsed
         elseif node.type == "event" then
             local rules = run.data.rules.events[node.event.id] or {}
@@ -253,23 +243,62 @@ function M.upgrade(run, uid)
     return true
 end
 
-local function purchase(run, category, id)
+local function purchase(run, category, reference, bySlot)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
-    local offer = find(flow[category], id)
-    if not offer or offer.sold or (category == "relics" and owns(run.relics, id)) then
+    local offer
+    if bySlot or category=='potions' then offer=flow[category][reference]
+    elseif category=='cards' then
+        -- Courier may legitimately stock the same card at different prices.
+        -- Keep the ID API only when it identifies exactly one shelf offer.
+        for _, candidate in ipairs(flow.cards) do
+            if candidate.id==reference then
+                if offer then return false,'item_unavailable' end
+                offer=candidate
+            end
+        end
+    else offer=find(flow[category],reference) end
+    local id=offer and offer.id
+    if not offer or offer.sold or offer.unavailable or (category == "relics" and owns(run.relics, id)) then
         return false, "item_unavailable"
     end
     if run.gold < offer.price then return false, "insufficient_gold" end
+    if category=='potions' then
+        if Shop.owns(run,'sozu') then return false,'potions_blocked' end
+        if Run.potionCount(run)>=run.data.rules.player.potionSlots then return false,'potion_slots_full' end
+        if not find(run.data.potions.potions,offer.id) then return false,'unknown_potion' end
+    end
+    -- Stage discounts and restock before charging or granting anything. An
+    -- invalid stream/content adapter must not leave half a purchase committed.
+    local stagedRun,stagedFlow={},Combat.copy(flow)
+    for k,v in pairs(run) do stagedRun[k]=v end
+    if category=='relics' then
+        stagedRun.relics=Combat.copy(run.relics)
+        stagedRun.relics[#stagedRun.relics+1]=id
+    end
+    local called=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
+    if not called then return false,'shop_content_unavailable' end
     if category == "cards" then
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
+    elseif category=='potions' then
+        local ok,why=Run.obtainPotion(run,offer.id);if not ok then return false,why end
     else run.relics[#run.relics + 1] = id end
-    run.gold, offer.sold = run.gold - offer.price, true
+    run.gold = run.gold - offer.price
+    flow.cards,flow.relics,flow.potions,flow.shopRng=stagedFlow.cards,stagedFlow.relics,stagedFlow.potions,stagedFlow.shopRng
+    run.shopRng=flow.shopRng
     return true
 end
 
 function M.buyCard(run, id) return purchase(run, "cards", id) end
+function M.buyCardSlot(run, slot)
+    if type(slot)~='number' or slot%1~=0 or slot<1 or slot>7 then return false,'item_unavailable' end
+    return purchase(run,'cards',slot,true)
+end
 function M.buyRelic(run, id) return purchase(run, "relics", id) end
+function M.buyPotion(run, slot)
+    if type(slot)~='number' or slot%1~=0 or slot<1 or slot>3 then return false,'item_unavailable' end
+    return purchase(run,'potions',slot)
+end
 
 function M.removeCard(run, uid)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
@@ -278,8 +307,7 @@ function M.removeCard(run, uid)
     local instance, position = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if #run.deck <= 1 then return false, "last_card" end -- Combat.new requires a nonempty permanent deck.
-    local price = run.data.rules.shop.removeCard
-        + (run.shopRemoveCount or 0) * run.data.rules.shop.removeCardIncrement
+    local price = Shop.removePrice(run)
     if run.gold < price then return false, "insufficient_gold" end
     table.remove(run.deck, position)
     run.gold, run.shopRemoveCount = run.gold - price, (run.shopRemoveCount or 0) + 1

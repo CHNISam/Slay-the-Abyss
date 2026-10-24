@@ -51,7 +51,7 @@ for _,boundary in ipairs({"page","overlay","refresh"}) do
  test("stale shop card after "..boundary,function()
     local ui,root=setup(); local h=hit(root,"shopView/card1")
     emit(h,"down",11)
-    if boundary=="page" then assert(ui.nodeUI:setPage(2))
+    if boundary=="page" then assert(not ui.nodeUI:setPage(2)); ui:refresh()
     elseif boundary=="overlay" then assert(ui:openDeck()); assert(ui:closeDeck())
     else ui:refresh() end
     local gold,n=ui.run.gold,#ui.run.deck

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 06:57'
-updated_date: '2026-10-24 07:45'
+updated_date: '2026-10-24 08:02'
 due_date: '2026-10-28'
 labels:
   - launch
@@ -48,6 +48,8 @@ ordinal: 84000
 最终并行同步PR165：M1原13项已Done并归档，文档冲突保留其真实证据。直接查看同源原生截图收口10.5.1 AC4，现m-2为14/14 Done；不重开M1，主冲刺M2。0b1d460 BGM候选保持冻结身份，未含后续短按修复，不当当前RC；后续验收由34/25/4/5统一重建。
 
 最终候选已补至最新3bd3afa运行源，40模块/UI/双true参数/原生图身份再次读回通过；hash f699624e98f326e208d0752d6e17a6ad46a541bdd59f272310ae7a1b37df4deb，含PR165短按修复。官方导入和试听仍未通过。
+
+收尾补查根工作树TASK-50：通过CLI补@Codex、10/28和正式集成/平台交接，原生任务登记单独提交后Git纳入本PR，未复制任何奖励界面源码脏改。同步PR163商店接线采用其完整任务记录，只经CLI修复13.1负责人，平台AC保持未勾。CI首次失败为检出阶段curl56/early EOF，规则测试未执行，不能当测试绿；最终SHA重新跑完整CI。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
