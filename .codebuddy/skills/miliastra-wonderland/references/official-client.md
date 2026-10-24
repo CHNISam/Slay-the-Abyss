@@ -26,7 +26,19 @@ Start-Process -FilePath 'C:\Program Files\nodejs\node.exe' -ArgumentList ('"' + 
 {"label":"unique-label","name":"list_editor_windows","arguments":{}}
 ```
 
-实际工具名/参数从本轮 tool-schemas 取。窗口编号必须由本轮发现。辅助操作 `focus-capture` 接受 `{windowId}`，在同一宿主里置前后立刻拍 screen；`focus-input` 接受 `{windowId,kind,...}`，置前取得新 captureId 后只输入一次。其余操作直接调用 MCP。结果与图片保存到会话目录；`.done` 只表示请求已处理，须读结果是否报错。结束后创建 `queue/STOP`。先结束仍在运行的试玩，再停宿主。
+实际工具名/参数从本轮 tool-schemas 取。窗口编号必须由本轮发现。辅助操作 `focus-capture` 接受 `{windowId}`，在同一宿主里置前后立刻拍 screen；`focus-input` 接受 `{windowId,kind,...}`，仅供编辑器和文件对话框，置前取得新 captureId 后只输入一次。
+
+**试玩中的额外输入只用绑定本轮会话的 `playtest-input`**，不要用 `focus-input` 或直接 `editor_input` 绕过生命周期检查。`runId` 取本宿主实际启动结果，`windowId` 取本轮真实窗口，坐标取新截图；不可沿用终态运行的旧坐标序列。例如：
+
+```json
+{"label":"battle-select-01","name":"playtest-input","arguments":{"runId":"本轮实际runId","windowId":"本轮实际windowId","kind":"click","x":800,"y":740}}
+```
+
+该操作先用 `playtest_status {runId,waitSeconds:0,includeScreenshots:false}` 核对返回的 `runId`、本会话 `playtests/<runId>` 的 `runDir`、`state=running`，以及已发生 `playing`、尚无 `left-playtest`/`log-collected`；通过后才置前取新 captureId，紧接输入前再查一次同样状态，只发一次 `editor_input`。不按 elapsedSeconds 或计划时长猜测生命周期；状态获取失败、RPC 报错、身份不符、未开始或已退出都拒绝输入。两次状态与置前证据单独保存；`levelEndedAt` 仅表示官方结果页，仍满足上述条件时可以正常点“离开”。
+
+这不是跨 RPC 的绝对原子锁：第二次检查与实际输入之间仍可能退出或被人工切换。每次操作仍须看新画面；发生错误不重发，先重新观察和核对状态。终态后要操作编辑器必须明确切换到编辑器流程，不能把失败的试玩输入改名重试。现有历史 artifact bridge 不会因仓库脚本更新自动获得此守卫；后续新会话使用技能脚本，不回写旧桥接器。
+
+其余操作直接调用 MCP。结果与图片保存到会话目录；`.done` 只表示请求已处理，须读结果是否报错。结束后创建 `queue/STOP`。先结束仍在运行的试玩，再停宿主。
 
 ## 导入与打开
 
