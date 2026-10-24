@@ -13,6 +13,7 @@ local Bgm = require("abyss_bgm")
 local Prologue = require("abyss_prologue")
 local M = {}
 local number = require("abyss_numbers").integer
+local RunSeed = require("abyss_run_seed")
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
@@ -338,13 +339,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         local opening = self.mode == "menu" and not self.prologueSeen
         local explicitSeed = self.seed ~= nil
         local seed = explicitSeed and self.seed or newSeed()
-        assert(type(seed) == "number" and seed == seed and math.abs(seed) <= 9007199254740991
-            and seed % 1 == 0, "new-run seed must be a finite safe integer")
-        local run, map = Run.new(data, seed), Map.generate(data, seed)
-        self.run, self.map, self.runSeed = run, map, seed
+        local rawSeed=RunSeed.normalize(seed)
+        local run, map = Run.new(data, rawSeed), Map.generate(data, rawSeed)
+        self.run, self.map, self.runSeed = run, map, rawSeed
         self.settlementRequested, self.settlementBusy, self.settlementError = false, false, nil
-        if explicitSeed then self.seed = (seed + 1) % 65536 end
-        print("ABYSS_RUN seed=" .. string.format("%.0f", seed)
+        if explicitSeed then self.seed = type(seed)=='number' and (seed + 1) % 65536 or RunSeed.increment(rawSeed) end
+        print("ABYSS_RUN seed=" .. rawSeed
             .. " source=" .. (explicitSeed and "explicit" or "clock"))
         self.battleUI.run, self.battleUI.target = self.run, 1
         self.mapUI.map = self.map

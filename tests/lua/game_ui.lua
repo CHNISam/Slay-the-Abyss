@@ -61,7 +61,7 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(not (intro .. guide):find("十五", 1, true) and not (intro .. guide):find("十七", 1, true))
     preview("menu", guide)
     click(root, "menuPanel", "start")
-    assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 3)
+    assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 2)
     local original = ui.run
     assert(ui:start() == false and ui.run == original)
     click(root, "mapPanel", "node1")
@@ -108,9 +108,11 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP flow fixture
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
+    local route=dofile('tests/lua/support/map_routes.lua').best(ui.map,function(node)return node.type=='event' and 1 or 0 end)
     local seen,seenEvents = {},{}
     for floor = 1, data.rules.map.floors do
-        local node = Nodes.available(ui.run, ui.map)[1]
+        local node
+        for _,available in ipairs(Nodes.available(ui.run,ui.map))do if available.id==route[floor]then node=available;break end end
         assert(node and node.floor == floor)
         local slot
         for i, id in pairs(ui.mapUI.slots) do if id == node.id then slot = i break end end

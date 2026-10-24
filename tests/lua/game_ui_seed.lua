@@ -17,13 +17,13 @@ test("real Host samples normal new-run source on accepted starts only",function(
     local ui=host(nil,function()calls=calls+1;return 42100+calls end)
     assert(calls==0,"menu preview consumed a new-run seed")
     assert(ui:start())
-    assert(calls==1 and ui.run.seed==42101 and ui.map.seed==42101,
+    assert(calls==1 and ui.run.seed==42101 and ui.map.runSeed=='42101' and ui.run.runSeed=='42101',
         "normal Host ignored its new-run source (historically fixed seed=1)")
     assert(ui.run.eventSeed=="42101")
     local original=ui.run
     assert(not ui:start() and calls==1 and ui.run==original)
     ui.run.phase="defeat";ui:refresh()
-    assert(ui:start() and calls==2 and ui.run.seed==42102 and ui.map.seed==42102)
+    assert(ui:start() and calls==2 and ui.run.seed==42102 and ui.map.runSeed=='42102')
     ui.mode="victory"
     assert(ui:start() and calls==3 and ui.run.seed==42103)
 end)
@@ -52,9 +52,24 @@ end)
 
 test("explicit seed zero and rollover keep the established deterministic restart path",function()
     local ui=host(65535,function()error("explicit seed requested entropy")end)
-    assert(ui:start() and ui.run.seed==65535 and ui.map.seed==65535)
+    assert(ui:start() and ui.run.seed==65535 and ui.map.runSeed=='65535')
     ui.run.phase="defeat";ui:refresh()
-    assert(ui:start() and ui.run.seed==0 and ui.map.seed==0)
+    assert(ui:start() and ui.run.seed==0 and ui.map.runSeed=='0')
+end)
+
+test("raw signed64 Host identity survives mutable combat seed and string restart increment",function()
+    local ui=host('2780424839485660359',function()error('explicit raw seed requested entropy')end)
+    assert(ui:start())
+    assert(ui.runSeed=='2780424839485660359' and ui.run.runSeed==ui.runSeed and ui.map.runSeed==ui.runSeed)
+    assert(ui.run.eventSeed==ui.runSeed and ui.map.mapSeed=='2780424839485660360')
+    local snapshot=Map.snapshot(ui.map)
+    ui.run.seed=17 -- The mutable legacy combat stream must never become map identity.
+    assert(ui.map.runSeed==snapshot.runSeed and Map.restore(F.Data,snapshot))
+    ui.run.phase='defeat';ui:refresh();assert(ui:start())
+    assert(ui.runSeed=='2780424839485660360' and ui.map.runSeed==ui.runSeed)
+    local wrapped=host('9223372036854775807')
+    assert(wrapped:start());wrapped.run.phase='defeat';wrapped:refresh();assert(wrapped:start())
+    assert(wrapped.runSeed=='-9223372036854775808' and wrapped.map.mapSeed=='-9223372036854775807')
 end)
 
 test("rejected seed samples cannot replace a run and rendering cannot consume them",function()
@@ -65,7 +80,7 @@ test("rejected seed samples cannot replace a run and rendering cannot consume th
     local run,map=ui.run,ui.map
     ui.run.phase="defeat";ui:refresh()
     assert(not pcall(function()ui:start()end))
-    assert(calls==2 and ui.run==run and ui.map==map and ui.runSeed==28000)
+    assert(calls==2 and ui.run==run and ui.map==map and ui.runSeed=='28000')
 end)
 
 test("native OnStart rereads wall and CPU time after script and module recreation",function()

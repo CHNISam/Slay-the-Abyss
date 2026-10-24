@@ -288,9 +288,10 @@ test("shops keep configured deletion increments and purchases across independent
     source.rules.shop = { cardCommon = 13, cardUncommon = 17, cardRare = 19, relic = 23,
         removeCard = 29, removeCardIncrement = 31 }
     local run, map, shops = Run.new(source, 1), Map.generate(source, 1), 0
+    local route=dofile('tests/lua/support/map_routes.lua').best(map,function(n)return n.type=='shop'and 1 or 0 end)
     local relicId, cardId
     while shops < 2 do
-        local node = Nodes.available(run, map)[1]; assert(node)
+        local node = dofile('tests/lua/support/map_routes.lua').at(map,route[#map.path+1])
         assert(Nodes.enter(run, map, node.id))
         if run.phase == "combat" then
             finishBattle(run); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))

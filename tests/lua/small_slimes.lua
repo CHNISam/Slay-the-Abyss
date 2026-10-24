@@ -47,7 +47,7 @@ local function expected(run)
     local stream=R.cloneState(run.miscRng);local flag=R.randomBoolean(stream)
     return pair(flag),stream
 end
-local function fresh() return Run.new(Data,1),Map.generate(Data,1),'f1_l2' end
+local function fresh() return Run.new(Data,1),Map.generate(Data,1),'f1_l4' end
 
 for _,flag in ipairs({false,true}) do
     test('direct Run selects source '..tostring(flag)..' slots and exactly one current misc Boolean',function()
@@ -112,9 +112,9 @@ for _,flag in ipairs({false,true}) do
     end)
 end
 
-test('normal seed23 plays the first battle then reaches a natural unknown small_slimes combat',function()
-    local run,map=Run.new(Data,23),Map.generate(Data,23)
-    assert(Nodes.enter(run,map,'f1_l2'))
+test('normal seed7 plays the first battle then reaches a natural unknown small_slimes combat',function()
+    local run,map=Run.new(Data,7),Map.generate(Data,7)
+    assert(Nodes.enter(run,map,'f1_l4'))
     -- Original HP, starting deck, enemy values and legal commands throughout.
     for _=1,200 do
         if run.phase~='combat' then break end
@@ -134,10 +134,10 @@ test('normal seed23 plays the first battle then reaches a natural unknown small_
     if run.phase=='reward' then assert(Run.leaveCombatRewards(run)) end
     assert(Nodes.completeCombat(run,map))
     local wanted,stream=expected(run)
-    assert(Nodes.enter(run,map,'f2_l2'))
+    assert(Nodes.enter(run,map,'f2_l4'))
     eq(run.nodeFlow.sourceType,'event');eq(run.nodeFlow.type,'combat');eq(run.encounterId,'small_slimes')
-    same(ids(run.combat),wanted);same(run.miscRng,stream);eq(map.path[1],'f1_l2');eq(map.path[2],'f2_l2')
-    eq(run.floor,2);eq(run.hp,66);eq(run.victories,1)
+    same(ids(run.combat),wanted);same(run.miscRng,stream);eq(map.path[1],'f1_l4');eq(map.path[2],'f2_l4')
+    eq(run.floor,2);eq(run.hp,72);eq(run.victories,1)
 end)
 
 test('invalid, unavailable and mismatched node requests preserve all existing table references',function()

@@ -40,3 +40,28 @@ print('MAP_PRODUCTION_RAW_PASS')`);
 test('production map UI allocates seven columns and all ninety-two source path slots',()=>{
   assert.equal(mapGeometry().lanes,7);assert.equal(mapGeometry().maxNodes,92);
 });
+test('source floor-fourteen elite nodes can enter the real Run through a legal map frontier',()=>{
+  const directory=mkdtempSync(join(tmpdir(),'abyss-map-elite-'));
+  try {
+    const file=join(directory,'case.lua');
+    writeFileSync(file,`local Map,Run,Nodes=require('abyss_map'),require('abyss_run'),require('abyss_nodes')
+local Data=require('abyss_data')
+for _,seed in ipairs({1,42,600})do
+ local m=Map.generate(Data,seed);local index={};local target
+ for _,n in ipairs(m.nodes)do index[n.id]=n;if n.floor==14 and n.type=='elite'then target=n.id end end
+ assert(target)
+ local function route(n)
+  if n.id==target then return {n.id}end
+  if n.floor>=14 then return nil end
+  for _,id in ipairs(n.nextIds)do local path=route(index[id]);if path then table.insert(path,1,n.id);return path end end
+ end
+ local path;for _,n in ipairs(Map.available(m))do path=route(n);if path then break end end
+ assert(path and #path==14)
+ -- Position a legal frontier; this isolates map eligibility, not a full playthrough.
+ for i=1,13 do assert(Map.choose(m,path[i]))end
+ local run=Run.new(Data,seed);assert(Nodes.enter(run,m,target))
+ assert(run.floor==14 and run.encounterTier=='elite' and run.phase=='combat')
+end`);
+    const result=runLua(file);assert.equal(result.status,0,result.stderr||result.stdout);
+  }finally{rmSync(directory,{recursive:true,force:true});}
+});

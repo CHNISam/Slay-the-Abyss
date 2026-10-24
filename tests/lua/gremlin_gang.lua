@@ -81,8 +81,8 @@ local function nodeSetup(seed,id)
 end
 -- Frontier positioning proves graph reachability plus real host entry, NOT
 -- completed battles on prior floors. Neither room symbol nor route RNG is faked.
-local function normal() return nodeSetup(1,'f10_l2') end
-local function unknown() return nodeSetup(60,'f8_l1') end
+local function normal() return nodeSetup(1,'f5_l3') end
+local function unknown() return nodeSetup(60,'f8_l3') end
 local function enter(entry,run,map,id)
  if entry=='direct' then return Run.startCombat(run,'gremlin_gang') end
  return Nodes.enter(run,map,id)
