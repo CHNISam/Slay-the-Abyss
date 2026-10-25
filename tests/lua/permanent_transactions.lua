@@ -108,6 +108,27 @@ test('obtain hooks receive the private card before it joins the permanent deck',
  assert(called and ok,tostring(uid));eq(run.deck[size+1].uid,uid)
  eq(run.deck[size+1].upgrades,1);same(run.data.cards,static)
 end)
+test('card rewards retain independent item owners without weakening obtain rollback',function()
+ local H=require('abyss_relic_hooks');local original=H.onObtainCard
+ local run=Run.new(Data,42)
+ -- Isolate the reward command, not a natural victory or acquisition run.
+ run.phase='reward';run.rewards={cards={'strike'},cardResolved=false,gold=12,goldClaimed=false,
+  potion={id='fire_potion',resolved=false},stolenGold={type='STOLEN_GOLD',amount=9,claimed=false}}
+ local rewards,potion,cards,stolen=run.rewards,run.rewards.potion,run.rewards.cards,run.rewards.stolenGold
+ local before=C.copy(run)
+ H.onObtainCard=function(staged,card,definition)
+  original(staged,card,definition);staged.gold=1;error('obtain hook failure')
+ end
+ local called,ok=pcall(Run.claimCardReward,run,1);H.onObtainCard=original
+ assert(called and not ok);same(run,before);eq(run.rewards,rewards);eq(run.rewards.potion,potion)
+ assert(Run.claimCardReward(run,1));eq(run.rewards,rewards);eq(rewards.cardResolved,true)
+ eq(rewards.potion,potion);eq(rewards.cards,cards);eq(rewards.stolenGold,stolen)
+ eq(potion.resolved,false);eq(rewards.goldClaimed,false);eq(stolen.claimed,false)
+ eq(#run.deck,#before.deck+1);eq(run.nextDeckUid,before.nextDeckUid+1)
+ assert(not Run.claimCardReward(run,1));assert(Run.claimPotionReward(run));eq(potion.resolved,true)
+ assert(not Run.claimPotionReward(run));assert(Run.claimGoldReward(run));eq(run.gold,before.gold+12)
+end)
+
 test('source maximum HP gain heals only its amount and event gold honors Ectoplasm',function()
  local run=Run.new(Data,42);run.hp=30;assert(Run.increaseMaxHp(run,5));eq(run.maxHp,85);eq(run.hp,35)
  run.relics[#run.relics+1]='ectoplasm';local old=run.gold;eq(Run.gainGold(run,175),0);eq(run.gold,old)

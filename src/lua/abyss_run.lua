@@ -413,7 +413,8 @@ function M.claimCardReward(run, choice)
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
-    return M.transaction(run,function(staged)
+    local rewards=run.rewards
+    local ok,detail=M.transaction(run,function(staged)
         -- A card choice never owns the independent potion reward (RewardItem).
         if choice > 0 then
             local ok,reason=M.obtainCard(staged,staged.rewards.cards[choice])
@@ -423,6 +424,13 @@ function M.claimCardReward(run, choice)
         staged.rewards.cardResolved = true
         return true
     end)
+    if ok then
+        -- Only the card flag belongs to this command. Keep the existing reward
+        -- and independent item owners; never expose them to the private stage.
+        rewards.cardResolved=run.rewards.cardResolved
+        run.rewards=rewards
+    end
+    return ok,detail
 end
 
 local function validGold(n)

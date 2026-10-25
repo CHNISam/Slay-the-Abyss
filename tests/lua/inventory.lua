@@ -176,7 +176,7 @@ local function finishBattle(run)
     equal(run.phase, "reward")
 end
 
-test("real map keeps resources across two original-data battles and the acquired relic persists into the next battle", function()
+test("legacy six-opening fixture keeps resources across two original-enemy battles and the acquired relic persists into the next battle", function()
     local source = Combat.copy(data)
     -- This historical six-opening transaction fixture deliberately isolates its
     -- Anchor chest. Full-pool order/probability and the added persistent hooks
