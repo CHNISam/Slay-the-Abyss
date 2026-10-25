@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-25 07:20'
+updated_date: '2026-10-25 07:46'
 due_date: '2026-10-28'
 labels:
   - required
@@ -70,4 +70,6 @@ ordinal: 42000
 本片候选离线构建与独立读回通过：运行时固定源3ed8bf4，61/61模块逐字节匹配，UI2824/max60，结算22节点，0error/33warning原样保留。候选SHA256 f2808674cca47de5aade4871fc0da82fdd9d25c801e6cc7d31ec4cd0400bdf68，位置及图审计有限范围见docs/reviews/M3-PACK-POTION-20261025.md。官方导入、同候选真实试玩、自然获取未验证；父任务AC不勾，M3未验收。
 
 2026-10-25 本轮M3生产切片在独立树完成串行集成：四事件/永久事务/十种诅咒清除，战士药水效果与五槽原生UI，33common+3special遗物触发。详见docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md。事件69项、药水20份105项、遗物13份及inventory11项本地通过；全部72非基础合法胜利领奖分片保留通过，旧160卡面断言经真实RED修为178版本GREEN。完整含BGM候选cf77beea4ef77dbda269b344a4c972ac6aac7dff0621fa5acc807a0f364ab728，71模块与bd93be7逐字节一致，静态0错误36警告；归档.artifacts/m3-events-inventory-20261025，最终提交还须再次audit及当前PR完整CI。官方导入、同候选真实试玩、BGM听测、UI总门禁未验证。完整25自然事件池、剩余遗物效果、33药水自然渠道及6种效果、Spirit Poop生产总分仍缺，父任务/M3不标完成。
+
+2026-10-25 最终候选更新：领奖事务保留独立RewardItem owner且完整异常回滚，旧奖励UI断言保持并通过；permanent_transactions13项、178卡面、25项来源契约及十组旧流程回归完成。生产源ded810f0f7b403b564bee64df06117587957500f重建含BGM候选4d9f3d0a0e21e9ea4f7e96eca7adf8ae1eaede4c117ec02aa6022f5e4d8c7f8c，71模块逐字节独立读回，静态0错误36警告。稳定证据.artifacts/m3-events-inventory-20261025，最终PR头完整CI/合并仍待实际结果。按用户最新要求，任何鼠标键盘/抢焦点/实机输入先约本轮窗口；本轮未获桌面窗口，官方导入、同候选真实试玩、BGM听测与UI总门禁未验证。全池/自然渠道/总分及平台缺口继续保留，父任务与M3不标Done。
 <!-- SECTION:NOTES:END -->

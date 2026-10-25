@@ -143,5 +143,46 @@
     "testsSha256": "7ec84472ba676094f22923618e94d568196b363511229c84aadebcada0c36854",
     "review": "Independent read-only review found no protection/auth environment regression; real remote authentication is not separately certified by this test.",
     "business": "M3 final stage lease temporarily released without advancing cursor; staged source preserved. Candidate artifact generation reads frozen M3 source and writes ignored outputs only. No old source/index cleanup, no hooks bypass."
+  },
+  "boundedScopeExtension": {
+    "pr": 205,
+    "head": "5715df893a02ce10820d85f2527892716a643e3d",
+    "merged": "20aff96403729f57cb41905709e67af75d876a01",
+    "mergedAt": "2026-10-25T07:37:37Z",
+    "currentHeadCI": {
+      "run": 40172058510,
+      "status": "SUCCESS",
+      "jobs": [
+        {
+          "name": "ownership",
+          "conclusion": "SUCCESS"
+        },
+        {
+          "name": "presentation",
+          "conclusion": "SUCCESS"
+        },
+        {
+          "name": "check",
+          "conclusion": "SUCCESS"
+        }
+      ]
+    },
+    "fullQuality": {
+      "bytes": 1143801,
+      "luaFixtures": 290,
+      "uniqueLuaFixtures": 284,
+      "counts": [
+        "2026-10-25T07:22:04.8494294Z ℹ tests 1364",
+        "2026-10-25T07:22:04.8494710Z ℹ pass 1245",
+        "2026-10-25T07:22:04.8494888Z ℹ fail 0",
+        "2026-10-25T07:22:04.8495233Z ℹ skipped 119"
+      ]
+    },
+    "local": "New real Git scope extension regression 1 pass/0skip; source-only parked groups, no active stage edits, completed stages/source identity/executor/modules/old paths preserved.",
+    "scopeAmendments": [
+      "one reproduced upstream178-card-face regression file",
+      "two entrypoint docs explicitly requested by user for desktop input coordination"
+    ],
+    "globalMigration": "paused and externalUnknown retained; no bulk reservation resolution"
   }
 }

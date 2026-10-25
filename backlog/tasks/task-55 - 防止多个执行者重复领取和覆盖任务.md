@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 06:16'
+updated_date: '2026-10-25 07:46'
 labels: []
 dependencies: []
 priority: high
@@ -49,4 +49,6 @@ PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组
 第二代协调者在独立feat/task55-m3-reconcile恢复原完整bootstrap范围，修复TASK0/通用目录隔离导致的M3迁移死锁。新增受控CAS reconciliation、真实来源指纹和指定主线程阶段串行，保留所有旧隔离及源树。23组真实Git回归已分批覆盖：整套前16组通过后因远端Schannel续租握手失败被门禁中止；剩余7组在保持证书校验的进程级OpenSSL传输下通过，138675ms。完整单次运行未冒称通过，交当前SHA CI。源码/测试SHA及失败→修复证据写入既有验证JSON。独立只读复审完成；语法、Backlog、whitespace通过。已快进同步develop66f3afb，75卡及双方HANDOFF均保留。业务六源树、warrior75、根dirty未动，尚未登记业务迁移或解除外部未知。AC4继续等待当前SHA完整CI与实际合并。
 
 2026-10-25 实际收口：PR203最终头1b94ec5的Quality40163823617三个作业全绿，23组真实Git回归随完整检查执行；已受控squash合入develop518299c（05:30:55Z）。运行时hash与安装副本相符，协调租约已释放；本线程干净树/分支在核对merged head与可恢复bundle后清理，证据归档.artifacts/task55-pr203-1b94ec5。用户随后明确授权本轮M3共享13路径独占写入、旧M2/工程树只读；六源树保持冻结，已由指定主线程在最新develop新树串行adopt事件→药水→遗物→主集成。paused、原38记录及其余unknown保留，不声称全部外部会话已迁移。此前本地分批通过与远端中断记录保留。
+
+2026-10-25 后续真实修复收口：PR204的c37e384完整Quality40169360644全绿，合入ac51e002，修复Git hook继承当前索引导致冻结来源误报；PR205的5715df8完整Quality40172058510三作业全绿（JS1245pass/119skip/0fail，284唯一Lua fixture），已合入20aff96403729f57cb41905709e67af75d876a01。仅停放组的空闲未完成阶段可增补有依据精确文件，旧阶段/来源/执行者/隔离保留；25个真实Git协议用例随完整CI执行。已原生增补178卡面回归及用户新要求的桌面输入规则两文档，不更改外部unknown或开放并行。两个已合并运行时安装相符，协调租约已释放回M3。
 <!-- SECTION:NOTES:END -->

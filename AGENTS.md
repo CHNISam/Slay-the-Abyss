@@ -34,6 +34,12 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - 千星奇域开发技能：`.codebuddy/skills/miliastra-wonderland/SKILL.md`。
 - 用了 miliastra MCP 时：先读资源 `miliastra://workflow` 和 `miliastra://platform-rules`；`MILIASTRA_ALLOW_LIVE_WRITE` 保持 `0`；编译通过 / 写进存档 / 游戏里验证过要分开报告；发布由人完成。
 
+## 桌面输入与实机测试窗口
+
+- 任何可能移动鼠标、输入键盘、抢焦点或切前台的操作（包括启动/激活客户端或沙箱、自动导入和实机试玩），都须先向用户说明应用、目的及预计占用时长，等待用户明确让出本轮操作窗口。构建/测试/独占源码写入授权、历史实测授权、任务claim或用户沉默均不代表桌面输入授权；MILIASTRA_ALLOW_LIVE_WRITE=0也不能代替此协调。
+- 同一已明确授权的窗口内按约定继续，不逐次点击重复询问。窗口结束、用户收回控制或检测到用户正在操作时，立即停止输入与前台切换，并停掉会自动重试或后台触发输入的流程；再次占用先重新协调。焦点失败后不得反复强制激活。
+- 桌面操作由一个已约定的执行者串行负责；子代理与自动测试同样遵守，不能自行抢占。没有输入窗口时继续离线代码、构建、静态检查和候选审计；实机缺项如实保留。测试具体流程见docs/P0-SMOKE.md。
+
 ## Approved Art and UI Baseline
 
 - 完整游戏冒烟与取证按 `docs/P0-SMOKE.md`。自动试玩必须显式 `clientScriptLog: true`；每次新导入后由工具确保订阅，不能把反复手动勾选当成用户职责。测试版启动异常须在界面显示诊断；没有本轮日志/ready证据不得判通过，不得复用旧日志冒充本轮。
