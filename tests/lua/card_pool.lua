@@ -7,7 +7,7 @@ local function equal(a, b, label) assert(a == b, (label or "value") .. ": " .. t
 local function test(name, fn) fn(); count = count + 1; print("ok card_pool " .. count .. " - " .. name) end
 
 local oracle = dofile("tests/lua/support/card_pool_oracle.lua")
-local cases, blocked = oracle.cases, oracle.blocked
+local cases, formerlyDisabled = oracle.cases, oracle.formerlyDisabled
 local function find(entries, id) for _, value in ipairs(entries) do if value.id == id then return value end end end
 local function execute(case, upgraded, run)
     local s
@@ -75,7 +75,7 @@ test("the historical 30-card regression remains inside the complete 75-card pool
     equal(#cases, 30)
     for _, case in ipairs(cases) do assert(supported[case.id], case.id); supported[case.id] = nil end
     local remaining=0;for _ in pairs(supported) do remaining=remaining+1 end;equal(remaining,45)
-    for _, id in ipairs(blocked) do
+    for _, id in ipairs(formerlyDisabled) do
         local s = Combat.new(data, {deck={id}})
         s.energy=10
         equal(Combat.canPlay(s, s.hand[1].uid, 1), true, id)
@@ -185,56 +185,13 @@ for _, cached in pairs(entryTemplates) do sameFixture(coldState(cached.bundle.ru
 test("the seven formerly disabled cards have ordinary camp upgrades", function()
     local shop = entered("shop")
     local camp, map = entered("camp")
-    for _, id in ipairs(blocked) do
+    for _, id in ipairs(formerlyDisabled) do
         camp.deck[#camp.deck+1] = {uid=camp.nextDeckUid, cardId=id, upgraded=false}
         camp.nextDeckUid = camp.nextDeckUid + 1
     end
     local options = Nodes.view(camp, map).node.upgradeCards
     local found={};for _,instance in ipairs(options) do found[instance.cardId]=true end
-    for _,id in ipairs(blocked) do assert(found[id],'missing real upgrade: '..id) end
+    for _,id in ipairs(formerlyDisabled) do assert(found[id],'missing real upgrade: '..id) end
 end)
 
-test("all audited nonrare rewards occur after real starter victories; first A0 rewards contain no rare", function()
-    local wanted, remaining = {}, 0
-    for _, case in ipairs(cases) do
-        local rarity=find(data.cards.cards,case.id).rarity
-        if rarity=="common" or rarity=="uncommon" then wanted[case.id], remaining = true, remaining + 1 end
-    end
-    for seed = 1, 4096 do
-        local predicted=require("abyss_card_pool").prepareRewards({data=data,cardRng=require("abyss_sts_random").fromSeed(tostring(seed)),cardRarityOffset=5,encounterTier="normal"})
-        local useful=false;for _,id in ipairs(predicted) do if wanted[id] then useful=true end end
-        if useful then
-        local run = Run.new(data, seed)
-        assert(Run.startCombat(run, "cultist_solo"))
-        for _ = 1, 100 do
-            if run.phase ~= "combat" then break end
-            local chosen
-            for _, instance in ipairs(run.combat.hand) do
-                if Combat.canPlay(run.combat, instance.uid, 1) then
-                    if not chosen or Combat.cardDefinition(run.combat, instance).type == "attack" then chosen = instance end
-                end
-            end
-            if chosen then assert(Run.play(run, chosen.uid, 1)) else assert(Run.endTurn(run)) end
-        end
-        equal(run.phase, "reward", "original starter victory")
-        for choice, id in ipairs(Run.rewardOptions(run)) do
-            assert(find(data.cards.cards,id).rarity~='rare','initial A0 pity offset prevents rare cards')
-            if wanted[id] then
-                local claimed = Combat.copy(run)
-                assert(Run.claimCardReward(claimed, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(claimed)
-                equal(#claimed.deck, 11); equal(claimed.deck[11].cardId, id)
-                assert(Run.startCombat(claimed, "cultist_solo"))
-                local acquired = 0
-                for _, pile in ipairs({claimed.combat.hand, claimed.combat.draw}) do
-                    for _, instance in ipairs(pile) do if instance.cardId == id then acquired = acquired + 1 end end
-                end
-                equal(acquired, 1, "reward persists into next battle")
-                wanted[id], remaining = nil, remaining - 1
-            end
-        end
-        end -- selected coverage seed
-        if remaining == 0 then break end
-    end
-    equal(remaining, 0, "unseen playable rewards")
-end)
 print("LUA_CARD_POOL_PASS " .. count)

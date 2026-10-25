@@ -56,13 +56,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-starter-camp-upgrade-next-battle; navigation fixture, not natural platform",
+          "fixture": "tests/lua/warrior75_channels.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -188,13 +194,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-starter-camp-upgrade-next-battle; navigation fixture, not natural platform",
+          "fixture": "tests/lua/warrior75_channels.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -320,13 +332,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-starter-camp-upgrade-next-battle; navigation fixture, not natural platform",
+          "fixture": "tests/lua/warrior75_channels.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -453,13 +471,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -577,13 +601,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -706,13 +736,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -834,13 +870,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -958,13 +1000,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1084,13 +1132,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1208,13 +1262,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1332,13 +1392,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1456,13 +1522,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1580,13 +1652,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1704,13 +1782,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1835,13 +1919,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -1959,13 +2049,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2085,13 +2181,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2212,13 +2314,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2336,13 +2444,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2460,13 +2574,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2586,13 +2706,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2710,13 +2836,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2834,13 +2966,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_common_11_20.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -2960,13 +3098,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3088,13 +3232,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3212,13 +3362,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3336,13 +3492,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3460,13 +3622,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3584,13 +3752,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3708,13 +3882,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3832,13 +4012,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -3956,13 +4142,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4080,13 +4272,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4204,13 +4402,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4328,13 +4532,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4452,13 +4662,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4578,13 +4794,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4702,13 +4924,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4828,13 +5056,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -4952,13 +5186,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5078,13 +5318,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5202,13 +5448,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5326,13 +5578,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5450,13 +5708,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5574,13 +5838,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5703,13 +5973,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5827,13 +6103,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -5951,13 +6233,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6075,13 +6363,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6199,13 +6493,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6323,13 +6623,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6447,13 +6753,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6571,13 +6883,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6699,13 +7017,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6823,13 +7147,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -6947,13 +7277,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7071,13 +7407,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7195,13 +7537,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7319,13 +7667,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_uncommon.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7445,13 +7799,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_1_4.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7569,13 +7929,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_1_4.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7693,13 +8059,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_1_4.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7817,13 +8189,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_1_4.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -7941,13 +8319,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_5_8.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8065,13 +8449,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_5_8.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8189,13 +8579,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_5_8.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8313,13 +8709,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_5_8.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8437,13 +8839,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_9_12.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8561,13 +8969,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_9_12.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8685,13 +9099,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_9_12.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8809,13 +9229,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_9_12.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -8933,13 +9359,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_13_16.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -9057,13 +9489,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_13_16.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -9181,13 +9619,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_13_16.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",
@@ -9305,13 +9749,19 @@
         "upgraded": "passed-independent-ordinary-execution",
         "file": "tests/lua/warrior75.lua",
         "specialInteractions": "tests/lua/warrior75_edges.lua:49 source-derived interaction groups",
-        "fullRegression": "pending new full CI after5ceef2c; earlier40138123646 success covers0982b39 only",
+        "fullRegression": "pending final current-SHA Quality; see PR196, no old-source result transferred",
         "acquisition": "passed-public-starter-or-shop-camp-next-battle-fixture",
         "acquisitionFile": "tests/lua/warrior75_channels_rare.lua",
         "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
         "cardText": "passed tests/lua/warrior75_card_text.lua: full base/up text and font budgets",
         "courier": "passed tests/lua/warrior75_courier.lua; external PC history/native shop unverified",
-        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations"
+        "disposal": "passed150 variants locally and native at5ceef2c;original identity/exhaust/discard/Power destinations",
+        "rewardAcquisition": {
+          "status": "passed-real-explicit-encounter-victory-public-reward-claim-same-UID-next-battle",
+          "fixture": "tests/lua/card_pool_rewards_rare_13_16.lua",
+          "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+          "evidence": "docs/evidence/warrior75/reward-acquisition.json"
+        }
       },
       "platform": {
         "build": "passed current audit60 modules/2824 controls;0errors35warnings",

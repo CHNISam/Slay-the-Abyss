@@ -1,0 +1,1099 @@
+{
+  "runtimeSource": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+  "state": "promoted-local-passed; final-current-SHA-CI-pending",
+  "sourceFacts": [
+    {
+      "id": "strike",
+      "rarity": "basic",
+      "sourceSha256": "69af9efdd1a5e4835a970e24a65b06abd8009d40824f8d84b2bf47a1a1fcb31d"
+    },
+    {
+      "id": "defend",
+      "rarity": "basic",
+      "sourceSha256": "836c064235bb452baf16412a829cfb8da89d92e8298045a1fb0dab2766cf7603"
+    },
+    {
+      "id": "bash",
+      "rarity": "basic",
+      "sourceSha256": "e8c2156e105c82d392446b494d3839d74454b382afeae347184499d60d0cd635"
+    },
+    {
+      "id": "anger",
+      "rarity": "common",
+      "sourceSha256": "7f2a1e31d4b5f6bd27217155f39f66a70e36244d05b0d38f99a0863d7b3e1eea"
+    },
+    {
+      "id": "armaments",
+      "rarity": "common",
+      "sourceSha256": "0b784c289f4e29e029cc7abd7ff374f332fee239aae1e328cd4cf4b3888e1ee6"
+    },
+    {
+      "id": "body_slam",
+      "rarity": "common",
+      "sourceSha256": "ec046f94f2b027c6776e06fc38ff5b1df506d8ca61ec5323240a915f2b47494e"
+    },
+    {
+      "id": "clash",
+      "rarity": "common",
+      "sourceSha256": "5e98fcd5fc51109f99344b1bd5d3676ffbf61edcd4d600ecffbb4fd8e4785f3d"
+    },
+    {
+      "id": "cleave",
+      "rarity": "common",
+      "sourceSha256": "b8acc3ffbad16fd04d287af2916566519265ef3bb67e74048b9e1e551d021e8c"
+    },
+    {
+      "id": "clothesline",
+      "rarity": "common",
+      "sourceSha256": "1816547a845b82d9486d2bd563ceb760e7a36ae1c4e147e700ddc307469fdbff"
+    },
+    {
+      "id": "flex",
+      "rarity": "common",
+      "sourceSha256": "c966ff95af9babc6e7df6c834d08699ac77c2ca092295bd444e85dfccc8c1c9f"
+    },
+    {
+      "id": "havoc",
+      "rarity": "common",
+      "sourceSha256": "82ddf3680c7e187000cfcaff5f6161f21f2d52e30fa9673b39ed72d8f18b833c"
+    },
+    {
+      "id": "headbutt",
+      "rarity": "common",
+      "sourceSha256": "7b424d7dd5419552cf6d94bb4731789eb18ba40118bb7a8a3bc5b544be192bbe"
+    },
+    {
+      "id": "heavy_blade",
+      "rarity": "common",
+      "sourceSha256": "c69223723d49724f4c075f46d82ee1f4fa181068e2eb318f95d5af5363d57e1d"
+    },
+    {
+      "id": "iron_wave",
+      "rarity": "common",
+      "sourceSha256": "d51aa511018aa6512971a4474e76cf7bcbc9d546d09d8f242c0858b994e9f39b"
+    },
+    {
+      "id": "perfected_strike",
+      "rarity": "common",
+      "sourceSha256": "d0cb344c770e26ab77acccd1beb600c4b18174764b68b07ef9be40d1cc297a77"
+    },
+    {
+      "id": "pommel_strike",
+      "rarity": "common",
+      "sourceSha256": "a878f072001126cced5b23d935227ebb289ab655a773658b3396f2633d159c64"
+    },
+    {
+      "id": "shrug_it_off",
+      "rarity": "common",
+      "sourceSha256": "cb9b39e35ea13d81bfe5339731541bd798c039a116ff542ea518fba678b34ea1"
+    },
+    {
+      "id": "sword_boomerang",
+      "rarity": "common",
+      "sourceSha256": "964c87ebf5489518ab9cc541024dfe99f4f6e723a43166a42c2f6e6017c12f3c"
+    },
+    {
+      "id": "thunderclap",
+      "rarity": "common",
+      "sourceSha256": "f6d055f5d38cde0e16ff50d68512cb3a7f8cb5fb2405f49622ac2311ca691fb0"
+    },
+    {
+      "id": "true_grit",
+      "rarity": "common",
+      "sourceSha256": "0d6647c2379166bc9dba70fab347dd7d300a34792745dd3ae4dd13f975b5b39b"
+    },
+    {
+      "id": "twin_strike",
+      "rarity": "common",
+      "sourceSha256": "404d52aed9989628175ce6873b468d5278fe0fb13e13c2e3f50674d8550b5123"
+    },
+    {
+      "id": "warcry",
+      "rarity": "common",
+      "sourceSha256": "da0d4ca5759a34b521fe9106446a09c64dfe4d5d5eada61d2ad7d724654d7b97"
+    },
+    {
+      "id": "wild_strike",
+      "rarity": "common",
+      "sourceSha256": "4e370203be2e025e4fb167ad9253c536b0d889f036662d4d5b9ff82b89ce205d"
+    },
+    {
+      "id": "battle_trance",
+      "rarity": "uncommon",
+      "sourceSha256": "e3106d0c77d581823794f3a4fa7aabd20679ec8137915501289fbea162910913"
+    },
+    {
+      "id": "blood_for_blood",
+      "rarity": "uncommon",
+      "sourceSha256": "00bce85e14d4ac122726ea09e3bb02ebec4af23314626b7b669d093b65390b01"
+    },
+    {
+      "id": "bloodletting",
+      "rarity": "uncommon",
+      "sourceSha256": "d8b7c9f4afc697091dc9b73e7835d0ae097a9979739a63b177a2b6fcf716029c"
+    },
+    {
+      "id": "burning_pact",
+      "rarity": "uncommon",
+      "sourceSha256": "b7ea89390c81cb6fc9e1036502c8d49ba7a0c561b7d1536f94c421c8f79e4070"
+    },
+    {
+      "id": "carnage",
+      "rarity": "uncommon",
+      "sourceSha256": "3a239448b9e45a8499f251ebdc4764e8b2e47ee3642faaed65f5580169a90975"
+    },
+    {
+      "id": "combust",
+      "rarity": "uncommon",
+      "sourceSha256": "3cc0635b53d90e2efe38fd443e334da198cb45d28c9c241dae95406c694eaffd"
+    },
+    {
+      "id": "dark_embrace",
+      "rarity": "uncommon",
+      "sourceSha256": "985c41ed430b476575f5add6f653ea58c9cf362ef0d02e5720fb850971b4c162"
+    },
+    {
+      "id": "disarm",
+      "rarity": "uncommon",
+      "sourceSha256": "5a2bb563426e5accaf12abdb43fce2cf613c02964ebec60bdd727f8444f30a25"
+    },
+    {
+      "id": "dropkick",
+      "rarity": "uncommon",
+      "sourceSha256": "e29f784be4e16a2307aee120d1f2b22372d78efdb8d7df80809ce1992af4650e"
+    },
+    {
+      "id": "dual_wield",
+      "rarity": "uncommon",
+      "sourceSha256": "061cf996b3c9545dfad41b8d95671335b300a3d0ce6871fdfa78e56fe4996439"
+    },
+    {
+      "id": "entrench",
+      "rarity": "uncommon",
+      "sourceSha256": "947b4e98fe3e6aa56a2c2114a05643da8b4f31189325e04f6f74d9ed8b2f6f0a"
+    },
+    {
+      "id": "evolve",
+      "rarity": "uncommon",
+      "sourceSha256": "0fd6a3afeb7e273d34e2e1ef402dffc407e4d7c08c095fe046f5c37a04eafed2"
+    },
+    {
+      "id": "feel_no_pain",
+      "rarity": "uncommon",
+      "sourceSha256": "186ce3518c93268079fd9fbaa753e87b277da75341ad7c00e036a4fc5f4b46b1"
+    },
+    {
+      "id": "fire_breathing",
+      "rarity": "uncommon",
+      "sourceSha256": "c375b642e38af8f7fe9fe8fba1312d215e5ef1750989ff545d4db73d23e65d5d"
+    },
+    {
+      "id": "flame_barrier",
+      "rarity": "uncommon",
+      "sourceSha256": "139c0696d91dcb991fbf63b304a6d0f0672f64e8161e6a647a166668f36c081e"
+    },
+    {
+      "id": "ghostly_armor",
+      "rarity": "uncommon",
+      "sourceSha256": "8b7fd64bcbe12109e6f769f70e05442b282d7303d96f04ad3f8516251dc1c781"
+    },
+    {
+      "id": "hemokinesis",
+      "rarity": "uncommon",
+      "sourceSha256": "707f60c1f987d34cb42301184e9283c9d2190444b6a1a24404866de3d391134f"
+    },
+    {
+      "id": "infernal_blade",
+      "rarity": "uncommon",
+      "sourceSha256": "44e39d9db205754e92f4343d52463a671080dac066e065f5ad9c21210fda9a45"
+    },
+    {
+      "id": "inflame",
+      "rarity": "uncommon",
+      "sourceSha256": "10e22981d47203adb0877be08d7d06fb50619b8f0191338fc2d65b74ca07c45f"
+    },
+    {
+      "id": "intimidate",
+      "rarity": "uncommon",
+      "sourceSha256": "56279439832c604ea29e41b9c9e96e52096c61ab3cd34d71af984ecdb62f2ec1"
+    },
+    {
+      "id": "metallicize",
+      "rarity": "uncommon",
+      "sourceSha256": "9bcce83cc034f96f3b06101d9a4278d9fe9d53c16ac9e7f5fd64bed3fa4f7842"
+    },
+    {
+      "id": "power_through",
+      "rarity": "uncommon",
+      "sourceSha256": "e87d237fd5bc2327986a35a8b63379b2b07aa7f1275d2f931701bb03ab7fcedd"
+    },
+    {
+      "id": "pummel",
+      "rarity": "uncommon",
+      "sourceSha256": "f730aa86ec4ad2d4f9ca85776e53329b90c9be6d24e76bb68f105a68a4feef75"
+    },
+    {
+      "id": "rage",
+      "rarity": "uncommon",
+      "sourceSha256": "cb49d45d7e9873e33356be50f81f4c6e987388be6276bdab99211b073b429913"
+    },
+    {
+      "id": "rampage",
+      "rarity": "uncommon",
+      "sourceSha256": "91546a6c7a55542955f6831d01c5bee83c43be10310cc4e204d736b418afc066"
+    },
+    {
+      "id": "reckless_charge",
+      "rarity": "uncommon",
+      "sourceSha256": "6593df04e053f74ec9a934d7f01abbd1e1783913cf294fd863a4538939f06d78"
+    },
+    {
+      "id": "rupture",
+      "rarity": "uncommon",
+      "sourceSha256": "1859d108d11c49f7d3a4a9f7ecccf713c48f01cc56876936268756b16954287e"
+    },
+    {
+      "id": "searing_blow",
+      "rarity": "uncommon",
+      "sourceSha256": "4a3775797ba73e8589c30d94060e4760755d9ccc0e2461e6224c607313918eea"
+    },
+    {
+      "id": "second_wind",
+      "rarity": "uncommon",
+      "sourceSha256": "80abdd7147a752e4f3d42ab2b330b055e37aa43473458752c80a4698a78377f9"
+    },
+    {
+      "id": "seeing_red",
+      "rarity": "uncommon",
+      "sourceSha256": "910989bb406a2260811b75aee804bae10b21fcaca53dd5f56ca19f8a5f52f4cd"
+    },
+    {
+      "id": "sentinel",
+      "rarity": "uncommon",
+      "sourceSha256": "d7f1a30872a8831fbb036a02c1bac6baa68592ec95878d965ea53e96385b7b5c"
+    },
+    {
+      "id": "sever_soul",
+      "rarity": "uncommon",
+      "sourceSha256": "a13e15eefe2129cbb45bdd95c6254fdd2f07f863682c196c9067712ed7a0571e"
+    },
+    {
+      "id": "shockwave",
+      "rarity": "uncommon",
+      "sourceSha256": "de4a47a7ae9332bded422d4e4620e3cb3174e05dc51d8647eba93ad3335d033a"
+    },
+    {
+      "id": "spot_weakness",
+      "rarity": "uncommon",
+      "sourceSha256": "5b40ebaca89b4bf1fe8c0a02aaa9725ccab4762a56e7d05b600b924a155ad348"
+    },
+    {
+      "id": "uppercut",
+      "rarity": "uncommon",
+      "sourceSha256": "af1c49cb4b3075336be696450bd0f4d42996c0370831284209a9cfeafd3cebde"
+    },
+    {
+      "id": "whirlwind",
+      "rarity": "uncommon",
+      "sourceSha256": "89fb648fece06df53361fedf2e67a5c371daa5dc9157386b73d9d212172e3a39"
+    },
+    {
+      "id": "barricade",
+      "rarity": "rare",
+      "sourceSha256": "fd0d75660eebf157a7d54d0bb4acae0005d6110f7341cf0a8ef4cd327a86e15a"
+    },
+    {
+      "id": "berserk",
+      "rarity": "rare",
+      "sourceSha256": "9917b0cf3b333a0e608e0f626b78c6814585d67b2625d7c8f9f100b406babf9f"
+    },
+    {
+      "id": "bludgeon",
+      "rarity": "rare",
+      "sourceSha256": "8986014d8875ad6fd86441eca249c3ff1f23706dd6859b049fc119e71c73966d"
+    },
+    {
+      "id": "brutality",
+      "rarity": "rare",
+      "sourceSha256": "6275b739d69c86bb4b159a26d37f8f6ec26446fc7aef9c3524feba66af13e206"
+    },
+    {
+      "id": "corruption",
+      "rarity": "rare",
+      "sourceSha256": "699333d522ad952d570155848cac4cfd7e9bfe1d06b18025d7adb8a0410f477d"
+    },
+    {
+      "id": "demon_form",
+      "rarity": "rare",
+      "sourceSha256": "a8f5f61b321072950123c74426eb0c51f8b24c95de5029e2a15efa9ee9843f7e"
+    },
+    {
+      "id": "double_tap",
+      "rarity": "rare",
+      "sourceSha256": "15f6e8fb000f4e2f83d4f47535f9e909a222b546fda8d5d8fc51576cc6caa1c1"
+    },
+    {
+      "id": "exhume",
+      "rarity": "rare",
+      "sourceSha256": "4b14ccf101319b7c620b1417326255d438d72cb7613c6c94cc63a0f0b50ce88f"
+    },
+    {
+      "id": "feed",
+      "rarity": "rare",
+      "sourceSha256": "901eb9cd1f51cab2daa2fda18f030a52a2f74918ef138c3f9cc84dd8fbf6eecf"
+    },
+    {
+      "id": "fiend_fire",
+      "rarity": "rare",
+      "sourceSha256": "bdcb0bcd2f1ad7e295232275393ea73f2b40ea729d3d2daadef0849866dcc61d"
+    },
+    {
+      "id": "immolate",
+      "rarity": "rare",
+      "sourceSha256": "aa2d562d7bafdf7d32c1287588bcc23c412bef7e51c1a4f06ea5916f8a8c92fa"
+    },
+    {
+      "id": "impervious",
+      "rarity": "rare",
+      "sourceSha256": "e0534bf07507ae43932255db6a7ccf9b2be8d3e2066475c04fa309dad224fc84"
+    },
+    {
+      "id": "juggernaut",
+      "rarity": "rare",
+      "sourceSha256": "d6618db3fd9cb580ff5b9c99a2b619ffd8a0448cc41a70cc070338de469227b8"
+    },
+    {
+      "id": "limit_break",
+      "rarity": "rare",
+      "sourceSha256": "d76bfdc393b5a2bdee7632f9e4d02e595048fbc9431e2ec318ef590620b2ec50"
+    },
+    {
+      "id": "offering",
+      "rarity": "rare",
+      "sourceSha256": "fc693dd1d097683f03caa2187d05489e1c9be609836d37e5ac5295a2b04c47c0"
+    },
+    {
+      "id": "reaper",
+      "rarity": "rare",
+      "sourceSha256": "fcacc35e503503bc33409bce8a40e1c0e335ec9c1560a6e4dd3ff7ce41258817"
+    }
+  ],
+  "totals": {
+    "basic": 3,
+    "common": 20,
+    "uncommon": 36,
+    "rare": 16,
+    "rewardClaims": 72,
+    "sameUidNextBattle": 72,
+    "starterCampNextBattle": 3
+  },
+  "maxFixtureMs": 4001,
+  "scope": "Real explicit-encounter replays using starter decks, public play/endTurn/claim commands, untouched HP/enemies/RNG/inventory. Prediction selects coverage seeds only. Not natural map progression or platform validation.",
+  "fixtureHashes": {
+    "tests/lua/support/warrior75_reward_cases.lua": "7c6e2c485274bfc7bf06abf876116956986fccf0d70526da2ff331c68b14de07",
+    "tests/fixtures/warrior75-reward-targets.lua": "a565b251945c687285267e9eea5b38363f32e352af9a2aba49cff7661aca2aba",
+    "tests/fixtures/warrior75-reward-seeds.lua": "4cf2e64d9b3202c9c836755e1716bbc2887400212bbf8572c0c39c42349dab30"
+  },
+  "cards": [
+    {
+      "id": "body_slam",
+      "seed": 1,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "clothesline",
+      "seed": 1,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "anger",
+      "seed": 2,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "heavy_blade",
+      "seed": 3,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "armaments",
+      "seed": 3,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "flex",
+      "seed": 6,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "headbutt",
+      "seed": 7,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "clash",
+      "seed": 10,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "havoc",
+      "seed": 13,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "cleave",
+      "seed": 13,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "sword_boomerang",
+      "seed": 2,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "true_grit",
+      "seed": 2,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "thunderclap",
+      "seed": 3,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "iron_wave",
+      "seed": 4,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "shrug_it_off",
+      "seed": 5,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "twin_strike",
+      "seed": 5,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "warcry",
+      "seed": 8,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "wild_strike",
+      "seed": 10,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "perfected_strike",
+      "seed": 16,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "pommel_strike",
+      "seed": 20,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "carnage",
+      "seed": 1,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "blood_for_blood",
+      "seed": 2,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "battle_trance",
+      "seed": 4,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "combust",
+      "seed": 8,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "bloodletting",
+      "seed": 10,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "burning_pact",
+      "seed": 12,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "disarm",
+      "seed": 14,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "dark_embrace",
+      "seed": 20,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "dropkick",
+      "seed": 26,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "dual_wield",
+      "seed": 1,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "feel_no_pain",
+      "seed": 7,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "flame_barrier",
+      "seed": 8,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "ghostly_armor",
+      "seed": 10,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "hemokinesis",
+      "seed": 10,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "fire_breathing",
+      "seed": 13,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "infernal_blade",
+      "seed": 18,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "evolve",
+      "seed": 19,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "entrench",
+      "seed": 20,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "reckless_charge",
+      "seed": 2,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "rampage",
+      "seed": 6,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "power_through",
+      "seed": 7,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "metallicize",
+      "seed": 8,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "pummel",
+      "seed": 16,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "inflame",
+      "seed": 31,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "intimidate",
+      "seed": 36,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "rupture",
+      "seed": 38,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "rage",
+      "seed": 46,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "shockwave",
+      "seed": 4,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "sever_soul",
+      "seed": 4,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "second_wind",
+      "seed": 10,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "seeing_red",
+      "seed": 12,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "spot_weakness",
+      "seed": 17,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "sentinel",
+      "seed": 24,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "whirlwind",
+      "seed": 27,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "searing_blow",
+      "seed": 32,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "uppercut",
+      "seed": 40,
+      "victoriesBeforeReward": 1,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "brutality",
+      "seed": 6,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "bludgeon",
+      "seed": 194,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "barricade",
+      "seed": 282,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "berserk",
+      "seed": 430,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "corruption",
+      "seed": 145,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "exhume",
+      "seed": 234,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "demon_form",
+      "seed": 507,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "double_tap",
+      "seed": 1015,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "feed",
+      "seed": 25,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "fiend_fire",
+      "seed": 27,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "impervious",
+      "seed": 78,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "immolate",
+      "seed": 446,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "reaper",
+      "seed": 388,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "juggernaut",
+      "seed": 465,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "limit_break",
+      "seed": 546,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    },
+    {
+      "id": "offering",
+      "seed": 590,
+      "victoriesBeforeReward": 2,
+      "claimed": true,
+      "sameUidNextBattle": true
+    }
+  ],
+  "basics": [
+    {
+      "id": "strike",
+      "status": 0,
+      "ms": 930,
+      "stdout": "ok channel 1 - strike public acquisition / camp / next battle\ncommon: 1 public acquisition and upgrade transactions passed; fixture navigation/funding, not natural platform evidence.\n",
+      "stderr": ""
+    },
+    {
+      "id": "defend",
+      "status": 0,
+      "ms": 926,
+      "stdout": "ok channel 1 - defend public acquisition / camp / next battle\ncommon: 1 public acquisition and upgrade transactions passed; fixture navigation/funding, not natural platform evidence.\n",
+      "stderr": ""
+    },
+    {
+      "id": "bash",
+      "status": 0,
+      "ms": 856,
+      "stdout": "ok channel 1 - bash public acquisition / camp / next battle\ncommon: 1 public acquisition and upgrade transactions passed; fixture navigation/funding, not natural platform evidence.\n",
+      "stderr": ""
+    }
+  ],
+  "testMode": "Frozen72 independently declared IDs/rarities and observed seed/round traces. No production reward predictor, seed search or RNG injection during permanent test execution.",
+  "fixtureResults": [
+    {
+      "rarity": "common",
+      "first": 1,
+      "last": 10,
+      "ms": 2305,
+      "status": 0,
+      "stdout": "PASS full reward anger seed=2 realVictory=2\nPASS full reward armaments seed=3 realVictory=1\nPASS full reward body_slam seed=1 realVictory=1\nPASS full reward clash seed=10 realVictory=2\nPASS full reward cleave seed=13 realVictory=2\nPASS full reward clothesline seed=1 realVictory=1\nPASS full reward flex seed=6 realVictory=1\nPASS full reward havoc seed=13 realVictory=2\nPASS full reward headbutt seed=7 realVictory=2\nPASS full reward heavy_blade seed=3 realVictory=1\nFULL_REWARD_PASS common 1..10 count=10\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "common",
+      "first": 11,
+      "last": 20,
+      "ms": 2071,
+      "status": 0,
+      "stdout": "PASS full reward iron_wave seed=4 realVictory=2\nPASS full reward perfected_strike seed=16 realVictory=1\nPASS full reward pommel_strike seed=20 realVictory=2\nPASS full reward shrug_it_off seed=5 realVictory=1\nPASS full reward sword_boomerang seed=2 realVictory=1\nPASS full reward thunderclap seed=3 realVictory=1\nPASS full reward true_grit seed=2 realVictory=1\nPASS full reward twin_strike seed=5 realVictory=1\nPASS full reward warcry seed=8 realVictory=1\nPASS full reward wild_strike seed=10 realVictory=2\nFULL_REWARD_PASS common 11..20 count=10\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "uncommon",
+      "first": 1,
+      "last": 9,
+      "ms": 2667,
+      "status": 0,
+      "stdout": "PASS full reward battle_trance seed=4 realVictory=2\nPASS full reward blood_for_blood seed=2 realVictory=2\nPASS full reward bloodletting seed=10 realVictory=1\nPASS full reward burning_pact seed=12 realVictory=2\nPASS full reward carnage seed=1 realVictory=2\nPASS full reward combust seed=8 realVictory=2\nPASS full reward dark_embrace seed=20 realVictory=2\nPASS full reward disarm seed=14 realVictory=2\nPASS full reward dropkick seed=26 realVictory=1\nFULL_REWARD_PASS uncommon 1..9 count=9\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "uncommon",
+      "first": 10,
+      "last": 18,
+      "ms": 2837,
+      "status": 0,
+      "stdout": "PASS full reward dual_wield seed=1 realVictory=1\nPASS full reward entrench seed=20 realVictory=1\nPASS full reward evolve seed=19 realVictory=2\nPASS full reward feel_no_pain seed=7 realVictory=2\nPASS full reward fire_breathing seed=13 realVictory=1\nPASS full reward flame_barrier seed=8 realVictory=1\nPASS full reward ghostly_armor seed=10 realVictory=1\nPASS full reward hemokinesis seed=10 realVictory=1\nPASS full reward infernal_blade seed=18 realVictory=2\nFULL_REWARD_PASS uncommon 10..18 count=9\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "uncommon",
+      "first": 19,
+      "last": 27,
+      "ms": 4001,
+      "status": 0,
+      "stdout": "PASS full reward inflame seed=31 realVictory=1\nPASS full reward intimidate seed=36 realVictory=1\nPASS full reward metallicize seed=8 realVictory=2\nPASS full reward power_through seed=7 realVictory=2\nPASS full reward pummel seed=16 realVictory=2\nPASS full reward rage seed=46 realVictory=2\nPASS full reward rampage seed=6 realVictory=2\nPASS full reward reckless_charge seed=2 realVictory=1\nPASS full reward rupture seed=38 realVictory=2\nFULL_REWARD_PASS uncommon 19..27 count=9\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "uncommon",
+      "first": 28,
+      "last": 36,
+      "ms": 2995,
+      "status": 0,
+      "stdout": "PASS full reward searing_blow seed=32 realVictory=1\nPASS full reward second_wind seed=10 realVictory=2\nPASS full reward seeing_red seed=12 realVictory=1\nPASS full reward sentinel seed=24 realVictory=1\nPASS full reward sever_soul seed=4 realVictory=1\nPASS full reward shockwave seed=4 realVictory=1\nPASS full reward spot_weakness seed=17 realVictory=1\nPASS full reward uppercut seed=40 realVictory=1\nPASS full reward whirlwind seed=27 realVictory=2\nFULL_REWARD_PASS uncommon 28..36 count=9\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "rare",
+      "first": 1,
+      "last": 4,
+      "ms": 2848,
+      "status": 0,
+      "stdout": "PASS full reward barricade seed=282 realVictory=2\nPASS full reward berserk seed=430 realVictory=2\nPASS full reward bludgeon seed=194 realVictory=2\nPASS full reward brutality seed=6 realVictory=2\nFULL_REWARD_PASS rare 1..4 count=4\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "rare",
+      "first": 5,
+      "last": 8,
+      "ms": 2300,
+      "status": 0,
+      "stdout": "PASS full reward corruption seed=145 realVictory=2\nPASS full reward demon_form seed=507 realVictory=2\nPASS full reward double_tap seed=1015 realVictory=2\nPASS full reward exhume seed=234 realVictory=2\nFULL_REWARD_PASS rare 5..8 count=4\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "rare",
+      "first": 9,
+      "last": 12,
+      "ms": 2021,
+      "status": 0,
+      "stdout": "PASS full reward feed seed=25 realVictory=2\nPASS full reward fiend_fire seed=27 realVictory=2\nPASS full reward immolate seed=446 realVictory=2\nPASS full reward impervious seed=78 realVictory=2\nFULL_REWARD_PASS rare 9..12 count=4\n",
+      "stderr": ""
+    },
+    {
+      "rarity": "rare",
+      "first": 13,
+      "last": 16,
+      "ms": 1581,
+      "status": 0,
+      "stdout": "PASS full reward juggernaut seed=465 realVictory=2\nPASS full reward limit_break seed=546 realVictory=2\nPASS full reward offering seed=590 realVictory=2\nPASS full reward reaper seed=388 realVictory=2\nFULL_REWARD_PASS rare 13..16 count=4\n",
+      "stderr": ""
+    }
+  ],
+  "promotionNote": "All11 promoted files passed via existing runLua at its unchanged30-second deadline. Includes original92-case card pool plus all72 real-victory reward targets. Final current-SHA CI and platform acceptance remain separate.",
+  "promotedFixtureResults": [
+    {
+      "file": "card_pool.lua",
+      "status": 0,
+      "ms": 12468,
+      "stdout": "ok card_pool 1 - the historical 30-card regression remains inside the complete 75-card pool\nok card_pool 2 - strike executes exact independent expected outcome\nok card_pool 3 - strike+ executes exact independent expected outcome\nok card_pool 4 - defend executes exact independent expected outcome\nok card_pool 5 - defend+ executes exact independent expected outcome\nok card_pool 6 - bash executes exact independent expected outcome\nok card_pool 7 - bash+ executes exact independent expected outcome\nok card_pool 8 - cleave executes exact independent expected outcome\nok card_pool 9 - cleave+ executes exact independent expected outcome\nok card_pool 10 - clothesline executes exact independent expected outcome\nok card_pool 11 - clothesline+ executes exact independent expected outcome\nok card_pool 12 - iron_wave executes exact independent expected outcome\nok card_pool 13 - iron_wave+ executes exact independent expected outcome\nok card_pool 14 - anger executes exact independent expected outcome\nok card_pool 15 - anger+ executes exact independent expected outcome\nok card_pool 16 - body_slam executes exact independent expected outcome\nok card_pool 17 - body_slam+ executes exact independent expected outcome\nok card_pool 18 - flex executes exact independent expected outcome\nok card_pool 19 - flex+ executes exact independent expected outcome\nok card_pool 20 - twin_strike executes exact independent expected outcome\nok card_pool 21 - twin_strike+ executes exact independent expected outcome\nok card_pool 22 - pommel_strike executes exact independent expected outcome\nok card_pool 23 - pommel_strike+ executes exact independent expected outcome\nok card_pool 24 - shrug_it_off executes exact independent expected outcome\nok card_pool 25 - shrug_it_off+ executes exact independent expected outcome\nok card_pool 26 - thunderclap executes exact independent expected outcome\nok card_pool 27 - thunderclap+ executes exact independent expected outcome\nok card_pool 28 - uppercut executes exact independent expected outcome\nok card_pool 29 - uppercut+ executes exact independent expected outcome\nok card_pool 30 - inflame executes exact independent expected outcome\nok card_pool 31 - inflame+ executes exact independent expected outcome\nok card_pool 32 - battle_trance executes exact independent expected outcome\nok card_pool 33 - battle_trance+ executes exact independent expected outcome\nok card_pool 34 - bloodletting executes exact independent expected outcome\nok card_pool 35 - bloodletting+ executes exact independent expected outcome\nok card_pool 36 - barricade executes exact independent expected outcome\nok card_pool 37 - barricade+ executes exact independent expected outcome\nok card_pool 38 - carnage executes exact independent expected outcome\nok card_pool 39 - carnage+ executes exact independent expected outcome\nok card_pool 40 - disarm executes exact independent expected outcome\nok card_pool 41 - disarm+ executes exact independent expected outcome\nok card_pool 42 - dropkick executes exact independent expected outcome\nok card_pool 43 - dropkick+ executes exact independent expected outcome\nok card_pool 44 - entrench executes exact independent expected outcome\nok card_pool 45 - entrench+ executes exact independent expected outcome\nok card_pool 46 - ghostly_armor executes exact independent expected outcome\nok card_pool 47 - ghostly_armor+ executes exact independent expected outcome\nok card_pool 48 - hemokinesis executes exact independent expected outcome\nok card_pool 49 - hemokinesis+ executes exact independent expected outcome\nok card_pool 50 - rampage executes exact independent expected outcome\nok card_pool 51 - rampage+ executes exact independent expected outcome\nok card_pool 52 - seeing_red executes exact independent expected outcome\nok card_pool 53 - seeing_red+ executes exact independent expected outcome\nok card_pool 54 - shockwave executes exact independent expected outcome\nok card_pool 55 - shockwave+ executes exact independent expected outcome\nok card_pool 56 - offering executes exact independent expected outcome\nok card_pool 57 - offering+ executes exact independent expected outcome\nok card_pool 58 - impervious executes exact independent expected outcome\nok card_pool 59 - impervious+ executes exact independent expected outcome\nok card_pool 60 - bludgeon executes exact independent expected outcome\nok card_pool 61 - bludgeon+ executes exact independent expected outcome\nok card_pool 62 - strike obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 63 - defend obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 64 - bash obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 65 - cleave obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 66 - clothesline obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 67 - iron_wave obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 68 - anger obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 69 - body_slam obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 70 - flex obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 71 - twin_strike obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 72 - pommel_strike obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 73 - shrug_it_off obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 74 - thunderclap obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 75 - uppercut obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 76 - inflame obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 77 - battle_trance obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 78 - bloodletting obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 79 - barricade obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 80 - carnage obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 81 - disarm obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 82 - dropkick obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 83 - entrench obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 84 - ghostly_armor obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 85 - hemokinesis obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 86 - rampage obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 87 - seeing_red obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 88 - shockwave obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 89 - offering obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 90 - impervious obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 91 - bludgeon obtained legally and camp-upgraded permanent instance executes next battle\nok card_pool 92 - the seven formerly disabled cards have ordinary camp upgrades\nLUA_CARD_POOL_PASS 92\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards.lua",
+      "status": 0,
+      "ms": 2580,
+      "stdout": "PASS full reward anger seed=2 realVictory=2\nPASS full reward armaments seed=3 realVictory=1\nPASS full reward body_slam seed=1 realVictory=1\nPASS full reward clash seed=10 realVictory=2\nPASS full reward cleave seed=13 realVictory=2\nPASS full reward clothesline seed=1 realVictory=1\nPASS full reward flex seed=6 realVictory=1\nPASS full reward havoc seed=13 realVictory=2\nPASS full reward headbutt seed=7 realVictory=2\nPASS full reward heavy_blade seed=3 realVictory=1\nFULL_REWARD_PASS common 1..10 count=10\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_common_11_20.lua",
+      "status": 0,
+      "ms": 2892,
+      "stdout": "PASS full reward iron_wave seed=4 realVictory=2\nPASS full reward perfected_strike seed=16 realVictory=1\nPASS full reward pommel_strike seed=20 realVictory=2\nPASS full reward shrug_it_off seed=5 realVictory=1\nPASS full reward sword_boomerang seed=2 realVictory=1\nPASS full reward thunderclap seed=3 realVictory=1\nPASS full reward true_grit seed=2 realVictory=1\nPASS full reward twin_strike seed=5 realVictory=1\nPASS full reward warcry seed=8 realVictory=1\nPASS full reward wild_strike seed=10 realVictory=2\nFULL_REWARD_PASS common 11..20 count=10\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_rare_13_16.lua",
+      "status": 0,
+      "ms": 1670,
+      "stdout": "PASS full reward juggernaut seed=465 realVictory=2\nPASS full reward limit_break seed=546 realVictory=2\nPASS full reward offering seed=590 realVictory=2\nPASS full reward reaper seed=388 realVictory=2\nFULL_REWARD_PASS rare 13..16 count=4\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_rare_1_4.lua",
+      "status": 0,
+      "ms": 1977,
+      "stdout": "PASS full reward barricade seed=282 realVictory=2\nPASS full reward berserk seed=430 realVictory=2\nPASS full reward bludgeon seed=194 realVictory=2\nPASS full reward brutality seed=6 realVictory=2\nFULL_REWARD_PASS rare 1..4 count=4\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_rare_5_8.lua",
+      "status": 0,
+      "ms": 1675,
+      "stdout": "PASS full reward corruption seed=145 realVictory=2\nPASS full reward demon_form seed=507 realVictory=2\nPASS full reward double_tap seed=1015 realVictory=2\nPASS full reward exhume seed=234 realVictory=2\nFULL_REWARD_PASS rare 5..8 count=4\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_rare_9_12.lua",
+      "status": 0,
+      "ms": 1769,
+      "stdout": "PASS full reward feed seed=25 realVictory=2\nPASS full reward fiend_fire seed=27 realVictory=2\nPASS full reward immolate seed=446 realVictory=2\nPASS full reward impervious seed=78 realVictory=2\nFULL_REWARD_PASS rare 9..12 count=4\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_uncommon_10_18.lua",
+      "status": 0,
+      "ms": 3098,
+      "stdout": "PASS full reward dual_wield seed=1 realVictory=1\nPASS full reward entrench seed=20 realVictory=1\nPASS full reward evolve seed=19 realVictory=2\nPASS full reward feel_no_pain seed=7 realVictory=2\nPASS full reward fire_breathing seed=13 realVictory=1\nPASS full reward flame_barrier seed=8 realVictory=1\nPASS full reward ghostly_armor seed=10 realVictory=1\nPASS full reward hemokinesis seed=10 realVictory=1\nPASS full reward infernal_blade seed=18 realVictory=2\nFULL_REWARD_PASS uncommon 10..18 count=9\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_uncommon_19_27.lua",
+      "status": 0,
+      "ms": 3123,
+      "stdout": "PASS full reward inflame seed=31 realVictory=1\nPASS full reward intimidate seed=36 realVictory=1\nPASS full reward metallicize seed=8 realVictory=2\nPASS full reward power_through seed=7 realVictory=2\nPASS full reward pummel seed=16 realVictory=2\nPASS full reward rage seed=46 realVictory=2\nPASS full reward rampage seed=6 realVictory=2\nPASS full reward reckless_charge seed=2 realVictory=1\nPASS full reward rupture seed=38 realVictory=2\nFULL_REWARD_PASS uncommon 19..27 count=9\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_uncommon_1_9.lua",
+      "status": 0,
+      "ms": 2739,
+      "stdout": "PASS full reward battle_trance seed=4 realVictory=2\nPASS full reward blood_for_blood seed=2 realVictory=2\nPASS full reward bloodletting seed=10 realVictory=1\nPASS full reward burning_pact seed=12 realVictory=2\nPASS full reward carnage seed=1 realVictory=2\nPASS full reward combust seed=8 realVictory=2\nPASS full reward dark_embrace seed=20 realVictory=2\nPASS full reward disarm seed=14 realVictory=2\nPASS full reward dropkick seed=26 realVictory=1\nFULL_REWARD_PASS uncommon 1..9 count=9\n",
+      "stderr": ""
+    },
+    {
+      "file": "card_pool_rewards_uncommon_28_36.lua",
+      "status": 0,
+      "ms": 2864,
+      "stdout": "PASS full reward searing_blow seed=32 realVictory=1\nPASS full reward second_wind seed=10 realVictory=2\nPASS full reward seeing_red seed=12 realVictory=1\nPASS full reward sentinel seed=24 realVictory=1\nPASS full reward sever_soul seed=4 realVictory=1\nPASS full reward shockwave seed=4 realVictory=1\nPASS full reward spot_weakness seed=17 realVictory=1\nPASS full reward uppercut seed=40 realVictory=1\nPASS full reward whirlwind seed=27 realVictory=2\nFULL_REWARD_PASS uncommon 28..36 count=9\n",
+      "stderr": ""
+    }
+  ]
+}

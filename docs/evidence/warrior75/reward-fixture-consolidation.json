@@ -1,0 +1,17 @@
+{
+  "source": "088a6ab",
+  "originalMatrixCaseSha256": "3ba771d8d5e7467c954a3821b8f21689ecb01c518161f98e9e8b4eeeffa19039",
+  "movedCaseSha256": "3ba771d8d5e7467c954a3821b8f21689ecb01c518161f98e9e8b4eeeffa19039",
+  "originalValidCases": 93,
+  "result": {
+    "card_pool.lua": 92,
+    "rewardTargets": 72,
+    "starterTargets": 3,
+    "rewardFixtures": 10
+  },
+  "preserved": "Exact existing complete A0 reward case, all4096 candidate seeds, real starter fights, claims, deck identity and next-battle persistence. No deadline changes.",
+  "obsoleteDuplicate": "Upstream old30-card reward case incorrectly forbade7 now-implemented cards and expected rare first rewards. Replaced with the identical source-correct case formerly duplicated in card_pool.lua. Independent numeric oracle unchanged.",
+  "ci088": "All275 fixtures executed; only obsolete card_pool_rewards failed. Six former timeout suites all passed. JS1220passed/119skipped/0failed; presentation22passed.",
+  "correction": "The same old reward failure was present in9a raw logs; initial summary missed it. This record corrects that incomplete failure inventory.",
+  "superset": "All27 old nonbasic IDs are included in explicit72 original nonbasic targets; first-A0-no-rare, real victory, public claims and next-battle identity retained and strengthened. Original search loop was coverage discovery with early exit, not exhaustive RNG acceptance; frozen observed seeds now fail directly if trajectories change. Boss128 and all independent source RNG tests unchanged."
+}

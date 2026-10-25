@@ -33,5 +33,5 @@ local cases = {
     {id="impervious", cost={2,2}, block={30,40}, exhaust=true},
     {id="bludgeon", cost={3,3}, damage={32,42}},
 }
-local blocked = {"clash", "true_grit", "warcry", "metallicize", "whirlwind", "demon_form", "reaper"}
-return {cases=cases, blocked=blocked}
+local formerlyDisabled = {"clash", "true_grit", "warcry", "metallicize", "whirlwind", "demon_form", "reaper"}
+return {cases=cases, formerlyDisabled=formerlyDisabled}
