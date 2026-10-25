@@ -69,6 +69,7 @@ pre-commit 核对所有权及暂存路径；pre-push 核对所有权、整个分
 
 ```powershell
 node scripts/remote-task-claim.mjs sync-base --base <当前origin/develop的SHA>
+node scripts/remote-task-claim.mjs run -- gh pr checks <PR号> --watch --interval 30
 node scripts/remote-task-claim.mjs integrate --pr <PR号> --sha <当前HEAD>
 node scripts/remote-task-claim.mjs check
 # 通过Backlog CLI记录真实验收与完成；不改Assignee约定

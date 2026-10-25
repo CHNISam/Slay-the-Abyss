@@ -1,32 +1,57 @@
 {
-  "runtimeSha256": "5366c866d93dc181a111fd2717ef504a6ee3b79d26bd2c61cd287cfc58c2d628",
-  "testsSha256": "eab3d412b1e97ba27b6a2991ed061d47d6363f05eaacdb94525a3a0b17cf661d",
-  "checkedAt": "2026-10-25T02:35:10.4635706Z",
-  "fullQuality": {
-    "status": "pending exact PR head CI",
-    "reason": "Existing full quality jobs must finish first; local targeted checks are not full CI evidence"
-  },
-  "schema": 1,
-  "inventoryScriptSha256": "00bd1faa302f99e98e6f179ecb7d8abdd74689c74957b08880581aabf29ce196",
-  "durationMs": 213887.8317,
+  "realGit": true,
+  "schema": 2,
   "migration": {
     "localSharedHooksInstalled": true,
     "externalUnknown": true,
     "reservations": 38,
     "status": "paused"
   },
-  "realGit": true,
+  "integrationBaseline": "c05332be41e607ef4284c9459bc1990ef5000a05",
+  "suiteDiscovered": 15,
+  "fullQuality": {
+    "reason": "prior full jobs ended; will run current PR head alone through native queue",
+    "status": "pending exact PR head CI"
+  },
+  "isolatedBaseline": {
+    "fixture": "tests/lua/card_help_release.lua",
+    "failed": 0,
+    "elapsedMs": 13010,
+    "unchangedBudgetMs": 30000,
+    "priorFailure": "40153191516 ETIMEDOUT while two full jobs ran; retained, not relabeled as passed",
+    "passed": 31
+  },
   "implementationBaseline": "3ed8bf4b88a950c4736ec2d68e83f141d415c4db",
-  "passed": 14,
-  "failed": 0,
-  "command": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
-  "skipped": 0,
   "guarantees": "Cooperating unique sessions, synchronized UTC clocks, ordinary non-force CAS pushes. External machines remain unknown; no claim of complete migration.",
-  "tests": 14,
   "localChecks": [
-    "changed JavaScript node --check passed",
+    "changed JavaScript syntax passed",
     "verify-backlog-roadmap passed",
     "git diff --check passed",
     "npm ci --ignore-scripts passed"
+  ],
+  "checkedAt": "2026-10-25T02:47:00.3720139Z",
+  "runs": [
+    {
+      "failed": 0,
+      "sourceCommit": "c069df1bc03f84e8527b989267dcd5d2d21ee773",
+      "durationMs": 213887.8317,
+      "tests": 14,
+      "command": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
+      "passed": 14,
+      "runtimeSha256": "5366c866d93dc181a111fd2717ef504a6ee3b79d26bd2c61cd287cfc58c2d628",
+      "testsSha256": "eab3d412b1e97ba27b6a2991ed061d47d6363f05eaacdb94525a3a0b17cf661d",
+      "skipped": 0
+    },
+    {
+      "failed": 0,
+      "sourceCommit": "717d8965b9bfb50035b42e49cce12d316e92571a",
+      "durationMs": 48910.9305,
+      "tests": 2,
+      "command": "node --test --test-name-pattern=conflicting upstream|scope expansion tests/remote-task-claim.test.mjs",
+      "passed": 2,
+      "runtimeSha256": "48563ecd124fd7def5319d6c284ed01075b77d245d6e82b042b4527d670c6e80",
+      "testsSha256": "11c3ab7fb708222bb1db81e466cc7a8ce8907d4e77bda61c79671afed27b6de7",
+      "skipped": 0
+    }
   ]
 }

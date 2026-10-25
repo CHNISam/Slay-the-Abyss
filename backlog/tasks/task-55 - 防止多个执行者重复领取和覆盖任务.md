@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 02:35'
+updated_date: '2026-10-25 02:47'
 labels: []
 dependencies: []
 priority: high
@@ -39,4 +39,6 @@ ordinal: 94000
 Executor=codex-local-p0，远端generation=1；独立coord/task-claims已非强制推送并读回。14工作树/26个本地In Progress记录的快照已保留，38项旧工作隔离；外部会话未知，迁移paused。首批8组真实Git测试通过，扩展的接收端竞争屏障、真实push、远端SHA授权和中断回收正在复验。免费委派沿用TASK-51限额暂停，无恢复依据，本轮由Codex实施关键协议。
 
 冻结实现14组真实bare remote/独立clone/Node进程回归全部通过（213887.8317ms，失败/跳过均0）；含强制receive-pack竞争屏障、真实提交/推送/PR授权、子会话独立receipt及开发中断网终止。相关语法、Backlog唯一编号/排期检查和diff whitespace通过。全量质量门禁等待现有CI结束后在本PR当前SHA运行；AC4未提前勾选。全局迁移仍paused、38项未知隔离未消除，任务继续记录剩余迁移责任，不宣称所有入口已经迁移完成。
+
+补齐真实上游冲突合并：新增回归先失败，修复后与普通commit/push两组通过（48910.9305ms）；15组完整套件交当前SHA CI。已通过sync-base在真实本任务树保留双方交接并合入c05332b，只有本任务13个文件相对上游变化。基线40153191516在两个全量作业同时运行时card_help_release 30s超时；保留原失败，作业空闲后同fixture原预算隔离31项通过，13010ms。未改游戏或预算。
 <!-- SECTION:NOTES:END -->
