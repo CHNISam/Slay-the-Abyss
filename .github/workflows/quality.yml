@@ -23,7 +23,13 @@ jobs:
         env:
           CLAIM_BRANCH: ${{ github.event.pull_request.head.ref }}
           CLAIM_SHA: ${{ github.event.pull_request.head.sha }}
-        run: node scripts/remote-task-claim.mjs verify-pr --branch "$CLAIM_BRANCH" --sha "$CLAIM_SHA"
+          CLAIM_TOKEN: ${{ github.token }}
+        run: |
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0=http.https://github.com/.extraheader
+          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$CLAIM_TOKEN" | base64 -w0)"
+          unset CLAIM_TOKEN
+          node scripts/remote-task-claim.mjs verify-pr --branch "$CLAIM_BRANCH" --sha "$CLAIM_SHA"
   check:
     needs: ownership
     if: ${{ !cancelled() && (needs.ownership.result == 'success' || needs.ownership.result == 'skipped') }}

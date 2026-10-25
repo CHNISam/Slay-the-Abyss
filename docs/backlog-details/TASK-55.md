@@ -12,6 +12,8 @@
 
 串行组使用GitHub原生`queue: max`，避免默认单pending槽位让后来的独立PR取消前一个等待作业；保留原有按ref取消过时头的workflow设置。配置依据[GitHub并发文档](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency)，不另建调度器。
 
+仓库实际为private；ownership作业仅用当前step的只读GITHUB_TOKEN环境注入Git HTTP header，使临时bare数据库也能读取协调ref。凭证不写配置文件、不持久保留、不输出日志，不提升contents权限。所有权失败时全量check不启动。
+
 ## 验证
 
 测试先于实现，在真实临时bare remote上运行独立Node进程和独立clone。首轮缺少CLI导致失败；8组、10组、11组、13组迭代均实际复验。推送HEAD别名正例曾失败，修正后通过；不放宽互斥或超时标准。

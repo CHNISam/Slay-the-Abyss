@@ -128,7 +128,7 @@ function remoteClient() {
 }
 function requireState(s) { if (!s) die('Coordination branch uninitialized; do not begin work'); return s; }
 function changedPaths(mode, input = '', claim) {
-  if (mode === 'commit') return git('diff', '--cached', '--name-only', '--no-renames', '-z').split('\0').filter(Boolean);
+  if (mode === 'commit') return git('diff', '--cached', '--name-only', '--no-renames', '-z', claim?.base || 'HEAD').split('\0').filter(Boolean);
   if (mode === 'push') {
     const r = claim || receipt();
     const lines = input.trim().split('\n').filter(Boolean);
@@ -312,11 +312,14 @@ async function main() {
     return { checked: true, task: c.task, generation: c.generation, expiresAt: c.expiresAt };
   }
   if (['renew', 'release', 'expand', 'sync-base', 'migration-open', 'migration-resolve'].includes(command)) {
-    let newBase;
+    let newBase, pendingMerge = false;
     if (command === 'sync-base') {
       newBase = need('base');
       const remoteBase = git('ls-remote', '--exit-code', client.remote, 'refs/heads/develop').split(/\s+/)[0];
-      if (newBase !== remoteBase || git('merge-base', 'HEAD', newBase) !== newBase) die('sync-base requires the current remote develop SHA already merged into this branch');
+      const mergeHead = resolve(git('rev-parse', '--git-path', 'MERGE_HEAD'));
+      pendingMerge = existsSync(mergeHead) && readFileSync(mergeHead, 'utf8').trim() === newBase;
+      if (newBase !== remoteBase || (!pendingMerge && git('merge-base', 'HEAD', newBase) !== newBase)) die('sync-base requires the current remote develop SHA merged or staged as the sole MERGE_HEAD');
+      if (pendingMerge && git('diff', '--name-only', '--diff-filter=U')) die('Resolve and stage all merge conflicts before sync-base');
     }
     const state = client.mutate(s => {
       requireState(s); const c = owned(s, r);
@@ -324,7 +327,8 @@ async function main() {
       if (command === 'release') { c.status = 'released'; c.releasedAt = new Date().toISOString(); }
       if (command === 'sync-base') {
         git('merge-base', '--is-ancestor', c.base, newBase);
-        checkPaths(c, git('diff', '--name-only', '--no-renames', '-z', newBase, 'HEAD').split('\0').filter(Boolean));
+        const diffArgs = pendingMerge ? ['--cached', newBase] : [newBase, 'HEAD'];
+        checkPaths(c, git('diff', '--name-only', '--no-renames', '-z', ...diffArgs).split('\0').filter(Boolean));
         c.base = newBase;
       }
       if (command === 'expand') {

@@ -76,6 +76,8 @@ node scripts/remote-task-claim.mjs release
 node scripts/remote-task-claim.mjs list
 ```
 
+若同步develop产生冲突，先保留并暂存真实解决结果，再运行`sync-base`，最后提交merge。该入口仅接受远端develop精确SHA作为唯一MERGE_HEAD，要求冲突全部解决，并检查暂存树相对该上游只有认领范围内的差异；继承上游原文件无需扩大范围，越界改动解决结果会被拒绝。更新基线后应完成该merge；若中断则保留工作并先完成同步，不能借回退基线隐藏修改。pre-commit检查整个暂存成果相对已验证基线的路径。
+
 `integrate` 只合入 develop；校验工作分支、本地 HEAD、PR SHA 与所有当前 CI 检查成功，续租并再次读取远端后，以 `--match-head-commit` squash merge。完成/放弃均释放，保留 generation 墓碑和 Git 历史；其他 session 不能续租或释放。清理分支/树仍按 AGENTS 的备份、干净状态和 merged-head 核验规则，由协调者收口，不清理其他人的工作。
 
 ## 过期、中断和迁移

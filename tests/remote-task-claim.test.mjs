@@ -11,6 +11,9 @@ function git(cwd, ...args) {
   assert.equal(r.status, 0, r.stderr);
   return r.stdout.trim();
 }
+function ownedGit(cwd, ...args) {
+  return spawnSync('git', args, { cwd, encoding: 'utf8', env: { ...process.env, TASK_CLAIM_SESSION: 'a' } });
+}
 function invoke(cwd, args, session = 'a') {
   return new Promise(resolveResult => {
     const p = spawn(process.execPath, [cli, ...args], { cwd, env: { ...process.env, TASK_CLAIM_SESSION: session } });
@@ -243,4 +246,28 @@ test('child executor acquisition creates an isolated receipt and never borrows t
   await fail(target, ['check'], 'a', /session/i);
   await ok(target, ['release'], 'child');
   await ok(a, ['check']);
+});
+
+test('conflicting upstream merge preserves upstream files without authorizing out-of-scope resolutions', async t => {
+  const { a, b, spec } = await fixture(t);
+  git(a, 'push', 'origin', 'HEAD:refs/heads/develop'); git(a, 'fetch', 'origin', 'develop');
+  await ok(a, ['claim', '--spec', spec(a, 'TASK-1', ['allowed'])]); await ok(a, ['install']);
+  writeFileSync(join(a, 'allowed'), 'ours'); git(a, 'add', 'allowed');
+  const own = ownedGit(a, 'commit', '-m', 'test: owned changes'); assert.equal(own.status, 0, own.stderr);
+  git(b, 'fetch', 'origin', 'develop'); git(b, 'checkout', '-B', 'develop', 'origin/develop');
+  writeFileSync(join(b, 'allowed'), 'upstream'); writeFileSync(join(b, 'upstream'), 'retained');
+  git(b, 'add', '.'); git(b, 'commit', '-m', 'test: upstream changes'); git(b, 'push', 'origin', 'develop');
+  const base = git(b, 'rev-parse', 'HEAD');
+  git(a, 'fetch', 'origin', 'develop');
+  assert.notEqual(ownedGit(a, 'merge', '--no-edit', 'origin/develop').status, 0);
+  writeFileSync(join(a, 'allowed'), 'resolved'); git(a, 'add', 'allowed');
+  writeFileSync(join(a, 'upstream'), 'unauthorized resolution'); git(a, 'add', 'upstream');
+  await fail(a, ['sync-base', '--base', base]);
+  writeFileSync(join(a, 'upstream'), 'retained'); git(a, 'add', 'upstream');
+  await ok(a, ['sync-base', '--base', base]);
+  // The installed runtime must apply the same merge guard as the current CLI.
+  await ok(a, ['install']);
+  const merge = ownedGit(a, 'commit', '-m', 'test: resolve owned merge conflict'); assert.equal(merge.status, 0, merge.stderr);
+  assert.equal(readFileSync(join(a, 'upstream'), 'utf8'), 'retained');
+  const pushed = ownedGit(a, 'push', 'origin', 'HEAD:refs/heads/feat/test-0'); assert.equal(pushed.status, 0, pushed.stderr);
 });
