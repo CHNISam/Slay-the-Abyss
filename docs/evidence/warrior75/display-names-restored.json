@@ -490,7 +490,7 @@
     }
   ],
   "validation": {
-    "nameAndCurseContracts": "17 passed",
+    "nameAndCurseContracts": "18 passed including all15 power/status labels",
     "presentationPython": "16 passed,1 existing skipped",
     "cardText": "160 base/up variants passed",
     "nodeUI": "40 groups passed",
@@ -527,6 +527,29 @@
     {
       "path": "traveler-names-spike-slime-ui.log.gz",
       "sha256": "b73f19ab36293b40467757ef29e9ef9f5644a35ae8d477d76ee4c72461f18468"
+    },
+    {
+      "path": "traveler-power-names-red.log.gz",
+      "sha256": "36713475e63986d856cfa12befd0f16a6b6c79102ad84d7d9355aef269a51871"
     }
-  ]
+  ],
+  "powerLabelsRestored": [
+    "dark_embrace",
+    "feel_no_pain",
+    "corruption",
+    "evolve",
+    "fire_breathing",
+    "flame_barrier",
+    "rage",
+    "combust",
+    "rupture",
+    "demon_form",
+    "berserk",
+    "brutality",
+    "double_tap",
+    "juggernaut",
+    "metallicize"
+  ],
+  "statusRulesExcludingNameSha256": "db6b179beeb4813173a1ba8376f293a4dae2980b58cbdd9d87ececde9bada6bb",
+  "statusRulesUnchanged": true
 }

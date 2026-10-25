@@ -27,3 +27,12 @@ test('the 40 existing traveler names survive card pool expansion unchanged',()=>
   assert.equal(display.whirlwind.name,'岩潮叠嶂');
   assert.equal(display.barricade.name,'永世的磐岩');
 });
+
+test('power and status labels never leak original English names into Chinese combat UI',()=>{
+  const statuses=JSON.parse(readFileSync('data/statuses.json','utf8')).statuses;
+  const display=JSON.parse(readFileSync('data/presentation/traveler.zh-CN.json','utf8')).cards;
+  for(const s of statuses) assert.match(s.name,/^[\p{Script=Han}·]+$/u,s.id);
+  for(const id of ['dark_embrace','feel_no_pain','corruption','evolve','fire_breathing','flame_barrier','rage','combust','rupture','demon_form','berserk','brutality','double_tap','juggernaut','metallicize']){
+    assert.equal(statuses.find(s=>s.id===id).name,display[id].name,id+' has the same player-facing power label');
+  }
+});

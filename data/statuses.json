@@ -155,7 +155,7 @@
     },
     {
       "id": "dark_embrace",
-      "name": "Dark Embrace",
+      "name": "临机应变",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -163,7 +163,7 @@
     },
     {
       "id": "feel_no_pain",
-      "name": "Feel No Pain",
+      "name": "百折不挠",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -171,7 +171,7 @@
     },
     {
       "id": "corruption",
-      "name": "Corruption",
+      "name": "孤注一掷",
       "kind": "buff",
       "stack": "none",
       "decay": "none",
@@ -179,7 +179,7 @@
     },
     {
       "id": "evolve",
-      "name": "Evolve",
+      "name": "逆境求变",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -187,7 +187,7 @@
     },
     {
       "id": "fire_breathing",
-      "name": "Fire Breathing",
+      "name": "逆势反攻",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -195,7 +195,7 @@
     },
     {
       "id": "flame_barrier",
-      "name": "Flame Barrier",
+      "name": "反击架势",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -203,7 +203,7 @@
     },
     {
       "id": "rage",
-      "name": "Rage",
+      "name": "攻守相济",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -211,7 +211,7 @@
     },
     {
       "id": "combust",
-      "name": "Combust",
+      "name": "强攻压阵",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -219,7 +219,7 @@
     },
     {
       "id": "rupture",
-      "name": "Rupture",
+      "name": "愈挫愈勇",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -227,7 +227,7 @@
     },
     {
       "id": "demon_form",
-      "name": "Demon Form",
+      "name": "渐入佳境",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -235,7 +235,7 @@
     },
     {
       "id": "berserk",
-      "name": "Berserk",
+      "name": "背水之战",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -243,7 +243,7 @@
     },
     {
       "id": "brutality",
-      "name": "Brutality",
+      "name": "破釜沉舟",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -251,7 +251,7 @@
     },
     {
       "id": "double_tap",
-      "name": "Double Tap",
+      "name": "叠势连击",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -259,7 +259,7 @@
     },
     {
       "id": "juggernaut",
-      "name": "Juggernaut",
+      "name": "守中有攻",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
@@ -267,7 +267,7 @@
     },
     {
       "id": "metallicize",
-      "name": "Metallicize",
+      "name": "持续防守",
       "kind": "buff",
       "stack": "intensity",
       "decay": "none",
