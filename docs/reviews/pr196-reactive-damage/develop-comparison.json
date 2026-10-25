@@ -1,0 +1,33 @@
+{
+  "head": "f93b0301f98d6cc5e2a8e2e244721b1eb3ceb2ab",
+  "runtime": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
+  "develop": "826db2d3b97e505ca63b9a26ae8ab6af885791af",
+  "files": [
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "gitBlob": "bc4f89a6d632be73a730f31f09ffd7ccea506135",
+      "containsFlameBarrier": false,
+      "url": "https://github.com/CHNISam/Slay-the-Abyss/blob/826db2d3b97e505ca63b9a26ae8ab6af885791af/src/lua/abyss_actor.lua"
+    },
+    {
+      "path": "data/cards.json",
+      "gitBlob": "055e53f6fad1224925e1ff6d69874c2cd42d8e76",
+      "containsFlameBarrier": false,
+      "url": "https://github.com/CHNISam/Slay-the-Abyss/blob/826db2d3b97e505ca63b9a26ae8ab6af885791af/data/cards.json"
+    },
+    {
+      "path": "data/statuses.json",
+      "gitBlob": "12392951e8af4e81d855053831253e048659aff2",
+      "containsFlameBarrier": false,
+      "url": "https://github.com/CHNISam/Slay-the-Abyss/blob/826db2d3b97e505ca63b9a26ae8ab6af885791af/data/statuses.json"
+    }
+  ],
+  "reactionLoopLines": [
+    159,
+    172
+  ],
+  "baseActorBlob": "bc4f89a6d632be73a730f31f09ffd7ccea506135",
+  "comparison": "develop826 Actor is byte-identical to PR196 base9ae Actor. Its reaction loop has no player-death guard. The exact Flame Barrier card repro is NOT runnable on develop826: card definition, status definition, and handler are absent. No mixed-source run performed.",
+  "authorEdgeTestBlob": "92d109dafdf697f56f1c2d0b38302bb2ced96e75",
+  "task161Blob": "79de81a40d3ec5f23c08f31e53f10d9d84b41c6d"
+}

@@ -1,0 +1,61 @@
+{
+  "ref": "fc379c875c11e008e9c10548ac8e394c301c532f",
+  "evidenceClass": "Pinned decompiled mirror; no authenticated original-PC binary execution; no third-party source bodies copied to deliverable",
+  "files": [
+    {
+      "path": "powers/SharpHidePower.java",
+      "gitBlob": "9c2bfa329f0e65cf9ea70370bff606306b303b89",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/SharpHidePower.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "powers/RupturePower.java",
+      "gitBlob": "4dd9ecbbd17ab5f4b204ad6a9d3ac6a05b58a279",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/RupturePower.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "powers/FlameBarrierPower.java",
+      "gitBlob": "226c7f10668ecb8d14b8347ec8c15b5842ac2bfd",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/powers/FlameBarrierPower.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "gitBlob": "a543883e0b4b6d32723ec1ebd00b4d632296b231",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/characters/AbstractPlayer.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "gitBlob": "fedeaf280ac6e42e362ce1611d873085b17177cf",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/common/DamageAction.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "gitBlob": "931cded5ae1aed78771e0a5389e8358946b78f8f",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/actions/GameActionManager.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "gitBlob": "cbd3b988e267bbf5dc8c4fd981ccc201e8bcec9e",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/rooms/AbstractRoom.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "gitBlob": "0b56f48444f990fec0225747f19125eab17233af",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/dungeons/AbstractDungeon.java",
+      "fullContentRead": true
+    },
+    {
+      "path": "screens/DeathScreen.java",
+      "gitBlob": "0dcb52bf576a4ac264fb273f8bdec1570617133f",
+      "url": "https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/screens/DeathScreen.java",
+      "linesRead": "60-115,120-195",
+      "fullContentRead": false
+    }
+  ]
+}
