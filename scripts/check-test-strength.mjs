@@ -14,8 +14,8 @@ export function classifyMutation(result,proof) {
   const lines=`${result.stdout??''}\n${result.stderr??''}`.replaceAll('\\','/').split(/\r?\n/);
   return lines.some(line=>line.includes(`${proof.file}:${proof.line}:`) && line.includes(proof.marker))?'killed_by_assertion':'inconclusive';
 }
-function invoke(script,cwd,{timeout=15000}={}) {
-  try{return runLua(script,{cwd,timeout});}catch(error){return {status:null,stdout:'',stderr:error.message,error:{code:error.cause?.code??'RUNNER_ERROR'}};}
+function invoke(script,cwd,{timeout=15000,caseName}={}) {
+  try{return runLua(script,{cwd,timeout,caseName});}catch(error){return {status:null,stdout:'',stderr:error.message,error:{code:error.cause?.code??'RUNNER_ERROR'}};}
 }
 export function runMutation(operator,{root=process.cwd(),runner=invoke,deadline=Date.now()+120000}={}) {
   const started=Date.now(),directory=mkdtempSync(join(tmpdir(),'abyss-mutation-'));
@@ -23,11 +23,11 @@ export function runMutation(operator,{root=process.cwd(),runner=invoke,deadline=
   const rawTest=readFileSync(join(root,operator.test)),testSource=rawTest.toString('utf8').replaceAll('\r\n','\n');
   const lines=testSource.split('\n'),origins=lines.flatMap((line,i)=>line.includes(operator.assertionSource)?[i+1]:[]);
   const report={id:operator.id,sourceSha256:sha256(rawSource),testSha256:sha256(rawTest),runtime:process.version,
-    diff:{before:operator.before,after:operator.after},baseline:'not_run',syntax:'not_run',status:'not_run',test:operator.test};
+    diff:{before:operator.before,after:operator.after},baseline:'not_run',syntax:'not_run',status:'not_run',test:operator.test,caseName:operator.caseName};
   try{
     if(origins.length!==1)throw new Error('Assertion origin must be unique');
     for(const dir of ['src/lua','build/lua','tests/lua'])cpSync(join(root,dir),join(directory,dir),{recursive:true});
-    const baseline=runner(operator.test,directory,{timeout:Math.max(1,Math.min(15000,deadline-Date.now()))});report.baselineResult=baseline;
+    const baseline=runner(operator.test,directory,{timeout:Math.max(1,Math.min(15000,deadline-Date.now())),caseName:operator.caseName});report.baselineResult=baseline;
     if(baseline.error||baseline.status!==0){report.baseline='fail';report.status='inconclusive';return report;}
     report.baseline='pass';
     if(source.split(operator.before).length!==2){report.status='invalid_mutant';report.reason='Non-unique or missing source anchor';return report;}
@@ -36,7 +36,7 @@ export function runMutation(operator,{root=process.cwd(),runner=invoke,deadline=
     catch(error){report.syntax='fail';report.status='invalid_mutant';report.reason=error.message;return report;}
     writeFileSync(join(directory,operator.source),mutant);
     report.assertion={file:operator.test,line:origins[0],marker:operator.marker};
-    const result=runner(operator.test,directory,{timeout:Math.max(1,Math.min(15000,deadline-Date.now()))});report.result=result;report.status=classifyMutation(result,report.assertion);
+    const result=runner(operator.test,directory,{timeout:Math.max(1,Math.min(15000,deadline-Date.now())),caseName:operator.caseName});report.result=result;report.status=classifyMutation(result,report.assertion);
     return report;
   }catch(error){report.status='infrastructure_error';report.reason=error.message;return report;}
   finally{

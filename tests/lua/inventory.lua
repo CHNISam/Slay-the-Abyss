@@ -3,6 +3,7 @@ local Run, Combat = require("abyss_run"), require("abyss_combat")
 local Nodes, Map = require("abyss_nodes"), require("abyss_map")
 local data = require("abyss_data")
 local count = 0
+local mutationCase = rawget(_G, "ABYSS_MUTATION_CASE")
 local function equal(a, b) assert(a == b, tostring(a) .. " ~= " .. tostring(b)) end
 local function same(a, b)
     equal(type(a), type(b))
@@ -10,7 +11,10 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
-local function test(name, fn) fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name) end
+local function test(name, fn)
+    if mutationCase and name ~= mutationCase then return end
+    fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name)
+end
 local function battle(potions, source)
     local run = Run.new(source or data, 42)
     run.potions = potions or {}
@@ -313,4 +317,5 @@ test("death followed by Run.new resets all same-run resources without sharing ca
     same(old, before); equal(definition(data.potions.potions, "fire_potion").effects[1].value, 20)
 end)
 
+assert(not mutationCase or count == 1, "unknown or duplicate inventory mutation case")
 print("LUA_INVENTORY_PASS " .. count)
