@@ -1,0 +1,21 @@
+{
+  "head": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+  "changed_paths": [
+    "tests/lua/card_pool_rewards.lua"
+  ],
+  "patch_sha256": "86ef53743cf58427b508e1bdf6ac7c912e7d02826efad0956a9d38020eb1100a",
+  "files": [
+    {
+      "kind": "baseline",
+      "path": "tests/lua/card_pool_rewards.lua",
+      "gitBlob": "0b25b4bdf64c043ff9e70ad9ab9d4c097b756a35",
+      "sha256": "610f8a510a853a4e08d82817a9e83039acd862b53102d6296f4e00e360039065"
+    },
+    {
+      "kind": "candidate",
+      "path": "tests/lua/card_pool_rewards.lua",
+      "gitBlob": "b6bf188f6f206728c085e8ac891f275ce7cce8a4",
+      "sha256": "18455aa56854596f3768b721b7852bf783c731297b61d1cd4f473ebfa7bb625b"
+    }
+  ]
+}
