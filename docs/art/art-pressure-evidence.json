@@ -1,0 +1,515 @@
+{
+  "date": "2026-10-25",
+  "scope": "PC rough screening; callback intervals are not GPU FPS; no mobile result",
+  "singleSave": {
+    "candidateSha256": "603c9395f42cd2360abb659b03c5b1adec5a3ae79b7ed620ff6f28048f6425b2",
+    "logFileSha256": "d7e0460a8965a6712947df96d5a50ccb1f7984f9b04044a89eab15079c6f56ab",
+    "recordCount": 63,
+    "prints": [
+      {
+        "elapsedSeconds": "1",
+        "text": "ARTPRESS_READY canvas=1599.9996337891x899.99975585938"
+      },
+      {
+        "elapsedSeconds": "1",
+        "text": "ARTPRESS_STAGE 1 drawn=0 instances=0 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "11",
+        "text": "ARTPRESS_DT stage=1 回调 mean=34.97 p95=34.00 p99=34.00 n=230（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "16",
+        "text": "ARTPRESS_STAGE 2 drawn=160 instances=10 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "26",
+        "text": "ARTPRESS_DT stage=2 回调 mean=33.23 p95=34.00 p99=35.00 n=241（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "31",
+        "text": "ARTPRESS_STAGE 3 drawn=320 instances=10 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "41",
+        "text": "ARTPRESS_DT stage=3 回调 mean=33.23 p95=34.00 p99=35.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "46",
+        "text": "ARTPRESS_STAGE 4 drawn=640 instances=10 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "56",
+        "text": "ARTPRESS_DT stage=4 回调 mean=33.34 p95=34.00 p99=34.00 n=240（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "61",
+        "text": "ARTPRESS_STAGE 5 drawn=257 instances=1 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "71",
+        "text": "ARTPRESS_DT stage=5 回调 mean=33.24 p95=34.00 p99=35.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "76",
+        "text": "ARTPRESS_STAGE 6 drawn=771 instances=3 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "86",
+        "text": "ARTPRESS_DT stage=6 回调 mean=33.24 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "91",
+        "text": "ARTPRESS_STAGE 7 drawn=1285 instances=5 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "101",
+        "text": "ARTPRESS_DT stage=7 回调 mean=33.24 p95=34.00 p99=35.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "106",
+        "text": "ARTPRESS_STAGE 8 drawn=939 instances=1 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "116",
+        "text": "ARTPRESS_DT stage=8 回调 mean=33.24 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "121",
+        "text": "ARTPRESS_STAGE 9 drawn=2817 instances=3 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "130",
+        "text": "ARTPRESS_DT stage=9 回调 mean=33.23 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "135",
+        "text": "ARTPRESS_STAGE 10 drawn=4695 instances=5 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "144",
+        "text": "ARTPRESS_DT stage=10 回调 mean=33.24 p95=34.00 p99=35.00 n=241（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "149",
+        "text": "ARTPRESS_STAGE 11 drawn=15 instances=1 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "159",
+        "text": "ARTPRESS_DT stage=11 回调 mean=33.24 p95=34.00 p99=35.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "164",
+        "text": "ARTPRESS_STAGE 12 drawn=75 instances=5 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "174",
+        "text": "ARTPRESS_DT stage=12 回调 mean=33.23 p95=34.00 p99=34.00 n=241（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "179",
+        "text": "ARTPRESS_STAGE 13 drawn=150 instances=10 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "189",
+        "text": "ARTPRESS_DT stage=13 回调 mean=33.46 p95=34.00 p99=35.00 n=240（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "194",
+        "text": "ARTPRESS_STAGE 14 drawn=343 instances=1 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "204",
+        "text": "ARTPRESS_DT stage=14 回调 mean=33.23 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "209",
+        "text": "ARTPRESS_STAGE 15 drawn=1715 instances=5 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "219",
+        "text": "ARTPRESS_DT stage=15 回调 mean=33.23 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "224",
+        "text": "ARTPRESS_STAGE 16 drawn=3430 instances=10 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "233",
+        "text": "ARTPRESS_DT stage=16 回调 mean=33.23 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "238",
+        "text": "ARTPRESS_STAGE 17 drawn=1435 instances=15 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "247",
+        "text": "ARTPRESS_DT stage=17 回调 mean=33.23 p95=34.00 p99=34.00 n=241（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "253",
+        "text": "ARTPRESS_STAGE 18 drawn=4715 instances=15 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "262",
+        "text": "ARTPRESS_DT stage=18 回调 mean=33.23 p95=34.00 p99=34.00 n=242（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "267",
+        "text": "ARTPRESS_STAGE 19 drawn=8125 instances=15 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "275",
+        "text": "ARTPRESS_DT stage=19 回调 mean=42.62 p95=37.00 p99=42.00 n=235（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "280",
+        "text": "ARTPRESS_STAGE 20 drawn=8765 instances=25 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "287",
+        "text": "ARTPRESS_DT stage=20 回调 mean=47.71 p95=37.00 p99=43.00 n=210（非GPU FPS）"
+      },
+      {
+        "elapsedSeconds": "292",
+        "text": "ARTPRESS_SWEEP_DONE"
+      },
+      {
+        "elapsedSeconds": "426",
+        "text": "ARTPRESS_CLICK Clear"
+      },
+      {
+        "elapsedSeconds": "426",
+        "text": "ARTPRESS_CLEARED"
+      },
+      {
+        "elapsedSeconds": "507",
+        "text": "ARTPRESS_CLICK Rebuild"
+      },
+      {
+        "elapsedSeconds": "507",
+        "text": "ARTPRESS_STAGE 20 drawn=8765 instances=25 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "514",
+        "text": "ARTPRESS_CLICK Clear"
+      },
+      {
+        "elapsedSeconds": "514",
+        "text": "ARTPRESS_CLEARED"
+      },
+      {
+        "elapsedSeconds": "521",
+        "text": "ARTPRESS_CLICK Rebuild"
+      },
+      {
+        "elapsedSeconds": "521",
+        "text": "ARTPRESS_STAGE 20 drawn=8765 instances=25 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "527",
+        "text": "ARTPRESS_CLICK Clear"
+      },
+      {
+        "elapsedSeconds": "527",
+        "text": "ARTPRESS_CLEARED"
+      },
+      {
+        "elapsedSeconds": "534",
+        "text": "ARTPRESS_CLICK Rebuild"
+      },
+      {
+        "elapsedSeconds": "534",
+        "text": "ARTPRESS_STAGE 20 drawn=8765 instances=25 reuse=false motion=true"
+      },
+      {
+        "elapsedSeconds": "541",
+        "text": "ARTPRESS_CLICK Reuse"
+      },
+      {
+        "elapsedSeconds": "541",
+        "text": "ARTPRESS_REUSE true"
+      },
+      {
+        "elapsedSeconds": "545",
+        "text": "ARTPRESS_CLICK Masked"
+      },
+      {
+        "elapsedSeconds": "545",
+        "text": "ARTPRESS_STAGE 9 drawn=2817 instances=3 reuse=true motion=true"
+      },
+      {
+        "elapsedSeconds": "552",
+        "text": "ARTPRESS_CLICK Mid"
+      },
+      {
+        "elapsedSeconds": "552",
+        "text": "ARTPRESS_STAGE 17 drawn=1435 instances=15 reuse=true motion=true"
+      },
+      {
+        "elapsedSeconds": "560",
+        "text": "ARTPRESS_CLICK Clear"
+      },
+      {
+        "elapsedSeconds": "560",
+        "text": "ARTPRESS_CLEARED"
+      },
+      {
+        "elapsedSeconds": "693",
+        "text": "ARTPRESS_DESTROY"
+      }
+    ]
+  },
+  "presentMon": {
+    "tool": "PresentMon 2.6.0 ETW",
+    "scope": "Short diagnostic windows after observed screenshots; rough route screening, not a certified matched-device benchmark. No mobile FPS inferred.",
+    "windows": [
+      {
+        "screenshot": "single-sweep-02",
+        "stage": "18 / 4715",
+        "utc_start": 1792905652.153,
+        "utc_end": 1792905657.153,
+        "rows": 98,
+        "MsBetweenPresents": {
+          "n": 98,
+          "mean_ms": 63.53,
+          "p95_ms": 68.484,
+          "max_ms": 2169.647,
+          "approx_fps": 15.74
+        },
+        "MsBetweenDisplayChange": {
+          "n": 98,
+          "mean_ms": 63.607,
+          "p95_ms": 73.803,
+          "max_ms": 2166.717,
+          "approx_fps": 15.72
+        },
+        "MsGPUTime": {
+          "n": 98,
+          "mean_ms": 54.786,
+          "p95_ms": 37.203,
+          "max_ms": 2172.02
+        }
+      },
+      {
+        "screenshot": "single-sweep-03",
+        "stage": "19 / 8125",
+        "utc_start": 1792905664.119,
+        "utc_end": 1792905669.119,
+        "rows": 113,
+        "MsBetweenPresents": {
+          "n": 113,
+          "mean_ms": 44.127,
+          "p95_ms": 99.979,
+          "max_ms": 201.183,
+          "approx_fps": 22.66
+        },
+        "MsBetweenDisplayChange": {
+          "n": 113,
+          "mean_ms": 44.101,
+          "p95_ms": 99.976,
+          "max_ms": 216.806,
+          "approx_fps": 22.68
+        },
+        "MsGPUTime": {
+          "n": 113,
+          "mean_ms": 33.089,
+          "p95_ms": 39.103,
+          "max_ms": 43.811
+        }
+      },
+      {
+        "screenshot": "single-sweep-05",
+        "stage": "20 / 8765",
+        "utc_start": 1792905688.251,
+        "utc_end": 1792905693.251,
+        "rows": 115,
+        "MsBetweenPresents": {
+          "n": 115,
+          "mean_ms": 43.568,
+          "p95_ms": 99.835,
+          "max_ms": 133.383,
+          "approx_fps": 22.95
+        },
+        "MsBetweenDisplayChange": {
+          "n": 115,
+          "mean_ms": 43.479,
+          "p95_ms": 99.967,
+          "max_ms": 133.349,
+          "approx_fps": 23.0
+        },
+        "MsGPUTime": {
+          "n": 115,
+          "mean_ms": 33.382,
+          "p95_ms": 38.205,
+          "max_ms": 41.069
+        }
+      },
+      {
+        "screenshot": "single-sweep-06",
+        "stage": "20 / 8765",
+        "utc_start": 1792905700.298,
+        "utc_end": 1792905705.298,
+        "rows": 121,
+        "MsBetweenPresents": {
+          "n": 121,
+          "mean_ms": 41.398,
+          "p95_ms": 70.605,
+          "max_ms": 103.332,
+          "approx_fps": 24.16
+        },
+        "MsBetweenDisplayChange": {
+          "n": 121,
+          "mean_ms": 41.323,
+          "p95_ms": 66.9,
+          "max_ms": 108.375,
+          "approx_fps": 24.2
+        },
+        "MsGPUTime": {
+          "n": 121,
+          "mean_ms": 34.031,
+          "p95_ms": 38.207,
+          "max_ms": 39.62
+        }
+      },
+      {
+        "screenshot": "single-sweep-07",
+        "stage": "20 / 8765",
+        "utc_start": 1792905712.254,
+        "utc_end": 1792905717.254,
+        "rows": 115,
+        "MsBetweenPresents": {
+          "n": 115,
+          "mean_ms": 43.14,
+          "p95_ms": 100.446,
+          "max_ms": 163.724,
+          "approx_fps": 23.18
+        },
+        "MsBetweenDisplayChange": {
+          "n": 115,
+          "mean_ms": 43.19,
+          "p95_ms": 100.035,
+          "max_ms": 166.708,
+          "approx_fps": 23.15
+        },
+        "MsGPUTime": {
+          "n": 115,
+          "mean_ms": 33.869,
+          "p95_ms": 37.514,
+          "max_ms": 42.255
+        }
+      },
+      {
+        "screenshot": "single-sweep-08",
+        "stage": "20 / 8765",
+        "utc_start": 1792905724.356,
+        "utc_end": 1792905729.356,
+        "rows": 119,
+        "MsBetweenPresents": {
+          "n": 119,
+          "mean_ms": 41.954,
+          "p95_ms": 70.932,
+          "max_ms": 101.849,
+          "approx_fps": 23.84
+        },
+        "MsBetweenDisplayChange": {
+          "n": 119,
+          "mean_ms": 41.878,
+          "p95_ms": 77.664,
+          "max_ms": 99.968,
+          "approx_fps": 23.88
+        },
+        "MsGPUTime": {
+          "n": 119,
+          "mean_ms": 33.724,
+          "p95_ms": 38.753,
+          "max_ms": 39.593
+        }
+      },
+      {
+        "screenshot": "single-sweep-09",
+        "stage": "20 / 8765",
+        "utc_start": 1792905736.228,
+        "utc_end": 1792905741.228,
+        "rows": 109,
+        "MsBetweenPresents": {
+          "n": 109,
+          "mean_ms": 45.842,
+          "p95_ms": 101.222,
+          "max_ms": 206.182,
+          "approx_fps": 21.81
+        },
+        "MsBetweenDisplayChange": {
+          "n": 109,
+          "mean_ms": 45.872,
+          "p95_ms": 88.217,
+          "max_ms": 200.116,
+          "approx_fps": 21.8
+        },
+        "MsGPUTime": {
+          "n": 109,
+          "mean_ms": 33.74,
+          "p95_ms": 37.495,
+          "max_ms": 39.238
+        }
+      },
+      {
+        "screenshot": "single-clear-view-1",
+        "stage": "empty after clear",
+        "utc_start": 1792905823.574,
+        "utc_end": 1792905828.574,
+        "rows": 128,
+        "MsBetweenPresents": {
+          "n": 128,
+          "mean_ms": 39.982,
+          "p95_ms": 66.905,
+          "max_ms": 132.857,
+          "approx_fps": 25.01
+        },
+        "MsBetweenDisplayChange": {
+          "n": 128,
+          "mean_ms": 39.975,
+          "p95_ms": 66.763,
+          "max_ms": 133.363,
+          "approx_fps": 25.02
+        },
+        "MsGPUTime": {
+          "n": 128,
+          "mean_ms": 33.239,
+          "p95_ms": 33.947,
+          "max_ms": 34.39
+        }
+      }
+    ]
+  },
+  "oldSceneComparison": {
+    "status": "INVALID_FOR_FAIR_ROUTE_COMPARISON",
+    "candidateSha256": "9b0ca3cd8c2901240ad89f19ca0026feccbfa8669ca96817d075b8b7dc10cc7e",
+    "expectedNative": [
+      7,
+      28,
+      84,
+      0
+    ],
+    "observedNative": [
+      7,
+      31,
+      99,
+      49
+    ],
+    "reason": "removing from a live entity list skipped items; subsequent backgrounds retained native entities"
+  },
+  "newProduction": {
+    "status": "OFFLINE_ONLY_PENDING_REBUILT_41_STAGE_LIVE_TEST",
+    "nativeModels": 32,
+    "shapes": 207,
+    "containers": 13,
+    "stages": 41,
+    "mobile": "UNTESTED",
+    "cancelledRun": "e70a74a2-1fac-4381-adf6-2cb3c67355e4",
+    "cancelReason": "input coordination requested; runner stopped before production runtime validation",
+    "candidateSha256": "e410f8794d81c0b91522e17f80745939b14c195683b09544a0dd9d84ce6c8187",
+    "staticErrors": 0,
+    "staticWarnings": 7
+  }
+}

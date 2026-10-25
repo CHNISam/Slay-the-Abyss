@@ -1,0 +1,149 @@
+{
+  "catalog": "D:/MiliastraTools/genshin-miliastra-mcp/src/scene/asset-catalog.json",
+  "thumbnailDirectory": "D:/MiliastraTools/genshin-miliastra-mcp/src/scene/thumbs",
+  "source": "hang-ZYM/qianxing-format-docs, CC BY 4.0; official game models remain official assets",
+  "reviewedAt": "2026-10-25T14:51:22+08:00",
+  "method": "Installed MCP searchAssets read-only lookup plus visual inspection of all selected thumbnails; first seven also have repository scene-spike selection evidence.",
+  "assets": [
+    {
+      "id": 20003078,
+      "name": "石质地板",
+      "group": "建筑构件",
+      "icon": "UI_Beyd_Gadget_Build_YJDiBan_08",
+      "sizeMetres": [
+        16.169,
+        0.406,
+        16.169
+      ],
+      "thumbnail": "20003078.jpg",
+      "instances": 1,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20002056,
+      "name": "金属地板",
+      "group": "建筑装饰",
+      "icon": "UI_Beyd_Gadget_Prop_Floor_05",
+      "sizeMetres": [
+        10,
+        0.5,
+        10
+      ],
+      "thumbnail": "20002056.jpg",
+      "instances": 4,
+      "newSinceSceneSpike": true
+    },
+    {
+      "id": 20002899,
+      "name": "残破石质地板",
+      "group": "建筑装饰",
+      "icon": "UI_Beyd_Gadget_Build_YJDiBan_04",
+      "sizeMetres": [
+        5,
+        0.85,
+        5
+      ],
+      "thumbnail": "20002899.jpg",
+      "instances": 4,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20002083,
+      "name": "岩石",
+      "group": "建筑装饰",
+      "icon": "UI_Beyd_Gadget_Rock_Quarry_03",
+      "sizeMetres": [
+        3.511,
+        2.637,
+        4.226
+      ],
+      "thumbnail": "20002083.jpg",
+      "instances": 3,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20001711,
+      "name": "残破石柱",
+      "group": "自然景观",
+      "icon": "UI_Beyd_Gadget_Build_Ruin_05",
+      "sizeMetres": [
+        2.466,
+        5.818,
+        2.427
+      ],
+      "thumbnail": "20001711.jpg",
+      "instances": 6,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20002902,
+      "name": "残破石质墙壁",
+      "group": "建筑装饰",
+      "icon": "UI_Beyd_Gadget_Build_YJQiang_05",
+      "sizeMetres": [
+        2.242,
+        2.923,
+        1.395
+      ],
+      "thumbnail": "20002902.jpg",
+      "instances": 4,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20002586,
+      "name": "石质门洞",
+      "group": "建筑装饰",
+      "icon": "UI_Beyd_Gadget_Build_YiJi_05",
+      "sizeMetres": [
+        5,
+        5.643,
+        0.61
+      ],
+      "thumbnail": "20002586.jpg",
+      "instances": 1,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20001540,
+      "name": "石堆",
+      "group": "自然景观",
+      "icon": "UI_Beyd_Gadget_Prop_Gravel_01",
+      "sizeMetres": [
+        3.462,
+        0.966,
+        3.602
+      ],
+      "thumbnail": "20001540.jpg",
+      "instances": 3,
+      "newSinceSceneSpike": false
+    },
+    {
+      "id": 20001043,
+      "name": "岩石",
+      "group": "自然景观",
+      "icon": "UI_Beyd_Gadget_Rock_A_02_L",
+      "sizeMetres": [
+        5.126,
+        10.042,
+        5.233
+      ],
+      "thumbnail": "20001043.jpg",
+      "instances": 3,
+      "newSinceSceneSpike": true
+    },
+    {
+      "id": 20001044,
+      "name": "岩石",
+      "group": "自然景观",
+      "icon": "UI_Beyd_Gadget_Rock_A_03_L",
+      "sizeMetres": [
+        4.46,
+        8.737,
+        5.077
+      ],
+      "thumbnail": "20001044.jpg",
+      "instances": 3,
+      "newSinceSceneSpike": true
+    }
+  ]
+}
