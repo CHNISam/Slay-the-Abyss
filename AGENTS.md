@@ -47,6 +47,11 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## Git Branch Workflow (GitFlow-lite)
 
+- **所有本地 Codex、远端 Agent、OpenCode 和 Sub-Agent 必须使用 [Remote Task Claim Protocol](docs/REMOTE_TASK_CLAIMS.md)**。Backlog Assignee 保持 Furinya，实际 Executor 记录在远端 claim 的 agent/session；历史任务不批量改负责人。
+- 动手前通过 `node scripts/remote-task-claim.mjs claim/adopt` 取得远端执行权，确认后使用独立 worktree；每个执行会话独立 UUID，不能共享 receipt。范围不明确、领取失败、远端不可达或失权时停止新的开发、提交、推送、集成和完成操作。
+- 开发/委派命令通过 `node scripts/remote-task-claim.mjs run -- <命令>`，直接工具每批写入前 `check`，扩范围先 `expand`；新 clone 必须 `install` Git 门禁，提交、推送和集成前远端复核。只用受控 `integrate` 校验当前SHA全绿后合入，完成/放弃后 `release`。
+- 迁移状态以远端 `list` 为准。未知旧任务/分支/会话不能当成无人持有；暂停时只允许有证据的 adopt/recover。未核实其他机器和所有旧入口前不得开放批量并行；不得绕过 hooks 或强推协调分支。
+
 - `master` = production. Tagged releases only. Never commit directly.
 - `develop` = integration / development base. Default branch for daily work.
 - Feature work: `feat/<slug>` branched from `develop`, merged back into `develop` via PR.
