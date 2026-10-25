@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-25 09:15'
+updated_date: '2026-10-25 10:23'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -70,4 +70,6 @@ ordinal: 75000
 2026-10-25 最终候选更新：领奖事务保留独立RewardItem owner且完整异常回滚，旧奖励UI断言保持并通过；permanent_transactions13项、178卡面、25项来源契约及十组旧流程回归完成。生产源ded810f0f7b403b564bee64df06117587957500f重建含BGM候选4d9f3d0a0e21e9ea4f7e96eca7adf8ae1eaede4c117ec02aa6022f5e4d8c7f8c，71模块逐字节独立读回，静态0错误36警告。稳定证据.artifacts/m3-events-inventory-20261025，最终PR头完整CI/合并仍待实际结果。按用户最新要求，任何鼠标键盘/抢焦点/实机输入先约本轮窗口；本轮未获桌面窗口，官方导入、同候选真实试玩、BGM听测与UI总门禁未验证。全池/自然渠道/总分及平台缺口继续保留，父任务与M3不标Done。
 
 2026-10-25 RC2：保留develop已合入PR207布局，源3e9873220cf5aa055799992c906ade0daf167f63重建含BGM候选8c8f04612f6c1858b5146fb2355eda020e3fcf342f897d1e187d88f0a2097ce0，71模块逐字节审计，静态0错误/36警告。旧e1全CI首轮药水预算超时、仅一次重跑后Node全过但Lua旧oracle失败，日志均保留；七份旧oracle按当前契约校准，失败身份/RNG/完整75/UID及下战断言和原时限不降，17个Lua入口+12个Node本地通过。最终头完整CI及合并以本PR实际记录为准，父任务/M3保持In Progress。没有桌面输入窗口，不操作鼠标键盘或抢焦点，官方导入/同候选试玩未验证。
+
+2026-10-25 CI环境校准：1647330完整Node1268pass/119既有skip/0fail、数据通过；本机Node22三份Lua超时，GitHub45分钟取消，仅完成到potion_status_rules，未合并。官方校验便携Node24在同机原预算下living_wall18267ms/card_help_release20229ms/battle_ui48674ms全部通过。Quality仅固定Node24.18.0，源码/候选/系统MCP Node及全部断言、45分钟与单测预算不变。最终头完整CI仍待真实结果，平台未验证且无桌面窗口，父任务保持In Progress。
 <!-- SECTION:NOTES:END -->

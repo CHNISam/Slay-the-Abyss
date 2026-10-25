@@ -38,6 +38,7 @@
 - 工作区：`D:\MiliastraTools\genshin-miliastra-mcp\workspace`
 - 依赖：Node `v22.22.1`、Python `3.12.10`（`C:\Users\Administrator\AppData\Local\Programs\Python\Python312\python.exe`，Pillow + rapidocr-onnxruntime 已装）
   - 注意：系统默认 Python 是 3.13，装不了 `rapidocr-onnxruntime`，所以单独装了 3.12，**必须用 3.12 这个路径**。
+- 完整 Quality CI 单独固定 Node `24.18.0`，由 `actions/setup-node` 只设置该作业的运行时；上述 MCP/系统 Node 不替换。两台现有 Windows 运行器全局版本不同，Node22 曾使三份 Lua 用例超时及整套45分钟取消；本机官方校验后的便携 Node24 在原30/60秒预算内全部通过。版本与校验来自 [Node 官方发布页](https://nodejs.org/en/blog/release/v24.18.0)，测量及原始失败记录见 [M3集成记录](reviews/M3-EVENTS-INVENTORY-INTEGRATION.md)。全部用例、断言和原时限保留，CI不启动客户端或抢占桌面。
 - 已接入：用户级 MCP 配置 `C:\Users\Administrator\.codebuddy\mcp.json`（及 `.mcp.json`）中的 `miliastra` 项。客户端需重启才生效。
 
 ```json

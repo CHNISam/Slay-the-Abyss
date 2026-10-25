@@ -74,8 +74,13 @@ jobs:
           if ((git rev-parse HEAD) -ne $env:CI_SHA) { throw 'Revision mismatch' }
           git clean -ffd
           if ($LASTEXITCODE -ne 0) { throw 'Workspace cleanup failed' }
+      # Both Windows runners must use the measured runtime, rather than their
+      # different global Node installations. Keep every test and its budget.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.18.0'
       - name: Verify Node baseline
-        run: node -e "if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node 22 or newer is required'); console.log(process.version)"
+        run: node -e "if (process.versions.node !== '24.18.0') throw new Error('Quality requires Node 24.18.0'); console.log(process.version)"
       - name: Check changed whitespace
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}

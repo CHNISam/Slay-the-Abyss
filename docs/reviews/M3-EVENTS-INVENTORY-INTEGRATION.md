@@ -22,10 +22,12 @@
 
 剩余M3缺口：本批42遗物含33common和3special，但完整130目录不等于效果齐备；药水28定义中27战士，21种新增战士药水仍acquisitionPending，33项完整采样器未接自然获取，另6种战士效果未齐；默认七事件仍未切完整25池，六个显式新增事件不代表自然遇到；Spirit Poop持有已接，-1分函数尚无生产总分消费者。专属special图标仍为明确占位。不得因此删池/重分概率或将父任务、M3标Done。平台逐项验收归TASK-13.1.2/14.1/47，概率与自然路线归TASK-12.5；同候选整体UI须另过verify:ui门禁。
 
-冻结候选记录：合入develop PR207（c1cb78e）的已批准移动端布局后，按同一固定基线重建完整含BGM候选。稳定归档.artifacts/m3-events-inventory-20261025/candidate-rc2/audio/wmvnm0z6z-0/working.gil，SHA256 8c8f04612f6c1858b5146fb2355eda020e3fcf342f897d1e187d88f0a2097ce0。audit-native-candidate对实际生产提交3e9873220cf5aa055799992c906ade0daf167f63独立读回，71模块逐字节相同，issues为空；候选hash前后不变。静态0错误/36警告原样保留，不当平台通过；原始记录归档audit-rc2，最终PR提交再以audit-delivery读回同一候选。官方导入、同候选真实试玩、BGM听测和UI总门禁均未验证；本轮没有桌面输入窗口，只做离线工作。
+冻结候选记录：合入develop PR207（c1cb78e）的已批准移动端布局后，按同一固定基线重建完整含BGM候选。稳定归档.artifacts/m3-events-inventory-20261025/candidate-rc2/audio/wmvnm0z6z-0/working.gil，SHA256 8c8f04612f6c1858b5146fb2355eda020e3fcf342f897d1e187d88f0a2097ce0。audit-native-candidate对实际生产提交3e9873220cf5aa055799992c906ade0daf167f63独立读回，71模块逐字节相同，issues为空；候选hash前后不变。静态0错误/36警告原样保留，不当平台通过；原始记录归档audit-rc2，文档头1647330已以audit-delivery读回；固定CI运行时后的最终头再以audit-runtime读回同一候选。官方导入、同候选真实试玩、BGM听测和UI总门禁均未验证；本轮没有桌面输入窗口，只做离线工作。
 
 补充本地证据：25项Node来源契约全过；178卡面通过；奖励永久事务13项通过；十组上游药水/领奖/商店/事件回归完成。中途远端TLS续租失败使受控子进程停止，保留中断记录后仅恢复剩余shop/unknown_events，不声称单次完整运行通过。用户最新要求已写入AGENTS及P0-SMOKE：任何可能抢焦点或鼠标键盘的操作都先约明确窗口，子代理同样受约束。
 
 上游完整卡面回归仍将总数固定160，新增九张诅咒后实际应为89定义/178个基本及升级版本；已复现旧计数断言失败。修复只将总数与说明更新为178，保留原有逐卡全名、正文、字号、动态数值与双增益断言，不删除原160版本或放宽文字布局。库存连续战斗夹具明确标为旧六起始遗物隔离回归，不冒称完整遗物自然获取。
 
 完整CI失败与修复记录：e1fd024的Quality40174178038第一次在potion_basic_five原30000ms预算超时（JS1265通过/1失败/119跳过）；同源独立重跑13817ms通过。仅重试一次完整CI，Node全通过，但全量Lua暴露七份旧oracle：数组首项当火瓶、12药水白名单、开局参考漏新增遗物字段、成功事务仍比较旧RNG owner/旧卡牌表和旧空牌提示。逐项按当前公开契约校准，保留失败时owner不变、原RNG状态、完整75渠道、同UID升级/下战、旧UI行为及全部分片与原时限，未改卡池或skip。校准后17个Lua入口和12个Node布局用例本地全过，日志build/m3-calibrated-regressions.log。新头须重新通过完整CI，旧两次失败日志保留，不冒充全套成功。
+
+CI运行时修复：1647330的Quality40179995339在本机slay-the-abyss-windows/Node22.22.1运行，Node1387项中1268通过/119既有跳过/0失败，数据校验通过；全Lua仅完成到tests/lua/potion_status_rules.lua，battle_ui、card_help_release、living_wall分别在原60/30/30秒超时，最终被GitHub45分钟整作业上限取消。此前同生产源在STA-Sister-Win/Node24.18.0较快，该运行器当前离线，不能把两机差异直接归因源码。已下载Node官方24.18.0便携二进制并核验官方SHA256，同机、不改源码与任何断言/时限重测三份，分别18267/20229/48674ms全通过；原始日志build/m3-node24-*.log。Quality仅固定此已验证运行时，系统/MCP Node不动，整套45分钟及每份30/60秒上限仍原样，未拆走、减少或跳过用例。候选生产71模块未变，不重建另一份冒充；最终头独立审计保存audit-runtime，新的完整CI结果仍须实际全绿后合并。

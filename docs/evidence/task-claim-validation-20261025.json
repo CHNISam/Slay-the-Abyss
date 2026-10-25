@@ -182,7 +182,8 @@
     "scopeAmendments": [
       "one reproduced upstream178-card-face regression file",
       "two entrypoint docs explicitly requested by user for desktop input coordination",
-      "seven reproduced stale regression oracles; original full coverage, failure ownership, RNG, permanent UID and next-battle assertions retained"
+      "seven reproduced stale regression oracles; original full coverage, failure ownership, RNG, permanent UID and next-battle assertions retained",
+      "Quality runtime and unique toolchain doc only: same-host original-budget Node24 recovery proven for three timeouts"
     ],
     "globalMigration": "paused and externalUnknown retained; no bulk reservation resolution",
     "finalIntegrationWindow": {
@@ -192,6 +193,57 @@
       "calibratedSource": "3e9873220cf5aa055799992c906ade0daf167f63",
       "local": "17 Lua entrypoints and12 Node layout cases passed; no skips/time-budget changes",
       "ci": "Prior exact e1 head failed first on original potion timeout, then on stale Lua oracles; replacement head full CI pending"
+    },
+    "finalRuntimeWindow": {
+      "generation": 28,
+      "paths": 129,
+      "thirdAttempt": {
+        "run": 40179995339,
+        "head": "16473302ad60033b7df015bd03c603a24a4a5cfe",
+        "conclusion": "cancelled",
+        "job": 121128863013,
+        "annotation": "The job has exceeded the maximum execution time of 45m0s",
+        "node": {
+          "tests": 1387,
+          "pass": 1268,
+          "fail": 0,
+          "skip": 119
+        },
+        "completedLuaFixtures": 260,
+        "uniqueCompletedLuaFixtures": 254,
+        "lastCompletedLua": "tests/lua/potion_status_rules.lua",
+        "timeouts": [
+          "battle_ui.lua:60000ms",
+          "card_help_release.lua:30000ms",
+          "living_wall.lua:30000ms"
+        ],
+        "raw": "build/m3-ci-third-timeout-raw.log",
+        "sameHostNode24": {
+          "runtime": "v24.18.0",
+          "systemNodeUnchanged": true,
+          "source": "16473302ad60033b7df015bd03c603a24a4a5cfe",
+          "originalFixtureBudgets": true,
+          "results": [
+            {
+              "file": "living_wall",
+              "exit": 0,
+              "elapsedMs": 18267
+            },
+            {
+              "file": "card_help_release",
+              "exit": 0,
+              "elapsedMs": 20229
+            },
+            {
+              "file": "battle_ui",
+              "exit": 0,
+              "elapsedMs": 48674
+            }
+          ]
+        },
+        "systemNode": "v22.22.1 unchanged"
+      },
+      "mutation": "CI uses exact Node24.18.0; game source, platform candidate and system/MCP Node unchanged; no budget/assertion changes"
     }
   }
 }
