@@ -471,6 +471,35 @@ async function main() {
   }
   const r = receipt();
   if (r.remote !== client.remote) die('Remote differs from claim receipt');
+  if (command === 'migration-transfer') {
+    const id = need('group'), previousSession = need('from-session'), nextSession = need('to-session');
+    const head = need('sha'), evidence = need('evidence');
+    if (previousSession === nextSession || !/^[0-9a-f]{40}$/.test(head)) die('Transfer requires a new executor and exact head SHA');
+    const state = client.mutate(s => {
+      requireState(s); const coordinator = owned(s, r);
+      if (coordinator.task !== s.migration.bootstrapTask || s.migration.status !== 'paused') die('Only the active paused migration coordinator may transfer');
+      const group = s.migration.reconciliations?.[id], stage = group?.stages[group.cursor];
+      if (!stage || group.executorSession !== previousSession) die('Transfer must match current executor and unfinished stage');
+      if (Object.values(s.claims).some(c => c.migrationGroup === id && c.status === 'active' && Date.parse(c.expiresAt) > now())) die('Group must be idle before executor transfer');
+      const old = s.claims[stage.task];
+      if (!old || old.migrationGroup !== id || old.migrationStage !== stage.id || old.session !== previousSession || old.branch !== stage.branch) die('Transfer requires the previous stage claim');
+      verifyGroupSources(group, old);
+      const snapshot = sourceSnapshot(old.executionWorktree);
+      if (snapshot.dirty.length) die('Transfer requires a clean execution worktree');
+      if (snapshot.branch !== stage.branch || snapshot.remote !== client.remote || snapshot.head !== head
+        || git('ls-remote', '--exit-code', client.remote, `refs/heads/${stage.branch}`).split(/\s+/)[0] !== head) die('Transfer head SHA must match local and published stage head');
+      group.transfers ||= [];
+      group.transfers.push({ previousSession, nextSession, head, snapshot, stage: stage.id, cursor: group.cursor,
+        previousClaim: structuredClone(old), previousManifestSha256: group.manifestSha256,
+        confirmedBy: session(), evidence, at: new Date().toISOString() });
+      for (const source of group.sources) if (source.role === 'executor-target' && source.snapshot.worktree === old.executionWorktree) {
+        source.handoff = { snapshot, evidence, session: previousSession, generation: old.generation, at: new Date().toISOString() };
+      }
+      group.executorSession = nextSession; group.generation = ++s.generation;
+      return s;
+    });
+    return { transferred: id, executorSession: nextSession, generation: state.generation };
+  }
   if (command === 'migration-reconcile') {
     const bytes = readFileSync(need('manifest'));
     const manifest = JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/, ''));

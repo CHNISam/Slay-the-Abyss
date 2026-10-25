@@ -62,6 +62,38 @@ function raceBarrier(remote) {
 }
 
 const trackingReason = 'In Progress is not execution ownership; exact executor and scope require acknowledgement';
+test('only coordinator transfers a released group at its exact clean published head, preserving history', async t => {
+  const f = await reconciliationFixture(t);
+  await ok(f.c, ['migration-reconcile', '--manifest', f.file], 'c');
+  const target = join(f.root, 'execution');
+  const spec = f.spec(f.a, 'TASK-13.1.2', ['allowed'], ['combat'], { branch: 'feat/reconciled' });
+  await ok(f.a, ['adopt', '--spec', spec, '--group', 'm3', '--stage', 'stage-0', '--path', target, '--evidence', 'Initial stage']);
+  const sha = git(target, 'rev-parse', 'HEAD');
+  git(target, 'push', 'origin', 'HEAD:refs/heads/feat/reconciled');
+  const args = ['migration-transfer', '--group', 'm3', '--from-session', 'a', '--to-session', 'b', '--sha', sha, '--evidence', 'User explicitly assigned new integration session; old executor stopped'];
+  await fail(f.c, args, 'c', /idle|active/i);
+  await ok(target, ['release']);
+  await fail(f.b, args, 'b', /receipt|coordinator/i);
+  await fail(f.c, args.map(x => x === sha ? '0'.repeat(40) : x), 'c', /head|sha/i);
+  writeFileSync(join(target, 'allowed'), 'uncommitted');
+  await fail(f.c, args, 'c', /clean|dirty/i);
+  rmSync(join(target, 'allowed'));
+  const before = await ok(f.c, ['list'], 'c');
+  await ok(f.c, args, 'c');
+  const after = await ok(f.c, ['list'], 'c');
+  const old = before.migration.reconciliations.m3, next = after.migration.reconciliations.m3;
+  assert.deepEqual(next.sources, old.sources); assert.deepEqual(next.stages, old.stages);
+  assert.equal(next.cursor, old.cursor); assert.equal(next.executorSession, 'b');
+  assert.equal(next.transfers.at(-1).previousSession, 'a');
+  assert.equal(next.transfers.at(-1).head, sha);
+  assert.deepEqual(after.released, before.released);
+  assert.deepEqual(after.migration.reservations, before.migration.reservations);
+  assert.equal(after.migration.status, 'paused'); assert.equal(after.migration.externalUnknown, true);
+  await fail(target, ['adopt', '--spec', spec, '--group', 'm3', '--stage', 'stage-0', '--evidence', 'Old executor rejected'], 'a', /executor|session/i);
+  const newSpec = f.spec(f.b, 'TASK-13.1.2', ['allowed'], ['combat'], { branch: 'feat/reconciled' });
+  const adopted = await ok(target, ['adopt', '--spec', newSpec, '--group', 'm3', '--stage', 'stage-0', '--evidence', 'Authorized transfer'], 'b');
+  assert.ok(adopted.generation > before.released.find(x => x.task === 'TASK-13.1.2').generation);
+});
 async function reconciliationFixture(t, outsideOverlap = false) {
   const reservations = [
     { id: 'worktree-a', task: 'TASK-0', branch: 'feat/test-0', scope: { paths: ['allowed'], modules: [] } },
