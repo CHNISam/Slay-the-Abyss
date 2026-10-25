@@ -98,6 +98,31 @@ node scripts/remote-task-claim.mjs adopt --spec build/adopt-spec.json --reservat
 
 adopt 必须匹配隔离 Task/分支，覆盖完整旧范围，并检查其他活动认领和未知隔离项，不能借迁移偷取有效租约。粗粒度的旧任务/工作树隔离可能互相冲突，必须先由协调者核实实际归属和停止证据；不能为方便开发直接消掉未知项。
 
+### TASK-0 与粗范围的受控迁移
+
+旧盘点可能把真实执行树记作 TASK-0，并把任务管理中的 In Progress 记成通用 `src/data/tests` 范围。此时不冒用 TASK-0，也不批量 resolve。实际执行者确认归属、停止状态和交付提交后，由有效 bootstrap 协调者登记一个固定清单：
+
+```powershell
+node scripts/remote-task-claim.mjs migration-snapshot --path <实际源树>
+node scripts/remote-task-claim.mjs migration-reconcile --manifest build/reconciliation.json
+```
+
+`migration-snapshot` 只读，不需要借用源树 receipt。记录真实绝对路径、origin、HEAD、分支、暂存内容指纹及每个脏文件的 SHA-256；登记和每次本地受控操作重新核对。不能用旧快照假定文件仍未变化。
+
+manifest 必须包含唯一 `id`、指定主线程 `executorSession`、确认依据 `evidence`、`sources` 和有序 `stages`。每个 source 填原 `reservation` ID、真实 `task`、`role`、完整 `snapshot`、明确的单父交付 `commits`（完整 SHA，不含继承祖先）。`parked-readonly` 源树及分支均不得作为执行目标；`executor-target` 只用于真实持有者继续自己的原树。每个 stage 填唯一 `id`、真实 `task`、`feat/*` 分支、来源 ID 列表 `sources`、完整 `scope` 和带 `reason` 的 `extraPaths`。scope 必须逐文件等于所列来源的提交差异、脏路径及 extraPaths 并集，不能泛报目录；同分支后续阶段须保留前段交付路径。
+
+原 reservation（含 TASK-0、unknown 和粗范围）完整保留，映射和审计另存 `migration.reconciliations`。只有通过原始 inventory 验明的 Backlog 管理行不作为该组的执行者冲突；其他未知工作树、活动租约和组外实际持有者照常阻止重叠。迁移继续 paused，fresh claim 仍禁止。登记不证明外部执行者已经停止。
+
+指定主线程按阶段使用自己的 session/spec；可从控制树直接建立最新 develop 的干净执行树：
+
+```powershell
+node scripts/remote-task-claim.mjs adopt --group <组ID> --stage <当前阶段ID> --spec build/stage.json --path <新执行树> --evidence '<本段交接依据>'
+# 进入目标树，完成源码、验证、CI 与合并后：
+node scripts/remote-task-claim.mjs release --stage-complete yes --evidence '<交付提交与验证证据>'
+```
+
+同组严格一个阶段持有；药水和遗物即使同为 TASK-14.1 也串行领取、交付、释放。普通 release 可中断但不推进阶段；恢复必须由指定 session 重新同组 adopt，不能用普通 recover 丢掉分组限制。`executor-target` 持有者明确完成阶段时保存新的只读交接快照，后续组才能使用它已释放的共享路径；不会删除原历史或改变长期任务归属。源文件、HEAD、暂存区变化即停止，重新确认，不清理来源树。CI 的 verify-pr 校验远端组/阶段/指定 session/SHA；不要求 CI 机器访问本机源树。
+
 只有 bootstrap 协调者可逐项 `migration-resolve --reservation ID --evidence ...` 记录旧工作已交付/停止且历史保留；原记录不会删除。TASK-55 完成释放后，可从 `list.released` 取原范围，以新session和完整原范围 `recover` 协调职责；仅沿用首次记录的bootstrap隔离例外，不允许扩范围，也不能越过其他有效claim。这样释放安装任务不会造成迁移死锁。其他机器全部核实并升级入口后，才可 `migration-resolve --external-reviewed yes --evidence ...`，最后 `migration-open --evidence ...`。任何未知项仍在则拒绝开放。**本次交付不声称所有旧会话已迁移，不自动开放大规模并行。** 返回 M3 时先迁移所需旧工作并消除隔离冲突。
 
 ## 保证边界
