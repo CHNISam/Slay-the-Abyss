@@ -10,6 +10,7 @@ Node 22 + Git 即可运行，无数据库和后台服务。所有本地 Codex、
 
 ```powershell
 $env:TASK_CLAIM_SESSION = (node scripts/remote-task-claim.mjs session | ConvertFrom-Json).session
+git fetch origin develop
 node scripts/remote-task-claim.mjs list
 ```
 
@@ -41,6 +42,8 @@ node scripts/remote-task-claim.mjs install
 ```
 
 推荐直接 `claim --spec build/claim-spec.json --path .worktrees/example`：先远端CAS领取，成功后才建树并将receipt只写到目标树。父工作树已有认领时，子执行者必须用自己的session/spec和这个入口；父receipt保持原样，父子/范围冲突照样拒绝。认领成功但建树中断时保留远端可到期租约和已有文件，不回滚、删除或覆盖历史工作；先list再按恢复流程处理。
+
+新分支从刚fetch的`origin/develop`创建；已有分支采用它自己的分叉基线，不使用控制树的旧HEAD。现有根目录因未提交工作不能更新时，可运行已安装的稳定入口：`node (Join-Path (git rev-parse --git-common-dir) 'task-claim-hooks/runtime.mjs') list`，再用同一入口和新session执行带`--path`的领取/恢复，在最新develop的新树继续，避免覆盖旧树。
 
 也可以在已存在的独立工作树 `claim/adopt`；它不会清理该树。每个树只保存一个 receipt，位于该树的 Git 元数据中，不进入提交。receipt 不是授权替代物：每次都要重新访问远端，并匹配环境中的 session、generation、分支及未过期租约。新机器 clone 后须运行 `install`；本地安装会给同仓库全部工作树启用 hooks，旧树无 receipt 时提交/推送会失败。已有其他 hooks 时安装拒绝覆盖，须先人工保留并组合门禁。
 

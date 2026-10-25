@@ -235,14 +235,19 @@ test('remote loss during controlled development terminates the real child before
 });
 
 test('child executor acquisition creates an isolated receipt and never borrows the parent session', async t => {
-  const { a, root, spec } = await fixture(t);
+  const { a, b, root, spec } = await fixture(t);
   await ok(a, ['claim', '--spec', spec(a, 'TASK-1', ['parent'])]);
+  writeFileSync(join(b, 'upstream'), 'latest integration base'); git(b, 'add', 'upstream'); git(b, 'commit', '-m', 'test: advance integration');
+  git(b, 'push', 'origin', 'HEAD:refs/heads/develop'); git(a, 'fetch', 'origin', 'develop');
+  const latest = git(a, 'rev-parse', 'origin/develop');
   const target = join(root, 'child');
   await fail(a, ['claim', '--path', target, '--spec', spec(a, 'TASK-1.1', ['child'], [], { session: 'child', branch: 'feat/child' })], 'child', /conflict/i);
   assert.equal(existsSync(target), false);
   await ok(a, ['claim', '--path', target, '--spec', spec(a, 'TASK-2', ['child'], [], { session: 'child', branch: 'feat/child' })], 'child');
   await ok(a, ['check']);
   await ok(target, ['check'], 'child');
+  assert.equal(git(target, 'rev-parse', 'HEAD'), latest, 'new child starts from fetched develop, not stale parent HEAD');
+  assert.equal(readFileSync(join(target, 'upstream'), 'utf8'), 'latest integration base');
   await fail(target, ['check'], 'a', /session/i);
   await ok(target, ['release'], 'child');
   await ok(a, ['check']);

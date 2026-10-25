@@ -267,8 +267,13 @@ async function main() {
         checkConflicts(s, candidate, undefined, coordinatorRecovery ? s.migration.bootstrapOverlaps : reservation?.id);
       }
       const generation = ++s.generation, at = now();
-      const upstream = spawnSync('git', ['merge-base', 'HEAD', 'origin/develop'], { encoding: 'utf8' });
-      s.claims[candidate.task] = { ...candidate, generation, status: 'active', claimedAt: new Date(at).toISOString(), expiresAt: new Date(at + candidate.leaseSeconds * 1000).toISOString(), base: upstream.status === 0 ? upstream.stdout.trim() : git('rev-parse', 'HEAD'), evidence: options.evidence || null };
+      const targetTip = spawnSync('git', ['rev-parse', '--verify', `refs/heads/${candidate.branch}`], { encoding: 'utf8' });
+      const upstreamTip = spawnSync('git', ['rev-parse', '--verify', 'origin/develop'], { encoding: 'utf8' });
+      // An existing work branch keeps its own fork point. A NEW branch starts from fetched develop,
+      // even when the controller/parent checkout is old or contains unrelated independent work.
+      const workTip = targetTip.status === 0 ? targetTip.stdout.trim() : upstreamTip.status === 0 ? upstreamTip.stdout.trim() : git('rev-parse', 'HEAD');
+      const base = upstreamTip.status === 0 ? git('merge-base', workTip, upstreamTip.stdout.trim()) : workTip;
+      s.claims[candidate.task] = { ...candidate, generation, status: 'active', claimedAt: new Date(at).toISOString(), expiresAt: new Date(at + candidate.leaseSeconds * 1000).toISOString(), base, evidence: options.evidence || null };
       if (reservation) { reservation.status = 'adopted'; reservation.evidence = options.evidence; reservation.generation = generation; }
       return s;
     });

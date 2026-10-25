@@ -11,7 +11,7 @@
   "suiteDiscovered": 15,
   "fullQuality": {
     "reason": "prior full jobs ended; will run current PR head alone through native queue",
-    "status": "pending exact PR head CI"
+    "status": "pending exact PR head CI after worktree-base fix"
   },
   "isolatedBaseline": {
     "fixture": "tests/lua/card_help_release.lua",
@@ -29,7 +29,7 @@
     "git diff --check passed",
     "npm ci --ignore-scripts passed"
   ],
-  "checkedAt": "2026-10-25T02:47:00.3720139Z",
+  "checkedAt": "2026-10-25T03:11:53.0129065Z",
   "runs": [
     {
       "failed": 0,
@@ -52,6 +52,22 @@
       "runtimeSha256": "48563ecd124fd7def5319d6c284ed01075b77d245d6e82b042b4527d670c6e80",
       "testsSha256": "11c3ab7fb708222bb1db81e466cc7a8ce8907d4e77bda61c79671afed27b6de7",
       "skipped": 0
+    },
+    {
+      "tests": 3,
+      "failed": 0,
+      "testsSha256": "65d1e36c588a074d93cffd357019482064be498e7ae0015bedab5636167f2dcd",
+      "runtimeSha256": "f78b8f95d056b6f819e71b9e3daf8a2511c838999303fa8105c0f645f9eb19bf",
+      "passed": 3,
+      "command": "node --test --test-name-pattern=\"child executor|controlled worktree|conflicting upstream\" tests/remote-task-claim.test.mjs",
+      "skipped": 0,
+      "durationMs": 56138.1491
     }
-  ]
+  ],
+  "previousQuality": {
+    "run": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40155852981",
+    "head": "2999bc89837ac78ecba5787f6dc8d3521ab99e04",
+    "note": "All jobs including 15 real Git cases passed. Superseded by the worktree base fix; not evidence for the next head.",
+    "status": "SUCCESS"
+  }
 }
