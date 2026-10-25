@@ -1,0 +1,41 @@
+{
+  "sourceCommit": "0b8d325f4452d4b5851240c7b567e4b7f16e8754",
+  "candidateSha256": "8a9945e040e16250ca37c381b3b1e0698e26b754c001378949aa3f0723af5925",
+  "candidatePathWithinWorktree": ".artifacts/fountain-candidate-0b8d325/scenes/saves/abyss-fountain-test.gil",
+  "sourceModules": 62,
+  "allModulesSourceTextIdentical": true,
+  "byteIdenticalModules": 61,
+  "normalizedModuleDifferences": [
+    {
+      "name": "abyss_fountain",
+      "actualSha256": "1fb7242a2b9fdee93991c40487d27d440452c5e2013898998a58edcee9ac3fae",
+      "expectedSha256": "110c305228aa90c6359a046a95e9e71879bb55daeb3226c66aaa6ef362313eb3",
+      "sourceTextIdentical": true
+    }
+  ],
+  "normalization": "Only optional UTF-8 BOM and CRLF/LF are normalized; original hashes retained.",
+  "uiControls": 2824,
+  "maximumDirectChildren": 60,
+  "staticErrors": 0,
+  "staticWarnings": 33,
+  "graphCheckScope": "Graph identity, server type, nonempty payload, monitored signal names and enabled mount; compiled node parameters/semantics are not certified.",
+  "liveWriteEnabled": false,
+  "testResults": {
+    "fountainCore": 7,
+    "fountainUI": 3,
+    "syntax": "passed",
+    "backlog": "passed",
+    "unknownEvents": 13,
+    "launchContentNode": 13,
+    "fullNpmCheck": "not-run"
+  },
+  "sourceIdentity": "docs/rules/evidence/sts1-fountain-source.json",
+  "productionDefaultPool": "restricted-seven unchanged; Fountain is mapped in full catalog and explicit Nodes entry",
+  "independentSourceReview": "completed",
+  "independentFinalCodeReview": "interrupted-by-platform-usage-limit; primary-agent-reviewed-diff-and-reran-targeted-tests",
+  "officialImport": "NOT_TESTED",
+  "sameCandidatePlaytest": "NOT_TESTED",
+  "naturalAcquisition": "NOT_TESTED",
+  "milestone3": "INCOMPLETE",
+  "auditSha256": "58485bbcfb28933a81ef369a50292a4e7987b078466e0022ee9d6d622bec057a"
+}

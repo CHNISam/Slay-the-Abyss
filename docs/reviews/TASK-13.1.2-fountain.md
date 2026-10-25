@@ -30,4 +30,4 @@ CardGroup.removeCard还调用牌的onRemoveFromMasterDeck及遗物onMasterDeckCh
 
 独立来源复核完成；最终代码的第二位子代理审查被平台用量上限中断，随后由Codex直接检查diff并复跑定向测试，不宣称完成了独立代码复审。没有重试受限代理。
 
-候选构建：待本片冻结源构建及读回。官方导入：未验证。同候选真实试玩：未验证。当前UI门禁未验收；父任务全部AC及M3保持未通过。
+候选构建与完整源码读回通过：冻结源 `0b8d325f4452d4b5851240c7b567e4b7f16e8754`，仅增量写入event_pool/fountain/node_ui/nodes四个模块，原副本hash不变。新副本为本树 `.artifacts/fountain-candidate-0b8d325/scenes/saves/abyss-fountain-test.gil`，SHA256 `8a9945e040e16250ca37c381b3b1e0698e26b754c001378949aa3f0723af5925`。62模块源码均匹配固定源，其中61份逐字节相同，abyss_fountain仅在既有审计允许的CRLF/LF规范化后相同，两侧原始hash分别保留；不声称62份逐字节相同。UI2824/max60，静态0错误/33警告；图审计仅既有身份、服务端类型、非空载荷、监控信号与启用挂载范围，未认证节点参数及运行语义。`liveWrite=0`。摘要见[同源候选](../evidence/fountain-candidate-0b8d325.json)。官方导入：未验证。同候选真实试玩：未验证。当前UI门禁未验收；父任务全部AC及M3保持未通过。
