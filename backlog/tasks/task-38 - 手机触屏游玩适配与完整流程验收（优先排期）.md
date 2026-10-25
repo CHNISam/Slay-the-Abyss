@@ -1,11 +1,11 @@
 ---
 id: TASK-38
 title: 在手机上完整玩一遍
-status: To Do
+status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-24 07:12'
+updated_date: '2026-10-25 07:41'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -35,3 +35,15 @@ ordinal: 39000
 - [ ] #4 记录实测手机和操作结果，没通过的写清楚；预览不能代替手机实测。
 - [ ] #5 同一候选实测跨战斗首次点牌、旧触点、药水、奖励、弹窗和取消退出的真实事件派发；已完成本地手势切片不能代替手机验收。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+P1手机横屏露底修复：基于最新develop，把共享canvasBackdrop改为全范围拉伸锚点和零尺寸增量，移除运行时用逻辑画布宽高覆盖背景尺寸；内容仍按1280×720等比缩放。先以几何回归复现并保护不同宿主/画布尺寸，再完整check、候选存档独立读回；官方预览和试玩必须先与用户约定鼠标键盘时间窗口，手机实测缺口保留，不勾整体验收。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-25用户指定P1高优先级、非阻塞但正式发布前必修；复用TASK-4/38。本轮新claim被Migration paused拒绝，用户在说明最小范围例外后要求continue；不改执行权配置、不冒用其他session。后续用户强调任何抢占输入测试必须提前协调并等待本轮明确时间窗口，已写入AGENTS和官方客户端指引。本轮尚未进行任何鼠标键盘或置前操作。
+<!-- SECTION:NOTES:END -->
