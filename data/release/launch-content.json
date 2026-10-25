@@ -229,7 +229,8 @@
         "testFiles": [
           "tests/lua/inventory_parity.lua",
           "tests/lua/potion_rewards.lua",
-          "tests/lua/potion_slots.lua"
+          "tests/lua/potion_slots.lua",
+          "tests/lua/potion_target_rejection.lua"
         ]
       },
       "platform": {

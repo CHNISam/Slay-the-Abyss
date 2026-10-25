@@ -1,0 +1,53 @@
+{
+  "milestone": "M3",
+  "tasks": ["TASK-14.1", "TASK-47"],
+  "runtimeSourceCommit": "3ed8bf4b88a950c4736ec2d68e83f141d415c4db",
+  "runtimeSourceChanged": false,
+  "packSha256": "9bc126d7eb0958b3d4b5aaf5e311d90294d62edc85a103cd4e46c4334f464490",
+  "contractCases": ["POTION-02", "POTION-03", "POTION-04 phase subset", "POTION-05 use-side identity subset"],
+  "baseline": {
+    "currentRuntime": "STS1 PC A0 single-player Ironclad Act 1",
+    "generationDecision": "pending-user-resolution-of-STS1-STS2-conflict",
+    "referenceBinaryAuthenticated": false,
+    "completeContentScope": "Required; legacy 30-card inventory is not full acceptance"
+  },
+  "local": {
+    "lua": [
+      {"file": "tests/lua/potion_target_rejection.lua", "passed": 7, "failed": 0, "independentlyRerun": true},
+      {"file": "tests/lua/potion_targeting.lua", "passed": 5, "failed": 0},
+      {"file": "tests/lua/potion_targeting_commit.lua", "passed": 4, "failed": 0},
+      {"file": "tests/lua/potion_target_input_ownership.lua", "passed": 7, "failed": 0},
+      {"file": "tests/lua/game_ui_potion_discard.lua", "passed": 10, "failed": 0}
+    ],
+    "node": {"file": "tests/launch-content.test.mjs", "passed": 13, "failed": 0, "skipped": 0},
+    "launchContentCli": "passed",
+    "backlogVerification": "passed",
+    "fullNpmCheck": "not-run",
+    "productionDefectReproduced": false,
+    "independentReview": "No confirmed P1/P2 in test/production chain. AC wording regression found in review and restored through CLI before delivery."
+  },
+  "candidate": {
+    "pathWithinWorktree": ".artifacts/m3-pack-candidate-3ed8bf4/normal-build/wmvn5h3ef-0/working.gil",
+    "sha256": "f2808674cca47de5aade4871fc0da82fdd9d25c801e6cc7d31ec4cd0400bdf68",
+    "bytes": 2815156,
+    "build": "passed",
+    "independentReadback": "passed",
+    "sourceModules": 61,
+    "allModulesByteIdentical": true,
+    "uiControls": 2824,
+    "maximumDirectChildren": 60,
+    "settlementGraphNodes": 22,
+    "graphAuditScope": "Identity, server type, nonempty payload, monitored signals and enabled mount; compiled node parameters/semantics not certified",
+    "staticErrors": 0,
+    "staticWarnings": 33,
+    "liveWriteEnabled": false,
+    "receiptWithinWorktree": ".artifacts/m3-pack-candidate-3ed8bf4/receipt.json",
+    "auditWithinWorktree": ".artifacts/m3-pack-candidate-3ed8bf4/source-audit/audit.json"
+  },
+  "officialImport": "not-verified",
+  "sameCandidateLivePlay": "not-verified",
+  "naturalAcquisition": "not-verified-by-this-slice",
+  "remainingAcceptanceOwners": ["TASK-14.1", "TASK-52", "TASK-47"],
+  "milestoneAccepted": false,
+  "report": "docs/reviews/M3-PACK-POTION-20261025.md"
+}
