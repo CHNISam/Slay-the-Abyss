@@ -181,8 +181,17 @@
     "local": "New real Git scope extension regression 1 pass/0skip; source-only parked groups, no active stage edits, completed stages/source identity/executor/modules/old paths preserved.",
     "scopeAmendments": [
       "one reproduced upstream178-card-face regression file",
-      "two entrypoint docs explicitly requested by user for desktop input coordination"
+      "two entrypoint docs explicitly requested by user for desktop input coordination",
+      "seven reproduced stale regression oracles; original full coverage, failure ownership, RNG, permanent UID and next-battle assertions retained"
     ],
-    "globalMigration": "paused and externalUnknown retained; no bulk reservation resolution"
+    "globalMigration": "paused and externalUnknown retained; no bulk reservation resolution",
+    "finalIntegrationWindow": {
+      "generation": 25,
+      "paths": 127,
+      "upstreamBase": "c1cb78e8fcbeead0c8439477c39b75f9f4429e8f",
+      "calibratedSource": "3e9873220cf5aa055799992c906ade0daf167f63",
+      "local": "17 Lua entrypoints and12 Node layout cases passed; no skips/time-budget changes",
+      "ci": "Prior exact e1 head failed first on original potion timeout, then on stale Lua oracles; replacement head full CI pending"
+    }
   }
 }
