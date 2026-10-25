@@ -85,6 +85,34 @@ async function reconciliationFixture(t, outsideOverlap = false) {
   return { ...f, manifest, file, reservations };
 }
 
+test('coordinator can add exact regression files only to idle remaining reconciliation stages', async t => {
+  const f = await reconciliationFixture(t);
+  await ok(f.c, ['migration-reconcile', '--manifest', f.file], 'c');
+  const target = join(f.root, 'execution');
+  await ok(f.a, ['adopt', '--spec', f.spec(f.a, 'TASK-13.1.2', ['allowed'], ['combat'], { branch: 'feat/reconciled' }), '--group', 'm3', '--stage', 'stage-0', '--path', target, '--evidence', 'Initial stage']);
+  const extended = structuredClone(f.manifest);
+  for (const stage of extended.stages.slice(1)) {
+    stage.scope.paths.push('regression.lua'); stage.extraPaths.push({ path: 'regression.lua', reason: 'Preserve added content regression coverage' });
+  }
+  writeFileSync(f.file, JSON.stringify(extended));
+  await fail(f.c, ['migration-reconcile', '--manifest', f.file, '--extend', 'yes', '--evidence', 'Cannot change an active group'], 'c', /active|idle/i);
+  await ok(target, ['release', '--stage-complete', 'yes', '--evidence', 'Initial stage delivered']);
+  const before = await ok(f.c, ['list'], 'c');
+  await ok(f.c, ['migration-reconcile', '--manifest', f.file, '--extend', 'yes', '--evidence', 'Owner authorized exact omitted regression file'], 'c');
+  const after = await ok(f.c, ['list'], 'c');
+  const old = before.migration.reconciliations.m3, group = after.migration.reconciliations.m3;
+  assert.equal(group.cursor, 1); assert.deepEqual(group.completed, old.completed); assert.deepEqual(group.sources, old.sources);
+  assert.deepEqual(group.stages[0], old.stages[0]); assert.deepEqual(after.migration.reservations, before.migration.reservations);
+  assert.equal(group.amendments.length, 1); assert.equal(group.amendments[0].previousManifestSha256, old.manifestSha256);
+  const past = structuredClone(extended); past.stages[0].scope.paths.push('regression.lua'); past.stages[0].extraPaths.push({path:'regression.lua',reason:'Cannot rewrite completed stage'});
+  writeFileSync(f.file, JSON.stringify(past));
+  await fail(f.c, ['migration-reconcile', '--manifest', f.file, '--extend', 'yes', '--evidence', 'Must preserve past stage'], 'c', /completed|past/i);
+  const changedOwner = structuredClone(extended); changedOwner.executorSession = 'b'; writeFileSync(f.file, JSON.stringify(changedOwner));
+  await fail(f.c, ['migration-reconcile', '--manifest', f.file, '--extend', 'yes', '--evidence', 'Cannot move executor'], 'c', /executor|identity/i);
+  await ok(target, ['adopt', '--spec', f.spec(f.a, 'TASK-14.1', ['allowed','regression.lua'], ['combat'], { branch: 'feat/reconciled' }), '--group', 'm3', '--stage', 'stage-1', '--evidence', 'Next exact scope']);
+  writeFileSync(join(target, 'regression.lua'), '-- scoped regression'); await ok(target, ['check', '--paths', 'dirty']);
+});
+
 test('reconciliation real commit hooks inspect each parked source index and still reject actual drift', async t => {
   const f = await reconciliationFixture(t);
   await ok(f.c, ['migration-reconcile', '--manifest', f.file], 'c');
