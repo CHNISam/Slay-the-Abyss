@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "scope": "independent-host-runtime-check-not-original-client-runtime",
+  "runtimeVersion": "21.0.12.1+1-1-deb13u1-Debian",
+  "entriesCompared": 370,
+  "registrationSha256": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308",
+  "manifestSha256": "d71234050ae5c9000268e8dff42ff8391e841eefcbf0212238a8d63e458269fd",
+  "libraryOrderSha256": "704cf04aede6daf0d2a84105fbc47c3742b53b059aa49f1bb6cec122860f03b9",
+  "all370EntryPositionsMatch": true
+}

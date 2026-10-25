@@ -4,7 +4,7 @@ local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
 local RelicHooks = require('abyss_relic_hooks')
 local M = {}
-local supported = { damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
+local supported = { channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
     gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
@@ -48,12 +48,12 @@ end
 
 -- Source-defined hook/queue positions, not effect values. New relics need their
 -- own ordering evidence before entering this supported opening set.
-local openingPosition = { lantern = "turn_top", vajra = "battle_top",
+local openingPosition = { ring_of_the_snake="battle_bottom", cracked_core="pre_battle", pure_water="pre_draw", lantern = "turn_top", vajra = "battle_top",
     oddly_smooth_stone = "battle_top", bronze_scales = "battle_top",
     anchor = "battle_bottom", bag_of_preparation = "battle_bottom" }
 
 function M.opening(definitions, owned, persistentCounters, context)
-    local turnTop, battleTop, bottom = {}, {}, {}
+    local turnTop, battleTop, bottom, preBattle, preDraw = {}, {}, {}, {}, {}
     for _, id in ipairs(owned) do
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
@@ -65,7 +65,9 @@ function M.opening(definitions, owned, persistentCounters, context)
         elseif relic.trigger == "combat_start" then
             local position = openingPosition[id]
             if not position then return nil, "unsupported_opening_relic:" .. tostring(id) end
-            if position == "turn_top" then table.insert(turnTop, 1, relic.effects)
+            if position == "pre_battle" then preBattle[#preBattle + 1] = relic.effects
+            elseif position == "pre_draw" then preDraw[#preDraw + 1] = relic.effects
+            elseif position == "turn_top" then table.insert(turnTop, 1, relic.effects)
             elseif position == "battle_top" then table.insert(battleTop, 1, relic.effects)
             else bottom[#bottom + 1] = relic.effects end
         end
@@ -76,7 +78,10 @@ function M.opening(definitions, owned, persistentCounters, context)
     turnTop.relics=owned
     turnTop.relicCounters=persistentCounters
     turnTop.relicContext=context
-    return { beforeDraw = turnTop, afterDraw = bottom }
+    local opening = {beforeDraw=turnTop, afterDraw=bottom}
+    if #preBattle > 0 then opening.preBattle = preBattle end
+    if #preDraw > 0 then opening.preDraw = preDraw end
+    return opening
 end
 
 function M.applyOpening(state, groups)
@@ -121,6 +126,13 @@ local function validate(state, effects, targetIndex)
             local expected = effect.op == "gainTemporaryStrength" and "strength" or "dexterity"
             if effect.status ~= expected then return false, "invalid_temporary_status" end
             if effect.value == 0 then return false, "invalid_effect_value" end
+        elseif effect.op == "channelOrb" and (not state.orbs or effect.orb ~= "lightning" or effect.value ~= 1) then
+            return false, "unsupported_starting_orb"
+        end
+        if effect.op == "makeMiracle" then
+            if effect.value ~= 1 or not state.catalog.cards.miracle
+                or not integer(state.nextUid) or state.nextUid < 1 or state.nextUid >= maximum
+                or (state.player.statuses.master_reality or 0) ~= 0 then return false, "unsupported_starting_card" end
         end
         if effect.op == "gainStatus" or effect.op == "applyStatus" then
             local actor = effect.op == "gainStatus" and state.player or state.enemies[targetIndex]
@@ -136,7 +148,14 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
     local target = state.enemies[targetIndex]
     for _, effect in ipairs(effects) do
         local op, value = effect.op, effect.value
-        if op == "damage" then
+        if op == "channelOrb" then
+            require("abyss_orbs").channel(state, effect.orb, Combat)
+        elseif op == "makeMiracle" then
+            local pile = #state.hand < state.rules.player.maxHand and state.hand or state.discard
+            pile[#pile + 1] = {uid=state.nextUid,cardId="miracle",upgraded=false}
+            state.nextUid = state.nextUid + 1
+            require("abyss_events").emit(state,"cards_created",{cardId="miracle",amount=1})
+        elseif op == "damage" then
             Combat.damage(state, state.player, target, value, true)
         elseif op == "damageAll" then
             -- Explosive Potion: pure matrix, null owner, NORMAL damage.

@@ -90,7 +90,7 @@ for _, hp in ipairs({1, 40}) do
         local s, c = battle(); s.player.hp = 3; s.enemies[1].hp = hp
         Combat.addStatus(s.enemies[1], "thorns", 3)
         assert(Combat.play(s, c.uid, 1)); equal(s.phase, "defeat")
-        equal(s.nextUid, 2); equal(#s.discard, 0);equal(s.cardInUse,c)
+        equal(s.nextUid, 2); equal(#s.discard, 0); equal(s.cardInUse, c)
     end)
 end
 test("final lethal target clears queued copy before victory", function()

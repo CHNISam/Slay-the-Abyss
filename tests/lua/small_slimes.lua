@@ -237,7 +237,12 @@ test('other 16 static encounter groups retain their member order and consume no 
         local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck})
         same(Data.rules.player.startingRelics,{'burning_blood'})
         reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
-        same(run.combat,reference)
+        local generation=run.combatGeneration
+        assert(type(generation)=='number'and generation%1==0 and generation>=1 and generation<=2147483647,'invalid Run combat generation')
+        eq(run.combat.combatGeneration,generation,'Run/battle generation ownership')
+        eq(reference.combatGeneration,nil,'standalone Core generation')
+        local expectedBattle=C.copy(reference);expectedBattle.combatGeneration=generation
+        same(run.combat,expectedBattle)
     end end
     eq(seen,16)
 end)

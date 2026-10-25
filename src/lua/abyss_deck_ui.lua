@@ -7,6 +7,10 @@ local typeNames = { attack = "攻击", skill = "技能", power = "能力", statu
 
 function M.new(root, presentation, clickEvent, platform, onClose)
     local self = { root = root, visible = false, generation = 0, bindings={} }
+    function self:setPresentation(value)
+        assert(not self.visible and type(value)=="table", "cannot replace visible deck presentation")
+        presentation=value
+    end
     local grid = assert(root:GetChild("grid"), "missing deck grid")
     local function colour(value) return platform.color(value.r, value.g, value.b, value.a) end
     local function tint(control, value) control.imageColor = colour(value) end

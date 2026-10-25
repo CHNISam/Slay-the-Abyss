@@ -22,8 +22,9 @@ end
 local function play(state, card)
     assert(Combat.play(state, card.uid, 1))
     equal(state.energy, 2, "one energy")
-    equal(#state.hand,0);equal(#state.discard,state.player.hp>0 and 1 or 0)
-    if state.player.hp>0 then equal(state.discard[1].uid,card.uid) else equal(state.cardInUse,card) end
+    equal(#state.hand, 0)
+    if state.player.hp<=0 then equal(#state.discard,0);equal(state.cardInUse,card)
+    else equal(#state.discard,1);equal(state.discard[1],card);equal(state.cardInUse,nil) end
     equal(#state.exhaust, 0)
 end
 local function orderedFrames(state, blockAmount, damageAmount, thornsBlocked, thornsLost)

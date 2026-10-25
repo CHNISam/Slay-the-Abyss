@@ -15,8 +15,10 @@ local function battle(upgraded)
 end
 local function play(s,c)
  assert(Combat.play(s,c.uid))
- eq(s.energy,2,'cost');eq(#s.hand,0);eq(#s.discard,s.player.hp>0 and 1 or 0);eq(#s.exhaust,0)
- if s.player.hp<=0 then eq(s.cardInUse,c) end
+ eq(s.energy,2,'cost');eq(#s.hand,0);eq(#s.exhaust,0)
+ if s.player.hp<=0 then
+  eq(#s.discard,0);eq(s.cardInUse,c,'death stops before UseCard disposal')
+ else eq(#s.discard,1);eq(s.cardInUse,nil) end
 end
 for _,v in ipairs({{up=false,base=4,name='base'},{up=true,base=7,name='upgraded'}}) do
  test(v.name..' damage precedes new Vulnerable for all targets',function()

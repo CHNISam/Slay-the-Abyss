@@ -22,7 +22,7 @@ for i,v in ipairs(vectors) do test('literal source vector '..i..' constructs fou
  local reference=C.new(Data,{seed=run.seed,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),hp=run.hp,gold=run.gold,deck=run.deck,enemies=v[2]})
  same(Data.rules.player.startingRelics,{'burning_blood'})
  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
- same(run.combat,reference)
+ H.sameRunCombat(run,reference)
 end) end
 
 local seeded={
@@ -88,7 +88,7 @@ test('all other 17 encounters keep construction and their declared misc consumpt
   local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck})
   same(Data.rules.player.startingRelics,{'burning_blood'})
   reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
-  same(run.combat,reference)
+  H.sameRunCombat(run,reference)
  end end
  eq(n,17)
 end)

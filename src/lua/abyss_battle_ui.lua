@@ -18,6 +18,8 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "遗物阻止获得药水。" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local temporaryOps = {gainTemporaryStrength=true, gainTemporaryDexterity=true}
+local stanceNames={Neutral="无姿态",Calm="平静",Wrath="愤怒",Divinity="神格"}
+local orbNames={lightning="闪电",frost="冰霜",dark="黑暗",plasma="等离子"}
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local number = require("abyss_numbers").integer
 -- A displayed damage variable is exact, never a cross-target range.
@@ -67,6 +69,53 @@ local function statusDetail(entry, rules, actor)
     elseif id == "mode_shift" then
         local block = actor and actor.ai and actor.ai.shiftBlock
         return "再损失 " .. n .. " 点生命，就转入防守形态", "形态转换", block and "转换时获得 " .. number(block) .. " 点格挡" or nil
+    elseif id=='flame_barrier' then return '受到普通攻击时，对攻击者造成 '..n..' 点反伤','下回合开始','直到你的下回合开始移除；零伤害或完全格挡的攻击也触发'
+    elseif id=='evolve' then return '每次抽到状态牌，额外抽 '..n..' 张牌',always,'额外抽牌在当前动作之后结算；禁抽仍生效'
+    elseif id=='fire_breathing' then return '每次抽到状态牌或诅咒，对所有敌人造成 '..n..' 点固定伤害',always,'不受力量、虚弱和姿态影响'
+    elseif id=='blur' then return '接下来 '..n..' 次回合开始保留剩余格挡','剩余 '..n..' 轮','每轮结束减少一层'
+    elseif id=='choked' then return '每当你打出一张牌，此敌人失去 '..n..' 点生命','到它下次回合开始','无视格挡；施加勒颈的当张牌不触发新层数'
+    elseif id=='shackled' then return '回合结束时恢复 '..n..' 层力量','此次回合结束','恢复后移除'
+    elseif id=='draw_next_turn' or id=='draw_card_next_turn' then return '下回合正常抽牌后，再抽 '..n..' 张牌','下次回合','即使禁抽也会到期移除'
+    elseif id=='lock_on' then return '此目标受到的充能球伤害提高50%','剩余 '..n..' 轮','不提高冰霜格挡或等离子能量'
+    elseif id=='battle_hymn' then return '每回合抽牌前，生成 '..n..' 张惩罚',always,'加入手牌，满手时进入弃牌堆'
+    elseif id=='collect' then return '接下来 '..n..' 回合恢复能量时，获得一张奇迹＋','剩余 '..n..' 次','奇迹＋提供2能量；生成不会直接增加能量'
+    elseif id=='energy_down' then return '每回合开始失去 '..n..' 点能量',always,'在本回合基础能量恢复之后扣除'
+    elseif id=='like_water' then return '回合结束时若处于平静，获得 '..n..' 点固定格挡',always,'在保留、虚无和弃牌处理之前结算'
+    elseif id=='study' then return '每回合结束时，随机插入 '..n..' 张洞见到抽牌堆',always,'不等同于抽到这张牌'
+    elseif id=='block_return' then return '此敌人每受到一次普通攻击，你获得 '..n..' 点固定格挡',always,'零伤害或完全格挡也触发；不响应固定伤害'
+    elseif id=='wrath_next_turn' then return '下回合抽牌前进入愤怒','下次回合开始','随后移除'
+    elseif id=='vigor' then return '下一张攻击的每段普通伤害增加 '..n,always,'当前攻击的所有命中都受益，之后移除'
+    elseif id=='mark' then return '点穴触发时失去 '..n..' 点生命',always,'每次点穴会触发所有敌人已有的印记，无视格挡'
+    elseif id=='rupture' then return '每次因自己作为来源的效果失去生命，获得 '..n..' 层力量',always,'每次触发加一次，不按失去的生命量倍增'
+    elseif id=='combust' then return '回合结束时，对所有敌人造成 '..n..' 点固定伤害',always,
+        '先失去 '..number(actor and actor.combustHpLoss or 1)..' 点生命；失去生命致死时不再造成伤害'
+    elseif id=='brutality' then return '每个你的回合正常抽牌后，额外抽 '..n..' 张牌',always,'随后失去 '..n..' 点生命'
+    elseif id=='berserk' then return '每个你的回合开始，额外获得 '..n..' 点能量',always,'从下回合开始生效'
+    elseif id=='energized' or id=='energized_blue' then return '下回合能量恢复时，额外获得 '..n..' 点能量','下次回合开始','获得能量后移除'
+    elseif id=='next_turn_block' then return '下回合开始时，获得 '..n..' 点固定格挡','下次回合开始','已包含出牌时的敏捷和脆弱，不再重复计算'
+    elseif id=='after_image' then return '每打出一张牌，获得 '..n..' 点固定格挡',always,'在尖刺外皮的出牌反伤前获得格挡'
+    elseif id=='thousand_cuts' then return '每打出一张牌，对所有敌人造成 '..n..' 点固定伤害',always,'在该牌完成清理后结算'
+    elseif id=='envenom' then return '每次普通攻击造成未被格挡的伤害，施加 '..n..' 层中毒',always,'每段独立触发；完全格挡时不触发'
+    elseif id=='rage' then return '每打出一张攻击牌，获得 '..n..' 点固定格挡','本回合','回合结束时移除；多段攻击只触发一次'
+    elseif id=='heat_sinks' then return '每打出一张能力牌，抽 '..n..' 张牌',always,'抽牌先于当前能力牌的原生效果'
+    elseif id=='storm' then return '每打出一张能力牌，生成 '..n..' 个闪电球',always,'打出第一张雷暴时不触发自身'
+    elseif id=="accuracy" then return "飞刃的基础伤害增加 "..n,always
+    elseif id=="infinite_blades" then return "每个你的回合抽牌前，获得 "..n.." 张飞刃",always,"打出能力的当回合不立即生成"
+    elseif id=="noxious_fumes" then return "每个你的回合抽牌后，给予所有敌人 "..n.." 层中毒",always,"从下回合开始触发"
+    elseif id=="focus" then return "闪电伤害、冰霜格挡与黑暗储伤增长 "..signed(entry.amount),always,"不影响等离子能量或黑暗已有储伤"
+    elseif id=="bias" then return "每个你的回合开始，失去 "..n.." 点集中",always,"一层人工制品可抵挡一次完整的失去集中"
+    elseif id=="rushdown" then return "进入愤怒时，抽 "..n.." 张牌",always
+    elseif id=="mental_fortress" then return "改变姿态时，获得 "..n.." 点固定格挡",always
+    elseif id=="nirvana" then return "每次占卜，获得 "..n.." 点固定格挡",always,"没有可查看的牌时也会触发"
+    elseif id=="mantra" then return "叠加到10层时，消耗10层并进入神格",always,"当前 "..n.." 层"
+    elseif id=="devotion" then return "每个你的回合抽牌后，获得 "..n.." 层真言",always,"没有真言且供奉至少10层时，改为直接进入神格"
+    elseif id=="metallicize" then return "每回合结束时，获得 "..n.." 点固定格挡",always
+    elseif id=="demon_form" then return "每个你的回合抽牌后，获得 "..n.." 层力量",always,"从下回合开始触发"
+    elseif id=="corruption" then return "使用技能不扣能量，并消耗该技能",always,"已降低的战斗费用不会因移除此能力而恢复"
+    elseif id=="feel_no_pain" then return "每消耗一张牌，获得 "..n.." 点固定格挡",always
+    elseif id=="dark_embrace" then return "每消耗一张牌，抽 "..n.." 张牌",always
+    elseif id=="loop" then return "每回合开始，最先唤起的球额外触发 "..n.." 次被动",always
+    elseif id=="electrodynamics" then return "闪电球的被动与唤起对所有存活敌人生效",always
     end
     return entry.description, entry.stack == "none" and "" or n
 end
@@ -210,6 +259,13 @@ end
 function M.new(root, data, presentation, clickEvent, platform, options)
     options = options or {}
     local self = { root = root, data = data, presentation = presentation, target = 1, seed = 1, busy = false, active = true }
+    function self:setData(nextData, nextPresentation)
+        assert(not self.busy, "cannot replace card data during feedback")
+        assert(type(nextData)=="table" and type(nextPresentation)=="table", "invalid UI card data")
+        data, presentation = nextData, nextPresentation
+        self.data, self.presentation = data, presentation
+        self.selected, self.hover, self.help = nil, nil, nil
+    end
     local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name)
@@ -596,6 +652,33 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local remaining = {}
             for i = info.offset, #entries do remaining[#remaining + 1] = entries[i] end
             entries = remaining
+        end
+        if actor==battle.player and not info.statusId and not info.offset then
+            if self.run and self.run.characterProfile and self.run.characterProfile.id=="silent" then
+                card.sections[#card.sections+1]={label="弃牌",colour=C.gold,rows={
+                    {name="本回合弃牌 "..number(battle.discardedThisTurn or 0),text="弃牌可触发退费，或降低部分牌本回合的费用。",
+                        colour=C.gold,icon=Theme.icon.cardArt.skill}}}
+            end
+            if actor.stance and (self.run and self.run.character=='watcher' or actor.stanceKnown or actor.stance~='Neutral') then
+                local stance=actor.stance
+                local text=stance=="Wrath" and "普通攻击造成与受到的伤害均翻倍。"
+                    or stance=="Calm" and "离开平静时获得2点能量。"
+                    or stance=="Divinity" and "普通攻击伤害为3倍；下个你的回合开始退出。"
+                    or "当前没有姿态的伤害修正。"
+                card.sections[#card.sections+1]={label="姿态",colour=C.gold,rows={
+                    {name=stanceNames[stance],text=text,colour=C.gold,icon=Theme.icon.cardArt.power}}}
+            end
+            if battle.orbs and (self.run and self.run.character=='defect' or battle.orbs.slots>0 or #battle.orbs.balls>0) then
+                local view=require("abyss_orbs").view(battle)
+                local rows={{name="球位 "..#view.balls.." / "..view.slots,text="左侧序号最先被唤起；集中 "..number(view.focus).."。",
+                    colour=C.gold,icon=Theme.icon.cardArt.power}}
+                for i,ball in ipairs(view.balls) do
+                    local passive=ball.kind=="dark" and "储伤增长 " or ball.kind=="frost" and "格挡 " or ball.kind=="plasma" and "能量 " or "伤害 "
+                    rows[#rows+1]={name=i.." · "..orbNames[ball.kind],text="被动："..passive..number(ball.passive).."；唤起："..number(ball.evoke),
+                        colour=C.gold,icon=Theme.icon.cardArt.power}
+                end
+                card.sections[#card.sections+1]={label="充能球（按唤起顺序）",colour=C.gold,rows=rows}
+            end
         end
         for _, kind in ipairs({"buff", "debuff"}) do
             local rows = {}
@@ -1015,7 +1098,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         -- The top bar names the scene, never the game: floor and fight kind.
         local flow = run and run.nodeFlow
         local fightKind = flow and ({ elite = "精英战斗", boss = "首领战斗" })[flow.type] or "战斗"
-        label("title", flow and flow.floor and ("第 " .. flow.floor .. " 层 · " .. fightKind) or fightKind)
+        local heading=flow and flow.floor and ("第 " .. flow.floor .. " 层 · " .. fightKind) or fightKind
+        if player and player.stance and (run and run.character=='watcher' or player.stanceKnown or player.stance~='Neutral') then
+            heading=heading.." · "..stanceNames[player.stance]
+        end
+        if battle and battle.orbs and (run and run.character=='defect' or battle.orbs.slots>0 or #battle.orbs.balls>0) then
+            heading=heading.." · 球 "..#battle.orbs.balls.."/"..battle.orbs.slots
+        end
+        if battle and run and run.characterProfile and run.characterProfile.id=="silent" then
+            heading=heading.." · 弃 "..number(battle.discardedThisTurn or 0)
+        end
+        label("title",heading)
         label("exhaust", battle and tostring(#battle.exhaust) or "0")
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
         local charged = battle and battle.energy > 0
@@ -1265,6 +1358,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.feedbackLast = #battle.events
         self.feedback:begin(before, battle, first, presentation, origin)
         return ok, reason
+    end
+    function self:chooseCards(kind, uids, token, generation)
+        if self.busy or not self.run or self.run.phase~="combat" then return false, "not_in_combat" end
+        local command = kind=="discard" and Run.chooseDiscard or kind=="scry" and Run.chooseScry
+            or kind=="hand" and Run.chooseHand or kind=='pile' and Run.choosePile
+        if not command then return false, "invalid_choice_kind" end
+        return perform(function() return command(self.run,uids,token,generation) end)
     end
     function self:update(dt)
         if self.potionAim and not aimReady(self.potionAim) then self:render() end

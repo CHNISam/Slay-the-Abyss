@@ -20,24 +20,28 @@ function M.powerSequence(actor,ids)
     for _,id in ipairs(ids) do if not seen[id] and (actor.statuses[id] or 0)~=0 then result[#result+1]=id end end
     return result
 end
-local function hpLost(state,actor,amount,selfInflicted)
+local function notifyHpLost(state,owner,actor,amount)
     if actor~=state.player or amount<=0 then return end
-    actor.damagedThisCombat=(actor.damagedThisCombat or 0)+1
+    -- The 238 notifier owns the single damagedThisCombat increment, actual
+    -- Blood for Blood costs and provenance-sensitive Rupture trigger.
+    require('abyss_hp_loss').notify(state,owner,actor,amount)
+    -- Preserve the upstream 75-card instance ABI as a compatibility mirror.
+    -- Combat prefers combatCost/turnCost and must not subtract this a second time.
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,card in ipairs(pile) do
             if card.cardId=="blood_for_blood" then card.costReduction=(card.costReduction or 0)+1 end
         end
     end
-    if selfInflicted and actor.hp>0 and (actor.statuses.rupture or 0)>0 then
-        enqueue(state,{op="gainStatus",status="strength",value=actor.statuses.rupture},actor,true)
-    end
 end
-function M.hpLostFromCard(state,actor,amount) hpLost(state,actor,amount,true) end
-function M.hpLostFromDamage(state,actor,amount) hpLost(state,actor,amount,false) end
+function M.hpLostFromCard(state,actor,amount) notifyHpLost(state,actor,actor,amount) end
+function M.hpLostFromDamage(state,actor,amount) notifyHpLost(state,nil,actor,amount) end
 
 function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped end
 
 function M.status(state, actor, id, amount, source, sourceIsMonster)
+    local beforeRaw=rawget(actor.statuses,id)
+    local order=require('abyss_power_order')
+    if order.ids[id] then order.before(state,actor) end
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
     if before==0 or actor.statuses[id]==0 then
@@ -46,6 +50,7 @@ function M.status(state, actor, id, amount, source, sourceIsMonster)
         if actor.statuses[id]~=0 then order[#order+1]=id end
         actor.powerOrder=order
     end
+    order.applied(state,actor,id,beforeRaw)
     if before <= 0 and actor.statuses[id] > 0
         and actor.statusDefinitions[id].decay == "round_end_minus_1" then
         local monster = sourceIsMonster
@@ -61,7 +66,7 @@ end
 local stacks = { intensity = true, duration = true, none = true }
 local decays = { none = true, turn_end_minus_1 = true, round_end_minus_1 = true,
     turn_start_trigger_then_minus_1 = true, turn_end_trigger_then_minus_1 = true }
-local signed = { strength = true, dexterity = true }
+local signed = { strength = true, dexterity = true, focus = true }
 
 local function integer(amount)
     return type(amount) == "number" and amount == amount and amount % 1 == 0
@@ -69,7 +74,8 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { weak=true, vulnerable=true, frail=true, poison=true, entangled=true }
+local debuffs = { bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
+    shackled=true,choked=true,block_return=true,mark=true,energy_down=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
@@ -77,6 +83,12 @@ local function blockDebuff(state, actor, id)
     Events.emit(state, "status", {source=actor.id, target=actor.id, status="artifact",
         amount=-1, blockedStatus=id})
     return true
+end
+
+-- Shared Artifact event path for specialized Power lifecycle implementations.
+function M.tryBlockDebuff(state, actor, id)
+    if not M.isActive(actor) then return false end
+    return blockDebuff(state, actor, id)
 end
 
 -- Pure prediction for an already validated application. Artifact's gate occurs
@@ -87,6 +99,7 @@ function M.artifactBlocksPower(actor, id, amount)
 end
 
 function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
+    if id == "focus" then return require("abyss_focus").apply(state, actor, amount, source) end
     if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
     assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
@@ -94,6 +107,12 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
     -- regardless of the target's existing signed total. Zero is not an early exit.
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
     M.status(state, actor, id, amount, source, sourceIsMonster)
+    if actor==state.player and (id=='demon_form' or id=='brutality' or id=='devotion' or id=='noxious_fumes') then
+        state.postDrawPowerOrder=state.postDrawPowerOrder or {}
+        local found=false
+        for _,key in ipairs(state.postDrawPowerOrder) do if key==id then found=true end end
+        if not found then state.postDrawPowerOrder[#state.postDrawPowerOrder+1]=id end
+    end
     return true
 end
 
@@ -196,7 +215,7 @@ function M.statusView(actor)
     local ids, result = {}, {}
     for id, amount in pairs(actor.statuses) do
         -- At exactly zero net stat, the separate timed-loss Power still exists.
-        if amount ~= 0 or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
+        if amount ~= 0 or id == "focus" or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
             ids[#ids + 1] = id
         end
     end
@@ -204,7 +223,7 @@ function M.statusView(actor)
     for _, id in ipairs(ids) do
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
-            kind = definition.kind, stack = definition.stack, decay = definition.decay,
+            kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
             description = definition.description, temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
     return result
@@ -238,7 +257,11 @@ end
 function M.resolveDamageReactions(state, reactions, retaliate)
     for i = #reactions, 1, -1 do
         local hit = reactions[i]
-        if hit.status then
+        if hit.effect and hit.effect.op=='defenseBlock' then
+            if M.isActive(state.player) then M.block(state,state.player,hit.effect.value,true) end
+        elseif hit.effect and hit.effect.op=='cardTriggerPoison' then
+            require('abyss_card_triggers').resolveEnvenom(state,hit.effect)
+        elseif hit.status then
             if not battleEnding(state) then
                 M.applyPower(state, hit.target, hit.status, hit.amount, hit.source, hit.sourceIsMonster)
             end
@@ -254,7 +277,9 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
-    hpLost(state,target,lost,source==target)
+    local damageOwner=source
+    if status=='poison' then damageOwner=nil end
+    notifyHpLost(state,damageOwner,target,lost)
     Events.emit(state, "status_damage", {
         source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     require('abyss_relic_hooks').hpChanged(state,target,before)
@@ -273,6 +298,9 @@ function M.attackAmount(state, source, target, base, fixed)
         if (source.statuses.weak or 0) > 0 then amount = amount * state.rules.combat.weakPercent / 100 end
         if (target.statuses.vulnerable or 0) > 0 then amount = amount * state.rules.combat.vulnerablePercent / 100 end
     end
+    if state.player.stance then
+        amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)
+    end
     return math.max(0, math.floor(amount))
 end
 
@@ -288,10 +316,22 @@ function M.retaliate(state, source, target, amount)
     return lost
 end
 
-function M.damage(state, source, target, base, fixed, retaliation, resolved)
+function M.damage(state, source, target, base, fixed, retaliation, normalAmount, attackReaction)
     if not M.isActive(target) or source ~= nil and not M.isActive(source) then return 0 end
     local before, reactions = target.hp, retaliation or {}
-    local amount = resolved or M.attackAmount(state, source, target, base, fixed)
+    -- Owner.onAttack enqueues before the target's onAttacked reactions. Keep
+    -- the shared area batch in that order, so reverse TOP draining can
+    -- interleave a later target's poison with an earlier target's Thorns.
+    if attackReaction then reactions[#reactions+1]=attackReaction end
+    local amount
+    if normalAmount ~= nil then
+        -- Modifier results can exceed the signed32 base/status bounds. Keep
+        -- the snapshot exact in binary64 without accepting non-finite values.
+        assert(not fixed and type(normalAmount)=='number' and normalAmount==normalAmount
+            and normalAmount>=0 and normalAmount<=9007199254740991 and normalAmount%1==0,
+            "invalid normal damage snapshot")
+        amount = normalAmount
+    else amount = M.attackAmount(state, source, target, base, fixed) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local unblocked=amount-absorbed
@@ -300,7 +340,7 @@ function M.damage(state, source, target, base, fixed, retaliation, resolved)
     end
     local lost = math.min(target.hp, unblocked)
     target.hp = target.hp - lost
-    hpLost(state,target,lost,source==target)
+    notifyHpLost(state,source,target,lost)
     Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
     if not fixed and source and source ~= target and lost > 0 and (target.statuses.plated_armor or 0) > 0 then
         target.statuses.plated_armor = target.statuses.plated_armor - 1
@@ -327,10 +367,16 @@ function M.damage(state, source, target, base, fixed, retaliation, resolved)
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
     if not fixed and source then
-        for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier'})) do
+        for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier','block_return'})) do
             -- Each Power adds its own TOP DamageAction. Combining them would
             -- erase two distinct damage callbacks and reverse application order.
-            reactions[#reactions + 1] = {source=target,target=source,amount=target.statuses[id]}
+            if (target.statuses[id] or 0)>0 then
+                if id=='block_return' then
+                    if source~=target then reactions[#reactions+1]={effect={op='defenseBlock',value=target.statuses[id]}} end
+                elseif id=='thorns' or source~=target then
+                    reactions[#reactions+1]={source=target,target=source,amount=target.statuses[id]}
+                end
+            end
         end
     end
     -- onDeath queues after onAttacked, so its TOP Power resolves before Thorns.
@@ -359,6 +405,14 @@ function M.block(state, actor, amount, fixed)
     end
 end
 
+function M.resolveCurlUp(state, target, block)
+    if state.player.hp <= 0 or not M.isActive(target) then return end
+    M.block(state,target,block,true)
+    local amount=target.statuses.curl_up or 0
+    target.statuses.curl_up=0
+    Events.emit(state,"status",{source=target.id,target=target.id,status="curl_up",amount=-amount})
+end
+
 -- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.
 function M.flushCurlUp(state)
     local queue = state.curlUpQueue
@@ -369,13 +423,7 @@ function M.flushCurlUp(state)
         local target = entry.target
         -- GainBlock/RemovePower each reject a dead owner. A later queued hit
         -- may have killed it after the initial nonlethal trigger.
-        if M.isActive(target) then
-            M.block(state, target, entry.amount, true)
-            local amount = target.statuses.curl_up or 0
-            target.statuses.curl_up = 0
-            Events.emit(state, "status", {source=target.id, target=target.id,
-                status="curl_up", amount=-amount})
-        end
+        M.resolveCurlUp(state,target,entry.amount)
     end
 end
 
@@ -465,6 +513,10 @@ end
 
 function M.resetBlock(state, actor)
     if not M.isActive(actor) then return end
+    if actor==state.player and state.keepBlockOnNextStart then
+        state.keepBlockOnNextStart=nil
+        return
+    end
     if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
         actor.block = 0
         Events.emit(state, "block_reset", {target = actor.id})

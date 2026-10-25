@@ -11,8 +11,15 @@ local function select(enemy, id)
 end
 
 local function status(state, enemy, id, amount)
-    local before = enemy.statuses[id] or 0
+    local beforeRaw=rawget(enemy.statuses,id)
+    local before = beforeRaw or 0
+    if id=='sharp_hide' and amount>0 then require('abyss_power_order').before(state,enemy) end
+    if id=='sharp_hide' and amount<=0 then require('abyss_power_schedule').remove(state,enemy,id) end
     enemy.statuses[id] = amount
+    if id=='sharp_hide' and amount>0 then
+        if before<=0 then require('abyss_power_schedule').remove(state,enemy,id) end
+        require('abyss_power_order').applied(state,enemy,id,beforeRaw)
+    end
     Events.emit(state, "status", {source = enemy.id, target = enemy.id, status = id, amount = amount - before})
 end
 

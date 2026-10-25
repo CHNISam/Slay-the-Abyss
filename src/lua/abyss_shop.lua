@@ -50,7 +50,7 @@ local function candidates(run,category,rarity,kind,color,stock)
     for _,def in ipairs(run.data[category][category]) do
         local allowed=def.rarity==rarity
         if category=='cards' then
-            allowed=allowed and (not kind or def.type==kind) and (def.color or 'colored')==color
+            allowed=allowed and (not kind or def.type==kind) and (def.color or 'colored')==((color=='colored' and run.characterProfile and run.characterProfile.color) or color)
                 and (def.type=='attack' or def.type=='skill' or def.type=='power')
                 and Capability.isImplemented(def)
         elseif category=='relics' then
@@ -61,7 +61,7 @@ local function candidates(run,category,rarity,kind,color,stock)
             -- Ironclad's potion pool excludes Silent's class-specific Poison Potion.
             -- Temporary effect-only isolation; complete 33-item source selection
             -- must remove this exclusion rather than skip or reroll pending items.
-            allowed=allowed and def.id~='poison_potion' and not def.acquisitionPending
+            allowed=allowed and (def.id~='poison_potion' or run.character=='silent') and not def.acquisitionPending
         end
         if allowed then pool[#pool+1]=def end
     end
