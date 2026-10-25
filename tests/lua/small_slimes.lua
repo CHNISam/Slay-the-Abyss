@@ -230,7 +230,7 @@ test('other 16 static encounter groups retain their member order and consume no 
         local misc=run.miscRng;local stable=freeze(misc)
         assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchangedGroups[e.id]))
         eq(run.miscRng,misc);stable()
-        local reference=C.new(Data,{seed=42,enemies=unchangedGroups[e.id],deck=run.deck})
+        local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck})
         same(run.combat,reference)
     end end
     eq(seen,16)

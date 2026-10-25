@@ -1,0 +1,14 @@
+{
+  "publisher": "Mega Crit, official Steam announcement",
+  "title": "Patch V2.2: Happy Holidays!",
+  "publishedDate": "2020-11-29",
+  "verifiedDate": "2026-10-25",
+  "url": "https://steamcommunity.com/games/646570/announcements/detail/2922236321913519365",
+  "readableOfficialArchive": "https://store.steampowered.com/news/posts/?appids=646570&enddate=1607901864&feed=steam_community_announcements",
+  "facts": {
+    "bloodletting": {"energy": 2, "upgradedEnergy": 3},
+    "hemokinesis": {"damage": 15, "hpLoss": 2, "upgradedDamage": 20},
+    "rupture": {"upgradedCost": 1, "upgradedStrengthPerTrigger": 2}
+  },
+  "scope": "Independent official corroboration of these PC V2.2 changes; does not authenticate every mirrored method or the installed PC binary. No third-party source, art or audio copied."
+}

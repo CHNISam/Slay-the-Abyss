@@ -1,0 +1,43 @@
+{
+  "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
+  "currentCandidateSha256": "416a0d2f374a3347e98ebc74e2c25bef923498e9c12ae75d796f218d539b8a76",
+  "dataDefined": 75,
+  "codeImplemented": 75,
+  "localTests": "10/10 suites;150 independent variants including original disposal identity;49 boundary/interaction groups;75 public acquisition/upgrade/next-battle fixtures",
+  "sourceAudit": "60 modules matched;0 errors;unchanged approved UI tree",
+  "platformCurrent": "Native explicit fixtures PASSED9/9: official1864,62/62 before play,150 variants/49 edges/75 channels and physical selected controls. Normal run and full UI still pending.",
+  "historicalPlatform": "0982b39 native9/9 and supplemental6/6; actual normal17-floor victory20HP235gold19cards9victories. These results certify098 only, not5ceef2c.",
+  "newCorrections": [
+    "Separate Thorns/Flame Barrier TOP damage and blocked retaliation callbacks",
+    "Sharp Hide HP-loss events notify Blood for Blood; lethal Sharp Hide preserves in-use attack",
+    "Generated Blood for Blood inherits earlier combat HP-loss count",
+    "Queue normal draw/post-draw Powers before draw-hook tails",
+    "Retain DAMAGE-type LoseHP after victory, stop on defeat"
+  ],
+  "importFailure": {
+    "source": "19afc50",
+    "runId": "81bbf05e-4aaf-4d1d-b846-6519ce50aecc",
+    "outcome": "failed awaiting import-save UI; officialSave=null;no logs/readback",
+    "screenshotBoundary": "Local timeout screenshot shows client outside editor. It contains unrelated private UI and is not copied to repository."
+  },
+  "uiGate": "not passed;6 partial5 pending;new candidate-specific complete review missing",
+  "strictAcceptance": "pending",
+  "files": [
+    {
+      "path": "local-5ceef2c-results.json.gz",
+      "sha256": "56d22926cb9e1b05a965697fc7e152f6d1b68305e9f16188ad1ff9d484700244",
+      "originalSha256": "f0255881af97e350eed03c69d7099cb4865f36553ab4c1172510d7d2e86121b7"
+    },
+    {
+      "path": "audit-5ceef2c.json.gz",
+      "sha256": "7ec0de5bb2cfae574545276d3d37ed025c799572580727fe823582868cd6d70e",
+      "originalSha256": "ce843115d6860cdbde6d6f4d59e39d0e9552ae97a25b48751d9099adf025a461"
+    },
+    {
+      "path": "import-19afc50-failed-status.json.gz",
+      "sha256": "d68a4ddaeac55845577b797868876a1d0a601917e611ecd1e2aed6d671a92fa6",
+      "originalSha256": "91f95bbef85d688736550f28538090402e4bbb0b890a0bc7dc8fd886f0fd7798"
+    }
+  ],
+  "currentNativeEvidence": "probe-5ceef2c.json"
+}

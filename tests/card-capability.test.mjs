@@ -25,5 +25,5 @@ print('CARD_CAPABILITY_PASS '..#expected.included..' included '..#expected.exclu
 `);
   const result = runLua('build/lua/card_capability_fixture.lua');
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /CARD_CAPABILITY_PASS 33 included 7 excluded/);
+  assert.match(result.stdout, /CARD_CAPABILITY_PASS 80 included 0 excluded/);
 });

@@ -154,7 +154,8 @@ test("real Run boss entry rolls before starter shuffle; fire potion shift does n
     local run=Run.new(data,42); run.floor=data.rules.map.bossFloor; run.potions={"fire_potion"}
     observe(function(calls)
         assert(Run.startCombat(run,"boss_guardian"))
-        ranges(calls,{100,10,9,8,7,6,5,4,3,2})
+        ranges(calls,{100}) -- shuffle now owns an independent source RNG
+        eq(run.combat.shuffleRng.counter,1);eq(run.combat.cardRandomRng.counter,0)
         local s=run.combat; local seed=s.seed; clear(calls)
         Combat.damage(s,s.player,s.enemies[1],10,true)
         assert(Run.usePotion(run,1,1)); ranges(calls,{})

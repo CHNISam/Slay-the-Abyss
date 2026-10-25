@@ -30,14 +30,16 @@ for _, card in ipairs(data.cards.cards) do
 end
 assert(rareCount >= data.rules.rewards.cardChoices, 'production supported rare pool must fill every choice')
 -- Keep deterministic replay batches bounded under the unchanged per-file budget.
--- Across both entry points every seed from 1 through 128 is replayed twice.
+-- Across eight entry points every seed from 1 through 128 is replayed twice.
+-- Each constructs real independent runs; no state, draws or assertions are skipped.
 local function deterministicSeeds(first, last)
     for seed = first, last do
         local a, b = bossWin(seed), bossWin(seed)
         same(Run.rewardOptions(a), Run.rewardOptions(b)); equal(a.seed, b.seed)
-        local probe = { seed = a.combat.seed }
-        for size = rareCount, rareCount - data.rules.rewards.cardChoices + 1, -1 do Combat.random(probe, size) end
-        equal(a.seed, probe.seed)
+        equal(a.seed,a.combat.seed) -- card rewards own an independent continuous stream.
+        local Random=require('abyss_sts_random')
+        same(Random.snapshot(a.cardRng),Random.snapshot(b.cardRng))
+        assert(a.cardRng.counter>=6 and a.cardRarityOffset==5)
     end
 end
 return { Run = Run, data = data, bossWin = bossWin, equal = equal, same = same,

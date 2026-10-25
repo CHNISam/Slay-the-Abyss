@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-25 完整75张铁甲战士：正式要求固定为初代PC A0的3张基础牌与72张非基础牌，不再采用30张缩减口径。`reference/warrior75.json`仅保留历史盘点；运行数据已按75张构造、升级、使用及相关能力/动作的固定来源逐张核验，原卡名不改写。逐卡来源身份、方法行段、实现与四层验收见[完整矩阵](../docs/reviews/TASK-16-warrior75-matrix.md)及[固定来源表](../docs/evidence/warrior75/sources.json)。完整消耗动作、UID选牌、复制/X费/持续能力、原红池及共享奖励/商店cardRng已实现候选；Courier身份使用[独立会话熵](../docs/reviews/TASK-16-warrior75-courier.md)。本地逐卡通过不等于平台或原PC严格验收；未实测部分继续保留。下文37张及“不会声称75张可玩”属于历史切片记录，不是当前交付范围。
+
 2026-10-25 清除诅咒祭坛切片：固定 `aeubanks/sts@319009d5` 的 FountainOfCurseRemoval、AbstractPlayer.isCursed 与 CardGroup.removeCard 方法链，接通永久牌组资格、full目录到正式节点及原生界面。泉水不奖励最大生命或回血；保护三张特殊诅咒，实际移除再排除Flame/Lightning瓶装。当前支持Regret，未实现移除钩子的其他诅咒原子拒绝；默认七事件池未改，完整25事件统一切换与平台自然获取仍缺。固定身份、红绿与范围见[本轮记录](../docs/reviews/TASK-13.1.2-fountain.md)。
 
 2026-10-25 用户提供的 `STA_Reverse_Engineering_Pack_20261025.zip` 已作为 M3 TASK-14.1/47 的交互事务规格接入。仅采用药水模块和 POTION-02/03/05 的拒绝、取消与实例身份要求，不将其中 STS2 网站数据作为当前 STS1 运行时数值。固定包身份、基线冲突、生产入口、7组新增回归与分层验收责任见[资料包药水切片](../docs/reviews/M3-PACK-POTION-20261025.md)。这份包不是原作构建认证，也不证明完整内容池或实机通过。

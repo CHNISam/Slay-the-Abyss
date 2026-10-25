@@ -98,11 +98,12 @@ end)
 test("status type stays outside reward and shop pools even with a supported fixture payload",function()
  local data=C.copy(Data)
  for _,card in ipairs(data.cards.cards) do
-  if card.id=="dazed" then card.effects={{op="block",value=1}} else card.rarity="basic" end
+  if card.id=="dazed" then card.effects={{op="block",value=1}};card.rarity='rare' end
  end
  local run=Run.new(data,42);assert(Run.startCombat(run,"cultist_solo"))
  C.applyEffects(run.combat,{{op="damage",value=999}},run.combat.player,run.combat.enemies[1]);assert(Run.finishCombat(run))
- eq(#Run.rewardOptions(run),0)
+ eq(#Run.rewardOptions(run),3)
+ for _,id in ipairs(Run.rewardOptions(run)) do assert(id~='dazed') end
  assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run)
  local map=Map.generate(data,42)
  for _=1,17 do
@@ -111,7 +112,7 @@ test("status type stays outside reward and shop pools even with a supported fixt
   for _,node in ipairs(available) do if node.type=="shop" then shop=node end end
   if shop then
    assert(Nodes.enter(run,map,shop.id));eq(#run.nodeFlow.cards,7)
-   for _,o in ipairs(run.nodeFlow.cards) do assert(o.unavailable and o.id~='dazed') end
+   for _,o in ipairs(run.nodeFlow.cards) do assert(o.id~='dazed') end
    return
   end
   assert(Map.choose(map,available[1].id))

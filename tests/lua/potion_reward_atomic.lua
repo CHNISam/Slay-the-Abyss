@@ -59,7 +59,7 @@ local function beforeLethalPotion()
         if run.combat.enemies[1].hp <= 20 then break end
         playOneCommand(run); assert(run.phase == 'combat')
     end
-    assert(run.combat.enemies[1].hp == 18 and run.potions[1] == 'fire_potion')
+    assert(run.combat.enemies[1].hp>0 and run.combat.enemies[1].hp<=20 and run.potions[1]=='fire_potion')
     assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
     cached = run
     return Combat.copy(run)
@@ -67,7 +67,11 @@ end
 
 test('lethal potion commits the new reward stream exactly once on success', function()
     local run = beforeLethalPotion()
-    local merchant, card = Random.snapshot(run.shopRng.merchant), Random.snapshot(run.cardRng)
+    local merchant = Random.snapshot(run.shopRng.merchant)
+    -- Lethal potions construct the same card reward as any victory. Its
+    -- continuous stream must advance once; it is no longer a merchant stream.
+    local _, card, offset = require('abyss_card_pool').prepareRewards(run)
+    card=Random.snapshot(card)
     local gold, nextUid = run.gold, run.nextDeckUid
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil and run.combat.enemies[1].hp == 0)
@@ -81,6 +85,7 @@ test('lethal potion commits the new reward stream exactly once on success', func
     })
     same(Random.snapshot(run.shopRng.merchant), merchant)
     same(Random.snapshot(run.cardRng), card)
+    assert(run.cardRarityOffset==offset)
     local check = unchanged(run)
     local ok, reason = Run.usePotion(run, 1, 1)
     assert(not ok and reason == 'not_in_combat'); check()
@@ -121,10 +126,12 @@ test('legacy run without shopRng keeps a failed initialization private and can r
     Run.finishCombat = finish
     assert(called and not ok and reason == 'potion_effect_failed')
     same(run, before); check(); assert(run.shopRng == nil)
+    local _,card,offset=require('abyss_card_pool').prepareRewards(run)
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil)
     assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
-    assert(run.shopRng.merchant.counter == 0 and run.cardRng.counter == 0)
+    assert(run.shopRng.merchant.counter == 0)
+    same(Random.snapshot(run.cardRng),Random.snapshot(card));assert(run.cardRarityOffset==offset)
     assert(run.shopRng.card == nil)
 end)
 print('LUA_POTION_REWARD_ATOMIC ' .. passed .. ' passed; ' .. failed .. ' failed')

@@ -1,6 +1,6 @@
 # 第一幕首发内容清单与验收边界
 
-**2026-10-25 范围更新**：用户已选择补齐首发涉及的完整原版内容池，保持原版概率，详见[SCOPE](SCOPE.md)。下表和当前机器清单仍是已实现的生产基线，30牌/13遗物/6可获药水不再是完整M3目标。完整原池目录、顺序、消费和依赖正在分别核对；本页校验通过不证明完整池已齐备，也不能以受限池重抽或占位验收。
+**2026-10-25 范围更新**：用户要求补齐首发涉及的完整原版内容池并保持原版概率，详见[SCOPE](SCOPE.md)。本分支已接入完整75张铁甲战士候选，四层证据见[验收矩阵](reviews/TASK-16-warrior75-matrix.md)，尚未严格验收。旧30牌/13遗物/6可获药水不是完整M3目标，其他原池与必要依赖仍须补齐；清单校验、受限池重抽或占位不能代替完整验收。
 
 TASK-47，2026-10-25。初始盘点基线 `6e8714f`，本次正式运行时接线基线 `d3369bb`。本清单冻结本轮**既有生产接线范围**，逐项自然获取、执行和实机验收仍未完成，TASK-47 保持 In Progress。已完成的 M2 第一幕通关证据保留；它不能扩张为所有内容逐项通过。
 
@@ -12,8 +12,8 @@ Map v3、17个来源队列绑定、动态编组及 `Nodes.enter → Run.startRoo
 
 | 类别 | 数量与边界 |
 | --- | --- |
-| 职业牌 | 30 张，每张基本版和升级版；3 张初始牌、27 张非基础牌 |
-| 状态与诅咒 | dazed、slimed、regret；不计入 30 张构筑牌 |
+| 职业牌 | 75 张，每张基本版和升级版；3 张初始牌、72 张非基础牌，完整必做 |
+| 状态与诅咒 | dazed、slimed、regret、wound、burn；不计入75张职业牌 |
 | 敌人 | 19 种普通、3 种精英、1 个 Boss，共 23 个定义 |
 | 正式遭遇 | 14 个普通来源、3 个精英来源，加 Guardian，共18个绑定；由来源名驱动动态编组 |
 | 旧显式ID盘点 | `legacyData.encounters`保留Data的18条定义；与正式18绑定不是同一组ID，不是额外自然池 |
@@ -42,48 +42,89 @@ schema2校验直接读取真实 `Queue.rules`、`Bindings.resolve`，穷举 `For
 
 ## 职业牌
 
-定义入口 `data/cards.json#<ID>`；状态/命令入口 `abyss_run`、`abyss_nodes`、`abyss_combat`，显示入口 `abyss_battle_ui`。TASK-16/16.1/47 与 TASK-12.5 验收。现有本地逐牌基本/升级、节点获取和营地升级覆盖在 `tests/lua/card_pool.lua`；其中商店、营地为隔离节点夹具，不能替代同局自然路径。
+完整75张基本/升级均已接入候选共享效果系统，基础执行和公共获取/营地事务已测；完整集成、原版随机流全链、平台与自然实玩仍须逐项验收。不得将此登记当作通过。
 
-| ID | 版本 | 合法获取/升级渠道 | Boss选牌 |
-| --- | --- | --- | --- |
-| strike | 基本 / 升级 | 初始牌组、营地升级、事件升级 | 不进入 |
-| defend | 基本 / 升级 | 初始牌组、营地升级、事件升级 | 不进入 |
-| bash | 基本 / 升级 | 初始牌组、营地升级、事件升级 | 不进入 |
-| cleave | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| clothesline | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| iron_wave | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| anger | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| body_slam | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| flex | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| twin_strike | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| pommel_strike | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| shrug_it_off | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| thunderclap | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| uppercut | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| inflame | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| battle_trance | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| bloodletting | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| barricade | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 可进入稀有池 |
-| carnage | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| disarm | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| dropkick | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| entrench | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| ghostly_armor | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| hemokinesis | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| rampage | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| seeing_red | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| shockwave | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 不进入 |
-| offering | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 可进入稀有池 |
-| impervious | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 可进入稀有池 |
-| bludgeon | 基本 / 升级 | 战后选牌、商店职业牌、营地升级、事件升级 | 可进入稀有池 |
+| 原版名称 / ID | 稀有度 | 获取与升级 |
+|---|---|---|
+| Strike / `strike` | basic | 初始牌组；营地/事件升级 |
+| Defend / `defend` | basic | 初始牌组；营地/事件升级 |
+| Bash / `bash` | basic | 初始牌组；营地/事件升级 |
+| Anger / `anger` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Armaments / `armaments` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Body Slam / `body_slam` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Clash / `clash` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Cleave / `cleave` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Clothesline / `clothesline` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Flex / `flex` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Havoc / `havoc` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Headbutt / `headbutt` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Heavy Blade / `heavy_blade` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Iron Wave / `iron_wave` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Perfected Strike / `perfected_strike` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Pommel Strike / `pommel_strike` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Shrug It Off / `shrug_it_off` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Sword Boomerang / `sword_boomerang` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Thunderclap / `thunderclap` | common | 战后奖励、彩色商店；营地/事件升级 |
+| True Grit / `true_grit` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Twin Strike / `twin_strike` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Warcry / `warcry` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Wild Strike / `wild_strike` | common | 战后奖励、彩色商店；营地/事件升级 |
+| Battle Trance / `battle_trance` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Blood for Blood / `blood_for_blood` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Bloodletting / `bloodletting` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Burning Pact / `burning_pact` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Carnage / `carnage` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Combust / `combust` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Dark Embrace / `dark_embrace` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Disarm / `disarm` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Dropkick / `dropkick` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Dual Wield / `dual_wield` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Entrench / `entrench` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Evolve / `evolve` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Feel No Pain / `feel_no_pain` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Fire Breathing / `fire_breathing` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Flame Barrier / `flame_barrier` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Ghostly Armor / `ghostly_armor` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Hemokinesis / `hemokinesis` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Infernal Blade / `infernal_blade` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Inflame / `inflame` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Intimidate / `intimidate` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Metallicize / `metallicize` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Power Through / `power_through` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Pummel / `pummel` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Rage / `rage` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Rampage / `rampage` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Reckless Charge / `reckless_charge` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Rupture / `rupture` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Searing Blow / `searing_blow` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Second Wind / `second_wind` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Seeing Red / `seeing_red` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Sentinel / `sentinel` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Sever Soul / `sever_soul` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Shockwave / `shockwave` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Spot Weakness / `spot_weakness` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Uppercut / `uppercut` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Whirlwind / `whirlwind` | uncommon | 战后奖励、彩色商店；营地/事件升级 |
+| Barricade / `barricade` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Berserk / `berserk` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Bludgeon / `bludgeon` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Brutality / `brutality` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Corruption / `corruption` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Demon Form / `demon_form` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Double Tap / `double_tap` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Exhume / `exhume` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Feed / `feed` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Fiend Fire / `fiend_fire` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Immolate / `immolate` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Impervious / `impervious` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Juggernaut / `juggernaut` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Limit Break / `limit_break` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Offering / `offering` | rare | 战后奖励、彩色商店；营地/事件升级 |
+| Reaper / `reaper` | rare | 战后奖励、彩色商店；营地/事件升级 |
 
 ### 附带状态与诅咒
 
-| ID | 入口 | 边界 |
-| --- | --- | --- |
-| dazed | enemy:sentry:intent | 战斗生成状态；不能打出 |
-| slimed | enemy:acid_slime_m:intent、enemy:acid_slime_l:intent、enemy:spike_slime_m:intent、enemy:spike_slime_l:intent | 战斗生成，可支付费用消耗；不是可购职业牌 |
-| regret | event:golden_shrine:desecrate | 永久诅咒；回合末执行，不作为可打出职业牌 |
+Dazed/Slimed沿用敌人生成；Wound由Wild Strike/Power Through生成；Burn由Immolate生成；Regret沿用事件渠道。状态与诅咒不进职业奖励/商店池，不计入75。
 
 ## 敌人与遭遇
 
@@ -195,7 +236,7 @@ Boss 固定 `guardian` / `boss_guardian`，第16层战斗、第17层独立宝箱
 
 ## 明确排除
 
-- 未实现职业牌：`clash`、`true_grit`、`warcry`、`metallicize`、`whirlwind`、`demon_form`、`reaper`；不能进入奖励、商店和营地升级。75牌参考全集不等于首发牌池。
+- 75张职业牌不再排除任何一张；最终必须全部验收。其他色/无色牌效仍按各自任务承接，不能用占位效果冒充实现。
 - `Match and Keep!`（`tools/candidates/match_game.lua`）和 `Transmorgrifier`（`tools/candidates/transform_card.lua`）仅独立候选，无生产事件路由。完整原版事件目录、一次性事件、Tiny Chest/Juzu 等仅测试/审计接口不能冒充可获得内容。
 - 其他职业/元素、第二/三幕、额外Boss、合作及成就为 SCOPE 中独立候选，不加入本轮必过内容。
 - 离线素材/模型/音频文件未获准且未正式装配者，不登记为玩家已可用。

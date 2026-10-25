@@ -16,13 +16,14 @@ export function deckCardTemplate(theme = nativeTheme) {
         plate('nameBand', [0, nameY, w - s.border * 2, l.card.nameBand], c.panelRaised),
         text('name', [d / 2, nameY, w - d - s.s, l.card.nameBand], '', f.cardName),
         plate('artPlate', [0, artY, w - s.border * 2, l.card.art], c.cardType.attack),
-        image('art', [0, artY, d, d], theme.icon.cardArt.attack, c.text),
+        image('art', [0, artY, Math.min(d,l.card.art), Math.min(d,l.card.art)], theme.icon.cardArt.attack, c.text),
         text('type', [0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.nativeText.lineHeight], '', f.small, c.gold),
         text('label', [0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox], '', f.card),
         image('costDisc', [-w / 2 + d / 2, h / 2 - d / 2, d, d], theme.image.disc, c.energy),
         text('cost', [-w / 2 + d / 2, h / 2 - d / 2, d, d], '', f.number, c.textOnLight),
       ] },
     text('uid', [0, -l.deckView.itemSize[1] / 2 + l.deckView.uidHeight / 2, w, l.deckView.uidHeight], '', f.small, c.textDim),
+    {name:'hit',kind:'cursorArea',position:[0,(l.deckView.itemSize[1]-h)/2],size:[w,h],focusable:true,visible:false},
   ] };
 }
 

@@ -1082,23 +1082,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local enabled = reward or active and Combat.canPlay(battle, instance.uid, self.target)
                 playable = playable or enabled
                 local selected = instance and instance.uid == self.selected
-                box:GetChild("name").text = display.name .. (instance and instance.upgraded and "＋" or "")
+                CardDisplay.writeTitle(box:GetChild("name"),display.name,instance and instance.upgraded,
+                    instance and definition.repeatable and (instance.upgrades or 1) or nil)
                 ink(box:GetChild("name"), instance and instance.upgraded and C.positive or enabled and C.text or C.textMuted)
                 local text = instance and instance.upgraded and display.upgradeText or display.text
                 if instance then
                     -- The core previews upgrade, growth and every current modifier;
                     -- a card being aimed shows the value for that target.
                     local preview = Combat.cardPreview(battle, instance, instance.uid == aimUid and aimTarget or nil)
-                    local combatText = instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
-                    if combatText then
-                        text = CardDisplay.format(combatText, definition, preview, C)
-                    end
-                    for i = 1, #definition.effects do
-                        local entry = preview[i]
-                        if entry and entry.op == "damageEqualToBlock" then text = text .. "（当前 " .. amount(entry) .. " 点）" end
-                    end
+                    text=CardDisplay.combatText(display,definition,instance,preview)
                 end
-                box:GetChild("label").text = text
+                CardDisplay.writeBody(box:GetChild("label"),text)
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
                 box:GetChild("cost").text = definition.cost == -2 and ""
@@ -1311,6 +1305,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if ok then self.selected = nil end
         notice(ok and "" or reasons[reason] or "当前无法使用这张牌。")
         if reason ~= "presentation_unavailable" then refresh() end
+    end
+    function self:chooseCard(token,uid)
+        if self.busy or not self.run or self.run.phase~="combat" then return false end
+        local ok,reason=perform(function() return Run.chooseCard(self.run,token,uid) end)
+        notice(ok and "" or reasons[reason] or "这次选牌已失效。")
+        refresh()
+        return ok,reason
     end
     function self:playSlot(index)
         local run = self.run

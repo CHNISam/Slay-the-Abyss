@@ -46,11 +46,13 @@ test('Bite observes existing Block, Weak and Strength through real damage resolu
 end)
 test('900 controlled post-action rolls use independent history-specific outcomes',function()
  local cases={{1,nil,'a','g'},{2,nil,'a','a'},{1,'fungi_beast_1','g','g'},{2,'fungi_beast_2','a','a'},{1,'fungi_beast_2','a','g'},{2,'fungi_beast_1','a','a'},{1,'other','a','g'},{2,'other','a','a'},{1,'','a','g'}}
+ local s=battle();local original=C.copy(s.enemies[1]);local seed=s.seed
  for _,row in ipairs(cases)do for roll=0,99 do
-  local s=battle();local e=s.enemies[1];e.intentIndex=row[1];e.fungiLast=row[2];local calls=0
+  local e=C.copy(original);s.enemies={e};s.events={};e.intentIndex=row[1];e.fungiLast=row[2];local calls=0
   AI.advance(s,e,function(_,n)eq(n,100);calls=calls+1;return roll+1 end)
   local want=roll<60 and row[3] or row[4];eq(C.intent(s,1).id,want=='a' and 'fungi_beast_1' or 'fungi_beast_2');eq(calls,1)
   eq(e.fungiLast,row[1]==1 and 'fungi_beast_1' or 'fungi_beast_2');eq(e.fungiPrevious,row[2])
+  eq(s.seed,seed);eq(s.player.hp,80);eq(next(s.player.statuses),nil)
  end end
 end)
 test('two actual fungi independently retain their own action histories',function()

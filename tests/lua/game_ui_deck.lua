@@ -37,10 +37,11 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     local grid = openDeck(ui, root)
     assert(grid.itemCount == 40 and grid.scrollProgress == 0)
     local first = grid.items[0]
+    assert(not first:GetChild('hit').visible,'read-only deck must leave scroll gestures free')
     assert(first:GetChild("uid").text == "UID " .. ui.run.deck[1].uid)
     local face = first:GetChild("face")
     local display = Presentation[ui.run.deck[1].cardId]
-    assert(face:GetChild("name").text == display.name .. "＋")
+    assert(face:GetChild("name").text:gsub('\n',' ') == display.name .. "＋")
     assert(face:GetChild("label").text == display.upgradeText)
     local last = grid:recycle(0, 39)
     assert(last == first and last:GetChild("uid").text == "UID 140")

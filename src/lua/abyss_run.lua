@@ -1,11 +1,11 @@
 -- Same-run deck and reward ownership. Platform/UI adapters issue these commands.
 local Combat = require("abyss_combat")
-local Capability = require("abyss_card_capability")
 local Inventory = require("abyss_inventory")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local PotionRewards = require("abyss_potion_rewards")
+local CardPool = require("abyss_card_pool")
 local GoldRewards = require("abyss_gold_rewards")
 local RunSeed = require("abyss_run_seed")
 local EncounterQueue = require("abyss_encounter_queue")
@@ -72,7 +72,8 @@ local function startEncounter(run, encounter, sourceRoom)
         end
     end
     local battle
-    local options={seed=run.seed,hp=run.hp,gold=run.gold,deck=run.deck,enemies=enemies,
+    local options={seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
+        cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),
         beforeOpeningDraw=function(state)return Inventory.applyOpening(state,opening.beforeDraw)end}
     if sourceRoom then
         options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
@@ -175,23 +176,12 @@ function M.restoreEncounters(run,snapshot)
     return true
 end
 
-local function rewardCandidates(run)
-    local candidates = {}
-    for _, card in ipairs(run.data.cards.cards) do
-        if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special"
-            -- Boss rewards are rare-only; other tiers retain their current pool.
-            and (run.encounterTier ~= "boss" or card.rarity == "rare")
-            and Capability.isImplemented(card) then candidates[#candidates + 1] = card.id end
-    end
-    return candidates
-end
-
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
     if not result then return false, "battle_unfinished" end
     run.hp, run.seed, run.gold = run.combat.player.hp, run.combat.seed, run.combat.player.gold
+    run.maxHp=run.combat.player.maxHp
     local allEscaped = Combat.allEnemiesEscaped(run.combat)
     run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
     if result == "defeat" then
@@ -217,10 +207,8 @@ local function finishCombat(run)
         assert(type(gold) == "number", "unknown encounter reward tier")
         if allEscaped then gold = 0 end
     end
-    local pool, choices = rewardCandidates(run), {}
-    for _ = 1, math.min(run.data.rules.rewards.cardChoices, #pool) do
-        choices[#choices + 1] = table.remove(pool, Combat.random(run, #pool))
-    end
+    local choices,nextCardRng,offset=CardPool.prepareRewards(run)
+    run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,
@@ -342,6 +330,16 @@ function M.skipPotionReward(run)
     return true
 end
 
+function M.chooseCard(run,token,uid)
+    if run.phase~="combat" then return false,"not_in_combat" end
+    local ok,reason=Combat.chooseCard(run.combat,token,uid)
+    if ok then
+        run.gold=run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
+    return ok,reason
+end
+
 function M.play(run, uid, targetIndex)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.play(run.combat, uid, targetIndex)
@@ -406,6 +404,7 @@ end
 local function potionCandidate(run, slot, targetIndex)
     if run.phase ~= "combat" then return nil, "not_in_combat" end
     if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end
+    if run.combat.pendingChoice or run.combat.cardActions then return nil,"card_choice_pending" end
     if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
         return nil, "invalid_potion_slot"
     end

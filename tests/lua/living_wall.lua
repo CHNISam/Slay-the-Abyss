@@ -75,9 +75,9 @@ test('Grow rejects no-upgrade groups and stale selections atomically',function()
  refuse(run,'grow',1,'card_not_upgradeable');refuse(run,'grow',1.5,'invalid_card')
 end)
 local pools=dofile('tests/lua/support/living_wall_source_pools.lua')
--- Independent frozen launch exclusions: definitions exist, core execution does not.
-local notImplemented={clash=true,true_grit=true,warcry=true,metallicize=true,
- whirlwind=true,demon_form=true,reaper=true}
+-- All 72 original non-basic red definitions now execute; unknown source
+-- results still use the atomic rejection cases below.
+local notImplemented={}
 local function references(root)
  local saved={}
  local function visit(value)
@@ -128,7 +128,7 @@ test('full 72-card source transform draws each original slot once with no unsupp
    if unchanged then unchanged()end
   end
  end
- eq(accepted,27);eq(rejected,45)
+ eq(accepted,72);eq(rejected,0)
  print('FULL_SOURCE_TRANSFORM slots=72 supported='..accepted..' unavailable='..rejected)
 end)
 test('failed transform preflight preserves old UID, next UID, all streams, and pending choice',function()
@@ -142,5 +142,12 @@ test('selection rejected after removal or bottling cannot complete or spend a tr
  local run=enter();run.transformContext=context(run);assert(Nodes.chooseEvent(run,'change'))
  run.deck[1].inBottleLightning=true;refuse(run,'change',1,'card_not_purgeable')
  table.remove(run.deck,1);refuse(run,'change',1,'invalid_card')
+end)
+test('Grow increments repeatable Searing Blow and persists the third upgrade damage',function()
+ local run=enter({{uid=1,cardId='searing_blow',upgraded=true,upgrades=2}})
+ assert(Nodes.chooseEvent(run,'grow'));assert(Nodes.chooseLivingWallCard(run,1))
+ eq(run.phase,'map');eq(run.deck[1].upgrades,3);eq(run.deck[1].uid,1)
+ local battle=C.new(data,{deck=run.deck,enemies={'cultist'},seed=1})
+ eq(C.cardDefinition(battle,battle.hand[1]).effects[1].value,27)
 end)
 print('LIVING_WALL '..count..' tests, '..failed..' failed');assert(failed==0)

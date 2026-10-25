@@ -211,7 +211,7 @@ export function battleLayout() {
       panel('nameBand', 0, h / 2 - l.card.nameBand / 2 - s.border, w - s.border * 2, l.card.nameBand, c.panelRaised),
       text('name', l.card.costDisc / 2, h / 2 - l.card.nameBand / 2 - s.border, w - l.card.costDisc - s.s, l.card.nameBand, '', f.cardName),
       panel('artPlate', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, w - s.border * 2, l.card.art, c.cardType.attack),
-      picture('art', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, 40, 40, theme.icon.cardArt.attack, c.text),
+      picture('art', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, Math.min(l.card.costDisc,l.card.art), Math.min(l.card.costDisc,l.card.art), theme.icon.cardArt.attack, c.text),
       text('type', 0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.nativeText.lineHeight, '', f.small, c.gold),
       text('label', 0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox, '', f.card),
       picture('costDisc', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, im.disc, c.energy),

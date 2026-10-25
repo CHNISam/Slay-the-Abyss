@@ -59,6 +59,7 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
     if not instance then return false,'invalid_card' end
     if choice=='grow' then
         if not upgradeable(run,instance) then return false,'card_not_upgradeable' end
+        instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
         instance.upgraded=true;flow.event.upgradedUids={uid}
     else
         if not find(purge,uid,'uid') then return false,'card_not_purgeable' end

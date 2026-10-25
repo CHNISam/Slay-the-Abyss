@@ -11,6 +11,10 @@ const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'h
 const statusOps = ['gainStatus', 'applyStatus', 'applyStatusAll', 'gainStatusPerTurn'];
 const cardOps = ['addCardToDiscard', 'addCardPerTurn', 'makeTempCardInDiscard'];
 const flagOps = ['damageEqualToBlock', 'doubleBlock', 'noDrawThisTurn', 'healEqualToDamageDealt'];
+const actionOps = ['exhaustRandom','exhaustChoose','exhaustNonAttacks','secondWind','fiendFire',
+  'recoverExhaust','upgradeHand','discardToDraw','handToDraw','dualWield','generateAttack',
+  'makeTempCardInHand','makeTempCardInDraw','doubleStrength','spotWeakness','feed','reaper','playTop','damageRandom'];
+const actionValues = ['secondWind','fiendFire','dualWield','makeTempCardInHand','makeTempCardInDraw','spotWeakness','feed','reaper','damageRandom','generateAttack'];
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 /** Validate the complete content bundle; errors carry source paths for authoring. */
@@ -103,9 +107,14 @@ export function validateContent(bundle) {
       const p = `${path}[${i}]`;
       if (!object(effect, p)) return;
       const op = effect.op;
-      if (!enumeration(op, [...valueOps, ...statusOps, ...cardOps, ...flagOps, 'conditional'], `${p}.op`)) return;
+      if (!enumeration(op, [...valueOps, ...statusOps, ...cardOps, ...flagOps, ...actionOps, 'conditional'], `${p}.op`)) return;
       const allowed = ['op'];
       if (cardEffects && depth === 0) allowed.push('targetGroup');
+      if (actionValues.includes(op)) allowed.push('value');
+      if (['makeTempCardInHand','makeTempCardInDraw'].includes(op)) allowed.push('card');
+      if (op === 'upgradeHand') allowed.push('all');
+      if (op === 'feed') allowed.push('maxHp');
+      if (op === 'damageRandom') allowed.push('times');
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
       if (statusOps.includes(op) || op === 'gainTemporaryStrength') allowed.push('status');
       if (cardOps.includes(op)) allowed.push('card');
@@ -125,7 +134,11 @@ export function validateContent(bundle) {
         enumeration(effect.status, ['strength'], `${p}.status`);
       }
       if (cardOps.includes(op)) reference(effect.card, 'cards', `${p}.card`);
-      if (effect.times !== undefined) integer(effect.times, `${p}.times`, 1);
+      if (actionValues.includes(op)) integer(effect.value, `${p}.value`, 0, 2147483647);
+      if (['makeTempCardInHand','makeTempCardInDraw'].includes(op)) reference(effect.card, 'cards', `${p}.card`);
+      if (effect.all !== undefined && typeof effect.all !== 'boolean') fail(`${p}.all`, 'must be boolean');
+      if (op === 'feed') integer(effect.maxHp, `${p}.maxHp`, 1, 2147483647);
+      if (effect.times !== undefined && effect.times !== 'X') integer(effect.times, `${p}.times`, 1);
       if (effect.mayChoose !== undefined && typeof effect.mayChoose !== 'boolean') fail(`${p}.mayChoose`, 'must be boolean');
       if (op === 'conditional') {
         enumeration(effect.if, ['target_vulnerable'], `${p}.if`);
@@ -168,6 +181,9 @@ export function validateContent(bundle) {
     } else if (!partial || card.effects !== undefined) effects(card.effects, `${path}.effects`, 0, false, true);
     if (card.condition !== undefined) enumeration(card.condition, ['only_attacks_in_hand'], `${path}.condition`);
     if (card.costMode !== undefined) enumeration(card.costMode, ['all_energy'], `${path}.costMode`);
+    if (card.target !== undefined) enumeration(card.target,['ENEMY','SELF','NONE','ALL_ENEMY','SELF_AND_ENEMY'],`${path}.target`);
+    for (const flag of ['strikeTag','healing']) if (card[flag] !== undefined && typeof card[flag] !== 'boolean') fail(`${path}.${flag}`,'must be boolean');
+    for (const field of ['strikeBonus','strengthMultiplier','exhaustEnergy','endTurnDamage']) if (card[field] !== undefined) integer(card[field],`${path}.${field}`,1,2147483647);
     for (const flag of ['exhaust', 'ethereal', 'innate', 'repeatable']) {
       if (card[flag] !== undefined && typeof card[flag] !== 'boolean') fail(`${path}.${flag}`, 'must be boolean');
     }
@@ -176,11 +192,51 @@ export function validateContent(bundle) {
   function cardUpgrade(upgrade, path) {
     card(upgrade, path, true);
     if (!isObject(upgrade)) return;
-    const allowed = ['cost', 'effects', 'type', 'rarity', 'condition', 'costMode', 'exhaust', 'ethereal', 'innate', 'repeatable'];
+    const allowed = ['cost', 'effects', 'type', 'rarity', 'condition', 'costMode', 'exhaust', 'ethereal', 'innate', 'repeatable','strengthMultiplier','strikeBonus','exhaustEnergy'];
     keys(upgrade, allowed, path);
     if (!Object.keys(upgrade).some(key => allowed.includes(key))) fail(path, 'must change at least one field');
   }
   lists.cards.forEach((entry, i) => card(entry, `cards[${i}]`));
+  const pools = bundle.cards.sourcePools;
+  if (object(pools, 'cards.sourcePools')) {
+    const classCards=lists.cards.filter(c=>c.type!=='status' && c.type!=='curse' && c.rarity!=='basic');
+    const byId=new Map(classCards.map(c=>[c.id,c]));
+    for (const kind of ['reward','src']) {
+      const seen=new Set();
+      if (!object(pools[kind], `cards.sourcePools.${kind}`)) continue;
+      for (const rarity of ['common','uncommon','rare']) {
+        const list=pools[kind][rarity];
+        if (!Array.isArray(list)) { fail(`cards.sourcePools.${kind}.${rarity}`,'must be an array'); continue; }
+        for (const [i,id] of list.entries()) {
+          const path=`cards.sourcePools.${kind}.${rarity}[${i}]`;
+          if (!byId.has(id) || byId.get(id).rarity!==rarity) fail(path,'must be a class card of this rarity');
+          if (seen.has(id)) fail(path,'duplicate class card');
+          seen.add(id);
+        }
+      }
+      for (const c of classCards) if (!seen.has(c.id)) fail(`cards.sourcePools.${kind}`,`missing class card ${c.id}`);
+    }
+    if (object(pools.shop,'cards.sourcePools.shop')) {
+      const seen=new Set();
+      for (const rarity of ['common','uncommon','rare']) {
+       if (!object(pools.shop[rarity],`cards.sourcePools.shop.${rarity}`)) continue;
+       for (const type of ['attack','skill','power']) {
+        const list=pools.shop[rarity][type];
+        if (!Array.isArray(list)) { fail(`cards.sourcePools.shop.${rarity}.${type}`,'must be an array'); continue; }
+        let previous;
+        for (const [i,id] of list.entries()) {
+          const path=`cards.sourcePools.shop.${rarity}.${type}[${i}]`, c=byId.get(id);
+          if (!c || c.type!==type || c.rarity!==rarity) fail(path,'must be a class card of this type and rarity');
+          if (seen.has(id)) fail(path,'duplicate class card');
+          if (c && (typeof c.sourceId!=='string' || previous!==undefined && previous>=c.sourceId)) fail(path,'must be ordered by unique original card ID');
+          if (c) previous=c.sourceId;
+          seen.add(id);
+        }
+       }
+      }
+      for (const c of classCards) if (!seen.has(c.id)) fail('cards.sourcePools.shop',`missing class card ${c.id}`);
+    }
+  }
   const starter = bundle.cards?.starter_deck;
   if (object(starter, 'cards.starter_deck')) array(starter.cards, 'cards.starter_deck.cards').forEach((id, i) => reference(id, 'cards', `cards.starter_deck.cards[${i}]`));
   lists.statuses.forEach((entry, i) => {

@@ -72,7 +72,7 @@ for _, upgraded in ipairs({ false, true }) do
         equal(state.events[events + 2].detail.amount, hp)
         equal(state.events[events + 2].frame.player.hp, 0)
         equal(state.events[#state.events].kind, "defeat")
-        equal(#state.exhaust, id == "offering" and 1 or 0)
+        equal(#state.exhaust,0);equal(#state.discard,0);equal(state.cardInUse,instance)
         refused(state, instance.uid, 1, "not_player_turn")
     end)
     end
@@ -143,6 +143,7 @@ end)
 
 test("unrelated unsupported effects remain rejected without mutating state", function()
     local state = Combat.new(data, { deck = { "true_grit" } })
+    state.catalog.cards.true_grit.effects={{op="unsupported_test_action"}}
     local before = Combat.copy(state)
     local ok, reason = Combat.play(state, state.hand[1].uid)
     equal(ok, false); assert(reason:find("unsupported_effect:", 1, true)); same(state, before)
@@ -169,10 +170,11 @@ local function win(seed)
     return run
 end
 for _, id in ipairs(ids) do
-test(id .. " is acquired in real starter victory rewards and played next battle", function()
+test(id .. " is acquired via its legal reward tier and played next battle", function()
     local selected, choice
-    for seed = 1, 128 do
-        local run = win(seed)
+    for _,seed in ipairs({dofile("tests/lua/support/first_reward_seed.lua")(data,id,id=="offering" and "boss" or "normal")}) do
+        -- Rare Offering uses the explicit boss-boundary fixture; no first-room rare is fabricated.
+        local run = id=="offering" and dofile("tests/helpers/boss_rewards.lua").bossWin(seed) or win(seed)
         for i, cardId in ipairs(Run.rewardOptions(run)) do
             if cardId == id then selected, choice = run, i; break end
         end
@@ -184,6 +186,7 @@ test(id .. " is acquired in real starter victory rewards and played next battle"
     equal(#selected.deck, #oldDeck + 1)
     for i, card in ipairs(oldDeck) do same(selected.deck[i], card) end
     equal(selected.deck[#selected.deck].cardId, id)
+    selected.floor=1 -- next-battle unit fixture, not a natural boss route
     assert(Run.startCombat(selected, "cultist_solo"))
     for _ = 1, 20 do
         assert(selected.phase == "combat", "battle ended before acquired card could play")

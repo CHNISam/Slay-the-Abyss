@@ -5,6 +5,8 @@ local Price = require('abyss_shop_price')
 local C = require('abyss_combat')
 local Capability = require('abyss_card_capability')
 local CardRandom = require('abyss_card_random')
+local External=require('abyss_external_random')
+local Primitive=require('abyss_randomxs128')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -33,7 +35,9 @@ function S.removePrice(run)
     return floor(f32(base*f32(multiplier))+.5)
 end
 local function streams(run)
-    if run.shopRng then return C.copy(run.shopRng) end
+    if run.shopRng then
+        return C.copy(run.shopRng)
+    end
     local seed=run.eventSeed or string.format('%.0f',run.seed)
     return { merchant=R.fromSeed(seed),potion=R.fromSeed(seed) }
 end
@@ -61,25 +65,30 @@ local function candidates(run,category,rarity,kind,color,stock)
         end
         if allowed then pool[#pool+1]=def end
     end
-    table.sort(pool,function(a,b) return a.id<b.id end)
+    table.sort(pool,function(a,b) return (a.sourceId or a.id)<(b.sourceId or b.id) end)
     return pool
 end
-local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock)
-    local def
+local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock,external)
+    local def,sourceCardId
     -- The original rerolls both rarity and card for duplicate attack/skill.
     -- Bounded only to prevent an incomplete supported pool hanging the game.
-    for _=1,256 do
+    repeat
         if color=='colored' then
             rarity=CardRandom.rollRarity(cardOwner,'shop')
             if kind=='power' and rarity=='common' then rarity='uncommon' end
         end
-        def=pick(cardOwner.cardRng,candidates(run,'cards',rarity,kind,color))
-        if not def or def.id~=previous then break end
+        local pool=candidates(run,'cards',rarity,kind,color)
+        if external and #pool>0 then def=pool[Primitive.nextInt(external,#pool)+1]
+        else def=pick(cardOwner.cardRng,pool) end
+    until not def or def.id~=previous
+    if color=='colorless' and not def then
+        local pool=assert(run.data.cards.sourcePools.colorless[rarity])
+        sourceCardId=pool[R.randomInt(cardOwner.cardRng,#pool-1)+1]
     end
     if def and def.id==previous then def=nil end
     local multiplier=R.randomFloatBetween(rng.merchant,f32(.9),f32(1.1))
     return { slot=slot, id=def and def.id or '__missing_card_'..slot, type=def and def.type or kind or 'skill',color=color,
-        rarity=rarity, unavailable=not def, sold=false,
+        rarity=rarity, unavailable=not def, sold=false,sourceCardId=sourceCardId or def and def.sourceId,
         price=Price.quoteCard({rarity=rarity,multiplier=multiplier,color=color,
             phase=restock and 'restock' or 'initial',courier=restock and owns(run,'courier') or false,
             membership=restock and owns(run,'membership_card') or false}) }
@@ -129,14 +138,16 @@ function S.afterPurchase(run,flow,category,offer)
     end
     if not owns(run,'courier') then offer.sold=true;return end
     local cardOwner=category=='cards' and CardRandom.clone(run) or nil
-    local fresh
+    local fresh,transaction
     if category=='cards' then
         local rarity=offer.rarity
         if offer.color=='colorless' then rarity=R.randomFloat(flow.shopRng.merchant)<f32(.3) and 'rare' or 'uncommon' end
-        fresh=cardOffer(run,flow.shopRng,cardOwner,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true)
+        if offer.color=='colored' then transaction=External.begin() end
+        fresh=cardOffer(run,flow.shopRng,cardOwner,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true,transaction and transaction.state)
     else fresh=itemOffer(run,flow.shopRng,category,offer.slot,flow.relics,true) end
     flow[category][offer.slot]=fresh
     run.shopRng=flow.shopRng
     if cardOwner then CardRandom.commit(run,cardOwner) end
+    return transaction
 end
 return S

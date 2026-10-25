@@ -1,0 +1,38 @@
+{
+  "beforeFiles": [
+    "preview",
+    "debuffs",
+    "ordered",
+    "validation",
+    "playback",
+    "charges",
+    "cancellation"
+  ],
+  "afterFiles": [
+    "preview",
+    "debuff_gates",
+    "ordered_interactions",
+    "playback",
+    "charges",
+    "cancellation"
+  ],
+  "caseCount": 15,
+  "titlesPreserved": [
+    "Artifact does not suppress invalid power amounts before core validation",
+    "Artifact gates each supported ordinary debuff before either recipient's stack arithmetic",
+    "cancelled playback and replacement battle cannot retain an old actor's intent",
+    "damage between repeated Vulnerable applications observes the consumed copied charge",
+    "each enemy keeps its executed face while later enemies still see new statuses",
+    "neighboring boundary and stock non-applying intent remain valid",
+    "ordinary stock values retain status details, card preview and command behavior",
+    "positive self buff preserves Artifact for the later debuff",
+    "repeated applications spend separate Artifact charges and expose overflow when exhausted",
+    "self buffs and target debuffs consume only their own actor's Artifact",
+    "signed power type depends on incoming amount including zero, not current total",
+    "stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with Artifact",
+    "two stock applying enemies exhaust exactly two charges without historical-frame recovery",
+    "unblocked true overflow remains visible and leaves the live state untouched",
+    "without Artifact ordered status modifiers still reach later damage and block"
+  ],
+  "boundary": "Same15 existing UI preview cases;retain upstream split and30s deadlines;delete redundant branch splits"
+}

@@ -103,7 +103,7 @@ for _, case in ipairs({
         Combat.addStatus(s.enemies[1], "thorns", 3)
         assert(Combat.play(s, s.hand[1].uid, 1))
         equal(s.phase, case.phase); equal(s.player.hp, case.hp - case.lost); equal(s.player.block, math.max(0, case.block - (case.block > 0 and 3 or 0)))
-        equal(#s.discard, 1)
+        equal(#s.discard,s.player.hp>0 and 1 or 0)
     end)
 end
 local function win(seed)

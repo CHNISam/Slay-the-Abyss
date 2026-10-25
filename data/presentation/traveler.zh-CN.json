@@ -78,8 +78,8 @@
     },
     "warcry": {
       "name": "调整战术",
-      "textTemplate": "抽 {effects.0.value} 张牌，再选择 {effects.1.value} 张手牌放到抽牌堆顶。打出后消耗本牌。",
-      "upgradeTextTemplate": "抽 {effects.0.value} 张牌，再选择 {effects.1.value} 张手牌放到抽牌堆顶。打出后消耗本牌。"
+      "textTemplate": "消耗。抽 {effects.0.value} 张牌，将一张手牌置于抽牌堆顶。",
+      "upgradeTextTemplate": "消耗。抽 {effects.0.value} 张牌，将一张手牌置于抽牌堆顶。"
     },
     "uppercut": {
       "name": "挑剑破势",
@@ -93,8 +93,8 @@
     },
     "metallicize": {
       "name": "持续防守",
-      "textTemplate": "每个己方回合结束时，增加 {effects.0.value} 点格挡。",
-      "upgradeTextTemplate": "每个己方回合结束时，增加 {effects.0.value} 点格挡。"
+      "textTemplate": "每回合结束时获得 {effects.0.value} 点格挡。",
+      "upgradeTextTemplate": "每回合结束时获得 {effects.0.value} 点格挡。"
     },
     "battle_trance": {
       "name": "集中精神",
@@ -158,8 +158,8 @@
     },
     "whirlwind": {
       "name": "岩潮叠嶂",
-      "textTemplate": "耗尽剩余能量；每耗用一点，对每个敌人造成 {effects.0.value} 点伤害。",
-      "upgradeTextTemplate": "耗尽剩余能量；每耗用一点，对每个敌人造成 {effects.0.value} 点伤害。"
+      "textTemplate": "消耗所有剩余能量，每点对所有敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "消耗所有剩余能量，每点对所有敌人造成 {effects.0.value} 点伤害。"
     },
     "offering": {
       "name": "奋力一搏",
@@ -173,8 +173,8 @@
     },
     "demon_form": {
       "name": "渐入佳境",
-      "textTemplate": "每个己方回合开始时，增加 {effects.0.value} 层力量。",
-      "upgradeTextTemplate": "每个己方回合开始时，增加 {effects.0.value} 层力量。"
+      "textTemplate": "每回合开始时获得 {effects.0.value} 层力量。",
+      "upgradeTextTemplate": "每回合开始时获得 {effects.0.value} 层力量。"
     },
     "bludgeon": {
       "name": "全力一击",
@@ -187,8 +187,8 @@
     },
     "reaper": {
       "name": "以战养战",
-      "textTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。",
-      "upgradeTextTemplate": "对每个敌人造成 {effects.0.value} 点伤害，并回复与本次攻击实际造成伤害等量的生命。打出后消耗本牌。"
+      "textTemplate": "消耗。对所有敌人造成 {effects.0.value} 点伤害，回复等量生命。",
+      "upgradeTextTemplate": "消耗。对所有敌人造成 {effects.0.value} 点伤害，回复等量生命。"
     },
     "slimed": {
       "name": "黏滞",
@@ -197,6 +197,206 @@
     "regret": {
       "name": "余悔",
       "textTemplate": "无法打出。回合结束时，失去等同手牌张数的生命。"
+    },
+    "armaments": {
+      "name": "整备武装",
+      "textTemplate": "获得 {effects.0.value} 点格挡，升级手中一张牌（本场战斗）。",
+      "upgradeTextTemplate": "获得 {effects.0.value} 点格挡，升级手中所有牌（本场战斗）。"
+    },
+    "havoc": {
+      "name": "临阵变招",
+      "textTemplate": "打出抽牌堆顶的牌，并将其消耗。",
+      "upgradeTextTemplate": "打出抽牌堆顶的牌，并将其消耗。"
+    },
+    "headbutt": {
+      "name": "回身追击",
+      "textTemplate": "造成 {effects.0.value} 点伤害，将弃牌堆中一张牌置于抽牌堆顶。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将弃牌堆中一张牌置于抽牌堆顶。"
+    },
+    "heavy_blade": {
+      "name": "重剑斩",
+      "textTemplate": "造成 {effects.0.value} 点伤害。力量对本牌生效 {strengthMultiplier} 次。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害。力量对本牌生效 {strengthMultiplier} 次。"
+    },
+    "perfected_strike": {
+      "name": "剑势如虹",
+      "textTemplate": "造成{effects.0.value}点伤害。每张Strike牌提升{strikeBonus}点伤害。",
+      "upgradeTextTemplate": "造成{effects.0.value}点伤害。每张Strike牌提升{strikeBonus}点伤害。"
+    },
+    "sword_boomerang": {
+      "name": "回旋连斩",
+      "textTemplate": "对随机敌人造成 {effects.0.value} 点伤害，共 {effects.0.times} 次。",
+      "upgradeTextTemplate": "对随机敌人造成 {effects.0.value} 点伤害，共 {effects.0.times} 次。"
+    },
+    "wild_strike": {
+      "name": "猛进斩",
+      "textTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。"
+    },
+    "blood_for_blood": {
+      "name": "负伤反击",
+      "textTemplate": "本场战斗每失去 一 次生命，本牌费用 减少一。造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "本场战斗每失去 一 次生命，本牌费用 减少一。造成 {effects.0.value} 点伤害。"
+    },
+    "burning_pact": {
+      "name": "弃旧筹新",
+      "textTemplate": "消耗手中一张牌，抽 {effects.1.value} 张牌。",
+      "upgradeTextTemplate": "消耗手中一张牌，抽 {effects.1.value} 张牌。"
+    },
+    "combust": {
+      "name": "强攻压阵",
+      "textTemplate": "回合结束时失去一点生命，并对所有敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "回合结束时失去一点生命，并对所有敌人造成 {effects.0.value} 点伤害。"
+    },
+    "dark_embrace": {
+      "name": "临机应变",
+      "textTemplate": "每当一张牌被消耗，抽 {effects.0.value} 张牌。",
+      "upgradeTextTemplate": "每当一张牌被消耗，抽 {effects.0.value} 张牌。"
+    },
+    "dual_wield": {
+      "name": "再演剑势",
+      "textTemplate": "选一张攻击牌或能力牌，将其 {effects.0.value} 张复制加入手中。",
+      "upgradeTextTemplate": "选一张攻击牌或能力牌，将其 {effects.0.value} 张复制加入手中。"
+    },
+    "evolve": {
+      "name": "逆境求变",
+      "textTemplate": "每当你抽到状态牌，抽 {effects.0.value} 张牌。",
+      "upgradeTextTemplate": "每当你抽到状态牌，抽 {effects.0.value} 张牌。"
+    },
+    "feel_no_pain": {
+      "name": "百折不挠",
+      "textTemplate": "每当一张牌被消耗，获得 {effects.0.value} 点格挡。",
+      "upgradeTextTemplate": "每当一张牌被消耗，获得 {effects.0.value} 点格挡。"
+    },
+    "fire_breathing": {
+      "name": "逆势反攻",
+      "textTemplate": "每当你抽到状态牌或诅咒牌，对所有敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "每当你抽到状态牌或诅咒牌，对所有敌人造成 {effects.0.value} 点伤害。"
+    },
+    "flame_barrier": {
+      "name": "反击架势",
+      "textTemplate": "获得 {effects.0.value} 点格挡。本回合受到攻击时反弹 {effects.1.value} 点伤害。",
+      "upgradeTextTemplate": "获得 {effects.0.value} 点格挡。本回合受到攻击时反弹 {effects.1.value} 点伤害。"
+    },
+    "infernal_blade": {
+      "name": "临阵试招",
+      "textTemplate": "消耗。将一张随机攻击牌加入手中，本回合其费用为零。",
+      "upgradeTextTemplate": "消耗。将一张随机攻击牌加入手中，本回合其费用为零。"
+    },
+    "intimidate": {
+      "name": "威慑",
+      "textTemplate": "消耗。对所有敌人施加 {effects.0.value} 回合虚弱。",
+      "upgradeTextTemplate": "消耗。对所有敌人施加 {effects.0.value} 回合虚弱。"
+    },
+    "power_through": {
+      "name": "强行固守",
+      "textTemplate": "将 {effects.0.value} 张伤口加入手中，获得 {effects.1.value} 点格挡。",
+      "upgradeTextTemplate": "将 {effects.0.value} 张伤口加入手中，获得 {effects.1.value} 点格挡。"
+    },
+    "pummel": {
+      "name": "疾风连斩",
+      "textTemplate": "消耗。造成 {effects.0.value} 点伤害，共 {effects.0.times} 次。",
+      "upgradeTextTemplate": "消耗。造成 {effects.0.value} 点伤害，共 {effects.0.times} 次。"
+    },
+    "rage": {
+      "name": "攻守相济",
+      "textTemplate": "本回合每打出一张攻击牌，获得 {effects.0.value} 点格挡。",
+      "upgradeTextTemplate": "本回合每打出一张攻击牌，获得 {effects.0.value} 点格挡。"
+    },
+    "reckless_charge": {
+      "name": "疾步突进",
+      "textTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张眩晕洗入抽牌堆。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张眩晕洗入抽牌堆。"
+    },
+    "rupture": {
+      "name": "愈挫愈勇",
+      "textTemplate": "每当你因卡牌失去生命，获得 {effects.0.value} 层力量。",
+      "upgradeTextTemplate": "每当你因卡牌失去生命，获得 {effects.0.value} 层力量。"
+    },
+    "searing_blow": {
+      "name": "千锤一剑",
+      "textTemplate": "造成 {effects.0.value} 点伤害。可被升级任意次数。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害。可被升级任意次数。"
+    },
+    "second_wind": {
+      "name": "弃繁守拙",
+      "textTemplate": "消耗手中所有非攻击牌，每张获得 {effects.0.value} 点格挡。",
+      "upgradeTextTemplate": "消耗手中所有非攻击牌，每张获得 {effects.0.value} 点格挡。"
+    },
+    "sentinel": {
+      "name": "后援守势",
+      "textTemplate": "获得 {effects.0.value} 点格挡。若本牌被消耗，获得 {exhaustEnergy} 点能量。",
+      "upgradeTextTemplate": "获得 {effects.0.value} 点格挡。若本牌被消耗，获得 {exhaustEnergy} 点能量。"
+    },
+    "sever_soul": {
+      "name": "弃守强攻",
+      "textTemplate": "消耗手中所有非攻击牌，造成 {effects.1.value} 点伤害。",
+      "upgradeTextTemplate": "消耗手中所有非攻击牌，造成 {effects.1.value} 点伤害。"
+    },
+    "spot_weakness": {
+      "name": "洞察破绽",
+      "textTemplate": "若敌人意图攻击，获得 {effects.0.value} 层力量。",
+      "upgradeTextTemplate": "若敌人意图攻击，获得 {effects.0.value} 层力量。"
+    },
+    "berserk": {
+      "name": "背水之战",
+      "textTemplate": "获得 {effects.0.value} 回合易伤。每回合开始时获得 {effects.1.value} 点能量。",
+      "upgradeTextTemplate": "获得 {effects.0.value} 回合易伤。每回合开始时获得 {effects.1.value} 点能量。"
+    },
+    "brutality": {
+      "name": "破釜沉舟",
+      "textTemplate": "每回合开始时失去一点生命，额外抽 {effects.0.value} 张牌。",
+      "upgradeTextTemplate": "固有。每回合开始时失去一点生命，额外抽 {effects.0.value} 张牌。"
+    },
+    "corruption": {
+      "name": "孤注一掷",
+      "textTemplate": "技能牌无需能量。打出后消耗。",
+      "upgradeTextTemplate": "技能牌无需能量。打出后消耗。"
+    },
+    "double_tap": {
+      "name": "叠势连击",
+      "textTemplate": "本回合你打出的下 {effects.0.value} 张攻击牌生效两次。",
+      "upgradeTextTemplate": "本回合你打出的下 {effects.0.value} 张攻击牌生效两次。"
+    },
+    "exhume": {
+      "name": "重拾旧策",
+      "textTemplate": "消耗。将消耗堆中一张牌放回手中。",
+      "upgradeTextTemplate": "消耗。将消耗堆中一张牌放回手中。"
+    },
+    "feed": {
+      "name": "乘胜壮行",
+      "textTemplate": "消耗。造成 {effects.0.value} 点伤害。若致命，最大生命 +{effects.0.maxHp}。",
+      "upgradeTextTemplate": "消耗。造成 {effects.0.value} 点伤害。若致命，最大生命 +{effects.0.maxHp}。"
+    },
+    "fiend_fire": {
+      "name": "舍尽一击",
+      "textTemplate": "消耗。消耗手中所有牌，每张造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "消耗。消耗手中所有牌，每张造成 {effects.0.value} 点伤害。"
+    },
+    "immolate": {
+      "name": "摧阵一击",
+      "textTemplate": "对所有敌人造成 {effects.0.value} 点伤害，将 {effects.1.value} 张灼烧加入弃牌堆。",
+      "upgradeTextTemplate": "对所有敌人造成 {effects.0.value} 点伤害，将 {effects.1.value} 张灼烧加入弃牌堆。"
+    },
+    "juggernaut": {
+      "name": "守中有攻",
+      "textTemplate": "每当你获得格挡，对随机敌人造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "每当你获得格挡，对随机敌人造成 {effects.0.value} 点伤害。"
+    },
+    "limit_break": {
+      "name": "剑意突破",
+      "textTemplate": "消耗。力量翻倍。",
+      "upgradeTextTemplate": "力量翻倍。（不再消耗）"
+    },
+    "wound": {
+      "name": "伤口",
+      "textTemplate": "无法打出。",
+      "upgradeTextTemplate": "无法打出。"
+    },
+    "burn": {
+      "name": "灼烧",
+      "textTemplate": "无法打出。回合结束时受到{endTurnDamage}点伤害。",
+      "upgradeTextTemplate": "无法打出。回合结束时受到{endTurnDamage}点伤害。"
     }
   }
 }

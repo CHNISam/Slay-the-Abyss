@@ -10,6 +10,8 @@ local EventPool = require("abyss_event_pool")
 local EventRandom = require("abyss_sts_random")
 local Inventory = require("abyss_inventory")
 local Shop = require("abyss_shop")
+local External=require('abyss_external_random')
+
 local CardRandom = require("abyss_card_random")
 local LivingWall = require('abyss_living_wall')
 local Fountain = require('abyss_fountain')
@@ -31,8 +33,8 @@ local function playable(card)
 end
 
 local function upgradeable(run, instance)
-    if instance.upgraded then return false end
     local definition = find(run.data.cards.cards, instance.cardId)
+    if instance.upgraded and not (definition and definition.repeatable) then return false end
     if not definition or not definition.upgrade or not next(definition.upgrade) then return false end
     local upgraded = Combat.copy(definition)
     for key, value in pairs(definition.upgrade) do upgraded[key] = value end
@@ -269,6 +271,7 @@ function M.upgrade(run, uid)
     local instance = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if flow.upgradesLeft <= 0 or not upgradeable(run, instance) then return false, "card_not_upgradeable" end
+    instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
     instance.upgraded, flow.campChoice = true, "upgrade"
     flow.upgradesLeft = flow.upgradesLeft - 1
     if flow.upgradesLeft == 0 or #upgradeCards(run) == 0 then return complete(run) end
@@ -307,8 +310,11 @@ local function purchase(run, category, reference, bySlot)
         stagedRun.relics=Combat.copy(run.relics)
         stagedRun.relics[#stagedRun.relics+1]=id
     end
-    local called=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
+    local called,transaction=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
     if not called then return false,'shop_content_unavailable' end
+    -- Only colored Courier cards use external entropy. Commit its staged draw
+    -- before the infallible card grant; rejected purchases never advance it.
+    if transaction and not pcall(External.commit,transaction) then return false,'shop_content_unavailable' end
     if category == "cards" then
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
@@ -412,7 +418,7 @@ function M.eventOptions(run,flow)
         local r=run.data.rules.events.golden_shrine
         local curse=find(run.data.cards.cards,r.curse)
         option('pray','领受馈赠','获得 '..r.gold..' 金币')
-        option('desecrate','取走供物','获得 '..r.curseGold..' 金币，并将诅咒「'..(curse and curse.name or '余悔')..'」加入牌组')
+        option('desecrate','取走供物','获得 '..r.curseGold..' 金币，并将诅咒「'..(curse and curse.name or 'Regret')..'」加入牌组')
     elseif id=='goop' then
         local r=run.data.rules.events.goop
         option('gather','拾取金币','受到 '..r.damage..' 点伤害，获得 '..r.gold..' 金币')
@@ -481,6 +487,7 @@ function M.chooseEvent(run, choice, uid)
         local instance=find(run.deck,uid,'uid')
         if not instance then return false,'invalid_card' end
         if not upgradeable(run,instance) then return false,'card_not_upgradeable' end
+        instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
         instance.upgraded=true;flow.event.upgradedUids={uid}
     elseif choice=='accept' and id=='shining_light' then
         local cards=upgradeCards(run)
@@ -490,7 +497,9 @@ function M.chooseEvent(run, choice, uid)
         damage(flow.event.damage)
         flow.event.upgradedUids={}
         for i=1,math.min(rules.upgradeCount,#cards) do
-            find(run.deck,cards[i].uid,'uid').upgraded=true
+            local instance=find(run.deck,cards[i].uid,'uid')
+            instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
+            instance.upgraded=true
             flow.event.upgradedUids[#flow.event.upgradedUids+1]=cards[i].uid
         end
         run.miscRng=rng

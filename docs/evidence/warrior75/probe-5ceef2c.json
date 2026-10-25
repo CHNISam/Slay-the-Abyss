@@ -1,0 +1,185 @@
+{
+  "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
+  "candidateSha256": "e4eeadf4c03ada9e58427e20f12565b20d5e2e3a5d20a4d0cdfd9a4871fefb38",
+  "baseCandidateSha256": "416a0d2f374a3347e98ebc74e2c25bef923498e9c12ae75d796f218d539b8a76",
+  "officialSave": "1073741864",
+  "sourcePreflight": "official-client-probe-5c-before-play.json:62/62 before play",
+  "runId": "4d9705b0-57af-46e2-bf1d-7d59da1b1eca",
+  "clientScriptLogRequested": true,
+  "printCount": 415,
+  "expectations": {
+    "passed": true,
+    "met": 9,
+    "of": 9,
+    "results": [
+      {
+        "expect": "print \"ABYSS_UI ready\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CORE all six fixture suites passed\"",
+        "met": true,
+        "t": 2
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_CHANNELS all75\"",
+        "met": true,
+        "t": 7
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI searing_blow+3\"",
+        "met": true,
+        "t": 344
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI exhaust choice passed\"",
+        "met": true,
+        "t": 370
+      },
+      {
+        "expect": "print \"ABYSS_W75_NATIVE_UI selected copy passed\"",
+        "met": true,
+        "t": 403
+      },
+      {
+        "expect": "no print \"ABYSS_UI failed\"",
+        "met": true
+      },
+      {
+        "expect": "no print \"ABYSS_UI boot_failed\"",
+        "met": true
+      },
+      {
+        "expect": "no fault in a client script",
+        "met": true
+      }
+    ],
+    "note": "Everything expected was printed, in order. That is what the level said of itself: look at the screenshots for what the player sees."
+  },
+  "passed": "150 independent base/up executions with original disposal;49 interaction groups;six core suites;75 public acquisition/camp/next-battle transactions;physical reward claim,Searing21->27/+3,Pact/Sentinel+ exhaust choice and modified Rampage+ copy selection",
+  "boundary": "Explicit test fixtures: inventory, funding and navigation injected and marked. Native runtime execution and physical selected controls passed; does not certify all75 natural deckbuilding or full UI/mobile. Manual Exit requested defeat after assertions; generic early-end warning is reconciled by actual settlement_requested defeat log and physical confirmation.",
+  "toolWarning": "The level reached its result screen after 353.9 seconds of play, before the planned end. If the graph did not settle the stage itself, the server ended it; the usual cause is too much graph work each second (see the load rule in miliastra://platform-rules).",
+  "files": [
+    {
+      "path": "probe-5ceef2c-status.json.gz",
+      "sha256": "748cef8e1d6f63dbf7163e145484795f171c7cb82b431b4305edbd32a5d4fcc9",
+      "bytes": 14231,
+      "originalSha256": "87406c34f88cd78ba456bf182b47872b91e8987c7960d0298db72c9eb13ffaaf"
+    },
+    {
+      "path": "probe-5ceef2c-log.gia.gz",
+      "sha256": "904fedc458ee0e4d2ad1374a14813f0b1ab139ca92ec61f7840d93e6c2095a80",
+      "bytes": 7240,
+      "originalSha256": "28e3f60f9bed045ee5281e314cdfc5bcdc7a2215a5232abc44ff8fd14bfcae01"
+    },
+    {
+      "path": "official-client-probe-5c-before-play.json",
+      "sha256": "523367ad3aa34e409995259661598f04366eb45fc6d0bc4b3b91ba697da6e6cf",
+      "bytes": 36821,
+      "originalSha256": "523367ad3aa34e409995259661598f04366eb45fc6d0bc4b3b91ba697da6e6cf"
+    },
+    {
+      "path": "screens/probe-5ceef2c-263-probe5c-focus-1.png",
+      "sha256": "fdb5075d00aa9d8d8894e67eba9eb3cf1ca5b80aeb5c01e46d873c6d43fef51d",
+      "bytes": 82396,
+      "originalSha256": "fdb5075d00aa9d8d8894e67eba9eb3cf1ca5b80aeb5c01e46d873c6d43fef51d"
+    },
+    {
+      "path": "screens/probe-5ceef2c-264-probe5c-open-cards-1.png",
+      "sha256": "d3982f3929066f4dde391fd63dc2c4f884ed2631c54b98684051f16fae025e34",
+      "bytes": 179116,
+      "originalSha256": "d3982f3929066f4dde391fd63dc2c4f884ed2631c54b98684051f16fae025e34"
+    },
+    {
+      "path": "screens/probe-5ceef2c-265-probe5c-claim-card-1.png",
+      "sha256": "a21128f3bc3f4cb6f34f5eb8c74aa6908a7c88930a8ca19ac130e88f61480afa",
+      "bytes": 68702,
+      "originalSha256": "a21128f3bc3f4cb6f34f5eb8c74aa6908a7c88930a8ca19ac130e88f61480afa"
+    },
+    {
+      "path": "screens/probe-5ceef2c-267-probe5c-focus-1.png",
+      "sha256": "a21128f3bc3f4cb6f34f5eb8c74aa6908a7c88930a8ca19ac130e88f61480afa",
+      "bytes": 68702,
+      "originalSha256": "a21128f3bc3f4cb6f34f5eb8c74aa6908a7c88930a8ca19ac130e88f61480afa"
+    },
+    {
+      "path": "screens/probe-5ceef2c-268-probe5c-proceed-1.png",
+      "sha256": "7ea7ea84c4da4ec3bbbf88e58912adab6e9e6420024c0048a514dd2b9c210af4",
+      "bytes": 112157,
+      "originalSha256": "7ea7ea84c4da4ec3bbbf88e58912adab6e9e6420024c0048a514dd2b9c210af4"
+    },
+    {
+      "path": "screens/probe-5ceef2c-269-probe5c-forge-1.png",
+      "sha256": "226a76164b12185c8abc966ede41794597da59206eb99cfbd50d72c16d6d6992",
+      "bytes": 114391,
+      "originalSha256": "226a76164b12185c8abc966ede41794597da59206eb99cfbd50d72c16d6d6992"
+    },
+    {
+      "path": "screens/probe-5ceef2c-270-probe5c-select-searing-1.png",
+      "sha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01",
+      "bytes": 149830,
+      "originalSha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01"
+    },
+    {
+      "path": "screens/probe-5ceef2c-271-probe5c-confirm-upgrade-1.png",
+      "sha256": "985f83e4ef7e4634aa203a5f77eecd5d768e979d826847cc806950f2a304ad79",
+      "bytes": 216300,
+      "originalSha256": "985f83e4ef7e4634aa203a5f77eecd5d768e979d826847cc806950f2a304ad79"
+    },
+    {
+      "path": "screens/probe-5ceef2c-272-probe5c-play-pact-1.png",
+      "sha256": "e18e12997104e42ea8f62cf4fb9e7aae8201532b3dd83a189db29745e1a2fd63",
+      "bytes": 240636,
+      "originalSha256": "e18e12997104e42ea8f62cf4fb9e7aae8201532b3dd83a189db29745e1a2fd63"
+    },
+    {
+      "path": "screens/probe-5ceef2c-273-probe5c-commit-pact-1.png",
+      "sha256": "ea2eb04fd5b2250fc0dc78582fe40e5239416b541e525175e6281cd86f5e93c4",
+      "bytes": 165164,
+      "originalSha256": "ea2eb04fd5b2250fc0dc78582fe40e5239416b541e525175e6281cd86f5e93c4"
+    },
+    {
+      "path": "screens/probe-5ceef2c-274-probe5c-exhaust-sentinel-1.png",
+      "sha256": "d9544830a5cde09ae15af0f3eb4c47ecbdb49fa485b92f092afa51e8356ba85d",
+      "bytes": 232911,
+      "originalSha256": "d9544830a5cde09ae15af0f3eb4c47ecbdb49fa485b92f092afa51e8356ba85d"
+    },
+    {
+      "path": "screens/probe-5ceef2c-275-probe5c-end-turn-1.png",
+      "sha256": "9b119694876848c71df6567ae55fc4d1fc175e8fe360c3a5a3d5f4818eb61218",
+      "bytes": 262299,
+      "originalSha256": "9b119694876848c71df6567ae55fc4d1fc175e8fe360c3a5a3d5f4818eb61218"
+    },
+    {
+      "path": "screens/probe-5ceef2c-276-probe5c-select-dual-1.png",
+      "sha256": "f50ce34acb1ca285a5ffe90075106600ab2d5bc70ef814412ad6f0f1dacf4406",
+      "bytes": 283432,
+      "originalSha256": "f50ce34acb1ca285a5ffe90075106600ab2d5bc70ef814412ad6f0f1dacf4406"
+    },
+    {
+      "path": "screens/probe-5ceef2c-277-probe5c-play-dual-1.png",
+      "sha256": "b01c3f8844bf7542f9f99057791d94fdeef85c73b3ff908aae02abac9d65bb8f",
+      "bytes": 204484,
+      "originalSha256": "b01c3f8844bf7542f9f99057791d94fdeef85c73b3ff908aae02abac9d65bb8f"
+    },
+    {
+      "path": "screens/probe-5ceef2c-278-probe5c-copy-rampage-1.png",
+      "sha256": "0c66ffa8bfb1a9bfe286e1215a2e12181b5d7185934015a24418fb7667991538",
+      "bytes": 312363,
+      "originalSha256": "0c66ffa8bfb1a9bfe286e1215a2e12181b5d7185934015a24418fb7667991538"
+    },
+    {
+      "path": "screens/probe-5ceef2c-279-probe5c-exit-1.png",
+      "sha256": "ea76d964980d98b917d701b053a5bc8aa24f5e91dd55d3d7806b4e5464314a8b",
+      "bytes": 189838,
+      "originalSha256": "ea76d964980d98b917d701b053a5bc8aa24f5e91dd55d3d7806b4e5464314a8b"
+    },
+    {
+      "path": "screens/probe-5ceef2c-280-probe5c-confirm-exit-1.png",
+      "sha256": "76bf9d012bca1646b808a34c246149c323de3f39c1787805b6de1e94637dfa3d",
+      "bytes": 199518,
+      "originalSha256": "76bf9d012bca1646b808a34c246149c323de3f39c1787805b6de1e94637dfa3d"
+    }
+  ]
+}

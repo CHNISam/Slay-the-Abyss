@@ -4,7 +4,7 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { contentFiles, validateContent } from '../scripts/validate-data.mjs';
+import { contentFiles, validateContent, loadContent } from '../scripts/validate-data.mjs';
 
 function fixture() {
   const data = {
@@ -24,6 +24,8 @@ function fixture() {
       combat: { blockReset: 'owner_turn_start', vulnerablePercent: 150, weakPercent: 75, frailPercent: 75, rounding: 'floor_after_modifiers', enemyAI: 'intent_cycle', statusDurationTick: 'round_end', poisonBypassesBlock: true }
     }
   };
+  data.cards.sourcePools={reward:{common:[],uncommon:[],rare:[]},src:{common:[],uncommon:[],rare:[]},
+    shop:Object.fromEntries(['common','uncommon','rare'].map(r=>[r,{attack:[],skill:[],power:[]}]))};
   for (const [tier, floor] of [['elite', 6], ['boss', 16]]) {
     data.enemies.enemies.push({ ...structuredClone(data.enemies.enemies[0]), id: `${tier}_slime`, tier });
     data.enemies.encounters.push({ id: `${tier}_encounter`, tier, enemies: [`${tier}_slime`], minFloor: floor, maxFloor: floor });
@@ -33,6 +35,16 @@ function fixture() {
 
 test('valid full bundle permits repeated starter cards and encounter enemies', () => {
   assert.deepEqual(validateContent(fixture()), []);
+});
+
+for (const [name, mutate, expected] of [
+  ['missing reward identity', d=>d.cards.sourcePools.reward.common.pop(), /missing class card/],
+  ['duplicate source identity', d=>d.cards.sourcePools.src.common.push(d.cards.sourcePools.src.common[0]), /duplicate class card/],
+  ['wrong typed shop identity', d=>d.cards.sourcePools.shop.common.skill.push('strike'), /type and rarity/],
+  ['wrong canonical shop order', d=>d.cards.sourcePools.shop.common.attack.reverse(), /ordered by unique original card ID/],
+]) test(`source pools reject ${name}`,()=>{
+  const bundle=loadContent('data');mutate(bundle);
+  assert.match(validateContent(bundle).join('\n'),expected);
 });
 
 test('valid partial upgrades, signed strength and nested conditional references', () => {

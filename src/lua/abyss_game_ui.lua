@@ -103,6 +103,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     function self:closeDeck()
         if self.exitOpen or self.settlementRequested then return false end
+        if self.deckUI.choiceToken then return false,"card_choice_pending" end
         if not self.deckUI:close() then return false end
         -- Resume click-only hosts; pointer-capable card input still requires its
         -- own fresh Down/Up identity. Closing an overlay cannot revive old clicks.
@@ -256,6 +257,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
+        if run and run.phase=="combat" and run.combat.pendingChoice and not self.battleUI.busy
+            and not self.deckUI.visible and not self.exitOpen then
+            self.deckUI:open(run,run.combat.pendingChoice,function(token,uid)
+                self.battleUI:chooseCard(token,uid)
+                self:refresh()
+            end)
+        end
         local deckOpen = self.deckUI.visible
         if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
         local potionOpen=self.potionUI.visible

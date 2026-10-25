@@ -1,8 +1,8 @@
 {
   "source": "Slay the Spire 1 官方 wiki：https://slaythespire.wiki.gg/wiki/Cards_List?color=Red （战士 72 张 + 基础 3 张 = 75 张）",
-  "policy": "数值、费用、稀有度、类型全部照搬官方，一个数字都不改；只换中文名（并保留 sts_name 溯源）。卡牌文案为本项目自有中文实现。",
+  "policy": "历史盘点文件，包含未经核对的记忆值，不是当前运行规则来源。正式交付必须完整75张，稳定ID与sts_name保留原版卡名和规则对应；玩家显示名沿用traveler.zh-CN世界观中文包装。以逐卡固定来源核验及验收矩阵为准，不允许改规则数值或近似效果。原始盘点值保留以供审计。",
   "cost_verify": ["berserk", "sentinel", "hemokinesis", "blood_for_blood", "havoc", "dark_embrace"],
-  "cost_verify_note": "以上 6 张的费用为记忆值，wiki 列表页未渲染能量图标，需在真机化数据前二次核对。",
+  "cost_verify_note": "历史提示：原始6张费用来自记忆。本轮已对完整75张构造及升级方法做固定来源核验；此文件的旧值不自动修写成运行答案。已纠正运行数据：Berserk与Brutality普通/升级均为0费，Blood for Blood升级3费，Infernal Blade升级0费。Whirlwind为X费用，内部使用all_energy模式，非零费卡。来源与剩余验收见docs/evidence/warrior75/matrix.json及sources.json。",
   "starter_deck": {
     "cards": ["strike", "strike", "strike", "strike", "strike", "defend", "defend", "defend", "defend", "bash"],
     "note": "5 打击 + 4 防御 + 1 痛击（与官方初始卡组一致）"

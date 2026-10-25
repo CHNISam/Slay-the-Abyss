@@ -61,8 +61,9 @@ for _, upgraded in ipairs({false, true}) do
             if otherHp then equal(s.enemies[2].hp, otherHp, "unselected enemy HP") end
             equal(s.phase, case.phase or "player", "phase")
             equal(s.energy, 2, "cost")
-            equal(#s.hand, 0); equal(#s.discard, 1); equal(#s.exhaust, 0)
-            equal(s.discard[1].uid, card.uid, "discarded original instance")
+            equal(#s.hand, 0); equal(#s.discard,s.player.hp>0 and 1 or 0); equal(#s.exhaust, 0)
+            if s.player.hp>0 then equal(s.discard[1].uid,card.uid,'discarded original instance')
+            else equal(s.cardInUse,card,'death interrupts use-card disposal') end
         end)
     end
 end

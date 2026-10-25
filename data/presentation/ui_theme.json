@@ -289,7 +289,7 @@
       "barricade": 103066,
       "ritual": 103047,
       "verify": true
-    },
+    , "dark_embrace": 103056, "feel_no_pain": 103066, "corruption": 103059, "evolve": 103056, "fire_breathing": 103055, "flame_barrier": 103055, "rage": 103047, "combust": 103059, "rupture": 103047, "demon_form": 103047, "berserk": 103047, "brutality": 103047, "double_tap": 103047, "juggernaut": 103066, "metallicize": 103066},
     "potion": {
       "fire_potion": 111046,
       "block_potion": 111048,
@@ -418,8 +418,8 @@
         148,
         208
       ],
-      "nameBand": 30,
-      "art": 64,
+      "nameBand": 60,
+      "art": 34,
       "typeLine": 18,
       "textBox": [
         132,

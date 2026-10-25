@@ -176,7 +176,7 @@ local function finishBattle(run)
     equal(run.phase, "reward")
 end
 
-test("real map keeps resources across two original-data battles and a newly acquired relic triggers next time", function()
+test("real map keeps resources across two original-data battles and the acquired relic persists into the next battle", function()
     local source = Combat.copy(data)
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
     source.rules.events.encounterId='purifier' -- explicit content fixture; unknown RNG has its own route tests
@@ -206,14 +206,14 @@ test("real map keeps resources across two original-data battles and a newly acqu
     assert(Run.claimCardReward(run, 1)); assert(Run.leaveCombatRewards(run)); assert(Nodes.completeCombat(run, map))
     equal(#run.deck, 11); equal(run.deck[11].uid, 11); equal(run.nextDeckUid, 12)
     local acquired, visitedEvent, boughtCard, spent, nextBattleType = false, false, false, 0, nil
-    local boughtCardId
+    local acquiredId,boughtCardId
     while true do
         local node = Routes.at(map,route[#map.path+1])
         assert(Nodes.enter(run, map, node.id))
         if run.phase == "combat" then nextBattleType = node.type break
         elseif node.type == "treasure" then
             local reward = Nodes.view(run, map).node.reward
-            if reward.relicId then equal(reward.relicId, "anchor"); acquired = true
+            if reward.relicId then acquiredId=reward.relicId; acquired = true
             else gold = gold + reward.gold end
             assert(Nodes.claimTreasure(run))
         elseif node.type == "event" then
@@ -236,8 +236,9 @@ test("real map keeps resources across two original-data battles and a newly acqu
     assert(acquired and visitedEvent and boughtCard)
     equal(run.combat.player.hp, hp); equal(run.hp, hp); equal(run.gold, gold - spent)
     same(run.potions, { [2] = "regen_potion" })
-    equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12); equal(run.deck[12].cardId,boughtCardId); equal(run.nextDeckUid, 13)
-    equal(run.combat.player.block, 10); equal(run.combat.energy, 4); equal(#run.combat.hand, 7)
+    equal(#run.deck, 12); equal(run.deck[11].cardId, rewardId); equal(run.deck[12].uid, 12);equal(run.deck[12].cardId,boughtCardId); equal(run.nextDeckUid, 13)
+    assert(acquiredId);local owned=false;for _,id in ipairs(run.relics)do if id==acquiredId then owned=true end end;assert(owned)
+    equal(run.combat.player.block, acquiredId=="anchor" and 10 or 0); equal(run.combat.energy, 4); equal(#run.combat.hand, 7)
     equal(run.combat.player.statuses.strength, 1); equal(run.combat.player.statuses.dexterity, 1)
     equal(run.combat.player.statuses.thorns, 3); equal(run.combat.player.statuses.regen, nil)
     assert(Run.usePotion(run, 2)); equal(run.combat.player.statuses.regen, 5)

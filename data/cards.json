@@ -1,5 +1,5 @@
 {
-  "note": "v0.1.0首轮37张构筑卡定义与Dazed临时状态牌；完整75卡参考表原样保留，不代表75张可玩。规范化op，不自行调整来源数值。未平台/游戏验收。",
+  "note": "完整75张Ironclad规则实现候选。定义、实现、本地验证、平台验收分别登记；不代表已通过最终验收。",
   "starter_deck": {
     "cards": [
       "strike",
@@ -18,6 +18,7 @@
   "cards": [
     {
       "id": "strike",
+      "sts_name": "Strike",
       "name": "打击",
       "type": "attack",
       "rarity": "basic",
@@ -38,10 +39,13 @@
         ]
       },
       "upgradeText": "造成 9 点伤害。",
-      "sts_name": "Strike"
+      "strikeTag": true,
+      "target": "ENEMY",
+      "sourceId": "Strike_R"
     },
     {
       "id": "defend",
+      "sts_name": "Defend",
       "name": "防御",
       "type": "skill",
       "rarity": "basic",
@@ -62,10 +66,12 @@
         ]
       },
       "upgradeText": "获得 8 点格挡。",
-      "sts_name": "Defend"
+      "target": "SELF",
+      "sourceId": "Defend_R"
     },
     {
       "id": "bash",
+      "sts_name": "Bash",
       "name": "痛击",
       "type": "attack",
       "rarity": "basic",
@@ -96,10 +102,126 @@
         ]
       },
       "upgradeText": "造成 10 点伤害，施加 3 层易伤。",
-      "sts_name": "Bash"
+      "target": "ENEMY",
+      "sourceId": "Bash"
+    },
+    {
+      "id": "anger",
+      "sts_name": "Anger",
+      "name": "怒斩",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 0,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 6
+        },
+        {
+          "op": "addCardToDiscard",
+          "card": "anger"
+        }
+      ],
+      "text": "造成 6 点伤害，将本牌的一张复制加入弃牌堆。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 8
+          },
+          {
+            "op": "addCardToDiscard",
+            "card": "anger"
+          }
+        ]
+      },
+      "upgradeText": "造成 8 点伤害，将本牌的一张复制加入弃牌堆。",
+      "target": "ENEMY",
+      "sourceId": "Anger"
+    },
+    {
+      "id": "armaments",
+      "sts_name": "Armaments",
+      "name": "砺刃",
+      "type": "skill",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "block",
+          "value": 5
+        },
+        {
+          "op": "upgradeHand"
+        }
+      ],
+      "text": "获得 5 点格挡，升级手中 1 张牌（本场战斗）。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 5
+          },
+          {
+            "op": "upgradeHand",
+            "all": true
+          }
+        ]
+      },
+      "upgradeText": "获得 5 点格挡，升级手中所有牌（本场战斗）。",
+      "target": "SELF",
+      "sourceId": "Armaments"
+    },
+    {
+      "id": "body_slam",
+      "sts_name": "Body Slam",
+      "name": "以身相搏",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "damageEqualToBlock"
+        }
+      ],
+      "text": "造成等同于当前格挡的伤害。",
+      "upgrade": {
+        "cost": 0
+      },
+      "upgradeText": "消耗 0 能量，造成等同于当前格挡的伤害。",
+      "target": "ENEMY",
+      "sourceId": "Body Slam"
+    },
+    {
+      "id": "clash",
+      "sts_name": "Clash",
+      "name": "破阵击",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 0,
+      "condition": "only_attacks_in_hand",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 14
+        }
+      ],
+      "text": "仅当手牌全为攻击牌时可打出，造成 14 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 18
+          }
+        ]
+      },
+      "upgradeText": "仅当手牌全为攻击牌时可打出，造成 18 点伤害。",
+      "target": "ENEMY",
+      "sourceId": "Clash"
     },
     {
       "id": "cleave",
+      "sts_name": "Cleave",
       "name": "横扫",
       "type": "attack",
       "rarity": "common",
@@ -120,10 +242,12 @@
         ]
       },
       "upgradeText": "对所有敌人造成 11 点伤害。",
-      "sts_name": "Cleave"
+      "target": "ALL_ENEMY",
+      "sourceId": "Cleave"
     },
     {
       "id": "clothesline",
+      "sts_name": "Clothesline",
       "name": "锁喉击",
       "type": "attack",
       "rarity": "common",
@@ -154,10 +278,114 @@
         ]
       },
       "upgradeText": "造成 14 点伤害，施加 3 层虚弱。",
-      "sts_name": "Clothesline"
+      "target": "ENEMY",
+      "sourceId": "Clothesline"
+    },
+    {
+      "id": "flex",
+      "sts_name": "Flex",
+      "name": "绷紧",
+      "type": "skill",
+      "rarity": "common",
+      "cost": 0,
+      "effects": [
+        {
+          "op": "gainTemporaryStrength",
+          "status": "strength",
+          "value": 2
+        }
+      ],
+      "text": "本回合获得 2 层力量，回合结束移除。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainTemporaryStrength",
+            "status": "strength",
+            "value": 4
+          }
+        ]
+      },
+      "upgradeText": "本回合获得 4 层力量，回合结束移除。",
+      "target": "SELF",
+      "sourceId": "Flex"
+    },
+    {
+      "id": "havoc",
+      "sts_name": "Havoc",
+      "name": "豪夺",
+      "type": "skill",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "playTop"
+        }
+      ],
+      "text": "打出抽牌堆顶的牌，并将其消耗。",
+      "upgrade": {
+        "cost": 0
+      },
+      "upgradeText": "消耗 0 能量，打出抽牌堆顶的牌，并将其消耗。",
+      "target": "NONE",
+      "sourceId": "Havoc"
+    },
+    {
+      "id": "headbutt",
+      "sts_name": "Headbutt",
+      "name": "铁头功",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 9
+        },
+        {
+          "op": "discardToDraw"
+        }
+      ],
+      "text": "造成 9 点伤害，将弃牌堆中 1 张牌置于抽牌堆顶。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 12
+          },
+          {
+            "op": "discardToDraw"
+          }
+        ]
+      },
+      "upgradeText": "造成 12 点伤害，将弃牌堆中 1 张牌置于抽牌堆顶。",
+      "target": "ENEMY",
+      "sourceId": "Headbutt"
+    },
+    {
+      "id": "heavy_blade",
+      "sts_name": "Heavy Blade",
+      "name": "重刃",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 14
+        }
+      ],
+      "strengthMultiplier": 3,
+      "text": "造成 14 点伤害。力量对本牌生效 3 次。",
+      "upgrade": {
+        "strengthMultiplier": 5
+      },
+      "upgradeText": "造成 14 点伤害。力量对本牌生效 5 次。",
+      "target": "ENEMY",
+      "sourceId": "Heavy Blade"
     },
     {
       "id": "iron_wave",
+      "sts_name": "Iron Wave",
       "name": "铁浪",
       "type": "attack",
       "rarity": "common",
@@ -186,169 +414,41 @@
         ]
       },
       "upgradeText": "获得 7 点格挡，造成 7 点伤害。",
-      "sts_name": "Iron Wave"
+      "target": "ENEMY",
+      "sourceId": "Iron Wave"
     },
     {
-      "id": "anger",
-      "name": "怒斩",
+      "id": "perfected_strike",
+      "sts_name": "Perfected Strike",
+      "name": "完美打击",
       "type": "attack",
       "rarity": "common",
-      "cost": 0,
+      "cost": 2,
       "effects": [
         {
           "op": "damage",
           "value": 6
-        },
-        {
-          "op": "addCardToDiscard",
-          "card": "anger"
         }
       ],
-      "text": "造成 6 点伤害，将本牌的一张复制加入弃牌堆。",
+      "text": "造成 6 点伤害；你所有名称含“打击”的牌，每张额外造成 2 点伤害。",
       "upgrade": {
         "effects": [
           {
             "op": "damage",
-            "value": 8
-          },
-          {
-            "op": "addCardToDiscard",
-            "card": "anger"
+            "value": 6
           }
-        ]
+        ],
+        "strikeBonus": 3
       },
-      "upgradeText": "造成 8 点伤害，将本牌的一张复制加入弃牌堆。",
-      "sts_name": "Anger"
-    },
-    {
-      "id": "body_slam",
-      "name": "以身相搏",
-      "type": "attack",
-      "rarity": "common",
-      "cost": 1,
-      "effects": [
-        {
-          "op": "damageEqualToBlock"
-        }
-      ],
-      "text": "造成等同于当前格挡的伤害。",
-      "upgrade": {
-        "cost": 0
-      },
-      "upgradeText": "消耗 0 能量，造成等同于当前格挡的伤害。",
-      "sts_name": "Body Slam"
-    },
-    {
-      "id": "clash",
-      "name": "破阵击",
-      "type": "attack",
-      "rarity": "common",
-      "cost": 0,
-      "condition": "only_attacks_in_hand",
-      "effects": [
-        {
-          "op": "damage",
-          "value": 14
-        }
-      ],
-      "text": "仅当手牌全为攻击牌时可打出，造成 14 点伤害。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "damage",
-            "value": 18
-          }
-        ]
-      },
-      "upgradeText": "仅当手牌全为攻击牌时可打出，造成 18 点伤害。",
-      "sts_name": "Clash"
-    },
-    {
-      "id": "flex",
-      "name": "绷紧",
-      "type": "skill",
-      "rarity": "common",
-      "cost": 0,
-      "effects": [
-        {
-          "op": "gainTemporaryStrength",
-          "status": "strength",
-          "value": 2
-        }
-      ],
-      "text": "本回合获得 2 层力量，回合结束移除。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "gainTemporaryStrength",
-            "status": "strength",
-            "value": 4
-          }
-        ]
-      },
-      "upgradeText": "本回合获得 4 层力量，回合结束移除。",
-      "sts_name": "Flex"
-    },
-    {
-      "id": "true_grit",
-      "name": "坚毅",
-      "type": "skill",
-      "rarity": "common",
-      "cost": 1,
-      "effects": [
-        {
-          "op": "block",
-          "value": 7
-        },
-        {
-          "op": "exhaustRandom",
-          "value": 1
-        }
-      ],
-      "text": "获得 7 点格挡，随机消耗 1 张手牌。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "block",
-            "value": 9
-          },
-          {
-            "op": "exhaustChoose",
-            "value": 1
-          }
-        ]
-      },
-      "upgradeText": "获得 9 点格挡，选择消耗 1 张手牌。",
-      "sts_name": "True Grit"
-    },
-    {
-      "id": "twin_strike",
-      "name": "双重打击",
-      "type": "attack",
-      "rarity": "common",
-      "cost": 1,
-      "effects": [
-        {
-          "op": "damage",
-          "value": 5,
-          "times": 2
-        }
-      ],
-      "text": "造成 2 次 5 点伤害。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "damage",
-            "value": 7,
-            "times": 2
-          }
-        ]
-      },
-      "upgradeText": "造成 2 次 7 点伤害。",
-      "sts_name": "Twin Strike"
+      "upgradeText": "造成 6 点伤害；你所有名称含“打击”的牌，每张额外造成 3 点伤害。",
+      "strikeTag": true,
+      "strikeBonus": 2,
+      "target": "ENEMY",
+      "sourceId": "Perfected Strike"
     },
     {
       "id": "pommel_strike",
+      "sts_name": "Pommel Strike",
       "name": "柄击",
       "type": "attack",
       "rarity": "common",
@@ -377,10 +477,13 @@
         ]
       },
       "upgradeText": "造成 10 点伤害，抽 2 张牌。",
-      "sts_name": "Pommel Strike"
+      "strikeTag": true,
+      "target": "ENEMY",
+      "sourceId": "Pommel Strike"
     },
     {
       "id": "shrug_it_off",
+      "sts_name": "Shrug It Off",
       "name": "硬抗",
       "type": "skill",
       "rarity": "common",
@@ -409,10 +512,40 @@
         ]
       },
       "upgradeText": "获得 11 点格挡，抽 1 张牌。",
-      "sts_name": "Shrug It Off"
+      "target": "SELF",
+      "sourceId": "Shrug It Off"
+    },
+    {
+      "id": "sword_boomerang",
+      "sts_name": "Sword Boomerang",
+      "name": "回旋剑",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "damageRandom",
+          "value": 3,
+          "times": 3
+        }
+      ],
+      "text": "对随机敌人造成 3 点伤害，共 3 次。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damageRandom",
+            "value": 3,
+            "times": 4
+          }
+        ]
+      },
+      "upgradeText": "对随机敌人造成 3 点伤害，共 4 次。",
+      "target": "ALL_ENEMY",
+      "sourceId": "Sword Boomerang"
     },
     {
       "id": "thunderclap",
+      "sts_name": "Thunderclap",
       "name": "惊雷",
       "type": "attack",
       "rarity": "common",
@@ -443,10 +576,75 @@
         ]
       },
       "upgradeText": "对所有敌人造成 7 点伤害并施加 1 层易伤。",
-      "sts_name": "Thunderclap"
+      "target": "ALL_ENEMY",
+      "sourceId": "Thunderclap"
+    },
+    {
+      "id": "true_grit",
+      "sts_name": "True Grit",
+      "name": "坚毅",
+      "type": "skill",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "block",
+          "value": 7
+        },
+        {
+          "op": "exhaustRandom",
+          "value": 1
+        }
+      ],
+      "text": "获得 7 点格挡，随机消耗 1 张手牌。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 9
+          },
+          {
+            "op": "exhaustChoose",
+            "value": 1
+          }
+        ]
+      },
+      "upgradeText": "获得 9 点格挡，选择消耗 1 张手牌。",
+      "target": "SELF",
+      "sourceId": "True Grit"
+    },
+    {
+      "id": "twin_strike",
+      "sts_name": "Twin Strike",
+      "name": "双重打击",
+      "type": "attack",
+      "rarity": "common",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 5,
+          "times": 2
+        }
+      ],
+      "text": "造成 2 次 5 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 7,
+            "times": 2
+          }
+        ]
+      },
+      "upgradeText": "造成 2 次 7 点伤害。",
+      "strikeTag": true,
+      "target": "ENEMY",
+      "sourceId": "Twin Strike"
     },
     {
       "id": "warcry",
+      "sts_name": "Warcry",
       "name": "战吼",
       "type": "skill",
       "rarity": "common",
@@ -457,8 +655,7 @@
           "value": 1
         },
         {
-          "op": "putOnDrawPile",
-          "value": 1
+          "op": "handToDraw"
         }
       ],
       "text": "消耗。抽 1 张牌，将 1 张手牌置于抽牌堆顶。",
@@ -469,111 +666,55 @@
             "value": 2
           },
           {
-            "op": "putOnDrawPile",
-            "value": 1
+            "op": "handToDraw"
           }
         ]
       },
       "upgradeText": "消耗。抽 2 张牌，将 1 张手牌置于抽牌堆顶。",
       "exhaust": true,
-      "sts_name": "Warcry"
+      "target": "SELF",
+      "sourceId": "Warcry"
     },
     {
-      "id": "uppercut",
-      "name": "上勾拳",
+      "id": "wild_strike",
+      "sts_name": "Wild Strike",
+      "name": "狂野挥砍",
       "type": "attack",
-      "rarity": "uncommon",
-      "cost": 2,
+      "rarity": "common",
+      "cost": 1,
       "effects": [
         {
           "op": "damage",
-          "value": 13
+          "value": 12
         },
         {
-          "op": "applyStatus",
-          "status": "weak",
-          "value": 1
-        },
-        {
-          "op": "applyStatus",
-          "status": "vulnerable",
-          "value": 1
+          "op": "makeTempCardInDraw",
+          "value": 1,
+          "card": "wound"
         }
       ],
-      "text": "造成 13 点伤害，施加 1 层虚弱与 1 层易伤。",
+      "text": "造成 12 点伤害，将 1 张伤口洗入抽牌堆。",
       "upgrade": {
         "effects": [
           {
             "op": "damage",
-            "value": 13
+            "value": 17
           },
           {
-            "op": "applyStatus",
-            "status": "weak",
-            "value": 2
-          },
-          {
-            "op": "applyStatus",
-            "status": "vulnerable",
-            "value": 2
+            "op": "makeTempCardInDraw",
+            "value": 1,
+            "card": "wound"
           }
         ]
       },
-      "upgradeText": "造成 13 点伤害，施加 2 层虚弱与 2 层易伤。",
-      "sts_name": "Uppercut"
-    },
-    {
-      "id": "inflame",
-      "name": "燃血",
-      "type": "power",
-      "rarity": "uncommon",
-      "cost": 1,
-      "effects": [
-        {
-          "op": "gainStatus",
-          "status": "strength",
-          "value": 2
-        }
-      ],
-      "text": "获得 2 层力量。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "gainStatus",
-            "status": "strength",
-            "value": 3
-          }
-        ]
-      },
-      "upgradeText": "获得 3 层力量。",
-      "sts_name": "Inflame"
-    },
-    {
-      "id": "metallicize",
-      "name": "金属化",
-      "type": "power",
-      "rarity": "uncommon",
-      "cost": 1,
-      "effects": [
-        {
-          "op": "blockPerTurn",
-          "value": 3
-        }
-      ],
-      "text": "每回合结束时获得 3 点格挡。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "blockPerTurn",
-            "value": 4
-          }
-        ]
-      },
-      "upgradeText": "每回合结束时获得 4 点格挡。",
-      "sts_name": "Metallicize"
+      "upgradeText": "造成 17 点伤害，将 1 张伤口洗入抽牌堆。",
+      "strikeTag": true,
+      "target": "ENEMY",
+      "sourceId": "Wild Strike"
     },
     {
       "id": "battle_trance",
+      "sts_name": "Battle Trance",
       "name": "战斗恍惚",
       "type": "skill",
       "rarity": "uncommon",
@@ -600,10 +741,39 @@
         ]
       },
       "upgradeText": "抽 4 张牌，本回合无法再抽牌。",
-      "sts_name": "Battle Trance"
+      "target": "NONE",
+      "sourceId": "Battle Trance"
+    },
+    {
+      "id": "blood_for_blood",
+      "sts_name": "Blood for Blood",
+      "name": "血债血偿",
+      "type": "attack",
+      "rarity": "uncommon",
+      "cost": 4,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 18
+        }
+      ],
+      "text": "本场战斗每失去 1 次生命，本牌费用 -1。造成 18 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 22
+          }
+        ],
+        "cost": 3
+      },
+      "upgradeText": "本场战斗每失去 1 次生命，本牌费用 -1。造成 22 点伤害。",
+      "target": "ENEMY",
+      "sourceId": "Blood for Blood"
     },
     {
       "id": "bloodletting",
+      "sts_name": "Bloodletting",
       "name": "放血",
       "type": "skill",
       "rarity": "uncommon",
@@ -632,42 +802,57 @@
         ]
       },
       "upgradeText": "失去 3 点生命，获得 3 点能量。",
-      "sts_name": "Bloodletting"
+      "target": "SELF",
+      "sourceId": "Bloodletting"
     },
     {
-      "id": "barricade",
-      "name": "壁垒",
-      "type": "power",
-      "rarity": "rare",
-      "cost": 3,
+      "id": "burning_pact",
+      "sts_name": "Burning Pact",
+      "name": "焚约",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
       "effects": [
         {
-          "op": "gainStatus",
-          "status": "barricade",
+          "op": "exhaustChoose",
           "value": 1
+        },
+        {
+          "op": "draw",
+          "value": 2
         }
       ],
-      "text": "格挡不再于自己回合开始时清空。",
+      "text": "消耗 1 张牌，抽 2 张牌。",
       "upgrade": {
-        "cost": 2
+        "effects": [
+          {
+            "op": "exhaustChoose",
+            "value": 1
+          },
+          {
+            "op": "draw",
+            "value": 3
+          }
+        ]
       },
-      "upgradeText": "消耗 2 能量，格挡不再于自己回合开始时清空。",
-      "sts_name": "Barricade"
+      "upgradeText": "消耗 1 张牌，抽 3 张牌。",
+      "target": "NONE",
+      "sourceId": "Burning Pact"
     },
     {
       "id": "carnage",
+      "sts_name": "Carnage",
       "name": "屠戮",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 2,
+      "ethereal": true,
       "effects": [
         {
           "op": "damage",
           "value": 20
         }
       ],
-      "innate": false,
-      "ethereal": true,
       "text": "虚无。造成 20 点伤害。",
       "upgrade": {
         "effects": [
@@ -678,10 +863,63 @@
         ]
       },
       "upgradeText": "虚无。造成 28 点伤害。",
-      "sts_name": "Carnage"
+      "innate": false,
+      "target": "ENEMY",
+      "sourceId": "Carnage"
+    },
+    {
+      "id": "combust",
+      "sts_name": "Combust",
+      "name": "自燃",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "text": "回合结束时失去 1 点生命，并对所有敌人造成 5 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 7,
+            "status": "combust"
+          }
+        ]
+      },
+      "upgradeText": "回合结束时失去 1 点生命，并对所有敌人造成 7 点伤害。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 5,
+          "status": "combust"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Combust"
+    },
+    {
+      "id": "dark_embrace",
+      "sts_name": "Dark Embrace",
+      "name": "暗拥",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 2,
+      "text": "每当一张牌被消耗，抽 1 张牌。",
+      "upgrade": {
+        "cost": 1
+      },
+      "upgradeText": "消耗 1 能量。每当一张牌被消耗，抽 1 张牌。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "dark_embrace"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Dark Embrace"
     },
     {
       "id": "disarm",
+      "sts_name": "Disarm",
       "name": "缴械",
       "type": "skill",
       "rarity": "uncommon",
@@ -693,7 +931,7 @@
           "value": -2
         }
       ],
-      "text": "消耗。使目标失去 2 层力量。",
+      "text": "消耗。目标力量变化 -2 层。",
       "upgrade": {
         "effects": [
           {
@@ -703,12 +941,14 @@
           }
         ]
       },
-      "upgradeText": "消耗。使目标失去 3 层力量。",
+      "upgradeText": "消耗。目标力量变化 -3 层。",
       "exhaust": true,
-      "sts_name": "Disarm"
+      "target": "ENEMY",
+      "sourceId": "Disarm"
     },
     {
       "id": "dropkick",
+      "sts_name": "Dropkick",
       "name": "飞踢",
       "type": "attack",
       "rarity": "uncommon",
@@ -757,10 +997,38 @@
         ]
       },
       "upgradeText": "造成 8 点伤害。若目标处于易伤，获得 1 点能量并抽 1 张牌。",
-      "sts_name": "Dropkick"
+      "target": "ENEMY",
+      "sourceId": "Dropkick"
+    },
+    {
+      "id": "dual_wield",
+      "sts_name": "Dual Wield",
+      "name": "双持",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "dualWield",
+          "value": 1
+        }
+      ],
+      "text": "选一张攻击牌或能力牌，将其 1 张复制加入手中。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "dualWield",
+            "value": 2
+          }
+        ]
+      },
+      "upgradeText": "选一张攻击牌或能力牌，将其 2 张复制加入手中。",
+      "target": "NONE",
+      "sourceId": "Dual Wield"
     },
     {
       "id": "entrench",
+      "sts_name": "Entrench",
       "name": "掘壕",
       "type": "skill",
       "rarity": "uncommon",
@@ -775,21 +1043,143 @@
         "cost": 1
       },
       "upgradeText": "消耗 1 能量，当前格挡翻倍。",
-      "sts_name": "Entrench"
+      "target": "SELF",
+      "sourceId": "Entrench"
+    },
+    {
+      "id": "evolve",
+      "sts_name": "Evolve",
+      "name": "进化",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "text": "每当你抽到状态牌，抽 1 张牌。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 2,
+            "status": "evolve"
+          }
+        ]
+      },
+      "upgradeText": "每当你抽到状态牌，抽 2 张牌。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "evolve"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Evolve"
+    },
+    {
+      "id": "feel_no_pain",
+      "sts_name": "Feel No Pain",
+      "name": "无痛",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "text": "每当一张牌被消耗，获得 3 点格挡。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 4,
+            "status": "feel_no_pain"
+          }
+        ]
+      },
+      "upgradeText": "每当一张牌被消耗，获得 4 点格挡。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 3,
+          "status": "feel_no_pain"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Feel No Pain"
+    },
+    {
+      "id": "fire_breathing",
+      "sts_name": "Fire Breathing",
+      "name": "火焰吐息",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "text": "每当你抽到状态牌或诅咒牌，对所有敌人造成 6 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 10,
+            "status": "fire_breathing"
+          }
+        ]
+      },
+      "upgradeText": "每当你抽到状态牌或诅咒牌，对所有敌人造成 10 点伤害。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 6,
+          "status": "fire_breathing"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Fire Breathing"
+    },
+    {
+      "id": "flame_barrier",
+      "sts_name": "Flame Barrier",
+      "name": "烈焰屏障",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "block",
+          "value": 12
+        },
+        {
+          "op": "gainStatus",
+          "value": 4,
+          "status": "flame_barrier"
+        }
+      ],
+      "text": "获得 12 点格挡。本回合受到攻击时反弹 4 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 16
+          },
+          {
+            "op": "gainStatus",
+            "value": 6,
+            "status": "flame_barrier"
+          }
+        ]
+      },
+      "upgradeText": "获得 16 点格挡。本回合受到攻击时反弹 6 点伤害。",
+      "target": "SELF",
+      "sourceId": "Flame Barrier"
     },
     {
       "id": "ghostly_armor",
+      "sts_name": "Ghostly Armor",
       "name": "幽灵护甲",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
+      "ethereal": true,
       "effects": [
         {
           "op": "block",
           "value": 10
         }
       ],
-      "ethereal": true,
       "text": "虚无。获得 10 点格挡。",
       "upgrade": {
         "effects": [
@@ -800,10 +1190,12 @@
         ]
       },
       "upgradeText": "虚无。获得 13 点格挡。",
-      "sts_name": "Ghostly Armor"
+      "target": "SELF",
+      "sourceId": "Ghostly Armor"
     },
     {
       "id": "hemokinesis",
+      "sts_name": "Hemokinesis",
       "name": "控血",
       "type": "attack",
       "rarity": "uncommon",
@@ -832,10 +1224,212 @@
         ]
       },
       "upgradeText": "失去 2 点生命，造成 20 点伤害。",
-      "sts_name": "Hemokinesis"
+      "target": "ENEMY",
+      "sourceId": "Hemokinesis"
+    },
+    {
+      "id": "infernal_blade",
+      "sts_name": "Infernal Blade",
+      "name": "炼狱之刃",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "generateAttack",
+          "value": 0
+        }
+      ],
+      "text": "消耗。将一张随机攻击牌加入手中，本回合其费用为 0。",
+      "upgrade": {
+        "cost": 0
+      },
+      "upgradeText": "消耗。将一张随机攻击牌加入手中，本回合其费用为 0。",
+      "exhaust": true,
+      "target": "NONE",
+      "sourceId": "Infernal Blade"
+    },
+    {
+      "id": "inflame",
+      "sts_name": "Inflame",
+      "name": "燃血",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "strength",
+          "value": 2
+        }
+      ],
+      "text": "获得 2 层力量。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 3
+          }
+        ]
+      },
+      "upgradeText": "获得 3 层力量。",
+      "target": "SELF",
+      "sourceId": "Inflame"
+    },
+    {
+      "id": "intimidate",
+      "sts_name": "Intimidate",
+      "name": "威吓",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 0,
+      "effects": [
+        {
+          "op": "applyStatusAll",
+          "value": 1,
+          "status": "weak"
+        }
+      ],
+      "text": "消耗。对所有敌人施加 1 层虚弱。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "applyStatusAll",
+            "value": 2,
+            "status": "weak"
+          }
+        ]
+      },
+      "upgradeText": "消耗。对所有敌人施加 2 层虚弱。",
+      "exhaust": true,
+      "target": "ALL_ENEMY",
+      "sourceId": "Intimidate"
+    },
+    {
+      "id": "metallicize",
+      "sts_name": "Metallicize",
+      "name": "金属化",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "text": "每回合结束时获得 3 点格挡。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 4,
+            "status": "metallicize"
+          }
+        ]
+      },
+      "upgradeText": "每回合结束时获得 4 点格挡。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 3,
+          "status": "metallicize"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Metallicize"
+    },
+    {
+      "id": "power_through",
+      "sts_name": "Power Through",
+      "name": "强突",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "makeTempCardInHand",
+          "value": 2,
+          "card": "wound"
+        },
+        {
+          "op": "block",
+          "value": 15
+        }
+      ],
+      "text": "将 2 张伤口加入手中，获得 15 点格挡。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "makeTempCardInHand",
+            "value": 2,
+            "card": "wound"
+          },
+          {
+            "op": "block",
+            "value": 20
+          }
+        ]
+      },
+      "upgradeText": "将 2 张伤口加入手中，获得 20 点格挡。",
+      "target": "SELF",
+      "sourceId": "Power Through"
+    },
+    {
+      "id": "pummel",
+      "sts_name": "Pummel",
+      "name": "连击",
+      "type": "attack",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 2,
+          "times": 4
+        }
+      ],
+      "text": "消耗。造成 2 点伤害，共 4 次。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 5
+          }
+        ]
+      },
+      "upgradeText": "消耗。造成 2 点伤害，共 5 次。",
+      "exhaust": true,
+      "target": "ENEMY",
+      "sourceId": "Pummel"
+    },
+    {
+      "id": "rage",
+      "sts_name": "Rage",
+      "name": "狂怒",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 0,
+      "text": "本回合每打出一张攻击牌，获得 3 点格挡。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 5,
+            "status": "rage"
+          }
+        ]
+      },
+      "upgradeText": "本回合每打出一张攻击牌，获得 5 点格挡。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 3,
+          "status": "rage"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Rage"
     },
     {
       "id": "rampage",
+      "sts_name": "Rampage",
       "name": "狂暴",
       "type": "attack",
       "rarity": "uncommon",
@@ -864,10 +1458,129 @@
         ]
       },
       "upgradeText": "造成 8 点伤害，本场战斗中本牌伤害 +8。",
-      "sts_name": "Rampage"
+      "target": "ENEMY",
+      "sourceId": "Rampage"
+    },
+    {
+      "id": "reckless_charge",
+      "sts_name": "Reckless Charge",
+      "name": "莽撞冲锋",
+      "type": "attack",
+      "rarity": "uncommon",
+      "cost": 0,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 7
+        },
+        {
+          "op": "makeTempCardInDraw",
+          "value": 1,
+          "card": "dazed"
+        }
+      ],
+      "text": "造成 7 点伤害，将 1 张眩晕洗入抽牌堆。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 10
+          },
+          {
+            "op": "makeTempCardInDraw",
+            "value": 1,
+            "card": "dazed"
+          }
+        ]
+      },
+      "upgradeText": "造成 10 点伤害，将 1 张眩晕洗入抽牌堆。",
+      "target": "ENEMY",
+      "sourceId": "Reckless Charge"
+    },
+    {
+      "id": "rupture",
+      "sts_name": "Rupture",
+      "name": "破裂",
+      "type": "power",
+      "rarity": "uncommon",
+      "cost": 1,
+      "text": "每当你因卡牌失去生命，获得 1 层力量。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 2,
+            "status": "rupture"
+          }
+        ]
+      },
+      "upgradeText": "每当你因卡牌失去生命，获得 2 层力量。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "rupture"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Rupture"
+    },
+    {
+      "id": "searing_blow",
+      "sts_name": "Searing Blow",
+      "name": "灼热打击",
+      "type": "attack",
+      "rarity": "uncommon",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 12
+        }
+      ],
+      "text": "造成 12 点伤害。可被升级任意次数。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 16
+          }
+        ]
+      },
+      "upgradeText": "造成 16 点伤害。可被升级任意次数。",
+      "repeatable": true,
+      "target": "ENEMY",
+      "sourceId": "Searing Blow"
+    },
+    {
+      "id": "second_wind",
+      "sts_name": "Second Wind",
+      "name": "二度呼吸",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "secondWind",
+          "value": 5
+        }
+      ],
+      "text": "消耗手中所有非攻击牌，每张获得 5 点格挡。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "secondWind",
+            "value": 7
+          }
+        ]
+      },
+      "upgradeText": "消耗手中所有非攻击牌，每张获得 7 点格挡。",
+      "target": "SELF",
+      "sourceId": "Second Wind"
     },
     {
       "id": "seeing_red",
+      "sts_name": "Seeing Red",
       "name": "眼红",
       "type": "skill",
       "rarity": "uncommon",
@@ -878,16 +1591,78 @@
           "value": 2
         }
       ],
-      "exhaust": true,
       "text": "消耗。获得 2 点能量。",
       "upgrade": {
         "cost": 0
       },
       "upgradeText": "消耗。消耗 0 能量，获得 2 点能量。",
-      "sts_name": "Seeing Red"
+      "exhaust": true,
+      "target": "NONE",
+      "sourceId": "Seeing Red"
+    },
+    {
+      "id": "sentinel",
+      "sts_name": "Sentinel",
+      "name": "哨卫",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "block",
+          "value": 5
+        }
+      ],
+      "text": "获得 5 点格挡。若本牌被消耗，获得 2 点能量。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 8
+          }
+        ],
+        "exhaustEnergy": 3
+      },
+      "upgradeText": "获得 8 点格挡。若本牌被消耗，获得 3 点能量。",
+      "exhaustEnergy": 2,
+      "target": "SELF",
+      "sourceId": "Sentinel"
+    },
+    {
+      "id": "sever_soul",
+      "sts_name": "Sever Soul",
+      "name": "断魂",
+      "type": "attack",
+      "rarity": "uncommon",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "exhaustNonAttacks"
+        },
+        {
+          "op": "damage",
+          "value": 16
+        }
+      ],
+      "text": "消耗手中所有非攻击牌，造成 16 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "exhaustNonAttacks"
+          },
+          {
+            "op": "damage",
+            "value": 22
+          }
+        ]
+      },
+      "upgradeText": "消耗手中所有非攻击牌，造成 22 点伤害。",
+      "target": "ENEMY",
+      "sourceId": "Sever Soul"
     },
     {
       "id": "shockwave",
+      "sts_name": "Shockwave",
       "name": "冲击波",
       "type": "skill",
       "rarity": "uncommon",
@@ -925,10 +1700,84 @@
       },
       "upgradeText": "消耗。对所有敌人施加 5 层虚弱与 5 层易伤。",
       "exhaust": true,
-      "sts_name": "Shockwave"
+      "target": "ALL_ENEMY",
+      "sourceId": "Shockwave"
+    },
+    {
+      "id": "spot_weakness",
+      "sts_name": "Spot Weakness",
+      "name": "弱点侦测",
+      "type": "skill",
+      "rarity": "uncommon",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "spotWeakness",
+          "value": 3
+        }
+      ],
+      "text": "若敌人意图攻击，获得 3 层力量。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "spotWeakness",
+            "value": 4
+          }
+        ]
+      },
+      "upgradeText": "若敌人意图攻击，获得 4 层力量。",
+      "target": "SELF_AND_ENEMY",
+      "sourceId": "Spot Weakness"
+    },
+    {
+      "id": "uppercut",
+      "sts_name": "Uppercut",
+      "name": "上勾拳",
+      "type": "attack",
+      "rarity": "uncommon",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 13
+        },
+        {
+          "op": "applyStatus",
+          "status": "weak",
+          "value": 1
+        },
+        {
+          "op": "applyStatus",
+          "status": "vulnerable",
+          "value": 1
+        }
+      ],
+      "text": "造成 13 点伤害，施加 1 层虚弱与 1 层易伤。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 13
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          }
+        ]
+      },
+      "upgradeText": "造成 13 点伤害，施加 2 层虚弱与 2 层易伤。",
+      "target": "ENEMY",
+      "sourceId": "Uppercut"
     },
     {
       "id": "whirlwind",
+      "sts_name": "Whirlwind",
       "name": "旋风斩",
       "type": "attack",
       "rarity": "uncommon",
@@ -936,7 +1785,8 @@
       "effects": [
         {
           "op": "damageAll",
-          "value": 5
+          "value": 5,
+          "times": "X"
         }
       ],
       "text": "消耗所有剩余能量，每点对所有敌人造成 5 点伤害。",
@@ -944,16 +1794,408 @@
         "effects": [
           {
             "op": "damageAll",
-            "value": 8
+            "value": 8,
+            "times": "X"
           }
         ]
       },
       "upgradeText": "消耗所有剩余能量，每点对所有敌人造成 8 点伤害。",
       "costMode": "all_energy",
-      "sts_name": "Whirlwind"
+      "target": "ALL_ENEMY",
+      "sourceId": "Whirlwind"
+    },
+    {
+      "id": "barricade",
+      "sts_name": "Barricade",
+      "name": "壁垒",
+      "type": "power",
+      "rarity": "rare",
+      "cost": 3,
+      "effects": [
+        {
+          "op": "gainStatus",
+          "status": "barricade",
+          "value": 1
+        }
+      ],
+      "text": "格挡不再于自己回合开始时清空。",
+      "upgrade": {
+        "cost": 2
+      },
+      "upgradeText": "消耗 2 能量，格挡不再于自己回合开始时清空。",
+      "target": "SELF",
+      "sourceId": "Barricade"
+    },
+    {
+      "id": "berserk",
+      "sts_name": "Berserk",
+      "name": "狂战",
+      "type": "power",
+      "rarity": "rare",
+      "cost": 0,
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 2,
+          "status": "vulnerable"
+        },
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "berserk"
+        }
+      ],
+      "text": "获得 2 层易伤。每回合开始时获得 1 点能量。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 1,
+            "status": "vulnerable"
+          },
+          {
+            "op": "gainStatus",
+            "value": 1,
+            "status": "berserk"
+          }
+        ]
+      },
+      "upgradeText": "获得 1 层易伤。每回合开始时获得 1 点能量。",
+      "target": "SELF",
+      "sourceId": "Berserk"
+    },
+    {
+      "id": "bludgeon",
+      "sts_name": "Bludgeon",
+      "name": "重击",
+      "type": "attack",
+      "rarity": "rare",
+      "cost": 3,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 32
+        }
+      ],
+      "text": "造成 32 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damage",
+            "value": 42
+          }
+        ]
+      },
+      "upgradeText": "造成 42 点伤害。",
+      "target": "ENEMY",
+      "sourceId": "Bludgeon"
+    },
+    {
+      "id": "brutality",
+      "sts_name": "Brutality",
+      "name": "残暴",
+      "type": "power",
+      "rarity": "rare",
+      "cost": 0,
+      "innate": false,
+      "text": "每回合开始时失去1点生命，额外抽1张牌。",
+      "upgrade": {
+        "innate": true,
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 1,
+            "status": "brutality"
+          }
+        ]
+      },
+      "upgradeText": "固有。每回合开始时失去1点生命，额外抽1张牌。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "brutality"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Brutality"
+    },
+    {
+      "id": "corruption",
+      "sts_name": "Corruption",
+      "name": "腐化",
+      "type": "power",
+      "rarity": "rare",
+      "cost": 3,
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "corruption"
+        }
+      ],
+      "text": "技能牌无需能量。打出后消耗。",
+      "upgrade": {
+        "cost": 2
+      },
+      "upgradeText": "技能牌无需能量。打出后消耗。",
+      "target": "SELF",
+      "sourceId": "Corruption"
+    },
+    {
+      "id": "demon_form",
+      "sts_name": "Demon Form",
+      "name": "恶魔形态",
+      "type": "power",
+      "rarity": "rare",
+      "cost": 3,
+      "text": "每回合开始时获得 2 层力量。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 3,
+            "status": "demon_form"
+          }
+        ]
+      },
+      "upgradeText": "每回合开始时获得 3 层力量。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 2,
+          "status": "demon_form"
+        }
+      ],
+      "target": "NONE",
+      "sourceId": "Demon Form"
+    },
+    {
+      "id": "double_tap",
+      "sts_name": "Double Tap",
+      "name": "双击",
+      "type": "skill",
+      "rarity": "rare",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 1,
+          "status": "double_tap"
+        }
+      ],
+      "text": "本回合你打出的下 1 张攻击牌生效两次。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 2,
+            "status": "double_tap"
+          }
+        ]
+      },
+      "upgradeText": "本回合你打出的下 2 张攻击牌各生效两次。",
+      "target": "SELF",
+      "sourceId": "Double Tap"
+    },
+    {
+      "id": "exhume",
+      "sts_name": "Exhume",
+      "name": "掘尸",
+      "type": "skill",
+      "rarity": "rare",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "recoverExhaust"
+        }
+      ],
+      "text": "消耗。将消耗堆中 1 张牌放回手中。",
+      "upgrade": {
+        "cost": 0
+      },
+      "upgradeText": "消耗 0 能量。将消耗堆中 1 张牌放回手中。",
+      "exhaust": true,
+      "target": "NONE",
+      "sourceId": "Exhume"
+    },
+    {
+      "id": "feed",
+      "sts_name": "Feed",
+      "name": "进食",
+      "type": "attack",
+      "rarity": "rare",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "feed",
+          "value": 10,
+          "maxHp": 3
+        }
+      ],
+      "text": "消耗。造成 10 点伤害。若致命，最大生命 +3。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "feed",
+            "value": 12,
+            "maxHp": 4
+          }
+        ]
+      },
+      "upgradeText": "消耗。造成 12 点伤害。若致命，最大生命 +4。",
+      "exhaust": true,
+      "healing": true,
+      "target": "ENEMY",
+      "sourceId": "Feed"
+    },
+    {
+      "id": "fiend_fire",
+      "sts_name": "Fiend Fire",
+      "name": "魔炎",
+      "type": "attack",
+      "rarity": "rare",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "fiendFire",
+          "value": 7
+        }
+      ],
+      "text": "消耗。消耗手中所有牌，每张造成 7 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "fiendFire",
+            "value": 10
+          }
+        ]
+      },
+      "upgradeText": "消耗。消耗手中所有牌，每张造成 10 点伤害。",
+      "exhaust": true,
+      "target": "ENEMY",
+      "sourceId": "Fiend Fire"
+    },
+    {
+      "id": "immolate",
+      "sts_name": "Immolate",
+      "name": "焚尽",
+      "type": "attack",
+      "rarity": "rare",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "damageAll",
+          "value": 21
+        },
+        {
+          "op": "makeTempCardInDiscard",
+          "value": 1,
+          "card": "burn"
+        }
+      ],
+      "text": "对所有敌人造成 21 点伤害，将 1 张灼烧加入弃牌堆。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "damageAll",
+            "value": 28
+          },
+          {
+            "op": "makeTempCardInDiscard",
+            "value": 1,
+            "card": "burn"
+          }
+        ]
+      },
+      "upgradeText": "对所有敌人造成 28 点伤害，将 1 张灼烧加入弃牌堆。",
+      "target": "ALL_ENEMY",
+      "sourceId": "Immolate"
+    },
+    {
+      "id": "impervious",
+      "sts_name": "Impervious",
+      "name": "铜墙铁壁",
+      "type": "skill",
+      "rarity": "rare",
+      "cost": 2,
+      "effects": [
+        {
+          "op": "block",
+          "value": 30
+        }
+      ],
+      "text": "消耗。获得 30 点格挡。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "block",
+            "value": 40
+          }
+        ]
+      },
+      "upgradeText": "消耗。获得 40 点格挡。",
+      "exhaust": true,
+      "target": "SELF",
+      "sourceId": "Impervious"
+    },
+    {
+      "id": "juggernaut",
+      "sts_name": "Juggernaut",
+      "name": "碾压者",
+      "type": "power",
+      "rarity": "rare",
+      "cost": 2,
+      "text": "每当你获得格挡，对随机敌人造成 5 点伤害。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "gainStatus",
+            "value": 7,
+            "status": "juggernaut"
+          }
+        ]
+      },
+      "upgradeText": "每当你获得格挡，对随机敌人造成 7 点伤害。",
+      "effects": [
+        {
+          "op": "gainStatus",
+          "value": 5,
+          "status": "juggernaut"
+        }
+      ],
+      "target": "SELF",
+      "sourceId": "Juggernaut"
+    },
+    {
+      "id": "limit_break",
+      "sts_name": "Limit Break",
+      "name": "极限突破",
+      "type": "skill",
+      "rarity": "rare",
+      "cost": 1,
+      "effects": [
+        {
+          "op": "doubleStrength"
+        }
+      ],
+      "text": "消耗。力量翻倍。",
+      "upgrade": {
+        "effects": [
+          {
+            "op": "doubleStrength"
+          }
+        ],
+        "exhaust": false
+      },
+      "upgradeText": "力量翻倍。（不再消耗）",
+      "exhaust": true,
+      "target": "SELF",
+      "sourceId": "Limit Break"
     },
     {
       "id": "offering",
+      "sts_name": "Offering",
       "name": "祭品",
       "type": "skill",
       "rarity": "rare",
@@ -991,113 +2233,36 @@
       },
       "upgradeText": "消耗。失去 6 点生命，获得 2 点能量，抽 5 张牌。",
       "exhaust": true,
-      "sts_name": "Offering"
-    },
-    {
-      "id": "impervious",
-      "name": "铜墙铁壁",
-      "type": "skill",
-      "rarity": "rare",
-      "cost": 2,
-      "effects": [
-        {
-          "op": "block",
-          "value": 30
-        }
-      ],
-      "text": "消耗。获得 30 点格挡。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "block",
-            "value": 40
-          }
-        ]
-      },
-      "upgradeText": "消耗。获得 40 点格挡。",
-      "exhaust": true,
-      "sts_name": "Impervious"
-    },
-    {
-      "id": "demon_form",
-      "name": "恶魔形态",
-      "type": "power",
-      "rarity": "rare",
-      "cost": 3,
-      "effects": [
-        {
-          "op": "gainStatusPerTurn",
-          "status": "strength",
-          "value": 2
-        }
-      ],
-      "text": "每回合开始时获得 2 层力量。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "gainStatusPerTurn",
-            "status": "strength",
-            "value": 3
-          }
-        ]
-      },
-      "upgradeText": "每回合开始时获得 3 层力量。",
-      "sts_name": "Demon Form"
-    },
-    {
-      "id": "bludgeon",
-      "name": "重击",
-      "type": "attack",
-      "rarity": "rare",
-      "cost": 3,
-      "effects": [
-        {
-          "op": "damage",
-          "value": 32
-        }
-      ],
-      "text": "造成 32 点伤害。",
-      "upgrade": {
-        "effects": [
-          {
-            "op": "damage",
-            "value": 42
-          }
-        ]
-      },
-      "upgradeText": "造成 42 点伤害。",
-      "sts_name": "Bludgeon"
+      "target": "SELF",
+      "sourceId": "Offering"
     },
     {
       "id": "reaper",
+      "sts_name": "Reaper",
       "name": "收割",
       "type": "attack",
       "rarity": "rare",
       "cost": 2,
       "effects": [
         {
-          "op": "damageAll",
+          "op": "reaper",
           "value": 4
-        },
-        {
-          "op": "healEqualToDamageDealt"
         }
       ],
       "text": "消耗。对所有敌人造成 4 点伤害，回复等量生命。",
       "upgrade": {
         "effects": [
           {
-            "op": "damageAll",
+            "op": "reaper",
             "value": 5
-          },
-          {
-            "op": "healEqualToDamageDealt"
           }
         ]
       },
       "upgradeText": "消耗。对所有敌人造成 5 点伤害，回复等量生命。",
       "exhaust": true,
-      "sts_name": "Reaper"
+      "healing": true,
+      "target": "ALL_ENEMY",
+      "sourceId": "Reaper"
     },
     {
       "id": "dazed",
@@ -1130,7 +2295,328 @@
       "cost": -2,
       "effects": [],
       "text": "无法打出。回合结束时，失去等同手牌张数的生命。"
+    },
+    {
+      "id": "wound",
+      "name": "伤口",
+      "sts_name": "Wound",
+      "type": "status",
+      "rarity": "common",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。"
+    },
+    {
+      "id": "burn",
+      "name": "灼烧",
+      "sts_name": "Burn",
+      "type": "status",
+      "rarity": "common",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。回合结束时受到2点伤害。",
+      "endTurnDamage": 2
     }
   ],
-  "sourceCatalog": "reference/warrior75.json"
+  "sourceCatalog": "reference/warrior75.json",
+  "sourcePools": {
+    "reward": {
+      "common": [
+        "anger",
+        "cleave",
+        "warcry",
+        "flex",
+        "iron_wave",
+        "body_slam",
+        "true_grit",
+        "shrug_it_off",
+        "clash",
+        "thunderclap",
+        "pommel_strike",
+        "twin_strike",
+        "clothesline",
+        "armaments",
+        "havoc",
+        "headbutt",
+        "wild_strike",
+        "heavy_blade",
+        "perfected_strike",
+        "sword_boomerang"
+      ],
+      "uncommon": [
+        "spot_weakness",
+        "inflame",
+        "power_through",
+        "dual_wield",
+        "infernal_blade",
+        "reckless_charge",
+        "hemokinesis",
+        "intimidate",
+        "blood_for_blood",
+        "flame_barrier",
+        "pummel",
+        "burning_pact",
+        "metallicize",
+        "shockwave",
+        "rampage",
+        "sever_soul",
+        "whirlwind",
+        "combust",
+        "dark_embrace",
+        "seeing_red",
+        "disarm",
+        "feel_no_pain",
+        "rage",
+        "entrench",
+        "sentinel",
+        "battle_trance",
+        "searing_blow",
+        "second_wind",
+        "rupture",
+        "bloodletting",
+        "carnage",
+        "dropkick",
+        "fire_breathing",
+        "ghostly_armor",
+        "uppercut",
+        "evolve"
+      ],
+      "rare": [
+        "immolate",
+        "offering",
+        "exhume",
+        "reaper",
+        "brutality",
+        "juggernaut",
+        "impervious",
+        "berserk",
+        "fiend_fire",
+        "barricade",
+        "corruption",
+        "limit_break",
+        "feed",
+        "bludgeon",
+        "demon_form",
+        "double_tap"
+      ]
+    },
+    "src": {
+      "common": [
+        "sword_boomerang",
+        "perfected_strike",
+        "heavy_blade",
+        "wild_strike",
+        "headbutt",
+        "havoc",
+        "armaments",
+        "clothesline",
+        "twin_strike",
+        "pommel_strike",
+        "thunderclap",
+        "clash",
+        "shrug_it_off",
+        "true_grit",
+        "body_slam",
+        "iron_wave",
+        "flex",
+        "warcry",
+        "cleave",
+        "anger"
+      ],
+      "uncommon": [
+        "evolve",
+        "uppercut",
+        "ghostly_armor",
+        "fire_breathing",
+        "dropkick",
+        "carnage",
+        "bloodletting",
+        "rupture",
+        "second_wind",
+        "searing_blow",
+        "battle_trance",
+        "sentinel",
+        "entrench",
+        "rage",
+        "feel_no_pain",
+        "disarm",
+        "seeing_red",
+        "dark_embrace",
+        "combust",
+        "whirlwind",
+        "sever_soul",
+        "rampage",
+        "shockwave",
+        "metallicize",
+        "burning_pact",
+        "pummel",
+        "flame_barrier",
+        "blood_for_blood",
+        "intimidate",
+        "hemokinesis",
+        "reckless_charge",
+        "infernal_blade",
+        "dual_wield",
+        "power_through",
+        "inflame",
+        "spot_weakness"
+      ],
+      "rare": [
+        "double_tap",
+        "demon_form",
+        "bludgeon",
+        "feed",
+        "limit_break",
+        "corruption",
+        "barricade",
+        "fiend_fire",
+        "berserk",
+        "impervious",
+        "juggernaut",
+        "brutality",
+        "reaper",
+        "exhume",
+        "offering",
+        "immolate"
+      ]
+    },
+    "shop": {
+      "common": {
+        "attack": [
+          "anger",
+          "body_slam",
+          "clash",
+          "cleave",
+          "clothesline",
+          "headbutt",
+          "heavy_blade",
+          "iron_wave",
+          "perfected_strike",
+          "pommel_strike",
+          "sword_boomerang",
+          "thunderclap",
+          "twin_strike",
+          "wild_strike"
+        ],
+        "skill": [
+          "armaments",
+          "flex",
+          "havoc",
+          "shrug_it_off",
+          "true_grit",
+          "warcry"
+        ],
+        "power": []
+      },
+      "uncommon": {
+        "attack": [
+          "blood_for_blood",
+          "carnage",
+          "dropkick",
+          "hemokinesis",
+          "pummel",
+          "rampage",
+          "reckless_charge",
+          "searing_blow",
+          "sever_soul",
+          "uppercut",
+          "whirlwind"
+        ],
+        "skill": [
+          "battle_trance",
+          "bloodletting",
+          "burning_pact",
+          "disarm",
+          "dual_wield",
+          "entrench",
+          "flame_barrier",
+          "ghostly_armor",
+          "infernal_blade",
+          "intimidate",
+          "power_through",
+          "rage",
+          "second_wind",
+          "seeing_red",
+          "sentinel",
+          "shockwave",
+          "spot_weakness"
+        ],
+        "power": [
+          "combust",
+          "dark_embrace",
+          "evolve",
+          "feel_no_pain",
+          "fire_breathing",
+          "inflame",
+          "metallicize",
+          "rupture"
+        ]
+      },
+      "rare": {
+        "attack": [
+          "bludgeon",
+          "feed",
+          "fiend_fire",
+          "immolate",
+          "reaper"
+        ],
+        "skill": [
+          "double_tap",
+          "exhume",
+          "impervious",
+          "limit_break",
+          "offering"
+        ],
+        "power": [
+          "barricade",
+          "berserk",
+          "brutality",
+          "corruption",
+          "demon_form",
+          "juggernaut"
+        ]
+      }
+    },
+    "colorless": {
+      "uncommon": [
+        "Bandage Up",
+        "Blind",
+        "Dark Shackles",
+        "Deep Breath",
+        "Discovery",
+        "Dramatic Entrance",
+        "Enlightenment",
+        "Finesse",
+        "Flash of Steel",
+        "Forethought",
+        "Good Instincts",
+        "Impatience",
+        "Jack Of All Trades",
+        "Madness",
+        "Mind Blast",
+        "Panacea",
+        "PanicButton",
+        "Purity",
+        "Swift Strike",
+        "Trip"
+      ],
+      "rare": [
+        "Apotheosis",
+        "Chrysalis",
+        "HandOfGreed",
+        "Magnetism",
+        "Master of Strategy",
+        "Mayhem",
+        "Metamorphosis",
+        "Panache",
+        "Sadistic Nature",
+        "Secret Technique",
+        "Secret Weapon",
+        "The Bomb",
+        "Thinking Ahead",
+        "Transmutation",
+        "Violence"
+      ]
+    }
+  }
 }

@@ -7,7 +7,7 @@ local function equal(a, b, label) assert(a == b, (label or "value") .. ": " .. t
 local function test(name, fn) fn(); count = count + 1; print("ok card_pool " .. count .. " - " .. name) end
 
 local oracle = dofile("tests/lua/support/card_pool_oracle.lua")
-local cases, blocked = oracle.cases, oracle.blocked
+local cases, formerlyDisabled = oracle.cases, oracle.formerlyDisabled
 local function find(entries, id) for _, value in ipairs(entries) do if value.id == id then return value end end end
 local function execute(case, upgraded, run)
     local s
@@ -67,17 +67,18 @@ local function execute(case, upgraded, run)
     equal(Combat.play(s, card.uid, 1), false, "stale UID")
 end
 
-test("supported pool is exactly 30 cards; all seven incomplete rules stay disabled", function()
+test("the historical 30-card regression remains inside the complete 75-card pool", function()
     local supported = {}
     for _, card in ipairs(data.cards.cards) do
-        if not card.costMode and not card.condition and Effects.supported(card.effects) then supported[card.id] = true end
+        if card.type~="status" and card.type~="curse" and Effects.supported(card.effects) then supported[card.id] = true end
     end
     equal(#cases, 30)
     for _, case in ipairs(cases) do assert(supported[case.id], case.id); supported[case.id] = nil end
-    equal(next(supported), nil)
-    for _, id in ipairs(blocked) do
+    local remaining=0;for _ in pairs(supported) do remaining=remaining+1 end;equal(remaining,45)
+    for _, id in ipairs(formerlyDisabled) do
         local s = Combat.new(data, {deck={id}})
-        equal(Combat.canPlay(s, s.hand[1].uid, 1), false, id)
+        s.energy=10
+        equal(Combat.canPlay(s, s.hand[1].uid, 1), true, id)
     end
 end)
 for _, case in ipairs(cases) do
@@ -141,21 +142,9 @@ local function entered(kind,seed)
     entryTemplates[key] = cached
     return cloneEntry(cached)
 end
-local shopSeedByCard, lastShopSeed = {}, 0
+local shopSeedByCard=dofile('tests/fixtures/warrior75-shop-seeds.lua')
 local function seedOffering(id)
-    while not shopSeedByCard[id] and lastShopSeed<1000 do
-        lastShopSeed=lastShopSeed+1
-        local map=mapForSeed(lastShopSeed);local hasShop=false
-        for _,node in ipairs(map.nodes)do if node.type=='shop'then hasShop=true end end
-        if hasShop then
-            -- Inspect the complete actual stock reached by this seed's legal
-            -- route. Keep that unpurchased room for independent later cases.
-            local shop=entered('shop',lastShopSeed)
-            local stock=shop.nodeFlow
-            for _,o in ipairs(stock.cards) do if not o.unavailable and not shopSeedByCard[o.id] then shopSeedByCard[o.id]=lastShopSeed end end
-        end
-    end
-    return shopSeedByCard[id]
+    return shopSeedByCard[id] and shopSeedByCard[id].seed
 end
 for _, case in ipairs(cases) do
     test(case.id .. " obtained legally and camp-upgraded permanent instance executes next battle", function()
@@ -193,18 +182,16 @@ end
 -- All30 real purchases/upgrades must leave their shared cold templates intact.
 for _, cached in pairs(entryTemplates) do sameFixture(coldState(cached.bundle.run), cached.pristine) end
 
-test("incomplete cards never appear in the generated shop inventory or camp upgrades", function()
+test("the seven formerly disabled cards have ordinary camp upgrades", function()
     local shop = entered("shop")
     local camp, map = entered("camp")
-    for _, id in ipairs(blocked) do
-        equal(find(shop.nodeFlow.cards, id), nil)
+    for _, id in ipairs(formerlyDisabled) do
         camp.deck[#camp.deck+1] = {uid=camp.nextDeckUid, cardId=id, upgraded=false}
         camp.nextDeckUid = camp.nextDeckUid + 1
     end
     local options = Nodes.view(camp, map).node.upgradeCards
-    for _, instance in ipairs(options) do
-        for _, id in ipairs(blocked) do assert(instance.cardId ~= id, "incomplete camp upgrade: " .. id) end
-    end
+    local found={};for _,instance in ipairs(options) do found[instance.cardId]=true end
+    for _,id in ipairs(formerlyDisabled) do assert(found[id],'missing real upgrade: '..id) end
 end)
 
 print("LUA_CARD_POOL_PASS " .. count)

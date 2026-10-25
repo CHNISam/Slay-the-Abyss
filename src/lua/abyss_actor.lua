@@ -2,11 +2,50 @@
 local M = {}
 local Events = require("abyss_events")
 
+-- Require lazily: card actions use Actor arithmetic, and hooks only enqueue
+-- data. Combat owns draining, choices, death interruption and transactionality.
+local function enqueue(state,e,source,top)
+    require("abyss_card_actions").enqueue(state,e,source,nil,nil,top)
+end
+-- Equal-priority original Powers are stably sorted: their hooks retain the
+-- order of first application. Legacy raw-status fixtures get an explicit order.
+function M.powerSequence(actor,ids)
+    local allowed,seen,result={},{},{}
+    for _,id in ipairs(ids) do allowed[id]=true end
+    for _,id in ipairs(actor.powerOrder or {}) do
+        if allowed[id] and (actor.statuses[id] or 0)~=0 and not seen[id] then
+            result[#result+1]=id;seen[id]=true
+        end
+    end
+    for _,id in ipairs(ids) do if not seen[id] and (actor.statuses[id] or 0)~=0 then result[#result+1]=id end end
+    return result
+end
+local function hpLost(state,actor,amount,selfInflicted)
+    if actor~=state.player or amount<=0 then return end
+    actor.damagedThisCombat=(actor.damagedThisCombat or 0)+1
+    for _,pile in ipairs({state.hand,state.draw,state.discard}) do
+        for _,card in ipairs(pile) do
+            if card.cardId=="blood_for_blood" then card.costReduction=(card.costReduction or 0)+1 end
+        end
+    end
+    if selfInflicted and actor.hp>0 and (actor.statuses.rupture or 0)>0 then
+        enqueue(state,{op="gainStatus",status="strength",value=actor.statuses.rupture},actor,true)
+    end
+end
+function M.hpLostFromCard(state,actor,amount) hpLost(state,actor,amount,true) end
+function M.hpLostFromDamage(state,actor,amount) hpLost(state,actor,amount,false) end
+
 function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped end
 
 function M.status(state, actor, id, amount, source, sourceIsMonster)
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
+    if before==0 or actor.statuses[id]==0 then
+        local order={}
+        for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
+        if actor.statuses[id]~=0 then order[#order+1]=id end
+        actor.powerOrder=order
+    end
     if before <= 0 and actor.statuses[id] > 0
         and actor.statusDefinitions[id].decay == "round_end_minus_1" then
         local monster = sourceIsMonster
@@ -175,6 +214,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
+    hpLost(state,target,lost,source==target)
     Events.emit(state, "status_damage", {
         source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     queueDeathPower(state, target, before, reactions)
@@ -205,14 +245,15 @@ function M.retaliate(state, source, target, amount)
     return lost
 end
 
-function M.damage(state, source, target, base, fixed, retaliation)
+function M.damage(state, source, target, base, fixed, retaliation, resolved)
     if not M.isActive(target) or not M.isActive(source) then return 0 end
     local before, reactions = target.hp, retaliation or {}
-    local amount = M.attackAmount(state, source, target, base, fixed)
+    local amount = resolved or M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local lost = math.min(target.hp, amount - absorbed)
     target.hp = target.hp - lost
+    hpLost(state,target,lost,source==target)
     Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
     -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
     -- the BOTTOM, behind every already-queued hit/effect and card disposal.
@@ -233,9 +274,12 @@ function M.damage(state, source, target, base, fixed, retaliation)
     end
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
-    if not fixed and (target.statuses.thorns or 0) > 0 then
-        local thorns = target.statuses.thorns
-        reactions[#reactions + 1] = { source = target, target = source, amount = thorns }
+    if not fixed then
+        for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier'})) do
+            -- Each Power adds its own TOP DamageAction. Combining them would
+            -- erase two distinct damage callbacks and reverse application order.
+            reactions[#reactions + 1] = {source=target,target=source,amount=target.statuses[id]}
+        end
     end
     -- onDeath queues after onAttacked, so its TOP Power resolves before Thorns.
     queueDeathPower(state, target, before, reactions)
@@ -255,8 +299,12 @@ end
 function M.block(state, actor, amount, fixed)
     local before = actor.block
     -- Cap the final state, not the modifier calculation or its float precision.
-    actor.block = math.min(999, actor.block + 0.0 + M.blockAmount(state, actor, amount, fixed))
+    local gained=M.blockAmount(state, actor, amount, fixed)
+    actor.block = math.min(999, actor.block + 0.0 + gained)
     Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
+    if actor==state.player and gained>0 and (actor.statuses.juggernaut or 0)>0 then
+        enqueue(state,{op="damageRandom",value=actor.statuses.juggernaut,fixed=true},actor)
+    end
 end
 
 -- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.

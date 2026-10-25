@@ -12,6 +12,8 @@ local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Merchant = require("abyss_merchant")
 local M = {}
+local CardDisplay = require('abyss_card_display')
+local Combat = require('abyss_combat')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
@@ -117,9 +119,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         paintButton(box)
     end
     local function card(id) return find(self.run.data.cards.cards, id) end
-    local function cardName(id, upgraded)
+    local function cardName(id, upgraded, upgrades)
         local display, definition = self.presentation[id], card(id)
-        return (display and display.name or (definition and definition.name) or id) .. (upgraded and "+" or "")
+        return (display and display.name or (definition and definition.name) or id)
+            .. (upgraded and ('+'..(definition and definition.repeatable and number(upgrades or 1) or '')) or '')
     end
     local function relicName(id)
         local definition = find(self.run.data.relics.relics, id)
@@ -170,12 +173,15 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function fillCard(box, id, upgraded, look)
         look = look or {}
         local definition, display = card(id) or {}, self.presentation[id] or {}
+        local instance=look.instance or {cardId=id,upgraded=upgraded==true}
+        definition=Combat.cardDefinition({catalog={cards={[id]=definition}}},instance)
         local kind = Theme.icon.cardArt[definition.type] and definition.type or "status"
-        box:GetChild("name").text = cardName(id, upgraded)
+        CardDisplay.writeTitle(box:GetChild("name"),cardName(id,false),instance.upgraded,
+            definition.repeatable and (instance.upgrades or 1) or nil)
         ink(box:GetChild("name"), look.dim and C.textMuted or upgraded and C.positive or C.text)
         box:GetChild("type").text = typeNames[definition.type] or ""
-        local text = upgraded and display.upgradeText or display.text
-        box:GetChild("description").text = type(text) == "string" and text or ""
+        local text=CardDisplay.permanentText(display,definition,instance)
+        CardDisplay.writeBody(box:GetChild("description"),type(text)=='string' and text or '')
         ink(box:GetChild("description"), look.dim and C.textDim or C.text)
         -- Presentation costs can be strings; format the numeric rule value.
         local cost = definition.cost
@@ -375,9 +381,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if instance then
                 local owned = find(self.run.deck, instance.uid, "uid")
                 local available = owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil)
-                local stamp = not owned and "已移除" or (upgrade and owned.upgraded and "已升级") or nil
+                local stamp = not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级") or nil
                 fillCard(box, instance.cardId, owned and owned.upgraded or instance.upgraded,
-                    { dim = not available, veil = stamp ~= nil, stamp = stamp, selected = self.selected == instance.uid })
+                    { dim = not available, veil = stamp ~= nil, stamp = stamp, selected = self.selected == instance.uid,instance=owned or instance })
                 local uid = instance.uid
                 action("pickerView/card" .. i, available, function()
                     self.selected, self.notice = uid, "" self:render() return true
@@ -398,14 +404,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if selected and upgrade then
             local display = self.presentation[selected.cardId] or {}
             local changed = display.cost ~= nil and display.upgradeCost ~= nil and display.cost ~= display.upgradeCost
-            fillCard(before, selected.cardId, false)
-            fillCard(after, selected.cardId, true, { changed = changed })
+            local nextInstance=Combat.copy(selected)
+            nextInstance.upgrades=(selected.upgrades or (selected.upgraded and 1 or 0))+1
+            nextInstance.upgraded=true
+            fillCard(before, selected.cardId, selected.upgraded,{instance=selected})
+            fillCard(after, selected.cardId, true, { changed = changed,instance=nextInstance })
             picker:GetChild("label").text = result and "已升级" or "升级预览"
             picker:GetChild("hint").text = changed and ("费用 " .. display.cost .. " → " .. display.upgradeCost) or "效果增强"
         elseif selected then
-            fillCard(target, selected.cardId, selected.upgraded, { stamp = result and "已移除" or nil, dim = result ~= nil, veil = result ~= nil })
-            picker:GetChild("label").text = transform and '将变换为随机的新卡牌' or result and "已移除" or "将从牌组移除"
-            picker:GetChild("hint").text = transform and '新卡牌不会保留原来的升级' or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
+            fillCard(target, selected.cardId, selected.upgraded, { stamp = result and "已移除" or nil, dim = result ~= nil, veil = result ~= nil,instance=selected })
+            picker:GetChild("label").text = transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
+            picker:GetChild("hint").text = transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
                 (#self.run.deck - (result and 0 or 1)) .. " 张"
         end
         if upgrade then return "选择一张卡牌升级 · 剩余 " .. (result and 0 or node.upgradesLeft) .. " 次" end
@@ -464,7 +473,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                             if outcome.upgradedUids and #outcome.upgradedUids>0 then
                                 local names={}
                                 for _,uid in ipairs(outcome.upgradedUids) do
-                                    local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true)
+                                    local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true,card.upgrades)
                                 end
                                 lines[#lines+1]='已升级：'..table.concat(names,'、')
                             end
@@ -654,8 +663,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             confirmOk = selected ~= nil
             confirmFn = function()
                 local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
-                local name = instance and cardName(instance.cardId, instance.upgraded) or ""
-                local command = living and 'chooseLivingWallCard' or self.picker == "upgrade" and (node.type=='event' and 'upgradeEvent' or "upgrade")
+                local name = instance and cardName(instance.cardId, instance.upgraded,instance.upgrades) or ""
+                local command = living and "chooseLivingWallCard" or self.picker == "upgrade" and (node.type=="event" and "upgradeEvent" or "upgrade")
                     or self.picker=='wing_purge' and 'purgeWing' or self.picker == "remove" and "removeCard" or "purifyEvent"
                 return commit(command, selected, function(before)
                     if living then
@@ -670,8 +679,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                         return text,{text=text}
                     end
                     if command == "upgrade" or command=='upgradeEvent' then
-                        local base = cardName(instance.cardId)
-                        local text="已升级「" .. base .. "」→「" .. base .. "+」"
+                        local upgraded=find(self.run.deck,selected,'uid')
+                        local text="已升级「"..name.."」→「"..cardName(instance.cardId,true,upgraded.upgrades).."」"
                         return text, { choice = "upgrade", card = instance, text=text }
                     end
                     local paid = before.gold - self.run.gold
