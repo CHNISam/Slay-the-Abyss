@@ -127,6 +127,8 @@ node scripts/remote-task-claim.mjs release --stage-complete yes --evidence '<交
 
 ## 保证边界
 
+只读停放来源组如需补入遗漏的回归文件，指定主线程先普通release保留当前阶段；有效bootstrap协调者可用完整manifest调用`migration-reconcile --extend yes --manifest <文件> --evidence <依据>`。仅在组内无有效租约时允许增补未完成阶段的精确文件；source/原提交映射、指定session、任务、分支、模块、已完成阶段及旧路径保持不变，完整旧阶段及manifest SHA留在amendments。仍须通过原始来源指纹、逐文件范围和外部冲突校验；随后指定主线程以完整新scope重新adopt同一阶段。此增补入口仅适用全部来源为parked-readonly的组。
+
 普通 Git 非强制 ref 更新是原子 CAS；跨任务的冲突检查和写入在同一状态提交中，双进程不能分别写出相交有效执行权。每次接管使用全局递增 generation，续租不改变身份。机器时钟须同步 UTC；这是客户端租约，不是服务器授时/对抗恶意机器的系统。时间异常、远端协调分支被人为强推、故意复用session或绕过hooks都不在保证内。
 
 Git hooks、受控命令和远端读取阻止合作执行者失权后的新操作；不能撤销已经写出的文件，不能拦截任意编辑器/外部 GitHub API，不能将GitHub merge与另一Git ref更新变成同一事务。检查与外部操作之间存在很小的时间窗口；长命令按心跳发现失权，强杀父进程时应停止整个子进程树。不要把这套轻量协作门禁当作服务器权限系统。未升级的其他机器仍是明确风险，迁移暂停继续生效。
