@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-25 P0协作入口：TASK-55正在落地[远端任务执行权](REMOTE_TASK_CLAIMS.md)，协调分支为`coord/task-claims`。本地、远端和子执行器统一claim/adopt → check → 独立worktree → run/renew → Git门禁 → integrate → release。新工作Assignee仍为Furinya，Executor独立记录。旧在途任务、工作树及未提交修改全部保留；[迁移快照](evidence/task-claim-migration-20261025.json)标记未知，不能凭干净树推断旧会话停止。远端迁移保持paused，未核实旧会话/其他机器之前禁止批量新领取；先按协议有证据地adopt。工程修复不改变M3内容范围或游戏行为，交付后回M3主线。
+
 2026-10-25 当前主关口为M3。PR193已在当前提交完整CI通过后合入develop（`9ae1aec`）；57模块普通候选已官方导入并取得本轮ready和首战记录，尚无该候选胜利领奖回图证据。后续PR197集中唯一卡牌随机状态、五瓶暂缓获取药水的效果、Living Wall独立处理及失败原子性；该批未生成新候选或实机验收，集成状态以[PR197](https://github.com/CHNISam/Slay-the-Abyss/pull/197)为准。用户已批准补齐原版完整首发内容池和第一幕25事件，父任务及M3仍未验收。另一会话的warrior75工作树、根目录未提交内容和后续两份药水切片须保留，不覆盖或混作本批成果。
 
 2026-10-25 PR193已合入develop `9ae1aec`：准确e443头的check/presentation全绿后squash，18个已交付工作树/17分支已在历史bundle和逐文件hash证据备份后清理。新同源正常9ae候选已导入官方1854，57模块正式sourceguard通过，新41号日志有ready、clock新种子与首战；奖励闭环尚未取证，第二轮被另一实际running的warrior75试玩阻止，未抢占。见[有限实机证据](evidence/m3-core-live-smoke-20261025.json)。旧6fa/e443不冒充当前9ae。本批后续在独立分支组合持久cardRng所有权/偏移核心、五瓶基础药水与活墙显式入口；完整概率池及永久钩子仍待齐，不宣称M3完成。unknown_events原30s超时已定位第5组220seed重复全图构建，220原布局/固定拓扑逐seed观测一致后保留全部覆盖，整文件14组在27601ms通过；没有放宽预算。项目既有live-session新增playtest-input绑定实际运行，置前前/输入前两次核状态，阻止自动退出后的旧坐标输入，28项mock RPC用例通过；下次试玩按技能用该入口，不再重拼旧bridge。

@@ -11,7 +11,26 @@ concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  ownership:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify live remote execution authorization for exact PR head
+        env:
+          CLAIM_BRANCH: ${{ github.event.pull_request.head.ref }}
+          CLAIM_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/remote-task-claim.mjs verify-pr --branch "$CLAIM_BRANCH" --sha "$CLAIM_SHA"
   check:
+    needs: ownership
+    if: ${{ !cancelled() && (needs.ownership.result == 'success' || needs.ownership.result == 'skipped') }}
+    concurrency:
+      group: slay-the-abyss-full-quality
+      cancel-in-progress: false
+      queue: max
     # Fork code stays on GitHub-hosted infrastructure.
     runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
     # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of

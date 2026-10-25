@@ -1,0 +1,32 @@
+{
+  "runtimeSha256": "5366c866d93dc181a111fd2717ef504a6ee3b79d26bd2c61cd287cfc58c2d628",
+  "testsSha256": "eab3d412b1e97ba27b6a2991ed061d47d6363f05eaacdb94525a3a0b17cf661d",
+  "checkedAt": "2026-10-25T02:35:10.4635706Z",
+  "fullQuality": {
+    "status": "pending exact PR head CI",
+    "reason": "Existing full quality jobs must finish first; local targeted checks are not full CI evidence"
+  },
+  "schema": 1,
+  "inventoryScriptSha256": "00bd1faa302f99e98e6f179ecb7d8abdd74689c74957b08880581aabf29ce196",
+  "durationMs": 213887.8317,
+  "migration": {
+    "localSharedHooksInstalled": true,
+    "externalUnknown": true,
+    "reservations": 38,
+    "status": "paused"
+  },
+  "realGit": true,
+  "implementationBaseline": "3ed8bf4b88a950c4736ec2d68e83f141d415c4db",
+  "passed": 14,
+  "failed": 0,
+  "command": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
+  "skipped": 0,
+  "guarantees": "Cooperating unique sessions, synchronized UTC clocks, ordinary non-force CAS pushes. External machines remain unknown; no claim of complete migration.",
+  "tests": 14,
+  "localChecks": [
+    "changed JavaScript node --check passed",
+    "verify-backlog-roadmap passed",
+    "git diff --check passed",
+    "npm ci --ignore-scripts passed"
+  ]
+}
