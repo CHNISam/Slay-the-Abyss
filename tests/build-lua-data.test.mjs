@@ -71,19 +71,23 @@ test('Lua runner propagates failures and enforces finite timeout', () => tempora
   });
 }));
 
-test('Lua suite discovers every file in order and stops on first failure', () => temporary(directory => {
+test('Lua suite discovers every file in order and continues after failure with nonzero exit', () => temporary(directory => {
   const scripts = join(directory, 'tests/lua');
   mkdirSync(scripts, { recursive: true });
   const cli = resolve('scripts/test-lua.mjs');
   const run = () => spawnSync(process.execPath, [cli], { cwd: directory, encoding: 'utf8', timeout: 5000 });
   assert.notEqual(run().status, 0, 'empty suite must fail');
-  writeFileSync(join(scripts, 'a.lua'), 'print("suite first")');
+  // Creation order differs from execution order: discovery must sort filenames.
   writeFileSync(join(scripts, 'b.lua'), 'print("suite second")');
+  writeFileSync(join(scripts, 'a.lua'), 'print("suite first")');
   let result = run();
+  assert.ifError(result.error);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /suite first[\s\S]*suite second/);
-  writeFileSync(join(scripts, 'a.lua'), 'error("suite failure")');
+  writeFileSync(join(scripts, 'a.lua'), 'print("suite first failed"); error("suite failure")');
   result = run();
+  assert.ifError(result.error);
   assert.notEqual(result.status, 0);
-  assert.doesNotMatch(result.stdout, /suite second/);
+  assert.match(result.stderr, /suite failure/);
+  assert.match(result.stdout, /suite first failed[\s\S]*Lua fixture tests\/lua\/a\.lua:[\s\S]*suite second[\s\S]*Lua fixture tests\/lua\/b\.lua:/);
 }));

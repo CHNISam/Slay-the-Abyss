@@ -1,6 +1,6 @@
 -- Same-run deck and reward ownership. Platform/UI adapters issue these commands.
 local Combat = require("abyss_combat")
-local Effects = require("abyss_effects")
+local Capability = require("abyss_card_capability")
 local Inventory = require("abyss_inventory")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
@@ -10,6 +10,7 @@ local GoldRewards = require("abyss_gold_rewards")
 local RunSeed = require("abyss_run_seed")
 local EncounterQueue = require("abyss_encounter_queue")
 local RoomEncounters = require("abyss_room_encounters")
+local CardRandom = require("abyss_card_random")
 local M = {}
 
 local function find(entries, id)
@@ -18,9 +19,11 @@ end
 
 function M.new(data, seed)
     local eventSeed = RunSeed.normalize(seed)
+    local cardOwner = CardRandom.new(eventSeed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
         treasureRng = EventRandom.fromSeed(eventSeed),
+        cardRng = cardOwner.cardRng,cardRarityOffset=cardOwner.cardRarityOffset,
         encounters=EncounterQueue.new(eventSeed),roomGeneration=0,
         -- Launch supports the exact source !isBossSeen(GUARDIAN) branch. It
         -- duplicates Guardian and spends no monsterRng; no all-unlocked claim.
@@ -176,10 +179,10 @@ local function rewardCandidates(run)
     local candidates = {}
     for _, card in ipairs(run.data.cards.cards) do
         if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special" and not card.condition and not card.costMode
+            and card.rarity ~= "basic" and card.rarity ~= "special"
             -- Boss rewards are rare-only; other tiers retain their current pool.
             and (run.encounterTier ~= "boss" or card.rarity == "rare")
-            and Effects.supported(card.effects) then candidates[#candidates + 1] = card.id end
+            and Capability.isImplemented(card) then candidates[#candidates + 1] = card.id end
     end
     return candidates
 end

@@ -3,7 +3,8 @@
 local R = require('abyss_sts_random')
 local Price = require('abyss_shop_price')
 local C = require('abyss_combat')
-local Effects = require('abyss_effects')
+local Capability = require('abyss_card_capability')
+local CardRandom = require('abyss_card_random')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -34,7 +35,7 @@ end
 local function streams(run)
     if run.shopRng then return C.copy(run.shopRng) end
     local seed=run.eventSeed or string.format('%.0f',run.seed)
-    return { merchant=R.fromSeed(seed),card=R.fromSeed(seed),potion=R.fromSeed(seed) }
+    return { merchant=R.fromSeed(seed),potion=R.fromSeed(seed) }
 end
 local function pick(rng,list)
     if #list==0 then return nil end
@@ -47,30 +48,32 @@ local function candidates(run,category,rarity,kind,color,stock)
         if category=='cards' then
             allowed=allowed and (not kind or def.type==kind) and (def.color or 'colored')==color
                 and (def.type=='attack' or def.type=='skill' or def.type=='power')
-                and not def.condition and not def.costMode and Effects.supported(def.effects)
+                and Capability.isImplemented(def)
         elseif category=='relics' then
             -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
             allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
             for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
         elseif category=='potions' then
             -- Ironclad's potion pool excludes Silent's class-specific Poison Potion.
-            allowed=allowed and def.id~='poison_potion'
+            -- Temporary effect-only isolation; complete 33-item source selection
+            -- must remove this exclusion rather than skip or reroll pending items.
+            allowed=allowed and def.id~='poison_potion' and not def.acquisitionPending
         end
         if allowed then pool[#pool+1]=def end
     end
     table.sort(pool,function(a,b) return a.id<b.id end)
     return pool
 end
-local function cardOffer(run,rng,slot,kind,color,rarity,previous,restock)
+local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock)
     local def
     -- The original rerolls both rarity and card for duplicate attack/skill.
     -- Bounded only to prevent an incomplete supported pool hanging the game.
     for _=1,256 do
         if color=='colored' then
-            rarity=S.cardRarity(R.randomInt(rng.card,99),run.cardRarityOffset)
+            rarity=CardRandom.rollRarity(cardOwner,'shop')
             if kind=='power' and rarity=='common' then rarity='uncommon' end
         end
-        def=pick(rng.card,candidates(run,'cards',rarity,kind,color))
+        def=pick(cardOwner.cardRng,candidates(run,'cards',rarity,kind,color))
         if not def or def.id~=previous then break end
     end
     if def and def.id==previous then def=nil end
@@ -101,13 +104,14 @@ local function itemOffer(run,rng,category,slot,stock,restock)
 end
 function S.prepare(run)
     local rng=streams(run)
-    local stock={cards={},relics={},potions={},shopRng=rng,contentMode='restricted-supported-pools'}
+    local cardOwner=CardRandom.clone(run)
+    local stock={cards={},relics={},potions={},shopRng=rng,cardRandom=cardOwner,contentMode='restricted-supported-pools'}
     for i,kind in ipairs({'attack','attack','skill','skill','power'}) do
-        stock.cards[i]=cardOffer(run,rng,i,kind,'colored',nil,(i==2 or i==4) and stock.cards[i-1].id)
+        stock.cards[i]=cardOffer(run,rng,cardOwner,i,kind,'colored',nil,(i==2 or i==4) and stock.cards[i-1].id)
     end
     -- Colorless type varies; collect by rarity independently of type.
     for i,rarity in ipairs({'uncommon','rare'}) do
-        stock.cards[i+5]=cardOffer(run,rng,i+5,nil,'colorless',rarity)
+        stock.cards[i+5]=cardOffer(run,rng,cardOwner,i+5,nil,'colorless',rarity)
     end
     local sale=R.randomInt(rng.merchant,4)+1
     local o=stock.cards[sale];o.sale=true
@@ -124,13 +128,15 @@ function S.afterPurchase(run,flow,category,offer)
         end
     end
     if not owns(run,'courier') then offer.sold=true;return end
+    local cardOwner=category=='cards' and CardRandom.clone(run) or nil
     local fresh
     if category=='cards' then
         local rarity=offer.rarity
         if offer.color=='colorless' then rarity=R.randomFloat(flow.shopRng.merchant)<f32(.3) and 'rare' or 'uncommon' end
-        fresh=cardOffer(run,flow.shopRng,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true)
+        fresh=cardOffer(run,flow.shopRng,cardOwner,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true)
     else fresh=itemOffer(run,flow.shopRng,category,offer.slot,flow.relics,true) end
     flow[category][offer.slot]=fresh
     run.shopRng=flow.shopRng
+    if cardOwner then CardRandom.commit(run,cardOwner) end
 end
 return S

@@ -46,26 +46,19 @@ test('source pool boundary, fallback and lifecycle without supported-pool reroll
     assert(Pool.draw(p,ctx,s,0)==nil);same(R.snapshot(s),before)
     local once=#p.once;Pool.nextAct(p);assert(#p.act==11 and #p.shrine==6 and #p.once==once)
 end)
-local function setup(id,seed)
+local function runtime()
     C=C or require('abyss_combat');data=data or require('abyss_data')
     Run=Run or require('abyss_run');Map=Map or require('abyss_map');Nodes=Nodes or require('abyss_nodes')
+end
+local function setup(id,seed)
+    runtime()
     local run=Run.new(data,seed or 42);local map=Map.generate(data,seed or 42)
     map.nodes[1].type='event';map.nodes[1].eventId=id
     return run,map,map.nodes[1].id
 end
-test('natural unknown rooms route all four handlers and never change the map symbol',function()
-    local types,events={},{}
-    for seed=1,220 do
-        local run,map,id=setup(nil,seed)
-        assert(Nodes.enter(run,map,id));local kind=run.nodeFlow.type;types[kind]=true
-        if kind=='event' then events[run.nodeFlow.event.id]=true end
-        assert(map.nodes[1].type=='event' and run.nodeFlow.sourceType=='event')
-        local state=C.copy(run.unknown);Nodes.view(run,map);Nodes.view(run,map);same(run.unknown,state)
-        assert(not Nodes.enter(run,map,id));same(run.unknown,state)
-    end
-    assert(types.combat and types.shop and types.treasure and types.event)
-    local count=0;for _ in pairs(events) do count=count+1 end;assert(count==7,'all seven events must be reachable across seeds')
-end)
+-- The complete220-seed routing matrix has two independently timed fixtures:
+-- unknown_event_routing.lua and unknown_event_routing_upper.lua. Both halves
+-- preserve every per-seed assertion and prove all four routes/seven events.
 test('Goop entry loss is fixed, capped and death stops navigation',function()
     local run,map,id=setup('goop');run.gold=12
     assert(Nodes.enter(run,map,id));assert(run.nodeFlow.event.goldLoss==12)

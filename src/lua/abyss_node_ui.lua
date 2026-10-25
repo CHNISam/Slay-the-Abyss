@@ -31,6 +31,7 @@ local reasons = {
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
         leave = "你向神龛行了一礼，转身继续赶路。" },
     cleric = { name = "圣职者", body = Narrative.eventCopy.cleric.intro:gsub("\n\n", "\n"),
@@ -359,7 +360,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderPicker(view, node, result)
         local picker = child("pickerView")
         local before, after, target = picker:GetChild("before"), picker:GetChild("after"), picker:GetChild("target")
-        local upgrade = self.picker == "upgrade"
+        local upgrade = self.picker == "upgrade" or self.picker=='living_grow'
+        local transform = self.picker=='living_change'
         local rows = upgrade and self.upgradeRows or self.removeRows
         local selected = result and result.card or self.selected and find(rows, self.selected, "uid")
         local pageCount = math.max(1, math.ceil(#rows / PICK_PAGE))
@@ -390,7 +392,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             .. (self.swipeEnabled and " · 左右拖动翻页" or "")) or ""
         show(before, upgrade and selected) show(after, upgrade and selected)
         show(picker:GetChild("arrow"), upgrade and selected) show(target, not upgrade and selected)
-        picker:GetChild("empty").text = selected and "" or (upgrade and "点选上方卡牌，查看升级前后对比" or "点选上方要移除的卡牌")
+        picker:GetChild("empty").text = selected and "" or (upgrade and "点选上方卡牌，查看升级前后对比" or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
         picker:GetChild("label").text, picker:GetChild("hint").text = "", ""
         if selected and upgrade then
             local display = self.presentation[selected.cardId] or {}
@@ -401,11 +403,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             picker:GetChild("hint").text = changed and ("费用 " .. display.cost .. " → " .. display.upgradeCost) or "效果增强"
         elseif selected then
             fillCard(target, selected.cardId, selected.upgraded, { stamp = result and "已移除" or nil, dim = result ~= nil, veil = result ~= nil })
-            picker:GetChild("label").text = result and "已移除" or "将从牌组移除"
-            picker:GetChild("hint").text = "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
+            picker:GetChild("label").text = transform and '将变换为随机的新卡牌' or result and "已移除" or "将从牌组移除"
+            picker:GetChild("hint").text = transform and '新卡牌不会保留原来的升级' or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
                 (#self.run.deck - (result and 0 or 1)) .. " 张"
         end
         if upgrade then return "选择一张卡牌升级 · 剩余 " .. (result and 0 or node.upgradesLeft) .. " 次" end
+        if transform then return '选择一张卡牌变换' end
         if self.picker == "remove" then return "选择要移除的卡牌 · 本店删牌服务限一次" end
         return "选择要净化的卡牌"
     end
@@ -434,6 +437,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     local selected=option
                     rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..
                         (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
+                        if id=='living_wall' then
+                            return commit('chooseEvent',selected.choice,function()
+                                local info=self.run.nodeFlow.event
+                                if info.stage=='choose_card' then
+                                    self.mode,self.picker,self.pickPage,self.selected='picker','living_'..selected.choice,1,nil
+                                    return '请选择一张卡牌'
+                                end
+                                local text='没有符合条件的卡牌。墙上的面孔渐渐沉寂。'
+                                return text,{text=text}
+                            end)
+                        end
                         if selected.picker then
                             self.mode,self.picker,self.pickPage,self.selected,self.notice='picker',
                                 selected.picker=='event_upgrade' and 'upgrade' or selected.picker,1,nil,''
@@ -575,6 +589,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.view, self.actions = view, {}
         local result = self:holding() and self.result or nil
         local active = node and kinds[node.type] and not node.complete and view.phase == "node"
+        if active and node.type=='event' and node.event.id=='living_wall' and node.event.stage=='choose_card' then
+            self.mode,self.picker='picker','living_'..node.event.choice
+            self.removeRows=snapshotDeck(node.event.purgeCards)
+            self.upgradeRows=node.upgradeCards
+        end
         renderTopBar(node)
         local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
@@ -617,7 +636,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end
         elseif screen == "pickerView" then
             local selected = self.selected
-            if self.picker == "upgrade" then
+            local living=node.type=='event' and node.event.id=='living_wall'
+            if living then
+                confirmLabel=self.picker=='living_grow' and '确认升级' or self.picker=='living_change' and '确认变换' or '确认移除'
+            elseif self.picker == "upgrade" then
                 confirmLabel = "确认升级"
                 if not node.campChoice then backLabel = "返回" end
             elseif self.picker == "remove" then
@@ -629,9 +651,20 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             confirmFn = function()
                 local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
                 local name = instance and cardName(instance.cardId, instance.upgraded) or ""
-                local command = self.picker == "upgrade" and (node.type=='event' and 'upgradeEvent' or "upgrade")
+                local command = living and 'chooseLivingWallCard' or self.picker == "upgrade" and (node.type=='event' and 'upgradeEvent' or "upgrade")
                     or self.picker=='wing_purge' and 'purgeWing' or self.picker == "remove" and "removeCard" or "purifyEvent"
                 return commit(command, selected, function(before)
+                    if living then
+                        local event=self.run.nodeFlow.event
+                        local text
+                        if event.choice=='grow' then text='已升级「'..name..'」'
+                        elseif event.choice=='forget' then text='已移除「'..name..'」'
+                        else
+                            local card=find(self.run.deck,event.obtainedCardUid,'uid')
+                            text='「'..name..'」已变换为「'..cardName(card.cardId,card.upgraded)..'」'
+                        end
+                        return text,{text=text}
+                    end
                     if command == "upgrade" or command=='upgradeEvent' then
                         local base = cardName(instance.cardId)
                         local text="已升级「" .. base .. "」→「" .. base .. "+」"

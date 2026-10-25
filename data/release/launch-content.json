@@ -2019,6 +2019,26 @@
       {
         "id": "poison_potion",
         "reason": "Silent-exclusive; data and isolated effect fixtures do not make it obtainable by launch Ironclad."
+      },
+      {
+        "id": "swift_potion",
+        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+      },
+      {
+        "id": "weak_potion",
+        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+      },
+      {
+        "id": "fear_potion",
+        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+      },
+      {
+        "id": "ancient_potion",
+        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+      },
+      {
+        "id": "liquid_bronze",
+        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
       }
     ],
     "events": [

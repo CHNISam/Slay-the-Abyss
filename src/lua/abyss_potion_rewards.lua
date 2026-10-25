@@ -28,7 +28,9 @@ function P.prepare(run, rewardCount, context)
     local pool={}
     for _,definition in ipairs(run.data.potions.potions) do
         -- Poison Potion is Silent-exclusive, never an Ironclad reward.
-        if definition.rarity==rarity and definition.id~='poison_potion' then
+        -- Effect-only additions wait for the complete source pool integration.
+        -- That integration must remove this temporary exclusion, never reroll it.
+        if definition.rarity==rarity and definition.id~='poison_potion' and not definition.acquisitionPending then
             pool[#pool+1]=definition.id
         end
     end
@@ -40,7 +42,7 @@ end
 function P.commit(run,rng,modifier)
     if not run.shopRng then
         local seed=run.eventSeed or string.format('%.0f',run.seed)
-        run.shopRng={merchant=Random.fromSeed(seed),card=Random.fromSeed(seed)}
+        run.shopRng={merchant=Random.fromSeed(seed)}
     end
     run.shopRng.potion=rng
     run.potionChanceModifier=modifier

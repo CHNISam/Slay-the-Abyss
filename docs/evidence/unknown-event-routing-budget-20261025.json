@@ -1,0 +1,13 @@
+{
+  "baseCommit":"527a85bfc48972756b0fe91540492882c533b160",
+  "artifactRoot":".artifacts/unknown-events-runtime-budget-20261025",
+  "originalFailure":"unknown_events.lua exceeded unchanged 30000ms in group5 after four complete groups",
+  "diagnostics":{"batches":22,"seeds":220,"originalMapGenerationMs":38763,"runInitializationMs":15489,"roomEntryMs":6273,"twoViewsMs":4243},
+  "change":"Only group5 reuses a deep copy of a real seed42 topology with explicit Run/Map ownership binding. It is a routing fixture, not a per-seed source map or restorable map.",
+  "coverage":{"realRunSeeds":220,"originalPerSeedLayouts":220,"fixtureLayouts":220,"pairwiseSemanticMatches":220,"preservedAssertions":"four handlers, seven events, original symbol, two actual views, rejected duplicate entry, unchanged unknown state","addedAssertions":"eventRng and miscRng unchanged by views and refused input"},
+  "equivalenceProjection":"All Run state including unknown pools/probabilities, RNGs and actual shop/combat/event/permanent state; normalize first-room geometric nodeFlow.id and omit shared read-only data definitions only.",
+  "routes":{"event":181,"combat":24,"treasure":9,"shop":6},
+  "events":{"cleric":29,"purifier":15,"shining_light":41,"upgrade_shrine":11,"golden_wing":21,"golden_shrine":20,"goop":44},
+  "formalResult":{"groupsPassed":14,"durationMs":27601,"budgetMs":30000,"attemptsAfterChange":1},
+  "productionChanged":false,"otherGroupsChanged":false,"fullSuite":"NOT_RUN; combined CI required"
+}
