@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-25 00:42'
+updated_date: '2026-10-25 01:56'
 due_date: '2026-10-28'
 labels:
   - required
@@ -69,4 +69,6 @@ ordinal: 43000
 新增严格复审发现两个复制语义差异，均先红后绿：Anger stat-equivalent副本须保留实例伤害修正和costForTurn；Dual Wield多个候选的选择分支须移除原选择、生成amount+1个新身份副本，并把暂存非候选放回剩余候选之后；单候选快路径保留原身份。修复后warrior75_edges42组、copied_attack34组通过。固定源依据与SHA补sources.json。505原生证据不被后续改动冒用，新运行源须另建构建/导入/实机证据。
 
 补Mega Crit官方PC V2.2公告的独立数值复核：Bloodletting能量2/3、Hemokinesis伤害15/20与自损2、Rupture+费用1与每次力量2，均与当前实现一致；来源docs/evidence/warrior75/official-v2.2.json。正常规则driver首轮seed42在第6层Nob战败（2胜，HP0，牌组12），不计通关；保留失败并调整仅测试策略：读取可见Enrage避免无谓技能，合法路线优先避开起始牌组高风险精英；未改任何产品数值/规则/卡池。
+
+2026-10-25合并前完整Quality40148436803（9a4cf64）：JS1339项1220通过/119跳过/0失败、呈现22通过；完整229 Lua文件记录六份30秒超时及potion_reward_atomic两条过时断言。药水胜利应恰好消费一次持续cardRng，现核对prepareRewards的完整快照与稀有度偏移，原失败回滚和第二次操作不变性保留。六套测试按独立case/seed拆分，50奖励诊断、11动态卡面组含80牌双版本、40节点UI、31坐标边界、128Boss seed、1680菌兽路径全部保留；每文件30秒不变，跨种子聚合改为各批更强全rare覆盖和独立oracle完整笛卡尔覆盖。51个相关文件本地全部通过，最长13786ms；原始/新helper摘要与不重叠覆盖审计及每文件结果见docs/evidence/warrior75/ci-fixture-partitions.json和ci-partitions-local-results.json。语法/Backlog/diff检查通过；提交后的完整CI仍为合并门禁，严格75张和平台父AC仍不关闭。
 <!-- SECTION:NOTES:END -->
