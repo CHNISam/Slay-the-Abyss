@@ -1,0 +1,12 @@
+--- a/src/lua/abyss_actor.lua
++++ b/src/lua/abyss_actor.lua
+@@ -197,6 +197,9 @@
+ 
+ function M.resolveDamageReactions(state, reactions, retaliate)
+     for i = #reactions, 1, -1 do
++        -- Player death stops the action manager, even for queued THORNS.
++        -- A dead enemy source alone must not cancel retained damage.
++        if state and state.player and type(state.player.hp) == "number" and state.player.hp <= 0 then break end
+         local hit = reactions[i]
+         if hit.status then
+             if not battleEnding(state) then

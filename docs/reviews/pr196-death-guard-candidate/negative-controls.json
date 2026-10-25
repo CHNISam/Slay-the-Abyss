@@ -1,0 +1,42 @@
+[
+  {
+    "mutation": "remove_guard",
+    "test": "lethal-incoming-probe.lua",
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "log": "evidence/v2-mutation-remove_guard-lethal-incoming-probe.log",
+    "actorSha256": "e19c34fe4f5b7c74583d4274d6ca39f497978971857c457d2c785667b73084a7"
+  },
+  {
+    "mutation": "remove_guard",
+    "test": "death-guard-boundaries.lua",
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "log": "evidence/v2-mutation-remove_guard-death-guard-boundaries.log",
+    "actorSha256": "e19c34fe4f5b7c74583d4274d6ca39f497978971857c457d2c785667b73084a7"
+  },
+  {
+    "mutation": "unsafe_state_access",
+    "test": "death-guard-boundaries.lua",
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "log": "evidence/v2-mutation-unsafe_state_access-death-guard-boundaries.log",
+    "actorSha256": "9aa7d9a242e5391a7b2adccb48daa899308481ca3cf358c405bf2da7ef7a4f0e"
+  },
+  {
+    "mutation": "entry_only_guard",
+    "test": "death-guard-boundaries.lua",
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "log": "evidence/v2-mutation-entry_only_guard-death-guard-boundaries.log",
+    "actorSha256": "f199958e0b062242436dfa1396f1e57140bf54aa9768ce70056ad45623440073"
+  },
+  {
+    "mutation": "missing_hp_type_check",
+    "test": "missing-player-hp-probe.lua",
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "log": "evidence/v2-mutation-missing_hp_type_check-missing-player-hp-probe.log",
+    "actorSha256": "8350cb8ba4298e22b37844c43486053f87d94abd507716eb56d20dac62a6f5dd"
+  }
+]

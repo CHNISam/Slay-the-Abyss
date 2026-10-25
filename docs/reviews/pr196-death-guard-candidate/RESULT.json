@@ -1,0 +1,87 @@
+{
+  "candidateVersion": 2,
+  "checkedAt": "2026-10-25T01:17:09.279041+00:00",
+  "baseHead": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+  "candidateOnly": true,
+  "productionDiff": "1 file, 3 added lines: 2 comments and 1 numeric-HP guard",
+  "tdd": "Original negative and guard tests red before v1; missing-HP baseline green/v1 red/v2 green before accepting v2",
+  "passingCases": 15,
+  "original14CasesStillPass": true,
+  "originalProbesByteIdentical": true,
+  "originalProbeSha256": {
+    "lethal-incoming-probe.lua": "1728e4d479432e53206d9b3ababadaba88eeb0c5001292e9f316fa8e824f9108",
+    "reactive-order-probe.lua": "022da3e04c34189fe2d955f1de0b35f790c6da26841744b8dafc21998369f0a6",
+    "run-lua.py": "e5543c066e49980a3dea2e2c77f85b8c577e6ecb88eaa62d26665d7a1943bcd0"
+  },
+  "missingHpProbeSha256": "c0052f1a53df69f6f1f64d06f37952321c1377437e22bf8db91f884d18dc546c",
+  "negativeControls": [
+    {
+      "mutation": "remove_guard",
+      "test": "lethal-incoming-probe.lua",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "log": "evidence/v2-mutation-remove_guard-lethal-incoming-probe.log",
+      "actorSha256": "e19c34fe4f5b7c74583d4274d6ca39f497978971857c457d2c785667b73084a7"
+    },
+    {
+      "mutation": "remove_guard",
+      "test": "death-guard-boundaries.lua",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "log": "evidence/v2-mutation-remove_guard-death-guard-boundaries.log",
+      "actorSha256": "e19c34fe4f5b7c74583d4274d6ca39f497978971857c457d2c785667b73084a7"
+    },
+    {
+      "mutation": "unsafe_state_access",
+      "test": "death-guard-boundaries.lua",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "log": "evidence/v2-mutation-unsafe_state_access-death-guard-boundaries.log",
+      "actorSha256": "9aa7d9a242e5391a7b2adccb48daa899308481ca3cf358c405bf2da7ef7a4f0e"
+    },
+    {
+      "mutation": "entry_only_guard",
+      "test": "death-guard-boundaries.lua",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "log": "evidence/v2-mutation-entry_only_guard-death-guard-boundaries.log",
+      "actorSha256": "f199958e0b062242436dfa1396f1e57140bf54aa9768ce70056ad45623440073"
+    },
+    {
+      "mutation": "missing_hp_type_check",
+      "test": "missing-player-hp-probe.lua",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "log": "evidence/v2-mutation-missing_hp_type_check-missing-player-hp-probe.log",
+      "actorSha256": "8350cb8ba4298e22b37844c43486053f87d94abd507716eb56d20dac62a6f5dd"
+    }
+  ],
+  "finalRuns": [
+    {
+      "script": "lethal-incoming-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/v2-original-green.log"
+    },
+    {
+      "script": "reactive-order-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/v2-original-seven.log"
+    },
+    {
+      "script": "death-guard-boundaries.lua",
+      "exitCode": 0,
+      "log": "evidence/v2-guard-green.log"
+    },
+    {
+      "script": "missing-player-hp-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/missing-hp-v2-green.log"
+    }
+  ],
+  "originalSnapshotsUnmodified": true,
+  "remoteOrBacklogChanged": false,
+  "fullSuite": "not run: explicitly bounded task",
+  "platform": "not run",
+  "committedOrMerged": false,
+  "supersededV1": "history/v1/"
+}
