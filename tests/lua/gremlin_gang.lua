@@ -92,4 +92,28 @@ test('all other 17 encounters keep construction and their declared misc consumpt
  end end
  eq(n,17)
 end)
-H.finish(18,'GREMLIN_GANG_PASS')
+test('source-room Protect spends only the AI stream, including a singleton target',function()
+ -- GainBlockRandomMonsterAction.update uses aiRng.random(size-1). Independent
+ -- fixed-source Python integer interpretation (the existing wrapper fixture's
+ -- generator) gives room seed42: after 3 opening rolls, next roll88; after a
+ -- Protect draw, the following roll61. A singleton still consumes that draw.
+ for _,eligible in ipairs({2,1,0}) do
+  local run=Run.new(Data,41);local room=Run.roomStreams(run,1)
+  eq(room.seed,'42')
+  local s=C.new(Data,{seed=101,deck={},enemies={'shield_gremlin','mad_gremlin','sneaky_gremlin'},
+   roomSeed=room.seed,roomStreams=room})
+  eq(s.aiRng.counter,3)
+  if eligible<2 then s.enemies[3].hp=0 end
+  if eligible==0 then s.enemies[2].hp=0 end
+  local beforeSeed=s.seed
+  local hp,shuffle,cards=R.snapshot(s.monsterHpRng),R.snapshot(s.shuffleRng),R.snapshot(s.cardRandomRng)
+  C.applyEffects(s,s.enemies[1].intents[1].effects,s.enemies[1],s.player)
+  eq(s.aiRng.counter,eligible>0 and 4 or 3,'Protect AI draw count')
+  eq(s.seed,beforeSeed,'source Protect must not consume the legacy seed')
+  eq(s.enemies[eligible>0 and 2 or 1].block,7,'source-ordered recipient')
+  eq(s.enemies[3].block,0)
+  same(R.snapshot(s.monsterHpRng),hp);same(R.snapshot(s.shuffleRng),shuffle);same(R.snapshot(s.cardRandomRng),cards)
+  eq(R.randomInt(s.aiRng,99),eligible>0 and 61 or 88,'independent following AI roll')
+ end
+end)
+H.finish(19,'GREMLIN_GANG_PASS')

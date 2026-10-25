@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-25 16:07'
+updated_date: '2026-10-25 16:45'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -50,6 +50,8 @@ ordinal: 75000
 统一收口本轮交接PR和分散成果，按完整CI核对当前HEAD后合入并归档旧树；不提升M3或平台验收状态。
 
 接手后先修复变异检查的精确选例；保留15秒与120秒预算及全部断言，正常Lua仍全跑。专项与四个真实变异通过后按当前SHA重新CI、原生合并并释放，再移交清理旧树。附件增量随后另行合法登记。
+
+在当前已批准的effects和gremlin_gang文件范围内修复正式房间Protect错用LCG的组合缺陷；先验证AI计数及下一次roll的独立预期，再最小改接现有EnemyRandom适配器，保留legacy ABI。新增生产改动后原RC只作旧版本证据，最终SHA统一CI。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -82,4 +84,6 @@ ordinal: 75000
 用户明确授权统一接手；原生移交后以新session领取generation47。旧头5773691的JS和Lua通过，仅M3/M4变异基线超时。新增三项回归已真实RED（2通过/3失败）；精确选例修复保留原时间与原断言。
 
 变异检查精准选例修复已GREEN：专项6项通过，真实M1-M4全部被原登记断言检出；15000ms单次与120000ms整轮预算均不变。两个普通Lua入口完整12/11项通过，未给全量入口设置筛选，未知选例必须失败。未改游戏生产Lua或候选，本PR当前SHA完整CI与实际合并仍待核对，父任务/M3和平台AC保持原状态。
+
+附件首个生产缺陷已修：正式roomStreams中的护盾援护由legacy LCG改接既有敌人AI随机适配器。原18组遭遇仍过，新增独立后续roll和计数回归先RED后GREEN；现19组及原护盾22组通过，架构66模块199边及Lua静态无新增诊断。仅此已证实共享随机流差异完成本地修复，300牌/完整Neow/23敌整体未完成。Effects已变，原RC2仅旧源证据；新候选和平台实测未验证。详见原整合评审附件，最终SHA重新CI。
 <!-- SECTION:NOTES:END -->

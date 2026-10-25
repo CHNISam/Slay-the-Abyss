@@ -3,7 +3,7 @@ local M = {}
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local CardActions = require("abyss_card_actions")
-
+local EnemyRandom = require("abyss_enemy_random")
 local coreOps = { damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
     loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true,
@@ -245,9 +245,9 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                     end
                 end
                 assert(member, "random ally Block source is not in the encounter")
-                -- The source action draws even for one eligible ally, but not
-                -- for the empty-list self fallback. Use fixed Block, not cards.
-                local recipient = #candidates > 0 and candidates[combat.random(state, #candidates)] or source
+                -- Source rooms spend the AI stream even for one eligible ally;
+                -- empty-list self fallback draws nothing. Legacy fixtures keep their adapter.
+                local recipient = #candidates > 0 and candidates[EnemyRandom.integer(state, #candidates, combat.random)] or source
                 combat.block(state, recipient, value, true)
             else combat.block(state, source, value, effect.fixed) end
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
