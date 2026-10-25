@@ -127,6 +127,14 @@ node scripts/remote-task-claim.mjs release --stage-complete yes --evidence '<交
 
 ## 保证边界
 
+已释放（或已到期）的阶段需要交给新会话时，由有效 bootstrap 协调者执行：
+
+```powershell
+node scripts/remote-task-claim.mjs migration-transfer --group <组ID> --from-session <旧UUID> --to-session <新UUID> --sha <已推送的精确HEAD> --evidence '<用户交接授权与旧执行者停止依据>'
+```
+
+只允许 paused 中的空闲组；当前未完成阶段必须已有旧认领，所有来源指纹、原任务、范围和阶段保持核对。执行树必须干净，分支及本地/远端 HEAD 必须与指定 SHA 一致。转移不领取或续租，旧 receipt 和旧 session 不能继续操作；新会话随后按原阶段完整 scope 重新 adopt，获得新 generation。协调记录保留旧 claim、会话、HEAD、工作树指纹、manifest 摘要及确认依据；不清除外部 unknown 或开放并行。此入口解决交接后仍绑定旧会话的问题，不允许接管有效租约。
+
 只读停放来源组如需补入遗漏的回归文件，指定主线程先普通release保留当前阶段；有效bootstrap协调者可用完整manifest调用`migration-reconcile --extend yes --manifest <文件> --evidence <依据>`。仅在组内无有效租约时允许增补未完成阶段的精确文件；source/原提交映射、指定session、任务、分支、模块、已完成阶段及旧路径保持不变，完整旧阶段及manifest SHA留在amendments。仍须通过原始来源指纹、逐文件范围和外部冲突校验；随后指定主线程以完整新scope重新adopt同一阶段。此增补入口仅适用全部来源为parked-readonly的组。
 
 普通 Git 非强制 ref 更新是原子 CAS；跨任务的冲突检查和写入在同一状态提交中，双进程不能分别写出相交有效执行权。每次接管使用全局递增 generation，续租不改变身份。机器时钟须同步 UTC；这是客户端租约，不是服务器授时/对抗恶意机器的系统。时间异常、远端协调分支被人为强推、故意复用session或绕过hooks都不在保证内。

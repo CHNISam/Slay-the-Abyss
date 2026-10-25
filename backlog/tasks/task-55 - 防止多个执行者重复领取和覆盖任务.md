@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 04:55'
+updated_date: '2026-10-25 11:54'
 labels: []
 dependencies: []
 priority: high
@@ -33,6 +33,8 @@ ordinal: 94000
 1. 保存最新远端、任务与工作树只读盘点。2. 先写真实bare remote双进程验收，再实现Node Git CAS、租约和generation。3. 接入受控命令、worktree和Git hooks，建立保守迁移隔离及adopt流程。4. 运行相关与串行质量检查，审查并通过当前SHA CI后合入，释放及清理本次工作树。
 
 5. 修复已复现的TASK0映射与泛化隔离死锁：新增受控CAS reconciliation，按确认的HEAD/index/脏文件指纹保留旧记录，串行迁移指定执行者；源树只读、组外持有与未知记录不清除。先写真实Git失败回归，再实现、复审、当前SHA CI及受控合并。
+
+6. 修复新session接管空闲迁移组的协议缺口，核验旧精确HEAD与source指纹；统一集成时保留全部测试和可恢复历史。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -47,4 +49,10 @@ Executor=codex-local-p0，远端generation=1；独立coord/task-claims已非强�
 PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组真实Git测试。收口核对发现新子树会沿用旧控制树基线，补断言先失败后修正：新分支从已fetch的origin/develop创建，已有分支用其自己的fork point；子执行/普通worktree/冲突同步3组通过56138.1491ms。已为保留脏根目录提供Git公共元数据中的稳定入口。该修复必须重跑新SHA CI，旧绿灯不作为最终证据。
 
 第二代协调者在独立feat/task55-m3-reconcile恢复原完整bootstrap范围，修复TASK0/通用目录隔离导致的M3迁移死锁。新增受控CAS reconciliation、真实来源指纹和指定主线程阶段串行，保留所有旧隔离及源树。23组真实Git回归已分批覆盖：整套前16组通过后因远端Schannel续租握手失败被门禁中止；剩余7组在保持证书校验的进程级OpenSSL传输下通过，138675ms。完整单次运行未冒称通过，交当前SHA CI。源码/测试SHA及失败→修复证据写入既有验证JSON。独立只读复审完成；语法、Backlog、whitespace通过。已快进同步develop66f3afb，75卡及双方HANDOFF均保留。业务六源树、warrior75、根dirty未动，尚未登记业务迁移或解除外部未知。AC4继续等待当前SHA完整CI与实际合并。
+
+用户2026-10-25要求新会话统一集成并清理全部旧分支。旧PR206/208已释放但迁移组仍固定旧session，现以新UUID恢复原bootstrap完整范围；补受控空闲组执行者交接，保留来源指纹、阶段、旧session审计、外部unknown与paused。以真实Git回归及当前SHA CI验证，不复用旧receipt。
+
+执行者交接新增真实Git回归先红后绿，覆盖活动组、非协调者、错误SHA、脏树及旧session重入拒绝；保持来源、原claim、阶段、paused和外部unknown，重新adopt必须新generation。统一集成的完整26组测试正在核验，最终结果与源码将纳入现有PR206而不创建报告专用PR。
+
+本轮完整26组真实Git回归单次通过（496617.6971ms，0fail/0skip），日志build/claim-transfer-full.log；最终统一CI仍须在PR206实际提交运行。
 <!-- SECTION:NOTES:END -->
