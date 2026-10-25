@@ -1,0 +1,5 @@
+damage source=guardian_1 target=player hpLost=0 blocked=8 playerHP=7 guardianHP=208
+status_damage source=player target=guardian_1 hpLost=4.0 blocked=0 playerHP=7 guardianHP=204.0
+damage source=guardian_1 target=player hpLost=7 blocked=1.0 playerHP=0 guardianHP=204.0
+EXPECTED playerHP=0 guardianHP=204 reactions=1 RunPhase=defeat
+ACTUAL playerHP=0 guardianHP=204.0 reactions=1 RunPhase=defeat

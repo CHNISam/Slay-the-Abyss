@@ -1,0 +1,8 @@
+tests/lua/card_pool_rewards.lua:33: incomplete reward: true_grit
+stack traceback:
+	[JS]: in function 'assert'
+	tests/lua/card_pool_rewards.lua:33: in local 'fn'
+	tests/lua/card_pool_rewards.lua:7: in local 'test'
+	tests/lua/card_pool_rewards.lua:13: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk

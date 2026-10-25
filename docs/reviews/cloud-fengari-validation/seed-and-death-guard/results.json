@@ -1,0 +1,96 @@
+[
+  {
+    "name": "seed",
+    "cwd": "/workspace/shared/sta-performance-integration-0156/recheck088/candidate",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"tests/lua/run_seed_validation.lua\")"
+    ],
+    "limitSeconds": 30,
+    "seconds": 0.392,
+    "exitCode": 0,
+    "timedOut": false,
+    "stderrEmpty": true,
+    "tail": [
+      "ok 7 - RNG initialization and first draw retain fixed independent source vectors",
+      "RUN_SEED_VALIDATION_PASS 7"
+    ]
+  },
+  {
+    "name": "lethal-incoming-probe",
+    "cwd": "/workspace/shared/sta-reactive-damage-review-0023/candidate-death-guard/candidate",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"../lethal-incoming-probe.lua\")"
+    ],
+    "limitSeconds": 30,
+    "seconds": 0.438,
+    "exitCode": 0,
+    "timedOut": false,
+    "stderrEmpty": true,
+    "tail": [
+      "EXPECTED playerHP=0 guardianHP=204 reactions=1 RunPhase=defeat",
+      "ACTUAL playerHP=0 guardianHP=204.0 reactions=1 RunPhase=defeat"
+    ]
+  },
+  {
+    "name": "reactive-order-probe",
+    "cwd": "/workspace/shared/sta-reactive-damage-review-0023/candidate-death-guard/candidate",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"../reactive-order-probe.lua\")"
+    ],
+    "limitSeconds": 30,
+    "seconds": 1.282,
+    "exitCode": 0,
+    "timedOut": false,
+    "stderrEmpty": true,
+    "tail": [
+      "PASS 7 Sharp Hide death after final Guardian kill overrides victory and stops Run rewards",
+      "RESULT 7 cases, 0 failed; native Lua only, not platform acceptance."
+    ]
+  },
+  {
+    "name": "death-guard-boundaries",
+    "cwd": "/workspace/shared/sta-reactive-damage-review-0023/candidate-death-guard/candidate",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"../death-guard-boundaries.lua\")"
+    ],
+    "limitSeconds": 30,
+    "seconds": 0.287,
+    "exitCode": 0,
+    "timedOut": false,
+    "stderrEmpty": true,
+    "tail": [
+      "PASS 6 empty reactions remain a no-op with nil or missing-player state",
+      "RESULT 6 guard boundaries, 0 failed"
+    ]
+  },
+  {
+    "name": "missing-player-hp-probe",
+    "cwd": "/workspace/shared/sta-reactive-damage-review-0023/candidate-death-guard/candidate",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"../missing-player-hp-probe.lua\")"
+    ],
+    "limitSeconds": 30,
+    "seconds": 0.109,
+    "exitCode": 0,
+    "timedOut": false,
+    "stderrEmpty": true,
+    "tail": [
+      "PASS missing-player-hp callback count=1 targetHP=6"
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+PASS 1 a dead player cannot start an already queued reflection
+PASS 2 death during reverse-TOP drain stops the remaining action
+PASS 3 a dead last enemy can still own damage while the player lives
+PASS 4 nil state preserves injected reverse-TOP damage delivery
+PASS 5 state without player preserves injected damage delivery
+PASS 6 empty reactions remain a no-op with nil or missing-player state
+RESULT 6 guard boundaries, 0 failed
