@@ -119,14 +119,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "普通攻击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "普通攻击"
     },
     {
       "id": "defend",
@@ -241,14 +251,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "防御",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "防御"
     },
     {
       "id": "bash",
@@ -363,14 +383,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "破防斩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "破防斩"
     },
     {
       "id": "anger",
@@ -477,14 +507,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "连续出剑",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "连续出剑"
     },
     {
       "id": "armaments",
@@ -596,14 +636,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "整备武装",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "整备武装"
     },
     {
       "id": "body_slam",
@@ -710,14 +760,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "格挡反击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "格挡反击"
     },
     {
       "id": "clash",
@@ -828,14 +888,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "全力进攻",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "全力进攻"
     },
     {
       "id": "cleave",
@@ -944,14 +1014,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "星陨剑",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "星陨剑"
     },
     {
       "id": "clothesline",
@@ -1058,14 +1138,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "压制斩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "压制斩"
     },
     {
       "id": "flex",
@@ -1172,14 +1262,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "蓄力",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "蓄力"
     },
     {
       "id": "havoc",
@@ -1286,14 +1386,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "临阵变招",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "临阵变招"
     },
     {
       "id": "headbutt",
@@ -1400,14 +1510,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "回身追击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "回身追击"
     },
     {
       "id": "heavy_blade",
@@ -1514,14 +1634,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "重剑斩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "重剑斩"
     },
     {
       "id": "iron_wave",
@@ -1635,14 +1765,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "招架还击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "招架还击"
     },
     {
       "id": "perfected_strike",
@@ -1749,14 +1889,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "剑势如虹",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "剑势如虹"
     },
     {
       "id": "pommel_strike",
@@ -1865,14 +2015,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "试探一击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "试探一击"
     },
     {
       "id": "shrug_it_off",
@@ -1982,14 +2142,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "伺机而动",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "伺机而动"
     },
     {
       "id": "sword_boomerang",
@@ -2096,14 +2266,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "回旋连斩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "回旋连斩"
     },
     {
       "id": "thunderclap",
@@ -2210,14 +2390,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "横扫破防",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "横扫破防"
     },
     {
       "id": "true_grit",
@@ -2326,14 +2516,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "稳住阵脚",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "稳住阵脚"
     },
     {
       "id": "twin_strike",
@@ -2440,14 +2640,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "重击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "重击"
     },
     {
       "id": "warcry",
@@ -2554,14 +2764,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "调整战术",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "调整战术"
     },
     {
       "id": "wild_strike",
@@ -2670,14 +2890,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "猛进斩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "猛进斩"
     },
     {
       "id": "battle_trance",
@@ -2784,14 +3014,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "集中精神",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "集中精神"
     },
     {
       "id": "blood_for_blood",
@@ -2902,14 +3142,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "负伤反击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "负伤反击"
     },
     {
       "id": "bloodletting",
@@ -3016,14 +3266,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "透支",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "透支"
     },
     {
       "id": "burning_pact",
@@ -3130,14 +3390,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "弃旧筹新",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "弃旧筹新"
     },
     {
       "id": "carnage",
@@ -3244,14 +3514,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "抓住战机",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "抓住战机"
     },
     {
       "id": "combust",
@@ -3358,14 +3638,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "强攻压阵",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "强攻压阵"
     },
     {
       "id": "dark_embrace",
@@ -3472,14 +3762,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "临机应变",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "临机应变"
     },
     {
       "id": "disarm",
@@ -3586,14 +3886,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "压制攻势",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "压制攻势"
     },
     {
       "id": "dropkick",
@@ -3700,14 +4010,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "乘隙追击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "乘隙追击"
     },
     {
       "id": "dual_wield",
@@ -3814,14 +4134,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "再演剑势",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "再演剑势"
     },
     {
       "id": "entrench",
@@ -3928,14 +4258,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "加固防线",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "加固防线"
     },
     {
       "id": "evolve",
@@ -4042,14 +4382,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "逆境求变",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "逆境求变"
     },
     {
       "id": "feel_no_pain",
@@ -4158,14 +4508,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "百折不挠",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "百折不挠"
     },
     {
       "id": "fire_breathing",
@@ -4272,14 +4632,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "逆势反攻",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "逆势反攻"
     },
     {
       "id": "flame_barrier",
@@ -4388,14 +4758,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "反击架势",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "反击架势"
     },
     {
       "id": "ghostly_armor",
@@ -4502,14 +4882,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "及时招架",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "及时招架"
     },
     {
       "id": "hemokinesis",
@@ -4618,14 +5008,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "舍身进攻",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "舍身进攻"
     },
     {
       "id": "infernal_blade",
@@ -4732,14 +5132,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "临阵试招",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "临阵试招"
     },
     {
       "id": "inflame",
@@ -4846,14 +5256,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "剑术精进",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "剑术精进"
     },
     {
       "id": "intimidate",
@@ -4960,14 +5380,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "威慑",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "威慑"
     },
     {
       "id": "metallicize",
@@ -5074,14 +5504,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "持续防守",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "持续防守"
     },
     {
       "id": "power_through",
@@ -5193,14 +5633,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "强行固守",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "强行固守"
     },
     {
       "id": "pummel",
@@ -5307,14 +5757,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "疾风连斩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "疾风连斩"
     },
     {
       "id": "rage",
@@ -5421,14 +5881,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "攻守相济",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "攻守相济"
     },
     {
       "id": "rampage",
@@ -5535,14 +6005,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "越战越勇",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "越战越勇"
     },
     {
       "id": "reckless_charge",
@@ -5649,14 +6129,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "疾步突进",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "疾步突进"
     },
     {
       "id": "rupture",
@@ -5763,14 +6253,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "愈挫愈勇",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "愈挫愈勇"
     },
     {
       "id": "searing_blow",
@@ -5877,14 +6377,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "千锤一剑",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "千锤一剑"
     },
     {
       "id": "second_wind",
@@ -5991,14 +6501,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "弃繁守拙",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "弃繁守拙"
     },
     {
       "id": "seeing_red",
@@ -6105,14 +6625,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "重整旗鼓",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "重整旗鼓"
     },
     {
       "id": "sentinel",
@@ -6223,14 +6753,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "后援守势",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "后援守势"
     },
     {
       "id": "sever_soul",
@@ -6337,14 +6877,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "弃守强攻",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "弃守强攻"
     },
     {
       "id": "shockwave",
@@ -6451,14 +7001,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "震慑敌阵",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "震慑敌阵"
     },
     {
       "id": "spot_weakness",
@@ -6565,14 +7125,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "洞察破绽",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "洞察破绽"
     },
     {
       "id": "uppercut",
@@ -6679,14 +7249,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "挑剑破势",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "挑剑破势"
     },
     {
       "id": "whirlwind",
@@ -6795,14 +7375,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "岩潮叠嶂",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "岩潮叠嶂"
     },
     {
       "id": "barricade",
@@ -6909,14 +7499,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "永世的磐岩",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "永世的磐岩"
     },
     {
       "id": "berserk",
@@ -7023,14 +7623,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "背水之战",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "背水之战"
     },
     {
       "id": "bludgeon",
@@ -7137,14 +7747,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "全力一击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "全力一击"
     },
     {
       "id": "brutality",
@@ -7251,14 +7871,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "破釜沉舟",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "破釜沉舟"
     },
     {
       "id": "corruption",
@@ -7365,14 +7995,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "孤注一掷",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "孤注一掷"
     },
     {
       "id": "demon_form",
@@ -7479,14 +8119,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "渐入佳境",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "渐入佳境"
     },
     {
       "id": "double_tap",
@@ -7593,14 +8243,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "叠势连击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "叠势连击"
     },
     {
       "id": "exhume",
@@ -7707,14 +8367,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "重拾旧策",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "重拾旧策"
     },
     {
       "id": "feed",
@@ -7821,14 +8491,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "乘胜壮行",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "乘胜壮行"
     },
     {
       "id": "fiend_fire",
@@ -7935,14 +8615,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "舍尽一击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "舍尽一击"
     },
     {
       "id": "immolate",
@@ -8049,14 +8739,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "摧阵一击",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "摧阵一击"
     },
     {
       "id": "impervious",
@@ -8163,14 +8863,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "坚守",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "坚守"
     },
     {
       "id": "juggernaut",
@@ -8277,14 +8987,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "守中有攻",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "守中有攻"
     },
     {
       "id": "limit_break",
@@ -8391,14 +9111,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "剑意突破",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "剑意突破"
     },
     {
       "id": "offering",
@@ -8505,14 +9235,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "奋力一搏",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "奋力一搏"
     },
     {
       "id": "reaper",
@@ -8619,14 +9359,24 @@
           "boundary": "Explicit core and real public transaction fixtures with test funding/navigation, not per-card natural acquisition/full UI acceptance",
           "disposal": true,
           "supplementaryEvidence": "probe-c8b65f8.json"
+        },
+        "presentation": {
+          "name": "以战养战",
+          "local": "passed",
+          "build": "pending new normal candidate",
+          "imported": false,
+          "live": false,
+          "evidence": "display-names-restored.json"
         }
       },
       "strictAcceptance": "pending",
       "remaining": [
         "当前5ceef2c本地150版本/49交互、60模块审计及官方1864原生9/9已过；当前正常流程重测与逐卡自然覆盖待齐",
         "逐卡自然实玩与整体UI门禁未齐；原生150+75渠道和定点UI已过",
-        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验"
-      ]
+        "固定镜像/池序oracle及官方V2.2数值变更已核对，未认证原PC二进制；外部随机历史/Courier自然取得购买待验",
+        "中文呈现名已恢复并过本地回归；新正式候选构建/导入/界面实测独立验收，不借用旧英文截图"
+      ],
+      "displayName": "以战养战"
     }
   ],
   "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
@@ -8752,5 +9502,11 @@
     "status": "passed9/9;150variants49edges75channels;no native fault",
     "sourceReadback": "62/62 before play",
     "boundary": "Explicit test fixtures: inventory, funding and navigation injected and marked. Native runtime execution and physical selected controls passed; does not certify all75 natural deckbuilding or full UI/mobile. Manual Exit requested defeat after assertions; generic early-end warning is reconciled by actual settlement_requested defeat log and physical confirmation."
+  },
+  "presentationCorrection": {
+    "evidence": "display-names-restored.json",
+    "status": "Chinese display restored40 legacy+38 new class+2status;local verified;native build/import/play pending",
+    "sourceIdentity": "id/sts_name and every non-name rule field unchanged",
+    "historicalNativeBoundary": "5ceef2c native screenshots show old English display; they do not certify restored Chinese presentation"
   }
 }

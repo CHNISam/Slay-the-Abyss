@@ -19,7 +19,7 @@
     {
       "id": "strike",
       "sts_name": "Strike",
-      "name": "Strike",
+      "name": "打击",
       "type": "attack",
       "rarity": "basic",
       "cost": 1,
@@ -46,7 +46,7 @@
     {
       "id": "defend",
       "sts_name": "Defend",
-      "name": "Defend",
+      "name": "防御",
       "type": "skill",
       "rarity": "basic",
       "cost": 1,
@@ -72,7 +72,7 @@
     {
       "id": "bash",
       "sts_name": "Bash",
-      "name": "Bash",
+      "name": "痛击",
       "type": "attack",
       "rarity": "basic",
       "cost": 2,
@@ -108,7 +108,7 @@
     {
       "id": "anger",
       "sts_name": "Anger",
-      "name": "Anger",
+      "name": "怒斩",
       "type": "attack",
       "rarity": "common",
       "cost": 0,
@@ -142,7 +142,7 @@
     {
       "id": "armaments",
       "sts_name": "Armaments",
-      "name": "Armaments",
+      "name": "砺刃",
       "type": "skill",
       "rarity": "common",
       "cost": 1,
@@ -175,7 +175,7 @@
     {
       "id": "body_slam",
       "sts_name": "Body Slam",
-      "name": "Body Slam",
+      "name": "以身相搏",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -195,7 +195,7 @@
     {
       "id": "clash",
       "sts_name": "Clash",
-      "name": "Clash",
+      "name": "破阵击",
       "type": "attack",
       "rarity": "common",
       "cost": 0,
@@ -222,7 +222,7 @@
     {
       "id": "cleave",
       "sts_name": "Cleave",
-      "name": "Cleave",
+      "name": "横扫",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -248,7 +248,7 @@
     {
       "id": "clothesline",
       "sts_name": "Clothesline",
-      "name": "Clothesline",
+      "name": "锁喉击",
       "type": "attack",
       "rarity": "common",
       "cost": 2,
@@ -284,7 +284,7 @@
     {
       "id": "flex",
       "sts_name": "Flex",
-      "name": "Flex",
+      "name": "绷紧",
       "type": "skill",
       "rarity": "common",
       "cost": 0,
@@ -312,7 +312,7 @@
     {
       "id": "havoc",
       "sts_name": "Havoc",
-      "name": "Havoc",
+      "name": "豪夺",
       "type": "skill",
       "rarity": "common",
       "cost": 1,
@@ -332,7 +332,7 @@
     {
       "id": "headbutt",
       "sts_name": "Headbutt",
-      "name": "Headbutt",
+      "name": "铁头功",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -364,7 +364,7 @@
     {
       "id": "heavy_blade",
       "sts_name": "Heavy Blade",
-      "name": "Heavy Blade",
+      "name": "重刃",
       "type": "attack",
       "rarity": "common",
       "cost": 2,
@@ -386,7 +386,7 @@
     {
       "id": "iron_wave",
       "sts_name": "Iron Wave",
-      "name": "Iron Wave",
+      "name": "铁浪",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -420,7 +420,7 @@
     {
       "id": "perfected_strike",
       "sts_name": "Perfected Strike",
-      "name": "Perfected Strike",
+      "name": "完美打击",
       "type": "attack",
       "rarity": "common",
       "cost": 2,
@@ -449,7 +449,7 @@
     {
       "id": "pommel_strike",
       "sts_name": "Pommel Strike",
-      "name": "Pommel Strike",
+      "name": "柄击",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -484,7 +484,7 @@
     {
       "id": "shrug_it_off",
       "sts_name": "Shrug It Off",
-      "name": "Shrug It Off",
+      "name": "硬抗",
       "type": "skill",
       "rarity": "common",
       "cost": 1,
@@ -518,7 +518,7 @@
     {
       "id": "sword_boomerang",
       "sts_name": "Sword Boomerang",
-      "name": "Sword Boomerang",
+      "name": "回旋剑",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -546,7 +546,7 @@
     {
       "id": "thunderclap",
       "sts_name": "Thunderclap",
-      "name": "Thunderclap",
+      "name": "惊雷",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -582,7 +582,7 @@
     {
       "id": "true_grit",
       "sts_name": "True Grit",
-      "name": "True Grit",
+      "name": "坚毅",
       "type": "skill",
       "rarity": "common",
       "cost": 1,
@@ -616,7 +616,7 @@
     {
       "id": "twin_strike",
       "sts_name": "Twin Strike",
-      "name": "Twin Strike",
+      "name": "双重打击",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -645,7 +645,7 @@
     {
       "id": "warcry",
       "sts_name": "Warcry",
-      "name": "Warcry",
+      "name": "战吼",
       "type": "skill",
       "rarity": "common",
       "cost": 0,
@@ -678,7 +678,7 @@
     {
       "id": "wild_strike",
       "sts_name": "Wild Strike",
-      "name": "Wild Strike",
+      "name": "狂野挥砍",
       "type": "attack",
       "rarity": "common",
       "cost": 1,
@@ -715,7 +715,7 @@
     {
       "id": "battle_trance",
       "sts_name": "Battle Trance",
-      "name": "Battle Trance",
+      "name": "战斗恍惚",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 0,
@@ -747,7 +747,7 @@
     {
       "id": "blood_for_blood",
       "sts_name": "Blood for Blood",
-      "name": "Blood for Blood",
+      "name": "血债血偿",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 4,
@@ -774,7 +774,7 @@
     {
       "id": "bloodletting",
       "sts_name": "Bloodletting",
-      "name": "Bloodletting",
+      "name": "放血",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 0,
@@ -808,7 +808,7 @@
     {
       "id": "burning_pact",
       "sts_name": "Burning Pact",
-      "name": "Burning Pact",
+      "name": "焚约",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -842,7 +842,7 @@
     {
       "id": "carnage",
       "sts_name": "Carnage",
-      "name": "Carnage",
+      "name": "屠戮",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 2,
@@ -870,7 +870,7 @@
     {
       "id": "combust",
       "sts_name": "Combust",
-      "name": "Combust",
+      "name": "自燃",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -898,7 +898,7 @@
     {
       "id": "dark_embrace",
       "sts_name": "Dark Embrace",
-      "name": "Dark Embrace",
+      "name": "暗拥",
       "type": "power",
       "rarity": "uncommon",
       "cost": 2,
@@ -920,7 +920,7 @@
     {
       "id": "disarm",
       "sts_name": "Disarm",
-      "name": "Disarm",
+      "name": "缴械",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -949,7 +949,7 @@
     {
       "id": "dropkick",
       "sts_name": "Dropkick",
-      "name": "Dropkick",
+      "name": "飞踢",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 1,
@@ -1003,7 +1003,7 @@
     {
       "id": "dual_wield",
       "sts_name": "Dual Wield",
-      "name": "Dual Wield",
+      "name": "双持",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1029,7 +1029,7 @@
     {
       "id": "entrench",
       "sts_name": "Entrench",
-      "name": "Entrench",
+      "name": "掘壕",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 2,
@@ -1049,7 +1049,7 @@
     {
       "id": "evolve",
       "sts_name": "Evolve",
-      "name": "Evolve",
+      "name": "进化",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -1077,7 +1077,7 @@
     {
       "id": "feel_no_pain",
       "sts_name": "Feel No Pain",
-      "name": "Feel No Pain",
+      "name": "无痛",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -1105,7 +1105,7 @@
     {
       "id": "fire_breathing",
       "sts_name": "Fire Breathing",
-      "name": "Fire Breathing",
+      "name": "火焰吐息",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -1133,7 +1133,7 @@
     {
       "id": "flame_barrier",
       "sts_name": "Flame Barrier",
-      "name": "Flame Barrier",
+      "name": "烈焰屏障",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 2,
@@ -1169,7 +1169,7 @@
     {
       "id": "ghostly_armor",
       "sts_name": "Ghostly Armor",
-      "name": "Ghostly Armor",
+      "name": "幽灵护甲",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1196,7 +1196,7 @@
     {
       "id": "hemokinesis",
       "sts_name": "Hemokinesis",
-      "name": "Hemokinesis",
+      "name": "控血",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 1,
@@ -1230,7 +1230,7 @@
     {
       "id": "infernal_blade",
       "sts_name": "Infernal Blade",
-      "name": "Infernal Blade",
+      "name": "炼狱之刃",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1252,7 +1252,7 @@
     {
       "id": "inflame",
       "sts_name": "Inflame",
-      "name": "Inflame",
+      "name": "燃血",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -1280,7 +1280,7 @@
     {
       "id": "intimidate",
       "sts_name": "Intimidate",
-      "name": "Intimidate",
+      "name": "威吓",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 0,
@@ -1309,7 +1309,7 @@
     {
       "id": "metallicize",
       "sts_name": "Metallicize",
-      "name": "Metallicize",
+      "name": "金属化",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -1337,7 +1337,7 @@
     {
       "id": "power_through",
       "sts_name": "Power Through",
-      "name": "Power Through",
+      "name": "强突",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1373,7 +1373,7 @@
     {
       "id": "pummel",
       "sts_name": "Pummel",
-      "name": "Pummel",
+      "name": "连击",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 1,
@@ -1402,7 +1402,7 @@
     {
       "id": "rage",
       "sts_name": "Rage",
-      "name": "Rage",
+      "name": "狂怒",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 0,
@@ -1430,7 +1430,7 @@
     {
       "id": "rampage",
       "sts_name": "Rampage",
-      "name": "Rampage",
+      "name": "狂暴",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 1,
@@ -1464,7 +1464,7 @@
     {
       "id": "reckless_charge",
       "sts_name": "Reckless Charge",
-      "name": "Reckless Charge",
+      "name": "莽撞冲锋",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 0,
@@ -1500,7 +1500,7 @@
     {
       "id": "rupture",
       "sts_name": "Rupture",
-      "name": "Rupture",
+      "name": "破裂",
       "type": "power",
       "rarity": "uncommon",
       "cost": 1,
@@ -1528,7 +1528,7 @@
     {
       "id": "searing_blow",
       "sts_name": "Searing Blow",
-      "name": "Searing Blow",
+      "name": "灼热打击",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 2,
@@ -1555,7 +1555,7 @@
     {
       "id": "second_wind",
       "sts_name": "Second Wind",
-      "name": "Second Wind",
+      "name": "二度呼吸",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1581,7 +1581,7 @@
     {
       "id": "seeing_red",
       "sts_name": "Seeing Red",
-      "name": "Seeing Red",
+      "name": "眼红",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1603,7 +1603,7 @@
     {
       "id": "sentinel",
       "sts_name": "Sentinel",
-      "name": "Sentinel",
+      "name": "哨卫",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1631,7 +1631,7 @@
     {
       "id": "sever_soul",
       "sts_name": "Sever Soul",
-      "name": "Sever Soul",
+      "name": "断魂",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 2,
@@ -1663,7 +1663,7 @@
     {
       "id": "shockwave",
       "sts_name": "Shockwave",
-      "name": "Shockwave",
+      "name": "冲击波",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 2,
@@ -1706,7 +1706,7 @@
     {
       "id": "spot_weakness",
       "sts_name": "Spot Weakness",
-      "name": "Spot Weakness",
+      "name": "弱点侦测",
       "type": "skill",
       "rarity": "uncommon",
       "cost": 1,
@@ -1732,7 +1732,7 @@
     {
       "id": "uppercut",
       "sts_name": "Uppercut",
-      "name": "Uppercut",
+      "name": "上勾拳",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 2,
@@ -1778,7 +1778,7 @@
     {
       "id": "whirlwind",
       "sts_name": "Whirlwind",
-      "name": "Whirlwind",
+      "name": "旋风斩",
       "type": "attack",
       "rarity": "uncommon",
       "cost": 0,
@@ -1807,7 +1807,7 @@
     {
       "id": "barricade",
       "sts_name": "Barricade",
-      "name": "Barricade",
+      "name": "壁垒",
       "type": "power",
       "rarity": "rare",
       "cost": 3,
@@ -1829,7 +1829,7 @@
     {
       "id": "berserk",
       "sts_name": "Berserk",
-      "name": "Berserk",
+      "name": "狂战",
       "type": "power",
       "rarity": "rare",
       "cost": 0,
@@ -1867,7 +1867,7 @@
     {
       "id": "bludgeon",
       "sts_name": "Bludgeon",
-      "name": "Bludgeon",
+      "name": "重击",
       "type": "attack",
       "rarity": "rare",
       "cost": 3,
@@ -1893,7 +1893,7 @@
     {
       "id": "brutality",
       "sts_name": "Brutality",
-      "name": "Brutality",
+      "name": "残暴",
       "type": "power",
       "rarity": "rare",
       "cost": 0,
@@ -1923,7 +1923,7 @@
     {
       "id": "corruption",
       "sts_name": "Corruption",
-      "name": "Corruption",
+      "name": "腐化",
       "type": "power",
       "rarity": "rare",
       "cost": 3,
@@ -1945,7 +1945,7 @@
     {
       "id": "demon_form",
       "sts_name": "Demon Form",
-      "name": "Demon Form",
+      "name": "恶魔形态",
       "type": "power",
       "rarity": "rare",
       "cost": 3,
@@ -1973,7 +1973,7 @@
     {
       "id": "double_tap",
       "sts_name": "Double Tap",
-      "name": "Double Tap",
+      "name": "双击",
       "type": "skill",
       "rarity": "rare",
       "cost": 1,
@@ -2001,7 +2001,7 @@
     {
       "id": "exhume",
       "sts_name": "Exhume",
-      "name": "Exhume",
+      "name": "掘尸",
       "type": "skill",
       "rarity": "rare",
       "cost": 1,
@@ -2022,7 +2022,7 @@
     {
       "id": "feed",
       "sts_name": "Feed",
-      "name": "Feed",
+      "name": "进食",
       "type": "attack",
       "rarity": "rare",
       "cost": 1,
@@ -2052,7 +2052,7 @@
     {
       "id": "fiend_fire",
       "sts_name": "Fiend Fire",
-      "name": "Fiend Fire",
+      "name": "魔炎",
       "type": "attack",
       "rarity": "rare",
       "cost": 2,
@@ -2079,7 +2079,7 @@
     {
       "id": "immolate",
       "sts_name": "Immolate",
-      "name": "Immolate",
+      "name": "焚尽",
       "type": "attack",
       "rarity": "rare",
       "cost": 2,
@@ -2115,7 +2115,7 @@
     {
       "id": "impervious",
       "sts_name": "Impervious",
-      "name": "Impervious",
+      "name": "铜墙铁壁",
       "type": "skill",
       "rarity": "rare",
       "cost": 2,
@@ -2142,7 +2142,7 @@
     {
       "id": "juggernaut",
       "sts_name": "Juggernaut",
-      "name": "Juggernaut",
+      "name": "碾压者",
       "type": "power",
       "rarity": "rare",
       "cost": 2,
@@ -2170,7 +2170,7 @@
     {
       "id": "limit_break",
       "sts_name": "Limit Break",
-      "name": "Limit Break",
+      "name": "极限突破",
       "type": "skill",
       "rarity": "rare",
       "cost": 1,
@@ -2196,7 +2196,7 @@
     {
       "id": "offering",
       "sts_name": "Offering",
-      "name": "Offering",
+      "name": "祭品",
       "type": "skill",
       "rarity": "rare",
       "cost": 0,
@@ -2239,7 +2239,7 @@
     {
       "id": "reaper",
       "sts_name": "Reaper",
-      "name": "Reaper",
+      "name": "收割",
       "type": "attack",
       "rarity": "rare",
       "cost": 2,
@@ -2266,7 +2266,7 @@
     },
     {
       "id": "dazed",
-      "name": "Dazed",
+      "name": "晕眩",
       "type": "status",
       "rarity": "common",
       "cost": -2,
@@ -2277,7 +2277,7 @@
     },
     {
       "id": "slimed",
-      "name": "Slimed",
+      "name": "黏滞",
       "type": "status",
       "rarity": "common",
       "cost": 1,
@@ -2288,7 +2288,7 @@
     },
     {
       "id": "regret",
-      "name": "Regret",
+      "name": "余悔",
       "sts_name": "Regret",
       "type": "curse",
       "rarity": "curse",
@@ -2298,7 +2298,7 @@
     },
     {
       "id": "wound",
-      "name": "Wound",
+      "name": "伤口",
       "sts_name": "Wound",
       "type": "status",
       "rarity": "common",
@@ -2308,7 +2308,7 @@
     },
     {
       "id": "burn",
-      "name": "Burn",
+      "name": "灼烧",
       "sts_name": "Burn",
       "type": "status",
       "rarity": "common",

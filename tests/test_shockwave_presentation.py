@@ -21,7 +21,7 @@ class ShockwavePresentationTests(unittest.TestCase):
         before = copy.deepcopy((source, overlay))
         rendered = r.render_cards(source, overlay)
         result = next(c for c in rendered['cards'] if c['id'] == 'shockwave')
-        self.assertEqual(result, dict(id='shockwave', name='Shockwave', cost='2', upgradeCost='2',
+        self.assertEqual(result, dict(id='shockwave', name='震慑敌阵', cost='2', upgradeCost='2',
             text='为每个敌人施加 3 回合虚弱和 3 回合易伤。打出后消耗本牌。',
             upgradeText='为每个敌人施加 5 回合虚弱和 5 回合易伤。打出后消耗本牌。'))
         for card in source['cards']:

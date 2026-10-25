@@ -1,0 +1,532 @@
+{
+  "baseline": "9ae1aec",
+  "legacyDisplayNamesRestored": 40,
+  "newClassDisplayNames": 38,
+  "additionalStatusDisplayNames": 2,
+  "rulePayloadExcludingNameSha256": "9c416a220a01a9c2eec7d46f1d0b6187a562938766b1d27dd8be8782002c8dc9",
+  "rulePayloadUnchanged": true,
+  "sourceIdentity": "stable id and sts_name unchanged; display names are traveler.zh-CN only",
+  "platform": "not imported or visually retested; user is playing current client",
+  "cards": [
+    {
+      "id": "strike",
+      "originalName": "Strike",
+      "displayName": "普通攻击",
+      "legacy": true
+    },
+    {
+      "id": "defend",
+      "originalName": "Defend",
+      "displayName": "防御",
+      "legacy": true
+    },
+    {
+      "id": "bash",
+      "originalName": "Bash",
+      "displayName": "破防斩",
+      "legacy": true
+    },
+    {
+      "id": "anger",
+      "originalName": "Anger",
+      "displayName": "连续出剑",
+      "legacy": true
+    },
+    {
+      "id": "armaments",
+      "originalName": "Armaments",
+      "displayName": "整备武装",
+      "legacy": false
+    },
+    {
+      "id": "body_slam",
+      "originalName": "Body Slam",
+      "displayName": "格挡反击",
+      "legacy": true
+    },
+    {
+      "id": "clash",
+      "originalName": "Clash",
+      "displayName": "全力进攻",
+      "legacy": true
+    },
+    {
+      "id": "cleave",
+      "originalName": "Cleave",
+      "displayName": "星陨剑",
+      "legacy": true
+    },
+    {
+      "id": "clothesline",
+      "originalName": "Clothesline",
+      "displayName": "压制斩",
+      "legacy": true
+    },
+    {
+      "id": "flex",
+      "originalName": "Flex",
+      "displayName": "蓄力",
+      "legacy": true
+    },
+    {
+      "id": "havoc",
+      "originalName": "Havoc",
+      "displayName": "临阵变招",
+      "legacy": false
+    },
+    {
+      "id": "headbutt",
+      "originalName": "Headbutt",
+      "displayName": "回身追击",
+      "legacy": false
+    },
+    {
+      "id": "heavy_blade",
+      "originalName": "Heavy Blade",
+      "displayName": "重剑斩",
+      "legacy": false
+    },
+    {
+      "id": "iron_wave",
+      "originalName": "Iron Wave",
+      "displayName": "招架还击",
+      "legacy": true
+    },
+    {
+      "id": "perfected_strike",
+      "originalName": "Perfected Strike",
+      "displayName": "剑势如虹",
+      "legacy": false
+    },
+    {
+      "id": "pommel_strike",
+      "originalName": "Pommel Strike",
+      "displayName": "试探一击",
+      "legacy": true
+    },
+    {
+      "id": "shrug_it_off",
+      "originalName": "Shrug It Off",
+      "displayName": "伺机而动",
+      "legacy": true
+    },
+    {
+      "id": "sword_boomerang",
+      "originalName": "Sword Boomerang",
+      "displayName": "回旋连斩",
+      "legacy": false
+    },
+    {
+      "id": "thunderclap",
+      "originalName": "Thunderclap",
+      "displayName": "横扫破防",
+      "legacy": true
+    },
+    {
+      "id": "true_grit",
+      "originalName": "True Grit",
+      "displayName": "稳住阵脚",
+      "legacy": true
+    },
+    {
+      "id": "twin_strike",
+      "originalName": "Twin Strike",
+      "displayName": "重击",
+      "legacy": true
+    },
+    {
+      "id": "warcry",
+      "originalName": "Warcry",
+      "displayName": "调整战术",
+      "legacy": true
+    },
+    {
+      "id": "wild_strike",
+      "originalName": "Wild Strike",
+      "displayName": "猛进斩",
+      "legacy": false
+    },
+    {
+      "id": "battle_trance",
+      "originalName": "Battle Trance",
+      "displayName": "集中精神",
+      "legacy": true
+    },
+    {
+      "id": "blood_for_blood",
+      "originalName": "Blood for Blood",
+      "displayName": "负伤反击",
+      "legacy": false
+    },
+    {
+      "id": "bloodletting",
+      "originalName": "Bloodletting",
+      "displayName": "透支",
+      "legacy": true
+    },
+    {
+      "id": "burning_pact",
+      "originalName": "Burning Pact",
+      "displayName": "弃旧筹新",
+      "legacy": false
+    },
+    {
+      "id": "carnage",
+      "originalName": "Carnage",
+      "displayName": "抓住战机",
+      "legacy": true
+    },
+    {
+      "id": "combust",
+      "originalName": "Combust",
+      "displayName": "强攻压阵",
+      "legacy": false
+    },
+    {
+      "id": "dark_embrace",
+      "originalName": "Dark Embrace",
+      "displayName": "临机应变",
+      "legacy": false
+    },
+    {
+      "id": "disarm",
+      "originalName": "Disarm",
+      "displayName": "压制攻势",
+      "legacy": true
+    },
+    {
+      "id": "dropkick",
+      "originalName": "Dropkick",
+      "displayName": "乘隙追击",
+      "legacy": true
+    },
+    {
+      "id": "dual_wield",
+      "originalName": "Dual Wield",
+      "displayName": "再演剑势",
+      "legacy": false
+    },
+    {
+      "id": "entrench",
+      "originalName": "Entrench",
+      "displayName": "加固防线",
+      "legacy": true
+    },
+    {
+      "id": "evolve",
+      "originalName": "Evolve",
+      "displayName": "逆境求变",
+      "legacy": false
+    },
+    {
+      "id": "feel_no_pain",
+      "originalName": "Feel No Pain",
+      "displayName": "百折不挠",
+      "legacy": false
+    },
+    {
+      "id": "fire_breathing",
+      "originalName": "Fire Breathing",
+      "displayName": "逆势反攻",
+      "legacy": false
+    },
+    {
+      "id": "flame_barrier",
+      "originalName": "Flame Barrier",
+      "displayName": "反击架势",
+      "legacy": false
+    },
+    {
+      "id": "ghostly_armor",
+      "originalName": "Ghostly Armor",
+      "displayName": "及时招架",
+      "legacy": true
+    },
+    {
+      "id": "hemokinesis",
+      "originalName": "Hemokinesis",
+      "displayName": "舍身进攻",
+      "legacy": true
+    },
+    {
+      "id": "infernal_blade",
+      "originalName": "Infernal Blade",
+      "displayName": "临阵试招",
+      "legacy": false
+    },
+    {
+      "id": "inflame",
+      "originalName": "Inflame",
+      "displayName": "剑术精进",
+      "legacy": true
+    },
+    {
+      "id": "intimidate",
+      "originalName": "Intimidate",
+      "displayName": "威慑",
+      "legacy": false
+    },
+    {
+      "id": "metallicize",
+      "originalName": "Metallicize",
+      "displayName": "持续防守",
+      "legacy": true
+    },
+    {
+      "id": "power_through",
+      "originalName": "Power Through",
+      "displayName": "强行固守",
+      "legacy": false
+    },
+    {
+      "id": "pummel",
+      "originalName": "Pummel",
+      "displayName": "疾风连斩",
+      "legacy": false
+    },
+    {
+      "id": "rage",
+      "originalName": "Rage",
+      "displayName": "攻守相济",
+      "legacy": false
+    },
+    {
+      "id": "rampage",
+      "originalName": "Rampage",
+      "displayName": "越战越勇",
+      "legacy": true
+    },
+    {
+      "id": "reckless_charge",
+      "originalName": "Reckless Charge",
+      "displayName": "疾步突进",
+      "legacy": false
+    },
+    {
+      "id": "rupture",
+      "originalName": "Rupture",
+      "displayName": "愈挫愈勇",
+      "legacy": false
+    },
+    {
+      "id": "searing_blow",
+      "originalName": "Searing Blow",
+      "displayName": "千锤一剑",
+      "legacy": false
+    },
+    {
+      "id": "second_wind",
+      "originalName": "Second Wind",
+      "displayName": "弃繁守拙",
+      "legacy": false
+    },
+    {
+      "id": "seeing_red",
+      "originalName": "Seeing Red",
+      "displayName": "重整旗鼓",
+      "legacy": true
+    },
+    {
+      "id": "sentinel",
+      "originalName": "Sentinel",
+      "displayName": "后援守势",
+      "legacy": false
+    },
+    {
+      "id": "sever_soul",
+      "originalName": "Sever Soul",
+      "displayName": "弃守强攻",
+      "legacy": false
+    },
+    {
+      "id": "shockwave",
+      "originalName": "Shockwave",
+      "displayName": "震慑敌阵",
+      "legacy": true
+    },
+    {
+      "id": "spot_weakness",
+      "originalName": "Spot Weakness",
+      "displayName": "洞察破绽",
+      "legacy": false
+    },
+    {
+      "id": "uppercut",
+      "originalName": "Uppercut",
+      "displayName": "挑剑破势",
+      "legacy": true
+    },
+    {
+      "id": "whirlwind",
+      "originalName": "Whirlwind",
+      "displayName": "岩潮叠嶂",
+      "legacy": true
+    },
+    {
+      "id": "barricade",
+      "originalName": "Barricade",
+      "displayName": "永世的磐岩",
+      "legacy": true
+    },
+    {
+      "id": "berserk",
+      "originalName": "Berserk",
+      "displayName": "背水之战",
+      "legacy": false
+    },
+    {
+      "id": "bludgeon",
+      "originalName": "Bludgeon",
+      "displayName": "全力一击",
+      "legacy": true
+    },
+    {
+      "id": "brutality",
+      "originalName": "Brutality",
+      "displayName": "破釜沉舟",
+      "legacy": false
+    },
+    {
+      "id": "corruption",
+      "originalName": "Corruption",
+      "displayName": "孤注一掷",
+      "legacy": false
+    },
+    {
+      "id": "demon_form",
+      "originalName": "Demon Form",
+      "displayName": "渐入佳境",
+      "legacy": true
+    },
+    {
+      "id": "double_tap",
+      "originalName": "Double Tap",
+      "displayName": "叠势连击",
+      "legacy": false
+    },
+    {
+      "id": "exhume",
+      "originalName": "Exhume",
+      "displayName": "重拾旧策",
+      "legacy": false
+    },
+    {
+      "id": "feed",
+      "originalName": "Feed",
+      "displayName": "乘胜壮行",
+      "legacy": false
+    },
+    {
+      "id": "fiend_fire",
+      "originalName": "Fiend Fire",
+      "displayName": "舍尽一击",
+      "legacy": false
+    },
+    {
+      "id": "immolate",
+      "originalName": "Immolate",
+      "displayName": "摧阵一击",
+      "legacy": false
+    },
+    {
+      "id": "impervious",
+      "originalName": "Impervious",
+      "displayName": "坚守",
+      "legacy": true
+    },
+    {
+      "id": "juggernaut",
+      "originalName": "Juggernaut",
+      "displayName": "守中有攻",
+      "legacy": false
+    },
+    {
+      "id": "limit_break",
+      "originalName": "Limit Break",
+      "displayName": "剑意突破",
+      "legacy": false
+    },
+    {
+      "id": "offering",
+      "originalName": "Offering",
+      "displayName": "奋力一搏",
+      "legacy": true
+    },
+    {
+      "id": "reaper",
+      "originalName": "Reaper",
+      "displayName": "以战养战",
+      "legacy": true
+    },
+    {
+      "id": "dazed",
+      "originalName": "Dazed",
+      "displayName": "晕眩",
+      "legacy": true
+    },
+    {
+      "id": "slimed",
+      "originalName": "Slimed",
+      "displayName": "黏滞",
+      "legacy": true
+    },
+    {
+      "id": "regret",
+      "originalName": "Regret",
+      "displayName": "余悔",
+      "legacy": true
+    },
+    {
+      "id": "wound",
+      "originalName": "Wound",
+      "displayName": "伤口",
+      "legacy": false
+    },
+    {
+      "id": "burn",
+      "originalName": "Burn",
+      "displayName": "灼烧",
+      "legacy": false
+    }
+  ],
+  "validation": {
+    "nameAndCurseContracts": "17 passed",
+    "presentationPython": "16 passed,1 existing skipped",
+    "cardText": "160 base/up variants passed",
+    "nodeUI": "40 groups passed",
+    "choiceUI": "real generated grid, modified combat cost and exact selected UID passed",
+    "regretUI": "battle and permanent deck show余悔; lethal curse/restart passed",
+    "slimedUI": "medium and large enemy generation/intent/detail/real play show黏滞;passed",
+    "buildData": "passed",
+    "buildUI": "passed",
+    "backlog": "passed",
+    "redBeforeFix": "both new name contracts failed against English-overwritten data; preserved below",
+    "scope": "targeted local validation; not complete75 strict acceptance or platform verification"
+  },
+  "files": [
+    {
+      "path": "traveler-names-red.log.gz",
+      "sha256": "2bfdd6af6344f1ee1e0e9ce849fb8d7aa84db5b6bf94bd4cf78fb1cd031a4e47"
+    },
+    {
+      "path": "traveler-names-green.log.gz",
+      "sha256": "1e702acdb27cc8270eee95dd301f38668f2573453ec32e7a533b48f5d6f1ca34"
+    },
+    {
+      "path": "traveler-names-python.log.gz",
+      "sha256": "d87c29e9551ad52681c9eea6b7cd13a8828379162e93b87d5269ed70416cdb6e"
+    },
+    {
+      "path": "traveler-names-node-ui.log.gz",
+      "sha256": "ab48706705c7e4b290ede183bcc013405c080b6000ea3f1bd09c4090fdada4dd"
+    },
+    {
+      "path": "traveler-names-slimed-ui.log.gz",
+      "sha256": "67652fc0923c224246018376429cb1720cf0789c199d778b6e8538c878ded585"
+    },
+    {
+      "path": "traveler-names-spike-slime-ui.log.gz",
+      "sha256": "b73f19ab36293b40467757ef29e9ef9f5644a35ae8d477d76ee4c72461f18468"
+    }
+  ]
+}

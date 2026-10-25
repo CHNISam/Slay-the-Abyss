@@ -20,5 +20,5 @@ test('Golden Shrine canonical numbers and curse are guarded by validation',()=>{
 });
 test('Regret presentation preserves its original identity and curse text',()=>{
  const p=JSON.parse(readFileSync('data/presentation/traveler.zh-CN.json','utf8')).cards.regret;
- assert.ok(p);assert.equal(p.name,'Regret');assert.match(p.textTemplate,/无法打出/);assert.match(p.textTemplate,/手牌/);
+ assert.ok(p);assert.equal(p.name,'余悔');assert.equal(regret(bundle()).sts_name,'Regret');assert.match(p.textTemplate,/无法打出/);assert.match(p.textTemplate,/手牌/);
 });
