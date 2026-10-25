@@ -1,0 +1,14 @@
+[
+  {
+    "path": "production-seed-validation.patch",
+    "sha256": "52665c918f92eca95be1f5aa925c02c8207b075eff2ad06f09849b6042e46226"
+  },
+  {
+    "path": "seed-validation-regression.patch",
+    "sha256": "783758906551f728c3b4bc9f14003839c0c4b3f47c17a7599a7996b734da3741"
+  },
+  {
+    "path": "production-candidate/tests/lua/run_seed_validation.lua",
+    "sha256": "67598a55f0c0b8dbc1d7fe3adb8909e3705bb1907a6f9197cad6f4e01d6d0ccc"
+  }
+]

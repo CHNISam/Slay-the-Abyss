@@ -1,0 +1,50 @@
+[
+  {
+    "path": "build/lua/abyss_data.lua",
+    "sha256": "9f3094187fc9b45272e1cb04a6c589849df4aef673e3ff402de5cc7038d99b26"
+  },
+  {
+    "path": "build/lua/abyss_map_controls.lua",
+    "sha256": "f6c22dd0cd4222e0ba3fb49c5c9f817bc9b55cb3d5146bf3d50530df2a3250ac"
+  },
+  {
+    "path": "build/lua/abyss_map_layout.lua",
+    "sha256": "60d09d33504a67759cdb8ae63f87d1b8584e1c9ebfd203a51fd438286eec04b6"
+  },
+  {
+    "path": "build/lua/abyss_narrative.lua",
+    "sha256": "2b247f6969f2ac7380cda33a1a92a28652a8de08bf16047d5e92525f3d3d5a41"
+  },
+  {
+    "path": "build/lua/abyss_presentation.lua",
+    "sha256": "b00a8239bcff881eef590a578d5321dc5954b1e519187410e9b3d4591dad7128"
+  },
+  {
+    "path": "build/lua/abyss_theme.lua",
+    "sha256": "d2f8e7cc6b3bceeddd033727a74ea8fb55d535d5d31de0a145ca2238a752dcde"
+  },
+  {
+    "path": "build/lua/abyss_ui_layout.lua",
+    "sha256": "04987eb929dc016ca69b420dadf6090111c2675b7e2cc55df414565af62a25f6"
+  },
+  {
+    "path": "build/lua/abyss_ui_templates.lua",
+    "sha256": "3f53d83073646741800c536d8befef7c5fa0415cbb144644552bae9dc24fade7"
+  },
+  {
+    "path": "build/lua/battle-ui.json",
+    "sha256": "101238a0d8a146beb8227547a8dafa7de8a129a00b05acd1f9d92594e4fd8996"
+  },
+  {
+    "path": "build/lua/game-ui-templates.json",
+    "sha256": "1fd2dc672dfb398ea2712da6f596bdf17a8b3794297262ae739e9911812d2cd8"
+  },
+  {
+    "path": "build/lua/game-ui.json",
+    "sha256": "3dbe7c5f6ca4b1fefeab2438ab2e1c0951881d67e5d81e7443d5e193aefc0968"
+  },
+  {
+    "path": "build/lua/map-ui.json",
+    "sha256": "a237c72af6d3c4db858ec0bf6f590f88178ec9b033496e3598ed22014c6eedf3"
+  }
+]

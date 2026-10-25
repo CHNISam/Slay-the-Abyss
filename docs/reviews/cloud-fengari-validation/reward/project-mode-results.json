@@ -1,0 +1,32 @@
+[
+  {
+    "snapshot": "baseline",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"tests/lua/card_pool_rewards.lua\")"
+    ],
+    "timeoutSeconds": 30,
+    "seconds": 0.652,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": "tests/lua/card_pool_rewards.lua:33: incomplete reward: true_grit\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/card_pool_rewards.lua:33: in local 'fn'\n\ttests/lua/card_pool_rewards.lua:7: in local 'test'\n\ttests/lua/card_pool_rewards.lua:13: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n"
+  },
+  {
+    "snapshot": "candidate",
+    "command": [
+      "node",
+      "/workspace/shared/sta-cloud-toolchain-0253/repo/node_modules/fengari-node-cli/src/lua-cli.js",
+      "-e",
+      "dofile(\"tests/lua/card_pool_rewards.lua\")"
+    ],
+    "timeoutSeconds": 30,
+    "seconds": 13.765,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "ok card_pool_rewards 1 - all 56 first-battle rewards occur after real starter victories and persist when claimed\nLUA_CARD_POOL_REWARDS_PASS 1\n",
+    "stderr": ""
+  }
+]

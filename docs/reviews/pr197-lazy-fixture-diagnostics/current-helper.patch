@@ -1,0 +1,11 @@
+--- a/tests/lua/support/potion_basic_five_fixture.lua
++++ b/tests/lua/support/potion_basic_five_fixture.lua
+@@ -3,7 +3,7 @@
+ local Data=require('abyss_data')
+ local n=0
+ local prototypes={}
+-local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
++local function eq(a,b) if a~=b then assert(false,tostring(a)..' ~= '..tostring(b)) end end
+ local function same(a,b)
+  eq(type(a),type(b));if type(a)~='table' then eq(a,b);return end
+  for k,v in pairs(a) do same(v,b[k]) end

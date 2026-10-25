@@ -1,0 +1,3 @@
+false then true	comparisonCalls=2	ok=true	message=nil
+../failure-path-eq-contract.lua:17: false then true: equality evaluated 2 times
+exit=1

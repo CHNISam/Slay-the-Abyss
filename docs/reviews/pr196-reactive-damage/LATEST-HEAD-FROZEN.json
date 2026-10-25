@@ -1,0 +1,20 @@
+{
+  "head": "3f53cd5e1b9546f95f88650c29d737cc3378e6d1",
+  "files": [
+    {
+      "path": "latest-head-card-delta.json",
+      "bytes": 1988,
+      "sha256": "a2fb276f7da756f4c53f5b5483819169fb73a77bfb40d1aeefbb40d97ae08e56"
+    },
+    {
+      "path": "latest-head-compare.json",
+      "bytes": 10937,
+      "sha256": "a3ea43976cccfa00ecb7678c13e162bc0660754203702bb4517a92a62d2be102"
+    },
+    {
+      "path": "LATEST-HEAD-ADDENDUM.md",
+      "bytes": 801,
+      "sha256": "8873afe1291354c74a34fbc09d253329d8135794c82ecf58455b7559e5999185"
+    }
+  ]
+}

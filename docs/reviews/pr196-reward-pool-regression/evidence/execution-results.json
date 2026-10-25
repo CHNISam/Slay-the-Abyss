@@ -1,0 +1,83 @@
+[
+  {
+    "name": "baseline-red",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/baseline",
+    "script": "tests/lua/card_pool_rewards.lua",
+    "exit_code": 1,
+    "seconds": 0.0424192390000826,
+    "expected_exit": 1,
+    "expected_error": "incomplete reward: true_grit"
+  },
+  {
+    "name": "candidate-green",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/candidate",
+    "script": "tests/lua/card_pool_rewards.lua",
+    "exit_code": 0,
+    "seconds": 1.015733090998765,
+    "expected_exit": 0,
+    "expected_error": null
+  },
+  {
+    "name": "card-pool-93",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/candidate",
+    "script": "tests/lua/card_pool.lua",
+    "exit_code": 0,
+    "seconds": 0.7567789449985867,
+    "expected_exit": 0,
+    "expected_error": null
+  },
+  {
+    "name": "acquisition-source-contract",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/candidate",
+    "script": "tests/lua/warrior75_acquisition.lua",
+    "exit_code": 0,
+    "seconds": 0.03655473700018774,
+    "expected_exit": 0,
+    "expected_error": null
+  },
+  {
+    "name": "mutant-unknown-id",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/mutants/unknown-id",
+    "script": "tests/lua/card_pool_rewards.lua",
+    "exit_code": 1,
+    "seconds": 0.029081848999339854,
+    "expected_exit": 1,
+    "expected_error": "unexpected first-battle reward: future_reward"
+  },
+  {
+    "name": "mutant-rare-leak",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/mutants/rare-leak",
+    "script": "tests/lua/card_pool_rewards.lua",
+    "exit_code": 1,
+    "seconds": 0.027236928999627708,
+    "expected_exit": 1,
+    "expected_error": "unexpected first-battle reward: demon_form"
+  },
+  {
+    "name": "mutant-unsupported-effect",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/mutants/unsupported-effect",
+    "script": "mutant.lua",
+    "exit_code": 1,
+    "seconds": 0.058195396999508375,
+    "expected_exit": 1,
+    "expected_error": "unimplemented reward: true_grit"
+  },
+  {
+    "name": "mutant-missing-legal-card",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/mutants/missing-legal-card",
+    "script": "mutant.lua",
+    "exit_code": 1,
+    "seconds": 1.015441342999111,
+    "expected_exit": 1,
+    "expected_error": "unseen playable rewards:"
+  },
+  {
+    "name": "candidate-coverage-audit",
+    "cwd": "/workspace/shared/sta-reward-pool-regression-0230/candidate",
+    "script": "audit.lua",
+    "exit_code": 0,
+    "seconds": 1.0559982260001561,
+    "expected_exit": 0,
+    "expected_error": null
+  }
+]

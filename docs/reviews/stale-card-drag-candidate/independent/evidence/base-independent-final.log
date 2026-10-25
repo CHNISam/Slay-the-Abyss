@@ -1,0 +1,37 @@
+ABYSS_RUN seed=1 source=explicit
+FAIL saved foreign control callback after cancellation cannot change the new card preview: ...d/sta-stale-drag-review-2139/independent-drag-review.lua:30: foreign Drag changed preview/coordinates
+ABYSS_RUN seed=1 source=explicit
+FAIL foreign Drag cannot arm a stationary card while genuine own Drag still can: ...d/sta-stale-drag-review-2139/independent-drag-review.lua:42: foreign source armed card
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+PASS same UID and slot survives explicit and presentation-only redraw generations
+ABYSS_RUN seed=1 source=explicit
+FAIL same card type at fixed slot but changed UID invalidates Drag before mutation: ...d/sta-stale-drag-review-2139/independent-drag-review.lua:66: reused slot moved wrong UID
+ABYSS_RUN seed=1 source=explicit
+FAIL diagnostic current held token is revoked: overlay cannot move stale g: ...d/sta-stale-drag-review-2139/independent-drag-review.lua:78: overlay ignored current held token
+ABYSS_RUN seed=1 source=explicit
+FAIL diagnostic current held token is replaced: overlay cannot move stale g: ...d/sta-stale-drag-review-2139/independent-drag-review.lua:78: overlay ignored current held token
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS owner Up and EndDrag each accept final coordinates without a last Drag
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS coordinate-less owner release cancels and resize permits a fresh same-slot retry
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+PASS C-mode paired card and enemy DownClick remain valid; card missing Up stays rejected
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS pure Click card and field retain existing C-mode behavior
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=20
+ABYSS_FEEDBACK potion source=- target=2 amount=0
+PASS targeted potion still needs fresh confirmation and survives cancelled foreign card Drag
+INDEPENDENT_DRAG_REVIEW 6 passed; 5 failed
+...d/sta-stale-drag-review-2139/independent-drag-review.lua:139: independent drag review failures: 5

@@ -1,0 +1,21 @@
+--- a/tests/lua/growing_card_text.lua
++++ b/tests/lua/growing_card_text.lua
+@@ -64,10 +64,16 @@
+     if not ok then failed = failed + 1 end
+     print((ok and "ok" or "not ok") .. " growing_card_text " .. count .. " - " .. name .. (ok and "" or ": " .. tostring(reason)))
+ end
++-- Every case starts from the same real seed-42 Run. Clone its initialized
++-- ownership/encounter state rather than regenerate the same queue and discard
++-- another opening battle 173 times. Each case still constructs its real combat
++-- and native UI independently, including the rollback/catalog-mutation cases.
++local initialRun = Run.new(Data, 42)
++assert(Run.startCombat(initialRun, "cultist_solo"))
++initialRun.combat = nil
+ local function fixture(upgraded, deck)
+     local ui, stage, click, play = setup()
+-    ui.run = Run.new(Data, 42)
+-    assert(Run.startCombat(ui.run, "cultist_solo"))
++    ui.run = Combat.copy(initialRun)
+     ui.run.combat = Combat.new(Data, {deck=deck or {{cardId="rampage", upgraded=upgraded}}})
+     ui:render()
+     return ui, stage, play

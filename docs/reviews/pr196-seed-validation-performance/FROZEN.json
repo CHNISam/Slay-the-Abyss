@@ -1,0 +1,83 @@
+{
+  "baseHead": "bbf587ef04307c389c73ae19d2e9649271f58b6e",
+  "lastReadRemoteHead": "bbf587ef04307c389c73ae19d2e9649271f58b6e",
+  "reviewScope": "bounded native Lua5.4 five-path integration; not full CI or Fengari timing",
+  "candidatePatchSha256": "2846c91e580a373387887067ced22e9e260e949a71da3d839019c94bbeceeaf8",
+  "files": [
+    {
+      "path": "candidate.patch",
+      "sha256": "2846c91e580a373387887067ced22e9e260e949a71da3d839019c94bbeceeaf8",
+      "bytes": 9417
+    },
+    {
+      "path": "candidate-manifest.json",
+      "sha256": "be772ec487be059b3a49f11631a91d226523443999013a364ccdddb73723bb0e",
+      "bytes": 1788
+    },
+    {
+      "path": "REPORT.md",
+      "sha256": "01665d405d011ed11c2db24dcd7dc93f45bd586470f0e18f04412ab94ee51c12",
+      "bytes": 7169
+    },
+    {
+      "path": "SUPERSEDED.md",
+      "sha256": "72ad6ecd635a48d666ba22f4fe5eb26ac444bb8d5d98ed07054f561a88141bfd",
+      "bytes": 380
+    },
+    {
+      "path": "evidence/baseline-verification.json",
+      "sha256": "effd0e91f8c51280bc4c59ce483783d7bca3ed82a538acc6f32818f1864dd91b",
+      "bytes": 39247
+    },
+    {
+      "path": "evidence/partition-coverage.json",
+      "sha256": "3f22420fb330ee2b542a0926194a574ac4d8e5b2b36911b76a83f22fa04e14ca",
+      "bytes": 8822
+    },
+    {
+      "path": "evidence/baseline-results.json",
+      "sha256": "c2bd537a320b47784650b0834fe4dcecd3254913fee2f474919f84b365f51f19",
+      "bytes": 33083
+    },
+    {
+      "path": "evidence/candidate-results.json",
+      "sha256": "cea6117e12b6243a2a916714a60bcc2c732037b1579345b864859156ffb72960",
+      "bytes": 33842
+    },
+    {
+      "path": "evidence/output-comparison.json",
+      "sha256": "4ccb76f35aedd65a377ef01ec0ec2e545c4a4b9049200524418b14249e2f3052",
+      "bytes": 4268
+    },
+    {
+      "path": "evidence/build-results.json",
+      "sha256": "58270135feece5efe1c3c38d027d5696df0d5da4c32dac64d801fb03532cec93",
+      "bytes": 955
+    },
+    {
+      "path": "evidence/generated-manifest.json",
+      "sha256": "62ef71f4f1c522f37f67a2b29464bf7651109e0da981ad10ae4032eb0632bd17",
+      "bytes": 1849
+    },
+    {
+      "path": "evidence/baseline-complete-output.log",
+      "sha256": "b9332d010eb76603a5f1f356c04cfb6feddf7af694f9527ec78e76e1f2df25bc",
+      "bytes": 30835
+    },
+    {
+      "path": "evidence/candidate-complete-output.log",
+      "sha256": "044df96cfd06f09d16ba8d3590ec1bd9f10812d274f9bfa9e6334ab8a350b9c0",
+      "bytes": 31687
+    },
+    {
+      "path": "evidence/baseline-final-snapshot.json",
+      "sha256": "c2df2b0524387bce76890251cb2459f19aeb3e75bc774c1241ebf6599161023f",
+      "bytes": 28106
+    },
+    {
+      "path": "evidence/candidate-final-snapshot.json",
+      "sha256": "25a9975fcd849e93d3325a52bab47cb829467fc4ddd237640c92ad643dacb12f",
+      "bytes": 28245
+    }
+  ]
+}

@@ -1,0 +1,786 @@
+{
+  "head": "efd3feb7052d0a8f7b4b8410d8507a7e5584c556",
+  "verifiedFiles": 130,
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "expected": "2377aa9cafb69062feb85336d66ee2af4f829382",
+      "actual": "2377aa9cafb69062feb85336d66ee2af4f829382",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "backlog/tasks/task-13.1.2 - M2-P0-\u8865\u9f50\u672a\u77e5\u4e8b\u4ef6\u5168\u6c60\u5185\u5bb9\u4e0e\u539f\u7248\u7248\u672c\u6838\u9a8c.md",
+      "expected": "f02350a5b227d513d298bf7f8e1176c4a3a2afc7",
+      "actual": "f02350a5b227d513d298bf7f8e1176c4a3a2afc7",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/README.md",
+      "expected": "193046576cf1cf51ecc9be91c6f47b78e2eb32ec",
+      "actual": "193046576cf1cf51ecc9be91c6f47b78e2eb32ec",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/SOURCES.md",
+      "expected": "3327d26b28d2d589c45a07e4538def96f27fdbff",
+      "actual": "3327d26b28d2d589c45a07e4538def96f27fdbff",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/cards.json",
+      "expected": "055e53f6fad1224925e1ff6d69874c2cd42d8e76",
+      "actual": "055e53f6fad1224925e1ff6d69874c2cd42d8e76",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/enemies.json",
+      "expected": "932c6a810e80d4cca4e7f18e557dc9f278c6c411",
+      "actual": "932c6a810e80d4cca4e7f18e557dc9f278c6c411",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/potions.json",
+      "expected": "57620438597187c6cf4c5edcabc1bdffd5d26612",
+      "actual": "57620438597187c6cf4c5edcabc1bdffd5d26612",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/presentation/narrative.zh-CN.json",
+      "expected": "432a038579d16bd1a2d5aaab671f137c031fc858",
+      "actual": "432a038579d16bd1a2d5aaab671f137c031fc858",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/presentation/native_bgm.json",
+      "expected": "628602ec3a5e53ce158717a3380f1e35b5af5bbe",
+      "actual": "628602ec3a5e53ce158717a3380f1e35b5af5bbe",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/presentation/traveler.zh-CN.json",
+      "expected": "41fceac09619c83e41ad1d33daf30a3fed7c6c4c",
+      "actual": "41fceac09619c83e41ad1d33daf30a3fed7c6c4c",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/presentation/ui_theme.json",
+      "expected": "7aa0913fa16651f5a22d9e3231da0a3bb0c9bd0b",
+      "actual": "7aa0913fa16651f5a22d9e3231da0a3bb0c9bd0b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/reference/warrior75.json",
+      "expected": "edb9461c271d146f45a70cec5c577b300ad12cb6",
+      "actual": "edb9461c271d146f45a70cec5c577b300ad12cb6",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/relics.json",
+      "expected": "9f6d28fe2be7b3c902c87431f4e280c88f2cf724",
+      "actual": "9f6d28fe2be7b3c902c87431f4e280c88f2cf724",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/rules.json",
+      "expected": "046a3e0fe51e73f9d10efa9204cba77b5381e327",
+      "actual": "046a3e0fe51e73f9d10efa9204cba77b5381e327",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "data/statuses.json",
+      "expected": "12392951e8af4e81d855053831253e048659aff2",
+      "actual": "12392951e8af4e81d855053831253e048659aff2",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "expected": "f030f944e36a34194cc3a8361b57b47f35679a65",
+      "actual": "f030f944e36a34194cc3a8361b57b47f35679a65",
+      "source": "develop 9ae1aec"
+    },
+    {
+      "path": "docs/SCOPE.md",
+      "expected": "5883fbb77671b272a9be42aad60a147bb7c8f02e",
+      "actual": "5883fbb77671b272a9be42aad60a147bb7c8f02e",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "docs/TOOLCHAIN.md",
+      "expected": "1773927f8782c2a7c01a91216ebae96c249f0893",
+      "actual": "1773927f8782c2a7c01a91216ebae96c249f0893",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "docs/backlog-details/TASK-13.1.2.md",
+      "expected": "0cf675d577578663d7f5912e2891dfe2e0c287c4",
+      "actual": "0cf675d577578663d7f5912e2891dfe2e0c287c4",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "docs/design/UI_DESIGN.md",
+      "expected": "90c04ee5bd2c2c881050f5e6662872dbb88844e4",
+      "actual": "90c04ee5bd2c2c881050f5e6662872dbb88844e4",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "docs/evidence/living-wall/source-identities.json",
+      "expected": "b632a01038fb76b59d57d876424d51bfc371fdb5",
+      "actual": "b632a01038fb76b59d57d876424d51bfc371fdb5",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "docs/reviews/TASK-13.1.2-living-wall.md",
+      "expected": "2e187ea2c896fd66ead79518c5434caf5b236559",
+      "actual": "2e187ea2c896fd66ead79518c5434caf5b236559",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/export-card-shared.py",
+      "expected": "d4b0eec0d86059250be96c941f774cad5fe0712e",
+      "actual": "d4b0eec0d86059250be96c941f774cad5fe0712e",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/export-card-spike.py",
+      "expected": "0de755657f287459adcba6c3f6bd66fbcc0a17d3",
+      "actual": "0de755657f287459adcba6c3f6bd66fbcc0a17d3",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/prepare-ai-samples.mjs",
+      "expected": "54b1a9a1f9b7bb0f5377c3162f5d500e2d27ac67",
+      "actual": "54b1a9a1f9b7bb0f5377c3162f5d500e2d27ac67",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/prepare-card-candidate.ps1",
+      "expected": "63a2b85af83317808026021e027b869e18eb2b7a",
+      "actual": "63a2b85af83317808026021e027b869e18eb2b7a",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/prepare-card-capacity.ps1",
+      "expected": "74014ec32f8ea49153a464b1e5dbce085d46e419",
+      "actual": "74014ec32f8ea49153a464b1e5dbce085d46e419",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/prepare-card-capacity.py",
+      "expected": "664f2c65909b35bcd2f63101060f66fbe2e3282e",
+      "actual": "664f2c65909b35bcd2f63101060f66fbe2e3282e",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/process-ai-samples.py",
+      "expected": "6af396360d0d7a22bae22ebd5f75c425d38e0a09",
+      "actual": "6af396360d0d7a22bae22ebd5f75c425d38e0a09",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/test-card-text-height-compat.py",
+      "expected": "5c1bb8fd5574ed89ffa1792e40c120be77bca4b3",
+      "actual": "5c1bb8fd5574ed89ffa1792e40c120be77bca4b3",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/art/verify-ai-samples.py",
+      "expected": "8957b624f42532beafed2a9c2de778261da3f873",
+      "actual": "8957b624f42532beafed2a9c2de778261da3f873",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/audit-encounter-pressure.lua",
+      "expected": "6bd28005e5bd0b02232a308825e81a76ae04eb24",
+      "actual": "6bd28005e5bd0b02232a308825e81a76ae04eb24",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/audit-native-candidate.mjs",
+      "expected": "89e7e2ce51ec93db44ebe4d305a3377edb4ca058",
+      "actual": "89e7e2ce51ec93db44ebe4d305a3377edb4ca058",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/audit-native-graph-payload.mjs",
+      "expected": "a740a9b2d335849d2757ad6c5cafd706f2d83fde",
+      "actual": "a740a9b2d335849d2757ad6c5cafd706f2d83fde",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/build-lua-data.mjs",
+      "expected": "50366a8235fbac844b452ef6e7174c8f59790e28",
+      "actual": "50366a8235fbac844b452ef6e7174c8f59790e28",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/build-native-candidate.mjs",
+      "expected": "e3429f81205a1192e7b7a4ee7f2dc04cecc05e9d",
+      "actual": "e3429f81205a1192e7b7a4ee7f2dc04cecc05e9d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/build-sfx-audition.mjs",
+      "expected": "c9ddb6e94438b73d5987c1e2cd1d1c3ee04bda05",
+      "actual": "c9ddb6e94438b73d5987c1e2cd1d1c3ee04bda05",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/build-ui-theme.mjs",
+      "expected": "adce092e3f7783bff998c98288906152bb8ce1ef",
+      "actual": "adce092e3f7783bff998c98288906152bb8ce1ef",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/build-ui.mjs",
+      "expected": "b5b02e01aec5e54561efc9474bfb56293a454aa2",
+      "actual": "b5b02e01aec5e54561efc9474bfb56293a454aa2",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/candidates/sts1-shop-card-price.mjs",
+      "expected": "22e1adc7c45088795d0903a705c91ba1dcd70e4f",
+      "actual": "22e1adc7c45088795d0903a705c91ba1dcd70e4f",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/check-syntax.mjs",
+      "expected": "b41a6f5dc6dbc32183ee8f9ac01ba9b3adfc29ee",
+      "actual": "b41a6f5dc6dbc32183ee8f9ac01ba9b3adfc29ee",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/cinematic-ui-layout.mjs",
+      "expected": "83dc97b6275f3975e8df51138174257c238cbf64",
+      "actual": "83dc97b6275f3975e8df51138174257c238cbf64",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/deck-ui-layout.mjs",
+      "expected": "c976c976592d5897f1cb0f521bb8098e1667e9f0",
+      "actual": "c976c976592d5897f1cb0f521bb8098e1667e9f0",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/diagnose-card-sequences.lua",
+      "expected": "b87602a29f6406fb2162d2d27bd4ec5003c5afc9",
+      "actual": "b87602a29f6406fb2162d2d27bd4ec5003c5afc9",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/exit-ui-layout.mjs",
+      "expected": "073ccf565e1b45f9c2c4dceb2e98b5957d7c05dc",
+      "actual": "073ccf565e1b45f9c2c4dceb2e98b5957d7c05dc",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/game-ui-layout.mjs",
+      "expected": "b7bd2f82b4b1ef0dc1c96c86a8e4efb3439a45c1",
+      "actual": "b7bd2f82b4b1ef0dc1c96c86a8e4efb3439a45c1",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/m2-autoplay-policy.lua",
+      "expected": "9305ba52c3ff570db9a082876ccd38cd4782e825",
+      "actual": "9305ba52c3ff570db9a082876ccd38cd4782e825",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/m2-resource-evidence.mjs",
+      "expected": "87906cc03401053c73344ee8c6fe41fc55727b30",
+      "actual": "87906cc03401053c73344ee8c6fe41fc55727b30",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/map-ui-layout.mjs",
+      "expected": "288fd3980543a536bdc38b051819f43f85e99548",
+      "actual": "288fd3980543a536bdc38b051819f43f85e99548",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-audit-paths.mjs",
+      "expected": "acc0451b5ce3e0fad86756ddf77973448a66c696",
+      "actual": "acc0451b5ce3e0fad86756ddf77973448a66c696",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-bgm-graph.mjs",
+      "expected": "07c997cbea3da2ae1e57fb7bdfc4c5031acd34e8",
+      "actual": "07c997cbea3da2ae1e57fb7bdfc4c5031acd34e8",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-candidate-audit.mjs",
+      "expected": "a58962955ac053e9b700368fb2d43d21cbd4065f",
+      "actual": "a58962955ac053e9b700368fb2d43d21cbd4065f",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-candidate-scripts.mjs",
+      "expected": "01322f9d9c709c1bc7b0ada54903d6f38c24f40c",
+      "actual": "01322f9d9c709c1bc7b0ada54903d6f38c24f40c",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-graph-payload.mjs",
+      "expected": "74e40aba3b6bdb113bb55c3da4567a49a1c27dd4",
+      "actual": "74e40aba3b6bdb113bb55c3da4567a49a1c27dd4",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-playtest-evidence.mjs",
+      "expected": "e49760c2e62696dac7d0c32efc804668730d7ce4",
+      "actual": "e49760c2e62696dac7d0c32efc804668730d7ce4",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/native-ui-theme.mjs",
+      "expected": "3163c029c17972510972430e41ad2899f22063bb",
+      "actual": "3163c029c17972510972430e41ad2899f22063bb",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/node-ui-layout.mjs",
+      "expected": "500ccf8bb0485f954aeb91bc39a5a2081ff70f6d",
+      "actual": "500ccf8bb0485f954aeb91bc39a5a2081ff70f6d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/node-ui-preview.lua",
+      "expected": "801e5320ba9101a892e7e1d77d57ad4a874798cb",
+      "actual": "801e5320ba9101a892e7e1d77d57ad4a874798cb",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/node-ui-preview.mjs",
+      "expected": "b683e4e91ed790b64bf9f1cceb5a43e53af63bd1",
+      "actual": "b683e4e91ed790b64bf9f1cceb5a43e53af63bd1",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/potion-discard-layout.mjs",
+      "expected": "578dec50578167073da8fb5c0ecc8b308e3f869e",
+      "actual": "578dec50578167073da8fb5c0ecc8b308e3f869e",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/probes/queued-roll-on-retaliation.lua",
+      "expected": "5778d2bf62b74c33899aec5a92652a03ab79564b",
+      "actual": "5778d2bf62b74c33899aec5a92652a03ab79564b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/settlement-graph.mjs",
+      "expected": "8d5aa51e8987c3e5ea49e9ef289ab06b05897a77",
+      "actual": "8d5aa51e8987c3e5ea49e9ef289ab06b05897a77",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/sfx-audition-source.mjs",
+      "expected": "53b313d188556255fcba573833fe7938df915fa3",
+      "actual": "53b313d188556255fcba573833fe7938df915fa3",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/sts1-map-room-candidate-evidence.mjs",
+      "expected": "201b1ff68bd2b45cb0e7cdfcae3637586452f4cc",
+      "actual": "201b1ff68bd2b45cb0e7cdfcae3637586452f4cc",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/ui-layout.mjs",
+      "expected": "3562a2202e04dd341bd55d5d198ff4b897e1cbf8",
+      "actual": "3562a2202e04dd341bd55d5d198ff4b897e1cbf8",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "expected": "792f504267762899bc22582dc76daecb81962a4b",
+      "actual": "792f504267762899bc22582dc76daecb81962a4b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/verify-launch-content.lua",
+      "expected": "9ecea075049e5aeca706a1184a88413d4f9d392d",
+      "actual": "9ecea075049e5aeca706a1184a88413d4f9d392d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/verify-ui-acceptance.mjs",
+      "expected": "f20323633d475135f95c999066322ee0408a9a52",
+      "actual": "f20323633d475135f95c999066322ee0408a9a52",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "scripts/viewport-layout.mjs",
+      "expected": "ad8911354f967e79f16b0781f0ae10e6c2db5478",
+      "actual": "ad8911354f967e79f16b0781f0ae10e6c2db5478",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_m_ai.lua",
+      "expected": "062223f54dfb3f53c11723f7a86977bce254f85c",
+      "actual": "062223f54dfb3f53c11723f7a86977bce254f85c",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_s_ai.lua",
+      "expected": "051ccdcce9768f0db03542e39de5fa13168bbcd2",
+      "actual": "051ccdcce9768f0db03542e39de5fa13168bbcd2",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "expected": "bc4f89a6d632be73a730f31f09ffd7ccea506135",
+      "actual": "bc4f89a6d632be73a730f31f09ffd7ccea506135",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "expected": "3c44a86ac012bdc7bd535f2b808f4275647f74c8",
+      "actual": "3c44a86ac012bdc7bd535f2b808f4275647f74c8",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_bgm.lua",
+      "expected": "c18e9e1cbcaa7de65ca408848f5077ba7e7c74be",
+      "actual": "c18e9e1cbcaa7de65ca408848f5077ba7e7c74be",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_blue_slaver_ai.lua",
+      "expected": "fcdadec44bb2094b09dc800f73aa3d7a5acb39a7",
+      "actual": "fcdadec44bb2094b09dc800f73aa3d7a5acb39a7",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_card_capability.lua",
+      "expected": "613f56b14f8e055d5a6eae8e6611ae6b7e1cea2d",
+      "actual": "613f56b14f8e055d5a6eae8e6611ae6b7e1cea2d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_card_display.lua",
+      "expected": "945901e03b08b88b4f5f2814db1d963371ca45ec",
+      "actual": "945901e03b08b88b4f5f2814db1d963371ca45ec",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_card_random.lua",
+      "expected": "e8914266b09fe413c60ee9d022c20d6a03fe882d",
+      "actual": "e8914266b09fe413c60ee9d022c20d6a03fe882d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "expected": "77a89c6c6b4c86272e0fa3d8e3c10963531154ad",
+      "actual": "77a89c6c6b4c86272e0fa3d8e3c10963531154ad",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_deck_ui.lua",
+      "expected": "a69127115d1bef7545a2536e82c37d552731a2fa",
+      "actual": "a69127115d1bef7545a2536e82c37d552731a2fa",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_effects.lua",
+      "expected": "7834bbee9822d941cfb6846c7832ca939282586c",
+      "actual": "7834bbee9822d941cfb6846c7832ca939282586c",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_encounter_formation.lua",
+      "expected": "58cf065ad6324a1b5fc10a71c886c406e5d728de",
+      "actual": "58cf065ad6324a1b5fc10a71c886c406e5d728de",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_encounter_queue.lua",
+      "expected": "6c545bb0c1c99a3d6e35125549a7441e25f7b052",
+      "actual": "6c545bb0c1c99a3d6e35125549a7441e25f7b052",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_enemy_ai.lua",
+      "expected": "184f1ab606727119947a9b5e1afb804c64e15f91",
+      "actual": "184f1ab606727119947a9b5e1afb804c64e15f91",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_enemy_random.lua",
+      "expected": "3f0ad83eb9770f86695c849a80c5d0accfb1e6fa",
+      "actual": "3f0ad83eb9770f86695c849a80c5d0accfb1e6fa",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_event_pool.lua",
+      "expected": "3ff688fc63e297d0e6baad7b210a150e133db43b",
+      "actual": "3ff688fc63e297d0e6baad7b210a150e133db43b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_events.lua",
+      "expected": "10d1bb68b801b22d0cc38b4f88ecba114ee8e61b",
+      "actual": "10d1bb68b801b22d0cc38b4f88ecba114ee8e61b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_feedback.lua",
+      "expected": "f299878ab7b2170ec7365872198012bd76aa22ac",
+      "actual": "f299878ab7b2170ec7365872198012bd76aa22ac",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_fungi_beast_ai.lua",
+      "expected": "bfec5d04c4abb65332b51f5ef84ec7677b5900a6",
+      "actual": "bfec5d04c4abb65332b51f5ef84ec7677b5900a6",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_game_ui.lua",
+      "expected": "d637b92992af7c3da6c32e9715753d2c1464590d",
+      "actual": "d637b92992af7c3da6c32e9715753d2c1464590d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_gold_rewards.lua",
+      "expected": "194bfd1183a3ae7fdf9aa7a3f512d63dd586e342",
+      "actual": "194bfd1183a3ae7fdf9aa7a3f512d63dd586e342",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_gremlin_nob_ai.lua",
+      "expected": "53873e283b941f9e25405d2f817511fb7341d2df",
+      "actual": "53873e283b941f9e25405d2f817511fb7341d2df",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_guardian_ai.lua",
+      "expected": "fca0c7c312161379a9e7d3445bcc4148391f09be",
+      "actual": "fca0c7c312161379a9e7d3445bcc4148391f09be",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_inventory.lua",
+      "expected": "8c9d696b8a96106c2d81ecf69fb876865ebe2e75",
+      "actual": "8c9d696b8a96106c2d81ecf69fb876865ebe2e75",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_jaw_worm_ai.lua",
+      "expected": "ba136a77086a132d27eead7f570d13598de9175d",
+      "actual": "ba136a77086a132d27eead7f570d13598de9175d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_living_wall.lua",
+      "expected": "de5a80cdd0d74a1ded848589d4083c9a88d84056",
+      "actual": "de5a80cdd0d74a1ded848589d4083c9a88d84056",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_looter_ai.lua",
+      "expected": "c71479dc4761391856e83d40d0875971aaa46597",
+      "actual": "c71479dc4761391856e83d40d0875971aaa46597",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_louse_ai.lua",
+      "expected": "6a16b7c08b2582bfac05e0996446e8fa3acf303d",
+      "actual": "6a16b7c08b2582bfac05e0996446e8fa3acf303d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_map.lua",
+      "expected": "a68f8bbbc19c52e02205dc80783847031e7dd122",
+      "actual": "a68f8bbbc19c52e02205dc80783847031e7dd122",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_map_rooms.lua",
+      "expected": "5c09fda6e335d05737696afc9ca4035c3cdd8e6a",
+      "actual": "5c09fda6e335d05737696afc9ca4035c3cdd8e6a",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_map_topology.lua",
+      "expected": "20c6940a02693da811380c8d1e35e2d1d193dc3d",
+      "actual": "20c6940a02693da811380c8d1e35e2d1d193dc3d",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_map_ui.lua",
+      "expected": "0a308e1375465032816bd122c6e81a03988bd4d3",
+      "actual": "0a308e1375465032816bd122c6e81a03988bd4d3",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_merchant.lua",
+      "expected": "ce35e55f3c43b9ad2180f7f61d55c8ad9dbf2df5",
+      "actual": "ce35e55f3c43b9ad2180f7f61d55c8ad9dbf2df5",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_new_run_seed.lua",
+      "expected": "efae54fdb70149e3f085fe9fc5b23810e4d9fa75",
+      "actual": "efae54fdb70149e3f085fe9fc5b23810e4d9fa75",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_node_ui.lua",
+      "expected": "cdd5d2da11fd86a6459a30e77f79b7f9b07a8dc4",
+      "actual": "cdd5d2da11fd86a6459a30e77f79b7f9b07a8dc4",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_nodes.lua",
+      "expected": "4f838fd790a059f5777291258c5bffdf8636497b",
+      "actual": "4f838fd790a059f5777291258c5bffdf8636497b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_numbers.lua",
+      "expected": "80763d45a36c1ea978e2f823fc40abb55041f578",
+      "actual": "80763d45a36c1ea978e2f823fc40abb55041f578",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_potion_discard_ui.lua",
+      "expected": "fa2c5ef2997b396efe2134e7a427e81b52daf5a7",
+      "actual": "fa2c5ef2997b396efe2134e7a427e81b52daf5a7",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_potion_rewards.lua",
+      "expected": "039effce1343506bc603ce30b7505965c58659f4",
+      "actual": "039effce1343506bc603ce30b7505965c58659f4",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_prologue.lua",
+      "expected": "dc0be33be33bc6763252d33ac135aaa8a57a85e6",
+      "actual": "dc0be33be33bc6763252d33ac135aaa8a57a85e6",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_random.lua",
+      "expected": "b423a6e7b1c185a83de6c2bdbb9cfe18112cffec",
+      "actual": "b423a6e7b1c185a83de6c2bdbb9cfe18112cffec",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_randomxs128.lua",
+      "expected": "6d745648c4d78a71e03b0b0c490e9471c45dcb44",
+      "actual": "6d745648c4d78a71e03b0b0c490e9471c45dcb44",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_red_slaver_ai.lua",
+      "expected": "fc560a07530ca7b4e819acf50d4385171afb936b",
+      "actual": "fc560a07530ca7b4e819acf50d4385171afb936b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_room_encounters.lua",
+      "expected": "00d5132ca942d580c8e96c9f5743cad451e7a9ad",
+      "actual": "00d5132ca942d580c8e96c9f5743cad451e7a9ad",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "expected": "6f06c67e3af8489f41f71884004229217d5ce933",
+      "actual": "6f06c67e3af8489f41f71884004229217d5ce933",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_run_seed.lua",
+      "expected": "c37adf6a362858e30e85a4cc583f3a35c684feca",
+      "actual": "c37adf6a362858e30e85a4cc583f3a35c684feca",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_sentry_ai.lua",
+      "expected": "8ace599020f2c465cf261cb2287bfda9c68b919f",
+      "actual": "8ace599020f2c465cf261cb2287bfda9c68b919f",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_shop.lua",
+      "expected": "518bd5ad8c20e408dbee4255da100fd4c005599c",
+      "actual": "518bd5ad8c20e408dbee4255da100fd4c005599c",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_shop_price.lua",
+      "expected": "11a57631de01eee2762a96e8228bb730dec66a96",
+      "actual": "11a57631de01eee2762a96e8228bb730dec66a96",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_spike_slime_m_ai.lua",
+      "expected": "425fa064dc34cc3f56c747b602a0c718a53209f2",
+      "actual": "425fa064dc34cc3f56c747b602a0c718a53209f2",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_sts_random.lua",
+      "expected": "00d059441a1e2263884c420c74535d5d91a6927b",
+      "actual": "00d059441a1e2263884c420c74535d5d91a6927b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_transform_card.lua",
+      "expected": "f2ad42dd904065b95093ebe8c7cb9d1163b4a620",
+      "actual": "f2ad42dd904065b95093ebe8c7cb9d1163b4a620",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_ui.lua",
+      "expected": "e982f1d55f99b03c175b657cdd36b8346c3eb345",
+      "actual": "e982f1d55f99b03c175b657cdd36b8346c3eb345",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_unknown.lua",
+      "expected": "5b46b6f65134ecc444b9da8142ed7f07f412cae5",
+      "actual": "5b46b6f65134ecc444b9da8142ed7f07f412cae5",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "src/lua/abyss_viewport.lua",
+      "expected": "06d2aae2c9074a8f5ff96953b9923c5f512755cb",
+      "actual": "06d2aae2c9074a8f5ff96953b9923c5f512755cb",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "tests/lua/living_wall.lua",
+      "expected": "15eb9d7e4d449a2dcfb31bb5cce242f315874110",
+      "actual": "15eb9d7e4d449a2dcfb31bb5cce242f315874110",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "tests/lua/living_wall_ui.lua",
+      "expected": "54ef3a27d8c5a71eca3e993cca975281c1ad6a3b",
+      "actual": "54ef3a27d8c5a71eca3e993cca975281c1ad6a3b",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "tests/lua/support/game_ui_fixture.lua",
+      "expected": "078c7a06e1758eb916efdcb231c5340ca14db8c5",
+      "actual": "078c7a06e1758eb916efdcb231c5340ca14db8c5",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "tests/lua/support/living_wall_source_pools.lua",
+      "expected": "af39db5a82ed1ff9d4399e8bb94f69ae4bc2ffed",
+      "actual": "af39db5a82ed1ff9d4399e8bb94f69ae4bc2ffed",
+      "source": "PR197 efd3feb"
+    },
+    {
+      "path": "tools/render_traveler_cards.py",
+      "expected": "a1dfb2298ce8caa83328cbf01951dbf400f16fc3",
+      "actual": "a1dfb2298ce8caa83328cbf01951dbf400f16fc3",
+      "source": "PR197 efd3feb"
+    }
+  ]
+}

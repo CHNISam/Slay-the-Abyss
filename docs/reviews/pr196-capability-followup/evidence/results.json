@@ -1,0 +1,59 @@
+{
+  "head": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+  "sourceFiles": 79,
+  "sourceUnchangedAfterTests": true,
+  "results": [
+    {
+      "name": "baseline-final",
+      "environment": {},
+      "exit": 0,
+      "expectedExit": 0,
+      "passLines": 16,
+      "failLines": 0
+    },
+    {
+      "name": "old-gate-channel",
+      "environment": {
+        "CAPABILITY_OVERRIDE": "../mutants/old-capability.lua",
+        "CASE_FILTER": "channel"
+      },
+      "exit": 1,
+      "expectedExit": 1,
+      "passLines": 0,
+      "failLines": 2
+    },
+    {
+      "name": "old-gate-camp",
+      "environment": {
+        "LATE_CAPABILITY_OVERRIDE": "../mutants/old-capability.lua",
+        "CASE_FILTER": "channel"
+      },
+      "exit": 1,
+      "expectedExit": 1,
+      "passLines": 0,
+      "failLines": 2
+    },
+    {
+      "name": "old-gate-transform",
+      "environment": {
+        "CAPABILITY_OVERRIDE": "../mutants/old-capability.lua",
+        "CASE_FILTER": "transform"
+      },
+      "exit": 1,
+      "expectedExit": 1,
+      "passLines": 3,
+      "failLines": 2
+    },
+    {
+      "name": "fail-open-negatives",
+      "environment": {
+        "CAPABILITY_OVERRIDE": "../mutants/fail-open-capability.lua",
+        "CASE_FILTER": "negative"
+      },
+      "exit": 1,
+      "expectedExit": 1,
+      "passLines": 0,
+      "failLines": 9
+    }
+  ]
+}

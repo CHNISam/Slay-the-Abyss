@@ -1,0 +1,12 @@
+PASS Initial permanent BFB starts at four, one later HP loss lowers it to three
+PASS Unhurt fresh BFB starts at four
+PASS Fresh and then upgraded BFB inherit 1 actual HP-loss events
+PASS Fresh and then upgraded BFB inherit 3 actual HP-loss events
+PASS Fresh and then upgraded BFB inherit 5 actual HP-loss events
+PASS Stat-equivalent prototype retains its own discount, upgrade and turn override
+PASS Unrelated generated attack gains no BFB cost state
+PASS Real Infernal generation, free current turn, next-turn reset: hurt=false upgrade=false
+PASS Real Infernal generation, free current turn, next-turn reset: hurt=false upgrade=true
+PASS Real Infernal generation, free current turn, next-turn reset: hurt=true upgrade=false
+PASS Real Infernal generation, free current turn, next-turn reset: hurt=true upgrade=true
+TOTAL 11 cases, 0 failed

@@ -1,0 +1,49 @@
+[
+  {
+    "label": "threshold-nine",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1765,
+    "failures": [
+      "not ok 2 - qualification: strike upgraded 9 below threshold: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: captured qualification: true ~= false",
+      "not ok 11 - Vajra strength does not turn upgraded Strike base 9 into event eligibility: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: value: true ~= false",
+      "not ok 12 - eligibility stays captured at entry rather than recomputed by later requests: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: value: true ~= false"
+    ],
+    "matchedExpectedAssertion": true
+  },
+  {
+    "label": "vajra-counts-for-qualification",
+    "exitCode": 1,
+    "elapsedSeconds": 0.196,
+    "failures": [
+      "not ok 11 - Vajra strength does not turn upgraded Strike base 9 into event eligibility: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: value: true ~= false"
+    ],
+    "matchedExpectedAssertion": true
+  },
+  {
+    "label": "view-recomputes-qualification",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1958,
+    "failures": [
+      "not ok 12 - eligibility stays captured at entry rather than recomputed by later requests: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: value: true ~= false"
+    ],
+    "matchedExpectedAssertion": true
+  },
+  {
+    "label": "valid-purge-charges-again",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1997,
+    "failures": [
+      "not ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: value: 0 ~= 1"
+    ],
+    "matchedExpectedAssertion": true
+  },
+  {
+    "label": "invalid-purge-mutates-card-stream",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1931,
+    "failures": [
+      "not ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge: ...view-0053/candidate/tests/lua/golden_wing_boundaries.lua:8: state.run.cardRng.counter: 1 ~= 0"
+    ],
+    "matchedExpectedAssertion": true
+  }
+]

@@ -1,0 +1,40 @@
+ok edge 1 - Heavy Blade multiplies signed Strength before Weak and Vulnerable rounding
+ok edge 2 - Perfected Strike uses Strike tags in hand draw discard, includes itself, excludes exhaust
+ok edge 3 - Clash rejects every non-Attack without paying or moving any UID
+ok edge 4 - Armaments choice upgrades only the requested eligible instance
+ok edge 5 - Armaments+ upgrades all eligible hand cards including repeated Searing Blow
+ok edge 6 - Headbutt pauses for discard choice and keeps played card out of candidates
+ok edge 7 - Warcry chooses after drawing and does not put its own card on top
+ok edge 8 - Dual Wield+ preserves upgrade growth and temporary cost in two fresh copies
+ok edge 9 - Rupture is queued before later effects but cannot increase already calculated Hemokinesis damage
+ok edge 10 - lethal self-payment interrupts Offering energy draw and Rupture
+ok edge 11 - Blood for Blood reduces per HP-loss event, not damage points or blocked damage
+ok edge 12 - Limit Break doubles negative Strength and preserves Artifact gate
+ok edge 13 - X-cost consumes all energy; zero still uses the attack without a hit
+ok edge 14 - Double Tap repeats an attack and disposes the physical card only once
+ok edge 15 - Double Tap+ applies to the next two attacks; Rage triggers for duplicate uses
+ok edge 16 - Feed gains permanent max HP on a killing blow including the final enemy
+ok edge 17 - Feed cannot trigger from a nonfatal hit or a Minion
+ok edge 18 - Reaper heals actual unblocked HP loss and cannot revive a thorns-killed player
+ok edge 19 - Evolve and Fire Breathing trigger only on draw, fixed damage ignores Strength Weak Vulnerable
+ok edge 20 - No Draw and full hand suppress Evolve without moving piles or RNG
+ok edge 21 - Ethereal exhaust keeps nonethereal hand capacity until Dark Embrace resolves; all draws then discard
+ok edge 22 - Metallicize precedes Burn so its fixed Block absorbs end-turn damage
+ok edge 23 - Combust stacks damage and HP payments separately; fixed area damage ignores attack modifiers
+ok edge 24 - Demon Form Berserk Brutality use the correct next-turn phases
+ok edge 25 - Flame Barrier retaliates per normal hit and expires at the next player start
+ok edge 26 - Juggernaut triggers for positive Block including FNP but not zero Block
+ok edge 27 - Exhume full hand returns nothing and exhausts itself normally
+ok edge 28 - Sever Soul exhausts only the original non-Attacks, then hits before exhaust-draw tails
+ok edge 29 - generated temporary zero cost survives discard and redraw within the same turn
+ok edge 30 - repeated Corruption does not emit a second zero-stack power application
+ok edge 31 - Havoc disposes before its queued card draws, allowing that draw to reshuffle Havoc
+ok edge 32 - Double Tap Fiend Fire waits for exhaust draw tails before the repeated hand snapshot
+ok edge 33 - Juggernaut still triggers a positive Block request at the 999 Block cap
+ok edge 34 - Double Tap keeps its original target when the first hit kills it
+ok edge 35 - exhaust Power hooks preserve application order, not a fixed Dark Embrace first order
+ok edge 36 - draw Power hooks preserve application order across Evolve and Fire Breathing
+ok edge 37 - Double Tap Rampage shares growth with the queued copy and the original after disposal
+ok edge 38 - copying a suspended card transaction preserves its actor and instance aliases
+ok edge 39 - Burn and Regret auto-use in hand order and preserve the lethal card in use
+Warrior75 edges: 39 groups passed; not platform acceptance.

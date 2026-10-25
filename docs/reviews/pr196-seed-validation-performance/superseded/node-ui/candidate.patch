@@ -1,0 +1,25 @@
+--- a/tests/lua/node_ui.lua
++++ b/tests/lua/node_ui.lua
+@@ -41,9 +41,21 @@
+     for _, item in ipairs(spec.children or {}) do c.children[item.name] = control(item, c) end
+     return c
+ end
++-- Only the unchanged default input reuses a pristine, real constructor result.
++-- Copy the whole pair before navigation so no run, RNG, map or nested data is shared.
++local defaultInitialState
+ local function entered(kind, source, seed)
+     source = source or data
+-    local run, map = Run.new(source, seed or 42), Map.generate(source, seed or 42)
++    local run, map
++    if source == data and (seed == nil or seed == 42) then
++        if not defaultInitialState then
++            defaultInitialState = { run = Run.new(data, 42), map = Map.generate(data, 42) }
++        end
++        local state = Combat.copy(defaultInitialState)
++        run, map = state.run, state.map
++    else
++        run, map = Run.new(source, seed or 42), Map.generate(source, seed or 42)
++    end
+     while true do
+         local choices = Map.available(map)
+         for _, node in ipairs(choices) do

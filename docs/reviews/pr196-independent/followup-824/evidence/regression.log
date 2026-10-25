@@ -1,0 +1,14 @@
+ABYSS_RUN seed=30 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK hp_loss source=player target=player amount=3
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+GENERATED seed=30 card=blood_for_blood uid=103 damagedThisCombat=1 temporaryCost=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+REGRESSION expectedCost=3 actualCost=4 uiCost=4 energy=3.0 playable=false reason=insufficient_energy
+../generated-cost-regression.lua:23: Blood for Blood expected cost 3, actual 4

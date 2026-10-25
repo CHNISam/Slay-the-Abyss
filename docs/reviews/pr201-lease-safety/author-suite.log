@@ -1,0 +1,23 @@
+✔ real independent processes: same task has exactly one winner; repeat claim is not another owner (617.703216ms)
+✔ disjoint claims survive CAS retry without losing either update (502.242892ms)
+✔ parent-child, canonical overlapping paths and shared modules conflict (756.593141ms)
+✔ expired recovery fences old renew, release, check and guarded commands (5421.297663ms)
+✔ concurrent renewal/release never resurrects released ownership or loses other task (1015.841341ms)
+✔ unreachable remote and receive-hook rejection never report successful claims (751.755391ms)
+✔ paused migration refuses fresh work; adoption requires evidence and rejects unresolved reservations (657.399044ms)
+✔ scope expansion is CAS checked and pre-commit/pre-push reject stale or out-of-scope sessions (1899.27912ms)
+✔ interrupted executor leaves a recoverable lease; restart never grants old receipt a new generation (22080.545733ms)
+✔ unknown external executors prevent opening migration; evidence-based resolution is explicit (693.880452ms)
+✔ claim then controlled worktree transfers the receipt without altering existing directories (1077.911558ms)
+✔ released installation coordinator can recover its exact quarantined scope; migration cannot deadlock (983.468956ms)
+✔ remote loss during controlled development terminates the real child before further work (4493.324924ms)
+✔ child executor acquisition creates an isolated receipt and never borrows the parent session (974.427936ms)
+✔ conflicting upstream merge preserves upstream files without authorizing out-of-scope resolutions (1494.609107ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 43479.329197

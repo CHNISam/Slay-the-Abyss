@@ -1,0 +1,23 @@
+[
+  {
+    "name": "looter_feedback_ui",
+    "exit": 0,
+    "summary": [
+      "LOOTER_FEEDBACK_UI 2 passed; 0 failed"
+    ]
+  },
+  {
+    "name": "looter_reward_stage",
+    "exit": 0,
+    "summary": [
+      "LOOTER_REWARD_STAGE 2 passed; 0 failed"
+    ]
+  },
+  {
+    "name": "map_ui",
+    "exit": 0,
+    "summary": [
+      "LUA_MAP_UI_PASS 27"
+    ]
+  }
+]

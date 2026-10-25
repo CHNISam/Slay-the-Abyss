@@ -1,0 +1,5 @@
+PASS living-wall UI 1 native Forget opens filtered picker, locks choice and removes one real permanent UID
+PASS living-wall UI 2 native Grow uses upgrade preview, preserves UID, and returns a visible result
+PASS living-wall UI 3 native Change uses complete source pool and shows the actual replacement
+PASS living-wall UI 4 empty native Forget and Change finish directly while Grow is unavailable
+LIVING_WALL_UI 4 passed

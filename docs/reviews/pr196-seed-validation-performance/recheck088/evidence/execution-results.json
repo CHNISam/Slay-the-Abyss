@@ -1,0 +1,376 @@
+[
+  {
+    "kind": "candidate",
+    "command": [
+      "git",
+      "apply",
+      "--check",
+      "../candidate.patch"
+    ],
+    "exit_code": 0,
+    "seconds": 0.0022564800001418917,
+    "stdout": "evidence/candidate-patch-check.stdout.log",
+    "stderr": "evidence/candidate-patch-check.stderr.log",
+    "printed_passing_groups": 0
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "git",
+      "apply",
+      "../candidate.patch"
+    ],
+    "exit_code": 0,
+    "seconds": 0.0020848120002483483,
+    "stdout": "evidence/candidate-patch-apply.stdout.log",
+    "stderr": "evidence/candidate-patch-apply.stderr.log",
+    "printed_passing_groups": 0
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "node",
+      "scripts/build-lua-data.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.07486930500090239,
+    "stdout": "evidence/baseline-build-lua-data.stdout.log",
+    "stderr": "evidence/baseline-build-lua-data.stderr.log",
+    "printed_passing_groups": 0
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "node",
+      "scripts/build-ui.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.21277336800085322,
+    "stdout": "evidence/baseline-build-ui.stdout.log",
+    "stderr": "evidence/baseline-build-ui.stderr.log",
+    "printed_passing_groups": 0
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "node",
+      "scripts/build-lua-data.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.07136905999868759,
+    "stdout": "evidence/candidate-build-lua-data.stdout.log",
+    "stderr": "evidence/candidate-build-lua-data.stderr.log",
+    "printed_passing_groups": 0
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "node",
+      "scripts/build-ui.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2515647199998057,
+    "stdout": "evidence/candidate-build-ui.stdout.log",
+    "stderr": "evidence/candidate-build-ui.stderr.log",
+    "printed_passing_groups": 0
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.12129194800036203,
+    "stdout": "evidence/baseline-node_ui.stdout.log",
+    "stderr": "evidence/baseline-node_ui.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_2.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.14258492800036038,
+    "stdout": "evidence/baseline-node_ui_slice_2.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_2.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_3.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11848737100081053,
+    "stdout": "evidence/baseline-node_ui_slice_3.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_3.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_4.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.16004774599969096,
+    "stdout": "evidence/baseline-node_ui_slice_4.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_4.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_5.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1615793040000426,
+    "stdout": "evidence/baseline-node_ui_slice_5.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_5.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_6.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11401518099955865,
+    "stdout": "evidence/baseline-node_ui_slice_6.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_6.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_7.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1282864389995666,
+    "stdout": "evidence/baseline-node_ui_slice_7.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_7.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_8.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.18846350999956485,
+    "stdout": "evidence/baseline-node_ui_slice_8.stdout.log",
+    "stderr": "evidence/baseline-node_ui_slice_8.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/fountain_event.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.17493062600078702,
+    "stdout": "evidence/baseline-fountain_event.stdout.log",
+    "stderr": "evidence/baseline-fountain_event.stderr.log",
+    "printed_passing_groups": 7
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/fountain_event_ui.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.06890084900078364,
+    "stdout": "evidence/baseline-fountain_event_ui.stdout.log",
+    "stderr": "evidence/baseline-fountain_event_ui.stderr.log",
+    "printed_passing_groups": 3
+  },
+  {
+    "kind": "baseline",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/potion_target_rejection.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2816265059991565,
+    "stdout": "evidence/baseline-potion_target_rejection.stdout.log",
+    "stderr": "evidence/baseline-potion_target_rejection.stderr.log",
+    "printed_passing_groups": 7
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1253476249985397,
+    "stdout": "evidence/candidate-node_ui.stdout.log",
+    "stderr": "evidence/candidate-node_ui.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_2.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.13212250400101766,
+    "stdout": "evidence/candidate-node_ui_slice_2.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_2.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_3.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.10922165700139885,
+    "stdout": "evidence/candidate-node_ui_slice_3.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_3.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_4.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.15716343900021457,
+    "stdout": "evidence/candidate-node_ui_slice_4.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_4.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_5.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.15456050899956608,
+    "stdout": "evidence/candidate-node_ui_slice_5.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_5.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_6.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.12209259600058431,
+    "stdout": "evidence/candidate-node_ui_slice_6.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_6.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_7.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11701386200002162,
+    "stdout": "evidence/candidate-node_ui_slice_7.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_7.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/node_ui_slice_8.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.195977106999635,
+    "stdout": "evidence/candidate-node_ui_slice_8.stdout.log",
+    "stderr": "evidence/candidate-node_ui_slice_8.stderr.log",
+    "printed_passing_groups": 5
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/fountain_event.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1692878430003475,
+    "stdout": "evidence/candidate-fountain_event.stdout.log",
+    "stderr": "evidence/candidate-fountain_event.stderr.log",
+    "printed_passing_groups": 7
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/fountain_event_ui.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.06745977900027356,
+    "stdout": "evidence/candidate-fountain_event_ui.stdout.log",
+    "stderr": "evidence/candidate-fountain_event_ui.stderr.log",
+    "printed_passing_groups": 3
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/potion_target_rejection.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2696508669996547,
+    "stdout": "evidence/candidate-potion_target_rejection.stdout.log",
+    "stderr": "evidence/candidate-potion_target_rejection.stderr.log",
+    "printed_passing_groups": 7
+  },
+  {
+    "kind": "candidate",
+    "command": [
+      "python",
+      "/workspace/scratch/331215e8236a/signed-cap-review/run-lua.py",
+      "tests/lua/run_seed_validation.lua"
+    ],
+    "exit_code": 0,
+    "seconds": 0.021665387001121417,
+    "stdout": "evidence/candidate-run_seed_validation.stdout.log",
+    "stderr": "evidence/candidate-run_seed_validation.stderr.log",
+    "printed_passing_groups": 7
+  }
+]

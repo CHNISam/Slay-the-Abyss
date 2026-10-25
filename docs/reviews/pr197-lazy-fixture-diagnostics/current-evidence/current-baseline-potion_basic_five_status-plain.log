@@ -1,0 +1,6 @@
+ok basic five 1 - Weak and Fear select only the requested enemy, stack duration, and decay on the next round
+ok basic five 2 - enemy Artifact blocks Weak or Fear as a successful consumed use, then the next bottle applies three
+ok basic five 3 - Ancient stacks one Artifact per bottle and blocks one debuff per stack without end-turn decay
+ok basic five 4 - Liquid Bronze stacks three persistent Thorns and retaliates on each blocked attack without recursion
+LUA_POTION_BASIC_FIVE_STATUS_PASS 4
+exit=0 elapsed=0.13160047500014116

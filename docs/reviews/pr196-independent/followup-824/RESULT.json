@@ -1,0 +1,17 @@
+{
+  "head": "824a5da106525a95e7a0e8cf5c1e8ec0b411123a",
+  "base": "9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db",
+  "owner": "CHNISam",
+  "status": "previous_BFB_generation_discount_bug_not_fixed",
+  "verifiedSourceFiles": 85,
+  "results": {
+    "originalRegressionExit": 1,
+    "originalBoundariesExit": 1,
+    "boundaryCases": 11,
+    "boundaryFailed": 5,
+    "choiceCompatibilityExit": 0
+  },
+  "runnerSha256": "e5543c066e49980a3dea2e2c77f85b8c577e6ecb88eaa62d26665d7a1943bcd0",
+  "liblua54Sha256": "4c51276430a3d9e130169bff107c441f12a4cfe0b75ebb59c73cda8ad9f622ba",
+  "archiveCommit": "ff3d54b83af2636a5f7987d09f6cfe7b21a80c7e"
+}

@@ -1,0 +1,83 @@
+✖ deck overlay and close remain inside approved canvas safe areas at every device scale (13.862395ms)
+✖ exit geometry follows theme and safe device scaling without oversized containers (12.751666ms)
+✖ complete native interface respects MCP per-container import limits (18.388564ms)
+✖ feedback uses a fixed non-interactive native pool within the per-parent platform limit (4.14741ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 362.027909
+
+✖ failing tests:
+
+test at tests/deck-ui-layout.test.mjs:44:1
+✖ deck overlay and close remain inside approved canvas safe areas at every device scale (13.862395ms)
+  AssertionError [ERR_ASSERTION]: battlePanel
+      at file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/deck-ui-layout.test.mjs:46:68
+      at walk (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/deck-ui-layout.test.mjs:7:30)
+      at TestContext.<anonymous> (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/deck-ui-layout.test.mjs:46:42)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/exit-ui-layout.test.mjs:61:1
+✖ exit geometry follows theme and safe device scaling without oversized containers (12.751666ms)
+  AssertionError [ERR_ASSERTION]: battlePanel
+      at file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/exit-ui-layout.test.mjs:63:52
+      at walk (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/exit-ui-layout.test.mjs:15:30)
+      at TestContext.<anonymous> (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/exit-ui-layout.test.mjs:63:29)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/map-ui-layout.test.mjs:97:2
+✖ complete native interface respects MCP per-container import limits (18.388564ms)
+  AssertionError [ERR_ASSERTION]: battlePanel
+      at visit (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/map-ui-layout.test.mjs:100:5)
+      at TestContext.<anonymous> (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/map-ui-layout.test.mjs:103:48)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ui-layout.test.mjs:6:1
+✖ feedback uses a fixed non-interactive native pool within the per-parent platform limit (4.14741ms)
+  AssertionError [ERR_ASSERTION]: stage
+      at file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/ui-layout.test.mjs:7:51
+      at walk (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/ui-layout.test.mjs:112:5)
+      at TestContext.<anonymous> (file:///workspace/shared/sta-pr193-limit-review-1918/head/tests/ui-layout.test.mjs:7:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

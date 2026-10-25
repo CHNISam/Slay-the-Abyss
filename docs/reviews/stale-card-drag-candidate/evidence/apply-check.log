@@ -1,0 +1,8 @@
+2026-10-24 21:42 UTC
+develop base/src/lua/abyss_battle_ui.lua: Git blob 3c44a86ac012bdc7bd535f2b808f4275647f74c8.
+cwd base: git apply --check ../candidate.patch -> exit 0.
+PR196 df64701a6a618b0a24e7352e04f68acff4ddb984: battle UI blob 07e76b7c805a505f2ca5f40d3c52ed5c3709a89c, identical to tested 824a5da106525a95e7a0e8cf5c1e8ec0b411123a.
+cwd pr196-baseline: git apply --check ../candidate.patch -> exit 0.
+cwd pr196-apply-check: git apply --check ../candidate.patch && git apply ../candidate.patch -> exit 0.
+cmp pr196-apply-check/src/lua/abyss_battle_ui.lua pr196-with-patch.lua -> exit 0.
+cmp pr196-apply-check/tests/lua/battle_ui_drag_source.lua candidate/tests/lua/battle_ui_drag_source.lua -> exit 0.

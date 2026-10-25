@@ -1,0 +1,11 @@
+CAPABILITY cross196x197: 73/75 accepted; rejected=clash,whirlwind
+COMBAT196 clash: damage=14, energy=3; Capability197=false
+COMBAT196 clash+: damage=18, energy=3; Capability197=false
+PUBLIC SHOP196 -> CAMP clash: seed=7, slot=2, price=53, uid=11; Nodes196=upgraded; Nodes197=card_not_upgradeable
+COMBAT196 whirlwind: damage=15, energy=0; Capability197=false
+COMBAT196 whirlwind+: damage=24, energy=0; Capability197=false
+PUBLIC SHOP196 -> CAMP whirlwind: seed=16, slot=1, price=81, uid=11; Nodes196=upgraded; Nodes197=card_not_upgradeable
+PUBLIC SHOP197 causal control clash: seed=7, slot=2; unchanged gate offers cleave; proven-card-only diagnostic offers/buys clash
+PUBLIC SHOP197 causal control whirlwind: seed=16, slot=1; unchanged gate offers sever_soul; proven-card-only diagnostic offers/buys whirlwind
+SAFETY: unknown condition, unknown cost mode, unknown effect rejected; registered regret/dazed/slimed remain accepted
+RESULT: cross-PR capability incompatibility reproduced; no single-PR, merged-head or platform claim.

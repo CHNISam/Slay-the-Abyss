@@ -1,0 +1,17 @@
+ok 1 - qualification: strike base 6
+ok 2 - qualification: strike upgraded 9 below threshold
+ok 3 - qualification: bash base 8
+ok 4 - qualification: bash upgraded 10 exactly at threshold
+ok 5 - qualification: cleave AOE base 8
+ok 6 - qualification: cleave AOE upgraded 11
+ok 7 - qualification: twin_strike two hits of 5 are not base damage 10
+ok 8 - qualification: twin_strike two hits of 7 are not base damage 14
+ok 9 - qualification: body_slam variable block damage is not a fixed base 10
+ok 10 - qualification: body_slam cost-only upgrade does not create base damage
+ok 11 - Vajra strength does not turn upgraded Strike base 9 into event eligibility
+ok 12 - eligibility stays captured at entry rather than recomputed by later requests
+ok 13 - sacrifice at hp 1 finishes defeat before any purge can commit
+ok 14 - sacrifice at hp 6 finishes defeat before any purge can commit
+ok 15 - sacrifice at hp 7 finishes defeat before any purge can commit
+ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge
+GOLDEN_WING_BOUNDARIES 16 tests, 0 failed
