@@ -36,7 +36,15 @@ for _,definition in ipairs(data.cards.cards) do
             assert(Nodes.leaveShop(run))
         end
         assert(instance and not instance.upgraded)
-        enterNext(run,map,'camp');assert(Nodes.upgrade(run,instance.uid));assert(instance.upgraded)
+        local uid,cardId,nextUid=instance.uid,instance.cardId,run.nextDeckUid
+        enterNext(run,map,'camp');assert(Nodes.upgrade(run,uid))
+        -- A successful permanent transaction publishes a private graph. Read
+        -- the current entity by stable UID instead of an obsolete table owner.
+        local upgraded
+        for _,card in ipairs(run.deck) do if card.uid==uid then upgraded=card;break end end
+        assert(upgraded and upgraded.cardId==cardId and upgraded.upgraded)
+        assert(run.nextDeckUid==nextUid,'camp upgrade must retain permanent UID allocation')
+        instance=upgraded
         enterNext(run,map,'boss')
         assert(run.phase=='combat')
         local found=false

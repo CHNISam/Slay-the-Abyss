@@ -88,7 +88,7 @@ test('normal Nodes reconstructs misc from raw seed plus destination floor',funct
     for _=1,11 do R.randomInt(run.miscRng,999) end
     local wanted,stream=expected(run);local event=run.eventRng;local unchanged=freeze(event)
     assert(Nodes.enter(run,map,id));same(ids(run.combat),wanted);same(run.miscRng,stream)
-    eq(run.miscRng.counter,1);eq(run.eventRng,event);unchanged()
+    eq(run.miscRng.counter,1);same(run.eventRng,event);unchanged()
 end)
 
 local function unknown()
@@ -231,6 +231,8 @@ test('other 16 static encounter groups retain their member order and consume no 
         assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchangedGroups[e.id]))
         eq(run.miscRng,misc);stable()
         local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck})
+        same(Data.rules.player.startingRelics,{'burning_blood'})
+        reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
         same(run.combat,reference)
     end end
     eq(seen,16)
