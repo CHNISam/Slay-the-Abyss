@@ -157,14 +157,17 @@
       "entryPoints": [
         "src/lua/abyss_event_pool.lua",
         "src/lua/abyss_nodes.lua",
-        "src/lua/abyss_node_ui.lua"
+        "src/lua/abyss_node_ui.lua",
+        "src/lua/abyss_fountain.lua"
       ],
       "local": {
         "status": "coverage-recorded",
         "testFiles": [
           "tests/lua/unknown_events.lua",
           "tests/lua/cleric.lua",
-          "tests/lua/golden_shrine.lua"
+          "tests/lua/golden_shrine.lua",
+          "tests/lua/fountain_event.lua",
+          "tests/lua/fountain_event_ui.lua"
         ]
       },
       "platform": {
@@ -2055,7 +2058,7 @@
       },
       {
         "id": "full-original-event-pool",
-        "reason": "Only the seven explicit production events above are included; full/once catalog is an audit model."
+        "reason": "Default random routes still use the seven events above. Full catalog selection now routes Fountain of Cleansing to production Nodes/UI, but remaining content/hooks and unified full-pool activation are pending; not full-pool acceptance."
       }
     ],
     "other": [

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-24 20:56'
+updated_date: '2026-10-25 01:45'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -18,6 +18,7 @@ dependencies:
 references:
   - docs/backlog-details/TASK-13.1.2.md
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/reviews/TASK-13.1.2-fountain.md
 parent_task_id: TASK-13.1
 priority: high
 ordinal: 54000
@@ -42,6 +43,8 @@ ordinal: 54000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 固定原版25事件资格、池顺序、随机消费和内容依赖。2. 逐项实现缺失18事件并接既有配对/转化。3. 统一接完整池、原生界面及永久移除/获得钩子，缺实现项明确报缺。4. 来源向量、真实交互、失败原子性和同源候选平台逐项验收。
+
+2026-10-25 当前M3新增清除诅咒祭坛切片：固定原版Fountain事件与清除/增最大生命方法链；先写正式Nodes入口和原生UI红例，再实现资格、移除、生命与取消/重复事务。接EventPool已有full目录，不新建受限八事件池、不改概率或抽后重试。子代理负责生产代码与定向测试，Codex核查固定来源、接线和剩余钩子/平台边界。当前先STS1，STS2以后扩展。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -52,4 +55,6 @@ M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方�
 2026-10-25 用户已批准完整25事件，纠正旧restricted-seven首页。Living Wall显式入口及Forget/Change/Grow已实现：42组定向通过，完整72槽34当前内容可用/38原子守卫；未接正常概率池，完整牌池/无色/诅咒与onRemove/onObtain/Searing Blow钩子仍须父线齐备。来源及边界 docs/reviews/TASK-13.1.2-living-wall.md。未知事件原220seed夹具30秒超时保留，正在原覆盖原预算优化；未宣称平台/完整事件池Done。
 
 合并前补查纠正P2：旧备注把34个有定义结果称可用不准确，其中7牌实际未实现。已补共享card capability（变换/旧奖励/商店/升级共用），独立首发清单核33包含/7排除；72槽强制抽样修为27成功/45原子守卫，7项旧对象引用、牌组、UID与全部RNG不变，不缩池/不重抽。原夹具红10组1失败，修后10组通过9846ms。前次守卫无P1/P2判断已撤回并复审。完整25事件、全卡及平台AC仍未完成。
+
+清除诅咒祭坛已接入full目录、正式Nodes事务与原生UI。固定源确认事件本身不加血/最大生命，当前Regret可净化，其他未实现移除钩子先原子拒绝。核心7/7、UI3/3、清单13项由主线程复跑通过；节点21与LivingWall10日志已读。默认七事件池未改，不虚报完整池/自然获取。子代理被平台用量上限中断后由Codex接管；独立来源复核已完成，最终独立代码复审未完成。候选/导入/同候选试玩另记，AC不勾。
 <!-- SECTION:NOTES:END -->

@@ -7,7 +7,7 @@
   "contractCases": ["POTION-02", "POTION-03", "POTION-04 phase subset", "POTION-05 use-side identity subset"],
   "baseline": {
     "currentRuntime": "STS1 PC A0 single-player Ironclad Act 1",
-    "generationDecision": "pending-user-resolution-of-STS1-STS2-conflict",
+    "generationDecision": "user-confirmed-STS1-first-STS2-later-extension-on-STS1-engineering",
     "referenceBinaryAuthenticated": false,
     "completeContentScope": "Required; legacy 30-card inventory is not full acceptance"
   },
