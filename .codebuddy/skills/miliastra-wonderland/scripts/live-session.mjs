@@ -2,9 +2,10 @@
 import { mkdirSync, existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { playtestInput } from './playtest-input.mjs';
 
 if (!process.argv[2] || process.argv[2] === '--help') {
-  console.log('node live-session.mjs <new-task-output-directory>\nRequests: queue/*.json {label,name,arguments}; stop: queue/STOP.\nExtra operations: focus-capture {windowId}; focus-input {windowId,...editor_input arguments}.');
+  console.log('node live-session.mjs <new-task-output-directory>\nRequests: queue/*.json {label,name,arguments}; stop: queue/STOP.\nExtra operations: focus-capture {windowId}; focus-input {windowId,...editor_input arguments} for editor/dialogs; playtest-input {runId,windowId,...editor_input arguments} for playtests.');
   process.exit(process.argv[2] ? 0 : 1);
 }
 const output = resolve(process.argv[2]), queue = join(output, 'queue');
@@ -42,7 +43,11 @@ try {
         label = request.label;
         if (existsSync(join(output, `${label}.json`))) throw Error('Evidence label already exists.');
         let result;
-        if (['focus-capture', 'focus-input'].includes(request.name)) {
+        if (request.name === 'playtest-input') {
+          result = await playtestInput(request.arguments ?? {}, { call, workspace: output,
+            record: (stage, value) => writeFileSync(join(output, `${label}-${stage}.json`),
+              JSON.stringify(saveResult(`${label}-${stage}`, value), null, 2)) });
+        } else if (['focus-capture', 'focus-input'].includes(request.name)) {
           const { windowId, ...input } = request.arguments;
           const focused = await call('focus_editor_window', { windowId });
           saveResult(`${label}-focus`, focused);

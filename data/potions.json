@@ -87,6 +87,51 @@
           "value": 5
         }
       ]
+    },
+    {
+      "id": "swift_potion",
+      "targetPolicy": "self",
+      "name": "迅捷药水",
+      "description": "抽 3 张牌。",
+      "rarity": "common",
+      "acquisitionPending": true,
+      "effects": [{ "op": "draw", "value": 3 }]
+    },
+    {
+      "id": "weak_potion",
+      "targetPolicy": "enemy_one",
+      "name": "虚弱药水",
+      "description": "对选定敌人施加 3 回合虚弱。",
+      "rarity": "common",
+      "acquisitionPending": true,
+      "effects": [{ "op": "applyStatus", "status": "weak", "value": 3 }]
+    },
+    {
+      "id": "fear_potion",
+      "targetPolicy": "enemy_one",
+      "name": "恐惧药水",
+      "description": "对选定敌人施加 3 回合易伤。",
+      "rarity": "common",
+      "acquisitionPending": true,
+      "effects": [{ "op": "applyStatus", "status": "vulnerable", "value": 3 }]
+    },
+    {
+      "id": "ancient_potion",
+      "targetPolicy": "self",
+      "name": "远古药水",
+      "description": "获得 1 层人工制品，本场战斗有效。",
+      "rarity": "uncommon",
+      "acquisitionPending": true,
+      "effects": [{ "op": "gainStatus", "status": "artifact", "value": 1 }]
+    },
+    {
+      "id": "liquid_bronze",
+      "targetPolicy": "self",
+      "name": "液态铜",
+      "description": "获得 3 层荆棘，本场战斗有效。",
+      "rarity": "uncommon",
+      "acquisitionPending": true,
+      "effects": [{ "op": "gainStatus", "status": "thorns", "value": 3 }]
     }
   ]
 }

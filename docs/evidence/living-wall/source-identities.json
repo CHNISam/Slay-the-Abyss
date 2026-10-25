@@ -1,0 +1,33 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "boundary": "Fixed community decompilation mirror, not authenticated PC binary or platform acceptance.",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "sources": [
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "gitBlob": "9059f4da5c8002e9645bf38f200e5527d1212ac0"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "gitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c"
+    },
+    {
+      "path": "helpers/CardLibrary.java",
+      "sha256": "ac123d5376862fb1d1d382284e14a9dc0e955395f415265ae29f9aa8a2b6237a",
+      "gitBlob": "0775b5df368e428a7d919ce80cf8df7f1d06b2af"
+    },
+    {
+      "path": "events/exordium/LivingWall.java",
+      "sha256": "0ceb58080e64863b50b4bb09b36944d215563e6df9e4275274150dff5b63a7cb",
+      "gitBlob": "d6f3c805d087cda56681ed0bebe33f7630e267da"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+      "gitBlob": "1905199265294006a78eaeeb56e4ec75048236ff"
+    }
+  ]
+}
