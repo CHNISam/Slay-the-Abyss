@@ -387,8 +387,8 @@ test("viewport scales each device uniformly and covers wider canvas outside the 
     for _, device in ipairs({{1280,720,1}, {1600,900,1.25}, {1920,1080,1.5}, {2340,1080,1.5}}) do
         local stage, scale = Viewport.apply(root, device[1], device[2])
         assert(scale == device[3] and stage.scale[1] == scale and stage.scale[2] == scale)
-        assert(root:GetChild("canvasBackdrop").size[1] == device[1])
-        assert(root:GetChild("canvasBackdrop").size[2] == device[2])
+        assert(root:GetChild("canvasBackdrop").sizeDeltaX == 0)
+        assert(root:GetChild("canvasBackdrop").sizeDeltaY == 0)
     end
     assert(not pcall(Viewport.apply, root, 0, 720))
 end)
@@ -448,7 +448,7 @@ test("native lifecycle loads every composed control and registers its listeners 
     assert(not root:GetChild("menuPanel").visible)
     width, height = 2340, 1080
     OnUpdate(0.25)
-    assert(root.scale[1] == 1.5 and canvas:GetChild("canvasBackdrop").size[1] == width)
+    assert(root.scale[1] == 1.5 and canvas:GetChild("canvasBackdrop").sizeDeltaX == 0)
     assert(root:GetChild("mapPanel").localScaleX == nil or root:GetChild("mapPanel").localScaleX == 1)
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
