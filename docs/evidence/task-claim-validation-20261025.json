@@ -105,8 +105,22 @@
       "Consumer check actually passed after its external owners handoff fingerprint changed"
     ],
     "review": "Independent read-only review found the creation, recovery, exact-file and handoff defects; final static re-review found no remaining must-fix issue. Not a substitute for tests.",
-    "lightChecks": ["changed JavaScript syntax passed", "Backlog roadmap verification passed", "git diff --check passed"],
+    "lightChecks": [
+      "changed JavaScript syntax passed",
+      "Backlog roadmap verification passed",
+      "git diff --check passed"
+    ],
     "currentHeadCI": "pending exact PR head; local partitions are not complete CI",
     "businessSources": "six M3 source trees, warrior75 and root business edits remain untouched; no automatic business adoption, quarantine resolution or migration-open"
+  },
+  "hookGitContext": {
+    "problem": "Actual M3 git commit hook inherited GIT_INDEX_FILE; foreign source reads used the executing index and falsely reported source drift. All six complete source snapshots were byte-identical.",
+    "fix": "Only sourceSnapshot foreign git children receive a copied environment with git rev-parse --local-env-vars removed case-insensitively; parent environment and remoteClient authentication unchanged.",
+    "red": "One real installed-hook commit test failed with Source snapshot fingerprint drift before fix; build-hook-red.log",
+    "green": "Real hook commit succeeds and preserves source index bytes/full snapshots; actual source drift and wrong session still rejected; build-hook-full.log first case passed41591ms. Full24 local run in progress; exact current-head CI required before integration.",
+    "runtimeSha256": "5b519abee8ab0355d38cc80aebf460c1275b83aa0db26fe461de54f3ef94f934",
+    "testsSha256": "7ec84472ba676094f22923618e94d568196b363511229c84aadebcada0c36854",
+    "review": "Independent read-only review found no protection/auth environment regression; real remote authentication is not separately certified by this test.",
+    "business": "M3 final stage lease temporarily released without advancing cursor; staged source preserved. Candidate artifact generation reads frozen M3 source and writes ignored outputs only. No old source/index cleanup, no hooks bypass."
   }
 }
