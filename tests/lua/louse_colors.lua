@@ -3,6 +3,8 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Map,Nodes,C,R,I,Data=require('abyss_run'),require('abyss_map'),require('abyss_nodes'),require('abyss_combat'),require('abyss_sts_random'),require('abyss_inventory'),require('abyss_data')
 local passed,failed=0,0
+local part=ABYSS_LOUSE_PART or 1
+assert(part>=1 and part<=5 and part%1==0)
 local function repr(v)
  if type(v)~='table' then return tostring(v) end
  local keys={};for k in pairs(v) do keys[#keys+1]=k end;table.sort(keys,function(a,b)return tostring(a)<tostring(b)end)
@@ -73,6 +75,7 @@ local function referenceBattle(run,roster)
  return reference
 end
 
+if part==1 then
 print('SECTION pure source oracle, literal distribution, no production constructor')
 for n=2,3 do
  local histogram={};for m=0,2^n-1 do local output=oracle(flags(n,m));local s=pattern(output)
@@ -115,6 +118,7 @@ for n=2,3 do for _,allRed in ipairs({false,true})do
  checkeq(r.combat,reference,enc..' actual ordered group exactly equals explicit real Combat construction')
 end end
 
+end
 local fixtures={
  {kind='combat',enc='louse_pair',seed=65536,prefix=0},
  {kind='combat',enc='louse_trio',seed=65535,prefix=3},
@@ -146,6 +150,7 @@ local function nodeSetup(f)
  end
  return r,m
 end
+if part==2 then
 print('SECTION real reachable Nodes.enter; frontier placement only, not claimed full played run')
 for _,f in ipairs(fixtures)do
  local r,m=nodeSetup(f);local n=f.enc=='louse_pair' and 2 or 3;local wanted,wantedIds=expectedStream(r,n,f.floor);local oldEvent=R.snapshot(r.eventRng)
@@ -161,6 +166,7 @@ for _,f in ipairs(fixtures)do
  checkeq(repr({run=r,map=m}),before,label..' view/reentry no new draw')
 end
 
+end
 -- Preserve each original nested reference as well as its value, including maps,
 -- catalogs and streams. Structural equality alone would miss replacement.
 local function freeze(...)
@@ -180,7 +186,8 @@ end
 print('SECTION failure guards and retry through direct, ordinary and unknown-room entry')
 local entries={{kind='direct',enc='louse_pair'},{kind='direct',enc='louse_trio'}}
 for _,f in ipairs(fixtures)do entries[#entries+1]=f end
-for _,f in ipairs(entries)do for _,mode in ipairs({'constructor-nil','constructor-throw','before-opening','after-opening'})do
+for _,f in ipairs(entries)do if part==(f.kind=='direct' and 2 or f.kind=='combat' and 3 or 4)then
+for _,mode in ipairs({'constructor-nil','constructor-throw','before-opening','after-opening'})do
  local function setup()if f.kind=='direct' then return fresh(f.enc,42,5)else return nodeSetup(f)end end
  local function enter(r,m)if f.kind=='direct' then return Run.startCombat(r,f.enc)else return Nodes.enter(r,m,f.id)end end
  local r,m=setup();local stable=freeze(r,m);local before=C.copy({run=r,map=m});local oldMisc=r.miscRng
@@ -206,8 +213,9 @@ for _,f in ipairs(entries)do for _,mode in ipairs({'constructor-nil','constructo
  assert(enter(r,m));checkeq(ids(r.combat),wantedIds,label..' retry colors');checkeq(R.snapshot(r.miscRng),R.snapshot(wanted),label..' retry exact misc state')
  local clean,cleanMap=setup();assert(enter(clean,cleanMap))
  checkeq({run=r,map=m},{run=clean,map=cleanMap},label..' retry full state matches clean entry')
-end end
+end end end
 
+if part==5 then
 print('SECTION other 16 encounters retain full construction and selection state')
 local groups={
  cultist_solo={'cultist'},jaw_solo={'jaw_worm'},medium_slimes={'acid_slime_m','spike_slime_m'},
@@ -237,5 +245,6 @@ for _,roster in ipairs({{'red_louse','green_louse'},{'green_louse','green_louse'
   assert(battle.enemies[1]~=battle.enemies[2] and battle.enemies[1].intents~=battle.enemies[2].intents and battle.enemies[1].statuses~=battle.enemies[2].statuses,'repeated colors share actor state')
  end)
 end
-print('LOUSE_COLORS passed='..passed..' failed='..failed..'; ordered branches=12; transactional failures/retries=24; other encounters=16')
+end
+print('LOUSE_COLORS part='..part..' passed='..passed..' failed='..failed)
 assert(failed==0,tostring(failed)..' louse color contract failures')

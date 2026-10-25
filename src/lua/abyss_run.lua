@@ -421,7 +421,7 @@ function M.claimCardReward(run, choice)
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
-    local rewards=run.rewards
+    local rewards,deck,relics,potions,flow,battle=run.rewards,run.deck,run.relics,run.potions,run.nodeFlow,run.combat
     local ok,detail=M.transaction(run,function(staged)
         -- A card choice never owns the independent potion reward (RewardItem).
         if choice > 0 then
@@ -433,6 +433,10 @@ function M.claimCardReward(run, choice)
         return true
     end)
     if ok then
+        -- Obtaining a reward appends a card; existing inventory and room owners
+        -- remain live for the restored map and its pending reward continuation.
+        for i=#deck+1,#run.deck do deck[i]=run.deck[i] end
+        run.deck,run.relics,run.potions,run.nodeFlow,run.combat=deck,relics,potions,flow,battle
         -- Only the card flag belongs to this command. Keep the existing reward
         -- and independent item owners; never expose them to the private stage.
         rewards.cardResolved=run.rewards.cardResolved
