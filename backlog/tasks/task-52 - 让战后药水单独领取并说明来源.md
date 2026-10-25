@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:45'
-updated_date: '2026-10-24 20:35'
+updated_date: '2026-10-25 12:32'
 labels:
   - required ui rule-parity
 milestone: m-4
@@ -56,4 +56,6 @@ ordinal: 87000
 2026-10-25 分工交付已组合到c68470f：原版式战利品列表/独立选牌、Skip只回列表、Proceed可回看；奖励页反馈拥有独立区域，23真实渲染状态回归先红后绿；资源审计补显式金币与待领奖励快照。冻结生产e2eefaa副本SHA256=226463ca068f726eab59adb69c497c34781954ca5a8062d2e73193c629854eb8，独立源码/UI/结算图读回通过。首次完整JS1111过/2失败/119跳过：一项Oracle已有CRLF工作区未随eol属性重写，恢复约定LF后原hash断言3/3通过；另一项新返回战利品按钮被旧整页断言误分类，由独立Agent处理。尚未本轮官方导入/实机/verify:ui，保持进行中。
 
 2026-10-25 PR193已合入develop 9ae1aec。准确正常候选473f7018已新导入官方1854，57模块正式sourceguard通过，新41号日志有ready/clock seed25757与首战；没有本轮奖励闭环截图或日志，不据此勾平台AC。第二轮工具因另一实际running试玩f4d29923阻止，未启动/未抢占。证据docs/evidence/m3-core-live-smoke-20261025.json。
+
+2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
 <!-- SECTION:NOTES:END -->

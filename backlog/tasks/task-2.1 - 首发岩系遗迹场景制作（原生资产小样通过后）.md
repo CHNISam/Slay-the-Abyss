@@ -1,11 +1,11 @@
 ---
 id: TASK-2.1
 title: 制作首发岩系遗迹场景
-status: To Do
+status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-24 07:01'
+updated_date: '2026-10-25 12:32'
 due_date: '2026-10-28'
 labels:
   - art
@@ -35,3 +35,9 @@ ordinal: 32000
 - [ ] #3 分批导入并留截图，不重复堆放资产，也不覆盖原来的正式存档。
 - [ ] #4 由本任务负责人把验证合格的景片接入完整游戏测试副本，读回实体并交TASK-4.2验收；未接入和未显示分别记录原因、解除条件与下一动作。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+使用PR208的41档同副本样板比较纯2D、2.5D和原生3D；保持已批准视觉方向，离线/官方导入/PC/手机证据分开。只有新一轮明确键鼠窗口内才做客户端操作；正式装配与完整UI验收仍按原AC逐项完成。
+<!-- SECTION:PLAN:END -->

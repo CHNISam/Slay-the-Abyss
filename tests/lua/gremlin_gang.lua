@@ -69,20 +69,21 @@ test('low-level explicit five-actor arrays retain capacity and never trigger gro
 end)
 
 local unchanged={
- cultist_solo={'cultist'},jaw_solo={'jaw_worm'},louse_pair={'red_louse','green_louse'},
- louse_trio={'red_louse','green_louse','red_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
+ cultist_solo={'cultist'},jaw_solo={'jaw_worm'},louse_pair={'red_louse','red_louse'},
+ louse_trio={'red_louse','red_louse','green_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
  large_acid={'acid_slime_l'},large_spike={'spike_slime_l'},looter_solo={'looter'},
  blue_slaver_solo={'blue_slaver'},red_slaver_solo={'red_slaver'},fungi_pair={'fungi_beast','fungi_beast'},
  wildlife={'jaw_worm','green_louse'},elite_nob={'gremlin_nob'},elite_lagavulin={'lagavulin'},
  elite_sentries={'sentry','sentry','sentry'},boss_guardian={'guardian'},small_slimes={'spike_slime_s','acid_slime_m'}
 }
-test('all other 17 encounters keep original slot order, construction and misc consumption',function()
+test('all other 17 encounters keep construction and their declared misc consumption',function()
  local n=0
  for _,e in ipairs(Data.enemies.encounters) do if e.id~='gremlin_gang' then
   n=n+1;local run=Run.new(Data,42);run.floor=e.minFloor
   local oldMisc=run.miscRng;local stable=freeze(oldMisc)
   assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchanged[e.id]));stable()
   if e.id=='small_slimes' then local wanted=R.cloneState(oldMisc);R.randomBoolean(wanted);same(run.miscRng,wanted)
+  elseif e.louseCount then local wanted=R.cloneState(oldMisc);for _=1,e.louseCount do R.randomBoolean(wanted) end;same(run.miscRng,wanted)
   else eq(run.miscRng,oldMisc) end
   local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck})
   same(Data.rules.player.startingRelics,{'burning_blood'})

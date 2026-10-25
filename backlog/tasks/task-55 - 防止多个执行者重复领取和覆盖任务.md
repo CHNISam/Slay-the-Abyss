@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 11:56'
+updated_date: '2026-10-25 13:32'
 labels: []
 dependencies: []
 priority: high
@@ -55,4 +55,6 @@ PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组
 2026-10-25 后续真实修复收口：PR204的c37e384完整Quality40169360644全绿，合入ac51e002，修复Git hook继承当前索引导致冻结来源误报；PR205的5715df8完整Quality40172058510三作业全绿（JS1245pass/119skip/0fail，284唯一Lua fixture），已合入20aff96403729f57cb41905709e67af75d876a01。仅停放组的空闲未完成阶段可增补有依据精确文件，旧阶段/来源/执行者/隔离保留；25个真实Git协议用例随完整CI执行。已原生增补178卡面回归及用户新要求的桌面输入规则两文档，不更改外部unknown或开放并行。两个已合并运行时安装相符，协调租约已释放回M3。
 
 2026-10-25用户要求新会话统一集成并清理全部旧分支；原生迁移组仍绑定旧session，本轮补migration-transfer：仅协调者可交接paused空闲阶段，核对干净树及本地/远端精确HEAD，保留来源指纹、原claim、阶段、旧session审计与外部unknown。新增真实Git回归先红后绿；完整26组单次通过496617.6971ms，0fail/0skip。已原生将旧TASK47 generation28交至新UUID，重新adopt取得generation32；最终源码纳入现有PR206的统一当前SHA CI，不复用旧receipt。
+
+统一集成补受控新session交接，并修复归档评审的两个真实到期缺口：初次续租完成后重新确认；短命原生续租辅助进程使本地截止不被远端Git阻塞。两例先红后绿，真实子进程超过10秒初始租约仍正常续租，以及真实断网终止通过；当前实现的四项定向回归全过。最终完整29组协议与全仓CI交统一PR206，不复用旧SHA绿灯。
 <!-- SECTION:NOTES:END -->

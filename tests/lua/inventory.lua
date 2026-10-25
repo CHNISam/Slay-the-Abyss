@@ -147,6 +147,37 @@ test("potion view is detached and enables targeted bottles only for a live targe
     run.phase = "reward"; equal(Run.potionView(run)[2].reason, "not_in_combat")
 end)
 
+test("potion finalization failure preserves complete state and original references", function()
+    for _, mode in ipairs({"throw", "false"}) do
+        local run = battle({ "fire_potion" })
+        run.combat.player.hp = 40; run.combat.enemies[1].hp = 20
+        local before, root, saved = Combat.copy(run), run.combat, {}
+        local function remember(value)
+            if type(value) ~= "table" or saved[value] then return end
+            local values = {}; saved[value] = values
+            for key, item in pairs(value) do values[key] = item; remember(item) end
+        end
+        remember(run)
+        local original = Run.finishCombat
+        Run.finishCombat = function(candidate)
+            assert(original(candidate)) -- stage real HP/gold/rewards/RNG first
+            if mode == "throw" then error("fixture finalization fault") end
+            return false
+        end
+        local called, ok, reason = pcall(Run.usePotion, run, 1, 1)
+        Run.finishCombat = original -- restore the stub before any assertion can fail
+        assert(called and ok == false and reason == "potion_effect_failed", "[ABYSS_ASSERT M4:finalization atomic]")
+        same(run, before); equal(run.combat, root)
+        for object, values in pairs(saved) do
+            for key, value in pairs(values) do equal(object[key], value) end
+            for key, value in pairs(object) do equal(value, values[key]) end
+        end
+        assert(Run.usePotion(run, 1, 1)); equal(run.phase, "reward")
+        local gold = run.gold
+        equal(Run.finishCombat(run), false); equal(run.gold, gold)
+    end
+end)
+
 test("last-enemy potion kill finishes normally and awards gold and end healing once", function()
     local run = battle({ "fire_potion" })
     run.combat.player.hp = 40; run.combat.enemies[1].hp = 20

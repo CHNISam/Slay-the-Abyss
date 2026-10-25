@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-25统一集成：复用[PR206](https://github.com/CHNISam/Slay-the-Abyss/pull/206)整合事件/库存、PR208的41档美术样板、PR202研究、工程门禁及独立颜色/药水回归。正式source formation、完整75卡、初代PC A0和美术方向保留；原53 UI用例及72转换槽仅分片，已补跨会话交接与到期保护。源码取舍、固定来源、7份脏树和stash的保全/清理规则见[统一收口](INTEGRATION-CLOSEOUT-20261025.md)。当前HEAD完整CI、实际合并和归档清理以PR及本机收口记录为准；以下为各轮历史快照。本轮没有官方导入、实机或发布，旧162dcfb候选不认证新组合。
+
 2026-10-25 M3真实提交抓到TASK-55 hook环境缺陷：继承的GIT_INDEX_FILE使跨树来源核对误读当前暂存区，六源完整快照实际未变。修复只净化来源Git子进程的本地上下文，保留父进程与远端认证；真实hook提交/来源不变及真漂移、错session拒绝回归已通过。当前SHA完整CI及合入仍须核对。M3暂存成果保留在m3-serial-integration，最终阶段未推进；旧树只读不清理，离线候选仅写独立产物。证据见[evidence/task-claim-validation-20261025.json](evidence/task-claim-validation-20261025.json)。
 
 2026-10-25 M3迁移修复：TASK-55补充只读 `migration-snapshot`、bootstrap CAS `migration-reconcile` 与指定主线程的分阶段 `adopt --group --stage`。旧 TASK-0/粗范围记录完整保留；同组只读源、真实执行目标及外部持有者分别核验，文件范围精确枚举，外部交接指纹持续复查。六个M3源树、warrior75和根在途修改均未清理或改写。协议合入不等于业务已迁移，后续仍须实际持有者确认并串行交接；paused与组外未知保持原状。用法与审计见[执行权指南](REMOTE_TASK_CLAIMS.md#task-0-与粗范围的受控迁移)，真实Git回归及当前SHA CI证据见[验证记录](evidence/task-claim-validation-20261025.json)。

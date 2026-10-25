@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-25 10:23'
+updated_date: '2026-10-25 13:32'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -46,6 +46,8 @@ ordinal: 75000
 2026-10-25 同步正式遭遇运行时：保留旧Data显式入口盘点，另核Run正式源名队列/完整17项绑定、large_slime/lots_of_slimes/exordium_thugs及动态成员合法渠道与模块部署。机器清单不能只比较旧数组或靠改数量通过；补遗漏/误映射负例，平台和逐项自然证据仍pending，不扩改实机证据schema、不勾整体AC。
 
 2026-10-25 用户方案评审已明确选择补齐首发涉及的完整原版内容池，保持概率而非受限池差异。以全解锁Ironclad A0第一幕真实获取入口核完整卡牌/遗物/药水目录、原始顺序、随机消费及机制依赖；原30/13/6仅历史已实现基线。分别委派独立目录与向量，不靠缺项重抽、占位或删池重归一化通过；逐项实现、自然获取/执行和同源实机后才验收，不自动扩成独立可玩其他职业或后续章节。
+
+统一收口本轮交接PR和分散成果，按完整CI核对当前HEAD后合入并归档旧树；不提升M3或平台验收状态。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -72,4 +74,6 @@ ordinal: 75000
 2026-10-25 RC2：保留develop已合入PR207布局，源3e9873220cf5aa055799992c906ade0daf167f63重建含BGM候选8c8f04612f6c1858b5146fb2355eda020e3fcf342f897d1e187d88f0a2097ce0，71模块逐字节审计，静态0错误/36警告。旧e1全CI首轮药水预算超时、仅一次重跑后Node全过但Lua旧oracle失败，日志均保留；七份旧oracle按当前契约校准，失败身份/RNG/完整75/UID及下战断言和原时限不降，17个Lua入口+12个Node本地通过。最终头完整CI及合并以本PR实际记录为准，父任务/M3保持In Progress。没有桌面输入窗口，不操作鼠标键盘或抢焦点，官方导入/同候选试玩未验证。
 
 2026-10-25 CI环境校准：1647330完整Node1268pass/119既有skip/0fail、数据通过；本机Node22三份Lua超时，GitHub45分钟取消，仅完成到potion_status_rules，未合并。官方校验便携Node24在同机原预算下living_wall18267ms/card_help_release20229ms/battle_ui48674ms全部通过。Quality仅固定Node24.18.0，源码/候选/系统MCP Node及全部断言、45分钟与单测预算不变。最终头完整CI仍待真实结果，平台未验证且无桌面窗口，父任务保持In Progress。
+
+本轮整合PR202/208、工程门禁、颜色与药水独立评审及根在途备注，保留完整75卡、初代PC A0与正式formation。53 UI和72转换仅分片并有冻结正文/独立来源覆盖守卫；药水39项、颜色273项、工程20项、四个语义变异及到期正反例/真实续租已通过。7份脏树、全部分支和stash先保全；完整当前SHA CI和实际合并仍须核对。详见docs/INTEGRATION-CLOSEOUT-20261025.md。
 <!-- SECTION:NOTES:END -->

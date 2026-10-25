@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 16:55'
+updated_date: '2026-10-25 12:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -60,4 +60,6 @@ ordinal: 41000
 PR163商店切片：已整合最新develop为988aa22。完整npm run check exit0（JS927pass/118条件skip、133份Lua全过、Python17项含1skip）；后续仅增遗物/药水binary32端点测试并通过，普通药水上界52。独立候选33f0b982…同源审计42模块/1997控件/max52/22节点结算，静态0error14warning；根.artifacts/shop-parity-988aa22保留原始证据。用户确认游戏独占后显式clientScriptLog=true尝试run16a0b150，在导入前无法前台失败，无截图/日志/ready；备用窗口管道重试重置均不可用，已请求用户恢复前台/同权限。verify:ui实际FAIL，整体原版与平台AC不勾。当前head Quality首次checkout网络重置，已重跑，最终状态看PR当前SHA。详见docs/SHOP_PARITY.md及docs/evidence/shop-988aa22.json。
 
 M2组合复用PR163；其快递员同名卡错槽问题已由4bf1786改为精确buyCardSlot及过期报价身份校验，当前SHA两Quality成功。精英战后尚无遗物奖励保留本任务缺口。
+
+2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
 <!-- SECTION:NOTES:END -->

@@ -1,4 +1,12 @@
 # Golden evidence is byte-hashed; keep it identical on Windows and Linux.
+# Frozen independent reviews include byte-hashed logs and unified patches.
+# Preserve their Git blob bytes; patch context spaces and raw log endings
+# are evidence, not whitespace mistakes in production source.
+docs/reviews/** -text
+docs/reviews/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/reviews/**/*.patch -whitespace
+docs/reviews/**/*.log -whitespace
+docs/reviews/pr193-container-limit/REPORT.md whitespace=-blank-at-eol,cr-at-eol
 tests/fixtures/sts1/maps/*.json text eol=lf
 # The independent encounter oracle and its fixture carry byte hashes.
 tools/oracles/sts1_encounter_queue.py text eol=lf

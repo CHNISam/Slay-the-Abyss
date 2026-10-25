@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { resolve, join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID, createHash } from 'node:crypto';
+const runtimeFile = fileURLToPath(import.meta.url);
 
 const REF = 'refs/heads/coord/task-claims';
 const argv = process.argv.slice(2), command = argv.shift();
@@ -353,20 +354,63 @@ async function runGuarded(client, r) {
   checkPaths(c, changedPaths());
   // Renew before launching; an offline or fenced owner cannot even start the child.
   client.mutate(s => { c = owned(requireState(s), r); c.expiresAt = new Date(now() + c.leaseSeconds * 1000).toISOString(); return s; });
+  c = owned(requireState(client.read().state), r);
+  if (Date.parse(c.expiresAt) <= now()) die('Ownership expired while confirming renewal; child was not started');
   const child = spawn(rest[0], rest.slice(1), { stdio: 'inherit', windowsHide: true, detached: process.platform !== 'win32' });
-  let lost;
-  const kill = () => {
-    if (process.platform === 'win32') spawnSync('taskkill', ['/pid', String(child.pid), '/T', '/F'], { windowsHide: true });
-    else { try { process.kill(-child.pid, 'SIGKILL'); } catch { /* already exited */ } }
+  let lost, renewal, expiryTimer, heartbeatTimer, finished = false;
+  const kill = target => {
+    if (!target?.pid) return;
+    if (process.platform === 'win32') spawnSync('taskkill', ['/pid', String(target.pid), '/T', '/F'], { windowsHide: true });
+    else { try { process.kill(-target.pid, 'SIGKILL'); } catch { /* already exited */ } }
   };
-  const timer = setInterval(() => {
-    try { client.mutate(s => { const current = owned(requireState(s), r); current.expiresAt = new Date(now() + current.leaseSeconds * 1000).toISOString(); return s; }); }
-    catch (e) { lost = e; clearInterval(timer); kill(); }
+  const lose = error => {
+    if (lost || finished) return;
+    lost = error; clearInterval(heartbeatTimer); clearTimeout(expiryTimer);
+    kill(child); kill(renewal);
+  };
+  const armExpiry = () => {
+    clearTimeout(expiryTimer);
+    expiryTimer = setTimeout(() => lose(new Error('Execution lease expired before renewal confirmation')),
+      Math.max(0, Date.parse(c.expiresAt) - now()));
+  };
+  // Remote Git is synchronous inside the canonical renew command. Run that
+  // command in a short-lived helper so slow I/O cannot block our local deadline.
+  heartbeatTimer = setInterval(() => {
+    if (renewal || lost || finished) return;
+    let active;
+    try { active = spawn(process.execPath, [runtimeFile, 'renew'], {
+      stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true, detached: process.platform !== 'win32'
+    }); } catch (error) { lose(error); return; }
+    renewal = active;
+    let output = '', errors = '';
+    active.stdout.setEncoding?.('utf8'); active.stderr.setEncoding?.('utf8');
+    active.stdout.on('data', chunk => {
+      output += chunk;
+      if (output.length > 1024 * 1024) lose(new Error('Invalid oversized renewal response'));
+    });
+    active.stderr.on('data', chunk => { errors = (errors + chunk).slice(-65536); });
+    active.on('error', error => { if (renewal === active) lose(error); });
+    active.on('close', code => {
+      if (renewal === active) renewal = null;
+      if (lost || finished) return;
+      try {
+        if (Date.parse(c.expiresAt) <= now()) throw new Error('Execution lease expired before renewal confirmation');
+        if (code !== 0) throw new Error(`Ownership renewal failed: ${errors || code}`);
+        const updated = JSON.parse(output);
+        if (updated.task !== r.task || updated.session !== r.session || updated.generation !== r.generation
+          || updated.branch !== r.branch || updated.status !== 'active'
+          || !Number.isFinite(Date.parse(updated.expiresAt)) || Date.parse(updated.expiresAt) <= now())
+          throw new Error('Ownership renewal returned an invalid or expired claim');
+        c = updated; armExpiry();
+      } catch (error) { lose(error); }
+    });
   }, Math.max(250, Math.min(60000, c.leaseSeconds * 1000 / 3)));
-  const interrupted = () => { lost = new Error('Controlled executor interrupted'); kill(); };
+  armExpiry();
+  const interrupted = () => lose(new Error('Controlled executor interrupted'));
   process.once('SIGINT', interrupted); process.once('SIGTERM', interrupted);
   const code = await new Promise((res, rej) => { child.on('error', rej); child.on('close', res); }).finally(() => {
-    clearInterval(timer); process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
+    finished = true; clearInterval(heartbeatTimer); clearTimeout(expiryTimer); kill(renewal);
+    process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
   });
   if (lost) throw lost;
   if (code !== 0) die(`Controlled command failed (${code})`);

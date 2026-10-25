@@ -536,6 +536,21 @@ export function validateContent(bundle) {
     integer(entry.maxFloor, `${p}.maxFloor`, 1, 16);
     if (entry.minFloor > entry.maxFloor) fail(p, 'minFloor must not exceed maxFloor');
     const gremlin = entry.id === 'gremlin_gang';
+    const louseCount = entry.id === 'louse_pair' ? 2 : entry.id === 'louse_trio' ? 3 : 0;
+    if (louseCount) {
+      integer(entry.louseCount, `${p}.louseCount`, louseCount, louseCount);
+      if (!Array.isArray(entry.lousePool) || entry.lousePool.length !== 2
+          || entry.lousePool[0] !== 'red_louse' || entry.lousePool[1] !== 'green_louse') {
+        fail(`${p}.lousePool`, 'must match the ordered red_louse, green_louse source pool');
+      }
+      for (const field of ['enemies', 'enemiesOnTrue']) {
+        if (entry[field] !== undefined) fail(`${p}.${field}`, 'cannot coexist with lousePool');
+      }
+    } else {
+      for (const field of ['lousePool', 'louseCount']) {
+        if (entry[field] !== undefined) fail(`${p}.${field}`, 'is only supported by louse_pair and louse_trio');
+      }
+    }
     const sourcePool = ['mad_gremlin', 'mad_gremlin', 'sneaky_gremlin', 'sneaky_gremlin',
       'fat_gremlin', 'fat_gremlin', 'shield_gremlin', 'wizard_gremlin'];
     if (gremlin) {
@@ -552,7 +567,7 @@ export function validateContent(bundle) {
         if (entry[field] !== undefined) fail(`${p}.${field}`, 'is only supported by gremlin_gang');
       }
     }
-    const fields = gremlin ? ['gremlinPool'] : ['enemies', ...(entry.enemiesOnTrue === undefined ? [] : ['enemiesOnTrue'])];
+    const fields = gremlin ? ['gremlinPool'] : louseCount ? ['lousePool'] : ['enemies', ...(entry.enemiesOnTrue === undefined ? [] : ['enemiesOnTrue'])];
     for (const field of fields) {
       const slots = [];
       array(entry[field], `${p}.${field}`).forEach((id, j) => {
@@ -564,7 +579,10 @@ export function validateContent(bundle) {
       // The pool contains candidates, not eight simultaneous actors. Check the
       // largest legal four-slot draw, still including retained split parents.
       if (gremlin) slots.sort((a, b) => b - a);
-      const expandedSlots = (gremlin ? slots.slice(0, 4) : slots).reduce((sum, n) => sum + n, 0);
+      // Louse slots are sampled with replacement, so the largest candidate can
+      // occupy every slot. The two-element pool is not a two-actor roster.
+      const expandedSlots = louseCount ? Math.max(0, ...slots) * louseCount
+        : (gremlin ? slots.slice(0, 4) : slots).reduce((sum, n) => sum + n, 0);
       if (expandedSlots > 5) fail(`${p}.${field}`, 'must fit five UI slots including retained split parents');
     }
   });

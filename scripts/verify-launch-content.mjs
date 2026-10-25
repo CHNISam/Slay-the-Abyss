@@ -180,7 +180,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   same(ids(manifest.legacyData.encounters), ids(data.enemies.encounters), 'legacyData.encounters');
   for (const encounter of manifest.legacyData.encounters) {
     const definition = data.enemies.encounters.find(row => row.id === encounter.id);
-    for (const field of ['tier', 'minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount']) same(encounter[field], definition?.[field], `legacyData.encounters/${encounter.id}/${field}`);
+    for (const field of ['tier', 'minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount', 'lousePool', 'louseCount']) same(encounter[field], definition?.[field], `legacyData.encounters/${encounter.id}/${field}`);
     same(encounter.channels, ['explicit:Run.startCombat'], `legacyData.encounters/${encounter.id} channels`);
   }
   let actualRuntime;
@@ -214,7 +214,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const channels = binding.tier === 'normal' ? ['map:combat', 'unknown_room:monster']
       : binding.tier === 'elite' ? ['map:elite'] : ['map:boss:floor16'];
     same(encounter.channels, channels, `${label} channels`);
-    check(!['minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount'].some(field => Object.hasOwn(encounter, field)),
+    check(!['minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount', 'lousePool', 'louseCount'].some(field => Object.hasOwn(encounter, field)),
       `${label}: legacy fields cannot describe formal queue admission`);
     try { same(sortedTraces(formationTraces(encounter.formation)), sortedTraces(binding.traces), `${label}/formation`); }
     catch (error) { errors.push(`${label}/formation: invalid rule ${error.message}`); }

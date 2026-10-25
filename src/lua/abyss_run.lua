@@ -224,6 +224,14 @@ local function startEncounter(run, encounter, sourceRoom)
     if not sourceRoom and encounter.enemiesOnTrue then
         nextMiscRng = EventRandom.cloneState(run.miscRng)
         if EventRandom.randomBoolean(nextMiscRng) then enemies = encounter.enemiesOnTrue end
+    elseif not sourceRoom and encounter.lousePool then
+        nextMiscRng = EventRandom.cloneState(run.miscRng)
+        enemies = {}
+        for slot = 1, encounter.louseCount do
+            -- Each source getLouse call is independent: true red, false green.
+            -- Keep candidates for every slot; repeated colors are legal.
+            enemies[slot] = encounter.lousePool[EventRandom.randomBoolean(nextMiscRng) and 1 or 2]
+        end
     elseif not sourceRoom and encounter.gremlinPool then
         nextMiscRng = EventRandom.cloneState(run.miscRng)
         local pool = Combat.copy(encounter.gremlinPool)

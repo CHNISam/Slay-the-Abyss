@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex-m3-map'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-24 16:17'
+updated_date: '2026-10-25 12:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -62,4 +62,6 @@ ordinal: 40000
 2026-10-24 @codex-fresh-run-rng：已先红后绿修复Host重建固定seed=1。正常Start读取os.time/os.clock与模块序号混合的16位种子，同次样本供Run/Map；显式platform.seed/ui.seed复现及原重开递增保留，菜单预览不消费熵。6组真实Host/OnStart/原子性/范围回归、正常候选依赖清单4项及旧Host/序章/卡牌归属/BGM专项通过；完整check正在跑。两固定Exordium镜像及AbstractDungeon/MonsterInfo审计确认前三普通弱敌等权、普通最近两项/精英最近一项拒重、队列消费与流隔离；生产按floor均匀预抽仍不符，完整地图隔离候选未生产接线。来源hash与缺口见新增附件。免费DeepSeek Max已核零价和有效锁定配置，但90秒无事件/产物后中止，Codex接管，费用事件与节省额度未知。未构建副本/导入/实机，整体AC不勾。
 
 2026-10-24 @codex-sts1-encounter-queue：第一幕遭遇队列核心已实现并定向验证，仍未接实际游戏。保留完整弱敌、强敌、精英池与同一个怪物随机流，支持完整原始种子、拒重、首强排除及原子消费/恢复；9个独立来源解释向量逐次状态匹配，核心12组、相关Node8项通过。完整17项内容映射仍有6项动态编组阻塞，未删池或改概率，普通耗尽明确拒绝而不猜原文异常路径。细节、接口、来源hash、Boss随机流边界及下一接线门槛见新增附件。本片未full/构建候选/导入/实机/外发委派，整体AC不勾。
+
+2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
 <!-- SECTION:NOTES:END -->

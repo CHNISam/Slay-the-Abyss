@@ -4,8 +4,57 @@ import { mkdtempSync, writeFileSync, readFileSync, rmSync, renameSync, readdirSy
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
+import { EventEmitter } from 'node:events';
+import { runInNewContext } from 'node:vm';
 
 const cli = resolve('scripts/remote-task-claim.mjs');
+function leaseBoundary({lateInitial=false}={}) {
+  const raw=readFileSync(cli,'utf8'),start=raw.indexOf('async function runGuarded(');
+  const body=raw.slice(start,raw.indexOf('\nasync function main()',start));
+  const receipt={task:'TASK-1',session:'fixture',generation:1,branch:'feat/fixture'};
+  const claim={...receipt,status:'active',leaseSeconds:1,expiresAt:new Date(Date.now()+5000).toISOString()};
+  const state={claims:{'TASK-1':claim}},children=new Map();let mutations=0,launched=0,pid=100;
+  const owned=s=>{if(Date.parse(s.claims['TASK-1'].expiresAt)<=Date.now())throw new Error('Ownership expired');return s.claims['TASK-1'];};
+  const client={read:()=>({state}),mutate(fn){fn(state);mutations++;
+    if((lateInitial&&mutations===1)||(!lateInitial&&mutations>1))Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,lateInitial?1150:1500);
+    return state;
+  }};
+  const fakeSpawn=(command,args)=>{
+    const child=new EventEmitter();child.pid=++pid;child.stdout=new EventEmitter();child.stderr=new EventEmitter();
+    const primary=command==='fixture-child';if(primary)launched++;
+    const timer=setTimeout(()=>{
+      if(!primary)child.stdout.emit('data',JSON.stringify(claim));
+      child.emit('close',0);
+    },primary?1600:1500);
+    child.stop=()=>{clearTimeout(timer);child.emit('close',1);};children.set(child.pid,child);return child;
+  };
+  const run=runInNewContext('('+body+')',{rest:['fixture-child'],owned,requireState:s=>s,
+    checkPaths(){},changedPaths:()=>[],now:Date.now,spawn:fakeSpawn,spawnSync(){},
+    setInterval,clearInterval,setTimeout,clearTimeout,runtimeFile:'/fixture/runtime.mjs',
+    process:{platform:'linux',execPath:process.execPath,env:{},once(){},removeListener(){},
+      kill(id){children.get(Math.abs(id))?.stop();}},die(message){throw new Error(message);}});
+  return {run:()=>run(client,receipt),launched:()=>launched};
+}
+
+test('a renewal completed after its own expiry cannot launch any child',async()=>{
+  const f=leaseBoundary({lateInitial:true});await assert.rejects(f.run(),/expired/i);
+  assert.equal(f.launched(),0,'slow initial remote renewal must be rechecked before spawn');
+});
+
+test('local execution deadline remains live while remote renewal is slow',async()=>{
+  const f=leaseBoundary(),started=Date.now();await assert.rejects(f.run(),/expired/i);
+  assert.equal(f.launched(),1);assert(Date.now()-started<1450,'blocked remote I/O must not extend the local lease');
+});
+
+test('canonical renewal helper keeps a real child alive beyond its initial lease',async t=>{
+  const f=await fixture(t);
+  await ok(f.a,['claim','--spec',f.spec(f.a,'TASK-1',['allowed'],[],{leaseSeconds:10})]);
+  await ok(f.a,['run','--',process.execPath,'-e',
+    'setTimeout(()=>require("node:fs").writeFileSync("allowed","renewed"),11500)']);
+  assert.equal(readFileSync(join(f.a,'allowed'),'utf8'),'renewed');
+  git(f.a,'fetch','origin','coord/task-claims');
+  assert.match(git(f.a,'log','origin/coord/task-claims','--format=%s'),/chore\(claim\): renew/);
+});
 function git(cwd, ...args) {
   const r = spawnSync('git', args, { cwd, encoding: 'utf8', env: process.env });
   assert.equal(r.status, 0, r.stderr);

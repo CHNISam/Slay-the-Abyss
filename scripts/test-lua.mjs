@@ -15,7 +15,8 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const normalizedScript = script.replaceAll('\\', '/');
-  const fixture = normalizedScript.endsWith('tests/lua/battle_ui.lua');
+  const fixture = ['tests/lua/battle_ui.lua', 'tests/lua/battle_ui_slice_2.lua']
+    .some(path => normalizedScript.endsWith(path));
   const mapProperties = ['map_floor_boundaries.lua', 'map_no_crossings.lua', 'map_treasure_placement.lua']
     .some(name => normalizedScript.endsWith(`tests/lua/${name}`));
   // Quality runs 39982640775/39985958741 timed out in three different fixtures

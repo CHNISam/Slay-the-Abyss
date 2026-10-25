@@ -1,5 +1,7 @@
 # 项目协作规则
 
+工程检查与证据合同见 `docs/ENGINEERING.md`。新增核心 Lua 模块须在 `config/architecture.json` 分类；`npm run check` 包含架构、固定版本 Luacheck 和四项关键语义变异。候选构建与实机验收仍分层记录；当前 SHA 的 Quality 全部作业成功才可合并。工程工具不得覆盖既有构建的脚本清理、结算图复用、BGM参数或实机输入窗口规则。
+
 <!-- BACKLOG.MD GUIDELINES START -->
 <!-- backlog.md-instructions-version: 1.53.0 -->
 <CRITICAL_INSTRUCTION>

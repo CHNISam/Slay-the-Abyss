@@ -19,11 +19,12 @@ Quality / check 在 PR、develop/master 推送时运行，也支持手动执行�
 3. Node 自动化测试（串行执行，失败立即阻止通过）。
 4. 所有运行数据的结构、枚举、范围、ID 与交叉引用校验。
 
-并行的 presentation 作业在 GitHub-hosted Ubuntu 用系统 Python 跑文案回归
-测试，不安装依赖。该测试包含符号链接，普通 Windows 服务账户缺少此权限；
-保留完整测试而不扩大本机服务权限。合并前同时检查 check 与 presentation。
+presentation 作业在 GitHub-hosted Ubuntu 跑文案回归；engineering-posix
+实际执行Node文件系统回归，覆盖Windows权限不足时跳过的符号链接用例。
+三个作业显式准备Pillow 12.3.0；check与engineering-posix准备固定hash的
+Luacheck 1.2.0。合并前同时核对check、presentation、engineering-posix。
 
-本地先 `npm ci --ignore-scripts`，再 `npm run check`。Lua同源测试使用锁定的
+本地先 `npm ci --ignore-scripts`、`npm run setup:lua-static`，再 `npm run check`。Lua同源测试使用锁定的
 开发依赖Fengari；运行错误、语法错误、缺文件和超时均有非零退出回归。
 Windows check作业先安装锁定开发依赖，再按 `npm run check:rules` 的六条命令及相同顺序逐步执行（Node+数据+Lua）；每阶段在作业API中单独可见，前阶段失败仍阻止后续通过。
 Lua默认每个独立脚本限30秒；battle/game界面为60秒，遭遇覆盖和三个地图属性矩阵为120秒，准确名单以`scripts/test-lua.mjs`为准，调用方显式超时仍优先。逐脚本记录耗时，保留全部断言、超时失败和整作业上限，不代表游戏性能验收通过。
@@ -57,6 +58,9 @@ gh run list --repo CHNISam/Slay-the-Abyss --workflow quality.yml
 `no_proxy=localhost,127.0.0.1`。代理需保持可用；其他 runner 与全局代理未改动。
 
 CI 只验证仓库逻辑与数据，不代表平台编译、写入存档或游戏内试玩通过。
+新增架构/静态/四算子门禁和候选、UI、交付证据合同见[ENGINEERING.md](ENGINEERING.md)。
+check上传真实checkout身份，engineering-posix上传依赖图、静态告警/复杂度
+与变异报告，保留7天。取证/合并不得复用旧head/base或旧attempt结果。
 CD 当前止于可审查的代码集成；正式游戏发布、赛事投稿由人完成。
 
 ## 测试文件的执行边界
