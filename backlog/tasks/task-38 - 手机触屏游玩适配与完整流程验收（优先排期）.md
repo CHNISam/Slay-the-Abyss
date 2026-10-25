@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-25 07:41'
+updated_date: '2026-10-25 08:05'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -46,4 +46,8 @@ P1手机横屏露底修复：基于最新develop，把共享canvasBackdrop改为
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-25用户指定P1高优先级、非阻塞但正式发布前必修；复用TASK-4/38。本轮新claim被Migration paused拒绝，用户在说明最小范围例外后要求continue；不改执行权配置、不冒用其他session。后续用户强调任何抢占输入测试必须提前协调并等待本轮明确时间窗口，已写入AGENTS和官方客户端指引。本轮尚未进行任何鼠标键盘或置前操作。
+
+2026-10-25用户明确选择本轮先只做离线验证，之后另约输入设备时间；因此本轮不做官方导入、设备预览、原生试玩、手机或性能实测。源码79244ee已推Draft PR207；2项背景几何回归（旧版真实失败）、9组尺寸与重复缩放、15项游戏宿主回归通过，完整check和存档副本仍在执行。
+
+候选79244ee已独立审计通过：65/65模块、2824控件/max60、静态0错35警告、四设备宿主/根/背景拉伸零增量。候选与报告见docs/evidence/mobile-fullbleed-20261025.json。完整npm check的JS1366项中1247通过/119环境跳过/0失败；Lua阶段发现同机M3 CI40174178038已在本地任务启动后开始，已停止自己的全量进程保留日志以恢复串行，不报本地完整通过。最终SHA完整CI仍必须完成；verify:ui实为6屏partial/5屏pending。
 <!-- SECTION:NOTES:END -->

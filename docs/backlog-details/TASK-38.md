@@ -35,6 +35,8 @@
 - 新增 `tests/lua/viewport.lua`：实际 Viewport 模块与生成布局共同验证画布读数不同于宿主尺寸、9 组设备各连续缩放三次、等比内容边界和非法尺寸拒绝。此为离线几何模型，不能冒充引擎或真机结果。
 - 更新 `tests/lua/game_ui.lua` 中旧固定尺寸预期；15 项真实游戏控制器与控件夹具回归通过，包括开场、地图、战斗领奖、节点、17层结算、重开、生命周期重入及启动错误。
 - 原始红绿和全量检查日志在本轮独立工作树 `.artifacts/mobile-fullbleed/`；完整 check、固定源候选 hash、独立读回和 CI 结果在收口时补记。
+- 冻结源 `79244ee` 的副本为根目录 `.artifacts/mobile-fullbleed-79244ee/abyss-mobile-79244ee.gil`，SHA256 `1d2aeb6c56ae384a53818006e57bca55745ed8d9f48eeb9470a1b88ff8e00b45`。独立读回 65/65 模块同源、2824 控件/max60、静态 0 错误/35 警告，候选 hash 不变。另逐原生存档字段核验四设备的宿主/根/背景均为拉伸零增量，stage 为居中 1280×720。见[分层证据](../evidence/mobile-fullbleed-20261025.json)；不是设备渲染通过。
+- 用户明确选择本轮只做离线验证；未导入或占用输入。`verify:ui` 实际退出 1（6 屏 partial / 5 屏 pending），未复用旧图补状态。
 
 ### 原生与手机待验（保持未勾）
 
