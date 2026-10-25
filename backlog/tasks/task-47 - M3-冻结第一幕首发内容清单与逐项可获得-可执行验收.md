@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-25 16:45'
+updated_date: '2026-10-25 16:55'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -86,4 +86,6 @@ ordinal: 75000
 变异检查精准选例修复已GREEN：专项6项通过，真实M1-M4全部被原登记断言检出；15000ms单次与120000ms整轮预算均不变。两个普通Lua入口完整12/11项通过，未给全量入口设置筛选，未知选例必须失败。未改游戏生产Lua或候选，本PR当前SHA完整CI与实际合并仍待核对，父任务/M3和平台AC保持原状态。
 
 附件首个生产缺陷已修：正式roomStreams中的护盾援护由legacy LCG改接既有敌人AI随机适配器。原18组遭遇仍过，新增独立后续roll和计数回归先RED后GREEN；现19组及原护盾22组通过，架构66模块199边及Lua静态无新增诊断。仅此已证实共享随机流差异完成本地修复，300牌/完整Neow/23敌整体未完成。Effects已变，原RC2仅旧源证据；新候选和平台实测未验证。详见原整合评审附件，最终SHA重新CI。
+
+5225生产修复已推送且PR头匹配，但对应check-runs为0、自动Actions未产生新run，旧6b检查不能复用。Quality手动feature分支改为同样执行verify-pr，分支与SHA从真实dispatch上下文传入，保持所有权与精确HEAD门禁，再按官方workflow_dispatch补跑；不以SKIPPED替代SUCCESS。最终合并仍待本轮所有实际检查成功。
 <!-- SECTION:NOTES:END -->
