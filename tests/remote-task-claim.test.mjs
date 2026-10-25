@@ -85,6 +85,31 @@ async function reconciliationFixture(t, outsideOverlap = false) {
   return { ...f, manifest, file, reservations };
 }
 
+test('reconciliation real commit hooks inspect each parked source index and still reject actual drift', async t => {
+  const f = await reconciliationFixture(t);
+  await ok(f.c, ['migration-reconcile', '--manifest', f.file], 'c');
+  const target = join(f.root, 'execution');
+  const spec = f.spec(f.a, 'TASK-13.1.2', ['allowed'], ['combat'], { branch: 'feat/reconciled' });
+  await ok(f.a, ['adopt', '--spec', spec, '--group', 'm3', '--stage', 'stage-0', '--path', target, '--evidence', 'Real hook checks frozen sources']);
+  await ok(target, ['install']);
+  const sources = [f.a, f.b].map(cwd => ({ cwd, index: readFileSync(resolve(cwd, git(cwd, 'rev-parse', '--git-path', 'index'))),
+    snapshot: null }));
+  for (const source of sources) source.snapshot = await ok(f.c, ['migration-snapshot', '--path', source.cwd], 'c');
+  writeFileSync(join(target, 'allowed'), 'first owned change'); git(target, 'add', 'allowed');
+  const committed = ownedGit(target, 'commit', '-m', 'test: commit through actual reconciled hooks');
+  assert.equal(committed.status, 0, committed.stderr);
+  for (const source of sources) {
+    assert.deepEqual(await ok(f.c, ['migration-snapshot', '--path', source.cwd], 'c'), source.snapshot);
+    assert.deepEqual(readFileSync(resolve(source.cwd, git(source.cwd, 'rev-parse', '--git-path', 'index'))), source.index);
+  }
+  writeFileSync(join(f.b, 'actual-source-drift'), 'must still be rejected');
+  writeFileSync(join(target, 'allowed'), 'second owned change'); git(target, 'add', 'allowed');
+  const drifted = ownedGit(target, 'commit', '-m', 'test: reject a genuinely changed source');
+  assert.notEqual(drifted.status, 0); assert.match(drifted.stderr, /fingerprint|snapshot|drift/i);
+  const wrongSession = spawnSync('git', ['commit', '-m', 'test: reject wrong session'], { cwd: target, encoding: 'utf8', env: { ...process.env, TASK_CLAIM_SESSION: 'b' } });
+  assert.notEqual(wrongSession.status, 0); assert.match(wrongSession.stderr, /session/i);
+});
+
 test('reconciliation preserves every legacy row and only the designated executor adopts serial stages', async t => {
   const f = await reconciliationFixture(t);
   const before = (await ok(f.c, ['list'], 'c')).migration.reservations;
