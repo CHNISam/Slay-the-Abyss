@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-25 01:56'
+updated_date: '2026-10-25 02:10'
 due_date: '2026-10-28'
 labels:
   - required
@@ -71,4 +71,6 @@ ordinal: 43000
 补Mega Crit官方PC V2.2公告的独立数值复核：Bloodletting能量2/3、Hemokinesis伤害15/20与自损2、Rupture+费用1与每次力量2，均与当前实现一致；来源docs/evidence/warrior75/official-v2.2.json。正常规则driver首轮seed42在第6层Nob战败（2胜，HP0，牌组12），不计通关；保留失败并调整仅测试策略：读取可见Enrage避免无谓技能，合法路线优先避开起始牌组高风险精英；未改任何产品数值/规则/卡池。
 
 2026-10-25合并前完整Quality40148436803（9a4cf64）：JS1339项1220通过/119跳过/0失败、呈现22通过；完整229 Lua文件记录六份30秒超时及potion_reward_atomic两条过时断言。药水胜利应恰好消费一次持续cardRng，现核对prepareRewards的完整快照与稀有度偏移，原失败回滚和第二次操作不变性保留。六套测试按独立case/seed拆分，50奖励诊断、11动态卡面组含80牌双版本、40节点UI、31坐标边界、128Boss seed、1680菌兽路径全部保留；每文件30秒不变，跨种子聚合改为各批更强全rare覆盖和独立oracle完整笛卡尔覆盖。51个相关文件本地全部通过，最长13786ms；原始/新helper摘要与不重叠覆盖审计及每文件结果见docs/evidence/warrior75/ci-fixture-partitions.json和ci-partitions-local-results.json。语法/Backlog/diff检查通过；提交后的完整CI仍为合并门禁，严格75张和平台父AC仍不关闭。
+
+2026-10-25等待合并期间develop新增PR200/c05332b，已重新整合。仅三份文档冲突：来源/交接双边记录并存，TASK-47用上游原五条AC加完整75张第六条，经原生CLI保留双方备注，未削弱未验证项不得随机出现。最新组合祭坛核心7/UI3、药水旧目标拒绝7、活墙11（含Searing+2→+3）全部通过，build:data、语法、Backlog与diff通过。旧bbf两轮CI因基线过期取消，不计通过；新提交重新完整CI后再合并。
 <!-- SECTION:NOTES:END -->

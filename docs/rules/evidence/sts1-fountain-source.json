@@ -1,0 +1,71 @@
+{
+  "source_status": "fixed third-party decompiled mirror; not official or PC binary audited",
+  "commit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archive": "F:/New folder/.artifacts/sts1-fixed-source/sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+  "archive_sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "files": [
+    {
+      "path": "events/shrines/FountainOfCurseRemoval.java",
+      "sha256": "9c5e9e7c7cb32f747a85251c8f02eff71d47bcbd4396c1b5423d54bcb015ff36",
+      "git_blob_sha1": "4ed9a1a70f81cfa8086824dd3319abaa918deaf9",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/shrines/FountainOfCurseRemoval.java",
+      "local_file": "events__shrines__FountainOfCurseRemoval.java"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "git_blob_sha1": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "local_file": "cards__CardGroup.java"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "git_blob_sha1": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "local_file": "characters__AbstractPlayer.java"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "git_blob_sha1": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "local_file": "core__AbstractCreature.java"
+    },
+    {
+      "path": "cards/curses/Parasite.java",
+      "sha256": "af0ab39e0d6535c328adc74371b27703b0730b6a1f4bd6476a72b0d03a54ae56",
+      "git_blob_sha1": "003b65e5c7fa97ad1888f9000e922ad631a919de",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Parasite.java",
+      "local_file": "cards__curses__Parasite.java"
+    },
+    {
+      "path": "relics/DarkstonePeriapt.java",
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde",
+      "git_blob_sha1": "7cff88ec76f796024b9b8f7bb567215dd14d1933",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DarkstonePeriapt.java",
+      "local_file": "relics__DarkstonePeriapt.java"
+    },
+    {
+      "path": "relics/DuVuDoll.java",
+      "sha256": "ee65de1fbb3148200fef2aaff6b65937ee5c131174bccc7a744a31cac9714ff5",
+      "git_blob_sha1": "bca43719d7d31d1c64ac1164ef420755fff3354b",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DuVuDoll.java",
+      "local_file": "relics__DuVuDoll.java"
+    },
+    {
+      "path": "relics/AbstractRelic.java",
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+      "git_blob_sha1": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "local_file": "relics__AbstractRelic.java"
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "git_blob_sha1": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "local_file": "dungeons__AbstractDungeon.java"
+    }
+  ]
+}
