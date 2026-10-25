@@ -18,7 +18,8 @@ export function potionDiscardControls(theme = nativeTheme) {
   };
   const [w,h]=l.modal.size,entry=l.nativeNode.topBar.potions;
   const y=-h/2+s.l+l.exitMenu.cancel[3]/2;
-  const slots=l.nativeNode.shop.potions;
+  const slots=l.potionDiscard;
+  const actionWidth=(w-s.xxl*2-s.m*2)/3, actionStep=actionWidth+s.m;
   return [
     {name:'potionEntry',kind:'container',size:[...theme.canvas.base],visible:false,children:[
       button('open',[...entry.slice(0,3),l.topBar.height],'药水 0/3')]},
@@ -26,12 +27,16 @@ export function potionDiscardControls(theme = nativeTheme) {
       plate('veil',[0,0,...theme.canvas.base],c.backdropVeil),
       {name:'blocker',kind:'cursorArea',size:[...theme.canvas.base],focusable:false},
       plate('border',[0,0,w,h],c.goldDim),plate('face',[0,0,w-s.border*2,h-s.border*2],c.panel),
-      text('title',[0,h/2-s.xxl-l.exitMenu.title[3]/2,w-s.xxl*2,l.exitMenu.title[3]],'丢弃药水',f.heading,c.goldBright),
-      text('hint',[0,l.exitMenu.title[1]+s.xxl,w-s.xxl*2,l.nativeText.lineHeight],'选择旧药水，再确认丢弃以腾出空槽。',f.label,c.textDim),
-      ...slots.columns.map((x,i)=>button(`slot${i+1}`,[x-slots.columns[1],l.exitMenu.message[1],...slots.size],`槽 ${i+1}\n空槽`)),
-      text('detail',[0,l.exitMenu.status[1]-s.xxl,w-s.xxl*2,l.exitMenu.message[3]],'',f.body,c.text),
-      button('cancel',[l.exitMenu.cancel[0],y,...l.exitMenu.cancel.slice(2)],'关闭'),
-      button('discard',[l.exitMenu.confirm[0],y,...l.exitMenu.confirm.slice(2)],'确认丢弃'),
+      text('title',[0,h/2-s.xxl-l.exitMenu.title[3]/2,w-s.xxl*2,l.exitMenu.title[3]],'药水管理',f.heading,c.goldBright),
+      text('hint',[0,l.exitMenu.title[1]+s.xxl,w-s.xxl*2,l.nativeText.lineHeight],'选择药水，可使用战外药水或确认丢弃。',f.label,c.textDim),
+      ...Array.from({length:l.battlePotions.count},(_,i)=>({
+        ...button(`slot${i+1}`,[slots.columns[i%slots.columns.length],slots.rows[Math.floor(i/slots.columns.length)],...slots.size],`槽 ${i+1}\n空槽`),
+        ...(i>=3?{visible:false}:{}),
+      })),
+      text('detail',slots.detail,'',f.body,c.text),
+      button('cancel',[-actionStep,y,actionWidth,l.exitMenu.cancel[3]],'关闭'),
+      button('use',[0,y,actionWidth,l.exitMenu.confirm[3]],'使用药水'),
+      button('discard',[actionStep,y,actionWidth,l.exitMenu.confirm[3]],'确认丢弃'),
     ]},
   ];
 }

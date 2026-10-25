@@ -13,8 +13,11 @@ local Shop = require("abyss_shop")
 local External=require('abyss_external_random')
 
 local CardRandom = require("abyss_card_random")
+local CardPool = require('abyss_card_pool')
 local LivingWall = require('abyss_living_wall')
 local Fountain = require('abyss_fountain')
+local RelicHooks = require('abyss_relic_hooks')
+local Act1Events = require('abyss_act1_events')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -70,7 +73,7 @@ end
 local function unownedRelics(run)
     local result = {}
     for _, relic in ipairs(run.data.relics.relics) do
-        if relic.rarity ~= "starter" and relic.rarity ~= "boss" and relic.rarity ~= "shop"
+        if (relic.rarity=='common' or relic.rarity=='uncommon' or relic.rarity=='rare')
             and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
     end
     table.sort(result)
@@ -116,6 +119,7 @@ local function prepare(run, node, miscRng)
     elseif node.type == "event" then
         local id=node.eventId or run.data.rules.events.encounterId
         flow.event = { id = id }
+        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -132,7 +136,7 @@ function M.available(run, map)
     return Map.available(map)
 end
 
-function M.enter(run, map, nodeId)
+local function enter(run, map, nodeId)
     if run.nodeFlow and not run.nodeFlow.complete then return false, "node_pending" end
     if run.phase ~= "map" then return false, "not_on_map" end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
@@ -149,6 +153,9 @@ function M.enter(run, map, nodeId)
     if not battleKinds[node.type] and node.type ~= "camp" and node.type ~= "shop"
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
     local sourceType=node.type
+    -- Source onEnterRoom runs before an unknown room resolves or an event
+    -- checks eligibility. justEnteredRoom uses its resolved room afterwards.
+    RelicHooks.onEnterRoom(run,sourceType,'enter')
     local nextUnknown,nextEventRng,nextMiscRng
     -- nextRoomTransition reconstructs misc from raw run seed + destination
     -- floor for every room, before event constructors or encounter assembly.
@@ -175,11 +182,12 @@ function M.enter(run, map, nodeId)
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
-            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain' then return false, "event_unavailable" end
+            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain' and not Act1Events.ids[id] then return false, "event_unavailable" end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
     end
+    RelicHooks.onEnterRoom(run,node.type,'entered')
     local prepared,flow,seed=pcall(prepare,run,node,nextMiscRng)
     if not prepared then return false,'node_content_unavailable' end
     if flow.type=='shop' and not pcall(CardRandom.snapshot,flow.cardRandom) then
@@ -210,6 +218,7 @@ function M.enter(run, map, nodeId)
         run.floor, run.phase, run.combat = stagedRun.floor, stagedRun.phase, stagedRun.combat
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
         run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
+        run.relicCounters=stagedRun.relicCounters
         run.roomGeneration=stagedRun.roomGeneration
     else
         run.roomGeneration=run.roomGeneration+1
@@ -228,15 +237,29 @@ function M.enter(run, map, nodeId)
     return true
 end
 
+function M.enter(run,map,nodeId)
+    -- Map.choose and every entry hook stay private until battle setup and room
+    -- preparation both succeed. Keep the public map/root/path owners stable.
+    local stagedMap=Combat.copy(map)
+    local ok,reason=Run.transaction(run,function(staged)return enter(staged,stagedMap,nodeId)end)
+    if not ok then return false,reason end
+    map.floor,map.currentNodeId=stagedMap.floor,stagedMap.currentNodeId
+    for i=#map.path,1,-1 do map.path[i]=nil end
+    for i,id in ipairs(stagedMap.path)do map.path[i]=id end
+    return true,reason
+end
+
 function M.view(run, map)
     local available, mapView = M.available(run, map), Map.view(map)
     local enabled = #available > 0
     if not enabled then for _, node in ipairs(mapView.nodes) do node.available = false end end
     local node = run.nodeFlow and Combat.copy(run.nodeFlow) or nil
     if node and not node.complete then
+        node.purgeCards=LivingWall.purgeCards(run)
         if node.type == "camp" then
             node.upgradeCards = upgradeCards(run)
-            node.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * run.data.rules.camp.healPercent / 100))
+            node.heal = math.min(run.maxHp - run.hp,RelicHooks.campHealAmount(run,math.floor(run.maxHp * run.data.rules.camp.healPercent / 100)))
+            node.dreamCatcher=RelicHooks.owns(run,'dream_catcher')
         elseif node.type == "shop" then
             node.removePrice = Shop.removePrice(run)
             node.removeAvailable = not node.removalUsed
@@ -246,6 +269,7 @@ function M.view(run, map)
             node.upgradeCards=upgradeCards(run)
             node.upgradesLeft=1
             if node.event.id=='living_wall' then node.event.purgeCards=LivingWall.purgeCards(run) end
+            if node.event.id=='bonfire' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
@@ -257,12 +281,41 @@ function M.view(run, map)
 end
 
 function M.rest(run)
-    local flow, reason = pending(run, "camp"); if not flow then return false, reason end
-    if flow.campChoice then return false, "camp_choice_made" end
-    local healing = math.floor(run.maxHp * run.data.rules.camp.healPercent / 100)
-    run.hp = math.min(run.maxHp, run.hp + healing)
-    flow.campChoice = "rest"
-    return complete(run)
+    return Run.transaction(run,function(staged)
+        local flow,reason=pending(staged,'camp');if not flow then return false,reason end
+        if flow.campChoice then return false,'camp_choice_made' end
+        local healing=RelicHooks.campHealAmount(staged,math.floor(staged.maxHp*staged.data.rules.camp.healPercent/100))
+        flow.restHealed=Run.heal(staged,healing)
+        flow.campChoice='rest'
+        flow.restReward=RelicHooks.onRest(staged,function(owner)
+            -- RestRoom uses ordinary reward chances, independently of the
+            -- previous encounter. Its persistent card RNG/offset still advance.
+            local context={data=owner.data,cardRng=owner.cardRng,
+                cardRarityOffset=owner.cardRarityOffset,encounterTier='normal'}
+            local cards,rng,offset=CardPool.prepareRewards(context)
+            for _,id in ipairs(cards)do
+                if not Capability.isImplemented(find(owner.data.cards.cards,id))then error('card_content_unavailable')end
+            end
+            owner.cardRng,owner.cardRarityOffset=rng,offset
+            return {cards=cards,resolved=false}
+        end)
+        if flow.restReward then return true,'choose_rest_card' end
+        return complete(staged)
+    end)
+end
+
+function M.claimRestReward(run,choice)
+    return Run.transaction(run,function(staged)
+        local flow,reason=pending(staged,'camp');if not flow then return false,reason end
+        local reward=flow.restReward
+        if flow.campChoice~='rest' or not reward or reward.resolved then return false,'no_pending_reward' end
+        if type(choice)~='number' or choice%1~=0 or choice<0 or choice>#reward.cards then return false,'invalid_reward_choice' end
+        if choice>0 then
+            local ok,why=Run.obtainCard(staged,reward.cards[choice]);if not ok then return false,why end
+        end
+        reward.resolved,reward.choice=true,choice
+        return complete(staged)
+    end)
 end
 
 function M.upgrade(run, uid)
@@ -278,7 +331,7 @@ function M.upgrade(run, uid)
     return true
 end
 
-local function purchase(run, category, reference, bySlot)
+local function purchaseCommand(run, category, reference, bySlot)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
     local offer
     if bySlot or category=='potions' then offer=flow[category][reference]
@@ -299,7 +352,7 @@ local function purchase(run, category, reference, bySlot)
     if run.gold < offer.price then return false, "insufficient_gold" end
     if category=='potions' then
         if Shop.owns(run,'sozu') then return false,'potions_blocked' end
-        if Run.potionCount(run)>=run.data.rules.player.potionSlots then return false,'potion_slots_full' end
+        if Run.potionCount(run)>=Run.potionCapacity(run) then return false,'potion_slots_full' end
         if not find(run.data.potions.potions,offer.id) then return false,'unknown_potion' end
     end
     -- Stage discounts and restock before charging or granting anything. An
@@ -312,20 +365,25 @@ local function purchase(run, category, reference, bySlot)
     end
     local called,transaction=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
     if not called then return false,'shop_content_unavailable' end
-    -- Only colored Courier cards use external entropy. Commit its staged draw
-    -- before the infallible card grant; rejected purchases never advance it.
-    if transaction and not pcall(External.commit,transaction) then return false,'shop_content_unavailable' end
+    run.gold = run.gold - offer.price
+    RelicHooks.onSpendGold(run,'shop')
     if category == "cards" then
-        run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
-        run.nextDeckUid = run.nextDeckUid + 1
+        local ok,why=Run.obtainCard(run,id);if not ok then return false,why end
     elseif category=='potions' then
         local ok,why=Run.obtainPotion(run,offer.id);if not ok then return false,why end
-    else run.relics[#run.relics + 1] = id end
-    run.gold = run.gold - offer.price
+    else
+        local ok,why=Run.obtainRelic(run,id);if not ok then return false,why end
+    end
     flow.cards,flow.relics,flow.potions,flow.shopRng=stagedFlow.cards,stagedFlow.relics,stagedFlow.potions,stagedFlow.shopRng
     run.shopRng=flow.shopRng
     run.cardRng,run.cardRarityOffset=stagedRun.cardRng,stagedRun.cardRarityOffset
+    -- Commit session entropy only after all staged grants/hooks succeed.
+    if transaction and not pcall(External.commit,transaction) then return false,'shop_content_unavailable' end
     return true
+end
+
+local function purchase(run,category,reference,bySlot)
+    return Run.transaction(run,function(staged)return purchaseCommand(staged,category,reference,bySlot)end)
 end
 
 function M.buyCard(run, id) return purchase(run, "cards", id) end
@@ -339,18 +397,24 @@ function M.buyPotion(run, slot)
     return purchase(run,'potions',slot)
 end
 
-function M.removeCard(run, uid)
+local function removeCard(run, uid)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
     -- The service is a one-use offer per shop; the price increase belongs to later shops.
     if flow.removalUsed then return false, "removal_unavailable" end
     local instance, position = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
+    if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
     local price = Shop.removePrice(run)
     if run.gold < price then return false, "insufficient_gold" end
-    table.remove(run.deck, position)
     run.gold, run.shopRemoveCount = run.gold - price, (run.shopRemoveCount or 0) + 1
+    RelicHooks.onSpendGold(run,'shop')
+    local ok,why=Run.removeCard(run,uid);if not ok then return false,why end
     flow.removalUsed = true
     return true
+end
+
+function M.removeCard(run,uid)
+    return Run.transaction(run,function(staged)return removeCard(staged,uid)end)
 end
 
 function M.leaveShop(run)
@@ -358,17 +422,21 @@ function M.leaveShop(run)
     return complete(run)
 end
 
-function M.claimTreasure(run)
+local function claimTreasure(run)
     local flow, reason = pending(run, "treasure"); if not flow then return false, reason end
     if flow.roomKind == "boss_treasure" then return false, "boss_treasure_choice_required" end
     if flow.reward.relicId then
         if owns(run.relics, flow.reward.relicId) then return false, "relic_already_owned" end
-        run.relics[#run.relics + 1] = flow.reward.relicId
-    else run.gold = run.gold + flow.reward.gold end
+        local ok,why=Run.obtainRelic(run,flow.reward.relicId);if not ok then return false,why end
+    else Run.gainGold(run,flow.reward.gold) end
     return complete(run)
 end
 
-function M.claimBossTreasure(run, choice)
+function M.claimTreasure(run)
+    return Run.transaction(run,claimTreasure)
+end
+
+local function claimBossTreasure(run, choice)
     local flow, reason = pending(run, "treasure"); if not flow then return false, reason end
     if flow.roomKind ~= "boss_treasure" then return false, "wrong_node_type" end
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #flow.reward.relics then
@@ -378,13 +446,7 @@ function M.claimBossTreasure(run, choice)
         local id = flow.reward.relics[choice]
         local relic = find(run.data.relics.relics, id)
         if not relic or not Inventory.bossEligible(relic, run.relics) then return false, "boss_relic_unavailable" end
-        -- Preflight finishes before removing the starter. Replacement keeps its
-        -- held position, so no later hook order changes with Black Blood.
-        local position
-        if relic.replaces then
-            for i, owned in ipairs(run.relics) do if owned == relic.replaces then position = i; break end end
-        end
-        if position then run.relics[position] = id else run.relics[#run.relics + 1] = id end
+        local ok,why=Run.obtainRelic(run,id);if not ok then return false,why end
         flow.chosenRelic = id
     end
     complete(run, "boss_treasure_complete")
@@ -392,14 +454,19 @@ function M.claimBossTreasure(run, choice)
     return true, "boss_treasure_complete"
 end
 
+function M.claimBossTreasure(run,choice)
+    return Run.transaction(run,function(staged)return claimBossTreasure(staged,choice)end)
+end
+
 function M.eventOptions(run,flow)
     local id,e=flow.event.id,flow.event
+    if Act1Events.ids[id] then return Act1Events.options(run,e,upgradeCards) end
     local rows={}
     local function option(choice,title,description,enabled,picker)
         rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
     end
     local upgrades=#upgradeCards(run)
-    local deckOk=#run.deck>0
+    local deckOk=#LivingWall.purgeCards(run)>0
     if id=='living_wall' then
         option('forget','遗忘','移除一张卡牌',true,#LivingWall.purgeCards(run)>0 and 'living_forget' or nil)
         option('change','改变','将一张卡牌变换为随机的新卡牌',true,#LivingWall.purgeCards(run)>0 and 'living_change' or nil)
@@ -436,10 +503,16 @@ function M.eventOptions(run,flow)
     return rows
 end
 
-function M.chooseEvent(run, choice, uid)
+local function chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
     local id = flow.event.id
     local rules = run.data.rules.events[id] or {}
+    if Act1Events.ids[id] then
+        local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+        if not ok or status~='complete' then return ok,status end
+        run.nodeFlow.eventChoice=choice
+        return complete(run)
+    end
     if id=='living_wall' then
         local ok,status=LivingWall.choose(run,flow,choice,uid,upgradeable,upgradeCards)
         if not ok or status=='choose_card' then return ok,status end
@@ -461,10 +534,11 @@ function M.chooseEvent(run, choice, uid)
     elseif (choice == "purify" and id == "cleric") or (choice == "pray" and id == "purifier") then
         local instance, position = find(run.deck, uid, "uid")
         if not instance then return false, "invalid_card" end
+        if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
         if run.gold < rules.removeCost then return false, "insufficient_gold" end
-        table.remove(run.deck, position)
+        local ok,why=Run.removeCard(run,uid);if not ok then return false,why end
         run.gold = run.gold - rules.removeCost
-    elseif choice=='pray' and id=='golden_shrine' then run.gold=run.gold+0.0+rules.gold
+    elseif choice=='pray' and id=='golden_shrine' then Run.gainGold(run,rules.gold)
     elseif choice=='desecrate' and id=='golden_shrine' then
         local curse=find(run.data.cards.cards,rules.curse)
         -- Preflight the sole supported curse ABI and permanent identity before paying gold.
@@ -474,14 +548,12 @@ function M.chooseEvent(run, choice, uid)
             or curse.ethereal or curse.exhaust or curse.innate or curse.repeatable then
             return false,'event_content_unavailable'
         end
-        local uid=run.nextDeckUid
-        if type(uid)~='number' or uid%1~=0 or uid<1 or uid>=9007199254740991.0
-            or find(run.deck,uid,'uid') then return false,'invalid_deck_uid' end
-        run.deck[#run.deck+1]={uid=uid,cardId=curse.id,upgraded=false}
-        run.nextDeckUid=uid+1.0
-        run.gold=run.gold+0.0+rules.curseGold
-        flow.event.obtainedCardUid=uid
-    elseif choice=='gather' and id=='goop' then damage(rules.damage);run.gold=run.gold+rules.gold
+        local offer,why=Run.prepareCard(run,curse.id);if not offer then return false,why end
+        Run.gainGold(run,rules.curseGold)
+        local ok,obtained=Run.commitCard(run,offer);if not ok then return false,obtained end
+        flow.event.obtainedCardUid=type(obtained)=='number' and obtained or nil
+        flow.event.cursePrevented=obtained=='curse_blocked' or nil
+    elseif choice=='gather' and id=='goop' then damage(rules.damage);Run.gainGold(run,rules.gold)
     elseif choice=='leave' and id=='goop' then run.gold=math.max(0,run.gold-flow.event.goldLoss)
     elseif choice=='upgrade' and id=='upgrade_shrine' then
         local instance=find(run.deck,uid,'uid')
@@ -506,16 +578,17 @@ function M.chooseEvent(run, choice, uid)
     elseif choice=='sacrifice' and id=='golden_wing' then
         damage(rules.damage);flow.event.stage='purge'
         -- An empty purge group cannot keep the event waiting for a nonexistent UID.
-        if run.hp>0 and #run.deck>0 then return true,'choose_purge' end
+        if run.hp>0 and #LivingWall.purgeCards(run)>0 then return true,'choose_purge' end
     elseif choice=='take_gold' and id=='golden_wing' then
         if not flow.event.canAttack then return false,'event_condition_unmet' end
         local rng=EventRandom.cloneState(run.miscRng)
         local gold=EventRandom.randomIntBetween(rng,rules.goldMin,rules.goldMax)
-        run.gold,run.miscRng=run.gold+gold,rng
+        Run.gainGold(run,gold);run.miscRng=rng
     elseif choice=='purge' and id=='golden_wing' and flow.event.stage=='purge' then
         local instance,position=find(run.deck,uid,'uid')
         if not instance then return false,'invalid_card' end
-        table.remove(run.deck,position)
+        if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
+        local ok,why=Run.removeCard(run,uid);if not ok then return false,why end
     elseif choice ~= "leave" then return false, "invalid_event_choice" end
     flow.eventChoice = choice
     local ok,result=complete(run)
@@ -523,7 +596,16 @@ function M.chooseEvent(run, choice, uid)
     return ok,result
 end
 
+function M.chooseEvent(run,choice,uid)
+    return Run.transaction(run,function(staged)return chooseEvent(staged,choice,uid)end)
+end
+
 function M.upgradeEvent(run,uid) return M.chooseEvent(run,'upgrade',uid) end
+function M.chooseAct1EventCard(run,uid)
+    local flow,reason=pending(run,'event');if not flow then return false,reason end
+    if not Act1Events.ids[flow.event.id] or flow.event.stage~='choose_card' then return false,'invalid_event_choice' end
+    return M.chooseEvent(run,flow.event.choice,uid)
+end
 function M.chooseLivingWallCard(run,uid)
     local flow,reason=pending(run,'event');if not flow then return false,reason end
     if flow.event.id~='living_wall' or flow.event.stage~='choose_card' then return false,'invalid_event_choice' end
@@ -543,6 +625,8 @@ function M.completeCombat(run, map)
     if not matchingMap(flow, map) then return false, "map_mismatch" end
     if run.phase == "defeat" then return false, "run_defeated" end
     if run.phase == "reward" then return false, "reward_pending" end
+    if run.phase=='map' and run.lastResult and run.lastResult.outcome=='escaped'
+        and flow.type~='boss' and run.lastResult.encounterId==flow.encounterId then return complete(run,'escaped') end
     if run.phase ~= "map" or not run.lastResult or run.lastResult.outcome ~= "victory"
         or run.lastResult.encounterId ~= flow.encounterId then return false, "battle_unfinished" end
     return complete(run, flow.type == "boss" and "boss_victory" or "victory")

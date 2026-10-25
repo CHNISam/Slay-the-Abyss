@@ -4,6 +4,7 @@ local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local M = {}
 local operations = { exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+    exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
     makeTempCardInHand=true, makeTempCardInDraw=true, doubleStrength=true,
@@ -57,7 +58,7 @@ function M.toHand(state, c)
 end
 
 local function candidates(combat,state,op)
-    local pile=op=="recoverExhaust" and state.exhaust or op=="discardToDraw" and state.discard or state.hand
+    local pile=op=="recoverExhaust" and state.exhaust or (op=="discardToDraw" or op=='discardToHand') and state.discard or state.hand
     local result={}
     if op=="recoverExhaust" and #state.hand>=state.rules.player.maxHand then return result end
     for _,c in ipairs(pile) do
@@ -71,8 +72,20 @@ end
 
 local function selection(combat,state,item)
     local e,op=item.effect,item.effect.op
+    if op=='discardToHand' and e.value<=0 then return end
     local options=candidates(combat,state,op)
     if #options==0 then return end
+    if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' and e.value>1 and #options>e.value then
+        state.choiceSerial=(state.choiceSerial or 0)+1
+        state.pendingChoice={token=state.choiceSerial,op=op,uids=options,item=item,multiple=true,selected={},
+            required=op=='discardToHand' and e.value or nil}
+        Events.emit(state,'card_choice',{token=state.choiceSerial,op=op})
+        return
+    end
+    if op=='discardToHand' and #options<=e.value then
+        for _,uid in ipairs(options) do M.applyChoice(combat,state,item,uid) end
+        return
+    end
     if #options==1 then return M.applyChoice(combat,state,item,options[1]) end
     -- Dual Wield's actual selection branch consumes the selected original
     -- and returns amount+1 stat-equivalent copies; its one-eligible-card fast
@@ -91,6 +104,13 @@ function M.applyChoice(combat,state,item,uid)
     elseif op=="recoverExhaust" then
         local c=remove(state.exhaust,uid); assert(c and c.cardId~="exhume","invalid Exhume choice")
         M.toHand(state,c)
+    elseif op=='discardToHand' then
+        if #state.hand>=state.rules.player.maxHand then return end
+        local c=remove(state.discard,uid);assert(c,'stale discard choice')
+        local definition=combat.cardDefinition(state,c)
+        if definition.cost>=0 and definition.costMode~='all_energy' then c.costForTurn=0 end
+        state.hand[#state.hand+1]=c
+        Events.emit(state,'recover',{uid=c.uid,cardId=c.cardId})
     elseif op=="discardToDraw" or op=="handToDraw" then
         local c=remove(op=="discardToDraw" and state.discard or state.hand,uid)
         assert(c,"stale pile choice"); state.draw[#state.draw+1]=c
@@ -124,6 +144,35 @@ end
 function M.choose(combat,state,token,uid)
     local choice=state.pendingChoice
     if not choice or token~=choice.token then return false,"stale_card_choice" end
+    if choice.multiple then
+        local valid={};for _,id in ipairs(candidates(combat,state,choice.op)) do valid[id]=true end
+        for _,id in ipairs(choice.selected) do if not valid[id] then return false,'stale_card_choice' end end
+        if uid==0 then
+            if choice.required and #choice.selected~=choice.required then return false,'invalid_card_choice' end
+            state.pendingChoice=nil
+            for _,id in ipairs(choice.selected) do
+                if choice.op=='exhaustMany' then
+                    local c=remove(state.hand,id);M.exhaust(combat,state,c)
+                elseif choice.op=='discardRedraw' then
+                    local c=remove(state.hand,id);state.discard[#state.discard+1]=c
+                    Events.emit(state,'discard',{uid=c.uid,cardId=c.cardId,manual=true})
+                else M.applyChoice(combat,state,choice.item,id) end
+            end
+            if choice.op=='discardRedraw' and #choice.selected>0 then M.enqueue(state,{op='draw',value=#choice.selected},nil,nil,nil,true) end
+            M.drain(combat,state)
+            return true
+        end
+        if not valid[uid] then return false,'invalid_card_choice' end
+        local selected,removed={},false
+        for _,id in ipairs(choice.selected) do if id==uid then removed=true else selected[#selected+1]=id end end
+        if not removed then
+            if choice.required and #selected>=choice.required then return false,'invalid_card_choice' end
+            selected[#selected+1]=uid
+        end
+        choice.selected=selected
+        state.choiceSerial=(state.choiceSerial or 0)+1;choice.token=state.choiceSerial
+        return true
+    end
     local found=false
     for _,id in ipairs(choice.uids) do if id==uid then found=true end end
     if not found then return false,"invalid_card_choice" end
@@ -146,7 +195,7 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
-    if op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
+    if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
         or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
     elseif op=="exhaustRandom" then
         if #state.hand>0 then
@@ -210,22 +259,39 @@ function M.apply(combat,state,item)
         if before>0 and target.hp<=0 and not target.escaped and not target.minion and not target.halfDead
             and (target.statuses.minion or 0)<=0 and source.hp>0 then
             source.maxHp=source.maxHp+e.maxHp
+            local beforeHp=source.hp
             source.hp=math.min(source.maxHp,source.hp+e.maxHp)
             Events.emit(state,"max_hp",{amount=e.maxHp,target=source.id})
+            require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
     elseif op=="reaper" then
         local healed,reactions=0,{}
         for _,v in ipairs(state.enemies) do healed=healed+combat.damage(state,source,v,value,nil,reactions,e.resolved and e.resolved[v.id]) end
         Actors.resolveDamageReactions(state,reactions,combat.retaliate)
         M.enqueue(state,{op="heal",value=healed},source)
+    elseif op=='relicUpgradeRandomHand' then
+        require('abyss_relic_hooks').upgradeRandomHand(combat,state)
+    elseif op=='randomizeHandCost' then
+        for _,card in ipairs(state.hand) do
+            local cost=combat.combatBaseCost(state,card)
+            if cost>=0 then
+                local nextCost=combat.cardRandom(state,4)-1
+                if nextCost~=cost then
+                    card.costOverride,card.costForTurn=nextCost,nextCost
+                    if card.cardId=='blood_for_blood' then card.costReduction=0 end
+                end
+            end
+        end
     elseif op=="playTop" then
-        combat.autoplayTop(state,e.targetIndex)
+        combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
     elseif op=="block" and e.fixed then combat.block(state,source,value,true)
     elseif op=="heal" then
         if source.hp>0 then
             local amount=math.min(value,source.maxHp-source.hp)
+            local beforeHp=source.hp
             source.hp=source.hp+amount
             Events.emit(state,"heal",{target=source.id,amount=amount})
+            require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
     elseif op=="dispose" then
         combat.disposeCard(state,item)

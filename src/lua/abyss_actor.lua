@@ -124,6 +124,7 @@ function M.addStatus(actor, id, amount)
     assert(integer(value), "status stack overflow") -- reject before mutating
     -- Strength/Dexterity clamp after stacking, for either actor and either sign.
     if signed[id] then value = math.max(-999, math.min(999, value)) end
+    if id == 'plated_armor' and before > 0 then value = math.min(999, value) end
     if definition.stack == "none" then value = value > 0 and 1 or 0 end
     actor.statuses[id] = signed[id] and value or math.max(0, value)
     if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
@@ -132,40 +133,79 @@ function M.addStatus(actor, id, amount)
     return actor.statuses[id]
 end
 
-function M.addTemporaryStrength(actor, amount, state)
-    assert(integer(amount) and amount >= 0, "invalid temporary strength")
-    assert(not state or amount > 0, "zero temporary Strength application unsupported")
+local temporaryFields = { strength="temporaryStrength", dexterity="temporaryDexterity" }
+local function rememberTemporaryOrder(actor, id)
+    -- Equal-priority LoseStrength/LoseDexterity retain first insertion order.
+    -- Replace the array so detached presentation frames never change later.
+    local order = {}
+    for _, prior in ipairs(actor.temporaryPowerOrder or {}) do order[#order+1] = prior end
+    if not actor.temporaryPowerOrder then
+        -- Old/raw Strength bookkeeping predates the second supported loss Power.
+        for _, prior in ipairs({"strength", "dexterity"}) do
+            if (actor[temporaryFields[prior]] or 0) > 0 then order[#order+1] = prior end
+        end
+    end
+    for _, prior in ipairs(order) do
+        if prior == id then actor.temporaryPowerOrder = order; return end
+    end
+    order[#order+1] = id
+    actor.temporaryPowerOrder = order
+    local powers = {}
+    for _,prior in ipairs(actor.powerOrder or {}) do if prior ~= 'lose_'..id then powers[#powers+1]=prior end end
+    powers[#powers+1]='lose_'..id
+    actor.powerOrder=powers
+end
+
+local function addTemporaryStat(actor, id, amount, state)
+    assert(integer(amount) and amount >= 0, "invalid temporary " .. id)
+    assert(not state or amount > 0, "zero temporary " .. (id == "strength" and "Strength" or "Dexterity") .. " application unsupported")
     if state and not M.isActive(actor) then return false end
-    local total = (actor.temporaryStrength or 0) + 0.0 + amount
-    -- Positive Strength cannot spend Artifact. If LoseStrength will be blocked,
+    local field = temporaryFields[id]
+    local total = (actor[field] or 0) + 0.0 + amount
+    -- Positive Strength/Dexterity cannot spend Artifact. If its loss is blocked,
     -- its old debt is never stacked and must not fail a nonexistent addition.
     local blockedLoss = state and (actor.statuses.artifact or 0) > 0
-    if not blockedLoss then assert(integer(total), "temporary strength overflow") end
+    if not blockedLoss then assert(integer(total), "temporary " .. id .. " overflow") end
     if state then
-        -- Flex queues Strength then a separate LoseStrength DEBUFF. Artifact can
-        -- block that latter application while preserving the positive Strength.
-        M.applyPower(state, actor, "strength", amount, actor)
-        if not blockDebuff(state, actor, "lose_strength") then
-            actor.temporaryStrength = total
+        -- Flex/Speed queue the gain then a separate timed-loss DEBUFF. Artifact
+        -- can block that latter application while preserving the positive stat.
+        M.applyPower(state, actor, id, amount, actor)
+        if not blockDebuff(state, actor, "lose_" .. id) then
+            rememberTemporaryOrder(actor, id)
+            actor[field] = total
             state.events[#state.events].frame = Events.frame(state)
         end
     else
         -- Public two-argument helper is raw setup/bookkeeping, not ApplyPower.
-        M.addStatus(actor, "strength", amount)
-        actor.temporaryStrength = total
+        M.addStatus(actor, id, amount)
+        if amount > 0 then rememberTemporaryOrder(actor, id) end
+        actor[field] = total
     end
+end
+
+function M.addTemporaryStrength(actor, amount, state)
+    return addTemporaryStat(actor, "strength", amount, state)
+end
+
+function M.addTemporaryDexterity(actor, amount, state)
+    return addTemporaryStat(actor, "dexterity", amount, state)
 end
 
 -- UI receives values, never references to the combat state or definitions.
 function M.statusView(actor)
     local ids, result = {}, {}
-    for id, amount in pairs(actor.statuses) do if amount ~= 0 then ids[#ids + 1] = id end end
+    for id, amount in pairs(actor.statuses) do
+        -- At exactly zero net stat, the separate timed-loss Power still exists.
+        if amount ~= 0 or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
+            ids[#ids + 1] = id
+        end
+    end
     table.sort(ids)
     for _, id in ipairs(ids) do
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
             kind = definition.kind, stack = definition.stack, decay = definition.decay,
-            description = definition.description, temporary = id == "strength" and (actor.temporaryStrength or 0) or 0 }
+            description = definition.description, temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
     return result
 end
@@ -217,6 +257,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     hpLost(state,target,lost,source==target)
     Events.emit(state, "status_damage", {
         source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
+    require('abyss_relic_hooks').hpChanged(state,target,before)
     queueDeathPower(state, target, before, reactions)
     return lost
 end
@@ -227,6 +268,8 @@ function M.attackAmount(state, source, target, base, fixed)
     local amount = base + 0.0
     if not fixed then
         amount = amount + (source.statuses.strength or 0)
+        amount = amount + (source.statuses.vigor or 0)
+        if (source.statuses.pen_nib or 0)>0 then amount=amount*2.0 end
         if (source.statuses.weak or 0) > 0 then amount = amount * state.rules.combat.weakPercent / 100 end
         if (target.statuses.vulnerable or 0) > 0 then amount = amount * state.rules.combat.vulnerablePercent / 100 end
     end
@@ -246,20 +289,29 @@ function M.retaliate(state, source, target, amount)
 end
 
 function M.damage(state, source, target, base, fixed, retaliation, resolved)
-    if not M.isActive(target) or not M.isActive(source) then return 0 end
+    if not M.isActive(target) or source ~= nil and not M.isActive(source) then return 0 end
     local before, reactions = target.hp, retaliation or {}
     local amount = resolved or M.attackAmount(state, source, target, base, fixed)
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
-    local lost = math.min(target.hp, amount - absorbed)
+    local unblocked=amount-absorbed
+    if source==state.player and not fixed and unblocked>0 and unblocked<5 then
+        for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
+    end
+    local lost = math.min(target.hp, unblocked)
     target.hp = target.hp - lost
     hpLost(state,target,lost,source==target)
-    Events.emit(state, "damage", { source = source.id, target = target.id, amount = lost, blocked = absorbed })
+    Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
+    if not fixed and source and source ~= target and lost > 0 and (target.statuses.plated_armor or 0) > 0 then
+        target.statuses.plated_armor = target.statuses.plated_armor - 1
+        Events.emit(state, 'status', {source=target.id,target=target.id,status='plated_armor',amount=-1})
+    end
+    require('abyss_relic_hooks').hpChanged(state,target,before)
     -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
     -- the BOTTOM, behind every already-queued hit/effect and card disposal.
     -- Keep this FIFO separate from Angry/Thorns/Spore's reverse TOP reactions.
     local curl = target.statuses.curl_up or 0
-    if target ~= state.player and not fixed and lost > 0 and target.hp > 0
+    if source and target ~= state.player and not fixed and lost > 0 and target.hp > 0
         and curl > 0 and not target.curlUpTriggered then
         target.curlUpTriggered = true
         state.curlUpQueue = state.curlUpQueue or {}
@@ -268,13 +320,13 @@ function M.damage(state, source, target, base, fixed, retaliation, resolved)
     -- Angry is a queued positive Strength Power after an unblocked NORMAL hit.
     -- Fixed inventory damage, poison and retaliation use non-NORMAL paths.
     -- For an area action, all targets take damage before top-of-queue reactions.
-    local angry = not fixed and lost > 0 and (target.statuses.angry or 0) or 0
+    local angry = source and not fixed and lost > 0 and (target.statuses.angry or 0) or 0
     if angry > 0 then
         reactions[#reactions + 1] = { source = target, target = target, amount = angry, status = "strength" }
     end
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
-    if not fixed then
+    if not fixed and source then
         for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier'})) do
             -- Each Power adds its own TOP DamageAction. Combining them would
             -- erase two distinct damage callbacks and reverse application order.
@@ -343,9 +395,11 @@ local function tick(state, actor, phase)
             if decay:find("trigger", 1, true) then
                 if id == "poison" then directDamage(state, actor, actor, amount, "poison", nil, reactions)
                 elseif id == "regen" then
+                    local before=actor.hp
                     local healed = math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
                     Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
+                    require('abyss_relic_hooks').hpChanged(state,actor,before)
                 end
             end
             actor.statuses[id] = amount - 1
@@ -375,14 +429,38 @@ function M.endTurn(state, actor)
         actor.statuses.entangled = 0
         Events.emit(state, "status", {source = actor.id, target = actor.id, status = "entangled", amount = -entangled})
     end
-    local temporary = actor.temporaryStrength or 0
-    if temporary ~= 0 then
-        -- LoseStrength's owner-end trigger queues a negative Strength Power.
-        M.applyPower(state, actor, "strength", -temporary, actor)
-        actor.temporaryStrength = 0
-        -- Status removal and its bookkeeping are one presentation step.
-        state.events[#state.events].frame = Events.frame(state)
+    local changed = false
+    local endings,seen = {},{}
+    for _,id in ipairs(actor.powerOrder or {}) do
+        local stat=id:match('^lose_(.+)$')
+        if id=='ritual' and actor==state.player and (actor.statuses.ritual or 0)>0 then
+            endings[#endings+1]='ritual';seen.ritual=true
+        elseif temporaryFields[stat] and (actor[temporaryFields[stat]] or 0)>0 then
+            endings[#endings+1]=stat;seen[stat]=true
+        end
     end
+    for _,id in ipairs(actor.temporaryPowerOrder or {"strength","dexterity"}) do
+        if not seen[id] then endings[#endings+1]=id end
+    end
+    if actor==state.player and (actor.statuses.ritual or 0)>0 and not seen.ritual then endings[#endings+1]='ritual' end
+    for _, id in ipairs(endings) do
+        local field = temporaryFields[id]
+        local temporary = field and actor[field] or 0
+        if id=='ritual' then
+            M.applyPower(state,actor,'strength',actor.statuses.ritual,actor)
+        elseif temporary ~= 0 then
+            -- The owner-end negative Power is a new Artifact-eligible DEBUFF.
+            M.applyPower(state, actor, id, -temporary, actor)
+            actor[field] = 0
+            changed = true
+            state.events[#state.events].frame = Events.frame(state)
+        end
+    end
+    actor.temporaryPowerOrder = nil
+    local powers={}
+    for _,id in ipairs(actor.powerOrder or {}) do if id~='lose_strength' and id~='lose_dexterity' then powers[#powers+1]=id end end
+    actor.powerOrder=powers
+    if changed then state.events[#state.events].frame = Events.frame(state) end
 end
 
 function M.resetBlock(state, actor)

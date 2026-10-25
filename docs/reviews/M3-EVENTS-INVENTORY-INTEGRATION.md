@@ -1,0 +1,23 @@
+# M3事件与道具生产集成
+
+本批合并前冻结记录：在最新develop518299c的新执行树中整合六个已冻结来源，按TASK-13.1.2事件→TASK-14.1药水→TASK-14.1遗物→TASK-47主集成串行领取。主线程唯一写入；六源树、旧M2及工程树和暂存区只读保留。当前仅初代PC A0，完整75战士卡（3基础+72非基础）与25事件的验收要求不变；版本0.1.0，不发布。
+
+固定来源为aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0（镜像声明V2.3.4），ZIP SHA256 3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458；不是认证PC二进制或本轮原作实测。资料包ZIP SHA256 9bc126d7eb0958b3d4b5aaf5e311d90294d62edc85a103cd4e46c4334f464490。复用data/SOURCES.md、launch-content和现有Lua/Node/千星工具链，不提交反编译源码。
+
+| 切片及生产入口 | 输入、顺序、期望输出 | 本地检查 | 候选 | 官方导入 | 同候选真实试玩 |
+| --- | --- | --- | --- | --- | --- |
+| 事件：Nodes/EventPool/NodeUI、永久Run事务 | 四事件经正式选项/UID选牌器完成；Big Fish先遗物后诅咒，Bonfire先奖励后移牌；Fountain逆序UID清除十种基本诅咒，Parasite移除减3最大生命且下限1 | 事件/原生UI/永久事务69项通过；卡面保留原51–60并新增81–89的38个基本/升级显示 | 见下方冻结候选记录 | 未验证 | 未验证 |
+| 药水：Run.usePotion、真实战斗/选牌/背包UI | 初始药水动作→Toy回血→抽牌及BOT；Chaos承担Pain/Normality，Smoke回图无奖励；Belt槽4/5说明、使用、丢弃、原槽补回；自动攻击后立即逃跑，下战保留遗物计数 | 20份Lua专项105项通过，含Chaos→Smoke→下战真实Run红绿 | 见下方冻结候选记录 | 未验证 | 未验证 |
+| 遗物与永久钩子：RelicHooks/Inventory/Run/Nodes | Maw在未知转类前、Meal/Tea在实际房型后；Dream Catcher真实三选一；商店先扣金/onSpend后onRemove；瓶装清除资格与所有原生选牌器一致，失败回滚 | 13份遗物/诅咒专项通过；inventory11项经稳定ID修复通过 | 见下方冻结候选记录 | 未验证 | 未验证 |
+
+共享事务只复制一次完整可变状态图、保留跨字段别名；嵌套拒绝会使外层失败，实体onObtain在永久入组前执行，异常不消费UID/金币/RNG。新增permanent_purge_routes七项回归覆盖商店/Cleric/Purifier/Golden Wing及瓶装过滤。
+
+本次整合保留develop刚合入的完整72非基础真实胜利→公开领奖→下一战同UID回归（20common/36uncommon/16rare；稀有来自合法第二次奖励）、3基础渠道、目标失效与奖励原子性断言及既有独立分片/时限。显式遭遇回放不是自然地图或平台验收。没有改池、重抽、降低敌HP或RNG注入来制造该奖励覆盖。
+
+独立只读复审抓到并修复：非致死Chaos自动出牌后Run未提交relicCounters，立即Smoke会让Pen Nib/Nunchaku下战倒退；新增正常HP Cultist三次攻击回归先红后绿。严格生成UI树还证红根层试探查询potion4，改按实际子容器路由后38个卡面通过6254ms。库存旧断言把数组首项当火瓶，改按fire_potion稳定ID保留原20点/隔离断言；原失败日志保留。
+
+本轮本地原始日志：build/m3-events-local.log（末项先红）、build/m3-potions-local.log、build/m3-relics-local.log（inventory旧索引先红）、build/m3-inventory-green.log、build/potion-counter-red.log、build/m3-integration-local.log。完整仓库检查交本PR当前SHA CI；历史1241pass/119skip及36份Lua只属于旧冻结树，不当当前整套通过证据。最终CI与实际合并以GitHub本PR当前头和合并记录为准，不预写成功。
+
+剩余M3缺口：本批42遗物含33common和3special，但完整130目录不等于效果齐备；药水28定义中27战士，21种新增战士药水仍acquisitionPending，33项完整采样器未接自然获取，另6种战士效果未齐；默认七事件仍未切完整25池，六个显式新增事件不代表自然遇到；Spirit Poop持有已接，-1分函数尚无生产总分消费者。专属special图标仍为明确占位。不得因此删池/重分概率或将父任务、M3标Done。平台逐项验收归TASK-13.1.2/14.1/47，概率与自然路线归TASK-12.5；同候选整体UI须另过verify:ui门禁。
+
+冻结候选记录：待本批生产源提交后，用现有build:native生成独立完整含BGM副本并audit-native-candidate读回。当前不操作用户使用中的官方客户端；导入、同候选真实试玩、UI总门禁均未验证。历史ready/截图不作为本批证据。

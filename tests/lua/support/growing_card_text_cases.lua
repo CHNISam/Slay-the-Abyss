@@ -145,7 +145,7 @@ test("reward remains static even after grown battle", function()
     stage:GetChild('cardReward').click()
     eq(label(stage),expected("8",false)); eq(label(stage),Presentation.rampage.text)
 end)
-test("without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value", function()
+test("without modifiers selected combat labels including statuses and curses match printed text; Body Slam adds its current value", function()
     local seen=0
     for cardIndex=cardFirst,cardLast do
         local def=Data.cards.cards[cardIndex]

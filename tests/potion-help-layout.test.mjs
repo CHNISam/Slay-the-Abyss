@@ -7,8 +7,8 @@ test('each battle bottle has a separate discoverable explanation target within t
   const battle = gameLayout().controls.find(c => c.name === 'battlePanel');
   const help = battle.children.find(c => c.name === 'potionHelp');
   const buttons = help.children.filter(c => /^potionHelp\d$/.test(c.name));
-  assert.equal(buttons.length, 3);
-  assert.equal(help.children.length, 4);
+  assert.equal(buttons.length, 5);
+  assert.equal(help.children.length, 8);
   const note = help.children.find(c => c.name === 'potionReward');
   assert.equal(note.kind, 'text');
   assert.deepEqual(help.position ?? [0, 0], [0, 0]);
@@ -16,7 +16,8 @@ test('each battle bottle has a separate discoverable explanation target within t
   assert.deepEqual(note.position, theme.layout.battleRewards.potionLabel.slice(0, 2));
   assert.deepEqual(note.size, theme.layout.battleRewards.potionLabel.slice(2));
   const overlaps = (a, b) => a.position.every((p, i) => Math.abs(p - b.position[i]) < (a.size[i] + b.size[i]) / 2);
-  const controls = [...buttons, ...battle.children.filter(c => /^potion\d$/.test(c.name))];
+  const controls = [...buttons, ...[...battle.children, ...help.children].filter(c => /^potion\d$/.test(c.name))];
+  assert.equal(controls.length, 10);
   const notice = battle.children.find(c => c.name === 'notice');
   for (const [i, c] of controls.entries()) {
     assert.ok(c.size.every(n => n >= 44), c.name);

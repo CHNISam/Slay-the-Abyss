@@ -175,10 +175,10 @@ test('native buttons provide all four states and touch hit areas stay inside the
   });
 });
 
-test('three potion buttons follow shared tokens and clear the HUD, notice, hand and turn controls', () => {
+test('five potion buttons follow shared tokens and clear the HUD, notice, hand and turn controls', () => {
   const controls = stage().children;
-  const potions = controls.filter(control => /^potion\d+$/.test(control.name));
-  assert.equal(potions.length, 3);
+  const potions = [...controls, ...controls.find(c=>c.name==='potionHelp').children].filter(control => /^potion\d+$/.test(control.name));
+  assert.equal(potions.length, 5);
   const notice = controls.find(control => control.name === 'notice');
   assert.deepEqual(notice.position, theme.layout.battleNotice.position);
   assert.deepEqual(notice.size, theme.layout.battleNotice.size);

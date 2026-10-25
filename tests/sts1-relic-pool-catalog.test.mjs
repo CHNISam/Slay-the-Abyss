@@ -66,15 +66,35 @@ test('removing an unsupported relic, changing its tier or marking a missing effe
 test('existing project effects are mapped honestly and the exact missing set is the original set difference', () => {
   const data = json('data/relics.json').relics;
   const mapped = catalog.relics.filter(row => row.projectId);
-  assert.deepEqual(mapped.map(row => row.projectId).sort(), data.map(row => row.id).sort());
-  for (const row of mapped) assert.equal(data.find(item => item.id === row.projectId).rarity, row.tier);
+  const fallbacks = catalog.fallbacks.filter(row => row.projectId);
+  const fallbackIds = [...new Set(fallbacks.map(row => row.projectId))];
+  assert.deepEqual([...mapped.map(row => row.projectId), ...fallbackIds].sort(), data.map(row => row.id).sort());
+  for (const row of mapped) {
+    const definition = data.find(item => item.id === row.projectId);
+    assert.equal(definition.rarity, row.tier);
+    if (definition.sourceId) assert.equal(row.id, definition.sourceId, `${row.projectId} exact source ID`);
+  }
+  assert.equal(mapped.filter(row => row.tier === 'common').length, 33);
+  assert.equal(mapped.length, 41);
+  assert.deepEqual(fallbackIds, ['circlet']);
+  assert.ok(!catalog.registrationOrder.includes('Circlet'), 'fallback must not be inserted into the source registration/queues');
+  for (const row of fallbacks) {
+    assert.equal(row.resolvedId, data.find(item => item.id === row.projectId).sourceId);
+    assert.ok(identity.files[row.source]);
+    assert.equal(row.status, 'existing-local-effect-not-full-pool-parity');
+  }
+  assert.match(byId.get('Spirit Poop').implementationLimitation, /no production total-score/);
   const missingQueue = catalog.relics.filter(row => row.scope === 'act1-queue' && !row.projectId);
-  assert.equal(missingQueue.length, 118);
-  assert.equal(catalog.relics.filter(row => row.scope !== 'later-act-only' && !row.projectId).length, 128);
+  assert.equal(missingQueue.length, 92);
+  assert.equal(catalog.relics.filter(row => row.scope !== 'later-act-only' && !row.projectId).length, 100);
   assert.equal(catalog.relics.filter(row => row.tier === 'rare' && row.projectId).length, 0);
   assert.ok(missingQueue.some(row => row.id === 'PrismaticShard'));
   assert.ok(missingQueue.some(row => row.id === 'WingedGreaves'));
   assert.equal(catalog.summary.queueMissing, missingQueue.length);
+  assert.equal(catalog.summary.act1Missing, 100);
+  assert.equal(catalog.summary.existingLocalEffects, data.length);
+  assert.equal(catalog.summary.registeredLocalEffects, mapped.length);
+  assert.equal(catalog.summary.fallbackLocalEffects, fallbackIds.length);
 });
 
 test('host Java HashMap order and shuffle vectors keep provenance, all members and five RNG consumptions', () => {

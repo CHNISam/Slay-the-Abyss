@@ -27,7 +27,9 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
         face:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
-        control:GetChild("uid").text = "UID " .. instance.uid
+        local selected=false
+        for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
+        control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')
         local hit=control:GetChild('hit')
         hit:SetVisible(self.choiceToken~=nil)
         if not self.bindings[control] then
@@ -53,6 +55,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local cards, catalog = Combat.copy(run.deck), {cards={}}
         for _, card in ipairs(run.data.cards.cards) do catalog.cards[card.id] = card end
         self.choiceToken,self.onPick,self.battle=choice and choice.token,onPick,choice and run.combat
+        self.multiple,self.choiceSelected=choice and choice.multiple,choice and choice.selected
         if choice then
             cards={}
             for _,uid in ipairs(choice.uids) do
@@ -66,9 +69,14 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         root:SetVisible(true)
         root:SetAsLastSibling()
         local prompts={exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
+            exhaustMany='选择任意张手牌消耗（可不选）',discardRedraw='选择任意张手牌丢弃并重抽',discardToHand='选择弃牌回手，本回合费用为0',
             handToDraw="选择放回抽牌堆顶的手牌",upgradeHand="选择要升级的牌",dualWield="选择要复制的攻击或能力牌"}
         root:GetChild("title").text = choice and prompts[choice.op] or "卡组 · " .. #cards .. " 张"
-        root:GetChild("close"):SetVisible(not choice)
+        if self.multiple then root:GetChild('title').text=root:GetChild('title').text..' · 已选'..#choice.selected..(choice.required and '/'..choice.required or '') end
+        root:GetChild("close"):SetVisible(not choice or self.multiple == true)
+        local close=root:GetChild('close'):GetChild('hit')
+        close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false
+        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.multiple and '确认选择' or '关闭' end
         grid.scrollProgress = 0
         -- Official API leaves index origin unspecified. A single-item callback
         -- reveals it without assuming a Lua (1) or native (0) convention. Fill
@@ -95,13 +103,24 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.generation = self.generation + 1
         self.visible, self.pending, self.calibrating, self.run, self.cards, self.catalog = false, false, false, nil, nil, nil
         self.choiceToken,self.onPick,self.battle=nil,nil,nil
+        self.multiple,self.choiceSelected=nil,nil
         root:SetVisible(false)
         grid:RefreshItems(0, function() end)
         return true
     end
     root.disableCursorEventPassthrough = true
     root:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
-    root:GetChild("close"):GetChild("hit"):AddCursorEventListener(clickEvent, onClose)
+    root:GetChild("close"):GetChild("hit"):AddCursorEventListener(clickEvent, function()
+        if not self.visible then return false end
+        if self.multiple then
+            if not root:GetChild('close'):GetChild('hit').interactable or not self.run or self.run.combat~=self.battle
+                or not self.battle.pendingChoice or self.battle.pendingChoice.token~=self.choiceToken then return false end
+            local callback,token=self.onPick,self.choiceToken
+            self:close();return callback(token,0)
+        end
+        if self.choiceToken then return false end
+        return onClose()
+    end)
     root:SetVisible(false)
     return self
 end

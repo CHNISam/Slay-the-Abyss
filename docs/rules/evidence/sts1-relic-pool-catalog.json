@@ -178,9 +178,11 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 13,
-    "queueMissing": 118,
-    "act1Missing": 128
+    "existingLocalEffects": 42,
+    "queueMissing": 92,
+    "act1Missing": 100,
+    "registeredLocalEffects": 41,
+    "fallbackLocalEffects": 1
   },
   "queueProtocol": {
     "initialization": {
@@ -388,8 +390,8 @@
       "sourceHooks": [
         "atBattleStart"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "akabeko",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Akabeko.java",
       "unlockSource": "unlock/relics/watcher/AkabekoUnlock.java"
     },
@@ -462,8 +464,8 @@
         "onEnterRestRoom",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "ancient_tea_set",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/AncientTeaSet.java",
       "unlockSource": null
     },
@@ -499,8 +501,8 @@
         "onUseCard",
         "onVictory"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "art_of_war",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/ArtOfWar.java",
       "unlockSource": "unlock/relics/silent/ArtOfWarUnlock.java"
     },
@@ -557,8 +559,8 @@
       "sourceHooks": [
         "atBattleStart"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "bag_of_marbles",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/BagOfMarbles.java",
       "unlockSource": null
     },
@@ -680,8 +682,8 @@
       "sourceHooks": [
         "atBattleStart"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "blood_vial",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/BloodVial.java",
       "unlockSource": null
     },
@@ -767,8 +769,8 @@
       "sourceHooks": [
         "onAttackToChangeDamage"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "boot",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Boot.java",
       "unlockSource": null
     },
@@ -1082,8 +1084,8 @@
         "justEnteredRoom",
         "onVictory"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "centennial_puzzle",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/CentennialPuzzle.java",
       "unlockSource": null
     },
@@ -1118,8 +1120,8 @@
         "onObtainCard",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "ceramic_fish",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/CeramicFish.java",
       "unlockSource": "unlock/relics/watcher/CeramicFishUnlock.java"
     },
@@ -1400,8 +1402,8 @@
       "sourceHooks": [
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "dream_catcher",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/DreamCatcher.java",
       "unlockSource": null
     },
@@ -1918,8 +1920,8 @@
         "onEquip",
         "atTurnStart"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "happy_flower",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/HappyFlower.java",
       "unlockSource": null
     },
@@ -2083,11 +2085,11 @@
       "sourceHooks": [
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "juzu_bracelet",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/JuzuBracelet.java",
       "unlockSource": null,
-      "projectPartialHookNote": "The baseline passes a juzu_bracelet ownership flag to the unknown-room selector, but has no data entry or ordinary acquisition route; selector-level support is not a delivered full relic."
+      "projectPartialHookNote": "The data entry, ordinary acquisition adapter and unknown-room ownership hook are integrated. Full source relic-queue acquisition and per-item platform/live acceptance remain pending."
     },
     {
       "id": "Kunai",
@@ -2348,8 +2350,8 @@
         "setCounter",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "maw_bank",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/MawBank.java",
       "unlockSource": null
     },
@@ -2383,8 +2385,8 @@
         "justEnteredRoom",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "meal_ticket",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/MealTicket.java",
       "unlockSource": null
     },
@@ -2742,8 +2744,8 @@
       "sourceHooks": [
         "onUseCard"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "nunchaku",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Nunchaku.java",
       "unlockSource": null
     },
@@ -2866,8 +2868,8 @@
         "setCounter",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "omamori",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Omamori.java",
       "unlockSource": "unlock/relics/ironclad/OmamoriUnlock.java"
     },
@@ -2926,8 +2928,8 @@
         "onPlayerGainedBlock",
         "onVictory"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "orichalcum",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Orichalcum.java",
       "unlockSource": null
     },
@@ -3141,8 +3143,8 @@
         "onUseCard",
         "atBattleStart"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "pen_nib",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/PenNib.java",
       "unlockSource": null
     },
@@ -3240,8 +3242,8 @@
         "onEquip",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "potion_belt",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/PotionBelt.java",
       "unlockSource": null
     },
@@ -3311,8 +3313,8 @@
         "atBattleStart",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "preserved_insect",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/PreservedInsect.java",
       "unlockSource": null
     },
@@ -3428,8 +3430,8 @@
       "sourceHooks": [
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "regal_pillow",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/RegalPillow.java",
       "unlockSource": null
     },
@@ -3762,10 +3764,11 @@
         "health-gold-curse"
       ],
       "sourceHooks": [],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "spirit_poop",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/SpiritPoop.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Obtain and display are wired. scoreAdjustment returns -1, but no production total-score calculation consumes it; source total-score deduction remains unintegrated."
     },
     {
       "id": "SsserpentHead",
@@ -3875,8 +3878,8 @@
       "sourceHooks": [
         "onEquip"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "strawberry",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Strawberry.java",
       "unlockSource": null
     },
@@ -4008,11 +4011,11 @@
         "onEquip",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "tiny_chest",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/TinyChest.java",
       "unlockSource": "unlock/relics/silent/TinyChestUnlock.java",
-      "projectPartialHookNote": "The baseline passes a tiny_chest ownership flag to the unknown-room selector, but has no data entry, acquisition route or complete persisted every-fourth-question counter effect; remains an implementation gap."
+      "projectPartialHookNote": "The data entry, ordinary acquisition adapter and persisted every-fourth-question counter are integrated in the actual Nodes entry. Full source relic-queue acquisition and per-item platform/live acceptance remain pending."
     },
     {
       "id": "Tiny House",
@@ -4158,8 +4161,8 @@
       "sourceHooks": [
         "onUsePotion"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "toy_ornithopter",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/ToyOrnithopter.java",
       "unlockSource": null
     },
@@ -4374,8 +4377,8 @@
       "sourceHooks": [
         "onEquip"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "war_paint",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/WarPaint.java",
       "unlockSource": null
     },
@@ -4397,8 +4400,8 @@
       "sourceHooks": [
         "atTurnStartPostDraw"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "warped_tongs",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/WarpedTongs.java",
       "unlockSource": null
     },
@@ -4428,8 +4431,8 @@
       "sourceHooks": [
         "onEquip"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "whetstone",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Whetstone.java",
       "unlockSource": null
     },
@@ -4755,8 +4758,8 @@
         "onNotBloodied",
         "onVictory"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "red_skull",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/RedSkull.java",
       "unlockSource": null
     },
@@ -4821,12 +4824,20 @@
     {
       "requestedId": "Circlet",
       "resolvedId": "Circlet",
-      "reason": "rare queue exhausted / duplicate event special / all faces owned"
+      "reason": "rare queue exhausted / duplicate event special / all faces owned",
+      "projectId": "circlet",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Circlet.java",
+      "implementationLimitation": "Resolved Circlet is obtainable from repeated Bonfire curse offerings; repeats increment the existing counter without a second relic slot. Finite source queue exhaustion resolves it locally; treasure/shop do not yet consume the shared full queue. Red Circlet remains an unresolved source alias, not a separately implemented relic."
     },
     {
       "requestedId": "Red Circlet",
       "resolvedId": "Circlet",
-      "reason": "boss queue exhausted; mirror getRelic does not register Red Circlet and falls back to Circlet"
+      "reason": "boss queue exhausted; mirror getRelic does not register Red Circlet and falls back to Circlet",
+      "projectId": "circlet",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Circlet.java",
+      "implementationLimitation": "Resolved Circlet is obtainable from repeated Bonfire curse offerings; repeats increment the existing counter without a second relic slot. Finite source queue exhaustion resolves it locally; treasure/shop do not yet consume the shared full queue. Red Circlet remains an unresolved source alias, not a separately implemented relic."
     }
   ]
 }

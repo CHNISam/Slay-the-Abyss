@@ -1,5 +1,7 @@
 # 来源与适配边界
 
+2026-10-25 M3事件/道具集成在途：固定来源仍为 `aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0` 的V2.3.4镜像，ZIP SHA256 `3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458`，并非经过认证的PC二进制。本批把永久牌组事务、普通遗物钩子、27种战士药水效果和四个事件接入现有Run/Nodes/原生UI；具体输入、动作顺序、回归及尚缺的自然获取和平台证据见[集成记录](../docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md)。默认七事件池仍受限；完整33药水采样模块尚未接自然奖励/商店，不能删掉未实现项、改池或重抽绕过。完整75张与第一幕25事件的验收范围不变，本条不宣称M3完成。
+
 2026-10-25 完整75张铁甲战士：正式要求固定为初代PC A0的3张基础牌与72张非基础牌，不再采用30张缩减口径。`reference/warrior75.json`仅保留历史盘点；运行数据已按75张构造、升级、使用及相关能力/动作的固定来源逐张核验，原卡名不改写。逐卡来源身份、方法行段、实现与四层验收见[完整矩阵](../docs/reviews/TASK-16-warrior75-matrix.md)及[固定来源表](../docs/evidence/warrior75/sources.json)。完整消耗动作、UID选牌、复制/X费/持续能力、原红池及共享奖励/商店cardRng已实现候选；Courier身份使用[独立会话熵](../docs/reviews/TASK-16-warrior75-courier.md)。本地逐卡通过不等于平台或原PC严格验收；未实测部分继续保留。下文37张及“不会声称75张可玩”属于历史切片记录，不是当前交付范围。
 
 2026-10-25 清除诅咒祭坛切片：固定 `aeubanks/sts@319009d5` 的 FountainOfCurseRemoval、AbstractPlayer.isCursed 与 CardGroup.removeCard 方法链，接通永久牌组资格、full目录到正式节点及原生界面。泉水不奖励最大生命或回血；保护三张特殊诅咒，实际移除再排除Flame/Lightning瓶装。当前支持Regret，未实现移除钩子的其他诅咒原子拒绝；默认七事件池未改，完整25事件统一切换与平台自然获取仍缺。固定身份、红绿与范围见[本轮记录](../docs/reviews/TASK-13.1.2-fountain.md)。

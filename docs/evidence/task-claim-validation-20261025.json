@@ -105,8 +105,33 @@
       "Consumer check actually passed after its external owners handoff fingerprint changed"
     ],
     "review": "Independent read-only review found the creation, recovery, exact-file and handoff defects; final static re-review found no remaining must-fix issue. Not a substitute for tests.",
-    "lightChecks": ["changed JavaScript syntax passed", "Backlog roadmap verification passed", "git diff --check passed"],
-    "currentHeadCI": "pending exact PR head; local partitions are not complete CI",
-    "businessSources": "six M3 source trees, warrior75 and root business edits remain untouched; no automatic business adoption, quarantine resolution or migration-open"
+    "lightChecks": [
+      "changed JavaScript syntax passed",
+      "Backlog roadmap verification passed",
+      "git diff --check passed"
+    ],
+    "currentHeadCI": {
+      "head": "1b94ec5ed976b3181b7b4c47517991d9ffff3f7b",
+      "run": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40163823617",
+      "status": "SUCCESS",
+      "jobs": [
+        "ownership",
+        "check",
+        "presentation"
+      ],
+      "note": "Server-side complete job results; gh formatted per-step log excerpts are partial and not a complete fixture-count source."
+    },
+    "businessSources": "six M3 source trees, warrior75 and root business edits remain untouched; no automatic business adoption, quarantine resolution or migration-open",
+    "closeout": {
+      "pr": 203,
+      "merged": "518299ca48a31e9316efbc8224da041e8772a32f",
+      "mergedAt": "2026-10-25T05:30:55Z",
+      "installedRuntimeSha256": "bc6dba10e4b0b9123206cb6649de1f077d18516ae6a27d4f9253afa0ea7a9de3",
+      "lease": "released",
+      "cleanOwnedTree": "removed after exact head, merge and verified bundle checks",
+      "archive": ".artifacts/task55-pr203-1b94ec5",
+      "migration": "paused; original38 reservations retained; other unknowns retained",
+      "business": "Designated M3 session adopted fresh develop tree; six sources read-only. User explicitly authorized this round13 shared paths, keeping M2/engineering trees and indexes read-only; not a fresh old-executor release."
+    }
   }
 }

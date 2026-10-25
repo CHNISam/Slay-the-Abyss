@@ -1,0 +1,10 @@
+local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
+local host,ui,panel,event,tap,drain=H.setup({'inflame'},{'cultist'})
+assert(H.Run.obtainPotion(host.run,'duplication_potion'));host:refresh()
+tap('potion1',1);drain();assert(host.run.combat.player.statuses.duplication==1)
+local uid=host.run.combat.hand[1].uid
+tap('card1',2);if ui.selected==uid then tap('playArea',3) end;drain()
+assert(host.run.combat.player.statuses.strength==4)
+assert(#host.run.combat.exhaust==0 and #host.run.combat.discard==0)
+assert(not host.run.combat.cardActions and not host.run.combat.queuedCards and ui.active and not ui.busy)
+print('LUA_POTION_DUPLICATION_UI_PASS 1')

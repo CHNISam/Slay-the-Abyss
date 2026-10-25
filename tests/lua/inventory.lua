@@ -178,6 +178,15 @@ end
 
 test("real map keeps resources across two original-data battles and the acquired relic persists into the next battle", function()
     local source = Combat.copy(data)
+    -- This historical six-opening transaction fixture deliberately isolates its
+    -- Anchor chest. Full-pool order/probability and the added persistent hooks
+    -- have independent suites; their newly added definitions must not silently
+    -- turn this fixed-relic fixture into a different acquisition assertion.
+    local legacyRelics={}
+    for _,relic in ipairs(source.relics.relics)do
+        if relic.trigger~='hooks' then legacyRelics[#legacyRelics+1]=relic end
+    end
+    source.relics.relics=legacyRelics
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
     source.rules.events.encounterId='purifier' -- explicit content fixture; unknown RNG has its own route tests
     -- A real connected source-map route reaches events/shop/camp/chest before
@@ -269,8 +278,8 @@ test("death followed by Run.new resets all same-run resources without sharing ca
     equal(fresh.gold, data.rules.player.startingGold); equal(#fresh.deck, 10); equal(fresh.nextDeckUid, 11)
     equal(fresh.deck[1].upgraded, false); same(fresh.relics, data.rules.player.startingRelics); same(fresh.potions, {})
     equal(fresh.combat, nil); equal(fresh.nodeFlow, nil); equal(fresh.lastResult, nil)
-    fresh.data.potions.potions[1].effects[1].value = 1
-    same(old, before); equal(data.potions.potions[1].effects[1].value, 20)
+    definition(fresh.data.potions.potions, "fire_potion").effects[1].value = 1
+    same(old, before); equal(definition(data.potions.potions, "fire_potion").effects[1].value, 20)
 end)
 
 print("LUA_INVENTORY_PASS " .. count)

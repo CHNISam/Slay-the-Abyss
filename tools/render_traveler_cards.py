@@ -37,8 +37,11 @@ def numeric(value):
     return type(value) is int or (type(value) is float and math.isfinite(value))
 
 
+BASIC_CURSES = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite'}
+
+
 def cost_label(card):
-    if (card.get('type') == 'status' or (card.get('id') == 'regret' and card.get('type') == 'curse')) and type(card.get('cost')) is int and card['cost'] == -2:
+    if (card.get('type') == 'status' or (card.get('id') in BASIC_CURSES and card.get('type') == 'curse')) and type(card.get('cost')) is int and card['cost'] == -2:
         require(card.get('costMode') is None, 'unplayable card has no costMode')
         return ''
     require(type(card.get('cost')) is int and card['cost'] >= 0, 'cost: expected nonnegative integer')
@@ -49,7 +52,7 @@ def cost_label(card):
     return str(card['cost'])
 
 
-PATH = re.compile(r'(?:cost|strengthMultiplier|strikeBonus|exhaustEnergy|endTurnDamage|effects\.(?:0|[1-9][0-9]*)(?:\.then\.(?:0|[1-9][0-9]*))*\.(?:value|times|maxHp))\Z')
+PATH = re.compile(r'(?:cost|strengthMultiplier|strikeBonus|exhaustEnergy|endTurnDamage|endTurnStatusAmount|onOtherCardHpLoss|playLimit|onRemoveMaxHpLoss|effects\.(?:0|[1-9][0-9]*)(?:\.then\.(?:0|[1-9][0-9]*))*\.(?:value|times|maxHp))\Z')
 TOKEN = re.compile(r'\{([^{}]+)\}')
 
 
@@ -107,7 +110,8 @@ def semantics(value):
 
 
 CARD_FIELDS = {'id','name','sts_name','cost','effects','upgrade','text','upgradeText',
-               'type','rarity','condition','exhaust','innate','ethereal','costMode','strikeTag','strengthMultiplier','repeatable','healing','strikeBonus','exhaustEnergy','endTurnDamage','target','sourceId'}
+               'type','rarity','condition','exhaust','innate','ethereal','costMode','strikeTag','strengthMultiplier','repeatable','healing','strikeBonus','exhaustEnergy','endTurnDamage','target','sourceId',
+               'endTurnStatusAmount','onOtherCardHpLoss','playLimit','onRemoveMaxHpLoss'}
 UPGRADE_FIELDS = {'cost','effects','condition','exhaust','innate','ethereal','costMode','strengthMultiplier','repeatable','strikeBonus','exhaustEnergy'}
 
 

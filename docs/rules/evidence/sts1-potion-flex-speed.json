@@ -1,0 +1,235 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "baseCommit": "6457b61f9f600178ad8279839243c82f52b772cd",
+  "sourceKind": "fixed community decompile; not official source or authenticated PC binary",
+  "files": [
+    {
+      "path": "potions/SteroidPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SteroidPotion.java",
+      "sha256": "f5f68e27e65e9e541c1c51be7b5e0c8df50b28d4872dfd868e1e57f43c274f5c",
+      "gitBlob": "adb5a2b31d1f00cd7cdb1ea75a7e33ca3c792439"
+    },
+    {
+      "path": "potions/SpeedPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SpeedPotion.java",
+      "sha256": "9fe217f2354a569f025a15d2fcaf6a35a346223151d25f2d8512e7d1f2dbc7dc",
+      "gitBlob": "6ca711123ca6e56b757c00a20af93d4d73e07df6"
+    },
+    {
+      "path": "powers/LoseStrengthPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/LoseStrengthPower.java",
+      "sha256": "062155ed7acf49b9c60f1bf1b2583bbc060a762253c3f7a7246f42f995c7d1a1",
+      "gitBlob": "5627a0975da2350ac903e1bb6d9a02b6502f8551"
+    },
+    {
+      "path": "powers/LoseDexterityPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/LoseDexterityPower.java",
+      "sha256": "8b9b89f497ddd63a4b57eb5f87bb6269acbd43ffb1523001b3add63543309426",
+      "gitBlob": "a97218fe303e07c76e7391f246880e000e1c0722"
+    },
+    {
+      "path": "powers/StrengthPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/StrengthPower.java",
+      "sha256": "20b05040efe9d6ad693dd763a658c86df9db1b1ac365351c4c8d81c7f6ca08c9",
+      "gitBlob": "fbb46a2d532cde9bf116527c8d426ad0179877bc"
+    },
+    {
+      "path": "powers/DexterityPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/DexterityPower.java",
+      "sha256": "1fdc782315caad88c9b438684f12a6c55ac9c82070d9bfbd01b505048638275c",
+      "gitBlob": "a58984bf479a3d53ff98bd1098c34a91d98bffe1"
+    },
+    {
+      "path": "powers/AbstractPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/AbstractPower.java",
+      "sha256": "37a6e97bc1a7a3d0cbfe93fd07e9f809690f7c02f24fd45ec34892466b6e0f9f",
+      "gitBlob": "70347e8e642e8c45e6c6aadbe6e34f0472220c18"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47",
+      "gitBlob": "1a6af352c02e06ecec4db87dd5e2f57d43d35b91"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "gitBlob": "bee5f7d0d955528b69007376cc0465ed60e577c6"
+    },
+    {
+      "path": "potions/AbstractPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AbstractPotion.java",
+      "sha256": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
+      "gitBlob": "8598c2e5a81f5a36060eb8520ee0abd2204991ca"
+    }
+  ],
+  "sourceFacts": {
+    "potions": {
+      "SteroidPotion": {
+        "rarity": "common",
+        "basePotency": 5,
+        "target": "self",
+        "orderedApplications": [
+          "Strength +5",
+          "LoseStrength 5 DEBUFF"
+        ]
+      },
+      "SpeedPotion": {
+        "rarity": "common",
+        "basePotency": 5,
+        "target": "self",
+        "orderedApplications": [
+          "Dexterity +5",
+          "LoseDexterity 5 DEBUFF"
+        ]
+      }
+    },
+    "endTurn": "owner applies negative stat via ApplyPowerAction then removes loss power",
+    "artifact": "can block delayed DEBUFF at use or the negative stat DEBUFF at owner end",
+    "mixedLossOrder": "default priority5 / stable Collections.sort / first insertion order; existing-ID stack does not reorder"
+  },
+  "verification": {
+    "resourcePolicy": "no tests/builds during initial CI freeze; parent explicitly released serial narrow window before these commands; no parallel tests/full suite/full build",
+    "red": {
+      "command": "node --test tests/potion-flex-speed.test.mjs",
+      "exitCode": 1,
+      "failedTests": 2,
+      "reason": "missing flex_potion definition / Run.obtainPotion unknown_potion",
+      "reportedElapsedMs": 1836.5282
+    },
+    "green": [
+      {
+        "command": "node --test tests/potion-flex-speed.test.mjs",
+        "exitCode": 0,
+        "nodeTests": 2,
+        "luaGroups": 11,
+        "reportedElapsedMs": 7829.4337
+      },
+      {
+        "command": "node scripts/test-lua.mjs tests/lua/potion_flex_speed_ui.lua",
+        "exitCode": 0,
+        "luaGroups": 2,
+        "reportedElapsedMs": 2869
+      },
+      {
+        "command": "node scripts/test-lua.mjs tests/lua/artifact_power.lua",
+        "exitCode": 0,
+        "luaGroups": 19,
+        "reportedElapsedMs": 647
+      },
+      {
+        "command": "node scripts/test-lua.mjs tests/lua/flex.lua",
+        "exitCode": 0,
+        "luaGroups": 16,
+        "reportedElapsedMs": 3491
+      }
+    ],
+    "uiCorrection": {
+      "firstAttemptExitCode": 1,
+      "reason": "test read parent button.text rather than existing normal/label.text",
+      "reportedElapsedMs": 2378,
+      "productionChangeToPass": false
+    },
+    "gates": [
+      {
+        "command": "validateContent from first JS test",
+        "exitCode": 0
+      },
+      {
+        "command": "node scripts/build-ui-theme.mjs",
+        "exitCode": 0,
+        "scope": "single theme module only"
+      },
+      {
+        "command": "node scripts/verify-launch-content.mjs",
+        "exitCode": 0,
+        "obtainablePotions": 6
+      },
+      {
+        "command": "git diff --check",
+        "exitCode": 0
+      }
+    ],
+    "timeouts": 0,
+    "allGreenReportedElapsedMs": 14836.4337,
+    "allTestAttemptsReportedElapsedMs": 19050.9619,
+    "measurementBoundary": "reported target wall-clock durations only; excludes CI wait, tool startup, cache copies and launch gate; CPU time and full elapsed time unknown",
+    "cost": "unknown; no external model delegation or paid fallback used",
+    "staticFixtureCaches": [
+      {
+        "name": "abyss_narrative.lua",
+        "sha256AsRead": "2b247f6969f2ac7380cda33a1a92a28652a8de08bf16047d5e92525f3d3d5a41",
+        "sourceDirectory": "F:/New folder/.worktrees/sts1-card-reward-state/build/lua",
+        "purpose": "existing static mock UI fixtures, not a new platform build"
+      },
+      {
+        "name": "abyss_presentation.lua",
+        "sha256AsRead": "9c57cbed381edf99906c1393dea564daa86a6062a3e534779fdf71c7d1868f7e",
+        "sourceDirectory": "F:/New folder/.worktrees/sts1-card-reward-state/build/lua",
+        "purpose": "existing static mock UI fixtures, not a new platform build"
+      },
+      {
+        "name": "abyss_ui_layout.lua",
+        "sha256AsRead": "53cfabe611426219b60dc01d066bac4894f74e999737d35cd65c8a65bd702ec8",
+        "sourceDirectory": "F:/New folder/.worktrees/sts1-card-reward-state/build/lua",
+        "purpose": "existing static mock UI fixtures, not a new platform build"
+      },
+      {
+        "name": "abyss_ui_templates.lua",
+        "sha256AsRead": "22f1965df9a5b9797d6e6ddac94ea44f2c03e43b656ace9344b5c0a64ea205ce",
+        "sourceDirectory": "F:/New folder/.worktrees/sts1-card-reward-state/build/lua",
+        "purpose": "existing static mock UI fixtures, not a new platform build"
+      },
+      {
+        "name": "abyss_map_layout.lua",
+        "sha256AsRead": "60d09d33504a67759cdb8ae63f87d1b8584e1c9ebfd203a51fd438286eec04b6",
+        "sourceDirectory": "F:/New folder/.worktrees/sts1-card-reward-state/build/lua",
+        "purpose": "existing static mock UI fixtures, not a new platform build"
+      },
+      {
+        "name": "abyss_map_controls.lua",
+        "sha256AsRead": "f6c22dd0cd4222e0ba3fb49c5c9f817bc9b55cb3d5146bf3d50530df2a3250ac",
+        "sourceDirectory": "F:/New folder/.worktrees/sts1-card-reward-state/build/lua",
+        "purpose": "existing static mock UI fixtures, not a new platform build"
+      }
+    ],
+    "logs": [
+      {
+        "path": ".artifacts/flex-speed-source/red.log",
+        "sha256": "bcc083e320d8ef678996d74b9122c574a6203dc93f7cb8650c16080c59054e96"
+      },
+      {
+        "path": ".artifacts/flex-speed-source/green-attempt.log",
+        "sha256": "bcc4a117b588fb05f0ae6045b2f0da9911d4de680b13313640f10b59d0023c55"
+      },
+      {
+        "path": ".artifacts/flex-speed-source/ui-attempt.log",
+        "sha256": "cad8b6f92411087348c6db13c493959f7bbde2702d51b54234e5eb5dd25a7eea"
+      },
+      {
+        "path": ".artifacts/flex-speed-source/ui-final.log",
+        "sha256": "165ee60733f804863610d8ef300eafaa2c45f0335d1bcaf4678e9d891ac49296"
+      },
+      {
+        "path": ".artifacts/flex-speed-source/artifact-regression.log",
+        "sha256": "9b18674f086549a1be6ac778d3afc9a87cda355529ae3dd02c0a364ba8d1ec9e"
+      },
+      {
+        "path": ".artifacts/flex-speed-source/flex-regression.log",
+        "sha256": "bdcf7cf1126b5dc50f0d13c30dd6f6645430b6345826392005e6b09572fe460d"
+      },
+      {
+        "path": ".artifacts/flex-speed-source/launch-gate.log",
+        "sha256": "d090368cc93200e449d03002ce905e0def55cca36e22075702e74b9f19aad3b7"
+      }
+    ],
+    "integrationObligation": "when combining newer PR197, explicitly add flex_potion:self/pending=true and speed_potion:self/pending=true to its independent P12 expected tables; do not relax count guard"
+  },
+  "remaining": [
+    "Sacred Bark",
+    "full33 ordered source selection",
+    "future potion-use/debuff-removal relic combinations",
+    "platform/live/UI acceptance"
+  ]
+}

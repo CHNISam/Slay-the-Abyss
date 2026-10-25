@@ -1,20 +1,21 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const recordFiles = ['cards', 'statuses', 'enemies', 'relics', 'potions'];
 export const contentFiles = [...recordFiles, 'rules'];
 const tiers = ['normal', 'elite', 'boss'];
-const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal',
-  'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength',
+const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal', 'healPercent', 'increaseMaxHp',
+  'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength', 'gainTemporaryDexterity',
   'exhaustRandom', 'exhaustChoose', 'putOnDrawPile'];
 const statusOps = ['gainStatus', 'applyStatus', 'applyStatusAll', 'gainStatusPerTurn'];
 const cardOps = ['addCardToDiscard', 'addCardPerTurn', 'makeTempCardInDiscard'];
 const flagOps = ['damageEqualToBlock', 'doubleBlock', 'noDrawThisTurn', 'healEqualToDamageDealt'];
 const actionOps = ['exhaustRandom','exhaustChoose','exhaustNonAttacks','secondWind','fiendFire',
+  'exhaustMany','discardRedraw','discardToHand','randomizeHandCost','escape','playTopCards',
   'recoverExhaust','upgradeHand','discardToDraw','handToDraw','dualWield','generateAttack',
   'makeTempCardInHand','makeTempCardInDraw','doubleStrength','spotWeakness','feed','reaper','playTop','damageRandom'];
-const actionValues = ['secondWind','fiendFire','dualWield','makeTempCardInHand','makeTempCardInDraw','spotWeakness','feed','reaper','damageRandom','generateAttack'];
+const actionValues = ['exhaustMany','discardRedraw','discardToHand','randomizeHandCost','escape','playTopCards','secondWind','fiendFire','dualWield','makeTempCardInHand','makeTempCardInDraw','spotWeakness','feed','reaper','damageRandom','generateAttack'];
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 /** Validate the complete content bundle; errors carry source paths for authoring. */
@@ -116,7 +117,7 @@ export function validateContent(bundle) {
       if (op === 'feed') allowed.push('maxHp');
       if (op === 'damageRandom') allowed.push('times');
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
-      if (statusOps.includes(op) || op === 'gainTemporaryStrength') allowed.push('status');
+      if (statusOps.includes(op) || ['gainTemporaryStrength', 'gainTemporaryDexterity'].includes(op)) allowed.push('status');
       if (cardOps.includes(op)) allowed.push('card');
       if (op === 'conditional') allowed.push('if', 'then');
       if (['damage', 'damageAll'].includes(op)) allowed.push('times');
@@ -129,9 +130,9 @@ export function validateContent(bundle) {
         integer(effect.value, `${p}.value`, signed ? Number.MIN_SAFE_INTEGER : 0, op === 'makeTempCardInDiscard' ? 5 : Number.MAX_SAFE_INTEGER);
       }
       if (statusOps.includes(op)) reference(effect.status, 'statuses', `${p}.status`);
-      if (op === 'gainTemporaryStrength') {
+      if (op === 'gainTemporaryStrength' || op === 'gainTemporaryDexterity') {
         reference(effect.status, 'statuses', `${p}.status`);
-        enumeration(effect.status, ['strength'], `${p}.status`);
+        enumeration(effect.status, [op === 'gainTemporaryStrength' ? 'strength' : 'dexterity'], `${p}.status`);
       }
       if (cardOps.includes(op)) reference(effect.card, 'cards', `${p}.card`);
       if (actionValues.includes(op)) integer(effect.value, `${p}.value`, 0, 2147483647);
@@ -148,22 +149,31 @@ export function validateContent(bundle) {
   }
   function card(card, path, partial = false) {
     if (!object(card, path)) return;
-    const regret = !partial && card.id === 'regret';
+    const curse = !partial && ['regret','injury','doubt','pain','decay','shame','writhe','clumsy','normality','parasite'].includes(card.id);
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
-    if (!partial || card.rarity !== undefined) enumeration(card.rarity, regret ? ['curse'] : ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
+    if (!partial || card.rarity !== undefined) enumeration(card.rarity, curse ? ['curse'] : ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
     const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
     const slimed = !partial && card.id === 'slimed';
-    if (regret || slimed || unplayableStatus) targetGroup(card.effects, `${path}.effects`, false);
-    if (!unplayableStatus && !regret && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
-    if (regret) {
+    if (curse || slimed || unplayableStatus) targetGroup(card.effects, `${path}.effects`, false);
+    if (!unplayableStatus && !curse && (!partial || card.cost !== undefined)) integer(card.cost, `${path}.cost`, 0, 5);
+    if (curse) {
       enumeration(card.type, ['curse'], `${path}.type`);
       enumeration(card.cost, [-2], `${path}.cost`);
-      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'Regret must have empty ordinary use');
-      for (const flag of ['exhaust', 'ethereal', 'innate', 'repeatable']) {
-        if (card[flag]) fail(`${path}.${flag}`, 'Regret does not support this flag');
+      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`, 'basic curse must have empty ordinary use');
+      for (const flag of ['exhaust', 'repeatable']) {
+        if (card[flag]) fail(`${path}.${flag}`, 'basic curse does not support this flag');
+      }
+      if ((card.ethereal === true) !== (card.id === 'clumsy')) fail(`${path}.ethereal`, 'only Clumsy is ethereal');
+      if ((card.innate === true) !== (card.id === 'writhe')) fail(`${path}.innate`, 'only Writhe is innate');
+      if (card.id === 'decay') enumeration(card.endTurnDamage, [2], `${path}.endTurnDamage`);
+      const curseValues = {endTurnStatusAmount: ['doubt','shame'].includes(card.id) ? 1 : undefined,
+        onOtherCardHpLoss: card.id === 'pain' ? 1 : undefined, playLimit: card.id === 'normality' ? 3 : undefined,
+        onRemoveMaxHpLoss: card.id === 'parasite' ? 3 : undefined};
+      for (const [field, value] of Object.entries(curseValues)) {
+        if (card[field] !== value) fail(`${path}.${field}`, 'must match the source basic curse lifecycle');
       }
       for (const field of ['costMode', 'condition', 'upgrade']) {
-        if (card[field] !== undefined) fail(`${path}.${field}`, 'Regret does not support this field');
+        if (card[field] !== undefined) fail(`${path}.${field}`, 'basic curse does not support this field');
       }
     } else if (slimed) {
       enumeration(card.type, ['status'], `${path}.type`);
@@ -574,15 +584,26 @@ export function validateContent(bundle) {
       // Current effects operate on self or one enemy. Future group/random effects
       // need their own runtime implementation before entering the playable data.
       const single = Array.isArray(entry.effects) && entry.effects.some(effect => effect && ['damage', 'applyStatus'].includes(effect.op));
-      if (entry.targetPolicy !== (single ? 'enemy_one' : 'self')) fail(`${p}.targetPolicy`, 'must match implemented effect targets');
+      const all = Array.isArray(entry.effects) && entry.effects.some(effect => effect && effect.op === 'damageAll');
+      if (entry.targetPolicy !== (single ? 'enemy_one' : all ? 'enemy_all' : 'self')) fail(`${p}.targetPolicy`, 'must match implemented effect targets');
     }
-    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'boss', 'shop'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
-    if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end', 'shop'], `${p}.trigger`);
+    enumeration(entry.rarity, kind === 'relics' ? ['starter', 'common', 'uncommon', 'rare', 'boss', 'shop', 'special'] : ['common', 'uncommon', 'rare'], `${p}.rarity`);
+    if (kind === 'relics') enumeration(entry.trigger, ['combat_start', 'turn_start', 'combat_end', 'shop', 'hooks'], `${p}.trigger`);
     if (entry.replaces !== undefined) reference(entry.replaces, 'relics', `${p}.replaces`);
     if (entry.blocksPotions !== undefined && typeof entry.blocksPotions !== 'boolean') fail(`${p}.blocksPotions`, 'must be boolean');
     if (entry.description !== undefined && typeof entry.description !== 'string') fail(`${p}.description`, 'must be text');
+    if (entry.sourceId !== undefined && (typeof entry.sourceId !== 'string' || !entry.sourceId.length)) fail(`${p}.sourceId`, 'must be a nonempty source identity');
+    if (entry.stackable !== undefined && (kind !== 'relics' || entry.id !== 'circlet' || entry.stackable !== true)) fail(`${p}.stackable`, 'only source Circlet supports repeated obtain counts');
+    if (entry.scoreModifier !== undefined && (kind !== 'relics' || entry.id !== 'spirit_poop' || entry.scoreModifier !== -1)) fail(`${p}.scoreModifier`, 'must match source Spirit Poop penalty');
     if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
-    if (kind === 'relics' && entry.trigger === 'shop') {
+    if (kind === 'relics' && entry.trigger === 'hooks') {
+      if (!['omamori', 'ceramic_fish', 'potion_belt', 'meal_ticket', 'maw_bank', 'blood_vial', 'bag_of_marbles', 'orichalcum',
+        'strawberry', 'regal_pillow', 'toy_ornithopter', 'whetstone', 'war_paint',
+        'happy_flower', 'ancient_tea_set', 'art_of_war', 'boot', 'akabeko', 'pen_nib', 'nunchaku',
+        'preserved_insect', 'red_skull', 'centennial_puzzle', 'tiny_chest', 'juzu_bracelet', 'dream_catcher',
+        'warped_tongs', 'spirit_poop', 'circlet'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');
+      if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'source hooks require empty generic effects');
+    } else if (kind === 'relics' && entry.trigger === 'shop') {
       targetGroup(entry.effects, `${p}.effects`, false);
       if (!['membership_card', 'courier', 'smiling_mask'].includes(entry.id)) fail(`${p}.id`, 'unsupported shop relic');
       if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'shop relic uses merchant hooks and must have empty combat effects');
@@ -646,12 +667,30 @@ export function validateContent(bundle) {
       if (typeof rules.combat.poisonBypassesBlock !== 'boolean') fail('rules.combat.poisonBypassesBlock', 'must be boolean');
     }
   }
+  if (bundle.relicSource !== undefined && object(bundle.relicSource, 'relicSource')) {
+    const source = bundle.relicSource;
+    if (source.schemaVersion !== 1 || source.sourceCommit !== '319009d5df0a82d9fb0f23cc22322286c6a87ec0') fail('relicSource', 'unknown source version');
+    if (object(source.queues, 'relicSource.queues')) {
+      const sizes = { common: 33, uncommon: 30, rare: 28, shop: 17, boss: 22 }, seen = new Set();
+      for (const key of Object.keys(source.queues)) if (!(key in sizes)) fail(`relicSource.queues.${key}`, 'unknown tier');
+      for (const [tier, size] of Object.entries(sizes)) {
+        const list = source.queues[tier], path = `relicSource.queues.${tier}`;
+        if (!Array.isArray(list) || list.length !== size) { fail(path, `requires complete ${size}-item source queue`); continue; }
+        for (const id of list) {
+          if (typeof id !== 'string' || !id || seen.has(id)) fail(path, 'invalid or duplicate source ID');
+          seen.add(id);
+        }
+      }
+    }
+  }
   return errors;
 }
 
 export function loadContent(directory) {
   const bundle = {};
   for (const file of contentFiles) bundle[file] = JSON.parse(readFileSync(resolve(directory, `${file}.json`), 'utf8').replace(/^\uFEFF/, ''));
+  const relicSource = resolve(directory, 'catalogs/sts1-relic-queues.json');
+  if (existsSync(relicSource)) bundle.relicSource = JSON.parse(readFileSync(relicSource, 'utf8').replace(/^\uFEFF/, ''));
   return bundle;
 }
 

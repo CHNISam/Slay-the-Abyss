@@ -42,8 +42,17 @@ test('Flame and Lightning remain, empty cleanse and leave finish without damage 
 end)
 test('invalid choice and unsupported remove hook fail atomically',function()
  local r=enter({{uid=1,cardId='regret'}});local before=C.copy(r);eq(Nodes.chooseEvent(r,'pray'),false);same(r,before)
- r.data=C.copy(r.data);r.data.cards.cards[#r.data.cards.cards+1]={id='parasite',type='curse'};r.deck[1].cardId='parasite'
+ r.data=C.copy(r.data);r.data.cards.cards[#r.data.cards.cards+1]={id='unsupported_curse',type='curse'};r.deck[1].cardId='unsupported_curse'
  before=C.copy(r);local ok,why=Nodes.chooseEvent(r,'cleanse');eq(ok,false);eq(why,'event_content_unavailable');same(r,before)
+end)
+test('all ten basic curses cleanse through their own permanent removal hooks',function()
+ local ids={'regret','injury','shame','parasite','normality','doubt','writhe','pain','decay','clumsy'}
+ local deck={};for i,id in ipairs(ids)do deck[i]={uid=i,cardId=id}end
+ local r=enter(deck);r.hp=80
+ assert(Nodes.chooseEvent(r,'cleanse'));eq(#r.deck,0);eq(r.maxHp,77);eq(r.hp,77)
+ for i=1,10 do eq(r.nodeFlow.event.removedUids[i],11-i)end
+ local bottled=enter({{uid=1,cardId='parasite',inBottleFlame=true},{uid=2,cardId='doubt'}})
+ assert(Nodes.chooseEvent(bottled,'cleanse'));eq(bottled.maxHp,80);eq(#bottled.deck,1)
 end)
 test('full one-time pool selects from permanent deck, consumes on entry even when leaving',function()
  local r,m=enter({{uid=1,cardId='regret',inBottleFlame=true}},true)

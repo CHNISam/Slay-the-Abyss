@@ -45,7 +45,9 @@ class GrowingCardTextTests(unittest.TestCase):
             'armaments','headbutt','heavy_blade','perfected_strike','sword_boomerang','wild_strike',
             'blood_for_blood','flame_barrier','power_through','pummel','reckless_charge','searing_blow',
             'second_wind','sentinel','sever_soul','feed','fiend_fire','immolate'})
-        self.assertEqual(len(cards), 80)
+        self.assertEqual(len(cards), 89)
+        self.assertEqual(sum(card['type'] == 'curse' for card in self.source['cards']), 10)
+        self.assertEqual(sum(card['type'] == 'status' for card in self.source['cards']), 4)
         self.assertEqual(sum(card['type'] not in ('status', 'curse') for card in self.source['cards']), 75)
         self.assertEqual(before, (self.source, self.overlay))
 

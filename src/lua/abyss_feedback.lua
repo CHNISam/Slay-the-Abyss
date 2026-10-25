@@ -13,6 +13,7 @@ local function easeIn(x) x = clamp(x) return x * x end
 local function mix(a, b, w) return {r = a.r + (b.r - a.r) * w, g = a.g + (b.g - a.g) * w, b = a.b + (b.b - a.b) * w, a = a.a} end
 local function hurts(kind) return kind == "damage" or kind == "hp_loss" or kind == "status_damage" end
 local banners = {enemy_turn = true, player_turn = true, victory = true, defeat = true}
+local timedLossNames = {lose_strength="回合末失去力量", lose_dexterity="回合末失去敏捷"}
 
 -- Shape of each hit, read from the committed card/intent and the actual event amounts only.
 -- form: single | multi | area | dot | self; weight: light | normal | heavy.
@@ -271,7 +272,7 @@ function M.new(stage, platform, present, complete)
                     text = (status and status.name or d.status) .. (d.amount >= 0 and " ＋" or " ") .. n(d.amount)
                     if d.blockedStatus then
                         local blocked = self.shadow.catalog.statuses[d.blockedStatus]
-                        text = "人工制品抵挡\n未施加" .. (blocked and blocked.name or d.blockedStatus)
+                        text = "人工制品抵挡\n未施加" .. (blocked and blocked.name or timedLossNames[d.blockedStatus] or d.blockedStatus)
                     end
                     ink = status and status.kind == "buff" and C.buff or C.debuff
                     sound("status")

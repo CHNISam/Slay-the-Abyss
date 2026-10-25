@@ -233,6 +233,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
             Actors.hpLostFromCard(state,source,before-source.hp)
+            require('abyss_relic_hooks').hpChanged(state,source,before)
         elseif op == "block" then
             if effect.target == "random_ally" then
                 assert(source ~= state.player, "random ally Block requires an enemy")

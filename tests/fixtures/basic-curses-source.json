@@ -1,0 +1,130 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceKind": "Fixed community decompiled STS1 Java source; not authenticated PC execution or native platform validation",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "files": [
+    {
+      "path": "cards/curses/Clumsy.java",
+      "sha256": "40e508be35f388724bdcb61242ea70fa4e7cc3cad9dd6ebfc8899e67af13cc8f"
+    },
+    {
+      "path": "cards/curses/Decay.java",
+      "sha256": "24f6659ffcfd6bc29cf6a4184731bb1b7486eb552ba4c75b22147306c9d1e788"
+    },
+    {
+      "path": "cards/curses/Doubt.java",
+      "sha256": "7e0bb0737ad110eca88a5b32c6d077e3f99ea4fbc99c716c14d9ef540c98dd0b"
+    },
+    {
+      "path": "cards/curses/Injury.java",
+      "sha256": "07245c69c17efe1a5768563be1718b9c39fd80c8ba541db14260e6e3d7bc446e"
+    },
+    {
+      "path": "cards/curses/Normality.java",
+      "sha256": "a2507e05e0528022e2b29bbe9e07182d6bfc0bc1fe7fc8b7394e3868f301ce08"
+    },
+    {
+      "path": "cards/curses/Pain.java",
+      "sha256": "e4958ffc2590436365d1737f1afcbf69cf2d1f711823bcf28da8ed6baebbdb3e"
+    },
+    {
+      "path": "cards/curses/Parasite.java",
+      "sha256": "af0ab39e0d6535c328adc74371b27703b0730b6a1f4bd6476a72b0d03a54ae56"
+    },
+    {
+      "path": "cards/curses/Regret.java",
+      "sha256": "a7177da3c6a4acc57e4c114ffcfa288de76848ab5d23207f8d07f91d16ded56e"
+    },
+    {
+      "path": "cards/curses/Shame.java",
+      "sha256": "3f60cc9208a346a568d49e8878a548f491a8847eb78d931e1e72ecca4274d614"
+    },
+    {
+      "path": "cards/curses/Writhe.java",
+      "sha256": "9c6b5dfd72225f1500456784fea3268864f8c2b72a9f8bd0fe4ac425714885d8"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    },
+    {
+      "path": "cards/AbstractCard.java",
+      "sha256": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    {
+      "path": "actions/utility/UseCardAction.java",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47"
+    },
+    {
+      "path": "actions/common/DiscardAtEndOfTurnAction.java",
+      "sha256": "d80e3ae091de4bc4e74879f195b5ec2d1bb7e7c7e92eac636bf452d61e4bebf0"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    {
+      "path": "powers/AngerPower.java",
+      "sha256": "de4f8627846678561216502dfc950790e6deb571bf0e65895eca9f4867f18e4a"
+    },
+    {
+      "path": "powers/WeakPower.java",
+      "sha256": "17072c70ffbf219440dea75069910630d745654c4bf58cf528e937a7d747d973"
+    },
+    {
+      "path": "powers/FrailPower.java",
+      "sha256": "9530396be8c2e748a11fa9cff66be4b94c39a5fad3bfcd52fa98fd1a76ba5c96"
+    },
+    {
+      "path": "helpers/CardLibrary.java",
+      "sha256": "ac123d5376862fb1d1d382284e14a9dc0e955395f415265ae29f9aa8a2b6237a"
+    }
+  ],
+  "curseLibrarySelection": [
+    "Regret",
+    "Injury",
+    "Shame",
+    "Parasite",
+    "Normality",
+    "Doubt",
+    "Writhe",
+    "Pain",
+    "Decay",
+    "Clumsy"
+  ],
+  "excludedSpecialCurses": [
+    "Necronomicurse",
+    "AscendersBane",
+    "CurseOfTheBell",
+    "Pride"
+  ],
+  "observations": [
+    "CardLibrary.getCurse selects HashMap traversal after filtering special curses; dungeon curseRaw has a different order and must not substitute for transform selection.",
+    "AbstractPlayer.useCard: c.use queues own effects, then new UseCardAction queues Power reactions; hand.triggerOnOtherCardPlayed subsequently adds each Pain LoseHP to TOP. Therefore Pain resolves before Enrage Strength, own effects and disposal.",
+    "GameActionManager increments cardsPlayedThisTurn only for ordinary successful card activations, including queued repeats and autoplay; end-turn dontTriggerOnUseCard curses do not count. Normality checks the entire current hand before each activation.",
+    "Doubt and Shame each add one Weak/Frail with explicit isSourceMonster=true. ApplyPowerAction Artifact gate consumes each charge independently. New Weak/Frail skips first round reduction; stacking an existing power does not reinitialize justApplied.",
+    "Decay uses DamageInfo(player,2,THORNS): fixed damage consumes Block, ignores Strength/Weak/Vulnerable, and cannot trigger normal attack Thorns.",
+    "Clumsy ExhaustSpecificCardAction targets the hand at end-player-turn; no extra effect beyond ethereal. Writhe is innate, not ethereal.",
+    "Parasite onRemoveFromMasterDeck calls decreaseMaxHealth(3); maxHealth minimum 1 and currentHealth clamps down only when above the new maximum. No HP-loss combat callbacks apply."
+  ],
+  "integration": [
+    "Call abyss_curses.onRemove(owner,removedInstance) once for each successful permanent remove or transform transaction; owner has hp and maxHp, instance has cardId. Return is actual maxHp loss, 0 for other cards. Do not call for combat discard or exhaust.",
+    "Run/Nodes event acquisition and transform source-to-local mapping, generatedCards launch manifest and acquire/remove relic hooks are owned by integration; this slice adds real capability and combat implementations, not those routes."
+  ],
+  "remainingEvidence": [
+    "The shared pre-existing ethereal implementation scans hand order. Original DiscardAtEndOfTurnAction shuffles the trigger list using unseeded Collections.shuffle; exact multi-ethereal exhaustion ordering remains an explicit shared engine difference.",
+    "No whole-suite check, candidate compile/export, official import or native gameplay run in this worktree."
+  ]
+}

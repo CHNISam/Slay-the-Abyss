@@ -1,4 +1,4 @@
-import { mkdirSync, realpathSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, realpathSync, statSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { contentFiles, loadContent, validateContent } from './validate-data.mjs';
@@ -13,7 +13,9 @@ function rejectInputOutputAlias(inputDirectory, output) {
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
   }
-  for (const file of contentFiles) {
+  const inputs = [...contentFiles];
+  if (existsSync(resolve(inputDirectory, 'catalogs/sts1-relic-queues.json'))) inputs.push('catalogs/sts1-relic-queues');
+  for (const file of inputs) {
     const inputPath = resolve(inputDirectory, `${file}.json`);
     const inputStat = statSync(inputPath, { bigint: true });
     if (outputRealPath === realpathSync.native(inputPath) ||

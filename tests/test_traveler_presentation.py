@@ -106,8 +106,12 @@ class PresentationTests(unittest.TestCase):
         source_data = self.m.load_json(source)
         data = self.m.render_cards(source_data, self.m.load_json(overlay))
         cards = {card['id']: card for card in data['cards']}
-        self.assertEqual(len(cards), 80)
-        self.assertEqual(len({c['name'] for c in cards.values()}), 80)
+        expected_statuses = {'dazed', 'slimed', 'wound', 'burn'}
+        expected_curses = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite'}
+        self.assertEqual({c['id'] for c in source_data['cards'] if c['type'] == 'status'}, expected_statuses)
+        self.assertEqual({c['id'] for c in source_data['cards'] if c['type'] == 'curse'}, expected_curses)
+        self.assertEqual(len(cards), 75 + len(expected_statuses) + len(expected_curses))
+        self.assertEqual(len({c['name'] for c in cards.values()}), 75 + len(expected_statuses) + len(expected_curses))
         self.assertEqual(sum(c['type'] not in ('status', 'curse') for c in source_data['cards']), 75)
         self.assertEqual(cards['regret']['name'], '余悔')
         self.assertEqual(cards['regret']['cost'], '')

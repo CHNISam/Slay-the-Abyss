@@ -19,6 +19,17 @@
         "TASK-15",
         "TASK-47"
       ]
+    },
+    {
+      "ids": [
+        "spirit-poop-score"
+      ],
+      "status": "pending-production-score-consumer",
+      "evidence": "src/lua/abyss_relic_hooks.lua#scoreAdjustment",
+      "tasks": [
+        "TASK-47"
+      ],
+      "detail": "Spirit Poop obtain/display is wired; -1 score helper is not consumed by a production total-score calculation."
     }
   ],
   "profiles": {
@@ -62,13 +73,16 @@
       "entryPoints": [
         "src/lua/abyss_combat.lua",
         "src/lua/abyss_actor.lua",
-        "src/lua/abyss_nodes.lua"
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_curses.lua",
+        "src/lua/abyss_run.lua"
       ],
       "local": {
         "status": "coverage-recorded",
         "testFiles": [
           "tests/lua/golden_shrine.lua",
-          "tests/lua/encounter_coverage.lua"
+          "tests/lua/encounter_coverage.lua",
+          "tests/lua/basic_curses.lua"
         ]
       },
       "platform": {
@@ -80,7 +94,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Statuses and curses do not count toward the required 75 class cards."
+      "limitation": "Four statuses and ten curses are defined; nine curses were added beyond Regret. Only Regret, Doubt and Pain have wired event additions (the latter two explicit-only); seven other added curses have no natural acquisition route. Explicit Run.obtainCard fixtures do not establish natural acquisition. None count toward 75 class cards."
     },
     "enemies": {
       "tasks": [
@@ -160,6 +174,8 @@
         "src/lua/abyss_event_pool.lua",
         "src/lua/abyss_nodes.lua",
         "src/lua/abyss_node_ui.lua",
+        "src/lua/abyss_act1_events.lua",
+        "src/lua/abyss_living_wall.lua",
         "src/lua/abyss_fountain.lua"
       ],
       "local": {
@@ -168,6 +184,8 @@
           "tests/lua/unknown_events.lua",
           "tests/lua/cleric.lua",
           "tests/lua/golden_shrine.lua",
+          "tests/lua/act1_event_content.lua",
+          "tests/lua/living_wall.lua",
           "tests/lua/fountain_event.lua",
           "tests/lua/fountain_event_ui.lua"
         ]
@@ -181,7 +199,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Restricted seven-event pool; not the full original pool. Per-option natural eligibility and real-game execution remain pending."
+      "limitation": "Seven default random events; six additional explicit routes including Living Wall, Fountain and four Act 1 events. Full source event-pool admission, per-option natural eligibility and platform/live execution remain pending."
     },
     "relics": {
       "tasks": [
@@ -194,7 +212,9 @@
         "src/lua/abyss_inventory.lua",
         "src/lua/abyss_nodes.lua",
         "src/lua/abyss_shop.lua",
-        "src/lua/abyss_run.lua"
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_relic_hooks.lua",
+        "src/lua/abyss_relic_pool.lua"
       ],
       "local": {
         "status": "coverage-recorded",
@@ -202,7 +222,10 @@
           "tests/lua/inventory_parity.lua",
           "tests/lua/opening_relic_order.lua",
           "tests/lua/shop.lua",
-          "tests/lua/boss_relic_effects.lua"
+          "tests/lua/boss_relic_effects.lua",
+          "tests/lua/common_relic_hooks.lua",
+          "tests/lua/common_relic_final.lua",
+          "tests/lua/special_relics.lua"
         ]
       },
       "platform": {
@@ -214,7 +237,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Restricted relic pool; acquisition route and effect must both be verified. Shop-only effects use merchant rules."
+      "limitation": "All 33 common effects and three SPECIAL definitions/obtain behavior plus Warped Tongs turn hook are integrated offline. Treasure/shop still use restricted local selection; the complete source queue is wired to event preparation, not treasure/shop. Missing non-common definitions cause atomic refusal, never effect-based rerolls. SPECIAL are event-only legal channels and treasure candidates now admit only common/uncommon/rare, retaining the existing gold fallback when none are legal. Spirit Poop total-score deduction has only a helper and no production score consumer. Natural acquisition and platform/live evidence remain pending."
     },
     "potions": {
       "tasks": [
@@ -247,7 +270,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Six obtainable Ironclad potions; rare bucket unavailable, never rerolled. Poison Potion is Silent-exclusive and excluded."
+      "limitation": "27 Ironclad potion effects defined; six obtainable through restricted combat/shop pools, 21 acquisitionPending and enumerated in exclusions until complete ordered 33-potion pool integration. Poison Potion remains Silent-exclusive. Effect fixtures do not grant acquisition/platform/live acceptance."
     },
     "bosses": {
       "tasks": [
@@ -1614,7 +1637,9 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
-        "event:golden_shrine:desecrate"
+        "event:golden_shrine:desecrate",
+        "explicit_event:big_fish:box",
+        "explicit:Run.obtainCard"
       ]
     },
     {
@@ -1637,6 +1662,112 @@
       "channels": [
         "card:immolate:effect"
       ]
+    },
+    {
+      "id": "injury",
+      "profile": "generatedCards",
+      "source": "data/cards.json#injury",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+    },
+    {
+      "id": "doubt",
+      "profile": "generatedCards",
+      "source": "data/cards.json#doubt",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit_event:sssserpent:confirm",
+        "explicit:Run.obtainCard"
+      ]
+    },
+    {
+      "id": "pain",
+      "profile": "generatedCards",
+      "source": "data/cards.json#pain",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit_event:accursed_blacksmith:rummage",
+        "explicit:Run.obtainCard"
+      ]
+    },
+    {
+      "id": "decay",
+      "profile": "generatedCards",
+      "source": "data/cards.json#decay",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+    },
+    {
+      "id": "shame",
+      "profile": "generatedCards",
+      "source": "data/cards.json#shame",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+    },
+    {
+      "id": "writhe",
+      "profile": "generatedCards",
+      "source": "data/cards.json#writhe",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+    },
+    {
+      "id": "clumsy",
+      "profile": "generatedCards",
+      "source": "data/cards.json#clumsy",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+    },
+    {
+      "id": "normality",
+      "profile": "generatedCards",
+      "source": "data/cards.json#normality",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+    },
+    {
+      "id": "parasite",
+      "profile": "generatedCards",
+      "source": "data/cards.json#parasite",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionPending": true,
+      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
     }
   ],
   "enemies": [
@@ -2543,6 +2674,128 @@
         "unknown_room:event"
       ],
       "poolMode": "restricted-seven"
+    },
+    {
+      "id": "living_wall",
+      "originalId": "Living Wall",
+      "choices": [
+        "forget",
+        "change",
+        "grow"
+      ],
+      "stages": [],
+      "eligibility": "Explicit Nodes.enter event ID only; absent from restricted-seven random pool.",
+      "source": "src/lua/abyss_nodes.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "fountain",
+      "originalId": "Fountain of Cleansing",
+      "choices": [
+        "cleanse",
+        "leave"
+      ],
+      "stages": [],
+      "eligibility": "Explicit Nodes.enter event ID only; absent from restricted-seven random pool.",
+      "source": "src/lua/abyss_nodes.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "sssserpent",
+      "originalId": "Liars Game",
+      "choices": [
+        "agree",
+        "disagree",
+        "confirm",
+        "leave"
+      ],
+      "stages": [
+        "agree",
+        "disagree",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID only; absent from restricted-seven random pool.",
+      "source": "src/lua/abyss_nodes.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "big_fish",
+      "originalId": "Big Fish",
+      "choices": [
+        "banana",
+        "donut",
+        "box",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID only; absent from restricted-seven random pool.",
+      "source": "src/lua/abyss_nodes.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "accursed_blacksmith",
+      "originalId": "Accursed Blacksmith",
+      "choices": [
+        "forge",
+        "rummage",
+        "leave"
+      ],
+      "stages": [
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID only; absent from restricted-seven random pool.",
+      "source": "src/lua/abyss_nodes.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "bonfire",
+      "originalId": "Bonfire Elementals",
+      "choices": [
+        "approach",
+        "offer",
+        "leave"
+      ],
+      "stages": [
+        "choose",
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID only; absent from restricted-seven random pool.",
+      "source": "src/lua/abyss_nodes.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
     }
   ],
   "relics": [
@@ -2674,6 +2927,326 @@
       ],
       "naturalExecutionLimitation": "Obtained after the final combat; Act 1 has no subsequent combat in which to trigger this effect. Local follow-up-combat fixtures are not natural launch-run execution.",
       "prerequisite": "none"
+    },
+    {
+      "id": "omamori",
+      "source": "data/relics.json#omamori",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Omamori"
+    },
+    {
+      "id": "ceramic_fish",
+      "source": "data/relics.json#ceramic_fish",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "CeramicFish"
+    },
+    {
+      "id": "potion_belt",
+      "source": "data/relics.json#potion_belt",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Potion Belt"
+    },
+    {
+      "id": "meal_ticket",
+      "source": "data/relics.json#meal_ticket",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "MealTicket"
+    },
+    {
+      "id": "maw_bank",
+      "source": "data/relics.json#maw_bank",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "MawBank"
+    },
+    {
+      "id": "blood_vial",
+      "source": "data/relics.json#blood_vial",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Blood Vial"
+    },
+    {
+      "id": "bag_of_marbles",
+      "source": "data/relics.json#bag_of_marbles",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Bag of Marbles"
+    },
+    {
+      "id": "orichalcum",
+      "source": "data/relics.json#orichalcum",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Orichalcum"
+    },
+    {
+      "id": "strawberry",
+      "source": "data/relics.json#strawberry",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Strawberry"
+    },
+    {
+      "id": "regal_pillow",
+      "source": "data/relics.json#regal_pillow",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Regal Pillow"
+    },
+    {
+      "id": "toy_ornithopter",
+      "source": "data/relics.json#toy_ornithopter",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Toy Ornithopter"
+    },
+    {
+      "id": "whetstone",
+      "source": "data/relics.json#whetstone",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Whetstone"
+    },
+    {
+      "id": "war_paint",
+      "source": "data/relics.json#war_paint",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "War Paint"
+    },
+    {
+      "id": "happy_flower",
+      "source": "data/relics.json#happy_flower",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Happy Flower"
+    },
+    {
+      "id": "ancient_tea_set",
+      "source": "data/relics.json#ancient_tea_set",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Ancient Tea Set"
+    },
+    {
+      "id": "art_of_war",
+      "source": "data/relics.json#art_of_war",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Art of War"
+    },
+    {
+      "id": "boot",
+      "source": "data/relics.json#boot",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Boot"
+    },
+    {
+      "id": "akabeko",
+      "source": "data/relics.json#akabeko",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Akabeko"
+    },
+    {
+      "id": "pen_nib",
+      "source": "data/relics.json#pen_nib",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Pen Nib"
+    },
+    {
+      "id": "nunchaku",
+      "source": "data/relics.json#nunchaku",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Nunchaku"
+    },
+    {
+      "id": "preserved_insect",
+      "source": "data/relics.json#preserved_insect",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "PreservedInsect"
+    },
+    {
+      "id": "red_skull",
+      "source": "data/relics.json#red_skull",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Red Skull"
+    },
+    {
+      "id": "centennial_puzzle",
+      "source": "data/relics.json#centennial_puzzle",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Centennial Puzzle"
+    },
+    {
+      "id": "tiny_chest",
+      "source": "data/relics.json#tiny_chest",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Tiny Chest"
+    },
+    {
+      "id": "juzu_bracelet",
+      "source": "data/relics.json#juzu_bracelet",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Juzu Bracelet"
+    },
+    {
+      "id": "dream_catcher",
+      "source": "data/relics.json#dream_catcher",
+      "profile": "relics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Dream Catcher"
+    },
+    {
+      "id": "warped_tongs",
+      "source": "data/relics.json#warped_tongs",
+      "profile": "relics",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:accursed_blacksmith:rummage"
+      ],
+      "sourceId": "WarpedTongs",
+      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback."
+    },
+    {
+      "id": "spirit_poop",
+      "source": "data/relics.json#spirit_poop",
+      "profile": "relics",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:bonfire:curse_offer"
+      ],
+      "sourceId": "Spirit Poop",
+      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback.",
+      "naturalExecutionLimitation": "Obtaining and displaying Spirit Poop is wired; scoreAdjustment exposes -1 but no production total-score system consumes it. The source total-score deduction remains unintegrated."
+    },
+    {
+      "id": "circlet",
+      "source": "data/relics.json#circlet",
+      "profile": "relics",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:bonfire:repeat_curse_offer"
+      ],
+      "sourceId": "Circlet",
+      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue."
     }
   ],
   "potions": [
@@ -2772,28 +3345,113 @@
     "cards": [],
     "potions": [
       {
+        "id": "duplication_potion",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "distilled_chaos",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "smoke_bomb",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "snecko_oil",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "elixir",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "gamblers_brew",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "liquid_memories",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "blood_potion",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "fruit_juice",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "blessing_of_the_forge",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "explosive_potion",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "heart_of_iron",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "essence_of_steel",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "cultist_potion",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
         "id": "poison_potion",
-        "reason": "Silent-exclusive; data and isolated effect fixtures do not make it obtainable by launch Ironclad."
+        "reason": "Silent-exclusive; not obtainable by launch Ironclad."
       },
       {
         "id": "swift_potion",
-        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
       },
       {
         "id": "weak_potion",
-        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
       },
       {
         "id": "fear_potion",
-        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
       },
       {
         "id": "ancient_potion",
-        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
       },
       {
         "id": "liquid_bronze",
-        "reason": "Effect implemented through Run inventory; normal acquisition awaits complete ordered 33-potion source pool integration. Temporary acquisitionPending guard must be removed at that integration, never skipped or rerolled."
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "flex_potion",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
+      },
+      {
+        "id": "speed_potion",
+        "acquisitionPending": true,
+        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
       }
     ],
     "events": [
@@ -2809,11 +3467,10 @@
       },
       {
         "id": "full-original-event-pool",
-        "reason": "Default random routes still use the seven events above. Full catalog selection now routes Fountain of Cleansing to production Nodes/UI, but remaining content/hooks and unified full-pool activation are pending; not full-pool acceptance."
+        "reason": "Default random selection remains restricted-seven. Six additional explicit event routes (including Living Wall and Fountain) do not admit the full/once source catalog or establish natural acquisition."
       }
     ],
     "other": [
-      "Remaining reference/warrior75 cards",
       "Other characters and element/class rule packages",
       "Act 2 and Act 3",
       "Other Bosses",

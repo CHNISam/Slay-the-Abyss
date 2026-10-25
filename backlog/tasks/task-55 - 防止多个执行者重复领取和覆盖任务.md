@@ -1,11 +1,11 @@
 ---
 id: TASK-55
 title: 防止多个执行者重复领取和覆盖任务
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 04:55'
+updated_date: '2026-10-25 06:16'
 labels: []
 dependencies: []
 priority: high
@@ -24,7 +24,7 @@ ordinal: 94000
 - [x] #1 同任务、父子任务、相交路径及共享模块的有效认领互斥。
 - [x] #2 会话隔离、续租、到期接管和旧令牌失效可用，远端失败时关闭受控操作。
 - [x] #3 本地、远端和子执行入口接入校验，现有在途工作安全隔离并可认领迁移。
-- [ ] #4 真实双进程Git竞争及失败恢复测试通过，当前提交质量检查通过并合入develop。
+- [x] #4 真实双进程Git竞争及失败恢复测试通过，当前提交质量检查通过并合入develop。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -47,4 +47,6 @@ Executor=codex-local-p0，远端generation=1；独立coord/task-claims已非强�
 PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组真实Git测试。收口核对发现新子树会沿用旧控制树基线，补断言先失败后修正：新分支从已fetch的origin/develop创建，已有分支用其自己的fork point；子执行/普通worktree/冲突同步3组通过56138.1491ms。已为保留脏根目录提供Git公共元数据中的稳定入口。该修复必须重跑新SHA CI，旧绿灯不作为最终证据。
 
 第二代协调者在独立feat/task55-m3-reconcile恢复原完整bootstrap范围，修复TASK0/通用目录隔离导致的M3迁移死锁。新增受控CAS reconciliation、真实来源指纹和指定主线程阶段串行，保留所有旧隔离及源树。23组真实Git回归已分批覆盖：整套前16组通过后因远端Schannel续租握手失败被门禁中止；剩余7组在保持证书校验的进程级OpenSSL传输下通过，138675ms。完整单次运行未冒称通过，交当前SHA CI。源码/测试SHA及失败→修复证据写入既有验证JSON。独立只读复审完成；语法、Backlog、whitespace通过。已快进同步develop66f3afb，75卡及双方HANDOFF均保留。业务六源树、warrior75、根dirty未动，尚未登记业务迁移或解除外部未知。AC4继续等待当前SHA完整CI与实际合并。
+
+2026-10-25 实际收口：PR203最终头1b94ec5的Quality40163823617三个作业全绿，23组真实Git回归随完整检查执行；已受控squash合入develop518299c（05:30:55Z）。运行时hash与安装副本相符，协调租约已释放；本线程干净树/分支在核对merged head与可恢复bundle后清理，证据归档.artifacts/task55-pr203-1b94ec5。用户随后明确授权本轮M3共享13路径独占写入、旧M2/工程树只读；六源树保持冻结，已由指定主线程在最新develop新树串行adopt事件→药水→遗物→主集成。paused、原38记录及其余unknown保留，不声称全部外部会话已迁移。此前本地分批通过与远端中断记录保留。
 <!-- SECTION:NOTES:END -->

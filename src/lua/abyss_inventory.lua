@@ -2,9 +2,11 @@
 -- Callers execute on an uncommitted battle: a refusal may discard this candidate safely.
 local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
+local RelicHooks = require('abyss_relic_hooks')
 local M = {}
-local supported = { damage = true, block = true, draw = true, energy = true,
-    gainStatus = true, applyStatus = true }
+local supported = { damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
+    exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
+    gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
 local bossRelics = { black_blood = true, slavers_collar = true, sozu = true }
 
@@ -50,13 +52,17 @@ local openingPosition = { lantern = "turn_top", vajra = "battle_top",
     oddly_smooth_stone = "battle_top", bronze_scales = "battle_top",
     anchor = "battle_bottom", bag_of_preparation = "battle_bottom" }
 
-function M.opening(definitions, owned)
+function M.opening(definitions, owned, persistentCounters, context)
     local turnTop, battleTop, bottom = {}, {}, {}
     for _, id in ipairs(owned) do
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
-        if relic.trigger == "combat_start" then
+        if id=='blood_vial' or id=='akabeko' then
+            table.insert(battleTop,1,{{op='relic_hook',id=id}})
+        elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' then
+            bottom[#bottom+1]={{op='relic_hook',id=id}}
+        elseif relic.trigger == "combat_start" then
             local position = openingPosition[id]
             if not position then return nil, "unsupported_opening_relic:" .. tostring(id) end
             if position == "turn_top" then table.insert(turnTop, 1, relic.effects)
@@ -67,13 +73,23 @@ function M.opening(definitions, owned)
     -- Turn-start hooks are dispatched after battle-start hooks, so their TOP
     -- actions execute first. BOTTOM actions retain the held-list order.
     for _, effects in ipairs(battleTop) do turnTop[#turnTop + 1] = effects end
+    turnTop.relics=owned
+    turnTop.relicCounters=persistentCounters
+    turnTop.relicContext=context
     return { beforeDraw = turnTop, afterDraw = bottom }
 end
 
 function M.applyOpening(state, groups)
+    if groups.relics then
+        RelicHooks.bindBattle(state,groups.relics,groups.relicCounters)
+        RelicHooks.preBattle(state,groups.relicContext)
+    end
     for _, effects in ipairs(groups) do
-        local ok, reason = M.apply(state, effects)
-        if not ok then return false, reason end
+        if effects[1] and effects[1].op=='relic_hook' then RelicHooks.battleStart(state,effects[1].id)
+        else
+            local ok, reason = M.apply(state, effects)
+            if not ok then return false, reason end
+        end
     end
     return true
 end
@@ -98,7 +114,14 @@ local function validate(state, effects, targetIndex)
     end
     for _, effect in ipairs(effects) do
         if not supported[effect.op] then return false, "unsupported_effect:" .. tostring(effect.op) end
-        if not integer(effect.value) then return false, "invalid_effect_value" end
+        if effect.op == 'upgradeHand' then
+            if effect.all ~= true then return false, 'invalid_potion_upgrade' end
+        elseif not integer(effect.value) then return false, "invalid_effect_value" end
+        if effect.op == "gainTemporaryStrength" or effect.op == "gainTemporaryDexterity" then
+            local expected = effect.op == "gainTemporaryStrength" and "strength" or "dexterity"
+            if effect.status ~= expected then return false, "invalid_temporary_status" end
+            if effect.value == 0 then return false, "invalid_effect_value" end
+        end
         if effect.op == "gainStatus" or effect.op == "applyStatus" then
             local actor = effect.op == "gainStatus" and state.player or state.enemies[targetIndex]
             if not actor.statusDefinitions[effect.status] then return false, "unknown_status:" .. tostring(effect.status) end
@@ -107,7 +130,7 @@ local function validate(state, effects, targetIndex)
     return true
 end
 
-function M.apply(state, effects, targetIndex)
+function M.apply(state, effects, targetIndex, run, deferDrain)
     local ok, reason = validate(state, effects, targetIndex)
     if not ok then return false, reason end
     local target = state.enemies[targetIndex]
@@ -115,10 +138,61 @@ function M.apply(state, effects, targetIndex)
         local op, value = effect.op, effect.value
         if op == "damage" then
             Combat.damage(state, state.player, target, value, true)
+        elseif op == "damageAll" then
+            -- Explosive Potion: pure matrix, null owner, NORMAL damage.
+            -- A missing owner prevents Curl Up, Angry, Plated Armor and Thorns
+            -- callbacks, rather than misclassifying the hit as Fire/THORNS.
+            local reactions = {}
+            for _, enemy in ipairs(state.enemies) do
+                if Actors.isActive(enemy) then Combat.damage(state, nil, enemy, value, false, reactions, value) end
+            end
+            Actors.resolveDamageReactions(state, reactions)
         elseif op == "block" then
             if state.player.block + 0.0 + value > maximum then return false, "effect_overflow" end
             Combat.block(state, state.player, value, true)
-        elseif op == "draw" then Combat.draw(state, value)
+        elseif op == 'healPercent' then
+            -- BloodPotion.use adds HealAction to BOT. Compute its complete
+            -- amount with the shared binary32/relic arithmetic, without the
+            -- current missing-HP cap; HealAction caps when it actually runs.
+            local calculation={hp=0,maxHp=state.player.maxHp}
+            local called,healing=require('abyss_potion_health').apply(calculation,op,value,run and run.relics,true)
+            if not called then return false,healing end
+            require('abyss_card_actions').enqueue(state,{op='heal',value=healing},state.player)
+        elseif op == 'increaseMaxHp' then
+            -- FruitJuice.use changes max HP and heals immediately, before the
+            -- post-use relic actions. This heal can end Red Skull's bloodied
+            -- state just like a queued Blood Potion heal.
+            local beforeHp=state.player.hp
+            local called, amount = require('abyss_potion_health').apply(state.player,op,value,run and run.relics,true)
+            if not called then return false, amount end
+            require('abyss_events').emit(state,'heal',{target=state.player.id,amount=amount})
+            RelicHooks.hpChanged(state,state.player,beforeHp)
+        elseif op == 'draw' or op == 'randomizeHandCost' then
+            -- Potion.use queues every initial action before any action runs.
+            -- Draw hooks append behind already queued actions such as Snecko
+            -- costs and the caller's post-use relic heal.
+            local Actions=require('abyss_card_actions')
+            Actions.enqueue(state,effect)
+        elseif op=='escape' then state.smoked=true
+        elseif op=='playTopCards' then
+            local Actions=require('abyss_card_actions')
+            local pool={}
+            for i,enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then pool[#pool+1]=i end end
+            -- Potion.use constructs all PlayTopCardActions and their targets
+            -- before any action runs, even if a later action has no card.
+            for _=1,value do
+                local target=#pool>0 and pool[Combat.cardRandom(state,#pool)] or nil
+                Actions.enqueue(state,{op='playTop',targetIndex=target,exhaustCards=false,append=true})
+            end
+        elseif op == 'upgradeHand' then
+            for _, card in ipairs(state.hand) do
+                if Combat.canUpgrade(state, card) then Combat.upgrade(state, card) end
+            end
+        elseif op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' then
+            local Actions=require('abyss_card_actions')
+            Actions.enqueue(state,effect)
+        elseif op == "gainTemporaryStrength" then Actors.addTemporaryStrength(state.player, value, state)
+        elseif op == "gainTemporaryDexterity" then Actors.addTemporaryDexterity(state.player, value, state)
         elseif op == "energy" then
             if state.energy + 0.0 + value > maximum then return false, "effect_overflow" end
             state.energy = state.energy + 0.0 + value
@@ -130,6 +204,7 @@ function M.apply(state, effects, targetIndex)
             Actors.applyPower(state, actor, effect.status, value, state.player)
         end
     end
+    if not deferDrain then require('abyss_card_actions').drain(Combat,state) end
     return true
 end
 

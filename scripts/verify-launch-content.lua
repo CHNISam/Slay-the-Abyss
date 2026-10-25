@@ -4,6 +4,7 @@ local Pool = require('abyss_event_pool')
 local Inventory = require('abyss_inventory')
 local Nodes = require('abyss_nodes')
 local Run = require('abyss_run')
+local Map = require('abyss_map')
 local data, manifest = LAUNCH_DATA, LAUNCH_MANIFEST
 local function set(rows) local r = {}; for _, row in ipairs(rows) do r[row.id] = true end; return r end
 local expected, blocked = set(manifest.cards), set(manifest.exclusions.cards)
@@ -29,14 +30,34 @@ for _, kind in ipairs({'act', 'shrine', 'once'}) do
     end
 end
 for _, event in ipairs(manifest.events) do
-    assert(actual[event.id] and Pool.contentId[event.originalId] == event.id, 'Missing launch event: ' .. event.id)
+    if event.poolMode=='explicit-only' then
+        assert(not actual[event.id], 'Explicit event admitted to random pool: '..event.id)
+        assert(event.id=='living_wall' or Pool.contentId[event.originalId]==event.id, 'Missing explicit source mapping: '..event.id)
+    else
+        assert(actual[event.id] and Pool.contentId[event.originalId] == event.id, 'Missing launch event: ' .. event.id)
+    end
     local run = Run.new(data, 1)
-    local flow = {event = {id = event.id, goldLoss = 20, damage = 16, canAttack = false}}
+    local flow = {event = {id = event.id, goldLoss = 20, damage = 16, canAttack = false, healAmount=math.floor(run.maxHp/3)}}
+    if event.poolMode=='explicit-only' then
+        local map=Map.generate(data,1)
+        local first=Map.available(map)[1]
+        for _,node in ipairs(map.nodes) do
+            if node.id==first.id then node.type='event';node.eventId=event.id end
+        end
+        local ok,why=Nodes.enter(run,map,first.id)
+        assert(ok,'Missing explicit production entry: '..event.id..'/'..tostring(why))
+        assert(run.nodeFlow.event.id==event.id,'Wrong explicit production event: '..event.id)
+        flow=run.nodeFlow
+    end
     local choices = {}
     for _, option in ipairs(Nodes.eventOptions(run, flow)) do choices[option.choice] = true end
     if event.id == 'golden_wing' then
         flow.event.stage = 'purge'
         for _, option in ipairs(Nodes.eventOptions(run, flow)) do choices[option.choice] = true end
+    end
+    for _,stage in ipairs(event.stages or {}) do
+        flow.event.stage=stage
+        for _,option in ipairs(Nodes.eventOptions(run,flow)) do choices[option.choice]=true end
     end
     local wanted = {}; for _, choice in ipairs(event.choices) do wanted[choice] = true end
     for choice in pairs(choices) do assert(wanted[choice], 'Unlisted event option: ' .. event.id .. '/' .. choice) end
