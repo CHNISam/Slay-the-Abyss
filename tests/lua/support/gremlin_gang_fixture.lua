@@ -3,7 +3,7 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
 local C,R,I,Data=require('abyss_combat'),require('abyss_sts_random'),require('abyss_inventory'),require('abyss_data')
 local count,failed=0,0
-local function eq(a,b,label) assert(a==b,(label or 'value')..': expected '..tostring(b)..', got '..tostring(a)) end
+local function eq(a,b,label) if a~=b then assert(false,(label or 'value')..': expected '..tostring(b)..', got '..tostring(a)) end end
 local function same(a,b,path)
  path=path or 'state';eq(type(a),type(b),path)
  if type(a)~='table' then eq(a,b,path);return end
