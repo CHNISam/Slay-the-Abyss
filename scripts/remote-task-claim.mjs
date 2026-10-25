@@ -106,7 +106,12 @@ function absoluteIdentity(path) {
 function sourceSnapshot(path) {
   if (lstatSync(resolve(path)).isSymbolicLink()) die('Snapshot requires a real worktree root');
   const worktree = absoluteIdentity(path);
-  const g = (...args) => exec('git', ['--no-optional-locks', '-C', worktree, ...args]);
+  // Hooks inherit the committing index/worktree. Foreign reads must use that
+  // source's own Git context; keep the caller and remote authentication intact.
+  const env = { ...process.env };
+  const local = new Set(git('rev-parse', '--local-env-vars').split(/\r?\n/).map(key => key.toUpperCase()));
+  for (const key of Object.keys(env)) if (local.has(key.toUpperCase())) delete env[key];
+  const g = (...args) => exec('git', ['--no-optional-locks', '-C', worktree, ...args], { env });
   if (absoluteIdentity(g('rev-parse', '--show-toplevel')) !== worktree) die('Snapshot requires a real worktree root');
   const paths = [...new Set([...g('diff', '--name-only', '--no-renames', '-z', 'HEAD').split('\0'),
     ...g('ls-files', '--others', '--exclude-standard', '-z').split('\0')].filter(Boolean))].sort();
