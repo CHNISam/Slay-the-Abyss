@@ -216,6 +216,35 @@ function reconciliation(state, raw) {
     confirmedBy: session(), confirmedAt: new Date().toISOString() };
 }
 
+function extendReconciliation(state, raw, evidence) {
+  const previous = state.migration.reconciliations?.[raw.id];
+  if (!previous || previous.cursor >= previous.stages.length) die('Extension requires an existing unfinished group');
+  if (previous.sources.some(source => source.role !== 'parked-readonly' || source.handoff)) die('Extensions require parked-readonly source groups');
+  if (Object.values(state.claims).some(c => c.migrationGroup === raw.id && c.status === 'active' && Date.parse(c.expiresAt) > now())) die('Group must be idle before a coordinator extends scope');
+  const groups = { ...state.migration.reconciliations }; delete groups[raw.id];
+  const next = reconciliation({ ...state, migration: { ...state.migration, reconciliations: groups } }, raw);
+  if (next.executorSession !== previous.executorSession || JSON.stringify(next.sources) !== JSON.stringify(previous.sources)
+    || next.stages.length !== previous.stages.length) die('Extension cannot change executor, source identity or stage sequence');
+  let added = 0;
+  for (let i = 0; i < previous.stages.length; i++) {
+    const before = previous.stages[i], after = next.stages[i];
+    if (i < previous.cursor) {
+      if (JSON.stringify(before) !== JSON.stringify(after)) die('Completed stages cannot change');
+      continue;
+    }
+    if (before.id !== after.id || before.task !== after.task || before.branch !== after.branch
+      || JSON.stringify(before.sources) !== JSON.stringify(after.sources)
+      || JSON.stringify(before.scope.modules) !== JSON.stringify(after.scope.modules)
+      || before.scope.paths.some(path => !after.scope.paths.includes(path))) die('Remaining stages permit additive exact files only');
+    added += after.scope.paths.filter(path => !before.scope.paths.includes(path)).length;
+  }
+  if (!added) die('Extension must add an explicitly justified file');
+  return { ...previous, stages: next.stages, amendments: [...(previous.amendments || []), {
+    at: new Date().toISOString(), confirmedBy: session(), evidence, previousManifestSha256: previous.manifestSha256,
+    previousStages: previous.stages, cursor: previous.cursor,
+  }] };
+}
+
 // Each process uses its own disposable object database: no shared FETCH_HEAD/index locks.
 let temp;
 function remoteClient() {
@@ -448,7 +477,8 @@ async function main() {
     const state = client.mutate(s => {
       requireState(s); const c = owned(s, r);
       if (c.task !== s.migration.bootstrapTask) die('Only the active migration coordinator may reconcile');
-      const group = reconciliation(s, manifest);
+      if (options.extend && options.extend !== 'yes') die('Use --extend yes explicitly');
+      const group = options.extend === 'yes' ? extendReconciliation(s, manifest, need('evidence')) : reconciliation(s, manifest);
       group.manifestSha256 = digest(bytes); group.generation = ++s.generation;
       s.migration.reconciliations ||= {}; s.migration.reconciliations[group.id] = group;
       return s;
