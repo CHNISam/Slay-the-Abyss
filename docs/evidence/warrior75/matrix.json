@@ -123,7 +123,7 @@
         "presentation": {
           "name": "普通攻击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -255,7 +255,7 @@
         "presentation": {
           "name": "防御",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -387,7 +387,7 @@
         "presentation": {
           "name": "破防斩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -511,7 +511,7 @@
         "presentation": {
           "name": "连续出剑",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -640,7 +640,7 @@
         "presentation": {
           "name": "整备武装",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -764,7 +764,7 @@
         "presentation": {
           "name": "格挡反击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -892,7 +892,7 @@
         "presentation": {
           "name": "全力进攻",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1018,7 +1018,7 @@
         "presentation": {
           "name": "星陨剑",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1142,7 +1142,7 @@
         "presentation": {
           "name": "压制斩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1266,7 +1266,7 @@
         "presentation": {
           "name": "蓄力",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1390,7 +1390,7 @@
         "presentation": {
           "name": "临阵变招",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1514,7 +1514,7 @@
         "presentation": {
           "name": "回身追击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1638,7 +1638,7 @@
         "presentation": {
           "name": "重剑斩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1769,7 +1769,7 @@
         "presentation": {
           "name": "招架还击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -1893,7 +1893,7 @@
         "presentation": {
           "name": "剑势如虹",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2019,7 +2019,7 @@
         "presentation": {
           "name": "试探一击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2146,7 +2146,7 @@
         "presentation": {
           "name": "伺机而动",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2270,7 +2270,7 @@
         "presentation": {
           "name": "回旋连斩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2394,7 +2394,7 @@
         "presentation": {
           "name": "横扫破防",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2520,7 +2520,7 @@
         "presentation": {
           "name": "稳住阵脚",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2644,7 +2644,7 @@
         "presentation": {
           "name": "重击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2768,7 +2768,7 @@
         "presentation": {
           "name": "调整战术",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -2894,7 +2894,7 @@
         "presentation": {
           "name": "猛进斩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3018,7 +3018,7 @@
         "presentation": {
           "name": "集中精神",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3146,7 +3146,7 @@
         "presentation": {
           "name": "负伤反击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3270,7 +3270,7 @@
         "presentation": {
           "name": "透支",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3394,7 +3394,7 @@
         "presentation": {
           "name": "弃旧筹新",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3518,7 +3518,7 @@
         "presentation": {
           "name": "抓住战机",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3642,7 +3642,7 @@
         "presentation": {
           "name": "强攻压阵",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3766,7 +3766,7 @@
         "presentation": {
           "name": "临机应变",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -3890,7 +3890,7 @@
         "presentation": {
           "name": "压制攻势",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4014,7 +4014,7 @@
         "presentation": {
           "name": "乘隙追击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4138,7 +4138,7 @@
         "presentation": {
           "name": "再演剑势",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4262,7 +4262,7 @@
         "presentation": {
           "name": "加固防线",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4386,7 +4386,7 @@
         "presentation": {
           "name": "逆境求变",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4512,7 +4512,7 @@
         "presentation": {
           "name": "百折不挠",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4636,7 +4636,7 @@
         "presentation": {
           "name": "逆势反攻",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4762,7 +4762,7 @@
         "presentation": {
           "name": "反击架势",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -4886,7 +4886,7 @@
         "presentation": {
           "name": "及时招架",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5012,7 +5012,7 @@
         "presentation": {
           "name": "舍身进攻",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5136,7 +5136,7 @@
         "presentation": {
           "name": "临阵试招",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5260,7 +5260,7 @@
         "presentation": {
           "name": "剑术精进",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5384,7 +5384,7 @@
         "presentation": {
           "name": "威慑",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5508,7 +5508,7 @@
         "presentation": {
           "name": "持续防守",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5637,7 +5637,7 @@
         "presentation": {
           "name": "强行固守",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5761,7 +5761,7 @@
         "presentation": {
           "name": "疾风连斩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -5885,7 +5885,7 @@
         "presentation": {
           "name": "攻守相济",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6009,7 +6009,7 @@
         "presentation": {
           "name": "越战越勇",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6133,7 +6133,7 @@
         "presentation": {
           "name": "疾步突进",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6257,7 +6257,7 @@
         "presentation": {
           "name": "愈挫愈勇",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6381,7 +6381,7 @@
         "presentation": {
           "name": "千锤一剑",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6505,7 +6505,7 @@
         "presentation": {
           "name": "弃繁守拙",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6629,7 +6629,7 @@
         "presentation": {
           "name": "重整旗鼓",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6757,7 +6757,7 @@
         "presentation": {
           "name": "后援守势",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -6881,7 +6881,7 @@
         "presentation": {
           "name": "弃守强攻",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7005,7 +7005,7 @@
         "presentation": {
           "name": "震慑敌阵",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7129,7 +7129,7 @@
         "presentation": {
           "name": "洞察破绽",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7253,7 +7253,7 @@
         "presentation": {
           "name": "挑剑破势",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7379,7 +7379,7 @@
         "presentation": {
           "name": "岩潮叠嶂",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7503,7 +7503,7 @@
         "presentation": {
           "name": "永世的磐岩",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7627,7 +7627,7 @@
         "presentation": {
           "name": "背水之战",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7751,7 +7751,7 @@
         "presentation": {
           "name": "全力一击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7875,7 +7875,7 @@
         "presentation": {
           "name": "破釜沉舟",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -7999,7 +7999,7 @@
         "presentation": {
           "name": "孤注一掷",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8123,7 +8123,7 @@
         "presentation": {
           "name": "渐入佳境",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8247,7 +8247,7 @@
         "presentation": {
           "name": "叠势连击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8371,7 +8371,7 @@
         "presentation": {
           "name": "重拾旧策",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8495,7 +8495,7 @@
         "presentation": {
           "name": "乘胜壮行",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8619,7 +8619,7 @@
         "presentation": {
           "name": "舍尽一击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8743,7 +8743,7 @@
         "presentation": {
           "name": "摧阵一击",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8867,7 +8867,7 @@
         "presentation": {
           "name": "坚守",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -8991,7 +8991,7 @@
         "presentation": {
           "name": "守中有攻",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -9115,7 +9115,7 @@
         "presentation": {
           "name": "剑意突破",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -9239,7 +9239,7 @@
         "presentation": {
           "name": "奋力一搏",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -9363,7 +9363,7 @@
         "presentation": {
           "name": "以战养战",
           "local": "passed",
-          "build": "pending new normal candidate",
+          "build": "passed ed7a43760/60 source;0errors35warnings;normal candidate has no autoplay",
           "imported": false,
           "live": false,
           "evidence": "display-names-restored.json"
@@ -9505,8 +9505,10 @@
   },
   "presentationCorrection": {
     "evidence": "display-names-restored.json",
-    "status": "Chinese display restored40 legacy+38 new class+2status;local verified;native build/import/play pending",
+    "status": "Chinese display restored40 legacy+38new class+2status+15power labels;local verified;normal candidate60/60 source matched0errors35warnings;no autoplay;import/live pending",
     "sourceIdentity": "id/sts_name and every non-name rule field unchanged",
-    "historicalNativeBoundary": "5ceef2c native screenshots show old English display; they do not certify restored Chinese presentation"
+    "historicalNativeBoundary": "5ceef2c native screenshots show old English display; they do not certify restored Chinese presentation",
+    "runtimeSource": "ed7a437d355eedc37d9acf77d1c831bd4b875a88",
+    "candidateSha256": "720c44dd4e56ee3fadb2b66fdea6ef166c6f2ac83a1446d8ba71e9627a7bcf44"
   }
 }

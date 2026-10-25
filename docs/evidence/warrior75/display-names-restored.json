@@ -531,6 +531,14 @@
     {
       "path": "traveler-power-names-red.log.gz",
       "sha256": "36713475e63986d856cfa12befd0f16a6b6c79102ad84d7d9355aef269a51871"
+    },
+    {
+      "path": "audit-names-ed7a437.json.gz",
+      "sha256": "1a1e4b6d4b9106720831cfac60bc37e81579eb582b82d25080d54eea3f3280da"
+    },
+    {
+      "path": "traveler-names-final-green.log.gz",
+      "sha256": "adb2f6469305ad94b18378d21ca6de5dba58fccff3d2bb9bdd837584b1cf05d3"
     }
   ],
   "powerLabelsRestored": [
@@ -551,5 +559,18 @@
     "metallicize"
   ],
   "statusRulesExcludingNameSha256": "db6b179beeb4813173a1ba8376f293a4dae2980b58cbdd9d87ececde9bada6bb",
-  "statusRulesUnchanged": true
+  "statusRulesUnchanged": true,
+  "runtimeSource": "ed7a437d355eedc37d9acf77d1c831bd4b875a88",
+  "candidate": {
+    "sha256": "720c44dd4e56ee3fadb2b66fdea6ef166c6f2ac83a1446d8ba71e9627a7bcf44",
+    "path": "F:\\New folder\\.worktrees\\warrior75\\.artifacts\\warrior75-native-names-ed7a437\\scenes\\saves\\abyss-warrior75-CHINESE-NAMES-NO-AUTOPLAY.gil",
+    "modules": 60,
+    "errors": 0,
+    "warnings": 35,
+    "sourceAudit": "60/60 frozen source matched;unchanged UI tree",
+    "automaticDriverPresent": false,
+    "imported": false,
+    "live": false,
+    "audit": "audit-names-ed7a437.json.gz"
+  }
 }
