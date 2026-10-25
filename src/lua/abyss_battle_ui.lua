@@ -1421,9 +1421,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self:render()
         return true
     end
-    local function move(event)
+    local function move(event, input)
         local g = self.gesture
         if not g or not event or event.touchId ~= g.touch then return end
+        -- A reused touch ID does not transfer ownership between card controls.
+        -- The overlay may continue only the current held gesture and card UID.
+        if input and input ~= g.input or g.input.held ~= g or not cardReady(g) then return end
         local x,y = point(event)
         if not x then return end
         g.x,g.y = x,y
@@ -1451,15 +1454,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         if touch ~= g.touch or input and input ~= g.input then return end
         if self.help and self.help.card == g then self.help = nil end
-        g.input.held = nil
         -- Stationary taps must keep their binding through Up until Click, too.
         if not cardReady(g) then
+            g.input.held = nil
             g.input.released = nil
             self.gesture, self.selected, self.suppressClick = nil, nil, true
             self:render()
             return
         end
-        move(event)
+        move(event, input)
+        g.input.held = nil
         -- move/render may have cancelled a gesture belonging to an old battle.
         if self.gesture ~= g then return end
         local x,y = point(event)
@@ -1701,7 +1705,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 g.sx,g.sy,g.x,g.y,g.origin = x,y,x,y,self.cardPositions[instance.uid]
                 self.gesture = g
             end)
-            hit:AddCursorEventListener(cursor.CursorDrag,move)
+            hit:AddCursorEventListener(cursor.CursorDrag,function(event) move(event,input) end)
             hit:AddCursorEventListener(cursor.CursorUp,function(event) release(event,input) end)
             hit:AddCursorEventListener(cursor.CursorEndDrag,function(event) release(event,input,true) end)
         end
