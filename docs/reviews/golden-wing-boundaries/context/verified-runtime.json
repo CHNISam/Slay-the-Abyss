@@ -1,0 +1,404 @@
+[
+  {
+    "path": "data/cards.json",
+    "expected": "055e53f6fad1224925e1ff6d69874c2cd42d8e76",
+    "actual": "055e53f6fad1224925e1ff6d69874c2cd42d8e76",
+    "matched": true
+  },
+  {
+    "path": "data/enemies.json",
+    "expected": "932c6a810e80d4cca4e7f18e557dc9f278c6c411",
+    "actual": "932c6a810e80d4cca4e7f18e557dc9f278c6c411",
+    "matched": true
+  },
+  {
+    "path": "data/potions.json",
+    "expected": "57620438597187c6cf4c5edcabc1bdffd5d26612",
+    "actual": "57620438597187c6cf4c5edcabc1bdffd5d26612",
+    "matched": true
+  },
+  {
+    "path": "data/relics.json",
+    "expected": "9f6d28fe2be7b3c902c87431f4e280c88f2cf724",
+    "actual": "9f6d28fe2be7b3c902c87431f4e280c88f2cf724",
+    "matched": true
+  },
+  {
+    "path": "data/rules.json",
+    "expected": "046a3e0fe51e73f9d10efa9204cba77b5381e327",
+    "actual": "046a3e0fe51e73f9d10efa9204cba77b5381e327",
+    "matched": true
+  },
+  {
+    "path": "data/statuses.json",
+    "expected": "12392951e8af4e81d855053831253e048659aff2",
+    "actual": "12392951e8af4e81d855053831253e048659aff2",
+    "matched": true
+  },
+  {
+    "path": "scripts/build-lua-data.mjs",
+    "expected": "50366a8235fbac844b452ef6e7174c8f59790e28",
+    "actual": "50366a8235fbac844b452ef6e7174c8f59790e28",
+    "matched": true
+  },
+  {
+    "path": "scripts/validate-data.mjs",
+    "expected": "792f504267762899bc22582dc76daecb81962a4b",
+    "actual": "792f504267762899bc22582dc76daecb81962a4b",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_acid_slime_m_ai.lua",
+    "expected": "062223f54dfb3f53c11723f7a86977bce254f85c",
+    "actual": "062223f54dfb3f53c11723f7a86977bce254f85c",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_acid_slime_s_ai.lua",
+    "expected": "051ccdcce9768f0db03542e39de5fa13168bbcd2",
+    "actual": "051ccdcce9768f0db03542e39de5fa13168bbcd2",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_actor.lua",
+    "expected": "bc4f89a6d632be73a730f31f09ffd7ccea506135",
+    "actual": "bc4f89a6d632be73a730f31f09ffd7ccea506135",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_battle_ui.lua",
+    "expected": "b55cd9b8a24d3a852c3c07528091dbf6e14ad9eb",
+    "actual": "b55cd9b8a24d3a852c3c07528091dbf6e14ad9eb",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_bgm.lua",
+    "expected": "c18e9e1cbcaa7de65ca408848f5077ba7e7c74be",
+    "actual": "c18e9e1cbcaa7de65ca408848f5077ba7e7c74be",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_blue_slaver_ai.lua",
+    "expected": "fcdadec44bb2094b09dc800f73aa3d7a5acb39a7",
+    "actual": "fcdadec44bb2094b09dc800f73aa3d7a5acb39a7",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_card_capability.lua",
+    "expected": "613f56b14f8e055d5a6eae8e6611ae6b7e1cea2d",
+    "actual": "613f56b14f8e055d5a6eae8e6611ae6b7e1cea2d",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_card_display.lua",
+    "expected": "945901e03b08b88b4f5f2814db1d963371ca45ec",
+    "actual": "945901e03b08b88b4f5f2814db1d963371ca45ec",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_card_random.lua",
+    "expected": "e8914266b09fe413c60ee9d022c20d6a03fe882d",
+    "actual": "e8914266b09fe413c60ee9d022c20d6a03fe882d",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_combat.lua",
+    "expected": "77a89c6c6b4c86272e0fa3d8e3c10963531154ad",
+    "actual": "77a89c6c6b4c86272e0fa3d8e3c10963531154ad",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_deck_ui.lua",
+    "expected": "a69127115d1bef7545a2536e82c37d552731a2fa",
+    "actual": "a69127115d1bef7545a2536e82c37d552731a2fa",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_effects.lua",
+    "expected": "7834bbee9822d941cfb6846c7832ca939282586c",
+    "actual": "7834bbee9822d941cfb6846c7832ca939282586c",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_encounter_formation.lua",
+    "expected": "58cf065ad6324a1b5fc10a71c886c406e5d728de",
+    "actual": "58cf065ad6324a1b5fc10a71c886c406e5d728de",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_encounter_queue.lua",
+    "expected": "6c545bb0c1c99a3d6e35125549a7441e25f7b052",
+    "actual": "6c545bb0c1c99a3d6e35125549a7441e25f7b052",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_enemy_ai.lua",
+    "expected": "184f1ab606727119947a9b5e1afb804c64e15f91",
+    "actual": "184f1ab606727119947a9b5e1afb804c64e15f91",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_enemy_random.lua",
+    "expected": "3f0ad83eb9770f86695c849a80c5d0accfb1e6fa",
+    "actual": "3f0ad83eb9770f86695c849a80c5d0accfb1e6fa",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_event_pool.lua",
+    "expected": "3ff688fc63e297d0e6baad7b210a150e133db43b",
+    "actual": "3ff688fc63e297d0e6baad7b210a150e133db43b",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_events.lua",
+    "expected": "10d1bb68b801b22d0cc38b4f88ecba114ee8e61b",
+    "actual": "10d1bb68b801b22d0cc38b4f88ecba114ee8e61b",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_feedback.lua",
+    "expected": "f299878ab7b2170ec7365872198012bd76aa22ac",
+    "actual": "f299878ab7b2170ec7365872198012bd76aa22ac",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_fungi_beast_ai.lua",
+    "expected": "bfec5d04c4abb65332b51f5ef84ec7677b5900a6",
+    "actual": "bfec5d04c4abb65332b51f5ef84ec7677b5900a6",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_game_ui.lua",
+    "expected": "d637b92992af7c3da6c32e9715753d2c1464590d",
+    "actual": "d637b92992af7c3da6c32e9715753d2c1464590d",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_gold_rewards.lua",
+    "expected": "194bfd1183a3ae7fdf9aa7a3f512d63dd586e342",
+    "actual": "194bfd1183a3ae7fdf9aa7a3f512d63dd586e342",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_gremlin_nob_ai.lua",
+    "expected": "53873e283b941f9e25405d2f817511fb7341d2df",
+    "actual": "53873e283b941f9e25405d2f817511fb7341d2df",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_guardian_ai.lua",
+    "expected": "fca0c7c312161379a9e7d3445bcc4148391f09be",
+    "actual": "fca0c7c312161379a9e7d3445bcc4148391f09be",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_inventory.lua",
+    "expected": "8c9d696b8a96106c2d81ecf69fb876865ebe2e75",
+    "actual": "8c9d696b8a96106c2d81ecf69fb876865ebe2e75",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_jaw_worm_ai.lua",
+    "expected": "ba136a77086a132d27eead7f570d13598de9175d",
+    "actual": "ba136a77086a132d27eead7f570d13598de9175d",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_living_wall.lua",
+    "expected": "de5a80cdd0d74a1ded848589d4083c9a88d84056",
+    "actual": "de5a80cdd0d74a1ded848589d4083c9a88d84056",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_looter_ai.lua",
+    "expected": "c71479dc4761391856e83d40d0875971aaa46597",
+    "actual": "c71479dc4761391856e83d40d0875971aaa46597",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_louse_ai.lua",
+    "expected": "6a16b7c08b2582bfac05e0996446e8fa3acf303d",
+    "actual": "6a16b7c08b2582bfac05e0996446e8fa3acf303d",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_map.lua",
+    "expected": "a68f8bbbc19c52e02205dc80783847031e7dd122",
+    "actual": "a68f8bbbc19c52e02205dc80783847031e7dd122",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_map_rooms.lua",
+    "expected": "5c09fda6e335d05737696afc9ca4035c3cdd8e6a",
+    "actual": "5c09fda6e335d05737696afc9ca4035c3cdd8e6a",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_map_topology.lua",
+    "expected": "20c6940a02693da811380c8d1e35e2d1d193dc3d",
+    "actual": "20c6940a02693da811380c8d1e35e2d1d193dc3d",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_map_ui.lua",
+    "expected": "0a308e1375465032816bd122c6e81a03988bd4d3",
+    "actual": "0a308e1375465032816bd122c6e81a03988bd4d3",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_merchant.lua",
+    "expected": "ce35e55f3c43b9ad2180f7f61d55c8ad9dbf2df5",
+    "actual": "ce35e55f3c43b9ad2180f7f61d55c8ad9dbf2df5",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_new_run_seed.lua",
+    "expected": "efae54fdb70149e3f085fe9fc5b23810e4d9fa75",
+    "actual": "efae54fdb70149e3f085fe9fc5b23810e4d9fa75",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_node_ui.lua",
+    "expected": "cdd5d2da11fd86a6459a30e77f79b7f9b07a8dc4",
+    "actual": "cdd5d2da11fd86a6459a30e77f79b7f9b07a8dc4",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_nodes.lua",
+    "expected": "4f838fd790a059f5777291258c5bffdf8636497b",
+    "actual": "4f838fd790a059f5777291258c5bffdf8636497b",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_numbers.lua",
+    "expected": "80763d45a36c1ea978e2f823fc40abb55041f578",
+    "actual": "80763d45a36c1ea978e2f823fc40abb55041f578",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_potion_discard_ui.lua",
+    "expected": "fa2c5ef2997b396efe2134e7a427e81b52daf5a7",
+    "actual": "fa2c5ef2997b396efe2134e7a427e81b52daf5a7",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_potion_rewards.lua",
+    "expected": "039effce1343506bc603ce30b7505965c58659f4",
+    "actual": "039effce1343506bc603ce30b7505965c58659f4",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_prologue.lua",
+    "expected": "dc0be33be33bc6763252d33ac135aaa8a57a85e6",
+    "actual": "dc0be33be33bc6763252d33ac135aaa8a57a85e6",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_random.lua",
+    "expected": "b423a6e7b1c185a83de6c2bdbb9cfe18112cffec",
+    "actual": "b423a6e7b1c185a83de6c2bdbb9cfe18112cffec",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_randomxs128.lua",
+    "expected": "6d745648c4d78a71e03b0b0c490e9471c45dcb44",
+    "actual": "6d745648c4d78a71e03b0b0c490e9471c45dcb44",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_red_slaver_ai.lua",
+    "expected": "fc560a07530ca7b4e819acf50d4385171afb936b",
+    "actual": "fc560a07530ca7b4e819acf50d4385171afb936b",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_room_encounters.lua",
+    "expected": "00d5132ca942d580c8e96c9f5743cad451e7a9ad",
+    "actual": "00d5132ca942d580c8e96c9f5743cad451e7a9ad",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_run.lua",
+    "expected": "6f06c67e3af8489f41f71884004229217d5ce933",
+    "actual": "6f06c67e3af8489f41f71884004229217d5ce933",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_run_seed.lua",
+    "expected": "c37adf6a362858e30e85a4cc583f3a35c684feca",
+    "actual": "c37adf6a362858e30e85a4cc583f3a35c684feca",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_sentry_ai.lua",
+    "expected": "8ace599020f2c465cf261cb2287bfda9c68b919f",
+    "actual": "8ace599020f2c465cf261cb2287bfda9c68b919f",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_shop.lua",
+    "expected": "518bd5ad8c20e408dbee4255da100fd4c005599c",
+    "actual": "518bd5ad8c20e408dbee4255da100fd4c005599c",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_shop_price.lua",
+    "expected": "11a57631de01eee2762a96e8228bb730dec66a96",
+    "actual": "11a57631de01eee2762a96e8228bb730dec66a96",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_spike_slime_m_ai.lua",
+    "expected": "425fa064dc34cc3f56c747b602a0c718a53209f2",
+    "actual": "425fa064dc34cc3f56c747b602a0c718a53209f2",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_sts_random.lua",
+    "expected": "00d059441a1e2263884c420c74535d5d91a6927b",
+    "actual": "00d059441a1e2263884c420c74535d5d91a6927b",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_transform_card.lua",
+    "expected": "f2ad42dd904065b95093ebe8c7cb9d1163b4a620",
+    "actual": "f2ad42dd904065b95093ebe8c7cb9d1163b4a620",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_ui.lua",
+    "expected": "e982f1d55f99b03c175b657cdd36b8346c3eb345",
+    "actual": "e982f1d55f99b03c175b657cdd36b8346c3eb345",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_unknown.lua",
+    "expected": "5b46b6f65134ecc444b9da8142ed7f07f412cae5",
+    "actual": "5b46b6f65134ecc444b9da8142ed7f07f412cae5",
+    "matched": true
+  },
+  {
+    "path": "src/lua/abyss_viewport.lua",
+    "expected": "06d2aae2c9074a8f5ff96953b9923c5f512755cb",
+    "actual": "06d2aae2c9074a8f5ff96953b9923c5f512755cb",
+    "matched": true
+  },
+  {
+    "path": "tests/lua/empty_permanent_deck.lua",
+    "expected": "9307ef55d6f3e52068bf1364d559635813878f1d",
+    "actual": "9307ef55d6f3e52068bf1364d559635813878f1d",
+    "matched": true
+  },
+  {
+    "path": "tests/lua/support/finish_combat_rewards.lua",
+    "expected": "bfc070fa4e65fab699e35224beffe20c21639685",
+    "actual": "bfc070fa4e65fab699e35224beffe20c21639685",
+    "matched": true
+  },
+  {
+    "path": "tests/lua/unknown_events.lua",
+    "expected": "12546ad17a081dc547a8229aeadfc51cf83c2ef6",
+    "actual": "12546ad17a081dc547a8229aeadfc51cf83c2ef6",
+    "matched": true
+  }
+]
