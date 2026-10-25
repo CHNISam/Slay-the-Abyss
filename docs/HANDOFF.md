@@ -1,6 +1,10 @@
 # 交接说明
 
-2026-10-25 P0协作入口：TASK-55正在落地[远端任务执行权](REMOTE_TASK_CLAIMS.md)，协调分支为`coord/task-claims`。本地、远端和子执行器统一claim/adopt → check → 独立worktree → run/renew → Git门禁 → integrate → release。新工作Assignee仍为Furinya，Executor独立记录。旧在途任务、工作树及未提交修改全部保留；[迁移快照](evidence/task-claim-migration-20261025.json)标记未知，不能凭干净树推断旧会话停止。远端迁移保持paused，未核实旧会话/其他机器之前禁止批量新领取；先按协议有证据地adopt。工程修复不改变M3内容范围或游戏行为，交付后回M3主线。
+2026-10-25 P0协作入口：TASK-55已实现[远端任务执行权](REMOTE_TASK_CLAIMS.md)，协调分支为`coord/task-claims`，集成质量证据以本任务PR当前SHA为准。本地、远端和子执行器统一claim/adopt → check → 独立worktree → run/renew → Git门禁 → integrate → release。新工作Assignee仍为Furinya，Executor独立记录。旧在途任务、工作树及未提交修改全部保留；[迁移快照](evidence/task-claim-migration-20261025.json)标记未知，不能凭干净树推断旧会话停止。远端迁移保持paused，未核实旧会话/其他机器之前禁止批量新领取；先按协议有证据地adopt。工程修复不改变M3内容范围或游戏行为，交付后回M3主线。
+
+2026-10-25 M3新增清除诅咒祭坛：正式full目录映射、永久牌组资格、净化/离开事务和原生结果页已接，冻结源码0b8d325；核心7/UI3/未知事件13/清单Node13通过。新候选62模块源码读回匹配（61份逐字节相同，新增fountain有CRLF/LF差异），原候选未改，0error33warning。默认七事件池保持原状，完整池切换与其他诅咒移除钩子仍缺；未官方导入、未同候选实机，父任务/M3未验收。[完整切片](reviews/TASK-13.1.2-fountain.md)。子代理遇平台限额后Codex接管，独立来源复核完成，最终独立代码复审中断，不冒称完成。
+
+2026-10-25资料包代际冲突已由用户澄清：先完成一代，二代以后在一代工程基础上扩展。当前主线仍M3、一代PC A0单人Ironclad第一幕完整首发涉及内容池；不再以代际待定阻塞一代工作，不以旧30张作完整验收。资料包药水事务切片及候选分层证据见[本轮记录](reviews/M3-PACK-POTION-20261025.md)，官方导入与同候选实机仍未验证。
 
 2026-10-25 当前主关口为M3。PR193已在当前提交完整CI通过后合入develop（`9ae1aec`）；57模块普通候选已官方导入并取得本轮ready和首战记录，尚无该候选胜利领奖回图证据。后续PR197集中唯一卡牌随机状态、五瓶暂缓获取药水的效果、Living Wall独立处理及失败原子性；该批未生成新候选或实机验收，集成状态以[PR197](https://github.com/CHNISam/Slay-the-Abyss/pull/197)为准。用户已批准补齐原版完整首发内容池和第一幕25事件，父任务及M3仍未验收。另一会话的warrior75工作树、根目录未提交内容和后续两份药水切片须保留，不覆盖或混作本批成果。
 

@@ -1,5 +1,9 @@
 # 来源与适配边界
 
+2026-10-25 清除诅咒祭坛切片：固定 `aeubanks/sts@319009d5` 的 FountainOfCurseRemoval、AbstractPlayer.isCursed 与 CardGroup.removeCard 方法链，接通永久牌组资格、full目录到正式节点及原生界面。泉水不奖励最大生命或回血；保护三张特殊诅咒，实际移除再排除Flame/Lightning瓶装。当前支持Regret，未实现移除钩子的其他诅咒原子拒绝；默认七事件池未改，完整25事件统一切换与平台自然获取仍缺。固定身份、红绿与范围见[本轮记录](../docs/reviews/TASK-13.1.2-fountain.md)。
+
+2026-10-25 用户提供的 `STA_Reverse_Engineering_Pack_20261025.zip` 已作为 M3 TASK-14.1/47 的交互事务规格接入。仅采用药水模块和 POTION-02/03/05 的拒绝、取消与实例身份要求，不将其中 STS2 网站数据作为当前 STS1 运行时数值。固定包身份、基线冲突、生产入口、7组新增回归与分层验收责任见[资料包药水切片](../docs/reviews/M3-PACK-POTION-20261025.md)。这份包不是原作构建认证，也不证明完整内容池或实机通过。
+
 2026-10-24 窃金客有限闭环：现有looter接入A0 HP44–48、Mug10/Lunge12、每次最多偷15、Smoke6与逃跑；逐敌账本，击杀只登记独立STOLEN_GOLD，战后手动领取才返；全逃普通金0但保留卡牌和存活回血6。首/次Mug的0.6f/0.5抽样发生在伤害前，立即/排队SetMove区分；组合PR170保留药水独立领取/放弃和Boss17；全逃普通药水chance0仍抽一次概率并增加修正。完整药水池/原版随机轨迹、PC真实性和平台实测仍未一致。来源hash、真实初始牌闭环、事务边界和表现分层见[TASK-15.16账本](../docs/reviews/TASK-15.16-looter-steal-escape-reward.md)。本条覆盖下文旧“窃金客不偷金逃跑”的现状说明，不更改历史证据。
 
 2026-10-24 Boss宝箱有限切片：独立第17层三选一/跳过，支持Black Blood的起始遗物替换及胜利heal12、Slaver's Collar精英/Boss每回合能量+1、Sozu每回合能量+1及药水获取拒绝；普通商店/宝箱排除Boss遗物。固定镜像方法链、内容hash、受限池/共享LCG边界和离线事务证据见[Boss宝箱账本](../docs/rules/BOSS_TREASURE.md)。不是完整原版池、正常17层通关或平台正式结算验收。

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-24 20:35'
+updated_date: '2026-10-25 01:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -19,6 +19,7 @@ references:
   - data/potions.json
   - docs/backlog-details/TASK-14.1.md
   - docs/reviews/TASK-14.1-m3-inventory-audit.md
+  - docs/reviews/M3-PACK-POTION-20261025.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -49,6 +50,8 @@ ordinal: 42000
 2026-10-24 用户确认原神已开并授权任意必要验收：从develop31a8f37固定源构建新副本并独立读回；确认窗口/同级权限，clientScriptLog=true导入新存档，取本轮ready/日志/截图。正常资源下验证战后发瓶、跨节点用瓶、丢弃后换瓶与资源账本；明确自动命令驱动和物理UI输入的证据边界，不外推全件实玩或M3整体通过。
 
 2026-10-25 用户批准完整原版内容池：分别固定Ironclad A0第一幕遗物和药水完整来源/顺序/消费目录、实际可达渠道与机制依赖，再按效果钩子分组补齐。13遗物/6可获药水只是历史基线，不能通过受限桶或缺项重抽保持自报概率；跨色等合法依赖必须明确，不静默删池。目录、实现、平台与自然实玩仍分层验收。
+
+2026-10-25 资料包接入M3：复用生产Run/UI，补状态变化但尚未重绘时旧选敌确认、同ID换瓶和取消的全状态原子性回归；证红后才修复。代际冲突待用户明确，不改数值、卡池和版本。分开记录候选、官方导入和同候选试玩。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -59,4 +62,10 @@ ordinal: 42000
 2026-10-24 固定31a8f37新候选官方导入1845，47模块/2298控件读回一致。正常114金币商店购火瓶50→64，三槽确认丢弃不扣费，再购同ID火瓶50→14；携至第3层使用，12血赤甲虫死亡、另敌15/15、能量3/3、库存1→0，空槽重按不变。新27号日志106打印含本轮ready、药水命中12/致死、ABYSS_SETTLEMENT_DEFEAT；真实离开后落盘。首战与开局有人协助，不归因全自动输入；20点基础伤害在12血目标截断，本轮不认证精确20。满槽替换/余下瓶/全件触发和全UI门禁仍缺，AC不勾。官方图严格字段审计失败保留（布局/省略默认值），未放宽审计。证据见docs/M3-LIVE-INVENTORY-20261024.md及docs/evidence/m3-live-31a8f37/receipt.json。
 
 2026-10-25 五瓶Swift/Weak/Fear/Ancient/LiquidBronze真实Run库存效果已实现，12组Lua/3项JS及相关门禁通过。五瓶暂acquisitionPending并列明清单排除，两个旧selector保原6瓶获取轨迹；不能把此隔离误当原版概率。完整33统一接入时必须移除此排除，不跳过unsupported。SacredBark/onUsePotion等依赖保留。见docs/reviews/TASK-14.1-potion-basic-five.md。
+
+用户明确把资料包接入作为M3冲刺一环。最新develop3ed8bf4已批准完整内容池，旧30张仅为接线盘点；资料包记录STS2方向，而当前SCOPE仍STS1，已向用户请求锁定代际和构建。免费委派限额未有恢复依据，本片由Codex直接执行。
+
+资料包药水目标事务验证切片：新增tests/lua/potion_target_rejection.lua，生产host监听器7/7通过（无render旧目标死亡/替换/换序/同ID换瓶/turn/phase与取消重选）。现有targeting5、commit4、input ownership7、discard UI10通过；launch-content13项及verify:backlog通过。独立子代理复跑7/7且无确认P1/P2。未复现需改生产代码的缺陷，保留现有实现；平台/自然获取不计通过。候选构建另记。源码规则代际待用户明确，不改数值或范围。
+
+本片候选离线构建与独立读回通过：运行时固定源3ed8bf4，61/61模块逐字节匹配，UI2824/max60，结算22节点，0error/33warning原样保留。候选SHA256 f2808674cca47de5aade4871fc0da82fdd9d25c801e6cc7d31ec4cd0400bdf68，位置及图审计有限范围见docs/reviews/M3-PACK-POTION-20261025.md。官方导入、同候选真实试玩、自然获取未验证；父任务AC不勾，M3未验收。
 <!-- SECTION:NOTES:END -->
