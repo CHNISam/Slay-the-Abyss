@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -21,7 +20,7 @@ export class Client {
   if(name===state.failTool)return {isError:true,structuredContent:{error:{code:'FIXTURE_FAILURE',message:name}}};
   if(name===state.payloadErrorTool)return {structuredContent:{error:{code:'PAYLOAD_FAILURE',message:name}}};
   if(name===state.malformedTool)return {structuredContent:{mapPath:args.mapPath}};
-  if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',on:[]});
+  if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',on:[],source:readFileSync(args.sourceFile,'utf8')});
   if(name==='scene_list_client_scripts')return {structuredContent:{mapPath:args.mapPath,scripts:[...scripts.values()]}};
   if(name==='scene_remove_client') {
    if(!state.ignoreRemoval)scripts.delete(args.script);
@@ -36,19 +35,25 @@ export class Client {
    return {structuredContent:{mapPath:args.mapPath,graphId:1073741900,name:'_GSTS_ABYSS_SETTLEMENT'}};
   }
   if(name==='write_graphs')return {structuredContent:{mapPath:args.mapPath,written:[{graphId:args.graphs[0].graphId}]}};
-  if(name==='scene_check_client')return {structuredContent:{mapPath:args.mapPath,ok:true,errors:0,warnings:0}};
+  if(name==='scene_check_client')return {structuredContent:{mapPath:args.mapPath,ok:true,errors:0,warnings:0,checked:[...scripts.keys()]}};
   return {structuredContent:{mapPath:args.mapPath}};
  }
 }
 `;
 function run(scenario, check) {
-  const dir = mkdtempSync(join(tmpdir(), 'abyss-rebuild-'));
+  // Keep the real CLI's Git provenance lookup inside the repository. All MCP
+  // and generation boundaries are fixture-only; receipt/readback checks run.
+  mkdirSync('build',{recursive:true});
+  const dir = mkdtempSync(join(process.cwd(), 'build', 'abyss-rebuild-'));
   const put = (file, content) => { const target=join(dir,file);mkdirSync(join(target,'..'),{recursive:true});writeFileSync(target,content); };
   try {
-    put('tool/package.json','{"type":"module"}');
+    put('tool/package.json','{"type":"module","version":"fixture"}');
+    put('tool/src/debug-log.mjs','export function inspectDebugLog(){throw Error("unexpected playtest decode");}');
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk);
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options) {if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=="0")throw Error("live writes enabled");}}');
     put('src/lua/abyss_ui.lua','return {}');
+    put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';writeFileSync(process.argv[3],'return {}');`);
+    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const name of ['abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])writeFileSync(join(out,name+'.lua'),'return {}');writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),'[]');`);
     for(const name of ['abyss_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])put('build/lua/'+name+'.lua','return {}');
     put('build/lua/game-ui.json',JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));
     put('build/lua/game-ui-templates.json','[]');
@@ -100,7 +105,7 @@ for(const graphs of [[{...existing,type:20001}],[{...existing,id:0}],[{...existi
 
 for(const malformedTool of ['inspect_map','scene_list_signals'])test(`${malformedTool} malformed inventory does not mean empty inventory`,()=>run({malformedTool},(result,calls)=>{
   assert.notEqual(result.status,0);
-  assert.match(result.stderr,/refusing to infer missing resources/);
+  assert.match(result.stderr,/Cannot read settlement graph and signal inventory/);
   assert.ok(!calls.some(c=>c.name==='scene_add_graph'||c.name==='scene_add_signal'||c.name==='write_graphs'));
 }));
 
@@ -115,7 +120,8 @@ test('rebuild removes only stale owned modules after replacing their old UI and 
   success(result);
   assert.deepEqual(calls.filter(c=>c.name==='scene_remove_client').map(c=>c.args.script),staleScripts.map(s=>s.name));
   assert.ok(calls.findIndex(c=>c.name==='scene_add_client_ui')<calls.findIndex(c=>c.name==='scene_remove_client'));
-  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts').length,2);
+  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts'&&!c.args.includeSource).length,2);
+  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts'&&c.args.includeSource).length,1);
   assert.ok(calls.filter(c=>c.name==='scene_remove_client').every(c=>!('evenIfUsed' in c.args)&&!('ui' in c.args)&&!('template' in c.args)));
 }));
 
