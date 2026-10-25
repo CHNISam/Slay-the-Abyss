@@ -2,7 +2,11 @@
 local integer = require('abyss_numbers').integer
 local Theme = require('abyss_theme')
 local M = {}
-local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true}
+local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true,
+    whirlwind=true,reaperDamage=true}
+for _,op in ipairs({'barrageDamage','bowlingBash','ftlDamage','heelHook','nextBlock','xBlock','halt',
+    'fearNoEvil','wallop','flowDamage','blizzardDamage','sunderDamage','randomEngineAttack','thunderStrike',
+    'finisherDamage','flechettesDamage','skewer','glassKnife','stackBlock','autoShields','escapePlan'}) do eligible[op]=true end
 -- Conservative visible-glyph budget. Native autoSize does not guarantee that
 -- a dynamically replaced long name fits its original one-line heading.
 local function units(text)
@@ -83,6 +87,13 @@ end
 -- Native colour parsing verified by the independent 1849 probe (see evidence).
 function M.format(template, definition, preview, palette)
     local values = M.values(definition, preview)
+    template=template:gsub('{effects%.(%d+)%.then%.(%d+)%.value}',function(rawParent,rawChild)
+        local parent,child=tonumber(rawParent)+1,tonumber(rawChild)
+        local effect=assert(definition.effects[parent],'missing conditional definition')
+        assert(effect.op=='conditional' and effect['then'],'invalid conditional token')
+        local branch=preview[parent] and preview[parent]['then'] or {}
+        return M.format('{effects.'..child..'.value}',{effects=effect['then']},branch,palette)
+    end)
     return (template:gsub('{effects%.(%d+)%.value}', function(rawIndex)
         local index = tonumber(rawIndex) + 1
         local token, entry = values[index], preview[index]

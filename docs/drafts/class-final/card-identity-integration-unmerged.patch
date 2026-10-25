@@ -1,0 +1,571 @@
+--- a/src/lua/abyss_combat.lua
++++ b/src/lua/abyss_combat.lua
+@@ -456,6 +456,7 @@
+     nested(state.cardTriggerPowerOrder)
+     nested(state.orbChannelCounts)
+     nested(state.statusDrawPowerOrder)
++    nested(state.cardIdentity)
+     if state.curlUpQueue then save(state.curlUpQueue) end
+     save(playedCard)
+     return function()
+@@ -1364,11 +1365,34 @@
+     local deck = options.deck or data.cards.starter_deck.cards
+     -- Removing the final permanent card is legal; draw already handles empty piles.
+     assert(type(deck) == "table", "invalid deck")
++    local count,used,nextMasterUid=0,{},1
++    for key in pairs(deck) do
++        assert(type(key)=='number' and key%1==0 and key>=1,'invalid deck index');count=count+1
++    end
++    for i=1,count do assert(rawget(deck,i)~=nil,'sparse deck') end
++    for _, value in ipairs(deck) do
++        if type(value)=='table' and value.uid~=nil then
++            local uid=value.uid
++            assert(type(uid)=='number' and uid>0 and uid<math.huge and uid%1==0 and uid+1.0>uid and not used[uid],
++                'invalid permanent deck UID')
++            used[uid]=true
++        end
++    end
++    state.masterDeck={}
+     for _, value in ipairs(deck) do
+         local id = type(value) == "table" and value.cardId or value
+         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))
+-        state.draw[#state.draw + 1] = { uid = state.nextUid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true }
+-        state.nextUid = state.nextUid + 1
++        local master=type(value)=='table' and copy(value) or {cardId=id,upgraded=false}
++        if master.uid==nil then
++            while used[nextMasterUid] do nextMasterUid=nextMasterUid+1.0 end
++            master.uid=nextMasterUid;used[nextMasterUid]=true;nextMasterUid=nextMasterUid+1.0
++        end
++        state.masterDeck[#state.masterDeck+1]=master
++    end
++    local identity=require('abyss_card_identity')
++    identity.init(state,state.masterDeck)
++    for _, master in ipairs(state.masterDeck) do
++        state.draw[#state.draw+1]=identity.fromMaster(state,master)
+     end
+     if options.sourceEncounter ~= nil then
+         local callbacks, constructors = options.encounterBoundary, 0
+--- a/src/lua/abyss_build_actions.lua
++++ b/src/lua/abyss_build_actions.lua
+@@ -30,18 +30,13 @@
+     local pile=effect.pile or 'hand'
+     assert(pile=='hand' or pile=='draw','invalid temporary destination')
+     if pile=='draw' then assert(effect.randomSpot==true and state.cardRandomRng,'missing card insertion RNG') end
+-    local seen={}
+-    for _,name in ipairs({'hand','draw','discard','exhaust'}) do
+-        for _,c in ipairs(state[name]) do seen[c.uid]=true end
+-    end
+-    if state.cardInUse then seen[state.cardInUse.uid]=true end
++    local identity=require('abyss_card_identity')
++    local template={cardId=id,upgraded=effect.upgraded==true}
++    identity.preflightCreated(state,template,'new',count)
+     for _=1,count do
+-        local uid=state.nextUid
+-        assert(type(uid)=='number' and uid>0 and uid%1==0 and uid+1.0>uid and uid+1.0<math.huge and not seen[uid],'invalid nextUid')
+-        local card={uid=uid,cardId=id,upgraded=effect.upgraded==true}
++        local card=identity.created(state,template,'new')
+         require('abyss_warrior_status_cards').created(state,card,'make_copy')
+         if id=='shiv' then require('abyss_shivs').created(state,card) end
+-        state.nextUid=uid+1.0;seen[uid]=true
+         local destination=pile
+         if pile=='hand' and #state.hand>=state.rules.player.maxHand then destination='discard' end
+         if destination=='draw' and #state.draw>0 then
+--- a/src/lua/abyss_silent.lua
++++ b/src/lua/abyss_silent.lua
+@@ -93,7 +93,6 @@
+         and not Combat.outcome(state), "generation requires live player combat")
+     assert(integer(count,0,2147483647), "invalid Shiv count")
+     assert(upgraded == nil or type(upgraded) == "boolean", "invalid upgrade flag")
+-    assert(integer(state.nextUid, 1, 2147483647 - count), "card UID overflow")
+     assert(state.rules.player.maxHand == 10 and #state.hand <= 10, "unsupported hand capacity")
+     assert((state.player.statuses.master_reality or 0) == 0,
+         "unsupported generated-card power")
+@@ -101,23 +100,13 @@
+     assert(card.type == "attack" and card.cost == 0 and card.exhaust == true
+         and card.effects[1].op == "damage" and card.effects[1].value == 4
+         and card.upgrade.effects[1].value == 6, "unexpected Shiv definition")
+-    -- Reject UID collisions before changing any pile. All four piles own UIDs.
+-    local used = {}
+-    for _, pile in ipairs({state.hand, state.draw, state.discard, state.exhaust}) do
+-        for _, instance in ipairs(pile) do
+-            assert(integer(instance.uid, 1, 2147483647) and not used[instance.uid], "invalid card identity")
+-            used[instance.uid] = true
+-        end
+-    end
+-    if state.cardInUse then used[state.cardInUse.uid] = true end
+-    for offset = 0, count - 1 do
+-        assert(not used[state.nextUid + offset], "card UID collision")
+-    end
++    local identity=require('abyss_card_identity')
++    local template={cardId='shiv',upgraded=upgraded==true}
++    identity.preflightCreated(state,template,'new',count)
+     local generated = {}
+     for _ = 1, count do
+-        local instance = {uid=state.nextUid, cardId="shiv", upgraded=upgraded == true}
++        local instance = identity.created(state,template,'new')
+         require("abyss_shivs").created(state,instance)
+-        state.nextUid = state.nextUid + 1
+         local destination = #state.hand < 10 and "hand" or "discard"
+         state[destination][#state[destination] + 1] = instance
+         if destination=="hand" and (state.player.statuses.corruption or 0)~=0 then
+--- a/src/lua/abyss_effects.lua
++++ b/src/lua/abyss_effects.lua
+@@ -325,19 +325,12 @@
+             -- gate still rejects dead public sources and final-combat tails.
+             assert(type(effect.card) == "string" and state.catalog.cards[effect.card], "unknown temporary card")
+             assert(type(value) == "number" and value % 1 == 0 and value >= 0 and value <= 5, "invalid temporary card count")
+-            local uid = state.nextUid
+-            assert(type(uid) == "number" and uid > 0 and uid < math.huge and uid % 1 == 0, "invalid nextUid")
+-            local nextUid = uid + 0.0 + value
+-            -- Check each increment as well as the batch before mutating piles;
+-            -- binary64 may round a batch into duplicate/nonadvancing UIDs.
+-            for i = 1, value do
+-                assert(uid + 0.0 + i > uid + 0.0 + (i - 1), "nextUid cannot advance")
+-            end
+-            assert(nextUid < math.huge and nextUid - uid == value, "nextUid cannot advance")
+-            for i = 0, value - 1 do
+-                state.discard[#state.discard + 1] = {uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+-            end
+-            state.nextUid = nextUid
++            local identity=require('abyss_card_identity')
++            local template={cardId=effect.card,upgraded=false}
++            identity.preflightCreated(state,template,'new',value)
++            for _ = 1, value do
++                state.discard[#state.discard + 1] = identity.created(state,template,'new')
++            end
+             if value > 0 then Events.emit(state, "cards_created", {source = source.id, cardId = effect.card, amount = value, pile = "discard"}) end
+         elseif op == "addCardToDiscard" then
+             -- This operation copies the resolving card, not its catalog default.
+@@ -345,12 +338,7 @@
+             assert(type(playedCard) == "table", "copy requires played card")
+             assert(type(effect.card) == "string" and state.catalog.cards[effect.card], "unknown copy card")
+             assert(effect.card == playedCard.cardId, "copy must match played card")
+-            local uid = state.nextUid
+-            assert(type(uid) == "number" and uid > 0 and uid % 1 == 0, "invalid nextUid")
+-            local nextUid = uid + 1.0 -- do not wrap signed 32-bit Fengari integers
+-            assert(nextUid > uid and nextUid < math.huge, "nextUid cannot advance")
+-            state.discard[#state.discard + 1] = { uid = uid, cardId = effect.card, upgraded = playedCard.upgraded == true }
+-            state.nextUid = nextUid
++            state.discard[#state.discard + 1] = require('abyss_card_identity').created(state,playedCard,'new')
+         elseif op == "loseHp" then
+             -- HP payment is not an attack or a status tick. The next effect's
+             -- source-alive guard stops the card when this payment is lethal.
+--- a/src/lua/abyss_inventory.lua
++++ b/src/lua/abyss_inventory.lua
+@@ -130,8 +130,7 @@
+             require("abyss_orbs").channel(state, effect.orb, Combat)
+         elseif op == "makeMiracle" then
+             local pile = #state.hand < state.rules.player.maxHand and state.hand or state.discard
+-            pile[#pile + 1] = {uid=state.nextUid,cardId="miracle",upgraded=false}
+-            state.nextUid = state.nextUid + 1
++            pile[#pile + 1] = require('abyss_card_identity').created(state,{cardId='miracle',upgraded=false},'new')
+             require("abyss_events").emit(state,"cards_created",{cardId="miracle",amount=1})
+         elseif op == "damage" then
+             Combat.damage(state, state.player, target, value, true)
+--- /dev/null
++++ b/src/lua/abyss_card_identity.lua
+@@ -0,0 +1,154 @@
++-- UUID/source identity and combat instance identity are independent namespaces.
++-- Returned created cards are unattached: host must acquire them in one transaction.
++local M={}
++local MAX=2147483647
++local pileNames={'hand','draw','discard','exhaust','limbo'}
++local copied={misc=true,timesUpgraded=true,combatCost=true,turnCost=true,damageBonus=true,storedDiscardCost=true,
++ retainedBlockBonus=true,retainedDamageBonus=true,retainedCostReduction=true,shivAccuracyBonus=true,expungerHits=true,
++ freeToPlayOnce=true,inBottleLightning=true,inBottleFlame=true,inBottleTornado=true,isSeen=true,isLocked=true}
++local booleans={freeToPlayOnce=true,inBottleLightning=true,inBottleFlame=true,inBottleTornado=true,isSeen=true,isLocked=true}
++local ignored={uid=true,sourceUid=true,upgraded=true,cardId=true,retain=true,retainedTurn=true,ethereal=true,
++ exhaust=true,exhaustOnUseOnce=true,purgeOnUse=true,dontTriggerOnUseCard=true,isInAutoplay=true,ignoreEnergyOnUse=true,energyOnUse=true}
++local transientBooleans={retain=true,ethereal=true,exhaust=true,exhaustOnUseOnce=true,purgeOnUse=true,dontTriggerOnUseCard=true,isInAutoplay=true,ignoreEnergyOnUse=true}
++local function integer(v,lo)return type(v)=='number'and v==v and v%1==0 and v>=(lo or 0)and v<=MAX end
++local function uid(v)return type(v)=='number'and v==v and v>0 and v<math.huge and v%1==0 and v+1.0>v end
++local function watermark(v)return v==0 or uid(v)end
++local function dense(t)
++ assert(type(t)=='table'and not getmetatable(t),'invalid identity list');local n=0
++ for k in next,t do assert(integer(k,1),'invalid identity list index');n=n+1 end
++ for i=1,n do assert(rawget(t,i)~=nil,'sparse identity list')end
++ return n
++end
++local function plain(value,path)
++ local kind=type(value)
++ if kind=='table'then
++  assert(not getmetatable(value)and not path[value],'non-data identity instance');path[value]=true
++  for k,v in next,value do assert(type(k)=='string'or k==0 or uid(k),'invalid identity key');plain(v,path)end;path[value]=nil
++ else assert(kind=='boolean'or kind=='string'or kind=='number'and value==value and math.abs(value)<math.huge,'non-data identity field')end
++end
++local function template(s,c,requireUid)
++ assert(type(c)=='table'and not getmetatable(c)and type(c.cardId)=='string'and s.catalog.cards[c.cardId],'unknown identity template')
++ plain(c,{})
++ assert((not requireUid and c.uid==nil)or uid(c.uid),'invalid identity UID')
++ assert(c.sourceUid==nil or uid(c.sourceUid),'invalid identity sourceUid')
++ assert(c.upgraded==nil or type(c.upgraded)=='boolean','invalid identity upgrade')
++ for k,v in next,c do
++  assert(copied[k]or ignored[k],'unsupported identity stat field: '..tostring(k))
++  if booleans[k]or transientBooleans[k]then assert(type(v)=='boolean','invalid identity boolean')
++  elseif k=='retainedTurn'or k=='energyOnUse'then assert(integer(v),'invalid identity temporary amount')
++  elseif copied[k]then assert(integer(v,k=='misc'and -MAX-1 or(k=='combatCost'or k=='turnCost')and -2 or 0),'invalid identity stat amount')end
++ end
++ if c.timesUpgraded~=nil then assert((c.upgraded==true)==(c.timesUpgraded>0),'inconsistent identity upgrade count')end
++ return c
++end
++local function battle(s)
++ assert(type(s)=='table'and s.catalog and type(s.catalog.cards)=='table','invalid identity state')
++ local byUid,byObject,ordered,maxUid,maxSource={},{},{},0,0
++ local function add(c)
++  template(s,c,true)
++  assert(not byUid[c.uid]or byUid[c.uid]==c,'combat UID belongs to different objects')
++  byUid[c.uid]=c;maxUid=math.max(maxUid,c.uid);maxSource=math.max(maxSource,c.sourceUid or 0)
++  if not byObject[c]then byObject[c]=true;ordered[#ordered+1]=c end
++ end
++ for _,name in ipairs(pileNames)do if s[name]~=nil then dense(s[name]);for _,c in ipairs(s[name])do add(c)end
++  else assert(name=='limbo','missing identity pile')end end
++ if s.cardInUse then add(s.cardInUse)end
++ return {byUid=byUid,ordered=ordered,maxUid=maxUid,maxSource=maxSource}
++end
++local function masters(s,deck)
++ dense(deck);local byUid,ordered,maxUid={},{},0
++ for _,c in ipairs(deck)do template(s,c,true);assert(not byUid[c.uid],'duplicate permanent source UID')
++  assert(c.sourceUid==nil or c.sourceUid==c.uid,'permanent source UID must match its UID')
++  byUid[c.uid]=c.cardId;ordered[#ordered+1]={uid=c.uid,cardId=c.cardId};maxUid=math.max(maxUid,c.uid)
++ end
++ return byUid,ordered,maxUid
++end
++local function metadata(s,b)
++ local d=s.cardIdentity
++ assert(type(d)=='table'and not getmetatable(d),'identity not initialized')
++ assert(watermark(d.combatHighWater)and watermark(d.sourceHighWater),'invalid identity high-water marks')
++ assert(type(d.sources)=='table'and not getmetatable(d.sources),'missing reserved source identities')
++ assert(type(d.masterCards)=='table'and not getmetatable(d.masterCards),'missing permanent identity index')
++ local maxSource=math.max(d.sourceHighWater,b.maxSource)
++ for identity,v in next,d.sources do assert(uid(identity)and v==true,'invalid reserved source identity');maxSource=math.max(maxSource,identity)end
++ for identity,id in next,d.masterCards do assert(uid(identity)and type(id)=='string'and s.catalog.cards[id]and d.sources[identity],'invalid permanent identity index');maxSource=math.max(maxSource,identity)end
++ for _,c in ipairs(b.ordered)do if c.sourceUid then assert(d.sources[c.sourceUid],'battle source UID is not reserved')end end
++ assert(uid(s.nextUid)and s.nextUid>math.max(d.combatHighWater,b.maxUid),'conflicting or rewound combat allocator')
++ assert(uid(s.nextSourceUid)and s.nextSourceUid>maxSource,'conflicting or rewound source allocator')
++ return d
++end
++function M.init(s,masterDeck)
++ local b=battle(s);local masterMap,_,masterMax=masters(s,masterDeck)
++ assert(uid(s.nextUid)and s.nextUid>b.maxUid,'conflicting combat allocator at identity init')
++ local old=s.cardIdentity
++ if old then
++  local d=metadata(s,b)
++  for uid,id in next,masterMap do assert(d.masterCards[uid]==id,'permanent identity index changed during battle')end
++  for uid,id in next,d.masterCards do assert(masterMap[uid]==id,'permanent identity index changed during battle')end
++  return true
++ end
++ local maxSource=math.max(masterMax,b.maxSource)
++ local nextSource=s.nextSourceUid or maxSource+1.0
++ assert(uid(nextSource)and nextSource>maxSource,'conflicting source allocator at identity init')
++ local sources={};for uid in next,masterMap do sources[uid]=true end
++ for _,c in ipairs(b.ordered)do if c.sourceUid then sources[c.sourceUid]=true end end
++ s.nextSourceUid=nextSource
++ s.cardIdentity={masterCards=masterMap,sources=sources,combatHighWater=b.maxUid,sourceHighWater=maxSource}
++ return true
++end
++local function available(s)
++ local b=battle(s);local d=metadata(s,b)
++ return b,d
++end
++function M.allocateCombatUid(s)
++ local _,d=available(s)
++ local identity=s.nextUid;s.nextUid=identity+1.0;d.combatHighWater=identity;return identity
++end
++function M.allocateSourceUid(s)
++ local _,d=available(s)
++ local identity=s.nextSourceUid;s.nextSourceUid=identity+1.0;d.sourceHighWater=identity;d.sources[identity]=true;return identity
++end
++local function copiedCard(s,source)
++ template(s,source,false)
++ local out={cardId=source.cardId,upgraded=source.upgraded==true}
++ for k,v in next,source do if copied[k]then out[k]=v end end
++ return out
++end
++function M.preflightCreated(s,source,mode,count)
++ assert(mode=='new'or mode=='same','unknown identity copy mode');assert(integer(count),'invalid identity creation count')
++ local b,d=available(s);copiedCard(s,source)
++ if mode=='same'then assert(uid(source.sourceUid)and d.sources[source.sourceUid]and source.uid and b.byUid[source.uid]==source,
++  'same copy requires its reserved original battle object')end
++ if count>0 then
++  local last=s.nextUid+0.0+count-1.0;local after=s.nextUid+0.0+count
++  assert(uid(last)and after-s.nextUid==count,'combat identity batch cannot advance')
++  if mode=='new'then last=s.nextSourceUid+0.0+count-1.0;after=s.nextSourceUid+0.0+count
++   assert(uid(last)and after-s.nextSourceUid==count,'source identity batch cannot advance')end
++ end
++ return true
++end
++function M.created(s,source,mode)
++ assert(mode=='new'or mode=='same','unknown identity copy mode')
++ local b,d=available(s);local out=copiedCard(s,source)
++ if mode=='same'then assert(uid(source.sourceUid)and d.sources[source.sourceUid],'same copy requires a reserved sourceUid')
++  assert(source.uid and b.byUid[source.uid]==source,'same copy requires its original battle object')end
++ out.uid=s.nextUid;out.sourceUid=mode=='same'and source.sourceUid or s.nextSourceUid
++ s.nextUid=out.uid+1.0;d.combatHighWater=out.uid
++ if mode=='new'then s.nextSourceUid=out.sourceUid+1.0;d.sourceHighWater=out.sourceUid;d.sources[out.sourceUid]=true end
++ return out
++end
++function M.fromMaster(s,master)
++ local _,d=available(s);template(s,master,true)
++ assert(d.masterCards[master.uid]==master.cardId,'card is not a registered master instance')
++ assert(master.sourceUid==nil or master.sourceUid==master.uid,'master source identity mismatch')
++ local out=copiedCard(s,master)
++ out.uid=s.nextUid;out.sourceUid=master.uid
++ s.nextUid=out.uid+1.0;d.combatHighWater=out.uid
++ return out
++end
++function M.allBattleInstancesBySourceUid(s,sourceUid)
++ assert(uid(sourceUid),'invalid source identity lookup');local b=battle(s);local out={}
++ for _,c in ipairs(b.ordered)do if c.sourceUid==sourceUid then out[#out+1]=c end end
++ return out
++end
++return M
+--- /dev/null
++++ b/tests/lua/card_identity.lua
+@@ -0,0 +1,168 @@
++package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
++local Identity=require('abyss_card_identity')
++local Combat=require('abyss_combat')
++local Snapshot=require('abyss_snapshot')
++local Data=require('abyss_data')
++local n=0
++local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
++local function test(name,fn)fn();n=n+1;print('ok card_identity '..n..' - '..name)end
++local function battle(deck)
++ local s=Combat.new(Data,{seed=42,cardRandomSeed='42',enemies={'cultist'},deck=deck or {}})
++ -- Isolate explicit identity initialization from the integrated Core.new entry.
++ s.cardIdentity=nil;s.nextSourceUid=nil;return s
++end
++local function master(uid,id,extra)local c={uid=uid,cardId=id or 'strike',upgraded=false};for k,v in pairs(extra or {})do c[k]=v end;return c end
++local function setup(deck)local s=battle();Identity.init(s,deck or {});return s end
++local function attach(s,c,pile)s[pile or 'hand']=s[pile or 'hand']or {};s[pile or 'hand'][#s[pile or 'hand']+1]=c;return c end
++local function sameGraph(s)
++ local saved,waiting={}, {s}
++ while #waiting>0 do local t=table.remove(waiting);if not saved[t]then local values={};saved[t]=values
++  for k,v in pairs(t)do values[k]=v;if type(v)=='table'then waiting[#waiting+1]=v end end end end
++ return function()for t,v in pairs(saved)do for k,x in pairs(t)do eq(v[k],x)end;for k,x in pairs(v)do eq(t[k],x)end end end
++end
++local function copy(v)if type(v)~='table'then return v end;local t={};for k,x in pairs(v)do t[k]=copy(x)end;return t end
++local function plain(v,path)if type(v)=='table'then path=path or {};assert(not path[v]and not getmetatable(v));path[v]=true
++ for k,x in pairs(v)do assert(type(k)=='string'or type(k)=='number');plain(x,path)end;path[v]=nil
++ else assert(type(v)=='string'or type(v)=='number'or type(v)=='boolean')end end
++test('empty init is idempotent and neither creates cards nor changes combat allocator',function()
++ local s=battle();local uid=s.nextUid;assert(Identity.init(s,{}));eq(s.nextUid,uid);eq(s.nextSourceUid,1)
++ local meta=s.cardIdentity;local sources=meta.sources;local same=sameGraph(s)
++ assert(Identity.init(s,{}));eq(s.cardIdentity,meta);eq(meta.sources,sources);same()
++end)
++test('twelve-card sparse permanent IDs reserve all source IDs independently of combat thirteen',function()
++ local deck,ids={},{};for i=1,11 do deck[#deck+1]=master(i);ids[#ids+1]='strike'end;deck[#deck+1]=master(20);ids[#ids+1]='strike'
++ local s=battle(ids);eq(s.nextUid,13);Identity.init(s,deck);eq(s.nextSourceUid,21)
++ local c=Identity.created(s,{cardId='strike'},'new');eq(c.uid,13);eq(c.sourceUid,21);eq(s.nextSourceUid,22)
++ eq(s.cardIdentity.sources[20],true);eq(s.cardIdentity.sources[13],nil)
++end)
++test('combat thirteen may equal a reserved permanent source thirteen without namespace collision',function()
++ local deck={master(13),master(20)};local s=setup(deck);s.nextUid=13
++ local c=Identity.created(s,{cardId='strike'},'new');eq(c.uid,13);eq(c.sourceUid,21)
++ local from=Identity.fromMaster(s,deck[1]);eq(from.uid,14);eq(from.sourceUid,13);assert(c.sourceUid~=from.sourceUid)
++end)
++test('init scans already known source UIDs without inferring any source UID from combat UID',function()
++ local s=battle({'strike','defend'});s.hand[1].uid=700;s.hand[1].sourceUid=99;s.hand[2].uid=800;s.nextUid=801
++ Identity.init(s,{master(20)});eq(s.nextSourceUid,100);eq(s.cardIdentity.sources[700],nil);eq(s.cardIdentity.sources[800],nil)
++end)
++test('an existing higher source counter is preserved across init and purge history',function()
++ local s=battle();s.nextSourceUid=101;Identity.init(s,{master(20)});eq(s.nextSourceUid,101)
++ local c=Identity.created(s,{cardId='strike'},'new');eq(c.sourceUid,101);eq(s.nextSourceUid,102)
++ local same=sameGraph(s);Identity.init(s,{master(20)});same()
++end)
++test('new constructor and stat-equivalent copies allocate separate source and combat identities',function()
++ local s=setup({master(20)});local a=attach(s,Identity.created(s,{cardId='strike'},'new'))
++ local b=Identity.created(s,a,'new');eq(a.uid,1);eq(b.uid,2);eq(a.sourceUid,21);eq(b.sourceUid,22)
++end)
++test('same-instance copy inherits reserved source identity but gets a distinct runtime UID',function()
++ local s=setup({master(20)});local original=attach(s,Identity.created(s,{cardId='strike'},'new'))
++ local nextSource=s.nextSourceUid;local c=Identity.created(s,original,'same');eq(c.sourceUid,original.sourceUid);assert(c.uid~=original.uid);eq(s.nextSourceUid,nextSource)
++end)
++test('same copy refuses missing source UID unowned snapshots or invented source identity',function()
++ local s=battle({'strike'});s.hand[1].sourceUid=nil;Identity.init(s,{});local c=s.hand[1];local same=sameGraph(s)
++ eq(pcall(Identity.created,s,c,'same'),false);same()
++ local real=attach(s,Identity.created(s,{cardId='defend'},'new'));local snapshot=copy(real);same=sameGraph(s)
++ eq(pcall(Identity.created,s,snapshot,'same'),false);same()
++ real.sourceUid=999;local changed=sameGraph(s);eq(pcall(Identity.created,s,real,'same'),false);changed()
++end)
++test('fromMaster preserves permanent source UID misc upgrade count and upgrade flag',function()
++ local p=master(20,'strike',{misc=7,timesUpgraded=2,upgraded=true});local s=setup({p});local same=sameGraph(p)
++ local c=Identity.fromMaster(s,p);eq(c.uid,1);eq(c.sourceUid,20);eq(c.misc,7);eq(c.timesUpgraded,2);eq(c.upgraded,true);assert(c~=p);same()
++end)
++test('fromMaster never consumes the new-source allocator or copies the permanent UID as combat UID',function()
++ local p=master(100);local s=setup({p});s.nextUid=13;local source=s.nextSourceUid
++ local c=Identity.fromMaster(s,p);eq(c.uid,13);eq(c.sourceUid,100);eq(s.nextSourceUid,source)
++end)
++test('unregistered permanent cards and conflicting permanent source fields refuse atomically',function()
++ local p=master(20);local s=setup({p});local same=sameGraph(s)
++ eq(pcall(Identity.fromMaster,s,master(21)),false);eq(pcall(Identity.fromMaster,s,master(20,'defend')),false);same()
++ p.sourceUid=21;same=sameGraph(s);eq(pcall(Identity.fromMaster,s,p),false);same()
++end)
++test('stat-copy whitelist preserves current modifiers and Expunger hits without transient flags',function()
++ local s=setup();local source={cardId='strike',upgraded=true,timesUpgraded=1,misc=5,combatCost=2,turnCost=0,damageBonus=4,
++  storedDiscardCost=2,retainedDamageBonus=3,retainedBlockBonus=2,retainedCostReduction=1,shivAccuracyBonus=4,expungerHits=7,
++  freeToPlayOnce=true,inBottleFlame=true,retain=true,retainedTurn=9,ethereal=true,exhaust=true,exhaustOnUseOnce=true,purgeOnUse=true,
++  dontTriggerOnUseCard=true,isInAutoplay=true,ignoreEnergyOnUse=true,energyOnUse=3}
++ local c=Identity.created(s,source,'new')
++ for _,k in ipairs({'misc','timesUpgraded','combatCost','turnCost','damageBonus','storedDiscardCost','retainedDamageBonus','retainedBlockBonus','retainedCostReduction','shivAccuracyBonus','expungerHits','freeToPlayOnce','inBottleFlame'})do eq(c[k],source[k])end
++ for _,k in ipairs({'retain','retainedTurn','ethereal','exhaust','exhaustOnUseOnce','purgeOnUse','dontTriggerOnUseCard','isInAutoplay','ignoreEnergyOnUse','energyOnUse'})do eq(c[k],nil)end
++end)
++test('unknown stat fields invalid flags and inconsistent counts are preflight failures',function()
++ for _,t in ipairs({{cardId='strike',futureStat=7},{cardId='strike',retain=1},{cardId='strike',misc=2147483648.0},
++  {cardId='strike',upgraded=false,timesUpgraded=1},{cardId='strike',upgraded=true,timesUpgraded=0},
++  {cardId='strike',expungerHits=-1},{cardId='strike',turnCost=-3}})do
++  local s=setup();local same=sameGraph(s);eq(pcall(Identity.created,s,t,'new'),false);same()
++ end
++end)
++test('both allocators legally cross signed 32-bit boundary independently',function()
++ local s=setup();s.nextUid=2147483647.0;s.nextSourceUid=2147483647.0
++ local a=Identity.created(s,{cardId='strike'},'new');eq(a.uid,2147483647.0);eq(a.sourceUid,2147483647.0);attach(s,a)
++ local b=Identity.created(s,a,'new');eq(b.uid,2147483648.0);eq(b.sourceUid,2147483648.0)
++ eq(s.nextUid,2147483649.0);eq(s.nextSourceUid,2147483649.0)
++end)
++test('large permanent and already known source IDs initialize without 32-bit truncation',function()
++ local s=battle({'strike'});s.hand[1].sourceUid=4294967300.0;Identity.init(s,{master(4294967298.0)})
++ eq(s.nextSourceUid,4294967301.0);eq(Identity.allocateSourceUid(s),4294967301.0)
++end)
++test('NaN infinity fractional nonpositive and nonincrementable counters are atomic failures',function()
++ for _,value in ipairs({0,-1,0.5,0/0,math.huge,9007199254740992.0})do
++  for _,key in ipairs({'nextUid','nextSourceUid'})do
++   local s=setup();s[key]=value
++   local priorUid,priorSource,meta=s.nextUid,s.nextSourceUid,s.cardIdentity
++   eq(pcall(Identity.created,s,{cardId='strike'},'new'),false)
++   assert(s.nextUid==priorUid or s.nextUid~=s.nextUid and priorUid~=priorUid)
++   assert(s.nextSourceUid==priorSource or s.nextSourceUid~=s.nextSourceUid and priorSource~=priorSource);eq(s.cardIdentity,meta)
++  end
++ end
++end)
++test('rewound counters never skip gaps or silently repair allocation collisions',function()
++ local s=setup({master(20)});local c=Identity.created(s,{cardId='strike'},'new');attach(s,c)
++ s.nextUid=c.uid;local same=sameGraph(s);eq(pcall(Identity.allocateCombatUid,s),false);same()
++ s.nextUid=c.uid+1.0;s.nextSourceUid=13;same=sameGraph(s);eq(pcall(Identity.allocateSourceUid,s),false);same()
++end)
++test('allocated but unattached identities remain reserved after simulated purge',function()
++ local s=setup();local a=Identity.created(s,{cardId='strike'},'new');eq(a.sourceUid,1)
++ s.nextSourceUid=1;local same=sameGraph(s);eq(pcall(Identity.created,s,{cardId='strike'},'new'),false);same()
++ s.nextSourceUid=2;s.nextUid=1;same=sameGraph(s);eq(pcall(Identity.allocateCombatUid,s),false);same()
++end)
++test('lookup traverses four piles limbo and using object once in stable order',function()
++ local p=master(20);local s=setup({p});local original=attach(s,Identity.fromMaster(s,p),'hand');local expected={original}
++ for _,pile in ipairs({'draw','discard','exhaust','limbo'})do local c=attach(s,Identity.created(s,original,'same'),pile);expected[#expected+1]=c end
++ s.cardInUse=original
++ local found=Identity.allBattleInstancesBySourceUid(s,20);eq(#found,5);for i,c in ipairs(expected)do eq(found[i],c)end
++ eq(#Identity.allBattleInstancesBySourceUid(s,21),0)
++end)
++test('lookup and allocation reject equal runtime UID on different objects but allow object aliases',function()
++ local s=setup();local c=attach(s,Identity.created(s,{cardId='strike'},'new'));s.limbo={c};s.cardInUse=c
++ eq(#Identity.allBattleInstancesBySourceUid(s,c.sourceUid),1)
++ s.limbo={copy(c)};local same=sameGraph(s);eq(pcall(Identity.allBattleInstancesBySourceUid,s,c.sourceUid),false);same()
++ eq(pcall(Identity.allocateCombatUid,s),false);same()
++end)
++test('duplicate sparse permanent lists and counter conflicts fail before identity init writes',function()
++ local s=battle();local same=sameGraph(s);eq(pcall(Identity.init,s,{master(20),master(20)}),false);same()
++ eq(pcall(Identity.init,s,{[1]=master(20),[3]=master(21)}),false);same()
++ s.nextSourceUid=13;local changed=sameGraph(s);eq(pcall(Identity.init,s,{master(20)}),false);changed();eq(s.cardIdentity,nil)
++end)
++test('init idempotence refuses changing permanent source mappings midway through battle',function()
++ local s=setup({master(20)});local same=sameGraph(s)
++ eq(pcall(Identity.init,s,{master(20,'defend')}),false);same()
++ eq(pcall(Identity.init,s,{}),false);same()
++end)
++test('serialization restores counters and source lineage without original object addresses',function()
++ local p=master(20);local s=setup({p});local original=attach(s,Identity.fromMaster(s,p));attach(s,Identity.created(s,original,'same'),'discard')
++ plain(s.cardIdentity);local restored=copy(s);Identity.init(restored,{copy(p)})
++ local found=Identity.allBattleInstancesBySourceUid(restored,20);eq(#found,2);assert(found[1]~=original)
++ local next=Identity.created(restored,found[1],'new');eq(next.sourceUid,21);eq(s.nextSourceUid,21)
++end)
++test('whole graph rollback restores counters reservations objects and metadata references',function()
++ local s=setup({master(20)});local original=attach(s,Identity.fromMaster(s,master(20)));local same=sameGraph(s);local meta=s.cardIdentity
++ local restore=Snapshot.capture(s);local c=attach(s,Identity.created(s,original,'same'),'limbo');attach(s,Identity.created(s,c,'new'),'discard')
++ restore();same();eq(s.cardIdentity,meta);eq(s.limbo,nil);eq(#s.discard,0);eq(s.hand[1],original)
++end)
++test('no callbacks metatables or cyclic data enter identity templates',function()
++ local cycle={cardId='strike'};cycle.loop=cycle
++ for _,c in ipairs({{cardId='strike',callback=function()end},setmetatable({cardId='strike'},{}),cycle})do
++  local s=setup();local same=sameGraph(s);eq(pcall(Identity.created,s,c,'new'),false);same()
++ end
++end)
++print('CARD_IDENTITY_COMPONENT_PASS '..n)
++print('CARD_IDENTITY_CORE_NOT_CONNECTED: host must stamp actual construction and generation sites')
+--- /dev/null
++++ b/docs/rules/CARD_IDENTITY.md
+@@ -0,0 +1,76 @@
++# 卡牌来源身份与战斗实例身份
++
++`abyss_card_identity` 将两个命名空间分开：`sourceUid` 对应原版卡牌UUID所表达的来源身份，`uid` 唯一标识本场战斗中的实际对象。数字相同可以出现在两个命名空间中，不能据此把它们当成同一对象。模块不运行卡牌效果，也不自动移动牌或更新永久牌组。
++
++固定来源为社区反编译镜像 `aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0`，不是官方二进制认证。实现为独立的数据适配，没有加入Java源文，也没有用数字计数器冒充Java UUID的随机生成算法。
++
++## 来源逐行证据
++
++| 固定文件与行号 | 事实与本地映射 |
++| --- | --- |
++| [AbstractCard.java:319](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/AbstractCard.java#L319) | 构造新牌分配新UUID。应用用独立 `nextSourceUid` 为新构造分配来源身份，不消费战斗随机流。 |
++| [AbstractCard.java:804–807](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/AbstractCard.java#L804) | makeSameInstanceOf先做stat-equivalent副本，再把其UUID改为原UUID。对应 `created(state, source, 'same')`，保留sourceUid但分配新combat uid。 |
++| [AbstractCard.java:810–833](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/AbstractCard.java#L810) | makeStatEquivalentCopy从makeCopy的新构造开始，应用升级并复制规定数值，没有覆盖新UUID；818行保留timesUpgraded，831行保留misc。对应new模式的新sourceUid。 |
++| [CardGroup.java:55–59](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java#L55) | 从其他CardGroup建立副本时，对每张牌用makeSameInstanceOf。 |
++| [CardGroup.java:911–914](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java#L911) | 战斗初始化从masterDeck复制DRAW_PILE，所以初始战斗实例应保留永久来源身份。应用的永久 `Run.deck.uid` 映射到其sourceUid；combat uid另分配。 |
++| [GetAllInBattleInstances.java](https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/GetAllInBattleInstances.java) | 按UUID搜cardInUse和draw/discard/exhaust/limbo/hand，以HashSet去重对象。应用返回稳定数组并按对象去重，不宣称HashSet具有本地数组的遍历顺序。 |
++
++连击 `DoubleTapPower` 用makeSameInstanceOf，必须同来源；全知 `OmniscienceAction` 第二次用makeStatEquivalentCopy，必须新来源。两者都需要新的combat uid，不能再把“副本”统一成一种身份操作。
++
++## 稀疏永久UID与独立分配
++
++永久牌组UID不要求从1连续排列。若12张永久牌的UID为1至11和20，战斗实例可分配1至12，下一combat uid为13，但下一新来源必须从21开始。若永久牌组本来还包含source13，combat13仍是合法的另一个命名空间编号；**新生成卡的sourceUid不能因此也取13**。
++
++`init(state, masterDeck)` 必须在任何fromMaster／新生成之前，扫描完整永久牌组，同时扫描已知战斗sourceUid，得到来源最大值。它不会从战斗uid倒推出来源身份。已有更大的合法nextSourceUid会保留，避免已经消失的来源被重用。
++
++模块保存纯数据 `state.cardIdentity`：
++
++- `masterCards`：永久uid到cardId的初始化索引，用于fromMaster校验。
++- `sources`：已知永久来源和已经分配的新来源集合，即使对应卡已经purge也保留。
++- `combatHighWater/sourceHighWater`：已分配的高水位，防止外部回退计数器后重用已经离开当前牌堆的身份。
++
++`init` 幂等，重复调用保留已有元数据表和计数器引用；重复初始化时永久UID／cardId映射必须相同。战斗中永久添加／移除／变换卡牌，需要根核心设计显式更新协议；本模块不默默重建索引或恢复被外部回退的计数器。
++
++## API
++
++| 方法 | 行为 |
++| --- | --- |
++| `init(state, masterDeck)` | 预检四牌堆、可空limbo、cardInUse和稠密永久实例列表。初始化独立nextSourceUid及上述元数据；不创建或移动卡，不修改nextUid，也不替root给旧实例猜sourceUid。 |
++| `allocateCombatUid(state)` | 从nextUid严格分配1个新runtime uid，更新combat高水位。不跳过冲突。调用者需在同一外围事务内取得实际新实例所有权。 |
++| `allocateSourceUid(state)` | 从nextSourceUid严格分配1个新来源，预留source并更新source高水位；不消耗combat uid。 |
++| `created(state, template, 'new')` | 创建未附着的新对象，分配新combat uid和新sourceUid。模板可为无uid的构造数据，也可为已存在实例的受支持stat快照。 |
++| `created(state, original, 'same')` | 原始实例必须是当前四堆／limbo／cardInUse中的实际对象，且已有预留sourceUid。新对象继承该sourceUid，只分配新combat uid；不是把输入快照中的combat uid当来源。 |
++| `fromMaster(state, permanentInstance)` | 永久uid／cardId必须在初始化索引中；分配新combat uid，sourceUid固定为永久uid。保留misc、timesUpgraded、upgraded及已核stat字段，不消费new-source计数器。 |
++| `allBattleInstancesBySourceUid(state, sourceUid)` | 只读返回同来源的实际对象；按hand、draw、discard、exhaust、limbo、cardInUse稳定遍历，重复对象仅一次。同combat uid指向不同对象时拒绝，不把损坏图当作可去重别名。 |
++
++所有创建方法返回的牌尚未入堆，不改手牌、抽牌堆、牌序、能量、历史或RNG。Root应在同一整图事务内调用并立刻入目标堆／limbo；随后若失败，连同nextUid、nextSourceUid、来源预留、高水位和原对象引用一起回滚。没有调用任何卡牌规则函数。
++
++四堆是必须存在的稠密数组，limbo可省略，cardInUse可为空。同一个对象在limbo和cardInUse中作为别名出现可只登记一次；不同对象冒用同一个combat uid则失败。普通单一牌堆归属、手牌上限和移动规则仍由根核心负责。
++
++## 数值边界与复制字段
++
++uid、sourceUid与两个分配器采用有限正整数且 `n+1.0>n` 的护栏，**不限制在32位整数**；以浮点加一避免Fengari的32位整型回绕。`2147483647→2147483648` 合法，`4294967298` 的永久来源合法。NaN、Infinity、非整数、零／负值及失去可递增精度的 `9007199254740992` 拒绝。misc、timesUpgraded和已知数值stat另按源int上限2147483647校验；misc允许源signed-int负值，费用只允许合法的-1／-2哨兵。generation／token不属于此模块，仍由原有INTMAX规则管理。
++
++允许stat-copy的当前实例字段包括misc、timesUpgraded、combatCost、turnCost、damageBonus、storedDiscardCost、retainedBlockBonus／retainedDamageBonus／retainedCostReduction、shivAccuracyBonus、expungerHits、freeToPlayOnce及已核的inBottle／isSeen／isLocked标志。upgraded保留；显式timesUpgraded与upgraded矛盾时拒绝，不凭boolean发明未提供的升级次数。
++
++暂态retain、retainedTurn、ethereal、动态exhaust、exhaustOnUseOnce、purgeOnUse、dontTriggerOnUseCard、isInAutoplay、ignoreEnergyOnUse和energyOnUse不会默认继承。源makeStatEquivalentCopy没有盲拷这些字段。永久固有关键词由目录及升级重新产生；需要purge或exhaustOnce的调用者在正确动作时点显式设置。未知stat字段拒绝，不为了兼容未来模块而盲拷；以后新变异需要新增明确源映射。
++
++本模块只保存复制用的事实，不负责多次升级的实际效果重算、特殊卡自定义makeStatEquivalentCopy、SearingBlow数值或永久升级规则。fromMaster能保留timesUpgraded不表示共享cardDefinition已经正确执行全部多次升级。当前旧Auto.clone仍有32位护栏及自身stat映射，root统一接identity之后才可消除该差异；本任务未改冻结Auto文件。
++
++所有预检在分配或元数据写入之前完成。已存在nextUid／nextSourceUid与对象、永久预留、高水位冲突时直接失败，不“找到下一个没被占用的数字”掩盖损坏。模板拒绝函数、元表、循环和非法标志。合法更大的分配器可能留有空洞；这些空洞也不会回填。
++
++## 定向证据与未完成接入
++
++`node scripts/test-lua.mjs tests/lua/card_identity.lua`：`CARD_IDENTITY_COMPONENT_PASS 25`，2069ms，exit0。测试使用真实Combat.new对象及Snapshot.capture整图恢复，没有mock实际卡牌效果。覆盖12张稀疏永久牌、跨命名空间13、所有已知source扫描、32位跨界、较大永久source、new／same／fromMaster差异、原对象去重、冲突拒绝、未知stat、序列化、幂等初始化、未附着／purge来源预留及原引用回滚。
++
++测试末明确输出 `CARD_IDENTITY_CORE_NOT_CONNECTED`：根核心尚需逐一把初始战斗、临时生成、复制、自动播放、永久Deck／masterDeck和持久化入口改为这些接口。组件成功不能等同于所有sourceUuid依赖牌真实可玩；本任务未改Combat或既有生成器，未跑全量、未提交或推送。
++
++## 固定来源SHA-256
++
++| 文件 | SHA-256 |
++| --- | --- |
++| AbstractCard.java | `bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61` |
++| CardGroup.java | `03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8` |
++| GetAllInBattleInstances.java | `056231bdf229b7b32ba5d62cf722c04155acd521206e6a5be72df7a03f791213` |
++| DoubleTapPower.java | `229c04c01990e446cbc87fab011a373f65734079f542d09c787d35742a3095ee` |
++| OmniscienceAction.java | `caf69d4a2d301da290e6787aaeb0d58f6ee99c77b83205a115a0b9a712cfaeaf` |

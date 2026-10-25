@@ -73,13 +73,14 @@ for _,id in ipairs({"pommel_strike","dropkick"}) do
     end
 end
 for _,companion in ipairs({false,true}) do
-    test("thorns player death preserves existing stop with companion "..tostring(companion),function()
+    test("thorns player death stops before disposal with companion "..tostring(companion),function()
         local s,c=battle("dropkick",false,companion,"discard")
         s.enemies[1].hp=1; s.player.hp=3
         Combat.addStatus(s.enemies[1],"vulnerable",1); Combat.addStatus(s.enemies[1],"thorns",3)
         local seed=s.seed
         assert(Combat.play(s,c.uid,1)); equal(s.phase,"defeat"); equal(s.energy,2)
-        equal(#s.hand,0); equal(#s.discard,3);equal(s.cardInUse,c); equal(s.seed,seed); equal(reshuffles(s),0)
+        equal(#s.hand,0);equal(#s.discard,3);equal(s.cardInUse,c);equal(s.cardInUse.uid,c.uid)
+        equal(#s.exhaust,0);equal(s.seed,seed);equal(reshuffles(s),0)
     end)
 end
 test("damage clear filters actions individually rather than blanket stopping retained block and HP loss",function()

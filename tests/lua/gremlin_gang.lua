@@ -20,7 +20,7 @@ for i,v in ipairs(vectors) do test('literal source vector '..i..' constructs fou
  -- Independent Combat constructor proves slot-to-HP/AI correspondence under
  -- CURRENT separate misc vs shared Combat stream. Not Java cross-stream order.
  local reference=C.new(Data,{seed=run.seed,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),hp=run.hp,gold=run.gold,deck=run.deck,enemies=v[2]})
- same(run.combat,reference)
+ H.sameRunCombat(run,reference)
 end) end
 
 local seeded={
@@ -82,7 +82,7 @@ test('all other 17 encounters keep original slot order, construction and misc co
   assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchanged[e.id]));stable()
   if e.id=='small_slimes' then local wanted=R.cloneState(oldMisc);R.randomBoolean(wanted);same(run.miscRng,wanted)
   else eq(run.miscRng,oldMisc) end
-  same(run.combat,C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck}))
+  H.sameRunCombat(run,C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck}))
  end end
  eq(n,17)
 end)

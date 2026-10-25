@@ -6,11 +6,12 @@ import { deckControls } from './deck-ui-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
 import { prologueControl, vistaControl } from './cinematic-ui-layout.mjs';
+import { experimentalCharacterControls } from './character-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
 export const resultStats = ['floor', 'victories', 'time', 'deck'];
 
-export function gameLayout(theme = nativeTheme) {
+export function gameLayout(theme = nativeTheme, options = {}) {
   const { text, plate, button, frame, centred } = nativeControls(theme);
   const layout = theme.layout.nativeMenu, { color, font, space, image } = theme;
   const battle = structuredClone(battleLayout());
@@ -86,6 +87,7 @@ export function gameLayout(theme = nativeTheme) {
       prologueControl(theme),
       ...deckControls(theme),
       ...potionDiscardControls(theme),
+      ...(options.experimentalCharacters === true ? experimentalCharacterControls(theme) : []),
       ...exitControls(theme),
     ],
   };

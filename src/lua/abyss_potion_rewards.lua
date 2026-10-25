@@ -30,7 +30,7 @@ function P.prepare(run, rewardCount, context)
         -- Poison Potion is Silent-exclusive, never an Ironclad reward.
         -- Effect-only additions wait for the complete source pool integration.
         -- That integration must remove this temporary exclusion, never reroll it.
-        if definition.rarity==rarity and definition.id~='poison_potion' and not definition.acquisitionPending then
+        if definition.rarity==rarity and (definition.id~='poison_potion' or run.character=='silent') and not definition.acquisitionPending then
             pool[#pool+1]=definition.id
         end
     end

@@ -49,11 +49,11 @@ function rejectInputOutputAliases(outputDirectory) {
   }
 }
 
-export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYSS_PYTHON || 'python') {
+export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYSS_PYTHON || 'python', options = {}) {
   // Preflight the entire batch before any generated file can be changed.
   rejectInputOutputAliases(outputDirectory);
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
-  const battle = battleLayout(), layout = withViewport(gameLayout(), theme);
+  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, options), theme);
   const templates = [deckCardTemplate()];
   for (const tree of [battle, layout, ...templates]) assertNativeUiCapacity(tree);
   const rendered = spawnSync(python, ['tools/render_traveler_cards.py', 'data/cards.json', 'data/presentation/traveler.zh-CN.json'],
@@ -74,6 +74,12 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   writeFileSync(join(outputDirectory, 'abyss_ui_templates.lua'), `-- Native template fixtures generated from the import tree.\nreturn ${toLua(Object.fromEntries(templates.map(template => [template.name, template])))}\n`, 'utf8');
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  try { buildUI(process.argv[2]); console.log('Native battle UI and Traveler display module built.'); }
+  try {
+    const args = process.argv.slice(2), experimentalCharacters = args.includes('--experimental-characters');
+    const paths = args.filter(arg => arg !== '--experimental-characters');
+    if (paths.length > 1) throw new Error('Expected at most one output directory');
+    buildUI(paths[0], undefined, { experimentalCharacters });
+    console.log('Native battle UI and Traveler display module built.');
+  }
   catch (error) { console.error(error.message); process.exitCode = 1; }
 }

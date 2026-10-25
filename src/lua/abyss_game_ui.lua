@@ -26,6 +26,10 @@ function M.new(root, data, presentation, clickEvent, platform)
     local menu = child("menuPanel")
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local exitGeneration, menuGeneration = 0, 0
+    local experimental = platform.experimentalCharacters == true
+    local characterPanel = root:GetChild("characterPanel")
+    if experimental then assert(characterPanel and root:GetChild("choicePanel"), "experimental class layout required") end
+    local characterIds = {"ironclad", "silent", "defect", "watcher"}
     local menuRun, menuMode
     local requestSettlement
     local ready = false
@@ -33,7 +37,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
         platform, { embedded = true, onChange = changed })
     self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, previewSeed), function(node)
-        if not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
+        if self.disabled or not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
@@ -43,8 +47,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
             cursorEvents = platform.cursorEvents, sound = platform.sound })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
+    if experimental then
+        self.choiceUI = require("abyss_choice_ui").new(child("choicePanel"),presentation,clickEvent,platform,
+            function(kind,uids,token,generation)
+                return self.battleUI:chooseCards(kind,uids,token,generation)
+            end)
+    end
     local function canManagePotions(run)
-        return run~=nil and self.run==run and not self.exitOpen and not self.deckUI.visible
+        return not self.disabled and run~=nil and self.run==run and not self.exitOpen and not self.deckUI.visible
+            and not (self.choiceUI and self.choiceUI.visible)
             and not self.battleUI.busy and not self.settlementBusy and not self.settlementRequested
             and (self.mode=="map" or self.mode=="battle" or self.mode=="node")
             and (run.phase=="map" or run.phase=="node" or run.phase=="reward" or run.phase=="combat")
@@ -70,7 +81,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     elseif prologuePanel then prologuePanel:SetVisible(false) end
 
     function self:openExit()
-        if self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
         self.potionUI:close()
         self.exitOpen, self.exitError = true, nil
@@ -87,6 +98,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     function self:confirmExit()
+        if self.disabled then return false,"ui_disabled" end
         if not self.exitOpen then return false, "exit_not_open" end
         -- Voluntary departure never changes combat HP, awards a victory, or
         -- fakes a defeated Run. An already-earned victory keeps its outcome.
@@ -94,7 +106,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
 
     function self:openDeck()
-        if self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
+        if self.disabled or self.characterOpen or self.choiceUI and self.choiceUI.visible or self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
         if not self.deckUI:open(self.run) then return false end
         self.battleUI.selected = nil
@@ -234,6 +246,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
 
     function self:refresh()
+        if self.disabled then return false,"ui_disabled" end
         local run = self.run
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
@@ -256,6 +269,13 @@ function M.new(root, data, presentation, clickEvent, platform)
             menuRun, menuMode = run, self.mode
         end
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
+        if self.characterOpen and (not inMenu or self.settlementRequested or self.settlementBusy) then
+            self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+        end
+        if self.choiceUI then
+            self.choiceUI:refresh(run,not self.battleUI.busy and not self.exitOpen and not self.settlementRequested
+                and not self.settlementBusy and not self.deckUI.visible and not self.potionUI.visible)
+        end
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
         if run and run.phase=="combat" and run.combat.pendingChoice and not self.battleUI.busy
             and not self.deckUI.visible and not self.exitOpen then
@@ -267,7 +287,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         local deckOpen = self.deckUI.visible
         if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
         local potionOpen=self.potionUI.visible
-        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy
+        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen
+            or self.choiceUI and self.choiceUI.visible
         local returnAvailable = self.mode == "map" and run and run.pendingCombatRewards ~= nil
             and not deckOpen and not potionOpen and not blocked and not covering or false
         if self.rewardReturnAvailable ~= returnAvailable then
@@ -320,6 +341,11 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode == "node" then self.nodeUI:render() end
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
+        if characterPanel then
+            characterPanel:SetVisible(self.characterOpen==true)
+            if self.characterOpen then characterPanel:SetAsLastSibling() end
+        end
+        if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
         -- Shared utilities stay above the deck overlay; the confirmation stays
         -- above every page, including an in-flight battle presentation.
         exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
@@ -339,16 +365,39 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
         end
     end
-    function self:start()
+    function self:closeCharacters()
+        if not self.characterOpen then return false end
+        self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+        self:refresh();return true
+    end
+    function self:start(character)
+        if self.disabled then return false,"ui_disabled" end
         if self.exitOpen or self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
+        if experimental and character==nil then
+            if self.characterOpen then return false end
+            self.characterOpen=true;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+            self:refresh();return true, "character_choice"
+        end
+        if character~=nil and not experimental then return false, "experimental_characters_disabled" end
+        if experimental then
+            local valid=false;for _,id in ipairs(characterIds) do if id==character then valid=true end end
+            if not valid then return false, "unknown_character" end
+        end
         -- Restarting from a result goes straight back to the map: the story is told once.
         local opening = self.mode == "menu" and not self.prologueSeen
         local explicitSeed = self.seed ~= nil
         local seed = explicitSeed and self.seed or newSeed()
         local rawSeed=RunSeed.normalize(seed)
-        local run, map = Run.new(data, rawSeed), Map.generate(data, rawSeed)
+        local run = Run.new(data,rawSeed,experimental and {experimental=true,character=character} or nil)
+        local runPresentation = experimental and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
+        local map = Map.generate(run.data,rawSeed)
+        self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+        self.battleUI:setData(run.data,runPresentation)
+        self.nodeUI.presentation=runPresentation
+        self.deckUI:setPresentation(runPresentation)
+        if self.choiceUI then self.choiceUI:close();self.choiceUI:setPresentation(runPresentation) end
         self.run, self.map, self.runSeed = run, map, rawSeed
         self.settlementRequested, self.settlementBusy, self.settlementError = false, false, nil
         if explicitSeed then self.seed = type(seed)=='number' and (seed + 1) % 65536 or RunSeed.increment(rawSeed) end
@@ -366,12 +415,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     function self:settle()
+        if self.disabled then return false,"ui_disabled" end
+        if self.characterOpen then return false, "character_choice_open" end
         if self.exitOpen then return false, "exit_open" end
         if self.deckUI.visible then return false, "deck_open" end
         if self.mode ~= "victory" and self.mode ~= "defeat" then return false, "not_result" end
         return requestSettlement(self.mode == "victory")
     end
     requestSettlement = function(victory)
+        if self.disabled then return false,"ui_disabled" end
         if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
         if type(platform.settle) ~= "function" then
             self.exitError = self.exitOpen == true
@@ -394,6 +446,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     function self:resize(width, height)
         exitGeneration = exitGeneration + 1
+        menuGeneration = menuGeneration + 1
+        if self.choiceUI then self.choiceUI:resize() end
         local closed=self.potionUI:close()
         self.battleUI:resize(width, height)
         self.mapUI:resize(width, height)
@@ -401,6 +455,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if closed then self:refresh()end
     end
     function self:update(dt)
+        if self.disabled then return false,"ui_disabled" end
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
             return false, "invalid_delta"
         end
@@ -422,6 +477,23 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.deckUI:update()
         return self.mapUI:update(dt)
     end
+    function self:disable()
+        if self.disabled then return false end
+        self.disabled=true
+        exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+        self.characterOpen=false
+        if characterPanel then characterPanel:SetVisible(false) end
+        -- Set every controller inert before cancelling feedback: cancellation
+        -- invokes its completion callback synchronously, which now cannot refresh.
+        self.battleUI.active=false
+        self.mapUI:setVisible(false)
+        self.nodeUI:setVisible(false)
+        if self.choiceUI then self.choiceUI:close() end
+        self.potionUI:close();self.deckUI:close()
+        if self.prologue then self.prologue:cancel() end
+        self.battleUI.feedback:cancel()
+        return true
+    end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
     child("potionEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()return self:openPotions()end)
     exitPanel.disableCursorEventPassthrough = true
@@ -431,9 +503,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         local held, released, observed
         local resultAction = kind == "start" or kind == "settle"
         local rewardAction = kind == "combatRewards"
+        local characterAction = kind == "character_cancel" or kind:match("^character_%d$")~=nil
         local cursor = platform.cursorEvents or {}
         local function available()
-            if self.settlementRequested or self.settlementBusy then return false end
+            if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if characterAction then
+                return experimental and self.characterOpen==true and not self.exitOpen
+                    and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
+            end
+            if self.characterOpen then return false end
             if rewardAction then
                 return self.rewardReturnAvailable == true and self.mode == "map" and self.run and self.run.phase == "map" and self.run.pendingCombatRewards ~= nil
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
@@ -447,7 +525,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local function current(token)
             return token and token.generation == exitGeneration and token.run == self.run
-                and (not resultAction or token.menuGeneration == menuGeneration) and available()
+                and (not resultAction and not characterAction or token.menuGeneration == menuGeneration) and available()
                 and (not rewardAction or token.menuGeneration == menuGeneration and token.pending == self.run.pendingCombatRewards
                     and token.rewardGeneration == self.rewardReturnGeneration)
         end
@@ -498,6 +576,17 @@ function M.new(root, data, presentation, clickEvent, platform)
     bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
     bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
     bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
+    if characterPanel then
+        characterPanel.disableCursorEventPassthrough=true
+        characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
+        bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end)
+        for i,id in ipairs(characterIds) do
+            bindCommand(characterPanel:GetChild("character"..i),"character_"..i,function()
+                if not self.characterOpen then return false end
+                return self:start(id)
+            end)
+        end
+    end
     ready = true
     self:refresh()
     return self

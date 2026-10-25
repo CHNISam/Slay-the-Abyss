@@ -1,5 +1,7 @@
 # 交接说明
 
+四职业整合收口：保留生产75战士和显式实验66/61/56/55，完整本地check退出0（JS1368/Lua345/Python22，714输入hash未变）。交接入口 [四职业卡牌整合](CLASS_CARD_HANDOFF.md)，未接模块已归档docs/drafts/class-final；四职业完整300及实机验收仍未勾选。
+
 2026-10-25 M3真实提交抓到TASK-55 hook环境缺陷：继承的GIT_INDEX_FILE使跨树来源核对误读当前暂存区，六源完整快照实际未变。修复只净化来源Git子进程的本地上下文，保留父进程与远端认证；真实hook提交/来源不变及真漂移、错session拒绝回归已通过。当前SHA完整CI及合入仍须核对。M3暂存成果保留在m3-serial-integration，最终阶段未推进；旧树只读不清理，离线候选仅写独立产物。证据见[evidence/task-claim-validation-20261025.json](evidence/task-claim-validation-20261025.json)。
 
 2026-10-25 M3迁移修复：TASK-55补充只读 `migration-snapshot`、bootstrap CAS `migration-reconcile` 与指定主线程的分阶段 `adopt --group --stage`。旧 TASK-0/粗范围记录完整保留；同组只读源、真实执行目标及外部持有者分别核验，文件范围精确枚举，外部交接指纹持续复查。六个M3源树、warrior75和根在途修改均未清理或改写。协议合入不等于业务已迁移，后续仍须实际持有者确认并串行交接；paused与组外未知保持原状。用法与审计见[执行权指南](REMOTE_TASK_CLAIMS.md#task-0-与粗范围的受控迁移)，真实Git回归及当前SHA CI证据见[验证记录](evidence/task-claim-validation-20261025.json)。

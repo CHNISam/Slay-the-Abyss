@@ -63,7 +63,8 @@ for _, case in ipairs({
         local before = Combat.copy(s)
         local preview = Combat.attackAmount(s, s.player, s.enemies[1], s.player.block)
         equal(preview, case.expected); same(s, before)
-        assert(Combat.play(s, s.hand[1].uid, 1))
+        local played=s.hand[1]
+        assert(Combat.play(s, played.uid, 1))
         local e = damageEvent(s)
         equal(e.amount + e.blocked, preview); equal(s.player.block, case.block)
     end)
@@ -101,9 +102,11 @@ for _, case in ipairs({
         s.player.block, s.player.hp = case.block, case.hp
         s.enemies[1].hp, s.enemies[1].block = case.enemyHp, case.enemyBlock or 0
         Combat.addStatus(s.enemies[1], "thorns", 3)
-        assert(Combat.play(s, s.hand[1].uid, 1))
+        local played=s.hand[1]
+        assert(Combat.play(s, played.uid, 1))
         equal(s.phase, case.phase); equal(s.player.hp, case.hp - case.lost); equal(s.player.block, math.max(0, case.block - (case.block > 0 and 3 or 0)))
-        equal(#s.discard,s.player.hp>0 and 1 or 0)
+        if s.player.hp<=0 then equal(#s.discard,0);equal(s.cardInUse,played)
+        else equal(#s.discard,1);equal(s.discard[1],played);equal(s.cardInUse,nil) end
     end)
 end
 local function win(seed)

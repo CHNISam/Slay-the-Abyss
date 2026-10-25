@@ -1,0 +1,35 @@
+{
+  "worktree": "/workspace/sts-selection",
+  "status": "paused; unmerged; excluded from238",
+  "patch": "/tmp/card-identity-integration-unmerged.patch",
+  "baselineHashes": {
+    "abyss_combat.lua": "80a987e38c146ad673eb8683caa22968ad55da653a81e538450e65832e49c552",
+    "abyss_build_actions.lua": "06869bb5e82afd69b3cd369bbd90c4a5cbe02284c60876cc500e58da5e091c3b",
+    "abyss_silent.lua": "0d07f271188fd00da9a753ee74e4b7c6fe04d32d044ccfe65081654b89655903",
+    "abyss_effects.lua": "7d0b9d422062c6234055c30ef5161ed95b48eec446848904ff8396ea12863db3",
+    "abyss_inventory.lua": "97018de7700140c645cb2856cadf980c3d4f737d46b0e53b6bcf37a6eb6653f5"
+  },
+  "fileHashes": {
+    "src/lua/abyss_combat.lua": "7801cb23c70d7342b8043de99ef20635379ad4c4d9ce7173b6d5e081e5363844",
+    "src/lua/abyss_build_actions.lua": "797fe2425c9e2f2f517a73e903478202448c17237f5451923f757f60bde52373",
+    "src/lua/abyss_silent.lua": "ef5afd97d89ebdc80dd958643a155dad0ffed288db79db50d3654fb541c48eee",
+    "src/lua/abyss_effects.lua": "51a5b8dc2994178b912167704c284d2862bcdcbbaf98f975a73d77990349471a",
+    "src/lua/abyss_inventory.lua": "dc51c6aeefbb5c78256937904b06664c89aade1052daea959901da5484689b2c",
+    "src/lua/abyss_card_identity.lua": "ee0ce54aa12e18a530feec24eede904afbcd3193beca4812e9504f5f957be4fb",
+    "tests/lua/card_identity.lua": "2b6cfc74b27fa192ceb7e84d6961058c3be2db86784f02cdf1a7758767b34fba",
+    "docs/rules/CARD_IDENTITY.md": "7d5ae39a58bcc414522880c970ce6c9cbaa5b400378ad477184a50b5f1b2588c"
+  },
+  "tested": [
+    "card_identity25 (2264ms)",
+    "copied_attack34 (3413ms, latest root fixture)",
+    "watcher_attack_build23 (3216ms)"
+  ],
+  "unverified": [
+    "Last preflightCreated floating addition correction not rerun after pause",
+    "silent_shivs case22 failure expects silent_generate; current Flow turn_powers routes Build.makeCard/cards_created; baseline equivalence not yet checked",
+    "No dedicated integration fixture created yet",
+    "PureWater/Inventory initialization integration not separately tested",
+    "No full suite; no commit/push/root integration",
+    "CARD_IDENTITY.md remains component-stage text and needs integration wording update before future merge"
+  ]
+}

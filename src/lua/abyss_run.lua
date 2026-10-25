@@ -6,6 +6,7 @@ local Unknown = require("abyss_unknown")
 local EventPool = require("abyss_event_pool")
 local PotionRewards = require("abyss_potion_rewards")
 local CardPool = require("abyss_card_pool")
+local Capability = require("abyss_card_capability")
 local GoldRewards = require("abyss_gold_rewards")
 local RunSeed = require("abyss_run_seed")
 local EncounterQueue = require("abyss_encounter_queue")
@@ -17,7 +18,13 @@ local function find(entries, id)
     for _, entry in ipairs(entries) do if entry.id == id then return entry end end
 end
 
-function M.new(data, seed)
+function M.new(data, seed, options)
+    local profile
+    if options ~= nil then
+        assert(type(options) == "table" and options.experimental == true,
+            "non-default characters require explicit experimental mode")
+        data, profile = require("abyss_character_profiles").prepare(data, options.character)
+    end
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
@@ -33,6 +40,7 @@ function M.new(data, seed)
         elapsedSeconds = 0, victories = 0,
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
+    if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
     for _, id in ipairs(data.cards.starter_deck.cards) do
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
@@ -43,6 +51,10 @@ end
 local function startEncounter(run, encounter, sourceRoom)
     if run.phase ~= "map" then return false, "not_on_map" end
     if not encounter then return false, "unknown_encounter" end
+    local generation = run.combatGeneration or 0
+    if type(generation) ~= "number" or generation % 1 ~= 0 or generation < 0 or generation >= 2147483647 then
+        return false, "invalid_combat_generation"
+    end
     if not sourceRoom and (run.floor < encounter.minFloor or run.floor > encounter.maxFloor) then return false, "wrong_floor" end
     local opening, reason = Inventory.opening(run.data.relics.relics, run.relics)
     if not opening then return false, reason end
@@ -72,9 +84,25 @@ local function startEncounter(run, encounter, sourceRoom)
         end
     end
     local battle
-    local options={seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
-        cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),
-        beforeOpeningDraw=function(state)return Inventory.applyOpening(state,opening.beforeDraw)end}
+    local options={cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
+        beforeOpeningDraw=function(state)
+            if opening.preDraw then
+                local ok, reason = Inventory.applyOpening(state,opening.preDraw)
+                if not ok then return false, reason end
+            end
+            return Inventory.applyOpening(state,opening.beforeDraw)
+        end}
+    if opening.preBattle then
+        options.beforeFirstTurn=function(state)return Inventory.applyOpening(state,opening.preBattle)end
+    end
+    if run.character then
+        options.cardRandomSeed=run.runSeed
+        options.enableStances=true
+        options.orbSlots=run.character=='defect' and 3 or 0
+        -- Normal rooms supply the exact room stream; explicit replay battles
+        -- use an explicitly named independent stream, never the legacy LCG.
+        options.orbRandomSeed = run.runSeed
+    end
     if sourceRoom then
         options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
         if encounter.sourceEncounter then
@@ -93,6 +121,8 @@ local function startEncounter(run, encounter, sourceRoom)
     local ok
     ok, reason = Inventory.applyOpening(battle, opening.afterDraw)
     if not ok then return false, reason end
+    run.combatGeneration = generation + 1
+    battle.combatGeneration=run.combatGeneration
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
     run.encounterSource,battle.encounterSource=encounter.source,encounter.source
     if nextMiscRng then run.miscRng = nextMiscRng end
@@ -142,7 +172,7 @@ function M.startRoomCombat(run,tier)
     if not called then return false,'combat_unavailable' end
     if not ok then return false,reason end
     staged.miscRng=room.miscRng
-    for _,key in ipairs({'combat','encounterId','encounterTier','encounterSource','phase','miscRng'})do run[key]=staged[key]end
+    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng'})do run[key]=staged[key]end
     if nextQueue then run.encounters=nextQueue end
     run.roomGeneration=run.roomGeneration+1
     run.pendingCombatRewards=nil
@@ -176,6 +206,18 @@ function M.restoreEncounters(run,snapshot)
     return true
 end
 
+local function rewardCandidates(run)
+    local candidates = {}
+    for _, card in ipairs(run.data.cards.cards) do
+        if card.type ~= "status" and card.type ~= "curse"
+            and card.rarity ~= "basic" and card.rarity ~= "special"
+            -- Boss rewards are rare-only; other tiers retain their current pool.
+            and (run.encounterTier ~= "boss" or card.rarity == "rare")
+            and Capability.isImplemented(card) then candidates[#candidates + 1] = card.id end
+    end
+    return candidates
+end
+
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
@@ -207,8 +249,19 @@ local function finishCombat(run)
         assert(type(gold) == "number", "unknown encounter reward tier")
         if allEscaped then gold = 0 end
     end
-    local choices,nextCardRng,offset=CardPool.prepareRewards(run)
-    run.cardRng,run.cardRarityOffset=nextCardRng,offset
+    local choices
+    if run.characterProfile then
+        -- Explicit experimental subsets retain their documented own-class
+        -- sampler. The production source pool is Ironclad-only.
+        local pool=rewardCandidates(run);choices={}
+        for _=1,math.min(run.data.rules.rewards.cardChoices,#pool) do
+            choices[#choices+1]=table.remove(pool,Combat.random(run,#pool))
+        end
+    else
+        local nextCardRng,offset
+        choices,nextCardRng,offset=CardPool.prepareRewards(run)
+        run.cardRng,run.cardRarityOffset=nextCardRng,offset
+    end
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,
@@ -350,6 +403,51 @@ function M.play(run, uid, targetIndex)
     return ok, reason
 end
 
+-- Selection commands carry a battle generation in addition to the per-battle
+-- selection token. A delayed command from an old battle cannot choose new cards.
+function M.chooseDiscard(run, uids, token, generation)
+    if run.phase ~= "combat" then return false, "not_in_combat" end
+    if generation ~= run.combatGeneration then return false, "stale_combat_generation" end
+    local ok,reason=Combat.chooseDiscard(run.combat,uids,token)
+    if ok then
+        run.gold=run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
+    return ok,reason
+end
+function M.choosePile(run,uids,token,generation)
+    if run.phase~='combat' then return false,'not_in_combat' end
+    if generation~=run.combatGeneration then return false,'stale_combat_generation' end
+    local ok,reason=Combat.choosePile(run.combat,uids,token,generation)
+    if ok then
+        run.gold=run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
+    return ok,reason
+end
+
+function M.chooseScry(run, uids, token, generation)
+    if run.phase ~= "combat" then return false, "not_in_combat" end
+    if generation ~= run.combatGeneration then return false, "stale_combat_generation" end
+    local ok, reason = Combat.chooseScry(run.combat, uids, token)
+    if ok then
+        run.gold = run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
+    return ok, reason
+end
+
+function M.chooseHand(run,uids,token,generation)
+    if run.phase~="combat" then return false,"not_in_combat" end
+    if generation~=run.combatGeneration then return false,"stale_combat_generation" end
+    local ok,reason=Combat.chooseHand(run.combat,uids,token)
+    if ok then
+        run.gold=run.combat.player.gold
+        if Combat.outcome(run.combat) then M.finishCombat(run) end
+    end
+    return ok,reason
+end
+
 function M.endTurn(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.endTurn(run.combat)
@@ -405,6 +503,10 @@ local function potionCandidate(run, slot, targetIndex)
     if run.phase ~= "combat" then return nil, "not_in_combat" end
     if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end
     if run.combat.pendingChoice or run.combat.cardActions then return nil,"card_choice_pending" end
+    -- The source can queue non-target potions behind a selection screen. Until
+    -- the shared queue supports that delay, refuse instead of resolving early.
+    if run.combat.pendingDiscard then return nil, "unsupported_potion_during_discard" end
+    if run.combat.pendingScry or run.combat.pendingPlay then return nil, "unsupported_potion_during_selection" end
     if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
         return nil, "invalid_potion_slot"
     end
