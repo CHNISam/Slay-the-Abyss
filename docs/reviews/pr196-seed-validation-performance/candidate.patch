@@ -1,0 +1,171 @@
+--- a/src/lua/abyss_randomxs128.lua
++++ b/src/lua/abyss_randomxs128.lua
+@@ -63,13 +63,20 @@
+     for _,h in ipairs({'ff51afd7ed558ccd','c4ceb9fe1a85ec53'}) do a=mul(xor(a,shift(a,33,false)),parse(h)) end
+     return xor(a,shift(a,33,false))
+ end
+-function R.fromSeed(seed)
++local function validateSeed(seed)
+     assert(type(seed)=='string' and #seed<=20,'Seed must be a signed decimal string')
+     local negative=seed:sub(1,1)=='-';local digits=negative and seed:sub(2) or seed
+     assert(digits=='0' or digits:match('^[1-9][0-9]*$'),'Noncanonical seed')
+     assert(not (negative and digits=='0'),'Noncanonical negative zero')
+     local limit=negative and '9223372036854775808' or '9223372036854775807'
+     assert(#digits<#limit or (#digits==#limit and digits<=limit),'Seed outside signed64')
++    return negative,digits
++end
++function R.validateSeed(seed)
++    validateSeed(seed);return true
++end
++function R.fromSeed(seed)
++    local negative,digits=validateSeed(seed)
+     local a=word()
+     for i=1,#digits do a=add(mul(a,word(10)),word(tonumber(digits:sub(i,i)))) end
+     if negative then for i=1,4 do a[i]=65535-a[i] end;a=add(a,word(1)) end
+--- a/src/lua/abyss_sts_random.lua
++++ b/src/lua/abyss_sts_random.lua
+@@ -66,6 +66,10 @@
+ function R.fromSeed(seed,...)
+     assert(select('#',...)==0, 'Unsupported extra arguments')
+     return {primitive=P.fromSeed(seed),counter=0}
++end
++function R.validateSeed(seed,...)
++    assert(select('#',...)==0, 'Unsupported extra arguments')
++    return P.validateSeed(seed)
+ end
+ function R.snapshot(s)
+     validate(s)
+--- a/src/lua/abyss_run_seed.lua
++++ b/src/lua/abyss_run_seed.lua
+@@ -7,7 +7,7 @@
+         assert(seed==seed and math.abs(seed)<=9007199254740991 and seed%1==0,'seed must be a finite safe integer or signed64 string')
+         seed=seed==0 and '0' or string.format('%.0f',seed)
+     end
+-    Random.fromSeed(seed) -- Existing canonical signed64 validator, no RNG draws.
++    Random.validateSeed(seed) -- Same canonical signed64 validator, without constructing an RNG.
+     return seed
+ end
+ function M.legacy(seed)
+--- a/src/lua/abyss_map_topology.lua
++++ b/src/lua/abyss_map_topology.lua
+@@ -6,7 +6,7 @@
+ 
+ function T.seedForActOne(seed, ...)
+     assert(select('#', ...) == 0, 'Unsupported extra arguments')
+-    Random.fromSeed(seed) -- Reuse strict canonical signed64 validation, no draw.
++    Random.validateSeed(seed) -- Reuse strict canonical signed64 validation without constructing an RNG.
+     if seed == '9223372036854775807' then return '-9223372036854775808' end
+     local negative = seed:sub(1, 1) == '-'
+     local digits = negative and seed:sub(2) or seed
+--- /dev/null
++++ b/tests/lua/run_seed_validation.lua
+@@ -0,0 +1,109 @@
++-- Reuse the canonical signed64 validator without constructing disposable RNGs.
++package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
++local P,R,Seed,Topology=require('abyss_randomxs128'),require('abyss_sts_random'),require('abyss_run_seed'),require('abyss_map_topology')
++assert(type(P.validateSeed)=='function' and type(R.validateSeed)=='function','pure seed validation API is missing')
++local count=0
++local function eq(a,b,label)assert(a==b,(label or 'value')..': '..tostring(a)..' ~= '..tostring(b))end
++local function bad(fn,message)
++ local ok,err=pcall(fn);assert(not ok,'must reject')
++ eq(tostring(err):match(':%d+: (.*)$'),message,'rejection')
++end
++local function test(name,fn)fn();count=count+1;print('ok '..count..' - '..name)end
++test('canonical signed64 strings retain the constructor acceptance set',function()
++ for _,seed in ipairs({'0','1','-1','9','10','99','100','-9','-10','-99','-100',
++  '9007199254740991','-9007199254740991','2780424839485660359',
++  '9223372036854775807','-9223372036854775808'})do
++  assert(P.validateSeed(seed));assert(R.validateSeed(seed))
++  assert(P.fromSeed(seed));assert(R.fromSeed(seed));eq(Seed.normalize(seed),seed)
++ end
++end)
++test('invalid inputs retain exact strict rejection reasons and do not invoke metamethods',function()
++ local cases={
++  {'','Noncanonical seed'},{'-','Noncanonical seed'},{'--1','Noncanonical seed'},
++  {'00','Noncanonical seed'},{'01','Noncanonical seed'},{'-01','Noncanonical seed'},
++  {'+1','Noncanonical seed'},{' 1','Noncanonical seed'},{'1 ','Noncanonical seed'},
++  {'1.0','Noncanonical seed'},{'1e3','Noncanonical seed'},{'1\n','Noncanonical seed'},
++  {'-0','Noncanonical negative zero'},
++  {'9223372036854775808','Seed outside signed64'},{'-9223372036854775809','Seed outside signed64'},
++  {'999999999999999999999','Seed must be a signed decimal string'},
++  {1,'Seed must be a signed decimal string'},{true,'Seed must be a signed decimal string'},
++  {false,'Seed must be a signed decimal string'},{nil,'Seed must be a signed decimal string'},
++ }
++ local invoked=false
++ cases[#cases+1]={setmetatable({},{__index=function()invoked=true end,__len=function()invoked=true end,__tostring=function()invoked=true end}),'Seed must be a signed decimal string'}
++ for _,case in ipairs(cases)do
++  for _,fn in ipairs({P.validateSeed,R.validateSeed,P.fromSeed,R.fromSeed,Topology.seedForActOne})do
++   bad(function()fn(case[1])end,case[2])
++  end
++ end
++ assert(not invoked)
++end)
++test('number normalization and floor validation keep their original boundaries',function()
++ eq(Seed.normalize(nil),'1');eq(Seed.normalize(0),'0');eq(Seed.normalize(-0.0),'0')
++ eq(Seed.normalize(9007199254740991),'9007199254740991');eq(Seed.normalize(-9007199254740991),'-9007199254740991')
++ for _,value in ipairs({9007199254740992,-9007199254740992,1.5,0/0,math.huge,-math.huge})do
++  bad(function()Seed.normalize(value)end,'seed must be a finite safe integer or signed64 string')
++ end
++ for _,value in ipairs({-1,18,0.5,0/0,math.huge,-math.huge,'1',true,{}})do
++  bad(function()Seed.forFloor('not a seed',value)end,'invalid room floor')
++ end
++ bad(function()Seed.forFloor('not a seed',nil)end,'invalid room floor')
++ for floor=0,17 do eq(Seed.forFloor(42,floor),tostring(42+floor))end
++ eq(Seed.forFloor(nil,5),'6')
++end)
++test('decimal increments and long wrap retain literal boundary results',function()
++ local vectors={
++  {'-9223372036854775808','-9223372036854775807',17,'-9223372036854775791'},
++  {'-100','-99',17,'-83'},{'-10','-9',17,'7'},{'-1','0',17,'16'},
++  {'0','1',17,'17'},{'9','10',17,'26'},{'99','100',17,'116'},
++  {'9223372036854775790','9223372036854775791',17,'9223372036854775807'},
++  {'9223372036854775807','-9223372036854775808',17,'-9223372036854775792'},
++ }
++ for _,v in ipairs(vectors)do
++  eq(Seed.increment(v[1]),v[2]);eq(Topology.seedForActOne(v[1]),v[2]);eq(Seed.forFloor(v[1],v[3]),v[4])
++ end
++ eq(Seed.legacy('0'),0);eq(Seed.legacy('-1'),65535);eq(Seed.legacy('65536'),0)
++ eq(Seed.legacy('-65537'),65535);eq(Seed.legacy('9223372036854775807'),65535);eq(Seed.legacy('-9223372036854775808'),0)
++end)
++test('existing and new wrapper overload boundaries remain strict',function()
++ for _,fn in ipairs({R.fromSeed,R.validateSeed,Topology.seedForActOne})do
++  bad(function()fn('1',nil)end,'Unsupported extra arguments')
++  bad(function()fn('invalid',5)end,'Unsupported extra arguments')
++ end
++ assert(P.validateSeed('1',nil));assert(P.fromSeed('1',nil))
++ eq(Seed.normalize('1',nil),'1');eq(Seed.increment('1',nil),'2');eq(Seed.forFloor('1',1,nil),'2')
++end)
++test('validation and identity derivation never call either RNG constructor',function()
++ local oldPrimitive,oldWrapper=P.fromSeed,R.fromSeed
++ P.fromSeed=function()error('unexpected primitive RNG construction')end
++ R.fromSeed=function()error('unexpected wrapper RNG construction')end
++ local ok,why=pcall(function()
++  for _,seed in ipairs({'0','-1','2780424839485660359','9223372036854775807','-9223372036854775808'})do
++   assert(P.validateSeed(seed));assert(R.validateSeed(seed));eq(Seed.normalize(seed),seed)
++   Seed.legacy(seed);Seed.increment(seed);Seed.forFloor(seed,17);Topology.seedForActOne(seed)
++  end
++ end)
++ P.fromSeed,R.fromSeed=oldPrimitive,oldWrapper;assert(ok,why)
++end)
++test('RNG initialization and first draw retain fixed independent source vectors',function()
++ -- Exact rows from tests/fixtures/libgdx-rng-source-vectors.json; no regenerated oracle.
++ local vectors={
++  {'0',{'8f780810af31a493','d1f9a22af8e83383'},'28d01376a138a279'},
++  {'1',{'b456bcfc34c2cb2c','7d6e4ac38b2b1be2'},'34913d26a7e2cd2f'},
++  {'-1',{'64b5720b4b825f21','fa605f44aea3667d'},'95d13c1b62c7ec73'},
++  {'9223372036854775807',{'abb93df0a930edea','e72306068b6e596a'},'9bf1905658ca74a4'},
++  {'-9223372036854775808',{'8f780810af31a493','d1f9a22af8e83383'},'28d01376a138a279'},
++  {'2780424839485660359',{'6a3b996fdebec042','da7b1a134bf15d5a'},'e22accd39580436f'},
++  {'65536',{'555f7fd549f70ef4','0e39d0ab31c467a8'},'bffbdbb28032c213'},
++  {'4294967296',{'ba3a9e160a5f1419','fb1d4baee9c9c94e'},'453fee42da53fed0'},
++  {'6148914691236517205',{'bfa76d135217973d','6789165d735fc6ae'},'b91081f8e2416732'},
++  {'-6148914691236517206',{'df6f9107dbf4372b','3523229b31fa3c52'},'9ec48a6634c2c6e1'}
++ }
++ for _,v in ipairs(vectors)do
++  local p,w=P.fromSeed(v[1]),R.fromSeed(v[1]);local ps,ws=P.snapshot(p),R.snapshot(w)
++  eq(ps[1],v[2][1]);eq(ps[2],v[2][2]);eq(ws.words[1],v[2][1]);eq(ws.words[2],v[2][2]);eq(ws.counter,0)
++  eq(P.next64Hex(p),v[3]);eq(R.randomLongHex(w),v[3])
++  ps,ws=P.snapshot(p),R.snapshot(w);eq(ws.words[1],ps[1]);eq(ws.words[2],ps[2]);eq(ws.counter,1)
++ end
++end)
++print('RUN_SEED_VALIDATION_PASS '..count)

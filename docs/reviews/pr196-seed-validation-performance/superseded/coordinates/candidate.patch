@@ -1,0 +1,42 @@
+--- a/tests/lua/play_area_coordinates.lua
++++ b/tests/lua/play_area_coordinates.lua
+@@ -1,6 +1,21 @@
+ -- Exercise registered native controls with real GameUI, Run, Combat and Feedback.
+ -- The host event facade supplies coordinates; no play/feedback implementation is mocked.
+ local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
++local Map = require("abyss_map")
++local generateMap, coldMap = Map.generate, nil
++-- These input cases all start with the same seed/data. Reuse only the cold map
++-- generation, never a live host, Run, Combat, control or feedback state.
++local function setupFixture()
++    Map.generate = function(data, seed)
++        assert(data == H.F.Data and (seed == 1 or seed == "1"), "unexpected coordinate fixture map")
++        if not coldMap then coldMap = generateMap(data, seed) end
++        return H.F.Combat.copy(coldMap)
++    end
++    local result = table.pack(pcall(H.setup))
++    Map.generate = generateMap
++    assert(result[1], result[2])
++    return table.unpack(result, 2, result.n)
++end
+ local passed, failed = 0, 0
+ local function test(name, fn)
+     local ok, why = pcall(fn)
+@@ -11,7 +26,7 @@
+     return {touchId = touch, GetUIPos = function() return x, y end}
+ end
+ local function setup()
+-    local host, ui, panel, event, tap, drain = H.setup()
++    local host, ui, panel, event, tap, drain = setupFixture()
+     tap("card1", 7)
+     return {host = host, ui = ui, panel = panel, event = event, tap = tap, drain = drain,
+         battle = host.run.combat, field = panel:GetChild("playArea"):GetChild("hit")}
+@@ -118,7 +133,7 @@
+     end
+ end)
+ test("click-only host still confirms on the distinct field", function()
+-    local host, ui, panel = H.setup()
++    local host, ui, panel = setupFixture()
+     panel:GetChild("card1"):GetChild("hit").click()
+     panel:GetChild("playArea"):GetChild("hit").click()
+     assert(host.run.combat.energy==2 and host.run.combat.player.block==5 and #host.run.combat.hand==1)
