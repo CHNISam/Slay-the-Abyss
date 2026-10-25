@@ -1,0 +1,167 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceKind": "fixed community decompile, not official source or authenticated PC binary",
+  "archive": "F:/New folder/.artifacts/sts1-fixed-source/sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+  "files": [
+    {
+      "path": "potions/SwiftPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/SwiftPotion.java",
+      "sha256": "07d16f8230f6e5cbe34cd774c8d21565f5f974159926025773b1913635b9d873",
+      "gitBlob": "f1d59bc95b02f20995f6fd586bac79023e92eb6d"
+    },
+    {
+      "path": "potions/WeakenPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/WeakenPotion.java",
+      "sha256": "020c66f4b95cfd464aa7ebed1d70b2ec2e2e27f9d502a1c954bc16ad209c9a92",
+      "gitBlob": "0678dd8edb9b31732d5da112003674e4601e460e"
+    },
+    {
+      "path": "potions/FearPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FearPotion.java",
+      "sha256": "f428c5d517430585539904ab37e98bbc01ce3596cb1e696201972306f0956d2a",
+      "gitBlob": "f66c9ec8872e238176ec5118deba86813679ebe5"
+    },
+    {
+      "path": "potions/AncientPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AncientPotion.java",
+      "sha256": "16ec2072e2f5ff897388235386c1b780653b008c3a0a7eb1059aa3d1ade0eab4",
+      "gitBlob": "ac328b2a7013fb3b4e8df14456afd59de2f8b7f8"
+    },
+    {
+      "path": "potions/LiquidBronze.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/LiquidBronze.java",
+      "sha256": "6b7585d7cca17ed5d6c0a5885f360d31af5fcc7a5237c7e19dbf50fb89fe59d8",
+      "gitBlob": "8deca688d00addc95d21d8f68f4aa381f810383c"
+    },
+    {
+      "path": "potions/AbstractPotion.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/AbstractPotion.java",
+      "sha256": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
+      "gitBlob": "8598c2e5a81f5a36060eb8520ee0abd2204991ca"
+    },
+    {
+      "path": "actions/common/DrawCardAction.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DrawCardAction.java",
+      "sha256": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18",
+      "gitBlob": "8f6ada68af6cce8c3acc5b7a397830b19c564633"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47",
+      "gitBlob": "1a6af352c02e06ecec4db87dd5e2f57d43d35b91"
+    },
+    {
+      "path": "powers/WeakPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/WeakPower.java",
+      "sha256": "17072c70ffbf219440dea75069910630d745654c4bf58cf528e937a7d747d973",
+      "gitBlob": "383f5f2f446376d450d1143b96411b466da3e62c"
+    },
+    {
+      "path": "powers/VulnerablePower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/VulnerablePower.java",
+      "sha256": "354b0dffa4f9763b9933266e3dfa96f561841b96c251f3f336693991a91dd191",
+      "gitBlob": "b640e3a168668ec3967c513946a620689be0252f"
+    },
+    {
+      "path": "powers/ArtifactPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/ArtifactPower.java",
+      "sha256": "7f0c3a5df2f204c6f0fa3fb152a807895b330f26b0f0970f4ef060ee9b919ac7",
+      "gitBlob": "affdd504cd849ea3260734b13a39bf8083e03425"
+    },
+    {
+      "path": "powers/ThornsPower.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/ThornsPower.java",
+      "sha256": "78ce7c63874a3539f03c50a9cdfdf8bcfba7b47e73bce18c10672e5bad3ae87a",
+      "gitBlob": "e898e2f525a6eb49664eadb847dacb681f2931fe"
+    },
+    {
+      "path": "ui/panels/PotionPopUp.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/panels/PotionPopUp.java",
+      "sha256": "320557c73413bf6a6254c75c380fb4316314fa3602ef33401954d9d7ccd4d8e4",
+      "gitBlob": "fa7207905e726fee91a4b21e293a7c53eea17455"
+    }
+  ],
+  "scope": "five base A0 effects via Run.obtainPotion / potionView / usePotion; no production acquisition expansion",
+  "dependenciesDeferred": [
+    "Sacred Bark potency doubling and interactions with future potion-use relic hooks",
+    "complete ordered 33-potion selection and rejection consumption",
+    "platform/UI/live acceptance"
+  ],
+  "baseCommit": "9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db",
+  "verification": {
+    "command": "node --test tests/potion-basic-five.test.mjs",
+    "exitCode": 0,
+    "nodeTestsPassed": 3,
+    "luaGroupsPassed": 12,
+    "luaFixtureDefaultTimeoutMs": 30000,
+    "acquisitionTrajectorySeeds": 16,
+    "dropCallsPerSeed": 12,
+    "negativeTrajectoryCheck": "old seven definitions and pending-five expansion have identical whole shop results, RNG states and drop modifiers",
+    "positiveTrajectoryCheck": "removing acquisitionPending admits each of the five into shop and drop selections",
+    "initialRed": "missing production swift definition / Run.obtainPotion unknown_potion (both tests failed as intended)",
+    "testCorrections": [
+      "view uses existing canUse field",
+      "fixed DrawCardAction proves second empty shuffle when three requested and only two available",
+      "split effect and acquisition fixtures after combined 30s test timed out under simultaneous local regression load; no assertion removed or production budget increased"
+    ],
+    "regressions": [
+      {
+        "command": "node scripts/test-lua.mjs tests/lua/inventory.lua",
+        "exitCode": 0,
+        "groups": 11
+      },
+      {
+        "command": "node scripts/test-lua.mjs tests/lua/potion_rewards.lua",
+        "exitCode": 0,
+        "groups": 7
+      },
+      {
+        "command": "node scripts/test-lua.mjs tests/lua/shop.lua",
+        "exitCode": 0
+      }
+    ],
+    "gates": [
+      {
+        "command": "node scripts/validate-data.mjs",
+        "exitCode": 0
+      },
+      {
+        "command": "node scripts/build-ui-theme.mjs",
+        "exitCode": 0
+      },
+      {
+        "command": "node scripts/verify-launch-content.mjs",
+        "exitCode": 0,
+        "obtainablePotions": 6,
+        "fiveEffectOnlyExclusions": true
+      },
+      {
+        "command": "git diff --check",
+        "exitCode": 0
+      }
+    ],
+    "logs": [
+      {
+        "localPath": ".artifacts/source/basic-five-red.log",
+        "sha256": "b3d468d8b4021914f158732302f56119d13ccb28bc9ece7b559937e87201d0c5"
+      },
+      {
+        "localPath": ".artifacts/source/basic-five-final.log",
+        "sha256": "e1f30a3d04d21dcdb6fee13b7f7c8c59e22fc7f747d6639a378ab19d477ba44a"
+      },
+      {
+        "localPath": ".artifacts/source/regression-inventory.log",
+        "sha256": "bb5dd52f5e2006f4c6bee3235ab4c91896779927fd88dcc41f9aa9eeb2c1f50b"
+      },
+      {
+        "localPath": ".artifacts/source/regression-rewards.log",
+        "sha256": "0192b2942a7646458fd815e28bb6d2833e71bb668d0fceedf947423e6548079a"
+      },
+      {
+        "localPath": ".artifacts/source/regression-shop.log",
+        "sha256": "763d30f9ef4ea2a01a58db27fecfb0f080be380c33837ea7c88f150fd347c894"
+      }
+    ]
+  }
+}

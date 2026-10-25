@@ -103,7 +103,7 @@ assert(Nodes.removeCard(mask,mask.deck[1].uid));assert(mask.gold==9950)
 before=C.copy(mask);assert(not Nodes.removeCard(mask,mask.deck[1].uid));same(mask,before)
 print('SHOP_INTERACTIONS_PASS thresholds, sequential discounts, membership purchase, mask override, courier restock')
 local broken=shop(42,nil,{'courier'});broken.gold=10000
-broken.nodeFlow.shopRng.card={} -- explicit invalid-restock-state fault fixture
+broken.cardRng={} -- corrupt the single authoritative card stream for restock
 before=C.copy(broken)
 local called,ok,why=pcall(Nodes.buyCard,broken,broken.nodeFlow.cards[1].id)
 assert(called and not ok and why=='shop_content_unavailable','restock failure must refuse the whole purchase')

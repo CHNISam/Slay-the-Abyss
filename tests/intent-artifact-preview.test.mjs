@@ -9,15 +9,16 @@ test('generated GameUI intent previews respect ordered Artifact gates without mu
   buildUI();
   // Independent concerns retain the runner's unchanged per-script deadline.
   for (const [script, marker] of [
-    ['tests/lua/intent_artifact_preview.lua', /^LUA_INTENT_ARTIFACT_PREVIEW 3 passed; 0 failed$/m],
-    ['tests/lua/intent_artifact_debuffs.lua', /^LUA_INTENT_ARTIFACT_DEBUFFS 3 passed; 0 failed$/m],
-    ['tests/lua/intent_artifact_ordered.lua', /^LUA_INTENT_ARTIFACT_ORDERED 3 passed; 0 failed$/m],
-    ['tests/lua/intent_artifact_validation.lua', /^LUA_INTENT_ARTIFACT_VALIDATION 3 passed; 0 failed$/m],
+    ['tests/lua/intent_artifact_preview.lua', /^LUA_INTENT_ARTIFACT_PREVIEW 4 passed; 0 failed$/m],
+    ['tests/lua/intent_artifact_debuff_gates.lua', /^LUA_INTENT_ARTIFACT_DEBUFF_GATES 3 passed; 0 failed$/m],
+    ['tests/lua/intent_artifact_ordered_interactions.lua', /^LUA_INTENT_ARTIFACT_ORDERED_INTERACTIONS 5 passed; 0 failed$/m],
     ['tests/lua/intent_artifact_playback.lua', /^LUA_INTENT_ARTIFACT_PLAYBACK 1 passed; 0 failed$/m],
     ['tests/lua/intent_artifact_charges.lua', /^LUA_INTENT_ARTIFACT_CHARGES 1 passed; 0 failed$/m],
     ['tests/lua/intent_artifact_cancellation.lua', /^LUA_INTENT_ARTIFACT_CANCELLATION 1 passed; 0 failed$/m],
   ]) {
+    const startedAt = Date.now();
     const result = runLua(script);
+    console.log(`Lua fixture ${script}: ${Date.now() - startedAt} ms`);
     assert.equal(result.status, 0, result.stderr + result.stdout);
     assert.match(result.stdout, marker);
     assert.doesNotMatch(result.stdout, /ABYSS_FEEDBACK (?:recovered (?!cancelled)|prepare_failed|command_failed)/);

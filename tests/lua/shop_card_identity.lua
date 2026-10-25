@@ -138,7 +138,7 @@ test('expensive slot rejects funds sufficient only for cheaper duplicate', funct
 end)
 test('selected second-slot restock failure rolls back every resource and RNG', function()
     local run, map = duplicate(); local ui = uiFor(run, map)
-    run.nodeFlow.shopRng.card = {} -- same invalid-stream fault as the existing shop suite
+    run.cardRng = {} -- same invalid authoritative-stream fault as the existing shop suite
     rejected(run, map, function() return ui:press('shopView/card2') end, 'shop_content_unavailable')
     assert(type(Nodes.buyCardSlot) == 'function', 'explicit card-slot API is required')
     rejected(run, map, function() return Nodes.buyCardSlot(run, 2) end, 'shop_content_unavailable')

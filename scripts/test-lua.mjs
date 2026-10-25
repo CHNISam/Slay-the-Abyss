@@ -54,11 +54,17 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     if (!scripts.length) throw new Error('No Lua test files discovered');
     for (const script of scripts) {
       const startedAt = Date.now();
-      const result = runLua(script);
-      process.stdout.write(result.stdout);
-      process.stderr.write(result.stderr);
-      console.log(`Lua fixture ${script}: ${Date.now() - startedAt} ms`);
-      if (result.status !== 0) { process.exitCode = result.status ?? 1; break; }
+      try {
+        const result = runLua(script);
+        process.stdout.write(result.stdout);
+        process.stderr.write(result.stderr);
+        if (result.status !== 0) process.exitCode = result.status ?? 1;
+      } catch (error) {
+        console.error(error.message);
+        process.exitCode = 1;
+      } finally {
+        console.log(`Lua fixture ${script}: ${Date.now() - startedAt} ms`);
+      }
     }
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

@@ -67,7 +67,7 @@ end
 
 test('lethal potion commits the new reward stream exactly once on success', function()
     local run = beforeLethalPotion()
-    local merchant, card = Random.snapshot(run.shopRng.merchant), Random.snapshot(run.shopRng.card)
+    local merchant, card = Random.snapshot(run.shopRng.merchant), Random.snapshot(run.cardRng)
     local gold, nextUid = run.gold, run.nextDeckUid
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil and run.combat.enemies[1].hp == 0)
@@ -80,7 +80,7 @@ test('lethal potion commits the new reward stream exactly once on success', func
         words = {'c75cd73704de29da', 'c976c2013784576d'}, counter = 6,
     })
     same(Random.snapshot(run.shopRng.merchant), merchant)
-    same(Random.snapshot(run.shopRng.card), card)
+    same(Random.snapshot(run.cardRng), card)
     local check = unchanged(run)
     local ok, reason = Run.usePotion(run, 1, 1)
     assert(not ok and reason == 'not_in_combat'); check()
@@ -124,7 +124,8 @@ test('legacy run without shopRng keeps a failed initialization private and can r
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil)
     assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
-    assert(run.shopRng.merchant.counter == 0 and run.shopRng.card.counter == 0)
+    assert(run.shopRng.merchant.counter == 0 and run.cardRng.counter == 0)
+    assert(run.shopRng.card == nil)
 end)
 print('LUA_POTION_REWARD_ATOMIC ' .. passed .. ' passed; ' .. failed .. ' failed')
 assert(failed == 0, 'Potion reward transaction failures: ' .. failed)

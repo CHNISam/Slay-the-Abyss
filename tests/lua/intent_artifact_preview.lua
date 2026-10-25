@@ -53,4 +53,12 @@ test("neighboring boundary and stock non-applying intent remain valid", function
     eq(refresh(jaw, panel, jawTap), "11")
 end)
 
+test("unblocked true overflow remains visible and leaves the live state untouched", function()
+    local h = setup()
+    Combat.addStatus(h.run.combat.player, "weak", 2147483647)
+    rejects(h, "status stack overflow")
+    local ok, why = pcall(Combat.endTurn, Combat.copy(h.run.combat))
+    eq(ok, false); assert(tostring(why):find("status stack overflow", 1, true))
+end)
+
 F.finish("LUA_INTENT_ARTIFACT_PREVIEW")

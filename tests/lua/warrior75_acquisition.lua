@@ -46,8 +46,9 @@ end)
 test('shop consumes the same shared cardRng history as subsequent rewards',function()
     local run=Run.new(data,123);run.encounterTier='normal'
     local initial=R.snapshot(run.cardRng)
-    local stock=Shop.prepare(run);eq(run.cardRng.counter,0);assert(stock.shopRng.card.counter>=12)
-    run.shopRng=stock.shopRng;run.cardRng=stock.shopRng.card
+    local stock=Shop.prepare(run);eq(run.cardRng.counter,0);assert(stock.cardRandom.cardRng.counter>=12)
+    assert(stock.shopRng.card==nil,'only Run owns persistent card RNG')
+    run.shopRng=stock.shopRng;require('abyss_card_random').commit(run,stock.cardRandom)
     local _,after=Pool.prepareRewards(run);assert(after.counter>run.cardRng.counter)
     local untouched=Run.new(data,123);untouched.encounterTier='normal';local a=Pool.prepareRewards(untouched);local b=Pool.prepareRewards(run)
     assert(table.concat(a,',')~=table.concat(b,','),'shop must change the following reward stream')

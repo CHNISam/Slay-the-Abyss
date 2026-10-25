@@ -18,14 +18,6 @@ test("Artifact gates each supported ordinary debuff before either recipient's st
     end
 end)
 
-test("unblocked true overflow remains visible and leaves the live state untouched", function()
-    local h = setup()
-    Combat.addStatus(h.run.combat.player, "weak", 2147483647)
-    rejects(h, "status stack overflow")
-    local ok, why = pcall(Combat.endTurn, Combat.copy(h.run.combat))
-    eq(ok, false); assert(tostring(why):find("status stack overflow", 1, true))
-end)
-
 test("repeated applications spend separate Artifact charges and expose overflow when exhausted", function()
     for _, charges in ipairs({1, 2}) do
         local h, _, p, tap = setup({{op="applyStatus", status="weak", value=1},
@@ -37,4 +29,12 @@ test("repeated applications spend separate Artifact charges and expose overflow 
     end
 end)
 
-F.finish("LUA_INTENT_ARTIFACT_DEBUFFS")
+test("Artifact does not suppress invalid power amounts before core validation", function()
+    for _, value in ipairs({-1, 0.5, math.huge}) do
+        local h = setup({{op="applyStatus", status="weak", value=value}}, "debuff")
+        Combat.addStatus(h.run.combat.player, "artifact", 1)
+        rejects(h, "invalid status amount")
+    end
+end)
+
+F.finish("LUA_INTENT_ARTIFACT_DEBUFF_GATES")
