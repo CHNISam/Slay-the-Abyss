@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 03:11'
+updated_date: '2026-10-25 04:55'
 labels: []
 dependencies: []
 priority: high
@@ -31,6 +31,8 @@ ordinal: 94000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 保存最新远端、任务与工作树只读盘点。2. 先写真实bare remote双进程验收，再实现Node Git CAS、租约和generation。3. 接入受控命令、worktree和Git hooks，建立保守迁移隔离及adopt流程。4. 运行相关与串行质量检查，审查并通过当前SHA CI后合入，释放及清理本次工作树。
+
+5. 修复已复现的TASK0映射与泛化隔离死锁：新增受控CAS reconciliation，按确认的HEAD/index/脏文件指纹保留旧记录，串行迁移指定执行者；源树只读、组外持有与未知记录不清除。先写真实Git失败回归，再实现、复审、当前SHA CI及受控合并。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -43,4 +45,6 @@ Executor=codex-local-p0，远端generation=1；独立coord/task-claims已非强�
 补齐真实上游冲突合并：新增回归先失败，修复后与普通commit/push两组通过（48910.9305ms）；15组完整套件交当前SHA CI。已通过sync-base在真实本任务树保留双方交接并合入c05332b，只有本任务13个文件相对上游变化。基线40153191516在两个全量作业同时运行时card_help_release 30s超时；保留原失败，作业空闲后同fixture原预算隔离31项通过，13010ms。未改游戏或预算。
 
 PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组真实Git测试。收口核对发现新子树会沿用旧控制树基线，补断言先失败后修正：新分支从已fetch的origin/develop创建，已有分支用其自己的fork point；子执行/普通worktree/冲突同步3组通过56138.1491ms。已为保留脏根目录提供Git公共元数据中的稳定入口。该修复必须重跑新SHA CI，旧绿灯不作为最终证据。
+
+第二代协调者在独立feat/task55-m3-reconcile恢复原完整bootstrap范围，修复TASK0/通用目录隔离导致的M3迁移死锁。新增受控CAS reconciliation、真实来源指纹和指定主线程阶段串行，保留所有旧隔离及源树。23组真实Git回归已分批覆盖：整套前16组通过后因远端Schannel续租握手失败被门禁中止；剩余7组在保持证书校验的进程级OpenSSL传输下通过，138675ms。完整单次运行未冒称通过，交当前SHA CI。源码/测试SHA及失败→修复证据写入既有验证JSON。独立只读复审完成；语法、Backlog、whitespace通过。已快进同步develop66f3afb，75卡及双方HANDOFF均保留。业务六源树、warrior75、根dirty未动，尚未登记业务迁移或解除外部未知。AC4继续等待当前SHA完整CI与实际合并。
 <!-- SECTION:NOTES:END -->

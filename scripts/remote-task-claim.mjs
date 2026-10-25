@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // Cooperative execution ownership. No dependencies and no checkout of the coordination branch.
 import { spawnSync, spawn } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, copyFileSync, existsSync, lstatSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, copyFileSync, existsSync, lstatSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve, join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
 
 const REF = 'refs/heads/coord/task-claims';
 const argv = process.argv.slice(2), command = argv.shift();
@@ -72,16 +72,143 @@ function owned(state, r, requireBranch = true) {
   if (!c || c.status !== 'active' || c.session !== r.session || c.generation !== r.generation || c.branch !== r.branch) die('Ownership lost: released or superseded generation');
   if (Date.parse(c.expiresAt) <= now()) die('Ownership expired; recover with a new generation before work');
   if (requireBranch && branch() !== c.branch) die('Ownership branch mismatch');
+  if (c.migrationGroup) {
+    const group = approvedGroupClaim(state, c);
+    if (requireBranch && absoluteIdentity(process.cwd()) !== absoluteIdentity(c.executionWorktree)) die('Ownership execution worktree mismatch');
+    verifyGroupSources(group, c);
+    checkConflicts(state, c, c.task, group.sources.map(source => source.reservation), group);
+  }
   return c;
 }
-function checkConflicts(state, candidate, ignoreTask, ignoreReservation) {
+function checkConflicts(state, candidate, ignoreTask, ignoreReservation, group) {
   const ignored = new Set(Array.isArray(ignoreReservation) ? ignoreReservation : [ignoreReservation]);
   for (const c of Object.values(state.claims)) {
+    if (group && c.task !== ignoreTask && c.migrationGroup === group.id && c.status === 'active' && Date.parse(c.expiresAt) > now()) die('Migration group stages are strictly serial');
     if (c.task !== ignoreTask && c.status === 'active' && Date.parse(c.expiresAt) > now() && conflicts(candidate, c)) die(`Conflict with ${c.task} (${c.agent}/${c.session})`);
   }
   for (const r of state.migration.reservations) {
-    if (r.status === 'unknown' && !ignored.has(r.id) && conflicts(candidate, r)) die(`Conflict with unresolved migration reservation ${r.id}`);
+    if (r.status !== 'unknown' || ignored.has(r.id) || !conflicts(candidate, r)) continue;
+    // These original records remain byte-for-byte in the audit. A Backlog
+    // management row is not execution ownership; only a reconciled adoption
+    // may use this provenance-backed distinction. Ordinary claims stay closed.
+    if (group && (isTaskTracking(state, r) || handedOffSource(state, r.id))) continue;
+    die(`Conflict with unresolved migration reservation ${r.id}`);
   }
+}
+
+const digest = value => createHash('sha256').update(value).digest('hex');
+function absoluteIdentity(path) {
+  const absolute = resolve(path);
+  if (existsSync(absolute)) return realpathSync.native(absolute);
+  if (dirname(absolute) === absolute) die('Path has no existing root');
+  return join(absoluteIdentity(dirname(absolute)), basename(absolute));
+}
+function sourceSnapshot(path) {
+  if (lstatSync(resolve(path)).isSymbolicLink()) die('Snapshot requires a real worktree root');
+  const worktree = absoluteIdentity(path);
+  const g = (...args) => exec('git', ['--no-optional-locks', '-C', worktree, ...args]);
+  if (absoluteIdentity(g('rev-parse', '--show-toplevel')) !== worktree) die('Snapshot requires a real worktree root');
+  const paths = [...new Set([...g('diff', '--name-only', '--no-renames', '-z', 'HEAD').split('\0'),
+    ...g('ls-files', '--others', '--exclude-standard', '-z').split('\0')].filter(Boolean))].sort();
+  const dirty = paths.map(path => {
+    canonical(path);
+    const file = join(worktree, path);
+    if (existsSync(file) && (!lstatSync(file).isFile() || lstatSync(file).isSymbolicLink())) die('Snapshot contains an unsupported file alias');
+    return { path, sha256: existsSync(file) ? digest(readFileSync(file)) : null };
+  });
+  return { worktree, remote: g('remote', 'get-url', 'origin'), head: g('rev-parse', 'HEAD'), branch: g('symbolic-ref', '--quiet', '--short', 'HEAD'),
+    indexSha256: digest(g('ls-files', '--stage', '-z')), dirty };
+}
+function verifySnapshot(expected) {
+  if (!expected?.worktree || JSON.stringify(sourceSnapshot(expected.worktree)) !== JSON.stringify(expected)) die('Source snapshot fingerprint drift; stop and reconfirm delivery');
+}
+function isTaskTracking(state, r) {
+  return r.branch === null && r.id === `backlog-${r.task}`
+    && r.reason === 'In Progress is not execution ownership; exact executor and scope require acknowledgement'
+    && state.migration.inventory?.tasks?.some(t => taskID(t.id) === r.task)
+    && state.migration.inventory.reservations.some(original => original.id === r.id && original.branch === null);
+}
+function verifyGroupSources(group, claim) {
+  for (const source of group.sources) {
+    if (source.role === 'executor-target' && source.task === claim?.task && source.snapshot.branch === claim.branch
+      && source.snapshot.worktree === claim.executionWorktree) continue;
+    verifySnapshot(source.handoff?.snapshot || source.snapshot);
+  }
+}
+function approvedGroupClaim(state, claim) {
+  const group = state.migration.reconciliations?.[claim.migrationGroup];
+  const stage = group?.stages[group.cursor];
+  if (!group || !stage || group.executorSession !== claim.session || stage.id !== claim.migrationStage
+    || stage.task !== claim.task || stage.branch !== claim.branch || JSON.stringify(stage.scope) !== JSON.stringify(claim.scope)) die('Migration stage approval lost');
+  return group;
+}
+function handedOffSource(state, reservation) {
+  for (const group of Object.values(state.migration.reconciliations || {})) {
+    const source = group.sources.find(s => s.reservation === reservation && s.handoff);
+    if (source) { verifySnapshot(source.handoff.snapshot); return true; }
+  }
+  return false;
+}
+function reconciliation(state, raw) {
+  if (!raw || !/^[a-z][a-z0-9-]*$/.test(raw.id) || !raw.executorSession || !raw.evidence
+    || !Array.isArray(raw.sources) || !raw.sources.length || !Array.isArray(raw.stages) || !raw.stages.length) die('Explicit reconciliation identity, executor, evidence, sources and stages are required');
+  if (state.migration.status !== 'paused') die('Reconciliation is only for paused migration');
+  const groups = state.migration.reconciliations || {};
+  if (groups[raw.id]) die('Reconciliation group already exists; do not overwrite its audit');
+  const seen = new Set();
+  const sources = raw.sources.map(source => {
+    const original = state.migration.reservations.find(r => r.id === source.reservation && r.status === 'unknown');
+    const task = taskID(source.task);
+    if (!original || task === 'TASK-0' || seen.has(original.id) || !['parked-readonly', 'executor-target'].includes(source.role)
+      || !original.branch || original.branch !== source.snapshot?.branch
+      || !['TASK-0', task].includes(original.task) || !Array.isArray(source.commits)) die('Invalid or duplicate confirmed source mapping');
+    if (original.worktree && absoluteIdentity(original.worktree) !== source.snapshot.worktree) die('Source worktree differs from legacy reservation');
+    if (source.snapshot.remote !== git('remote', 'get-url', 'origin')) die('Source belongs to a different remote');
+    if (Object.values(groups).some(g => g.sources.some(s => s.reservation === original.id))) die('Source already belongs to a reconciliation group');
+    for (const c of Object.values(state.claims)) {
+      if (c.task !== state.migration.bootstrapTask && c.status === 'active' && Date.parse(c.expiresAt) > now()
+        && conflicts({ task, branch: original.branch, scope: original.scope }, c)) die('Cannot reconcile across an active claim');
+    }
+    verifySnapshot(source.snapshot); seen.add(original.id);
+    const committedPaths = new Set();
+    for (const commit of source.commits) {
+      if (!/^[a-f0-9]{40}$/.test(commit)) die('Delivery commits require full SHA identities');
+      exec('git', ['-C', source.snapshot.worktree, 'merge-base', '--is-ancestor', commit, source.snapshot.head]);
+      const parents = exec('git', ['-C', source.snapshot.worktree, 'show', '-s', '--format=%P', commit]);
+      if (!parents || parents.split(' ').length !== 1) die('List explicit single-parent delivery commits rather than inherited ancestry');
+      for (const path of exec('git', ['-C', source.snapshot.worktree, 'diff-tree', '--no-commit-id', '--name-only', '--no-renames', '-r', '-z', commit]).split('\0').filter(Boolean)) committedPaths.add(canonical(path));
+    }
+    return { reservation: original.id, task, role: source.role, snapshot: structuredClone(source.snapshot), commits: [...source.commits],
+      committedPaths: [...committedPaths].sort(), original: structuredClone(original) };
+  });
+  const stageIds = new Set();
+  const stages = raw.stages.map((stage, index) => {
+    if (!/^[a-z][a-z0-9-]*$/.test(stage.id) || stageIds.has(stage.id) || !Array.isArray(stage.sources) || !stage.sources.length
+      || !Array.isArray(stage.extraPaths)) die('Explicit unique stage and bounded sources/extraPaths required');
+    stageIds.add(stage.id); const task = taskID(stage.task); git('check-ref-format', '--branch', stage.branch);
+    if (task === 'TASK-0') die('Stage requires the actual task identity');
+    if (!stage.branch.startsWith('feat/')) die('Migration execution requires a feature branch');
+    const required = new Set();
+    for (const id of stage.sources) {
+      const source = sources.find(s => s.reservation === id); if (!source) die('Stage references an unconfirmed source');
+      for (const path of [...source.committedPaths, ...source.snapshot.dirty.map(d => canonical(d.path))]) required.add(path);
+    }
+    for (const extra of stage.extraPaths) {
+      if (!extra.reason) die('Extra delivery paths require an explicit purpose');
+      const path = canonical(extra.path);
+      if (sources.some(s => existsSync(join(s.snapshot.worktree, path)) && lstatSync(join(s.snapshot.worktree, path)).isDirectory())) die('Extra paths must name files, not generic directories');
+      required.add(path);
+    }
+    const declared = scope(stage.scope);
+    if (declared.paths.length !== required.size || declared.paths.some(p => !required.has(p))) die('Stage scope must include the complete explicit commit/dirty/extra file inventory');
+    for (const source of sources) if (source.snapshot.branch === stage.branch
+      && (source.role !== 'executor-target' || source.task !== task)) die('Parked read-only source branch cannot become an execution branch');
+    if (index > 0 && raw.stages[index - 1].branch === stage.branch
+      && scope(raw.stages[index - 1].scope).paths.some(p => !declared.paths.includes(p))) die('Retained execution branch scope must preserve prior stage delivery');
+    return { id: stage.id, task, branch: stage.branch, scope: declared, sources: [...stage.sources] };
+  });
+  return { id: raw.id, executorSession: raw.executorSession, evidence: raw.evidence, sources, stages, cursor: 0,
+    confirmedBy: session(), confirmedAt: new Date().toISOString() };
 }
 
 // Each process uses its own disposable object database: no shared FETCH_HEAD/index locks.
@@ -146,7 +273,7 @@ function changedPaths(mode, input = '', claim) {
 function checkPaths(c, paths) {
   for (const path of paths) {
     const p = canonical(path);
-    if (!c.scope.paths.some(root => contains(root, p))) die(`Out of scope: ${path}; expand remotely before modifying it`);
+    if (!c.scope.paths.some(root => c.migrationGroup ? root === p : contains(root, p))) die(`Out of scope: ${path}; expand remotely before modifying it`);
     // Symlink aliases can otherwise escape declared scope. Junctions/symlinks are not controlled write targets.
     let target = process.cwd();
     for (const part of path.replaceAll('\\', '/').split('/')) {
@@ -156,11 +283,14 @@ function checkPaths(c, paths) {
   }
 }
 function createWorktree(r, target) {
+  if (r.migrationGroup && absoluteIdentity(target) !== absoluteIdentity(r.executionWorktree)) die('Migration execution worktree must match its approved target');
   if (existsSync(target)) die('Target exists; refuse to alter existing worktree');
   const ref = spawnSync('git', ['show-ref', '--verify', '--quiet', `refs/heads/${r.branch}`]);
   if (ref.status === 0) git('worktree', 'add', target, r.branch);
   else if (ref.status === 1) git('worktree', 'add', '-b', r.branch, target, r.base);
   else die('Cannot inspect target branch');
+  if (absoluteIdentity(exec('git', ['-C', target, 'rev-parse', '--show-toplevel'])) !== absoluteIdentity(target)
+    || exec('git', ['-C', target, 'symbolic-ref', '--quiet', '--short', 'HEAD']) !== r.branch) die('Created worktree does not match the approved target and branch');
   const path = exec('git', ['-C', target, 'rev-parse', '--git-path', 'task-claim-receipt.json']);
   writeFileSync(resolve(target, path), JSON.stringify(r, null, 2) + '\n', { mode: 0o600 });
   return { worktree: target, task: r.task };
@@ -211,7 +341,8 @@ async function runGuarded(client, r) {
 }
 async function main() {
   if (command === 'session') return { session: randomUUID() };
-  if (command === 'help' || !command) return { usage: 'TASK_CLAIM_SESSION=<unique ID>; node scripts/remote-task-claim.mjs <init|claim|adopt|recover|renew|check|expand|release|list|migration-open|install|worktree|run|hook|integrate|session> [--spec file] [--inventory file] [--evidence text]. See docs/REMOTE_TASK_CLAIMS.md' };
+  if (command === 'migration-snapshot') return sourceSnapshot(need('path'));
+  if (command === 'help' || !command) return { usage: 'TASK_CLAIM_SESSION=<unique ID>; node scripts/remote-task-claim.mjs <init|claim|adopt|recover|renew|check|expand|release|list|migration-snapshot|migration-reconcile|migration-open|install|worktree|run|hook|integrate|session> [--spec file] [--inventory file] [--evidence text]. Reconciled adoption: --group ID --stage ID; serial completion: release --stage-complete yes --evidence text. See docs/REMOTE_TASK_CLAIMS.md' };
   const client = remoteClient();
   if (command === 'list') {
     const s = requireState(client.read().state);
@@ -221,6 +352,7 @@ async function main() {
     const s = requireState(client.read().state), sha = need('sha'), name = need('branch');
     const matches = Object.values(s.claims).filter(c => c.status === 'active' && Date.parse(c.expiresAt) > now() && c.branch === name && c.authorizedSha === sha);
     if (matches.length !== 1) die('PR has no unique live ownership authorization for its exact head SHA; adopt/renew and push through the gate');
+    if (matches[0].migrationGroup) approvedGroupClaim(s, matches[0]);
     return { checked: true, task: matches[0].task, generation: matches[0].generation, sha };
   }
   if (['init', 'claim', 'adopt', 'recover'].includes(command)) {
@@ -245,6 +377,7 @@ async function main() {
       } else requireState(s);
       if (command === 'claim' && s.migration.status !== 'open') die('Migration paused: adopt existing work; no fresh parallel claims');
       const old = s.claims[candidate.task];
+      if (old?.migrationGroup && (command !== 'adopt' || options.group !== old.migrationGroup)) die('Reconciled task must resume through its designated group and approved stage');
       if (old?.status === 'active' && Date.parse(old.expiresAt) > now()) die(`Conflict: ${candidate.task} already actively owned`);
       if (command === 'claim' && old?.status === 'active') die('Expired claim exists; use recover with evidence and a new generation');
       if (command === 'recover' && (!old || (old.status === 'active' && Date.parse(old.expiresAt) > now()))) die('recover requires an expired or released lease');
@@ -252,9 +385,24 @@ async function main() {
       let reservation;
       if (command === 'adopt') {
         need('evidence');
-        reservation = s.migration.reservations.find(r => r.id === need('reservation') && r.status === 'unknown');
-        if (!reservation || reservation.task !== candidate.task || (reservation.branch && reservation.branch !== candidate.branch)) die('Unresolved reservation must match adopted task and branch');
-        if (!reservation.scope.paths.every(p => candidate.scope.paths.some(q => contains(q, p))) || !reservation.scope.modules.every(m => candidate.scope.modules.includes(m))) die('Adoption scope must preserve the entire legacy reservation');
+        if (options.group) {
+          const group = s.migration.reconciliations?.[options.group], stage = group?.stages[group.cursor];
+          if (!group || group.executorSession !== session()) die('Only the designated reconciliation executor session may adopt');
+          if (stage?.id !== need('stage') || candidate.task !== stage.task || candidate.branch !== stage.branch
+            || JSON.stringify(candidate.scope) !== JSON.stringify(stage.scope)) die('Adoption must match the next approved stage task, branch and full scope');
+          const executionWorktree = absoluteIdentity(target || process.cwd());
+          if (group.sources.some(source => source.role === 'parked-readonly' && source.snapshot.worktree === executionWorktree)) die('Parked read-only source cannot be an execution worktree');
+          if (!target && branch() !== candidate.branch) die('Adopt in the approved execution branch or use --path for a new worktree');
+          candidate.migrationGroup = group.id; candidate.migrationStage = stage.id; candidate.executionWorktree = executionWorktree;
+          const retainedTarget = old?.migrationGroup === group.id && old.session === candidate.session
+            && old.branch === candidate.branch && old.executionWorktree === executionWorktree;
+          verifyGroupSources(group, retainedTarget ? candidate : undefined);
+          checkConflicts(s, candidate, undefined, group.sources.map(source => source.reservation), group);
+        } else {
+          reservation = s.migration.reservations.find(r => r.id === need('reservation') && r.status === 'unknown');
+          if (!reservation || reservation.task !== candidate.task || (reservation.branch && reservation.branch !== candidate.branch)) die('Unresolved reservation must match adopted task and branch');
+          if (!reservation.scope.paths.every(p => candidate.scope.paths.some(q => contains(q, p))) || !reservation.scope.modules.every(m => candidate.scope.modules.includes(m))) die('Adoption scope must preserve the entire legacy reservation');
+        }
       }
       if (command === 'init') {
         s.migration.bootstrapEvidence = need('evidence');
@@ -264,7 +412,7 @@ async function main() {
       } else {
         const coordinatorRecovery = command === 'recover' && s.migration.status === 'paused' && candidate.task === s.migration.bootstrapTask;
         if (coordinatorRecovery && JSON.stringify(candidate.scope) !== JSON.stringify(old.scope)) die('Coordinator recovery must preserve the original bootstrap scope');
-        checkConflicts(s, candidate, undefined, coordinatorRecovery ? s.migration.bootstrapOverlaps : reservation?.id);
+        if (!candidate.migrationGroup) checkConflicts(s, candidate, undefined, coordinatorRecovery ? s.migration.bootstrapOverlaps : reservation?.id);
       }
       const generation = ++s.generation, at = now();
       const targetTip = spawnSync('git', ['rev-parse', '--verify', `refs/heads/${candidate.branch}`], { encoding: 'utf8' });
@@ -289,6 +437,21 @@ async function main() {
   }
   const r = receipt();
   if (r.remote !== client.remote) die('Remote differs from claim receipt');
+  if (command === 'migration-reconcile') {
+    const bytes = readFileSync(need('manifest'));
+    const manifest = JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/, ''));
+    const state = client.mutate(s => {
+      requireState(s); const c = owned(s, r);
+      if (c.task !== s.migration.bootstrapTask) die('Only the active migration coordinator may reconcile');
+      const group = reconciliation(s, manifest);
+      group.manifestSha256 = digest(bytes); group.generation = ++s.generation;
+      s.migration.reconciliations ||= {}; s.migration.reconciliations[group.id] = group;
+      return s;
+    });
+    const group = state.migration.reconciliations[manifest.id]; verifyGroupSources(group);
+    return { reconciled: group.id, generation: group.generation, sourceReservations: group.sources.map(source => source.reservation),
+      migration: state.migration.status, externalUnknown: state.migration.externalUnknown };
+  }
   if (command === 'check' || command === 'hook') {
     const c = owned(requireState(client.read().state), r);
     if (command === 'hook') {
@@ -329,7 +492,20 @@ async function main() {
     const state = client.mutate(s => {
       requireState(s); const c = owned(s, r);
       if (command === 'renew') c.expiresAt = new Date(now() + c.leaseSeconds * 1000).toISOString();
-      if (command === 'release') { c.status = 'released'; c.releasedAt = new Date().toISOString(); }
+      if (command === 'release') {
+        if (options['stage-complete']) {
+          if (options['stage-complete'] !== 'yes' || !c.migrationGroup) die('Stage completion requires a reconciled claim and --stage-complete yes');
+          need('evidence'); const group = approvedGroupClaim(s, c);
+          for (const source of group.sources) if (source.role === 'executor-target' && source.task === c.task
+            && source.snapshot.worktree === c.executionWorktree && source.snapshot.branch === c.branch) {
+            source.handoff = { snapshot: sourceSnapshot(c.executionWorktree), evidence: options.evidence,
+              session: c.session, generation: c.generation, at: new Date().toISOString() };
+          }
+          group.completed ||= []; group.completed.push({ stage: c.migrationStage, session: c.session, generation: c.generation,
+            evidence: options.evidence, at: new Date().toISOString() }); group.cursor++;
+        }
+        c.status = 'released'; c.releasedAt = new Date().toISOString();
+      }
       if (command === 'sync-base') {
         git('merge-base', '--is-ancestor', c.base, newBase);
         const diffArgs = pendingMerge ? ['--cached', newBase] : [newBase, 'HEAD'];
@@ -337,6 +513,7 @@ async function main() {
         c.base = newBase;
       }
       if (command === 'expand') {
+        if (c.migrationGroup) die('Reconciled stages use the complete coordinator-approved scope; do not expand past its proof');
         const expanded = scope(jsonFile(need('scope')));
         if (!c.scope.paths.every(p => expanded.paths.some(q => contains(q, p))) || !c.scope.modules.every(m => expanded.modules.includes(m))) die('expand cannot silently shrink scope');
         checkConflicts(s, { ...c, scope: expanded }, c.task); c.scope = expanded;

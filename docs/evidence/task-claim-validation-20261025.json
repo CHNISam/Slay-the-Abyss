@@ -8,7 +8,7 @@
     "status": "paused"
   },
   "integrationBaseline": "c05332be41e607ef4284c9459bc1990ef5000a05",
-  "suiteDiscovered": 15,
+  "suiteDiscovered": 23,
   "fullQuality": {
     "reason": "prior full jobs ended; will run current PR head alone through native queue",
     "status": "pending exact PR head CI after worktree-base fix"
@@ -69,5 +69,44 @@
     "head": "2999bc89837ac78ecba5787f6dc8d3521ab99e04",
     "note": "All jobs including 15 real Git cases passed. Superseded by the worktree base fix; not evidence for the next head.",
     "status": "SUCCESS"
+  },
+  "reconciliation": {
+    "integrationBaseline": "66f3afb23500c77d3e437cce37583073c6d4c5c8",
+    "runtimeSha256": "bc6dba10e4b0b9123206cb6649de1f077d18516ae6a27d4f9253afa0ea7a9de3",
+    "testsSha256": "cc798c35b04a1c92f8dc8144d548a0cffb7d4b15509c8982a3269f130bc57711",
+    "uniqueCasesPassedAcrossPartitions": 23,
+    "singleFullRunPassed": false,
+    "partitions": [
+      {
+        "command": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
+        "completedPassingCases": 16,
+        "localLog": "build/claims-final.log",
+        "status": "interrupted by guarded-run renewal TLS failure; no complete suite summary",
+        "reason": "schannel failed to receive handshake; guard terminated child rather than continue without remote ownership"
+      },
+      {
+        "command": "node --test --test-concurrency=1 --test-name-pattern='interrupted executor|unknown external executors|claim then controlled|released installation|remote loss during|child executor|conflicting upstream' tests/remote-task-claim.test.mjs",
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 138675.1516,
+        "localLog": "build/claims-remaining.log",
+        "status": "passed, including post-command remote ownership confirmation",
+        "transport": "process-only http.sslBackend=openssl; certificate checks and all ownership gates retained"
+      }
+    ],
+    "redEvidence": [
+      "Original migration commands absent: three real Git failures before implementation",
+      "Creating an approved new target failed after CAS because controller cwd was checked against the uncreated target",
+      "Ordinary recover actually granted session b an unrelated feat/escape claim without group restrictions",
+      "A future file path actually permitted allowed/hidden.lua before exact-file matching",
+      "Actual executor could not resume its authorized dirty target after release",
+      "Actual executor could not modify its next stage after a handoff snapshot",
+      "Consumer check actually passed after its external owners handoff fingerprint changed"
+    ],
+    "review": "Independent read-only review found the creation, recovery, exact-file and handoff defects; final static re-review found no remaining must-fix issue. Not a substitute for tests.",
+    "lightChecks": ["changed JavaScript syntax passed", "Backlog roadmap verification passed", "git diff --check passed"],
+    "currentHeadCI": "pending exact PR head; local partitions are not complete CI",
+    "businessSources": "six M3 source trees, warrior75 and root business edits remain untouched; no automatic business adoption, quarantine resolution or migration-open"
   }
 }
