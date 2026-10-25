@@ -31,6 +31,7 @@ local reasons = {
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    fountain = { name='净化之泉', body='清澈的泉水在石隙间流淌。你可以借它洗去随身的诅咒。', leave='你离开了泉水。' },
     living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
         leave = "你向神龛行了一礼，转身继续赶路。" },
@@ -470,6 +471,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                             if outcome.obtainedCardUid then
                                 local obtained=find(self.run.deck,outcome.obtainedCardUid,'uid')
                                 lines[#lines+1]='已获得诅咒：'..cardName(obtained.cardId,false)
+                            end
+                            if outcome.removedUids then
+                                lines[#lines+1]='已移除诅咒：'..#outcome.removedUids..' 张'
                             end
                             local text=#lines>0 and table.concat(lines,'\n') or '什么也没有发生。'
                             return text,{text=text}

@@ -12,6 +12,7 @@ local Inventory = require("abyss_inventory")
 local Shop = require("abyss_shop")
 local CardRandom = require("abyss_card_random")
 local LivingWall = require('abyss_living_wall')
+local Fountain = require('abyss_fountain')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -162,7 +163,7 @@ function M.enter(run, map, nodeId)
         if kind=='event' then
             selectionRng=EventRandom.atCounter(run.eventSeed,nextEventRng.counter)
             local originalId,reason=EventPool.draw(nextUnknown.pools,{floor=node.floor,gold=run.gold,act=1,
-                hp=run.hp,relicCount=#run.relics,elapsedSeconds=run.elapsedSeconds,cursed=false},selectionRng)
+                hp=run.hp,relicCount=#run.relics,elapsedSeconds=run.elapsedSeconds,cursed=Fountain.isCursed(run)},selectionRng)
             if not originalId then return false,reason end
             node.eventId=EventPool.contentId[originalId]
             if not node.eventId then return false,'event_not_implemented' end
@@ -172,7 +173,7 @@ function M.enter(run, map, nodeId)
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
-            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' then return false, "event_unavailable" end
+            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain' then return false, "event_unavailable" end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -398,6 +399,8 @@ function M.eventOptions(run,flow)
         option('change','改变','将一张卡牌变换为随机的新卡牌',true,#LivingWall.purgeCards(run)>0 and 'living_change' or nil)
         option('grow','成长','升级一张卡牌',upgrades>0,#LivingWall.purgeCards(run)>0 and 'living_grow' or nil)
         return rows
+    elseif id=='fountain' then
+        option('cleanse','净化','移除牌组中所有可清除的诅咒。')
     elseif id=='cleric' then
         local r=run.data.rules.events.cleric
         local heal=math.min(run.maxHp-run.hp,math.floor(run.maxHp*r.healPercent/100))
@@ -434,6 +437,12 @@ function M.chooseEvent(run, choice, uid)
     if id=='living_wall' then
         local ok,status=LivingWall.choose(run,flow,choice,uid,upgradeable,upgradeCards)
         if not ok or status=='choose_card' then return ok,status end
+        flow.eventChoice=choice
+        return complete(run)
+    end
+    if id=='fountain' and choice=='cleanse' then
+        local ok,why=Fountain.cleanse(run,flow)
+        if not ok then return false,why end
         flow.eventChoice=choice
         return complete(run)
     end
