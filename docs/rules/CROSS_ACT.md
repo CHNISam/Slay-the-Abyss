@@ -65,3 +65,7 @@ npm run verify:backlog
 ## Falling 独立切片
 
 第三幕 Falling 的公开节点事务、原生选择界面和完整来源池抽取已接入。固定源规则、独立 RNG 向量及专用命令见 [ACT3_FALLING.md](ACT3_FALLING.md)。这是一项本地事件证据；其余第三幕事件、完整 campaign 与平台验收仍按原任务保留缺口。
+
+## Moai Head 独立切片
+
+Moai Head 已接直接减生命上限后治疗、canonical Golden Idol 献祭/333金、原生 UI 和公开事务回滚。固定源与专用证据见 [ACT3_MOAI.md](ACT3_MOAI.md)。Golden Idol 正常获取及完整遗物行为仍缺；献祭只有持有 owner 组件证据，不计自然获取、整幕或平台验收。

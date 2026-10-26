@@ -3,7 +3,8 @@
 local Random=require('abyss_sts_random')
 local Copy=require('abyss_copy').copy
 local Run=require('abyss_run')
-local M={ids={falling=true}}
+local Moai=require('abyss_moai_event')
+local M={ids={falling=true,moai_head=true}}
 local function definition(run,id)
  for _,card in ipairs(run.data.cards.cards)do if card.id==id then return card end end
 end
@@ -20,6 +21,7 @@ local function row(choice,title,description,card)
   upgrades=type(card)=='table' and card.upgrades or nil}
 end
 function M.prepare(run,event,miscRng)
+ if event.id=='moai_head'then return Moai.prepare(run,event)end
  assert(event.id=='falling' and run.act==3,'Falling requires the third act')
  local groups={attack={},skill={},power={}};local seen={}
  for _,card in ipairs(run.deck)do
@@ -36,7 +38,8 @@ function M.prepare(run,event,miscRng)
  end
  event.stage,event.body='intro','脚下的落石打散了你的牌组。先稳住身形，再作取舍。'
 end
-function M.options(_,event)
+function M.options(run,event)
+ if event.id=='moai_head'then return Moai.options(run,event)end
  if event.stage=='intro'then return {row('continue','继续','查看可以舍弃的卡牌。')}end
  if event.stage=='result'then return {row('leave','离开','返回路线。')}end
  if event.stage~='choice'then return {}end
@@ -49,6 +52,7 @@ function M.options(_,event)
  return rows
 end
 function M.choose(run,flow,choice,uid)
+ if flow.event.id=='moai_head'then return Moai.choose(run,flow,choice,uid)end
  local event=flow.event
  if event.id~='falling' or run.act~=3 then return false,'invalid_event_choice'end
  if event.stage=='intro'then

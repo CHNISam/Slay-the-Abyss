@@ -16,6 +16,7 @@ local M = {}
 local CardDisplay = require('abyss_card_display')
 local Combat = require('abyss_combat')
 local Act1Events = require('abyss_act1_events')
+local Act3Events = require('abyss_act3_events')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
@@ -28,12 +29,13 @@ local reasons = {
     card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满", potions_blocked = "遗物效果禁止获得药水",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
-    stale_event_card = "候选卡牌已变化，请重新查看事件", invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
+    stale_event_health = "生命上限已变化，请重新查看事件", stale_event_card = "候选卡牌已变化，请重新查看事件", invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
     event_content_unavailable = "事件所需卡牌数据不可用", invalid_deck_uid = "卡牌编号异常，未领取奖励",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
     falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},
     sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},
     big_fish={name='大鱼',body='三件礼物悬在面前。你只能选取一件。',leave='你带着选择的礼物离开。'},
@@ -370,7 +372,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                         -- Repeated-search events retain the same command after
                         -- rendering new odds. An old callback is still stale.
                         if self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map then return false,'stale_action' end
-                        if Act1Events.ids[id] or id=='falling' then
+                        if Act1Events.ids[id] or Act3Events.ids[id] then
                             return commit('chooseEvent',selected.choice,function()
                                 local outcome=self.run.nodeFlow.event
                                 local text=outcome.body or '请选择一张卡牌。'
@@ -458,7 +460,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 action("eventView/option" .. i, row.enabled, row.handler, row.description)
             end
         end
-        if id=='falling' then return copy.name .. " · 按当前选项继续" end
+        if Act3Events.ids[id] then return copy.name .. " · 按当前选项继续" end
         return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
     end
 

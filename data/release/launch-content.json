@@ -393,6 +393,37 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "One Act 3 event only. Default Act 1 restricted-seven unchanged; source-full development campaign and exact transactions tested locally. Remaining Act 3 events and platform evidence are not covered."
+    },
+    "moai": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_moai_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/act3_moai_event.lua",
+          "tests/lua/act3_moai_ui.lua",
+          "tests/lua/act3_moai_natural.lua",
+          "tests/act3-moai-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "One Act3 event component. GoldenIdol full relic/obtain dependency remains open; held-idol trades are component fixtures. No complete campaign, natural Idol acquisition or platform acceptance."
     }
   },
   "cards": [
@@ -3037,6 +3068,28 @@
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Excluded from default Act 1 restricted-seven inventory; Act 3 development campaign seed8 has local full-pool evidence. Complete campaign, platform and live acceptance remain pending.",
       "act": 3
+    },
+    {
+      "id": "moai_head",
+      "originalId": "The Moai Head",
+      "act": 3,
+      "choices": [
+        "heal",
+        "give_idol",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "result"
+      ],
+      "eligibility": "Act 3; no half-health eligibility. Golden Idol trade option requires canonical held golden_idol.",
+      "source": "src/lua/abyss_moai_event.lua",
+      "profile": "moai",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Outside default Act 1 inventory. Local development campaign seed32 proves unfiltered full-HP event entry. GoldenIdol normal obtain and +25% combat-gold behavior remain unimplemented; trade is owner-fixture evidence. Whole-campaign, platform and live acceptance remain pending."
     }
   ],
   "relics": [
