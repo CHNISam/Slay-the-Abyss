@@ -20,4 +20,7 @@ for _,up in ipairs({false,true})do
  eq(l.enemies[1].hp,0);eq(l.phase,'victory');eq(l.masterDeck[1].upgraded,true);eq(l.masterDeckChanges[1].uid,1);eq(R.snapshot(l.miscRng).counter,before+1)
  local minion=battle('lesson_learned',up);minion.enemies[1].hp=1;minion.enemies[1].minion=true;play(minion);eq(minion.masterDeck[1].upgraded,false);eq(minion.masterDeckChanges,nil)
 end
+local depleted=battle('wish',false);play(depleted);assert(C.chooseCard(depleted,depleted.pendingChoice.token,3))
+for _=1,6 do C.damage(depleted,depleted.enemies[1],depleted.player,1)end
+eq(depleted.player.statuses.plated_armor,nil)
 print('WATCHER_FINAL_WISH_LESSON all options basic/upgraded, singleton misc and minion exclusion passed')

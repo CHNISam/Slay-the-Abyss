@@ -402,6 +402,10 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
     if not fixed and source and source ~= target and lost > 0 and (target.statuses.plated_armor or 0) > 0 then
         target.statuses.plated_armor = target.statuses.plated_armor - 1
+        if target.statuses.plated_armor==0 then
+            require('abyss_power_schedule').remove(state,target,'plated_armor')
+            target.statuses.plated_armor=nil
+        end
         Events.emit(state, 'status', {source=target.id,target=target.id,status='plated_armor',amount=-1})
     end
     require('abyss_relic_hooks').hpChanged(state,target,before)

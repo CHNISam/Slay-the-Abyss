@@ -332,6 +332,7 @@ function M.cardDefinition(state, instance)
         card.effects[1].value=12+3.5*n+0.5*n*n
     end
     if instance.costOverride~=nil then card.cost=instance.costOverride end
+    if instance.exhaust~=nil then card.exhaust=instance.exhaust end
     if card.burnDamage==nil and card.endTurnDamage~=nil then card.burnDamage=card.endTurnDamage end
     local native=nativeDefinition(state,card)
     if native and card.id=='perfected_strike' then
@@ -377,6 +378,7 @@ function M.cardDefinition(state, instance)
     if card.originalV4 then card.target=require('abyss_original_v4').needsTarget(state,card) and 'ENEMY' or 'SELF' end
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
+    if card.id=='expunger' then card.expungerHits=instance.expungerHits or 0 end
     if not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
     return card
 end
@@ -435,7 +437,8 @@ function M.cardPreview(state, instance, targetIndex)
         elseif effect.op=='barrageDamage' or effect.op=='bowlingBash' or effect.op=='ftlDamage' or effect.op=='heelHook'
             or effect.op=='fiendFire' or effect.op=='fearNoEvil' or effect.op=='wallop' or effect.op=='flowDamage'
             or effect.op=='sunderDamage' or effect.op=='finisherDamage' or effect.op=='flechettesDamage'
-            or effect.op=='skewer' or effect.op=='glassKnife' then
+            or effect.op=='skewer' or effect.op=='glassKnife' or effect.op=='watcherFinalRagnarok'
+            or effect.op=='watcherFinalExpungerHits' or effect.op=='watcherFinalLessonLearned' then
             result[i]=previewDamage('damage',effect.value);result[i].op=effect.op
         elseif effect.op=='feed' or effect.op=='reaper' or effect.op=='damageRandom' then
             result[i]=previewDamage(effect.op=='reaper' and 'damageAll' or 'damage',effect.value);result[i].op=effect.op
@@ -453,6 +456,11 @@ function M.cardPreview(state, instance, targetIndex)
             or effect.op=='secondWind' or effect.op=='stackBlock' or effect.op=='autoShields' or effect.op=='escapePlan' then
             local amount = Actors.blockAmount(state, player, effect.value)
             result[i] = {op = effect.op, low = amount, high = amount}
+        elseif effect.op=='watcherFinalSpiritShield' then
+            local others=#state.hand
+            for _,held in ipairs(state.hand)do if held.uid==instance.uid then others=others-1;break end end
+            local amount=Actors.blockAmount(state,player,effect.value*others)
+            result[i]={op=effect.op,low=amount,high=amount}
         elseif effect.op=='halt' then
             local amount=Actors.blockAmount(state,player,effect.value)
             if player.stance=='Wrath' then amount=amount+Actors.blockAmount(state,player,effect.wrathValue) end
@@ -1038,6 +1046,12 @@ queuedHandlers.useCard = function(state, _action, queue)
     queueCurlUp(state,queue)
     return true
 end
+function M.finishEarlyTurn(state)
+    if not state.endTurnAfterCard or state.drainingCardActions or state.pendingChoice
+        or state.actionQueue or state.pendingPlay or state.cardActions then return end
+    state.endTurnAfterCard=nil
+    if not finish(state) then local ok,why=M.endTurn(state);assert(ok,why)end
+end
 local function finishQueuedPlay(state)
     if state.startTurnPending and not state.pendingPlay then
         state.startTurnPending=nil;drainNative(state)
@@ -1049,10 +1063,10 @@ local function finishQueuedPlay(state)
     state.resolvingCard = context.previous
     state.pendingPlay = nil
     if state.endTurnAfterCard then
-        state.endTurnAfterCard=nil
         require('abyss_watcher_final_cards').cancelAutomatic(M,state)
+        if state.drainingCardActions then return end
         drainNative(state)
-        if not finish(state) then M.endTurn(state) end
+        M.finishEarlyTurn(state)
         return
     end
     drainNative(state)

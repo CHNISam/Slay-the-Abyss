@@ -124,14 +124,14 @@ test("limbo restoration is supported but dead player cannot retain-grow",functio
     s.turn=s.turn+1;s.player.hp=0
     eq(Retained.onRetained(s,c),false);eq(c.retainedDamageBonus,4)
 end)
-test("Corruption does not block retain growth; Establishment remains explicitly unsupported",function()
+test("Corruption and Establishment preserve source retain growth",function()
     local s,c=battle("perseverance");s.player.statuses.corruption=1
     assert(Retained.onRetained(s,c));eq(c.retainedBlockBonus,2)
     local a,attack=battle("windmill_strike");a.player.statuses.corruption=1
     assert(Retained.onRetained(a,attack));eq(attack.retainedDamageBonus,4)
     a.turn=a.turn+1;a.player.statuses.establishment=1
-    local ok,reason=pcall(Retained.onRetained,a,attack)
-    eq(ok,false);assert(tostring(reason):find("unsupported_retained_establishment",1,true))
+    assert(Retained.onRetained(a,attack));eq(attack.retainedDamageBonus,8)
+    eq(a.player.statuses.establishment,1);eq(a.player.statuses.corruption,1)
 end)
 test("malformed instance values and overflow fail before any growth",function()
     local s,c=battle("perseverance")

@@ -37,7 +37,15 @@ local function dense(t)
 end
 local function fragments(card,dynamic,path)
     if card.silentFinalCard then return require('abyss_silent_final_cards').describe(card,dynamic)end
-    if card.watcherFinal then return card._upgraded and card.upgradeText or card.text end
+    if card.watcherFinal then
+        local templates={swivel='获得 {effects.0.value} 点格挡。你的下一张攻击免费。',
+            conclude='对所有敌人造成 {effects.0.value} 点伤害。结束你的回合。',
+            ragnarok='对随机敌人造成 {effects.0.value} 点伤害，共 '..tostring((card.effects[1] or {}).times or 0)..' 次。',
+            lesson_learned='造成 {effects.0.value} 点伤害。若本次击杀非仆从，随机升级永久牌组中的1张牌。消耗。',
+            spirit_shield='每有1张其他手牌获得格挡（当前 {effects.0.value} 点）。',
+            expunger='造成 {effects.0.value} 点伤害，共 {expungerHits} 次。'}
+        return dynamic and templates[card.id] or card._upgraded and card.upgradeText or card.text
+    end
     if card.colorlessNative then return require('abyss_colorless_cards').describe(card,dynamic) end
     path=path or 'effects'
     if card.condition~=nil then assert(card.condition=='only_attacks_in_hand' or card.condition=='draw_pile_empty','unknown card condition') end

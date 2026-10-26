@@ -388,5 +388,6 @@ function M.drain(combat,state)
     end
     state.drainingCardActions=nil
     if not state.pendingChoice and not state.pendingDiscard and not state.actionQueue then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
+    if combat.finishEarlyTurn then combat.finishEarlyTurn(state)end
 end
 return M

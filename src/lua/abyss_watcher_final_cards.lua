@@ -142,8 +142,14 @@ function M.cancelAutomatic(combat,state)
   if c and not entry.purge and not seen[c.uid]then
    seen[c.uid]=true;c.dontTriggerOnUseCard=true
    local d=combat.cardDefinition(state,c)
-   if entry.exhaustCards or d.exhaust then require('abyss_card_actions').exhaust(combat,state,c)
-   elseif d.type~='power' then state.discard[#state.discard+1]=c end
+   if d.type~='power' then
+    if entry.exhaustCards or require('abyss_exhaust').shouldExhaust(state,d)then require('abyss_card_actions').exhaust(combat,state,c)
+    elseif d.shuffleBackIntoDrawPile then
+     if #state.draw>0 then table.insert(state.draw,combat.cardRandom(state,#state.draw),c)
+     else state.draw[#state.draw+1]=c end
+    else state.discard[#state.discard+1]=c end
+   end
+   c.freeToPlayOnce=nil;c.dontTriggerOnUseCard=nil
   end
  end
  state.queuedCards=nil
@@ -302,7 +308,7 @@ function M.execute(combat,state,effect,queue)
   end
  elseif op=='watcherFinalExpungerHits' then
   local enemy=target(state)
-  local hits=assert(state.cardInUse.expungerHits,'missing Expunger X')
+  local hits=state.cardInUse.expungerHits or 0
   if hits>0 and Actor.isActive(enemy)then
    top(state,queue,{op='watcherFinalDamageHit',value=effect.value,remaining=hits,targetId=enemy.id,
     normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})

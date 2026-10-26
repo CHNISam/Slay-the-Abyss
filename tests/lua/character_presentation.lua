@@ -32,6 +32,14 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'}) do
     if id=='defect' then options.orbSlots=3;options.orbRandomSeed='17' end
     if id=='watcher' then options.enableStances=true end
     local battle=C.new(prepared,options)
+    if card.id=='deus_ex_machina' then
+     -- True draw must exhaust Deus. Recover that original through the actual
+     -- retrieval action to render its unplayable face without faking a draw.
+     while #battle.hand>0 do battle.discard[#battle.discard+1]=table.remove(battle.hand)end
+     local original=assert(battle.exhaust[1])
+     require('abyss_card_actions').applyChoice(C,battle,{effect={op='recoverExhaust',value=1}},original.uid)
+     assert(battle.hand[1]==original and original.cardId==card.id)
+    end
     run.phase='combat';run.combat=battle
     battleUI.run=run;battleUI.target=1;battleUI:render()
     local box=root:GetChild('battlePanel'):GetChild('card1')
