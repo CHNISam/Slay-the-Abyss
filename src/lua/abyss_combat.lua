@@ -928,6 +928,9 @@ queuedHandlers.effect = function(state, action, queue)
     elseif effect.op == "removeMantra" then
         return require("abyss_mantra").remove(state)
     elseif effect.op == "heal" then
+        if effect.relic then
+            return CardActions.apply(M,state,{effect=effect,source=state.player})
+        end
         -- A source-verified Reaper continuation, not a public card effect ABI.
         local value=effect.value
         assert(type(value)=="number" and value%1==0 and value>=0 and value<=2147483647,"invalid heal amount")

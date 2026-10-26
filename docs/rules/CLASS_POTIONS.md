@@ -19,3 +19,5 @@
 真实Run最初unknown_potion为RED；`class_potion_miracle_ambrosia.lua`覆盖2/4张、MR、溢出、UID、实际奇迹出牌消耗、同battle引用、神格倍伤/重复喝/下回合退出及实际Vigilance、Mental Fortress、Rushdown、Flurry联动。`class_potion_ambrosia_queue.lua`检查真实事件先转姿态、再Toy治疗（仍未加能量）、最后完成时已+3；故障夹具将手牌上限依赖损坏，使Flurry最后移动失败，观察私有快照已完成姿态/治疗/能量后证实整个事务回滚，并直接检查已有队列的重入拒绝。没有把故障夹具当作自然遭遇。
 
 `class_potion_watcher_channels.lua`以不变初始牌组/HP/RNG真实打赢seed10/109初战，核对冻结oracle同稀有度替换的精确RNG词/计数，领取后再战使用；商店seed3/10购买、满槽失败保持价格/随机状态；独立Python固定源oracle给出Entropic seed392的Ambrosia/Forge/BottledMiracle和计数9，生产实际生成并使用两瓶；seed5仍实际报告中间抽中StancePotion不可获得，后续LiquidBronze不重抽。三份专用测试各低于5秒，保留原30秒时限；未做全量检查、完整自然路线或平台验收。
+
+桥接追加修复：携带relic来源的Heal动作仍委派原CardActions治疗路径，保留Magic Flower的binary32/Java四舍五入和Mark of Bloom禁疗，而不是落入原高级Reaper的裸治疗分支。`class_potion_relic_heal.lua`真实Ambrosia→Toy+Flower最初红于5而非8，修复后Flower=8、Bloom=0、二者=0均成立。夹具显式提供这两个被动遗物定义，不宣称其自然获得。
