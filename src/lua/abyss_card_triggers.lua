@@ -22,10 +22,7 @@ local function dense(t)
     for i=1,n do assert(rawget(t,i)~=nil,"sparse card-trigger list") end
     return n
 end
-local function copy(v)
-    if type(v)~="table" then return v end
-    local out={};for k,x in pairs(v) do out[k]=copy(x) end;return out
-end
+local copy=require('abyss_copy').copy
 local function powers(s)
     plain(s,"invalid card-trigger state");plain(s.player,"missing card-trigger player")
     plain(s.player.statuses,"missing card-trigger powers")

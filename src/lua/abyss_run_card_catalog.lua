@@ -46,6 +46,26 @@ local function metadata(data)
  end end
  return result
 end
+local function definitionFact(card)
+ return {sourceId=card.sourceId or card.sts_name or basicSourceIds[card.id]or card.id,
+  type=card.type,rarity=card.rarity,healing=card.healing==true}
+end
+local function validateMetadata(metadataMap,id,fact)
+ local current=metadataMap[id]
+ if current==nil then return end
+ assert(type(current)=='table','incompatible caller card metadata: '..id)
+ for key,value in pairs(fact)do
+  assert(current[key]==nil or current[key]==value,'incompatible caller card metadata: '..id)
+ end
+end
+local function putMetadata(target,id,fact)
+ local current=target[id]
+ if type(current)=='table'then
+  -- These four fields are the source-fact ABI. Preserve the existing private
+  -- record and opaque caller words/graphs instead of replacing their aliases.
+  for _,key in ipairs({'sourceId','type','rarity','healing'})do current[key]=fact[key]end
+ else target[id]=Copy.copy(fact)end
+end
 local foreignCards,foreignMetadata,ruleKeys
 local words={id=true,sourceId=true,sts_name=true,name=true,color=true,text=true,upgradeText=true,healing=true}
 local function authoredCards()
@@ -90,6 +110,18 @@ local nativeRuleKeys={'condition','cost','costMode','effects','ethereal','exhaus
 local function adoptRed(current,definition)
  -- Adapt the SAME private source object: directory aliases retain their
  -- identity, while runtime ABI fields follow the existing red adapter chain.
+ if not current.experimental and not definition.experimental and definition.target~=nil then
+  -- Unchanged native rules already belong to this graph. Preserve their
+  -- nested aliases too; the red adapter only appends STRIKE tags here.
+  if definition.sourceTags then
+   current.sourceTags=current.sourceTags or{}
+   for _,tag in ipairs(definition.sourceTags)do
+    local seen=false;for _,old in ipairs(current.sourceTags)do if old==tag then seen=true end end
+    if not seen then current.sourceTags[#current.sourceTags+1]=tag end
+   end
+  end
+  return current
+ end
  for _,key in ipairs(nativeRuleKeys)do current[key]=Copy.copy(definition[key])end
  for key in pairs(ruleKeys)do if not words[key]then current[key]=Copy.copy(definition[key])end end
  return current
@@ -120,7 +152,11 @@ function M.prepareSelected(source,id)
    for field,value in pairs(v)do
     if k=='cards'and field=='cards'or k=='statuses'and field=='statuses'then fillList(out[k][field],value)
     elseif field=='sourcePools'and out[k][field]then
-     for pool,entries in pairs(value)do out[k][field][pool]=entries end
+     for pool,entries in pairs(value)do
+      if pool=='cardSourceMetadata'and out[k][field][pool]then
+       for cardId,fact in pairs(entries)do putMetadata(out[k][field][pool],cardId,fact)end
+      else out[k][field][pool]=entries end
+     end
     else out[k][field]=value end
    end
   else out[k]=v end
@@ -162,12 +198,21 @@ function M.prepare(source,selected,character,owned)
  for _,id in ipairs({'silent','defect','watcher'})do
   providers[id]=character==id and out or constants[id]
  end
- local sourceMeta=metadata(source)
+ -- A caller metadata index never overrides verified real definitions. Red
+ -- facts come from native definitions, not from that secondary index.
+ local sourceMeta={}
+ local declared=source.cards.sourcePools and source.cards.sourcePools.cardSourceMetadata or{}
+ for _,card in ipairs(source.cards.cards)do if RedContract.isRed(card.id)then
+  local fact=definitionFact(card);validateMetadata(declared,card.id,fact);sourceMeta[card.id]=fact
+ end end
+ for id,fact in pairs(facts)do validateMetadata(declared,id,fact)end
  local cards,positions,statuses,potions={},{},{},{}
  for _,c in ipairs(out.cards.cards)do cards[#cards+1]=c;assert(not positions[c.id],'duplicate caller card');positions[c.id]=#cards end
  for _,s in ipairs(out.statuses.statuses)do assert(not statuses[s.id],'duplicate caller Power');statuses[s.id]=s end
  for _,p in ipairs(out.potions.potions)do potions[p.id]=true end
- local allMeta=Copy.copy(out.cards.sourcePools and out.cards.sourcePools.cardSourceMetadata or {})
+ out.cards.sourcePools=out.cards.sourcePools or {}
+ local allMeta=out.cards.sourcePools.cardSourceMetadata or {}
+ out.cards.sourcePools.cardSourceMetadata=allMeta
  for _,id in ipairs({'ironclad','silent','defect','watcher'})do
   local provider=providers[id];local meta=id=='ironclad'and sourceMeta or metadata(provider)
   local count=0
@@ -187,7 +232,7 @@ function M.prepare(source,selected,character,owned)
      assert(c.type==fact.type and c.rarity==fact.rarity,'incompatible source card type/rarity: '..c.id)
      c.sourceId=fact.sourceId;c.healing=fact.healing==true or nil
      c.runNativeABI=native[c.id]or nil
-     allMeta[c.id]=Copy.copy(fact)
+     putMetadata(allMeta,c.id,fact)
     end
     if isRegular or not at or c.id=='burn'and c.burnDamage~=nil then
      at=at or #cards+1;cards[at]=c;positions[c.id]=at
@@ -215,8 +260,13 @@ function M.prepare(source,selected,character,owned)
  local ordered,ids={},{};for id in pairs(statuses)do ids[#ids+1]=id end;table.sort(ids)
  for _,id in ipairs(ids)do ordered[#ordered+1]=statuses[id]end
  fillList(out.statuses.statuses,ordered)
- out.cards.sourcePools=out.cards.sourcePools or {};out.cards.sourcePools.cardSourceMetadata=allMeta
  out.runCardCatalog=true;out.runCardCharacter=character
  return out
+end
+function M.finishMetadata(data)
+ local target=data.cards.sourcePools.cardSourceMetadata
+ for _,card in ipairs(data.cards.cards)do
+  local fact=definitionFact(card);validateMetadata(target,card.id,fact);putMetadata(target,card.id,fact)
+ end
 end
 return M

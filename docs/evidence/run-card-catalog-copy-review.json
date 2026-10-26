@@ -1,0 +1,73 @@
+{
+  "beforeHead": "71498217c5a59d3fbbed5a30e8488b406cd3d923",
+  "node": "v24.18.0",
+  "beforeObserved": [
+    {
+      "fixture": "run_card_catalog_review_card_graph",
+      "status": 1,
+      "elapsedMs": 1011,
+      "error": "abyss_warrior_cards.lua:4: stack overflow"
+    },
+    {
+      "fixture": "run_card_catalog_review_metadata",
+      "status": 1,
+      "elapsedMs": 697,
+      "error": "private metadata map must be filled in place"
+    },
+    {
+      "fixture": "run_card_catalog_metadata_conflicts",
+      "status": 1,
+      "elapsedMs": 662,
+      "error": "caller source metadata must not override verified identity/HEALING for strike"
+    }
+  ],
+  "after": [
+    {
+      "fixture": "run_card_catalog_review_card_graph",
+      "status": 0,
+      "elapsedMs": 1870,
+      "stdout": "RUN_CARD_CATALOG_REVIEW_CARD_GRAPH_PASS valid opaque card cycle and alias preserved for default/four selected classes\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_review_metadata",
+      "status": 0,
+      "elapsedMs": 1949,
+      "stdout": "RUN_CARD_CATALOG_REVIEW_METADATA_PASS actual source metadata map alias and full cross-color facts remain private\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_owned_registration",
+      "status": 0,
+      "elapsedMs": 2915,
+      "stdout": "RUN_CARD_CATALOG_OWNED_REGISTRATION_PASS private Run ownership before registration, both caller modes/five profiles, two-Run and two-battle metadata isolation\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_metadata_conflicts",
+      "status": 0,
+      "elapsedMs": 1691,
+      "stdout": "RUN_CARD_CATALOG_METADATA_CONFLICTS_PASS actual Run rejects red identity/HEALING and cross-color tag conflicts; partial caller words get canonical facts\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_profile_graph",
+      "status": 0,
+      "elapsedMs": 374,
+      "stdout": "RUN_CARD_CATALOG_PROFILE_GRAPH_PASS historical raw Ironclad66 rules/filter and graph-copy enhancement remain detached\n",
+      "stderr": ""
+    }
+  ],
+  "productionHashes": {
+    "src/lua/abyss_warrior_cards.lua": "659852360da74fe2cc35e5282df5b70c644f98e823ea53fc4f9e837037d1d3b5",
+    "src/lua/abyss_warrior_exhaust_cards.lua": "34f61ccbb197eacfebaa40d62a30aa9490753b5faf8b683cffa4a5172146002c",
+    "src/lua/abyss_warrior_strength_cards.lua": "4e9b43e72e40e79277235f21080d39f923925bec82d3782416623c1c2b7601f1",
+    "src/lua/abyss_card_triggers.lua": "fe53cc16ead978271a652908625101f314994912cbf0835ba4dabb5c74fb2b64",
+    "src/lua/abyss_warrior_status_cards.lua": "a50815bb6146cd87c2f19b113f4d02c9b99a5280a1eacec245a3bf9131a49684",
+    "src/lua/abyss_retrieval_cards.lua": "14f0ebec5ccd4461eae07ce67a055bb8198b747338b322feda4b25b3a278196b",
+    "src/lua/abyss_character_profiles.lua": "ae5dc874294c2e01474e476f6b77bbd51d775338413ef087d2a459861677b40b",
+    "src/lua/abyss_colorless_cards.lua": "e3d80aaf28e417a3d21036b1efc5a21404e5e9bddb6a79ada2a0a31e6d53d79a",
+    "src/lua/abyss_run.lua": "537d2a7e5ddb982d045ae1faceb30e67983e9cf585ba739ec4fc275012868605",
+    "src/lua/abyss_run_card_catalog.lua": "d8d7f52778dbfd6814ddebc1ecc960c6732317d3746a6aabf104e4b7ef7f4a54"
+  }
+}

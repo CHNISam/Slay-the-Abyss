@@ -23,7 +23,7 @@ end
 
 function M.new(data, seed, options)
     local sourceData=data
-    local profile,ownsData
+    local profile,ownsData,ownsCatalog
     if options ~= nil then
         assert(type(options)=='table','invalid character options')
         assert(options.campaign==nil or type(options.campaign)=='boolean','invalid campaign option')
@@ -43,9 +43,9 @@ function M.new(data, seed, options)
     end
     if not (profile and profile.originalV4)then
         data=require('abyss_run_card_catalog').prepare(sourceData,data,profile and profile.id,ownsData)
-        ownsData=true
+        ownsData,ownsCatalog=true,true
     end
-    data=require('abyss_colorless_cards').withCards(data)
+    data=require('abyss_colorless_cards').withCards(data,ownsCatalog)
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
     -- Profile factories already detached the whole input graph. Their private
@@ -67,10 +67,14 @@ function M.new(data, seed, options)
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
     local sources=run.data.cards.sourcePools
     sources.cardSourceMetadata=sources.cardSourceMetadata or {}
-    for _,card in ipairs(run.data.cards.cards)do
-        if not sources.cardSourceMetadata[card.id] then
-            sources.cardSourceMetadata[card.id]={sourceId=card.sourceId or card.sts_name or card.id,
-                rarity=card.rarity,type=card.type,healing=card.healing==true}
+    if ownsCatalog then
+        require('abyss_run_card_catalog').finishMetadata(run.data)
+    else
+        for _,card in ipairs(run.data.cards.cards)do
+            if not sources.cardSourceMetadata[card.id] then
+                sources.cardSourceMetadata[card.id]={sourceId=card.sourceId or card.sts_name or card.id,
+                    rarity=card.rarity,type=card.type,healing=card.healing==true}
+            end
         end
     end
     if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end

@@ -1,9 +1,6 @@
 -- Explicit experimental activation of the seven dormant source-defined cards.
 local M={}
-local function copy(x)
-    if type(x)~='table' then return x end
-    local y={};for k,v in pairs(x) do y[k]=copy(v) end;return y
-end
+local copy=require('abyss_copy').copy
 local function choice(mode) return {op='handChoice',mode=mode,value=1} end
 -- The opt-in rules below cover this foundation and its explicit additions.
 -- A larger production catalog must not silently expand the experimental pool.

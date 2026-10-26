@@ -8,10 +8,7 @@ local specs={
     watcher={hp=72,color="purple",suffix="P",count=4,module="abyss_watcher_cards",extras={"eruption","vigilance"},
         relic="pure_water",relicSource="PureWater",effect={op="makeMiracle",value=1}},
 }
-local function copy(v)
-    if type(v)~="table" then return v end
-    local r={};for k,x in pairs(v) do r[k]=copy(x) end;return r
-end
+local copy=require('abyss_copy').copy
 local function basic(id,sourceId,color,attack)
     local op=attack and "damage" or "block"
     return {id=id,sourceId=sourceId,sts_name=attack and "Strike" or "Defend",name=attack and "打击" or "防御",
