@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "kind": "production-lua-regression",
+  "dataHashes": {
+    "cards_v4.json": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca",
+    "rules_v4.json": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+  },
+  "deviceAcceptance": false,
+  "sourceIdentity": "candidate.json payloadDigest binds production inputs; repository commit containing this record supplies source ancestry",
+  "suites": [
+    {
+      "command": "node --test --test-concurrency=1 tests/original-v4-data.test.mjs tests/original-v4-display.test.mjs tests/original-v4-runtime.test.mjs",
+      "status": "pass",
+      "tests": 48,
+      "productionResolutions": 1200,
+      "coverage": "300 stable cards × base/upgrade × lean/rich, real Combat.play/queue/actors; independent frozen-reference expectations, all 38 declared direct changes, exact source hashes, generated Lua all-field readback; no player/device acceptance inferred"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/original-v4-integration.test.mjs",
+      "status": "pass",
+      "tests": 3,
+      "coverage": "natural starter/reward/next encounter for four roles; isolated shop/camp/remove/UID and native modifiers; real host selection, 600 full rules faces, inspector hold/drag, natural defeat and one-shot exit settlement"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/combat.lua",
+      "status": "pass-on-source65",
+      "cases": 23,
+      "finalCandidateRerun": "pending"
+    },
+    {
+      "command": "npm run check",
+      "status": "pending",
+      "coverage": "full existing Traveler/native catalog, UI, Python and engineering regression; not replaced by the V4 pack checks"
+    }
+  ],
+  "normalPaths": [
+    {
+      "role": "hutao",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 66,
+        "turns": 3,
+        "playedCards": 7,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "arlecchino",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 59,
+        "turns": 4,
+        "playedCards": 9,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "furina",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 63,
+        "turns": 3,
+        "playedCards": 7,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "raiden",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 71,
+        "turns": 3,
+        "playedCards": 9,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    }
+  ],
+  "fixtureBoundaries": [
+    "Per-card lean/rich states deliberately seed HP/resources/enemies to isolate semantics; they are not normal-run or balance evidence.",
+    "Lifecycle shop/camp fixtures position map cursors and use real channel transactions. They do not claim intervening rooms were played.",
+    "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
+  ]
+}

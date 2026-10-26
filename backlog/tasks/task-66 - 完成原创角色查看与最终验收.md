@@ -1,0 +1,33 @@
+---
+id: TASK-66
+title: 完成原创角色查看与最终验收
+status: In Progress
+assignee:
+  - Furinya
+created_date: '2026-10-26 07:01'
+due_date: '2026-10-28'
+labels: []
+milestone: m-4
+dependencies: []
+ordinal: 113000
+---
+
+## Description
+
+<!-- SECTION:DESCRIPTION:BEGIN -->
+补齐四位原创角色在卡组、商店与升级中的完整规则查看，并完成正常流程和生产回归。技术细节见 docs/backlog-details/task-66.md。
+<!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [ ] #1 四人完整卡池可通过正常流程获取、升级与战斗
+- [ ] #2 完整效果可在卡组、商店和升级页面查看且不误触购买
+- [ ] #3 生产回归与同候选实机证据分层记录
+- [ ] #4 当前提交检查通过并按受控流程合入 develop
+<!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+复用已释放切片，补齐只读查看，验证获取与生命周期，冻结候选并受控合并。
+<!-- SECTION:PLAN:END -->

@@ -47,7 +47,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         cursor = platform.cursorEvents })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, previewSeed), self.mapUI.map,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
-            cursorEvents = platform.cursorEvents, sound = platform.sound })
+            cursorEvents = platform.cursorEvents, sound = platform.sound,
+            onInspectCard=function(definition,upgraded)
+                if not self.run or self.disabled or self.mode~='node' or self.exitOpen
+                    or self.deckUI.visible or self.potionUI.visible or self.settlementRequested then return false end
+                if not self.deckUI:inspect(self.run,definition,upgraded) then return false end
+                self:refresh();return true
+            end })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
     if selectable then
         self.choiceUI = require("abyss_choice_ui").new(child("choicePanel"),presentation,clickEvent,platform,

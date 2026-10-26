@@ -22,6 +22,13 @@ def generate(pack):
                     assert reference[key][field]==card[key][field],(card['id'],key,field)
             else:assert reference[key]==card[key],(card['id'],key)
     engine.CARDS={c['id']:c for c in cards}
+    changes=[]
+    for role in ('HT','AR','FR','RD'):
+        for change in json.loads((pack/'02_characters'/role/'changes.json').read_text()):
+            actual=next(c for c in cards if c['id']==change['id'])
+            assert all(actual[k]==change['new'][k] for k in ('base','upgrade'))
+            changes.append({'id':change['id'],'base':change['new']['base'],'upgrade':change['new']['upgrade']})
+    assert len(changes)==38 and len({c['id'] for c in changes})==38
     cases=[]
     fields={'hp':'hp','block':'block','energy':'energy','healUsed':'heal_used','infuse':'infuse','chargedUsed':'empowered_charged',
         'bond':'bond','fan':'fan','fanGained':'fan_turn','mode':'mode','singer':'singer','resolve':'resolve','resolveGained':'resolve_turn',
@@ -69,7 +76,7 @@ def generate(pack):
     return {'version':rules['version'],'cardsSha256':digest(cards_path),'rulesSha256':digest(rules_path),
         'referenceEngineSha256':digest(source),'referenceSourceSha256':digest(baseline),
         'scope':'Reference expectations only. Production tests compare real Lua queue/actors; no game/device acceptance is inferred.',
-        'cases':cases}
+        'directChanges':changes,'cases':cases}
 
 def lua(value):
     if isinstance(value,bool):return 'true' if value else 'false'

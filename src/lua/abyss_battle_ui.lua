@@ -22,11 +22,6 @@ local stanceNames={Neutral="无姿态",Calm="平静",Wrath="愤怒",Divinity="�
 local orbNames={lightning="闪电",frost="冰霜",dark="黑暗",plasma="等离子"}
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local number = require("abyss_numbers").integer
--- A displayed damage variable is exact, never a cross-target range.
-local function amount(preview)
-    assert(preview.low == preview.high, "card damage display must be exact")
-    return number(preview.low)
-end
 -- Negative Strength/Dexterity are debuffs, as the core's Artifact gate treats them.
 local function statusKind(entry) return entry.amount < 0 and "debuff" or entry.kind end
 local kindNames = { buff = "增益", debuff = "减益" }
@@ -212,12 +207,12 @@ local function intentView(state, index)
         if effect.op == "damage" or effect.op=='damageAll' then
             -- The number already includes Strength, Weak and Vulnerable on both sides.
             local amount = Combat.attackAmount(state, copy, player, effect.value)
-            local each, times = number(amount), effect.times or 1
+            local times = effect.times or 1
             local hits,total,unequal={},0,false
             for hit=1,times do local cut=math.min(amount,soften);soften=soften-cut;hits[hit]=amount-cut;total=total+hits[hit]
                 if hit>1 and hits[hit]~=hits[1]then unequal=true end
             end
-            amount=hits[1];each=number(amount)
+            amount=hits[1];local each=number(amount)
             local face = each .. (times > 1 and "×" .. times or "")
             if unequal then local values={};for _,hit in ipairs(hits)do values[#values+1]=number(hit)end;face=table.concat(values,'+')end
             attack = attack or face

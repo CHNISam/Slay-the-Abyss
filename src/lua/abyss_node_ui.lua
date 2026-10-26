@@ -110,10 +110,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:SetLocalScale(scale, scale, 1)
     end
     local buttonInputs = {}
+    local inspectCards={}
     -- One horizontal row drag at a time; swallow eats the Click that ends a swipe.
     local swipe, swallow = nil, nil
     local function resetButtons()
         buttonHover, buttonPress, swipe = nil, nil, nil
+        self.inspectPress=nil
         for _, input in pairs(buttonInputs) do input.active, input.released = {}, nil end
         for box in pairs(buttonLooks) do paintButton(box) end
     end
@@ -192,6 +194,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local definition, display = card(id) or {}, self.presentation[id] or {}
         local instance=look.instance or {cardId=id,upgraded=upgraded==true}
         definition=Combat.cardDefinition({catalog={cards={[id]=definition}}},instance)
+        inspectCards[box]=definition.originalV4 and {definition=definition,upgraded=instance.upgraded} or nil
+        if look.inspectOnly then box:GetChild('hit'):SetVisible(definition.originalV4~=nil) end
         local kind = Theme.icon.cardArt[definition.type] and definition.type or "status"
         CardDisplay.writeTitle(box:GetChild("name"),cardName(id,false),instance.upgraded,
             definition.repeatable and (instance.upgrades or 1) or nil)
@@ -432,8 +436,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local nextInstance=Combat.copy(selected)
             nextInstance.upgrades=(selected.upgrades or (selected.upgraded and 1 or 0))+1
             nextInstance.upgraded=true
-            fillCard(before, selected.cardId, selected.upgraded,{instance=selected})
-            fillCard(after, selected.cardId, true, { changed = changed,instance=nextInstance })
+            fillCard(before, selected.cardId, selected.upgraded,{instance=selected,inspectOnly=true})
+            fillCard(after, selected.cardId, true, { changed = changed,instance=nextInstance,inspectOnly=true })
             picker:GetChild("label").text = result and "已升级" or "升级预览"
             picker:GetChild("hint").text = changed and ("费用 " .. display.cost .. " → " .. display.upgradeCost) or "效果增强"
         elseif selected then
@@ -785,6 +789,18 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     function self:update(dt)
         if self.visible then merchant:update(dt) end
+        local held=self.inspectPress
+        if held then
+            if not self.visible or held.run~=self.run or held.flow~=self.run.nodeFlow
+                or held.card~=inspectCards[held.box] or held.action~=self.actions[held.name] then self.inspectPress=nil
+            else
+                held.time=held.time+dt
+                if held.time>=Theme.layout.statusInfo.delay then
+                    self.inspectPress=nil;swipe=nil;swallow={touch=held.touch}
+                    if options.onInspectCard then options.onInspectCard(held.card.definition,held.card.upgraded) end
+                end
+            end
+        end
     end
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
@@ -871,6 +887,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
     for i = 1, 3 do targets[#targets+1]='shopView/potion'..i end
     for i = 1, PICK_PAGE do targets[#targets + 1] = "pickerView/card" .. i end
+    targets[#targets+1]='pickerView/before';targets[#targets+1]='pickerView/after'
     for i = 1, OPTIONS do targets[#targets + 1] = "eventView/option" .. i end
     local cursor = options.cursorEvents or (Enum and Enum.CursorEventType)
     -- Native hits accept one listener per event; framed feedback and row swipes share it.
@@ -1024,6 +1041,29 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             listen(hit, cursor.CursorDown, function(event) swipeDown(row, event) end)
             listen(hit, cursor.CursorUp, swipeUp)
             if cursor.CursorEndDrag then listen(hit, cursor.CursorEndDrag, swipeUp) end
+        end
+        if options.onInspectCard and cursor and cursor.CursorDown and cursor.CursorUp
+            and (name:match('^shopView/card%d+$') or name:match('^pickerView/card%d+$')
+                or name=='pickerView/before' or name=='pickerView/after') then
+            listen(hit,cursor.CursorDown,function(event)
+                self.inspectPress=nil
+                if not self.visible or not inspectCards[box] or not box.visible then return end
+                local x,y=point(event)
+                self.inspectPress={box=box,name=name,card=inspectCards[box],run=self.run,flow=self.run.nodeFlow,
+                    action=self.actions[name],touch=event and event.touchId,time=0,x=x,y=y}
+            end)
+            local function cancelInspect(event)
+                if self.inspectPress and self.inspectPress.touch==(event and event.touchId) then self.inspectPress=nil end
+            end
+            listen(hit,cursor.CursorUp,cancelInspect)
+            if cursor.CursorExit then listen(hit,cursor.CursorExit,cancelInspect) end
+            if cursor.CursorEndDrag then listen(hit,cursor.CursorEndDrag,cancelInspect) end
+            if cursor.CursorDrag then listen(hit,cursor.CursorDrag,function(event)
+                local held=self.inspectPress;local x,y=point(event)
+                if held and (not x or not held.x or (x-held.x)^2+(y-held.y)^2>=Theme.layout.cardDrag.threshold^2) then
+                    self.inspectPress=nil
+                end
+            end) end
         end
     end
     self:render()

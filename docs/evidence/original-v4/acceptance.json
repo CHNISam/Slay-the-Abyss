@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "contract": "SlayTheAbyss V4 05_checks/ACCEPTANCE.md",
+  "dataHashes": {
+    "cards_v4.json": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca",
+    "rules_v4.json": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+  },
+  "items": [
+    {
+      "id": "A.1",
+      "status": "pass",
+      "evidence": "exact hashes; 300/600 and 38 explicit changes"
+    },
+    {
+      "id": "A.2",
+      "status": "pass",
+      "evidence": "1200 real resolutions and critical/lifecycle modifier cases; no runtime block tax"
+    },
+    {
+      "id": "A.3",
+      "status": "partial",
+      "evidence": "all 75 definitions per role supported; all 69 nonbasic reward/colored shop pool membership; 600 faces; normal acquisition demonstrated for sampled rewards/purchases, not all possible runs"
+    },
+    {
+      "id": "B.1",
+      "status": "pass",
+      "evidence": "contract HT payment/dynamic maxHP/third charge/multihit"
+    },
+    {
+      "id": "B.2",
+      "status": "pass",
+      "evidence": "contract and full-card rich traces: stable bond/marked death/absorb/Q"
+    },
+    {
+      "id": "B.3",
+      "status": "pass",
+      "evidence": "full-card traces and contract FR mode/guest/revelry batches"
+    },
+    {
+      "id": "B.4",
+      "status": "pass",
+      "evidence": "contract RD eye/no self-hit/refund cap"
+    },
+    {
+      "id": "B.5",
+      "status": "pass",
+      "evidence": "shared actual-heal cap, AR gate, zero/dead heal, first-turn relic budget"
+    },
+    {
+      "id": "B.6",
+      "status": "pass",
+      "evidence": "real endTurn action fixtures: nonattack, multi-enemy/multihit/full-block/lethal/thorns death"
+    },
+    {
+      "id": "B.7",
+      "status": "partial",
+      "evidence": "duplicate command atomicity, invalid payment/targets, normal permanent UIDs and next combat reset; pending complete same-candidate client interaction"
+    },
+    {
+      "id": "C.1",
+      "status": "pass",
+      "evidence": "generated formal selector starts all four; 10-card HP/relic profiles; isolated own 69-card pools; Traveler native path retained"
+    },
+    {
+      "id": "C.2",
+      "status": "partial",
+      "evidence": "production acquisition/shop/camp/remove/next combat/defeat/exit checked; complete original campaign victory and client settlement not_run"
+    },
+    {
+      "id": "C.3",
+      "status": "not_run",
+      "evidence": "four roles × three archetypes on actual game levels requires same candidate client evidence; starter probes do not substitute"
+    },
+    {
+      "id": "C.4",
+      "status": "partial",
+      "evidence": "shared native modifiers/healing and retained catalog; full existing suite pending final candidate"
+    },
+    {
+      "id": "D.1",
+      "status": "partial",
+      "evidence": "600 full rules and read-only production previews/resources; actual client rendering/complex-screen performance not_run"
+    },
+    {
+      "id": "D.2",
+      "status": "not_run",
+      "evidence": "no attached official PC client or physical phone in this cloud environment"
+    },
+    {
+      "id": "D.3",
+      "status": "partial",
+      "evidence": "frozen data hashes and source payload identity recorded; .gil build/import and linked same-candidate PC/phone evidence not_run"
+    }
+  ],
+  "overall": "partial; not game/device acceptance",
+  "numericalChangesMadeByImplementation": false,
+  "balanceConclusion": "No balance conclusion from per-card fixtures or four starter wins. Preserve failures; do not tune frozen values.",
+  "blockers": [
+    "Official Miliastra build/import and runtime are unavailable in this cloud tool set.",
+    "Same-candidate PC and physical-phone readability/input/performance evidence is absent.",
+    "Twelve archetype normal-run checks and full original campaign victory remain unverified."
+  ]
+}

@@ -59,8 +59,8 @@ end
 function M.snapshot(state,target)
     local v,p=state.originalV4,state.player
     local valid=live(target);local bloom=valid and target.v4Bloom;local directive=valid and target.v4Directive
-    local s={low=2*p.hp<=p.maxHp,not_low=2*p.hp>p.maxHp,infused=v.infuse>0,bloom_target=bloom and bloom.ticks>0 or false,
-        enemy_low=valid and 2*target.hp<=target.maxHp or false,bond0=v.bond==0,bond1=v.bond>=1,bond2=v.bond>=2,bond4=v.bond>=4,not_bond4=v.bond<4,
+    local s={low=2.0*p.hp<=p.maxHp,not_low=2.0*p.hp>p.maxHp,infused=v.infuse>0,bloom_target=bloom and bloom.ticks>0 or false,
+        enemy_low=valid and 2.0*target.hp<=target.maxHp or false,bond0=v.bond==0,bond1=v.bond>=1,bond2=v.bond>=2,bond4=v.bond>=4,not_bond4=v.bond<4,
         directive_target=directive~=nil and directive~=false,mature_target=directive and directive.mature or false,
         has_bloom=false,has_directive=false,has_mature=false,ousia=v.mode=='ousia',pneuma=v.mode=='pneuma',fan0=v.fan==0,
         fan2=v.fan>=2,fan3=v.fan>=3,fan4=v.fan>=4,not_fan4=v.fan<4,fan6=v.fan>=6,has_guest=false,has_singer=v.singer>0,
@@ -181,7 +181,7 @@ trigger=function(combat,state,member)
     if v.mode~='ousia' or (v.guests[member] or 0)<=0 then return end
     v.guests[member]=v.guests[member]-1
     local extra=0
-    if 2*state.player.hp>state.player.maxHp and state.player.hp>1 then pay(combat,state,1);extra=1 end
+    if 2.0*state.player.hp>state.player.maxHp and state.player.hp>1 then pay(combat,state,1);extra=1 end
     local targets=living
     if member~='chevalmarin'then
         local target=living[1]
@@ -202,6 +202,7 @@ apply=function(combat,state,e,target,ctx)
         if ctx.snapshot[e.condition]then for _,part in ipairs(e.effects)do apply(combat,state,part,target,ctx)end end
     elseif op=='pay_hp'then
         -- Mandatory payments were aggregated and paid before the only snapshot.
+        return
     elseif op=='damage' or op=='damage_spent'then
         batch(combat,state,n+(op=='damage_spent' and e.coefficient*ctx.spent or 0),selected(state,e,target),e.hits or 1,ctx,0,false)
     elseif op=='block' or op=='block_spent'then M.block(state,n+(op=='block_spent' and e.coefficient*ctx.spent or 0),false)

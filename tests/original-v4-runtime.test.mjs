@@ -10,6 +10,15 @@ test('production vector identities match both frozen inputs',()=>{
   for(const [file,key] of [['cards_v4.json','cardsSha256'],['rules_v4.json','rulesSha256']])
     assert.equal(createHash('sha256').update(readFileSync('data/original_v4/'+file)).digest('hex'),vectors[key]);
 });
+test('all 38 declared V4 direct changes match both production card versions',()=>{
+  const cards=JSON.parse(readFileSync('data/original_v4/cards_v4.json','utf8')).cards;
+  assert.equal(vectors.directChanges.length,38);
+  assert.equal(new Set(vectors.directChanges.map(c=>c.id)).size,38);
+  for(const expected of vectors.directChanges){
+    const actual=cards.find(c=>c.id===expected.id);
+    for(const level of ['base','upgrade'])assert.deepEqual(actual[level],expected[level],`${expected.id} ${level}`);
+  }
+});
 test('original role atomicity, shared modifiers and critical enemy boundaries',()=>{
   const r=runLua('tests/lua/original_v4_contract.lua');assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/ORIGINAL_V4_CONTRACT_PASS 19/);
 });
