@@ -284,6 +284,7 @@ local function draw(state, count, drawn)
         if (state.player.statuses.corruption or 0)~=0 then require("abyss_corruption").onDraw(state,card) end
         require("abyss_silent_discard_cards").onDraw(state,card)
         require('abyss_silent_final_cards').onDraw(state,card)
+        require('abyss_watcher_final_cards').drawn(state,card,M.cardDefinition(state,card))
         if state.drainingCardActions or not state.experimentalMechanics then
             local kind=state.catalog.cards[card.cardId].type
             for _,id in ipairs(Actors.powerSequence(state.player,{'evolve','fire_breathing'})) do
@@ -305,6 +306,12 @@ local function draw(state, count, drawn)
 end
 function M.draw(state,count)
     local drawn={};draw(state,count,drawn);return drawn
+end
+function M.shuffleDiscardIntoDraw(state)
+    assert(#state.draw==0,'EmptyDeckShuffle requires an empty draw pile')
+    shuffle(state,state.discard)
+    state.draw,state.discard=state.discard,{}
+    event(state,'reshuffle')
 end
 
 function M.combatBaseCost(state, instance)
@@ -1031,10 +1038,22 @@ queuedHandlers.useCard = function(state, _action, queue)
     return true
 end
 local function finishQueuedPlay(state)
+    if state.startTurnPending and not state.pendingPlay then
+        state.startTurnPending=nil;drainNative(state)
+        if not finish(state) then event(state,'player_turn',state.turn)end
+        return
+    end
     local context = assert(state.pendingPlay, "missing pending play")
     assert(not state.cardInUse or state.player.hp <= 0, "undisposed queued card")
     state.resolvingCard = context.previous
     state.pendingPlay = nil
+    if state.endTurnAfterCard then
+        state.endTurnAfterCard=nil
+        require('abyss_watcher_final_cards').cancelAutomatic(M,state)
+        drainNative(state)
+        if not finish(state) then M.endTurn(state) end
+        return
+    end
     drainNative(state)
     finish(state)
 end
@@ -1045,14 +1064,14 @@ function M.chooseDiscard(state,uids,token)
         local called,ok,reason=pcall(function()local accepted,why=discard.choose(state,uids,token,M);if accepted then drainNative(state);finish(state)end;return accepted,why end)
         if not called then restore();error(ok,0)end;return ok,reason
     end
-    if not (state.pendingPlay or state.pendingTurnStart) or not state.pendingDiscard then return false,'no_pending_discard' end
+    if not (state.pendingPlay or state.startTurnPending) or not state.pendingDiscard then return false,'no_pending_discard' end
     local restore=require('abyss_snapshot').capture(state)
     local called,ok,reason=pcall(function()
         local accepted,why=discard.choose(state,uids,token,M)
         if not accepted then return false,why end
         local result=require('abyss_action_queue').resume(state,queuedHandlers)
         if result~='pause' then
-            if state.pendingTurnStart then state.pendingTurnStart=nil;drainNative(state);finish(state)else finishQueuedPlay(state)end
+            if state.startTurnPending then state.startTurnPending=nil;drainNative(state);finish(state)else finishQueuedPlay(state)end
         end
         return true
     end)
@@ -1432,7 +1451,7 @@ function M.play(state, uid, targetIndex, commandId)
 end
 
 function M.chooseScry(state, uids, token)
-    if not state.pendingPlay or not state.pendingScry or not state.actionQueue then
+    if not (state.pendingPlay or state.startTurnPending) or not state.pendingScry or not state.actionQueue then
         return false, "no_pending_scry"
     end
     local restore = require("abyss_snapshot").capture(state)
@@ -1546,8 +1565,11 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     for _,action in ipairs(turns.onEnergyRecharge(state)) do actions[#actions+1]=action end
     actions[#actions+1]={kind='effect',effect={op='draw',value=require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn)}}
     for _,action in ipairs(turns.preparePostDraw(state)) do actions[#actions+1]=action end
+    if (state.player.statuses.foresight or 0)>0 and #state.draw==0 then M.shuffleDiscardIntoDraw(state)end
     local queue=require('abyss_action_queue');queue.start(state,actions)
-    if queue.run(state,queuedHandlers)=='pause'then state.pendingTurnStart=true;return true end
+    state.startTurnPending=true
+    if queue.run(state,queuedHandlers)=='pause' then return true end
+    state.startTurnPending=nil
     drainNative(state)
     if finish(state) then return true end
     event(state,'player_turn',state.turn)
@@ -1694,6 +1716,11 @@ local function endExperimentalTurn(state)
         drainNative(state)
     end
     if finish(state) then return true end
+    if state.skipMonsterTurn then
+        state.skipMonsterTurn=nil
+        M.startPlayerTurn(state)
+        return true
+    end
     state.phase = "enemy"
     event(state, "enemy_turn")
     -- The group pre-turn hook clears every monster's old Block before its

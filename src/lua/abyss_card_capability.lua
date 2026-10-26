@@ -42,7 +42,8 @@ function M.isImplemented(card)
     end
     if card.type~='attack' and card.type~='skill' and card.type~='power' then return false end
     if card.cost == -2 then
-        return (card.id == "tactician" or card.id == "reflex") and card.type == "skill" and empty(card.effects)
+        return (card.id == "tactician" or card.id == "reflex" or card.id=='deus_ex_machina' and card.onDrawFinal~=nil)
+            and card.type == "skill" and empty(card.effects)
     end
     return Effects.supported(card.effects)==true
 end

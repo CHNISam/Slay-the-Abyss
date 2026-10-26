@@ -12,8 +12,8 @@ local M={}
 local MAX=2147483647
 M.phases={
     turn_start={nightmare=true,phantasmal=true,hello_world=true,creative_ai=true,magnetism=true,mayhem=true,berserk=true,infinite_blades=true,bias=true,loop=true,flame_barrier=true,
-        next_turn_block=true,battle_hymn=true,energy_down=true,wrath_next_turn=true},
-    energy_recharge={energized=true,energized_blue=true,collect=true},
+        next_turn_block=true,battle_hymn=true,energy_down=true,wrath_next_turn=true,end_turn_death=true,foresight=true},
+    energy_recharge={energized=true,energized_blue=true,collect=true,deva_form=true},
     turn_start_post_draw={tools_of_the_trade=true,demon_form=true,noxious_fumes=true,devotion=true,brutality=true,
         draw_next_turn=true,draw_card_next_turn=true},
 }
@@ -106,6 +106,10 @@ function M.prepareStart(state)
         elseif id=='next_turn_block' then
             add(out,{op='block',value=n,fixed=true},id)
             add(out,{op='removeStatus',status=id,value=0,targetId=state.player.id},id)
+        elseif id=='foresight' then add(out,{op='scry',value=n},id)
+        elseif id=='end_turn_death' then
+            add(out,{op='loseHp',value=99999},id)
+            add(out,{op='removeStatus',status=id,value=0},id)
         elseif n>0 then bottom(out,Flow.planHook(state,id,'turn_start'),id)
         elseif id=='battle_hymn' then add(out,{op='makeTempCard',cardId='smite',pile='hand',upgraded=false,value=0},id)
         elseif id=='energy_down' then add(out,{op='loseEnergy',value=0},id)
@@ -131,6 +135,11 @@ function M.onEnergyRecharge(state)
             state.energy=state.energy+n
             Events.emit(state,'next_turn_energy',{amount=n,status=id})
             add(out,{op='removeStatus',status=id,value=0,targetId=state.player.id},id)
+        elseif id=='deva_form' then
+            assert(integer(state.devaEnergyGain) and state.energy<=MAX-state.devaEnergyGain,'Deva energy overflow')
+            state.energy=state.energy+state.devaEnergyGain
+            assert(state.devaEnergyGain<=MAX-n,'Deva growth overflow')
+            state.devaEnergyGain=state.devaEnergyGain+n
         elseif n>0 then bottom(out,Flow.planHook(state,id,'energy_recharge'),id)
         else
             -- Source Collect has no positive-amount guard: even zero makes

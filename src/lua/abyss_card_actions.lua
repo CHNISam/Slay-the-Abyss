@@ -237,6 +237,7 @@ function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
     if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end
+    if require('abyss_watcher_final_cards').ops[op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end
     if op=='obtainPotion' then
         state.generatedPotionOffers=state.generatedPotionOffers or {}
         state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}

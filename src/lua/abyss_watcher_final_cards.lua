@@ -103,15 +103,25 @@ end
 
 M.ops={gainWatcherFinalPower=true,watcherFinalGenerate=true,watcherFinalConjureBlade=true,
  watcherFinalJudgment=true,watcherFinalRagnarok=true,watcherFinalSpiritShield=true,watcherFinalExpungerHits=true,
- watcherFinalDamageHit=true,watcherFinalOmega=true}
-M.availablePowers={free_attack=true,omega=true}
+ watcherFinalDamageHit=true,watcherFinalOmega=true,watcherFinalEndTurnEarly=true,watcherFinalSkipEnemiesTurn=true,watcherFinalDeusExMachina=true}
+M.availablePowers={free_attack=true,omega=true,end_turn_death=true,deva_form=true,master_reality=true,foresight=true}
 function M.supported(card)
- if card.id=='deus_ex_machina' then return false end
  for _,a in ipairs(card.effects or {})do
   if M.allOps[a.op] and not M.ops[a.op]then return false end
   if a.op=='gainWatcherFinalPower' and not M.availablePowers[a.status]then return false end
  end
  return true
+end
+function M.created(combat,state,card)
+ if (state.player.statuses.master_reality or 0)==0 then return end
+ local d=assert(state.catalog.cards[card.cardId],'unknown Master Reality card')
+ if d.type~='curse' and d.type~='status' then combat.upgrade(state,card)end
+end
+function M.drawn(state,card,definition)
+ if not definition.onDrawFinal then return end
+ local effect={op='watcherFinalDeusExMachina',value=definition.onDrawFinal.value,uid=card.uid}
+ if state.actionQueue then require('abyss_action_queue').pushTop(state,{kind='effect',effect=effect})
+ else require('abyss_card_actions').enqueue(state,effect,nil,nil,nil,true)end
 end
 function M.freeAttack(state,card)
  return card.type=='attack' and (state.player.statuses.free_attack or 0)>0
@@ -124,6 +134,20 @@ function M.used(state,card,purge)
    state.player.statuses.free_attack=nil
   else state.player.statuses.free_attack=n end
  end
+end
+function M.cancelAutomatic(combat,state)
+ local seen={}
+ for _,name in ipairs({'hand','draw','discard','exhaust'})do for _,c in ipairs(state[name])do seen[c.uid]=true end end
+ for _,entry in ipairs(state.queuedCards or {})do
+  local c=entry.card
+  if c and not entry.purge and not seen[c.uid]then
+   seen[c.uid]=true;c.dontTriggerOnUseCard=true
+   local d=combat.cardDefinition(state,c)
+   if entry.exhaustCards or d.exhaust then require('abyss_card_actions').exhaust(combat,state,c)
+   elseif d.type~='power' then state.discard[#state.discard+1]=c end
+  end
+ end
+ state.queuedCards=nil
 end
 local function target(state,id)
  id=id or state.pendingPlay and state.pendingPlay.targetId
@@ -138,11 +162,25 @@ function M.execute(combat,state,effect,queue)
  local op=effect.op
  if op=='gainWatcherFinalPower' then
   assert(M.availablePowers[effect.status],'unsupported Watcher final Power')
+  if effect.status=='deva_form' then state.devaEnergyGain=state.player.statuses.deva_form and state.devaEnergyGain+1 or 1 end
   Actor.applyPower(state,state.player,effect.status,effect.value,state.player)
+ elseif op=='watcherFinalEndTurnEarly' then
+  state.endTurnAfterCard=true
+ elseif op=='watcherFinalSkipEnemiesTurn' then
+  state.skipMonsterTurn=true
  elseif op=='watcherFinalOmega' then
   for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then combat.retaliate(state,nil,enemy,effect.value)end end
  elseif op=='watcherFinalGenerate' then
   require('abyss_build_actions').makeCard(state,effect)
+ elseif op=='watcherFinalDeusExMachina' then
+  if queue then
+   top(state,queue,{op='makeTempCard',cardId='miracle',pile='hand',value=effect.value})
+   top(state,queue,{op='exhaustHand',uid=effect.uid})
+  else
+   local actions=require('abyss_card_actions')
+   actions.enqueue(state,{op='makeTempCardInHand',card='miracle',value=effect.value},nil,nil,nil,true)
+   for i,c in ipairs(state.hand)do if c.uid==effect.uid then table.remove(state.hand,i);actions.exhaust(combat,state,c);break end end
+  end
  elseif op=='watcherFinalSpiritShield' then
   combat.block(state,state.player,effect.value*#state.hand)
  elseif op=='watcherFinalConjureBlade' then
