@@ -1144,7 +1144,8 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
     state.cardsPlayedThisTurn[#state.cardsPlayedThisTurn+1]={type=card.type,cardId=card.id}
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
-    local freeAttack=require('abyss_watcher_final_cards').freeAttack(state,card)
+    -- X actions read the card's explicit free flag, not Swivel's FreeAttackPower.
+    local freeToPlayOnce=automatic~=nil or instance.freeToPlayOnce==true
     local energyOnUse=automatic and automatic.energyOnUse or state.energy
     if energyOnUse==nil then energyOnUse=state.energy end
     require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,energyOnUse,automatic and automatic.purge)
@@ -1156,7 +1157,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     local target = state.enemies[targetIndex]
     state.pendingPlay = {uid=uid, cardType=card.type, exhaust=require("abyss_exhaust").shouldExhaust(state,card),
         targetId=target and target.id, reactions=reactions, previous=previous, energyOnUse=energyOnUse,
-        purge=automatic and automatic.purge or nil,freeToPlayOnce=automatic~=nil or freeAttack}
+        purge=automatic and automatic.purge or nil,freeToPlayOnce=freeToPlayOnce}
     if automatic and automatic.exhaustCards then state.pendingPlay.exhaust=true end
     event(state, "play", {uid=uid,cardId=instance.cardId,target=targetIndex})
     RelicHooks.onUseCard(state,card)
