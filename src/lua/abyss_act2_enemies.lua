@@ -43,6 +43,9 @@ M.enemies={
   talkChance=0.6000000238418579,smokeChance=0.5},intents={
   move('mug','attack',{damage(10)}),move('lunge','attack',{damage(16)}),
   move('smoke','defend',{{op='block',value=11}}),move('escape','escape',{})}},
+ {id='gremlin_leader',name='丘丘督军',tier='elite',hp=148,hpRange={min=140,max=148},ai={kind='act2',policy='leader'},intents={
+  move('stab','attack',{damage(6,3)}),move('rally','buff',{{op='enemyRally',value=2}}),
+  move('encourage','buff',{{op='enemyEncourage',value=3}})}},
  {id='champ',name='磐岩斗魁',tier='boss',hp=420,ai={kind='act2',policy='champ'},intents={
   move('heavy_slash','attack',{damage(16)}),
   move('defensive_stance','defend',{{op='block',value=15,fixed=true},{op='gainStatus',status='metallicize',value=5}}),
@@ -58,6 +61,7 @@ M.statuses={
  {id='hex',name='蚀咒',kind='debuff',stack='intensity',decay='none',description='使用非攻击牌后，将相应数量的晕眩随机放入抽牌堆。'},
  {id='flight',name='飞行',kind='buff',stack='intensity',decay='none',priority=50,description='普通攻击伤害减半；受到3次未被完全格挡的攻击后坠地。行动前补满次数。'},
  {id='confusion',name='混乱',kind='debuff',stack='none',decay='none',priority=0,description='抽牌时，将非负费用牌的费用随机改为0至3；X费与不可打出的牌不受影响。'},
+ {id='minion',name='随从',kind='buff',stack='none',decay='none',description='随首领登场的仆从，不提供独立击杀成长。'},
 }
 local rooms={
  ['Spheric Guardian']={id='act2_sphere',enemies={'spheric_guardian'}},
@@ -76,12 +80,14 @@ local rooms={
  ['Chosen and Byrds']={id='act2_chosen_byrd',enemies={'byrd','chosen'}},
  ['Snecko']={id='act2_snecko',enemies={'snecko'}},
  ['2 Thieves']={id='act2_thieves',enemies={'looter','mugger'}},
+ ['Gremlin Leader']={id='act2_leader',tier='elite',sourceEncounter='Gremlin Leader'},
  ['Champ']={id='act2_champ',tier='boss',enemies={'champ'}},
 }
 function M.resolve(source,tier)
  local room=rooms[source]
  if not room then return nil,'act_content_unavailable' end
  if tier~=(room.tier or 'normal') then return nil,'encounter_tier_mismatch' end
+ if room.sourceEncounter then return {id=room.id,tier=tier,source=source,sourceEncounter=room.sourceEncounter} end
  local enemies={};for i,id in ipairs(room.enemies)do enemies[i]=id end
  return {id=room.id,tier=tier,source=source,enemies=enemies}
 end

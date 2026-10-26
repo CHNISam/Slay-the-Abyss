@@ -30,6 +30,8 @@ coreOps.enemyHealAll=true
 coreOps.enemyStrengthAll=true
 coreOps.enemyCleanse=true
 coreOps.enemyVampireDamage=true
+coreOps.enemyRally=true
+coreOps.enemyEncourage=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -392,6 +394,15 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyRally' then
+            assert(source.ai and source.ai.policy=='leader','Leader summon only')
+            require('abyss_act2_summons').rally(combat,state,source)
+        elseif op=='enemyEncourage' then
+            assert(source.ai and source.ai.policy=='leader','Leader Encourage only')
+            for _,ally in ipairs(state.enemies)do if Actors.isActive(ally) then
+                Actors.applyPower(state,ally,'strength',value,source)
+                if ally~=source then Actors.block(state,ally,6,true) end
+            end end
         elseif op=='enemyVampireDamage' then
             assert(source~=state.player and source.ai and source.ai.policy=='parasite','Parasite attack only')
             local lost=combat.damage(state,source,target,value)

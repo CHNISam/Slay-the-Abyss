@@ -18,11 +18,12 @@ TASK-61完整范围不变。本文件只记录独立完成的怪物组，不能�
 | Byrd | HP25–31，Flight3；1×5啄击、12俯冲、力量1鸣叫。首次37.5%鸣叫；50/70主阈值及40%、37.5%、28.57%次级真实Boolean保留binary32参数。Flight减半，削层和落地排BOTTOM，完全格挡/THORNS/HP_LOSS不削层；敌人行动前补满3；落地晕眩→头槌3→升空，头槌直接SetMove不抽AI。 |
 | Snecko | HP114–120；首次施加Confusion，之后40阈值在尾击8/易伤2与咬击15间选择，咬击禁三连。Confusion优先级0，每次抽到费用非负牌真实抽0..3并持久修改费用，同值保留旧临时费用，X费和不能打出的牌不抽。Artifact可拦截Confusion。 |
 | Mugger | HP48–52；Mug10、Lunge16、Smoke格挡11，盗金15。不同于Looter，Mug/Lunge与死亡的音效各真实消费AI整数0..2；第二次Mug才抽0.6谈话Boolean；第二次Mug另抽0.5决定Smoke或Lunge。复用同源窃金、逃跑、单独返还盗金事务，二盗贼严格为Looter+Mugger。 |
+| GremlinLeader | HP140–148；初始两个随从从8项原权重池由misc有放回抽取。6×3攻击、鼓舞全体力量3且仅队友格挡6、召唤两次；鼓舞引言消费AI整数0..2。按活随从0/1/2+分别用75、50/80、66阈值选择，并保留50..99和0..80递归重抽。召唤由AI抽原8项池，最多三槽，先完整构造后初始化，按原X位置插入且本回合不行动；标记Minion，首领死亡后其他怪逃跑。 |
 
 编队读取`helpers/MonsterHelper.getEncounter`：Spheric Guardian、Centurion and Healer、Sentry and Sphere、3 Cultists、Slavers、Book of Stabbing、Snake Plant、Champ。其中哨卫、信徒、红蓝奴隶是固定源本来就使用的相同敌人，复用已审计策略；不会用它们替代其他未实现怪物。
 
 `abyss_act2_enemies`提供独立章节数据与严格允许列表；`Combat.new`只复制定义，不把新怪物塞进第一幕随机池。`Run.startRoomCombat`沿用已合入队列的事务；未知第二幕遭遇仍返回`act_content_unavailable`，不消费队列、不重抽。Champ只从33层现有Boss选择进入，其余Boss继续拒绝。正式Host/菜单和跨幕推进由TASK-63接线，不在本切片修改。
 
-仍未实现并保留完整范围：GremlinLeader/召唤、BronzeAutomaton/BronzeOrb/偷牌、Collector/TorchHead/复活，以及Masked Bandits事件专属敌人。未实现组合和另外两Boss均不得开放。本记录不宣称第二幕自然通关。
+仍未实现并保留完整范围：BronzeAutomaton/BronzeOrb/偷牌、Collector/TorchHead/复活，以及Masked Bandits事件专属敌人。全部5弱遭遇、8强遭遇、3精英现已提供真实绑定；另外两Boss继续拒绝。本记录不宣称第二幕自然通关。
 
 验证：新增Lua先以`act_content_unavailable`、随后以缺失敌人失败，再逐片通过12组真实命令/算术回归。执行`node --test tests/act2-enemies.test.mjs`和架构检查；完整原第一幕回归与固定Luacheck结果另外记录于交付说明。

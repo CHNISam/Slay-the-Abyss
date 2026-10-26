@@ -102,6 +102,26 @@
     {
       "sha256": "faa12ec70b872dd836633c47a6566d7e34cf2734de84642b99feacc58f564f34",
       "path": "monsters/city/Mugger.java"
+    },
+    {
+      "sha256": "48a52b505d1afed45a9d28d244aa9668944ddf04c73fbe03458c4af9ef93d128",
+      "path": "monsters/city/GremlinLeader.java"
+    },
+    {
+      "sha256": "4768819a371e91a6526d54b11f33caac9b32ef799989400ac0823c1f5da8c312",
+      "path": "actions/unique/SummonGremlinAction.java"
+    },
+    {
+      "sha256": "731309c39e9d0143f187cc4c2b391cca1983d915aa53e84b95e4ec6907fedb4a",
+      "path": "actions/common/SpawnMonsterAction.java"
+    },
+    {
+      "sha256": "7abc70ad83143aae09a783dd99b3d8b47300f19a0edb11a98af26256c49dd219",
+      "path": "powers/MinionPower.java"
+    },
+    {
+      "sha256": "95373866751700e50a26b1699ede8be4b5b1fa9e82fe49a2650c067dfc21e67d",
+      "path": "relics/PhilosopherStone.java"
     }
   ]
 }

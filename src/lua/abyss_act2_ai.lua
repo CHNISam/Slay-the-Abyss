@@ -13,7 +13,25 @@ local function alive(state)
 end
 local function choose(state,e,n,random)
  local policy=e.ai.policy
- if policy=='snecko'then
+ if policy=='leader'then
+  local allies=alive(state)-(A.isActive(e) and 1 or 0)
+  while true do
+   if allies==0 then
+    if n<75 then return e.act2Last~='rally' and 'rally' or 'stab' end
+    return e.act2Last~='stab' and 'stab' or 'rally'
+   elseif allies==1 then
+    if n<50 then
+     if e.act2Last~='rally'then return 'rally' end
+     n=random(state,50)+49
+    elseif n<80 then return e.act2Last~='encourage' and 'encourage' or 'stab'
+    elseif e.act2Last~='stab'then return 'stab'
+    else n=random(state,81)-1 end
+   else
+    if n<66 then return e.act2Last~='encourage' and 'encourage' or 'stab' end
+    return e.act2Last~='stab' and 'stab' or 'encourage'
+   end
+  end
+ elseif policy=='snecko'then
   if not e.act2Last then return 'glare' end
   if n<40 or twice(e,'bite')then return 'tail' end
   return 'bite'
@@ -96,6 +114,10 @@ function M.advance(state,e,random)
  setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.preBattle(state,e)
+ if e.ai.policy=='leader'then
+  e.act2GremlinSlots={}
+  for i=1,2 do local ally=state.enemies[i];ally.minion=true;e.act2GremlinSlots[i]=ally.id;A.applyPower(state,ally,'minion',1,e) end
+ end
  if e.ai.policy=='byrd'then A.applyPower(state,e,'flight',3,e) end
  if e.ai.policy=='parasite'then A.applyPower(state,e,'plated_armor',14,e);A.block(state,e,14,true) end
  if e.ai.policy=='snake'then A.applyPower(state,e,'malleable',3,e) end
@@ -106,7 +128,8 @@ function M.preBattle(state,e)
   A.block(state,e,40,true)
  end
 end
-function M.beforeAction(e,intent)
+function M.beforeAction(state,e,random,intent)
+ if e.ai.policy=='leader' and intent.id=='encourage'then random(state,3) end
  if e.ai.policy=='parasite' and intent.id=='stunned'then select(e,'fell') end
 end
 function M.afterAction(state,e,random,intent)

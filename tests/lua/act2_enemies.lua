@@ -65,8 +65,9 @@ test('Mystic A0 history forbids three consecutive attacks, buffs, or heals',func
  AI.advance(s,h,roll(99));eq(intent(h),'attack')
 end)
 test('unimplemented chapter rooms reject without consuming queue or generation',function()
- local r=room('Gremlin Leader','elite');local queue=r.encounters;local gen=r.roomGeneration
- local ok,reason=Run.startRoomCombat(r,'elite');eq(ok,false);eq(reason,'act_content_unavailable')
+ local r=room('Spheric Guardian');r.floor=33;r.bossInitialization={profile='source-history',bossList={'Automaton','Automaton'}}
+ local queue=r.encounters;local gen=r.roomGeneration
+ local ok,reason=Run.startRoomCombat(r,'boss');eq(ok,false);eq(reason,'act_content_unavailable')
  eq(r.encounters,queue);eq(r.roomGeneration,gen);eq(r.phase,'map')
 end)
 test('Spheric constructor does not spend HP RNG, Taskmaster spends both source range draws',function()
@@ -212,5 +213,36 @@ test('two Thieves uses distinct Mugger HP/damage/block and exact sound/talk AI e
  before=s.aiRng.counter;assert(C.endTurn(s));eq(s.aiRng.counter,before+4);eq(s.player.gold,40)
  eq(e.stolenGold,30);before=s.aiRng.counter
  C.damage(s,s.player,e,999,true);eq(s.aiRng.counter,before+1);eq(s.stolenGoldReward,30)
+end)
+test('Gremlin Leader source formation draws two minions with replacement from misc',function()
+ local r=room('Gremlin Leader','elite');assert(Run.startRoomCombat(r,'elite'))
+ local s=r.combat;eq(#s.enemies,3);eq(r.miscRng.counter,2)
+ local leader=s.enemies[3];eq(leader.definitionId,'gremlin_leader');assert(leader.hp>=140 and leader.hp<=148)
+ for i=1,2 do eq(s.enemies[i].statuses.minion,1);eq(s.enemies[i].minion,true)end
+ local b={misc={integer=function(lo,hi)eq(lo,0);eq(hi,7);return 0 end}}
+ local t=C.new(Data,{deck={},seed=42,sourceEncounter='Gremlin Leader',encounterBoundary=b})
+ eq(t.enemies[1].definitionId,'mad_gremlin');eq(t.enemies[2].definitionId,'mad_gremlin')
+end)
+test('Leader Encourages allies with Strength3 Block6, itself only Strength, then rallies real empty slots',function()
+ local r=room('Gremlin Leader','elite');assert(Run.startRoomCombat(r,'elite'));local s=r.combat;local leader=s.enemies[3]
+ AI.initialize(s,leader,roll(0));eq(intent(leader),'encourage')
+ C.applyEffects(s,leader.intents[leader.intentIndex].effects,leader,s.player)
+ eq(leader.statuses.strength,3);eq(leader.block,0)
+ for i=1,2 do eq(s.enemies[i].statuses.strength,3);eq(s.enemies[i].block,6);s.enemies[i].hp=0 end
+ AI.advance(s,leader,roll(0));eq(intent(leader),'rally')
+ local hp=s.player.hp;assert(C.endTurn(s));eq(s.player.hp,hp)
+ local living=0;for _,e in ipairs(s.enemies)do if e~=leader and A.isActive(e)then living=living+1;eq(e.statuses.minion,1);assert(e.id~=s.enemies[1].id or e.hp>0)end end
+ eq(living,2)
+ C.damage(s,s.player,leader,999,true);eq(C.outcome(s),'victory')
+ for _,e in ipairs(s.enemies)do if e.hp>0 then eq(e.escaped,true)end end
+end)
+test('Leader one-ally repeat exclusions consume bounded source rerolls',function()
+ local r=room('Gremlin Leader','elite');assert(Run.startRoomCombat(r,'elite'))
+ local s=r.combat;local leader=s.enemies[3];s.enemies[1].hp=0
+ for i,v in ipairs(leader.intents)do if v.id=='rally'then leader.intentIndex=i end end
+ local calls={};AI.advance(s,leader,function(_,max)calls[#calls+1]=max;return max==100 and 1 or max end)
+ eq(table.concat(calls,','),'100,50');eq(intent(leader),'stab')
+ calls={};AI.advance(s,leader,function(_,max)calls[#calls+1]=max;return max==100 and 100 or 51 end)
+ eq(table.concat(calls,','),'100,81');eq(intent(leader),'encourage')
 end)
 print('LUA_ACT2_ENEMIES_PASS '..count)

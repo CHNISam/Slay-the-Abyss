@@ -136,6 +136,25 @@ local function makeEnemy(state, id, serial, explicitHp)
     return enemy
 end
 
+function M.summonEnemies(state,descriptors)
+    local created={}
+    for i,entry in ipairs(descriptors)do
+        local e=makeEnemy(state,entry.id,state.nextEnemyId);state.nextEnemyId=state.nextEnemyId+1
+        e.sourcePosition={x=entry.x,y=entry.y};e.minion=true;created[i]=e
+        for _,id in ipairs(state.relics or {})do if id=="Philosopher's Stone" then Actors.applyPower(state,e,'strength',1,e) end end
+    end
+    for _,e in ipairs(created)do
+        EnemyAI.initialize(state,e,aiRandom)
+        local position=1
+        while state.enemies[position] and (state.enemies[position].sourcePosition or {x=0}).x<e.sourcePosition.x do position=position+1 end
+        table.insert(state.enemies,position,e)
+        Actors.applyPower(state,e,'minion',1,e)
+        EnemyAI.preBattle(state,e,hpRandom)
+        Events.emit(state,'enemy_spawn',{enemy=e.id,definitionId=e.definitionId})
+    end
+    return created
+end
+
 local function splitEnemy(state, parent)
     local ai, position = parent.ai, nil
     assert(ai and (ai.kind == "spike_slime_l" or ai.kind == "acid_slime_l") and ai.splitCount == 2, "unsupported enemy split")

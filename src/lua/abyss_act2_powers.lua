@@ -24,7 +24,9 @@ function M.flush(api,s)
  if not queue or s.player.hp<=0 then return end
  local live=false;for _,e in ipairs(s.enemies)do if api.isActive(e)then live=true end end
  for _,entry in ipairs(queue)do
-  if entry.op=='flight_hit' and api.isActive(entry.target) and (entry.target.statuses.flight or 0)>0 then
+  if entry.op=='leader_dead'then
+   for _,e in ipairs(s.enemies)do if api.isActive(e)then e.escaped=true;Events.emit(s,'enemy_escape',{enemy=e.id})end end
+  elseif entry.op=='flight_hit' and api.isActive(entry.target) and (entry.target.statuses.flight or 0)>0 then
    local e=entry.target;e.statuses.flight=e.statuses.flight-1
    Events.emit(s,'status',{source=e.id,target=e.id,status='flight',amount=-1})
    if e.statuses.flight==0 then
@@ -68,6 +70,7 @@ function M.onDraw(s,card,base)
  card.freeToPlayOnce=false
 end
 function M.died(s,e)
+ if e.ai and e.ai.policy=='leader'then push(s,{op='leader_dead'}) end
  if e.ai and e.ai.mugger and not e.muggerDeathSoundSampled then
   e.muggerDeathSoundSampled=true
   ER.integer(s,3,ER.legacyInteger)
