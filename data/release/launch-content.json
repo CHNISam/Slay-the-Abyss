@@ -424,6 +424,41 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "One Act3 event component. GoldenIdol full relic/obtain dependency remains open; held-idol trades are component fixtures. No complete campaign, natural Idol acquisition or platform acceptance."
+    },
+    "winding": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_winding_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/act3_winding_event.lua",
+          "tests/lua/act3_winding_outcomes.lua",
+          "tests/lua/act3_winding_rollback.lua",
+          "tests/lua/act3_winding_rounding.lua",
+          "tests/lua/act3_winding_natural.lua",
+          "tests/lua/act3_winding_ui.lua",
+          "tests/act3-winding-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Winding Halls component; unsupported permanent damage/revival relic hooks reject atomically. No full M3, complete natural run or platform acceptance."
     }
   },
   "cards": [
@@ -3090,6 +3125,31 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Outside default Act 1 inventory. Local development campaign seed32 proves unfiltered full-HP event entry. GoldenIdol normal obtain and +25% combat-gold behavior remain unimplemented; trade is owner-fixture evidence. Whole-campaign, platform and live acceptance remain pending."
+    },
+    {
+      "id": "winding_halls",
+      "originalId": "Winding Halls",
+      "act": 3,
+      "choices": [
+        "continue",
+        "madness",
+        "writhe",
+        "max_hp",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "result"
+      ],
+      "eligibility": "Act 3 source entry; mandatory three choices after Continue. NORMAL damage has null owner.",
+      "source": "src/lua/abyss_winding_event.lua",
+      "profile": "winding",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage refuses held tungsten_rod/lizard_tail until their real shared hooks exist. Relic normal acquisition, whole-campaign and platform/live acceptance remain pending. Madness/Writhe also refuse held toxic_egg/darkstone_periapt until their actual shared obtain hooks exist."
     }
   ],
   "relics": [

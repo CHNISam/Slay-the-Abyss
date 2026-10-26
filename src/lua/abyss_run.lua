@@ -181,6 +181,16 @@ function M.eventDamage(run,value)
         return true,lost
     end)
 end
+-- WindingHalls creates DamageInfo(null, amount), whose default is NORMAL.
+-- Room transition cleared Powers/block; do not consult a historical battle.
+-- Unimplemented permanent damage/revival hooks must refuse, not act as HP_LOSS.
+function M.eventNormalDamage(run,value)
+    for _,id in ipairs(run.relics or {})do
+        if id=='tungsten_rod' or id=='lizard_tail' then return false,'event_damage_content_unavailable' end
+    end
+    -- Null owner does not dispatch Torii.onAttacked. Existing outside Fairy is shared.
+    return M.eventDamage(run,value)
+end
 function M.heal(run,value)
     assert(amount(value),'invalid heal')
     for _,id in ipairs(run.relics or {})do

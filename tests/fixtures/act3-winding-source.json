@@ -1,0 +1,204 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Actual audited fixed ZIP members; independent A0 behavior, not PC binary execution.",
+  "files": {
+    "events/beyond/WindingHalls.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/WindingHalls.java",
+      "sha256": "f419f2ad258121a4970dffd289118a85c23ddd8d5025efa1d4a4f4cdbb001d2b"
+    },
+    "cards/DamageInfo.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "dungeons/AbstractDungeon.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    "vfx/cardManip/ShowCardAndObtainEffect.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    },
+    "cards/Soul.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/Soul.java",
+      "sha256": "8e4105a9df83d93ad4f66d35c54b63720e90f71b80c7594a6faa454d19b545c0"
+    },
+    "cards/SoulGroup.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/SoulGroup.java",
+      "sha256": "c3b44b69f2ebcff77b8a1d49c492973900cc42d597d66c651c4f41399af031cb"
+    },
+    "cards/colorless/Madness.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Madness.java",
+      "sha256": "3f406e941ea2bb2bb4f28de7cc608c047db711aef029cb44de0111303f744013"
+    },
+    "cards/curses/Writhe.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Writhe.java",
+      "sha256": "9c6b5dfd72225f1500456784fea3268864f8c2b72a9f8bd0fe4ac425714885d8"
+    },
+    "relics/Omamori.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Omamori.java",
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f"
+    },
+    "relics/CeramicFish.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CeramicFish.java",
+      "sha256": "bf8a18d2488d17304a0c9bd153c42898065aa00cbecb424cd1e59e66b2d6fa1c"
+    },
+    "relics/Torii.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Torii.java",
+      "sha256": "981540a0d16dcfe5f7738b0539c9df603d1ae22fffa93f4b28170d3e737a2e62"
+    },
+    "relics/TungstenRod.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/TungstenRod.java",
+      "sha256": "690106967f973f2a478b48bb0b5561023474289b99d8a65cd30437e2265fe09a"
+    },
+    "relics/LizardTail.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/LizardTail.java",
+      "sha256": "9ee5bd6aad4aa34a4d79cdd69f97160913b71d0f9e727f9ae8d7b26e2f281b90"
+    },
+    "relics/MagicFlower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MagicFlower.java",
+      "sha256": "e3940116e47e36eb3eea9f048a1808ffe2f8b6654db9e30cab9cce8496054eaf"
+    },
+    "relics/MarkOfTheBloom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MarkOfTheBloom.java",
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434"
+    },
+    "potions/FairyPotion.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25"
+    },
+    "relics/ToxicEgg2.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/ToxicEgg2.java",
+      "sha256": "1149dee0de59c4bd756bf453daf62ecd4dba8e593193d08c941c6ac42445155d"
+    },
+    "relics/DarkstonePeriapt.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DarkstonePeriapt.java",
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde"
+    }
+  },
+  "contracts": {
+    "sourceId": "Winding Halls",
+    "localId": "winding_halls",
+    "ascension": 0,
+    "choices": [
+      "madness",
+      "writhe",
+      "max_hp"
+    ],
+    "ratios": [
+      0.125,
+      0.25,
+      0.05
+    ],
+    "damageType": "NORMAL",
+    "damageOwner": null,
+    "fatalStillObtainsTwoMadness": true,
+    "maxHpUsesDecreaseMaxHealthWithoutHeal": true,
+    "omamoriUsesExistingObtainBoundary": true,
+    "noBodyRng": true
+  },
+  "roundingOracle": [
+    {
+      "maxHp": 1,
+      "damage": 0,
+      "heal": 0,
+      "maxLoss": 0
+    },
+    {
+      "maxHp": 4,
+      "damage": 1,
+      "heal": 1,
+      "maxLoss": 0
+    },
+    {
+      "maxHp": 9,
+      "damage": 1,
+      "heal": 2,
+      "maxLoss": 0
+    },
+    {
+      "maxHp": 10,
+      "damage": 1,
+      "heal": 3,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 11,
+      "damage": 1,
+      "heal": 3,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 12,
+      "damage": 2,
+      "heal": 3,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 20,
+      "damage": 3,
+      "heal": 5,
+      "maxLoss": 1
+    },
+    {
+      "maxHp": 80,
+      "damage": 10,
+      "heal": 20,
+      "maxLoss": 4
+    },
+    {
+      "maxHp": 16777219,
+      "damage": 2097153,
+      "heal": 4194305,
+      "maxLoss": 838861
+    },
+    {
+      "maxHp": 2147483647,
+      "damage": 268435456,
+      "heal": 536870912,
+      "maxLoss": 107374184
+    }
+  ],
+  "naturalRoute": {
+    "seed": "11",
+    "floor": 35,
+    "mode": "full",
+    "eventRng": {
+      "words": [
+        "5681a0b732533a20",
+        "f997a3117bf204c2"
+      ],
+      "counter": 1
+    },
+    "selectionRoll": 0.9302796721458435,
+    "selectionIndex": 6,
+    "selectionRng": {
+      "words": [
+        "f48f2c8978dceb95",
+        "85a54e326cec4070"
+      ],
+      "counter": 3
+    },
+    "miscRng": {
+      "words": [
+        "9c3fe26fde390827",
+        "501473c0ac338ea0"
+      ],
+      "counter": 0
+    }
+  },
+  "missingDependencies": [
+    "tungsten_rod: real shared onLoseHpLast not implemented; eventNormalDamage refuses held owner",
+    "lizard_tail: real shared fatal interception not implemented; eventNormalDamage refuses held owner",
+    "Other missing relic definitions/normal acquisition are not granted by owner boundary fixtures.",
+    "toxic_egg: skill obtain upgrade not implemented; Madness choice refuses held owner",
+    "darkstone_periapt: curse obtain maxHP/heal not implemented; Writhe choice refuses held owner"
+  ]
+}

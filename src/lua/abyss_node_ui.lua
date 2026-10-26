@@ -29,12 +29,13 @@ local reasons = {
     card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满", potions_blocked = "遗物效果禁止获得药水",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
-    stale_event_health = "生命上限已变化，请重新查看事件", stale_event_card = "候选卡牌已变化，请重新查看事件", invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
+    event_obtain_content_unavailable = "当前遗物的获牌效果尚未接齐，本次未改变资源", event_damage_content_unavailable = "当前遗物的事件伤害尚未接齐，本次未改变资源", stale_event_health = "生命上限已变化，请重新查看事件", stale_event_card = "候选卡牌已变化，请重新查看事件", invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
     event_content_unavailable = "事件所需卡牌数据不可用", invalid_deck_uid = "卡牌编号异常，未领取奖励",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    winding_halls={name='Winding Halls',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
     moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
     falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},
     sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},
