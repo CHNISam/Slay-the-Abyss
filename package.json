@@ -14,8 +14,6 @@
     "check:test-strength": "node scripts/check-test-strength.mjs",
     "check:engineering": "npm run check:architecture && npm run check:lua-static && npm run check:test-strength",
     "verify:delivery": "node scripts/verify-delivery.mjs",
-    "task:claim": "node scripts/remote-task-claim.mjs",
-    "test:claims": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
     "build:native": "node scripts/build-native-audio-game.mjs",
     "verify:sts1-map": "npm run build:data && node scripts/sts1-map-evidence.mjs compare",
     "verify:sts1-map:properties": "npm run build:data && node scripts/sts1-map-evidence.mjs properties 10000",
