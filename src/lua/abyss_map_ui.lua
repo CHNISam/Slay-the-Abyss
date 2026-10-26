@@ -2,6 +2,7 @@
 -- The coordinator owns Map.choose / Nodes.enter and resolving the chosen node.
 -- No camp/shop/event/combat/run rules live in this module.
 local Map = require("abyss_map")
+local Acts = require("abyss_acts")
 local Theme = require("abyss_theme")
 local Layout = require("abyss_map_layout")
 local M = {}
@@ -9,6 +10,41 @@ local states = { "locked", "visited", "current", "available" }
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
+
+-- Chapter metadata is presentation context, not permission to enter new content.
+-- Legacy Act 1 intentionally has no act/firstFloor/terminalFloor fields.
+local function chapterFor(map)
+    if type(map) ~= "table" then return end
+    local ok, chapter = pcall(Acts.get, map.act or 1)
+    if not ok or not finite(map.floor) or map.floor % 1 ~= 0
+        or map.floor < chapter.first - 1 or map.floor > chapter.last
+        or type(map.sourceSignature) ~= "string" or map.sourceSignature == "" then return end
+    if chapter.act == 1 then
+        if map.version ~= 3 or map.act ~= nil or map.firstFloor ~= nil or map.terminalFloor ~= nil
+            or map.sourceSignature:sub(1,7) ~= "map-v3:" then return end
+    else
+        local prefix = "map-v4:sts-a0-319009d5:" .. chapter.id .. ":"
+        if map.version ~= 4 or map.firstFloor ~= chapter.first or map.terminalFloor ~= chapter.last
+            or map.sourceSignature:sub(1,#prefix) ~= prefix then return end
+    end
+    if type(map.nodes) ~= "table" then return end
+    for _, node in ipairs(map.nodes) do
+        if not finite(node.floor) or node.floor % 1 ~= 0 or node.floor < chapter.first or node.floor > chapter.last
+            or node.localFloor ~= nil and node.localFloor ~= node.floor - chapter.first + 1 then return end
+    end
+    return chapter
+end
+local function sameContext(a, b)
+    for _, key in ipairs({"act", "version", "firstFloor", "terminalFloor", "sourceSignature", "seed", "runSeed", "mapSeed"}) do
+        if a[key] ~= b[key] then return false end
+    end
+    return true
+end
+local function rowFor(floor, chapter) return floor - chapter.first + 1 end
+local function focusScroll(current, chapter)
+    return clamp(Layout.firstY + (math.max(1,rowFor(current.floor,chapter)) - 1) *
+        Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
+end
 
 -- Standalone root holds mapBackdrop + stage/mapPanel from mapLayout(). With
 -- options.embedded, root is the host's mapPanel and the host alone scales stage.
@@ -31,10 +67,11 @@ function M.new(root, map, onChoose, clickEvent, options)
         stage, backdrop = child(root, "stage"), child(root, "mapBackdrop")
         panel = child(stage, "mapPanel")
     end
+    local chapter = assert(chapterFor(map), "invalid map chapter context")
     local view = Map.view(map)
-    local self = { root = root, map = map, visible = true, navigationEnabled = view.floor == 0,
+    local self = { root = root, map = map, visible = true, navigationEnabled = view.floor == chapter.first - 1,
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
-        embedded = embedded, scale = 1, observedMap = map,
+        embedded = embedded, scale = 1, observedMap = map, observedContext = view,
         observedNodeId = view.currentNodeId, observedFloor = view.floor }
     local drag, released, pointerObserved, scrollAnimation
     local buttonHover, buttonPress
@@ -62,7 +99,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
     local function bind(name, fn) child(at(name), "hit"):AddCursorEventListener(clickEvent, fn) end
     local function buttonEnabled(name)
-        return self.visible and (name == "focus" or name == "previous" and self.scroll > 0
+        return self.visible and chapterFor(self.map) ~= nil and (name == "focus" or name == "previous" and self.scroll > 0
             or name == "next" and self.scroll < Layout.maxScroll)
     end
     local function paintButton(name)
@@ -84,20 +121,21 @@ function M.new(root, map, onChoose, clickEvent, options)
         box:SetLocalScale(scale,scale,1)
     end
     local function position(node)
+        local row = node.localFloor or rowFor(node.floor, chapter)
         return (node.lane - (Layout.lanes + 1) / 2) * Theme.layout.map.columnGap,
-            Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - self.scroll
+            Layout.firstY + (row - 1) * Theme.layout.map.floorGap - self.scroll
     end
     local function observeMap(current)
-        if self.map == self.observedMap then return false end
+        if self.map == self.observedMap and sameContext(current,self.observedContext) then return false end
         cancelDrag()
         -- A restarted run can share floor/node ids with the previous run. Identity
         -- resets its presentation and default gate before the host grants access.
-        self.observedMap = self.map
+        self.observedMap, self.observedContext = self.map, current
         self.entryError=nil
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
-        self.navigationEnabled, self.time = current.floor == 0, 0
-        self.scroll = clamp(Layout.firstY + (math.max(1, current.floor) - 1) *
-            Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
+        local context = assert(chapterFor(current), "invalid map chapter context")
+        self.navigationEnabled, self.time = current.floor == context.first - 1, 0
+        self.scroll = focusScroll(current,context)
         return true
     end
     local function line(control, source, target, taken)
@@ -118,6 +156,17 @@ function M.new(root, map, onChoose, clickEvent, options)
         tint(control, taken and Theme.color.node.pathTaken or Theme.color.node.path)
     end
     function self:render()
+        local context = chapterFor(self.map)
+        if not context then
+            cancelDrag()
+            self.navigationEnabled, self.slots, self.breathing = false, {}, {}
+            at("title").text, at("notice").text = "", "地图章节信息无效 · 请重新启程"
+            for i = 1, Layout.maxNodes do at("node" .. i):SetVisible(false) end
+            for i = 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
+            for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
+            return
+        end
+        chapter = context
         local current, nodes, taken = Map.view(self.map), {}, {}
         observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
@@ -128,11 +177,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         for _, node in ipairs(current.nodes) do nodes[node.id] = node end
         for i = 1, #current.path - 1 do taken[current.path[i] .. ":" .. current.path[i + 1]] = true end
         self.slots, self.breathing = {}, {}
-        at("title").text = "第一幕 · 第 " .. current.floor .. " 层"
-        at("notice").text = self.entryError or (current.complete and "已抵达首领宝箱 · 请完成当前房间" or
-            (current.floor == 16 and (self.navigationEnabled and "首领奖励已处理 · 请选择首领宝箱" or "已抵达首领 · 请完成首领战斗与奖励") or
-            (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")
-            ))
+        at("title").text = context.name .. " · 第 " .. current.floor .. " 层"
+        local terminal = context.terminal == "boss_treasure" and "首领宝箱" or "结局"
+        at("notice").text = self.entryError or
+            (current.complete and context.terminal ~= "true_victory" and "已抵达" .. terminal .. " · 请完成当前房间" or
+            (current.floor == context.boss and (self.navigationEnabled and context.terminal ~= "true_victory"
+                and "首领奖励已处理 · 请选择" .. terminal or "已抵达首领 · 请完成首领战斗与奖励") or
+            (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")))
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         local edge = 0
@@ -201,6 +252,10 @@ function M.new(root, map, onChoose, clickEvent, options)
     function self:update(dt)
         if not finite(dt) or dt < 0 then return false, "invalid_delta" end
         if not self.visible then return true end
+        if not chapterFor(self.map) or self.map ~= self.observedMap or not sameContext(self.map,self.observedContext) then
+            self:render()
+            return true
+        end
         self.time = (self.time + dt) % Layout.breathSeconds
         if scrollAnimation and dt > 0 then
             -- A coordinator may replace/advance the map before the next render.
@@ -252,8 +307,11 @@ function M.new(root, map, onChoose, clickEvent, options)
         return self:setScroll(self.scroll + delta)
     end
     function self:focusCurrent(animated)
+        local context = chapterFor(self.map)
+        if not context then self:render() return false,"invalid_map_context" end
         local current = Map.view(self.map)
-        local target = Layout.firstY + (math.max(1,current.floor) - 1) * Theme.layout.map.floorGap - Layout.focusY
+        observeMap(current)
+        local target = focusScroll(current,context)
         if animated then return animateScrollTo(target) end
         return self:setScroll(target)
     end
@@ -261,6 +319,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
         if not enabled then cancelDrag() end
         -- An explicit coordinator grant acknowledges any external map advance.
+        if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local current = Map.view(self.map)
         observeMap(current)
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
@@ -273,6 +332,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         if visible then self:focusCurrent() end
     end
     function self:choose(nodeId)
+        if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local beforeMap = self.map
         local before = Map.view(beforeMap)
         if observeMap(before) then self:render() end
@@ -289,9 +349,11 @@ function M.new(root, map, onChoose, clickEvent, options)
         self.choosing = true
         local called, accepted, reason = pcall(onChoose, selected)
         self.choosing = false
+        if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local after = Map.view(self.map)
         observeMap(after)
-        local changed = self.map ~= beforeMap or after.floor ~= before.floor or after.currentNodeId ~= before.currentNodeId
+        local changed = self.map ~= beforeMap or not sameContext(after,before)
+            or after.floor ~= before.floor or after.currentNodeId ~= before.currentNodeId
         if changed then self.navigationEnabled = false self:focusCurrent() end
         if not called or accepted~=true then
             local messages={event_pool_exhausted='受限事件池已用尽，或剩余事件条件不足；请选择其他路线或重新启程。',
@@ -302,7 +364,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             return false,failure
         end
         self.entryError=nil
-        if self.map ~= beforeMap or after.currentNodeId ~= nodeId or after.floor ~= expectedFloor then return false, "selection_not_committed" end
+        if self.map ~= beforeMap or not sameContext(after,before) or after.currentNodeId ~= nodeId or after.floor ~= expectedFloor then return false, "selection_not_committed" end
         self.navigationEnabled = false self:focusCurrent() return true
     end
     -- Dragging the route scrolls it with the finger. A press that moved past the
@@ -316,12 +378,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         for _, node in ipairs(Map.available(self.map)) do
             if node.id == nodeId then
                 return {slot=slot, nodeId=nodeId, map=self.map, floor=self.map.floor,
-                    currentNodeId=self.map.currentNodeId, touch=touch(event)}
+                    currentNodeId=self.map.currentNodeId, context=self.observedContext, touch=touch(event)}
             end
         end
     end
     local function validSelection(selection, slot)
-        return selection and selection.slot == slot and selection.map == self.map
+        return selection and chapterFor(self.map) ~= nil and selection.slot == slot and selection.map == self.map
+            and sameContext(selection.context,self.map)
             and selection.floor == self.map.floor and selection.currentNodeId == self.map.currentNodeId
             and selection.nodeId == self.slots[slot] and self.visible and self.navigationEnabled
     end
@@ -336,7 +399,10 @@ function M.new(root, map, onChoose, clickEvent, options)
         pointerObserved = true
         -- Down is idempotent until the owner releases or is cancelled. A repeated
         -- callback cannot rearm a selection that already exited or began scrolling.
-        if not self.visible or drag then return end
+        if not self.visible then return end
+        if not chapterFor(self.map) then self:render() return end
+        if observeMap(Map.view(self.map)) then self:render() end
+        if drag then return end
         cancelSelection()
         self.dragged = false
         local y = pointY(event)

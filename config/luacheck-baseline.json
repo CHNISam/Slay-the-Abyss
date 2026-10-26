@@ -496,73 +496,73 @@
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 120,
+      "line": 158,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 189,
+      "line": 240,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 201,
+      "line": 252,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 226,
+      "line": 281,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 232,
+      "line": 287,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 249,
+      "line": 304,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 254,
+      "line": 309,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 260,
+      "line": 318,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 269,
+      "line": 328,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_map_ui.lua",
-      "line": 275,
+      "line": 334,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 35"
+      "message": "shadowing upvalue 'self' on line 72"
     },
     {
       "file": "src/lua/abyss_merchant.lua",
@@ -835,7 +835,7 @@
     "abyss_map": "1a7ed43529ed0ee876fb83ea265c2a080f336af2dd034241e15d98480e4d5873",
     "abyss_map_rooms": "eef10661bd77af2e9464e4eab7199c0d487f72b1ba412cf0867f970169569e2c",
     "abyss_map_topology": "0b07a3269a9110c82a3a88b9fdd25313555a5e44d6121d86606f70ed654ed788",
-    "abyss_map_ui": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836",
+    "abyss_map_ui": "a3411c273c389d8395fbe92bb75cd7acadea9460cd06f29c6242f9473d231263",
     "abyss_merchant": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9",
     "abyss_new_run_seed": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
     "abyss_node_ui": "6927d3d7eb7c758b843eb570c10158f6ab03dc1e0c6d7f185596b9707442d4d8",
