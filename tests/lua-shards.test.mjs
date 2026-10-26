@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, resolve, sep } from 'node:path';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 
 test('sorted shards partition every fixture without omission or duplication and reject invalid bounds', () => {
@@ -43,5 +43,9 @@ test('real CLI shards retain failure exit and continuation, allow empty slices a
     assert.match(passed.stdout, /other shard/);
     assert.equal(empty.status, 0, empty.stderr);
     assert.match(empty.stdout, /Lua shard 4\/4: 0 fixtures/);
-  } finally { rmSync(root, { recursive: true, force: true }); }
+  } finally {
+    assert.ok(resolve(root).startsWith(resolve(tmpdir()) + sep));
+    assert.match(root, /abyss-lua-shards-/);
+    rmSync(root, { recursive: true, force: true });
+  }
 });

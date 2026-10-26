@@ -4,6 +4,8 @@
 
 日常官方Runner无需用户电脑保持开机或联网。沿用PR215的可信develop/master手动local-special诊断入口，只有显式选择才使用旧本机；PR和日常push不会走它。未停止、注销或改动旧机器/其他项目的服务。原self-hosted设置与掉线记录可从Git历史和[工程审计](backlog-details/task-68.md)追溯。用户已明确批准停用额外Remote Task Claim任务锁；采用Backlog、独立分支/工作树、PR审查和当前SHA完整Quality。
 
+TASK-74正式退役已停用任务锁的源码和29项专属测试，并移除两个npm入口；旧基线中这些测试占Windows约6分51秒。历史从[固定Git提交](REMOTE_TASK_CLAIMS.md)取回，当前游戏、构建和交付门禁覆盖保持。
+
 日常使用 `npm run test:fast -- --base origin/develop` 获取快速反馈，`npm run test:related -- --base origin/develop`验证相关集成；`--plan`只列出受影响集合。未知输入及基础设施变更回退全量。最终执行 `npm run check`，不能把快速层的成功当作完整验收。
 
 完整 Windows 回归分成四个独立 VM 的 `rules (i/4)`。JS 使用 Node 原生 `--test-shard=i/4`；Lua 使用 `--shard i/4`，每片内部均串行。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 汇总所有分片，失败、取消或跳过均不放行；三个必需检查名称不变。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
