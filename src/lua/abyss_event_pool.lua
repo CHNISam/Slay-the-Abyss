@@ -29,6 +29,7 @@ M.contentId.WeMeetAgain='we_meet_again'
 M.contentId.Falling='falling'
 M.contentId['Golden Idol']='golden_idol'
 M.contentId['Winding Halls']='winding_halls'
+M.contentId.SensoryStone='sensory_stone'
 M.contentId['The Moai Head']='moai_head'
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')

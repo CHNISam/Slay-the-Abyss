@@ -61,7 +61,22 @@ for _, event in ipairs(manifest.events) do
         flow.event.stage = 'purge'
         for _, option in ipairs(Nodes.eventOptions(run, flow)) do choices[option.choice] = true end
     end
-    for _,stage in ipairs(event.stages or {}) do
+    -- Sensory reward stages require their actual frozen offers. Traverse the
+    -- public commands instead of inventing a partial stage-only fixture.
+    if event.id=='sensory_stone' then
+        local function collect()
+            flow=run.nodeFlow
+            for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end
+        end
+        assert(Nodes.chooseEvent(run,'continue'));collect()
+        assert(Nodes.chooseEvent(run,'three'));collect()
+        for group=1,3 do
+            assert(Nodes.chooseEvent(run,'open_'..group));collect()
+            assert(Nodes.chooseEvent(run,'skip_'..group));collect()
+        end
+        assert(Nodes.chooseEvent(run,'proceed'));collect()
+    end
+    for _,stage in ipairs(event.id=='sensory_stone'and{}or event.stages or {}) do
         flow.event.stage=stage
         if stage=='potion_rewards' then
             flow.event.potionOffers={{id='fire_potion',claimed=false},{id='block_potion',claimed=false},{id='strength_potion',claimed=false}}

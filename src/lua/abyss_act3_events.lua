@@ -5,7 +5,8 @@ local Copy=require('abyss_copy').copy
 local Run=require('abyss_run')
 local Moai=require('abyss_moai_event')
 local Winding=require('abyss_winding_event')
-local M={ids={falling=true,moai_head=true,winding_halls=true}}
+local Sensory=require('abyss_sensory_stone_event')
+local M={ids={falling=true,moai_head=true,winding_halls=true,sensory_stone=true}}
 local function definition(run,id)
  for _,card in ipairs(run.data.cards.cards)do if card.id==id then return card end end
 end
@@ -22,6 +23,7 @@ local function row(choice,title,description,card)
   upgrades=type(card)=='table' and card.upgrades or nil}
 end
 function M.prepare(run,event,miscRng)
+ if event.id=='sensory_stone'then return Sensory.prepare(run,event)end
  if event.id=='winding_halls'then return Winding.prepare(run,event)end
  if event.id=='moai_head'then return Moai.prepare(run,event)end
  assert(event.id=='falling' and run.act==3,'Falling requires the third act')
@@ -41,6 +43,7 @@ function M.prepare(run,event,miscRng)
  event.stage,event.body='intro','脚下的落石打散了你的牌组。先稳住身形，再作取舍。'
 end
 function M.options(run,event)
+ if event.id=='sensory_stone'then return Sensory.options(run,event)end
  if event.id=='winding_halls'then return Winding.options(run,event)end
  if event.id=='moai_head'then return Moai.options(run,event)end
  if event.stage=='intro'then return {row('continue','继续','查看可以舍弃的卡牌。')}end
@@ -55,6 +58,7 @@ function M.options(run,event)
  return rows
 end
 function M.choose(run,flow,choice,uid)
+ if flow.event.id=='sensory_stone'then return Sensory.choose(run,flow,choice,uid)end
  if flow.event.id=='winding_halls'then return Winding.choose(run,flow,choice,uid)end
  if flow.event.id=='moai_head'then return Moai.choose(run,flow,choice,uid)end
  local event=flow.event

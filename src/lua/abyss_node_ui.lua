@@ -31,10 +31,12 @@ local reasons = {
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
     event_obtain_content_unavailable = "当前遗物的获牌效果尚未接齐，本次未改变资源", event_damage_content_unavailable = "当前遗物的事件伤害尚未接齐，本次未改变资源", stale_event_health = "生命上限已变化，请重新查看事件", stale_event_card = "候选卡牌已变化，请重新查看事件", invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
     event_content_unavailable = "事件所需卡牌数据不可用", invalid_deck_uid = "卡牌编号异常，未领取奖励",
+    event_reward_content_unavailable = "当前遗物的无色奖励效果尚未接齐，本次未改变资源",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    sensory_stone={name='Sensory Stone',body='石中封存着记忆。',leave='你离开了石头。'},
     winding_halls={name='Winding Halls',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
     moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
     falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},
@@ -147,6 +149,18 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return definition and definition.name or id
     end
     local function potionText(id) return require('abyss_potion_text').describe(self.run,id) end
+    local function eventOptionText(option)
+        if option.rewardCard then
+            local definition=assert(card(option.cardId),'missing reward definition')
+            local display=assert(self.presentation[option.cardId],'missing reward display')
+            return '费用 '..display.cost..' · '..typeNames[definition.type]..' · '
+                ..({rare='稀有',uncommon='罕见'})[definition.rarity]..'｜'
+                ..CardDisplay.permanentText(display,definition,option)
+        end
+        return option.description..(option.potionId and '\n'..potionText(option.potionId)or'')
+            ..(option.cardId and '\n「'..cardName(option.cardId,option.upgraded,option.upgrades)..'」'or'')
+            ..(not option.enabled and '（当前条件不足）'or'')
+    end
     -- Relic data has no prose; describe its sourced trigger and effects.
     local function relicText(id)
         if id=='membership_card' then return '所有商店商品半价。' end
@@ -368,9 +382,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if id ~= 'cleric' and id ~= 'purifier' then
                 for _,option in ipairs(info.options) do
                     local selected=option
-                    rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..(selected.potionId and '\n'..potionText(selected.potionId) or '')..
-                        (selected.cardId and '\n「'..cardName(selected.cardId,selected.upgraded,selected.upgrades)..'」' or '')..
-                        (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
+                    rows[#rows+1]={title='［'..(selected.rewardCard and cardName(selected.cardId,selected.upgraded)or selected.title)..'］',
+                        description=eventOptionText(selected),enabled=selected.enabled,handler=function()
                         -- Repeated-search events retain the same command after
                         -- rendering new odds. An old callback is still stale.
                         if self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map then return false,'stale_action' end

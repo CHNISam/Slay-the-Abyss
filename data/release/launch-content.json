@@ -501,6 +501,43 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Actual single relic/event component and source-pool boundary selection; full default Act1 admission, whole campaign and platform/live remain pending. Existing currency glyph is an explicitly documented temporary art fallback."
+    },
+    "sensoryStone": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_sensory_stone_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_event_pool.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/sensory_stone_event.lua",
+          "tests/lua/sensory_stone_rng.lua",
+          "tests/lua/sensory_stone_natural.lua",
+          "tests/lua/sensory_stone_outcomes.lua",
+          "tests/lua/sensory_stone_rollback.lua",
+          "tests/lua/sensory_stone_tungsten.lua",
+          "tests/lua/sensory_stone_ui.lua",
+          "tests/lua/sensory_stone_profiles.lua",
+          "tests/sensory-stone-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Single event with all35 ordinary colorless rewards, frozen groups and source skip/reopen lifecycle. Source selection/public commands are components; full Act3/campaign/default full admission and device/live acceptance are incomplete."
     }
   },
   "cards": [
@@ -3218,6 +3255,49 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail NORMAL damage or darkstone_periapt curse obtain refuses until real shared hooks exist; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
+    },
+    {
+      "id": "sensory_stone",
+      "originalId": "SensoryStone",
+      "act": 3,
+      "choices": [
+        "continue",
+        "one",
+        "two",
+        "three",
+        "open_1",
+        "take_1_1",
+        "take_1_2",
+        "take_1_3",
+        "skip_1",
+        "open_2",
+        "take_2_1",
+        "take_2_2",
+        "take_2_3",
+        "skip_2",
+        "open_3",
+        "take_3_1",
+        "take_3_2",
+        "take_3_3",
+        "skip_3",
+        "proceed",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "rewards",
+        "cards",
+        "result"
+      ],
+      "eligibility": "Act3 ordinary source event, no extra health eligibility; source rewards precede null-owner HP_LOSS.",
+      "source": "src/lua/abyss_sensory_stone_event.lua",
+      "profile": "sensoryStone",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Held unimplemented Question/Crown/Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
     }
   ],
   "relics": [
@@ -3677,7 +3757,10 @@
       "source": "data/relics.json#tungsten_rod",
       "profile": "relics",
       "rarity": "rare",
-      "channels": ["treasure", "shop_relic"],
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
       "naturalExecutionLimitation": "Shared onLoseHpLast reduces each positive HP loss by one in battle and events. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
     },
     {
@@ -4511,9 +4594,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "bandage_up",
@@ -4527,9 +4611,10 @@
         "upgraded"
       ],
       "channels": [
-        "shop_colorless_card"
+        "shop_colorless_card",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "blind",
@@ -4544,9 +4629,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "chrysalis",
@@ -4561,9 +4647,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "dark_shackles",
@@ -4578,9 +4665,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "deep_breath",
@@ -4595,9 +4683,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "discovery",
@@ -4612,9 +4701,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "dramatic_entrance",
@@ -4629,9 +4719,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "enlightenment",
@@ -4646,9 +4737,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "finesse",
@@ -4663,9 +4755,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "flash_of_steel",
@@ -4680,9 +4773,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "forethought",
@@ -4697,9 +4791,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "good_instincts",
@@ -4714,9 +4809,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "hand_of_greed",
@@ -4731,9 +4827,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "impatience",
@@ -4748,9 +4845,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "jack_of_all_trades",
@@ -4765,9 +4863,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "madness",
@@ -4782,9 +4881,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "magnetism",
@@ -4799,9 +4899,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "master_of_strategy",
@@ -4816,9 +4917,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "mayhem",
@@ -4833,9 +4935,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "metamorphosis",
@@ -4850,9 +4953,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "mind_blast",
@@ -4867,9 +4971,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "panacea",
@@ -4884,9 +4989,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "panache",
@@ -4901,9 +5007,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "panic_button",
@@ -4918,9 +5025,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "purity",
@@ -4935,9 +5043,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "sadistic_nature",
@@ -4952,9 +5061,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "secret_technique",
@@ -4969,9 +5079,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "secret_weapon",
@@ -4986,9 +5097,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "swift_strike",
@@ -5003,9 +5115,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "the_bomb",
@@ -5020,9 +5133,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "thinking_ahead",
@@ -5037,9 +5151,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "transmutation",
@@ -5054,9 +5169,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "trip",
@@ -5071,9 +5187,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "violence",
@@ -5088,9 +5205,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "apparition",

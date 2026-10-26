@@ -203,7 +203,8 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
     check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
     same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard']:
-      ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation'])],`sharedCards/${card.id} channels`);
+      ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation']),
+        'explicit_event:sensory_stone:card_reward'],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
   }
   same(manifest.runtime?.modules, runtimeModules, 'runtime deployment relationships');

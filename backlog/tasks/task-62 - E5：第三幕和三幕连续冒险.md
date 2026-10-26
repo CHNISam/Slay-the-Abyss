@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 22:50'
+updated_date: '2026-10-26 22:51'
 labels:
   - required
   - sts1
@@ -42,6 +42,8 @@ type: feature
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-27 第三批本地组合：从冻结d8f33a7c独立工作树接入已交付Transient和Sensory Stone（后者依赖钨合金棍）。逐个检查真实Diff，保留现有Orichalcum、Shapes、完整300目录与晚领奖回滚，整合后按原时限复验固定源、跨切片回归与工程门禁；不将局部结果视为整幕或平台通过。
+
+2026-10-27 单事件Sensory Stone原计划及固定源更正一并保留：核查多组无色卡奖励的生成/稀有度/去重/顺序和持续cardRng，复用完整35普通无色与公开Nodes事务、分组选择/跳过及真实永久UID。源码已纠正早先NORMAL假设：全部奖励先生成，再HP_LOSS，走共享eventDamage和钨合金棍最终减伤；没有普通升级抽样，跳过可重开同组，Proceed回事件离开页。未接遗物明确依赖；不牵入其它事件/怪物/框架。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

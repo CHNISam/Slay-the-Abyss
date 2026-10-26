@@ -73,3 +73,7 @@ Moai Head 已接直接减生命上限后治疗、canonical Golden Idol 献祭/33
 ## Winding Halls 独立切片
 
 Winding Halls的三选择、真实获得/诅咒阻止、NORMAL null-owner伤害与致死后两Madness事务、原生UI及完整池选择已接。详情与四个未实现遗物hook的明确拒绝边界见 [ACT3_WINDING.md](ACT3_WINDING.md)；两条基线已有Effects静态告警尚待父组合治理，本片不报完整工程/整幕/平台通过。
+
+## Sensory Stone 独立切片
+
+Sensory Stone 已接完整35普通无色的1/2/3组冻结奖励、组内去重/持久cardRng、可重开Skip、Proceed后LEAVE、HP_LOSS先奖后伤、真实永久UID与原生UI。规则与依赖见 [ACT3_SENSORY_STONE.md](ACT3_SENSORY_STONE.md)。这是当前RC之后的独立内容，复用真实Rod共享接口；未接奖励遗物/Lizard明确拒绝。默认全事件、第三幕全部内容、自然连续通关与平台仍未完成。
