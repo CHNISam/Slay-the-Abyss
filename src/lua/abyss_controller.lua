@@ -18,9 +18,9 @@ function M.new(api,root)
     if root then clear(root) end
     function manager:eligible(record)
         local scope=type(record.scope)=='function' and record.scope() or record.scope
-        return not self.disabled and scope==self.scope
+        return not not (not self.disabled and scope==self.scope
             and visible(record.control) and record.control.interactable~=false
-            and (not record.enabled or record.enabled())
+            and (not record.enabled or record.enabled()))
     end
     function manager:focus(control)
         local record=self.byControl[control]
