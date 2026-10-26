@@ -225,6 +225,7 @@ function M.statusView(actor)
     for _, id in ipairs(ids) do
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
+            icon=require('abyss_colorless_cards').powerIcon(id),
             kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
             description = require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
             temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }

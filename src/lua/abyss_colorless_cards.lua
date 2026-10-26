@@ -63,6 +63,10 @@ local raw='dark_shackles sadistic_nature panic_button trip dramatic_entrance imp
 local src='madness thinking_ahead mind_blast metamorphosis jack_of_all_trades swift_strike good_instincts master_of_strategy magnetism finesse discovery chrysalis transmutation panacea purity enlightenment forethought flash_of_steel hand_of_greed mayhem apotheosis secret_weapon panache violence deep_breath secret_technique bandage_up blind the_bomb impatience dramatic_entrance trip panic_button sadistic_nature dark_shackles'
 local function words(s)local a={};for id in s:gmatch('%S+')do a[#a+1]=id end;return a end
 local powerNames={panache='声势',shackled='力量恢复',no_block='无法格挡',intangible='无实体',magnetism='磁引',mayhem='混沌',sadistic_nature='苦痛天性'}
+local powerIcons={panache='strength',no_block='frail',intangible='barricade',magnetism='draw_next_turn',mayhem='thousand_cuts',sadistic_nature='poison'}
+function M.powerIcon(id)
+    return powerIcons[id] or id:match('^colorless_bomb_') and 'combust' or nil
+end
 function M.powerDescription(actor,id)
     local n=actor.statuses[id]or 0
     if id=='panache'then return '本回合再打出'..n..'张牌，对全体敌人造成'..(actor.panacheDamage or 0)..'点伤害；每次触发及下回合开始重置为5张。'
