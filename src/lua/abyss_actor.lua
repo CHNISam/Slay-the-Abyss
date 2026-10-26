@@ -77,7 +77,7 @@ end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
 local debuffs = { corpse_explosion=true,wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
-    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true }
+    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true,constricted=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
@@ -108,6 +108,18 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
     -- regardless of the target's existing signed total. Zero is not an early exit.
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
+    local firstConstricted=id=='constricted' and (actor.statuses.constricted or 0)<=0
+    if id=='constricted' then
+        assert(actor==state.player and source and source~=actor and source.ai and source.ai.policy=='spire_growth',
+            'Constricted requires its real Spire Growth source')
+    end
+    -- ApplyPowerAction stacks the existing Power, retaining its first source.
+    -- Keep the real actor link off player: presentation frames shallow-project
+    -- actor fields. Only primitive identity/name fields may enter those frames.
+    if firstConstricted then
+        state.constrictedSource=source
+        actor.constrictedSourceId,actor.constrictedSourceName=source.id,source.name
+    end
     M.status(state, actor, id, amount, source, sourceIsMonster)
     require('abyss_colorless_cards').debuffApplied(state,actor,id,amount,source)
     if actor==state.player and (id=='demon_form' or id=='brutality' or id=='devotion' or id=='noxious_fumes') then

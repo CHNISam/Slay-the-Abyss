@@ -44,6 +44,8 @@ function M.new(self, describe, lines)
             local name=display and display.name or definition and definition.name or actor.stasisCardId
             text='正在扣押「'..name..(actor.stasisCardUpgraded and '+' or '')..'」。击败此浮核后归还'
             note='手牌已满时归还到弃牌堆'
+        elseif entry.id=='constricted' and actor.constrictedSourceName then
+            note='来源：'..actor.constrictedSourceName
         end
         local kind = describe.statusKind(entry)
         return { status = entry.id, icon = Theme.icon.status[entry.icon or entry.id],

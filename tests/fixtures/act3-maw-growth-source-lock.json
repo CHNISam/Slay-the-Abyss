@@ -1,0 +1,213 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Third-party fixed decompiled methods; independent A0 model and Lua, not original-PC execution",
+  "archive": {
+    "file": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+    "sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458"
+  },
+  "files": [
+    {
+      "path": "monsters/beyond/Maw.java",
+      "sha256": "a1729c147c2e8e92ff36fd90e7d323517b933676974f5b5265360df77e5927b7",
+      "methods": [
+        "constructor",
+        "takeTurn",
+        "getMove",
+        "die"
+      ]
+    },
+    {
+      "path": "monsters/beyond/SpireGrowth.java",
+      "sha256": "785f434669fc9459c4cd105ece2523f4836f9b28f7952f45673def0ad7eecebd",
+      "methods": [
+        "constructor",
+        "takeTurn",
+        "getMove"
+      ]
+    },
+    {
+      "path": "powers/ConstrictedPower.java",
+      "sha256": "95bba423b1027796360ab39f76c433a0b4e3f458afe826d636298393a912207c",
+      "methods": [
+        "constructor",
+        "atEndOfTurn"
+      ]
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "methods": [
+        "callEndOfTurnActions",
+        "getNextAction",
+        "clearPostCombatActions"
+      ]
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "methods": [
+        "applyEndOfTurnTriggers"
+      ]
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "methods": [
+        "update",
+        "endTurn"
+      ]
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "methods": [
+        "preBattlePrep"
+      ]
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "methods": [
+        "constructor",
+        "setHp",
+        "die"
+      ]
+    },
+    {
+      "path": "actions/common/DiscardAtEndOfTurnAction.java",
+      "sha256": "d80e3ae091de4bc4e74879f195b5ec2d1bb7e7c7e92eac636bf452d61e4bebf0",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/common/EndTurnAction.java",
+      "sha256": "21c9f23d0830b03d4d3db7887a03d786b24f98d8f160b919295f7394512cef74",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/utility/SFXAction.java",
+      "sha256": "224ecc29cc84efd244511cba73070f7a54c322938ea4f553ff867157b0444c7d",
+      "methods": [
+        "constructor",
+        "update"
+      ]
+    },
+    {
+      "path": "powers/AbstractPower.java",
+      "sha256": "37a6e97bc1a7a3d0cbfe93fd07e9f809690f7c02f24fd45ec34892466b6e0f9f",
+      "methods": [
+        "stackPower",
+        "compareTo"
+      ]
+    },
+    {
+      "path": "powers/CombustPower.java",
+      "sha256": "83204dd6f5f2fdbc8100c6288885dabd733c2cb225069bbd4b7ff4c3d53114ca",
+      "methods": [
+        "atEndOfTurn"
+      ]
+    },
+    {
+      "path": "powers/ArtifactPower.java",
+      "sha256": "7f0c3a5df2f204c6f0fa3fb152a807895b330f26b0f0970f4ef060ee9b919ac7",
+      "methods": [
+        "onSpecificTrigger"
+      ]
+    },
+    {
+      "path": "powers/LoseStrengthPower.java",
+      "sha256": "062155ed7acf49b9c60f1bf1b2583bbc060a762253c3f7a7246f42f995c7d1a1",
+      "methods": [
+        "atEndOfTurn"
+      ]
+    },
+    {
+      "path": "powers/IntangiblePlayerPower.java",
+      "sha256": "62ca9eecfd78e5b5a018ef069147d36bd58463b9754c8359d5dfb710bb6c52c8",
+      "methods": [
+        "atDamageFinalReceive"
+      ]
+    },
+    {
+      "path": "cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a",
+      "methods": [
+        "constructor"
+      ]
+    },
+    {
+      "path": "random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "methods": [
+        "random"
+      ]
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "methods": [
+        "getEncounter"
+      ]
+    }
+  ],
+  "independentModel": {
+    "generator": "tools/oracles/sts1_maw_growth.py",
+    "dependencies": [
+      "tools/oracles/sts1_combat_gold.py",
+      "tools/oracles/sts1_shapes.py"
+    ],
+    "fixture": "tests/fixtures/act3-maw-growth-vectors.lua",
+    "sha256": "fde36bf9615c15bbf151c09cf98599e44e5f417961872f6ca346e24f073e8180",
+    "normalization": "LF only for authored runtime vector fixture; raw ZIP members are byte-exact",
+    "seeds": [
+      "1",
+      "42",
+      "77"
+    ],
+    "perCaseTurns": 8,
+    "initialArithmeticFixtureHp": 1000,
+    "note": "High HP belongs to isolated eight-move arithmetic fixtures only; real Run/Host retains the unmodified starter HP. No natural-route claim."
+  },
+  "contracts": {
+    "mawHp": 300,
+    "mawHpDraws": 0,
+    "mawCounterInitial": 1,
+    "mawOpeningCounter": 2,
+    "mawCounterIncrement": "each getMove, including opening and forced choices",
+    "mawNomHits": "Java int turnCount / 2 (floor)",
+    "mawPrimaryThreshold": 50,
+    "growthSourceId": "Serpent",
+    "growthEncounter": "Spire Growth",
+    "growthHp": 170,
+    "growthHpDraws": 1,
+    "constrictedAmount": 10,
+    "constrictedPriority": 105,
+    "constrictedType": "THORNS",
+    "stackKeepsFirstSource": true,
+    "sourceDeathRemovalHook": false,
+    "deadSourceWithLiveTeammateStillDamages": true,
+    "stage": "after automatic Burn/Regret/orbs; at ordinary end-turn Power priority105; before DiscardAtEndOfTurn/Ethereal"
+  },
+  "dependencies": {
+    "sharedTurnEnd": "Requires independently audited shared source-order end-turn hook. The temporary Constricted-only stage patch was removed and is not a deliverable.",
+    "buffer": "Formal incoming/Buffer is not in this baseline; no one-off Buffer consumption added."
+  }
+}

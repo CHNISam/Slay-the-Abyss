@@ -1,10 +1,25 @@
 -- Narrow source action/power boundary. Actor and Combat own arithmetic/rollback.
 local Events=require('abyss_events')
 local R=require('abyss_sts_random')
-local M={}
+local M={ownerEndIds={constricted=true}}
 function M.active(state)
  for _,enemy in ipairs(state.enemies)do if enemy.ai and enemy.ai.kind=='act3'then return true end end
  return false
+end
+function M.ownerEndPlan(state,id,amount)
+ assert(id=='constricted','unsupported Act3 owner-end Power')
+ assert(type(amount)=='number'and amount%1==0 and amount>0 and amount<=2147483647
+  and amount==state.player.statuses.constricted,'invalid Constricted amount')
+ local source=state.constrictedSource
+ assert(type(source)=='table'and source~=state.player and source.ai and source.ai.kind=='act3'and source.ai.policy=='spire_growth',
+  'missing Constricted source actor')
+ local found=false
+ for _,enemy in ipairs(state.enemies)do if enemy==source then found=true;break end end
+ assert(found,'Constricted source must be the original actor')
+ -- Fixed ConstrictedPower has no source-death removal hook. A THORNS action
+ -- survives its dead owner; capture that object and the amount when enqueueing,
+ -- never resolve it again from a mutable slot or a similarly named actor.
+ return {bottom={{op='ownerEndThorns',source=source,value=amount}}}
 end
 function M.endRound(api,state,actor)
  local amount=actor.statuses.generic_strength_up or 0
