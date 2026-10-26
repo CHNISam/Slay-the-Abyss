@@ -4,9 +4,10 @@ local Run=require('abyss_run')
 local R=require('abyss_sts_random')
 local Capability=require('abyss_card_capability')
 local CardRandom=require('abyss_card_random')
+local RelicHooks=require('abyss_relic_hooks')
 local M={}
 local counts={one=1,two=2,three=3}
-local missing={question_card=true,busted_crown=true,toxic_egg=true,molten_egg=true,frozen_egg=true,singing_bowl=true}
+local missing={question_card=true,busted_crown=true,molten_egg=true,frozen_egg=true,singing_bowl=true}
 local function definition(run,id)for _,d in ipairs(run.data.cards.cards)do if d.id==id then return d end end end
 local function owns(run,id)for _,held in ipairs(run.relics)do if held==id then return true end end;return false end
 local function dependencies(run)
@@ -48,7 +49,8 @@ local function rewards(run,num)
    if not Capability.isImplemented(d)or d.sourceId~=metadata[id].sourceId or d.rarity~=rarity then return nil,'event_content_unavailable'end
    used[id]=true;cards[#cards+1]={cardId=id,sourceCardId=metadata[id].sourceId,rarity=rarity,upgraded=false}
   end
-  groups[#groups+1]={id=group,cards=cards,claimed=false}
+  local reward={id=group,cards=cards,claimed=false};RelicHooks.previewCardReward(run,reward)
+  groups[#groups+1]=reward
  end
  return groups,rng,offset
 end
@@ -109,8 +111,10 @@ local function chooseCard(run,event,choice)
  if id~=group.id or not index or not group.cards[index]or group.claimed then return false,'invalid_event_choice'end
  local ready,why=dependencies(run);if not ready then return false,why end
  local card=group.cards[index];local d=definition(run,card.cardId)
- if not d or d.sourceId~=card.sourceCardId or d.rarity~=card.rarity or card.upgraded~=false then return false,'stale_event_card'end
- local ok,uid=Run.obtainCard(run,card.cardId,{upgraded=card.upgraded})
+ if not d or d.sourceId~=card.sourceCardId or d.rarity~=card.rarity then return false,'stale_event_card'end
+ local expected={upgraded=false};RelicHooks.onPreviewObtainCard(run,expected,d)
+ if card.upgraded~=expected.upgraded or card.upgrades~=expected.upgrades then return false,'stale_event_card'end
+ local ok,uid=Run.obtainCard(run,card.cardId,{upgraded=card.upgraded,upgrades=card.upgrades})
  if not ok then return false,uid end
  group.claimed,group.obtainedUid,group.selectedIndex=true,uid,index
  event.stage,event.selectedReward='rewards',nil;return true,'pending'

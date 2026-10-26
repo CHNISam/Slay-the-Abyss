@@ -154,7 +154,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if option.rewardCard then
             local definition=assert(card(option.cardId),'missing reward definition')
             local display=assert(self.presentation[option.cardId],'missing reward display')
-            return '费用 '..display.cost..' · '..typeNames[definition.type]..' · '
+            local cost=display.cost
+            if option.upgraded and definition.upgrade and definition.upgrade.cost~=nil then cost=number(definition.upgrade.cost)end
+            return '费用 '..cost..' · '..typeNames[definition.type]..' · '
                 ..({rare='稀有',uncommon='罕见'})[definition.rarity]..'｜'
                 ..CardDisplay.permanentText(display,definition,option)
         end
@@ -563,7 +565,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         end
         if active and node.type=='camp' and node.restReward and not node.restReward.resolved then
             self.mode,self.picker='picker','dream_catcher';self.restRows={}
-            for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=false}end
+            for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=node.restReward.cardUpgrades and node.restReward.cardUpgrades[i]==true}end
         end
         if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel') then
             if node.event.stage=='choose_card' then
@@ -620,7 +622,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local function restReward(choice)
                 local id=node.restReward.cards[choice]
                 return commit('claimRestReward',choice,function()
-                    local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,false)..'」')
+                    local obtained=self.run.deck[#self.run.deck]
+                    local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,obtained.upgraded,obtained.upgrades)..'」')
                     self.mode,self.picker,self.selected='main',nil,nil
                     return text,{choice='rest',healed=self.run.nodeFlow.restHealed,rewardText=text}
                 end)

@@ -229,7 +229,18 @@
           "tests/lua/tungsten_rod.lua",
           "tests/lua/tungsten_rod_interactions.lua",
           "tests/lua/tungsten_rod_channels.lua",
-          "tests/lua/tungsten_rod_transactions.lua"
+          "tests/lua/tungsten_rod_transactions.lua",
+          "tests/lua/toxic_egg_obtain.lua",
+          "tests/lua/toxic_egg_battle.lua",
+          "tests/lua/toxic_egg_rest.lua",
+          "tests/lua/toxic_egg_shop.lua",
+          "tests/lua/toxic_egg_events.lua",
+          "tests/lua/toxic_egg_madness.lua",
+          "tests/lua/toxic_egg_eligibility.lua",
+          "tests/lua/toxic_egg_ui.lua",
+          "tests/lua/toxic_egg_event_ui.lua",
+          "tests/lua/toxic_egg_profiles.lua",
+          "tests/lua/toxic_egg_equip_rollback.lua"
         ]
       },
       "platform": {
@@ -3267,7 +3278,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage still refuses held lizard_tail until its real shared revival hook exists. Tungsten Rod now shares actual battle/event final HP-loss reduction. Relic normal acquisition, whole-campaign and platform/live acceptance remain pending. Madness/Writhe also refuse held toxic_egg/darkstone_periapt until their actual shared obtain hooks exist."
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage still refuses held lizard_tail until its real shared revival hook exists. Tungsten Rod now shares actual battle/event final HP-loss reduction. Toxic Egg now upgrades both actually obtained Madness cards once; Writhe still refuses held darkstone_periapt. Complete relic acquisition, whole-campaign and platform/live acceptance remain pending."
     },
     {
       "id": "golden_idol",
@@ -3335,7 +3346,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Held unimplemented Question/Crown/Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
+      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Toxic Egg now previews and obtains real upgraded Skills in every reward group. Held unimplemented Question/Crown/Molten Egg/Frozen Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
     },
     {
       "id": "tomb_red_mask",
@@ -3810,6 +3821,16 @@
       ],
       "sourceId": "Circlet",
       "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice."
+    },
+    {
+      "id": "toxic_egg",
+      "sourceId": "Toxic Egg 2",
+      "source": "data/relics.json#toxic_egg",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": ["treasure", "shop_relic"],
+      "naturalAcquisitionLimitation": "Seed8 actual Big Fish box selects Toxic Egg from the untouched complete source event relic queue, then equips it and obtains the real curse. Existing ordinary treasure and shop still use their explicitly restricted supported candidate sets; this slice does not certify their original full-pool distributions. Both enforce this relic's non-Endless floor48 maximum.",
+      "naturalExecutionLimitation": "Permanent Skill acquire and source-defined reward/shop preview upgrade once without RNG. Existing deck, shop shelves and direct Dream Catcher offers are not upgraded on equipment. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
     },
     {
       "id": "tungsten_rod",

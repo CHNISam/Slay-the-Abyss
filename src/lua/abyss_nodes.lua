@@ -72,11 +72,12 @@ local function complete(run, result)
     return true, run.nodeFlow.result
 end
 
-local function unownedRelics(run)
+local function unownedRelics(run,roomFloor)
     local result = {}
     for _, relic in ipairs(run.data.relics.relics) do
         if (relic.rarity=='common' or relic.rarity=='uncommon' or relic.rarity=='rare')
-            and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
+            and not owns(run.relics, relic.id)
+            and (relic.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48) then result[#result + 1] = relic.id end
     end
     table.sort(result)
     return result
@@ -103,7 +104,7 @@ local function prepare(run, node, miscRng)
     if node.type == "camp" then
         flow.upgradesLeft = run.data.rules.camp.upgradeCount
     elseif node.type == "shop" then
-        for k,v in pairs(Shop.prepare(run)) do flow[k]=v end
+        for k,v in pairs(Shop.prepare(run,node.floor)) do flow[k]=v end
     elseif node.roomKind == "boss_treasure" then
         local pool, choices = {}, {}
         for _, relic in ipairs(run.data.relics.relics) do
@@ -115,7 +116,7 @@ local function prepare(run, node, miscRng)
         end
         flow.reward = { relics = choices }
     elseif node.type == "treasure" then
-        local relics = unownedRelics(run)
+        local relics = unownedRelics(run,node.floor)
         flow.reward = #relics > 0 and { relicId = relics[Combat.random(random, #relics)] }
             or { gold = run.data.rules.rewards.normalGold }
     elseif node.type == "event" then
@@ -329,12 +330,14 @@ function M.rest(run)
             -- previous encounter. Its persistent card RNG/offset still advance.
             local context={data=owner.data,cardRng=owner.cardRng,
                 cardRarityOffset=owner.cardRarityOffset,encounterTier='normal'}
-            local cards,rng,offset=CardPool.prepareRewards(context)
+            local cards,rng,offset,upgrades=CardPool.prepareRewards(context)
             for _,id in ipairs(cards)do
                 if not Capability.isImplemented(find(owner.data.cards.cards,id))then error('card_content_unavailable')end
             end
             owner.cardRng,owner.cardRarityOffset=rng,offset
-            return {cards=cards,resolved=false}
+            local reward={cards=cards,resolved=false,cardUpgrades=upgrades}
+            RelicHooks.previewCardReward(owner,reward,true)
+            return reward
         end)
         if flow.restReward then return true,'choose_rest_card' end
         return complete(staged)
@@ -348,7 +351,8 @@ function M.claimRestReward(run,choice)
         if flow.campChoice~='rest' or not reward or reward.resolved then return false,'no_pending_reward' end
         if type(choice)~='number' or choice%1~=0 or choice<0 or choice>#reward.cards then return false,'invalid_reward_choice' end
         if choice>0 then
-            local ok,why=Run.obtainCard(staged,reward.cards[choice]);if not ok then return false,why end
+            local ok,why=Run.obtainCard(staged,reward.cards[choice],
+                {upgraded=reward.cardUpgrades and reward.cardUpgrades[choice]==true});if not ok then return false,why end
         end
         reward.resolved,reward.choice=true,choice
         return complete(staged)
@@ -405,7 +409,7 @@ local function purchaseCommand(run, category, reference, bySlot)
     run.gold = run.gold - offer.price
     RelicHooks.onSpendGold(run,'shop')
     if category == "cards" then
-        local ok,why=Run.obtainCard(run,id);if not ok then return false,why end
+        local ok,why=Run.obtainCard(run,id,{upgraded=offer.upgraded,upgrades=offer.upgrades});if not ok then return false,why end
     elseif category=='potions' then
         local ok,why=Run.obtainPotion(run,offer.id);if not ok then return false,why end
     else

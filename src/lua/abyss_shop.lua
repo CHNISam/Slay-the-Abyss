@@ -8,6 +8,7 @@ local CardRandom = require('abyss_card_random')
 local External=require('abyss_external_random')
 local Primitive=require('abyss_randomxs128')
 local PotionPool=require('abyss_potion_random')
+local RelicHooks=require('abyss_relic_hooks')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -46,12 +47,14 @@ local function pick(rng,list)
     if #list==0 then return nil end
     return list[R.randomInt(rng,#list-1)+1]
 end
-local function relicCandidates(run,rarity,stock)
+local function relicCandidates(run,rarity,stock,roomFloor)
     local pool={}
     for _,def in ipairs(run.data.relics.relics) do
         local allowed=def.rarity==rarity
         -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
         allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
+        -- ToxicEgg2.canSpawn; Nodes prepares a shelf before publishing its floor.
+        allowed=allowed and (def.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48)
         for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
         if allowed then pool[#pool+1]=def end
     end
@@ -79,18 +82,20 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
     sourceCardId=metadata and metadata.sourceId or def and (def.sourceId or def.sts_name or def.id) or selected
     local available=def and Capability.isImplemented(def)
     local multiplier=R.randomFloatBetween(rng.merchant,f32(.9),f32(1.1))
-    return { slot=slot, id=selected, type=def and def.type or metadata and metadata.type or kind or 'skill',color=color,
+    local offer={ slot=slot, id=selected, type=def and def.type or metadata and metadata.type or kind or 'skill',color=color,
         rarity=rarity, unavailable=not available, sold=false,sourceCardId=sourceCardId,
         price=Price.quoteCard({rarity=rarity,multiplier=multiplier,color=color,
             phase=restock and 'restock' or 'initial',courier=restock and owns(run,'courier') or false,
             membership=restock and owns(run,'membership_card') or false}) }
+    if available then RelicHooks.onPreviewObtainCard(run,offer,def)end
+    return offer
 end
-local function itemOffer(run,rng,category,slot,stock,restock)
+local function itemOffer(run,rng,category,slot,stock,restock,roomFloor)
     local rarity,selected
     if category=='potions' then
         selected=PotionPool.sample({potionRng=rng.potion},{character=PotionPool.character(run)});rarity=selected.rarity
     else rarity=slot==3 and not restock and 'shop' or S.relicRarity(R.randomInt(rng.merchant,99)) end
-    local pool=not selected and relicCandidates(run,rarity,stock) or nil
+    local pool=not selected and relicCandidates(run,rarity,stock,roomFloor) or nil
     if restock and category=='relics' then
         local filtered={}
         for _,d in ipairs(pool) do
@@ -107,7 +112,7 @@ local function itemOffer(run,rng,category,slot,stock,restock)
     return { slot=slot,id=selected and selected.id or def and def.id or '__missing_'..category..'_'..slot,rarity=rarity,
         unavailable=not def,sold=false,price=discount(run,price) }
 end
-function S.prepare(run)
+function S.prepare(run,roomFloor)
     local rng=streams(run)
     local cardOwner=CardRandom.clone(run)
     local stock={cards={},relics={},potions={},shopRng=rng,cardRandom=cardOwner,contentMode='restricted-supported-pools'}
@@ -124,7 +129,7 @@ function S.prepare(run)
     local o=stock.cards[sale];o.sale=true
     o.price=floor(o.price/2)
     for _,offer in ipairs(stock.cards) do offer.price=discount(run,offer.price) end
-    for i=1,3 do stock.relics[i]=itemOffer(run,rng,'relics',i,stock.relics) end
+    for i=1,3 do stock.relics[i]=itemOffer(run,rng,'relics',i,stock.relics,nil,roomFloor) end
     for i=1,3 do stock.potions[i]=itemOffer(run,rng,'potions',i) end
     return stock
 end

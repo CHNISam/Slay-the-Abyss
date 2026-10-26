@@ -33,6 +33,10 @@ for _,id in ipairs({'tungsten_rod','lizard_tail'})do
 end
 for _,spec in ipairs({{'toxic_egg','madness'},{'darkstone_periapt','writhe'}})do
  local r,m,n=fixture(1);r.relics[#r.relics+1]=spec[1];assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local b,bm=C.copy(r),C.copy(m)
- local ok,why=Nodes.chooseEvent(r,spec[2]);eq(ok,false);eq(why,'event_obtain_content_unavailable');same(r,b);same(m,bm);assert(Nodes.chooseEvent(r,'max_hp'))
+ local ok,why=Nodes.chooseEvent(r,spec[2])
+ if spec[1]=='toxic_egg'then
+  assert(ok,why);eq(r.phase,'defeat');eq(#r.deck,#b.deck+2)
+  for i=#r.deck-1,#r.deck do eq(r.deck[i].cardId,'madness');eq(r.deck[i].upgraded,true);eq(r.deck[i].upgrades,1)end
+ else eq(ok,false);eq(why,'event_obtain_content_unavailable');same(r,b);same(m,bm);assert(Nodes.chooseEvent(r,'max_hp'))end
 end
 print('ACT3_WINDING_OUTCOMES_PASS heal/Bloom/Flower/Writhe/Omamori, max-health clamp without heal, fatal obtains/Fairy, null-owner Torii and refused missing relic hooks')

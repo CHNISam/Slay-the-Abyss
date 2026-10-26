@@ -27,7 +27,13 @@ do
 end
 for _,id in ipairs({'question_card','busted_crown','toxic_egg','molten_egg','frozen_egg','singing_bowl','lizard_tail'})do
  local r,m,n=F.fixture();r.relics[#r.relics+1]=id;assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local before=F.C.copy(r)
- F.eq(Nodes.chooseEvent(r,'two'),false);F.same(r,before)
+ if id=='toxic_egg'then
+  assert(Nodes.chooseEvent(r,'two'));F.eq(r.hp,75)
+  for _,g in ipairs(r.nodeFlow.event.rewards)do for _,c in ipairs(g.cards)do
+   local d;for _,v in ipairs(r.data.cards.cards)do if v.id==c.cardId then d=v end end
+   F.eq(c.upgraded,d.type=='skill'and next(d.upgrade or{})~=nil)
+  end end
+ else F.eq(Nodes.chooseEvent(r,'two'),false);F.same(r,before)end
  if id=='lizard_tail'then assert(Nodes.chooseEvent(r,'one'))end
 end
 print('SENSORY_STONE_OUTCOMES_PASS all1/2/3 frozen before HP_LOSS, fatal consumes source streams/no claims, real Fairy/CeramicFish and explicit unsupported-owner boundaries')

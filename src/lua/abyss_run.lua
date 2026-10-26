@@ -567,6 +567,7 @@ local function finishCombat(run)
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
+    RelicHooks.previewCardReward(run,run.rewards,true)
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
         run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}

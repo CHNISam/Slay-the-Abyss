@@ -19,7 +19,7 @@
 
 真实 Rod 定义/取得后，两付费选项实际失血4/9；HP5承受标称5时保留1HP且不消费 Fairy，HP1承受更大失血仍在所有奖励生成后由 Fairy 复活。致死无复活时保留已经生成的奖励/RNG状态，正式 Nodes 进入 defeat，不能领取牌；生成并不等于取得，永久牌组/UID此时不变。
 
-持有尚未实现的 canonical `lizard_tail` 时付费分支明确拒绝，免费1组仍可用。`question_card`/`busted_crown` 奖励数量、`toxic_egg`/`molten_egg`/`frozen_egg` preview/obtain升级、`singing_bowl` 替代跳过效果尚未接齐；持有这些 owner 时明确原子拒绝，不伪造钩子或缩池。不存在这些 owner 的正常完整35池入口可执行。Ceramic Fish 的真实获得牌+9金币复用已有 shared hook；跳过不触发它。
+持有尚未实现的 canonical `lizard_tail` 时付费分支明确拒绝，免费1组仍可用。`question_card`/`busted_crown` 奖励数量、`molten_egg`/`frozen_egg` preview/obtain升级、`singing_bowl` 替代跳过效果尚未接齐；持有这些 owner 时明确原子拒绝，不伪造钩子或缩池。`toxic_egg` 已接真实 Skill 预览/永久获得升级；既有已打开的未领取奖励组也按源 onEquip 更新，其它两个 Egg 的门禁保留。不存在尚缺 owner 时正常完整35池入口可执行。Ceramic Fish 的真实获得牌+9金币复用已有 shared hook；预览与跳过不触发它。原源锁中的缺项清单保留为当时快照；本件当前证据见 [Toxic Egg](TOXIC_EGG.md)。
 
 ## 独立向量与验收
 

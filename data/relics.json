@@ -1,6 +1,7 @@
 {
   "relics": [
     { "id": "red_mask", "sourceId": "Red Mask", "name": "红面具", "description": "每场战斗开始时，对所有敌人施加1回合虚弱：普通攻击伤害减少25%。", "rarity": "special", "trigger": "hooks", "effects": [] },
+    { "id": "toxic_egg", "sourceId": "Toxic Egg 2", "name": "毒素之卵", "description": "每当你获得一张技能牌时，将其升级。", "rarity": "uncommon", "trigger": "hooks", "effects": [] },
     { "id": "tungsten_rod", "sourceId": "TungstenRod", "name": "钨合金棍", "description": "每次将要失去生命时，失去的生命值减少1。", "rarity": "rare", "trigger": "hooks", "effects": [] },
     { "id": "membership_card", "name": "会员卡", "rarity": "shop", "trigger": "shop", "effects": [] },
     { "id": "courier", "name": "快递员", "rarity": "uncommon", "trigger": "shop", "effects": [] },

@@ -42,7 +42,7 @@ function M.choose(run,flow,choice,uid)
  if type(run.maxHp)~='number' or run.maxHp%1~=0 or run.maxHp<1 or run.maxHp>2147483647 then return false,'invalid_event_health'end
  if type(run.hp)~='number' or run.hp%1~=0 or run.hp<=0 or run.hp>run.maxHp then return false,'invalid_event_health'end
  -- Admission stays closed until the actual shared onObtainCard hooks exist.
- local missing=choice=='madness' and 'toxic_egg' or choice=='writhe' and 'darkstone_periapt'
+ local missing=choice=='writhe' and 'darkstone_periapt'
  for _,id in ipairs(run.relics or {})do
   if id==missing then return false,'event_obtain_content_unavailable'end
  end

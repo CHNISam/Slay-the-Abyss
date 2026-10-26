@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 45,
-    "queueMissing": 91,
-    "act1Missing": 98,
-    "registeredLocalEffects": 44,
+    "existingLocalEffects": 46,
+    "queueMissing": 90,
+    "act1Missing": 97,
+    "registeredLocalEffects": 45,
     "fallbackLocalEffects": 1
   },
   "queueProtocol": {
@@ -4130,10 +4130,11 @@
         "onObtainCard",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "toxic_egg",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/ToxicEgg2.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Skill acquisition and source-specific preview/equip hooks, max-floor48 and local channels are implemented. Existing restricted shop/treasure distribution, complete natural campaign and PC/platform/live acceptance remain pending."
     },
     {
       "id": "Toy Ornithopter",
