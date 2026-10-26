@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-26用户已公开CHNISam/Slay-the-Abyss并指定GitHub官方免费runner；API核对visibility=public且当前连接有push权限。Quality/check由本机自托管切换标准windows-latest，其他作业保持ubuntu-latest，保留全部测试、版本、预算、ownership及收据；不操作本机runner服务。此配置随feat/m3-four-acts推送，不等于当前SHA远端CI已通过或M3完成。
+
 2026-10-26用户随后明确“推送啊”，本轮授权扩展至必要提交与feat/m3-four-acts独立分支推送，继续沿用本轮执行权例外；不更改全局paused，不借用其他会话，不合并develop。Linux完整JS复验1471/1471通过、零跳过；M3整体仍未完成，已知内容/平台缺口与旧失败证据保留。
 
 2026-10-26用户授权Linux等价检验与驾驭工程优化。本轮在既有独立树补ci-checkout-equivalent：Windows继续跑真实PowerShell正文，Linux用受检出正文指纹约束的真实离线Git行为检验。首次262501B/增量319B/旧流程262723B，3项通过；工作流变更未复核即失败，不跳过测试或改正式CI。复用TASK-60，M3内容与平台缺口不因此关闭。

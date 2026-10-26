@@ -37,8 +37,8 @@ jobs:
       group: slay-the-abyss-full-quality
       cancel-in-progress: false
       queue: max
-    # Fork code stays on GitHub-hosted infrastructure.
-    runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
+    # Standard GitHub-hosted runners are free for this public repository.
+    runs-on: windows-latest
     # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of
     # 207 Lua fixtures had run on Node 22. Keep every fixture and its own
     # timeout; this bound allows the complete serial suite to finish.
@@ -47,7 +47,7 @@ jobs:
     timeout-minutes: 75
     defaults:
       run:
-        shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh -NoProfile -File {0}' || 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' }}
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
     steps:
       - name: Check out exact revision with installed Git
         env:

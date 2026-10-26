@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 02:09'
-updated_date: '2026-10-26 06:57'
+updated_date: '2026-10-26 07:59'
 due_date: '2026-10-26'
 labels:
   - p0 cost engineering
@@ -56,4 +56,6 @@ ordinal: 0
 Linux等价检验已实现，3项通过：首次262501B/增量319B/旧流程262723B。适配器只允许已审阅工作流及明确负对照变体；未知工作流语义、引用不一致均拒绝。正式CI正文和阈值未改，不下载大型运行时，不冒充Windows或远端CI证据。详见docs/ENGINEERING.md。
 
 Linux完整npm test复验1471项全部通过，0失败/0跳过；原缺pwsh失败日志保留，新的等价检验单独记录于docs/evidence/linux-checkout-equivalent-20261026.json。没有修改正式CI或宣称Windows、远端CI、M3整体验收通过。
+
+2026-10-26用户明确仓库已公开，要求使用GitHub官方免费runner。API确认visibility=public且连接具备push权限；本轮将Quality/check由本机自托管改为标准windows-latest，其余作业ubuntu-latest，保留全部测试、精确SHA检出、网络门禁、ownership和收据。托管工作区不承诺跨轮对象复用；不操作本机runner服务。当前SHA远端CI仍待实际运行，不勾选相关验收。
 <!-- SECTION:NOTES:END -->

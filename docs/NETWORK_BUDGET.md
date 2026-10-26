@@ -18,6 +18,8 @@
 
 ## 当前交付
 
+2026-10-26用户随后公开仓库并指定GitHub官方免费runner；Quality/check现配置为标准windows-latest，其余作业ubuntu-latest。GitHub托管runner通常每轮为全新工作区，不能把本机持久对象的跨轮增量收益当成远端已生效；保留精确SHA、pack摘要/阈值及有界依赖请求，不引入大型缓存往返。以下本机runner操作是历史证据，本次不停止或修改其服务。
+
 已在空闲runner补上`refs/ci/network-budget`，指向现有b6a29e4，改善旧流程的增量协商；保留原pack与其他项目服务。
 
 长期小改动在独立`feat/network-budget`实现。用户最初只授权本地实现/测试，随后明确授权本次独立分支推送，并单次豁免认领钩子；不改持久门禁配置、不借用其他session、不合并。集成仍等待TASK-47/PR206共享文件交接；须将小改动应用到最新CI，保留PR206的所有测试作业、工具版本和收据要求，不能整文件覆盖。单次分支发布不代表ownership或远端CI已通过。

@@ -43,7 +43,7 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 
 ## CI与交付
 
-必需作业是 `check`、`presentation`、`engineering-posix`。fork始终运行GitHub-hosted；Ubuntu作业实际跑Node文件别名回归。保持只读权限、超时、取消旧运行、7天产物保留；check产出当前event/runId/attempt/head/base/tested SHA收据。
+必需作业是 `check`、`presentation`、`engineering-posix`。2026-10-26用户已公开仓库并指定GitHub官方免费runner：check统一使用标准`windows-latest`（含fork），ownership/presentation/engineering-posix使用`ubuntu-latest`。不依赖本机自托管runner、不使用larger runner；Ubuntu作业实际跑Node文件别名回归。保持只读权限、超时、取消旧运行、7天产物保留；check产出当前event/runId/attempt/head/base/tested SHA收据。运行环境切换不豁免ownership或当前SHA验收。
 
 交付检查读取所有分页及当前attempt作业，拒绝queued/failed/cancelled/skipped/missing和旧head/base组合。PR合并测试SHA允许不同于head，但实际parents必须是当前base/head。独立审查记录提供 `reviewedHeadSha`、`reviewedBaseSha`、可追溯 `reviewId`、`conclusion: pass`、`unresolved: []`；字段通过不自证审查独立，须检查真实会话/审查来源。记录可放PR附属产物，避免提交记录包含自身SHA的循环。合并前再查head/base，用现成expected-head机制，并复查合并结果。
 
