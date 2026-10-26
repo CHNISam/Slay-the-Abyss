@@ -7,7 +7,8 @@ local function same(a,b)
  for k in pairs(b)do assert(a[k]~=nil)end
 end
 local function detail(id,move,effects,kind)
- local members=id=='gremlin_leader' and {'mad_gremlin','sneaky_gremlin',id} or {id}
+ local members=id=='gremlin_leader' and {'mad_gremlin','sneaky_gremlin',id}
+    or id=='bronze_orb' and {'automaton',id} or {id}
  local host,ui,panel,_,tap=H.setup({'defend'},members)
  local index=#members
  local enemy=host.run.combat.enemies[index]
@@ -41,4 +42,23 @@ local spawn=detail('collector','spawn')
 assert(spawn:find('2',1,true) and spawn:find('随从',1,true))
 local revive=detail('collector','revive')
 assert(revive:find('复活',1,true) and revive:find('存活',1,true))
-print('ACT2_INTENT_UI_PASS 10')
+local orbs=detail('automaton','spawn_orbs')
+assert(orbs:find('2',1,true) and orbs:find('浮核',1,true),'Automaton summons must be explained')
+local support=detail('bronze_orb','support')
+assert(support:find('青铜机枢',1,true) and support:find('12',1,true),'orb block must name the actual recipient')
+local stasis=detail('bronze_orb','stasis')
+assert(stasis:find('扣押',1,true) and stasis:find('击败',1,true),'Stasis custody and return must be explained')
+local host,ui,panel=H.setup({'defend','strike','bash','strike','strike','strike'},{'automaton','bronze_orb'})
+local battle=host.run.combat
+battle.cardRandomRng=require('abyss_sts_random').fromSeed('42')
+C.applyEffects(battle,{{op='enemyStasis',value=1}},battle.enemies[2],battle.player)
+local held=battle.enemies[2].stasisCardId
+assert(held)
+host:refresh()
+local before=C.copy(battle)
+assert(ui:showStatus(2))
+local heldName=ui.presentation[held].name
+local shown=panel:GetChild('statusInfo'):GetChild('text1').text
+assert(shown:find(heldName,1,true) and shown:find('击败',1,true),'held card must be visible by name')
+same(battle,before)
+print('ACT2_INTENT_UI_PASS 14')

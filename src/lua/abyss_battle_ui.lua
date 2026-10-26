@@ -158,7 +158,8 @@ end
 local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
     enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
-    enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff' }
+    enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff',
+    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff' }
 local function intentBadge(intent)
     for _, kind in ipairs({ "debuff", "defend", "buff", "attack" }) do
         if kind ~= intent.kind then
@@ -232,13 +233,19 @@ local function intentView(state, index)
                 result[#result+1]='按你实际损失的生命回复自身生命'
                 rows[#rows+1]={icon='buff',colour=C.buff,name='吸血',text='按你实际损失的生命回复自身生命',note='格挡部分不产生治疗'}
             end
-        elseif effect.op=='enemyRally' or effect.op=='enemyTorchSpawn' or effect.op=='enemyTorchRevive' or effect.op=='enemyEncourage' then
+        elseif effect.op=='enemyStasis' then
+            local text='扣押抽牌堆中的一张牌；抽牌堆为空时从弃牌堆选择。击败此浮核后归还，满手时放入弃牌堆'
+            result[#result+1]=text
+            rows[#rows+1]={icon='debuff',colour=C.debuff,name='扣押卡牌',text=text,
+                note='优先稀有，其次罕见、普通；同稀有度随机选择'}
+        elseif effect.op=='enemyRally' or effect.op=='enemyTorchSpawn' or effect.op=='enemyTorchRevive' or effect.op=='enemyEncourage' or effect.op=='enemyBronzeSpawn' then
             local text,name
             if effect.op=='enemyEncourage' then
                 name='鼓舞'
                 text='敌方全体存活单位各获得 '..number(effect.value)..' 层力量，其他队友各获得 6 点格挡'
             elseif effect.op=='enemyRally' then name,text='召唤','召唤最多 2 名随从，补充空位'
             elseif effect.op=='enemyTorchSpawn' then name,text='召唤','召唤 2 名燃炬随从'
+            elseif effect.op=='enemyBronzeSpawn' then name,text='召唤','召唤 2 名青铜浮核'
             else name,text='复活','复活已倒下的燃炬随从，存活随从保持原状态' end
             result[#result+1]=text
             rows[#rows+1]={icon='buff',colour=C.buff,name=name,text=text}
@@ -252,11 +259,14 @@ local function intentView(state, index)
             result[#result+1]=text
             rows[#rows+1]={icon='buff',colour=C.buff,name=name,text=text}
         elseif effect.op == "block" then
-            local amount = number(Combat.blockAmount(state, copy, effect.value, effect.target == "random_ally"))
+            local master = effect.target == 'automaton'
+            local amount = number(Combat.blockAmount(state, copy, effect.value, effect.fixed or master or effect.target == "random_ally"))
             local ally = effect.target == "random_ally"
-            result[#result + 1] = ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+            local text = master and '使青铜机枢获得 '..amount..' 点格挡'
+                or ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+            result[#result + 1] = text
             rows[#rows + 1] = { icon = "defend", colour = C.block, name = "格挡 " .. amount,
-                text = ally and "让一名随机队友获得 " .. amount .. " 点格挡" or "自身获得 " .. amount .. " 点格挡",
+                text = text,
                 note = ally and "没有队友时给自己" or nil }
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
             local gain = effect.op == "gainStatus"
@@ -627,6 +637,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             hp = actor.hp, maxHp = actor.maxHp, block = actor.block, sections = {} }
         local function statusRow(entry)
             local text, tag, note = statusDetail(entry, battle.rules, actor)
+            if entry.id=='stasis' and actor.stasisCardId then
+                local display=self.presentation[actor.stasisCardId]
+                local definition=battle.catalog.cards[actor.stasisCardId]
+                local name=display and display.name or definition and definition.name or actor.stasisCardId
+                text='正在扣押「'..name..(actor.stasisCardUpgraded and '+' or '')..'」。击败此浮核后归还'
+                note='手牌已满时归还到弃牌堆'
+            end
             local kind = statusKind(entry)
             return { status = entry.id, icon = Theme.icon.status[entry.icon or entry.id], colour = kind == "buff" and C.buff or C.debuff, tag = tag, text = text, note = note,
                 name = entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) }

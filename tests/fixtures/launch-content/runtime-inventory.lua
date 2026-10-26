@@ -68,4 +68,15 @@ end
 for original,id in pairs(Events.contentId)do
  print('LAUNCH_EVENT\t'..json({id=id,originalId=original,random=randomEvents[original]==true}))
 end
+local shared=Run.new(LAUNCH_DATA,'42')
+for _,card in ipairs(shared.data.cards.cards)do if card.colorlessNative then
+ local upgraded={};for k,v in pairs(card)do upgraded[k]=v end
+ for k,v in pairs(card.upgrade)do upgraded[k]=v end
+ print('LAUNCH_SHARED_CARD\t'..json({id=card.id,sourceId=card.sourceId,rarity=card.rarity,type=card.type,
+  healing=card.healing==true,supported=require('abyss_effects').supported(card.effects)
+   and require('abyss_effects').supported(upgraded.effects)}))
+end end
+for _,potion in ipairs(require('abyss_potion_random').pool('ironclad'))do
+ print('LAUNCH_POTION\t'..json(potion))
+end
 print('LAUNCH_RUNTIME_ENTRY_PASS')

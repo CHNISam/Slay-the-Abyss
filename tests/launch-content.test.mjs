@@ -5,6 +5,11 @@ import { validateLaunchContent, inspectLaunchRuntime } from '../scripts/verify-l
 
 const fresh = () => JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
 
+test('shared cards cannot disappear from the inventory while remaining in the runtime',()=>{
+  const missing=fresh();missing.sharedCards=[];
+  assert.ok(validateLaunchContent(missing,{runtime:false}).some(error=>error.includes('sharedCards')));
+});
+
 test('every production event mapping is listed, including explicit transformation routes', () => {
   const actual=inspectLaunchRuntime();
   assert.ok(actual.events?.some(row=>row.id==='transmogrifier' && row.originalId==='Transmorgrifier'));
@@ -35,7 +40,8 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 9);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 12);
+  assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
     definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());

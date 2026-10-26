@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:05'
-updated_date: '2026-10-26 13:11'
+updated_date: '2026-10-26 14:30'
 labels:
   - partially-implemented
 milestone: m-4
@@ -17,6 +17,7 @@ references:
   - docs/evidence/m3-cross-act-20261026.json
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/reviews/TASK-63-host-chapter-ui.md
 priority: high
 type: feature
 ordinal: 108000
@@ -40,6 +41,8 @@ PR213已合并四幕楼层/地图、来源队列、换幕库存与随机流、�
 
 <!-- SECTION:PLAN:BEGIN -->
 先参数化章节地图和随机流；通过同一事务接入Nodes换幕，再补钥匙与内容清单。保持未实现章节未开放，逐项记录真实缺口。
+
+2026-10-26本轮M3：父线程补已存在跨幕核心的Host/章节UI路由及事务恢复，保持完整内容未齐前正式入口门禁；真实Host回归覆盖宝箱后换幕和旧动作/退出边界，不把开发入口接线当全章节自然通关。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -50,4 +53,6 @@ PR213已合并四幕楼层/地图、来源队列、换幕库存与随机流、�
 2026-10-26状态整理：PR213已合入develop e3a9fe2c，跨幕核心不再待推送或待合并。现有地图、队列、资源与随机流边界是本地实现；Host章节UI、后续战斗/事件、自然钥匙及平台通关仍未完成，详见CROSS_ACT和m3-campaign机器账本。
 
 2026-10-26全面复核：已有实现及原回归支持的本地条款补勾，具体证据见BACKLOG-AUDIT。尚未通过的完整入口、组合/自然实玩或最终音画门禁保留，不重复要求开发已实现机制。
+
+2026-10-26本轮独立树已先红后绿接通Host显式campaign开发参数、宝箱完成通知/前往下一幕、同Run/Map转场与失败重试；地图改章节内行号显示、保留全局楼层/ID，第二至四幕合法导航和恢复通过。详见docs/reviews/TASK-63-host-chapter-ui.md。默认发布入口未开启新章节，未导入/实机/UI验收，AC4完整自然结局仍不勾。
 <!-- SECTION:NOTES:END -->

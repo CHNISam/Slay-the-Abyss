@@ -199,7 +199,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events and nine additional explicit routes, including Transmorgrifier, Scrap Ooze and Wheel of Change. Full source pool admission and natural/platform execution remain pending."
+      "limitation": "Seven default random events and twelve additional explicit event routes are wired. Complete 25-event source admission and all natural/platform evidence remain pending."
     },
     "relics": {
       "tasks": [
@@ -333,6 +333,36 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Historical explicit-ID development/replay inputs, not the formal source queue or natural acquisition channels."
+    },
+    "sharedCards": {
+      "tasks": [
+        "TASK-13.1",
+        "TASK-59",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_colorless_cards.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_shop.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/colorless_catalog_execution.lua",
+          "tests/lua/colorless_presentation.lua",
+          "tests/lua/ritual_dagger_growth.lua",
+          "tests/colorless-source-identities.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "limitation": "35 ordinary shared cards plus four SPECIAL mechanics dependencies. SPECIAL event acquisition and per-item natural/platform acceptance remain pending. These are not part of any 75-card class count."
     }
   },
   "cards": [
@@ -2882,6 +2912,75 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Default random admission and natural/platform execution remain pending; visual wheel rotation is not implemented."
+    },
+    {
+      "id": "lab",
+      "originalId": "Lab",
+      "choices": [
+        "take",
+        "claim_1",
+        "claim_2",
+        "claim_3",
+        "leave"
+      ],
+      "stages": [
+        "potion_rewards",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event route; complete default source-pool admission remains pending.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
+    },
+    {
+      "id": "woman_in_blue",
+      "originalId": "The Woman in Blue",
+      "choices": [
+        "buy_1",
+        "buy_2",
+        "buy_3",
+        "claim_1",
+        "claim_2",
+        "claim_3",
+        "leave"
+      ],
+      "stages": [
+        "potion_rewards",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event route; complete default source-pool admission remains pending.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
+    },
+    {
+      "id": "we_meet_again",
+      "originalId": "WeMeetAgain",
+      "choices": [
+        "trade_potion",
+        "trade_gold",
+        "trade_card",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event route; complete default source-pool admission remains pending.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
     }
   ],
   "relics": [
@@ -4138,5 +4237,665 @@
     "scopeDecision": "2026-10-26 user explicitly includes Acts2/3/hidden4 in M3",
     "implementationLedger": "data/release/m3-campaign.json",
     "status": "not-accepted"
-  }
+  },
+  "sharedCards": [
+    {
+      "id": "apotheosis",
+      "sourceId": "Apotheosis",
+      "source": "src/lua/abyss_colorless_cards.lua#apotheosis",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "bandage_up",
+      "sourceId": "Bandage Up",
+      "source": "src/lua/abyss_colorless_cards.lua#bandage_up",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "blind",
+      "sourceId": "Blind",
+      "source": "src/lua/abyss_colorless_cards.lua#blind",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "chrysalis",
+      "sourceId": "Chrysalis",
+      "source": "src/lua/abyss_colorless_cards.lua#chrysalis",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "dark_shackles",
+      "sourceId": "Dark Shackles",
+      "source": "src/lua/abyss_colorless_cards.lua#dark_shackles",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "deep_breath",
+      "sourceId": "Deep Breath",
+      "source": "src/lua/abyss_colorless_cards.lua#deep_breath",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "discovery",
+      "sourceId": "Discovery",
+      "source": "src/lua/abyss_colorless_cards.lua#discovery",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "dramatic_entrance",
+      "sourceId": "Dramatic Entrance",
+      "source": "src/lua/abyss_colorless_cards.lua#dramatic_entrance",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "enlightenment",
+      "sourceId": "Enlightenment",
+      "source": "src/lua/abyss_colorless_cards.lua#enlightenment",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "finesse",
+      "sourceId": "Finesse",
+      "source": "src/lua/abyss_colorless_cards.lua#finesse",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "flash_of_steel",
+      "sourceId": "Flash of Steel",
+      "source": "src/lua/abyss_colorless_cards.lua#flash_of_steel",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "forethought",
+      "sourceId": "Forethought",
+      "source": "src/lua/abyss_colorless_cards.lua#forethought",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "good_instincts",
+      "sourceId": "Good Instincts",
+      "source": "src/lua/abyss_colorless_cards.lua#good_instincts",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "hand_of_greed",
+      "sourceId": "HandOfGreed",
+      "source": "src/lua/abyss_colorless_cards.lua#hand_of_greed",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "impatience",
+      "sourceId": "Impatience",
+      "source": "src/lua/abyss_colorless_cards.lua#impatience",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "jack_of_all_trades",
+      "sourceId": "Jack Of All Trades",
+      "source": "src/lua/abyss_colorless_cards.lua#jack_of_all_trades",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "madness",
+      "sourceId": "Madness",
+      "source": "src/lua/abyss_colorless_cards.lua#madness",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "magnetism",
+      "sourceId": "Magnetism",
+      "source": "src/lua/abyss_colorless_cards.lua#magnetism",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "master_of_strategy",
+      "sourceId": "Master of Strategy",
+      "source": "src/lua/abyss_colorless_cards.lua#master_of_strategy",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "mayhem",
+      "sourceId": "Mayhem",
+      "source": "src/lua/abyss_colorless_cards.lua#mayhem",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "metamorphosis",
+      "sourceId": "Metamorphosis",
+      "source": "src/lua/abyss_colorless_cards.lua#metamorphosis",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "mind_blast",
+      "sourceId": "Mind Blast",
+      "source": "src/lua/abyss_colorless_cards.lua#mind_blast",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "panacea",
+      "sourceId": "Panacea",
+      "source": "src/lua/abyss_colorless_cards.lua#panacea",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "panache",
+      "sourceId": "Panache",
+      "source": "src/lua/abyss_colorless_cards.lua#panache",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "panic_button",
+      "sourceId": "PanicButton",
+      "source": "src/lua/abyss_colorless_cards.lua#panic_button",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "purity",
+      "sourceId": "Purity",
+      "source": "src/lua/abyss_colorless_cards.lua#purity",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "sadistic_nature",
+      "sourceId": "Sadistic Nature",
+      "source": "src/lua/abyss_colorless_cards.lua#sadistic_nature",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "secret_technique",
+      "sourceId": "Secret Technique",
+      "source": "src/lua/abyss_colorless_cards.lua#secret_technique",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "secret_weapon",
+      "sourceId": "Secret Weapon",
+      "source": "src/lua/abyss_colorless_cards.lua#secret_weapon",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "swift_strike",
+      "sourceId": "Swift Strike",
+      "source": "src/lua/abyss_colorless_cards.lua#swift_strike",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "the_bomb",
+      "sourceId": "The Bomb",
+      "source": "src/lua/abyss_colorless_cards.lua#the_bomb",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "thinking_ahead",
+      "sourceId": "Thinking Ahead",
+      "source": "src/lua/abyss_colorless_cards.lua#thinking_ahead",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "transmutation",
+      "sourceId": "Transmutation",
+      "source": "src/lua/abyss_colorless_cards.lua#transmutation",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "trip",
+      "sourceId": "Trip",
+      "source": "src/lua/abyss_colorless_cards.lua#trip",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "violence",
+      "sourceId": "Violence",
+      "source": "src/lua/abyss_colorless_cards.lua#violence",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "apparition",
+      "sourceId": "Ghostly",
+      "source": "src/lua/abyss_colorless_cards.lua#apparition",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    },
+    {
+      "id": "bite",
+      "sourceId": "Bite",
+      "source": "src/lua/abyss_colorless_cards.lua#bite",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    },
+    {
+      "id": "jax",
+      "sourceId": "J.A.X.",
+      "source": "src/lua/abyss_colorless_cards.lua#jax",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    },
+    {
+      "id": "ritual_dagger",
+      "sourceId": "RitualDagger",
+      "source": "src/lua/abyss_colorless_cards.lua#ritual_dagger",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    }
+  ]
 }
