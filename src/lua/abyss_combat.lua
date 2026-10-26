@@ -658,6 +658,7 @@ local queuedHandlers = {}
 queuedHandlers.allow = function(state, action)
     if state.player.hp <= 0 then return false end
     if M.outcome(state) then
+        if action.kind=='effect'and action.effect.op=='classPotionDarkness'and action.effect.kind=='evoke'then return true end
         return action.kind == "useCard" or Effects.allowedAfterVictory(action.effect)
     end
     return true
@@ -702,6 +703,9 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    if action.effect.op=='classPotionDarkness'then
+        return require('abyss_class_potions').darkness(M,state,action.effect,queue)
+    end
     local final=require('abyss_watcher_final_cards')
     if final.ops[action.effect.op] then return final.execute(M,state,action.effect,queue) end
     if action.effect.op=='silentFinal'then

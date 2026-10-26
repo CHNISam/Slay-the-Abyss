@@ -12,6 +12,7 @@ function M.special(item,owner,expanded)
   local value=N((e.value or 0)*(bark and 2 or 1))
   if e.op=='classPotion'and e.kind=='focus'then parts[#parts+1]='集中+'..value..'，本场战斗有效；不影响等离子充能球'
   elseif e.op=='classPotion'and e.kind=='capacity'then parts[#parts+1]='球槽+'..value..'，总数最多10；新增空槽，本场战斗有效'
+  elseif e.op=='classPotion'and e.kind=='darkness'then parts[#parts+1]='按总球槽数，每个球槽'..value..'颗生成黑暗球；满槽时依次唤起最左球腾位，0槽无效果；不预先唤起全部球'
   elseif e.op=='classPotion'and e.kind=='miracle'then parts[#parts+1]='获得'..value..'张奇迹（0费、保留、获得1能量、消耗；现实改写使其升级为2能量）；满手进弃牌堆，仅本战有效'
   elseif e.op=='classPotion'and e.kind=='divinity'then parts[#parts+1]='进入神格：入场获得3能量，普通攻击伤害×3，下个自己回合开始退出；已在神格不重复入场，神圣树皮不增加次数'
   elseif e.op=='silentShivs'then parts[#parts+1]='获得'..value..'张小刀+；手牌满时进弃牌堆，仅本战有效'
@@ -40,6 +41,7 @@ function M.shop(item,owner)
   local value=N((e.value or 0)*(bark and 2 or 1))
   if e.op=='classPotion'and e.kind=='focus'then return '集中+'..value..'（本场战斗）\n不影响等离子充能球'
   elseif e.op=='classPotion'and e.kind=='capacity'then return '球槽+'..value..'（最多10）\n新增空槽·本场战斗有效'
+  elseif e.op=='classPotion'and e.kind=='darkness'then return '按总球槽数：每个球槽'..value..'颗黑暗球\n满槽唤起最左球腾位·0槽无效果'
   elseif e.op=='classPotion'and e.kind=='miracle'then return '获得'..value..'张奇迹（0费·保留·消耗）\n每张+1能量（现实改写为+2）·满手进弃牌·仅本战'
   elseif e.op=='classPotion'and e.kind=='divinity'then return '进入神格：入场+3能量·攻击×3\n下个自己回合退出·已在神格不重复·树皮不加次数'
   elseif e.op=='silentShivs'then return '获得'..value..'张小刀+（仅本战）\n满手放入弃牌堆'

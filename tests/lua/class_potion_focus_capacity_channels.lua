@@ -39,6 +39,6 @@ local expected={'focus_potion','potion_of_capacity','ancient_potion'}
 for i,id in ipairs(expected)do eq(e.lastPotionGeneration[i].id,id);eq(e.lastPotionGeneration[i].unavailable,false);eq(e.potions[i],id)end
 eq(e.shopRng.potion.counter,14);assert(Run.usePotion(e,1));assert(Run.usePotion(e,2))
 local mother=P.pool('defect');eq(#mother,33);eq(mother[1].id,'focus_potion');eq(mother[2].id,'potion_of_capacity');eq(mother[3].id,'essence_of_darkness')
-local missing=false;for _,p in ipairs(e.data.potions.potions)do if p.id=='essence_of_darkness'then missing=true end end;eq(missing,false)
+local present=false;for _,p in ipairs(e.data.potions.potions)do if p.id=='essence_of_darkness'then present=true end end;eq(present,true)
 eq(#D.potions.potions,originalCount)
-print('CLASS_POTION_CHANNELS_PASS full33 mother, actual Entropic obtains/uses, missing Darkness retained, caller data unchanged')
+print('CLASS_POTION_CHANNELS_PASS full33 mother, actual Entropic obtains/uses, actual Darkness registered, caller data unchanged')

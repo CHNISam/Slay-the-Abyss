@@ -1,7 +1,7 @@
 {
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
-  "scope": "Focus/Capacity and Watcher Miracle/Ambrosia slices; source facts only, no official binary qualification",
+  "scope": "Focus/Capacity, Watcher Miracle/Ambrosia and Darkness slices; source facts only, no official binary qualification",
   "files": {
     "potions/FocusPotion.java": "eec876227abd9185408f7b86cc8a74c5607d0b40b7de16e521e95faa0cb32d76",
     "potions/PotionOfCapacity.java": "8c6a3826cf754f8db2a892857361bce794f0b453fa70ba90df626e0387d25406",
@@ -16,6 +16,17 @@
     "actions/watcher/ChangeStanceAction.java": "47392dbaacb9627f88f047008cbe7fb90b550acae1f491099470f1d2d080e877",
     "stances/DivinityStance.java": "7363a98527c6009ba491fd9d3f6c1dfbaffc833972211218ebf8bfeb34c3fce7",
     "vfx/cardManip/ShowCardAndAddToDiscardEffect.java": "9386ebe73aabf208e05f23068e168921f8db069151947d7ed4582308e2198d80",
-    "vfx/cardManip/ShowCardAndAddToHandEffect.java": "e0ac9f16f627a985920857080a2a9e2ef903e7f0db0741b57709de99b52202ef"
+    "vfx/cardManip/ShowCardAndAddToHandEffect.java": "e0ac9f16f627a985920857080a2a9e2ef903e7f0db0741b57709de99b52202ef",
+    "potions/EssenceOfDarkness.java": "dc96028add5e04b7295bb4bee23311a66ba607593f7056f1cd97e2e98fbfdec7",
+    "actions/defect/EssenceOfDarknessAction.java": "6a961e32e596b5fb5dadb2d60369e75305c07c06185262b789a73cf4d773ef34",
+    "actions/defect/ChannelAction.java": "65f0d9de68e7b57158e2ee460375760854df1146447eee6083eb028bbd5e647d",
+    "actions/defect/EvokeOrbAction.java": "770d50256208ad421c4c0503b27e0ca14335baa6a4347278f8ce6d448ca1d143",
+    "actions/common/DarkOrbEvokeAction.java": "7df164454e63c346ecaf75af87baa876aae2205ef2626640fc08938c74145404",
+    "orbs/Dark.java": "610fccbaf45b74bf4c151982e07c599f940a295027271e478a4e8b3e46def373",
+    "orbs/Lightning.java": "16458980840cc41d788b6d92c69e8f547aa8208eb34a37ee610dfbb7bdebe62e",
+    "orbs/Frost.java": "74c6f567c91c526b0fd2b9b8040888bab54eab329d099251ad94f81dadeb1439",
+    "orbs/Plasma.java": "3758d5402fd24491fae363bf64fc4e871e917f5f89d44d2265840c96db648cce",
+    "actions/common/GainEnergyAction.java": "d370759b93d7211ac1888865db1624344c953864728fcc741d385a139cf0028d",
+    "actions/GameActionManager.java": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
   }
 }
