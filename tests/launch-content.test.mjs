@@ -40,7 +40,7 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 15);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 16);
   assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
@@ -50,7 +50,7 @@ test('expanded content records actual channels without granting natural acquisit
 test('gate rejects promoting explicit events, SPECIAL relics and pending potions into natural pools', () => {
   const event = fresh(); event.events.find(row => row.id === 'big_fish').channels = ['unknown_room:event'];
   assert.ok(validateLaunchContent(event, { runtime: false }).some(error => error.includes('events/big_fish channels')));
-  for (const id of ['warped_tongs', 'spirit_poop', 'circlet']) {
+  for (const id of ['warped_tongs', 'spirit_poop', 'circlet', 'golden_idol']) {
     const manifest = fresh(); manifest.relics.find(row => row.id === id).channels = ['treasure', 'shop_relic'];
     assert.ok(validateLaunchContent(manifest, { runtime: false }).some(error => error.includes(`relics/${id} channels`)));
   }

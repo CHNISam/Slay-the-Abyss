@@ -28,10 +28,10 @@ test('independent float32/Java round oracle retains the conversion boundary and 
  assert.equal(lock.naturalRoute.runSeed,'32');assert.equal(lock.naturalRoute.selectionIndex,2);
  assert.equal(lock.naturalRoute.eventRng.counter,1);assert.equal(lock.naturalRoute.selectionRng.counter,3);
 });
-test('Moai inventory keeps its unresolved full GoldenIdol dependency and local-only evidence visible',()=>{
+test('Moai inventory records actual GoldenIdol dependency evidence while preserving original source-lock history',()=>{
  const row=manifest.events.find(row=>row.originalId==='The Moai Head');assert.equal(row.id,'moai_head');assert.equal(row.act,3);
  assert.equal(row.source,'src/lua/abyss_moai_event.lua');assert.equal(row.poolMode,'explicit-only');assert.deepEqual(row.channels,['explicit:Nodes.enter']);
- assert.match(row.naturalAcquisitionLimitation,/GoldenIdol normal obtain/);assert.match(lock.unimplementedDependency,/canonical held-owner fixture/);
+ assert.match(row.naturalAcquisitionLimitation,/goldenIdol profile/);assert.match(lock.unimplementedDependency,/canonical held-owner fixture/);
  const profile=manifest.profiles[row.profile];assert.equal(profile.local.testFiles.length,4);
  assert.equal(profile.platform.evidence.length,0);assert.equal(profile.live.evidence.length,0);
 });

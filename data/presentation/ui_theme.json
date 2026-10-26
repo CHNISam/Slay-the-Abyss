@@ -452,7 +452,13 @@
         "placeholder": true,
         "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
       },
-      "verify": true
+      "verify": true,
+      "golden_idol": {
+        "id": 105077,
+        "colour": true,
+        "note": "Use existing currency glyph for the gold-reward effect; dedicated relic art and device acceptance remain M4 pending.",
+        "placeholder": true
+      }
     },
     "cardArt": {
       "attack": 102012,

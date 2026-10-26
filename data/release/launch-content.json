@@ -423,7 +423,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "One Act3 event component. GoldenIdol full relic/obtain dependency remains open; held-idol trades are component fixtures. No complete campaign, natural Idol acquisition or platform acceptance."
+      "limitation": "One Act3 event component. Golden Idol acquire/combat reward/same-owner sacrifice is now covered by goldenIdol profile; historical held-owner fixtures remain. No complete campaign or platform/live acceptance."
     },
     "winding": {
       "tasks": [
@@ -459,6 +459,44 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Winding Halls component; unsupported permanent damage/revival relic hooks reject atomically. No full M3, complete natural run or platform acceptance."
+    },
+    "goldenIdol": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_golden_idol_event.lua",
+        "src/lua/abyss_act1_events.lua",
+        "src/lua/abyss_gold_rewards.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/golden_idol_event.lua",
+          "tests/lua/golden_idol_costs.lua",
+          "tests/lua/golden_idol_rollback.lua",
+          "tests/lua/golden_idol_rounding.lua",
+          "tests/lua/golden_idol_gold.lua",
+          "tests/lua/golden_idol_natural.lua",
+          "tests/lua/golden_idol_ui.lua",
+          "tests/lua/golden_idol_channels.lua",
+          "tests/golden-idol-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Actual single relic/event component and source-pool boundary selection; full default Act1 admission, whole campaign and platform/live remain pending. Existing currency glyph is an explicitly documented temporary art fallback."
     }
   },
   "cards": [
@@ -1803,6 +1841,7 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:golden_idol:injury",
         "explicit_event:transmogrifier:change",
         "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
@@ -3124,7 +3163,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act 1 inventory. Local development campaign seed32 proves unfiltered full-HP event entry. GoldenIdol normal obtain and +25% combat-gold behavior remain unimplemented; trade is owner-fixture evidence. Whole-campaign, platform and live acceptance remain pending."
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory. Local development campaign seed32 proves unfiltered full-HP event entry; goldenIdol profile now supplies actual event acquisition, ordinary GOLD +25% and same-owner sacrifice component evidence. Whole-campaign, platform and live acceptance remain pending."
     },
     {
       "id": "winding_halls",
@@ -3150,6 +3189,31 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage refuses held tungsten_rod/lizard_tail until their real shared hooks exist. Relic normal acquisition, whole-campaign and platform/live acceptance remain pending. Madness/Writhe also refuse held toxic_egg/darkstone_periapt until their actual shared obtain hooks exist."
+    },
+    {
+      "id": "golden_idol",
+      "originalId": "Golden Idol",
+      "act": 1,
+      "choices": [
+        "take",
+        "leave",
+        "injury",
+        "damage",
+        "max_hp"
+      ],
+      "stages": [
+        "intro",
+        "trap",
+        "result"
+      ],
+      "eligibility": "Act1 source normal event; no additional eligibility. Taking immediately obtains Golden Idol (Circlet if duplicate) before mandatory trap cost.",
+      "source": "src/lua/abyss_golden_idol_event.lua",
+      "profile": "goldenIdol",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held tungsten_rod/lizard_tail NORMAL damage or darkstone_periapt curse obtain refuses until real shared hooks exist. Full campaign/platform/live acceptance pending."
     }
   ],
   "relics": [
@@ -3597,10 +3661,23 @@
       "profile": "relics",
       "rarity": "special",
       "channels": [
-        "explicit_event:bonfire:repeat_curse_offer"
+        "explicit_event:bonfire:repeat_curse_offer",
+        "explicit_event:golden_idol:repeat_take"
       ],
       "sourceId": "Circlet",
-      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue."
+      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice."
+    },
+    {
+      "id": "golden_idol",
+      "sourceId": "Golden Idol",
+      "source": "data/relics.json#golden_idol",
+      "profile": "goldenIdol",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:golden_idol:take"
+      ],
+      "naturalAcquisitionLimitation": "Actual acquisition is through the Golden Idol event only; SPECIAL remains excluded from ordinary treasure/shop source pools. Default full-event admission, complete campaign and platform/live evidence pending.",
+      "naturalExecutionLimitation": "Component proves actual event acquire, real starter source battle/ordinary GOLD freeze/claim and same-owner Moai333. Dedicated relic art/device acceptance pending."
     }
   ],
   "potions": [

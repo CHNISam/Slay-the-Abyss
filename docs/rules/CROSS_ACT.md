@@ -68,7 +68,7 @@ npm run verify:backlog
 
 ## Moai Head 独立切片
 
-Moai Head 已接直接减生命上限后治疗、canonical Golden Idol 献祭/333金、原生 UI 和公开事务回滚。固定源与专用证据见 [ACT3_MOAI.md](ACT3_MOAI.md)。Golden Idol 正常获取及完整遗物行为仍缺；献祭只有持有 owner 组件证据，不计自然获取、整幕或平台验收。
+Moai Head 已接直接减生命上限后治疗、canonical Golden Idol 献祭/333金、原生 UI 和公开事务回滚。固定源与专用证据见 [ACT3_MOAI.md](ACT3_MOAI.md)。后续 [Golden Idol 独立切片](GOLDEN_IDOL.md) 已接第一幕实际取得与战斗 GOLD 加成，并验证同一持有者的真实战斗→献祭链；完整跨幕路线、整幕和平台验收仍未完成。
 
 ## Winding Halls 独立切片
 

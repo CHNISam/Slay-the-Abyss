@@ -2,7 +2,7 @@
 
 按 PC A0 实现 Moai Head 的公开 Nodes 事务和原生界面，保留完整第三幕池。此切片不代表第三幕齐备、正式 campaign 开放、平台 UI 验收或自然通关。
 
-Golden Idol 的实际定义、正常获取和通用战斗金币加成尚未接齐；本片的献祭测试使用永久 owner 中 canonical `golden_idol` 的组件夹具，不构成该遗物正常获取证据。不注册占位遗物或为了夹具接受未定义的源名字别名。Mark of the Bloom、Magic Flower 的 owner 效果通过当前已有 Run.heal/Fairy 边界验证，也不据此宣称其正常获取完成。
+Golden Idol 后续独立切片现已接实际定义、第一幕事件即时取得及普通战斗 GOLD offer 的25%加成，见 [GOLDEN_IDOL.md](GOLDEN_IDOL.md)。新增同一 owner 实际取得→真实起始牌组战斗领奖→Moai 献祭333的组件链；原本片 held-owner 夹具及旧源锁保留历史，不再作为唯一取得证据。仍未走完整跨幕 campaign 或平台验收。Mark of the Bloom、Magic Flower 的 owner 效果通过当前已有 Run.heal/Fairy 边界验证，也不据此宣称其正常获取完成。
 
 ## 固定规则
 

@@ -379,6 +379,15 @@
       "trigger": "hooks",
       "effects": [],
       "stackable": true
+    },
+    {
+      "id": "golden_idol",
+      "sourceId": "Golden Idol",
+      "name": "Golden Idol",
+      "description": "非宝箱GOLD奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }

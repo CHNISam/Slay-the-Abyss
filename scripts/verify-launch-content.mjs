@@ -16,10 +16,12 @@ const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
   decay: ['explicit_event:wheel:accept'],
+    injury: ['explicit_event:golden_idol:injury'],
 };
 const specialRelicEvents = {
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
-  spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer'],
+    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take'],
+    golden_idol: ['explicit_event:golden_idol:take'],
 };
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const runtimeModules = Object.entries({
