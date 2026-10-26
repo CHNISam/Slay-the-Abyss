@@ -2,9 +2,11 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,C,Actions,R,Flow=require('abyss_run'),require('abyss_combat'),require('abyss_card_actions'),require('abyss_sts_random'),require('abyss_flow_actions')
 local D=require('abyss_data')
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
-local function fresh(fire)
+local function fresh()
  local r=Run.new(D,42,{character='watcher',experimental=true})
- if fire then r.data=require('abyss_warrior_status_cards').withCards(r.data)end
+ -- The real Run catalogue already owns foreign Fire Breathing; do not apply
+ -- the historical raw-red adapter a second time to an adapted full catalogue.
+ assert(r.data.runCardCatalog)
  r.relics[#r.relics+1]='toy_ornithopter';assert(Run.obtainPotion(r,'stance_potion'));assert(Run.startCombat(r,'cultist_solo'))
  r.hp=r.hp-30;r.combat.player.hp=r.hp;return r
 end
@@ -41,7 +43,7 @@ assert(heal and stance and heal<stance)
 local found=false;for _,card in ipairs(s.hand)do if card.uid==flurry.uid then found=true end end;eq(found,true)
 eq(Run.choosePotionStance(r,{'Wrath'},p.token,r.combatGeneration,s),false)
 print('ok actual Calm/Rushdown/MentalFortress/Flurry, Toy before change, complete Run late rollback preserves consumed-bottle choice and retry')
-local kill=fresh(true);play(kill,'rushdown');play(kill,'fire_breathing');local b=kill.combat
+local kill=fresh();play(kill,'rushdown');play(kill,'fire_breathing');local b=kill.combat
 for _=1,2 do b.draw[#b.draw+1]=Actions.fresh(C,b,'burn')end
 b.enemies[1].hp=5 -- Local death-order fixture, not a natural encounter claim.
 assert(Run.usePotion(kill,1));local pending=b.pendingPotionChoice;local prior=C.copy(kill)

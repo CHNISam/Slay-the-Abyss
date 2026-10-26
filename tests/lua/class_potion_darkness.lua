@@ -26,7 +26,10 @@ for _,bark in ipairs({false,true})do
 end
 for _,character in ipairs({'watcher',false})do
  local r=fresh(false,character);local s=r.combat
- if character then eq(s.orbs.slots,0)else eq(s.orbs,nil)end
+ -- Full-catalog Runs initialise an empty zero-slot container for either host;
+ -- this does not turn the ordinary Ironclad into a Defect profile.
+ eq(s.orbs.slots,0);eq(#s.orbs.balls,0)
+ if not character then eq(s.experimentalCharacter,nil)end
  local hp=s.enemies[1].hp;assert(Run.usePotion(r,1));eq(s.orbs.slots,0);eq(#s.orbs.balls,0);eq(s.enemies[1].hp,hp);eq(s.orbChannelCounts.dark,0)
  print('ok actual '..tostring(character)..' zero-slot host, successful empty effect without fake Defect profile')
 end
