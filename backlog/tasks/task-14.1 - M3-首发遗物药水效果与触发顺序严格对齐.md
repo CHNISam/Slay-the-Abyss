@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 18:34'
+updated_date: '2026-10-26 20:27'
 due_date: '2026-10-28'
 labels:
   - required
@@ -65,6 +65,8 @@ ordinal: 42000
 2026-10-26本轮M3并行：inventory独立工作树审计剩余效果后接完整33药水采样及奖励/商店正常渠道，不能只撤acquisitionPending、删池或重抽；父线程统一验证集成与Backlog写入。
 
 2026-10-27 独立职业药水切片：在三职业已实现能力的组合基线补Defect与Watcher剩余六瓶的目录、正常奖励/商店/药水生成来源、实际使用和说明。固定源保留完整概率和资格，不把Bark强效套到Ambrosia或Stance的固定动作数；验证球槽上限、Darkness按球槽数量、Miracle显式生成回调、选姿态续接与回滚。独立feat/m3-class-potions，父线程复核；不改其他职业卡/章节，不计平台和完整遗物验收。
+
+2026-10-27 Golden Idol独立离线切片：核对固定原版定义、event tier取得与战斗金币25%加成/取整时点，复用共享Run/Inventory事务并验证Moai正常持有后献祭。只补此遗物和其既有事件入口，保留完整母池、Ectoplasm/跨房间/回滚边界，不宣称全遗物或平台通过。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
