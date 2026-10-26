@@ -4,9 +4,13 @@ local Data=require('abyss_data')
 local n=0
 local prototypes={}
 local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
-local function same(a,b)
+local function same(a,b,forward,backward)
  eq(type(a),type(b));if type(a)~='table' then eq(a,b);return end
- for k,v in pairs(a) do same(v,b[k]) end
+ forward,backward=forward or {},backward or {}
+ if forward[a] then eq(forward[a],b);return end
+ assert(not backward[b],'unexpected merged table alias')
+ forward[a],backward[b]=b,a
+ for k,v in pairs(a) do same(v,b[k],forward,backward) end
  for k in pairs(b) do assert(a[k]~=nil,'unexpected '..tostring(k)) end
 end
 local function test(name,fn) fn();n=n+1;print('ok basic five '..n..' - '..name) end

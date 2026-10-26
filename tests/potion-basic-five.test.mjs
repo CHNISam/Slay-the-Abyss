@@ -37,3 +37,9 @@ test('missing definitions cannot alter or renormalize complete source acquisitio
  const result=runLua('tests/lua/potion_basic_five_acquisition.lua');
  assert.equal(result.status,0,result.stderr||result.stdout);assert.match(result.stdout,/LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1/);
 });
+
+test('snapshot comparison preserves values, all fields, bidirectional aliases and cycles',()=>{
+ const result=runLua('tests/lua/potion_basic_five_graph.lua');
+ assert.equal(result.status,0,result.stderr||result.stdout);
+ assert.match(result.stdout,/^LUA_POTION_BASIC_FIVE_GRAPH_PASS 6$/m);
+});
