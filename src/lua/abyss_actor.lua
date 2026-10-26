@@ -124,6 +124,10 @@ function M.applyNoDraw(state, actor)
     if not M.isActive(actor) or actor.noDraw then return false end
     if blockDebuff(state, actor, "no_draw") then return false end
     actor.noDraw = true
+    if not state.originalV4 then
+        local order={};for _,id in ipairs(actor.powerOrder or {})do if id~='no_draw'then order[#order+1]=id end end
+        order[#order+1]='no_draw';actor.powerOrder=order
+    end
     return true
 end
 

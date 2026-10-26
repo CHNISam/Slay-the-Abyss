@@ -671,6 +671,7 @@ local queuedHandlers = {}
 queuedHandlers.allow = function(state, action)
     if state.player.hp <= 0 then return false end
     if M.outcome(state) then
+        if action.kind=='effect'and (require('abyss_end_turn_powers').retained(action.effect)or action.effect.op=='combustDamage')then return true end
         if action.kind=='effect'and action.effect.op=='classPotionDarkness'and action.effect.kind=='evoke'then return true end
         return action.kind == "useCard" or Effects.allowedAfterVictory(action.effect)
     end
@@ -717,6 +718,10 @@ local function normalMatrix(state, rows)
 end
 queuedHandlers.effect = function(state, action, queue)
     if action.effect.op=='potionStanceChoice'then return require('abyss_potion_stance').begin(state)end
+    if require('abyss_end_turn_powers').ops[action.effect.op]then return require('abyss_end_turn_powers').apply(M,state,action.effect,queue)end
+    if action.effect.op=='ownerEndRetain'then
+        return require('abyss_silent_final_cards').beginRetain(state)and 'pause'or true
+    end
     if action.effect.op=='classPotionDarkness'then
         return require('abyss_class_potions').darkness(M,state,action.effect,queue)
     end
@@ -1663,54 +1668,63 @@ local function advancedTurnCleanup(state)
     end
     return false
 end
+local function ordinaryOwnerEnd(state)
+    local actions=require('abyss_end_turn_powers').prepare(state,M,require('abyss_act3_powers'))
+    if #actions==0 then return true end
+    local queue=require('abyss_action_queue');queue.start(state,actions)
+    local result=queue.run(state,queuedHandlers)
+    if result~='pause'then drainNative(state)end
+    return result
+end
+local function preCardPowers(state)
+    local powers=require('abyss_end_turn_powers')
+    local actions=powers.preparePreCards(state)
+    if #actions>0 then
+        local queue=require('abyss_action_queue');queue.start(state,actions)
+        local handlers={allow=queuedHandlers.allow,useCard=queuedHandlers.useCard}
+        handlers.effect=function(s,action,q)
+            local result=queuedHandlers.effect(s,action,q)
+            powers.transferNative(s,q)
+            return result
+        end
+        assert(queue.run(state,handlers)==true,'unexpected pre-card selection')
+    end
+end
+local function discardOwnerEnd(state)
+    local retained,remaining={},{}
+    for _,instance in ipairs(state.hand)do
+        local card=M.cardDefinition(state,instance)
+        local selected=instance.finalRetain or instance.silentRetainTurn==state.turn
+        instance.finalRetain=nil
+        if (card.selfRetain or selected or instance.retain)and not card.ethereal then retained[#retained+1]=instance
+        else remaining[#remaining+1]=instance end
+    end
+    state.hand=remaining;state.retainedCards=retained
+    require('abyss_end_turn_powers').prepareExhaust(state)
+    local actions={}
+    for _,instance in ipairs(state.hand)do
+        if M.cardDefinition(state,instance).ethereal then actions[#actions+1]={kind='effect',effect={op='exhaustHand',uid=instance.uid}}end
+    end
+    actions[#actions+1]={kind='effect',effect={op='discardEndHand'}}
+    actions[#actions+1]={kind='effect',effect={op='restoreRetained'}}
+    local queue=require('abyss_action_queue');queue.start(state,actions)
+    assert(queue.run(state,queuedHandlers)==true,'unexpected end-turn selection')
+    drainNative(state)
+end
 local function endExperimentalTurn(state)
     if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
     if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
     if state.pendingDiscard then return false, "discard_choice_pending" end
     if state.phase ~= "player" then return false, "not_player_turn" end
-    local advanced=advancedTurnCleanup(state)
     if not state.silentRetainResume then
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
-    state.player.statuses.double_tap=nil
     local resetCosts=(state.player.statuses.corruption or 0)~=0
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,instance in ipairs(pile) do if instance.turnCost~=nil then resetCosts=true end end
     end
     if resetCosts then require("abyss_corruption").resetEndTurn(state) end
-    local preCards={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{metallicize=true,plated_armor=true,like_water=true})) do
-        if entry.id=='metallicize' or entry.id=='plated_armor' then preCards[#preCards+1]={kind='effect',effect={op='block',value=entry.amount,fixed=true}}
-        else
-            local plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end_pre_cards')
-            for _,effect in ipairs(plan.bottom) do preCards[#preCards+1]={kind='effect',effect=effect} end
-        end
-    end
-    if #preCards>0 then
-        local queue=require('abyss_action_queue');queue.start(state,preCards)
-        assert(queue.run(state,queuedHandlers)==true,'unexpected pre-card selection')
-        drainNative(state)
-        if finish(state) then return true end
-    end
-    local endPowers={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true,omega=true,establishment=true})) do
-        local plan
-        if entry.id=='combust' then plan=require('abyss_warrior_strength_cards').planHook(state,entry.id,'turn_end')
-        elseif entry.id=='rage' then plan={bottom=require('abyss_card_triggers').prepareEndTurn(state)}
-        elseif entry.id=='omega' then plan={bottom={{op='watcherFinalOmega',value=entry.amount}}}
-        elseif entry.id=='establishment' then plan={bottom={{op='watcherFinalEstablishment',value=entry.amount}}}
-        else plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end') end
-        for _,effect in ipairs(plan.bottom) do endPowers[#endPowers+1]=effect.kind and effect or {kind='effect',effect=effect} end
-    end
-    if #endPowers>0 then
-        local queue=require('abyss_action_queue');queue.start(state,endPowers)
-        assert(queue.run(state,queuedHandlers)==true,'unexpected Combust selection')
-        drainNative(state)
-        if finish(state) then return true end
-    end
-    if state.orbs then
-        require("abyss_orbs").endTurn(state, M)
-        if finish(state) then return true end
-    end
+    preCardPowers(state)
+    if finish(state)then return true end
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, regrets = #state.hand, {}
@@ -1732,11 +1746,8 @@ local function endExperimentalTurn(state)
         if (state.player.statuses.corruption or 0)~=0 then require("abyss_corruption").onDrawOrDiscard(state) end
         state.cardInUse = nil
     end
-    if advanced then
-        Actors.endTurn(state,state.player)
-        drainNative(state)
-        if finish(state) then return true end
-    end
+    if ordinaryOwnerEnd(state)=='pause'then return true end
+    if finish(state)then return true end
     -- No Draw's end-turn RemovePower is ahead of DiscardAtEndOfTurn.
     -- Regret death above stops before this action; surviving ethereal exhaust
     -- can subsequently trigger Dark Embrace draws before the enemy turn.
@@ -1746,49 +1757,7 @@ local function endExperimentalTurn(state)
     end
     end
     state.silentRetainResume=nil
-    if require('abyss_silent_final_cards').beginRetain(state)then return true end
-    local retained,remaining = {},{}
-    require('abyss_defect_final_cards').endTurn(state,M)
-    for _, instance in ipairs(state.hand) do
-        local card = M.cardDefinition(state, instance)
-        local retainedThisTurn=instance.finalRetain;instance.finalRetain=nil
-        if (card.selfRetain or retainedThisTurn or instance.retain) and not card.ethereal then
-            retained[#retained + 1] = instance
-        else remaining[#remaining+1]=instance end
-    end
-    -- Source auto-all discards repeatedly take getTopCard (the hand tail).
-    -- Retained cards are already in limbo before any discard hand-wide hook.
-    state.hand=remaining
-    if not advanced then
-        for i=#state.hand,1,-1 do
-            local instance=state.hand[i]
-            local card=M.cardDefinition(state,instance)
-            table.remove(state.hand,i)
-            local pile = card.ethereal and state.exhaust or state.discard
-            pile[#pile + 1] = instance
-            if (state.player.statuses.corruption or 0)~=0 then require("abyss_corruption").onDrawOrDiscard(state) end
-            if not card.ethereal then require("abyss_silent_discard_cards").rememberDiscard(state,true) end
-        end
-    end
-    if advanced then
-        state.retainedCards=retained
-        local actions={}
-        for _,instance in ipairs(state.hand) do
-            if M.cardDefinition(state,instance).ethereal then
-                actions[#actions+1]={kind="effect",effect={op="exhaustHand",uid=instance.uid}}
-            end
-        end
-        actions[#actions+1]={kind="effect",effect={op="discardEndHand"}}
-        actions[#actions+1]={kind="effect",effect={op="restoreRetained"}}
-        local queue=require("abyss_action_queue")
-        queue.start(state,actions)
-        assert(queue.run(state,queuedHandlers)==true,"unexpected end-turn selection")
-        drainNative(state)
-    else
-        state.hand=retained
-        Actors.endTurn(state,state.player)
-        drainNative(state)
-    end
+    discardOwnerEnd(state)
     if finish(state) then return true end
     if state.skipMonsterTurn then
         state.skipMonsterTurn=nil
@@ -1874,6 +1843,14 @@ local function endExperimentalTurn(state)
     return true
 end
 
+local function nativeEthereal(state)
+    local endingHand={};for i,c in ipairs(state.hand)do endingHand[i]=c end
+    for _,instance in ipairs(endingHand)do
+        if M.cardDefinition(state,instance).ethereal then CardActions.exhaust(M,state,instance,state.hand)end
+    end
+    CardActions.drain(M,state)
+    return finish(state)
+end
 local function endNativeTurn(state)
     if state.phase ~= "player" then return false, "not_player_turn" end
     if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
@@ -1887,11 +1864,12 @@ local function endNativeTurn(state)
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,c in ipairs(pile) do c.costForTurn=nil end
     end
-    for _,id in ipairs(Actors.powerSequence(state.player,{'metallicize','plated_armor'})) do
-        CardActions.enqueue(state,{op="block",value=state.player.statuses[id],fixed=true})
-        CardActions.drain(M,state)
-        if finish(state) then return true end
-    end
+    if state.originalV4 then
+        for _,id in ipairs(Actors.powerSequence(state.player,{'metallicize','plated_armor'}))do
+            CardActions.enqueue(state,{op='block',value=state.player.statuses[id],fixed=true});CardActions.drain(M,state)
+            if finish(state)then return true end
+        end
+    else preCardPowers(state);if finish(state)then return true end end
     end
     local function cleanupPlayerEnd()
     if not resumingRetain then
@@ -1920,44 +1898,41 @@ local function endNativeTurn(state)
         state.discard[#state.discard + 1] = instance
         state.cardInUse = nil
     end
-    local p=state.player
-    if (p.statuses.combust or 0)>0 then
-        CardActions.enqueue(state,{op="loseHp",value=p.combustHpLoss})
-        CardActions.enqueue(state,{op="damageAll",value=p.statuses.combust,fixed=true})
-    end
-    CardActions.drain(M,state)
-    if finish(state) then return true end
-    for _,id in ipairs({'rage','double_tap'}) do
-        local amount=state.player.statuses[id] or 0
-        if amount>0 then
-            state.player.statuses[id]=nil
-            event(state,'status',{source=state.player.id,target=state.player.id,status=id,amount=-amount})
+    if state.originalV4 then
+        local p=state.player
+        if (p.statuses.combust or 0)>0 then
+            CardActions.enqueue(state,{op='loseHp',value=p.combustHpLoss})
+            CardActions.enqueue(state,{op='damageAll',value=p.statuses.combust,fixed=true})
         end
+        CardActions.drain(M,state)
+        if finish(state)then return true end
+        for _,id in ipairs({'rage','double_tap'})do
+            local amount=p.statuses[id]or 0
+            if amount>0 then p.statuses[id]=nil;event(state,'status',{source=p.id,target=p.id,status=id,amount=-amount})end
+        end
+    else
+        if ordinaryOwnerEnd(state)=='pause'then return true end
+        if finish(state)then return true end
     end
-    local endingHand={}; for i,c in ipairs(state.hand) do endingHand[i]=c end
-    for _, instance in ipairs(endingHand) do
-        local card = M.cardDefinition(state, instance)
-        if card.ethereal then CardActions.exhaust(M,state,instance,state.hand) end
-    end
-    -- End-turn exhaust draws occur before DiscardAtEndOfTurn in the original;
-    -- the detailed end-turn action ordering remains guarded by dedicated tests.
-    CardActions.drain(M,state)
-    if finish(state) then return true end
-    if (state.player.statuses.well_laid_plans or 0)>0 then
+    if state.originalV4 and nativeEthereal(state)then return true end
+    if state.originalV4 and (state.player.statuses.well_laid_plans or 0)>0 then
         Actors.endTurn(state,state.player);CardActions.drain(M,state)
         if finish(state)then return true end
         state.silentOwnerEndResolved=true
     end
     end
     state.silentRetainResume=nil
-    if require('abyss_silent_final_cards').beginRetain(state)then return true end
-    local retained={}
-    for _,instance in ipairs(state.hand)do
-        if instance.silentRetainTurn==state.turn and not M.cardDefinition(state,instance).ethereal then retained[#retained+1]=instance
-        else state.discard[#state.discard+1]=instance end
-    end
-    state.hand=retained
-    if not state.silentOwnerEndResolved then Actors.endTurn(state,state.player)end
+    if state.originalV4 and require('abyss_silent_final_cards').beginRetain(state)then return true end
+    if state.originalV4 then
+        local retained={}
+        for _,instance in ipairs(state.hand)do
+            local definition=M.cardDefinition(state,instance)
+            if instance.silentRetainTurn==state.turn and not definition.ethereal then retained[#retained+1]=instance
+            else state.discard[#state.discard+1]=instance end
+        end
+        state.hand=retained
+    else discardOwnerEnd(state)end
+    if state.originalV4 and not state.silentOwnerEndResolved then Actors.endTurn(state,state.player)end
     state.silentOwnerEndResolved=nil
     CardActions.drain(M,state)
     if finish(state) then return true end
@@ -2030,7 +2005,17 @@ end
 -- atomic just like a paused play, including costs reset before queued actions.
 function M.endTurn(state)
     if state.pendingPotionChoice then return false,'potion_choice_pending'end
-    if state.originalV4 or require('abyss_act3_powers').active(state) then
+    if not state.originalV4 and state.silentRetainResume and state.actionQueue and state.actionQueue.paused
+        and state.actionQueue.current.effect.op=='ownerEndRetain'then
+        if state.pendingChoice then return false,'card_choice_pending'end
+        for _,card in ipairs(state.hand)do
+            if card.silentRetainTurn==state.turn and not M.cardDefinition(state,card).ethereal then card.retain=true end
+        end
+        local result=require('abyss_action_queue').resume(state,queuedHandlers)
+        if result=='pause'or finish(state)then return true end
+    end
+    if state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
+        or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))then
         local restore=require('abyss_snapshot').capture(state)
         local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn
         local called,ok,reason=pcall(resolver,state)

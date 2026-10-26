@@ -60,6 +60,7 @@
     "abyss_snapshot": "core",
     "abyss_stances": "core",
     "abyss_turn_powers": "core",
+      "abyss_end_turn_powers": "core",
     "abyss_warrior_cards": "core",
     "abyss_warrior_exhaust_cards": "core",
     "abyss_warrior_status_cards": "core",
