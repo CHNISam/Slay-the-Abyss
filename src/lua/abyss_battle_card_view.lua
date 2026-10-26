@@ -33,14 +33,26 @@ function M.new(view, controls)
             if id then
                 local definition = instance and Combat.cardDefinition(battle, instance)
                 if not definition then for _, card in ipairs(data.cards.cards) do if card.id == id then definition = card break end end end
-                local display = assert(presentation[id], "missing card presentation " .. id)
-                local enabled = reward or active and Combat.canPlay(battle, instance.uid, view.target)
+                local display = presentation[id]
+                local missing = not definition or not display
+                local upgraded = instance and instance.upgraded or reward and run.rewards.cardUpgrades and run.rewards.cardUpgrades[i]
+                if missing then
+                    assert(reward, "missing card presentation " .. id)
+                    local metadata = (data.cards.sourcePools and data.cards.sourcePools.cardSourceMetadata or {})[id] or {}
+                    definition = {type=metadata.type or 'status',rarity=metadata.rarity}
+                    local text = '此卡牌尚未实装，无法领取。可选择其他卡牌或跳过。'
+                    display = {name=metadata.sourceId or id,text=text,upgradeText=text}
+                elseif reward and upgraded then
+                    definition = Combat.copy(definition)
+                    for key,value in pairs(definition.upgrade or {})do definition[key]=Combat.copy(value)end
+                end
+                local enabled = not missing and (reward or active and Combat.canPlay(battle, instance.uid, view.target))
                 playable = playable or enabled
                 local selected = instance and instance.uid == view.selected
-                CardDisplay.writeTitle(box:GetChild("name"),display.name,instance and instance.upgraded,
+                CardDisplay.writeTitle(box:GetChild("name"),display.name,upgraded,
                     instance and definition.repeatable and (instance.upgrades or 1) or nil)
-                ink(box:GetChild("name"), instance and instance.upgraded and C.positive or enabled and C.text or C.textMuted)
-                local text = instance and instance.upgraded and display.upgradeText or display.text
+                ink(box:GetChild("name"), upgraded and not missing and C.positive or enabled and C.text or C.textMuted)
+                local text = upgraded and display.upgradeText or display.text
                 if instance and definition.originalV4 and view.busy then
                     text='效果结算中'
                 elseif instance then
@@ -48,11 +60,13 @@ function M.new(view, controls)
                     -- a card being aimed shows the value for that target.
                     local preview = Combat.cardPreview(battle, instance, instance.uid == aimUid and aimTarget or nil)
                     text=CardDisplay.combatText(display,definition,instance,preview)
+                elseif reward and not missing then
+                    text=CardDisplay.permanentText(display,definition,{upgraded=upgraded==true})
                 end
                 CardDisplay.writeBody(box:GetChild("label"),text)
                 ink(box:GetChild("label"), enabled and C.text or C.textMuted)
                 box:GetChild("type").text = typeNames[definition.type] or definition.type
-                box:GetChild("cost").text = definition.cost == -2 and ""
+                box:GetChild("cost").text = missing and "—" or definition.cost == -2 and ""
                     or definition.costMode == "all_energy" and "X" or number(definition.cost)
                 ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
                 tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)

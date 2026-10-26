@@ -1,5 +1,6 @@
 local Run=require('abyss_run')
 local Shop=require('abyss_shop')
+local Nodes=require('abyss_nodes')
 local C=require('abyss_combat')
 local R=require('abyss_sts_random')
 local Data=require('abyss_data')
@@ -30,6 +31,11 @@ for _,character in ipairs({'ironclad','silent','defect','watcher','hutao','arlec
  end
  same(R.snapshot(stock.cardRandom.cardRng),R.snapshot(actual.cardRandom.cardRng))
  same(stock.shopRng,actual.shopRng)
+ actual.type='shop';changed.phase,changed.nodeFlow,changed.gold='node',actual,10000
+ local before=C.copy(changed);local deck,flow=changed.deck,changed.nodeFlow
+ local ok,reason=Nodes.buyCardSlot(changed,1)
+ assert(not ok and reason=='item_unavailable','missing implementation must refuse the actual purchase')
+ same(changed,before);assert(changed.deck==deck and changed.nodeFlow==flow,'refusal must preserve live owners')
  count=count+1
 end
 print('SHOP_COMPLETE_SOURCE_PASS '..count)

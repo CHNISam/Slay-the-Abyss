@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-26 15:37'
+updated_date: '2026-10-26 16:11'
 labels:
   - required
   - sts1
@@ -44,6 +44,8 @@ type: feature
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-26本轮M3并行：act2独立工作树按固定来源补第二幕怪物组的A0数据/AI和正式构造分派，保留未实现内容拒绝边界，不代用第一幕怪物。Host/章节UI由父线程负责，事件和药水另树；统一集成和回归后再判各层验收。
+
+本轮组合审查独立补齐章节非稀有奖励升级0/25/50/50%的源序、纯数据保留、UID领取及下一战；主线程接升级卡面与缺定义奖励的明确不可领取显示，身份与随机消费不重抽。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -54,4 +56,6 @@ type: feature
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
 
 本轮隔离分支已增量实现第二幕全部5弱/8强/3精英所需怪物与编组，含Hex、Flight、Confusion、吸血破甲、Leader真实召唤；Champ已实现，另外两Boss和事件敌人仍缺。各切片定向红绿与固定源SHA账本见docs/rules/ACT2_ENEMIES.md，父线程正在组合验证。当前不是完整第二幕/平台验收，三项广义AC不勾。
+
+2026-10-27组合复审：真实Leader重复Rally保留尸体后，活敌真实索引超过5导致界面不可见已复现。独立m3-summon-visibility树正在分离显示槽与actor身份，保留核心尸体、点选/拖牌/帮助/反馈及旧输入保护；缺陷修复及当前SHA完整检查完成前不提高父任务验收状态。
 <!-- SECTION:NOTES:END -->

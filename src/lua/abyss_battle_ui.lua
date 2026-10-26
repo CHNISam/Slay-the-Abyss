@@ -8,7 +8,7 @@ local Feedback = require("abyss_feedback")
 local CardView = require("abyss_battle_card_view")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
-local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
+local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人", card_content_unavailable = "此卡牌尚未实装，可选择其他卡牌或跳过。",
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
     normality_limit = "平庸：本回合已打出三张牌",
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
