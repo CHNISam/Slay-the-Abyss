@@ -11,3 +11,7 @@ Run.new对默认战士及四个初代职业装配300张普通职业牌和它们�
 固定事实边界是registration.json所记319009反编译源，未认证正版PC二进制。run-card-catalog-source.test.mjs从普通生产Run导出实际定义，逐项核对全部300个独立class映射的sourceId/type/color/rarity/费用/HEALING，并验证错误源身份和仅metadata正确的负例被拒绝。未改任何冻结JSON数值或来源池。
 
 本片首个真实RED为普通Watcher的Foreign Influence缺失Cold Snap定义；接线后基础和升级版双随机流、三候选和所选攻击实际出牌通过。另保留默认/四职业构造与来源顺序、V4隔离、当前输入读取、循环/别名、两Run/两场战斗隔离回归。此证据仅说明离线实现，不代表平台导入或实机验收。
+
+第二片定向验收使用真实Run命令：Silent获取Rage后分别触发蓝色普通攻击及原生Sword Boomerang；外色抽牌触发Evolve/Fire Breathing；Watcher获取FNP/Dark Embrace/Corruption后，Hologram以原UID暂停和恢复多候选弃牌选择；Master Reality升级新Shiv/Beta/White Noise牌；非机器人以Capacitor从0槽获得2槽再Channel，Calm退出获得2能量；White Noise真实采样后的升级错误恢复整个Run及全部原对象引用、RNG和UID计数。原生九张逐牌在外职业Run实际执行。全目录静态基础／升级说明和600个能力判断通过。
+
+固定Node24下单份短例参考耗时：Foreign1.554s、五种构造3.318s、隔离1.760s、源身份JS0.828s、跨色获取2.255s、生成／姿态／回滚2.506s、原生选择2.261s、原生战斗2.390s、300牌呈现0.956s。每职业连续8次fresh Run.new的独立小量测为默认2.865s／Silent3.270s／Defect2.841s／Watcher2.904s；这不代替原有30秒fixture性能门禁，完整门禁与重矩阵尚待统一CPU窗口验证。未增加超时预算、删减现有断言或母池。
