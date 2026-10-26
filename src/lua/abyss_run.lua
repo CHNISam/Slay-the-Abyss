@@ -126,7 +126,7 @@ function M.advanceAct(run)
         staged.act,staged.phase,staged.floor=nextAct,'map',Acts.get(nextAct).first-1
         staged.nodeFlow,staged.pendingAct,staged.pendingCombatRewards,staged.rewards=nil,nil,nil,nil
         staged.combat,staged.lastResult=nil,nil
-        staged.blizzardPotionMod=0
+        staged.potionChanceModifier=0
         return true
     end)
 end
@@ -420,6 +420,7 @@ function M.restoreEncounters(run,snapshot)
         or snapshot.roomGeneration~=run.roomGeneration then return false,'stale_encounter_checkpoint' end
     local ok,queue=pcall(EncounterQueue.restore,snapshot.queue)
     if not ok or queue.rawSeed~=run.runSeed then return false,'invalid_snapshot' end
+    if (queue.act or 1)~=(run.act or 1) then return false,'encounter_act_mismatch' end
     -- A generation tag alone cannot authorize rewinding queue consumption.
     -- This API replaces a checkpoint at the current boundary, not Run progress.
     if type(run.encounters)~='table' or type(run.encounters.normal)~='table' or type(run.encounters.elite)~='table'
