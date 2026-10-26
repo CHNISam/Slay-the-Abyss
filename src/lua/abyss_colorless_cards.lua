@@ -118,7 +118,7 @@ function M.withCards(data)
 end
 local function actions()return require('abyss_card_actions')end
 function M.adapt(state,instance,d)
-    if d.id=='mind_blast'then d.effects[1].value=#state.draw end
+    if d.id=='mind_blast' and state.draw then d.effects[1].value=#state.draw end
     if d.id=='ritual_dagger'then d.effects[1].damage=instance.misc or 15 end
     if instance.freeToPlayOnce and d.cost>0 then d.cost=0 end
     return d
@@ -145,7 +145,9 @@ function M.describe(d,dynamic)
     for i,f in ipairs(d.effects)do
         local n=dynamic and ('{effects.'..(i-1)..'.value}')or tostring(f.value)
         local text
-        if f.op=='damage'or f.op=='damageAll'then text='造成'..n..'点伤害'..(f.op=='damageAll'and '（全体敌人）'or '')
+        if f.op=='damage'or f.op=='damageAll'then
+            if d.id=='mind_blast' and not dynamic then text='造成等同于抽牌堆张数的伤害'
+            else text='造成'..n..'点伤害'..(f.op=='damageAll'and '（全体敌人）'or '') end
         elseif f.op=='block'then text='获得'..n..'点格挡'
         elseif f.op=='draw'then text='抽'..n..'张牌'
         elseif f.op=='heal'then text='回复'..n..'点生命'
