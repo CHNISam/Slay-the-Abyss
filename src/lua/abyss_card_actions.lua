@@ -3,7 +3,7 @@
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local M = {}
-local operations = { exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -200,6 +200,7 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
+    if op=='originalV4' then return require('abyss_original_v4').execute(combat,state,item) end
     if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
         or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
     elseif op=="exhaustRandom" then
@@ -265,7 +266,8 @@ function M.apply(combat,state,item)
             and (target.statuses.minion or 0)<=0 and source.hp>0 then
             source.maxHp=source.maxHp+e.maxHp
             local beforeHp=source.hp
-            source.hp=math.min(source.maxHp,source.hp+e.maxHp)
+            if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,e.maxHp,nil,'feed')
+            else source.hp=math.min(source.maxHp,source.hp+e.maxHp)end
             Events.emit(state,"max_hp",{amount=e.maxHp,target=source.id})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
@@ -291,7 +293,9 @@ function M.apply(combat,state,item)
         combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
     elseif op=="block" and e.fixed then combat.block(state,source,value,true)
     elseif op=="heal" then
-        if source.hp>0 then
+        if state.originalV4 and source==state.player then
+            require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)
+        elseif source.hp>0 then
             local amount=math.min(value,source.maxHp-source.hp)
             local beforeHp=source.hp
             source.hp=source.hp+amount
@@ -306,7 +310,7 @@ end
 
 -- Only source-supported retained actions may survive victory. Selection and
 -- draws are cleared, but disposal, damage, ordinary block and healing survive.
-local retained={dispose=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
+local retained={originalV4=true,dispose=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true

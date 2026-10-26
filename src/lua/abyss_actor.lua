@@ -283,6 +283,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     Events.emit(state, "status_damage", {
         source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     require('abyss_relic_hooks').hpChanged(state,target,before)
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     queueDeathPower(state, target, before, reactions)
     return lost
 end
@@ -440,20 +441,26 @@ local function tick(state, actor, phase)
         if skip then actor[id .. "JustApplied"] = nil end
         if amount > 0 and decay:sub(1, #phase) == phase and not skip then
             local reactions = {}
+            local eventCount=#state.events
             if decay:find("trigger", 1, true) then
                 if id == "poison" then directDamage(state, actor, actor, amount, "poison", nil, reactions)
                 elseif id == "regen" then
+                    if state.originalV4 and actor==state.player then require('abyss_original_v4_health').heal(state,actor,amount,nil,'regen')
+                    else
                     local before=actor.hp
                     local healed = math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
                     Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
                     require('abyss_relic_hooks').hpChanged(state,actor,before)
+                    end
                 end
             end
             actor.statuses[id] = amount - 1
             if decay:find("trigger", 1, true) then
                 -- Trigger and decay are one presentation step, including lethal poison.
-                state.events[#state.events].frame = Events.frame(state)
+                if state.originalV4 and #state.events==eventCount then
+                    Events.emit(state,'status',{source=actor.id,target=actor.id,status=id,amount=-1})
+                else state.events[#state.events].frame = Events.frame(state)end
             else
                 Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
             end
