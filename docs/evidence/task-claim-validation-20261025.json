@@ -245,5 +245,40 @@
       },
       "mutation": "CI uses exact Node24.18.0; game source, platform candidate and system/MCP Node unchanged; no budget/assertion changes"
     }
+  },
+  "v4Admission20261026": {
+    "scope": "User authorized only V4 bounded admission and temporary exact original TASK55 recovery; global paused and legacy unknown retained",
+    "fullExistingSuite": {
+      "tests": 30,
+      "passed": 30,
+      "failed": 0,
+      "logSha256": "43fc1b5fe97729cfa9532cc9ef643f27992db9852c12bce96fe2ecb1bd7b91e7"
+    },
+    "finalAdmissionBoundaries": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "logSha256": "972350c86e6936c692f3f1190a6a631729d2b9df26559341350973a2233829c2"
+    },
+    "red": "New admission test failed with Unknown command: migration-admit before implementation",
+    "legacyRuntime": "45ba918e5719614f36b6a92aeb511e76a1311608 unmodified runtime executed by regression: old push authorization and recover label removal are rejected by new CI gate",
+    "independentReview": "v4_contract_audit: historical branch/task takeover and old-runtime downgrade findings repaired; final result pending reviewer confirmation",
+    "ci": "pending current head",
+    "productionGameplay": "not part of this protocol repair; not implemented or tested by this slice"
+  },
+  "v4HostedRunnerHandoff20261026": {
+    "repositoryVisibility": "public; verified via GitHub repository metadata",
+    "runner": "GitHub-hosted windows-latest; Ubuntu companion jobs unchanged",
+    "commandsAndBudgets": "unchanged; all fixtures, serial full Quality group and exact-SHA gates retained",
+    "claimsRegression": {
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "skip": 0,
+      "durationMs": 94169.129455
+    },
+    "handoffIndependentReview": "v4_contract_audit: static boundary review and independent real-Git 1/1 pass; no active overlap or failed-CAS partial release found",
+    "legacyState": "paused/externalUnknown/reservations preserved",
+    "currentShaCI": "pending; old PR212 self-hosted job received runner shutdown, not accepted as pass"
   }
 }
