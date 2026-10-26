@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 13:11'
+updated_date: '2026-10-26 20:29'
 labels:
   - required
   - sts1
@@ -44,4 +44,6 @@ type: feature
 2026-10-26状态整理：PR213已合入第三幕地图/队列和普通结局边界，实际怪物AI/事件体与正式Host尚未接，仍To Do。第三幕不存在Boss宝箱；按现有核心接内容再连续通关。
 
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
+
+2026-10-27 第二批已整合Falling/Moai/Winding三事件、Orb Walker/Shapes及球状守护者编组。父线程原时限24份组合回归全部通过，包括真实末敌自爆与Buffer/Static Discharge。Winding四个未实现遗物依赖明确拒绝并留账，Moai正常Golden Idol获取另独立补齐；Maw/Spire Growth和共享回合末优先级仍在独立工作树，暂未合入。整幕事件、剩余遭遇/Boss、自然接续和平台仍未完成。
 <!-- SECTION:NOTES:END -->

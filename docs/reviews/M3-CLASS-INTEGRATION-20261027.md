@@ -23,3 +23,9 @@
 本树另接入Falling、Moai、Orb Walker、Shapes、Focus/Capacity/Miracle/Ambrosia/Darkness/类型化Stance及Winding Halls。各自来源和组件证据见对应`docs/rules/`与`docs/evidence/`。Winding明确拒绝四个尚未实现的遗物依赖，Moai持有Golden Idol夹具不代表其正常获取已实现；这些依赖继续待办。
 
 组合到`5f19576e`时工程检查实际通过：152模块/863边、105项历史警告、受管UI绝对复杂度门槛及四项既有语义变异。两处Effects空skip分支合为显式guard，消费组第二成员与胜利清队列条件均保留；其余警告只按已审父提交的文件、源码行、列、代码及归一化消息映射，未新增豁免。Run完整目录和共享回合末顺序仍由独立切片继续；本批完整check/当前SHA CI及平台证据尚未完成。
+
+父线程在此组合源码独立串行执行24份原时限Lua，全部通过，日志`build/combined-slices-r2.log`。Shapes17例4.971秒，Orb Walker3.001秒，Moai三份4.661/1.519/0.580秒，Winding六份0.697–3.096秒；Toy治疗、Darkness三份、Stance四份、普通选择19例、菜单owner初始化及两份死亡队列回归均通过。新增跨片回归以实际打出Buffer/Static Discharge后走Exploder三轮，验证末敌自爆保留一次伤害、Buffer只在未格挡正数生命损失时消耗、THORNS不触发Static Discharge，1.047秒通过。组件固定资源不计自然通关。
+
+逐fixture摘要和实际输入哈希见[机器记录](../evidence/m3-combined-slices-20261027.json)。后续生产变更需要相关复验，不以本轮冻结结果认证尚未接入的目录或阶段改动。
+
+类型化Stance独立只读复审针对原交付`91b34ab9`，32份固定源码摘要吻合；普通卡牌选择端点误投药水token、数值UID误投姿态、变更选项内容、晚失败原身份恢复及Host陈旧触点探针通过，未发现有证据的P1/P2。该审查不替代后续完整300目录组合和平台验收。

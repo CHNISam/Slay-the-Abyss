@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 20:27'
+updated_date: '2026-10-26 20:29'
 due_date: '2026-10-28'
 labels:
   - required
@@ -105,4 +105,6 @@ ordinal: 42000
 2026-10-27独立复审确认鲜血药水与魔法花重复倍率，已在集成树按固定源改为原量入队、实际治疗一次修正；21旧项及新增Toy排队项合计22通过。另核实黏液/转轮事件致死绕过瓶中精灵，m3-event-fairy独立树修战外自动复活与回滚，不冒充完整遗物自然获取或平台通过。
 
 2026-10-27事件Fairy8组已在集成树独立复验，含Bark/Bloom、物理槽、陈旧战斗隔离、后续缺遗物导致的HP/瓶/RNG/owner完整回滚；鲜血治疗22组与实际缺牌/升级奖励2组通过。当前PR234完整门禁仍待新SHA结果，不将专项当全池组合或实机。
+
+2026-10-27 首批PR234在精确4a66773b完整Quality40387913080与Licenses全部通过后已合入develop c96a7777。第二批Focus/Capacity/Miracle/Ambrosia/Darkness/Stance和Toy治疗已在组合树真实定向复验，24份组合Lua全部绿；类型化姿态独立源码/回滚/旧触点复审无证据P1/P2。仍缺全遗物、完整跨色组合、正式平台和自然通关，不勾全量AC。
 <!-- SECTION:NOTES:END -->
