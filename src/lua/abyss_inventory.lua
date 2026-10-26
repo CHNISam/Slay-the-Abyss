@@ -151,7 +151,11 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
         if op=='generatePotions' then
             local ids,rng=require('abyss_potion_generation').prepare(run,true)
             state.potionRandomRng=rng
-            for _,id in ipairs(ids)do require('abyss_card_actions').enqueue(state,{op='obtainPotion',id=id})end
+            state.generatedPotionOffers={}
+            for _,id in ipairs(ids)do
+                require('abyss_card_actions').enqueue(state,{op='obtainPotion',id=id,
+                    unavailable=not require('abyss_potion_generation').available(run,id)})
+            end
         elseif op == "channelOrb" then
             require("abyss_orbs").channel(state, effect.orb, Combat)
         elseif op == "makeMiracle" then

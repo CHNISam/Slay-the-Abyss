@@ -120,7 +120,7 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
-local function potionText(item, battle, expanded)
+local function potionText(item, battle, expanded) local special=require('abyss_potion_text').special(item,battle,expanded);if special then return item.name..'\n'..special end
     local effects = {}
     for _, effect in ipairs(item.effects) do
         local value = number(effect.value or 0)
@@ -635,7 +635,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 for _, item in ipairs(data.potions.potions) do if item.id == info.potionId then definition = item break end end
                 if not definition then return end
                 rows = {{name = definition.name, text = potionText(definition, battle, true):match("\n(.*)"),
-                    note = definition.targetPolicy == "enemy_one" and "对选中的一名敌人；先选药水，再点击敌人" or "对自己使用；短按药水生效", colour = C.goldBright}}
+                    note = require('abyss_potion_text').note(definition) or (definition.targetPolicy == "enemy_one" and "对选中的一名敌人；先选药水，再点击敌人" or "对自己使用；短按药水生效"), colour = C.goldBright}}
             else
                 if not instance then return end
                 definition, rows = Combat.cardDefinition(battle, instance), {}

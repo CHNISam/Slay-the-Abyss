@@ -92,7 +92,7 @@ end
 local function itemOffer(run,rng,category,slot,stock,restock)
     local rarity,selected
     if category=='potions' then
-        selected=PotionPool.sample({potionRng=rng.potion});rarity=selected.rarity
+        selected=PotionPool.sample({potionRng=rng.potion},{character=PotionPool.character(run)});rarity=selected.rarity
     else rarity=slot==3 and not restock and 'shop' or S.relicRarity(R.randomInt(rng.merchant,99)) end
     local pool=candidates(run,category,rarity,nil,nil,stock)
     if restock and category=='relics' then

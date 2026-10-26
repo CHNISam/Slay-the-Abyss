@@ -139,7 +139,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return definition and definition.name or id
     end
     local function potionText(id)
-        local definition=find(self.run.data.potions.potions,id)
+        local definition=find(self.run.data.potions.potions,id);local special=definition and require('abyss_potion_text').special(definition,self.run,true);if special then return special end
         local parts={}
         for _,effect in ipairs(definition and definition.effects or {}) do
             local value=number(effect.value or 0)

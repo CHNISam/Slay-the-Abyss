@@ -25,11 +25,11 @@ function P.prepare(run, rewardCount, context)
     if (rewardCount or 0)>=4 then chance=0 end
     local roll=Random.randomInt(rng,99)
     if roll>=chance then return nil,rng,modifier+10 end
-    local selected=Pool.sample({potionRng=rng})
+    local selected=Pool.sample({potionRng=rng},{character=Pool.character(run)})
     local present=false
     for _,definition in ipairs(run.data.potions.potions)do if definition.id==selected.id then present=true;break end end
     return {id=selected.id,sourceId=selected.sourceId,rarity=selected.rarity,unavailable=not present,
-        contentMode='source-full33'},rng,modifier-10
+        contentMode=Pool.character(run)=='shared' and 'original-shared30' or 'source-class33'},rng,modifier-10
 end
 
 function P.commit(run,rng,modifier)

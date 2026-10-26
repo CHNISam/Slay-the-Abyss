@@ -847,10 +847,16 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
         if not outsideAllowed or (run.phase~='map' and run.phase~='node' and run.phase~='reward') then return nil,'not_in_combat' end
         local candidate={hp=run.hp,maxHp=run.maxHp,outside=true}
         if id=='entropic_brew' then
-            local ids,rng=require('abyss_potion_generation').prepare(run,false)
+            local called,ids,rng=pcall(require('abyss_potion_generation').prepare,run,false)
+            if not called then return nil,'potion_effect_failed'end
             candidate.potionInventory=Combat.copy(run.potions);candidate.potionInventory[slot]=nil
             candidate.potionRandomRng=rng
-            for _,generated in ipairs(ids)do require('abyss_potion_generation').obtain(candidate.potionInventory,M.potionCapacity(run),generated,false)end
+            candidate.generatedPotionOffers={}
+            for _,generated in ipairs(ids)do
+                local available=require('abyss_potion_generation').available(run,generated)
+                candidate.generatedPotionOffers[#candidate.generatedPotionOffers+1]={id=generated,unavailable=not available}
+                if available then require('abyss_potion_generation').obtain(candidate.potionInventory,M.potionCapacity(run),generated,false)end
+            end
         else for _,e in ipairs(effects) do
             local ok,reason=require('abyss_potion_health').apply(candidate,e.op,e.value,run.relics,false)
             if not ok then return nil,reason end
@@ -890,6 +896,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
             run.shopRng=run.shopRng and Combat.copy(run.shopRng) or {merchant=EventRandom.fromSeed(run.runSeed)}
             run.shopRng.potion=battle.potionRandomRng
         end
+        if battle.generatedPotionOffers then run.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
         return true
     end
     require("abyss_events").emit(battle, "potion", { slot = slot, id = run.potions[slot], target = targetIndex })
@@ -905,6 +912,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(battle.potionInventory), battle.player.gold
     candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
     candidate.relicCounters=Combat.copy(battle.relicCounters)
+    if battle.generatedPotionOffers then candidate.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
     if battle.potionRandomRng then
         candidate.shopRng=run.shopRng and Combat.copy(run.shopRng) or {merchant=EventRandom.fromSeed(run.runSeed)}
         candidate.shopRng.potion=battle.potionRandomRng

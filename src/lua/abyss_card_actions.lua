@@ -208,6 +208,12 @@ function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
     if op=='obtainPotion' then
+        state.generatedPotionOffers=state.generatedPotionOffers or {}
+        state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}
+        if e.unavailable then
+            Events.emit(state,'potion_content_unavailable',{id=e.id})
+            return
+        end
         return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,
             require('abyss_relic_hooks').owns(state,'sozu'))
     end

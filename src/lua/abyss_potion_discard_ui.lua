@@ -16,7 +16,7 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
         return s and s.slot<=Run.potionCapacity(self.run) and self.run.potions==s.inventory and self.run.potions[s.slot]==s.id
             and self.run.phase==s.phase and self.run.combat==s.battle
     end
-    local function detail(definition)
+    local function detail(definition) local special=require('abyss_potion_text').special(definition,self.run,true);if special then return definition.name..'；'..special end
         if definition.description then return definition.name..'；'..definition.description end
         local result={definition.name}
         for _,effect in ipairs(definition.effects)do

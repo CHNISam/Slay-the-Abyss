@@ -3,6 +3,7 @@
     "abyss_act2_enemies": "core",
     "abyss_act2_ai": "core",
     "abyss_act2_powers": "core",
+    "abyss_potion_text": "ui",
     "abyss_potion_generation": "core",
     "abyss_potion_discovery": "core",
     "abyss_potion_fairy": "core",
