@@ -38,7 +38,7 @@
       "role": "hutao",
       "seed": "1",
       "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
-      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
       "path": [
         "f1_l2:Cultist",
         "normal gold/card/potion rewards",
@@ -59,7 +59,7 @@
       "role": "arlecchino",
       "seed": "1",
       "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
-      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
       "path": [
         "f1_l2:Cultist",
         "normal gold/card/potion rewards",
@@ -80,7 +80,7 @@
       "role": "furina",
       "seed": "1",
       "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
-      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
       "path": [
         "f1_l2:Cultist",
         "normal gold/card/potion rewards",
@@ -101,7 +101,7 @@
       "role": "raiden",
       "seed": "1",
       "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
-      "inputs": "support/original_v4_fixture.lua naturalBattle; only Run.play/endTurn commands selected by read-only production previews",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
       "path": [
         "f1_l2:Cultist",
         "normal gold/card/potion rewards",

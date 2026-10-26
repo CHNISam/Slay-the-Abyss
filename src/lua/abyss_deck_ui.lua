@@ -29,7 +29,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         -- Bound each page using the shared viewport/font, counting a CJK codepoint
         -- as a full em. Do not truncate rules; every wrapped line stays reachable.
         local columns=math.max(1,math.floor(Theme.layout.deckView.viewport[3]/Theme.font.body)-2)
-        local rows=math.max(1,math.floor(Theme.layout.deckView.viewport[4]/(Theme.font.body*1.5))-3)
+        local rows=math.max(1,math.floor(Theme.layout.deckView.viewport[4]/Theme.layout.nativeText.lineHeight)-3)
         local lines,line,n={},'',0
         for ch in raw:gmatch('[%z\1-\127\194-\244][\128-\191]*') do
             if ch=='\n' then lines[#lines+1]=line;line,n='',0

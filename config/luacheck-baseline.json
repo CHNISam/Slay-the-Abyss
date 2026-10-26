@@ -706,52 +706,52 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 751,
+      "line": 752,
       "column": 35,
       "code": "W431",
       "message": "shadowing upvalue 'card' on line 127"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 786,
+      "line": 787,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 790,
+      "line": 791,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 805,
+      "line": 806,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 863,
+      "line": 864,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 875,
+      "line": 876,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 1026,
+      "line": 1027,
       "column": 23,
       "code": "W433",
-      "message": "shadowing upvalue loop variable 'key' on line 944"
+      "message": "shadowing upvalue loop variable 'key' on line 945"
     },
     {
       "file": "src/lua/abyss_nodes.lua",
@@ -874,7 +874,7 @@
     "abyss_card_random": "e429204a73f282de96d27d8f2ee3669e7fbb0c101a3d346c4400e96110ac1408",
     "abyss_combat": "8f8e24b256fff102de6a82b4b26e71681a4143b9b878fa4f5b55669062c0d1dd",
     "abyss_curses": "783838c0dd3f0d97f315864e9cde495b17f9cd38e65a7ba65503cbcd2c0bc451",
-    "abyss_deck_ui": "e27803bb8c3169ace5f40837298918c24aff81d0562a9c2f21cefcfa8a55c620",
+    "abyss_deck_ui": "dd85ba756be40f7ae2b47468d14e08eb7f7548fb2d63818b2ad4817b4dbb8414",
     "abyss_effects": "040844e29308e444a84fc42369d36128aacc034e181105997c40603d2e34fdfe",
     "abyss_encounter_formation": "d57cad542b761375e94fff3734cb417e0230ef0089a2eec7178f94b8380d1400",
     "abyss_encounter_queue": "4c75a362e405b4ece1494524e1cc202e908a65f257a731843cde080aa876076f",
@@ -901,7 +901,7 @@
     "abyss_map_ui": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836",
     "abyss_merchant": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9",
     "abyss_new_run_seed": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
-    "abyss_node_ui": "2affa0718aef56a455af37258e4e269f446e49994237daabcd8692ff7485adbe",
+    "abyss_node_ui": "ece39209c3d7b7ceb3b5516ad4386ea16fcd915bde8056fe4126275151b53749",
     "abyss_nodes": "bfd8c309336322bdecf3570248b08d7decd0ed88be34d9afafe5961fec43a25b",
     "abyss_numbers": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80",
     "abyss_potion_discard_ui": "638186594d5c27c50dced4a0edeb54946df5f6e8fc8257cbaeda626c1f6ce75a",

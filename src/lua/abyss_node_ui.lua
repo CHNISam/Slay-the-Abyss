@@ -633,6 +633,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     function self:render()
         resetButtons()
+        inspectCards={}
         local view = Nodes.view(self.run, self.map)
         local node = view.node
         if self.renderRun ~= self.run or self.renderMap ~= self.map or self.nodeId ~= (node and node.id) then
@@ -1048,6 +1049,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             listen(hit,cursor.CursorDown,function(event)
                 self.inspectPress=nil
                 if not self.visible or not inspectCards[box] or not box.visible then return end
+                local parent=box
+                while parent do if not parent.visible then return end;parent=parent.parent end
                 local x,y=point(event)
                 self.inspectPress={box=box,name=name,card=inspectCards[box],run=self.run,flow=self.run.nodeFlow,
                     action=self.actions[name],touch=event and event.touchId,time=0,x=x,y=y}
