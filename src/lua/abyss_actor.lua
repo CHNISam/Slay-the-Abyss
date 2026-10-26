@@ -288,6 +288,8 @@ function M.resolveDamageReactions(state, reactions, retaliate)
             if M.isActive(state.player) then M.block(state,state.player,hit.effect.value,true) end
         elseif hit.effect and hit.effect.op=='cardTriggerPoison' then
             require('abyss_card_triggers').resolveEnvenom(state,hit.effect)
+          elseif hit.effect and hit.effect.op=='defectStatic'then
+              require('abyss_defect_final_cards').static(state,hit.effect.value)
         elseif hit.status then
             if not battleEnding(state) then
                 M.applyPower(state, hit.target, hit.status, hit.amount, hit.source, hit.sourceIsMonster)
@@ -302,6 +304,7 @@ end
 
 local function directDamage(state, source, target, amount, status, blocked, reactions)
     if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
+    amount=require('abyss_defect_final_cards').incoming(state,target,amount)
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
@@ -380,6 +383,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if source==state.player and not fixed and unblocked>0 and unblocked<5 then
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
+      unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
     local lost = math.min(target.hp, unblocked)
     Act2Powers.damaged(state,source,target,lost,fixed)
     target.hp = target.hp - lost
@@ -410,11 +414,13 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
     if not fixed and source then
-        for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier','block_return'})) do
+          for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier','block_return','static_discharge'})) do
             -- Each Power adds its own TOP DamageAction. Combining them would
             -- erase two distinct damage callbacks and reverse application order.
             if (target.statuses[id] or 0)>0 then
-                if id=='block_return' then
+                  if id=='static_discharge'then
+                      if target==state.player and source~=target and lost>0 then reactions[#reactions+1]={effect={op='defectStatic',value=target.statuses[id]}}end
+                  elseif id=='block_return' then
                     if source~=target then reactions[#reactions+1]={effect={op='defenseBlock',value=target.statuses[id]}} end
                 elseif id=='thorns' or source~=target then
                     reactions[#reactions+1]={source=target,target=source,amount=target.statuses[id]}

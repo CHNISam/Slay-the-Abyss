@@ -14,8 +14,12 @@ local powers={
  echo_form={'回响形态','每回合最先打出的对应张牌各额外打出1次；复制牌不递归触发。'},
  machine_learning={'机器学习','每回合正常抽牌数量增加对应层数。'},
  self_repair={'自我修复','战斗胜利时恢复对应层数的生命。'},
+ buffer={'缓冲','抵消接下来的对应次数正数生命损失；完全格挡的伤害不消耗次数。'},
+ static_discharge={'静电释放','每次受到其他单位普通攻击并失去生命时，生成对应层数的闪电球。'},
 }
 local cards={
+ {id='buffer',sourceId='Buffer',name='缓冲',type='power',rarity='rare',cost=2,effects={power('buffer',1)},upgrade={effects={power('buffer',2)}},text='抵消下1次正数生命损失。',upgradeText='抵消下2次正数生命损失。'},
+ {id='static_discharge',sourceId='Static Discharge',name='静电释放',type='power',rarity='uncommon',cost=1,effects={power('static_discharge',1)},upgrade={effects={power('static_discharge',2)}},text='每次受到其他单位普通攻击并失去生命时，生成1个闪电球。',upgradeText='每次受到其他单位普通攻击并失去生命时，生成2个闪电球。'},
  {id='rebound',sourceId='Rebound',name='弹回',type='attack',rarity='common',cost=1,effects={{op='damage',value=9},power('rebound',1)},upgrade={effects={{op='damage',value=12},power('rebound',1)}},text='造成9点伤害。本回合下一张牌放回抽牌堆顶。',upgradeText='造成12点伤害。本回合下一张牌放回抽牌堆顶。'},
  {id='force_field',sourceId='Force Field',name='力场',type='skill',rarity='uncommon',cost=4,effects={{op='block',value=12}},upgrade={effects={{op='block',value=16}}},text='获得12点格挡。本场战斗每打出1张能力牌，费用减少1。',upgradeText='获得16点格挡。本场战斗每打出1张能力牌，费用减少1。'},
  {id='equilibrium',sourceId='Undo',name='均衡',type='skill',rarity='uncommon',cost=2,effects={{op='block',value=13},power('equilibrium',1)},upgrade={effects={{op='block',value=16},power('equilibrium',1)}},text='获得13点格挡。本回合保留所有非虚无手牌。',upgradeText='获得16点格挡。本回合保留所有非虚无手牌。'},
@@ -81,6 +85,17 @@ end
 function M.reducePower(state,id)
  local old=state.player.statuses[id]or 0
  if old<=1 then M.removePower(state,id)else state.player.statuses[id]=old-1 end
+end
+function M.incoming(state,target,amount)
+ if target==state.player and target.statuses.buffer~=nil then
+  if amount>0 then M.reducePower(state,'buffer')end
+  return 0
+ end
+ return amount
+end
+function M.static(state,count)
+ local combat=require('abyss_combat')
+ for _=1,count do require('abyss_orbs').channel(state,'lightning',combat)end
 end
 function M.onUse(state,card)
  if card.type~='power'then return end

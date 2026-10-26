@@ -139,6 +139,7 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {"from":"abyss_actor","to":"abyss_defect_final_cards","reason":"Damage and reaction boundaries invoke final Defect defenses only after Actor initializes."},
     {"from":"abyss_defect_final_cards","to":"abyss_card_actions","reason":"Victory healing dispatches the initialized shared heal action only when a battle actually ends."},
     {"from":"abyss_defect_final_cards","to":"abyss_combat","reason":"Recycle reads the initialized host card definition only during a real hand movement."},
     {"from":"abyss_hand_choice","to":"abyss_defect_final_cards","reason":"Recycle hand movement invokes the final card action after module initialization only."},

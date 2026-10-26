@@ -21,3 +21,7 @@
 普通牌在这些Power/力场存在时进入真实队列以保持相同生命周期。力场仅在hand/draw/discard收到能力牌事件，新构造牌按已发生能力历史减费，排除exhaust中的停留时间；增幅/回响共用既有同UUID purge队列，不重放effects冒充出牌。弹回跳过自身后作用于下一次处置；消耗/purge/能力优先。均衡仅保留非虚无手牌，轮末减层；机器学习只增加正常回合抽牌；自我修复仅一次真实胜利治疗并由Run复制最终HP，Smoke不触发。
 
 `defect_final_powers.lua`先红unknown generated ForceField，随后7张基础/升级真实Combat使用、回合结束/下回合、复制次数和真实Run胜利同步绿（约1.9秒）。旧自动生命周期及Genetic复制回归继续绿。仍缺Buffer、StaticDischarge、HelloWorld、WhiteNoise、CreativeAI及全池执行矩阵，不能据70定义声称完整75已验收。
+
+第三片接Buffer/StaticDischarge（累计16/19，Profile72）。固定AbstractPlayer.damage先扣格挡，再Buffer.onAttackedToChangeDamage，再Static.onAttacked；HP_LOSS绕格挡但经过Intangible与Buffer。Buffer只消耗正数未格挡生命损失，所有攻击/THORNS/HP_LOSS/自身/空owner均适用。Static仅外部NORMAL的正数生命损失产生TOP闪电，复用真实球槽/唤起/RNG；全部格挡、Buffer归零、THORNS、自损及无owner不生成。致死后原TOP队列不执行；若Fairy救活则仍可继续合法反应。
+
+`defect_final_defenses.lua`先红缺Buffer定义，随后基础/升级真实出牌与damage/retaliate/loseHp链绿（约1.2秒），包括完全格挡不耗层、基础/升级层数、多种损失类型、静电与Buffer组合、致死不生成。剩余3张随机生成牌必须先补齐完整合法来源池再验收，不使用72张现有子集生成。
