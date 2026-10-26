@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-26用户明确要求合并develop，本会话开发/推送例外扩展至PR213集成；不借用其他claim、不修改全局paused。原始运行40290289305的ownership失败且check被跳过，保留真实记录。Quality/check改为认领失败时仍收集代码检查，ownership保持独立失败门禁；仅本轮已有用户例外允许在实际代码、呈现和工程检查通过后合并，不为后续会话豁免认领。
+
 2026-10-26用户要求明确禁止别人未经授权商用，项目方保留商业化权利。新增根LICENSE（非商业源码许可）与README显著声明，package元数据指向LICENSE；适用于项目方有权许可的原创内容，第三方声明和既有有效授权保持有效。此许可属于源码可见、非OSI开源许可；不凭公开仓库推定商业授权。
 
 2026-10-26用户已公开CHNISam/Slay-the-Abyss并指定GitHub官方免费runner；API核对visibility=public且当前连接有push权限。Quality/check由本机自托管切换标准windows-latest，其他作业保持ubuntu-latest，保留全部测试、版本、预算、ownership及收据；不操作本机runner服务。此配置随feat/m3-four-acts推送，不等于当前SHA远端CI已通过或M3完成。
