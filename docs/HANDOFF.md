@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-26依用户已授权的Linux等价检验，日常Quality/check改用官方ubuntu-24.04，保留PR215的固定工具/Actions版本、精确SHA检出、有界下载和全部检查命令/断言/超时。5c3ed30的Linux1471项及工程/呈现已通过，Windows作业仍在JS阶段运行约15分钟，未判为代码失败；新提交会取消旧运行并保留记录。受信develop/master显式local-special的Windows平台诊断入口保留，不自动调用本机。Linux完整Lua与新SHA完整CI仍须实际通过才合并。
+
 2026-10-26另一执行入口合入PR215（develop b78fb06），随后将上游完整合入PR213为979efef；本会话已只读核对并快进保留。官方runner现固定windows-2025/ubuntu-24.04，保留上游checkout与工具配置。旧6344ef0运行被新提交自动取消，不判为代码失败；Linux工程与呈现成功记录保留。检出回归改为精确选择installed-Git步骤并仅指纹锁定PowerShell正文，排除相邻YAML注释；正文语义逐项核对未改，负对照与未知语义拒绝继续保留。
 
 2026-10-26用户明确要求合并develop，本会话开发/推送例外扩展至PR213集成；不借用其他claim、不修改全局paused。原始运行40290289305的ownership失败且check被跳过，保留真实记录。Quality/check改为认领失败时仍收集代码检查，ownership保持独立失败门禁；仅本轮已有用户例外允许在实际代码、呈现和工程检查通过后合并，不为后续会话豁免认领。

@@ -42,7 +42,7 @@ jobs:
     if: ${{ !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}
     # Only an explicit dispatch of a trusted integration branch may use the laptop.
     # All ordinary pushes and PRs, including forks, use a disposable hosted VM.
-    runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master') && fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') || 'windows-2025' }}
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master') && fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') || 'ubuntu-24.04' }}
     # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of
     # 207 Lua fixtures had run on Node 22. Keep every fixture and its own
     # timeout; this bound allows the complete serial suite to finish.
