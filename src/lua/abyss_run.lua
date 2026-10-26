@@ -728,7 +728,10 @@ function M.chooseCard(run,token,uid)
             run.gold=run.combat.player.gold
             run.relicCounters=Combat.copy(run.combat.relicCounters or {})
             applyPermanentChanges(run)
-            if Combat.outcome(run.combat) then M.finishCombat(run) end
+            if Combat.outcome(run.combat) then
+                local completed,why=M.finishCombat(run)
+                if not completed then return false,why end
+            end
         end
         return accepted,detail
     end)
@@ -823,7 +826,10 @@ function M.endTurn(run)
             run.gold = run.combat.player.gold
             run.relicCounters=Combat.copy(run.combat.relicCounters or {})
             applyPermanentChanges(run)
-            if Combat.outcome(run.combat) then M.finishCombat(run) end
+            if Combat.outcome(run.combat) then
+                local completed,why=M.finishCombat(run)
+                if not completed then return false,why end
+            end
         end
         return accepted,detail
     end)

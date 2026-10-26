@@ -11,3 +11,5 @@
 - 两入口均核对每一个原可达表的字段及对象身份、非法token无副作用、原命令同token成功重试一次；最终完整状态与同输入无故障的独立Run逐字段/别名比较一致。
 
 精确已到达晚失败的RED为两例均失败，日志`build/run-turn-reward-red.log`。修复后两例通过，`build/run-turn-reward-green.log`；原脚本30秒预算不改。静态105项历史警告，无新豁免，受管UI门槛保持。共享WLP暂停阶段的组合用例及完整CI随后按冻结源码复验；没有平台证据。
+
+独立复审还核出晚结算显式`false,reason`会被前半段Core成功吞掉。两个入口现检查完成结果，拒绝时返回原reason并由同一外层快照恢复。精确旧`8edb5e24`模块预载运行扩展的四例，throw两例通过、reject两例真实失败（返回true）；当前四例全部通过，12.870秒。拒绝夹具先执行真实`Run.finishCombat`再返回false，断言到达后恢复全部原引用，原命令重试与无故障控制局一致；不是声称正常无注入奖励会自行拒绝。RED单列`build/run-turn-reward-reject-red.log`，未覆盖原始两例失败日志。

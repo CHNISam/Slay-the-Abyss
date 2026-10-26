@@ -55,24 +55,32 @@ local function fresh(kind)
  return run,function()return Run.chooseCard(run,pending.token,1)end
 end
 local passed,failed=0,0
-for _,kind in ipairs({'turn','choice'})do
+for _,kind in ipairs({'turn','choice'})do for _,failure in ipairs({'throw','reject'})do
  local ok,why=pcall(function()
   local run,command=fresh(kind);local verify=unchanged(run)
   eq(Run.chooseCard(run,2147483647,0),false);verify()
-  local original=P.prepare;local reached=false
-  P.prepare=function(...)
-   original(...);reached=true;error('INJECTED_AFTER_REAL_REWARD_PREPARE',0)
+  local original,originalFinish=P.prepare,Run.finishCombat;local reached=false
+  if failure=='throw'then
+   P.prepare=function(...)
+    original(...);reached=true;error('INJECTED_AFTER_REAL_REWARD_PREPARE',0)
+   end
+  else
+   Run.finishCombat=function(...)
+    assert(originalFinish(...));reached=true;return false,'INJECTED_REWARD_REJECT'
+   end
   end
-  local called,reason=pcall(command);P.prepare=original
+  local called,accepted,detail=pcall(command);P.prepare=original;Run.finishCombat=originalFinish
   assert(reached,'must reach real late reward preparation')
-  assert(not called and tostring(reason):find('INJECTED_AFTER_REAL_REWARD_PREPARE',1,true),'preserve thrown failure')
+  if failure=='throw'then
+   assert(not called and tostring(accepted):find('INJECTED_AFTER_REAL_REWARD_PREPARE',1,true),'preserve thrown failure')
+  else eq(called,true);eq(accepted,false);eq(detail,'INJECTED_REWARD_REJECT')end
   verify();eq(run.phase,'combat');eq(run.combat.phase,'player');eq(run.combat.enemies[1].hp,kind=='turn'and 52 or 5)
   assert(command());eq(run.phase,'reward');eq(run.combat.phase,'victory');eq(run.combat.enemies[1].hp,0)
   eq(run.combat.pendingChoice,nil);eq(run.combat.pendingPlay,nil);eq(run.combat.actionQueue,nil)
   local control,finish=fresh(kind);assert(finish());same(run,control)
  end)
  if ok then passed=passed+1 else failed=failed+1 end
- print((ok and 'PASS 'or 'FAIL ')..'public Run '..kind..' late reward restores complete graph and retries once'..(ok and ''or ': '..tostring(why)))
-end
+ print((ok and 'PASS 'or 'FAIL ')..'public Run '..kind..' '..failure..' late reward restores complete graph and retries once'..(ok and ''or ': '..tostring(why)))
+end end
 print('RUN_TURN_REWARD_ROLLBACK '..passed..' passed; '..failed..' failed')
 assert(failed==0)
