@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, relative, dirname } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import luaparse from 'luaparse';
 
 // This is a local feedback selector. Full check/Quality remains the merge gate.
 const slash = value => value.replaceAll('\\', '/');
@@ -11,8 +12,41 @@ function files(dir) {
     return entry.isDirectory() ? files(path) : [path];
   });
 }
+function luaImports(source) {
+  const references = new Set(), known = new Set();
+  let dynamic = false, ast;
+  try {
+    ast = luaparse.parse(Buffer.from(source).toString('latin1'), {
+      luaVersion: '5.3', scope: true, comments: false, encodingMode: 'pseudo-latin1',
+    });
+  } catch {
+    // Incomplete/new syntax must not silently remove a test's Lua dependencies.
+    return { references, dynamic: true };
+  }
+  const global = (node, name) => node?.type === 'Identifier' && node.name === name && !node.isLocal;
+  function visit(node) {
+    if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node)) { node.forEach(visit); return; }
+    if (['CallExpression', 'StringCallExpression'].includes(node.type)) {
+      const args = node.arguments ?? [node.argument];
+      const direct = global(node.base, 'require');
+      const protectedCall = global(node.base, 'pcall') && global(args[0], 'require');
+      const loader = direct ? node.base : protectedCall ? args[0] : null;
+      const target = args[direct ? 0 : 1];
+      if (loader && args.length === (direct ? 1 : 2) && target?.type === 'StringLiteral') {
+        known.add(loader);
+        if (/^abyss_\w+$/.test(target.value)) references.add(`src/lua/${target.value}.lua`);
+      }
+    }
+    // Aliases, shadowed loaders and executable code strings cannot be resolved safely.
+    if (node.type === 'Identifier' && ['require', 'load', 'loadstring'].includes(node.name) && !known.has(node)) dynamic = true;
+    for (const [key, child] of Object.entries(node)) if (!['comments', 'globals'].includes(key)) visit(child);
+  }
+  visit(ast);
+  return { references, dynamic };
+}
 export function selectTests(changed, sources) {
-  const paths = Object.keys(sources), deps = new Map(), integration = new Set();
+  const paths = Object.keys(sources), deps = new Map(), integration = new Set(), dynamicImports = new Set();
   const js = paths.filter(p => /^tests\/[^/]+\.test\.mjs$/.test(p));
   const lua = paths.filter(p => /^tests\/lua\/[^/]+\.lua$/.test(p));
   const roots = [...js, ...lua];
@@ -26,10 +60,16 @@ export function selectTests(changed, sources) {
   }
   for (const [path, source] of Object.entries(sources)) {
     const references = new Set();
-    // Includes Lua embedded in JS fixture builders, as well as direct Lua imports.
-    for (const match of source.matchAll(/\brequire\s*\(?\s*['"](abyss_[\w]+)['"]/g)) {
-      const target = `src/lua/${match[1]}.lua`;
-      if (target in sources) references.add(target);
+    if (path.endsWith('.lua')) {
+      const imports = luaImports(source);
+      for (const target of imports.references) if (target in sources) references.add(target);
+      if (imports.dynamic) dynamicImports.add(path);
+    } else {
+      // Includes Lua embedded in JS fixture builders; runtime builders stay conservative below.
+      for (const match of source.matchAll(/\b(?:require\s*\(?\s*|pcall\s*\(\s*require\s*,\s*)['"](abyss_\w+)['"]/g)) {
+        const target = `src/lua/${match[1]}.lua`;
+        if (target in sources) references.add(target);
+      }
     }
     for (const match of source.matchAll(/(?:from\s*|import\s*\(?\s*)['"](\.[^'"]+)['"]/g)) {
       const target = slash(relative(process.cwd(), resolve(dirname(path), match[1])));
@@ -56,9 +96,9 @@ export function selectTests(changed, sources) {
     const dependencies = closure(test);
     // Dynamic Lua builders are conservatively included for every Lua change.
     // Literal dependency analysis must not silently omit generated test programs.
-    const dynamicLua = luaChange && (js.includes(test)
+    const dynamicLua = luaChange && ([...dependencies].some(p => dynamicImports.has(p)) || (js.includes(test)
       ? [...dependencies].some(p => /runLua|readdirSync/.test(sources[p] ?? ''))
-      : [...dependencies].some(p => /\b(?:require|dofile|loadfile)\s*\(\s*[^'"\s)]/.test(sources[p] ?? '')));
+      : [...dependencies].some(p => /\b(?:dofile|loadfile)\s*\(\s*[^'"\s)]/.test(sources[p] ?? ''))));
     // Script-driven integration tests can discover sources/fixtures at runtime.
     // Keep these for every script change rather than guessing their dynamic IO.
     const dynamicScript = changed.some(p => p.startsWith('scripts/')) && js.includes(test)

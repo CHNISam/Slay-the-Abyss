@@ -233,6 +233,7 @@ local function enter(run, map, nodeId)
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
         run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
         run.relicCounters=stagedRun.relicCounters
+        run.combatGeneration=stagedRun.combatGeneration
         run.roomGeneration=stagedRun.roomGeneration
     else
         run.roomGeneration=run.roomGeneration+1
