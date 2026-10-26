@@ -170,10 +170,12 @@
       "latest develop composition and status icon aliases",
       "strict native curse rendering and shared Vigor compatibility"
     ],
-    "targetedEvidence": "Independent ORIGINAL_V4_BATTLE_UI_PASS 4 in 11.6s; all four natural E controls commit energy, hand and resources and finish turn; no prepare_failed or recovered playback",
+    "targetedEvidence": "Independent ORIGINAL_V4_BATTLE_UI_PASS 4 in 11.6s; all four natural E controls commit energy, hand and resources and finish turn; no prepare_failed or recovered playback; character_presentation 16 groups/640 faces and watcher_flow_build 28 groups pass, including Vigor uniqueness and conflicting lifecycle rejection",
     "codeFindings": [],
-    "manifestVerification": "pending final independent recomputation",
+    "manifestVerification": "pass: all 212 producer inputs and all 119 modules + 2 UI files independently recomputed, exact bytes/SHA256",
     "condition": "Current exact PR SHA complete Quality success before merge",
-    "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run"
+    "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run",
+    "producerInputsDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
+    "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
   }
 }
