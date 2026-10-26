@@ -118,8 +118,11 @@ function M.withCards(data)
 end
 local function actions()return require('abyss_card_actions')end
 function M.adapt(state,instance,d)
-    if d.id=='mind_blast' and state.draw then d.effects[1].value=#state.draw end
-    if d.id=='ritual_dagger'then d.effects[1].damage=instance.misc or 15 end
+    local first=type(d.effects)=='table' and d.effects[1]
+    if type(first)=='table' then
+        if d.id=='mind_blast' and state.draw then first.value=#state.draw end
+        if d.id=='ritual_dagger'then first.damage=instance.misc or 15 end
+    end
     if instance.freeToPlayOnce and d.cost>0 then d.cost=0 end
     return d
 end
