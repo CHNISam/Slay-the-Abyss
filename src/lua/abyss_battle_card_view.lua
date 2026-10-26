@@ -5,7 +5,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local CardDisplay = require("abyss_card_display")
 local number = require("abyss_numbers").integer
-local C, L, S = Theme.color, Theme.layout, Theme.space
+local C, L = Theme.color, Theme.layout
 local D = L.cardDrag
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local M = {}
@@ -19,9 +19,10 @@ function M.new(view, controls)
         local run = view.run
         local rewards = picking and Run.rewardOptions(run) or {}
         local aimUid, aimTarget
-        if view.gesture and view.gesture.moving then
-            local _, target = dragTarget(view.gesture)
-            aimUid, aimTarget = view.gesture.uid, target
+        local held = view.gesture or view.carry
+        if held and held.moving then
+            local _, target = dragTarget(held)
+            aimUid, aimTarget = held.uid, target
         end
         view.cardPositions = {}
         local playable, selectedBox = false, nil
@@ -56,7 +57,7 @@ function M.new(view, controls)
                     or definition.costMode == "all_energy" and "X" or number(definition.cost)
                 ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
                 tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
-                local hovered = reward and not fighting and view.hover == i
+                local hovered = view.hover == i and (reward or active)
                 tint(box:GetChild("border"), (selected or hovered) and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
                 tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
                 picture(box:GetChild("art"), CardDisplay.art(definition))
@@ -65,7 +66,7 @@ function M.new(view, controls)
                     local hot = view.hover == i
                     pose = placeReward(box, #rewards, i, view.rewardView.cards[i], hot)
                     if hot then selectedBox = box end
-                else pose = placeCard(box, fighting and #battle.hand or #rewards, i - 1, selected == true) end
+                else pose = placeCard(box, fighting and #battle.hand or #rewards, i - 1, selected == true or hovered) end
                 if instance then view.cardPositions[instance.uid] = pose end
                 if selected then selectedBox = box end
             end
@@ -74,7 +75,7 @@ function M.new(view, controls)
         return playable
     end
     local function renderDrag(valid, target, aiming, resolved)
-        local g = view.gesture
+        local g = view.gesture or view.carry
         show("dragLayer", g ~= nil and g.moving == true)
         if g and g.moving then
             local box = child("card" .. g.slot)
@@ -82,12 +83,16 @@ function M.new(view, controls)
             local x, y = dragPose(g)
             local h = L.card.size[2]*D.scale
             -- An aiming card parks under the line so it never hides the enemy row.
-            if aiming then x, y = (g.origin or {g.sx})[1], D.lineY-h/2-S.s end
+            if aiming then x, y = 0, (g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2 end
             box:SetAnchoredPosition(x,y)
             box:SetLocalScale(D.scale,D.scale,1)
             box.localRotationZ = 0
             box:GetChild("glow"):SetVisible(valid == true)
             local layer = child("dragLayer")
+            layer:GetChild('hit'):SetVisible(view.gesture ~= nil)
+            layer.disableCursorEventPassthrough = view.gesture ~= nil
+            local lineY = g.touchScreen and g.dropStart or math.min(g.hoverStartLine,g.dropStart)
+            layer:GetChild('line'):SetAnchoredPosition(0,lineY)
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]
             -- The lit line, card glow and reticle already say "release to play"; no caption over the card.

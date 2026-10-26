@@ -57,7 +57,7 @@ test("aiming updates damage only when the pointed enemy changes and restores it 
     event("dragLayer", "drag", 7, -285, 0)
     assert(body() == base and not card:GetChild("glow").visible, "leaving target retained stale damage")
     event("dragLayer", "up", 7, -285, 0)
-    assert(battle.energy == 3 and #battle.hand == 2 and ui.selected == nil)
+    assert(battle.energy == 3 and #battle.hand == 2 and ui.selected == battle.hand[1].uid and ui.carry.aiming)
 end)
 
 test("dragging back cancels and changed battle identity never uses the fast path", function()

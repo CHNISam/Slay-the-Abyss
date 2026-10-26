@@ -53,6 +53,7 @@
     "abyss_card_actions": "core",
     "abyss_card_capability": "core",
     "abyss_card_display": "ui",
+    "abyss_card_input": "ui",
     "abyss_card_pool": "core",
     "abyss_card_random": "core",
     "abyss_combat": "core",

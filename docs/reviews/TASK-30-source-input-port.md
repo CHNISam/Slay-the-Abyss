@@ -1,0 +1,39 @@
+# 社区源码卡牌输入迁移
+
+2026-10-27，用户明确要求先迁移社区反编译实现、适配后合并PR231。此前版本仅修重复重绘、统一卡面装配，没有移植完整输入流程；本轮不再沿用该表述。
+
+## 固定来源与对应代码
+
+参考[ButterflyGame固定版本AbstractPlayer](https://github.com/purewhitelove/ButterflyGame/blob/fc379c875c11e008e9c10548ac8e394c301c532f/%E6%9D%80%E6%88%AE%E5%B0%96%E5%A1%94%E5%8E%9F%E7%A0%81/characters/AbstractPlayer.java)。原文件SHA256为`cb6af6fc281a654693cafab026aaf0748033c95bcfdbf14b83db6ffb1c4bb62c`。同版本Settings.java本轮取回，SHA256为`c16d576bda0d12d642573f9df2ecec0a13f81dfb20925c9263626c1d31121f42`；它将CARD_DROP_END_Y定义为屏高的0.81倍。这是社区镜像，未认证为官方发布源码。
+
+新增`abyss_card_input.lua`将以下源码分支译为Lua状态机；`abyss_battle_ui`负责事件归属和调用核心，`abyss_battle_card_view`负责原生控件表现。
+
+| 原版入口/常量 | 本轮落地 |
+| --- | --- |
+| updateInput：hoverStartLine=mY+140×scale；PC下300高度线；CARD_DROP_END_Y | 抓取时记录起点，按1920×1080→主题画布换算；相对起点线或绝对高度线、上界同时参与出牌判断。原生画布外额外拒绝提交 |
+| clickAndDragCards：target_x=mX、target_y=mY | PC牌心直接跟随指针，移除原来的抓取位置偏移 |
+| 触屏target_y=mY+270×scale；350高度线 | 通过官方game.GetDevice/Enum.Device.Mobile区分，采用触屏偏移和出牌线 |
+| 越线进入inSingleTargetMode，桌面停靠位置为IMG_HEIGHT×.75/2.5 | 目标牌停靠屏幕底部中央；原版IMG_HEIGHT=420，故换算126单位；触屏停靠260单位 |
+| updateSingleTargetInput：空地释放不退出；后续点击存活敌人才playCard | `carry`保留卡UID/槽/战斗/回合，空地不自动选敌；松手后用官方GetCursorUIPos更新准星和数值预览，敌人点击沿用核心显式确认 |
+| clickDragTimer<.4保留isUsingClickDragControl | 短拖在无效区松手保留选牌；长拖松手取消。触屏首次无效释放保留检查/点选 |
+| 单目标mY<50×scale或hoverStartLine−400×scale取消；右键取消 | 转换到底部取消线；原生KeyboardSprintKeyDown按官方默认右键映射取消，清除所有卡牌事件令牌；同牌点选取消也保留 |
+| hoverCardInHand | 原生手牌CursorEnter/Exit使用已有升牌/高亮姿态；不是只给奖励牌悬停 |
+| playCard/isCardQueued | 提交前消费手势，保留UID/槽/回合/战斗/触点校验；重复Up/EndDrag/Click不再提交 |
+
+官方API依据为已安装MCP所收录`knowledge/official/guide/mhtakr07vej4.md`：第184行光标位置、第192行设备、第368节设备枚举、第19节事件坐标、第5节按键监听及KeyboardSprintKeyDown默认右键。没有读取未声明的鼠标按钮字段。
+
+## 平台适配及仍存在的差异
+
+- 原版LibGDX/InputHelper/原始图片atlas不能在千星Lua执行；本轮迁移上述状态和判断，重用原生事件/图库/文字控件。美术资源与多场景卡面装配沿用[既有迁移](../art/CARD_RUNTIME_PORT.md)，卡牌专属插图仍未齐备。
+- 为保留长按详情和C档点选，实际跟手仍在8单位原生拖动阈值后启动，静止短点使用点选；原版PC按下即进入拖动。当前主题卡片大小/升牌动画及触控容差保留批准稿，不宣称Java像素级渲染一致。
+- 原版点击拖动可在全屏任意处再次确认/取消；原生松手后的无目标牌用明确出牌区确认，目标牌用敌人确认，捕获层不阻止这些按钮。右键/同牌/向下拉可取消；不劫持平台顶栏。原版1–0、手柄导航及虚拟光标重定位未新增。
+- 现有同步Run命令和反馈期间输入锁保持；没有把Java异步cardQueue/actionManager搬入现有规则核心。一次提交已去重，但不宣称连续输入的排队时机完全一致。
+- HTML原型保留旧交互以作历史视觉稿，当前Lua语义由本记录与UI_DESIGN说明；旧固定playArea只用于点选确认。
+
+## 验证与交付边界
+
+新增真实生成控件树回归`card_input_port.lua`，先在旧抓取偏移、无持续选敌、无光标轮询及无右键分支失败，再通过。覆盖偏离中心抓取、相对起点线、空地释放后点第二敌人、迟到事件、0.1/0.45秒释放、同牌与回合取消、松手后准星更新和回拉、触屏偏移与350线、右键取消。
+
+原有空地攻击测试改为保留选敌但不扣费、不丢牌；回手取消测试改为原版取消线或持续超过0.4秒的拖动。其他核心状态断言保留。原有性能专项仍逐指针跟手，同目标内移动不重算整手预览。架构分类新增输入模块；静态基线仅重定位27条已有警告，按文件/列/代码/规范化消息逐项核对，无新豁免。
+
+此前防御实机记录冻结旧源，不认证本次输入迁移。新源码尚无本轮官方导入或鼠标/手机实测，TASK-30设备条款保持未通过；本轮不声明完整UI验收。当前SHA的自动化、独立审查与合并结果由PR231及交付收据记录。
