@@ -1,1 +1,1 @@
-Isolated branch-rules validation. No production ancestry or workflow.
+Isolated branch-rules validation: approved test change.
