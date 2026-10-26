@@ -1,6 +1,40 @@
 [
-  {"id":"M1","source":"src/lua/abyss_combat.lua","before":"        restore()\n        error(result, 0)","after":"        -- mutation: rollback omitted\n        error(result, 0)","test":"tests/lua/atomic_play.lua","marker":"[ABYSS_ASSERT M1:real inflame overflow preserves every value and reference]","assertionSource":"assert(actual == expected"},
-  {"id":"M2","source":"src/lua/abyss_combat.lua","before":"if #state.hand >= state.rules.player.maxHand then break end","after":"if #state.hand > state.rules.player.maxHand then break end","test":"tests/lua/combat.lua","marker":"[ABYSS_ASSERT M2:draw stops at capacity without consuming remaining cards]","assertionSource":"assert(actual == expected"},
-  {"id":"M3","source":"src/lua/abyss_nodes.lua","before":"run.nodeFlow and Combat.copy(run.nodeFlow) or nil","after":"run.nodeFlow","test":"tests/lua/node_transactions.lua","caseName":"shop and camp views are detached even for nested offers, card instances and navigation","marker":"[ABYSS_ASSERT M3:shop and camp views are detached even for nested offers, card instances and navigation]","assertionSource":"if a ~= b then error("},
-  {"id":"M4","source":"src/lua/abyss_run.lua","before":"        if not called or not ok then return false, \"potion_effect_failed\" end","after":"        -- mutation: finalization failure ignored","test":"tests/lua/inventory.lua","caseName":"potion finalization failure preserves complete state and original references","marker":"[ABYSS_ASSERT M4:finalization atomic]","assertionSource":"assert(called and ok == false and reason =="}
+  {
+    "id": "M1",
+    "source": "src/lua/abyss_combat.lua",
+    "before": "        local called,result=pcall(resolveNativePlay,state,uid,targetIndex,instance,position,card)\n        if not called then restore();error(result,0) end",
+    "after": "        local called,result=pcall(resolveNativePlay,state,uid,targetIndex,instance,position,card)\n        if not called then error(result,0) end -- mutation: native rollback omitted",
+    "test": "tests/lua/atomic_play.lua",
+    "marker": "[ABYSS_ASSERT M1:real inflame overflow preserves every value and reference]",
+    "assertionSource": "assert(actual == expected"
+  },
+  {
+    "id": "M2",
+    "source": "src/lua/abyss_combat.lua",
+    "before": "if #state.hand >= state.rules.player.maxHand then break end",
+    "after": "if #state.hand > state.rules.player.maxHand then break end",
+    "test": "tests/lua/combat.lua",
+    "marker": "[ABYSS_ASSERT M2:draw stops at capacity without consuming remaining cards]",
+    "assertionSource": "assert(actual == expected"
+  },
+  {
+    "id": "M3",
+    "source": "src/lua/abyss_nodes.lua",
+    "before": "run.nodeFlow and Combat.copy(run.nodeFlow) or nil",
+    "after": "run.nodeFlow",
+    "test": "tests/lua/node_transactions.lua",
+    "caseName": "shop and camp views are detached even for nested offers, card instances and navigation",
+    "marker": "[ABYSS_ASSERT M3:shop and camp views are detached even for nested offers, card instances and navigation]",
+    "assertionSource": "if a ~= b then error("
+  },
+  {
+    "id": "M4",
+    "source": "src/lua/abyss_run.lua",
+    "before": "        if not called or not ok then return false, \"potion_effect_failed\" end",
+    "after": "        -- mutation: finalization failure ignored",
+    "test": "tests/lua/inventory.lua",
+    "caseName": "potion finalization failure preserves complete state and original references",
+    "marker": "[ABYSS_ASSERT M4:finalization atomic]",
+    "assertionSource": "assert(called and ok == false and reason =="
+  }
 ]
