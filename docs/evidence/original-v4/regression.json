@@ -182,6 +182,11 @@
     "trigger": "formal abyss_ui lifecycle menu start after original selector enabled",
     "before": "legacy game_ui.lua line445 assumed prologue before selecting a character",
     "after": "assert selector shown, choose Traveler, retain full prologue/map/control-listener assertions",
-    "localEnvironment": "Full local attempt includes failure because pwsh is absent; hosted Windows/Ubuntu full Quality remains required, no test skipped or timeout relaxed"
+    "localEnvironment": "Full local attempt includes failure because pwsh is absent; hosted Windows/Ubuntu full Quality remains required, no test skipped or timeout relaxed",
+    "relatedFixtures": {
+      "game_ui_seed": "7/7; opening selection allocates no run or seed, Traveler selection preserves fresh-clock randomness",
+      "game_ui_classes_failure": "6/6; explicitly remove now-formal panels for truly missing-layout negative control, retaining startup diagnostic/no-ready assertions",
+      "game_ui": "real generated startup, deck and prologue bridge passed; original settlement and input assertions retained"
+    }
   }
 }
