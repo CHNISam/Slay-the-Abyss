@@ -75,7 +75,7 @@ test('existing project effects are mapped honestly and the exact missing set is 
     if (definition.sourceId) assert.equal(row.id, definition.sourceId, `${row.projectId} exact source ID`);
   }
   assert.equal(mapped.filter(row => row.tier === 'common').length, 33);
-  assert.equal(mapped.length, 43);
+  assert.equal(mapped.length, 44);
   assert.deepEqual(fallbackIds, ['circlet']);
   assert.ok(!catalog.registrationOrder.includes('Circlet'), 'fallback must not be inserted into the source registration/queues');
   for (const row of fallbacks) {

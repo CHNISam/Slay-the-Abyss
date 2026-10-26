@@ -14,7 +14,7 @@ local aliases={Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='pot
  Boot='boot',Akabeko='akabeko',['Pen Nib']='pen_nib',Nunchaku='nunchaku',
  PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
- WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod'}
+ WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',['Red Mask']='red_mask'}
 function M.localId(id)return aliases[id] or id end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
@@ -274,6 +274,10 @@ function M.battleStart(state,id)
   local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+2)
   E.emit(state,'heal',{target=state.player.id,amount=state.player.hp-before,relic=id})
   M.hpChanged(state,state.player,before)
+ elseif id=='red_mask'then
+  for _,enemy in ipairs(state.enemies)do
+   if A.isActive(enemy)then A.applyPower(state,enemy,'weak',1,state.player,false)end
+  end
  elseif id=='bag_of_marbles' then
   for _,enemy in ipairs(state.enemies)do
    if A.isActive(enemy)then A.applyPower(state,enemy,'vulnerable',1,state.player)end

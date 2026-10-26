@@ -6,7 +6,8 @@ local Run=require('abyss_run')
 local Moai=require('abyss_moai_event')
 local Winding=require('abyss_winding_event')
 local Sensory=require('abyss_sensory_stone_event')
-local M={ids={falling=true,moai_head=true,winding_halls=true,sensory_stone=true}}
+local Tomb=require('abyss_tomb_red_mask_event')
+local M={ids={falling=true,moai_head=true,winding_halls=true,sensory_stone=true,tomb_red_mask=true}}
 local function definition(run,id)
  for _,card in ipairs(run.data.cards.cards)do if card.id==id then return card end end
 end
@@ -23,6 +24,7 @@ local function row(choice,title,description,card)
   upgrades=type(card)=='table' and card.upgrades or nil}
 end
 function M.prepare(run,event,miscRng)
+ if event.id=='tomb_red_mask'then return Tomb.prepare(run,event)end
  if event.id=='sensory_stone'then return Sensory.prepare(run,event)end
  if event.id=='winding_halls'then return Winding.prepare(run,event)end
  if event.id=='moai_head'then return Moai.prepare(run,event)end
@@ -43,6 +45,7 @@ function M.prepare(run,event,miscRng)
  event.stage,event.body='intro','脚下的落石打散了你的牌组。先稳住身形，再作取舍。'
 end
 function M.options(run,event)
+ if event.id=='tomb_red_mask'then return Tomb.options(run,event)end
  if event.id=='sensory_stone'then return Sensory.options(run,event)end
  if event.id=='winding_halls'then return Winding.options(run,event)end
  if event.id=='moai_head'then return Moai.options(run,event)end
@@ -58,6 +61,7 @@ function M.options(run,event)
  return rows
 end
 function M.choose(run,flow,choice,uid)
+ if flow.event.id=='tomb_red_mask'then return Tomb.choose(run,flow,choice,uid)end
  if flow.event.id=='sensory_stone'then return Sensory.choose(run,flow,choice,uid)end
  if flow.event.id=='winding_halls'then return Winding.choose(run,flow,choice,uid)end
  if flow.event.id=='moai_head'then return Moai.choose(run,flow,choice,uid)end

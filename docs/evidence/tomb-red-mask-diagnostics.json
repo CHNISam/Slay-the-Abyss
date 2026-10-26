@@ -1,0 +1,323 @@
+{
+  "baseline": "680c423a",
+  "scope": "Exactly14 existing NodeUI diagnostics moved by one narrative row; exact source trim text/column/code unchanged. Message changes only referenced upvalue source line numbers. No warning or complexity threshold change.",
+  "totalDiagnostics": 105,
+  "migratedDiagnostics": 14,
+  "sourceFile": "src/lua/abyss_node_ui.lua",
+  "oldSourceSha256LF": "ca4a0191668ce1c59ca129928b3ecfa61d506042790cf22160464b5a91d94a12",
+  "newSourceSha256LF": "11e222ee6c19aaa0d0a3008dc3383ba0cd8438abdc2099ce7df86c5b02738332",
+  "mappings": [
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 252,
+        "column": 31,
+        "code": "W212",
+        "message": "unused argument 'view'"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 253,
+        "column": 31,
+        "code": "W212",
+        "message": "unused argument 'view'"
+      },
+      "sourceText": "local function renderCamp(view, node, result)",
+      "upvalueReferences": []
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 291,
+        "column": 33,
+        "code": "W212",
+        "message": "unused argument 'view'"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 292,
+        "column": 33,
+        "code": "W212",
+        "message": "unused argument 'view'"
+      },
+      "sourceText": "local function renderPicker(view, node, result)",
+      "upvalueReferences": []
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 376,
+        "column": 35,
+        "code": "W212",
+        "message": "unused argument 'cost'"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 377,
+        "column": 35,
+        "code": "W212",
+        "message": "unused argument 'cost'"
+      },
+      "sourceText": "local function purify(cost)",
+      "upvalueReferences": []
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 401,
+        "column": 39,
+        "code": "W431",
+        "message": "shadowing upvalue 'info' on line 374"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 402,
+        "column": 39,
+        "code": "W431",
+        "message": "shadowing upvalue 'info' on line 375"
+      },
+      "sourceText": "local info=self.run.nodeFlow.event",
+      "upvalueReferences": [
+        {
+          "oldLine": 374,
+          "newLine": 375,
+          "sourceText": "local info, gold, deckOk = node.event, self.run.gold, #node.purgeCards > 0"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 425,
+        "column": 43,
+        "code": "W431",
+        "message": "shadowing upvalue 'card' on line 141"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 426,
+        "column": 43,
+        "code": "W431",
+        "message": "shadowing upvalue 'card' on line 142"
+      },
+      "sourceText": "local card=find(self.run.deck,uid,'uid');names[#names+1]=cardName(card.cardId,true,card.upgrades)",
+      "upvalueReferences": [
+        {
+          "oldLine": 141,
+          "newLine": 142,
+          "sourceText": "local function card(id) return find(self.run.data.cards.cards, id) end"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 482,
+        "column": 35,
+        "code": "W212",
+        "message": "unused argument 'view'"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 483,
+        "column": 35,
+        "code": "W212",
+        "message": "unused argument 'view'"
+      },
+      "sourceText": "local function renderTreasure(view, node)",
+      "upvalueReferences": []
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 535,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 536,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:holding()",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 541,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 542,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:render()",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 660,
+        "column": 35,
+        "code": "W431",
+        "message": "shadowing upvalue 'card' on line 141"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 661,
+        "column": 35,
+        "code": "W431",
+        "message": "shadowing upvalue 'card' on line 142"
+      },
+      "sourceText": "local card=find(self.run.deck,event.obtainedCardUid,'uid')",
+      "upvalueReferences": [
+        {
+          "oldLine": 141,
+          "newLine": 142,
+          "sourceText": "local function card(id) return find(self.run.data.cards.cards, id) end"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 695,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 696,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:resize(width, height)",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 699,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 700,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:update(dt)",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 714,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 715,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:setVisible(value)",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 773,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 774,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:press(key)",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 785,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 83"
+      },
+      "new": {
+        "file": "src/lua/abyss_node_ui.lua",
+        "line": 786,
+        "column": 18,
+        "code": "W431",
+        "message": "shadowing upvalue 'self' on line 84"
+      },
+      "sourceText": "function self:setPage(page)",
+      "upvalueReferences": [
+        {
+          "oldLine": 83,
+          "newLine": 84,
+          "sourceText": "local self = { root = root, run = run, map = map, presentation = presentation or {},"
+        }
+      ]
+    }
+  ]
+}

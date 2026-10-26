@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_tomb_red_mask_event": "core",
     "abyss_class_potions": "core",
     "abyss_potion_stance": "core",
     "abyss_run_red_card_contract": "core",

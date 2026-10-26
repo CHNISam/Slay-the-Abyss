@@ -538,6 +538,44 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Single event with all35 ordinary colorless rewards, frozen groups and source skip/reopen lifecycle. Source selection/public commands are components; full Act3/campaign/default full admission and device/live acceptance are incomplete."
+    },
+    "tomb": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-14.1",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_tomb_red_mask_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua",
+        "src/lua/abyss_inventory.lua",
+        "src/lua/abyss_relic_hooks.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/tomb_red_mask_natural.lua",
+          "tests/lua/tomb_red_mask_event.lua",
+          "tests/lua/tomb_red_mask_guards.lua",
+          "tests/lua/tomb_red_mask_rollback.lua",
+          "tests/lua/tomb_red_mask_opening.lua",
+          "tests/lua/tomb_red_mask_opening_rollback.lua",
+          "tests/lua/tomb_red_mask_ui.lua",
+          "tests/tomb-red-mask-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Complete single event plus required Red Mask opening Weak; seed14 full-pool room component and explicit held-mask branch fixtures. Masked Bandits, whole natural campaign, dedicated relic art and PC/platform/live qualification remain pending."
     }
   },
   "cards": [
@@ -3298,6 +3336,28 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Held unimplemented Question/Crown/Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
+    },
+    {
+      "id": "tomb_red_mask",
+      "originalId": "Tomb of Lord Red Mask",
+      "act": 3,
+      "choices": [
+        "wear",
+        "pay",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "result"
+      ],
+      "eligibility": "Third-act ordinary event; no gold or HP admission threshold, zero-gold payment is legal.",
+      "source": "src/lua/abyss_tomb_red_mask_event.lua",
+      "profile": "tomb",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default Act1 mode remains restricted-seven. Development campaign seed14 proves the full seven-item Act3 source pool room boundary; held-mask branch is a permanent-inventory fixture. Whole natural campaign and PC/platform/live acceptance pending."
     }
   ],
   "relics": [
@@ -3774,6 +3834,18 @@
       ],
       "naturalAcquisitionLimitation": "Actual acquisition is through the Golden Idol event only; SPECIAL remains excluded from ordinary treasure/shop source pools. Default full-event admission, complete campaign and platform/live evidence pending.",
       "naturalExecutionLimitation": "Component proves actual event acquire, real starter source battle/ordinary GOLD freeze/claim and same-owner Moai333. Dedicated relic art/device acceptance pending."
+    },
+    {
+      "id": "red_mask",
+      "sourceId": "Red Mask",
+      "source": "data/relics.json#red_mask",
+      "profile": "tomb",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:tomb_red_mask:pay"
+      ],
+      "naturalAcquisitionLimitation": "Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.",
+      "naturalExecutionLimitation": "Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending."
     }
   ],
   "potions": [

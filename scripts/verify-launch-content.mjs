@@ -19,6 +19,7 @@ const curseEvents = {
     injury: ['explicit_event:golden_idol:injury'],
 };
 const specialRelicEvents = {
+  red_mask: ['explicit_event:tomb_red_mask:pay'],
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
     spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take'],
     golden_idol: ['explicit_event:golden_idol:take'],
