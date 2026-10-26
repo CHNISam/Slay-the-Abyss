@@ -94,6 +94,15 @@ function M.format(template, definition, preview, palette)
         local branch=preview[parent] and preview[parent]['then'] or {}
         return M.format('{effects.'..child..'.value}',{effects=effect['then']},branch,palette)
     end)
+    -- These attacks keep damage separate from their fixed gold/growth value.
+    -- Reuse the existing damage formatter, including its colour/arrow rules.
+    template=template:gsub('{effects%.(%d+)%.damage}',function(rawIndex)
+        local index=tonumber(rawIndex)+1
+        local effect=assert(definition.effects[index],'missing colorless damage definition')
+        assert(effect.op=='colorless'and (effect.kind=='ritual'or effect.kind=='greed'),'invalid colorless damage token')
+        local entry=preview[index]
+        return M.format('{effects.0.value}',{effects={{op='damage',value=effect.damage or effect.value}}},entry and {entry}or {},palette)
+    end)
     return (template:gsub('{effects%.(%d+)%.value}', function(rawIndex)
         local index = tonumber(rawIndex) + 1
         local token, entry = values[index], preview[index]
