@@ -52,5 +52,24 @@
     "stdout": "",
     "stderr": "src/lua/abyss_watcher_final_cards.lua:126: attempt to index a nil value (field 'player')\nstack traceback:\n\tsrc/lua/abyss_watcher_final_cards.lua:126: in function 'abyss_watcher_final_cards.freeAttack'\n\tsrc/lua/abyss_combat.lua:382: in function 'abyss_combat.cardDefinition'\n\tsrc/lua/abyss_deck_ui.lua:59: in upvalue 'fill'\n\tsrc/lua/abyss_deck_ui.lua:137: in field 'refreshCallback'\n\ttests/lua/support/game_ui_fixture.lua:52: in method 'recycle'\n\ttests/lua/support/game_ui_fixture.lua:56: in method 'flush'\n\ttests/lua/support/game_ui_fixture.lua:60: in method 'RefreshItems'\n\tsrc/lua/abyss_deck_ui.lua:134: in method 'open'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:64: in local 'fn'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:14: in local 'test'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:19: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
     "elapsedMs": 3979
+  },
+  "presentationAfter": {
+    "node": "v24.18.0",
+    "head": "669789677e4065c7462779303556b314fab66f54",
+    "fixture": "tests/lua/character_presentation.lua",
+    "fixtureSha256": "ce4391dfe326ca9b0c60e6d6f0a4e9b15be1ad8a398d185dc5fb661e76ee959f",
+    "deadlineMs": 30000,
+    "started": "2026-10-26T19:39:09.657Z",
+    "status": 0,
+    "signal": null,
+    "output": [
+      null,
+      "ok 1 ironclad all profile cards basic and upgraded reach real battle and deck render\nok 2 silent all profile cards basic and upgraded reach real battle and deck render\nok 3 defect all profile cards basic and upgraded reach real battle and deck render\nok 4 watcher all profile cards basic and upgraded reach real battle and deck render\nok 5 existing approved display remains detached and known unchanged cards retain wording\nok 6 new dynamic damage tokens follow actual Combat preview instead of static base\nok 7 Shiv Miracle discard triggers X cost retain exhaust and ethereal are truthful\nok 8 unknown op in either branch refuses even if existing presentation is available\nok 9 unknown status orb hand mode and empty card explicitly refuse\nok 10 Accuracy Infinite Blades and Mantra helpers provide exact new base and upgrade displays\nok 11 independent exhaust discard orb and retained helpers expose every new base and upgraded card\nok 12 new effect order counts upgrades and historical keywords are not generic placeholders\nok 13 unknown new exhaust or orb Power remains a rejection\nok 14 retained growth is read from real CardDefinition and CardPreview after a real turn\nok 15 Sands and Eviscerate live costs come from Combat overrides while presentation stores base cost\nok 16 all supported shared curses render in each class and reject incompatible lifecycle metadata\nCHARACTER_PRESENTATION_PASS 16 rendered_card_variants=758\n",
+      ""
+    ],
+    "pid": 38512,
+    "stdout": "ok 1 ironclad all profile cards basic and upgraded reach real battle and deck render\nok 2 silent all profile cards basic and upgraded reach real battle and deck render\nok 3 defect all profile cards basic and upgraded reach real battle and deck render\nok 4 watcher all profile cards basic and upgraded reach real battle and deck render\nok 5 existing approved display remains detached and known unchanged cards retain wording\nok 6 new dynamic damage tokens follow actual Combat preview instead of static base\nok 7 Shiv Miracle discard triggers X cost retain exhaust and ethereal are truthful\nok 8 unknown op in either branch refuses even if existing presentation is available\nok 9 unknown status orb hand mode and empty card explicitly refuse\nok 10 Accuracy Infinite Blades and Mantra helpers provide exact new base and upgrade displays\nok 11 independent exhaust discard orb and retained helpers expose every new base and upgraded card\nok 12 new effect order counts upgrades and historical keywords are not generic placeholders\nok 13 unknown new exhaust or orb Power remains a rejection\nok 14 retained growth is read from real CardDefinition and CardPreview after a real turn\nok 15 Sands and Eviscerate live costs come from Combat overrides while presentation stores base cost\nok 16 all supported shared curses render in each class and reject incompatible lifecycle metadata\nCHARACTER_PRESENTATION_PASS 16 rendered_card_variants=758\n",
+    "stderr": "",
+    "elapsedMs": 21308
   }
 }
