@@ -4,15 +4,15 @@
   "hashRule": "SHA256 raw binary bytes; Lua/JSON/SVG CRLF normalized to LF. Categories record provenance, not clearance. Update manually after rights review.",
   "categories": {
     "editor-runtime": {
-      "status": "GPL-3.0-runtime-plus-MIT; combination unresolved",
-      "evidence": "THIRD_PARTY_NOTICES.md; docs/art/CARD_SHARED_ASSETS.md; docs/art/CARD_EDITOR_SPIKE.md"
+      "status": "export contains editor textbox/mask template code plus MIT runtime; assess these portions only",
+      "evidence": "THIRD_PARTY_NOTICES.md; fixed editor backend/app/lua_scene.py and lua_mask.py"
     },
     "primitive-runtime": {
       "status": "MIT runtime; content rights separate",
-      "evidence": "docs/experiments/art-portrait/README.md; LICENSE-Shaper.txt; LICENSE-primitive.txt"
+      "evidence": "THIRD_PARTY_NOTICES.md; docs/experiments/art-portrait/README.md; primitive_shape/PROVENANCE.md"
     },
     "game-ip-ai": {
-      "status": "unknown AI service rights and game IP permission",
+      "status": "user-supplied AI game art; platform-project use; no IP sublicense to repository users",
       "evidence": "docs/art/AI_ART_SAMPLES.md"
     },
     "project-geometry": {
@@ -20,12 +20,16 @@
       "evidence": "docs/art/CARD_SHARED_ASSETS.md; docs/art/CARD_EDITOR_SPIKE.md; docs/art/production-scene-3d.md"
     },
     "platform-evidence": {
-      "status": "unknown content reuse rights; evidence only; no asset license",
+      "status": "platform-project evidence; no separate asset sublicense to repository users",
       "evidence": "THIRD_PARTY_NOTICES.md; docs/legal/LICENSE_AUDIT.md"
     },
     "portrait-experiment": {
-      "status": "geometrically drawn by project; game character rights unresolved",
+      "status": "project geometric experiment; platform IP not sublicensed",
       "evidence": "docs/experiments/art-portrait/README.md"
+    },
+    "project-test": {
+      "status": "project-authored verification code; project code license",
+      "evidence": "art/spikes/card-capacity/verify.lua; tests inspect TEXTBOX_PREFAB_ID but do not embed the exporter runtime"
     }
   },
   "files": {
@@ -35,7 +39,7 @@
     },
     "art/cards/shared/card-back.lua": {
       "sha256": "91b2836ee96ffef03dd1ec78343427be00e7e8113f952c21a50ca3c8087cc3db",
-      "category": "editor-runtime"
+      "category": "primitive-runtime"
     },
     "art/cards/shared/card-back.png": {
       "sha256": "a4e1d75bf290ca9f9ce55585fcb5029bdf426642d123588c793e09690a8f48d3",
@@ -123,7 +127,7 @@
     },
     "art/cards/shared/type-attack.lua": {
       "sha256": "763b54a4a43be2bf25cbb665c02516e2cc128727edc00bc84284e6ee70d42a5e",
-      "category": "editor-runtime"
+      "category": "primitive-runtime"
     },
     "art/cards/shared/type-attack.png": {
       "sha256": "24195e3865f579cf3ff50d2774fb1901938940591dab3cf43155d9abe7560172",
@@ -139,7 +143,7 @@
     },
     "art/cards/shared/type-power.lua": {
       "sha256": "3a8a1e781211e3e872b6e17cbe9c0aa46a1a527e8cd67914eab5499e4e63e409",
-      "category": "editor-runtime"
+      "category": "primitive-runtime"
     },
     "art/cards/shared/type-power.png": {
       "sha256": "51e5afdc283b4fffc840cdfb74780a09a5d5ddb56253f6eba3e0306a80cf0849",
@@ -155,7 +159,7 @@
     },
     "art/cards/shared/type-skill.lua": {
       "sha256": "8bcd59cc7baa63a5557fe7fcbf36c94c14c5079e1988287b12150ee2c735fff4",
-      "category": "editor-runtime"
+      "category": "primitive-runtime"
     },
     "art/cards/shared/type-skill.png": {
       "sha256": "7f6406151c49522e3d710876d41468d5c457332646bd5fdd74266a8ba0f38c33",
@@ -203,7 +207,7 @@
     },
     "art/processed/ai-samples/lumine/A/asset.lua": {
       "sha256": "51ead6d0ad3551093c199bf62244cae39b13dc23f30cc445bfa36b76dc6e4c13",
-      "category": "editor-runtime"
+      "category": "primitive-runtime"
     },
     "art/processed/ai-samples/lumine/A/asset.png": {
       "sha256": "d77497d4c4b425a97e94e914a30c419e53c9ad6198dcdbe5fab12f08b12dd697",
@@ -315,7 +319,7 @@
     },
     "art/processed/ai-samples/starfall/A/asset.lua": {
       "sha256": "7a5099c1a3e0e5012d988199a00262bd2c736028ba002359d535661f59bec35e",
-      "category": "editor-runtime"
+      "category": "primitive-runtime"
     },
     "art/processed/ai-samples/starfall/A/asset.png": {
       "sha256": "e73a95c1bd296d0a39a89e6e805a387eee1cc5a2b6b8c85c3cf39e1c10637c1c",
@@ -539,7 +543,7 @@
     },
     "art/spikes/card-capacity/verify.lua": {
       "sha256": "b38b4e317995013184995be4d5b71d381cab9a159fac4ff5689dbabe87e694cd",
-      "category": "editor-runtime"
+      "category": "project-test"
     },
     "art/spikes/card-editor/card.gia": {
       "sha256": "71635478b14c704c26a7674243006edc77824936bb61513c4ee32f9d7cf35fc7",
