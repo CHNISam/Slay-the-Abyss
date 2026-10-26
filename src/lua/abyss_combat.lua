@@ -434,6 +434,8 @@ function M.cardPreview(state, instance, targetIndex)
       local result={}
       for i, effect in ipairs(effects) do
         if effect.op == "damage" or effect.op == "damageAll" then result[i] = previewDamage(effect.op, effect.value)
+        elseif effect.op=='colorless'and (effect.kind=='ritual'or effect.kind=='greed')then
+            result[i]=previewDamage('damage',effect.damage or effect.value)
         elseif effect.op=='barrageDamage' or effect.op=='bowlingBash' or effect.op=='ftlDamage' or effect.op=='heelHook'
             or effect.op=='fiendFire' or effect.op=='fearNoEvil' or effect.op=='wallop' or effect.op=='flowDamage'
             or effect.op=='sunderDamage' or effect.op=='finisherDamage' or effect.op=='flechettesDamage'

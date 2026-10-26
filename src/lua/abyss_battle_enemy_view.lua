@@ -3,6 +3,13 @@ local Actors=require('abyss_actor')
 local Theme=require('abyss_theme')
 local M={capacity=5}
 local L,S=Theme.layout,Theme.space
+local function pendingFeedback(feedback,actor)
+ if not feedback then return false end
+ local current=feedback.current
+ return feedback.escaping[actor.id] or feedback.dying[actor.id]
+  or current and current.kind=='death' and current.detail.target==actor.id
+  or not actor.escaped and not feedback.deaths[actor.id]
+end
 function M.slots(battle,feedback)
  local live=0
  for _,actor in ipairs(battle.enemies)do if Actors.isActive(actor)then live=live+1 end end
@@ -10,10 +17,7 @@ function M.slots(battle,feedback)
  local rows,extras={},M.capacity-live
  for index,actor in ipairs(battle.enemies)do
   local active=Actors.isActive(actor)
-  local current=feedback and feedback.current
-  local pending=feedback and (feedback.escaping[actor.id] or feedback.dying[actor.id]
-   or current and current.kind=='death' and current.detail.target==actor.id
-   or not actor.escaped and not feedback.deaths[actor.id])
+  local pending=pendingFeedback(feedback,actor)
   if active or pending and extras>0 then
    rows[#rows+1]={index=index,id=actor.id,actor=actor}
    if not active then extras=extras-1 end
