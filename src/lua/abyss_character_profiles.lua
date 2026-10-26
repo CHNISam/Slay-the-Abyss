@@ -54,6 +54,7 @@ function M.prepare(data,id)
         prepared=require('abyss_card_triggers').withCards(prepared,id)
         prepared=require('abyss_defect_engine_cards').withCards(prepared)
         prepared=require('abyss_retrieval_cards').withCards(prepared,id)
+        prepared=require('abyss_defect_final_cards').withCards(prepared)
     elseif id=="watcher" then
         prepared=require("abyss_retained_cards").withCards(prepared)
         prepared=require("abyss_watcher_attack_cards").withCards(prepared)

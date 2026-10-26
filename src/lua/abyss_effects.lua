@@ -4,7 +4,7 @@ local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local CardActions = require("abyss_card_actions")
 local EnemyRandom = require("abyss_enemy_random")
-local extensionOps={gainMantra=true,applyMantra=true,removeMantra=true,gainDevotion=true,gainExhaustPower=true,gainOrbPower=true,
+local extensionOps={defectFinal=true,gainMantra=true,applyMantra=true,removeMantra=true,gainDevotion=true,gainExhaustPower=true,gainOrbPower=true,
     gainEnergyIfDiscard=true,calculatedGamble=true}
 for op in pairs(require('abyss_build_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_flow_actions').ops) do extensionOps[op]=true end
@@ -92,7 +92,7 @@ local function targetGroup(effects)
 end
 
 function M.requiresQueue(effects)
-    for _,effect in ipairs(effects) do
+    for _,effect in ipairs(effects) do if type(effect)=='table' and effect.op=='defectFinal'then return true end
         if type(effect)=='table' and effect.op=='requestDiscard' then return true end
         if type(effect)=='table' and effect.op=='conditional' and effect['if']=='target_poison' then return true end
         if type(effect)=='table' and require('abyss_build_actions').ops[effect.op] then return true end
@@ -135,7 +135,7 @@ local function supported(effects, branch)
     for effectIndex, effect in ipairs(effects) do
         if type(effect) ~= "table" then return false, "invalid_effect" end
         local op = effect.op
-        if type(op) ~= "string" then return false, "invalid_effect" end
+        if type(op) ~= "string" then return false, "invalid_effect" end; if op=='defectFinal' and not require('abyss_defect_final_cards').supports(effect)then return false,'invalid_defect_final' end
         if op == "conditional" then
             -- Combat preflights top-level damage targets; never enable a
             -- conditional-only card or recursively hidden target requirement.

@@ -80,7 +80,8 @@ local function fragments(card,dynamic,path)
             return dynamic and live[op] and ('{'..path..'.'..(i-1)..'.value}') or number(e.value)
         end
         local text
-        if op=='damage' or op=='damageAll' then
+        if op=='defectFinal'then text=require('abyss_defect_final_cards').describe(e)
+        elseif op=='damage' or op=='damageAll' then
             text=(op=='damage' and '对目标造成 ' or '对每个敌人造成 ')..value()..' 点伤害'
             if e.times then assert(integer(e.times) and e.times>0,'invalid hit count');text=text..'，重复 '..number(e.times)..' 次' end
         elseif op=='block' then text='获得 '..value()..' 点格挡'

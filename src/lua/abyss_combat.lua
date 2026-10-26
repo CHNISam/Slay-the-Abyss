@@ -340,6 +340,7 @@ function M.cardDefinition(state, instance)
         card=require('abyss_watcher_attack_cards').adaptDefinition(state,instance,card)
         card=require('abyss_warrior_status_cards').adaptDefinition(state,instance,card)
         card=require('abyss_defect_engine_cards').adaptDefinition(state,instance,card)
+        card=require('abyss_defect_final_cards').adaptDefinition(state,instance,card)
         card=require('abyss_silent_tactics_cards').adaptDefinition(state,instance,card)
     end
     if instance.cardId=="shiv" and state.player then
@@ -684,6 +685,9 @@ queuedHandlers.effect = function(state, action, queue)
         local target;for _,e in ipairs(state.enemies)do if state.pendingPlay and e.id==state.pendingPlay.targetId then target=e end end
         require('abyss_silent_final_cards').apply(M,state,{effect=action.effect,source=state.player,target=target,instance=state.cardInUse})
         return true
+    end
+    if action.effect.op=='defectFinal'then
+        return require('abyss_defect_final_cards').execute(M,state,action.effect,queue)
     end
     if action.effect.op=='colorless' then
         require('abyss_colorless_cards').apply(M,state,{effect=action.effect,source=state.player})

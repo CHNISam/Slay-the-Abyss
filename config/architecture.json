@@ -23,6 +23,7 @@
     "abyss_corruption": "core",
     "abyss_defect_cards": "core",
     "abyss_defect_engine_cards": "core",
+    "abyss_defect_final_cards": "core",
     "abyss_defect_utility_cards": "core",
     "abyss_discard": "core",
     "abyss_exhaust": "core",
@@ -138,6 +139,8 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {"from":"abyss_defect_final_cards","to":"abyss_combat","reason":"Recycle reads the initialized host card definition only during a real hand movement."},
+    {"from":"abyss_hand_choice","to":"abyss_defect_final_cards","reason":"Recycle hand movement invokes the final card action after module initialization only."},
     {
       "from": "abyss_act2_stasis",
       "to": "abyss_combat",
