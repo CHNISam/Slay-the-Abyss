@@ -72,6 +72,9 @@ local function referenceBattle(run,roster)
   enemies=roster,cardRandomSeed=seed,shuffleSeed=seed})
  assert(equal(Data.rules.player.startingRelics,{'burning_blood'}))
  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
+ -- Run owns the encounter generation; these independent fixtures start once.
+ assert(run.combatGeneration==1 and run.combat.combatGeneration==1,'first real encounter generation must be one')
+ reference.combatGeneration=1
  return reference
 end
 
