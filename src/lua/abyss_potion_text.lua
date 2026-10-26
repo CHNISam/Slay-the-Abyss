@@ -28,4 +28,16 @@ function M.note(item)
  for _,e in ipairs(item.effects or {})do if e.op=='fatalRevive'then return '无法主动使用；在受到致命伤害时自动触发'end end
  return nil
 end
+function M.shop(item,owner)
+ local bark=H.owns(owner,'sacred_bark') or H.owns(owner,'SacredBark')
+ for _,e in ipairs(item.effects or {})do
+  local value=N((e.value or 0)*(bark and 2 or 1))
+  if e.op=='discover'then return '3选1'..(kinds[e.kind]or '')..'牌×'..value..'·仅本战\n本回合0费·满手进弃牌'
+  elseif e.op=='generatePotions'then
+   local slots=owner.potionSlots or owner.rules and owner.rules.player.potionSlots or owner.data and owner.data.rules.player.potionSlots or 3
+   return '按'..N(slots)..'槽生成，填空槽\n溢出丢失·战内无果汁'
+  elseif e.op=='fatalRevive'then return '致命自动回复'..value..'%（至少1）\n无法主动·禁止治疗时失效'end
+ end
+ return nil
+end
 return M
