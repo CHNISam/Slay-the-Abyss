@@ -55,7 +55,7 @@ card('the_bomb','延时爆破','The Bomb','skill','rare',2,{e('bomb',40)},{effec
 card('thinking_ahead','先思','Thinking Ahead','skill','rare',0,{fx('draw',2),fx('handToDraw',1)},{exhaust=false},{exhaust=true})
 card('transmutation','转化','Transmutation','skill','rare',-1,{e('transmutation')},{effects={e('transmutation',1)}},{costMode='all_energy',exhaust=true})
 card('violence','猛袭','Violence','skill','rare',0,{e('violence',3)},{effects={e('violence',4)}},{exhaust=true})
-card('apparition','幻影','Apparition','skill','special',1,{fx('gainStatus',1,'intangible')},{ethereal=false},{exhaust=true,ethereal=true})
+card('apparition','幻影','Ghostly','skill','special',1,{fx('gainStatus',1,'intangible')},{ethereal=false},{sts_name='Apparition',exhaust=true,ethereal=true})
 card('bite','噬咬','Bite','attack','special',1,{fx('damage',7),fx('heal',2)},{effects={fx('damage',8),fx('heal',3)}},{target='ENEMY',healing=true})
 card('jax','激素','J.A.X.','skill','special',0,{fx('loseHp',3),fx('gainStatus',2,'strength')},{effects={fx('loseHp',3),fx('gainStatus',3,'strength')}})
 card('ritual_dagger','仪式匕首','RitualDagger','attack','special',1,{e('ritual',3,{damage=15})},{effects={e('ritual',5,{damage=15})}},{target='ENEMY',exhaust=true})

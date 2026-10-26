@@ -4,6 +4,8 @@
 
 `abyss_colorless_cards.withCards`注册完整35张普通无色牌，及Apparition、Bite、J.A.X.、Ritual Dagger四张事件特殊牌。SPECIAL不进入普通池。Bandage Up与Bite保留HEALING资格，普通战斗生成排除Bandage Up。现有角色专用特殊牌继续由各职业模块拥有。
 
+身份核对：Apparition是固定源的class/显示名称，其CARD_ID为`Ghostly`；本地稳定ID继续为`apparition`，显示名保留“幻影”。`colorless-source-identities.test.mjs`按固定sourcePath/class逐项核对全部39张sourceId，并拒绝把显示名称或另一张合法牌的ID错配到该类。
+
 - `sourcePools.srcColorless`：35项固定原源总序，战斗生成使用；不按实现能力筛选。
 - `sourcePools.colorlessRaw`：原始35项注册池序。
 - `sourcePools.colorlessShop`：20 uncommon / 15 rare，固定目录的商店顺序。
