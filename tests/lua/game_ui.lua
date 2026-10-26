@@ -441,7 +441,11 @@ test("native lifecycle loads every composed control and registers its listeners 
     assert(root.scale[1] == 1.25)
     assert(script.updating)
     click(root, "menuPanel", "start")
-    -- The production host opens the first run with the cinematic; skipping it uncovers the map.
+    -- The formal host now offers the four originals and the unchanged Traveler.
+    assert(root:GetChild("characterPanel").visible and not root:GetChild("prologuePanel").visible)
+    click(root, "characterPanel", "traveler")
+    assert(not root:GetChild("characterPanel").visible)
+    -- Choosing Traveler opens the first run with the cinematic; skipping uncovers the map.
     assert(root:GetChild("prologuePanel").visible and not root:GetChild("mapPanel").visible)
     assert(not root:GetChild("menuPanel").visible and not root:GetChild("deckEntry").visible)
     click(root, "prologuePanel", "skip")

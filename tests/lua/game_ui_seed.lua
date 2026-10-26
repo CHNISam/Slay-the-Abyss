@@ -100,6 +100,8 @@ test("native OnStart rereads wall and CPU time after script and module recreatio
         dofile("src/lua/abyss_ui.lua");OnStart();OnStart()
         assert(#seen==i and script.updating)
         assert(seen[i]:start())
+        assert(seen[i].run==nil, "opening character selection must not allocate a run or seed")
+        assert(seen[i]:start("traveler"))
     end
     assert(seen[1].run.seed~=seen[2].run.seed,
         "same-second platform reconstruction systematically replayed the fixed seed")

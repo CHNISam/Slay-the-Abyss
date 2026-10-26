@@ -115,7 +115,9 @@ function S.prepare(run)
     local rng=streams(run)
     local cardOwner=CardRandom.clone(run)
     local stock={cards={},relics={},potions={},shopRng=rng,cardRandom=cardOwner,contentMode='restricted-supported-pools'}
-    for i,kind in ipairs({'attack','attack','skill','skill','power'}) do
+    -- Original V4 has no Power cards: its fifth colored shelf is explicitly Skill.
+    local kinds=run.characterProfile and run.characterProfile.originalV4 and {'attack','attack','skill','skill','skill'} or {'attack','attack','skill','skill','power'}
+    for i,kind in ipairs(kinds) do
         stock.cards[i]=cardOffer(run,rng,cardOwner,i,kind,'colored',nil,(i==2 or i==4) and stock.cards[i-1].id)
     end
     -- Colorless type varies; collect by rarity independently of type.

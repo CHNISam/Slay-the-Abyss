@@ -226,6 +226,27 @@ function M.statusView(actor)
             kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
             description = definition.description, temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
+    local function resource(id,name,amount,description,icon,duration,kind)
+        result[#result+1]={id='original_v4_'..id,name=name,amount=amount,description=description,icon=icon or 'strength',
+            kind=kind or 'buff',stack='intensity',decay='none',temporary=0,originalV4=true,duration=duration or '本场战斗'}
+    end
+    local v=actor.originalV4
+    if v then
+        if v.role=='HT' and v.infuse>0 then resource('infuse','蝶引',v.infuse,'剩余结束阶段；本回合已强化重击 '..v.chargedUsed..'/2。','strength','剩余 '..v.infuse..' 个结束阶段')
+        elseif v.role=='AR' then resource('bond','生命之契',v.bond,'契量最多8；不随等待减少。','strength')
+        elseif v.role=='FR' then
+            resource('mode',v.mode=='ousia' and '荒性' or '芒性',1,v.mode=='ousia' and '只有宾客行动，歌者暂停。' or '只有歌者行动，宾客暂停。','regen')
+            resource('fan','气氛',v.fan,'本回合已增长 '..v.fanGained..'/4；气氛最多12。','strength')
+        elseif v.role=='RD' then
+            resource('resolve','愿力',v.resolve,'本回合已增长 '..v.resolveGained..'/2；愿力最多6。','strength')
+            if v.eye.uses>0 and v.eye.ends>0 then resource('eye','雷眼',v.eye.uses,'剩余次数；普通主动伤害实际扣血后追击。','thorns','剩余 '..v.eye.ends..' 个结束阶段')end
+            if v.musou.uses>0 and v.musou.ends>0 then resource('musou','一心',v.musou.uses,'剩余强化普攻次数；本回合返能 '..v.musouRefunded..'/1。','strength','剩余 '..v.musou.ends..' 个结束阶段')end
+        end
+        resource('healing','治疗余量',(v.healCap or 12)-v.healUsed,'本战已实际治疗 '..v.healUsed..'/'..(v.healCap or 12)..'；切换和重召不会重置。','regen')
+    end
+    if actor.v4Bloom then resource('bloom','血梅香',actor.v4Bloom.strength,'每次造成强度×2固定伤害。','poison','剩余 '..actor.v4Bloom.ticks..' 次','debuff')end
+    if actor.v4Directive then resource('directive',actor.v4Directive.mature and '成熟勒令' or '勒令',1,
+        actor.v4Directive.mature and '吸收获得6契；死亡回收4契。' or '下次己方回合开始成熟；当前吸收获得2契。','vulnerable','被吸收或死亡时清除','debuff')end
     return result
 end
 
@@ -283,6 +304,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     Events.emit(state, "status_damage", {
         source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     require('abyss_relic_hooks').hpChanged(state,target,before)
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     queueDeathPower(state, target, before, reactions)
     return lost
 end
@@ -399,7 +421,11 @@ function M.block(state, actor, amount, fixed)
     -- Cap the final state, not the modifier calculation or its float precision.
     local gained=M.blockAmount(state, actor, amount, fixed)
     actor.block = math.min(999, actor.block + 0.0 + gained)
+    if state.originalV4 and actor==state.player and actor.block==before then return end
     Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
+    if state.originalV4Preview and actor==state.player and actor.block>before then
+        state.originalV4Preview[#state.originalV4Preview+1]={op='block',low=actor.block-before,high=actor.block-before}
+    end
     if actor==state.player and gained>0 and (actor.statuses.juggernaut or 0)>0 then
         enqueue(state,{op="damageRandom",value=actor.statuses.juggernaut,fixed=true},actor)
     end
@@ -440,20 +466,26 @@ local function tick(state, actor, phase)
         if skip then actor[id .. "JustApplied"] = nil end
         if amount > 0 and decay:sub(1, #phase) == phase and not skip then
             local reactions = {}
+            local eventCount=#state.events
             if decay:find("trigger", 1, true) then
                 if id == "poison" then directDamage(state, actor, actor, amount, "poison", nil, reactions)
                 elseif id == "regen" then
+                    if state.originalV4 and actor==state.player then require('abyss_original_v4_health').heal(state,actor,amount,nil,'regen')
+                    else
                     local before=actor.hp
                     local healed = math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
                     Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
                     require('abyss_relic_hooks').hpChanged(state,actor,before)
+                    end
                 end
             end
             actor.statuses[id] = amount - 1
             if decay:find("trigger", 1, true) then
                 -- Trigger and decay are one presentation step, including lethal poison.
-                state.events[#state.events].frame = Events.frame(state)
+                if state.originalV4 and #state.events==eventCount then
+                    Events.emit(state,'status',{source=actor.id,target=actor.id,status=id,amount=-1})
+                else state.events[#state.events].frame = Events.frame(state)end
             else
                 Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
             end

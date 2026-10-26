@@ -7,7 +7,7 @@ import { candidateScriptFiles } from '../scripts/native-candidate-scripts.mjs';
 
 const roots = ['abyss_curses', 'abyss_relic_pool', 'abyss_relic_hooks', 'abyss_act1_events',
   'abyss_potion_health', 'abyss_potion_random', 'abyss_fountain'];
-const generated = ['abyss_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
+const generated = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
 
 function dependencyClosure(scripts) {
   const byName = new Map(scripts.map(script => [script.name, script]));
@@ -29,7 +29,7 @@ test('current M3 event/relic/potion modules and their complete literal dependenc
   const directory = mkdtempSync(join(tmpdir(), 'abyss-deploy-closure-'));
   try {
     // No UI/data build or MCP process is needed to inspect the source manifest.
-    // These represent only the five generated production modules, not fixtures.
+    // These represent only the six generated production modules, not fixtures.
     for (const name of generated) writeFileSync(join(directory, name + '.lua'), 'return {}\n');
     writeFileSync(join(directory, 'sts1_unknown_vectors.lua'), 'error("test fixture must not deploy")');
     const scripts = candidateScriptFiles('src/lua', directory);

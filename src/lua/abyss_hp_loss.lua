@@ -3,6 +3,7 @@
 local M={}
 function M.notify(state,owner,target,amount)
     if target~=state.player or amount<=0 then return end
+    if state.originalV4 then require('abyss_original_v4_health').hpEvent(state,amount) end
     require('abyss_warrior_status_cards').onHpLost(state,amount)
     if state.player.hp<=0 then return end
     local plan=require('abyss_warrior_strength_cards').planHpLost(state,owner,amount)

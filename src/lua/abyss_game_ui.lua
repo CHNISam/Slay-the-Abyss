@@ -28,8 +28,10 @@ function M.new(root, data, presentation, clickEvent, platform)
     local exitGeneration, menuGeneration = 0, 0
     local experimental = platform.experimentalCharacters == true
     local characterPanel = root:GetChild("characterPanel")
-    if experimental then assert(characterPanel and root:GetChild("choicePanel"), "experimental class layout required") end
-    local characterIds = {"ironclad", "silent", "defect", "watcher"}
+    local originalCharacters=platform.originalCharacters==true and characterPanel and characterPanel:GetChild('traveler')~=nil or false
+    local selectable=experimental or originalCharacters
+    if selectable then assert(characterPanel and root:GetChild("choicePanel"), "experimental class layout required") end
+    local characterIds = originalCharacters and {"hutao","arlecchino","furina","raiden"} or {"ironclad", "silent", "defect", "watcher"}
     local menuRun, menuMode
     local requestSettlement
     local ready = false
@@ -45,9 +47,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         cursor = platform.cursorEvents })
     self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, previewSeed), self.mapUI.map,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
-            cursorEvents = platform.cursorEvents, sound = platform.sound })
+            cursorEvents = platform.cursorEvents, sound = platform.sound,
+            onInspectCard=function(definition,upgraded)
+                if not self.run or self.disabled or self.mode~='node' or self.exitOpen
+                    or self.deckUI.visible or self.potionUI.visible or self.settlementRequested then return false end
+                if not self.deckUI:inspect(self.run,definition,upgraded) then return false end
+                self:refresh();return true
+            end })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
-    if experimental then
+    if selectable then
         self.choiceUI = require("abyss_choice_ui").new(child("choicePanel"),presentation,clickEvent,platform,
             function(kind,uids,token,generation)
                 return self.battleUI:chooseCards(kind,uids,token,generation)
@@ -375,14 +383,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.exitOpen or self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
-        if experimental and character==nil then
+        if selectable and character==nil then
             if self.characterOpen then return false end
             self.characterOpen=true;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
             self:refresh();return true, "character_choice"
         end
-        if character~=nil and not experimental then return false, "experimental_characters_disabled" end
-        if experimental then
-            local valid=false;for _,id in ipairs(characterIds) do if id==character then valid=true end end
+        if character~=nil and not selectable then return false, "experimental_characters_disabled" end
+        if selectable then
+            local valid=originalCharacters and character=='traveler';for _,id in ipairs(characterIds) do if id==character then valid=true end end
             if not valid then return false, "unknown_character" end
         end
         -- Restarting from a result goes straight back to the map: the story is told once.
@@ -390,8 +398,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         local explicitSeed = self.seed ~= nil
         local seed = explicitSeed and self.seed or newSeed()
         local rawSeed=RunSeed.normalize(seed)
-        local run = Run.new(data,rawSeed,experimental and {experimental=true,character=character} or nil)
-        local runPresentation = experimental and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
+        local selection=character~='traveler' and character~=nil and {experimental=experimental,character=character} or nil
+        local run = Run.new(data,rawSeed,selection)
+        local runPresentation = selection and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
         local map = Map.generate(run.data,rawSeed)
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.battleUI:setData(run.data,runPresentation)
@@ -508,7 +517,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
             if characterAction then
-                return experimental and self.characterOpen==true and not self.exitOpen
+                return selectable and self.characterOpen==true and not self.exitOpen
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
             end
             if self.characterOpen then return false end
@@ -580,6 +589,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         characterPanel.disableCursorEventPassthrough=true
         characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
         bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end)
+        if originalCharacters then bindCommand(characterPanel:GetChild('traveler'),'character_5',function()return self:start('traveler')end) end
         for i,id in ipairs(characterIds) do
             bindCommand(characterPanel:GetChild("character"..i),"character_"..i,function()
                 if not self.characterOpen then return false end

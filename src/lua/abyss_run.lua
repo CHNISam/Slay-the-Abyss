@@ -24,10 +24,19 @@ end
 function M.new(data, seed, options)
     local profile
     if options ~= nil then
-        assert(type(options) == "table" and options.experimental == true,
-            "non-default characters require explicit experimental mode")
-        if options.character~=nil then data, profile = require("abyss_character_profiles").prepare(data, options.character) end
+        assert(type(options)=='table','invalid character options')
         assert(options.campaign==nil or type(options.campaign)=='boolean','invalid campaign option')
+        assert(not options.campaign or options.experimental==true,
+            'campaign requires explicit experimental mode')
+        if require('abyss_original_v4_profiles').is(options.character) then
+            data,profile=require('abyss_original_v4_profiles').prepare(data,options.character)
+        else
+            assert(options.experimental == true,
+                "non-default characters require explicit experimental mode")
+            if options.character~=nil then
+                data,profile=require('abyss_character_profiles').prepare(data,options.character)
+            end
+        end
     end
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
@@ -45,6 +54,7 @@ function M.new(data, seed, options)
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
     if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
+    if profile and profile.originalV4 then run.originalCommands={}end
     if options and options.campaign then
         run.campaign,run.act,run.keys=true,1,{ruby=false,emerald=false,sapphire=false}
         run.unknown.pools=EventPool.new('full')
@@ -317,7 +327,7 @@ local function startEncounter(run, encounter, sourceRoom)
     if opening.preBattle then
         options.beforeFirstTurn=function(state)return Inventory.applyOpening(state,opening.preBattle)end
     end
-    if run.character then
+    if run.character and not run.characterProfile.originalV4 then
         options.cardRandomSeed=run.runSeed
         options.enableStances=true
         options.orbSlots=run.character=='defect' and 3 or 0
@@ -476,7 +486,7 @@ local function finishCombat(run)
         if allEscaped then gold = 0 end
     end
     local choices
-    if run.characterProfile then
+    if run.characterProfile and not run.characterProfile.originalV4 then
         -- Explicit experimental subsets retain their documented own-class
         -- sampler. The production source pool is Ironclad-only.
         local pool=rewardCandidates(run);choices={}
@@ -633,10 +643,20 @@ function M.chooseCard(run,token,uid)
     return ok,reason
 end
 
-function M.play(run, uid, targetIndex)
+function M.play(run, uid, targetIndex, commandId)
+    if commandId~=nil and run.originalCommands then
+        if type(commandId)~='string' or commandId==''then return false,'invalid_command_id'end
+        local prior=run.originalCommands[commandId]
+        if prior then return prior.uid==uid and prior.target==targetIndex,prior.uid==uid and prior.target==targetIndex and 'already_committed' or 'command_conflict'end
+    end
+    if commandId and run.combat and run.combat.originalV4 then
+        local replay,why=require('abyss_original_v4').replay(run.combat,commandId,uid,targetIndex)
+        if replay~=nil then return replay,why end
+    end
     if run.phase ~= "combat" then return false, "not_in_combat" end
-    local ok, reason = Combat.play(run.combat, uid, targetIndex)
+    local ok, reason = Combat.play(run.combat, uid, targetIndex, commandId)
     if ok then
+        if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
         if Combat.outcome(run.combat) then M.finishCombat(run) end

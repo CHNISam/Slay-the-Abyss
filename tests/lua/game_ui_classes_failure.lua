@@ -26,6 +26,11 @@ local function canvas(withClasses)
         for i=1,10 do choice.children[#choice.children+1]=X.button("card"..i) end
         for _,name in ipairs({"confirm","before","after"}) do choice.children[#choice.children+1]=X.button(name) end
         root.children.choicePanel=F.control(choice,root)
+    else
+        -- The formal layout now contains original selection controls. Remove
+        -- both panels to preserve this fixture's genuinely missing-layout case.
+        root.children.characterPanel=nil
+        root.children.choicePanel=nil
     end
     return c,root
 end

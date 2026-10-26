@@ -1,0 +1,267 @@
+{
+  "version": "original_v4.0_frozen_2026-10-26",
+  "status": "implementation_spec_frozen; production_integration_and_device_acceptance_not_executed",
+  "authority": "cards_v4.json and rules_v4.json; original stable IDs retained",
+  "source_sha256": {
+    "simulation.py": "6473af14a9dacc7f7e3372b4eccdead365426548ac6186ecc2797982a34ad2ff",
+    "original_cards_v2.json": "c25f1a9ae7b80d49a316efb905c97602a48e63b5dbe1d35c4038c7bd40ae0400",
+    "live_sheet_snapshot.json": "995cfa91cb8d6020a724449b065251a63a805e7d08b21bfefe13a10d4d65968f",
+    "reference_engine.py": "451b96505f3811e83615d947758accca52648b2bd7fdd8d8d5a9be2f674e042b",
+    "build_spec_data.py": "9b589c2c00da9503c2b159c1a66e276a33ca5f6063cc08bdc1b925488c92404e",
+    "verify_design.py": "e9f8f0161021329290a84e231121a578ed04074e83bbef1c6e72feeaf3074e28",
+    "design_cards.py": "4edfbb44c15b39e17c4ce2feee52979acfefb65e02e4a37393212b904b2adc8d"
+  },
+  "parameters": {
+    "identity": true,
+    "ht_cost": 3,
+    "ht_normal": 2,
+    "ht_charged": 5,
+    "ht_low": 1,
+    "ar_curve": 4,
+    "ar_mature": 6,
+    "ar_q": 10,
+    "ar_q_heal_coeff": 0.5,
+    "fr_e_uses": 2,
+    "fr_guest_bonus": 1,
+    "fr_q_bonus": 2,
+    "rd_tax": 2,
+    "rd_refunds": 1,
+    "ar_aoe": true,
+    "ar_charge_bonus": 2,
+    "ht_refine": 2,
+    "fr_switch": 1,
+    "fr_guest_guard": true,
+    "ar_conditions": true
+  },
+  "roles": {
+    "HT": {
+      "name": "胡桃",
+      "max_hp": 72,
+      "relic": "引蝶灯",
+      "relic_effect": "每战第一次实际支付生命后获得4格挡；不会回复生命。",
+      "resources": "蝶引2结束阶段；血梅香强度1..3、剩余2次；低血≤50%",
+      "starter": [
+        "HT2-001",
+        "HT2-001",
+        "HT2-001",
+        "HT2-002",
+        "HT2-002",
+        "HT2-002",
+        "HT2-003",
+        "HT2-004",
+        "HT2-005",
+        "HT2-006"
+      ]
+    },
+    "AR": {
+      "name": "阿蕾奇诺",
+      "max_hp": 74,
+      "relic": "炉火家书",
+      "relic_effect": "每战第一次吸收成熟勒令后获得3格挡；不额外生成生命之契。",
+      "resources": "生命之契0..8；每敌一个勒令，至下次己方回合开始成熟",
+      "starter": [
+        "AR2-001",
+        "AR2-001",
+        "AR2-001",
+        "AR2-002",
+        "AR2-002",
+        "AR2-002",
+        "AR2-003",
+        "AR2-004",
+        "AR2-005",
+        "AR2-006"
+      ]
+    },
+    "FR": {
+      "name": "芙宁娜",
+      "max_hp": 70,
+      "relic": "留给自己的票根",
+      "relic_effect": "每战第一次实际切换荒/芒形态后抽1牌；切回同形态不触发。",
+      "resources": "气氛0..12，每生命事件最多3、每轮最多4；唯一宾客各最多3次",
+      "starter": [
+        "FR2-001",
+        "FR2-001",
+        "FR2-001",
+        "FR2-002",
+        "FR2-002",
+        "FR2-002",
+        "FR2-003",
+        "FR2-004",
+        "FR2-005",
+        "FR2-006"
+      ]
+    },
+    "RD": {
+      "name": "雷电将军",
+      "max_hp": 72,
+      "relic": "稻光军印",
+      "relic_effect": "每战第一次成功支付能量的军令牌结算后获得2格挡；不额外回能。",
+      "resources": "愿力0..6，全来源每回合最多增长2；雷眼3次/2结束阶段；一心3次/2结束阶段",
+      "starter": [
+        "RD2-001",
+        "RD2-001",
+        "RD2-001",
+        "RD2-002",
+        "RD2-002",
+        "RD2-002",
+        "RD2-003",
+        "RD2-004",
+        "RD2-005",
+        "RD2-006"
+      ]
+    }
+  },
+  "scope": {
+    "preserve_traveler_sts1": true,
+    "original_cards": 300,
+    "definitions": 600,
+    "cards_per_role": 75,
+    "runtime": "closed original-character package; not an STS2 runtime"
+  },
+  "common": {
+    "energy_per_turn": 3,
+    "draw_per_turn": 5,
+    "hand_cap": 10,
+    "starting_deck_size": 10,
+    "battle_actual_heal_cap": 12,
+    "next_energy_cap": 2,
+    "next_draw_cap": 2,
+    "next_block_cap": 12,
+    "same_turn_energy_refund": false,
+    "exhaust_scope": "battle",
+    "permanent_deletion_for_healing": false,
+    "minimum_deck_size_rule": null,
+    "forced_signature_start": false,
+    "generated_or_copied_external_cards": "not automatically admitted; adapter audit required"
+  },
+  "HT": {
+    "core_e_hp_cost": 3,
+    "window_end_phases": 2,
+    "normal_first_hit_bonus": 2,
+    "charged_first_hit_bonus": 5,
+    "charged_eligible_cards_per_turn": 2,
+    "low_hp_test": "2*hp<=maximum, snapshot after mandatory HP cost",
+    "low_hp_extra": 1,
+    "bloom_max": 3,
+    "bloom_tick_damage": "2*strength",
+    "bloom_ticks": 2,
+    "bloom_refresh": "strength=max(old,new); ticks=2; not addition",
+    "cash_bloom": "consume remaining ledger; no extra tick; does not receive root or revelry bonus"
+  },
+  "AR": {
+    "bond_max": 8,
+    "unripe_absorb": 2,
+    "ripe_absorb": 6,
+    "marked_target_death_gain": 4,
+    "matures": "next owner turn start",
+    "normal_bonus": "B if B>=2 else 0, using pre-consumption B",
+    "normal_bond_cost": 1,
+    "bond_time_decay": 0,
+    "bond_reset": "new combat resets to 0",
+    "core_e_target": "all alive enemies",
+    "q_base": {
+      "damage_each_enemy": 10,
+      "heal": "2+floor(B/2)"
+    },
+    "q_upgrade": {
+      "damage_each_enemy": 13,
+      "heal": "3+floor(B/2)"
+    },
+    "q_alt_068": {
+      "damage_single": [
+        10,
+        14
+      ],
+      "heal_base": "1+floor(B/2)",
+      "heal_upgrade": "2+floor(B/2)"
+    },
+    "heal_gate": "burst family only in combat; campsite outside combat unaffected"
+  },
+  "FR": {
+    "initial_mode": "ousia",
+    "guest_order": [
+      "usher",
+      "chevalmarin",
+      "crabaletta"
+    ],
+    "guest_base_damage": {
+      "usher": 4,
+      "chevalmarin": 2,
+      "crabaletta": 5
+    },
+    "targeting": {
+      "usher": "highest live HP; stable formation tie-break",
+      "chevalmarin": "all live enemies",
+      "crabaletta": "lowest live HP; stable formation tie-break"
+    },
+    "guest_high_hp": "before each action, if 2*hp>maximum: pay 1 HP and add 1 only to first live hit of that batch",
+    "guest_charges_max": 3,
+    "core_e_charges_base": 2,
+    "core_e_charges_upgrade": 3,
+    "refresh": "max(old,new); not additive; switching does not replenish",
+    "inactive_side": "paused; cannot attack/heal until correct mode",
+    "singer_heal": 2,
+    "singer_charges_max": 3,
+    "fanfare_max": 12,
+    "fanfare_per_actual_hp_event_cap": 3,
+    "fanfare_per_turn_cap": 4,
+    "revelry_batches": 3,
+    "revelry_end_phases": 2,
+    "revelry_bonus": "min(4,floor(actual_spent_fanfare/3)), first live hit per batch",
+    "q_counts_as_revelry_batch": true,
+    "q_damage_each_enemy": [
+      8,
+      11
+    ]
+  },
+  "RD": {
+    "resolve_max": 6,
+    "resolve_gain_per_turn_max": 2,
+    "paid_command_resolve_gain": 1,
+    "eye_damage": 2,
+    "eye_uses_max": 3,
+    "eye_end_phases": 2,
+    "q_min_resolve": 3,
+    "q_damage": "10+2*R base / 14+2*R upgraded, spends all R",
+    "musou_first_hit_bonus": 3,
+    "musou_uses_max": 3,
+    "musou_end_phases": 2,
+    "musou_energy_refunds_per_turn_max": 1,
+    "refund_timing": "next turn only; combined cap of all next-energy sources remains 2",
+    "command_block_changes": "15 listed card IDs have immediate top-level Block reduced by 2 in data; no generic runtime tax"
+  },
+  "production_mapping": {
+    "direct_damage": "Actors.damage(..., fixed=false); root bonus added to first live hit base before shared Strength/Weak/Vulnerable rounding",
+    "derived_damage": "Actors.damage(..., fixed=true), or the existing nonrecursive retaliation path for counter; still obey Block and actual HP loss",
+    "card_block": "Actors.block(..., fixed=false), using existing Dexterity/Frail",
+    "delayed_and_starting_relic_block": "fixed=true; do not apply Dexterity/Frail twice",
+    "pay_hp": "existing loseHp/HP-loss path; cannot be paid by Block",
+    "cleanse_status_ids": [
+      "weak",
+      "frail"
+    ],
+    "laboratory_integer_debuffs": "diagnostics only; not production status definitions",
+    "reference_shared_actor_blob": "6272cd8a15ba4f666b1dc153864b8e43fd8de0d9",
+    "reference_rules_blob": "046a3e0fe51e73f9d10efa9204cba77b5381e327"
+  },
+  "order": [
+    "preflight UID/live target/requirements/energy/aggregate HP costs",
+    "remove source card, spend energy, pay mandatory HP",
+    "take a single condition snapshot",
+    "consume applicable root resource and reserve root first-hit bonus",
+    "apply effects in listed order; conditional branches read snapshot",
+    "apply hero post-card triggers in reference order",
+    "discard or battle-exhaust source UID",
+    "complete surviving post-root non-target effects, then victory/defeat",
+    "end phase: blossom -> active salon/singer -> surviving enemy actions -> discard/expire",
+    "turn start: expire old Block, grant next rewards, reset per-turn counters, mature marks, draw"
+  ],
+  "adapter_constraints": [
+    "Use production shared damage/block/status/target/RNG/UID queue semantics; do not replace the whole combat engine with this laboratory.",
+    "Production cleanse is frozen to removal of weak and frail only; retain vulnerable/poison/entangled/negative strength. Reference attack_down/block_down remain diagnostic counters and MUST NOT become live Weak/Frail arithmetic. The separate shared_contract.py tests define the exact production mapping.",
+    "Do not map a skill name to extra effects; follow exact DSL and role rules.",
+    "Actual zero healing/block is not a successful gain event; no phantom fanfare/trigger.",
+    "All root bonuses are first live hit once per physical play, not multiplied across hits or targets.",
+    "All cloned/generated external cards and public relic/potion interactions require production differential tests; do not silently delete Traveler pools to fit this closed test."
+  ]
+}
