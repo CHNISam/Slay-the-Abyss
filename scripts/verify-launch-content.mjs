@@ -15,6 +15,7 @@ const ids = rows => rows.map(row => row.id).sort();
 const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
+  decay: ['explicit_event:wheel:accept'],
 };
 const specialRelicEvents = {
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
@@ -162,15 +163,16 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   for (const card of manifest.generatedCards) {
     const definition = data.cards.cards.find(row => row.id === card.id);
     check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
-    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []), 'explicit:Run.obtainCard']
+    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
+      'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
         .map(enemy => `enemy:${enemy.id}:intent`),
         ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
           .map(c=>`card:${c.id}:effect`)];
     same(card.channels, channels, `generatedCards/${card.id} channels`);
     if (card.type === 'curse') {
-      check(Boolean(card.acquisitionPending) === !Boolean(curseEvents[card.id]), `generatedCards/${card.id}: acquisition pending drift`);
-      if (card.acquisitionPending) check(Boolean(card.naturalAcquisitionLimitation?.includes('transformContext')), `generatedCards/${card.id}: missing unwired acquisition boundary`);
+      check(!card.acquisitionPending, `generatedCards/${card.id}: explicit transformation route omitted`);
+      check(Boolean(card.naturalAcquisitionLimitation?.includes('explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);
     }
   }
   same(ids(manifest.enemies), ids(data.enemies.enemies), 'enemy definitions');
