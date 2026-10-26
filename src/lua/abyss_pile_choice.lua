@@ -138,9 +138,10 @@ local function resolve(s,p,uids,current,combat,auto)
         if p.mode=='omniscience' then
             assert(combat,'Omniscience requires the host queue API')
             remove(s,p.source,card);card.exhaust=true
-            combat.queueCard(s,card,{append=true,exhaustCards=true,randomTarget=true})
+            local energyOnUse=s.energy -- Both NewQueue actions precede cardQueue execution.
+            combat.queueCard(s,card,{append=true,exhaustCards=true,randomTarget=true,energyOnUse=energyOnUse})
             local duplicate=require('abyss_card_actions').fresh(combat,s,card.cardId,card)
-            combat.queueCard(s,duplicate,{append=true,purge=true,exhaustCards=true,randomTarget=true})
+            combat.queueCard(s,duplicate,{append=true,purge=true,exhaustCards=true,randomTarget=true,energyOnUse=energyOnUse})
         else
         local destination=p.destination
         if destination=="hand" and #s.hand>=10 then
