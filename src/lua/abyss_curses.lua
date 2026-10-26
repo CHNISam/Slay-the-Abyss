@@ -18,7 +18,7 @@ function M.isImplemented(card)
 end
 function M.limitsPlay(state)
     for _,c in ipairs(state.hand) do
-        if c.cardId=='normality' and (state.cardsPlayedThisTurn or 0)>=state.catalog.cards[c.cardId].playLimit then return true end
+        if c.cardId=='normality' and #(state.cardsPlayedThisTurn or {})>=state.catalog.cards[c.cardId].playLimit then return true end
     end
     return false
 end

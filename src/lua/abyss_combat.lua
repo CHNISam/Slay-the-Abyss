@@ -383,7 +383,7 @@ end
 -- cards add receiving modifiers; area calculations retain per-monster values
 -- and display the first monster slot. Never invent a min/max damage range.
 function M.cardPreview(state, instance, targetIndex)
-    local card, player, result = M.cardDefinition(state, instance), state.player, {}
+    local card, player = M.cardDefinition(state, instance), state.player
     local aimed = state.enemies[targetIndex]
     local function previewDamage(op, base)
         local neutral = {statuses = {}}
@@ -955,7 +955,7 @@ queuedHandlers.effect = function(state, action, queue)
     queueStanceGains(state,queue)
     return true
 end
-queuedHandlers.useCard = function(state, action, queue)
+queuedHandlers.useCard = function(state, _action, queue)
     local context,instance=assert(state.pendingPlay,"missing pending play"),state.cardInUse
     assert(instance and instance.uid==context.uid,"missing using card")
     -- A lethal on-use retaliation stops before the source UseCard disposal.
@@ -1118,7 +1118,6 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     if not free then state.energy=state.energy-(card.costMode=="all_energy" and state.energy or card.cost) end
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     RelicHooks.onUseCard(state,card)
-    state.cardsPlayedThisTurn=(state.cardsPlayedThisTurn or 0)+1
     local items={}
     for i,effect in ipairs(card.effects) do
         if not (effect.targetGroup and card.effects[i-1] and card.effects[i-1].targetGroup) then
@@ -1339,7 +1338,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     if finish(state) then return end
     state.turn = state.turn + 1
     state.phase = "player"
-    state.cardsPlayedThisTurn=0
+    state.cardsPlayedThisTurn={}
     Actors.startTurn(state, state.player)
     if finish(state) then return end
     state.player.noDraw = false
@@ -1478,7 +1477,7 @@ function M.endTurn(state)
         state.cardInUse = instance
         if instance.cardId=='burn' then
             local def=M.cardDefinition(state,instance)
-            local lost=M.damage(state,state.player,state.player,def.burnDamage,true)
+            M.damage(state,state.player,state.player,def.burnDamage,true)
         else M.applyEffects(state, {{op="loseHp", value=handSize}}, state.player, state.player) end
         -- Death opens the source death screen before UseCardAction can discard.
         -- Keep the current UID in cardInUse; later cards and cleanup never run.

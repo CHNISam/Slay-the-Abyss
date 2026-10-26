@@ -40,8 +40,8 @@ function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.es
 
 function M.status(state, actor, id, amount, source, sourceIsMonster)
     local beforeRaw=rawget(actor.statuses,id)
-    local order=require('abyss_power_order')
-    if order.ids[id] then order.before(state,actor) end
+    local powerOrderModule=require('abyss_power_order')
+    if powerOrderModule.ids[id] then powerOrderModule.before(state,actor) end
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
     if before==0 or actor.statuses[id]==0 then
@@ -50,7 +50,7 @@ function M.status(state, actor, id, amount, source, sourceIsMonster)
         if actor.statuses[id]~=0 then order[#order+1]=id end
         actor.powerOrder=order
     end
-    order.applied(state,actor,id,beforeRaw)
+    powerOrderModule.applied(state,actor,id,beforeRaw)
     if before <= 0 and actor.statuses[id] > 0
         and actor.statusDefinitions[id].decay == "round_end_minus_1" then
         local monster = sourceIsMonster

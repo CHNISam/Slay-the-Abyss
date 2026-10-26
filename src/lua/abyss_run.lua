@@ -1,6 +1,5 @@
 -- Same-run deck and reward ownership. Platform/UI adapters issue these commands.
 local Combat = require("abyss_combat")
-local Capability = require('abyss_card_capability')
 local Inventory = require("abyss_inventory")
 local EventRandom = require("abyss_sts_random")
 local Unknown = require("abyss_unknown")
@@ -258,8 +257,8 @@ local function startEncounter(run, encounter, sourceRoom)
     local options={cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
         beforeOpeningDraw=function(state)
             if opening.preDraw then
-                local ok, reason = Inventory.applyOpening(state,opening.preDraw)
-                if not ok then return false, reason end
+                local ok, openingReason = Inventory.applyOpening(state,opening.preDraw)
+                if not ok then return false, openingReason end
             end
             return Inventory.applyOpening(state,opening.beforeDraw)
         end}

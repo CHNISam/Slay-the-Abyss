@@ -76,7 +76,7 @@ function M.apply(state,actor,amount,source)
     end
     return true
 end
-function M.startTurn(state,api)
+function M.startTurn(state,_api)
     local Actors=require('abyss_actor')
     if not Actors.isActive(state.player) then return false end
     local bias=state.player.statuses.bias or 0

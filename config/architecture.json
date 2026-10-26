@@ -1,5 +1,47 @@
 {
   "layers": {
+    "abyss_action_queue": "core",
+    "abyss_build_actions": "core",
+    "abyss_card_triggers": "core",
+    "abyss_character_presentation": "ui",
+    "abyss_character_profiles": "core",
+    "abyss_choice_ui": "ui",
+    "abyss_corruption": "core",
+    "abyss_defect_cards": "core",
+    "abyss_defect_engine_cards": "core",
+    "abyss_defect_utility_cards": "core",
+    "abyss_discard": "core",
+    "abyss_exhaust": "core",
+    "abyss_flow_actions": "core",
+    "abyss_focus": "core",
+    "abyss_hand_choice": "core",
+    "abyss_hp_loss": "core",
+    "abyss_mantra": "core",
+    "abyss_opening_hand": "core",
+    "abyss_orb_powers": "core",
+    "abyss_orbs": "core",
+    "abyss_pile_choice": "core",
+    "abyss_poison": "core",
+    "abyss_power_order": "core",
+    "abyss_power_schedule": "core",
+    "abyss_retained_cards": "core",
+    "abyss_retrieval_cards": "core",
+    "abyss_scry": "core",
+    "abyss_shivs": "core",
+    "abyss_silent": "core",
+    "abyss_silent_attack_cards": "core",
+    "abyss_silent_discard_cards": "core",
+    "abyss_silent_tactics_cards": "core",
+    "abyss_snapshot": "core",
+    "abyss_stances": "core",
+    "abyss_turn_powers": "core",
+    "abyss_warrior_cards": "core",
+    "abyss_warrior_exhaust_cards": "core",
+    "abyss_warrior_status_cards": "core",
+    "abyss_warrior_strength_cards": "core",
+    "abyss_watcher_attack_cards": "core",
+    "abyss_watcher_cards": "core",
+    "abyss_watcher_flow_cards": "core",
     "abyss_acid_slime_m_ai": "core",
     "abyss_acid_slime_s_ai": "core",
     "abyss_act1_events": "core",
@@ -69,6 +111,81 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {
+      "from": "abyss_actor",
+      "to": "abyss_flow_actions",
+      "reason": "Block callbacks enqueue prepared actions at runtime; Actor does not initialize the dispatcher."
+    },
+    {
+      "from": "abyss_build_actions",
+      "to": "abyss_combat",
+      "reason": "Generated card upgrades call the initialized host API during card resolution only."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_orbs",
+      "reason": "Static Discharge channels via a damage reaction after module initialization."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_combat",
+      "reason": "A standalone Static Discharge reaction needs the loaded host API; never imported during Actor initialization."
+    },
+    {
+      "from": "abyss_turn_powers",
+      "to": "abyss_flow_actions",
+      "reason": "Turn hook construction commits explicit prepared RNG only at runtime."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_hp_loss",
+      "reason": "HP-loss callback runs after Actor initializes; notifier only queues runtime reactions."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_power_order",
+      "reason": "Power application callback loads the schedule dispatcher after Actor initializes."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_focus",
+      "reason": "Focus is dispatched only from runtime applyPower after module initialization."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_card_triggers",
+      "reason": "Envenom reaction resolver runs after the combat engine initializes."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_stances",
+      "reason": "Damage arithmetic calls the stance modifier only at runtime."
+    },
+    {
+      "from": "abyss_shivs",
+      "to": "abyss_combat",
+      "reason": "Detached definition builders use Combat.copy only when explicitly invoked after load."
+    },
+    {
+      "from": "abyss_silent",
+      "to": "abyss_combat",
+      "reason": "Foundation builders and generation validation invoke Combat only after initialization."
+    },
+    {
+      "from": "abyss_discard",
+      "to": "abyss_combat",
+      "reason": "Discard execution chooses the default host API at runtime, never during require."
+    },
+    {
+      "from": "abyss_silent_attack_cards",
+      "to": "abyss_combat",
+      "reason": "Explicit detached card-data builder invokes Combat.copy after module load."
+    },
+    {
+      "from": "abyss_silent_discard_cards",
+      "to": "abyss_combat",
+      "reason": "Explicit detached card-data builder invokes Combat.copy after module load."
+    },
     {
       "from": "abyss_actor",
       "to": "abyss_card_actions",
