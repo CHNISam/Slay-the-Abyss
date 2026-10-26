@@ -57,12 +57,12 @@ export function selectTests(changed, sources) {
     // Dynamic Lua builders are conservatively included for every Lua change.
     // Literal dependency analysis must not silently omit generated test programs.
     const dynamicLua = luaChange && (js.includes(test)
-      ? [...dependencies].some(p => /runLua/.test(sources[p] ?? ''))
+      ? [...dependencies].some(p => /runLua|readdirSync/.test(sources[p] ?? ''))
       : [...dependencies].some(p => /\b(?:require|dofile|loadfile)\s*\(\s*[^'"\s)]/.test(sources[p] ?? '')));
     // Script-driven integration tests can discover sources/fixtures at runtime.
     // Keep these for every script change rather than guessing their dynamic IO.
     const dynamicScript = changed.some(p => p.startsWith('scripts/')) && js.includes(test)
-      && [...dependencies].some(p => /node:child_process|readdirSync|runLua/.test(sources[p] ?? ''));
+      && [...dependencies].some(p => /readdirSync|\bimport\s*\(\s*[^'"\s)]/.test(sources[p] ?? ''));
     if ([...dependencies].some(p => affected.has(p)) || dynamicLua || dynamicScript) selected.push(test);
   }
   if (!selected.length) return fallback('No statically mapped test; use the complete check');

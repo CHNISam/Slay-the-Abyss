@@ -22,7 +22,15 @@ test('related plan follows transitive Lua imports and retains dynamic Lua builde
 test('pure transitive JS imports stay in the fast tier', () => {
   const plan = selectTests(['scripts/pure.mjs'], sources);
   assert.deepEqual(plan.fast, ['tests/pure.test.mjs']);
-  assert.deepEqual(plan.integration, ['tests/dynamic.test.mjs'], 'runtime script discovery is conservative');
+  assert.deepEqual(plan.integration, []);
+});
+test('directory discovery remains conservative but unrelated process tests stay out', () => {
+  const plan = selectTests(['scripts/pure.mjs'], { ...sources,
+    'tests/discovery.test.mjs': 'import {readdirSync} from "node:fs"; readdirSync(directory)',
+    'tests/unrelated-cli.test.mjs': 'import {spawnSync} from "node:child_process"; spawnSync("git", ["version"])',
+  });
+  assert.ok(plan.fast.includes('tests/discovery.test.mjs'));
+  assert.ok(![...plan.fast, ...plan.integration].includes('tests/unrelated-cli.test.mjs'));
 });
 test('dynamic Lua imports cannot disappear from related coverage', () => {
   const plan = selectTests(['src/lua/abyss_low.lua'], {
