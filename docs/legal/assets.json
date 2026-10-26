@@ -53,9 +53,25 @@
       "sha256": "12835d2700ccc36a60880cbbadcc8442629cdb7f914e2b5e68e7f482c041a338",
       "category": "editor-runtime"
     },
-    "art/cards/geo-samples/native-layout.json": {
-      "sha256": "03fed11967011d27edd7025a4e0f1b3107ae48f761abc0b7c001e89da492c8b3",
+    "art/cards/geo-samples/iron_wave/native-art.json": {
+      "sha256": "02b7f7476a29552eac5dd00d04761d9fa6568a41474bc3361690ef71800a011f",
       "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/iron_wave/native-art.lua": {
+      "sha256": "d56693c5f4b1f3dd15f9acdba716d5f9f1acbd8f30ccbbb2450e71ad820d3363",
+      "category": "editor-runtime"
+    },
+    "art/cards/geo-samples/native-layout.json": {
+      "sha256": "a3adcadc1574e3ef5305bba3b8f7471aeb394202d6aed4f67421e32d436af6b1",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/shockwave/native-art.json": {
+      "sha256": "222d38b2031dbb33c242230051909886b78a37c43a1695a6bd2db7111ddb4e85",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/shockwave/native-art.lua": {
+      "sha256": "bfd286ec9cb20e2032c17d54836b2f7fcfa1b90a6f8584e8b02b0f6d3ee684e2",
+      "category": "editor-runtime"
     },
     "art/cards/shared/card-back.json": {
       "sha256": "099dda393098353c3d372729da6c999433793937c3bb5f09fa550e31fff183a8",
