@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:37'
-updated_date: '2026-10-26 10:03'
+updated_date: '2026-10-26 11:43'
 labels: []
 dependencies: []
 parent_task_id: TASK-68
@@ -41,4 +41,6 @@ Executor: dot，自有云独立工作树 feat/dot-selector-dependency-coverage�
 已完成两轮TDD：初始17项红灯后26/26通过；独立复审发现load/loadstring执行字符串回归，新增8项红灯后35/35通过，复审自建7项全部通过。真实map/nodes分别只增加缺失的一项，脚本控制选择不变。已有map10和nodes21通过。完整npm最终候选正在执行；此前中断批次及本机缺pwsh不能当通过，完整Quality仍需准确提交验证。
 
 完整npm实跑1502项：1501通过、1失败、无跳过，唯一失败为本机无pwsh导致真实checkout子进程无法启动；不删测试、不假装全绿，交官方Runner补证。最终主线候选与TASK-59.2.1在feat/dot-regression-boundary-fixes同一PR验证，节省重复全量CI；跨幕两项不混入。
+
+PR213已合入develop e3a9fe2，四处已授权修复统一到PR221，避免重复整套CI。组合候选已实跑38项JS、4份Lua入口(3/2/3/12)、工程110模块502边/113既有告警/4语义变异、Backlog/语法/许可清单检查；均通过。旧b795完整Quality已成功，但不借给新的整合SHA。
 <!-- SECTION:NOTES:END -->

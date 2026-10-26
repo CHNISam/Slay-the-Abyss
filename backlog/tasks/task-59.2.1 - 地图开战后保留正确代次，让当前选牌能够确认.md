@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:53'
-updated_date: '2026-10-26 10:29'
+updated_date: '2026-10-26 11:43'
 labels: []
 milestone: m-4
 dependencies: []
@@ -47,4 +47,6 @@ Executor: dot，自有云独立工作树feat/dot-node-combat-generation，基线
 最终组合候选实跑：node-generation3/3、selector35/35与JS语法通过；Backlog校验首次提示缺里程碑，已沿用父任务m-4补齐后重验。
 
 首轮PR221准确head的官方Linux完整npm1502/1502通过，架构109/497通过；Luacheck因新增一行移动了三处既存unused position的基线行号而失败。已实际移除这三处未使用第二局部绑定，不改find调用/首返回值，不修改基线或阈值；8份shop/purge/节点相关回归通过，等待新head完整CI。
+
+已接入e3a9fe2主线；其本身已清理三处unused绑定，因此对新主线净生产差异只有一行代次提交。新组合3组地图/选择/回滚回归再次通过，当前准确新head完整CI待验证。
 <!-- SECTION:NOTES:END -->

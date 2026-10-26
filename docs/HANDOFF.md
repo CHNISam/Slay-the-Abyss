@@ -1,5 +1,23 @@
 # 交接说明
 
+2026-10-26Windows运行40292214533最终JS为1470通过/1失败/零跳过：oracle生成器源码因autocrlf检出为CRLF，字节哈希与已锁定LF源不一致。新增.gitattributes仅固定tools/oracles/sts1_chapter_queues.py为LF；不更换向量或预期哈希。原失败日志保留，另以真实Git的autocrlf=true检出验证字节一致；日常完整Linux CI继续实际验证。
+
+2026-10-26依用户已授权的Linux等价检验，日常Quality/check改用官方ubuntu-24.04，保留PR215的固定工具/Actions版本、精确SHA检出、有界下载和全部检查命令/断言/超时。5c3ed30的Linux1471项及工程/呈现已通过，Windows作业仍在JS阶段运行约15分钟，未判为代码失败；新提交会取消旧运行并保留记录。受信develop/master显式local-special的Windows平台诊断入口保留，不自动调用本机。Linux完整Lua与新SHA完整CI仍须实际通过才合并。
+
+2026-10-26另一执行入口合入PR215（develop b78fb06），随后将上游完整合入PR213为979efef；本会话已只读核对并快进保留。官方runner现固定windows-2025/ubuntu-24.04，保留上游checkout与工具配置。旧6344ef0运行被新提交自动取消，不判为代码失败；Linux工程与呈现成功记录保留。检出回归改为精确选择installed-Git步骤并仅指纹锁定PowerShell正文，排除相邻YAML注释；正文语义逐项核对未改，负对照与未知语义拒绝继续保留。
+
+2026-10-26用户明确要求合并develop，本会话开发/推送例外扩展至PR213集成；不借用其他claim、不修改全局paused。原始运行40290289305的ownership失败且check被跳过，保留真实记录。Quality/check改为认领失败时仍收集代码检查，ownership保持独立失败门禁；仅本轮已有用户例外允许在实际代码、呈现和工程检查通过后合并，不为后续会话豁免认领。
+
+2026-10-26用户要求明确禁止别人未经授权商用，项目方保留商业化权利。新增根LICENSE（非商业源码许可）与README显著声明，package元数据指向LICENSE；适用于项目方有权许可的原创内容，第三方声明和既有有效授权保持有效。此许可属于源码可见、非OSI开源许可；不凭公开仓库推定商业授权。
+
+2026-10-26用户已公开CHNISam/Slay-the-Abyss并指定GitHub官方免费runner；API核对visibility=public且当前连接有push权限。Quality/check由本机自托管切换标准windows-latest，其他作业保持ubuntu-latest，保留全部测试、版本、预算、ownership及收据；不操作本机runner服务。此配置随feat/m3-four-acts推送，不等于当前SHA远端CI已通过或M3完成。
+
+2026-10-26用户随后明确“推送啊”，本轮授权扩展至必要提交与feat/m3-four-acts独立分支推送，继续沿用本轮执行权例外；不更改全局paused，不借用其他会话，不合并develop。Linux完整JS复验1471/1471通过、零跳过；M3整体仍未完成，已知内容/平台缺口与旧失败证据保留。
+
+2026-10-26用户授权Linux等价检验与驾驭工程优化。本轮在既有独立树补ci-checkout-equivalent：Windows继续跑真实PowerShell正文，Linux用受检出正文指纹约束的真实离线Git行为检验。首次262501B/增量319B/旧流程262723B，3项通过；工作流变更未复核即失败，不跳过测试或改正式CI。复用TASK-60，M3内容与平台缺口不因此关闭。
+
+2026-10-26 本轮用户明确第二、第三、隐藏第四幕纳入M3，并回复“全部允许，赶紧做”，授权本会话独立工作树离线开发/测试及Backlog更新暂免远端认领；不更改全局paused、不碰旧树、不提交推送合并、不占用键鼠。执行树/workspace/work/m3-four-acts，基线develop 45ba918（PR206已合入）。DRAFT-2/6已提升TASK-61/62；共享核心TASK-63、钥匙/终幕TASK-64均归M3。当前实际改动及缺口见docs/rules/CROSS_ACT.md；没有本轮导入、平台或完整章节实玩证据，M3保持未完成。
+
 2026-10-26 按用户要求基于远端现有移植实现尽快合并：重新拉取确认develop最新2291de4，PR206复用该完整战士与四职业基础，并保留既有事件/库存/美术工具整合。后续扩写的完整职业牌、无色牌和Neow尚有全量验收缺口，完整保存在本地archive/source-port-expanded-20261026（9af01bacfe1e0954246f35c03395b14003a10646）及本树build/source-port-expanded-20261026.bundle，原工作和失败证据未删除。本次合并不包含该未完扩展，不勾选完整300牌、Neow或平台验收。当前SHA CI与实际合并结果以PR206为准。
 
 2026-10-25统一集成：复用[PR206](https://github.com/CHNISam/Slay-the-Abyss/pull/206)整合事件/库存、PR208的41档美术样板、PR202研究、工程门禁及独立颜色/药水回归。正式source formation、完整75卡、初代PC A0和美术方向保留；原53 UI用例及72转换槽仅分片，已补跨会话交接与到期保护。源码取舍、固定来源、7份脏树和stash的保全/清理规则见[统一收口](INTEGRATION-CLOSEOUT-20261025.md)。当前HEAD完整CI、实际合并和归档清理以PR及本机收口记录为准；以下为各轮历史快照。本轮没有官方导入、实机或发布，旧162dcfb候选不认证新组合。

@@ -1,6 +1,7 @@
 -- Same-run map navigation only; no platform storage, UI or combat dependencies.
 local Rooms = require("abyss_map_rooms")
 local Seed = require("abyss_run_seed")
+local Acts = require('abyss_acts')
 local M = {}
 local kinds = { "combat", "elite", "camp", "shop", "event", "treasure", "boss" }
 -- Topology and room kinds only. Actual encounters belong to the Run queue and
@@ -62,29 +63,53 @@ local function configuration(data)
     return encounters, table.concat(signature, "|")
 end
 
-function M.generate(data, seed)
+function M.generate(data, seed, act)
+    if act==nil then act=1 end
+    local chapter=Acts.get(act)
     local _, signature = configuration(data)
     local runSeed=Seed.normalize(seed)
-    local generated=Rooms.generate(runSeed)
+    if act==4 then
+        local map={version=4,act=4,firstFloor=52,terminalFloor=55,seed=runSeed,runSeed=runSeed,
+            mapSeed=Acts.mapSeed(runSeed,4),sourceSignature='map-v4:sts-a0-319009d5:TheEnding:fixed-52-55:'..signature,
+            floor=51,path={},nodes={}}
+        for row,kind in ipairs({'camp','shop','elite','boss'}) do
+            local floor=51+row
+            map.nodes[row]={id=id(floor,4),floor=floor,localFloor=row,lane=4,type=kind,
+                nextIds=row<4 and {id(floor+1,4)} or {}}
+        end
+        return map
+    end
+    local generated=Rooms.generate(runSeed,act)
+    local offset=chapter.first-1
+    if act~=1 then signature='map-v4:sts-a0-319009d5:'..chapter.id..':'..signature end
     -- seed preserves the Nodes map-identity ABI; both identities are immutable
     -- raw run strings. mapSeed is the distinct raw+actNum source RNG seed.
     local map = { version = 3, seed = runSeed, runSeed=runSeed, mapSeed=generated.mapSeed,
         topologyState=copy(generated.topologyState),randomState=copy(generated.randomState),
         sourceSignature = signature,
         floor = 0, path = {}, nodes = {} }
-    for _,source in ipairs(generated.nodes)do
-        map.nodes[#map.nodes+1]={id=id(source.y+1,source.x+1),floor=source.y+1,lane=source.x+1,
-            type=source.type,nextIds={}}
+    if act~=1 then
+        map.version,map.act,map.firstFloor,map.terminalFloor=4,act,chapter.first,chapter.last
+        map.floor=offset
     end
-    map.nodes[#map.nodes+1]={id=id(16,4),floor=16,lane=4,type='boss',nextIds={id(17,4)}}
-    map.nodes[#map.nodes+1]={id=id(17,4),floor=17,lane=4,type='treasure',roomKind='boss_treasure',nextIds={}}
+    for _,source in ipairs(generated.nodes)do
+        local row=source.y+1
+        local node={id=id(offset+row,source.x+1),floor=offset+row,lane=source.x+1,type=source.type,nextIds={}}
+        if act~=1 then node.localFloor=row end
+        map.nodes[#map.nodes+1]=node
+    end
+    local boss={id=id(chapter.boss,4),floor=chapter.boss,lane=4,type='boss',nextIds={id(chapter.last,4)}}
+    local terminal={id=id(chapter.last,4),floor=chapter.last,lane=4,
+        type=act==3 and 'event' or 'treasure',roomKind=chapter.terminal,nextIds={}}
+    if act~=1 then boss.localFloor,terminal.localFloor=16,17 end
+    map.nodes[#map.nodes+1],map.nodes[#map.nodes+2]=boss,terminal
     local nodesById={};for _,node in ipairs(map.nodes)do nodesById[node.id]=node end
     for _,edge in ipairs(generated.edges)do
-        local source=assert(nodesById[id(edge.src_y+1,edge.src_x+1)])
-        source.nextIds[#source.nextIds+1]=id(edge.dst_y+1,edge.dst_x+1)
+        local source=assert(nodesById[id(offset+edge.src_y+1,edge.src_x+1)])
+        source.nextIds[#source.nextIds+1]=id(offset+edge.dst_y+1,edge.dst_x+1)
     end
     for _,node in ipairs(map.nodes)do
-        if node.floor==15 then node.nextIds={id(16,4)}end
+        if node.floor==chapter.camp then node.nextIds={id(chapter.boss,4)}end
     end
     return map
 end
@@ -94,10 +119,10 @@ local function index(map)
 end
 
 function M.available(map)
-    if map.floor == 17 then return {} end
+    if map.floor == (map.terminalFloor or 17) then return {} end
     local nodes, result = index(map), {}
-    if map.floor == 0 then
-        for _, node in ipairs(map.nodes) do if node.floor == 1 then result[#result + 1] = copy(node) end end
+    if map.floor == (map.firstFloor or 1)-1 then
+        for _, node in ipairs(map.nodes) do if node.floor == (map.firstFloor or 1) then result[#result + 1] = copy(node) end end
     else
         for _, nextId in ipairs(nodes[map.currentNodeId].nextIds) do result[#result + 1] = copy(nodes[nextId]) end
     end
@@ -105,7 +130,7 @@ function M.available(map)
 end
 
 function M.choose(map, nodeId)
-    if map.floor == 17 then return false, "map_complete" end
+    if map.floor == (map.terminalFloor or 17) then return false, "map_complete" end
     if type(nodeId) ~= "string" or not index(map)[nodeId] then return false, "invalid_node" end
     for _, node in ipairs(M.available(map)) do
         if node.id == nodeId then
@@ -126,7 +151,7 @@ function M.view(map)
     for _, node in ipairs(view.nodes) do
         node.visited, node.available = visited[node.id] == true, available[node.id] == true
     end
-    view.complete = map.floor == 17
+    view.complete = map.floor == (map.terminalFloor or 17)
     return view
 end
 
@@ -143,11 +168,11 @@ end
 -- Strict same-run restoration: regenerate the source graph, then replay legal choices.
 -- Returns an independent state or nil/reason; never mutates the supplied snapshot/data.
 function M.restore(data, snapshot)
-    if type(snapshot) ~= "table" or getmetatable(snapshot)~=nil or snapshot.version ~= 3
+    if type(snapshot) ~= "table" or getmetatable(snapshot)~=nil or (snapshot.version ~= 3 and snapshot.version ~= 4)
         or type(snapshot.runSeed)~='string' or not array(snapshot.path, 17) then
         return nil, "invalid_snapshot"
     end
-    local ok, map = pcall(M.generate, data, snapshot.runSeed)
+    local ok, map = pcall(M.generate, data, snapshot.runSeed, snapshot.version==4 and snapshot.act or 1)
     if not ok then return nil, "invalid_configuration" end
     if snapshot.sourceSignature ~= map.sourceSignature then return nil, "configuration_mismatch" end
     for _, nodeId in ipairs(snapshot.path) do
