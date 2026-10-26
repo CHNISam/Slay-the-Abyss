@@ -150,12 +150,12 @@ function M.beginRetain(s)
   token=s.choiceSerial,uids=ids,turn=s.turn}
  s.silentRetainResume=true;return true
 end
-function M.onUse(s,d,c,targetIndex,x,purge)
+function M.onUse(combat,s,d,c,targetIndex,x,purge)
  if purge or d.type~='skill'or (s.player.statuses.burst or 0)<=0 then return end
  s.player.statuses.burst=s.player.statuses.burst-1
  if s.player.statuses.burst==0 then remove(s,'burst')end
  s.queuedCards=s.queuedCards or {}
- table.insert(s.queuedCards,1,{card=copy(c),targetIndex=targetIndex,energyOnUse=x,purge=true,autoplay=true,exhaustCards=false})
+ table.insert(s.queuedCards,1,{card=actions().sameInstance(combat,s,c),targetIndex=targetIndex,energyOnUse=x,purge=true,autoplay=true,exhaustCards=false})
 end
 function M.startTurn(s,post)
  local p=s.player

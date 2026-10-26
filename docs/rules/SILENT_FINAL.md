@@ -36,3 +36,5 @@
 `silent_final_sources.lua`是受控连续来源流→真实领取/购买命令的闭包用例：71/71非基础卡随机抽取后真实领取、71/71从真实货架购买，以及固定冷启动种子两瓶购买已通过；不是正常地图全程。native卡能力钩子按实际状态/登记工作，`nativeRageHandled`只对已有Rage分派去重，不检查职业身份；foreign WLP也覆盖native回合保留续跑。跨职业完整合并目录由TASK-59拥有，不能把此处组合夹具当作该目录交付。
 
 此片不更改Backlog完成状态；最终整合树完整Quality、自然构筑与平台显示/交互仍需父任务独立验收。
+
+交叉审查补正：Burst不能用普通表复制复用物理uid。移植共享 `db3035e` 的纯 `CardActions.sameInstance` 接口及fresh UUID规则；Burst重播现在使用新物理uid，保留源uuid/deckUid，并按purge处置。`silent_burst_retrieval.lua`先以真实Burst→Hologram第一轮手选后第二轮 `invalid retrieval piles` 证红；修复后基本/升级两版均完成两轮真实选牌、仅支付一次、不产生第二张入堆实体，旧Acrobatics两轮例仍绿。没有导入Defect职业模块。

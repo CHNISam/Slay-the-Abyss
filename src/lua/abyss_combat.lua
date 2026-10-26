@@ -1095,7 +1095,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     local energyOnUse=automatic and automatic.energyOnUse or state.energy
     if energyOnUse==nil then energyOnUse=state.energy end
-    require('abyss_silent_final_cards').onUse(state,card,instance,targetIndex,energyOnUse,automatic and automatic.purge)
+    require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,energyOnUse,automatic and automatic.purge)
     if not automatic then state.energy=state.energy-paidCost(state,card) end
     if position then table.remove(state.hand, position) end
     if not (automatic and automatic.purge)then instance.freeToPlayOnce=nil end
@@ -1185,7 +1185,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     local reactions = EnemyAI.cardReactions(state, card)
     local x=energyOnUse or state.energy
-    require('abyss_silent_final_cards').onUse(state,card,instance,targetIndex,x,purge)
+    require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,x,purge)
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     -- Native already dispatches Rage's Block below. Only that hook is skipped;
     -- foreign After Image/Thousand Cuts/Heat Sinks/Storm keep their semantics.
