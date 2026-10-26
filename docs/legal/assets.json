@@ -1,0 +1,1777 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
+  "hashRule": "SHA256 raw bytes; Lua CRLF normalized to LF only. Categories record provenance, not clearance. Update manually after rights review.",
+  "categories": {
+    "editor-runtime": {
+      "status": "GPL-3.0-runtime-plus-MIT; combination unresolved",
+      "evidence": "THIRD_PARTY_NOTICES.md; docs/art/CARD_SHARED_ASSETS.md; docs/art/CARD_EDITOR_SPIKE.md"
+    },
+    "primitive-runtime": {
+      "status": "MIT runtime; content rights separate",
+      "evidence": "docs/experiments/art-portrait/README.md; LICENSE-Shaper.txt; LICENSE-primitive.txt"
+    },
+    "game-ip-ai": {
+      "status": "unknown AI service rights and game IP permission",
+      "evidence": "docs/art/AI_ART_SAMPLES.md"
+    },
+    "project-geometry": {
+      "status": "project-authored geometric design; rights reserved; platform/tool rights separate",
+      "evidence": "docs/art/CARD_SHARED_ASSETS.md; docs/art/CARD_EDITOR_SPIKE.md; docs/art/production-scene-3d.md"
+    },
+    "platform-evidence": {
+      "status": "unknown content reuse rights; evidence only; no asset license",
+      "evidence": "THIRD_PARTY_NOTICES.md; docs/legal/LICENSE_AUDIT.md"
+    },
+    "portrait-experiment": {
+      "status": "geometrically drawn by project; game character rights unresolved",
+      "evidence": "docs/experiments/art-portrait/README.md"
+    }
+  },
+  "files": {
+    "art/cards/shared/card-back.json": {
+      "sha256": "ec552de83ef53b8d51d7c45625b4504dcd698cf8bf0a3fa06d6b0e7807e4681a",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/card-back.lua": {
+      "sha256": "91b2836ee96ffef03dd1ec78343427be00e7e8113f952c21a50ca3c8087cc3db",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/card-back.png": {
+      "sha256": "a4e1d75bf290ca9f9ce55585fcb5029bdf426642d123588c793e09690a8f48d3",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/card-back.source.json": {
+      "sha256": "51eac16bb76b28fcb0938cad4de5ba5ddcad9bc8dfb054a55e057e5e0b4626a5",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/contact-sheet.png": {
+      "sha256": "d619ec96d5c137b5812429aeeef7e5cfe2a73588c258957563d2d23af42a1eaf",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-basic.json": {
+      "sha256": "1ef93e0f8107b1f831dea1dd59778de4b471a620d949bae6193ff6eb4c4eb0f0",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-basic.lua": {
+      "sha256": "d963a423b2f8852d062f7fd4e9f736ffb8233cd2a57ffe447273e66f322945b7",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/frame-basic.png": {
+      "sha256": "73ddb7efaef353183daf0a96863d05ad85c1b03069cb06bfb1c3bc6504a869bf",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-basic.source.json": {
+      "sha256": "a17f1623d1bba929dc80267d71719426a86a92ca1ebd4c8615e0d03e8a014fd5",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-common.json": {
+      "sha256": "05cc38f91a15442b707f787af5f11a5b0fd01f5acdbc4f3993b4bef7d56d49bf",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-common.lua": {
+      "sha256": "52d8c3df5b2f851dbbe2ec5210311c43ca5c2c696d3f74ef5646d03ae4f9d6a1",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/frame-common.png": {
+      "sha256": "2c95a406c5830cc7d1a102428cba9c6b9b86eda9313a39f4815967efa19948f1",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-common.source.json": {
+      "sha256": "93f7151bc17d30fe18c6050831ad85d25060ecd1a68d3f3bcdcf29e2209671e6",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-rare.json": {
+      "sha256": "2d9428858d57c5d5535dd7a5025bfa58c412db50c0668e8753254ba6a83eeee3",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-rare.lua": {
+      "sha256": "76985879da7383e5aed0496616f0bb867209f3c03eb683d293291c038816ab9f",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/frame-rare.png": {
+      "sha256": "d8a2a472875e3f941eb2d6df2dbaa62f65f1e6b2a22372c170826de1dde531fd",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-rare.source.json": {
+      "sha256": "f1ad7723bd2ef517c15067f6e133a3386a77e98d84533f9997c51c879eeaf03f",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-uncommon.json": {
+      "sha256": "3e01cd28e76a02999139f6c76d7712f9081ada8eaad16e286b1b839aa5dd9ebf",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-uncommon.lua": {
+      "sha256": "f8b51dddb4d3a13180c66b80040d42b82521cddde09e5f3c7ec9ddfc13327564",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/frame-uncommon.png": {
+      "sha256": "679bd24c3e37fff08bba96716c2f14490dfdcd81dcf5045fe2935b691e1ae544",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/frame-uncommon.source.json": {
+      "sha256": "0a116718498e17e7152b646e4065620de7f7b4a7fb696c8286b119a161c7184e",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/manifest.json": {
+      "sha256": "1eaf88d150567cb1fe62716f9d879af6c91f24ece3cbb6fc4b8214550d7f9d95",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-attack.json": {
+      "sha256": "89d5e4b513a22bd1e4a562077e966b5a878bd7cf37697427e7e199286b53cb56",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-attack.lua": {
+      "sha256": "763b54a4a43be2bf25cbb665c02516e2cc128727edc00bc84284e6ee70d42a5e",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/type-attack.png": {
+      "sha256": "24195e3865f579cf3ff50d2774fb1901938940591dab3cf43155d9abe7560172",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-attack.source.json": {
+      "sha256": "7fabc22a57f9288e1173973ec6244c220ebcfea15e9ef10462d4f9221f1f8f18",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-power.json": {
+      "sha256": "d89b3e29dd6d3238b8cbd3b068dfc7b5046a2a5fdb221256054d7101f7c66387",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-power.lua": {
+      "sha256": "3a8a1e781211e3e872b6e17cbe9c0aa46a1a527e8cd67914eab5499e4e63e409",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/type-power.png": {
+      "sha256": "51e5afdc283b4fffc840cdfb74780a09a5d5ddb56253f6eba3e0306a80cf0849",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-power.source.json": {
+      "sha256": "417fcc977d9b0c77b96177158d57031ebad8bcc7328a2d71672e2f4513f147d5",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-skill.json": {
+      "sha256": "af6c199b832c6cd224bb20960804b92c02203a654ff38758bb990709783854cd",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-skill.lua": {
+      "sha256": "8bcd59cc7baa63a5557fe7fcbf36c94c14c5079e1988287b12150ee2c735fff4",
+      "category": "editor-runtime"
+    },
+    "art/cards/shared/type-skill.png": {
+      "sha256": "7f6406151c49522e3d710876d41468d5c457332646bd5fdd74266a8ba0f38c33",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/type-skill.source.json": {
+      "sha256": "af19bd9e1fb6223d6f11fcd0d8f14f9bed642e188e61dd938b4826ca385877ba",
+      "category": "project-geometry"
+    },
+    "art/cards/shared/verification.json": {
+      "sha256": "05a1a9ef64ea1ef1d851ba612d559b5b568e2e76cc198309b8f3cd7f58997892",
+      "category": "project-geometry"
+    },
+    "art/processed/ai-samples/lumine-face/B/fit.preview.png": {
+      "sha256": "16bfba06a2165844709052f951e7235bfc6dbceeb06c85361201cbfd5b8a34e1",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine-face/B/fit.raw.json": {
+      "sha256": "20bd45d8b3f185871419c9f1389dc56d79e1ba7c8f7d388ebb4c8caacfd752f3",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine-face/B/input.png": {
+      "sha256": "055136ddbd2b02b68821ae40960f412691bb3bcb5e2fb5a9b5d180e9e09b1f02",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine-face/B/primitive.lua": {
+      "sha256": "eb7d58610a75b6b96836251925c727f522ce07fe397bfa8299c580ce107128fa",
+      "category": "primitive-runtime"
+    },
+    "art/processed/ai-samples/lumine-face/B/recipe.json": {
+      "sha256": "fda93b228ecbbc5732ac027fa74a87f1d2655964278b757174cf4ed952a14b2d",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/asset.gia": {
+      "sha256": "a58cc56173ba79957e67221dd17ee3ffac573b1ef2633b2da43ed8d8feb8e4d6",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/asset.gia-scene.json": {
+      "sha256": "19a45dd030249888a191faa016516f46eb7cc22d864d379cdc7029ecde8c209a",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/asset.json": {
+      "sha256": "b0b737a90a87c2e6962272cc2d7d57ad7bef1c933f2a9c72f22708b8a5fec7f6",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/asset.lua": {
+      "sha256": "51ead6d0ad3551093c199bf62244cae39b13dc23f30cc445bfa36b76dc6e4c13",
+      "category": "editor-runtime"
+    },
+    "art/processed/ai-samples/lumine/A/asset.png": {
+      "sha256": "d77497d4c4b425a97e94e914a30c419e53c9ad6198dcdbe5fab12f08b12dd697",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/editor-edits.json": {
+      "sha256": "d3cd2d3b51445edd591ed05cc9d8b1203b2c6e377178e5777bb9b6360470c4cd",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/fit.preview.png": {
+      "sha256": "046d18811f0a6fbdb247fd11b442606f04cc3d7e79f7ef57c8fb6402031e9808",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/fit.raw.json": {
+      "sha256": "387b167dbf9b57b578b9640f9c36d0ae0c21ce44ca738ab0c2619028c1b2f61d",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/input.png": {
+      "sha256": "33a8c4974b8b779d4394fecb0650d29194fd4cb0897620764775c7b85caed409",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/A/primitive.lua": {
+      "sha256": "24114ac17892cdd5d2c6f3c404278272c7e82351e6413508d066330baf8c5d39",
+      "category": "primitive-runtime"
+    },
+    "art/processed/ai-samples/lumine/A/recipe.json": {
+      "sha256": "c7648732ead122b3165f4519f503ae45f0d06898b547c04bc476df53fa092a8e",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/asset.gia": {
+      "sha256": "98fce76e0ff44a1d3f7604ee252a3a80c063a0924ca38bf2255354c632aaeedc",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/asset.gia-scene.json": {
+      "sha256": "c5a3bdfed229a0574bd09ec63693266dbff642bcd18943f5bb14cbacf3f020e9",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/asset.json": {
+      "sha256": "45dd20f67915c931f64d7dbeab6518fa17418534abd4030097c88a66af40b251",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/asset.lua": {
+      "sha256": "8909716af7b3a531fa9fa30b15f5d1f8d9663feb1d3f3628bdf2eff0757c70e3",
+      "category": "editor-runtime"
+    },
+    "art/processed/ai-samples/lumine/B/asset.png": {
+      "sha256": "8754e20ad44cac55c231f80196134ce059875f52f21c51169a7cf3ee58c66523",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/editor-edits.json": {
+      "sha256": "2827e702bce12d368cef77d3510a94abae651af6a64efef6bf346114f6dd913a",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/fit.preview.png": {
+      "sha256": "305831ce66aee09ae16a5bafbac1da210c72e6b0a95adf9e561bad421a946be9",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/fit.raw.json": {
+      "sha256": "bf35bfdfdc7381d12160be8d80f819a9ac1410cbca750ff35535f7c87d333ef7",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/input.png": {
+      "sha256": "f93a44ddba08481c2eaf4afb9fcad6ce039fcb09f4b040bbdbe7f10ca4cd8eb4",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B/primitive.lua": {
+      "sha256": "ba2d388624632bbeda8ea372866b379888263326e134b3b689a5621807cce176",
+      "category": "primitive-runtime"
+    },
+    "art/processed/ai-samples/lumine/B/recipe.json": {
+      "sha256": "5063c2e2f53424cf96426bb84559642f5af159d9d8e2df887ce57ff3382ef16b",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B2/asset.json": {
+      "sha256": "48433e862a9fd70699aac63b0f93078e2822531743c476f6a1d2a0c7a2efd259",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B2/asset.lua": {
+      "sha256": "f9d47d26d69f433157052b17244b565833c2182a9c6ddbe858bb898a9195365e",
+      "category": "editor-runtime"
+    },
+    "art/processed/ai-samples/lumine/B2/asset.png": {
+      "sha256": "aaf2f7d8e41dded0613b6a5c0dae1f9587ced5358f3256e3489399c332d3f279",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B2/editor-edits.json": {
+      "sha256": "6785f7b9d289097b4b6c2611e14cb12d0064ab9462005b8c579066864451da42",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/lumine/B2/recipe.json": {
+      "sha256": "17d98af664959214df108bb9d6894a2fd85674915e464226e81e99d006b30c74",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/probe.lua": {
+      "sha256": "c26c1a5a8ce230a78b267365a9641b6499097f257f9b61632ec92c2076ce6eb4",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/asset.gia": {
+      "sha256": "8bbb67c57f75745e88703de457c04e4a07fc37c5a7645510ec5f29acbad46b96",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/asset.gia-scene.json": {
+      "sha256": "d514217363ef6c688a68476139df67ca87a8714c99bfbaee0b2bfc4f6600685e",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/asset.json": {
+      "sha256": "3f4ead6bd819720d664902bfae19ed980ab5683a1fad9fb260a4836a61103466",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/asset.lua": {
+      "sha256": "7a5099c1a3e0e5012d988199a00262bd2c736028ba002359d535661f59bec35e",
+      "category": "editor-runtime"
+    },
+    "art/processed/ai-samples/starfall/A/asset.png": {
+      "sha256": "e73a95c1bd296d0a39a89e6e805a387eee1cc5a2b6b8c85c3cf39e1c10637c1c",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/editor-edits.json": {
+      "sha256": "a628cc873815a69bcadbd56c8a119c70c9bb0812dc03c9fb4cce7e52e6bb757d",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/fit.preview.png": {
+      "sha256": "3f3072f48eecf4ceaad7ee87f0ca842143612a3396b251fd1eae177ea0e5c3c0",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/fit.raw.json": {
+      "sha256": "2886c93dc1ee51a4e2db3bcba39196762879d16fec1fa237e335c69617c1b675",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/input.png": {
+      "sha256": "b6bfd1c0a3a8a9d1253deb18aab6da4c46ae1a0c7623c43e5d7716063e71d71a",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/A/primitive.lua": {
+      "sha256": "a3d3b9532b2f73517fb77c4491c98f94db0bc7adbe02db0f4ac1b70f8dfd218e",
+      "category": "primitive-runtime"
+    },
+    "art/processed/ai-samples/starfall/A/recipe.json": {
+      "sha256": "02fe373fad3ae020707a375a8d87be894633118d97b436f3a6b7c26ede15418e",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/asset.gia": {
+      "sha256": "69bfdc3a9465fd130e79c10948f655a6eb4fe93683f3ca4cabc84f6c4c8659d8",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/asset.gia-scene.json": {
+      "sha256": "9939ce15af8a58814dcbd0b9ce97774bc91060a83b9a9ff8d8a7c9a9d48a7736",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/asset.json": {
+      "sha256": "92cff9d49c9a1d85f6d2c6b829420e3ff8d7cea9213d3a26bc66ff8ba21b5c72",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/asset.lua": {
+      "sha256": "e438e330939378482257e486dbf43411ece170a5019a89068e0879affea3384c",
+      "category": "editor-runtime"
+    },
+    "art/processed/ai-samples/starfall/B/asset.png": {
+      "sha256": "bea3ed5462272480f38efb52d58e8def418b3d7632d7a3855a890cc9b57eed0e",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/card-mapping.json": {
+      "sha256": "87f7fff7feb5c7685adaa29b10159c305408c2d26c3c2b0e8f04c86a4b8275cf",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/card.json": {
+      "sha256": "db4b865a3263b104798c3758607fd92b72b722fcf906c3e10b7076419f5882c7",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/card.lua": {
+      "sha256": "0c48efe7f0863a15094e930ed0ad4565333a2bf12498b7b028138b04ebe00077",
+      "category": "editor-runtime"
+    },
+    "art/processed/ai-samples/starfall/B/card.png": {
+      "sha256": "6a69027d1e971399b34c05ec4a4e1532c14c0c8377a17233b62ef5e1e5aca83a",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/editor-edits.json": {
+      "sha256": "d3214109677ee651637d59abdb9fbde19028cab6ae84d658c5a5c7e13ad1cfbe",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/fit.preview.png": {
+      "sha256": "61d8a02a6ea4f0099bccb8385d72aed28acdac2de98e7c1d4552ae45c6a6402f",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/fit.raw.json": {
+      "sha256": "dbac4bf862b10a31c61db4f95a68381bbdcfb55de2bd612f4e548891843ef0b3",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/input.png": {
+      "sha256": "883174bb692aad77561b89f5bb589adc43af8b0da8da2fc5d13e3dfd8a706eaf",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/starfall/B/primitive.lua": {
+      "sha256": "cd0704b8380213519152f3a0528c6bc8c6029cf17f0cd4915f206aada83d855f",
+      "category": "primitive-runtime"
+    },
+    "art/processed/ai-samples/starfall/B/recipe.json": {
+      "sha256": "7e7786e59200573370787931a11923ff1561f23d91fd0da2ce16874cdd0ff11b",
+      "category": "game-ip-ai"
+    },
+    "art/processed/ai-samples/verification.json": {
+      "sha256": "5e896b24817d83c0fd0846d4ae558ee825666c46428bb66bb6abda50b7e1ed9c",
+      "category": "game-ip-ai"
+    },
+    "art/source/lumine_geo_portrait.png": {
+      "sha256": "5a8287ed5c1d1825b9068534df985cf14067596e37eef530f5d2a6ab1ba26854",
+      "category": "game-ip-ai"
+    },
+    "art/source/starfall_sword_art.png": {
+      "sha256": "2a42eae75955b9c75f0813b9b4f009580026f46758ad04b2718e8266422e5f53",
+      "category": "game-ip-ai"
+    },
+    "art/spikes/art-pressure/controller.lua": {
+      "sha256": "2a601904a54fe269922c2649b31575cb850374afaf044913341accd49bbeb5de",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/production-25d.json": {
+      "sha256": "31ff8c7a4d2247d8bf55034621884fac0b1340123f07ba4936b89869f0b1a12a",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/production-25d.lua": {
+      "sha256": "f409ce62a23514d59283935f3355d356521a364ade1a354ee6e8a760a2451494",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/production-25d.svg": {
+      "sha256": "6767792d7d0a59eb2462b24f039dd89fb058b973045f980d787a5d46521b7dfb",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/production-3d.assets.json": {
+      "sha256": "7a9ec14c32abc801f4f2cfa6dab62769518d6acaea27afe36bfee7c2c4afe0a4",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/production-3d.scene.json": {
+      "sha256": "75de55487a2a0c1d3615280ce2b476e5ee9f30bf5a27b7292c1d975761e0d8f0",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/scenes.lua": {
+      "sha256": "75112be500140fba8af3b6764dfcc7c98b995f62e8c8b17360493b55984ac8f4",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/verify-production.lua": {
+      "sha256": "0374ef05c4d43dfa01a0e6f8dcdff89fb2ee004e4876743ec82c4666a7cbbd1a",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/verify-scenes.lua": {
+      "sha256": "eb4df5a60c49d5ee1dbdd9860a8e725b088e1a00efb8a4d79eac6787d7fcdd2d",
+      "category": "project-geometry"
+    },
+    "art/spikes/art-pressure/verify.lua": {
+      "sha256": "1a341f2d00415082d053af8d960ae538e98bee3a996eedc97bf3c29f964bb955",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/baseline-preview.png": {
+      "sha256": "f10246b1ff3a7f2becbcd472f60ed6df84794fa9645db77b7c127992b5c49309",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/baseline-ui.json": {
+      "sha256": "9b6bbf11ca0643e3188da828299d0c4f02bca308c1658823e67bc2d907e9b7d1",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/five-preview.png": {
+      "sha256": "ef3d59d7e437d3b3f40c7eb24a22ef7e6f578b9add167fc801fd8e201d8b57f9",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/five-ui.json": {
+      "sha256": "9d0f901a2c526ebbab14afd2d6147c9af2b99a47c02aac6a2dbf73c7c7c2479a",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/longest-preview.png": {
+      "sha256": "9b249fb107d5d1180e793417937bf713edd30fa9781088b81a6185baeafbce5c",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/longest-ui.json": {
+      "sha256": "fc93d3f4e1d7688cf5ed5f1b40ea4bb4ae769a1b40eb9a4bd311da370ea871b4",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/longest/card.json": {
+      "sha256": "84713bd0606d9613013662627986710016cdc03b43cab0c7fc65a33183b6a1f9",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/longest/card.lua": {
+      "sha256": "d0d6ce9e9b500198b67e8620617863bde4bf767b8a46bc96581e7390ed1cc043",
+      "category": "editor-runtime"
+    },
+    "art/spikes/card-capacity/longest/card.png": {
+      "sha256": "b0f4b0eafadaa880608e577354ee3f7a7365ab41c0b112525d6383d0c6186398",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/longest/card.source.json": {
+      "sha256": "cf05bac3153f0cde02817fad5da9bf331e6732f03160f38ad9c96a1481dbdb25",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/manifest.json": {
+      "sha256": "1cf138358c9dfe60ba9a622d6ca3c07a4ee37bc0c5a8e177f0f21ea36933f39f",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/one-preview.png": {
+      "sha256": "3083a02b4d96673a0b9c51c065438778b70d9f9459c8397dfd28030231afeb11",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/one-ui.json": {
+      "sha256": "14d7cc5caec79a599d7cdbb68f46a7044ec21c1e9eae7ebbda81329f85dbe3c0",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/probe.lua": {
+      "sha256": "fbe453bbb417960a90b1ee115b99d63497bf2a85c237bd5691e094bcb8aae23c",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/reference/card.json": {
+      "sha256": "af038a156eed9896cd393e8cc5e4e593abbb79036ca1b07ac848a863c2e25107",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/reference/card.lua": {
+      "sha256": "ca9f4043918ed043071df1554820e445c4c893de5d841c9eb444965e77654ae1",
+      "category": "editor-runtime"
+    },
+    "art/spikes/card-capacity/reference/card.png": {
+      "sha256": "6248e99c7ca25359eb5e31a2da78fbf3f9ea4eaf4b6e2fdb10ba6c9c25b3c72d",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/reference/card.source.json": {
+      "sha256": "6290ab544b16b161d743b485719b9d62a49b5a1dc9e7b408b1bfd1c25b6f639f",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/ten-preview.png": {
+      "sha256": "9280954695cfcc6b73db51a7e3a6df76e9bf9575eac432118014b40f8790bbd0",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/ten-ui.json": {
+      "sha256": "004d74baa518968804dee07c04bee1e9c0780f48aeccc3faac695497b5094b52",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-capacity/verify.lua": {
+      "sha256": "b38b4e317995013184995be4d5b71d381cab9a159fac4ff5689dbabe87e694cd",
+      "category": "editor-runtime"
+    },
+    "art/spikes/card-editor/card.gia": {
+      "sha256": "71635478b14c704c26a7674243006edc77824936bb61513c4ee32f9d7cf35fc7",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/card.gia-document.json": {
+      "sha256": "144b9e9150509f99584bd115472712c5f2ad211ac559cdd4d07e5d2ae2459d4b",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/card.json": {
+      "sha256": "5111b8548360a92bbb780a186240efacc75b803837fa522a8fbfeb89d81c41ef",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/card.lua": {
+      "sha256": "97649e79b9a2cd944e8df31480059d8adb57fe0d9e03dc8e65346012cc27e0e8",
+      "category": "editor-runtime"
+    },
+    "art/spikes/card-editor/card.png": {
+      "sha256": "6248e99c7ca25359eb5e31a2da78fbf3f9ea4eaf4b6e2fdb10ba6c9c25b3c72d",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/card.source.json": {
+      "sha256": "e9385519caa62fa1dba6e4c2ce386d306b3eaa616de37afe7ef883fbe2539bde",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/text-height-compat/card.gia": {
+      "sha256": "558e1c1ba6dba57313b4bcf15378db76561a220dc1ea2242202062890cdfc034",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/text-height-compat/card.gia-document.json": {
+      "sha256": "1edeec6111d41098da07e2657a691ad1f46fd22754ac468fa9aa94005a66f8e6",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/text-height-compat/card.json": {
+      "sha256": "af038a156eed9896cd393e8cc5e4e593abbb79036ca1b07ac848a863c2e25107",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/text-height-compat/card.lua": {
+      "sha256": "ca9f4043918ed043071df1554820e445c4c893de5d841c9eb444965e77654ae1",
+      "category": "editor-runtime"
+    },
+    "art/spikes/card-editor/text-height-compat/card.png": {
+      "sha256": "6248e99c7ca25359eb5e31a2da78fbf3f9ea4eaf4b6e2fdb10ba6c9c25b3c72d",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/text-height-compat/card.source.json": {
+      "sha256": "6290ab544b16b161d743b485719b9d62a49b5a1dc9e7b408b1bfd1c25b6f639f",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/text-height-compat/verification.json": {
+      "sha256": "568d35a181b5fc7bb1940aaacab5963a06310b4aa36c4d39437ecb51db4a5364",
+      "category": "project-geometry"
+    },
+    "art/spikes/card-editor/verification.json": {
+      "sha256": "fa15a7b0e816c1df5760adebc5f64dc04e2573abfa8848873e0a14cb1721d17c",
+      "category": "project-geometry"
+    },
+    "art/spikes/platform/card-ui.json": {
+      "sha256": "125390a851274465b642f8a605dde934fbff987ec637b739e101ac977fee2698",
+      "category": "project-geometry"
+    },
+    "art/spikes/platform/probe.lua": {
+      "sha256": "89664e3050587ea65e2f0ce55d41220cad001157c418a3effafb722367ce034d",
+      "category": "project-geometry"
+    },
+    "docs/art/scene-spike/thumbnails/20001540.jpg": {
+      "sha256": "618239ecff1b01f93290d8d82cd35b044596804940ae70128c7aaa6ffe91a96d",
+      "category": "platform-evidence"
+    },
+    "docs/art/scene-spike/thumbnails/20001711.jpg": {
+      "sha256": "73bddffb09c0d34faf6435e1a93c5f7953d9e6143a2ebf4acbd968abc997cb56",
+      "category": "platform-evidence"
+    },
+    "docs/art/scene-spike/thumbnails/20002083.jpg": {
+      "sha256": "d1b7d08ed10465798a6bdde80a861efb42280dcbb3c3d0fdb3099a74c4bad7a7",
+      "category": "platform-evidence"
+    },
+    "docs/art/scene-spike/thumbnails/20002586.jpg": {
+      "sha256": "aa4f7ca9da5ccf547f534a493946bc838674f8c5fbd6d9222f126b35669bfc51",
+      "category": "platform-evidence"
+    },
+    "docs/art/scene-spike/thumbnails/20002899.jpg": {
+      "sha256": "d8a530a783ab0d2f261c885e1a0cd8bdc0e4b82707d97dd4b09069f2c1ee0fe6",
+      "category": "platform-evidence"
+    },
+    "docs/art/scene-spike/thumbnails/20002902.jpg": {
+      "sha256": "0e2292ae9dc1577f44d76d1366f07669af39a4a6cd4b5673a0fc4943d3cda705",
+      "category": "platform-evidence"
+    },
+    "docs/art/scene-spike/thumbnails/20003078.jpg": {
+      "sha256": "2f2003cc227cd8d5315dcdf5a2c5cb045a0758730ec2cbd1e1a7b338f1cd6662",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/camp.png": {
+      "sha256": "82d1111f219569a7e5baf7a6460fb4dccef7832638fa74d39b1cd985573402ff",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/event-cleric.png": {
+      "sha256": "1566fca29d992ee62ce20133f569dac4a01a4278532a76272bb01eb77d6adaf2",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/forge.png": {
+      "sha256": "83d962aeaa1db90856818964c5d432e35fcb8a65f6d929ff8287cdf79f1589df",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/shop-refused.png": {
+      "sha256": "de67288791804390381d00c5a9a7213703b25b3fbeab00ccccc485dc05b87e94",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/shop-remove.png": {
+      "sha256": "899f9f81934802f3bcddb28a5505a281f1541785257d33753b7e55d599824171",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/shop.png": {
+      "sha256": "09fb9c970c8378f48ddc388145d819932a15ab44a6528062711a939df2b95946",
+      "category": "platform-evidence"
+    },
+    "docs/design/node-preview/treasure-open.png": {
+      "sha256": "239a7d769a2cc21545a18f66c496c6b7d8451a7181daf879d4cc107d3add273e",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/battle.png": {
+      "sha256": "a5612e01b8cf77d46ee293204c49de7e540dff81b5fa4923f048353ea7c5b4d3",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/boss.png": {
+      "sha256": "0fb791c9a76ded167a6ce2c162b5638216af18a95ec44402351b16926edfb57c",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/camp.png": {
+      "sha256": "a0ed5d0a4f9513724074580569eefccfb723dd62ddaa4352cbc96613a5c3ee6f",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/drag.png": {
+      "sha256": "42c74cbb4f0030fc4cfb782fa2f5eca3bcd5caf4272c60f9b5721cbd7c7487e5",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/event.png": {
+      "sha256": "4ac77d76bd17ab783108d8269cfaaf9c624cc13c163834bd0378ced36da3ee6f",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/map.png": {
+      "sha256": "a5a029d6d0895610e57867152ec3eaf1e32ca230660e636661f04f2317ab490b",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/pick.png": {
+      "sha256": "a72fd76e4a05b29cf3eb19c8ab39810ca13a0752f908a988ae044f82066a269f",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/reward.png": {
+      "sha256": "435ac85acf3ce9ea41edac909205d9ca24d766d66c280e181a436c07e36b0984",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/shop.png": {
+      "sha256": "ddd7e1d1eec9625508ce60bda210282fed077e2162e4221586162cd688e2903f",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/treasure.png": {
+      "sha256": "b03f66951e826188a328b9d5a56e7b031fdddb35f69b96bb6762003309aaef05",
+      "category": "platform-evidence"
+    },
+    "docs/design/screens/win.png": {
+      "sha256": "804165aef4da4ead2ed8ae26dfcb27cf58bd2bceb5552a9782131f0c649f0c16",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/card-keyword.png": {
+      "sha256": "8ccd96d8a55462d3b67fe7d29c2633d202eb5ff04a8548413b17bd5f3115fbb1",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/crowded-page1.png": {
+      "sha256": "ecc00db5669b59cafb90442c07f7c4b17353cc81282032ebed74b878dba17b2f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/crowded-page2.png": {
+      "sha256": "12bd9d8dd65bce5e42e5e9b369993fa386c228739ed04a3d87c9180b4a743f34",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/crowded-row.png": {
+      "sha256": "4963060b7dbad1f283b83b68973106c1b84bc0940d41d7d1b9d313a7079c93bc",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/hero-status.png": {
+      "sha256": "12a2efd0ec0858c153e9191e2ba2942752b34991da19e36ae4e8b7dfcaa70d1d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/intent-attack.png": {
+      "sha256": "983e8fd24c9f19528bea4b2fded20a4f8b7011bffc7bf9a1a7fe3885aa67278f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/intent-compound.png": {
+      "sha256": "7a35f4419d6143114e60b6bd4cfd4d5a48e181404a172c1c1fa621403b5c84b7",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/intent-steal.png": {
+      "sha256": "477c754f961cfc0b602600e1bc7be947e9eee0a977c6ce82b409ba2e2056ddab",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/intents.png": {
+      "sha256": "a365b4fcd8b6a5dbed78e25979ed1ca2a61e3c1ca6e22b7a8d6368afa4036fa1",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/battle-intent-status-ui/long-text.png": {
+      "sha256": "55554c98dee2a41c53c19fa2b69bb6ac5890b044d71e713251242bfc5f699630",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/aim.png": {
+      "sha256": "3274f31c752953154cf5a687c0fca4bdbfdfbaf92cb3bc1167ca8f0cd6b1dcba",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/cancel.png": {
+      "sha256": "4c439c1a5e699f45b76704d1efefd7b6925cb7a0e3cae241466e29a3d14a64f9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/dexterity.png": {
+      "sha256": "0467f53046dedbf9b9206ca13987b62e22dcb01aaba993c7dd7686bf97c3ed11",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/frail.png": {
+      "sha256": "b007c9ea87d42da3ecb305c7309b8b2f8fc6359efde3661eb688e87ab13ba6e6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/mixed.png": {
+      "sha256": "43651113401db4bdd41cda83d55cd0eb85dac4807b9eb8622e8a18283c12d1c2",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/neutral.png": {
+      "sha256": "4c439c1a5e699f45b76704d1efefd7b6925cb7a0e3cae241466e29a3d14a64f9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/ten.png": {
+      "sha256": "e43ea7ae98ec603d03eec61f23bf0ea979c43babe2ec2cbd963bb42385e59b0f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-integrated/weak.png": {
+      "sha256": "d261ea217de6a339d823a93c18cd10dcdd7157c38e66696d4d59c6354c4ea185",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native-probe/inline-colour-1849.png": {
+      "sha256": "dea503409ecd78c0ed674627ec89edf99867448997b38959f25424f4c0892256",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/aim.png": {
+      "sha256": "aff7de3a94e68442b83b58e47e0b0f4a10d3e88402c418f7926545ebe6c7a827",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/cancel.png": {
+      "sha256": "062ab29064bbfe2689e65090acc4f50b821da80a479ee5702b2f9d21e399c412",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/dexterity.png": {
+      "sha256": "9899867273ff6d08e28c4a62273e8696f66c499c3fbda6aa1e6b6f11d816eb90",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/frail.png": {
+      "sha256": "eb6f05edd2cf116d2f3cfd3f769d4c13e6f9003259b88156e7d8be35cc88ffa2",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/mixed-grayscale-simulation.png": {
+      "sha256": "5f939a8728f606a1e6f1d0930649bb9dddd88dcf4284f0dd4b172153b6e5349e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/mixed.png": {
+      "sha256": "6edd2c450e7baece007b1d2d307afd02c20b0ed97aef1e8caca177c27e5b8ac5",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/neutral.png": {
+      "sha256": "062ab29064bbfe2689e65090acc4f50b821da80a479ee5702b2f9d21e399c412",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/selected-mouse.png": {
+      "sha256": "45154d2370a40ecbcf25ac80abe2bb32206a57e6fbfe93e1dea117a5dc8f9b93",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/ten.png": {
+      "sha256": "0d22803717a19c605f8d8fea1600c541bd7fc1452a6a2334259ef33386d28e14",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/native/weak.png": {
+      "sha256": "103560c6f196a41805afc71e4aa5c11c73df422b5cc85a7c19a854fb4c94e2d7",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-aim.png": {
+      "sha256": "3d4b457ddda38beb79d14c9a71273f46beee6801ca1424c9afd7caa0fdd60031",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-cancel.png": {
+      "sha256": "9757d578f51f4f2344e1476eefad19a72edfa98ed40195664ddcbbbfde7a2b10",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-dexterity.png": {
+      "sha256": "a6200bb55bdec7c0b72378d939d403a3a7cc0a5cf4e60164d24b5f3788714bd7",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-frail.png": {
+      "sha256": "37230c3e72190222b5c9554cc09ff875c149e0f6c62a40c4e79affbe1e222533",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-mixed-grayscale.png": {
+      "sha256": "f7f80121ce158614d6d0bee81158337c92ad0e451b153355f182e3e654bf98bd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-mixed.png": {
+      "sha256": "caf02783f1d59de56356da7fa73be42967287bdfdcbb269b2198da42de3a9d95",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-neutral.png": {
+      "sha256": "b73cf3d1bf74afa817fb2b44be69053158099a1f260414f0fbd64a99d8c58660",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-ten-selected.png": {
+      "sha256": "d060cbc83a5bdda6f5ef6f1f594bc9743f151b5bd58e5d09aa99aec5f4403750",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-ten.png": {
+      "sha256": "e987e928bdb488ae2ac232a7987ad568bc46f16b46df1716b6937a83c97d0eeb",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/card-value-feedback/offline/value-weak.png": {
+      "sha256": "eef7f34cd48ddc743b7cb0811772252112dd9841109555031bb736d30e419be2",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/00-log-subscribed.jpg": {
+      "sha256": "1c3394f945cc42fb49e544c0ae0c673e4c1a00f496dc712276cde45797563a07",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/01-t001.jpg": {
+      "sha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/02-t002.jpg": {
+      "sha256": "920e18846de932d83d4a0f6a5a37a323ef76ab7820a016bca304f07063a93759",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/03-t006.jpg": {
+      "sha256": "03182d0d74aa8c3fee1cf127949f56d3c68967ad959dc89bea4cfb3e6089eb9f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/04-t010.jpg": {
+      "sha256": "df9b7771ab66238a0fc6ed65183a26e75abffc5d838e1c7960179974245a7637",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/06-t037.jpg": {
+      "sha256": "41e522500760587b634a43c0ca779d1c8645430e964ef90e8ae4b783b1f1dec8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/07-t041.jpg": {
+      "sha256": "2ec6337e26edc0148c0a473efb1a184528421d4b5c5016b0452b902fd3ea3418",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/08-t045.jpg": {
+      "sha256": "ca1b11f99220c8be627a7a4bf6b560a29c3a76ee5e7eea04084162515e685ca5",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/09-t049.jpg": {
+      "sha256": "d1228542cf2d0ad6e3c32f712e502058edbf395953b6d9f638d4747a94e86bb5",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/10-t053.jpg": {
+      "sha256": "36af525dd0d3d3c3315dbfd5299c1bc6cedff01d7959a7d0fd940bef5c9b846d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/12-t080.jpg": {
+      "sha256": "da205202140a60d1b0cfcbef2ef74b3c7c8ef8d13941c632698097601fcfbde3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/13-t084.jpg": {
+      "sha256": "76d7b66e8b331d30bef5676fa0291bab8ae6ac026ee474856e934beaf455dc71",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/14-t088.jpg": {
+      "sha256": "161e981b6d038868c3c648d512e139cd9ab6611b55bcc86d97e1e08710ee9866",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/15-t092.jpg": {
+      "sha256": "57dc1805cea648d26ca665d8d9cda1786c1a5c9981546eeaeef6c2623c17a835",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/16-t096.jpg": {
+      "sha256": "8c7a7aa2319d9d371e05cf06e8af99f3a4c99f37e541ed5ff8a2bff13282f0fb",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/18-t123.jpg": {
+      "sha256": "2a50e72829c44a23c7284ea6bf70aa030346b1462b90d5741d0a525448693198",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/19-t127.jpg": {
+      "sha256": "e107675d9651a8442ceb26a3f4cac305a77c8c144dc0267bf9809e89624d7557",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/20-t131.jpg": {
+      "sha256": "fa351df76c97715eaddc3962d94fa4526f3b0fbedc08fe84b0bcf463d4293e07",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/21-t135.jpg": {
+      "sha256": "52fb7e710627062e2f1dbf0a5c4e6519247c7f88050729c555127f901e9cfb96",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/22-t139.jpg": {
+      "sha256": "c08e41d1d99413d61000955d05bcaad0e3cbe7eb39e0c0820e761f185340c9b7",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/24-t166.jpg": {
+      "sha256": "c131ad0b91ba7e4e5b52b38e024f584fb34ba468ddf184ffbdffd55a12747a57",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/25-t170.jpg": {
+      "sha256": "e65fa32e25ad339847373c62206d71d43c96eb635c71cf74f632fadfb3ee8f3c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/26-t174.jpg": {
+      "sha256": "b3c824acccc93a196d512cb59b95a47a389232408a35994379e65a03e323c654",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/266-b500.jpg": {
+      "sha256": "7573c2a5cba2da20789ab24dd9da9e04afa49197692ce3ef53e583a8cc6ce4a6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/27-t178.jpg": {
+      "sha256": "7bcab262b843e2e68ab0340b484414866e964485d47be78bf9585640cd382fd8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/28-t182.jpg": {
+      "sha256": "c13557579a9bce4be3735c16f106cb615c1eaf62c5790a27669d22be8df22b56",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/30-t209.jpg": {
+      "sha256": "4e4520f951650f97866838fd72c6eca6ad07aee792505fc77f3a15a788d1c5fd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/31-t213.jpg": {
+      "sha256": "fbf457ba79062555ee9fc6b69d07de10911252e099e37c68c31dc77963cb62ea",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/32-t217.jpg": {
+      "sha256": "76688bc4fe02cf306c8a169ae259208196fbb47a3e04d516e344645060e5a549",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/328-b540.jpg": {
+      "sha256": "1f1fd7cc261b14dee243ab2d7027a336dfe90274ad72c18e16802697477db86b",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/33-t221.jpg": {
+      "sha256": "79480ef7821f133476c59e67c94dab9076724b89ca91328eaa2d7b7b5c9fcdfe",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/34-t225.jpg": {
+      "sha256": "5b7eb7c4ceefba2ea413d591efa3b079edc67db0686704d253da6ffd4cf1f1a4",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/36-t252.jpg": {
+      "sha256": "2541105c575af93d38f89470b3f74cb156e023055b124219de42e73b1d07f665",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/37-t256.jpg": {
+      "sha256": "bde0a7e5e60393eb20acedaf8c07bdc1e62e654ac985f6866247dbd20c2f1503",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/38-t260.jpg": {
+      "sha256": "36e61462ab6bff8e303ef44ee3d4d8a1fcc9870f1b6eac5ded5139f39514926c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/39-t264.jpg": {
+      "sha256": "6961b60d22a3dd4c2d62267a68880be134dfe26ecf05891f34936a615cffc431",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/40-t268.jpg": {
+      "sha256": "32a358a2d0940ff1869ba02b62af20350596c7b08afe4530342e5f1b59979ffd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/407-b580.jpg": {
+      "sha256": "5c730255b7bf7eadc5ac331ded496eeced50ca6d1b96d96dd8ec1f836f76f55a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/42-t295.jpg": {
+      "sha256": "3f5f8430edd1bd4b3aa55b3f8002b985b081f4431fb6c4a039910da66483338e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/43-t299.jpg": {
+      "sha256": "c54567b1bf675f6c73183566d04e1c860b0042b8664425572141faefb7ea7a2a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/44-t303.jpg": {
+      "sha256": "7530ce133dc76e82e15e186c07757b18f54d13e56410d0532eca40ac81df1272",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/443-t596.jpg": {
+      "sha256": "ee5bdddf58c45d21e6012f70ca8f5663fa2b93d40ed34088bb28e8689e5866a9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/446-b598.jpg": {
+      "sha256": "4a023368a34706a75908dab7621c0489ad5fa1e198df7710ce7aaacb18bf1973",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/45-t307.jpg": {
+      "sha256": "e69cd3595609c80576dd15b4ed642aadc1009231480744ba8d6233fc7046f4ee",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/450-t600.jpg": {
+      "sha256": "ff8399e68e5cb82d01683c6a3c799b9ecf857c18c2d2fce67e46188931493b7d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/459-t604.jpg": {
+      "sha256": "c06b15c476291e2d6374a1a2d193fb5b9a20ac231a01e67f290052c1bd5db60d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/46-t311.jpg": {
+      "sha256": "da80863a36176332177449753f6331a1a09d36d4bd6aee729abb2b5248d9d292",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/468-t608.jpg": {
+      "sha256": "ee5bdddf58c45d21e6012f70ca8f5663fa2b93d40ed34088bb28e8689e5866a9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/476-t612.jpg": {
+      "sha256": "7147a485ff4d0e62ecf5325f3ad1ff94023cadafddef48b9ec6b904601f5ce85",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/48-t338.jpg": {
+      "sha256": "18aefac66fbeea6d6b44c2cdd7fa223ccfccaf5083fff792b977997558bd1b7c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/482-b616.jpg": {
+      "sha256": "771fcf0fa5794d28a737d72fd1800d6b5da2a83f625f373ddf6115ada20df878",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/49-t342.jpg": {
+      "sha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/490-b620.jpg": {
+      "sha256": "4f5c9dc4cb5244aa6182ee2f699b9d36fb8b93f0b6ff6ac9d574a65f7982760f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/497-b624.jpg": {
+      "sha256": "7b63856ce551e96713925bef132052ec96eb410735e011eb2ad61c2fc4ed9324",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/50-t346.jpg": {
+      "sha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/508-b630.jpg": {
+      "sha256": "dfa2a92d98ea1cdf662d86145916bbf4fd85a5d9e1fb2660fe0b63a7fdb2996e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/51-t350.jpg": {
+      "sha256": "a9e67c8bd4f6119c5c5fb440d4b73b74c1bc7092ebe671973128d4dc7f3c65a9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/512-b632.jpg": {
+      "sha256": "dfa2a92d98ea1cdf662d86145916bbf4fd85a5d9e1fb2660fe0b63a7fdb2996e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/519-b636.jpg": {
+      "sha256": "fbbc0cebf8d19347eae19123b7d8c6c99f11290d27e4eedb192f23a9f9281c16",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/52-t354.jpg": {
+      "sha256": "f66ac4629aa9ae5aec62e920788ef9d172ab18908a49ef038df4e94de50754c4",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/526-b640.jpg": {
+      "sha256": "d5f9dcf96f2f0b3132aef41292dd7963e40f52ad862ae3d52072bc15e9992643",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/534-b644.jpg": {
+      "sha256": "82b3a5bedfa3792da814b542165dd897851d213a1e826c842a5219c60d457a43",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/541-b648.jpg": {
+      "sha256": "2d79b5a3dcc580a13a60e0eb773a48c6d2954eb0788b7a35b2ad33bc739a89f3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/544-t655.jpg": {
+      "sha256": "7691145717a9aee788d93ae181a2569fdc30977e6a88d55396c3e93780f933ee",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/545-end.jpg": {
+      "sha256": "7691145717a9aee788d93ae181a2569fdc30977e6a88d55396c3e93780f933ee",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/56-t381.jpg": {
+      "sha256": "4cb669133a61f9cc447ec88c692f3bd9c318de3f405e8b80672dce91474438d2",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/63-b384.jpg": {
+      "sha256": "15bdddef248a2184c3d0d2c6481cdd8ae09ac2f0320e01f38a52e9c3e67ebf09",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/64-b384.jpg": {
+      "sha256": "8486563bea32c75c4746d7a7ab45be61ed2b553d7c9d1ca8df882756fe629e7e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/screens/65-t385.jpg": {
+      "sha256": "e03921a8f0bce61c79b70ad4c21bade553c566350a60a8875220bc277f547c1c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-20261024/session-log.gia": {
+      "sha256": "7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/exit-special/01-t004.jpg": {
+      "sha256": "ff692208a50ad13d28bdc59f2ed438337974256550669d53cc396df0f9a8a4ed",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/exit-special/02-t007.jpg": {
+      "sha256": "0a0845eaf4f3e31844aff8c86d68c89e78c9cd7c9ba2b609fcf1a932d1a1a923",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/exit-special/03-t010.jpg": {
+      "sha256": "f7f92308b99b65cd08b836991f1d7131fbe08d789163a2bfdb60eb052028da32",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/exit-special/04-t013.jpg": {
+      "sha256": "9b5ecf183b5f8c9fd3e29ea6a65cbd2973eb3ebca66e85ffc1e4222ad56f0062",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/exit-special/session-log.gia": {
+      "sha256": "33c52cd612f55f98b34ea72448bde6de5cb0f74423c8e7c284690e7f4ae68b26",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/bash-left-0.png": {
+      "sha256": "0718062a647edb4a85df58f72f632f160a2f2eaecc0d03e3855eaec187816487",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/deck-cancel-0.png": {
+      "sha256": "c682c917e2c56f7856e3b2d4312ede67058a50f632dc39b44d6816bc0950c8b1",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/defend-two-0.png": {
+      "sha256": "aed70a6f92ee0558b1245add06a6095401ce2e59c2af59b458cc9c00e5ae090a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/end-turn-one-0.png": {
+      "sha256": "905a93d3627d8e7075ea4ff1d6fc0d5eb7ab00b3afbe00527ce3d0a8df9bed9a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/first-battle-0.png": {
+      "sha256": "f5b111936a7f66c1fc67ec6d35f5ee506b3086466b14cd5de15411ac59a0b566",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/fourth-hand-0.png": {
+      "sha256": "e6c65def2afad0027edbbd22b62f5b7cea32c151140d39c5cfa378c3e8011838",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/game-menu-0.png": {
+      "sha256": "987aa321c002786f0daa932274e7376c7106bbb5220686448bfb83ec41321ef6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/rewards-0.png": {
+      "sha256": "a4fcc2031071671cea65b04b403fc6ec6bb8cddae14c09606ce8e655d94dbfcc",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/shop-enter-0.png": {
+      "sha256": "78fe2733917bfdccb1c1433af335912db2e481e95b313e68686d5816810ec750",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/screens/take-flex-0.png": {
+      "sha256": "29105925ff9f9fe4b1ff07847bd718d59f7c7b97dfa1c9dad0aab26890a57abe",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m1-live-5165a78/session-log.gia": {
+      "sha256": "9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/02-t002.jpg": {
+      "sha256": "6c08741b8f4b68dae171fe415cd1bab1bb59d14b9c3ca7668052a1e762220ec9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/04-t010.jpg": {
+      "sha256": "dc148b1c914f0ed0b04e7a178bf445859c6c9d2cdb50860c3dac8d93c5e0704a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/06-t020.jpg": {
+      "sha256": "fa1ba5fca158151e7b10693571cfea4c4213996842ac99c8d26eca4ef2807312",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/10-t060.jpg": {
+      "sha256": "0699e0406d4b6644600d6d70c9c21550cfc85a46ab4c473fe888633502f5468c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/12-t090.jpg": {
+      "sha256": "783523cd2f1c34c5177773f61ad6c75cb5d7265d3516a781ddbcee3e3c5e9dfd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/15-t135.jpg": {
+      "sha256": "f236923422634ffdc68354be4d348227b349c4158fafb9d19de0980bb61d40cd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/18-t180.jpg": {
+      "sha256": "1db1351a6dcdf39db1630b8b4ba6c5c2b0e0caff5f1ba09d29f592d7785b9813",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/23-t240.jpg": {
+      "sha256": "34c36f43124c7171e089f16e243d6a32773eb3a451d9acbc0058757bd3f973f8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/24-t250.jpg": {
+      "sha256": "d897109bfcbbeec2505125f835bbf20d24284ef0ed23f26b697258cbd599413f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/26-t270.jpg": {
+      "sha256": "974142175e6ec26a8e0fbbf266ba966d9be3341fbb3dd7283b2a33b26af3df57",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m2-live-20261024/screens/27-level-ended.jpg": {
+      "sha256": "90563a331286bcc4b52d4b0882aa1cde74bc54868f8f33f001ff251e32400004",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/battle-after.png": {
+      "sha256": "515d5ffbd8ecb19f59cffe3c65be5c6ec7aa008572f839e3c99b1aac7c39d0b5",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/battle-before.png": {
+      "sha256": "df3ecf4288b70b97a08a4a966430e965121fbc9d3b44800d2ca3d558ed5d037b",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/editor-returned.png": {
+      "sha256": "dbf85eba062ec3338a9180e022ac3df674e768746197804c5294d47bd8091f1a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/empty-repeat.png": {
+      "sha256": "515d5ffbd8ecb19f59cffe3c65be5c6ec7aa008572f839e3c99b1aac7c39d0b5",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/native-log.gia": {
+      "sha256": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/potion-discarded.png": {
+      "sha256": "8d20eac0a16fc44528e8645273049aafdbdc31ff82fc80e29ba5f0a828ff8157",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/potion-owned.png": {
+      "sha256": "0d2de920da919bd1f05dc1d10ba422a0fa9d7b7ced8630f04eb721b7d9481ef8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/potion-rebought.png": {
+      "sha256": "480676e8b879486890dc20c4ce0bbb0d386e29190c3553299f94d40bfc4d42ad",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/potion-selected.png": {
+      "sha256": "64617ecff6cc34d3f3b310a2aa6243db1e7b1d0751013d0aacdc88c094771f5f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/settlement.png": {
+      "sha256": "72249232a82daeed94dad8c4cb8f64bdd56244e0b5b273459b17903afd3cb8dd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-live-31a8f37/shop-before.png": {
+      "sha256": "02a642e0ccbec8b1d0d61a321833007a41c270656d34adf82c70fd8b8f8e9001",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/108-numeric-live-capture-03-1.png": {
+      "sha256": "9708583d37621b4d615ddc674aa75563c80fbdf962e52abd7517c0328ddca31e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/110-numeric-live-capture-05-1.png": {
+      "sha256": "b5973a7de1df4314ed9dfb607726119c29fd4abdc0834554b2f940dcddf6fb43",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/111-numeric-live-capture-06-1.png": {
+      "sha256": "98fc7fd5e9e7bbcf2d5f7334b22e2af9c543779adc96df2dc1a994796da4f89e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/112-numeric-live-capture-07-1.png": {
+      "sha256": "274be4aee6e94bb563d8f36104446ff2e4ae20910c74bae64911d45a275d6712",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/114-numeric-live-capture-09-1.png": {
+      "sha256": "c6346eb802cc87b1617a5d577be3aa55bdb2e9b85619eab044fecffc32c611fa",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/116-numeric-live-capture-11-1.png": {
+      "sha256": "48b1ed794cc2ce5f89cdf17b35bbbb81715fa079341ce8c00a603280ed8e2d98",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/117-after-numeric-cases-1.png": {
+      "sha256": "0d23e8dfe69362176acc8b9054b829c4021804dde1b4d332964c1b3e9bbf55f9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/119-return-editor-1.png": {
+      "sha256": "af2a6c70d0f1e1f0280686faf4c87fd064c06c6b987a895733d5a9eddd3826d6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/m3-numeric-76bbefa/official29.gia": {
+      "sha256": "2d849a71e1f70224989f136d287e189a1d40f4057731e59e756f9033f75efff8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/potion-targeting-20261025/potion-aim.png": {
+      "sha256": "a00887827ee47ac4c8b38d2327ed6c2e80dfbb4650cba1530d740622ac482ebb",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/potion-targeting-20261025/potion-help.png": {
+      "sha256": "a380e456e61f828829322f9f4a73d2f121d9966c13699f33cffc2a0a36f2cfcb",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/potion-targeting-20261025/potion-idle.png": {
+      "sha256": "3ceb94a45adc8e350f24bb2dad2c75212f0069cafde9d201dc80d95319cde142",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/recent-live-logs-20261024/2026-10-24_19-25-50_26_217122260.gia": {
+      "sha256": "e8c7145662f8011f0d9506e81e27ca600bb717d60af2b46650a80e9bd8fbcd80",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/recent-live-logs-20261024/2026-10-24_19-31-08_27_217122260.gia": {
+      "sha256": "d3083a8c48ed2798bb032309bf642570ab80daab62b918d73ab2baa63ad18e4c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/recent-live-logs-20261024/2026-10-24_19-59-24_28_217122260.gia": {
+      "sha256": "2a7e23fc04f34dd0b1911377031e51a060def626dcec80a8d574494821b60e50",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/result-menu-offline/after-defeat.png": {
+      "sha256": "c7f61a5184d0418df9ebf56363a6ca3bd805e99ef2487cf2e72f9987daaeb0a3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/result-menu-offline/after-menu.png": {
+      "sha256": "20ccdd6605f1d6f74b01d8bf6c3cdd23f36c1177b2f771f1f997d0011ff3aa76",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/result-menu-offline/after-victory-requested.png": {
+      "sha256": "0f50e8815f6934658b31370f9d1d5d9a9703a0b097e1e9219d6e2c18dae45882",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/result-menu-offline/after-victory.png": {
+      "sha256": "3d05475cd3ad760e27702cf00d132a344f06a6bb809c5aee2a64dab59a856416",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/result-menu-offline/comparison.png": {
+      "sha256": "3dd8dd4da64b1cc4e76b2a8dbda16d949b0e9381caf1e02a02c1e5e54983c153",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/reward-pick-ui/reward-pick-enter.png": {
+      "sha256": "5646d187bce63d546f947838468d6e25efbb27a0538c703271d668c7c97bc722",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/reward-pick-ui/reward-pick-hover.png": {
+      "sha256": "6d57864115d73a6842165eea7acd24e05f800e7ad1200b07e78d2d0b1734bf42",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/reward-pick-ui/reward-pick-rest.png": {
+      "sha256": "3cb30502637477be7a60fefaca1c6f898b332e017b5d7dc7cd6efb59136d3f81",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-176-probe0b-open-cards-1.png": {
+      "sha256": "ea9418aef5306943ec1d3d0759e5ad503d68a9f302e4685528cfc1f843cd2033",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-180-probe0b-searing-preview-1.png": {
+      "sha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-183-probe0b-play-pact-1.png": {
+      "sha256": "aa2f1bf2dfc616abb14b6628c64f9e7fc0f1f49c5cab268302033335834ad39b",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-184-probe0b-exhaust-sentinel-1.png": {
+      "sha256": "017bf9dd13b4180ab5dc04930c06c84e7b760d7aedbe4dbd3c6d7e589f46eb2d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-185-probe0b-next-fixture-1.png": {
+      "sha256": "7b7f1a653027e4f454997f680820e5c9bcd5cad9109ef9ff1baac32fb100584b",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-187-probe0b-play-dual-1.png": {
+      "sha256": "b567fa8632f24cc16ee6f75649233dcb3eb1e97526f5a6a4e95bba4a8b756404",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/0b4061c-188-probe0b-select-rampage-1.png": {
+      "sha256": "fec9c726c33e67b36725f0ee34baf78f77aeec1752ef5f6e0486a9f57cca2581",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/505cdb3-084-probe505-open-cards-1.png": {
+      "sha256": "3485cdc071ffed466ae702b9c478b8708366005805c3b473bc9acc6133ab8e16",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/505cdb3-087-probe505-forge-1.png": {
+      "sha256": "226a76164b12185c8abc966ede41794597da59206eb99cfbd50d72c16d6d6992",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/505cdb3-088-probe505-searing-preview-1.png": {
+      "sha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/505cdb3-093-probe505-playpact-1.png": {
+      "sha256": "99ba165442342bbf513c3452f99d7420091566537b6f171a24683cd47f156561",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/505cdb3-094-probe505-sentinel-1.png": {
+      "sha256": "3ab4400a2d2ab13f47904f42265da8b26f09a0183a568b9e864f4c297dc076a3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/529c8af-066-probe-focus-1.png": {
+      "sha256": "3fcd35fbe74ad5eb97d71fe14374a80b72821e219495040c3094dcb212c346e7",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/529c8af-072-probe-searing-preview-1.png": {
+      "sha256": "093b230486b119b56ad6e3ba28b8a1f8e3bfc3801bed8c68298d5f96a6d21ae3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/529c8af-073-probe-upgrade-1.png": {
+      "sha256": "e3607dc7e01954574edb5edbce26be626b976fdc9dca4398fda103ffdbbc5773",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/529c8af-075-probe-play-pact-1.png": {
+      "sha256": "9c71ec94cbee16128506819e0b913beb06c2346964e60a78b39bbdf258912c83",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/529c8af-077-probe-choice-now-1.png": {
+      "sha256": "9c71ec94cbee16128506819e0b913beb06c2346964e60a78b39bbdf258912c83",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/a891451-050-play-defend-1.png": {
+      "sha256": "cee5ca0b971ca25e58e4e1a6e608ed6fd6ee38c9546850d5cce5341ad291629a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/a891451-051-lethal-strike-1.png": {
+      "sha256": "56ae05a7db99c99640c97b5b68ef1bdcf9b26ab3c310e5781dfe6615539e4042",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/a891451-052-reward-1.png": {
+      "sha256": "10e2e3dc3074fc8f7c355dbaa4ae9f9f5a384190fcbf62a7d4687029b1cd9b6c",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/a891451-054-take-wild-1.png": {
+      "sha256": "a3ee86e4ac23c7d3e97e726b3067f435b15181da202205f6c5c516f48d02ad00",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-4010d04-209-autoplay-enrage-focus-1.png": {
+      "sha256": "bb5f73613c398188c29891b29d1e3b40f7195734a437118dba0b4b6fe9d31141",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-4010d04-211-autoplay-enrage-progress-1.png": {
+      "sha256": "0d5f498c1a5b9ef29269de0e76acc4b77c0ee6e2d146117eec18c3f5d1654ae3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-4010d04-212-autoplay-enrage-progress-1.png": {
+      "sha256": "dd6d4fb7b1debe8d2fc720989daceae99a78c37f6add081122d718e5ea5b5568",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-4010d04-213-autoplay-enrage-progress-1.png": {
+      "sha256": "c7e9828cc24c3fe9a983b6c5aa86835ce5dfca523a00ac31f58241ce959736af",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-4010d04-215-autoplay-enrage-focus-1.png": {
+      "sha256": "03d2e07cf63650d16a40de847e709010f646d59fc0a75253fdc39759ddef51bd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-4010d04-216-autoplay-enrage-settle-defeat-1.png": {
+      "sha256": "0898e149deb81bec4d0809f335861a6650025d050acb6b29bd52b4ba303d0085",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-00-log-subscribed.jpg": {
+      "sha256": "0a919b718f74fc8c21a179937e5fc6f28eac25595771b7205aa1e8ff6ce210d8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-01-t002.jpg": {
+      "sha256": "bac0912296d01f6c562f1005ee29c3274abb6d2255eefa0a1a3dcb2ddae57853",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-02-t030.jpg": {
+      "sha256": "65e6f1d631dcdd858ab5011e93e05bd9aa2d2952acbc31e642119bb90576faf9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-03-t060.jpg": {
+      "sha256": "c8543409560d334e54f09407185480d8949574554dbbc31a0e707054970e6bec",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-04-t120.jpg": {
+      "sha256": "851afdb44963277d17874ed42c8bc52955f6d8fb9285761fec576bc0e52c6b80",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-05-t180.jpg": {
+      "sha256": "29572bf644ac72267803b7dbac230223b0abdc02a2509f75f0ca006e08ba03ee",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-06-t240.jpg": {
+      "sha256": "3a4b983aadd58384dbefc24082af407d03317c94ef80218399511b9ebe695ccd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-07-t300.jpg": {
+      "sha256": "52ecb93a9ca827d7e5c55893f24320dd62e68e19b0ef42987fd9c24bf13fe9ba",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-08-t360.jpg": {
+      "sha256": "ee4c1b302d65e127f984109fcbcf435abfee37d9271cf8e8026b27697fd334a2",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-09-level-ended.jpg": {
+      "sha256": "e6afd592dc39cad1bab896329a76c2c18fd25958ef1eb59132199367cbf28775",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-10-t420.jpg": {
+      "sha256": "6430d7f781e2c493db221b670912ad236c34b72fe6b4e1577f50c63bd96ebf28",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-11-t480.jpg": {
+      "sha256": "d6728cb8d65b0ce9746939ce34f9b4583cf4a60e8236b6662abacecf5676de5e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-12-end.jpg": {
+      "sha256": "408a4cf41af62befeb3789979fed382a3752a38033e8a504ba3c7d3926f3fb60",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-229-autoplay-potions-focus-1.png": {
+      "sha256": "ee9652fabacbf4793ba5f2b553d2d621864d9a9f44b12d344f3d08e74b3dc1de",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-230-autoplay-potions-skip-1.png": {
+      "sha256": "b51699cb2bccf0c7e99c6c38fd6dc83ccb6f7e6a260ccac2b686c0e20f0742b6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-231-autoplay-potions-progress-1.png": {
+      "sha256": "0ed29f1fb43cf896ce023282ef08196769e01e4ed3b763441f7db5c3e30b11c6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-232-autoplay-potions-progress-1.png": {
+      "sha256": "35feec21d3762b6ee0c11215aa0d6801c1faa5f48ca9103a1fc304701c3f312e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-233-autoplay-potions-progress-1.png": {
+      "sha256": "cfa5f4386ee10d9a9eb9d6fe60b711cbd164c9c05c9569639c92d19c74a5e4b8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-86c665a-234-autoplay-potions-progress-1.png": {
+      "sha256": "7cf56dd87b9e0030eaee4b925266cf6960ad2e6a5f4d1b18d3b1217a05d4eacd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-c6d39d3-198-autoplay-focus-1.png": {
+      "sha256": "c6658a24b7a161c8dd4ecde544a9b9ec27a02a8a00d54bba3110f0cf43cce5c3",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-c6d39d3-199-autoplay-skip-prologue-1.png": {
+      "sha256": "3fe4345f1edd29334bf36c668d47a94cef5bfd8aac1ad6a7d70fdd393969d4e9",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-c6d39d3-200-autoplay-progress-1.png": {
+      "sha256": "0e3ce49e1bc2309bf7844cdf3adebc240d65ea8c0d123e0bc25f2c4f1580c737",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-c6d39d3-201-autoplay-progress-1.png": {
+      "sha256": "4f69820c144b4ede5936e4665c232e5a032487a8c2765cd273fe9e0cebe66e94",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-c6d39d3-202-autoplay-progress-1.png": {
+      "sha256": "4faa4f316dc5a258a5d39ab607b5fd96ac32a5df59bfb1e61036bf4d2ae5f975",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/autoplay-c6d39d3-203-autoplay-settle-defeat-1.png": {
+      "sha256": "3a1c540d15a7a7fc6a1ed0a7c0da32584f476ddcba2861d9aa799e2cf03f83aa",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-107-normal505-first-node-1.png": {
+      "sha256": "8b1ce68571f6098e6779883237c9ca6cd629ff68dcc2931623fe77abd1f8d495",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-123-normal505-exhaust-slimed-1.png": {
+      "sha256": "18b451473a77cf4e469f6f1ef842bb63b94f5c98223e78e4f1fd6e3486e9b6dd",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-128-normal505-reward-1.png": {
+      "sha256": "cf07ae04d5ee38dc9eec510600c076766adb58293773f67632c080652ae9685d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-130-normal505-card-offer-1.png": {
+      "sha256": "f3af5ec02e7514361d7b5ca4282d6d1d467c871dead66a212c79a1ac2975ca0f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-131-normal505-take-power-1.png": {
+      "sha256": "3e69e2204e298dbd77efee558d5680cc09010b6f473c5227b11336efe78acd09",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-134-normal505-buy-armaments-1.png": {
+      "sha256": "5d5f574b746d0b1799d808b78fc6228708c2a3037165d74cbb5865fe7e88dcdf",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-135-normal505-buy-wave-1.png": {
+      "sha256": "5b04f58546bf77efaeb0a22872a0b3b3402d93d1e2edd8b78ff256d75440a5f6",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-138-normal505-next-battle-1.png": {
+      "sha256": "6e56fac6e383ecae147563a8c3b81b2cd8e80c08ba8ee08d2629e1900cdd3920",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-140-normal505-wounds-block-1.png": {
+      "sha256": "8a5d0452fc64b69012a3978effe75007bc198e1506014c42654f36da77f46e0a",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-150-normal505-wavehit-1.png": {
+      "sha256": "3770f2dad853f70e75b3e141789aabce0e86035fa05c6860c67904b88ecd2a6e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-155-normal505-armaments-modal-1.png": {
+      "sha256": "99a89c080c1cada32b06e3796270e14f19e77fc62c3e7676d3369ae227c8e778",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-156-normal505-upgrade-strike-1.png": {
+      "sha256": "c4975b4f2a16499b590432382d15de96c4fd17aefaa322f1d650da9b1fed4c0d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/normal-505cdb3-158-normal505-strike-plus-hit-1.png": {
+      "sha256": "f066e0a571465af9310a8a62c9565e265faebfd91f3636c5a0a43a2b7348989e",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-0982b39-failed-166-probe098-focus-1.png": {
+      "sha256": "3f611a82061b3bbfb360ee71621133aa555374c31e47e7aa312f4efefa95aae8",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-0982b39-failed-168-probe098-exit-failed-start-1.png": {
+      "sha256": "ef7be047e3e7bf01c2a08fc7d4ec2cb4faeb59c764945423d451d4aa98aa78e0",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-263-probe5c-focus-1.png": {
+      "sha256": "fdb5075d00aa9d8d8894e67eba9eb3cf1ca5b80aeb5c01e46d873c6d43fef51d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-264-probe5c-open-cards-1.png": {
+      "sha256": "d3982f3929066f4dde391fd63dc2c4f884ed2631c54b98684051f16fae025e34",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-265-probe5c-claim-card-1.png": {
+      "sha256": "a21128f3bc3f4cb6f34f5eb8c74aa6908a7c88930a8ca19ac130e88f61480afa",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-267-probe5c-focus-1.png": {
+      "sha256": "a21128f3bc3f4cb6f34f5eb8c74aa6908a7c88930a8ca19ac130e88f61480afa",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-268-probe5c-proceed-1.png": {
+      "sha256": "7ea7ea84c4da4ec3bbbf88e58912adab6e9e6420024c0048a514dd2b9c210af4",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-269-probe5c-forge-1.png": {
+      "sha256": "226a76164b12185c8abc966ede41794597da59206eb99cfbd50d72c16d6d6992",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-270-probe5c-select-searing-1.png": {
+      "sha256": "0cbc8bd0bbf60b1079f54fc4a455fe91aa0c3b32e1cae60fa575feb3d6745c01",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-271-probe5c-confirm-upgrade-1.png": {
+      "sha256": "985f83e4ef7e4634aa203a5f77eecd5d768e979d826847cc806950f2a304ad79",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-272-probe5c-play-pact-1.png": {
+      "sha256": "e18e12997104e42ea8f62cf4fb9e7aae8201532b3dd83a189db29745e1a2fd63",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-273-probe5c-commit-pact-1.png": {
+      "sha256": "ea2eb04fd5b2250fc0dc78582fe40e5239416b541e525175e6281cd86f5e93c4",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-274-probe5c-exhaust-sentinel-1.png": {
+      "sha256": "d9544830a5cde09ae15af0f3eb4c47ecbdb49fa485b92f092afa51e8356ba85d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-275-probe5c-end-turn-1.png": {
+      "sha256": "9b119694876848c71df6567ae55fc4d1fc175e8fe360c3a5a3d5f4818eb61218",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-276-probe5c-select-dual-1.png": {
+      "sha256": "f50ce34acb1ca285a5ffe90075106600ab2d5bc70ef814412ad6f0f1dacf4406",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-277-probe5c-play-dual-1.png": {
+      "sha256": "b01c3f8844bf7542f9f99057791d94fdeef85c73b3ff908aae02abac9d65bb8f",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-278-probe5c-copy-rampage-1.png": {
+      "sha256": "0c66ffa8bfb1a9bfe286e1215a2e12181b5d7185934015a24418fb7667991538",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-279-probe5c-exit-1.png": {
+      "sha256": "ea76d964980d98b917d701b053a5bc8aa24f5e91dd55d3d7806b4e5464314a8b",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-5ceef2c-280-probe5c-confirm-exit-1.png": {
+      "sha256": "76bf9d012bca1646b808a34c246149c323de3f39c1787805b6de1e94637dfa3d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-c8b65f8-251-probe-disposal-focus-1.png": {
+      "sha256": "fdb5075d00aa9d8d8894e67eba9eb3cf1ca5b80aeb5c01e46d873c6d43fef51d",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-c8b65f8-252-probe-disposal-exit-1.png": {
+      "sha256": "9d2e43429430caf6e7128e00914817b4609969e6cf59f45727e3ed740e105051",
+      "category": "platform-evidence"
+    },
+    "docs/evidence/warrior75/screens/probe-c8b65f8-253-probe-disposal-confirm-exit-1.png": {
+      "sha256": "1b7119697f152650d03cbefad704756b4db7203c55f183d441993fe415d65137",
+      "category": "platform-evidence"
+    },
+    "docs/experiments/art-portrait/comparison.png": {
+      "sha256": "8ec8b53e0a386f8c158e80a53803a7749df37c683f4d76eb73239e1d516c9cca",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/export-review.json": {
+      "sha256": "42921cf3d491b5e45f5071e2f404c0c49c9f59b4f90c8a804158226dc00a83f3",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/measurements.json": {
+      "sha256": "a4a353b0692cd1d6219a50aa19804047ec766bdd4936da2932a8c618d869030f",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/portrait-256.json": {
+      "sha256": "16cb7e22dd3f581f3562f6c2bd15d46c327943b25e2534a7b1f720792f416805",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/portrait-256.lua": {
+      "sha256": "403ae253162156f516aa4d9048577900c1893d6389adb05f33ce519fafe1d4ec",
+      "category": "primitive-runtime"
+    },
+    "docs/experiments/art-portrait/portrait-256.png": {
+      "sha256": "cf63e70a73a8e92677991aeeea0d2634154a6f59500197d8b2a628ee80238532",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/portrait-64.json": {
+      "sha256": "02ac9dafbedf0fe2a7b327775610e2c241c4f2444dd61ee281bd5710ce02b5dd",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/portrait-64.lua": {
+      "sha256": "82f2d3c37316015c0768637f44b1ce26d66bf0d1e96826defd47ff26d25faeb4",
+      "category": "primitive-runtime"
+    },
+    "docs/experiments/art-portrait/portrait-64.png": {
+      "sha256": "d64438347bd5f3c9ce50d21407178fa7b8878bae2cfdb53f911953844510aa17",
+      "category": "portrait-experiment"
+    },
+    "docs/experiments/art-portrait/source.png": {
+      "sha256": "c5f92493eadde781bded8b90e853279f6b862abfa659365aed3286778b3b445e",
+      "category": "portrait-experiment"
+    }
+  }
+}
