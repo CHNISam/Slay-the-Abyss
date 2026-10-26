@@ -10,9 +10,15 @@ test('all original Living Wall base cases and every independent source transform
   const end=source.lastIndexOf('\nassert(registered');
   assert.equal(starts.length,11);
   const base=starts.flatMap((start,i)=>i===7?[]:[source.slice(start,starts[i+1]??end).trim()]).join('\n');
-  // Ten non-matrix bodies plus their intervening helpers are byte-preserved
-  // from PR206 at 162dcfb; the matrix retains its per-slot assertions.
-  assert.equal(createHash('sha256').update(base).digest('hex'),
+  // Production now supplies the ordered transform context itself. This one
+  // negative fixture must remove both context owners; retain the original hash
+  // for every other byte and require this exact reviewed migration once.
+  const migrated=` -- Ordinary Runs now derive the complete ordered context from production
+ -- data. Missing both the supplied context and its source owner still refuses.
+ run.transformContext=nil;run.data.cards.sourcePools=nil;refuse(run,'change',1,'event_content_unavailable')`;
+  assert.equal(base.split(migrated).length,2,'the reviewed context-owner migration must occur exactly once');
+  const historical=base.replace(migrated," run.transformContext=nil;refuse(run,'change',1,'event_content_unavailable')");
+  assert.equal(createHash('sha256').update(historical).digest('hex'),
     '33a25b6b5f0e79f9e771fd9ad085dc07eab4815fdfd15162c1a2886a4f34b788');
   const pools=JSON.parse(readFileSync('data/reference/sts1-card-pools/pools.json','utf8'));
   assert.equal(pools.sourceCommit,'319009d5df0a82d9fb0f23cc22322286c6a87ec0');

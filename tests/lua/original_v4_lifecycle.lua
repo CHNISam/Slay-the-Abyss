@@ -218,15 +218,16 @@ for character,role in pairs(roles)do
     same(run.deck,expected.deck);eq(run.gold,345)
     assert(not N.advanceAct(run,map),'duplicate original chapter transition accepted')
     local entered,reason=N.enter(run,map,Map.available(map)[1].id)
-    assert(not entered);eq(reason,'act_content_unavailable')
-    -- Fresh battle construction is isolated because the upstream chapter content
-    -- gate deliberately blocks the normal Act2 room; do not relabel it a route.
-    local fresh=C.new(run.data,{seed=42,hp=run.hp,maxHp=run.maxHp,deck=run.deck,enemies={'cultist'}})
+    assert(entered,reason);eq(run.phase,'combat');eq(run.encounterTier,'normal')
+    eq(run.combatGeneration,expected.generation+1)
+    -- Act2's normal source formations are now implemented. Use the actual
+    -- next node to prove resource reset and deck identity across the boundary.
+    local fresh=run.combat
     eq(fresh.originalV4.role,role);eq(fresh.originalV4.healUsed,0);eq(fresh.originalV4.infuse,0)
     eq(fresh.originalV4.bond,0);eq(fresh.originalV4.fan,0);eq(fresh.originalV4.resolve,0)
     eq(fresh.originalV4.eye.uses,0);eq(fresh.originalV4.musou.uses,0)
     local found={}
-    for _,pile in ipairs({fresh.hand,fresh.draw})do for _,held in ipairs(pile)do found[held.uid]=held end end
+    for _,pile in ipairs({fresh.hand,fresh.draw})do for _,held in ipairs(pile)do found[held.deckUid or held.uid]=held end end
     for _,held in ipairs(run.deck)do assert(found[held.uid]);eq(found[held.uid].upgraded,held.upgraded)end
 end
 -- Both chapter boundaries have floor17/roomGeneration0 and full queue lengths:
