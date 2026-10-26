@@ -76,7 +76,7 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
     until selected~=previous
     for _,card in ipairs(run.data.cards.cards)do if card.id==selected then def=card;break end end
     metadata=(run.data.cards.sourcePools.cardSourceMetadata or {})[selected]
-    sourceCardId=def and (def.sourceId or def.sts_name or def.id) or metadata and metadata.sourceId or selected
+    sourceCardId=metadata and metadata.sourceId or def and (def.sourceId or def.sts_name or def.id) or selected
     local available=def and Capability.isImplemented(def)
     local multiplier=R.randomFloatBetween(rng.merchant,f32(.9),f32(1.1))
     return { slot=slot, id=selected, type=def and def.type or metadata and metadata.type or kind or 'skill',color=color,

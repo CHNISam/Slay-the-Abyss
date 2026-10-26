@@ -25,7 +25,8 @@ for _,character in ipairs({'ironclad','silent','defect','watcher','hutao','arlec
  assert(actual.cards[1].id==chosen.id,'removing an effect implementation changed source identity')
  assert(actual.cards[1].unavailable,'missing implementation must remain explicitly unavailable')
  for i,offer in ipairs(stock.cards)do
-  assert(actual.cards[i].id==offer.id and actual.cards[i].price==offer.price,'missing definition shifted later shelf identities/prices')
+  assert(actual.cards[i].id==offer.id and actual.cards[i].sourceCardId==offer.sourceCardId
+    and actual.cards[i].price==offer.price,'missing definition shifted later shelf identities/prices')
  end
  same(R.snapshot(stock.cardRandom.cardRng),R.snapshot(actual.cardRandom.cardRng))
  same(stock.shopRng,actual.shopRng)

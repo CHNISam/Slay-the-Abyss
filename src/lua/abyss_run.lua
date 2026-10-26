@@ -54,6 +54,14 @@ function M.new(data, seed, options)
         elapsedSeconds = 0, victories = 0,
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
+    local sources=run.data.cards.sourcePools
+    sources.cardSourceMetadata=sources.cardSourceMetadata or {}
+    for _,card in ipairs(run.data.cards.cards)do
+        if not sources.cardSourceMetadata[card.id] then
+            sources.cardSourceMetadata[card.id]={sourceId=card.sourceId or card.sts_name or card.id,
+                rarity=card.rarity,type=card.type,healing=card.healing==true}
+        end
+    end
     if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
     if profile and profile.originalV4 then run.originalCommands={}end
     if options and options.campaign then
