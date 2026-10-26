@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:53'
-updated_date: '2026-10-26 10:04'
+updated_date: '2026-10-26 10:29'
 labels: []
 milestone: m-4
 dependencies: []
@@ -45,4 +45,6 @@ Executor: dot，自有云独立工作树feat/dot-node-combat-generation，基线
 与TASK-68.1组成同一主线小修复候选feat/dot-regression-boundary-fixes，保留独立回归及审查证据，一次准确SHA完整Quality；不等待或夹带跨幕功能。
 
 最终组合候选实跑：node-generation3/3、selector35/35与JS语法通过；Backlog校验首次提示缺里程碑，已沿用父任务m-4补齐后重验。
+
+首轮PR221准确head的官方Linux完整npm1502/1502通过，架构109/497通过；Luacheck因新增一行移动了三处既存unused position的基线行号而失败。已实际移除这三处未使用第二局部绑定，不改find调用/首返回值，不修改基线或阈值；8份shop/purge/节点相关回归通过，等待新head完整CI。
 <!-- SECTION:NOTES:END -->

@@ -402,7 +402,7 @@ local function removeCard(run, uid)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
     -- The service is a one-use offer per shop; the price increase belongs to later shops.
     if flow.removalUsed then return false, "removal_unavailable" end
-    local instance, position = find(run.deck, uid, "uid")
+    local instance = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
     local price = Shop.removePrice(run)
@@ -533,7 +533,7 @@ local function chooseEvent(run, choice, uid)
         run.gold = run.gold - rules.healCost
         run.hp = math.min(run.maxHp, run.hp + math.floor(run.maxHp * rules.healPercent / 100))
     elseif (choice == "purify" and id == "cleric") or (choice == "pray" and id == "purifier") then
-        local instance, position = find(run.deck, uid, "uid")
+        local instance = find(run.deck, uid, "uid")
         if not instance then return false, "invalid_card" end
         if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
         if run.gold < rules.removeCost then return false, "insufficient_gold" end
@@ -586,7 +586,7 @@ local function chooseEvent(run, choice, uid)
         local gold=EventRandom.randomIntBetween(rng,rules.goldMin,rules.goldMax)
         Run.gainGold(run,gold);run.miscRng=rng
     elseif choice=='purge' and id=='golden_wing' and flow.event.stage=='purge' then
-        local instance,position=find(run.deck,uid,'uid')
+        local instance=find(run.deck,uid,'uid')
         if not instance then return false,'invalid_card' end
         if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
         local ok,why=Run.removeCard(run,uid);if not ok then return false,why end
