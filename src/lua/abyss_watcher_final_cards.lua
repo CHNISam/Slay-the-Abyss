@@ -101,8 +101,10 @@ function M.withCards(data)
  return out
 end
 
-M.ops={gainWatcherFinalPower=true}
-M.availablePowers={free_attack=true}
+M.ops={gainWatcherFinalPower=true,watcherFinalGenerate=true,watcherFinalConjureBlade=true,
+ watcherFinalJudgment=true,watcherFinalRagnarok=true,watcherFinalSpiritShield=true,watcherFinalExpungerHits=true,
+ watcherFinalDamageHit=true,watcherFinalOmega=true}
+M.availablePowers={free_attack=true,omega=true}
 function M.supported(card)
  if card.id=='deus_ex_machina' then return false end
  for _,a in ipairs(card.effects or {})do
@@ -123,9 +125,63 @@ function M.used(state,card,purge)
   else state.player.statuses.free_attack=n end
  end
 end
-function M.execute(_,state,effect)
- assert(effect.op=='gainWatcherFinalPower' and M.availablePowers[effect.status],'unsupported Watcher final effect')
- require('abyss_actor').applyPower(state,state.player,effect.status,effect.value,state.player)
+local function target(state,id)
+ id=id or state.pendingPlay and state.pendingPlay.targetId
+ for _,enemy in ipairs(state.enemies)do if enemy.id==id then return enemy end end
+end
+local function top(state,queue,effect)
+ assert(queue,'Watcher continuation requires the shared action queue')
+ queue.pushTop(state,{kind='effect',effect=effect})
+end
+function M.execute(combat,state,effect,queue)
+ local Actor=require('abyss_actor')
+ local op=effect.op
+ if op=='gainWatcherFinalPower' then
+  assert(M.availablePowers[effect.status],'unsupported Watcher final Power')
+  Actor.applyPower(state,state.player,effect.status,effect.value,state.player)
+ elseif op=='watcherFinalOmega' then
+  for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then combat.retaliate(state,nil,enemy,effect.value)end end
+ elseif op=='watcherFinalGenerate' then
+  require('abyss_build_actions').makeCard(state,effect)
+ elseif op=='watcherFinalSpiritShield' then
+  combat.block(state,state.player,effect.value*#state.hand)
+ elseif op=='watcherFinalConjureBlade' then
+  local context=assert(state.pendingPlay,'missing Conjure Blade context')
+  local x=context.energyOnUse+effect.value
+  if require('abyss_relic_hooks').owns(state,'chemical_x')then x=x+2 end
+  local uid=state.nextUid
+  require('abyss_build_actions').makeCard(state,{cardId='expunger',pile='draw',randomSpot=true,value=1})
+  for _,c in ipairs(state.draw)do if c.uid==uid then c.expungerHits=x end end
+  if not context.freeToPlayOnce then state.energy=0 end
+ elseif op=='watcherFinalJudgment' then
+  local enemy=target(state)
+  if Actor.isActive(enemy)and enemy.hp<=effect.value then
+   local before=enemy.hp
+   Actor.instantKill(state,enemy)
+   require('abyss_enemy_ai').hpLost(state,enemy,before,true)
+   require('abyss_enemy_ai').flush(state)
+  end
+ elseif op=='watcherFinalExpungerHits' then
+  local enemy=target(state)
+  local hits=assert(state.cardInUse.expungerHits,'missing Expunger X')
+  if hits>0 and Actor.isActive(enemy)then
+   top(state,queue,{op='watcherFinalDamageHit',value=effect.value,remaining=hits,targetId=enemy.id,
+    normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})
+  end
+ elseif op=='watcherFinalRagnarok' then
+  local alive={};for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then alive[#alive+1]=enemy end end
+  if #alive>0 then
+   if effect.times>1 then top(state,queue,{op=op,value=effect.value,times=effect.times-1})end
+   local enemy=alive[combat.cardRandom(state,#alive)]
+   top(state,queue,{op='damage',value=effect.value,targetId=enemy.id,
+    normalAmount=combat.attackAmount(state,state.player,enemy,effect.value)})
+  end
+ elseif op=='watcherFinalDamageHit' then
+  if effect.remaining>1 then
+   top(state,queue,{op=op,value=effect.value,remaining=effect.remaining-1,targetId=effect.targetId,normalAmount=effect.normalAmount})
+  end
+  top(state,queue,{op='damage',value=effect.value,targetId=effect.targetId,normalAmount=effect.normalAmount})
+ else error('unsupported Watcher final effect: '..tostring(op))end
  return true
 end
 return M

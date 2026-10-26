@@ -508,7 +508,8 @@ function M.canPlay(state, uid, targetIndex)
             or effect.op=='sunderDamage' or effect.op=='removeBlock' or effect.op=='applyLockOn'
             or effect.op=='fearNoEvil' or effect.op=='wallop' or effect.op=='flowDamage' or effect.op=='applyWatcherFlowPower'
             or effect.op=='finisherDamage' or effect.op=='flechettesDamage' or effect.op=='skewer'
-            or effect.op=='glassKnife' or effect.op=='malaise' or effect.op=='feed' then
+            or effect.op=='glassKnife' or effect.op=='malaise' or effect.op=='feed'
+            or effect.op=='watcherFinalJudgment' or effect.op=='watcherFinalExpungerHits' or effect.op=='watcherFinalLessonLearned' then
             local enemy = state.enemies[targetIndex]
             if not Actors.isActive(enemy) then return false, "invalid_target" end
         end
@@ -1109,6 +1110,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
     state.cardsPlayedThisTurn[#state.cardsPlayedThisTurn+1]={type=card.type,cardId=card.id}
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
+    local freeAttack=require('abyss_watcher_final_cards').freeAttack(state,card)
     local energyOnUse=automatic and automatic.energyOnUse or state.energy
     if energyOnUse==nil then energyOnUse=state.energy end
     require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,energyOnUse,automatic and automatic.purge)
@@ -1120,7 +1122,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     local target = state.enemies[targetIndex]
     state.pendingPlay = {uid=uid, cardType=card.type, exhaust=require("abyss_exhaust").shouldExhaust(state,card),
         targetId=target and target.id, reactions=reactions, previous=previous, energyOnUse=energyOnUse,
-        purge=automatic and automatic.purge or nil,freeToPlayOnce=automatic~=nil}
+        purge=automatic and automatic.purge or nil,freeToPlayOnce=automatic~=nil or freeAttack}
     if automatic and automatic.exhaustCards then state.pendingPlay.exhaust=true end
     event(state, "play", {uid=uid,cardId=instance.cardId,target=targetIndex})
     RelicHooks.onUseCard(state,card)
@@ -1595,10 +1597,11 @@ local function endExperimentalTurn(state)
         if finish(state) then return true end
     end
     local endPowers={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true})) do
+    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true,omega=true})) do
         local plan
         if entry.id=='combust' then plan=require('abyss_warrior_strength_cards').planHook(state,entry.id,'turn_end')
         elseif entry.id=='rage' then plan={bottom=require('abyss_card_triggers').prepareEndTurn(state)}
+        elseif entry.id=='omega' then plan={bottom={{op='watcherFinalOmega',value=entry.amount}}}
         else plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end') end
         for _,effect in ipairs(plan.bottom) do endPowers[#endPowers+1]=effect.kind and effect or {kind='effect',effect=effect} end
     end

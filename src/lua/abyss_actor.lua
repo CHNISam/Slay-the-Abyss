@@ -327,6 +327,17 @@ function M.loseHp(state,target,amount)
     return lost
 end
 
+-- Judgement's InstantKill sets HP to zero before a null-source HP_LOSS(0).
+-- It ignores block and damage modifiers, but still owns the death callback.
+function M.instantKill(state,target)
+    local before=target.hp
+    target.hp=0
+    Events.emit(state,'damage',{target=target.id,amount=0,blocked=0})
+    require('abyss_relic_hooks').hpChanged(state,target,before)
+    local reactions={};queueDeathPower(state,target,before,reactions)
+    M.resolveDamageReactions(state,reactions)
+end
+
 function M.attackAmount(state, source, target, base, fixed)
     -- Force float arithmetic before modifiers: Fengari integers are 32-bit,
     -- while game Lua uses wider integers. Integer multiplication would wrap.
