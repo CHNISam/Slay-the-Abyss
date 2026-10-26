@@ -954,7 +954,7 @@ queuedHandlers.effect = function(state, action, queue)
     local plan=utility.planEffect and utility.planEffect(state,effect,{target=target,
         energyOnUse=context.energyOnUse,cardsPlayedBefore=math.max(0,#(state.cardsPlayedThisTurn or {})-1)})
     if plan then
-        if plan.consumeAllEnergy then state.energy=0 end
+        if plan.consumeAllEnergy and not context.freeToPlayOnce then state.energy=0 end
         for i=#plan.top,1,-1 do queue.pushTop(state,{kind='effect',effect=plan.top[i]}) end
         for _,e in ipairs(plan.bottom) do queue.pushBottom(state,{kind='effect',effect=e}) end
         return true
@@ -964,7 +964,7 @@ queuedHandlers.effect = function(state, action, queue)
         assert(type(rounds)=="number" and rounds%1==0 and rounds>=0 and rounds<=2147483647,"invalid X snapshot")
         if rounds>0 then
             queue.pushBottom(state,{kind="effect",effect={op="whirlwindRounds",remaining=rounds,matrix=effect.matrix}})
-            state.energy=0
+            if not context.freeToPlayOnce then state.energy=0 end
         end
     elseif effect.op == "whirlwindRounds" then
         normalMatrix(state,effect.matrix)
@@ -988,7 +988,7 @@ queuedHandlers.useCard = function(state, _action, queue)
     -- A lethal on-use retaliation stops before the source UseCard disposal.
     -- Preserve the original cardInUse identity on the death screen.
     if state.player.hp<=0 then return true end
-    if context.cardType~="power" then
+    if context.cardType~="power" and not context.purge then
         if context.exhaust then
             require("abyss_exhaust").move(state,instance,"using",queue,{onExhaustRelics=state.onExhaustRelics or {}})
         else
@@ -1045,7 +1045,7 @@ function M.choosePile(state,uids,token,generation)
     if not called then restore();error(ok,0) end
     return ok,reason
 end
-local function beginQueuedPlay(state, uid, targetIndex, instance, position, card)
+local function beginQueuedPlay(state, uid, targetIndex, instance, position, card, automatic)
     local previous = state.resolvingCard
     state.resolvingCard = true
     local reactions = EnemyAI.cardReactions(state, card)
@@ -1067,13 +1067,16 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
     state.cardsPlayedThisTurn[#state.cardsPlayedThisTurn+1]={type=card.type,cardId=card.id}
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
-    local energyOnUse=state.energy
-    state.energy=state.energy-paidCost(state,card)
-    table.remove(state.hand, position)
+    local energyOnUse=automatic and automatic.energyOnUse or state.energy
+    if energyOnUse==nil then energyOnUse=state.energy end
+    if not automatic then state.energy=state.energy-paidCost(state,card) end
+    if position then table.remove(state.hand, position) end
     state.cardInUse = instance
     local target = state.enemies[targetIndex]
     state.pendingPlay = {uid=uid, cardType=card.type, exhaust=require("abyss_exhaust").shouldExhaust(state,card),
-        targetId=target and target.id, reactions=reactions, previous=previous, energyOnUse=energyOnUse}
+        targetId=target and target.id, reactions=reactions, previous=previous, energyOnUse=energyOnUse,
+        purge=automatic and automatic.purge or nil,freeToPlayOnce=automatic~=nil}
+    if automatic and automatic.exhaustCards then state.pendingPlay.exhaust=true end
     event(state, "play", {uid=uid,cardId=instance.cardId,target=targetIndex})
     local actions = {}
     local triggerPlan=require('abyss_card_triggers').prepareUse(state,card)
@@ -1252,6 +1255,10 @@ function M.chooseCard(state,token,uid)
 end
 
 function M.resolveQueuedCard(state,e)
+    if e.randomTarget then
+        local live={};for i,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then live[#live+1]=i end end
+        e.targetIndex=#live>0 and live[M.cardRandom(state,#live)]or nil
+    end
     local target=state.enemies[e.targetIndex]
     local c=e.card
     local d=M.cardDefinition(state,c)
@@ -1278,7 +1285,22 @@ function M.resolveQueuedCard(state,e)
         rejected()
         return
     end
-    queueNativePlay(state,c.uid,e.targetIndex,c,d,true,forceExhaust,e.purge,true,e.energyOnUse)
+    if not nativeDefinition(state,d) or Effects.requiresQueue(d.effects) then
+        beginQueuedPlay(state,c.uid,e.targetIndex,c,nil,d,{purge=e.purge,exhaustCards=forceExhaust,
+            energyOnUse=e.energyOnUse})
+    else queueNativePlay(state,c.uid,e.targetIndex,c,d,true,forceExhaust,e.purge,true,e.energyOnUse) end
+end
+
+-- Callers own physical/stat-equivalent/same-instance identity construction.
+-- The descriptor contains only data; target and energy may be captured at use.
+function M.queueCard(state,instance,options)
+    options=options or {}
+    assert(type(instance)=='table'and state.catalog.cards[instance.cardId],'unknown queued card')
+    local entry={card=instance,autoplay=true,targetIndex=options.targetIndex,randomTarget=options.randomTarget,
+        exhaustCards=options.exhaustCards,purge=options.purge,energyOnUse=options.energyOnUse}
+    state.queuedCards=state.queuedCards or {}
+    if options.append then state.queuedCards[#state.queuedCards+1]=entry else table.insert(state.queuedCards,1,entry)end
+    return entry
 end
 
 function M.autoplayTop(state,targetIndex,exhaustCards,append)
@@ -1326,6 +1348,8 @@ function M.play(state, uid, targetIndex, commandId)
     -- Void's draw callback queues LoseEnergy behind the using card. Keep a
     -- native Draw action's tail alive until after on-use retaliation/disposal.
     local drawHooks=false
+    local autoplayHook=false
+    for _,effect in ipairs(card.effects)do if effect.op=='playTop'then autoplayHook=true end end
     if state.catalog.cards.void then
         for _,effect in ipairs(card.effects) do if effect.op=='draw' or effect.op=='requestDiscard' then drawHooks=true end end
     end
@@ -1334,7 +1358,7 @@ function M.play(state, uid, targetIndex, commandId)
     end
     local queued = Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0
         or state.player.stance~=nil
-        or drawHooks or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
+        or drawHooks or autoplayHook or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
     local restore = queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance)
     local resolver = queued and beginQueuedPlay or resolvePlay
     local called, result = pcall(resolver, state, uid, targetIndex, instance, position, card)

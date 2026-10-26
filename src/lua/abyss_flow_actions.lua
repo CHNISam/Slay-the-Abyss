@@ -59,7 +59,7 @@ function M.enqueue(state,plan,queue)
     end
     for _,entry in ipairs(changes) do for key,value in pairs(entry.values) do entry.card[key]=value end end
     M.commitRng(state,plan.cardRandomRng)
-    if plan.consumeAllEnergy then state.energy=0 end
+    if plan.consumeAllEnergy and not (state.pendingPlay and state.pendingPlay.freeToPlayOnce)then state.energy=0 end
     if plan.move then
         local move=plan.move
         assert(move.from=='discard' and move.to=='hand' and move.handHook==false,'unsupported planned movement')

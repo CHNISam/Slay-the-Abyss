@@ -336,7 +336,7 @@ local retained={originalV4=true,dispose=true,damage=true,damageAll=true,damageRa
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true
-    while not state.pendingChoice do
+    while not state.pendingChoice and not state.actionQueue do
         local outcome=combat.outcome(state)
         if state.cardActions and #state.cardActions>0 then
             local item=table.remove(state.cardActions,1)
@@ -346,6 +346,6 @@ function M.drain(combat,state)
         else break end
     end
     state.drainingCardActions=nil
-    if not state.pendingChoice then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
+    if not state.pendingChoice and not state.actionQueue then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
 end
 return M
