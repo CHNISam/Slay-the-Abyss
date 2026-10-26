@@ -2,6 +2,8 @@
 
 TASK-61完整范围不变。本文件只记录独立完成的怪物组，不能视为第二幕全量验收。没有候选构建、官方导入或实机证据。
 
+Stasis排序补充：三职业完整来源元数据由`39c40f8`提供，优先读取`sourcePools.cardSourceMetadata[cardId].sourceId`，再兼容已有定义`sourceId/id`。真实职业定义的Deadly Poison/Underhanded Strike、Cold Snap/Gash、CutThroughFate/PathToVictory均已验证旧实现红、新实现绿；测试使用该提交的实际完整来源模块，不用本地snake_id模拟原cardID。
+
 固定行为来源：`aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0`，第三方反编译镜像；本轮从根目录`.artifacts/m3-pr193-worktree-evidence/sts1-relic-pool-catalog/.artifacts/relic-source/archive/`只读核对，未复制Java原文或素材进产品。数值以PC A0分支为准，Lua是独立实现。
 
 | 已实现敌人 | 核对的方法与事实 |

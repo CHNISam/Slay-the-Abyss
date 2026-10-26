@@ -12,7 +12,9 @@ function M.apply(combat,s,orb)
  for _,rarity in ipairs({'rare','uncommon','common'})do
   for i,c in ipairs(pile)do
    local d=assert(s.catalog.cards[c.cardId])
-   if d.rarity==rarity then candidates[#candidates+1]={card=c,index=i,sourceId=d.sourceId or d.id} end
+   local metadata=s.sourcePools and s.sourcePools.cardSourceMetadata and s.sourcePools.cardSourceMetadata[c.cardId]
+   local sourceId=metadata and metadata.sourceId or d.sourceId or d.id
+   if d.rarity==rarity then candidates[#candidates+1]={card=c,index=i,sourceId=sourceId} end
   end
   if #candidates>0 then
    table.sort(candidates,function(a,b)return a.sourceId==b.sourceId and a.index<b.index or a.sourceId<b.sourceId end)
