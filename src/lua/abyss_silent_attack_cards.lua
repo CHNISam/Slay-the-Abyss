@@ -1,3 +1,4 @@
+local Copy = require("abyss_copy")
 -- Fixed-source Silent attack/defence subset. Shared Combat owns action order.
 local Actors, Events = require("abyss_actor"), require("abyss_events")
 local M = {}
@@ -13,7 +14,7 @@ local function conditional(status, effects)
     return {op="conditional",["if"]="target_"..status,["then"]=effects}
 end
 function M.withCardDefinitions(data)
-    local d=require("abyss_combat").copy(data)
+    local d=Copy.copy(data)
     local cards={
         {id="bane",sourceId="Bane",type="attack",rarity="common",cost=1,
             effects={{op="damage",value=7},conditional("poison",{{op="damage",value=7}})},
