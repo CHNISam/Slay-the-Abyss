@@ -14,6 +14,7 @@ local Merchant = require("abyss_merchant")
 local M = {}
 local CardDisplay = require('abyss_card_display')
 local Combat = require('abyss_combat')
+local Act1Events = require('abyss_act1_events')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
@@ -38,6 +39,7 @@ local events = {
     accursed_blacksmith={name='诅咒铁匠',body='古旧的铁砧尚有余温，旁边散落着可疑的器具。',leave='你离开了铁砧。'},
     bonfire={name='篝火精灵',body='篝火中的精灵向你招手。',leave='你告别了篝火。'},
     transmogrifier={name='变换神龛',body='神龛的微光能将一张卡牌化为新的形态。',leave='你离开了变换神龛。'},
+    scrap_ooze={name='废料黏液',body='黏液深处似乎埋着一件遗物。伸手探索会受到伤害。',leave='你停止了探索。'},
     fountain = { name='净化之泉', body='清澈的泉水在石隙间流淌。你可以借它洗去随身的诅咒。', leave='你离开了泉水。' },
     living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
@@ -488,7 +490,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     local selected=option
                     rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..
                         (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
-                        if id=='sssserpent' or id=='big_fish' or id=='accursed_blacksmith' or id=='bonfire' or id=='transmogrifier' then
+                        -- Repeated-search events retain the same command after
+                        -- rendering new odds. An old callback is still stale.
+                        if self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map then return false,'stale_action' end
+                        if Act1Events.ids[id] then
                             return commit('chooseEvent',selected.choice,function()
                                 local outcome=self.run.nodeFlow.event
                                 local text=outcome.body or '请选择一张卡牌。'
