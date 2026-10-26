@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "stage": "offline-production-lua-ui-payload",
-  "sourceCommit": "7a45d10fc1af2436c10e2042e36789d6bb87d0b7",
-  "integrationBase": "b78fb0680fb33488fe9471346390f1ef89f371ca",
-  "payloadDigest": "9291879bab815d492ea88747d77d3eafc03b37daf315b476511dbec3cfe55a19",
-  "runtimePayloadDigest": "6dcff5fcf6a34af9b63e3043bd8de6a21a4a59d2b237f736554b2283fcb19485",
+  "sourceCommit": "eb892015ca8124b61c87ac742d9dd6571c08948e",
+  "integrationBase": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
+  "payloadDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
+  "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27",
   "data": [
     {
       "path": "data/original_v4/cards_v4.json",
@@ -20,8 +20,8 @@
   "inputs": [
     {
       "path": "config/architecture.json",
-      "sha256": "96f753f6abacad67e7d5b36942e6317ad09feeac6e1ee92b72211234368729ff",
-      "bytes": 7766
+      "sha256": "485f25cffe3dcefb09db514f2210ac90b98abbca3dce1fa8625fafb3e26c125a",
+      "bytes": 6654
     },
     {
       "path": "data/cards.json",
@@ -125,8 +125,8 @@
     },
     {
       "path": "package.json",
-      "sha256": "75297aea25461fdf01eef6f39df0923ba9a24e2549341ef9cc75e8d7ba940b17",
-      "bytes": 2146
+      "sha256": "5406c025050b3a131c37e32fab870344184f01daea0897246d0f5a0846e7fe31",
+      "bytes": 2258
     },
     {
       "path": "scripts/art/export-card-shared.py",
@@ -260,8 +260,8 @@
     },
     {
       "path": "scripts/check-network-policy.mjs",
-      "sha256": "e808b1a3000285626a211de175bf7281fdafbc7b699acbce8a0586540319220f",
-      "bytes": 1586
+      "sha256": "cc319c0e8e84ba243ba6312b92a45d693c1901f61b72b2a5cf4c740e4bca696b",
+      "bytes": 2248
     },
     {
       "path": "scripts/check-syntax.mjs",
@@ -429,6 +429,11 @@
       "bytes": 3304
     },
     {
+      "path": "scripts/test-affected.mjs",
+      "sha256": "fc05b01831ec0fc978ef02a4114b57e831245927cfcd83a4c81da3f1705fb523",
+      "bytes": 6722
+    },
+    {
       "path": "scripts/test-lua.mjs",
       "sha256": "194741ad4dc1d4b487f3db5a73ba55fed006a32924aa69e16048ec294d1acbbc",
       "bytes": 4533
@@ -530,8 +535,8 @@
     },
     {
       "path": "src/lua/abyss_battle_ui.lua",
-      "sha256": "f694a063abe3b9f7847c34cd529876f2493448f4aefcb958f9b73d11b695c256",
-      "bytes": 133007
+      "sha256": "a4753435a619e699b8a73169c1f6149174463183ac4481883859275b0b165d94",
+      "bytes": 133070
     },
     {
       "path": "src/lua/abyss_bgm.lua",
@@ -580,8 +585,8 @@
     },
     {
       "path": "src/lua/abyss_character_presentation.lua",
-      "sha256": "06f093eca11d650cd8d5762a264e4d3f1feda7e82a3c171719a8e7a69ce6d8bf",
-      "bytes": 37181
+      "sha256": "552b911bda1ed4f55f4c880ca3e959a7224d40e7a790f9c3100a9697346b5bce",
+      "bytes": 38154
     },
     {
       "path": "src/lua/abyss_character_profiles.lua",
@@ -595,8 +600,13 @@
     },
     {
       "path": "src/lua/abyss_combat.lua",
-      "sha256": "8f8e24b256fff102de6a82b4b26e71681a4143b9b878fa4f5b55669062c0d1dd",
-      "bytes": 102588
+      "sha256": "e921d5c0d292e8d34bed3a65388ac0211945b5a0ae52a09529e271976385fd36",
+      "bytes": 102182
+    },
+    {
+      "path": "src/lua/abyss_copy.lua",
+      "sha256": "c9d5634f4b9c5e2723b6719d0b9304e80fc8916ae214999ffa02d31b44720312",
+      "bytes": 596
     },
     {
       "path": "src/lua/abyss_corruption.lua",
@@ -795,8 +805,8 @@
     },
     {
       "path": "src/lua/abyss_node_ui.lua",
-      "sha256": "f9ac9ab9dcd192598a4c1f09adb3f3420a7249f213a45a237e583de776002e49",
-      "bytes": 71733
+      "sha256": "6927d3d7eb7c758b843eb570c10158f6ab03dc1e0c6d7f185596b9707442d4d8",
+      "bytes": 71769
     },
     {
       "path": "src/lua/abyss_nodes.lua",
@@ -950,8 +960,8 @@
     },
     {
       "path": "src/lua/abyss_shivs.lua",
-      "sha256": "ac2488896dbe5011919f200fab032264abf9193e9e2b99372e1f999c04429427",
-      "bytes": 9263
+      "sha256": "5c2d5beffdbd2221a5f34851370940f74b9ee62acc6963962d4f20108c8d0f6e",
+      "bytes": 9260
     },
     {
       "path": "src/lua/abyss_shop.lua",
@@ -970,13 +980,13 @@
     },
     {
       "path": "src/lua/abyss_silent_attack_cards.lua",
-      "sha256": "46af8ddc3446c35c4cecb57a8be16b6b687debb243c9a453d063584dcda70b21",
-      "bytes": 7469
+      "sha256": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa",
+      "bytes": 7485
     },
     {
       "path": "src/lua/abyss_silent_discard_cards.lua",
-      "sha256": "fb8fc04666191f323ab9504ba732caed467d922806ce69962ff8e7989307bf9b",
-      "bytes": 4697
+      "sha256": "35e8dfc35cd6e781acf3b3bb623b690f73b5466857011f75c87ba4b85883807f",
+      "bytes": 4713
     },
     {
       "path": "src/lua/abyss_silent_tactics_cards.lua",
@@ -1060,8 +1070,8 @@
     },
     {
       "path": "src/lua/abyss_watcher_flow_cards.lua",
-      "sha256": "e8d0785239150c1ca364fc2f9901ba2c2cda0ead31fb709ea713a71979dd1c82",
-      "bytes": 19003
+      "sha256": "dd3cebd998e148eadbd5fd043512e0d5098ff3583b463074b999dd4583058848",
+      "bytes": 19368
     },
     {
       "path": "tools/render_traveler_cards.py",
@@ -1139,8 +1149,8 @@
     {
       "name": "abyss_battle_ui",
       "path": "src/lua/abyss_battle_ui.lua",
-      "bytes": 133007,
-      "sha256": "f694a063abe3b9f7847c34cd529876f2493448f4aefcb958f9b73d11b695c256"
+      "bytes": 133070,
+      "sha256": "a4753435a619e699b8a73169c1f6149174463183ac4481883859275b0b165d94"
     },
     {
       "name": "abyss_bgm",
@@ -1199,8 +1209,8 @@
     {
       "name": "abyss_character_presentation",
       "path": "src/lua/abyss_character_presentation.lua",
-      "bytes": 37181,
-      "sha256": "06f093eca11d650cd8d5762a264e4d3f1feda7e82a3c171719a8e7a69ce6d8bf"
+      "bytes": 38154,
+      "sha256": "552b911bda1ed4f55f4c880ca3e959a7224d40e7a790f9c3100a9697346b5bce"
     },
     {
       "name": "abyss_character_profiles",
@@ -1217,8 +1227,14 @@
     {
       "name": "abyss_combat",
       "path": "src/lua/abyss_combat.lua",
-      "bytes": 102588,
-      "sha256": "8f8e24b256fff102de6a82b4b26e71681a4143b9b878fa4f5b55669062c0d1dd"
+      "bytes": 102182,
+      "sha256": "e921d5c0d292e8d34bed3a65388ac0211945b5a0ae52a09529e271976385fd36"
+    },
+    {
+      "name": "abyss_copy",
+      "path": "src/lua/abyss_copy.lua",
+      "bytes": 596,
+      "sha256": "c9d5634f4b9c5e2723b6719d0b9304e80fc8916ae214999ffa02d31b44720312"
     },
     {
       "name": "abyss_corruption",
@@ -1457,8 +1473,8 @@
     {
       "name": "abyss_node_ui",
       "path": "src/lua/abyss_node_ui.lua",
-      "bytes": 71733,
-      "sha256": "f9ac9ab9dcd192598a4c1f09adb3f3420a7249f213a45a237e583de776002e49"
+      "bytes": 71769,
+      "sha256": "6927d3d7eb7c758b843eb570c10158f6ab03dc1e0c6d7f185596b9707442d4d8"
     },
     {
       "name": "abyss_nodes",
@@ -1643,8 +1659,8 @@
     {
       "name": "abyss_shivs",
       "path": "src/lua/abyss_shivs.lua",
-      "bytes": 9263,
-      "sha256": "ac2488896dbe5011919f200fab032264abf9193e9e2b99372e1f999c04429427"
+      "bytes": 9260,
+      "sha256": "5c2d5beffdbd2221a5f34851370940f74b9ee62acc6963962d4f20108c8d0f6e"
     },
     {
       "name": "abyss_shop",
@@ -1667,14 +1683,14 @@
     {
       "name": "abyss_silent_attack_cards",
       "path": "src/lua/abyss_silent_attack_cards.lua",
-      "bytes": 7469,
-      "sha256": "46af8ddc3446c35c4cecb57a8be16b6b687debb243c9a453d063584dcda70b21"
+      "bytes": 7485,
+      "sha256": "4b2efb9f0724c958d4a22aae8fef1e5bd0b3ae74f4af34e375c79640fe740efa"
     },
     {
       "name": "abyss_silent_discard_cards",
       "path": "src/lua/abyss_silent_discard_cards.lua",
-      "bytes": 4697,
-      "sha256": "fb8fc04666191f323ab9504ba732caed467d922806ce69962ff8e7989307bf9b"
+      "bytes": 4713,
+      "sha256": "35e8dfc35cd6e781acf3b3bb623b690f73b5466857011f75c87ba4b85883807f"
     },
     {
       "name": "abyss_silent_tactics_cards",
@@ -1775,8 +1791,8 @@
     {
       "name": "abyss_watcher_flow_cards",
       "path": "src/lua/abyss_watcher_flow_cards.lua",
-      "bytes": 19003,
-      "sha256": "e8d0785239150c1ca364fc2f9901ba2c2cda0ead31fb709ea713a71979dd1c82"
+      "bytes": 19368,
+      "sha256": "dd3cebd998e148eadbd5fd043512e0d5098ff3583b463074b999dd4583058848"
     }
   ],
   "ui": [

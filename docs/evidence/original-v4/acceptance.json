@@ -101,8 +101,8 @@
     "Twelve archetype normal-run checks and full original campaign victory remain unverified."
   ],
   "candidateIdentity": {
-    "sourceCommit": "7a45d10fc1af2436c10e2042e36789d6bb87d0b7",
-    "payloadDigest": "9291879bab815d492ea88747d77d3eafc03b37daf315b476511dbec3cfe55a19",
-    "runtimePayloadDigest": "6dcff5fcf6a34af9b63e3043bd8de6a21a4a59d2b237f736554b2283fcb19485"
+    "sourceCommit": "eb892015ca8124b61c87ac742d9dd6571c08948e",
+    "payloadDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
+    "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
   }
 }
