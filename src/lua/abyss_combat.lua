@@ -2094,7 +2094,7 @@ function M.new(data, options)
     local gold = options.gold == nil and rules.player.startingGold or options.gold
     assert(goldInteger(gold), "invalid starting gold")
     local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = { cards = cardCatalog, enemies = index(copy(data.enemies.enemies)),
-              statuses = statusCatalog,potions=index(data.potions.potions) },
+              statuses = statusCatalog,potions=index(data.potions and data.potions.potions or {}) },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
