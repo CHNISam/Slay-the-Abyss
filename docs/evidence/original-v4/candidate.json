@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "stage": "offline-production-lua-ui-payload",
-  "sourceCommit": "eb892015ca8124b61c87ac742d9dd6571c08948e",
+  "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
   "integrationBase": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
-  "payloadDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
+  "payloadDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
   "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27",
   "data": [
     {
@@ -20,8 +20,8 @@
   "inputs": [
     {
       "path": "config/architecture.json",
-      "sha256": "485f25cffe3dcefb09db514f2210ac90b98abbca3dce1fa8625fafb3e26c125a",
-      "bytes": 6654
+      "sha256": "a59f031b0300502a02145c1648b8f0ba89a11fda9ae641edc18b900de113e74f",
+      "bytes": 7263
     },
     {
       "path": "data/cards.json",
@@ -465,8 +465,8 @@
     },
     {
       "path": "scripts/verify-launch-content.mjs",
-      "sha256": "5a41a5ff271e9cf3b2195977bc6d4e7736e08afe583fbbb467a6551e12dd9bc7",
-      "bytes": 21281
+      "sha256": "5b4792566d3b28f787a226fad56d346e6828edc902f838eb3c397dad7c655afe",
+      "bytes": 21307
     },
     {
       "path": "scripts/verify-official-client.mjs",

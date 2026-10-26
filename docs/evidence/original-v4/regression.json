@@ -125,8 +125,8 @@
     "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
   ],
   "candidateIdentity": {
-    "sourceCommit": "eb892015ca8124b61c87ac742d9dd6571c08948e",
-    "payloadDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
+    "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
+    "payloadDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
     "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
   },
   "priorIndependentReview": {
@@ -164,18 +164,20 @@
   ],
   "finalIndependentReview": {
     "reviewer": "v4_contract_audit",
-    "sourceCommit": "eb892015ca8124b61c87ac742d9dd6571c08948e",
+    "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
     "scope": [
       "late real-UI feedback context isolation",
       "latest develop composition and status icon aliases",
-      "strict native curse rendering and shared Vigor compatibility"
+      "strict native curse rendering and shared Vigor compatibility",
+      "launch inspection sixth generated module, preserving real probe",
+      "three function-local original runtime import edges, retaining upstream copy cycle removal"
     ],
     "targetedEvidence": "Independent ORIGINAL_V4_BATTLE_UI_PASS 4 in 11.6s; all four natural E controls commit energy, hand and resources and finish turn; no prepare_failed or recovered playback; character_presentation 16 groups/640 faces and watcher_flow_build 28 groups pass, including Vigor uniqueness and conflicting lifecycle rejection",
     "codeFindings": [],
-    "manifestVerification": "pass: all 212 producer inputs and all 119 modules + 2 UI files independently recomputed, exact bytes/SHA256",
+    "manifestVerification": "pass: independently recomputed 212 producer inputs and 119 modules + 2 UI files after final integration fixes; exact bytes/SHA256; runtime payload unchanged",
     "condition": "Current exact PR SHA complete Quality success before merge",
     "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run",
-    "producerInputsDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
+    "producerInputsDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
     "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
   },
   "latestDevelopIntegrationRegression": {
@@ -188,5 +190,28 @@
       "game_ui_classes_failure": "6/6; explicitly remove now-formal panels for truly missing-layout negative control, retaining startup diagnostic/no-ready assertions",
       "game_ui": "real generated startup, deck and prologue bridge passed; original settlement and input assertions retained"
     }
+  },
+  "finalCompositionFixes": {
+    "failedCi": {
+      "head": "d0f7fd542e3a9ca60bb0e5b966fbf1c72e566112",
+      "run": 40302992005,
+      "job": 121505431716,
+      "failures": 14,
+      "rootCause": "Launch deployment metadata inspection omitted the sixth generated original V4 module; positive and domain-negative controls shared the same ENOENT"
+    },
+    "fix": "Add only missing metadata module name, preserving actual production probe and all admission checks; retain three V4 function-local runtime imports in architecture config alongside upstream copy-cycle removal",
+    "targetedValidation": {
+      "launchInventoryTests": 30,
+      "pass": 30,
+      "fail": 0,
+      "architecture": {
+        "modules": 113,
+        "edges": 541
+      },
+      "static": "116 historical warnings, zero new",
+      "criticalMutations": "4/4 killed_by_assertion"
+    },
+    "runtimePayloadChanged": false,
+    "finalExactHeadQuality": "required; latest current-head GitHub run is authoritative, earlier failure remains recorded"
   }
 }
