@@ -180,7 +180,7 @@ end
 -- Acid S sets its next move directly instead; do not invent a queued roll.
 local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
-    if enemy.ai and enemy.ai.kind == 'act2' then return M.advance(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.afterAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.afterAction(state, enemy) end
     -- Acid's split queues child init only. Its ordinary attack may have been
     -- interrupted by Thorns, so inspect the captured payload, not current intent.

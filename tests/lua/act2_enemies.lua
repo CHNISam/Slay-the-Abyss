@@ -64,7 +64,7 @@ test('Mystic A0 history forbids three consecutive attacks, buffs, or heals',func
  AI.advance(s,h,roll(99));eq(intent(h),'attack')
 end)
 test('unimplemented chapter rooms reject without consuming queue or generation',function()
- local r=room('3 Byrds');local queue=r.encounters;local gen=r.roomGeneration
+ local r=room('2 Thieves');local queue=r.encounters;local gen=r.roomGeneration
  local ok,reason=Run.startRoomCombat(r,'normal');eq(ok,false);eq(reason,'act_content_unavailable')
  eq(r.encounters,queue);eq(r.roomGeneration,gen);eq(r.phase,'map')
 end)
@@ -165,5 +165,41 @@ test('Parasite armor break interrupts to Stunned then uses Fell history for its 
  for i,v in ipairs(e.intents)do if v.id=='fell'then e.intentIndex=i end end
  local seen={};AI.advance(s,e,function(_,max)seen[#seen+1]=max;return 1 end)
  eq(table.concat(seen,','),'100,80');eq(intent(e),'double_strike')
+end)
+test('Byrd Flight halves all queued attack hits before grounding; Headbutt sets Airborne without a roll',function()
+ local s=C.new(Data,{enemies={'byrd'},deck={},seed=42,hp=500,maxHp=500})
+ local e=s.enemies[1];eq(e.statuses.flight,3)
+ local hp=e.hp;C.applyEffects(s,{{op='damage',value=6,times=3}},s.player,e)
+ eq(e.hp,hp-9);eq(e.statuses.flight,0);eq(intent(e),'stunned')
+ assert(C.endTurn(s));eq(intent(e),'headbutt')
+ local before=s.seed;assert(C.endTurn(s));eq(intent(e),'airborne');eq(s.seed,before)
+ assert(C.endTurn(s));eq(e.statuses.flight,3);assert(intent(e)~='airborne')
+end)
+test('Flight ignores fully blocked and fixed hits and refreshes only before enemy action',function()
+ local s=battle({'byrd'});local e=s.enemies[1];e.block=20
+ C.damage(s,s.player,e,6);eq(e.statuses.flight,3)
+ e.block=0;C.damage(s,s.player,e,6,true);eq(e.statuses.flight,3)
+ C.damage(s,s.player,e,6);eq(e.statuses.flight,2)
+ assert(C.endTurn(s));eq(e.statuses.flight,3)
+ local r=room('3 Byrds');assert(Run.startRoomCombat(r,'normal'));eq(#r.combat.enemies,3)
+ for _,b in ipairs(r.combat.enemies)do eq(b.definitionId,'byrd');eq(b.statuses.flight,3)end
+end)
+test('Snecko opens Confusion, follows 40 cutoff and no three Bites, and Artifact blocks Confusion',function()
+ local s=battle({'snecko'});local e=s.enemies[1];eq(intent(e),'glare')
+ A.applyPower(s,s.player,'artifact',1,s.player)
+ assert(C.endTurn(s));eq(s.player.statuses.confusion,nil);eq(s.player.statuses.artifact,0)
+ AI.initialize(s,e,roll(99));AI.advance(s,e,roll(40));eq(intent(e),'bite')
+ AI.advance(s,e,roll(40));eq(intent(e),'bite');AI.advance(s,e,roll(40));eq(intent(e),'tail')
+ AI.advance(s,e,roll(39));eq(intent(e),'tail')
+end)
+test('Confusion randomizes only drawn nonnegative-cost cards and persists through turn reset',function()
+ local s=battle({'snecko'});local e=s.enemies[1]
+ A.applyPower(s,s.player,'confusion',1,e)
+ s.draw={{cardId='dazed',uid=200},{cardId='whirlwind',uid=201},{cardId='defend',uid=202},{cardId='strike',uid=203}}
+ local before=s.cardRandomRng.counter
+ local drawn=C.draw(s,4);eq(s.cardRandomRng.counter,before+2)
+ for i=1,2 do local cost=C.cardDefinition(s,drawn[i]).cost;assert(cost>=0 and cost<=3);eq(drawn[i].combatCost or C.combatBaseCost(s,drawn[i]),cost)end
+ eq(C.cardDefinition(s,drawn[3]).costMode,'all_energy');eq(C.cardDefinition(s,drawn[4]).cost,-2)
+ local cost=C.cardDefinition(s,drawn[1]).cost;A.endTurn(s,s.player);eq(C.cardDefinition(s,drawn[1]).cost,cost)
 end)
 print('LUA_ACT2_ENEMIES_PASS '..count)

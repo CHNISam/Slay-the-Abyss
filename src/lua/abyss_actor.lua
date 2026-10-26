@@ -76,7 +76,7 @@ end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
 local debuffs = { bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
-    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true }
+    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
@@ -324,6 +324,7 @@ function M.attackAmount(state, source, target, base, fixed)
     if state.player.stance then
         amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)
     end
+    if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
     return math.max(0, math.floor(amount))
 end
 
@@ -565,6 +566,7 @@ function M.resetBlock(state, actor)
 end
 
 function M.startTurnEffects(state, actor)
+    if actor~=state.player and (actor.statuses.flight or 0)>0 then actor.statuses.flight=3 end
     if M.isActive(actor) then tick(state, actor, "turn_start") end
 end
 

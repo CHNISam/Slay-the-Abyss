@@ -13,7 +13,22 @@ local function alive(state)
 end
 local function choose(state,e,n,random)
  local policy=e.ai.policy
- if policy=='parasite'then
+ if policy=='snecko'then
+  if not e.act2Last then return 'glare' end
+  if n<40 or twice(e,'bite')then return 'tail' end
+  return 'bite'
+ elseif policy=='byrd'then
+  if not e.act2Last then return ER.float(state,random)<0.375 and 'caw' or 'peck' end
+  if (e.statuses.flight or 0)<=0 then return 'headbutt' end
+  if n<50 then
+   if twice(e,'peck')then return ER.float(state,random)<0.4000000059604645 and 'swoop' or 'caw' end
+   return 'peck'
+  elseif n<70 then
+   if e.act2Last=='swoop'then return ER.float(state,random)<0.375 and 'caw' or 'peck' end
+   return 'swoop'
+  elseif e.act2Last=='caw'then return ER.float(state,random)<0.2856999933719635 and 'swoop' or 'peck' end
+  return 'caw'
+ elseif policy=='parasite'then
   if not e.act2Last then return ER.boolean(state,random) and 'double_strike' or 'life_suck' end
   if n<20 then
    if e.act2Last~='fell'then return 'fell' end
@@ -81,6 +96,7 @@ function M.advance(state,e,random)
  setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.preBattle(state,e)
+ if e.ai.policy=='byrd'then A.applyPower(state,e,'flight',3,e) end
  if e.ai.policy=='parasite'then A.applyPower(state,e,'plated_armor',14,e);A.block(state,e,14,true) end
  if e.ai.policy=='snake'then A.applyPower(state,e,'malleable',3,e) end
  if e.ai.policy=='book'then A.applyPower(state,e,'painful_stabs',1,e) end
@@ -92,5 +108,9 @@ function M.preBattle(state,e)
 end
 function M.beforeAction(e,intent)
  if e.ai.policy=='parasite' and intent.id=='stunned'then select(e,'fell') end
+end
+function M.afterAction(state,e,random,intent)
+ if e.ai.policy=='byrd' and intent.id=='headbutt'then select(e,'airborne');return end
+ M.advance(state,e,random)
 end
 return M

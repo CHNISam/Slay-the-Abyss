@@ -30,6 +30,14 @@ M.enemies={
  {id='shelled_parasite',name='岩甲寄生兽',tier='normal',hp=72,hpRange={min=68,max=72},ai={kind='act2',policy='parasite'},intents={
   move('fell','attack',{damage(18),status('frail',2)}),move('double_strike','attack',{damage(6,2)}),
   move('life_suck','attack',{{op='enemyVampireDamage',value=10}}),move('stunned','stunned',{})}},
+ {id='byrd',name='巡风隼',tier='normal',hp=31,hpRange={min=25,max=31},ai={kind='act2',policy='byrd'},intents={
+  move('peck','attack',{damage(1,5)}),move('swoop','attack',{damage(12)}),
+  move('caw','buff',{{op='gainStatus',status='strength',value=1}}),
+  move('stunned','stunned',{}),move('headbutt','attack',{damage(3)}),
+  move('airborne','buff',{{op='gainStatus',status='flight',value=3}})}},
+ {id='snecko',name='惑心蜥',tier='normal',hp=120,hpRange={min=114,max=120},ai={kind='act2',policy='snecko'},intents={
+  move('glare','debuff',{status('confusion',1)}),move('bite','attack',{damage(15)}),
+  move('tail','attack',{damage(8),status('vulnerable',2)})}},
  {id='champ',name='磐岩斗魁',tier='boss',hp=420,ai={kind='act2',policy='champ'},intents={
   move('heavy_slash','attack',{damage(16)}),
   move('defensive_stance','defend',{{op='block',value=15,fixed=true},{op='gainStatus',status='metallicize',value=5}}),
@@ -43,6 +51,8 @@ M.statuses={
  {id='painful_stabs',name='痛苦穿刺',kind='buff',stack='none',decay='none',description='攻击使目标损失生命时，将一张伤口放入弃牌堆。'},
  {id='malleable',name='韧性',kind='buff',stack='intensity',decay='none',description='受到非致命普通攻击生命伤害后获得格挡；每次递增1，行动结束重置为3。'},
  {id='hex',name='蚀咒',kind='debuff',stack='intensity',decay='none',description='使用非攻击牌后，将相应数量的晕眩随机放入抽牌堆。'},
+ {id='flight',name='飞行',kind='buff',stack='intensity',decay='none',priority=50,description='普通攻击伤害减半；受到3次未被完全格挡的攻击后坠地。行动前补满次数。'},
+ {id='confusion',name='混乱',kind='debuff',stack='none',decay='none',priority=0,description='抽牌时，将非负费用牌的费用随机改为0至3；X费与不可打出的牌不受影响。'},
 }
 local rooms={
  ['Spheric Guardian']={id='act2_sphere',enemies={'spheric_guardian'}},
@@ -57,6 +67,9 @@ local rooms={
  ['Cultist and Chosen']={id='act2_cultist_chosen',enemies={'cultist','chosen'}},
  ['Shell Parasite']={id='act2_parasite',enemies={'shelled_parasite'}},
  ['Shelled Parasite and Fungi']={id='act2_parasite_fungi',enemies={'shelled_parasite','fungi_beast'}},
+ ['3 Byrds']={id='act2_byrds',enemies={'byrd','byrd','byrd'}},
+ ['Chosen and Byrds']={id='act2_chosen_byrd',enemies={'byrd','chosen'}},
+ ['Snecko']={id='act2_snecko',enemies={'snecko'}},
  ['Champ']={id='act2_champ',tier='boss',enemies={'champ'}},
 }
 function M.resolve(source,tier)

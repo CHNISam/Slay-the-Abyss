@@ -257,6 +257,7 @@ local function draw(state, count, drawn)
         local card = table.remove(state.draw)
         state.hand[#state.hand + 1] = card
         drawn[#drawn+1]=card
+        require('abyss_act2_powers').onDraw(state,card,M.combatBaseCost(state,card))
         if card.cardId=='void' then
             if state.actionQueue then
                 require('abyss_action_queue').pushBottom(state,{kind='effect',effect={op='voidEnergy',value=1}})

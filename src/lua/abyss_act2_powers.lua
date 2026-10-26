@@ -6,6 +6,7 @@ local function push(s,action)
  s.act2Bottom=s.act2Bottom or {};s.act2Bottom[#s.act2Bottom+1]=action
 end
 function M.damaged(s,source,target,lost,fixed)
+ if source and not fixed and lost>0 and (target.statuses.flight or 0)>0 then push(s,{op='flight_hit',target=target}) end
  if source and not fixed and lost>0 and target.ai and target.ai.policy=='parasite' and target.statuses.plated_armor==1 then
   push(s,{op='armor_break',target=target})
  end
@@ -22,7 +23,14 @@ function M.flush(api,s)
  if not queue or s.player.hp<=0 then return end
  local live=false;for _,e in ipairs(s.enemies)do if api.isActive(e)then live=true end end
  for _,entry in ipairs(queue)do
-  if entry.op=='armor_break' and api.isActive(entry.target) then
+  if entry.op=='flight_hit' and api.isActive(entry.target) and (entry.target.statuses.flight or 0)>0 then
+   local e=entry.target;e.statuses.flight=e.statuses.flight-1
+   Events.emit(s,'status',{source=e.id,target=e.id,status='flight',amount=-1})
+   if e.statuses.flight==0 then
+    for i,intent in ipairs(e.intents)do if intent.id=='stunned'then e.intentIndex=i end end
+    Events.emit(s,'enemy_interrupt',{enemy=e.id,id='stunned'})
+   end
+  elseif entry.op=='armor_break' and api.isActive(entry.target) then
    for i,intent in ipairs(entry.target.intents)do if intent.id=='stunned'then entry.target.intentIndex=i end end
    Events.emit(s,'enemy_interrupt',{enemy=entry.target.id,id='stunned'})
   elseif entry.op=='block' and api.isActive(entry.target) then api.block(s,entry.target,entry.value,true)
@@ -46,5 +54,16 @@ function M.afterCard(s,reactions)
   else table.insert(s.draw,R.randomInt(assert(s.cardRandomRng,'Hex needs card RNG'),#s.draw-1)+1,c) end
   Events.emit(s,'cards_created',{cardId='dazed',amount=1,pile='draw',status='hex'})
  end
+end
+function M.onDraw(s,card,base)
+ if (s.player.statuses.confusion or 0)<=0 then return end
+ base=card.combatCost or base
+ if base<0 then return end
+ local nextCost=R.randomInt(assert(s.cardRandomRng,'Confusion needs card RNG'),3)
+ if nextCost~=base then
+  card.costOverride,card.costForTurn=nextCost,nextCost
+  card.combatCost,card.turnCost=nextCost,nextCost
+ end
+ card.freeToPlayOnce=false
 end
 return M

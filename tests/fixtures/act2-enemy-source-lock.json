@@ -82,6 +82,22 @@
     {
       "sha256": "0faa6d51280e6473093406dac149eae69f35c674f9cb681a51223a9891ef0743",
       "path": "actions/unique/RemoveDebuffsAction.java"
+    },
+    {
+      "sha256": "0265ad1ff9132de906247cfc05fc5439e62e28e1f9e7256d9edfe1ccb7b06545",
+      "path": "monsters/city/Byrd.java"
+    },
+    {
+      "sha256": "9a6a6cccac4f3f1883771e963e6a40658fd7826587447acbb3bae057b2d63f78",
+      "path": "powers/FlightPower.java"
+    },
+    {
+      "sha256": "48e55438adafc63ab9cd4a4115c7d761531226cb41fecb1f9162ce53f1e8ac28",
+      "path": "monsters/city/Snecko.java"
+    },
+    {
+      "sha256": "b987912476db56c0521b93637717dc5bd3fd13a5a8537e7f5f19462b00a612c2",
+      "path": "powers/ConfusionPower.java"
     }
   ]
 }
