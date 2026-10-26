@@ -389,13 +389,14 @@ end
 
 -- An area attack collects retaliation until all of its targets are damaged.
 -- A dead attacker may still own a queued Thorns hit; dead victims cannot lose HP.
-function M.retaliate(state, source, target, amount)
+function M.retaliate(state, source, target, amount, status)
+    assert(status==nil or status=='sharp_hide','invalid retaliation status')
     if not M.isActive(target) then return 0 end
     if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
     local reactions = {}
-    local lost = directDamage(state, source, target, amount - blocked, "thorns", blocked, reactions)
+    local lost = directDamage(state, source, target, amount - blocked, status or "thorns", blocked, reactions)
     M.resolveDamageReactions(state, reactions)
     return lost
 end
