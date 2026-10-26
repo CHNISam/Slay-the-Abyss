@@ -1200,7 +1200,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
             if id=='duplication' or card.type=='attack' then
                 state.player.statuses[id]=state.player.statuses[id]-1
                 state.queuedCards=state.queuedCards or {}
-                table.insert(state.queuedCards,1,{card=copy(instance),targetIndex=targetIndex,energyOnUse=x,purge=true,
+                table.insert(state.queuedCards,1,{card=CardActions.sameInstance(M,state,instance),targetIndex=targetIndex,energyOnUse=x,purge=true,
                     autoplay=true,exhaustCards=false})
             end
         end
@@ -1945,7 +1945,7 @@ function M.new(data, options)
             uid=value.uid
             for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
         end
-        state.draw[#state.draw + 1] = { uid = uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
+        state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
             upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
             misc=type(value)=='table' and value.misc or nil }
         state.nextUid = math.max(state.nextUid,uid)+1

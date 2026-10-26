@@ -53,8 +53,17 @@ function M.fresh(combat, state, id, prototype)
         require('abyss_warrior_status_cards').created(state,c,'make_copy')
     end
     c.uid=state.nextUid
+    c.uuid=c.uid
     state.nextUid=state.nextUid+1.0
     assert(state.nextUid>c.uid and state.nextUid<math.huge,"nextUid cannot advance")
+    return c
+end
+
+function M.sameInstance(combat,state,prototype)
+    assert(type(prototype)=='table'and type(prototype.uid)=='number','missing same-instance prototype')
+    local c=M.fresh(combat,state,prototype.cardId,prototype)
+    c.uuid=prototype.uuid or prototype.uid
+    c.deckUid=prototype.deckUid
     return c
 end
 

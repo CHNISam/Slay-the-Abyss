@@ -307,8 +307,9 @@ function M.choose(combat,state,token,uid)
 end
 local function growBattleInstances(state,original,amount)
     local seen={}
+    local uuid=original.uuid or original.uid
     local function grow(c)
-        if c and not seen[c] and (c.uid==original.uid or original.deckUid and c.deckUid==original.deckUid)then
+        if c and not seen[c] and (c.uuid or c.uid)==uuid then
             seen[c]=true;c.misc=(c.misc or 15)+amount
         end
     end
