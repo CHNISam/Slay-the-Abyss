@@ -14,6 +14,14 @@ local function fresh(ids)
 end
 local function held(s,id)for _,c in ipairs(s.hand)do if c.cardId==id then return c end end;error(id)end
 local function play(s,id,target)local ok,why=C.play(s,held(s,id).uid,target);assert(ok,why)end
+do
+ local s=fresh({'acrobatics','endless_agony','defend_green'});local drawn=held(s,'endless_agony')
+ s.hand={held(s,'acrobatics'),held(s,'defend_green')};s.draw={drawn};s.discard={}
+ play(s,'acrobatics');assert(s.pendingDiscard);eq(#s.hand,3)
+ local copyUid;for _,c in ipairs(s.hand)do if c.cardId=='endless_agony'and c.uid~=drawn.uid then copyUid=c.uid end end;assert(copyUid)
+ assert(C.chooseDiscard(s,{copyUid},s.pendingDiscard.token));eq(s.pendingDiscard,nil)
+ print('ok Endless TOP copy is eligible for the immediately following Acrobatics discard choice')
+end
 for _,wraithFirst in ipairs({false,true})do
  local s=fresh({'wraith_form'})
  if not wraithFirst then A.addTemporaryDexterity(s.player,5,s)end

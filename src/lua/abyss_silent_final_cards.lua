@@ -94,7 +94,11 @@ function M.onHpLost(s)
  end end end
 end
 function M.onDraw(s,c)
- if c.cardId=='endless_agony'then actions().enqueue(s,{op='silentFinal',kind='copyHand',value=1,template=copy(c)},nil,nil,nil,true)end
+ if c.cardId=='endless_agony'then
+  local e={op='silentFinal',kind='copyHand',value=1,template=copy(c)}
+  if s.actionQueue then require('abyss_action_queue').pushTop(s,{kind='effect',effect=e})
+  else actions().enqueue(s,e,nil,nil,nil,true)end
+ end
 end
 local function find(s,uid)for i,c in ipairs(s.hand)do if c.uid==uid then return c,i end end end
 local function chooseOne(combat,s,kind,c)
