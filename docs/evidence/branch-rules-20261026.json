@@ -1,0 +1,270 @@
+{
+  "repository": "CHNISam/Slay-the-Abyss",
+  "ordinaryWriteIdentityTest": "not_run: tested Owner with no matching bypass instead; no role bypass configured",
+  "probe": {
+    "pr": 220,
+    "secondIdentityAvailable": false,
+    "url": "https://github.com/CHNISam/Slay-the-Abyss/pull/220",
+    "actor": "CHNISam",
+    "guard": 25870818,
+    "rules": 25870819,
+    "head": "native-safety-2cec8b5d6c/head",
+    "unrelated": "a37ae1842d376418f78e5be935e7e83cf3d6d0d1",
+    "tag": "native-safety-2cec8b5d6c",
+    "root": "5a2091a1643ff50b9de56cc67b3764e0c06b114b",
+    "base": "native-safety-2cec8b5d6c/base",
+    "approvedHead": "e72bbdf1b5ee845a56e1a942f6757fc25d1fc3f4",
+    "merged": true,
+    "mergeCommit": "39517c8a0f3e4ea51f95de68c078cd352f2ee20b",
+    "mergedBy": "CHNISam",
+    "cleaned": true,
+    "cleanupNote": "GitHub automatically deleted merged test head; verified absent. Deleted only matching isolated base after checking merge SHA. Both temporary rulesets already deleted."
+  },
+  "masterPolicy": [
+    {
+      "response": "gh: Repository rule violations found\n\nChanges must be made through a pull request.\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nChanges must be made through a pull request.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#update-a-reference\",\"status\":\"422\"}",
+      "test": "direct fast-forward without PR, whitelist actor, no CI",
+      "exit": 1
+    },
+    {
+      "response": "gh: Repository rule violations found\n\nCannot force-push to this branch\n\nChanges must be made through a pull request.\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nCannot force-push to this branch\\n\\nChanges must be made through a pull request.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#update-a-reference\",\"status\":\"422\"}",
+      "test": "force push, whitelist actor",
+      "exit": 1
+    },
+    {
+      "response": "gh: Repository rule violations found\n\nCannot delete this branch\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nCannot delete this branch\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#delete-a-reference\",\"status\":\"422\"}",
+      "test": "delete, whitelist actor",
+      "exit": 1
+    }
+  ],
+  "chatApprovalBoundary": "Owner authorized the isolated scenario; no production emergency PR/SHA has been approved",
+  "secondAccount": {
+    "role": "write",
+    "authenticatedMergeTest": "not_run: only CHNISam identity is available",
+    "login": "v5g95m7t8m-max",
+    "id": 337201427,
+    "roleChanged": false
+  },
+  "coreContentModifiedByProbe": false,
+  "recordedAt": "2026-10-26T11:14:17.7187491Z",
+  "limitations": [
+    "GitHub cannot enforce or authenticate chat approval; Agent procedure requires explicit PR/SHA approval.",
+    "Ruleset users have standing PR-only technical bypass; do not exercise it during normal development.",
+    "GitHub Required Checks accept skipped/neutral; normal merge procedure still requires actual success for all three current-head jobs."
+  ],
+  "workflowRequiredJobs": [
+    "check",
+    "presentation",
+    "engineering-posix"
+  ],
+  "observations": [
+    {
+      "method": "PUT",
+      "at": "2026-10-26T09:58:50.1086162Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nRequired status check \"safety-probe-required\" is failing.\n\n (HTTP 405)\n{\"message\":\"Repository rule violations found\\n\\nRequired status check \\\"safety-probe-required\\\" is failing.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request\",\"status\":\"405\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/pulls/220/merge"
+    },
+    {
+      "method": "PATCH",
+      "at": "2026-10-26T09:58:51.1029375Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nRequired status check \"safety-probe-required\" is failing.\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nRequired status check \\\"safety-probe-required\\\" is failing.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#update-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/base"
+    },
+    {
+      "method": "PATCH",
+      "at": "2026-10-26T09:58:52.0166333Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nCannot force-push to this branch\n\nChanges must be made through a pull request.\n\nRequired status check \"safety-probe-required\" is expected.\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nCannot force-push to this branch\\n\\nChanges must be made through a pull request.\\n\\nRequired status check \\\"safety-probe-required\\\" is expected.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#update-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/base"
+    },
+    {
+      "method": "DELETE",
+      "at": "2026-10-26T09:58:52.9104382Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nCannot delete this branch\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nCannot delete this branch\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#delete-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/base"
+    },
+    {
+      "method": "PATCH",
+      "at": "2026-10-26T09:58:55.7815931Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nRequired status check \"safety-probe-required\" is failing.\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nRequired status check \\\"safety-probe-required\\\" is failing.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#update-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/base"
+    },
+    {
+      "method": "PATCH",
+      "at": "2026-10-26T09:58:56.7253768Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nCannot force-push to this branch\n\nChanges must be made through a pull request.\n\nRequired status check \"safety-probe-required\" is expected.\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nCannot force-push to this branch\\n\\nChanges must be made through a pull request.\\n\\nRequired status check \\\"safety-probe-required\\\" is expected.\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#update-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/base"
+    },
+    {
+      "method": "DELETE",
+      "at": "2026-10-26T09:58:58.1475355Z",
+      "exit": 1,
+      "response": "gh: Repository rule violations found\n\nCannot delete this branch\n\n (HTTP 422)\n{\"message\":\"Repository rule violations found\\n\\nCannot delete this branch\\n\\n\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#delete-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/base"
+    },
+    {
+      "method": "PUT",
+      "at": "2026-10-26T11:10:24.3154131Z",
+      "exit": 1,
+      "response": "gh: Head branch was modified. Review and try the merge again. (HTTP 409)\n{\"message\":\"Head branch was modified. Review and try the merge again.\",\"documentation_url\":\"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request\",\"status\":\"409\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/pulls/220/merge"
+    },
+    {
+      "method": "PUT",
+      "at": "2026-10-26T11:10:27.7360424Z",
+      "exit": 0,
+      "response": "{\"sha\":\"39517c8a0f3e4ea51f95de68c078cd352f2ee20b\",\"merged\":true,\"message\":\"Pull Request successfully merged\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/pulls/220/merge"
+    },
+    {
+      "method": "DELETE",
+      "at": "2026-10-26T11:10:35.2974513Z",
+      "exit": 1,
+      "response": "gh: Reference does not exist (HTTP 422)\n{\"message\":\"Reference does not exist\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#delete-a-reference\",\"status\":\"422\"}",
+      "path": "repos/CHNISam/Slay-the-Abyss/git/refs/heads/native-safety-2cec8b5d6c/head"
+    }
+  ],
+  "rulesets": [
+    {
+      "id": 25870646,
+      "name": "Core branches - no force push or deletion",
+      "target": "branch",
+      "enforcement": "active",
+      "bypass_actors": [],
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": [
+            "refs/heads/master",
+            "refs/heads/develop"
+          ]
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        }
+      ]
+    },
+    {
+      "id": 25870648,
+      "name": "master - pull requests only",
+      "target": "branch",
+      "enforcement": "active",
+      "bypass_actors": [
+        {
+          "actor_id": 111138384,
+          "actor_type": "User",
+          "bypass_mode": "pull_request"
+        },
+        {
+          "actor_id": 337201427,
+          "actor_type": "User",
+          "bypass_mode": "pull_request"
+        }
+      ],
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": [
+            "refs/heads/master"
+          ]
+        }
+      },
+      "rules": [
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 25870651,
+      "name": "develop - pull requests and Quality",
+      "target": "branch",
+      "enforcement": "active",
+      "bypass_actors": [
+        {
+          "actor_id": 111138384,
+          "actor_type": "User",
+          "bypass_mode": "pull_request"
+        },
+        {
+          "actor_id": 337201427,
+          "actor_type": "User",
+          "bypass_mode": "pull_request"
+        }
+      ],
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": [
+            "refs/heads/develop"
+          ]
+        }
+      },
+      "rules": [
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          }
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": false,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "check",
+                "integration_id": 15368
+              },
+              {
+                "context": "presentation",
+                "integration_id": 15368
+              },
+              {
+                "context": "engineering-posix",
+                "integration_id": 15368
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "legacyDevelopProtectionRemoved": true
+}
