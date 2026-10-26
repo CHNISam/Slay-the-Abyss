@@ -75,7 +75,7 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
+local debuffs = { corpse_explosion=true,wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
     shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0

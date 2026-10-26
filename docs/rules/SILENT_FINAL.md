@@ -38,3 +38,5 @@
 此片不更改Backlog完成状态；最终整合树完整Quality、自然构筑与平台显示/交互仍需父任务独立验收。
 
 交叉审查补正：Burst不能用普通表复制复用物理uid。移植共享 `db3035e` 的纯 `CardActions.sameInstance` 接口及fresh UUID规则；Burst重播现在使用新物理uid，保留源uuid/deckUid，并按purge处置。`silent_burst_retrieval.lua`先以真实Burst→Hologram第一轮手选后第二轮 `invalid retrieval piles` 证红；修复后基本/升级两版均完成两轮真实选牌、仅支付一次、不产生第二张入堆实体，旧Acrobatics两轮例仍绿。没有导入Defect职业模块。
+
+交叉审查还补正Actor显式debuff分类中的Corpse Explosion：`silent_corpse_artifact.lua`对目标0/1/2层Artifact真实出牌，2层原先只消耗1层证红，现两个独立ApplyPower均正确被挡。Sadistic Nature仅对实际成功的减益各触发1次（依次2/1/0次），没有伪造毒tick或额外callback。
