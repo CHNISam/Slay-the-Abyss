@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 08:10'
-updated_date: '2026-10-26 08:10'
+updated_date: '2026-10-26 08:37'
 labels: []
 dependencies: []
 priority: high
@@ -32,3 +32,9 @@ ordinal: 115000
 <!-- SECTION:PLAN:BEGIN -->
 1.复用211/212已实现修复，核对655/659基础设施故障。2.使用官方Windows/Ubuntu Runner并简化过期认领阻塞，完整质量门禁不降级。3.增加依赖驱动快速/相关测试和安全回退，优化重复fixture准备。4.删除重复定义及无用局部，复核19延迟边，更新准确文档及证据策略。5.定向和完整回归，当前SHA CI成功后squash合并并清理。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+用户在解释后明确批准取消额外任务锁；保留Backlog/独立分支/PR/当前SHA完整Quality。PR216同步刚合入的PR215官方windows-2025与固定Actions，不覆盖其可信local-special诊断限制。静态125→116、延迟例外19→16；快速样本7文件16断言7.818秒；UI矩阵198组合原13.293秒→4.039秒，全部原断言保留。完整本地Lua阶段与当前head官方CI进行中，不计作最终通过。
+<!-- SECTION:NOTES:END -->
