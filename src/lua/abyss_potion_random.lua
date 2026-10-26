@@ -1,4 +1,4 @@
--- Fixed 319009d5 Ironclad pool sampler. No effects, awards or gameplay wiring.
+-- Fixed 319009d5 Ironclad full-pool sampler, shared by shop/drop/Entropic.
 -- IDs/order are the full33 catalog; existing availability never filters draws.
 local R=require('abyss_sts_random')
 local M={}

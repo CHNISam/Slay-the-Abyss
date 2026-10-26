@@ -344,6 +344,12 @@
       "juggernaut": 103066
     },
     "potion": {
+      "attack_potion": 111046,
+      "skill_potion": 111048,
+      "power_potion": 111047,
+      "colorless_potion": 111047,
+      "entropic_brew": 111047,
+      "fairy_in_a_bottle": 111047,
       "fire_potion": 111046,
       "block_potion": 111048,
       "strength_potion": 111046,

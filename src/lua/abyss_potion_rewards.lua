@@ -1,7 +1,8 @@
 -- Act-one combat potion rewards, independently implemented from the fixed
 -- AbstractRoom/AbstractDungeon rule evidence in docs/POTION_REWARDS.md.
--- Content is explicitly restricted; an empty rarity is never rerolled down.
+-- Select from the source-ordered full pool; rarity rejection spends every draw.
 local Random = require('abyss_sts_random')
+local Pool=require('abyss_potion_random')
 local P = {}
 
 function P.rarity(roll)
@@ -16,27 +17,19 @@ function P.prepare(run, rewardCount, context)
     local modifier=run.potionChanceModifier or 0
     local chance=40+modifier
     -- AbstractRoom keeps chance zero when all monsters escape a normal room;
-    -- it still draws once and increments the modifier on failure. White Beast
-    -- Statue's later override is outside this project's supported relic pool.
-    if context and context.allEscaped and run.encounterTier=='normal' then chance=0 end
+    -- it still draws once and increments the modifier on failure.
+    if context and context.allEscaped and (run.encounterTier=='normal' or run.encounterTier=='boss') then chance=0 end
+    if require('abyss_relic_hooks').owns(run,'white_beast_statue') then chance=100 end
     -- No reward-count suppression is currently reached by the supported normal,
     -- elite or Act-one Boss bundle; retain the source boundary explicitly.
     if (rewardCount or 0)>=4 then chance=0 end
     local roll=Random.randomInt(rng,99)
     if roll>=chance then return nil,rng,modifier+10 end
-    local rarity=P.rarity(Random.randomInt(rng,99))
-    local pool={}
-    for _,definition in ipairs(run.data.potions.potions) do
-        -- Poison Potion is Silent-exclusive, never an Ironclad reward.
-        -- Effect-only additions wait for the complete source pool integration.
-        -- That integration must remove this temporary exclusion, never reroll it.
-        if definition.rarity==rarity and (definition.id~='poison_potion' or run.character=='silent') and not definition.acquisitionPending then
-            pool[#pool+1]=definition.id
-        end
-    end
-    table.sort(pool)
-    local id=#pool>0 and pool[Random.randomInt(rng,#pool-1)+1] or nil
-    return {id=id,rarity=rarity,unavailable=id==nil,contentMode='restricted-supported-pools'},rng,modifier-10
+    local selected=Pool.sample({potionRng=rng})
+    local present=false
+    for _,definition in ipairs(run.data.potions.potions)do if definition.id==selected.id then present=true;break end end
+    return {id=selected.id,sourceId=selected.sourceId,rarity=selected.rarity,unavailable=not present,
+        contentMode='source-full33'},rng,modifier-10
 end
 
 function P.commit(run,rng,modifier)

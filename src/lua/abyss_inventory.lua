@@ -4,7 +4,7 @@ local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
 local RelicHooks = require('abyss_relic_hooks')
 local M = {}
-local supported = { channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
+local supported = { generatePotions=true, discover=true, channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
     gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
@@ -148,7 +148,11 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
     local target = state.enemies[targetIndex]
     for _, effect in ipairs(effects) do
         local op, value = effect.op, effect.value
-        if op == "channelOrb" then
+        if op=='generatePotions' then
+            local ids,rng=require('abyss_potion_generation').prepare(run,true)
+            state.potionRandomRng=rng
+            for _,id in ipairs(ids)do require('abyss_card_actions').enqueue(state,{op='obtainPotion',id=id})end
+        elseif op == "channelOrb" then
             require("abyss_orbs").channel(state, effect.orb, Combat)
         elseif op == "makeMiracle" then
             local pile = #state.hand < state.rules.player.maxHand and state.hand or state.discard
@@ -192,7 +196,7 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
             require('abyss_events').emit(state,'heal',{target=state.player.id,amount=amount})
             RelicHooks.hpChanged(state,state.player,beforeHp)
             end
-        elseif op == 'draw' or op == 'randomizeHandCost' then
+        elseif op == 'discover' or op == 'draw' or op == 'randomizeHandCost' then
             -- Potion.use queues every initial action before any action runs.
             -- Draw hooks append behind already queued actions such as Snecko
             -- costs and the caller's post-use relic heal.
@@ -206,8 +210,8 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
             -- Potion.use constructs all PlayTopCardActions and their targets
             -- before any action runs, even if a later action has no card.
             for _=1,value do
-                local target=#pool>0 and pool[Combat.cardRandom(state,#pool)] or nil
-                Actions.enqueue(state,{op='playTop',targetIndex=target,exhaustCards=false,append=true})
+                local chosenTarget=#pool>0 and pool[Combat.cardRandom(state,#pool)] or nil
+                Actions.enqueue(state,{op='playTop',targetIndex=chosenTarget,exhaustCards=false,append=true})
             end
         elseif op == 'upgradeHand' then
             for _, card in ipairs(state.hand) do

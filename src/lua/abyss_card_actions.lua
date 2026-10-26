@@ -3,7 +3,7 @@
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local M = {}
-local operations = { originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { discover=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -149,6 +149,11 @@ end
 function M.choose(combat,state,token,uid)
     local choice=state.pendingChoice
     if not choice or token~=choice.token then return false,"stale_card_choice" end
+    if choice.op=='discover' then
+        local ok,reason=require('abyss_potion_discovery').choose(combat,state,token,uid,M)
+        if ok then M.drain(combat,state)end
+        return ok,reason
+    end
     if choice.multiple then
         local valid={};for _,id in ipairs(candidates(combat,state,choice.op)) do valid[id]=true end
         for _,id in ipairs(choice.selected) do if not valid[id] then return false,'stale_card_choice' end end
@@ -200,6 +205,11 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
+    if op=='obtainPotion' then
+        return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,
+            require('abyss_relic_hooks').owns(state,'sozu'))
+    end
+    if op=='discover' then return require('abyss_potion_discovery').begin(combat,state,e)end
     if op=='originalV4' then return require('abyss_original_v4').execute(combat,state,item) end
     if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
         or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
