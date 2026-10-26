@@ -10,10 +10,11 @@ local function test(name,fn)fn();count=count+1;print('ok act2 '..count..' - '..n
 local function battle(ids)return C.new(Data,{enemies=ids,deck={},seed=42,hp=500,maxHp=500})end
 local function intent(e)return e.intents[e.intentIndex].id end
 local function roll(n)return function(_,max)eq(max,100);return n+1 end end
-local function room(source)
+local function room(source,tier)
+ tier=tier or 'normal'
  for n=1,100 do
   local seed=tostring(n);local q=Q.new(seed,2)
-  if Q.peek(q,'normal')==source then
+  if Q.peek(q,tier)==source then
    local r=Run.new(Data,seed,{experimental=true,campaign=true})
    r.act,r.floor,r.encounters=2,18,q
    return r
@@ -64,8 +65,8 @@ test('Mystic A0 history forbids three consecutive attacks, buffs, or heals',func
  AI.advance(s,h,roll(99));eq(intent(h),'attack')
 end)
 test('unimplemented chapter rooms reject without consuming queue or generation',function()
- local r=room('2 Thieves');local queue=r.encounters;local gen=r.roomGeneration
- local ok,reason=Run.startRoomCombat(r,'normal');eq(ok,false);eq(reason,'act_content_unavailable')
+ local r=room('Gremlin Leader','elite');local queue=r.encounters;local gen=r.roomGeneration
+ local ok,reason=Run.startRoomCombat(r,'elite');eq(ok,false);eq(reason,'act_content_unavailable')
  eq(r.encounters,queue);eq(r.roomGeneration,gen);eq(r.phase,'map')
 end)
 test('Spheric constructor does not spend HP RNG, Taskmaster spends both source range draws',function()
@@ -201,5 +202,15 @@ test('Confusion randomizes only drawn nonnegative-cost cards and persists throug
  for i=1,2 do local cost=C.cardDefinition(s,drawn[i]).cost;assert(cost>=0 and cost<=3);eq(drawn[i].combatCost or C.combatBaseCost(s,drawn[i]),cost)end
  eq(C.cardDefinition(s,drawn[3]).costMode,'all_energy');eq(C.cardDefinition(s,drawn[4]).cost,-2)
  local cost=C.cardDefinition(s,drawn[1]).cost;A.endTurn(s,s.player);eq(C.cardDefinition(s,drawn[1]).cost,cost)
+end)
+test('two Thieves uses distinct Mugger HP/damage/block and exact sound/talk AI entropy',function()
+ local r=room('2 Thieves');r.gold=100;assert(Run.startRoomCombat(r,'normal'))
+ local s=r.combat;local e=s.enemies[2]
+ eq(s.enemies[1].definitionId,'looter');eq(e.definitionId,'mugger');assert(e.hp>=48 and e.hp<=52)
+ eq(e.intents[2].effects[1].value,16);eq(e.intents[3].effects[1].value,11)
+ local before=s.aiRng.counter;assert(C.endTurn(s));eq(s.aiRng.counter,before+2);eq(s.player.gold,70)
+ before=s.aiRng.counter;assert(C.endTurn(s));eq(s.aiRng.counter,before+4);eq(s.player.gold,40)
+ eq(e.stolenGold,30);before=s.aiRng.counter
+ C.damage(s,s.player,e,999,true);eq(s.aiRng.counter,before+1);eq(s.stolenGoldReward,30)
 end)
 print('LUA_ACT2_ENEMIES_PASS '..count)

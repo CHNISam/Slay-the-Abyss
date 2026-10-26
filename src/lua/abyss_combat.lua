@@ -81,9 +81,7 @@ end
 
 -- Small-state LCG: all products stay below 2^31 on both Fengari and game Lua.
 function M.random(state, maximum)
-    assert(maximum >= 1 and maximum % 1 == 0, "invalid random range")
-    state.seed = (state.seed * 25173 + 13849) % 65536
-    return state.seed % maximum + 1
+    return EnemyRandom.legacyInteger(state,maximum)
 end
 function M.cardRandom(state,maximum)
     assert(maximum>=1 and maximum%1==0,'invalid card random range')

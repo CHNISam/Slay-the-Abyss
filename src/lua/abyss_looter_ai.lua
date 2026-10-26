@@ -19,8 +19,9 @@ end
 function M.beforeAction(state, enemy, random, executedIntent)
     local ai, id = enemy.ai, executedIntent.id
     enemy.looterQueuedIntent = nil
+    if ai.mugger and (id==ai.mugIntent or id==ai.lungeIntent)then random(state,3) end
     if id == ai.mugIntent then
-        if enemy.looterSlashCount == 0 then
+        if enemy.looterSlashCount == (ai.mugger and 1 or 0) then
             -- Source's float literal is binary32 0.6000000238418579, strictly <.
             enemy.looterTalk = R.float(state,random) < ai.talkChance
         end

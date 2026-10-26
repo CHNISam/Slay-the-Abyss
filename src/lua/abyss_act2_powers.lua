@@ -1,6 +1,7 @@
 -- BOTTOM damage reactions. Actor owns the action boundary and supplies arithmetic.
 local Events=require('abyss_events')
 local R=require('abyss_sts_random')
+local ER=require('abyss_enemy_random')
 local M={}
 local function push(s,action)
  s.act2Bottom=s.act2Bottom or {};s.act2Bottom[#s.act2Bottom+1]=action
@@ -65,5 +66,11 @@ function M.onDraw(s,card,base)
   card.combatCost,card.turnCost=nextCost,nextCost
  end
  card.freeToPlayOnce=false
+end
+function M.died(s,e)
+ if e.ai and e.ai.mugger and not e.muggerDeathSoundSampled then
+  e.muggerDeathSoundSampled=true
+  ER.integer(s,3,ER.legacyInteger)
+ end
 end
 return M

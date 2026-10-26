@@ -98,6 +98,10 @@
     {
       "sha256": "b987912476db56c0521b93637717dc5bd3fd13a5a8537e7f5f19462b00a612c2",
       "path": "powers/ConfusionPower.java"
+    },
+    {
+      "sha256": "faa12ec70b872dd836633c47a6566d7e34cf2734de84642b99feacc58f564f34",
+      "path": "monsters/city/Mugger.java"
     }
   ]
 }

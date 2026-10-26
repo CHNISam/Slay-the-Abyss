@@ -38,6 +38,11 @@ M.enemies={
  {id='snecko',name='惑心蜥',tier='normal',hp=120,hpRange={min=114,max=120},ai={kind='act2',policy='snecko'},intents={
   move('glare','debuff',{status('confusion',1)}),move('bite','attack',{damage(15)}),
   move('tail','attack',{damage(8),status('vulnerable',2)})}},
+ {id='mugger',name='荒野劫匪',tier='normal',hp=52,hpRange={min=48,max=52},ai={kind='looter',mugger=true,
+  mugIntent='mug',lungeIntent='lunge',smokeIntent='smoke',escapeIntent='escape',stealAmount=15,rollRange=100,
+  talkChance=0.6000000238418579,smokeChance=0.5},intents={
+  move('mug','attack',{damage(10)}),move('lunge','attack',{damage(16)}),
+  move('smoke','defend',{{op='block',value=11}}),move('escape','escape',{})}},
  {id='champ',name='磐岩斗魁',tier='boss',hp=420,ai={kind='act2',policy='champ'},intents={
   move('heavy_slash','attack',{damage(16)}),
   move('defensive_stance','defend',{{op='block',value=15,fixed=true},{op='gainStatus',status='metallicize',value=5}}),
@@ -70,6 +75,7 @@ local rooms={
  ['3 Byrds']={id='act2_byrds',enemies={'byrd','byrd','byrd'}},
  ['Chosen and Byrds']={id='act2_chosen_byrd',enemies={'byrd','chosen'}},
  ['Snecko']={id='act2_snecko',enemies={'snecko'}},
+ ['2 Thieves']={id='act2_thieves',enemies={'looter','mugger'}},
  ['Champ']={id='act2_champ',tier='boss',enemies={'champ'}},
 }
 function M.resolve(source,tier)

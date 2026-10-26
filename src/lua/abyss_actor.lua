@@ -263,6 +263,7 @@ local function battleEnding(state)
 end
 
 local function queueDeathPower(state, target, before, reactions)
+    if before>0 and target.hp<=0 and not target.escaped then Act2Powers.died(state,target) end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then
         local stolen = target.stolenGold or 0
