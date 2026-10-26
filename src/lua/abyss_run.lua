@@ -46,6 +46,7 @@ function M.new(data, seed, options)
     -- Profile factories already detached the whole input graph. Their private
     -- result can be adopted; caller-owned/default bundles still need a copy.
     local runData=ownsData and data or Combat.copy(data)
+    require('abyss_class_potions').register(runData)
     local run = { version = data.rules.version, data = runData, seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
         treasureRng = EventRandom.fromSeed(eventSeed),

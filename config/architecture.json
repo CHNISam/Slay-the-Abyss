@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_class_potions": "core",
     "abyss_silent_potions": "core",
     "abyss_silent_final_cards": "core",
     "abyss_act3_events": "core",
@@ -152,6 +153,11 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {
+      "from": "abyss_class_potions",
+      "to": "abyss_orbs",
+      "reason": "Only a resolving Capacity potion action imports the initialized orb host; registration is data only."
+    },
     {"from":"abyss_defect_final_cards","to":"abyss_card_capability","reason":"Random generation validates the complete candidate pool only at use/start hook runtime."},
     {"from":"abyss_turn_powers","to":"abyss_defect_final_cards","reason":"Final random Power generation constructs actions during start hooks after initialization."},
     {"from":"abyss_actor","to":"abyss_defect_final_cards","reason":"Damage and reaction boundaries invoke final Defect defenses only after Actor initializes."},

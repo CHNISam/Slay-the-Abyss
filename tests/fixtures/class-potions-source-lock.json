@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Focus and Capacity first slice; source facts only, no official binary qualification",
+  "files": {
+    "potions/FocusPotion.java": "eec876227abd9185408f7b86cc8a74c5607d0b40b7de16e521e95faa0cb32d76",
+    "potions/PotionOfCapacity.java": "8c6a3826cf754f8db2a892857361bce794f0b453fa70ba90df626e0387d25406",
+    "potions/AbstractPotion.java": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
+    "powers/FocusPower.java": "266d04b57ccb01daaff326346c21b2935caa82158eaf2a12f6291ba453491da4",
+    "actions/defect/IncreaseMaxOrbAction.java": "8669c5d0b8b95b4f11c4f941e8116dd4329fc9d1513c14db7972f7154329ee13",
+    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+  }
+}

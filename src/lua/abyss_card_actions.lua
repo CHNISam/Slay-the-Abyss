@@ -3,7 +3,7 @@
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local M = {}
-local operations = { silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -233,6 +233,7 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
+    if op=='classPotion'then return require('abyss_class_potions').apply(combat,state,e)end
     if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end
     if require('abyss_watcher_final_cards').ops[op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end
     if op=='obtainPotion' then
