@@ -102,6 +102,7 @@
     "abyss_potion_discard_ui": "ui",
     "abyss_potion_health": "core",
     "abyss_potion_random": "core",
+    "abyss_potion_events": "core",
     "abyss_potion_rewards": "core",
     "abyss_prologue": "ui",
     "abyss_random": "core",

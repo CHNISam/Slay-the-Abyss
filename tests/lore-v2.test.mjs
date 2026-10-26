@@ -30,7 +30,11 @@ test('shipped narrative preserves the user packet verbatim and event paragraphs 
   const top = frame => frame[1] + frame[3] / 2;
   assert.ok(bottom(event.name) >= top(event.body));
   assert.ok(bottom(event.body) >= event.options.rows[0] + event.options.size[1] / 2);
-  assert.ok(event.options.rows.at(-1) - event.options.size[1] / 2 >= top(nativeTheme.layout.nativeNode.confirm));
+  // The approved three-option narrative screens keep their original footer gap.
+  // The new fourth option shares the footer area only while confirm is hidden;
+  // native event UI regressions enforce that exclusive visibility.
+  assert.ok(event.options.rows[2] - event.options.size[1] / 2 >= top(nativeTheme.layout.nativeNode.confirm));
+  assert.ok(event.options.rows[3] - event.options.size[1] / 2 >= -nativeTheme.canvas.base[1] / 2 + nativeTheme.canvas.safe.y);
   const menu = nativeTheme.layout.nativeMenu;
   assert.ok(bottom(menu.title) >= top(menu.tagline));
   assert.ok(bottom(menu.tagline) >= top(menu.summary));
