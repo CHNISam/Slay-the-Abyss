@@ -469,9 +469,6 @@ function M.canPlay(state, uid, targetIndex)
     local instance = findInstance(state, uid)
     if not instance then return false, "card_not_in_hand" end
     local card = M.cardDefinition(state, instance)
-    local colorlessOk,colorlessReason=require('abyss_colorless_cards').canUse(state,card)
-    if not colorlessOk then return false,colorlessReason end
-    if card.color=='colorless' and card.target=='ENEMY' and not Actors.isActive(state.enemies[targetIndex]) then return false,'invalid_target' end
     if card.cost == -2 then return false, "unplayable_card" end
     if Curses.limitsPlay(state) then return false,"normality_limit" end
     if card.type == "attack" and (state.player.statuses.entangled or 0) > 0 then return false, "entangled" end
@@ -485,6 +482,9 @@ function M.canPlay(state, uid, targetIndex)
         op = "invalid_empty_status"
     else ok, op = Effects.supported(card.effects) end
     if not ok then return false, "unsupported_effect:" .. op end
+    local colorlessOk,colorlessReason=require('abyss_colorless_cards').canUse(state,card)
+    if not colorlessOk then return false,colorlessReason end
+    if card.color=='colorless' and card.target=='ENEMY' and not Actors.isActive(state.enemies[targetIndex]) then return false,'invalid_target' end
     if card.costMode or card.condition then
         if card.experimental ~= true and not nativeDefinition(state,card) then return false, "advanced_card_not_enabled" end
         if card.condition and card.condition ~= "only_attacks_in_hand" and card.condition~='draw_pile_empty' then return false,"advanced_card_not_enabled" end

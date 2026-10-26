@@ -3,7 +3,9 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Combat=require('abyss_run'),require('abyss_combat')
 local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
 local function setup(pointer)
-  local run=Run.new(F.Data,4)
+  -- Independent complete-pool first-drop vector: seed61 naturally offers Fire.
+  -- Seed4 now correctly offers Flex; keep the actual victory/claim path.
+  local run=Run.new(F.Data,61)
   assert(Run.startCombat(run,'cultist_solo'))
   for _=1,160 do
     if run.phase~='combat' then break end
