@@ -30,9 +30,33 @@
     "project-test": {
       "status": "project-authored verification code; project code license",
       "evidence": "art/spikes/card-capacity/verify.lua; tests inspect TEXTBOX_PREFAB_ID but do not embed the exporter runtime"
+    },
+    "game-ip-ai-redraw": {
+      "status": "AI-assisted source art manually reconstructed as native geometry; platform-project candidate only; no game-IP sublicense or commercial clearance",
+      "evidence": "art/cards/geo-samples/PROVENANCE.md; art/cards/geo-samples/README.md"
     }
   },
   "files": {
+    "art/cards/geo-samples/bloodletting/native-art.json": {
+      "sha256": "eabf245f793bd37b1e765eb404c85008c3a9477dd19cc333aed9741e237cc8f1",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/bloodletting/native-art.lua": {
+      "sha256": "c87314bb50192daa0fca701c37a20c7ad071499e0b535799e7509339ad925420",
+      "category": "editor-runtime"
+    },
+    "art/cards/geo-samples/heavy_blade/native-art.json": {
+      "sha256": "ffa4d73a214613bc97e1467d7e9bc9a115f3df32336067fb4ab859b42323e722",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/heavy_blade/native-art.lua": {
+      "sha256": "12835d2700ccc36a60880cbbadcc8442629cdb7f914e2b5e68e7f482c041a338",
+      "category": "editor-runtime"
+    },
+    "art/cards/geo-samples/native-layout.json": {
+      "sha256": "1704b56eca82ba785dcca0fa16538f9b78e00e3f2f180216682fcb2080a5173b",
+      "category": "game-ip-ai-redraw"
+    },
     "art/cards/shared/card-back.json": {
       "sha256": "099dda393098353c3d372729da6c999433793937c3bb5f09fa550e31fff183a8",
       "category": "project-geometry"
