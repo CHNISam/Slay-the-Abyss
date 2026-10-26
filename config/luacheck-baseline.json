@@ -286,14 +286,14 @@
     },
     {
       "file": "src/lua/abyss_effects.lua",
-      "line": 193,
+      "line": 195,
       "column": 51,
       "code": "W542",
       "message": "empty if branch"
     },
     {
       "file": "src/lua/abyss_effects.lua",
-      "line": 195,
+      "line": 197,
       "column": 82,
       "code": "W542",
       "message": "empty if branch"

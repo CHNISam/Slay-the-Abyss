@@ -37,6 +37,7 @@ local function dense(t)
 end
 local function fragments(card,dynamic,path)
     if card.silentFinalCard then return require('abyss_silent_final_cards').describe(card,dynamic)end
+    if card.watcherFinal then return card._upgraded and card.upgradeText or card.text end
     if card.colorlessNative then return require('abyss_colorless_cards').describe(card,dynamic) end
     path=path or 'effects'
     if card.condition~=nil then assert(card.condition=='only_attacks_in_hand' or card.condition=='draw_pile_empty','unknown card condition') end

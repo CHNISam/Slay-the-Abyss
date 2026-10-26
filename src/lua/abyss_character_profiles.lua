@@ -59,6 +59,7 @@ function M.prepare(data,id)
         prepared=require("abyss_retained_cards").withCards(prepared)
         prepared=require("abyss_watcher_attack_cards").withCards(prepared)
         prepared=require('abyss_watcher_flow_cards').withCards(prepared)
+        prepared=require('abyss_watcher_final_cards').withCards(prepared)
     end
     local cards=prepared.cards.cards
     -- Foundation helpers currently contain only this class's verified subset.

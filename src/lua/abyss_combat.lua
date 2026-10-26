@@ -370,6 +370,7 @@ function M.cardDefinition(state, instance)
     if card.originalV4 then card.target=require('abyss_original_v4').needsTarget(state,card) and 'ENEMY' or 'SELF' end
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
+    if not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
     return card
 end
 function M.canUpgrade(state,instance)
@@ -487,6 +488,7 @@ function M.canPlay(state, uid, targetIndex)
         op = "invalid_empty_status"
     else ok, op = Effects.supported(card.effects) end
     if not ok then return false, "unsupported_effect:" .. op end
+    if card.watcherFinal and not require('abyss_watcher_final_cards').supported(card) then return false,'card_content_unavailable' end
     local colorlessOk,colorlessReason=require('abyss_colorless_cards').canUse(state,card)
     if not colorlessOk then return false,colorlessReason end
     if card.color=='colorless' and card.target=='ENEMY' and not Actors.isActive(state.enemies[targetIndex]) then return false,'invalid_target' end
@@ -682,6 +684,8 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    local final=require('abyss_watcher_final_cards')
+    if final.ops[action.effect.op] then return final.execute(M,state,action.effect,queue) end
     if action.effect.op=='silentFinal'then
         local target;for _,e in ipairs(state.enemies)do if state.pendingPlay and e.id==state.pendingPlay.targetId then target=e end end
         require('abyss_silent_final_cards').apply(M,state,{effect=action.effect,source=state.player,target=target,instance=state.cardInUse})
@@ -1108,6 +1112,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     local energyOnUse=automatic and automatic.energyOnUse or state.energy
     if energyOnUse==nil then energyOnUse=state.energy end
     require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,energyOnUse,automatic and automatic.purge)
+    require('abyss_watcher_final_cards').used(state,card,automatic and automatic.purge)
     if not automatic then state.energy=state.energy-paidCost(state,card) end
     if position then table.remove(state.hand, position) end
     if not (automatic and automatic.purge)then instance.freeToPlayOnce=nil end
@@ -1198,6 +1203,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     local reactions = EnemyAI.cardReactions(state, card)
     local x=energyOnUse or state.energy
     require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,x,purge)
+    require('abyss_watcher_final_cards').used(state,card,purge)
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     -- Native already dispatches Rage's Block below. Only that hook is skipped;
     -- foreign After Image/Thousand Cuts/Heat Sinks/Storm keep their semantics.

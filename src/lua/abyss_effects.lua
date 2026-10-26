@@ -8,6 +8,7 @@ local extensionOps={defectFinal=true,gainMantra=true,applyMantra=true,removeMant
     gainEnergyIfDiscard=true,calculatedGamble=true}
 for op in pairs(require('abyss_build_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_flow_actions').ops) do extensionOps[op]=true end
+for op in pairs(require('abyss_watcher_final_cards').ops) do extensionOps[op]=true end
 
 local coreOps = { handChoice=true, whirlwind=true, reaperDamage=true, scry=true, multiplyPoison=true, bouncingPoison=true, gainOrbSlots=true, loseOrbSlots=true, applyBias=true, gainFocus=true, gainStancePower=true, innerPeace=true, requestDiscard=true, channelOrb=true, dualcastOrb=true, darkImpulseOrb=true, changeStance=true, generateShivs = true, damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
@@ -93,6 +94,7 @@ end
 
 function M.requiresQueue(effects)
     for _,effect in ipairs(effects) do if type(effect)=='table' and effect.op=='defectFinal'then return true end
+        if type(effect)=='table' and require('abyss_watcher_final_cards').ops[effect.op] then return true end
         if type(effect)=='table' and effect.op=='requestDiscard' then return true end
         if type(effect)=='table' and effect.op=='conditional' and effect['if']=='target_poison' then return true end
         if type(effect)=='table' and require('abyss_build_actions').ops[effect.op] then return true end
