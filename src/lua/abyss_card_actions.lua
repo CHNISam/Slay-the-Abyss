@@ -357,6 +357,8 @@ function M.apply(combat,state,item)
             Events.emit(state,"heal",{target=source.id,amount=amount})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
+    elseif op=='capturedSharpHide'then
+        combat.capturedSharpHide(state,e)
     elseif op=="dispose" then
         combat.disposeCard(state,item)
     elseif op=="effectBatch" then combat.applyEffects(state,e.effects,source,target,c)
@@ -365,7 +367,7 @@ end
 
 -- Only source-supported retained actions may survive victory. Selection and
 -- draws are cleared, but disposal, damage, ordinary block and healing survive.
-local retained={originalV4=true,dispose=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
+local retained={originalV4=true,dispose=true,capturedSharpHide=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true

@@ -864,7 +864,7 @@ queuedHandlers.effect = function(state, action, queue)
     elseif effect.op=='onUseReactions' then
         EnemyAI.afterCard(state,assert(state.pendingPlay).reactions);return true
     elseif effect.op=='capturedSharpHide' then
-        EnemyAI.afterCard(state,{{source=effect.sourceId,amount=effect.value}});return true
+        M.capturedSharpHide(state,effect);return true
     elseif effect.op=='gainStrengthPower' then
         require('abyss_warrior_strength_cards').applyPower(state,effect.status,effect.value)
         return true
@@ -1355,6 +1355,13 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     if not card.dontTriggerOnUseCard then for _,enemy in ipairs(state.enemies)do
         if Actors.isActive(enemy)and (enemy.statuses.choked or 0)>0 then items[#items+1]={op='silentFinal',kind='choke',targetId=enemy.id,value=enemy.statuses.choked}end
     end end
+    -- Each captured Sharp Hide is a separate retained DAMAGE action. Its TOP
+    -- HP-loss callbacks must run before the following UseCardAction/disposal.
+    for _,reaction in ipairs(reactions)do
+        items[#items+1]={op='capturedSharpHide',sourceId=reaction.source,value=reaction.amount}
+    end
+    -- Leave non-array reactions (Hex, etc.) on their original disposal path.
+    for i=#reactions,1,-1 do reactions[i]=nil end
     local exhaust=card.exhaust or forceExhaust or card.type=="skill" and (state.player.statuses.corruption or 0)>0
     items[#items+1]={op="dispose",exhaust=exhaust,purge=purge,cardType=card.type,reactions=reactions}
     if colorlessTail then items[#items+1]=colorlessTail end
@@ -1372,6 +1379,10 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
             CardActions.enqueue(state,{op='loseHp',value=M.cardDefinition(state,held).onOtherCardHpLoss},state.player,nil,nil,true)
         end
     end
+end
+
+function M.capturedSharpHide(state,effect)
+    EnemyAI.afterCard(state,{{source=effect.sourceId,amount=effect.value}})
 end
 
 function M.disposeCard(state,item)
