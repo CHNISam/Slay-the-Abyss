@@ -130,15 +130,19 @@ test('precision repair preserves all other geometry, palette, masks and JSON met
   assert.equal(preservedDrawingDigest(actual),fixture.preservedDrawingSha256);
 });
 
-test('current literal Lua drives every layout slot and frozen138-capacity143-control pool', () => {
+test('four current literal Lua samples drive every slot in the frozen138-capacity143-control pool', () => {
+  const ids = ['heavy_blade','bloodletting','iron_wave','shockwave'];
+  assert.deepEqual(Object.keys(layout.samples),ids, 'explicit card_id mapping; no positional fallback');
   assert.equal(layout.capacity,138);
   assert.equal(sha256(JSON.stringify(stable(layout.pool))),fixture.unchangedPoolSha256);
   assert.equal(sha256(JSON.stringify(stable(layout.samples.heavy_blade))),fixture.unchangedHeavyLayoutSha256);
   const count = node => 1+(node.children??[]).reduce((sum,child)=>sum+count(child),0);
   assert.equal(count(layout.pool),143);
-  for (const name of ['heavy_blade','bloodletting']) {
+  for (const name of ids) {
     const source = `${base}${name}/native-art.lua`;
     const data = drawing(read(source)), sample = layout.samples[name];
+    const counts = {heavy_blade:[125,17],bloodletting:[138,3],iron_wave:[138,5],shockwave:[123,43]};
+    assert.deepEqual([sample.sourceCounts.images,sample.sourceCounts.masks],counts[name]);
     assert.deepEqual(sample.source,{path:source,sha256:sha256(read(source))}, 'source is actual current export (LF canonical bytes)');
     assert.equal(sample.slots.length,138);
     assert.deepEqual(sample.sourceCounts,{images:data.ELEMENTS.length,masks:data.IMAGE_MASKS.filter(mask=>mask.enabled).length});
@@ -157,7 +161,9 @@ test('current literal Lua drives every layout slot and frozen138-capacity143-con
 
 test('heavy asset bytes stay fixed and changed resource hashes match the legal inventory', () => {
   for (const [path,hash] of Object.entries(fixture.unchangedHeavyAssets)) assert.equal(sha256(read(path)),hash,path);
-  for (const path of [`${base}bloodletting/native-art.json`,`${base}bloodletting/native-art.lua`,`${base}native-layout.json`]) {
+  for (const path of ['bloodletting','iron_wave','shockwave'].flatMap(name =>
+    ['json','lua'].map(extension => `${base}${name}/native-art.${extension}`)).concat(`${base}native-layout.json`)) {
+    assert.ok(legal.files[path], `missing legal inventory: ${path}`);
     assert.equal(legal.files[path].sha256,sha256(read(path)),path);
   }
 });
