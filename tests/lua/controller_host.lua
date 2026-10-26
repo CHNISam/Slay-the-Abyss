@@ -1,9 +1,10 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
 local focus,device=nil,true
-local api={events={Confirm='confirm',Cancel='cancel',Focus='focus'},directions={Left='left',Right='right'},
+local api={events={Confirm='confirm',Cancel='cancel',Focus='focus',LostFocus='blur'},directions={Left='left',Right='right'},
     modes={Specified='specified',NearestControl='nearest'},getFocus=function()return focus end,
     setFocus=function(value)
+        if focus and focus.navigationListeners and focus.navigationListeners.blur then focus.navigationListeners.blur()end
         focus=value
         if value and value.navigationListeners and value.navigationListeners.focus then value.navigationListeners.focus()end
     end,isController=function()return device end}
@@ -21,7 +22,7 @@ end
 local function event(control,name)
     ui:update(.01);ui:syncController()
     assert(control.canControllerFocus,'unavailable controller target '..control.name)
-    focus=control
+    api.setFocus(control)
     return assert(control.navigationListeners[name or 'confirm'],'missing controller listener')(nil)
 end
 assert(focus==hit('menuPanel','start'),'title must have default focus')
@@ -72,6 +73,8 @@ assert(Run.finishCombat(ui.run));ui:refresh();ready()
 event(hit('battlePanel','cardReward'));assert(ui.battleUI.rewardScreen=='cards')
 local left=hit('battlePanel','card1')
 assert(left.navigation.left.target.parent.name=='card3','reward row wraps at the ends')
+api.setFocus(left);assert(ui.battleUI.hover==1)
+api.setFocus(hit('battlePanel','skip'));assert(ui.battleUI.hover==nil,'leaving a reward card must clear its enlarged hover pose')
 local deck=#ui.run.deck
 event(left);assert(#ui.run.deck==deck+1)
 print('controller host: native menu/map, pointer switch, target/cancel/play, untargeted play, overlays, turn and reward passed')

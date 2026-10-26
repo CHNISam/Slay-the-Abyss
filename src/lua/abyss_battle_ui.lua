@@ -1887,6 +1887,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             self:playSlot(slot)
             return true
         end,controllerReady,slot,'hand',function()self:setHover(slot)end)
+        if controller and controller.api.events.LostFocus then
+            hit:AddNavigationEventListener(controller.api.events.LostFocus,function()
+                if self.hover==slot then self:setHover(nil)end
+            end)
+        end
         listen(hit,function() self:playSlot(slot) end,input)
         if self.dragEnabled then
             hit:AddCursorEventListener(cursor.CursorDown,function(event)
