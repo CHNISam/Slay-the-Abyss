@@ -1,0 +1,1808 @@
+{
+  "schemaVersion": 1,
+  "stage": "offline-production-lua-ui-payload",
+  "sourceCommit": "a2ffb7f528a41bfefd48bc868b561e18c8ea30ae",
+  "integrationBase": "b78fb0680fb33488fe9471346390f1ef89f371ca",
+  "payloadDigest": "81afc3fdb86ba091a0fe9c1042244de82491944a3396d1a30604c85224c229d8",
+  "runtimePayloadDigest": "75f408ea02def4338a64187c765da3bc168a094222566496bcefb63753cebfb5",
+  "data": [
+    {
+      "path": "data/original_v4/cards_v4.json",
+      "bytes": 403915,
+      "sha256": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca"
+    },
+    {
+      "path": "data/original_v4/rules_v4.json",
+      "bytes": 9765,
+      "sha256": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "config/architecture.json",
+      "sha256": "96f753f6abacad67e7d5b36942e6317ad09feeac6e1ee92b72211234368729ff",
+      "bytes": 7766
+    },
+    {
+      "path": "data/cards.json",
+      "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+      "bytes": 62145
+    },
+    {
+      "path": "data/catalogs/sts1-ironclad-potions.json",
+      "sha256": "9b890ce1359f8327c9d7b1b24acab70fb14b66600168850164a5f791523f69dc",
+      "bytes": 41031
+    },
+    {
+      "path": "data/catalogs/sts1-relic-queues.json",
+      "sha256": "bc7fd8c34ff0f85689ff9dee391b69a44d3b6c42860c85cc2ad9668c640126ae",
+      "bytes": 11465
+    },
+    {
+      "path": "data/enemies.json",
+      "sha256": "a11cf7011f2e1ce356d3afa4812d0c1ffb58f6dfeab18660438616f431ab2c7e",
+      "bytes": 25795
+    },
+    {
+      "path": "data/original_v4/cards_v4.json",
+      "sha256": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca",
+      "bytes": 403915
+    },
+    {
+      "path": "data/original_v4/rules_v4.json",
+      "sha256": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e",
+      "bytes": 9765
+    },
+    {
+      "path": "data/potions.json",
+      "sha256": "9aa355acb24abe70df1460bc4475b370eb0150f4bebbc4c353aa3b16889a9fb8",
+      "bytes": 7724
+    },
+    {
+      "path": "data/presentation/narrative.zh-CN.json",
+      "sha256": "41518f4ae28b8565453d032e5dfd6ebcfb44113b9b31f31679bdd929a4524865",
+      "bytes": 2819
+    },
+    {
+      "path": "data/presentation/native_bgm.json",
+      "sha256": "4c132bc542646b668011e8217c1af1fc5d145dd8db2003be939a25473d0d9764",
+      "bytes": 852
+    },
+    {
+      "path": "data/presentation/traveler.zh-CN.json",
+      "sha256": "c923cf9385e97a1388f22aa9a1c30648cf53c4164e6da4e5a7f4605ebf58ab61",
+      "bytes": 22191
+    },
+    {
+      "path": "data/presentation/ui_theme.json",
+      "sha256": "2402ee98b33b3e59a1925ab3dc4d6f31efa0ac84da2fc09541b8aa1b71c1a80e",
+      "bytes": 38049
+    },
+    {
+      "path": "data/reference/sts1-card-pools/coverage.json",
+      "sha256": "ec72a70a4c7866c431392630ec3d72a78b75ec4419ac756da7ee08d91401f43c",
+      "bytes": 23544
+    },
+    {
+      "path": "data/reference/sts1-card-pools/pools.json",
+      "sha256": "bfbafb23bca2949e6db9de1d611785b0a20d0281990749ba32993f9bc0d537d7",
+      "bytes": 51760
+    },
+    {
+      "path": "data/reference/sts1-card-pools/registration.json",
+      "sha256": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308",
+      "bytes": 164237
+    },
+    {
+      "path": "data/reference/warrior75.json",
+      "sha256": "b26f55ae6f68f5e9920e8d30fc6bddb221c9bf4ff9c3105e6351710392f42fc6",
+      "bytes": 35432
+    },
+    {
+      "path": "data/release/launch-content.json",
+      "sha256": "837376192757c905f22ef2eb23d30ec6b04b6ebc829efff33e5b387389368a99",
+      "bytes": 102282
+    },
+    {
+      "path": "data/relics.json",
+      "sha256": "68382d82520ac0d9a9b12f8e68b2a9ee1126d4d4d82394ba325957a5cb8de5e7",
+      "bytes": 10139
+    },
+    {
+      "path": "data/rules.json",
+      "sha256": "caf17a7c7f5bcd53811da1895ec42bb6df790982b3ede42351317f4997872f32",
+      "bytes": 1622
+    },
+    {
+      "path": "data/statuses.json",
+      "sha256": "8514e51e26614881486e6a6a3305f4c78cbbe305284becfbc969feecc9f781da",
+      "bytes": 8927
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "9203d83c85e4777fa0be499412d9cd928d4eb479088c120c544f772f4b9af352",
+      "bytes": 4924
+    },
+    {
+      "path": "package.json",
+      "sha256": "75297aea25461fdf01eef6f39df0923ba9a24e2549341ef9cc75e8d7ba940b17",
+      "bytes": 2146
+    },
+    {
+      "path": "scripts/art/export-card-shared.py",
+      "sha256": "f2d7a60ccbaf6a6df01f41046edddaafeaf386d2bcc69b0980eef0a15b3ce971",
+      "bytes": 13709
+    },
+    {
+      "path": "scripts/art/export-card-spike.py",
+      "sha256": "6d9e6bc54a82b000d8df52c3f7f5622dc744152151709069a54b313f8a80cd58",
+      "bytes": 11997
+    },
+    {
+      "path": "scripts/art/prepare-ai-samples.mjs",
+      "sha256": "3b76bb6bdc66956488da876c92501156b877a7b2504f00ea659990f3cd3815fe",
+      "bytes": 5562
+    },
+    {
+      "path": "scripts/art/prepare-card-capacity.py",
+      "sha256": "886bda9d71aca62bb8d861e601e3dbc612c1cd2a79a410c275276f2df8a3469e",
+      "bytes": 11029
+    },
+    {
+      "path": "scripts/art/process-ai-samples.py",
+      "sha256": "85a836c6a0780b10792349ff14c243e1d3273c8d9f5771cca49437b713338a82",
+      "bytes": 13846
+    },
+    {
+      "path": "scripts/art/test-card-text-height-compat.py",
+      "sha256": "a444e12d5dd84f212394b2927dd84ff85848017aa916b40dd389425670860d7e",
+      "bytes": 2743
+    },
+    {
+      "path": "scripts/art/verify-ai-samples.py",
+      "sha256": "8e6142049739b3c18f8f021757dc734525808bd214a3def357e9071b5a3a31da",
+      "bytes": 3184
+    },
+    {
+      "path": "scripts/audit-encounter-pressure.lua",
+      "sha256": "0ddaf07b11f482683b7f17a54c32e825e1f9fbac5a66388bdf00c76476f401a2",
+      "bytes": 1653
+    },
+    {
+      "path": "scripts/audit-native-candidate.mjs",
+      "sha256": "a5a22d1644405a35382e60db398d5e0f9ef01a2a6347759592bf4c12e7b69fd9",
+      "bytes": 8263
+    },
+    {
+      "path": "scripts/audit-native-graph-payload.mjs",
+      "sha256": "30d1c37acea1357dbba3a8d5727258679ababf1151cadda1dc0f5e6a1cd15140",
+      "bytes": 8780
+    },
+    {
+      "path": "scripts/battle-ui-preview.lua",
+      "sha256": "f91c2b96bf85bf2ad4b1a619436383c61245f6bf39bef6e9ee896e962edcaa94",
+      "bytes": 9454
+    },
+    {
+      "path": "scripts/battle-ui-preview.mjs",
+      "sha256": "f846c45d7caf63b3236a35fa0437edbcd10bbf7daf2470cc687ee1a7c32aa42a",
+      "bytes": 8768
+    },
+    {
+      "path": "scripts/build-lua-data.mjs",
+      "sha256": "b373312ebee2c20e1865c74efe6b3ab07fd163367a730cf47e7adea140dd3953",
+      "bytes": 3684
+    },
+    {
+      "path": "scripts/build-native-audio-game.mjs",
+      "sha256": "08b695049dc4850184b2ed8b8225c7c6b08379ec207346cbad3fb494a8de5cef",
+      "bytes": 1084
+    },
+    {
+      "path": "scripts/build-native-bgm-candidate.mjs",
+      "sha256": "1c561ec85e7968d667015b2545c98889819144bbf61c3ed46a7ee30809829cc6",
+      "bytes": 3930
+    },
+    {
+      "path": "scripts/build-native-candidate.mjs",
+      "sha256": "ce30108da6d6fef619100fee5428c8635f58ca8ce0b1cec843fcbe1a2e4c5a6c",
+      "bytes": 13651
+    },
+    {
+      "path": "scripts/build-original-v4.mjs",
+      "sha256": "91406d3b0b06000d1dea4129dd47ac8531d8806f3db066342b5946dd6da8f267",
+      "bytes": 9625
+    },
+    {
+      "path": "scripts/build-sfx-audition.mjs",
+      "sha256": "58d985ac12d9d917406964c48afa3540c42ab3bad98e12b4fbc33bdc73af1cf3",
+      "bytes": 7426
+    },
+    {
+      "path": "scripts/build-ui-theme.mjs",
+      "sha256": "cc8db4ca412fdc746bb298440bc577639979970d3481e2d27cd82480f5f0a018",
+      "bytes": 5750
+    },
+    {
+      "path": "scripts/build-ui.mjs",
+      "sha256": "a7a744963ca7bfbd2167709e5b3c7faf1a75a2d84a985e4059bc15d348d65221",
+      "bytes": 5571
+    },
+    {
+      "path": "scripts/build-warrior75-native-autoplay.mjs",
+      "sha256": "d3afabe0a2cae7040e388c08c2b4ab313f6430cdd58db151538313f443660db8",
+      "bytes": 3559
+    },
+    {
+      "path": "scripts/build-warrior75-native-probe.mjs",
+      "sha256": "a2cc7cd128adeee3fa3a7df5e51371046f9060993130cb6f8ec68c394b4546db",
+      "bytes": 5168
+    },
+    {
+      "path": "scripts/candidates/sts1-shop-card-price.mjs",
+      "sha256": "3b14b647481651d9a96f92ef876aa232d4e77ec0763d1198a8aa9232d1b58d77",
+      "bytes": 3392
+    },
+    {
+      "path": "scripts/character-ui-layout.mjs",
+      "sha256": "d7322b3b8c362ce0a129a397d84b619b7ffb3975cae34630ce611d9bd4cd823c",
+      "bytes": 3161
+    },
+    {
+      "path": "scripts/check-architecture.mjs",
+      "sha256": "566f820665ea9d312eeef4bbf75e99e5b8570781bc64c5adbf44b52728059519",
+      "bytes": 4682
+    },
+    {
+      "path": "scripts/check-lua-static.mjs",
+      "sha256": "91a4b0c129ea5201f096742bd00b79ffacb373b6f2ab862db99bde23c3e7e592",
+      "bytes": 2772
+    },
+    {
+      "path": "scripts/check-network-policy.mjs",
+      "sha256": "e808b1a3000285626a211de175bf7281fdafbc7b699acbce8a0586540319220f",
+      "bytes": 1586
+    },
+    {
+      "path": "scripts/check-syntax.mjs",
+      "sha256": "9927767f9bf6b046e48629b0f882a272d5dfa223191afcab54dae22979488d01",
+      "bytes": 711
+    },
+    {
+      "path": "scripts/check-test-strength.mjs",
+      "sha256": "417237147125589fb41d5e8db75eafe7ac74852c2e0ce42f1cd8246da6d96758",
+      "bytes": 4782
+    },
+    {
+      "path": "scripts/cinematic-ui-layout.mjs",
+      "sha256": "6d92368fca0165c8643841e5c4352881473c8478cceced295a841663da1a0e7e",
+      "bytes": 7201
+    },
+    {
+      "path": "scripts/deck-ui-layout.mjs",
+      "sha256": "4b2376ee199b926442a2d81026e023634e11b7dec87a62eecaa1b199182b3219",
+      "bytes": 4498
+    },
+    {
+      "path": "scripts/diagnose-card-sequences.lua",
+      "sha256": "1bbdbb322bbb9bb110c319c737f740705dcdb4130745b292744a94f9e9cad916",
+      "bytes": 2059
+    },
+    {
+      "path": "scripts/evidence-files.mjs",
+      "sha256": "c820eb2ea960a1b372e4ec0a5d8c3342419afa62b4283b24554c1a35afeb2b9e",
+      "bytes": 2264
+    },
+    {
+      "path": "scripts/exit-ui-layout.mjs",
+      "sha256": "86e3410c2fd78e3c49726d5af57c06971c154f295b6474f0876d6c599f586223",
+      "bytes": 2533
+    },
+    {
+      "path": "scripts/game-ui-layout.mjs",
+      "sha256": "854d80f126e6e9b1e3dd2ec2bc5420182d94f9f934a33a30e2e796fa972e86e9",
+      "bytes": 6029
+    },
+    {
+      "path": "scripts/m2-autoplay-policy.lua",
+      "sha256": "566d5ea68c60ef42b2f75a248ac75b11575d62d9109b38687afb7272d7ac8e14",
+      "bytes": 7931
+    },
+    {
+      "path": "scripts/m2-resource-audit.lua",
+      "sha256": "28b959ab847f04ac29640def554c093a6d61fe1eefe25c24ba8893208df78011",
+      "bytes": 13983
+    },
+    {
+      "path": "scripts/m2-resource-evidence.mjs",
+      "sha256": "d7129e4f39e9f042997b700f35e789cf60ede5f4466f86039e09e0b8ff13491e",
+      "bytes": 2825
+    },
+    {
+      "path": "scripts/map-ui-layout.mjs",
+      "sha256": "fd3367c6bf81bb5590be7858ccf939e80f62160fdf9c6b7948431232021fcd49",
+      "bytes": 6772
+    },
+    {
+      "path": "scripts/native-audit-paths.mjs",
+      "sha256": "618e65b661c37706fbed5c334fa5915cac85ca3f4c397fda2367bf1bedcd8103",
+      "bytes": 1234
+    },
+    {
+      "path": "scripts/native-bgm-graph.mjs",
+      "sha256": "4d97d9f3626b021352213e07e9d32cec4c65c01a784df513647e92af1a93711c",
+      "bytes": 2061
+    },
+    {
+      "path": "scripts/native-candidate-audit.mjs",
+      "sha256": "4fc0c28f340d3f0317698a7dae435540e804b2b62a70bc4011f00e1b5cbadb84",
+      "bytes": 9687
+    },
+    {
+      "path": "scripts/native-candidate-scripts.mjs",
+      "sha256": "3e0b82855fa2f05a2ab91c594e5fe33d89d43b5927f87aaf937a126e29c355b6",
+      "bytes": 1265
+    },
+    {
+      "path": "scripts/native-graph-payload.mjs",
+      "sha256": "86435bb542ef936d1d2831f6069916b6856bdefdd30037f8b3902f5e29487804",
+      "bytes": 2513
+    },
+    {
+      "path": "scripts/native-inline-preview.mjs",
+      "sha256": "392b4d2c2b00ebb312589d0144c6060900bcc1175c56a0ed75b0da61febaa375",
+      "bytes": 427
+    },
+    {
+      "path": "scripts/native-playtest-evidence.mjs",
+      "sha256": "cc6893b3dee512eb30a3e2c5012b52a949fbf07f97dfbc35a624acbe202d086b",
+      "bytes": 3051
+    },
+    {
+      "path": "scripts/native-ui-theme.mjs",
+      "sha256": "e806da0d515677ba6ba6965052e65b117e8141588727a91921ed7ce10de85ea8",
+      "bytes": 2304
+    },
+    {
+      "path": "scripts/node-ui-layout.mjs",
+      "sha256": "84bf68359c0823b3a58c16fe7cb722c73f8839d791c7de400153a846ff2934de",
+      "bytes": 12199
+    },
+    {
+      "path": "scripts/node-ui-preview.lua",
+      "sha256": "8d1161857725b757fde46f4f6f5639d26ab2eb0ee8ec0565b663a5d1e15466e6",
+      "bytes": 5389
+    },
+    {
+      "path": "scripts/node-ui-preview.mjs",
+      "sha256": "154aa6e26de63f21a5e1c343ebeb34a412aaf1525910246ea75595cc8dd43241",
+      "bytes": 9562
+    },
+    {
+      "path": "scripts/potion-discard-layout.mjs",
+      "sha256": "333925ba6f53651861711fcf5d5016039a9c6bd9d4d034272e1accc1ec2c9411",
+      "bytes": 2819
+    },
+    {
+      "path": "scripts/probes/queued-roll-on-retaliation.lua",
+      "sha256": "3af2e8be4917c060e38502ffd08617c0e895845599a2abb25ed40c2ec4f06df3",
+      "bytes": 1332
+    },
+    {
+      "path": "scripts/remote-task-claim.mjs",
+      "sha256": "9f197a0d2140fe54f7f4a14c30571d149cd5201937360b2f8ff5929eac53ebb6",
+      "bytes": 48841
+    },
+    {
+      "path": "scripts/settlement-graph.mjs",
+      "sha256": "5788d03ad11e6c11f7dcc3b8572e87643bba3c2381eb61129908ca29a6dc43b8",
+      "bytes": 1333
+    },
+    {
+      "path": "scripts/setup-lua-static.mjs",
+      "sha256": "ec0a7877870d75b6d9c3334b200c919dba69729f068f70532615ec6a5f13bae5",
+      "bytes": 2087
+    },
+    {
+      "path": "scripts/sfx-audition-source.mjs",
+      "sha256": "1fe10ff60a4788faaad569ea3a5ab7b82be3d08338af2dad178fdd2de3bd311c",
+      "bytes": 964
+    },
+    {
+      "path": "scripts/source-card-pool-audit.mjs",
+      "sha256": "3d5c52a28fda0e2e6fcd3d3cea58b8069cc259c86c6d41f9e1183303051ebdbd",
+      "bytes": 8071
+    },
+    {
+      "path": "scripts/sts1-map-evidence.mjs",
+      "sha256": "1cae1045a36195838cb415b6e7466f3ba50b09b655706659fb92e3db4a7341c2",
+      "bytes": 18086
+    },
+    {
+      "path": "scripts/sts1-map-room-candidate-evidence.mjs",
+      "sha256": "bbe83bac0e6dc24d921e1ff271527528cb21a3f082cde7c07905eae51ef6c67a",
+      "bytes": 6584
+    },
+    {
+      "path": "scripts/task-claim-inventory.mjs",
+      "sha256": "00bd1faa302f99e98e6f179ecb7d8abdd74689c74957b08880581aabf29ce196",
+      "bytes": 3304
+    },
+    {
+      "path": "scripts/test-lua.mjs",
+      "sha256": "194741ad4dc1d4b487f3db5a73ba55fed006a32924aa69e16048ec294d1acbbc",
+      "bytes": 4533
+    },
+    {
+      "path": "scripts/ui-layout.mjs",
+      "sha256": "d587b8e54bb1f8a9715c8a835549a1f7d1733e6dd6ab2aa33229c15023dddc0e",
+      "bytes": 20595
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "sha256": "764c64d869f094773fe41432c95946aadee188625a0fff53db66967e6e899360",
+      "bytes": 51356
+    },
+    {
+      "path": "scripts/verify-backlog-roadmap.mjs",
+      "sha256": "6a7393741ad88dafcdeba4d355aef959e1a26815055d772be47781dd0dfc39f2",
+      "bytes": 4929
+    },
+    {
+      "path": "scripts/verify-delivery.mjs",
+      "sha256": "cd08822b7a454664bc43987e5e839e9cfbb94a269b35ea07831b2ec20af1b16d",
+      "bytes": 4252
+    },
+    {
+      "path": "scripts/verify-launch-content.lua",
+      "sha256": "0f604abacaae1856e70493c8f1cc5ba687ba657727e9ddf52bbb8dea5c37bc44",
+      "bytes": 3792
+    },
+    {
+      "path": "scripts/verify-launch-content.mjs",
+      "sha256": "5a41a5ff271e9cf3b2195977bc6d4e7736e08afe583fbbb467a6551e12dd9bc7",
+      "bytes": 21281
+    },
+    {
+      "path": "scripts/verify-official-client.mjs",
+      "sha256": "aaccce857b8bc755102d7f5c95b4ec19896d5e96165b39a5fe0a319376b5dfc9",
+      "bytes": 9497
+    },
+    {
+      "path": "scripts/verify-ui-acceptance.mjs",
+      "sha256": "eea71184a05aae96d11d9cdd95c5d81e26d8193f7fd930191e43b35972b1d5a5",
+      "bytes": 6734
+    },
+    {
+      "path": "scripts/verify-warrior75.mjs",
+      "sha256": "057a7db8736851d7a22bd846ee62388ed25c484ec4325cea8cc48b0a2e0a9612",
+      "bytes": 3044
+    },
+    {
+      "path": "scripts/viewport-layout.mjs",
+      "sha256": "f93e943861ea5e1df1809e639c65a0eef8c604e5e11f12be4997778feb338a2f",
+      "bytes": 514
+    },
+    {
+      "path": "scripts/warrior75-autoplay-policy.lua",
+      "sha256": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+      "bytes": 10725
+    },
+    {
+      "path": "scripts/warrior75-native-autoplay.lua",
+      "sha256": "f016e809c167322411428cdd3ed8958df465ac6fdabf66b534be247b59ec693f",
+      "bytes": 16880
+    },
+    {
+      "path": "scripts/warrior75-native-probe.lua",
+      "sha256": "0dd06d94bedcfdb3d8b2006b11779b5f263187297175ab7b49a130caf460a068",
+      "bytes": 4763
+    },
+    {
+      "path": "scripts/write-ci-receipt.mjs",
+      "sha256": "3eecdef1fb1fc0805cd9693d340af140186882ad6e1052660e4b5726dec1d615",
+      "bytes": 987
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_m_ai.lua",
+      "sha256": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6",
+      "bytes": 1897
+    },
+    {
+      "path": "src/lua/abyss_acid_slime_s_ai.lua",
+      "sha256": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769",
+      "bytes": 919
+    },
+    {
+      "path": "src/lua/abyss_act1_events.lua",
+      "sha256": "e0a172e92ddc05a7def8623b9006c163c807dc8d7b472d40b54c7b1fd8593aaa",
+      "bytes": 10806
+    },
+    {
+      "path": "src/lua/abyss_action_queue.lua",
+      "sha256": "5053ad084fee0bc15277ccbd9bc614c2acaa8e2b8d70bcb91f1bf4a01499cb2d",
+      "bytes": 3561
+    },
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "sha256": "c56431f7acc9b3605306c77e55407fd54a57fd52f69ac0cd6f7eb41b51bdd1f6",
+      "bytes": 29551
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "sha256": "92518bb83ec80db4d7fba5ec9ab4f242385007af8cc2463cd704e04cb7936de6",
+      "bytes": 132580
+    },
+    {
+      "path": "src/lua/abyss_bgm.lua",
+      "sha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec",
+      "bytes": 1281
+    },
+    {
+      "path": "src/lua/abyss_blue_slaver_ai.lua",
+      "sha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c",
+      "bytes": 1036
+    },
+    {
+      "path": "src/lua/abyss_build_actions.lua",
+      "sha256": "06869bb5e82afd69b3cd369bbd90c4a5cbe02284c60876cc500e58da5e091c3b",
+      "bytes": 3280
+    },
+    {
+      "path": "src/lua/abyss_card_actions.lua",
+      "sha256": "3c5eddd54f66aadad016c0914b1307a1fccacd2016285793ef52876144312ba1",
+      "bytes": 17273
+    },
+    {
+      "path": "src/lua/abyss_card_capability.lua",
+      "sha256": "dcd2ca6b9dacd769d1c42cb3f3231fef4cfb770109b1be26c3612fe69bb93dae",
+      "bytes": 2785
+    },
+    {
+      "path": "src/lua/abyss_card_display.lua",
+      "sha256": "7decd48a68a60eda357c08c4e498486b43f042f274d62f7cc171376071863955",
+      "bytes": 6467
+    },
+    {
+      "path": "src/lua/abyss_card_pool.lua",
+      "sha256": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d",
+      "bytes": 1595
+    },
+    {
+      "path": "src/lua/abyss_card_random.lua",
+      "sha256": "e429204a73f282de96d27d8f2ee3669e7fbb0c101a3d346c4400e96110ac1408",
+      "bytes": 2904
+    },
+    {
+      "path": "src/lua/abyss_card_triggers.lua",
+      "sha256": "b16ee554375883e89a572832c14a8419a668f17a86105e7ae42d6694507bdd96",
+      "bytes": 15124
+    },
+    {
+      "path": "src/lua/abyss_character_presentation.lua",
+      "sha256": "06f093eca11d650cd8d5762a264e4d3f1feda7e82a3c171719a8e7a69ce6d8bf",
+      "bytes": 37181
+    },
+    {
+      "path": "src/lua/abyss_character_profiles.lua",
+      "sha256": "c7ca70d43d2b11864cac7fc03715f188919b14b3059c006f83f33540a08ad2a6",
+      "bytes": 6564
+    },
+    {
+      "path": "src/lua/abyss_choice_ui.lua",
+      "sha256": "ff14f14b0fecf58485bb351dcb9876ac1dc472bf916c028e7b2b51efce30751e",
+      "bytes": 13766
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "sha256": "8f8e24b256fff102de6a82b4b26e71681a4143b9b878fa4f5b55669062c0d1dd",
+      "bytes": 102588
+    },
+    {
+      "path": "src/lua/abyss_corruption.lua",
+      "sha256": "a4ec793a0568245f32b79b0a6e074348b59d627b71fe2da8faa345fea2ef2f14",
+      "bytes": 9897
+    },
+    {
+      "path": "src/lua/abyss_curses.lua",
+      "sha256": "783838c0dd3f0d97f315864e9cde495b17f9cd38e65a7ba65503cbcd2c0bc451",
+      "bytes": 1962
+    },
+    {
+      "path": "src/lua/abyss_deck_ui.lua",
+      "sha256": "dd85ba756be40f7ae2b47468d14e08eb7f7548fb2d63818b2ad4817b4dbb8414",
+      "bytes": 11846
+    },
+    {
+      "path": "src/lua/abyss_defect_cards.lua",
+      "sha256": "7844025e58ffcf345243d29a8e24b21268f728e833456389acbd764bcbb8d6a3",
+      "bytes": 4044
+    },
+    {
+      "path": "src/lua/abyss_defect_engine_cards.lua",
+      "sha256": "f34e31599f89f3bb57a3ab2d9dd7edf107644cf3a5bd7b89f8409b4aa8bd7c92",
+      "bytes": 17403
+    },
+    {
+      "path": "src/lua/abyss_defect_utility_cards.lua",
+      "sha256": "92a48bb10f3e29abf1cdfbe8b3f34269a2c388439c168116d938d45757823de1",
+      "bytes": 12181
+    },
+    {
+      "path": "src/lua/abyss_discard.lua",
+      "sha256": "e1bec2599adf33896cc457f6e1ab62b6386a350d652fc3d7515db3aaec2235d4",
+      "bytes": 11298
+    },
+    {
+      "path": "src/lua/abyss_effects.lua",
+      "sha256": "040844e29308e444a84fc42369d36128aacc034e181105997c40603d2e34fdfe",
+      "bytes": 28366
+    },
+    {
+      "path": "src/lua/abyss_encounter_formation.lua",
+      "sha256": "d57cad542b761375e94fff3734cb417e0230ef0089a2eec7178f94b8380d1400",
+      "bytes": 4154
+    },
+    {
+      "path": "src/lua/abyss_encounter_queue.lua",
+      "sha256": "4c75a362e405b4ece1494524e1cc202e908a65f257a731843cde080aa876076f",
+      "bytes": 6969
+    },
+    {
+      "path": "src/lua/abyss_enemy_ai.lua",
+      "sha256": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f",
+      "bytes": 12036
+    },
+    {
+      "path": "src/lua/abyss_enemy_random.lua",
+      "sha256": "21ce08c3a7c031f260565e47cef6356141c888d4a89e7f5643fcc1693f3095a1",
+      "bytes": 620
+    },
+    {
+      "path": "src/lua/abyss_event_pool.lua",
+      "sha256": "efcdc3c7db0bdf9410d97bade8499a94a23159773ee602474a82af145176536e",
+      "bytes": 3834
+    },
+    {
+      "path": "src/lua/abyss_events.lua",
+      "sha256": "ddf541d3447a4403c33f97dd1a54346f742be996abdbb0ed8030c7d8a13920f9",
+      "bytes": 1962
+    },
+    {
+      "path": "src/lua/abyss_exhaust.lua",
+      "sha256": "45c876d6762e2f1b62c8a7462bcb09036b345398b3a969ee92275c97afc4286a",
+      "bytes": 5923
+    },
+    {
+      "path": "src/lua/abyss_external_random.lua",
+      "sha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702",
+      "bytes": 1398
+    },
+    {
+      "path": "src/lua/abyss_feedback.lua",
+      "sha256": "a0ad73412faacea47e75fea90fd726adcdcf0286f411f52c8de2cf3b913065ae",
+      "bytes": 32126
+    },
+    {
+      "path": "src/lua/abyss_flow_actions.lua",
+      "sha256": "e671739e16c0ef0849660ddda01a7393305ca4a3b2752c725882541595c14047",
+      "bytes": 3532
+    },
+    {
+      "path": "src/lua/abyss_focus.lua",
+      "sha256": "2d99e7d9ea4aa21d8f80e634c026212a1db38f251813131cdaefaa4ebc7434fb",
+      "bytes": 3960
+    },
+    {
+      "path": "src/lua/abyss_fountain.lua",
+      "sha256": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5",
+      "bytes": 1594
+    },
+    {
+      "path": "src/lua/abyss_fungi_beast_ai.lua",
+      "sha256": "1719491618f47b5870f0d3fef5d20256082393aa2b73b08f901d47c49db1a65a",
+      "bytes": 1167
+    },
+    {
+      "path": "src/lua/abyss_game_ui.lua",
+      "sha256": "2d50ca8d53417fb53201b6b7b734d30a2a5baff60c0237055b87a80a4f45c742",
+      "bytes": 35928
+    },
+    {
+      "path": "src/lua/abyss_gold_rewards.lua",
+      "sha256": "c6a38624237101b289287e3ddb8766c4169dbb68e24146ef9c5616323b6e1c86",
+      "bytes": 948
+    },
+    {
+      "path": "src/lua/abyss_gremlin_nob_ai.lua",
+      "sha256": "7dceb41181045423abcd752f664e56805ec0639f47f9f469b4f1b41dbc2f07cb",
+      "bytes": 1597
+    },
+    {
+      "path": "src/lua/abyss_guardian_ai.lua",
+      "sha256": "4b6c93d8d77a8ee3bbb6ce2daf3df9c075e5dcf4e0f700ab9cc2544058e4b718",
+      "bytes": 5853
+    },
+    {
+      "path": "src/lua/abyss_hand_choice.lua",
+      "sha256": "a294eb7588c7d7cca6a11d0391194a5db8206434701575f053cd9274a99fdab1",
+      "bytes": 6158
+    },
+    {
+      "path": "src/lua/abyss_hp_loss.lua",
+      "sha256": "9c8fd3c5c7b819d01bfbc5f392874135476cca20d9546c1582ce1688554706e7",
+      "bytes": 917
+    },
+    {
+      "path": "src/lua/abyss_inventory.lua",
+      "sha256": "29310feca12c9e990e06720989106c3bf71dd2b6796861abd0cdbe93a9e80153",
+      "bytes": 12877
+    },
+    {
+      "path": "src/lua/abyss_jaw_worm_ai.lua",
+      "sha256": "cdd4f16dd059c5db55eab5549bad36f0ea907ece36f66f5d0a239d8c5269b37f",
+      "bytes": 1723
+    },
+    {
+      "path": "src/lua/abyss_living_wall.lua",
+      "sha256": "99757cfae305bc27a0ec45853e21f6d4bc305779c1ad621f97ea5c4e8ddde799",
+      "bytes": 4722
+    },
+    {
+      "path": "src/lua/abyss_looter_ai.lua",
+      "sha256": "3102c48a8b15714bb62bf6a68d53ba54a46fb8a085fdf05d243a8a2d07965f67",
+      "bytes": 2069
+    },
+    {
+      "path": "src/lua/abyss_louse_ai.lua",
+      "sha256": "aaf2c3d2c85517ba10e418467efa1d358fdea1f46e7ec5b7a6c588bf965e7619",
+      "bytes": 1821
+    },
+    {
+      "path": "src/lua/abyss_mantra.lua",
+      "sha256": "434d2ddb3793ed9dfd85dbe66ff7f4b113811e022948463c10a51e63dcf32693",
+      "bytes": 6403
+    },
+    {
+      "path": "src/lua/abyss_map.lua",
+      "sha256": "46ab10319f6a8cce81dc19a778f1995ca992039dc35b4b7c2b02c7a464f66d96",
+      "bytes": 7508
+    },
+    {
+      "path": "src/lua/abyss_map_rooms.lua",
+      "sha256": "e9fa282510fd34d1ccb1e7e92c2488b99c55392e3933b0cb75a9eac8c7515517",
+      "bytes": 5724
+    },
+    {
+      "path": "src/lua/abyss_map_topology.lua",
+      "sha256": "359598f43fdae9f6e7db629c7b700301a9725c2873f557b1bee7df57f19707f5",
+      "bytes": 7422
+    },
+    {
+      "path": "src/lua/abyss_map_ui.lua",
+      "sha256": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836",
+      "bytes": 24960
+    },
+    {
+      "path": "src/lua/abyss_merchant.lua",
+      "sha256": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9",
+      "bytes": 5726
+    },
+    {
+      "path": "src/lua/abyss_new_run_seed.lua",
+      "sha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
+      "bytes": 1229
+    },
+    {
+      "path": "src/lua/abyss_node_ui.lua",
+      "sha256": "ece39209c3d7b7ceb3b5516ad4386ea16fcd915bde8056fe4126275151b53749",
+      "bytes": 71611
+    },
+    {
+      "path": "src/lua/abyss_nodes.lua",
+      "sha256": "bfd8c309336322bdecf3570248b08d7decd0ed88be34d9afafe5961fec43a25b",
+      "bytes": 33295
+    },
+    {
+      "path": "src/lua/abyss_numbers.lua",
+      "sha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80",
+      "bytes": 319
+    },
+    {
+      "path": "src/lua/abyss_opening_hand.lua",
+      "sha256": "a77eebda83ad4fbd9e37e159fccd8a62cff1b0931f2e4f0d64e28e7229004ad3",
+      "bytes": 3063
+    },
+    {
+      "path": "src/lua/abyss_orb_powers.lua",
+      "sha256": "0905213561ddaf1a29764375bde4d150dedfc8884582e4f4e00411fcbdf8187f",
+      "bytes": 6669
+    },
+    {
+      "path": "src/lua/abyss_orbs.lua",
+      "sha256": "18b02813a5649cfaea071ef57109a8ae59b3cdc598b7a9f0aef83365f12984bc",
+      "bytes": 10342
+    },
+    {
+      "path": "src/lua/abyss_original_v4.lua",
+      "sha256": "5bb729421066e88c1ecf23bebd7534a1e308bcd750575ca2a10afcd4f63eeb6b",
+      "bytes": 23455
+    },
+    {
+      "path": "src/lua/abyss_original_v4_display.lua",
+      "sha256": "f4337519afab2e0a83a28b2ee18b041c28bf15b9b9bd43415e57001e854296c3",
+      "bytes": 18242
+    },
+    {
+      "path": "src/lua/abyss_original_v4_health.lua",
+      "sha256": "8ea5e33e51d12af596b493e2bf11e32e2e82f86d843b21da4c1d06660cd1e6ea",
+      "bytes": 1324
+    },
+    {
+      "path": "src/lua/abyss_original_v4_profiles.lua",
+      "sha256": "808fe5e6b8bc29feeb6eb1cb5c829effdabbbc880cd4d8499d45c17bf7c6493a",
+      "bytes": 3394
+    },
+    {
+      "path": "src/lua/abyss_pile_choice.lua",
+      "sha256": "4527339b830c627865e670a130f616811c37eee98515dd30478036c227a47532",
+      "bytes": 11124
+    },
+    {
+      "path": "src/lua/abyss_poison.lua",
+      "sha256": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78",
+      "bytes": 3860
+    },
+    {
+      "path": "src/lua/abyss_potion_discard_ui.lua",
+      "sha256": "638186594d5c27c50dced4a0edeb54946df5f6e8fc8257cbaeda626c1f6ce75a",
+      "bytes": 6404
+    },
+    {
+      "path": "src/lua/abyss_potion_health.lua",
+      "sha256": "739b13c6baccb814a4ed3fe02c6a5702842e64e175be4683bd551d4fdeb70f8c",
+      "bytes": 1017
+    },
+    {
+      "path": "src/lua/abyss_potion_random.lua",
+      "sha256": "ff3282901a7ef43b81e7dd82567532ec0de5c2d6a7dd1207c2c24ae04291f426",
+      "bytes": 4738
+    },
+    {
+      "path": "src/lua/abyss_potion_rewards.lua",
+      "sha256": "fcc470c86c9f6df92f9de7e034c3e163d95f9c1d8af2eb6108787a6463ba2a9c",
+      "bytes": 2440
+    },
+    {
+      "path": "src/lua/abyss_power_order.lua",
+      "sha256": "34b9c0ef12e6c64cc982b3a07bd758b6a5cf5bce2028d0735a4cc112120812f4",
+      "bytes": 1505
+    },
+    {
+      "path": "src/lua/abyss_power_schedule.lua",
+      "sha256": "0db98f89dc333549726ea12f8441696773891da6c0ff403f317a10385696b7ea",
+      "bytes": 6766
+    },
+    {
+      "path": "src/lua/abyss_prologue.lua",
+      "sha256": "d7ee727de590abd939f7c452d71a7eb6e42fb36e8b74c1705422ab981f72f39c",
+      "bytes": 12692
+    },
+    {
+      "path": "src/lua/abyss_random.lua",
+      "sha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d",
+      "bytes": 860
+    },
+    {
+      "path": "src/lua/abyss_randomxs128.lua",
+      "sha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777",
+      "bytes": 4250
+    },
+    {
+      "path": "src/lua/abyss_red_slaver_ai.lua",
+      "sha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457",
+      "bytes": 1539
+    },
+    {
+      "path": "src/lua/abyss_relic_hooks.lua",
+      "sha256": "3f3dec65b7d961285af37e689485e4309179bb2e4bdb9fd14fec5f2ddf060b0b",
+      "bytes": 13768
+    },
+    {
+      "path": "src/lua/abyss_relic_pool.lua",
+      "sha256": "b85b11473d1aa501bc44dff1afc1d773b1967ef5ef117f51b7e44b125ed05cc7",
+      "bytes": 6677
+    },
+    {
+      "path": "src/lua/abyss_retained_cards.lua",
+      "sha256": "aeb19b48f3213ff0e094e50718be049f0179b636ca6756c7ad4e084298eb46fe",
+      "bytes": 8796
+    },
+    {
+      "path": "src/lua/abyss_retrieval_cards.lua",
+      "sha256": "b2db36a1c35cc616b3ecf77b7c3b4d971dcca8be23c2c8f498513fde6229e8d6",
+      "bytes": 2861
+    },
+    {
+      "path": "src/lua/abyss_room_encounters.lua",
+      "sha256": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e",
+      "bytes": 1601
+    },
+    {
+      "path": "src/lua/abyss_run.lua",
+      "sha256": "3dbedce1843afc91539c2da2ddb183343f690b73cda139e009a5bfb8a0b05db7",
+      "bytes": 42540
+    },
+    {
+      "path": "src/lua/abyss_run_seed.lua",
+      "sha256": "3b0e5f483f563bf5866e6cbdbfc2502f3dc3b56244415bd43ccc7af9dbe2f74b",
+      "bytes": 1199
+    },
+    {
+      "path": "src/lua/abyss_scry.lua",
+      "sha256": "07d9a86bc13c145069cd5bed0a2aaf1bcd45e05a3a37e2627a41ef16337618e9",
+      "bytes": 5870
+    },
+    {
+      "path": "src/lua/abyss_sentry_ai.lua",
+      "sha256": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651",
+      "bytes": 1039
+    },
+    {
+      "path": "src/lua/abyss_shivs.lua",
+      "sha256": "ac2488896dbe5011919f200fab032264abf9193e9e2b99372e1f999c04429427",
+      "bytes": 9263
+    },
+    {
+      "path": "src/lua/abyss_shop.lua",
+      "sha256": "580429cafa6280eb4b9907e9e1d6fa2d862ce39642455ffa3d2fd692a15f8f3a",
+      "bytes": 8302
+    },
+    {
+      "path": "src/lua/abyss_shop_price.lua",
+      "sha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f",
+      "bytes": 4139
+    },
+    {
+      "path": "src/lua/abyss_silent.lua",
+      "sha256": "b0e370974f238c97868e828bbbe293ad2f35cbf9f90f21a722e215c2bf38fbdf",
+      "bytes": 7353
+    },
+    {
+      "path": "src/lua/abyss_silent_attack_cards.lua",
+      "sha256": "46af8ddc3446c35c4cecb57a8be16b6b687debb243c9a453d063584dcda70b21",
+      "bytes": 7469
+    },
+    {
+      "path": "src/lua/abyss_silent_discard_cards.lua",
+      "sha256": "fb8fc04666191f323ab9504ba732caed467d922806ce69962ff8e7989307bf9b",
+      "bytes": 4697
+    },
+    {
+      "path": "src/lua/abyss_silent_tactics_cards.lua",
+      "sha256": "a9f739b6f64e9c653da935587d3a2774c9176d39c3cfbc89d742a8e2d93309e6",
+      "bytes": 16443
+    },
+    {
+      "path": "src/lua/abyss_snapshot.lua",
+      "sha256": "6549d25e36c3ab5c5ce660a8726361e9fc9a872d464f2e8739f6c795f808b0b1",
+      "bytes": 912
+    },
+    {
+      "path": "src/lua/abyss_spike_slime_m_ai.lua",
+      "sha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e",
+      "bytes": 1297
+    },
+    {
+      "path": "src/lua/abyss_stances.lua",
+      "sha256": "9c9c54c43751a58ecbe2fd2343402de8403709218843057751d60c4e82c250d5",
+      "bytes": 6911
+    },
+    {
+      "path": "src/lua/abyss_sts_random.lua",
+      "sha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9",
+      "bytes": 7291
+    },
+    {
+      "path": "src/lua/abyss_transform_card.lua",
+      "sha256": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9",
+      "bytes": 2581
+    },
+    {
+      "path": "src/lua/abyss_turn_powers.lua",
+      "sha256": "e5c7183a772693629a7b132befd08c21d1703e5b5e24757c6f74bfe060d58c61",
+      "bytes": 8413
+    },
+    {
+      "path": "src/lua/abyss_ui.lua",
+      "sha256": "dac3019dbc568a5af490af6042359d8ce47442df2ec335420a36672b98c0d347",
+      "bytes": 4153
+    },
+    {
+      "path": "src/lua/abyss_unknown.lua",
+      "sha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c",
+      "bytes": 5188
+    },
+    {
+      "path": "src/lua/abyss_viewport.lua",
+      "sha256": "148f69891a344254b90b3fd68ca22187fa48248036e6fe1dd318d38bd29c10dd",
+      "bytes": 747
+    },
+    {
+      "path": "src/lua/abyss_warrior_cards.lua",
+      "sha256": "804cdeba54294c029125cc980db6d9f4d54955438ff3086f5d4172e8f1753a0f",
+      "bytes": 6265
+    },
+    {
+      "path": "src/lua/abyss_warrior_exhaust_cards.lua",
+      "sha256": "42a02f3656e412029a365456c6dadb497523eb82a69a86f44192b965cd0e68ce",
+      "bytes": 4457
+    },
+    {
+      "path": "src/lua/abyss_warrior_status_cards.lua",
+      "sha256": "8da457c55f5e69ccb0dd0f2b4549f43b31cbea45755fceab6f0c30188f05836b",
+      "bytes": 15435
+    },
+    {
+      "path": "src/lua/abyss_warrior_strength_cards.lua",
+      "sha256": "a3abdc60c4372553d6d4d781910573a303be7a0b3362d7b8e22ad5eec98b3fe5",
+      "bytes": 9790
+    },
+    {
+      "path": "src/lua/abyss_watcher_attack_cards.lua",
+      "sha256": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e",
+      "bytes": 10433
+    },
+    {
+      "path": "src/lua/abyss_watcher_cards.lua",
+      "sha256": "c93259044790a3e3d6d257d21355707c5879417ea65cc833bfd17ee6f6f5ad3c",
+      "bytes": 4987
+    },
+    {
+      "path": "src/lua/abyss_watcher_flow_cards.lua",
+      "sha256": "e8d0785239150c1ca364fc2f9901ba2c2cda0ead31fb709ea713a71979dd1c82",
+      "bytes": 19003
+    },
+    {
+      "path": "tools/render_traveler_cards.py",
+      "sha256": "81c41da6072e543d116b90f02442a8730a4ca98937f66f82cbbf0bf08b313a60",
+      "bytes": 12579
+    }
+  ],
+  "modules": [
+    {
+      "name": "abyss_data",
+      "path": "build/lua/abyss_data.lua",
+      "bytes": 133944,
+      "sha256": "6dc7d853f6f6b8eb5dabe75bea2ae40a871a1df87cad678a9dee838624da1e54"
+    },
+    {
+      "name": "abyss_map_layout",
+      "path": "build/lua/abyss_map_layout.lua",
+      "bytes": 427,
+      "sha256": "60d09d33504a67759cdb8ae63f87d1b8584e1c9ebfd203a51fd438286eec04b6"
+    },
+    {
+      "name": "abyss_narrative",
+      "path": "build/lua/abyss_narrative.lua",
+      "bytes": 7678,
+      "sha256": "2b247f6969f2ac7380cda33a1a92a28652a8de08bf16047d5e92525f3d3d5a41"
+    },
+    {
+      "name": "abyss_original_v4_data",
+      "path": "build/lua/abyss_original_v4_data.lua",
+      "bytes": 577904,
+      "sha256": "63e4983d6d80241f287e153087efd81e7ab287efbb15e195ef80ad90230fb2cb"
+    },
+    {
+      "name": "abyss_presentation",
+      "path": "build/lua/abyss_presentation.lua",
+      "bytes": 72586,
+      "sha256": "eefcf2e616fcc3754f49bedb2ed0ce746cf52908ee252c9406c9cd744303e6e8"
+    },
+    {
+      "name": "abyss_theme",
+      "path": "build/lua/abyss_theme.lua",
+      "bytes": 31861,
+      "sha256": "279b5b1c72f662cfbcd96930f5ad3caef68012a32e3c2d5469e840a378dd6980"
+    },
+    {
+      "name": "abyss_acid_slime_m_ai",
+      "path": "src/lua/abyss_acid_slime_m_ai.lua",
+      "bytes": 1897,
+      "sha256": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6"
+    },
+    {
+      "name": "abyss_acid_slime_s_ai",
+      "path": "src/lua/abyss_acid_slime_s_ai.lua",
+      "bytes": 919,
+      "sha256": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769"
+    },
+    {
+      "name": "abyss_act1_events",
+      "path": "src/lua/abyss_act1_events.lua",
+      "bytes": 10806,
+      "sha256": "e0a172e92ddc05a7def8623b9006c163c807dc8d7b472d40b54c7b1fd8593aaa"
+    },
+    {
+      "name": "abyss_action_queue",
+      "path": "src/lua/abyss_action_queue.lua",
+      "bytes": 3561,
+      "sha256": "5053ad084fee0bc15277ccbd9bc614c2acaa8e2b8d70bcb91f1bf4a01499cb2d"
+    },
+    {
+      "name": "abyss_actor",
+      "path": "src/lua/abyss_actor.lua",
+      "bytes": 29551,
+      "sha256": "c56431f7acc9b3605306c77e55407fd54a57fd52f69ac0cd6f7eb41b51bdd1f6"
+    },
+    {
+      "name": "abyss_battle_ui",
+      "path": "src/lua/abyss_battle_ui.lua",
+      "bytes": 132580,
+      "sha256": "92518bb83ec80db4d7fba5ec9ab4f242385007af8cc2463cd704e04cb7936de6"
+    },
+    {
+      "name": "abyss_bgm",
+      "path": "src/lua/abyss_bgm.lua",
+      "bytes": 1281,
+      "sha256": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec"
+    },
+    {
+      "name": "abyss_blue_slaver_ai",
+      "path": "src/lua/abyss_blue_slaver_ai.lua",
+      "bytes": 1036,
+      "sha256": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c"
+    },
+    {
+      "name": "abyss_build_actions",
+      "path": "src/lua/abyss_build_actions.lua",
+      "bytes": 3280,
+      "sha256": "06869bb5e82afd69b3cd369bbd90c4a5cbe02284c60876cc500e58da5e091c3b"
+    },
+    {
+      "name": "abyss_card_actions",
+      "path": "src/lua/abyss_card_actions.lua",
+      "bytes": 17273,
+      "sha256": "3c5eddd54f66aadad016c0914b1307a1fccacd2016285793ef52876144312ba1"
+    },
+    {
+      "name": "abyss_card_capability",
+      "path": "src/lua/abyss_card_capability.lua",
+      "bytes": 2785,
+      "sha256": "dcd2ca6b9dacd769d1c42cb3f3231fef4cfb770109b1be26c3612fe69bb93dae"
+    },
+    {
+      "name": "abyss_card_display",
+      "path": "src/lua/abyss_card_display.lua",
+      "bytes": 6467,
+      "sha256": "7decd48a68a60eda357c08c4e498486b43f042f274d62f7cc171376071863955"
+    },
+    {
+      "name": "abyss_card_pool",
+      "path": "src/lua/abyss_card_pool.lua",
+      "bytes": 1595,
+      "sha256": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d"
+    },
+    {
+      "name": "abyss_card_random",
+      "path": "src/lua/abyss_card_random.lua",
+      "bytes": 2904,
+      "sha256": "e429204a73f282de96d27d8f2ee3669e7fbb0c101a3d346c4400e96110ac1408"
+    },
+    {
+      "name": "abyss_card_triggers",
+      "path": "src/lua/abyss_card_triggers.lua",
+      "bytes": 15124,
+      "sha256": "b16ee554375883e89a572832c14a8419a668f17a86105e7ae42d6694507bdd96"
+    },
+    {
+      "name": "abyss_character_presentation",
+      "path": "src/lua/abyss_character_presentation.lua",
+      "bytes": 37181,
+      "sha256": "06f093eca11d650cd8d5762a264e4d3f1feda7e82a3c171719a8e7a69ce6d8bf"
+    },
+    {
+      "name": "abyss_character_profiles",
+      "path": "src/lua/abyss_character_profiles.lua",
+      "bytes": 6564,
+      "sha256": "c7ca70d43d2b11864cac7fc03715f188919b14b3059c006f83f33540a08ad2a6"
+    },
+    {
+      "name": "abyss_choice_ui",
+      "path": "src/lua/abyss_choice_ui.lua",
+      "bytes": 13766,
+      "sha256": "ff14f14b0fecf58485bb351dcb9876ac1dc472bf916c028e7b2b51efce30751e"
+    },
+    {
+      "name": "abyss_combat",
+      "path": "src/lua/abyss_combat.lua",
+      "bytes": 102588,
+      "sha256": "8f8e24b256fff102de6a82b4b26e71681a4143b9b878fa4f5b55669062c0d1dd"
+    },
+    {
+      "name": "abyss_corruption",
+      "path": "src/lua/abyss_corruption.lua",
+      "bytes": 9897,
+      "sha256": "a4ec793a0568245f32b79b0a6e074348b59d627b71fe2da8faa345fea2ef2f14"
+    },
+    {
+      "name": "abyss_curses",
+      "path": "src/lua/abyss_curses.lua",
+      "bytes": 1962,
+      "sha256": "783838c0dd3f0d97f315864e9cde495b17f9cd38e65a7ba65503cbcd2c0bc451"
+    },
+    {
+      "name": "abyss_deck_ui",
+      "path": "src/lua/abyss_deck_ui.lua",
+      "bytes": 11846,
+      "sha256": "dd85ba756be40f7ae2b47468d14e08eb7f7548fb2d63818b2ad4817b4dbb8414"
+    },
+    {
+      "name": "abyss_defect_cards",
+      "path": "src/lua/abyss_defect_cards.lua",
+      "bytes": 4044,
+      "sha256": "7844025e58ffcf345243d29a8e24b21268f728e833456389acbd764bcbb8d6a3"
+    },
+    {
+      "name": "abyss_defect_engine_cards",
+      "path": "src/lua/abyss_defect_engine_cards.lua",
+      "bytes": 17403,
+      "sha256": "f34e31599f89f3bb57a3ab2d9dd7edf107644cf3a5bd7b89f8409b4aa8bd7c92"
+    },
+    {
+      "name": "abyss_defect_utility_cards",
+      "path": "src/lua/abyss_defect_utility_cards.lua",
+      "bytes": 12181,
+      "sha256": "92a48bb10f3e29abf1cdfbe8b3f34269a2c388439c168116d938d45757823de1"
+    },
+    {
+      "name": "abyss_discard",
+      "path": "src/lua/abyss_discard.lua",
+      "bytes": 11298,
+      "sha256": "e1bec2599adf33896cc457f6e1ab62b6386a350d652fc3d7515db3aaec2235d4"
+    },
+    {
+      "name": "abyss_effects",
+      "path": "src/lua/abyss_effects.lua",
+      "bytes": 28366,
+      "sha256": "040844e29308e444a84fc42369d36128aacc034e181105997c40603d2e34fdfe"
+    },
+    {
+      "name": "abyss_encounter_formation",
+      "path": "src/lua/abyss_encounter_formation.lua",
+      "bytes": 4154,
+      "sha256": "d57cad542b761375e94fff3734cb417e0230ef0089a2eec7178f94b8380d1400"
+    },
+    {
+      "name": "abyss_encounter_queue",
+      "path": "src/lua/abyss_encounter_queue.lua",
+      "bytes": 6969,
+      "sha256": "4c75a362e405b4ece1494524e1cc202e908a65f257a731843cde080aa876076f"
+    },
+    {
+      "name": "abyss_enemy_ai",
+      "path": "src/lua/abyss_enemy_ai.lua",
+      "bytes": 12036,
+      "sha256": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f"
+    },
+    {
+      "name": "abyss_enemy_random",
+      "path": "src/lua/abyss_enemy_random.lua",
+      "bytes": 620,
+      "sha256": "21ce08c3a7c031f260565e47cef6356141c888d4a89e7f5643fcc1693f3095a1"
+    },
+    {
+      "name": "abyss_event_pool",
+      "path": "src/lua/abyss_event_pool.lua",
+      "bytes": 3834,
+      "sha256": "efcdc3c7db0bdf9410d97bade8499a94a23159773ee602474a82af145176536e"
+    },
+    {
+      "name": "abyss_events",
+      "path": "src/lua/abyss_events.lua",
+      "bytes": 1962,
+      "sha256": "ddf541d3447a4403c33f97dd1a54346f742be996abdbb0ed8030c7d8a13920f9"
+    },
+    {
+      "name": "abyss_exhaust",
+      "path": "src/lua/abyss_exhaust.lua",
+      "bytes": 5923,
+      "sha256": "45c876d6762e2f1b62c8a7462bcb09036b345398b3a969ee92275c97afc4286a"
+    },
+    {
+      "name": "abyss_external_random",
+      "path": "src/lua/abyss_external_random.lua",
+      "bytes": 1398,
+      "sha256": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702"
+    },
+    {
+      "name": "abyss_feedback",
+      "path": "src/lua/abyss_feedback.lua",
+      "bytes": 32126,
+      "sha256": "a0ad73412faacea47e75fea90fd726adcdcf0286f411f52c8de2cf3b913065ae"
+    },
+    {
+      "name": "abyss_flow_actions",
+      "path": "src/lua/abyss_flow_actions.lua",
+      "bytes": 3532,
+      "sha256": "e671739e16c0ef0849660ddda01a7393305ca4a3b2752c725882541595c14047"
+    },
+    {
+      "name": "abyss_focus",
+      "path": "src/lua/abyss_focus.lua",
+      "bytes": 3960,
+      "sha256": "2d99e7d9ea4aa21d8f80e634c026212a1db38f251813131cdaefaa4ebc7434fb"
+    },
+    {
+      "name": "abyss_fountain",
+      "path": "src/lua/abyss_fountain.lua",
+      "bytes": 1594,
+      "sha256": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5"
+    },
+    {
+      "name": "abyss_fungi_beast_ai",
+      "path": "src/lua/abyss_fungi_beast_ai.lua",
+      "bytes": 1167,
+      "sha256": "1719491618f47b5870f0d3fef5d20256082393aa2b73b08f901d47c49db1a65a"
+    },
+    {
+      "name": "abyss_game_ui",
+      "path": "src/lua/abyss_game_ui.lua",
+      "bytes": 35928,
+      "sha256": "2d50ca8d53417fb53201b6b7b734d30a2a5baff60c0237055b87a80a4f45c742"
+    },
+    {
+      "name": "abyss_gold_rewards",
+      "path": "src/lua/abyss_gold_rewards.lua",
+      "bytes": 948,
+      "sha256": "c6a38624237101b289287e3ddb8766c4169dbb68e24146ef9c5616323b6e1c86"
+    },
+    {
+      "name": "abyss_gremlin_nob_ai",
+      "path": "src/lua/abyss_gremlin_nob_ai.lua",
+      "bytes": 1597,
+      "sha256": "7dceb41181045423abcd752f664e56805ec0639f47f9f469b4f1b41dbc2f07cb"
+    },
+    {
+      "name": "abyss_guardian_ai",
+      "path": "src/lua/abyss_guardian_ai.lua",
+      "bytes": 5853,
+      "sha256": "4b6c93d8d77a8ee3bbb6ce2daf3df9c075e5dcf4e0f700ab9cc2544058e4b718"
+    },
+    {
+      "name": "abyss_hand_choice",
+      "path": "src/lua/abyss_hand_choice.lua",
+      "bytes": 6158,
+      "sha256": "a294eb7588c7d7cca6a11d0391194a5db8206434701575f053cd9274a99fdab1"
+    },
+    {
+      "name": "abyss_hp_loss",
+      "path": "src/lua/abyss_hp_loss.lua",
+      "bytes": 917,
+      "sha256": "9c8fd3c5c7b819d01bfbc5f392874135476cca20d9546c1582ce1688554706e7"
+    },
+    {
+      "name": "abyss_inventory",
+      "path": "src/lua/abyss_inventory.lua",
+      "bytes": 12877,
+      "sha256": "29310feca12c9e990e06720989106c3bf71dd2b6796861abd0cdbe93a9e80153"
+    },
+    {
+      "name": "abyss_jaw_worm_ai",
+      "path": "src/lua/abyss_jaw_worm_ai.lua",
+      "bytes": 1723,
+      "sha256": "cdd4f16dd059c5db55eab5549bad36f0ea907ece36f66f5d0a239d8c5269b37f"
+    },
+    {
+      "name": "abyss_living_wall",
+      "path": "src/lua/abyss_living_wall.lua",
+      "bytes": 4722,
+      "sha256": "99757cfae305bc27a0ec45853e21f6d4bc305779c1ad621f97ea5c4e8ddde799"
+    },
+    {
+      "name": "abyss_looter_ai",
+      "path": "src/lua/abyss_looter_ai.lua",
+      "bytes": 2069,
+      "sha256": "3102c48a8b15714bb62bf6a68d53ba54a46fb8a085fdf05d243a8a2d07965f67"
+    },
+    {
+      "name": "abyss_louse_ai",
+      "path": "src/lua/abyss_louse_ai.lua",
+      "bytes": 1821,
+      "sha256": "aaf2c3d2c85517ba10e418467efa1d358fdea1f46e7ec5b7a6c588bf965e7619"
+    },
+    {
+      "name": "abyss_mantra",
+      "path": "src/lua/abyss_mantra.lua",
+      "bytes": 6403,
+      "sha256": "434d2ddb3793ed9dfd85dbe66ff7f4b113811e022948463c10a51e63dcf32693"
+    },
+    {
+      "name": "abyss_map",
+      "path": "src/lua/abyss_map.lua",
+      "bytes": 7508,
+      "sha256": "46ab10319f6a8cce81dc19a778f1995ca992039dc35b4b7c2b02c7a464f66d96"
+    },
+    {
+      "name": "abyss_map_rooms",
+      "path": "src/lua/abyss_map_rooms.lua",
+      "bytes": 5724,
+      "sha256": "e9fa282510fd34d1ccb1e7e92c2488b99c55392e3933b0cb75a9eac8c7515517"
+    },
+    {
+      "name": "abyss_map_topology",
+      "path": "src/lua/abyss_map_topology.lua",
+      "bytes": 7422,
+      "sha256": "359598f43fdae9f6e7db629c7b700301a9725c2873f557b1bee7df57f19707f5"
+    },
+    {
+      "name": "abyss_map_ui",
+      "path": "src/lua/abyss_map_ui.lua",
+      "bytes": 24960,
+      "sha256": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836"
+    },
+    {
+      "name": "abyss_merchant",
+      "path": "src/lua/abyss_merchant.lua",
+      "bytes": 5726,
+      "sha256": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9"
+    },
+    {
+      "name": "abyss_new_run_seed",
+      "path": "src/lua/abyss_new_run_seed.lua",
+      "bytes": 1229,
+      "sha256": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755"
+    },
+    {
+      "name": "abyss_node_ui",
+      "path": "src/lua/abyss_node_ui.lua",
+      "bytes": 71611,
+      "sha256": "ece39209c3d7b7ceb3b5516ad4386ea16fcd915bde8056fe4126275151b53749"
+    },
+    {
+      "name": "abyss_nodes",
+      "path": "src/lua/abyss_nodes.lua",
+      "bytes": 33295,
+      "sha256": "bfd8c309336322bdecf3570248b08d7decd0ed88be34d9afafe5961fec43a25b"
+    },
+    {
+      "name": "abyss_numbers",
+      "path": "src/lua/abyss_numbers.lua",
+      "bytes": 319,
+      "sha256": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80"
+    },
+    {
+      "name": "abyss_opening_hand",
+      "path": "src/lua/abyss_opening_hand.lua",
+      "bytes": 3063,
+      "sha256": "a77eebda83ad4fbd9e37e159fccd8a62cff1b0931f2e4f0d64e28e7229004ad3"
+    },
+    {
+      "name": "abyss_orb_powers",
+      "path": "src/lua/abyss_orb_powers.lua",
+      "bytes": 6669,
+      "sha256": "0905213561ddaf1a29764375bde4d150dedfc8884582e4f4e00411fcbdf8187f"
+    },
+    {
+      "name": "abyss_orbs",
+      "path": "src/lua/abyss_orbs.lua",
+      "bytes": 10342,
+      "sha256": "18b02813a5649cfaea071ef57109a8ae59b3cdc598b7a9f0aef83365f12984bc"
+    },
+    {
+      "name": "abyss_original_v4",
+      "path": "src/lua/abyss_original_v4.lua",
+      "bytes": 23455,
+      "sha256": "5bb729421066e88c1ecf23bebd7534a1e308bcd750575ca2a10afcd4f63eeb6b"
+    },
+    {
+      "name": "abyss_original_v4_display",
+      "path": "src/lua/abyss_original_v4_display.lua",
+      "bytes": 18242,
+      "sha256": "f4337519afab2e0a83a28b2ee18b041c28bf15b9b9bd43415e57001e854296c3"
+    },
+    {
+      "name": "abyss_original_v4_health",
+      "path": "src/lua/abyss_original_v4_health.lua",
+      "bytes": 1324,
+      "sha256": "8ea5e33e51d12af596b493e2bf11e32e2e82f86d843b21da4c1d06660cd1e6ea"
+    },
+    {
+      "name": "abyss_original_v4_profiles",
+      "path": "src/lua/abyss_original_v4_profiles.lua",
+      "bytes": 3394,
+      "sha256": "808fe5e6b8bc29feeb6eb1cb5c829effdabbbc880cd4d8499d45c17bf7c6493a"
+    },
+    {
+      "name": "abyss_pile_choice",
+      "path": "src/lua/abyss_pile_choice.lua",
+      "bytes": 11124,
+      "sha256": "4527339b830c627865e670a130f616811c37eee98515dd30478036c227a47532"
+    },
+    {
+      "name": "abyss_poison",
+      "path": "src/lua/abyss_poison.lua",
+      "bytes": 3860,
+      "sha256": "c739ba6e3958531a0148752b46566963b69a315cf38dfd8fa27eecb701ac8e78"
+    },
+    {
+      "name": "abyss_potion_discard_ui",
+      "path": "src/lua/abyss_potion_discard_ui.lua",
+      "bytes": 6404,
+      "sha256": "638186594d5c27c50dced4a0edeb54946df5f6e8fc8257cbaeda626c1f6ce75a"
+    },
+    {
+      "name": "abyss_potion_health",
+      "path": "src/lua/abyss_potion_health.lua",
+      "bytes": 1017,
+      "sha256": "739b13c6baccb814a4ed3fe02c6a5702842e64e175be4683bd551d4fdeb70f8c"
+    },
+    {
+      "name": "abyss_potion_random",
+      "path": "src/lua/abyss_potion_random.lua",
+      "bytes": 4738,
+      "sha256": "ff3282901a7ef43b81e7dd82567532ec0de5c2d6a7dd1207c2c24ae04291f426"
+    },
+    {
+      "name": "abyss_potion_rewards",
+      "path": "src/lua/abyss_potion_rewards.lua",
+      "bytes": 2440,
+      "sha256": "fcc470c86c9f6df92f9de7e034c3e163d95f9c1d8af2eb6108787a6463ba2a9c"
+    },
+    {
+      "name": "abyss_power_order",
+      "path": "src/lua/abyss_power_order.lua",
+      "bytes": 1505,
+      "sha256": "34b9c0ef12e6c64cc982b3a07bd758b6a5cf5bce2028d0735a4cc112120812f4"
+    },
+    {
+      "name": "abyss_power_schedule",
+      "path": "src/lua/abyss_power_schedule.lua",
+      "bytes": 6766,
+      "sha256": "0db98f89dc333549726ea12f8441696773891da6c0ff403f317a10385696b7ea"
+    },
+    {
+      "name": "abyss_prologue",
+      "path": "src/lua/abyss_prologue.lua",
+      "bytes": 12692,
+      "sha256": "d7ee727de590abd939f7c452d71a7eb6e42fb36e8b74c1705422ab981f72f39c"
+    },
+    {
+      "name": "abyss_random",
+      "path": "src/lua/abyss_random.lua",
+      "bytes": 860,
+      "sha256": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d"
+    },
+    {
+      "name": "abyss_randomxs128",
+      "path": "src/lua/abyss_randomxs128.lua",
+      "bytes": 4250,
+      "sha256": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777"
+    },
+    {
+      "name": "abyss_red_slaver_ai",
+      "path": "src/lua/abyss_red_slaver_ai.lua",
+      "bytes": 1539,
+      "sha256": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457"
+    },
+    {
+      "name": "abyss_relic_hooks",
+      "path": "src/lua/abyss_relic_hooks.lua",
+      "bytes": 13768,
+      "sha256": "3f3dec65b7d961285af37e689485e4309179bb2e4bdb9fd14fec5f2ddf060b0b"
+    },
+    {
+      "name": "abyss_relic_pool",
+      "path": "src/lua/abyss_relic_pool.lua",
+      "bytes": 6677,
+      "sha256": "b85b11473d1aa501bc44dff1afc1d773b1967ef5ef117f51b7e44b125ed05cc7"
+    },
+    {
+      "name": "abyss_retained_cards",
+      "path": "src/lua/abyss_retained_cards.lua",
+      "bytes": 8796,
+      "sha256": "aeb19b48f3213ff0e094e50718be049f0179b636ca6756c7ad4e084298eb46fe"
+    },
+    {
+      "name": "abyss_retrieval_cards",
+      "path": "src/lua/abyss_retrieval_cards.lua",
+      "bytes": 2861,
+      "sha256": "b2db36a1c35cc616b3ecf77b7c3b4d971dcca8be23c2c8f498513fde6229e8d6"
+    },
+    {
+      "name": "abyss_room_encounters",
+      "path": "src/lua/abyss_room_encounters.lua",
+      "bytes": 1601,
+      "sha256": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e"
+    },
+    {
+      "name": "abyss_run",
+      "path": "src/lua/abyss_run.lua",
+      "bytes": 42540,
+      "sha256": "3dbedce1843afc91539c2da2ddb183343f690b73cda139e009a5bfb8a0b05db7"
+    },
+    {
+      "name": "abyss_run_seed",
+      "path": "src/lua/abyss_run_seed.lua",
+      "bytes": 1199,
+      "sha256": "3b0e5f483f563bf5866e6cbdbfc2502f3dc3b56244415bd43ccc7af9dbe2f74b"
+    },
+    {
+      "name": "abyss_scry",
+      "path": "src/lua/abyss_scry.lua",
+      "bytes": 5870,
+      "sha256": "07d9a86bc13c145069cd5bed0a2aaf1bcd45e05a3a37e2627a41ef16337618e9"
+    },
+    {
+      "name": "abyss_sentry_ai",
+      "path": "src/lua/abyss_sentry_ai.lua",
+      "bytes": 1039,
+      "sha256": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651"
+    },
+    {
+      "name": "abyss_shivs",
+      "path": "src/lua/abyss_shivs.lua",
+      "bytes": 9263,
+      "sha256": "ac2488896dbe5011919f200fab032264abf9193e9e2b99372e1f999c04429427"
+    },
+    {
+      "name": "abyss_shop",
+      "path": "src/lua/abyss_shop.lua",
+      "bytes": 8302,
+      "sha256": "580429cafa6280eb4b9907e9e1d6fa2d862ce39642455ffa3d2fd692a15f8f3a"
+    },
+    {
+      "name": "abyss_shop_price",
+      "path": "src/lua/abyss_shop_price.lua",
+      "bytes": 4139,
+      "sha256": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f"
+    },
+    {
+      "name": "abyss_silent",
+      "path": "src/lua/abyss_silent.lua",
+      "bytes": 7353,
+      "sha256": "b0e370974f238c97868e828bbbe293ad2f35cbf9f90f21a722e215c2bf38fbdf"
+    },
+    {
+      "name": "abyss_silent_attack_cards",
+      "path": "src/lua/abyss_silent_attack_cards.lua",
+      "bytes": 7469,
+      "sha256": "46af8ddc3446c35c4cecb57a8be16b6b687debb243c9a453d063584dcda70b21"
+    },
+    {
+      "name": "abyss_silent_discard_cards",
+      "path": "src/lua/abyss_silent_discard_cards.lua",
+      "bytes": 4697,
+      "sha256": "fb8fc04666191f323ab9504ba732caed467d922806ce69962ff8e7989307bf9b"
+    },
+    {
+      "name": "abyss_silent_tactics_cards",
+      "path": "src/lua/abyss_silent_tactics_cards.lua",
+      "bytes": 16443,
+      "sha256": "a9f739b6f64e9c653da935587d3a2774c9176d39c3cfbc89d742a8e2d93309e6"
+    },
+    {
+      "name": "abyss_snapshot",
+      "path": "src/lua/abyss_snapshot.lua",
+      "bytes": 912,
+      "sha256": "6549d25e36c3ab5c5ce660a8726361e9fc9a872d464f2e8739f6c795f808b0b1"
+    },
+    {
+      "name": "abyss_spike_slime_m_ai",
+      "path": "src/lua/abyss_spike_slime_m_ai.lua",
+      "bytes": 1297,
+      "sha256": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e"
+    },
+    {
+      "name": "abyss_stances",
+      "path": "src/lua/abyss_stances.lua",
+      "bytes": 6911,
+      "sha256": "9c9c54c43751a58ecbe2fd2343402de8403709218843057751d60c4e82c250d5"
+    },
+    {
+      "name": "abyss_sts_random",
+      "path": "src/lua/abyss_sts_random.lua",
+      "bytes": 7291,
+      "sha256": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9"
+    },
+    {
+      "name": "abyss_transform_card",
+      "path": "src/lua/abyss_transform_card.lua",
+      "bytes": 2581,
+      "sha256": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9"
+    },
+    {
+      "name": "abyss_turn_powers",
+      "path": "src/lua/abyss_turn_powers.lua",
+      "bytes": 8413,
+      "sha256": "e5c7183a772693629a7b132befd08c21d1703e5b5e24757c6f74bfe060d58c61"
+    },
+    {
+      "name": "abyss_ui",
+      "path": "src/lua/abyss_ui.lua",
+      "bytes": 4153,
+      "sha256": "dac3019dbc568a5af490af6042359d8ce47442df2ec335420a36672b98c0d347"
+    },
+    {
+      "name": "abyss_unknown",
+      "path": "src/lua/abyss_unknown.lua",
+      "bytes": 5188,
+      "sha256": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c"
+    },
+    {
+      "name": "abyss_viewport",
+      "path": "src/lua/abyss_viewport.lua",
+      "bytes": 747,
+      "sha256": "148f69891a344254b90b3fd68ca22187fa48248036e6fe1dd318d38bd29c10dd"
+    },
+    {
+      "name": "abyss_warrior_cards",
+      "path": "src/lua/abyss_warrior_cards.lua",
+      "bytes": 6265,
+      "sha256": "804cdeba54294c029125cc980db6d9f4d54955438ff3086f5d4172e8f1753a0f"
+    },
+    {
+      "name": "abyss_warrior_exhaust_cards",
+      "path": "src/lua/abyss_warrior_exhaust_cards.lua",
+      "bytes": 4457,
+      "sha256": "42a02f3656e412029a365456c6dadb497523eb82a69a86f44192b965cd0e68ce"
+    },
+    {
+      "name": "abyss_warrior_status_cards",
+      "path": "src/lua/abyss_warrior_status_cards.lua",
+      "bytes": 15435,
+      "sha256": "8da457c55f5e69ccb0dd0f2b4549f43b31cbea45755fceab6f0c30188f05836b"
+    },
+    {
+      "name": "abyss_warrior_strength_cards",
+      "path": "src/lua/abyss_warrior_strength_cards.lua",
+      "bytes": 9790,
+      "sha256": "a3abdc60c4372553d6d4d781910573a303be7a0b3362d7b8e22ad5eec98b3fe5"
+    },
+    {
+      "name": "abyss_watcher_attack_cards",
+      "path": "src/lua/abyss_watcher_attack_cards.lua",
+      "bytes": 10433,
+      "sha256": "c6adcaf2a4c88988e7e957104a4812c9cefcd67a9740a2290cd73b9e3aa2d38e"
+    },
+    {
+      "name": "abyss_watcher_cards",
+      "path": "src/lua/abyss_watcher_cards.lua",
+      "bytes": 4987,
+      "sha256": "c93259044790a3e3d6d257d21355707c5879417ea65cc833bfd17ee6f6f5ad3c"
+    },
+    {
+      "name": "abyss_watcher_flow_cards",
+      "path": "src/lua/abyss_watcher_flow_cards.lua",
+      "bytes": 19003,
+      "sha256": "e8d0785239150c1ca364fc2f9901ba2c2cda0ead31fb709ea713a71979dd1c82"
+    }
+  ],
+  "ui": [
+    {
+      "path": "build/lua/game-ui.json",
+      "bytes": 1546541,
+      "sha256": "f2a22d3487d0e1107e4741db030d6cbf965d81bb9307ee4fed0d4a57bf2907e0"
+    },
+    {
+      "path": "build/lua/game-ui-templates.json",
+      "bytes": 4716,
+      "sha256": "1fd2dc672dfb398ea2712da6f596bdf17a8b3794297262ae739e9911812d2cd8"
+    }
+  ],
+  "nativeGIL": {
+    "status": "not_run",
+    "sha256": null,
+    "reason": "No official Miliastra build/import tools or base GIL are attached to this cloud environment"
+  },
+  "pc": {
+    "status": "not_run",
+    "evidence": []
+  },
+  "physicalPhone": {
+    "status": "not_run",
+    "evidence": []
+  },
+  "acceptance": "Lua/UI payload identity only; no game/device acceptance inferred"
+}

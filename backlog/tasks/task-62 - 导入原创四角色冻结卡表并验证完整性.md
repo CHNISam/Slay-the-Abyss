@@ -1,11 +1,11 @@
 ---
 id: TASK-62
 title: 导入原创四角色冻结卡表并验证完整性
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 05:23'
-updated_date: '2026-10-26 05:52'
+updated_date: '2026-10-26 08:26'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -23,7 +23,7 @@ ordinal: 109000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 300稳定ID及600基础升级完整；冻结输入hash匹配；未知DSL与输出覆盖拒绝
+- [x] #1 300稳定ID及600基础升级完整；冻结输入hash匹配；未知DSL与输出覆盖拒绝
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -37,3 +37,9 @@ ordinal: 109000
 <!-- SECTION:NOTES:BEGIN -->
 独立Executor codex-v4-data/session4c1500c6，source ab95633。4文件精确scope，canonical字节未变；数据定向28过及600定义真实Lua读回通过。独立lease已释放交统一集成，未计玩法或实机。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+冻结两份输入字节与hash保持；300稳定ID/600版本，未知DSL及别名覆盖拒绝，28项数据回归和600定义Lua全字段读回通过。仅数据切片完成，不计玩法或实机。
+<!-- SECTION:FINAL_SUMMARY:END -->

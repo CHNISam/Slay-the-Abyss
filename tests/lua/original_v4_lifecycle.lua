@@ -121,4 +121,23 @@ assert(C.endTurn(s));eq(s.player.hp,36);eq(s.enemies[1].hp,0)
 -- Maximum health is dynamic and may exceed the VM integer multiplication range.
 s=F.state('HT',40);s.player.maxHp=2147483647;s.player.hp=1500000000
 assert(not require('abyss_original_v4').snapshot(s,s.enemies[1]).low)
+-- Lethal damage still completes legal trailing healing; death never revives.
+s=F.state('HT',30);s.enemies[1].hp=1
+F.play(s,'HT2-004');eq(C.outcome(s),'victory');eq(s.player.hp,36);eq(s.originalV4.healUsed,6)
+s=F.state('HT',50);F.play(s,'HT2-003')
+assert(C.endTurn(s));eq(s.originalV4.infuse,1)
+assert(C.endTurn(s));eq(s.originalV4.infuse,0)
+s=F.state('AR',40);s.originalV4.bond=8
+assert(C.endTurn(s));eq(s.originalV4.bond,8)
+-- Public potion transactions use the same battle ledger; room healing is separate.
+local fr=R.new(F.data,73,{character='furina'});fr.hp=20
+assert(R.obtainPotion(fr,'blood_potion'));assert(R.startRoomCombat(fr,'normal'))
+assert(R.usePotion(fr,1));eq(fr.hp,32);eq(fr.combat.originalV4.healUsed,12);eq(fr.combat.originalV4.fan,3)
+assert(R.obtainPotion(fr,'blood_potion'));assert(R.usePotion(fr,1));eq(fr.hp,32);eq(fr.combat.originalV4.fan,3)
+local ar=R.new(F.data,73,{character='arlecchino'});ar.hp=20
+assert(R.obtainPotion(ar,'blood_potion'));assert(R.obtainPotion(ar,'fruit_juice'));assert(R.startRoomCombat(ar,'normal'))
+assert(R.usePotion(ar,1));eq(ar.hp,20);eq(ar.combat.originalV4.healUsed,0)
+assert(R.usePotion(ar,2));eq(ar.hp,20);eq(ar.maxHp,79)
+local room=R.new(F.data,73,{character='arlecchino'});room.hp=20
+assert(R.obtainPotion(room,'blood_potion'));assert(R.usePotion(room,1));eq(room.hp,34)
 print('ORIGINAL_V4_LIFECYCLE_PASS '..count..' channels modifiers cleanup')

@@ -99,5 +99,10 @@
     "Official Miliastra build/import and runtime are unavailable in this cloud tool set.",
     "Same-candidate PC and physical-phone readability/input/performance evidence is absent.",
     "Twelve archetype normal-run checks and full original campaign victory remain unverified."
-  ]
+  ],
+  "candidateIdentity": {
+    "sourceCommit": "a2ffb7f528a41bfefd48bc868b561e18c8ea30ae",
+    "payloadDigest": "81afc3fdb86ba091a0fe9c1042244de82491944a3396d1a30604c85224c229d8",
+    "runtimePayloadDigest": "75f408ea02def4338a64187c765da3bc168a094222566496bcefb63753cebfb5"
+  }
 }

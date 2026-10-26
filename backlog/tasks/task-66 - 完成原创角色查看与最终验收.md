@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 07:01'
+updated_date: '2026-10-26 08:36'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -31,3 +32,9 @@ ordinal: 113000
 <!-- SECTION:PLAN:BEGIN -->
 复用已释放切片，补齐只读查看，验证获取与生命周期，冻结候选并受控合并。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+冻结生产源 a2ffb7f；118模块与两份UI清单逐文件hash记录candidate.json。数据/显示/运行时48项与1200逐卡轨迹通过，正常路径固定合法输入重放、隔离获取升级/移牌、600全文及真实Run公共药水/AR战内外边界通过。PC/物理手机/GIL与12流派完整实际关卡仍not_run。最终CI和远端develop合并继续推进，不将离线候选当实机。
+<!-- SECTION:NOTES:END -->

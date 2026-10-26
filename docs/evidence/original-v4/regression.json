@@ -19,13 +19,13 @@
       "command": "node --test --test-concurrency=1 tests/original-v4-integration.test.mjs",
       "status": "pass",
       "tests": 3,
-      "coverage": "natural starter/reward/next encounter for four roles; isolated shop/camp/remove/UID and native modifiers; real host selection, 600 full rules faces, inspector hold/drag, natural defeat and one-shot exit settlement"
+      "coverage": "natural starter/reward/next encounter for four roles; isolated shop/camp/remove/UID and native modifiers; real host selection, 600 full rules faces, inspector hold/drag, natural defeat and one-shot exit settlement; real Run blood-potion shared cap/AR refusal, Fruit Juice maxHP, out-of-combat AR healing, legal trailing healing after lethal damage"
     },
     {
       "command": "node scripts/test-lua.mjs tests/lua/combat.lua",
-      "status": "pass-on-source65",
+      "status": "pass",
       "cases": 23,
-      "finalCandidateRerun": "pending"
+      "finalCandidateRerun": "LUA_COMBAT_PASS 23 on the frozen runtime source"
     },
     {
       "command": "npm run check",
@@ -123,5 +123,10 @@
     "Per-card lean/rich states deliberately seed HP/resources/enemies to isolate semantics; they are not normal-run or balance evidence.",
     "Lifecycle shop/camp fixtures position map cursors and use real channel transactions. They do not claim intervening rooms were played.",
     "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
-  ]
+  ],
+  "candidateIdentity": {
+    "sourceCommit": "a2ffb7f528a41bfefd48bc868b561e18c8ea30ae",
+    "payloadDigest": "81afc3fdb86ba091a0fe9c1042244de82491944a3396d1a30604c85224c229d8",
+    "runtimePayloadDigest": "75f408ea02def4338a64187c765da3bc168a094222566496bcefb63753cebfb5"
+  }
 }
