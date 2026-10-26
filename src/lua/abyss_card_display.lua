@@ -112,6 +112,7 @@ end
 function M.permanentText(display,definition,instance)
     if definition.originalV4 then return require('abyss_original_v4_display').brief(definition,instance.upgraded)end
     local text=instance.upgraded and display.upgradeText or display.text
+    if definition.id=='mind_blast' then return text or '' end
     local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
     return live and M.format(live,definition,{},Theme.color) or text or ''
 end

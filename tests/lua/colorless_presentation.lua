@@ -9,15 +9,27 @@ local rendered=0
 for _,definition in ipairs(catalog.data.cards.cards)do if definition.colorlessNative then
  for _,upgraded in ipairs({false,true})do
   local instance={cardId=definition.id,upgraded=upgraded}
+  local outside=C.cardDefinition({catalog=battle.catalog},instance)
+  assert(outside.id==definition.id,'noncombat definition lookup lost source identity')
   local live=C.cardDefinition(battle,instance)
   local text=Display.permanentText(presentation[definition.id],live,instance)
   assert(type(text)=='string' and text~='' and not text:find('{effects',1,true),definition.id)
   if definition.id=='good_instincts' then eq(text,upgraded and '获得9点格挡。' or '获得6点格挡。') end
   if definition.id=='finesse' then eq(text,upgraded and '获得4点格挡。抽1张牌。' or '获得2点格挡。抽1张牌。') end
+  if definition.id=='mind_blast' then
+   assert(text:find('抽牌堆张数',1,true));eq(outside.effects[1].value,0)
+  end
   rendered=rendered+1
  end
 end end
 eq(rendered,78)
+local mind=C.new(data,{deck={'mind_blast','strike','strike','defend','defend','defend','defend'},enemies={'jaw_worm'},seed=42})
+for _,held in ipairs(mind.hand)do if held.cardId=='mind_blast' then
+ A.addStatus(mind.player,'strength',2)
+ local definition=C.cardDefinition(mind,held);eq(definition.effects[1].value,#mind.draw)
+ local preview=C.cardPreview(mind,held,1);eq(preview[1].low,#mind.draw+2)
+ assert(Display.combatText(presentation.mind_blast,definition,held,preview):find(tostring(#mind.draw+2),1,true))
+end end
 local s=C.new(data,{deck={'strike'},enemies={'jaw_worm'},seed=1})
 A.addStatus(s.enemies[1],'intangible',1)
 eq(C.cardPreview(s,s.hand[1],1)[1].low,1)
