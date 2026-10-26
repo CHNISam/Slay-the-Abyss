@@ -1,9 +1,12 @@
--- Application smoke: experimental restricted uniform rewards, not PC drops.
+-- Application smoke:61 executable green definitions and the full71 source pool.
 -- Room-entry harness advances floor only after real rewards; no Map/UI claim.
 -- Frozen historical pools used seed11 (pre-Accuracy), seed1 (Accuracy), seed65
 -- (24 regular green cards), seed56 (41). Current61 changes seed56's rewards.
 -- Bounded1..64 Fumes-only search failed; a read-only poison-card policy found
 -- seed9 within1..9. Stats, deck, RNG and reward algorithms were never injected.
+-- Full71 source rewards invalidated seed9 before any reward choice. The new
+-- seed was filtered by an independent source pool/RNG interpreter. HP/turns and
+-- combo counts below are project replay observations, not PC-game oracles.
 -- Poisoned Stab into Bane is actually used; Finisher/Storm are only obtained.
 package.path="src/lua/?.lua;build/lua/?.lua;"..package.path
 local Run,Combat,Actors=require('abyss_run'),require('abyss_combat'),require('abyss_actor')
@@ -181,7 +184,10 @@ local function attempt(seed,quiet)
  local starter={};for _,c in ipairs(run.deck)do assert(not c.upgraded);starter[c.cardId]=(starter[c.cardId]or 0)+1 end
  assert(starter.strike_green==5 and starter.defend_green==5 and starter.neutralize==1 and starter.survivor==1,'unmodified12-card Silent starter')
  local green,basic=0,0;for _,c in ipairs(run.data.cards.cards)do if c.color=='green'and c.rarity~='special'and c.type~='status'and c.type~='curse'then green=green+1;if c.rarity=='basic'then basic=basic+1 end end end
- assert(green==61 and basic==4,'fixed61-green Profile includes57 nonbasic rewards and4 basics')
+ assert(green==61 and basic==4,'fixed61-green executable Profile definitions include4 basics')
+ local sourceCount=0;for _,pool in pairs(run.data.cards.sourcePools.reward)do sourceCount=sourceCount+#pool end
+ assert(sourceCount==71,'full71-green source rewards remain unfiltered')
+ local plannedRewards={'poisoned_stab','finisher','bane','storm_of_steel'}
  for floor=1,4 do
   local hp=run.hp;assert(Run.startRoomCombat(run,'normal'))
   assert(run.combat.player.hp==hp,'HP continuity')
@@ -191,7 +197,7 @@ local function attempt(seed,quiet)
   assert(run.hp==run.combat.player.hp,'Silent must carry actual battle HP without a heal fixture')
   assert(run.hp>0 and run.hp<=70,'natural health budget')
   local options=Run.rewardOptions(run);local choice
-  local poisonChoices={'noxious_fumes','bouncing_flask','deadly_poison','crippling_poison','poisoned_stab','bane','catalyst'}
+  local poisonChoices={plannedRewards[floor]}
   for _,desired in ipairs(poisonChoices)do
    local acquired=false;for _,id in ipairs(got)do if id==desired then acquired=true end end
    if not acquired and not(desired=='catalyst'and #got==0)then
@@ -203,24 +209,25 @@ local function attempt(seed,quiet)
   assert(choice,'fixed seed must retain recorded natural reward')
   local picked=choice>0 and options[choice]or 'skip'
   got[#got+1]=picked;rooms[#rooms+1]={encounter=encounter,hpBefore=hp,hpAfter=run.hp,turns=run.lastResult.turn,options=options,picked=picked}
-  local oldDeckSize=#run.deck;assert(Run.claimCardReward(run,choice))
+  local oldDeckSize,nextDeckUid=#run.deck,run.nextDeckUid;assert(Run.claimCardReward(run,choice))
   assert(#run.deck==oldDeckSize+1 and run.deck[#run.deck].cardId==picked,'reward must enter permanent deck by command')
+  assert(run.deck[#run.deck].uid==nextDeckUid and run.nextDeckUid==nextDeckUid+1,'reward must allocate its real permanent UID once')
   if not run.rewards.goldClaimed then assert(Run.claimGoldReward(run))end
   assert(Run.leaveCombatRewards(run));run.floor=run.floor+1
  end
- assert(ev.stab==4 and ev.stabPoison==4 and ev.bane==1 and ev.baneDamage==10,'recorded Poisoned Stab into poison-conditional Bane')
- assert(run.victories==4 and #run.deck==16 and run.hp==62,'recorded four-room state')
+ assert(ev.stab==5 and ev.stabPoison==5 and ev.bane==1 and ev.baneDamage==11,'recorded Poisoned Stab into poison-conditional Bane')
+ assert(run.victories==4 and #run.deck==16 and run.hp==61,'recorded four-room state')
  assert(table.concat(got,',')=='poisoned_stab,finisher,bane,storm_of_steel','natural acquisition record')
- local expected={{'jaw_solo',70,69,8},{'small_slimes',69,69,3},{'cultist_solo',69,69,3},{'blue_slaver_solo',69,62,4}}
+ local expected={{'louse_pair',70,70,4},{'jaw_solo',70,68,4},{'cultist_solo',68,68,3},{'exordium_thugs',68,61,5}}
  for i,r in ipairs(rooms)do local ex=expected[i];assert(r.encounter==ex[1]and r.hpBefore==ex[2]and r.hpAfter==ex[3]and r.turns==ex[4],'exact room/HP/turn record')end
- local offers={{'sucker_punch','leg_sweep','poisoned_stab'},{'finisher','prepared','flying_knee'},
-  {'reflex','skewer','bane'},{'storm_of_steel','escape_plan','accuracy'}}
+ local offers={{'dash','acrobatics','poisoned_stab'},{'endless_agony','prepared','finisher'},
+  {'noxious_fumes','bane','quick_slash'},{'storm_of_steel','infinite_blades','sucker_punch'}}
  for i,room in ipairs(rooms)do assert(table.concat(room.options,',')==table.concat(offers[i],','),'actual natural reward offers')end
  if not quiet then print('NATURAL_BUILD_RESULT',seed,table.concat(got,','),'hp',run.hp,'stab',ev.stab,'stabPoison',ev.stabPoison,'bane',ev.bane,'baneDamage',ev.baneDamage)end
  for i,room in ipairs(rooms)do if not quiet then print('ROOM',i,room.encounter,room.hpBefore,room.hpAfter,room.turns,table.concat(room.options,','),room.picked)end end
  return stateSignature(run,rooms,ev)
 end
-local first=attempt('9')
-local rebuilt=attempt('9',true)
+local first=attempt('177136')
+local rebuilt=attempt('177136',true)
 assert(first==rebuilt,'same source seed and commands must reconstruct the recorded state')
 print('SILENT_NATURAL_BUILD_PASS 1')
