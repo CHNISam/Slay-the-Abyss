@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-26 08:04'
+updated_date: '2026-10-26 09:33'
 labels: []
 dependencies: []
 priority: high
@@ -65,4 +65,6 @@ V4用户明确授权有限登记及原13路径TASK55临时恢复。仅修改登�
 用户确认仓库已公开，已由GitHub元数据核验public；本轮把Quality/check改为GitHub官方windows-latest与pwsh，保留全部检查、当前SHA门禁和串行组。运行中的旧自托管作业与新配置生效分开记录。
 
 本轮按用户授权恢复后继续推进V4有界登记与官方托管runner；旧关闭记录保留，本轮当前SHA CI和合并尚未完成。为承接自身文件与已释放的67夹具，在干净已发布精确HEAD作原子交接，新任务继承完整范围且旧receipt立即失权。
+
+最终V4收口：66与68均在干净发布头释放。仅以原13路径新会话恢复协调者，为新69完整继承两源并加入已复现阻塞全量的watcher_flow原生Vigor兼容文件及回归登记精确范围。保留paused/unknown/外部PR；不引入跨幕与许可改动，不改冻结数值。
 <!-- SECTION:NOTES:END -->
