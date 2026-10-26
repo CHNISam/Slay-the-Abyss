@@ -271,8 +271,8 @@
     "runner": "GitHub-hosted windows-latest; Ubuntu companion jobs unchanged",
     "commandsAndBudgets": "unchanged; all fixtures, serial full Quality group and exact-SHA gates retained",
     "claimsRegression": {
-      "tests": 33,
-      "pass": 33,
+      "tests": 32,
+      "pass": 32,
       "fail": 0,
       "skip": 0,
       "durationMs": 94169.129455
