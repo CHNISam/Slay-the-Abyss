@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseCommit": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
-  "hashRule": "SHA256 raw bytes; Lua CRLF normalized to LF only. Categories record provenance, not clearance. Update manually after rights review.",
+  "hashRule": "SHA256 raw binary bytes; Lua/JSON/SVG CRLF normalized to LF. Categories record provenance, not clearance. Update manually after rights review.",
   "categories": {
     "editor-runtime": {
       "status": "GPL-3.0-runtime-plus-MIT; combination unresolved",
@@ -30,7 +30,7 @@
   },
   "files": {
     "art/cards/shared/card-back.json": {
-      "sha256": "ec552de83ef53b8d51d7c45625b4504dcd698cf8bf0a3fa06d6b0e7807e4681a",
+      "sha256": "099dda393098353c3d372729da6c999433793937c3bb5f09fa550e31fff183a8",
       "category": "project-geometry"
     },
     "art/cards/shared/card-back.lua": {
@@ -42,7 +42,7 @@
       "category": "project-geometry"
     },
     "art/cards/shared/card-back.source.json": {
-      "sha256": "51eac16bb76b28fcb0938cad4de5ba5ddcad9bc8dfb054a55e057e5e0b4626a5",
+      "sha256": "687ed74bc191d4d031de6c3e5ae811c1f5e8039e67deb0f0280b7fc91ee2f7e8",
       "category": "project-geometry"
     },
     "art/cards/shared/contact-sheet.png": {
@@ -50,7 +50,7 @@
       "category": "project-geometry"
     },
     "art/cards/shared/frame-basic.json": {
-      "sha256": "1ef93e0f8107b1f831dea1dd59778de4b471a620d949bae6193ff6eb4c4eb0f0",
+      "sha256": "4049e0d48a8dc965fbfac3c842370d392661b183376835c11218e54e4a6feac5",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-basic.lua": {
@@ -62,11 +62,11 @@
       "category": "project-geometry"
     },
     "art/cards/shared/frame-basic.source.json": {
-      "sha256": "a17f1623d1bba929dc80267d71719426a86a92ca1ebd4c8615e0d03e8a014fd5",
+      "sha256": "ad5522f3634446be8bada490801532c2864a51dfe133080c27d8675cc37b29d2",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-common.json": {
-      "sha256": "05cc38f91a15442b707f787af5f11a5b0fd01f5acdbc4f3993b4bef7d56d49bf",
+      "sha256": "7ad002a009a6dcc3e47fef25af7ae3fa96475e073a3d2bc7ef9e3f85a12665d4",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-common.lua": {
@@ -78,11 +78,11 @@
       "category": "project-geometry"
     },
     "art/cards/shared/frame-common.source.json": {
-      "sha256": "93f7151bc17d30fe18c6050831ad85d25060ecd1a68d3f3bcdcf29e2209671e6",
+      "sha256": "9678aa0be6fd780e7620c19c5e3dbdf8434f79e14a380e276e90de005109ba21",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-rare.json": {
-      "sha256": "2d9428858d57c5d5535dd7a5025bfa58c412db50c0668e8753254ba6a83eeee3",
+      "sha256": "a3540a95fc12f3c1a4925f6c515c2d619b01a718435e422dc6940d72ef722cfa",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-rare.lua": {
@@ -94,11 +94,11 @@
       "category": "project-geometry"
     },
     "art/cards/shared/frame-rare.source.json": {
-      "sha256": "f1ad7723bd2ef517c15067f6e133a3386a77e98d84533f9997c51c879eeaf03f",
+      "sha256": "a43903a24a8d5f275499d458b21781d9c3e120d2b1cc5e315ee19ece1e7db537",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-uncommon.json": {
-      "sha256": "3e01cd28e76a02999139f6c76d7712f9081ada8eaad16e286b1b839aa5dd9ebf",
+      "sha256": "332c8574efe5c51c421540f46492842a131fe7b99dcef2f0cd21719b0d38a4fe",
       "category": "project-geometry"
     },
     "art/cards/shared/frame-uncommon.lua": {
@@ -110,15 +110,15 @@
       "category": "project-geometry"
     },
     "art/cards/shared/frame-uncommon.source.json": {
-      "sha256": "0a116718498e17e7152b646e4065620de7f7b4a7fb696c8286b119a161c7184e",
+      "sha256": "9dcb13fe0482db4a1f7f225359224eb6b12eb84964ea64d580664b815008630c",
       "category": "project-geometry"
     },
     "art/cards/shared/manifest.json": {
-      "sha256": "1eaf88d150567cb1fe62716f9d879af6c91f24ece3cbb6fc4b8214550d7f9d95",
+      "sha256": "d4395837324388e927921caa1789ef107504693d8222bbe52e2b6d08c2abe8ea",
       "category": "project-geometry"
     },
     "art/cards/shared/type-attack.json": {
-      "sha256": "89d5e4b513a22bd1e4a562077e966b5a878bd7cf37697427e7e199286b53cb56",
+      "sha256": "f2f73ed32b4979e01be7e56c73a26edc1c86c452a79d27fc4789e43a1cfcb0e9",
       "category": "project-geometry"
     },
     "art/cards/shared/type-attack.lua": {
@@ -130,11 +130,11 @@
       "category": "project-geometry"
     },
     "art/cards/shared/type-attack.source.json": {
-      "sha256": "7fabc22a57f9288e1173973ec6244c220ebcfea15e9ef10462d4f9221f1f8f18",
+      "sha256": "adb82c897ebbdef52bd3eaf87a45794fef08da408d08b1b73e84a9a680529d95",
       "category": "project-geometry"
     },
     "art/cards/shared/type-power.json": {
-      "sha256": "d89b3e29dd6d3238b8cbd3b068dfc7b5046a2a5fdb221256054d7101f7c66387",
+      "sha256": "e24fec8fdb3e19b50f4b45a69cc23e367a6725ed3ff06c3138ab645683b06134",
       "category": "project-geometry"
     },
     "art/cards/shared/type-power.lua": {
@@ -146,11 +146,11 @@
       "category": "project-geometry"
     },
     "art/cards/shared/type-power.source.json": {
-      "sha256": "417fcc977d9b0c77b96177158d57031ebad8bcc7328a2d71672e2f4513f147d5",
+      "sha256": "ada4bda16c6e14c31739816fdda1d5ae3cf9c37afcb411cb9e3df6434e014027",
       "category": "project-geometry"
     },
     "art/cards/shared/type-skill.json": {
-      "sha256": "af6c199b832c6cd224bb20960804b92c02203a654ff38758bb990709783854cd",
+      "sha256": "5666766fa61854de97b145fd8d10e4563a0a75e3d74bef9cffead8b36c26a962",
       "category": "project-geometry"
     },
     "art/cards/shared/type-skill.lua": {
@@ -162,11 +162,11 @@
       "category": "project-geometry"
     },
     "art/cards/shared/type-skill.source.json": {
-      "sha256": "af19bd9e1fb6223d6f11fcd0d8f14f9bed642e188e61dd938b4826ca385877ba",
+      "sha256": "499099963ff6efd8afa3b9f34fd7a20e536159b2bca562bb14db129318aa592b",
       "category": "project-geometry"
     },
     "art/cards/shared/verification.json": {
-      "sha256": "05a1a9ef64ea1ef1d851ba612d559b5b568e2e76cc198309b8f3cd7f58997892",
+      "sha256": "e3d4cf7793c7249d9adde8277597e2ff9a0b35232780b955a10ee31a59173854",
       "category": "project-geometry"
     },
     "art/processed/ai-samples/lumine-face/B/fit.preview.png": {
@@ -174,7 +174,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine-face/B/fit.raw.json": {
-      "sha256": "20bd45d8b3f185871419c9f1389dc56d79e1ba7c8f7d388ebb4c8caacfd752f3",
+      "sha256": "320f3731cc21b620551cb3d3899d1aac33fa3f6fab881e7972e528c73a8a3a03",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine-face/B/input.png": {
@@ -186,7 +186,7 @@
       "category": "primitive-runtime"
     },
     "art/processed/ai-samples/lumine-face/B/recipe.json": {
-      "sha256": "fda93b228ecbbc5732ac027fa74a87f1d2655964278b757174cf4ed952a14b2d",
+      "sha256": "e2a5f29b7d2af044164c7ec94a9286ef8ffe82d5371060d6c439d531afea5758",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/asset.gia": {
@@ -194,11 +194,11 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/asset.gia-scene.json": {
-      "sha256": "19a45dd030249888a191faa016516f46eb7cc22d864d379cdc7029ecde8c209a",
+      "sha256": "e388a862b3f8229440203f4139ef4954097dc1f42183b93ba9477b35896ab614",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/asset.json": {
-      "sha256": "b0b737a90a87c2e6962272cc2d7d57ad7bef1c933f2a9c72f22708b8a5fec7f6",
+      "sha256": "1b3f607028facc9e23645f6656c2cf8195568b57250d8ca9df47cc3befe22bf6",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/asset.lua": {
@@ -210,7 +210,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/editor-edits.json": {
-      "sha256": "d3cd2d3b51445edd591ed05cc9d8b1203b2c6e377178e5777bb9b6360470c4cd",
+      "sha256": "91a2e76e2c756bfd01785bc70afb9d8b16ad08ecf2a4a58b9cf6d277cd3a14af",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/fit.preview.png": {
@@ -218,7 +218,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/fit.raw.json": {
-      "sha256": "387b167dbf9b57b578b9640f9c36d0ae0c21ce44ca738ab0c2619028c1b2f61d",
+      "sha256": "241dd851f4230ce5a0b222cad15d73c242ee7ff5f624cc1eb63efe8178e522e8",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/A/input.png": {
@@ -230,7 +230,7 @@
       "category": "primitive-runtime"
     },
     "art/processed/ai-samples/lumine/A/recipe.json": {
-      "sha256": "c7648732ead122b3165f4519f503ae45f0d06898b547c04bc476df53fa092a8e",
+      "sha256": "f336ff92f005d4c0300258396f41ed9cbab48347e0ad57d5696d576398a05f8d",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/asset.gia": {
@@ -238,11 +238,11 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/asset.gia-scene.json": {
-      "sha256": "c5a3bdfed229a0574bd09ec63693266dbff642bcd18943f5bb14cbacf3f020e9",
+      "sha256": "b36c41b8c0fd25897c314fae1a3f03f7dfc5640c92ca36770a1ba6797f8da43f",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/asset.json": {
-      "sha256": "45dd20f67915c931f64d7dbeab6518fa17418534abd4030097c88a66af40b251",
+      "sha256": "4896b96abbf41450915ac873ea6c2a3f55d6ad6b9704ce92e8bc190efbf46df6",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/asset.lua": {
@@ -254,7 +254,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/editor-edits.json": {
-      "sha256": "2827e702bce12d368cef77d3510a94abae651af6a64efef6bf346114f6dd913a",
+      "sha256": "9e193636e77cb652df0e036613afb2893d902ec4b398012f24bbac2ba394f8c9",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/fit.preview.png": {
@@ -262,7 +262,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/fit.raw.json": {
-      "sha256": "bf35bfdfdc7381d12160be8d80f819a9ac1410cbca750ff35535f7c87d333ef7",
+      "sha256": "2a76dd44d0c98bfed929c71e99d7c37d421a0393b86a9a842d69b638c4ea71e7",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B/input.png": {
@@ -274,11 +274,11 @@
       "category": "primitive-runtime"
     },
     "art/processed/ai-samples/lumine/B/recipe.json": {
-      "sha256": "5063c2e2f53424cf96426bb84559642f5af159d9d8e2df887ce57ff3382ef16b",
+      "sha256": "f24e6b785987c8d8d3e443ace42698b95946fa536df9fbf898aa9be9a3ab9bff",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B2/asset.json": {
-      "sha256": "48433e862a9fd70699aac63b0f93078e2822531743c476f6a1d2a0c7a2efd259",
+      "sha256": "4781ff112175f01190e14240ecfa0f5d690942bd73812d6198ed76fa57705e69",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B2/asset.lua": {
@@ -290,11 +290,11 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B2/editor-edits.json": {
-      "sha256": "6785f7b9d289097b4b6c2611e14cb12d0064ab9462005b8c579066864451da42",
+      "sha256": "12f3fd6af074de788aab2a6a84581841e13a8a4e680146a2fbb563934c5d1b1d",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/lumine/B2/recipe.json": {
-      "sha256": "17d98af664959214df108bb9d6894a2fd85674915e464226e81e99d006b30c74",
+      "sha256": "0ac15d0bf8e6d0774cd62516415b82eae5b9a0876cb3cefc56048da072295b07",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/probe.lua": {
@@ -306,11 +306,11 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/asset.gia-scene.json": {
-      "sha256": "d514217363ef6c688a68476139df67ca87a8714c99bfbaee0b2bfc4f6600685e",
+      "sha256": "3a97dcd77cafbd1c595f12a29865819e93f3942f66051d5569ffe0073a4cd710",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/asset.json": {
-      "sha256": "3f4ead6bd819720d664902bfae19ed980ab5683a1fad9fb260a4836a61103466",
+      "sha256": "9fd96222fa4f2d2ae28735229d499e295d9f930e6584dc1e41af85bef1552258",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/asset.lua": {
@@ -322,7 +322,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/editor-edits.json": {
-      "sha256": "a628cc873815a69bcadbd56c8a119c70c9bb0812dc03c9fb4cce7e52e6bb757d",
+      "sha256": "ecc13cefaa027b7f322c813f3eeb8979354733dc4f2aa6398b65f501b220f775",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/fit.preview.png": {
@@ -330,7 +330,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/fit.raw.json": {
-      "sha256": "2886c93dc1ee51a4e2db3bcba39196762879d16fec1fa237e335c69617c1b675",
+      "sha256": "254c7e54d48eacc641dc05973d82ade5626bd255a2e81f83a4e2ba75aae89c0a",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/A/input.png": {
@@ -342,7 +342,7 @@
       "category": "primitive-runtime"
     },
     "art/processed/ai-samples/starfall/A/recipe.json": {
-      "sha256": "02fe373fad3ae020707a375a8d87be894633118d97b436f3a6b7c26ede15418e",
+      "sha256": "b4e3c4409f968861b6cd78efa14200e37c4dbe8c4269dae8969018b2c85d154c",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/asset.gia": {
@@ -350,11 +350,11 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/asset.gia-scene.json": {
-      "sha256": "9939ce15af8a58814dcbd0b9ce97774bc91060a83b9a9ff8d8a7c9a9d48a7736",
+      "sha256": "fdc76b7041f6a4ce73af5682c8c0f75d2df9375c5535b4fb39e316d44fb6f65c",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/asset.json": {
-      "sha256": "92cff9d49c9a1d85f6d2c6b829420e3ff8d7cea9213d3a26bc66ff8ba21b5c72",
+      "sha256": "0d1752f5c4fb5c011da805172411d42c6b3901df4fe721313283dfd091a8bcdf",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/asset.lua": {
@@ -366,11 +366,11 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/card-mapping.json": {
-      "sha256": "87f7fff7feb5c7685adaa29b10159c305408c2d26c3c2b0e8f04c86a4b8275cf",
+      "sha256": "5f339cfc6179ae807628a34f8da5a36140f6ee73383ab2ca60f4269293e88dd2",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/card.json": {
-      "sha256": "db4b865a3263b104798c3758607fd92b72b722fcf906c3e10b7076419f5882c7",
+      "sha256": "7f779bc8f20f3fd40d2b5e17f809e828bfac1b600493ea87e2ac816eef8ee342",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/card.lua": {
@@ -382,7 +382,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/editor-edits.json": {
-      "sha256": "d3214109677ee651637d59abdb9fbde19028cab6ae84d658c5a5c7e13ad1cfbe",
+      "sha256": "fb8a28090ec44b6193be7363c3f5e4dacd60e37ce3844cde1b640e5b0e653937",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/fit.preview.png": {
@@ -390,7 +390,7 @@
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/fit.raw.json": {
-      "sha256": "dbac4bf862b10a31c61db4f95a68381bbdcfb55de2bd612f4e548891843ef0b3",
+      "sha256": "96e50b41ddb5fa52dba3db91fde15533d5ba38c77cff0b65caec09046b90328a",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/starfall/B/input.png": {
@@ -402,11 +402,11 @@
       "category": "primitive-runtime"
     },
     "art/processed/ai-samples/starfall/B/recipe.json": {
-      "sha256": "7e7786e59200573370787931a11923ff1561f23d91fd0da2ce16874cdd0ff11b",
+      "sha256": "f6f618bb9b6216dd0e4e29bdcfff94d5b3d63d4e0715020e25ebb440f115d343",
       "category": "game-ip-ai"
     },
     "art/processed/ai-samples/verification.json": {
-      "sha256": "5e896b24817d83c0fd0846d4ae558ee825666c46428bb66bb6abda50b7e1ed9c",
+      "sha256": "b5c4b30d89a511667361939d9e21a959636ae40ed2e2e6b8831b3dd1a8d55155",
       "category": "game-ip-ai"
     },
     "art/source/lumine_geo_portrait.png": {
@@ -422,7 +422,7 @@
       "category": "project-geometry"
     },
     "art/spikes/art-pressure/production-25d.json": {
-      "sha256": "31ff8c7a4d2247d8bf55034621884fac0b1340123f07ba4936b89869f0b1a12a",
+      "sha256": "e1259bffdc5967b08338e40877f73a9278ec9be7c708d48ce9cdab1e8df501b7",
       "category": "project-geometry"
     },
     "art/spikes/art-pressure/production-25d.lua": {
@@ -434,11 +434,11 @@
       "category": "project-geometry"
     },
     "art/spikes/art-pressure/production-3d.assets.json": {
-      "sha256": "7a9ec14c32abc801f4f2cfa6dab62769518d6acaea27afe36bfee7c2c4afe0a4",
+      "sha256": "0b8fdfc57da072e529648d18b79b344f40e84aeed8839251a94ab3ad07d65d04",
       "category": "project-geometry"
     },
     "art/spikes/art-pressure/production-3d.scene.json": {
-      "sha256": "75de55487a2a0c1d3615280ce2b476e5ee9f30bf5a27b7292c1d975761e0d8f0",
+      "sha256": "d62dac84f31bb929d1087e8f6b5f3da7dea56b336e4b35a96126fb7cab774c17",
       "category": "project-geometry"
     },
     "art/spikes/art-pressure/scenes.lua": {
@@ -462,7 +462,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/baseline-ui.json": {
-      "sha256": "9b6bbf11ca0643e3188da828299d0c4f02bca308c1658823e67bc2d907e9b7d1",
+      "sha256": "ff07b0d994bf5ca425867178e735ba6b02dd0e86a1cd97bb4a5e5efe3140ae09",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/five-preview.png": {
@@ -470,7 +470,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/five-ui.json": {
-      "sha256": "9d0f901a2c526ebbab14afd2d6147c9af2b99a47c02aac6a2dbf73c7c7c2479a",
+      "sha256": "b2b83323b661e30405b7d13c39de95619bfc28056e677c48595506127ea04f6c",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/longest-preview.png": {
@@ -478,11 +478,11 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/longest-ui.json": {
-      "sha256": "fc93d3f4e1d7688cf5ed5f1b40ea4bb4ae769a1b40eb9a4bd311da370ea871b4",
+      "sha256": "fa826a22c0f418ae6964886cb5c5bb9d249776ee550d2c148443aa3d5ab9c094",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/longest/card.json": {
-      "sha256": "84713bd0606d9613013662627986710016cdc03b43cab0c7fc65a33183b6a1f9",
+      "sha256": "41e717623c453364d0b3abb084aa14bab36fde9d987137242efadc4db8473a31",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/longest/card.lua": {
@@ -494,11 +494,11 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/longest/card.source.json": {
-      "sha256": "cf05bac3153f0cde02817fad5da9bf331e6732f03160f38ad9c96a1481dbdb25",
+      "sha256": "aa7ff8fef33f714292d9abd1de1ba1bf692c1605c26da92f7ed17ab60058426a",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/manifest.json": {
-      "sha256": "1cf138358c9dfe60ba9a622d6ca3c07a4ee37bc0c5a8e177f0f21ea36933f39f",
+      "sha256": "ab29632248119570125a2e6fa09accbd5dee51803e3e5bbc9d0bc33d24768115",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/one-preview.png": {
@@ -506,7 +506,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/one-ui.json": {
-      "sha256": "14d7cc5caec79a599d7cdbb68f46a7044ec21c1e9eae7ebbda81329f85dbe3c0",
+      "sha256": "8daeec9f247d88313683c7e36944456f577f52e1db35b9d9e5909e08bc0c5e58",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/probe.lua": {
@@ -514,7 +514,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/reference/card.json": {
-      "sha256": "af038a156eed9896cd393e8cc5e4e593abbb79036ca1b07ac848a863c2e25107",
+      "sha256": "670b09a201d7067530bcd511ad81684690ae2d09e6f6494ae5aac5bdea8b10fb",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/reference/card.lua": {
@@ -526,7 +526,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/reference/card.source.json": {
-      "sha256": "6290ab544b16b161d743b485719b9d62a49b5a1dc9e7b408b1bfd1c25b6f639f",
+      "sha256": "66e13114e90d095762b9252e12e838e9a3da6be7ba6fe25cc0005144db3b5293",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/ten-preview.png": {
@@ -534,7 +534,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/ten-ui.json": {
-      "sha256": "004d74baa518968804dee07c04bee1e9c0780f48aeccc3faac695497b5094b52",
+      "sha256": "e99b2d8ea11e35988f1fef79d153f2d8354a60d5d914070c4941445f0916b919",
       "category": "project-geometry"
     },
     "art/spikes/card-capacity/verify.lua": {
@@ -546,11 +546,11 @@
       "category": "project-geometry"
     },
     "art/spikes/card-editor/card.gia-document.json": {
-      "sha256": "144b9e9150509f99584bd115472712c5f2ad211ac559cdd4d07e5d2ae2459d4b",
+      "sha256": "922f0ee76429fdebdff00c904516671c5d264c21afeac93effa056302e91374a",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/card.json": {
-      "sha256": "5111b8548360a92bbb780a186240efacc75b803837fa522a8fbfeb89d81c41ef",
+      "sha256": "6d40f9be45cf9a9f2de54d96b891a8e10e127f62729c4d10cba993a3482e148e",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/card.lua": {
@@ -562,7 +562,7 @@
       "category": "project-geometry"
     },
     "art/spikes/card-editor/card.source.json": {
-      "sha256": "e9385519caa62fa1dba6e4c2ce386d306b3eaa616de37afe7ef883fbe2539bde",
+      "sha256": "614e6ffaea9ffaf49b4e37fd1ed1c9eeafdbfc0c842efa9e65d8663964bd275b",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/text-height-compat/card.gia": {
@@ -570,11 +570,11 @@
       "category": "project-geometry"
     },
     "art/spikes/card-editor/text-height-compat/card.gia-document.json": {
-      "sha256": "1edeec6111d41098da07e2657a691ad1f46fd22754ac468fa9aa94005a66f8e6",
+      "sha256": "7bee49b2a8d459bb8ea8abdb79616ecec4aa8830fa511e95e7691c45bc9d4f80",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/text-height-compat/card.json": {
-      "sha256": "af038a156eed9896cd393e8cc5e4e593abbb79036ca1b07ac848a863c2e25107",
+      "sha256": "670b09a201d7067530bcd511ad81684690ae2d09e6f6494ae5aac5bdea8b10fb",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/text-height-compat/card.lua": {
@@ -586,19 +586,19 @@
       "category": "project-geometry"
     },
     "art/spikes/card-editor/text-height-compat/card.source.json": {
-      "sha256": "6290ab544b16b161d743b485719b9d62a49b5a1dc9e7b408b1bfd1c25b6f639f",
+      "sha256": "66e13114e90d095762b9252e12e838e9a3da6be7ba6fe25cc0005144db3b5293",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/text-height-compat/verification.json": {
-      "sha256": "568d35a181b5fc7bb1940aaacab5963a06310b4aa36c4d39437ecb51db4a5364",
+      "sha256": "81a1334249923b5c75dec871b7f360561ccc72c1e2b130653924cfe92e45c44e",
       "category": "project-geometry"
     },
     "art/spikes/card-editor/verification.json": {
-      "sha256": "fa15a7b0e816c1df5760adebc5f64dc04e2573abfa8848873e0a14cb1721d17c",
+      "sha256": "b7afc9a1c076dca51168aa69850a6e30ddc62864f8b3b33030150574524a1f61",
       "category": "project-geometry"
     },
     "art/spikes/platform/card-ui.json": {
-      "sha256": "125390a851274465b642f8a605dde934fbff987ec637b739e101ac977fee2698",
+      "sha256": "edcc9ed90371b45dc28ceb35673bf6ca1679ed2dada09d73a0da02c5bfa50e3a",
       "category": "project-geometry"
     },
     "art/spikes/platform/probe.lua": {
@@ -1738,15 +1738,15 @@
       "category": "portrait-experiment"
     },
     "docs/experiments/art-portrait/export-review.json": {
-      "sha256": "42921cf3d491b5e45f5071e2f404c0c49c9f59b4f90c8a804158226dc00a83f3",
+      "sha256": "2240356619114460f34f71a4fb7f99253c2712b77518c24ebe1c238f25d025e3",
       "category": "portrait-experiment"
     },
     "docs/experiments/art-portrait/measurements.json": {
-      "sha256": "a4a353b0692cd1d6219a50aa19804047ec766bdd4936da2932a8c618d869030f",
+      "sha256": "11101f7da87d8b072a6ad9bcdafcd338226e18a888c9f61e883b619d183bed8b",
       "category": "portrait-experiment"
     },
     "docs/experiments/art-portrait/portrait-256.json": {
-      "sha256": "16cb7e22dd3f581f3562f6c2bd15d46c327943b25e2534a7b1f720792f416805",
+      "sha256": "2b5c2c40da1a96998a04ded7e23bb072541515717f3d3473eb25e39047ef88d6",
       "category": "portrait-experiment"
     },
     "docs/experiments/art-portrait/portrait-256.lua": {
@@ -1758,7 +1758,7 @@
       "category": "portrait-experiment"
     },
     "docs/experiments/art-portrait/portrait-64.json": {
-      "sha256": "02ac9dafbedf0fe2a7b327775610e2c241c4f2444dd61ee281bd5710ce02b5dd",
+      "sha256": "7535dd39c34e7e410ebb4c204f6257b5a64d97e6af0026b77cf57af7b42c96f4",
       "category": "portrait-experiment"
     },
     "docs/experiments/art-portrait/portrait-64.lua": {

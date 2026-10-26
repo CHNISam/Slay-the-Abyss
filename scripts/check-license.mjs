@@ -9,13 +9,15 @@ const media = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.ico',
   '.gia', '.gil', '.blend', '.glb', '.gltf', '.obj', '.fbx', '.wav', '.mp3',
   '.ogg', '.flac', '.mp4', '.webm', '.ttf', '.otf', '.ttc', '.woff', '.woff2']);
 export const sensitive = path => media.has(extname(path).toLowerCase()) ||
-  (/^(art\/|docs\/experiments\/art-portrait\/)/.test(path) && /\.lua$/i.test(path));
+  (/^(art\/|docs\/experiments\/art-portrait\/)/.test(path) && /\.(lua|json)$/i.test(path));
 export const digest = (bytes, text = false) => createHash('sha256')
   .update(text ? bytes.toString('utf8').replace(/\r\n/g, '\n') : bytes).digest('hex');
 
 export function checkDependencies(bom, expected) {
   const actual = Object.fromEntries((bom.components ?? []).map(c => {
-    const path = c.properties?.find(p => p.name === 'cdx:npm:package:path')?.value;
+    // npm 10 provides a path property; npm 11 lock-only output may omit it.
+    const path = c.properties?.find(p => p.name === 'cdx:npm:package:path')?.value ??
+      (c.name ? `node_modules/${c.group ? `${c.group}/` : ''}${c.name}` : undefined);
     const licenses = (c.licenses ?? []).map(l => l.license?.id ?? l.expression ?? l.license?.name ?? 'UNKNOWN').sort();
     return [path, { version: c.version, licenses }];
   }));
@@ -36,7 +38,7 @@ export function checkAssets(root, paths, inventory) {
       errors.push(`Asset/runtime needs provenance review: ${path}`);
       continue;
     }
-    const hash = digest(readFileSync(resolve(root, path)), path.endsWith('.lua'));
+    const hash = digest(readFileSync(resolve(root, path)), /\.(lua|json|svg)$/i.test(path));
     if (hash !== entry.sha256) errors.push(`Changed asset/runtime needs provenance review: ${path}`);
   }
   for (const path of Object.keys(inventory.files)) {

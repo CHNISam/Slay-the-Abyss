@@ -51,7 +51,7 @@
 
 `node scripts/check-license.mjs` 使用 npm 原生 `sbom --sbom-format=cyclonedx --package-lock-only --offline --ignore-scripts`；没有新增 npm/Python 依赖，没有 npm ci、联网扫描、客户端或全量游戏回归。新增独立 `.github/workflows/licenses.yml`，只读权限、托管 Ubuntu、2分钟上限，复用现有固定 SHA 的 checkout/setup-node，运行3项聚焦回归和清单检查。原有 Quality/package.json 不动。
 
-依赖集合、版本或许可变化需重新审查；素材、字体、音频、GIA/GIL/模型、art 中生成 Lua/JSON 的增加、修改和删除均核对来源清单。许可原文、Python 锁和 Luacheck 配置的变化也需复核。Lua 哈希仅规范 CRLF→LF，其他素材保留原字节。更新方式是先审阅相应第三方条款及来源记录，再手动更新 assets.json/dependencies.json；没有“一键全部批准”。删除清单项也应与文件删除一起审阅。
+依赖集合、版本或许可变化需重新审查；素材、字体、音频、GIA/GIL/模型、art 中生成 Lua/JSON 的增加、修改和删除均核对来源清单。许可原文、Python 锁和 Luacheck 配置的变化也需复核。Lua/JSON/SVG 文本哈希规范 CRLF→LF，二进制素材保留原字节。更新方式是先审阅相应第三方条款及来源记录，再手动更新 assets.json/dependencies.json；没有“一键全部批准”。删除清单项也应与文件删除一起审阅。
 
 **门禁通过不是商业放行。** 它接受已明确记录的 unknown/GPL 风险作为当前基线，不会识别所有新抄入的代码或新增隐藏在任意文本/压缩包里的素材。新增第三方代码、来源方法或外部工具仍须人工更新声明；依赖元数据不保证实际发行包许可准确。没有声称完成了自动版权鉴定或全网相似性检测。
 

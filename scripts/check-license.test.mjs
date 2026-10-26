@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { checkDependencies, checkAssets, digest, sensitive } from './check-license.mjs';
@@ -12,6 +12,9 @@ const expected = {'node_modules/example':{version:'1.0.0',licenses:['MIT']}};
 
 test('new, removed, unknown, changed and conflicting dependency licenses require review', () => {
   assert.deepEqual(checkDependencies({components:[component()]}, expected), []);
+  const npm11 = {...component(),name:'example'};
+  delete npm11.properties;
+  assert.deepEqual(checkDependencies({components:[npm11]}, expected), []);
   for (const components of [[], [component([])], [component(['GPL-3.0-only'])],
     [component(['MIT','GPL-3.0-only'])], [component(['MIT'],'2.0.0')]]) {
     assert.ok(checkDependencies({components}, expected).length);
@@ -32,6 +35,16 @@ test('asset gate detects additions, byte changes, missing provenance and deleted
     assert.ok(checkAssets(root,[],inventory).length);
     inventory.files['picture.png'].category='invented';
     assert.ok(checkAssets(root,['picture.png'],inventory).length);
+    mkdirSync(join(root,'art'));
+    for (const extension of ['json','lua','svg']) {
+      const path = `art/generated.${extension}`;
+      writeFileSync(join(root,path),'text\r\n');
+      const textInventory = {categories:inventory.categories, files:{[path]:{
+        category:'unknown',sha256:digest(Buffer.from('text\n'),true)}}};
+      assert.deepEqual(checkAssets(root,[path],textInventory),[]);
+      writeFileSync(join(root,path),'changed\n');
+      assert.ok(checkAssets(root,[path],textInventory).length);
+    }
   } finally { rmSync(root,{recursive:true,force:true}); }
 });
 
