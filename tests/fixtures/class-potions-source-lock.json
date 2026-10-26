@@ -1,13 +1,21 @@
 {
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
-  "scope": "Focus and Capacity first slice; source facts only, no official binary qualification",
+  "scope": "Focus/Capacity and Watcher Miracle/Ambrosia slices; source facts only, no official binary qualification",
   "files": {
     "potions/FocusPotion.java": "eec876227abd9185408f7b86cc8a74c5607d0b40b7de16e521e95faa0cb32d76",
     "potions/PotionOfCapacity.java": "8c6a3826cf754f8db2a892857361bce794f0b453fa70ba90df626e0387d25406",
     "potions/AbstractPotion.java": "10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888",
     "powers/FocusPower.java": "266d04b57ccb01daaff326346c21b2935caa82158eaf2a12f6291ba453491da4",
     "actions/defect/IncreaseMaxOrbAction.java": "8669c5d0b8b95b4f11c4f941e8116dd4329fc9d1513c14db7972f7154329ee13",
-    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+    "potions/BottledMiracle.java": "d79d8b34f7be84f9a7cc323e3d972b231a1464cee372d90acb21555b8fcd9206",
+    "potions/Ambrosia.java": "cd67bda7e0a427847ca842817cc85b2fdf22cf239ce90e5f927c47fbe181d0c4",
+    "actions/common/MakeTempCardInHandAction.java": "b089bb6fd688ffdd48ae9def57751f972429cad63f85ec80ee3f90593d5bbe25",
+    "cards/tempCards/Miracle.java": "25cc7817d616acd13bb693303bac24e8251135f1feb89705bad53ac8497179e6",
+    "actions/watcher/ChangeStanceAction.java": "47392dbaacb9627f88f047008cbe7fb90b550acae1f491099470f1d2d080e877",
+    "stances/DivinityStance.java": "7363a98527c6009ba491fd9d3f6c1dfbaffc833972211218ebf8bfeb34c3fce7",
+    "vfx/cardManip/ShowCardAndAddToDiscardEffect.java": "9386ebe73aabf208e05f23068e168921f8db069151947d7ed4582308e2198d80",
+    "vfx/cardManip/ShowCardAndAddToHandEffect.java": "e0ac9f16f627a985920857080a2a9e2ef903e7f0db0741b57709de99b52202ef"
   }
 }

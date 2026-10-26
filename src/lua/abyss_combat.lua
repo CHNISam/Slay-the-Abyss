@@ -1018,6 +1018,21 @@ queuedHandlers.effect = function(state, action, queue)
     queueStanceGains(state,queue)
     return true
 end
+-- Potion actions have no played card. Transfer the remaining player BOT
+-- effects (onUsePotion hooks) ahead of the stance actions they will generate.
+-- The caller's enclosing Run.usePotion snapshot owns this entire transaction.
+function M.resolvePotionActions(state,effects)
+    assert(not state.actionQueue and not state.pendingPlay,'potion action queue is busy')
+    local actions={}
+    for _,effect in ipairs(effects)do actions[#actions+1]={kind='effect',effect=effect}end
+    for _,item in ipairs(state.cardActions or {})do
+        assert(item.source==state.player and not item.target and not item.instance,'unsupported potion action owner')
+        actions[#actions+1]={kind='effect',effect=item.effect}
+    end
+    state.cardActions=nil
+    local queue=require('abyss_action_queue');queue.start(state,actions)
+    assert(queue.run(state,queuedHandlers)==true,'potion action cannot pause')
+end
 queuedHandlers.useCard = function(state, _action, queue)
     local context,instance=assert(state.pendingPlay,"missing pending play"),state.cardInUse
     assert(instance and instance.uid==context.uid,"missing using card")
