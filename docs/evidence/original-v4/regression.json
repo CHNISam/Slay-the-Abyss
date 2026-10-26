@@ -295,5 +295,12 @@
     "targetedEvidence": "Root/runtime agent: original integration + cross-act 7/7; launch30/30; license unit3/3 and inventory; engineering114modules546edges,113 historical warnings and4 killed mutations. Read-only reviewer did not rerun local Lua.",
     "condition": "current exact merged head complete Quality AND Licenses success before merge",
     "deviceAcceptance": "official GIL/PC/physical phone and 12 archetype game runs not_run"
+  },
+  "laterDocumentationBase": {
+    "reviewedDevelop": "774b4cd2b40dc92292279dcf646fcc2544631354",
+    "differenceFromGameBase": "only collaboration, license and task documents; no production source/data/build/test changes",
+    "policy": "latest AGENTS and native strict=false rules do not require repeated develop synchronization; current-head actual Quality and Licenses success still mandatory; no emergency bypass",
+    "ownDataTask": "native Doctor moved completed70 to completed73 preserving upstream task70; display71 and delivery72 unchanged",
+    "candidateInputsAndRuntimeUnchanged": true
   }
 }
