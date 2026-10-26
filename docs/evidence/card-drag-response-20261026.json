@@ -1,0 +1,59 @@
+{
+  "kind": "offline-card-drag-response",
+  "implementationCommit": "d4228064720f2951ca3dd84455f2b368a1fc1779",
+  "sourceReference": {
+    "repository": "purewhitelove/ButterflyGame",
+    "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "file": "杀戮尖塔原码/characters/AbstractPlayer.java",
+    "sha256": "cb6af6fc281a654693cafab026aaf0748033c95bcfdbf14b83db6ffb1c4bb62c",
+    "matchesExistingLocalReference": true,
+    "originalGameObserved": false
+  },
+  "regression": {
+    "handSize": 5,
+    "pointerSamples": 40,
+    "previewCallsBefore": 200,
+    "previewCallsAfter": 0,
+    "positionUpdatedAtEverySample": true,
+    "luaFiles": 7,
+    "luaCasesPassed": 61
+  },
+  "npmTest": {
+    "tests": 1557,
+    "passed": 1438,
+    "failed": 0,
+    "skipped": 119,
+    "log": ".artifacts/drag-response/npm-test.log"
+  },
+  "engineering": {
+    "syntax": "pass",
+    "architectureModules": 114,
+    "architectureEdges": 546,
+    "newLuacheckDiagnostics": 0,
+    "historicalLuacheckDiagnostics": 113,
+    "criticalMutationsKilledByOriginalAssertions": 4
+  },
+  "candidate": {
+    "path": ".artifacts/drag-response/metadata-repair/scenes/saves/abyss-card-drag-test.gil",
+    "sha256": "e45512e5a8c08405c0fc1052c5b7702ff306414b665e52b0579d5de7d91b89ef",
+    "payloadDigest": "f3da3256434517945c2b0e5ea83a11e98ed3063b45004bf3ca16ae7396308656",
+    "bytes": 4527787,
+    "initialBuildId": "229c3a94-decf-412d-a87b-8768e99a50f2",
+    "initialSourceCommit": "d8a262270b959d19825932e049e76064108bd67e",
+    "initialSourceDirty": true,
+    "initialBuilderStatus": "failed",
+    "recovery": "Registered experimentalCharacters=false on the independent candidate; module source unchanged",
+    "recoveryEvidence": ".artifacts/drag-response/metadata-repair/repair-evidence.json",
+    "recoveredStaticErrors": 0,
+    "recoveredStaticWarnings": 50,
+    "checkedModules": 120,
+    "moduleReadbackMatched": 120,
+    "payloadMatchesImplementationCommit": true,
+    "canonicalBuilderReceiptPassed": false,
+    "officialImport": "not_run",
+    "mousePlaytest": "not_run",
+    "mobilePlaytest": "not_run",
+    "uiAcceptance": "not_run"
+  },
+  "externalDelivery": "not_pushed; automatic approval review requires explicit user authorization"
+}

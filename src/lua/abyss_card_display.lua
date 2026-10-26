@@ -2,6 +2,15 @@
 local integer = require('abyss_numbers').integer
 local Theme = require('abyss_theme')
 local M = {}
+-- Like a card-atlas region, artwork belongs to the stable card ID. A type
+-- glyph remains an explicit placeholder until a production asset is bound.
+function M.art(definition)
+    local entry = (Theme.icon.cardPortraits or {})[definition.id]
+    local image = entry and (type(entry) == 'table' and entry.id or entry)
+        or Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status
+    assert(type(image) == 'number' and image > 0 and image % 1 == 0, 'card artwork must be a native image ID')
+    return image, entry and (type(entry) == 'table' and entry.status or 'native-card-asset') or 'placeholder-type-icon'
+end
 local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true,
     whirlwind=true,reaperDamage=true}
 for _,op in ipairs({'barrageDamage','bowlingBash','ftlDamage','heelHook','nextBlock','xBlock','halt',

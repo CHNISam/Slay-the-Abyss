@@ -1295,7 +1295,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local hovered = reward and not fighting and self.hover == i
                 tint(box:GetChild("border"), (selected or hovered) and C.goldBright or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
                 tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
-                picture(box:GetChild("art"), Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
+                picture(box:GetChild("art"), CardDisplay.art(definition))
                 local pose
                 if reward and not fighting then
                     local hot = self.hover == i

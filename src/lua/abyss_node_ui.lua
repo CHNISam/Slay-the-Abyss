@@ -210,6 +210,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or cost ~= nil and number(cost) or ""
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
+        picture(box:GetChild("art_" .. kind), CardDisplay.art(definition))
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         tint(box:GetChild("border"), look.selected and C.goldBright or look.dim and C.line or C.rarity[definition.rarity] or C.line)
         show(box:GetChild("glow"), look.selected)
