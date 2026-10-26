@@ -697,7 +697,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 return true, "continue"
             end
         elseif node and node.complete then
-            confirmLabel, confirmOk = "返回路线", true
+            confirmLabel, confirmOk = view.phase == 'act_transition' and "前往下一幕" or "返回路线", true
             confirmFn = function() if onChange then onChange(true, "complete", self) end return true, "complete" end
         elseif screen == "shopView" then
             confirmLabel, confirmOk = "离开商店", true
