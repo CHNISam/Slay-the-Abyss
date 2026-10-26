@@ -43,7 +43,7 @@ end
 do local s,map,node=fixture();assert(Nodes.enter(s,map,node));local hp,maxHp,gold=s.hp,s.maxHp,s.gold;assert(Nodes.chooseEvent(s,'leave'));eq(s.nodeFlow.event.stage,'result');eq(s.phase,'node');eq(s.hp,hp);eq(s.maxHp,maxHp);eq(s.gold,gold);assert(Nodes.chooseEvent(s,'leave'));eq(s.phase,'map')end
 for _,change in ipairs({'lost_idol','max_hp'})do
  local s,map,node=fixture(20,80,{'golden_idol','anchor'});assert(Nodes.enter(s,map,node))
- if change=='lost_idol'then table.remove(s.relics,1)else s.maxHp=81 end
+ if change=='lost_idol'then table.remove(s.relics,1)else s.maxHp=0 end
  local b,bm=C.copy(s),C.copy(map);eq(Nodes.chooseEvent(s,change=='lost_idol'and'give_idol'or'heal'),false);same(s,b);same(map,bm)
 end
 for _,kind in ipairs({'heal','give_idol'})do for _,failure in ipairs({'return','throw'})do

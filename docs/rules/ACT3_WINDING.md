@@ -42,3 +42,7 @@ $node = 'F:/New folder/build/tools/node-v24.18.0-win-x64/node.exe'
 ```
 
 没有全check、平台、前台、键鼠或新候选操作；TASK62和整体M3仍按全部未完成关口验收。
+
+## 合法 Fruit Juice 变化纠正
+
+此前将合法最大生命变化当成陈旧命令会错误锁住三选，现保留构造时缓存的伤害/治疗/损失，作用到当前 owner；选项 before→after 也读当前最大生命。非法生命输入及原生旧回调/触点保护保持。真实用瓶、三成本及新旧触点回归见 [纠正证据](../reviews/M3-EVENT-FRUIT-CACHED-COST-20261027.md)。

@@ -3,7 +3,7 @@ local fixture,eq,same,Run,Nodes,C,P,R=F.fixture,F.eq,F.same,F.Run,F.Nodes,F.C,F.
 for _,choice in ipairs({'madness','writhe','max_hp'})do
  local r,m,n=fixture(1);assert(Nodes.enter(r,m,n));local b=C.copy(r);eq(Nodes.chooseEvent(r,choice),false);same(r,b)
  assert(Nodes.chooseEvent(r,'continue'));b=C.copy(r);eq(Nodes.chooseEvent(r,choice,999),false);same(r,b)
- r.maxHp=81;b=C.copy(r);eq(Nodes.chooseEvent(r,choice),false);same(r,b)
+ r.maxHp=0;b=C.copy(r);eq(Nodes.chooseEvent(r,choice),false);same(r,b)
 end
 for _,choice in ipairs({'madness','writhe'})do
  local r,m,n=fixture(1);assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'))

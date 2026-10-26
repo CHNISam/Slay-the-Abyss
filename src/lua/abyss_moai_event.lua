@@ -29,7 +29,7 @@ function M.options(run,event)
  local healing=blockedHealing(run)and'当前遗物禁止治疗；仍会降低生命上限。'or'然后回复生命至新的上限。'
  local gold=Relics.owns(run,'ectoplasm')and'当前遗物禁止获得金币。'or'获得333金币。'
  return {
-  row('heal','触碰石像','失去'..event.hpLoss..'点最大生命（'..event.startMaxHp..' → '..math.max(1,event.startMaxHp-event.hpLoss)..'）。'..healing),
+  row('heal','触碰石像','失去'..event.hpLoss..'点最大生命（'..string.format('%.0f',run.maxHp)..' → '..string.format('%.0f',math.max(1,run.maxHp-event.hpLoss))..'）。'..healing),
   row('give_idol','献上金神像',event.hasIdol and'失去金神像。'..gold or'需要金神像（未持有）。',event.hasIdol),
   row('leave','离开','不作献祭，继续前进。')}
 end
@@ -42,7 +42,7 @@ function M.choose(run,flow,choice,uid)
  end
  if event.stage~='intro'then return false,'invalid_event_choice'end
  if choice=='heal'then
-  if run.maxHp~=event.startMaxHp then return false,'stale_event_health'end
+  if not integer(run.maxHp) or run.maxHp<1 then return false,'invalid_event_health'end
   if not integer(run.hp) or run.hp<=0 or run.hp>run.maxHp then return false,'invalid_event_health'end
   -- MoaiHead edits maxHealth itself, not damage/decreaseMaxHealth. No Fairy.
   run.maxHp=run.maxHp-event.hpLoss

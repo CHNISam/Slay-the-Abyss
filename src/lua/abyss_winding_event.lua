@@ -11,14 +11,14 @@ function M.prepare(run,event)
  event.hpDamage,event.healAmount,event.maxHpLoss=rounded(run.maxHp,.125),rounded(run.maxHp,.25),rounded(run.maxHp,.05)
  event.stage,event.body='intro','通道反复折返。你停下来，试图重新辨认方向。'
 end
-function M.options(_,event)
+function M.options(run,event)
  if event.stage=='intro'then return {row('continue','继续','寻找离开这片通道的方法。')}end
  if event.stage=='result'then return {row('leave','离开','返回路线。')}end
  if event.stage~='choice'then return {}end
  return {
   row('madness','接受 Madness','受到'..event.hpDamage..'点普通伤害，获得2张Madness。','madness'),
   row('writhe','休息并获得 Writhe','回复'..event.healAmount..'点生命（受遗物限制），获得Writhe。','writhe'),
-  row('max_hp','减少最大生命','失去'..event.maxHpLoss..'点最大生命（'..event.startMaxHp..' → '..math.max(1,event.startMaxHp-event.maxHpLoss)..'），不治疗。')}
+  row('max_hp','减少最大生命','失去'..event.maxHpLoss..'点最大生命（'..string.format('%.0f',run.maxHp)..' → '..string.format('%.0f',math.max(1,run.maxHp-event.maxHpLoss))..'），不治疗。')}
 end
 local function obtain(run,event,id)
  local ok,uid=Run.obtainCard(run,id)
@@ -39,7 +39,7 @@ function M.choose(run,flow,choice,uid)
   return true,'complete'
  end
  if event.stage~='choice'then return false,'invalid_event_choice'end
- if run.maxHp~=event.startMaxHp then return false,'stale_event_health'end
+ if type(run.maxHp)~='number' or run.maxHp%1~=0 or run.maxHp<1 or run.maxHp>2147483647 then return false,'invalid_event_health'end
  if type(run.hp)~='number' or run.hp%1~=0 or run.hp<=0 or run.hp>run.maxHp then return false,'invalid_event_health'end
  -- Admission stays closed until the actual shared onObtainCard hooks exist.
  local missing=choice=='madness' and 'toxic_egg' or choice=='writhe' and 'darkstone_periapt'
