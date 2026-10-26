@@ -105,7 +105,7 @@ local function drainNative(state)
         and (state.cardActions or state.queuedCards) then CardActions.drain(M,state) end
 end
 local function nativeDefinition(state,card)
-    return (state.experimentalCharacter==nil or card.silentFinalCard) and card.target~=nil and not card.silentFinalLegacy and (card.experimental~=true or card.silentFinalCard)
+    return (state.experimentalCharacter==nil or card.silentFinalCard or card.runNativeABI) and card.target~=nil and not card.silentFinalLegacy and (card.experimental~=true or card.silentFinalCard)
 end
 local function aiRandom(state,maximum)return EnemyRandom.integer(state,maximum,M.random)end
 local function hpRandom(state,maximum)
@@ -1484,7 +1484,7 @@ function M.play(state, uid, targetIndex, commandId)
         if CardActions.supports(effect.op) and not require('abyss_build_actions').ops[effect.op]
             and not require('abyss_flow_actions').ops[effect.op] or effect.times=='X' then nativeOnly=true end
     end
-    if nativeDefinition(state,card) and (not state.experimentalMechanics or nativeOnly or card.silentFinalCard) then
+    if nativeDefinition(state,card) and (not state.experimentalMechanics or nativeOnly or card.silentFinalCard or card.runNativeABI) then
         local restore=require('abyss_snapshot').capture(state)
         local called,result=pcall(resolveNativePlay,state,uid,targetIndex,instance,position,card)
         if not called then restore();error(result,0) end
@@ -2064,6 +2064,11 @@ function M.new(data, options)
         end
     end
     options = options or {}
+    if data.runCardCatalog then
+        options=copy(options)
+        if options.enableStances==nil then options.enableStances=true end
+        if options.orbSlots==nil then options.orbSlots=data.runCardCharacter=='defect'and 3 or 0 end
+    end
     if options.sourceEncounter ~= nil then
         assert(Formation.supports(options.sourceEncounter), "unknown source formation")
         assert(options.enemies == nil, "source formation cannot mix with explicit enemies")

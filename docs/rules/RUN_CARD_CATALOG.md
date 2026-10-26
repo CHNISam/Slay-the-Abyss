@@ -1,0 +1,13 @@
+# Run四职业共享卡目录
+
+Run.new对默认战士及四个初代职业装配300张普通职业牌和它们的衍生牌、状态依赖。历史Profiles.prepare仍返回独立职业组件，战士历史66张入口保持原样；旅行者V4不进入本装配器。
+
+选中职业的规则、起始资源、牌组、遗物和reward/src/shop数组保留原顺序。固定源红色75张含3张基本牌、72张非基本牌；其余三色75张各含4张基本牌、71张非基本牌。目录存在不授予能力。四职业均可使用Neutral姿态，机器人初始3球槽，其余0槽；不额外消费随机流。
+
+红色通过现有完整适配链装配，跳过历史profileSource的66张筛选。缺于历史组件的Armaments、Havoc、SwordBoomerang、DualWield、InfernalBlade、SearingBlow、DoubleTap、Feed、Juggernaut九张逐牌标识原生ABI，其余牌保留各自真实能力获取和队列语义。Burn采用基础2、升级4的共同定义；Intangible采用固定源优先级75，Rage默认优先级5。其他同ID能力的kind/stack/decay/priority不兼容时明确拒绝装配。
+
+装配每次读取当前调用方数据，不缓存输入table身份。工厂仅接收所需的五个内容分支，避免重复复制敌人、事件、呈现和调用方扩展图；最终Run和每场战斗保持私有数据所有权。
+
+固定事实边界是registration.json所记319009反编译源，未认证正版PC二进制。run-card-catalog-source.test.mjs从普通生产Run导出实际定义，逐项核对全部300个独立class映射的sourceId/type/color/rarity/费用/HEALING，并验证错误源身份和仅metadata正确的负例被拒绝。未改任何冻结JSON数值或来源池。
+
+本片首个真实RED为普通Watcher的Foreign Influence缺失Cold Snap定义；接线后基础和升级版双随机流、三候选和所选攻击实际出牌通过。另保留默认/四职业构造与来源顺序、V4隔离、当前输入读取、循环/别名、两Run/两场战斗隔离回归。此证据仅说明离线实现，不代表平台导入或实机验收。

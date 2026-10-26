@@ -378,7 +378,7 @@ end
 function M.prepare(existing,prepared)
     assert(type(existing)=='table' and type(prepared)=='table' and prepared.cards and type(prepared.cards.cards)=='table','invalid presentation inputs')
     local out=copy(existing)
-    local nativeBundle=prepared.originalV4Role or not prepared.experimentalCharacter and prepared.cards.sourcePools~=nil
+    local nativeBundle=prepared.originalV4Role or not prepared.runCardCatalog and not prepared.experimentalCharacter and prepared.cards.sourcePools~=nil
     local seen={}
     for _,card in ipairs(prepared.cards.cards) do
         assert(type(card.id)=='string' and not seen[card.id],'duplicate or invalid card id');seen[card.id]=true

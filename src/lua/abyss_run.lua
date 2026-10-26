@@ -22,6 +22,7 @@ local function find(entries, id)
 end
 
 function M.new(data, seed, options)
+    local sourceData=data
     local profile,ownsData
     if options ~= nil then
         assert(type(options)=='table','invalid character options')
@@ -39,6 +40,10 @@ function M.new(data, seed, options)
                 ownsData=true
             end
         end
+    end
+    if not (profile and profile.originalV4)then
+        data=require('abyss_run_card_catalog').prepare(sourceData,data,profile and profile.id,ownsData)
+        ownsData=true
     end
     data=require('abyss_colorless_cards').withCards(data)
     local eventSeed = RunSeed.normalize(seed)
