@@ -297,7 +297,7 @@ export function validateContent(bundle) {
         const intent = Array.isArray(entry.intents) && entry.intents.find(intent => intent?.id === id);
         if (intent && (kind ? intent.kind !== kind : ['sleep', 'stunned', 'charge', 'split', 'escape'].includes(intent.kind))) fail(path, 'invalid AI intent kind');
       };
-      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'acid_slime_l', 'fungi_beast', 'louse', 'looter'], `${ap}.kind`);
+      enumeration(a.kind, ['sleep_then_cycle', 'ritual_then_attack', 'guardian', 'jaw_worm', 'charge_then_attack', 'gremlin_nob', 'blue_slaver', 'red_slaver', 'acid_slime_s', 'rolled_attack', 'opening_roll_attack', 'sentry', 'spheric_guardian', 'mad_gremlin', 'shield_gremlin', 'spike_slime_m', 'spike_slime_l', 'acid_slime_m', 'acid_slime_l', 'fungi_beast', 'louse', 'looter'], `${ap}.kind`);
       if (a.kind === 'looter') {
         keys(a, ['kind', 'mugIntent', 'lungeIntent', 'smokeIntent', 'escapeIntent', 'stealAmount', 'rollRange', 'talkChance', 'smokeChance'], ap);
         reference('thievery', 'statuses', `${ap}.thievery`);
@@ -418,6 +418,29 @@ export function validateContent(bundle) {
         integer(a.rollRange, `${ap}.rollRange`, 1, 65536);
         integer(a.angryStacks, `${ap}.angryStacks`, 1, 2147483647);
         reference('angry', 'statuses', `${ap}.angry`);
+      } else if (a.kind === 'spheric_guardian') {
+        keys(a, ['kind', 'activateIntent', 'frailIntent', 'slamIntent', 'hardenIntent', 'artifactStacks', 'startingBlock', 'rollRange'], ap);
+        if (entry.hp !== 20 || entry.hpRange !== undefined) fail(`${p}.hp`, 'must match the fixed source A0 HP20');
+        for (const [field, value] of [['artifactStacks',3], ['startingBlock',40], ['rollRange',100]]) {
+          if (a[field] !== value) fail(`${ap}.${field}`, `must match source A0 value ${value}`);
+        }
+        for (const status of ['barricade','artifact','frail']) reference(status, 'statuses', `${ap}.${status}`);
+        const moves = {
+          activateIntent: ['defend', [{op:'block',value:25}]],
+          frailIntent: ['attack', [{op:'damage',value:10},{op:'applyStatus',status:'frail',value:5}]],
+          slamIntent: ['attack', [{op:'damage',value:10,times:2}]],
+          hardenIntent: ['attack', [{op:'block',value:15},{op:'damage',value:10}]],
+        };
+        if (entry.intents?.length !== 4 || new Set(Object.keys(moves).map(key => a[key])).size !== 4) fail(ap, 'must have exactly four distinct source moves');
+        for (const [field, [kind, payload]] of Object.entries(moves)) {
+          intentReference(a[field], `${ap}.${field}`, kind);
+          const actual = Array.isArray(entry.intents) && entry.intents.find(move => move?.id === a[field])?.effects;
+          if (!Array.isArray(actual) || actual.length !== payload.length || payload.some((effect, i) =>
+            !isObject(actual[i]) || Object.keys(actual[i]).length !== Object.keys(effect).length ||
+            Object.entries(effect).some(([key, value]) => actual[i][key] !== value))) {
+            fail(`${ap}.${field}`, 'must match the ordered source A0 effects');
+          }
+        }
       } else if (a.kind === 'sentry') {
         keys(a, ['kind', 'beamIntent', 'boltIntent', 'artifactStacks', 'rollRange'], ap);
         intentReference(a.beamIntent, `${ap}.beamIntent`, 'attack');
@@ -586,6 +609,23 @@ export function validateContent(bundle) {
       if (expandedSlots > 5) fail(`${p}.${field}`, 'must fit five UI slots including retained split parents');
     }
   });
+  // Explicit source-ID -> roster mappings, never a second weighted pool or an
+  // Act1 candidate. Known source identities come from the existing Act2 catalog.
+  if (bundle.enemies?.act2Encounters !== undefined && object(bundle.enemies.act2Encounters, 'enemies.act2Encounters')) {
+    const definitions = bundle.enemies.act2Encounters;
+    const supported = {'Spheric Guardian':['spheric_guardian'], 'Sentry and Sphere':['sentry','spheric_guardian']};
+    const catalog = JSON.parse(readFileSync(new URL('../data/catalogs/sts1-acts234.json', import.meta.url), 'utf8'));
+    const city = catalog.acts.find(act => act.act === 2);
+    const sourceIds = new Set([...city.weak, ...city.hard].map(entry => entry.sourceEncounterId));
+    for (const [source, roster] of Object.entries(definitions)) {
+      const p = `enemies.act2Encounters.${source}`;
+      if (!sourceIds.has(source) || !Object.hasOwn(supported, source)) { fail(p, 'unsupported Act2 source encounter identity'); continue; }
+      const members = array(roster, p);
+      members.forEach((id, j) => reference(id, 'enemies', `${p}[${j}]`));
+      if (members.length !== supported[source].length || supported[source].some((id, j) => members[j] !== id)) fail(p, 'must match the ordered source composition');
+    }
+    for (const source of Object.keys(supported)) if (!Object.hasOwn(definitions, source)) fail('enemies.act2Encounters', `missing explicit definition ${source}`);
+  }
   // abyss_map forces these combat nodes; optional floors filter unavailable tiers.
   for (const [floor, tier] of [[1, 'normal'], [16, 'boss']]) {
     if (!lists.encounters.some(entry => isObject(entry) && entry.tier === tier &&

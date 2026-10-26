@@ -3342,6 +3342,28 @@
     }
   ],
   "exclusions": {
+    "enemies": [
+      {
+        "id": "spheric_guardian",
+        "act": 2,
+        "scope": "REQUIRED-M3",
+        "implementation": "OFFLINE_SLICE_ONLY",
+        "admission": "UNWIRED",
+        "channels": [],
+        "source": "data/enemies.json#spheric_guardian",
+        "aiEntry": "src/lua/abyss_spheric_guardian_ai.lua",
+        "testFiles": [
+          "tests/lua/spheric_guardian.lua",
+          "tests/spheric-guardian-data.test.mjs"
+        ],
+        "evidence": {
+          "local": "FOCUSED_REGRESSION_ONLY",
+          "platform": "NOT_RUN",
+          "naturalPlaythrough": "NOT_RUN"
+        },
+        "reason": "Required M3 Act2 content, not removed from scope. A0 AI and explicit source-ID rosters are implemented and locally regression-tested; full Act2 routing/Host/content, official import and natural four-character playthrough acceptance remain open. No formal runtime channel or campaign admission is granted."
+      }
+    ],
     "cards": [],
     "potions": [
       {

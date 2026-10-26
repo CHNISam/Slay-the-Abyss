@@ -18,6 +18,7 @@ local LivingWall = require('abyss_living_wall')
 local Fountain = require('abyss_fountain')
 local RelicHooks = require('abyss_relic_hooks')
 local Act1Events = require('abyss_act1_events')
+local Act2Events = require('abyss_act2_events')
 local Acts = require('abyss_acts')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
@@ -121,6 +122,7 @@ local function prepare(run, node, miscRng)
         local id=node.eventId or run.data.rules.events.encounterId
         flow.event = { id = id }
         if Act1Events.ids[id] then Act1Events.prepare(run,flow.event) end
+        if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -196,7 +198,8 @@ local function enter(run, map, nodeId)
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
-            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain' and not Act1Events.ids[id] then return false, "event_unavailable" end
+            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain'
+            and not Act1Events.ids[id] and not Act2Events.ids[id] then return false, "event_unavailable" end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -302,6 +305,7 @@ function M.view(run, map)
             node.upgradesLeft=1
             if node.event.id=='living_wall' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id=='bonfire' then node.event.purgeCards=LivingWall.purgeCards(run) end
+            if Act2Events.ids[node.event.id] then Act2Events.view(run,node.event) end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
@@ -494,6 +498,7 @@ end
 function M.eventOptions(run,flow)
     local id,e=flow.event.id,flow.event
     if Act1Events.ids[id] then return Act1Events.options(run,e,upgradeCards) end
+    if Act2Events.ids[id] then return Act2Events.options(run,e) end
     local rows={}
     local function option(choice,title,description,enabled,picker)
         rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
@@ -540,6 +545,12 @@ local function chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
     local id = flow.event.id
     local rules = run.data.rules.events[id] or {}
+    if Act2Events.ids[id] then
+        local ok,status=Act2Events.choose(run,flow,choice,uid)
+        if not ok or status~='complete' then return ok,status end
+        flow.eventChoice=choice
+        return complete(run)
+    end
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)
         if not ok or status~='complete' then return ok,status end
@@ -634,6 +645,11 @@ function M.chooseEvent(run,choice,uid)
 end
 
 function M.upgradeEvent(run,uid) return M.chooseEvent(run,'upgrade',uid) end
+function M.chooseAct2EventCard(run,uid)
+    local flow,reason=pending(run,'event');if not flow then return false,reason end
+    if not Act2Events.ids[flow.event.id] or flow.event.stage~='choose_card' then return false,'invalid_event_choice' end
+    return M.chooseEvent(run,flow.event.choice,uid)
+end
 function M.chooseAct1EventCard(run,uid)
     local flow,reason=pending(run,'event');if not flow then return false,reason end
     if not Act1Events.ids[flow.event.id] or flow.event.stage~='choose_card' then return false,'invalid_event_choice' end

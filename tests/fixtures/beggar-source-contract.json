@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Read-only decompiled mirror, not official source or PC-binary certification. Normalized retrieved text digests are not canonical byte attestations. No Java source is shipped.",
+  "sources": [
+    {
+      "path": "events/city/Beggar.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Beggar.java",
+      "normalizedRetrievedTextSha256": "90b07bc6499fe136438ee9fd5a8d00d7aa40ccf901cda0fdf7a7d1b5d066be47",
+      "methods": ["Beggar", "buttonEffect", "update"]
+    },
+    {
+      "path": "screens/select/GridCardSelectScreen.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/select/GridCardSelectScreen.java",
+      "normalizedRetrievedTextSha256": "1793bb4449bc7046d3e5477d1fdd4ad39f0a4d3d9582309ceb59595be8b130bc",
+      "methods": ["open(CardGroup,int,String,boolean,boolean,boolean,boolean)", "callOnOpen"]
+    }
+  ],
+  "behavior": {
+    "goldCost": 75,
+    "introChoices": ["donate", "leave"],
+    "donationEligibility": "gold >= 75; no minimum purge-group size",
+    "paymentBoundary": "INTRO to GAVE_MONEY immediately deducts gold once, before the next confirm",
+    "purge": {"count": 1, "forUpgrade": false, "forTransform": false, "canCancel": false, "forPurge": true, "anyNumber": false},
+    "purgeGroup": "Non-bottled purgeable permanent master-deck cards",
+    "success": "Permanent removal then return to map; no relic reward",
+    "ignore": "Separate LEAVE screen then return to map",
+    "emptyGroupBoundary": "UNPROVEN: source opens the mandatory grid even when empty; remain pending without invented refund, zero-choice completion, cancel or donation restriction"
+  },
+  "implementationBoundary": "Public event/Nodes commands only; native picker wiring, formal Act2 campaign and full TASK61 AC2 acceptance remain pending."
+}

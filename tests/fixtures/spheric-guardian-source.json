@@ -1,0 +1,150 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Independently implemented from a pinned third-party decompiled mirror, not authenticated PC binary execution. Hashes below identify retrieved UTF-8 text, not attested Git blob bytes. No Java source or assets are shipped.",
+  "sources": [
+    {
+      "path": "monsters/city/SphericGuardian.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/city/SphericGuardian.java",
+      "retrievedTextSha256": "8f7c8e3ac1ac52b8f2d50dd83aaed6af96a7cf9e0fb125804611efcfcd31f6dc",
+      "lines": {
+        "fixedHpAndDamage": [
+          40,
+          62
+        ],
+        "preBattle": [
+          72,
+          75
+        ],
+        "turnPayloads": [
+          79,
+          114
+        ],
+        "decisionSequence": [
+          140,
+          155
+        ]
+      }
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java",
+      "retrievedTextSha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "lines": {
+        "rollRange": [
+          451,
+          452
+        ],
+        "openingRoll": [
+          698,
+          700
+        ]
+      }
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+      "retrievedTextSha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "lines": {
+        "orderedComposition": [
+          483,
+          484
+        ]
+      },
+      "byteAttestation": "Unresolved: existing cross-act-source-lock records 7a6b20e5b115b6deaea1b8d1bb65d11295aa1d03513f2a592de298fc3fc914eb; LF/CRLF, final newline and UTF-8 BOM variants do not reconcile it. Existing lock is preserved unchanged. Source text is behavioral reference only."
+    }
+  ],
+  "a0": {
+    "sourceId": "SphericGuardian",
+    "hp": 20,
+    "preBattle": [
+      {
+        "status": "barricade",
+        "present": true
+      },
+      {
+        "status": "artifact",
+        "amount": 3
+      },
+      {
+        "block": 40
+      }
+    ],
+    "moves": [
+      {
+        "sourceMove": 2,
+        "effects": [
+          {
+            "op": "block",
+            "value": 25
+          }
+        ]
+      },
+      {
+        "sourceMove": 4,
+        "effects": [
+          {
+            "op": "damage",
+            "value": 10
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 5
+          }
+        ]
+      },
+      {
+        "sourceMove": 1,
+        "effects": [
+          {
+            "op": "damage",
+            "value": 10,
+            "times": 2
+          }
+        ]
+      },
+      {
+        "sourceMove": 3,
+        "effects": [
+          {
+            "op": "block",
+            "value": 15
+          },
+          {
+            "op": "damage",
+            "value": 10
+          }
+        ]
+      }
+    ],
+    "initialThenRepeat": [
+      2,
+      4,
+      1,
+      3,
+      1,
+      3
+    ],
+    "roll": {
+      "inclusiveMin": 0,
+      "inclusiveMax": 99,
+      "opening": true,
+      "afterEveryMove": true,
+      "ignoresValue": true
+    },
+    "visualEntropyConsumesGameplayRng": false
+  },
+  "encounters": {
+    "Spheric Guardian": [
+      "spheric_guardian"
+    ],
+    "Sentry and Sphere": [
+      "sentry",
+      "spheric_guardian"
+    ]
+  },
+  "remainingGates": [
+    "Complete Act2 enemy/event/Boss content, normal routing and full campaign host remain open.",
+    "Native UI, official import and four-character natural continuous playthrough acceptance remain open."
+  ]
+}

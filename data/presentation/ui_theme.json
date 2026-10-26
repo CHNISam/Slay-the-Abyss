@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "note": "界面主题与布局常数。设计以 1280x720（手机）为基准画布，整棵界面挂在 stage 容器下按 min(宽/1280, 高/720) 等比缩放。颜色为 #RRGGBB 或 #RRGGBBAA，生成 Lua 时转为 0-255 的 {r,g,b,a}。图片编号来自千星图片库（image_catalog），标注 verify 的选型需在编辑器或截图里核对一次。主角为旅行者（岩元素），主色取岩元素琥珀金配深岩灰蓝。规范见 docs/design/UI_DESIGN.md。",
+  "note": "界面主题与布局常数。设计以 1280x720（手机）为基准画布，整棵界面挂在 stage 容器下按 min(宽/1280, 高/720) 等比缩放。颜色为 #RRGGBB 或 #RRGGBBAA，生成 Lua 时转为 0-255 的 {r,g,b,a}。图片编号来自千星图片库（image_catalog），标注 verify 的选型需在编辑器或截图里核对一次。主角为旅行者（岩元素），主色取岩元素琥珀金配深岩灰蓝。规范见 docs/design/UI_DESIGN.md。 SphericGuardian 的图标112027与动作音效50421暂复用 Sentry；仅为离线内容集成的临时展示别名，不代表新美术批准或原生验收。",
   "canvas": {
     "base": [
       1280,
@@ -161,6 +161,7 @@
     "action_gremlin_nob": 20098,
     "action_lagavulin": 20099,
     "action_sentry": 50421,
+    "action_spheric_guardian": 50421,
     "action_guardian": 50422,
     "hit": 40106,
     "hit_heavy": 40224,
@@ -478,6 +479,7 @@
       "gremlin_nob": 112037,
       "lagavulin": 112026,
       "sentry": 112027,
+      "spheric_guardian": 112027,
       "guardian": 112046,
       "verify": true
     },

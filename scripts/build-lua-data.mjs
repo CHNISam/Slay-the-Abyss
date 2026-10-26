@@ -17,8 +17,13 @@ function rejectInputOutputAlias(inputDirectory, output) {
   const inputs = [...contentFiles];
   if (existsSync(resolve(inputDirectory,'original_v4'))) inputs.push('original_v4/cards_v4','original_v4/rules_v4');
   if (existsSync(resolve(inputDirectory, 'catalogs/sts1-relic-queues.json'))) inputs.push('catalogs/sts1-relic-queues');
-  for (const file of inputs) {
-    const inputPath = resolve(inputDirectory, `${file}.json`);
+  if (existsSync(resolve(inputDirectory, 'catalogs/sts1-acts234.json'))) inputs.push('catalogs/sts1-acts234');
+  const inputPaths = inputs.map(file => resolve(inputDirectory, `${file}.json`));
+  // Act2 source identity validation reads the repository's pinned catalog even
+  // for a temporary bundle; protect that canonical input as well as local copies.
+  const actCatalog = new URL('../data/catalogs/sts1-acts234.json', import.meta.url);
+  if (existsSync(actCatalog)) inputPaths.push(actCatalog);
+  for (const inputPath of inputPaths) {
     const inputStat = statSync(inputPath, { bigint: true });
     if (outputRealPath === realpathSync.native(inputPath) ||
         (outputStat && outputStat.dev === inputStat.dev && outputStat.ino === inputStat.ino)) {

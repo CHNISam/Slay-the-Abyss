@@ -9,6 +9,7 @@ local BlueSlaver = require("abyss_blue_slaver_ai")
 local RedSlaver = require("abyss_red_slaver_ai")
 local AcidSlimeS = require("abyss_acid_slime_s_ai")
 local Sentry = require("abyss_sentry_ai")
+local SphericGuardian = require("abyss_spheric_guardian_ai")
 local SpikeSlimeM = require("abyss_spike_slime_m_ai")
 local AcidSlimeM = require("abyss_acid_slime_m_ai")
 local FungiBeast = require("abyss_fungi_beast_ai")
@@ -35,6 +36,7 @@ function M.prepare(state, enemy, random)
 end
 
 function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == "spheric_guardian" then SphericGuardian.preBattle(state, enemy) end
     if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy) end
     if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random) end
 end
@@ -67,6 +69,7 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "red_slaver" then return RedSlaver.initialize(state, enemy, random) end
     if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
     if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random) end
+    if enemy.ai.kind == "spheric_guardian" then return SphericGuardian.initialize(state, enemy, random) end
     if enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.initialize(state, enemy, random) end
     if enemy.ai.kind == "acid_slime_m" or enemy.ai.kind == "acid_slime_l" then return AcidSlimeM.initialize(state, enemy, random) end
     if enemy.ai.kind == "fungi_beast" then return FungiBeast.initialize(state, enemy, random) end
@@ -138,6 +141,7 @@ function M.advance(state, enemy, random)
     elseif enemy.ai.kind == "red_slaver" then return RedSlaver.advance(state, enemy, random)
     elseif enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.advance(state, enemy)
     elseif enemy.ai.kind == "sentry" then return Sentry.advance(state, enemy, random)
+    elseif enemy.ai.kind == "spheric_guardian" then return SphericGuardian.advance(state, enemy, random)
     elseif enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.advance(state, enemy, random)
     elseif enemy.ai.kind == "acid_slime_m" or enemy.ai.kind == "acid_slime_l" then return AcidSlimeM.advance(state, enemy, random)
     elseif enemy.ai.kind == "fungi_beast" then return FungiBeast.advance(state, enemy, random)
@@ -173,7 +177,7 @@ end
 -- Only these source-verified policies enqueue RollMoveAction during takeTurn.
 -- That action has no owner-death guard and survives while another enemy lives.
 -- Acid S sets its next move directly instead; do not invent a queued roll.
-local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
+local queuedRoll = { spheric_guardian=true, jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.afterAction(state, enemy) end
     -- Acid's split queues child init only. Its ordinary attack may have been
