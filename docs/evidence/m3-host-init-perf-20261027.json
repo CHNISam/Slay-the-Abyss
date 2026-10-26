@@ -1,0 +1,346 @@
+{
+  "baseCommit": "a913dd59a3f55bb4e71c1386d46c827136f5282c",
+  "fixture": "tests/lua/game_ui_phase_four.lua",
+  "workingFixtureSha256": "075ddbae45f92ccfe5ceee0fdfd7789630e7b6abe74e00cd824a7067fef2a053",
+  "gitFixtureSha256": "1be633ca477c634ccd45a30c5bbc21de2978977764ad2f5723f45a99489922e3",
+  "fixtureUnchanged": true,
+  "gitComparisonNormalizesCheckoutCRLF": true,
+  "timeoutMs": 30000,
+  "ciFailure": {
+    "run": 40381585084,
+    "job": 121778939690,
+    "lastCompletedCase": 23,
+    "caseCount": 26,
+    "timeoutMs": 30000
+  },
+  "method": "Ignored wrappers around real factories/frames/copies/control creation using os.clock. Same unchanged full26 fixture. Inclusive times overlap; exclusive subtracts measured children. One local pair, not CI acceptance.",
+  "instrumented": {
+    "before": {
+      "wallMs": 20902,
+      "cases": 26,
+      "pass26": true,
+      "logSha256": "011ab15f6c312da8e3c269eeeea74b6889bdb45c669d15920f5c828fcced4e16",
+      "measurements": [
+        {
+          "name": "abyss_game_ui.new @ root",
+          "calls": 26,
+          "inclusiveSeconds": 3.886874,
+          "exclusiveSeconds": 0.635823
+        },
+        {
+          "name": "abyss_run.new @ root",
+          "calls": 26,
+          "inclusiveSeconds": 2.830478,
+          "exclusiveSeconds": 0.651048
+        },
+        {
+          "name": "abyss_character_profiles.prepare @ abyss_run.new",
+          "calls": 26,
+          "inclusiveSeconds": 2.089283,
+          "exclusiveSeconds": 1.971423
+        },
+        {
+          "name": "abyss_map.generate @ abyss_game_ui.new",
+          "calls": 26,
+          "inclusiveSeconds": 1.930342,
+          "exclusiveSeconds": 1.930342
+        },
+        {
+          "name": "abyss_map.generate @ root",
+          "calls": 26,
+          "inclusiveSeconds": 1.765656,
+          "exclusiveSeconds": 1.765656
+        },
+        {
+          "name": "abyss_run.new @ abyss_game_ui.new",
+          "calls": 26,
+          "inclusiveSeconds": 1.116413,
+          "exclusiveSeconds": 0.715339
+        },
+        {
+          "name": "abyss_character_presentation.prepare @ root",
+          "calls": 26,
+          "inclusiveSeconds": 1.00061,
+          "exclusiveSeconds": 1.00061
+        },
+        {
+          "name": "F.control @ root",
+          "calls": 78,
+          "inclusiveSeconds": 0.88791,
+          "exclusiveSeconds": 0.88791
+        },
+        {
+          "name": "abyss_run.startCombat @ root",
+          "calls": 26,
+          "inclusiveSeconds": 0.566451,
+          "exclusiveSeconds": 0.03872
+        },
+        {
+          "name": "abyss_character_profiles.prepare @ root",
+          "calls": 4,
+          "inclusiveSeconds": 0.557664,
+          "exclusiveSeconds": 0.518846
+        },
+        {
+          "name": "abyss_combat.new @ abyss_run.startCombat",
+          "calls": 26,
+          "inclusiveSeconds": 0.522725,
+          "exclusiveSeconds": 0.51551
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_run.new",
+          "calls": 104,
+          "inclusiveSeconds": 0.323708,
+          "exclusiveSeconds": 0.323708
+        },
+        {
+          "name": "abyss_copy.copy @ abyss_run.new",
+          "calls": 2132,
+          "inclusiveSeconds": 0.167512,
+          "exclusiveSeconds": 0.167512
+        },
+        {
+          "name": "abyss_copy.copy @ abyss_character_profiles.prepare",
+          "calls": 16,
+          "inclusiveSeconds": 0.130386,
+          "exclusiveSeconds": 0.130386
+        },
+        {
+          "name": "abyss_events.frame @ root",
+          "calls": 932,
+          "inclusiveSeconds": 0.124736,
+          "exclusiveSeconds": 0.124736
+        },
+        {
+          "name": "abyss_battle_ui.new @ abyss_game_ui.new",
+          "calls": 26,
+          "inclusiveSeconds": 0.120359,
+          "exclusiveSeconds": 0.120359
+        },
+        {
+          "name": "abyss_node_ui.new @ abyss_game_ui.new",
+          "calls": 26,
+          "inclusiveSeconds": 0.083937,
+          "exclusiveSeconds": 0.083937
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_character_profiles.prepare",
+          "calls": 4,
+          "inclusiveSeconds": 0.026291,
+          "exclusiveSeconds": 0.026291
+        },
+        {
+          "name": "abyss_events.frame @ abyss_combat.new",
+          "calls": 43,
+          "inclusiveSeconds": 0.006613,
+          "exclusiveSeconds": 0.006613
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_run.startCombat",
+          "calls": 52,
+          "inclusiveSeconds": 0.005006,
+          "exclusiveSeconds": 0.005006
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_combat.new",
+          "calls": 26,
+          "inclusiveSeconds": 0.000602,
+          "exclusiveSeconds": 0.000602
+        },
+        {
+          "name": "abyss_combat.copy @ root",
+          "calls": 26,
+          "inclusiveSeconds": 0.000337,
+          "exclusiveSeconds": 0.000337
+        }
+      ]
+    },
+    "after": {
+      "wallMs": 14476,
+      "cases": 26,
+      "pass26": true,
+      "logSha256": "7b980b1c538d3fa13ebcf5fdc52c2b17278b8fe2b60216f0807ae54fa0f9249d",
+      "measurements": [
+        {
+          "name": "abyss_run.new @ root",
+          "calls": 26,
+          "inclusiveSeconds": 2.522139,
+          "exclusiveSeconds": 0.616435
+        },
+        {
+          "name": "abyss_character_profiles.prepare @ abyss_run.new",
+          "calls": 26,
+          "inclusiveSeconds": 1.833401,
+          "exclusiveSeconds": 1.738966
+        },
+        {
+          "name": "abyss_map.generate @ root",
+          "calls": 26,
+          "inclusiveSeconds": 1.533622,
+          "exclusiveSeconds": 1.533622
+        },
+        {
+          "name": "abyss_character_presentation.prepare @ root",
+          "calls": 26,
+          "inclusiveSeconds": 0.84474,
+          "exclusiveSeconds": 0.84474
+        },
+        {
+          "name": "F.control @ root",
+          "calls": 78,
+          "inclusiveSeconds": 0.760583,
+          "exclusiveSeconds": 0.760583
+        },
+        {
+          "name": "abyss_run.startCombat @ root",
+          "calls": 26,
+          "inclusiveSeconds": 0.450961,
+          "exclusiveSeconds": 0.034893
+        },
+        {
+          "name": "abyss_combat.new @ abyss_run.startCombat",
+          "calls": 26,
+          "inclusiveSeconds": 0.412092,
+          "exclusiveSeconds": 0.406193
+        },
+        {
+          "name": "abyss_character_profiles.prepare @ root",
+          "calls": 4,
+          "inclusiveSeconds": 0.401707,
+          "exclusiveSeconds": 0.355565
+        },
+        {
+          "name": "abyss_game_ui.new @ root",
+          "calls": 26,
+          "inclusiveSeconds": 0.29127,
+          "exclusiveSeconds": 0.171232
+        },
+        {
+          "name": "abyss_copy.copy @ abyss_character_profiles.prepare",
+          "calls": 16,
+          "inclusiveSeconds": 0.117669,
+          "exclusiveSeconds": 0.117669
+        },
+        {
+          "name": "abyss_events.frame @ root",
+          "calls": 932,
+          "inclusiveSeconds": 0.111071,
+          "exclusiveSeconds": 0.111071
+        },
+        {
+          "name": "abyss_battle_ui.new @ abyss_game_ui.new",
+          "calls": 26,
+          "inclusiveSeconds": 0.090465,
+          "exclusiveSeconds": 0.090465
+        },
+        {
+          "name": "abyss_copy.copy @ abyss_run.new",
+          "calls": 1066,
+          "inclusiveSeconds": 0.070567,
+          "exclusiveSeconds": 0.070567
+        },
+        {
+          "name": "abyss_node_ui.new @ abyss_game_ui.new",
+          "calls": 26,
+          "inclusiveSeconds": 0.029573,
+          "exclusiveSeconds": 0.029573
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_character_profiles.prepare",
+          "calls": 4,
+          "inclusiveSeconds": 0.022908,
+          "exclusiveSeconds": 0.022908
+        },
+        {
+          "name": "abyss_events.frame @ abyss_combat.new",
+          "calls": 43,
+          "inclusiveSeconds": 0.005391,
+          "exclusiveSeconds": 0.005391
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_run.startCombat",
+          "calls": 52,
+          "inclusiveSeconds": 0.003976,
+          "exclusiveSeconds": 0.003976
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_run.new",
+          "calls": 52,
+          "inclusiveSeconds": 0.001737,
+          "exclusiveSeconds": 0.001737
+        },
+        {
+          "name": "abyss_combat.copy @ abyss_combat.new",
+          "calls": 26,
+          "inclusiveSeconds": 0.000509,
+          "exclusiveSeconds": 0.000509
+        },
+        {
+          "name": "abyss_combat.copy @ root",
+          "calls": 26,
+          "inclusiveSeconds": 0.00031,
+          "exclusiveSeconds": 0.00031
+        }
+      ]
+    }
+  },
+  "uninstrumentedAfter": {
+    "name": "original-after",
+    "status": 0,
+    "elapsedMs": 16269,
+    "cases": 26,
+    "pass": true
+  },
+  "ownerApiAndRelated": [
+    {
+      "file": "game_ui_owner_initialization.lua",
+      "status": 0,
+      "elapsedMs": 1413,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=2 source=explicit\nGAME_UI_OWNER_INITIALIZATION_PASS no discarded menu owners; hidden unbound controllers; failed Run/Map retry; caller/two Run/two battle isolation\n",
+      "stderr": ""
+    },
+    {
+      "file": "game_ui_prologue.lua",
+      "status": 0,
+      "elapsedMs": 2989,
+      "stdout": "LORE_PREVIEW\tintro1\t岩层深处传来了异常的共鸣。\nLORE_PREVIEW\tintro2\t古老的封印正在崩解……\nLORE_PREVIEW\tintro3\t旅行者，深入遗迹，阻止深渊的侵蚀。\nok prologue 1 - intro splits into sentences without changing one character of the approved copy\nABYSS_RUN seed=1 source=explicit\nok prologue 2 - the title screen shows the game name once; start opens the cinematic over a hidden map\nABYSS_RUN seed=1 source=explicit\nok prologue 3 - a tap first completes the sentence, then advances; a too-early tap does nothing\nABYSS_RUN seed=1 source=explicit\nok prologue 4 - unattended playback moves through the story and waits on the last line\nABYSS_RUN seed=1 source=explicit\nok prologue 5 - the last fade uncovers an inert map, then hands over cleanly with no overlay left\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nok prologue 6 - the exit dialog pauses the cinematic and owns input; leaving cancels it\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=2 source=explicit\nok prologue 7 - restarting after a result goes straight to the map; the story plays once per session\nABYSS_RUN seed=1 source=explicit\nok prologue 8 - with pointer events a tap must be pressed inside the cinematic\nABYSS_RUN seed=1 source=explicit\nok prologue 9 - each sentence requests its own sound cue from the theme\nABYSS_RUN seed=1 source=explicit\nok prologue 10 - hosts can opt out and start on the map directly\nLUA_GAME_UI_PROLOGUE_PASS 10\n",
+      "stderr": ""
+    }
+  ],
+  "existingRelated": [
+    {
+      "file": "game_ui_classes_failure.lua",
+      "status": 0,
+      "elapsedMs": 2138,
+      "stdout": "ABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_RUN seed=1 source=clock\nok game_ui_classes_failure 1 - undeclared host flag keeps the ordinary production start with extra development controls hidden\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI failed startup: src/lua/abyss_game_ui.lua:32: experimental class layout required\nok game_ui_classes_failure 2 - host opt-in without matching layout produces startup diagnostic and never reports ready\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_UI failed update: ...\\m3-host-init-perf\\tests\\lua\\game_ui_classes_failure.lua:77: injected update viewport failure\nok game_ui_classes_failure 3 - update failure closes class overlay, disables old class and exit callbacks and keeps diagnostic visible\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_RUN seed=1 source=clock\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=9\nABYSS_FEEDBACK scry source=- target=- amount=5\nABYSS_UI failed update: ...\\m3-host-init-perf\\tests\\lua\\game_ui_classes_failure.lua:77: injected update viewport failure\nok game_ui_classes_failure 4 - update failure closes mandatory choice and all old inputs preserve the pending combat\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_RUN seed=1 source=clock\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_UI failed update: ...\\m3-host-init-perf\\tests\\lua\\game_ui_classes_failure.lua:77: injected update viewport failure\nABYSS_FEEDBACK recovered cancelled\nok game_ui_classes_failure 5 - update failure during feedback cancels presentation without replaying committed card effects\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_RUN seed=1 source=clock\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=9\nABYSS_FEEDBACK scry source=- target=- amount=5\nABYSS_UI failed update: ...\\m3-host-init-perf\\tests\\lua\\game_ui_classes_failure.lua:77: injected update viewport failure\nok game_ui_classes_failure 6 - update failure while exit confirmation is open hides it and rejects its old settlement callback\nGAME_UI_CLASSES_FAILURE_PASS 6\n",
+      "stderr": ""
+    },
+    {
+      "file": "game_ui_seed.lua",
+      "status": 0,
+      "elapsedMs": 4100,
+      "stdout": "ABYSS_RUN seed=42101 source=clock\nABYSS_RUN seed=42102 source=clock\nABYSS_RUN seed=42103 source=clock\nok fresh run 1 - real Host samples normal new-run source on accepted starts only\nABYSS_RUN seed=32410 source=clock\nABYSS_RUN seed=54692 source=clock\nABYSS_RUN seed=32410 source=explicit\nok fresh run 2 - fresh Hosts use their source and explicit ui.seed replays the real map\nABYSS_RUN seed=65535 source=explicit\nABYSS_RUN seed=0 source=explicit\nok fresh run 3 - explicit seed zero and rollover keep the established deterministic restart path\nABYSS_RUN seed=2780424839485660359 source=explicit\nABYSS_RUN seed=2780424839485660360 source=explicit\nABYSS_RUN seed=9223372036854775807 source=explicit\nABYSS_RUN seed=-9223372036854775808 source=explicit\nok fresh run 4 - raw signed64 Host identity survives mutable combat seed and string restart increment\nABYSS_RUN seed=28000 source=clock\nok fresh run 5 - rejected seed samples cannot replace a run and rendering cannot consume them\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_RUN seed=27403 source=clock\nABYSS_UI init Color=function\nABYSS_UI viewport_ready\nABYSS_UI ready\nABYSS_RUN seed=28686 source=clock\nok fresh run 6 - native OnStart rereads wall and CPU time after script and module recreation\nok fresh run 7 - clock seed stays in the production range and preserves private rule RNG states\nLUA_GAME_UI_SEED_PASS 7\n",
+      "stderr": ""
+    },
+    {
+      "file": "map_ui_chapters.lua",
+      "status": 0,
+      "elapsedMs": 3698,
+      "stdout": "ok chapter map 1 - later chapters expose legal first nodes at local row one\nok chapter map 2 - each complete chapter route remains reachable within the same viewport\nok chapter map 3 - restored later chapters focus local progress and wait for the host grant\nCHAPTER_MAP_PASS 3\n",
+      "stderr": ""
+    }
+  ],
+  "engineering": {
+    "modules": 139,
+    "edges": 681,
+    "historicalWarnings": 107,
+    "positionMappings": {
+      "abyss_game_ui": 15,
+      "abyss_map_ui": 10,
+      "abyss_node_ui": 6
+    },
+    "maxBattleRender": 10,
+    "maxScopedFunction": 15
+  },
+  "remaining": "Current-head CI is parent responsibility. No platform or whole-M3 claim; no timeout, shard or rules changes."
+}

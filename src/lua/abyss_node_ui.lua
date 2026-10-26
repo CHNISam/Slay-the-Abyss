@@ -74,7 +74,7 @@ local function iconId(entry) return type(entry) == "table" and entry.id or entry
 function M.new(root, run, map, presentation, clickEvent, onChange, options)
     options = options or {}
     local self = { root = root, run = run, map = map, presentation = presentation or {},
-        visible = true, page = 1, relicPage = 1, mode = "main", actions = {}, notice = "" }
+        visible = run ~= nil and map ~= nil, page = 1, relicPage = 1, mode = "main", actions = {}, notice = "" }
     local function child(name) return assert(root:GetChild(name), "missing node UI control " .. name) end
     local function path(key)
         local control = root
@@ -520,6 +520,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     function self:render()
+        if not self.run then root:SetVisible(false);return false, "node_unbound" end
         resetButtons()
         inspectCards={}
         local view = Nodes.view(self.run, self.map)
@@ -693,6 +694,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
+        if value and not self.run then return false, "node_unbound" end
         if not value then resetButtons() end
         self.visible = value root:SetVisible(value)
     end
