@@ -29,6 +29,8 @@
 
 测试入口：`silent_final_smoke.lua`最初因缺Distraction真实RED；`silent_final_runtime.lua`覆盖新增14张基本/升级28次实际出牌及跨回合；`silent_final_edges.lua`覆盖重复弃牌选择、击杀后After Image、Artifact、毒与Choke尸爆、费用差、抽牌复制及事务；`silent_final_potions.lua`覆盖真实Run两瓶、Bark溢出、失败回滚及Alchemize持续RNG；`silent_full_matrix.lua`逐张执行全部75张两版，Reflex/Tactician走真实弃牌触发，其余走真实play/choice，共150个命令用例。矩阵通过只说明构造上下文可执行，具体数值与结算仍由既有Silent专项和新增边界断言证明。
 
+`silent_final_presentation.lua`用实际Presentation与CardDisplay检查150版说明、动态数值替换、Wraith敏捷损失/Nightmare所选卡牌及Bark后两瓶数字；整数格式首次RED后修为统一numbers.integer，避免2.0/3.0混入核心说明。该离线格式检查不等于平台可读性与交互验收。
+
 `silent_final_sources.lua`是受控连续来源流→真实领取/购买命令的闭包用例：71/71非基础卡随机抽取后真实领取、71/71从真实货架购买，以及固定冷启动种子两瓶购买已通过；不是正常地图全程。native卡能力钩子按实际状态/登记工作，`nativeRageHandled`只对已有Rage分派去重，不检查职业身份；foreign WLP也覆盖native回合保留续跑。跨职业完整合并目录由TASK-59拥有，不能把此处组合夹具当作该目录交付。
 
 此片不更改Backlog完成状态；最终整合树完整Quality、自然构筑与平台显示/交互仍需父任务独立验收。

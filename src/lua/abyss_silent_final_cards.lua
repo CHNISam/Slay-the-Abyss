@@ -72,8 +72,9 @@ function M.allowedAfterVictory(e)
 end
 function M.powerDescription(actor,id)
  local n=actor.statuses[id]or 0
- if id=='wraith_form'then return '每个自己的回合结束时，失去'..tostring(-n)..'点敏捷；敏捷减少可被人工制品抵挡。'
- elseif id=='nightmare'then return '下回合开始，获得'..tostring(n)..'张'..(actor.nightmareCardName or '所选卡牌')..'的临时复制，然后移除此能力。'end
+ local number=require('abyss_numbers').integer
+ if id=='wraith_form'then return '每个自己的回合结束时，失去'..number(-n)..'点敏捷；敏捷减少可被人工制品抵挡。'
+ elseif id=='nightmare'then return '下回合开始，获得'..number(n)..'张'..(actor.nightmareCardName or '所选卡牌')..'的临时复制，然后移除此能力。'end
 end
 function M.adapt(s,c,d)
  if c.cardId=='masterful_stab'then
