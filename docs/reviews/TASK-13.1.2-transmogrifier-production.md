@@ -8,4 +8,4 @@
 
 本轮红绿：新核心首次失败于缺失 contentId；原生 UI 首次失败于无神龛展示，补生产路由后核心4组、原生 UI 1组通过。重复输入、非法按钮、瓶装 UID、空牌组、失败引用与所有 RNG 回滚均覆盖。旧 Living Wall 缺失上下文拒绝用例更新为“上下文及其生产 sourcePools 同时缺失”，保留原全部拒绝断言。
 
-本地相关验证：transmogrifier、transmogrifier_ui、living_wall 三分片（72源槽）、living_wall_ui、act1_event_content；架构和语法检查。固定 Lua 静态检查结果由实际执行记录补充。默认 restricted-seven 没有扩池；新增源映射不是完整25事件自然获取/概率验收。配对事件、其他缺失事件、统一全池开关、候选构建/官方导入/同候选实机与总 UI 门禁仍未完成。本轮未操作游戏、鼠标或键盘。
+本地相关验证：transmogrifier、transmogrifier_ui、living_wall 三分片（72源槽）、living_wall_ui、act1_event_content；架构和语法检查均通过。固定 Luacheck 1.2.0 通过，无新增诊断，113条既有警告；只同步三个受影响模块原诊断的位置及消息中的引用行号，code/列号/警告种类与数量不增加。默认 restricted-seven 没有扩池；新增源映射不是完整25事件自然获取/概率验收。配对事件、其他缺失事件、统一全池开关、候选构建/官方导入/同候选实机与总 UI 门禁仍未完成。本轮未操作游戏、鼠标或键盘。

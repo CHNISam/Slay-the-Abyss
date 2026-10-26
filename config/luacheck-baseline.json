@@ -13,10 +13,10 @@
     },
     {
       "file": "src/lua/abyss_act1_events.lua",
-      "line": 74,
+      "line": 77,
       "column": 28,
       "code": "W432",
-      "message": "shadowing upvalue argument 'uid' on line 55"
+      "message": "shadowing upvalue argument 'uid' on line 58"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
@@ -482,7 +482,7 @@
     },
     {
       "file": "src/lua/abyss_living_wall.lua",
-      "line": 58,
+      "line": 59,
       "column": 20,
       "code": "W211",
       "message": "unused variable 'position'"
@@ -608,108 +608,108 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 358,
+      "line": 359,
       "column": 31,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 397,
+      "line": 398,
       "column": 33,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 458,
+      "line": 459,
       "column": 32,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 475,
+      "line": 480,
       "column": 35,
       "code": "W212",
       "message": "unused argument 'cost'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 497,
+      "line": 502,
       "column": 39,
       "code": "W431",
-      "message": "shadowing upvalue 'info' on line 473"
+      "message": "shadowing upvalue 'info' on line 478"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 521,
+      "line": 526,
       "column": 43,
       "code": "W431",
-      "message": "shadowing upvalue 'card' on line 127"
+      "message": "shadowing upvalue 'card' on line 128"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 577,
+      "line": 582,
       "column": 35,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 630,
+      "line": 635,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 636,
+      "line": 641,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 754,
+      "line": 759,
       "column": 35,
       "code": "W431",
-      "message": "shadowing upvalue 'card' on line 127"
+      "message": "shadowing upvalue 'card' on line 128"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 789,
+      "line": 794,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 793,
+      "line": 798,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 808,
+      "line": 813,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 866,
+      "line": 871,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 878,
+      "line": 883,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
+      "message": "shadowing upvalue 'self' on line 70"
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
