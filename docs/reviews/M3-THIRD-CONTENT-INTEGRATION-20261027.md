@@ -28,3 +28,5 @@ Rod作者提交遗漏卡牌自伤：真实公开Run取得卡牌/遗物后，Bloo
 父线程随后在精确 `2349400c` 串行执行20份组合Lua全部通过：Sensory八份、Rod六份、Orichalcum、Run晚领奖回滚、Maw/Growth、Shapes、Orb Walker与Act2敌人。完整结果及夹具SHA见[本轮组合回归](../evidence/m3-third-combined-20261027.jsonl)，原始stdout保存在本树 `build/third-combined-*.log`，每文件30秒预算未改。它们不代表未运行的完整check通过。
 
 Guardian修复和最终完整门禁仍未在该冻结点验收。Jaw Worm Horde、Toxic Egg、Tomb/Red Mask继续独立实现，不属于本表已接入内容。没有新GIL、客户端导入、本轮日志/截图或verify:ui通过，M3整体仍未完成。
+
+本轮为Codex原生子执行者分片，父线程独立读Diff、raw来源、真实测试并完成合成验证。交叉审查实际发现并返工卡牌自伤及Guardian两条Rod遗漏，后者尚在处理中；各段测试耗时已记录，包含设计/审查的总人工式耗时、额度消耗及费用节省未测，记未知。未调用已受限的OpenCode免费路径，也不将本轮委派称为免费。
