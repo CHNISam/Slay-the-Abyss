@@ -1,8 +1,8 @@
 {
-  "owner": "TASK-66",
+  "owner": "TASK-68",
   "reviewedDate": "2026-10-26",
   "previousEngineeringSource": "b6a29e41533a2981e7e7c1199bdc3f297ec8ed82",
-  "reason": "V4 integration review: only existing warnings moved with the native UI/combat edits; no new warning kinds. Removed the unused battle preview helper and overwritten initialization; new original modules have zero diagnostics.",
+  "reason": "Removed duplicate API definition, unused UI helper/values and real local shadowing; retained existing method self diagnostics. No new warning kind, syntax or undefined-global exemption.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -20,213 +20,192 @@
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 265,
+      "line": 257,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 474,
+      "line": 466,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 553,
-      "column": 19,
-      "code": "W422",
-      "message": "shadowing definition of argument 'icon' on line 491"
-    },
-    {
-      "file": "src/lua/abyss_battle_ui.lua",
-      "line": 563,
-      "column": 23,
-      "code": "W421",
-      "message": "shadowing definition of variable 'y' on line 514"
-    },
-    {
-      "file": "src/lua/abyss_battle_ui.lua",
-      "line": 795,
+      "line": 765,
       "column": 28,
       "code": "W431",
-      "message": "shadowing upvalue 'cursor' on line 295"
+      "message": "shadowing upvalue 'cursor' on line 287"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 827,
+      "line": 797,
       "column": 19,
       "code": "W431",
-      "message": "shadowing upvalue 'label' on line 280"
+      "message": "shadowing upvalue 'label' on line 272"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 839,
+      "line": 809,
       "column": 23,
       "code": "W431",
-      "message": "shadowing upvalue 'label' on line 280"
+      "message": "shadowing upvalue 'label' on line 272"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 895,
+      "line": 865,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 906,
+      "line": 876,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 918,
+      "line": 888,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 926,
+      "line": 896,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 938,
+      "line": 908,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 978,
+      "line": 948,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 986,
+      "line": 956,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1199,
+      "line": 1163,
       "column": 23,
       "code": "W431",
-      "message": "shadowing upvalue 'label' on line 280"
+      "message": "shadowing upvalue 'label' on line 272"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1395,
+      "line": 1357,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1402,
+      "line": 1364,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1447,
+      "line": 1409,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1454,
+      "line": 1416,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1463,
+      "line": 1425,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1471,
+      "line": 1433,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1478,
+      "line": 1440,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1506,
+      "line": 1468,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1511,
+      "line": 1473,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1537,
+      "line": 1499,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1561,
+      "line": 1523,
       "column": 18,
       "code": "W212",
       "message": "unused argument 'self'"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1561,
+      "line": 1523,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1562,
+      "line": 1524,
       "column": 18,
       "code": "W212",
       "message": "unused argument 'self'"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1562,
+      "line": 1524,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 264"
-    },
-    {
-      "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1638,
-      "column": 17,
-      "code": "W211",
-      "message": "unused variable 'y'"
+      "message": "shadowing upvalue 'self' on line 256"
     },
     {
       "file": "src/lua/abyss_bgm.lua",
@@ -278,39 +257,32 @@
       "message": "shadowing upvalue 'self' on line 67"
     },
     {
-      "file": "src/lua/abyss_combat.lua",
-      "line": 1147,
-      "column": 21,
-      "code": "W213",
-      "message": "unused loop variable 'j'"
+      "file": "src/lua/abyss_deck_ui.lua",
+      "line": 10,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 9"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 11,
+      "line": 54,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 10"
+      "message": "shadowing upvalue 'self' on line 9"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 98,
+      "line": 95,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 10"
+      "message": "shadowing upvalue 'self' on line 9"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 141,
+      "line": 105,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 10"
-    },
-    {
-      "file": "src/lua/abyss_deck_ui.lua",
-      "line": 151,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 10"
+      "message": "shadowing upvalue 'self' on line 9"
     },
     {
       "file": "src/lua/abyss_effects.lua",
@@ -391,21 +363,28 @@
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 73,
+      "line": 65,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 77,
+      "line": 69,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 91,
+      "line": 83,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 21"
+    },
+    {
+      "file": "src/lua/abyss_game_ui.lua",
+      "line": 92,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
@@ -433,63 +412,56 @@
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 124,
+      "line": 239,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 247,
+      "line": 248,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 256,
+      "line": 368,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 376,
+      "line": 373,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 381,
+      "line": 417,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 426,
+      "line": 447,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 456,
+      "line": 457,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
     },
     {
       "file": "src/lua/abyss_game_ui.lua",
-      "line": 466,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 21"
-    },
-    {
-      "file": "src/lua/abyss_game_ui.lua",
-      "line": 489,
+      "line": 480,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 21"
@@ -503,7 +475,7 @@
     },
     {
       "file": "src/lua/abyss_inventory.lua",
-      "line": 209,
+      "line": 203,
       "column": 23,
       "code": "W421",
       "message": "shadowing definition of variable 'target' on line 148"
@@ -636,59 +608,59 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 343,
-      "column": 19,
-      "code": "W421",
-      "message": "shadowing definition of variable 'poor' on line 298"
-    },
-    {
-      "file": "src/lua/abyss_node_ui.lua",
-      "line": 358,
+      "line": 352,
       "column": 31,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 397,
+      "line": 391,
       "column": 33,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 458,
+      "line": 452,
       "column": 32,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 475,
+      "line": 469,
       "column": 35,
       "code": "W212",
       "message": "unused argument 'cost'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 497,
+      "line": 491,
       "column": 39,
       "code": "W431",
-      "message": "shadowing upvalue 'info' on line 473"
+      "message": "shadowing upvalue 'info' on line 467"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 521,
+      "line": 515,
       "column": 43,
       "code": "W431",
-      "message": "shadowing upvalue 'card' on line 127"
+      "message": "shadowing upvalue 'card' on line 125"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 577,
+      "line": 571,
       "column": 35,
       "code": "W212",
       "message": "unused argument 'view'"
+    },
+    {
+      "file": "src/lua/abyss_node_ui.lua",
+      "line": 624,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
@@ -699,17 +671,24 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 636,
+      "line": 747,
+      "column": 35,
+      "code": "W431",
+      "message": "shadowing upvalue 'card' on line 125"
+    },
+    {
+      "file": "src/lua/abyss_node_ui.lua",
+      "line": 782,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 754,
-      "column": 35,
+      "line": 786,
+      "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'card' on line 127"
+      "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
@@ -720,56 +699,35 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 793,
+      "line": 847,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 808,
+      "line": 859,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
-    },
-    {
-      "file": "src/lua/abyss_node_ui.lua",
-      "line": 866,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
-    },
-    {
-      "file": "src/lua/abyss_node_ui.lua",
-      "line": 878,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 69"
-    },
-    {
-      "file": "src/lua/abyss_node_ui.lua",
-      "line": 1029,
-      "column": 23,
-      "code": "W433",
-      "message": "shadowing upvalue loop variable 'key' on line 947"
     },
     {
       "file": "src/lua/abyss_nodes.lua",
-      "line": 405,
+      "line": 404,
       "column": 21,
       "code": "W211",
       "message": "unused variable 'position'"
     },
     {
       "file": "src/lua/abyss_nodes.lua",
-      "line": 536,
+      "line": 535,
       "column": 25,
       "code": "W211",
       "message": "unused variable 'position'"
     },
     {
       "file": "src/lua/abyss_nodes.lua",
-      "line": 589,
+      "line": 588,
       "column": 24,
       "code": "W211",
       "message": "unused variable 'position'"
@@ -863,34 +821,34 @@
     "abyss_acid_slime_m_ai": "972d81f4e3ed017249796267d242ab73f7bdac93945efb6a441ed53b603a90e6",
     "abyss_acid_slime_s_ai": "b3063719126444d01ec18bc7878d4ca614dda13dc0ddcc7599304e24b3703769",
     "abyss_act1_events": "e0a172e92ddc05a7def8623b9006c163c807dc8d7b472d40b54c7b1fd8593aaa",
-    "abyss_actor": "c56431f7acc9b3605306c77e55407fd54a57fd52f69ac0cd6f7eb41b51bdd1f6",
-    "abyss_battle_ui": "f694a063abe3b9f7847c34cd529876f2493448f4aefcb958f9b73d11b695c256",
+    "abyss_actor": "12d014e41bd2af6a7b4cf937327b450c34509a73d668d1cc33a0ac178f1fa59d",
+    "abyss_battle_ui": "934c251e5012ebf18893e0aa3f4fd8f30fb860b5b6cca693c59fcde5a5f21442",
     "abyss_bgm": "adcc610892b2c068e2c37a0f067080ec44e3b233e78d7799ac9371e1ddce39ec",
     "abyss_blue_slaver_ai": "f600520998bd33a13716e71ff93be6937db4d323a55aa1721ab6ce8e5be8108c",
-    "abyss_card_actions": "3c5eddd54f66aadad016c0914b1307a1fccacd2016285793ef52876144312ba1",
-    "abyss_card_capability": "dcd2ca6b9dacd769d1c42cb3f3231fef4cfb770109b1be26c3612fe69bb93dae",
-    "abyss_card_display": "7decd48a68a60eda357c08c4e498486b43f042f274d62f7cc171376071863955",
+    "abyss_card_actions": "ee19e1d1a15052a049f70d375bf8280a192821dac93cde2701f16980b6738417",
+    "abyss_card_capability": "9ec007524bd36fc93956e36ba727c3047d7f2c8b369598a5b9b0fe57d64e2199",
+    "abyss_card_display": "6b871fe4d449123e250face2e9a05d17fcc0b5bbb733372d9c8afb44cc3c0c7b",
     "abyss_card_pool": "28f3d397c68bc457e7c0641f3c41468ee1d7b0a792d4edf638276353c06ddb9d",
     "abyss_card_random": "e429204a73f282de96d27d8f2ee3669e7fbb0c101a3d346c4400e96110ac1408",
-    "abyss_combat": "8f8e24b256fff102de6a82b4b26e71681a4143b9b878fa4f5b55669062c0d1dd",
+    "abyss_combat": "490817650e8e250ec22550c7ad41d73a837ddeac187ad6c4e223a734a8b0a9a4",
     "abyss_curses": "783838c0dd3f0d97f315864e9cde495b17f9cd38e65a7ba65503cbcd2c0bc451",
-    "abyss_deck_ui": "dd85ba756be40f7ae2b47468d14e08eb7f7548fb2d63818b2ad4817b4dbb8414",
+    "abyss_deck_ui": "5f8f2f12cfde14c4c487c4a748ec19284a9410f36724b2b1a2b0a1fc654d585d",
     "abyss_effects": "040844e29308e444a84fc42369d36128aacc034e181105997c40603d2e34fdfe",
     "abyss_encounter_formation": "d57cad542b761375e94fff3734cb417e0230ef0089a2eec7178f94b8380d1400",
     "abyss_encounter_queue": "4c75a362e405b4ece1494524e1cc202e908a65f257a731843cde080aa876076f",
     "abyss_enemy_ai": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f",
     "abyss_enemy_random": "21ce08c3a7c031f260565e47cef6356141c888d4a89e7f5643fcc1693f3095a1",
     "abyss_event_pool": "efcdc3c7db0bdf9410d97bade8499a94a23159773ee602474a82af145176536e",
-    "abyss_events": "ddf541d3447a4403c33f97dd1a54346f742be996abdbb0ed8030c7d8a13920f9",
+    "abyss_events": "40c36ff82d7b12fa44751cccd355ff95dcd35eb91136c496f65a9cab3d94868c",
     "abyss_external_random": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702",
     "abyss_feedback": "a0ad73412faacea47e75fea90fd726adcdcf0286f411f52c8de2cf3b913065ae",
     "abyss_fountain": "cedc147d608a7fe39020d494dc96a3326f0fc3a1c0473741b5e9031d069a97d5",
     "abyss_fungi_beast_ai": "1719491618f47b5870f0d3fef5d20256082393aa2b73b08f901d47c49db1a65a",
-    "abyss_game_ui": "2d50ca8d53417fb53201b6b7b734d30a2a5baff60c0237055b87a80a4f45c742",
+    "abyss_game_ui": "0b6da39db8416ec6a692723c9a946507aec25e19ca9e0a21e7bfc65e6e016ce7",
     "abyss_gold_rewards": "c6a38624237101b289287e3ddb8766c4169dbb68e24146ef9c5616323b6e1c86",
     "abyss_gremlin_nob_ai": "7dceb41181045423abcd752f664e56805ec0639f47f9f469b4f1b41dbc2f07cb",
     "abyss_guardian_ai": "4b6c93d8d77a8ee3bbb6ce2daf3df9c075e5dcf4e0f700ab9cc2544058e4b718",
-    "abyss_inventory": "29310feca12c9e990e06720989106c3bf71dd2b6796861abd0cdbe93a9e80153",
+    "abyss_inventory": "f015fb37f1f65ff2dc42f2692733009765333edeea7bd471280ed0ca565920d9",
     "abyss_jaw_worm_ai": "cdd4f16dd059c5db55eab5549bad36f0ea907ece36f66f5d0a239d8c5269b37f",
     "abyss_living_wall": "99757cfae305bc27a0ec45853e21f6d4bc305779c1ad621f97ea5c4e8ddde799",
     "abyss_looter_ai": "3102c48a8b15714bb62bf6a68d53ba54a46fb8a085fdf05d243a8a2d07965f67",
@@ -901,8 +859,8 @@
     "abyss_map_ui": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836",
     "abyss_merchant": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9",
     "abyss_new_run_seed": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
-    "abyss_node_ui": "f9ac9ab9dcd192598a4c1f09adb3f3420a7249f213a45a237e583de776002e49",
-    "abyss_nodes": "bfd8c309336322bdecf3570248b08d7decd0ed88be34d9afafe5961fec43a25b",
+    "abyss_node_ui": "b95fb734edb61169fc00cabe538fb80cc0ac3fb32b3541ccbc2a3babf186d806",
+    "abyss_nodes": "60fc6bfb2d82288104442c6598a3d6397fc77da33b98978e97e424c2b0c9d6c4",
     "abyss_numbers": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80",
     "abyss_potion_discard_ui": "638186594d5c27c50dced4a0edeb54946df5f6e8fc8257cbaeda626c1f6ce75a",
     "abyss_potion_health": "739b13c6baccb814a4ed3fe02c6a5702842e64e175be4683bd551d4fdeb70f8c",
@@ -912,20 +870,20 @@
     "abyss_random": "a052a4996c3b7090b1d79112f18630400f21df4318afe68041a2167d1c92e09d",
     "abyss_randomxs128": "73af699eb931d4134c81db9bc980f0fa8cabbcf3c587c9031c85ce6886fe9777",
     "abyss_red_slaver_ai": "7b785a5f8c9b14199f7907fe7e71ad1a1992144d2c168e58e251c462f4474457",
-    "abyss_relic_hooks": "3f3dec65b7d961285af37e689485e4309179bb2e4bdb9fd14fec5f2ddf060b0b",
+    "abyss_relic_hooks": "8840dc104bb697ad59e97ac4c860e142538074ffc061cc052f78ab0b5901c46d",
     "abyss_relic_pool": "b85b11473d1aa501bc44dff1afc1d773b1967ef5ef117f51b7e44b125ed05cc7",
     "abyss_room_encounters": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e",
-    "abyss_run": "3dbedce1843afc91539c2da2ddb183343f690b73cda139e009a5bfb8a0b05db7",
+    "abyss_run": "82a87c8c7a5e923298ac76717bbd2d3c64de4c267628c52ddb49795af8a6f884",
     "abyss_run_seed": "3b0e5f483f563bf5866e6cbdbfc2502f3dc3b56244415bd43ccc7af9dbe2f74b",
     "abyss_sentry_ai": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651",
-    "abyss_shop": "580429cafa6280eb4b9907e9e1d6fa2d862ce39642455ffa3d2fd692a15f8f3a",
+    "abyss_shop": "65d345c9f5366d33c8d2a7ba2735898745a170e6f8db4ad7a36d683e294378cb",
     "abyss_shop_price": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f",
     "abyss_spike_slime_m_ai": "941795ae786277e32c0382c785063a241f9dc4ae3f93dba595b346bef329dd2e",
     "abyss_sts_random": "1e0e0f64fe6a7d2edfe8609419080266c554b763fd71b9565b52eed99aaa42b9",
     "abyss_transform_card": "6fe97f0ed053616db17834ca25ec52551e1dfda898a404ba0c8f0e14d8b0a5b9",
-    "abyss_ui": "dac3019dbc568a5af490af6042359d8ce47442df2ec335420a36672b98c0d347",
+    "abyss_ui": "3898cfb9579d8817d7a37712d3c069b5f0745687499488d8e95bc38f64325028",
     "abyss_unknown": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c",
     "abyss_viewport": "148f69891a344254b90b3fd68ca22187fa48248036e6fe1dd318d38bd29c10dd",
-    "src/lua/abyss_run.lua": "3dbedce1843afc91539c2da2ddb183343f690b73cda139e009a5bfb8a0b05db7"
+    "src/lua/abyss_run.lua": "82a87c8c7a5e923298ac76717bbd2d3c64de4c267628c52ddb49795af8a6f884"
   }
 }

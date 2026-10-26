@@ -67,10 +67,9 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## Git Branch Workflow (GitFlow-lite)
 
-- **所有本地 Codex、远端 Agent、OpenCode 和 Sub-Agent 必须使用 [Remote Task Claim Protocol](docs/REMOTE_TASK_CLAIMS.md)**。Backlog Assignee 保持 Furinya，实际 Executor 记录在远端 claim 的 agent/session；历史任务不批量改负责人。
-- 动手前通过 `node scripts/remote-task-claim.mjs claim/adopt` 取得远端执行权，确认后使用独立 worktree；每个执行会话独立 UUID，不能共享 receipt。范围不明确、领取失败、远端不可达或失权时停止新的开发、提交、推送、集成和完成操作。
-- 开发/委派命令通过 `node scripts/remote-task-claim.mjs run -- <命令>`，直接工具每批写入前 `check`，扩范围先 `expand`；新 clone 必须 `install` Git 门禁，提交、推送和集成前远端复核。只用受控 `integrate` 校验当前SHA全绿后合入，完成/放弃后 `release`。
-- 迁移状态以远端 `list` 为准。未知旧任务/分支/会话不能当成无人持有；暂停时只允许有证据的 adopt/recover。未核实其他机器和所有旧入口前不得开放批量并行；不得绕过 hooks 或强推协调分支。
+- 使用独立工作树与短命分支；开始前核对现有PR、任务和脏文件，避免覆盖其他执行者。Backlog Assignee保持Furinya，执行范围和交付记录写入任务备注。
+- 用户2026-10-26明确批准停用额外任务锁：Remote Task Claim Protocol及其旧paused状态不再是开发、提交、CI或合并前置要求。保留历史工具/协调记录，不借用其他session，不清除他人认领。尚装有旧claim hooks的本机，仅对已授权任务命令使用独立空hooks目录，不改全局配置。
+- 采用GitHub原生PR审查与精确head校验，当前SHA完整Quality成功后squash合入develop。简化任务锁不减免任何测试、质量或产品验收门禁。
 
 - `master` = production. Tagged releases only. Never commit directly.
 - `develop` = integration / development base. Default branch for daily work.
@@ -91,7 +90,7 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - 所有必要任务完成后立即收口；可选研究不阻塞首发。新建前查重，优先复用，重复/过时任务用原生取消/归档机制保留历史。
 - 不能通过降低核心标准或改状态制造完成；记录具体缺失证据和下一动作，避免无证据重复尝试。
 - CI核对PR当前SHA，各作业成功后按规范合并。单人项目不要求分支保护，不将套餐限制列作阻塞。
-- 仓库已公开，日常 `Quality/check` 使用 GitHub 官方 `windows-2025`，其他作业使用 `ubuntu-24.04`，以 `.github/workflows/quality.yml` 的固定配置为准。本地全量检查、可信分支显式 `local-special` 与大规模性质扫描占用同一机器时须串行，跨工作树也共享这个限制；官方隔离 VM 的并发由 workflow 控制。资源争用造成的超时先隔离复跑，不通过放宽测试时限消除红灯。
+- `Quality/check` 使用GitHub-hosted Windows；Ubuntu作业保留文件系统边界回归。日常使用快速/相关测试，最终集成完整Quality通过。保留原测试时限，不以加超时、删断言或跳过有效测试解决红灯。
 
 - 初代《杀戮尖塔》PC A0规则、数值、概率、AI和结算顺序贯穿相关任务，不另设规则一致性Milestone。E1–E5、双人合作和成就为独立候选，不加入10/30必过项；TASK-45保持平台权限阻塞，不主动要求账号升级。
 

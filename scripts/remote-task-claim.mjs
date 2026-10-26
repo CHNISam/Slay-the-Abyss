@@ -67,56 +67,6 @@ function spec() {
   git('check-ref-format', '--branch', s.branch);
   return { task: s.task, agent: s.agent, session: s.session, branch: s.branch, scope: scope(s.scope), leaseSeconds: lease(s.leaseSeconds) };
 }
-function admissionFor(state, claim) {
-  return Object.values(state.migration.admissions || {}).find(a => related(a.task, claim.task) || a.branch === claim.branch);
-}
-function approvedAdmissionAuthorization(state, claim, sha) {
-  const admission = approvedAdmission(state, claim), authorization = claim.admissionAuthorization;
-  if (!authorization || authorization.sha !== sha || authorization.id !== admission.id
-    || authorization.manifestSha256 !== admission.manifestSha256) die('Exact admission-aware push authorization required for this SHA');
-}
-function approvedAdmission(state, claim) {
-  const admission = state.migration.admissions?.[claim.admission];
-  if (!admission || admission.task !== claim.task || admission.executorSession !== claim.session
-    || admission.branch !== claim.branch || JSON.stringify(admission.scope) !== JSON.stringify(claim.scope))
-    die('Exact task, executor, branch and scope admission approval required');
-  return admission;
-}
-function newAdmission(state, raw) {
-  if (state.migration.status !== 'paused' || !raw || !/^[a-z][a-z0-9-]*$/.test(raw.id)
-    || !raw.executorSession || !raw.evidence || !Array.isArray(raw.acknowledgedReservations))
-    die('Paused bounded admission requires identity, executor, evidence and explicit overlap acknowledgements');
-  if (state.migration.admissions?.[raw.id]) die('Admission already registered and immutable');
-  const task = taskID(raw.task), declared = scope(raw.scope);
-  if (Object.values(state.claims).some(c => related(c.task, task)) || Object.values(state.migration.admissions || {}).some(a => related(a.task, task))
-    || state.migration.reservations.some(r => related(r.task, task)))
-    die('Admission is only for a new task, not takeover of existing work');
-  if (!raw.branch?.startsWith('feat/')) die('Admission requires a feature branch');
-  git('check-ref-format', '--branch', raw.branch);
-  const historicalBranches = [...Object.values(state.claims), ...state.migration.reservations,
-    ...Object.values(state.migration.admissions || {}),
-    ...Object.values(state.migration.reconciliations || {}).flatMap(g => g.stages)];
-  if (historicalBranches.some(c => c.branch === raw.branch)
-    || spawnSync('git', ['show-ref', '--verify', '--quiet', `refs/heads/${raw.branch}`]).status === 0
-    || git('ls-remote', 'origin', `refs/heads/${raw.branch}`)) die('Admission requires a new branch, never takeover of an existing or historical branch');
-  for (const path of declared.paths) {
-    if (!path.includes('.') || declared.paths.some(other => other !== path && contains(other, path)))
-      die('Admission scope requires exact files, not directory prefixes');
-    let target = process.cwd();
-    for (const part of path.split('/')) {
-      target = join(target, part);
-      if (existsSync(target) && lstatSync(target).isSymbolicLink()) die('Admission symlink aliases unsupported');
-    }
-    if (existsSync(target) && !lstatSync(target).isFile()) die('Admission scope requires exact files');
-  }
-  const candidate = { task, branch: raw.branch, scope: declared };
-  const overlaps = state.migration.reservations.filter(r => r.status === 'unknown' && conflicts(candidate, r)).map(r => r.id).sort();
-  const acknowledged = [...new Set(raw.acknowledgedReservations)].sort();
-  if (JSON.stringify(overlaps) !== JSON.stringify(acknowledged)) die('Acknowledge the exact overlapping legacy reservations without resolving them');
-  checkConflicts(state, candidate, undefined, acknowledged);
-  return { id: raw.id, ...candidate, executorSession: raw.executorSession, acknowledgedReservations: acknowledged,
-    evidence: raw.evidence, registeredBy: session(), registeredAt: new Date().toISOString() };
-}
 function owned(state, r, requireBranch = true) {
   const c = state.claims[r.task];
   if (r.session !== session()) die('Session mismatch: receipts must not be shared between executors');
@@ -128,10 +78,6 @@ function owned(state, r, requireBranch = true) {
     if (requireBranch && absoluteIdentity(process.cwd()) !== absoluteIdentity(c.executionWorktree)) die('Ownership execution worktree mismatch');
     verifyGroupSources(group, c);
     checkConflicts(state, c, c.task, group.sources.map(source => source.reservation), group);
-  }
-  if (c.admission || admissionFor(state, c)) {
-    const admission = approvedAdmission(state, c);
-    checkConflicts(state, c, c.task, admission.acknowledgedReservations);
   }
   return c;
 }
@@ -362,7 +308,7 @@ function changedPaths(mode, input = '', claim) {
 function checkPaths(c, paths) {
   for (const path of paths) {
     const p = canonical(path);
-    if (!c.scope.paths.some(root => (c.migrationGroup || c.admission) ? root === p : contains(root, p))) die(`Out of scope: ${path}; expand remotely before modifying it`);
+    if (!c.scope.paths.some(root => c.migrationGroup ? root === p : contains(root, p))) die(`Out of scope: ${path}; expand remotely before modifying it`);
     // Symlink aliases can otherwise escape declared scope. Junctions/symlinks are not controlled write targets.
     let target = process.cwd();
     for (const part of path.replaceAll('\\', '/').split('/')) {
@@ -474,7 +420,7 @@ async function runGuarded(client, r) {
 async function main() {
   if (command === 'session') return { session: randomUUID() };
   if (command === 'migration-snapshot') return sourceSnapshot(need('path'));
-  if (command === 'help' || !command) return { usage: 'TASK_CLAIM_SESSION=<unique ID>; node scripts/remote-task-claim.mjs <init|claim|adopt|recover|renew|check|expand|release|list|migration-snapshot|migration-reconcile|migration-admit|migration-open|install|worktree|run|hook|integrate|session> [--spec file] [--inventory file] [--evidence text]. Reconciled adoption: --group ID --stage ID; serial completion: release --stage-complete yes --evidence text. See docs/REMOTE_TASK_CLAIMS.md' };
+  if (command === 'help' || !command) return { usage: 'TASK_CLAIM_SESSION=<unique ID>; node scripts/remote-task-claim.mjs <init|claim|adopt|recover|renew|check|expand|release|list|migration-snapshot|migration-reconcile|migration-open|install|worktree|run|hook|integrate|session> [--spec file] [--inventory file] [--evidence text]. Reconciled adoption: --group ID --stage ID; serial completion: release --stage-complete yes --evidence text. See docs/REMOTE_TASK_CLAIMS.md' };
   const client = remoteClient();
   if (command === 'list') {
     const s = requireState(client.read().state);
@@ -485,11 +431,6 @@ async function main() {
     const matches = Object.values(s.claims).filter(c => c.status === 'active' && Date.parse(c.expiresAt) > now() && c.branch === name && c.authorizedSha === sha);
     if (matches.length !== 1) die('PR has no unique live ownership authorization for its exact head SHA; adopt/renew and push through the gate');
     if (matches[0].migrationGroup) approvedGroupClaim(s, matches[0]);
-    if (matches[0].admission || admissionFor(s, matches[0])) {
-      approvedAdmissionAuthorization(s, matches[0], sha);
-      const admission = approvedAdmission(s, matches[0]);
-      checkConflicts(s, matches[0], matches[0].task, admission.acknowledgedReservations);
-    }
     return { checked: true, task: matches[0].task, generation: matches[0].generation, sha };
   }
   if (['init', 'claim', 'adopt', 'recover'].includes(command)) {
@@ -512,15 +453,8 @@ async function main() {
         s = { schema: 1, generation: 0, claims: {}, migration: { status: 'paused', externalUnknown: inventory.externalUnknown, bootstrapTask: candidate.task, reservations, inventory, initializedAt: new Date().toISOString() } };
         // Bootstrap is narrow and explicit; no legacy reservation may intersect its scope.
       } else requireState(s);
-      if (options.admission) {
-        if (!['claim', 'recover'].includes(command)) die('Admission uses claim or recover only');
-        candidate.admission = options.admission;
-        approvedAdmission(s, candidate);
-      }
-      if (admissionFor(s, candidate)) approvedAdmission(s, candidate);
-      if (command === 'claim' && s.migration.status !== 'open' && !candidate.admission) die('Migration paused: adopt existing work; no fresh parallel claims');
+      if (command === 'claim' && s.migration.status !== 'open') die('Migration paused: adopt existing work; no fresh parallel claims');
       const old = s.claims[candidate.task];
-      if (old?.admission && old.admission !== candidate.admission) die('Resume requires the same exact admission');
       if (old?.migrationGroup && (command !== 'adopt' || options.group !== old.migrationGroup)) die('Reconciled task must resume through its designated group and approved stage');
       if (old?.status === 'active' && Date.parse(old.expiresAt) > now()) die(`Conflict: ${candidate.task} already actively owned`);
       if (command === 'claim' && old?.status === 'active') die('Expired claim exists; use recover with evidence and a new generation');
@@ -556,7 +490,7 @@ async function main() {
       } else {
         const coordinatorRecovery = command === 'recover' && s.migration.status === 'paused' && candidate.task === s.migration.bootstrapTask;
         if (coordinatorRecovery && JSON.stringify(candidate.scope) !== JSON.stringify(old.scope)) die('Coordinator recovery must preserve the original bootstrap scope');
-        if (!candidate.migrationGroup) checkConflicts(s, candidate, undefined, coordinatorRecovery ? s.migration.bootstrapOverlaps : candidate.admission ? approvedAdmission(s, candidate).acknowledgedReservations : reservation?.id);
+        if (!candidate.migrationGroup) checkConflicts(s, candidate, undefined, coordinatorRecovery ? s.migration.bootstrapOverlaps : reservation?.id);
       }
       const generation = ++s.generation, at = now();
       const targetTip = spawnSync('git', ['rev-parse', '--verify', `refs/heads/${candidate.branch}`], { encoding: 'utf8' });
@@ -581,34 +515,6 @@ async function main() {
   }
   const r = receipt();
   if (r.remote !== client.remote) die('Remote differs from claim receipt');
-  if (command === 'migration-admit') {
-    const bytes = readFileSync(need('manifest'), 'utf8'), raw = JSON.parse(bytes);
-    const state = client.mutate(s => {
-      requireState(s); const coordinator = owned(s, r);
-      if (coordinator.task !== s.migration.bootstrapTask) die('Only the active migration coordinator may admit new work');
-      if (options['handoff-head']) {
-        const head=options['handoff-head'];
-        const successorScope=scope(raw.scope), snapshot=sourceSnapshot(process.cwd());
-        if (!/^[a-f0-9]{40}$/.test(head) || head!==snapshot.head || snapshot.dirty.length
-          || coordinator.authorizedSha!==head
-          || git('ls-remote','--exit-code',client.remote,`refs/heads/${coordinator.branch}`).split(/\s+/)[0]!==head)
-          die('Coordinator handoff requires its exact clean push-authorized published head');
-        if (raw.executorSession===coordinator.session
-          || !coordinator.scope.paths.every(p=>successorScope.paths.includes(p))
-          || !coordinator.scope.modules.every(m=>successorScope.modules.includes(m)))
-          die('Coordinator handoff requires a new executor and complete predecessor scope');
-        // Registration and release share one CAS. No claimant may overlap an
-        // active predecessor; failed registration publishes neither change.
-        coordinator.status='released';coordinator.releasedAt=new Date(now()).toISOString();
-        coordinator.releaseEvidence={admission:raw.id,head,evidence:raw.evidence};
-      }
-      const admission = newAdmission(s, raw);
-      admission.manifestSha256 = digest(bytes); admission.generation = ++s.generation;
-      s.migration.admissions ||= {}; s.migration.admissions[admission.id] = admission;
-      return s;
-    });
-    return { admitted: raw.id, generation: state.migration.admissions[raw.id].generation, migration: state.migration.status };
-  }
   if (command === 'migration-transfer') {
     const id = need('group'), previousSession = need('from-session'), nextSession = need('to-session');
     const head = need('sha'), evidence = need('evidence');
@@ -674,8 +580,6 @@ async function main() {
           const current = owned(requireState(s), r);
           checkPaths(current, changedPaths('push', input, current));
           current.authorizedSha = sha;
-          if (current.admission) current.admissionAuthorization = { sha, id: current.admission,
-            manifestSha256: approvedAdmission(s, current).manifestSha256 };
           return s;
         });
       }
@@ -717,7 +621,6 @@ async function main() {
         c.base = newBase;
       }
       if (command === 'expand') {
-        if (c.admission) die('Admission scope is exact and immutable; no expansion');
         if (c.migrationGroup) die('Reconciled stages use the complete coordinator-approved scope; do not expand past its proof');
         const expanded = scope(jsonFile(need('scope')));
         if (!c.scope.paths.every(p => expanded.paths.some(q => contains(q, p))) || !c.scope.modules.every(m => expanded.modules.includes(m))) die('expand cannot silently shrink scope');
@@ -754,7 +657,6 @@ async function main() {
   }
   if (command === 'integrate') {
     const sha = need('sha'), pr = need('pr');
-    if (c.admission) approvedAdmissionAuthorization(requireState(client.read().state), c, sha);
     const info = JSON.parse(exec('gh', ['pr', 'view', pr, '--json', 'headRefOid,headRefName,baseRefName,statusCheckRollup,state']));
     if (info.state !== 'OPEN' || info.headRefOid !== sha || info.headRefName !== c.branch || info.baseRefName !== 'develop' || git('rev-parse', 'HEAD') !== sha || c.authorizedSha !== sha) die('PR must match exact owned, push-authorized branch/HEAD and target develop');
     if (!info.statusCheckRollup.length || info.statusCheckRollup.some(x => (x.conclusion || x.state) !== 'SUCCESS')) die('Every current-SHA CI check must succeed before integration');

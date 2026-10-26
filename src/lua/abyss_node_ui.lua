@@ -340,17 +340,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local tile,price=shop:GetChild('potion'..i),shop:GetChild('potionPrice'..i)
             local definition=find(self.run.data.potions.potions,offer.id)
             local full=Run.potionCount(self.run)>=Run.potionCapacity(self.run)
-            local poor=self.run.gold<offer.price
-            local enabled=not offer.sold and not offer.unavailable and not poor and not full
+            local potionPoor=self.run.gold<offer.price
+            local enabled=not offer.sold and not offer.unavailable and not potionPoor and not full
             state(tile,enabled)
             picture(tile:GetChild('icon'),Theme.icon.potion[offer.id])
             tile:GetChild('name').text=definition and definition.name or (rarityNames[offer.rarity] or '')..'药水'
             tile:GetChild('description').text=offer.unavailable and '此稀有度暂无可售内容' or offer.sold and '已售出' or full and '药水槽已满' or potionText(offer.id)
             show(tile:GetChild('veil'),offer.sold)
-            fillPrice(price,offer.price,offer.unavailable and 'missing' or offer.sold and 'sold' or poor and 'poor' or 'ok')
+            fillPrice(price,offer.price,offer.unavailable and 'missing' or offer.sold and 'sold' or potionPoor and 'poor' or 'ok')
             action('shopView/potion'..i,enabled,function()
                 return commit('buyPotion',i,function(before) return '已购买药水 · 支付 '..number(before.gold-self.run.gold)..' 金币' end)
-            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price),poor and not full and not offer.sold and not offer.unavailable)
+            end,offer.unavailable and '此药水尚未实装，不可购买' or offer.sold and '药水已售出' or full and '药水槽已满' or shortfall(offer.price),potionPoor and not full and not offer.sold and not offer.unavailable)
         end
         return "点选商品购买 · 未实装槽位不可购买"
     end
@@ -1026,9 +1026,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 paintButton(box)
             end)
             listen(hit, cursor.CursorUp, function(event)
-                local key = touchKey(event)
-                local gesture = input.active[key]
-                input.active[key] = nil
+                local touchId = touchKey(event)
+                local gesture = input.active[touchId]
+                input.active[touchId] = nil
                 if gesture then input.released = gesture end
                 release(event)
             end)

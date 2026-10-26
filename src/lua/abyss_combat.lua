@@ -69,24 +69,9 @@ function M.applyEffects(state, effects, source, target, playedCard)
     return resolveEffects(state, effects, source, target, playedCard, false)
 end
 
-local function copy(value, seen)
-    -- assert(value, message) returns both arguments on success. Legacy callers
-    -- pass that expression directly, so only an explicit table is a memo.
-    seen=type(seen)=='table' and seen or {}
-    local function visit(v)
-        if type(v)~="table" then return v end
-        if seen[v] then return seen[v] end
-        local result={};seen[v]=result
-        for k,entry in pairs(v) do result[k]=visit(entry) end
-        return result
-    end
-    return visit(value)
-end
+local copy = require("abyss_copy").copy
 M.copy = copy
 
-function M.onHpLost(state,owner,amount)
-    require('abyss_hp_loss').notify(state,owner,state.player,amount)
-end
 
 local function index(entries)
     local result = {}
@@ -1144,7 +1129,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
             if e.op=="damage" or e.op=="damageAll" or e.op=="fiendFire" or e.op=="feed"
                 or e.op=="reaper" or e.op=="damageRandom" or e.op=="damageEqualToBlock" then
                 e.resolved={}
-                for j,enemy in ipairs(state.enemies) do
+                for _,enemy in ipairs(state.enemies) do
                     e.resolved[enemy.id]=Actors.attackAmount(state,state.player,enemy,e.op=="damageEqualToBlock" and state.player.block or e.value)
                 end
             end
@@ -1384,7 +1369,11 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     RelicHooks.atTurnStart(state)
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy = state.energy + state.rules.player.energyPerTurn
-    for _,id in ipairs({"rage","double_tap","flame_barrier"}) do state.player.statuses[id]=nil end
+    for _,id in ipairs({"rage","flame_barrier"}) do
+        require('abyss_power_schedule').remove(state,state.player,id)
+        state.player.statuses[id]=nil
+    end
+    state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
     local p=state.player
     for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
         CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
@@ -1451,7 +1440,7 @@ local function advancedTurnCleanup(state)
     end
     return false
 end
-function M.endTurn(state)
+local function endExperimentalTurn(state)
     if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
     if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
     if state.pendingDiscard then return false, "discard_choice_pending" end
@@ -1777,7 +1766,6 @@ end
 
 -- Advanced cleanup can invoke several card/power hooks. Keep end-turn errors
 -- atomic just like a paused play, including costs reset before queued actions.
-local endTurn=M.endTurn
 function M.endTurn(state)
     if state.originalV4 then
         local restore=require('abyss_snapshot').capture(state)
@@ -1786,9 +1774,9 @@ function M.endTurn(state)
         return ok,reason
     end
     if not state.experimentalMechanics then return endNativeTurn(state) end
-    if not advancedTurnCleanup(state) then return endTurn(state) end
+    if not advancedTurnCleanup(state) then return endExperimentalTurn(state) end
     local restore=require("abyss_snapshot").capture(state)
-    local called,ok,reason=pcall(endTurn,state)
+    local called,ok,reason=pcall(endExperimentalTurn,state)
     if not called then restore();error(ok,0) end
     return ok,reason
 end

@@ -1,3 +1,5 @@
+> 2026-10-26：用户明确批准停用额外任务锁。本协议与工具保留为历史/可选协作实现，不再是开发、提交、CI和合并前置要求。当前执行流程见AGENTS.md；使用Backlog、独立工作树、GitHub原生PR及当前SHA完整Quality。下文保留历史合同，不表示旧paused状态仍阻止交付。
+
 # 远端任务执行权
 
 Backlog 管任务状态、里程碑和 Assignee。新工作 Assignee 保持 **Furinya**；Executor 是认领中的 `agent + session`，不改历史负责人。执行权唯一事实在 `origin` 的 **`coord/task-claims`** 分支 `claims.json`，不要手改或强推这个分支。
@@ -144,11 +146,3 @@ node scripts/remote-task-claim.mjs migration-transfer --group <组ID> --from-ses
 Git hooks、受控命令和远端读取阻止合作执行者失权后的新操作；不能撤销已经写出的文件，不能拦截任意编辑器/外部 GitHub API，不能将GitHub merge与另一Git ref更新变成同一事务。检查与外部操作之间存在很小的时间窗口；长命令按心跳发现失权，强杀父进程时应停止整个子进程树。不要把这套轻量协作门禁当作服务器权限系统。未升级的其他机器仍是明确风险，迁移暂停继续生效。
 
 运行真实并发验收：`node --test --test-concurrency=1 tests/remote-task-claim.test.mjs`。测试创建临时 bare remote、三个独立clone和独立Node进程，含接收端屏障，无共享工作树或原子性 mock；清理只针对测试自己创建的系统临时目录。
-
-## 用户明确授权的新包受限登记
-
-全局 paused 时，新包不能借用旧任务、旧分支或 bootstrap receipt。用户明确授权当前包后，活跃 bootstrap 协调者可运行 `migration-admit --manifest <json>`。清单包含唯一 id、真实新 task、executorSession、全新 feat/branch、精确文件 scope（paths/modules）、evidence，以及 acknowledgedReservations：逐项列出与本包重叠的 unknown 隔离 ID。必须与远端计算的重叠集合完全一致。这是对本包风险的显式确认，不是旧执行者停止的证明；原记录与 externalUnknown、paused 保持原样。
-
-若已授权包的前置切片必须继承协调者自身的文件，可用 `migration-admit --manifest <json> --handoff-head <SHA>` 作一次原子交接。协调者必须有完全干净、已由 hooks 授权并已发布的精确 HEAD；新清单必须使用新任务、新分支、新 session，并完整继承协调者的文件与模块范围。该 CAS 同时保留协调者释放证据和登记新清单；登记失败时两者均不发布。其他有效 claim、旧 unknown 隔离以及所有普通登记检查保持不变。成功后旧协调者立即失权，后续执行者通过自己的新 admission 和独立 worktree 领取，不复用旧 receipt，也不重新开放迁移。
-
-登记不可修改或扩范围；不能复用历史任务及父子任务、分支，不能越过任何有效认领。新执行者使用独立 session/spec 运行 `claim --admission <id> --spec <json> --path <独立新树>`，随后 install/check/run/提交/推送/当前 SHA CI/受控 integrate/release 仍全部生效。恢复用同一 admission、session 和完整精确范围；旧 receipt 仍被 generation 隔离。受限认领只准修改列出的文件，禁止目录前缀与 expand。其他新任务继续被 paused 拒绝。

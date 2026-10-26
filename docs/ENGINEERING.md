@@ -1,8 +1,10 @@
 # 工程检查与证据入口
 
-2026-10-25统一集成：历史TASK-33/34/35编号仅对应本分支创建时的记录，不覆盖当前同号产品任务，见[编号迁移说明](reviews/engineering-legacy-tasks.md)。本轮工程与其他成果一起在现有PR206验证；当前架构为66模块，平台/实机验收状态不因工程门禁提升。
+2026-10-26工程质量修复基线为develop `45ba918`。当前源码109个Lua模块（含新增纯拷贝工具），静态基线116条、延迟导入例外16项；以 `config/architecture.json`、`config/luacheck-baseline.json`及实际生成报告为准。旧53/114条、24/66模块和旧任务编号均为冻结切片历史，不能当作当前计数。详细审计与验证见[本轮工程修复](backlog-details/task-68.md)。
 
-当前静态基线为114条逐条复核的既有告警，`reviewedSourceHashesLF`对源码换行规范化后记录哈希；不包含未定义全局或语法错误。以下53条、19模块及当时任务编号属于原冻结工程切片的历史证据。
+日常小改动使用 `npm run test:fast -- --base origin/develop` 或 `npm run test:related -- --base origin/develop`；先加 `--plan`查看选择。也可用 `--files scripts/deck-ui-layout.mjs` 指定待验证的改动集合。快速层只执行受影响的纯JS测试；相关层另执行进程/集成与Lua测试。未知、删除、数据/配置/构建基础设施改动保守回退完整 `npm run check`。选择器是本地反馈工具，不能代替合并的完整Quality。
+
+CI使用GitHub-hosted Windows和Ubuntu；旧self-hosted调度与Remote Task Claim强制锁已按用户明确批准停用。保留Backlog、独立工作树、PR审查、精确head与全部完整质量门禁。GitHub原生每分支concurrency取消过时运行，不再把不同PR排在本机串行队列。Windows与Ubuntu覆盖不同文件系统语义，不将两平台执行伪称为无意义重复；PR merge SHA和squash后的develop SHA也分别核对，不复用旧SHA的绿灯。
 
 本轮参照 `Slay_the_Abyss_Engineering_Upgrade_2026-10-23.zip`，在 `origin/develop@cd8ceae` 上实施。保留现有玩法、PR19视觉基线、Fengari执行入口、Backlog和Quality。TASK-33/34/35维护执行状态；真实玩家关口仍在原任务。
 
@@ -12,7 +14,7 @@
 | Lua模块依赖 | `config/architecture.json`；`npm run check:architecture` | 作用域AST、函数内require、禁止层次、循环、未知/动态加载；`build/architecture.json` |
 | Lua基础静态检查 | `.luacheckrc`；`npm run check:lua-static` | 固定Luacheck 1.2.0和二进制hash；新增诊断失败；复杂度仅报告 |
 | 关键测试敏感性 | `config/critical-mutations.json`；`npm run check:test-strength` | 四类指定语义退化，临时副本，指定断言来源；不是全库mutation score |
-| 副本候选 | `node scripts/build-native-candidate.mjs <base.gil> [build/candidates]` | 重新生成数据/UI、当前24模块完整检查、输入与最终GIL真实摘要 |
+| 副本候选 | `node scripts/build-native-candidate.mjs <base.gil> [build/candidates]` | 重新生成数据/UI、当前源码及5个生成运行时模块完整检查、输入与最终GIL真实摘要 |
 | 启动取证 | 上一命令加 `--playtest`（仅客户端可用且允许占用输入时） | 实际MCP run/request、原始日志解码、本构建启动标记和ready；不等于完整游戏 |
 | UI实机验收 | `npm run verify:ui -- <候选目录/candidate.gil>` | 同一候选/启动/截图、当前批准稿版本、完整关键项及明确人审范围 |
 | 合并证据 | `npm run verify:delivery -- <PR> <独立审查.json>` | 当前head/base、测试merge parents、当前attempt全部必需作业；不自动合并 |
@@ -43,7 +45,7 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 
 ## CI与交付
 
-必需作业是 `check`、`presentation`、`engineering-posix`。fork始终运行GitHub-hosted；Ubuntu作业实际跑Node文件别名回归。保持只读权限、超时、取消旧运行、7天产物保留；check产出当前event/runId/attempt/head/base/tested SHA收据。
+必需作业是 `check`、`presentation`、`engineering-posix`。所有来源均运行GitHub-hosted；Ubuntu作业实际跑Node文件别名回归。保持只读权限、超时、取消旧运行、7天产物保留；check产出当前event/runId/attempt/head/base/tested SHA收据。
 
 交付检查读取所有分页及当前attempt作业，拒绝queued/failed/cancelled/skipped/missing和旧head/base组合。PR合并测试SHA允许不同于head，但实际parents必须是当前base/head。独立审查记录提供 `reviewedHeadSha`、`reviewedBaseSha`、可追溯 `reviewId`、`conclusion: pass`、`unresolved: []`；字段通过不自证审查独立，须检查真实会话/审查来源。记录可放PR附属产物，避免提交记录包含自身SHA的循环。合并前再查head/base，用现成expected-head机制，并复查合并结果。
 

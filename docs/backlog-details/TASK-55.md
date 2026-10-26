@@ -12,11 +12,7 @@
 
 串行组使用GitHub原生`queue: max`，避免默认单pending槽位让后来的独立PR取消前一个等待作业；保留原有按ref取消过时头的workflow设置。配置依据[GitHub并发文档](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency)，不另建调度器。
 
-早期仓库为 private；ownership 作业仅用当前 step 的只读 GITHUB_TOKEN 环境注入 Git HTTP header，使临时 bare 数据库也能读取协调 ref。凭证不写配置文件、不持久保留、不输出日志，不提升 contents 权限。所有权失败时全量 check 不启动。
-
-2026-10-26 用户确认仓库已公开并要求使用 GitHub 官方免费 runner；GitHub 仓库元数据已核对 visibility=public。Quality/check 改用标准 windows-latest 与 pwsh，保留既有 Windows 全量命令、精确 SHA 检出、Git pack 增量/大小保护、75 分钟上界及全仓串行组；其他作业继续 ubuntu-latest。没有使用 larger runner 或删减检查。运行中的旧自托管作业与新配置的实际生效分别记录。
-
-旧自托管运行器在 PR212 的 Lua 全量阶段收到 shutdown，不能以中断作业判绿。为避免登记/runner 前置与已发现的通用夹具修复互相等待，新增有界原子交接参数：协调者仅在精确干净、已授权推送、远端 HEAD 匹配后，向新任务/分支/session 完整交接本身范围并失权；其他活动执行者冲突仍拒绝，失败的 CAS 不会释放协调者。真实临时 Git 回归覆盖未发布/错误 SHA、脏源、同 session、丢失前驱范围、其他活动 claim、失败不发布释放，以及成功后旧 receipt 立即失效；单组全部通过。后续合并改由新精确范围候选承接，旧 PR 和源码历史保留。
+仓库实际为private；ownership作业仅用当前step的只读GITHUB_TOKEN环境注入Git HTTP header，使临时bare数据库也能读取协调ref。凭证不写配置文件、不持久保留、不输出日志，不提升contents权限。所有权失败时全量check不启动。
 
 ## 验证
 

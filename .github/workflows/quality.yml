@@ -17,28 +17,8 @@ concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  ownership:
-    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/heads/feat/'))
-    runs-on: ubuntu-24.04
-    timeout-minutes: 3
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - name: Verify live remote execution authorization for exact PR head
-        env:
-          CLAIM_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
-          CLAIM_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          CLAIM_TOKEN: ${{ github.token }}
-        run: |
-          export GIT_CONFIG_COUNT=1
-          export GIT_CONFIG_KEY_0=http.https://github.com/.extraheader
-          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$CLAIM_TOKEN" | base64 -w0)"
-          unset CLAIM_TOKEN
-          node scripts/remote-task-claim.mjs verify-pr --branch "$CLAIM_BRANCH" --sha "$CLAIM_SHA"
   check:
-    needs: ownership
-    if: ${{ !cancelled() && (needs.ownership.result == 'success' || needs.ownership.result == 'skipped') && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}
+    if: ${{ !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}
     # Only an explicit dispatch of a trusted integration branch may use the laptop.
     # All ordinary pushes and PRs, including forks, use a disposable hosted VM.
     runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master') && fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') || 'windows-2025' }}
@@ -74,10 +54,19 @@ jobs:
         env:
           CI_TOKEN: ${{ github.token }}
           CI_SHA: ${{ github.sha }}
+          CI_REF: ${{ github.ref }}
           CI_REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = 'Stop'
           if ((Get-Location).Path -ne $env:GITHUB_WORKSPACE) { throw 'Unexpected checkout directory' }
+          if ($env:CI_SHA -cnotmatch '\A[0-9a-fA-F]{40}\z') { throw 'Invalid checkout SHA' }
+          if ($env:CI_REF -cnotmatch '^refs/((heads|tags)/.+|pull/[1-9][0-9]*/merge)$') { throw 'Invalid checkout ref' }
+          git check-ref-format $env:CI_REF
+          if ($LASTEXITCODE -ne 0) { throw 'Invalid checkout ref' }
+          # Hash the validated identity: branch names stay data, never shell/ref paths.
+          $refHasher = [Security.Cryptography.SHA256]::Create()
+          try { $refHash = $refHasher.ComputeHash([Text.Encoding]::UTF8.GetBytes($env:CI_REF)) } finally { $refHasher.Dispose() }
+          $checkoutRef = 'refs/ci/quality-tips/' + [BitConverter]::ToString($refHash).Replace('-', '').ToLowerInvariant()
           git init .
           if ($LASTEXITCODE -ne 0) { throw 'Git initialization failed' }
           if (@(git remote) -contains 'origin') {
@@ -105,6 +94,18 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw 'Git fetch failed' }
           } finally {
             Remove-Item Env:\GIT_CONFIG_COUNT, Env:\GIT_CONFIG_KEY_0, Env:\GIT_CONFIG_VALUE_0, Env:\CI_TOKEN
+          }
+          # Keep each PR/branch reachable across A -> B -> A fetch negotiation.
+          git update-ref --no-deref $checkoutRef refs/ci/current
+          if ($LASTEXITCODE -ne 0) { throw 'Could not preserve branch checkout' }
+          # A bounded local cache, not a network budget: retain this tip plus the
+          # 63 newest other tips by commit time. Evicted branches can download again.
+          $maxCheckoutTips = 64
+          $checkoutTips = @(git for-each-ref --sort=refname --sort=-committerdate --format='%(refname)' refs/ci/quality-tips/)
+          if ($LASTEXITCODE -ne 0) { throw 'Could not list checkout tips' }
+          foreach ($staleRef in @($checkoutTips | Where-Object { $_ -cmatch '^refs/ci/quality-tips/[0-9a-f]{64}$' -and $_ -cne $checkoutRef } | Select-Object -Skip ($maxCheckoutTips - 1))) {
+            git update-ref --no-deref -d $staleRef
+            if ($LASTEXITCODE -ne 0) { throw 'Could not retire old checkout tip' }
           }
           $receivedPackBytes = (Get-PackBytes) - $packBytesBefore
           Write-Output "Checkout new Git pack payload: $receivedPackBytes bytes"

@@ -216,4 +216,14 @@ test('Tantrum real Vigor boosts every hit before removal and returns same instan
  local s=battle({'wreath_of_flame','tantrum'});local original=find(s.hand,'tantrum');play(s,'wreath_of_flame');play(s,'tantrum')
  eq(s.enemies[1].hp,976);eq(s.player.stance,'Wrath');eq(s.player.statuses.vigor,nil);eq(find(s.draw,'tantrum'),original)
 end)
+test('production Vigor is shared once with its existing Chinese name while conflicts reject',function()
+ local out=Profiles.prepare(Data,'watcher')
+ local amount,name=0
+ for _,s in ipairs(Data.statuses.statuses)do if s.id=='vigor'then name=s.name end end
+ for _,s in ipairs(out.statuses.statuses)do if s.id=='vigor'then amount=amount+1;eq(s.name,name)end end
+ eq(amount,1)
+ local bad=C.copy(Data)
+ for _,s in ipairs(bad.statuses.statuses)do if s.id=='vigor'then s.stack='duration'end end
+ assert(not pcall(Profiles.prepare,bad,'watcher'),'incompatible shared Vigor accepted')
+end)
 print('watcher_flow_build: '..count..' passed')

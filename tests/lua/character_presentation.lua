@@ -276,4 +276,23 @@ test('Sands and Eviscerate live costs come from Combat overrides while presentat
  local slot;for i,c in ipairs(battle.hand)do if c==evis then slot=i end end
  eq(r:GetChild('battlePanel'):GetChild('card'..slot):GetChild('cost').text,'2')
 end)
+test('all supported shared curses render in each class and reject incompatible lifecycle metadata',function()
+ local expected={injury='打出',doubt='虚弱',pain='1',decay='格挡',shame='脆弱',
+  writhe='固有',clumsy='虚无',normality='3',parasite='3'}
+ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
+  local data=Profiles.prepare(Data,id)
+  local shown=P.prepare(Existing,data)
+  for curse,word in pairs(expected)do
+   assert(shown[curse].text:find(word,1,true),'missing curse lifecycle '..id..' '..curse)
+   assert(shown[curse].name:find('[\128-\255]'),'English-only curse name')
+   eq(shown[curse].cost,'—')
+  end
+ end
+ for _,row in ipairs({{'decay','endTurnDamage',3},{'pain','onOtherCardHpLoss',2},
+  {'normality','playLimit',4},{'parasite','onRemoveMaxHpLoss',4}})do
+  local data=Profiles.prepare(Data,'silent')
+  for _,card in ipairs(data.cards.cards)do if card.id==row[1]then card[row[2]]=row[3]end end
+  assert(not pcall(P.prepare,Existing,data),'incompatible curse lifecycle displayed as supported')
+ end
+end)
 print('CHARACTER_PRESENTATION_PASS '..cases..' rendered_card_variants='..rendered)

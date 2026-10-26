@@ -1,3 +1,4 @@
+local Copy = require("abyss_copy")
 -- Source-derived discard-card state; the shared action queue owns execution.
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
@@ -33,7 +34,7 @@ local function affected(state)
     return result
 end
 function M.withCardDefinitions(data)
-    local result = require("abyss_combat").copy(data)
+    local result = Copy.copy(data)
     local additions = {
         {id="sneaky_strike",sourceId="Underhanded Strike",type="attack",rarity="common",cost=2,
             tags={"STRIKE"},effects={{op="damage",value=12},{op="gainEnergyIfDiscard",value=2}},
