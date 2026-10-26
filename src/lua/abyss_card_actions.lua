@@ -170,9 +170,9 @@ function M.applyChoice(combat,state,item,uid)
                 for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
                 count=count+1
             end
-            M.created(combat,state,c)
             for _=1,count do
                 local generated=M.fresh(combat,state,c.cardId,c)
+                M.created(combat,state,generated)
                 M.created(combat,state,generated)
                 M.toHand(state,generated)
             end
