@@ -84,7 +84,7 @@ async function waitForFile(path) {
   while (!existsSync(path) && Date.now() < deadline) await new Promise(r => setTimeout(r, 50));
   assert.ok(existsSync(path), 'controlled child actually started');
 }
-async function fixture(t, reservations = [], externalUnknown = false) {
+async function fixture(t, reservations = [], externalUnknown = false, bootstrapPaths = ['infra']) {
   const root = mkdtempSync(join(tmpdir(), 'task-claim-test-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const remote = join(root, 'remote.git'); git(root, 'init', '--bare', remote);
@@ -103,7 +103,7 @@ async function fixture(t, reservations = [], externalUnknown = false) {
   const inventory = join(root, 'inventory.json');
   writeFileSync(inventory, JSON.stringify({ externalUnknown, reservations,
     tasks: reservations.filter(r => r.id === `backlog-${r.task}`).map(r => ({ id: r.task, status: 'In Progress' })) }));
-  await ok(c, ['init', '--inventory', inventory, '--spec', spec(c, 'TASK-999', ['infra']), '--evidence', 'Disposable test coordinator; legacy executors quarantined'], 'c');
+  await ok(c, ['init', '--inventory', inventory, '--spec', spec(c, 'TASK-999', bootstrapPaths), '--evidence', 'Disposable test coordinator; legacy executors quarantined'], 'c');
   if (!reservations.length) await ok(c, ['migration-open', '--evidence', 'All disposable test executors accounted for'], 'c');
   return { root, remote, a, b, c, spec };
 }
@@ -614,6 +614,50 @@ test('bounded admission preserves paused migration and fences exact task session
   await ok(target,['check']);
 });
 
+
+test('coordinator handoff atomically admits a complete clean published successor without overlapping active claims', async t=>{
+  const legacy={id:'old-owner',task:'TASK-0',branch:'feat/old',scope:{paths:['parked'],modules:[]}};
+  const f=await fixture(t,[legacy],true,['infra.lua']);
+  git(f.c,'push','origin','HEAD:refs/heads/develop');
+  const file=join(f.root,'successor.json');
+  const manifest={id:'successor',task:'TASK-61',executorSession:'a',branch:'feat/successor',
+    scope:{paths:['infra.lua','fix.lua','blocked.lua'],modules:[]},acknowledgedReservations:[],evidence:'Complete stopped source handoff for the authorized V4 prerequisite'};
+  writeFileSync(file,JSON.stringify(manifest));
+  const head=git(f.c,'rev-parse','HEAD');
+  await fail(f.c,['migration-admit','--manifest',file,'--handoff-head',head],'c',/push-authorized/i);
+  await ok(f.c,['install'],'c');
+  const pushed=spawnSync('git',['push','origin','HEAD:refs/heads/feat/test-2'],{cwd:f.c,encoding:'utf8',env:{...process.env,TASK_CLAIM_SESSION:'c'}});
+  assert.equal(pushed.status,0,pushed.stderr);
+  for(const wrong of [{...manifest,executorSession:'c'},{...manifest,scope:{paths:['fix.lua'],modules:[]}}]){
+    writeFileSync(file,JSON.stringify(wrong));
+    await fail(f.c,['migration-admit','--manifest',file,'--handoff-head',head],'c',/new executor|complete predecessor/i);
+  }
+  writeFileSync(file,JSON.stringify(manifest));
+  writeFileSync(join(f.c,'infra.lua'),'uncommitted');
+  await fail(f.c,['migration-admit','--manifest',file,'--handoff-head',head],'c',/clean.*published/i);
+  rmSync(join(f.c,'infra.lua'));
+  await fail(f.c,['migration-admit','--manifest',file,'--handoff-head','f'.repeat(40)],'c',/exact clean/i);
+  const otherFile=join(f.root,'other.json');
+  writeFileSync(otherFile,JSON.stringify({...manifest,id:'other',task:'TASK-62',executorSession:'b',branch:'feat/other',scope:{paths:['blocked.lua'],modules:[]}}));
+  await ok(f.c,['migration-admit','--manifest',otherFile],'c');
+  const other=join(f.root,'other');
+  await ok(f.b,['claim','--admission','other','--spec',f.spec(f.b,'TASK-62',['blocked.lua'],[],{branch:'feat/other'}),'--path',other],'b');
+  await fail(f.c,['migration-admit','--manifest',file,'--handoff-head',head],'c',/conflict/i);
+  const before=await ok(f.c,['list'],'c');
+  assert.equal(before.migration.admissions.successor,undefined);
+  assert.equal(before.active.find(c=>c.task==='TASK-999').status,'active','rejected registration must not release coordinator');
+  await ok(f.c,['check'],'c');await ok(other,['release'],'b');
+  await ok(f.c,['migration-admit','--manifest',file,'--handoff-head',head],'c');
+  const after=await ok(f.a,['list']);
+  assert.deepEqual(after.migration.reservations,before.migration.reservations);
+  assert.equal(after.migration.status,'paused');assert.equal(after.migration.externalUnknown,true);
+  const released=after.released.find(c=>c.task==='TASK-999');
+  assert.equal(released.releaseEvidence.head,head);assert.equal(released.releaseEvidence.admission,'successor');
+  await fail(f.c,['check'],'c',/lost|released/i);
+  const target=join(f.root,'successor');
+  await ok(f.a,['claim','--admission','successor','--spec',f.spec(f.a,'TASK-61',manifest.scope.paths,[],{branch:'feat/successor'}),'--path',target]);
+  await ok(target,['check']);
+});
 
 test('admission rejects actual pre-admission runtime push authorization and recover label removal', async t => {
   const f=await fixture(t,[{id:'unrelated',task:'TASK-0',branch:'feat/parked',scope:{paths:['parked'],modules:[]}}],true);

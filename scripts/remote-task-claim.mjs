@@ -586,6 +586,22 @@ async function main() {
     const state = client.mutate(s => {
       requireState(s); const coordinator = owned(s, r);
       if (coordinator.task !== s.migration.bootstrapTask) die('Only the active migration coordinator may admit new work');
+      if (options['handoff-head']) {
+        const head=options['handoff-head'];
+        const successorScope=scope(raw.scope), snapshot=sourceSnapshot(process.cwd());
+        if (!/^[a-f0-9]{40}$/.test(head) || head!==snapshot.head || snapshot.dirty.length
+          || coordinator.authorizedSha!==head
+          || git('ls-remote','--exit-code',client.remote,`refs/heads/${coordinator.branch}`).split(/\s+/)[0]!==head)
+          die('Coordinator handoff requires its exact clean push-authorized published head');
+        if (raw.executorSession===coordinator.session
+          || !coordinator.scope.paths.every(p=>successorScope.paths.includes(p))
+          || !coordinator.scope.modules.every(m=>successorScope.modules.includes(m)))
+          die('Coordinator handoff requires a new executor and complete predecessor scope');
+        // Registration and release share one CAS. No claimant may overlap an
+        // active predecessor; failed registration publishes neither change.
+        coordinator.status='released';coordinator.releasedAt=new Date(now()).toISOString();
+        coordinator.releaseEvidence={admission:raw.id,head,evidence:raw.evidence};
+      }
       const admission = newAdmission(s, raw);
       admission.manifestSha256 = digest(bytes); admission.generation = ++s.generation;
       s.migration.admissions ||= {}; s.migration.admissions[admission.id] = admission;

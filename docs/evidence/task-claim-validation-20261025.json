@@ -265,5 +265,20 @@
     "independentReview": "v4_contract_audit: historical branch/task takeover and old-runtime downgrade findings repaired; final result pending reviewer confirmation",
     "ci": "pending current head",
     "productionGameplay": "not part of this protocol repair; not implemented or tested by this slice"
+  },
+  "v4HostedRunnerHandoff20261026": {
+    "repositoryVisibility": "public; verified via GitHub repository metadata",
+    "runner": "GitHub-hosted windows-latest; Ubuntu companion jobs unchanged",
+    "commandsAndBudgets": "unchanged; all fixtures, serial full Quality group and exact-SHA gates retained",
+    "claimsRegression": {
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skip": 0,
+      "durationMs": 94169.129455
+    },
+    "handoffIndependentReview": "v4_contract_audit: static boundary review and independent real-Git 1/1 pass; no active overlap or failed-CAS partial release found",
+    "legacyState": "paused/externalUnknown/reservations preserved",
+    "currentShaCI": "pending; old PR212 self-hosted job received runner shutdown, not accepted as pass"
   }
 }
