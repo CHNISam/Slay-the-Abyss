@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-26 16:11'
+updated_date: '2026-10-26 16:39'
 labels:
   - required
   - sts1
@@ -58,4 +58,6 @@ type: feature
 本轮隔离分支已增量实现第二幕全部5弱/8强/3精英所需怪物与编组，含Hex、Flight、Confusion、吸血破甲、Leader真实召唤；Champ已实现，另外两Boss和事件敌人仍缺。各切片定向红绿与固定源SHA账本见docs/rules/ACT2_ENEMIES.md，父线程正在组合验证。当前不是完整第二幕/平台验收，三项广义AC不勾。
 
 2026-10-27组合复审：真实Leader重复Rally保留尸体后，活敌真实索引超过5导致界面不可见已复现。独立m3-summon-visibility树正在分离显示槽与actor身份，保留核心尸体、点选/拖牌/帮助/反馈及旧输入保护；缺陷修复及当前SHA完整检查完成前不提高父任务验收状态。
+
+2026-10-27组合修复已合入隔离候选源码：第二幕19常规编组含3Boss本地可进入，召唤5槽映射保留核心尸体/真实actor索引与UID；章节非稀有奖励升级按0/25/50/50%贯通到真实卡面、纯数据奖励与永久领取。首轮完整JS1437通过/5失败/119既有条件跳过，五处旧合同已逐项核实并定向修复，完整检查重跑中。事件专属敌人、第二幕事件、自然全程与平台仍未验，父任务不Done。
 <!-- SECTION:NOTES:END -->
