@@ -26,6 +26,12 @@ C.queueCard(s,A.fresh(C,s,'reinforced_body'),{append=true,purge=true,exhaustCard
 A.drain(C,s);eq(s.player.block,28);eq(s.energy,4)
 local mixed=C.copy(d)
 for _,card in ipairs(Data.cards.cards)do if card.id=='havoc'then mixed.cards.cards[#mixed.cards.cards+1]=C.copy(card)end end
+s=C.new(mixed,{deck={'havoc'},enemies={'jaw_worm','jaw_worm'},seed=42,cardRandomSeed='17',orbSlots=3})
+local strike=A.fresh(C,s,'strike_blue');s.draw={strike}
+local rng=require('abyss_sts_random');local expected=rng.cloneState(s.cardRandomRng)
+local target=rng.randomInt(expected,1)+1;local hp=s.enemies[target].hp
+assert(C.play(s,s.hand[1].uid));eq(s.enemies[target].hp,hp-6);eq(s.cardRandomRng.counter,expected.counter)
+eq(s.exhaust[1],strike)
 s=C.new(mixed,{deck={'havoc'},enemies={'jaw_worm'},seed=42,cardRandomSeed='17',orbSlots=3})
 local havoc=s.hand[1];s.draw={A.fresh(C,s,'chaos')};s.orbs=nil
 local hand,draw,energy,counter=s.hand,s.draw,s.energy,s.cardRandomRng.counter

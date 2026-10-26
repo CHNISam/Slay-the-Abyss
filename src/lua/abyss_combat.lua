@@ -988,6 +988,7 @@ queuedHandlers.useCard = function(state, _action, queue)
     -- A lethal on-use retaliation stops before the source UseCard disposal.
     -- Preserve the original cardInUse identity on the death screen.
     if state.player.hp<=0 then return true end
+    RelicHooks.afterCard(state)
     if context.cardType~="power" and not context.purge then
         if context.exhaust then
             require("abyss_exhaust").move(state,instance,"using",queue,{onExhaustRelics=state.onExhaustRelics or {}})
@@ -1045,6 +1046,16 @@ function M.choosePile(state,uids,token,generation)
     if not called then restore();error(ok,0) end
     return ok,reason
 end
+local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
+    if purge then return end
+    for _,id in ipairs(Actors.powerSequence(state.player,{'double_tap','duplication'}))do
+        if id=='duplication' or card.type=='attack'then
+            state.player.statuses[id]=state.player.statuses[id]-1
+            M.queueCard(state,CardActions.sameInstance(M,state,instance),{targetIndex=targetIndex,
+                energyOnUse=energyOnUse,purge=true,exhaustCards=false})
+        end
+    end
+end
 local function beginQueuedPlay(state, uid, targetIndex, instance, position, card, automatic)
     local previous = state.resolvingCard
     state.resolvingCard = true
@@ -1071,6 +1082,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     if energyOnUse==nil then energyOnUse=state.energy end
     if not automatic then state.energy=state.energy-paidCost(state,card) end
     if position then table.remove(state.hand, position) end
+    if not (automatic and automatic.purge)then instance.freeToPlayOnce=nil end
     state.cardInUse = instance
     local target = state.enemies[targetIndex]
     state.pendingPlay = {uid=uid, cardType=card.type, exhaust=require("abyss_exhaust").shouldExhaust(state,card),
@@ -1078,16 +1090,24 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
         purge=automatic and automatic.purge or nil,freeToPlayOnce=automatic~=nil}
     if automatic and automatic.exhaustCards then state.pendingPlay.exhaust=true end
     event(state, "play", {uid=uid,cardId=instance.cardId,target=targetIndex})
+    RelicHooks.onUseCard(state,card)
     local actions = {}
     local triggerPlan=require('abyss_card_triggers').prepareUse(state,card)
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     local triggerActive=#triggerPlan.top+#triggerPlan.beforeUse+#triggerPlan.afterUse>0
         or (state.player.statuses.envenom or 0)>0
     local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0 or triggerActive
+    local effects=copy(card.effects)
+    for _,effect in ipairs(effects)do
+        if effect.op=='playTop'then
+            local pool={};for i,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then pool[#pool+1]=i end end
+            if #pool>0 then effect.targetIndex=pool[M.cardRandom(state,#pool)]end
+        end
+    end
     if not advanced then
-        actions[1]={kind="effect",effect={op="effectBatch",effects=copy(card.effects)}}
+        actions[1]={kind="effect",effect={op="effectBatch",effects=effects}}
     else
-    for _, effect in ipairs(card.effects) do
+    for _, effect in ipairs(effects) do
       for _,prepared in ipairs(require('abyss_watcher_attack_cards').prepareEffect(state,effect)) do
         local queued=copy(prepared)
         if queued.op=='damage' or queued.op=='heelHook' then
@@ -1131,6 +1151,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     actions[#actions + 1] = {kind="useCard"}
     if colorlessTail then actions[#actions+1]={kind='effect',effect=colorlessTail} end
     for _,action in ipairs(triggerPlan.afterUse) do actions[#actions+1]=action end
+    queueUseCopies(state,instance,card,targetIndex,energyOnUse,automatic and automatic.purge)
     local queue = require("abyss_action_queue")
     queue.start(state, actions)
     for _,action in ipairs(triggerPlan.top) do queue.pushTop(state,action) end
@@ -1193,18 +1214,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     local exhaust=card.exhaust or forceExhaust or card.type=="skill" and (state.player.statuses.corruption or 0)>0
     items[#items+1]={op="dispose",exhaust=exhaust,purge=purge,cardType=card.type,reactions=reactions}
     if colorlessTail then items[#items+1]=colorlessTail end
-    if not purge then
-        -- Equal-priority duplication Powers dispatch in first-application
-        -- order; each front-inserted replay runs before the prior replay.
-        for _,id in ipairs(Actors.powerSequence(state.player,{'double_tap','duplication'})) do
-            if id=='duplication' or card.type=='attack' then
-                state.player.statuses[id]=state.player.statuses[id]-1
-                state.queuedCards=state.queuedCards or {}
-                table.insert(state.queuedCards,1,{card=CardActions.sameInstance(M,state,instance),targetIndex=targetIndex,energyOnUse=x,purge=true,
-                    autoplay=true,exhaustCards=false})
-            end
-        end
-    end
+    queueUseCopies(state,instance,card,targetIndex,x,purge)
     if top then
         for i=#items,1,-1 do CardActions.enqueue(state,items[i],state.player,state.enemies[targetIndex],instance,true) end
     else for _,e in ipairs(items) do CardActions.enqueue(state,e,state.player,state.enemies[targetIndex],instance) end end

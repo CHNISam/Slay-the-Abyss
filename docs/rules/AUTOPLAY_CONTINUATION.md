@@ -10,4 +10,8 @@ options支持`append`、`purge`、`exhaustCards`、`targetIndex`、`randomTarget
 
 原生牌沿用CardActions，职业flow/选牌牌使用原ActionQueue及真实handlers。出现手牌、弃牌、抽牌堆或占卜选择时，自动队列停止，原token命令恢复后才继续下一张自动牌。历史、出牌反应、cardInUse、死亡处置及外层命令回滚保留原宿主语义。
 
+两条路径均在使用时触发遗物onUseCard、处置时触发afterCard；非purge使用清理freeToPlayOnce，按原Power顺序消耗Duplication/DoubleTap并登记同源purge回放。共享登记不重复触发原生路径的回调。Havoc的目标遵循固定源Havoc.use：使用时从活敌池抽取一次，PlayTopCardAction及后续自动牌复用该目标，不在执行时重新抽样。
+
+审查回归先证红：合法混色Havoc顶牌Strike漏6伤害；Defect自动Strike未更新Nunchaku、未消耗Duplication及回放；Forethought免费标记未清理。修复后`autoplay_class_continuation.lua`核对伤害与cardRandom计数，`autoplay_lifecycle.lua`核对真实Run药水及原生攻击各次回调次数；旧`potion_duplication.lua`八组继续通过。
+
 短回归`autoplay_class_continuation.lua`真实验证：Chaos原先报unsupported_effect的自动出牌；Warcry暂停手选后再执行下一张purge牌；Tempest与ReinforcedBody的执行时X快照与免费能量；合法混色Havoc下游故障保持原牌堆引用、UID、能量和RNG。各缺口先红后绿，单次运行不足1秒。本切片尚不表示Defect剩余19牌或Watcher Final已完成；后续专属模块继续独立验收。
