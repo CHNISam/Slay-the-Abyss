@@ -1,3 +1,4 @@
+local Copy = require("abyss_copy")
 -- Accuracy changes a Shiv instance's base, not the later attack modifiers.
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
@@ -30,7 +31,7 @@ local function instances(state, handOnly)
     return out
 end
 function M.withCardDefinitions(data)
-    local result = require("abyss_combat").copy(data)
+    local result = Copy.copy(data)
     for _, card in ipairs(result.cards.cards) do assert(card.id ~= "accuracy", "Accuracy already registered") end
     for _, status in ipairs(result.statuses.statuses) do assert(status.id ~= "accuracy", "Accuracy already registered") end
     result.cards.cards[#result.cards.cards + 1] = {id="accuracy",type="power",rarity="uncommon",cost=1,
@@ -44,7 +45,7 @@ end
 
 -- Deliberately separate opt-in until shared Innate and pre-draw hooks exist.
 function M.withInfiniteBladesDefinition(data)
-    local result = require("abyss_combat").copy(data)
+    local result = Copy.copy(data)
     for _, card in ipairs(result.cards.cards) do assert(card.id ~= "infinite_blades", "Infinite Blades already registered") end
     for _, status in ipairs(result.statuses.statuses) do assert(status.id ~= "infinite_blades", "Infinite Blades already registered") end
     result.cards.cards[#result.cards.cards + 1] = {

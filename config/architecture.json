@@ -108,6 +108,7 @@
     "abyss_ui": "platform",
     "abyss_unknown": "core",
     "abyss_viewport": "ui",
+    "abyss_copy": "core",
     "abyss_acts": "core"
   },
   "dynamicExceptions": [],
@@ -163,11 +164,6 @@
       "reason": "Damage arithmetic calls the stance modifier only at runtime."
     },
     {
-      "from": "abyss_shivs",
-      "to": "abyss_combat",
-      "reason": "Detached definition builders use Combat.copy only when explicitly invoked after load."
-    },
-    {
       "from": "abyss_silent",
       "to": "abyss_combat",
       "reason": "Foundation builders and generation validation invoke Combat only after initialization."
@@ -176,16 +172,6 @@
       "from": "abyss_discard",
       "to": "abyss_combat",
       "reason": "Discard execution chooses the default host API at runtime, never during require."
-    },
-    {
-      "from": "abyss_silent_attack_cards",
-      "to": "abyss_combat",
-      "reason": "Explicit detached card-data builder invokes Combat.copy after module load."
-    },
-    {
-      "from": "abyss_silent_discard_cards",
-      "to": "abyss_combat",
-      "reason": "Explicit detached card-data builder invokes Combat.copy after module load."
     },
     {
       "from": "abyss_actor",

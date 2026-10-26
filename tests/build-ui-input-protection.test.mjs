@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -11,14 +11,20 @@ const inputs = ['cards.json', 'statuses.json', 'enemies.json', 'relics.json', 'p
 const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
   'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
   'game-ui-templates.json', 'abyss_ui_templates.lua'];
-function fixture(action) {
+function fixture(action, cli = false) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-ui-input-'));
   try {
-    for (const dir of ['data', 'scripts', 'tools']) cpSync(resolve(dir), join(root, dir), { recursive: true });
+    // Every case owns fresh mutable data/output. Only CLI cases need a script
+    // tree; the in-process cases use the real already-imported production code.
+    cpSync(resolve('data'), join(root, 'data'), { recursive: true });
+    if (cli) cpSync(resolve('scripts'), join(root, 'scripts'), { recursive: true });
+    mkdirSync(join(root, 'tools'));
+    copyFileSync(resolve('tools/render_traveler_cards.py'), join(root, 'tools/render_traveler_cards.py'));
     mkdirSync(join(root, 'out'));
     return action(root);
   } finally { rmSync(root, { recursive: true, force: true }); }
 }
+const cliFixture = action => fixture(action, true);
 function build(root) {
   const cwd = process.cwd();
   try { process.chdir(root); buildUI('out'); } finally { process.chdir(cwd); }
@@ -58,7 +64,7 @@ for (const mode of ['hardlink', 'symlink']) test(`UI build retains legitimate ${
   assert.deepEqual(readFileSync(target), readFileSync(backing));
 }));
 
-for (const mode of ['hardlink', 'symlink']) test(`UI CLI rejects narrative ${mode} without success output`, t => fixture(root => {
+for (const mode of ['hardlink', 'symlink']) test(`UI CLI rejects narrative ${mode} without success output`, t => cliFixture(root => {
   const source = join(root, 'data/presentation/narrative.zh-CN.json');
   const target = join(root, 'out/abyss_narrative.lua');
   try { if (mode === 'hardlink') linkSync(source, target); else symlinkSync(source, target, 'file'); }
@@ -82,7 +88,7 @@ test('UI rejection preserves existing outputs when the final batch target aliase
   for (const file of outputs.slice(0, -1)) assert.equal(readFileSync(join(root, 'out', file), 'utf8'), `existing ${file}`);
 }));
 
-test('UI CLI protects the imported module-relative theme when working in a different data directory', () => fixture(root => {
+test('UI CLI protects the imported module-relative theme when working in a different data directory', () => cliFixture(root => {
   const cwd = join(root, 'other');
   mkdirSync(cwd); cpSync(join(root, 'data'), join(cwd, 'data'), { recursive: true });
   cpSync(join(root, 'tools'), join(cwd, 'tools'), { recursive: true }); mkdirSync(join(cwd, 'out'));
