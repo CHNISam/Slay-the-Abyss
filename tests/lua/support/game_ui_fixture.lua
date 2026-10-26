@@ -31,6 +31,17 @@ function Control:AddCursorEventListener(event, fn)
     self.listeners[event] = fn
     if event == "click" then self.click = fn end
 end
+function Control:AddNavigationEventListener(event,fn)
+    self.navigationListeners=self.navigationListeners or {}
+    assert(not self.navigationListeners[event],'duplicate navigation listener')
+    self.navigationListeners[event]=fn
+end
+function Control:SetControllerNavigation(direction,mode,target)
+    self.navigation=self.navigation or {};self.navigation[direction]={mode=mode,target=target}
+end
+function Control:GetChildren()
+    local children={};for _,child in pairs(self.children)do children[#children+1]=child end;return children
+end
 
 local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
@@ -44,6 +55,9 @@ local function control(spec, parent)
     self.SetImage = Control.SetImage
     self.SetAsLastSibling = Control.SetAsLastSibling
     self.AddCursorEventListener = Control.AddCursorEventListener
+    self.AddNavigationEventListener=Control.AddNavigationEventListener
+    self.SetControllerNavigation=Control.SetControllerNavigation
+    self.GetChildren=Control.GetChildren
     if spec.kind == "grid" then
         self.items, self.indexBase = {}, 0
         function self:recycle(slot, index)
@@ -63,12 +77,12 @@ local function control(spec, parent)
     return self
 end
 -- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
-local function fixture(data, settle, music, cursorEvents, prologue, sound)
+local function fixture(data, settle, music, cursorEvents, prologue, sound, controllerApi)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
         { seed = 1, imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
-          prologue = prologue == true, sound = sound })
+          prologue = prologue == true, sound = sound, controllerApi=controllerApi })
     root.ui = ui
     return ui, root
 end

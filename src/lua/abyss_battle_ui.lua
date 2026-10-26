@@ -7,6 +7,7 @@ local Events = require("abyss_events")
 local Feedback = require("abyss_feedback")
 local CardDisplay = require("abyss_card_display")
 local M = {}
+local Controller = require('abyss_controller')
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
@@ -1499,7 +1500,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local ok, reason = Combat.canPlay(run.combat, instance.uid, self.target)
             if not ok then notice(reasons[reason] or "当前无法使用这张牌。") refresh() return end
             self.selected = instance.uid
-            notice(needsTarget(run.combat, instance) and "点选一个敌人；再点原牌取消" or "点击战场出牌区域；再点原牌取消")
+            notice(Controller.isController(platform.controller)
+                and (needsTarget(run.combat,instance) and '摇杆选择敌人 · 确认出牌 · 返回取消' or '确认出牌 · 返回取消')
+                or (needsTarget(run.combat, instance) and "点选一个敌人；再点原牌取消" or "点击战场出牌区域；再点原牌取消"))
         end
         refresh()
     end
@@ -1528,7 +1531,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 slot=binding.slot,id=binding.id,actors={},living={}}
             for i, actor in ipairs(battle.enemies) do aim.actors[i],aim.living[i]=actor,Actors.isActive(actor) end
             self.potionAim = aim
-            notice(item.name .. " · 对一名敌人：点击敌人使用；再点药水或空白取消；点说明查看效果。")
+            notice(item.name .. (Controller.isController(platform.controller)
+                and ' · 摇杆选择敌人 · 确认使用 · 返回取消'
+                or " · 对一名敌人：点击敌人使用；再点药水或空白取消；点说明查看效果。"))
             refresh()
             return true
         end
@@ -1649,8 +1654,35 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if valid then self:playSelected(target)
         else notice("") end
     end
+    local controller=platform.controller
+    function self.cancelControllerPointers(_)
+        cancelCardInputs();cancelActionInputs();cancelPotionInputs()
+        for _,input in ipairs(enemyInputs)do input.held,input.released=nil,nil end
+    end
+    local function controllerReady()
+        return self.active and not self.busy and not self.gesture and self.run
+            and (self.run.phase=='reward' or self.run.phase=='combat' and self.run.combat.phase=='player')
+    end
+    function self.controllerBack(_)
+        if closeInfo() then self:render();return true end
+        if self.selected or self.potionAim then
+            cancelPotionAim();self.selected=nil;self.suppressClick=false
+            self.selectionEpoch=(self.selectionEpoch or 0)+1
+            cancelCardInputs();cancelActionInputs();refresh()
+            return true
+        end
+        if self.run and self.run.phase=='reward' and self.rewardScreen=='cards' then
+            rewardScreen('list');refresh();return true
+        end
+        return false
+    end
     local function listen(control, fn, input)
+        if controller and not input then
+            Controller.bind(controller,control,control.parent.name=='statusInfo' and 'battleInfo' or 'battle',fn,
+                function()return self.active and not self.busy end)
+        end
         control:AddCursorEventListener(clickEvent,function(event)
+            if Controller.pointerBlocked(controller)then return false end
             if swallowed(event) then return end
             if input and pointerObserved then
                 local released = input.released
@@ -1668,7 +1700,19 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local control, input = child(name), {}
         if name == "playArea" then control = control:GetChild("hit") end
         actionInputs[#actionInputs + 1] = input
+        Controller.bind(controller,control,name=='playArea' and 'aim' or 'battle',function()
+            self.suppressClick=false;return fn()
+        end,function()
+            if not controllerReady()then return false end
+            if name~='playArea'then return true end
+            if self.potionAim or not self.selected or self.run.phase~='combat'then return false end
+            for _,card in ipairs(self.run.combat.hand)do
+                if card.uid==self.selected then return not needsTarget(self.run.combat,card)end
+            end
+            return false
+        end,name=='endTurn' and 90 or 50)
         control:AddCursorEventListener(clickEvent, function(event)
+            if Controller.pointerBlocked(controller)then return false end
             if swallowed(event) then return end
             if name == "playArea" and fieldPointerObserved or name ~= "playArea" and actionPointerObserved then
                 local released = input.released
@@ -1785,7 +1829,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     for i = 1, L.battlePotions.count do
         local slot, control, input = i, child("potion" .. i), {}
         potionInputs[i] = input
+        Controller.bind(controller,control,'battle',function()
+            self.suppressClick=false;return self:usePotion(slot)
+        end,controllerReady,30+slot,'potions')
         control:AddCursorEventListener(clickEvent, function(event)
+            if Controller.pointerBlocked(controller)then return false end
             if input.consumed and input.consumed.touch == (event and event.touchId) then input.consumed=nil return end
             if swallowed(event) then return end
             if potionPointerObserved then
@@ -1834,6 +1882,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local slot,hit = i,child("card" .. i):GetChild("hit")
         local input = {}
         cardInputs[i] = input
+        Controller.bind(controller,hit,'battle',function()
+            self.suppressClick=false
+            self:playSlot(slot)
+            return true
+        end,controllerReady,slot,'hand',function()self:setHover(slot)end)
         listen(hit,function() self:playSlot(slot) end,input)
         if self.dragEnabled then
             hit:AddCursorEventListener(cursor.CursorDown,function(event)
@@ -1909,7 +1962,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
         end
+        Controller.bind(controller,control,function()
+            local selected
+            if self.run and self.run.combat then
+                for _,card in ipairs(self.run.combat.hand)do if card.uid==self.selected then selected=card end end
+            end
+            return (self.potionAim or selected and needsTarget(self.run.combat,selected)) and 'aim' or 'battle'
+        end,function()self.suppressClick=false;return chooseEnemy()end,function()
+            local enemy=self.run and self.run.combat and self.run.combat.enemies[target]
+            return controllerReady() and self.run.phase=='combat' and enemy and Actors.isActive(enemy)
+        end,target,'enemies',function()self.target=target;self:render()end)
         control:AddCursorEventListener(clickEvent, function(event)
+            if Controller.pointerBlocked(controller)then return false end
             if swallowed(event) then
                 -- Dismissal consumes this pointer too, but cannot consume a
                 -- newer token owned by a different touch on the same actor.
@@ -1970,13 +2034,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     listen(info:GetChild("hit"), function() if closeInfo() then self:render() end end)
     -- A tap on the card itself turns to the next page; a single page closes like any tap.
     -- Not routed through listen(): that dismisses the open card before any handler runs.
-    info:GetChild("page"):AddCursorEventListener(clickEvent, function()
+    local function infoPage()
         local open = self.info
         if not open then return end
         self.swallow = nil
         if (open.pages or 1) > 1 then open.page = open.page % open.pages + 1 self:render()
         elseif closeInfo() then self:render() end
+    end
+    info:GetChild('page'):AddCursorEventListener(clickEvent,function()
+        if Controller.pointerBlocked(controller)then return false end
+        return infoPage()
     end)
+    Controller.bind(controller,info:GetChild('page'),'battleInfo',infoPage,nil,1)
     -- hoverSlot: a reward card also reports pointer enter/exit for its hover pose (one listener per event).
     local function bindHelp(control,describe,clickable,hoverSlot)
         local input={}
@@ -1994,6 +2063,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             control:AddCursorEventListener(cursor.CursorExit,cancel)
         end
         if not clickable then return end
+        Controller.bind(controller,control,function()return self.potionAim and 'aim' or 'battle'end,function()
+            local spec=describe()
+            if spec then return self:openHelp(spec,control,false)end
+        end,controllerReady,80)
         local function ready(token)
             local run=self.run
             return token and self.active and not self.busy and not self.gesture and run==token.run
@@ -2003,6 +2076,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 and (token.spec.kind~="potion" or run.potions==token.spec.inventory and run.potions[token.spec.slot]==token.spec.potionId)
         end
         control:AddCursorEventListener(clickEvent,function(event)
+            if Controller.pointerBlocked(controller)then return false end
             local touch=event and event.touchId
             if input.consumed and input.consumed.touch==touch then input.consumed=nil;return end
             if input.pointerObserved then

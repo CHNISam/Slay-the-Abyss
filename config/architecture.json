@@ -6,6 +6,7 @@
     "abyss_character_presentation": "ui",
     "abyss_character_profiles": "core",
     "abyss_choice_ui": "ui",
+    "abyss_controller": "ui",
     "abyss_corruption": "core",
     "abyss_defect_cards": "core",
     "abyss_defect_engine_cards": "core",

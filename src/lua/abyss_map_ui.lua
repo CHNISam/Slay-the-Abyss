@@ -5,6 +5,7 @@ local Map = require("abyss_map")
 local Theme = require("abyss_theme")
 local Layout = require("abyss_map_layout")
 local M = {}
+local Controller = require('abyss_controller')
 local states = { "locked", "visited", "current", "available" }
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
@@ -60,7 +61,22 @@ function M.new(root, map, onChoose, clickEvent, options)
         error("missing map UI control " .. name)
     end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
-    local function bind(name, fn) child(at(name), "hit"):AddCursorEventListener(clickEvent, fn) end
+    local function bind(name, fn)
+        local hit=child(at(name),'hit')
+        hit:AddCursorEventListener(clickEvent,function(event)
+            if Controller.pointerBlocked(options.controller)then return false end
+            return fn(event)
+        end)
+        Controller.bind(options.controller,hit,'map',function()
+            local slot=tonumber(name:match('^node(%d+)$'))
+            if slot then
+                if scrollAnimation then return false,'map_scrolling' end
+                cancelDrag()
+                return self.slots[slot] and self:choose(self.slots[slot])
+            end
+            return fn()
+        end,nil,name:match('^node') and tonumber(name:match('%d+')) or 100)
+    end
     local function buttonEnabled(name)
         return self.visible and (name == "focus" or name == "previous" and self.scroll > 0
             or name == "next" and self.scroll < Layout.maxScroll)
@@ -131,7 +147,8 @@ function M.new(root, map, onChoose, clickEvent, options)
         at("title").text = "第一幕 · 第 " .. current.floor .. " 层"
         at("notice").text = self.entryError or (current.complete and "已抵达首领宝箱 · 请完成当前房间" or
             (current.floor == 16 and (self.navigationEnabled and "首领奖励已处理 · 请选择首领宝箱" or "已抵达首领 · 请完成首领战斗与奖励") or
-            (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")
+            (self.navigationEnabled and (Controller.isController(options.controller)
+                and '摇杆选择路线 · 确认出发 · 返回菜单' or "上下拖动查看路线 · 点选可前往的节点出发") or "请先完成当前节点")
             ))
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
