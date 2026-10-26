@@ -125,9 +125,9 @@
     "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
   ],
   "candidateIdentity": {
-    "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
-    "payloadDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
-    "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
+    "sourceCommit": "17ee901e0a349d3170a24b342040ec7d337620d5",
+    "payloadDigest": "a2184d9e6f06fbf29441d1e019c742b28855680ebee12e6b88a2026a1c000503",
+    "runtimePayloadDigest": "91ea0bf6d839843292d5f87d4e87d510afaa5ad45dd5a0959c8bb62d8dbf6b1a"
   },
   "priorIndependentReview": {
     "reviewer": "v4_contract_audit",
@@ -162,24 +162,6 @@
       "deviceAcceptance": false
     }
   ],
-  "finalIndependentReview": {
-    "reviewer": "v4_contract_audit",
-    "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
-    "scope": [
-      "late real-UI feedback context isolation",
-      "latest develop composition and status icon aliases",
-      "strict native curse rendering and shared Vigor compatibility",
-      "launch inspection sixth generated module, preserving real probe",
-      "three function-local original runtime import edges, retaining upstream copy cycle removal"
-    ],
-    "targetedEvidence": "Independent ORIGINAL_V4_BATTLE_UI_PASS 4 in 11.6s; all four natural E controls commit energy, hand and resources and finish turn; no prepare_failed or recovered playback; character_presentation 16 groups/640 faces and watcher_flow_build 28 groups pass, including Vigor uniqueness and conflicting lifecycle rejection",
-    "codeFindings": [],
-    "manifestVerification": "pass: independently recomputed 212 producer inputs and 119 modules + 2 UI files after final integration fixes; exact bytes/SHA256; runtime payload unchanged",
-    "condition": "Current exact PR SHA complete Quality success before merge",
-    "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run",
-    "producerInputsDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
-    "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
-  },
   "latestDevelopIntegrationRegression": {
     "trigger": "formal abyss_ui lifecycle menu start after original selector enabled",
     "before": "legacy game_ui.lua line445 assumed prologue before selecting a character",
@@ -224,5 +206,94 @@
     "validation": "Actual Git cat-file --filters under core.autocrlf=true returns all 16 files byte-identical to LF sources",
     "runtimePayloadChanged": false,
     "quality": "Final exact-head complete hosted Quality still required"
+  },
+  "previousFullQuality": {
+    "head": "27cefc3ba5a016d531b56455a62a61c364404f55",
+    "base": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
+    "runId": 40307529223,
+    "status": "success",
+    "javascript": {
+      "pass": 1524,
+      "fail": 0
+    },
+    "luaFixtures": 421,
+    "receipt": {
+      "tested": "fbd6d10368eef7f34860d489708755852a665c83",
+      "parents": [
+        "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
+        "27cefc3ba5a016d531b56455a62a61c364404f55"
+      ]
+    },
+    "limitation": "Historical prior candidate. Remote develop advanced to e3a9fe2 five minutes before completion; new merged head needs its own complete Quality and Licenses."
+  },
+  "latestCrossActIntegration": {
+    "base": "e3a9fe2c24c8dfa18e90f526e9b3bf74d8281342",
+    "task": "TASK-72",
+    "normalOriginalUi": "same formal first-act flow; no implicit campaign enablement",
+    "experimentalCampaign": "explicit experimental=true required; retain upstream fail-closed unimplemented content",
+    "mergedBoundaries": [
+      "original role preparation and upstream campaign initialization coexist",
+      "original command ledger survives act transition",
+      "preserve permanent UID/upgrade/profile/75-card pool/inventory across act",
+      "actual out-of-combat AR healing and Mark of Bloom policy retained",
+      "new combat original resources reset",
+      "old-act encounter snapshots rejected"
+    ],
+    "targetedValidation": {
+      "originalIntegrationAndCrossAct": {
+        "tests": 7,
+        "pass": 7,
+        "skip": 0
+      },
+      "launchTests": 30,
+      "licenseTests": 3,
+      "architecture": {
+        "modules": 114,
+        "edges": 546
+      },
+      "staticHistorical": 113,
+      "newDiagnostics": 0,
+      "criticalMutationsKilled": 4
+    },
+    "frozenNumericalChanges": false,
+    "finalQuality": "pending current exact merged head; require both Quality and Licenses"
+  },
+  "previousSingleActIndependentReview": {
+    "reviewer": "v4_contract_audit",
+    "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
+    "scope": [
+      "late real-UI feedback context isolation",
+      "latest develop composition and status icon aliases",
+      "strict native curse rendering and shared Vigor compatibility",
+      "launch inspection sixth generated module, preserving real probe",
+      "three function-local original runtime import edges, retaining upstream copy cycle removal"
+    ],
+    "targetedEvidence": "Independent ORIGINAL_V4_BATTLE_UI_PASS 4 in 11.6s; all four natural E controls commit energy, hand and resources and finish turn; no prepare_failed or recovered playback; character_presentation 16 groups/640 faces and watcher_flow_build 28 groups pass, including Vigor uniqueness and conflicting lifecycle rejection",
+    "codeFindings": [],
+    "manifestVerification": "pass: independently recomputed 212 producer inputs and 119 modules + 2 UI files after final integration fixes; exact bytes/SHA256; runtime payload unchanged",
+    "condition": "Current exact PR SHA complete Quality success before merge",
+    "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run",
+    "producerInputsDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
+    "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
+  },
+  "finalIndependentReview": {
+    "reviewer": "v4_contract_audit",
+    "sourceCommit": "17ee901e0a349d3170a24b342040ec7d337620d5",
+    "producerInputsDigest": "a2184d9e6f06fbf29441d1e019c742b28855680ebee12e6b88a2026a1c000503",
+    "runtimePayloadDigest": "91ea0bf6d839843292d5f87d4e87d510afaa5ad45dd5a0959c8bb62d8dbf6b1a",
+    "manifestVerification": "pass: 218 producer inputs, 120 modules + 2 UI independently recomputed with exact bytes/SHA256",
+    "scope": [
+      "latest e3a9fe2 cross-act composition",
+      "formal original selection and explicit experimental campaign validation",
+      "originalCommands and campaign initialization coexist",
+      "same-floor old-act encounter snapshot refusal",
+      "four-role profile/75-card pool/permanent UID/upgrade/inventory/commands persist",
+      "out-of-combat healing and fresh combat resources",
+      "native Backlog migration preserves upstream tasks and license text"
+    ],
+    "findings": [],
+    "targetedEvidence": "Root/runtime agent: original integration + cross-act 7/7; launch30/30; license unit3/3 and inventory; engineering114modules546edges,113 historical warnings and4 killed mutations. Read-only reviewer did not rerun local Lua.",
+    "condition": "current exact merged head complete Quality AND Licenses success before merge",
+    "deviceAcceptance": "official GIL/PC/physical phone and 12 archetype game runs not_run"
   }
 }
