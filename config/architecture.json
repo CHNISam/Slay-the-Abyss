@@ -1,5 +1,8 @@
 {
   "layers": {
+    "abyss_act2_enemies": "core",
+    "abyss_act2_ai": "core",
+    "abyss_act2_powers": "core",
     "abyss_action_queue": "core",
     "abyss_build_actions": "core",
     "abyss_card_triggers": "core",

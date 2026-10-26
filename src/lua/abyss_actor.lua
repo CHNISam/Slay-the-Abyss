@@ -1,6 +1,7 @@
 -- Actor arithmetic and turn status rules; no UI or platform globals.
 local M = {}
 local Events = require("abyss_events")
+local Act2Powers = require('abyss_act2_powers')
 
 -- Require lazily: card actions use Actor arithmetic, and hooks only enqueue
 -- data. Combat owns draining, choices, death interruption and transactionality.
@@ -361,6 +362,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
     local lost = math.min(target.hp, unblocked)
+    Act2Powers.damaged(state,source,target,lost,fixed)
     target.hp = target.hp - lost
     notifyHpLost(state,source,target,lost)
     Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
@@ -441,6 +443,7 @@ end
 
 -- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.
 function M.flushCurlUp(state)
+    Act2Powers.flush(M,state)
     local queue = state.curlUpQueue
     state.curlUpQueue = nil
     -- The original death screen stops action-manager updates immediately.
@@ -500,6 +503,12 @@ function M.endRound(state, actor)
 end
 
 function M.endTurn(state, actor)
+    if actor~=state.player and M.isActive(actor) then
+        for _,id in ipairs(M.powerSequence(actor,{'plated_armor','metallicize'}))do
+            M.block(state,actor,actor.statuses[id],true)
+        end
+        if (actor.statuses.malleable or 0)>0 then actor.statuses.malleable=3 end
+    end
     tick(state, actor, "turn_end")
     if not M.isActive(actor) then return end
     -- EntanglePower removes itself only for isPlayer=true, rather than reducing

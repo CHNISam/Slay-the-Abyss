@@ -109,10 +109,11 @@ end
 -- Split children use the source's explicit-HP constructor, without an HP draw.
 local function makeEnemy(state, id, serial, explicitHp)
     local enemy = copy(assert(state.catalog.enemies[id], "unknown enemy: " .. tostring(id)))
+    if not explicitHp and enemy.ai and enemy.ai.preHpRoll then hpRandom(state,enemy.ai.preHpRoll) end
     if explicitHp then enemy.hp = explicitHp
     elseif enemy.hpRange then
         enemy.hp = enemy.hpRange.min + hpRandom(state, enemy.hpRange.max - enemy.hpRange.min + 1) - 1
-    elseif state.monsterHpRng then
+    elseif state.monsterHpRng and not (enemy.ai and enemy.ai.noHpRoll) then
         -- AbstractMonster.setHp(hp) delegates to setHp(hp,hp), drawing even at 0..0.
         hpRandom(state,1)
     end
@@ -1801,6 +1802,14 @@ function M.new(data, options)
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
+    for _,enemy in ipairs(require('abyss_act2_enemies').enemies)do
+        assert(not state.catalog.enemies[enemy.id],'duplicate Act2 enemy')
+        state.catalog.enemies[enemy.id]=copy(enemy)
+    end
+    for _,status in ipairs(require('abyss_act2_enemies').statuses)do
+        assert(not state.catalog.statuses[status.id],'duplicate Act2 status')
+        state.catalog.statuses[status.id]=copy(status)
+    end
     -- Helper opt-in is independent of character selection: mixed native cards
     -- must still run the experimental on-use/draw hooks they were prepared with.
     for key,value in pairs(data) do

@@ -379,24 +379,34 @@ end
 
 function M.startRoomCombat(run,tier)
     if run.phase~='map' then return false,'not_on_map' end
-    if (run.act or 1)~=1 then return false,'act_content_unavailable' end
+    local act=run.act or 1
+    if act~=1 and act~=2 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
-    if type(run.floor)~='number' or run.floor%1~=0 or run.floor<1 or run.floor>16 then return false,'wrong_floor' end
+    local first,last=act==2 and 18 or 1,act==2 and 33 or 16
+    if type(run.floor)~='number' or run.floor%1~=0 or run.floor<first or run.floor>last then return false,'wrong_floor' end
     local encounter,nextQueue
     if tier=='boss' then
-        if run.floor~=16 or not run.bossInitialization or run.bossInitialization.profile~='guardian-unseen' then
+        if act==2 then
+            if run.floor~=33 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
+                return false,'unsupported_boss_initialization'
+            end
+            encounter=require('abyss_act2_enemies').resolve(run.bossInitialization.bossList[1],tier)
+            if not encounter then return false,'act_content_unavailable' end
+        elseif run.floor~=16 or not run.bossInitialization or run.bossInitialization.profile~='guardian-unseen' then
             return false,'unsupported_boss_initialization'
+        else
+            encounter={id='boss_guardian',tier='boss',source='The Guardian',enemies={'guardian'}}
         end
-        encounter={id='boss_guardian',tier='boss',source='The Guardian',enemies={'guardian'}}
     else
         local source,reason
         local valid
         valid,source,nextQueue,reason=pcall(EncounterQueue.consume,run.encounters,tier)
         if not valid then return false,'invalid_encounter_state' end
         if not source then return false,reason end
-        encounter,reason=RoomEncounters.resolve(source,tier)
+        if act==2 then encounter,reason=require('abyss_act2_enemies').resolve(source,tier)
+        else encounter,reason=RoomEncounters.resolve(source,tier) end
         if not encounter then return false,reason end
     end
     local staged={};for k,v in pairs(run)do staged[k]=v end

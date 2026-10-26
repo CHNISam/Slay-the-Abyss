@@ -26,6 +26,10 @@ local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=tr
 -- Only the opt-in Weak/Vulnerable pair is target-first. Discover markers in
 -- the entire input before any effect, including holes and unreachable branches.
 -- Unmarked inputs deliberately keep their old validation/error timing.
+coreOps.enemyHealAll=true
+coreOps.enemyStrengthAll=true
+coreOps.enemyCleanse=true
+
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
     local seen, active = {}, {}
@@ -386,6 +390,32 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyCleanse' then
+            assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 cleanse only')
+            local ids={}
+            for id,n in pairs(source.statuses)do
+                if source.statusDefinitions[id].kind=='debuff' or (id=='strength' or id=='dexterity' or id=='focus') and n<0 then ids[#ids+1]=id end
+            end
+            table.sort(ids)
+            for _,id in ipairs(ids)do
+                local n=source.statuses[id]
+                require('abyss_power_schedule').remove(state,source,id)
+                source.statuses[id]=nil
+                local order={};for _,old in ipairs(source.powerOrder or {})do if old~=id then order[#order+1]=old end end
+                source.powerOrder=order
+                Events.emit(state,'status',{source=source.id,target=source.id,status=id,amount=-n})
+            end
+        elseif op=='enemyHealAll' or op=='enemyStrengthAll' then
+            assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 enemy action only')
+            for _,ally in ipairs(state.enemies)do
+                if Actors.isActive(ally)then
+                    if op=='enemyHealAll' then
+                        local healed=math.min(value,ally.maxHp-ally.hp)
+                        ally.hp=ally.hp+healed
+                        Events.emit(state,'heal',{source=source.id,target=ally.id,amount=healed})
+                    else Actors.applyPower(state,ally,'strength',value,source) end
+                end
+            end
         elseif op == "block" then
             if effect.target == "random_ally" then
                 assert(source ~= state.player, "random ally Block requires an enemy")

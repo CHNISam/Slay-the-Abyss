@@ -14,6 +14,7 @@ local AcidSlimeM = require("abyss_acid_slime_m_ai")
 local FungiBeast = require("abyss_fungi_beast_ai")
 local Louse = require("abyss_louse_ai")
 local Looter = require("abyss_looter_ai")
+local Act2 = require("abyss_act2_ai")
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -35,11 +36,13 @@ function M.prepare(state, enemy, random)
 end
 
 function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy) end
     if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random) end
 end
 
 function M.initialize(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.initialize(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.initialize(state, enemy, random) end
     if not enemy.ai then return end -- legacy enemies retain the declared cycle
     if enemy.ai.kind == "rolled_attack" or enemy.ai.kind == "opening_roll_attack" then return rollAttack(state, enemy, random) end
@@ -115,6 +118,7 @@ function M.hpLost(state, enemy, before, damageCall)
 end
 
 function M.advance(state, enemy, random)
+    if enemy.ai and enemy.ai.kind == 'act2' then return Act2.advance(state,enemy,random) end
     if not enemy.ai then
         enemy.intentIndex = enemy.intentIndex % #enemy.intents + 1
     elseif enemy.ai.kind == "rolled_attack" then return rollAttack(state, enemy, random)
@@ -175,6 +179,7 @@ end
 -- Acid S sets its next move directly instead; do not invent a queued roll.
 local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind == 'act2' then return M.advance(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.afterAction(state, enemy) end
     -- Acid's split queues child init only. Its ordinary attack may have been
     -- interrupted by Thorns, so inspect the captured payload, not current intent.

@@ -1,0 +1,23 @@
+# 第二幕敌人实现记录
+
+TASK-61完整范围不变。本文件只记录独立完成的怪物组，不能视为第二幕全量验收。没有候选构建、官方导入或实机证据。
+
+固定行为来源：`aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0`，第三方反编译镜像；本轮从根目录`.artifacts/m3-pr193-worktree-evidence/sts1-relic-pool-catalog/.artifacts/relic-source/archive/`只读核对，未复制Java原文或素材进产品。数值以PC A0分支为准，Lua是独立实现。
+
+| 已实现敌人 | 核对的方法与事实 |
+| --- | --- |
+| SphericGuardian | constructor不调用setHp，HP20且不消费HP随机；preBattle为Barricade、Artifact3、格挡40；getMove依次激活25格挡、10伤害/脆弱5，然后10×2与先格挡15再10伤害交替。每次初始化/行动仍消费100范围AI抽样。 |
+| Centurion | HP76–80，Slash12/Fury6×3/Protect15；65阈值，保护和狂怒各禁三连，斩击禁三连；存活人数决定保护或狂怒。GainBlockRandomMonsterAction消费AI流，即使仅一个队友。 |
+| Healer（本地mystic） | HP48–56，8伤害/脆弱2，全体治疗16或力量2；所有活怪缺血总和>15优先治疗，治疗禁三连；40阈值与攻击、强化禁三连。 |
+| Taskmaster | HP54–60；super参数先做一次HP随机，setHp再做一次；7伤害并将1伤口入弃牌堆，无A18力量。反伤死亡时已有伤口动作在队友存活期间继续。 |
+| BookOfStabbing | HP160–164，6伤害多刺，21伤害重刺；15阈值，重刺禁连、普通刺禁三连；多刺计数初值1且每次选择多刺前+1；PainfulStabs仅每次实际生命伤害生成1伤口，格挡与Thorns不触发。 |
+| SnakePlant | HP75–79，7×3或脆弱2/虚弱2；65阈值，普通攻击禁三连、孢子禁连。Malleable初值3，非致命NORMAL生命伤害把当前格挡值排到BOTTOM后+1，所有已排队命中完成后结算，敌人行动结束重置3。 |
+| Champ | HP420；斩击16、处决10×2、掌击12/脆弱2/易伤2、嘲讽虚弱2/易伤2、强化力量2、怒吼移除负面及Shackled后力量6。getMove严格低于半血才转阶段，每四次选招嘲讽，防御最多2次（格挡15、Metallicize5），处决间隔两个动作；15/30/55边界均按原始闭区间。 |
+
+编队读取`helpers/MonsterHelper.getEncounter`：Spheric Guardian、Centurion and Healer、Sentry and Sphere、3 Cultists、Slavers、Book of Stabbing、Snake Plant、Champ。其中哨卫、信徒、红蓝奴隶是固定源本来就使用的相同敌人，复用已审计策略；不会用它们替代其他未实现怪物。
+
+`abyss_act2_enemies`提供独立章节数据与严格允许列表；`Combat.new`只复制定义，不把新怪物塞进第一幕随机池。`Run.startRoomCombat`沿用已合入队列的事务；未知第二幕遭遇仍返回`act_content_unavailable`，不消费队列、不重抽。Champ只从33层现有Boss选择进入，其余Boss继续拒绝。正式Host/菜单和跨幕推进由TASK-63接线，不在本切片修改。
+
+仍未实现并保留完整范围：Chosen/Hex、ShelledParasite/吸血与破甲晕眩、Byrd/飞行、Mugger/双盗贼、Snecko/混乱、GremlinLeader/召唤、BronzeAutomaton/BronzeOrb/偷牌、Collector/TorchHead/复活，以及Masked Bandits事件专属敌人。未实现组合和另外两Boss均不得开放。本记录不宣称第二幕自然通关。
+
+验证：新增Lua先以`act_content_unavailable`、随后以缺失敌人失败，再逐片通过12组真实命令/算术回归。执行`node --test tests/act2-enemies.test.mjs`和架构检查；完整原第一幕回归与固定Luacheck结果另外记录于交付说明。
