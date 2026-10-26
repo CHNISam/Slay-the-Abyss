@@ -7,7 +7,9 @@ import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
-const reviewedContract = 'cdeab1e0d0aa694d8ce9683e0a313635a255a32b63ccda443355756c841f933d';
+// Script semantics are unchanged after PR215; hash only its PowerShell body,
+// without the neighboring YAML comments formerly captured by the regression.
+const reviewedContract = '19aa856fe5024090182abbff487b334eb9d48cc63dc31a1f4caa940930f90c51';
 export function checkoutPlan(script) {
   const preserve = script.includes('git update-ref refs/ci/previous $previousHead');
   const current = script.includes('"+${env:CI_SHA}:refs/ci/current"');

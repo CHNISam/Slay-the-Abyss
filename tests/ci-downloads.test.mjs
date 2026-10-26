@@ -10,7 +10,9 @@ import { checkNetworkPolicy } from '../scripts/check-network-policy.mjs';
 import { checkoutPlan } from '../scripts/ci-checkout-equivalent.mjs';
 
 const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
-const checkout = workflow.match(/      - name: Check out exact revision[^\n]*\r?\n[\s\S]*?        run: \|\r?\n([\s\S]*?)(?=\r?\n      - )/)[1].split(/\r?\n/).map(line => line.replace(/^          /, '')).join('\n');
+// Pin the installed-Git script body, excluding adjacent YAML comments/steps.
+// Hosted checkout is a separate action and does not use this persistent-ref path.
+const checkout = workflow.match(/      - name: Check out exact revision with installed Git[^\n]*\r?\n[\s\S]*?        run: \|\r?\n([\s\S]*?)(?=\r?\n      (?:- |#))/)[1].split(/\r?\n/).map(line => line.replace(/^          /, '')).join('\n');
 function git(cwd, ...args) {
   const r = spawnSync('git', args, { cwd, encoding: 'utf8', windowsHide: true });
   assert.equal(r.status, 0, r.stderr); return r.stdout.trim();
