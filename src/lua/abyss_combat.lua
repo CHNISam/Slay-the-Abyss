@@ -2077,7 +2077,11 @@ function M.new(data, options)
     end
     options = options or {}
     if data.runCardCatalog then
-        options=copy(options)
+        -- Only default scalar options. Formation callbacks and roomStreams
+        -- must keep the same source owner while constructors spend its RNG.
+        local configured={}
+        for key,value in pairs(options)do configured[key]=value end
+        options=configured
         if options.enableStances==nil then options.enableStances=true end
         if options.orbSlots==nil then options.orbSlots=data.runCardCharacter=='defect'and 3 or 0 end
     end

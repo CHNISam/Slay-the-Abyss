@@ -527,6 +527,10 @@ local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
     if not result then return false, "battle_unfinished" end
+    if run.combat.miscRng then
+        EventRandom.snapshot(run.miscRng) -- An invalid permanent owner must still refuse.
+        run.miscRng=EventRandom.cloneState(run.combat.miscRng)
+    end
     if run.combat.cardRng then run.cardRng=EventRandom.cloneState(run.combat.cardRng)end
     run.hp, run.seed, run.gold = run.combat.player.hp, run.combat.seed, run.combat.player.gold
     run.maxHp=run.combat.player.maxHp
@@ -592,7 +596,7 @@ local function applyPermanentChanges(run)
         end
     end
     battle.ritualDaggerGrowth,battle.masterDeckChanges=nil,nil
-    if battle.miscRng then run.miscRng=EventRandom.cloneState(battle.miscRng)end
+    if run.phase=='combat' and battle.miscRng then run.miscRng=EventRandom.cloneState(battle.miscRng)end
     if run.phase=='combat' and battle.cardRng then run.cardRng=EventRandom.cloneState(battle.cardRng)end
 end
 function M.finishCombat(run)

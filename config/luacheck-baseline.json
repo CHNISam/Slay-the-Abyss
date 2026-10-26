@@ -2,7 +2,7 @@
   "owner": "TASK-74",
   "reviewedDate": "2026-10-27",
   "previousEngineeringSource": "c8b42fc6dab165ce83cbf7ad13e283124d04a549",
-  "reason": "M3 composition: each remaining diagnostic matches a reviewed parent by file, exact source line, column, code and normalized message. Positions only; no new warning exemptions.",
+  "reason": "PR238 room misc correction: one-to-one identical source lines, columns, codes and messages; only diagnostic and referenced line positions migrate.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
