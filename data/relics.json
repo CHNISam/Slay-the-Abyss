@@ -1,5 +1,6 @@
 {
   "relics": [
+    { "id": "tungsten_rod", "sourceId": "TungstenRod", "name": "钨合金棍", "description": "每次将要失去生命时，失去的生命值减少1。", "rarity": "rare", "trigger": "hooks", "effects": [] },
     { "id": "membership_card", "name": "会员卡", "rarity": "shop", "trigger": "shop", "effects": [] },
     { "id": "courier", "name": "快递员", "rarity": "uncommon", "trigger": "shop", "effects": [] },
     { "id": "smiling_mask", "name": "微笑面具", "rarity": "common", "trigger": "shop", "effects": [] },

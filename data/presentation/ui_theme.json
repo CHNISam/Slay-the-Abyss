@@ -398,6 +398,7 @@
       "speed_potion": "#FFFFFF"
     },
     "relic": {
+      "tungsten_rod": {"id": 102036, "placeholder": true, "note": "暂沿用现有防护图标；专属美术与设备验收待完成。"},
       "membership_card": 102026,
       "courier": 102007,
       "smiling_mask": 102031,

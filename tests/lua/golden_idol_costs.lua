@@ -20,5 +20,11 @@ do
  end
  local count=0;for _,id in ipairs(r.relics)do if id=='golden_idol'then count=count+1 end end;eq(count,1)
 end
-for _,spec in ipairs({{'tungsten_rod','damage'},{'lizard_tail','damage'},{'darkstone_periapt','injury'}})do local r,m,n=fixture();assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'take'));r.relics[#r.relics+1]=spec[1];local b=C.copy(r);eq(Nodes.chooseEvent(r,spec[2]),false);same(r,b);assert(Nodes.chooseEvent(r,'max_hp'))end
+for _,spec in ipairs({{'tungsten_rod','damage'},{'lizard_tail','damage'},{'darkstone_periapt','injury'}})do
+ local r,m,n=fixture();assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'take'))
+ if spec[1]=='tungsten_rod'then assert(Run.obtainRelic(r,spec[1]))else r.relics[#r.relics+1]=spec[1]end
+ local b=C.copy(r)
+ if spec[1]=='tungsten_rod'then assert(Nodes.chooseEvent(r,spec[2]));eq(r.hp,61);eq(r.nodeFlow.event.stage,'result')
+ else eq(Nodes.chooseEvent(r,spec[2]),false);same(r,b);assert(Nodes.chooseEvent(r,'max_hp'))end
+end
 print('GOLDEN_IDOL_COSTS_PASS exact truncation/min1, three trap costs/fatal/Fairy/Omamori, real duplicate Circlet, live Fruit and missing-hook refusals')

@@ -196,7 +196,7 @@ function M.eventDamage(run,value)
         or run.hp>run.maxHp then return false,'invalid_event_damage' end
     return M.transaction(run,function(staged)
         if staged.hp<=0 then return false,'event_player_dead' end
-        local lost=math.min(staged.hp,value)
+        local lost=math.min(staged.hp,RelicHooks.onLoseHpLast(staged,value))
         staged.hp=staged.hp-lost
         if lost>0 and staged.hp==0 then require('abyss_potion_fairy').outside(staged) end
         return true,lost
@@ -207,7 +207,7 @@ end
 -- Unimplemented permanent damage/revival hooks must refuse, not act as HP_LOSS.
 function M.eventNormalDamage(run,value)
     for _,id in ipairs(run.relics or {})do
-        if id=='tungsten_rod' or id=='lizard_tail' then return false,'event_damage_content_unavailable' end
+        if id=='lizard_tail' then return false,'event_damage_content_unavailable' end
     end
     -- Null owner does not dispatch Torii.onAttacked. Existing outside Fairy is shared.
     return M.eventDamage(run,value)

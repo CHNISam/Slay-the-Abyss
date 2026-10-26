@@ -25,9 +25,11 @@ do
  assert(Nodes.chooseEvent(r,'madness'));eq(r.hp,16);same(r.combat,history)
 end
 for _,id in ipairs({'tungsten_rod','lizard_tail'})do
- local r,m,n=fixture();r.relics[#r.relics+1]=id;assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local b,bm=C.copy(r),C.copy(m)
- local ok,why=Nodes.chooseEvent(r,'madness');eq(ok,false);eq(why,'event_damage_content_unavailable');same(r,b);same(m,bm)
- assert(Nodes.chooseEvent(r,'max_hp'));eq(r.maxHp,76)
+ local r,m,n=fixture();if id=='tungsten_rod'then assert(Run.obtainRelic(r,id))else r.relics[#r.relics+1]=id end
+ assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local b,bm=C.copy(r),C.copy(m)
+ local ok,why=Nodes.chooseEvent(r,'madness')
+ if id=='tungsten_rod'then assert(ok,why);eq(r.hp,71);eq(#r.deck,#b.deck+2);eq(r.nodeFlow.event.stage,'result')
+ else eq(ok,false);eq(why,'event_damage_content_unavailable');same(r,b);same(m,bm);assert(Nodes.chooseEvent(r,'max_hp'));eq(r.maxHp,76)end
 end
 for _,spec in ipairs({{'toxic_egg','madness'},{'darkstone_periapt','writhe'}})do
  local r,m,n=fixture(1);r.relics[#r.relics+1]=spec[1];assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local b,bm=C.copy(r),C.copy(m)

@@ -325,6 +325,7 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     amount=require('abyss_defect_final_cards').incoming(state,target,amount)
     Act3Powers.attacked(state,target,amount,reactions)
+    if target==state.player then amount=require('abyss_relic_hooks').onLoseHpLast(state,amount)end
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
@@ -424,6 +425,8 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     end
       unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
     Act3Powers.attacked(state,target,unblocked,reactions)
+    local attackedAmount=unblocked
+    if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
     local lost = math.min(target.hp, unblocked)
     Act2Powers.damaged(state,source,target,lost,fixed)
     target.hp = target.hp - lost
@@ -463,7 +466,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
             -- erase two distinct damage callbacks and reverse application order.
             if (target.statuses[id] or 0)>0 then
                   if id=='static_discharge'then
-                      if target==state.player and source~=target and lost>0 then reactions[#reactions+1]={effect={op='defectStatic',value=target.statuses[id]}}end
+                      if target==state.player and source~=target and attackedAmount>0 then reactions[#reactions+1]={effect={op='defectStatic',value=target.statuses[id]}}end
                   elseif id=='block_return' then
                     if source~=target then reactions[#reactions+1]={effect={op='defenseBlock',value=target.statuses[id]}} end
                 elseif id=='thorns' or source~=target then

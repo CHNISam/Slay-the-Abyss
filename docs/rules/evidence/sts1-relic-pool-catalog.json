@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 43,
-    "queueMissing": 92,
-    "act1Missing": 99,
-    "registeredLocalEffects": 42,
+    "existingLocalEffects": 44,
+    "queueMissing": 91,
+    "act1Missing": 98,
+    "registeredLocalEffects": 43,
     "fallbackLocalEffects": 1
   },
   "queueProtocol": {
@@ -4194,10 +4194,11 @@
       "sourceHooks": [
         "onLoseHpLast"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "tungsten_rod",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/TungstenRod.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Shared onLoseHpLast is wired in battle/event HP paths with actual treasure/shop and source Rare-head component evidence. Complete source acquisition wrappers, whole campaign and platform/live acceptance remain pending."
     },
     {
       "id": "Turnip",

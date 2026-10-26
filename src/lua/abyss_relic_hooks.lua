@@ -14,13 +14,23 @@ local aliases={Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='pot
  Boot='boot',Akabeko='akabeko',['Pen Nib']='pen_nib',Nunchaku='nunchaku',
  PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
- WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet'}
+ WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod'}
 function M.localId(id)return aliases[id] or id end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
  return false
 end
 local function integer(n)return type(n)=='number' and n%1==0 and n>=0 and n<=2147483647 end
+-- AbstractPlayer.damage dispatches this after onAttacked (including Static
+-- Discharge), before Powers.onLoseHp and the actual HP/death notification.
+-- Event owners use the same permanent relic list, never a historical battle.
+function M.onLoseHpLast(owner,amount)
+ assert(type(amount)=='number'and amount%1==0 and amount>=0 and amount<=9007199254740991,'invalid final HP loss')
+ for _,id in ipairs(owner.relics or {})do
+  if M.localId(id)=='tungsten_rod'and amount>0 then amount=amount-1 end
+ end
+ return amount
+end
 local function counters(owner)
  owner.relicCounters=owner.relicCounters or {};return owner.relicCounters
 end

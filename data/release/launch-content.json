@@ -225,7 +225,11 @@
           "tests/lua/boss_relic_effects.lua",
           "tests/lua/common_relic_hooks.lua",
           "tests/lua/common_relic_final.lua",
-          "tests/lua/special_relics.lua"
+          "tests/lua/special_relics.lua",
+          "tests/lua/tungsten_rod.lua",
+          "tests/lua/tungsten_rod_interactions.lua",
+          "tests/lua/tungsten_rod_channels.lua",
+          "tests/lua/tungsten_rod_transactions.lua"
         ]
       },
       "platform": {
@@ -3188,7 +3192,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage refuses held tungsten_rod/lizard_tail until their real shared hooks exist. Relic normal acquisition, whole-campaign and platform/live acceptance remain pending. Madness/Writhe also refuse held toxic_egg/darkstone_periapt until their actual shared obtain hooks exist."
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage still refuses held lizard_tail until its real shared revival hook exists. Tungsten Rod now shares actual battle/event final HP-loss reduction. Relic normal acquisition, whole-campaign and platform/live acceptance remain pending. Madness/Writhe also refuse held toxic_egg/darkstone_periapt until their actual shared obtain hooks exist."
     },
     {
       "id": "golden_idol",
@@ -3213,7 +3217,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held tungsten_rod/lizard_tail NORMAL damage or darkstone_periapt curse obtain refuses until real shared hooks exist. Full campaign/platform/live acceptance pending."
+      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail NORMAL damage or darkstone_periapt curse obtain refuses until real shared hooks exist; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
     }
   ],
   "relics": [
@@ -3666,6 +3670,15 @@
       ],
       "sourceId": "Circlet",
       "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice."
+    },
+    {
+      "id": "tungsten_rod",
+      "sourceId": "TungstenRod",
+      "source": "data/relics.json#tungsten_rod",
+      "profile": "relics",
+      "rarity": "rare",
+      "channels": ["treasure", "shop_relic"],
+      "naturalExecutionLimitation": "Shared onLoseHpLast reduces each positive HP loss by one in battle and events. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
     },
     {
       "id": "golden_idol",
