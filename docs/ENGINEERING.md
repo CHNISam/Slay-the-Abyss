@@ -50,3 +50,13 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 ## 尚未取得的证据
 
 本轮不启动原神、不占用键鼠；官方导入、玩家完整路径、截图体验与投稿仍独立验收。StrykerJS、原生LuaCov和JS全文件覆盖的报告试点不作为本轮必需门禁；没有执行结果就不填覆盖数字。LuaCov重试需隔离原生Lua5.3、LuaRocks/datafile及与Fengari的数值/退出行为对照，不能把Fengari VM的JS覆盖率称为Lua覆盖率。
+
+## Linux本地等价检验
+
+2026-10-26用户明确允许Linux使用等价检验，避免因没有PowerShell阻塞工程推进。`tests/ci-downloads.test.mjs`在Windows继续执行工作流原PowerShell检出正文；非Windows使用`scripts/ci-checkout-equivalent.mjs`，在独立临时仓库中实际执行Git初始化、origin更新、旧/新引用保留、精确SHA fetch/checkout、pack字节计量、摘要、阈值拒绝及清理。
+
+Linux入口是固定版本工作流的行为等价检验，不解释PowerShell语法，也不冒充Windows实测。它锁定已审阅的检出正文SHA256，仅允许原回归明确使用的旧引用负对照和1KB超限测试变体；工作流其他变更一律失败，须复核等价关系。测试继续验证首次大包、微小增量、旧流程重复传输、超限失败和摘要，没有跳过断言、降低128MiB阈值、下载大型运行时或改动正式CI检出流程。
+
+本轮真实Linux结果：首次262501B，小增量319B，旧流程跟进262723B；3项测试通过。此结果解除本地pwsh缺失阻塞，不替代Windows CI或游戏实机证据。
+
+完整Linux JS复验：1471项全部通过、无跳过，见`docs/evidence/linux-checkout-equivalent-20261026.json`。此前缺pwsh失败日志保留为历史，不改写为当时成功。

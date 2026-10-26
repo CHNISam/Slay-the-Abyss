@@ -14,6 +14,7 @@ local RoomEncounters = require("abyss_room_encounters")
 local CardRandom = require("abyss_card_random")
 local RelicPool = require('abyss_relic_pool')
 local RelicHooks = require('abyss_relic_hooks')
+local Acts = require('abyss_acts')
 local M = {}
 
 local function find(entries, id)
@@ -25,7 +26,8 @@ function M.new(data, seed, options)
     if options ~= nil then
         assert(type(options) == "table" and options.experimental == true,
             "non-default characters require explicit experimental mode")
-        data, profile = require("abyss_character_profiles").prepare(data, options.character)
+        if options.character~=nil then data, profile = require("abyss_character_profiles").prepare(data, options.character) end
+        assert(options.campaign==nil or type(options.campaign)=='boolean','invalid campaign option')
     end
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
@@ -43,6 +45,10 @@ function M.new(data, seed, options)
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
     if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
+    if options and options.campaign then
+        run.campaign,run.act,run.keys=true,1,{ruby=false,emerald=false,sapphire=false}
+        run.unknown.pools=EventPool.new('full')
+    end
     for _, id in ipairs(data.cards.starter_deck.cards) do
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
@@ -82,6 +88,49 @@ function M.transaction(run,command)
     return true,detail
 end
 
+-- The caller owns map replacement. This transition never creates another Run
+-- or reassigns permanent card UIDs. A failed transition commits no owner.
+function M.advanceAct(run)
+    return M.transaction(run,function(staged)
+        if staged.campaign~=true then return false,'campaign_unavailable' end
+        local act=staged.act
+        if act~=1 and act~=2 and act~=3 then return false,'invalid_act_transition' end
+        if type(staged.encounters)~='table' or (staged.encounters.act or 1)~=act
+            or staged.encounters.rawSeed~=staged.runSeed then return false,'encounter_act_mismatch' end
+        local chapter=Acts.get(act)
+        if staged.phase~='act_transition' or staged.pendingAct~=act+1
+            or staged.floor~=chapter.last or not staged.nodeFlow or not staged.nodeFlow.complete
+            or staged.nodeFlow.floor~=chapter.last then return false,'act_transition_unavailable' end
+        if act<=2 and (staged.nodeFlow.roomKind~='boss_treasure' or staged.nodeFlow.result~='boss_treasure_complete') then
+            return false,'boss_treasure_pending'
+        end
+        if act==3 and (staged.nodeFlow.roomKind~='ending' or staged.nodeFlow.result~='ending_door') then
+            return false,'ending_door_required'
+        end
+        if act==3 and (staged.endingUnlocked~=true or type(staged.keys)~='table'
+            or staged.keys.ruby~=true or staged.keys.emerald~=true or staged.keys.sapphire~=true) then
+            return false,'ending_keys_required'
+        end
+        local counter=EventRandom.snapshot(staged.cardRng).counter
+        local target=counter>0 and counter<250 and 250 or counter>250 and counter<500 and 500
+            or counter>500 and counter<750 and 750 or counter
+        for _=counter+1,target do EventRandom.randomBoolean(staged.cardRng) end
+        local nextAct=act+1
+        local queue=EncounterQueue.new(staged.runSeed,nextAct,staged.encounters.monsterRng)
+        staged.bossInitialization,staged.encounters=EncounterQueue.initializeBoss(queue,staged.bossHistory)
+        EventPool.nextAct(staged.unknown.pools,nextAct)
+        local tinyChest=staged.unknown.chances.tinyChestCount
+        staged.unknown.chances=Unknown.newPc()
+        staged.unknown.chances.tinyChestCount=tinyChest
+        M.heal(staged,staged.maxHp)
+        staged.act,staged.phase,staged.floor=nextAct,'map',Acts.get(nextAct).first-1
+        staged.nodeFlow,staged.pendingAct,staged.pendingCombatRewards,staged.rewards=nil,nil,nil,nil
+        staged.combat,staged.lastResult=nil,nil
+        staged.blizzardPotionMod=0
+        return true
+    end)
+end
+
 local legacyRelics={['Burning Blood']='burning_blood',Anchor='anchor',Vajra='vajra',
  ['Bag of Preparation']='bag_of_preparation',Lantern='lantern',['Oddly Smooth Stone']='oddly_smooth_stone',
  ['Bronze Scales']='bronze_scales',['Membership Card']='membership_card',['The Courier']='courier',
@@ -98,6 +147,9 @@ local function amount(n)return type(n)=='number' and n==n and n%1==0 and n>=0 an
 function M.gainGold(run,value)return RelicHooks.gainGold(run,value)end
 function M.heal(run,value)
     assert(amount(value),'invalid heal')
+    for _,id in ipairs(run.relics or {})do
+        if id=='mark_of_bloom' or id=='Mark of the Bloom' then return 0 end
+    end
     local before=run.hp;run.hp=math.min(run.maxHp,run.hp+0.0+value);return run.hp-before
 end
 function M.increaseMaxHp(run,value)
@@ -201,7 +253,7 @@ function M.prepareRelic(run,options)
         local def=cardDefinition(run,card.cardId)
         if def then deck[#deck+1]={type=def.type:upper(),rarity=def.rarity:upper()} end
     end
-    local context={act=1,floor=run.floor,room=options.room or 'event',owned=owned,deck=deck,endless=false}
+    local context={act=run.act or 1,floor=run.floor,room=options.room or 'event',owned=owned,deck=deck,endless=false}
     local draw=options.screenless and RelicPool.screenless or RelicPool.draw
     local id,trace,requested=draw(pool,tier,context,options.fromTail)
     local definition=relicDefinition(run,id)
@@ -317,6 +369,7 @@ end
 
 function M.startRoomCombat(run,tier)
     if run.phase~='map' then return false,'not_on_map' end
+    if (run.act or 1)~=1 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end

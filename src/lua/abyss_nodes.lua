@@ -18,6 +18,7 @@ local LivingWall = require('abyss_living_wall')
 local Fountain = require('abyss_fountain')
 local RelicHooks = require('abyss_relic_hooks')
 local Act1Events = require('abyss_act1_events')
+local Acts = require('abyss_acts')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -131,7 +132,7 @@ local function prepare(run, node, miscRng)
 end
 
 function M.available(run, map)
-    if run.runSeed~=map.runSeed or run.phase ~= "map" or (run.nodeFlow and not run.nodeFlow.complete)
+    if (run.act or 1)~=(map.act or 1) or run.runSeed~=map.runSeed or run.phase ~= "map" or (run.nodeFlow and not run.nodeFlow.complete)
         or not matchingMap(run.nodeFlow, map) then return {} end
     return Map.available(map)
 end
@@ -141,14 +142,27 @@ local function enter(run, map, nodeId)
     if run.phase ~= "map" then return false, "not_on_map" end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
-    if run.runSeed~=map.runSeed or not matchingMap(run.nodeFlow, map) then return false, "map_mismatch" end
+    if (run.act or 1)~=(map.act or 1) or run.runSeed~=map.runSeed or not matchingMap(run.nodeFlow, map) then return false, "map_mismatch" end
     local node = find(map.nodes, nodeId)
     if not node then return false, "invalid_node" end
     if not find(Map.available(map), nodeId) then return false, "node_unavailable" end
     -- A Boss chest is earned only after that Boss's card reward is resolved.
-    if node.roomKind == "boss_treasure" and (node.floor ~= run.data.rules.map.bossTreasureFloor
+    if node.roomKind == "boss_treasure" and (node.floor ~= Acts.get(run.act or 1).last
         or not run.nodeFlow or run.nodeFlow.type ~= "boss" or run.nodeFlow.result ~= "boss_victory") then
         return false, "boss_treasure_unavailable"
+    end
+    if node.roomKind=='ending' then
+        if run.campaign~=true or run.act~=3 or node.floor~=51 or not run.nodeFlow
+            or run.nodeFlow.type~='boss' or run.nodeFlow.result~='boss_victory' then return false,'ending_unavailable' end
+        assert(Map.choose(map,nodeId))
+        local keys=run.keys or {}
+        local door=run.endingUnlocked==true and keys.ruby==true and keys.emerald==true and keys.sapphire==true
+        run.floor,run.phase,run.pendingAct=51,door and 'act_transition' or 'victory',door and 4 or nil
+        run.nodeFlow={id=node.id,floor=51,type='event',roomKind='ending',complete=true,
+            mapSeed=map.seed,mapSignature=map.sourceSignature,result=door and 'ending_door' or 'normal_victory'}
+        run.roomGeneration=run.roomGeneration+1
+        run.pendingCombatRewards=nil
+        return true
     end
     if not battleKinds[node.type] and node.type ~= "camp" and node.type ~= "shop"
         and node.type ~= "event" and node.type ~= "treasure" then return false, "unknown_node_type" end
@@ -171,7 +185,7 @@ local function enter(run, map, nodeId)
         node.type=kind=='monster' and 'combat' or kind
         if kind=='event' then
             selectionRng=EventRandom.atCounter(run.eventSeed,nextEventRng.counter)
-            local originalId,reason=EventPool.draw(nextUnknown.pools,{floor=node.floor,gold=run.gold,act=1,
+            local originalId,reason=EventPool.draw(nextUnknown.pools,{floor=node.floor,gold=run.gold,act=run.act or 1,
                 hp=run.hp,relicCount=#run.relics,elapsedSeconds=run.elapsedSeconds,cursed=Fountain.isCursed(run)},selectionRng)
             if not originalId then return false,reason end
             node.eventId=EventPool.contentId[originalId]
@@ -247,6 +261,22 @@ function M.enter(run,map,nodeId)
     for i=#map.path,1,-1 do map.path[i]=nil end
     for i,id in ipairs(stagedMap.path)do map.path[i]=id end
     return true,reason
+end
+
+function M.advanceAct(run,map)
+    if (run.act or 1)~=(map.act or 1) or run.runSeed~=map.runSeed
+        or not matchingMap(run.nodeFlow,map) then return false,'map_mismatch' end
+    local nextMap
+    local ok,reason=Run.transaction(run,function(staged)
+        local advanced,why=Run.advanceAct(staged)
+        if not advanced then return false,why end
+        nextMap=Map.generate(staged.data,staged.runSeed,staged.act)
+        return true
+    end)
+    if not ok then return false,reason end
+    for key in pairs(map)do map[key]=nil end
+    for key,value in pairs(nextMap)do map[key]=value end
+    return true
 end
 
 function M.view(run, map)
@@ -401,7 +431,7 @@ local function removeCard(run, uid)
     local flow, reason = pending(run, "shop"); if not flow then return false, reason end
     -- The service is a one-use offer per shop; the price increase belongs to later shops.
     if flow.removalUsed then return false, "removal_unavailable" end
-    local instance, position = find(run.deck, uid, "uid")
+    local instance = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
     local price = Shop.removePrice(run)
@@ -450,7 +480,8 @@ local function claimBossTreasure(run, choice)
         flow.chosenRelic = id
     end
     complete(run, "boss_treasure_complete")
-    run.phase = "victory"
+    if run.campaign then run.phase,run.pendingAct='act_transition',(run.act or 1)+1
+    else run.phase = "victory" end
     return true, "boss_treasure_complete"
 end
 
@@ -532,7 +563,7 @@ local function chooseEvent(run, choice, uid)
         run.gold = run.gold - rules.healCost
         run.hp = math.min(run.maxHp, run.hp + math.floor(run.maxHp * rules.healPercent / 100))
     elseif (choice == "purify" and id == "cleric") or (choice == "pray" and id == "purifier") then
-        local instance, position = find(run.deck, uid, "uid")
+        local instance = find(run.deck, uid, "uid")
         if not instance then return false, "invalid_card" end
         if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
         if run.gold < rules.removeCost then return false, "insufficient_gold" end
@@ -585,7 +616,7 @@ local function chooseEvent(run, choice, uid)
         local gold=EventRandom.randomIntBetween(rng,rules.goldMin,rules.goldMax)
         Run.gainGold(run,gold);run.miscRng=rng
     elseif choice=='purge' and id=='golden_wing' and flow.event.stage=='purge' then
-        local instance,position=find(run.deck,uid,'uid')
+        local instance=find(run.deck,uid,'uid')
         if not instance then return false,'invalid_card' end
         if not find(LivingWall.purgeCards(run),uid,'uid') then return false,'card_not_purgeable' end
         local ok,why=Run.removeCard(run,uid);if not ok then return false,why end

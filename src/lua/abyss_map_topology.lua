@@ -2,27 +2,14 @@
 -- Independently written from pinned source behavior; provenance and exclusions:
 -- docs/reviews/TASK-12.4-map-rng-topology-candidate.md.
 local Random = require('abyss_sts_random')
+local Seed = require('abyss_run_seed')
+local Acts = require('abyss_acts')
 local T = {}
 
 function T.seedForActOne(seed, ...)
     assert(select('#', ...) == 0, 'Unsupported extra arguments')
-    Random.fromSeed(seed) -- Reuse strict canonical signed64 validation, no draw.
-    if seed == '9223372036854775807' then return '-9223372036854775808' end
-    local negative = seed:sub(1, 1) == '-'
-    local digits = negative and seed:sub(2) or seed
-    local result, carry = {}, 1
-    for i = #digits, 1, -1 do
-        local value = tonumber(digits:sub(i, i)) + (negative and -carry or carry)
-        if value < 0 then value, carry = 9, 1
-        elseif value > 9 then value, carry = 0, 1
-        else carry = 0 end
-        result[i] = tostring(value)
-    end
-    local value = table.concat(result)
-    if not negative and carry == 1 then value = '1' .. value end
-    value = value:gsub('^0+', '')
-    if value == '' then return '0' end
-    return negative and '-' .. value or value
+    Random.fromSeed(seed)
+    return Seed.increment(seed)
 end
 
 local function extremeParent(parents, maximum)
@@ -152,9 +139,11 @@ function T.generateDungeon(height, width, density, draw)
     return { height = height, width = width, pathDensity = density, grid = grid, nodes = nodes, edges = edges }
 end
 
-function T.generate(runSeed, ...)
+function T.generate(runSeed, act, ...)
     assert(select('#', ...) == 0, 'Unsupported extra arguments')
-    local mapSeed = T.seedForActOne(runSeed)
+    if act==nil then act=1 end
+    assert(Acts.get(act).rows==15,'random topology requires act 1, 2 or 3')
+    local mapSeed = Acts.mapSeed(runSeed,act)
     local rng = Random.fromSeed(mapSeed)
     local result = T.generateDungeon(15, 7, 6, function(minimum, maximum)
         -- MapGenerator.randRange uses random(max-min)+min, not the float API.

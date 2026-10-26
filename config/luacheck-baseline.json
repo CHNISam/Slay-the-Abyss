@@ -1,8 +1,8 @@
 {
   "owner": "TASK-47",
-  "reviewedDate": "2026-10-25",
+  "reviewedDate": "2026-10-26",
   "previousEngineeringSource": "b6a29e41533a2981e7e7c1199bdc3f297ec8ed82",
-  "reason": "Reviewed existing integration: preserve known diagnostics at relocated lines after unifying native card history with the upstream class foundation. No new warning kinds or syntax/global exemptions.",
+  "reason": "Reviewed existing integration: preserve known diagnostics at relocated lines after unifying native card history with the upstream class foundation. No new warning kinds or syntax/global exemptions.; M3 cross-act review removes the three genuinely unused Nodes position locals; no new static warnings admitted.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -775,27 +775,6 @@
       "message": "shadowing upvalue loop variable 'key' on line 927"
     },
     {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 404,
-      "column": 21,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 535,
-      "column": 25,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 588,
-      "column": 24,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
       "file": "src/lua/abyss_potion_discard_ui.lua",
       "line": 34,
       "column": 18,
@@ -947,6 +926,7 @@
     "abyss_ui": "196158b3cce74612097ac5c696b82c813acb5b022c699e731903490a01a7331e",
     "abyss_unknown": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c",
     "abyss_viewport": "148f69891a344254b90b3fd68ca22187fa48248036e6fe1dd318d38bd29c10dd",
-    "src/lua/abyss_run.lua": "67527841ab5826904cded4e98cf243a107854021b11fab7f5dfb8c2c9f01f725"
+    "src/lua/abyss_run.lua": "67527841ab5826904cded4e98cf243a107854021b11fab7f5dfb8c2c9f01f725",
+    "src/lua/abyss_nodes.lua": "0aed22421a42c6dafe1bf1a80cefcc96423e466cc4efe790738e8a68e905fbc7"
   }
 }

@@ -1,5 +1,6 @@
 -- Detached development display adaptation; rules remain owned by Combat.
 local M={}
+local Curses=require('abyss_curses')
 local names={corruption='腐化',feel_no_pain='无惧疼痛',dark_embrace='黑暗之拥',sentinel='哨卫',burning_pact='燃烧契约',sneaky_strike='潜袭',eviscerate='剔骨',calculated_gamble='筹谋',loop='循环',electrodynamics='电动力学',protect='护身',perseverance='坚韧',windmill_strike='风车打击',sands_of_time='化沙',accuracy='精准',infinite_blades='无限刀刃',prostrate='伏身',worship='礼拜',devotion='供奉',deadly_poison='毒液',shiv='飞刃',blade_dance='刃舞',survivor='撤身',acrobatics='翻找',
     tactician='战术储备',reflex='灵思',footwork='步法',backflip='闪避翻滚',dagger_throw='掷刃',
     dagger_spray='双刃扫射',cloak_and_dagger='藏刃',prepared='预备',quick_slash='疾斩',catalyst='毒性催化',
@@ -51,7 +52,21 @@ local function fragments(card,dynamic,path)
             local damage=card.burnDamage
             if damage==nil then damage=card.endTurnDamage end
             return '不能打出。回合结束时受到 '..number(damage)..' 点伤害；格挡可以抵挡。'
-        elseif card.id=='void' then return '不能打出。抽到时失去 1 点能量。虚无：回合结束时仍在手中则消耗。' end
+        elseif card.id=='void' then return '不能打出。抽到时失去 1 点能量。虚无：回合结束时仍在手中则消耗。'
+        elseif Curses.isImplemented(card) then
+            local descriptions={
+                injury='不能打出。',
+                doubt='不能打出。回合结束时，获得 1 回合虚弱。',
+                pain='不能打出。在手牌中时，每打出一张牌便失去 1 点生命。',
+                decay='不能打出。回合结束时受到 2 点伤害；格挡可以抵挡。',
+                shame='不能打出。回合结束时，获得 1 回合脆弱。',
+                writhe='固有。不能打出。',
+                clumsy='不能打出。虚无：回合结束时仍在手中则消耗。',
+                normality='不能打出。在手牌中时，每回合最多打出 3 张牌。',
+                parasite='不能打出。从牌组中永久移除时，最大生命值降低 3 点。',
+            }
+            return assert(descriptions[card.id],'missing supported curse description')
+        end
         error('unknown empty card: '..tostring(card.id))
     end
     local out={}

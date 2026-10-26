@@ -107,7 +107,8 @@
     "abyss_transform_card": "core",
     "abyss_ui": "platform",
     "abyss_unknown": "core",
-    "abyss_viewport": "ui"
+    "abyss_viewport": "ui",
+    "abyss_acts": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [

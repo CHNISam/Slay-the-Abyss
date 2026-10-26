@@ -80,7 +80,7 @@ function M.withCards(data)
  assert(type(data)=='table' and data.cards and data.cards.cards and data.statuses and data.statuses.statuses,'missing Watcher flow data')
  local out,ids,statuses=copy(data),{},{}
  for _,c in ipairs(out.cards.cards)do assert(not ids[c.id],'duplicate flow input card');ids[c.id]=true end
- for _,s in ipairs(out.statuses.statuses)do assert(not statuses[s.id],'duplicate flow input power');statuses[s.id]=true end
+ for _,s in ipairs(out.statuses.statuses)do assert(not statuses[s.id],'duplicate flow input power');statuses[s.id]=s end
  for _,s in ipairs(specs)do
   assert(not ids[s[1]],'Watcher flow card already exists: '..s[1])
   local c={id=s[1],sourceId=s[2],sts_name=s[3],name=s[4],type=s[5],rarity=s[6],cost=s[7],color='purple',
@@ -108,9 +108,17 @@ function M.withCards(data)
  end
  for _,id in ipairs(powerOrder)do
   local s=powers[id]
-  assert(not statuses[id],'Watcher flow power already exists: '..id)
-  out.statuses.statuses[#out.statuses.statuses+1]={id=id,sourceId=s[2],name=s[1],kind=s[3],stack='intensity',decay='none',
-   priority=id=='draw_card_next_turn' and 20 or 5,description=s[4]}
+  local existing=statuses[id]
+  if existing then
+   -- Production Akabeko already registers this shared source Power. Reuse its
+   -- approved presentation, rejecting a conflicting identity or lifecycle.
+   assert(id=='vigor' and (existing.sourceId==nil or existing.sourceId=='Vigor')
+    and existing.kind=='buff' and existing.stack=='intensity' and existing.decay=='none',
+    'Watcher flow power already exists: '..id)
+  else
+   out.statuses.statuses[#out.statuses.statuses+1]={id=id,sourceId=s[2],name=s[1],kind=s[3],stack='intensity',decay='none',
+    priority=id=='draw_card_next_turn' and 20 or 5,description=s[4]}
+  end
  end
  return out
 end

@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { randomBytes } from 'node:crypto';
 import { checkNetworkPolicy } from '../scripts/check-network-policy.mjs';
+import { checkoutPlan } from '../scripts/ci-checkout-equivalent.mjs';
 
 const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
 const checkout = workflow.match(/      - name: Check out exact revision[^\n]*\r?\n[\s\S]*?        run: \|\r?\n([\s\S]*?)(?=\r?\n      - )/)[1].split(/\r?\n/).map(line => line.replace(/^          /, '')).join('\n');
@@ -32,6 +33,12 @@ test('real workflow checkout transfers only the follow-up delta; old-ref negativ
   }
   const fixed = client('fixed'), broken = client('broken'), capped = client('capped');
   function run(dir, sha, script = checkout) {
+    if (process.platform !== 'win32') {
+      const r = spawnSync(process.execPath, [resolve('scripts/ci-checkout-equivalent.mjs'), JSON.stringify({
+        script, cwd: dir, remote, sha, summary: join(root, 'summary.md')
+      })], { cwd: process.cwd(), encoding: 'utf8', timeout: 30000 });
+      return { ...r, payload: Number(r.stdout?.match(/Checkout new Git pack payload: (\d+) bytes/)?.[1]) };
+    }
     const file = join(root, 'checkout.ps1');
     // Only replace transport: execute the actual production PowerShell body offline.
     // Windows TEMP can be ADMINI~1; GitHub supplies a canonical workspace path.
@@ -57,6 +64,15 @@ test('real workflow checkout transfers only the follow-up delta; old-ref negativ
   const repeated = run(broken, sha, old); assert.equal(repeated.status, 0, repeated.stderr); assert.ok(repeated.payload > 250000, 'old workflow repeats the large object');
   assert.match(readFileSync(join(root, 'summary.md'), 'utf8'), /Checkout new Git pack payload:/);
   console.log(`Git regression: first=${first.payload}B, follow-up=${next.payload}B, old-flow follow-up=${repeated.payload}B`);
+});
+test('Linux equivalent refuses unreviewed workflow semantics and inconsistent ref mutations', () => {
+  assert.deepEqual(checkoutPlan(checkout), {preserve:true,current:true,cap:128*1024**2});
+  for (const changed of [checkout.replace('--no-tags', '--tags'),
+    checkout.replace('git clean -ffd', '# cleanup removed'),
+    checkout.replace("throw 'Revision mismatch'", "Write-Output 'Revision mismatch'"),
+    checkout.replace('git checkout --force --detach refs/ci/current','git checkout --force --detach FETCH_HEAD')]) {
+    assert.throws(() => checkoutPlan(changed), /Unreviewed|Inconsistent/);
+  }
 });
 test('lightweight engineering check catches old refs, removed size guard and unlimited dependency retry', () => {
   assert.deepEqual(checkNetworkPolicy(workflow), []);

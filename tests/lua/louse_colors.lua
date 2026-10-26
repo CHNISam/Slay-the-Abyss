@@ -72,6 +72,10 @@ local function referenceBattle(run,roster)
   enemies=roster,cardRandomSeed=seed,shuffleSeed=seed})
  assert(equal(Data.rules.player.startingRelics,{'burning_blood'}))
  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
+ -- Every caller above creates a fresh Run and starts its first battle. The
+ -- Run wrapper owns this anti-stale generation; low-level Combat.new does not.
+ assert(run.combatGeneration==1,'fresh Run did not allocate exactly one combat generation')
+ reference.combatGeneration=1
  return reference
 end
 

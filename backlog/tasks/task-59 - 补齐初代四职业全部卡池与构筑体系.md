@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-25 03:46'
-updated_date: '2026-10-25 16:16'
+updated_date: '2026-10-26 05:57'
 labels:
   - required
   - sts1
@@ -16,6 +16,8 @@ dependencies:
   - TASK-56
   - TASK-57
   - TASK-58
+references:
+  - docs/rules/CROSS_ACT.md
 priority: high
 type: feature
 ordinal: 95000
@@ -63,4 +65,6 @@ ordinal: 95000
 继续合并更正：用户要求继续后，实际Git push --dry-run成功，不能用gh API Forbidden推断整个Git写入口不可用。已在最新c1cb78e基础 feat/four-class-integration 实际三路整合，17冲突由独立代理分文件解决；native75与实验238同时保留，完整复验待实际整合完成。旧收口包与失败证据保持不改。
 
 整合收口：已基于最新develop c1cb78e实际解决冲突，保留生产75战士与实验66/61/56/55；源1c255ce完整npm run check exit0，JS1368零skip、345份Lua逐文件全执行、Python22通过，714源输入SHA256全部未变。仅后续交接/任务元数据变更，已测源不变。交接docs/CLASS_CARD_HANDOFF.md，未接模块portable归档docs/drafts/class-final。Git提交/推送已实际成功，此前以gh失败推断所有写入不可用已更正。四职业300与平台验收仍未完成，不勾AC。
+
+2026-10-26章节已纳入M3。本轮四职业跨幕边界验证发现并修复Watcher共享Vigor重复注册，以及新诅咒导致职业呈现/启动失败；保留批准中文名称，四职业实际卡牌渲染、菜单/资源/能力回归恢复通过。完整300牌与所有章节自然构筑/通关仍未齐，不勾AC。独立工作树feat/m3-four-acts离线切片及分层证据见docs/rules/CROSS_ACT.md。
 <!-- SECTION:NOTES:END -->
