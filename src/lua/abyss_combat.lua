@@ -22,7 +22,14 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
     end
     local thornsCallback = source and before > 0 and sourceBefore > 0 and not fixed and not retaliation
         and (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0) > 0
+    if state.originalV4 then base,normalAmount=require('abyss_original_v4').reduceAttack(state,source,target,base,fixed,normalAmount) end
+    local previewAmount=state.originalV4Preview and source==state.player and target~=state.player
+        and (normalAmount or Actors.attackAmount(state,source,target,base,fixed)) or nil
+    local previewBlock=previewAmount and math.min(target.block,previewAmount) or 0
     local lost = Actors.damage(state, source, target, base, fixed, retaliation, normalAmount,poison)
+    if previewAmount then state.originalV4Preview[#state.originalV4Preview+1]={op=fixed and 'derived' or 'damage',target=target.id,
+        low=previewAmount,high=previewAmount,actual=lost,blocked=previewBlock}end
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     EnemyAI.hpLost(state, target, before, before > 0 and (not source or sourceBefore > 0))
     if source and source ~= target then EnemyAI.hpLost(state, source, sourceBefore, thornsCallback) end -- normal thorns
     if not state.resolvingEffects then
@@ -35,6 +42,7 @@ end
 function M.retaliate(state, source, target, amount)
     local before = target.hp
     local lost = Actors.retaliate(state, source, target, amount)
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     EnemyAI.hpLost(state, target, before, before > 0)
     if not state.resolvingEffects then EnemyAI.flush(state) end
     return lost
@@ -351,6 +359,7 @@ function M.cardDefinition(state, instance)
     end
     if instance.costForTurn~=nil then card.cost=instance.costForTurn end
     if native and state.player and not state.experimentalMechanics and card.type=='skill' and (state.player.statuses.corruption or 0)>0 then card.cost=0 end
+    if card.originalV4 then card.target=require('abyss_original_v4').needsTarget(state,card) and 'ENEMY' or 'SELF' end
     return card
 end
 function M.canUpgrade(state,instance)
@@ -384,6 +393,7 @@ end
 -- and display the first monster slot. Never invent a min/max damage range.
 function M.cardPreview(state, instance, targetIndex)
     local card, player = M.cardDefinition(state, instance), state.player
+    if card.originalV4 then return require('abyss_original_v4').preview(M,state,instance,targetIndex) end
     local aimed = state.enemies[targetIndex]
     local function previewDamage(op, base)
         local neutral = {statuses = {}}
@@ -487,6 +497,10 @@ function M.canPlay(state, uid, targetIndex)
             local enemy = state.enemies[targetIndex]
             if not Actors.isActive(enemy) then return false, "invalid_target" end
         end
+    end
+    if card.originalV4 then
+        local usable,refusal=require('abyss_original_v4').preflight(state,card,targetIndex)
+        if not usable then return false,refusal end
     end
     local usable,refusal=require('abyss_watcher_attack_cards').canUse(state,instance,card)
     if not usable then return false,refusal end
@@ -1122,6 +1136,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     for i,effect in ipairs(card.effects) do
         if not (effect.targetGroup and card.effects[i-1] and card.effects[i-1].targetGroup) then
             local e=copy(effect)
+            if e.op=='originalV4' then e.paidEnergy=free and 0 or (card.costMode=='all_energy' and x or card.cost) end
             if e.op=="playTop" then
                 local pool={}; for j,enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then pool[#pool+1]=j end end
                 if #pool>0 then e.targetIndex=pool[M.cardRandom(state,#pool)] end
@@ -1233,6 +1248,10 @@ function M.resolveQueuedCard(state,e)
     if d.condition=="only_attacks_in_hand" then
         for _,held in ipairs(state.hand) do if state.catalog.cards[held.cardId].type~="attack" then invalid=true end end
     end
+    if d.originalV4 then
+        local accepted=require('abyss_original_v4').preflight(state,d,e.targetIndex)
+        if not accepted then invalid=true end
+    end
     if invalid then
         rejected()
         return
@@ -1253,7 +1272,12 @@ function M.autoplayTop(state,targetIndex,exhaustCards,append)
     if append then state.queuedCards[#state.queuedCards+1]=queued else table.insert(state.queuedCards,1,queued) end
 end
 
-function M.play(state, uid, targetIndex)
+function M.play(state, uid, targetIndex, commandId)
+    if state.originalV4 and commandId~=nil then
+        if type(commandId)~='string' or commandId=='' then return false,'invalid_command_id' end
+        local replay,why=require('abyss_original_v4').replay(state,commandId,uid,targetIndex)
+        if replay~=nil then return replay,why end
+    end
     local ok, reason = M.canPlay(state, uid, targetIndex)
     if not ok then return false, reason end -- validate before changing any state/RNG
     local instance, position = findInstance(state, uid)
@@ -1267,6 +1291,7 @@ function M.play(state, uid, targetIndex)
         local restore=require('abyss_snapshot').capture(state)
         local called,result=pcall(resolveNativePlay,state,uid,targetIndex,instance,position,card)
         if not called then restore();error(result,0) end
+        if result and state.originalV4 then require('abyss_original_v4').record(state,commandId,uid,targetIndex) end
         return result
     end
     local hooks=(state.player.statuses.feel_no_pain or 0)>0 or (state.player.statuses.dark_embrace or 0)>0
@@ -1339,10 +1364,16 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     state.turn = state.turn + 1
     state.phase = "player"
     state.cardsPlayedThisTurn={}
-    Actors.startTurn(state, state.player)
+    if state.originalV4 then Actors.resetBlock(state,state.player) else Actors.startTurn(state,state.player) end
     if finish(state) then return end
     state.player.noDraw = false
     state.energy = 0
+    local originalExtra=0
+    if state.originalV4 then
+        originalExtra=require('abyss_original_v4').startTurn(state)
+        Actors.startTurnEffects(state,state.player)
+        if finish(state)then return end
+    end
     -- Only Combat.new supplies this one-shot callback. Do not store it in state:
     -- snapshots and subsequent turns contain data only.
     if beforeOpeningDraw then
@@ -1361,7 +1392,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     end
     -- The source queues ordinary draw and post-draw Powers before executing
     -- DrawCardAction. Draw hooks append behind those already queued actions.
-    CardActions.enqueue(state,{op='draw',value=state.rules.player.drawPerTurn})
+    CardActions.enqueue(state,{op='draw',value=state.rules.player.drawPerTurn+originalExtra})
     if state.turn==1 and state.openingInnateExtra then
         CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
     end
@@ -1615,6 +1646,7 @@ end
 local function endNativeTurn(state)
     if state.phase ~= "player" then return false, "not_player_turn" end
     if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
+    if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
     RelicHooks.onPlayerEndTurn(state)
     -- AbstractRoom.endTurn resets these three piles before queued end-turn
     -- cleanup; exhaust is deliberately excluded. Exhume can recover a card
@@ -1627,6 +1659,7 @@ local function endNativeTurn(state)
         CardActions.drain(M,state)
         if finish(state) then return true end
     end
+    local function cleanupPlayerEnd()
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
     local handSize, endCards = #state.hand, {}
@@ -1679,6 +1712,8 @@ local function endNativeTurn(state)
     state.hand={}
     Actors.endTurn(state, state.player)
     if finish(state) then return true end
+    end
+    if not state.originalV4 and cleanupPlayerEnd() then return true end
     state.phase = "enemy"
     event(state, "enemy_turn")
     -- The group pre-turn hook clears every monster's old Block before its
@@ -1706,10 +1741,12 @@ local function endNativeTurn(state)
                 and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
                 M.stealGold(state, enemy, enemy.ai.stealAmount)
             end
+            if state.originalV4 then require('abyss_original_v4').beginEnemyAction(state,enemy,intent) end
             if intent.kind == "split" then splitEnemy(state, enemy)
             elseif intent.kind == "escape" then assert(M.escapeEnemy(state, enemy), "invalid escape")
             else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
             CardActions.drain(M,state)
+            if state.originalV4 then require('abyss_original_v4').endEnemyAction(M,state) end
             if finish(state) then return true end
             -- Thorns can kill this attacker while other enemies remain alive.
             if Actors.isActive(enemy) then
@@ -1721,6 +1758,10 @@ local function endNativeTurn(state)
             Actors.flushCurlUp(state)
             if finish(state) then return true end
         end
+    end
+    if state.originalV4 then
+        if cleanupPlayerEnd() then return true end
+        require('abyss_original_v4').cleanup(state)
     end
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
@@ -1738,6 +1779,12 @@ end
 -- atomic just like a paused play, including costs reset before queued actions.
 local endTurn=M.endTurn
 function M.endTurn(state)
+    if state.originalV4 then
+        local restore=require('abyss_snapshot').capture(state)
+        local called,ok,reason=pcall(endNativeTurn,state)
+        if not called then restore();error(ok,0)end
+        return ok,reason
+    end
     if not state.experimentalMechanics then return endNativeTurn(state) end
     if not advancedTurnCleanup(state) then return endTurn(state) end
     local restore=require("abyss_snapshot").capture(state)
@@ -1765,6 +1812,7 @@ function M.new(data, options)
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
+    if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
     -- Helper opt-in is independent of character selection: mixed native cards
     -- must still run the experimental on-use/draw hooks they were prepared with.
     for key,value in pairs(data) do
@@ -1812,9 +1860,15 @@ function M.new(data, options)
     for _, value in ipairs(deck) do
         local id = type(value) == "table" and value.cardId or value
         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))
-        state.draw[#state.draw + 1] = { uid = state.nextUid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
-            upgrades=type(value)=='table' and value.upgrades or nil }
-        state.nextUid = state.nextUid + 1
+        local uid=state.nextUid
+        if state.originalV4 and type(value)=='table' and value.uid~=nil then
+            assert(type(value.uid)=='number' and value.uid>0 and value.uid%1==0 and value.uid<9007199254740991,'invalid permanent card UID')
+            uid=value.uid
+            for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
+        end
+        state.draw[#state.draw + 1] = { uid = uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
+            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=state.originalV4 and type(value)=='table' and value.uid or nil }
+        state.nextUid = math.max(state.nextUid,uid)+1
     end
     if options.sourceEncounter ~= nil then
         local callbacks, constructors = options.encounterBoundary, 0

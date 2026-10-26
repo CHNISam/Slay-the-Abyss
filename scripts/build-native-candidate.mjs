@@ -8,7 +8,7 @@ import { requireStartupEvidence } from './native-playtest-evidence.mjs';
 import { settlementGraphSource } from './settlement-graph.mjs';
 
 export const generatedRuntimeModules = {
-  abyss_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
+  abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
   abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',
 };
 export function sourceInputs(root) {

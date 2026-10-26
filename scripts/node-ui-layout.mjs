@@ -112,7 +112,7 @@ export function nodeLayout(theme = nativeTheme) {
   const pickerControls = [arrow('previous', picker.previous, icon.back), arrow('next', picker.next, icon.next),
     text('page', picker.page, '', font.small, color.textDim),
     ...picker.columns.map((x, i) => card(`card${i + 1}`, [x, picker.cardY])),
-    hidden(card('before', [picker.before, previewY], false)), hidden(card('after', [picker.after, previewY], false)),
+    hidden(card('before', [picker.before, previewY], true)), hidden(card('after', [picker.after, previewY], true)),
     hidden(card('target', [picker.target, previewY], false)),
     hidden(picture('arrow', picker.arrow, icon.next, color.positive)),
     text('label', picker.label, '', font.label, color.textDim), text('hint', picker.hint, '', font.small, color.textDim),

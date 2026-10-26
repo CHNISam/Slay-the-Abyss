@@ -356,7 +356,14 @@ function M.prepare(existing,prepared)
         assert(card.type=='attack' or card.type=='skill' or card.type=='power' or card.type=='status' or card.type=='curse','unknown card type')
         local upgraded=copy(card);for k,v in pairs(card.upgrade or {}) do upgraded[k]=copy(v) end;upgraded._upgraded=true
         local current=out[card.id]
-        if not nativeDisplay(card,upgraded,current) then
+        if card.originalV4 then
+            local describe=require('abyss_original_v4_display').describe
+            current={id=card.id,name=card.name,text=describe(card,false),upgradeText=describe(card,true)}
+            out[card.id]=current
+        elseif prepared.originalV4Role and current then
+            -- Original profiles retain the already approved native pool unchanged.
+            assert(type(current.name)=='string' and type(current.text)=='string' and type(current.upgradeText)=='string','incomplete native presentation')
+        elseif not nativeDisplay(card,upgraded,current) then
           local text,upgradeText=fragments(card,false),fragments(upgraded,false)
           local combat,upgradeCombat=fragments(card,true),fragments(upgraded,true)
           if not current or rebuilt[card.id] or card.id=='burn' and card.burnDamage~=nil then
@@ -370,7 +377,14 @@ function M.prepare(existing,prepared)
                 and type(current.upgradeText)=='string' and current.upgradeText~='','incomplete existing display: '..card.id)
           end
         end
-        current.id=card.id;current.cost=cost(card);current.upgradeCost=cost(upgraded);current.type=card.type
+        current.id=card.id
+        if prepared.originalV4Role and not card.originalV4 then
+            -- Native content retains its registered ABI, including all-energy
+            -- cards with numeric cost 0. Do not pass it through experimental cost().
+            current.cost=card.costMode=='all_energy' and 'X' or card.cost==-2 and '—' or number(card.cost)
+            current.upgradeCost=upgraded.costMode=='all_energy' and 'X' or upgraded.cost==-2 and '—' or number(upgraded.cost)
+        else current.cost=cost(card);current.upgradeCost=cost(upgraded) end
+        current.type=card.type
     end
     return out
 end

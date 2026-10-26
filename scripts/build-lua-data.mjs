@@ -1,5 +1,6 @@
+import { buildOriginalV4, loadOriginalV4 } from './build-original-v4.mjs';
 import { mkdirSync, realpathSync, statSync, writeFileSync, existsSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname, resolve, join, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { contentFiles, loadContent, validateContent } from './validate-data.mjs';
 
@@ -14,6 +15,7 @@ function rejectInputOutputAlias(inputDirectory, output) {
     if (error.code !== 'ENOENT') throw error;
   }
   const inputs = [...contentFiles];
+  if (existsSync(resolve(inputDirectory,'original_v4'))) inputs.push('original_v4/cards_v4','original_v4/rules_v4');
   if (existsSync(resolve(inputDirectory, 'catalogs/sts1-relic-queues.json'))) inputs.push('catalogs/sts1-relic-queues');
   for (const file of inputs) {
     const inputPath = resolve(inputDirectory, `${file}.json`);
@@ -49,9 +51,16 @@ export function buildLuaData(inputDirectory = 'data', output = 'build/lua/abyss_
   const errors = validateContent(data);
   if (errors.length) throw new Error(errors.join('\n'));
   rejectInputOutputAlias(inputDirectory, output);
+  const originalDirectory=resolve(inputDirectory,'original_v4');
+  const original=existsSync(originalDirectory);
+  if (original) {
+    if (basename(output).toLowerCase()==='abyss_original_v4_data.lua') throw new Error('Output collides with generated Original V4 module');
+    loadOriginalV4(originalDirectory);
+  }
   const source = `-- Generated from validated JSON. Do not edit.\nreturn ${toLua(data)}\n`;
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output, source, 'utf8');
+  if (original) buildOriginalV4(originalDirectory,join(dirname(output),'abyss_original_v4_data.lua'));
   return source;
 }
 

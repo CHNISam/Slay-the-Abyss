@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "kind": "production-lua-regression",
+  "dataHashes": {
+    "cards_v4.json": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca",
+    "rules_v4.json": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+  },
+  "deviceAcceptance": false,
+  "sourceIdentity": "candidate.json payloadDigest binds production inputs; repository commit containing this record supplies source ancestry",
+  "suites": [
+    {
+      "command": "node --test --test-concurrency=1 tests/original-v4-data.test.mjs tests/original-v4-display.test.mjs tests/original-v4-runtime.test.mjs",
+      "status": "pass",
+      "tests": 48,
+      "productionResolutions": 1200,
+      "coverage": "300 stable cards × base/upgrade × lean/rich, real Combat.play/queue/actors; independent frozen-reference expectations, all 38 declared direct changes, exact source hashes, generated Lua all-field readback; no player/device acceptance inferred"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/original-v4-integration.test.mjs",
+      "status": "pass",
+      "tests": 4,
+      "coverage": "natural starter/reward/next encounter for four roles; isolated shop/camp/remove/UID and native modifiers; real host selection, 600 full rules faces, inspector hold/drag, natural defeat and one-shot exit settlement; real Run blood-potion shared cap/AR refusal, Fruit Juice maxHP, out-of-combat AR healing, legal trailing healing after lethal damage; actual generated-control E plays and feedback/end-turn across all four roles"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/combat.lua",
+      "status": "pass",
+      "cases": 23,
+      "finalCandidateRerun": "LUA_COMBAT_PASS 23 on the frozen runtime source"
+    },
+    {
+      "command": "npm run check",
+      "status": "pending",
+      "coverage": "full existing Traveler/native catalog, UI, Python and engineering regression; not replaced by the V4 pack checks"
+    }
+  ],
+  "normalPaths": [
+    {
+      "role": "hutao",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 66,
+        "turns": 3,
+        "playedCards": 7,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "arlecchino",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 59,
+        "turns": 4,
+        "playedCards": 9,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "furina",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 63,
+        "turns": 3,
+        "playedCards": 7,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "raiden",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 71,
+        "turns": 3,
+        "playedCards": 9,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    }
+  ],
+  "fixtureBoundaries": [
+    "Per-card lean/rich states deliberately seed HP/resources/enemies to isolate semantics; they are not normal-run or balance evidence.",
+    "Lifecycle shop/camp fixtures position map cursors and use real channel transactions. They do not claim intervening rooms were played.",
+    "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
+  ],
+  "candidateIdentity": {
+    "sourceCommit": "7a45d10fc1af2436c10e2042e36789d6bb87d0b7",
+    "payloadDigest": "9291879bab815d492ea88747d77d3eafc03b37daf315b476511dbec3cfe55a19",
+    "runtimePayloadDigest": "6dcff5fcf6a34af9b63e3043bd8de6a21a4a59d2b237f736554b2283fcb19485"
+  },
+  "priorIndependentReview": {
+    "reviewer": "v4_contract_audit",
+    "source": "separate-session read-only source review and live file-digest recomputation",
+    "producerInputsDigest": "c8a5bd196da19cbdb5dc9d2751fd6e12762a1a6761f73dc1832e6acd27be603f",
+    "runtimePayloadDigest": "e481dc5aef2cd317ff707db7fb78fcbf1e91ff253dd0b06a6110aeb8a0f14187",
+    "scope": [
+      "whole-root Guardian boundary",
+      "Pain prepayment atomicity",
+      "native selector/X ABI",
+      "combat generation/permanent UID",
+      "shared public healing and AR gate",
+      "full-rule pagination and stale hidden Node input",
+      "original shop shelf wording delta"
+    ],
+    "targetedEvidence": "contract19/19; four roles/600 full faces and hold/drag/Traveler UI; final shop wording delta static review, root reran updated UI fixture",
+    "unresolvedCodeIssues": [],
+    "conditions": [
+      "refreshed candidate manifest matches reviewed payloads",
+      "current delivery SHA required CI is green"
+    ],
+    "deviceAcceptance": "GIL, PC, physical phone not_run",
+    "followup": "Actual UI feedback defect found after this review; fixed and four-role actual-button regression passed. Final composite review required."
+  },
+  "fixedProductionIntegrationIssues": [
+    {
+      "trigger": "seed1 formal original host, click natural E card and play area/enemy",
+      "before": "prepare_failed: original_v4.lua table index is nil; actual command not committed",
+      "cause": "presentation-only feedback frames were passed to full command simulation preview",
+      "after": "immutable rule metadata used only for face targeting/cost; command previews pause while feedback owns readonly frames; all four real UI E plays and end turns pass",
+      "source": "7a45d10fc1af2436c10e2042e36789d6bb87d0b7",
+      "deviceAcceptance": false
+    }
+  ]
+}

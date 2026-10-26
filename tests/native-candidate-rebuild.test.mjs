@@ -52,9 +52,9 @@ function run(scenario, check) {
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk);
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options) {if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=="0")throw Error("live writes enabled");}}');
     put('src/lua/abyss_ui.lua','return {}');
-    put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';writeFileSync(process.argv[3],'return {}');`);
+    put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';import {dirname,join} from 'node:path';writeFileSync(process.argv[3],'return {}');writeFileSync(join(dirname(process.argv[3]),'abyss_original_v4_data.lua'),'return {}');`);
     put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const name of ['abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])writeFileSync(join(out,name+'.lua'),'return {}');writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),'[]');`);
-    for(const name of ['abyss_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])put('build/lua/'+name+'.lua','return {}');
+    for(const name of ['abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])put('build/lua/'+name+'.lua','return {}');
     put('build/lua/game-ui.json',JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));
     put('build/lua/game-ui-templates.json','[]');
     put('scenario.json',JSON.stringify(scenario));

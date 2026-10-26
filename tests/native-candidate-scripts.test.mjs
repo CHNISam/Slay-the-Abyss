@@ -7,7 +7,7 @@ import { candidateScriptFiles } from '../scripts/native-candidate-scripts.mjs';
 import { buildUI } from '../scripts/build-ui.mjs';
 import { buildLuaData } from '../scripts/build-lua-data.mjs';
 
-const generated = ['abyss_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
+const generated = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
 function fixture(run) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-native-scripts-'));
   const source = join(root, 'src'), build = join(root, 'build');

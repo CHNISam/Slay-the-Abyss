@@ -257,6 +257,7 @@ end
 function M.battleStart(state,id)
  id=M.localId(id)
  if id=='blood_vial' then
+  if state.originalV4 then require('abyss_original_v4_health').heal(state,state.player,2,nil,id);return end
   local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+2)
   E.emit(state,'heal',{target=state.player.id,amount=state.player.hp-before,relic=id})
   M.hpChanged(state,state.player,before)
