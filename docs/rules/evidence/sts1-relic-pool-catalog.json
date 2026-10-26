@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 42,
+    "existingLocalEffects": 43,
     "queueMissing": 92,
-    "act1Missing": 100,
-    "registeredLocalEffects": 41,
+    "act1Missing": 99,
+    "registeredLocalEffects": 42,
     "fallbackLocalEffects": 1
   },
   "queueProtocol": {
@@ -1806,10 +1806,11 @@
         "rewards-shop-acquisition"
       ],
       "sourceHooks": [],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "golden_idol",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/GoldenIdol.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Actual event obtain/trap choices, rounded non-chest GOLD offer bonus and same-owner Moai sacrifice are locally wired. SPECIAL remains event-only and outside ordinary treasure/shop queues; complete natural event/campaign, dedicated art and PC/platform/live acceptance remain pending."
     },
     {
       "id": "Gremlin Horn",
