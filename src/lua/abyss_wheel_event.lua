@@ -58,7 +58,8 @@ function M.choose(run,flow,choice,uid)
             return true,'choose_card'
         elseif outcome==5 then
             local damage=math.floor(R.float32(R.float32(run.maxHp)*R.float32(.1)))
-            run.hp=math.max(0,run.hp-damage);event.damage=damage
+            local damaged,why=Run.eventDamage(run,damage);if not damaged then return false,why end
+            event.damage=damage
             return result(event,'失去'..damage..'点生命。')
         end
     elseif event.stage=='relic_reward' then

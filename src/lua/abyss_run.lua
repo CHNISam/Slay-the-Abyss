@@ -164,6 +164,17 @@ local function cardDefinition(run,id)
 end
 local function amount(n)return type(n)=='number' and n==n and n%1==0 and n>=0 and n<=2147483647 end
 function M.gainGold(run,value)return RelicHooks.gainGold(run,value)end
+function M.eventDamage(run,value)
+    if run.phase~='node' or not amount(value) or not amount(run.hp) or not amount(run.maxHp)
+        or run.hp>run.maxHp then return false,'invalid_event_damage' end
+    return M.transaction(run,function(staged)
+        if staged.hp<=0 then return false,'event_player_dead' end
+        local lost=math.min(staged.hp,value)
+        staged.hp=staged.hp-lost
+        if lost>0 and staged.hp==0 then require('abyss_potion_fairy').outside(staged) end
+        return true,lost
+    end)
+end
 function M.heal(run,value)
     assert(amount(value),'invalid heal')
     for _,id in ipairs(run.relics or {})do

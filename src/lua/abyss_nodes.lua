@@ -565,7 +565,7 @@ local function chooseEvent(run, choice, uid)
         return complete(run)
     end
     if id=='golden_wing' and flow.event.stage=='purge' and choice~='purge' then return false,'invalid_event_choice' end
-    local function damage(amount) run.hp=math.max(0,run.hp-amount) end
+    local function damage(amount) local ok,why=Run.eventDamage(run,amount);assert(ok,why) end
     if choice == "heal" and id == "cleric" then
         if run.gold < rules.healCost then return false, "insufficient_gold" end
         run.gold = run.gold - rules.healCost

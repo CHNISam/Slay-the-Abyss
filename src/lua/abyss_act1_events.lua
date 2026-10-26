@@ -155,7 +155,8 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
         if choice~='search' then return false,'invalid_event_choice' end
         -- Fixed source pays damage, rolls inclusive 0..99, and only on success
         -- draws tier/queue. Display 25 is intentionally 26 successful buckets.
-        run.hp=math.max(0,run.hp-event.damage)
+        local damaged,damageReason=Run.eventDamage(run,event.damage)
+        if not damaged then return false,damageReason end
         event.totalDamage=event.totalDamage+event.damage
         local roll=Random.randomIntBetween(run.miscRng,0,99)
         event.lastRoll=roll
