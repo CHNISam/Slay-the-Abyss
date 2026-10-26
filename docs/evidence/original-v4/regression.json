@@ -125,8 +125,30 @@
     "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
   ],
   "candidateIdentity": {
-    "sourceCommit": "a2ffb7f528a41bfefd48bc868b561e18c8ea30ae",
-    "payloadDigest": "81afc3fdb86ba091a0fe9c1042244de82491944a3396d1a30604c85224c229d8",
-    "runtimePayloadDigest": "75f408ea02def4338a64187c765da3bc168a094222566496bcefb63753cebfb5"
+    "sourceCommit": "2c13c00c29c27ce836d71ba47fce21764e8ec533",
+    "payloadDigest": "c8a5bd196da19cbdb5dc9d2751fd6e12762a1a6761f73dc1832e6acd27be603f",
+    "runtimePayloadDigest": "e481dc5aef2cd317ff707db7fb78fcbf1e91ff253dd0b06a6110aeb8a0f14187"
+  },
+  "independentReview": {
+    "reviewer": "v4_contract_audit",
+    "source": "separate-session read-only source review and live file-digest recomputation",
+    "producerInputsDigest": "c8a5bd196da19cbdb5dc9d2751fd6e12762a1a6761f73dc1832e6acd27be603f",
+    "runtimePayloadDigest": "e481dc5aef2cd317ff707db7fb78fcbf1e91ff253dd0b06a6110aeb8a0f14187",
+    "scope": [
+      "whole-root Guardian boundary",
+      "Pain prepayment atomicity",
+      "native selector/X ABI",
+      "combat generation/permanent UID",
+      "shared public healing and AR gate",
+      "full-rule pagination and stale hidden Node input",
+      "original shop shelf wording delta"
+    ],
+    "targetedEvidence": "contract19/19; four roles/600 full faces and hold/drag/Traveler UI; final shop wording delta static review, root reran updated UI fixture",
+    "unresolvedCodeIssues": [],
+    "conditions": [
+      "refreshed candidate manifest matches reviewed payloads",
+      "current delivery SHA required CI is green"
+    ],
+    "deviceAcceptance": "GIL, PC, physical phone not_run"
   }
 }

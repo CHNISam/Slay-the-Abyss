@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "stage": "offline-production-lua-ui-payload",
-  "sourceCommit": "a2ffb7f528a41bfefd48bc868b561e18c8ea30ae",
+  "sourceCommit": "2c13c00c29c27ce836d71ba47fce21764e8ec533",
   "integrationBase": "b78fb0680fb33488fe9471346390f1ef89f371ca",
-  "payloadDigest": "81afc3fdb86ba091a0fe9c1042244de82491944a3396d1a30604c85224c229d8",
-  "runtimePayloadDigest": "75f408ea02def4338a64187c765da3bc168a094222566496bcefb63753cebfb5",
+  "payloadDigest": "c8a5bd196da19cbdb5dc9d2751fd6e12762a1a6761f73dc1832e6acd27be603f",
+  "runtimePayloadDigest": "e481dc5aef2cd317ff707db7fb78fcbf1e91ff253dd0b06a6110aeb8a0f14187",
   "data": [
     {
       "path": "data/original_v4/cards_v4.json",
@@ -795,8 +795,8 @@
     },
     {
       "path": "src/lua/abyss_node_ui.lua",
-      "sha256": "ece39209c3d7b7ceb3b5516ad4386ea16fcd915bde8056fe4126275151b53749",
-      "bytes": 71611
+      "sha256": "f9ac9ab9dcd192598a4c1f09adb3f3420a7249f213a45a237e583de776002e49",
+      "bytes": 71733
     },
     {
       "path": "src/lua/abyss_nodes.lua",
@@ -1457,8 +1457,8 @@
     {
       "name": "abyss_node_ui",
       "path": "src/lua/abyss_node_ui.lua",
-      "bytes": 71611,
-      "sha256": "ece39209c3d7b7ceb3b5516ad4386ea16fcd915bde8056fe4126275151b53749"
+      "bytes": 71733,
+      "sha256": "f9ac9ab9dcd192598a4c1f09adb3f3420a7249f213a45a237e583de776002e49"
     },
     {
       "name": "abyss_nodes",

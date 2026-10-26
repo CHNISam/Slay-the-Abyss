@@ -140,4 +140,31 @@ assert(R.usePotion(ar,1));eq(ar.hp,20);eq(ar.combat.originalV4.healUsed,0)
 assert(R.usePotion(ar,2));eq(ar.hp,20);eq(ar.maxHp,79)
 local room=R.new(F.data,73,{character='arlecchino'});room.hp=20
 assert(R.obtainPotion(room,'blood_potion'));assert(R.usePotion(room,1));eq(room.hp,34)
+-- Marks are settled once by absorb or actual death, including public poison.
+s=F.state('AR',40);F.play(s,'AR2-003',false,1);F.play(s,'AR2-005',false,1)
+eq(s.originalV4.bond,2);eq(s.enemies[1].v4Directive,nil)
+s=F.state('AR',40);F.play(s,'AR2-003',false,1);assert(C.endTurn(s))
+assert(s.enemies[1].v4Directive.mature);F.play(s,'AR2-003',false,1)
+assert(s.enemies[1].v4Directive.mature);F.play(s,'AR2-005',false,1)
+eq(s.originalV4.bond,6);eq(s.originalV4.relicUsed,true);eq(s.player.block,3)
+s=F.state('AR',40,2);s.enemies[1].hp=1;s.enemies[1].v4Directive={mature=false}
+F.play(s,'AR2-001',false,1);eq(s.originalV4.bond,4);eq(s.enemies[1].v4Directive,nil)
+C.damage(s,s.player,s.enemies[1],1,true);eq(s.originalV4.bond,4)
+s=F.state('AR',40,2);s.enemies[1].hp=1;s.enemies[1].v4Directive={mature=true}
+C.addStatus(s.enemies[1],'poison',1);assert(C.endTurn(s));eq(s.originalV4.bond,4);eq(s.enemies[1].v4Directive,nil)
+-- Bloom damage is derived, expires after two actual own end phases, and gets no root bonus.
+s=F.state('HT',50);F.play(s,'HT2-003');F.play(s,'HT2-005',false,1)
+eq(s.enemies[1].hp,488);assert(C.endTurn(s));eq(s.enemies[1].hp,486)
+assert(C.endTurn(s));eq(s.enemies[1].hp,484);eq(s.enemies[1].v4Bloom,nil)
+-- Re-summoning takes max rather than stacking; the inactive form preserves uses.
+s=F.state('FR',40);F.play(s,'FR2-003');F.play(s,'FR2-003')
+for _,uses in pairs(s.originalV4.guests)do eq(uses,2)end
+F.play(s,'FR2-005',false,1);eq(s.originalV4.mode,'pneuma');assert(C.endTurn(s))
+for _,uses in pairs(s.originalV4.guests)do eq(uses,2)end
+F.play(s,'FR2-005',false,1);eq(s.originalV4.mode,'ousia');assert(C.endTurn(s))
+for _,uses in pairs(s.originalV4.guests)do eq(uses,1)end
+-- Musou refunds are delayed, capped once per turn, and materialize at real turn start.
+s=F.state('RD',40);s.originalV4.resolve=6;F.play(s,'RD2-004',false,1)
+F.play(s,'RD2-001',false,1);F.play(s,'RD2-001',false,1)
+eq(s.originalV4.nextEnergy,1);assert(C.endTurn(s));eq(s.energy,4);eq(s.originalV4.nextEnergy,0)
 print('ORIGINAL_V4_LIFECYCLE_PASS '..count..' channels modifiers cleanup')
