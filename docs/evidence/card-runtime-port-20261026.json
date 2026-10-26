@@ -1,0 +1,52 @@
+{
+  "kind": "native-card-runtime-port",
+  "integratedBase": "c8b42fc6",
+  "gameSourceCommit": "e0a5f32f2ff740328010383b398ee72514bb917c",
+  "parameterFixCommit": "77354ca27a2f01b2aeaf6ab4910d965ea390fe29",
+  "sourceReference": {
+    "commit": "fc379c875c11e008e9c10548ac8e394c301c532f",
+    "file": "杀戮尖塔原码/cards/AbstractCard.java",
+    "sha256": "f11601db66e8df3699481076763b858672ce83d4a6eea6c1abf0715f254b5c5c",
+    "rawReferenceCopiedIntoDelivery": false
+  },
+  "production": {
+    "renderer": "scripts/card-face.mjs",
+    "artBinding": "abyss_card_display.art",
+    "backend": "native gallery image ID",
+    "externalImageImport": false,
+    "contexts": ["battle", "reward", "deck", "node"],
+    "completeNativeTreesUnchanged": ["battle", "deck", "node"],
+    "gameLayoutAndTemplatesUnchanged": true,
+    "sample": {"cardId": "cleave", "status": "placeholder-native-icon"},
+    "artProductionComplete": false
+  },
+  "verification": {
+    "componentLayoutAndThemeTests": 26,
+    "luaFiles": 12,
+    "luaCasesPassed": 66,
+    "fullNodeRun": {"tests": 1534, "passed": 1415, "failed": 0, "skipped": 119},
+    "laterParameterFixTargetedTests": 18,
+    "pythonPresentation": {"tests": 54, "failed": 0, "skipped": 1},
+    "architecture": {"modules": 116, "edges": 555},
+    "newLuacheckDiagnostics": 0,
+    "historicalLuacheckDiagnostics": 113,
+    "criticalMutationsKilled": 4
+  },
+  "candidate": {
+    "buildId": "0eba80a7-b3a2-42e9-8669-7c23c887b237",
+    "sourceDirty": false,
+    "payloadDigest": "bbb7ae23109daa7990216b6760ead27197e6d7971a9b827988119fb5e0e9080f",
+    "path": ".artifacts/card-pipeline/candidate/0eba80a7-b3a2-42e9-8669-7c23c887b237/scenes/saves/abyss-card-pipeline-current.gil",
+    "sha256": "8d4675f2948b3f03714079af2192a8617c1c6921c8d6d7106661e10e9c7baca7",
+    "checkedModules": 122,
+    "moduleReadbackMatched": 122,
+    "staticErrors": 0,
+    "staticWarnings": 55,
+    "canonicalBuilderReceipt": false,
+    "officialImport": "not_run",
+    "mousePlaytest": "not_run",
+    "mobilePlaytest": "not_run",
+    "uiAcceptance": "not_run"
+  },
+  "delivery": {"draftPr": "https://github.com/CHNISam/Slay-the-Abyss/pull/231", "merged": false}
+}

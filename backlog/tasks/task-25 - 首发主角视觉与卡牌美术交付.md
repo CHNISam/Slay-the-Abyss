@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 15:58'
-updated_date: '2026-10-26 15:27'
+updated_date: '2026-10-26 15:58'
 due_date: '2026-10-28'
 labels:
   - art
@@ -19,6 +19,7 @@ references:
   - docs/backlog-details/TASK-25.md
   - docs/DELIVERY-CLOSEOUT.md
   - docs/art/CARD_RUNTIME_PORT.md
+  - docs/evidence/card-runtime-port-20261026.json
 type: task
 ordinal: 27000
 ---
@@ -48,4 +49,6 @@ ordinal: 27000
 
 <!-- SECTION:NOTES:BEGIN -->
 本轮按固定原版按卡牌ID索引及共享卡面装配结构落地：新增共用卡面生成组件，战斗及奖励、牌库、节点复用；提取前后三棵完整原生控件树逐项一致。统一卡图解析先查真实卡牌ID，再走明确的牌型图标占位；战斗、牌库和真实商店节点绑定、缺图回退、拒绝外部图片路径的回归已通过。现有cleave登记仍标占位，不宣称精修插图或全卡美术完成。继续复用既有主题、ImageEditor稿和导出工具，不增加图片导入通道、不批产新卡图。26项布局及主题回归已通过，更多运行时专项和新副本读回在继续；实际观感、容量、设备和官方实机条款未勾。
+
+本地卡牌装配移植与组合副本核对已完成，现已按用户明确授权推送草稿PR231。入口参数缺项也已修复。精修插图仍有占位，实机、容量和设备验收继续保留；完整结果见开发附件与组合证据。
 <!-- SECTION:NOTES:END -->

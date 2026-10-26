@@ -29,6 +29,8 @@ Luacheck提取前后的27条该文件诊断逐条比较，类型、列和消息�
 
 副本首次构建因`abyss_ui`缺少`experimentalCharacters`参数登记而失败（与拖牌逻辑无关）。原失败及dirty收据保留；仅在独立候选中补登记`false`，不改模块内容或启用实验角色。恢复后120模块静态检查为0错误/50警告，120份脚本逐字节读回匹配。候选SHA256为`e45512e5a8c08405c0fc1052c5b7702ff306414b665e52b0579d5de7d91b89ef`，位于工作树的`.artifacts/drag-response/metadata-repair/scenes/saves/abyss-card-drag-test.gil`。
 
-游戏输入载荷摘要`f3da3256434517945c2b0e5ea83a11e98ed3063b45004bf3ca16ae7396308656`与实现提交`d4228064720f2951ca3dd84455f2b368a1fc1779`一致；这不改写初次收据的`sourceCommit`或dirty事实。恢复记录单列于`.artifacts/drag-response/metadata-repair/repair-evidence.json`，不是将原失败收据改成通过。通用构建器仍缺该参数登记，本轮未扩大修改它；同源重新构建时须显式处理这一已发现缺口。
+游戏输入载荷摘要`f3da3256434517945c2b0e5ea83a11e98ed3063b45004bf3ca16ae7396308656`与实现提交`d4228064720f2951ca3dd84455f2b368a1fc1779`一致；这不改写初次收据的`sourceCommit`或dirty事实。恢复记录单列于`.artifacts/drag-response/metadata-repair/repair-evidence.json`，不是将原失败收据改成通过。后续用户要求打通美术生产管线，`77354ca`已将完整入口参数用于普通及收据两条构建路线；18项相关回归通过，首次失败仍保留。
 
-汇总见[本轮证据](../evidence/card-drag-response-20261026.json)。本轮没有官方导入或鼠标/手机实测，不能以Lua回调或副本静态检查替代实际流畅度验收。分支推送和草稿PR被自动审批拒绝后未重试；本地提交与候选保留，等待用户明确授权。
+汇总见[首次拖牌证据](../evidence/card-drag-response-20261026.json)。随后保留最新develop的卡面/商店拆分，将拖牌局部更新迁移至`abyss_battle_card_view`；[组合证据](../evidence/card-runtime-port-20261026.json)记录122模块的新候选。完整Node回归1415通过/119跳过/0失败，后续仅构建入口参数修复另跑18项通过。
+
+本轮没有官方导入或鼠标/手机实测，不能以回调或副本静态检查替代实际流畅度验收。首次推送被自动审批拒绝；用户随后明确授权推送并建草稿，现已交付[PR231](https://github.com/CHNISam/Slay-the-Abyss/pull/231)，保留Draft等待审查和实机窗口。

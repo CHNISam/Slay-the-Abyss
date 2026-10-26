@@ -55,5 +55,5 @@
     "mobilePlaytest": "not_run",
     "uiAcceptance": "not_run"
   },
-  "externalDelivery": "not_pushed; automatic approval review requires explicit user authorization"
+  "externalDelivery": "first push rejected by automatic review; user subsequently authorized publishing; draft PR231 created"
 }
