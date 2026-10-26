@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 20:29'
+updated_date: '2026-10-26 21:42'
 labels:
   - required
   - sts1
@@ -46,4 +46,6 @@ type: feature
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
 
 2026-10-27 第二批已整合Falling/Moai/Winding三事件、Orb Walker/Shapes及球状守护者编组。父线程原时限24份组合回归全部通过，包括真实末敌自爆与Buffer/Static Discharge。Winding四个未实现遗物依赖明确拒绝并留账，Moai正常Golden Idol获取另独立补齐；Maw/Spire Growth和共享回合末优先级仍在独立工作树，暂未合入。整幕事件、剩余遭遇/Boss、自然接续和平台仍未完成。
+
+2026-10-27 Maw/Spire Growth已在父完整300+Shapes+共享回合末实际合成树通过原18组8.639秒，来源actor/Artifact/105优先级/双死/完整回滚/Host说明均留证。保留旧Shapes自爆等原功能并独立复验，不将只读overlay当最终组合。三幕剩余事件、遭遇/Boss及自然/平台仍未完成。
 <!-- SECTION:NOTES:END -->

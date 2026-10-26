@@ -34,19 +34,24 @@ local function selectedEntries(entries, info)
     return entries
 end
 
+local function ownedStatusText(self, describe, entry, battle, actor)
+    local text, tag, note = describe.statusDetail(entry, battle.rules, actor)
+    if entry.id=='stasis' and actor.stasisCardId then
+        local display=self.presentation[actor.stasisCardId]
+        local definition=battle.catalog.cards[actor.stasisCardId]
+        local name=display and display.name or definition and definition.name or actor.stasisCardId
+        text='正在扣押「'..name..(actor.stasisCardUpgraded and '+' or '')..'」。击败此浮核后归还'
+        note='手牌已满时归还到弃牌堆'
+    elseif entry.id=='constricted' and actor.constrictedSourceName then
+        note='来源：'..actor.constrictedSourceName
+    end
+    return text, tag, note
+end
+
 -- Fixed presentation dependencies stay with the existing battle description helpers.
 function M.new(self, describe, lines)
     local function statusRow(entry, battle, actor)
-        local text, tag, note = describe.statusDetail(entry, battle.rules, actor)
-        if entry.id=='stasis' and actor.stasisCardId then
-            local display=self.presentation[actor.stasisCardId]
-            local definition=battle.catalog.cards[actor.stasisCardId]
-            local name=display and display.name or definition and definition.name or actor.stasisCardId
-            text='正在扣押「'..name..(actor.stasisCardUpgraded and '+' or '')..'」。击败此浮核后归还'
-            note='手牌已满时归还到弃牌堆'
-        elseif entry.id=='constricted' and actor.constrictedSourceName then
-            note='来源：'..actor.constrictedSourceName
-        end
+        local text, tag, note = ownedStatusText(self, describe, entry, battle, actor)
         local kind = describe.statusKind(entry)
         return { status = entry.id, icon = Theme.icon.status[entry.icon or entry.id],
             colour = kind == "buff" and C.buff or C.debuff, tag = tag, text = text, note = note,

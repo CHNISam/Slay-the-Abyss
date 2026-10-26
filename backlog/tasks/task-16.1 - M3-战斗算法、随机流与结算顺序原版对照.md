@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 21:27'
+updated_date: '2026-10-26 21:42'
 due_date: '2026-10-28'
 labels:
   - required
@@ -98,4 +98,6 @@ ordinal: 43000
 2026-10-27 父线程公开Run事务切片真实2 RED→2 GREEN（6.598秒，原30秒），覆盖正常52HP来源房间Omega+结束回合和Discovery消耗/FNP/Juggernaut后选牌击杀；奖励先执行后throw，整Run每一原对象/字段/RNG还原，同token重试与独立无故障Run完全一致。具体见docs/reviews/M3-RUN-REWARD-ROLLBACK-20261027.md。Core普通阶段、WLP暂停交叉与完整CI仍待冻结组合，不勾广义全量/平台AC。
 
 2026-10-27 公开Run边界追加显式false结算拒绝：精确8ed预载throw两绿/reject两真红，当前四例全绿12.870秒；保留原抛错/拒绝reason与完整身份回滚，不吞下游拒绝。WLP阶段最终组合仍待父接入3dc091。
+
+2026-10-27 父真实300+Shapes+Maw组合已接3dc共享阶段：39专用例全部通过；公开Run含WLP→Omega真实暂停续跑的throw/reject六例17.625秒通过，整原图及同token重试与无故障局一致。156模块/897边、105旧告警/无新增、4语义变异通过。UI来源说明超15的真实失败已通过职责提取修复，门槛不改。完整RC门禁/平台仍待后续。
 <!-- SECTION:NOTES:END -->
