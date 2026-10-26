@@ -38,6 +38,7 @@ function M.prepare(state, enemy, random)
 end
 
 function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind=='jaw_worm'then return JawWorm.preBattle(state,enemy,Actors)end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind == 'act2' then return Act2.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy) end

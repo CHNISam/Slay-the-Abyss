@@ -30,6 +30,14 @@ M.enemies={{id='orb_walker',sourceId='Orb Walker',name='Orb Walker',tier='normal
  {id='transient',sourceId='Transient',name='Transient',tier='normal',hp=999,gold=1,
   ai={kind='act3',policy='transient',noHpRoll=true},intents={
    {id='attack',kind='attack',effects={{op='damage',value=30}}}}},
+ {id='jaw_worm_hard',sourceId='JawWorm',name='石颚兽',tier='normal',hp=44,hpRange={min=40,max=44},
+  ai={kind='jaw_worm',hardMode=true,preBattleStrength=3,preBattleBlock=6,
+   chompIntent='chomp',thrashIntent='thrash',bellowIntent='bellow',rollRange=100,
+   chompCutoff=25,thrashCutoff=55,bellowAfterChomp=.5625,
+   chompAfterTwoThrashes=.3569999933242798,chompAfterBellow=.41600000858306885},intents={
+   {id='chomp',kind='attack',effects={{op='damage',value=11}}},
+   {id='thrash',kind='attack',effects={{op='damage',value=7},{op='block',value=5}}},
+   {id='bellow',kind='buff',effects={{op='gainStatus',status='strength',value=3},{op='block',value=6}}}}},
 }
 M.statuses={{id='generic_strength_up',sourceId='Generic Strength Up Power',name='成长',
  kind='buff',stack='intensity',decay='none',description='每轮结束时，获得等同层数的力量。'},
@@ -42,7 +50,7 @@ M.statuses={{id='generic_strength_up',sourceId='Generic Strength Up Power',name=
  {id='fading',sourceId='Fading',name='消逝',kind='buff',stack='duration',decay='none',
   description='每次攻击后倒计时减1；为1时攻击后自毁，仍获得正常战斗奖励。'}}
 local formations={['3 Shapes']='act3_three_shapes',['4 Shapes']='act3_four_shapes',
- ['Sphere and 2 Shapes']='act3_sphere_two_shapes'}
+ ['Sphere and 2 Shapes']='act3_sphere_two_shapes',['Jaw Worm Horde']='act3_jaw_worm_horde'}
 function M.resolve(source,tier)
  local single=source=='Orb Walker'and 'orb_walker'or source=='Maw'and 'maw'or source=='Spire Growth'and 'spire_growth'
   or source=='Transient'and 'transient'

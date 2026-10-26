@@ -1,0 +1,132 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archive": {
+    "file": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+    "sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458"
+  },
+  "files": [
+    {
+      "path": "monsters/exordium/JawWorm.java",
+      "sha256": "e0950443e76332942fe556687782e8e18d91ee683a6c22ca0eb2e5663d4a312e"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1"
+    },
+    {
+      "path": "dungeons/TheBeyond.java",
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    {
+      "path": "actions/common/RollMoveAction.java",
+      "sha256": "c938d4b4a9183b39e91c1c54c79085ddf7b2bea082af14895b9a1a00a100fc50"
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec"
+    },
+    {
+      "path": "actions/common/GainBlockAction.java",
+      "sha256": "e48f437c06b42dda312446a4b536aca54570d637e53087ac16f736d84bb5df4f"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47"
+    },
+    {
+      "path": "powers/StrengthPower.java",
+      "sha256": "20b05040efe9d6ad693dd763a658c86df9db1b1ac365351c4c8d81c7f6ca08c9"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    {
+      "path": "random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    }
+  ],
+  "independentModel": {
+    "generator": "tools/oracles/sts1_jaw_horde.py",
+    "generatorSha256LF": "de6ba3822e73a6c420684da4e63c1f5a5a6c0c30131f5f40c02f96c2d645f218",
+    "fixture": "tests/fixtures/jaw-worm-horde-vectors.lua",
+    "fixtureSha256LF": "09e9b2f029386088d14c2804421fb420e83e8bbdc79d5be73aaa9bbb35b83607",
+    "cases": 4,
+    "inputs": "1000 player HP, no player cards; arithmetic source-vector boundary, not natural play"
+  },
+  "contracts": {
+    "sourceEncounter": "Jaw Worm Horde",
+    "sourceMonster": "JawWorm",
+    "positions": [
+      [
+        -490,
+        -5
+      ],
+      [
+        -150,
+        20
+      ],
+      [
+        175,
+        5
+      ]
+    ],
+    "hardMode": true,
+    "hpRange": [
+      40,
+      44
+    ],
+    "hpDraws": 3,
+    "openingAiDraws": 3,
+    "miscDraws": 0,
+    "preBattle": {
+      "strength": 3,
+      "block": 6
+    },
+    "openingCutoffs": [
+      25,
+      55
+    ],
+    "openingForcedChomp": false,
+    "actions": {
+      "chomp": {
+        "damage": 11
+      },
+      "thrash": {
+        "damage": 7,
+        "block": 5
+      },
+      "bellow": {
+        "strength": 3,
+        "block": 6
+      }
+    },
+    "conditionalChance": [
+      0.5625,
+      0.3569999933242798,
+      0.41600000858306885
+    ],
+    "death": "ordinary death; dead-owner block cancelled, queued RollMove survives while teammate lives; final defeat clears it"
+  },
+  "boundary": "Fixed third-party decompiled source and independent interpretation, not original-PC execution/platform/natural campaign proof"
+}
