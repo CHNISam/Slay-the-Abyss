@@ -1,11 +1,11 @@
 ---
 id: TASK-68.1
 title: 修复定向回归漏掉受保护导入的用例
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:37'
-updated_date: '2026-10-26 11:43'
+updated_date: '2026-10-26 13:08'
 labels: []
 dependencies: []
 parent_task_id: TASK-68
@@ -22,9 +22,9 @@ PR216 已合并后独立复审发现，pcall(require, 模块名) 没有进入依
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 地图与节点模块单独变化时，对应受保护导入回归不会漏选
-- [ ] #2 静态受保护导入、无法解析的动态导入和显式测试变更均有正反对照
-- [ ] #3 原选择器测试与当前修改的定向检查通过，完整 CI 按准确提交验证
+- [x] #1 地图与节点模块单独变化时，对应受保护导入回归不会漏选
+- [x] #2 静态受保护导入、无法解析的动态导入和显式测试变更均有正反对照
+- [x] #3 原选择器测试与当前修改的定向检查通过，完整 CI 按准确提交验证
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -44,3 +44,9 @@ Executor: dot，自有云独立工作树 feat/dot-selector-dependency-coverage�
 
 PR213已合入develop e3a9fe2，四处已授权修复统一到PR221，避免重复整套CI。组合候选已实跑38项JS、4份Lua入口(3/2/3/12)、工程110模块502边/113既有告警/4语义变异、Backlog/语法/许可清单检查；均通过。旧b795完整Quality已成功，但不借给新的整合SHA。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+已由PR221合入develop 4bbd15154273a7570ec2f8b245d60cfed29523ac。pcall导入与动态/别名/load类依赖回归先红后绿，selector35/35及独立7项通过，真实地图/节点各补回漏选项且普通脚本选择不扩散。准确head3a3bf6a的Quality40317403074三个必需作业及Licenses40317402587全成功；交付收据/独立复审/普通SHA绑定合并已核验。主线pushCI另行跟踪，不把不同SHA结果混用。证据：https://github.com/CHNISam/Slay-the-Abyss/pull/221#issuecomment-6416331248
+<!-- SECTION:FINAL_SUMMARY:END -->
