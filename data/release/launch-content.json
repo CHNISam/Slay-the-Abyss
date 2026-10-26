@@ -199,7 +199,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events; six additional explicit routes including Living Wall, Fountain and four Act 1 events. Full source event-pool admission, per-option natural eligibility and platform/live execution remain pending."
+      "limitation": "Seven default random events and eight additional explicit routes, including Transmorgrifier and Scrap Ooze. Full source pool admission and natural/platform execution remain pending."
     },
     "relics": {
       "tasks": [
@@ -2796,6 +2796,45 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "transmogrifier",
+      "originalId": "Transmorgrifier",
+      "choices": [
+        "change",
+        "leave"
+      ],
+      "stages": [
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID; absent from restricted-seven default pool.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default random pool admission and natural/platform execution remain pending; transformations keep full source order and reject unsupported draws atomically."
+    },
+    {
+      "id": "scrap_ooze",
+      "originalId": "Scrap Ooze",
+      "choices": [
+        "search",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID; absent from restricted-seven default pool.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default pool admission and natural/platform execution remain pending. Repeated searches retain exact damage, source roll boundaries and relic owner transactions."
     }
   ],
   "relics": [
@@ -3458,11 +3497,6 @@
       {
         "id": "Match and Keep!",
         "path": "tools/candidates/match_game.lua",
-        "reason": "Independent candidate, no production route."
-      },
-      {
-        "id": "Transmorgrifier",
-        "path": "tools/candidates/transform_card.lua",
         "reason": "Independent candidate, no production route."
       },
       {

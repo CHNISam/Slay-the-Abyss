@@ -1,9 +1,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { validateLaunchContent } from '../scripts/verify-launch-content.mjs';
+import { validateLaunchContent, inspectLaunchRuntime } from '../scripts/verify-launch-content.mjs';
 
 const fresh = () => JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
+
+test('every production event mapping is listed, including explicit transformation routes', () => {
+  const actual=inspectLaunchRuntime();
+  assert.ok(actual.events?.some(row=>row.id==='transmogrifier' && row.originalId==='Transmorgrifier'));
+  assert.deepEqual(fresh().events.map(row=>row.id).sort(),actual.events.map(row=>row.id).sort());
+  const omitted=fresh();omitted.events=omitted.events.filter(row=>row.id!=='transmogrifier');
+  assert.ok(validateLaunchContent(omitted,{runtime:false}).some(error=>error.includes('production event mappings')));
+});
 
 test('launch inventory names every formal source binding rather than the legacy explicit-ID pool', () => {
   const manifest = fresh();
@@ -27,7 +35,7 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 6);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 8);
   assert.equal(manifest.potions.length, 6);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
     definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());

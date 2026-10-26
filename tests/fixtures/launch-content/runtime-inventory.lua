@@ -59,4 +59,13 @@ local members={};for _,enemy in ipairs(boss.combat.enemies)do members[#members+1
 records[#records+1]={runtimeId=boss.encounterId,sourceName=boss.encounterSource,tier='boss',queuePools={'boss:guardian-unseen'},
  dynamic=false,traces={{path='',members=members}}}
 for _,row in ipairs(records)do print('LAUNCH_RUNTIME\t'..json(row))end
+local Events=require('abyss_event_pool')
+local randomEvents={}
+local pool=Events.new(LAUNCH_DATA.rules.events.poolMode)
+for _,kind in ipairs({'act','shrine','once'})do
+ for _,original in ipairs(pool[kind])do randomEvents[original]=true end
+end
+for original,id in pairs(Events.contentId)do
+ print('LAUNCH_EVENT\t'..json({id=id,originalId=original,random=randomEvents[original]==true}))
+end
 print('LAUNCH_RUNTIME_ENTRY_PASS')

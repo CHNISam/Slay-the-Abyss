@@ -156,7 +156,8 @@ end
 -- DEFEND_BUFF...). Data keeps a single kind, so the second icon comes from the
 -- effects themselves: the first effect class that differs from the kind.
 local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
-    applyStatus = "debuff", makeTempCardInDiscard = "debuff" }
+    applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
+    enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff" }
 local function intentBadge(intent)
     for _, kind in ipairs({ "debuff", "defend", "buff", "attack" }) do
         if kind ~= intent.kind then
@@ -185,7 +186,11 @@ local function intentView(state, index)
     if intent.kind == "escape" then return special("escape", "unknown", "逃离战场，不返还已窃取的金币。") end
     if intent.kind == "charge" then return special("charge", "unknown", "本回合不攻击，正在蓄能。", "蓄满后发动攻击") end
     if intent.kind == "sleep" then return special("sleep", "sleep", "沉睡中，本回合不行动。", "损失生命就会惊醒") end
-    if intent.kind == "stunned" then return special("stunned", "unknown", "刚被惊醒，本回合不行动。") end
+    if intent.kind == "stunned" then
+        if enemy.definitionId == 'lagavulin' then return special("stunned", "unknown", "刚被惊醒，本回合不行动。") end
+        return {value='',kind='unknown',label='昏眩',text='陷入昏眩，本回合不行动。',
+            rows={{icon='unknown',colour=C.textDim,name='昏眩',text='陷入昏眩，本回合不行动。'}}}
+    end
     if intent.kind == "split" then
         local child = state.catalog.enemies[enemy.ai.splitEnemy]
         return special("split", "unknown", "分裂为两只" .. child.name .. "，各自生命等于分裂时的当前生命。")
@@ -204,7 +209,7 @@ local function intentView(state, index)
     end
     local soften=state.originalV4 and require('abyss_original_v4').intentReduction(state,index) or 0
     for _, effect in ipairs(intent.effects) do
-        if effect.op == "damage" or effect.op=='damageAll' then
+        if effect.op == "damage" or effect.op=='damageAll' or effect.op=='enemyVampireDamage' then
             -- The number already includes Strength, Weak and Vulnerable on both sides.
             local amount = Combat.attackAmount(state, copy, player, effect.value)
             local times = effect.times or 1
@@ -222,6 +227,19 @@ local function intentView(state, index)
                 tag = times > 1 and "共 " .. number(total) or nil,
                 text = unequal and ("依次攻击 "..face.." 点伤害") or times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害" or "造成 " .. each .. " 点伤害",
                 note = amount ~= effect.value and "基础 " .. number(effect.value) .. "，已计入双方力量、虚弱与易伤" or nil }
+            if effect.op=='enemyVampireDamage' then
+                result[#result+1]='按你实际损失的生命回复自身生命'
+                rows[#rows+1]={icon='buff',colour=C.buff,name='吸血',text='按你实际损失的生命回复自身生命',note='格挡部分不产生治疗'}
+            end
+        elseif effect.op=='enemyHealAll' or effect.op=='enemyStrengthAll' or effect.op=='enemyCleanse' then
+            local text,name
+            if effect.op=='enemyHealAll' then
+                name,text='群体治疗 '..number(effect.value),'敌方全体存活单位各回复最多 '..number(effect.value)..' 点生命'
+            elseif effect.op=='enemyStrengthAll' then
+                name,text='群体力量 '..number(effect.value),'敌方全体存活单位各获得 '..number(effect.value)..' 层力量'
+            else name,text='净化','移除自身全部负面状态及暂时失去力量的状态' end
+            result[#result+1]=text
+            rows[#rows+1]={icon='buff',colour=C.buff,name=name,text=text}
         elseif effect.op == "block" then
             local amount = number(Combat.blockAmount(state, copy, effect.value, effect.target == "random_ally"))
             local ally = effect.target == "random_ally"
@@ -563,7 +581,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local statusY = (si.rows - 1) * pitch / 2 - line * pitch
                 statusImage:SetAnchoredPosition(x, statusY)
                 target:SetAnchoredPosition(x, statusY)
-                picture(statusImage, Theme.icon.status[entry.icon or entry.id])
+                picture(statusImage, Theme.icon.status[entry.icon or entry.id] or Theme.icon.intent[entry.kind] or Theme.icon.intent.unknown)
                 tint(statusImage, statusKind(entry) == "buff" and C.buff or C.debuff)
                 if overflow then
                     count:SetAnchoredPosition(x, statusY)
@@ -1179,7 +1197,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     targetable = valid and hovered == i
                 end
                 local potionTarget = self.potionAim ~= nil and not pendingTarget and Actors.isActive(enemy)
-                unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, targetable == true or potionTarget or self.acting == enemy.id)
+                -- New chapter portraits are pending M4 assembly. Use the
+                -- approved room-kind glyph while retaining the real name/stats.
+                local icon = Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier == 'normal' and 'combat' or enemy.tier]
+                unit(box, enemy, portrait, icon, width, targetable == true or potionTarget or self.acting == enemy.id)
                 -- An intent event is the historical action's starting face.
                 -- Later frames already include its effects: do not apply them
                 -- again. Unacted enemies still preview the current state.

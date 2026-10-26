@@ -12,10 +12,6 @@ import { candidateScriptFiles } from './native-candidate-scripts.mjs';
 
 const categories = ['cards', 'generatedCards', 'enemies', 'encounters', 'events', 'relics', 'potions', 'bosses'];
 const ids = rows => rows.map(row => row.id).sort();
-const explicitEvents = {
-  living_wall: 'Living Wall', fountain: 'Fountain of Cleansing', sssserpent: 'Liars Game',
-  big_fish: 'Big Fish', accursed_blacksmith: 'Accursed Blacksmith', bonfire: 'Bonfire Elementals',
-};
 const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
@@ -55,7 +51,9 @@ export function inspectLaunchRuntime(root = process.cwd(), data = loadContent(re
     assert.match(result.stdout, /LAUNCH_RUNTIME_ENTRY_PASS/);
     const bindings = result.stdout.split(/\r?\n/).filter(line => line.startsWith('LAUNCH_RUNTIME\t'))
       .map(line => JSON.parse(line.slice('LAUNCH_RUNTIME\t'.length)));
-    const snapshot = { bindings, deployment };
+    const events = result.stdout.split(/\r?\n/).filter(line => line.startsWith('LAUNCH_EVENT\t'))
+      .map(line => JSON.parse(line.slice('LAUNCH_EVENT\t'.length)));
+    const snapshot = { bindings, deployment, events };
     runtimeCache.set(key, snapshot);
     return snapshot;
   } finally {
@@ -258,6 +256,9 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(boss.rewardDestination === 'boss_treasure:floor17', `bosses/${boss.id}: reward destination drift`);
   }
   check(data.rules.events.poolMode === 'restricted-seven', 'Production event mode changed: review launch scope');
+  const explicitEvents = Object.fromEntries(actualRuntime.events.filter(row=>!row.random).map(row=>[row.id,row.originalId]));
+  const eventIdentity = rows => rows.map(row=>`${row.originalId}:${row.id}`).sort();
+  same(eventIdentity(manifest.events),eventIdentity(actualRuntime.events),'production event mappings');
   same(ids(manifest.events.filter(row => row.poolMode === 'explicit-only')), Object.keys(explicitEvents).sort(), 'explicit event routes');
   for (const event of manifest.events) {
     const explicit = Object.hasOwn(explicitEvents, event.id);
