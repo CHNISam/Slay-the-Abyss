@@ -19,6 +19,9 @@ local registeredRun=Run.new(registered,42)
 assert(registeredRun.data.runCardCatalog and card(registeredRun.data,'survivor').sourceId=='Survivor')
 assert(not registered.runCardCatalog,'already registered caller bundle must remain caller owned')
 -- Constant foreign definitions must never freeze current caller-owned branches.
+-- The earlier cost mutation proves selected native authority. Restore that
+-- red rule before constructing other classes, where red is a foreign color.
+card(source,'strike').cost=1
 local function entry(list,id)for _,v in ipairs(list)do if v.id==id then return v end end;error(id)end
 entry(source.statuses.statuses,'weak').name='当前调用方虚弱'
 entry(source.relics.relics,'burning_blood').catalogCallerWord='current relic'

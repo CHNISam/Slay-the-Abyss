@@ -2,6 +2,7 @@
   "layers": {
     "abyss_class_potions": "core",
     "abyss_potion_stance": "core",
+    "abyss_run_red_card_contract": "core",
     "abyss_run_card_catalog": "core",
     "abyss_silent_potions": "core",
     "abyss_silent_final_cards": "core",
