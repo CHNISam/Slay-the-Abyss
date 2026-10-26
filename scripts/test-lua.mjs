@@ -54,11 +54,32 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   return result;
 }
 
+export function shardLuaScripts(scripts, value) {
+  const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));
+  const index = Number(match?.[1]), count = Number(match?.[2]);
+  if (!match || !Number.isSafeInteger(index) || !Number.isSafeInteger(count) || index > count || count > 64) {
+    throw new Error('Lua shard must be i/n with integers 1 <= i <= n <= 64');
+  }
+  return [...scripts].sort().filter((script, position) => position % count === index - 1);
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
-    const scripts = process.argv[2] ? [process.argv[2]] : readdirSync('tests/lua')
+    let script, shard;
+    const args = process.argv.slice(2);
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--shard' && shard === undefined) shard = args[++i] ?? '';
+      else if (args[i].startsWith('-') || script !== undefined) throw new Error('Usage: test-lua.mjs [script.lua] [--shard i/n]');
+      else script = args[i];
+    }
+    if (shard !== undefined && script !== undefined) throw new Error('Lua sharding cannot be combined with a single script');
+    let scripts = script ? [script] : readdirSync('tests/lua')
       .filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
     if (!scripts.length) throw new Error('No Lua test files discovered');
+    if (shard !== undefined) {
+      scripts = shardLuaScripts(scripts, shard);
+      console.log(`Lua shard ${shard}: ${scripts.length} fixtures`);
+    }
     for (const script of scripts) {
       const startedAt = Date.now();
       try {

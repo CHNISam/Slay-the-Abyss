@@ -17,17 +17,19 @@ concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  check:
+  rules:
+    name: rules (${{ matrix.shard }}/${{ strategy.job-total }})
     if: ${{ !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}
     # Only an explicit dispatch of a trusted integration branch may use the laptop.
     # All ordinary pushes and PRs, including forks, use a disposable hosted VM.
     runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master') && fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') || 'windows-2025' }}
-    # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of
-    # 207 Lua fixtures had run on Node 22. Keep every fixture and its own
-    # timeout; this bound allows the complete serial suite to finish.
-    # The previous complete run took almost 45 minutes. Added protocol,
-    # inventory and engineering checks retain every per-fixture deadline.
-    timeout-minutes: 75
+    # Separate VMs isolate each shard's generated files. Never run JS files
+    # concurrently inside one workspace: some exercise shared build outputs.
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(inputs.runner_pool == 'local-special' && '[1]' || '[1,2,3,4]') }}
+    timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 30 }}
     defaults:
       run:
         shell: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' || 'pwsh -NoProfile -ExecutionPolicy Bypass -File {0}' }}
@@ -168,21 +170,48 @@ jobs:
       - run: python -m pip install --disable-pip-version-check --retries 0 --timeout 30 Pillow==12.3.0
       - run: npm run setup:lua-static
       - run: npm run check:network
-      # Same commands and order as check:rules, with each phase visible in CI.
+      # Every shard runs the same non-test gates; all test files are partitioned
+      # exactly once across the VMs, retaining both Windows and POSIX coverage.
       - run: npm run verify:backlog
       - run: npm run check:syntax
-      - run: npm test
+      - name: JavaScript regression shard
+        run: |
+          npm run build:data
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run build:ui
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node --test --test-concurrency=1 --test-shard=${{ matrix.shard }}/${{ strategy.job-total }} tests/*.test.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run validate:data
-      - run: npm run test:lua
+      - name: Lua regression shard
+        run: |
+          node scripts/map-ui-layout.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/test-lua.mjs --shard ${{ matrix.shard }}/${{ strategy.job-total }}
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run build:theme
       - run: npm run check:engineering
       - run: node scripts/write-ci-receipt.mjs
+        if: matrix.shard == 1
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: matrix.shard == 1
         with:
           name: quality-${{ github.run_id }}-${{ github.run_attempt }}-check
           path: build/ci-checkout.json
           retention-days: 7
           if-no-files-found: error
+  check:
+    # Preserve the required check name. A skipped/cancelled/missing shard must
+    # never turn the aggregate green; fail-fast=false collects all shard results.
+    needs: rules
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require every regression shard
+        env:
+          RULES_RESULT: ${{ needs.rules.result }}
+        run: test "$RULES_RESULT" = success
   presentation:
     # These filesystem tests include symlinks; keep the local service unprivileged.
     runs-on: ubuntu-24.04

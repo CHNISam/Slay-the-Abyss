@@ -24,6 +24,31 @@ def save_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
+def assemble_card_art(frame_scene, art_scene):
+    """Flatten art into the existing slot without promoting its local backgrounds."""
+    frame_scene = frame_scene.model_copy(deep=True)
+    insert_at = next(i for i, e in enumerate(frame_scene.elements) if e.id == 'attack-art-panel') + 1
+    art = []
+    # The pinned Lua/GIA exporters sort backgrounds before zIndex, stably.
+    # Resolve that order locally BEFORE clearing flags: a background can have
+    # a higher zIndex than foreground art. It must not escape behind the card.
+    for e in sorted(art_scene.elements, key=lambda e: (0 if e.isBackground else 1, e.zIndex)):
+        e = e.model_copy(deep=True)
+        e.isBackground = False
+        e.id = 'art-' + e.id
+        e.x, e.y, e.width, e.height = 18 + e.x / 2, 48 + e.y / 2, e.width / 2, e.height / 2
+        if e.luaMask:
+            e.luaMask.offsetX /= 2
+            e.luaMask.offsetY /= 2
+            e.luaMask.width /= 2
+            e.luaMask.height /= 2
+        art.append(e)
+    frame_scene.elements[insert_at:insert_at] = art
+    for i, e in enumerate(frame_scene.elements):
+        e.zIndex = i
+    return frame_scene
+
+
 def fit(args):
     from PIL import Image
     import cv2
@@ -193,21 +218,7 @@ def export(args):
         frame = existing['native_text_height_candidate'](existing['compose'](theme, card))
         frame['elements'] = [e for e in frame['elements'] if not e['id'].startswith('geo-crystal')]
         frame_scene = editor.import_scene(editor.ImportRequest(sourceType='json',content=json.dumps(frame))).scene
-        # Insert the art immediately above its background and below text, using the approved 144x64 slot.
-        insert_at = next(i for i,e in enumerate(frame_scene.elements) if e.id == 'attack-art-panel')+1
-        art = []
-        for e in scene.elements:
-            e = e.model_copy(deep=True)
-            e.id = 'art-'+e.id
-            e.x, e.y, e.width, e.height = 18+e.x/2, 48+e.y/2, e.width/2, e.height/2
-            if e.luaMask:
-                e.luaMask.offsetX /= 2
-                e.luaMask.offsetY /= 2
-                e.luaMask.width /= 2
-                e.luaMask.height /= 2
-            art.append(e)
-        frame_scene.elements[insert_at:insert_at] = art
-        for i,e in enumerate(frame_scene.elements): e.zIndex = i
+        frame_scene = assemble_card_art(frame_scene, scene)
         req = editor.ExportRequest(scene=frame_scene,giaGroupName='Abyss_Starfall_Card')
         for extension,fn in [('json',editor.export_json),('lua',editor.export_lua)]:
             (out/('card.'+extension)).write_bytes(fn(req).body)

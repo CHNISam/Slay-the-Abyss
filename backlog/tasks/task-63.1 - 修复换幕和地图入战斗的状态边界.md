@@ -1,11 +1,11 @@
 ---
 id: TASK-63.1
 title: 修复换幕药水修正和检查点章节边界
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:41'
-updated_date: '2026-10-26 11:43'
+updated_date: '2026-10-26 13:08'
 labels: []
 milestone: m-4
 dependencies: []
@@ -18,14 +18,14 @@ ordinal: 110000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-独立复审复现换幕后真实药水掉落修正残留，以及当前边界检查点接受其他章节的合法遭遇队列。仅修复两处已实现跨幕代码的状态边界，不扩展章节内容。主线地图入战斗代次修复独立交付，避免等待未合入的章节功能。
+独立复审复现换幕后真实药水掉落修正残留，以及当前边界检查点接受其他章节的合法遭遇队列。仅修复两处已实现跨幕代码的状态边界，不扩展章节内容；地图入战斗代次修复另属TASK-59.2.1，不重复计入。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 换幕重置真实药水掉落修正且失败事务不泄漏状态
-- [ ] #2 检查点恢复拒绝其他章节的合法队列，原边界正常恢复仍通过
-- [ ] #3 两项反例先红后绿，现有跨幕和检查点回归保持
+- [x] #1 换幕重置真实药水掉落修正且失败事务不泄漏状态
+- [x] #2 检查点恢复拒绝其他章节的合法队列，原边界正常恢复仍通过
+- [x] #3 两项反例先红后绿，现有跨幕和检查点回归保持
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -47,3 +47,9 @@ Executor: dot。仅在自有云独立工作树 feat/dot-run-boundary-fixes 基�
 
 父PR213已合入e3a9fe2，等待已解除。PR222两处补丁已与PR221合成同一主线候选；最新父基线重新实跑potion2/checkpoint3/原跨幕12通过。PR222将作为被整合草稿收口，不重复计交付；当前新SHA完整CI和合入仍待完成。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR222两处补丁在父PR213合入后统一进PR221，现已合入4bbd151。真实药水owner重置2/2、异幕checkpoint拒绝与旧第一幕兼容3/3、原跨幕12组通过，均有红灯及原子失败/对象身份对照。最终准确head3a3bf6a完整Quality/Licenses成功并完成独立复审；只关闭这两处代码缺陷，未增加后续章节内容、自然通关或平台验收。证据：https://github.com/CHNISam/Slay-the-Abyss/pull/221；PR222为被吸收草稿，不重复计交付。
+<!-- SECTION:FINAL_SUMMARY:END -->

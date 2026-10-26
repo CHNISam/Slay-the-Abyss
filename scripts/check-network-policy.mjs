@@ -3,8 +3,8 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 export function checkNetworkPolicy(text) {
-  const check = (text + '\n  end-of-workflow:\n').match(/\n  check:\r?\n([\s\S]*?)(?=\r?\n  [\w-]+:)/)?.[1];
-  if (!check) return ['Quality/check missing'];
+  const check = (text + '\n  end-of-workflow:\n').match(/\n  rules:\r?\n([\s\S]*?)(?=\r?\n  [\w-]+:)/)?.[1];
+  if (!check) return ['Quality/rules missing'];
   const errors = [];
   if (/git remote remove origin|actions\/cache(?:@|\/)/.test(check)) errors.push('Local CI must preserve Git refs and avoid remote dependency cache downloads');
   for (const required of ['git update-ref refs/ci/previous', '+${env:CI_SHA}:refs/ci/current', '--no-auto-maintenance', 'git checkout --force --detach refs/ci/current', '$receivedPackBytes -gt 128MB', '$env:GITHUB_STEP_SUMMARY', 'npm run check:network']) if (!check.includes(required)) errors.push(`Missing CI download safeguard: ${required}`);
