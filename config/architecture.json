@@ -119,6 +119,7 @@
     "abyss_spike_slime_m_ai": "core",
     "abyss_sts_random": "core",
     "abyss_transform_card": "core",
+    "abyss_trade_event": "core",
     "abyss_ui": "platform",
     "abyss_unknown": "core",
     "abyss_viewport": "ui",

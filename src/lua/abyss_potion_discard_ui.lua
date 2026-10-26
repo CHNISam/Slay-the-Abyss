@@ -45,9 +45,12 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
         end
         local selected=self.selected
         child('detail').text=selected and detail(find(self.run.data.potions.potions,selected.id)) or '尚未选择药水。'
-        child('discard'):GetChild('hit').interactable=selected~=nil
         local view=selected and Run.potionView(self.run)[selected.slot]
+        child('discard'):GetChild('hit').interactable=view and view.canDiscard~=false or false
         child('use'):GetChild('hit').interactable=self.run.phase~='combat' and view and view.canUse or false
+        if view and view.reason=='potion_event_restricted' then
+            child('detail').text=child('detail').text..'\n此事件中不能使用或丢弃药水。'
+        end
     end
     function self:open(run)
         if self.visible or not allowed(run)then return false end

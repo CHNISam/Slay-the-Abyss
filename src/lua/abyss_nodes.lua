@@ -120,7 +120,7 @@ local function prepare(run, node, miscRng)
     elseif node.type == "event" then
         local id=node.eventId or run.data.rules.events.encounterId
         flow.event = { id = id }
-        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event) end
+        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))

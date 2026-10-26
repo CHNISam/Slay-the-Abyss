@@ -773,8 +773,13 @@ function M.obtainPotion(run, id)
     return false, "potion_slots_full"
 end
 
+local function potionEventRestricted(run)
+    local event=run.nodeFlow and run.nodeFlow.event
+    local legacy=not run.nodeFlow and run.node
+    return event and (event.id=='we_meet_again' or event.id=='WeMeetAgain' or event.originalId=='WeMeetAgain')
+        or legacy and (legacy.eventId=='WeMeetAgain' or legacy.sourceEventId=='WeMeetAgain') or false
+end
 -- Discard never executes a potion effect and does not require a player turn.
--- The original WeMeetAgain event veto is outside the supported event pool.
 function M.discardPotion(run, slot)
     if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > M.potionCapacity(run) then
         return false, "invalid_potion_slot"
@@ -782,6 +787,7 @@ function M.discardPotion(run, slot)
     local id = run.potions[slot]
     if not id then return false, "empty_potion_slot" end
     if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    if potionEventRestricted(run)then return false,'potion_event_restricted' end
     -- Like usePotion, a destructive transaction expires old physical gestures,
     -- even if the same bottle ID is immediately acquired in the vacant slot.
     run.potions = Combat.copy(run.potions)
@@ -791,6 +797,7 @@ function M.discardPotion(run, slot)
 end
 
 local function potionCandidate(run, slot, targetIndex, afterPotionActions)
+    if potionEventRestricted(run)then return nil,'potion_event_restricted' end
     if run.phase ~= 'combat' and run.potions[slot]~='blood_potion' and run.potions[slot]~='fruit_juice' and run.potions[slot]~='entropic_brew' then return nil,'not_in_combat' end
     if run.phase == 'combat' then
         if not run.combat or run.combat.phase ~= 'player' then return nil,'not_player_turn' end
@@ -822,12 +829,6 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
     end
     local health = id=='blood_potion' or id=='fruit_juice'
     local outsideAllowed=health or id=='entropic_brew'
-    local currentEvent=run.nodeFlow and run.nodeFlow.event
-    local legacyEvent=not run.nodeFlow and run.node
-    if outsideAllowed and (currentEvent and (currentEvent.id=='WeMeetAgain' or currentEvent.originalId=='WeMeetAgain')
-        or legacyEvent and (legacyEvent.eventId=='WeMeetAgain' or legacyEvent.sourceEventId=='WeMeetAgain')) then
-        return nil,'potion_event_restricted'
-    end
     if run.phase ~= 'combat' then
         if not outsideAllowed or (run.phase~='map' and run.phase~='node' and run.phase~='reward') then return nil,'not_in_combat' end
         local candidate={hp=run.hp,maxHp=run.maxHp,outside=true}
@@ -948,7 +949,7 @@ function M.potionView(run)
             result[slot] = { slot = slot, id = id, name = potion and potion.name or id,
                 targetPolicy = potion and potion.targetPolicy,
                 effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
-                canUse = candidate ~= nil, reason = reason }
+                canUse = candidate ~= nil, canDiscard=not potionEventRestricted(run), reason = reason }
         end
     end
     return result

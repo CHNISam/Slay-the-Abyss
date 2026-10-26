@@ -25,6 +25,7 @@ M.contentId['Scrap Ooze']='scrap_ooze'
 M.contentId['Wheel of Change']='wheel'
 M.contentId.Lab='lab'
 M.contentId['The Woman in Blue']='woman_in_blue'
+M.contentId.WeMeetAgain='we_meet_again'
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end

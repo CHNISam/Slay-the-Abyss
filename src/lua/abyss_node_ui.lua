@@ -43,6 +43,7 @@ local events = {
     wheel={name='变化转轮',body='转轮等待你转动。它的六种结果无法自行挑选。',leave='你离开了转轮。'},
     lab={name='实验室',body='实验台上留着三瓶药水。',leave='你离开了实验室。'},
     woman_in_blue={name='蓝衣女子',body='一位蓝衣女子出售药水，瓶中的内容要付钱后才能知晓。',leave='你告别了蓝衣女子。'},
+    we_meet_again={name='又见面了',body='一位熟人提出三笔交易。每笔交易的代价已经选定。',leave='你告别了这位熟人。'},
     fountain = { name='净化之泉', body='清澈的泉水在石隙间流淌。你可以借它洗去随身的诅咒。', leave='你离开了泉水。' },
     living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
@@ -495,6 +496,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 for _,option in ipairs(info.options) do
                     local selected=option
                     rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..(selected.potionId and '\n'..potionText(selected.potionId) or '')..
+                        (selected.cardId and '\n「'..cardName(selected.cardId,selected.upgraded,selected.upgrades)..'」' or '')..
                         (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
                         -- Repeated-search events retain the same command after
                         -- rendering new odds. An old callback is still stale.
