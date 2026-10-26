@@ -1,5 +1,7 @@
 # 工程检查与证据入口
 
+渲染治理的绝对门槛已接入 `check:lua-static`：战斗主render≤10，完整战斗控制器及battle_*子视图/输入模块、商店UI与卡面展示的每个函数≤15。固定Luacheck测量，AST核对函数测量完整性，报告见build/ui-complexity.json。缺测量或缺入口会失败，不能只报告相对降幅。实际实现、当前验证范围和历史纠正见[TASK-74](backlog-details/TASK-74.md)；完成声明遵循AGENTS.md的“结果验收与完成声明”。
+
 当前架构减负以 develop `d8a26227` 为基线：实际扫描116个Lua源码模块，静态基线113条、延迟导入例外19项。战斗手牌子视图与商店四类商品/服务渲染已有独立边界；完整Windows回归使用隔离VM分片，片内保持串行。具体指标、原回归和交付状态见[TASK-74](backlog-details/TASK-74.md)；机器结果以 `config/architecture.json`、`config/luacheck-baseline.json`及生成报告为准。[TASK-68](backlog-details/task-68.md)和下文的早期计数均为当时冻结切片，不作为当前数值。
 
 日常小改动使用 `npm run test:fast -- --base origin/develop` 或 `npm run test:related -- --base origin/develop`；先加 `--plan`查看选择。也可用 `--files scripts/deck-ui-layout.mjs` 指定待验证的改动集合。快速层只执行受影响的纯JS测试；相关层另执行进程/集成与Lua测试。未知、删除、数据/配置/构建基础设施改动保守回退完整 `npm run check`。选择器是本地反馈工具，不能代替合并的完整Quality。

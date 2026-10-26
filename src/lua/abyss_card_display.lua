@@ -69,16 +69,29 @@ function M.writeBody(control,text)
     control.text,control.fontSize=text,font
     return fits
 end
+local valueStyles = {
+    up = { arrow = '↑', colourKey = 'cardValueIncrease' },
+    down = { arrow = '↓', colourKey = 'cardValueDecrease' },
+    same = { arrow = '', colourKey = 'text' },
+}
+local function exactValue(effect, entry)
+    return eligible[effect.op] and entry and entry.op == effect.op
+        and type(effect.value) == 'number' and type(entry.low) == 'number' and entry.low == entry.high
+end
+local function valueDirection(base, current)
+    if current > base then return 'up' end
+    if current < base then return 'down' end
+    return 'same'
+end
 function M.values(definition, preview)
     local result = {}
     for index, effect in ipairs(definition.effects) do
         local entry = preview[index]
-        if eligible[effect.op] and entry and entry.op == effect.op
-            and type(effect.value) == 'number' and type(entry.low) == 'number' and entry.low == entry.high then
-            local direction = entry.low > effect.value and 'up' or entry.low < effect.value and 'down' or 'same'
+        if exactValue(effect, entry) then
+            local direction = valueDirection(effect.value, entry.low)
+            local style = valueStyles[direction]
             result[index] = {effectIndex=index, op=effect.op, base=effect.value, current=entry.low,
-                direction=direction, text=integer(entry.low) .. (direction=='up' and '↑' or direction=='down' and '↓' or ''),
-                colourKey=direction=='up' and 'cardValueIncrease' or direction=='down' and 'cardValueDecrease' or 'text'}
+                direction=direction, text=integer(entry.low) .. style.arrow, colourKey=style.colourKey}
         end
     end
     return result
