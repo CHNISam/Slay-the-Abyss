@@ -336,6 +336,10 @@
       "regen": 103056,
       "barricade": 103066,
       "ritual": 103047,
+      "vigor": 103047,
+      "pen_nib": 103047,
+      "plated_armor": 103066,
+      "duplication": 103047,
       "verify": true
     , "dark_embrace": 103056, "feel_no_pain": 103066, "corruption": 103059, "evolve": 103056, "fire_breathing": 103055, "flame_barrier": 103055, "rage": 103047, "combust": 103059, "rupture": 103047, "demon_form": 103047, "berserk": 103047, "brutality": 103047, "double_tap": 103047, "juggernaut": 103066, "metallicize": 103066},
     "potion": {
@@ -351,6 +355,22 @@
       "fear_potion": 111046,
       "ancient_potion": 111047,
       "liquid_bronze": 111046,
+      "snecko_oil": 111047,
+      "elixir": 111047,
+      "gamblers_brew": 111047,
+      "liquid_memories": 111047,
+      "blood_potion": 111046,
+      "fruit_juice": 111047,
+      "blessing_of_the_forge": 111046,
+      "explosive_potion": 111046,
+      "heart_of_iron": 111048,
+      "essence_of_steel": 111048,
+      "cultist_potion": 111046,
+      "flex_potion": 111046,
+      "speed_potion": 111047,
+      "duplication_potion": 111047,
+      "distilled_chaos": 111048,
+      "smoke_bomb": 111048,
       "empty": 106026,
       "verify": true
     },
@@ -367,6 +387,7 @@
       "fear_potion": "#FFB09A",
       "ancient_potion": "#FFE7A6",
       "liquid_bronze": "#F0B850"
+      ,"flex_potion": "#FFFFFF", "speed_potion": "#FFFFFF"
     },
     "relic": {
       "membership_card": 102026,
@@ -382,6 +403,35 @@
       "lantern": 102007,
       "oddly_smooth_stone": 102031,
       "bronze_scales": 102015,
+      "omamori": 102028,
+      "ceramic_fish": 102031,
+      "potion_belt": 102026,
+      "meal_ticket": 102026,
+      "maw_bank": 102007,
+      "blood_vial": 102005,
+      "bag_of_marbles": 102031,
+      "orichalcum": 102036,
+      "strawberry": 102005,
+      "regal_pillow": 102026,
+      "toy_ornithopter": 102007,
+      "whetstone": 102012,
+      "war_paint": 102014,
+      "happy_flower": 102007,
+      "ancient_tea_set": 102026,
+      "art_of_war": 102012,
+      "boot": 102036,
+      "akabeko": 102012,
+      "pen_nib": 102012,
+      "nunchaku": 102012,
+      "preserved_insect": 102015,
+      "red_skull": 102005,
+      "centennial_puzzle": 102026,
+      "tiny_chest": 102026,
+      "juzu_bracelet": 102028,
+      "dream_catcher": 102028,
+      "warped_tongs": {"id": 102028, "placeholder": true, "note": "临时沿用主题现有图标；专属美术与实机显示待验。"},
+      "spirit_poop": {"id": 102028, "placeholder": true, "note": "临时沿用主题现有图标；专属美术与实机显示待验。"},
+      "circlet": {"id": 102028, "placeholder": true, "note": "临时沿用主题现有图标；专属美术与实机显示待验。"},
       "verify": true
     },
     "cardArt": {
@@ -433,12 +483,18 @@
   },
   "layout": {
     "battlePotions": {
-      "count": 3,
-      "origin": [-224, 268],
+      "count": 5,
+      "origin": [-228, 268],
       "step": [180, 0],
       "size": [116, 44],
       "helpOffset": [84, 0],
       "helpSize": [44, 44]
+    },
+    "potionDiscard": {
+      "columns": [-170, 0, 170],
+      "rows": [56, -32],
+      "size": [148, 72],
+      "detail": [0, -116, 576, 48]
     },
     "battleNotice": {
       "position": [0, 228],

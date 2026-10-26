@@ -1,0 +1,33 @@
+✔ range matches independent Java strict float vectors including signed zero and underflow (18.674811ms)
+✔ between matches independent Java strict float vectors including signed zero and underflow (18.103249ms)
+✔ finite exact-binary32 ABI rejects unsupported arguments atomically (20.656187ms)
+✔ each scaled draw advances counter exactly once including zero equal and reversed bounds and wrap (14.376921ms)
+✔ bad nested states and metatables reject before counting without invoking input metamethods (14.815833ms)
+✔ rounded ranges can reach the supplied endpoint even when raw float excludes one (13.3273ms)
+✔ fixed vectors preserve independent generator, source pins and discriminating float cases (0.654586ms)
+✔ mixed public calls match fixed independent vectors and every post-state (47.486781ms)
+✔ sixteen public integer calls consume seventeen forced rejection raw draws (18.594039ms)
+✔ noarg Boolean uses low bit, float uses high bits, chance comparison is strict at equality (15.82208ms)
+✔ probability ABI accepts exact binary32 only, including subnormal grid and Jaw constants (22.642932ms)
+✔ integer source failures increment counter before throw, unsupported ABI/span never do (16.102162ms)
+✔ signed32 counter wraps in O(1) for successful draws and source bound failures (15.038119ms)
+✔ snapshot restore and cloneState isolate all nested state and resume exactly (20.406521ms)
+✔ malformed snapshot and live state reject before mutation without invoking metamethods (15.707818ms)
+✔ fixture preserves generator and source pins, forces rare cases and full-width seeds (0.804052ms)
+✔ extra arguments cannot silently request omitted overloads or replay construction (14.653368ms)
+✔ full signed seed strings and raw transitions match fixed independent arithmetic vectors (55.474272ms)
+✔ raw state carry and high bit cases match fixed arithmetic vectors (22.554008ms)
+✔ snapshot and restore do not alias, replay resumes exactly (19.997184ms)
+✔ uint24 and float consume one raw draw with exact upper-bit mapping (101.463967ms)
+✔ bounded integer rejection advances actual state and matches fixed Java interpretation (25.666239ms)
+✔ invalid seeds, states and bounds reject without mutation (15.251801ms)
+✔ fixture includes full-width seeds and forced rejection rather than only small samples (0.413233ms)
+✔ uint24 high and low endpoints are reachable and each consumes exactly one draw (18.234516ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 787.459556

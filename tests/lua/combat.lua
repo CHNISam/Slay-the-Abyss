@@ -2,10 +2,12 @@ package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat = require("abyss_combat")
 local data = require("abyss_data")
 local count = 0
+local proofCase = ""
 local function equal(actual, expected, name)
-    assert(actual == expected, (name or "value") .. ": expected " .. tostring(expected) .. ", got " .. tostring(actual))
+    assert(actual == expected, "[ABYSS_ASSERT M2:" .. proofCase .. "] " .. (name or "value") .. ": expected " .. tostring(expected) .. ", got " .. tostring(actual))
 end
 local function test(name, run)
+    proofCase = name
     run()
     count = count + 1
     print("ok " .. count .. " - " .. name)

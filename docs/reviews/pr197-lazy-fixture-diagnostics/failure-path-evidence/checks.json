@@ -1,0 +1,114 @@
+[
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_PASS 2"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "contract",
+    "exit": 0,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t14\t14"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_DRAW_PASS 5"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "contract",
+    "exit": 0,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t4\t5\t5"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_STATUS_PASS 4"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "contract",
+    "exit": 0,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t8\t8"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_acquisition",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1"
+  },
+  {
+    "source": "current-baseline",
+    "check": "stateful-equality-contract",
+    "exit": 0,
+    "cases": 3,
+    "output": "false then true\tcomparisonCalls=1\tok=false\tmessage=tests/lua/support/potion_basic_five_fixture.lua:6: left ~= right\nalways false\tcomparisonCalls=1\tok=false\tmessage=tests/lua/support/potion_basic_five_fixture.lua:6: left ~= right\ntrue then false\tcomparisonCalls=1\tok=true\tmessage=nil\nSINGLE_COMPARISON_EQ_CONTRACT_PASS 3\n"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_PASS 2"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "contract",
+    "exit": 0,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t14\t14"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_DRAW_PASS 5"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "contract",
+    "exit": 0,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t4\t5\t5"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_STATUS_PASS 4"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "contract",
+    "exit": 0,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t8\t8"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_acquisition",
+    "check": "plain",
+    "exit": 0,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1"
+  },
+  {
+    "source": "current-candidate",
+    "check": "stateful-equality-contract",
+    "exit": 0,
+    "cases": 3,
+    "output": "false then true\tcomparisonCalls=1\tok=false\tmessage=tests/lua/support/potion_basic_five_fixture.lua:6: left ~= right\nalways false\tcomparisonCalls=1\tok=false\tmessage=tests/lua/support/potion_basic_five_fixture.lua:6: left ~= right\ntrue then false\tcomparisonCalls=1\tok=true\tmessage=nil\nSINGLE_COMPARISON_EQ_CONTRACT_PASS 3\n"
+  }
+]

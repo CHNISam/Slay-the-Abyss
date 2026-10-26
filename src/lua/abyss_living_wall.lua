@@ -64,15 +64,22 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
     else
         if not find(purge,uid,'uid') then return false,'card_not_purgeable' end
         if choice=='forget' then
-            table.remove(run.deck,position);flow.event.removedUid=uid
+            local ok,why=require('abyss_run').removeCard(run,uid)
+            if not ok then return false,why end
+            flow.event.removedUid=uid
         else
             local card,rng,sourceId=transformed(run,instance)
             if not card then return false,rng end
             -- Source removes the old card then ShowCardAndObtain appends the
             -- fresh unupgraded card. Publish the advanced misc only with both.
-            table.remove(run.deck,position);run.deck[#run.deck+1]=card
-            run.nextDeckUid=card.uid+1.0;run.miscRng=rng
-            flow.event.removedUid=uid;flow.event.obtainedCardUid=card.uid;flow.event.obtainedSourceId=sourceId
+            local Run=require('abyss_run')
+            local removed,why=Run.removeCard(run,uid);if not removed then return false,why end
+            local obtained,newUid=Run.obtainCard(run,card.cardId);if not obtained then return false,newUid end
+            run.miscRng=rng
+            flow.event.removedUid=uid
+            flow.event.obtainedCardUid=type(newUid)=='number' and newUid or nil
+            flow.event.cursePrevented=newUid=='curse_blocked' or nil
+            flow.event.obtainedSourceId=sourceId
         end
     end
     flow.event.choice=choice;flow.event.stage='result'

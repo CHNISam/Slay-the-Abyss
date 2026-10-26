@@ -1,0 +1,603 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "orderProvenance": "Pinned host JDK17 HashMap order from sts1-relic-pool-vectors; not authenticated PC order",
+  "queues": {
+    "common": [
+      "Whetstone",
+      "Boot",
+      "Blood Vial",
+      "MealTicket",
+      "Pen Nib",
+      "Akabeko",
+      "Lantern",
+      "Regal Pillow",
+      "Bag of Preparation",
+      "Ancient Tea Set",
+      "Smiling Mask",
+      "Potion Belt",
+      "PreservedInsect",
+      "Omamori",
+      "MawBank",
+      "Art of War",
+      "Toy Ornithopter",
+      "CeramicFish",
+      "Vajra",
+      "Centennial Puzzle",
+      "Strawberry",
+      "Happy Flower",
+      "Oddly Smooth Stone",
+      "War Paint",
+      "Bronze Scales",
+      "Juzu Bracelet",
+      "Dream Catcher",
+      "Nunchaku",
+      "Tiny Chest",
+      "Orichalcum",
+      "Anchor",
+      "Bag of Marbles",
+      "Red Skull"
+    ],
+    "uncommon": [
+      "Bottled Tornado",
+      "Sundial",
+      "Kunai",
+      "Pear",
+      "Blue Candle",
+      "Eternal Feather",
+      "StrikeDummy",
+      "Singing Bowl",
+      "Matryoshka",
+      "InkBottle",
+      "The Courier",
+      "Frozen Egg 2",
+      "Ornamental Fan",
+      "Bottled Lightning",
+      "Gremlin Horn",
+      "HornCleat",
+      "Toxic Egg 2",
+      "Letter Opener",
+      "Question Card",
+      "Bottled Flame",
+      "Shuriken",
+      "Molten Egg 2",
+      "Meat on the Bone",
+      "Darkstone Periapt",
+      "Mummified Hand",
+      "Pantograph",
+      "White Beast Statue",
+      "Mercury Hourglass",
+      "Self Forming Clay",
+      "Paper Frog"
+    ],
+    "rare": [
+      "Ginger",
+      "Old Coin",
+      "Bird Faced Urn",
+      "Unceasing Top",
+      "Torii",
+      "StoneCalendar",
+      "Shovel",
+      "WingedGreaves",
+      "Thread and Needle",
+      "Turnip",
+      "Ice Cream",
+      "Calipers",
+      "Lizard Tail",
+      "Prayer Wheel",
+      "Girya",
+      "Dead Branch",
+      "Du-Vu Doll",
+      "Pocketwatch",
+      "Mango",
+      "Incense Burner",
+      "Gambling Chip",
+      "Peace Pipe",
+      "CaptainsWheel",
+      "FossilizedHelix",
+      "TungstenRod",
+      "Magic Flower",
+      "Charon's Ashes",
+      "Champion Belt"
+    ],
+    "shop": [
+      "Sling",
+      "HandDrill",
+      "Toolbox",
+      "Chemical X",
+      "Lee's Waffle",
+      "Orrery",
+      "DollysMirror",
+      "OrangePellets",
+      "PrismaticShard",
+      "ClockworkSouvenir",
+      "Frozen Eye",
+      "TheAbacus",
+      "Medical Kit",
+      "Cauldron",
+      "Strange Spoon",
+      "Membership Card",
+      "Brimstone"
+    ],
+    "boss": [
+      "Fusion Hammer",
+      "Velvet Choker",
+      "Runic Dome",
+      "SlaversCollar",
+      "Snecko Eye",
+      "Pandora's Box",
+      "Cursed Key",
+      "Busted Crown",
+      "Ectoplasm",
+      "Tiny House",
+      "Sozu",
+      "Philosopher's Stone",
+      "Astrolabe",
+      "Black Star",
+      "SacredBark",
+      "Empty Cage",
+      "Runic Pyramid",
+      "Calling Bell",
+      "Coffee Dripper",
+      "Black Blood",
+      "Mark of Pain",
+      "Runic Cube"
+    ]
+  },
+  "spawnGates": {
+    "TheAbacus": {
+      "kind": "always"
+    },
+    "Akabeko": {
+      "kind": "always"
+    },
+    "Anchor": {
+      "kind": "always"
+    },
+    "Ancient Tea Set": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Art of War": {
+      "kind": "always"
+    },
+    "Astrolabe": {
+      "kind": "always"
+    },
+    "Bag of Marbles": {
+      "kind": "always"
+    },
+    "Bag of Preparation": {
+      "kind": "always"
+    },
+    "Bird Faced Urn": {
+      "kind": "always"
+    },
+    "Black Star": {
+      "kind": "always"
+    },
+    "Blood Vial": {
+      "kind": "always"
+    },
+    "Blue Candle": {
+      "kind": "always"
+    },
+    "Boot": {
+      "kind": "always"
+    },
+    "Bottled Flame": {
+      "kind": "nonbasic-card-type",
+      "cardType": "ATTACK"
+    },
+    "Bottled Lightning": {
+      "kind": "nonbasic-card-type",
+      "cardType": "SKILL"
+    },
+    "Bottled Tornado": {
+      "kind": "card-type",
+      "cardType": "POWER"
+    },
+    "Bronze Scales": {
+      "kind": "always"
+    },
+    "Busted Crown": {
+      "kind": "always"
+    },
+    "Calipers": {
+      "kind": "always"
+    },
+    "Calling Bell": {
+      "kind": "always"
+    },
+    "CaptainsWheel": {
+      "kind": "always"
+    },
+    "Cauldron": {
+      "kind": "always"
+    },
+    "Centennial Puzzle": {
+      "kind": "always"
+    },
+    "CeramicFish": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Chemical X": {
+      "kind": "always"
+    },
+    "ClockworkSouvenir": {
+      "kind": "always"
+    },
+    "Coffee Dripper": {
+      "kind": "always"
+    },
+    "The Courier": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true,
+      "excludeRoom": "shop"
+    },
+    "Cursed Key": {
+      "kind": "always"
+    },
+    "Darkstone Periapt": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Dead Branch": {
+      "kind": "always"
+    },
+    "DollysMirror": {
+      "kind": "always"
+    },
+    "Dream Catcher": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Du-Vu Doll": {
+      "kind": "always"
+    },
+    "Ectoplasm": {
+      "kind": "max-act",
+      "act": 1
+    },
+    "Empty Cage": {
+      "kind": "always"
+    },
+    "Eternal Feather": {
+      "kind": "always"
+    },
+    "FossilizedHelix": {
+      "kind": "always"
+    },
+    "Frozen Egg 2": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Frozen Eye": {
+      "kind": "always"
+    },
+    "Fusion Hammer": {
+      "kind": "always"
+    },
+    "Gambling Chip": {
+      "kind": "always"
+    },
+    "Ginger": {
+      "kind": "always"
+    },
+    "Girya": {
+      "kind": "campfire-limit",
+      "maxExclusiveFloor": 48,
+      "maxCampfireRelics": 2
+    },
+    "Gremlin Horn": {
+      "kind": "always"
+    },
+    "HandDrill": {
+      "kind": "always"
+    },
+    "Happy Flower": {
+      "kind": "always"
+    },
+    "HornCleat": {
+      "kind": "always"
+    },
+    "Ice Cream": {
+      "kind": "always"
+    },
+    "Incense Burner": {
+      "kind": "always"
+    },
+    "InkBottle": {
+      "kind": "always"
+    },
+    "Juzu Bracelet": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Kunai": {
+      "kind": "always"
+    },
+    "Lantern": {
+      "kind": "always"
+    },
+    "Letter Opener": {
+      "kind": "always"
+    },
+    "Lizard Tail": {
+      "kind": "always"
+    },
+    "Mango": {
+      "kind": "always"
+    },
+    "Matryoshka": {
+      "kind": "max-floor",
+      "floor": 40,
+      "endlessBypass": true
+    },
+    "MawBank": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true,
+      "excludeRoom": "shop"
+    },
+    "MealTicket": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true,
+      "excludeRoom": "shop"
+    },
+    "Meat on the Bone": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Medical Kit": {
+      "kind": "always"
+    },
+    "Membership Card": {
+      "kind": "always"
+    },
+    "Mercury Hourglass": {
+      "kind": "always"
+    },
+    "Molten Egg 2": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Mummified Hand": {
+      "kind": "always"
+    },
+    "Nunchaku": {
+      "kind": "always"
+    },
+    "Oddly Smooth Stone": {
+      "kind": "always"
+    },
+    "Old Coin": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true,
+      "excludeRoom": "shop"
+    },
+    "Omamori": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "OrangePellets": {
+      "kind": "always"
+    },
+    "Orichalcum": {
+      "kind": "always"
+    },
+    "Ornamental Fan": {
+      "kind": "always"
+    },
+    "Orrery": {
+      "kind": "always"
+    },
+    "Pandora's Box": {
+      "kind": "always"
+    },
+    "Pantograph": {
+      "kind": "always"
+    },
+    "Peace Pipe": {
+      "kind": "campfire-limit",
+      "maxExclusiveFloor": 48,
+      "maxCampfireRelics": 2
+    },
+    "Pear": {
+      "kind": "always"
+    },
+    "Pen Nib": {
+      "kind": "always"
+    },
+    "Philosopher's Stone": {
+      "kind": "always"
+    },
+    "Pocketwatch": {
+      "kind": "always"
+    },
+    "Potion Belt": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Prayer Wheel": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "PreservedInsect": {
+      "kind": "max-floor",
+      "floor": 52,
+      "endlessBypass": true
+    },
+    "PrismaticShard": {
+      "kind": "always"
+    },
+    "Question Card": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Regal Pillow": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Runic Dome": {
+      "kind": "always"
+    },
+    "Runic Pyramid": {
+      "kind": "always"
+    },
+    "SacredBark": {
+      "kind": "always"
+    },
+    "Shovel": {
+      "kind": "campfire-limit",
+      "maxExclusiveFloor": 48,
+      "maxCampfireRelics": 2
+    },
+    "Shuriken": {
+      "kind": "always"
+    },
+    "Singing Bowl": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "SlaversCollar": {
+      "kind": "always"
+    },
+    "Sling": {
+      "kind": "always"
+    },
+    "Smiling Mask": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true,
+      "excludeRoom": "shop"
+    },
+    "Snecko Eye": {
+      "kind": "always"
+    },
+    "Sozu": {
+      "kind": "always"
+    },
+    "StoneCalendar": {
+      "kind": "always"
+    },
+    "Strange Spoon": {
+      "kind": "always"
+    },
+    "Strawberry": {
+      "kind": "always"
+    },
+    "StrikeDummy": {
+      "kind": "always"
+    },
+    "Sundial": {
+      "kind": "always"
+    },
+    "Thread and Needle": {
+      "kind": "always"
+    },
+    "Tiny Chest": {
+      "kind": "max-floor",
+      "floor": 35,
+      "endlessBypass": true
+    },
+    "Tiny House": {
+      "kind": "always"
+    },
+    "Toolbox": {
+      "kind": "always"
+    },
+    "Torii": {
+      "kind": "always"
+    },
+    "Toxic Egg 2": {
+      "kind": "max-floor",
+      "floor": 48,
+      "endlessBypass": true
+    },
+    "Toy Ornithopter": {
+      "kind": "always"
+    },
+    "TungstenRod": {
+      "kind": "always"
+    },
+    "Turnip": {
+      "kind": "always"
+    },
+    "Unceasing Top": {
+      "kind": "always"
+    },
+    "Vajra": {
+      "kind": "always"
+    },
+    "Velvet Choker": {
+      "kind": "always"
+    },
+    "Lee's Waffle": {
+      "kind": "always"
+    },
+    "War Paint": {
+      "kind": "always"
+    },
+    "Whetstone": {
+      "kind": "always"
+    },
+    "White Beast Statue": {
+      "kind": "always"
+    },
+    "WingedGreaves": {
+      "kind": "max-floor",
+      "floor": 40,
+      "endlessBypass": true
+    },
+    "Black Blood": {
+      "kind": "owns-relic",
+      "id": "Burning Blood"
+    },
+    "Brimstone": {
+      "kind": "always"
+    },
+    "Champion Belt": {
+      "kind": "always"
+    },
+    "Charon's Ashes": {
+      "kind": "always"
+    },
+    "Magic Flower": {
+      "kind": "always"
+    },
+    "Mark of Pain": {
+      "kind": "always"
+    },
+    "Paper Frog": {
+      "kind": "always"
+    },
+    "Red Skull": {
+      "kind": "always"
+    },
+    "Runic Cube": {
+      "kind": "always"
+    },
+    "Self Forming Clay": {
+      "kind": "always"
+    }
+  }
+}

@@ -66,6 +66,8 @@ git push -u origin feat/example
 
 扩大范围文件只包含完整的新 `paths/modules` 对象。先 `expand` 成功，再修改新范围；它不允许静默缩小范围。`check` 也应在每批编辑或直接工具写入前执行，人工/Agent 工具写入不可能由普通 Git hook 拦截。不能使用 `--no-verify`、覆盖 hooksPath 或直接 API 合并来绕过门禁。
 
+`run` 在初次续租后重新读取远端并核对实际到期时刻，过期则不启动子进程。运行中的续租使用同一CLI的短命辅助进程；主监督进程保留独立本地到期计时，网络阻塞、过期回复、失权或中断均终止本次子进程树。只有匹配task/session/generation/branch且仍有效的回复才能更新本地截止时间；结束时停止续租辅助进程。这不改变CAS协议或增加常驻服务。
+
 pre-commit 核对所有权及暂存路径；pre-push 核对所有权、整个分支成果相对基线的路径和目标分支，只准推自己的工作分支，禁止直接推 develop/master、删除分支或协调分支。推送前还通过CAS记录当前HEAD的授权，Quality/ownership在远端重新验证PR精确SHA仍有唯一有效租约；绕过本地hook的普通新提交不能通过此检查。失权不能通过这些入口提交/推送。远端不可达、权限不足、CAS/确认失败都退出非零；绝不把本地状态或推送超时当成领取成功。
 
 同步上游使用普通非破坏性 Git fetch/merge，保留已有工作；随后用已合入 HEAD 的最新远端 develop SHA 更新比较基线，不能用任意提交隐藏越界改动：
@@ -126,6 +128,14 @@ node scripts/remote-task-claim.mjs release --stage-complete yes --evidence '<交
 只有 bootstrap 协调者可逐项 `migration-resolve --reservation ID --evidence ...` 记录旧工作已交付/停止且历史保留；原记录不会删除。TASK-55 完成释放后，可从 `list.released` 取原范围，以新session和完整原范围 `recover` 协调职责；仅沿用首次记录的bootstrap隔离例外，不允许扩范围，也不能越过其他有效claim。这样释放安装任务不会造成迁移死锁。其他机器全部核实并升级入口后，才可 `migration-resolve --external-reviewed yes --evidence ...`，最后 `migration-open --evidence ...`。任何未知项仍在则拒绝开放。**本次交付不声称所有旧会话已迁移，不自动开放大规模并行。** 返回 M3 时先迁移所需旧工作并消除隔离冲突。
 
 ## 保证边界
+
+已释放（或已到期）的阶段需要交给新会话时，由有效 bootstrap 协调者执行：
+
+```powershell
+node scripts/remote-task-claim.mjs migration-transfer --group <组ID> --from-session <旧UUID> --to-session <新UUID> --sha <已推送的精确HEAD> --evidence '<用户交接授权与旧执行者停止依据>'
+```
+
+只允许 paused 中的空闲组；当前未完成阶段必须已有旧认领，所有来源指纹、原任务、范围和阶段保持核对。执行树必须干净，分支及本地/远端 HEAD 必须与指定 SHA 一致。转移不领取或续租，旧 receipt 和旧 session 不能继续操作；新会话随后按原阶段完整 scope 重新 adopt，获得新 generation。协调记录保留旧 claim、会话、HEAD、工作树指纹、manifest 摘要及确认依据；不清除外部 unknown 或开放并行。此入口解决交接后仍绑定旧会话的问题，不允许接管有效租约。
 
 只读停放来源组如需补入遗漏的回归文件，指定主线程先普通release保留当前阶段；有效bootstrap协调者可用完整manifest调用`migration-reconcile --extend yes --manifest <文件> --evidence <依据>`。仅在组内无有效租约时允许增补未完成阶段的精确文件；source/原提交映射、指定session、任务、分支、模块、已完成阶段及旧路径保持不变，完整旧阶段及manifest SHA留在amendments。仍须通过原始来源指纹、逐文件范围和外部冲突校验；随后指定主线程以完整新scope重新adopt同一阶段。此增补入口仅适用全部来源为parked-readonly的组。
 

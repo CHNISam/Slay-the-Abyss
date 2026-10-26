@@ -1,0 +1,14 @@
+TRACE empty Pact sentinel@E17; sameUID=2; shuffleDelta=1
+PASS Pact empty draw waits for disposal; one Sentinel/DE tail redraws that same Pact UID
+TRACE empty Corruption sentinel@E14,burning_pact@E16,block:3.0,block:3.0; shuffleDelta=0
+PASS Corruption keeps that Pact exhausted; empty DE tails do not reshuffle or duplicate hooks
+TRACE Second Wind defend@E16,sentinel@E16,sentinel@E18,block:5.0,block:5.0,block:5.0,block:3.0,block:3.0,block:3.0
+PASS Second Wind reverse snapshot exhausts each original nonattack before block and draw tails
+TRACE Fiend Fire base defend@E15,strike@E15,damage:7; limboUID=3
+TRACE Fiend Fire + defend@E15,strike@E15,damage:10; limboUID=3
+PASS Fiend Fire thorns defeat cancels queued DE/FNP and leaves played card in use
+TRACE Run commit sentinel@E16,block:3.0; stale replay=stale_card_choice
+PASS Run selection commits Sentinel and exhaust hooks exactly once; stale replay is immutable
+TRACE rollback exact table identity preserved; repaired retry sentinel@E16,block:3.0,damage:5
+PASS failed resumed exhaust transaction restores aliases/RNG/piles and retries once after boundary repair
+SUMMARY new exhaust probes: 6 passed / 0 failed

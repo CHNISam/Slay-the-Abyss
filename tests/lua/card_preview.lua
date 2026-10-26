@@ -318,7 +318,7 @@ test("player and every enemy show status icons, stacks and full current effects"
     -- Hierarchy: buff section, then debuff section; name + duration, effect, condition.
     eq(box:GetChild("section1").text, "增益") eq(box:GetChild("section2").text, "减益")
     eq(rows[1].name, "力量 2") eq(rows[1].tag, "本回合") eq(rows[1].text, "普通攻击每段伤害 +2")
-    eq(rows[1].note, "其中 2 层在回合结束时移除")
+    eq(rows[1].note, "回合结束时失去 2 层力量")
     eq(rows[2].name, "易伤 1") eq(rows[2].tag, "剩余 1 回合") eq(rows[2].text, "受到的普通攻击伤害 +50%")
     tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     local expected = {

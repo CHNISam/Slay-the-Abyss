@@ -177,9 +177,12 @@ for _, encounter in ipairs(data.enemies.encounters) do
             assert(Run.startCombat(run, encounter.id))
             -- Current seed42 stream: Small Slimes Boolean true; Gremlins
             -- indices 0,5,3,3 select these source-ordered slots. These are
-            -- literal source expectations, not a copy of the runtime array.
+            -- literal source expectations, not a copy of the runtime array. Louse
+            -- Boolean draws are true, true, false (independent per slot).
             local expected = encounter.id == "small_slimes" and {"spike_slime_s", "acid_slime_m"}
                 or encounter.id == "gremlin_gang" and {"mad_gremlin", "shield_gremlin", "fat_gremlin", "fat_gremlin"}
+                or encounter.id == "louse_pair" and {"red_louse", "red_louse"}
+                or encounter.id == "louse_trio" and {"red_louse", "red_louse", "green_louse"}
                 or encounter.enemies
             equal(#run.combat.enemies, #expected, "encounter size")
             for i, id in ipairs(expected) do

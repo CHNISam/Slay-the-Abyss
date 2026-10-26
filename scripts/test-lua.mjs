@@ -10,12 +10,16 @@ import { battleLayout } from './ui-layout.mjs';
 
 const require = createRequire(import.meta.url);
 
-export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process.cwd() } = {}) {
+export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process.cwd(), caseName } = {}) {
+  if (caseName !== undefined && (typeof caseName !== 'string' || !caseName.trim())) {
+    throw new Error('Selected Lua case must have a nonempty name');
+  }
   const cli = require.resolve('fengari-node-cli/src/lua-cli.js');
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const normalizedScript = script.replaceAll('\\', '/');
-  const fixture = normalizedScript.endsWith('tests/lua/battle_ui.lua');
+  const fixture = ['tests/lua/battle_ui.lua', 'tests/lua/battle_ui_slice_2.lua']
+    .some(path => normalizedScript.endsWith(path));
   const mapProperties = ['map_floor_boundaries.lua', 'map_no_crossings.lua', 'map_treasure_placement.lua']
     .some(name => normalizedScript.endsWith(`tests/lua/${name}`));
   // Quality runs 39982640775/39985958741 timed out in three different fixtures
@@ -30,7 +34,10 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   const temporary = fixture ? join(tmpdir(), `abyss-ui-test-${randomUUID()}.lua`) : null;
   if (temporary) writeFileSync(temporary, `ABYSS_TEST_LAYOUT=${toLua(battleLayout())}\ndofile(${luaString(resolve(cwd, script))})\n`);
   let result;
-  try { result = spawnSync(process.execPath, [cli, '-e', `dofile(${luaString(temporary || resolve(cwd, script))})`], {
+  // Mutation checks target one registered original regression. Each child is
+  // fresh; ordinary invocations receive no selector and still run every case.
+  const selection = caseName === undefined ? '' : `ABYSS_MUTATION_CASE=${luaString(caseName)};`;
+  try { result = spawnSync(process.execPath, [cli, '-e', `${selection}dofile(${luaString(temporary || resolve(cwd, script))})`], {
     cwd, encoding: 'utf8', timeout, maxBuffer: 1024 * 1024,
     env: { ...process.env, LUA_PATH: './build/lua/?.lua;./src/lua/?.lua;;', LUA_PATH_5_3: './build/lua/?.lua;./src/lua/?.lua;;', LUA_INIT: '', LUA_INIT_5_3: '' }
   }); } finally { if (temporary) unlinkSync(temporary); }

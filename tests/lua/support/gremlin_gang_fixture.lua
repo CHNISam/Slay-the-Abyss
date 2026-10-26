@@ -119,7 +119,7 @@ test(entry..' source queue frontier commits four room misc draws and never redra
  local wanted=streamAfter(run,target.floor);local indices={};local before=Run.roomStreams(run,target.floor).miscRng
  for _,upper in ipairs({7,6,5,4})do indices[#indices+1]=R.randomInt(before,upper)end
  local oldMisc=run.miscRng;local oldStable=freeze(oldMisc)
- local oldEvent=run.eventRng;local eventAfter=R.cloneState(oldEvent)
+ local oldEvent=run.eventRng;local eventAfter=R.cloneState(oldEvent);local oldEventStable=freeze(oldEvent)
  if entry=='unknown' then R.randomFloat(eventAfter) end
  assert(Nodes.enter(run,map,id));eq(run.encounterId,'gremlin_gang');eq(#run.combat.enemies,4)
  same(ids(run.combat),oracle(indices))
@@ -129,7 +129,8 @@ test(entry..' source queue frontier commits four room misc draws and never redra
   for _,n in ipairs(map.nodes) do if n.id==id then eq(n.type,'event');eq(n.encounterId,nil) end end
   eq(run.unknown.chances.monster,R.float32(.1));eq(run.unknown.chances.shop,R.float32(.06));eq(run.unknown.chances.treasure,R.float32(.04))
   same(run.unknown.pools,again.unknown.pools)
- else eq(run.eventRng,oldEvent) end
+ else same(run.eventRng,oldEvent) end
+ oldEventStable()
  local stable=freeze(run,map);Nodes.view(run,map);Nodes.view(run,map);eq(Nodes.enter(run,map,id),false);eq(Run.startCombat(run,'gremlin_gang'),false);stable()
  assert(Nodes.enter(again,againMap,id));same(run,again);same(map,againMap)
 end)

@@ -2316,6 +2316,104 @@
       "effects": [],
       "text": "无法打出。回合结束时受到2点伤害。",
       "endTurnDamage": 2
+    },
+    {
+      "id": "injury",
+      "name": "旧伤",
+      "sts_name": "Injury",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。"
+    },
+    {
+      "id": "doubt",
+      "name": "疑惧",
+      "sts_name": "Doubt",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。回合结束时，获得1回合虚弱。",
+      "endTurnStatusAmount": 1
+    },
+    {
+      "id": "pain",
+      "name": "苦痛",
+      "sts_name": "Pain",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。在手牌中时，每打出一张牌便失去1点生命。",
+      "onOtherCardHpLoss": 1
+    },
+    {
+      "id": "decay",
+      "name": "衰朽",
+      "sts_name": "Decay",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。回合结束时受到2点伤害，可被格挡。",
+      "endTurnDamage": 2
+    },
+    {
+      "id": "shame",
+      "name": "羞惭",
+      "sts_name": "Shame",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。回合结束时，获得1回合脆弱。",
+      "endTurnStatusAmount": 1
+    },
+    {
+      "id": "writhe",
+      "name": "蜷缩",
+      "sts_name": "Writhe",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "固有。无法打出。",
+      "innate": true
+    },
+    {
+      "id": "clumsy",
+      "name": "笨拙",
+      "sts_name": "Clumsy",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "虚无。无法打出。回合结束时消耗。",
+      "ethereal": true
+    },
+    {
+      "id": "normality",
+      "name": "平庸",
+      "sts_name": "Normality",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。在手牌中时，每回合最多打出3张牌。",
+      "playLimit": 3
+    },
+    {
+      "id": "parasite",
+      "name": "寄生",
+      "sts_name": "Parasite",
+      "type": "curse",
+      "rarity": "curse",
+      "cost": -2,
+      "effects": [],
+      "text": "无法打出。从牌组中永久移除时，最大生命值降低3点。",
+      "onRemoveMaxHpLoss": 3
     }
   ],
   "sourceCatalog": "reference/warrior75.json",

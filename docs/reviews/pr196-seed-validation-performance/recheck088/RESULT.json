@@ -1,0 +1,31 @@
+{
+  "head": "088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224",
+  "verified_inputs": 196,
+  "generated_identical": 12,
+  "identical_output_pairs": 11,
+  "candidate_patch_sha256": "2846c91e580a373387887067ced22e9e260e949a71da3d839019c94bbeceeaf8",
+  "changed_paths": [
+    "src/lua/abyss_map_topology.lua",
+    "src/lua/abyss_randomxs128.lua",
+    "src/lua/abyss_run_seed.lua",
+    "src/lua/abyss_sts_random.lua",
+    "tests/lua/run_seed_validation.lua"
+  ],
+  "baseline_files": 11,
+  "candidate_files": 12,
+  "baseline_groups": 57,
+  "candidate_groups": 64,
+  "all_exit_zero": true,
+  "scope": "Fresh 088 incremental native Lua 5.4 only; prior bbf49 remains separately attributed",
+  "report": "REPORT.md",
+  "completeOutput": [
+    "evidence/baseline-complete-output.log",
+    "evidence/candidate-complete-output.log"
+  ],
+  "commandsAndExitCodes": "evidence/execution-results.json",
+  "sourceProvenance": "evidence/input-verification.json",
+  "buildHashes": "evidence/generated-manifest.json",
+  "remoteWrites": false,
+  "fullCIClaimed": false,
+  "FengariClaimed": false
+}

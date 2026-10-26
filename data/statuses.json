@@ -1,6 +1,10 @@
 {
   "note": "v0.1.0 内容基线，解释见 README.md；未运行时或真机验收。",
   "statuses": [
+    { "id":"duplication","name":"复制","kind":"buff","stack":"intensity","decay":"round_end_minus_1",
+      "description":"接下来的牌额外使用一次，每次消耗1层；轮末另减少1层。" },
+    { "id": "plated_armor", "name": "多层护甲", "kind": "buff", "stack": "intensity", "decay": "none",
+      "description": "回合结束时获得固定格挡；受到有来源的普通攻击生命伤害时失去1层。" },
     {
       "id": "spore_cloud",
       "name": "菌雾",
@@ -272,6 +276,22 @@
       "stack": "intensity",
       "decay": "none",
       "description": "回合结束时获得固定格挡。"
+    },
+    {
+      "id": "vigor",
+      "name": "活力",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "下一张攻击牌的每次伤害增加对应层数；攻击牌打出后移除。"
+    },
+    {
+      "id": "pen_nib",
+      "name": "钢笔尖",
+      "kind": "buff",
+      "stack": "intensity",
+      "decay": "none",
+      "description": "下一张攻击牌造成双倍伤害；攻击牌打出后移除。"
     }
   ]
 }

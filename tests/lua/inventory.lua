@@ -3,6 +3,7 @@ local Run, Combat = require("abyss_run"), require("abyss_combat")
 local Nodes, Map = require("abyss_nodes"), require("abyss_map")
 local data = require("abyss_data")
 local count = 0
+local mutationCase = rawget(_G, "ABYSS_MUTATION_CASE")
 local function equal(a, b) assert(a == b, tostring(a) .. " ~= " .. tostring(b)) end
 local function same(a, b)
     equal(type(a), type(b))
@@ -10,7 +11,10 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
-local function test(name, fn) fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name) end
+local function test(name, fn)
+    if mutationCase and name ~= mutationCase then return end
+    fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name)
+end
 local function battle(potions, source)
     local run = Run.new(source or data, 42)
     run.potions = potions or {}
@@ -147,6 +151,37 @@ test("potion view is detached and enables targeted bottles only for a live targe
     run.phase = "reward"; equal(Run.potionView(run)[2].reason, "not_in_combat")
 end)
 
+test("potion finalization failure preserves complete state and original references", function()
+    for _, mode in ipairs({"throw", "false"}) do
+        local run = battle({ "fire_potion" })
+        run.combat.player.hp = 40; run.combat.enemies[1].hp = 20
+        local before, root, saved = Combat.copy(run), run.combat, {}
+        local function remember(value)
+            if type(value) ~= "table" or saved[value] then return end
+            local values = {}; saved[value] = values
+            for key, item in pairs(value) do values[key] = item; remember(item) end
+        end
+        remember(run)
+        local original = Run.finishCombat
+        Run.finishCombat = function(candidate)
+            assert(original(candidate)) -- stage real HP/gold/rewards/RNG first
+            if mode == "throw" then error("fixture finalization fault") end
+            return false
+        end
+        local called, ok, reason = pcall(Run.usePotion, run, 1, 1)
+        Run.finishCombat = original -- restore the stub before any assertion can fail
+        assert(called and ok == false and reason == "potion_effect_failed", "[ABYSS_ASSERT M4:finalization atomic]")
+        same(run, before); equal(run.combat, root)
+        for object, values in pairs(saved) do
+            for key, value in pairs(values) do equal(object[key], value) end
+            for key, value in pairs(object) do equal(value, values[key]) end
+        end
+        assert(Run.usePotion(run, 1, 1)); equal(run.phase, "reward")
+        local gold = run.gold
+        equal(Run.finishCombat(run), false); equal(run.gold, gold)
+    end
+end)
+
 test("last-enemy potion kill finishes normally and awards gold and end healing once", function()
     local run = battle({ "fire_potion" })
     run.combat.player.hp = 40; run.combat.enemies[1].hp = 20
@@ -176,8 +211,17 @@ local function finishBattle(run)
     equal(run.phase, "reward")
 end
 
-test("real map keeps resources across two original-data battles and the acquired relic persists into the next battle", function()
+test("legacy six-opening fixture keeps resources across two original-enemy battles and the acquired relic persists into the next battle", function()
     local source = Combat.copy(data)
+    -- This historical six-opening transaction fixture deliberately isolates its
+    -- Anchor chest. Full-pool order/probability and the added persistent hooks
+    -- have independent suites; their newly added definitions must not silently
+    -- turn this fixed-relic fixture into a different acquisition assertion.
+    local legacyRelics={}
+    for _,relic in ipairs(source.relics.relics)do
+        if relic.trigger~='hooks' then legacyRelics[#legacyRelics+1]=relic end
+    end
+    source.relics.relics=legacyRelics
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
     source.rules.events.encounterId='purifier' -- explicit content fixture; unknown RNG has its own route tests
     -- A real connected source-map route reaches events/shop/camp/chest before
@@ -269,8 +313,9 @@ test("death followed by Run.new resets all same-run resources without sharing ca
     equal(fresh.gold, data.rules.player.startingGold); equal(#fresh.deck, 10); equal(fresh.nextDeckUid, 11)
     equal(fresh.deck[1].upgraded, false); same(fresh.relics, data.rules.player.startingRelics); same(fresh.potions, {})
     equal(fresh.combat, nil); equal(fresh.nodeFlow, nil); equal(fresh.lastResult, nil)
-    fresh.data.potions.potions[1].effects[1].value = 1
-    same(old, before); equal(data.potions.potions[1].effects[1].value, 20)
+    definition(fresh.data.potions.potions, "fire_potion").effects[1].value = 1
+    same(old, before); equal(definition(data.potions.potions, "fire_potion").effects[1].value, 20)
 end)
 
+assert(not mutationCase or count == 1, "unknown or duplicate inventory mutation case")
 print("LUA_INVENTORY_PASS " .. count)

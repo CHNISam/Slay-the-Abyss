@@ -1,0 +1,13 @@
+PASS Initial permanent BFB starts at four, one later HP loss lowers it to three
+PASS Unhurt fresh BFB starts at four
+FAIL Fresh and then upgraded BFB inherit 1 actual HP-loss events: ../generated-cost-boundaries.lua:4: expected 3, got 4
+FAIL Fresh and then upgraded BFB inherit 3 actual HP-loss events: ../generated-cost-boundaries.lua:4: expected 1, got 4
+FAIL Fresh and then upgraded BFB inherit 5 actual HP-loss events: ../generated-cost-boundaries.lua:4: expected 0, got 4
+PASS Stat-equivalent prototype retains its own discount, upgrade and turn override
+PASS Unrelated generated attack gains no BFB cost state
+PASS Real Infernal generation, free current turn, next-turn reset: hurt=false upgrade=false
+PASS Real Infernal generation, free current turn, next-turn reset: hurt=false upgrade=true
+FAIL Real Infernal generation, free current turn, next-turn reset: hurt=true upgrade=false: ../generated-cost-boundaries.lua:4: expected 3, got 4
+FAIL Real Infernal generation, free current turn, next-turn reset: hurt=true upgrade=true: ../generated-cost-boundaries.lua:4: expected 2, got 3
+TOTAL 11 cases, 5 failed
+../generated-cost-boundaries.lua:44: generated BFB boundary regressions

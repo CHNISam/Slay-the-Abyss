@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   ownership:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/heads/feat/'))
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -21,8 +21,8 @@ jobs:
           persist-credentials: false
       - name: Verify live remote execution authorization for exact PR head
         env:
-          CLAIM_BRANCH: ${{ github.event.pull_request.head.ref }}
-          CLAIM_SHA: ${{ github.event.pull_request.head.sha }}
+          CLAIM_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          CLAIM_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           CLAIM_TOKEN: ${{ github.token }}
         run: |
           export GIT_CONFIG_COUNT=1
@@ -42,7 +42,9 @@ jobs:
     # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of
     # 207 Lua fixtures had run on Node 22. Keep every fixture and its own
     # timeout; this bound allows the complete serial suite to finish.
-    timeout-minutes: 45
+    # The previous complete run took almost 45 minutes. Added protocol,
+    # inventory and engineering checks retain every per-fixture deadline.
+    timeout-minutes: 75
     defaults:
       run:
         shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh -NoProfile -File {0}' || 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' }}
@@ -94,8 +96,13 @@ jobs:
           if ((git rev-parse HEAD) -ne $env:CI_SHA) { throw 'Revision mismatch' }
           git clean -ffd
           if ($LASTEXITCODE -ne 0) { throw 'Workspace cleanup failed' }
+      # Both Windows runners must use the measured runtime, rather than their
+      # different global Node installations. Keep every test and its budget.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.18.0'
       - name: Verify Node baseline
-        run: node -e "if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node 22 or newer is required'); console.log(process.version)"
+        run: node -e "if (process.versions.node !== '24.18.0') throw new Error('Quality requires Node 24.18.0'); console.log(process.version)"
       - name: Check changed whitespace
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -116,6 +123,8 @@ jobs:
             exit 1
           }
       - run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --fetch-retries=0 --fetch-timeout=30000
+      - run: python -m pip install Pillow==12.3.0
+      - run: npm run setup:lua-static
       - run: npm run check:network
       # Same commands and order as check:rules, with each phase visible in CI.
       - run: npm run verify:backlog
@@ -124,6 +133,14 @@ jobs:
       - run: npm run validate:data
       - run: npm run test:lua
       - run: npm run build:theme
+      - run: npm run check:engineering
+      - run: node scripts/write-ci-receipt.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quality-${{ github.run_id }}-${{ github.run_attempt }}-check
+          path: build/ci-checkout.json
+          retention-days: 7
+          if-no-files-found: error
   presentation:
     # These filesystem tests include symlinks; keep the local service unprivileged.
     runs-on: ubuntu-latest
@@ -132,9 +149,37 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - run: python3 -m pip install Pillow==12.3.0
       - run: python3 -m unittest discover -s tests -p 'test_*.py'
         env:
           PYTHONUTF8: '1'
       - run: node scripts/build-ui.mjs
         env:
           ABYSS_PYTHON: python3
+  engineering-posix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.18.0'
+      - run: python3 -m pip install Pillow==12.3.0
+      - run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --fetch-retries=0 --fetch-timeout=30000
+      - run: npm run setup:lua-static
+      - run: npm test
+        env:
+          ABYSS_PYTHON: python3
+      - run: npm run check:engineering
+      - uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/architecture.json
+            build/lua-static.json
+            build/lua-complexity.json
+            build/test-strength/*/report.json
+          retention-days: 7
+          if-no-files-found: error

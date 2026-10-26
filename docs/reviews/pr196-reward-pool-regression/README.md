@@ -1,0 +1,12 @@
+# 奖励回归测试接续候选
+
+基于 PR196@088a6ab6d2fe47dd3bdb4a74bd4e3d01e69e0224，只修改 tests/lua/card_pool_rewards.lua。当前CI红因旧blocked七牌仍把已实现的true_grit当未完成；原27目标又包含首战A0不能出的4张稀有牌。
+
+candidate.patch 以固定原版目录的20普通+36罕见ID作独立预期，不从实际抽样反推。保留全部128真实首战、384奖励槽、56领取与下一战链路；增加UID检查，不改生产、数据、旧oracle或预算。
+
+补丁SHA256：86ef53743cf58427b508e1bdf6ac7c912e7d02826efad0956a9d38020eb1100a。
+候选blob：b6bf188f6f206728c085e8ac891f275ce7cce8a4。
+
+作者、独立审查与root均复现原红/候选绿；未知ID、错误稀有牌、合法ID未实现效果、漏合法池项均有真实失败负控。root另在隔离副本与先前纯seed性能候选联合运行奖励及7组validator成功。只证明有限native Lua5.4结果；尚未该补丁的Windows/Fengari30秒、完整CI或平台验收。
+
+阅读：本页→independent/REVIEW.md→REPORT.md/具体日志。请由现有PR执行者核对最新头后只应用此patch并跑正常CI，不整体合并证据分支旧生产树，不据此关闭父任务或全部75卡验收。

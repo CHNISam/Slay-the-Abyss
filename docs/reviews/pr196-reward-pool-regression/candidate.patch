@@ -1,0 +1,92 @@
+--- a/tests/lua/card_pool_rewards.lua
++++ b/tests/lua/card_pool_rewards.lua
+@@ -1,19 +1,42 @@
+ package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
+ local Combat, Run = require("abyss_combat"), require("abyss_run")
+-local Nodes, Map = require("abyss_nodes"), require("abyss_map")
+-local Effects, data = require("abyss_effects"), require("abyss_data")
++local Capability, data = require("abyss_card_capability"), require("abyss_data")
+ local count = 0
+ local function equal(a, b, label) assert(a == b, (label or "value") .. ": " .. tostring(a) .. " ~= " .. tostring(b)) end
+ local function test(name, fn) fn(); count = count + 1; print("ok card_pool_rewards " .. count .. " - " .. name) end
+ 
+-local oracle = dofile("tests/lua/support/card_pool_oracle.lua")
+-local cases, blocked = oracle.cases, oracle.blocked
++-- Independent IDs from data/reference/sts1-card-pools/pools.json:redReward
++-- (source 319009d5), not runtime sourcePools or capability output.
++-- First normal A0 rewards start with rarity offset +5:
++-- even after two common rolls it is +3, so no slot can roll a rare (<3).
++-- The 16 rares are covered by the separate Boss/acquisition suites.
++local expected = {
++    common = {
++        "anger", "armaments", "body_slam", "clash", "cleave", "clothesline",
++        "flex", "havoc", "headbutt", "heavy_blade", "iron_wave", "perfected_strike",
++        "pommel_strike", "shrug_it_off", "sword_boomerang", "thunderclap", "true_grit",
++        "twin_strike", "warcry", "wild_strike",
++    },
++    uncommon = {
++        "battle_trance", "blood_for_blood", "bloodletting", "burning_pact", "carnage",
++        "combust", "dark_embrace", "disarm", "dropkick", "dual_wield", "entrench",
++        "evolve", "feel_no_pain", "fire_breathing", "flame_barrier", "ghostly_armor",
++        "hemokinesis", "infernal_blade", "inflame", "intimidate", "metallicize",
++        "power_through", "pummel", "rage", "rampage", "reckless_charge", "rupture",
++        "searing_blow", "second_wind", "seeing_red", "sentinel", "sever_soul",
++        "shockwave", "spot_weakness", "uppercut", "whirlwind",
++    },
++}
+ local function find(entries, id) for _, value in ipairs(entries) do if value.id == id then return value end end end
+ 
+-test("all 27 reward cards occur after real original-data starter victories and can be claimed", function()
+-    local wanted, remaining = {}, 0
+-    for _, case in ipairs(cases) do
+-        if find(data.cards.cards, case.id).rarity ~= "basic" then wanted[case.id], remaining = true, remaining + 1 end
++test("all 56 first-battle rewards occur after real starter victories and persist when claimed", function()
++    local allowed, wanted, remaining = {}, {}, 0
++    equal(#expected.common, 20); equal(#expected.uncommon, 36)
++    for rarity, ids in pairs(expected) do
++        for _, id in ipairs(ids) do
++            assert(not allowed[id], "duplicate expected reward: " .. id)
++            allowed[id], wanted[id], remaining = rarity, true, remaining + 1
++        end
+     end
+     for seed = 1, 128 do
+         local run = Run.new(data, seed)
+@@ -30,21 +53,34 @@
+         end
+         equal(run.phase, "reward", "original starter victory")
+         for choice, id in ipairs(Run.rewardOptions(run)) do
+-            for _, incomplete in ipairs(blocked) do assert(id ~= incomplete, "incomplete reward: " .. id) end
++            assert(allowed[id], "unexpected first-battle reward: " .. tostring(id))
++            local definition = find(data.cards.cards, id)
++            assert(Capability.isImplemented(definition), "unimplemented reward: " .. id)
++            equal(definition.rarity, allowed[id], "reward rarity")
+             if wanted[id] then
+                 local claimed = Combat.copy(run)
++                local rewardUid = claimed.nextDeckUid
+                 assert(Run.claimCardReward(claimed, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(claimed)
+                 equal(#claimed.deck, 11); equal(claimed.deck[11].cardId, id)
++                equal(claimed.deck[11].uid, rewardUid, "new permanent UID")
++                equal(claimed.nextDeckUid, rewardUid + 1, "one permanent UID consumed")
+                 assert(Run.startCombat(claimed, "cultist_solo"))
+-                local acquired = 0
++                local acquired, uids = 0, {}
+                 for _, pile in ipairs({claimed.combat.hand, claimed.combat.draw}) do
+-                    for _, instance in ipairs(pile) do if instance.cardId == id then acquired = acquired + 1 end end
++                    for _, instance in ipairs(pile) do
++                        assert(not uids[instance.uid], "duplicate next-battle UID")
++                        uids[instance.uid] = true
++                        if instance.cardId == id then
++                            acquired = acquired + 1
++                            equal(instance.upgraded, false, "unupgraded first-battle reward")
++                        end
++                    end
+                 end
+                 equal(acquired, 1, "reward persists into next battle")
++                equal(claimed.deck[11].uid, rewardUid, "permanent UID survives next battle")
+                 wanted[id], remaining = nil, remaining - 1
+             end
+         end
+-        if remaining == 0 then break end
+     end
+     equal(remaining, 0, "unseen playable rewards")
+ end)

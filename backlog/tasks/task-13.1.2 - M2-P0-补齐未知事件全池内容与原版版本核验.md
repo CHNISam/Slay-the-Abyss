@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-25 01:49'
+updated_date: '2026-10-25 13:32'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -42,9 +42,7 @@ ordinal: 54000
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. 固定原版25事件资格、池顺序、随机消费和内容依赖。2. 逐项实现缺失18事件并接既有配对/转化。3. 统一接完整池、原生界面及永久移除/获得钩子，缺实现项明确报缺。4. 来源向量、真实交互、失败原子性和同源候选平台逐项验收。
-
-2026-10-25 当前M3新增清除诅咒祭坛切片：固定原版Fountain事件与清除/增最大生命方法链；先写正式Nodes入口和原生UI红例，再实现资格、移除、生命与取消/重复事务。接EventPool已有full目录，不新建受限八事件池、不改概率或抽后重试。子代理负责生产代码与定向测试，Codex核查固定来源、接线和剩余钩子/平台边界。当前先STS1，STS2以后扩展。
+按固定来源补齐第一幕25个潜在事件及全部选项、代价、资格和随机消费。保留已接的七个自然事件、六个显式入口和永久事务，盘点剩余内容后逐项补正式自然池与原生交互；完整池、正常获取和同候选平台证据未齐不得标完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -61,4 +59,6 @@ M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方�
 冻结源0b8d325的增量候选已构建并完整读回：62/62模块逐字节相同，UI2824/max60，0error33warning。hash 8a9945e040e16250ca37c381b3b1e0698e26b754c001378949aa3f0723af5925，旧候选未改，liveWrite=0。未知事件13组与语法检查也通过。候选摘要docs/evidence/fountain-candidate-0b8d325.json。官方导入、同候选真实试玩、自然获取仍未验证，默认七池未扩大，父任务AC保持未勾。
 
 读回口径纠正：审计ok=true且62/62源码匹配，其中61份逐字节相同，abyss_fountain有CRLF/LF差异，经原有允许的规范化匹配；原始hash均保留。此前62/62逐字节的文字已在交接/报告更正，不改审计标准或候选。
+
+2026-10-25 用户已明确选择补齐完整第一幕事件池。任务首页仍残留restricted-seven旧方案，本轮通过CLI纠正；批准范围不是重新待决。完整审计在.artifacts/sts1-event-full-pool-audit-20261025/REPORT.md。当前实现七事件/缺18的事实与平台未验边界保留，不改Done或勾AC。
 <!-- SECTION:NOTES:END -->

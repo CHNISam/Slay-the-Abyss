@@ -7,7 +7,12 @@
     "node": ">=22"
   },
   "scripts": {
-    "check:network": "node scripts/check-network-policy.mjs",
+    "setup:lua-static": "node scripts/setup-lua-static.mjs",
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "check:lua-static": "node scripts/check-lua-static.mjs",
+    "check:test-strength": "node scripts/check-test-strength.mjs",
+    "check:engineering": "npm run check:architecture && npm run check:lua-static && npm run check:test-strength",
+    "verify:delivery": "node scripts/verify-delivery.mjs",
     "task:claim": "node scripts/remote-task-claim.mjs",
     "test:claims": "node --test --test-concurrency=1 tests/remote-task-claim.test.mjs",
     "build:native": "node scripts/build-native-audio-game.mjs",
@@ -16,17 +21,20 @@
     "verify:ui": "node scripts/verify-ui-acceptance.mjs docs/design/ui-acceptance.json",
     "check:syntax": "node scripts/check-syntax.mjs",
     "validate:data": "node scripts/validate-data.mjs",
-    "test": "npm run build:data && node --test --test-concurrency=1 tests/*.test.mjs",
+    "test": "npm run build:data && npm run build:ui && node --test --test-concurrency=1 tests/*.test.mjs",
     "build:data": "node scripts/build-lua-data.mjs",
     "build:ui": "node scripts/build-ui.mjs",
     "build:theme": "node scripts/build-ui-theme.mjs",
     "test:lua": "npm run build:data && npm run build:ui && node scripts/map-ui-layout.mjs && node scripts/test-lua.mjs",
     "test:presentation": "python -m unittest discover -s tests -p test_*.py -v",
     "verify:backlog": "node scripts/verify-backlog-roadmap.mjs",
-    "check:rules": "npm run check:network && npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme",
-    "check": "npm run check:rules && npm run test:presentation"
+    "check:rules": "npm run check:network && npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme && npm run check:engineering",
+    "check": "npm run check:rules && npm run test:presentation",
+    "check:network": "node scripts/check-network-policy.mjs"
   },
   "devDependencies": {
-    "fengari-node-cli": "0.1.0"
+    "ajv": "8.20.0",
+    "fengari-node-cli": "0.1.0",
+    "luaparse": "0.3.1"
   }
 }

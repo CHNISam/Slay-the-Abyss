@@ -1,0 +1,4 @@
+FAIL channel clash real shop -> camp -> next battle: ../probe.lua:59: card_not_upgradeable
+FAIL channel whirlwind real shop -> camp -> next battle: ../probe.lua:59: card_not_upgradeable
+RESULT 0 passed; 2 failed; bounded two-card review only
+../probe.lua:144: bounded integration review failed

@@ -3,8 +3,10 @@ package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Nodes, Run, Map = require("abyss_nodes"), require("abyss_run"), require("abyss_map")
 local Combat, data = require("abyss_combat"), require("abyss_data")
 local count, refusals = 0, 0
+local mutationCase = rawget(_G, "ABYSS_MUTATION_CASE")
+local proofCase = ""
 local function equal(a, b)
-    if a ~= b then error(tostring(a) .. " ~= " .. tostring(b), 2) end
+    if a ~= b then error("[ABYSS_ASSERT M3:" .. proofCase .. "] " .. tostring(a) .. " ~= " .. tostring(b)) end
 end
 local function copy(value, seen)
     if type(value) ~= "table" then return value end
@@ -32,7 +34,10 @@ local function same(a, b, forward, backward)
         if a[key] == nil then error("missing key " .. tostring(key)) end
     end
 end
-local function test(name, fn) fn(); count = count + 1; print("ok node transactions " .. count .. " - " .. name) end
+local function test(name, fn)
+    if mutationCase and name ~= mutationCase then return end
+    proofCase = name; fn(); count = count + 1; print("ok node transactions " .. count .. " - " .. name)
+end
 local function rejected(run, map, fn, before)
     before = before or copy({run = run, map = map})
     local ok, reason = fn()
@@ -171,4 +176,5 @@ test("real battle reward rejects stale node and malformed reward commands before
     assert(Nodes.enter(run, map, nextNode.id))
 end)
 
+assert(not mutationCase or count == 1, "unknown or duplicate node mutation case")
 print("LUA_NODE_TRANSACTIONS_PASS " .. count .. " refusals=" .. refusals)

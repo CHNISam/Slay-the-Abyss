@@ -1,0 +1,158 @@
+[
+  {
+    "label": "golden-wing-baseline",
+    "exitCode": 0,
+    "elapsedSeconds": 0.1975,
+    "expectedFailure": false,
+    "observedTestFailure": false,
+    "lastLines": [
+      "ok 15 - sacrifice at hp 7 finishes defeat before any purge can commit",
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 0 failed"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "threshold-exclusive",
+    "exitCode": 1,
+    "elapsedSeconds": 0.2,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 2 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "sum-multihit-damage",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1852,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 2 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "ignore-upgrade-damage",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1796,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 3 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "recompute-captured-qualification",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1864,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 1 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "death-allows-map",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1629,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 3 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "dead-player-can-purge",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1512,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 3 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "purge-stage-allows-rechoice",
+    "exitCode": 1,
+    "elapsedSeconds": 0.187,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "not ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge: ...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:8: sacrifice refused: true ~= false",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 1 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "purge-charges-twice",
+    "exitCode": 1,
+    "elapsedSeconds": 0.1911,
+    "expectedFailure": true,
+    "observedTestFailure": true,
+    "lastLines": [
+      "not ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge: ...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:8: state.run.hp: 0 ~= 1",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 1 failed",
+      "...dent-0047/candidate/tests/lua/golden_wing_boundaries.lua:124: assertion failed!"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "existing-unknown-events",
+    "exitCode": 0,
+    "elapsedSeconds": 0.1362,
+    "expectedFailure": false,
+    "observedTestFailure": false,
+    "lastLines": [
+      "ok unknown events 12 - Golden Wing gold branch uses captured base attack qualification and pays only once",
+      "ok unknown events 13 - eligibility covers conditional one-time events and Note availability without contaminating Act1",
+      "LUA_UNKNOWN_EVENTS_PASS 13"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "existing-empty-permanent-deck",
+    "exitCode": 0,
+    "elapsedSeconds": 0.1109,
+    "expectedFailure": false,
+    "observedTestFailure": false,
+    "lastLines": [
+      "ok 7 - shop removes the last card, consumes one service, and still permits buying a new card",
+      "ok 8 - empty-deck shop rejects a stale UID without spending its unused service",
+      "EMPTY_PERMANENT_DECK 8 tests, 0 failed"
+    ],
+    "matchedExpectation": true
+  },
+  {
+    "label": "golden-wing-final",
+    "exitCode": 0,
+    "elapsedSeconds": 0.1976,
+    "expectedFailure": false,
+    "observedTestFailure": false,
+    "lastLines": [
+      "ok 15 - sacrifice at hp 7 finishes defeat before any purge can commit",
+      "ok 16 - surviving sacrifice is paid once and locks every alternative until exact UID purge",
+      "GOLDEN_WING_BOUNDARIES 16 tests, 0 failed"
+    ],
+    "matchedExpectation": true
+  }
+]

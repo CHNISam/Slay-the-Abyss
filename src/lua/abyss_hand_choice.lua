@@ -63,7 +63,7 @@ local function move(s,entry,mode)
     Events.emit(s,'hand_choice_move',{uid=card.uid,cardId=card.cardId,mode=mode,pile=destination})
 end
 function M.active(s) return type(s)=='table' and s.pendingHandChoice~=nil end
-function M.begin(s,mode,count,queue)
+function M.begin(s,mode,count,_queue)
     assert(modes[mode] and count==1,'unsupported hand choice')
     assert(type(s)=='table' and not s.pendingHandChoice,'hand choice already pending')
     assert(not s.pendingScry and not s.pendingDiscard,'other selection already pending')

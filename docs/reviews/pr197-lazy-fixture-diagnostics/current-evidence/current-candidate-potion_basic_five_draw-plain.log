@@ -1,0 +1,7 @@
+ok basic five 1 - Swift draws three actual top instances without spending source RNG when no shuffle is needed
+ok basic five 2 - Swift stops at ten, and a full hand still consumes exactly one bottle without drawing
+ok basic five 3 - Swift at exhausted piles causes no fatigue damage or RNG draw
+ok basic five 4 - Swift respects No Draw applied by a real Battle Trance card and still consumes the bottle
+ok basic five 5 - Swift crosses an empty draw pile using the existing source shuffle and draws only available cards
+LUA_POTION_BASIC_FIVE_DRAW_PASS 5
+exit=0 elapsed=0.06555946700018467

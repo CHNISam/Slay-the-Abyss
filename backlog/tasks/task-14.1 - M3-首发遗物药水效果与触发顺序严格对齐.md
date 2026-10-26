@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-25 01:32'
+updated_date: '2026-10-25 10:23'
 due_date: '2026-10-28'
 labels:
   - required
@@ -68,4 +68,12 @@ ordinal: 42000
 资料包药水目标事务验证切片：新增tests/lua/potion_target_rejection.lua，生产host监听器7/7通过（无render旧目标死亡/替换/换序/同ID换瓶/turn/phase与取消重选）。现有targeting5、commit4、input ownership7、discard UI10通过；launch-content13项及verify:backlog通过。独立子代理复跑7/7且无确认P1/P2。未复现需改生产代码的缺陷，保留现有实现；平台/自然获取不计通过。候选构建另记。源码规则代际待用户明确，不改数值或范围。
 
 本片候选离线构建与独立读回通过：运行时固定源3ed8bf4，61/61模块逐字节匹配，UI2824/max60，结算22节点，0error/33warning原样保留。候选SHA256 f2808674cca47de5aade4871fc0da82fdd9d25c801e6cc7d31ec4cd0400bdf68，位置及图审计有限范围见docs/reviews/M3-PACK-POTION-20261025.md。官方导入、同候选真实试玩、自然获取未验证；父任务AC不勾，M3未验收。
+
+2026-10-25 本轮M3生产切片在独立树完成串行集成：四事件/永久事务/十种诅咒清除，战士药水效果与五槽原生UI，33common+3special遗物触发。详见docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md。事件69项、药水20份105项、遗物13份及inventory11项本地通过；全部72非基础合法胜利领奖分片保留通过，旧160卡面断言经真实RED修为178版本GREEN。完整含BGM候选cf77beea4ef77dbda269b344a4c972ac6aac7dff0621fa5acc807a0f364ab728，71模块与bd93be7逐字节一致，静态0错误36警告；归档.artifacts/m3-events-inventory-20261025，最终提交还须再次audit及当前PR完整CI。官方导入、同候选真实试玩、BGM听测、UI总门禁未验证。完整25自然事件池、剩余遗物效果、33药水自然渠道及6种效果、Spirit Poop生产总分仍缺，父任务/M3不标完成。
+
+2026-10-25 最终候选更新：领奖事务保留独立RewardItem owner且完整异常回滚，旧奖励UI断言保持并通过；permanent_transactions13项、178卡面、25项来源契约及十组旧流程回归完成。生产源ded810f0f7b403b564bee64df06117587957500f重建含BGM候选4d9f3d0a0e21e9ea4f7e96eca7adf8ae1eaede4c117ec02aa6022f5e4d8c7f8c，71模块逐字节独立读回，静态0错误36警告。稳定证据.artifacts/m3-events-inventory-20261025，最终PR头完整CI/合并仍待实际结果。按用户最新要求，任何鼠标键盘/抢焦点/实机输入先约本轮窗口；本轮未获桌面窗口，官方导入、同候选真实试玩、BGM听测与UI总门禁未验证。全池/自然渠道/总分及平台缺口继续保留，父任务与M3不标Done。
+
+2026-10-25 RC2：保留develop已合入PR207布局，源3e9873220cf5aa055799992c906ade0daf167f63重建含BGM候选8c8f04612f6c1858b5146fb2355eda020e3fcf342f897d1e187d88f0a2097ce0，71模块逐字节审计，静态0错误/36警告。旧e1全CI首轮药水预算超时、仅一次重跑后Node全过但Lua旧oracle失败，日志均保留；七份旧oracle按当前契约校准，失败身份/RNG/完整75/UID及下战断言和原时限不降，17个Lua入口+12个Node本地通过。最终头完整CI及合并以本PR实际记录为准，父任务/M3保持In Progress。没有桌面输入窗口，不操作鼠标键盘或抢焦点，官方导入/同候选试玩未验证。
+
+2026-10-25 CI环境校准：1647330完整Node1268pass/119既有skip/0fail、数据通过；本机Node22三份Lua超时，GitHub45分钟取消，仅完成到potion_status_rules，未合并。官方校验便携Node24在同机原预算下living_wall18267ms/card_help_release20229ms/battle_ui48674ms全部通过。Quality仅固定Node24.18.0，源码/候选/系统MCP Node及全部断言、45分钟与单测预算不变。最终头完整CI仍待真实结果，平台未验证且无桌面窗口，父任务保持In Progress。
 <!-- SECTION:NOTES:END -->

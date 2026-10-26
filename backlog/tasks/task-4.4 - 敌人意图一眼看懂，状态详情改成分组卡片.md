@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Claude'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-24 15:43'
+updated_date: '2026-10-25 12:32'
 due_date: '2026-10-26'
 labels: []
 milestone: m-5
@@ -49,4 +49,6 @@ ordinal: 85000
 待接手：1) 构建候选并实机截图核对：叠放的 40 高文本框（行距 20–24）显示、left/right 对齐、翻页 cursorArea 只吃面板内点按；2) 手机长按后转常驻、点卡片翻页手感；3) 意图/状态图库图标仍标 verify。
 
 2026-10-24：虚弱/缠绕103053改为102045；其余共用图形及新实机核对边界见docs/design/BATTLE_IMPLEMENTATION.md。根工作树验证13项主题/布局与53项战斗UI通过；未构建gil/导入/实机，AC5保持待验。
+
+2026-10-24 用户截图反馈修正：虚弱/缠绕由含上箭头剑的103053改为主题既有削弱102045，血条与详情共享映射；其他共用图标和待实机核对限制记入docs/design/BATTLE_IMPLEMENTATION.md。build:theme及13项主题/布局测试通过；未构建gil、未导入或实机，不勾选AC5。
 <!-- SECTION:NOTES:END -->

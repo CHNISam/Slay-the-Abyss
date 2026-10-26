@@ -33,6 +33,10 @@ local reasons = {
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},
+    big_fish={name='大鱼',body='三件礼物悬在面前。你只能选取一件。',leave='你带着选择的礼物离开。'},
+    accursed_blacksmith={name='诅咒铁匠',body='古旧的铁砧尚有余温，旁边散落着可疑的器具。',leave='你离开了铁砧。'},
+    bonfire={name='篝火精灵',body='篝火中的精灵向你招手。',leave='你告别了篝火。'},
     fountain = { name='净化之泉', body='清澈的泉水在石隙间流淌。你可以借它洗去随身的诅咒。', leave='你离开了泉水。' },
     living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
@@ -132,11 +136,24 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local definition=find(self.run.data.potions.potions,id)
         local parts={}
         for _,effect in ipairs(definition and definition.effects or {}) do
-            local value=number(effect.value)
+            local value=number(effect.value or 0)
             if effect.op=='damage' then parts[#parts+1]='单敌固定伤害'..value
+            elseif effect.op=='damageAll' then parts[#parts+1]='全体敌人伤害'..value..'（不受力量、虚弱、易伤影响）'
             elseif effect.op=='block' then parts[#parts+1]='自己固定格挡'..value
             elseif effect.op=='energy' then parts[#parts+1]='自己能量+'..value..'（本回合）'
             elseif effect.op=='draw' then parts[#parts+1]='抽'..value..'张牌'
+            elseif effect.op=='upgradeHand' then parts[#parts+1]='升级全部可升级手牌（仅本场战斗）'
+            elseif effect.op=='healPercent' then parts[#parts+1]='回复最大生命'..value..'%的生命'
+            elseif effect.op=='increaseMaxHp' then parts[#parts+1]='最大生命+'..value..'，并回复'..value..'生命'
+            elseif effect.op=='exhaustMany' then parts[#parts+1]='选择任意张手牌消耗（可不选）'
+            elseif effect.op=='discardRedraw' then parts[#parts+1]='选择任意张手牌丢弃，再抽等量牌'
+            elseif effect.op=='discardToHand' then parts[#parts+1]='选择'..value..'张弃牌回手，本回合费用为0'
+            elseif effect.op=='randomizeHandCost' then parts[#parts+1]='手牌战斗费用随机改为0至3'
+            elseif effect.op=='escape' then parts[#parts+1]='逃离战斗，不获得奖励（Boss或背袭敌人房间不可用）'
+            elseif effect.op=='playTopCards' then parts[#parts+1]='免费打出牌堆顶'..value..'张牌，目标随机'
+            elseif effect.op=='gainTemporaryStrength' or effect.op=='gainTemporaryDexterity' then
+                local status=find(self.run.data.statuses.statuses,effect.status)
+                parts[#parts+1]='自己'..status.name..'+'..value..'，回合结束时失去'..value
             elseif effect.op=='gainStatus' or effect.op=='applyStatus' then
                 local status=find(self.run.data.statuses.statuses,effect.status)
                 parts[#parts+1]=(effect.op=='applyStatus' and '单敌' or '自己')..(status and status.name or effect.status)..value
@@ -229,7 +246,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         child("gold").text = number(self.run.gold)
         child("deck").text = tostring(#self.run.deck)
         child("relics").text = "遗物 " .. #self.run.relics
-        child("potions").text = "药水 " .. Run.potionCount(self.run) .. "/" .. self.run.data.rules.player.potionSlots
+        child("potions").text = "药水 " .. Run.potionCount(self.run) .. "/" .. Run.potionCapacity(self.run)
     end
 
     local function renderShop(view, node)
@@ -273,12 +290,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
         local removal, removalPrice = shop:GetChild("removal"), shop:GetChild("removalPrice")
         local poor = node.removeAvailable and self.run.gold < node.removePrice
-        local open = node.removeAvailable and #self.run.deck > 0 and not poor
+        local open = node.removeAvailable and #node.purgeCards > 0 and not poor
         local reason = not node.removeAvailable and "本店删牌服务已使用，每家商店限一次" or
-            (#self.run.deck == 0 and "牌组为空，没有可移除的卡牌" or shortfall(node.removePrice))
+            (#node.purgeCards == 0 and "没有可移除的卡牌" or shortfall(node.removePrice))
         state(removal, open)
         removal:GetChild("description").text = not node.removeAvailable and "本店已使用" or
-            (#self.run.deck == 0 and "牌组为空" or ("每家商店限一次\n之后的商店 +" .. self.run.data.rules.shop.removeCardIncrement))
+            (#node.purgeCards == 0 and "没有可移除的卡牌" or ("每家商店限一次\n之后的商店 +" .. self.run.data.rules.shop.removeCardIncrement))
         ink(removal:GetChild("name"), open and C.text or C.textMuted)
         fillPrice(removalPrice, node.removePrice, not node.removeAvailable and "sold" or poor and "poor" or "ok")
         if not node.removeAvailable then removalPrice:GetChild("value").text = "已使用" end
@@ -316,7 +333,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         for i,offer in ipairs(node.potions or {}) do
             local tile,price=shop:GetChild('potion'..i),shop:GetChild('potionPrice'..i)
             local definition=find(self.run.data.potions.potions,offer.id)
-            local full=Run.potionCount(self.run)>=self.run.data.rules.player.potionSlots
+            local full=Run.potionCount(self.run)>=Run.potionCapacity(self.run)
             local poor=self.run.gold<offer.price
             local enabled=not offer.sold and not offer.unavailable and not poor and not full
             state(tile,enabled)
@@ -338,22 +355,29 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if result then
             state(rest, false, result.choice == "rest") state(forge, false, result.choice == "upgrade")
             rest:GetChild("description").text = result.choice == "rest" and
-                ("已回复 " .. number(result.healed) .. " 点生命\n生命 " .. number(self.run.hp) .. "/" .. number(self.run.maxHp)) or "未选择"
+                ("已回复 " .. number(result.healed) .. " 点生命\n生命 " .. number(self.run.hp) .. "/" .. number(self.run.maxHp)
+                    ..(result.rewardText and '\n'..result.rewardText or '')) or "未选择"
             forge:GetChild("description").text = result.choice == "upgrade" and "已升级" or "未选择"
             return
         end
         local forgeable = #node.upgradeCards > 0
-        -- Approved: resting at full health is disabled, unless it is the only way out of the camp.
-        local restOpen = node.heal > 0 or not forgeable
+        -- Full-health rest remains available for Dream Catcher's real reward,
+        -- or when the camp has no forgeable card and needs an exit.
+        local restOpen = node.heal > 0 or node.dreamCatcher or not forgeable
         state(rest, restOpen) state(forge, forgeable)
         rest:GetChild("description").text = node.heal > 0 and
             ("回复 " .. number(node.heal) .. " 点生命\n生命 " .. number(self.run.hp) .. " → " .. number(self.run.hp + node.heal)) or
-            (forgeable and "生命已满" or "生命已满 · 休息后继续前进")
+            (node.dreamCatcher and "生命已满\n捕梦网：可选一张牌" or forgeable and "生命已满" or "生命已满 · 休息后继续前进")
+        if node.dreamCatcher and node.heal>0 then rest:GetChild('description').text=rest:GetChild('description').text..'\n捕梦网：可选一张牌' end
         forge:GetChild("description").text = forgeable and
             ("升级一张卡牌\n可升级 " .. #node.upgradeCards .. " 张") or "没有可升级的卡牌"
         action("campView/rest", restOpen, function()
             return commit("rest", nil, function(before)
                 local healed = self.run.hp - before.hp
+                if self.run.nodeFlow.restReward and not self.run.nodeFlow.restReward.resolved then
+                    self.mode,self.picker,self.pickPage,self.selected='picker','dream_catcher',1,nil
+                    return '休息完成 · 回复 '..number(healed)..' 点生命；请选择卡牌或跳过'
+                end
                 return "休息完成 · 回复 " .. number(healed) .. " 点生命", { choice = "rest", healed = healed }
             end)
         end, "生命已满，休息不会回复；可以选择锻造")
@@ -367,9 +391,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderPicker(view, node, result)
         local picker = child("pickerView")
         local before, after, target = picker:GetChild("before"), picker:GetChild("after"), picker:GetChild("target")
-        local upgrade = self.picker == "upgrade" or self.picker=='living_grow'
+        local upgrade = self.picker == "upgrade" or self.picker=='living_grow' or self.picker=='act1_forge'
         local transform = self.picker=='living_change'
-        local rows = upgrade and self.upgradeRows or self.removeRows
+        local dream=self.picker=='dream_catcher'
+        local rows = dream and self.restRows or upgrade and self.upgradeRows or self.removeRows
         local selected = result and result.card or self.selected and find(rows, self.selected, "uid")
         local pageCount = math.max(1, math.ceil(#rows / PICK_PAGE))
         self.pickPage = math.max(1, math.min(self.pickPage or 1, pageCount))
@@ -379,9 +404,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local box = picker:GetChild("card" .. i)
             show(box, instance)
             if instance then
-                local owned = find(self.run.deck, instance.uid, "uid")
-                local available = owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil)
-                local stamp = not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级") or nil
+                local owned = not dream and find(self.run.deck, instance.uid, "uid") or nil
+                local available = dream or owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil)
+                local stamp = not dream and (not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级")) or nil
                 fillCard(box, instance.cardId, owned and owned.upgraded or instance.upgraded,
                     { dim = not available, veil = stamp ~= nil, stamp = stamp, selected = self.selected == instance.uid,instance=owned or instance })
                 local uid = instance.uid
@@ -399,7 +424,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             .. (self.swipeEnabled and " · 左右拖动翻页" or "")) or ""
         show(before, upgrade and selected) show(after, upgrade and selected)
         show(picker:GetChild("arrow"), upgrade and selected) show(target, not upgrade and selected)
-        picker:GetChild("empty").text = selected and "" or (upgrade and "点选上方卡牌，查看升级前后对比" or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
+        picker:GetChild("empty").text = selected and "" or (dream and '点选一张卡牌加入牌组，也可以跳过' or upgrade and "点选上方卡牌，查看升级前后对比" or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
         picker:GetChild("label").text, picker:GetChild("hint").text = "", ""
         if selected and upgrade then
             local display = self.presentation[selected.cardId] or {}
@@ -413,10 +438,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             picker:GetChild("hint").text = changed and ("费用 " .. display.cost .. " → " .. display.upgradeCost) or "效果增强"
         elseif selected then
             fillCard(target, selected.cardId, selected.upgraded, { stamp = result and "已移除" or nil, dim = result ~= nil, veil = result ~= nil,instance=selected })
-            picker:GetChild("label").text = transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
-            picker:GetChild("hint").text = transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
+            picker:GetChild("label").text = dream and '将加入牌组' or transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
+            picker:GetChild("hint").text = dream and ('牌组 '..#self.run.deck..' → '..(#self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
                 (#self.run.deck - (result and 0 or 1)) .. " 张"
         end
+        if dream then return '捕梦网 · 选择一张卡牌加入牌组，或跳过奖励' end
         if upgrade then return "选择一张卡牌升级 · 剩余 " .. (result and 0 or node.upgradesLeft) .. " 次" end
         if transform then return '选择一张卡牌变换' end
         if self.picker == "remove" then return "选择要移除的卡牌 · 本店删牌服务限一次" end
@@ -431,10 +457,14 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local mode=self.run.data.rules.events.poolMode
         event:GetChild("caption").text = mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
             or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
-        event:GetChild("body").text = result and result.text or copy.body
+        local body=result and result.text or node.event and node.event.body or copy.body
+        if not result and node.event and node.event.stage=='result' and node.event.obtainedRelicId then
+            body=body..'\n获得遗物：'..relicName(node.event.obtainedRelicId)..'。'
+        end
+        event:GetChild("body").text = body
         local rows = {}
         if not result then
-            local info, gold, deckOk = node.event, self.run.gold, #self.run.deck > 0
+            local info, gold, deckOk = node.event, self.run.gold, #node.purgeCards > 0
             local function need(cost) return "金币不足（需要 " .. cost .. "，现有 " .. gold .. "）" end
             local function purify(cost)
                 return function()
@@ -447,6 +477,15 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     local selected=option
                     rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..
                         (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
+                        if id=='sssserpent' or id=='big_fish' or id=='accursed_blacksmith' or id=='bonfire' then
+                            return commit('chooseEvent',selected.choice,function()
+                                local outcome=self.run.nodeFlow.event
+                                local text=outcome.body or '请选择一张卡牌。'
+                                -- These state machines already keep their result
+                                -- screen until Leave; completion needs no extra hold.
+                                return text
+                            end)
+                        end
                         if id=='living_wall' then
                             return commit('chooseEvent',selected.choice,function()
                                 local info=self.run.nodeFlow.event
@@ -504,11 +543,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 local purifyOk = gold >= info.removeCost and deckOk
                 rows[2] = { title = "［净化］", enabled = purifyOk, handler = purify(info.removeCost),
                     description = gold < info.removeCost and need(info.removeCost) or
-                        (deckOk and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌") or "牌组为空，没有可移除的卡牌") }
+                        (deckOk and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌") or "没有可移除的卡牌") }
             else
                 rows[1] = { title = "［祈祷］", enabled = deckOk, handler = purify(info.removeCost),
                     description = deckOk and (info.removeCost > 0 and ("支付 " .. info.removeCost .. " 金币，从牌组移除一张卡牌")
-                        or "免费从牌组移除一张卡牌") or "牌组为空，没有可移除的卡牌" }
+                        or "免费从牌组移除一张卡牌") or "没有可移除的卡牌" }
             end
             if id=='cleric' or id=='purifier' then rows[#rows + 1] = { title = "［离开］", enabled = true, description = "什么也不会发生。", handler = function()
                 return commit("chooseEvent", "leave", function() return "已离开" .. copy.name, { text = copy.leave } end)
@@ -596,16 +635,28 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.page, self.relicPage, self.pickPage, self.mode, self.picker = 1, 1, 1, "main", nil
             self.selected, self.opened, self.notice, self.result, self.treasureChoice = nil, false, "", nil, 1
             self.upgradeRows = node and node.upgradeCards or {}
-            self.removeRows = snapshotDeck(self.run.deck)
+            self.removeRows = snapshotDeck(node and node.purgeCards or {})
         end
         self.renderRun, self.renderMap, self.nodeId = self.run, self.map, node and node.id
         self.view, self.actions = view, {}
         local result = self:holding() and self.result or nil
         local active = node and kinds[node.type] and not node.complete and view.phase == "node"
+        if active then self.removeRows=snapshotDeck(node.purgeCards) end
         if active and node.type=='event' and node.event.id=='living_wall' and node.event.stage=='choose_card' then
             self.mode,self.picker='picker','living_'..node.event.choice
             self.removeRows=snapshotDeck(node.event.purgeCards)
             self.upgradeRows=node.upgradeCards
+        end
+        if active and node.type=='camp' and node.restReward and not node.restReward.resolved then
+            self.mode,self.picker='picker','dream_catcher';self.restRows={}
+            for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=false}end
+        end
+        if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire') then
+            if node.event.stage=='choose_card' then
+                self.mode,self.picker='picker','act1_'..node.event.choice
+                self.removeRows=snapshotDeck(node.event.purgeCards or {})
+                self.upgradeRows=node.upgradeCards
+            else self.mode,self.picker,self.selected='main',nil,nil end
         end
         renderTopBar(node)
         local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
@@ -630,7 +681,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
 
         local back, confirm = child("back"), child("confirm")
-        local backLabel, confirmLabel, confirmOk, confirmFn
+        local backLabel, confirmLabel, confirmOk, confirmFn,skipRestReward
         if result then
             confirmLabel, confirmOk = "继续", true
             confirmFn = function()
@@ -650,7 +701,22 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "pickerView" then
             local selected = self.selected
             local living=node.type=='event' and node.event.id=='living_wall'
-            if living then
+            local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire')
+            local dream=self.picker=='dream_catcher'
+            local function restReward(choice)
+                local id=node.restReward.cards[choice]
+                return commit('claimRestReward',choice,function()
+                    local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,false)..'」')
+                    self.mode,self.picker,self.selected='main',nil,nil
+                    return text,{choice='rest',healed=self.run.nodeFlow.restHealed,rewardText=text}
+                end)
+            end
+            if dream then
+                confirmLabel,backLabel='选择此牌','跳过卡牌'
+                skipRestReward=function()return restReward(0)end
+            elseif act1 then
+                confirmLabel=self.picker=='act1_forge' and '确认升级' or '确认献祭'
+            elseif living then
                 confirmLabel=self.picker=='living_grow' and '确认升级' or self.picker=='living_change' and '确认变换' or '确认移除'
             elseif self.picker == "upgrade" then
                 confirmLabel = "确认升级"
@@ -662,11 +728,16 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end
             confirmOk = selected ~= nil
             confirmFn = function()
+                if dream then return restReward(selected) end
                 local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
                 local name = instance and cardName(instance.cardId, instance.upgraded,instance.upgrades) or ""
-                local command = living and "chooseLivingWallCard" or self.picker == "upgrade" and (node.type=="event" and "upgradeEvent" or "upgrade")
+                local command = act1 and 'chooseAct1EventCard' or living and "chooseLivingWallCard" or self.picker == "upgrade" and (node.type=="event" and "upgradeEvent" or "upgrade")
                     or self.picker=='wing_purge' and 'purgeWing' or self.picker == "remove" and "removeCard" or "purifyEvent"
                 return commit(command, selected, function(before)
+                    if act1 then
+                        local text=self.run.nodeFlow.event.body or '选择完成。'
+                        return text,{text=text}
+                    end
                     if living then
                         local event=self.run.nodeFlow.event
                         local text
@@ -694,6 +765,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if backLabel then back:GetChild("label").text = backLabel state(back, true) end
         if confirmLabel then confirm:GetChild("label").text = confirmLabel state(confirm, confirmOk, false, true) end
         action("back", backLabel ~= nil, function()
+            if skipRestReward then return skipRestReward() end
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
         if active and node.roomKind == "boss_treasure" and self.opened then

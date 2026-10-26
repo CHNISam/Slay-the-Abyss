@@ -397,6 +397,42 @@
       "name": "灼烧",
       "textTemplate": "无法打出。回合结束时受到{endTurnDamage}点伤害。",
       "upgradeTextTemplate": "无法打出。回合结束时受到{endTurnDamage}点伤害。"
+    },
+    "injury": {
+      "name": "旧伤",
+      "textTemplate": "无法打出。"
+    },
+    "doubt": {
+      "name": "疑惧",
+      "textTemplate": "无法打出。回合结束时，获得{endTurnStatusAmount}回合虚弱。"
+    },
+    "pain": {
+      "name": "苦痛",
+      "textTemplate": "无法打出。在手牌中时，每打出一张牌便失去{onOtherCardHpLoss}点生命。"
+    },
+    "decay": {
+      "name": "衰朽",
+      "textTemplate": "无法打出。回合结束时受到{endTurnDamage}点伤害，可被格挡。"
+    },
+    "shame": {
+      "name": "羞惭",
+      "textTemplate": "无法打出。回合结束时，获得{endTurnStatusAmount}回合脆弱。"
+    },
+    "writhe": {
+      "name": "蜷缩",
+      "textTemplate": "固有。无法打出。"
+    },
+    "clumsy": {
+      "name": "笨拙",
+      "textTemplate": "虚无。无法打出。回合结束时消耗。"
+    },
+    "normality": {
+      "name": "平庸",
+      "textTemplate": "无法打出。在手牌中时，每回合最多打出{playLimit}张牌。"
+    },
+    "parasite": {
+      "name": "寄生",
+      "textTemplate": "无法打出。从牌组中永久移除时，最大生命值降低{onRemoveMaxHpLoss}点。"
     }
   }
 }

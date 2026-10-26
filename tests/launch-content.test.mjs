@@ -18,6 +18,35 @@ test('launch inventory names every formal source binding rather than the legacy 
 test('frozen inventory matches production data and actual Lua support pools', () => {
   assert.deepEqual(validateLaunchContent(fresh()), []);
 });
+
+test('expanded content records actual channels without granting natural acquisition', () => {
+  const manifest = fresh();
+  const definitions = name => JSON.parse(readFileSync(`data/${name}.json`, 'utf8'))[name];
+  assert.deepEqual(manifest.relics.map(row => row.id).sort(), definitions('relics').map(row => row.id).sort());
+  assert.equal(manifest.relics.filter(row => row.rarity === 'common').length, 33);
+  assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
+    definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
+  assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 6);
+  assert.equal(manifest.potions.length, 6);
+  assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
+    definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());
+});
+
+test('gate rejects promoting explicit events, SPECIAL relics and pending potions into natural pools', () => {
+  const event = fresh(); event.events.find(row => row.id === 'big_fish').channels = ['unknown_room:event'];
+  assert.ok(validateLaunchContent(event, { runtime: false }).some(error => error.includes('events/big_fish channels')));
+  for (const id of ['warped_tongs', 'spirit_poop', 'circlet']) {
+    const manifest = fresh(); manifest.relics.find(row => row.id === id).channels = ['treasure', 'shop_relic'];
+    assert.ok(validateLaunchContent(manifest, { runtime: false }).some(error => error.includes(`relics/${id} channels`)));
+  }
+  const potion = fresh(); delete potion.exclusions.potions.find(row => row.id === 'snecko_oil').acquisitionPending;
+  assert.ok(validateLaunchContent(potion, { runtime: false }).some(error => error.includes('pending potion exclusions')));
+  const curse = fresh(); delete curse.generatedCards.find(row => row.id === 'parasite').acquisitionPending;
+  assert.ok(validateLaunchContent(curse, { runtime: false }).some(error => error.includes('generatedCards/parasite: acquisition pending')));
+  const score = fresh(); delete score.relics.find(row => row.id === 'spirit_poop').naturalExecutionLimitation;
+  assert.ok(validateLaunchContent(score, { runtime: false }).some(error => error.includes('unwired total-score boundary')));
+});
 test('inventory gate rejects missing content, candidate admission and invented live completion', () => {
   const missing = fresh(); missing.cards.pop();
   assert.ok(validateLaunchContent(missing, { runtime: false }).some(error => error.includes('cards')));

@@ -20,6 +20,8 @@ for i,v in ipairs(vectors) do test('literal source vector '..i..' constructs fou
  -- Independent Combat constructor proves slot-to-HP/AI correspondence under
  -- CURRENT separate misc vs shared Combat stream. Not Java cross-stream order.
  local reference=C.new(Data,{seed=run.seed,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),hp=run.hp,gold=run.gold,deck=run.deck,enemies=v[2]})
+ same(Data.rules.player.startingRelics,{'burning_blood'})
+ reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
  H.sameRunCombat(run,reference)
 end) end
 
@@ -67,23 +69,51 @@ test('low-level explicit five-actor arrays retain capacity and never trigger gro
 end)
 
 local unchanged={
- cultist_solo={'cultist'},jaw_solo={'jaw_worm'},louse_pair={'red_louse','green_louse'},
- louse_trio={'red_louse','green_louse','red_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
+ cultist_solo={'cultist'},jaw_solo={'jaw_worm'},louse_pair={'red_louse','red_louse'},
+ louse_trio={'red_louse','red_louse','green_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
  large_acid={'acid_slime_l'},large_spike={'spike_slime_l'},looter_solo={'looter'},
  blue_slaver_solo={'blue_slaver'},red_slaver_solo={'red_slaver'},fungi_pair={'fungi_beast','fungi_beast'},
  wildlife={'jaw_worm','green_louse'},elite_nob={'gremlin_nob'},elite_lagavulin={'lagavulin'},
  elite_sentries={'sentry','sentry','sentry'},boss_guardian={'guardian'},small_slimes={'spike_slime_s','acid_slime_m'}
 }
-test('all other 17 encounters keep original slot order, construction and misc consumption',function()
+test('all other 17 encounters keep construction and their declared misc consumption',function()
  local n=0
  for _,e in ipairs(Data.enemies.encounters) do if e.id~='gremlin_gang' then
   n=n+1;local run=Run.new(Data,42);run.floor=e.minFloor
   local oldMisc=run.miscRng;local stable=freeze(oldMisc)
   assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchanged[e.id]));stable()
   if e.id=='small_slimes' then local wanted=R.cloneState(oldMisc);R.randomBoolean(wanted);same(run.miscRng,wanted)
+  elseif e.louseCount then local wanted=R.cloneState(oldMisc);for _=1,e.louseCount do R.randomBoolean(wanted) end;same(run.miscRng,wanted)
   else eq(run.miscRng,oldMisc) end
-  H.sameRunCombat(run,C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck}))
+  local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck})
+  same(Data.rules.player.startingRelics,{'burning_blood'})
+  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
+  H.sameRunCombat(run,reference)
  end end
  eq(n,17)
 end)
-H.finish(18,'GREMLIN_GANG_PASS')
+test('source-room Protect spends only the AI stream, including a singleton target',function()
+ -- GainBlockRandomMonsterAction.update uses aiRng.random(size-1). Independent
+ -- fixed-source Python integer interpretation (the existing wrapper fixture's
+ -- generator) gives room seed42: after 3 opening rolls, next roll88; after a
+ -- Protect draw, the following roll61. A singleton still consumes that draw.
+ for _,eligible in ipairs({2,1,0}) do
+  local run=Run.new(Data,41);local room=Run.roomStreams(run,1)
+  eq(room.seed,'42')
+  local s=C.new(Data,{seed=101,deck={},enemies={'shield_gremlin','mad_gremlin','sneaky_gremlin'},
+   roomSeed=room.seed,roomStreams=room})
+  eq(s.aiRng.counter,3)
+  if eligible<2 then s.enemies[3].hp=0 end
+  if eligible==0 then s.enemies[2].hp=0 end
+  local beforeSeed=s.seed
+  local hp,shuffle,cards=R.snapshot(s.monsterHpRng),R.snapshot(s.shuffleRng),R.snapshot(s.cardRandomRng)
+  C.applyEffects(s,s.enemies[1].intents[1].effects,s.enemies[1],s.player)
+  eq(s.aiRng.counter,eligible>0 and 4 or 3,'Protect AI draw count')
+  eq(s.seed,beforeSeed,'source Protect must not consume the legacy seed')
+  eq(s.enemies[eligible>0 and 2 or 1].block,7,'source-ordered recipient')
+  eq(s.enemies[3].block,0)
+  same(R.snapshot(s.monsterHpRng),hp);same(R.snapshot(s.shuffleRng),shuffle);same(R.snapshot(s.cardRandomRng),cards)
+  eq(R.randomInt(s.aiRng,99),eligible>0 and 61 or 88,'independent following AI roll')
+ end
+end)
+H.finish(19,'GREMLIN_GANG_PASS')

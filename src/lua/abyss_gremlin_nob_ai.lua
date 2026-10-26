@@ -1,5 +1,5 @@
 -- Act 1 / Ascension 0 only. Fixed-source evidence: TASK-15-gremlin-nob-ai.md.
-local Actors = require("abyss_actor")
+local CardActions = require("abyss_card_actions")
 local M = {}
 
 local function select(enemy, id)
@@ -28,11 +28,11 @@ end
 function M.beforeCard(state, card)
     if card.type ~= "skill" then return end
     -- AngerPower adds its Strength action to the top before queued card effects.
-    -- Reverse owner order matches repeated addToTop for multiple living owners.
-    for i = #state.enemies, 1, -1 do
-        local enemy = state.enemies[i]
+    -- Queue in owner order: repeated addToTop reverses execution. A later
+    -- hand Pain callback must precede this action and may interrupt it by death.
+    for _,enemy in ipairs(state.enemies) do
         if enemy.hp > 0 and (enemy.statuses.enrage or 0) > 0 then
-            Actors.status(state, enemy, "strength", enemy.statuses.enrage)
+            CardActions.enqueue(state,{op='gainStatus',status='strength',value=enemy.statuses.enrage},enemy,nil,nil,true)
         end
     end
 end

@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-10-25T01:18:55.620324+00:00",
+  "verdict": "v2 passes bounded independent review; ready for original PR owner handoff, not integration certification",
+  "baselineCommit": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+  "baselineActorGitBlob": "4b5124b0d476a1b8a12cb0ddd3c8935771220c1b",
+  "candidateVersion": 2,
+  "candidateActorGitBlob": "3975ba1c2cbd30aac65f6d228ead9a91eb5d82a0",
+  "candidateActorSha256": "47902041ef11643e0dde3a5a0c86aa9023e8de13942ae1c46ac7318960a9a992",
+  "patchSha256": "d300a88081dcc8961a6653f6058b686cda948a26aafeae835da4267fe6c76dea",
+  "changedProductionFiles": [
+    "src/lua/abyss_actor.lua"
+  ],
+  "distinctPassingScenarios": 24,
+  "additionalEquivalentAuthorProbe": 1,
+  "negativeControlKinds": 4,
+  "negativeControlExecutions": 5,
+  "finalChecks": [
+    {
+      "test": "lethal-incoming-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/final-v2-lethal-incoming-probe.log"
+    },
+    {
+      "test": "reactive-order-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/final-v2-reactive-order-probe.log"
+    },
+    {
+      "test": "death-guard-boundaries.lua",
+      "exitCode": 0,
+      "log": "evidence/final-v2-death-guard-boundaries.log"
+    },
+    {
+      "test": "independent-reentry-cleanup.lua",
+      "exitCode": 0,
+      "log": "evidence/final-v2-independent-reentry-cleanup.log"
+    },
+    {
+      "test": "missing-hp-callback-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/final-v2-missing-hp-callback-probe.log"
+    },
+    {
+      "test": "v2-missing-player-hp-probe.lua",
+      "exitCode": 0,
+      "log": "evidence/final-v2-v2-missing-player-hp-probe.log"
+    }
+  ],
+  "remote": {
+    "checkedAt": "2026-10-25T01:17:37.975Z",
+    "headSha": "9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf",
+    "updatedAt": "2026-10-25T01:09:23Z",
+    "headBranch": "feat/warrior75",
+    "baseActorBlob": "4b5124b0d476a1b8a12cb0ddd3c8935771220c1b",
+    "actorUrl": "https://github.com/CHNISam/Slay-the-Abyss/blob/feat/warrior75/src/lua/abyss_actor.lua",
+    "proposedGuardPresent": false
+  },
+  "scope": "native Lua5.4 targeted scenarios only; no full npm, 75-card sweep, Windows, CI, platform, user computer, user Codex, original production edits, Backlog writes, remote writes or merge",
+  "v1RejectedCompatibilityProbeRetained": true,
+  "sourceFreezesRecheckedUnchanged": true
+}

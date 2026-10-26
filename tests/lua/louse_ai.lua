@@ -1,6 +1,14 @@
 local F=dofile('tests/lua/support/louse_ai_fixture.lua')
 local C,Run,Data,AI=F.C,F.Run,F.Data,F.AI
 local eq,same,test,battle,observe=F.eq,F.same,F.test,F.battle,F.observe
+local R=require('abyss_sts_random')
+local function startRedGreenPair(run)
+ local original,calls=R.randomBoolean,0
+ R.randomBoolean=function(state) calls=calls+1;original(state);return calls==1 end
+ local called,ok,why=pcall(Run.startCombat,run,'louse_pair')
+ R.randomBoolean=original
+ assert(called,ok);eq(calls,2);assert(ok,why)
+end
 
 test('constructors sample HP then Bite per actor before all opening rolls, shuffle and Curl',function()
  local old,calls=C.random,{};local values={1,1,7,3,26,26,1,1,1,1,5};local ranges={6,3,7,3,100,100,4,3,2,5,5}
@@ -15,7 +23,7 @@ test('two same-color actors own isolated sampled intents and detached previews',
  end);C.random=old;assert(ok,why)
 end)
 test('real Run louse pair applies Red Strength3 and Green Weak2 before later Bites',function()
- observe(0,function()local r=Run.new(Data,42);assert(Run.startCombat(r,'louse_pair'));assert(Run.endTurn(r));local s=r.combat;eq(s.player.hp,80);eq(s.enemies[1].statuses.strength,3);eq(s.player.statuses.weak,2)
+ observe(0,function()local r=Run.new(Data,42);startRedGreenPair(r);assert(Run.endTurn(r));local s=r.combat;eq(s.player.hp,80);eq(s.enemies[1].statuses.strength,3);eq(s.player.statuses.weak,2)
   s.enemies[1].intentIndex=1;s.enemies[2].intentIndex=1;local total=s.enemies[1].intents[1].effects[1].value+3+s.enemies[2].intents[1].effects[1].value
   assert(Run.endTurn(r));eq(s.player.hp,80-total);eq(s.player.statuses.weak,1)
  end)

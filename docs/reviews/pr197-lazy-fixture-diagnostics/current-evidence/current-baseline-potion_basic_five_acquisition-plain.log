@@ -1,0 +1,3 @@
+ok basic five acquisition - pending acquisition keeps every old shop/drop result and RNG trajectory unchanged; clearing it admits five
+LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1
+exit=0 elapsed=0.14722022499995546

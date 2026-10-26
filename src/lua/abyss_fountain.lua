@@ -1,6 +1,7 @@
 -- FountainOfCurseRemoval / AbstractPlayer.isCursed at fixed 319009d5.
--- The event grants no maximum HP or healing. Regret has no removal effect;
--- future curses (notably Parasite) need their own permanent removal hooks.
+-- The event grants no maximum HP or healing; Parasite's own removal hook
+-- reduces maximum HP. The enclosing node command owns the transaction.
+local Curses=require('abyss_curses')
 local M={}
 local protected={Necronomicurse=true,CurseOfTheBell=true,AscendersBane=true,
     necronomicurse=true,curse_of_the_bell=true,ascenders_bane=true}
@@ -17,20 +18,21 @@ function M.isCursed(run)
     return false
 end
 function M.cleanse(run,flow)
-    local positions={}
+    local uids={}
     for i=#run.deck,1,-1 do
         local card=run.deck[i]
         local eligible,def=curse(run,card)
         if eligible and not card.inBottleFlame and not card.inBottleLightning then
             -- Do not silently skip an unsupported onRemoveFromMasterDeck effect.
-            if def.id~='regret' then return false,'event_content_unavailable' end
-            positions[#positions+1]=i
+            if not Curses.isImplemented(def) then return false,'event_content_unavailable' end
+            uids[#uids+1]=card.uid
         end
     end
     flow.event.removedUids={}
-    for _,i in ipairs(positions) do
-        flow.event.removedUids[#flow.event.removedUids+1]=run.deck[i].uid
-        table.remove(run.deck,i)
+    for _,uid in ipairs(uids) do
+        local ok,reason=require('abyss_run').removeCard(run,uid)
+        if not ok then return false,reason end
+        flow.event.removedUids[#flow.event.removedUids+1]=uid
     end
     return true
 end

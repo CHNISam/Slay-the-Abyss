@@ -1,0 +1,23 @@
+2026-10-24T19:02:51.9894232Z   location: 'C:\\actions-runner-slay-the-abyss\\_work\\Slay-the-Abyss\\Slay-the-Abyss\\tests\\deck-ui-layout.test.mjs:44:1'
+2026-10-24T19:02:51.9895847Z   code: 'ERR_ASSERTION'
+2026-10-24T19:02:51.9898032Z     file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/deck-ui-layout.test.mjs:46:68
+2026-10-24T19:02:51.9899571Z     walk (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/deck-ui-layout.test.mjs:7:30)
+2026-10-24T19:02:51.9904252Z     TestContext.<anonymous> (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/deck-ui-layout.test.mjs:46:42)
+2026-10-24T19:03:40.9388425Z   location: 'C:\\actions-runner-slay-the-abyss\\_work\\Slay-the-Abyss\\Slay-the-Abyss\\tests\\exit-ui-layout.test.mjs:61:1'
+2026-10-24T19:03:40.9390164Z   code: 'ERR_ASSERTION'
+2026-10-24T19:03:40.9392396Z     file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/exit-ui-layout.test.mjs:63:52
+2026-10-24T19:03:40.9393860Z     walk (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/exit-ui-layout.test.mjs:15:30)
+2026-10-24T19:03:40.9395752Z     TestContext.<anonymous> (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/exit-ui-layout.test.mjs:63:29)
+2026-10-24T19:07:11.6747489Z   location: 'C:\\actions-runner-slay-the-abyss\\_work\\Slay-the-Abyss\\Slay-the-Abyss\\tests\\map-ui-layout.test.mjs:97:2'
+2026-10-24T19:07:11.6749517Z   code: 'ERR_ASSERTION'
+2026-10-24T19:07:11.6752371Z     visit (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/map-ui-layout.test.mjs:100:5)
+2026-10-24T19:07:11.6754771Z     TestContext.<anonymous> (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/map-ui-layout.test.mjs:103:48)
+2026-10-24T19:08:45.4569442Z   location: 'C:\\actions-runner-slay-the-abyss\\_work\\Slay-the-Abyss\\Slay-the-Abyss\\tests\\ui-layout.test.mjs:6:1'
+2026-10-24T19:08:45.4570856Z   code: 'ERR_ASSERTION'
+2026-10-24T19:08:45.4573058Z     file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/ui-layout.test.mjs:7:51
+2026-10-24T19:08:45.4573879Z     walk (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/ui-layout.test.mjs:112:5)
+2026-10-24T19:08:45.4574786Z     TestContext.<anonymous> (file:///C:/actions-runner-slay-the-abyss/_work/Slay-the-Abyss/Slay-the-Abyss/tests/ui-layout.test.mjs:7:3)
+2026-10-24T19:08:48.6016669Z # tests 1286
+2026-10-24T19:08:48.6017228Z # pass 1163
+2026-10-24T19:08:48.6017466Z # fail 4
+2026-10-24T19:08:48.7844376Z ##[error]Process completed with exit code 1.

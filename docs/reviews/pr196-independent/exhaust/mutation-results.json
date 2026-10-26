@@ -1,0 +1,25 @@
+[
+  {
+    "mutation": "sentinel-bottom",
+    "exitCode": 1,
+    "failures": [
+      "FAIL Second Wind reverse snapshot exhausts each original nonattack before block and draw tails | .../shared/sta-exhaust-review-2024/exhaust-transactions.lua:11: value: expected 18, actual 16"
+    ]
+  },
+  {
+    "mutation": "skip-dark-embrace",
+    "exitCode": 1,
+    "failures": [
+      "FAIL Pact empty draw waits for disposal; one Sentinel/DE tail redraws that same Pact UID | .../shared/sta-exhaust-review-2024/exhaust-transactions.lua:11: value: expected 1, actual 0",
+      "FAIL Second Wind reverse snapshot exhausts each original nonattack before block and draw tails | .../shared/sta-exhaust-review-2024/exhaust-transactions.lua:11: value: expected 4, actual 1",
+      "FAIL Run selection commits Sentinel and exhaust hooks exactly once; stale replay is immutable | .../shared/sta-exhaust-review-2024/exhaust-transactions.lua:11: value: expected 4, actual 3"
+    ]
+  },
+  {
+    "mutation": "omit-choice-rollback",
+    "exitCode": 1,
+    "failures": [
+      "FAIL failed resumed exhaust transaction restores aliases/RNG/piles and retries once after boundary repair | .../shared/sta-exhaust-review-2024/exhaust-transactions.lua:11: added table/key 3: expected nil, actual table: 0x29e9c800"
+    ]
+  }
+]

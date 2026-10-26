@@ -10,11 +10,14 @@ local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
+    normality_limit = "平庸：本回合已打出三张牌",
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
     empty_potion_slot = "此药水已使用", invalid_potion_slot = "请选择有效药水",
+    smoke_not_allowed = '此战斗不能使用烟雾弹',
     effect_overflow = "当前状态已达上限", potion_slots_full = "药水槽已满，请先丢弃旧药水。",
     potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "遗物阻止获得药水。" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
+local temporaryOps = {gainTemporaryStrength=true, gainTemporaryDexterity=true}
 local stanceNames={Neutral="无姿态",Calm="平静",Wrath="愤怒",Divinity="神格"}
 local orbNames={lightning="闪电",frost="冰霜",dark="黑暗",plasma="等离子"}
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
@@ -36,9 +39,12 @@ local function statusDetail(entry, rules, actor)
     local n, c, id, always = number(entry.amount), rules.combat, entry.id, "本场战斗"
     if id == "strength" then
         local t = entry.temporary or 0
-        return "普通攻击每段伤害 " .. signed(entry.amount), t ~= 0 and t == entry.amount and "本回合" or always,
-            t ~= 0 and "其中 " .. number(t) .. " 层在回合结束时移除" or "不影响火焰药水的固定伤害"
-    elseif id == "dexterity" then return "卡牌获得的格挡 " .. signed(entry.amount), always, "不影响固定格挡药水"
+        return "普通攻击每段伤害 " .. signed(entry.amount), t ~= 0 and (t == entry.amount or entry.amount == 0) and "本回合" or always,
+            t ~= 0 and "回合结束时失去 " .. number(t) .. " 层力量" or "不影响火焰药水的固定伤害"
+    elseif id == "dexterity" then
+        local t = entry.temporary or 0
+        return "卡牌获得的格挡 " .. signed(entry.amount), t ~= 0 and (t == entry.amount or entry.amount == 0) and "本回合" or always,
+            t ~= 0 and "回合结束时失去 " .. number(t) .. " 层敏捷" or "不影响固定格挡药水"
     elseif id == "vulnerable" then return "受到的普通攻击伤害 +" .. number(c.vulnerablePercent - 100) .. "%", "剩余 " .. n .. " 回合", "数字表示持续回合；不放大中毒，轮末递减"
     elseif id == "weak" then return "造成的普通攻击伤害 -" .. number(100 - c.weakPercent) .. "%", "剩余 " .. n .. " 回合", "数字表示持续回合；不减少中毒，轮末递减"
     elseif id == "frail" then return "卡牌获得的格挡 -" .. number(100 - c.frailPercent) .. "%", "剩余 " .. n .. " 回合", "只影响卡牌格挡；不影响固定格挡药水，轮末递减"
@@ -49,7 +55,12 @@ local function statusDetail(entry, rules, actor)
     elseif id == "artifact" then return "抵挡接下来 " .. n .. " 次减益效果", "剩余 " .. n .. " 次", "每抵挡一次减 1；不抵挡塞入的状态牌"
     elseif id == "entangled" then return "本回合不能打出攻击牌", "本回合", "你的回合结束时移除"
     elseif id == "barricade" then return "回合开始时格挡不会清空", always
-    elseif id == "ritual" then return "每个敌方回合结束时，获得 " .. n .. " 层力量", always, "获得它的那一轮不触发"
+    elseif id == "ritual" then
+        if actor.id == 'player' then return "每个自己的回合结束时，获得 " .. n .. " 层力量", always, "获得它的当回合即可触发" end
+        return "每个敌方回合结束时，获得 " .. n .. " 层力量", always, "获得它的那一轮不触发"
+    elseif id == 'duplication' then return '接下来的 '..n..' 张牌额外使用一次',always,'每次消耗1层；轮末另减少1层；复制不会再次触发复制'
+    elseif id == 'plated_armor' then return "回合结束时获得 " .. n .. " 点固定格挡", always, "受到有来源的普通攻击生命伤害时失去1层"
+    elseif id == 'metallicize' then return "回合结束时获得 " .. n .. " 点固定格挡", always
     elseif id == "enrage" then return "你每打出一张技能牌，它获得 " .. n .. " 层力量", always
     elseif id == "angry" then return "每次被攻击并损失生命，获得 " .. n .. " 层力量", always, "药水、中毒和荆棘的伤害不触发"
     elseif id == "curl_up" then return "首次被攻击并损失生命后，获得 " .. n .. " 点格挡", "仅一次", "在那次攻击结束时生效"
@@ -116,11 +127,26 @@ end
 local function potionText(item, battle, expanded)
     local effects = {}
     for _, effect in ipairs(item.effects) do
-        local value = number(effect.value)
+        local value = number(effect.value or 0)
         if effect.op == "damage" then effects[#effects + 1] = expanded and "对选中敌人造成 " .. value .. " 点固定伤害，先抵消格挡；不受力量、虚弱或易伤修正" or "单敌·固定" .. value
+        elseif effect.op == 'damageAll' then effects[#effects+1] = expanded and '对所有敌人造成 '..value..' 点伤害；不受力量、虚弱或易伤影响' or '全敌·伤害'..value
         elseif effect.op == "block" then effects[#effects + 1] = expanded and "立即使自己获得 " .. value .. " 点固定格挡；不受敏捷或脆弱修正" or "自用·格挡" .. value
         elseif effect.op == "energy" then effects[#effects + 1] = expanded and "立即获得 " .. value .. " 点能量，仅本回合可用" or "自用·能量" .. value
         elseif effect.op == "draw" then effects[#effects + 1] = "抽牌 " .. value
+        elseif effect.op == 'upgradeHand' then effects[#effects+1]='升级全部可升级手牌（仅本场战斗）'
+        elseif effect.op == 'healPercent' then effects[#effects+1]='回复最大生命'..value..'%的生命'
+        elseif effect.op == 'increaseMaxHp' then effects[#effects+1]='最大生命+'..value..'，并回复'..value..'生命'
+        elseif effect.op == 'exhaustMany' then effects[#effects+1]='选择任意张手牌消耗（可不选）'
+        elseif effect.op == 'discardRedraw' then effects[#effects+1]='选择任意张手牌丢弃，再抽等量牌'
+        elseif effect.op == 'discardToHand' then effects[#effects+1]='选择'..value..'张弃牌回手，本回合费用为0'
+        elseif effect.op == 'randomizeHandCost' then effects[#effects+1]='手牌战斗费用随机改为0至3（不改变X费和不可打出牌）'
+        elseif effect.op == 'escape' then effects[#effects+1]='逃离战斗，不获得奖励（Boss或背袭敌人房间不可用）'
+        elseif effect.op == 'playTopCards' then effects[#effects+1]='免费打出抽牌堆顶'..value..'张牌，目标随机（不额外消耗）'
+        elseif temporaryOps[effect.op] then
+            local status = assert(battle.catalog.statuses[effect.status])
+            effects[#effects+1] = expanded and "先获得 " .. value .. " 层" .. status.name
+                .. "，再施加回合结束时失去 " .. value .. " 层的减益；人工制品可抵挡减益"
+                or status.name .. "+" .. value .. "·回合末-" .. value
         elseif effect.op == "gainStatus" or effect.op == "applyStatus" then
             local status = assert(battle.catalog.statuses[effect.status])
             effects[#effects + 1] = (effect.op == "applyStatus" and (expanded and "对选中敌人施加 " or "单敌·") or (expanded and "使自己获得 " or "自用·"))
@@ -243,8 +269,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name)
-        local parent = (name:match("^potionHelp%d$") or name == "potionReward") and stage:GetChild("potionHelp") or stage
-        return assert(parent:GetChild(name), "missing UI control " .. name)
+        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward'
+        local found=(nested and stage:GetChild('potionHelp') or stage):GetChild(name)
+        return assert(found, "missing UI control " .. name)
     end
     local function show(name, value) child(name):SetVisible(value == true) end
     local function label(name, value) child(name).text = value end
@@ -597,7 +624,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     local id = effect.status or effect.op == "gainTemporaryStrength" and "strength"
                     local status = id and battle.catalog.statuses[id]
                     if status then
-                        local row = statusRow({id = id, name = status.name, amount = effect.value, temporary = effect.op == "gainTemporaryStrength" and effect.value or 0,
+                        local row = statusRow({id = id, name = status.name, amount = effect.value, temporary = temporaryOps[effect.op] and effect.value or 0,
                             kind = status.kind, description = status.description, stack = status.stack})
                         -- A keyword is not on anyone yet: say how long it would last, not what remains.
                         if status.stack == "duration" then row.tag = "持续 " .. number(effect.value) .. " 回合" end
@@ -885,7 +912,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     function self:potionHelpSpec(slot)
         local run = self.run
-        if not run or run.phase ~= "combat" or not run.potions[slot] then return end
+        if not run or run.phase ~= "combat" or not run.potions[slot] or slot>Run.potionCapacity(run) then return end
         return {kind="potion",index=0,slot=slot,potionId=run.potions[slot],inventory=run.potions}
     end
     local function placeCard(box, count, index, selected)
@@ -997,8 +1024,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         -- never copy the event journal once per animation step.
         local potions = self.busy and self.potionViewCache or fighting and Run.potionView(run) or {}
         if not self.busy then self.potionViewCache = potions end
+        local potionCapacity=run and Run.potionCapacity(run) or 0
         self.potionTargetAvailable = false
-        for slot = 1, data.rules.player.potionSlots do
+        for slot = 1, potionCapacity do
             local item = potions[slot]
             if active and item and item.canUse and item.needTarget then self.potionTargetAvailable = true break end
         end
@@ -1039,7 +1067,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 or (definition and potionText(definition,run.combat):gsub("\n", " · ") .. " · ×1" or "药水 ×1")
             button("claimPotion", self.active and pendingPotion == true and not potionReward.unavailable, false, detail)
             label("potionReward", potionReward.unavailable and "该稀有度药水尚未实装；可继续前往地图。"
-                or Run.potionCount(run)>=run.data.rules.player.potionSlots
+                or Run.potionCount(run)>=Run.potionCapacity(run)
                     and "药水槽已满；点顶部药水入口丢弃旧药水后，再点击奖励领取。" or "")
         end
         show("rewardStage", picking)
@@ -1264,19 +1292,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         -- move slot two underneath a queued second click on the same button.
         if fighting and not self.busy then
             self.potionBattle, self.potionRun, self.potionSlots = battle, run, {}
-            for slot = 1, data.rules.player.potionSlots do
+            for slot = 1, potionCapacity do
                 local id = run.potions[slot]
                 if id then self.potionSlots[slot] = {slot = slot, id = id} end
             end
         end
-        for i = 1, 3 do
-            show("potion" .. i, fighting)
+        for i = 1, L.battlePotions.count do
+            local visible=fighting and i<=potionCapacity
+            show("potion" .. i, visible)
             local binding = self.potionSlots and self.potionSlots[i]
             local item = binding and potions[binding.slot]
             if item and item.id ~= binding.id then item = nil end
-            button("potion" .. i, active and item and item.canUse, false, item and potionText(item, battle) or "空药水槽")
-            show("potionHelp" .. i, fighting)
-            button("potionHelp" .. i, active and item ~= nil, false, "说明")
+            button("potion" .. i, visible and active and item and item.canUse, false, item and potionText(item, battle) or "空药水槽")
+            show("potionHelp" .. i, visible)
+            button("potionHelp" .. i, visible and active and item ~= nil, false, "说明")
         end
     end
     local function refresh(changed)
@@ -1419,7 +1448,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if run.phase == "reward" then
             if self.rewardScreen ~= "cards" then return end
             local ok,reason = Run.claimCardReward(run, index)
-            if ok then rewardScreen("list") end
+            if ok then
+                -- Claiming commits a new rewards object for the same encounter.
+                -- Adopt this known result before rendering its local feedback;
+                -- unrelated replacement rewards still reset the page normally.
+                self.rewardOwner, self.rewardRun = run.rewards, run
+                rewardScreen("list")
+            end
             notice(ok and "卡牌已加入牌组。" or reasons[reason] or "当前无法领取奖励。")
             refresh(ok) return
         elseif run.phase == "combat" then
@@ -1714,7 +1749,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             refresh(ok)
         elseif not options.embedded and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end
     end)
-    for i = 1, 3 do
+    for i = 1, L.battlePotions.count do
         local slot, control, input = i, child("potion" .. i), {}
         potionInputs[i] = input
         control:AddCursorEventListener(clickEvent, function(event)
@@ -1994,7 +2029,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local index=slot
         bindHelp(child("card"..slot):GetChild("hit"),function() return self:cardHelpSpec(index) end,false,slot)
     end
-    for slot=1,3 do
+    for slot=1,L.battlePotions.count do
         local index=slot
         bindHelp(child("potionHelp"..slot),function() return self:potionHelpSpec(index) end,true)
         bindHelp(child("potion"..slot),function() return self:potionHelpSpec(index) end,false)

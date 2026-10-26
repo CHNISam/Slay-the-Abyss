@@ -50,10 +50,16 @@ test('P12 legacy and pending potions retain explicit independent target policies
     local expected={fire_potion='enemy_one',block_potion='self',strength_potion='self',
         dexterity_potion='self',energy_potion='self',poison_potion='enemy_one',regen_potion='self',
         swift_potion='self',weak_potion='enemy_one',fear_potion='enemy_one',
-        ancient_potion='self',liquid_bronze='self'}
+        ancient_potion='self',liquid_bronze='self',duplication_potion='self',distilled_chaos='self',
+        smoke_bomb='self',snecko_oil='self',elixir='self',gamblers_brew='self',liquid_memories='self',
+        blood_potion='self',fruit_juice='self',blessing_of_the_forge='self',explosive_potion='enemy_all',
+        heart_of_iron='self',essence_of_steel='self',cultist_potion='self',flex_potion='self',speed_potion='self'}
     local pending={swift_potion=true,weak_potion=true,fear_potion=true,
-        ancient_potion=true,liquid_bronze=true}
-    local seen,count,staged={},{self=0,enemy_one=0},{self=0,enemy_one=0}
+        ancient_potion=true,liquid_bronze=true,duplication_potion=true,distilled_chaos=true,
+        smoke_bomb=true,snecko_oil=true,elixir=true,gamblers_brew=true,liquid_memories=true,
+        blood_potion=true,fruit_juice=true,blessing_of_the_forge=true,explosive_potion=true,
+        heart_of_iron=true,essence_of_steel=true,cultist_potion=true,flex_potion=true,speed_potion=true}
+    local seen,count,staged={},{self=0,enemy_one=0},{self=0,enemy_one=0,enemy_all=0}
     for _,item in ipairs(H.F.Data.potions.potions) do
         assert(not seen[item.id],'duplicate potion definition: '..item.id);seen[item.id]=true
         assert(expected[item.id] and item.targetPolicy==expected[item.id],
@@ -64,6 +70,6 @@ test('P12 legacy and pending potions retain explicit independent target policies
     end
     for id in pairs(expected) do assert(seen[id],'missing potion definition: '..id) end
     assert(count.self==5 and count.enemy_one==2)
-    assert(staged.self==3 and staged.enemy_one==2)
+    assert(staged.self==18 and staged.enemy_one==2 and staged.enemy_all==1)
 end)
 finish()

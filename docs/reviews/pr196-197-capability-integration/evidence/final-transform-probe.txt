@@ -1,0 +1,3 @@
+TRANSFORM clash: full72 slot=12; original gate=event_content_unavailable, unchanged deck/UID/RNG/references; single-card diagnostic succeeds, counter 7->8
+TRANSFORM whirlwind: full72 slot=40; original gate=event_content_unavailable, unchanged deck/UID/RNG/references; single-card diagnostic succeeds, counter 7->8
+PASS: 2 full-pool transform counterexamples reproduced with atomic original refusal. Explicit event fixture, not normal event probability or platform proof.

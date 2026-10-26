@@ -12,6 +12,18 @@ import { candidateScriptFiles } from './native-candidate-scripts.mjs';
 
 const categories = ['cards', 'generatedCards', 'enemies', 'encounters', 'events', 'relics', 'potions', 'bosses'];
 const ids = rows => rows.map(row => row.id).sort();
+const explicitEvents = {
+  living_wall: 'Living Wall', fountain: 'Fountain of Cleansing', sssserpent: 'Liars Game',
+  big_fish: 'Big Fish', accursed_blacksmith: 'Accursed Blacksmith', bonfire: 'Bonfire Elementals',
+};
+const curseEvents = {
+  regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
+  doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
+};
+const specialRelicEvents = {
+  warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
+  spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer'],
+};
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const runtimeModules = Object.entries({
   abyss_nodes: ['abyss_run'], abyss_run: ['abyss_encounter_queue', 'abyss_room_encounters'],
@@ -152,19 +164,23 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   for (const card of manifest.generatedCards) {
     const definition = data.cards.cards.find(row => row.id === card.id);
     check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
-    const channels = card.type === 'curse' ? ['event:golden_shrine:desecrate']
+    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []), 'explicit:Run.obtainCard']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
         .map(enemy => `enemy:${enemy.id}:intent`),
         ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
           .map(c=>`card:${c.id}:effect`)];
     same(card.channels, channels, `generatedCards/${card.id} channels`);
+    if (card.type === 'curse') {
+      check(Boolean(card.acquisitionPending) === !Boolean(curseEvents[card.id]), `generatedCards/${card.id}: acquisition pending drift`);
+      if (card.acquisitionPending) check(Boolean(card.naturalAcquisitionLimitation?.includes('transformContext')), `generatedCards/${card.id}: missing unwired acquisition boundary`);
+    }
   }
   same(ids(manifest.enemies), ids(data.enemies.enemies), 'enemy definitions');
   check(manifest.legacyData?.role === 'explicit-id-development-replay-not-formal-source-pool', 'legacyData must not claim formal admission');
   same(ids(manifest.legacyData.encounters), ids(data.enemies.encounters), 'legacyData.encounters');
   for (const encounter of manifest.legacyData.encounters) {
     const definition = data.enemies.encounters.find(row => row.id === encounter.id);
-    for (const field of ['tier', 'minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount']) same(encounter[field], definition?.[field], `legacyData.encounters/${encounter.id}/${field}`);
+    for (const field of ['tier', 'minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount', 'lousePool', 'louseCount']) same(encounter[field], definition?.[field], `legacyData.encounters/${encounter.id}/${field}`);
     same(encounter.channels, ['explicit:Run.startCombat'], `legacyData.encounters/${encounter.id} channels`);
   }
   let actualRuntime;
@@ -198,7 +214,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const channels = binding.tier === 'normal' ? ['map:combat', 'unknown_room:monster']
       : binding.tier === 'elite' ? ['map:elite'] : ['map:boss:floor16'];
     same(encounter.channels, channels, `${label} channels`);
-    check(!['minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount'].some(field => Object.hasOwn(encounter, field)),
+    check(!['minFloor', 'maxFloor', 'enemies', 'enemiesOnTrue', 'gremlinPool', 'gremlinCount', 'lousePool', 'louseCount'].some(field => Object.hasOwn(encounter, field)),
       `${label}: legacy fields cannot describe formal queue admission`);
     try { same(sortedTraces(formationTraces(encounter.formation)), sortedTraces(binding.traces), `${label}/formation`); }
     catch (error) { errors.push(`${label}/formation: invalid rule ${error.message}`); }
@@ -212,6 +228,8 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   }
   same(ids(manifest.relics), ids(data.relics.relics), 'relic definitions');
   same(ids([...manifest.potions, ...manifest.exclusions.potions]), ids(data.potions.potions), 'potions including class exclusions');
+  same(ids(manifest.potions), ids(data.potions.potions.filter(row => row.id !== 'poison_potion' && !row.acquisitionPending)), 'obtainable potion predicates');
+  same(ids(manifest.exclusions.potions.filter(row => row.acquisitionPending)), ids(data.potions.potions.filter(row => row.acquisitionPending)), 'pending potion exclusions');
   for (const potion of manifest.potions) {
     const definition = data.potions.potions.find(row => row.id === potion.id);
     check(potion.rarity === definition?.rarity, `potions/${potion.id}: rarity drift`);
@@ -223,8 +241,12 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const channels = definition?.rarity === 'starter' ? ['starting_relic']
       : definition?.rarity === 'boss' ? ['boss_treasure:floor17']
       : definition?.rarity === 'shop' ? ['shop_relic']
+      : definition?.rarity === 'special' ? specialRelicEvents[relic.id]
       : ['treasure', ...(['courier', 'smiling_mask'].includes(relic.id) ? [] : ['shop_relic'])];
     same(relic.channels, channels, `relics/${relic.id} channels`);
+    if (definition?.sourceId) check(relic.sourceId === definition.sourceId, `relics/${relic.id}: source ID drift`);
+    if (definition?.rarity === 'special') check(Boolean(relic.naturalAcquisitionLimitation), `relics/${relic.id}: missing explicit-only boundary`);
+    if (relic.id === 'spirit_poop') check(Boolean(relic.naturalExecutionLimitation?.includes('total-score')), 'relics/spirit_poop: unwired total-score boundary omitted');
     if (definition?.rarity === 'boss') check(Boolean(relic.naturalExecutionLimitation), `relics/${relic.id}: final-floor effect boundary omitted`);
   }
   same(ids(manifest.bosses), ids(data.enemies.enemies.filter(row => row.tier === 'boss')), 'Boss definitions');
@@ -236,7 +258,16 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(boss.rewardDestination === 'boss_treasure:floor17', `bosses/${boss.id}: reward destination drift`);
   }
   check(data.rules.events.poolMode === 'restricted-seven', 'Production event mode changed: review launch scope');
-  for (const event of manifest.events) check(event.poolMode === data.rules.events.poolMode, `events/${event.id}: pool mode drift`);
+  same(ids(manifest.events.filter(row => row.poolMode === 'explicit-only')), Object.keys(explicitEvents).sort(), 'explicit event routes');
+  for (const event of manifest.events) {
+    const explicit = Object.hasOwn(explicitEvents, event.id);
+    check(event.poolMode === (explicit ? 'explicit-only' : data.rules.events.poolMode), `events/${event.id}: pool mode drift`);
+    same(event.channels, explicit ? ['explicit:Nodes.enter'] : ['unknown_room:event'], `events/${event.id} channels`);
+    if (explicit) {
+      check(event.originalId === explicitEvents[event.id], `events/${event.id}: source ID drift`);
+      check(Boolean(event.naturalAcquisitionLimitation), `events/${event.id}: missing explicit-only boundary`);
+    }
+  }
   for (const category of ['cards', 'potions', 'events']) for (const row of manifest.exclusions[category]) {
     check(!manifest[category].some(item => item.id === row.id), `${category}/${row.id}: excluded content admitted`);
     check(Boolean(row.reason), `${category}/${row.id}: missing exclusion reason`);
@@ -259,6 +290,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     const manifest = json(process.argv[2] ?? 'data/release/launch-content.json');
     const errors = validateLaunchContent(manifest);
     if (errors.length) throw new Error(errors.join('\n'));
-    console.log(`Launch inventory matches formal runtime: ${manifest.cards.length} class cards, ${manifest.enemies.length} enemies, ${manifest.encounters.length} source bindings (17 queue sources + Guardian), ${manifest.legacyData.encounters.length} separately retained legacy explicit-ID entries, ${manifest.events.length} events, ${manifest.relics.length} relics, ${manifest.potions.length} obtainable potions, ${manifest.bosses.length} Boss. Per-item platform/live acceptance remains pending.`);
+    console.log(`Launch inventory matches formal runtime: ${manifest.cards.length} class cards, ${manifest.generatedCards.length} status/curse definitions, ${manifest.enemies.length} enemies, ${manifest.encounters.length} source bindings (17 queue sources + Guardian), ${manifest.legacyData.encounters.length} separately retained legacy explicit-ID entries, ${manifest.events.filter(row => row.poolMode !== 'explicit-only').length} default-pool events + ${manifest.events.filter(row => row.poolMode === 'explicit-only').length} explicit-only routes, ${manifest.relics.length} relic definitions, ${manifest.potions.length} obtainable potions + ${manifest.exclusions.potions.filter(row => row.acquisitionPending).length} acquisition-pending effects, ${manifest.bosses.length} Boss. Recorded acquisition/effect gaps and per-item platform/live acceptance remain pending.`);
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

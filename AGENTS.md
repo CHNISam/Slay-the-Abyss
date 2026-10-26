@@ -1,5 +1,7 @@
 # 项目协作规则
 
+工程检查与证据合同见 `docs/ENGINEERING.md`。新增核心 Lua 模块须在 `config/architecture.json` 分类；`npm run check` 包含架构、固定版本 Luacheck 和四项关键语义变异。候选构建与实机验收仍分层记录；当前 SHA 的 Quality 全部作业成功才可合并。工程工具不得覆盖既有构建的脚本清理、结算图复用、BGM参数或实机输入窗口规则。
+
 <!-- BACKLOG.MD GUIDELINES START -->
 <!-- backlog.md-instructions-version: 1.53.0 -->
 <CRITICAL_INSTRUCTION>
@@ -45,6 +47,12 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - **工具链唯一事实来源：`docs/TOOLCHAIN.md`**（官方客户端 / 千星沙箱 / miliastra MCP 的路径、版本、环境变量、调用顺序）。
 - 千星奇域开发技能：`.codebuddy/skills/miliastra-wonderland/SKILL.md`。
 - 用了 miliastra MCP 时：先读资源 `miliastra://workflow` 和 `miliastra://platform-rules`；`MILIASTRA_ALLOW_LIVE_WRITE` 保持 `0`；编译通过 / 写进存档 / 游戏里验证过要分开报告；发布由人完成。
+
+## 桌面输入与实机测试窗口
+
+- 任何可能移动鼠标、输入键盘、抢焦点或切前台的操作（包括启动/激活客户端或沙箱、自动导入和实机试玩），都须先向用户说明应用、目的及预计占用时长，等待用户明确让出本轮操作窗口。构建/测试/独占源码写入授权、历史实测授权、任务claim或用户沉默均不代表桌面输入授权；MILIASTRA_ALLOW_LIVE_WRITE=0也不能代替此协调。
+- 同一已明确授权的窗口内按约定继续，不逐次点击重复询问。窗口结束、用户收回控制或检测到用户正在操作时，立即停止输入与前台切换，并停掉会自动重试或后台触发输入的流程；再次占用先重新协调。焦点失败后不得反复强制激活。
+- 桌面操作由一个已约定的执行者串行负责；子代理与自动测试同样遵守，不能自行抢占。没有输入窗口时继续离线代码、构建、静态检查和候选审计；实机缺项如实保留。测试具体流程见docs/P0-SMOKE.md。
 
 ## Approved Art and UI Baseline
 

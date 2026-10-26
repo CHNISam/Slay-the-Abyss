@@ -20,3 +20,8 @@
 - [ ] Backlog task status updated
 
 ## Screenshots / logs
+
+<!-- Source/base/head, fresh command results and evidence paths. For candidate/UI
+claims: current receipt/run and actual human review scope. For integration:
+check + presentation + engineering-posix, actual checkout identity, traceable
+independent review. Offline PASS does not imply official import or gameplay PASS. -->

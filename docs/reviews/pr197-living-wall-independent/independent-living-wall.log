@@ -1,0 +1,10 @@
+PASS all three direct UID commands reject before choice locking without any reference writes
+PASS transforming middle duplicate preserves sibling identities and appends fresh UID only
+PASS same source identity is removed before single bounded draw, not rerolled
+PASS native unavailable transform retries are atomic and correct content arrival recovers same locked choice
+PASS native second-page duplicate selection follows UID across reordering rather than position
+PASS native stale Grow selection cannot upgrade another UID after selected card becomes upgraded
+PASS hidden native panel refuses old confirm and allows the same selected UID on reopening
+PASS new UI instance restores locked Grow without replaying option and upgrades once
+PASS pointer confirmation from previous render cannot consume rebound or recovered action
+INDEPENDENT_LIVING_WALL 9 tests, 0 failed

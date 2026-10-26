@@ -71,6 +71,26 @@ test('Lua runner propagates failures and enforces finite timeout', () => tempora
   });
 }));
 
+test('full relic source catalog is deployed and protected as an authoring input', () => temporary(directory => {
+  const data = loadContent('data');
+  assert.equal(data.relicSource.queues.common.length, 33);
+  assert.equal(data.relicSource.queues.boss.length, 22);
+  for (const file of contentFiles) writeFileSync(join(directory, `${file}.json`), JSON.stringify(data[file]));
+  mkdirSync(join(directory, 'catalogs'));
+  const catalog = join(directory, 'catalogs/sts1-relic-queues.json');
+  const text = JSON.stringify(data.relicSource);
+  writeFileSync(catalog, text);
+  assert.throws(() => buildLuaData(directory, catalog), /must not overwrite an input/);
+  assert.equal(readFileSync(catalog, 'utf8'), text);
+  const malformed = structuredClone(data.relicSource);
+  malformed.queues.common[0] = malformed.queues.common[1];
+  writeFileSync(catalog, JSON.stringify(malformed));
+  const output = join(directory, 'out.lua');
+  writeFileSync(output, 'prior output');
+  assert.throws(() => buildLuaData(directory, output), /duplicate source ID/);
+  assert.equal(readFileSync(output, 'utf8'), 'prior output');
+}));
+
 test('Lua suite discovers every file in order and continues after failure with nonzero exit', () => temporary(directory => {
   const scripts = join(directory, 'tests/lua');
   mkdirSync(scripts, { recursive: true });

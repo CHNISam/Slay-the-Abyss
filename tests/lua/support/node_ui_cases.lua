@@ -258,7 +258,7 @@ test("removal service shows shortfall and empty-deck diagnostic without opening 
     assert(get("notice").text == "金币不足：需要 " .. price .. "，还差 " .. (price - 10))
     assert(ui.merchant.current.kind == "poor")
     local single, singleGet, singleClick = setup("shop", nil, function(run) run.deck = {} run.gold = 10000 end)
-    assert(singleGet("shopView/removal").children.description.text == "牌组为空")
+    assert(singleGet("shopView/removal").children.description.text == "没有可移除的卡牌")
     local before = Combat.copy(single.run)
     assert(not singleClick("shopView/removal")) same(single.run, before)
 end)

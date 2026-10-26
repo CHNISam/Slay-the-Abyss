@@ -1,5 +1,9 @@
 # 交接说明
 
+2026-10-26 按用户要求基于远端现有移植实现尽快合并：重新拉取确认develop最新2291de4，PR206复用该完整战士与四职业基础，并保留既有事件/库存/美术工具整合。后续扩写的完整职业牌、无色牌和Neow尚有全量验收缺口，完整保存在本地archive/source-port-expanded-20261026（9af01bacfe1e0954246f35c03395b14003a10646）及本树build/source-port-expanded-20261026.bundle，原工作和失败证据未删除。本次合并不包含该未完扩展，不勾选完整300牌、Neow或平台验收。当前SHA CI与实际合并结果以PR206为准。
+
+2026-10-25统一集成：复用[PR206](https://github.com/CHNISam/Slay-the-Abyss/pull/206)整合事件/库存、PR208的41档美术样板、PR202研究、工程门禁及独立颜色/药水回归。正式source formation、完整75卡、初代PC A0和美术方向保留；原53 UI用例及72转换槽仅分片，已补跨会话交接与到期保护。源码取舍、固定来源、7份脏树和stash的保全/清理规则见[统一收口](INTEGRATION-CLOSEOUT-20261025.md)。当前HEAD完整CI、实际合并和归档清理以PR及本机收口记录为准；以下为各轮历史快照。本轮没有官方导入、实机或发布，旧162dcfb候选不认证新组合。
+
 四职业整合收口：保留生产75战士和显式实验66/61/56/55，完整本地check退出0（JS1368/Lua345/Python22，714输入hash未变）。交接入口 [四职业卡牌整合](CLASS_CARD_HANDOFF.md)，未接模块已归档docs/drafts/class-final；四职业完整300及实机验收仍未勾选。
 
 2026-10-25 M3真实提交抓到TASK-55 hook环境缺陷：继承的GIT_INDEX_FILE使跨树来源核对误读当前暂存区，六源完整快照实际未变。修复只净化来源Git子进程的本地上下文，保留父进程与远端认证；真实hook提交/来源不变及真漂移、错session拒绝回归已通过。当前SHA完整CI及合入仍须核对。M3暂存成果保留在m3-serial-integration，最终阶段未推进；旧树只读不清理，离线候选仅写独立产物。证据见[evidence/task-claim-validation-20261025.json](evidence/task-claim-validation-20261025.json)。

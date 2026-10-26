@@ -1,0 +1,8 @@
+ok 1 - canonical signed64 strings retain the constructor acceptance set
+ok 2 - invalid inputs retain exact strict rejection reasons and do not invoke metamethods
+ok 3 - number normalization and floor validation keep their original boundaries
+ok 4 - decimal increments and long wrap retain literal boundary results
+ok 5 - existing and new wrapper overload boundaries remain strict
+ok 6 - validation and identity derivation never call either RNG constructor
+ok 7 - RNG initialization and first draw retain fixed independent source vectors
+RUN_SEED_VALIDATION_PASS 7

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-25 03:38'
+updated_date: '2026-10-25 12:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -81,4 +81,6 @@ ordinal: 43000
 2026-10-25用户已明确答复：授权，仅本分支本次提交推送。仅对feat/warrior75本次Git命令临时隔离另一会话未合入hook；全仓hooksPath、其他工作树和认领记录不变，不借receipt。完整CI通过后才合并，75张严格平台最终验收仍不关闭。
 
 2026-10-25 用户明确授权PR196整轮收口及认领例外：同步最新develop、解决唯一HANDOFF冲突、必要提交推送；仅旧分支未迁移造成的ownership失败允许本PR例外合并。游戏规则、构建及呈现检查仍须最终SHA通过；不改全仓配置、其他工作树或认领记录，不伪造检查成功。完整75张严格平台验收仍未完成，父任务保持In Progress。
+
+2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,258 @@
+[
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.31530982699996457,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_PASS 2"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "instructions",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.4457864309999877,
+    "lastOutput": "LUA_INSTRUCTIONS_1000\t22208"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "strings",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.39865611999994144,
+    "lastOutput": "TOSTRING_CALLS\t1265719"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "graph",
+    "exit": 0,
+    "elapsedNativeSeconds": 1.2417960899999798,
+    "lastOutput": "GRAPH_TRACE_CALLS\t86"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five",
+    "check": "contract",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.34334573499995713,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t14\t14"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.08561867399998846,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_DRAW_PASS 5"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "instructions",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.0960507620000044,
+    "lastOutput": "LUA_INSTRUCTIONS_1000\t4835"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "strings",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.08220876499990482,
+    "lastOutput": "TOSTRING_CALLS\t158572"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "graph",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.371642090000023,
+    "lastOutput": "GRAPH_TRACE_CALLS\t29"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_draw",
+    "check": "contract",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.1046308110001064,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t4\t5\t5"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.13160047500014116,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_STATUS_PASS 4"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "instructions",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.1532646630000727,
+    "lastOutput": "LUA_INSTRUCTIONS_1000\t7550"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "strings",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.14095095100014987,
+    "lastOutput": "TOSTRING_CALLS\t401479"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "graph",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.6716503329998886,
+    "lastOutput": "GRAPH_TRACE_CALLS\t51"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_status",
+    "check": "contract",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.13353020699992157,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t8\t8"
+  },
+  {
+    "source": "current-baseline",
+    "fixture": "potion_basic_five_acquisition",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.14722022499995546,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.21272354000007,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_PASS 2"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "instructions",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.2737254329999814,
+    "lastOutput": "LUA_INSTRUCTIONS_1000\t16782"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "strings",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.22001260699994418,
+    "lastOutput": "TOSTRING_CALLS\t283167"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "graph",
+    "exit": 0,
+    "elapsedNativeSeconds": 1.0762435940000614,
+    "lastOutput": "GRAPH_TRACE_CALLS\t86"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five",
+    "check": "contract",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.24624571399999695,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t14\t14"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.06555946700018467,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_DRAW_PASS 5"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "instructions",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.07276628499994331,
+    "lastOutput": "LUA_INSTRUCTIONS_1000\t4156"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "strings",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.07310290700002042,
+    "lastOutput": "TOSTRING_CALLS\t35646"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "graph",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.3197086740001396,
+    "lastOutput": "GRAPH_TRACE_CALLS\t29"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_draw",
+    "check": "contract",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.08344159400007811,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t4\t5\t5"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.09335353899996335,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_STATUS_PASS 4"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "instructions",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.12050234599996656,
+    "lastOutput": "LUA_INSTRUCTIONS_1000\t5828"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "strings",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.10169960899997932,
+    "lastOutput": "TOSTRING_CALLS\t89585"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "graph",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.7021869870000046,
+    "lastOutput": "GRAPH_TRACE_CALLS\t51"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_status",
+    "check": "contract",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.10896873499996218,
+    "lastOutput": "COLD_TEMPLATE_CONTRACT_PASS\t1\t8\t8"
+  },
+  {
+    "source": "current-candidate",
+    "fixture": "potion_basic_five_acquisition",
+    "check": "plain",
+    "exit": 0,
+    "elapsedNativeSeconds": 0.16128132800008643,
+    "lastOutput": "LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1"
+  }
+]

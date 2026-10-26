@@ -301,7 +301,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
         potionHit.interactable=canManagePotions(run)
         for _,state in ipairs({"normal","hover","pressed","disabled"})do
-            potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..run.data.rules.player.potionSlots or "药水"
+            potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..Run.potionCapacity(run) or "药水"
         end
         child("nodePanel"):GetChild("potions"):SetVisible(false)
         if potionOpen then self.potionUI:render()end

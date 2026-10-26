@@ -38,7 +38,9 @@ function M.prepare(data,id)
         end
     end
     prepared.cards.cards=retained
-    prepared=require(spec.module).withFoundationCards(prepared)
+    if id=='silent' then prepared=require('abyss_silent').withFoundationCards(prepared)
+    elseif id=='defect' then prepared=require('abyss_defect_cards').withFoundationCards(prepared)
+    else prepared=require('abyss_watcher_cards').withFoundationCards(prepared) end
     if id=="silent" then
         prepared=require("abyss_silent_discard_cards").withCardDefinitions(prepared)
         prepared=require("abyss_shivs").withInfiniteBladesDefinition(prepared)

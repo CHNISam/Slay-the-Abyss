@@ -118,8 +118,8 @@ function M.adaptDefinition(state,instance,definition)
  elseif id=='thunder_strike' then out.effects[1].count=M.channelCount(state,'lightning') end
  return out
 end
-function M.prepareEffect(state,effect,target,context)
- local out=copy(effect);context=context or {}
+function M.prepareEffect(state,effect,target,_context)
+ local out=copy(effect)
  if effect.op=='autoShields' then
   out.enabled=state.player.block==0;out.value=integer(Actors.blockAmount(state,state.player,effect.value));out.fixed=true
  elseif effect.op=='stackBlock' then

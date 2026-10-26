@@ -40,7 +40,11 @@ test('P12 thrown group policy does not request a single enemy or enter productio
     end
     local run=Run.new(source,1);assert(Run.startCombat(run,'cultist_solo'));assert(Run.obtainPotion(run,'fire_potion'))
     assert(not Run.potionView(run)[1].needTarget,'throwing must not imply selecting one enemy')
-    assert(H.F.Data.potions.potions[1].targetPolicy=='enemy_one')
+    local original,modified
+    for _,item in ipairs(H.F.Data.potions.potions) do if item.id=='fire_potion' then original=item end end
+    for _,item in ipairs(source.potions.potions) do if item.id=='fire_potion' then modified=item end end
+    assert(original and original.targetPolicy=='enemy_one')
+    assert(modified and modified.targetPolicy=='enemy_all')
 end)
 test('S07 duration intent says turns before it is applied',function()
     local h,u,p=H.setup({'bash'},{'cultist'})

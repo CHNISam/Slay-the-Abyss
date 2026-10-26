@@ -88,7 +88,7 @@ test('normal Nodes reconstructs misc from raw seed plus destination floor',funct
     for _=1,11 do R.randomInt(run.miscRng,999) end
     local wanted,stream=expected(run);local event=run.eventRng;local unchanged=freeze(event)
     assert(Nodes.enter(run,map,id));same(ids(run.combat),wanted);same(run.miscRng,stream)
-    eq(run.miscRng.counter,1);eq(run.eventRng,event);unchanged()
+    eq(run.miscRng.counter,1);same(run.eventRng,event);unchanged()
 end)
 
 local function unknown()
@@ -216,8 +216,8 @@ test('explicit low-level enemy arrays do not acquire implicit encounter selectio
 end)
 
 local unchangedGroups={
-    cultist_solo={'cultist'},jaw_solo={'jaw_worm'},louse_pair={'red_louse','green_louse'},
-    louse_trio={'red_louse','green_louse','red_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
+    cultist_solo={'cultist'},jaw_solo={'jaw_worm'},louse_pair={'red_louse','red_louse'},
+    louse_trio={'red_louse','red_louse','green_louse'},medium_slimes={'acid_slime_m','spike_slime_m'},
     large_acid={'acid_slime_l'},large_spike={'spike_slime_l'},looter_solo={'looter'},
     blue_slaver_solo={'blue_slaver'},red_slaver_solo={'red_slaver'},fungi_pair={'fungi_beast','fungi_beast'},
     wildlife={'jaw_worm','green_louse'},elite_nob={'gremlin_nob'},elite_lagavulin={'lagavulin'},
@@ -229,8 +229,14 @@ test('other 16 static encounter groups retain their member order and consume no 
         seen=seen+1;local run=Run.new(Data,42);run.floor=e.minFloor
         local misc=run.miscRng;local stable=freeze(misc)
         assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchangedGroups[e.id]))
-        eq(run.miscRng,misc);stable()
+        if e.louseCount then
+            local wanted=R.cloneState(misc);for _=1,e.louseCount do R.randomBoolean(wanted) end
+            same(run.miscRng,wanted)
+        else eq(run.miscRng,misc) end
+        stable()
         local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck})
+        same(Data.rules.player.startingRelics,{'burning_blood'})
+        reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
         local generation=run.combatGeneration
         assert(type(generation)=='number'and generation%1==0 and generation>=1 and generation<=2147483647,'invalid Run combat generation')
         eq(run.combat.combatGeneration,generation,'Run/battle generation ownership')

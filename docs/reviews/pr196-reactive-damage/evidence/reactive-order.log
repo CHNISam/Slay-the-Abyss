@@ -1,0 +1,8 @@
+PASS 1 Guardian multi-hit HP loss and all live BFB piles, block=2
+PASS 2 Guardian multi-hit HP loss and all live BFB piles, block=3
+PASS 3 Rupture distinguishes one Hemokinesis payment from subsequent Sharp Hide
+PASS 4 Pommel Strike draw before Sharp Hide updates newly drawn BFB before disposal
+PASS 5 Lethal Sharp Hide cancels drawn Wound Fire Breathing tail and Double Tap repeat
+PASS 6 Nonlethal Double Tap sends two Sharp Hide notifications and disposes once
+PASS 7 Sharp Hide death after final Guardian kill overrides victory and stops Run rewards
+RESULT 7 cases, 0 failed; native Lua only, not platform acceptance.

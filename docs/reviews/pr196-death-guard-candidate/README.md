@@ -1,0 +1,7 @@
+# 反应伤害死亡终止候选 v2
+
+基于PR196@9a4cf64fb6c0f435bb8ad61a3f68f0549a2d03bf，先读REPORT和independent/REPORT，再取candidate.patch。仅Actor一条guard及两行注释，最终blob3975ba1c2cbd30aac65f6d228ead9a91eb5d82a0。v1缺HP回调退化已修，勿用旧版本。
+
+独立24场景原生Lua5.4通过，四类真实负控捕获；原始红例详见上一归档pr196-reactive-damage。没有全量CI/平台结果，不是已合并代码。原任务仍归原作者，此材料供接续，禁止将本证据归档分支旧生产树整体合并。
+
+同批pr196-capability-followup保存两卡旧能力门禁缺口的新头闭环证明，16组；不是全75卡验收。复跑需正确源快照与现有受信测试环境，REPRODUCE保留实际环境命令。

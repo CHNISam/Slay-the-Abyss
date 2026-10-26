@@ -1,0 +1,11 @@
+{
+  "instruction_hook_interval": 1000,
+  "baseline_hook_count": 286283,
+  "candidate_hook_count": 9345,
+  "reduction_percent": 96.73574749461199,
+  "baseline_and_candidate_differential_equal": true,
+  "records": 6042,
+  "log_sha256": "94b122192de1893e060f2f38fac81edd3fac8b29653807b1509c04e1b7ed9284",
+  "run_streams_equal": true,
+  "run_streams_log_sha256": "e9bb62f307eebdc41b701d7a4178b8bf3abf63135dfb2c9e1db9eb6dfa72a6c8"
+}

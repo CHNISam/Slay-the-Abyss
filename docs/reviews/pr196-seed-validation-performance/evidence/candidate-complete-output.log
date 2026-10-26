@@ -1,0 +1,836 @@
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/boss_reward_rarity.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.14960395699927176
+STDOUT:
+ok boss reward rarity - bounded seed range, three unique rare cards each
+ok all supported rare cards reachable in seed batch 1..32
+LUA_BOSS_REWARD_RARITY_PASS
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/boss_reward_rarity_33_64.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.14575647200035746
+STDOUT:
+ok boss reward rarity - bounded seed range, three unique rare cards each
+ok all supported rare cards reachable in seed batch 33..64
+LUA_BOSS_REWARD_RARITY_PASS
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/boss_reward_rarity_65_96.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.13379218399859383
+STDOUT:
+ok boss reward rarity - bounded seed range, three unique rare cards each
+ok all supported rare cards reachable in seed batch 65..96
+LUA_BOSS_REWARD_RARITY_PASS
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/boss_reward_rarity_97_128.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.13206391499988968
+STDOUT:
+ok boss reward rarity - bounded seed range, three unique rare cards each
+ok all supported rare cards reachable in seed batch 97..128
+LUA_BOSS_REWARD_RARITY_PASS
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.1007998069999303
+STDOUT:
+GOLD claim	11.0
+PASS none potion / none stolen gold / card choice 0
+GOLD claim	11.0
+PASS none potion / none stolen gold / card choice 1
+GOLD claim	11.0
+STOLEN_GOLD claim	30
+PASS none potion / pending stolen gold / card choice 0
+GOLD claim	11.0
+STOLEN_GOLD claim	30
+PASS none potion / pending stolen gold / card choice 1
+GOLD claim	11.0
+PASS none potion / claimed stolen gold / card choice 0
+GOLD claim	11.0
+PASS none potion / claimed stolen gold / card choice 1
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_2.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.10085003299900563
+STDOUT:
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+PASS pending potion / none stolen gold / card choice 0
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+PASS pending potion / none stolen gold / card choice 1
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS pending potion / pending stolen gold / card choice 0
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS pending potion / pending stolen gold / card choice 1
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+PASS pending potion / claimed stolen gold / card choice 0
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+PASS pending potion / claimed stolen gold / card choice 1
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_3.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.1020795670010557
+STDOUT:
+POTION skip	dexterity_potion	slots_full
+GOLD claim	15.0
+PASS full potion / none stolen gold / card choice 0
+POTION skip	dexterity_potion	slots_full
+GOLD claim	15.0
+PASS full potion / none stolen gold / card choice 1
+POTION skip	dexterity_potion	slots_full
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS full potion / pending stolen gold / card choice 0
+POTION skip	dexterity_potion	slots_full
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS full potion / pending stolen gold / card choice 1
+POTION skip	dexterity_potion	slots_full
+GOLD claim	15.0
+PASS full potion / claimed stolen gold / card choice 0
+POTION skip	dexterity_potion	slots_full
+GOLD claim	15.0
+PASS full potion / claimed stolen gold / card choice 1
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_4.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.10060866099956911
+STDOUT:
+GOLD claim	15.0
+PASS claimed potion / none stolen gold / card choice 0
+GOLD claim	15.0
+PASS claimed potion / none stolen gold / card choice 1
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS claimed potion / pending stolen gold / card choice 0
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS claimed potion / pending stolen gold / card choice 1
+GOLD claim	15.0
+PASS claimed potion / claimed stolen gold / card choice 0
+GOLD claim	15.0
+PASS claimed potion / claimed stolen gold / card choice 1
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_5.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.11746157100060373
+STDOUT:
+GOLD claim	15.0
+PASS skipped potion / none stolen gold / card choice 0
+GOLD claim	15.0
+PASS skipped potion / none stolen gold / card choice 1
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS skipped potion / pending stolen gold / card choice 0
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS skipped potion / pending stolen gold / card choice 1
+GOLD claim	15.0
+PASS skipped potion / claimed stolen gold / card choice 0
+GOLD claim	15.0
+PASS skipped potion / claimed stolen gold / card choice 1
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_6.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.10850864799976989
+STDOUT:
+POTION skip	rare	content_unavailable
+GOLD claim	19.0
+PASS unavailable potion / none stolen gold / card choice 0
+POTION skip	rare	content_unavailable
+GOLD claim	19.0
+PASS unavailable potion / none stolen gold / card choice 1
+POTION skip	rare	content_unavailable
+GOLD claim	19.0
+STOLEN_GOLD claim	30
+PASS unavailable potion / pending stolen gold / card choice 0
+POTION skip	rare	content_unavailable
+GOLD claim	19.0
+STOLEN_GOLD claim	30
+PASS unavailable potion / pending stolen gold / card choice 1
+POTION skip	rare	content_unavailable
+GOLD claim	19.0
+PASS unavailable potion / claimed stolen gold / card choice 0
+POTION skip	rare	content_unavailable
+GOLD claim	19.0
+PASS unavailable potion / claimed stolen gold / card choice 1
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_7.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.09318864600027155
+STDOUT:
+PASS a genuine potion API rejection is not silently skipped or retried
+POTION blocked	dexterity_potion	potion_blocked_by_sozu
+GOLD claim	15.0
+PASS Sozu consumes the clicked offer without a bottle or a false diagnostic error
+PASS already claimed victory gold is not claimed again by the diagnostic
+PASS a genuine victory-gold API rejection is not silently forfeited
+PASS a genuine stolen-gold API rejection is not silently forfeited
+POTION claim	dexterity_potion	slot=2
+GOLD claim	15.0
+PASS a sparse belt claims into its vacancy without replacing other bottles
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_8.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.10642896200079122
+STDOUT:
+POTION claim	dexterity_potion	slot=1
+STOLEN_GOLD claim	30
+PASS retry after a gold rejection does not claim the already acquired bottle again
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+STOLEN_GOLD claim	30
+PASS final node rejection is preserved and explicit retry does not duplicate rewards
+GOLD claim	11.0
+PASS the actual diagnostic handles an unknown room resolved as event
+GOLD claim	10.0
+POTION skip	rare	content_unavailable
+GOLD claim	12.0
+PASS the actual diagnostic handles an unknown room resolved as combat
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+PASS the actual diagnostic handles an unknown room resolved as treasure
+GOLD claim	17.0
+POTION claim	block_potion	slot=1
+GOLD claim	16.0
+PASS the actual diagnostic handles an unknown room resolved as shop
+DIAGNOSTIC_REWARD_PROTOCOL 6 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/diagnostic_reward_protocol_slice_9.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.10213707500042801
+STDOUT:
+PASS the actual diagnostic rejects an unsupported resolved node type
+POTION claim	dexterity_potion	slot=1
+GOLD claim	15.0
+GOLD claim	17.0
+POTION claim	regen_potion	slot=2
+GOLD claim	29.0
+POTION claim	block_potion	slot=3
+GOLD claim	19.0
+GOLD claim	18.0
+POTION skip	dexterity_potion	slots_full
+GOLD claim	14.0
+GOLD claim	18.0
+GOLD claim	15.0
+STOLEN_GOLD claim	30.0
+NATURAL_ROUTE first=true later=true phase=defeat loss_gate=true
+PASS the actual seed42 diagnostic reaches a real terminal result without hiding a stop
+DIAGNOSTIC_REWARD_PROTOCOL 2 passed 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.0436820289996831
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_1.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.04335078900112421
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_2.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.050605383001311566
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_3.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.04297967099955713
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_4.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.043656625000949134
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_5.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.04728964599962637
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_6.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.04433639499984565
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/gremlin_gang_selection_7.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.04244317600023351
+STDOUT:
+ok 1 - selection paths match independent remaining-index oracle without constructing worlds
+GREMLIN_GANG_SELECTION_PASS 1
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.058608076000382425
+STDOUT:
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=18
+ok growing_card_text 1 - normal actual click play, redraw and live modifiers update damage
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ok growing_card_text 2 - normal new combat resets text
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ok growing_card_text 3 - normal failed rule rolls back growth and label
+growing_card_text: 3/3 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_2.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.05809445699924254
+STDOUT:
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=21
+ok growing_card_text 1 - upgraded actual click play, redraw and live modifiers update damage
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ok growing_card_text 2 - upgraded new combat resets text
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ok growing_card_text 3 - upgraded failed rule rolls back growth and label
+growing_card_text: 3/3 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_3.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.0643057029992633
+STDOUT:
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ok growing_card_text 1 - same id instances retain independent upgraded and normal labels
+ok growing_card_text 2 - integer floats and damage beyond signed 32 bits render without decimals or wrapping
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ok growing_card_text 3 - reward remains static even after grown battle
+growing_card_text: 3/3 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_4.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.04401814499942702
+STDOUT:
+ok growing_card_text 1 - legacy display without optional fields still renders old static text
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_5.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.15298239000003377
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_6.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.154914982000264
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_7.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.15707145600026706
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_8.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.15953444499973557
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_9.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.14895657600027334
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_10.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.15147559300021385
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_11.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.14616315999955987
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/growing_card_text_slice_12.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.1462026050012355
+STDOUT:
+ok growing_card_text 1 - without modifiers all 80 combat labels including statuses and curse match printed text; Body Slam adds its current value
+growing_card_text: 1/1 passed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.11662560699915048
+STDOUT:
+ok node UI 1 - forge sounds only after upgrade succeeds; refresh and repeated confirm are silent
+ok node UI 2 - rest and treasure sound once per action and audio errors cannot undo a committed action
+ok node UI 3 - node resource count includes bottles beyond an empty first slot
+ok node UI 4 - shop shelf shows five colored and two unavailable colorless cards without pages
+ok node UI 5 - unaffordable goods turn the price red, grey the card and explain without charging
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_2.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.13019534399973054
+STDOUT:
+ok node UI 1 - shop relic row shows sourced effect text and buys through Nodes
+ok node UI 2 - removal service selects a uid first, confirms with the core price and is spent for the shop
+ok node UI 3 - removal service shows shortfall and empty-deck diagnostic without opening the picker
+ok node UI 4 - an external removal invalidates a selected removal before charging gold
+ok node UI 5 - merchant opens with the scene narration once per run, then greets, and stays out of the way
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_3.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.10663902899977984
+STDOUT:
+ok node UI 1 - merchant reaction sounds are requested only for sales and refusals
+ok node UI 2 - merchant never appears outside a shop
+ok node UI 3 - camp shows rest healing projection and forge count; full health disables rest only when forging is possible
+ok node UI 4 - camp rest heals once through Nodes and holds the result until continue
+ok node UI 5 - forge previews the real before/after card and commits only the confirmed uid
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_4.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.14557700699879206
+STDOUT:
+ok node UI 1 - forge with two upgrades keeps the committed picker and stamps upgraded instances
+ok node UI 2 - Purifier prays for free through the picker and shows the removal result
+ok node UI 3 - Cleric options show sourced costs, disabled reasons and the healing result
+ok node UI 4 - Cleric purify is cancellable, charges once and leaves shop removal count unchanged
+ok node UI 5 - Cleric stale affordability is revalidated by Nodes without consuming the event
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_5.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.14488967100078298
+STDOUT:
+ok node UI 1 - treasure opens visually first, then grants the actual relic once
+ok node UI 2 - gold treasure explains the fallback and is claimed through Nodes
+ok node UI 3 - hidden input, external completion and a replaced run reject stale commands
+ok node UI 4 - a held result belongs to its run; a fresh run renders safely and restart resets navigation
+ok node UI 5 - hover down up and exit paint the real framed button without executing a command
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_6.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.11275383500105818
+STDOUT:
+ok node UI 1 - primary press uses white ink and drag-out or end-drag restores the complete button
+ok node UI 2 - disabled and selected results cannot be overridden by hover or retain a pressed scale
+ok node UI 3 - rerender and modal hiding cancel pending button visuals
+ok node UI 4 - foreign touches cannot release or move a pressed visual to another button
+ok node UI 5 - button listeners bind once and click-only hosts retain the existing C fallback
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_7.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.1236246749995189
+STDOUT:
+ok node UI 1 - upgrade shrine picker cancel consumes nothing; confirmation upgrades UID and holds a readable result
+ok node UI 2 - Goop shows real leave loss, applies it once and reports asset changes
+ok node UI 3 - Golden Wing commits seven damage before picker; cancel cannot refund or charge it again
+ok node UI 4 - Shining Light shows fixed damage and permanent upgraded names in its result
+ok node UI 5 - Golden Shrine exposes complete costs, permanent curse result and repeat safety
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/node_ui_slice_8.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.20697681499950704
+STDOUT:
+ok node UI 1 - shop potion stock buys into a vacancy and rejects full sold and missing slots
+ok node UI 2 - integer-valued floating resources never expose decimal suffixes
+ok node UI 3 - single-card shop removal completes through the existing picker
+ok node UI 4 - single-card event purification is enabled, empty-deck purification is disabled
+ok node UI 5 - repeatable Searing Blow shows its actual before/after levels and damage
+LUA_NODE_UI_PASS 5
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.1422056760002306
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+PASS field Up rejects NaN x without spending or feedback
+ABYSS_RUN seed=1 source=explicit
+PASS field Down rejects NaN x even when Up is finite
+ABYSS_RUN seed=1 source=explicit
+PASS field Up rejects NaN y without spending or feedback
+ABYSS_RUN seed=1 source=explicit
+PASS field Down rejects NaN y even when Up is finite
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_2.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.1507446309988154
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+PASS field Up rejects +Infinity x without spending or feedback
+ABYSS_RUN seed=1 source=explicit
+PASS field Down rejects +Infinity x even when Up is finite
+ABYSS_RUN seed=1 source=explicit
+PASS field Up rejects +Infinity y without spending or feedback
+ABYSS_RUN seed=1 source=explicit
+PASS field Down rejects +Infinity y even when Up is finite
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_3.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.12947619400074473
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+PASS field Up rejects -Infinity x without spending or feedback
+ABYSS_RUN seed=1 source=explicit
+PASS field Down rejects -Infinity x even when Up is finite
+ABYSS_RUN seed=1 source=explicit
+PASS field Up rejects -Infinity y without spending or feedback
+ABYSS_RUN seed=1 source=explicit
+PASS field Down rejects -Infinity y even when Up is finite
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_4.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.25498952099951566
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS nonfinite x is still explicit when y is unavailable
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS nonfinite y is still explicit when x is unavailable
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+PASS finite stationary field confirmation commits once and uses real feedback
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+PASS finite small movement stays a tap but threshold displacement cancels
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_5.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.17997008999918762
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+PASS finite field edge confirms and just outside cancels
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS complete positionless field Down Up Click retains C mode
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS positionless field sequence without touch IDs retains C mode
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS missing coordinates on one side retain the existing fallback
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_6.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.16542653999931645
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS nil and nonnumeric positions remain unknown rather than nonfinite
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS click-only host still confirms on the distinct field
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS invalid release cannot borrow a new selection and a fresh same-touch tap works
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS old canceled touch cannot cancel or confirm a fresh foreign gesture
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_7.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.13567485199928342
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS foreign invalid events do not discard the owning field tap
+ABYSS_RUN seed=1 source=explicit
+PASS invalid Drag cancels even if the owning Up becomes finite
+ABYSS_RUN seed=1 source=explicit
+PASS EndDrag invalidates a released field token before Click
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS hand-slot replacement after invalid release cannot consume another card
+LUA_PLAY_AREA_COORDINATES 4 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/play_area_coordinates_slice_8.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.11486801200044283
+STDOUT:
+ABYSS_RUN seed=1 source=explicit
+PASS changed selection between Down and finite Up remains rejected
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+PASS a finite first coordinate sample is not replaced by a second getter read
+ABYSS_RUN seed=1 source=explicit
+PASS an invalid first coordinate sample cannot be replaced by a finite second read
+LUA_PLAY_AREA_COORDINATES 3 passed; 0 failed
+
+STDERR:
+
+
+COMMAND: python /workspace/scratch/331215e8236a/signed-cap-review/run-lua.py tests/lua/run_seed_validation.lua
+CWD: /workspace/shared/sta-performance-integration-0156/candidate
+EXIT: 0
+SECONDS: 0.019462394000584027
+STDOUT:
+ok 1 - canonical signed64 strings retain the constructor acceptance set
+ok 2 - invalid inputs retain exact strict rejection reasons and do not invoke metamethods
+ok 3 - number normalization and floor validation keep their original boundaries
+ok 4 - decimal increments and long wrap retain literal boundary results
+ok 5 - existing and new wrapper overload boundaries remain strict
+ok 6 - validation and identity derivation never call either RNG constructor
+ok 7 - RNG initialization and first draw retain fixed independent source vectors
+RUN_SEED_VALIDATION_PASS 7
+
+STDERR:
+

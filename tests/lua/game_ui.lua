@@ -108,9 +108,11 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
 end)
 
 test("node panels compose through Boss16, independent treasure17 then restart", function()
-    -- Keep the real rules, commands and UI. Low-HP fixture isolates routing from balance.
+    -- Keep the real rules, commands and UI. Four HP isolates routing from
+    -- balance while keeping source Preserved Insect's floor(HP * .75) above
+    -- zero when the route obtains it. One HP is an impossible elite fixture.
     local data = Combat.copy(Data)
-    for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 1, nil end -- explicit one-HP flow fixture
+    for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 4, nil end -- explicit low-HP flow fixture
     local ui, root = fixture(data)
     click(root, "menuPanel", "start")
     local route=dofile('tests/lua/support/map_routes.lua').best(ui.map,function(node)return node.type=='event' and 1 or 0 end)

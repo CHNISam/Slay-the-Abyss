@@ -9,6 +9,10 @@ local once={'Accursed Blacksmith','Bonfire Elementals','Designer','Duplicator','
 M.contentId={['The Cleric']='cleric',Purifier='purifier',['World of Goop']='goop',['Upgrade Shrine']='upgrade_shrine',['Golden Wing']='golden_wing',['Shining Light']='shining_light',['Golden Shrine']='golden_shrine'}
 local function copy(t) local r={};for i,v in ipairs(t) do r[i]=v end;return r end
 M.contentId['Fountain of Cleansing']='fountain'
+M.contentId['Liars Game']='sssserpent'
+M.contentId['Big Fish']='big_fish'
+M.contentId['Accursed Blacksmith']='accursed_blacksmith'
+M.contentId['Bonfire Elementals']='bonfire'
 function M.new(mode, noteAvailable)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     local p={mode=mode,act=copy(act),shrine=copy(shrine),once=copy(once)}

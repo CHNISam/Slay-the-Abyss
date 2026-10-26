@@ -1,0 +1,14 @@
+REPRO: child launch occurs after confirmed lease expiry; failure arrives only after child exits.
+✔ repro: a successful but slow renewal launches the child after the lease expired (1157.408517ms)
+REPRO: {"childWriteMsAfterExpiry":563,"heartbeatBlockedMs":2200,"leaseMs":1000}
+✔ repro: synchronous stalled heartbeat cannot stop a real child by expiry (2540.480216ms)
+✔ stale generation remains fenced; unrelated unknown reservations reject overlapping scope (1.308613ms)
+✔ release is safe but not idempotent: second call is rejected, tombstone remains (1.682897ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3782.773321

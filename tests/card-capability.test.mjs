@@ -6,6 +6,9 @@ import { runLua } from '../scripts/test-lua.mjs';
 
 test('actual capability agrees with independently declared launch inclusions and exclusions', () => {
   const manifest = JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
+  assert.equal(manifest.cards.length, 75);
+  assert.equal(manifest.generatedCards.filter(row => row.type === 'curse').length, 10);
+  assert.equal(manifest.generatedCards.filter(row => row.type === 'status').length, 4);
   buildLuaData(); mkdirSync('build/lua', { recursive: true });
   const expected = { included: [...manifest.cards, ...manifest.generatedCards].map(row => row.id),
     excluded: manifest.exclusions.cards.map(row => row.id) };
@@ -25,5 +28,5 @@ print('CARD_CAPABILITY_PASS '..#expected.included..' included '..#expected.exclu
 `);
   const result = runLua('build/lua/card_capability_fixture.lua');
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /CARD_CAPABILITY_PASS 80 included 0 excluded/);
+  assert.match(result.stdout, /CARD_CAPABILITY_PASS 89 included 0 excluded/);
 });

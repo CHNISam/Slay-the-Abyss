@@ -192,10 +192,14 @@ export function battleLayout() {
       l.battlePotions.size, '空药水槽', false, f.small);
     // Two lines at the existing readable font must fit without shrinking them.
     for (const state of potion.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.size[0] - s.s, l.battlePotions.size[1]];
-    controls.push(potion);
+    // Keep the original three direct paths. Extra bottles share the existing
+    // full-canvas help group so the battle parent stays at 60 direct children.
+    if (i < 3) controls.push(potion);
+    else { potion.visible = false; potionHelp.push(potion); }
     const help = button(`potionHelp${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i + l.battlePotions.helpOffset[axis]),
       l.battlePotions.helpSize, '说明', false, f.small);
     for (const state of help.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.helpSize[0] - s.s, l.nativeText.lineHeight];
+    if (i >= 3) help.visible = false;
     potionHelp.push(help);
   }
   // Keep potion explanations in the existing full-canvas group. This avoids

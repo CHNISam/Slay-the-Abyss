@@ -1,0 +1,114 @@
+[
+  {
+    "source": "current-baseline",
+    "mode": "seed",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: 43 ~= 42"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "data",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: 81 ~= 80"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "deck",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: table: 0xADDRESS ~= table: 0xADDRESS"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "potions",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: table: 0xADDRESS ~= table: 0xADDRESS"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "combat",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: table: 0xADDRESS ~= table: 0xADDRESS"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "rng",
+    "fixture": "potion_basic_five_draw",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: 2 ~= 1"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "shared-data",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "../current-contract.lua:28: mutable table shared by copy"
+  },
+  {
+    "source": "current-baseline",
+    "mode": "split-alias",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "../current-contract.lua:40: opening player status alias split"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "seed",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: 43 ~= 42"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "data",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: 81 ~= 80"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "deck",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: table: 0xADDRESS ~= table: 0xADDRESS"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "potions",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: table: 0xADDRESS ~= table: 0xADDRESS"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "combat",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: table: 0xADDRESS ~= table: 0xADDRESS"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "rng",
+    "fixture": "potion_basic_five_draw",
+    "exit": 1,
+    "diagnostic": "tests/lua/support/potion_basic_five_fixture.lua:6: 2 ~= 1"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "shared-data",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "../current-contract.lua:28: mutable table shared by copy"
+  },
+  {
+    "source": "current-candidate",
+    "mode": "split-alias",
+    "fixture": "potion_basic_five",
+    "exit": 1,
+    "diagnostic": "../current-contract.lua:40: opening player status alias split"
+  }
+]

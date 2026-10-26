@@ -1,0 +1,6 @@
+{
+  "version":"1.2.0",
+  "repository":"https://github.com/lunarmodules/luacheck",
+  "win32":{"asset":"luacheck.exe","sha256":"0f1c69c4d09f1ebb4d8df14c215e4553e2e639bd4cb7bf3c639b0daa6198317b"},
+  "linux":{"asset":"luacheck","sha256":"d68da17fca0697d9e2fb04201f3884abd259fa558b3a449bccaed47f1390defc"}
+}

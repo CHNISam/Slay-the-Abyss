@@ -83,6 +83,10 @@ test('original default and explicit timeout plus maxBuffer reach spawnSync uncha
   for (const [script, options, timeout] of [
     ['tests/lua/diagnostic.lua', {}, 30000],
     ['tests/lua/battle_ui.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_2.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_2.lua', { timeout: 321 }, 321],
+    ['tests/lua/living_wall_slice_2.lua', {}, 30000],
+    ['tests/lua/living_wall_slice_3.lua', {}, 30000],
     ['tests/lua/diagnostic.lua', { timeout: 321 }, 321],
   ]) {
     withResult({ status: 0, signal: null, stdout: '', stderr: '' }, calls => {

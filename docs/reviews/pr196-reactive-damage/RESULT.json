@@ -1,0 +1,47 @@
+{
+  "observedAt": "2026-10-25T00:30:45.037812+00:00",
+  "head": "f93b0301f98d6cc5e2a8e2e244721b1eb3ceb2ab",
+  "runtimeSource": "5ceef2cbd1d65bb59b4d42ee77702bf69d331dd1",
+  "positiveCases": 7,
+  "positiveFailures": 0,
+  "adjacentNegativeCases": 1,
+  "adjacentNegativeDetected": true,
+  "developSameProbe": "not runnable: Flame Barrier card, status and handler absent; no mixed-source execution",
+  "productionModified": false,
+  "platform": "not run",
+  "fullNpm": "not run",
+  "steps": [
+    {
+      "name": "build",
+      "command": [
+        "node",
+        "scripts/build-lua-data.mjs"
+      ],
+      "exitCode": 0,
+      "expectedCurrentExitCode": 0,
+      "log": "evidence/final-build.log"
+    },
+    {
+      "name": "reactive-order",
+      "command": [
+        "python",
+        "../run-lua.py",
+        "../reactive-order-probe.lua"
+      ],
+      "exitCode": 0,
+      "expectedCurrentExitCode": 0,
+      "log": "evidence/final-reactive-order.log"
+    },
+    {
+      "name": "lethal-incoming",
+      "command": [
+        "python",
+        "../run-lua.py",
+        "../lethal-incoming-probe.lua"
+      ],
+      "exitCode": 1,
+      "expectedCurrentExitCode": 1,
+      "log": "evidence/final-lethal-incoming.log"
+    }
+  ]
+}

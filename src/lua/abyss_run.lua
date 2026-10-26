@@ -12,6 +12,8 @@ local RunSeed = require("abyss_run_seed")
 local EncounterQueue = require("abyss_encounter_queue")
 local RoomEncounters = require("abyss_room_encounters")
 local CardRandom = require("abyss_card_random")
+local RelicPool = require('abyss_relic_pool')
+local RelicHooks = require('abyss_relic_hooks')
 local M = {}
 
 local function find(entries, id)
@@ -45,7 +47,166 @@ function M.new(data, seed, options)
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
     end
+    if data.relicSource then run.relicPool=RelicPool.new(eventSeed,data.relicSource) end
     return run
+end
+
+-- Permanent commands share one transaction boundary across events, rewards and
+-- shops. Static content is read-only; every mutable owner remains private until
+-- the complete command, including its hooks, succeeds.
+local transactionOwners=setmetatable({},{__mode='k'})
+function M.transaction(run,command)
+    -- Nested permanent commands belong to the enclosing event/shop command.
+    -- A rejected nested command poisons this transaction, even if its caller
+    -- accidentally ignores the returned failure. Keep enclosing flow refs live.
+    local owner=transactionOwners[run]
+    if owner then
+        local called,ok,detail=pcall(command,run)
+        if not called or not ok then
+            if not owner.failed then owner.failed=true;owner.reason=called and detail or 'transaction_failed' end
+            return false,called and detail or 'transaction_failed'
+        end
+        return true,detail
+    end
+    -- Copy the complete mutable graph once: pending rewards share nodeFlow.
+    -- Reuse the read-only content bundle without copying it per command.
+    local staged=Combat.copy(run,run.data and {[run.data]=run.data} or nil)
+    owner={};transactionOwners[staged]=owner
+    local called,ok,detail=pcall(command,staged)
+    transactionOwners[staged]=nil
+    if not called then return false,'transaction_failed' end
+    if owner.failed then return false,owner.reason end
+    if not ok then return false,detail end
+    for key in pairs(run) do if staged[key]==nil then run[key]=nil end end
+    for key,value in pairs(staged) do run[key]=value end
+    return true,detail
+end
+
+local legacyRelics={['Burning Blood']='burning_blood',Anchor='anchor',Vajra='vajra',
+ ['Bag of Preparation']='bag_of_preparation',Lantern='lantern',['Oddly Smooth Stone']='oddly_smooth_stone',
+ ['Bronze Scales']='bronze_scales',['Membership Card']='membership_card',['The Courier']='courier',
+ ['Smiling Mask']='smiling_mask',['Black Blood']='black_blood',SlaversCollar='slavers_collar',Sozu='sozu'}
+local function relicDefinition(run,id)
+    for _,relic in ipairs(run.data.relics.relics) do
+        if relic.id==id or relic.sourceId==id or legacyRelics[id]==relic.id then return relic end
+    end
+end
+local function cardDefinition(run,id)
+    for _,card in ipairs(run.data.cards.cards) do if card.id==id or card.sts_name==id then return card end end
+end
+local function amount(n)return type(n)=='number' and n==n and n%1==0 and n>=0 and n<=2147483647 end
+function M.gainGold(run,value)return RelicHooks.gainGold(run,value)end
+function M.heal(run,value)
+    assert(amount(value),'invalid heal')
+    local before=run.hp;run.hp=math.min(run.maxHp,run.hp+0.0+value);return run.hp-before
+end
+function M.increaseMaxHp(run,value)
+    if not amount(value) or not amount(run.maxHp) or run.maxHp+0.0+value>2147483647 then return false,'invalid_max_hp' end
+    run.maxHp=run.maxHp+0.0+value;return true,M.heal(run,value)
+end
+function M.prepareCard(run,id,options)
+    local definition=cardDefinition(run,id)
+    if not Capability.isImplemented(definition) then return nil,'card_content_unavailable' end
+    options=options or {}
+    local upgrades=options.upgrades or options.upgradeCount
+    if upgrades~=nil and (not amount(upgrades) or upgrades>0 and not definition.upgrade) then return nil,'invalid_card_upgrade' end
+    if options.upgraded and not definition.upgrade then return nil,'card_not_upgradeable' end
+    local accepted,why=RelicHooks.beforeObtainCard(run,definition)
+    if not accepted and why~='curse_prevented' then return nil,why end
+    return {cardId=definition.id,upgraded=options.upgraded==true,
+        upgrades=upgrades,blocked=not accepted}
+end
+function M.commitCard(run,offer)
+    return M.transaction(run,function(staged)
+        if type(offer)~='table' then return false,'invalid_card_offer' end
+        local definition=cardDefinition(staged,offer.cardId)
+        if not Capability.isImplemented(definition) then return false,'card_content_unavailable' end
+        if offer.blocked then return true,'curse_blocked' end
+        local uid=staged.nextDeckUid
+        if type(uid)~='number' or uid%1~=0 or uid<1 or uid>=9007199254740991.0 then return false,'invalid_deck_uid' end
+        for _,card in ipairs(staged.deck) do if card.uid==uid then return false,'invalid_deck_uid' end end
+        local card={uid=uid,cardId=definition.id,upgraded=offer.upgraded==true}
+        local upgrades=offer.upgrades
+        if upgrades~=nil then
+            if not amount(upgrades) or upgrades>0 and not definition.upgrade then return false,'invalid_card_upgrade' end
+            card.upgrades=upgrades;card.upgraded=upgrades>0
+        end
+        if card.upgraded and not definition.upgrade then return false,'card_not_upgradeable' end
+        -- Relics receive the private entity before master-deck insertion.
+        -- Acquisition upgrades must never mutate the shared definition.
+        RelicHooks.onObtainCard(staged,card,definition)
+        staged.deck[#staged.deck+1]=card;staged.nextDeckUid=uid+1.0
+        return true,uid
+    end)
+end
+function M.obtainCard(run,id,options)
+    return M.transaction(run,function(staged)
+        local offer,reason=M.prepareCard(staged,id,options)
+        if not offer then return false,reason end
+        return M.commitCard(staged,offer)
+    end)
+end
+function M.removeCard(run,uid)
+    return M.transaction(run,function(staged)
+        local card,position
+        for i,c in ipairs(staged.deck) do if c.uid==uid then card,position=c,i;break end end
+        if not card then return false,'invalid_card' end
+        if not cardDefinition(staged,card.cardId) then return false,'card_content_unavailable' end
+        table.remove(staged.deck,position)
+        require('abyss_curses').onRemove(staged,card)
+        return true,card
+    end)
+end
+function M.obtainRelic(run,id)
+    return M.transaction(run,function(staged)
+        local definition=relicDefinition(staged,id)
+        if not definition then return false,'relic_content_unavailable' end
+        if definition.id=='circlet' then
+            RelicHooks.obtainCirclet(staged);return true,definition.id
+        end
+        for _,owned in ipairs(staged.relics) do if owned==definition.id then return false,'relic_already_owned' end end
+        local position
+        if definition.replaces then
+            for i,owned in ipairs(staged.relics) do if owned==definition.replaces then position=i;break end end
+            if not position then return false,'relic_condition_unmet' end
+        end
+        if position then staged.relics[position]=definition.id
+        else staged.relics[#staged.relics+1]=definition.id end
+        RelicHooks.onEquip(staged,definition.id,{
+            canUpgrade=function(card)
+                local def=cardDefinition(staged,card.cardId)
+                return def and def.upgrade and next(def.upgrade)~=nil
+                    and (not card.upgraded or def.repeatable==true)
+            end,
+            upgrade=function(card)
+                card.upgrades=(card.upgrades or (card.upgraded and 1 or 0))+1
+                card.upgraded=true;return true
+            end})
+        return true,definition.id
+    end)
+end
+function M.prepareRelic(run,options)
+    options=options or {}
+    if not run.relicPool then return nil,'relic_pool_unavailable' end
+    local pool=RelicPool.restore(RelicPool.snapshot(run.relicPool),run.relicPool.catalog)
+    local tier=options.tier or RelicPool.rollTier(pool,options.channel or 'event')
+    local owned,deck={},{}
+    for _,id in ipairs(run.relics) do
+        local def=relicDefinition(run,id)
+        local source=def and def.sourceId
+        if not source then for key,value in pairs(legacyRelics) do if value==id then source=key;break end end end
+        owned[#owned+1]=source or id
+    end
+    for _,card in ipairs(run.deck) do
+        local def=cardDefinition(run,card.cardId)
+        if def then deck[#deck+1]={type=def.type:upper(),rarity=def.rarity:upper()} end
+    end
+    local context={act=1,floor=run.floor,room=options.room or 'event',owned=owned,deck=deck,endless=false}
+    local draw=options.screenless and RelicPool.screenless or RelicPool.draw
+    local id,trace,requested=draw(pool,tier,context,options.fromTail)
+    local definition=relicDefinition(run,id)
+    if not definition then return nil,'relic_content_unavailable' end
+    return {id=definition.id,sourceId=id,requestedId=requested,tier=tier,trace=trace},pool
 end
 
 local function startEncounter(run, encounter, sourceRoom)
@@ -56,7 +217,8 @@ local function startEncounter(run, encounter, sourceRoom)
         return false, "invalid_combat_generation"
     end
     if not sourceRoom and (run.floor < encounter.minFloor or run.floor > encounter.maxFloor) then return false, "wrong_floor" end
-    local opening, reason = Inventory.opening(run.data.relics.relics, run.relics)
+    local opening, reason = Inventory.opening(run.data.relics.relics, run.relics,
+        run.relicCounters,{tier=encounter.tier})
     if not opening then return false, reason end
     local bonus
     bonus, reason = Inventory.energyBonus(run.data.relics.relics, run.relics, encounter.tier)
@@ -73,6 +235,14 @@ local function startEncounter(run, encounter, sourceRoom)
     if not sourceRoom and encounter.enemiesOnTrue then
         nextMiscRng = EventRandom.cloneState(run.miscRng)
         if EventRandom.randomBoolean(nextMiscRng) then enemies = encounter.enemiesOnTrue end
+    elseif not sourceRoom and encounter.lousePool then
+        nextMiscRng = EventRandom.cloneState(run.miscRng)
+        enemies = {}
+        for slot = 1, encounter.louseCount do
+            -- Each source getLouse call is independent: true red, false green.
+            -- Keep candidates for every slot; repeated colors are legal.
+            enemies[slot] = encounter.lousePool[EventRandom.randomBoolean(nextMiscRng) and 1 or 2]
+        end
     elseif not sourceRoom and encounter.gremlinPool then
         nextMiscRng = EventRandom.cloneState(run.miscRng)
         local pool = Combat.copy(encounter.gremlinPool)
@@ -87,8 +257,8 @@ local function startEncounter(run, encounter, sourceRoom)
     local options={cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
         beforeOpeningDraw=function(state)
             if opening.preDraw then
-                local ok, reason = Inventory.applyOpening(state,opening.preDraw)
-                if not ok then return false, reason end
+                local ok, openingReason = Inventory.applyOpening(state,opening.preDraw)
+                if not ok then return false, openingReason end
             end
             return Inventory.applyOpening(state,opening.beforeDraw)
         end}
@@ -124,6 +294,7 @@ local function startEncounter(run, encounter, sourceRoom)
     run.combatGeneration = generation + 1
     battle.combatGeneration=run.combatGeneration
     run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier
+    run.relicCounters=Combat.copy(battle.relicCounters)
     run.encounterSource,battle.encounterSource=encounter.source,encounter.source
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
@@ -172,7 +343,7 @@ function M.startRoomCombat(run,tier)
     if not called then return false,'combat_unavailable' end
     if not ok then return false,reason end
     staged.miscRng=room.miscRng
-    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng'})do run[key]=staged[key]end
+    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters'})do run[key]=staged[key]end
     if nextQueue then run.encounters=nextQueue end
     run.roomGeneration=run.roomGeneration+1
     run.pendingCombatRewards=nil
@@ -224,6 +395,7 @@ local function finishCombat(run)
     if not result then return false, "battle_unfinished" end
     run.hp, run.seed, run.gold = run.combat.player.hp, run.combat.seed, run.combat.player.gold
     run.maxHp=run.combat.player.maxHp
+    run.relicCounters=Combat.copy(run.combat.relicCounters or {})
     local allEscaped = Combat.allEnemiesEscaped(run.combat)
     run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
     if result == "defeat" then
@@ -301,15 +473,28 @@ function M.claimCardReward(run, choice)
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
-    -- A card choice never owns the independent potion reward (RewardItem).
-    if choice > 0 then
-        run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = run.rewards.cards[choice], upgraded = false }
-        run.nextDeckUid = run.nextDeckUid + 1
+    local rewards,deck,relics,potions,flow,battle=run.rewards,run.deck,run.relics,run.potions,run.nodeFlow,run.combat
+    local ok,detail=M.transaction(run,function(staged)
+        -- A card choice never owns the independent potion reward (RewardItem).
+        if choice > 0 then
+            local ok,reason=M.obtainCard(staged,staged.rewards.cards[choice])
+            if not ok then return false,reason end
+        end
+        -- PC Skip merely closes the picker; choice=0 explicitly abandons it.
+        staged.rewards.cardResolved = true
+        return true
+    end)
+    if ok then
+        -- Obtaining a reward appends a card; existing inventory and room owners
+        -- remain live for the restored map and its pending reward continuation.
+        for i=#deck+1,#run.deck do deck[i]=run.deck[i] end
+        run.deck,run.relics,run.potions,run.nodeFlow,run.combat=deck,relics,potions,flow,battle
+        -- Only the card flag belongs to this command. Keep the existing reward
+        -- and independent item owners; never expose them to the private stage.
+        rewards.cardResolved=run.rewards.cardResolved
+        run.rewards=rewards
     end
-    -- choice=0 is the internal explicit-abandon command retained for old
-    -- non-UI drivers. PC Skip merely closes the picker and never calls this.
-    run.rewards.cardResolved = true
-    return true
+    return ok,detail
 end
 
 local function validGold(n)
@@ -322,7 +507,7 @@ function M.claimGoldReward(run)
     if not rewards or rewards.goldClaimed ~= false then return false, "no_pending_gold" end
     if not validGold(rewards.gold) or rewards.gold == 0 or not validGold(run.gold)
         or run.gold + 0.0 + rewards.gold > 2147483647 then return false, "invalid_gold_reward" end
-    run.gold, rewards.goldClaimed = run.gold + rewards.gold, true
+    M.gainGold(run,rewards.gold);rewards.goldClaimed = true
     return true
 end
 
@@ -334,7 +519,7 @@ function M.claimStolenGoldReward(run)
     end
     if not validGold(item.amount) or item.amount == 0 or not validGold(run.gold)
         or run.gold + 0.0 + item.amount > 2147483647 then return false, "invalid_stolen_gold" end
-    run.gold, item.claimed = run.gold + item.amount, true
+    M.gainGold(run,item.amount);item.claimed = true
     return true
 end
 
@@ -388,6 +573,7 @@ function M.chooseCard(run,token,uid)
     local ok,reason=Combat.chooseCard(run.combat,token,uid)
     if ok then
         run.gold=run.combat.player.gold
+        run.relicCounters=Combat.copy(run.combat.relicCounters or {})
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -398,6 +584,7 @@ function M.play(run, uid, targetIndex)
     local ok, reason = Combat.play(run.combat, uid, targetIndex)
     if ok then
         run.gold = run.combat.player.gold
+        run.relicCounters=Combat.copy(run.combat.relicCounters or {})
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -453,6 +640,7 @@ function M.endTurn(run)
     local ok, reason = Combat.endTurn(run.combat)
     if ok then
         run.gold = run.combat.player.gold
+        run.relicCounters=Combat.copy(run.combat.relicCounters or {})
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -460,9 +648,12 @@ end
 
 -- Inventory slots are physical positions, not a packed list. Acquiring a bottle
 -- fills the leftmost vacancy; reward/shop adapters still own eligibility/payment.
+function M.potionCapacity(run)
+    return run.potionSlots or run.data.rules.player.potionSlots
+end
 function M.potionCount(run)
     local count = 0
-    for slot = 1, run.data.rules.player.potionSlots do
+    for slot = 1, M.potionCapacity(run) do
         if run.potions[slot] then count = count + 1 end
     end
     return count
@@ -474,7 +665,7 @@ function M.obtainPotion(run, id)
         local relic = find(run.data.relics.relics, owned)
         if relic and relic.blocksPotions then return false, "potion_blocked_by_sozu" end
     end
-    for slot = 1, run.data.rules.player.potionSlots do
+    for slot = 1, M.potionCapacity(run) do
         if not run.potions[slot] then
             run.potions[slot] = id
             return true, slot
@@ -486,7 +677,7 @@ end
 -- Discard never executes a potion effect and does not require a player turn.
 -- The original WeMeetAgain event veto is outside the supported event pool.
 function M.discardPotion(run, slot)
-    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
+    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > M.potionCapacity(run) then
         return false, "invalid_potion_slot"
     end
     local id = run.potions[slot]
@@ -499,31 +690,71 @@ function M.discardPotion(run, slot)
     return true
 end
 
-local function potionCandidate(run, slot, targetIndex)
-    if run.phase ~= "combat" then return nil, "not_in_combat" end
-    if not run.combat or run.combat.phase ~= "player" then return nil, "not_player_turn" end
-    if run.combat.pendingChoice or run.combat.cardActions then return nil,"card_choice_pending" end
-    -- The source can queue non-target potions behind a selection screen. Until
-    -- the shared queue supports that delay, refuse instead of resolving early.
-    if run.combat.pendingDiscard then return nil, "unsupported_potion_during_discard" end
-    if run.combat.pendingScry or run.combat.pendingPlay then return nil, "unsupported_potion_during_selection" end
-    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > run.data.rules.player.potionSlots then
+local function potionCandidate(run, slot, targetIndex, afterPotionActions)
+    if run.phase ~= 'combat' and run.potions[slot]~='blood_potion' and run.potions[slot]~='fruit_juice' then return nil,'not_in_combat' end
+    if run.phase == 'combat' then
+        if not run.combat or run.combat.phase ~= 'player' then return nil,'not_player_turn' end
+        if run.combat.pendingChoice or run.combat.cardActions then return nil,'card_choice_pending' end
+        if run.combat.pendingDiscard then return nil, 'unsupported_potion_during_discard' end
+        if run.combat.pendingScry or run.combat.pendingPlay then return nil, 'unsupported_potion_during_selection' end
+    end
+    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > M.potionCapacity(run) then
         return nil, "invalid_potion_slot"
     end
     local id = run.potions[slot]
     if not id then return nil, "empty_potion_slot" end
     local potion = find(run.data.potions.potions, id)
     if not potion then return nil, "unknown_potion" end
+    if id=='smoke_bomb' and run.combat then
+        for _,enemy in ipairs(run.combat.enemies) do
+            local def=run.combat.catalog.enemies[enemy.definitionId]
+            if def and def.tier=='boss' or (enemy.statuses.back_attack or 0)>0 then return nil,'smoke_not_allowed' end
+        end
+    end
+    local health = id=='blood_potion' or id=='fruit_juice'
+    local currentEvent=run.nodeFlow and run.nodeFlow.event
+    local legacyEvent=not run.nodeFlow and run.node
+    if health and (currentEvent and (currentEvent.id=='WeMeetAgain' or currentEvent.originalId=='WeMeetAgain')
+        or legacyEvent and (legacyEvent.eventId=='WeMeetAgain' or legacyEvent.sourceEventId=='WeMeetAgain')) then
+        return nil,'potion_event_restricted'
+    end
+    if run.phase ~= 'combat' then
+        if not health or (run.phase~='map' and run.phase~='node' and run.phase~='reward') then return nil,'not_in_combat' end
+        local candidate={hp=run.hp,maxHp=run.maxHp,outside=true}
+        for _,e in ipairs(potion.effects) do
+            local ok,reason=require('abyss_potion_health').apply(candidate,e.op,e.value,run.relics,false)
+            if not ok then return nil,reason end
+        end
+        candidate.relics=run.relics
+        RelicHooks.onUsePotion(candidate)
+        return candidate
+    end
     local candidate = Combat.copy(run.combat)
-    local called, ok, reason = pcall(Inventory.apply, candidate, potion.effects, targetIndex)
+    local called, ok, reason = pcall(function()
+        local applied,why=Inventory.apply(candidate,potion.effects,targetIndex,run,true)
+        if not applied then return false,why end
+        -- Integration point for COMBAT onUsePotion hooks: append their actions
+        -- on the staged battle, after Potion.use and before a single drain.
+        RelicHooks.onUsePotion(run,candidate)
+        if afterPotionActions then afterPotionActions(candidate) end
+        require('abyss_card_actions').drain(Combat,candidate)
+        return true
+    end)
     if not called then return nil, "potion_effect_failed" end
     if not ok then return nil, reason end
     return candidate
 end
 
-function M.usePotion(run, slot, targetIndex)
-    local battle, reason = potionCandidate(run, slot, targetIndex)
+function M.usePotion(run, slot, targetIndex, afterPotionActions)
+    if afterPotionActions~=nil and type(afterPotionActions)~='function' then return false,'invalid_potion_hook' end
+    local battle, reason = potionCandidate(run, slot, targetIndex,afterPotionActions)
     if not battle then return false, reason end
+    if battle.outside then
+        run.hp,run.maxHp=battle.hp,battle.maxHp
+        if run.combat then run.combat.player.hp,run.combat.player.maxHp=run.hp,run.maxHp end
+        run.potions=Combat.copy(run.potions);run.potions[slot]=nil
+        return true
+    end
     require("abyss_events").emit(battle, "potion", { slot = slot, id = run.potions[slot], target = targetIndex })
     local outcome = Combat.outcome(battle)
     if outcome then
@@ -535,7 +766,14 @@ function M.usePotion(run, slot, targetIndex)
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
     candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(run.potions), battle.player.gold
+    candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
+    candidate.relicCounters=Combat.copy(battle.relicCounters)
     candidate.potions[slot] = nil
+    if battle.smoked then
+        battle.phase='escaped'
+        candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil
+        candidate.lastResult={outcome='escaped',turn=battle.turn,encounterId=run.encounterId}
+    end
     if outcome then
         -- Reward preparation commits the continuous potion stream. Do not let
         -- an exception mutate a table still owned by the live run.
@@ -556,7 +794,7 @@ end
 -- Indexed by physical slot, with nil vacancies; do not iterate/count with ipairs/#.
 function M.potionView(run)
     local result = {}
-    for slot = 1, run.data.rules.player.potionSlots do
+    for slot = 1, M.potionCapacity(run) do
         local id = run.potions[slot]
         if id then
             local potion = find(run.data.potions.potions, id)

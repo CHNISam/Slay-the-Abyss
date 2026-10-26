@@ -1,0 +1,122 @@
+{
+  "targetHead": "308c1afa07fabb00f33d909a5a27739d8ec4bbae",
+  "changedPath": "tests/lua/support/potion_basic_five_fixture.lua",
+  "patch": "current-helper.patch",
+  "originalGitBlob": "aafe7f86ce2ed069dc420eee3cfd5635c2481e37",
+  "candidateGitBlob": "55043be4d13a76754ebb1641e9d64e20217ab8f9",
+  "candidateSha256": "75593c31653541d6c935fa092ef0ca8bfce4359591c1f6850b1a2fdfa4a764b7",
+  "cases": {
+    "basic": 2,
+    "draw": 5,
+    "status": 4,
+    "acquisition": 1,
+    "allNativeLua54Pass": true
+  },
+  "equalityCalls": {
+    "baseline": [
+      491276,
+      61463,
+      155947
+    ],
+    "candidate": [
+      491276,
+      61463,
+      155947
+    ],
+    "totalEach": 708686
+  },
+  "tostringCalls": {
+    "baseline": [
+      1265719,
+      158572,
+      401479
+    ],
+    "candidate": [
+      283167,
+      35646,
+      89585
+    ],
+    "totalSaved": 1417372
+  },
+  "instructionHook1000": {
+    "baseline": [
+      22208,
+      4835,
+      7550
+    ],
+    "candidate": [
+      16782,
+      4156,
+      5828
+    ]
+  },
+  "graphTraces": [
+    {
+      "fixture": "potion_basic_five",
+      "apiCalls": 86,
+      "bytesEach": 13159185,
+      "sha256": "ee21fdda5af31e77ae471ed0747e3a621845153d0f8a0512a7ff22ee249925d2",
+      "byteIdentical": true
+    },
+    {
+      "fixture": "potion_basic_five_draw",
+      "apiCalls": 29,
+      "bytesEach": 4499884,
+      "sha256": "9e97448459f11f5ff81f18f9f26aee4703ee5754be3e9c1b51aedd2d5645eefe",
+      "byteIdentical": true
+    },
+    {
+      "fixture": "potion_basic_five_status",
+      "apiCalls": 51,
+      "bytesEach": 10005093,
+      "sha256": "21b412cdb2b27595423919878b9098a63ff0f53a02d47b636ba4797ac78038df",
+      "byteIdentical": true
+    }
+  ],
+  "mutations": {
+    "names": [
+      "seed",
+      "data",
+      "deck",
+      "potions",
+      "combat",
+      "rng",
+      "shared-data",
+      "split-alias"
+    ],
+    "allEightRejectedOnBothSources": true,
+    "sameNormalizedFailureMessages": true
+  },
+  "coldTemplates": {
+    "newRunTemplatesAcrossThreeProcesses": 6,
+    "independentCopies": 27,
+    "openingStatusAliasChecks": 27,
+    "unchangedAfterSuite": true
+  },
+  "fengariInstalled": false,
+  "fengari30SecondClaim": false,
+  "fullCheckRun": false,
+  "nodeSyntaxCheck": "pass",
+  "diffWhitespaceCheck": "no whitespace diagnostics; no-index exit 1 represents the expected single-line content diff",
+  "remoteWrites": false,
+  "supersededPatch": "superseded-0b34-candidate.patch",
+  "failurePathCorrection": {
+    "change": "assert(false, originalMessage) after the single inequality comparison",
+    "priorCandidateGitBlob": "f260544bf52f89af259b2ab44a4348f35fd69aff",
+    "statefulEqualityCases": [
+      "false then true",
+      "always false",
+      "true then false"
+    ],
+    "originalAndCorrectedComparisonCallsEach": 1,
+    "sameErrorMessageForFailures": true,
+    "redBeforeFix": true,
+    "greenAfterFix": true,
+    "testsRerun": "current 308c 2/5/4+1, all eight mutations and helper contracts",
+    "priorSuccessfulPathCountsStillApplicable": true,
+    "fullGraphTraceRerun": false,
+    "profileRerun": false,
+    "evidenceDirectory": "failure-path-evidence",
+    "readOnlyPrHeadAtCorrection": "308c1afa07fabb00f33d909a5a27739d8ec4bbae"
+  }
+}
