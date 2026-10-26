@@ -62,6 +62,22 @@ card('ritual_dagger','仪式匕首','RitualDagger','attack','special',1,{e('ritu
 local raw='dark_shackles sadistic_nature panic_button trip dramatic_entrance impatience the_bomb blind bandage_up secret_technique deep_breath violence panache secret_weapon apotheosis mayhem hand_of_greed flash_of_steel forethought enlightenment purity panacea transmutation chrysalis discovery finesse magnetism master_of_strategy good_instincts swift_strike jack_of_all_trades metamorphosis mind_blast thinking_ahead madness'
 local src='madness thinking_ahead mind_blast metamorphosis jack_of_all_trades swift_strike good_instincts master_of_strategy magnetism finesse discovery chrysalis transmutation panacea purity enlightenment forethought flash_of_steel hand_of_greed mayhem apotheosis secret_weapon panache violence deep_breath secret_technique bandage_up blind the_bomb impatience dramatic_entrance trip panic_button sadistic_nature dark_shackles'
 local function words(s)local a={};for id in s:gmatch('%S+')do a[#a+1]=id end;return a end
+local powerNames={panache='声势',shackled='力量恢复',no_block='无法格挡',intangible='无实体',magnetism='磁引',mayhem='混沌',sadistic_nature='苦痛天性'}
+function M.powerDescription(actor,id)
+    local n=actor.statuses[id]or 0
+    if id=='panache'then return '本回合再打出'..n..'张牌，对全体敌人造成'..(actor.panacheDamage or 0)..'点伤害；每次触发及下回合开始重置为5张。'
+    elseif id=='shackled'then return '本角色回合结束时恢复'..n..'点力量，随后移除此效果。'
+    elseif id=='no_block'then return '卡牌提供的格挡降为0；每轮结束减少1层，当前剩余'..n..'层。'
+    elseif id=='intangible'then return '受到的每次伤害与失去生命最多1点；每轮结束减少1层，当前剩余'..n..'层。'
+    elseif id=='magnetism'then return '每回合开始时生成'..n..'张随机无色牌加入手牌，排除回复生命的牌。'
+    elseif id=='mayhem'then return '每回合开始的正常抽牌后，免费自动打出抽牌堆顶'..n..'张牌。'
+    elseif id=='sadistic_nature'then return '向敌人成功施加减益时，造成'..n..'点伤害；力量恢复不触发。'
+    elseif id:match('^colorless_bomb_')then
+        for _,bomb in ipairs(actor.colorlessBombs or {})do if bomb.id==id then
+            return '再经过'..n..'次己方回合结束，对全体敌人造成'..bomb.damage..'点伤害。'
+        end end
+    end
+end
 function M.withCards(data)
     if data.colorlessCards then
         local present={};for _,d in ipairs(data.cards.cards)do present[d.id]=true end
@@ -89,7 +105,7 @@ function M.withCards(data)
     out.cards.sourcePools.colorlessShop=shop
     local present={};for _,d in ipairs(out.statuses.statuses)do present[d.id]=true end
     for id,kind in pairs({panache='buff',shackled='debuff',no_block='debuff',intangible='buff',magnetism='buff',mayhem='buff',sadistic_nature='buff'})do
-        if not present[id]then out.statuses.statuses[#out.statuses.statuses+1]={id=id,name=id,description=id,kind=kind,
+        if not present[id]then out.statuses.statuses[#out.statuses.statuses+1]={id=id,name=powerNames[id],description=M.powerDescription({statuses={[id]=1}},id),kind=kind,
             stack='intensity',decay=(id=='no_block'or id=='intangible')and 'round_end_minus_1'or 'none'}end
     end
     out.colorlessCards=true;return out
@@ -322,12 +338,14 @@ function M.apply(combat,state,item)
     elseif kind=='panache'then
         if not state.player.statuses.panache then Actors.applyPower(state,state.player,'panache',5,state.player)end
         state.colorlessPanacheDamage=(state.colorlessPanacheDamage or 0)+a.value
+        state.player.panacheDamage=state.colorlessPanacheDamage
     elseif kind=='bomb'then
         state.colorlessBombs=state.colorlessBombs or {}
         local id='colorless_bomb_'..(#state.colorlessBombs+1)
         state.player.statusDefinitions[id]={id=id,name='延时爆破',kind='buff',stack='duration',decay='none',description='到期造成'..a.value..'点伤害。'}
         Actors.applyPower(state,state.player,id,3,state.player)
         state.colorlessBombs[#state.colorlessBombs+1]={id=id,turns=3,damage=a.value}
+        state.player.colorlessBombs=state.colorlessBombs
     elseif kind=='mayhem'then
         actions().enqueue(state,e('mayhemPlay',a.value))
     elseif kind=='mayhemPlay'then

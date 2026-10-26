@@ -226,7 +226,8 @@ function M.statusView(actor)
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
             kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
-            description = definition.description, temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
+            description = require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
+            temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
     local function resource(id,name,amount,description,icon,duration,kind)
         result[#result+1]={id='original_v4_'..id,name=name,amount=amount,description=description,icon=icon or 'strength',
@@ -327,6 +328,7 @@ function M.attackAmount(state, source, target, base, fixed)
         amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)
     end
     if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     return math.max(0, math.floor(amount))
 end
 
