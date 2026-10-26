@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-26Windows运行40292214533最终JS为1470通过/1失败/零跳过：oracle生成器源码因autocrlf检出为CRLF，字节哈希与已锁定LF源不一致。新增.gitattributes仅固定tools/oracles/sts1_chapter_queues.py为LF；不更换向量或预期哈希。原失败日志保留，另以真实Git的autocrlf=true检出验证字节一致；日常完整Linux CI继续实际验证。
+
 2026-10-26依用户已授权的Linux等价检验，日常Quality/check改用官方ubuntu-24.04，保留PR215的固定工具/Actions版本、精确SHA检出、有界下载和全部检查命令/断言/超时。5c3ed30的Linux1471项及工程/呈现已通过，Windows作业仍在JS阶段运行约15分钟，未判为代码失败；新提交会取消旧运行并保留记录。受信develop/master显式local-special的Windows平台诊断入口保留，不自动调用本机。Linux完整Lua与新SHA完整CI仍须实际通过才合并。
 
 2026-10-26另一执行入口合入PR215（develop b78fb06），随后将上游完整合入PR213为979efef；本会话已只读核对并快进保留。官方runner现固定windows-2025/ubuntu-24.04，保留上游checkout与工具配置。旧6344ef0运行被新提交自动取消，不判为代码失败；Linux工程与呈现成功记录保留。检出回归改为精确选择installed-Git步骤并仅指纹锁定PowerShell正文，排除相邻YAML注释；正文语义逐项核对未改，负对照与未知语义拒绝继续保留。
