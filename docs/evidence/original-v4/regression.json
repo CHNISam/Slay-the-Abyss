@@ -213,5 +213,16 @@
     },
     "runtimePayloadChanged": false,
     "finalExactHeadQuality": "required; latest current-head GitHub run is authoritative, earlier failure remains recorded"
+  },
+  "windowsVectorCheckoutFix": {
+    "failedHead": "1b6459c9f8075e571a95916295ace0ea4bbf4772",
+    "failedRun": 40305037959,
+    "failedJob": 121511945992,
+    "failures": 16,
+    "cause": "Windows Git autocrlf changed byte-exact committed Lua vector headers to CRLF, strict expectations require LF",
+    "fix": "gitattributes restricts the 16 base/upgrade frozen vector shards to text eol=lf; assertions and values unchanged",
+    "validation": "Actual Git cat-file --filters under core.autocrlf=true returns all 16 files byte-identical to LF sources",
+    "runtimePayloadChanged": false,
+    "quality": "Final exact-head complete hosted Quality still required"
   }
 }
