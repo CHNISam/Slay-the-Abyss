@@ -7,17 +7,19 @@ local function same(a,b)
  for k in pairs(b)do assert(a[k]~=nil)end
 end
 local function detail(id,move,effects,kind)
- local host,ui,panel,_,tap=H.setup({'defend'},{id})
- local enemy=host.run.combat.enemies[1]
+ local members=id=='gremlin_leader' and {'mad_gremlin','sneaky_gremlin',id} or {id}
+ local host,ui,panel,_,tap=H.setup({'defend'},members)
+ local index=#members
+ local enemy=host.run.combat.enemies[index]
  if effects then enemy.intents={{id='intent_fixture',kind=kind,effects=effects}};enemy.intentIndex=1
  else
   for i,intent in ipairs(enemy.intents)do if intent.id==move then enemy.intentIndex=i end end
   assert(enemy.intents[enemy.intentIndex].id==move)
  end
  local before=C.copy(host.run.combat)
- host:refresh();tap('enemy1',1)
+ host:refresh();tap('enemy'..index,1)
  same(host.run.combat,before)
- return panel:GetChild('notice').text,panel:GetChild('enemy1')
+ return panel:GetChild('notice').text,panel:GetChild('enemy'..index)
 end
 local heal=detail('mystic','heal')
 assert(heal:find('全体',1,true) and heal:find('16',1,true) and not heal:find('未知',1,true),'Mystic group heal intent is missing')
@@ -31,4 +33,12 @@ local wake=detail('lagavulin',nil,{},'stunned')
 assert(wake:find('惊醒',1,true))
 local stun,stunBox=detail('mystic',nil,{},'stunned')
 assert(not stun:find('惊醒',1,true) and stun:find('不行动',1,true) and stunBox:GetChild('intentLabel').text=='昏眩')
-print('ACT2_INTENT_UI_PASS 6')
+local rally=detail('gremlin_leader','rally')
+assert(rally:find('最多 2',1,true) and not rally:find('未知',1,true))
+local encourage=detail('gremlin_leader','encourage')
+assert(encourage:find('3',1,true) and encourage:find('6',1,true) and encourage:find('队友',1,true))
+local spawn=detail('collector','spawn')
+assert(spawn:find('2',1,true) and spawn:find('随从',1,true))
+local revive=detail('collector','revive')
+assert(revive:find('复活',1,true) and revive:find('存活',1,true))
+print('ACT2_INTENT_UI_PASS 10')

@@ -157,7 +157,8 @@ end
 -- effects themselves: the first effect class that differs from the kind.
 local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
-    enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff" }
+    enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
+    enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff' }
 local function intentBadge(intent)
     for _, kind in ipairs({ "debuff", "defend", "buff", "attack" }) do
         if kind ~= intent.kind then
@@ -231,6 +232,16 @@ local function intentView(state, index)
                 result[#result+1]='按你实际损失的生命回复自身生命'
                 rows[#rows+1]={icon='buff',colour=C.buff,name='吸血',text='按你实际损失的生命回复自身生命',note='格挡部分不产生治疗'}
             end
+        elseif effect.op=='enemyRally' or effect.op=='enemyTorchSpawn' or effect.op=='enemyTorchRevive' or effect.op=='enemyEncourage' then
+            local text,name
+            if effect.op=='enemyEncourage' then
+                name='鼓舞'
+                text='敌方全体存活单位各获得 '..number(effect.value)..' 层力量，其他队友各获得 6 点格挡'
+            elseif effect.op=='enemyRally' then name,text='召唤','召唤最多 2 名随从，补充空位'
+            elseif effect.op=='enemyTorchSpawn' then name,text='召唤','召唤 2 名燃炬随从'
+            else name,text='复活','复活已倒下的燃炬随从，存活随从保持原状态' end
+            result[#result+1]=text
+            rows[#rows+1]={icon='buff',colour=C.buff,name=name,text=text}
         elseif effect.op=='enemyHealAll' or effect.op=='enemyStrengthAll' or effect.op=='enemyCleanse' then
             local text,name
             if effect.op=='enemyHealAll' then
