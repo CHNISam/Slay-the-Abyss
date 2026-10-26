@@ -61,3 +61,7 @@ npm run verify:backlog
 - 诅咒说明仅接受既有Curses.isImplemented的严格元数据；保留批准的名称和已有文字，补四职业实际渲染及错误生命周期拒绝用例。Louse诊断逐字段只差combatGeneration；独立期望断言每个fresh Run首次战斗必须为1，完整状态比较不删字段、不弱化。全部11份失败文件及共享Vigor、跨幕核心共13份定向文件复跑通过。
 - 第三幕首强例外已用固定源独立整数解释器的原始seed10复现。终幕固定普通/精英/Boss队列各3槽由TheEnding方法事实独立抽取；不抽样或重置monsterRng。最终6项Node独立向量/第一幕回归与架构、固定Luacheck、diff和Backlog检查通过。
 - 没有把上述分批恢复写成“最终一次完整check全绿”，没有同SHA远端CI、官方候选、导入或平台试玩；M3整体和TASK-63均不转Done。
+
+## Falling 独立切片
+
+第三幕 Falling 的公开节点事务、原生选择界面和完整来源池抽取已接入。固定源规则、独立 RNG 向量及专用命令见 [ACT3_FALLING.md](ACT3_FALLING.md)。这是一项本地事件证据；其余第三幕事件、完整 campaign 与平台验收仍按原任务保留缺口。

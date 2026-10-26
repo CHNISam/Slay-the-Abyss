@@ -2,6 +2,7 @@
   "layers": {
     "abyss_silent_potions": "core",
     "abyss_silent_final_cards": "core",
+    "abyss_act3_events": "core",
     "abyss_battle_enemy_view": "ui",
     "abyss_act2_enemies": "core",
     "abyss_act2_ai": "core",

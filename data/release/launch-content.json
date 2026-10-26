@@ -363,6 +363,36 @@
         "evidence": []
       },
       "limitation": "35 ordinary shared cards plus four SPECIAL mechanics dependencies. SPECIAL event acquisition and per-item natural/platform acceptance remain pending. These are not part of any 75-card class count."
+    },
+    "falling": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/act3_falling_event.lua",
+          "tests/lua/act3_falling_ui.lua",
+          "tests/lua/act3_falling_natural.lua",
+          "tests/act3-falling-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "One Act 3 event only. Default Act 1 restricted-seven unchanged; source-full development campaign and exact transactions tested locally. Remaining Act 3 events and platform evidence are not covered."
     }
   },
   "cards": [
@@ -2981,6 +3011,32 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
+    },
+    {
+      "id": "falling",
+      "originalId": "Falling",
+      "choices": [
+        "continue",
+        "skill",
+        "power",
+        "attack",
+        "escape",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "result"
+      ],
+      "eligibility": "Act 3 only; naturally reachable through the unfiltered development campaign full source pool.",
+      "source": "src/lua/abyss_act3_events.lua",
+      "profile": "falling",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Excluded from default Act 1 restricted-seven inventory; Act 3 development campaign seed8 has local full-pool evidence. Complete campaign, platform and live acceptance remain pending.",
+      "act": 3
     }
   ],
   "relics": [

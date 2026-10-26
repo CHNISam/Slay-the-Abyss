@@ -36,10 +36,16 @@ for _, event in ipairs(manifest.events) do
     else
         assert(actual[event.id] and Pool.contentId[event.originalId] == event.id, 'Missing launch event: ' .. event.id)
     end
-    local run = Run.new(data, 1)
+    local chapter=event.act or 1
+    local run = Run.new(data, 1, chapter>1 and {experimental=true,campaign=true} or nil)
+    if chapter>1 then
+        run.act,run.floor=chapter,(chapter-1)*17
+        run.encounters=require('abyss_encounter_queue').new(run.runSeed,chapter)
+        run.unknown.pools=Pool.new('full',false,chapter)
+    end
     local flow = {event = {id = event.id, goldLoss = 20, damage = 16, canAttack = false, healAmount=math.floor(run.maxHp/3)}}
     if event.poolMode=='explicit-only' then
-        local map=Map.generate(data,1)
+        local map=Map.generate(data,1,chapter)
         local first=Map.available(map)[1]
         for _,node in ipairs(map.nodes) do
             if node.id==first.id then node.type='event';node.eventId=event.id end
@@ -61,6 +67,10 @@ for _, event in ipairs(manifest.events) do
             flow.event.potionOffers={{id='fire_potion',claimed=false},{id='block_potion',claimed=false},{id='strength_potion',claimed=false}}
         end
         for _,option in ipairs(Nodes.eventOptions(run,flow)) do choices[option.choice]=true end
+    end
+    if event.id=='falling' then
+        local empty=Combat.copy(flow);empty.event.stage='choice';empty.event.candidates={}
+        for _,option in ipairs(Nodes.eventOptions(run,empty))do choices[option.choice]=true end
     end
     local wanted = {}; for _, choice in ipairs(event.choices) do wanted[choice] = true end
     for choice in pairs(choices) do assert(wanted[choice], 'Unlisted event option: ' .. event.id .. '/' .. choice) end

@@ -18,6 +18,7 @@ local LivingWall = require('abyss_living_wall')
 local Fountain = require('abyss_fountain')
 local RelicHooks = require('abyss_relic_hooks')
 local Act1Events = require('abyss_act1_events')
+local Act3Events = require('abyss_act3_events')
 local Acts = require('abyss_acts')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
@@ -121,6 +122,7 @@ local function prepare(run, node, miscRng)
         local id=node.eventId or run.data.rules.events.encounterId
         flow.event = { id = id }
         if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
+        if Act3Events.ids[id] then Act3Events.prepare(run,flow.event,miscRng) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -196,7 +198,8 @@ local function enter(run, map, nodeId)
     if node.type == "event" then
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
-            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain' and not Act1Events.ids[id] then return false, "event_unavailable" end
+            and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain' and not Act1Events.ids[id] and not Act3Events.ids[id] then return false, "event_unavailable" end
+        if Act3Events.ids[id] and run.act~=3 then return false,'event_unavailable'end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -496,6 +499,7 @@ end
 function M.eventOptions(run,flow)
     local id,e=flow.event.id,flow.event
     if Act1Events.ids[id] then return Act1Events.options(run,e,upgradeCards) end
+    if Act3Events.ids[id] then return Act3Events.options(run,e) end
     local rows={}
     local function option(choice,title,description,enabled,picker)
         rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
@@ -542,6 +546,11 @@ local function chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
     local id = flow.event.id
     local rules = run.data.rules.events[id] or {}
+    if Act3Events.ids[id] then
+        local ok,status=Act3Events.choose(run,flow,choice,uid)
+        if not ok or status~='complete'then return ok,status end
+        flow.eventChoice=choice;return complete(run)
+    end
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)
         if ok and run.hp==0 then
