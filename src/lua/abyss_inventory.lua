@@ -178,11 +178,10 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
             if state.player.block + 0.0 + value > maximum then return false, "effect_overflow" end
             Combat.block(state, state.player, value, true)
         elseif op == 'healPercent' then
-            -- BloodPotion.use adds HealAction to BOT. Compute its complete
-            -- amount with the shared binary32/relic arithmetic, without the
-            -- current missing-HP cap; HealAction caps when it actually runs.
+            -- BloodPotion.use adds the raw binary32 percentage to BOT.
+            -- Relics and the missing-HP cap apply when HealAction runs.
             local calculation={hp=0,maxHp=state.player.maxHp}
-            local called,healing=require('abyss_potion_health').apply(calculation,op,value,run and run.relics,true)
+            local called,healing=require('abyss_potion_health').apply(calculation,op,value,nil,true)
             if not called then return false,healing end
             require('abyss_card_actions').enqueue(state,{op='heal',value=healing},state.player)
         elseif op == 'increaseMaxHp' then

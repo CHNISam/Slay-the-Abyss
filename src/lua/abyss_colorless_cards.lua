@@ -141,7 +141,7 @@ end
 function M.describe(d,dynamic)
     local parts={};local labels={weak='虚弱',vulnerable='易伤',strength='力量',artifact='人工制品',intangible='无实体',no_block='无法从卡牌获得格挡',magnetism='每回合开始生成无色牌',mayhem='每回合开始自动打出抽牌堆顶牌',sadistic_nature='施加减益时造成伤害'}
     for i,f in ipairs(d.effects)do
-        local n=dynamic and ('{effects.'..i..'.value}')or tostring(f.value)
+        local n=dynamic and ('{effects.'..(i-1)..'.value}')or tostring(f.value)
         local text
         if f.op=='damage'or f.op=='damageAll'then text='造成'..n..'点伤害'..(f.op=='damageAll'and '（全体敌人）'or '')
         elseif f.op=='block'then text='获得'..n..'点格挡'

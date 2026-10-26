@@ -312,17 +312,12 @@ function M.apply(combat,state,item)
         combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
     elseif op=="block" and e.fixed then combat.block(state,source,value,true)
     elseif op=="heal" then
+        if source==state.player then
+            value=require('abyss_potion_health').modifyHealing(value,state.relics,true)
+        end
         if state.originalV4 and source==state.player then
             require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)
         elseif source.hp>0 then
-            if source==state.player then
-                local blocked=false
-                for _,id in ipairs(state.relics or {}) do
-                    if id=='mark_of_bloom' then blocked=true
-                    elseif id=='magic_flower' then value=math.floor(value*1.5+0.5) end
-                end
-                if blocked then value=0 end
-            end
             local amount=math.min(value,source.maxHp-source.hp)
             local beforeHp=source.hp
             source.hp=source.hp+amount

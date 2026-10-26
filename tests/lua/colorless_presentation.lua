@@ -1,6 +1,23 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local C=require('abyss_combat');local A=require('abyss_actor');local data=require('abyss_data')
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
+local Run=require('abyss_run');local Display=require('abyss_card_display')
+local catalog=Run.new(data,42)
+local battle=C.new(catalog.data,{deck={},enemies={'jaw_worm'},seed=42})
+local presentation=require('abyss_character_presentation').prepare(require('abyss_presentation'),catalog.data)
+local rendered=0
+for _,definition in ipairs(catalog.data.cards.cards)do if definition.colorlessNative then
+ for _,upgraded in ipairs({false,true})do
+  local instance={cardId=definition.id,upgraded=upgraded}
+  local live=C.cardDefinition(battle,instance)
+  local text=Display.permanentText(presentation[definition.id],live,instance)
+  assert(type(text)=='string' and text~='' and not text:find('{effects',1,true),definition.id)
+  if definition.id=='good_instincts' then eq(text,upgraded and '获得9点格挡。' or '获得6点格挡。') end
+  if definition.id=='finesse' then eq(text,upgraded and '获得4点格挡。抽1张牌。' or '获得2点格挡。抽1张牌。') end
+  rendered=rendered+1
+ end
+end end
+eq(rendered,78)
 local s=C.new(data,{deck={'strike'},enemies={'jaw_worm'},seed=1})
 A.addStatus(s.enemies[1],'intangible',1)
 eq(C.cardPreview(s,s.hand[1],1)[1].low,1)
@@ -24,4 +41,4 @@ local host,ui,panel=H.setup({'strike','defend'},{'jaw_worm'})
 A.addStatus(host.run.combat.player,'intangible',1);ui:render()
 eq(panel:GetChild('enemy1'):GetChild('intent').text,'1')
 local live=host.run.combat;local hpBefore=live.player.hp;assert(C.endTurn(live));eq(hpBefore-live.player.hp,1)
-print('ok colorless status explanations and Intangible live preview parity')
+print('ok all 78 colorless display variants, status explanations and Intangible live preview parity')
