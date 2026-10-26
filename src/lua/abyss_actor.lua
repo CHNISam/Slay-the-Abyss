@@ -445,21 +445,25 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     return lost
 end
 
-function M.blockAmount(state, actor, amount, fixed)
+function M.blockFloat(state, actor, amount, fixed)
     if not fixed and (actor.statuses.no_block or 0)>0 then return 0 end
     amount = amount + 0.0
     if not fixed then
         amount = amount + (actor.statuses.dexterity or 0)
         if (actor.statuses.frail or 0) > 0 then amount = amount * state.rules.combat.frailPercent / 100 end
     end
-    return math.max(0, math.floor(amount))
+    return math.max(0,amount)
+end
+function M.blockAmount(state, actor, amount, fixed)
+    return math.floor(M.blockFloat(state,actor,amount,fixed))
 end
 
-function M.block(state, actor, amount, fixed)
+function M.block(state, actor, amount, fixed,callbackAmount)
     local before = actor.block
     -- Cap the final state, not the modifier calculation or its float precision.
     local gained=M.blockAmount(state, actor, amount, fixed)
     actor.block = math.min(999, actor.block + 0.0 + gained)
+    if actor==state.player then require('abyss_watcher_final_cards').gainedBlock(state,callbackAmount or M.blockFloat(state,actor,amount,fixed))end
     if state.originalV4 and actor==state.player and actor.block==before then return end
     Events.emit(state, "block", {source = actor.id, target = actor.id, amount = actor.block - before})
     if state.originalV4Preview and actor==state.player and actor.block>before then

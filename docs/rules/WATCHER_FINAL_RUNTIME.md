@@ -12,3 +12,5 @@ Ragnarok 每击选择当时活敌并重新算伤害；Expunger 保存生成时 X
 `watcher_final_damage_generation.lua` 覆盖基本／升级、阈值、0X、反伤致死中断。其余 Final 候选仍以能力门禁拒绝，不计入完整75验收。
 
 Conclude、Vault、Deva Form、Blasphemy、Deus Ex Machina、Foresight、Master Reality 已进入真实回合或抽牌路径。对应 `watcher_final_turn.lua` 与 `watcher_final_draw_powers.lua` 先红后绿，包含跳敌方／轮末、HP_LOSS虚无、Deva堆叠递增和回合开始Scry暂停续抽。
+
+Wave of the Hand 按正float格挡回调（含999上限与floor前不足1）排虚弱；Establishment按源优先级25扫描当时保留手牌，再与化沙降费续队列组合。Meditate复用真实UID检索，auto-all满手溢出也标保留；Omniscience强制单牌也选择，原牌消耗、全字段statEquivalent副本purge。后者的遗物／自动use生命周期另依赖共享队列修复，完整组合回归未完成。

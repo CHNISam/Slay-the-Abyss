@@ -103,8 +103,9 @@ end
 
 M.ops={gainWatcherFinalPower=true,watcherFinalGenerate=true,watcherFinalConjureBlade=true,
  watcherFinalJudgment=true,watcherFinalRagnarok=true,watcherFinalSpiritShield=true,watcherFinalExpungerHits=true,
- watcherFinalDamageHit=true,watcherFinalOmega=true,watcherFinalEndTurnEarly=true,watcherFinalSkipEnemiesTurn=true,watcherFinalDeusExMachina=true}
-M.availablePowers={free_attack=true,omega=true,end_turn_death=true,deva_form=true,master_reality=true,foresight=true}
+ watcherFinalDamageHit=true,watcherFinalOmega=true,watcherFinalEndTurnEarly=true,watcherFinalSkipEnemiesTurn=true,watcherFinalDeusExMachina=true,watcherFinalEstablishment=true,
+ watcherFinalMeditate=true,watcherFinalOmniscience=true}
+M.availablePowers={free_attack=true,omega=true,end_turn_death=true,deva_form=true,master_reality=true,foresight=true,wave_of_the_hand=true,establishment=true}
 function M.supported(card)
  for _,a in ipairs(card.effects or {})do
   if M.allOps[a.op] and not M.ops[a.op]then return false end
@@ -149,6 +150,19 @@ function M.cancelAutomatic(combat,state)
  end
  state.queuedCards=nil
 end
+function M.gainedBlock(state,amount)
+ local n=state.player.statuses.wave_of_the_hand or 0
+ if amount<=0 or n<=0 then return end
+ local effect={op='applyStatusAll',status='weak',value=n}
+ if state.actionQueue then require('abyss_action_queue').pushBottom(state,{kind='effect',effect=effect})
+ else require('abyss_card_actions').enqueue(state,effect)end
+end
+function M.endRound(state)
+ if state.player.statuses.wave_of_the_hand~=nil then
+  require('abyss_power_schedule').remove(state,state.player,'wave_of_the_hand')
+  state.player.statuses.wave_of_the_hand=nil
+ end
+end
 local function target(state,id)
  id=id or state.pendingPlay and state.pendingPlay.targetId
  for _,enemy in ipairs(state.enemies)do if enemy.id==id then return enemy end end
@@ -168,10 +182,23 @@ function M.execute(combat,state,effect,queue)
   state.endTurnAfterCard=true
  elseif op=='watcherFinalSkipEnemiesTurn' then
   state.skipMonsterTurn=true
+ elseif op=='watcherFinalEstablishment' then
+  for _,c in ipairs(state.hand)do
+   local d=combat.cardDefinition(state,c)
+   if (d.selfRetain or c.retain)and not d.costMode and d.cost>=0 then
+    local base=c.combatCost or combat.combatBaseCost(state,c)
+    local turn=c.turnCost or c.costForTurn or base
+    c.combatCost=math.max(0,(turn>0 and turn or base)-effect.value)
+    c.turnCost=turn>0 and c.combatCost or 0
+   end
+  end
  elseif op=='watcherFinalOmega' then
   for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then combat.retaliate(state,nil,enemy,effect.value)end end
  elseif op=='watcherFinalGenerate' then
   require('abyss_build_actions').makeCard(state,effect)
+ elseif op=='watcherFinalMeditate' or op=='watcherFinalOmniscience' then
+  return require('abyss_pile_choice').begin(state,op=='watcherFinalMeditate' and 'meditate' or 'omniscience',
+   op=='watcherFinalMeditate' and effect.value or 1,state.combatGeneration or 0,combat)
  elseif op=='watcherFinalDeusExMachina' then
   if queue then
    top(state,queue,{op='makeTempCard',cardId='miracle',pile='hand',value=effect.value})

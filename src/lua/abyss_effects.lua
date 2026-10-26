@@ -470,7 +470,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 -- empty-list self fallback draws nothing. Legacy fixtures keep their adapter.
                 local recipient = #candidates > 0 and candidates[EnemyRandom.integer(state, #candidates, combat.random)] or source
                 combat.block(state, recipient, value, true)
-            else combat.block(state, source, value, effect.fixed) end
+            else combat.block(state, source, value, effect.fixed,effect.blockCallbackAmount) end
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)

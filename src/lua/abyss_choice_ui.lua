@@ -106,7 +106,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
     local function render()
         if not self.visible then return end
         local kind=self.context.kind
-        child("title").text=kind=='pile' and (self.context.mode=='headbutt' and '回收至牌堆顶' or '回收至手牌')
+        child("title").text=kind=='pile' and (self.context.mode=='omniscience' and '全知：选择免费打出两次的牌' or self.context.mode=='meditate' and '冥想：回收并保留' or self.context.mode=='headbutt' and '回收至牌堆顶' or '回收至手牌')
             or kind=="scry" and "占卜" or kind=="discard" and "选择弃牌"
             or self.context.mode=="put_on_deck" and "放回抽牌堆顶" or "选择消耗"
         local pileName=({draw='抽牌堆',discard='弃牌堆',exhaust='消耗堆'})[self.context.pending.source]

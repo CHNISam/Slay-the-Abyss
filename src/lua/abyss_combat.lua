@@ -943,6 +943,7 @@ queuedHandlers.effect = function(state, action, queue)
         for _,instance in ipairs(cards) do
             local _,intent=retained.onRetained(state,instance)
             state.hand[#state.hand+1]=instance
+            instance.retain=nil
             if type(intent)=="table" then queue.pushBottom(state,{kind="effect",effect=intent}) end
         end
         state.retainedCards=nil
@@ -952,7 +953,7 @@ queuedHandlers.effect = function(state, action, queue)
         while #state.hand>0 do
             local instance=table.remove(state.hand)
             local card=M.cardDefinition(state,instance)
-            assert(not card.ethereal and not card.selfRetain,"unprocessed end-turn card")
+            assert(not card.ethereal and not card.selfRetain and not instance.retain,"unprocessed end-turn card")
             state.discard[#state.discard+1]=instance
             if (state.player.statuses.corruption or 0)~=0 then require("abyss_corruption").onDrawOrDiscard(state) end
             require("abyss_silent_discard_cards").rememberDiscard(state,true)
@@ -1083,7 +1084,7 @@ function M.choosePile(state,uids,token,generation)
     if generation~=(state.combatGeneration or 0) then return false,'stale_pile_choice_generation' end
     local restore=require('abyss_snapshot').capture(state)
     local called,ok,reason=pcall(function()
-        local accepted,why=require('abyss_pile_choice').choose(state,uids,token,generation)
+        local accepted,why=require('abyss_pile_choice').choose(state,uids,token,generation,M)
         if not accepted then return false,why end
         local result=require('abyss_action_queue').resume(state,queuedHandlers)
         if result~='pause' then finishQueuedPlay(state) end
@@ -1171,6 +1172,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
             queued.normalAmounts={}
             for _,enemy in ipairs(state.enemies) do queued.normalAmounts[enemy.id]=M.attackAmount(state,state.player,enemy,queued.value) end
         elseif (queued.op=='block' and not queued.fixed) or queued.op=='nextBlock' then
+            if queued.op=='block' then queued.blockCallbackAmount=Actors.blockFloat(state,state.player,queued.value)end
             queued.value=M.blockAmount(state,state.player,queued.value);queued.fixed=true
             if queued.op=='nextBlock' then queued.fixed=nil end
         elseif queued.op=='conditional' then
@@ -1619,11 +1621,12 @@ local function endExperimentalTurn(state)
         if finish(state) then return true end
     end
     local endPowers={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true,omega=true})) do
+    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true,omega=true,establishment=true})) do
         local plan
         if entry.id=='combust' then plan=require('abyss_warrior_strength_cards').planHook(state,entry.id,'turn_end')
         elseif entry.id=='rage' then plan={bottom=require('abyss_card_triggers').prepareEndTurn(state)}
         elseif entry.id=='omega' then plan={bottom={{op='watcherFinalOmega',value=entry.amount}}}
+        elseif entry.id=='establishment' then plan={bottom={{op='watcherFinalEstablishment',value=entry.amount}}}
         else plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end') end
         for _,effect in ipairs(plan.bottom) do endPowers[#endPowers+1]=effect.kind and effect or {kind='effect',effect=effect} end
     end
@@ -1678,7 +1681,7 @@ local function endExperimentalTurn(state)
     for _, instance in ipairs(state.hand) do
         local card = M.cardDefinition(state, instance)
         local retainedThisTurn=instance.finalRetain;instance.finalRetain=nil
-        if (card.selfRetain or retainedThisTurn) and not card.ethereal then
+        if (card.selfRetain or retainedThisTurn or instance.retain) and not card.ethereal then
             retained[#retained + 1] = instance
         else remaining[#remaining+1]=instance end
     end
@@ -1787,6 +1790,7 @@ local function endExperimentalTurn(state)
         local queue=require('abyss_action_queue');queue.start(state,actions)
         assert(queue.run(state,queuedHandlers)==true,'unexpected Blur selection')
     end
+    require('abyss_watcher_final_cards').endRound(state)
     Actors.endRound(state, state.player)
     for _, enemy in ipairs(state.enemies) do
         if Actors.isActive(enemy) then Actors.endRound(state, enemy) end
