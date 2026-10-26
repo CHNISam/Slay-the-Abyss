@@ -18,4 +18,23 @@ local registered=require('abyss_colorless_cards').withCards(D)
 local registeredRun=Run.new(registered,42)
 assert(registeredRun.data.runCardCatalog and card(registeredRun.data,'survivor').sourceId=='Survivor')
 assert(not registered.runCardCatalog,'already registered caller bundle must remain caller owned')
+-- Constant foreign definitions must never freeze current caller-owned branches.
+local function entry(list,id)for _,v in ipairs(list)do if v.id==id then return v end end;error(id)end
+entry(source.statuses.statuses,'weak').name='当前调用方虚弱'
+entry(source.relics.relics,'burning_blood').catalogCallerWord='current relic'
+source.potions.potions[1].catalogCallerWord='current potion'
+source.cards.sourcePools.reward.common[1],source.cards.sourcePools.reward.common[2]=source.cards.sourcePools.reward.common[2],source.cards.sourcePools.reward.common[1]
+local current=Run.new(source,43,{character='silent',experimental=true})
+assert(entry(current.data.statuses.statuses,'weak').name=='当前调用方虚弱')
+assert(entry(current.data.relics.relics,'burning_blood').catalogCallerWord=='current relic')
+assert(current.data.potions.potions[1].catalogCallerWord=='current potion')
+assert(current.data.rules.player.maxHp==70,'selected class still owns its starting rules')
+for _,id in ipairs({'silent','defect','watcher'})do
+ local selected=Run.new(source,43,{character=id,experimental=true})
+ assert(selected.data.catalogTestA==selected.data.catalogTestB and selected.data.catalogTestA.self==selected.data.catalogTestA)
+ assert(selected.data.catalogTestA~=graph and selected.data.catalogTestA~=current.data.catalogTestA)
+ assert(entry(selected.data.statuses.statuses,'weak').name=='当前调用方虚弱')
+end
+local reordered=Run.new(source,44)
+assert(reordered.data.cards.sourcePools.reward.common[1]==source.cards.sourcePools.reward.common[1],'default source order reads the latest caller array')
 print('RUN_CARD_CATALOG_ISOLATION_PASS fresh caller reads, graph cycles/aliases, two Run and two actual combat private ownership')

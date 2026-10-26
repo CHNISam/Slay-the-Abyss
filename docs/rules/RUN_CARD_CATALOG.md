@@ -15,3 +15,7 @@ Run.new对默认战士及四个初代职业装配300张普通职业牌和它们�
 第二片定向验收使用真实Run命令：Silent获取Rage后分别触发蓝色普通攻击及原生Sword Boomerang；外色抽牌触发Evolve/Fire Breathing；Watcher获取FNP/Dark Embrace/Corruption后，Hologram以原UID暂停和恢复多候选弃牌选择；Master Reality升级新Shiv/Beta/White Noise牌；非机器人以Capacitor从0槽获得2槽再Channel，Calm退出获得2能量；White Noise真实采样后的升级错误恢复整个Run及全部原对象引用、RNG和UID计数。原生九张逐牌在外职业Run实际执行。全目录静态基础／升级说明和600个能力判断通过。
 
 固定Node24下单份短例参考耗时：Foreign1.554s、五种构造3.318s、隔离1.760s、源身份JS0.828s、跨色获取2.255s、生成／姿态／回滚2.506s、原生选择2.261s、原生战斗2.390s、300牌呈现0.956s。每职业连续8次fresh Run.new的独立小量测为默认2.865s／Silent3.270s／Defect2.841s／Watcher2.904s；这不代替原有30秒fixture性能门禁，完整门禁与重矩阵尚待统一CPU窗口验证。未增加超时预算、删减现有断言或母池。
+
+完整character_shop首轮在原30秒上限超时，停在第四组Poison Potion的4职业×16 seed循环；前三职业商店组通过。单份短剖析定位为每次Run反复调用职业构造器的递归复制：红色六级各约3240字段，非红构造链各1486–2991字段，sourcePools仅275字段。优化仅复用由空骨架编译的非选中职业代码常量，不读取首个caller；入Run仍复制。选中职业继续每次通过Profiles.prepare读取当前五个内容分支，调用方其余图由既有Copy.copy私有化，历史RawProfile入口未改。
+
+补强测试保留所选Silent/Defect/Watcher的循环与共享扩展图、当前规则／状态／遗物／药水词条和来源顺序。已有兼容foreign卡／能力保留调用方当前词条和有接口意义的别名；卡效果或能力优先级冲突明确拒绝。优化后原character_shop在完全不改fixture、30秒上限与循环断言的情况下19546ms通过全部四组。原始前后机器证据及生产／fixture哈希见docs/evidence/run-card-catalog-performance.json；其他完整呈现门禁与重矩阵仍待独立窗口。

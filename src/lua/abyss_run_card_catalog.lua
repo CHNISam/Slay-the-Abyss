@@ -8,6 +8,21 @@ local colors={ironclad='red',silent='green',defect='blue',watcher='purple'}
 local basicSourceIds={survivor='Survivor'}
 local native={armaments=true,havoc=true,sword_boomerang=true,dual_wield=true,infernal_blade=true,
  searing_blow=true,double_tap=true,feed=true,juggernaut=true}
+local constantComponents
+local function components()
+ if not constantComponents then
+  -- Compile only module-authored constants from an empty scaffold. Never read
+  -- any caller here: rules/cards/statuses and extension graphs are read anew
+  -- below. These private constants are never returned or installed by alias.
+  local compiled={}
+  for _,id in ipairs({'silent','defect','watcher'})do
+   compiled[id]=Profiles.prepare({rules={player={}},cards={cards={}},
+    statuses={statuses={}},relics={relics={}},potions={potions={}}},id)
+  end
+  constantComponents=compiled
+ end
+ return constantComponents
+end
 local function carrier(data)
  -- Fact builders need these dependencies only. Do not repeatedly copy enemies,
  -- events, presentation or caller extension graphs through every component.
@@ -29,18 +44,88 @@ local function metadata(data)
  end end
  return result
 end
+local foreignCards,foreignMetadata,ruleKeys
+local words={id=true,sourceId=true,sts_name=true,name=true,color=true,text=true,upgradeText=true,healing=true}
+local function authoredCards()
+ if not foreignCards then
+  foreignCards,foreignMetadata,ruleKeys={},{},{target=true,runNativeABI=true}
+  for _,id in ipairs({'silent','defect','watcher'})do
+   local provider=components()[id];local facts=metadata(provider)
+   for _,c in ipairs(provider.cards.cards)do if regular(c)then
+    foreignCards[c.id]=c;foreignMetadata[c.id]=facts[c.id]
+    for k in pairs(c)do if not words[k]then ruleKeys[k]=true end end
+   end end
+  end
+ end
+ return foreignCards,foreignMetadata
+end
+local function same(a,b)
+ if type(a)~='table'or type(b)~='table'then return a==b end
+ for k,v in pairs(a)do if not same(v,b[k])then return false end end
+ for k in pairs(b)do if a[k]==nil then return false end end
+ return true
+end
+local function validateForeign(card)
+ local authored,facts=authoredCards();local expected=authored[card.id]
+ if not expected then return end
+ for k in pairs(ruleKeys)do assert(same(card[k],expected[k]),'incompatible caller foreign card: '..card.id..'.'..k)end
+ local fact=facts[card.id]
+ assert((card.sourceId==nil or card.sourceId==fact.sourceId)and(card.color==nil or card.color==expected.color)
+  and(card.healing==nil or card.healing==fact.healing),'incompatible caller foreign identity: '..card.id)
+end
+local function canonicalForeign(card)
+ local expected=foreignCards[card.id];local fact=foreignMetadata[card.id]
+ card.color,card.sourceId,card.healing=expected.color,fact.sourceId,fact.healing==true or nil
+ for k in pairs(words)do if card[k]==nil and expected[k]~=nil then card[k]=Copy.copy(expected[k])end end
+ return card
+end
 local function statusCompatible(a,b)
  local function priority(s)return s.priority or(s.id=='intangible'and 75 or 5)end
  return a.kind==b.kind and a.stack==b.stack and a.decay==b.decay and priority(a)==priority(b)
+end
+function M.prepareSelected(source,id)
+ -- The historical factory reads the CURRENT five content branches. Its plain
+ -- tree builders never receive unrelated caller graph extensions. Preserve
+ -- those with the existing graph-copy owner, including cycles and aliases.
+ local input=carrier(source);local template=components()[id]
+ if template then
+  local generated={};for _,s in ipairs(template.statuses.statuses)do generated[s.id]=s end
+  input.statuses={};for k,v in pairs(source.statuses)do input.statuses[k]=v end
+  input.statuses.statuses={}
+  for _,s in ipairs(source.statuses.statuses)do
+   if generated[s.id]then assert(statusCompatible(s,generated[s.id]),'incompatible caller Power: '..s.id)
+   else input.statuses.statuses[#input.statuses.statuses+1]=s end
+  end
+ end
+ local prepared,profile=Profiles.prepare(input,id)
+ local out=Copy.copy(source);local current,currentStatuses=out.cards.cards,out.statuses.statuses
+ for k,v in pairs(prepared)do out[k]=v end
+ local positions={};for i,c in ipairs(out.cards.cards)do positions[c.id]=i end
+ local authored=authoredCards()
+ for _,c in ipairs(current)do if authored[c.id]then
+  validateForeign(c);local at=positions[c.id]or #out.cards.cards+1
+  out.cards.cards[at]=canonicalForeign(c);positions[c.id]=at
+ end end
+ positions={};for i,s in ipairs(out.statuses.statuses)do positions[s.id]=i end
+ for _,s in ipairs(currentStatuses)do
+  local at=positions[s.id]
+  assert(not at or statusCompatible(s,out.statuses.statuses[at]),'incompatible caller Power: '..s.id)
+  out.statuses.statuses[at or #out.statuses.statuses+1]=s
+ end
+ return out,profile
 end
 function M.prepare(source,selected,character,owned)
  assert(not selected.originalV4Role,'original V4 does not use the STS catalogue assembler')
  character=character or 'ironclad';assert(colors[character],'unknown Run catalogue character')
  -- Own the caller graph once. Factory-owned selected graphs are already private.
  local out=owned and selected or Copy.copy(selected)
+ local authored,facts=authoredCards()
+ local overrides={}
+ for _,c in ipairs(source.cards.cards)do if authored[c.id]then validateForeign(c);overrides[c.id]=true end end
  local providers={ironclad=red(source)}
+ local constants=components()
  for _,id in ipairs({'silent','defect','watcher'})do
-  providers[id]=character==id and out or Profiles.prepare(carrier(source),id)
+  providers[id]=character==id and out or constants[id]
  end
  local sourceMeta=metadata(source)
  local cards,positions,statuses,potions={},{},{},{}
@@ -55,17 +140,17 @@ function M.prepare(source,selected,character,owned)
    local isRegular=regular(value)
    -- Non-red providers retain only their own cards plus shared state/derived
    -- dependencies. Never borrow another provider's rules, pool or starter.
-   if not isRegular or id=='ironclad'and(not value.color or value.color=='red')or value.color==colors[id]then
-    local c=Copy.copy(value)
+   if not isRegular or id=='ironclad'and not authored[value.id]and(not value.color or value.color=='red')or value.color==colors[id]then
+    local at=positions[value.id]
+    local c=overrides[value.id]and at and canonicalForeign(cards[at])or Copy.copy(value)
     if isRegular then
      count=count+1;c.color=colors[id]
-     local fact=assert(meta[c.id],'missing source card metadata')
+     local fact=assert(facts[c.id]or meta[c.id],'missing source card metadata')
      assert(c.type==fact.type and c.rarity==fact.rarity,'incompatible source card type/rarity: '..c.id)
      c.sourceId=fact.sourceId;c.healing=fact.healing==true or nil
      c.runNativeABI=native[c.id]or nil
      allMeta[c.id]=Copy.copy(fact)
     end
-    local at=positions[c.id]
     if isRegular or not at or c.id=='burn'and c.burnDamage~=nil then
      at=at or #cards+1;cards[at]=c;positions[c.id]=at
     end
@@ -75,7 +160,7 @@ function M.prepare(source,selected,character,owned)
   for _,s in ipairs(provider.statuses.statuses)do
    local old=statuses[s.id]
    assert(not old or statusCompatible(old,s),'incompatible shared Power: '..s.id)
-   if not old or id=='ironclad'then statuses[s.id]=Copy.copy(s)end
+   if not old then statuses[s.id]=Copy.copy(s)end
   end
   for _,p in ipairs(provider.potions.potions)do if not potions[p.id]then
    out.potions.potions[#out.potions.potions+1]=Copy.copy(p);potions[p.id]=true

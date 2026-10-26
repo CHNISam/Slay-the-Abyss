@@ -36,7 +36,7 @@ function M.new(data, seed, options)
             assert(options.experimental == true,
                 "non-default characters require explicit experimental mode")
             if options.character~=nil then
-                data,profile=require('abyss_character_profiles').prepare(data,options.character)
+                data,profile=require('abyss_run_card_catalog').prepareSelected(data,options.character)
                 ownsData=true
             end
         end

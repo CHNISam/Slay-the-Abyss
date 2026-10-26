@@ -1,0 +1,37 @@
+{
+  "scope": "Offline fixed Node24 original character_shop fixture; no fixture edits, timeout extensions, retries or reduced loops.",
+  "before": {
+    "node": "v24.18.0",
+    "head": "52ebd50f",
+    "fixture": "tests/lua/character_shop.lua",
+    "deadlineMs": 30000,
+    "started": "2026-10-26T19:21:27.787Z",
+    "elapsedMs": 30045,
+    "error": "Lua runner failed (tests/lua/character_shop.lua, 30000 ms): spawnSync F:\\New folder\\build\\tools\\node-v24.18.0-win-x64\\node.exe ETIMEDOUT\n--- Lua stdout ---\nok character shop 1 - silent merchant uses complete source identities and shared colorless cards\nok character shop 2 - defect merchant uses complete source identities and shared colorless cards\nok character shop 3 - watcher merchant uses complete source identities and shared colorless cards\n",
+    "cause": "ETIMEDOUT",
+    "status": null
+  },
+  "after": {
+    "node": "v24.18.0",
+    "baseHead": "52ebd50f",
+    "productionHashes": {
+      "src/lua/abyss_run_card_catalog.lua": "1d97d71148df088ef359f1bad933cdbce70e0022337b13a5dcf641a08c927181",
+      "src/lua/abyss_run.lua": "02aeb2da4575309d8abd1d2d0e761d1f38cbedd720016de095e4198962764819",
+      "tests/lua/character_shop.lua": "8f40c6869af27e8afdb5b64545b5c7a11d4503104100ea83ffac3ba804a03428"
+    },
+    "fixture": "tests/lua/character_shop.lua",
+    "deadlineMs": 30000,
+    "started": "2026-10-26T19:33:42.914Z",
+    "status": 0,
+    "signal": null,
+    "output": [
+      null,
+      "ok character shop 1 - silent merchant uses complete source identities and shared colorless cards\nok character shop 2 - defect merchant uses complete source identities and shared colorless cards\nok character shop 3 - watcher merchant uses complete source identities and shared colorless cards\nok character shop 4 - Poison Potion class eligibility agrees in merchant and reward selection\nCHARACTER_SHOP_PASS 4\n",
+      ""
+    ],
+    "pid": 38208,
+    "stdout": "ok character shop 1 - silent merchant uses complete source identities and shared colorless cards\nok character shop 2 - defect merchant uses complete source identities and shared colorless cards\nok character shop 3 - watcher merchant uses complete source identities and shared colorless cards\nok character shop 4 - Poison Potion class eligibility agrees in merchant and reward selection\nCHARACTER_SHOP_PASS 4\n",
+    "stderr": "",
+    "elapsedMs": 19546
+  }
+}
