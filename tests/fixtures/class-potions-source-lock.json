@@ -1,7 +1,7 @@
 {
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
-  "scope": "Focus/Capacity, Watcher Miracle/Ambrosia and Darkness slices; source facts only, no official binary qualification",
+  "scope": "Class potion Focus/Capacity/Miracle/Ambrosia/Darkness/typed Stance slices; source facts only, no official binary qualification",
   "files": {
     "potions/FocusPotion.java": "eec876227abd9185408f7b86cc8a74c5607d0b40b7de16e521e95faa0cb32d76",
     "potions/PotionOfCapacity.java": "8c6a3826cf754f8db2a892857361bce794f0b453fa70ba90df626e0387d25406",
@@ -27,6 +27,13 @@
     "orbs/Frost.java": "74c6f567c91c526b0fd2b9b8040888bab54eab329d099251ad94f81dadeb1439",
     "orbs/Plasma.java": "3758d5402fd24491fae363bf64fc4e871e917f5f89d44d2265840c96db648cce",
     "actions/common/GainEnergyAction.java": "d370759b93d7211ac1888865db1624344c953864728fcc741d385a139cf0028d",
-    "actions/GameActionManager.java": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    "actions/GameActionManager.java": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+    "potions/StancePotion.java": "15e158d7974dc17533d15341ef9c1dbde7fdd3873d17576c68dff18a82a27cdc",
+    "actions/watcher/ChooseOneAction.java": "62464e9e386a03a3675c3fd49945147216022aba00dbeb39ebac23faebd80f71",
+    "cards/optionCards/ChooseWrath.java": "5aebc625885254a76a2e55c23c6d98686b9b8764b4aecb0636f822aba079bcd3",
+    "cards/optionCards/ChooseCalm.java": "90d3da2292adc07e3f4d9732720e01fe82b7855fca5f2b4553b2db8555ca800d",
+    "screens/CardRewardScreen.java": "6883c6684c11f15b6e3a10466813b01354b05a41d33379e6a084da3ada429aae",
+    "stances/WrathStance.java": "f7533a1aff6ffe67bc16ab710fc6e45a8ca6016b44a5a41fcc4d110d4bc2b691",
+    "stances/CalmStance.java": "e2bbe0b48317ea4033ef497d4285c5ca48ae47d7fff768ecdba781ef5c9b8981"
   }
 }

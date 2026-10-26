@@ -5,10 +5,10 @@ local CardDisplay=require("abyss_card_display")
 local M={}
 local types={attack="攻击",skill="技能",power="能力",status="状态",curse="诅咒"}
 local states={"normal","hover","pressed","disabled"}
-local fields={discard="pendingDiscard",scry="pendingScry",hand="pendingHandChoice",pile='pendingPileChoice'}
+local fields={potion='pendingPotionChoice',discard="pendingDiscard",scry="pendingScry",hand="pendingHandChoice",pile='pendingPileChoice'}
 local function pending(run)
     if not run or run.phase~="combat" or not run.combat or run.combat.phase~="player" then return end
-    for _,kind in ipairs({"discard","scry","hand","pile"}) do
+    for _,kind in ipairs({"potion","discard","scry","hand","pile"}) do
         local choice=run.combat[fields[kind]]
         if choice then return kind,choice end
     end
@@ -21,6 +21,10 @@ end
 local function candidates(run,kind,choice)
     local battle=run.combat
     if choice.turn~=battle.turn then return end
+    if kind=='potion'then
+        local view=require('abyss_potion_stance').view(battle,run.combatGeneration)
+        return view and view.options
+    end
     if kind=='pile' then
         local view=require('abyss_pile_choice').view(battle)
         if not view or view.generation~=run.combatGeneration then return end
@@ -47,18 +51,21 @@ local function candidates(run,kind,choice)
     end
     return cards
 end
-local function facts(cards)
+local function facts(cards,kind)
     local result={}
     for i,card in ipairs(cards) do
-        result[i]={card=card,uid=card.uid,id=card.cardId,upgraded=card.upgraded==true}
+        result[i]=kind=='potion'and {option=card,id=card.id,name=card.name,text=card.text}
+            or {card=card,uid=card.uid,id=card.cardId,upgraded=card.upgraded==true}
     end
     return result
 end
-local function matches(cards,saved)
+local function matches(cards,saved,kind)
     if not cards or #cards~=#saved then return false end
     for i,card in ipairs(cards) do
         local old=saved[i]
-        if old.card~=card or old.uid~=card.uid or old.id~=card.cardId or old.upgraded~=(card.upgraded==true) then return false end
+        if kind=='potion'then
+            if old.option~=card or old.id~=card.id or old.name~=card.name or old.text~=card.text then return false end
+        elseif old.card~=card or old.uid~=card.uid or old.id~=card.cardId or old.upgraded~=(card.upgraded==true) then return false end
     end
     return true
 end
@@ -81,7 +88,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         return kind==c.kind and choice==c.pending and choice.token==c.token and choice.turn==c.pendingTurn
             and choice.count==c.count and choice.mode==c.mode
             and #c.battle.hand==c.handSize and #c.battle.draw==c.drawSize
-            and matches(candidates(c.run,kind,choice),c.cards)
+            and matches(candidates(c.run,kind,choice),c.cards,kind)
     end
     local function limit() return self.context.kind=="scry" and #self.cards or self.context.count or 1 end
     local function countAllowed()
@@ -91,6 +98,10 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         for i,value in ipairs(self.selected) do if value==uid then return i end end
     end
     local function cardText(instance)
+        if self.context.kind=='potion'then
+            local order=selected(instance.id)
+            return (order and '已选 '..order..' · 'or '')..instance.name..'\n'..instance.text
+        end
         local battle=self.context.battle
         local definition=Combat.cardDefinition(battle,instance)
         local display=assert(presentation[instance.cardId],"missing choice presentation "..instance.cardId)
@@ -106,14 +117,14 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
     local function render()
         if not self.visible then return end
         local kind=self.context.kind
-        child("title").text=kind=='pile' and (self.context.mode=='omniscience' and '全知：选择免费打出两次的牌' or self.context.mode=='meditate' and '冥想：回收并保留' or self.context.mode=='headbutt' and '回收至牌堆顶' or '回收至手牌')
+        child("title").text=kind=='potion'and '姿态药水：选择姿态'or kind=='pile' and (self.context.mode=='omniscience' and '全知：选择免费打出两次的牌' or self.context.mode=='meditate' and '冥想：回收并保留' or self.context.mode=='headbutt' and '回收至牌堆顶' or '回收至手牌')
             or kind=="scry" and "占卜" or kind=="discard" and "选择弃牌"
             or self.context.mode=="put_on_deck" and "放回抽牌堆顶" or "选择消耗"
         local pileName=({draw='抽牌堆',discard='弃牌堆',exhaust='消耗堆'})[self.context.pending.source]
-        local hint=kind=='pile' and ('从'..(pileName or '牌堆')..'选择 '..limit()..' 张牌。')
+        local hint=kind=='potion'and '选择一种姿态，必须完成选择。'or kind=='pile' and ('从'..(pileName or '牌堆')..'选择 '..limit()..' 张牌。')
             or kind=="scry" and "按选择顺序弃置；可不弃置。首张为抽牌堆顶。"
             or kind=="discard" and "选择 "..limit().." 张手牌弃置。" or "选择 1 张手牌。"
-        child("hint").text=hint.." 已选 "..#self.selected.." 张。"
+        child("hint").text=hint.." 已选 "..#self.selected..(kind=='potion'and ' 种。'or " 张。")
         child("status").text=self.error and "选择未提交，请重新确认。" or ""
         for slot=1,10 do
             local box=child("card"..slot)
@@ -122,7 +133,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
             box:GetChild("hit").interactable=card~=nil and not self.confirming
             if card then
                 caption(box,cardText(card))
-                local picked=selected(card.uid)~=nil
+                local picked=selected(kind=='potion'and card.id or card.uid)~=nil
                 for _,state in ipairs(states) do
                     local face=box:GetChild("hit"):GetChild(state)
                     local border=face:GetChild("border")
@@ -165,7 +176,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
             local battle=run.combat
             self.context={run=run,battle=battle,turn=battle.turn,combatGeneration=run.combatGeneration,
                 kind=kind,pending=choice,token=choice.token,pendingTurn=choice.turn,count=choice.count,mode=choice.mode,
-                cards=facts(cards),handSize=#battle.hand,drawSize=#battle.draw}
+                cards=facts(cards,kind),handSize=#battle.hand,drawSize=#battle.draw}
         end
         self.visible=true;root:SetVisible(true);root:SetAsLastSibling();render()
         return true
@@ -183,10 +194,11 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         if type(slot)~="number" or slot%1~=0 or slot<1 or slot>10 then return false,"invalid_choice_slot" end
         local card=self.cards[(self.page-1)*10+slot]
         if not card then return false,"invalid_choice_slot" end
-        local at=selected(card.uid)
+        local key=self.context.kind=='potion'and card.id or card.uid
+        local at=selected(key)
         if at then table.remove(self.selected,at)
-        elseif limit()==1 then self.selected={card.uid}
-        elseif #self.selected<limit() then self.selected[#self.selected+1]=card.uid
+        elseif limit()==1 then self.selected={key}
+        elseif #self.selected<limit() then self.selected[#self.selected+1]=key
         else return false,"too_many_choices" end
         self.generation=self.generation+1;self.error=nil;render();return true
     end
@@ -196,7 +208,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         local c=self.context
         local uids={};for i,uid in ipairs(self.selected) do uids[i]=uid end
         self.confirming=true;self.generation=self.generation+1;render()
-        local called,ok,reason=pcall(onConfirm,c.kind,uids,c.token,c.combatGeneration)
+        local called,ok,reason=pcall(onConfirm,c.kind,uids,c.token,c.combatGeneration,c.battle)
         self.confirming=false
         if not called then reason,ok=ok,false end
         if not ok then

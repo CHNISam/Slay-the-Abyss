@@ -28,5 +28,5 @@ end
 local snapshot=R.snapshot(e.shopRng.potion);eq(snapshot.counter,9);eq(snapshot.words[1],'51be2efcb2ee6631');eq(snapshot.words[2],'799e7a611da289b7')
 assert(Run.usePotion(e,3));assert(Run.usePotion(e,1));eq(e.combat.player.statuses.focus,2);eq(#e.combat.orbs.balls,3)
 local mother=P.pool('defect');eq(#mother,33);eq(mother[3].id,'essence_of_darkness');eq(#P.pool('watcher'),33);eq(P.pool('watcher')[2].id,'stance_potion')
-local w=Run.new(D,42,{character='watcher',experimental=true});eq(Run.obtainPotion(w,'stance_potion'),false)
-print('CLASS_POTION_DARKNESS_CHANNELS_PASS Entropic actual acquisition/use, exact RNG, full33 and honest missing Stance')
+local w=Run.new(D,42,{character='watcher',experimental=true});eq(Run.obtainPotion(w,'stance_potion'),true)
+print('CLASS_POTION_DARKNESS_CHANNELS_PASS Entropic actual acquisition/use, exact RNG, full33 and real Stance available')

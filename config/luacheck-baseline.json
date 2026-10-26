@@ -188,45 +188,45 @@
     },
     {
       "file": "src/lua/abyss_choice_ui.lua",
-      "line": 144,
+      "line": 155,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 67"
+      "message": "shadowing upvalue 'self' on line 74"
     },
     {
       "file": "src/lua/abyss_choice_ui.lua",
-      "line": 152,
+      "line": 163,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 67"
+      "message": "shadowing upvalue 'self' on line 74"
     },
     {
       "file": "src/lua/abyss_choice_ui.lua",
-      "line": 173,
+      "line": 184,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 67"
+      "message": "shadowing upvalue 'self' on line 74"
     },
     {
       "file": "src/lua/abyss_choice_ui.lua",
-      "line": 177,
+      "line": 188,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 67"
+      "message": "shadowing upvalue 'self' on line 74"
     },
     {
       "file": "src/lua/abyss_choice_ui.lua",
-      "line": 181,
+      "line": 192,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 67"
+      "message": "shadowing upvalue 'self' on line 74"
     },
     {
       "file": "src/lua/abyss_choice_ui.lua",
-      "line": 193,
+      "line": 205,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 67"
+      "message": "shadowing upvalue 'self' on line 74"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",

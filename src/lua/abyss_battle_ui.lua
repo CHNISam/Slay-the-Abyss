@@ -847,12 +847,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.feedback:begin(before, battle, first, presentation, origin)
         return ok, reason
     end
-    function self:chooseCards(kind, uids, token, generation)
+    function self:chooseCards(kind, uids, token, generation,battle)
         if self.busy or not self.run or self.run.phase~="combat" then return false, "not_in_combat" end
         local command = kind=="discard" and Run.chooseDiscard or kind=="scry" and Run.chooseScry
-            or kind=="hand" and Run.chooseHand or kind=='pile' and Run.choosePile
+            or kind=="hand" and Run.chooseHand or kind=='pile' and Run.choosePile or kind=='potion'and Run.choosePotionStance
         if not command then return false, "invalid_choice_kind" end
-        return perform(function() return command(self.run,uids,token,generation) end)
+        return perform(function() return command(self.run,uids,token,generation,battle) end)
     end
     local function helpContextChanged(help)
         local current = self.run and self.run.combat

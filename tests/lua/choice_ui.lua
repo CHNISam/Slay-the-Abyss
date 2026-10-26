@@ -45,7 +45,7 @@ local function battle(data,id,up,filler)
     end
     error("no reproducible choice fixture")
 end
-local function wrap(s) return {phase="combat",combat=s,combatGeneration=7} end
+local function wrap(s) return {phase="combat",combat=s,combatGeneration=7,deck={}} end
 local function callback(run)
     return function(kind,uids,token,generation)
         return (kind=="scry" and Run.chooseScry or kind=="discard" and Run.chooseDiscard or Run.chooseHand)(run,uids,token,generation)

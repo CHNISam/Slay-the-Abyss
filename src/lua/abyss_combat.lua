@@ -716,6 +716,7 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    if action.effect.op=='potionStanceChoice'then return require('abyss_potion_stance').begin(state)end
     if action.effect.op=='classPotionDarkness'then
         return require('abyss_class_potions').darkness(M,state,action.effect,queue)
     end
@@ -1051,7 +1052,16 @@ function M.resolvePotionActions(state,effects)
     end
     state.cardActions=nil
     local queue=require('abyss_action_queue');queue.start(state,actions)
-    assert(queue.run(state,queuedHandlers)==true,'potion action cannot pause')
+    local result=queue.run(state,queuedHandlers)
+    assert(result==true or result=='pause'and state.pendingPotionChoice,'potion action cannot pause')
+end
+function M.choosePotionStance(state,selected,token,generation)
+    local queue=require('abyss_action_queue')
+    local ok,why=require('abyss_potion_stance').choose(state,selected,token,generation,queue)
+    if not ok then return false,why end
+    assert(queue.resume(state,queuedHandlers)==true,'potion continuation cannot pause')
+    drainNative(state);finish(state)
+    return true
 end
 queuedHandlers.useCard = function(state, _action, queue)
     local context,instance=assert(state.pendingPlay,"missing pending play"),state.cardInUse
@@ -2019,6 +2029,7 @@ end
 -- Advanced cleanup can invoke several card/power hooks. Keep end-turn errors
 -- atomic just like a paused play, including costs reset before queued actions.
 function M.endTurn(state)
+    if state.pendingPotionChoice then return false,'potion_choice_pending'end
     if state.originalV4 or require('abyss_act3_powers').active(state) then
         local restore=require('abyss_snapshot').capture(state)
         local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn

@@ -62,8 +62,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
     if selectable then
         self.choiceUI = require("abyss_choice_ui").new(child("choicePanel"),presentation,clickEvent,platform,
-            function(kind,uids,token,generation)
-                return self.battleUI:chooseCards(kind,uids,token,generation)
+            function(kind,uids,token,generation,battle)
+                return self.battleUI:chooseCards(kind,uids,token,generation,battle)
             end)
     end
     local function canManagePotions(run)

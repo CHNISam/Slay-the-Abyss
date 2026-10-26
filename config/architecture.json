@@ -1,6 +1,7 @@
 {
   "layers": {
     "abyss_class_potions": "core",
+    "abyss_potion_stance": "core",
     "abyss_silent_potions": "core",
     "abyss_silent_final_cards": "core",
     "abyss_act3_events": "core",

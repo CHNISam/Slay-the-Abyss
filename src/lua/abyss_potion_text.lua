@@ -15,6 +15,7 @@ function M.special(item,owner,expanded)
   elseif e.op=='classPotion'and e.kind=='darkness'then parts[#parts+1]='按总球槽数，每个球槽'..value..'颗生成黑暗球；满槽时依次唤起最左球腾位，0槽无效果；不预先唤起全部球'
   elseif e.op=='classPotion'and e.kind=='miracle'then parts[#parts+1]='获得'..value..'张奇迹（0费、保留、获得1能量、消耗；现实改写使其升级为2能量）；满手进弃牌堆，仅本战有效'
   elseif e.op=='classPotion'and e.kind=='divinity'then parts[#parts+1]='进入神格：入场获得3能量，普通攻击伤害×3，下个自己回合开始退出；已在神格不重复入场，神圣树皮不增加次数'
+  elseif e.op=='classPotion'and e.kind=='stance'then parts[#parts+1]='选择进入愤怒或平静：愤怒使造成和受到的普通攻击伤害翻倍；离开平静获得2能量。使用即耗瓶，必须完成选择；相同姿态不重复转换，神圣树皮不增加次数'
   elseif e.op=='silentShivs'then parts[#parts+1]='获得'..value..'张小刀+；手牌满时进弃牌堆，仅本战有效'
   elseif e.op=='silentGhost'then parts[#parts+1]='获得'..value..'回合无实体；每次伤害最多1，回合结束衰减'
   elseif e.op=='discover'then
@@ -44,6 +45,7 @@ function M.shop(item,owner)
   elseif e.op=='classPotion'and e.kind=='darkness'then return '按总球槽数：每个球槽'..value..'颗黑暗球\n满槽唤起最左球腾位·0槽无效果'
   elseif e.op=='classPotion'and e.kind=='miracle'then return '获得'..value..'张奇迹（0费·保留·消耗）\n每张+1能量（现实改写为+2）·满手进弃牌·仅本战'
   elseif e.op=='classPotion'and e.kind=='divinity'then return '进入神格：入场+3能量·攻击×3\n下个自己回合退出·已在神格不重复·树皮不加次数'
+  elseif e.op=='classPotion'and e.kind=='stance'then return '选择愤怒或平静（树皮不加次数）\n愤怒普通攻/受伤×2·离开平静+2能量·使用即耗瓶'
   elseif e.op=='silentShivs'then return '获得'..value..'张小刀+（仅本战）\n满手放入弃牌堆'
   elseif e.op=='silentGhost'then return '获得'..value..'回合无实体\n每次伤害最多1·回合结束衰减'
   elseif e.op=='discover'then return '3选1'..(kinds[e.kind]or '')..'牌×'..value..'·仅本战\n本回合0费·满手进弃牌'

@@ -802,6 +802,24 @@ function M.endTurn(run)
     return ok, reason
 end
 
+function M.choosePotionStance(run,selected,token,generation,battle)
+    if run.phase~='combat' then return false,'not_in_combat'end
+    if battle~=run.combat or generation~=run.combatGeneration then return false,'stale_combat_generation'end
+    local restore=require('abyss_snapshot').capture(run)
+    local called,ok,why=pcall(function()
+        local accepted,reason=Combat.choosePotionStance(battle,selected,token,generation)
+        if not accepted then return false,reason end
+        syncBattlePotions(run)
+        run.hp,run.maxHp,run.gold=battle.player.hp,battle.player.maxHp,battle.player.gold
+        run.relicCounters=Combat.copy(battle.relicCounters or {})
+        applyPermanentChanges(run)
+        if Combat.outcome(battle)then assert(M.finishCombat(run),'potion outcome failed')end
+        return true
+    end)
+    if not called or not ok then restore();return false,called and why or 'potion_choice_failed'end
+    return true
+end
+
 -- Inventory slots are physical positions, not a packed list. Acquiring a bottle
 -- fills the leftmost vacancy; reward/shop adapters still own eligibility/payment.
 function M.potionCapacity(run)
@@ -839,6 +857,7 @@ local function potionEventRestricted(run)
 end
 -- Discard never executes a potion effect and does not require a player turn.
 function M.discardPotion(run, slot)
+    if run.phase=='combat'and run.combat and run.combat.pendingPotionChoice then return false,'potion_choice_pending'end
     if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > M.potionCapacity(run) then
         return false, "invalid_potion_slot"
     end
@@ -859,7 +878,7 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
     if run.phase ~= 'combat' and run.potions[slot]~='blood_potion' and run.potions[slot]~='fruit_juice' and run.potions[slot]~='entropic_brew' then return nil,'not_in_combat' end
     if run.phase == 'combat' then
         if not run.combat or run.combat.phase ~= 'player' then return nil,'not_player_turn' end
-        if run.combat.pendingChoice or run.combat.cardActions then return nil,'card_choice_pending' end
+        if run.combat.pendingChoice or run.combat.cardActions or run.combat.pendingPotionChoice then return nil,'card_choice_pending' end
         if run.combat.pendingDiscard then return nil, 'unsupported_potion_during_discard' end
         if run.combat.pendingScry or run.combat.pendingPlay then return nil, 'unsupported_potion_during_selection' end
     end

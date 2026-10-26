@@ -31,3 +31,15 @@ EvokeOrbAction源码类型是DAMAGE。若首个唤起杀死最后敌人，已排
 `class_potion_darkness.lua`最初真实Run.obtainPotion为unknown_potion证红；接线后验证1/2效力、初始Lightning和全空3槽、Focus/初始储伤/生成历史/精确随机消费，以及Watcher与无profile真实0槽宿主。`class_potion_darkness_queue.lua`覆盖满槽首唤起末敌死亡后Frost/Plasma保留、零补位与Toy顺序；自定义双敌数值夹具证明非末敌死亡后继续补位、Dark最低HP/LockOn且球伤不受Strength/Weak/Vulnerable修正；第二唤起异常前私有状态已完成第一击和cardRandom消费/生成历史，再验证整Run的瓶子、生命、能量、事件、原引用与RNG词全部回滚。这些数值/故障夹具不是自然遭遇证据。
 
 `class_potion_darkness_channels.lua`保持真实Defect初始牌组/HP/RNG打赢seed109初战，核对冻结源oracle稀有前缀置换及精确RNG词/计数，领取并下战使用；seed10商店slot3购买/满槽失败保持随机状态后实际使用；独立源oracle的Entropic seed392得到Darkness/Forge/Focus、计数9，真实生成并使用。旧Focus/Capacity来源fixture仅同步Darkness已可获得这一事实，未改抽样或删断言。专用短测保留原30秒上限，无完整自然路线、全量检查或平台验收结论。
+
+第四片补Watcher私有目录的Stance Potion（`stance_potion`，罕见），不扩张默认Native宿主的姿态生命周期或正常来源资格。源码StancePotion按Wrath→Calm打开不可跳过的ChooseOneAction，ChooseWrath/ChooseCalm选择后才BOT添加ChangeStanceAction；potency为0，树皮不增加选择次数。`abyss_potion_stance`保存纯姿态option记录和typed pendingPotionChoice，不创建卡牌/UID，也不借用pendingPlay。新增模块已登记architecture；ChoiceUI的两项说明分别明确愤怒普通攻击造成/受到伤害翻倍、离开平静获得2能量，同姿态选项同样能成功耗瓶。
+
+Run.usePotion的原快照提交时瓶子已消耗，ActionQueue暂停在选择动作，Toy尚未治疗，出牌/回合/其它药水/丢瓶均被阻止。确认通过`Run.choosePotionStance(run,selected,token,generation,expectedBattle)`，精确绑定当前battle引用、回合、generation、token和暂停动作；选择的ChangeStance排在原BOT尾部，所以先Toy治疗、再转换姿态、再依实际Power顺序结算Rushdown/MentalFortress/退出平静能量/Flurry。没有伪造正在出牌的卡或触发普通onUseCard。每次选择覆盖完整Run的Snapshot；晚失败恢复同一暂停队列与强制选择、瓶子仍保持先前已耗状态，可用同token重试，成功后重复token拒绝。使用阶段失败则连瓶子一并保留。
+
+真实GameUI→ChoiceUI→BattleUI传递typed option键与battle owner；选项不经过卡面格式化，不显示虚构费用。既有触点上下文同时约束Run、battle、pending对象、turn、combatGeneration、UI generation和候选记录身份。窗口resize、旧Run/battle和过期Down/Up/Click均不能提交。退出弹窗暂时关闭选择显示，取消退出后重新展示同一强制pending对象，未返瓶、未治疗、无跳过操作。
+
+`class_potion_stance.lua`真实unknown_potion证红后覆盖两姿态、Bark、相同姿态、实际Calm退出能量/愤怒双向普通攻击倍率、耗瓶/强制阻塞、错误token/generation/battle、无实体UID变化及使用阶段失败回滚。`class_potion_stance_queue.lua`用实际出牌取得Rushdown/MentalFortress，验证Toy先于转姿态、Flurry与2张抽牌；在实际Flurry尾动作后注入失败，完整Run恢复到同一耗瓶选择并能重试。另一局显式加载既有真实Warrior status定义组件、实际打出Fire Breathing，再让Rushdown抽真实Burn击杀末敌：正式奖励生成后故障注入仍能完整回滚全部Run字段及随机状态，随后同token重试成功并走公开领奖到地图。此跨色/低HP局部样例不是完整跨色catalog或自然通关证据。
+
+`class_potion_stance_ui.lua`离线真实Host验证两项完整中文、无伪造费用、确认、退出取消以及resize/旧Run/旧battle触点拒绝；替换owner是明确的对抗夹具，非平台输入。`class_potion_stance_channels.lua`不改初始HP/牌组/RNG打赢Watcher seed28，奖励源词/计数5固定；seed0商店slot1正常购买、满槽不重抽；Entropic seed5固定Flex/Stance/LiquidBronze、计数17，均实际取得并完成typed选择。既有Watcher/Darkness渠道夹具只同步Stance已实现的可用事实，33项母池/资格/概率不变。
+
+普通ChoiceUI原19组的薄伪Run在9513f8cf原Combat/Run/ChoiceUI临时快照同样首组失败：先前共享永久变更接线要求run.deck，而该wrap只提供phase/combat/generation。本片按真实合同仅补`deck={}`，保留19组原断言、输入与规模；这是旧夹具迁移，不作为typed实现的通过证明。Ambrosia原动作顺序、晚失败回滚及Flower/Bloom回归另行通过。6条ChoiceUI历史W431仅按源码方法行/引用声明行/column/code/归一化message严格一对一迁移：方法144/152/173/177/181/193→155/163/184/188/192/205，upvalue声明67→74的原源行完全相同，其余105条逐字段相同；总数111未增加，不新增豁免或抑制诊断。专用脚本保持原30秒预算；无全量Quality、平台导入/实机或完整自然路线验收结论。

@@ -10,6 +10,7 @@ local watcherDefinitions={
  {id='bottled_miracle',sourceId='BottledMiracle',name='瓶装奇迹',rarity='common',effects={{op='classPotion',kind='miracle',value=2}}},
  -- Source potency is unused by use(): Bark never repeats the stance change.
  {id='ambrosia',sourceId='Ambrosia',name='仙酒',rarity='rare',effects={{op='classPotion',kind='divinity',value=0}}},
+ {id='stance_potion',sourceId='StancePotion',name='姿态药水',rarity='uncommon',effects={{op='classPotion',kind='stance',value=0}}},
 }
 local function copy(value)
  if type(value)~='table'then return value end
@@ -28,7 +29,7 @@ function M.register(data)
 end
 function M.validate(effect)
  return (effect.kind=='focus'or effect.kind=='capacity'or effect.kind=='miracle')and (effect.value==2 or effect.value==4)
-  or effect.kind=='divinity'and effect.value==0
+  or (effect.kind=='divinity'or effect.kind=='stance')and effect.value==0
   or effect.kind=='darkness'and (effect.value==1 or effect.value==2)
 end
 function M.apply(combat,state,effect)
@@ -44,6 +45,8 @@ function M.apply(combat,state,effect)
  elseif effect.kind=='darkness'then
   if not state.orbs then require('abyss_orbs').init(state,0)end
   combat.resolvePotionActions(state,{{op='classPotionDarkness',kind='batch',value=effect.value}})
+ elseif effect.kind=='stance'then
+  combat.resolvePotionActions(state,{{op='potionStanceChoice'}})
  else
   combat.resolvePotionActions(state,{{op='changeStance',stance='Divinity'}})
  end
