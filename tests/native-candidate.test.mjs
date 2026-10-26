@@ -89,12 +89,14 @@ test('source/generated module collisions are rejected',async t=>{
 
 test('extracted UI subviews are embedded, read back and checked with the entry module',async t=>{
   const f=await fixture(t);
-  const sources=new Map(['abyss_battle_card_view','abyss_shop_ui'].map(name=>[
+  const sources=new Map(['abyss_battle_card_view','abyss_battle_info_content','abyss_battle_info_view',
+    'abyss_battle_intent_view','abyss_battle_potion_view','abyss_battle_reward_owner',
+    'abyss_battle_status_view','abyss_battle_unit_view','abyss_shop_ui'].map(name=>[
     name,readFileSync(new URL(`../src/lua/${name}.lua`,import.meta.url),'utf8')
   ]));
   for(const [name,source] of sources)writeFileSync(join(f.root,`src/lua/${name}.lua`),source);
   const receipt=await f.run();
-  assert.deepEqual(receipt.checkedModules,['abyss_battle_card_view','abyss_shop_ui','abyss_ui']);
+  assert.deepEqual(receipt.checkedModules,[...sources.keys(),'abyss_ui'].sort());
   for(const [name,source] of sources) {
     const write=f.calls.find(call=>call.name==='scene_set_client_script'&&call.args.name===name);
     assert.equal(readFileSync(write.args.sourceFile,'utf8'),source);

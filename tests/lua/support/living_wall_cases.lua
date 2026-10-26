@@ -143,7 +143,9 @@ test('failed transform preflight preserves old UID, next UID, all streams, and p
  assert(Nodes.chooseEvent(run,'change'))
  run.nextDeckUid=run.deck[1].uid;refuse(run,'change',1,'invalid_deck_uid')
  run.nextDeckUid=100;run.transformContext.pools.common=nil;refuse(run,'change',1,'event_content_unavailable')
- run.transformContext=nil;refuse(run,'change',1,'event_content_unavailable')
+ -- Ordinary Runs now derive the complete ordered context from production
+ -- data. Missing both the supplied context and its source owner still refuses.
+ run.transformContext=nil;run.data.cards.sourcePools=nil;refuse(run,'change',1,'event_content_unavailable')
 end)
 test('selection rejected after removal or bottling cannot complete or spend a transform draw',function()
  local run=enter();run.transformContext=context(run);assert(Nodes.chooseEvent(run,'change'))

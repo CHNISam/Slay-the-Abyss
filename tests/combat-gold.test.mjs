@@ -35,11 +35,21 @@ for _,v in ipairs(${toLua(vectors.cases)})do
   for _,e in ipairs(run.combat.enemies)do e.hp=0;e.escaped=step.allEscaped end
   local before=C.copy(run);local gold=run.gold
   local trace={};local integer=R.randomIntBetween
+  local Gold=require('abyss_gold_rewards');local prepare=Gold.prepare;local goldPhase=false
+  -- Other reward channels also use inclusive range draws. Observe the gold
+  -- preparation boundary while retaining every independent owner snapshot.
+  Gold.prepare=function(...)
+   goldPhase=true;local result=table.pack(pcall(prepare,...));goldPhase=false
+   if not result[1]then error(result[2],0)end
+   return table.unpack(result,2,result.n)
+  end
   R.randomIntBetween=function(s,lo,hi)
-   local result=integer(s,lo,hi);trace[#trace+1]={low=lo,high=hi,value=result,after=R.snapshot(s)};return result
+   local result=integer(s,lo,hi)
+   if goldPhase then trace[#trace+1]={low=lo,high=hi,value=result,after=R.snapshot(s)}end
+   return result
   end
   local ok,result=pcall(Run.finishCombat,run)
-  R.randomIntBetween=integer;assert(ok and result)
+  R.randomIntBetween=integer;Gold.prepare=prepare;assert(ok and result)
   assert(run.rewards.gold==step.gold,'source gold '..v.seed..' '..step.tier..': '..tostring(run.rewards.gold)..' ~= '..step.gold)
   assert(run.gold==gold,'victory must not auto-claim gold')
   same(R.snapshot(run.treasureRng),step.treasure,'treasure '..v.seed..' '..step.tier)

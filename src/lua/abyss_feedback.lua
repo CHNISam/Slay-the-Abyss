@@ -1,6 +1,7 @@
 -- Presentation only. Core commands have already committed before this runs.
 -- Reuses native controls and OnUpdate; no coroutine, timers, assets or Tween callbacks.
 local Theme = require("abyss_theme")
+local EnemyView=require('abyss_battle_enemy_view')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
@@ -91,19 +92,18 @@ local function pose(keys, age)
 end
 
 function M.new(stage, platform, present, complete)
-    local self = { busy = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {} }
+    local self = { busy = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
     local overlay = stage:GetChild("feedback")
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
     local function actor(id)
         if id == "player" then return self.shadow.player, stage:GetChild("hero"), L.player.position[1], L.player.position[2] end
-        local count = #self.shadow.enemies
-        for i, a in ipairs(self.shadow.enemies) do
-            if a.id == id then
-                local x = count == 1 and ROW or L.enemyRow.xFrom + (i - 1) * (L.enemyRow.xTo - L.enemyRow.xFrom) / (count - 1)
-                return a, stage:GetChild("enemy" .. i), x, L.enemyRow.y
-            end
-        end
+        local rows=self.busy and self.enemyRows or EnemyView.slots(self.shadow)
+        for slot,entry in ipairs(rows)do if entry.id==id then
+            local x=EnemyView.position(#rows,slot,entry.actor)
+            return entry.actor,stage:GetChild('enemy'..slot),x,L.enemyRow.y
+        end end
+        for _,a in ipairs(self.shadow.enemies)do if a.id==id then return a end end
     end
     local function banner(text, danger)
         local label = overlay:GetChild("banner")
@@ -127,6 +127,17 @@ function M.new(stage, platform, present, complete)
             if not ok then print("ABYSS_AUDIO unavailable " .. cue .. " " .. tostring(reason)) end
         end
     end
+    local function resetUnit(name)
+        local box = stage:GetChild(name)
+        for _, part in ipairs({"impact", "shield", "floating"}) do pcall(function() box:GetChild(part):SetVisible(false) end) end
+        for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
+            pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)
+        end
+        tint(box:GetChild("portrait"), name == "hero" and C.geo or C.text)
+    end
+    function self.bindEnemySlot(slot,id)
+        if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
+    end
     function self:reset()
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
@@ -134,13 +145,9 @@ function M.new(stage, platform, present, complete)
             pcall(function() local part = overlay:GetChild(name) part:SetAnchoredPosition(0, S.xxl) part:SetLocalScale(1, 1, 1) end)
         end
         for _, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
-            local box = stage:GetChild(name)
-            for _, part in ipairs({"impact", "shield", "floating"}) do pcall(function() box:GetChild(part):SetVisible(false) end) end
-            for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
-                pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)
-            end
-            tint(box:GetChild("portrait"), name == "hero" and C.geo or C.text)
+            resetUnit(name)
         end
+        self.slotOwners={}
         self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, {}, {}, {}, nil, {}
     end
     local function finish(failure)
@@ -177,6 +184,7 @@ function M.new(stage, platform, present, complete)
         end
         self.acting = entry.kind == "intent" and entry.detail.enemy or self.acting
         if entry.kind == "player_turn" then self.acting = nil end
+        self.enemyRows=EnemyView.slots(self.shadow,self)
         present(self.shadow, self.acting, self.deaths)
         local d, kind = type(entry.detail) == "table" and entry.detail or {}, entry.kind
         print("ABYSS_FEEDBACK " .. kind .. " source=" .. tostring(d.source or d.enemy or "-") .. " target=" .. tostring(d.target or "-") .. " amount=" .. n(d.amount))
@@ -235,9 +243,11 @@ function M.new(stage, platform, present, complete)
         elseif kind == "death" then
             self.deaths[d.target] = true
             local _, box = actor(d.target)
-            box:SetVisible(true)
             self.dying[d.target] = {age = 0}
-            box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
+            if box then
+                box:SetVisible(true)
+                box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
+            end
             if not d.quiet then
                 local victim = actor(d.target)
                 sound(Theme.deathSound[victim and victim.definitionId] or "enemy_die")

@@ -1,5 +1,17 @@
 {
   "layers": {
+    "abyss_battle_enemy_view": "ui",
+    "abyss_act2_enemies": "core",
+    "abyss_act2_ai": "core",
+    "abyss_act2_powers": "core",
+    "abyss_potion_text": "ui",
+    "abyss_potion_generation": "core",
+    "abyss_potion_discovery": "core",
+    "abyss_potion_fairy": "core",
+    "abyss_class_card_pools": "core",
+    "abyss_colorless_cards": "core",
+    "abyss_act2_summons": "core",
+    "abyss_act2_stasis": "core",
     "abyss_action_queue": "core",
     "abyss_build_actions": "core",
     "abyss_card_triggers": "core",
@@ -45,9 +57,17 @@
     "abyss_acid_slime_m_ai": "core",
     "abyss_acid_slime_s_ai": "core",
     "abyss_act1_events": "core",
+    "abyss_wheel_event": "core",
     "abyss_actor": "core",
     "abyss_battle_ui": "ui",
     "abyss_battle_card_view": "ui",
+    "abyss_battle_info_content": "ui",
+    "abyss_battle_info_view": "ui",
+    "abyss_battle_intent_view": "ui",
+    "abyss_battle_potion_view": "ui",
+    "abyss_battle_reward_owner": "ui",
+    "abyss_battle_status_view": "ui",
+    "abyss_battle_unit_view": "ui",
     "abyss_bgm": "ui",
     "abyss_blue_slaver_ai": "core",
     "abyss_card_actions": "core",
@@ -65,6 +85,7 @@
     "abyss_enemy_ai": "core",
     "abyss_enemy_random": "core",
     "abyss_event_pool": "core",
+    "abyss_event_transform_context": "core",
     "abyss_events": "core",
     "abyss_external_random": "core",
     "abyss_feedback": "ui",
@@ -91,6 +112,7 @@
     "abyss_potion_discard_ui": "ui",
     "abyss_potion_health": "core",
     "abyss_potion_random": "core",
+    "abyss_potion_events": "core",
     "abyss_potion_rewards": "core",
     "abyss_prologue": "ui",
     "abyss_random": "core",
@@ -108,6 +130,7 @@
     "abyss_spike_slime_m_ai": "core",
     "abyss_sts_random": "core",
     "abyss_transform_card": "core",
+    "abyss_trade_event": "core",
     "abyss_ui": "platform",
     "abyss_unknown": "core",
     "abyss_viewport": "ui",
@@ -121,6 +144,21 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {
+      "from": "abyss_act2_stasis",
+      "to": "abyss_combat",
+      "reason": "StasisPower death constructs Master Reality's upgrade only at runtime after Combat initialization."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_colorless_cards",
+      "reason": "Runtime Power callbacks run after Actor initialization."
+    },
+    {
+      "from": "abyss_colorless_cards",
+      "to": "abyss_card_actions",
+      "reason": "Generation and UID choices call the initialized host dispatcher at runtime."
+    },
     {
       "from": "abyss_actor",
       "to": "abyss_flow_actions",

@@ -120,7 +120,7 @@ local function prepare(run, node, miscRng)
     elseif node.type == "event" then
         local id=node.eventId or run.data.rules.events.encounterId
         flow.event = { id = id }
-        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event) end
+        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -302,6 +302,8 @@ function M.view(run, map)
             node.upgradesLeft=1
             if node.event.id=='living_wall' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id=='bonfire' then node.event.purgeCards=LivingWall.purgeCards(run) end
+            if node.event.id=='transmogrifier' then node.event.purgeCards=LivingWall.purgeCards(run) end
+            if node.event.id=='wheel' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
@@ -542,6 +544,10 @@ local function chooseEvent(run, choice, uid)
     local rules = run.data.rules.events[id] or {}
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+        if ok and run.hp==0 then
+            run.nodeFlow.eventChoice=choice
+            complete(run);run.phase='defeat';return true,'defeat'
+        end
         if not ok or status~='complete' then return ok,status end
         run.nodeFlow.eventChoice=choice
         return complete(run)
@@ -559,7 +565,7 @@ local function chooseEvent(run, choice, uid)
         return complete(run)
     end
     if id=='golden_wing' and flow.event.stage=='purge' and choice~='purge' then return false,'invalid_event_choice' end
-    local function damage(amount) run.hp=math.max(0,run.hp-amount) end
+    local function damage(amount) local ok,why=Run.eventDamage(run,amount);assert(ok,why) end
     if choice == "heal" and id == "cleric" then
         if run.gold < rules.healCost then return false, "insufficient_gold" end
         run.gold = run.gold - rules.healCost

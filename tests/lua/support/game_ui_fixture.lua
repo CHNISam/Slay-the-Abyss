@@ -7,6 +7,7 @@ local Layout = require("abyss_ui_layout")
 local Templates = require("abyss_ui_templates")
 local Viewport = require("abyss_viewport")
 local Theme = require("abyss_theme")
+local EnemyView = require("abyss_battle_enemy_view")
 local function preview(name, text)
     print("LORE_PREVIEW\t" .. name .. "\t" .. text:gsub("\n", "\\n"))
 end
@@ -117,7 +118,19 @@ local function win(ui, root)
             local instance = ui.run.phase == "combat" and battle.hand[slot]
             if instance and ui.battleUI.selected == instance.uid then
                 local _, reason = Combat.canPlay(battle, instance.uid, nil)
-                click(root, "battlePanel", reason == "invalid_target" and "enemy" .. ui.battleUI.target or "playArea")
+                local button = "playArea"
+                if reason == "invalid_target" then
+                    local screenSlot
+                    for i, entry in ipairs(EnemyView.slots(battle)) do
+                        if entry.index == ui.battleUI.target then
+                            assert(entry.actor == battle.enemies[entry.index] and entry.id == entry.actor.id)
+                            screenSlot = i break
+                        end
+                    end
+                    assert(screenSlot, "live target has no displayed enemy slot")
+                    button = "enemy" .. screenSlot
+                end
+                click(root, "battlePanel", button)
             end
         end
         if ui.run.phase == "combat" then click(root, "battlePanel", "endTurn") end

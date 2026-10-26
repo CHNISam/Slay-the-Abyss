@@ -94,7 +94,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Four statuses and ten curses are defined; nine curses were added beyond Regret. Only Regret, Doubt and Pain have wired event additions (the latter two explicit-only); seven other added curses have no natural acquisition route. Explicit Run.obtainCard fixtures do not establish natural acquisition. None count toward 75 class cards."
+      "limitation": "Four status cards and ten curses are defined. Explicit event transactions include complete curse transformations and Wheel Decay; full default event admission and natural/platform evidence remain pending. None count toward 75 class cards."
     },
     "enemies": {
       "tasks": [
@@ -199,7 +199,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events; six additional explicit routes including Living Wall, Fountain and four Act 1 events. Full source event-pool admission, per-option natural eligibility and platform/live execution remain pending."
+      "limitation": "Seven default random events and twelve additional explicit event routes are wired. Complete 25-event source admission and all natural/platform evidence remain pending."
     },
     "relics": {
       "tasks": [
@@ -258,7 +258,11 @@
           "tests/lua/inventory_parity.lua",
           "tests/lua/potion_rewards.lua",
           "tests/lua/potion_slots.lua",
-          "tests/lua/potion_target_rejection.lua"
+          "tests/lua/potion_target_rejection.lua",
+          "tests/lua/potion_fairy.lua",
+          "tests/lua/potion_entropic.lua",
+          "tests/lua/potion_discovery.lua",
+          "tests/lua/potion_full_pool.lua"
         ]
       },
       "platform": {
@@ -270,7 +274,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "27 Ironclad potion effects defined; six obtainable through restricted combat/shop pools, 21 acquisitionPending and enumerated in exclusions until complete ordered 33-potion pool integration. Poison Potion remains Silent-exclusive. Effect fixtures do not grant acquisition/platform/live acceptance."
+      "limitation": "Complete source-ordered Ironclad 33-potion selection is wired to rewards, shop and Entropic. Other classes and original characters require explicit source-pool policies; full generated-card dependencies, combinations and per-item platform/live acceptance remain pending."
     },
     "bosses": {
       "tasks": [
@@ -329,6 +333,36 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Historical explicit-ID development/replay inputs, not the formal source queue or natural acquisition channels."
+    },
+    "sharedCards": {
+      "tasks": [
+        "TASK-13.1",
+        "TASK-59",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_colorless_cards.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_shop.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/colorless_catalog_execution.lua",
+          "tests/lua/colorless_presentation.lua",
+          "tests/lua/ritual_dagger_growth.lua",
+          "tests/colorless-source-identities.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "limitation": "35 ordinary shared cards plus four SPECIAL mechanics dependencies. SPECIAL event acquisition and per-item natural/platform acceptance remain pending. These are not part of any 75-card class count."
     }
   },
   "cards": [
@@ -1639,8 +1673,11 @@
       "channels": [
         "event:golden_shrine:desecrate",
         "explicit_event:big_fish:box",
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
-      ]
+      ],
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "wound",
@@ -1670,10 +1707,11 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "doubt",
@@ -1683,8 +1721,11 @@
       "countsTowardSeventyFive": false,
       "channels": [
         "explicit_event:sssserpent:confirm",
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
-      ]
+      ],
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "pain",
@@ -1694,8 +1735,11 @@
       "countsTowardSeventyFive": false,
       "channels": [
         "explicit_event:accursed_blacksmith:rummage",
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
-      ]
+      ],
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "decay",
@@ -1704,10 +1748,12 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:wheel:accept",
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "shame",
@@ -1716,10 +1762,11 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "writhe",
@@ -1728,10 +1775,11 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "clumsy",
@@ -1740,10 +1788,11 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "normality",
@@ -1752,10 +1801,11 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
       "id": "parasite",
@@ -1764,10 +1814,11 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:transmogrifier:change",
+        "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
       ],
-      "acquisitionPending": true,
-      "naturalAcquisitionLimitation": "No wired event/reward adds this curse. Run.obtainCard is an explicit command only; Living Wall curse transformation requires transformContext, which Run.new does not initialize. Source acquisition events/rewards remain unimplemented or outside restricted-seven."
+      "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     }
   ],
   "enemies": [
@@ -2796,6 +2847,140 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Not selected by the default random event pool. Explicit route tests do not establish natural acquisition."
+    },
+    {
+      "id": "transmogrifier",
+      "originalId": "Transmorgrifier",
+      "choices": [
+        "change",
+        "leave"
+      ],
+      "stages": [
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID; absent from restricted-seven default pool.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default random pool admission and natural/platform execution remain pending; transformations keep full source order and reject unsupported draws atomically."
+    },
+    {
+      "id": "scrap_ooze",
+      "originalId": "Scrap Ooze",
+      "choices": [
+        "search",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID; absent from restricted-seven default pool.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default pool admission and natural/platform execution remain pending. Repeated searches retain exact damage, source roll boundaries and relic owner transactions."
+    },
+    {
+      "id": "wheel",
+      "originalId": "Wheel of Change",
+      "choices": [
+        "spin",
+        "accept",
+        "claim_relic",
+        "skip_relic",
+        "purge",
+        "leave"
+      ],
+      "stages": [
+        "wheel_result",
+        "relic_reward",
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event ID; forced source outcome then result-specific confirmation.",
+      "source": "src/lua/abyss_wheel_event.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default random admission and natural/platform execution remain pending; visual wheel rotation is not implemented."
+    },
+    {
+      "id": "lab",
+      "originalId": "Lab",
+      "choices": [
+        "take",
+        "claim_1",
+        "claim_2",
+        "claim_3",
+        "leave"
+      ],
+      "stages": [
+        "potion_rewards",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event route; complete default source-pool admission remains pending.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
+    },
+    {
+      "id": "woman_in_blue",
+      "originalId": "The Woman in Blue",
+      "choices": [
+        "buy_1",
+        "buy_2",
+        "buy_3",
+        "claim_1",
+        "claim_2",
+        "claim_3",
+        "leave"
+      ],
+      "stages": [
+        "potion_rewards",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event route; complete default source-pool admission remains pending.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
+    },
+    {
+      "id": "we_meet_again",
+      "originalId": "WeMeetAgain",
+      "choices": [
+        "trade_potion",
+        "trade_gold",
+        "trade_card",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter event route; complete default source-pool admission remains pending.",
+      "source": "src/lua/abyss_act1_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
     }
   ],
   "relics": [
@@ -3251,6 +3436,226 @@
   ],
   "potions": [
     {
+      "id": "entropic_brew",
+      "source": "data/potions.json#entropic_brew",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "attack_potion",
+      "source": "data/potions.json#attack_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "skill_potion",
+      "source": "data/potions.json#skill_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "power_potion",
+      "source": "data/potions.json#power_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "colorless_potion",
+      "source": "data/potions.json#colorless_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "fairy_in_a_bottle",
+      "source": "data/potions.json#fairy_in_a_bottle",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": "Automatic fatal interception; manual use is forbidden."
+    },
+    {
+      "id": "duplication_potion",
+      "source": "data/potions.json#duplication_potion",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "distilled_chaos",
+      "source": "data/potions.json#distilled_chaos",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "smoke_bomb",
+      "source": "data/potions.json#smoke_bomb",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "snecko_oil",
+      "source": "data/potions.json#snecko_oil",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "elixir",
+      "source": "data/potions.json#elixir",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "gamblers_brew",
+      "source": "data/potions.json#gamblers_brew",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "liquid_memories",
+      "source": "data/potions.json#liquid_memories",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "blood_potion",
+      "source": "data/potions.json#blood_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "fruit_juice",
+      "source": "data/potions.json#fruit_juice",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "blessing_of_the_forge",
+      "source": "data/potions.json#blessing_of_the_forge",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "explosive_potion",
+      "source": "data/potions.json#explosive_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "heart_of_iron",
+      "source": "data/potions.json#heart_of_iron",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "essence_of_steel",
+      "source": "data/potions.json#essence_of_steel",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "cultist_potion",
+      "source": "data/potions.json#cultist_potion",
+      "profile": "potions",
+      "rarity": "rare",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
       "id": "fire_potion",
       "source": "data/potions.json#fire_potion",
       "profile": "potions",
@@ -3259,9 +3664,7 @@
         "combat_potion_reward",
         "shop_potion"
       ],
-      "versions": [
-        "base"
-      ]
+      "naturalExecutionLimitation": ""
     },
     {
       "id": "block_potion",
@@ -3272,9 +3675,7 @@
         "combat_potion_reward",
         "shop_potion"
       ],
-      "versions": [
-        "base"
-      ]
+      "naturalExecutionLimitation": ""
     },
     {
       "id": "strength_potion",
@@ -3285,9 +3686,7 @@
         "combat_potion_reward",
         "shop_potion"
       ],
-      "versions": [
-        "base"
-      ]
+      "naturalExecutionLimitation": ""
     },
     {
       "id": "dexterity_potion",
@@ -3298,9 +3697,7 @@
         "combat_potion_reward",
         "shop_potion"
       ],
-      "versions": [
-        "base"
-      ]
+      "naturalExecutionLimitation": ""
     },
     {
       "id": "energy_potion",
@@ -3311,9 +3708,7 @@
         "combat_potion_reward",
         "shop_potion"
       ],
-      "versions": [
-        "base"
-      ]
+      "naturalExecutionLimitation": ""
     },
     {
       "id": "regen_potion",
@@ -3324,9 +3719,84 @@
         "combat_potion_reward",
         "shop_potion"
       ],
-      "versions": [
-        "base"
-      ]
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "swift_potion",
+      "source": "data/potions.json#swift_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "weak_potion",
+      "source": "data/potions.json#weak_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "fear_potion",
+      "source": "data/potions.json#fear_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "ancient_potion",
+      "source": "data/potions.json#ancient_potion",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "liquid_bronze",
+      "source": "data/potions.json#liquid_bronze",
+      "profile": "potions",
+      "rarity": "uncommon",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "flex_potion",
+      "source": "data/potions.json#flex_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
+    },
+    {
+      "id": "speed_potion",
+      "source": "data/potions.json#speed_potion",
+      "profile": "potions",
+      "rarity": "common",
+      "channels": [
+        "combat_potion_reward",
+        "shop_potion"
+      ],
+      "naturalExecutionLimitation": ""
     }
   ],
   "bosses": [
@@ -3345,124 +3815,14 @@
     "cards": [],
     "potions": [
       {
-        "id": "duplication_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "distilled_chaos",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "smoke_bomb",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "snecko_oil",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "elixir",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "gamblers_brew",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "liquid_memories",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "blood_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "fruit_juice",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "blessing_of_the_forge",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "explosive_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "heart_of_iron",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "essence_of_steel",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "cultist_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
         "id": "poison_potion",
         "reason": "Silent-exclusive; not obtainable by launch Ironclad."
-      },
-      {
-        "id": "swift_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "weak_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "fear_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "ancient_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "liquid_bronze",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "flex_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
-      },
-      {
-        "id": "speed_potion",
-        "acquisitionPending": true,
-        "reason": "Effect implemented through Run inventory; acquisitionPending excludes combat rewards and shops until complete ordered 33-potion source pool integration. Remove guard only at full-pool integration; do not skip or reroll source entries."
       }
     ],
     "events": [
       {
         "id": "Match and Keep!",
         "path": "tools/candidates/match_game.lua",
-        "reason": "Independent candidate, no production route."
-      },
-      {
-        "id": "Transmorgrifier",
-        "path": "tools/candidates/transform_card.lua",
         "reason": "Independent candidate, no production route."
       },
       {
@@ -3877,5 +4237,665 @@
     "scopeDecision": "2026-10-26 user explicitly includes Acts2/3/hidden4 in M3",
     "implementationLedger": "data/release/m3-campaign.json",
     "status": "not-accepted"
-  }
+  },
+  "sharedCards": [
+    {
+      "id": "apotheosis",
+      "sourceId": "Apotheosis",
+      "source": "src/lua/abyss_colorless_cards.lua#apotheosis",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "bandage_up",
+      "sourceId": "Bandage Up",
+      "source": "src/lua/abyss_colorless_cards.lua#bandage_up",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "blind",
+      "sourceId": "Blind",
+      "source": "src/lua/abyss_colorless_cards.lua#blind",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "chrysalis",
+      "sourceId": "Chrysalis",
+      "source": "src/lua/abyss_colorless_cards.lua#chrysalis",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "dark_shackles",
+      "sourceId": "Dark Shackles",
+      "source": "src/lua/abyss_colorless_cards.lua#dark_shackles",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "deep_breath",
+      "sourceId": "Deep Breath",
+      "source": "src/lua/abyss_colorless_cards.lua#deep_breath",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "discovery",
+      "sourceId": "Discovery",
+      "source": "src/lua/abyss_colorless_cards.lua#discovery",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "dramatic_entrance",
+      "sourceId": "Dramatic Entrance",
+      "source": "src/lua/abyss_colorless_cards.lua#dramatic_entrance",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "enlightenment",
+      "sourceId": "Enlightenment",
+      "source": "src/lua/abyss_colorless_cards.lua#enlightenment",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "finesse",
+      "sourceId": "Finesse",
+      "source": "src/lua/abyss_colorless_cards.lua#finesse",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "flash_of_steel",
+      "sourceId": "Flash of Steel",
+      "source": "src/lua/abyss_colorless_cards.lua#flash_of_steel",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "forethought",
+      "sourceId": "Forethought",
+      "source": "src/lua/abyss_colorless_cards.lua#forethought",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "good_instincts",
+      "sourceId": "Good Instincts",
+      "source": "src/lua/abyss_colorless_cards.lua#good_instincts",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "hand_of_greed",
+      "sourceId": "HandOfGreed",
+      "source": "src/lua/abyss_colorless_cards.lua#hand_of_greed",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "impatience",
+      "sourceId": "Impatience",
+      "source": "src/lua/abyss_colorless_cards.lua#impatience",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "jack_of_all_trades",
+      "sourceId": "Jack Of All Trades",
+      "source": "src/lua/abyss_colorless_cards.lua#jack_of_all_trades",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "madness",
+      "sourceId": "Madness",
+      "source": "src/lua/abyss_colorless_cards.lua#madness",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "magnetism",
+      "sourceId": "Magnetism",
+      "source": "src/lua/abyss_colorless_cards.lua#magnetism",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "master_of_strategy",
+      "sourceId": "Master of Strategy",
+      "source": "src/lua/abyss_colorless_cards.lua#master_of_strategy",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "mayhem",
+      "sourceId": "Mayhem",
+      "source": "src/lua/abyss_colorless_cards.lua#mayhem",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "metamorphosis",
+      "sourceId": "Metamorphosis",
+      "source": "src/lua/abyss_colorless_cards.lua#metamorphosis",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "mind_blast",
+      "sourceId": "Mind Blast",
+      "source": "src/lua/abyss_colorless_cards.lua#mind_blast",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "panacea",
+      "sourceId": "Panacea",
+      "source": "src/lua/abyss_colorless_cards.lua#panacea",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "panache",
+      "sourceId": "Panache",
+      "source": "src/lua/abyss_colorless_cards.lua#panache",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "panic_button",
+      "sourceId": "PanicButton",
+      "source": "src/lua/abyss_colorless_cards.lua#panic_button",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "purity",
+      "sourceId": "Purity",
+      "source": "src/lua/abyss_colorless_cards.lua#purity",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "sadistic_nature",
+      "sourceId": "Sadistic Nature",
+      "source": "src/lua/abyss_colorless_cards.lua#sadistic_nature",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "power",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "secret_technique",
+      "sourceId": "Secret Technique",
+      "source": "src/lua/abyss_colorless_cards.lua#secret_technique",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "secret_weapon",
+      "sourceId": "Secret Weapon",
+      "source": "src/lua/abyss_colorless_cards.lua#secret_weapon",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "swift_strike",
+      "sourceId": "Swift Strike",
+      "source": "src/lua/abyss_colorless_cards.lua#swift_strike",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "the_bomb",
+      "sourceId": "The Bomb",
+      "source": "src/lua/abyss_colorless_cards.lua#the_bomb",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "thinking_ahead",
+      "sourceId": "Thinking Ahead",
+      "source": "src/lua/abyss_colorless_cards.lua#thinking_ahead",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "transmutation",
+      "sourceId": "Transmutation",
+      "source": "src/lua/abyss_colorless_cards.lua#transmutation",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "trip",
+      "sourceId": "Trip",
+      "source": "src/lua/abyss_colorless_cards.lua#trip",
+      "profile": "sharedCards",
+      "rarity": "uncommon",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "violence",
+      "sourceId": "Violence",
+      "source": "src/lua/abyss_colorless_cards.lua#violence",
+      "profile": "sharedCards",
+      "rarity": "rare",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "shop_colorless_card",
+        "shared_card_generation"
+      ],
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+    },
+    {
+      "id": "apparition",
+      "sourceId": "Ghostly",
+      "source": "src/lua/abyss_colorless_cards.lua#apparition",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    },
+    {
+      "id": "bite",
+      "sourceId": "Bite",
+      "source": "src/lua/abyss_colorless_cards.lua#bite",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    },
+    {
+      "id": "jax",
+      "sourceId": "J.A.X.",
+      "source": "src/lua/abyss_colorless_cards.lua#jax",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "skill",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    },
+    {
+      "id": "ritual_dagger",
+      "sourceId": "RitualDagger",
+      "source": "src/lua/abyss_colorless_cards.lua#ritual_dagger",
+      "profile": "sharedCards",
+      "rarity": "special",
+      "type": "attack",
+      "versions": [
+        "base",
+        "upgraded"
+      ],
+      "channels": [
+        "explicit:Run.obtainCard"
+      ],
+      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+    }
+  ]
 }

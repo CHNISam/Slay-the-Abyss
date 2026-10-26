@@ -30,9 +30,49 @@
     "project-test": {
       "status": "project-authored verification code; project code license",
       "evidence": "art/spikes/card-capacity/verify.lua; tests inspect TEXTBOX_PREFAB_ID but do not embed the exporter runtime"
+    },
+    "game-ip-ai-redraw": {
+      "status": "AI-assisted source art manually reconstructed as native geometry; platform-project candidate only; no game-IP sublicense or commercial clearance",
+      "evidence": "art/cards/geo-samples/PROVENANCE.md; art/cards/geo-samples/README.md"
     }
   },
   "files": {
+    "art/cards/geo-samples/bloodletting/native-art.json": {
+      "sha256": "86d4abc473c8455dcddd910a9b30591a42514499179a54b997d774f9228f9bf8",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/bloodletting/native-art.lua": {
+      "sha256": "de4c37b35037251c0dcb28c2461157980f6caa8023dd043ab278cd9bd4eec99c",
+      "category": "editor-runtime"
+    },
+    "art/cards/geo-samples/heavy_blade/native-art.json": {
+      "sha256": "ffa4d73a214613bc97e1467d7e9bc9a115f3df32336067fb4ab859b42323e722",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/heavy_blade/native-art.lua": {
+      "sha256": "12835d2700ccc36a60880cbbadcc8442629cdb7f914e2b5e68e7f482c041a338",
+      "category": "editor-runtime"
+    },
+    "art/cards/geo-samples/iron_wave/native-art.json": {
+      "sha256": "02b7f7476a29552eac5dd00d04761d9fa6568a41474bc3361690ef71800a011f",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/iron_wave/native-art.lua": {
+      "sha256": "d56693c5f4b1f3dd15f9acdba716d5f9f1acbd8f30ccbbb2450e71ad820d3363",
+      "category": "editor-runtime"
+    },
+    "art/cards/geo-samples/native-layout.json": {
+      "sha256": "a3adcadc1574e3ef5305bba3b8f7471aeb394202d6aed4f67421e32d436af6b1",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/shockwave/native-art.json": {
+      "sha256": "222d38b2031dbb33c242230051909886b78a37c43a1695a6bd2db7111ddb4e85",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/geo-samples/shockwave/native-art.lua": {
+      "sha256": "bfd286ec9cb20e2032c17d54836b2f7fcfa1b90a6f8584e8b02b0f6d3ee684e2",
+      "category": "editor-runtime"
+    },
     "art/cards/shared/card-back.json": {
       "sha256": "099dda393098353c3d372729da6c999433793937c3bb5f09fa550e31fff183a8",
       "category": "project-geometry"

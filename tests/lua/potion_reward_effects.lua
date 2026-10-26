@@ -1,6 +1,6 @@
 -- Acquisition/effect bridge: original starter deck defeats the unchanged
 -- Cultist; supported reward bottles are claimed, carried and used next battle.
--- Seed/ID rows pin this project's restricted pool, not original RNG parity.
+-- Seed/ID rows come from the independent full-source potion oracle.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Combat,data=require('abyss_run'),require('abyss_combat'),require('abyss_data')
 local count=0
@@ -20,8 +20,8 @@ local function win(run)
     equal(run.phase,'reward')
 end
 local rows={
-    {2,'energy_potion'}, {4,'fire_potion'}, {13,'block_potion'},
-    {23,'dexterity_potion'}, {28,'regen_potion'}, {59,'strength_potion'}
+    {159,'energy_potion'}, {61,'fire_potion'}, {23,'block_potion'},
+    {2,'dexterity_potion'}, {84,'regen_potion'}, {18,'strength_potion'}
 }
 for _,row in ipairs(rows) do
     local run=Run.new(data,row[1]);assert(Run.startCombat(run,'cultist_solo'));win(run)

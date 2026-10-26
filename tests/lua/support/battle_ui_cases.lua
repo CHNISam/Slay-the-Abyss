@@ -883,7 +883,12 @@ test("poison identifies its source and killed enemies never act; retaliation sho
         elseif entry.kind == "death" then death = death + 1
         elseif entry.kind == "intent" then intent = intent + 1 assert(entry.detail.enemy == battle.enemies[2].id) end
     end)
-    assert(poison == 1 and death == 1 and intent == 1 and not stage.children.enemy1.visible)
+    assert(poison == 1 and death == 1 and intent == 1)
+    assert(battle.enemies[1].hp == 0 and battle.enemies[2].hp > 0)
+    local survivor = stage.children.enemy1
+    assert(survivor.visible and survivor.children.name.text == battle.enemies[2].name)
+    assert(survivor.children.hp.text == battle.enemies[2].hp .. "/" .. battle.enemies[2].maxHp)
+    for i = 2, 5 do assert(not stage.children["enemy" .. i].visible) end
     ui, stage, click, battle = feedbackBattle({"strike"}, {"cultist"})
     Combat.addStatus(battle.enemies[1], "thorns", 3)
     ui:render() click("card1") click("enemy1")

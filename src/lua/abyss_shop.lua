@@ -7,6 +7,7 @@ local Capability = require('abyss_card_capability')
 local CardRandom = require('abyss_card_random')
 local External=require('abyss_external_random')
 local Primitive=require('abyss_randomxs128')
+local PotionPool=require('abyss_potion_random')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -45,31 +46,20 @@ local function pick(rng,list)
     if #list==0 then return nil end
     return list[R.randomInt(rng,#list-1)+1]
 end
-local function candidates(run,category,rarity,kind,color,stock)
+local function relicCandidates(run,rarity,stock)
     local pool={}
-    for _,def in ipairs(run.data[category][category]) do
+    for _,def in ipairs(run.data.relics.relics) do
         local allowed=def.rarity==rarity
-        if category=='cards' then
-            allowed=allowed and (not kind or def.type==kind) and (def.color or 'colored')==((color=='colored' and run.characterProfile and run.characterProfile.color) or color)
-                and (def.type=='attack' or def.type=='skill' or def.type=='power')
-                and Capability.isImplemented(def)
-        elseif category=='relics' then
-            -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
-            allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
-            for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
-        elseif category=='potions' then
-            -- Ironclad's potion pool excludes Silent's class-specific Poison Potion.
-            -- Temporary effect-only isolation; complete 33-item source selection
-            -- must remove this exclusion rather than skip or reroll pending items.
-            allowed=allowed and (def.id~='poison_potion' or run.character=='silent') and not def.acquisitionPending
-        end
+        -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
+        allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
+        for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
         if allowed then pool[#pool+1]=def end
     end
     table.sort(pool,function(a,b) return (a.sourceId or a.id)<(b.sourceId or b.id) end)
     return pool
 end
 local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock,external)
-    local def,sourceCardId
+    local def,sourceCardId,selected,metadata
     -- The original rerolls both rarity and card for duplicate attack/skill.
     -- Bounded only to prevent an incomplete supported pool hanging the game.
     repeat
@@ -77,27 +67,30 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
             rarity=CardRandom.rollRarity(cardOwner,'shop')
             if kind=='power' and rarity=='common' then rarity='uncommon' end
         end
-        local pool=candidates(run,'cards',rarity,kind,color)
-        if external and #pool>0 then def=pool[Primitive.nextInt(external,#pool)+1]
-        else def=pick(cardOwner.cardRng,pool) end
-    until not def or def.id~=previous
-    if color=='colorless' and not def then
-        local pool=assert(run.data.cards.sourcePools.colorless[rarity])
-        sourceCardId=pool[R.randomInt(cardOwner.cardRng,#pool-1)+1]
-    end
-    if def and def.id==previous then def=nil end
+        local pools=assert(run.data.cards.sourcePools,'missing source card pools')
+        local pool=color=='colorless' and pools.colorlessShop[rarity] or pools.shop[rarity][kind]
+        assert(type(pool)=='table' and #pool>0,'incomplete shop source pool')
+        assert(#pool>1 or pool[1]~=previous,'incomplete duplicate shop source pool')
+        if external then selected=pool[Primitive.nextInt(external,#pool)+1]
+        else selected=pool[R.randomInt(cardOwner.cardRng,#pool-1)+1] end
+    until selected~=previous
+    for _,card in ipairs(run.data.cards.cards)do if card.id==selected then def=card;break end end
+    metadata=(run.data.cards.sourcePools.cardSourceMetadata or {})[selected]
+    sourceCardId=metadata and metadata.sourceId or def and (def.sourceId or def.sts_name or def.id) or selected
+    local available=def and Capability.isImplemented(def)
     local multiplier=R.randomFloatBetween(rng.merchant,f32(.9),f32(1.1))
-    return { slot=slot, id=def and def.id or '__missing_card_'..slot, type=def and def.type or kind or 'skill',color=color,
-        rarity=rarity, unavailable=not def, sold=false,sourceCardId=sourceCardId or def and def.sourceId,
+    return { slot=slot, id=selected, type=def and def.type or metadata and metadata.type or kind or 'skill',color=color,
+        rarity=rarity, unavailable=not available, sold=false,sourceCardId=sourceCardId,
         price=Price.quoteCard({rarity=rarity,multiplier=multiplier,color=color,
             phase=restock and 'restock' or 'initial',courier=restock and owns(run,'courier') or false,
             membership=restock and owns(run,'membership_card') or false}) }
 end
 local function itemOffer(run,rng,category,slot,stock,restock)
-    local rarity
-    if category=='potions' then rarity=S.potionRarity(R.randomInt(rng.potion,99))
+    local rarity,selected
+    if category=='potions' then
+        selected=PotionPool.sample({potionRng=rng.potion},{character=PotionPool.character(run)});rarity=selected.rarity
     else rarity=slot==3 and not restock and 'shop' or S.relicRarity(R.randomInt(rng.merchant,99)) end
-    local pool=candidates(run,category,rarity,nil,nil,stock)
+    local pool=not selected and relicCandidates(run,rarity,stock) or nil
     if restock and category=='relics' then
         local filtered={}
         for _,d in ipairs(pool) do
@@ -105,10 +98,13 @@ local function itemOffer(run,rng,category,slot,stock,restock)
         end
         pool=filtered
     end
-    local def=pick(category=='potions' and rng.potion or rng.merchant,pool)
+    local def
+    if selected then
+        for _,entry in ipairs(run.data.potions.potions)do if entry.id==selected.id then def=entry;break end end
+    else def=pick(rng.merchant,pool)end
     local base=(category=='potions' and potionBases or bases)[rarity]
     local price=floor(f32(base*R.randomFloatBetween(rng.merchant,f32(.95),f32(1.05)))+.5)
-    return { slot=slot,id=def and def.id or '__missing_'..category..'_'..slot,rarity=rarity,
+    return { slot=slot,id=selected and selected.id or def and def.id or '__missing_'..category..'_'..slot,rarity=rarity,
         unavailable=not def,sold=false,price=discount(run,price) }
 end
 function S.prepare(run)
