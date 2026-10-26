@@ -511,11 +511,11 @@ local function finishCombat(run)
         assert(type(gold) == "number", "unknown encounter reward tier")
         if allEscaped then gold = 0 end
     end
-    local choices,nextCardRng,offset=CardPool.prepareRewards(run)
+    local choices,nextCardRng,offset,cardUpgrades=CardPool.prepareRewards(run)
     run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
-    run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,
+    run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
@@ -567,7 +567,8 @@ function M.claimCardReward(run, choice)
     local ok,detail=M.transaction(run,function(staged)
         -- A card choice never owns the independent potion reward (RewardItem).
         if choice > 0 then
-            local ok,reason=M.obtainCard(staged,staged.rewards.cards[choice])
+            local ok,reason=M.obtainCard(staged,staged.rewards.cards[choice],
+                {upgraded=staged.rewards.cardUpgrades and staged.rewards.cardUpgrades[choice]==true})
             if not ok then return false,reason end
         end
         -- PC Skip merely closes the picker; choice=0 explicitly abandons it.
