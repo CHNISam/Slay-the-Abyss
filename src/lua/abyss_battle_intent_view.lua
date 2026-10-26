@@ -1,0 +1,188 @@
+-- Read-only intent projection. Core preview APIs retain all combat arithmetic.
+local Combat = require("abyss_combat")
+local Actors = require("abyss_actor")
+local Events = require("abyss_events")
+local Theme = require("abyss_theme")
+local StatusView = require("abyss_battle_status_view")
+local number = require("abyss_numbers").integer
+local M = {}
+local C = Theme.color
+local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
+local intentLabels = { defend = "防御", buff = "强化", debuff = "削弱", charge = "蓄能", sleep = "沉睡",
+    stunned = "苏醒", split = "分裂", escape = "逃跑" }
+local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
+    applyStatus = "debuff", makeTempCardInDiscard = "debuff" }
+
+-- Mixed moves show the first other effect kind in the original icon priority.
+function M.intentBadge(intent)
+    for _, kind in ipairs({ "debuff", "defend", "buff", "attack" }) do
+        if kind ~= intent.kind then
+            for _, effect in ipairs(intent.effects or {}) do
+                if effectKinds[effect.op] == kind then return kind end
+            end
+        end
+    end
+end
+
+local function special(kind, icon, text, note)
+    return { value = "", kind = icon, label = intentLabels[kind], text = text,
+        rows = {{ icon = icon, colour = C.textDim, name = intentLabels[kind], text = text, note = note }} }
+end
+
+local specialIntents = {
+    escape = function()
+        return special("escape", "unknown", "逃离战场，不返还已窃取的金币。")
+    end,
+    charge = function()
+        return special("charge", "unknown", "本回合不攻击，正在蓄能。", "蓄满后发动攻击")
+    end,
+    sleep = function()
+        return special("sleep", "sleep", "沉睡中，本回合不行动。", "损失生命就会惊醒")
+    end,
+    stunned = function()
+        return special("stunned", "unknown", "刚被惊醒，本回合不行动。")
+    end,
+    split = function(state, enemy)
+        local child = state.catalog.enemies[enemy.ai.splitEnemy]
+        return special("split", "unknown", "分裂为两只" .. child.name .. "，各自生命等于分裂时的当前生命。")
+    end,
+}
+
+local function goneView(state, index)
+    local gone = state.enemies[index] and state.enemies[index].escaped and "已逃跑" or "已击败"
+    return { value = "", kind = "unknown", label = gone, text = gone, rows = {} }
+end
+
+local function newPreview(state, index, intent)
+    local preview = Events.frame(state)
+    preview.events = {}
+    local soften = state.originalV4 and require("abyss_original_v4").intentReduction(state, index) or 0
+    return { state = state, enemy = state.enemies[index], intent = intent, preview = preview,
+        copy = preview.enemies[index], player = preview.player, soften = soften, result = {}, rows = {} }
+end
+
+local function theft(v)
+    local ai = v.enemy.ai
+    if not ai or ai.kind ~= "looter" or (v.intent.id ~= ai.mugIntent and v.intent.id ~= ai.lungeIntent) then return end
+    local gold = number(ai.stealAmount)
+    v.result[#v.result + 1] = "先窃取最多 " .. gold .. " 金币（完全格挡仍会失金）"
+    v.rows[#v.rows + 1] = { icon = Theme.icon.gold.id, colour = C.debuff, name = "窃金 " .. gold,
+        text = "先窃取你最多 " .. gold .. " 金币", note = "完全格挡仍会失金" }
+end
+
+local function attackHits(v, effect)
+    local amount = Combat.attackAmount(v.state, v.copy, v.player, effect.value)
+    local times = effect.times or 1
+    local hits, total, unequal = {}, 0, false
+    for hit = 1, times do
+        local cut = math.min(amount, v.soften)
+        v.soften = v.soften - cut
+        hits[hit] = amount - cut
+        total = total + hits[hit]
+        if hit > 1 and hits[hit] ~= hits[1] then unequal = true end
+    end
+    return hits, total, unequal, times
+end
+
+local function attackFace(hits, times, unequal)
+    if unequal then
+        local values = {}
+        for _, hit in ipairs(hits) do values[#values + 1] = number(hit) end
+        return table.concat(values, "+")
+    end
+    return number(hits[1]) .. (times > 1 and "×" .. times or "")
+end
+
+local function attackSentence(face, times, each, unequal, singlePrefix)
+    if unequal then return "依次攻击 " .. face .. " 点伤害" end
+    if times > 1 then return "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害" end
+    return singlePrefix .. each .. " 点伤害"
+end
+
+local function attackEffect(v, effect)
+    local hits, total, unequal, times = attackHits(v, effect)
+    local amount, each = hits[1], number(hits[1])
+    local face = attackFace(hits, times, unequal)
+    v.attack = v.attack or face
+    v.result[#v.result + 1] = attackSentence(face, times, each, unequal, "攻击造成 ")
+    v.rows[#v.rows + 1] = { icon = "attack", colour = C.danger, name = "攻击 " .. face,
+        tag = times > 1 and "共 " .. number(total) or nil,
+        text = attackSentence(face, times, each, unequal, "造成 "),
+        note = amount ~= effect.value and "基础 " .. number(effect.value) .. "，已计入双方力量、虚弱与易伤" or nil }
+end
+
+local function blockEffect(v, effect)
+    local amount = number(Combat.blockAmount(v.state, v.copy, effect.value, effect.target == "random_ally"))
+    local ally = effect.target == "random_ally"
+    v.result[#v.result + 1] = ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+    v.rows[#v.rows + 1] = { icon = "defend", colour = C.block, name = "格挡 " .. amount,
+        text = ally and "让一名随机队友获得 " .. amount .. " 点格挡" or "自身获得 " .. amount .. " 点格挡",
+        note = ally and "没有队友时给自己" or nil }
+end
+
+local function statusSentence(gain, effect, status, size)
+    return (gain and "自身" or "使你") .. (effect.value < 0 and "失去 " or "获得 ")
+        .. size .. (status.stack == "duration" and " 回合" or " 层") .. status.name
+end
+
+local function statusRow(v, effect, gain, status, size, sentence)
+    local entry = { id = effect.status, amount = effect.value, temporary = 0, kind = status.kind,
+        description = status.description, stack = status.stack }
+    local kind = gain and StatusView.statusKind(entry) == "buff" and "buff" or "debuff"
+    return { icon = kind, colour = intentColors[kind],
+        name = status.name .. " " .. (effect.value < 0 and StatusView.signed(effect.value) or size),
+        tag = status.stack == "duration" and "持续 " .. size .. " 回合" or nil,
+        text = sentence, note = (StatusView.statusDetail(entry, v.state.rules, v.enemy)) }
+end
+
+local function statusEffect(v, effect)
+    local gain = effect.op == "gainStatus"
+    -- Each copied status passes ApplyPower before later effects read it. Artifact
+    -- is spent in order and can reject a status before its addition overflows.
+    Actors.applyPower(v.preview, gain and v.copy or v.player, effect.status, effect.value, v.copy)
+    local status = assert(v.state.catalog.statuses[effect.status])
+    local size = number(math.abs(effect.value))
+    local sentence = statusSentence(gain, effect, status, size)
+    v.result[#v.result + 1] = sentence
+    v.rows[#v.rows + 1] = statusRow(v, effect, gain, status, size, sentence)
+end
+
+local function discardEffect(v, effect)
+    local value = number(effect.value)
+    local name = assert(v.state.catalog.cards[effect.card]).name
+    local text = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆"
+    v.result[#v.result + 1] = text
+    v.rows[#v.rows + 1] = { icon = "debuff", colour = C.debuff, name = "塞入「" .. name .. "」×" .. value, text = text }
+end
+
+local function unknownEffect(v)
+    v.result[#v.result + 1] = "未知"
+    v.rows[#v.rows + 1] = { icon = "unknown", colour = C.textDim, name = "未知", text = "下一步行动未知" }
+end
+
+local effects = { damage = attackEffect, damageAll = attackEffect, block = blockEffect,
+    gainStatus = statusEffect, applyStatus = statusEffect, makeTempCardInDiscard = discardEffect }
+
+local function joinedView(v)
+    local intent = v.intent
+    return { value = intent.kind == "attack" and (v.attack or "?") or "", kind = intent.kind, badge = M.intentBadge(intent),
+        label = intent.kind ~= "attack" and intentLabels[intent.kind] or nil,
+        text = #v.result > 0 and table.concat(v.result, "；") or "下一步行动未知。", rows = v.rows }
+end
+
+-- One ordered preview supplies the compact face, joined text and detail rows.
+function M.intentView(state, index)
+    local intent = Combat.intent(state, index)
+    if not intent then return goneView(state, index) end
+    local describeSpecial = specialIntents[intent.kind]
+    if describeSpecial then return describeSpecial(state, state.enemies[index]) end
+    local view = newPreview(state, index, intent)
+    theft(view)
+    for _, effect in ipairs(intent.effects) do
+        local describe = effects[effect.op] or unknownEffect
+        describe(view, effect)
+    end
+    return joinedView(view)
+end
+
+return M
