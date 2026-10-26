@@ -48,6 +48,7 @@ function M.new(data, seed, options)
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
     if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
+    if profile and profile.originalV4 then run.originalCommands={}end
     for _, id in ipairs(data.cards.starter_deck.cards) do
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
@@ -585,6 +586,11 @@ function M.chooseCard(run,token,uid)
 end
 
 function M.play(run, uid, targetIndex, commandId)
+    if commandId~=nil and run.originalCommands then
+        if type(commandId)~='string' or commandId==''then return false,'invalid_command_id'end
+        local prior=run.originalCommands[commandId]
+        if prior then return prior.uid==uid and prior.target==targetIndex,prior.uid==uid and prior.target==targetIndex and 'already_committed' or 'command_conflict'end
+    end
     if commandId and run.combat and run.combat.originalV4 then
         local replay,why=require('abyss_original_v4').replay(run.combat,commandId,uid,targetIndex)
         if replay~=nil then return replay,why end
@@ -592,6 +598,7 @@ function M.play(run, uid, targetIndex, commandId)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.play(run.combat, uid, targetIndex, commandId)
     if ok then
+        if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
         if Combat.outcome(run.combat) then M.finishCombat(run) end

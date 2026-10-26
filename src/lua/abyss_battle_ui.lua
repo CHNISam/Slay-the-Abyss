@@ -36,6 +36,7 @@ local function signed(value) return (value < 0 and "-" or "+") .. number(math.ab
 -- "你" is always the player; the owner is whoever's panel is open.
 -- Returns the effect, how long it lasts (right of the name) and an optional condition.
 local function statusDetail(entry, rules, actor)
+    if entry.originalV4 then return entry.description,entry.duration,'当前资源与剩余次数，按实际结算更新。'end
     local n, c, id, always = number(entry.amount), rules.combat, entry.id, "本场战斗"
     if id == "strength" then
         local t = entry.temporary or 0
@@ -206,18 +207,25 @@ local function intentView(state, index)
         rows[#rows + 1] = { icon = Theme.icon.gold.id, colour = C.debuff, name = "窃金 " .. gold,
             text = "先窃取你最多 " .. gold .. " 金币", note = "完全格挡仍会失金" }
     end
+    local soften=state.originalV4 and require('abyss_original_v4').intentReduction(state,index) or 0
     for _, effect in ipairs(intent.effects) do
-        if effect.op == "damage" then
+        if effect.op == "damage" or effect.op=='damageAll' then
             -- The number already includes Strength, Weak and Vulnerable on both sides.
             local amount = Combat.attackAmount(state, copy, player, effect.value)
             local each, times = number(amount), effect.times or 1
+            local hits,total,unequal={},0,false
+            for hit=1,times do local cut=math.min(amount,soften);soften=soften-cut;hits[hit]=amount-cut;total=total+hits[hit]
+                if hit>1 and hits[hit]~=hits[1]then unequal=true end
+            end
+            amount=hits[1];each=number(amount)
             local face = each .. (times > 1 and "×" .. times or "")
+            if unequal then local values={};for _,hit in ipairs(hits)do values[#values+1]=number(hit)end;face=table.concat(values,'+')end
             attack = attack or face
-            result[#result + 1] = times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害"
+            result[#result + 1] = unequal and ("依次攻击 "..face.." 点伤害") or times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害"
                 or "攻击造成 " .. each .. " 点伤害"
             rows[#rows + 1] = { icon = "attack", colour = C.danger, name = "攻击 " .. face,
-                tag = times > 1 and "共 " .. number(amount * times) or nil,
-                text = times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害" or "造成 " .. each .. " 点伤害",
+                tag = times > 1 and "共 " .. number(total) or nil,
+                text = unequal and ("依次攻击 "..face.." 点伤害") or times > 1 and "攻击 " .. times .. " 次，每次 " .. each .. " 点伤害" or "造成 " .. each .. " 点伤害",
                 note = amount ~= effect.value and "基础 " .. number(effect.value) .. "，已计入双方力量、虚弱与易伤" or nil }
         elseif effect.op == "block" then
             local amount = number(Combat.blockAmount(state, copy, effect.value, effect.target == "random_ally"))
@@ -560,7 +568,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local y = (si.rows - 1) * pitch / 2 - line * pitch
                 icon:SetAnchoredPosition(x, y)
                 target:SetAnchoredPosition(x, y)
-                picture(icon, Theme.icon.status[entry.id])
+                picture(icon, Theme.icon.status[entry.icon or entry.id])
                 tint(icon, statusKind(entry) == "buff" and C.buff or C.debuff)
                 if overflow then
                     count:SetAnchoredPosition(x, y)
@@ -596,7 +604,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local function statusRow(entry)
             local text, tag, note = statusDetail(entry, battle.rules, actor)
             local kind = statusKind(entry)
-            return { status = entry.id, colour = kind == "buff" and C.buff or C.debuff, tag = tag, text = text, note = note,
+            return { status = entry.id, icon = Theme.icon.status[entry.icon or entry.id], colour = kind == "buff" and C.buff or C.debuff, tag = tag, text = text, note = note,
                 name = entry.name .. (entry.stack == "none" and "" or " " .. number(entry.amount)) }
         end
         if info.kind == "intent" then
@@ -633,6 +641,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     if effect["then"] then keywords(effect["then"]) end
                 end
             end
+            if definition.originalV4 then
+                local full=require('abyss_original_v4_display').describe(definition,instance.upgraded)
+                local preview=Combat.cardPreview(battle,instance,self.target)
+                if preview.text and preview.text~=''then full=full..'\n'..preview.text end
+                local chunk,index='',0
+                local function flush()
+                    if chunk~=''then index=index+1;rows[#rows+1]={name='完整效果 '..index,text=chunk,colour=C.goldBright,icon=Theme.icon.cardArt[definition.type]};chunk=''end
+                end
+                for glyph in full:gmatch('[%z\1-\127\194-\244][\128-\191]*')do
+                    if lines(chunk..glyph)>2 then flush()end
+                    chunk=chunk..glyph
+                end
+                flush()
+            end
             keywords(definition.effects)
             if definition.exhaust then rows[#rows + 1] = {icon = Theme.icon.exhaust, colour = C.goldBright, name = "消耗",
                 text = "打出后移出本场战斗", note = "不进入弃牌堆"} end
@@ -654,6 +676,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             entries = remaining
         end
         if actor==battle.player and not info.statusId and not info.offset then
+            if battle.originalV4 then
+                local rows={}
+                for line in require('abyss_original_v4_display').summary(battle):gmatch('[^\n]+')do
+                    rows[#rows+1]={name='当前资源',text=line,colour=C.gold,icon=Theme.icon.cardArt.skill}
+                end
+                card.title=battle.originalV4Rules and battle.originalV4Rules.roles[battle.originalV4.role].name or '角色资源'
+                card.sections[#card.sections+1]={label='角色资源与剩余次数',colour=C.gold,rows=rows}
+            end
             if self.run and self.run.characterProfile and self.run.characterProfile.id=="silent" then
                 card.sections[#card.sections+1]={label="弃牌",colour=C.gold,rows={
                     {name="本回合弃牌 "..number(battle.discardedThisTurn or 0),text="弃牌可触发退费，或降低部分牌本回合的费用。",
@@ -1108,6 +1138,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if battle and run and run.characterProfile and run.characterProfile.id=="silent" then
             heading=heading.." · 弃 "..number(battle.discardedThisTurn or 0)
         end
+        if battle and battle.originalV4 then heading=heading..' · '..require('abyss_original_v4_data').rules.roles[battle.originalV4.role].name end
         label("title",heading)
         label("exhaust", battle and tostring(#battle.exhaust) or "0")
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))

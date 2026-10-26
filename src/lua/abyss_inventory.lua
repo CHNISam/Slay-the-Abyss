@@ -186,7 +186,8 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
             if not called then return false, amount end
             if state.originalV4 then
                 state.player.hp=beforeHp
-                require('abyss_original_v4_health').heal(state,state.player,amount,nil,'increaseMaxHp')
+                local actual=require('abyss_original_v4_health').heal(state,state.player,amount,nil,'increaseMaxHp')
+                if actual==0 then RelicHooks.hpChanged(state,state.player,beforeHp)end
             else
             require('abyss_events').emit(state,'heal',{target=state.player.id,amount=amount})
             RelicHooks.hpChanged(state,state.player,beforeHp)

@@ -23,7 +23,12 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
     local thornsCallback = source and before > 0 and sourceBefore > 0 and not fixed and not retaliation
         and (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0) > 0
     if state.originalV4 then base,normalAmount=require('abyss_original_v4').reduceAttack(state,source,target,base,fixed,normalAmount) end
+    local previewAmount=state.originalV4Preview and source==state.player and target~=state.player
+        and (normalAmount or Actors.attackAmount(state,source,target,base,fixed)) or nil
+    local previewBlock=previewAmount and math.min(target.block,previewAmount) or 0
     local lost = Actors.damage(state, source, target, base, fixed, retaliation, normalAmount,poison)
+    if previewAmount then state.originalV4Preview[#state.originalV4Preview+1]={op=fixed and 'derived' or 'damage',target=target.id,
+        low=previewAmount,high=previewAmount,actual=lost,blocked=previewBlock}end
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     EnemyAI.hpLost(state, target, before, before > 0 and (not source or sourceBefore > 0))
     if source and source ~= target then EnemyAI.hpLost(state, source, sourceBefore, thornsCallback) end -- normal thorns
@@ -1855,9 +1860,15 @@ function M.new(data, options)
     for _, value in ipairs(deck) do
         local id = type(value) == "table" and value.cardId or value
         assert(state.catalog.cards[id], "unknown deck card: " .. tostring(id))
-        state.draw[#state.draw + 1] = { uid = state.nextUid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
-            upgrades=type(value)=='table' and value.upgrades or nil }
-        state.nextUid = state.nextUid + 1
+        local uid=state.nextUid
+        if state.originalV4 and type(value)=='table' and value.uid~=nil then
+            assert(type(value.uid)=='number' and value.uid>0 and value.uid%1==0 and value.uid<9007199254740991,'invalid permanent card UID')
+            uid=value.uid
+            for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
+        end
+        state.draw[#state.draw + 1] = { uid = uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
+            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=state.originalV4 and type(value)=='table' and value.uid or nil }
+        state.nextUid = math.max(state.nextUid,uid)+1
     end
     if options.sourceEncounter ~= nil then
         local callbacks, constructors = options.encounterBoundary, 0

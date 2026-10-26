@@ -250,4 +250,69 @@ function M.summary(state)
     if (v.soften or 0)>0 then parts[#parts+1]='削势 '..count(v.soften) end
     return table.concat(parts,'\n')
 end
+-- Cards keep costs visible; the existing detail panel carries full rules.
+function M.brief(card,upgraded,preview)
+    M.describe(card,upgraded)
+    local raw,value=variant(card,upgraded)
+    local critical,actions={},{}
+    local compact={bond='契量',fan='气氛',resolve='愿力'}
+    for _,condition in ipairs(raw.requirements)do
+        local resource,n=condition:match('^(%a+)(%d+)$')
+        critical[#critical+1]='需'..assert(compact[resource])..n
+    end
+    local paid=0
+    for _,effect in ipairs(value.effects)do
+        if effect.op=='pay_hp'then paid=paid+effect.n
+        elseif effect.op=='spend'then critical[#critical+1]=effect.n=='all' and ('耗尽'..compact[effect.resource]) or (compact[effect.resource]..'-'..effect.n)end
+    end
+    if paid>0 then critical[#critical+1]='付血'..number(paid)end
+    if value.exhaust then critical[#critical+1]='本场消耗'end
+    local seen={}
+    local function add(text)if text and not seen[text]then actions[#actions+1]=text;seen[text]=true end end
+    if preview and preview.originalV4 and #preview>0 then
+        local damage,block=0,0
+        for _,entry in ipairs(preview)do if entry.op=='block'then block=block+entry.low else damage=damage+(entry.actual or 0)end end
+        if damage>0 then add('本次扣血'..number(damage))end
+        if block>0 then add('本次格挡'..number(block))end
+    end
+    for _,e in ipairs(value.effects)do
+        local op,n=e.op,e.n
+        if op=='damage'then add((e.target=='all' and '全体伤害' or '伤害')..number(n)..((e.hits or 1)>1 and ('×'..e.hits) or ''))
+        elseif op=='damage_spent'then add(e.coefficient==0 and ('伤害'..number(n)) or '消耗增伤')
+        elseif op=='block' and n>0 then add('格挡'..number(n))
+        elseif op=='heal'then add('治疗'..number(n))
+        elseif op=='heal_spent'then add('消耗治疗')
+        elseif op=='infuse'then add('蝶引'..number(n)..'阶段')
+        elseif op=='summon'then add('部署宾客')
+        elseif op=='singer'then add('歌者'..number(n)..'次')
+        elseif op=='directive'then add('施加勒令')
+        elseif op=='absorb'then add('吸收勒令')
+        elseif op=='bloom'then add('血梅香'..number(n)..'层')
+        elseif op=='cash_bloom'then add('兑现血梅香')
+        elseif op=='eye'then add('雷眼'..number(n)..'次')
+        elseif op=='musou'then add('一心'..number(n)..'次')
+        elseif op=='revelry'then add('欢腾'..number(n)..'批')
+        elseif op=='mode' or op=='toggle'then add('切换荒芒')
+        elseif op=='draw'then add('抽牌'..number(n))
+        elseif op=='next_energy'then add('下回合能量+'..number(n))
+        elseif op=='next_draw'then add('下回合抽牌+'..number(n))
+        elseif op=='next_block'then add('下回合格挡'..number(n))
+        elseif op=='bonus'then add('准备加成'..number(n))
+        elseif op=='mature'then add('勒令成熟')
+        elseif op=='cleanse'then add('净化虚弱脆弱')
+        elseif op=='trigger'then add('召唤物行动')
+        elseif op=='eye_pulse'then add('雷眼追击')
+        elseif op=='block_spent'then add('消耗护盾')
+        elseif op=='end_infuse'then add('结束蝶引')
+        elseif op=='when'then add('附条件效果')
+        elseif op=='soften'then add('削势'..number(n))
+        elseif op=='counter'then add('反击'..number(n))
+        elseif op=='resolve'then add('愿力+'..number(n))
+        end
+    end
+    assert(#critical<=4,'original card costs exceed readable brief')
+    for _,text in ipairs(actions)do if #critical>=4 then break end;critical[#critical+1]=text end
+    critical[#critical+1]='长按查看全文'
+    return table.concat(critical,'\n')
+end
 return M

@@ -53,7 +53,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   // Preflight the entire batch before any generated file can be changed.
   rejectInputOutputAliases(outputDirectory);
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
-  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, options), theme);
+  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, {originalCharacters: options.experimentalCharacters !== true, ...options}), theme);
   const templates = [deckCardTemplate()];
   for (const tree of [battle, layout, ...templates]) assertNativeUiCapacity(tree);
   const rendered = spawnSync(python, ['tools/render_traveler_cards.py', 'data/cards.json', 'data/presentation/traveler.zh-CN.json'],

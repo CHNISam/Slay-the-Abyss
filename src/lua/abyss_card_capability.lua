@@ -6,7 +6,11 @@ local M={}
 local function empty(effects)return type(effects)=='table' and next(effects)==nil end
 function M.isImplemented(card)
     if type(card)~='table' then return false end
-    if card.originalV4 then return (card.type=='attack' or card.type=='skill') and require('abyss_original_v4').supported(card.originalV4) end
+    if card.originalV4 then
+        local e=type(card.effects)=='table' and #card.effects==1 and card.effects[1]
+        return (card.type=='attack' or card.type=='skill') and e and e.op=='originalV4'
+            and e.raw and e.raw.id==card.id and require('abyss_original_v4').supported(card.originalV4)
+    end
     if card.condition and card.condition~='only_attacks_in_hand' and card.condition~='draw_pile_empty' then return false end
     if card.costMode and card.costMode~='all_energy' then return false end
     -- Default develop now implements Clash and the cost0/X Whirlwind ABI.

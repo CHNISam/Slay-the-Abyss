@@ -1,6 +1,6 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 
-export function experimentalCharacterControls(theme = nativeTheme) {
+export function experimentalCharacterControls(theme = nativeTheme, options = {}) {
   const { plate, text } = nativeControls(theme);
   const { color: c, font: f, space: s } = theme;
   function button(name, frame, label, layout, font = f.label) {
@@ -35,11 +35,13 @@ export function experimentalCharacterControls(theme = nativeTheme) {
     ] };
   }
   const l = theme.layout.characterSelect, q = theme.layout.combatChoice;
-  const names = ['岩元素荧', '风元素荧', '雷元素荧', '草元素荧'];
+  const original=options.originalCharacters===true;
+  const names = original ? ['胡桃','阿蕾奇诺','芙宁娜','雷电将军'] : ['岩元素荧', '风元素荧', '雷元素荧', '草元素荧'];
   return [
     panel('characterPanel', l, '选择同行者', '每位同行者拥有独立的初始牌组与遗物。', [
       ...l.choices.map((frame, i) => button(`character${i + 1}`, frame, names[i], l, f.body)),
-      button('cancel', l.back, '返回', l),
+      ...(original ? [button('traveler',l.traveler,'旅行者·荧',l)] : []),
+      button('cancel', original ? l.originalBack : l.back, '返回', l),
     ]),
     panel('choicePanel', q, '选择卡牌', '', [
       ...Array.from({ length: q.columns * q.rows }, (_, i) => button(`card${i + 1}`,

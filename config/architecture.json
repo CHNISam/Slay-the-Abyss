@@ -107,7 +107,12 @@
     "abyss_transform_card": "core",
     "abyss_ui": "platform",
     "abyss_unknown": "core",
-    "abyss_viewport": "ui"
+    "abyss_viewport": "ui",
+    "abyss_original_v4": "core",
+    "abyss_original_v4_profiles": "core",
+    "abyss_original_v4_health": "core",
+    "abyss_original_v4_data": "core",
+    "abyss_original_v4_display": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [
@@ -205,6 +210,21 @@
       "from": "abyss_relic_hooks",
       "to": "abyss_card_actions",
       "reason": "Toy Ornithopter enqueues only when potionUsed is invoked after initialization."
+    },
+    {
+      "from": "abyss_actor",
+      "to": "abyss_original_v4",
+      "reason": "Actor death notifications call the already-initialized original hero ledger only at runtime."
+    },
+    {
+      "from": "abyss_original_v4_health",
+      "to": "abyss_relic_hooks",
+      "reason": "Actual original healing invokes existing HP-change hooks after module initialization only."
+    },
+    {
+      "from": "abyss_original_v4",
+      "to": "abyss_enemy_ai",
+      "reason": "Only resolution-boundary callbacks flush the already-initialized native enemy AI; never imported while the original module loads."
     }
   ]
 }

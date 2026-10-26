@@ -53,7 +53,7 @@ function OnStart()
             end
         end
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { music = music, experimentalCharacters = hasClasses and enableClasses==true,
+            { music = music, experimentalCharacters = hasClasses and enableClasses==true, originalCharacters = not (hasClasses and enableClasses==true),
               color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, sound = function(cue)
                 local id = Theme.sound[cue]
                 if id and game.PlayAudio2D then

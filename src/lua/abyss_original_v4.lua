@@ -43,10 +43,12 @@ function M.supported(raw)
 end
 function M.init(state,role,rules)
     state.originalV4Rules=rules
-    state.originalV4={role=role,healUsed=0,relicUsed=false,infuse=0,chargedUsed=0,bond=0,mode=rules.FR.initial_mode,
+    state.originalV4={role=role,healCap=rules.common.battle_actual_heal_cap,healUsed=0,relicUsed=false,infuse=0,chargedUsed=0,bond=0,mode=rules.FR.initial_mode,
         fan=0,fanGained=0,guests={usher=0,chevalmarin=0,crabaletta=0},singer=0,revelry={uses=0,ends=0,bonus=0},
         resolve=0,resolveGained=0,eye={uses=0,ends=0},musou={uses=0,ends=0},musouRefunded=0,
         nextEnergy=0,nextDraw=0,nextBlock=0,bonus={n=0,tag='any'},counter=0,soften=0,commands={}}
+    state.player.originalV4=state.originalV4
+    state.player.name=rules.roles[role].name
 end
 local function selected(state,e,target)
     if e.target=='all'then
@@ -107,8 +109,7 @@ function M.preflight(state,card,targetIndex)
 end
 function M.block(state,n,fixed)
     if state.player.hp>0 and math.min(999-state.player.block,Actors.blockAmount(state,state.player,n,fixed))>0 then
-        local before=state.player.block;Actors.block(state,state.player,n,fixed)
-        if state.originalV4Preview then state.originalV4Preview[#state.originalV4Preview+1]={op='block',low=state.player.block-before,high=state.player.block-before}end
+        Actors.block(state,state.player,n,fixed)
     end
 end
 local function pay(combat,state,n)
@@ -145,10 +146,6 @@ local function batch(combat,state,n,list,hits,ctx,extra,derived)
             local amount=n
             if first then amount=amount+bonus+(extra or 0);first=false end
             if ctx and not ctx.directSeen then amount=amount+ctx.firstBonus;ctx.directSeen=true end
-            if state.originalV4Preview then
-                local output=Actors.attackAmount(state,state.player,enemy,amount,derived)
-                state.originalV4Preview[#state.originalV4Preview+1]={op=derived and 'derived' or 'damage',target=enemy.id,low=output,high=output}
-            end
             total=total+combat.damage(state,state.player,enemy,amount,derived,reactions)
         end end
         Actors.resolveDamageReactions(state,reactions,combat.retaliate)
@@ -318,6 +315,17 @@ function M.startTurn(state)
     for _,enemy in ipairs(state.enemies)do if live(enemy) and enemy.v4Directive then enemy.v4Directive.mature=true end end
     return extra
 end
+function M.intentReduction(state,index)
+    local value=state.originalV4 and state.originalV4.soften or 0
+    if value<=0 then return 0 end
+    for i,enemy in ipairs(state.enemies)do if live(enemy)then
+        local intent=enemy.intents[enemy.intentIndex]
+        for _,e in ipairs(intent.effects or {})do if (e.op=='damage' or e.op=='damageAll') and (e.value or 0)>0 then
+            return i==index and value or 0
+        end end
+    end end
+    return 0
+end
 function M.beginEnemyAction(state,enemy,intent)
     local v=state.originalV4;local attacking=false
     for _,e in ipairs(intent.effects or {})do if (e.op=='damage' or e.op=='damageAll') and (e.value or 0)>0 then attacking=true end end
@@ -347,14 +355,20 @@ function M.preview(combat,state,instance,targetIndex)
     local entries=staged.originalV4Preview;entries.originalV4=true;entries.reason=not ok and why or nil
     local texts={}
     for _,entry in ipairs(entries)do
-        if entry.op=='block'then texts[#texts+1]='格挡 '..entry.low
+        if entry.op=='block'then texts[#texts+1]='格挡 '..string.format('%.0f',entry.low)
         else local target='目标'
             for i,enemy in ipairs(staged.enemies)do if enemy.id==entry.target then target='敌'..i;break end end
-            texts[#texts+1]=target..' '..entry.low..(entry.op=='derived' and '（追击）' or '')
+            texts[#texts+1]=target..'扣血 '..string.format('%.0f',entry.actual or 0)..(entry.op=='derived' and '（追击）' or '')
         end
     end
     for _,event in ipairs(staged.events)do
-        if event.kind=='heal' and event.detail.target=='player'then texts[#texts+1]='实际治疗 '..event.detail.amount end
+        if event.kind=='heal' and event.detail.target=='player'then texts[#texts+1]='实际治疗 '..string.format('%.0f',event.detail.amount) end
+    end
+    if state.originalV4.role=='HT' and card.originalV4.category=='charged' and state.originalV4.infuse>0
+        and state.originalV4.chargedUsed<state.originalV4Rules.HT.charged_eligible_cards_per_turn
+        and direct(card.originalV4[card.originalV4Upgraded and 'upgrade' or 'base'].effects)then
+        local target=staged.enemies[targetIndex]
+        if target and target.v4Bloom and live(target)then texts[#texts+1]='挂梅目标：敌'..targetIndex end
     end
     entries.text=#texts>0 and ('本次预览：'..table.concat(texts,'；')) or ''
     return entries

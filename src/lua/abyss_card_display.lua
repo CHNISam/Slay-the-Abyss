@@ -110,11 +110,13 @@ function M.format(template, definition, preview, palette)
     end))
 end
 function M.permanentText(display,definition,instance)
+    if definition.originalV4 then return require('abyss_original_v4_display').brief(definition,instance.upgraded)end
     local text=instance.upgraded and display.upgradeText or display.text
     local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
     return live and M.format(live,definition,{},Theme.color) or text or ''
 end
 function M.combatText(display,definition,instance,preview)
+    if definition.originalV4 then return require('abyss_original_v4_display').brief(definition,instance.upgraded,preview)end
     local text=instance.upgraded and display.upgradeText or display.text
     local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
     if live then text=M.format(live,definition,preview,Theme.color)end
