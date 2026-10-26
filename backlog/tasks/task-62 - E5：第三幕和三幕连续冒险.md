@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 21:42'
+updated_date: '2026-10-26 22:50'
 labels:
   - required
   - sts1
@@ -37,6 +37,12 @@ type: feature
 - [ ] #3 第51层缺钥匙走普通结局，满足资格与三钥匙才进入终幕，四职业分别三幕正常通关并保留证据
 - [x] #4 第三幕35至51层地图、来源队列及普通结局/三钥匙门边界基础已合入PR213并有对应回归。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-27 第三批本地组合：从冻结d8f33a7c独立工作树接入已交付Transient和Sensory Stone（后者依赖钨合金棍）。逐个检查真实Diff，保留现有Orichalcum、Shapes、完整300目录与晚领奖回滚，整合后按原时限复验固定源、跨切片回归与工程门禁；不将局部结果视为整幕或平台通过。
+<!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
