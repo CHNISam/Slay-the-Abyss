@@ -1353,7 +1353,11 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     RelicHooks.atTurnStart(state)
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy = state.energy + state.rules.player.energyPerTurn
-    for _,id in ipairs({"rage","double_tap","flame_barrier"}) do state.player.statuses[id]=nil end
+    for _,id in ipairs({"rage","flame_barrier"}) do
+        require('abyss_power_schedule').remove(state,state.player,id)
+        state.player.statuses[id]=nil
+    end
+    state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
     local p=state.player
     for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
         CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
