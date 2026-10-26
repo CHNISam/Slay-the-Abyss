@@ -1589,11 +1589,10 @@ local function endExperimentalTurn(state)
         if finish(state) then return true end
     end
     local endPowers={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true,rebound=true,amplify=true,equilibrium=true})) do
+    for _,entry in ipairs(require('abyss_power_schedule').list(state,{combust=true,rage=true,study=true})) do
         local plan
         if entry.id=='combust' then plan=require('abyss_warrior_strength_cards').planHook(state,entry.id,'turn_end')
         elseif entry.id=='rage' then plan={bottom=require('abyss_card_triggers').prepareEndTurn(state)}
-        elseif entry.id=='rebound'or entry.id=='amplify'or entry.id=='equilibrium'then plan={bottom=require('abyss_defect_final_cards').endTurnActions(state,entry.id,M)}
         else plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end') end
         for _,effect in ipairs(plan.bottom) do endPowers[#endPowers+1]=effect.kind and effect or {kind='effect',effect=effect} end
     end
@@ -1644,6 +1643,7 @@ local function endExperimentalTurn(state)
     state.silentRetainResume=nil
     if require('abyss_silent_final_cards').beginRetain(state)then return true end
     local retained,remaining = {},{}
+    require('abyss_defect_final_cards').endTurn(state,M)
     for _, instance in ipairs(state.hand) do
         local card = M.cardDefinition(state, instance)
         local retainedThisTurn=instance.finalRetain;instance.finalRetain=nil

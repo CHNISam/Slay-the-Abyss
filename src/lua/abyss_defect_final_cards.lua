@@ -161,12 +161,12 @@ function M.afterUse(state,card,purge,exhaust)
  return rebound
 end
 function M.startTurn(state)state.echoDoubledThisTurn=0 end
-function M.endTurnActions(state,id,combat)
- if id=='equilibrium'then
-  for _,c in ipairs(state.hand)do if not combat.cardDefinition(state,c).ethereal then c.finalRetain=true end end
-  return {}
+function M.endTurn(state,combat)
+ for _,entry in ipairs(Schedule.list(state,{rebound=true,amplify=true,equilibrium=true}))do
+  if entry.id=='equilibrium'then
+   for _,c in ipairs(state.hand)do if not combat.cardDefinition(state,c).ethereal then c.finalRetain=true end end
+  else M.removePower(state,entry.id)end
  end
- return {e('remove',0,{status=id})}
 end
 function M.endRound(state)
  if state.player.statuses.equilibrium~=nil then M.reducePower(state,'equilibrium')end
@@ -219,7 +219,6 @@ function M.execute(combat,state,effect,queue)
   if (state.player.statuses.corruption or 0)~=0 then require('abyss_corruption').created(state,card)end
   local pile=#state.hand<state.rules.player.maxHand and'hand'or'discard'
   actions.toHand(state,card);Events.emit(state,'cards_created',{source=state.player.id,cardId=card.cardId,amount=1,pile=pile})
- elseif action=='remove'then M.removePower(state,effect.status)
  elseif action=='power'then
   local old=state.player.statuses[effect.status]
   Actor.applyPower(state,state.player,effect.status,effect.value,state.player)

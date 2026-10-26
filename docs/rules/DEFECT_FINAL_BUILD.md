@@ -34,4 +34,4 @@ WhiteNoise在use构造时抽样一次，并将生成牌本回合设为0费；回
 
 经父线程协调CPU，`defect_final_matrix.lua`在原默认30秒预算内完成75张×基础/升级=150次真实C.play（6.205秒），含真实手牌/牌堆选择续队列、Preview、中文说明生成、物理UID唯一检查。首次因本树尚未生成abyss_presentation在0.401秒报缺模块；本树正常build:ui后同矩阵全部通过，未改预算/删变体。原character_presentation整套门禁尚未跑；留待最终组合树安排单份窗口。该矩阵不是每个组合/边界的穷尽证明，也不替代各专属效果断言或平台实测。
 
-最终自审发现并修复真实死亡边界：Rebound/Amplify清理原本处于较晚的保留阶段，Regret先致死会留下Power。现改为源atEndOfTurn的Schedule顺序排Remove，Equilibrium也在该hook阶段仅标记当时非虚无手牌。`defect_final_end_cleanup.lua`先红后绿（0.555秒），证明真实Regret死亡前两个Power均已移除，原cardInUse/UID仍留死亡界面；七牌生命周期旧回归继续绿（1.562秒）。
+最终死亡边界核证纠正：0074308仅凭AbstractRoom.endTurn推断普通Power先于Regret/Burn，提前移除Rebound/Amplify，属于错误修复。继续核对固定GameActionManager.callEndOfTurnActions/cardQueue及AbstractRoom.update后确认：先pre-card Powers/Orbs及自动回合结束牌，牌队列清空后才调用普通Power.atEndOfTurn。现恢复后卡阶段，按Schedule顺序处理Final普通回合末Power及均衡当前手牌标记。`defect_final_end_cleanup.lua`保留两个正确场景：致死Regret中断前两个Power仍存在、原cardInUse/UID留死亡界面；存活Regret随后正常移除。此纠正保留证据，不把先前错误断言的绿当作规则证明。
