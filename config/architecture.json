@@ -51,6 +51,7 @@
     "abyss_acid_slime_m_ai": "core",
     "abyss_acid_slime_s_ai": "core",
     "abyss_act1_events": "core",
+    "abyss_wheel_event": "core",
     "abyss_actor": "core",
     "abyss_battle_ui": "ui",
     "abyss_bgm": "ui",

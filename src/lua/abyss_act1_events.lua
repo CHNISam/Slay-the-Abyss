@@ -3,10 +3,12 @@
 local Run=require('abyss_run')
 local Purge=require('abyss_living_wall')
 local Random=require('abyss_sts_random')
-local M={ids={sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true}}
+local Wheel=require('abyss_wheel_event')
+local M={ids={sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true,wheel=true}}
 function M.prepare(run,event)
     if event.id=='big_fish' then event.healAmount=math.floor(run.maxHp/3) end
     if event.id=='scrap_ooze' then event.damage,event.chance,event.totalDamage=3,25,0 end
+    if event.id=='wheel' then Wheel.prepare(run,event) end
 end
 local function row(choice,title,description,enabled)
     return {choice=choice,title=title,description=description,enabled=enabled~=false}
@@ -38,6 +40,7 @@ local function obtainRelic(run,id)
     return ok,localId
 end
 function M.options(run,event,upgradeCards)
+    if event.id=='wheel' then return Wheel.options(run,event) end
     local id,stage=event.id,event.stage
     if stage=='result' or stage=='disagree' then return {row('leave','离开','返回路线。')} end
     if id=='sssserpent' then
@@ -61,6 +64,7 @@ function M.options(run,event,upgradeCards)
 end
 function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
     local event=flow.event
+    if event.id=='wheel' then return Wheel.choose(run,flow,choice,uid) end
     if uid~=nil and event.stage~='choose_card' then return false,'invalid_event_choice' end
     if event.stage=='result' or event.stage=='disagree' then
         if choice~='leave' then return false,'invalid_event_choice' end

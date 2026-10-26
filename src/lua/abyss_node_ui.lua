@@ -40,6 +40,7 @@ local events = {
     bonfire={name='篝火精灵',body='篝火中的精灵向你招手。',leave='你告别了篝火。'},
     transmogrifier={name='变换神龛',body='神龛的微光能将一张卡牌化为新的形态。',leave='你离开了变换神龛。'},
     scrap_ooze={name='废料黏液',body='黏液深处似乎埋着一件遗物。伸手探索会受到伤害。',leave='你停止了探索。'},
+    wheel={name='变化转轮',body='转轮等待你转动。它的六种结果无法自行挑选。',leave='你离开了转轮。'},
     fountain = { name='净化之泉', body='清澈的泉水在石隙间流淌。你可以借它洗去随身的诅咒。', leave='你离开了泉水。' },
     living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
@@ -470,6 +471,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not result and node.event and node.event.stage=='result' and node.event.obtainedRelicId then
             body=body..'\n获得遗物：'..relicName(node.event.obtainedRelicId)..'。'
         end
+        if not result and node.event.stage=='relic_reward' and node.event.relicOffer then
+            body=body..'\n可领取遗物：'..relicName(node.event.relicOffer.id)..'。'
+        end
         if not result and id=='transmogrifier' and node.event.obtainedCardUid then
             local obtained=find(self.run.deck,node.event.obtainedCardUid,'uid')
             body=body..'\n已变换为：'..cardName(obtained.cardId,obtained.upgraded)..'。'
@@ -668,7 +672,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.mode,self.picker='picker','dream_catcher';self.restRows={}
             for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=false}end
         end
-        if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier') then
+        if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel') then
             if node.event.stage=='choose_card' then
                 self.mode,self.picker='picker','act1_'..node.event.choice
                 self.removeRows=snapshotDeck(node.event.purgeCards or {})
@@ -718,7 +722,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "pickerView" then
             local selected = self.selected
             local living=node.type=='event' and node.event.id=='living_wall'
-            local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier')
+            local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel')
             local dream=self.picker=='dream_catcher'
             local function restReward(choice)
                 local id=node.restReward.cards[choice]
@@ -732,7 +736,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 confirmLabel,backLabel='选择此牌','跳过卡牌'
                 skipRestReward=function()return restReward(0)end
             elseif act1 then
-                confirmLabel=self.picker=='act1_forge' and '确认升级' or self.picker=='act1_change' and '确认变换' or '确认献祭'
+                confirmLabel=self.picker=='act1_forge' and '确认升级' or self.picker=='act1_change' and '确认变换' or self.picker=='act1_purge' and '确认移除' or '确认献祭'
             elseif living then
                 confirmLabel=self.picker=='living_grow' and '确认升级' or self.picker=='living_change' and '确认变换' or '确认移除'
             elseif self.picker == "upgrade" then
