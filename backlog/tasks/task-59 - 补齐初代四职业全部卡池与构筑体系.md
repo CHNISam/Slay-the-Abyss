@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-25 03:46'
-updated_date: '2026-10-26 18:57'
+updated_date: '2026-10-26 19:07'
 labels:
   - required
   - sts1
@@ -49,6 +49,8 @@ ordinal: 95000
 按完整四职业75张与全部四幕原范围推进。独立工作树实现与审查，主线程集成共享结算、完整来源池与原生UI；当前SHA完整Quality通过后按PR合入develop。旧任务锁已停用，不沿用历史paused或不提交约束。自然构筑、正式平台入口与同候选实机分别留证，缺项不勾验收。
 
 2026-10-27 下一独立切片：Run层装配四职业完整真实目录，保留历史Profile.prepare入口。Native75红牌按完整适配链而非历史66过滤；仅合并卡与必要衍生状态，所选职业71源池/规则/牌组/遗物和原概率保持，实际HEALING标签逐项核对。显式解决Burn/共享状态冲突、外色原生ABI、0球槽/Neutral姿态、真实能力acquisition与caller图隔离，不用身份缓存掩盖输入变化；OriginalV4另隔离。先源/运行/性能定向后再完整回归，不提前宣布自然或正式平台齐备。
+
+2026-10-27 源计数更正：完整75红牌为3张basic+72张非basic，其余三职业各4张basic+71张非basic。前述把所有职业统写71的计划不准确；实际reward/src/shop源数组及原顺序完全保留，不删卡凑数量。该更正不改变四职业各75和完整合法来源标准。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
