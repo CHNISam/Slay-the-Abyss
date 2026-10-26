@@ -33,5 +33,24 @@
     "stdout": "ok character shop 1 - silent merchant uses complete source identities and shared colorless cards\nok character shop 2 - defect merchant uses complete source identities and shared colorless cards\nok character shop 3 - watcher merchant uses complete source identities and shared colorless cards\nok character shop 4 - Poison Potion class eligibility agrees in merchant and reward selection\nCHARACTER_SHOP_PASS 4\n",
     "stderr": "",
     "elapsedMs": 19546
+  },
+  "presentationBefore": {
+    "node": "v24.18.0",
+    "head": "accaa9e172e77d3e86e576a0f91eb66cae2ccba3",
+    "fixture": "tests/lua/character_presentation.lua",
+    "fixtureSha256": "ce4391dfe326ca9b0c60e6d6f0a4e9b15be1ad8a398d185dc5fb661e76ee959f",
+    "deadlineMs": 30000,
+    "started": "2026-10-26T19:36:00.376Z",
+    "status": 1,
+    "signal": null,
+    "output": [
+      null,
+      "",
+      "src/lua/abyss_watcher_final_cards.lua:126: attempt to index a nil value (field 'player')\nstack traceback:\n\tsrc/lua/abyss_watcher_final_cards.lua:126: in function 'abyss_watcher_final_cards.freeAttack'\n\tsrc/lua/abyss_combat.lua:382: in function 'abyss_combat.cardDefinition'\n\tsrc/lua/abyss_deck_ui.lua:59: in upvalue 'fill'\n\tsrc/lua/abyss_deck_ui.lua:137: in field 'refreshCallback'\n\ttests/lua/support/game_ui_fixture.lua:52: in method 'recycle'\n\ttests/lua/support/game_ui_fixture.lua:56: in method 'flush'\n\ttests/lua/support/game_ui_fixture.lua:60: in method 'RefreshItems'\n\tsrc/lua/abyss_deck_ui.lua:134: in method 'open'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:64: in local 'fn'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:14: in local 'test'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:19: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n"
+    ],
+    "pid": 7468,
+    "stdout": "",
+    "stderr": "src/lua/abyss_watcher_final_cards.lua:126: attempt to index a nil value (field 'player')\nstack traceback:\n\tsrc/lua/abyss_watcher_final_cards.lua:126: in function 'abyss_watcher_final_cards.freeAttack'\n\tsrc/lua/abyss_combat.lua:382: in function 'abyss_combat.cardDefinition'\n\tsrc/lua/abyss_deck_ui.lua:59: in upvalue 'fill'\n\tsrc/lua/abyss_deck_ui.lua:137: in field 'refreshCallback'\n\ttests/lua/support/game_ui_fixture.lua:52: in method 'recycle'\n\ttests/lua/support/game_ui_fixture.lua:56: in method 'flush'\n\ttests/lua/support/game_ui_fixture.lua:60: in method 'RefreshItems'\n\tsrc/lua/abyss_deck_ui.lua:134: in method 'open'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:64: in local 'fn'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:14: in local 'test'\n\t...3-full-card-catalog\\tests\\lua\\character_presentation.lua:19: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n",
+    "elapsedMs": 3979
   }
 }

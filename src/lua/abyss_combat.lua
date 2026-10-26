@@ -392,7 +392,7 @@ function M.cardDefinition(state, instance)
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
     if card.id=='expunger' then card.expungerHits=instance.expungerHits or 0 end
-    if not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
+    if state.player and not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
     return card
 end
 function M.canUpgrade(state,instance)
