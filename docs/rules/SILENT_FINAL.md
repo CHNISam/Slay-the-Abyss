@@ -27,6 +27,8 @@
 
 两瓶是Alchemize完整池必要依赖：Cunning Potion先构造Shiv+，BOT生成3份（Bark6），满手溢出弃牌且只获临时UID，Master Reality不会再次升级已升级小刀；Ghost in a Jar BOT施加1无实体（Bark2），优先级75，受到伤害/HP_LOSS最多1，round末减少。两瓶有战斗、商店和库存共用说明。Bark本身的自然遗物获取不在本片；测试显式提供其被动目录定义，未伪称已实现该遗物渠道。
 
+生成升级统一显式调用 `CardActions.created` 两次（HandAction构造与ShowHand），不在fresh暗中调用。共用依赖上游 `ef16e051`，本独立Silent树适配为 `b0a0482`：只接纯API和已有Silent/Shivs调用，未导入基线没有的WatcherFinal及其前置方法/专用夹具。Final的复制/Distraction和Cunning三处复用API；Nightmare复制真实原生Searing Blow的受控跨目录用例对修复前 `b0a0482` 的Final模块重放为RED（1次应2次），修复后每份均+2且原卡不变。此组合夹具的Master Reality被动定义为显式测试上下文，完整生产合并目录仍由TASK-59验收。
+
 测试入口：`silent_final_smoke.lua`最初因缺Distraction真实RED；`silent_final_runtime.lua`覆盖新增14张基本/升级28次实际出牌及跨回合；`silent_final_edges.lua`覆盖重复弃牌选择、击杀后After Image、Artifact、毒与Choke尸爆、费用差、抽牌复制及事务；`silent_final_potions.lua`覆盖真实Run两瓶、Bark溢出、失败回滚及Alchemize持续RNG；`silent_full_matrix.lua`逐张执行全部75张两版，Reflex/Tactician走真实弃牌触发，其余走真实play/choice，共150个命令用例。矩阵通过只说明构造上下文可执行，具体数值与结算仍由既有Silent专项和新增边界断言证明。
 
 `silent_final_presentation.lua`用实际Presentation与CardDisplay检查150版说明、动态数值替换、Wraith敏捷损失/Nightmare所选卡牌及Bark后两瓶数字；整数格式首次RED后修为统一numbers.integer，避免2.0/3.0混入核心说明。该离线格式检查不等于平台可读性与交互验收。

@@ -3,7 +3,10 @@ local C=require('abyss_combat');local A=require('abyss_actor');local Actions=req
 local data=require('abyss_character_profiles').prepare(require('abyss_data'),'silent')
 -- TASK-59 owns the combined production catalog. This fixture combines an
 -- unchanged actual native red Strike to exercise the foreign native host now.
-for _,d in ipairs(require('abyss_data').cards.cards)do if d.id=='strike'then data.cards.cards[#data.cards.cards+1]=C.copy(d)end end
+for _,d in ipairs(require('abyss_data').cards.cards)do if d.id=='strike'or d.id=='searing_blow'then data.cards.cards[#data.cards.cards+1]=C.copy(d)end end
+-- Source Master Reality's passive definition is a constructed cross-catalog
+-- context here; the production combined Watcher catalog belongs to TASK-59.
+data.statuses.statuses[#data.statuses.statuses+1]={id='master_reality',name='化实为虚',kind='buff',stack='intensity',decay='none',description='生成的非状态诅咒牌升级。'}
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function fresh(ids)
  local s=C.new(data,{deck=ids,enemies={'jaw_worm','jaw_worm'},seed=42,experimental=true,enableStances=true})
@@ -14,6 +17,13 @@ local function fresh(ids)
 end
 local function held(s,id)for _,c in ipairs(s.hand)do if c.cardId==id then return c end end;error(id)end
 local function play(s,id,target)local ok,why=C.play(s,held(s,id).uid,target);assert(ok,why)end
+do
+ local s=fresh({'nightmare','searing_blow','defend_green'});A.applyPower(s,s.player,'master_reality',1,s.player)
+ local original=held(s,'searing_blow');original.deckUid=999;play(s,'nightmare');assert(C.chooseCard(s,s.pendingChoice.token,original.uid))
+ s.rules.player.drawPerTurn=0;assert(C.endTurn(s));eq(#s.hand,3);eq(original.upgrades,nil);eq(original.upgraded,false)
+ for _,c in ipairs(s.hand)do eq(c.cardId,'searing_blow');eq(c.upgrades,2);eq(c.deckUid,nil);eq(C.cardDefinition(s,c).effects[1].value,21)end
+ print('ok foreign Nightmare repeatable Searing Blow receives both source created upgrades without changing original')
+end
 do
  local s=fresh({'acrobatics','endless_agony','defend_green'});local drawn=held(s,'endless_agony')
  s.hand={held(s,'acrobatics'),held(s,'defend_green')};s.draw={drawn};s.discard={}

@@ -221,12 +221,12 @@ function M.apply(combat,s,item)
  elseif k=='copyHand'then
   for _=1,e.value do
    local c=actions().fresh(combat,s,e.template.cardId,e.template)
-   if (s.player.statuses.master_reality or 0)>0 and combat.canUpgrade(s,c)then combat.upgrade(s,c)end
+   actions().created(combat,s,c);actions().created(combat,s,c)
    actions().toHand(s,c)
   end
  elseif k=='distraction'then
   assert(e.cardId,'uncaptured Distraction');local c=actions().fresh(combat,s,e.cardId)
-  c.costForTurn=0;if (s.player.statuses.master_reality or 0)>0 and combat.canUpgrade(s,c)then combat.upgrade(s,c)end
+  c.costForTurn=0;actions().created(combat,s,c);actions().created(combat,s,c)
   actions().toHand(s,c)
  elseif k=='doppelganger'then
   local n=(e.energyOnUse or (s.pendingPlay and s.pendingPlay.energyOnUse)or 0)+e.value

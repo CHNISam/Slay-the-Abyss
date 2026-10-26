@@ -12,7 +12,7 @@ function M.shivs(state,n)
  local C=require('abyss_combat');local Actions=require('abyss_card_actions')
  for _=1,n do
   local card=Actions.fresh(C,state,'shiv');assert(C.canUpgrade(state,card),'missing upgraded Shiv')
-  C.upgrade(state,card);Actions.toHand(state,card)
+  C.upgrade(state,card);Actions.created(C,state,card);Actions.created(C,state,card);Actions.toHand(state,card)
  end
 end
 return M
