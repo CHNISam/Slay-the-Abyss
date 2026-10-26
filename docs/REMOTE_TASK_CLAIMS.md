@@ -1,3 +1,5 @@
+> 2026-10-26：用户明确批准停用额外任务锁。本协议与工具保留为历史/可选协作实现，不再是开发、提交、CI和合并前置要求。当前执行流程见AGENTS.md；使用Backlog、独立工作树、GitHub原生PR及当前SHA完整Quality。下文保留历史合同，不表示旧paused状态仍阻止交付。
+
 # 远端任务执行权
 
 Backlog 管任务状态、里程碑和 Assignee。新工作 Assignee 保持 **Furinya**；Executor 是认领中的 `agent + session`，不改历史负责人。执行权唯一事实在 `origin` 的 **`coord/task-claims`** 分支 `claims.json`，不要手改或强推这个分支。

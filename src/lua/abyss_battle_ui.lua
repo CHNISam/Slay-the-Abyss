@@ -22,11 +22,6 @@ local stanceNames={Neutral="无姿态",Calm="平静",Wrath="愤怒",Divinity="�
 local orbNames={lightning="闪电",frost="冰霜",dark="黑暗",plasma="等离子"}
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local number = require("abyss_numbers").integer
--- A displayed damage variable is exact, never a cross-target range.
-local function amount(preview)
-    assert(preview.low == preview.high, "card damage display must be exact")
-    return number(preview.low)
-end
 -- Negative Strength/Dexterity are debuffs, as the core's Artifact gate treats them.
 local function statusKind(entry) return entry.amount < 0 and "debuff" or entry.kind end
 local kindNames = { buff = "增益", debuff = "减益" }
@@ -547,27 +542,27 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         row:SetAnchoredPosition(0, -portrait / 2 - S.xxl - bh - S.l - (si.rows - 1) * pitch / 2)
         row:GetChild("hit"):SetSizeDelta(width, si.rows * pitch)
         for i = 1, si.perRow * si.rows do
-            local icon, count, entry = row:GetChild("icon" .. i), row:GetChild("count" .. i), i <= shown and entries[i]
+            local statusImage, count, entry = row:GetChild("icon" .. i), row:GetChild("count" .. i), i <= shown and entries[i]
             local target = row:GetChild("hit" .. i)
             target:SetVisible(entry and true or false)
             local overflow = entry and i == slots and #entries > slots
-            icon:SetVisible(entry and not overflow or false)
+            statusImage:SetVisible(entry and not overflow or false)
             count:SetVisible(entry and true or false)
             if entry then
                 local k = i - 1
                 local line = math.floor(k / perRow)
                 local x = (k % perRow - (math.min(perRow, shown - line * perRow) - 1) / 2) * pitch
-                local y = (si.rows - 1) * pitch / 2 - line * pitch
-                icon:SetAnchoredPosition(x, y)
-                target:SetAnchoredPosition(x, y)
-                picture(icon, Theme.icon.status[entry.id])
-                tint(icon, statusKind(entry) == "buff" and C.buff or C.debuff)
+                local statusY = (si.rows - 1) * pitch / 2 - line * pitch
+                statusImage:SetAnchoredPosition(x, statusY)
+                target:SetAnchoredPosition(x, statusY)
+                picture(statusImage, Theme.icon.status[entry.id])
+                tint(statusImage, statusKind(entry) == "buff" and C.buff or C.debuff)
                 if overflow then
-                    count:SetAnchoredPosition(x, y)
+                    count:SetAnchoredPosition(x, statusY)
                     count.text = "+" .. (#entries - slots + 1)
                     ink(count, C.textDim)
                 else
-                    count:SetAnchoredPosition(x + si.size / 2, y - si.size / 2 + si.gap)
+                    count:SetAnchoredPosition(x + si.size / 2, statusY - si.size / 2 + si.gap)
                     count.text = entry.stack == "none" and "" or number(entry.amount)
                     ink(count, C.text)
                 end
@@ -1602,7 +1597,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         g.input.held = nil
         -- move/render may have cancelled a gesture belonging to an old battle.
         if self.gesture ~= g then return end
-        local x,y = point(event)
+        local x = point(event)
         local valid,target = false,nil
         if x and g.moving then valid,target = dragTarget(g) end
         self.gesture = nil -- consume before invoking the command or any rendering callback
