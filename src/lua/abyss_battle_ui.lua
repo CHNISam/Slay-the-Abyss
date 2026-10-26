@@ -347,11 +347,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if g.rewardScreen ~= self.rewardScreen or g.rewardEpoch ~= self.rewardEpoch then return false end
         local rewards,potion=run.rewards,run.rewards.potion
         local item=rewards.stolenGold
-        if g.manualContinue~=rewards.manualContinue or g.cards~=rewards.cards
+        if g.manualContinue~=rewards.manualContinue or g.cards~=rewards.cards or g.upgrades~=rewards.cardUpgrades
             or #g.cardChoices~=#rewards.cards or g.item~=item
             or g.goldAmount~=(item and item.amount) or g.goldType~=(item and item.type)
             or g.normalGold ~= rewards.gold or g.goldClaimed ~= rewards.goldClaimed then return false end
-        for i,id in ipairs(rewards.cards) do if g.cardChoices[i]~=id then return false end end
+        for i,id in ipairs(rewards.cards) do
+            if g.cardChoices[i]~=id or g.cardUpgrades[i]~=(rewards.cardUpgrades and rewards.cardUpgrades[i]) then return false end
+        end
         if g.potion~=potion or g.potionResolved~=(potion and potion.resolved)
             or g.potionResult~=(potion and potion.result) or g.potionId~=(potion and potion.id)
             or g.potionUnavailable~=(potion and potion.unavailable) then return false end
@@ -1658,6 +1660,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     manualContinue = run and run.rewards and run.rewards.manualContinue,
                     cards = run and run.rewards and run.rewards.cards,
                     cardChoices = run and run.rewards and Combat.copy(run.rewards.cards),
+                    upgrades = run and run.rewards and run.rewards.cardUpgrades,
+                    cardUpgrades = run and run.rewards and Combat.copy(run.rewards.cardUpgrades or {}),
                     potion = run and run.rewards and run.rewards.potion,
                     potionResolved = run and run.rewards and run.rewards.potion and run.rewards.potion.resolved,
                     potionResult = run and run.rewards and run.rewards.potion and run.rewards.potion.result,
@@ -1816,6 +1820,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     manualContinue=run.rewards and run.rewards.manualContinue,
                     cards=run.rewards and run.rewards.cards,
                     cardChoices=run.rewards and Combat.copy(run.rewards.cards),
+                    upgrades=run.rewards and run.rewards.cardUpgrades,
+                    cardUpgrades=run.rewards and Combat.copy(run.rewards.cardUpgrades or {}),
                     potion=run.rewards and run.rewards.potion,
                     potionResolved=run.rewards and run.rewards.potion and run.rewards.potion.resolved,
                     potionResult=run.rewards and run.rewards.potion and run.rewards.potion.result,
