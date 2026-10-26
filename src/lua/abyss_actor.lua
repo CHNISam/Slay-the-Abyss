@@ -75,7 +75,7 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
+local debuffs = { no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
     shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
@@ -108,6 +108,7 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
     -- regardless of the target's existing signed total. Zero is not an early exit.
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
     M.status(state, actor, id, amount, source, sourceIsMonster)
+    require('abyss_colorless_cards').debuffApplied(state,actor,id,amount,source)
     if actor==state.player and (id=='demon_form' or id=='brutality' or id=='devotion' or id=='noxious_fumes') then
         state.postDrawPowerOrder=state.postDrawPowerOrder or {}
         local found=false
@@ -296,6 +297,7 @@ function M.resolveDamageReactions(state, reactions, retaliate)
 end
 
 local function directDamage(state, source, target, amount, status, blocked, reactions)
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
@@ -332,6 +334,7 @@ end
 -- A dead attacker may still own a queued Thorns hit; dead victims cannot lose HP.
 function M.retaliate(state, source, target, amount)
     if not M.isActive(target) then return 0 end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
     local reactions = {}
@@ -356,6 +359,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
             "invalid normal damage snapshot")
         amount = normalAmount
     else amount = M.attackAmount(state, source, target, base, fixed) end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local unblocked=amount-absorbed
@@ -411,6 +415,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
 end
 
 function M.blockAmount(state, actor, amount, fixed)
+    if not fixed and (actor.statuses.no_block or 0)>0 then return 0 end
     amount = amount + 0.0
     if not fixed then
         amount = amount + (actor.statuses.dexterity or 0)
@@ -551,6 +556,7 @@ function M.endTurn(state, actor)
     for _,id in ipairs(actor.powerOrder or {}) do if id~='lose_strength' and id~='lose_dexterity' then powers[#powers+1]=id end end
     actor.powerOrder=powers
     if changed then state.events[#state.events].frame = Events.frame(state) end
+    require('abyss_colorless_cards').endOwnerTurn(state,actor)
 end
 
 function M.resetBlock(state, actor)

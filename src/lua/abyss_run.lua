@@ -38,6 +38,7 @@ function M.new(data, seed, options)
             end
         end
     end
+    data=require('abyss_colorless_cards').withCards(data)
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
     local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
@@ -525,9 +526,18 @@ local function finishCombat(run)
     return true
 end
 
+local function applyDaggerGrowth(run)
+    for _,card in ipairs(run.deck)do
+        local growth=(run.combat.ritualDaggerGrowth or {})[card.uid]
+        if card.cardId=='ritual_dagger' and growth then card.misc=(card.misc or 15)+growth end
+    end
+    run.combat.ritualDaggerGrowth=nil
+end
 function M.finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
-    if not run.combat.roomSeed then return finishCombat(run) end
+    if not run.combat.roomSeed then
+        local ok,reason=finishCombat(run);if ok then applyDaggerGrowth(run)end;return ok,reason
+    end
     -- A formal reward is one transaction: invalid source RNG or a later potion
     -- failure must not publish healed HP, card/treasure progress or lastResult.
     local staged = {}
@@ -535,6 +545,7 @@ function M.finishCombat(run)
     staged.shopRng = run.shopRng and Combat.copy(run.shopRng)
     local ok, reason = finishCombat(staged)
     if not ok then return false, reason end
+    applyDaggerGrowth(staged)
     for key in pairs(run) do run[key] = staged[key] end
     for key, value in pairs(staged) do run[key] = value end
     return true

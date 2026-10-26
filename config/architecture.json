@@ -6,6 +6,7 @@
     "abyss_potion_generation": "core",
     "abyss_potion_discovery": "core",
     "abyss_potion_fairy": "core",
+    "abyss_colorless_cards": "core",
     "abyss_action_queue": "core",
     "abyss_build_actions": "core",
     "abyss_card_triggers": "core",
@@ -126,6 +127,16 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {
+      "from": "abyss_actor",
+      "to": "abyss_colorless_cards",
+      "reason": "Runtime Power callbacks run after Actor initialization."
+    },
+    {
+      "from": "abyss_colorless_cards",
+      "to": "abyss_card_actions",
+      "reason": "Generation and UID choices call the initialized host dispatcher at runtime."
+    },
     {
       "from": "abyss_actor",
       "to": "abyss_flow_actions",

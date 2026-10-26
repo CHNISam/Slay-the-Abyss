@@ -412,7 +412,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             selection.experimental, selection.campaign = true, true
         end
         local run = Run.new(data,rawSeed,selection)
-        local runPresentation = selection and selection.character and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
+        local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
         local map = Map.generate(run.data,rawSeed)
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.battleUI:setData(run.data,runPresentation)

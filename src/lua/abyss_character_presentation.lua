@@ -36,6 +36,7 @@ local function dense(t)
     return n
 end
 local function fragments(card,dynamic,path)
+    if card.colorlessNative then return require('abyss_colorless_cards').describe(card,dynamic) end
     path=path or 'effects'
     if card.condition~=nil then assert(card.condition=='only_attacks_in_hand' or card.condition=='draw_pile_empty','unknown card condition') end
     if card.costMode~=nil then assert(card.costMode=='all_energy','unknown cost mode') end
@@ -375,7 +376,7 @@ function M.prepare(existing,prepared)
             local describe=require('abyss_original_v4_display').describe
             current={id=card.id,name=card.name,text=describe(card,false),upgradeText=describe(card,true)}
             out[card.id]=current
-        elseif prepared.originalV4Role and current then
+        elseif current and not card.colorlessNative and (prepared.originalV4Role or not prepared.experimentalCharacter) then
             -- Original profiles retain the already approved native pool unchanged.
             assert(type(current.name)=='string' and type(current.text)=='string' and type(current.upgradeText)=='string','incomplete native presentation')
         elseif not nativeDisplay(card,upgraded,current) then
@@ -393,7 +394,7 @@ function M.prepare(existing,prepared)
           end
         end
         current.id=card.id
-        if prepared.originalV4Role and not card.originalV4 then
+        if (prepared.originalV4Role or not prepared.experimentalCharacter) and not card.originalV4 then
             -- Native content retains its registered ABI, including all-energy
             -- cards with numeric cost 0. Do not pass it through experimental cost().
             current.cost=card.costMode=='all_energy' and 'X' or card.cost==-2 and '—' or number(card.cost)

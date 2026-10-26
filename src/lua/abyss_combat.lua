@@ -347,6 +347,7 @@ function M.cardDefinition(state, instance)
     if instance.costForTurn~=nil then card.cost=instance.costForTurn end
     if native and state.player and not state.experimentalMechanics and card.type=='skill' and (state.player.statuses.corruption or 0)>0 then card.cost=0 end
     if card.originalV4 then card.target=require('abyss_original_v4').needsTarget(state,card) and 'ENEMY' or 'SELF' end
+    card=require('abyss_colorless_cards').adapt(state,instance,card)
     return card
 end
 function M.canUpgrade(state,instance)
@@ -451,6 +452,9 @@ function M.canPlay(state, uid, targetIndex)
     local instance = findInstance(state, uid)
     if not instance then return false, "card_not_in_hand" end
     local card = M.cardDefinition(state, instance)
+    local colorlessOk,colorlessReason=require('abyss_colorless_cards').canUse(state,card)
+    if not colorlessOk then return false,colorlessReason end
+    if card.color=='colorless' and card.target=='ENEMY' and not Actors.isActive(state.enemies[targetIndex]) then return false,'invalid_target' end
     if card.cost == -2 then return false, "unplayable_card" end
     if Curses.limitsPlay(state) then return false,"normality_limit" end
     if card.type == "attack" and (state.player.statuses.entangled or 0) > 0 then return false, "entangled" end
@@ -654,6 +658,10 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    if action.effect.op=='colorless' then
+        require('abyss_colorless_cards').apply(M,state,{effect=action.effect,source=state.player})
+        return true
+    end
     local effect=action.effect
     local build=require('abyss_build_actions')
     if effect.op=='pileChoice' then
@@ -1051,6 +1059,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     event(state, "play", {uid=uid,cardId=instance.cardId,target=targetIndex})
     local actions = {}
     local triggerPlan=require('abyss_card_triggers').prepareUse(state,card)
+    local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     local triggerActive=#triggerPlan.top+#triggerPlan.beforeUse+#triggerPlan.afterUse>0
         or (state.player.statuses.envenom or 0)>0
     local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0 or triggerActive
@@ -1099,6 +1108,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
         actions[#actions+1]={kind='effect',effect={op='onUseReactions'}}
     end
     actions[#actions + 1] = {kind="useCard"}
+    if colorlessTail then actions[#actions+1]={kind='effect',effect=colorlessTail} end
     for _,action in ipairs(triggerPlan.afterUse) do actions[#actions+1]=action end
     local queue = require("abyss_action_queue")
     queue.start(state, actions)
@@ -1116,13 +1126,19 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     local reactions = EnemyAI.cardReactions(state, card)
     local x=energyOnUse or state.energy
+    local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     if not free then state.energy=state.energy-(card.costMode=="all_energy" and state.energy or card.cost) end
+    if not purge then instance.freeToPlayOnce=nil end
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     RelicHooks.onUseCard(state,card)
     local items={}
     for i,effect in ipairs(card.effects) do
         if not (effect.targetGroup and card.effects[i-1] and card.effects[i-1].targetGroup) then
             local e=copy(effect)
+            if e.op=='colorless' and e.kind=='transmutation' then e.energyOnUse=x end
+            if e.op=='colorless' and (e.kind=='greed' or e.kind=='ritual') then
+                e.resolved={};for _,enemy in ipairs(state.enemies)do e.resolved[enemy.id]=Actors.attackAmount(state,state.player,enemy,e.damage or e.value)end
+            end
             if e.op=='originalV4' then e.paidEnergy=free and 0 or (card.costMode=='all_energy' and x or card.cost) end
             if e.op=="playTop" then
                 local pool={}; for j,enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then pool[#pool+1]=j end end
@@ -1155,6 +1171,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     end
     local exhaust=card.exhaust or forceExhaust or card.type=="skill" and (state.player.statuses.corruption or 0)>0
     items[#items+1]={op="dispose",exhaust=exhaust,purge=purge,cardType=card.type,reactions=reactions}
+    if colorlessTail then items[#items+1]=colorlessTail end
     if not purge then
         -- Equal-priority duplication Powers dispatch in first-application
         -- order; each front-inserted replay runs before the prior replay.
@@ -1377,6 +1394,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     end
     state.player.statuses.double_tap=nil -- Double Tap has no scheduled Power membership.
     local p=state.player
+    require('abyss_colorless_cards').startTurn(state)
     for _,id in ipairs(Actors.powerSequence(p,{'demon_form','berserk'})) do
         CardActions.enqueue(state,id=='demon_form' and {op="gainStatus",status="strength",value=p.statuses[id]}
             or {op="energy",value=p.statuses[id]})
@@ -1412,6 +1430,7 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
         if not ok then return false,why end
     end
     local turns=require('abyss_turn_powers')
+    require('abyss_colorless_cards').startTurn(state,true)
     local actions={}
     if state.player.stance=='Divinity' then actions[1]={kind='effect',effect={op='changeStance',stance='Neutral'}} end
     for _,action in ipairs(turns.prepareStart(state)) do actions[#actions+1]=action end
@@ -1510,6 +1529,7 @@ local function endExperimentalTurn(state)
     end
     if advanced then
         Actors.endTurn(state,state.player)
+        drainNative(state)
         if finish(state) then return true end
     end
     -- No Draw's end-turn RemovePower is ahead of DiscardAtEndOfTurn.
@@ -1557,6 +1577,7 @@ local function endExperimentalTurn(state)
     else
         state.hand=retained
         Actors.endTurn(state,state.player)
+        drainNative(state)
     end
     if finish(state) then return true end
     state.phase = "enemy"
@@ -1702,6 +1723,7 @@ local function endNativeTurn(state)
     for _,instance in ipairs(state.hand) do state.discard[#state.discard+1]=instance end
     state.hand={}
     Actors.endTurn(state, state.player)
+    CardActions.drain(M,state)
     if finish(state) then return true end
     end
     if not state.originalV4 and cleanupPlayerEnd() then return true end
@@ -1784,6 +1806,7 @@ function M.endTurn(state)
 end
 
 function M.new(data, options)
+    data=require('abyss_colorless_cards').withCards(data)
     options = options or {}
     if options.sourceEncounter ~= nil then
         assert(Formation.supports(options.sourceEncounter), "unknown source formation")
@@ -1865,7 +1888,8 @@ function M.new(data, options)
             for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
         end
         state.draw[#state.draw + 1] = { uid = uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
-            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=state.originalV4 and type(value)=='table' and value.uid or nil }
+            upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
+            misc=type(value)=='table' and value.misc or nil }
         state.nextUid = math.max(state.nextUid,uid)+1
     end
     if options.sourceEncounter ~= nil then

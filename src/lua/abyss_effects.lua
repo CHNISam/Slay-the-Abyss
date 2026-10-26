@@ -386,6 +386,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- HP payment is not an attack or a status tick. The next effect's
             -- source-alive guard stops the card when this payment is lethal.
             local before = source.hp
+            if (source.statuses.intangible or 0)>0 then value=math.min(value,1) end
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
             -- Actor owns the single HP-loss notification for either queue.

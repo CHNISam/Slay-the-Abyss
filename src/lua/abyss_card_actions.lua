@@ -3,7 +3,7 @@
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local M = {}
-local operations = { discover=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -43,6 +43,7 @@ end
 function M.fresh(combat, state, id, prototype)
     assert(state.catalog.cards[id], "unknown generated card")
     local c=prototype and combat.copy(prototype) or {cardId=id,upgraded=false}
+    c.deckUid=nil -- Stat-equivalent generation has a fresh UUID, not master-deck ownership.
     -- Original BloodForBlood.makeCopy discounts a newly generated card by
     -- every HP-loss event already recorded this combat, before a temporary cost.
     if not prototype and id=='blood_for_blood' then
@@ -148,6 +149,7 @@ end
 
 function M.choose(combat,state,token,uid)
     local choice=state.pendingChoice
+    if choice and choice.op=='colorless' then return require('abyss_colorless_cards').choose(combat,state,token,uid) end
     if not choice or token~=choice.token then return false,"stale_card_choice" end
     if choice.op=='discover' then
         local ok,reason=require('abyss_potion_discovery').choose(combat,state,token,uid,M)
@@ -210,6 +212,7 @@ function M.apply(combat,state,item)
             require('abyss_relic_hooks').owns(state,'sozu'))
     end
     if op=='discover' then return require('abyss_potion_discovery').begin(combat,state,e)end
+    if op=='colorless' then return require('abyss_colorless_cards').apply(combat,state,item) end
     if op=='originalV4' then return require('abyss_original_v4').execute(combat,state,item) end
     if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
         or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
@@ -306,6 +309,14 @@ function M.apply(combat,state,item)
         if state.originalV4 and source==state.player then
             require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)
         elseif source.hp>0 then
+            if source==state.player then
+                local blocked=false
+                for _,id in ipairs(state.relics or {}) do
+                    if id=='mark_of_bloom' then blocked=true
+                    elseif id=='magic_flower' then value=math.floor(value*1.5+0.5) end
+                end
+                if blocked then value=0 end
+            end
             local amount=math.min(value,source.maxHp-source.hp)
             local beforeHp=source.hp
             source.hp=source.hp+amount
