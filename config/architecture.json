@@ -139,6 +139,8 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {"from":"abyss_defect_final_cards","to":"abyss_card_capability","reason":"Random generation validates the complete candidate pool only at use/start hook runtime."},
+    {"from":"abyss_turn_powers","to":"abyss_defect_final_cards","reason":"Final random Power generation constructs actions during start hooks after initialization."},
     {"from":"abyss_actor","to":"abyss_defect_final_cards","reason":"Damage and reaction boundaries invoke final Defect defenses only after Actor initializes."},
     {"from":"abyss_defect_final_cards","to":"abyss_card_actions","reason":"Victory healing dispatches the initialized shared heal action only when a battle actually ends."},
     {"from":"abyss_defect_final_cards","to":"abyss_combat","reason":"Recycle reads the initialized host card definition only during a real hand movement."},

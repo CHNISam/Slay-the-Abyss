@@ -16,8 +16,13 @@ local powers={
  self_repair={'自我修复','战斗胜利时恢复对应层数的生命。'},
  buffer={'缓冲','抵消接下来的对应次数正数生命损失；完全格挡的伤害不消耗次数。'},
  static_discharge={'静电释放','每次受到其他单位普通攻击并失去生命时，生成对应层数的闪电球。'},
+ hello_world={'你好，世界','每回合开始将对应张随机普通牌加入手牌，使用当前职业完整普通池。'},
+ creative_ai={'创造性AI','每回合开始将对应张随机能力牌加入手牌，排除治疗牌，使用当前职业完整能力池。'},
 }
 local cards={
+ {id='hello_world',sourceId='Hello World',name='你好，世界',type='power',rarity='uncommon',cost=1,effects={power('hello_world',1)},upgrade={innate=true},text='每回合开始时，将1张随机普通牌加入手牌。',upgradeText='先天。每回合开始时，将1张随机普通牌加入手牌。'},
+ {id='white_noise',sourceId='White Noise',name='白噪声',type='skill',rarity='uncommon',cost=1,exhaust=true,effects={e('white_noise',1)},upgrade={cost=0},text='将1张随机能力牌加入手牌，本回合费用变为0。消耗。'},
+ {id='creative_ai',sourceId='Creative AI',name='创造性AI',type='power',rarity='rare',cost=3,effects={power('creative_ai',1)},upgrade={cost=2},text='每回合开始时，将1张随机非治疗能力牌加入手牌。'},
  {id='buffer',sourceId='Buffer',name='缓冲',type='power',rarity='rare',cost=2,effects={power('buffer',1)},upgrade={effects={power('buffer',2)}},text='抵消下1次正数生命损失。',upgradeText='抵消下2次正数生命损失。'},
  {id='static_discharge',sourceId='Static Discharge',name='静电释放',type='power',rarity='uncommon',cost=1,effects={power('static_discharge',1)},upgrade={effects={power('static_discharge',2)}},text='每次受到其他单位普通攻击并失去生命时，生成1个闪电球。',upgradeText='每次受到其他单位普通攻击并失去生命时，生成2个闪电球。'},
  {id='rebound',sourceId='Rebound',name='弹回',type='attack',rarity='common',cost=1,effects={{op='damage',value=9},power('rebound',1)},upgrade={effects={{op='damage',value=12},power('rebound',1)}},text='造成9点伤害。本回合下一张牌放回抽牌堆顶。',upgradeText='造成12点伤害。本回合下一张牌放回抽牌堆顶。'},
@@ -35,7 +40,7 @@ local cards={
  {id='fission',sourceId='Fission',name='裂变',type='skill',rarity='rare',cost=0,exhaust=true,effects={e('fission',0)},upgrade={effects={e('fission',1)}},text='移除所有充能球，每移除1个获得1点能量并抽1张牌。消耗。',upgradeText='唤起所有充能球，每个球获得1点能量并抽1张牌。消耗。'},
  {id='reboot',sourceId='Reboot',name='重启',type='skill',rarity='rare',cost=0,exhaust=true,effects={e('reboot',4)},upgrade={effects={e('reboot',6)}},text='将手牌与弃牌堆洗入抽牌堆。抽4张牌。消耗。',upgradeText='将手牌与弃牌堆洗入抽牌堆。抽6张牌。消耗。'},
 }
-local allowed={recursion={[1]=true},genetic={[2]=true,[3]=true},recycle={[1]=true},scrape={[4]=true,[5]=true},all_for_one={[1]=true},fission={[0]=true,[1]=true},reboot={[4]=true,[6]=true}}
+local allowed={white_noise={[1]=true},recursion={[1]=true},genetic={[2]=true,[3]=true},recycle={[1]=true},scrape={[4]=true,[5]=true},all_for_one={[1]=true},fission={[0]=true,[1]=true},reboot={[4]=true,[6]=true}}
 function M.supports(effect)
  if effect.action=='power'then return powers[effect.status]~=nil and type(effect.value)=='number'and effect.value>=1 and effect.value%1==0 and effect.value<=2147483647 end
  return allowed[effect.action]and allowed[effect.action][effect.value]==true
@@ -65,7 +70,41 @@ function M.describe(effect)
  elseif action=='fission'then return (effect.value==1 and '唤起' or '移除')..'所有充能球；每个球获得 1 点能量并抽 1 张牌'
  elseif action=='reboot'then return '将手牌与弃牌堆洗入抽牌堆，抽 '..n..' 张牌'
  end
- return assert(({recursion='唤起最前方充能球，然后将同一个球重新生成',recycle='选择并消耗1张手牌，获得等同其当前费用的能量；X按当前能量计算',all_for_one='将弃牌堆所有基础费用为0或免费打出的牌加入手牌；满手时留在弃牌堆'})[action],'unknown final Defect description')
+ return assert(({white_noise='将1张随机非治疗能力牌加入手牌，本回合费用变为0；使用当前职业完整能力池',recursion='唤起最前方充能球，然后将同一个球重新生成',recycle='选择并消耗1张手牌，获得等同其当前费用的能量；X按当前能量计算',all_for_one='将弃牌堆所有基础费用为0或免费打出的牌加入手牌；满手时留在弃牌堆'})[action],'unknown final Defect description')
+end
+function M.pool(state,kind)
+ local pools=assert(state.sourcePools,'missing class source pools');local list={}
+ local function add(id)
+  local card=assert(state.catalog.cards[id],'incomplete '..kind..' source pool: '..id)
+  assert(require('abyss_card_capability').isImplemented(card),'unimplemented '..kind..' source candidate: '..id)
+  assert(kind~='common'or card.rarity=='common','invalid common source candidate')
+  assert(kind~='power'or card.type=='power'and not card.healing,'invalid Power source candidate')
+  list[#list+1]=id
+ end
+ if kind=='common'then
+  for _,id in ipairs(assert(pools.reward and pools.reward.common,'missing live common pool'))do add(id)end
+ elseif kind=='power'then
+  for _,rarity in ipairs({'common','uncommon','rare'})do
+   for _,id in ipairs(assert(pools.src and pools.src[rarity],'missing src rarity pool'))do
+    local metadata=(pools.cardSourceMetadata or {})[id]or state.catalog.cards[id]
+    assert(metadata,'incomplete source candidate metadata: '..id)
+    if metadata.type=='power'and not metadata.healing then add(id)end
+   end
+  end
+ else error('unknown generated pool')end
+ assert(#list>0,'empty complete source pool');return list
+end
+local function select(state,kind)
+ local pool=M.pool(state,kind);return pool[Random.randomInt(assert(state.cardRandomRng),#pool-1)+1]
+end
+function M.prepareEffects(state,effects)
+ for _,effect in ipairs(effects)do if effect.op=='defectFinal'and effect.action=='white_noise'then effect.cardId=select(state,'power')end end
+ return effects
+end
+function M.turnStartActions(state,id,n)
+ local out={};local kind=id=='hello_world'and'common'or'power'
+ for _=1,n do out[#out+1]=e('generate',1,{cardId=select(state,kind)})end
+ return out
 end
 function M.created(state,card)
  if card.cardId~='force_field'then return end
@@ -169,7 +208,14 @@ function M.recycle(state,card,queue)
 end
 function M.execute(combat,state,effect,queue)
  local action=effect.action
- if action=='power'then
+ if action=='generate'or action=='white_noise'then
+  local actions=require('abyss_card_actions');local id=assert(effect.cardId,'unprepared generated Power');local card=actions.fresh(combat,state,id)
+  if action=='white_noise'then card.costForTurn=0 end
+  actions.created(combat,state,card);actions.created(combat,state,card)
+  if (state.player.statuses.corruption or 0)~=0 then require('abyss_corruption').created(state,card)end
+  local pile=#state.hand<state.rules.player.maxHand and'hand'or'discard'
+  actions.toHand(state,card);Events.emit(state,'cards_created',{source=state.player.id,cardId=card.cardId,amount=1,pile=pile})
+ elseif action=='power'then
   local old=state.player.statuses[effect.status]
   Actor.applyPower(state,state.player,effect.status,effect.value,state.player)
   if effect.status=='rebound'and old==nil then state.reboundJustEvoked=true end

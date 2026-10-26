@@ -25,3 +25,11 @@
 第三片接Buffer/StaticDischarge（累计16/19，Profile72）。固定AbstractPlayer.damage先扣格挡，再Buffer.onAttackedToChangeDamage，再Static.onAttacked；HP_LOSS绕格挡但经过Intangible与Buffer。Buffer只消耗正数未格挡生命损失，所有攻击/THORNS/HP_LOSS/自身/空owner均适用。Static仅外部NORMAL的正数生命损失产生TOP闪电，复用真实球槽/唤起/RNG；全部格挡、Buffer归零、THORNS、自损及无owner不生成。致死后原TOP队列不执行；若Fairy救活则仍可继续合法反应。
 
 `defect_final_defenses.lua`先红缺Buffer定义，随后基础/升级真实出牌与damage/retaliate/loseHp链绿（约1.2秒），包括完全格挡不耗层、基础/升级层数、多种损失类型、静电与Buffer组合、致死不生成。剩余3张随机生成牌必须先补齐完整合法来源池再验收，不使用72张现有子集生成。
+
+第四片接HelloWorld、WhiteNoise、CreativeAI，累计19/19，Profile75。Hello使用当前职业live common正序；WhiteNoise/Creative使用src common→uncommon→rare顺序筛Power且排HEALING。每个合法候选必须具备真实定义及Capability；缺候选明确抛错并由外层事务恢复，不过滤后重抽。Defect池为完整18普通/13非治疗能力，顺序对照固定catalog。合法混色使用宿主职业池，未完成的外职业依赖仍明确拒绝。
+
+WhiteNoise在use构造时抽样一次，并将生成牌本回合设为0费；回合Power按既有Schedule顺序在start钩子构造时选完，再执行手牌生成。临时牌用fresh新uid/uuid无deckUid，不触发draw钩子；满手放discard。MasterReality调用共享显式created回调两次（源HandAction及展示创建两个入口），不在fresh复制时隐式升级；本树仅提取Watcher ef16e05的共享M.created供验证，父组合时保留同方法一份。
+
+`defect_final_generation.lua`先红缺pool接口，随后基础/升级的use/start来源顺序、RNG计数、治疗排除、生成身份、缺Echo候选失败回滚及MasterReality升级绿（约0.9秒）。`defect-final-source-identities.test.mjs`以独立固定registration按class核对19定义，含Recursion/Equilibrium显示名误填、Genetic错填另一个有效sourceId的负例，3组绿。
+
+经父线程协调CPU，`defect_final_matrix.lua`在原默认30秒预算内完成75张×基础/升级=150次真实C.play（6.205秒），含真实手牌/牌堆选择续队列、Preview、中文说明生成、物理UID唯一检查。首次因本树尚未生成abyss_presentation在0.401秒报缺模块；本树正常build:ui后同矩阵全部通过，未改预算/删变体。原character_presentation整套门禁尚未跑；留待最终组合树安排单份窗口。该矩阵不是每个组合/边界的穷尽证明，也不替代各专属效果断言或平台实测。

@@ -1125,7 +1125,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     local triggerActive=#triggerPlan.top+#triggerPlan.beforeUse+#triggerPlan.afterUse>0
         or (state.player.statuses.envenom or 0)>0
     local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0 or triggerActive
-    local effects=copy(card.effects)
+    local effects=require('abyss_defect_final_cards').prepareEffects(state,copy(card.effects))
     for _,effect in ipairs(effects)do
         if effect.op=='playTop'then
             local pool={};for i,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then pool[#pool+1]=i end end

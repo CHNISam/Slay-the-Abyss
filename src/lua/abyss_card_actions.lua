@@ -60,6 +60,15 @@ function M.fresh(combat, state, id, prototype)
     return c
 end
 
+-- Source generation sites invoke this explicitly, separately from copying.
+-- Shared callback extracted from ef16e05; keep one implementation on integration.
+function M.created(combat,state,card)
+    if (state.player.statuses.master_reality or 0)==0 then return false end
+    local d=assert(state.catalog.cards[card.cardId],'unknown generated card')
+    if d.type~='curse' and d.type~='status' then return combat.upgrade(state,card)end
+    return false
+end
+
 function M.sameInstance(combat,state,prototype)
     assert(type(prototype)=='table'and type(prototype.uid)=='number','missing same-instance prototype')
     local c=M.fresh(combat,state,prototype.cardId,prototype)

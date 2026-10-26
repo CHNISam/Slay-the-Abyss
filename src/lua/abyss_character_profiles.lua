@@ -86,6 +86,10 @@ function M.prepare(data,id)
     for _,card in ipairs(spec.extras) do deck[#deck+1]=card end
     prepared.cards.starter_deck={cards=deck,note="Experimental "..id.." source starter; incomplete class pool"}
     prepared.cards.note="Experimental "..id.." foundation subset; not a complete class pool or release qualification"
+    if id=='defect'then
+        prepared.cards.starter_deck.note='Fixed319009 Defect starter deck'
+        prepared.cards.note='Fixed319009 Defect 75-card offline implementation; platform release qualification pending'
+    end
     local rules=prepared.rules.player
     rules.maxHp=spec.hp;rules.energyPerTurn=3;rules.drawPerTurn=5;rules.startingGold=99
     rules.startingRelics={spec.relic}
