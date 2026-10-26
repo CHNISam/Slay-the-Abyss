@@ -1991,6 +1991,9 @@ function M.new(data, options)
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
     for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, hpRandom) end
+    state.masterDeck=copy(options.masterDeck or {})
+    local misc=options.roomStreams and options.roomStreams.miscRng or options.miscRng
+    if misc then state.miscRng=SourceRandom.cloneState(misc)end
     if options.beforeFirstTurn then
         local ok, reason = options.beforeFirstTurn(state)
         if not ok then return nil, reason end

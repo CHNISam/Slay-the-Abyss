@@ -342,6 +342,7 @@ local function startEncounter(run, encounter, sourceRoom)
     end
     local battle
     local options={cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
+        masterDeck=run.deck,miscRng=nextMiscRng or run.miscRng,
         beforeOpeningDraw=function(state)
             if opening.preDraw then
                 local ok, openingReason = Inventory.applyOpening(state,opening.preDraw)
@@ -527,18 +528,31 @@ local function finishCombat(run)
     return true
 end
 
-local function applyDaggerGrowth(run)
-    if not run.combat.ritualDaggerGrowth then return end
+local function applyPermanentChanges(run)
+    local battle=run.combat
     for _,card in ipairs(run.deck)do
-        local growth=(run.combat.ritualDaggerGrowth or {})[card.uid]
+        local changed=(battle.masterDeckChanges or {})[card.uid]
+        if changed then
+            assert(changed.uid==card.uid and changed.cardId==card.cardId,'invalid permanent card owner')
+            local result=Combat.copy(changed)
+            for key in pairs(card)do card[key]=nil end
+            for key,value in pairs(result)do card[key]=value end
+        end
+        local growth=(battle.ritualDaggerGrowth or {})[card.uid]
         if card.cardId=='ritual_dagger' and growth then card.misc=(card.misc or 15)+growth end
+        if changed or growth then
+            for i,snapshot in ipairs(battle.masterDeck or {})do
+                if snapshot.uid==card.uid then battle.masterDeck[i]=Combat.copy(card);break end
+            end
+        end
     end
-    run.combat.ritualDaggerGrowth=nil
+    battle.ritualDaggerGrowth,battle.masterDeckChanges=nil,nil
+    if battle.miscRng then run.miscRng=EventRandom.cloneState(battle.miscRng)end
 end
 function M.finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     if not run.combat.roomSeed then
-        local ok,reason=finishCombat(run);if ok then applyDaggerGrowth(run)end;return ok,reason
+        local ok,reason=finishCombat(run);if ok then applyPermanentChanges(run)end;return ok,reason
     end
     -- A formal reward is one transaction: invalid source RNG or a later potion
     -- failure must not publish healed HP, card/treasure progress or lastResult.
@@ -547,7 +561,7 @@ function M.finishCombat(run)
     staged.shopRng = run.shopRng and Combat.copy(run.shopRng)
     local ok, reason = finishCombat(staged)
     if not ok then return false, reason end
-    applyDaggerGrowth(staged)
+    applyPermanentChanges(staged)
     for key in pairs(run) do run[key] = staged[key] end
     for key, value in pairs(staged) do run[key] = value end
     return true
@@ -674,7 +688,7 @@ function M.chooseCard(run,token,uid)
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -697,7 +711,7 @@ function M.play(run, uid, targetIndex, commandId)
         if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -712,7 +726,7 @@ function M.chooseDiscard(run, uids, token, generation)
     if ok then
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -724,7 +738,7 @@ function M.choosePile(run,uids,token,generation)
     if ok then
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -737,7 +751,7 @@ function M.chooseScry(run, uids, token, generation)
     if ok then
         syncBattlePotions(run)
         run.gold = run.combat.player.gold
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -750,7 +764,7 @@ function M.chooseHand(run,uids,token,generation)
     if ok then
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -763,7 +777,7 @@ function M.endTurn(run)
         syncBattlePotions(run)
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
-        applyDaggerGrowth(run)
+        applyPermanentChanges(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -921,7 +935,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
     candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(battle.potionInventory), battle.player.gold
-    candidate.deck=battle.ritualDaggerGrowth and Combat.copy(run.deck) or run.deck
+    candidate.deck=(battle.ritualDaggerGrowth or battle.masterDeckChanges) and Combat.copy(run.deck) or run.deck
     candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
     candidate.relicCounters=Combat.copy(battle.relicCounters)
     if battle.generatedPotionOffers then candidate.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
@@ -942,7 +956,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
         local called, ok = pcall(M.finishCombat, candidate)
         if not called or not ok then return false, "potion_effect_failed" end
     end
-    applyDaggerGrowth(candidate)
+    applyPermanentChanges(candidate)
     local root = run.combat
     for key in pairs(root) do root[key] = nil end
     for key, value in pairs(battle) do root[key] = value end

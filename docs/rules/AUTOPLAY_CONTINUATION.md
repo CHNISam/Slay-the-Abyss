@@ -14,4 +14,6 @@ options支持`append`、`purge`、`exhaustCards`、`targetIndex`、`randomTarget
 
 审查回归先证红：合法混色Havoc顶牌Strike漏6伤害；Defect自动Strike未更新Nunchaku、未消耗Duplication及回放；Forethought免费标记未清理。修复后`autoplay_class_continuation.lua`核对伤害与cardRandom计数，`autoplay_lifecycle.lua`核对真实Run药水及原生攻击各次回调次数；旧`potion_duplication.lua`八组继续通过。
 
+永久变更由Run统一认领：Combat接收`options.masterDeck`私有纯data快照与独立miscRng（正式房间在怪物构造消耗后复制该房间流）。职业动作仅将完整结果写入`state.masterDeckChanges[deckUid]`，并更新本地有序快照；不直接触碰run.deck或升级战斗实例。Run在原play/endTurn/所有选择/药水/胜利的成功边界提交结果与miscRng，清空一次ledger；失败命令维持原永久牌及RNG。Ritual增长保留原增量语义，并刷新本地快照，避免后续永久升级抹掉已成长的misc。`permanent_owner_boundary.lua`仅验宿主隔离/提交/失败事务，Lesson与Genetic实际效果另有角色切片，不以该注入测试冒充牌已完成。
+
 短回归`autoplay_class_continuation.lua`真实验证：Chaos原先报unsupported_effect的自动出牌；Warcry暂停手选后再执行下一张purge牌；Tempest与ReinforcedBody的执行时X快照与免费能量；合法混色Havoc下游故障保持原牌堆引用、UID、能量和RNG。各缺口先红后绿，单次运行不足1秒。本切片尚不表示Defect剩余19牌或Watcher Final已完成；后续专属模块继续独立验收。
