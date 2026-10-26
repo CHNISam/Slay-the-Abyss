@@ -22,5 +22,12 @@ docs/evidence/m1-live-5165a78/log-counts.json text eol=lf
 docs/evidence/m1-live-5165a78/exit-special/log-decoded.json text eol=lf
 docs/evidence/m1-live-5165a78/exit-special/log-counts.json text eol=lf
 docs/evidence/m3-live-31a8f37/*.json text eol=lf
+
+# Frozen V4 byte hashes must match on Windows as well as POSIX.
+data/original_v4/*.json text eol=lf
+
+# Generated frozen expectations are compared byte-for-byte on every OS.
+tests/lua/original_v4_*_base_*.lua text eol=lf
+tests/lua/original_v4_*_upgrade_*.lua text eol=lf
 # This chapter oracle is byte-hashed in source provenance on every OS.
 tools/oracles/sts1_chapter_queues.py text eol=lf

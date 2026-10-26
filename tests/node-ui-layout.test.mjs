@@ -138,7 +138,10 @@ test('camp, forge, event and treasure follow the approved composition', () => {
   const [before, after, row] = ['before', 'after', 'card1'].map(name => find(picker, name));
   assert.ok(before.position[0] < 0 && after.position[0] > 0 && before.position[1] === after.position[1]);
   assert.ok(bounds(before).top < bounds(row).bottom, 'preview sits below the deck row');
-  assert.ok(!find(before.children, 'hit') && !find(after.children, 'hit'), 'previews are not buttons');
+  for (const preview of [before, after]) {
+    assert.equal(find(preview.children, 'hit').kind, 'cursorArea', 'read-only rules inspector uses a cursor receiver');
+    assert.ok(!preview.children.some(c => c.kind === 'presetButton'), 'inspection cannot submit an upgrade');
+  }
   const event = find(panel.children, 'eventView').children;
   assert.ok(bounds(find(event, 'plate')).right < bounds(find(event, 'option1')).left, 'illustration left, options right');
   for (const i of [1, 2, 3]) assert.ok(find(find(event, `option${i}`).children, 'title') && find(find(event, `option${i}`).children, 'description'));

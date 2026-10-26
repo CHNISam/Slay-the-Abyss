@@ -15,13 +15,13 @@ Required Notice: PolyForm Noncommercial 1.0.0 applies only to licensable project
 
 | 内容 | 授权边界 |
 |---|---|
-| Image Editor 导出的 Lua（art/cards/shared、art/processed/ai-samples、art/spikes/card-editor、art/spikes/card-capacity） | 包含 GPL 编辑器适配运行时及 MIT Primitive 运行时；按第三方声明处理，整文件不适用本项目非商用再许可。组合分发的 GPL 义务仍待核清。 |
+| Image Editor 导出的 Lua（art/cards/shared、art/processed/ai-samples、art/spikes/card-editor、art/spikes/card-capacity） | 须逐文件区分：纯基础图形运行时来自 MIT Primitive；含文字框/蒙版适配的导出物另有编辑器生成代码。具体范围见第三方声明，不将编辑器许可证扩大到全部输出或整个游戏。 |
 | docs/experiments/art-portrait 的上游运行时 | 保留 MIT、LiuL 与 Michael Fogleman 声明；美术形象权另计。 |
 | src/lua/abyss_randomxs128.lua 及相关模型/向量 | 参考固定 libGDX Apache-2.0 来源；保守保留 Apache 许可及作者信息，不声称重新实现消除了上游义务。 |
-| 其余参考原游戏实现的核心、数据和证据 | src/lua 的规则实现、data、tools/oracles、tools/sts1-card-rng-oracle.py、tests/fixtures、docs/rules、docs/reviews、docs/evidence 中的反编译片段、派生数据和参考实现，第三方权利尚未清关；不得把本项目对原创贡献的许可解释为对这些内容的完整授权。 |
+| 游戏规则实现、参考资料和测试数据 | 原创实现适用本代码许可；仅参考规则、行为或移植到其他平台，不能据此认定复制了第三方代码。实际复制的代码或表达另按来源许可处理。本审计未作逐段法律比对，不将整个核心或目录排除为第三方代码。 |
 | 所有美术、音画、字体、截图、GIA、平台资源、剧情/卡牌名称及文案、商标与角色形象 | 不属于本代码许可。即使与代码打包或以 Lua/JSON 图元表示，也须另行核查内容及运行时权利。未提供单独授权的自制美术/文档保留权利，不默认为可复用。 |
 | 开发依赖与外部工具 | 各自许可证独立生效；工具输出若嵌入运行时代码，需要继续遵守该代码许可。 |
 
-未明确授予的第三方权利保持未授权/未知状态。本说明不授予 miHoYo/HoYoverse、Mega Crit 或其他权利人的任何 IP 权利，不表示与其存在官方关系，也不把平台内创作/收益权限扩大为平台外自由分发权限。
+未明确授予的第三方权利保持未授权/未知状态。本项目用于原神官方支持的千星奇域创作场景，平台内容及创作者收益按适用官方条款处理，IP 仍归原权利人。本仓库不转授 miHoYo/HoYoverse、Mega Crit 或其他权利人的 IP 权利，也不表示作品由其制作或背书。
 
 本次新增条款面向有权授权的内容和本修订及后续版本；不能据此追溯撤销其他权利人以前已经授予的许可。历史版本和完整商用发行物须单独审核。

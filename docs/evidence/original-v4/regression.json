@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "kind": "production-lua-regression",
+  "dataHashes": {
+    "cards_v4.json": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca",
+    "rules_v4.json": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e"
+  },
+  "deviceAcceptance": false,
+  "sourceIdentity": "candidate.json payloadDigest binds production inputs; repository commit containing this record supplies source ancestry",
+  "suites": [
+    {
+      "command": "node --test --test-concurrency=1 tests/original-v4-data.test.mjs tests/original-v4-display.test.mjs tests/original-v4-runtime.test.mjs",
+      "status": "pass",
+      "tests": 48,
+      "productionResolutions": 1200,
+      "coverage": "300 stable cards × base/upgrade × lean/rich, real Combat.play/queue/actors; independent frozen-reference expectations, all 38 declared direct changes, exact source hashes, generated Lua all-field readback; no player/device acceptance inferred"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/original-v4-integration.test.mjs",
+      "status": "pass",
+      "tests": 4,
+      "coverage": "natural starter/reward/next encounter for four roles; isolated shop/camp/remove/UID and native modifiers; real host selection, 600 full rules faces, inspector hold/drag, natural defeat and one-shot exit settlement; real Run blood-potion shared cap/AR refusal, Fruit Juice maxHP, out-of-combat AR healing, legal trailing healing after lethal damage; actual generated-control E plays and feedback/end-turn across all four roles"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/combat.lua",
+      "status": "pass",
+      "cases": 23,
+      "finalCandidateRerun": "LUA_COMBAT_PASS 23 on the frozen runtime source"
+    },
+    {
+      "command": "npm run check",
+      "status": "pending",
+      "coverage": "full existing Traveler/native catalog, UI, Python and engineering regression; not replaced by the V4 pack checks"
+    }
+  ],
+  "normalPaths": [
+    {
+      "role": "hutao",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 66,
+        "turns": 3,
+        "playedCards": 7,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "arlecchino",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 59,
+        "turns": 4,
+        "playedCards": 9,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "furina",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 63,
+        "turns": 3,
+        "playedCards": 7,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    },
+    {
+      "role": "raiden",
+      "seed": "1",
+      "starter": "exact frozen 10 cards; no HP/energy/enemy/card/RNG injection",
+      "inputs": "original_v4_acquisition.lua fixed legal seed-1 command trajectory, recorded from read-only production previews; replayed only through Run.play/endTurn without state injection",
+      "path": [
+        "f1_l2:Cultist",
+        "normal gold/card/potion rewards",
+        "f2_l1:next real encounter"
+      ],
+      "expected": "victory, deck10→11, permanent HP and UIDs preserved; next battle resources reset",
+      "actual": {
+        "firstBattle": "victory",
+        "hp": 71,
+        "turns": 3,
+        "playedCards": 9,
+        "permanentDeck": 11,
+        "nextPhase": "combat"
+      },
+      "endReason": "next genuine encounter entered; full campaign not attempted"
+    }
+  ],
+  "fixtureBoundaries": [
+    "Per-card lean/rich states deliberately seed HP/resources/enemies to isolate semantics; they are not normal-run or balance evidence.",
+    "Lifecycle shop/camp fixtures position map cursors and use real channel transactions. They do not claim intervening rooms were played.",
+    "UI controls are generated production trees driven in Fengari; they are not PC or physical-phone evidence."
+  ],
+  "candidateIdentity": {
+    "sourceCommit": "17ee901e0a349d3170a24b342040ec7d337620d5",
+    "payloadDigest": "a2184d9e6f06fbf29441d1e019c742b28855680ebee12e6b88a2026a1c000503",
+    "runtimePayloadDigest": "91ea0bf6d839843292d5f87d4e87d510afaa5ad45dd5a0959c8bb62d8dbf6b1a"
+  },
+  "priorIndependentReview": {
+    "reviewer": "v4_contract_audit",
+    "source": "separate-session read-only source review and live file-digest recomputation",
+    "producerInputsDigest": "c8a5bd196da19cbdb5dc9d2751fd6e12762a1a6761f73dc1832e6acd27be603f",
+    "runtimePayloadDigest": "e481dc5aef2cd317ff707db7fb78fcbf1e91ff253dd0b06a6110aeb8a0f14187",
+    "scope": [
+      "whole-root Guardian boundary",
+      "Pain prepayment atomicity",
+      "native selector/X ABI",
+      "combat generation/permanent UID",
+      "shared public healing and AR gate",
+      "full-rule pagination and stale hidden Node input",
+      "original shop shelf wording delta"
+    ],
+    "targetedEvidence": "contract19/19; four roles/600 full faces and hold/drag/Traveler UI; final shop wording delta static review, root reran updated UI fixture",
+    "unresolvedCodeIssues": [],
+    "conditions": [
+      "refreshed candidate manifest matches reviewed payloads",
+      "current delivery SHA required CI is green"
+    ],
+    "deviceAcceptance": "GIL, PC, physical phone not_run",
+    "followup": "Actual UI feedback defect found after this review; fixed and four-role actual-button regression passed. Final composite review required."
+  },
+  "fixedProductionIntegrationIssues": [
+    {
+      "trigger": "seed1 formal original host, click natural E card and play area/enemy",
+      "before": "prepare_failed: original_v4.lua table index is nil; actual command not committed",
+      "cause": "presentation-only feedback frames were passed to full command simulation preview",
+      "after": "immutable rule metadata used only for face targeting/cost; command previews pause while feedback owns readonly frames; all four real UI E plays and end turns pass",
+      "source": "7a45d10fc1af2436c10e2042e36789d6bb87d0b7",
+      "deviceAcceptance": false
+    }
+  ],
+  "latestDevelopIntegrationRegression": {
+    "trigger": "formal abyss_ui lifecycle menu start after original selector enabled",
+    "before": "legacy game_ui.lua line445 assumed prologue before selecting a character",
+    "after": "assert selector shown, choose Traveler, retain full prologue/map/control-listener assertions",
+    "localEnvironment": "Full local attempt includes failure because pwsh is absent; hosted Windows/Ubuntu full Quality remains required, no test skipped or timeout relaxed",
+    "relatedFixtures": {
+      "game_ui_seed": "7/7; opening selection allocates no run or seed, Traveler selection preserves fresh-clock randomness",
+      "game_ui_classes_failure": "6/6; explicitly remove now-formal panels for truly missing-layout negative control, retaining startup diagnostic/no-ready assertions",
+      "game_ui": "real generated startup, deck and prologue bridge passed; original settlement and input assertions retained"
+    }
+  },
+  "finalCompositionFixes": {
+    "failedCi": {
+      "head": "d0f7fd542e3a9ca60bb0e5b966fbf1c72e566112",
+      "run": 40302992005,
+      "job": 121505431716,
+      "failures": 14,
+      "rootCause": "Launch deployment metadata inspection omitted the sixth generated original V4 module; positive and domain-negative controls shared the same ENOENT"
+    },
+    "fix": "Add only missing metadata module name, preserving actual production probe and all admission checks; retain three V4 function-local runtime imports in architecture config alongside upstream copy-cycle removal",
+    "targetedValidation": {
+      "launchInventoryTests": 30,
+      "pass": 30,
+      "fail": 0,
+      "architecture": {
+        "modules": 113,
+        "edges": 541
+      },
+      "static": "116 historical warnings, zero new",
+      "criticalMutations": "4/4 killed_by_assertion"
+    },
+    "runtimePayloadChanged": false,
+    "finalExactHeadQuality": "required; latest current-head GitHub run is authoritative, earlier failure remains recorded"
+  },
+  "windowsVectorCheckoutFix": {
+    "failedHead": "1b6459c9f8075e571a95916295ace0ea4bbf4772",
+    "failedRun": 40305037959,
+    "failedJob": 121511945992,
+    "failures": 16,
+    "cause": "Windows Git autocrlf changed byte-exact committed Lua vector headers to CRLF, strict expectations require LF",
+    "fix": "gitattributes restricts the 16 base/upgrade frozen vector shards to text eol=lf; assertions and values unchanged",
+    "validation": "Actual Git cat-file --filters under core.autocrlf=true returns all 16 files byte-identical to LF sources",
+    "runtimePayloadChanged": false,
+    "quality": "Final exact-head complete hosted Quality still required"
+  },
+  "previousFullQuality": {
+    "head": "27cefc3ba5a016d531b56455a62a61c364404f55",
+    "base": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
+    "runId": 40307529223,
+    "status": "success",
+    "javascript": {
+      "pass": 1524,
+      "fail": 0
+    },
+    "luaFixtures": 421,
+    "receipt": {
+      "tested": "fbd6d10368eef7f34860d489708755852a665c83",
+      "parents": [
+        "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
+        "27cefc3ba5a016d531b56455a62a61c364404f55"
+      ]
+    },
+    "limitation": "Historical prior candidate. Remote develop advanced to e3a9fe2 five minutes before completion; new merged head needs its own complete Quality and Licenses."
+  },
+  "latestCrossActIntegration": {
+    "base": "e3a9fe2c24c8dfa18e90f526e9b3bf74d8281342",
+    "task": "TASK-72",
+    "normalOriginalUi": "same formal first-act flow; no implicit campaign enablement",
+    "experimentalCampaign": "explicit experimental=true required; retain upstream fail-closed unimplemented content",
+    "mergedBoundaries": [
+      "original role preparation and upstream campaign initialization coexist",
+      "original command ledger survives act transition",
+      "preserve permanent UID/upgrade/profile/75-card pool/inventory across act",
+      "actual out-of-combat AR healing and Mark of Bloom policy retained",
+      "new combat original resources reset",
+      "old-act encounter snapshots rejected"
+    ],
+    "targetedValidation": {
+      "originalIntegrationAndCrossAct": {
+        "tests": 7,
+        "pass": 7,
+        "skip": 0
+      },
+      "launchTests": 30,
+      "licenseTests": 3,
+      "architecture": {
+        "modules": 114,
+        "edges": 546
+      },
+      "staticHistorical": 113,
+      "newDiagnostics": 0,
+      "criticalMutationsKilled": 4
+    },
+    "frozenNumericalChanges": false,
+    "finalQuality": "pending current exact merged head; require both Quality and Licenses"
+  },
+  "previousSingleActIndependentReview": {
+    "reviewer": "v4_contract_audit",
+    "sourceCommit": "4745efae32b96fef6ae8c3f52d42b30322bc6097",
+    "scope": [
+      "late real-UI feedback context isolation",
+      "latest develop composition and status icon aliases",
+      "strict native curse rendering and shared Vigor compatibility",
+      "launch inspection sixth generated module, preserving real probe",
+      "three function-local original runtime import edges, retaining upstream copy cycle removal"
+    ],
+    "targetedEvidence": "Independent ORIGINAL_V4_BATTLE_UI_PASS 4 in 11.6s; all four natural E controls commit energy, hand and resources and finish turn; no prepare_failed or recovered playback; character_presentation 16 groups/640 faces and watcher_flow_build 28 groups pass, including Vigor uniqueness and conflicting lifecycle rejection",
+    "codeFindings": [],
+    "manifestVerification": "pass: independently recomputed 212 producer inputs and 119 modules + 2 UI files after final integration fixes; exact bytes/SHA256; runtime payload unchanged",
+    "condition": "Current exact PR SHA complete Quality success before merge",
+    "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run",
+    "producerInputsDigest": "9307d10e6f2021962aa628917aa7183a7da9abd4aa7257163a1d38d8807ef2ed",
+    "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
+  },
+  "finalIndependentReview": {
+    "reviewer": "v4_contract_audit",
+    "sourceCommit": "17ee901e0a349d3170a24b342040ec7d337620d5",
+    "producerInputsDigest": "a2184d9e6f06fbf29441d1e019c742b28855680ebee12e6b88a2026a1c000503",
+    "runtimePayloadDigest": "91ea0bf6d839843292d5f87d4e87d510afaa5ad45dd5a0959c8bb62d8dbf6b1a",
+    "manifestVerification": "pass: 218 producer inputs, 120 modules + 2 UI independently recomputed with exact bytes/SHA256",
+    "scope": [
+      "latest e3a9fe2 cross-act composition",
+      "formal original selection and explicit experimental campaign validation",
+      "originalCommands and campaign initialization coexist",
+      "same-floor old-act encounter snapshot refusal",
+      "four-role profile/75-card pool/permanent UID/upgrade/inventory/commands persist",
+      "out-of-combat healing and fresh combat resources",
+      "native Backlog migration preserves upstream tasks and license text"
+    ],
+    "findings": [],
+    "targetedEvidence": "Root/runtime agent: original integration + cross-act 7/7; launch30/30; license unit3/3 and inventory; engineering114modules546edges,113 historical warnings and4 killed mutations. Read-only reviewer did not rerun local Lua.",
+    "condition": "current exact merged head complete Quality AND Licenses success before merge",
+    "deviceAcceptance": "official GIL/PC/physical phone and 12 archetype game runs not_run"
+  },
+  "laterDocumentationBase": {
+    "reviewedDevelop": "774b4cd2b40dc92292279dcf646fcc2544631354",
+    "differenceFromGameBase": "only collaboration, license and task documents; no production source/data/build/test changes",
+    "policy": "latest AGENTS and native strict=false rules do not require repeated develop synchronization; current-head actual Quality and Licenses success still mandatory; no emergency bypass",
+    "ownDataTask": "native Doctor moved completed70 to completed73 preserving upstream task70; display71 and delivery72 unchanged",
+    "candidateInputsAndRuntimeUnchanged": true
+  }
+}

@@ -1,10 +1,19 @@
 -- Detached, bounded-size presentation frames. No callbacks, RNG or rule writes.
 local M = {}
+local function originalView(value)
+    if type(value)~='table'then return value end
+    local result={}
+    for k,v in pairs(value)do if k~='commands' and k~='enemyAction'then result[k]=originalView(v)end end
+    return result
+end
 local function actor(a)
     local result = {}
     for k, v in pairs(a) do result[k] = v end
     result.statuses = {}
     for k, v in pairs(a.statuses) do result.statuses[k] = v end
+    if a.originalV4 then result.originalV4=originalView(a.originalV4)end
+    if a.v4Bloom then result.v4Bloom=originalView(a.v4Bloom)end
+    if a.v4Directive then result.v4Directive=originalView(a.v4Directive)end
     return result
 end
 function M.frame(state)
@@ -20,6 +29,7 @@ function M.frame(state)
             result[name][i] = entry
         end
     end
+    if state.originalV4 then result.originalV4=originalView(state.originalV4);result.player.originalV4=result.originalV4 end
     if state.orbs then
         local o=state.orbs
         result.orbs={slots=o.slots,focus=o.focus,balls={}}

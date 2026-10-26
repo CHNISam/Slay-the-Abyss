@@ -59,6 +59,9 @@ export function deckControls(theme = nativeTheme) {
         itemTemplate: deckCardTemplate(theme).name, grid: { columns: l.deckView.columns, horizontal: false,
           itemSize: [...l.deckView.itemSize], spacing: [...l.deckView.spacing], padding: [...l.deckView.padding], scrollbar: true } },
       text('title', l.deckView.title, '', f.heading, c.goldBright),
+      { ...text('details', l.deckView.viewport, '', f.body, c.text), visible: false },
+      { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
+        size: l.deckView.viewport.slice(2), focusable: true, visible: false },
       button('close', l.deckView.close, '关闭'),
     ] },
   ];

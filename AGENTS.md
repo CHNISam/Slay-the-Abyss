@@ -4,7 +4,7 @@
 
 用户2026-10-26明确禁止第三方未经授权商用，项目方保留商业化权利。根目录LICENSE是项目原创内容的非商业源码许可；公开仓库不授予商业使用权。修改或分发须保留许可与声明，不得擅自换成MIT、Apache等允许商业使用的许可；第三方内容继续遵循其各自许可，不覆盖第三方权利。
 
-工程检查与证据合同见 `docs/ENGINEERING.md`。新增核心 Lua 模块须在 `config/architecture.json` 分类；`npm run check` 包含架构、固定版本 Luacheck 和四项关键语义变异。候选构建与实机验收仍分层记录；当前 SHA 的 Quality 全部作业成功才可合并。工程工具不得覆盖既有构建的脚本清理、结算图复用、BGM参数或实机输入窗口规则。
+工程检查与证据合同见 `docs/ENGINEERING.md`。新增核心 Lua 模块须在 `config/architecture.json` 分类；`npm run check` 包含架构、固定版本 Luacheck 和四项关键语义变异。候选构建与实机验收仍分层记录；正常合并要求当前 SHA 的 Quality 全部作业成功。唯一基础设施应急例外见 `docs/CI.md`，须 Owner 在聊天中明确批准指定 PR/HEAD。工程工具不得覆盖既有构建的脚本清理、结算图复用、BGM参数或实机输入窗口规则。
 
 <!-- BACKLOG.MD GUIDELINES START -->
 <!-- backlog.md-instructions-version: 1.53.0 -->
@@ -71,6 +71,9 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## Git Branch Workflow (GitFlow-lite)
 
+- 核心分支使用 GitHub Rulesets：master 强制 PR；develop 强制 PR 和 check/presentation/engineering-posix，不强制每次同步最新 develop；两者均禁止强推及删除。仅 CHNISam、v5g95m7t8m-max 具有 User / pull_request 豁免；核心分支防强推/删除规则无豁免。普通开发仍须完整 CI 成功。
+- 仅确认 Harness/CI 基础设施故障时可申请一次应急合并：先报告 PR、完整 HEAD SHA、故障原因、文件范围和独立验证结果。Owner 在聊天中明确批准该 PR/SHA 后，有相应 GitHub 身份的 Agent 按 `docs/CI.md` 自动完成 SHA 绑定的 PR 合并，无需重复批准；HEAD 变化、范围扩大、批准无效则重新询问。不得因业务测试失败、缺少测试或赶工自行豁免，不改成员角色、不临时关闭保护、不新增审批服务或任务锁。
+
 - 使用独立工作树与短命分支；开始前核对现有PR、任务和脏文件，避免覆盖其他执行者。Backlog Assignee保持Furinya，执行范围和交付记录写入任务备注。
 - 用户2026-10-26明确批准停用额外任务锁：Remote Task Claim Protocol及其旧paused状态不再是开发、提交、CI或合并前置要求。保留历史工具/协调记录，不借用其他session，不清除他人认领。尚装有旧claim hooks的本机，仅对已授权任务命令使用独立空hooks目录，不改全局配置。
 - 采用GitHub原生PR审查与精确head校验，当前SHA完整Quality成功后squash合入develop。简化任务锁不减免任何测试、质量或产品验收门禁。
@@ -93,7 +96,7 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - 跨阶段任务拆成可独立验收的本地实现、平台导入/实测和发布工作。合并且证据充分的切片及时 Done，必要平台阻塞仍留原关口。
 - 所有必要任务完成后立即收口；可选研究不阻塞首发。新建前查重，优先复用，重复/过时任务用原生取消/归档机制保留历史。
 - 不能通过降低核心标准或改状态制造完成；记录具体缺失证据和下一动作，避免无证据重复尝试。
-- CI核对PR当前SHA，各作业成功后按规范合并。单人项目不要求分支保护，不将套餐限制列作阻塞。
+- CI核对PR当前SHA，正常合并须各作业成功；基础设施应急只按上述 Owner 对具体 PR/SHA 的一次批准处理。分支保护以 GitHub 当前生效 Rulesets 为准。
 - `Quality/check` 使用GitHub-hosted Windows；Ubuntu作业保留文件系统边界回归。日常使用快速/相关测试，最终集成完整Quality通过。保留原测试时限，不以加超时、删断言或跳过有效测试解决红灯。
 
 - 初代《杀戮尖塔》PC A0规则、数值、概率、AI和结算顺序贯穿相关任务，不另设规则一致性Milestone。2026-10-26用户明确四职业及第二至隐藏第四幕均纳入M3；旧E1–E5可选/投稿后窗口不再适用，任务与验收见docs/MILESTONES.md。双人合作和成就仍为独立候选；TASK-45保持平台权限阻塞，不主动要求账号升级。

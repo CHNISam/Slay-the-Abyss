@@ -3,7 +3,7 @@ import { resolve, basename } from 'node:path';
 
 // Only outputs consumed by the game are deployable. Test bridges also write
 // Lua into build/lua; discovering every .lua there ships test fixtures.
-const generatedModules = ['abyss_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
+const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
 
 export function candidateScriptFiles(sourceDirectory = 'src/lua', generatedDirectory = 'build/lua') {
   const files = readdirSync(sourceDirectory, { withFileTypes: true })

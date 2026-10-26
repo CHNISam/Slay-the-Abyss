@@ -87,7 +87,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       prologueControl(theme),
       ...deckControls(theme),
       ...potionDiscardControls(theme),
-      ...(options.experimentalCharacters === true ? experimentalCharacterControls(theme) : []),
+      ...(options.experimentalCharacters === true || options.originalCharacters === true ? experimentalCharacterControls(theme,options) : []),
       ...exitControls(theme),
     ],
   };
