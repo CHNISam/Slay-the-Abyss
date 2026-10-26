@@ -197,11 +197,14 @@ function M.hpChanged(state,actor,before)
  end
  if before>actor.hp and M.owns(state,'centennial_puzzle') and not c.centennialUsed then
   c.centennialUsed=true
-  -- wasHPLost queues a TOP DrawCardAction; it must not draw while the HP
-  -- action is still executing. This is the existing CardActions item ABI.
-  -- The outer action owner drains it, including draw-triggered actions.
-  state.cardActions=state.cardActions or {}
-  table.insert(state.cardActions,1,{effect={op='draw',value=3},source=state.player})
+  -- wasHPLost's TOP action belongs to the currently executing manager.
+  -- Enqueue it there, so ordinary draw hooks run before existing BOTTOM tails.
+  local effect={op='draw',value=3}
+  if state.actionQueue then require('abyss_action_queue').pushTop(state,{kind='effect',effect=effect})
+  else
+   state.cardActions=state.cardActions or {}
+   table.insert(state.cardActions,1,{effect=effect,source=state.player})
+  end
  end
 end
 local function energy(state,id,amount)
