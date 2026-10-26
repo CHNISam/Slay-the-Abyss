@@ -1,7 +1,9 @@
--- Natural Run-entry harness for the current56-card experimental Defect Profile.
+-- Natural Run-entry harness:56 executable Profile cards, full71 source rewards.
 -- floor += 1 after real rewards is the only progress shortcut. No HP, energy,
 -- deck, enemy, power or RNG injection; not Map/PC probability/platform proof.
--- Old35-card seeds15/45 failed exact first offers before choosing new seeds.
+-- The full source pool invalidated restricted56 seed5's first offer. Seeds below
+-- were filtered with the independent fixed-source pool/RNG interpreter; HP,
+-- turns and effect counts are project replay observations, not PC-game oracles.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run=require('abyss_run')
 local Combat=require('abyss_combat')
@@ -14,6 +16,9 @@ for _,card in ipairs(prepared.cards.cards) do
     if card.type~='status' and card.type~='curse' and card.rarity~='special' then normalCount=normalCount+1 end
 end
 eq(normalCount,56)
+local sourceCount=0
+for _,pool in pairs(prepared.cards.sourcePools.reward) do sourceCount=sourceCount+#pool end
+eq(sourceCount,71)
 local priority={
     loop=105,electrodynamics=110,defragment=100,cold_snap=85,ball_lightning=80,coolheaded=65,zap=60,
     dualcast=90,sweeping_beam=95,beam_cell=98,fusion=-1,capacitor=8,consume=12,biased_cognition=75,
@@ -25,17 +30,17 @@ local priority={
     multi_cast=0,thunder_strike=35,hologram=-1,seek=-1,
 }
 local cases={
- {seed=5,sources={'Jaw Worm','Cultist','Small Slimes','Gremlin Gang'},
-  rewards={'cold_snap','loop','defragment','stack'},hp={62,58,50,33},turns={3,3,3,4},cardRng={5,5,2,9},shuffleRng={2,2,2,2},aiRng={4,3,5,6},
-  offers={{'consume','cold_snap','reinforced_body'},{'loop','rainbow','glacier'},{'defragment','chill','charge_battery'},{'meteor_strike','capacitor','stack'}},
-  plays={cold_snap=4,loop=2,defragment=1},focusedFrost=1,loopHooks=2,aoeActions=0,multiAoe=0,
-  focusEffects={{room=4,turn=3,focus=1,block=3}},
-  loopEffects={{room=4,turn=3,kind='lightning',amount=4,actual=3,lost=3},{room=4,turn=4,kind='lightning',amount=4,actual=4,lost=4}},
+ {seed=1318,sources={'2 Louse','Cultist','Jaw Worm','Large Slime'},
+  rewards={'defragment','loop','cold_snap','sweeping_beam'},hp={65,59,41,25},turns={3,3,3,3},cardRng={4,5,4,8},shuffleRng={2,2,2,2},aiRng={5,3,4,3},
+  offers={{'defragment','cold_snap','steam_barrier'},{'beam_cell','loop','melter'},{'recursion','lock_on','cold_snap'},{'barrage','sunder','sweeping_beam'}},
+  plays={cold_snap=2,loop=2,defragment=3},focusedFrost=3,loopHooks=2,aoeActions=0,multiAoe=0,
+  focusEffects={{room=4,turn=2,focus=1,block=3},{room=4,turn=3,focus=1,block=3},{room=4,turn=3,focus=1,block=3}},
+  loopEffects={{room=4,turn=2,kind='lightning',amount=3,actual=3,lost=3},{room=4,turn=3,kind='lightning',amount=4,actual=4,lost=4}},
   focusFrost=true,focusCard='cold_snap',loop=true,resetAfterFour=true},
- {seed=53,sources={'Small Slimes','2 Louse','Jaw Worm','Exordium Wildlife'},
-  rewards={'electrodynamics','chill','doom_and_gloom','streamline'},hp={58,58,47,47},turns={3,1,2,2},cardRng={5,0,0,0},shuffleRng={2,1,1,1},aiRng={5,2,2,4},
-  offers={{'electrodynamics','streamline','go_for_the_eyes'},{'blizzard','boot_sequence','chill'},{'doom_and_gloom','meteor_strike','multi_cast'},{'seek','streamline','auto_shields'}},
-  plays={electrodynamics=3,chill=2},focusedFrost=0,loopHooks=0,aoeActions=9,multiAoe=4,electro=true,multi=true,resetAfterFour=true},
+ {seed=29045,sources={'Cultist','Small Slimes','Jaw Worm','2 Fungi Beasts'},
+  rewards={'chill','electrodynamics','claw','steam_barrier'},hp={74,68,57,51},turns={3,3,2,2},cardRng={7,3,0,0},shuffleRng={2,2,1,1},aiRng={3,5,3,4},
+  offers={{'chill','cold_snap','compile_driver'},{'storm','ball_lightning','electrodynamics'},{'static_discharge','boot_sequence','claw'},{'go_for_the_eyes','steam_barrier','loop'}},
+  plays={electrodynamics=2,chill=3},focusedFrost=0,loopHooks=0,aoeActions=7,multiAoe=2,electro=true,multi=true,resetAfterFour=true},
 }
 local function scenario(spec)
     local run=Run.new(data,tostring(spec.seed),{experimental=true,character='defect'})
@@ -156,8 +161,10 @@ local function scenario(spec)
         for i,id in ipairs(options) do if id==spec.rewards[room] then choice=i;break end end
         assert(choice,'fixed naturally offered card missing: '..spec.rewards[room])
         local deckBefore=#run.deck
+        local nextDeckUid=run.nextDeckUid
         assert(Run.claimCardReward(run,choice));eq(#run.deck,deckBefore+1)
         eq(run.deck[#run.deck].cardId,spec.rewards[room])
+        eq(run.deck[#run.deck].uid,nextDeckUid);eq(run.nextDeckUid,nextDeckUid+1)
         if run.rewards.goldClaimed==false then assert(Run.claimGoldReward(run)) end
         assert(Run.leaveCombatRewards(run));eq(run.phase,'map')
         print('NATURAL_DEFECT_ROOM seed='..spec.seed..' room='..room..' source='..spec.sources[room]
@@ -200,4 +207,4 @@ local function scenario(spec)
         ..' loop_hooks='..loopHooks..' aoe_actions='..aoeActions..' multi_aoe='..multiAoe..' focused_frost='..#focusedFrost)
 end
 for _,spec in ipairs(cases) do scenario(spec) end
-print('DEFECT_NATURAL_BUILD_PASS 2 restricted_pool=true profile_cards=56 run_entry_harness=true')
+print('DEFECT_NATURAL_BUILD_PASS 2 source_pool=true profile_cards=56 source_rewards=71 run_entry_harness=true')
