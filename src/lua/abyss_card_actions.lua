@@ -67,6 +67,15 @@ function M.sameInstance(combat,state,prototype)
     return c
 end
 
+-- Source generation sites invoke this explicitly; repeatable cards can upgrade
+-- on both the action constructor and the hand display callback.
+function M.created(combat,state,card)
+    if (state.player.statuses.master_reality or 0)==0 then return false end
+    local d=assert(state.catalog.cards[card.cardId],'unknown generated card')
+    if d.type~='curse'and d.type~='status'then return combat.upgrade(state,card)end
+    return false
+end
+
 function M.toHand(state, c)
     local pile=#state.hand<state.rules.player.maxHand and state.hand or state.discard
     pile[#pile+1]=c
