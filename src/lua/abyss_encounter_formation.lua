@@ -9,6 +9,7 @@ local sources={['Small Slimes']=true,['Gremlin Gang']=true,['2 Louse']=true,['3 
  ['Lots of Slimes']=true,['Exordium Thugs']=true,['Exordium Wildlife']=true}
 function M.supports(source)return sources[source]==true end
 sources['Gremlin Leader']=true
+sources['3 Shapes'],sources['4 Shapes'],sources['Sphere and 2 Shapes']=true,true,true
 function M.assemble(source,boundary)
  assert(M.supports(source),'unsupported source formation: '..tostring(source))
  assert(type(boundary)=='table' and type(boundary.misc)=='table'
@@ -55,7 +56,18 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='Gremlin Leader'then
+ if source=='3 Shapes'or source=='4 Shapes'then
+  local pool={'repulsor','repulsor','exploder','exploder','spiker','spiker'}
+  local positions={{-480,6},{-240,-6},{0,-12},{240,12}}
+  for i=1,source=='3 Shapes'and 3 or 4 do
+   local p=positions[i];result[i]=make(table.remove(pool,integer(#pool-1)),p[1],p[2])
+  end
+ elseif source=='Sphere and 2 Shapes'then
+  local pool={'spiker','repulsor','exploder'}
+  result[1]=make(pool[integer(2)],-435,10)
+  result[2]=make(pool[integer(2)],-210,0)
+  result[3]=make('spheric_guardian',110,10)
+ elseif source=='Gremlin Leader'then
   local pool={'mad_gremlin','mad_gremlin','sneaky_gremlin','sneaky_gremlin','fat_gremlin','fat_gremlin','shield_gremlin','wizard_gremlin'}
   result[1]=make(pool[integer(7)],-366,-4)
   result[2]=make(pool[integer(7)],-170,6)

@@ -228,6 +228,7 @@ function M.flush(state, actingSource)
 end
 
 function M.beforeAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind=='act3' then return Act3.beforeAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind=='act2' then Act2.beforeAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.beforeAction(state, enemy, random, executedIntent) end
     if enemy.ai and enemy.ai.kind == "red_slaver" then RedSlaver.beforeAction(enemy) end

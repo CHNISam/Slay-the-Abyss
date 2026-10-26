@@ -48,6 +48,16 @@ function M.retaliate(state, source, target, amount)
     return lost
 end
 
+-- SuicideAction is not an attack or HP-loss action. Keep its death notification
+-- in Combat, which already owns the optional character ledger boundary.
+function M.suicideExploder(state,enemy)
+    assert(Actors.isActive(enemy) and enemy.ai and enemy.ai.kind=='act3' and enemy.ai.policy=='exploder',
+        'Exploder suicide only')
+    local before=enemy.hp;enemy.hp=0
+    Events.emit(state,'enemy_suicide',{enemy=enemy.id})
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,enemy,before)end
+end
+
 local function resolveEffects(state, effects, source, target, playedCard, queuedEnemyAction)
     if queuedEnemyAction then
         assert(state.phase == "enemy" and source ~= state.player and target == state.player, "invalid queued enemy action")
@@ -126,6 +136,9 @@ local function makeEnemy(state, id, serial, explicitHp)
             assert(supported and enemy.ai[kind .. "Intent"] == intent.id,
                 kind .. " intent requires matching AI")
             assert(type(intent.effects) == "table" and next(intent.effects) == nil, kind .. " intent has effects")
+        elseif intent.kind == 'unknown' and enemy.ai and enemy.ai.kind=='act3'
+            and enemy.ai.policy=='exploder' and intent.id=='wait' then
+            assert(type(intent.effects)=='table'and next(intent.effects)==nil,'Exploder wait has effects')
         elseif intent.kind == "sleep" or intent.kind == "stunned" then
             assert(type(intent.effects) == "table" and next(intent.effects) == nil, "inactive enemy intent has effects")
         else assert(Effects.supported(intent.effects), "unsupported enemy intent") end
@@ -1825,6 +1838,7 @@ local function endExperimentalTurn(state)
             -- A source-queued RollMove survives its owner's death while
             -- teammates live. finish above clears it on the final death.
             EnemyAI.afterAction(state, enemy, aiRandom, intent)
+            require('abyss_act3_powers').afterTurn(M,state,enemy)
             Actors.flushCurlUp(state)
             if finish(state) then return true end
         end
@@ -1981,6 +1995,7 @@ local function endNativeTurn(state)
             -- A source-queued RollMove survives its owner's death while
             -- teammates live. finish above clears it on the final death.
             EnemyAI.afterAction(state, enemy, aiRandom, intent)
+            require('abyss_act3_powers').afterTurn(M,state,enemy)
             Actors.flushCurlUp(state)
             if finish(state) then return true end
         end

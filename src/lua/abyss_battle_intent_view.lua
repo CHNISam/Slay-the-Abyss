@@ -14,7 +14,7 @@ local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
     enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
     enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff',
-    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff', enemyBurnBoth='debuff' }
+    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff', enemyBurnBoth='debuff', enemyDazedDraw='debuff' }
 
 -- Mixed moves show the first other effect kind in the original icon priority.
 function M.intentBadge(intent)
@@ -177,6 +177,13 @@ local function burnBothEffect(v)
     v.rows[#v.rows+1]={icon='debuff',colour=C.debuff,name='塞入「'..name..'」×2',text=text}
 end
 
+local function dazedDrawEffect(v)
+    local name=assert(v.state.catalog.cards.dazed).name
+    local text='将 2 张「'..name..'」随机放入你的抽牌堆'
+    v.result[#v.result+1]=text
+    v.rows[#v.rows+1]={icon='debuff',colour=C.debuff,name='塞入「'..name..'」×2',text=text}
+end
+
 local function act2Row(v, name, text, kind, note)
     v.result[#v.result+1]=text
     v.rows[#v.rows+1]={icon=kind,colour=intentColors[kind],name=name,text=text,note=note}
@@ -209,7 +216,7 @@ local function groupEffect(v,effect)
     act2Row(v,name,text,'buff')
 end
 local effects = { damage = attackEffect, damageAll = attackEffect, block = blockEffect,
-    enemyBurnBoth=burnBothEffect,
+    enemyBurnBoth=burnBothEffect,enemyDazedDraw=dazedDrawEffect,
     enemyVampireDamage=vampireEffect,enemyStasis=stasisEffect,
     enemyRally=summonEffect,enemyTorchSpawn=summonEffect,enemyTorchRevive=summonEffect,
     enemyEncourage=summonEffect,enemyBronzeSpawn=summonEffect,

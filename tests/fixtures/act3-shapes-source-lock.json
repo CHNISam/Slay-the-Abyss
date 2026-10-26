@@ -1,0 +1,471 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Third-party decompiled fixed methods; independent A0 implementation, not original-PC execution",
+  "archive": {
+    "file": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+    "sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458"
+  },
+  "files": [
+    {
+      "path": "monsters/beyond/Repulsor.java",
+      "sha256": "76c3554cc97c869a2e5702d0a9c451c8199d0338bd16ee1b38159b493f3466be",
+      "methods": [
+        "constructor",
+        "takeTurn",
+        "getMove"
+      ]
+    },
+    {
+      "path": "monsters/beyond/Spiker.java",
+      "sha256": "33c64dc25a49c4683939509b25d736392409b3f11a9c93432bc1bb943dd2a4ed",
+      "methods": [
+        "constructor",
+        "usePreBattleAction",
+        "takeTurn",
+        "getMove"
+      ]
+    },
+    {
+      "path": "monsters/beyond/Exploder.java",
+      "sha256": "37345f82f892315bddb72948b03781d2c9ae57d0e57cdc413166cae3f081bb61",
+      "methods": [
+        "constructor",
+        "usePreBattleAction",
+        "takeTurn",
+        "getMove"
+      ]
+    },
+    {
+      "path": "monsters/city/SphericGuardian.java",
+      "sha256": "8f7c8e3ac1ac52b8f2d50dd83aaed6af96a7cf9e0fb125804611efcfcd31f6dc",
+      "methods": [
+        "constructor",
+        "usePreBattleAction",
+        "getMove"
+      ]
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "methods": [
+        "getEncounter",
+        "spawnShapes",
+        "getAncientShape",
+        "getShape"
+      ]
+    },
+    {
+      "path": "powers/ExplosivePower.java",
+      "sha256": "81daefa508f821a98668507eb11f7047f188c362a434e83b428075b82fabbab5",
+      "methods": [
+        "duringTurn"
+      ]
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "methods": [
+        "getNextAction",
+        "clearPostCombatActions"
+      ]
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "methods": [
+        "applyTurnPowers"
+      ]
+    },
+    {
+      "path": "actions/common/SuicideAction.java",
+      "sha256": "66dbf76651c6499205c340d7f9304b031b19fd69cfd596475af209b21aeabd04",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/common/MakeTempCardInDrawPileAction.java",
+      "sha256": "c00b2da9c82d6e5fed1f638312a2af46dcd586bcd76e963f859e4417629ac2fe",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndAddToDrawPileEffect.java",
+      "sha256": "d2b573fb3488c551a4039e68a5c487b76a60fdbcfecaf5bf7254ed9bc8417433",
+      "methods": [
+        "constructor"
+      ]
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "methods": [
+        "addToRandomSpot"
+      ]
+    },
+    {
+      "path": "cards/status/Dazed.java",
+      "sha256": "bd07efcea70830fab6d8604cbd2952147cbaa51b88647447aaf888c8875b4e36",
+      "methods": [
+        "constructor"
+      ]
+    },
+    {
+      "path": "actions/common/DrawCardAction.java",
+      "sha256": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/common/EmptyDeckShuffleAction.java",
+      "sha256": "b4fc6be1df7caa1906705469500c40e81135a41614b54448346ddb0fec0bb2b2",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "powers/IntangiblePlayerPower.java",
+      "sha256": "62ca9eecfd78e5b5a018ef069147d36bd58463b9754c8359d5dfb710bb6c52c8",
+      "methods": [
+        "atDamageFinalReceive"
+      ]
+    },
+    {
+      "path": "powers/BufferPower.java",
+      "sha256": "c37a54fe614dd9588e298e9d2de0d283bb45c31b58f8aeae7447676093502b60",
+      "methods": [
+        "onAttackedToChangeDamage"
+      ]
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "methods": [
+        "damage"
+      ]
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "methods": [
+        "constructor",
+        "setHp",
+        "die"
+      ]
+    },
+    {
+      "path": "powers/ThornsPower.java",
+      "sha256": "78ce7c63874a3539f03c50a9cdfdf8bcfba7b47e73bce18c10672e5bad3ae87a",
+      "methods": [
+        "onAttacked"
+      ]
+    },
+    {
+      "path": "cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a",
+      "methods": [
+        "constructor"
+      ]
+    }
+  ],
+  "independentModel": {
+    "generator": "tools/oracles/sts1_shapes.py",
+    "rng": "tools/oracles/sts1_combat_gold.py",
+    "fixture": "tests/fixtures/act3-shapes-vectors.lua",
+    "sha256": "6e6081f5b0d1f4b67ca73f449fdd79dfaaad69ea3ea81e961c12bb426bedf7c8",
+    "sampleSeeds": [
+      "1",
+      "42",
+      "77"
+    ],
+    "spikerCap": {
+      "initialThorns": 3,
+      "buffAmount": 2,
+      "maxBuffActions": 6,
+      "finalThorns": 15,
+      "sourceCondition": "thornsCount > 5",
+      "controlledTurns": [
+        {
+          "primaryRoll": 50,
+          "move": "spike",
+          "count": 1,
+          "thorns": 5
+        },
+        {
+          "primaryRoll": 50,
+          "move": "spike",
+          "count": 2,
+          "thorns": 7
+        },
+        {
+          "primaryRoll": 50,
+          "move": "spike",
+          "count": 3,
+          "thorns": 9
+        },
+        {
+          "primaryRoll": 50,
+          "move": "spike",
+          "count": 4,
+          "thorns": 11
+        },
+        {
+          "primaryRoll": 50,
+          "move": "spike",
+          "count": 5,
+          "thorns": 13
+        },
+        {
+          "primaryRoll": 50,
+          "move": "spike",
+          "count": 6,
+          "thorns": 15
+        },
+        {
+          "primaryRoll": 50,
+          "move": "attack",
+          "count": 6,
+          "thorns": 15
+        },
+        {
+          "primaryRoll": 50,
+          "move": "attack",
+          "count": 6,
+          "thorns": 15
+        }
+      ]
+    },
+    "roomVectors": [
+      {
+        "seed": "38",
+        "source": "3 Shapes",
+        "members": [
+          "spiker",
+          "repulsor",
+          "repulsor"
+        ],
+        "hp": [
+          56,
+          33,
+          32
+        ],
+        "miscIndices": [
+          5,
+          1,
+          0
+        ],
+        "primaryRolls": [
+          49,
+          81,
+          40
+        ],
+        "openingMoves": [
+          "attack",
+          "daze",
+          "daze"
+        ],
+        "trace": [
+          "misc:5",
+          "hp:spiker",
+          "misc:4",
+          "hp:repulsor",
+          "misc:3",
+          "hp:repulsor",
+          "ai:spiker",
+          "ai:repulsor",
+          "ai:repulsor"
+        ],
+        "misc": {
+          "words": [
+            "6e0d44ea4fe49378",
+            "a280afbdd5b158c8"
+          ],
+          "counter": 3
+        },
+        "monsterHp": {
+          "words": [
+            "6e0d44ea4fe49378",
+            "a280afbdd5b158c8"
+          ],
+          "counter": 3
+        },
+        "ai": {
+          "words": [
+            "6e0d44ea4fe49378",
+            "a280afbdd5b158c8"
+          ],
+          "counter": 3
+        }
+      },
+      {
+        "seed": "39",
+        "source": "4 Shapes",
+        "members": [
+          "repulsor",
+          "spiker",
+          "exploder",
+          "spiker"
+        ],
+        "hp": [
+          34,
+          56,
+          30,
+          47
+        ],
+        "miscIndices": [
+          1,
+          4,
+          1,
+          2
+        ],
+        "primaryRolls": [
+          45,
+          69,
+          73,
+          65
+        ],
+        "openingMoves": [
+          "daze",
+          "spike",
+          "attack",
+          "spike"
+        ],
+        "trace": [
+          "misc:5",
+          "hp:repulsor",
+          "misc:4",
+          "hp:spiker",
+          "misc:3",
+          "hp:exploder",
+          "misc:2",
+          "hp:spiker",
+          "ai:repulsor",
+          "ai:spiker",
+          "ai:exploder",
+          "ai:spiker"
+        ],
+        "misc": {
+          "words": [
+            "c7a655c344088a6d",
+            "3ce64ff57d800975"
+          ],
+          "counter": 4
+        },
+        "monsterHp": {
+          "words": [
+            "c7a655c344088a6d",
+            "3ce64ff57d800975"
+          ],
+          "counter": 4
+        },
+        "ai": {
+          "words": [
+            "c7a655c344088a6d",
+            "3ce64ff57d800975"
+          ],
+          "counter": 4
+        }
+      },
+      {
+        "seed": "49",
+        "source": "Sphere and 2 Shapes",
+        "members": [
+          "exploder",
+          "repulsor",
+          "spheric_guardian"
+        ],
+        "hp": [
+          30,
+          30,
+          20
+        ],
+        "miscIndices": [
+          2,
+          1
+        ],
+        "primaryRolls": [
+          7,
+          64,
+          3
+        ],
+        "openingMoves": [
+          "attack",
+          "daze",
+          "activate"
+        ],
+        "trace": [
+          "misc:2",
+          "hp:exploder",
+          "misc:2",
+          "hp:repulsor",
+          "ai:exploder",
+          "ai:repulsor",
+          "ai:spheric_guardian"
+        ],
+        "misc": {
+          "words": [
+            "67ff9e7385a03fbb",
+            "d98dcb68507508f6"
+          ],
+          "counter": 2
+        },
+        "monsterHp": {
+          "words": [
+            "67ff9e7385a03fbb",
+            "d98dcb68507508f6"
+          ],
+          "counter": 2
+        },
+        "ai": {
+          "words": [
+            "d98dcb68507508f6",
+            "87b0aa2ccc11c149"
+          ],
+          "counter": 3
+        }
+      }
+    ],
+    "normalization": "LF only; raw source member hashes remain byte-exact",
+    "hostRoom": {
+      "roomSeed": "39",
+      "initialMoves": [
+        "daze",
+        "spike",
+        "attack",
+        "spike"
+      ],
+      "afterFirstMoves": [
+        "daze",
+        "attack",
+        "attack",
+        "spike"
+      ],
+      "afterSecondMoves": [
+        "attack",
+        "spike",
+        "wait",
+        "attack"
+      ],
+      "playerDamageByRound": [
+        9,
+        16,
+        48
+      ],
+      "explosionDamage": 30,
+      "note": "Independent source AI/RNG model; Host replays only these three turns at a chapter/queue boundary, not a natural route."
+    }
+  },
+  "dependencies": {
+    "buffer": "Not implemented in this baseline. Explosion uses the shared THORNS API; formal Defect incoming/Buffer interaction must be combined and tested by integration."
+  }
+}

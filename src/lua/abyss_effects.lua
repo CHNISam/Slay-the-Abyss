@@ -39,6 +39,8 @@ coreOps.enemyBronzeSpawn=true
 coreOps.enemyStasis=true
 coreOps.enemyBurnBoth=true
 clearedAfterDamage.enemyBurnBoth=true
+coreOps.enemyDazedDraw=true
+clearedAfterDamage.enemyDazedDraw=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -409,6 +411,8 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             require('abyss_relic_hooks').hpChanged(state,source,before)
         elseif op=='enemyBurnBoth' then
             require('abyss_act3_powers').burnBoth(state,source)
+        elseif op=='enemyDazedDraw' then
+            require('abyss_act3_powers').dazedDraw(state,source)
         elseif op=='enemyStasis' then
             require('abyss_act2_stasis').apply(combat,state,source)
         elseif op=='enemyBronzeSpawn' then
