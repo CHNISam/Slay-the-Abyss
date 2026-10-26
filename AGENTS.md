@@ -24,6 +24,11 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 </CRITICAL_INSTRUCTION>
 <!-- BACKLOG.MD GUIDELINES END -->
 
+## 代理流量与持续成本（P0）
+
+- 流量控制为最高优先级，同时保持简单，见 `docs/NETWORK_BUDGET.md`。CI保留推进的Git引用，新增pack超过32MiB警告、128MiB失败，npm优先缓存并限制重试。检查入口 `npm run check:network`。
+- 下载异常先查原因，不盲重跑、删缓存、抬高阈值或引入大缓存往返。新增pack大小不是机场账单；源码通过与实际CI生效分开报告。不新增常驻监控或修改其他项目/代理全局开关。
+
 ## Toolchain (read before building levels)
 
 ### 占用鼠标键盘前先协调
