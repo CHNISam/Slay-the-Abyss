@@ -3,10 +3,7 @@
 local Actors=require('abyss_actor')
 local Random=require('abyss_sts_random')
 local M={}
-local function copy(v)
-    if type(v)~='table'then return v end
-    local out={};for k,x in pairs(v)do out[k]=copy(x)end;return out
-end
+local copy=require('abyss_copy').copy
 local function e(kind,value,extra)
     local out={op='colorless',kind=kind,value=value or 0}
     for k,v in pairs(extra or {})do out[k]=v end
@@ -62,6 +59,20 @@ card('ritual_dagger','仪式匕首','RitualDagger','attack','special',1,{e('ritu
 local raw='dark_shackles sadistic_nature panic_button trip dramatic_entrance impatience the_bomb blind bandage_up secret_technique deep_breath violence panache secret_weapon apotheosis mayhem hand_of_greed flash_of_steel forethought enlightenment purity panacea transmutation chrysalis discovery finesse magnetism master_of_strategy good_instincts swift_strike jack_of_all_trades metamorphosis mind_blast thinking_ahead madness'
 local src='madness thinking_ahead mind_blast metamorphosis jack_of_all_trades swift_strike good_instincts master_of_strategy magnetism finesse discovery chrysalis transmutation panacea purity enlightenment forethought flash_of_steel hand_of_greed mayhem apotheosis secret_weapon panache violence deep_breath secret_technique bandage_up blind the_bomb impatience dramatic_entrance trip panic_button sadistic_nature dark_shackles'
 local function words(s)local a={};for id in s:gmatch('%S+')do a[#a+1]=id end;return a end
+-- These source facts are immutable module data. Sort once, then give every
+-- registration its own graph copy; no caller sees or can change the template.
+local poolTemplate={srcColorless=words(src),colorlessRaw=words(raw),colorlessShop={uncommon={},rare={}}}
+do
+    local byId={}
+    for _,d in ipairs(cards)do
+        byId[d.id]=d.sourceId
+        local pool=poolTemplate.colorlessShop[d.rarity]
+        if pool then pool[#pool+1]=d.id end
+    end
+    for _,pool in pairs(poolTemplate.colorlessShop)do
+        table.sort(pool,function(a,b)return byId[a]:lower()<byId[b]:lower()end)
+    end
+end
 local powerNames={panache='声势',shackled='力量恢复',no_block='无法格挡',intangible='无实体',magnetism='磁引',mayhem='混沌',sadistic_nature='苦痛天性'}
 local powerIcons={panache='strength',no_block='frail',intangible='barricade',magnetism='draw_next_turn',mayhem='thousand_cuts',sadistic_nature='poison'}
 function M.powerIcon(id)
@@ -97,16 +108,7 @@ function M.withCards(data)
     local seen={}
     for _,d in ipairs(out.cards.cards)do seen[d.id]=true end
     for _,d in ipairs(cards)do if not seen[d.id]then out.cards.cards[#out.cards.cards+1]=copy(d)end end
-    out.cards.sourcePools=out.cards.sourcePools or {}
-    out.cards.sourcePools.srcColorless=words(src)
-    out.cards.sourcePools.colorlessRaw=words(raw)
-    local shop={uncommon={},rare={}}
-    for _,d in ipairs(cards)do if shop[d.rarity]then shop[d.rarity][#shop[d.rarity]+1]=d.id end end
-    -- CardGroup.sortAlphabetically follows localized source names; the frozen
-    -- oracle's English registration ordering is explicit, not Lua ID ordering.
-    local byId={};for _,d in ipairs(cards)do byId[d.id]=d.sourceId end
-    for _,pool in pairs(shop)do table.sort(pool,function(a,b)return byId[a]:lower()<byId[b]:lower()end)end
-    out.cards.sourcePools.colorlessShop=shop
+    for key,value in pairs(copy(poolTemplate))do out.cards.sourcePools[key]=value end
     local present={};for _,d in ipairs(out.statuses.statuses)do present[d.id]=true end
     for id,kind in pairs({panache='buff',shackled='debuff',no_block='debuff',intangible='buff',magnetism='buff',mayhem='buff',sadistic_nature='buff'})do
         if not present[id]then out.statuses.statuses[#out.statuses.statuses+1]={id=id,name=powerNames[id],description=M.powerDescription({statuses={[id]=1}},id),kind=kind,

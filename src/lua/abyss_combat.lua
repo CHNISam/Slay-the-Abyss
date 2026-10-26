@@ -1829,6 +1829,18 @@ function M.new(data, options)
     -- Registration owns fresh, detached pools when it returns a new bundle.
     -- Reuse that private copy; registered caller bundles still need a copy.
     local sourcePools=data~=originalData and data.cards.sourcePools or copy(data.cards.sourcePools)
+    -- Existing definitions remain caller-owned. Newly registered definitions
+    -- already have private graphs and can be adopted without copying twice.
+    local catalogData=data~=originalData and originalData or data
+    local cardCatalog,statusCatalog=index(copy(catalogData.cards.cards)),index(copy(catalogData.statuses.statuses))
+    if data~=originalData then
+        for _,definition in ipairs(data.cards.cards)do
+            if not cardCatalog[definition.id]then cardCatalog[definition.id]=definition end
+        end
+        for _,definition in ipairs(data.statuses.statuses)do
+            if not statusCatalog[definition.id]then statusCatalog[definition.id]=definition end
+        end
+    end
     options = options or {}
     if options.sourceEncounter ~= nil then
         assert(Formation.supports(options.sourceEncounter), "unknown source formation")
@@ -1842,8 +1854,8 @@ function M.new(data, options)
     assert(hp > 0 and hp <= rules.player.maxHp and hp % 1 == 0, "invalid starting hp")
     local gold = options.gold == nil and rules.player.startingGold or options.gold
     assert(goldInteger(gold), "invalid starting gold")
-    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
-            statuses = index(copy(data.statuses.statuses)) },
+    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = { cards = cardCatalog, enemies = index(copy(data.enemies.enemies)),
+            statuses = statusCatalog },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }

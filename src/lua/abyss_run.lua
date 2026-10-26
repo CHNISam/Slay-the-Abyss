@@ -22,7 +22,7 @@ local function find(entries, id)
 end
 
 function M.new(data, seed, options)
-    local profile
+    local profile,ownsData
     if options ~= nil then
         assert(type(options)=='table','invalid character options')
         assert(options.campaign==nil or type(options.campaign)=='boolean','invalid campaign option')
@@ -30,18 +30,23 @@ function M.new(data, seed, options)
             'campaign requires explicit experimental mode')
         if require('abyss_original_v4_profiles').is(options.character) then
             data,profile=require('abyss_original_v4_profiles').prepare(data,options.character)
+            ownsData=true
         else
             assert(options.experimental == true,
                 "non-default characters require explicit experimental mode")
             if options.character~=nil then
                 data,profile=require('abyss_character_profiles').prepare(data,options.character)
+                ownsData=true
             end
         end
     end
     data=require('abyss_colorless_cards').withCards(data)
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
-    local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
+    -- Profile factories already detached the whole input graph. Their private
+    -- result can be adopted; caller-owned/default bundles still need a copy.
+    local runData=ownsData and data or Combat.copy(data)
+    local run = { version = data.rules.version, data = runData, seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
         treasureRng = EventRandom.fromSeed(eventSeed),
         cardRng = cardOwner.cardRng,cardRarityOffset=cardOwner.cardRarityOffset,
