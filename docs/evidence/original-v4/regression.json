@@ -177,5 +177,11 @@
     "deviceAcceptance": "GIL, PC, physical phone and twelve archetype runs not_run",
     "producerInputsDigest": "7953a0157a55e3faa0126e3676b128c140cebd5075fc07909b02d0803a983a41",
     "runtimePayloadDigest": "1af2fa72ce3d6ab69ea6d6f167d857cd4598f423dbb38d6f198de17df3589a27"
+  },
+  "latestDevelopIntegrationRegression": {
+    "trigger": "formal abyss_ui lifecycle menu start after original selector enabled",
+    "before": "legacy game_ui.lua line445 assumed prologue before selecting a character",
+    "after": "assert selector shown, choose Traveler, retain full prologue/map/control-listener assertions",
+    "localEnvironment": "Full local attempt includes failure because pwsh is absent; hosted Windows/Ubuntu full Quality remains required, no test skipped or timeout relaxed"
   }
 }
