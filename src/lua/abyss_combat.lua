@@ -1982,9 +1982,10 @@ end
 -- Advanced cleanup can invoke several card/power hooks. Keep end-turn errors
 -- atomic just like a paused play, including costs reset before queued actions.
 function M.endTurn(state)
-    if state.originalV4 then
+    if state.originalV4 or require('abyss_act3_powers').active(state) then
         local restore=require('abyss_snapshot').capture(state)
-        local called,ok,reason=pcall(endNativeTurn,state)
+        local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn
+        local called,ok,reason=pcall(resolver,state)
         if not called then restore();error(ok,0)end
         return ok,reason
     end
@@ -2039,6 +2040,14 @@ function M.new(data, options)
     end
     for _,status in ipairs(require('abyss_act2_enemies').statuses)do
         assert(not state.catalog.statuses[status.id],'duplicate Act2 status')
+        state.catalog.statuses[status.id]=copy(status)
+    end
+    for _,enemy in ipairs(require('abyss_act3_enemies').enemies)do
+        assert(not state.catalog.enemies[enemy.id],'duplicate Act3 enemy')
+        state.catalog.enemies[enemy.id]=copy(enemy)
+    end
+    for _,status in ipairs(require('abyss_act3_enemies').statuses)do
+        assert(not state.catalog.statuses[status.id],'duplicate Act3 status')
         state.catalog.statuses[status.id]=copy(status)
     end
     -- Helper opt-in is independent of character selection: mixed native cards

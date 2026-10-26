@@ -411,15 +411,23 @@ end
 function M.startRoomCombat(run,tier)
     if run.phase~='map' then return false,'not_on_map' end
     local act=run.act or 1
-    if act~=1 and act~=2 then return false,'act_content_unavailable' end
+    if act~=1 and act~=2 and act~=3 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
-    local first,last=act==2 and 18 or 1,act==2 and 33 or 16
+    local chapter=Acts.get(act)
+    local first,last=chapter.first,chapter.boss
     if type(run.floor)~='number' or run.floor%1~=0 or run.floor<first or run.floor>last then return false,'wrong_floor' end
     local encounter,nextQueue
     if tier=='boss' then
-        if act==2 then
+        if act==3 then
+            if run.floor~=50 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
+                return false,'unsupported_boss_initialization'
+            end
+            local resolved,reason=require('abyss_act3_enemies').resolve(run.bossInitialization.bossList[1],tier)
+            if not resolved then return false,reason end
+            encounter=resolved
+        elseif act==2 then
             if run.floor~=33 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
                 return false,'unsupported_boss_initialization'
             end
@@ -436,7 +444,8 @@ function M.startRoomCombat(run,tier)
         valid,source,nextQueue,reason=pcall(EncounterQueue.consume,run.encounters,tier)
         if not valid then return false,'invalid_encounter_state' end
         if not source then return false,reason end
-        if act==2 then encounter,reason=require('abyss_act2_enemies').resolve(source,tier)
+        if act==3 then encounter,reason=require('abyss_act3_enemies').resolve(source,tier)
+        elseif act==2 then encounter,reason=require('abyss_act2_enemies').resolve(source,tier)
         else encounter,reason=RoomEncounters.resolve(source,tier) end
         if not encounter then return false,reason end
     end

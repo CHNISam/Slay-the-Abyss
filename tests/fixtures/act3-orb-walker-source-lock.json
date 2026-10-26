@@ -1,0 +1,197 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Third-party decompiled method reference; independent A0 Lua implementation, not original-binary certification",
+  "archive": {
+    "file": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+    "sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458"
+  },
+  "files": [
+    {
+      "path": "monsters/beyond/OrbWalker.java",
+      "sha256": "2ca7e87876547c47ca7dfcf92ce059681e8766676479e3496af3a3ada9121db8",
+      "methods": [
+        "constructor",
+        "usePreBattleAction",
+        "takeTurn",
+        "getMove"
+      ]
+    },
+    {
+      "path": "powers/GenericStrengthUpPower.java",
+      "sha256": "6bd8e70e12d364123046ab9ea02ec099f3f92c34c659a74f6d4057040ca79a9d",
+      "methods": [
+        "constructor",
+        "atEndOfRound"
+      ]
+    },
+    {
+      "path": "actions/common/MakeTempCardInDiscardAndDeckAction.java",
+      "sha256": "78ef3d247f5ff16e08bfc0070ad43d3bb6be9609f335b4cf7f726f5a57e720e4",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "methods": [
+        "addToRandomSpot"
+      ]
+    },
+    {
+      "path": "cards/status/Burn.java",
+      "sha256": "a065c155ce2efb9b7a968bfe55e68d5290d02ddabcf6becd4ca43db80a30dc12",
+      "methods": [
+        "constructor",
+        "triggerOnEndOfTurnForPlayingCard"
+      ]
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "methods": [
+        "constructor",
+        "setHp",
+        "rollMove"
+      ]
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndAddToDrawPileEffect.java",
+      "sha256": "d2b573fb3488c551a4039e68a5c487b76a60fdbcfecaf5bf7254ed9bc8417433",
+      "methods": [
+        "constructor"
+      ]
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndAddToDiscardEffect.java",
+      "sha256": "9386ebe73aabf208e05f23068e168921f8db069151947d7ed4582308e2198d80",
+      "methods": [
+        "constructor"
+      ]
+    },
+    {
+      "path": "actions/common/DrawCardAction.java",
+      "sha256": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "actions/common/EmptyDeckShuffleAction.java",
+      "sha256": "b4fc6be1df7caa1906705469500c40e81135a41614b54448346ddb0fec0bb2b2",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "methods": [
+        "getEncounter"
+      ]
+    },
+    {
+      "path": "dungeons/TheBeyond.java",
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b",
+      "methods": [
+        "generateMonsters",
+        "generateWeakEnemies",
+        "generateStrongEnemies",
+        "generateElites"
+      ]
+    }
+  ],
+  "independentVectors": {
+    "generator": "tools/oracles/sts1_orb_walker.py",
+    "rngModel": "tools/oracles/sts1_combat_gold.py",
+    "provenance": "Independent reading of fixed Java branches with the existing Python 64-bit RNG model; no Lua or production-data imports. Not a PC binary oracle.",
+    "values": {
+      "hpAndAi": [
+        {
+          "seed": "1",
+          "discardedHp": 96,
+          "hp": 95,
+          "primaryRolls": [
+            55,
+            5,
+            88,
+            32,
+            21
+          ],
+          "moves": [
+            "laser",
+            "claw",
+            "laser",
+            "claw",
+            "claw"
+          ],
+          "monsterHpCounter": 2,
+          "aiCounter": 5
+        },
+        {
+          "seed": "42",
+          "discardedHp": 92,
+          "hp": 95,
+          "primaryRolls": [
+            24,
+            41,
+            71,
+            88,
+            61
+          ],
+          "moves": [
+            "claw",
+            "laser",
+            "laser",
+            "claw",
+            "laser"
+          ],
+          "monsterHpCounter": 2,
+          "aiCounter": 5
+        },
+        {
+          "seed": "77",
+          "discardedHp": 94,
+          "hp": 96,
+          "primaryRolls": [
+            80,
+            55,
+            93,
+            68,
+            47
+          ],
+          "moves": [
+            "laser",
+            "laser",
+            "claw",
+            "laser",
+            "laser"
+          ],
+          "monsterHpCounter": 2,
+          "aiCounter": 5
+        }
+      ],
+      "placement": [
+        {
+          "seed": "1",
+          "originalDrawSize": 0,
+          "sourceInsertionIndex": 0,
+          "cardRandomCounter": 0
+        },
+        {
+          "seed": "1",
+          "originalDrawSize": 1,
+          "sourceInsertionIndex": 0,
+          "cardRandomCounter": 1
+        },
+        {
+          "seed": "1",
+          "originalDrawSize": 2,
+          "sourceInsertionIndex": 1,
+          "cardRandomCounter": 1
+        }
+      ]
+    }
+  }
+}

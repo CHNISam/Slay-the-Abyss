@@ -2,6 +2,7 @@
 local M = {}
 local Events = require("abyss_events")
 local Act2Powers = require('abyss_act2_powers')
+local Act3Powers = require('abyss_act3_powers')
 
 -- Require lazily: card actions use Actor arithmetic, and hooks only enqueue
 -- data. Combat owns draining, choices, death interruption and transactionality.
@@ -544,6 +545,9 @@ local function tick(state, actor, phase)
 end
 
 function M.endRound(state, actor)
+    -- Orb Walker receives Growth in pre-battle, before any later round-decay
+    -- debuff. Its first round is not suppressed like Cultist Ritual.
+    Act3Powers.endRound(M,state,actor)
     tick(state, actor, "round_end")
 end
 

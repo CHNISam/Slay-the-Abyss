@@ -37,6 +37,8 @@ coreOps.enemyTorchSpawn=true
 coreOps.enemyTorchRevive=true
 coreOps.enemyBronzeSpawn=true
 coreOps.enemyStasis=true
+coreOps.enemyBurnBoth=true
+clearedAfterDamage.enemyBurnBoth=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -197,7 +199,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard") then
             -- Cancel only still-queued mapped actions, never earlier effects or
             -- retained Block/HP-loss. Card disposal remains owned by Combat.
-        elseif source.hp <= 0 and op ~= "makeTempCardInDiscard" then
+        elseif source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' then
             assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
             -- ApplyPower guards its target, not its dead source. Only the
             -- source-verified single-player queued status path is enabled.
@@ -404,6 +406,8 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyBurnBoth' then
+            require('abyss_act3_powers').burnBoth(state,source)
         elseif op=='enemyStasis' then
             require('abyss_act2_stasis').apply(combat,state,source)
         elseif op=='enemyBronzeSpawn' then

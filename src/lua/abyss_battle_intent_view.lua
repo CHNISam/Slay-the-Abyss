@@ -14,7 +14,7 @@ local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
     enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
     enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff',
-    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff' }
+    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff', enemyBurnBoth='debuff' }
 
 -- Mixed moves show the first other effect kind in the original icon priority.
 function M.intentBadge(intent)
@@ -170,6 +170,13 @@ local function unknownEffect(v)
     v.rows[#v.rows + 1] = { icon = "unknown", colour = C.textDim, name = "未知", text = "下一步行动未知" }
 end
 
+local function burnBothEffect(v)
+    local name=assert(v.state.catalog.cards.burn).name
+    local text='将 1 张「'..name..'」放入你的抽牌堆，另 1 张放入弃牌堆'
+    v.result[#v.result+1]=text
+    v.rows[#v.rows+1]={icon='debuff',colour=C.debuff,name='塞入「'..name..'」×2',text=text}
+end
+
 local function act2Row(v, name, text, kind, note)
     v.result[#v.result+1]=text
     v.rows[#v.rows+1]={icon=kind,colour=intentColors[kind],name=name,text=text,note=note}
@@ -202,6 +209,7 @@ local function groupEffect(v,effect)
     act2Row(v,name,text,'buff')
 end
 local effects = { damage = attackEffect, damageAll = attackEffect, block = blockEffect,
+    enemyBurnBoth=burnBothEffect,
     enemyVampireDamage=vampireEffect,enemyStasis=stasisEffect,
     enemyRally=summonEffect,enemyTorchSpawn=summonEffect,enemyTorchRevive=summonEffect,
     enemyEncourage=summonEffect,enemyBronzeSpawn=summonEffect,
