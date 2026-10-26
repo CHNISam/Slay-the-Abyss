@@ -29,6 +29,7 @@ local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=tr
 coreOps.enemyHealAll=true
 coreOps.enemyStrengthAll=true
 coreOps.enemyCleanse=true
+coreOps.enemyVampireDamage=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -390,6 +391,14 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyVampireDamage' then
+            assert(source~=state.player and source.ai and source.ai.policy=='parasite','Parasite attack only')
+            local lost=combat.damage(state,source,target,value)
+            dealt=dealt+lost
+            if Actors.isActive(source) and state.player.hp>0 then
+                local healed=math.min(lost,source.maxHp-source.hp);source.hp=source.hp+healed
+                Events.emit(state,'heal',{source=source.id,target=source.id,amount=healed})
+            end
         elseif op=='enemyCleanse' then
             assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 cleanse only')
             local ids={}

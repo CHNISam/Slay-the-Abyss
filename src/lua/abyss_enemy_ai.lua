@@ -15,6 +15,7 @@ local FungiBeast = require("abyss_fungi_beast_ai")
 local Louse = require("abyss_louse_ai")
 local Looter = require("abyss_looter_ai")
 local Act2 = require("abyss_act2_ai")
+local Act2Powers = require('abyss_act2_powers')
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -205,10 +206,15 @@ end
 
 function M.cardReactions(state, card)
     GremlinNob.beforeCard(state, card)
-    return Guardian.cardReactions(state, card)
+    local reactions=Guardian.cardReactions(state, card)
+    if card.type~='attack' and not card.dontTriggerOnUseCard then reactions.hex=state.player.statuses.hex or 0 end
+    return reactions
 end
 
-M.afterCard = Guardian.afterCard
+function M.afterCard(state,reactions)
+    Act2Powers.afterCard(state,reactions)
+    Guardian.afterCard(state,reactions)
+end
 
 function M.flush(state, actingSource)
     for _, enemy in ipairs(state.enemies) do
@@ -217,6 +223,7 @@ function M.flush(state, actingSource)
 end
 
 function M.beforeAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind=='act2' then Act2.beforeAction(enemy,executedIntent) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.beforeAction(state, enemy, random, executedIntent) end
     if enemy.ai and enemy.ai.kind == "red_slaver" then RedSlaver.beforeAction(enemy) end
     if enemy.ai and enemy.ai.kind == "charge_then_attack" and enemy.intents[enemy.intentIndex].id == enemy.ai.attackIntent then

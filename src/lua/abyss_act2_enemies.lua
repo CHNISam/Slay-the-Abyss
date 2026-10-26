@@ -23,6 +23,13 @@ M.enemies={
   move('multi_stab','attack',{damage(6,2)}),move('big_stab','attack',{damage(21)})}},
  {id='snake_plant',name='噬岩藤',tier='normal',hp=79,hpRange={min=75,max=79},ai={kind='act2',policy='snake'},intents={
   move('chomp','attack',{damage(7,3)}),move('spores','debuff',{status('frail',2),status('weak',2)})}},
+ {id='chosen',name='蚀咒使徒',tier='normal',hp=99,hpRange={min=95,max=99},ai={kind='act2',policy='chosen'},intents={
+  move('poke','attack',{damage(5,2)}),move('hex','debuff',{status('hex',1)}),
+  move('zap','attack',{damage(18)}),move('debilitate','attack',{damage(10),status('vulnerable',2)}),
+  move('drain','debuff',{status('weak',3),{op='gainStatus',status='strength',value=3}})}},
+ {id='shelled_parasite',name='岩甲寄生兽',tier='normal',hp=72,hpRange={min=68,max=72},ai={kind='act2',policy='parasite'},intents={
+  move('fell','attack',{damage(18),status('frail',2)}),move('double_strike','attack',{damage(6,2)}),
+  move('life_suck','attack',{{op='enemyVampireDamage',value=10}}),move('stunned','stunned',{})}},
  {id='champ',name='磐岩斗魁',tier='boss',hp=420,ai={kind='act2',policy='champ'},intents={
   move('heavy_slash','attack',{damage(16)}),
   move('defensive_stance','defend',{{op='block',value=15,fixed=true},{op='gainStatus',status='metallicize',value=5}}),
@@ -35,6 +42,7 @@ M.enemies={
 M.statuses={
  {id='painful_stabs',name='痛苦穿刺',kind='buff',stack='none',decay='none',description='攻击使目标损失生命时，将一张伤口放入弃牌堆。'},
  {id='malleable',name='韧性',kind='buff',stack='intensity',decay='none',description='受到非致命普通攻击生命伤害后获得格挡；每次递增1，行动结束重置为3。'},
+ {id='hex',name='蚀咒',kind='debuff',stack='intensity',decay='none',description='使用非攻击牌后，将相应数量的晕眩随机放入抽牌堆。'},
 }
 local rooms={
  ['Spheric Guardian']={id='act2_sphere',enemies={'spheric_guardian'}},
@@ -45,6 +53,10 @@ local rooms={
  ['Slavers']={id='act2_slavers',tier='elite',enemies={'blue_slaver','taskmaster','red_slaver'}},
  ['Book of Stabbing']={id='act2_book',tier='elite',enemies={'book_of_stabbing'}},
  ['Snake Plant']={id='act2_snake_plant',enemies={'snake_plant'}},
+ ['Chosen']={id='act2_chosen',enemies={'chosen'}},
+ ['Cultist and Chosen']={id='act2_cultist_chosen',enemies={'cultist','chosen'}},
+ ['Shell Parasite']={id='act2_parasite',enemies={'shelled_parasite'}},
+ ['Shelled Parasite and Fungi']={id='act2_parasite_fungi',enemies={'shelled_parasite','fungi_beast'}},
  ['Champ']={id='act2_champ',tier='boss',enemies={'champ'}},
 }
 function M.resolve(source,tier)

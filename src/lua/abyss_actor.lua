@@ -76,7 +76,7 @@ end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
 local debuffs = { bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
-    shackled=true,choked=true,block_return=true,mark=true,energy_down=true }
+    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end

@@ -1,0 +1,87 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Third-party decompiled method reference; independent A0 Lua implementation, not original-binary certification",
+  "files": [
+    {
+      "path": "monsters/city/SphericGuardian.java",
+      "sha256": "8f7c8e3ac1ac52b8f2d50dd83aaed6af96a7cf9e0fb125804611efcfcd31f6dc"
+    },
+    {
+      "path": "monsters/city/Centurion.java",
+      "sha256": "3093ca6b66acc588c619efa65039e7469c18222a8b797bae216b2d16db04746a"
+    },
+    {
+      "path": "monsters/city/Healer.java",
+      "sha256": "d449b5623dfaebc7e5c3bf6cd270d4c1584e8a962920f01daa2ee95448243f00"
+    },
+    {
+      "path": "monsters/city/Taskmaster.java",
+      "sha256": "4edbd2f0e06d50bd0d1015a18f6b024ae0414c268154997e70a1859442401018"
+    },
+    {
+      "path": "monsters/city/BookOfStabbing.java",
+      "sha256": "67ec4c95b6f9d15d3af3c0c0193ec8af6a476bfaaf4709b2f147d0cb28dd5029"
+    },
+    {
+      "path": "monsters/city/SnakePlant.java",
+      "sha256": "bde4d7cc2f541ab95c817a1e8230f3c309a3599c43f329fd50ac34d770b48186"
+    },
+    {
+      "path": "monsters/city/Champ.java",
+      "sha256": "12e28e1409f0128b9ff1c58334382238b54fe3a7db6e989e0462113b62a42fd2"
+    },
+    {
+      "path": "monsters/city/Chosen.java",
+      "sha256": "6680d25dbce1f9a25832df72b75c4a14fbb02e891389d5ffcda7ffd1df54bc38"
+    },
+    {
+      "path": "monsters/city/ShelledParasite.java",
+      "sha256": "ef1aaa02f300ef6e3491d43f78a0a1b4a6227cb2fd0dcec70c1b19d6ef993697"
+    },
+    {
+      "path": "powers/PlatedArmorPower.java",
+      "sha256": "686dbc797a8b2649d36a5332f45037202b17f5213481b11f5a9efd9613013df3"
+    },
+    {
+      "path": "powers/MalleablePower.java",
+      "sha256": "37c8185c08b97cebac44b9e5bc7cbf6e50221257d3634d07812a69b80d495d46"
+    },
+    {
+      "path": "powers/PainfulStabsPower.java",
+      "sha256": "36cdd08ddbabf3121bcdc22c85fa184676c4d1a2a9b608349f904e6f2775a97c"
+    },
+    {
+      "path": "powers/HexPower.java",
+      "sha256": "5a8275f86f6895759f9a7c45f1940c8d82e9146ea66a245205a2a8a35e042876"
+    },
+    {
+      "path": "powers/MetallicizePower.java",
+      "sha256": "6f35d8908bde5eb6f470845d27dd6e739fe76fb7c3c5d6d83ff48d7864c9e30f"
+    },
+    {
+      "path": "actions/unique/VampireDamageAction.java",
+      "sha256": "290e4e503848a9b3b0dc4da1c54fd1a2c72f4dfb6404a4eab330005ed22b8d62"
+    },
+    {
+      "path": "actions/common/MakeTempCardInDrawPileAction.java",
+      "sha256": "c00b2da9c82d6e5fed1f638312a2af46dcd586bcd76e963f859e4417629ac2fe"
+    },
+    {
+      "path": "actions/utility/UseCardAction.java",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1"
+    },
+    {
+      "sha256": "0faa6d51280e6473093406dac149eae69f35c674f9cb681a51223a9891ef0743",
+      "path": "actions/unique/RemoveDebuffsAction.java"
+    }
+  ]
+}

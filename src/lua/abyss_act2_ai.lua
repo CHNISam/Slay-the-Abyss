@@ -1,5 +1,6 @@
 -- Source-compatible decision history: getMove sees all previously selected moves.
 local A=require('abyss_actor')
+local ER=require('abyss_enemy_random')
 local M={}
 local function select(e,id)
  for i,v in ipairs(e.intents)do if v.id==id then e.intentIndex=i;return end end
@@ -10,9 +11,22 @@ local function alive(state)
  local count=0;for _,e in ipairs(state.enemies)do if A.isActive(e)then count=count+1 end end
  return count
 end
-local function choose(state,e,n)
+local function choose(state,e,n,random)
  local policy=e.ai.policy
- if policy=='snake'then
+ if policy=='parasite'then
+  if not e.act2Last then return ER.boolean(state,random) and 'double_strike' or 'life_suck' end
+  if n<20 then
+   if e.act2Last~='fell'then return 'fell' end
+   n=random(state,80)+19
+  end
+  if n<60 then return twice(e,'double_strike') and 'life_suck' or 'double_strike' end
+  return twice(e,'life_suck') and 'double_strike' or 'life_suck'
+ elseif policy=='chosen'then
+  if not e.act2Last then return 'poke' end
+  if not e.act2HexUsed then e.act2HexUsed=true;return 'hex' end
+  if e.act2Last~='drain' and e.act2Last~='debilitate'then return n<50 and 'debilitate' or 'drain' end
+  return n<40 and 'zap' or 'poke'
+ elseif policy=='snake'then
   if n<65 then return twice(e,'chomp') and 'spores' or 'chomp' end
   return e.act2Last=='spores' and 'chomp' or 'spores'
  elseif policy=='champ'then
@@ -59,13 +73,15 @@ function M.initialize(state,e,random)
  e.act2Last,e.act2Previous=nil,nil
  e.act2Stabs=1
  e.act2Turns,e.act2Forges,e.act2Enraged=0,0,false
- setMove(e,choose(state,e,random(state,100)-1))
+ e.act2HexUsed=false
+ setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.advance(state,e,random)
  e.act2Previous,e.act2Last=e.act2Last,e.intents[e.intentIndex].id
- setMove(e,choose(state,e,random(state,100)-1))
+ setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.preBattle(state,e)
+ if e.ai.policy=='parasite'then A.applyPower(state,e,'plated_armor',14,e);A.block(state,e,14,true) end
  if e.ai.policy=='snake'then A.applyPower(state,e,'malleable',3,e) end
  if e.ai.policy=='book'then A.applyPower(state,e,'painful_stabs',1,e) end
  if e.ai.policy=='sphere'then
@@ -73,5 +89,8 @@ function M.preBattle(state,e)
   A.applyPower(state,e,'artifact',3,e)
   A.block(state,e,40,true)
  end
+end
+function M.beforeAction(e,intent)
+ if e.ai.policy=='parasite' and intent.id=='stunned'then select(e,'fell') end
 end
 return M

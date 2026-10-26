@@ -64,7 +64,7 @@ test('Mystic A0 history forbids three consecutive attacks, buffs, or heals',func
  AI.advance(s,h,roll(99));eq(intent(h),'attack')
 end)
 test('unimplemented chapter rooms reject without consuming queue or generation',function()
- local r=room('Chosen');local queue=r.encounters;local gen=r.roomGeneration
+ local r=room('3 Byrds');local queue=r.encounters;local gen=r.roomGeneration
  local ok,reason=Run.startRoomCombat(r,'normal');eq(ok,false);eq(reason,'act_content_unavailable')
  eq(r.encounters,queue);eq(r.roomGeneration,gen);eq(r.phase,'map')
 end)
@@ -124,5 +124,46 @@ test('Champ fourth selected move Taunts and defensive stance grants end-turn Met
  assert(C.endTurn(s));eq(e.block,20);eq(e.statuses.metallicize,5)
  AI.initialize(s,e,roll(99));AI.advance(s,e,roll(99));AI.advance(s,e,roll(99))
  AI.advance(s,e,roll(99));eq(intent(e),'taunt')
+end)
+test('Chosen A0 opens Poke then Hex, alternates debuffs and attacks at source cutoffs',function()
+ local s=battle({'chosen'});local e=s.enemies[1]
+ AI.initialize(s,e,roll(99));eq(intent(e),'poke')
+ AI.advance(s,e,roll(99));eq(intent(e),'hex')
+ AI.advance(s,e,roll(49));eq(intent(e),'debilitate')
+ AI.advance(s,e,roll(39));eq(intent(e),'zap')
+ AI.advance(s,e,roll(50));eq(intent(e),'drain')
+ AI.advance(s,e,roll(40));eq(intent(e),'poke')
+end)
+test('Hex is Artifact-blockable and inserts Dazed below the top without drawing on an empty pile',function()
+ local s=C.new(Data,{enemies={'chosen'},deck={'defend','strike'},seed=42})
+ local e=s.enemies[1];AI.advance(s,e,roll(99))
+ A.applyPower(s,s.player,'artifact',1,s.player)
+ C.applyEffects(s,e.intents[e.intentIndex].effects,e,s.player);eq(s.player.statuses.hex,nil);eq(s.player.statuses.artifact,0)
+ C.applyEffects(s,e.intents[e.intentIndex].effects,e,s.player);eq(s.player.statuses.hex,1)
+ local before=s.cardRandomRng.counter;local uid
+ for _,c in ipairs(s.hand)do if c.cardId=='defend'then uid=c.uid end end
+ assert(C.play(s,uid));eq(#s.draw,1);eq(s.draw[1].cardId,'dazed');eq(s.cardRandomRng.counter,before)
+ local r=C.new(Data,{enemies={'chosen'},deck={'defend'},seed=42})
+ A.applyPower(r,r.player,'hex',1,r.enemies[1])
+ r.draw={{cardId='strike',uid=100},{cardId='bash',uid=101}};before=r.cardRandomRng.counter
+ assert(C.play(r,r.hand[1].uid));eq(r.draw[#r.draw].cardId,'bash');eq(r.cardRandomRng.counter,before+1)
+end)
+test('Shelled Parasite starts with 14 armor/block and opening Boolean consumes a second AI draw',function()
+ local streams=Run.roomStreams({runSeed='42'},18)
+ local s=C.new(Data,{enemies={'shelled_parasite'},deck={},seed=42,roomSeed=streams.seed,roomStreams=streams})
+ local e=s.enemies[1];eq(e.statuses.plated_armor,14);eq(e.block,14);eq(s.aiRng.counter,2)
+ assert(intent(e)=='double_strike' or intent(e)=='life_suck')
+ e.block=0;e.hp=e.maxHp-20
+ for i,v in ipairs(e.intents)do if v.id=='life_suck'then e.intentIndex=i end end
+ s.player.block=7;local hp=e.hp;assert(C.endTurn(s));eq(e.hp,hp+3);eq(e.block,14)
+end)
+test('Parasite armor break interrupts to Stunned then uses Fell history for its bounded reroll',function()
+ local s=battle({'shelled_parasite'});local e=s.enemies[1];e.block=0
+ for _=1,14 do C.damage(s,s.player,e,1) end
+ eq(e.statuses.plated_armor,0);eq(intent(e),'stunned')
+ local hp=s.player.hp;assert(C.endTurn(s));eq(s.player.hp,hp)
+ for i,v in ipairs(e.intents)do if v.id=='fell'then e.intentIndex=i end end
+ local seen={};AI.advance(s,e,function(_,max)seen[#seen+1]=max;return 1 end)
+ eq(table.concat(seen,','),'100,80');eq(intent(e),'double_strike')
 end)
 print('LUA_ACT2_ENEMIES_PASS '..count)
