@@ -122,6 +122,15 @@ function M.adapt(state,instance,d)
     return d
 end
 function M.canUse(state,d)
+    local needsClassPool=d.id=='discovery' or d.id=='chrysalis' or d.id=='metamorphosis'
+    for _,effect in ipairs(d.effects)do if effect.op=='generateAttack'then needsClassPool=true end end
+    if needsClassPool then
+        for _,rarity in ipairs({'common','uncommon','rare'})do
+            for _,id in ipairs(state.sourcePools and state.sourcePools.src and state.sourcePools.src[rarity] or {})do
+                if not state.catalog.cards[id]then return false,'incomplete_generation_pool:'..id end
+            end
+        end
+    end
     if d.id=='secret_weapon'or d.id=='secret_technique'then
         local kind=d.id=='secret_weapon'and 'attack'or 'skill'
         for _,c in ipairs(state.draw)do if state.catalog.cards[c.cardId].type==kind then return true end end

@@ -98,6 +98,7 @@ function M.prepare(data,id)
     prepared.experimentalCharacter=id
     local profile={id=id,color=spec.color,experimental=true,maxHp=spec.hp,energyPerTurn=3,drawPerTurn=5,startingGold=99,
         startingRelic=spec.relic,starterDeck=copy(deck),enableStances=true,enableOrbs=true,startingOrbSlots=id=='defect' and 3 or 0}
+    require('abyss_class_card_pools').apply(prepared,id)
     return prepared,profile
 end
 return M

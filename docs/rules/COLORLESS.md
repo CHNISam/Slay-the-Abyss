@@ -14,3 +14,5 @@
 生产定向测试：`colorless_cards.lua`、`colorless_actions.lua`、`colorless_powers.lua`、`colorless_run.lua`。覆盖基本/升级数值、完整目录边界、永久与回合成本、批次选牌先于随机插入、生成资格、X消耗、UID上限/陈旧token拒绝、Mayhem抽牌后自动出牌、五牌触发、Artifact、第三次结束爆破、击杀金币、无实体、合法跨节点匕首增长及生成复制身份。另保留Combat、PostCombatActions、NativePowerExpiration回归。没有把目录注册当作逐卡逐交互全通过。
 
 当前证据边界：代码与上述离线测试；没有构建GIL、平台导入、键鼠输入或实机游玩。Discovery需与药水提交整合验收；三职业完整来源池与缺牌依赖继续独立处理。原有`character_presentation.lua`长fixture两次在30秒边界超时（前两职业输出成功），不提高时限、不把定向绿灯当完整Quality通过。
+
+后续来源池切片：`abyss_class_card_pools`由固定catalog的HashMap遍历顺序登记三职业各71张非基础牌，分别保留奖励、逆序src与按sourceId排序商店桶；元数据逐项与独立catalog核对。Profiles不再继承战士src池，Run奖励不再从已实现实验子集均匀抽取。完整池中缺失的14/19/20张牌继续保留身份，Chrysalis/Metamorphosis/Discovery等依赖缺定义时在支付/随机消费前明确拒绝；这不代表三职业完整内容已可玩。新增`class_card_source_pools.lua`真实Profiles→Combat/Run回归及JS逐项目录对照。便携Node24.18.0按原30秒预算复验长presentation fixture仍超时，已输出前6组成功（含四职业逐卡渲染）；原Node22失败记录不改写。

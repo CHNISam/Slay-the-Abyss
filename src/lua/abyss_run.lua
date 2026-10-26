@@ -455,18 +455,6 @@ function M.restoreEncounters(run,snapshot)
     return true
 end
 
-local function rewardCandidates(run)
-    local candidates = {}
-    for _, card in ipairs(run.data.cards.cards) do
-        if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special"
-            -- Boss rewards are rare-only; other tiers retain their current pool.
-            and (run.encounterTier ~= "boss" or card.rarity == "rare")
-            and Capability.isImplemented(card) then candidates[#candidates + 1] = card.id end
-    end
-    return candidates
-end
-
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
@@ -499,19 +487,8 @@ local function finishCombat(run)
         assert(type(gold) == "number", "unknown encounter reward tier")
         if allEscaped then gold = 0 end
     end
-    local choices
-    if run.characterProfile and not run.characterProfile.originalV4 then
-        -- Explicit experimental subsets retain their documented own-class
-        -- sampler. The production source pool is Ironclad-only.
-        local pool=rewardCandidates(run);choices={}
-        for _=1,math.min(run.data.rules.rewards.cardChoices,#pool) do
-            choices[#choices+1]=table.remove(pool,Combat.random(run,#pool))
-        end
-    else
-        local nextCardRng,offset
-        choices,nextCardRng,offset=CardPool.prepareRewards(run)
-        run.cardRng,run.cardRarityOffset=nextCardRng,offset
-    end
+    local choices,nextCardRng,offset=CardPool.prepareRewards(run)
+    run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,

@@ -7,6 +7,7 @@
     "abyss_potion_generation": "core",
     "abyss_potion_discovery": "core",
     "abyss_potion_fairy": "core",
+    "abyss_class_card_pools": "core",
     "abyss_colorless_cards": "core",
     "abyss_act2_summons": "core",
     "abyss_action_queue": "core",
