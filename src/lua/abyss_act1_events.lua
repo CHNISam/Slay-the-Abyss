@@ -2,7 +2,7 @@
 -- are retained; rewards use Run's permanent inventory transaction boundary.
 local Run=require('abyss_run')
 local Purge=require('abyss_living_wall')
-local M={ids={sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true}}
+local M={ids={sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true}}
 function M.prepare(run,event)
     if event.id=='big_fish' then event.healAmount=math.floor(run.maxHp/3) end
 end
@@ -49,6 +49,9 @@ function M.options(run,event,upgradeCards)
     elseif id=='bonfire' then
         if not stage then return {row('approach','靠近','靠近篝火中的元素。')} end
         return {row('offer','献祭','移除一张非瓶装可清除卡牌，按稀有度获得回报。')}
+    elseif id=='transmogrifier' then
+        if stage=='choose_card' then return {row('change','变换','必须选择一张卡牌变换。')} end
+        return {row('change','变换','将一张非瓶装可清除卡牌变换为随机的新卡牌。'),row('leave','离开','离开神龛。')}
     end
     return {}
 end
@@ -132,6 +135,12 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
             instance.upgraded=true;event.upgradedUids={uid}
             return result(run,'所选卡牌已升级。')
         end
+    elseif event.id=='transmogrifier' then
+        if not event.stage and choice=='leave' then return result(run,'你离开了变换神龛。') end
+        if choice~='change' then return false,'invalid_event_choice' end
+        local ok,status=Purge.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+        if not ok or status~='complete' then return ok,status end
+        return result(run,event.empty and '没有可变换的卡牌。' or '所选卡牌已变换。')
     elseif event.id=='bonfire' then
         if not event.stage and choice=='approach' then
             event.stage='choose';event.body='篝火中的元素等待一张卡牌。';return true,'pending'

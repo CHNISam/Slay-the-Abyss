@@ -66,6 +66,7 @@
     "abyss_enemy_ai": "core",
     "abyss_enemy_random": "core",
     "abyss_event_pool": "core",
+    "abyss_event_transform_context": "core",
     "abyss_events": "core",
     "abyss_external_random": "core",
     "abyss_feedback": "ui",

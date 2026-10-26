@@ -19,6 +19,8 @@ M.contentId['Liars Game']='sssserpent'
 M.contentId['Big Fish']='big_fish'
 M.contentId['Accursed Blacksmith']='accursed_blacksmith'
 M.contentId['Bonfire Elementals']='bonfire'
+M.contentId.Transmorgrifier='transmogrifier'
+M.contentId['Living Wall']='living_wall'
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end

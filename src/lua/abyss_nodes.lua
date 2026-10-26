@@ -302,6 +302,7 @@ function M.view(run, map)
             node.upgradesLeft=1
             if node.event.id=='living_wall' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id=='bonfire' then node.event.purgeCards=LivingWall.purgeCards(run) end
+            if node.event.id=='transmogrifier' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
