@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 21:42'
+updated_date: '2026-10-26 22:31'
 due_date: '2026-10-28'
 labels:
   - required
@@ -48,6 +48,8 @@ ordinal: 43000
 2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
 
 2026-10-27 共享阶段独立复审实证Run.endTurn/Run.chooseCard在核心胜利后遇到奖励晚失败无法重试。父线程在Run公开边界复用完整Snapshot，保留原throw/false语义和同一Run/Combat/队列/实体/RNG身份；先用正常来源房间、公开取得WLP/Omega+/EnergyPotion证红，再覆盖直接结束回合与保留选择续跑两入口的完整回滚/重试。Core回合末和怪物片仍各自隔离，不扩大至无证据接口。
+
+完整RC相邻回归实证普通宿主漏调Orichalcum。父复用已核遗物资格函数，将固定6格挡与前置能力/球放同一现队列、保留V4原路径；先原common九例/双派发交错红，再检查有无原格挡、末敌清队列、RNG与失败重试，不按职业条件补规则。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -100,4 +102,6 @@ ordinal: 43000
 2026-10-27 公开Run边界追加显式false结算拒绝：精确8ed预载throw两绿/reject两真红，当前四例全绿12.870秒；保留原抛错/拒绝reason与完整身份回滚，不吞下游拒绝。WLP阶段最终组合仍待父接入3dc091。
 
 2026-10-27 父真实300+Shapes+Maw组合已接3dc共享阶段：39专用例全部通过；公开Run含WLP→Omega真实暂停续跑的throw/reject六例17.625秒通过，整原图及同token重试与无故障局一致。156模块/897边、105旧告警/无新增、4语义变异通过。UI来源说明超15的真实失败已通过职责提取修复，门槛不改。完整RC门禁/平台仍待后续。
+
+2026-10-27 相邻完整回归补Orichalcum：原common九例8绿1红、双派发新队列六例3绿3红；复用纯资格与现prelude后原九例及新八例全绿（1.514/1.201秒），包含源TOP6/Metal3/Orb/Jugg BOT、RNG和仅该遗物晚失败重试。旧Act2移除零层护甲的nil/0夹具按固定RemovePower更正并加不再格挡，原34例全绿6.237秒；生产敌人规则未改。新源锁/边界见M3-ORICHALCUM-END-TURN-20261027。完整RC CI仍待结果。
 <!-- SECTION:NOTES:END -->

@@ -278,10 +278,14 @@ function M.battleStart(state,id)
   end
  else error('unsupported battle hook '..tostring(id))end
 end
-function M.onPlayerEndTurn(state)
+function M.endTurnBlock(state)
  if not A.isActive(state.player)then return end
  -- Fixed GainBlockAction bypasses Dexterity/Frail. Eligibility is observed at
  -- hook dispatch, before end-turn cards/powers, not after their queued effects.
- if M.owns(state,'orichalcum') and state.player.block==0 then A.block(state,state.player,6,true)end
+ if M.owns(state,'orichalcum') and state.player.block==0 then return 6 end
+end
+function M.onPlayerEndTurn(state)
+ local amount=M.endTurnBlock(state)
+ if amount then A.block(state,state.player,amount,true)end
 end
 return M

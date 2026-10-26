@@ -1857,7 +1857,7 @@ local function endNativeTurn(state)
     local resumingRetain=state.silentRetainResume
     if not resumingRetain then
     if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
-    RelicHooks.onPlayerEndTurn(state)
+    if state.originalV4 then RelicHooks.onPlayerEndTurn(state)end
     -- AbstractRoom.endTurn resets these three piles before queued end-turn
     -- cleanup; exhaust is deliberately excluded. Exhume can recover a card
     -- that kept a temporary cost while it was out of those piles.

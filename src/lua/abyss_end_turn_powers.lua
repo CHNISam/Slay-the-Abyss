@@ -15,6 +15,7 @@ local function add(out,effect)
 end
 function M.needed(state,extension)
  local p=state.player
+ if require('abyss_relic_hooks').endTurnBlock(state)then return true end
  if p.noDraw or (p.temporaryStrength or 0)>0 or (p.temporaryDexterity or 0)>0 or state.orbs and #state.orbs.balls>0 then return true end
  for id in pairs(p.statuses)do if ids[id]or preCards[id]or extension and extension.ownerEndIds and extension.ownerEndIds[id]then return true end end
  for _,b in ipairs(state.colorlessBombs or {})do if b.turns>0 then return true end end
@@ -22,6 +23,8 @@ function M.needed(state,extension)
 end
 function M.preparePreCards(state)
  local out={}
+ local relicBlock=require('abyss_relic_hooks').endTurnBlock(state)
+ if relicBlock then add(out,{op='ownerPreCardBlock',value=relicBlock})end
  for _,entry in ipairs(Schedule.ownerEnd(state,preCards))do
   if entry.id~='like_water'or state.player.stance=='Calm'then add(out,{op='ownerPreCardBlock',value=entry.amount})end
  end

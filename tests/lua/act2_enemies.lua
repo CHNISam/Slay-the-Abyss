@@ -162,8 +162,8 @@ end)
 test('Parasite armor break interrupts to Stunned then uses Fell history for its bounded reroll',function()
  local s=battle({'shelled_parasite'});local e=s.enemies[1];e.block=0
  for _=1,14 do C.damage(s,s.player,e,1) end
- eq(e.statuses.plated_armor,0);eq(intent(e),'stunned')
- local hp=s.player.hp;assert(C.endTurn(s));eq(s.player.hp,hp)
+ eq(e.statuses.plated_armor,nil);eq(intent(e),'stunned')
+ local hp=s.player.hp;assert(C.endTurn(s));eq(s.player.hp,hp);eq(e.block,0)
  for i,v in ipairs(e.intents)do if v.id=='fell'then e.intentIndex=i end end
  local seen={};AI.advance(s,e,function(_,max)seen[#seen+1]=max;return 1 end)
  eq(table.concat(seen,','),'100,80');eq(intent(e),'double_strike')
