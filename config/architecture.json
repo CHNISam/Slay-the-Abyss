@@ -109,6 +109,7 @@
     "abyss_unknown": "core",
     "abyss_viewport": "ui",
     "abyss_copy": "core",
+    "abyss_acts": "core",
     "abyss_original_v4": "core",
     "abyss_original_v4_profiles": "core",
     "abyss_original_v4_health": "core",

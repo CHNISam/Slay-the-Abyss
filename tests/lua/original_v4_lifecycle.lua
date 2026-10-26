@@ -167,4 +167,75 @@ for _,uses in pairs(s.originalV4.guests)do eq(uses,1)end
 s=F.state('RD',40);s.originalV4.resolve=6;F.play(s,'RD2-004',false,1)
 F.play(s,'RD2-001',false,1);F.play(s,'RD2-001',false,1)
 eq(s.originalV4.nextEnergy,1);assert(C.endTurn(s));eq(s.energy,4);eq(s.originalV4.nextEnergy,0)
+-- Cross-act boundary fixtures exercise the shared transition, not unavailable
+-- later-act enemies. Ordinary original runs keep their Act1 victory contract.
+local function same(a,b)
+    assert(type(a)==type(b),'cross-act owner type changed')
+    if type(a)~='table'then eq(a,b);return end
+    for key,value in pairs(a)do same(value,b[key])end
+    for key in pairs(b)do assert(a[key]~=nil,'cross-act owner gained '..tostring(key))end
+end
+local function bossChestBoundary(run)
+    local map=Map.generate(run.data,run.runSeed,1)
+    while #Map.available(map)>0 do assert(Map.choose(map,Map.available(map)[1].id))end
+    run.floor,run.phase=17,'node'
+    run.nodeFlow={id=map.currentNodeId,floor=map.floor,type='treasure',roomKind='boss_treasure',
+        mapSeed=map.seed,mapSignature=map.sourceSignature,complete=false,reward={relics={}}}
+    return map
+end
+for character,role in pairs(roles)do
+    assert(not pcall(R.new,F.data,'42',{character=character,campaign=true}),
+        'original identity bypassed the explicit development campaign gate')
+    assert(not pcall(R.new,F.data,'42',{character=character,campaign='yes'}))
+    local run=R.new(F.data,'42',{character=character,experimental=true,campaign=true})
+    assert(R.startRoomCombat(run,'normal'))
+    local command='cross-act-prior-'..role
+    local played,oldUid,oldTarget
+    for _,held in ipairs(run.combat.hand)do
+        local target
+        if not C.canPlay(run.combat,held.uid,nil)then target=1 end
+        if C.canPlay(run.combat,held.uid,target)then
+            assert(R.play(run,held.uid,target,command))
+            played,oldUid,oldTarget=true,held.uid,target;break
+        end
+    end
+    assert(played and run.originalCommands[command],'fixture did not commit a real original command')
+    local map=bossChestBoundary(run)
+    run.deck[1].upgraded=true
+    run.hp=3;run.gold=345;run.potions={'block_potion'};run.relicCounters={persisted=3}
+    local expected={data=run.data,profile=C.copy(run.characterProfile),deck=C.copy(run.deck),
+        relics=C.copy(run.relics),potions=C.copy(run.potions),counters=C.copy(run.relicCounters),
+        commands=C.copy(run.originalCommands),uid=run.nextDeckUid,generation=run.combatGeneration}
+    assert(N.claimBossTreasure(run,0));eq(run.phase,'act_transition');eq(run.pendingAct,2)
+    assert(N.advanceAct(run,map));eq(run.act,2);eq(run.phase,'map');eq(map.floor,17)
+    eq(run.character,character);eq(run.data,expected.data);eq(run.data.originalV4Role,role)
+    same(run.characterProfile,expected.profile);same(run.deck,expected.deck)
+    same(run.relics,expected.relics);same(run.potions,expected.potions);same(run.relicCounters,expected.counters)
+    same(run.originalCommands,expected.commands);eq(run.nextDeckUid,expected.uid)
+    eq(run.combatGeneration,expected.generation);eq(run.combat,nil);eq(run.hp,run.maxHp);eq(run.gold,345)
+    local checkpoint=R.snapshotEncounters(run);assert(R.restoreEncounters(run,checkpoint))
+    local replay,why=R.play(run,oldUid,oldTarget,command);assert(replay);eq(why,'already_committed')
+    same(run.deck,expected.deck);eq(run.gold,345)
+    assert(not N.advanceAct(run,map),'duplicate original chapter transition accepted')
+    local entered,reason=N.enter(run,map,Map.available(map)[1].id)
+    assert(not entered);eq(reason,'act_content_unavailable')
+    -- Fresh battle construction is isolated because the upstream chapter content
+    -- gate deliberately blocks the normal Act2 room; do not relabel it a route.
+    local fresh=C.new(run.data,{seed=42,hp=run.hp,maxHp=run.maxHp,deck=run.deck,enemies={'cultist'}})
+    eq(fresh.originalV4.role,role);eq(fresh.originalV4.healUsed,0);eq(fresh.originalV4.infuse,0)
+    eq(fresh.originalV4.bond,0);eq(fresh.originalV4.fan,0);eq(fresh.originalV4.resolve,0)
+    eq(fresh.originalV4.eye.uses,0);eq(fresh.originalV4.musou.uses,0)
+    local found={}
+    for _,pile in ipairs({fresh.hand,fresh.draw})do for _,held in ipairs(pile)do found[held.uid]=held end end
+    for _,held in ipairs(run.deck)do assert(found[held.uid]);eq(found[held.uid].upgraded,held.upgraded)end
+end
+-- Both chapter boundaries have floor17/roomGeneration0 and full queue lengths:
+-- the queue's own act must fence a stale first-act checkpoint.
+local campaign=R.new(F.data,'42',{character='furina',experimental=true,campaign=true})
+local campaignMap=bossChestBoundary(campaign)
+local priorChapter=R.snapshotEncounters(campaign)
+assert(N.claimBossTreasure(campaign,0) and N.advanceAct(campaign,campaignMap))
+local restored,restoreWhy=R.restoreEncounters(campaign,priorChapter)
+assert(not restored);eq(restoreWhy,'encounter_act_mismatch');eq(campaign.encounters.act,2)
+print('ORIGINAL_V4_CROSS_ACT_PASS 4 identities inventory commands new-battle reset and queue fence')
 print('ORIGINAL_V4_LIFECYCLE_PASS '..count..' channels modifiers cleanup')

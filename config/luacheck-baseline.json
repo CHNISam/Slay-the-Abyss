@@ -1,8 +1,8 @@
 {
-  "owner": "TASK-69",
+  "owner": "TASK-72",
   "reviewedDate": "2026-10-26",
   "previousEngineeringSource": "b6a29e41533a2981e7e7c1199bdc3f297ec8ed82",
-  "reason": "Latest develop warnings only, relocated by V4 integration; no new kinds, globals or syntax exemptions.",
+  "reason": "Current cross-act develop baseline, V4 integration relocates existing warnings only; no new diagnostic/global/syntax exemptions.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -712,27 +712,6 @@
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 405,
-      "column": 21,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 536,
-      "column": 25,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 589,
-      "column": 24,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
       "file": "src/lua/abyss_potion_discard_ui.lua",
       "line": 34,
       "column": 18,
@@ -835,10 +814,10 @@
     "abyss_deck_ui": "dd85ba756be40f7ae2b47468d14e08eb7f7548fb2d63818b2ad4817b4dbb8414",
     "abyss_effects": "040844e29308e444a84fc42369d36128aacc034e181105997c40603d2e34fdfe",
     "abyss_encounter_formation": "d57cad542b761375e94fff3734cb417e0230ef0089a2eec7178f94b8380d1400",
-    "abyss_encounter_queue": "4c75a362e405b4ece1494524e1cc202e908a65f257a731843cde080aa876076f",
+    "abyss_encounter_queue": "478af37a11136ae179796838518ce123f63b7f3f880b8f60fcfea22f47033eaf",
     "abyss_enemy_ai": "192d40beec8efce60f3516169f76485274d7ecd8a97172531461dbb70c5fc23f",
     "abyss_enemy_random": "21ce08c3a7c031f260565e47cef6356141c888d4a89e7f5643fcc1693f3095a1",
-    "abyss_event_pool": "efcdc3c7db0bdf9410d97bade8499a94a23159773ee602474a82af145176536e",
+    "abyss_event_pool": "aa50de02e3e1721b6d70aaf31f4c5a69f7b1d0271e204948574e92a49fe17839",
     "abyss_events": "ddf541d3447a4403c33f97dd1a54346f742be996abdbb0ed8030c7d8a13920f9",
     "abyss_external_random": "e328762910a732b84bd20b1d800f7372e0295156a8e66fae146acf758e834702",
     "abyss_feedback": "a0ad73412faacea47e75fea90fd726adcdcf0286f411f52c8de2cf3b913065ae",
@@ -853,14 +832,14 @@
     "abyss_living_wall": "99757cfae305bc27a0ec45853e21f6d4bc305779c1ad621f97ea5c4e8ddde799",
     "abyss_looter_ai": "3102c48a8b15714bb62bf6a68d53ba54a46fb8a085fdf05d243a8a2d07965f67",
     "abyss_louse_ai": "aaf2c3d2c85517ba10e418467efa1d358fdea1f46e7ec5b7a6c588bf965e7619",
-    "abyss_map": "46ab10319f6a8cce81dc19a778f1995ca992039dc35b4b7c2b02c7a464f66d96",
-    "abyss_map_rooms": "e9fa282510fd34d1ccb1e7e92c2488b99c55392e3933b0cb75a9eac8c7515517",
-    "abyss_map_topology": "359598f43fdae9f6e7db629c7b700301a9725c2873f557b1bee7df57f19707f5",
+    "abyss_map": "1a7ed43529ed0ee876fb83ea265c2a080f336af2dd034241e15d98480e4d5873",
+    "abyss_map_rooms": "eef10661bd77af2e9464e4eab7199c0d487f72b1ba412cf0867f970169569e2c",
+    "abyss_map_topology": "0b07a3269a9110c82a3a88b9fdd25313555a5e44d6121d86606f70ed654ed788",
     "abyss_map_ui": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836",
     "abyss_merchant": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9",
     "abyss_new_run_seed": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
     "abyss_node_ui": "6927d3d7eb7c758b843eb570c10158f6ab03dc1e0c6d7f185596b9707442d4d8",
-    "abyss_nodes": "bfd8c309336322bdecf3570248b08d7decd0ed88be34d9afafe5961fec43a25b",
+    "abyss_nodes": "400d2307670a6958ddd1e80f5ec407b15db9c864c8e6d69701323a0e297221d5",
     "abyss_numbers": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80",
     "abyss_potion_discard_ui": "638186594d5c27c50dced4a0edeb54946df5f6e8fc8257cbaeda626c1f6ce75a",
     "abyss_potion_health": "739b13c6baccb814a4ed3fe02c6a5702842e64e175be4683bd551d4fdeb70f8c",
@@ -873,8 +852,8 @@
     "abyss_relic_hooks": "3f3dec65b7d961285af37e689485e4309179bb2e4bdb9fd14fec5f2ddf060b0b",
     "abyss_relic_pool": "b85b11473d1aa501bc44dff1afc1d773b1967ef5ef117f51b7e44b125ed05cc7",
     "abyss_room_encounters": "f2e377c002ead24bdcf1ec71eece13290445980d2cd5ac142abc100ed560d73e",
-    "abyss_run": "3dbedce1843afc91539c2da2ddb183343f690b73cda139e009a5bfb8a0b05db7",
-    "abyss_run_seed": "3b0e5f483f563bf5866e6cbdbfc2502f3dc3b56244415bd43ccc7af9dbe2f74b",
+    "abyss_run": "43df9adf3915e6ccaa930f159f8bac279333da8e6a15d4c9f1a6e50a7327c634",
+    "abyss_run_seed": "d94d44a66d183f6ffd5b1e082f7a14de66cc6969b0257b4920bc8c94616a576c",
     "abyss_sentry_ai": "0afbd957931ed31173799f4873fa327e5df809e520633daff8a780f3bac11651",
     "abyss_shop": "580429cafa6280eb4b9907e9e1d6fa2d862ce39642455ffa3d2fd692a15f8f3a",
     "abyss_shop_price": "c882362aba486ae139b1d0bec7e67b5bd1b85f4cf812c3d365573a2ac7b45a1f",
@@ -884,6 +863,7 @@
     "abyss_ui": "dac3019dbc568a5af490af6042359d8ce47442df2ec335420a36672b98c0d347",
     "abyss_unknown": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c",
     "abyss_viewport": "148f69891a344254b90b3fd68ca22187fa48248036e6fe1dd318d38bd29c10dd",
-    "src/lua/abyss_run.lua": "3dbedce1843afc91539c2da2ddb183343f690b73cda139e009a5bfb8a0b05db7"
+    "src/lua/abyss_run.lua": "43df9adf3915e6ccaa930f159f8bac279333da8e6a15d4c9f1a6e50a7327c634",
+    "src/lua/abyss_nodes.lua": "400d2307670a6958ddd1e80f5ec407b15db9c864c8e6d69701323a0e297221d5"
   }
 }

@@ -1,5 +1,5 @@
 ---
-id: TASK-63
+id: TASK-71
 title: 显示原创角色卡牌说明与战斗资源
 status: Done
 assignee:
