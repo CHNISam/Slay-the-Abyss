@@ -58,6 +58,12 @@ function M.suicideExploder(state,enemy)
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,enemy,before)end
 end
 
+function M.suicideTransient(state,enemy)
+    local before=enemy.hp;Actors.suicideTransient(state,enemy)
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,enemy,before)end
+    CardActions.drain(M,state)
+end
+
 local function resolveEffects(state, effects, source, target, playedCard, queuedEnemyAction)
     if queuedEnemyAction then
         assert(state.phase == "enemy" and source ~= state.player and target == state.player, "invalid queued enemy action")
@@ -117,6 +123,9 @@ end
 -- Split children use the source's explicit-HP constructor, without an HP draw.
 local function makeEnemy(state, id, serial, explicitHp)
     local enemy = copy(assert(state.catalog.enemies[id], "unknown enemy: " .. tostring(id)))
+    if enemy.ai and enemy.ai.kind=='act3'and enemy.ai.policy=='transient'then
+        require('abyss_act3_enemies').bindSharedStatuses(state.catalog.statuses,copy)
+    end
     if not explicitHp and enemy.ai and enemy.ai.preHpRoll then hpRandom(state,enemy.ai.preHpRoll) end
     if explicitHp then enemy.hp = explicitHp
     elseif enemy.hpRange then
@@ -1802,10 +1811,13 @@ local function endExperimentalTurn(state)
             elseif intent.kind == "escape" then assert(M.escapeEnemy(state, enemy), "invalid escape")
             else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
             if finish(state) then return true end
+            require('abyss_act3_powers').duringTurn(M,state,enemy)
+            if finish(state)then return true end
             -- Thorns can kill this attacker while other enemies remain alive.
             if Actors.isActive(enemy) then
                 Actors.endTurn(state, enemy)
-                local restore=require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy)
+                local deferred=enemy.ai and enemy.ai.kind=='act3'and enemy.ai.policy=='transient'
+                local restore=deferred and {}or require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy)
                 if #restore>0 then
                     local actions={};for _,effect in ipairs(restore) do
                         effect.sourceId=enemy.id;actions[#actions+1]={kind='effect',effect=effect}
@@ -1822,6 +1834,7 @@ local function endExperimentalTurn(state)
             if finish(state) then return true end
         end
     end
+    for _,enemy in ipairs(state.enemies)do require('abyss_act3_powers').ownerEnd(Actors,state,enemy)end
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
     state.keepBlockOnNextStart=state.player.statuses.blur~=nil or nil
@@ -1973,6 +1986,8 @@ local function endNativeTurn(state)
             CardActions.drain(M,state)
             if state.originalV4 then require('abyss_original_v4').endEnemyAction(M,state) end
             if finish(state) then return true end
+            require('abyss_act3_powers').duringTurn(M,state,enemy)
+            if finish(state)then return true end
             -- Thorns can kill this attacker while other enemies remain alive.
             if Actors.isActive(enemy) then
                 Actors.endTurn(state, enemy)
@@ -1991,6 +2006,7 @@ local function endNativeTurn(state)
     end
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
+    for _,enemy in ipairs(state.enemies)do require('abyss_act3_powers').ownerEnd(Actors,state,enemy)end
     Actors.endRound(state, state.player)
     for _, enemy in ipairs(state.enemies) do
         if Actors.isActive(enemy) then Actors.endRound(state, enemy) end

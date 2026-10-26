@@ -1,0 +1,132 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Third-party fixed decompiled methods; independent model and production Lua, not original-PC execution",
+  "archive": {
+    "file": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+    "sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458"
+  },
+  "files": [
+    {
+      "path": "monsters/beyond/Transient.java",
+      "sha256": "338c8587e8d17ade684cb6ff6cc31642deaf7c6d447a6456e68929857ae7c284"
+    },
+    {
+      "path": "powers/ShiftingPower.java",
+      "sha256": "6e597172b956f1ff97b7e423aa66a2bd32c562beb2ee578d4426c35ce403d5c1"
+    },
+    {
+      "path": "powers/FadingPower.java",
+      "sha256": "5813c38d8acf97d698a5a0f4933066fb79c0e18de398d23ff26744c6deaa6fa6"
+    },
+    {
+      "path": "powers/GainStrengthPower.java",
+      "sha256": "06258d050cb0120eee8812124f59f59c1e541ac705781c8c73b82501632e1799"
+    },
+    {
+      "path": "powers/StrengthPower.java",
+      "sha256": "20b05040efe9d6ad693dd763a658c86df9db1b1ac365351c4c8d81c7f6ca08c9"
+    },
+    {
+      "path": "powers/ArtifactPower.java",
+      "sha256": "7f0c3a5df2f204c6f0fa3fb152a807895b330f26b0f0970f4ef060ee9b919ac7"
+    },
+    {
+      "path": "powers/AbstractPower.java",
+      "sha256": "37a6e97bc1a7a3d0cbfe93fd07e9f809690f7c02f24fd45ec34892466b6e0f9f"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    {
+      "path": "actions/common/SuicideAction.java",
+      "sha256": "66dbf76651c6499205c340d7f9304b031b19fd69cfd596475af209b21aeabd04"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47"
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec"
+    },
+    {
+      "path": "actions/unique/PoisonLoseHpAction.java",
+      "sha256": "43fcf2e88d5295fdf12781cf6980a93941e9814aa0a98a7a9a8b47af0413ba1a"
+    },
+    {
+      "path": "actions/common/LoseHPAction.java",
+      "sha256": "50c9ea9f1aef4a02ff9177d59517f61b03941e9770a23bc50bed8e3d60d69670"
+    },
+    {
+      "path": "powers/PoisonPower.java",
+      "sha256": "b4269eafb2a23282142e9c5460510e4a876d7abb3c62ae6d7a2211b5826ac6c2"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1"
+    },
+    {
+      "path": "powers/IntangiblePlayerPower.java",
+      "sha256": "62ca9eecfd78e5b5a018ef069147d36bd58463b9754c8359d5dfb710bb6c52c8"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    }
+  ],
+  "independentModel": {
+    "generator": "tools/oracles/sts1_transient.py",
+    "generatorSha256LF": "c139012c5001ab55225119528655dce9e8cf4d024100f0bda359bcf63e6001a1",
+    "dependencies": [
+      "tools/oracles/sts1_combat_gold.py",
+      "tools/oracles/sts1_shapes.py"
+    ],
+    "fixture": "tests/fixtures/act3-transient-vectors.lua",
+    "sha256LF": "8380bf3f6bd3bf44e077f31e33df5ca107ecd1ba436113667825fcfa97105a56",
+    "inputs": "1000 player HP and incoming damage/block per row are controlled arithmetic inputs, not natural acquisition"
+  },
+  "contracts": {
+    "hp": 999,
+    "hpDraws": 0,
+    "openingAiDraws": 1,
+    "laterAiDraws": 0,
+    "attacks": [
+      30,
+      40,
+      50,
+      60,
+      70
+    ],
+    "fading": 5,
+    "shiftingDamageTypes": [
+      "NORMAL",
+      "THORNS",
+      "HP_LOSS"
+    ],
+    "shiftingAmount": "onAttacked post-block/post-modifier before HP clamp, includes overkill",
+    "shiftingTopOrder": [
+      "GainStrength/Shackled if no Artifact at hook",
+      "negative Strength"
+    ],
+    "fadingAction": "SuicideAction after attack, before monster owner-end; die(true), not escape",
+    "roomReward": "normal treasureRng 10..20 plus ordinary card/potion rewards; monster.gold does not determine room gold"
+  }
+}

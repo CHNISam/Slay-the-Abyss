@@ -305,6 +305,8 @@ function M.resolveDamageReactions(state, reactions, retaliate)
             if M.isActive(state.player) then M.block(state,state.player,hit.effect.value,true) end
         elseif hit.effect and hit.effect.op=='cardTriggerPoison' then
             require('abyss_card_triggers').resolveEnvenom(state,hit.effect)
+        elseif hit.effect and hit.effect.op=='transientShift'then
+            Act3Powers.resolveShift(M,state,hit.effect)
           elseif hit.effect and hit.effect.op=='defectStatic'then
               require('abyss_defect_final_cards').static(state,hit.effect.value)
         elseif hit.status then
@@ -322,6 +324,7 @@ end
 local function directDamage(state, source, target, amount, status, blocked, reactions)
     if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     amount=require('abyss_defect_final_cards').incoming(state,target,amount)
+    Act3Powers.attacked(state,target,amount,reactions)
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
@@ -351,6 +354,14 @@ function M.instantKill(state,target)
     target.hp=0
     Events.emit(state,'damage',{target=target.id,amount=0,blocked=0})
     require('abyss_relic_hooks').hpChanged(state,target,before)
+    local reactions={};queueDeathPower(state,target,before,reactions)
+    M.resolveDamageReactions(state,reactions)
+end
+
+function M.suicideTransient(state,target)
+    assert(M.isActive(target)and target.ai and target.ai.kind=='act3'and target.ai.policy=='transient','Transient suicide only')
+    local before=target.hp;target.hp,target.gold=0,0
+    Events.emit(state,'enemy_suicide',{enemy=target.id})
     local reactions={};queueDeathPower(state,target,before,reactions)
     M.resolveDamageReactions(state,reactions)
 end
@@ -412,6 +423,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
       unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
+    Act3Powers.attacked(state,target,unblocked,reactions)
     local lost = math.min(target.hp, unblocked)
     Act2Powers.damaged(state,source,target,lost,fixed)
     target.hp = target.hp - lost
@@ -620,7 +632,8 @@ function M.endTurn(state, actor)
     for _,id in ipairs(actor.powerOrder or {}) do if id~='lose_strength' and id~='lose_dexterity' then powers[#powers+1]=id end end
     actor.powerOrder=powers
     if changed then state.events[#state.events].frame = Events.frame(state) end
-    require('abyss_colorless_cards').endOwnerTurn(state,actor)
+    local transient=actor.ai and actor.ai.kind=='act3'and actor.ai.policy=='transient'
+    if not transient then require('abyss_colorless_cards').endOwnerTurn(state,actor)end
     require('abyss_silent_final_cards').endTurn(state,actor)
 end
 

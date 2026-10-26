@@ -9,9 +9,10 @@ end
 function M.advance(state,enemy,random)
  local policy=enemy.ai.policy
  assert(policy=='orb_walker'or policy=='repulsor'or policy=='spiker'or policy=='exploder'
-  or policy=='maw'or policy=='spire_growth','unsupported Act3 AI')
+  or policy=='maw'or policy=='spire_growth'or policy=='transient','unsupported Act3 AI')
  local n=random(state,100)-1
- if policy=='maw'then
+ if policy=='transient'then select(enemy,'attack');return
+ elseif policy=='maw'then
   enemy.mawTurn=enemy.mawTurn+1
   local id
   if not enemy.mawRoared then id='roar'
@@ -55,6 +56,7 @@ function M.initialize(state,enemy,random)
  enemy.spikeCount=enemy.ai.policy=='spiker'and 0 or nil
  enemy.exploderTurns=enemy.ai.policy=='exploder'and 0 or nil
  if enemy.ai.policy=='maw'then enemy.mawTurn,enemy.mawRoared=1,false end
+ if enemy.ai.policy=='transient'then enemy.transientCount=0 end
  M.advance(state,enemy,random)
 end
 function M.preBattle(state,enemy)
@@ -62,15 +64,23 @@ function M.preBattle(state,enemy)
  if policy=='orb_walker'then A.applyPower(state,enemy,'generic_strength_up',3,enemy)
  elseif policy=='spiker'then A.applyPower(state,enemy,'thorns',3,enemy)
  elseif policy=='exploder'then A.applyPower(state,enemy,'explosive',3,enemy)
+ elseif policy=='transient'then
+  A.applyPower(state,enemy,'fading',5,enemy);A.applyPower(state,enemy,'shifting',1,enemy)
  else assert(policy=='repulsor'or policy=='maw'or policy=='spire_growth','unsupported Act3 pre-battle policy')end
 end
 function M.beforeAction(_,enemy,_,intent)
+ if enemy.ai.policy=='transient'then
+  enemy.transientCount=enemy.transientCount+1
+  local nextMove=Copy(enemy.intents[1]);nextMove.effects[1].value=30+enemy.transientCount*10
+  enemy.intents={nextMove}
+ end
  if enemy.ai.policy=='spiker'and intent.id=='spike'then enemy.spikeCount=enemy.spikeCount+1 end
  if enemy.ai.policy=='exploder'then enemy.exploderTurns=enemy.exploderTurns+1 end
  if enemy.ai.policy=='maw'and intent.id=='roar'then enemy.mawRoared=true end
 end
 -- The source RollMoveAction survives attacker death while teammates live.
 function M.afterAction(state,enemy,random)
+ if enemy.ai.policy=='transient'then return end -- takeTurn uses SetMove, never RollMove.
  M.advance(state,enemy,random)
 end
 return M

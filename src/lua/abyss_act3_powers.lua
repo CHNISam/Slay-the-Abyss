@@ -2,6 +2,46 @@
 local Events=require('abyss_events')
 local R=require('abyss_sts_random')
 local M={ownerEndIds={constricted=true}}
+local function transient(actor)
+ return actor.ai and actor.ai.kind=='act3'and actor.ai.policy=='transient'
+end
+-- AbstractMonster.onAttacked gets damage after block/modifiers, before the HP
+-- clamp. Shifting has no DamageType filter; capture Artifact at hook time.
+function M.attacked(_,actor,amount,reactions)
+ if not transient(actor)or (actor.statuses.shifting or 0)<=0 or amount<=0 then return end
+ reactions[#reactions+1]={effect={op='transientShift',target=actor,value=amount,
+  restore=(actor.statuses.artifact or 0)<=0}}
+end
+function M.resolveShift(api,state,effect)
+ local target,n=effect.target,effect.value
+ assert(transient(target)and type(n)=='number'and n>0 and n%1==0,'invalid Shifting reaction')
+ if not api.isActive(target)then return end
+ -- The second addToTop resolves first. Both ApplyPower actions cancel on death.
+ if effect.restore then
+  api.applyPower(state,target,'shackled',math.min(999,n),target)
+  if (target.statuses.shackled or 0)>999 then
+   target.statuses.shackled=999;state.events[#state.events].frame=Events.frame(state)
+  end
+ end
+ api.applyPower(state,target,'strength',-n,target)
+end
+function M.ownerEnd(api,state,actor)
+ if not transient(actor)or not api.isActive(actor)then return end
+ local n=actor.statuses.shackled
+ if n==nil then return end
+ api.applyPower(state,actor,'strength',n,actor)
+ actor.statuses.shackled=nil;require('abyss_power_schedule').remove(state,actor,'shackled')
+ Events.emit(state,'status',{source=actor.id,target=actor.id,status='shackled',amount=-n})
+end
+-- Fading.duringTurn queues behind takeTurn's attack and ahead of the later
+-- monster owner-end phase. This is not escape and does not suppress rewards.
+function M.duringTurn(combat,state,enemy)
+ if not transient(enemy)or enemy.hp<=0 then return end
+ local n=enemy.statuses.fading
+ assert(type(n)=='number'and n%1==0 and n>0,'invalid Fading countdown')
+ if n==1 then combat.suicideTransient(state,enemy)
+ else enemy.statuses.fading=n-1;Events.emit(state,'status',{source=enemy.id,target=enemy.id,status='fading',amount=-1})end
+end
 function M.active(state)
  for _,enemy in ipairs(state.enemies)do if enemy.ai and enemy.ai.kind=='act3'then return true end end
  return false
