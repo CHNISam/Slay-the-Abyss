@@ -75,7 +75,7 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
+local debuffs = { wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
     shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
@@ -103,7 +103,7 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
     if id == "focus" then return require("abyss_focus").apply(state, actor, amount, source) end
     if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
+    assert(integer(amount) and (signed[id] or id=='wraith_form' or amount >= 0), "invalid status amount")
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
     -- regardless of the target's existing signed total. Zero is not an early exit.
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
@@ -139,7 +139,7 @@ end
 
 function M.addStatus(actor, id, amount)
     local definition = assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or amount >= 0), "invalid status amount")
+    assert(integer(amount) and (signed[id] or id=='wraith_form' or amount >= 0), "invalid status amount")
     local before = actor.statuses[id] or 0
     local value = before + 0.0 + amount
     assert(integer(value), "status stack overflow") -- reject before mutating
@@ -147,7 +147,7 @@ function M.addStatus(actor, id, amount)
     if signed[id] then value = math.max(-999, math.min(999, value)) end
     if id == 'plated_armor' and before > 0 then value = math.min(999, value) end
     if definition.stack == "none" then value = value > 0 and 1 or 0 end
-    actor.statuses[id] = signed[id] and value or math.max(0, value)
+    actor.statuses[id] = (signed[id] or id=='wraith_form') and value or math.max(0, value)
     if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
         actor[id .. "JustApplied"] = nil
     end
@@ -227,7 +227,7 @@ function M.statusView(actor)
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
             icon=require('abyss_colorless_cards').powerIcon(id),
             kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
-            description = require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
+            description = require('abyss_silent_final_cards').powerDescription(actor,id)or require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
             temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
     local function resource(id,name,amount,description,icon,duration,kind)
@@ -263,6 +263,7 @@ local function battleEnding(state)
 end
 
 local function queueDeathPower(state, target, before, reactions)
+    require('abyss_silent_final_cards').death(state,target,before)
     if before>0 and target.hp<=0 and not target.escaped then Act2Powers.died(state,target) end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then
@@ -307,11 +308,19 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     local damageOwner=source
     if status=='poison' then damageOwner=nil end
     notifyHpLost(state,damageOwner,target,lost)
-    Events.emit(state, "status_damage", {
-        source = source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
+    Events.emit(state, status=='hp_loss'and 'hp_loss'or "status_damage", {
+        source = source and source.id, target = target.id, status = status, amount = lost, blocked = blocked or 0 })
     require('abyss_relic_hooks').hpChanged(state,target,before)
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     queueDeathPower(state, target, before, reactions)
+    return lost
+end
+
+function M.loseHp(state,target,amount)
+    if not M.isActive(target)then return 0 end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1)end
+    local reactions={};local lost=directDamage(state,nil,target,amount,'hp_loss',0,reactions)
+    M.resolveDamageReactions(state,reactions)
     return lost
 end
 
@@ -322,11 +331,12 @@ function M.attackAmount(state, source, target, base, fixed)
     if not fixed then
         amount = amount + (source.statuses.strength or 0)
         amount = amount + (source.statuses.vigor or 0)
+        if (source.statuses.double_damage or 0)>0 then amount=amount*2 end
         if (source.statuses.pen_nib or 0)>0 then amount=amount*2.0 end
         if (source.statuses.weak or 0) > 0 then amount = amount * state.rules.combat.weakPercent / 100 end
         if (target.statuses.vulnerable or 0) > 0 then amount = amount * state.rules.combat.vulnerablePercent / 100 end
     end
-    if state.player.stance then
+    if state.player.stance and source then
         amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)
     end
     if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
@@ -534,6 +544,8 @@ function M.endTurn(state, actor)
         local stat=id:match('^lose_(.+)$')
         if id=='ritual' and actor==state.player and (actor.statuses.ritual or 0)>0 then
             endings[#endings+1]='ritual';seen.ritual=true
+        elseif id=='wraith_form'and actor==state.player and (actor.statuses.wraith_form or 0)<0 then
+            endings[#endings+1]=id;seen[id]=true
         elseif temporaryFields[stat] and (actor[temporaryFields[stat]] or 0)>0 then
             endings[#endings+1]=stat;seen[stat]=true
         end
@@ -542,11 +554,14 @@ function M.endTurn(state, actor)
         if not seen[id] then endings[#endings+1]=id end
     end
     if actor==state.player and (actor.statuses.ritual or 0)>0 and not seen.ritual then endings[#endings+1]='ritual' end
+    if actor==state.player and (actor.statuses.wraith_form or 0)<0 and not seen.wraith_form then endings[#endings+1]='wraith_form'end
     for _, id in ipairs(endings) do
         local field = temporaryFields[id]
         local temporary = field and actor[field] or 0
         if id=='ritual' then
             M.applyPower(state,actor,'strength',actor.statuses.ritual,actor)
+        elseif id=='wraith_form'then
+            M.applyPower(state,actor,'dexterity',actor.statuses.wraith_form,actor)
         elseif temporary ~= 0 then
             -- The owner-end negative Power is a new Artifact-eligible DEBUFF.
             M.applyPower(state, actor, id, -temporary, actor)
@@ -561,6 +576,7 @@ function M.endTurn(state, actor)
     actor.powerOrder=powers
     if changed then state.events[#state.events].frame = Events.frame(state) end
     require('abyss_colorless_cards').endOwnerTurn(state,actor)
+    require('abyss_silent_final_cards').endTurn(state,actor)
 end
 
 function M.resetBlock(state, actor)

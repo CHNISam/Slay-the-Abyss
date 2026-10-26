@@ -1,5 +1,7 @@
 {
   "layers": {
+    "abyss_silent_potions": "core",
+    "abyss_silent_final_cards": "core",
     "abyss_battle_enemy_view": "ui",
     "abyss_act2_enemies": "core",
     "abyss_act2_ai": "core",
@@ -245,6 +247,41 @@
       "from": "abyss_original_v4",
       "to": "abyss_enemy_ai",
       "reason": "Only resolution-boundary callbacks flush the already-initialized native enemy AI; never imported while the original module loads."
+    },
+    {
+      "from": "abyss_silent_final_cards",
+      "to": "abyss_actor",
+      "reason": "Silent callbacks import the initialized runtime only during action execution, never at module initialization."
+    },
+    {
+      "from": "abyss_silent_final_cards",
+      "to": "abyss_card_actions",
+      "reason": "Silent callbacks import the initialized runtime only during action execution, never at module initialization."
+    },
+    {
+      "from": "abyss_silent_final_cards",
+      "to": "abyss_card_triggers",
+      "reason": "Silent callbacks import the initialized runtime only during action execution, never at module initialization."
+    },
+    {
+      "from": "abyss_silent_final_cards",
+      "to": "abyss_discard",
+      "reason": "Silent callbacks import the initialized runtime only during action execution, never at module initialization."
+    },
+    {
+      "from": "abyss_silent_potions",
+      "to": "abyss_combat",
+      "reason": "Silent callbacks import the initialized runtime only during action execution, never at module initialization."
+    },
+    {
+      "from": "abyss_silent_potions",
+      "to": "abyss_card_actions",
+      "reason": "Silent callbacks import the initialized runtime only during action execution, never at module initialization."
+    },
+    {
+      "from": "abyss_silent_final_cards",
+      "to": "abyss_enemy_ai",
+      "reason": "Choke execution notifies the initialized enemy death hooks only while resolving a card action."
     }
   ]
 }

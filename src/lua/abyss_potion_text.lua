@@ -10,7 +10,9 @@ function M.special(item,owner,expanded)
  local parts={}
  for _,e in ipairs(item.effects or {})do
   local value=N((e.value or 0)*(bark and 2 or 1))
-  if e.op=='discover'then
+  if e.op=='silentShivs'then parts[#parts+1]='获得'..value..'张小刀+；手牌满时进弃牌堆，仅本战有效'
+  elseif e.op=='silentGhost'then parts[#parts+1]='获得'..value..'回合无实体；每次伤害最多1，回合结束衰减'
+  elseif e.op=='discover'then
    parts[#parts+1]=expanded and '从3张不同的随机'..(kinds[e.kind] or '')..'牌中选择1张，加入手牌'..value..'份；本回合费用为0，手牌满时放入弃牌堆，仅本场战斗有效'
     or '3选1·'..(kinds[e.kind] or '')..'牌×'..value..'·本回合0费'
   elseif e.op=='generatePotions'then
@@ -32,7 +34,9 @@ function M.shop(item,owner)
  local bark=H.owns(owner,'sacred_bark') or H.owns(owner,'SacredBark')
  for _,e in ipairs(item.effects or {})do
   local value=N((e.value or 0)*(bark and 2 or 1))
-  if e.op=='discover'then return '3选1'..(kinds[e.kind]or '')..'牌×'..value..'·仅本战\n本回合0费·满手进弃牌'
+  if e.op=='silentShivs'then return '获得'..value..'张小刀+（仅本战）\n满手放入弃牌堆'
+  elseif e.op=='silentGhost'then return '获得'..value..'回合无实体\n每次伤害最多1·回合结束衰减'
+  elseif e.op=='discover'then return '3选1'..(kinds[e.kind]or '')..'牌×'..value..'·仅本战\n本回合0费·满手进弃牌'
   elseif e.op=='generatePotions'then
    local slots=owner.potionSlots or owner.rules and owner.rules.player.potionSlots or owner.data and owner.data.rules.player.potionSlots or 3
    return '按'..N(slots)..'槽生成，填空槽\n溢出丢失·战内无果汁'

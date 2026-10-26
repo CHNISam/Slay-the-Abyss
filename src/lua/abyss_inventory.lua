@@ -4,7 +4,7 @@ local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
 local RelicHooks = require('abyss_relic_hooks')
 local M = {}
-local supported = { generatePotions=true, discover=true, channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
+local supported = { silentGhost=true, silentShivs=true, generatePotions=true, discover=true, channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
     gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
@@ -148,9 +148,11 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
     local target = state.enemies[targetIndex]
     for _, effect in ipairs(effects) do
         local op, value = effect.op, effect.value
-        if op=='generatePotions' then
+        if op=='silentShivs'then require('abyss_card_actions').enqueue(state,{op='silentFinal',kind='potionShivs',value=value})
+        elseif op=='silentGhost'then require('abyss_card_actions').enqueue(state,{op='gainStatus',status='intangible',value=value})
+        elseif op=='generatePotions' then
             local ids,rng=require('abyss_potion_generation').prepare(run,true)
-            state.potionRandomRng=rng
+            state.potionRandomRng=rng;state.potionRng=require('abyss_sts_random').cloneState(rng)
             state.generatedPotionOffers={}
             for _,id in ipairs(ids)do
                 require('abyss_card_actions').enqueue(state,{op='obtainPotion',id=id,

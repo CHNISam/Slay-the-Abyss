@@ -11,10 +11,10 @@ local Events=require('abyss_events')
 local M={}
 local MAX=2147483647
 M.phases={
-    turn_start={magnetism=true,mayhem=true,berserk=true,infinite_blades=true,bias=true,loop=true,flame_barrier=true,
+    turn_start={nightmare=true,phantasmal=true,magnetism=true,mayhem=true,berserk=true,infinite_blades=true,bias=true,loop=true,flame_barrier=true,
         next_turn_block=true,battle_hymn=true,energy_down=true,wrath_next_turn=true},
     energy_recharge={energized=true,energized_blue=true,collect=true},
-    turn_start_post_draw={demon_form=true,noxious_fumes=true,devotion=true,brutality=true,
+    turn_start_post_draw={tools_of_the_trade=true,demon_form=true,noxious_fumes=true,devotion=true,brutality=true,
         draw_next_turn=true,draw_card_next_turn=true},
 }
 M.scheduledIds={}
@@ -89,7 +89,8 @@ function M.prepareStart(state)
     if not live(state)then return out end
     for _,entry in ipairs(ordered(state,'turn_start'))do
         local id,n=entry.id,amount(entry)
-        if id=='loop' or id=='bias' then append(out,OrbPowers.prepareStart(state,id),id)
+        if id=='nightmare'or id=='phantasmal'then add(out,{op='silentFinal',kind='startPower',status=id,value=n},id)
+        elseif id=='loop' or id=='bias' then append(out,OrbPowers.prepareStart(state,id),id)
         elseif id=='berserk' then
             if n==0 then add(out,{op='energy',value=0},id)
             else bottom(out,Strength.planHook(state,id,'turn_start'),id)end
@@ -146,7 +147,8 @@ function M.preparePostDraw(state)
     if not live(state)then return out end
     for _,entry in ipairs(ordered(state,'turn_start_post_draw'))do
         local id,n=entry.id,amount(entry)
-        if id=='demon_form' then add(out,{op='gainStatus',status='strength',value=n},id)
+        if id=='tools_of_the_trade'then add(out,{op='draw',value=n},id);add(out,{op='requestDiscard',value=n},id)
+        elseif id=='demon_form' then add(out,{op='gainStatus',status='strength',value=n},id)
         elseif id=='noxious_fumes' then
             for _,enemy in ipairs(state.enemies)do
                 if Actors.isActive(enemy) and not enemy.isDead and not enemy.isDying then

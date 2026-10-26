@@ -3,7 +3,7 @@
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local M = {}
-local operations = { discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -158,6 +158,7 @@ end
 
 function M.choose(combat,state,token,uid)
     local choice=state.pendingChoice
+    if choice and choice.op=='silentFinal'then return require('abyss_silent_final_cards').choose(combat,state,token,uid)end
     if choice and choice.op=='colorless' then return require('abyss_colorless_cards').choose(combat,state,token,uid) end
     if not choice or token~=choice.token then return false,"stale_card_choice" end
     if choice.op=='discover' then
@@ -216,6 +217,7 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
+    if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end
     if op=='obtainPotion' then
         state.generatedPotionOffers=state.generatedPotionOffers or {}
         state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}
@@ -345,16 +347,16 @@ local retained={originalV4=true,dispose=true,damage=true,damageAll=true,damageRa
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true
-    while not state.pendingChoice and not state.actionQueue do
+    while not state.pendingChoice and not state.pendingDiscard and not state.actionQueue do
         local outcome=combat.outcome(state)
         if state.cardActions and #state.cardActions>0 then
             local item=table.remove(state.cardActions,1)
-            if not outcome or outcome=="victory" and retained[item.effect.op] then M.apply(combat,state,item) end
+            if not outcome or outcome=="victory" and (retained[item.effect.op]or item.effect.op=='silentFinal'and require('abyss_silent_final_cards').allowedAfterVictory(item.effect))then M.apply(combat,state,item) end
         elseif not outcome and state.queuedCards and #state.queuedCards>0 then
             combat.resolveQueuedCard(state,table.remove(state.queuedCards,1))
         else break end
     end
     state.drainingCardActions=nil
-    if not state.pendingChoice and not state.actionQueue then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
+    if not state.pendingChoice and not state.pendingDiscard and not state.actionQueue then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
 end
 return M

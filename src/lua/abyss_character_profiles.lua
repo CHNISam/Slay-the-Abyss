@@ -47,6 +47,7 @@ function M.prepare(data,id)
         prepared=require('abyss_silent_attack_cards').withCardDefinitions(prepared)
         prepared=require('abyss_card_triggers').withCards(prepared,id)
         prepared=require('abyss_silent_tactics_cards').withCardDefinitions(prepared)
+        prepared=require('abyss_silent_final_cards').withCardDefinitions(prepared)
     elseif id=="defect" then
         prepared=require("abyss_orb_powers").withCards(prepared)
         prepared=require("abyss_defect_utility_cards").withCards(prepared)

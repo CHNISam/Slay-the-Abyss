@@ -143,18 +143,18 @@ local function action(id,effect)
 end
 -- Call before native effects execute, while only old Powers exist. Arrays are
 -- SOURCE ENQUEUE ORDER, including TOP calls (root pushes them one at a time).
-function M.prepareUse(s,card)
+function M.prepareUse(s,card,nativeRageHandled)
     powers(s);plain(card,"invalid played trigger card")
     assert(card.type=="attack" or card.type=="skill" or card.type=="power" or card.type=="status" or card.type=="curse","invalid played card type")
     assert(card.dontTriggerOnUseCard==nil or type(card.dontTriggerOnUseCard)=="boolean","invalid played card trigger flag")
     local plan={top={},beforeUse={},afterUse={}}
     if card.dontTriggerOnUseCard or not live(s) then return plan end
     local list,seen=order(s)
-    for _,id in ipairs(ids) do assert(amount(s,id)==0 or seen[id],"missing card-trigger acquisition history") end
+    for _,id in ipairs(ids) do assert(id=='rage'and nativeRageHandled or amount(s,id)==0 or seen[id],"missing card-trigger acquisition history") end
     for _,entry in ipairs(list) do
         local id,n=entry.id,amount(s,entry.id)
         if n>0 then
-            if id=="after_image" or id=="rage" and card.type=="attack" then
+            if id=="after_image" or id=="rage" and not nativeRageHandled and card.type=="attack" then
                 plan.beforeUse[#plan.beforeUse+1]=action(id,{op="block",value=n,fixed=true})
             elseif id=="heat_sinks" and card.type=="power" then
                 plan.top[#plan.top+1]=action(id,{op="draw",value=n})

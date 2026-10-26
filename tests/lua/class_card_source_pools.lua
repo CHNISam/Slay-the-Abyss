@@ -16,8 +16,8 @@ for _,id in ipairs({'silent','defect','watcher'})do
  local s=C.new(prepared,{deck={'chrysalis'},enemies={'jaw_worm'},seed=7,shuffleSeed='7'})
  local card=s.hand[1];local energy=s.energy;local before=C.copy(s.cardRandomRng)
  local ok,why=C.play(s,card.uid)
- assert(not ok and why:find('incomplete_generation_pool',1,true));assert(s.energy==energy)
- assert(s.cardRandomRng.counter==before.counter)
+ if id=='silent'then assert(ok,why);assert(s.cardRandomRng.counter>before.counter)
+ else assert(not ok and why:find('incomplete_generation_pool',1,true));assert(s.energy==energy);assert(s.cardRandomRng.counter==before.counter)end
  local run=Run.new(data,19,{character=id,experimental=true})
  assert(Run.startCombat(run,'cultist_solo'));run.combat.enemies[1].hp=0
  local counter=run.cardRng.counter;assert(Run.finishCombat(run));assert(run.cardRng.counter>counter,'rewards must consume the source card stream')

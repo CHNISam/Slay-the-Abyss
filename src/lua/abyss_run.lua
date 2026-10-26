@@ -351,6 +351,8 @@ local function startEncounter(run, encounter, sourceRoom)
             return Inventory.applyOpening(state,opening.beforeDraw)
         end}
     options.beforeFirstTurn=function(state)
+        state.potionRng=run.shopRng and EventRandom.cloneState(run.shopRng.potion)or EventRandom.fromSeed(run.runSeed)
+        state.potionCharacter=require('abyss_potion_random').character(run)
         state.potionInventory=Combat.copy(run.potions)
         state.potionCapacity=run.potionSlots or run.data.rules.player.potionSlots
         if opening.preBattle then return Inventory.applyOpening(state,opening.preBattle)end
@@ -674,6 +676,11 @@ function M.skipPotionReward(run)
 end
 
 local function syncBattlePotions(run)
+    if run.combat.potionRngChanged then
+        run.shopRng=run.shopRng and Combat.copy(run.shopRng)or {merchant=EventRandom.fromSeed(run.runSeed)}
+        run.shopRng.potion=EventRandom.cloneState(run.combat.potionRng)
+        run.combat.potionRngChanged=nil
+    end
     local inventory=run.combat.potionInventory
     if not inventory then return end
     for slot=1,run.potionSlots or run.data.rules.player.potionSlots do
@@ -891,6 +898,7 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
         return candidate
     end
     local candidate = Combat.copy(run.combat)
+    candidate.potionRng=run.shopRng and EventRandom.cloneState(run.shopRng.potion)or EventRandom.fromSeed(run.runSeed)
     candidate.potionInventory=Combat.copy(run.potions)
     local called, ok, reason = pcall(function()
         local applied,why=Inventory.apply(candidate,effects,targetIndex,run,true)
@@ -941,8 +949,12 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     if battle.generatedPotionOffers then candidate.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
     if battle.potionRandomRng then
         candidate.shopRng=run.shopRng and Combat.copy(run.shopRng) or {merchant=EventRandom.fromSeed(run.runSeed)}
-        candidate.shopRng.potion=battle.potionRandomRng
+        candidate.shopRng.potion=EventRandom.cloneState(battle.potionRng or battle.potionRandomRng)
         battle.potionRandomRng=nil
+    end
+    if battle.potionRngChanged then
+        candidate.shopRng=candidate.shopRng and Combat.copy(candidate.shopRng)or {merchant=EventRandom.fromSeed(run.runSeed)}
+        candidate.shopRng.potion=EventRandom.cloneState(battle.potionRng);battle.potionRngChanged=nil
     end
     if battle.smoked then
         battle.phase='escaped'
