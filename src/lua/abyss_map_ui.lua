@@ -34,11 +34,12 @@ function M.new(root, map, onChoose, clickEvent, options)
         stage, backdrop = child(root, "stage"), child(root, "mapBackdrop")
         panel = child(stage, "mapPanel")
     end
-    local view = Map.view(map)
-    local self = { root = root, map = map, visible = true, navigationEnabled = atStart(view),
+    -- The title host binds real owners only after Start succeeds.
+    local view = map and Map.view(map)
+    local self = { root = root, map = map, visible = map ~= nil, navigationEnabled = view and atStart(view) or false,
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map,
-        observedNodeId = view.currentNodeId, observedFloor = view.floor }
+        observedNodeId = view and view.currentNodeId, observedFloor = view and view.floor }
     local drag, released, pointerObserved, scrollAnimation
     local buttonHover, buttonPress
     local function cancelSelection()
@@ -121,6 +122,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         tint(control, taken and Theme.color.node.pathTaken or Theme.color.node.path)
     end
     function self:render()
+        if not self.map then return false, "map_unbound" end
         local current, nodes, taken = Map.view(self.map), {}, {}
         observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
@@ -261,12 +263,14 @@ function M.new(root, map, onChoose, clickEvent, options)
         return self:setScroll(self.scroll + delta)
     end
     function self:focusCurrent(animated)
+        if not self.map then return false, "map_unbound" end
         local current = Map.view(self.map)
         local target = Layout.firstY + (math.max(1,localFloor(current,current.floor)) - 1) * Theme.layout.map.floorGap - Layout.focusY
         if animated then return animateScrollTo(target) end
         return self:setScroll(target)
     end
     function self:setNavigationEnabled(enabled)
+        if not self.map then return false, "map_unbound" end
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
         if not enabled then cancelDrag() end
         -- An explicit coordinator grant acknowledges any external map advance.
@@ -277,11 +281,13 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setVisible(visible)
         assert(type(visible) == "boolean", "map visibility must be boolean")
+        if visible and not self.map then return false, "map_unbound" end
         if not visible then cancelDrag() end
         self.visible = visible root:SetVisible(visible)
         if visible then self:focusCurrent() end
     end
     function self:choose(nodeId)
+        if not self.map then return false, "map_unbound" end
         local beforeMap = self.map
         local before = Map.view(beforeMap)
         if observeMap(before) then self:render() end
@@ -446,7 +452,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         listen(cursor and cursor.CursorEndDrag,function(event) clear(event,true) end)
     end
     self:resize(Theme.canvas.base[1], Theme.canvas.base[2])
-    self:focusCurrent()
+    if map then self:focusCurrent() else root:SetVisible(false) end
     return self
 end
 return M

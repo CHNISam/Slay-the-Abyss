@@ -17,9 +17,8 @@ local RunSeed = require("abyss_run_seed")
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
-    -- never while constructing the title-screen preview or refreshing the UI.
+    -- never while constructing the title screen or refreshing the UI.
     local self = { root = root, data = data, seed = platform.seed, mode = "menu" }
-    local previewSeed = self.seed or 1
     local newSeed = platform.newSeed or function() return require("abyss_new_run_seed").next() end
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
@@ -44,14 +43,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
         platform, { embedded = true, onChange = changed })
-    self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, previewSeed), function(node)
+    self.mapUI = MapUI.new(child("mapPanel"), nil, function(node)
         if self.disabled or not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource,
         cursor = platform.cursorEvents })
-    self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, previewSeed), self.mapUI.map,
+    self.nodeUI = NodeUI.new(child("nodePanel"), nil, nil,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
             cursorEvents = platform.cursorEvents, sound = platform.sound,
             onInspectCard=function(definition,upgraded)

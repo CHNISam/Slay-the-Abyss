@@ -194,12 +194,13 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         if state.player.hp <= 0 or source.escaped then break end
         if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
-        if groupStart and index == groupStart + 1 then
-            -- The adjacent second member was consumed by the first, not queued again.
-        elseif cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard") then
-            -- Cancel only still-queued mapped actions, never earlier effects or
-            -- retained Block/HP-loss. Card disposal remains owned by Combat.
-        elseif source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' then
+        -- The adjacent second member is already consumed. Victory cancels only
+        -- still-queued mapped actions; retained Block/HP-loss and card disposal
+        -- keep their existing owners.
+        local consumed = groupStart and index == groupStart + 1
+        local cancelled = cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard")
+        if not consumed and not cancelled then
+        if source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' then
             assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
             -- ApplyPower guards its target, not its dead source. Only the
             -- source-verified single-player queued status path is enabled.
@@ -524,6 +525,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 end
             end
         else error("unsupported effect: " .. tostring(op)) end
+        end
         if clearsOnFinalDamage[op] and combat.outcome(state) == "victory" then cleared = true end
     end
     return dealt
