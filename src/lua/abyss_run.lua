@@ -504,6 +504,7 @@ local function finishCombat(run)
 end
 
 local function applyDaggerGrowth(run)
+    if not run.combat.ritualDaggerGrowth then return end
     for _,card in ipairs(run.deck)do
         local growth=(run.combat.ritualDaggerGrowth or {})[card.uid]
         if card.cardId=='ritual_dagger' and growth then card.misc=(card.misc or 15)+growth end
@@ -648,6 +649,7 @@ function M.chooseCard(run,token,uid)
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -670,6 +672,7 @@ function M.play(run, uid, targetIndex, commandId)
         if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -684,6 +687,7 @@ function M.chooseDiscard(run, uids, token, generation)
     if ok then
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -695,6 +699,7 @@ function M.choosePile(run,uids,token,generation)
     if ok then
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -707,6 +712,7 @@ function M.chooseScry(run, uids, token, generation)
     if ok then
         syncBattlePotions(run)
         run.gold = run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -719,6 +725,7 @@ function M.chooseHand(run,uids,token,generation)
     if ok then
         syncBattlePotions(run)
         run.gold=run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -731,6 +738,7 @@ function M.endTurn(run)
         syncBattlePotions(run)
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -887,6 +895,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
     candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(battle.potionInventory), battle.player.gold
+    candidate.deck=battle.ritualDaggerGrowth and Combat.copy(run.deck) or run.deck
     candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
     candidate.relicCounters=Combat.copy(battle.relicCounters)
     if battle.generatedPotionOffers then candidate.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
@@ -907,6 +916,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
         local called, ok = pcall(M.finishCombat, candidate)
         if not called or not ok then return false, "potion_effect_failed" end
     end
+    applyDaggerGrowth(candidate)
     local root = run.combat
     for key in pairs(root) do root[key] = nil end
     for key, value in pairs(battle) do root[key] = value end

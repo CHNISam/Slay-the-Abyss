@@ -298,6 +298,18 @@ function M.choose(combat,state,token,uid)
     if choice.maximum and #choice.selected>=choice.maximum then return false,'invalid_card_choice'end
     choice.selected[#choice.selected+1]=uid;state.choiceSerial=state.choiceSerial+1;choice.token=state.choiceSerial;return true
 end
+local function growBattleInstances(state,original,amount)
+    local seen={}
+    local function grow(c)
+        if c and not seen[c] and (c.uid==original.uid or original.deckUid and c.deckUid==original.deckUid)then
+            seen[c]=true;c.misc=(c.misc or 15)+amount
+        end
+    end
+    grow(original);grow(state.cardInUse)
+    for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust})do for _,c in ipairs(pile)do grow(c)end end
+    for _,queued in ipairs(state.queuedCards or {})do grow(queued.card)end
+    for _,queued in ipairs(state.cardActions or {})do grow(queued.instance)end
+end
 function M.apply(combat,state,item)
     local a=item.effect;local kind=a.kind
     if kind=='apotheosis'then
@@ -375,7 +387,7 @@ function M.apply(combat,state,item)
                 state.player.gold=state.player.gold+a.value
                 require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})
             else
-                local c=item.instance;c.misc=(c.misc or 15)+a.value
+                local c=item.instance;growBattleInstances(state,c,a.value)
                 state.ritualDaggerGrowth=state.ritualDaggerGrowth or {}
                 local key=c.deckUid
                 if key then state.ritualDaggerGrowth[key]=(state.ritualDaggerGrowth[key]or 0)+a.value end

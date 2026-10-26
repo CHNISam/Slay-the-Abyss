@@ -20,3 +20,5 @@
 组合执行矩阵：`colorless_catalog_execution.lua`逐张从生产Combat.new进入play/chooseCard，执行35普通+4SPECIAL的全部78个基本/升级变体；本树加药水`1a60f36`中精确Discovery模块及约定分派的隔离预加载组合已通过，Node24用时6.6秒。它验证实际入口可结算，不替代逐张数值、随机消费与复杂交互的独立预期断言。最终整合树须直接运行此fixture及药水完整渠道分片；原始无药水分支不具备Discovery模块，不能单独宣称full-check通过。
 
 审查修复已包含：所有新持续能力显示中文名、动态数值与触发条件；每个Bomb有独立倒计时/伤害说明，图标只引用批准主题已有素材。无实体共享伤害预览在所有普通修饰后封顶，实际HP_LOSS/毒/反伤也按固定源封顶；真实BattleUI敌人意图显示1与实际回合失去1HP一致。`colorless_presentation.lua`覆盖真实UI渲染与核心预览，保留平台未验边界。
+
+Ritual Dagger审查修复：击杀时立即更新同UUID的所有战斗实例；Run在每次成功play/endTurn/choose*命令以及药水事务提交时将增长写入永久牌组，消耗ledger一次，不再等胜利结算。`ritual_dagger_growth.lua`用seed42自然两只13HP甲虫证明首杀→Smoke→下战保持18伤害；覆盖Chaos自动出牌、选牌恢复后的自动出牌、同UUID副本、拒绝命令和已产生增长后抛错的药水候选回滚。无永久归属的stat-equivalent生成复制继续不改原牌。
