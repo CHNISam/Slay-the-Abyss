@@ -245,4 +245,22 @@ test('Leader one-ally repeat exclusions consume bounded source rerolls',function
  calls={};AI.advance(s,leader,function(_,max)calls[#calls+1]=max;return max==100 and 100 or 51 end)
  eq(table.concat(calls,','),'100,81');eq(intent(leader),'encourage')
 end)
+test('Collector summons two real Torch Heads with double constructor HP draws and turn-four debuff',function()
+ local streams=Run.roomStreams({runSeed='42'},33)
+ local s=C.new(Data,{enemies={'collector'},deck={},seed=42,hp=500,maxHp=500,roomSeed=streams.seed,roomStreams=streams})
+ local e=s.enemies[1];eq(e.hp,282);eq(intent(e),'spawn')
+ assert(C.endTurn(s));eq(#s.enemies,3);eq(s.player.hp,500);eq(s.monsterHpRng.counter,5);eq(s.aiRng.counter,4)
+ for _,ally in ipairs(s.enemies)do if ally~=e then eq(ally.definitionId,'torch_head');eq(ally.minion,true);assert(ally.hp>=38 and ally.hp<=40)end end
+ assert(C.endTurn(s));assert(C.endTurn(s));eq(intent(e),'mega_debuff')
+ assert(C.endTurn(s));eq(s.player.statuses.weak,3);eq(s.player.statuses.vulnerable,3);eq(s.player.statuses.frail,3)
+end)
+test('Collector revives only dead slot and its death removes surviving minions',function()
+ local s=battle({'collector'});local e=s.enemies[1];assert(C.endTurn(s))
+ local corpse=s.enemies[1];corpse.hp=0
+ for i,v in ipairs(e.intents)do if v.id=='revive'then e.intentIndex=i end end
+ assert(C.endTurn(s))
+ local living=0;for _,ally in ipairs(s.enemies)do if ally~=e and A.isActive(ally)then living=living+1;assert(ally.id~=corpse.id)end end
+ eq(living,2);C.damage(s,s.player,e,999,true);eq(C.outcome(s),'victory')
+ for _,ally in ipairs(s.enemies)do eq(ally.hp,0)end
+end)
 print('LUA_ACT2_ENEMIES_PASS '..count)

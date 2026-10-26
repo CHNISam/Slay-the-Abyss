@@ -46,6 +46,13 @@ M.enemies={
  {id='gremlin_leader',name='丘丘督军',tier='elite',hp=148,hpRange={min=140,max=148},ai={kind='act2',policy='leader'},intents={
   move('stab','attack',{damage(6,3)}),move('rally','buff',{{op='enemyRally',value=2}}),
   move('encourage','buff',{{op='enemyEncourage',value=3}})}},
+ {id='torch_head',name='炬火侍从',tier='normal',hp=40,hpRange={min=38,max=40},
+  ai={kind='opening_roll_attack',attackIntent='tackle',rollRange=100,preHpRoll=3},intents={move('tackle','attack',{damage(7)})}},
+ {id='collector',name='聚烬领主',tier='boss',hp=282,ai={kind='act2',policy='collector'},intents={
+  move('spawn','buff',{{op='enemyTorchSpawn',value=2}}),move('revive','buff',{{op='enemyTorchRevive',value=1}}),
+  move('fireball','attack',{damage(18)}),
+  move('buff','defend',{{op='block',value=15,fixed=true},{op='enemyStrengthAll',value=3}}),
+  move('mega_debuff','debuff',{status('weak',3),status('vulnerable',3),status('frail',3)})}},
  {id='champ',name='磐岩斗魁',tier='boss',hp=420,ai={kind='act2',policy='champ'},intents={
   move('heavy_slash','attack',{damage(16)}),
   move('defensive_stance','defend',{{op='block',value=15,fixed=true},{op='gainStatus',status='metallicize',value=5}}),
@@ -82,6 +89,7 @@ local rooms={
  ['2 Thieves']={id='act2_thieves',enemies={'looter','mugger'}},
  ['Gremlin Leader']={id='act2_leader',tier='elite',sourceEncounter='Gremlin Leader'},
  ['Champ']={id='act2_champ',tier='boss',enemies={'champ'}},
+ ['Collector']={id='act2_collector',tier='boss',enemies={'collector'}},
 }
 function M.resolve(source,tier)
  local room=rooms[source]

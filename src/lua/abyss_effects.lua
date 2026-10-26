@@ -32,6 +32,8 @@ coreOps.enemyCleanse=true
 coreOps.enemyVampireDamage=true
 coreOps.enemyRally=true
 coreOps.enemyEncourage=true
+coreOps.enemyTorchSpawn=true
+coreOps.enemyTorchRevive=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -394,6 +396,9 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyTorchSpawn' or op=='enemyTorchRevive' then
+            assert(source.ai and source.ai.policy=='collector','Collector summon only')
+            require('abyss_act2_summons').torches(combat,state,source,op=='enemyTorchRevive')
         elseif op=='enemyRally' then
             assert(source.ai and source.ai.policy=='leader','Leader summon only')
             require('abyss_act2_summons').rally(combat,state,source)

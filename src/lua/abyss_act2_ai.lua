@@ -13,7 +13,17 @@ local function alive(state)
 end
 local function choose(state,e,n,random)
  local policy=e.ai.policy
- if policy=='leader'then
+ if policy=='collector'then
+  if not e.act2Last then return 'spawn' end
+  if e.act2TurnsTaken>=3 and not e.act2UltUsed then return 'mega_debuff' end
+  local dead=false
+  for _,id in pairs(e.act2TorchSlots or {})do
+   for _,ally in ipairs(state.enemies)do if ally.id==id and ally.hp<=0 then dead=true end end
+  end
+  if n<=25 and dead and e.act2Last~='revive'then return 'revive' end
+  if n<=70 and not twice(e,'fireball')then return 'fireball' end
+  return e.act2Last~='buff' and 'buff' or 'fireball'
+ elseif policy=='leader'then
   local allies=alive(state)-(A.isActive(e) and 1 or 0)
   while true do
    if allies==0 then
@@ -107,6 +117,7 @@ function M.initialize(state,e,random)
  e.act2Stabs=1
  e.act2Turns,e.act2Forges,e.act2Enraged=0,0,false
  e.act2HexUsed=false
+ e.act2TurnsTaken,e.act2UltUsed=0,false
  setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.advance(state,e,random)
@@ -133,6 +144,10 @@ function M.beforeAction(state,e,random,intent)
  if e.ai.policy=='parasite' and intent.id=='stunned'then select(e,'fell') end
 end
 function M.afterAction(state,e,random,intent)
+ if e.ai.policy=='collector'then
+  e.act2TurnsTaken=e.act2TurnsTaken+1
+  if intent.id=='mega_debuff'then e.act2UltUsed=true end
+ end
  if e.ai.policy=='byrd' and intent.id=='headbutt'then select(e,'airborne');return end
  M.advance(state,e,random)
 end

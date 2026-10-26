@@ -122,6 +122,18 @@
     {
       "sha256": "95373866751700e50a26b1699ede8be4b5b1fa9e82fe49a2650c067dfc21e67d",
       "path": "relics/PhilosopherStone.java"
+    },
+    {
+      "sha256": "c8a4a7e564cd1f0612758a546eb9bd703ec447f88c0f571ccd826a4a94123bfe",
+      "path": "monsters/city/TheCollector.java"
+    },
+    {
+      "sha256": "dfb4fbd8e10c9c089a2ec5734fca5014b430a3a13dd74cb87cbbedb80e2d6f19",
+      "path": "monsters/city/TorchHead.java"
+    },
+    {
+      "sha256": "66dbf76651c6499205c340d7f9304b031b19fd69cfd596475af209b21aeabd04",
+      "path": "actions/common/SuicideAction.java"
     }
   ]
 }
