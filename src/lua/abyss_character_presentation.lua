@@ -313,7 +313,8 @@ local function fragments(card,dynamic,path)
     elseif card.id=='perfected_strike' then
         assert(card.strikeBonus==2 or card.strikeBonus==3,'invalid Perfected Strike bonus')
         text=text..'手牌、抽牌堆和弃牌堆中每有一张带打击标签的牌，基础伤害增加 '..number(card.strikeBonus)..'。'
-    elseif card.id=='brilliance' then text=text..'本场战斗每获得 1 点真言，基础伤害增加 1。' end
+    elseif card.id=='brilliance' then text=text..'本场战斗每获得 1 点真言，基础伤害增加 1。'
+    elseif card.id=='force_field'then text=text..'本场战斗每打出 1 张能力牌，本牌基础费用降低 1，最低0。' end
     if card.id=='blood_for_blood' then text=text..'本场战斗每次实际失去生命，本牌费用降低 1，最低 0。'
     elseif card.id=='flurry_of_blows' then text=text..'每次实际改变姿态后，若本牌在弃牌堆且手牌未满，将其返回手牌。'
     elseif card.id=='weave' then text=text..'占卜非空抽牌堆时，若本牌在弃牌堆且手牌未满，将其返回手牌。' end

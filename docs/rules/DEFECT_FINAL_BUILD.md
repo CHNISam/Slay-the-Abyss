@@ -15,3 +15,9 @@
 `defect_final_actions.lua`先以unknown deck card红，随后7张各基础/升级共14个真实Run场景绿；涵盖原对象、永久Smoke后成长、选择恢复、能量、球及RNG计数。`defect_genetic_copies.lua`覆盖永久/临时真实药水复制、stat-equivalent隔离及purge。宿主owner注入测试不替代牌效果测试。展示通过CharacterPresentation生成已知动作说明，Genetic格挡复用动态block预览。未知Final动作/数值在Capability拒绝。
 
 以上仅离线核心实现，不宣称完整75、正式平台导入、实机UI或原版二进制比对通过。
+
+第二片接入7张生命周期牌（累计14/19，Profile70）：Rebound、ForceField、Equilibrium、Amplify、EchoForm、MachineLearning、SelfRepair。固定源复核ReboundPower.justEvoked、EchoPower.cardsDoubledThisTurn、AmplifyPower、EquilibriumPower、DrawPower、ForceField.configureCostsOnNewCard/triggerOnCardPlayed、SelfRepair的HEALING及RepairPower宿主胜利边界。
+
+普通牌在这些Power/力场存在时进入真实队列以保持相同生命周期。力场仅在hand/draw/discard收到能力牌事件，新构造牌按已发生能力历史减费，排除exhaust中的停留时间；增幅/回响共用既有同UUID purge队列，不重放effects冒充出牌。弹回跳过自身后作用于下一次处置；消耗/purge/能力优先。均衡仅保留非虚无手牌，轮末减层；机器学习只增加正常回合抽牌；自我修复仅一次真实胜利治疗并由Run复制最终HP，Smoke不触发。
+
+`defect_final_powers.lua`先红unknown generated ForceField，随后7张基础/升级真实Combat使用、回合结束/下回合、复制次数和真实Run胜利同步绿（约1.9秒）。旧自动生命周期及Genetic复制回归继续绿。仍缺Buffer、StaticDischarge、HelloWorld、WhiteNoise、CreativeAI及全池执行矩阵，不能据70定义声称完整75已验收。

@@ -237,6 +237,7 @@ local function finish(state)
         for _, enemy in ipairs(state.enemies) do enemy.looterQueuedIntent = nil end
     end
     if outcome and state.phase ~= outcome then
+        if outcome=='victory'then require('abyss_defect_final_cards').victory(M,state)end
         state.phase = outcome
         event(state, outcome, {allEnemiesEscaped=M.allEnemiesEscaped(state), mugged=state.mugged})
     end
@@ -1002,12 +1003,14 @@ queuedHandlers.useCard = function(state, _action, queue)
     if state.player.hp<=0 then return true end
     RelicHooks.afterCard(state)
     if not context.purge then instance.freeToPlayOnce=nil end
+    local rebound=require('abyss_defect_final_cards').afterUse(state,{type=context.cardType},context.purge,context.exhaust)
     if context.cardType~="power" and not context.purge then
         if context.exhaust then
             require("abyss_exhaust").move(state,instance,"using",queue,{onExhaustRelics=state.onExhaustRelics or {}})
         else
             local destination=require('abyss_watcher_flow_cards').disposalPlan(state,instance,false)
-            if destination then
+            if rebound then state.draw[#state.draw+1]=instance
+            elseif destination then
                 if #state.draw>0 then table.insert(state.draw,SourceRandom.randomInt(state.cardRandomRng,#state.draw-1)+1,instance)
                 else state.draw[#state.draw+1]=instance end
             else
@@ -1066,10 +1069,15 @@ function M.choosePile(state,uids,token,generation)
     return ok,reason
 end
 local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
+    local final=require('abyss_defect_final_cards');final.onUse(state,card)
     if purge then return end
-    for _,id in ipairs(Actors.powerSequence(state.player,{'double_tap','duplication'}))do
-        if id=='duplication' or card.type=='attack'then
-            state.player.statuses[id]=state.player.statuses[id]-1
+    for _,id in ipairs(Actors.powerSequence(state.player,{'double_tap','duplication','echo_form','amplify'}))do
+        local trigger
+        if id=='double_tap'or id=='duplication'then
+            trigger=id=='duplication'or card.type=='attack'
+            if trigger then state.player.statuses[id]=state.player.statuses[id]-1 end
+        else trigger=final.copyTrigger(state,id,card)end
+        if trigger then
             M.queueCard(state,CardActions.sameInstance(M,state,instance),{targetIndex=targetIndex,
                 energyOnUse=energyOnUse,purge=true,exhaustCards=false})
         end
@@ -1268,12 +1276,14 @@ function M.disposeCard(state,item)
     -- reaction opens the death screen before the physical card can leave limbo.
     if state.player.hp<=0 then return end
     RelicHooks.afterCard(state)
+    local rebound=require('abyss_defect_final_cards').afterUse(state,{type=e.cardType},e.purge,e.exhaust)
     if state.cardInUse==instance then state.cardInUse=nil end
     -- A used Power leaves the combat piles; it is not an exhausted card.
     -- The Power destination takes precedence over exhaust-on-use, while an
     -- unplayed Power still follows the ordinary endTurn hand lifecycle.
     if e.cardType ~= "power" and not e.purge then
         if e.exhaust then CardActions.exhaust(M,state,instance)
+        elseif rebound then state.draw[#state.draw+1]=instance
         else state.discard[#state.discard+1]=instance end
         if (state.player.statuses.corruption or 0)~=0 then require('abyss_corruption').onDrawOrDiscard(state) end
         if (state.player.statuses.accuracy or 0)>0 then require('abyss_shivs').onDrawOrDiscard(state) end
@@ -1400,6 +1410,7 @@ function M.play(state, uid, targetIndex, commandId)
         for _,effect in ipairs(card.effects) do if effect.op=='draw' or effect.op=='requestDiscard' then drawHooks=true end end
     end
     local queued = Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0 or card.type=='skill'and (state.player.statuses.burst or 0)>0
+        or require('abyss_defect_final_cards').needsQueue(state)
         or state.player.stance~=nil
         or drawHooks or autoplayHook or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
     local restore = queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance)
@@ -1518,13 +1529,14 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     end
     local turns=require('abyss_turn_powers')
     require('abyss_colorless_cards').startTurn(state,true)
+    require('abyss_defect_final_cards').startTurn(state)
     local actions={}
     if state.player.stance=='Divinity' then actions[1]={kind='effect',effect={op='changeStance',stance='Neutral'}} end
     for _,action in ipairs(turns.prepareStart(state)) do actions[#actions+1]=action end
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy=state.energy+state.rules.player.energyPerTurn
     for _,action in ipairs(turns.onEnergyRecharge(state)) do actions[#actions+1]=action end
-    actions[#actions+1]={kind='effect',effect={op='draw',value=state.rules.player.drawPerTurn}}
+    actions[#actions+1]={kind='effect',effect={op='draw',value=require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn)}}
     for _,action in ipairs(turns.preparePostDraw(state)) do actions[#actions+1]=action end
     local queue=require('abyss_action_queue');queue.start(state,actions)
     if queue.run(state,queuedHandlers)=='pause'then state.pendingTurnStart=true;return true end
@@ -1631,9 +1643,10 @@ local function endExperimentalTurn(state)
     state.silentRetainResume=nil
     if require('abyss_silent_final_cards').beginRetain(state)then return true end
     local retained,remaining = {},{}
+    require('abyss_defect_final_cards').endTurn(state)
     for _, instance in ipairs(state.hand) do
         local card = M.cardDefinition(state, instance)
-        if card.selfRetain and not card.ethereal then
+        if (card.selfRetain or (state.player.statuses.equilibrium or 0)>0) and not card.ethereal then
             retained[#retained + 1] = instance
         else remaining[#remaining+1]=instance end
     end
@@ -1743,6 +1756,7 @@ local function endExperimentalTurn(state)
     end
     EnemyAI.endRound(state)
     require('abyss_defect_engine_cards').endRound(state)
+    require('abyss_defect_final_cards').endRound(state)
     M.startPlayerTurn(state)
     return true
 end

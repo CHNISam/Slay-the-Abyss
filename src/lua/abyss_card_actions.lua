@@ -56,6 +56,7 @@ function M.fresh(combat, state, id, prototype)
     c.uuid=c.uid
     state.nextUid=state.nextUid+1.0
     assert(state.nextUid>c.uid and state.nextUid<math.huge,"nextUid cannot advance")
+    if not prototype then require('abyss_defect_final_cards').created(state,c)end
     return c
 end
 
