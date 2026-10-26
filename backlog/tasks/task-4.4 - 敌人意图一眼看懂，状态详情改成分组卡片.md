@@ -5,11 +5,14 @@ status: In Progress
 assignee:
   - '@Claude'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-25 12:32'
+updated_date: '2026-10-26 12:56'
 due_date: '2026-10-26'
-labels: []
+labels:
+  - awaiting-live
 milestone: m-5
 dependencies: []
+references:
+  - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-4
 priority: high
 type: feature

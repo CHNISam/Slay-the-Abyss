@@ -1,15 +1,17 @@
 ---
 id: TASK-13.1
-title: 核对事件、商店价格和奖励规则
+title: 补齐节点经济与完整奖励池的剩余规则
 status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-25 12:32'
+updated_date: '2026-10-26 13:18'
 due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
+  - implementation-gap
+  - partially-implemented
 milestone: m-4
 dependencies:
   - TASK-13
@@ -21,6 +23,8 @@ references:
   - docs/backlog-details/TASK-13.1.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/163'
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/BACKLOG-AUDIT-20261026.md
+  - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
 parent_task_id: TASK-13
 priority: high
 type: enhancement
@@ -30,16 +34,18 @@ ordinal: 41000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-把首发里会出现的事件、商店和奖励按原版逐项检查，修掉固定价格或错误概率等问题。
+已合并商店浮动价格/折扣/删牌、独立奖励列表、原版金币与洗牌，以及PR206永久库存/事件事务和独立奖励owner修复。待做的是完整无色/遗物/药水来源池、25事件和全部随机消费链及概率验收；不重复开发已交付价格、领奖和事务。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 每项规则都有原版依据，未查清的地方明确列出。
-- [ ] #2 事件选项、未知房间变化、营地回血和升级、宝箱产出与原版一致。
-- [ ] #3 商店卖什么、价格变化、打折和删牌涨价都按原版。
-- [ ] #4 金币、卡牌、药水和遗物的掉落、稀有度与领取顺序都按原版。
-- [ ] #5 测试价格和概率的极端情况，不能重复领奖，操作失败时不能丢资源。
+- [x] #1 已有价格、奖励、事件与道具来源账本，未核实和未实现项有明确记录。
+- [x] #2 已合入商店浮动报价、折扣和删牌涨价、独立领奖、原版战后金币及永久库存事务，既有回归通过。
+- [x] #3 已实现交易/奖励覆盖边界、重复领取与失败原子性，并保留PR193/206实际验证记录。
+- [ ] #4 补齐全部25事件选项、未知房变化及完整营地/宝箱产出规则，逐项保持原版。
+- [ ] #5 接齐完整商店卡牌、遗物、药水货架及所有价格/折扣/删牌交互，不把已实现报价算法当完整货架通过。
+- [ ] #6 接齐金币、卡牌、药水和遗物完整掉落池、稀有度、领取顺序和随机消费，保持原版概率。
+- [ ] #7 全池接齐后复验价格/概率极端情况、重复领取及失败资源不丢失，并完成严格平台验收。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -62,4 +68,8 @@ PR163商店切片：已整合最新develop为988aa22。完整npm run check exit0
 M2组合复用PR163；其快递员同名卡错槽问题已由4bf1786改为精确buyCardSlot及过期报价身份校验，当前SHA两Quality成功。精英战后尚无遗物奖励保留本任务缺口。
 
 2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
+
+2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
+
+2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
 <!-- SECTION:NOTES:END -->

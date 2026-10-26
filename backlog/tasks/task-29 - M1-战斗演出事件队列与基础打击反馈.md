@@ -5,11 +5,12 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-24 07:03'
+updated_date: '2026-10-26 12:56'
 due_date: '2026-10-28'
 labels:
   - P1
   - battle-feedback
+  - awaiting-live
 milestone: m-5
 dependencies:
   - TASK-10
@@ -19,6 +20,7 @@ references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/52'
   - docs/backlog-details/TASK-29.md
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/BACKLOG-AUDIT-20261026.md
 priority: high
 type: enhancement
 ordinal: 38000

@@ -1,15 +1,17 @@
 ---
 id: TASK-14.1
-title: 核对遗物和药水的实际效果
+title: 补齐遗物药水剩余效果和正常获取
 status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-25 10:23'
+updated_date: '2026-10-26 13:18'
 due_date: '2026-10-28'
 labels:
   - required
   - rule-parity
+  - implementation-gap
+  - partially-implemented
 milestone: m-4
 dependencies:
   - TASK-14
@@ -20,6 +22,9 @@ references:
   - docs/backlog-details/TASK-14.1.md
   - docs/reviews/TASK-14.1-m3-inventory-audit.md
   - docs/reviews/M3-PACK-POTION-20261025.md
+  - docs/BACKLOG-RECONCILE-20261026.md
+  - docs/BACKLOG-AUDIT-20261026.md
+  - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -29,15 +34,19 @@ ordinal: 42000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-逐件检查首发遗物和药水：数值是否正确、什么时候触发、用了以后是否真正生效。
+已实现部分已经测过：PR206的药水使用/选牌/背包/永久事务有20份Lua共105项专项，遗物与诅咒有13份专项，另有39项输入/失败原子性回归。基础库存TASK-14已Done。这里仍进行中有两个原因：21瓶自然获取尚未接入、33项原版采样器尚未接生产，完整遗物及其余药水效果也未齐；这些新增接齐后还需全池组合回归和同候选实机。不是所有现有药水/库存都没实现或没测。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 每件道具的效果都有原版依据，没查清的不能当成已通过。
-- [ ] #2 数值、对象、持续时间、使用限制和触发顺序符合原版。
-- [ ] #3 从正常背包使用和触发，检查叠加、跨房间、战斗胜利和重复使用等情况。
-- [ ] #4 保存测试和实际游戏记录，明确哪些只在本地测过、哪些已在游戏里验证。
+- [x] #1 已实现道具的固定来源、规则和已知差异已留档，未实现项单列。
+- [x] #2 药水使用、选牌、丢弃、扩槽及永久库存事务已接入；105项药水专项和13份遗物/诅咒专项已通过。
+- [x] #3 已实现用例覆盖背包命令、跨房间、战后、重复操作与失败回滚，39项输入/原子性回归已有记录。
+- [x] #4 本地、候选读回和已有实机记录已分层保存；未导入或未实测的项目明确标记。
+- [ ] #5 补齐完整原版道具池中尚缺的遗物/药水效果，并逐件核对数值、对象、持续时间、限制和触发顺序。
+- [ ] #6 接通21瓶待获取药水及完整33项采样器的正常奖励/商店来源，保持原版概率，不靠去掉门禁或重抽放行。
+- [ ] #7 全池逐件验证叠加、跨房间、战后和重复使用；尚未实现的组合不能沿用已有子集测试判通过。
+- [ ] #8 同一候选逐件自然取得、使用和触发，保留对应平台日志与截图。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -76,4 +85,12 @@ ordinal: 42000
 2026-10-25 RC2：保留develop已合入PR207布局，源3e9873220cf5aa055799992c906ade0daf167f63重建含BGM候选8c8f04612f6c1858b5146fb2355eda020e3fcf342f897d1e187d88f0a2097ce0，71模块逐字节审计，静态0错误/36警告。旧e1全CI首轮药水预算超时、仅一次重跑后Node全过但Lua旧oracle失败，日志均保留；七份旧oracle按当前契约校准，失败身份/RNG/完整75/UID及下战断言和原时限不降，17个Lua入口+12个Node本地通过。最终头完整CI及合并以本PR实际记录为准，父任务/M3保持In Progress。没有桌面输入窗口，不操作鼠标键盘或抢焦点，官方导入/同候选试玩未验证。
 
 2026-10-25 CI环境校准：1647330完整Node1268pass/119既有skip/0fail、数据通过；本机Node22三份Lua超时，GitHub45分钟取消，仅完成到potion_status_rules，未合并。官方校验便携Node24在同机原预算下living_wall18267ms/card_help_release20229ms/battle_ui48674ms全部通过。Quality仅固定Node24.18.0，源码/候选/系统MCP Node及全部断言、45分钟与单测预算不变。最终头完整CI仍待真实结果，平台未验证且无桌面窗口，父任务保持In Progress。
+
+2026-10-26状态整理：PR197/200/206已整合库存与事件道具推进，旧1647330的Node环境/CI等待不能作为当前阻塞。按当前完整目录逐件核效果、获取和随机消费，保留尚未证明的组合与平台记录。
+
+2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
+
+2026-10-26测试状态澄清：现有自动化覆盖的是已实现内容和明确边界；生产abyss_potion_rewards仍按acquisitionPending排除新瓶，并从受限池选择，故剩余不仅是实机缺测。依据M3-EVENTS-INVENTORY-INTEGRATION及当前生产代码；本轮无新增测试或玩法修改。
+
+2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
 <!-- SECTION:NOTES:END -->
