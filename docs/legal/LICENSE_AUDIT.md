@@ -65,4 +65,4 @@ Backlog 跟踪使用同步最新 develop 后创建的 TASK-69；旧树自动误�
 
 ## 验证记录
 
-本轮 `node --test scripts/check-license.test.mjs`：3/3 通过（新增/缺失/冲突许可、素材新增/修改/删除、Lua/字体/平台产物及换行边界）。`node scripts/check-license.mjs` 明确输出清单未漂移；独立复跑进程约1秒量级（首次包含磁盘恢复后开销约14秒），不把本地时长当远端CI承诺。`node --check` 通过。保留上游 OFL 原文两处行末空格；其余新增文件的 `git diff --check` 需通过。未运行游戏全量回归，未修改游戏逻辑；远端CI状态在PR报告，不将未运行或ownership例外视为成功。
+本轮 `node --test scripts/check-license.test.mjs`：3/3 通过（新增/缺失/冲突许可、素材新增/修改/删除、Lua/字体/平台产物及换行边界，含npm10/11输出）。`node scripts/check-license.mjs` 明确输出清单未漂移；独立复跑进程约1秒量级（首次包含磁盘恢复后开销约14秒），不把本地时长当远端CI承诺。`node --check` 通过。保留上游 OFL 原文两处行末空格；本目录 licenses/.gitattributes 只对上游文本关闭行末空格告警，完整差异的 `git diff --check` 仍需通过。未在本地运行游戏全量回归，未修改游戏逻辑；远端CI状态在PR报告，不将未运行或ownership例外视为成功。
