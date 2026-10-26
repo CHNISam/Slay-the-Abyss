@@ -114,9 +114,7 @@ function M.supported(card)
  return true
 end
 function M.created(combat,state,card)
- if (state.player.statuses.master_reality or 0)==0 then return end
- local d=assert(state.catalog.cards[card.cardId],'unknown Master Reality card')
- if d.type~='curse' and d.type~='status' then combat.upgrade(state,card)end
+ return require('abyss_card_actions').created(combat,state,card)
 end
 function M.drawn(state,card,definition)
  if not definition.onDrawFinal then return end

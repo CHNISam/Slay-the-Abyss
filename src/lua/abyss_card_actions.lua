@@ -60,8 +60,9 @@ function M.fresh(combat, state, id, prototype)
     return c
 end
 
--- Source generation sites invoke this explicitly, separately from copying.
--- Shared callback extracted from ef16e05; keep one implementation on integration.
+-- Source generation sites invoke this explicitly: constructors and hand /
+-- discard effects can each call upgrade, including repeatable Searing Blow.
+-- Retrieval and stat-equivalent copy construction alone never invoke it.
 function M.created(combat,state,card)
     if (state.player.statuses.master_reality or 0)==0 then return false end
     local d=assert(state.catalog.cards[card.cardId],'unknown generated card')
@@ -169,10 +170,10 @@ function M.applyChoice(combat,state,item,uid)
                 for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
                 count=count+1
             end
-            require('abyss_watcher_final_cards').created(combat,state,c)
+            M.created(combat,state,c)
             for _=1,count do
                 local generated=M.fresh(combat,state,c.cardId,c)
-                require('abyss_watcher_final_cards').created(combat,state,generated)
+                M.created(combat,state,generated)
                 M.toHand(state,generated)
             end
         end
@@ -285,8 +286,8 @@ function M.apply(combat,state,item)
     elseif op=="makeTempCardInHand" or op=="makeTempCardInDraw" then
         for _=1,value do
             local v=M.fresh(combat,state,e.card)
-            require('abyss_watcher_final_cards').created(combat,state,v)
-            if op=='makeTempCardInHand' then require('abyss_watcher_final_cards').created(combat,state,v)end
+            M.created(combat,state,v)
+            if op=='makeTempCardInHand' then M.created(combat,state,v)end
             if op=="makeTempCardInHand" then M.toHand(state,v)
             else table.insert(state.draw,combat.cardRandom(state,#state.draw+1),v) end
         end
@@ -300,8 +301,8 @@ function M.apply(combat,state,item)
         end
         local v=M.fresh(combat,state,pool[combat.cardRandom(state,#pool)])
         v.costForTurn=0
-        require('abyss_watcher_final_cards').created(combat,state,v)
-        require('abyss_watcher_final_cards').created(combat,state,v)
+        M.created(combat,state,v)
+        M.created(combat,state,v)
         M.toHand(state,v)
     elseif op=="doubleStrength" then
         local amount=source.statuses.strength or 0
