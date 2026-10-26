@@ -149,4 +149,6 @@ Git hooks、受控命令和远端读取阻止合作执行者失权后的新操�
 
 全局 paused 时，新包不能借用旧任务、旧分支或 bootstrap receipt。用户明确授权当前包后，活跃 bootstrap 协调者可运行 `migration-admit --manifest <json>`。清单包含唯一 id、真实新 task、executorSession、全新 feat/branch、精确文件 scope（paths/modules）、evidence，以及 acknowledgedReservations：逐项列出与本包重叠的 unknown 隔离 ID。必须与远端计算的重叠集合完全一致。这是对本包风险的显式确认，不是旧执行者停止的证明；原记录与 externalUnknown、paused 保持原样。
 
+若已授权包的前置切片必须继承协调者自身的文件，可用 `migration-admit --manifest <json> --handoff-head <SHA>` 作一次原子交接。协调者必须有完全干净、已由 hooks 授权并已发布的精确 HEAD；新清单必须使用新任务、新分支、新 session，并完整继承协调者的文件与模块范围。该 CAS 同时保留协调者释放证据和登记新清单；登记失败时两者均不发布。其他有效 claim、旧 unknown 隔离以及所有普通登记检查保持不变。成功后旧协调者立即失权，后续执行者通过自己的新 admission 和独立 worktree 领取，不复用旧 receipt，也不重新开放迁移。
+
 登记不可修改或扩范围；不能复用历史任务及父子任务、分支，不能越过任何有效认领。新执行者使用独立 session/spec 运行 `claim --admission <id> --spec <json> --path <独立新树>`，随后 install/check/run/提交/推送/当前 SHA CI/受控 integrate/release 仍全部生效。恢复用同一 admission、session 和完整精确范围；旧 receipt 仍被 generation 隔离。受限认领只准修改列出的文件，禁止目录前缀与 expand。其他新任务继续被 paused 拒绝。

@@ -37,8 +37,9 @@ jobs:
       group: slay-the-abyss-full-quality
       cancel-in-progress: false
       queue: max
-    # Fork code stays on GitHub-hosted infrastructure.
-    runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || fromJSON('["self-hosted", "Windows", "X64", "slay-the-abyss"]') }}
+    # Public repository: use the standard GitHub-hosted Windows runner for all
+    # events. Keep the existing Windows/POSIX checks and the serial full-suite gate.
+    runs-on: windows-latest
     # Run 40141217243 exhausted 20 minutes after JS passed and only 123 of
     # 207 Lua fixtures had run on Node 22. Keep every fixture and its own
     # timeout; this bound allows the complete serial suite to finish.
@@ -47,7 +48,7 @@ jobs:
     timeout-minutes: 75
     defaults:
       run:
-        shell: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'pwsh -NoProfile -File {0}' || 'powershell -NoProfile -ExecutionPolicy Bypass -File {0}' }}
+        shell: pwsh -NoProfile -File {0}
     steps:
       - name: Check out exact revision with installed Git
         env:
@@ -96,8 +97,8 @@ jobs:
           if ((git rev-parse HEAD) -ne $env:CI_SHA) { throw 'Revision mismatch' }
           git clean -ffd
           if ($LASTEXITCODE -ne 0) { throw 'Workspace cleanup failed' }
-      # Both Windows runners must use the measured runtime, rather than their
-      # different global Node installations. Keep every test and its budget.
+      # Pin the measured runtime instead of the hosted image's global Node.
+      # Keep every test and its budget.
       - uses: actions/setup-node@v4
         with:
           node-version: '24.18.0'

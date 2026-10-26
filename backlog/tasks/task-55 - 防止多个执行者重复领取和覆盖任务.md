@@ -1,11 +1,11 @@
 ---
 id: TASK-55
 title: 防止多个执行者重复领取和覆盖任务
-status: Done
+status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-26 05:13'
+updated_date: '2026-10-26 08:04'
 labels: []
 dependencies: []
 priority: high
@@ -24,7 +24,7 @@ ordinal: 94000
 - [x] #1 同任务、父子任务、相交路径及共享模块的有效认领互斥。
 - [x] #2 会话隔离、续租、到期接管和旧令牌失效可用，远端失败时关闭受控操作。
 - [x] #3 本地、远端和子执行入口接入校验，现有在途工作安全隔离并可认领迁移。
-- [x] #4 真实双进程Git竞争及失败恢复测试通过，当前提交质量检查通过并合入develop。
+- [ ] #4 真实双进程Git竞争及失败恢复测试通过，当前提交质量检查通过并合入develop。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -61,4 +61,8 @@ PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组
 统一集成补受控新session交接，并修复归档评审的两个真实到期缺口：初次续租完成后重新确认；短命原生续租辅助进程使本地截止不被远端Git阻塞。两例先红后绿，真实子进程超过10秒初始租约仍正常续租，以及真实断网终止通过；当前实现的四项定向回归全过。最终完整29组协议与全仓CI交统一PR206，不复用旧SHA绿灯。
 
 V4用户明确授权有限登记及原13路径TASK55临时恢复。仅修改登记脚本、测试、执行权文档及记录。真实Git原30组全过，最终新增边界2组全过，执行未修改的45ba918旧runtime验证推送授权/擦标签降级被新门禁拒绝。旧隔离/paused/externalUnknown保持。当前SHA CI与合入另验，不计为原创玩法完成。
+
+用户确认仓库已公开，已由GitHub元数据核验public；本轮把Quality/check改为GitHub官方windows-latest与pwsh，保留全部检查、当前SHA门禁和串行组。运行中的旧自托管作业与新配置生效分开记录。
+
+本轮按用户授权恢复后继续推进V4有界登记与官方托管runner；旧关闭记录保留，本轮当前SHA CI和合并尚未完成。为承接自身文件与已释放的67夹具，在干净已发布精确HEAD作原子交接，新任务继承完整范围且旧receipt立即失权。
 <!-- SECTION:NOTES:END -->
