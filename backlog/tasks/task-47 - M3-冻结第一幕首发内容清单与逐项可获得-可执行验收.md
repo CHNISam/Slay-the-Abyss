@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-26 02:35'
+updated_date: '2026-10-26 05:17'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -17,6 +17,7 @@ references:
   - docs/LAUNCH_CONTENT.md
   - data/release/launch-content.json
   - docs/reviews/M3-PACK-POTION-20261025.md
+  - docs/rules/CROSS_ACT.md
 priority: high
 type: task
 ordinal: 75000
@@ -36,6 +37,7 @@ ordinal: 75000
 - [ ] #4 首发清单同时注明每项代码或素材实际接入入口、对应平台及实机验收任务和当前占位；独立候选与离线文件不能登记为玩家可用。
 - [ ] #5 首发涉及的原版内容池与必要依赖齐备，保留原版概率；删池、未实现占位或缺项重抽不能算完成。
 - [ ] #6 首发清单包括完整75张铁甲战士牌及1个Boss，逐项注明合法获取/生成规则、实现状态与未验证缺口；75张未齐不得通过首发验收。
+- [ ] #7 四职业完整卡池及第一至第三幕、隐藏第四幕全部纳入M3清单，各幕正常生成/获取/执行与两种结局逐项齐备并保留同源证据
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -90,4 +92,6 @@ ordinal: 75000
 5225生产修复已推送且PR头匹配，但对应check-runs为0、自动Actions未产生新run，旧6b检查不能复用。Quality手动feature分支改为同样执行verify-pr，分支与SHA从真实dispatch上下文传入，保持所有权与精确HEAD门禁，再按官方workflow_dispatch补跑；不以SKIPPED替代SUCCESS。最终合并仍待本轮所有实际检查成功。
 
 用户要求停止扩围并尽快基于远端最新合并。PR206已继承develop 2291de4的完整战士及四职业基础，收口既有事件/库存、美术工具和回归整合。后续完整职业牌、无色牌、Neow扩展保存在archive/source-port-expanded-20261026，提交9af01bacfe1e0954246f35c03395b14003a10646，并已校验bundle；不纳入本次合并，严格AC及平台缺项不伪报完成。
+
+2026-10-26用户明确第二、第三和隐藏第四幕均纳入M3，不能继续按第一幕或投稿后可选范围收口。原DRAFT-2/6已原生提升TASK-61/62，TASK-63共享跨幕核心、TASK-64钥匙/终幕，均归m-4。用户已授权本轮独立工作树离线开发/任务更新暂免认领；不改远端paused，不提交推送合并或操作桌面。固定基线45ba918，章节、职业与四层证据缺口继续保留。
 <!-- SECTION:NOTES:END -->

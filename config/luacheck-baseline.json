@@ -2,7 +2,7 @@
   "owner": "TASK-68",
   "reviewedDate": "2026-10-26",
   "previousEngineeringSource": "b6a29e41533a2981e7e7c1199bdc3f297ec8ed82",
-  "reason": "Removed duplicate API definition, unused UI helper/values and real local shadowing; retained existing method self diagnostics. No new warning kind, syntax or undefined-global exemption.",
+  "reason": "Removed duplicate API definition, unused UI helper/values and real local shadowing; retained existing method self diagnostics. No new warning kind, syntax or undefined-global exemption. M3 removes three unused Nodes position locals; no new warnings admitted.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -712,27 +712,6 @@
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 404,
-      "column": 21,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 535,
-      "column": 25,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
-      "file": "src/lua/abyss_nodes.lua",
-      "line": 588,
-      "column": 24,
-      "code": "W211",
-      "message": "unused variable 'position'"
-    },
-    {
       "file": "src/lua/abyss_potion_discard_ui.lua",
       "line": 34,
       "column": 18,
@@ -884,6 +863,7 @@
     "abyss_ui": "3898cfb9579d8817d7a37712d3c069b5f0745687499488d8e95bc38f64325028",
     "abyss_unknown": "1a35af89546437350e32caaf12ab64ca379f37c06f636348933d5f5f4840b69c",
     "abyss_viewport": "148f69891a344254b90b3fd68ca22187fa48248036e6fe1dd318d38bd29c10dd",
-    "src/lua/abyss_run.lua": "82a87c8c7a5e923298ac76717bbd2d3c64de4c267628c52ddb49795af8a6f884"
+    "src/lua/abyss_run.lua": "82a87c8c7a5e923298ac76717bbd2d3c64de4c267628c52ddb49795af8a6f884",
+    "src/lua/abyss_nodes.lua": "0aed22421a42c6dafe1bf1a80cefcc96423e466cc4efe790738e8a68e905fbc7"
   }
 }
