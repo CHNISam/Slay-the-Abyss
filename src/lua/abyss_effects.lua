@@ -404,6 +404,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             local before = source.hp
             if (source.statuses.intangible or 0)>0 then value=math.min(value,1) end
             value=require('abyss_defect_final_cards').incoming(state,source,value)
+            if source==state.player then value=require('abyss_relic_hooks').onLoseHpLast(state,value) end
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
             -- Actor owns the single HP-loss notification for either queue.
