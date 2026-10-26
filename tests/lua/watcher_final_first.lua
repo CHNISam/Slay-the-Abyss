@@ -17,6 +17,4 @@ end
 local persistent=battle({'swivel','empty_fist'},false)
 play(persistent,'swivel');assert(C.endTurn(persistent));eq(persistent.player.statuses.free_attack,1)
 persistent.energy=0;play(persistent,'empty_fist');eq(persistent.player.statuses.free_attack,nil)
-local unsupported=battle({'wish'},false)
-local ok,why=C.canPlay(unsupported,held(unsupported,'wish').uid,1);eq(ok,false);eq(why,'card_content_unavailable')
 print('WATCHER_FINAL_FIRST swivel basic/upgraded passed')

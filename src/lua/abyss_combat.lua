@@ -1166,7 +1166,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
       for _,prepared in ipairs(require('abyss_watcher_attack_cards').prepareEffect(state,effect)) do
         local queued=copy(prepared)
         queued=require('abyss_silent_final_cards').prepare(M,state,queued)
-        if queued.op=='damage' or queued.op=='heelHook' then
+        if queued.op=='damage' or queued.op=='heelHook' or queued.op=='watcherFinalLessonLearned' then
             queued.normalAmount=M.attackAmount(state,state.player,target,queued.value)
         elseif queued.op=='damageAll' then
             queued.normalAmounts={}
@@ -1330,7 +1330,16 @@ end
 
 function M.chooseCard(state,token,uid)
     local restore=require("abyss_snapshot").capture(state)
-    local called,ok,reason=pcall(CardActions.choose,M,state,token,uid)
+    local called,ok,reason=pcall(function()
+        if state.pendingChoice and state.pendingChoice.op=='watcher_final' then
+            local accepted,why=require('abyss_watcher_final_cards').choose(M,state,token,uid)
+            if not accepted then return false,why end
+            local result=require('abyss_action_queue').resume(state,queuedHandlers)
+            if result~='pause' then finishQueuedPlay(state)end
+            return true
+        end
+        return CardActions.choose(M,state,token,uid)
+    end)
     if not called then restore(); error(ok,0) end
     if ok and not state.pendingChoice then Actors.flushCurlUp(state); finish(state) end
     return ok,reason
@@ -1607,8 +1616,8 @@ local function endExperimentalTurn(state)
     end
     if resetCosts then require("abyss_corruption").resetEndTurn(state) end
     local preCards={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{metallicize=true,like_water=true})) do
-        if entry.id=='metallicize' then preCards[#preCards+1]={kind='effect',effect={op='block',value=entry.amount,fixed=true}}
+    for _,entry in ipairs(require('abyss_power_schedule').list(state,{metallicize=true,plated_armor=true,like_water=true})) do
+        if entry.id=='metallicize' or entry.id=='plated_armor' then preCards[#preCards+1]={kind='effect',effect={op='block',value=entry.amount,fixed=true}}
         else
             local plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end_pre_cards')
             for _,effect in ipairs(plan.bottom) do preCards[#preCards+1]={kind='effect',effect=effect} end
@@ -2104,6 +2113,7 @@ function M.new(data, options)
     -- MonsterRoom initializes all actors first; preBattlePrep shuffles the
     -- deck before calling the group's pre-battle powers in encounter order.
     for _, enemy in ipairs(state.enemies) do EnemyAI.preBattle(state, enemy, hpRandom) end
+    state.cardRng=options.cardRng and SourceRandom.cloneState(options.cardRng) or SourceRandom.fromSeed(options.cardSeed or string.format('%.0f',options.seed or 1))
     state.masterDeck=copy(options.masterDeck or {})
     local misc=options.roomStreams and options.roomStreams.miscRng or options.miscRng
     if misc then state.miscRng=SourceRandom.cloneState(misc)end

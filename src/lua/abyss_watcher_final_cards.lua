@@ -104,7 +104,7 @@ end
 M.ops={gainWatcherFinalPower=true,watcherFinalGenerate=true,watcherFinalConjureBlade=true,
  watcherFinalJudgment=true,watcherFinalRagnarok=true,watcherFinalSpiritShield=true,watcherFinalExpungerHits=true,
  watcherFinalDamageHit=true,watcherFinalOmega=true,watcherFinalEndTurnEarly=true,watcherFinalSkipEnemiesTurn=true,watcherFinalDeusExMachina=true,watcherFinalEstablishment=true,
- watcherFinalMeditate=true,watcherFinalOmniscience=true}
+ watcherFinalMeditate=true,watcherFinalOmniscience=true,watcherFinalWish=true,watcherFinalLessonLearned=true,watcherFinalForeignInfluence=true}
 M.availablePowers={free_attack=true,omega=true,end_turn_death=true,deva_form=true,master_reality=true,foresight=true,wave_of_the_hand=true,establishment=true}
 function M.supported(card)
  for _,a in ipairs(card.effects or {})do
@@ -171,6 +171,56 @@ local function top(state,queue,effect)
  assert(queue,'Watcher continuation requires the shared action queue')
  queue.pushTop(state,{kind='effect',effect=effect})
 end
+local function normalized(value)return (value or ''):lower():gsub('[^a-z0-9]','')end
+local function foreignChoices(state)
+ local pools=require('abyss_watcher_foreign_pool')
+ local Random=require('abyss_sts_random')
+ local bySource={}
+ for id,d in pairs(state.catalog.cards)do
+  for _,key in ipairs({d.sourceId or '',d.sts_name or '',id})do if key~=''then bySource[normalized(key)]=id end end
+ end
+ local cards,seen={},{}
+ while #cards<3 do
+  local roll=Random.randomInt(state.cardRandomRng,99)
+  local rarity=roll<55 and 'common' or roll<85 and 'uncommon' or 'rare'
+  local pool=pools[rarity]
+  -- CardGroup.shuffle consumes one source long. getRandomCard(true,rarity)
+  -- then sorts by cardID, erasing that shuffle's permutation, not its draw.
+  Random.randomLongHex(state.cardRandomRng)
+  local source=pool[Random.randomInt(assert(state.cardRng,'missing persistent Foreign Influence card RNG'),#pool-1)+1]
+  if not seen[source]then
+   local id=assert(bySource[normalized(source)],'missing Foreign Influence definition: '..source)
+   assert(require('abyss_card_capability').isImplemented(state.catalog.cards[id]),'unimplemented Foreign Influence card: '..source)
+   seen[source]=true;cards[#cards+1]={uid=#cards+1,cardId=id,upgraded=false}
+  end
+ end
+ return cards
+end
+function M.choose(combat,state,token,index)
+ local p=state.pendingChoice
+ if not p or p.op~='watcher_final' or p.token~=token or p.turn~=state.turn
+  or not state.pendingPlay or state.pendingPlay.uid~=p.using then return false,'stale_card_choice'end
+ if type(index)~='number'or index%1~=0 or index<1 or index>3 then return false,'invalid_card_choice'end
+ if p.kind=='foreign' then
+  local card=require('abyss_card_actions').fresh(combat,state,p.cards[index].cardId,p.cards[index])
+  if p.upgraded and combat.combatBaseCost(state,card)>=0 then card.costForTurn=0 end
+  M.created(combat,state,card)
+  require('abyss_card_actions').toHand(state,card)
+  state.pendingChoice=nil
+  return true
+ end
+ assert(p.kind=='wish','unsupported Watcher choice')
+ local up=p.upgraded
+ if index==1 then require('abyss_actor').applyPower(state,state.player,'strength',up and 4 or 3,state.player)
+ elseif index==2 then
+  local owner={gold=state.player.gold,relics=state.relics}
+  local gained=require('abyss_relic_hooks').gainGold(owner,up and 30 or 25)
+  state.player.gold=owner.gold
+  require('abyss_events').emit(state,'gold',{amount=gained,source='wish'})
+ else require('abyss_actor').applyPower(state,state.player,'plated_armor',up and 8 or 6,state.player)end
+ state.pendingChoice=nil
+ return true
+end
 function M.execute(combat,state,effect,queue)
  local Actor=require('abyss_actor')
  local op=effect.op
@@ -196,6 +246,32 @@ function M.execute(combat,state,effect,queue)
   for _,enemy in ipairs(state.enemies)do if Actor.isActive(enemy)then combat.retaliate(state,nil,enemy,effect.value)end end
  elseif op=='watcherFinalGenerate' then
   require('abyss_build_actions').makeCard(state,effect)
+ elseif op=='watcherFinalWish' or op=='watcherFinalForeignInfluence' then
+  assert(not state.pendingChoice,'another choice is pending')
+  state.choiceSerial=(state.choiceSerial or 0)+1
+  local kind=op=='watcherFinalWish' and 'wish' or 'foreign'
+  local cards={}
+  if kind=='foreign' then cards=foreignChoices(state)
+  else for i,id in ipairs({'become_almighty','fame_and_fortune','live_forever'})do cards[i]={uid=i,cardId=id,upgraded=effect.value==1}end end
+  state.pendingChoice={op='watcher_final',kind=kind,token=state.choiceSerial,turn=state.turn,using=state.pendingPlay.uid,
+   uids={1,2,3},cards=cards,upgraded=effect.value==1}
+  require('abyss_events').emit(state,'card_choice',{op=kind,token=state.choiceSerial})
+  return 'pause'
+ elseif op=='watcherFinalLessonLearned' then
+  local enemy=target(state)
+  if Actor.isActive(enemy)then
+   local before=enemy.hp
+   combat.damage(state,state.player,enemy,effect.value,nil,nil,effect.normalAmount)
+   if before>0 and (enemy.hp<=0 or enemy.isDying) and not enemy.halfDead and not enemy.minion and (enemy.statuses.minion or 0)<=0 then
+    local eligible={};for _,c in ipairs(state.masterDeck)do if combat.canUpgrade(state,c)then eligible[#eligible+1]=c end end
+    if #eligible>0 then
+     local c=eligible[require('abyss_sts_random').randomInt(assert(state.miscRng,'missing Lesson Learned misc RNG'),#eligible-1)+1]
+     assert(combat.upgrade(state,c),'Lesson permanent upgrade failed')
+     state.masterDeckChanges=state.masterDeckChanges or {};state.masterDeckChanges[c.uid]=combat.copy(c)
+     require('abyss_events').emit(state,'permanent_upgrade',{uid=c.uid,cardId=c.cardId,source='lesson_learned'})
+    end
+   end
+  end
  elseif op=='watcherFinalMeditate' or op=='watcherFinalOmniscience' then
   return require('abyss_pile_choice').begin(state,op=='watcherFinalMeditate' and 'meditate' or 'omniscience',
    op=='watcherFinalMeditate' and effect.value or 1,state.combatGeneration or 0,combat)

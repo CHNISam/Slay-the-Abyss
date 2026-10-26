@@ -169,7 +169,12 @@ function M.applyChoice(combat,state,item,uid)
                 for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
                 count=count+1
             end
-            for _=1,count do M.toHand(state,M.fresh(combat,state,c.cardId,c)) end
+            require('abyss_watcher_final_cards').created(combat,state,c)
+            for _=1,count do
+                local generated=M.fresh(combat,state,c.cardId,c)
+                require('abyss_watcher_final_cards').created(combat,state,generated)
+                M.toHand(state,generated)
+            end
         end
     else error("invalid choice operation") end
     Events.emit(state,"card_choice_resolved",{op=op,uid=uid})
@@ -280,6 +285,8 @@ function M.apply(combat,state,item)
     elseif op=="makeTempCardInHand" or op=="makeTempCardInDraw" then
         for _=1,value do
             local v=M.fresh(combat,state,e.card)
+            require('abyss_watcher_final_cards').created(combat,state,v)
+            if op=='makeTempCardInHand' then require('abyss_watcher_final_cards').created(combat,state,v)end
             if op=="makeTempCardInHand" then M.toHand(state,v)
             else table.insert(state.draw,combat.cardRandom(state,#state.draw+1),v) end
         end
@@ -293,6 +300,8 @@ function M.apply(combat,state,item)
         end
         local v=M.fresh(combat,state,pool[combat.cardRandom(state,#pool)])
         v.costForTurn=0
+        require('abyss_watcher_final_cards').created(combat,state,v)
+        require('abyss_watcher_final_cards').created(combat,state,v)
         M.toHand(state,v)
     elseif op=="doubleStrength" then
         local amount=source.statuses.strength or 0

@@ -14,3 +14,9 @@ Ragnarok 每击选择当时活敌并重新算伤害；Expunger 保存生成时 X
 Conclude、Vault、Deva Form、Blasphemy、Deus Ex Machina、Foresight、Master Reality 已进入真实回合或抽牌路径。对应 `watcher_final_turn.lua` 与 `watcher_final_draw_powers.lua` 先红后绿，包含跳敌方／轮末、HP_LOSS虚无、Deva堆叠递增和回合开始Scry暂停续抽。
 
 Wave of the Hand 按正float格挡回调（含999上限与floor前不足1）排虚弱；Establishment按源优先级25扫描当时保留手牌，再与化沙降费续队列组合。Meditate复用真实UID检索，auto-all满手溢出也标保留；Omniscience强制单牌也选择，原牌消耗、全字段statEquivalent副本purge。后者的遗物／自动use生命周期另依赖共享队列修复，完整组合回归未完成。
+
+Wish三项基本／升级选择与Lesson真实永久UID升级已接。Lesson保留masterDeck顺序，用房间miscRng（单候选仍消费），不升级战斗副本；共用23863a9永久owner边界。Foreign使用固定106张全库非HEALING攻击（43/48/15），每尝试按cardRandom稀有度+shuffleLong、独立持久cardRng索引取样，重复源ID重走整段；不动rarityOffset，不复制Discovery第二组消费。
+
+Foreign独立Python64源oracle两流seed1为Melter／Immolate／Compile Driver，cardRandom counter6、cardRng counter3；真实合并catalog组件测试与缺定义整次回滚已通过。普通Watcher Profile仍只有本职业定义，完整跨职业catalog由父TASK59统一组合；这里不能据此报告普通入口75齐备。Run成功命令提交持久流，发奖励前同步当前战斗流。
+
+Master Reality按源生成入口调用升级，native手牌构造与ShowHand各一次、普通弃牌一次，检索不升级；SearingBlow重复升级短例先红后绿。Shiv旧断言迁移及75双版矩阵仍在推进。未进行实机／平台验收。

@@ -370,7 +370,9 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             end
             assert(nextUid < math.huge and nextUid - uid == value, "nextUid cannot advance")
             for i = 0, value - 1 do
-                state.discard[#state.discard + 1] = {uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+                local generated={uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+                require('abyss_watcher_final_cards').created(combat,state,generated)
+                state.discard[#state.discard + 1] = generated
             end
             state.nextUid = nextUid
             if value > 0 then Events.emit(state, "cards_created", {source = source.id, cardId = effect.card, amount = value, pile = "discard"}) end
@@ -388,6 +390,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- costForTurn. The new identity remains independent of its source.
             local created = combat.copy(playedCard)
             created.uid = uid
+            require('abyss_watcher_final_cards').created(combat,state,created)
             state.discard[#state.discard + 1] = created
             state.nextUid = nextUid
         elseif op == "loseHp" then
