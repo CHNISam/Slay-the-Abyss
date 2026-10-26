@@ -38,11 +38,11 @@
   },
   "files": {
     "art/cards/geo-samples/bloodletting/native-art.json": {
-      "sha256": "eabf245f793bd37b1e765eb404c85008c3a9477dd19cc333aed9741e237cc8f1",
+      "sha256": "86d4abc473c8455dcddd910a9b30591a42514499179a54b997d774f9228f9bf8",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/geo-samples/bloodletting/native-art.lua": {
-      "sha256": "c87314bb50192daa0fca701c37a20c7ad071499e0b535799e7509339ad925420",
+      "sha256": "de4c37b35037251c0dcb28c2461157980f6caa8023dd043ab278cd9bd4eec99c",
       "category": "editor-runtime"
     },
     "art/cards/geo-samples/heavy_blade/native-art.json": {
@@ -54,7 +54,7 @@
       "category": "editor-runtime"
     },
     "art/cards/geo-samples/native-layout.json": {
-      "sha256": "1704b56eca82ba785dcca0fa16538f9b78e00e3f2f180216682fcb2080a5173b",
+      "sha256": "03fed11967011d27edd7025a4e0f1b3107ae48f761abc0b7c001e89da492c8b3",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/shared/card-back.json": {
