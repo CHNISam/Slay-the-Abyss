@@ -1,0 +1,1901 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "generatorSha256": "77636e7cda4b81678f49fd565e9f062365d12462537dc1fc9c0df4faf0ed9faf",
+  "inputHashes": {
+    "dungeons/TheCity.java": "11263d5a89f95a288eb6d275ad3cc9185e99c4f69955aeea8270fdf49aa1ee82",
+    "dungeons/TheBeyond.java": "66b725f1ed02e6afa3dda2fc625fd18b18268237d3e9454d2bffed7ebaaf5783",
+    "dungeons/TheEnding.java": "56ecc272dcbfb70ca49cae1582f17b63c3eeb235a74cda58674eb529397462e0"
+  },
+  "provenance": "Independent integer source interpretation, never imports product Lua.\n\nRead-only pinned Java inputs stay outside the product repository. This oracle\nextracts encounter facts, not Java implementation bodies. It does not run STS.\n",
+  "cases": [
+    {
+      "seed": "0",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          },
+          "normal": [
+            "Spheric Guardian",
+            "3 Byrds",
+            "Snecko",
+            "Shelled Parasite and Fungi",
+            "Sentry and Sphere",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer",
+            "Shelled Parasite and Fungi",
+            "Snake Plant",
+            "Centurion and Healer",
+            "3 Cultists",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Slavers"
+          ],
+          "afterQueues": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          },
+          "normal": [
+            "3 Shapes",
+            "Orb Walker",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Maw",
+            "Transient",
+            "Jaw Worm Horde",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Jaw Worm Horde",
+            "Maw",
+            "3 Darklings",
+            "Writhing Mass",
+            "Sphere and 2 Shapes",
+            "4 Shapes"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer"
+          ],
+          "afterQueues": {
+            "words": [
+              "20e33e0bb6ee0b43",
+              "ac93130974ac66ab"
+            ],
+            "counter": 101
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "20e33e0bb6ee0b43",
+              "ac93130974ac66ab"
+            ],
+            "counter": 101
+          }
+        }
+      ]
+    },
+    {
+      "seed": "0",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          },
+          "normal": [
+            "Spheric Guardian",
+            "3 Byrds",
+            "Snecko",
+            "Shelled Parasite and Fungi",
+            "Sentry and Sphere",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer",
+            "Shelled Parasite and Fungi",
+            "Snake Plant",
+            "Centurion and Healer",
+            "3 Cultists",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Slavers"
+          ],
+          "afterQueues": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          },
+          "bosses": [
+            "Collector",
+            "Champ",
+            "Automaton"
+          ],
+          "afterBoss": {
+            "words": [
+              "d157bf486247d60b",
+              "ed0d6f9aed0a7b20"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "d157bf486247d60b",
+              "ed0d6f9aed0a7b20"
+            ],
+            "counter": 68
+          },
+          "normal": [
+            "Orb Walker",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "Maw",
+            "Transient",
+            "Jaw Worm Horde",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Jaw Worm Horde",
+            "Maw",
+            "3 Darklings",
+            "Writhing Mass",
+            "Sphere and 2 Shapes",
+            "4 Shapes",
+            "Writhing Mass"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "7018f93bccd40447",
+              "0fdfae07e7e97822"
+            ],
+            "counter": 105
+          },
+          "bosses": [
+            "Time Eater",
+            "Donu and Deca",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "0fdfae07e7e97822",
+              "e2214bc2b6ca0a36"
+            ],
+            "counter": 106
+          }
+        }
+      ]
+    },
+    {
+      "seed": "10",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "08e9dfef69d07f91",
+              "38993fb47b14139b"
+            ],
+            "counter": 28
+          },
+          "normal": [
+            "Spheric Guardian",
+            "2 Thieves",
+            "Cultist and Chosen",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Cultist and Chosen",
+            "Shelled Parasite and Fungi",
+            "Snecko",
+            "Centurion and Healer",
+            "Snake Plant",
+            "Chosen and Byrds",
+            "Cultist and Chosen",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Cultist and Chosen"
+          ],
+          "elite": [
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing"
+          ],
+          "afterQueues": {
+            "words": [
+              "11ca4749b031cbd9",
+              "e7186e1fe54a1f98"
+            ],
+            "counter": 63
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "11ca4749b031cbd9",
+              "e7186e1fe54a1f98"
+            ],
+            "counter": 63
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "11ca4749b031cbd9",
+              "e7186e1fe54a1f98"
+            ],
+            "counter": 63
+          },
+          "normal": [
+            "3 Darklings",
+            "Orb Walker",
+            "3 Darklings",
+            "Writhing Mass",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Transient",
+            "Maw",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Transient",
+            "4 Shapes",
+            "Writhing Mass",
+            "3 Darklings",
+            "Jaw Worm Horde"
+          ],
+          "elite": [
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "37032852295cd08d",
+              "2e4a4716fab085d5"
+            ],
+            "counter": 104
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "37032852295cd08d",
+              "2e4a4716fab085d5"
+            ],
+            "counter": 104
+          }
+        }
+      ]
+    },
+    {
+      "seed": "10",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "08e9dfef69d07f91",
+              "38993fb47b14139b"
+            ],
+            "counter": 28
+          },
+          "normal": [
+            "Spheric Guardian",
+            "2 Thieves",
+            "Cultist and Chosen",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Cultist and Chosen",
+            "Shelled Parasite and Fungi",
+            "Snecko",
+            "Centurion and Healer",
+            "Snake Plant",
+            "Chosen and Byrds",
+            "Cultist and Chosen",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Cultist and Chosen"
+          ],
+          "elite": [
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing"
+          ],
+          "afterQueues": {
+            "words": [
+              "11ca4749b031cbd9",
+              "e7186e1fe54a1f98"
+            ],
+            "counter": 63
+          },
+          "bosses": [
+            "Automaton",
+            "Champ",
+            "Collector"
+          ],
+          "afterBoss": {
+            "words": [
+              "e7186e1fe54a1f98",
+              "520a6b0350367de0"
+            ],
+            "counter": 64
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "e7186e1fe54a1f98",
+              "520a6b0350367de0"
+            ],
+            "counter": 64
+          },
+          "normal": [
+            "3 Darklings",
+            "Orb Walker",
+            "3 Darklings",
+            "Writhing Mass",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Transient",
+            "Maw",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Transient",
+            "4 Shapes",
+            "Writhing Mass",
+            "3 Darklings",
+            "Jaw Worm Horde"
+          ],
+          "elite": [
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "37032852295cd08d",
+              "2e4a4716fab085d5"
+            ],
+            "counter": 104
+          },
+          "bosses": [
+            "Time Eater",
+            "Donu and Deca",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "2e4a4716fab085d5",
+              "305dce2cc4e0a708"
+            ],
+            "counter": 105
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "be0aa7355abb1446",
+              "2d87407124de9a8b"
+            ],
+            "counter": 42
+          },
+          "normal": [
+            "Chosen",
+            "Spheric Guardian",
+            "Snecko",
+            "Cultist and Chosen",
+            "Sentry and Sphere",
+            "Centurion and Healer",
+            "Shelled Parasite and Fungi",
+            "3 Cultists",
+            "Snecko",
+            "Centurion and Healer",
+            "Chosen and Byrds",
+            "Snecko",
+            "Snake Plant",
+            "Chosen and Byrds",
+            "Centurion and Healer"
+          ],
+          "elite": [
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Gremlin Leader"
+          ],
+          "afterQueues": {
+            "words": [
+              "20b3da333a9b9c94",
+              "0a3b1ff461c7c991"
+            ],
+            "counter": 80
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "20b3da333a9b9c94",
+              "0a3b1ff461c7c991"
+            ],
+            "counter": 80
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "20b3da333a9b9c94",
+              "0a3b1ff461c7c991"
+            ],
+            "counter": 80
+          },
+          "normal": [
+            "3 Darklings",
+            "3 Shapes",
+            "Sphere and 2 Shapes",
+            "Writhing Mass",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Transient",
+            "3 Darklings",
+            "Maw",
+            "Transient",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "Sphere and 2 Shapes"
+          ],
+          "elite": [
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer"
+          ],
+          "afterQueues": {
+            "words": [
+              "8e52d968fe5be370",
+              "42e977d1e4995c60"
+            ],
+            "counter": 116
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "8e52d968fe5be370",
+              "42e977d1e4995c60"
+            ],
+            "counter": 116
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "be0aa7355abb1446",
+              "2d87407124de9a8b"
+            ],
+            "counter": 42
+          },
+          "normal": [
+            "Chosen",
+            "Spheric Guardian",
+            "Snecko",
+            "Cultist and Chosen",
+            "Sentry and Sphere",
+            "Centurion and Healer",
+            "Shelled Parasite and Fungi",
+            "3 Cultists",
+            "Snecko",
+            "Centurion and Healer",
+            "Chosen and Byrds",
+            "Snecko",
+            "Snake Plant",
+            "Chosen and Byrds",
+            "Centurion and Healer"
+          ],
+          "elite": [
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Gremlin Leader"
+          ],
+          "afterQueues": {
+            "words": [
+              "20b3da333a9b9c94",
+              "0a3b1ff461c7c991"
+            ],
+            "counter": 80
+          },
+          "bosses": [
+            "Automaton",
+            "Collector",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "0a3b1ff461c7c991",
+              "3315949cd4651050"
+            ],
+            "counter": 81
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "0a3b1ff461c7c991",
+              "3315949cd4651050"
+            ],
+            "counter": 81
+          },
+          "normal": [
+            "3 Shapes",
+            "Orb Walker",
+            "Writhing Mass",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Transient",
+            "3 Darklings",
+            "Maw",
+            "Transient",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "Sphere and 2 Shapes",
+            "Writhing Mass"
+          ],
+          "elite": [
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer"
+          ],
+          "afterQueues": {
+            "words": [
+              "8e52d968fe5be370",
+              "42e977d1e4995c60"
+            ],
+            "counter": 116
+          },
+          "bosses": [
+            "Donu and Deca",
+            "Awakened One",
+            "Time Eater"
+          ],
+          "afterBoss": {
+            "words": [
+              "42e977d1e4995c60",
+              "78c49e4ee2d3e844"
+            ],
+            "counter": 117
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "cbcbbf6d388b2728",
+              "11cbcf60fe8307db"
+            ],
+            "counter": 40
+          },
+          "normal": [
+            "Shell Parasite",
+            "Chosen",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Cultist and Chosen",
+            "Sentry and Sphere",
+            "3 Cultists",
+            "Chosen and Byrds",
+            "Cultist and Chosen",
+            "Centurion and Healer",
+            "3 Cultists",
+            "Snake Plant",
+            "Sentry and Sphere",
+            "Centurion and Healer",
+            "3 Cultists"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing"
+          ],
+          "afterQueues": {
+            "words": [
+              "354697b2d4c436d8",
+              "905a32bb31707784"
+            ],
+            "counter": 78
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "354697b2d4c436d8",
+              "905a32bb31707784"
+            ],
+            "counter": 78
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "354697b2d4c436d8",
+              "905a32bb31707784"
+            ],
+            "counter": 78
+          },
+          "normal": [
+            "3 Darklings",
+            "Orb Walker",
+            "Maw",
+            "Spire Growth",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "Transient",
+            "3 Darklings",
+            "4 Shapes",
+            "Writhing Mass",
+            "Transient",
+            "Maw",
+            "Spire Growth",
+            "4 Shapes",
+            "Maw"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Giant Head"
+          ],
+          "afterQueues": {
+            "words": [
+              "874f78be25b753a4",
+              "a73413ac60446772"
+            ],
+            "counter": 113
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "874f78be25b753a4",
+              "a73413ac60446772"
+            ],
+            "counter": 113
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "cbcbbf6d388b2728",
+              "11cbcf60fe8307db"
+            ],
+            "counter": 40
+          },
+          "normal": [
+            "Shell Parasite",
+            "Chosen",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Cultist and Chosen",
+            "Sentry and Sphere",
+            "3 Cultists",
+            "Chosen and Byrds",
+            "Cultist and Chosen",
+            "Centurion and Healer",
+            "3 Cultists",
+            "Snake Plant",
+            "Sentry and Sphere",
+            "Centurion and Healer",
+            "3 Cultists"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing"
+          ],
+          "afterQueues": {
+            "words": [
+              "354697b2d4c436d8",
+              "905a32bb31707784"
+            ],
+            "counter": 78
+          },
+          "bosses": [
+            "Automaton",
+            "Champ",
+            "Collector"
+          ],
+          "afterBoss": {
+            "words": [
+              "905a32bb31707784",
+              "7c76b120e5ec33f2"
+            ],
+            "counter": 79
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "905a32bb31707784",
+              "7c76b120e5ec33f2"
+            ],
+            "counter": 79
+          },
+          "normal": [
+            "3 Darklings",
+            "Orb Walker",
+            "Maw",
+            "Spire Growth",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "Transient",
+            "3 Darklings",
+            "4 Shapes",
+            "Writhing Mass",
+            "Transient",
+            "Maw",
+            "Spire Growth",
+            "4 Shapes",
+            "Maw"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Giant Head"
+          ],
+          "afterQueues": {
+            "words": [
+              "874f78be25b753a4",
+              "a73413ac60446772"
+            ],
+            "counter": 113
+          },
+          "bosses": [
+            "Awakened One",
+            "Time Eater",
+            "Donu and Deca"
+          ],
+          "afterBoss": {
+            "words": [
+              "a73413ac60446772",
+              "7f69dcbc8b7c2415"
+            ],
+            "counter": 114
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "10c385065875608f",
+              "35c4f5e847830109"
+            ],
+            "counter": 34
+          },
+          "normal": [
+            "2 Thieves",
+            "Spheric Guardian",
+            "Snecko",
+            "Sentry and Sphere",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Snecko",
+            "Chosen and Byrds",
+            "Cultist and Chosen",
+            "Snake Plant",
+            "3 Cultists",
+            "Shelled Parasite and Fungi",
+            "Centurion and Healer",
+            "Snecko",
+            "Snake Plant"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers"
+          ],
+          "afterQueues": {
+            "words": [
+              "21bc932e5ad90478",
+              "6776622c2f6d5f1b"
+            ],
+            "counter": 67
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "21bc932e5ad90478",
+              "6776622c2f6d5f1b"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "21bc932e5ad90478",
+              "6776622c2f6d5f1b"
+            ],
+            "counter": 67
+          },
+          "normal": [
+            "3 Darklings",
+            "Orb Walker",
+            "Jaw Worm Horde",
+            "Writhing Mass",
+            "Spire Growth",
+            "Sphere and 2 Shapes",
+            "Jaw Worm Horde",
+            "3 Darklings",
+            "Writhing Mass",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "3 Darklings",
+            "Transient",
+            "4 Shapes",
+            "Jaw Worm Horde"
+          ],
+          "elite": [
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer"
+          ],
+          "afterQueues": {
+            "words": [
+              "0ea8bc40525c8467",
+              "c5043b1696fdb553"
+            ],
+            "counter": 100
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "0ea8bc40525c8467",
+              "c5043b1696fdb553"
+            ],
+            "counter": 100
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "10c385065875608f",
+              "35c4f5e847830109"
+            ],
+            "counter": 34
+          },
+          "normal": [
+            "2 Thieves",
+            "Spheric Guardian",
+            "Snecko",
+            "Sentry and Sphere",
+            "Snake Plant",
+            "Centurion and Healer",
+            "Snecko",
+            "Chosen and Byrds",
+            "Cultist and Chosen",
+            "Snake Plant",
+            "3 Cultists",
+            "Shelled Parasite and Fungi",
+            "Centurion and Healer",
+            "Snecko",
+            "Snake Plant"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers"
+          ],
+          "afterQueues": {
+            "words": [
+              "21bc932e5ad90478",
+              "6776622c2f6d5f1b"
+            ],
+            "counter": 67
+          },
+          "bosses": [
+            "Champ",
+            "Collector",
+            "Automaton"
+          ],
+          "afterBoss": {
+            "words": [
+              "6776622c2f6d5f1b",
+              "d1e7c6d16bfae304"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "6776622c2f6d5f1b",
+              "d1e7c6d16bfae304"
+            ],
+            "counter": 68
+          },
+          "normal": [
+            "Orb Walker",
+            "3 Shapes",
+            "Writhing Mass",
+            "Spire Growth",
+            "Sphere and 2 Shapes",
+            "Jaw Worm Horde",
+            "3 Darklings",
+            "Writhing Mass",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "3 Darklings",
+            "Transient",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Maw"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "eb85be657f2ec47f",
+              "a5cadcb403daf7cd"
+            ],
+            "counter": 102
+          },
+          "bosses": [
+            "Awakened One",
+            "Time Eater",
+            "Donu and Deca"
+          ],
+          "afterBoss": {
+            "words": [
+              "a5cadcb403daf7cd",
+              "7cf099072540bee5"
+            ],
+            "counter": 103
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "ae312c359b7bec6b",
+              "b5ac9236dc519121"
+            ],
+            "counter": 34
+          },
+          "normal": [
+            "3 Byrds",
+            "Spheric Guardian",
+            "3 Cultists",
+            "Chosen and Byrds",
+            "Snecko",
+            "Centurion and Healer",
+            "Snake Plant",
+            "Sentry and Sphere",
+            "Centurion and Healer",
+            "Snecko",
+            "Chosen and Byrds",
+            "Centurion and Healer",
+            "Snake Plant",
+            "Chosen and Byrds",
+            "Cultist and Chosen"
+          ],
+          "elite": [
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader"
+          ],
+          "afterQueues": {
+            "words": [
+              "9c62a16f5c949461",
+              "b6225eef08656995"
+            ],
+            "counter": 70
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "9c62a16f5c949461",
+              "b6225eef08656995"
+            ],
+            "counter": 70
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "9c62a16f5c949461",
+              "b6225eef08656995"
+            ],
+            "counter": 70
+          },
+          "normal": [
+            "3 Darklings",
+            "3 Shapes",
+            "Spire Growth",
+            "Sphere and 2 Shapes",
+            "Writhing Mass",
+            "Maw",
+            "Sphere and 2 Shapes",
+            "3 Darklings",
+            "Maw",
+            "4 Shapes",
+            "3 Darklings",
+            "Writhing Mass",
+            "Spire Growth",
+            "4 Shapes",
+            "Sphere and 2 Shapes"
+          ],
+          "elite": [
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "986d980f6445956b",
+              "034b684827f3b0ad"
+            ],
+            "counter": 104
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "986d980f6445956b",
+              "034b684827f3b0ad"
+            ],
+            "counter": 104
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "ae312c359b7bec6b",
+              "b5ac9236dc519121"
+            ],
+            "counter": 34
+          },
+          "normal": [
+            "3 Byrds",
+            "Spheric Guardian",
+            "3 Cultists",
+            "Chosen and Byrds",
+            "Snecko",
+            "Centurion and Healer",
+            "Snake Plant",
+            "Sentry and Sphere",
+            "Centurion and Healer",
+            "Snecko",
+            "Chosen and Byrds",
+            "Centurion and Healer",
+            "Snake Plant",
+            "Chosen and Byrds",
+            "Cultist and Chosen"
+          ],
+          "elite": [
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Book of Stabbing",
+            "Slavers",
+            "Gremlin Leader"
+          ],
+          "afterQueues": {
+            "words": [
+              "9c62a16f5c949461",
+              "b6225eef08656995"
+            ],
+            "counter": 70
+          },
+          "bosses": [
+            "Automaton",
+            "Champ",
+            "Collector"
+          ],
+          "afterBoss": {
+            "words": [
+              "b6225eef08656995",
+              "9deea0019974f03c"
+            ],
+            "counter": 71
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "b6225eef08656995",
+              "9deea0019974f03c"
+            ],
+            "counter": 71
+          },
+          "normal": [
+            "3 Shapes",
+            "3 Darklings",
+            "Sphere and 2 Shapes",
+            "Writhing Mass",
+            "Maw",
+            "Sphere and 2 Shapes",
+            "3 Darklings",
+            "Maw",
+            "4 Shapes",
+            "3 Darklings",
+            "Writhing Mass",
+            "Spire Growth",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Maw"
+          ],
+          "elite": [
+            "Nemesis",
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "986d980f6445956b",
+              "034b684827f3b0ad"
+            ],
+            "counter": 104
+          },
+          "bosses": [
+            "Time Eater",
+            "Awakened One",
+            "Donu and Deca"
+          ],
+          "afterBoss": {
+            "words": [
+              "034b684827f3b0ad",
+              "9c949d62f98edf2d"
+            ],
+            "counter": 105
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "allLaterBossesSeen": false,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          },
+          "normal": [
+            "Spheric Guardian",
+            "3 Byrds",
+            "Snecko",
+            "Shelled Parasite and Fungi",
+            "Sentry and Sphere",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer",
+            "Shelled Parasite and Fungi",
+            "Snake Plant",
+            "Centurion and Healer",
+            "3 Cultists",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Slavers"
+          ],
+          "afterQueues": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          },
+          "bosses": [
+            "Champ",
+            "Champ"
+          ],
+          "afterBoss": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          },
+          "normal": [
+            "3 Shapes",
+            "Orb Walker",
+            "4 Shapes",
+            "Jaw Worm Horde",
+            "Maw",
+            "Transient",
+            "Jaw Worm Horde",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Jaw Worm Horde",
+            "Maw",
+            "3 Darklings",
+            "Writhing Mass",
+            "Sphere and 2 Shapes",
+            "4 Shapes"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer"
+          ],
+          "afterQueues": {
+            "words": [
+              "20e33e0bb6ee0b43",
+              "ac93130974ac66ab"
+            ],
+            "counter": 101
+          },
+          "bosses": [
+            "Awakened One",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "20e33e0bb6ee0b43",
+              "ac93130974ac66ab"
+            ],
+            "counter": 101
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "allLaterBossesSeen": true,
+      "acts": [
+        {
+          "act": 2,
+          "before": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          },
+          "normal": [
+            "Spheric Guardian",
+            "3 Byrds",
+            "Snecko",
+            "Shelled Parasite and Fungi",
+            "Sentry and Sphere",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer",
+            "Shelled Parasite and Fungi",
+            "Snake Plant",
+            "Centurion and Healer",
+            "3 Cultists",
+            "Snecko",
+            "Cultist and Chosen",
+            "Centurion and Healer"
+          ],
+          "elite": [
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Slavers",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Gremlin Leader",
+            "Book of Stabbing",
+            "Slavers"
+          ],
+          "afterQueues": {
+            "words": [
+              "b1f02d1b55c7a1d0",
+              "d157bf486247d60b"
+            ],
+            "counter": 67
+          },
+          "bosses": [
+            "Collector",
+            "Champ",
+            "Automaton"
+          ],
+          "afterBoss": {
+            "words": [
+              "d157bf486247d60b",
+              "ed0d6f9aed0a7b20"
+            ],
+            "counter": 68
+          }
+        },
+        {
+          "act": 3,
+          "before": {
+            "words": [
+              "d157bf486247d60b",
+              "ed0d6f9aed0a7b20"
+            ],
+            "counter": 68
+          },
+          "normal": [
+            "Orb Walker",
+            "3 Darklings",
+            "Jaw Worm Horde",
+            "Maw",
+            "Transient",
+            "Jaw Worm Horde",
+            "4 Shapes",
+            "Sphere and 2 Shapes",
+            "Jaw Worm Horde",
+            "Maw",
+            "3 Darklings",
+            "Writhing Mass",
+            "Sphere and 2 Shapes",
+            "4 Shapes",
+            "Writhing Mass"
+          ],
+          "elite": [
+            "Giant Head",
+            "Reptomancer",
+            "Nemesis",
+            "Giant Head",
+            "Nemesis",
+            "Reptomancer",
+            "Nemesis",
+            "Reptomancer",
+            "Giant Head",
+            "Nemesis"
+          ],
+          "afterQueues": {
+            "words": [
+              "7018f93bccd40447",
+              "0fdfae07e7e97822"
+            ],
+            "counter": 105
+          },
+          "bosses": [
+            "Time Eater",
+            "Donu and Deca",
+            "Awakened One"
+          ],
+          "afterBoss": {
+            "words": [
+              "0fdfae07e7e97822",
+              "e2214bc2b6ca0a36"
+            ],
+            "counter": 106
+          }
+        }
+      ]
+    }
+  ],
+  "cardBoundaries": [
+    {
+      "before": {
+        "words": [
+          "810879608e4259cc",
+          "310dcdae81f2889b"
+        ],
+        "counter": 0
+      },
+      "after": {
+        "words": [
+          "810879608e4259cc",
+          "310dcdae81f2889b"
+        ],
+        "counter": 0
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "310dcdae81f2889b",
+          "00428d4906e58ed6"
+        ],
+        "counter": 1
+      },
+      "after": {
+        "words": [
+          "2243df62fac4de15",
+          "df1f296b50d64f7a"
+        ],
+        "counter": 250
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "1741d1d43ab2f688",
+          "2243df62fac4de15"
+        ],
+        "counter": 249
+      },
+      "after": {
+        "words": [
+          "2243df62fac4de15",
+          "df1f296b50d64f7a"
+        ],
+        "counter": 250
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "2243df62fac4de15",
+          "df1f296b50d64f7a"
+        ],
+        "counter": 250
+      },
+      "after": {
+        "words": [
+          "2243df62fac4de15",
+          "df1f296b50d64f7a"
+        ],
+        "counter": 250
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "df1f296b50d64f7a",
+          "4c21ddce39de3399"
+        ],
+        "counter": 251
+      },
+      "after": {
+        "words": [
+          "53ceb8bfc5db7ac7",
+          "a08f843f421ce2f3"
+        ],
+        "counter": 500
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "9e053cda88f3dcbc",
+          "53ceb8bfc5db7ac7"
+        ],
+        "counter": 499
+      },
+      "after": {
+        "words": [
+          "53ceb8bfc5db7ac7",
+          "a08f843f421ce2f3"
+        ],
+        "counter": 500
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "53ceb8bfc5db7ac7",
+          "a08f843f421ce2f3"
+        ],
+        "counter": 500
+      },
+      "after": {
+        "words": [
+          "53ceb8bfc5db7ac7",
+          "a08f843f421ce2f3"
+        ],
+        "counter": 500
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "a08f843f421ce2f3",
+          "aca3d703ed27c4c9"
+        ],
+        "counter": 501
+      },
+      "after": {
+        "words": [
+          "e85f80a0ab2deede",
+          "07c2a3469f64466a"
+        ],
+        "counter": 750
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "d7ca0470aea0c44e",
+          "e85f80a0ab2deede"
+        ],
+        "counter": 749
+      },
+      "after": {
+        "words": [
+          "e85f80a0ab2deede",
+          "07c2a3469f64466a"
+        ],
+        "counter": 750
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "e85f80a0ab2deede",
+          "07c2a3469f64466a"
+        ],
+        "counter": 750
+      },
+      "after": {
+        "words": [
+          "e85f80a0ab2deede",
+          "07c2a3469f64466a"
+        ],
+        "counter": 750
+      }
+    },
+    {
+      "before": {
+        "words": [
+          "07c2a3469f64466a",
+          "bfc8e915a0ca9b05"
+        ],
+        "counter": 751
+      },
+      "after": {
+        "words": [
+          "07c2a3469f64466a",
+          "bfc8e915a0ca9b05"
+        ],
+        "counter": 751
+      }
+    }
+  ],
+  "fixedEnding": {
+    "normal": [
+      "Shield and Spear",
+      "Shield and Spear",
+      "Shield and Spear"
+    ],
+    "elite": [
+      "Shield and Spear",
+      "Shield and Spear",
+      "Shield and Spear"
+    ],
+    "bosses": [
+      "The Heart",
+      "The Heart",
+      "The Heart"
+    ]
+  }
+}

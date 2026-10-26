@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Independent Lua behavior implementation from pinned third-party mirror; not authenticated PC binary execution",
+  "files": {
+    "rooms/TreasureRoomBoss.java": "4b9e51f575e2ec99612f74e8fe06680ece0454db87ad3ccec81080388930a54f",
+    "helpers/MonsterHelper.java": "7a6b20e5b115b6deaea1b8d1bb65d11295aa1d03513f2a592de298fc3fc914eb",
+    "dungeons/TheCity.java": "11263d5a89f95a288eb6d275ad3cc9185e99c4f69955aeea8270fdf49aa1ee82",
+    "dungeons/TheBeyond.java": "66b725f1ed02e6afa3dda2fc625fd18b18268237d3e9454d2bffed7ebaaf5783",
+    "dungeons/AbstractDungeon.java": "be88e86db01ce46da3f2762daa0767cbca5224af67fcb77c56622115e21a1a4f",
+    "dungeons/TheEnding.java": "56ecc272dcbfb70ca49cae1582f17b63c3eeb235a74cda58674eb529397462e0",
+    "random/Random.java": "beda9b5e294e68e3616f14ebb3e5695a8a849cd8c50e91bb75ba11b6b24b225c"
+  }
+}

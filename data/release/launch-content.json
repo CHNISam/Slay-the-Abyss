@@ -3859,5 +3859,23 @@
         ]
       }
     ]
+  },
+  "requiredScope": {
+    "milestone": "M3",
+    "characters": [
+      "ironclad",
+      "silent",
+      "defect",
+      "watcher"
+    ],
+    "acts": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "scopeDecision": "2026-10-26 user explicitly includes Acts2/3/hidden4 in M3",
+    "implementationLedger": "data/release/m3-campaign.json",
+    "status": "not-accepted"
   }
 }

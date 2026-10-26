@@ -1,0 +1,339 @@
+{
+  "sourceVersion": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "STS1 PC A0 / No A20 double-boss floor",
+  "acts": [
+    {
+      "act": 2,
+      "id": "TheCity",
+      "name": "城市",
+      "floorStart": 18,
+      "floorEnd": 34,
+      "generatedRows": 15,
+      "firstCombatFloor": 18,
+      "treasureFloor": 26,
+      "campFloor": 32,
+      "bossFloor": 33,
+      "terminalFloor": 34,
+      "terminalType": "boss_chest",
+      "weakCount": 2,
+      "hardCount": 12,
+      "eliteQueueCount": 10,
+      "upgradedCardChanceA0": 0.25,
+      "mapSeedSourceExpression": "Settings.seed + (long)(AbstractDungeon.actNum * 100)",
+      "weak": [
+        {
+          "sourceEncounterId": "Spheric Guardian",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Chosen",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Shell Parasite",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "3 Byrds",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "2 Thieves",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "hard": [
+        {
+          "sourceEncounterId": "Chosen and Byrds",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Sentry and Sphere",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Snake Plant",
+          "weight": 6,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Snecko",
+          "weight": 4,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Centurion and Healer",
+          "weight": 6,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Cultist and Chosen",
+          "weight": 3,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "3 Cultists",
+          "weight": 3,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Shelled Parasite and Fungi",
+          "weight": 3,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "elite": [
+        {
+          "sourceEncounterId": "Gremlin Leader",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Slavers",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Book of Stabbing",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "bosses": [
+        "Automaton",
+        "Collector",
+        "Champ"
+      ],
+      "exclusions": {
+        "Spheric Guardian": [
+          "Sentry and Sphere"
+        ],
+        "3 Byrds": [
+          "Chosen and Byrds"
+        ],
+        "Chosen": [
+          "Chosen and Byrds",
+          "Cultist and Chosen"
+        ]
+      },
+      "sourceLinks": [
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheCity.java",
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java"
+      ]
+    },
+    {
+      "act": 3,
+      "id": "TheBeyond",
+      "name": "深处",
+      "floorStart": 35,
+      "floorEnd": 51,
+      "generatedRows": 15,
+      "firstCombatFloor": 35,
+      "treasureFloor": 43,
+      "campFloor": 49,
+      "bossFloor": 50,
+      "terminalFloor": 51,
+      "terminalType": "victory_or_keys_door_NOT_boss_chest",
+      "weakCount": 2,
+      "hardCount": 12,
+      "eliteQueueCount": 10,
+      "upgradedCardChanceA0": 0.5,
+      "mapSeedSourceExpression": "Settings.seed + (long)(AbstractDungeon.actNum * 200)",
+      "weak": [
+        {
+          "sourceEncounterId": "3 Darklings",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Orb Walker",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "3 Shapes",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "hard": [
+        {
+          "sourceEncounterId": "Spire Growth",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Transient",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "4 Shapes",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Maw",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Sphere and 2 Shapes",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Jaw Worm Horde",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "3 Darklings",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Writhing Mass",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "elite": [
+        {
+          "sourceEncounterId": "Giant Head",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Nemesis",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        },
+        {
+          "sourceEncounterId": "Reptomancer",
+          "weight": 2,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "bosses": [
+        "Awakened One",
+        "Time Eater",
+        "Donu and Deca"
+      ],
+      "exclusions": {
+        "3 Darklings": [
+          "3 Darklings"
+        ],
+        "Orb Walker": [
+          "Orb Walker"
+        ],
+        "3 Shapes": [
+          "4 Shapes"
+        ]
+      },
+      "sourceLinks": [
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheBeyond.java",
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java"
+      ]
+    },
+    {
+      "act": 4,
+      "id": "TheEnding",
+      "name": "终幕",
+      "floorStart": 52,
+      "floorEnd": 55,
+      "generatedRows": null,
+      "firstCombatFloor": 54,
+      "treasureFloor": null,
+      "campFloor": 52,
+      "bossFloor": 55,
+      "terminalFloor": null,
+      "terminalType": "true_victory_after_heart",
+      "weakCount": 0,
+      "hardCount": 0,
+      "eliteQueueCount": 0,
+      "upgradedCardChanceA0": 0.5,
+      "mapSeedSourceExpression": "Settings.seed + (long)(AbstractDungeon.actNum * 300)",
+      "fixedRooms": [
+        {
+          "floor": 52,
+          "type": "camp"
+        },
+        {
+          "floor": 53,
+          "type": "shop"
+        },
+        {
+          "floor": 54,
+          "type": "elite",
+          "encounter": "Shield and Spear"
+        },
+        {
+          "floor": 55,
+          "type": "boss",
+          "encounter": "The Heart"
+        }
+      ],
+      "postBoss": "TrueVictoryRoom terminal cutscene: source generateSpecialMap also has node y=4, not a fifth gameplay floor",
+      "weak": [],
+      "hard": [],
+      "elite": [
+        {
+          "sourceEncounterId": "Shield and Spear",
+          "weight": 1,
+          "sourceClassMapping": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+          "parityStatus": "UNVERIFIED"
+        }
+      ],
+      "bosses": [
+        "The Heart"
+      ],
+      "exclusions": {},
+      "sourceLinks": [
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheEnding.java",
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+        "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/TrueVictoryRoom.java"
+      ]
+    }
+  ],
+  "critical": "原版第51层不是Boss宝箱；第四幕52–55四个可玩房间、另有非楼层真结局节点",
+  "inputKind": "Source-index and behavior requirements; catalog presence does not mean a chapter is implemented or playable",
+  "milestone": "M3"
+}

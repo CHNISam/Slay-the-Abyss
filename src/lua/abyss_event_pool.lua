@@ -6,6 +6,12 @@ local M = {}
 local act={'Big Fish','The Cleric','Dead Adventurer','Golden Idol','Golden Wing','World of Goop','Liars Game','Living Wall','Mushrooms','Scrap Ooze','Shining Light'}
 local shrine={'Match and Keep!','Golden Shrine','Transmorgrifier','Purifier','Upgrade Shrine','Wheel of Change'}
 local once={'Accursed Blacksmith','Bonfire Elementals','Designer','Duplicator','FaceTrader','Fountain of Cleansing','Knowing Skull','Lab',"N'loth",'SecretPortal','The Joust','WeMeetAgain','The Woman in Blue'}
+local chapterEvents={
+    [2]={'Addict','Back to Basics','Beggar','Colosseum','Cursed Tome','Drug Dealer','Forgotten Altar','Ghosts','Masked Bandits','Nest','The Library','The Mausoleum','Vampires'},
+    [3]={'Falling','MindBloom','The Moai Head','Mysterious Sphere','SensoryStone','Tomb of Lord Red Mask','Winding Halls'},
+    [4]={},
+}
+local chapterShrines={'Match and Keep!','Wheel of Change','Golden Shrine','Transmorgrifier','Purifier','Upgrade Shrine'}
 M.contentId={['The Cleric']='cleric',Purifier='purifier',['World of Goop']='goop',['Upgrade Shrine']='upgrade_shrine',['Golden Wing']='golden_wing',['Shining Light']='shining_light',['Golden Shrine']='golden_shrine'}
 local function copy(t) local r={};for i,v in ipairs(t) do r[i]=v end;return r end
 M.contentId['Fountain of Cleansing']='fountain'
@@ -13,9 +19,14 @@ M.contentId['Liars Game']='sssserpent'
 M.contentId['Big Fish']='big_fish'
 M.contentId['Accursed Blacksmith']='accursed_blacksmith'
 M.contentId['Bonfire Elementals']='bonfire'
-function M.new(mode, noteAvailable)
+function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
-    local p={mode=mode,act=copy(act),shrine=copy(shrine),once=copy(once)}
+    if chapter==nil then chapter=1 end
+    assert(chapter==1 or chapter==2 or chapter==3 or chapter==4,'invalid event act')
+    assert(chapter==1 or mode=='full','later acts require full event pools')
+    local p={mode=mode,act=copy(chapter==1 and act or chapterEvents[chapter]),
+        shrine=copy(chapter==1 and shrine or chapter==4 and {} or chapterShrines),once=copy(once)}
+    if chapter~=1 then p.actNumber=chapter end
     if noteAvailable then table.insert(p.once,10,'NoteForYourself') end
     if mode=='restricted-six' or mode=='restricted-seven' then
         p.act={'The Cleric','Golden Wing','World of Goop','Shining Light'}
@@ -24,8 +35,9 @@ function M.new(mode, noteAvailable)
     end
     return p
 end
-function M.nextAct(p)
-    local fresh=M.new(p.mode)
+function M.nextAct(p,chapter)
+    local fresh=M.new(p.mode,false,chapter or p.actNumber or 1)
+    p.actNumber=fresh.actNumber
     p.act,p.shrine=fresh.act,fresh.shrine -- once retains its run-wide lifecycle
 end
 function M.isEligible(id,c)

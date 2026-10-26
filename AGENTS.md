@@ -1,5 +1,9 @@
 # 项目协作规则
 
+## 许可与商业权利
+
+用户2026-10-26明确禁止第三方未经授权商用，项目方保留商业化权利。根目录LICENSE是项目原创内容的非商业源码许可；公开仓库不授予商业使用权。修改或分发须保留许可与声明，不得擅自换成MIT、Apache等允许商业使用的许可；第三方内容继续遵循其各自许可，不覆盖第三方权利。
+
 工程检查与证据合同见 `docs/ENGINEERING.md`。新增核心 Lua 模块须在 `config/architecture.json` 分类；`npm run check` 包含架构、固定版本 Luacheck 和四项关键语义变异。候选构建与实机验收仍分层记录；正常合并要求当前 SHA 的 Quality 全部作业成功。唯一基础设施应急例外见 `docs/CI.md`，须 Owner 在聊天中明确批准指定 PR/HEAD。工程工具不得覆盖既有构建的脚本清理、结算图复用、BGM参数或实机输入窗口规则。
 
 <!-- BACKLOG.MD GUIDELINES START -->
@@ -95,7 +99,7 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - CI核对PR当前SHA，正常合并须各作业成功；基础设施应急只按上述 Owner 对具体 PR/SHA 的一次批准处理。分支保护以 GitHub 当前生效 Rulesets 为准。
 - `Quality/check` 使用GitHub-hosted Windows；Ubuntu作业保留文件系统边界回归。日常使用快速/相关测试，最终集成完整Quality通过。保留原测试时限，不以加超时、删断言或跳过有效测试解决红灯。
 
-- 初代《杀戮尖塔》PC A0规则、数值、概率、AI和结算顺序贯穿相关任务，不另设规则一致性Milestone。E1–E5、双人合作和成就为独立候选，不加入10/30必过项；TASK-45保持平台权限阻塞，不主动要求账号升级。
+- 初代《杀戮尖塔》PC A0规则、数值、概率、AI和结算顺序贯穿相关任务，不另设规则一致性Milestone。2026-10-26用户明确四职业及第二至隐藏第四幕均纳入M3；旧E1–E5可选/投稿后窗口不再适用，任务与验收见docs/MILESTONES.md。双人合作和成就仍为独立候选；TASK-45保持平台权限阻塞，不主动要求账号升级。
 
 
 ## 任务写给人看

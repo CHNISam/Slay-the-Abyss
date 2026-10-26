@@ -108,7 +108,8 @@
     "abyss_ui": "platform",
     "abyss_unknown": "core",
     "abyss_viewport": "ui",
-    "abyss_copy": "core"
+    "abyss_copy": "core",
+    "abyss_acts": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [

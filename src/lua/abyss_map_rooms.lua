@@ -87,9 +87,9 @@ function C.assign(grid, pool)
     return fallback
 end
 
-function C.generate(runSeed, ...)
+function C.generate(runSeed, act, ...)
     assert(select('#', ...) == 0, 'Unsupported extra arguments')
-    local map = Topology.generate(runSeed)
+    local map = Topology.generate(runSeed,act)
     local quotaCount = 0
     for _, node in ipairs(map.nodes) do if node.y ~= 13 then quotaCount = quotaCount + 1 end end
     local quotas, pool = C.quotas(quotaCount), {}
