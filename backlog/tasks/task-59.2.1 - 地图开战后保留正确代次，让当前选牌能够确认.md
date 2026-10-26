@@ -1,11 +1,11 @@
 ---
 id: TASK-59.2.1
 title: 地图开战后保留正确代次，让当前选牌能够确认
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:53'
-updated_date: '2026-10-26 11:43'
+updated_date: '2026-10-26 13:08'
 labels: []
 milestone: m-4
 dependencies: []
@@ -23,10 +23,10 @@ ordinal: 116000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 从真实地图入战斗后当前Seek选择成功，Run与Combat代次一致
-- [ ] #2 新战斗代次递增，旧代次、坏token/UID及重复确认继续拒绝
-- [ ] #3 入战斗异常后状态和原有对象引用回滚，重试成功
-- [ ] #4 针对性反例先红后绿，准确提交通过完整Quality后合入
+- [x] #1 从真实地图入战斗后当前Seek选择成功，Run与Combat代次一致
+- [x] #2 新战斗代次递增，旧代次、坏token/UID及重复确认继续拒绝
+- [x] #3 入战斗异常后状态和原有对象引用回滚，重试成功
+- [x] #4 针对性反例先红后绿，准确提交通过完整Quality后合入
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -50,3 +50,9 @@ Executor: dot，自有云独立工作树feat/dot-node-combat-generation，基线
 
 已接入e3a9fe2主线；其本身已清理三处unused绑定，因此对新主线净生产差异只有一行代次提交。新组合3组地图/选择/回滚回归再次通过，当前准确新head完整CI待验证。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+已由PR221合入4bbd151。精确旧主线公共地图入口反例先红，仅补Nodes代次提交后3组通过：当前Seek成功、旧代次/token/UID/重复确认拒绝、第二场代次递增及异常回滚/重试。独立复审与准确head3a3bf6a完整Quality/Licenses通过；普通expected-head squash后树与预期一致。仅关闭代码回归修复，不将父任务UI或原神/手机实机验收提升为通过。证据：https://github.com/CHNISam/Slay-the-Abyss/pull/221
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-24 07:12'
+updated_date: '2026-10-26 10:49'
 due_date: '2026-10-28'
 labels:
   - art
@@ -42,8 +42,18 @@ ordinal: 31000
 - [ ] #7 本任务负责人把获准单样卡和肖像接入完整游戏独立候选，交TASK-25及10.1.2完成正式装配和容量复验；高控件方案未获性能证据不得启用。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+在 feat/dot-card-art-assembly 独立分支仅纳入卡图装配函数修复与定向测试；保留既有主题、卡框及素材，先复核局部背景层序，再通过当前提交完整 Quality，原生视觉与容量验收另行完成。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-24真实尝试04377b7a在2秒、零步骤失败：无法把game窗口切到前台，无截图/日志，未完成官方导入。解除条件为可用桌面、同级权限且无窗口占用，先做权限与实际焦点预检，再基线到星陨剑，必要时B2；不重复同条件试玩，不把旧候选证据外推。正式装配由25、容量由10.1.2、总审阅由4承接，详见DELIVERY-CLOSEOUT。
+
+2026-10-26：以 develop 4c75a31 为基线复核独立代码切片，范围仅 scripts/art/process-ai-samples.py 与 tests/test_card_art_assembly.py；拟用分支 feat/dot-card-art-assembly。当前 6/6 定向 Python 回归及 8/8 固定导出器边界检查通过，涵盖局部背景层序、几何/蒙版与当前主题卡框保留；未重新拟合、生图或运行完整美术导出。当前提交完整 Quality 尚待运行；官方导入、样卡视觉批准、中文显示、容量及设备验收仍未完成。保持现有任务状态和验收项，不作为 TASK-25.2 完成证据。
+
+本切片执行者：dot；范围限于上述卡图装配代码修复、定向核验及独立 PR 准备。既有任务负责人字段不变。
 <!-- SECTION:NOTES:END -->
