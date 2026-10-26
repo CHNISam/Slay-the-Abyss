@@ -636,122 +636,122 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 341,
+      "line": 343,
       "column": 19,
       "code": "W421",
-      "message": "shadowing definition of variable 'poor' on line 296"
+      "message": "shadowing definition of variable 'poor' on line 298"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 356,
+      "line": 358,
       "column": 31,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 395,
+      "line": 397,
       "column": 33,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 456,
+      "line": 458,
       "column": 32,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 473,
+      "line": 475,
       "column": 35,
       "code": "W212",
       "message": "unused argument 'cost'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 495,
+      "line": 497,
       "column": 39,
       "code": "W431",
-      "message": "shadowing upvalue 'info' on line 471"
+      "message": "shadowing upvalue 'info' on line 473"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 519,
+      "line": 521,
       "column": 43,
       "code": "W431",
       "message": "shadowing upvalue 'card' on line 127"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 575,
+      "line": 577,
       "column": 35,
       "code": "W212",
       "message": "unused argument 'view'"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 628,
+      "line": 630,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 634,
+      "line": 636,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 752,
+      "line": 754,
       "column": 35,
       "code": "W431",
       "message": "shadowing upvalue 'card' on line 127"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 787,
+      "line": 789,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 791,
+      "line": 793,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 806,
+      "line": 808,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 864,
+      "line": 866,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 876,
+      "line": 878,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 69"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 1027,
+      "line": 1029,
       "column": 23,
       "code": "W433",
-      "message": "shadowing upvalue loop variable 'key' on line 945"
+      "message": "shadowing upvalue loop variable 'key' on line 947"
     },
     {
       "file": "src/lua/abyss_nodes.lua",
@@ -901,7 +901,7 @@
     "abyss_map_ui": "49147fd33dddf7d796927ade746b6f1b631d3101d770740c7a25be6fda0df836",
     "abyss_merchant": "ef69936af0c7c339c3236a34795333b09961c00e42de9b94acb732422c349df9",
     "abyss_new_run_seed": "3d22d46f72cae9cbeacf534091442d8e3205701bc1b118599c181e5adb981755",
-    "abyss_node_ui": "ece39209c3d7b7ceb3b5516ad4386ea16fcd915bde8056fe4126275151b53749",
+    "abyss_node_ui": "f9ac9ab9dcd192598a4c1f09adb3f3420a7249f213a45a237e583de776002e49",
     "abyss_nodes": "bfd8c309336322bdecf3570248b08d7decd0ed88be34d9afafe5961fec43a25b",
     "abyss_numbers": "857c071eefa67b128b5d8aaf16fb4ae04374ac3f80ba2eddb13b324382953c80",
     "abyss_potion_discard_ui": "638186594d5c27c50dced4a0edeb54946df5f6e8fc8257cbaeda626c1f6ce75a",

@@ -61,6 +61,7 @@ local run,map=ui.run,ui.map
 assert(Map.choose(map,'f1_l4'));assert(Map.choose(map,'f2_l5'))
 assert(F.Nodes.enter(run,map,'f3_l5'))
 ui:refresh();assert(ui.mode=='node')
+assert(path(ui.root,'nodePanel/shopView/page').text=='职业牌：2攻击 / 3技能　无色牌：罕见 / 稀有')
 local hit=path(ui.root,'nodePanel/shopView/card1/hit')
 local offer=run.nodeFlow.cards[1];local gold,n=run.gold,#run.deck
 hit.listeners.down({touchId=4});ui.nodeUI:update(F.Theme.layout.statusInfo.delay)

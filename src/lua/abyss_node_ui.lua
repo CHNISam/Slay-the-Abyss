@@ -290,7 +290,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         pageArrows(shop, "", self.page, self.pageCount)
         action("shopView/previous", self.page > 1, function() return self:setPage(self.page - 1) end)
         action("shopView/next", self.page < self.pageCount, function() return self:setPage(self.page + 1) end)
-        shop:GetChild("page").text = '职业牌：2攻击 / 2技能 / 1能力　无色牌：罕见 / 稀有'
+        shop:GetChild("page").text = self.run.data.originalV4Role
+            and '职业牌：2攻击 / 3技能　无色牌：罕见 / 稀有'
+            or '职业牌：2攻击 / 2技能 / 1能力　无色牌：罕见 / 稀有'
 
         local removal, removalPrice = shop:GetChild("removal"), shop:GetChild("removalPrice")
         local poor = node.removeAvailable and self.run.gold < node.removePrice
