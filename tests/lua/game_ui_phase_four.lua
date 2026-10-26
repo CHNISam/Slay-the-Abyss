@@ -69,14 +69,14 @@ local function play(ui,root,id,target)
  click(root,target and 'battlePanel/enemy1' or 'battlePanel/playArea')
  drain(ui);return instance
 end
-test('four real profiles contain 252 ordinary cards without counting auxiliary cards',function()
+test('legacy raw profiles keep66 red and75 per new class without counting auxiliary cards',function()
  local total=0
- for id,want in pairs({ironclad=66,silent=75,defect=56,watcher=55})do
+ for id,want in pairs({ironclad=66,silent=75,defect=75,watcher=75})do
   local d=Profiles.prepare(Data,id);local n=0
   for _,c in ipairs(d.cards.cards)do if c.type~='status'and c.type~='curse'and c.rarity~='special'then n=n+1 end end
   eq(n,want);total=total+n
  end
- eq(total,252)
+ eq(total,291)
 end)
 local choiceSpecs={
  {character='ironclad',card='headbutt',source='discard',destination='draw',count=1,target=true},
