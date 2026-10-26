@@ -27,4 +27,7 @@ function M.torches(combat,s,collector,revive)
  local created=combat.summonEnemies(s,descriptors)
  for i,e in ipairs(created)do slots[descriptors[i].slot]=e.id end
 end
+function M.bronze(combat,s)
+ return combat.summonEnemies(s,{{id='bronze_orb',x=-300,y=200},{id='bronze_orb',x=200,y=130}})
+end
 return M

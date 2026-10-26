@@ -10,6 +10,7 @@
     "abyss_class_card_pools": "core",
     "abyss_colorless_cards": "core",
     "abyss_act2_summons": "core",
+    "abyss_act2_stasis": "core",
     "abyss_action_queue": "core",
     "abyss_build_actions": "core",
     "abyss_card_triggers": "core",
@@ -130,6 +131,11 @@
   },
   "dynamicExceptions": [],
   "deferredImports": [
+    {
+      "from": "abyss_act2_stasis",
+      "to": "abyss_combat",
+      "reason": "StasisPower death constructs Master Reality's upgrade only at runtime after Combat initialization."
+    },
     {
       "from": "abyss_actor",
       "to": "abyss_colorless_cards",

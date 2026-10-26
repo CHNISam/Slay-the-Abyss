@@ -34,6 +34,8 @@ coreOps.enemyRally=true
 coreOps.enemyEncourage=true
 coreOps.enemyTorchSpawn=true
 coreOps.enemyTorchRevive=true
+coreOps.enemyBronzeSpawn=true
+coreOps.enemyStasis=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -157,7 +159,7 @@ local function supported(effects, branch)
             or not (op=="block" or op=="damage" or op=="damageAll" or CardActions.supports(op))) then
             return false, "invalid_fixed_block"
         end
-        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally") then
+        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally" and effect.target~='automaton') then
             return false, "invalid_effect_target"
         end
         if op == "damage" then targetChecked = true end
@@ -396,6 +398,11 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyStasis' then
+            require('abyss_act2_stasis').apply(combat,state,source)
+        elseif op=='enemyBronzeSpawn' then
+            assert(source.ai and source.ai.policy=='automaton','Automaton spawn only')
+            require('abyss_act2_summons').bronze(combat,state)
         elseif op=='enemyTorchSpawn' or op=='enemyTorchRevive' then
             assert(source.ai and source.ai.policy=='collector','Collector summon only')
             require('abyss_act2_summons').torches(combat,state,source,op=='enemyTorchRevive')
@@ -443,7 +450,10 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 end
             end
         elseif op == "block" then
-            if effect.target == "random_ally" then
+            if effect.target=='automaton' then
+                assert(source.ai and source.ai.policy=='orb','Bronze support only')
+                for _,ally in ipairs(state.enemies)do if ally.definitionId=='automaton' and Actors.isActive(ally)then combat.block(state,ally,value,true);break end end
+            elseif effect.target == "random_ally" then
                 assert(source ~= state.player, "random ally Block requires an enemy")
                 local candidates, member = {}, false
                 for _, ally in ipairs(state.enemies) do

@@ -2,6 +2,7 @@
 local Events=require('abyss_events')
 local R=require('abyss_sts_random')
 local ER=require('abyss_enemy_random')
+local Stasis=require('abyss_act2_stasis')
 local M={}
 local function push(s,action)
  s.act2Bottom=s.act2Bottom or {};s.act2Bottom[#s.act2Bottom+1]=action
@@ -24,8 +25,10 @@ function M.flush(api,s)
  if not queue or s.player.hp<=0 then return end
  local live=false;for _,e in ipairs(s.enemies)do if api.isActive(e)then live=true end end
  for _,entry in ipairs(queue)do
-  if entry.op=='boss_dead'then
+  if entry.op=='stasis_return'then Stasis.release(api,s,entry)
+  elseif entry.op=='boss_dead'then
    for _,e in ipairs(s.enemies)do if api.isActive(e)then e.hp=0;Events.emit(s,'enemy_suicide',{enemy=e.id})end end
+   s.act2StasisCards=nil
   elseif entry.op=='leader_dead'then
    for _,e in ipairs(s.enemies)do if api.isActive(e)then e.escaped=true;Events.emit(s,'enemy_escape',{enemy=e.id})end end
   elseif entry.op=='flight_hit' and api.isActive(entry.target) and (entry.target.statuses.flight or 0)>0 then
@@ -72,7 +75,8 @@ function M.onDraw(s,card,base)
  card.freeToPlayOnce=false
 end
 function M.died(s,e)
- if e.ai and e.ai.policy=='collector'then push(s,{op='boss_dead'}) end
+ local stasis=Stasis.death(s,e);if stasis then push(s,stasis)end
+ if e.ai and (e.ai.policy=='collector' or e.ai.policy=='automaton')then push(s,{op='boss_dead'}) end
  if e.ai and e.ai.policy=='leader'then push(s,{op='leader_dead'}) end
  if e.ai and e.ai.mugger and not e.muggerDeathSoundSampled then
   e.muggerDeathSoundSampled=true

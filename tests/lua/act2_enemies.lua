@@ -64,8 +64,8 @@ test('Mystic A0 history forbids three consecutive attacks, buffs, or heals',func
  h.hp=h.maxHp-30;AI.initialize(s,h,roll(0));AI.advance(s,h,roll(0));eq(intent(h),'heal')
  AI.advance(s,h,roll(99));eq(intent(h),'attack')
 end)
-test('unimplemented chapter rooms reject without consuming queue or generation',function()
- local r=room('Spheric Guardian');r.floor=33;r.bossInitialization={profile='source-history',bossList={'Automaton','Automaton'}}
+test('unknown second-act Boss rejects without consuming queue or generation',function()
+ local r=room('Spheric Guardian');r.floor=33;r.bossInitialization={profile='source-history',bossList={'invalid_boss','invalid_boss'}}
  local queue=r.encounters;local gen=r.roomGeneration
  local ok,reason=Run.startRoomCombat(r,'boss');eq(ok,false);eq(reason,'act_content_unavailable')
  eq(r.encounters,queue);eq(r.roomGeneration,gen);eq(r.phase,'map')
@@ -262,5 +262,113 @@ test('Collector revives only dead slot and its death removes surviving minions',
  local living=0;for _,ally in ipairs(s.enemies)do if ally~=e and A.isActive(ally)then living=living+1;assert(ally.id~=corpse.id)end end
  eq(living,2);C.damage(s,s.player,e,999,true);eq(C.outcome(s),'victory')
  for _,ally in ipairs(s.enemies)do eq(ally.hp,0)end
+end)
+test('Automaton A0 summons real orbs and preserves Flail Boost Hyperbeam Stunned cycle',function()
+ local streams=Run.roomStreams({runSeed='42'},33)
+ local s=C.new(Data,{enemies={'automaton'},deck={},seed=42,hp=1000,maxHp=1000,roomSeed=streams.seed,roomStreams=streams})
+ local e=s.enemies[1];eq(e.hp,300);eq(e.statuses.artifact,3);eq(intent(e),'spawn_orbs')
+ assert(C.endTurn(s));eq(#s.enemies,3);eq(s.monsterHpRng.counter,5);eq(s.aiRng.counter,4);eq(intent(e),'flail')
+ for _,orb in ipairs(s.enemies)do if orb~=e then eq(orb.definitionId,'bronze_orb');assert(orb.hp>=52 and orb.hp<=58);eq(orb.minion,true);orb.hp=0 end end
+ assert(C.endTurn(s));eq(s.player.hp,986);eq(intent(e),'boost')
+ assert(C.endTurn(s));eq(e.statuses.strength,3);eq(e.block,9);eq(intent(e),'flail')
+ assert(C.endTurn(s));eq(s.player.hp,966);eq(intent(e),'boost')
+ assert(C.endTurn(s));eq(e.statuses.strength,6);eq(intent(e),'hyper_beam')
+ assert(C.endTurn(s));eq(s.player.hp,915);eq(intent(e),'stunned')
+ assert(C.endTurn(s));eq(s.player.hp,915);eq(intent(e),'flail')
+end)
+test('Bronze Orb Stasis chooses draw-pile rarity with stable original-ID sort and returns same UID/stats',function()
+ local s=battle({'automaton'});assert(C.endTurn(s));local orb=s.enemies[1]
+ local a={cardId='impervious',uid=700,upgraded=true,costForTurn=0,damageBonus=7}
+ local b={cardId='bludgeon',uid=701,upgraded=true,costForTurn=0,damageBonus=7}
+ s.draw={a,{cardId='armaments',uid=702},b};s.discard={{cardId='offering',uid=703}}
+ local R=require('abyss_sts_random');local rng=R.cloneState(s.cardRandomRng)
+ local chosen=({b,a})[R.randomInt(rng,1)+1];local before=s.cardRandomRng.counter
+ C.applyEffects(s,{{op='enemyStasis',value=1}},orb,s.player)
+ eq(s.cardRandomRng.counter,before+1);eq(#s.draw,2);eq(#s.discard,1)
+ eq(s.act2StasisCards[orb.id].uid,chosen.uid);eq(orb.statuses.stasis,1)
+ local nextUid=s.nextUid;C.damage(s,s.player,orb,999,true)
+ eq(s.nextUid,nextUid);eq(s.hand[#s.hand].uid,chosen.uid);eq(s.hand[#s.hand].upgraded,true)
+ eq(s.hand[#s.hand].costForTurn,0);eq(s.hand[#s.hand].damageBonus,7);eq(s.act2StasisCards[orb.id],nil)
+end)
+test('Stasis fallback is discard; full-hand death returns to discard, empty piles spend no RNG',function()
+ local s=battle({'automaton'});assert(C.endTurn(s));local orb=s.enemies[1]
+ local before=s.cardRandomRng.counter;C.applyEffects(s,{{op='enemyStasis',value=1}},orb,s.player)
+ eq(s.cardRandomRng.counter,before);eq(orb.statuses.stasis,nil)
+ s.discard={{cardId='strike',uid=900,upgraded=true}}
+ C.applyEffects(s,{{op='enemyStasis',value=1}},orb,s.player);eq(#s.discard,0);eq(s.cardRandomRng.counter,before+1)
+ for i=1,10 do s.hand[i]={cardId='defend',uid=1000+i}end
+ C.damage(s,s.player,orb,999,true);eq(#s.hand,10);eq(#s.discard,1);eq(s.discard[1].uid,900)
+end)
+test('all three Act2 Boss selections reach their exact source actor through Run',function()
+ for _,row in ipairs({{'Champ','champ'},{'Collector','collector'},{'Automaton','automaton'}})do
+  local r=room('Spheric Guardian');r.floor=33;r.bossInitialization={profile='source-history',bossList={row[1],row[1]}}
+  assert(Run.startRoomCombat(r,'boss'));eq(r.encounterTier,'boss');eq(r.encounterSource,row[1]);eq(r.combat.enemies[1].definitionId,row[2])
+ end
+end)
+test('Bronze Orb uses one Stasis at 25 cutoff, guards support repeat, and blocks only Automaton',function()
+ local s=battle({'automaton'});assert(C.endTurn(s));local orb=s.enemies[1];local boss=s.enemies[2]
+ AI.initialize(s,orb,roll(24));eq(intent(orb),'beam')
+ AI.advance(s,orb,roll(25));eq(intent(orb),'stasis')
+ AI.advance(s,orb,roll(99));eq(intent(orb),'support')
+ C.applyEffects(s,orb.intents[orb.intentIndex].effects,orb,s.player);eq(boss.block,12);eq(orb.block,0)
+ AI.advance(s,orb,roll(99));eq(intent(orb),'support')
+ AI.advance(s,orb,roll(99));eq(intent(orb),'beam')
+ local card={cardId='impervious',uid=999};s.draw={card}
+ C.applyEffects(s,{{op='enemyStasis',value=1}},orb,s.player)
+ local hand=#s.hand;C.damage(s,s.player,boss,999,true);eq(C.outcome(s),'victory');eq(#s.hand,hand);eq(s.act2StasisCards,nil)
+ for _,e in ipairs(s.enemies)do eq(e.hp,0)end
+end)
+local function masterReality(s)
+ s.catalog.statuses.master_reality={id='master_reality',name='测试既有Master Reality',kind='buff',stack='none',decay='none',description='生成牌升级。'}
+ A.applyPower(s,s.player,'master_reality',1,s.player)
+end
+test('Stasis hand constructor applies Master Reality but full-hand sameUUID discard does not',function()
+ for _,full in ipairs({false,true})do
+  local s=battle({'automaton'});assert(C.endTurn(s));local orb=s.enemies[1]
+  masterReality(s);s.draw={{cardId='impervious',uid=1300,upgraded=false}}
+  C.applyEffects(s,{{op='enemyStasis',value=1}},orb,s.player)
+  if full then for i=1,10 do s.hand[i]={cardId='defend',uid=1400+i}end end
+  C.damage(s,s.player,orb,999,true)
+  local pile=full and s.discard or s.hand;eq(pile[#pile].uid,1300);eq(pile[#pile].upgraded,not full)
+ end
+end)
+test('failed Stasis return upgrade restores original held-card aliases, actor, RNG and card transaction',function()
+ local s=C.new(Data,{enemies={'automaton'},deck={'strike'},seed=42,hp=500,maxHp=500});assert(C.endTurn(s))
+ local orb=s.enemies[1];masterReality(s);local held={cardId='impervious',uid=1500,upgraded=false}
+ s.draw={held};C.applyEffects(s,{{op='enemyStasis',value=1}},orb,s.player);orb.hp=1
+ local custody=s.act2StasisCards;local before=C.copy(s);local hand=s.hand;local card=hand[1]
+ local upgrade=C.upgrade
+ C.upgrade=function(state,c)upgrade(state,c);error('injected after Stasis upgrade')end
+ local called,reason=pcall(C.play,s,card.uid,1);C.upgrade=upgrade
+ eq(called,false);assert(tostring(reason):find('injected after Stasis upgrade',1,true))
+ eq(s.hand,hand);eq(s.hand[1],card);eq(s.act2StasisCards,custody);eq(custody[orb.id],held)
+ eq(held.upgraded,false);eq(orb.hp,1);eq(s.seed,before.seed);eq(s.energy,before.energy);eq(#s.events,#before.events)
+end)
+test('all nineteen source queue/Boss groups construct exact actor arrays with no missing or substituted content',function()
+ local definitions=require('abyss_act2_enemies')
+ local rows={
+  {'Spheric Guardian','normal','spheric_guardian'}, {'Chosen','normal','chosen'},
+  {'Shell Parasite','normal','shelled_parasite'}, {'3 Byrds','normal','byrd,byrd,byrd'},
+  {'2 Thieves','normal','looter,mugger'}, {'Chosen and Byrds','normal','byrd,chosen'},
+  {'Sentry and Sphere','normal','sentry,spheric_guardian'}, {'Snake Plant','normal','snake_plant'},
+  {'Snecko','normal','snecko'}, {'Centurion and Healer','normal','centurion,mystic'},
+  {'Cultist and Chosen','normal','cultist,chosen'}, {'3 Cultists','normal','cultist,cultist,cultist'},
+  {'Shelled Parasite and Fungi','normal','shelled_parasite,fungi_beast'},
+  {'Gremlin Leader','elite','mad_gremlin,mad_gremlin,gremlin_leader'},
+  {'Slavers','elite','blue_slaver,taskmaster,red_slaver'}, {'Book of Stabbing','elite','book_of_stabbing'},
+  {'Automaton','boss','automaton'}, {'Collector','boss','collector'}, {'Champ','boss','champ'},
+ }
+ for _,row in ipairs(rows)do
+  local encounter,why=definitions.resolve(row[1],row[2]);assert(encounter,why)
+  local options={seed=42,deck={},enemies=encounter.enemies}
+  if encounter.sourceEncounter then
+   options.sourceEncounter=encounter.sourceEncounter
+   options.encounterBoundary={misc={integer=function()return 0 end}}
+  end
+  local s=C.new(Data,options);local ids={}
+  for _,e in ipairs(s.enemies)do ids[#ids+1]=e.definitionId;assert(e.intents[e.intentIndex])end
+  eq(table.concat(ids,','),row[3])
+ end
+ eq(definitions.resolve('Masked Bandits','elite'),nil)
 end)
 print('LUA_ACT2_ENEMIES_PASS '..count)

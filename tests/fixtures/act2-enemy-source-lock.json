@@ -134,6 +134,34 @@
     {
       "sha256": "66dbf76651c6499205c340d7f9304b031b19fd69cfd596475af209b21aeabd04",
       "path": "actions/common/SuicideAction.java"
+    },
+    {
+      "sha256": "e05adeb2dcbcf1259e83e9123daf193c7357360d9a502795feefd3a337ebc8ea",
+      "path": "monsters/city/BronzeAutomaton.java"
+    },
+    {
+      "sha256": "d6ab700de970d15dbeb2d66451b414b745bcb7695b6d347554f4ddef5e3ff08b",
+      "path": "monsters/city/BronzeOrb.java"
+    },
+    {
+      "sha256": "82cd9bd4f392723bf3fe9735e3c54a985c8ccaf296f7843709700d29855c127f",
+      "path": "actions/unique/ApplyStasisAction.java"
+    },
+    {
+      "sha256": "294790c903c94558dcdb5e4ebb9e2eba57c48cc6abf54428d09d1e3de3314870",
+      "path": "powers/StasisPower.java"
+    },
+    {
+      "sha256": "b089bb6fd688ffdd48ae9def57751f972429cad63f85ec80ee3f90593d5bbe25",
+      "path": "actions/common/MakeTempCardInHandAction.java"
+    },
+    {
+      "sha256": "78eeca2eeeaf22de9146148cdcb015b7bdd335f0529a6f62fdadba3dd4d28efd",
+      "path": "actions/common/MakeTempCardInDiscardAction.java"
+    },
+    {
+      "sha256": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61",
+      "path": "cards/AbstractCard.java"
     }
   ]
 }

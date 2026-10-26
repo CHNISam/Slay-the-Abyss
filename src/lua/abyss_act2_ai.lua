@@ -13,7 +13,17 @@ local function alive(state)
 end
 local function choose(state,e,n,random)
  local policy=e.ai.policy
- if policy=='collector'then
+ if policy=='automaton'then
+  if not e.act2Last then return 'spawn_orbs' end
+  if e.act2AutoTurns==4 then e.act2AutoTurns=0;return 'hyper_beam' end
+  if e.act2Last=='hyper_beam'then return 'stunned' end
+  e.act2AutoTurns=e.act2AutoTurns+1
+  return (e.act2Last=='stunned' or e.act2Last=='boost' or e.act2Last=='spawn_orbs') and 'flail' or 'boost'
+ elseif policy=='orb'then
+  if not e.act2StasisUsed and n>=25 then e.act2StasisUsed=true;return 'stasis' end
+  if n>=70 and not twice(e,'support')then return 'support' end
+  return not twice(e,'beam') and 'beam' or 'support'
+ elseif policy=='collector'then
   if not e.act2Last then return 'spawn' end
   if e.act2TurnsTaken>=3 and not e.act2UltUsed then return 'mega_debuff' end
   local dead=false
@@ -118,6 +128,7 @@ function M.initialize(state,e,random)
  e.act2Turns,e.act2Forges,e.act2Enraged=0,0,false
  e.act2HexUsed=false
  e.act2TurnsTaken,e.act2UltUsed=0,false
+ e.act2AutoTurns,e.act2StasisUsed=0,false
  setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.advance(state,e,random)
@@ -125,6 +136,7 @@ function M.advance(state,e,random)
  setMove(e,choose(state,e,random(state,100)-1,random))
 end
 function M.preBattle(state,e)
+ if e.ai.policy=='automaton'then A.applyPower(state,e,'artifact',3,e) end
  if e.ai.policy=='leader'then
   e.act2GremlinSlots={}
   for i=1,2 do local ally=state.enemies[i];ally.minion=true;e.act2GremlinSlots[i]=ally.id;A.applyPower(state,ally,'minion',1,e) end

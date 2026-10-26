@@ -53,6 +53,13 @@ M.enemies={
   move('fireball','attack',{damage(18)}),
   move('buff','defend',{{op='block',value=15,fixed=true},{op='enemyStrengthAll',value=3}}),
   move('mega_debuff','debuff',{status('weak',3),status('vulnerable',3),status('frail',3)})}},
+ {id='automaton',name='青铜机枢',tier='boss',hp=300,ai={kind='act2',policy='automaton'},intents={
+  move('spawn_orbs','buff',{{op='enemyBronzeSpawn',value=2}}),move('flail','attack',{damage(7,2)}),
+  move('boost','defend',{{op='block',value=9,fixed=true},{op='gainStatus',status='strength',value=3}}),
+  move('hyper_beam','attack',{damage(45)}),move('stunned','stunned',{})}},
+ {id='bronze_orb',name='青铜浮核',tier='normal',hp=58,hpRange={min=52,max=58},ai={kind='act2',policy='orb',preHpRoll=7},intents={
+  move('beam','attack',{damage(8)}),move('support','defend',{{op='block',value=12,target='automaton'}}),
+  move('stasis','debuff',{{op='enemyStasis',value=1}})}},
  {id='champ',name='磐岩斗魁',tier='boss',hp=420,ai={kind='act2',policy='champ'},intents={
   move('heavy_slash','attack',{damage(16)}),
   move('defensive_stance','defend',{{op='block',value=15,fixed=true},{op='gainStatus',status='metallicize',value=5}}),
@@ -69,6 +76,7 @@ M.statuses={
  {id='flight',name='飞行',kind='buff',stack='intensity',decay='none',priority=50,description='普通攻击伤害减半；受到3次未被完全格挡的攻击后坠地。行动前补满次数。'},
  {id='confusion',name='混乱',kind='debuff',stack='none',decay='none',priority=0,description='抽牌时，将非负费用牌的费用随机改为0至3；X费与不可打出的牌不受影响。'},
  {id='minion',name='随从',kind='buff',stack='none',decay='none',description='随首领登场的仆从，不提供独立击杀成长。'},
+ {id='stasis',name='扣押',kind='buff',stack='none',decay='none',description='扣押一张抽牌堆或弃牌堆的牌；击败浮核后归还，满手牌时放入弃牌堆。'},
 }
 local rooms={
  ['Spheric Guardian']={id='act2_sphere',enemies={'spheric_guardian'}},
@@ -90,6 +98,7 @@ local rooms={
  ['Gremlin Leader']={id='act2_leader',tier='elite',sourceEncounter='Gremlin Leader'},
  ['Champ']={id='act2_champ',tier='boss',enemies={'champ'}},
  ['Collector']={id='act2_collector',tier='boss',enemies={'collector'}},
+ ['Automaton']={id='act2_automaton',tier='boss',enemies={'automaton'}},
 }
 function M.resolve(source,tier)
  local room=rooms[source]
