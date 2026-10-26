@@ -458,6 +458,45 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         return false, nil, true
     end
+    -- Pointer motion only changes the held card and its aim. Keep the HUD,
+    -- intent simulation and other card previews out of this hot path.
+    local function renderDrag(g, valid, target, aiming)
+        local box = child("card" .. g.slot)
+        local x, y = dragPose(g)
+        local h = L.card.size[2]*D.scale
+        if aiming then x, y = (g.origin or {g.sx})[1], D.lineY-h/2-S.s end
+        box:SetAnchoredPosition(x,y)
+        box:SetLocalScale(D.scale,D.scale,1)
+        box.localRotationZ = 0
+        box:GetChild("glow"):SetVisible(valid == true)
+        local layer = child("dragLayer")
+        tint(layer:GetChild("line"),valid and C.goldBright or C.line)
+        local enemy = target and g.battle.enemies[target]
+        layer:GetChild("hint").text = ""
+        local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
+        if enemy then
+            local tx, _, portrait = enemySlot(#g.battle.enemies,target,enemy)
+            ex, ey, ring = tx, L.enemyRow.y, portrait+D.reticlePad
+        end
+        local reticle = layer:GetChild("reticle")
+        reticle:SetVisible(aiming == true)
+        reticle:SetAnchoredPosition(ex,ey)
+        reticle:SetSizeDelta(ring,ring)
+        tint(reticle,enemy and C.goldBright or C.textDim)
+        local sx, sy, fy = x, y+h/2, ey-(enemy and ring/2 or 0)
+        for i = 1, D.aimDots do
+            local dot, t = layer:GetChild("aim" .. i), i/D.aimDots
+            dot:SetVisible(aiming == true)
+            if aiming then
+                local u, size = 1-t, D.aimDot[1]+(D.aimDot[2]-D.aimDot[1])*t
+                dot:SetAnchoredPosition(u*u*sx+2*u*t*sx+t*t*ex,u*u*sy+2*u*t*fy+t*t*fy)
+                dot:SetSizeDelta(size,size)
+                tint(dot,enemy and C.goldBright or C.textDim)
+            end
+        end
+        layer:SetAsLastSibling()
+        g.drawn, g.drawnValid, g.drawnTarget, g.drawnAiming = true, valid, target, aiming
+    end
     local function button(name, enabled, primary, caption)
         local box = child(name)
         box.interactable = enabled == true
@@ -1271,45 +1310,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local g = self.gesture
         show("dragLayer", g ~= nil and g.moving == true)
         if g and g.moving then
-            local box = child("card" .. g.slot)
             local valid, target, aiming = dragTarget(g)
-            local x, y = dragPose(g)
-            local h = L.card.size[2]*D.scale
-            -- An aiming card parks under the line so it never hides the enemy row.
-            if aiming then x, y = (g.origin or {g.sx})[1], D.lineY-h/2-S.s end
-            box:SetAnchoredPosition(x,y)
-            box:SetLocalScale(D.scale,D.scale,1)
-            box.localRotationZ = 0
-            box:GetChild("glow"):SetVisible(valid == true)
-            local layer = child("dragLayer")
-            tint(layer:GetChild("line"),valid and C.goldBright or C.line)
-            local enemy = target and g.battle.enemies[target]
-            -- The lit line, card glow and reticle already say "release to play"; no caption over the card.
-            layer:GetChild("hint").text = ""
-            -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
-            local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
-            if enemy then
-                local tx, _, portrait = enemySlot(#g.battle.enemies,target,enemy)
-                ex, ey, ring = tx, L.enemyRow.y, portrait+D.reticlePad
-            end
-            local reticle = layer:GetChild("reticle")
-            reticle:SetVisible(aiming == true)
-            reticle:SetAnchoredPosition(ex,ey)
-            reticle:SetSizeDelta(ring,ring)
-            tint(reticle,enemy and C.goldBright or C.textDim)
-            local sx, sy, fy = x, y+h/2, ey-(enemy and ring/2 or 0)
-            for i = 1, D.aimDots do
-                local dot, t = layer:GetChild("aim" .. i), i/D.aimDots
-                dot:SetVisible(aiming == true)
-                if aiming then
-                    local u, size = 1-t, D.aimDot[1]+(D.aimDot[2]-D.aimDot[1])*t
-                    -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.
-                    dot:SetAnchoredPosition(u*u*sx+2*u*t*sx+t*t*ex,u*u*sy+2*u*t*fy+t*t*fy)
-                    dot:SetSizeDelta(size,size)
-                    tint(dot,enemy and C.goldBright or C.textDim)
-                end
-            end
-            layer:SetAsLastSibling()
+            renderDrag(g, valid, target, aiming)
         end
         -- Details describe the committed battle only while the player can read them.
         if self.info and (not self.active or self.busy or self.gesture or not fighting
@@ -1603,7 +1605,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if g.moving then
             arm(g)
             self.suppressClick,self.selected = true,g.uid
-            self:render()
+            local valid, target, aiming = dragTarget(g)
+            if not g.drawn or g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
+                -- Refresh target damage and enemy highlights on an aim change.
+                self:render()
+            else
+                renderDrag(g, valid, target, aiming)
+            end
         end
     end
     local function release(event, input, ended)
