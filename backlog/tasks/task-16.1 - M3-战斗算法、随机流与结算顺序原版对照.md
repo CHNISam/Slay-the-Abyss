@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-26 21:18'
 due_date: '2026-10-28'
 labels:
   - required
@@ -46,6 +46,8 @@ ordinal: 43000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
+
+2026-10-27 共享阶段独立复审实证Run.endTurn/Run.chooseCard在核心胜利后遇到奖励晚失败无法重试。父线程在Run公开边界复用完整Snapshot，保留原throw/false语义和同一Run/Combat/队列/实体/RNG身份；先用正常来源房间、公开取得WLP/Omega+/EnergyPotion证红，再覆盖直接结束回合与保留选择续跑两入口的完整回滚/重试。Core回合末和怪物片仍各自隔离，不扩大至无证据接口。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -92,4 +94,6 @@ ordinal: 43000
 2026-10-26澄清：区分已实现并通过自动化、尚未接入内容、接齐后的组合/随机链验收。现有75卡及共享机制测试结论保留；不能把“全池未齐”写成“全部单元测试没测到位”。未声称所有尚未实现的职业/遗物组合已通过。
 
 2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
+
+2026-10-27 父线程公开Run事务切片真实2 RED→2 GREEN（6.598秒，原30秒），覆盖正常52HP来源房间Omega+结束回合和Discovery消耗/FNP/Juggernaut后选牌击杀；奖励先执行后throw，整Run每一原对象/字段/RNG还原，同token重试与独立无故障Run完全一致。具体见docs/reviews/M3-RUN-REWARD-ROLLBACK-20261027.md。Core普通阶段、WLP暂停交叉与完整CI仍待冻结组合，不勾广义全量/平台AC。
 <!-- SECTION:NOTES:END -->

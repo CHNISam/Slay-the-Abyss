@@ -718,14 +718,22 @@ end
 
 function M.chooseCard(run,token,uid)
     if run.phase~="combat" then return false,"not_in_combat" end
-    local ok,reason=Combat.chooseCard(run.combat,token,uid)
-    if ok then
-        syncBattlePotions(run)
-        run.gold=run.combat.player.gold
-        run.relicCounters=Combat.copy(run.combat.relicCounters or {})
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
+    -- Core may already have won before reward preparation fails. Keep this
+    -- whole public command retryable, with all original UI/entity references.
+    local restore=require('abyss_snapshot').capture(run)
+    local called,ok,reason=pcall(function()
+        local accepted,detail=Combat.chooseCard(run.combat,token,uid)
+        if accepted then
+            syncBattlePotions(run)
+            run.gold=run.combat.player.gold
+            run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+            applyPermanentChanges(run)
+            if Combat.outcome(run.combat) then M.finishCombat(run) end
+        end
+        return accepted,detail
+    end)
+    if not called then restore();error(ok,0)end
+    if not ok then restore()end
     return ok,reason
 end
 
@@ -807,15 +815,21 @@ end
 
 function M.endTurn(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
-    local ok, reason = Combat.endTurn(run.combat)
-    if ok then
-        syncBattlePotions(run)
-        run.gold = run.combat.player.gold
-        run.relicCounters=Combat.copy(run.combat.relicCounters or {})
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
-    return ok, reason
+    local restore=require('abyss_snapshot').capture(run)
+    local called,ok,reason=pcall(function()
+        local accepted,detail=Combat.endTurn(run.combat)
+        if accepted then
+            syncBattlePotions(run)
+            run.gold = run.combat.player.gold
+            run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+            applyPermanentChanges(run)
+            if Combat.outcome(run.combat) then M.finishCombat(run) end
+        end
+        return accepted,detail
+    end)
+    if not called then restore();error(ok,0)end
+    if not ok then restore()end
+    return ok,reason
 end
 
 function M.choosePotionStance(run,selected,token,generation,battle)
