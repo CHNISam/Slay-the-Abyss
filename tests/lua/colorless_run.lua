@@ -4,6 +4,13 @@ local data=require('abyss_data');local Colorless=require('abyss_colorless_cards'
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local r=Run.new(data,19);assert(not data.colorlessCards);eq(#r.data.cards.sourcePools.srcColorless,35)
 eq(Colorless.withCards(r.data),r.data)
+for _,source in ipairs({data,r.data})do
+ local a=C.new(source,{deck={},enemies={'jaw_worm'},seed=1})
+ local b=C.new(source,{deck={},enemies={'jaw_worm'},seed=1})
+ local id=source.cards.sourcePools.src.common[1]
+ a.sourcePools.src.common[1]='changed'
+ eq(source.cards.sourcePools.src.common[1],id);eq(b.sourcePools.src.common[1],id)
+end
 r.deck={{cardId='ritual_dagger',uid=31,upgraded=false}};r.relics={}
 assert(Run.startCombat(r,'cultist_solo'));local c=r.combat.hand[1];eq(c.deckUid,31)
 r.combat.enemies[1].hp=1;assert(Run.play(r,c.uid,1));eq(r.deck[1].misc,18)

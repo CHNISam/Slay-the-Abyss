@@ -8,7 +8,11 @@ function M.copy(value, seen)
         if type(v)~="table" then return v end
         if seen[v] then return seen[v] end
         local result={};seen[v]=result
-        for k,entry in pairs(v) do result[k]=visit(entry) end
+        -- Most definition fields are scalars. Copy them directly instead of
+        -- entering the recursive Lua function once for every string/number.
+        for k,entry in pairs(v) do
+            result[k]=type(entry)=='table' and visit(entry) or entry
+        end
         return result
     end
     return visit(value)

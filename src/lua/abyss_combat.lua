@@ -1824,7 +1824,11 @@ function M.endTurn(state)
 end
 
 function M.new(data, options)
+    local originalData=data
     data=require('abyss_colorless_cards').withCards(data)
+    -- Registration owns fresh, detached pools when it returns a new bundle.
+    -- Reuse that private copy; registered caller bundles still need a copy.
+    local sourcePools=data~=originalData and data.cards.sourcePools or copy(data.cards.sourcePools)
     options = options or {}
     if options.sourceEncounter ~= nil then
         assert(Formation.supports(options.sourceEncounter), "unknown source formation")
@@ -1838,7 +1842,7 @@ function M.new(data, options)
     assert(hp > 0 and hp <= rules.player.maxHp and hp % 1 == 0, "invalid starting hp")
     local gold = options.gold == nil and rules.player.startingGold or options.gold
     assert(goldInteger(gold), "invalid starting gold")
-    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=copy(data.cards.sourcePools),experimentalCharacter=data.experimentalCharacter, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
+    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = { cards = index(copy(data.cards.cards)), enemies = index(copy(data.enemies.enemies)),
             statuses = index(copy(data.statuses.statuses)) },
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
