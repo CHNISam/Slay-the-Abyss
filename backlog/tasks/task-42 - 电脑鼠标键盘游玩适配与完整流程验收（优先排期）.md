@@ -5,9 +5,10 @@ status: To Do
 assignee:
   - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-24 07:12'
+updated_date: '2026-10-26 12:56'
 due_date: '2026-10-28'
-labels: []
+labels:
+  - awaiting-live
 milestone: m-5
 dependencies: []
 references:
@@ -17,6 +18,7 @@ references:
   - docs/design/UI_DESIGN.md
   - docs/backlog-details/TASK-42.md
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/BACKLOG-AUDIT-20261026.md
 priority: high
 type: feature
 ordinal: 40000

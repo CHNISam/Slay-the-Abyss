@@ -5,11 +5,12 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 16:19'
+updated_date: '2026-10-26 13:18'
 due_date: '2026-10-28'
 labels:
   - P1
   - bgm
+  - awaiting-live
 milestone: m-5
 dependencies:
   - TASK-29
@@ -25,6 +26,7 @@ references:
   - docs/evidence/delivery-platform-20261024.json
   - docs/AUDIO_RICHNESS.md
   - docs/evidence/audio-richness-integrated-20261025.json
+  - docs/BACKLOG-AUDIT-20261026.md
 priority: high
 type: enhancement
 ordinal: 46000
@@ -38,11 +40,12 @@ ordinal: 46000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 各场景都选好音乐，在游戏里听过，并记下选曲。
-- [ ] #2 循环、音量、淡入淡出和切歌自然，保存带声音的试玩录像。
-- [ ] #3 来回切场景、连续战斗、结算和重开时，不叠播、不残留上一首。
-- [ ] #4 背景音乐不盖住出牌、命中等声音；做不到的地方说明原因。
-- [ ] #5 本任务负责人交付正式完整游戏的启用BGM候选，读回启用参数与原生图，完成导入、切歌和含声音录像；普通静音构建不得作为M4或RC音频验收版本。
+- [x] #1 地图、普通战斗、精英、Boss和胜败场景的音乐配置与曲目表已经交付。
+- [x] #2 已生成启用BGM的完整候选，原生音乐图和启用参数有独立读回记录。
+- [ ] #3 在正式游戏候选中逐场景实际听验并确认选曲，保存含声音录像。
+- [ ] #4 实测循环、音量、淡入淡出和切歌自然，背景音乐不盖过出牌与命中；能力限制明确记录。
+- [ ] #5 同候选往返场景、连续战斗、结算及重开不叠播、不残留，保留实际听验结果。
+- [ ] #6 当前正式完整候选完成官方导入、切歌和混音验收；旧启用候选或静音构建不代替最终M4/RC。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -65,4 +68,6 @@ ordinal: 46000
 用户明确本版直接采用、不等试听，不合适后续改。补行动发声后的e974c25完整check和带BGM候选独立读回均通过；与develop最新UI集成后再重建最终副本，未冒称此前副本为当前集成版。
 
 最终集成候选冻结源277c2a8、hash04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac，路径在新证据中。原生BGM图83节点、双true且全部模块独立读回匹配；保持liveWrite=0。用户取消试听前置，直接采用后再反馈；实际听验状态仍NOT_TESTED。
+
+2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
 <!-- SECTION:NOTES:END -->

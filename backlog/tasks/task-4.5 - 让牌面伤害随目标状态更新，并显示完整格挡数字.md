@@ -5,14 +5,16 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-24 15:52'
+updated_date: '2026-10-26 13:18'
 due_date: '2026-10-24'
-labels: []
+labels:
+  - awaiting-live
 milestone: m-5
 dependencies: []
 references:
   - docs/reviews/USER-PLAYTEST-20261024.md
   - docs/M3-NUMERIC-LIVE-20261024.md
+  - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-4
 priority: high
 type: bug
@@ -27,9 +29,10 @@ ordinal: 86000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 玩家及敌人的格挡1、10、99、100和999均完整可读，不遮住血条或相邻敌人。
-- [ ] #2 保留能复现旧问题的自动回归，并以同源候选的实机截图确认两项修复。
-- [ ] #3 普通手牌按玩家修正显示，瞄准具体敌人时才加入易伤；取消或状态移除后恢复原版数值。
+- [x] #1 玩家及敌人的格挡1、10、99、100和999均完整可读，不遮住血条或相邻敌人。
+- [x] #2 普通手牌按玩家修正显示，瞄准具体敌人时才加入易伤；取消或状态移除后恢复原版数值。
+- [x] #3 保留旧数字裁切和预览问题的自动红绿回归，现有布局与预览专项通过。
+- [ ] #4 以当前统一格挡位置版本的同源候选实机截图确认格挡与预览两项修复。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -48,4 +51,8 @@ ordinal: 86000
 本轮76bbefa数字视觉夹具官方导入1846，29号新日志24条含两次ready/六阶段/complete/正式结算。玩家及五敌1/10/99/100/999、Boss100与240/240、状态和牌堆10实际截图完整；用户帮助启动，自动启动失败保留。仅数字显示复验，预览/普通奖励及整体UI未验。详见docs/M3-NUMERIC-LIVE-20261024.md。后续develop拖牌同步b6d3cbe另有15预览/53UI回归通过，截图不认证全部新组合。
 
 2026-10-24 用户追加一致性修正：移除窄列搬格挡到头像分支，按固定AbstractCreature血条左端锚定；敌人行-192～512，固定预留三位格挡空间，生命位置不随格挡变化。先红后绿；53战斗UI、15预览、10反馈及13主题/布局回归通过。源码依据与验证边界见docs/reviews/consistent-block-layout.md；未导入/实机，不勾AC。
+
+2026-10-26全面复核：本轮53个原战斗UI用例和card_preview通过，已交付布局/领取/跳过/预览条款补勾；当前版实机截图与设备条款仍保留。
+
+2026-10-26将原混合AC2分成自动回归已通过和当前版实机待验，原要求完整保留。
 <!-- SECTION:NOTES:END -->

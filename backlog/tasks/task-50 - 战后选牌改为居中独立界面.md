@@ -5,11 +5,12 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 07:42'
-updated_date: '2026-10-24 08:30'
+updated_date: '2026-10-26 12:56'
 due_date: '2026-10-28'
 labels:
   - ui
   - art
+  - awaiting-live
 milestone: m-5
 dependencies: []
 references:
@@ -17,6 +18,7 @@ references:
   - docs/design/PLATFORM_PARITY.md
   - docs/DELIVERY-CLOSEOUT.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/169'
+  - docs/BACKLOG-AUDIT-20261026.md
 priority: high
 type: enhancement
 ordinal: 84000
@@ -30,8 +32,8 @@ ordinal: 84000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 战斗手牌仍在底部，战后奖励卡牌位于屏幕中心区域，一眼能和出牌状态区分
-- [ ] #2 悬停放大不遮挡相邻卡牌，点击一次只领取一张，可正常跳过，选完后不残留界面
+- [x] #1 战斗手牌仍在底部，战后奖励卡牌位于屏幕中心区域，一眼能和出牌状态区分
+- [x] #2 悬停放大不遮挡相邻卡牌，点击一次只领取一张，可正常跳过，选完后不残留界面
 - [ ] #3 实机截图或录屏确认长说明卡牌完整可读（电脑鼠标和手机触屏各一次）
 <!-- AC:END -->
 
@@ -61,4 +63,6 @@ ordinal: 84000
 2026-10-24 Codex 集成接手：用户明确要求合并 feat/reward-card-pick-ui。已核对实现提交 06b95ac，创建 PR169（https://github.com/CHNISam/Slay-the-Abyss/pull/169），与当前 develop 53a52bb 可无冲突合并。最终合并与当前 SHA 的 Quality 结果以该 PR 为准。本轮仅进行源码集成，不宣称编译候选、官方导入、电脑/手机实机或 UI 总门禁通过；任务保持 In Progress，原验收项继续保留。
 
 最新状态：PR169已squash合入develop e3310bc，前文未开PR/未合入是历史交接。源码集成已完成；本任务仍由@Codex负责新候选官方导入及电脑/手机三项AC，交TASK-4/5。离线预览与源码CI不作为实机通过。
+
+2026-10-26全面复核：本轮53个原战斗UI用例和card_preview通过，已交付布局/领取/跳过/预览条款补勾；当前版实机截图与设备条款仍保留。
 <!-- SECTION:NOTES:END -->

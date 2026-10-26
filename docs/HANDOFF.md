@@ -1,5 +1,7 @@
 # 交接说明
 
+2026-10-26 Backlog全面复核纠正：TASK-15第一幕敌人、TASK-16完整75战士及12.4/16.2/17.2等已有开发不再挂未完成；结合PR193/196/206/213/216提交说明，本次追加收口18项，连同首次4项共22项。GUI读回M3为29/43 Done，剩14项，范围仍是四职业与四幕。TASK-16原AC5/6、15原AC4及四项构筑自然验收逐字交TASK-47保持未勾，完整自然/平台验收不减。全部未完成项的具体判断、现有测试及剩余实现见[全面复核](BACKLOG-AUDIT-20261026.md)；首次BACKLOG-RECONCILE为被覆盖的历史。此次未修改玩法、操作游戏或占用键鼠。
+
 2026-10-26Windows运行40292214533最终JS为1470通过/1失败/零跳过：oracle生成器源码因autocrlf检出为CRLF，字节哈希与已锁定LF源不一致。新增.gitattributes仅固定tools/oracles/sts1_chapter_queues.py为LF；不更换向量或预期哈希。原失败日志保留，另以真实Git的autocrlf=true检出验证字节一致；日常完整Linux CI继续实际验证。
 
 2026-10-26依用户已授权的Linux等价检验，日常Quality/check改用官方ubuntu-24.04，保留PR215的固定工具/Actions版本、精确SHA检出、有界下载和全部检查命令/断言/超时。5c3ed30的Linux1471项及工程/呈现已通过，Windows作业仍在JS阶段运行约15分钟，未判为代码失败；新提交会取消旧运行并保留记录。受信develop/master显式local-special的Windows平台诊断入口保留，不自动调用本机。Linux完整Lua与新SHA完整CI仍须实际通过才合并。

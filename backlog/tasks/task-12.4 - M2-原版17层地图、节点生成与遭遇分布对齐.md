@@ -1,11 +1,11 @@
 ---
 id: TASK-12.4
 title: 把第一幕地图规则对准原版
-status: In Progress
+status: Done
 assignee:
   - '@codex-m3-map'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-25 12:32'
+updated_date: '2026-10-26 12:52'
 due_date: '2026-10-28'
 labels:
   - required
@@ -20,6 +20,7 @@ references:
   - docs/backlog-details/TASK-12.4.md
   - docs/reviews/TASK-12.4-fresh-run-seed-and-encounters.md
   - docs/reviews/TASK-12.4-encounter-queue-core.md
+  - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-12
 priority: high
 type: enhancement
@@ -34,10 +35,10 @@ ordinal: 40000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 每条规则有可信的原版依据；不清楚的地方标出来，不猜。
-- [ ] #2 确认15层地图、16层Boss、17层独立Boss宝箱，以及必出房间和路线连接规则。
-- [ ] #3 敌人出现范围、重复限制和随机抽取方式符合原版，地图显示和保存也正确。
-- [ ] #4 用多组测试检查路线、房间和出现概率；实际游戏里的结果另行确认。
+- [x] #1 每条规则有可信的原版依据；不清楚的地方标出来，不猜。
+- [x] #2 确认15层地图、16层Boss、17层独立Boss宝箱，以及必出房间和路线连接规则。
+- [x] #3 敌人出现范围、重复限制和随机抽取方式符合原版，地图显示和保存也正确。
+- [x] #4 用多组测试检查路线、房间和出现概率；实际游戏里的结果另行确认。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -50,6 +51,8 @@ ordinal: 40000
 2026-10-24 @codex-sts1-encounter-queue：从76bbefa独立实现原版第一幕遭遇队列核心，先核全部MonsterHelper编组映射；缺少Lots/Thugs及动态颜色/野生/大软泥组时不删池或强接Run。先写独立Python整数source-interpretation固定向量和阈值/拒重红例，复用生产STS Random及binary32；完成源名队列、normal/elite共享monsterRng、raw signed64种子、耗尽补队列和原子consume/snapshot/restore。只跑相关定向检查，不做UI/地图拓扑/药水/GUI/MCP/live/push；完整check由主线统一。
 
 2026-10-25 正式运行时接线切片：Run统一拥有源名遭遇队列，Nodes普通/精英/问号怪物只在成功换房时原子消费；Map显示与快照不预抽。raw64种子与按层独立HP/AI/misc随机流接入完整17源编组及构造顺序；固定Guardian初始化边界、其余洗牌/卡牌/奖励随机链明确保留。覆盖源级向量、失败/恢复、既有节点与地图回归，整体AC不勾。
+
+2026-10-26收口：核对最新合入、既有交付和平台矩阵，复跑相关原回归；开发与整体验收责任明确分层，原失败记录保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -64,4 +67,12 @@ ordinal: 40000
 2026-10-24 @codex-sts1-encounter-queue：第一幕遭遇队列核心已实现并定向验证，仍未接实际游戏。保留完整弱敌、强敌、精英池与同一个怪物随机流，支持完整原始种子、拒重、首强排除及原子消费/恢复；9个独立来源解释向量逐次状态匹配，核心12组、相关Node8项通过。完整17项内容映射仍有6项动态编组阻塞，未删池或改概率，普通耗尽明确拒绝而不猜原文异常路径。细节、接口、来源hash、Boss随机流边界及下一接线门槛见新增附件。本片未full/构建候选/导入/实机/外发委派，整体AC不勾。
 
 2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
+
+2026-10-26全面复核：生产Map4项及队列/运行时向量6项通过，12完整golden、raw恢复、126构造与正式入口事务保持；原版目标认证/平台概率分层留12.5。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+生产Map4项及队列/运行时向量6项通过，12完整golden、raw恢复、126构造与正式入口事务保持；原版目标认证/平台概率分层留12.5。 完整责任与证据见docs/BACKLOG-AUDIT-20261026.md
+<!-- SECTION:FINAL_SUMMARY:END -->

@@ -1,11 +1,11 @@
 ---
 id: TASK-52
 title: 按初代奖励列表领取并独立进入选牌
-status: In Progress
+status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:45'
-updated_date: '2026-10-25 12:32'
+updated_date: '2026-10-26 12:52'
 labels:
   - required ui rule-parity
 milestone: m-4
@@ -13,6 +13,8 @@ dependencies: []
 references:
   - docs/backlog-details/TASK-52.md
   - docs/backlog-details/TASK-52-UI-READABILITY.md
+  - docs/BACKLOG-RECONCILE-20261026.md
+  - docs/BACKLOG-AUDIT-20261026.md
 priority: high
 type: bug
 ordinal: 87000
@@ -26,16 +28,18 @@ ordinal: 87000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 选择或跳过卡牌不会领取或吞掉药水；PC跳过只返回列表且可重开。
-- [ ] #2 金币、失金与药水独立点击领取；药水显示名称、效果和数量，满槽保留条目并说明丢弃旧药水后重试，Sozu点击消耗条目。
-- [ ] #3 继续可去地图并返回未领奖励；成功换房后才失效，失败进入保留，重复或过期输入不能消费奖励。
-- [ ] #4 原版交互有固定源码与真实控件树回归；数值随机链、候选导入和本轮实机/UI验收边界明确保留。
+- [x] #1 选择或跳过卡牌不会领取或吞掉药水；PC跳过只返回列表且可重开。
+- [x] #2 金币、失金与药水独立点击领取；药水显示名称、效果和数量，满槽保留条目并说明丢弃旧药水后重试，Sozu点击消耗条目。
+- [x] #3 继续可去地图并返回未领奖励；成功换房后才失效，失败进入保留，重复或过期输入不能消费奖励。
+- [x] #4 原版交互有固定源码与真实控件树回归；数值随机链、候选导入和本轮实机/UI验收边界明确保留。
 <!-- AC:END -->
 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 以固定PC原文核对战利品列表、独立选牌页、Skip和Proceed的页面归属。2. 用真实Run与生成UI复现复杂并行动作和标题叠字，再重做列表与选牌互斥、金币药水分别领取和回看未领奖励。3. 将23状态可读性、旧输入归属、满槽及金币资源账本纳入现有自动检查；新导入前核验官方外部Lua。4. 组合完整检查、构建只读副本和独立读回，官方新导入并收集本轮日志/截图；实机与verify:ui缺口明确保留。
+
+2026-10-26收口：核对最新合入、既有交付和平台矩阵，复跑相关原回归；开发与整体验收责任明确分层，原失败记录保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -58,4 +62,14 @@ ordinal: 87000
 2026-10-25 PR193已合入develop 9ae1aec。准确正常候选473f7018已新导入官方1854，57模块正式sourceguard通过，新41号日志有ready/clock seed25757与首战；没有本轮奖励闭环截图或日志，不据此勾平台AC。第二轮工具因另一实际running试玩f4d29923阻止，未启动/未抢占。证据docs/evidence/m3-core-live-smoke-20261025.json。
 
 2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
+
+2026-10-26状态整理：PR193奖励列表/独立选牌与PR191药水栏即时刷新已合入，52.2保持Done；本任务不再重复实现这些切片。最终列表交互与本轮同候选自然领奖/UI证据仍待验。
+
+2026-10-26全面复核：PR193列表/独立选牌实现已合，reward_flow_parity本轮10/10；保留满槽、Sozu、独立领取及过期事务原检查；原AC4的随机/平台/UI边界明确由12.5/47及M4承接。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR193列表/独立选牌实现已合，reward_flow_parity本轮10/10；保留满槽、Sozu、独立领取及过期事务原检查；原AC4的随机/平台/UI边界明确由12.5/47及M4承接。 完整责任与证据见docs/BACKLOG-AUDIT-20261026.md
+<!-- SECTION:FINAL_SUMMARY:END -->

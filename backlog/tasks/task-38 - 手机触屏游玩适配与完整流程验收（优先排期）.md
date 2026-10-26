@@ -5,9 +5,10 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-25 08:05'
+updated_date: '2026-10-26 12:56'
 due_date: '2026-10-28'
-labels: []
+labels:
+  - awaiting-live
 milestone: m-5
 dependencies: []
 references:
@@ -16,6 +17,7 @@ references:
   - docs/design/UI_DESIGN.md
   - docs/backlog-details/TASK-38.md
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/BACKLOG-AUDIT-20261026.md
 priority: high
 type: feature
 ordinal: 39000

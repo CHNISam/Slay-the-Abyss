@@ -1,19 +1,24 @@
 ---
 id: TASK-57
-title: 做好机器人完整卡池与各流派
+title: 补齐机器人剩余19张卡并完成完整卡池验收
 status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-25 11:57'
+updated_date: '2026-10-26 13:18'
 labels:
   - required
   - sts1
   - builds
+  - implementation-gap
+  - partially-implemented
 milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/DRAFT-4.md
+  - docs/BACKLOG-RECONCILE-20261026.md
+  - docs/BACKLOG-AUDIT-20261026.md
+  - docs/CLASS_CARD_HANDOFF.md
 priority: high
 type: feature
 ---
@@ -21,15 +26,19 @@ type: feature
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-25用户明确要求初代四职业所有流派均须纳入必做需求，取代旧的可选候选和发布后才决定是否启动的限制。本轮仅登记需求，不启动开发，不承诺10/30前全部交付。旧附件保留为历史，冲突时以本需求为准。以初代《杀戮尖塔》PC A0固定版本为规则基线，逐项记录来源及证据等级；数值、费用、升级、概率、随机消费和结算顺序保持一致，独立实现。完整职业卡池及合法组合为必做范围，构筑示例不是裁剪白名单。
+已合并职业开局、球与集中底座、独立蓝色牌池及56/75张实验卡，首球循环、电动力与集中球位机制已交付。M3剩余工作：补19张、完整来源池及生成/遗物交互、正式入口与自然通关；现有机制直接复用。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 独立职业选择、初始属性、初始牌组和遗物正确；常规池保持职业独立，合法跨色来源单列验证。
-- [ ] #2 完整卡池基本版与升级版均能按原版规则获取和执行；覆盖闪电、冰霜、黑暗、等离子、集中与球位、零费、重编程及混合构筑。
-- [ ] #3 每类构筑有自然奖励或商店获取、升级、真实战斗、跨节点继承及已开放章节通关的可重复记录；不能用直接塞牌替代可玩验收。
-- [ ] #4 卡牌、遗物、药水和职业机制组合覆盖边界与触发顺序；目录、离线实现、平台导入和实机结果分别记录。
+- [x] #1 职业选择控制器、初始生命/牌组/遗物和普通职业池隔离已接入并有本地回归。
+- [x] #2 当前56/75张实验牌的基本/升级与球、集中、首球循环和电动力机制已合入并有对应真实Combat回归。
+- [x] #3 已有代码、覆盖账本与离线界面证据已留档，实验入口和正式平台未验状态分开记录。
+- [ ] #4 补齐剩余19张以及状态、衍生、复制和合法生成依赖，完整75张基本版和升级版均可按原版执行。
+- [ ] #5 接齐完整职业常规池与合法跨色来源，逐项验证获取、稀有度、概率和随机消费。
+- [ ] #6 各类构筑及合法混合组合经自然奖励/商店取得、升级、连续战斗和跨节点继承验证；不能用预设牌组替代。
+- [ ] #7 全池卡牌、遗物、药水与职业机制交互覆盖边界和触发顺序；未实现项不得据现有子集测试放行。
+- [ ] #8 正式平台开放职业入口，同一候选逐职业通过全部已开放章节，保留本轮日志与截图。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -50,4 +59,10 @@ type: feature
 本轮机器人实验Profile35/75，仍缺40。utility14新牌与HeatSinks/Storm接线，defect_utility_build.lua52组通过，含FTL TOPdraw/UseCard/BOTdamage、X块清理后逐段/FNP尾、Void/Burn、真实故障原引用回滚。当前35牌池seed15/45真实奖励取得并实用Focus/Frost或Loop/Electro，各4胜最终HP47/44，严格候选/回合/RNG；第五只验重置非5胜，floor harness非地图/概率/平台。证据 /workspace/sts-triggers/docs/testing/DEFECT_NATURAL_BUILD.md。下一独立19牌未接不计支持。
 
 2026-10-25 最新165冻结检查点 /workspace/sts-checked（feat/verified-card-triggers）完整npm run check exit0：JS1349/no skips，Lua262顶层全执行无失败，Python22；597输入SHA256复核未变，build/card-triggers-code-hashes.json/full-check.log留证。仅4旧死亡处置fixture按源修正，165源码与原sts-triggers字节相同，旧两树失败日志保持。后续/workspace/sts-flow正在接下一69张牌（warrior状态29、defect engine63、silent tactics60、watcher flow27、展示21/512变体已定向绿），未将后续树算入本完整check或所有300完成。仍未提交推送合入，平台未验。
+
+2026-10-26状态整理：PR206保留实验机器人56张，不是完整75张；57.2首球循环/电动力27组回归本轮复验Done，57.1前3项已补勾。剩余卡、正式入口与自然连续通关未验。
+
+2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
+
+2026-10-26逐项AC拆分：职业基础/现有卡池/留档已完成，剩余卡、完整获取与跨色/全交互/自然各幕验收继续未勾；完整M3范围不变，原标准见AC快照。
 <!-- SECTION:NOTES:END -->
