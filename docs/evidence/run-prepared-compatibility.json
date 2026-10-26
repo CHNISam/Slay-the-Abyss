@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "scope": "Legacy prepared-data constructors only; no full-catalogue or complete gameplay claim for that route.",
+  "baselineMethod": "Two fresh Fengari states, git-show-preloaded changed production modules; no working-tree writes.",
+  "before": {
+    "oldHead": "01c1f94f",
+    "newHead": "0a23e403688b600cdb20f794d9a913177f26749b",
+    "stsProbeMs": {
+      "old": 1245,
+      "new": 641
+    },
+    "sts": [
+      {
+        "id": "watcher",
+        "cards": 75,
+        "oldCtor": true,
+        "hp": 72,
+        "deck": 10,
+        "oldStart": true,
+        "newError": "missing source card: clash"
+      },
+      {
+        "id": "silent",
+        "cards": 75,
+        "oldCtor": true,
+        "hp": 70,
+        "deck": 12,
+        "oldStart": true,
+        "newError": "incompatible caller foreign identity: nightmare"
+      },
+      {
+        "id": "defect",
+        "cards": 75,
+        "oldCtor": true,
+        "hp": 75,
+        "deck": 10,
+        "oldStart": false,
+        "oldStartReason": "unsupported_starting_orb",
+        "newError": "missing source card: clash"
+      },
+      {
+        "id": "ironclad",
+        "cards": 66,
+        "oldCtor": true,
+        "hp": 80,
+        "deck": 10,
+        "oldStart": true,
+        "newError": "warrior exhaust card already defined: corruption"
+      }
+    ],
+    "oldRunCharacter": null,
+    "oldRunCharacterProfile": null,
+    "oldDataExperimentalCharacter": "preserved for each STS profile",
+    "v4ProbeMs": {
+      "old": 1034,
+      "new": 269
+    },
+    "v4": [
+      {
+        "id": "hutao",
+        "tag": "HT",
+        "hp": 72,
+        "deck": 10,
+        "oldCtor": true,
+        "oldStart": true
+      },
+      {
+        "id": "arlecchino",
+        "tag": "AR",
+        "hp": 74,
+        "deck": 10,
+        "oldCtor": true,
+        "oldStart": true
+      },
+      {
+        "id": "furina",
+        "tag": "FR",
+        "hp": 70,
+        "deck": 10,
+        "oldCtor": true,
+        "oldStart": true
+      },
+      {
+        "id": "raiden",
+        "tag": "RD",
+        "hp": 72,
+        "deck": 10,
+        "oldCtor": true,
+        "oldStart": true
+      }
+    ],
+    "newV4Error": "original V4 does not use the STS catalogue assembler"
+  },
+  "redTests": [
+    {
+      "fixture": "run_prepared_profiles_compatibility",
+      "status": 1,
+      "elapsedMs": 636,
+      "error": "missing source card: clash"
+    },
+    {
+      "fixture": "run_prepared_v4_compatibility",
+      "status": 1,
+      "elapsedMs": 367,
+      "error": "original V4 does not use the STS catalogue assembler"
+    }
+  ],
+  "heavyGates": "Not rerun for this legacy-only branch; final combined RC verification belongs to the parent task.",
+  "node": "v24.18.0",
+  "green": [
+    {
+      "fixture": "run_prepared_profiles_compatibility",
+      "status": 0,
+      "elapsedMs": 1894,
+      "stdout": "RUN_PREPARED_PROFILES_COMPATIBILITY_PASS historical four prepared constructors/resources/pools/start outcomes, no inferred profile and no caller-flag ownership\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_prepared_v4_compatibility",
+      "status": 0,
+      "elapsedMs": 1517,
+      "stdout": "RUN_PREPARED_V4_COMPATIBILITY_PASS actual HT/AR/FR/RD legacy tags, resources, successful starts and isolated V4 lifecycle without inferred profile\n",
+      "stderr": ""
+    }
+  ],
+  "existingRegressionResults": [
+    {
+      "fixture": "run_card_catalog_contracts",
+      "status": 0,
+      "elapsedMs": 2553
+    },
+    {
+      "fixture": "run_card_catalog_metadata_conflicts",
+      "status": 0,
+      "elapsedMs": 1640
+    },
+    {
+      "fixture": "run_card_catalog_owned_registration",
+      "status": 0,
+      "elapsedMs": 2945
+    }
+  ]
+}

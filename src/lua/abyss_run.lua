@@ -16,6 +16,8 @@ local RelicPool = require('abyss_relic_pool')
 local RelicHooks = require('abyss_relic_hooks')
 local Acts = require('abyss_acts')
 local M = {}
+local preparedCharacters={ironclad=true,silent=true,defect=true,watcher=true}
+local preparedOriginalRoles={HT=true,AR=true,FR=true,RD=true}
 
 local function find(entries, id)
     for _, entry in ipairs(entries) do if entry.id == id then return entry end end
@@ -41,7 +43,12 @@ function M.new(data, seed, options)
             end
         end
     end
-    if not (profile and profile.originalV4)then
+    -- Historical Profile.prepare(data,id) -> Run.new(prepared,seed) accepts
+    -- an already filtered/adapted component, without inferring a Run profile.
+    local legacyPrepared=not profile and (not options or options.character==nil) and
+        (preparedCharacters[data.experimentalCharacter] and data.characterId==data.experimentalCharacter
+        or preparedOriginalRoles[data.originalV4Role] and type(data.originalV4Rules)=='table')
+    if not legacyPrepared and not (profile and profile.originalV4)then
         data=require('abyss_run_card_catalog').prepare(sourceData,data,profile and profile.id,ownsData)
         ownsData,ownsCatalog=true,true
     end
@@ -51,6 +58,11 @@ function M.new(data, seed, options)
     -- Profile factories already detached the whole input graph. Their private
     -- result can be adopted; caller-owned/default bundles still need a copy.
     local runData=ownsData and data or Combat.copy(data)
+    if legacyPrepared then
+        -- These new internal markers are not legacy rules or ownership proof.
+        -- Clear only the detached graph, preserving the old combat defaults.
+        runData.runCardCatalog,runData.runCardCharacter=nil,nil
+    end
     require('abyss_class_potions').register(runData)
     local run = { version = data.rules.version, data = runData, seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
