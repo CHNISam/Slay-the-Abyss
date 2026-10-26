@@ -14,7 +14,7 @@ function M.new(view, controls)
     local child, show = controls.child, controls.show
     local ink, tint, picture = controls.ink, controls.tint, controls.picture
     local placeCard, placeReward = controls.placeCard, controls.placeReward
-    local dragTarget, dragPose, enemySlot = controls.dragTarget, controls.dragPose, controls.enemySlot
+    local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
     local function renderCards(data, presentation, battle, fighting, active, reward, picking)
         local run = view.run
         local rewards = picking and Run.rewardOptions(run) or {}
@@ -109,7 +109,7 @@ function M.new(view, controls)
             -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
             local ex, ey, ring = g.x, g.y, D.aimDot[2]*2
             if enemy then
-                local tx, _, portrait = enemySlot(#g.battle.enemies,target,enemy)
+                local tx, _, portrait = enemyPosition(g.battle,target)
                 ex, ey, ring = tx, L.enemyRow.y, portrait+D.reticlePad
             end
             local reticle = layer:GetChild("reticle")

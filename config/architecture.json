@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_battle_enemy_view": "ui",
     "abyss_act2_enemies": "core",
     "abyss_act2_ai": "core",
     "abyss_act2_powers": "core",
