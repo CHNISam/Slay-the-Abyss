@@ -77,14 +77,14 @@ local function detailActor(battle, info)
     return info and battle and (info.index == 0 and battle.player or battle.enemies[info.index])
 end
 
-function M.new(self, child, enemySlot, describeInfo, paginate, tint, ink, picture)
-    local function pageGeometry(battle, info, actor, height)
+function M.new(self, child, enemyPosition, describeInfo, paginate, tint, ink, picture)
+    local function pageGeometry(battle, info, height)
         local x, portrait
         if info.index == 0 then
             x, portrait = L.player.position[1], L.player.portrait
             x = x + portrait / 2 + S.l + I.width / 2
         else
-            local enemyX, _, size = enemySlot(#battle.enemies, info.index, actor)
+            local enemyX, _, size = enemyPosition(battle, info.index)
             x, portrait = enemyX - size / 2 - S.l - I.width / 2, size
         end
         local edge = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x - I.width / 2
@@ -240,7 +240,7 @@ function M.new(self, child, enemySlot, describeInfo, paginate, tint, ink, pictur
         info.pages = #pages
         local page = pages[info.page]
         local footer = footerText(info, pages)
-        local geometry = pageGeometry(battle, info, actor, pageHeight(card, page, footer))
+        local geometry = pageGeometry(battle, info, pageHeight(card, page, footer))
         frame(panel, card, geometry)
         header(panel, card, geometry)
         summaryLine(panel, card, geometry)

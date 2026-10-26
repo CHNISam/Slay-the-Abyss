@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 const recordFiles = ['cards', 'statuses', 'enemies', 'relics', 'potions'];
 export const contentFiles = [...recordFiles, 'rules'];
 const tiers = ['normal', 'elite', 'boss'];
-const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal', 'healPercent', 'increaseMaxHp',
+const valueOps = ['fatalRevive', 'discover', 'generatePotions', 'damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal', 'healPercent', 'increaseMaxHp',
   'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength', 'gainTemporaryDexterity',
   'exhaustRandom', 'exhaustChoose', 'putOnDrawPile'];
 const statusOps = ['gainStatus', 'applyStatus', 'applyStatusAll', 'gainStatusPerTurn'];
@@ -114,6 +114,7 @@ export function validateContent(bundle) {
       if (actionValues.includes(op)) allowed.push('value');
       if (['makeTempCardInHand','makeTempCardInDraw'].includes(op)) allowed.push('card');
       if (op === 'upgradeHand') allowed.push('all');
+      if (op === 'discover') allowed.push('kind');
       if (op === 'feed') allowed.push('maxHp');
       if (op === 'damageRandom') allowed.push('times');
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
@@ -124,6 +125,7 @@ export function validateContent(bundle) {
       if (op === 'discardRandom') allowed.push('mayChoose');
       if (op === 'block' && enemyIntent) allowed.push('target');
       keys(effect, allowed, p);
+      if (op === 'discover') enumeration(effect.kind, ['attack','skill','power','colorless'], `${p}.kind`);
       if (effect.target !== undefined) enumeration(effect.target, ['random_ally'], `${p}.target`);
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);

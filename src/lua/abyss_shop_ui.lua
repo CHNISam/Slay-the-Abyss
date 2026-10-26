@@ -13,17 +13,6 @@ local priceColors = { poor = C.danger, sold = C.textMuted }
 local missingReasons = {
     card = "此商品尚未实装，不可购买", relic = "此遗物尚未实装，不可购买", potion = "此药水尚未实装，不可购买",
 }
-local potionEffectTemplates = {
-    damage = "单敌固定伤害{value}",
-    damageAll = "全体敌人伤害{value}（不受力量、虚弱、易伤影响）",
-    block = "自己固定格挡{value}", energy = "自己能量+{value}（本回合）", draw = "抽{value}张牌",
-    upgradeHand = "升级全部可升级手牌（仅本场战斗）", healPercent = "回复最大生命{value}%的生命",
-    increaseMaxHp = "最大生命+{value}，并回复{value}生命", exhaustMany = "选择任意张手牌消耗（可不选）",
-    discardRedraw = "选择任意张手牌丢弃，再抽等量牌", discardToHand = "选择{value}张弃牌回手，本回合费用为0",
-    randomizeHandCost = "手牌战斗费用随机改为0至3", escape = "逃离战斗，不获得奖励（Boss或背袭敌人房间不可用）",
-    playTopCards = "免费打出牌堆顶{value}张牌，目标随机",
-}
-local statusEffectOps = { gainTemporaryStrength = true, gainTemporaryDexterity = true, gainStatus = true, applyStatus = true }
 local M = {}
 
 local function find(entries, id)
@@ -41,30 +30,6 @@ local function cardStamp(offer)
     if offer.unavailable then return "未实装" end
     if offer.sold then return "已售出" end
     if offer.sale then return "特价 -50%" end
-end
-
-local function statusDuration(status, id)
-    if status and status.stack == "duration" then return "回合" end
-    if id == "regen" then return "（回合结束回复）" end
-    return ""
-end
-
-local function statusEffectText(data, effect, value)
-    local status = find(data.statuses.statuses, effect.status)
-    if effect.op == "gainTemporaryStrength" or effect.op == "gainTemporaryDexterity" then
-        return "自己" .. status.name .. "+" .. value .. "，回合结束时失去" .. value
-    end
-    if effect.op == "gainStatus" or effect.op == "applyStatus" then
-        return (effect.op == "applyStatus" and "单敌" or "自己") .. (status and status.name or effect.status)
-            .. value .. statusDuration(status, effect.status)
-    end
-end
-
-local function potionEffectText(data, effect)
-    local value = number(effect.value or 0)
-    local template = potionEffectTemplates[effect.op]
-    if template then return (template:gsub("{value}", value)) end
-    if statusEffectOps[effect.op] then return statusEffectText(data, effect, value) end
 end
 
 function M.new(controller, ui)
@@ -106,15 +71,7 @@ function M.new(controller, ui)
         return shortfall(offer.price)
     end
 
-    local function potionText(id)
-        local definition=find(self.run.data.potions.potions,id)
-        local parts={}
-        for _,effect in ipairs(definition and definition.effects or {}) do
-            local text = potionEffectText(self.run.data, effect)
-            if text then parts[#parts+1] = text end
-        end
-        return table.concat(parts,'，')
-    end
+    local function potionText(id) return require('abyss_potion_text').describe(self.run,id) end
 
     local function writeMissingCard(box, offer)
         box:GetChild('name').text=(offer.color=='colorless' and '无色' or '')..(rarityNames[offer.rarity] or '')..'牌 · 缺口'

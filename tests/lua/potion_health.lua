@@ -22,9 +22,21 @@ blocked.phase='node';blocked.node={eventId='WeMeetAgain'}
 local ok,reason=Run.usePotion(blocked,1);eq(ok,false);eq(reason,'potion_event_restricted');eq(blocked.potions[1],'blood_potion')
 local boundary=Run.new(Data,42);boundary.maxHp=16777219;boundary.hp=1
 assert(Run.obtainPotion(boundary,'blood_potion'));assert(Run.usePotion(boundary,1));eq(boundary.hp,3355445)
-local flower=Run.new(Data,42);flower.hp=10
+-- Magic Flower's natural relic acquisition is still outside this slice. Supply
+-- its passive definition so the ordinary pre-combat relic snapshot owns it.
+local flowerData=C.copy(Data)
+flowerData.relics.relics[#flowerData.relics.relics+1]={id='magic_flower',name='Magic Flower',rarity='rare',trigger='passive',effects={}}
+local flower=Run.new(flowerData,42);flower.hp=10
+flower.relics[#flower.relics+1]='magic_flower'
 assert(Run.obtainPotion(flower,'blood_potion'));assert(Run.startCombat(flower,'cultist_solo'))
-flower.relics[#flower.relics+1]='magic_flower';assert(Run.usePotion(flower,1));eq(flower.hp,34)
+assert(Run.usePotion(flower,1));eq(flower.hp,34)
+local flowerHooks=Run.new(flowerData,42);flowerHooks.hp=10
+assert(Run.obtainRelic(flowerHooks,'Toy Ornithopter'));flowerHooks.relics[#flowerHooks.relics+1]='magic_flower'
+assert(Run.obtainPotion(flowerHooks,'blood_potion'));assert(Run.startCombat(flowerHooks,'cultist_solo'))
+assert(Run.usePotion(flowerHooks,1,nil,function(candidate)
+ eq(candidate.player.hp,10);eq(candidate.cardActions[1].effect.value,16)
+ eq(candidate.cardActions[2].effect.value,5)
+end));eq(flowerHooks.hp,42)
 -- Fixed 319009d5 BloodPotion.use queues its HealAction; FruitJuice.use
 -- immediately calls increaseMaxHp(5), which heals before onUsePotion hooks.
 -- AbstractCreature.heal dispatches onNotBloodied; RedSkull removes its +3.
@@ -83,4 +95,4 @@ current.node={eventId='WeMeetAgain'};current.nodeFlow={type='event',event={id='c
 assert(Run.obtainPotion(current,'blood_potion'));assert(Run.usePotion(current,1));eq(current.hp,36);count=count+1
 local capped=Run.new(Data,42);capped.hp=79;assert(Run.obtainPotion(capped,'blood_potion'));assert(Run.startCombat(capped,'cultist_solo'))
 assert(Run.usePotion(capped,1,nil,function(staged)eq(staged.player.hp,79);eq(staged.cardActions[1].effect.value,16)end));eq(capped.hp,80);count=count+1
-print('LUA_POTION_HEALTH_PASS '..(count+3))
+print('LUA_POTION_HEALTH_PASS '..(count+4))

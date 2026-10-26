@@ -30,19 +30,26 @@ function M.capture(token, view, run)
     token.manualContinue = rewards and rewards.manualContinue
     token.cards = rewards and rewards.cards
     token.cardChoices = rewards and Combat.copy(rewards.cards)
+    token.upgrades = rewards and rewards.cardUpgrades
+    token.cardUpgrades = rewards and Combat.copy(rewards.cardUpgrades or {})
     captureGold(token, rewards)
     capturePotion(token, rewards)
     return token
 end
 
+local function sameCardOffers(token,rewards)
+    if token.cards~=rewards.cards or token.upgrades~=rewards.cardUpgrades or #token.cardChoices~=#rewards.cards then return false end
+    for i, id in ipairs(rewards.cards) do
+        if token.cardChoices[i] ~= id or token.cardUpgrades[i] ~= (rewards.cardUpgrades and rewards.cardUpgrades[i]) then return false end
+    end
+    return true
+end
+
 local function sameGoldAndCards(token, rewards)
     local item = rewards.stolenGold
-    if token.manualContinue ~= rewards.manualContinue or token.cards ~= rewards.cards
-        or #token.cardChoices ~= #rewards.cards or token.item ~= item
-        or token.goldAmount ~= (item and item.amount) or token.goldType ~= (item and item.type)
-        or token.normalGold ~= rewards.gold or token.goldClaimed ~= rewards.goldClaimed then return false end
-    for i, id in ipairs(rewards.cards) do if token.cardChoices[i] ~= id then return false end end
-    return true
+    return token.manualContinue == rewards.manualContinue and sameCardOffers(token,rewards)
+        and token.item == item and token.goldAmount == (item and item.amount) and token.goldType == (item and item.type)
+        and token.normalGold == rewards.gold and token.goldClaimed == rewards.goldClaimed
 end
 
 local function samePotion(token, potion)

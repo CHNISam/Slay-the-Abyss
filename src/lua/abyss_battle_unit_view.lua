@@ -89,7 +89,7 @@ function M.new(picture, tint, ink, statusKind)
             local y = (L.statusIcon.rows - 1) * layout.pitch / 2 - line * layout.pitch
             statusImage:SetAnchoredPosition(x, y)
             target:SetAnchoredPosition(x, y)
-            picture(statusImage, Theme.icon.status[entry.icon or entry.id])
+            picture(statusImage, Theme.icon.status[entry.icon or entry.id] or Theme.icon.intent[entry.kind] or Theme.icon.intent.unknown)
             tint(statusImage, statusKind(entry) == "buff" and C.buff or C.debuff)
             statusCount(count, entry, x, y, overflow, layout)
         end

@@ -1,0 +1,21 @@
+# 完整33项药水生产接线（离线切片）
+
+基线d8a26227；来源仍为固定aeubanks/sts@319009d5镜像，ZIP及认证边界见data/SOURCES.md和既有33项目录。没有认证正版PC二进制或原作实测，不提交镜像源码。旧catalog中的productionWired=false和六项currentProjectId是历史盘点，此次生产状态以本文和实际模块为准。
+
+生产奖励、初始商店、Courier补货、Entropic现在共用abyss_potion_random的完整33项原顺序拒绝采样：65/25/10稀有度、每次在0..32抽取，拒绝不同稀有度仍消费同一potionRng；不排序、不按支持情况删池、不改概率。所有34条定义（含战士池外毒药）撤销临时acquisitionPending。损坏数据缺定义时保留选中身份并标unavailable，不换一个支持项。
+
+新增六瓶：三种本职业Discovery、无色Discovery、Fairy、Entropic。Discovery按src池排HEALING、三张不同ID、真实选牌后临时UID、当回合0费、满手溢出弃牌堆，Bark生成两张；原生deck UI展示选择列表，永久牌组不变。Fairy在致死HP损失处自动处理、禁止手用、从左槽消耗、最低回复1、Bloom阻止且不耗瓶、Bark双倍、Flower战斗治疗倍率，不调普通onUsePotion。战斗事务私有库存只在Run成功命令后同步，拒绝时保留owner。Entropic按总槽数生成，包含溢出尝试，战斗limited会丢弃首次候选且排果汁；战外正常采样；战斗Sozu仍消费生成随机数，战外Sozu不生成。先销毁源瓶，再执行已排队的获得动作；Toy仍在药水初始动作之后。
+
+已记录的先红后绿：Fairy/Discovery/Entropic在生产入口首先unknown_potion；完整Shop源seed42先返回dexterity而固定源应fire。新增Fairy6、Discovery5、Entropic7项通过；完整drop适配器1000次连续抽样与采样器/RNG逐项比较，498掉落覆盖33项。独立Python旧oracle冻结的tests/fixtures/sts1-potion-production-channels.json覆盖33个首次掉落及33个初始商店身份。生产渠道测试分6件：原始starter击败正常Cultist→公开领奖→跨节点→下一战使用；商店正常支付、满槽不扣费不推进RNG、主动丢旧瓶后原槽补回、重复拒绝。来源种子离线搜索，不声称自然地图遭遇或实机。
+
+当前独立树渠道13分片中12通过；唯一红为无色药水尚待并行完整35张无色牌切片合入，未用临时定义或占位效果放行。新增模块已登记architecture；本片117模块/566边通过，固定Luacheck无新增诊断（112历史告警）。六瓶沿用批准主题现有瓶图标，专属美术未认证。
+
+仍须组合验收：无色完整生成与消费、其它职业专属药水及跨职业池、完整遗物组合和正式平台。Discovery源动作在其更新入口生成未使用选项组，本实现覆盖首次显示与取回两次生成边界；不同平台帧率下的额外纯持续时间更新随机消费尚未认证，不宣称逐帧cardRandomRng回放等价。本文不代替任务全池组合AC或同候选自然取得/使用AC，不勾平台或M3完成。
+
+本轮没有游戏、MCP、键鼠输入、候选构建/导入或实机验证。最终组合的当前SHA完整检查由父线程执行；旧候选不认证本批新增模块。
+
+后续复审切片：sampler现在显式接受四个原版职业，以PotionHelper固定switch原顺序置换前三瓶；Reward/Shop/Entropic均传真实职业。Silent毒药恢复正常来源，尚缺的8种其它职业专属瓶保留源身份/unavailable，不退回战士瓶、不把未知ID塞进库存；Entropic的未实现候选保留lastPotionGeneration和缺内容事件，仍消费原抽样。未知职业（包括拼写错误与false）拒绝。原创V4四角色由Owner本轮明确选用shared30兼容池，不含原版职业专属瓶；这是项目接线决策，不是原作职业映射。固定Java源码用switch(c)，null实际会异常，不能把shared30称为getPotions(null,false)原作可运行路径。
+
+新增6瓶战斗缩略/展开帮助、库存及商店说明共用abyss_potion_text；Fairy明确不可主动，说明致命触发与比例，Entropic说明总槽数量、溢出与果汁限制，Discovery说明三选一/份数/0费/临时牌。真实battle帮助6项先红（攻击瓶正文空）后绿；真实deck UI生成选择→新UID零费手牌1项通过。全33源流独立向量等13项Node通过，旧奖励/丢弃/失败事务按新源seed重新核对并保留其所有断言。新增职业池测试含原序前三瓶、shared30、未知拒绝和三个生产消费者。此后架构118模块/574边通过，固定Luacheck仍无新增诊断；不把上述其它职业缺效标记为完成。
+
+补充真实UI测试：同一生产host库存面板逐瓶选择6项、节点商店逐瓶渲染6项通过；商店采用适合原148×112格子的小字说明，保留0费、满手去弃牌、临时性、总槽、溢出、果汁限制、致命/最低1/禁治疗条件。没有扩大批准布局。既有target_rejection7和targeting_commit4项通过，保留物理槽与失效确认边界。UI测试为原生控制树模拟，千星实际文字换行/显示与同候选总门禁仍未验证。

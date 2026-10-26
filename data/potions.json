@@ -1,32 +1,44 @@
 {
   "potions": [
-    { "id":"duplication_potion","targetPolicy":"self","name":"复制药水","rarity":"uncommon","acquisitionPending":true,
+    {"id":"entropic_brew","targetPolicy":"self","name":"熵之酿","rarity":"rare",
+      "description":"按药水槽数量生成随机药水，依次填入空槽。可在战斗外使用；战斗中不会生成果汁。","effects":[{"op":"generatePotions","value":0}]},
+    {"id":"attack_potion","targetPolicy":"self","name":"攻击药水","rarity":"common",
+      "description":"从3张随机攻击牌中选择1张加入手牌，本回合费用为0。","effects":[{"op":"discover","kind":"attack","value":1}]},
+    {"id":"skill_potion","targetPolicy":"self","name":"技能药水","rarity":"common",
+      "description":"从3张随机技能牌中选择1张加入手牌，本回合费用为0。","effects":[{"op":"discover","kind":"skill","value":1}]},
+    {"id":"power_potion","targetPolicy":"self","name":"能力药水","rarity":"common",
+      "description":"从3张随机能力牌中选择1张加入手牌，本回合费用为0。","effects":[{"op":"discover","kind":"power","value":1}]},
+    {"id":"colorless_potion","targetPolicy":"self","name":"无色药水","rarity":"common",
+      "description":"从3张随机无色牌中选择1张加入手牌，本回合费用为0。","effects":[{"op":"discover","kind":"colorless","value":1}]},
+    {"id":"fairy_in_a_bottle","targetPolicy":"self","name":"瓶中精灵","rarity":"rare",
+      "description":"无法主动使用。受到致命伤害时自动消耗，回复最大生命30%的生命，至少1点。","effects":[{"op":"fatalRevive","value":30}]},
+    { "id":"duplication_potion","targetPolicy":"self","name":"复制药水","rarity":"uncommon",
       "description":"获得1层复制，接下来的牌额外使用一次；每轮结束减少1层。","effects":[{"op":"gainStatus","status":"duplication","value":1}] },
-    { "id":"distilled_chaos","targetPolicy":"self","name":"混沌精华","rarity":"uncommon","acquisitionPending":true,
+    { "id":"distilled_chaos","targetPolicy":"self","name":"混沌精华","rarity":"uncommon",
       "description":"免费打出抽牌堆顶3张牌，目标随机；不会额外消耗这些牌。","effects":[{"op":"playTopCards","value":3}] },
-    { "id":"smoke_bomb","targetPolicy":"self","name":"烟雾弹","rarity":"rare","acquisitionPending":true,
+    { "id":"smoke_bomb","targetPolicy":"self","name":"烟雾弹","rarity":"rare",
       "description":"逃离当前战斗，不获得战斗奖励；不能用于Boss或有背袭能力的敌人房间。","effects":[{"op":"escape","value":0}] },
-    { "id":"snecko_oil","targetPolicy":"self","name":"异蛇油","rarity":"rare","acquisitionPending":true,
+    { "id":"snecko_oil","targetPolicy":"self","name":"异蛇油","rarity":"rare",
       "description":"抽5张牌，再将手中可修改费用牌的战斗费用随机改为0至3。","effects":[{"op":"draw","value":5},{"op":"randomizeHandCost","value":0}] },
-    { "id":"elixir","targetPolicy":"self","name":"灵药","rarity":"uncommon","acquisitionPending":true,
+    { "id":"elixir","targetPolicy":"self","name":"灵药","rarity":"uncommon",
       "description":"选择任意张手牌消耗，可以不选。","effects":[{"op":"exhaustMany","value":0}] },
-    { "id":"gamblers_brew","targetPolicy":"self","name":"赌徒佳酿","rarity":"uncommon","acquisitionPending":true,
+    { "id":"gamblers_brew","targetPolicy":"self","name":"赌徒佳酿","rarity":"uncommon",
       "description":"选择任意张手牌丢弃，再抽等量牌。","effects":[{"op":"discardRedraw","value":0}] },
-    { "id":"liquid_memories","targetPolicy":"self","name":"液态记忆","rarity":"uncommon","acquisitionPending":true,
+    { "id":"liquid_memories","targetPolicy":"self","name":"液态记忆","rarity":"uncommon",
       "description":"从弃牌堆选择1张牌回手，本回合费用为0。","effects":[{"op":"discardToHand","value":1}] },
-    { "id": "blood_potion", "targetPolicy": "self", "name": "鲜血药水", "rarity": "common", "acquisitionPending": true,
+    { "id": "blood_potion", "targetPolicy": "self", "name": "鲜血药水", "rarity": "common",
       "description": "回复最大生命20%的生命，可在战斗外使用。", "effects": [{"op":"healPercent","value":20}] },
-    { "id": "fruit_juice", "targetPolicy": "self", "name": "果汁", "rarity": "rare", "acquisitionPending": true,
+    { "id": "fruit_juice", "targetPolicy": "self", "name": "果汁", "rarity": "rare",
       "description": "最大生命增加5，并回复5点生命，可在战斗外使用。", "effects": [{"op":"increaseMaxHp","value":5}] },
-    { "id": "blessing_of_the_forge", "targetPolicy": "self", "name": "锻造祝福", "rarity": "common", "acquisitionPending": true,
+    { "id": "blessing_of_the_forge", "targetPolicy": "self", "name": "锻造祝福", "rarity": "common",
       "description": "升级当前全部可升级手牌，不影响永久牌组。", "effects": [{"op":"upgradeHand","all":true}] },
-    { "id": "explosive_potion", "targetPolicy": "enemy_all", "name": "爆炸药水", "rarity": "common", "acquisitionPending": true,
+    { "id": "explosive_potion", "targetPolicy": "enemy_all", "name": "爆炸药水", "rarity": "common",
       "description": "对所有敌人造成10点普通类型伤害，不受力量、虚弱和易伤影响。", "effects": [{"op":"damageAll","value":10}] },
-    { "id": "heart_of_iron", "targetPolicy": "self", "name": "钢铁之心", "rarity": "rare", "acquisitionPending": true,
+    { "id": "heart_of_iron", "targetPolicy": "self", "name": "钢铁之心", "rarity": "rare",
       "description": "获得6层金属化，每回合结束时获得固定格挡。", "effects": [{"op":"gainStatus","status":"metallicize","value":6}] },
-    { "id": "essence_of_steel", "targetPolicy": "self", "name": "钢之精华", "rarity": "uncommon", "acquisitionPending": true,
+    { "id": "essence_of_steel", "targetPolicy": "self", "name": "钢之精华", "rarity": "uncommon",
       "description": "获得4层多层护甲，每回合结束时获得格挡；被普通攻击伤害生命时失去1层。", "effects": [{"op":"gainStatus","status":"plated_armor","value":4}] },
-    { "id": "cultist_potion", "targetPolicy": "self", "name": "邪教徒药水", "rarity": "rare", "acquisitionPending": true,
+    { "id": "cultist_potion", "targetPolicy": "self", "name": "邪教徒药水", "rarity": "rare",
       "description": "获得1层仪式，每回合结束时获得1层力量。", "effects": [{"op":"gainStatus","status":"ritual","value":1}] },
     {
       "id": "fire_potion",
@@ -122,7 +134,6 @@
       "name": "迅捷药水",
       "description": "抽 3 张牌。",
       "rarity": "common",
-      "acquisitionPending": true,
       "effects": [{ "op": "draw", "value": 3 }]
     },
     {
@@ -131,7 +142,6 @@
       "name": "虚弱药水",
       "description": "对选定敌人施加 3 回合虚弱。",
       "rarity": "common",
-      "acquisitionPending": true,
       "effects": [{ "op": "applyStatus", "status": "weak", "value": 3 }]
     },
     {
@@ -140,7 +150,6 @@
       "name": "恐惧药水",
       "description": "对选定敌人施加 3 回合易伤。",
       "rarity": "common",
-      "acquisitionPending": true,
       "effects": [{ "op": "applyStatus", "status": "vulnerable", "value": 3 }]
     },
     {
@@ -149,7 +158,6 @@
       "name": "远古药水",
       "description": "获得 1 层人工制品，本场战斗有效。",
       "rarity": "uncommon",
-      "acquisitionPending": true,
       "effects": [{ "op": "gainStatus", "status": "artifact", "value": 1 }]
     },
     {
@@ -158,7 +166,6 @@
       "name": "液态铜",
       "description": "获得 3 层荆棘，本场战斗有效。",
       "rarity": "uncommon",
-      "acquisitionPending": true,
       "effects": [{ "op": "gainStatus", "status": "thorns", "value": 3 }]
     },
     {
@@ -167,7 +174,6 @@
       "name": "肌肉药水",
       "description": "先获得5层力量，再施加回合结束时失去5层力量的减益。人工制品可抵挡减益。",
       "rarity": "common",
-      "acquisitionPending": true,
       "effects": [{ "op": "gainTemporaryStrength", "status": "strength", "value": 5 }]
     },
     {
@@ -176,7 +182,6 @@
       "name": "速度药水",
       "description": "先获得5层敏捷，再施加回合结束时失去5层敏捷的减益。人工制品可抵挡减益。",
       "rarity": "common",
-      "acquisitionPending": true,
       "effects": [{ "op": "gainTemporaryDexterity", "status": "dexterity", "value": 5 }]
     }
   ]

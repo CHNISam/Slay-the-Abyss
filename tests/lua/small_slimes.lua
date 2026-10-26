@@ -234,7 +234,12 @@ test('other 16 static encounter groups retain their member order and consume no 
             same(run.miscRng,wanted)
         else eq(run.miscRng,misc) end
         stable()
-        local reference=C.new(Data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck})
+        local reference=C.new(run.data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck,
+            beforeFirstTurn=function(state)
+                state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run)
+                return true
+            end})
+        assert(reference.potionInventory~=run.potions,'standalone reference must own a private potion inventory')
         same(Data.rules.player.startingRelics,{'burning_blood'})
         reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
         local generation=run.combatGeneration

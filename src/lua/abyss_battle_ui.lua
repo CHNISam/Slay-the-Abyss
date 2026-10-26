@@ -6,6 +6,7 @@ local Theme = require("abyss_theme")
 local Events = require("abyss_events")
 local Feedback = require("abyss_feedback")
 local CardView = require("abyss_battle_card_view")
+local EnemyView = require('abyss_battle_enemy_view')
 local StatusView = require("abyss_battle_status_view")
 local PotionView = require("abyss_battle_potion_view")
 local IntentView = require("abyss_battle_intent_view")
@@ -15,7 +16,7 @@ local InfoView = require("abyss_battle_info_view")
 local RewardOwner = require("abyss_battle_reward_owner")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
-local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人",
+local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人", card_content_unavailable = "此卡牌尚未实装，可选择其他卡牌或跳过。",
     card_not_in_hand = "这张牌已离开手牌", not_player_turn = "敌方行动中",
     normality_limit = "平庸：本回合已打出三张牌",
     advanced_card_not_enabled = "此牌效果尚未接入", not_in_combat = "战斗已经结束",
@@ -171,8 +172,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- Dynamic spawns can occupy an old enemy slot. Pointer ownership follows
     -- the actor object, battle and turn, never a reusable numeric slot alone.
     local enemyInputs, enemyPointerObserved = {}, false
+    local function enemyAt(slot,battle)
+        battle=battle or self.run and self.run.combat
+        return battle and EnemyView.slots(battle)[slot]
+    end
+    local function sameEnemySlot(slot,actor,battle)
+        local entry=enemyAt(slot,battle)
+        return entry and entry.actor==actor and entry.id==actor.id
+    end
     local function enemyReady(g)
         return not self.info and dragReady(g) and Actors.isActive(g.actor) and g.battle.enemies[g.slot] == g.actor
+            and sameEnemySlot(g.screenSlot,g.actor,g.battle)
             and self.selected == g.uid and self.selectionEpoch == g.selectionEpoch
             and self.potionAim == g.aim and (not g.aim or aimReady(g.aim))
     end
@@ -188,6 +198,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             2 * (right - x) - S.s, 2 * (x - playerRight - S.s) - S.s)
         local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
         return x, width, portrait, step
+    end
+    local function enemyPosition(battle,index)
+        local entry,slot,count=EnemyView.find(battle,index,self.busy and battle==self.displayBattle and self.feedback or nil)
+        assert(entry,'enemy has no visible presentation slot')
+        return enemySlot(count,slot,entry.actor)
     end
     -- Targeted cards enter the docked aiming pose after crossing the line.
     -- No-target commits use the release point inside the explicit field below.
@@ -215,14 +230,16 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if ok then return inPlayArea(g.x,g.y), nil end
         if reason ~= "invalid_target" then return false end
         if not g.armed then return false end
-        local count = #battle.enemies
-        for i, enemy in ipairs(battle.enemies) do
+        local rows=EnemyView.slots(battle)
+        local count = #rows
+        for i, entry in ipairs(rows) do
+            local enemy=entry.actor
             local x, _, portrait, step = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
                 and math.abs(g.y-L.enemyRow.y) <= portrait/2+D.reticlePad
-                and Combat.canPlay(battle,g.uid,i) then
-                return true, i, true
+                and Combat.canPlay(battle,g.uid,entry.index) then
+                return true, entry.index, true
             end
         end
         return false, nil, true
@@ -268,7 +285,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return infoContent(data, presentation, battle, info, actor)
     end
     local paginate = InfoView.paginator(lines)
-    local renderInfo = InfoView.new(self, child, enemySlot, describeInfo, paginate, tint, ink, picture)
+    local renderInfo = InfoView.new(self, child, enemyPosition, describeInfo, paginate, tint, ink, picture)
     closeInfo = function()
         if not self.info then return false end
         self.info = nil
@@ -362,7 +379,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local cardView = CardView.new(self, {
         child = child, show = show, ink = ink, tint = tint, picture = picture,
         placeCard = placeCard, placeReward = placeReward,
-        dragTarget = dragTarget, dragPose = dragPose, enemySlot = enemySlot,
+        dragTarget = dragTarget, dragPose = dragPose, enemyPosition = enemyPosition,
     })
     function self:setHover(slot)
         local run = self.run
@@ -639,10 +656,6 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         return false
     end
-    local function enemyVisible(enemy)
-        return enemy ~= nil and enemy ~= false and (Actors.isActive(enemy) or self.busy and
-            (self.feedback.escaping[enemy.id] or not enemy.escaped and not self.feedback.deaths[enemy.id]))
-    end
     local function enemyHighlighted(frame, enemy, index, pendingTarget)
         local targetable = frame.active and pendingTarget and Combat.canPlay(frame.battle, self.selected, index)
         if self.gesture and self.gesture.moving then
@@ -689,18 +702,23 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
     end
     local function renderEnemies(frame)
-        local count = frame.fighting and #frame.battle.enemies or 0
+        local rows=frame.fighting and EnemyView.slots(frame.battle,self.busy and self.feedback or nil) or {}
+        self.feedback.enemyRows=rows
+        local count = #rows
         local pendingTarget = pendingCardTarget(frame)
         for i = 1, 5 do
             local box = child("enemy" .. i)
-            local enemy = frame.fighting and frame.battle.enemies[i]
-            box:SetVisible(enemyVisible(enemy))
+            local entry=rows[i]
+            local enemy=entry and entry.actor
+            self.feedback.bindEnemySlot(i,entry and entry.id)
+            box:SetVisible(enemy~=nil)
             if enemy then
                 local x, width, portrait = enemySlot(count, i, enemy)
                 box:SetAnchoredPosition(x, L.enemyRow.y)
-                local selected = enemyHighlighted(frame, enemy, i, pendingTarget)
-                unit(box, enemy, portrait, Theme.icon.enemy[enemy.definitionId], width, selected)
-                renderEnemyIntent(box, enemyIntentFace(frame, enemy, i), portrait)
+                local selected = enemyHighlighted(frame, enemy, entry.index, pendingTarget)
+                local icon=Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier=='normal' and 'combat' or enemy.tier]
+                unit(box, enemy, portrait, icon, width, selected)
+                renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
             end
         end
     end
@@ -841,6 +859,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local actor = current and (help.spec.index == 0 and current.player or current.enemies[help.spec.index])
         return not self.active or self.busy or self.run ~= help.run or current ~= help.battle
             or current.turn ~= help.turn or actor ~= help.actor or actor.hp <= 0
+            or help.spec.screenSlot and not sameEnemySlot(help.spec.screenSlot,actor,current)
     end
     local function helpPointerChanged(help)
         return self.gesture and self.gesture.moving
@@ -1352,9 +1371,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     bindCardControls()
     local function bindEnemyControls()
         for i = 1, 5 do
-            local target, control, input = i, child("enemy" .. i):GetChild("hit"), {}
+            local screenSlot, control, input = i, child("enemy" .. i):GetChild("hit"), {}
             enemyInputs[i] = input
             local function chooseEnemy()
+            local entry=enemyAt(screenSlot)
+            if not entry then return false end
+            local target=entry.index
             if self.potionAim then
                 local slot = self.potionAim.slot
                 self.target = target
@@ -1399,9 +1421,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     input.held, input.released = nil, nil
                     if dismissed then return end
                     local run, battle = self.run, self.run and self.run.combat
-                    local actor = battle and battle.enemies[target]
+                    local entry=enemyAt(screenSlot,battle)
+                    local actor=entry and entry.actor
                     if not actor then return end
-                    local g = {slot=target, actor=actor, run=run, battle=battle,
+                    local g = {slot=entry.index,screenSlot=screenSlot, actor=actor, run=run, battle=battle,
                         uid=self.selected, selectionEpoch=self.selectionEpoch,aim=self.potionAim,
                         turn=battle.turn, touch=event and event.touchId}
                     if enemyReady(g) then input.held = g end
@@ -1424,13 +1447,29 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
     end
     bindEnemyControls()
+    local function helpActorReady(token,run)
+        local spec=token.spec
+        local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
+        return actor==token.actor and token.actor.hp>0
+            and (not spec.screenSlot or sameEnemySlot(spec.screenSlot,token.actor,run.combat))
+    end
+    local function statusActorAt(slot)
+        local battle=self.run and self.run.combat
+        if not battle then return end
+        if slot==0 then return battle,0,battle.player end
+        local entry=enemyAt(slot,battle)
+        if entry then return battle,entry.index,entry.actor end
+    end
     local function bindDetailControls()
         -- Enemy portraits keep targeting; the hero portrait and every status row only open
         -- details, so a status tap never plays a card or moves the potion target.
         listen(child("hero"):GetChild("hit"), function() self:showStatus(0) end)
         for i, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
-            local index = i - 1
-            listen(child(name):GetChild("statusRow"):GetChild("hit"), function() self:showStatus(index) end)
+            local screenSlot = i - 1
+            listen(child(name):GetChild("statusRow"):GetChild("hit"), function()
+                local entry=screenSlot>0 and enemyAt(screenSlot)
+                if screenSlot==0 or entry then self:showStatus(entry and entry.index or 0) end
+            end)
         end
         local info = child("statusInfo")
         info.disableCursorEventPassthrough = true
@@ -1465,8 +1504,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local run=self.run
                 return token and self.active and not self.busy and not self.gesture and run==token.run
                     and run.phase=="combat" and run.combat==token.battle and run.combat.turn==token.turn
-                    and (token.spec.index==0 and run.combat.player or run.combat.enemies[token.spec.index])==token.actor
-                    and token.actor.hp>0
+                    and helpActorReady(token,run)
                     and (token.spec.kind~="potion" or run.potions==token.spec.inventory and run.potions[token.spec.slot]==token.spec.potionId)
             end
             control:AddCursorEventListener(clickEvent,function(event)
@@ -1506,22 +1544,23 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             end
         end
         for i,name in ipairs({"hero","enemy1","enemy2","enemy3","enemy4","enemy5"}) do
-            local index=i-1
-            if index>0 then bindHelp(child(name):GetChild("intentHit"),function() return {kind="intent",index=index} end,true) end
+            local screenSlot=i-1
+            if screenSlot>0 then bindHelp(child(name):GetChild("intentHit"),function()
+                local entry=enemyAt(screenSlot)
+                return entry and {kind="intent",index=entry.index,screenSlot=screenSlot}
+            end,true) end
             for slot=1,L.statusIcon.perRow*L.statusIcon.rows do
                 local position=slot
                 bindHelp(child(name):GetChild("statusRow"):GetChild("hit"..slot),function()
-                    local battle=self.run and self.run.combat
-                    local actor=battle and (index==0 and battle.player or battle.enemies[index])
+                    local battle,index,actor=statusActorAt(screenSlot)
                     if not actor or actor.hp<=0 then return end
                     local entries=Combat.statusView(actor)
-                    local count=#battle.enemies
-                    local width=index==0 and L.hpBar.size[1] or select(2,enemySlot(count,index,actor))
+                    local width=index==0 and L.hpBar.size[1] or select(2,enemyPosition(battle,index))
                     local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))
                     local slots=perRow*L.statusIcon.rows
                     if not entries[position] then return end
                     local overflow=position==slots and #entries>slots
-                    return {index=index,statusId=not overflow and entries[position].id or nil,
+                    return {index=index,screenSlot=screenSlot>0 and screenSlot or nil,statusId=not overflow and entries[position].id or nil,
                         offset=overflow and position or nil}
                 end,true)
             end

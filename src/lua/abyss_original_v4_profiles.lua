@@ -23,6 +23,7 @@ function M.prepare(data,id)
     local spec=assert(frozen.rules.roles[role])
     local prepared=copy(data);local color=names[role]
     local pools={common={},uncommon={},rare={}}
+    local shop,metadata={common={attack={},skill={},power={}},uncommon={attack={},skill={},power={}},rare={attack={},skill={},power={}}},{}
     local count=0
     for _,raw in ipairs(frozen.cards)do if raw.role==role then
         count=count+1
@@ -38,12 +39,18 @@ function M.prepare(data,id)
         card.target=(hasTarget(raw.base.effects) or hasTarget(raw.upgrade.effects)) and 'ENEMY' or 'SELF'
         card.upgrade=version(true)
         prepared.cards.cards[#prepared.cards.cards+1]=card
-        if pools[card.rarity]then pools[card.rarity][#pools[card.rarity]+1]=card.id end
+        if pools[card.rarity]then
+            pools[card.rarity][#pools[card.rarity]+1]=card.id
+            shop[card.rarity][card.type][#shop[card.rarity][card.type]+1]=card.id
+            metadata[card.id]={sourceId=card.id,rarity=card.rarity,type=card.type}
+        end
     end end
     assert(count==frozen.rules.scope.cards_per_role,'incomplete original card pool')
     for _,pool in pairs(pools)do table.sort(pool)end
+    for _,typed in pairs(shop)do for _,pool in pairs(typed)do table.sort(pool)end end
     prepared.cards.sourcePools=copy(prepared.cards.sourcePools or {})
     prepared.cards.sourcePools.reward=copy(pools);prepared.cards.sourcePools.src=copy(pools)
+    prepared.cards.sourcePools.shop=shop;prepared.cards.sourcePools.cardSourceMetadata=metadata
     prepared.cards.starter_deck={cards=copy(spec.starter)}
     local relic='original_v4_'..role:lower()
     prepared.relics.relics[#prepared.relics.relics+1]={id=relic,name=spec.relic,rarity='starter',trigger='original_v4',effects={}}

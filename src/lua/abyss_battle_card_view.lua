@@ -28,11 +28,29 @@ local function costText(definition)
     return number(definition.cost)
 end
 
+local function missingFace(data,id)
+    local metadata=(data.cards.sourcePools and data.cards.sourcePools.cardSourceMetadata or {})[id] or {}
+    local text='此卡牌尚未实装，无法领取。可选择其他卡牌或跳过。'
+    return {type=metadata.type or 'status',rarity=metadata.rarity},
+        {name=metadata.sourceId or id,text=text,upgradeText=text}
+end
+
+local function rewardFace(context,definition,display,id,slot)
+    local missing=not definition or not display
+    local upgraded=context.run.rewards.cardUpgrades and context.run.rewards.cardUpgrades[slot]
+    if missing then definition,display=missingFace(context.data,id)
+    elseif upgraded then
+        definition=Combat.copy(definition)
+        for key,value in pairs(definition.upgrade or {})do definition[key]=Combat.copy(value)end
+    end
+    return definition,display,missing,upgraded
+end
+
 function M.new(view, controls)
     local child, show = controls.child, controls.show
     local ink, tint, picture = controls.ink, controls.tint, controls.picture
     local placeCard, placeReward = controls.placeCard, controls.placeReward
-    local dragTarget, dragPose, enemySlot = controls.dragTarget, controls.dragPose, controls.enemySlot
+    local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
     local function currentAim()
         if view.gesture and view.gesture.moving then
             local _, target = dragTarget(view.gesture)
@@ -43,7 +61,10 @@ function M.new(view, controls)
     local function bodyText(card, battle, aimUid, aimTarget)
         local instance, definition, display = card.instance, card.definition, card.display
         if instance and definition.originalV4 and view.busy then return "效果结算中" end
-        if not instance then return display.text end
+        if not instance then
+            if card.missing then return display.text end
+            return CardDisplay.permanentText(display,definition,{upgraded=card.upgraded==true})
+        end
         -- The core previews upgrade, growth and every current modifier;
         -- a card being aimed shows the value for that target.
         local target = instance.uid == aimUid and aimTarget or nil
@@ -53,9 +74,9 @@ function M.new(view, controls)
 
     local function writeName(box, card)
         local instance, enabled = card.instance, card.enabled
-        CardDisplay.writeTitle(box:GetChild("name"), card.display.name, instance and instance.upgraded,
+        CardDisplay.writeTitle(box:GetChild("name"), card.display.name, card.upgraded,
             repeatCount(card.definition, instance))
-        ink(box:GetChild("name"), instance and instance.upgraded and C.positive or enabled and C.text or C.textMuted)
+        ink(box:GetChild("name"), card.upgraded and not card.missing and C.positive or enabled and C.text or C.textMuted)
     end
 
     local function writeDetails(box, card, battle, aimUid, aimTarget)
@@ -64,7 +85,7 @@ function M.new(view, controls)
         CardDisplay.writeBody(box:GetChild("label"), text)
         ink(box:GetChild("label"), enabled and C.text or C.textMuted)
         box:GetChild("type").text = typeNames[definition.type] or definition.type
-        box:GetChild("cost").text = costText(definition)
+        box:GetChild("cost").text = card.missing and '—' or costText(definition)
         ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
         tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
     end
@@ -88,12 +109,16 @@ function M.new(view, controls)
         if card.instance then view.cardPositions[card.instance.uid] = pose end
     end
 
-    local function slotCard(context, instance, id)
+    local function slotCard(context, instance, id, slot)
+        local definition=cardDefinition(context.data, context.battle, instance, id)
+        local display=context.presentation[id]
+        local missing,upgraded
+        if context.reward then definition,display,missing,upgraded=rewardFace(context,definition,display,id,slot)
+        else assert(display,'missing card presentation '..id);upgraded=instance and instance.upgraded end
         return {
             instance = instance,
-            definition = cardDefinition(context.data, context.battle, instance, id),
-            display = assert(context.presentation[id], "missing card presentation " .. id),
-            enabled = context.reward or context.active and Combat.canPlay(context.battle, instance.uid, view.target),
+            definition = definition,display = display,missing=missing,upgraded=upgraded,
+            enabled = not missing and (context.reward or context.active and Combat.canPlay(context.battle, instance.uid, view.target)),
             selected = instance and instance.uid == view.selected,
         }
     end
@@ -104,7 +129,7 @@ function M.new(view, controls)
         local id = instance and instance.cardId or context.rewards[i]
         box:SetVisible(id ~= nil and id ~= false)
         if not id then return end
-        local card = slotCard(context, instance, id)
+        local card = slotCard(context, instance, id, i)
         writeName(box, card)
         writeDetails(box, card, context.battle, aimUid, aimTarget)
         local hovered = context.reward and not context.fighting and view.hover == i
@@ -114,7 +139,7 @@ function M.new(view, controls)
     end
 
     local function renderCards(data, presentation, battle, fighting, active, reward, picking)
-        local context = { data = data, presentation = presentation, battle = battle, fighting = fighting,
+        local context = { data = data, presentation = presentation, battle = battle, fighting = fighting,run=view.run,
             active = active, reward = reward, rewards = picking and Run.rewardOptions(view.run) or {} }
         local aimUid, aimTarget = currentAim()
         view.cardPositions = {}
@@ -141,7 +166,7 @@ function M.new(view, controls)
 
     local function aimEndpoint(g, target, enemy)
         if enemy then
-            local tx, _, portrait = enemySlot(#g.battle.enemies, target, enemy)
+            local tx, _, portrait = enemyPosition(g.battle, target)
             return tx, L.enemyRow.y, portrait + D.reticlePad
         end
         return g.x, g.y, D.aimDot[2] * 2

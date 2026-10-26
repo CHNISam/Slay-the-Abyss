@@ -21,7 +21,7 @@ local function same(actual,expected)
  for key in pairs(actual) do assert(expected[key]~=nil,'state gained a field') end
 end
 
-local function reward(seed,stolen)
+local function reward(seed,stolen,missingPotion)
  local run,map=Run.new(Data,seed),Map.generate(Data,seed)
  assert(Nodes.enter(run,map,Nodes.available(run,map)[1].id))
  -- Completed-battle/registered-ledger fixture only. No reward fields are
@@ -29,6 +29,17 @@ local function reward(seed,stolen)
  -- The unmodified full-route test below provides the natural-combat evidence.
  for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
  run.combat.stolenGoldReward=stolen and 30 or 0
+ if missingPotion then
+  -- All 33 Ironclad potions now exist. Remove the real privately selected
+  -- definition before reward creation; never fabricate or patch an offer.
+  local before=Combat.copy(run)
+  local selected=require('abyss_potion_rewards').prepare(run,2)
+  assert(selected,'unavailable fixture requires an actual source drop');same(run,before)
+  run.data=Combat.copy(run.data)
+  for i,potion in ipairs(run.data.potions.potions)do
+   if potion.id==selected.id then table.remove(run.data.potions.potions,i);break end
+  end
+ end
  assert(Run.finishCombat(run))
  return run,map
 end
@@ -39,7 +50,7 @@ for _,potionState in ipairs({'none','pending','full','claimed','skipped','unavai
    test(potionState..' potion / '..goldState..' stolen gold / card choice '..choice,function()
     local finish=dofile('tools/diagnostics/finish_combat_rewards.lua')
     local seed=potionState=='none' and 0 or (potionState=='unavailable' and 33 or 42)
-    local run,map=reward(seed,goldState~='none')
+    local run,map=reward(seed,goldState~='none',potionState=='unavailable')
     local rewards=run.rewards
     local quotedGold=rewards.gold
     assert(rewards.goldClaimed==false and run.gold==99,'victory gold must remain an independent offer')

@@ -40,7 +40,9 @@ test('discard is independent of combat use legality and does not execute an effe
         if phase=='combat' then assert(Run.startCombat(run,'cultist_solo'));run.combat.phase='enemy' end
         run.phase=phase
         local before=Combat.copy(run)
-        assert(Run.discardPotion(run,1));before.potions[1]=nil;same(run,before)
+        assert(Run.discardPotion(run,1));before.potions[1]=nil
+        if phase=='combat'then before.combat.potionInventory[1]=nil end
+        same(run,before)
         equal(run.potions[3],'regen_potion')
     end
 end)
@@ -58,11 +60,11 @@ test('full reward belt can discard an old bottle then claim into the same vacanc
     -- Completed-battle fixture isolates the reward/discard transaction; it is
     -- not evidence of a normal-data victory or a full-run playthrough.
     for _,enemy in ipairs(run.combat.enemies) do enemy.hp=0 end
-    assert(Run.finishCombat(run));equal(run.rewards.potion.id,'dexterity_potion')
+    assert(Run.finishCombat(run));equal(run.rewards.potion.id,'colorless_potion')
     local before=Combat.copy(run)
     equal(Run.claimPotionReward(run),false);same(run,before)
     assert(Run.discardPotion(run,2));local ok,slot=Run.claimPotionReward(run)
-    assert(ok);equal(slot,2);same(run.potions,{'fire_potion','dexterity_potion','regen_potion'})
+    assert(ok);equal(slot,2);same(run.potions,{'fire_potion','colorless_potion','regen_potion'})
     equal(Run.claimPotionReward(run),false)
     assert(Run.claimCardReward(run,0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run);equal(run.phase,'map')
 end)

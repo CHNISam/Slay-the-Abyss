@@ -38,6 +38,13 @@ end
 function M.new(self, describe, lines)
     local function statusRow(entry, battle, actor)
         local text, tag, note = describe.statusDetail(entry, battle.rules, actor)
+        if entry.id=='stasis' and actor.stasisCardId then
+            local display=self.presentation[actor.stasisCardId]
+            local definition=battle.catalog.cards[actor.stasisCardId]
+            local name=display and display.name or definition and definition.name or actor.stasisCardId
+            text='正在扣押「'..name..(actor.stasisCardUpgraded and '+' or '')..'」。击败此浮核后归还'
+            note='手牌已满时归还到弃牌堆'
+        end
         local kind = describe.statusKind(entry)
         return { status = entry.id, icon = Theme.icon.status[entry.icon or entry.id],
             colour = kind == "buff" and C.buff or C.debuff, tag = tag, text = text, note = note,
@@ -57,7 +64,7 @@ function M.new(self, describe, lines)
         local definition = find(data.potions.potions, "id", info.potionId)
         if not definition then return end
         return definition, {{name = definition.name, text = describe.potionText(definition, battle, true):match("\n(.*)"),
-            note = definition.targetPolicy == "enemy_one" and "对选中的一名敌人；先选药水，再点击敌人" or "对自己使用；短按药水生效", colour = C.goldBright}}
+            note = require('abyss_potion_text').note(definition) or (definition.targetPolicy == "enemy_one" and "对选中的一名敌人；先选药水，再点击敌人" or "对自己使用；短按药水生效"), colour = C.goldBright}}
     end
 
     local function keywordRows(effects, battle, actor, rows)

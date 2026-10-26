@@ -11,7 +11,10 @@ local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuf
 local intentLabels = { defend = "防御", buff = "强化", debuff = "削弱", charge = "蓄能", sleep = "沉睡",
     stunned = "苏醒", split = "分裂", escape = "逃跑" }
 local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
-    applyStatus = "debuff", makeTempCardInDiscard = "debuff" }
+    applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
+    enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
+    enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff',
+    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff' }
 
 -- Mixed moves show the first other effect kind in the original icon priority.
 function M.intentBadge(intent)
@@ -39,7 +42,11 @@ local specialIntents = {
     sleep = function()
         return special("sleep", "sleep", "沉睡中，本回合不行动。", "损失生命就会惊醒")
     end,
-    stunned = function()
+    stunned = function(_, enemy)
+        if enemy.definitionId ~= 'lagavulin' then
+            return {value='',kind='unknown',label='昏眩',text='陷入昏眩，本回合不行动。',
+                rows={{icon='unknown',colour=C.textDim,name='昏眩',text='陷入昏眩，本回合不行动。'}}}
+        end
         return special("stunned", "unknown", "刚被惊醒，本回合不行动。")
     end,
     split = function(state, enemy)
@@ -112,11 +119,14 @@ local function attackEffect(v, effect)
 end
 
 local function blockEffect(v, effect)
-    local amount = number(Combat.blockAmount(v.state, v.copy, effect.value, effect.target == "random_ally"))
+    local master = effect.target == 'automaton'
+    local amount = number(Combat.blockAmount(v.state, v.copy, effect.value, effect.fixed or master or effect.target == "random_ally"))
     local ally = effect.target == "random_ally"
-    v.result[#v.result + 1] = ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+    local text = master and '使青铜机枢获得 '..amount..' 点格挡'
+        or ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
+    v.result[#v.result + 1] = text
     v.rows[#v.rows + 1] = { icon = "defend", colour = C.block, name = "格挡 " .. amount,
-        text = ally and "让一名随机队友获得 " .. amount .. " 点格挡" or "自身获得 " .. amount .. " 点格挡",
+        text = text,
         note = ally and "没有队友时给自己" or nil }
 end
 
@@ -160,7 +170,42 @@ local function unknownEffect(v)
     v.rows[#v.rows + 1] = { icon = "unknown", colour = C.textDim, name = "未知", text = "下一步行动未知" }
 end
 
+local function act2Row(v, name, text, kind, note)
+    v.result[#v.result+1]=text
+    v.rows[#v.rows+1]={icon=kind,colour=intentColors[kind],name=name,text=text,note=note}
+end
+local function vampireEffect(v,effect)
+    attackEffect(v,effect)
+    act2Row(v,'吸血','按你实际损失的生命回复自身生命','buff','格挡部分不产生治疗')
+end
+local function stasisEffect(v)
+    act2Row(v,'扣押卡牌','扣押抽牌堆中的一张牌；抽牌堆为空时从弃牌堆选择。击败此浮核后归还，满手时放入弃牌堆',
+        'debuff','优先稀有，其次罕见、普通；同稀有度随机选择')
+end
+local function summonEffect(v,effect)
+    local name,text
+    if effect.op=='enemyEncourage' then
+        name,text='鼓舞','敌方全体存活单位各获得 '..number(effect.value)..' 层力量，其他队友各获得 6 点格挡'
+    elseif effect.op=='enemyRally' then name,text='召唤','召唤最多 2 名随从，补充空位'
+    elseif effect.op=='enemyTorchSpawn' then name,text='召唤','召唤 2 名燃炬随从'
+    elseif effect.op=='enemyBronzeSpawn' then name,text='召唤','召唤 2 名青铜浮核'
+    else name,text='复活','复活已倒下的燃炬随从，存活随从保持原状态' end
+    act2Row(v,name,text,'buff')
+end
+local function groupEffect(v,effect)
+    local name,text
+    if effect.op=='enemyHealAll' then
+        name,text='群体治疗 '..number(effect.value),'敌方全体存活单位各回复最多 '..number(effect.value)..' 点生命'
+    elseif effect.op=='enemyStrengthAll' then
+        name,text='群体力量 '..number(effect.value),'敌方全体存活单位各获得 '..number(effect.value)..' 层力量'
+    else name,text='净化','移除自身全部负面状态及暂时失去力量的状态' end
+    act2Row(v,name,text,'buff')
+end
 local effects = { damage = attackEffect, damageAll = attackEffect, block = blockEffect,
+    enemyVampireDamage=vampireEffect,enemyStasis=stasisEffect,
+    enemyRally=summonEffect,enemyTorchSpawn=summonEffect,enemyTorchRevive=summonEffect,
+    enemyEncourage=summonEffect,enemyBronzeSpawn=summonEffect,
+    enemyHealAll=groupEffect,enemyStrengthAll=groupEffect,enemyCleanse=groupEffect,
     gainStatus = statusEffect, applyStatus = statusEffect, makeTempCardInDiscard = discardEffect }
 
 local function joinedView(v)

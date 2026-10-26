@@ -78,6 +78,9 @@ test('each screen keeps its readable elements and buttons free of sibling overla
     const content = screen(view);
     for (let i = 0; i < content.length; i++) for (let j = i + 1; j < content.length; j++) {
       const [a, b] = [content[i], content[j]];
+      // Four-choice event INTRO/reward pages hide the completion footer.
+      // Real generated-control assertions cover this exclusivity in potion_event_ui.lua.
+      if (view === 'eventView' && [a.name,b.name].includes('option4') && [a.name,b.name].includes('confirm')) continue;
       // Normal shops never show the retained compatibility controls.
       if (view === 'shopView' && [a,b].some(c => ['previous','next','relicPrevious','relicNext'].includes(c.name) && c.visible === false)) continue;
       // Picker previews alternate: before/after for forging, a single target for removal.

@@ -68,6 +68,8 @@ local effects = {
 }
 
 function M.potionText(item, battle, expanded)
+    local special=require('abyss_potion_text').special(item,battle,expanded)
+    if special then return item.name..'\n'..special end
     local descriptions = {}
     for _, effect in ipairs(item.effects) do
         local value = number(effect.value or 0)

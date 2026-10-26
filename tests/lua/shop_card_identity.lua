@@ -150,7 +150,8 @@ test('slot API rejects malformed, missing, unavailable, sold and completed offer
     for _, slot in ipairs({false, true, {}, '2', '', 0, -1, 1.5, 8, math.huge, -math.huge, 0/0}) do
         rejected(run, map, function() return Nodes.buyCardSlot(run, slot) end, 'item_unavailable')
     end
-    rejected(run, map, function() return Nodes.buyCardSlot(run, 6) end, 'item_unavailable')
+    local unavailable = C.copy(run); unavailable.nodeFlow.cards[6].unavailable = true
+    rejected(unavailable, map, function() return Nodes.buyCardSlot(unavailable, 6) end, 'item_unavailable')
     local missing = C.copy(run); missing.nodeFlow.cards[2] = nil
     rejected(missing, map, function() return Nodes.buyCardSlot(missing, 2) end, 'item_unavailable')
     assert(Nodes.buyCardSlot(run, 1)); assert(run.nodeFlow.cards[1].sold)

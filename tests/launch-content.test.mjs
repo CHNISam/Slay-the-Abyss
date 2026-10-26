@@ -1,9 +1,22 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { validateLaunchContent } from '../scripts/verify-launch-content.mjs';
+import { validateLaunchContent, inspectLaunchRuntime } from '../scripts/verify-launch-content.mjs';
 
 const fresh = () => JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
+
+test('shared cards cannot disappear from the inventory while remaining in the runtime',()=>{
+  const missing=fresh();missing.sharedCards=[];
+  assert.ok(validateLaunchContent(missing,{runtime:false}).some(error=>error.includes('sharedCards')));
+});
+
+test('every production event mapping is listed, including explicit transformation routes', () => {
+  const actual=inspectLaunchRuntime();
+  assert.ok(actual.events?.some(row=>row.id==='transmogrifier' && row.originalId==='Transmorgrifier'));
+  assert.deepEqual(fresh().events.map(row=>row.id).sort(),actual.events.map(row=>row.id).sort());
+  const omitted=fresh();omitted.events=omitted.events.filter(row=>row.id!=='transmogrifier');
+  assert.ok(validateLaunchContent(omitted,{runtime:false}).some(error=>error.includes('production event mappings')));
+});
 
 test('launch inventory names every formal source binding rather than the legacy explicit-ID pool', () => {
   const manifest = fresh();
@@ -27,8 +40,9 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 6);
-  assert.equal(manifest.potions.length, 6);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 12);
+  assert.equal(manifest.sharedCards.length,39);
+  assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
     definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());
 });
@@ -40,10 +54,10 @@ test('gate rejects promoting explicit events, SPECIAL relics and pending potions
     const manifest = fresh(); manifest.relics.find(row => row.id === id).channels = ['treasure', 'shop_relic'];
     assert.ok(validateLaunchContent(manifest, { runtime: false }).some(error => error.includes(`relics/${id} channels`)));
   }
-  const potion = fresh(); delete potion.exclusions.potions.find(row => row.id === 'snecko_oil').acquisitionPending;
-  assert.ok(validateLaunchContent(potion, { runtime: false }).some(error => error.includes('pending potion exclusions')));
-  const curse = fresh(); delete curse.generatedCards.find(row => row.id === 'parasite').acquisitionPending;
-  assert.ok(validateLaunchContent(curse, { runtime: false }).some(error => error.includes('generatedCards/parasite: acquisition pending')));
+  const potion = fresh(); potion.potions.push({...potion.potions[0],id:'poison_potion'});
+  assert.ok(validateLaunchContent(potion, { runtime: false }).some(error => error.includes('obtainable potion predicates')));
+  const curse = fresh(); delete curse.generatedCards.find(row => row.id === 'parasite').naturalAcquisitionLimitation;
+  assert.ok(validateLaunchContent(curse, { runtime: false }).some(error => error.includes('generatedCards/parasite: missing explicit acquisition boundary')));
   const score = fresh(); delete score.relics.find(row => row.id === 'spirit_poop').naturalExecutionLimitation;
   assert.ok(validateLaunchContent(score, { runtime: false }).some(error => error.includes('unwired total-score boundary')));
 });

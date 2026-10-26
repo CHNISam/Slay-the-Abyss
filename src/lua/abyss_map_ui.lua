@@ -4,11 +4,14 @@
 local Map = require("abyss_map")
 local Theme = require("abyss_theme")
 local Layout = require("abyss_map_layout")
+local Acts = require("abyss_acts")
 local M = {}
 local states = { "locked", "visited", "current", "available" }
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
+local function localFloor(map, floor) return floor - (map.firstFloor or 1) + 1 end
+local function atStart(map) return map.floor == (map.firstFloor or 1) - 1 end
 
 -- Standalone root holds mapBackdrop + stage/mapPanel from mapLayout(). With
 -- options.embedded, root is the host's mapPanel and the host alone scales stage.
@@ -31,11 +34,12 @@ function M.new(root, map, onChoose, clickEvent, options)
         stage, backdrop = child(root, "stage"), child(root, "mapBackdrop")
         panel = child(stage, "mapPanel")
     end
-    local view = Map.view(map)
-    local self = { root = root, map = map, visible = true, navigationEnabled = view.floor == 0,
+    -- The title host binds real owners only after Start succeeds.
+    local view = map and Map.view(map)
+    local self = { root = root, map = map, visible = map ~= nil, navigationEnabled = view and atStart(view) or false,
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map,
-        observedNodeId = view.currentNodeId, observedFloor = view.floor }
+        observedNodeId = view and view.currentNodeId, observedFloor = view and view.floor }
     local drag, released, pointerObserved, scrollAnimation
     local buttonHover, buttonPress
     local function cancelSelection()
@@ -85,7 +89,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     local function position(node)
         return (node.lane - (Layout.lanes + 1) / 2) * Theme.layout.map.columnGap,
-            Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - self.scroll
+            Layout.firstY + (localFloor(self.map, node.floor) - 1) * Theme.layout.map.floorGap - self.scroll
     end
     local function observeMap(current)
         if self.map == self.observedMap then return false end
@@ -95,8 +99,8 @@ function M.new(root, map, onChoose, clickEvent, options)
         self.observedMap = self.map
         self.entryError=nil
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
-        self.navigationEnabled, self.time = current.floor == 0, 0
-        self.scroll = clamp(Layout.firstY + (math.max(1, current.floor) - 1) *
+        self.navigationEnabled, self.time = atStart(current), 0
+        self.scroll = clamp(Layout.firstY + (math.max(1, localFloor(current, current.floor)) - 1) *
             Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
         return true
     end
@@ -118,6 +122,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         tint(control, taken and Theme.color.node.pathTaken or Theme.color.node.path)
     end
     function self:render()
+        if not self.map then return false, "map_unbound" end
         local current, nodes, taken = Map.view(self.map), {}, {}
         observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
@@ -128,9 +133,15 @@ function M.new(root, map, onChoose, clickEvent, options)
         for _, node in ipairs(current.nodes) do nodes[node.id] = node end
         for i = 1, #current.path - 1 do taken[current.path[i] .. ":" .. current.path[i + 1]] = true end
         self.slots, self.breathing = {}, {}
-        at("title").text = "第一幕 · 第 " .. current.floor .. " 层"
-        at("notice").text = self.entryError or (current.complete and "已抵达首领宝箱 · 请完成当前房间" or
-            (current.floor == 16 and (self.navigationEnabled and "首领奖励已处理 · 请选择首领宝箱" or "已抵达首领 · 请完成首领战斗与奖励") or
+        local chapter = Acts.get(current.act or 1)
+        local terminal = chapter.terminal == 'boss_treasure' and "已抵达首领宝箱 · 请完成当前房间"
+            or current.act == 4 and "已抵达终幕首领 · 请完成最终战斗与结算"
+            or "已抵达终点 · 请完成当前房间"
+        at("title").text = chapter.name .. " · 第 " .. current.floor .. " 层"
+        at("notice").text = self.entryError or (current.complete and terminal or
+            (current.floor == chapter.boss and (self.navigationEnabled
+                and (chapter.terminal == 'boss_treasure' and "首领奖励已处理 · 请选择首领宝箱" or "首领奖励已处理 · 请前往终点")
+                or "已抵达首领 · 请完成首领战斗与奖励") or
             (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")
             ))
         buttonHover, buttonPress = nil, nil
@@ -252,12 +263,14 @@ function M.new(root, map, onChoose, clickEvent, options)
         return self:setScroll(self.scroll + delta)
     end
     function self:focusCurrent(animated)
+        if not self.map then return false, "map_unbound" end
         local current = Map.view(self.map)
-        local target = Layout.firstY + (math.max(1,current.floor) - 1) * Theme.layout.map.floorGap - Layout.focusY
+        local target = Layout.firstY + (math.max(1,localFloor(current,current.floor)) - 1) * Theme.layout.map.floorGap - Layout.focusY
         if animated then return animateScrollTo(target) end
         return self:setScroll(target)
     end
     function self:setNavigationEnabled(enabled)
+        if not self.map then return false, "map_unbound" end
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
         if not enabled then cancelDrag() end
         -- An explicit coordinator grant acknowledges any external map advance.
@@ -268,11 +281,13 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setVisible(visible)
         assert(type(visible) == "boolean", "map visibility must be boolean")
+        if visible and not self.map then return false, "map_unbound" end
         if not visible then cancelDrag() end
         self.visible = visible root:SetVisible(visible)
         if visible then self:focusCurrent() end
     end
     function self:choose(nodeId)
+        if not self.map then return false, "map_unbound" end
         local beforeMap = self.map
         local before = Map.view(beforeMap)
         if observeMap(before) then self:render() end
@@ -437,7 +452,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         listen(cursor and cursor.CursorEndDrag,function(event) clear(event,true) end)
     end
     self:resize(Theme.canvas.base[1], Theme.canvas.base[2])
-    self:focusCurrent()
+    if map then self:focusCurrent() else root:SetVisible(false) end
     return self
 end
 return M

@@ -1,4 +1,4 @@
--- Fixed 319009d5 Ironclad pool sampler. No effects, awards or gameplay wiring.
+-- Fixed 319009d5 Ironclad full-pool sampler, shared by shop/drop/Entropic.
 -- IDs/order are the full33 catalog; existing availability never filters draws.
 local R=require('abyss_sts_random')
 local M={}
@@ -38,6 +38,31 @@ local pool={
  {'EntropicBrew','entropic_brew','rare'},
 }
 local rarities={common=true,uncommon=true,rare=true}
+local classEntries={
+ silent={{'Poison Potion','poison_potion','common'},{'CunningPotion','cunning_potion','uncommon'},{'GhostInAJar','ghost_in_a_jar','rare'}},
+ defect={{'FocusPotion','focus_potion','common'},{'PotionOfCapacity','potion_of_capacity','uncommon'},{'EssenceOfDarkness','essence_of_darkness','rare'}},
+ watcher={{'BottledMiracle','bottled_miracle','common'},{'StancePotion','stance_potion','uncommon'},{'Ambrosia','ambrosia','rare'}},
+}
+local originalCharacters={hutao=true,arlecchino=true,furina=true,raiden=true}
+local function sourcePool(character)
+ if character==nil then character='ironclad'end
+ assert(character=='ironclad' or character=='shared' or classEntries[character],'Unknown potion character')
+ if character=='ironclad'then return pool end
+ local result={}
+ for _,entry in ipairs(classEntries[character] or {})do result[#result+1]=entry end
+ for i=4,#pool do result[#result+1]=pool[i]end
+ return result
+end
+function M.character(run)
+ if run.characterProfile and run.characterProfile.originalV4 then
+  -- Explicit project compatibility decision: originals share only the thirty
+  -- common-source entries, with no fabricated STS class or exclusive bottles.
+  assert(originalCharacters[run.character],'Unknown original potion character')
+  return 'shared'
+ end
+ local character=run.character;if character==nil then character='ironclad'end;sourcePool(character)
+ return character
+end
 local function validate(owner)
  assert(type(owner)=='table' and getmetatable(owner)==nil,'Expected plain potion RNG owner')
  R.snapshot(owner.potionRng)
@@ -66,43 +91,45 @@ function M.rarity(roll)
  assert(type(roll)=='number' and roll%1==0 and roll>=0 and roll<=99,'Invalid potion rarity roll')
  return roll<65 and 'common' or roll<90 and 'uncommon' or 'rare'
 end
-local function descriptor(index,attempts)
- local entry=pool[index+1]
+local function descriptor(entries,index,attempts)
+ local entry=entries[index+1]
  return {sourceId=entry[1],id=entry[2],rarity=entry[3],sourceIndex=index,attempts=attempts}
 end
-function M.pool()
+function M.pool(character)
+ local entries=sourcePool(character)
  local result={}
- for i=1,#pool do local row=descriptor(i-1);result[i]=row end
+ for i=1,#entries do local row=descriptor(entries,i-1);result[i]=row end
  return result
 end
 function M.sample(owner,options,...)
  assert(select('#',...)==0,'Unexpected potion sample arguments')
  if options==nil then options={}end
  assert(type(options)=='table' and getmetatable(options)==nil,'Expected plain potion sample options')
- for key in pairs(options)do assert(key=='rarity' or key=='limited','Unexpected potion sample option')end
+ for key in pairs(options)do assert(key=='rarity' or key=='limited' or key=='character','Unexpected potion sample option')end
  assert(options.rarity==nil or rarities[options.rarity],'Invalid explicit potion rarity')
  assert(options.limited==nil or type(options.limited)=='boolean','Invalid limited potion flag')
+ local entries=sourcePool(options.character)
  validate(owner)
  local wanted=options.rarity or M.rarity(R.randomIntBetween(owner.potionRng,0,99))
  local attempts={}
  local function candidate()
-  local index=R.randomIntBetween(owner.potionRng,0,#pool-1)
+  local index=R.randomIntBetween(owner.potionRng,0,#entries-1)
   attempts[#attempts+1]=index;return index
  end
  local index=candidate()
  if options.limited then
   -- The source consumes a candidate before entering its limited loop, even
   -- when that first candidate already matches. Later Fruit is never accepted.
-  repeat index=candidate() until pool[index+1][3]==wanted and pool[index+1][1]~='Fruit Juice'
+  repeat index=candidate() until entries[index+1][3]==wanted and entries[index+1][1]~='Fruit Juice'
  else
-  while pool[index+1][3]~=wanted do index=candidate()end
+  while entries[index+1][3]~=wanted do index=candidate()end
  end
- return descriptor(index,attempts)
+ return descriptor(entries,index,attempts)
 end
 function M.totallyRandom(owner,...)
  assert(select('#',...)==0,'Unexpected totally-random potion arguments')
  validate(owner)
  local index=R.randomIntBetween(owner.potionRng,0,#pool-1)
- return descriptor(index,{index})
+ return descriptor(pool,index,{index})
 end
 return M
