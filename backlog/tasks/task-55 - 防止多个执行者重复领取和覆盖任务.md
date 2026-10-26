@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 13:32'
+updated_date: '2026-10-26 05:13'
 labels: []
 dependencies: []
 priority: high
@@ -35,6 +35,8 @@ ordinal: 94000
 5. 修复已复现的TASK0映射与泛化隔离死锁：新增受控CAS reconciliation，按确认的HEAD/index/脏文件指纹保留旧记录，串行迁移指定执行者；源树只读、组外持有与未知记录不清除。先写真实Git失败回归，再实现、复审、当前SHA CI及受控合并。
 
 6. 修复新session接管空闲迁移组的协议缺口，核验旧精确HEAD与source指纹；统一集成时保留全部测试和可恢复历史。
+
+本轮用户授权仅V4受控登记及TASK55临时恢复。增加精确文件/指定session/显式旧隔离重叠确认的admission；不开放全局迁移，不清除旧记录，不越过活跃claim。先真实Git红绿回归，再当前SHA CI、受控合并、登记并释放协调权。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -57,4 +59,6 @@ PR201旧2999bc8在40155852981中ownership/check/presentation全绿，包含15组
 2026-10-25用户要求新会话统一集成并清理全部旧分支；原生迁移组仍绑定旧session，本轮补migration-transfer：仅协调者可交接paused空闲阶段，核对干净树及本地/远端精确HEAD，保留来源指纹、原claim、阶段、旧session审计与外部unknown。新增真实Git回归先红后绿；完整26组单次通过496617.6971ms，0fail/0skip。已原生将旧TASK47 generation28交至新UUID，重新adopt取得generation32；最终源码纳入现有PR206的统一当前SHA CI，不复用旧receipt。
 
 统一集成补受控新session交接，并修复归档评审的两个真实到期缺口：初次续租完成后重新确认；短命原生续租辅助进程使本地截止不被远端Git阻塞。两例先红后绿，真实子进程超过10秒初始租约仍正常续租，以及真实断网终止通过；当前实现的四项定向回归全过。最终完整29组协议与全仓CI交统一PR206，不复用旧SHA绿灯。
+
+V4用户明确授权有限登记及原13路径TASK55临时恢复。仅修改登记脚本、测试、执行权文档及记录。真实Git原30组全过，最终新增边界2组全过，执行未修改的45ba918旧runtime验证推送授权/擦标签降级被新门禁拒绝。旧隔离/paused/externalUnknown保持。当前SHA CI与合入另验，不计为原创玩法完成。
 <!-- SECTION:NOTES:END -->

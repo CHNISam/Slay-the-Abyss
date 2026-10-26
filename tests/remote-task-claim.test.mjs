@@ -569,3 +569,80 @@ test('conflicting upstream merge preserves upstream files without authorizing ou
   assert.equal(readFileSync(join(a, 'upstream'), 'utf8'), 'retained');
   const pushed = ownedGit(a, 'push', 'origin', 'HEAD:refs/heads/feat/test-0'); assert.equal(pushed.status, 0, pushed.stderr);
 });
+
+test('bounded admission preserves paused migration and fences exact task session files and legacy overlaps', async t => {
+  const legacy={id:'old-owner',task:'TASK-0',branch:'feat/old',scope:{paths:['src'],modules:['combat']}};
+  const f=await fixture(t,[legacy],true);
+  const manifest={id:'v4-only',task:'TASK-61',executorSession:'a',branch:'feat/v4',scope:{paths:['src/v4.lua'],modules:['combat']},
+    acknowledgedReservations:['old-owner'],evidence:'User authorizes only V4 exact scope; legacy remains quarantined, not declared stopped'};
+  const file=join(f.root,'admission.json');writeFileSync(file,JSON.stringify(manifest));
+  const before=await ok(f.c,['list'],'c');
+  await fail(f.b,['migration-admit','--manifest',file],'b',/receipt|coordinator/i);
+  const bad={...manifest,acknowledgedReservations:[]};writeFileSync(file,JSON.stringify(bad));
+  await fail(f.c,['migration-admit','--manifest',file],'c',/acknowledg|overlap/i);
+  writeFileSync(file,JSON.stringify({...manifest,branch:'feat/old'}));
+  await fail(f.c,['migration-admit','--manifest',file],'c',/new branch|takeover/i);
+  writeFileSync(file,JSON.stringify({...manifest,scope:{paths:['infra/file.lua'],modules:[]},acknowledgedReservations:[]}));
+  await fail(f.c,['migration-admit','--manifest',file],'c',/conflict/i);
+  writeFileSync(file,JSON.stringify(manifest));
+  await ok(f.c,['migration-admit','--manifest',file],'c');
+  const after=await ok(f.c,['list'],'c');
+  assert.deepEqual(after.migration.reservations,before.migration.reservations);
+  assert.equal(after.migration.status,'paused');assert.equal(after.migration.externalUnknown,true);
+  await fail(f.c,['migration-admit','--manifest',file],'c',/already|immutable/i);
+  const spec=f.spec(f.a,'TASK-61',['src/v4.lua'],['combat'],{branch:'feat/v4'});
+  await fail(f.a,['claim','--spec',spec],'a',/admission approval required/i);
+  await fail(f.b,['claim','--spec',f.spec(f.b,'TASK-61',['src/v4.lua'],['combat'],{branch:'feat/v4'}),'--admission','v4-only'],'b',/admission|executor|session/i);
+  const target=join(f.root,'v4');
+  await ok(f.a,['claim','--spec',spec,'--admission','v4-only','--path',target]);
+  await ok(target,['check']);
+  await fail(target,['migration-admit','--manifest',file],'a',/coordinator/i);
+  writeFileSync(file,JSON.stringify({...manifest,id:'v4-child',task:'TASK-61.1',branch:'feat/child'}));
+  await fail(f.c,['migration-admit','--manifest',file],'c',/new task|takeover/i);
+  mkdirSync(join(target,'src'));writeFileSync(join(target,'src','v4.lua'),'return {}');
+  await ok(target,['check','--paths','dirty']);
+  writeFileSync(join(target,'src','other.lua'),'out of scope');
+  await fail(target,['check','--paths','dirty'],'a',/out of scope/i);
+  rmSync(join(target,'src','other.lua'));
+  const expanded=join(f.root,'expanded.json');writeFileSync(expanded,JSON.stringify({paths:['src'],modules:['combat']}));
+  await fail(target,['expand','--scope',expanded],'a',/admission|exact/i);
+  await ok(target,['release']);
+  await fail(target,['check'],'a',/lost|released/i);
+  await ok(target,['recover','--spec',spec,'--admission','v4-only','--evidence','Same approved executor resumes exact V4 scope']);
+  await ok(target,['check']);
+});
+
+
+test('admission rejects actual pre-admission runtime push authorization and recover label removal', async t => {
+  const f=await fixture(t,[{id:'unrelated',task:'TASK-0',branch:'feat/parked',scope:{paths:['parked'],modules:[]}}],true);
+  const manifest={id:'v4-fenced',task:'TASK-61',executorSession:'a',branch:'feat/v4',scope:{paths:['v4.lua'],modules:[]},
+    acknowledgedReservations:[],evidence:'Only current V4 executor; unknown outside work preserved'};
+  const file=join(f.root,'admission.json');writeFileSync(file,JSON.stringify(manifest));
+  await ok(f.c,['migration-admit','--manifest',file],'c');
+  const target=join(f.root,'v4');
+  const spec=f.spec(f.a,'TASK-61',['v4.lua'],[],{branch:'feat/v4'});
+  await ok(f.a,['claim','--spec',spec,'--admission','v4-fenced','--path',target]);
+  const legacy=join(f.root,'legacy.mjs');
+  // Execute the real released runtime, rather than mocking an authorization.
+  writeFileSync(legacy,git(process.cwd(),'show','45ba918e5719614f36b6a92aeb511e76a1311608:scripts/remote-task-claim.mjs'));
+  const legacyRun=(cwd,args,executor,input)=>spawnSync(process.execPath,[legacy,...args],{
+    cwd,encoding:'utf8',input,env:{...process.env,TASK_CLAIM_SESSION:executor}});
+  writeFileSync(join(target,'v4.lua'),'return {}');git(target,'add','v4.lua');git(target,'commit','-m','test: admitted card');
+  const head=git(target,'rev-parse','HEAD');
+  const input=`HEAD ${head} refs/heads/feat/v4 ${'0'.repeat(40)}\n`;
+  const oldPush=legacyRun(target,['hook','push','origin',f.remote],'a',input);assert.equal(oldPush.status,0,oldPush.stderr);
+  await fail(target,['verify-pr','--branch','feat/v4','--sha',head],'a',/admission-aware.*authorization/i);
+  await ok(target,['install']);
+  const pushed=ownedGit(target,'push','origin','HEAD:refs/heads/feat/v4');assert.equal(pushed.status,0,pushed.stderr);
+  await ok(target,['verify-pr','--branch','feat/v4','--sha',head]);
+  await fail(target,['verify-pr','--branch','feat/v4','--sha','f'.repeat(40)],'a',/authorization/i);
+  await ok(target,['release']);
+  const stolen=f.spec(f.b,'TASK-61',['escape.lua'],[],{branch:'feat/test-1'});
+  const recovered=legacyRun(f.b,['recover','--spec',stolen,'--evidence','Regression: old entry erases admission label'],'b');
+  assert.equal(recovered.status,0,recovered.stderr);
+  await fail(f.b,['check'],'b',/admission.*approval/i);
+  const badHead=git(f.b,'rev-parse','HEAD');
+  const oldAuthorization=legacyRun(f.b,['hook','push','origin',f.remote],'b',`HEAD ${badHead} refs/heads/feat/test-1 ${'0'.repeat(40)}\n`);
+  assert.equal(oldAuthorization.status,0,oldAuthorization.stderr);
+  await fail(f.b,['verify-pr','--branch','feat/test-1','--sha',badHead],'b',/admission.*approval/i);
+});
