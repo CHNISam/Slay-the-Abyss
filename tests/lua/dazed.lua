@@ -100,7 +100,8 @@ test("status type stays outside reward and shop pools even with a supported fixt
  for _,card in ipairs(data.cards.cards) do
   if card.id=="dazed" then card.effects={{op="block",value=1}};card.rarity='rare' end
  end
- local run=Run.new(data,42);assert(Run.startCombat(run,"cultist_solo"))
+ assert(not pcall(Run.new,data,42),'complete catalog must reject a forged Dazed lifecycle')
+ local run=Run.new(Data,42);assert(Run.startCombat(run,"cultist_solo"))
  C.applyEffects(run.combat,{{op="damage",value=999}},run.combat.player,run.combat.enemies[1]);assert(Run.finishCombat(run))
  eq(#Run.rewardOptions(run),3)
  for _,id in ipairs(Run.rewardOptions(run)) do assert(id~='dazed') end

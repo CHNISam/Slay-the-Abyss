@@ -46,7 +46,7 @@ M.statuses={{id='generic_strength_up',sourceId='Generic Strength Up Power',name=
  {id='constricted',sourceId='Constricted',name='束缚',kind='debuff',stack='intensity',decay='none',priority=105,
   description='你的回合结束时，受到等同层数的反伤类型伤害。'},
  {id='shifting',sourceId='Shifting',name='变幻',kind='buff',stack='none',decay='none',
-  description='每次受到正伤害时，按格挡后的伤害量暂时失去力量；在自己的回合结束时归还。包括反伤与直接生命损失。'},
+  description='受正伤害时，按格挡后伤害暂失力量，自身回合末归还；反伤与直接失血也触发。'},
  {id='fading',sourceId='Fading',name='消逝',kind='buff',stack='duration',decay='none',
   description='每次攻击后倒计时减1；为1时攻击后自毁，仍获得正常战斗奖励。'}}
 local formations={['3 Shapes']='act3_three_shapes',['4 Shapes']='act3_four_shapes',

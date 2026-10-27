@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 01:40'
+updated_date: '2026-10-27 03:39'
 due_date: '2026-10-28'
 labels:
   - required
@@ -75,6 +75,8 @@ ordinal: 42000
 2026-10-27 288 Lua实际发现inventory_parity两瓶Regen叠10后的末回合顺序/衰减断言失败；按固定RegenPower来源核当前队列，先原RED，再最小生产修复或有证据的旧瞬间预期迁移，保持heal先于敌人/单次衰减和完整原组，不能用改期望掩盖。
 
 2026-10-27 PR238收口：Regen原10组已在原30秒内通过；临时属性frame关联Flex/Speed回归实际原30秒超时，保留原完整用例/构造/断言，仅按组有界分片并核对完整覆盖。保留全量组合及平台未验收状态。
+
+2026-10-27 7593完整Lua失败逐项收口：固定源码确认Forge/Armaments的canUpgrade必须排除status/curse，原Forge已修绿；完整职业渠道按真实报价隔离资金前提，已实现全注册不再当未知瓶；原M4选择ABI及全部原断言保留。其余源序、状态登记、UI静态展示按实际RED核对，不删断言或缩输入。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -123,4 +125,6 @@ ordinal: 42000
 2026-10-27 PR238遗留修复：临时属性完成态frame的8新例及card_feedback/Flex/Artifact/signed caps通过；Regen原10组12570ms通过，保留heal10/50HP+10层→enemy_turn50+9→受击44+9及RNG。Flex/Speed原11组四片6451/3783/2916/8382ms全绿，原30秒与全部输入/断言不变。来源/RED/覆盖锁和机器结果见docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json。最终云端待实际结果，全池组合与平台未验收。
 
 2026-10-27 云端a717d381发现旧Flex/Speed JS包装只调用第一片但要求11组。已修成执行四片并逐片核组数/原索引，最终严格核1–11无重漏；定向3项通过，四片5853/3501/2610/7578ms。没有删11组标准或增加时限；失败日志及其余调用点核对见PR238集中记录。仍待新SHA全部必要CI。
+
+PR238 的7593e827云端四个Lua分片失败，37个原失败入口已逐项修复并定向通过；没有删断言、改超时或缩池。修复含Forge状态牌升级资格、回合遗物钩子、Rampage同UUID成长和状态移除帧事件。原输入与正文覆盖锁、M1–M4、104历史告警零新增及159模块/921边架构门禁通过，证据见 docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json。待同一PR新精确SHA全部必要CI；本任务全池/平台AC及M3仍未完成。本轮未委派受限免费服务，Codex用量节省未知，无游戏操作。
 <!-- SECTION:NOTES:END -->

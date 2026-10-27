@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 01:32'
+updated_date: '2026-10-27 03:39'
 due_date: '2026-10-28'
 labels:
   - required
@@ -56,6 +56,8 @@ ordinal: 43000
 2026-10-27 288整批Lua实际新增三项：card_feedback临时力量清除frame、small_slimes第18组完整Run/reference的masterDeck对照及node_transactions/spike_slime_l原30秒超时。分别保留固定源判定、原完整比较/16静态组/RNG、原所有用例并有界分片；不无据改数值/忽略masterDeck或增加时限。并行只修本轮必过项，原case达标及最终CI证据才收口。
 
 2026-10-27 PR238接手收口：保全所有dirty快照后集成已验证UI/药水提交，串行原预算验证临时属性frame及静态遭遇修复；node_transactions和spike_slime_l仅按原完整用例有界分片，冻结正文/输入并机器核对一次覆盖，保留ABYSS_MUTATION_CASE及M3变异断言路径。实际测试新增small_slimes原30秒超时，也按原完整用例分片；不加时、不删断言。最终同一PR当前SHA完整必要CI成功后才合并，M3/平台缺口不勾。
+
+2026-10-27 7593四片Lua37入口失败：逐项判源，不重复本地整套check；7个真实超时入口先按完整注册组切分并锁完整正文/索引，原30秒不增，另核Boss事务直接循环。展示保留真实Deus抽牌/耗尽/Miracle再用真实恢复动作展示原卡，完整矩阵范围不得缩小。所有必要定向绿后同PR集中推最终CI。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -114,4 +116,6 @@ ordinal: 43000
 2026-10-27 按用户尽快集成要求集中到PR238：RNG所有权、稀疏potions兼容、native SharpHide队列顺序及必要旧回归均已实际修复；组合f46a33ab构建/数据/架构158-919/静态104零新增、两条核心实证用例通过。旧d8 JS1489通过4失败119旧权限skip及CI超时日志保留；最终完整当前SHA CI待验，未勾全量或平台。停止新内容扩项和重复本地整套检查。
 
 2026-10-27 PR238集中收口：保全15个dirty树185文件且哈希一致，集成最终UI/药水提交及三处遗留修复。node原11组、Spike原17组与完整600历史、small原18组含16静态组、Flex/Speed原11组均在原30秒分片内通过；完整正文hash/一次覆盖门禁通过，14项runner检查通过，M1–M4均killed_by_assertion且M3原入口保留。真实超时及替代绿证据见docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json。仅定向验证，最终PR当前SHA全部必要CI待实际结果，M3/平台不勾。
+
+PR238 的7593e827云端失败后，37个原Lua失败入口已有定向通过证据，原30秒限额保留。后续190组完整分片，Sneaky保留128种子，Growing/Vulnerable保留原搜索上限及实际break前缀49/26逐项执行，成功叶全部后续断言保留；Boss事务choice0–3、每tier三种子与失败/重复完成分7片。Dark Embrace旧oracle按固定源码队列时序纠正；Rampage原断言定位UUID回归并修复。正文SHA覆盖锁、四个语义变异和静态/架构通过。详情见 docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json；当前待新精确SHA全CI，M3和全池/平台AC未完成。
 <!-- SECTION:NOTES:END -->

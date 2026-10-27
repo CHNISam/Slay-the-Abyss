@@ -32,3 +32,26 @@ small_slimes与Flex/Speed原完整入口实际超时，没有伪称GREEN。Large
 c15de6f8在GitHub标为CONFLICTING，故该SHA没有触发PR CI，不能把无作业当通过。同步既有develop 364833a0，保留已合PR231的卡牌交互/原生卡面装配和本PR全部改动，唯一内容冲突为luacheck历史警告行号。逐项以file、原源行、column、code、去行号message及被引用源行，对照两个父版本的多重集合证明当前104项全部已有，新增警告身份0；未直接放宽baseline。证明保留根归档baseline-merge-proof.json。
 
 冲突解决后实际静态通过：104项历史警告、0新增，battle render≤10且受检函数≤15；架构159模块/920边通过。PR231的UI用例迁移与最终五片边界均保留。最终合并仍等待同步后的精确SHA全量必要CI。
+
+## 7593 云端失败后的完整收口
+
+Quality 40434608172 对精确候选7593e827：四个JS分片、presentation、engineering-posix成功，四个Lua分片失败；licenses成功。它没有满足合并条件，37个失败Lua入口全部保留原始日志。
+
+生产修复限定在现有接入的回归：Forge/升级命令排除Status与Curse但保留可重复Searing Blow；高级回合接回既有遗物atTurnStart；Rampage按UUID同步同一实例成长；状态移除重新发布数量和完成态frame；Silent/Watcher最终卡描述从目录定义取得；压缩Shifting说明以完整保留伤害、归还和例外信息。
+
+固定源码319009d5的AbstractCard.canUpgrade、Rampage/ModifyDamageAction/GetAllInBattleInstances、AncientTeaSet/HappyFlower/ArtOfWar支持这些修复。另核实DarkEmbrace的抽牌addToBot排在DiscardAtEndOfTurn的TOP弃牌之后，旧错误oracle改为exhaust1/hand3/discard9/draw0，四个牌堆断言均保留。来源文件SHA见机器记录，固定ZIP的SHA256为3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458。
+
+旧夹具迁移保留原语义：静态遭遇reference补齐masterDeck/RNG；Power夹具登记获取顺序；当前combat的连续奖励RNG也注入失败；职业药水使用实际职业Run并额外保留缺定义原子拒绝；商店用本轮真实货架与报价；旧native DeckUI用原生目录，现行完整Run路径另有26组UI覆盖。Deus Ex渲染先验证真实抽牌衍生，再通过既有recoverExhaust操作取回同UID原牌，避免把Miracle当原牌。
+
+完整目录下普通Run的零槽法球宿主与75张Silent/Defect目录按现行契约验明，来源池71不变。Looter种子1真实起手战斗在第3回合取胜，偷款30、未领奖金币69、普通奖励15、先领奖84、归还后114；四种领取顺序和跨房间/同时死亡断言保留。Rod获取冻结实际来源队列seed5、实际宝箱seed91、实际商店seed2/格1/报价302；未修改运行时母池或重掷，资金为显式购买边界。
+
+| 后续超时分片 | 保留覆盖 | 最慢片秒数 |
+|---|---|---|
+| Sneaky / Growing / Inventory / Vulnerable / Character / GameUI / Nodes / Gremlin | 8+36+12+52+16+26+21+19=190个原组 | 11.905 |
+| Boss事务 | choice0–3、normal/elite各3种子、未完成/失败/重复完成，全7片 | 3.962 |
+
+所有入口仍为原30秒。Sneaky自然战斗保留0–127全部种子；Growing/Vulnerable原1–128搜索上限不改，按原break语义实际执行前缀1–49与1–26，分片遍历每个原实际输入一次，成功叶保留取得奖励、次战使用、后续重置全部断言。首个成功边界单独断言锁定；原HP/伤害/牌组/实际构造不替换。两份新增覆盖门禁逆变换后锁整个原正文SHA及所有case/seed范围，Gremlin helper同锁，不以跳过正文的登记探针冒充通过。
+
+37个原失败入口均有最后一轮定向通过证据，未重复整套本地check。四份正文覆盖门禁通过；M1–M4全部killed_by_assertion且原文件未变；静态104项历史警告、0新增身份，battle render≤10、受检函数≤15；架构159模块/921边。所有本地失败尝试与最后替代记录均留在根归档，不复用旧CI或旧实机结果。
+
+当前修复仍须推送后同一PR精确SHA的全部必要CI成功才可合并。TASK-14.1/16.1的全池与平台AC及M3整体保持未完成，无新GIL/导入/实机/UI验收证据。

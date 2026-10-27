@@ -406,7 +406,7 @@ function M.cardDefinition(state, instance)
 end
 function M.canUpgrade(state,instance)
     local d=state.catalog.cards[instance.cardId]
-    return d and d.upgrade~=nil and (not instance.upgraded or d.repeatable==true)
+    return d and d.type~='status' and d.type~='curse' and d.upgrade~=nil and (not instance.upgraded or d.repeatable==true)
 end
 function M.upgrade(state,instance)
     if not M.canUpgrade(state,instance) then return false end
@@ -777,8 +777,10 @@ queuedHandlers.effect = function(state, action, queue)
                 local value=target.statuses[effect.status]-effect.value
                 if value>0 then target.statuses[effect.status]=value;return true end
             end
+            local removed=target.statuses[effect.status]
             require('abyss_power_schedule').remove(state,target,effect.status)
             target.statuses[effect.status]=nil
+            event(state,'status_removed',{source=target.id,target=target.id,status=effect.status,amount=-removed})
         end
         return true
     elseif effect.op=='loseEnergy' then
@@ -1660,6 +1662,7 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     for _,action in ipairs(turns.prepareStart(state)) do actions[#actions+1]=action end
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy=state.energy+state.rules.player.energyPerTurn
+    RelicHooks.atTurnStart(state)
     for _,action in ipairs(turns.onEnergyRecharge(state)) do actions[#actions+1]=action end
     actions[#actions+1]={kind='effect',effect={op='draw',value=require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn)}}
     for _,action in ipairs(turns.preparePostDraw(state)) do actions[#actions+1]=action end

@@ -1,3 +1,7 @@
+local sliceFirst,sliceLast,seedFirst,seedLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3
+seedFirst,seedLast=seedFirst or 1,seedLast or 128
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat = require("abyss_combat")
 local Effects = require("abyss_effects")
@@ -6,6 +10,10 @@ local data = require("abyss_data")
 local count, failed = 0, 0
 local function equal(a, b) assert(a == b or (type(a) == "number" and type(b) == "number" and a ~= a and b ~= b), tostring(a) .. " ~= " .. tostring(b)) end
 local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+
     count = count + 1
     local ok, reason = pcall(fn)
     if not ok then failed = failed + 1 end
@@ -171,10 +179,13 @@ end
 test("real reward to next battle to following battle keeps permanent deck and resets growth",function()
     local run,choice
     for seed=1,128 do
+        if seed>=seedFirst and seed<=seedLast then
         local candidate=Run.new(data,seed); assert(Run.startCombat(candidate,"cultist_solo")); finishBattle(candidate)
         for i,id in ipairs(Run.rewardOptions(candidate)) do if id=="rampage" then run,choice=candidate,i; break end end
-        if run then break end
+        if run then assert(seed==49,'source reward boundary changed');break end
+        end
     end
+    if not run and seedLast<49 then print('PR238_SEARCH_PREFIX '..seedFirst..' '..seedLast);return end
     assert(run,"rampage not offered"); local oldSize=#run.deck
     assert(Run.claimCardReward(run,choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); equal(#run.deck,oldSize+1)
     local checkDeck,nextUid=unchangedAfter(run.deck),run.nextDeckUid
@@ -202,3 +213,7 @@ test("real reward to next battle to following battle keeps permanent deck and re
 end)
 assert(failed==0,failed.."/"..count.." growing attack tests failed")
 print("growing attack tests passed: "..count)
+
+assert(sliceRegistered==36,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

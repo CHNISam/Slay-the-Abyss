@@ -35,6 +35,7 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
     if id=='defect'then opts.orbSlots=3;opts.orbRandomSeed='17'end
     if id=='watcher'then opts.enableStances=true end
     local s=C.new(data,opts)
+    dofile('tests/lua/support/presentation_hand.lua')(s,card.id)
     ui.run={phase='combat',combat=s,data=data,relics={},potions={},gold=99};ui.target=1;ui:render()
     local box=root:GetChild('battlePanel'):GetChild('card1')
     assert(#box:GetChild('name').text>0 and #box:GetChild('label').text>0)

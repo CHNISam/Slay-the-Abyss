@@ -1,3 +1,7 @@
+local sliceFirst,sliceLast,seedFirst,seedLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+seedFirst,seedLast=seedFirst or 0,seedLast or 127
+local sliceRegistered,sliceExecuted=0,0
 -- Fixed A0 mirror expectations, not generated from the production definition.
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat = require("abyss_combat")
@@ -6,6 +10,10 @@ local data = require("abyss_data")
 local count, failed = 0, 0
 local function eq(a,b,label) assert(a == b, (label or "value") .. ": expected " .. tostring(b) .. ", got " .. tostring(a)) end
 local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+
     count = count + 1
     local ok, err = pcall(fn)
     if not ok then failed = failed + 1 end
@@ -72,7 +80,7 @@ end)
 
 test("Run encounter entry samples the same inclusive HP range", function()
     local seen,present,absent={},0,0
-    for seed=0,127 do
+    for seed=seedFirst,seedLast do
         local run=Run.new(data,seed); run.floor=5 -- host-entry fixture, not map traversal
         assert(Run.startCombat(run,"gremlin_gang")); local found
         for i,e in ipairs(run.combat.enemies) do
@@ -92,3 +100,7 @@ end)
 
 assert(failed==0,tostring(failed) .. " Sneaky Gremlin groups failed")
 print("Sneaky Gremlin: " .. count .. " groups passed")
+
+assert(sliceRegistered==8,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

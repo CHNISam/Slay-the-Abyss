@@ -101,6 +101,17 @@ function M.withCards(data)
  return out
 end
 
+local displayDefinitions
+function M.describe(card)
+ if not displayDefinitions then
+  displayDefinitions={}
+  local canonical=M.withCards({cards={cards={}},statuses={statuses={}}})
+  for _,definition in ipairs(canonical.cards.cards)do displayDefinitions[definition.id]=definition end
+ end
+ local definition=assert(displayDefinitions[card.id],'unknown Watcher final display')
+ return card._upgraded and definition.upgradeText or definition.text
+end
+
 M.ops={gainWatcherFinalPower=true,watcherFinalGenerate=true,watcherFinalConjureBlade=true,
  watcherFinalJudgment=true,watcherFinalRagnarok=true,watcherFinalSpiritShield=true,watcherFinalExpungerHits=true,
  watcherFinalDamageHit=true,watcherFinalOmega=true,watcherFinalEndTurnEarly=true,watcherFinalSkipEnemiesTurn=true,watcherFinalDeusExMachina=true,watcherFinalEstablishment=true,

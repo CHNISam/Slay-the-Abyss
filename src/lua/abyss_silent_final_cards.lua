@@ -63,7 +63,10 @@ local function remove(s,id)
  require('abyss_power_schedule').remove(s,s.player,id);s.player.statuses[id]=nil
 end
 function M.describe(card,dynamic)
- local text=card._upgraded and (card.upgradeText or card.text)or card.text
+ local definition
+ for _,candidate in ipairs(defs)do if candidate.id==card.id then definition=candidate;break end end
+ assert(definition,'unknown Silent final display')
+ local text=card._upgraded and (definition.upgradeText or definition.text)or definition.text
  if dynamic and (card.id=='endless_agony'or card.id=='masterful_stab')then text=text:gsub('造成%d+点伤害','造成{effects.0.value}点伤害')end
  return text
 end

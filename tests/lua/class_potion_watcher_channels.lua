@@ -27,6 +27,8 @@ end
 for _,row in ipairs({{3,3,'bottled_miracle'},{10,3,'ambrosia'}})do
  local r=fresh(row[1]);local flow=Shop.prepare(r);local offer=flow.potions[row[2]]
  eq(offer.id,row[3]);eq(offer.unavailable,false);r.phase='node';flow.type='shop';r.nodeFlow=flow;r.shopRng=flow.shopRng
+ -- Purchase-boundary funding; retain the real generated quote and source RNG.
+ r.gold=offer.price
  for _=1,3 do assert(Run.obtainPotion(r,'block_potion'))end
  local gold,counter=r.gold,r.shopRng.potion.counter;eq(Nodes.buyPotion(r,row[2]),false);eq(r.gold,gold);eq(r.shopRng.potion.counter,counter)
  assert(Run.discardPotion(r,2));assert(Nodes.buyPotion(r,row[2]));eq(r.potions[2],row[3]);eq(r.gold,gold-offer.price);eq(r.shopRng.potion.counter,counter)

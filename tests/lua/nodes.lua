@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local loaded, Nodes = pcall(require, "abyss_nodes")
 assert(loaded, "TASK-13 requires abyss_nodes node flow service")
@@ -12,7 +15,11 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
-local function test(name, fn) fn(); count = count + 1; print("ok nodes " .. count .. " - " .. name) end
+local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+ fn(); count = count + 1; print("ok nodes " .. count .. " - " .. name) end
 local function rejected(run, map, fn, reason)
     local beforeRun, beforeMap = Combat.copy(run), Map.snapshot(map)
     local ok, actual = fn(); equal(ok, false)
@@ -363,3 +370,7 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
 end)
 
 print("LUA_NODES_PASS " .. count)
+
+assert(sliceRegistered==21,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

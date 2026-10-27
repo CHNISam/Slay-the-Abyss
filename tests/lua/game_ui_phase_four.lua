@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2
+local sliceRegistered,sliceExecuted=0,0
 package.path='src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;'..package.path
 local F=require('support.game_ui_fixture')
 local X=require('support.experimental_ui_fixture')
@@ -8,7 +11,11 @@ local Theme=require('abyss_theme')
 local Data=require('abyss_data')
 local count=0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
-local function test(name,fn)fn();count=count+1;print('ok game_ui_phase_four '..count..' - '..name)end
+local function test(name,fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+fn();count=count+1;print('ok game_ui_phase_four '..count..' - '..name)end
 local cursor={CursorDown='down',CursorUp='up',CursorExit='exit',CursorEndDrag='enddrag'}
 local classIndex={ironclad=1,silent=2,defect=3,watcher=4}
 local function control(root,path)
@@ -213,3 +220,7 @@ for _,spec in ipairs(powerCases)do
  end)
 end
 print('GAME_UI_PHASE_FOUR_PASS '..count)
+
+assert(sliceRegistered==26,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

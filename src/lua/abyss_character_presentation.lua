@@ -44,7 +44,7 @@ local function fragments(card,dynamic,path)
             lesson_learned='造成 {effects.0.value} 点伤害。若本次击杀非仆从，随机升级永久牌组中的1张牌。消耗。',
             spirit_shield='每有1张其他手牌获得格挡（当前 {effects.0.value} 点）。',
             expunger='造成 {effects.0.value} 点伤害，共 {expungerHits} 次。'}
-        return dynamic and templates[card.id] or card._upgraded and card.upgradeText or card.text
+        return dynamic and templates[card.id] or require('abyss_watcher_final_cards').describe(card)
     end
     if card.colorlessNative then return require('abyss_colorless_cards').describe(card,dynamic) end
     path=path or 'effects'

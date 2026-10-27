@@ -13,20 +13,20 @@ do
  print('PASS seed5 complete source Rare queue selects exact first candidate once, no reroll/filter or premature mutation')
 end
 do
- local r,m=Run.new(Data,54),Map.generate(Data,54);local first=Map.available(m)[1]
+ local r,m=Run.new(Data,91),Map.generate(Data,91);local first=Map.available(m)[1]
  for _,node in ipairs(m.nodes)do if node.id==first.id then node.type='treasure'end end
  assert(Nodes.enter(r,m,first.id));eq(r.nodeFlow.reward.relicId,'tungsten_rod');assert(Nodes.claimTreasure(r))
  eq(r.relics[#r.relics],'tungsten_rod');eq(r.phase,'map')
  assert(Run.startCombat(r,'cultist_solo'));local s=r.combat;local hp=s.player.hp
  eq(C.damage(s,s.enemies[1],s.player,1,false),0);eq(s.player.hp,hp)
- print('PASS seed54 actual ordinary treasure chooses/claims Rare Rod and binds actual same-Run battle hook')
+ print('PASS seed91 actual ordinary treasure chooses/claims Rare Rod and binds actual same-Run battle hook')
 end
 do
- local r,m=Run.new(Data,1),Map.generate(Data,1);local first=Map.available(m)[1]
+ local r,m=Run.new(Data,2),Map.generate(Data,2);local first=Map.available(m)[1]
  for _,node in ipairs(m.nodes)do if node.id==first.id then node.type='shop'end end
- Run.gainGold(r,300);assert(Nodes.enter(r,m,first.id));local offer=r.nodeFlow.relics[2]
- eq(offer.id,'tungsten_rod');eq(offer.rarity,'rare');eq(offer.price,290);assert(not offer.unavailable)
- local gold=r.gold;assert(Nodes.buyRelic(r,'tungsten_rod'));eq(r.gold,gold-290);eq(r.relics[#r.relics],'tungsten_rod');assert(r.nodeFlow.relics[2].sold)
- print('PASS seed1 ordinary shop Rare shelf quote/purchase adds the actual relic; gold is an explicit purchase boundary')
+ Run.gainGold(r,300);assert(Nodes.enter(r,m,first.id));local offer=r.nodeFlow.relics[1]
+ eq(offer.id,'tungsten_rod');eq(offer.rarity,'rare');eq(offer.price,302);assert(not offer.unavailable)
+ local gold=r.gold;assert(Nodes.buyRelic(r,'tungsten_rod'));eq(r.gold,gold-302);eq(r.relics[#r.relics],'tungsten_rod');assert(r.nodeFlow.relics[1].sold)
+ print('PASS seed2 ordinary shop Rare shelf quote/purchase adds the actual relic; gold is an explicit purchase boundary')
 end
 print('TUNGSTEN_ROD_CHANNELS_PASS 3; source queue tier choice is explicit component evidence, treasure/shop are real acquire paths')

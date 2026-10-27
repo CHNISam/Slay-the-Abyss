@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Run, Combat = require("abyss_run"), require("abyss_combat")
 local Nodes, Map = require("abyss_nodes"), require("abyss_map")
@@ -12,6 +15,10 @@ local function same(a, b)
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
 local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if mutationCase then if name~=mutationCase then return end elseif sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+
     if mutationCase and name ~= mutationCase then return end
     fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name)
 end
@@ -319,3 +326,7 @@ end)
 
 assert(not mutationCase or count == 1, "unknown or duplicate inventory mutation case")
 print("LUA_INVENTORY_PASS " .. count)
+
+assert(sliceRegistered==12,'all original cases must register')
+assert(mutationCase or sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

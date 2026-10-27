@@ -217,5 +217,347 @@
     "potionFlexSpeed": 11
   },
   "ci": "pending exact final head; see PR238",
-  "platform": "No new GIL/import/live play/screenshots/verify:ui; M3 remains incomplete"
+  "platform": "No new GIL/import/live play/screenshots/verify:ui; M3 remains incomplete",
+  "ciFollowup7593": {
+    "head": "7593e8272b363f06d3cdaa62f29967756b3c1102",
+    "qualityRun": 40434608172,
+    "result": "FAILURE; four Lua shards failed, not merged",
+    "failedOriginalEntries": 37,
+    "focusedResults": [
+      {
+        "originalEntry": "card_preview.lua",
+        "passingParts": 1,
+        "maximumSeconds": 13.411,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "class_potion_darkness_channels.lua",
+        "passingParts": 1,
+        "maximumSeconds": 3.584,
+        "evidence": [
+          "7593-burst1.json"
+        ]
+      },
+      {
+        "originalEntry": "potion_draw_queue.lua",
+        "passingParts": 1,
+        "maximumSeconds": 7.741,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "potion_event_pool.lua",
+        "passingParts": 1,
+        "maximumSeconds": 3.194,
+        "evidence": [
+          "7593-burst5.json"
+        ]
+      },
+      {
+        "originalEntry": "sneaky_gremlin.lua",
+        "passingParts": 11,
+        "maximumSeconds": 6.165,
+        "evidence": [
+          "final-split-validation.json",
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "tungsten_rod_channels.lua",
+        "passingParts": 1,
+        "maximumSeconds": 1.509,
+        "evidence": [
+          "final-focused-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "gremlin_gang.lua",
+        "passingParts": 5,
+        "maximumSeconds": 9.287,
+        "evidence": [
+          "final-split-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "growing_attack.lua",
+        "passingParts": 25,
+        "maximumSeconds": 4.756,
+        "evidence": [
+          "final-split-validation.json",
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "inventory.lua",
+        "passingParts": 7,
+        "maximumSeconds": 11.905,
+        "evidence": [
+          "final-split-validation.json",
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "native_power_expiration.lua",
+        "passingParts": 1,
+        "maximumSeconds": 5.366,
+        "evidence": [
+          "7593-burst1.json"
+        ]
+      },
+      {
+        "originalEntry": "red_slaver.lua",
+        "passingParts": 1,
+        "maximumSeconds": 2.321,
+        "evidence": [
+          "adjacent-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "silent_foundation.lua",
+        "passingParts": 1,
+        "maximumSeconds": 1.559,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "vulnerable_combo.lua",
+        "passingParts": 20,
+        "maximumSeconds": 4.419,
+        "evidence": [
+          "final-split-validation.json",
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "warrior75_autoplay_commands.lua",
+        "passingParts": 1,
+        "maximumSeconds": 2.785,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "warrior75_edges.lua",
+        "passingParts": 1,
+        "maximumSeconds": 3.495,
+        "evidence": [
+          "7593-burst6.json"
+        ]
+      },
+      {
+        "originalEntry": "watcher_flow_build.lua",
+        "passingParts": 1,
+        "maximumSeconds": 7.405,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "class_potion_focus_capacity.lua",
+        "passingParts": 1,
+        "maximumSeconds": 8.734,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "class_potion_watcher_channels.lua",
+        "passingParts": 1,
+        "maximumSeconds": 8.995,
+        "evidence": [
+          "7593-burst1.json"
+        ]
+      },
+      {
+        "originalEntry": "node_ui.lua",
+        "passingParts": 1,
+        "maximumSeconds": 3.285,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "phase_four_presentation.lua",
+        "passingParts": 1,
+        "maximumSeconds": 25.084,
+        "evidence": [
+          "7593-burst1.json"
+        ]
+      },
+      {
+        "originalEntry": "phase_three_presentation.lua",
+        "passingParts": 1,
+        "maximumSeconds": 29.338,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "potion_forge.lua",
+        "passingParts": 1,
+        "maximumSeconds": 1.66,
+        "evidence": [
+          "7593-burst1.json"
+        ]
+      },
+      {
+        "originalEntry": "boss_reward_transactions.lua",
+        "passingParts": 7,
+        "maximumSeconds": 3.962,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "character_presentation.lua",
+        "passingParts": 16,
+        "maximumSeconds": 9.632,
+        "evidence": [
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "common_relic_nodes.lua",
+        "passingParts": 1,
+        "maximumSeconds": 7.687,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "dazed.lua",
+        "passingParts": 1,
+        "maximumSeconds": 3.003,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "defect_natural_build.lua",
+        "passingParts": 1,
+        "maximumSeconds": 11.981,
+        "evidence": [
+          "7593-burst3.json"
+        ]
+      },
+      {
+        "originalEntry": "game_ui_phase_four.lua",
+        "passingParts": 13,
+        "maximumSeconds": 5.981,
+        "evidence": [
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "inventory_restore.lua",
+        "passingParts": 1,
+        "maximumSeconds": 13.184,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "looter_closed_loop.lua",
+        "passingParts": 1,
+        "maximumSeconds": 7.155,
+        "evidence": [
+          "7593-burst6.json"
+        ]
+      },
+      {
+        "originalEntry": "louse_colors.lua",
+        "passingParts": 1,
+        "maximumSeconds": 20.223,
+        "evidence": [
+          "7593-burst3.json"
+        ]
+      },
+      {
+        "originalEntry": "louse_colors_slice_5.lua",
+        "passingParts": 1,
+        "maximumSeconds": 10.848,
+        "evidence": [
+          "7593-burst3.json"
+        ]
+      },
+      {
+        "originalEntry": "nodes.lua",
+        "passingParts": 11,
+        "maximumSeconds": 6.402,
+        "evidence": [
+          "remaining-budget-validation.json"
+        ]
+      },
+      {
+        "originalEntry": "phase_four_presentation_render.lua",
+        "passingParts": 1,
+        "maximumSeconds": 26.462,
+        "evidence": [
+          "7593-burst2.json"
+        ]
+      },
+      {
+        "originalEntry": "silent_natural_build.lua",
+        "passingParts": 1,
+        "maximumSeconds": 24.844,
+        "evidence": [
+          "7593-burst3.json"
+        ]
+      },
+      {
+        "originalEntry": "statuses.lua",
+        "passingParts": 1,
+        "maximumSeconds": 3.15,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      },
+      {
+        "originalEntry": "warrior75_choice_ui.lua",
+        "passingParts": 1,
+        "maximumSeconds": 1.654,
+        "evidence": [
+          "7593-burst4.json"
+        ]
+      }
+    ],
+    "bodyLocks": [
+      "tests/fixtures/pr238-remaining-budget.json",
+      "tests/fixtures/pr238-boss-transactions-budget.json"
+    ],
+    "sourceSha256": {
+      "AbstractCard.java": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61",
+      "Rampage.java": "228e8877d220914f90967f730194656abdc8c1440a6784f7d704cbaad10877d8",
+      "ModifyDamageAction.java": "dc031490874c3f33dc34291283df57e6fed15fab5f38a3e5a76bd9c173a8085f",
+      "GetAllInBattleInstances.java": "056231bdf229b7b32ba5d62cf722c04155acd521206e6a5be72df7a03f791213",
+      "AncientTeaSet.java": "f531d420b0d2cc6f5c4e96ef73eb225c52e45f28be532442ae4f0de11b42e5ae",
+      "HappyFlower.java": "5429390e02823690905578f63e5fd22c0578886b6220fc84b8b4fa1a60d79e2d",
+      "ArtOfWar.java": "3e161957d440222c1ef779c4636ed903ab1dc9668362df4fecb3bffdcaaf40c8",
+      "DarkEmbracePower.java": "4b6292679fe2980af63124e0d8e86c63b311bedb380f4d47619c92c1aab1bc3c",
+      "DiscardAtEndOfTurnAction.java": "d80e3ae091de4bc4e74879f195b5ec2d1bb7e7c7e92eac636bf452d61e4bebf0"
+    },
+    "finalStatic": [
+      {
+        "check": "preservation",
+        "exit": 0,
+        "seconds": 0.421
+      },
+      {
+        "check": "lua-static",
+        "exit": 0,
+        "seconds": 1.541
+      },
+      {
+        "check": "architecture",
+        "exit": 0,
+        "seconds": 0.378
+      }
+    ],
+    "mutationReport": "build/test-strength/d8c30222-8d0d-43a8-b6b8-0b28465973f9/report.json",
+    "baselineIdentityProof": "build/pr238-resume-20261027-091929/final-baseline-proof.json"
+  }
 }

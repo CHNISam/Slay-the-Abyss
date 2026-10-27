@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+local sliceRegistered,sliceExecuted=0,0
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local P=require('abyss_character_presentation')
 local Profiles=require('abyss_character_profiles')
@@ -11,7 +14,11 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local BattleUI=require('abyss_battle_ui')
 local DeckUI=require('abyss_deck_ui')
 local cases=0
-local function test(name,fn)fn();cases=cases+1;print('ok '..cases..' '..name)end
+local function test(name,fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+fn();cases=cases+1;print('ok '..cases..' '..name)end
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
 local rendered=0
@@ -304,3 +311,7 @@ test('all supported shared curses render in each class and reject incompatible l
  end
 end)
 print('CHARACTER_PRESENTATION_PASS '..cases..' rendered_card_variants='..rendered)
+
+assert(sliceRegistered==16,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

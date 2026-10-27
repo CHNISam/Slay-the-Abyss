@@ -16,6 +16,8 @@ assert(Run.startCombat(r,'cultist_solo'));assert(Run.usePotion(r,1));eq(#r.comba
 print('ok actual unchanged Defect starter victory -> rare Darkness drop -> claim -> next battle use, fixed source RNG')
 local shop=fresh(10);local flow=Shop.prepare(shop);local offer=flow.potions[3]
 eq(offer.id,'essence_of_darkness');eq(offer.unavailable,false);shop.phase='node';flow.type='shop';shop.nodeFlow=flow;shop.shopRng=flow.shopRng
+-- Purchase-boundary funding; this does not certify a natural income route.
+shop.gold=offer.price
 for _=1,3 do assert(Run.obtainPotion(shop,'block_potion'))end
 local gold,counter=shop.gold,shop.shopRng.potion.counter;eq(Nodes.buyPotion(shop,3),false);eq(shop.gold,gold);eq(shop.shopRng.potion.counter,counter)
 assert(Run.discardPotion(shop,2));assert(Nodes.buyPotion(shop,3));eq(shop.potions[2],'essence_of_darkness');eq(shop.gold,gold-offer.price);eq(shop.shopRng.potion.counter,counter)

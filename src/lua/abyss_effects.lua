@@ -348,7 +348,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- grow together; stat-equivalent copies have a fresh UID instead.
             local seen={}
             local function grow(c)
-                if not c or c.uid~=playedCard.uid or seen[c] then return end
+                if not c or (c.uuid or c.uid)~=(playedCard.uuid or playedCard.uid) or seen[c] then return end
                 seen[c]=true
                 local previous=c.damageBonus or 0
                 local bonus=previous+0.0+value

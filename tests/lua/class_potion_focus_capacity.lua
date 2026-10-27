@@ -24,7 +24,8 @@ for _,bark in ipairs({false,true})do
   eq(battle.orbs.slots,math.min(10,slots+amount));eq(#battle.orbs.balls,0)
  end
  local w=fresh('potion_of_capacity',bark,'watcher');eq(w.combat.orbs.slots,0);assert(Run.usePotion(w,1));eq(w.combat.orbs.slots,amount)
- local other=fresh('potion_of_capacity',bark);eq(other.combat.orbs,nil);A.applyPower(other.combat,other.combat.player,'focus',2,other.combat.player)
+ local other=fresh('potion_of_capacity',bark);eq(other.combat.orbs.slots,0);eq(other.combat.orbs.focus,0);eq(#other.combat.orbs.balls,0)
+ A.applyPower(other.combat,other.combat.player,'focus',2,other.combat.player)
  assert(Run.usePotion(other,1));eq(other.combat.orbs.slots,amount);eq(other.combat.orbs.focus,2)
  assert(Text.describe(w,'potion_of_capacity'):find('球槽+'..amount,1,true));assert(Text.describe(w,'potion_of_capacity'):find('10',1,true))
  print('ok Capacity '..amount..', 0/8/10 slots, empty slots and other-class zero-slot host')
