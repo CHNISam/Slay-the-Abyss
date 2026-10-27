@@ -63,19 +63,31 @@
       "path": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
       "rarity": "uncommon",
       "first": 10,
+      "last": 14
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_15_18.lua",
+      "rarity": "uncommon",
+      "first": 15,
       "last": 18
     },
     {
       "path": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
       "rarity": "uncommon",
       "first": 19,
-      "last": 27
+      "last": 23
     },
     {
       "path": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
       "rarity": "uncommon",
       "first": 1,
       "last": 5
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_24_27.lua",
+      "rarity": "uncommon",
+      "first": 24,
+      "last": 27
     },
     {
       "path": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
@@ -190,5 +202,6 @@
         "last": 3
       }
     ]
-  }
+  },
+  "maximumRewardTargetsPerFixture": 5
 }

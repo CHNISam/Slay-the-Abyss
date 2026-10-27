@@ -12,6 +12,7 @@ test('reward partitions retain the frozen real-victory body and cover all72 orig
  assert.deepEqual(p.rewardHelper,{path:'tests/lua/support/warrior75_reward_cases.lua',sha256LF:'7c6e2c485274bfc7bf06abf876116956986fccf0d70526da2ff331c68b14de07'});
  assert.equal(sha(read(p.rewardHelper.path)),p.rewardHelper.sha256LF);
  assert.deepEqual(p.rewardCounts,{common:20,uncommon:36,rare:16});
+ assert.equal(p.maximumRewardTargetsPerFixture,5);
  const actualFiles=discovered.filter(path=>/^tests\/lua\/card_pool_rewards.*\.lua$/.test(path));
  assert.deepEqual(p.rewardSlices.map(row=>row.path),actualFiles);
  const seen={common:[],uncommon:[],rare:[]};
@@ -24,6 +25,7 @@ test('reward partitions retain the frozen real-victory body and cover all72 orig
   assert.ok(headers.some(header=>read(part.path)===`${header}\n${expected}\n`),
    `${part.path}: the complete wrapper must execute its selector, not hide it in a long comment`);
   assert.ok(part.first<=part.last);
+  assert.ok(part.last-part.first+1<=5,`${part.path}: at most five complete real-victory targets per fixture`);
   seen[part.rarity].push(...Array.from({length:part.last-part.first+1},(_,i)=>part.first+i));
  }
  for(const [rarity,total]of Object.entries(p.rewardCounts))
