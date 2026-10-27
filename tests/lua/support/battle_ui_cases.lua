@@ -1,6 +1,8 @@
 local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
-return function(first,last)
+return function(first,last,seedFirst,seedLast)
 first,last=assert(first),assert(last)
+seedFirst,seedLast=seedFirst or 1,seedLast or 6
+assert(type(seedFirst)=='number'and type(seedLast)=='number'and seedFirst%1==0 and seedLast%1==0 and seedFirst>=1 and seedLast<=6 and seedFirst<=seedLast,'invalid UI playback seed slice')
 local registered=0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI = require("abyss_battle_ui")
@@ -906,7 +908,7 @@ test("poison identifies its source and killed enemies never act; retaliation sho
     assert(retaliation == 1)
 end)
 test("playback preserves every rule field and RNG against direct commands and cannot replay consumed events", function()
-    for seed = 1, 6 do
+    for seed = seedFirst, seedLast do
         local ui, stage, click = setup({manualPlayback=true})
         ui.seed = seed click("start")
         local direct = Combat.copy(ui.run)
@@ -936,6 +938,7 @@ test("playback preserves every rule field and RNG against direct commands and ca
             for _ = 1, 4 do ui:update(0.2) end
             same(ui.run,direct,"idle")
         end
+        print("UI_PLAYBACK_SEED " .. seed)
     end
 end)
 test("effect setter failure restores final HP and input, and idle failure cannot repeat host notifications", function()

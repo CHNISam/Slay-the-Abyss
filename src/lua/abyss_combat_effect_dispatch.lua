@@ -10,8 +10,15 @@ for _,group in ipairs({Damage,require('abyss_combat_effect_choice'),require('aby
     for op,handler in pairs(group)do handlers[op]=handler end
 end
 local Handlers={}
+local function endingReactions(combat,state,effect)
+    if effect.op=='heartBeat'then return true,combat.heartBeat(state,effect)end
+    if effect.op=='spireDeathRemove'then return true,Actors.removeSpireDeathPower(state,effect)end
+    return false
+end
 local function reactions(c)
     local M,state,action,queue=c.combat,c.state,c.action,c.queue
+    local ending,result=endingReactions(M,state,action.effect)
+    if ending then return true,result end
     if action.effect.op=='awakenedAction'then
         Awakened.resolve(Actors,state,action.effect)
         return true,true

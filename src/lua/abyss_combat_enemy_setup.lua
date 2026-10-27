@@ -16,6 +16,7 @@ local function registerList(catalog,kind,list,label)
  end
 end
 function M.register(catalog)
+ require('abyss_act4_enemies').register(catalog)
  require('abyss_act1_bosses').register(catalog,Copy)
  require('abyss_act3_bosses').register(catalog,Copy)
  require('abyss_reptomancer').register(catalog,Copy)
@@ -51,6 +52,7 @@ local function inactiveMove(enemy,intent)
  if intent.kind=='sleep'or intent.kind=='stunned'then return 'inactive enemy intent has effects'end
 end
 local function validateIntent(enemy,intent)
+ if require('abyss_act4_enemies').validateIntent(enemy,intent)then return end
  if intent.kind=='charge'or intent.kind=='split'or intent.kind=='escape'then return specialMove(enemy,intent)end
  local inactive=inactiveMove(enemy,intent)
  if inactive then assert(type(intent.effects)=='table'and next(intent.effects)==nil,inactive)

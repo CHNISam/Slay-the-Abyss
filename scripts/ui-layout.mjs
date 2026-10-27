@@ -229,6 +229,9 @@ export function battleLayout() {
     relic.visible = false;
     potionHelp.push(relic);
   }
+  const emerald = button('emeraldKeyReward', l.battleRewards.rowOrigin, l.battleRewards.rowSize, '领取绿钥匙', false, f.body);
+  emerald.visible = false;
+  potionHelp.push(emerald);
   potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));

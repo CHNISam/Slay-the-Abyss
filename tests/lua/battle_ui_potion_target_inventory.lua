@@ -1,6 +1,17 @@
+local first,last=...
+first,last=first or 1,last or 4
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=7 and first<=last,'invalid potion inventory slice')
+local registered,executed=0,0
 local H = dofile("tests/lua/support/potion_targeting_fixture.lua")
 local setup,Run,Combat,F,eq,untouched = H.setup,H.Run,H.Combat,H.F,H.eq,H.untouched
 local test,finish = H.suite("LUA_POTION_TARGET_INVENTORY")
+local originalTest=test
+test=function(name,fn)
+ registered=registered+1
+ if registered<first or registered>last then return end
+ executed=executed+1
+ return originalTest(name,fn)
+end
 
 for _,id in ipairs({'fire_potion','block_potion'}) do
  test('real discard/refill '..id..' cannot inherit old pending without redraw',function()
@@ -41,3 +52,6 @@ test('foreign or missing touch cannot confirm released enemy token',function()
   e('enemy2','click',9);e('enemy2','click');eq(h.run.potions[1],'fire_potion');e('enemy2','click',8);eq(h.run.potions[1],nil)
 end)
 finish()
+assert(registered==7,'all original potion inventory cases must register')
+assert(executed==last-first+1,'all selected potion inventory cases must execute')
+print('POTION_TARGET_INVENTORY_PART '..first..' '..last..' '..executed)

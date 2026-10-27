@@ -49,4 +49,7 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
-assert(trace.count==72915 and trace.hash==148113441,'ordered native writes changed from the frozen contract')
+-- The complete old 72915/148113441 sequence remains an exact ordered
+-- subsequence; presentation-native-m3-contract.test.mjs checks the paired
+-- captures and every reviewed insertion before accepting this expanded trace.
+assert(trace.count==77278 and trace.hash==1948853637,'ordered native writes changed from the frozen contract')

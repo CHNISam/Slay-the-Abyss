@@ -1,0 +1,770 @@
+[
+  {
+    "seed": "0",
+    "orbSlots": 0,
+    "openingAfter": {
+      "words": [
+        "9253c52fcfbd932b",
+        "6151e5f6a4a2df86"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "64e5fcd2a7151c1a",
+            "fee60553238444e4"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "a427991d6d1fcfd8",
+            "a2f2709904a41b20"
+          ],
+          "counter": 8
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "6613268d2f6823a8",
+            "6fa97c132dd66678"
+          ],
+          "counter": 11
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "bash",
+        "spear": "piercer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "4f2dfed675af3caf",
+            "29125afa6496e7a1"
+          ],
+          "counter": 13
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "59255a296b0125cf",
+            "8deb1451e6d83050"
+          ],
+          "counter": 16
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "6563c2f491c710c5",
+            "a5a6aa6de3873d27"
+          ],
+          "counter": 19
+        }
+      }
+    ],
+    "nextShield": "fortify",
+    "nextSpear": "burn_strike",
+    "after": {
+      "words": [
+        "6563c2f491c710c5",
+        "a5a6aa6de3873d27"
+      ],
+      "counter": 19
+    }
+  },
+  {
+    "seed": "0",
+    "orbSlots": 3,
+    "openingAfter": {
+      "words": [
+        "9253c52fcfbd932b",
+        "6151e5f6a4a2df86"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "64e5fcd2a7151c1a",
+            "fee60553238444e4"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "a2f2709904a41b20",
+            "88637303b25ab236"
+          ],
+          "counter": 9
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "6fa97c132dd66678",
+            "4f2dfed675af3caf"
+          ],
+          "counter": 12
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "bash",
+        "spear": "piercer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "0d0561b3968b7480",
+            "59255a296b0125cf"
+          ],
+          "counter": 15
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "c07be8017dc1c7a6",
+            "6563c2f491c710c5"
+          ],
+          "counter": 18
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "ba8d84ade9d4cf39",
+            "29daa4db8e4b6167"
+          ],
+          "counter": 21
+        }
+      }
+    ],
+    "nextShield": "bash",
+    "nextSpear": "burn_strike",
+    "after": {
+      "words": [
+        "ba8d84ade9d4cf39",
+        "29daa4db8e4b6167"
+      ],
+      "counter": 21
+    }
+  },
+  {
+    "seed": "1",
+    "orbSlots": 0,
+    "openingAfter": {
+      "words": [
+        "ab89235541870f7d",
+        "2d25c9924d25b67b"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "bash",
+        "spear": "burn_strike",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "2c0c29df0b39a216",
+            "c80f009cd532dbfd"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "8de30ea50ab309e5",
+            "b463e00d661948c3"
+          ],
+          "counter": 8
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "d9d56d691df959c2",
+            "eb860d9b4a1672c2"
+          ],
+          "counter": 11
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "bash",
+        "spear": "piercer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "86ddaac99f8eb3ae",
+            "a0febf5b80a36680"
+          ],
+          "counter": 13
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "4fd24b8dcdb5dbe8",
+            "f85e16a13f919df7"
+          ],
+          "counter": 16
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "d9ab497628875423",
+            "1a6d633f7b8af52b"
+          ],
+          "counter": 19
+        }
+      }
+    ],
+    "nextShield": "fortify",
+    "nextSpear": "burn_strike",
+    "after": {
+      "words": [
+        "d9ab497628875423",
+        "1a6d633f7b8af52b"
+      ],
+      "counter": 19
+    }
+  },
+  {
+    "seed": "1",
+    "orbSlots": 3,
+    "openingAfter": {
+      "words": [
+        "ab89235541870f7d",
+        "2d25c9924d25b67b"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "bash",
+        "spear": "burn_strike",
+        "bashPower": "focus",
+        "after": {
+          "words": [
+            "c80f009cd532dbfd",
+            "0b86d4640c4c5ec2"
+          ],
+          "counter": 6
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "b463e00d661948c3",
+            "6b05d8b2ad42be66"
+          ],
+          "counter": 9
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "eb860d9b4a1672c2",
+            "86ddaac99f8eb3ae"
+          ],
+          "counter": 12
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "bash",
+        "spear": "burn_strike",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "42eca3eac14a2789",
+            "4fd24b8dcdb5dbe8"
+          ],
+          "counter": 15
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "716ac3655911f28a",
+            "d9ab497628875423"
+          ],
+          "counter": 18
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "78d258ba5cbb7255",
+            "fd02bc09d5055eec"
+          ],
+          "counter": 21
+        }
+      }
+    ],
+    "nextShield": "bash",
+    "nextSpear": "burn_strike",
+    "after": {
+      "words": [
+        "78d258ba5cbb7255",
+        "fd02bc09d5055eec"
+      ],
+      "counter": 21
+    }
+  },
+  {
+    "seed": "42",
+    "orbSlots": 0,
+    "openingAfter": {
+      "words": [
+        "e60fca8540413235",
+        "42ce675251912b41"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "e661df094dc7e080",
+            "0d8705047342f11a"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "e0feeb25fd467f3e",
+            "c17e6f2b3b3f39f8"
+          ],
+          "counter": 8
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "e79dc4ebc20ce704",
+            "5472f4fa26fdbb68"
+          ],
+          "counter": 11
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "fortify",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "c60e7f491b0042e3",
+            "ef6fe1efcf71e2b3"
+          ],
+          "counter": 13
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "95647a8440c8b848",
+            "e648b23d916e8fa5"
+          ],
+          "counter": 16
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "c98cbe486a84fb25",
+            "47b44d5d4dd06ce1"
+          ],
+          "counter": 19
+        }
+      }
+    ],
+    "nextShield": "bash",
+    "nextSpear": "burn_strike",
+    "after": {
+      "words": [
+        "c98cbe486a84fb25",
+        "47b44d5d4dd06ce1"
+      ],
+      "counter": 19
+    }
+  },
+  {
+    "seed": "42",
+    "orbSlots": 3,
+    "openingAfter": {
+      "words": [
+        "e60fca8540413235",
+        "42ce675251912b41"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "e661df094dc7e080",
+            "0d8705047342f11a"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "focus",
+        "after": {
+          "words": [
+            "c17e6f2b3b3f39f8",
+            "b37e1e0122efbd2b"
+          ],
+          "counter": 9
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "5472f4fa26fdbb68",
+            "c60e7f491b0042e3"
+          ],
+          "counter": 12
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "bash",
+        "spear": "burn_strike",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "8dec2ffd81bdeee3",
+            "95647a8440c8b848"
+          ],
+          "counter": 15
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "310cc77e68e68aed",
+            "c98cbe486a84fb25"
+          ],
+          "counter": 18
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "aa0dc7a5a6dd3c95",
+            "431f166d4a4927b5"
+          ],
+          "counter": 21
+        }
+      }
+    ],
+    "nextShield": "bash",
+    "nextSpear": "piercer",
+    "after": {
+      "words": [
+        "aa0dc7a5a6dd3c95",
+        "431f166d4a4927b5"
+      ],
+      "counter": 21
+    }
+  },
+  {
+    "seed": "-1",
+    "orbSlots": 0,
+    "openingAfter": {
+      "words": [
+        "c347fe1c7f4b1e37",
+        "336d48ad86da3b4c"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "fe15758e148abc7f",
+            "9bbb62d6a3d5f4db"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "524ebededd3fd087",
+            "a715bd3c48d252ce"
+          ],
+          "counter": 8
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "a3044a184b21ebe3",
+            "60b06598ac93ef39"
+          ],
+          "counter": 11
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "cf91e8fdd75dbfa1",
+            "637792d21503f7e4"
+          ],
+          "counter": 13
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "d8709a7601dfee30",
+            "208b7f97aa07b10b"
+          ],
+          "counter": 16
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "piercer",
+        "after": {
+          "words": [
+            "28a5727644b9f95c",
+            "380be216953c8890"
+          ],
+          "counter": 19
+        }
+      }
+    ],
+    "nextShield": "bash",
+    "nextSpear": "burn_strike",
+    "after": {
+      "words": [
+        "28a5727644b9f95c",
+        "380be216953c8890"
+      ],
+      "counter": 19
+    }
+  },
+  {
+    "seed": "-1",
+    "orbSlots": 3,
+    "openingAfter": {
+      "words": [
+        "c347fe1c7f4b1e37",
+        "336d48ad86da3b4c"
+      ],
+      "counter": 3
+    },
+    "steps": [
+      {
+        "turn": 1,
+        "shield": "fortify",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "fe15758e148abc7f",
+            "9bbb62d6a3d5f4db"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "turn": 2,
+        "shield": "bash",
+        "spear": "skewer",
+        "bashPower": "strength",
+        "after": {
+          "words": [
+            "a715bd3c48d252ce",
+            "9a3582b303998204"
+          ],
+          "counter": 9
+        }
+      },
+      {
+        "turn": 3,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "60b06598ac93ef39",
+            "cf91e8fdd75dbfa1"
+          ],
+          "counter": 12
+        }
+      },
+      {
+        "turn": 4,
+        "shield": "bash",
+        "spear": "piercer",
+        "bashPower": "focus",
+        "after": {
+          "words": [
+            "d20d8c55ec2bff2e",
+            "d8709a7601dfee30"
+          ],
+          "counter": 15
+        }
+      },
+      {
+        "turn": 5,
+        "shield": "fortify",
+        "spear": "skewer",
+        "after": {
+          "words": [
+            "c3fb7ba6abc7363e",
+            "28a5727644b9f95c"
+          ],
+          "counter": 18
+        }
+      },
+      {
+        "turn": 6,
+        "shield": "smash",
+        "spear": "burn_strike",
+        "after": {
+          "words": [
+            "2b8cc551ea388135",
+            "18cda0a96a1c3341"
+          ],
+          "counter": 21
+        }
+      }
+    ],
+    "nextShield": "fortify",
+    "nextSpear": "piercer",
+    "after": {
+      "words": [
+        "2b8cc551ea388135",
+        "18cda0a96a1c3341"
+      ],
+      "counter": 21
+    }
+  }
+]

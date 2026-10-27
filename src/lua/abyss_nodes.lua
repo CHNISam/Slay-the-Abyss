@@ -24,6 +24,7 @@ local Acts = require('abyss_acts')
 local Treasure=require('abyss_treasure')
 local Neow=require('abyss_neow')
 local TreasureSource=require('abyss_treasure_source')
+local EmeraldRewards=require('abyss_emerald_rewards')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -252,7 +253,15 @@ local function enter(run, map, nodeId)
     end
     flow.sourceType=sourceType
     if selectionRng then flow.selectionRng=EventRandom.snapshot(selectionRng);flow.event.originalId=node.originalEventId end
-    local stagedRun
+    local stagedRun,emeraldBoost
+    if node.hasEmeraldKey then
+        local preparedBoost,_,reason=Map.prepareEmeraldBoost(map,nodeId)
+        if not preparedBoost then return false,reason end
+        emeraldBoost=preparedBoost
+        local context=Run.mapContext(run)
+        if not context or not context.endingUnlocked or context.emeraldOwned or run.keys.emerald
+            or run.endingUnlocked~=true then return false,'ending_history_required' end
+    end
     if battleKinds[node.type] then
         -- Keep the new floor and room misc state private until real battle setup
         -- succeeds. startCombat may advance this stream when assembling a group;
@@ -261,7 +270,7 @@ local function enter(run, map, nodeId)
         for key, value in pairs(run) do stagedRun[key] = value end
         stagedRun.floor, stagedRun.miscRng = node.floor, nextMiscRng
         local tier=node.type=='combat' and 'normal' or node.type
-        local called, ok, reason = pcall(Run.startRoomCombat, stagedRun, tier)
+        local called, ok, reason = pcall(Run.startRoomCombat, stagedRun, tier,emeraldBoost and emeraldBoost.effect)
         if not called or not ok then
             return false, called and reason or "combat_unavailable"
         end
@@ -271,12 +280,21 @@ local function enter(run, map, nodeId)
         run.floor, run.phase, run.seed = node.floor, "node", seed
     end
     assert(Map.choose(map, nodeId)) -- already validated against the unchanged map above
+    if emeraldBoost then
+        local ok,reason=Map.commitEmeraldBoost(map,nodeId,emeraldBoost)
+        if not ok then return false,reason end
+        local owner;owner,reason=EmeraldRewards.bind(stagedRun,emeraldBoost)
+        if not owner then return false,reason end
+        stagedRun.emeraldCombat=owner
+        flow.emeraldBoost=Combat.copy(emeraldBoost)
+    end
     if stagedRun then
         run.floor, run.phase, run.combat = stagedRun.floor, stagedRun.phase, stagedRun.combat
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
         run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
         run.relicCounters=stagedRun.relicCounters
         run.eventCombat=stagedRun.eventCombat
+        run.emeraldCombat=stagedRun.emeraldCombat
         run.combatGeneration=stagedRun.combatGeneration
         run.roomGeneration=stagedRun.roomGeneration
         run.combatGeneration=stagedRun.combatGeneration
@@ -287,6 +305,7 @@ local function enter(run, map, nodeId)
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
+    if not emeraldBoost then run.emeraldCombat=nil end
     if flow.type == 'shop' then
         run.relicPool=flow.relicPool;flow.relicPool=nil
         run.shopRng=flow.shopRng
@@ -298,13 +317,39 @@ local function enter(run, map, nodeId)
     return true
 end
 
+local function validateEntryMap(run,map)
+    if type(map)~='table' or getmetatable(map)~=nil then return false,'invalid_snapshot' end
+    -- Chapter birth facts, not caller-supplied markers, decide whether this is
+    -- a canonical map. Keep the old no-birth component API, but never let an
+    -- Emerald contract manufacture its own context or downgrade a born map.
+    local canonical=run.mapBirthAct~=nil or run.mapBirthContext~=nil
+        or map.emeraldSelection~=nil or map.mapRng~=nil or map.emeraldBoost~=nil
+    if not canonical and type(map.nodes)=='table' then
+        for _,node in next,map.nodes do
+            if type(node)=='table' and rawget(node,'hasEmeraldKey')~=nil then canonical=true;break end
+        end
+    end
+    if canonical then
+        local restored,reason=M.restoreMap(run,map)
+        if not restored then return false,reason end
+    end
+    return true
+end
+
 function M.enter(run,map,nodeId)
+    -- Validate the original graph/continuous stream before a copy can discard
+    -- metatables and before room hooks, encounter consumption or battle setup.
+    local valid,why=validateEntryMap(run,map)
+    if not valid then return false,why end
     -- Map.choose and every entry hook stay private until battle setup and room
     -- preparation both succeed. Keep the public map/root/path owners stable.
     local stagedMap=Combat.copy(map)
     local ok,reason=Run.transaction(run,function(staged)return enter(staged,stagedMap,nodeId)end)
     if not ok then return false,reason end
     map.floor,map.currentNodeId=stagedMap.floor,stagedMap.currentNodeId
+    if stagedMap.mapRng then
+        map.mapRng,map.emeraldBoost=Combat.copy(stagedMap.mapRng),Combat.copy(stagedMap.emeraldBoost)
+    end
     for i=#map.path,1,-1 do map.path[i]=nil end
     for i,id in ipairs(stagedMap.path)do map.path[i]=id end
     return true,reason
@@ -331,7 +376,7 @@ function M.advanceAct(run,map)
     local ok,reason=Run.transaction(run,function(staged)
         local advanced,why=Run.advanceAct(staged)
         if not advanced then return false,why end
-        nextMap=Map.generate(staged.data,staged.runSeed,staged.act)
+        nextMap=Map.generate(staged.data,staged.runSeed,staged.act,assert(Run.mapContext(staged)))
         return true
     end)
     if not ok then return false,reason end
@@ -340,11 +385,50 @@ function M.advanceAct(run,map)
     return true
 end
 
+function M.restoreMap(run,snapshot)
+    local context,reason=Run.mapContext(run)
+    if not context then return nil,reason end
+    if type(snapshot)~='table' or snapshot.runSeed~=run.runSeed or (snapshot.act or 1)~=(run.act or 1)then
+        return nil,'map_mismatch'
+    end
+    return Map.restore(run.data,snapshot,context)
+end
+
+function M.endingProceedSource(run,map)
+    local owner,flow=run.endingProceed,run.nodeFlow
+    if run.phase~='ending_proceed' or run.act~=4 or run.floor~=55 or type(owner)~='table'
+        or owner.version~=1 or owner.act~=4 or owner.floor~=55 or owner.runSeed~=run.runSeed
+        or owner.encounterId~=run.encounterId or owner.combatGeneration~=run.combatGeneration
+        or type(flow)~='table' or flow.type~='boss' or flow.complete~=false
+        or flow.encounterId~=owner.encounterId or type(map)~='table' then return nil,'ending_proceed_source_mismatch' end
+    local birth=Run.mapContext(run)
+    if not birth or not birth.endingUnlocked or not birth.emeraldOwned then return nil,'ending_history_required' end
+    local ok,restored=pcall(function()return M.restoreMap(run,map)end)
+    if not ok or not restored or map.act~=4 or map.floor~=55 or not matchingMap(flow,map)
+        or map.path[#map.path]~=flow.id then return nil,'map_mismatch' end
+    local last=restored.nodes[#restored.nodes]
+    if last.id~=flow.id or last.type~='boss' or last.floor~=55 then return nil,'map_mismatch' end
+    return owner
+end
+
+function M.proceedEnding(run,map,expectedOwner)
+    if expectedOwner==nil or not rawequal(expectedOwner,run.endingProceed) then return false,'ending_proceed_owner_mismatch' end
+    local owner,reason=M.endingProceedSource(run,map)
+    if not rawequal(owner,expectedOwner) then return false,reason or 'ending_proceed_owner_mismatch' end
+    return Run.proceedEnding(run,expectedOwner)
+end
+
 function M.view(run, map)
     local available, mapView = M.available(run, map), Map.view(map)
     local enabled = #available > 0
     if not enabled then for _, node in ipairs(mapView.nodes) do node.available = false end end
     local node = run.nodeFlow and Combat.copy(run.nodeFlow) or nil
+    if run.phase=='ending_proceed' then
+        node=node or {id=map.currentNodeId,floor=55,complete=false}
+        node.type,node.event,node.reward='ending_proceed',nil,nil
+        node.canProceed=M.endingProceedSource(run,map)~=nil
+        return {phase=run.phase,node=node,map=mapView,available={},navigationEnabled=false}
+    end
     if node and not node.complete then
         node.purgeCards=LivingWall.purgeCards(run)
         if node.type == "camp" then

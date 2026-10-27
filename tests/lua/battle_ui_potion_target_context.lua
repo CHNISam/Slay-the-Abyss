@@ -1,6 +1,17 @@
+local first,last=...
+first,last=first or 1,last or 4
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=8 and first<=last,'invalid potion context slice')
+local registered,executed=0,0
 local H = dofile("tests/lua/support/potion_targeting_fixture.lua")
 local setup,Run,Combat,F,eq,untouched = H.setup,H.Run,H.Combat,H.F,H.eq,H.untouched
 local test,finish = H.suite("LUA_POTION_TARGET_CONTEXT")
+local originalTest=test
+test=function(name,fn)
+ registered=registered+1
+ if registered<first or registered>last then return end
+ executed=executed+1
+ return originalTest(name,fn)
+end
 
 for _,overlay in ipairs({'Deck','Potions','Exit'}) do
  test('opening and closing '..overlay..' cancels pending',function()
@@ -31,3 +42,6 @@ test('combat replacement cancels pending',function()
   local z=h.run.combat.enemies[2].hp;click('enemy2');eq(h.run.combat.enemies[2].hp,z);eq(h.run.potions[1],'fire_potion');eq(u.potionAim,nil)
 end)
 finish()
+assert(registered==8,'all original potion context cases must register')
+assert(executed==last-first+1,'all selected potion context cases must execute')
+print('POTION_TARGET_CONTEXT_PART '..first..' '..last..' '..executed)

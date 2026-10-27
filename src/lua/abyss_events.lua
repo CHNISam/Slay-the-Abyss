@@ -19,6 +19,7 @@ end
 function M.frame(state)
     local result = { player = actor(state.player), enemies = {}, phase = state.phase,
         turn = state.turn, energy = state.energy }
+    if state.spirePair then result.spirePair={facingLeft=state.spirePair.facingLeft}end
     if state.discardedThisTurn~=nil then result.discardedThisTurn=state.discardedThisTurn end
     for i, a in ipairs(state.enemies) do result.enemies[i] = actor(a) end
     for _, name in ipairs({"hand", "draw", "discard", "exhaust"}) do

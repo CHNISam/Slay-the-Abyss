@@ -1,5 +1,6 @@
 -- Read state, issue Run commands. No damage/energy/outcome rules live in this view.
 local Combat = require("abyss_combat")
+local RewardLayout=require('abyss_battle_reward_layout')
 local Actors = require("abyss_actor")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
@@ -55,7 +56,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name)
-        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward' or name:match('^relicReward%d$')
+        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward' or name=='emeraldKeyReward' or name:match('^relicReward%d$')
         local found=(nested and stage:GetChild('potionHelp') or stage):GetChild(name)
         return assert(found, "missing UI control " .. name)
     end
@@ -150,6 +151,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         if g.name == "cardReward" then return not rewards.cardResolved end
         if g.name == "goldReward" then return rewards.goldClaimed == false end
+        if g.name == 'emeraldKeyReward' then return Run.canClaimEmeraldKey(self.run) end
         if g.name == "claimPotion" then return rewards.potion and not rewards.potion.resolved end
         if rewards.manualContinue then
             if g.name == "stolenGold" then return rewards.stolenGold and not rewards.stolenGold.claimed end
@@ -550,25 +552,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             frame.manual and L.battleRewards.continue[2] or -S.xxl * 3)
     end
     local function renderRewardRows(frame)
-        local row, run = 0, frame.run
-        local function place(name, visible)
-            show(name, visible == true)
-            if visible then
-                child(name):SetAnchoredPosition(L.battleRewards.rowOrigin[1],
-                    L.battleRewards.rowOrigin[2] - row * L.battleRewards.rowStep)
-                row = row + 1
-            end
-        end
-        place("goldReward", frame.listing and not run.rewards.goldClaimed)
-        place("stolenGold", frame.stolen and not frame.stolen.claimed)
-        for i=1,2 do
-            local item=frame.listing and run.rewards.relics and run.rewards.relics[i]
-            place('relicReward'..i,item and not item.claimed)
-        end
-        place("claimPotion", frame.pendingPotion)
-        place("cardReward", frame.listing and not run.rewards.cardResolved)
-        show("potionReward", frame.pendingPotion == true)
-        frame.rewardRows = row
+        RewardLayout.render(frame,child)
     end
     local function renderRelicRewards(frame)
         local run=frame.run
@@ -582,6 +566,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function renderRewardButtons(frame)
         local run = frame.run
         renderRelicRewards(frame)
+        button('emeraldKeyReward',self.active and frame.listing and Run.canClaimEmeraldKey(run) and not self.busy or false,false,'领取绿钥匙')
         button("goldReward", self.active and frame.listing and run.rewards.goldClaimed == false, false,
             frame.listing and number(run.rewards.gold) .. " 金币" or "金币")
         button("cardReward", self.active and frame.listing and not run.rewards.cardResolved, false, "选择一张卡牌加入牌组")
@@ -1389,6 +1374,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not self.active or self.busy or self.rewardScreen ~= "list" or not self.run then return end
         local ok = Run.claimGoldReward(self.run)
         if ok then notice("金币已领取。") refresh(true) end
+    end)
+    bind('emeraldKeyReward',function()
+        if not self.active or self.busy or self.rewardScreen~='list' or not self.run then return false end
+        local ok,why=Run.claimEmeraldKey(self.run)
+        if ok then notice('已获得绿钥匙。');refresh(true)end
+        return ok,why
     end)
     for i=1,2 do
         local slot=i

@@ -1,16 +1,11 @@
-local sliceFirst,sliceLast=...
-sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 6
-assert(sliceFirst>=1 and sliceLast<=8 and sliceFirst<=sliceLast,'invalid looter UI slice')
-local sliceRegistered,sliceExecuted=0,0
+local first,last=...
+first,last=first or 1,last or 1
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=8 and first<=last,'invalid UI budget slice')
+local registered=0
 local F=dofile('tests/lua/support/looter_potion_ui_fixture.lua')
 local Run,C,Theme,reward=F.Run,F.C,F.Theme,F.reward
 local passed,failed=0,0
-local function test(name,fn)
- sliceRegistered=sliceRegistered+1
- if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
- sliceExecuted=sliceExecuted+1
- print('LOOTER_POTION_UI_CASE '..sliceRegistered..' '..name)
- local ok,e=pcall(fn);if ok then passed=passed+1;print('PASS '..name) else failed=failed+1;print('FAIL '..name..': '..tostring(e)) end end
+local function test(name,fn) registered=registered+1;if registered<first or registered>last then return end; local ok,e=pcall(fn);if ok then passed=passed+1;print('PASS '..name) else failed=failed+1;print('FAIL '..name..': '..tostring(e)) end end
 local function resolvedAction(h,name)
  if name=='skip' then return h.run.phase=='reward' and h.battleUI.rewardScreen=='list' and not h.run.rewards.cardResolved end
  if name=='card1' then
@@ -74,7 +69,6 @@ test('no-loss visual animation retains valid card and bottle gestures',function(
   assert(resolvedAction(h,name),'animation swallowed '..name)
  end
 end)
+assert(registered==8,'original UI case discovery changed')
+assert(passed+failed==last-first+1,'UI budget slice coverage changed')
 print('LOOTER_POTION_UI '..passed..' passed '..failed..' failed');assert(failed==0)
-assert(sliceRegistered==8,'all original looter UI groups must register')
-assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected looter UI groups must execute')
-print('LOOTER_POTION_UI_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

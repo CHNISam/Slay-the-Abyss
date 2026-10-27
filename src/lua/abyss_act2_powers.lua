@@ -15,7 +15,7 @@ function M.damaged(s,source,target,lost,fixed,push)
  end
 end
 function M.inflicted(s,source,lost,fixed,push)
- if source and not fixed and lost>0 and (source.statuses.painful_stabs or 0)>0 then
+ if source and not fixed and lost>0 and (source.statuses.painful_stabs or 0)~=0 then
   push(s,{op='painfulWound',card='wound'})
  end
 end

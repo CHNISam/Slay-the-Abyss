@@ -16,15 +16,18 @@ local Awakened=require('abyss_awakened_one')
 local Darklings=require('abyss_darklings')
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
-    attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
+    attackAmount = Actors.attackAmount,intentAttackAmount=Actors.intentAttackAmount,
+    faceTarget=Actors.faceTarget,blockAmount = Actors.blockAmount }
 
 -- UseCardAction visits each source monster's sorted Power list, not module
 -- batches. Preserve group order and stable acquisition order for equal priority.
 local function afterUsePowers(state,context,instance)
     for _,enemy in ipairs(state.enemies)do
-        for _,power in ipairs(require('abyss_power_schedule').list(enemy,{slow=true,time_warp=true}))do
+        for _,power in ipairs(require('abyss_power_schedule').list(enemy,{slow=true,time_warp=true,beat_of_death=true}))do
             if power.id=='slow'then
                 require('abyss_giant_head').afterUse(state,context,CardActions.enqueueReaction,instance,enemy)
+            elseif power.id=='beat_of_death'then
+                require('abyss_corrupt_heart').afterUse(state,enemy,instance,CardActions.enqueueReaction)
             else TimeEater.afterUse(state,instance,CardActions.enqueueReaction,enemy)end
         end
     end
@@ -59,7 +62,8 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
     local poison
     if source==state.player and not fixed and (source.statuses.envenom or 0)>0 then
         local amount=normalAmount or Actors.attackAmount(state,source,target,base)
-        poison=require('abyss_card_triggers').onAttack(state,source,target,math.max(0,amount-target.block),'NORMAL')
+        local received=require('abyss_corrupt_heart').incomingAmount(target,math.max(0,amount-target.block))
+        poison=require('abyss_card_triggers').onAttack(state,source,target,received,'NORMAL')
     end
     local thornsCallback = source and before > 0 and sourceBefore > 0 and not fixed and not retaliation
         and (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0) > 0
@@ -890,6 +894,7 @@ local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
     end
 end
 local function beginQueuedPlay(state, uid, targetIndex, instance, position, card, automatic)
+    if not automatic and (card.target=='ENEMY'or card.target=='SELF_AND_ENEMY')then Actors.faceTarget(state,state.enemies[targetIndex])end
     local previous = state.resolvingCard
     state.resolvingCard = true
     local reactions = EnemyAI.cardReactions(state, card)
@@ -1112,6 +1117,18 @@ function M.staticRetaliation(state,effect)
     return true -- The captured target has already left the monster group.
 end
 
+function M.heartBeat(state,effect)
+    assert(type(effect.value)=='number'and effect.value%1==0 and effect.value>=0,'invalid captured Beat damage')
+    for _,enemy in ipairs(state.enemies)do
+        if enemy.id==effect.sourceId then
+            assert(require('abyss_corrupt_heart').owns(enemy),'invalid Beat source')
+            M.retaliate(state,enemy,state.player,effect.value)
+            return true
+        end
+    end
+    error('missing captured Beat source')
+end
+
 function M.disposeCard(state,item)
     local e,instance=item.effect,item.instance
     EnemyAI.afterCard(state,e.reactions)
@@ -1138,6 +1155,7 @@ function M.disposeCard(state,item)
 end
 
 local function resolveNativePlay(state,uid,targetIndex,instance,position,card)
+    if card.target=='ENEMY'or card.target=='SELF_AND_ENEMY'then Actors.faceTarget(state,state.enemies[targetIndex])end
     table.remove(state.hand,position)
     queueNativePlay(state,uid,targetIndex,instance,card)
     CardActions.drain(M,state)
@@ -1427,6 +1445,7 @@ function M.changeMonsterState(state,enemy,name)
     end
 end
 function M.enemyActionRetained(effect)
+    if effect.stage=='ending'then return require('abyss_ending_actions').retained(effect.payload)end
     return effect.stage=='payload' and Effects.allowedAfterVictory(effect.payload)
 end
 function M.resolveEnemyAction(state,effect,enemy)
@@ -1435,6 +1454,8 @@ function M.resolveEnemyAction(state,effect,enemy)
         return Darklings.reincarnate(Actors,state,enemy,stage)
     elseif stage=='awakenedRebirth'then
         return Awakened.rebirth(state,enemy,CardActions.enqueueReaction)
+    elseif stage=='ending'then
+        return require('abyss_ending_actions').resolve(M,state,effect.payload,enemy)
     elseif stage=='payload'then
         return resolveEffects(state,{effect.payload},enemy,state.player,nil,true,true)
     elseif stage=='effectsComplete'then
@@ -1446,11 +1467,18 @@ function M.resolveEnemyAction(state,effect,enemy)
     elseif stage=='v4Complete'then require('abyss_original_v4').endEnemyAction(M,state)
     elseif stage=='duringTurn'then
         require('abyss_act3_powers').duringTurn(M,state,enemy)
+    elseif stage=='regenerate'then
+        if Actors.isActive(enemy)then
+            local healed=math.min(enemy.maxHp-enemy.hp,effect.payload)
+            enemy.hp=enemy.hp+healed
+            event(state,'heal',{target=enemy.id,amount=healed,status='regenerate_monster'})
+        end
     elseif stage=='ownerEnd'then
         if Actors.isActive(enemy)then
             Actors.endTurn(state,enemy)
             if effect.advanced and not Awakened.owns(enemy)then
                 local deferred=enemy.ai and enemy.ai.kind=='act3'and enemy.ai.policy=='transient'
+                    or (enemy.statuses.regenerate_monster or 0)>0
                 local powers=deferred and {} or require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy)
                 for i=#powers,1,-1 do
                     CardActions.enqueue(state,{op='enemyAction',stage='endPower',payload=powers[i]},enemy,nil,nil,true)
@@ -1477,7 +1505,14 @@ local function queueEnemyTurn(state,enemy,intent,advanced)
     local function append(stage,payload)
         CardActions.enqueue(state,{op='enemyAction',stage=stage,payload=payload,intentId=intent.id,advanced=advanced},enemy)
     end
-    if Darklings.owns(enemy)and intent.id=='reincarnate'then
+    local ending
+    if require('abyss_spire_pair').owns(enemy)or require('abyss_corrupt_heart').owns(enemy)then
+        ending=require('abyss_ending_actions').plan(M,state,enemy,intent,aiRandom)
+    end
+    if ending then
+        for _,payload in ipairs(ending)do append('ending',payload)end
+        append('effectsComplete')
+    elseif Darklings.owns(enemy)and intent.id=='reincarnate'then
         append('darklingHeal');append('darklingRevive');append('darklingRegrow')
     elseif Awakened.owns(enemy)and intent.id=='rebirth'then append('awakenedRebirth')
     elseif intent.kind=='split'then append('split')
@@ -1508,6 +1543,19 @@ local function platedGroupEnd(state)
     for _,enemy in ipairs(state.enemies)do
         PlatedArmor.preEndCards(state,enemy,CardActions.enqueueReaction)
         Awakened.ownerEnd(Actors,state,enemy,CardActions.enqueueReaction)
+        if not Awakened.owns(enemy)and Actors.isActive(enemy)and (enemy.statuses.regenerate_monster or 0)>0 then
+            -- Source monster owner-end Powers are one stable list. Keep a
+            -- burning elite's Regen and later Shackled in acquisition order.
+            for _,id in ipairs(Actors.powerSequence(enemy,{'regenerate_monster','shackled'}))do
+                if id=='regenerate_monster'then
+                    CardActions.enqueue(state,{op='enemyAction',stage='regenerate',payload=enemy.statuses[id]},enemy)
+                else
+                    for _,power in ipairs(require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy))do
+                        CardActions.enqueue(state,{op='enemyAction',stage='endPower',payload=power},enemy)
+                    end
+                end
+            end
+        end
     end
     CardActions.drain(M,state)
 end
@@ -1978,6 +2026,17 @@ function M.new(data, options)
     require('abyss_writhing_mass').bindMaster(state,options.masterDeck,options.nextMasterDeckUid)
     local misc=options.roomStreams and options.roomStreams.miscRng or options.miscRng
     if misc then state.miscRng=SourceRandom.cloneState(misc)end
+    if options.emeraldBoost then
+        local ok,reason=require('abyss_emerald_elite').apply(state.enemies,options.emeraldBoost,{
+            applyPower=function(actor,id,amount)return Actors.applyPower(state,actor,id,amount,actor)end,
+            increaseMaxHp=function(actor,amount)
+                local maximum=actor.maxHp+0.0+amount
+                if maximum>2147483647 then return false,'emerald_hp_overflow'end
+                actor.maxHp,actor.hp=maximum,actor.hp+amount
+                return true
+            end})
+        if not ok then return nil,reason end
+    end
     if options.beforeFirstTurn then
         local ok, reason = options.beforeFirstTurn(state)
         if not ok then return nil, reason end

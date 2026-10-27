@@ -236,7 +236,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         vista:GetChild("seal"):GetChild("heart").imageColor = colour(defeat and C.danger or C.goldBright)
         vista:GetChild("seal"):GetChild("ring").imageColor = colour(defeat and C.danger or C.gold)
         local title = menu:GetChild("title")
-        title.text = victory and "深渊已被封印" or defeat and "旅途在此中断" or "杀戮原塔2"
+        title.text = victory and (run.ending=='true_victory' and '真结局 · 深渊已被封印' or "深渊已被封印") or defeat and "旅途在此中断" or "杀戮原塔2"
         title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
         menu:GetChild("tagline"):SetVisible(not outcome)
         menu:GetChild("summary"):SetVisible(false)
@@ -264,8 +264,10 @@ function M.new(root, data, presentation, clickEvent, platform)
             menu:GetChild("summary").text = ""
         else
             local floor = self.map.floor
-            result:GetChild("subtitle").text = Narrative.flow[mode].full
-            local values = { floor .. " / " .. rules.floors, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
+            result:GetChild("subtitle").text = victory and run.ending=='true_victory'
+                and '腐化之心已击败。真结局已达成。' or Narrative.flow[mode].full
+            local finalFloor=victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors
+            local values = { floor .. " / " .. finalFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
             for i, name in ipairs({ "抵达层数", "战斗胜场", "用时", "卡组张数" }) do
                 cards[i]:GetChild("label").text, cards[i]:GetChild("value").text = name, values[i]
             end
@@ -336,7 +338,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
-        elseif run.phase == "node" or run.phase == 'act_transition' then self.mode = "node"
+        elseif run.phase == "node" or run.phase == 'act_transition' or run.phase=='ending_proceed' then self.mode = "node"
         -- Camp/event results stay on screen until the player presses 继续.
         elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
@@ -362,7 +364,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     local function closeStaleDeck(run,inMenu)
-        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run
+        if self.deckUI.visible and (inMenu or run and run.phase=='ending_proceed' or self.battleUI.busy or self.deckUI.run ~= run
         or self.deckUI.pileKind and (run.phase~='combat' or run.combat~=self.deckUI.battle))then self.deckUI:close()end
     end
     local function openCardChoice(run)
@@ -400,9 +402,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     local function refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
+        local ending=run and run.phase=='ending_proceed'
         child("combatRewards"):SetVisible(returnAvailable)
-        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
-        child("potionEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("deckEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("potionEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
         refreshPotionEntry(run)
         child("nodePanel"):GetChild("potions"):SetVisible(false)
         if potionOpen then self.potionUI:render()end
@@ -551,7 +554,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         local ending=EndingHistory.begin(endingHistory,run,{seedSet=explicitSeed,
             isDailyRun=platform.isDailyRun or false,isTrial=platform.isTrial or false})
         run.endingUnlocked,run.endingHistory=ending.unlocked,ending
-        local map = Map.generate(run.data,rawSeed)
+        local context,contextReason=Run.freezeMapContext(run)
+        if not context then return false,contextReason end
+        local map = Map.generate(run.data,rawSeed,run.act or 1,context)
         local history,historyReason=NeowHistory.read(neowHistory,run.character)
         if history then
             local ok,why=Nodes.beginNeow(run,map,history);if not ok then return false,why end

@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "base": "7382aef99ca47fecc3f496f3b297ee5cc1ac91e5",
+  "boundary": "Exact existing NodeUI identities; line migration only, no new exemption and no final integrated CI claim.",
+  "sourceHashesLF": [
+    {
+      "file": "src/lua/abyss_nodes.lua",
+      "previous": "bc8bcc881eb195f09fcf359f99df591be3c0bdf1e0062f36c83dd10489bed173",
+      "current": "68fc8afcbe78ce3f4bc024c4d5aef26994e1a3435553a914be4eb8ca42f3f8d4"
+    },
+    {
+      "file": "src/lua/abyss_node_ui.lua",
+      "previous": "27d4cd7555f1040fd26092e8d4596d34bc0030a741bc06c893bc5fd5552a3374",
+      "current": "a073c63522bd30d333f3d98615551be3fc83901a0f3b45278891b8f29964de27"
+    },
+    {
+      "file": "src/lua/abyss_game_ui.lua",
+      "previous": "404f4beea5d119e0e67a10c6d2475994a35ed2b95438ae644e6a675ed217c02d",
+      "current": "62ac772d3ac7dcff1627501cb696850d1c2508571b05f1b081094a82bcce2674"
+    },
+    {
+      "file": "src/lua/abyss_node_ui_ending.lua",
+      "previous": null,
+      "current": "b53dacef061da3574578cf1b7f623b5ade64a3fa80ccb464f4085deb72d052f3"
+    }
+  ],
+  "existingDiagnosticCount": 13,
+  "newDiagnosticCount": 0,
+  "moves": [
+    {
+      "code": "W212",
+      "column": 31,
+      "previousLine": 366,
+      "currentLine": 368,
+      "previousMessage": "unused argument 'view'",
+      "currentMessage": "unused argument 'view'"
+    },
+    {
+      "code": "W212",
+      "column": 33,
+      "previousLine": 410,
+      "currentLine": 412,
+      "previousMessage": "unused argument 'view'",
+      "currentMessage": "unused argument 'view'"
+    },
+    {
+      "code": "W212",
+      "column": 35,
+      "previousLine": 515,
+      "currentLine": 517,
+      "previousMessage": "unused argument 'cost'",
+      "currentMessage": "unused argument 'cost'"
+    },
+    {
+      "code": "W431",
+      "column": 39,
+      "previousLine": 540,
+      "currentLine": 542,
+      "previousMessage": "shadowing upvalue 'info' on line 513",
+      "currentMessage": "shadowing upvalue 'info' on line 515"
+    },
+    {
+      "code": "W431",
+      "column": 43,
+      "previousLine": 564,
+      "currentLine": 566,
+      "previousMessage": "shadowing upvalue 'card' on line 173",
+      "currentMessage": "shadowing upvalue 'card' on line 174"
+    },
+    {
+      "code": "W212",
+      "column": 35,
+      "previousLine": 671,
+      "currentLine": 673,
+      "previousMessage": "unused argument 'view'",
+      "currentMessage": "unused argument 'view'"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 733,
+      "currentLine": 735,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 1047,
+      "currentLine": 1054,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 1074,
+      "currentLine": 1081,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 1079,
+      "currentLine": 1086,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 1101,
+      "currentLine": 1108,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 1171,
+      "currentLine": 1179,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    },
+    {
+      "code": "W431",
+      "column": 18,
+      "previousLine": 1187,
+      "currentLine": 1195,
+      "previousMessage": "shadowing upvalue 'self' on line 102",
+      "currentMessage": "shadowing upvalue 'self' on line 103"
+    }
+  ],
+  "helperMaximumComplexity": 10,
+  "touchedResponsibilities": {
+    "selectMode": 14,
+    "closeStaleDeck": 10,
+    "refreshUtilities": 13,
+    "nodeScreen": 14,
+    "renderNodePage": 8,
+    "chooseFooter": 13,
+    "nodeRender": 11
+  }
+}
