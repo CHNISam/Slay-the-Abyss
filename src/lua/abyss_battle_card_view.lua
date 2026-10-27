@@ -55,6 +55,14 @@ local function advancePose(entry, dt, fast)
     pose.angle=lerpSnap(pose.angle,target.angle,dt,12,0.003)
 end
 
+local function pileMembership(battle)
+    local result={}
+    for _,name in ipairs({"draw","discard","exhaust"}) do
+        for _,card in ipairs(battle and battle[name] or {}) do result[card.uid]=true end
+    end
+    return result
+end
+
 local function cardDefinition(data, battle, instance, id)
     local definition = instance and Combat.cardDefinition(battle, instance)
     if definition then return definition end
@@ -96,13 +104,18 @@ function M.new(view, controls)
     local ink, tint, picture = controls.ink, controls.tint, controls.picture
     local placeCard, placeReward = controls.placeCard, controls.placeReward
     local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
-    local handBattle,handPoses=nil,{}
+    local handBattle,handPoses,previousPiles=nil,{},{}
     local function handPose(box,instance,count,index,hot)
         local point=placeCard(box,count,index,hot)
         local target=handTarget(count,index,hot,point)
         local entry=handPoses[instance.uid]
         if not entry then
             entry={current={x=target.x,y=target.y,scale=target.scale,angle=target.angle}}
+            if previousPiles[instance.uid] then
+                -- AbstractPlayer.draw/CardGroup.moveToHand start at the draw pile,
+                -- at .12 against the source's ordinary .75 hand scale.
+                entry.current={x=L.drawPile.position[1],y=L.drawPile.position[2],scale=0.12/0.75,angle=0}
+            end
             handPoses[instance.uid]=entry
         end
         entry.box,entry.target,entry.visible=box,target,true
@@ -203,7 +216,7 @@ function M.new(view, controls)
             active = active, reward = reward, rewards = picking and Run.rewardOptions(view.run) or {} }
         local aimUid, aimTarget = currentAim()
         local current=fighting and view.run and view.run.combat
-        if current~=handBattle then handBattle,handPoses=current,{} end
+        if current~=handBattle then handBattle,handPoses,previousPiles=current,{},{} end
         for _,entry in pairs(handPoses) do entry.visible=false end
         view.cardPositions = {}
         local playable, selectedBox = false, nil
@@ -213,6 +226,7 @@ function M.new(view, controls)
             selectedBox = hotBox or selectedBox
         end
         for uid,entry in pairs(handPoses) do if not entry.visible then handPoses[uid]=nil end end
+        previousPiles=pileMembership(fighting and battle)
         if selectedBox then selectedBox:SetAsLastSibling() end
         return playable
     end
