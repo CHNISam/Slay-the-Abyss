@@ -1,6 +1,7 @@
 local H=dofile('tests/helpers/act2_event_ui.lua')
 local test,eq,same=H.test,H.eq,H.same
 local maps={}
+local SourceFixture=dofile('tests/lua/support/sapphire_source_fixture.lua')
 local function keyRoom(kind)
  if not maps[kind] then
   local m=H.Map.generate(H.Data,'42',1)
@@ -12,6 +13,7 @@ local function keyRoom(kind)
   end
  end
  local r=H.Run.new(H.Data,'42',{experimental=true,campaign=true});r.endingUnlocked=true
+ if kind=='treasure' then SourceFixture.stage(r)end
  local m=H.Copy(maps[kind][1]);assert(H.Nodes.enter(r,m,maps[kind][2]));return r,m
 end
 local function selecting()

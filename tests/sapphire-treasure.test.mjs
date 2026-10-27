@@ -99,7 +99,11 @@ test('same existing eligibility function governs Ruby and Sapphire without addin
 });
 
 test('real Nodes chest choice is linked, source-bound, once-only and transactional',()=>{
-  const result=runLua('tests/lua/sapphire_treasure.lua');
-  assert.equal(result.status,0,result.stdout+result.stderr);
-  assert.match(result.stdout,/SAPPHIRE_TREASURE_PASS 21/);
+  let groups=0;
+  for(const file of ['sapphire_treasure.lua','sapphire_treasure_slice_2.lua','sapphire_treasure_slice_3.lua']){
+    const result=runLua(`tests/lua/${file}`);
+    assert.equal(result.status,0,result.stdout+result.stderr);
+    assert.match(result.stdout,/SAPPHIRE_TREASURE_PASS 7/);groups+=7;
+  }
+  assert.equal(groups,21);
 });

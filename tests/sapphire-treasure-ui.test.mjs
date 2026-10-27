@@ -18,7 +18,9 @@ test('actual generated treasure uses unchanged reward/take and existing distinct
   assert.match(source,/pcall\(Nodes\.chooseTreasure, self\.run, self\.map, argument, choice\)/);
 });
 
-for (const [file,groups] of [['sapphire_treasure_ui.lua',8],['sapphire_treasure_ui_slice_2.lua',9]]) {
+for (const [file,groups] of [['sapphire_treasure_ui.lua',8],['sapphire_treasure_ui_slice_2.lua',2],
+  ['sapphire_treasure_ui_slice_3.lua',1],['sapphire_treasure_ui_slice_4.lua',1],
+  ['sapphire_treasure_ui_slice_5.lua',1],['sapphire_treasure_ui_slice_6.lua',1],['sapphire_treasure_ui_slice_7.lua',3]]) {
   test(`generated NodeUI full command parity and interrupted-input isolation: ${file}`,()=>{
     const result=runLua(`tests/lua/${file}`);
     assert.equal(result.status,0,result.stderr||result.stdout);
