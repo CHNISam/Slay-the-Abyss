@@ -73,11 +73,37 @@
       "sha256": "5e50ad24e9978828078619d789a0c4830e4a72c51e9b1bfb2799a7c7e69ea4cc",
       "gitBlobSha": "74365e0991cb75c5bd3b1366bad1f286efe2a4e4",
       "size": 1702
+    },
+    {
+      "path": "screens/DeathScreen.java",
+      "sha256": "9d7b6c9cc73d8fe74a94e058ce096a72ef047fbf8a46134ed9f6edb28d537b0b",
+      "gitBlobSha": "310e687d4b63406d405db6019b6dde9a59244120",
+      "size": 32913
+    },
+    {
+      "path": "screens/VictoryScreen.java",
+      "sha256": "4f6a2a6471bcf54b9fea50d4a3d3918c34d59c4eb27f536f705f7cb1e1d73848",
+      "gitBlobSha": "8d8fc087c1fa5350128d58ebcc7ffa4cb297e8d2",
+      "size": 27276
+    },
+    {
+      "path": "screens/options/ConfirmPopup.java",
+      "sha256": "ab2a01c87e2930eeb8c1e448dc9bfacb0027ca08dfe20d0f85a8d8a5def757eb",
+      "gitBlobSha": "c24284aaaad650b80b8ebd1fbf050f602676e458",
+      "size": 18672
     }
   ],
   "oracle": {
     "path": "tools/oracles/sts1_neow.py",
     "sha256": "7f98e29512c512cb9f55a4e59f65cb7a2866e334a8d416ef1fdf6a099cf47394",
     "vectorCount": 128
+  },
+  "historyContract": {
+    "preference": "<chosenClass>_SPIRITS",
+    "standardDeath": "overwrite with floorNum >= 16 ? 1 : 0",
+    "standardAbandon": "overwrite with saved floor_num >= 16 ? 1 : 0",
+    "standardVictory": "overwrite with 1",
+    "monotonicUnlock": false,
+    "bossKillRequired": false
   }
 }
