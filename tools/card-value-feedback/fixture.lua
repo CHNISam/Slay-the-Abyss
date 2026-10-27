@@ -1,6 +1,7 @@
 -- Diagnostic candidate only. Real production renderer/core; controlled states,
 -- not a natural acquisition path, mobile interaction or a normal gameplay pass.
 local Combat = require('abyss_combat')
+local CardInput = require('abyss_card_input')
 local Data, Theme = require('abyss_data'), require('abyss_theme')
 local M = {}
 function M.start(view)
@@ -33,7 +34,8 @@ function M.start(view)
             -- Controlled aim context for renderer QA, not native pointer evidence.
             ui.gesture={run=view.run,battle=s,turn=s.turn,uid=s.hand[slot].uid,slot=slot,
                 phase='combat',origin=pose,sx=pose[1],sy=pose[2],
-                x=Theme.layout.enemyRow.xTo,y=Theme.layout.enemyRow.y,moving=true,armed=true}
+                x=Theme.layout.enemyRow.xTo,y=Theme.layout.enemyRow.y,moving=true}
+            CardInput.begin(ui.gesture,Theme.canvas.base[2],false,Theme.canvas.base[1])
             ui:render()
         end
         -- Fixture labels identify the controlled stage in logs and screenshots.
