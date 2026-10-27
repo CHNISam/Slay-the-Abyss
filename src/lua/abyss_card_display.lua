@@ -2,6 +2,15 @@
 local integer = require('abyss_numbers').integer
 local Theme = require('abyss_theme')
 local M = {}
+-- Like a card-atlas region, artwork belongs to the stable card ID. A type
+-- glyph remains an explicit placeholder until a production asset is bound.
+function M.art(definition)
+    local entry = (Theme.icon.cardPortraits or {})[definition.id]
+    local image = entry and (type(entry) == 'table' and entry.id or entry)
+        or Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status
+    assert(type(image) == 'number' and image > 0 and image % 1 == 0, 'card artwork must be a native image ID')
+    return image, entry and (type(entry) == 'table' and entry.status or 'native-card-asset') or 'placeholder-type-icon'
+end
 local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true,
     whirlwind=true,reaperDamage=true}
 for _,op in ipairs({'barrageDamage','bowlingBash','ftlDamage','heelHook','nextBlock','xBlock','halt',
@@ -69,16 +78,29 @@ function M.writeBody(control,text)
     control.text,control.fontSize=text,font
     return fits
 end
+local valueStyles = {
+    up = { arrow = '↑', colourKey = 'cardValueIncrease' },
+    down = { arrow = '↓', colourKey = 'cardValueDecrease' },
+    same = { arrow = '', colourKey = 'text' },
+}
+local function exactValue(effect, entry)
+    return eligible[effect.op] and entry and entry.op == effect.op
+        and type(effect.value) == 'number' and type(entry.low) == 'number' and entry.low == entry.high
+end
+local function valueDirection(base, current)
+    if current > base then return 'up' end
+    if current < base then return 'down' end
+    return 'same'
+end
 function M.values(definition, preview)
     local result = {}
     for index, effect in ipairs(definition.effects) do
         local entry = preview[index]
-        if eligible[effect.op] and entry and entry.op == effect.op
-            and type(effect.value) == 'number' and type(entry.low) == 'number' and entry.low == entry.high then
-            local direction = entry.low > effect.value and 'up' or entry.low < effect.value and 'down' or 'same'
+        if exactValue(effect, entry) then
+            local direction = valueDirection(effect.value, entry.low)
+            local style = valueStyles[direction]
             result[index] = {effectIndex=index, op=effect.op, base=effect.value, current=entry.low,
-                direction=direction, text=integer(entry.low) .. (direction=='up' and '↑' or direction=='down' and '↓' or ''),
-                colourKey=direction=='up' and 'cardValueIncrease' or direction=='down' and 'cardValueDecrease' or 'text'}
+                direction=direction, text=integer(entry.low) .. style.arrow, colourKey=style.colourKey}
         end
     end
     return result
@@ -93,6 +115,15 @@ function M.format(template, definition, preview, palette)
         assert(effect.op=='conditional' and effect['then'],'invalid conditional token')
         local branch=preview[parent] and preview[parent]['then'] or {}
         return M.format('{effects.'..child..'.value}',{effects=effect['then']},branch,palette)
+    end)
+    -- These attacks keep damage separate from their fixed gold/growth value.
+    -- Reuse the existing damage formatter, including its colour/arrow rules.
+    template=template:gsub('{effects%.(%d+)%.damage}',function(rawIndex)
+        local index=tonumber(rawIndex)+1
+        local effect=assert(definition.effects[index],'missing colorless damage definition')
+        assert(effect.op=='colorless'and (effect.kind=='ritual'or effect.kind=='greed'),'invalid colorless damage token')
+        local entry=preview[index]
+        return M.format('{effects.0.value}',{effects={{op='damage',value=effect.damage or effect.value}}},entry and {entry}or {},palette)
     end)
     return (template:gsub('{effects%.(%d+)%.value}', function(rawIndex)
         local index = tonumber(rawIndex) + 1
@@ -112,6 +143,7 @@ end
 function M.permanentText(display,definition,instance)
     if definition.originalV4 then return require('abyss_original_v4_display').brief(definition,instance.upgraded)end
     local text=instance.upgraded and display.upgradeText or display.text
+    if definition.id=='mind_blast' then return text or '' end
     local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
     return live and M.format(live,definition,{},Theme.color) or text or ''
 end

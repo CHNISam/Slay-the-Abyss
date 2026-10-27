@@ -44,6 +44,23 @@ test('missing fresh generated module cannot use a stale shared build',async t=>{
   await assert.rejects(f.run({generatedModules:{abyss_data:'builder'}}),/ENOENT/);
 });
 
+test('every production entry parameter is registered by both native package routes',async t=>{
+  const f=await fixture(t);
+  const source=readFileSync('src/lua/abyss_ui.lua','utf8');
+  writeFileSync(join(f.root,'src/lua/abyss_ui.lua'),source);
+  await f.run();
+  const {candidateScriptFiles}=await import('../scripts/native-candidate-scripts.mjs');
+  const generated=join(f.root,'generated');mkdirSync(generated);
+  for(const name of ['abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])
+    writeFileSync(join(generated,name+'.lua'),'return {}');
+  const packaged=candidateScriptFiles(join(f.root,'src/lua'),generated).find(row=>row.name==='abyss_ui');
+  const parameters=[...source.matchAll(/:GetParam\(["']([^"']+)["']\)/g)].map(match=>match[1]);
+  assert(parameters.length>0);
+  for(const variables of [packaged.variables,f.calls.find(c=>c.name==='scene_set_client_script').args.variables])
+    for(const name of parameters)assert.deepEqual(variables.find(row=>row.name===name),
+      {name,type:'boolean',value:false},'Missing production entry parameter: '+name);
+});
+
 test('reused base removes only owned stale modules and reuses its writable settlement graph',async t=>{
   const f=await fixture(t,{existingScripts:[{name:'abyss_stale',file:'abyss_stale.lua'}],
     graphs:[{id:23,name:'_GSTS_ABYSS_SETTLEMENT',type:20000,writable:true}],signals:['ABYSS_WIN','ABYSS_LOSE']});
@@ -52,7 +69,8 @@ test('reused base removes only owned stale modules and reuses its writable settl
   assert.equal(f.calls.filter(c=>c.name==='scene_add_graph'||c.name==='scene_add_signal').length,0);
   assert.equal(f.calls.find(c=>c.name==='write_graphs').args.graphs[0].graphId,23);
   assert.deepEqual(f.calls.find(c=>c.name==='scene_set_client_script').args.variables,
-    [{name:'nativeBgmEnabled',type:'boolean',value:false}]);
+    [{name:'nativeBgmEnabled',type:'boolean',value:false},
+      {name:'experimentalCharacters',type:'boolean',value:false}]);
   assert.equal(f.calls.find(c=>c.name==='scene_add_client_ui').args.replace,true);
 });
 
@@ -71,12 +89,14 @@ test('source/generated module collisions are rejected',async t=>{
 
 test('extracted UI subviews are embedded, read back and checked with the entry module',async t=>{
   const f=await fixture(t);
-  const sources=new Map(['abyss_battle_card_view','abyss_shop_ui'].map(name=>[
+  const sources=new Map(['abyss_battle_card_view','abyss_battle_info_content','abyss_battle_info_view',
+    'abyss_battle_intent_view','abyss_battle_potion_view','abyss_battle_reward_owner',
+    'abyss_battle_status_view','abyss_battle_unit_view','abyss_shop_ui'].map(name=>[
     name,readFileSync(new URL(`../src/lua/${name}.lua`,import.meta.url),'utf8')
   ]));
   for(const [name,source] of sources)writeFileSync(join(f.root,`src/lua/${name}.lua`),source);
   const receipt=await f.run();
-  assert.deepEqual(receipt.checkedModules,['abyss_battle_card_view','abyss_shop_ui','abyss_ui']);
+  assert.deepEqual(receipt.checkedModules,[...sources.keys(),'abyss_ui'].sort());
   for(const [name,source] of sources) {
     const write=f.calls.find(call=>call.name==='scene_set_client_script'&&call.args.name===name);
     assert.equal(readFileSync(write.args.sourceFile,'utf8'),source);

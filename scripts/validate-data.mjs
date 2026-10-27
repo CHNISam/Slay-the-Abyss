@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 const recordFiles = ['cards', 'statuses', 'enemies', 'relics', 'potions'];
 export const contentFiles = [...recordFiles, 'rules'];
 const tiers = ['normal', 'elite', 'boss'];
-const valueOps = ['damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal', 'healPercent', 'increaseMaxHp',
+const valueOps = ['fatalRevive', 'discover', 'generatePotions', 'damage', 'damageAll', 'block', 'draw', 'energy', 'loseHp', 'heal', 'healPercent', 'increaseMaxHp',
   'blockPerTurn', 'discardRandom', 'increaseDamageThisCombat', 'gainTemporaryStrength', 'gainTemporaryDexterity',
   'exhaustRandom', 'exhaustChoose', 'putOnDrawPile'];
 const statusOps = ['gainStatus', 'applyStatus', 'applyStatusAll', 'gainStatusPerTurn'];
@@ -114,6 +114,7 @@ export function validateContent(bundle) {
       if (actionValues.includes(op)) allowed.push('value');
       if (['makeTempCardInHand','makeTempCardInDraw'].includes(op)) allowed.push('card');
       if (op === 'upgradeHand') allowed.push('all');
+      if (op === 'discover') allowed.push('kind');
       if (op === 'feed') allowed.push('maxHp');
       if (op === 'damageRandom') allowed.push('times');
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) allowed.push('value');
@@ -124,6 +125,7 @@ export function validateContent(bundle) {
       if (op === 'discardRandom') allowed.push('mayChoose');
       if (op === 'block' && enemyIntent) allowed.push('target');
       keys(effect, allowed, p);
+      if (op === 'discover') enumeration(effect.kind, ['attack','skill','power','colorless'], `${p}.kind`);
       if (effect.target !== undefined) enumeration(effect.target, ['random_ally'], `${p}.target`);
       if (valueOps.includes(op) || statusOps.includes(op) || ['addCardPerTurn', 'makeTempCardInDiscard'].includes(op)) {
         const signed = statusOps.includes(op) && ['strength', 'dexterity'].includes(effect.status);
@@ -615,7 +617,7 @@ export function validateContent(bundle) {
     if (entry.scoreModifier !== undefined && (kind !== 'relics' || entry.id !== 'spirit_poop' || entry.scoreModifier !== -1)) fail(`${p}.scoreModifier`, 'must match source Spirit Poop penalty');
     if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
     if (kind === 'relics' && entry.trigger === 'hooks') {
-      if (!['omamori', 'ceramic_fish', 'potion_belt', 'meal_ticket', 'maw_bank', 'blood_vial', 'bag_of_marbles', 'orichalcum',
+      if (!['darkstone_periapt', 'omamori', 'ceramic_fish', 'potion_belt', 'meal_ticket', 'maw_bank', 'blood_vial', 'bag_of_marbles', 'orichalcum',
         'strawberry', 'regal_pillow', 'toy_ornithopter', 'whetstone', 'war_paint',
         'happy_flower', 'ancient_tea_set', 'art_of_war', 'boot', 'akabeko', 'pen_nib', 'nunchaku',
         'preserved_insect', 'red_skull', 'centennial_puzzle', 'tiny_chest', 'juzu_bracelet', 'dream_catcher',

@@ -14,12 +14,13 @@ local function same(a,b,path)
 end
 local cursor={CursorDown='down',CursorUp='up',CursorDrag='drag',CursorExit='exit',CursorEndDrag='endDrag'}
 local function pointer(id,y) return {touchId=id,GetUIPos=function()return 640,y or 200 end} end
-local function setup(map)
+local function setup(map,onChoose)
     local root=F.control({children=require('abyss_map_controls').controls})
     local panel=root:GetChild('stage'):GetChild('mapPanel')
     local calls={}
     local ui=MapUI.new(root,map,function(node)
         calls[#calls+1]=node.id
+        if onChoose then return onChoose(node,map) end
         return Map.choose(map,node.id)
     end,'click',{imageSource='static',cursor=cursor,color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
     local function box(name) return F.mapControl(panel,type(name)=='number' and 'node'..name or name) end
@@ -84,18 +85,21 @@ for act=1,4 do
             ui:render(); assert(not ui.navigationEnabled)
             ui:focusCurrent(); focused(map,ui,box)
             if map.floor==chapter.boss then
-                assert(box('notice').text=='已抵达首领 · 请完成首领战斗与奖励')
+                assert(box('notice').text==(act==4 and '已抵达终幕首领 · 请完成最终战斗与结算'
+                    or '已抵达首领 · 请完成首领战斗与奖励'))
                 ui:setNavigationEnabled(true)
-                if chapter.terminal~='true_victory' then
-                    local ending=chapter.terminal=='boss_treasure' and '首领宝箱' or '结局'
-                    assert(box('notice').text=='首领奖励已处理 · 请选择'..ending)
-                else assert(box('notice').text=='已抵达首领 · 请完成首领战斗与奖励') end
+                if chapter.terminal=='boss_treasure' then
+                    assert(box('notice').text=='首领奖励已处理 · 请选择首领宝箱')
+                elseif act==4 then
+                    assert(box('notice').text=='已抵达终幕首领 · 请完成最终战斗与结算')
+                else assert(box('notice').text=='首领奖励已处理 · 请前往终点') end
             end
         end
-        if chapter.terminal~='true_victory' then
-            local ending=chapter.terminal=='boss_treasure' and '首领宝箱' or '结局'
-            assert(box('notice').text=='已抵达'..ending..' · 请完成当前房间')
-        else assert(box('notice').text=='已抵达首领 · 请完成首领战斗与奖励') end
+        if chapter.terminal=='boss_treasure' then
+            assert(box('notice').text=='已抵达首领宝箱 · 请完成当前房间')
+        elseif act==4 then
+            assert(box('notice').text=='已抵达终幕首领 · 请完成最终战斗与结算')
+        else assert(box('notice').text=='已抵达终点 · 请完成当前房间') end
         assert(not ui:choose(map.currentNodeId))
         assert(map.floor==chapter.last and #map.path==chapter.last-chapter.first+1)
     end)
@@ -221,16 +225,20 @@ for i,corrupt in ipairs(corruptions) do
     end)
 end
 
-test('presentation does not enable the production campaign or later combat entry',function()
+test('presentation does not enable production campaign or enter later combat without the coordinator',function()
     local ordinary=Run.new(F.Data,'42')
     assert(ordinary.campaign~=true and not Run.advanceAct(ordinary))
     local run=Run.new(F.Data,'42',{experimental=true,campaign=true})
     local map=Map.generate(F.Data,'42')
     advance(run,map,1)
     local before,mapBefore=F.Combat.copy(run),Map.snapshot(map)
-    local ok,why=Nodes.enter(run,map,Map.available(map)[1].id)
-    assert(not ok and why=='act_content_unavailable')
+    local ui=setup(map);ui:render();ui:focusCurrent();ui:update(.04)
+    assert(run.phase=='map' and run.act==2 and map.floor==17)
     same(run,before);same(map,mapBefore)
+    -- Current M3 already supplies Act 2 content; only an explicit core command
+    -- enters it. The older PR's unavailable-content expectation is obsolete.
+    assert(Nodes.enter(run,map,Map.available(map)[1].id))
+    assert(run.phase=='combat' and run.act==2 and run.floor==18 and map.floor==18)
 end)
 test('later-act missing localFloor falls back from global18/34 to rows1/17 with fresh input and pure state',function()
     local run=Run.new(F.Data,'42',{experimental=true,campaign=true})
@@ -268,6 +276,88 @@ test('later-act missing localFloor falls back from global18/34 to rows1/17 with 
     assert(map.floor==34 and ui.scroll==Layout.maxScroll and #calls==2)
     assert(box(slot).y==Layout.firstY+16*Theme.layout.map.floorGap-Layout.maxScroll)
     same(map,expected);same(run,runBefore)
+end)
+
+test('title-screen unbound controller remains hidden and refuses ownerless input',function()
+    for _,invalid in ipairs({false,0,'not-a-map'}) do assert(not pcall(setup,invalid)) end
+    local ui,_,emit,calls=setup(nil)
+    assert(ui.map==nil and not ui.visible and not ui.root.visible and not ui.navigationEnabled)
+    for _,method in ipairs({'render','focusCurrent','setNavigationEnabled','choose'}) do
+        local ok,reason=ui[method](ui,true)
+        assert(ok==false and reason=='map_unbound',method)
+    end
+    local ok,reason=ui:setVisible(true);assert(ok==false and reason=='map_unbound')
+    ui:resize(1280,720);assert(ui:update(.05))
+    emit(1,'down',11);emit(1,'up',11);assert(not emit(1,'click',11))
+    assert(#calls==0 and ui.map==nil and not ui.visible and not ui.root.visible)
+end)
+test('unbound title controller accepts the later real owner without replacing it',function()
+    local ui,box=setup(nil)
+    local map=Map.generate(F.Data,'42',2)
+    local before=Map.snapshot(map)
+    ui.map=map;ui:setVisible(true)
+    assert(ui.map==map and ui.visible and ui.root.visible and ui.navigationEnabled)
+    focused(map,ui,box);assert(box(1):GetChild('hit').visible)
+    same(map,before,'binding changed real owner')
+    ui:setVisible(false);ui:setVisible(true);ui:update(.05)
+    focused(map,ui,box);same(map,before)
+end)
+test('callback context substitution cannot commit a selection from an earlier source owner',function()
+    local map=Map.generate(F.Data,'42',2)
+    local ui,_,emit,calls=setup(map,function(node,owner)
+        assert(Map.choose(owner,node.id));owner.seed=owner.seed..':replaced';return true
+    end)
+    emit(1,'down',11);emit(1,'up',11)
+    local ok,reason=emit(1,'click',11)
+    assert(ok==false and reason=='selection_not_committed' and #calls==1)
+    assert(not ui.navigationEnabled)
+    local before=Map.snapshot(map)
+    assert(not emit(1,'click',11));same(map,before)
+end)
+test('invalid context arriving during an animation shuts down all stale navigation',function()
+    local map=Map.generate(F.Data,'42',2)
+    local ui,box,emit,calls=setup(map)
+    assert(box('next'):GetChild('hit').click());ui:update(.04)
+    map.version=3
+    local before=Map.snapshot(map)
+    assert(ui:update(.04));assert(not ui.navigationEnabled and next(ui.slots)==nil)
+    assert(not box(1).visible and not box('focus'):GetChild('hit').visible)
+    emit(1,'down',11);emit(1,'up',11);assert(not emit(1,'click',11))
+    assert(not box('next'):GetChild('hit').click())
+    assert(ui:update(1));same(map,before);assert(#calls==0)
+end)
+
+test('unavailable Act 3 and malformed Act 2 encounter context reject without touching any owner',function()
+    for _,act in ipairs({2,3}) do
+        local run=Run.new(F.Data,'42',{experimental=true,campaign=true})
+        local map=Map.generate(F.Data,'42')
+        advance(run,map,1)
+        if act==3 then advance(run,map,2) else run.encounters.rawSeed='malformed-encounter-context' end
+        local before,mapBefore=F.Combat.copy(run),Map.snapshot(map)
+        local ui,_,emit,calls=setup(map,function(node)return Nodes.enter(run,map,node.id)end)
+        emit(1,'down',11);emit(1,'up',11)
+        local ok,reason=emit(1,'click',11)
+        assert(ok==false and reason==(act==3 and 'act_content_unavailable' or 'run_seed_mismatch'))
+        assert(#calls==1 and ui.entryError~=nil)
+        same(run,before,'rejected encounter changed Run');same(map,mapBefore,'rejected encounter changed Map')
+        assert(not emit(1,'click',11));same(run,before);same(map,mapBefore)
+    end
+end)
+
+test('non-table map nodes fail closed without rendering or mutating owners',function()
+    for _,invalid in ipairs({false,42,'not-a-node'}) do
+        local map=Map.generate(F.Data,'42',2)
+        local ui,box,emit,calls=setup(map)
+        emit(1,'down',11);emit(1,'up',11)
+        map.nodes[1]=invalid
+        local before=Map.snapshot(map)
+        ui:render();assert(not ui.navigationEnabled and next(ui.slots)==nil)
+        assert(not box(1).visible and not box('focus'):GetChild('hit').visible)
+        assert(ui:update(.05));assert(not ui:setNavigationEnabled(true));assert(not ui:focusCurrent())
+        local ok,reason=ui:choose('f18_l1');assert(ok==false and reason=='invalid_map_context')
+        assert(not emit(1,'click',11));assert(not pcall(setup,map))
+        same(map,before);assert(#calls==0)
+    end
 end)
 
 print('LUA_MAP_CHAPTERS_PASS '..passed)

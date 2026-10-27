@@ -10,15 +10,12 @@ import { luaString, toLua } from './build-lua-data.mjs';
 import { runLua } from './test-lua.mjs';
 import { candidateScriptFiles } from './native-candidate-scripts.mjs';
 
-const categories = ['cards', 'generatedCards', 'enemies', 'encounters', 'events', 'relics', 'potions', 'bosses'];
+const categories = ['cards', 'sharedCards', 'generatedCards', 'enemies', 'encounters', 'events', 'relics', 'potions', 'bosses'];
 const ids = rows => rows.map(row => row.id).sort();
-const explicitEvents = {
-  living_wall: 'Living Wall', fountain: 'Fountain of Cleansing', sssserpent: 'Liars Game',
-  big_fish: 'Big Fish', accursed_blacksmith: 'Accursed Blacksmith', bonfire: 'Bonfire Elementals',
-};
 const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
+  decay: ['explicit_event:wheel:accept'],
 };
 const specialRelicEvents = {
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
@@ -55,7 +52,12 @@ export function inspectLaunchRuntime(root = process.cwd(), data = loadContent(re
     assert.match(result.stdout, /LAUNCH_RUNTIME_ENTRY_PASS/);
     const bindings = result.stdout.split(/\r?\n/).filter(line => line.startsWith('LAUNCH_RUNTIME\t'))
       .map(line => JSON.parse(line.slice('LAUNCH_RUNTIME\t'.length)));
-    const snapshot = { bindings, deployment };
+    const events = result.stdout.split(/\r?\n/).filter(line => line.startsWith('LAUNCH_EVENT\t'))
+      .map(line => JSON.parse(line.slice('LAUNCH_EVENT\t'.length)));
+    const records = prefix => result.stdout.split(/\r?\n/).filter(line=>line.startsWith(prefix))
+      .map(line=>JSON.parse(line.slice(prefix.length)));
+    const snapshot = { bindings, deployment, events,
+      sharedCards: records('LAUNCH_SHARED_CARD\t'),potions:records('LAUNCH_POTION\t') };
     runtimeCache.set(key, snapshot);
     return snapshot;
   } finally {
@@ -164,15 +166,16 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   for (const card of manifest.generatedCards) {
     const definition = data.cards.cards.find(row => row.id === card.id);
     check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
-    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []), 'explicit:Run.obtainCard']
+    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
+      'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
         .map(enemy => `enemy:${enemy.id}:intent`),
         ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
           .map(c=>`card:${c.id}:effect`)];
     same(card.channels, channels, `generatedCards/${card.id} channels`);
     if (card.type === 'curse') {
-      check(Boolean(card.acquisitionPending) === !Boolean(curseEvents[card.id]), `generatedCards/${card.id}: acquisition pending drift`);
-      if (card.acquisitionPending) check(Boolean(card.naturalAcquisitionLimitation?.includes('transformContext')), `generatedCards/${card.id}: missing unwired acquisition boundary`);
+      check(!card.acquisitionPending, `generatedCards/${card.id}: explicit transformation route omitted`);
+      check(Boolean(card.naturalAcquisitionLimitation?.includes('explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);
     }
   }
   same(ids(manifest.enemies), ids(data.enemies.enemies), 'enemy definitions');
@@ -186,6 +189,21 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   let actualRuntime;
   try { actualRuntime = inspectLaunchRuntime(root, data); }
   catch (error) { errors.push(`Formal runtime inspection failed: ${error.message}`); return errors; }
+  same(ids(manifest.sharedCards),ids(actualRuntime.sharedCards),'sharedCards runtime identities');
+  const sharedReference=json(resolve(root,'data/reference/sts1-card-pools/registration.json')).registration
+    .filter(row=>row.sourcePath.startsWith('cards/colorless/'));
+  const sharedSource=new Map(sharedReference.map(row=>[row.id,row]));
+  for(const card of manifest.sharedCards){
+    const actual=actualRuntime.sharedCards.find(row=>row.id===card.id);
+    const reference=sharedSource.get(card.sourceId);
+    check(Boolean(reference)&&actual?.sourceId===card.sourceId,`sharedCards/${card.id}: source ID drift`);
+    same(card.versions,['base','upgraded'],`sharedCards/${card.id} versions`);
+    check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
+    check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
+    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard']:
+      ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation'])],`sharedCards/${card.id} channels`);
+    check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
+  }
   same(manifest.runtime?.modules, runtimeModules, 'runtime deployment relationships');
   for (const [field, value] of Object.entries({ nodeEntry: 'abyss_nodes.enter', roomEntry: 'abyss_run.startRoomCombat', sourcePool: 'abyss_encounter_queue.rules' }))
     check(manifest.runtime?.[field] === value, `runtime deployment ${field} drift`);
@@ -228,7 +246,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   }
   same(ids(manifest.relics), ids(data.relics.relics), 'relic definitions');
   same(ids([...manifest.potions, ...manifest.exclusions.potions]), ids(data.potions.potions), 'potions including class exclusions');
-  same(ids(manifest.potions), ids(data.potions.potions.filter(row => row.id !== 'poison_potion' && !row.acquisitionPending)), 'obtainable potion predicates');
+  same(ids(manifest.potions), ids(actualRuntime.potions), 'obtainable potion predicates');
   same(ids(manifest.exclusions.potions.filter(row => row.acquisitionPending)), ids(data.potions.potions.filter(row => row.acquisitionPending)), 'pending potion exclusions');
   for (const potion of manifest.potions) {
     const definition = data.potions.potions.find(row => row.id === potion.id);
@@ -258,6 +276,9 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(boss.rewardDestination === 'boss_treasure:floor17', `bosses/${boss.id}: reward destination drift`);
   }
   check(data.rules.events.poolMode === 'restricted-seven', 'Production event mode changed: review launch scope');
+  const explicitEvents = Object.fromEntries(actualRuntime.events.filter(row=>!row.random).map(row=>[row.id,row.originalId]));
+  const eventIdentity = rows => rows.map(row=>`${row.originalId}:${row.id}`).sort();
+  same(eventIdentity(manifest.events),eventIdentity(actualRuntime.events),'production event mappings');
   same(ids(manifest.events.filter(row => row.poolMode === 'explicit-only')), Object.keys(explicitEvents).sort(), 'explicit event routes');
   for (const event of manifest.events) {
     const explicit = Object.hasOwn(explicitEvents, event.id);

@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { cardFaceChildren } from './card-face.mjs';
 
 // One source of tokens for both the native tree and its Lua controller.
 export const theme = JSON.parse(readFileSync(new URL('../data/presentation/ui_theme.json', import.meta.url), 'utf8'));
@@ -209,19 +210,8 @@ export function battleLayout() {
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
   for (let i = 1; i <= 10; i++) {
     const [w, h] = l.card.size;
-    controls.push({ name: `card${i}`, kind: 'container', size: [w, h], ...handPose(10, i - 1), children: [
-      { ...picture('glow', 0, 0, w + s.s, h + s.s, im.glow, c.goldBright), visible: false },
-      panel('border', 0, 0, w, h, c.rarity.basic), panel('plate', 0, 0, w - s.border * 2, h - s.border * 2, c.panel),
-      panel('nameBand', 0, h / 2 - l.card.nameBand / 2 - s.border, w - s.border * 2, l.card.nameBand, c.panelRaised),
-      text('name', l.card.costDisc / 2, h / 2 - l.card.nameBand / 2 - s.border, w - l.card.costDisc - s.s, l.card.nameBand, '', f.cardName),
-      panel('artPlate', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, w - s.border * 2, l.card.art, c.cardType.attack),
-      picture('art', 0, h / 2 - l.card.nameBand - l.card.art / 2 - s.border, Math.min(l.card.costDisc,l.card.art), Math.min(l.card.costDisc,l.card.art), theme.icon.cardArt.attack, c.text),
-      text('type', 0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.nativeText.lineHeight, '', f.small, c.gold),
-      text('label', 0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox, '', f.card),
-      picture('costDisc', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, im.disc, c.energy),
-      text('cost', -w / 2 + l.card.costDisc / 2, h / 2 - l.card.costDisc / 2, l.card.costDisc, l.card.costDisc, '', f.number, c.textOnLight),
-      hit(w, h),
-    ] });
+    controls.push({ name: `card${i}`, kind: 'container', size: [w, h], ...handPose(10, i - 1),
+      children: cardFaceChildren(theme, 'battle') });
   }
   controls.push(button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合'),
     button('start', [0, -96], l.button.primary, '启程', true),

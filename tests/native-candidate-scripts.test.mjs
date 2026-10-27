@@ -35,10 +35,11 @@ test('native package preflight rejects missing generated modules and name collis
   assert.throws(() => candidateScriptFiles(source, build), /ENOENT/);
 }));
 
-test('ordinary native package declares the UI BGM parameter as boolean false', () => fixture((source, build) => {
+test('ordinary native package declares safe default UI parameters', () => fixture((source, build) => {
   const scripts = candidateScriptFiles(source, build);
   assert.deepEqual(scripts.find(item => item.name === 'abyss_ui').variables,
-    [{ name: 'nativeBgmEnabled', type: 'boolean', value: false }]);
+    [{ name: 'nativeBgmEnabled', type: 'boolean', value: false },
+      { name: 'experimentalCharacters', type: 'boolean', value: false }]);
   for (const item of scripts.filter(item => item.name !== 'abyss_ui')) assert.equal(item.variables, undefined);
 }));
 

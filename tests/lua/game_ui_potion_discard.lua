@@ -65,7 +65,8 @@ test('full reward can discard an old bottle then claim the offered bottle in its
     for _,id in ipairs({'fire_potion','block_potion','regen_potion'})do assert(Run.obtainPotion(h.run,id))end
     assert(Run.startCombat(h.run,'cultist_solo'))
     for _,enemy in ipairs(h.run.combat.enemies)do enemy.hp=0 end
-    assert(Run.finishCombat(h.run));h:refresh();equal(h.run.rewards.potion.id,'dexterity_potion')
+    -- Complete33-potion source vector seed42 selects Colorless Potion.
+    assert(Run.finishCombat(h.run));h:refresh();equal(h.run.rewards.potion.id,'colorless_potion')
     counter(r,3)
     local claim=r:GetChild('battlePanel'):GetChild('claimPotion')
     local gold,seed,nextUid,offered=h.run.gold,h.run.seed,h.run.nextDeckUid,h.run.rewards.potion
@@ -75,7 +76,7 @@ test('full reward can discard an old bottle then claim the offered bottle in its
     open(r);assert(click(r,'potionPanel','slot2'));assert(click(r,'potionPanel','discard'));assert(click(r,'potionPanel','cancel'))
     counter(r,2)
     assert(r:GetChild('battlePanel'):GetChild('claimPotion').listeners.click())
-    equal(h.run.potions[1],'fire_potion');equal(h.run.potions[2],'dexterity_potion');equal(h.run.potions[3],'regen_potion')
+    equal(h.run.potions[1],'fire_potion');equal(h.run.potions[2],'colorless_potion');equal(h.run.potions[3],'regen_potion')
     equal(h.run.phase,'reward');counter(r,3)
 end)
 

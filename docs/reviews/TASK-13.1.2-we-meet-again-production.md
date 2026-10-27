@@ -1,0 +1,15 @@
+# 又见面了生产切片（2026-10-26）
+
+事实来源仍为固定 aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0 ZIP。WeMeetAgain.java SHA256 `933f366a64c29bc9a9ab5d558d7521cfc69a73f80995279dbbe94b7b8153cc86`；AbstractPotion.java `10b76a57d36ae4714928fe4c21ce8f352e8c0739eaa675bed5f199480886d888`。另外核对AbstractPlayer.getRandomPotion/removePotion、BloodPotion/FruitJuice/EntropicBrew.canUse、CardGroup.removeCard。来源只作固定镜像事实，不宣称正版PC构建认证，不提交反编译实现。
+
+正式源WeMeetAgain→we_meet_again，沿用全池无额外资格过滤，即使无任何可交易资源也保持事件身份及4按钮。构造按当前房间misc依次：现有药水物理槽列表非空时，消耗一次randomLong播种Java48洗牌选首项；gold>=50时inclusive随机50..min(150,gold)，即gold恰50也消费；永久牌组非basic且非curse列表非空时再消费一次randomLong洗牌选首项。单个候选仍消费shuffle播种，空分类不消费。瓶装非基本牌按源仍在候选中，不借用净化选牌过滤器。
+
+源索引与物理身份在构造时缓存，玩家只能选择trade_potion/trade_gold/trade_card/leave，而不是再挑一张牌或重抽代价。交易先移除对应物/支付，再按共享screenless遗物品级和队列取得真实遗物；原生结果显示实际遗物。重复命令拒绝，任意缺遗物定义失败时支付、UID牌组、药水物理槽、所有流、队列与旧owner整体回滚。金币支付不触发仅ShopRoom的MawBank钩子。
+
+固定种子42/第一房floor1的room seed43，独立Python整数XS128与48bit Java洗牌模型给出：候选药水槽[1,3]、99金、非基本UID[7,9]时，选槽3、68金、UID7；终态words502fba754a78ddb7/c4ee13b9edf4e0cf,counter3。只有槽2、50金、UID9时三种单候选仍是同一流终态；49金且两个列表空时counter0，words203ea4c5049ad615/a9eeb425265e56a4。生产逐项匹配，未用生产Lua生成期望值。
+
+AbstractPotion.canDiscard及各战斗外药水canUse明确禁止在WeMeetAgain房间使用/丢弃。原先只识别旧源ID的部分use veto扩为正式本地ID，并覆盖公开discard和所有use；原生背包按钮同时禁用且展示原因。内部约定交易直接执行源removePotion，不误走受限公开discard。限制跟随当前房间，离开到地图仍保留，进入真实下一房后解除。
+
+核心最初红于未接映射，之后又红复现实际房间仍可用血药，修复后8组通过；涵盖独立构造向量、空资源、重复瓶ID物理身份、药水带第5槽、3支付事务、瓶装牌、失败回滚与限制生命周期。原生Host/UI2组通过，显示实际药水、68金及批准稿升级牌名；没有打开随机选牌器。旧药水discard4、health21、Entropic7、新剩余药水UI6、Lab/Woman UI2通过；布局/文案10通过。架构122模块589边与Luacheck1.2.0通过，111历史警告无新增，仅同步受影响模块既有诊断位移。
+
+完整25默认门禁及清单交父线程统一处理；本切片仍未进行自然路线、候选构建/官方导入/同候选实机或整体UI门禁。本轮离线，无游戏/MCP/桌面输入。

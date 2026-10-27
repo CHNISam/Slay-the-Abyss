@@ -150,8 +150,11 @@ test("unknown operations remain rejected rather than silently swallowed by the c
     local ok,why=pcall(Combat.applyEffects,s,{{op="damage",value=6},{op="not_an_action"}},s.player,s.enemies[1],c)
     equal(ok,false); assert(tostring(why):find("unsupported effect",1,true))
 end)
-test("heal remains unsupported rather than introducing an unverified new card operation",function()
-    equal(Effects.supported({{op="heal",value=4}}),false)
+test("verified Bite heal survives the final killing blow",function()
+    equal(Effects.supported({{op="heal",value=2}}),true)
+    local s=Combat.new(data,{deck={'bite'},enemies={'jaw_worm'},hp=40,seed=1})
+    s.enemies[1].hp=1;s.enemies[1].block=0
+    assert(Combat.play(s,s.hand[1].uid,1));equal(s.player.hp,42)
 end)
 for _,id in ipairs({"pommel_strike","dropkick"}) do
     test("Run "..id.." final kill cannot consume shuffle RNG before rewards",function()

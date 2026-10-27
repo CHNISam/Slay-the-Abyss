@@ -22,7 +22,7 @@ local count=0
 local function test(name,fn)fn();count=count+1;print('PASS living-wall UI '..count..' '..name)end
 test('native Forget opens filtered picker, locks choice and removes one real permanent UID',function()
  local run,map,ui,get,click=fixture({{uid=1,cardId='strike',upgraded=false},{uid=2,cardId='bash',upgraded=false,inBottleFlame=true}})
- eq(get('eventView/name').text,'活墙');eq(get('eventView'):GetChild('option4'),nil)
+ eq(get('eventView/name').text,'活墙');eq(get('eventView/option4').visible,false)
  click('eventView/option1');eq(run.nodeFlow.event.stage,'choose_card');eq(get('pickerView').visible,true)
  eq(get('back').visible,false);eq(get('pickerView/card2').visible,false)
  click('pickerView/card1');click('confirm');eq(#run.deck,1);eq(run.deck[1].uid,2);eq(run.phase,'map')

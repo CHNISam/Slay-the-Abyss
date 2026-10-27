@@ -5,6 +5,7 @@
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local M = {}
+local Controller = require('abyss_controller')
 local P, V, C, F = Theme.layout.prologue, Theme.layout.vista, Theme.color, Theme.font
 
 -- Splits approved copy after each 。 or …… without changing, adding or dropping a character.
@@ -191,7 +192,9 @@ function M.new(panel, options)
         local complete = count >= #beat.chars
         local hint = panel:GetChild("hint")
         hint:SetVisible(complete and self.phase == "beats")
-        hint.text = beat.index >= #self.beats and "点击进入遗迹" or "点击继续"
+        hint.text = Controller.isController(options.controller)
+            and (beat.index>=#self.beats and '确认进入遗迹 · 返回跳过' or '确认继续 · 返回跳过')
+            or (beat.index >= #self.beats and "点击进入遗迹" or "点击继续")
         ink(hint, C.textDim, 0.55 + 0.45 * math.sin(clock * 3.4))
         for i = 1, 3 do tint(panel:GetChild("dot" .. i), i == beat.index and C.goldBright or C.goldDim, i <= beat.index and 1 or 0.5) end
         fade(self.phase == "outro" and clamp(self.t / P.fadeOut) or 1 - clamp(clock / P.fadeIn))
@@ -228,6 +231,7 @@ function M.new(panel, options)
     -- touch or a press left over from the title screen is ignored.
     local cursor = options.cursorEvents or {}
     local function bind(hit, action)
+        Controller.bind(options.controller,hit,'prologue',action,function()return self.playing and not blocked()end)
         local armed
         if cursor.CursorDown and cursor.CursorUp then
             hit:AddCursorEventListener(cursor.CursorDown, function() armed = self.playing and self.generation or nil end)
@@ -236,6 +240,7 @@ function M.new(panel, options)
             end
         end
         hit:AddCursorEventListener(options.clickEvent, function()
+            if Controller.pointerBlocked(options.controller)then return false end
             if cursor.CursorDown and cursor.CursorUp and armed ~= self.generation then armed = nil return false end
             armed = nil
             return action()

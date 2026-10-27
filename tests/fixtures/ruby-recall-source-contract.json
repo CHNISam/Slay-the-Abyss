@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Pinned third-party decompiled mirror; not official source or authenticated PC binary execution. Cached text bytes were checked against tree sizes and Git blob hashes. No source Java or game assets are shipped.",
+  "sources": [
+    {
+      "path": "rooms/CampfireUI.java",
+      "gitBlobSha": "96cdc49fe16e8bd00d3a7f4d429ed4b77d3625b6",
+      "size": 15285,
+      "sha256": "1bc85262c11c37f733ca9bfadb8cc8592621d38aa29e454e1f5a17e58281120b",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/CampfireUI.java",
+      "methods": [
+        "initializeButtons"
+      ]
+    },
+    {
+      "path": "rooms/RestRoom.java",
+      "gitBlobSha": "2993f7bb8a2282342a6e2c2c667e4918ff288fa9",
+      "size": 2163,
+      "sha256": "d92bf8a1babe1435a5f68091a07012a393151a9eb122bad45cd700b000d27d6e",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/RestRoom.java",
+      "methods": [
+        "onPlayerEntry"
+      ]
+    },
+    {
+      "path": "ui/campfire/RecallOption.java",
+      "gitBlobSha": "a29e9aa78992b939645b0af2583babdf66bf4a9b",
+      "size": 935,
+      "sha256": "5e06feef30d67dfc542f883487013e0b4f99c8748fe39ff1c715757bfe295052",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/ui/campfire/RecallOption.java",
+      "methods": [
+        "RecallOption",
+        "useOption"
+      ]
+    },
+    {
+      "path": "vfx/ObtainKeyEffect.java",
+      "gitBlobSha": "b052494ca3b09cc1a188714cd38ed0405ff68024",
+      "size": 3256,
+      "sha256": "9b4f2ba18307d91e9295f89cf8defafe3a418e6a953f2f589ea2d1fb56416298",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/ObtainKeyEffect.java",
+      "methods": [
+        "update"
+      ]
+    },
+    {
+      "path": "vfx/campfire/CampfireRecallEffect.java",
+      "gitBlobSha": "b6909f247493cb6bd28a5575da93bdd370fd01a7",
+      "size": 2396,
+      "sha256": "56d5eef2ceacbc509d387659874e759a84be91229bc00c5f65ec5b8f148fca0f",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/campfire/CampfireRecallEffect.java",
+      "methods": [
+        "update"
+      ]
+    }
+  ],
+  "behavior": {
+    "appendOrder": [
+      "rest",
+      "smith",
+      "relicOptions",
+      "recall"
+    ],
+    "availability": "Settings.isFinalActAvailable && !Settings.hasRubyKey",
+    "localization": {
+      "key": "Recall Option",
+      "labelIndex": 0,
+      "descriptionIndex": 1,
+      "textAvailableInMirror": false
+    },
+    "completion": {
+      "roomRewards": "clear",
+      "roomPhase": "COMPLETE",
+      "campfireMetric": "RECALL",
+      "keyColor": "RED",
+      "ruby": true,
+      "emerald": "unchanged",
+      "sapphire": "unchanged"
+    },
+    "gameplayRngDraws": 0,
+    "restHeal": false,
+    "smithUpgrade": false,
+    "restRelicHooks": false
+  },
+  "fieldMapping": {
+    "Settings.isFinalActAvailable": "run.endingUnlocked == true",
+    "Settings.hasRubyKey": "run.keys.ruby == true",
+    "developmentGate": "run.campaign == true (existing explicit experimental Run constructor only)",
+    "keysShape": "run.keys is a plain table with ruby, emerald and sapphire boolean fields; no defaults or eligibility creation",
+    "roomSource": "current pending camp entered through Nodes.enter, matching external map and roomGeneration source token; any existing campChoice or restReward refuses"
+  },
+  "implementationBoundary": "Local existing-footer NodeUI Recall route implemented with mock-native tests; native-client acceptance NOT_RUN; history producer and persistence UNWIRED; natural full-campaign evidence NOT_RUN. Tests explicitly stage endingUnlocked=true.",
+  "legacyCampCommands": {
+    "names": [
+      "rest",
+      "claimRestReward",
+      "upgrade"
+    ],
+    "unchangedBlockSha256": "d68262918654777a024209d6e210642358e703c5b10e924d82f439b8b801714b",
+    "start": "function M.rest(run)",
+    "endExclusive": "local function purchaseCommand("
+  }
+}

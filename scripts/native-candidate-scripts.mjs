@@ -5,6 +5,13 @@ import { resolve, basename } from 'node:path';
 // Lua into build/lua; discovering every .lua there ships test fixtures.
 const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
 
+export function nativeUiVariables() {
+  return [
+    {name:'nativeBgmEnabled',type:'boolean',value:false},
+    {name:'experimentalCharacters',type:'boolean',value:false},
+  ];
+}
+
 export function candidateScriptFiles(sourceDirectory = 'src/lua', generatedDirectory = 'build/lua') {
   const files = readdirSync(sourceDirectory, { withFileTypes: true })
     .filter(entry => entry.isFile() && entry.name.endsWith('.lua'))
@@ -20,6 +27,6 @@ export function candidateScriptFiles(sourceDirectory = 'src/lua', generatedDirec
     if (names.has(name)) throw Error(`Duplicate game module: ${name}`);
     names.add(name);
     return { name, sourceFile: file,
-      ...(name === 'abyss_ui' ? { variables: [{ name: 'nativeBgmEnabled', type: 'boolean', value: false }] } : {}) };
+      ...(name === 'abyss_ui' ? { variables: nativeUiVariables() } : {}) };
   });
 }

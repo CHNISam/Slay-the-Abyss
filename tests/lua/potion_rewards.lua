@@ -9,8 +9,8 @@ local function same(a,b)
     for k in pairs(b) do assert(a[k]~=nil) end
 end
 local function test(name,fn) fn();count=count+1;print('ok potion rewards '..count..' - '..name) end
-local function won(seed,tier)
-    local run=Run.new(Data,seed or 42)
+local function won(seed,tier,source)
+    local run=Run.new(source or Data,seed or 42)
     assert(Run.startCombat(run,'cultist_solo'))
     -- Explicit completed-battle fixture tests reward ownership only. Normal-data
     -- traversal and real card combat are scripts/m2-resource-evidence.mjs.
@@ -66,12 +66,20 @@ test('full belt claim rejects atomically while independent card selection remain
     rejected(run,function() return Run.skipPotionReward(run) end,'no_pending_potion_reward')
     assert(Run.leaveCombatRewards(run));same(run.potions,{'block_potion','energy_potion','fire_potion'})
 end)
-test('empty rarity remains unavailable and does not become a common replacement',function()
-    local run
+test('missing source definition remains unavailable without a replacement draw',function()
+    local run,chosenSeed
     for seed=1,100 do local candidate=won(seed)
-        if candidate.rewards.potion and candidate.rewards.potion.rarity=='rare' then run=candidate;break end
+        if candidate.rewards.potion and candidate.rewards.potion.rarity=='rare' then run=candidate;chosenSeed=seed;break end
     end
-    assert(run and run.rewards.potion.unavailable and not run.rewards.potion.id)
+    assert(run and not run.rewards.potion.unavailable and run.rewards.potion.id)
+    local id=run.rewards.potion.id
+    -- The complete source adapter retains its selected identity even when a
+    -- damaged content bundle omits that definition. No pool filtering occurs.
+    local source=C.copy(Data)
+    for i=#source.potions.potions,1,-1 do if source.potions.potions[i].id==id then table.remove(source.potions.potions,i)end end
+    local expected=run.shopRng.potion
+    run=won(chosenSeed,nil,source)
+    assert(run.rewards.potion.unavailable and run.rewards.potion.id==id);same(run.shopRng.potion,expected)
     rejected(run,function() return Run.claimPotionReward(run) end,'potion_content_unavailable')
     assert(Run.skipPotionReward(run));assert(Run.claimCardReward(run,0));assert(Run.potionCount(run)==0)
 end)

@@ -19,6 +19,17 @@ M.contentId['Liars Game']='sssserpent'
 M.contentId['Big Fish']='big_fish'
 M.contentId['Accursed Blacksmith']='accursed_blacksmith'
 M.contentId['Bonfire Elementals']='bonfire'
+M.contentId.Transmorgrifier='transmogrifier'
+M.contentId['Living Wall']='living_wall'
+M.contentId['Scrap Ooze']='scrap_ooze'
+M.contentId['Wheel of Change']='wheel'
+M.contentId.Lab='lab'
+M.contentId['The Woman in Blue']='woman_in_blue'
+M.contentId.WeMeetAgain='we_meet_again'
+M.contentId.Beggar='beggar'
+M.contentId['The Mausoleum']='mausoleum'
+M.contentId.Addict='addict'
+M.contentId['Back to Basics']='back_to_basics'
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end

@@ -4,6 +4,7 @@ local Theme = require("abyss_theme")
 local CardDisplay = require('abyss_card_display')
 local OriginalDisplay = require('abyss_original_v4_display')
 local M = {}
+local Controller = require('abyss_controller')
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 
 function M.new(root, presentation, clickEvent, platform, onClose)
@@ -70,7 +71,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
-        face:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
+        face:GetChild("art"):SetImage(platform.imageSource, (CardDisplay.art(definition)))
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
         control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')
@@ -78,7 +79,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         hit:SetVisible(self.choiceToken~=nil or definition.originalV4~=nil)
         if not self.bindings[control] then
             self.bindings[control]={}
-            hit:AddCursorEventListener(clickEvent,function()
+            local function pick()
                 local b=self.bindings[control]
                 if self.visible and not self.choiceToken and b.generation==self.generation then
                     return self:showDetails(b.definition,b.upgraded)
@@ -89,7 +90,14 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                 local callback,token,uid=self.onPick,self.choiceToken,b.uid
                 self:close()
                 if callback then callback(token,uid) end
+            end
+            hit:AddCursorEventListener(clickEvent,function()
+                if Controller.pointerBlocked(platform.controller)then return false end
+                return pick()
             end)
+            Controller.bind(platform.controller,hit,'deck',pick,function()
+                return self.visible and self.bindings[control].generation==self.generation
+            end,10)
         end
         self.bindings[control].generation,self.bindings[control].uid=self.generation,instance.uid
         self.bindings[control].definition,self.bindings[control].upgraded=definition,instance.upgraded
@@ -105,20 +113,21 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.choiceToken,self.onPick,self.battle=choice and choice.token,onPick,choice and run.combat
         self.multiple,self.choiceSelected=choice and choice.multiple,choice and choice.selected
         if choice then
-            cards={}
-            for _,uid in ipairs(choice.uids) do
-                for _,pile in ipairs({run.combat.hand,run.combat.discard,run.combat.exhaust}) do
+            cards=Combat.copy(choice.cards or {})
+            for _,uid in ipairs(choice.cards and {} or choice.uids) do
+                for _,pile in ipairs({run.combat.hand,run.combat.draw,run.combat.discard,run.combat.exhaust}) do
                     for _,c in ipairs(pile) do if c.uid==uid then cards[#cards+1]=Combat.copy(c) end end
                 end
             end
         end
         self.visible, self.run, self.cards, self.catalog = true, run, cards, catalog
+        self.controllerPage=1
         self.detailOnly,self.detailPages=nil,nil
         grid:SetVisible(true);details:SetVisible(false);detailHit:SetVisible(false)
         self.indexBase, self.pending, self.calibrating = nil, false, true
         root:SetVisible(true)
         root:SetAsLastSibling()
-        local prompts={exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
+        local prompts={discover="选择加入手牌的牌，本回合费用为0",colorless='选择卡牌',exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
             exhaustMany='选择任意张手牌消耗（可不选）',discardRedraw='选择任意张手牌丢弃并重抽',discardToHand='选择弃牌回手，本回合费用为0',
             handToDraw="选择放回抽牌堆顶的手牌",upgradeHand="选择要升级的牌",dualWield="选择要复制的攻击或能力牌"}
         root:GetChild("title").text = choice and prompts[choice.op] or "卡组 · " .. #cards .. " 张"
@@ -139,14 +148,43 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         return true
     end
     function self:update()
-        if not self.visible or not self.pending then return end
+        if not self.visible then return end
+        local mode=platform.controllerApi and platform.controllerApi.isController() or false
+        if self.controllerMode~=mode then
+            self.controllerMode=mode;self.controllerPage=1
+            if not self.calibrating and self.cards then self.generation=self.generation+1;self.pending=true end
+        end
+        local pageSize=Theme.layout.deckView.columns*2
+        local pages=math.max(1,math.ceil(#(self.cards or {})/pageSize))
+        for _,name in ipairs({'previous','next','pageHint'})do
+            local box=root:GetChild(name)
+            if box then
+                box:SetVisible(mode and not self.detailPages and pages>1)
+                if name=='pageHint' then box.text='摇杆导航 · 确认选择 · 返回关闭 · '..(self.controllerPage or 1)..'/'..pages
+                else box:GetChild('hit').interactable=name=='previous' and (self.controllerPage or 1)>1
+                    or name=='next' and (self.controllerPage or 1)<pages end
+            end
+        end
+        if not self.pending then return end
         self.pending, self.calibrating = false, false
         local generation, cards, catalog, base = self.generation, self.cards, self.catalog, self.indexBase
+        if mode then
+            local subset={}
+            for i=((self.controllerPage or 1)-1)*pageSize+1,math.min((self.controllerPage or 1)*pageSize,#cards)do subset[#subset+1]=cards[i]end
+            cards=subset;grid.scrollProgress=0
+        end
         grid:RefreshItems(#cards, function(control, index)
             if not self.visible or self.generation ~= generation then return end
             local instance = cards[index - base + 1]
             if instance then fill(control, instance, catalog) else control:SetVisible(false) end
         end)
+    end
+    function self.controllerStep(_,delta)
+        if not self.visible or not self.controllerMode or self.detailPages or self.calibrating then return false end
+        local page=(self.controllerPage or 1)+delta
+        if page<1 or page>math.ceil(#self.cards/(Theme.layout.deckView.columns*2))then return false end
+        self.generation=self.generation+1
+        self.controllerPage,self.pending=page,true;self:update();return true
     end
     function self:close()
         if not self.visible then return false end
@@ -162,11 +200,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     end
     root.disableCursorEventPassthrough = true
     root:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
-    detailHit:AddCursorEventListener(clickEvent,function()
+    local function nextPage()
         if not self.visible or not self.detailPages then return false end
         self.detailPage=self.detailPage%#self.detailPages+1;detailPage();return true
+    end
+    detailHit:AddCursorEventListener(clickEvent,function()
+        if Controller.pointerBlocked(platform.controller)then return false end
+        return nextPage()
     end)
-    root:GetChild("close"):GetChild("hit"):AddCursorEventListener(clickEvent, function()
+    Controller.bind(platform.controller,detailHit,'deck',nextPage,nil,1)
+    function self.back(_)
         if not self.visible then return false end
         if self.detailPages and not self.detailOnly then
             self.detailPages=nil;details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
@@ -180,7 +223,25 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end
         if self.choiceToken then return false end
         return onClose()
+    end
+    local close=root:GetChild('close'):GetChild('hit')
+    close:AddCursorEventListener(clickEvent,function()
+        if Controller.pointerBlocked(platform.controller)then return false end
+        return self:back()
     end)
+    Controller.bind(platform.controller,close,'deck',function()return self:back()end,nil,100)
+    for _,name in ipairs({'previous','next'})do
+        local box=root:GetChild(name)
+        if box then
+            local delta=name=='previous' and -1 or 1
+            local action=function()return self:controllerStep(delta)end
+            box:GetChild('hit'):AddCursorEventListener(clickEvent,function()
+                if Controller.pointerBlocked(platform.controller)then return false end
+                return action()
+            end)
+            Controller.bind(platform.controller,box:GetChild('hit'),'deck',action,nil,80)
+        end
+    end
     root:SetVisible(false)
     return self
 end

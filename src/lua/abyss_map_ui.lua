@@ -2,15 +2,15 @@
 -- The coordinator owns Map.choose / Nodes.enter and resolving the chosen node.
 -- No camp/shop/event/combat/run rules live in this module.
 local Map = require("abyss_map")
-local Acts = require("abyss_acts")
 local Theme = require("abyss_theme")
 local Layout = require("abyss_map_layout")
+local Acts = require("abyss_acts")
+local Controller = require("abyss_controller")
 local M = {}
 local states = { "locked", "visited", "current", "available" }
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
-
 -- Chapter metadata is presentation context, not permission to enter new content.
 -- Legacy Act 1 intentionally has no act/firstFloor/terminalFloor fields.
 local function chapterFor(map)
@@ -29,7 +29,7 @@ local function chapterFor(map)
     end
     if type(map.nodes) ~= "table" then return end
     for _, node in ipairs(map.nodes) do
-        if not finite(node.floor) or node.floor % 1 ~= 0 or node.floor < chapter.first or node.floor > chapter.last
+        if type(node) ~= "table" or not finite(node.floor) or node.floor % 1 ~= 0 or node.floor < chapter.first or node.floor > chapter.last
             or node.localFloor ~= nil and node.localFloor ~= node.floor - chapter.first + 1 then return end
     end
     return chapter
@@ -40,11 +40,8 @@ local function sameContext(a, b)
     end
     return true
 end
-local function rowFor(floor, chapter) return floor - chapter.first + 1 end
-local function focusScroll(current, chapter)
-    return clamp(Layout.firstY + (math.max(1,rowFor(current.floor,chapter)) - 1) *
-        Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
-end
+local function localFloor(map, floor) return floor - (map.firstFloor or 1) + 1 end
+local function atStart(map) return map.floor == (map.firstFloor or 1) - 1 end
 
 -- Standalone root holds mapBackdrop + stage/mapPanel from mapLayout(). With
 -- options.embedded, root is the host's mapPanel and the host alone scales stage.
@@ -67,12 +64,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         stage, backdrop = child(root, "stage"), child(root, "mapBackdrop")
         panel = child(stage, "mapPanel")
     end
-    local chapter = assert(chapterFor(map), "invalid map chapter context")
-    local view = Map.view(map)
-    local self = { root = root, map = map, visible = true, navigationEnabled = view.floor == chapter.first - 1,
+    -- The title host binds real owners only after Start succeeds.
+    if map ~= nil then assert(chapterFor(map), "invalid map chapter context") end
+    local view = map and Map.view(map)
+    local self = { root = root, map = map, visible = map ~= nil, navigationEnabled = view and atStart(view) or false,
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map, observedContext = view,
-        observedNodeId = view.currentNodeId, observedFloor = view.floor }
+        observedNodeId = view and view.currentNodeId, observedFloor = view and view.floor }
     local drag, released, pointerObserved, scrollAnimation
     local buttonHover, buttonPress
     local function cancelSelection()
@@ -97,7 +95,27 @@ function M.new(root, map, onChoose, clickEvent, options)
         error("missing map UI control " .. name)
     end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
-    local function bind(name, fn) child(at(name), "hit"):AddCursorEventListener(clickEvent, fn) end
+    local function controllerContextReady()
+        return chapterFor(self.map) ~= nil and self.map == self.observedMap
+            and sameContext(self.map,self.observedContext)
+            and self.map.floor == self.observedFloor and self.map.currentNodeId == self.observedNodeId
+    end
+    local function bind(name, fn)
+        local hit=child(at(name),"hit")
+        hit:AddCursorEventListener(clickEvent,function(event)
+            if Controller.pointerBlocked(options.controller)then return false end
+            return fn(event)
+        end)
+        Controller.bind(options.controller,hit,"map",function()
+            local slot=tonumber(name:match("^node(%d+)$"))
+            if slot then
+                if scrollAnimation then return false,"map_scrolling" end
+                cancelDrag()
+                return self.slots[slot] and self:choose(self.slots[slot])
+            end
+            return fn()
+        end,controllerContextReady,name:match("^node") and tonumber(name:match("%d+")) or 100)
+    end
     local function buttonEnabled(name)
         return self.visible and chapterFor(self.map) ~= nil and (name == "focus" or name == "previous" and self.scroll > 0
             or name == "next" and self.scroll < Layout.maxScroll)
@@ -121,9 +139,8 @@ function M.new(root, map, onChoose, clickEvent, options)
         box:SetLocalScale(scale,scale,1)
     end
     local function position(node)
-        local row = node.localFloor or rowFor(node.floor, chapter)
         return (node.lane - (Layout.lanes + 1) / 2) * Theme.layout.map.columnGap,
-            Layout.firstY + (row - 1) * Theme.layout.map.floorGap - self.scroll
+            Layout.firstY + (localFloor(self.map, node.floor) - 1) * Theme.layout.map.floorGap - self.scroll
     end
     local function observeMap(current)
         if self.map == self.observedMap and sameContext(current,self.observedContext) then return false end
@@ -133,9 +150,9 @@ function M.new(root, map, onChoose, clickEvent, options)
         self.observedMap, self.observedContext = self.map, current
         self.entryError=nil
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
-        local context = assert(chapterFor(current), "invalid map chapter context")
-        self.navigationEnabled, self.time = current.floor == context.first - 1, 0
-        self.scroll = focusScroll(current,context)
+        self.navigationEnabled, self.time = atStart(current), 0
+        self.scroll = clamp(Layout.firstY + (math.max(1, localFloor(current, current.floor)) - 1) *
+            Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
         return true
     end
     local function line(control, source, target, taken)
@@ -156,6 +173,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         tint(control, taken and Theme.color.node.pathTaken or Theme.color.node.path)
     end
     function self:render()
+        if not self.map then return false, "map_unbound" end
         local context = chapterFor(self.map)
         if not context then
             cancelDrag()
@@ -166,7 +184,6 @@ function M.new(root, map, onChoose, clickEvent, options)
             for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
             return
         end
-        chapter = context
         local current, nodes, taken = Map.view(self.map), {}, {}
         observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
@@ -177,13 +194,18 @@ function M.new(root, map, onChoose, clickEvent, options)
         for _, node in ipairs(current.nodes) do nodes[node.id] = node end
         for i = 1, #current.path - 1 do taken[current.path[i] .. ":" .. current.path[i + 1]] = true end
         self.slots, self.breathing = {}, {}
-        at("title").text = context.name .. " · 第 " .. current.floor .. " 层"
-        local terminal = context.terminal == "boss_treasure" and "首领宝箱" or "结局"
-        at("notice").text = self.entryError or
-            (current.complete and context.terminal ~= "true_victory" and "已抵达" .. terminal .. " · 请完成当前房间" or
-            (current.floor == context.boss and (self.navigationEnabled and context.terminal ~= "true_victory"
-                and "首领奖励已处理 · 请选择" .. terminal or "已抵达首领 · 请完成首领战斗与奖励") or
-            (self.navigationEnabled and "上下拖动查看路线 · 点选可前往的节点出发" or "请先完成当前节点")))
+        local chapter = Acts.get(current.act or 1)
+        local terminal = chapter.terminal == 'boss_treasure' and "已抵达首领宝箱 · 请完成当前房间"
+            or current.act == 4 and "已抵达终幕首领 · 请完成最终战斗与结算"
+            or "已抵达终点 · 请完成当前房间"
+        at("title").text = chapter.name .. " · 第 " .. current.floor .. " 层"
+        at("notice").text = self.entryError or (current.complete and terminal or
+            (current.floor == chapter.boss and (self.navigationEnabled
+                and (chapter.terminal == 'boss_treasure' and "首领奖励已处理 · 请选择首领宝箱" or "首领奖励已处理 · 请前往终点")
+                or "已抵达首领 · 请完成首领战斗与奖励") or
+            (self.navigationEnabled and (Controller.isController(options.controller)
+                and "摇杆选择路线 · 确认出发 · 返回菜单" or "上下拖动查看路线 · 点选可前往的节点出发") or "请先完成当前节点")
+            ))
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         local edge = 0
@@ -307,15 +329,16 @@ function M.new(root, map, onChoose, clickEvent, options)
         return self:setScroll(self.scroll + delta)
     end
     function self:focusCurrent(animated)
-        local context = chapterFor(self.map)
-        if not context then self:render() return false,"invalid_map_context" end
+        if not self.map then return false, "map_unbound" end
+        if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local current = Map.view(self.map)
         observeMap(current)
-        local target = focusScroll(current,context)
+        local target = Layout.firstY + (math.max(1,localFloor(current,current.floor)) - 1) * Theme.layout.map.floorGap - Layout.focusY
         if animated then return animateScrollTo(target) end
         return self:setScroll(target)
     end
     function self:setNavigationEnabled(enabled)
+        if not self.map then return false, "map_unbound" end
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
         if not enabled then cancelDrag() end
         -- An explicit coordinator grant acknowledges any external map advance.
@@ -327,11 +350,13 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     function self:setVisible(visible)
         assert(type(visible) == "boolean", "map visibility must be boolean")
+        if visible and not self.map then return false, "map_unbound" end
         if not visible then cancelDrag() end
         self.visible = visible root:SetVisible(visible)
         if visible then self:focusCurrent() end
     end
     function self:choose(nodeId)
+        if not self.map then return false, "map_unbound" end
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local beforeMap = self.map
         local before = Map.view(beforeMap)
@@ -399,7 +424,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         pointerObserved = true
         -- Down is idempotent until the owner releases or is cancelled. A repeated
         -- callback cannot rearm a selection that already exited or began scrolling.
-        if not self.visible then return end
+        if not self.visible or not self.map then return end
         if not chapterFor(self.map) then self:render() return end
         if observeMap(Map.view(self.map)) then self:render() end
         if drag then return end
@@ -503,7 +528,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         listen(cursor and cursor.CursorEndDrag,function(event) clear(event,true) end)
     end
     self:resize(Theme.canvas.base[1], Theme.canvas.base[2])
-    self:focusCurrent()
+    if map then self:focusCurrent() else root:SetVisible(false) end
     return self
 end
 return M

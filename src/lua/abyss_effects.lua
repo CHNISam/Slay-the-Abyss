@@ -26,6 +26,17 @@ local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=tr
 -- Only the opt-in Weak/Vulnerable pair is target-first. Discover markers in
 -- the entire input before any effect, including holes and unreachable branches.
 -- Unmarked inputs deliberately keep their old validation/error timing.
+coreOps.enemyHealAll=true
+coreOps.enemyStrengthAll=true
+coreOps.enemyCleanse=true
+coreOps.enemyVampireDamage=true
+coreOps.enemyRally=true
+coreOps.enemyEncourage=true
+coreOps.enemyTorchSpawn=true
+coreOps.enemyTorchRevive=true
+coreOps.enemyBronzeSpawn=true
+coreOps.enemyStasis=true
+
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
     local seen, active = {}, {}
@@ -148,7 +159,7 @@ local function supported(effects, branch)
             or not (op=="block" or op=="damage" or op=="damageAll" or CardActions.supports(op))) then
             return false, "invalid_fixed_block"
         end
-        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally") then
+        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally" and effect.target~='automaton') then
             return false, "invalid_effect_target"
         end
         if op == "damage" then targetChecked = true end
@@ -381,13 +392,81 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- HP payment is not an attack or a status tick. The next effect's
             -- source-alive guard stops the card when this payment is lethal.
             local before = source.hp
+            if (source.statuses.intangible or 0)>0 then value=math.min(value,1) end
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyStasis' then
+            require('abyss_act2_stasis').apply(combat,state,source)
+        elseif op=='enemyBronzeSpawn' then
+            assert(source.ai and source.ai.policy=='automaton','Automaton spawn only')
+            require('abyss_act2_summons').bronze(combat,state)
+        elseif op=='enemyTorchSpawn' or op=='enemyTorchRevive' then
+            assert(source.ai and source.ai.policy=='collector','Collector summon only')
+            require('abyss_act2_summons').torches(combat,state,source,op=='enemyTorchRevive')
+        elseif op=='enemyRally' then
+            assert(source.ai and source.ai.policy=='leader','Leader summon only')
+            require('abyss_act2_summons').rally(combat,state,source)
+        elseif op=='enemyEncourage' then
+            assert(source.ai and source.ai.policy=='leader','Leader Encourage only')
+            for _,ally in ipairs(state.enemies)do if Actors.isActive(ally) then
+                Actors.applyPower(state,ally,'strength',value,source)
+                if ally~=source then Actors.block(state,ally,6,true) end
+            end end
+        elseif op=='enemyVampireDamage' then
+            assert(source~=state.player and source.ai and source.ai.policy=='parasite','Parasite attack only')
+            local reactions={}
+            local lost=combat.damage(state,source,target,value,false,reactions)
+            dealt=dealt+lost
+            -- Vampire queues TOP Heal(lastDamageTaken) above onAttacked's
+            -- reactions. The captured loss precedes Fairy's revival; a fatal
+            -- non-Fairy hit opens the death screen before either queued action.
+            if state.player.hp>0 then
+                if lost>0 and Actors.isActive(source) then
+                    local healed=math.min(lost,source.maxHp-source.hp);source.hp=source.hp+healed
+                    Events.emit(state,'heal',{source=source.id,target=source.id,amount=healed})
+                end
+                Actors.resolveDamageReactions(state,reactions,combat.retaliate)
+            end
+        elseif op=='enemyCleanse' then
+            assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 cleanse only')
+            local ids={}
+            for id,n in pairs(source.statuses)do
+                if source.statusDefinitions[id].kind=='debuff' or (id=='strength' or id=='dexterity' or id=='focus') and n<0 then ids[#ids+1]=id end
+            end
+            table.sort(ids)
+            for _,id in ipairs(ids)do
+                local n=source.statuses[id]
+                require('abyss_power_schedule').remove(state,source,id)
+                source.statuses[id]=nil
+                local order={};for _,old in ipairs(source.powerOrder or {})do if old~=id then order[#order+1]=old end end
+                source.powerOrder=order
+                Events.emit(state,'status',{source=source.id,target=source.id,status=id,amount=-n})
+            end
+        elseif op=='enemyHealAll' or op=='enemyStrengthAll' then
+            assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 enemy action only')
+            -- takeTurn queues one action per then-active monster reference.
+            -- Resolve that fixed group, rechecking each target but not the caster.
+            local recipients={}
+            for _,ally in ipairs(state.enemies)do
+                if Actors.isActive(ally)then recipients[#recipients+1]=ally end
+            end
+            for _,ally in ipairs(recipients)do
+                if Actors.isActive(ally)then
+                    if op=='enemyHealAll' then
+                        local healed=math.min(value,ally.maxHp-ally.hp)
+                        ally.hp=ally.hp+healed
+                        Events.emit(state,'heal',{source=source.id,target=ally.id,amount=healed})
+                    else Actors.applyPower(state,ally,'strength',value,source) end
+                end
+            end
         elseif op == "block" then
-            if effect.target == "random_ally" then
+            if effect.target=='automaton' then
+                assert(source.ai and source.ai.policy=='orb','Bronze support only')
+                for _,ally in ipairs(state.enemies)do if ally.definitionId=='automaton' and Actors.isActive(ally)then combat.block(state,ally,value,true);break end end
+            elseif effect.target == "random_ally" then
                 assert(source ~= state.player, "random ally Block requires an enemy")
                 local candidates, member = {}, false
                 for _, ally in ipairs(state.enemies) do

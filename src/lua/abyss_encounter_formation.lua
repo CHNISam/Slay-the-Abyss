@@ -8,6 +8,7 @@ local f32=require('abyss_sts_random').float32
 local sources={['Small Slimes']=true,['Gremlin Gang']=true,['2 Louse']=true,['3 Louse']=true,['Large Slime']=true,
  ['Lots of Slimes']=true,['Exordium Thugs']=true,['Exordium Wildlife']=true}
 function M.supports(source)return sources[source]==true end
+sources['Gremlin Leader']=true
 function M.assemble(source,boundary)
  assert(M.supports(source),'unsupported source formation: '..tostring(source))
  assert(type(boundary)=='table' and type(boundary.misc)=='table'
@@ -54,7 +55,12 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='Small Slimes'then
+ if source=='Gremlin Leader'then
+  local pool={'mad_gremlin','mad_gremlin','sneaky_gremlin','sneaky_gremlin','fat_gremlin','fat_gremlin','shield_gremlin','wizard_gremlin'}
+  result[1]=make(pool[integer(7)],-366,-4)
+  result[2]=make(pool[integer(7)],-170,6)
+  result[3]=make('gremlin_leader',35,0)
+ elseif source=='Small Slimes'then
   if boolean()then
    result[1]=make('spike_slime_s',-230,32);result[2]=make('acid_slime_m',35,8)
   else result[1]=make('acid_slime_s',-230,32);result[2]=make('spike_slime_m',35,8)end

@@ -9,5 +9,5 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
   buildUI();
   const result = runLua('tests/lua/map_chapters.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
-  assert.match(result.stdout, /LUA_MAP_CHAPTERS_PASS 31/);
+  assert.match(result.stdout, /LUA_MAP_CHAPTERS_PASS 37/);
 });

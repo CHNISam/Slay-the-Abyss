@@ -265,6 +265,7 @@ jobs:
             build/architecture.json
             build/lua-static.json
             build/lua-complexity.json
+            build/ui-complexity.json
             build/test-strength/*/report.json
           retention-days: 7
           if-no-files-found: error

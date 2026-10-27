@@ -11,15 +11,18 @@ local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
 local Prologue = require("abyss_prologue")
+local Controller = require("abyss_controller")
 local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
-    -- never while constructing the title-screen preview or refreshing the UI.
+    -- never while constructing the title screen or refreshing the UI.
     local self = { root = root, data = data, seed = platform.seed, mode = "menu" }
-    local previewSeed = self.seed or 1
+    local controller = Controller.new(platform.controllerApi,root)
+    self.controller = controller
+    platform.controller = controller
     local newSeed = platform.newSeed or function() return require("abyss_new_run_seed").next() end
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
@@ -35,19 +38,25 @@ function M.new(root, data, presentation, clickEvent, platform)
     local menuRun, menuMode
     local requestSettlement
     local ready = false
-    local function changed() if ready then self:refresh() end end
+    local function changed(_, reason)
+        if not ready then return end
+        if self.run and self.run.phase == 'act_transition' and (reason == 'continue' or reason == 'complete') then
+            return self:advanceAct()
+        end
+        self:refresh()
+    end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
         platform, { embedded = true, onChange = changed })
-    self.mapUI = MapUI.new(child("mapPanel"), Map.generate(data, previewSeed), function(node)
+    self.mapUI = MapUI.new(child("mapPanel"), nil, function(node)
         if self.disabled or not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
         if ok then changed() end
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource,
-        cursor = platform.cursorEvents })
-    self.nodeUI = NodeUI.new(child("nodePanel"), Run.new(data, previewSeed), self.mapUI.map,
+        cursor = platform.cursorEvents, controller = controller })
+    self.nodeUI = NodeUI.new(child("nodePanel"), nil, nil,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
-            cursorEvents = platform.cursorEvents, sound = platform.sound,
+            cursorEvents = platform.cursorEvents, sound = platform.sound, controller = controller,
             onInspectCard=function(definition,upgraded)
                 if not self.run or self.disabled or self.mode~='node' or self.exitOpen
                     or self.deckUI.visible or self.potionUI.visible or self.settlementRequested then return false end
@@ -83,7 +92,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local prologuePanel = root:GetChild("prologuePanel")
     if prologuePanel and platform.prologue ~= false then
         self.prologue = Prologue.new(prologuePanel, { clickEvent = clickEvent, cursorEvents = platform.cursorEvents,
-            color = platform.color, sound = platform.sound,
+            color = platform.color, sound = platform.sound, controller = controller,
             blocked = function() return self.exitOpen or self.settlementRequested or self.settlementBusy end,
             onPhase = changed })
     elseif prologuePanel then prologuePanel:SetVisible(false) end
@@ -253,6 +262,35 @@ function M.new(root, data, presentation, clickEvent, platform)
         pose()
     end
 
+    function self.syncController(_)
+        if not controller then return end
+        local scope=self.mode
+        if self.disabled or self.settlementRequested or self.settlementBusy then scope='blocked'
+        elseif self.exitOpen then scope='exit'
+        elseif self.characterOpen then scope='characters'
+        elseif self.choiceUI and self.choiceUI.visible then scope='choice'
+        elseif self.deckUI.visible then scope='deck'
+        elseif self.potionUI.visible then scope='potions'
+        elseif self.prologue and self.prologue:covering() then scope='prologue'
+        elseif self.mode=='battle' and self.battleUI.info then scope='battleInfo'
+        elseif self.mode=='battle' and (self.battleUI.selected or self.battleUI.potionAim) then scope='aim' end
+        controller:sync(scope,function()
+            if scope=='exit' then return self:closeExit()
+            elseif scope=='characters' then return self:closeCharacters()
+            elseif scope=='deck' then
+                if self.deckUI.choiceToken then return false end
+                return self.deckUI:back()
+            elseif scope=='choice' then return false -- mandatory core selections cannot be dismissed
+            elseif scope=='potions' then return self:closePotions()
+            elseif scope=='prologue' then return self.prologue:skip()
+            elseif scope=='battleInfo' or scope=='aim' then return self.battleUI:controllerBack()
+            elseif scope=='node' and self.nodeUI.mode=='picker' then return self.nodeUI:press('back')
+            elseif scope=='battle' and self.run and self.run.phase=='reward' and self.battleUI.rewardScreen=='cards' then
+                return self.battleUI:controllerBack()
+            elseif scope~='blocked' then return self:openExit() end
+            return false
+        end)
+    end
     function self:refresh()
         if self.disabled then return false,"ui_disabled" end
         local run = self.run
@@ -268,7 +306,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
-        elseif run.phase == "node" then self.mode = "node"
+        elseif run.phase == "node" or run.phase == 'act_transition' then self.mode = "node"
         -- Camp/event results stay on screen until the player presses 继续.
         elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
@@ -372,6 +410,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 exitPanel:GetChild(name):GetChild("hit").interactable = enabled
             end
         end
+        self:syncController()
     end
     function self:closeCharacters()
         if not self.characterOpen then return false end
@@ -399,8 +438,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         local seed = explicitSeed and self.seed or newSeed()
         local rawSeed=RunSeed.normalize(seed)
         local selection=character~='traveler' and character~=nil and {experimental=experimental,character=character} or nil
+        -- Explicit development opt-in only. Incomplete later content remains
+        -- guarded by the normal Nodes/Run entry commands, never substituted.
+        if platform.campaign == true then
+            selection = selection or {}
+            selection.experimental, selection.campaign = true, true
+        end
         local run = Run.new(data,rawSeed,selection)
-        local runPresentation = selection and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
+        local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
         local map = Map.generate(run.data,rawSeed)
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.battleUI:setData(run.data,runPresentation)
@@ -422,6 +467,22 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         self:refresh()
         return true
+    end
+    self.advanceAct = function()
+        if self.disabled or not self.run or self.run.phase ~= 'act_transition' then return false,'act_transition_unavailable' end
+        if self.exitOpen or self.deckUI.visible or self.potionUI.visible or self.battleUI.busy
+            or self.settlementRequested or self.settlementBusy then return false,'ui_busy' end
+        local ok, reason = Nodes.advanceAct(self.run, self.map)
+        if ok then
+            self.nodeUI.result, self.nodeUI.notice = nil, ''
+            self.battleUI.selected, self.battleUI.target = nil, 1
+            self.presentedBattle = nil
+            if self.choiceUI then self.choiceUI:close() end
+        else
+            self.nodeUI.notice = '暂时无法前往下一幕，请重试。'
+        end
+        self:refresh()
+        return ok, reason
     end
     function self:settle()
         if self.disabled then return false,"ui_disabled" end
@@ -468,7 +529,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
             return false, "invalid_delta"
         end
-        if self.exitOpen or self.settlementBusy then return true end
+        if controller then controller:tick() end
+        if self.exitOpen or self.settlementBusy then self:syncController();return true end
         if self.settlementRequested then self:animate(dt); return true end
         -- Count client update time within this run; menus/results never extend it.
         -- The terminal rule state can precede the last feedback animation.
@@ -484,11 +546,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.battleUI:update(dt)
         self.nodeUI:update(dt)
         self.deckUI:update()
-        return self.mapUI:update(dt)
+        local updated=self.mapUI:update(dt)
+        self:syncController()
+        return updated
     end
     function self:disable()
         if self.disabled then return false end
         self.disabled=true
+        if controller then controller:disable() end
         exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.characterOpen=false
         if characterPanel then characterPanel:SetVisible(false) end
@@ -505,6 +570,10 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
     child("potionEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()return self:openPotions()end)
+    Controller.bind(controller,child('deckEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
+        function()return self:openDeck()end)
+    Controller.bind(controller,child('potionEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
+        function()return self:openPotions()end)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
     local function bindCommand(box, kind, action)
@@ -560,7 +629,13 @@ function M.new(root, data, presentation, clickEvent, platform)
                 end) end
             end
         end
+        Controller.bind(controller,hit,function()
+            if characterAction then return 'characters' end
+            if kind=='cancel' or kind=='confirm' then return 'exit' end
+            return self.mode
+        end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)
         hit:AddCursorEventListener(clickEvent, function(event)
+            if Controller.pointerBlocked(controller)then return false end
             if observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil then
                 local token = released
                 if not current(token) then
@@ -598,7 +673,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     ready = true
+    if controller then
+        controller.beforeAction=function()self.battleUI:cancelControllerPointers()end
+        controller.onChange=function()self:syncController()end
+    end
     self:refresh()
+    self:syncController()
     return self
 end
 return M

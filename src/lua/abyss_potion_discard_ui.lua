@@ -3,6 +3,7 @@ local Run=require('abyss_run')
 local Theme=require('abyss_theme')
 local integer=require('abyss_numbers').integer
 local M={}
+local Controller=require('abyss_controller')
 local function find(entries,id)for _,entry in ipairs(entries)do if entry.id==id then return entry end end end
 function M.new(root,clickEvent,platform,allowed,onChange,onClose)
     local self={root=root,visible=false,generation=0}
@@ -16,7 +17,7 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
         return s and s.slot<=Run.potionCapacity(self.run) and self.run.potions==s.inventory and self.run.potions[s.slot]==s.id
             and self.run.phase==s.phase and self.run.combat==s.battle
     end
-    local function detail(definition)
+    local function detail(definition) local special=require('abyss_potion_text').special(definition,self.run,true);if special then return definition.name..'；'..special end
         if definition.description then return definition.name..'；'..definition.description end
         local result={definition.name}
         for _,effect in ipairs(definition.effects)do
@@ -45,9 +46,12 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
         end
         local selected=self.selected
         child('detail').text=selected and detail(find(self.run.data.potions.potions,selected.id)) or '尚未选择药水。'
-        child('discard'):GetChild('hit').interactable=selected~=nil
         local view=selected and Run.potionView(self.run)[selected.slot]
+        child('discard'):GetChild('hit').interactable=view and view.canDiscard~=false or false
         child('use'):GetChild('hit').interactable=self.run.phase~='combat' and view and view.canUse or false
+        if view and view.reason=='potion_event_restricted' then
+            child('detail').text=child('detail').text..'\n此事件中不能使用或丢弃药水。'
+        end
     end
     function self:open(run)
         if self.visible or not allowed(run)then return false end
@@ -70,6 +74,7 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
                     and (not token.battle or token.turn==token.battle.turn and token.battlePhase==token.battle.phase))
         end
         local cursor=platform.cursorEvents or {}
+        Controller.bind(platform.controller,hit,'potions',action,function()return valid()end,name=='cancel' and 100 or 10)
         if cursor.CursorDown and cursor.CursorUp then
             hit:AddCursorEventListener(cursor.CursorDown,function(event)
                 observed=true;held,released=nil,nil
@@ -83,6 +88,7 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
             if cursor.CursorEndDrag then hit:AddCursorEventListener(cursor.CursorEndDrag,function()held,released=nil,nil end)end
         end
         hit:AddCursorEventListener(clickEvent,function(event)
+            if Controller.pointerBlocked(platform.controller)then return false end
             if observed then
                 local token=released;released=nil
                 if not token or token.touch~=(event and event.touchId) or not valid(token)then return false end

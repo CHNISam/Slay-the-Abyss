@@ -1,27 +1,13 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
+import { cardFaceChildren } from './card-face.mjs';
 
 export function deckCardTemplate(theme = nativeTheme) {
-  const { text, plate } = nativeControls(theme);
-  const { color: c, font: f, layout: l, space: s } = theme;
-  const [w, h] = l.card.size, d = l.card.costDisc;
-  const image = (name, frame, id, colour) => ({ name, kind: 'image',
-    position: frame.slice(0, 2), size: frame.slice(2), image: id, colour });
-  const nameY = h / 2 - l.card.nameBand / 2 - s.border;
-  const artY = h / 2 - l.card.nameBand - l.card.art / 2 - s.border;
+  const { text } = nativeControls(theme);
+  const { color: c, font: f, layout: l } = theme;
+  const [w, h] = l.card.size;
   return { name: 'AbyssDeckCard', kind: 'container', size: [...l.deckView.itemSize], children: [
     { name: 'face', kind: 'container', position: [0, (l.deckView.itemSize[1] - h) / 2],
-      size: [w, h], children: [
-        plate('border', [0, 0, w, h], c.rarity.basic),
-        plate('plate', [0, 0, w - s.border * 2, h - s.border * 2], c.panel),
-        plate('nameBand', [0, nameY, w - s.border * 2, l.card.nameBand], c.panelRaised),
-        text('name', [d / 2, nameY, w - d - s.s, l.card.nameBand], '', f.cardName),
-        plate('artPlate', [0, artY, w - s.border * 2, l.card.art], c.cardType.attack),
-        image('art', [0, artY, Math.min(d,l.card.art), Math.min(d,l.card.art)], theme.icon.cardArt.attack, c.text),
-        text('type', [0, h / 2 - l.card.nameBand - l.card.art - l.card.typeLine / 2, w - s.s, l.nativeText.lineHeight], '', f.small, c.gold),
-        text('label', [0, -h / 2 + l.card.textBox[1] / 2 + s.xs, ...l.card.textBox], '', f.card),
-        image('costDisc', [-w / 2 + d / 2, h / 2 - d / 2, d, d], theme.image.disc, c.energy),
-        text('cost', [-w / 2 + d / 2, h / 2 - d / 2, d, d], '', f.number, c.textOnLight),
-      ] },
+      size: [w, h], children: cardFaceChildren(theme, 'deck', false) },
     text('uid', [0, -l.deckView.itemSize[1] / 2 + l.deckView.uidHeight / 2, w, l.deckView.uidHeight], '', f.small, c.textDim),
     {name:'hit',kind:'cursorArea',position:[0,(l.deckView.itemSize[1]-h)/2],size:[w,h],focusable:true,visible:false},
   ] };
@@ -63,6 +49,9 @@ export function deckControls(theme = nativeTheme) {
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },
       button('close', l.deckView.close, '关闭'),
+      { ...button('previous', l.deckView.previous, '上一页'), visible: false },
+      { ...button('next', l.deckView.next, '下一页'), visible: false },
+      { ...text('pageHint', l.deckView.pageHint, '', f.small, c.textDim), visible: false },
     ] },
   ];
 }

@@ -57,6 +57,9 @@ for _, event in ipairs(manifest.events) do
     end
     for _,stage in ipairs(event.stages or {}) do
         flow.event.stage=stage
+        if stage=='potion_rewards' then
+            flow.event.potionOffers={{id='fire_potion',claimed=false},{id='block_potion',claimed=false},{id='strength_potion',claimed=false}}
+        end
         for _,option in ipairs(Nodes.eventOptions(run,flow)) do choices[option.choice]=true end
     end
     local wanted = {}; for _, choice in ipairs(event.choices) do wanted[choice] = true end

@@ -26,7 +26,7 @@ for i,o in ipairs(f.cards) do
     if o.sale then assert(i<=5);sales=sales+1 end
 end
 assert(sales==1 and f.relics[3].rarity=='shop')
-local ids={'searing_blow','clothesline','warcry','bloodletting','rupture','__missing_card_6','__missing_card_7'}
+local ids={'searing_blow','clothesline','warcry','bloodletting','rupture','mind_blast','thinking_ahead'}
 local prices={70,53,46,34,81,89,173}
 for i,o in ipairs(f.cards) do assert(o.id==ids[i] and o.price==prices[i],'project seed42 inventory regression') end
 for _,o in ipairs(f.relics) do assert(o.id~='courier' and o.id~='smiling_mask') end

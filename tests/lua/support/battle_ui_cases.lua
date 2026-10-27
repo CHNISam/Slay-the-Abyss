@@ -883,7 +883,12 @@ test("poison identifies its source and killed enemies never act; retaliation sho
         elseif entry.kind == "death" then death = death + 1
         elseif entry.kind == "intent" then intent = intent + 1 assert(entry.detail.enemy == battle.enemies[2].id) end
     end)
-    assert(poison == 1 and death == 1 and intent == 1 and not stage.children.enemy1.visible)
+    assert(poison == 1 and death == 1 and intent == 1)
+    assert(battle.enemies[1].hp == 0 and battle.enemies[2].hp > 0)
+    local survivor = stage.children.enemy1
+    assert(survivor.visible and survivor.children.name.text == battle.enemies[2].name)
+    assert(survivor.children.hp.text == battle.enemies[2].hp .. "/" .. battle.enemies[2].maxHp)
+    for i = 2, 5 do assert(not stage.children["enemy" .. i].visible) end
     ui, stage, click, battle = feedbackBattle({"strike"}, {"cultist"})
     Combat.addStatus(battle.enemies[1], "thorns", 3)
     ui:render() click("card1") click("enemy1")
@@ -1060,7 +1065,7 @@ test("open ground, hand, top bar and outside canvas never auto-target or commit"
     for _,point in ipairs({{-285,40},{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
         local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
         grab(1) event("card1","drag",0,0) event("dragLayer","up",point[1],point[2])
-        assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == nil)
+        assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == battle.hand[1].uid and ui.carry.aiming)
     end
 end)
 

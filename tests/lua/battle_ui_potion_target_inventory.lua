@@ -26,7 +26,9 @@ test('dead enemy is rejected and never retargets to survivor',function()
   eq(b.enemies[1].hp,0);local z=b.enemies[2].hp;click('enemy1');eq(h.run.potions[1],'fire_potion');eq(b.enemies[2].hp,z)
   -- The integrated controller cancels when the live roster changes.
   click('enemy2');eq(b.enemies[2].hp,z);eq(h.run.potions[1],'fire_potion')
-  click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)
+  assert(p:GetChild('enemy1').visible and p:GetChild('enemy1'):GetChild('name').text==b.enemies[2].name)
+  assert(not p:GetChild('enemy2').visible)
+  click('potion1');click('enemy1');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)
 end)
 test('paired touch begins only on Click and confirms exactly once',function()
   local h,u,p,r,e,click,tap,drain=setup(true);local z=h.run.combat.enemies[2].hp

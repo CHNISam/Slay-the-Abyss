@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Pinned decompiled read-only mirror, not official source or a PC-binary certification. Exact UTF-8 bytes are bound through the commit and complete tree to Git blob/size/SHA256; Java remains outside the product.",
+  "sources": [
+    {
+      "path": "cards/Soul.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/Soul.java",
+      "gitBlobSha": "1a8dd9aef1fff6140524b45063b89ea7bb69fcc8",
+      "size": 13502,
+      "sha256": "8e4105a9df83d93ad4f66d35c54b63720e90f71b80c7594a6faa454d19b545c0"
+    },
+    {
+      "path": "cards/SoulGroup.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/SoulGroup.java",
+      "gitBlobSha": "6cb6517e2fda3af6590cddd3053a6cc0bc12f78f",
+      "size": 5272,
+      "sha256": "c3b44b69f2ebcff77b8a1d49c492973900cc42d597d66c651c4f41399af031cb"
+    },
+    {
+      "path": "cards/curses/Shame.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Shame.java",
+      "gitBlobSha": "761047e8a5c0dfa8b9eb1ab184f8883c4fb586b1",
+      "size": 1635,
+      "sha256": "3f60cc9208a346a568d49e8878a548f491a8847eb78d931e1e72ecca4274d614"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "size": 98339,
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "size": 115023,
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    {
+      "path": "dungeons/TheCity.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheCity.java",
+      "gitBlobSha": "f4681bc8c8a242d26bfc64564cca959d7cffd956",
+      "size": 8194,
+      "sha256": "16a79d6922e3f2eaeb72c09beb177682319fda6b85302470c8d955b673260e3b"
+    },
+    {
+      "path": "events/city/Addict.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Addict.java",
+      "gitBlobSha": "be0299d90e2736c21a559f9cdfe81fa4d5baabef",
+      "size": 3844,
+      "sha256": "3ee2c78dc00ab3f76a28e0972445e50f354cdccce01ffc76c6afefeab1cbf86d"
+    },
+    {
+      "path": "random/Random.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "size": 2596,
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    },
+    {
+      "path": "relics/AbstractRelic.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "gitBlobSha": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "size": 39442,
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167"
+    },
+    {
+      "path": "relics/CeramicFish.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CeramicFish.java",
+      "gitBlobSha": "77b06f9a3cfb60ac52b8f4d8a4670c0c2fb139f1",
+      "size": 1243,
+      "sha256": "bf8a18d2488d17304a0c9bd153c42898065aa00cbecb424cd1e59e66b2d6fa1c"
+    },
+    {
+      "path": "relics/DarkstonePeriapt.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DarkstonePeriapt.java",
+      "gitBlobSha": "7cff88ec76f796024b9b8f7bb567215dd14d1933",
+      "size": 1434,
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde"
+    },
+    {
+      "path": "relics/Omamori.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Omamori.java",
+      "gitBlobSha": "cdd7410338a2e8e9d8a08f51e0c8a4d596a4dcec",
+      "size": 1276,
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "gitBlobSha": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "size": 33565,
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "size": 4473,
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    }
+  ],
+  "behavior": {
+    "ascension": 0,
+    "goldCost": 85,
+    "eventSpendHooks": "AbstractPlayer.loseGold dispatches onSpendGold only when current room instanceof ShopRoom; Addict event payment must not disable Maw Bank.",
+    "introChoices": [
+      "buy",
+      "steal",
+      "leave"
+    ],
+    "curseId": "Shame",
+    "relicRng": "relicRng.random(0,99) exactly once: common <50, uncommon <83, rare otherwise; selection is source queue draw, not a uniform implemented subset",
+    "miscRng": "No Addict-specific misc draw. Selected relic onEquip may consume miscRng, e.g. War Paint.",
+    "screenlessRejects": [
+      "Bottled Flame",
+      "Bottled Lightning",
+      "Bottled Tornado",
+      "Whetstone"
+    ],
+    "buyOrder": [
+      "selectScreenlessRelic",
+      "lose85Gold",
+      "acquireRelicOwnership",
+      "resultScreen",
+      "separateLeave"
+    ],
+    "stealOrder": [
+      "selectScreenlessRelic",
+      "prepareShameOldOmamori",
+      "acquireRelicOwnership",
+      "resultScreen"
+    ],
+    "delayedCardOrder": [
+      "currentRelicOnObtainHooks",
+      "masterDeckInsertion"
+    ],
+    "coreSettledOrder": [
+      "selectScreenlessRelic",
+      "prepareShameOldOmamori",
+      "obtainRelicAndNormalizedEquip",
+      "commitShame",
+      "resultScreen",
+      "separateLeave"
+    ],
+    "sourceScreenTiming": "The button sets result dialog/screen1 immediately after spawnRelicAndObtain; the card effect resolves asynchronously. A later result button opens map; the mirror does not require waiting for card animation. Core Nodes commands atomically settle effects before exposing result; native frame timing is not modeled.",
+    "introLeave": "openMap immediately, unlike Mausoleum; no result confirmation or resource/RNG change",
+    "nativeLifecycle": "AbstractRelic.obtain immediately inserts ownership but does not call onEquip. AbstractRelic.update later calls onEquip when travel completes; ShowCardAndObtainEffect later enumerates then-current relic ownership before Soul inserts the card. No native onEquip-before-card timing claim. Omamori starts with counter2 in its constructor; neither CeramicFish nor DarkstonePeriapt overrides onEquip.",
+    "disabledCommandBoundary": "Source constructor disables buy below85. Public core commands refuse disabled/stale insufficient-gold purchase transactionally; the source handler unreachable disabled-button branch (body/screen advance without reward) is not exposed as a usable choice."
+  },
+  "implementationBoundary": "OFFLINE_SLICE_ONLY / local existing-controls NodeUI wired with mocked-local generated-control/public Nodes+Run tests, preserving buy85/steal/leave order and distinct result/leave behavior. Existing Run.obtainRelic atomically normalizes acquisition+onEquip; supported-subset settled-state commutation is tested, not native animation timing. No raw Java, new controls/layout/assets/pools or formal Host/campaign/history admission. Unsupported selected relics fail closed and roll back without reroll or queue truncation. Darkstone is separately reviewed and narrowly composed in this integration; native acceptance and natural four-character playthrough NOT_RUN; history producer/persistence UNWIRED."
+}
