@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname, isAbsolute } from 'node:path';
 import { fileRecord, sha256 } from './evidence-files.mjs';
 import { toLua } from './build-lua-data.mjs';
-import luaparse from 'luaparse';
+import { createRequire } from 'node:module';
 
 const editorCommit = '103025f9095d8089e3f9bf097f4d0c5fe039d546';
 const vector = (x, n) => Array.isArray(x) && x.length === n && x.every(Number.isFinite);
@@ -157,6 +157,9 @@ export function nativeCardArtBuildReceipt(candidate,{root,directory}) {
   const presentation=readFileSync(join(directory,'abyss_presentation.lua'),'utf8');
   const cards=Object.fromEntries(Object.keys(candidate.registry.assets).map(id=>[id,{}]));
   bindNativeArtPresentation(cards,candidate);
+  // Ordinary build-ui is also run in the dependency-free presentation job.
+  // Load the locked parser only when native art consumption must be verified.
+  const luaparse=createRequire(import.meta.url)('luaparse');
   const chunk=luaparse.parse(presentation,{luaVersion:'5.3',ranges:true,encodingMode:'pseudo-latin1'});
   const result=chunk.body.length===1&&chunk.body[0];
   const table=result?.type==='ReturnStatement'&&result.arguments.length===1&&result.arguments[0];
