@@ -37,5 +37,13 @@ end
 print('LOOTER_REAL_KILL_CLAIM_CROSS_NODE_PASS 4 orders')
 -- Boundary fixtures below are explicit, not natural starter wins.
 local r=R.new(D,42);r.floor=4;assert(R.startCombat(r,'looter_solo'));r.combat.player.hp=1;A.addStatus(r.combat.player,'thorns',100)
-assert(R.endTurn(r));eq(r.phase,'defeat');eq(r.hp,0);eq(r.rewards,nil);eq(r.gold,84);eq(r.combat.stolenGoldReward,15);eq(r.victories,0)
-print('LOOTER_SIMULTANEOUS_DEFEAT_PASS')
+local enemyHp=r.combat.enemies[1].hp
+-- Pinned STS1 319009d5: ThornsPower.onAttacked queues a TOP DamageAction;
+-- AbstractPlayer.damage reaches DeathScreen first, and AbstractDungeon.update
+-- stops combat actions for a dead player. Looter.die therefore never refunds.
+assert(R.endTurn(r));eq(r.phase,'defeat');eq(r.hp,0);eq(r.rewards,nil);eq(r.gold,84);eq(r.combat.stolenGoldReward,0);eq(r.victories,0)
+eq(r.combat.enemies[1].hp,enemyHp);assert(enemyHp>0);eq(r.combat.enemies[1].stolenGold,15)
+for _,event in ipairs(r.combat.events)do
+ assert(not(event.kind=='status_damage' and event.detail.status=='thorns'),'queued Thorns executed after player death')
+end
+print('LOOTER_PLAYER_DEATH_BEFORE_QUEUED_THORNS_PASS')
