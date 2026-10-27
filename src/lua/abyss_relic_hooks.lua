@@ -204,7 +204,16 @@ function M.hpChanged(state,actor,before)
    c.redSkullActive=false;A.applyPower(state,actor,'strength',-3,actor)
   end
  end
- if before>actor.hp and M.owns(state,'centennial_puzzle') and not c.centennialUsed then
+end
+-- Actual loss is independent of net HP and the player's post-hit survival.
+-- Preserve the existing live-enemy combat gate; bloodied/heal hooks stay above.
+function M.wasHpLost(state,actor,amount)
+ if actor~=state.player or amount<=0 then return end
+ local inCombat=false
+ for _,enemy in ipairs(state.enemies or {})do if A.isActive(enemy)then inCombat=true;break end end
+ local c=state.relicCombat
+ if not inCombat or not c then return end
+ if M.owns(state,'centennial_puzzle') and not c.centennialUsed then
   c.centennialUsed=true
   -- wasHPLost queues a TOP DrawCardAction; it must not draw while the HP
   -- action is still executing. This is the existing CardActions item ABI.

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 05:21'
+updated_date: '2026-10-27 05:41'
 due_date: '2026-10-28'
 labels:
   - required
@@ -49,6 +49,8 @@ ordinal: 43000
 2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
 
 2026-10-27 M3 独立小切片：在已合入 c91f0d22 上复用冻结的 Rupture 原生队列修复。先用同一真实卡牌/道具用例重现原生回调中力量过早生效，再让已有 TOP 反应队列承接 action.effect；验证 Puzzle 抽牌次序、原子回滚、原有三种执行 owner 与静态/关键变异。只改两处生产文件和两份测试，经独立 PR 完整 CI 集成；不改 Fatal/Fairy 已知差异，不覆盖 PR238 本机未提交合并，不勾完整组合或平台验收。
+
+2026-10-27 后续独立切片：固定原版 AbstractPlayer/FairyPotion/CentennialPuzzle/Rupture/DeathScreen 18 份源码确认，成功仙灵药水复活之前应已计划力量与百年积木抽牌，死亡时亦应消耗积木本战触发标记但不能执行后续动作。先新增原版常量预期红例，再仅在现有 HP-loss notifier 与遗物实际损血回调修复；与 Red Skull 净HP变化逻辑分离，不改药水/印记规则、过量伤害、全局死亡/胜利队列或新增道具。覆盖三种现有 owner、伤害快照、一次损血/卡费事件与真实药水消耗/抽牌后的失败回滚重试。以前12例只是差异记录，不当成原版通过。基于PR243排序修复，待其集成后再用当前完整CI交付。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -103,4 +105,6 @@ ordinal: 43000
 当前 PR238 远端 a4dac772 的 HP-loss 原生分支仍直接 applyPower，本小片尚未被该分支覆盖。PR238 本机未提交合并中的库存恢复/Tungsten 两份失败另行只读定位，不能用本片通过替代它们或整项 M3 通过。
 
 2026-10-27 Rupture 原生 TOP 排序切片：相同 36 组实际 Bloodletting/Hemokinesis 测试在 c91f0d22 为 31 通过/5 原生分支失败，最小修复后 36/36；28 份原有 Lua 夹具、3 个 Node 包装、语法、架构（145 模块/715 边）、固定 Luacheck 与 4 项关键变异均通过。只把力量效果交给已有反应队列，不新增调度器；保留版本公告和最新卡牌布局。Fatal/Fairy 的 12 个前后对照输出相同，仅证明本片未改它，原版差异仍未解决。本轮无平台导入/实玩，发布后当前 SHA 完整 Quality 仍为合并门禁；本地切片通过不关闭全组合或自然来源验收。
+
+2026-10-27 致命损血/复活回调切片：原版固定18份源码证明 Power→Puzzle 回调先于 Fairy 返回。新31例原版常量预期在未改41ea489为3通过/28失败（仅回血控制通过），两处生产文件最小修复后31/31；合计241个相关Lua用例、4项专项负例变异与原4项关键变异均通过，原夹具/时限未删改。三owner、24HP复活、Draw3→Strength2、Hemokinesis仍15、Bloom保瓶且不执行后续、一次损血/卡费、真实消耗/抽牌回滚重试，以及回血/RedSkull与Guardian反伤控制均覆盖。11处hpChanged调用逐一审计：实际损血已有单一notify，回血/增最大HP不触发Puzzle。独立源码复审无阻断。保留已有live-enemy门禁，不宣称死亡队列留存/全局SharpHide顺序等价，也未改药水/印记本体、过量伤害或全局终局处理。当前PR完整CI与实机仍分别待证据。
 <!-- SECTION:NOTES:END -->
