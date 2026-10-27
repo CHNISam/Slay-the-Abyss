@@ -1,0 +1,37 @@
+local F=dofile('tests/lua/support/ending_proceed_fixture.lua')
+local Nodes,Map,Run,C=F.Nodes,F.Map,F.Run,F.C
+assert(type(Nodes.proceedEnding)=='function','missing trusted map Proceed boundary')
+assert(type(Nodes.endingProceedSource)=='function','missing terminal owner source')
+local count=0
+local function test(fn)fn();count=count+1;print('PASS ending Proceed Nodes '..count)end
+test(function()
+ local run,map,owner=F.fixture();local graph=C.copy(map);local pools=C.copy(run.unknown)
+ assert(Nodes.endingProceedSource(run,map)==owner)
+ local view=Nodes.view(run,map)
+ assert(view.phase=='ending_proceed'and view.node.type=='ending_proceed'and not view.node.event)
+ assert(view.node.id==run.nodeFlow.id and not view.navigationEnabled)
+ assert(run.nodeFlow.type=='boss'and map.nodes[#map.nodes].type=='boss'and not run.rewards)
+ F.same(map,graph);F.same(run.unknown,pools)
+ assert(not Nodes.proceedEnding(run,map,C.copy(owner)))
+ assert(run.phase=='ending_proceed'and run.endingProceed==owner)
+end)
+test(function()
+ local run,map,owner=F.fixture()
+ for _,change in ipairs({function(m)m.runSeed='43'end,function(m)m.currentNodeId='foreign'end,
+  function(m)m.nodes[#m.nodes].type='event'end,function(m)m.path[4]='f54_l4'end})do
+  local wrong=C.copy(map);change(wrong)
+  local before=C.copy(run,{[run.data]=run.data})
+  assert(not Nodes.proceedEnding(run,wrong,owner));F.same(run,before)
+ end
+ local clone=C.copy(run,{[run.data]=run.data})
+ assert(not Nodes.proceedEnding(clone,map,owner))
+ assert(run.endingProceed==owner)
+end)
+test(function()
+ local run,map,owner=F.fixture();local graph=C.copy(map)
+ assert(Nodes.proceedEnding(run,map,owner))
+ assert(run.phase=='victory'and run.ending=='true_victory'and not run.endingProceed and not run.rewards)
+ assert(run.nodeFlow.complete and run.nodeFlow.result=='true_victory')
+ F.same(map,graph);assert(not Nodes.proceedEnding(run,map,owner))
+end)
+print('ENDING_PROCEED_NODES 3 groups; 0 failed; natural/platform NOT_RUN')

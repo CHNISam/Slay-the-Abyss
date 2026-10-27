@@ -371,11 +371,41 @@ function M.restoreMap(run,snapshot)
     return Map.restore(run.data,snapshot,context)
 end
 
+function M.endingProceedSource(run,map)
+    local owner,flow=run.endingProceed,run.nodeFlow
+    if run.phase~='ending_proceed' or run.act~=4 or run.floor~=55 or type(owner)~='table'
+        or owner.version~=1 or owner.act~=4 or owner.floor~=55 or owner.runSeed~=run.runSeed
+        or owner.encounterId~=run.encounterId or owner.combatGeneration~=run.combatGeneration
+        or type(flow)~='table' or flow.type~='boss' or flow.complete~=false
+        or flow.encounterId~=owner.encounterId or type(map)~='table' then return nil,'ending_proceed_source_mismatch' end
+    local birth=Run.mapContext(run)
+    if not birth or not birth.endingUnlocked or not birth.emeraldOwned then return nil,'ending_history_required' end
+    local ok,restored=pcall(function()return M.restoreMap(run,Map.snapshot(map))end)
+    if not ok or not restored or map.act~=4 or map.floor~=55 or not matchingMap(flow,map)
+        or map.path[#map.path]~=flow.id then return nil,'map_mismatch' end
+    local last=restored.nodes[#restored.nodes]
+    if last.id~=flow.id or last.type~='boss' or last.floor~=55 then return nil,'map_mismatch' end
+    return owner
+end
+
+function M.proceedEnding(run,map,expectedOwner)
+    if expectedOwner==nil or not rawequal(expectedOwner,run.endingProceed) then return false,'ending_proceed_owner_mismatch' end
+    local owner,reason=M.endingProceedSource(run,map)
+    if not rawequal(owner,expectedOwner) then return false,reason or 'ending_proceed_owner_mismatch' end
+    return Run.proceedEnding(run,expectedOwner)
+end
+
 function M.view(run, map)
     local available, mapView = M.available(run, map), Map.view(map)
     local enabled = #available > 0
     if not enabled then for _, node in ipairs(mapView.nodes) do node.available = false end end
     local node = run.nodeFlow and Combat.copy(run.nodeFlow) or nil
+    if run.phase=='ending_proceed' then
+        node=node or {id=map.currentNodeId,floor=55,complete=false}
+        node.type,node.event,node.reward='ending_proceed',nil,nil
+        node.canProceed=M.endingProceedSource(run,map)~=nil
+        return {phase=run.phase,node=node,map=mapView,available={},navigationEnabled=false}
+    end
     if node and not node.complete then
         node.purgeCards=LivingWall.purgeCards(run)
         if node.type == "camp" then

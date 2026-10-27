@@ -19,9 +19,10 @@ local Combat = require('abyss_combat')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
 local Act3Events = require('abyss_act3_events')
+local EndingUI=require('abyss_node_ui_ending')
 local number = require("abyss_numbers").integer
 local C = Theme.color
-local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
+local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱",ending_proceed='真结局' }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local reasons = {
     card_content_unavailable='这张卡牌的效果尚未接齐，本次未改变资源',
@@ -347,6 +348,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     local function renderTopBar(node)
+        EndingUI.header(self,child,node and node.type=='ending_proceed')
         child("title").text = node and ("第 " .. node.floor .. " 层 · " ..
             (node.roomKind == "boss_treasure" and "首领宝箱" or kinds[node.type] or "节点")) or "路线"
         child("hp").text = number(self.run.hp) .. "/" .. number(self.run.maxHp)
@@ -804,6 +806,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         syncAct1Picker(node,active)
     end
     local function nodeScreen(_view,node,result,active)
+        if node and node.type=='ending_proceed' then return 'eventView','确认继续后进入真结局。' end
         local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
         if active and self.mode == "picker" then screen = "pickerView"
@@ -819,7 +822,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if screen == "shopView" then hint = renderShop(view, node)
         elseif screen == "campView" then hint, recallSource = renderCamp(view, node, result)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
-        elseif screen == "eventView" then hint = renderEvent(view, node, result)
+        elseif screen == "eventView" then
+            if node.type=='ending_proceed' then hint=EndingUI.render(child('eventView'),OPTIONS)
+            else hint = renderEvent(view, node, result) end
         elseif screen == "treasureView" then hint, treasureSource = renderTreasure(view, node) end
         return screen,hint,recallSource,treasureSource
     end
@@ -1000,7 +1005,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     local function chooseFooter(result,node,view,screen,recallSource,treasureSource,confirm)
         local backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
-        if result then
+        if view.phase=='ending_proceed' and node and node.type=='ending_proceed' then
+            return EndingUI.footer(self,confirm,commit)
+        elseif result then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=resultFooter()
         elseif node and node.complete then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=completedFooter(view)
@@ -1130,6 +1137,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.busy = true
         local called, accepted, reason
         if command == "recall" then called, accepted, reason = pcall(Nodes.recall, self.run, self.map, argument)
+        elseif command == 'proceedEnding' then called, accepted, reason = pcall(Nodes.proceedEnding,self.run,self.map,argument)
         elseif command == "chooseTreasure" then called, accepted, reason = pcall(Nodes.chooseTreasure, self.run, self.map, argument, choice)
         elseif command == "chooseEvent" then called, accepted, reason = pcall(Nodes.chooseEvent, self.run, argument, choice)
         else called, accepted, reason = pcall(Nodes[command], self.run, argument) end
