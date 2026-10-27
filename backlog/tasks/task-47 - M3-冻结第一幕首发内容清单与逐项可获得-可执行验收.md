@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 19:16'
+updated_date: '2026-10-27 19:38'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -144,4 +144,6 @@ ordinal: 75000
 2026-10-28短路径测试包已交付：F:\New folder\.artifacts\M3测试.gil，冻结源码b420e8b267bbdbf2d5d7c68bc7d893faa130047c，buildId a2989ae6-f852-4901-a0f4-fb004183c323，5443920字节，SHA256 4fc77d5160e5709511784f7d1bc187eeda03430262c6c9777d1f8c63ea068766。包含CursorArea启动修复、原生只读activeInHierarchy判断、历史职业映射及第三幕事件旧输入拒绝；204模块独立读回匹配、原生静态0错误。完整不可变产物目录.artifacts/m3-test-20261028-b420e8b2保留；原UI_MISMATCH未抹除，46项仅text.autoSize=false被原生格式省略，使用原比较器复核通过。用户自行导入，尚无本包ready、真实启动或自然通关证据；旧启动失败包及截图继续保留。当前e4d60da7相对b420仅拆测试与证据，无生产源码变化；PR259当前完整CI仍在运行。第四幕正式接线在独立树推进，未混入本测试包，不改M3或任何未完成AC。
 
 2026-10-28集成更新：PR259已按当前精确e4d60da7的15项完整Quality与独立复合审查通过实际verify:delivery门禁，正式squash到develop e0fad45c74ed574bc4cfb8a4c9ad71424a13c386。失败的旧运行与两份超时原测试日志保留；拆片未改原断言、种子、顺序或时限。合后push CI独立等待，未以合前成功替代。已将该主线并入第四幕独立树，既有短路径包生产源码与本次合入一致，继续保留未导入/无本包ready边界。
+
+2026-10-28第四幕新版已及时交付，短路径F:\New folder\.artifacts\M3测试.gil（另存M3四幕测试.gil），不可变原件.artifacts/m3-test-20261028-c5e76880/abyss-m3-test-c5e76880.gil。冻结c5e768807081d1c62750174998367f1565274ee5，buildId6740adf2-e08d-4cfe-b805-4899cd30bb43，5591840字节，SHA256 73aa07cb4d203f8f0e916204da03b264e137fd195d0a46838c8b2878fb0b47e4。213模块逐一独立同源读回匹配、3672控件/最大直接子项60、原生静态0错误/71警告；原UI_MISMATCH与46处仅autoSize=false被省略的原比较器复核保留。涵盖绿钥匙、盾矛/心脏/确认真结局及原图校验、自动牌朝向两个先红后绿修复。用户自行导入，尚无本包ready/启动/自然四幕/verify:ui证明。PR262当前准确提交完整CI仍跑；PR259合后e0 push已实际出现card_help_release与looter_potion_ui原30秒超时，未称merged_passed，正独立保全原完整用例拆片而不改时限或规则。M3未完成，用户键鼠始终未占用。
 <!-- SECTION:NOTES:END -->

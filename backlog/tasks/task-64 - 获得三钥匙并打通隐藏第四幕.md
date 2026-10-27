@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-27 19:16'
+updated_date: '2026-10-27 19:38'
 labels:
   - required
   - sts1
@@ -68,4 +68,6 @@ ordinal: 109000
 2026-10-28终幕共享核心离线进展：三个独立组件与燃烧Map切片已在专用final-act树保存，Heart实际Actor限伤/格挡后预算/反伤失血/自身回合先毒重置/零身份/源-1痛苦5组通过；真实Ending生命周期与动作10组通过。Combat已在所有预战斗之后、首抽之前接options.emeraldBoost；普通怪物不衰减再生、Awakened只治疗一次、再生与后来Shackled同源顺序等5组通过。后者先捕获旧colorless力量恢复快捷路径抢先执行，再局限于有monsterRegen的owner延期，原非再生路径保持。节点/领奖UI、Beat/背刺与第四幕正式入口仍在接，未新增GIL/官方导入或自然终幕证据，不关闭AC。
 
 2026-10-28第四幕组合离线验证：真实54盾矛/55心脏入口、三钥匙及源队列资格、燃烧精英/独立绿钥匙、Invincible/Beat/Surrounded与背刺、源特殊意图、等待继续页及true_victory已在独立树接通。组合207模块/1209边分层、固定Luacheck84历史诊断零新增、界面入口/全部受检helper复杂度门禁通过，四语义变异均被原断言杀死；四职业受控真实52→55、完整source四stream、奖励顺序、Beat双死/Fairy/Mark、Nodes/严格Host/完整意图与绿钥匙12项组合回归全通过零跳过。受控已达51/历史/钥匙及999攻击只用于接线，不算自然通关；原生GIL与完整当前SHA CI尚待，Lizard Tail和Black Star等生产遗物缺口、历史平台持久化、四职业自然连续四幕及实机继续未完成，不勾AC。
+
+2026-10-28第四幕c5测试包已真实写入并独立读回213模块，正式资格/三钥匙门、绿钥匙、盾矛、心脏和确认真结局代码现可随该冻结候选由用户自行导入。组合复审捕获并修复两项：Map.snapshot洗掉原图元表，直接原图严格restore并拒root/nodes/末节点伪造；自动牌错误改变包围朝向，改为仅手动指定目标/定向药水转向，免费手动与原native/advanced及回滚保留。两项先真实RED再GREEN，10组转向、4组Nodes/3组严格Host与意图邻接通过；三名交叉独立复审绑定c5无未解Critical/Important。原源码4e因构建期间输入变化被标准门禁拒绝，保留为检查点；最终c5重新完整验证后交付，不抹去旧失败。没有本包官方导入、ready、自然取得三钥匙/资格、Lizard/BlackStar完整生产遗物、自然四职业连续四幕或平台持久化证据，不关闭AC。
 <!-- SECTION:NOTES:END -->
