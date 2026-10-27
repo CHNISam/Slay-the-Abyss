@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 01:32'
+updated_date: '2026-10-27 01:40'
 due_date: '2026-10-28'
 labels:
   - required
@@ -121,4 +121,6 @@ ordinal: 42000
 2026-10-27 Rod/ToxicEgg/RedMask已集中到PR238候选，卡自伤及Guardian反伤漏hook、native TOP抽牌次序已修复；Toxic来源漏绑同步修，实际46定义/45注册/1后备，原目录8项通过。药水原2+5+4和获取1组全绿，超时文件23.597秒达原30秒标准；全池/全部组合/平台仍未验，不勾父任务。
 
 2026-10-27 PR238遗留修复：临时属性完成态frame的8新例及card_feedback/Flex/Artifact/signed caps通过；Regen原10组12570ms通过，保留heal10/50HP+10层→enemy_turn50+9→受击44+9及RNG。Flex/Speed原11组四片6451/3783/2916/8382ms全绿，原30秒与全部输入/断言不变。来源/RED/覆盖锁和机器结果见docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json。最终云端待实际结果，全池组合与平台未验收。
+
+2026-10-27 云端a717d381发现旧Flex/Speed JS包装只调用第一片但要求11组。已修成执行四片并逐片核组数/原索引，最终严格核1–11无重漏；定向3项通过，四片5853/3501/2610/7578ms。没有删11组标准或增加时限；失败日志及其余调用点核对见PR238集中记录。仍待新SHA全部必要CI。
 <!-- SECTION:NOTES:END -->
