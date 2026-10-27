@@ -11,6 +11,8 @@ const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAl
 const job = (name, source = workflow) => (source + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 
+const lfsShardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
+
 test('eight Windows VMs change only the hosted matrix, preserving every gate and original deadline', () => {
   const rules = job('rules');
   assert.match(rules, /shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
@@ -23,10 +25,16 @@ test('eight Windows VMs change only the hosted matrix, preserving every gate and
   // This also freezes the existing hosted isolation, gate commands, toolchain,
   // strict aggregates and POSIX shards, rather than permitting hidden omissions.
   const restore = source => {
-    const posix = job('engineering-posix-shards', source);
+    // Remove only the exact reviewed-PNG additions at their intended positions.
+    // The separate LFS contract tests reject altered permissions, scope and ordering.
+    const beforeLfs = source
+      .replace(lfsShardStep + '      - name: JavaScript regression shard\n', '      - name: JavaScript regression shard\n')
+      .replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n')
+      .replace("          CI_REPOSITORY: ${{ github.repository }}\n          GIT_LFS_SKIP_SMUDGE: '1'\n        run:", "          CI_REPOSITORY: ${{ github.repository }}\n        run:");
+    const posix = job('engineering-posix-shards', beforeLfs);
     assert.equal((posix?.match(/^        shard: \[1, 2, 3, 4\]$/gm) ?? []).length, 1,
       'only the single reviewed POSIX matrix may be inverted');
-    return source.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'")
+    return beforeLfs.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'")
       .replace(posix, posix.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2]'));
   };
   const restored = restore(workflow);
