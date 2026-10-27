@@ -114,6 +114,20 @@ test('map return held and released inputs expire across overlays and replacement
         assert(h.run.phase=='reward')
         t('continue',2);button.listeners.down({touchId=9});button.listeners.up({touchId=9})
         local old=h.run;old.phase='defeat';h:refresh();assert(h:start());button.click({touchId=9})
+        assert(old.floor<16 and h.run~=old and h.run.phase=='node' and h.run.pendingCombatRewards==nil)
+        assert(h.run.nodeFlow.event.id=='neow' and h.run.neowHistorySource=='session-completed-run')
+        local hp,maxHp,gold,deck,relics=h.run.hp,h.run.maxHp,h.run.gold,#h.run.deck,#h.run.relics
+        assert(hp==Data.rules.player.maxHp and maxHp==hp and gold==Data.rules.player.startingGold)
+        assert(deck==10 and relics==#Data.rules.player.startingRelics and Run.potionCount(h.run)==0)
+        H.F.click(h.root,'nodePanel','eventView/option1')
+        assert(#h.run.nodeFlow.event.rewards==2 and h.run.nodeFlow.event.rewards[2].type=='TEN_PERCENT_HP_BONUS')
+        local bonus=h.run.nodeFlow.event.hpBonus
+        H.F.click(h.root,'nodePanel','eventView/option2')
+        assert(h.run.hp==hp+bonus and h.run.maxHp==maxHp+bonus)
+        assert(h.run.gold==gold and #h.run.deck==deck and #h.run.relics==relics and Run.potionCount(h.run)==0)
+        H.F.click(h.root,'nodePanel','eventView/option1')
+        assert(h.run.nodeFlow.complete and h.run.neowStatus=='complete')
+        button.click({touchId=9})
         assert(h.run~=old and h.run.phase=='map' and h.run.pendingCombatRewards==nil)
     end
 end)

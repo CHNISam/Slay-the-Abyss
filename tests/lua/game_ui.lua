@@ -11,6 +11,32 @@ local function leavePotionRewards(ui, root)
         click(root,'battlePanel','continue')
     end
 end
+local function completeRestartOpening(ui,root,previous)
+    assert(ui.mode=='node' and ui.run.nodeFlow.event.id=='neow' and ui.run.nodeFlow~=previous.nodeFlow)
+    assert(ui.run.neowHistorySource=='session-completed-run' and ui.map.floor==0)
+    local hp,maxHp,gold,deck,relics,potions=ui.run.hp,ui.run.maxHp,ui.run.gold,#ui.run.deck,#ui.run.relics,#ui.run.potions
+    assert(hp==ui.run.data.rules.player.maxHp and maxHp==hp)
+    click(root,'nodePanel','eventView/option1')
+    local event=ui.run.nodeFlow.event
+    if previous.floor<16 then
+        assert(#event.rewards==2 and event.rewards[2].type=='TEN_PERCENT_HP_BONUS')
+        local bonus=event.hpBonus
+        click(root,'nodePanel','eventView/option2')
+        assert(ui.run.hp==hp+bonus and ui.run.maxHp==maxHp+bonus)
+    else
+        -- The unchanged next seed2 offers three potions as its second blessing.
+        -- Decline all three through the source reward UI; never erase the node.
+        assert(#event.rewards==4 and event.rewards[2].type=='THREE_SMALL_POTIONS')
+        click(root,'nodePanel','eventView/option2')
+        assert(ui.run.nodeFlow.event.stage=='neow_potions' and #ui.run.nodeFlow.event.potionOffers==3)
+        for _,offer in ipairs(ui.run.nodeFlow.event.potionOffers)do assert(not offer.claimed)end
+        click(root,'nodePanel','eventView/option4')
+        assert(ui.run.hp==hp and ui.run.maxHp==maxHp)
+    end
+    assert(ui.run.gold==gold and #ui.run.deck==deck and #ui.run.relics==relics and #ui.run.potions==potions)
+    click(root,'nodePanel','eventView/option1')
+    assert(ui.mode=='map' and ui.run.nodeFlow.complete and ui.run.neowStatus=='complete')
+end
 
 test("new encounter resets stale target before the first attack-card tap", function()
     local Run = require("abyss_run")
@@ -102,9 +128,13 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     assert(ending == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
     preview("defeat", ending)
     click(root, "menuPanel", "start")
+    assert(ui.mode == "node" and ui.run ~= previous and ui.map.floor == 0)
+    assert(ui.run.gold == Data.rules.player.startingGold and #ui.run.deck == 10 and #ui.run.potions == 0)
+    assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow~=previous.nodeFlow)
+    completeRestartOpening(ui,root,previous)
     assert(ui.mode == "map" and ui.run ~= previous and ui.map.floor == 0)
     assert(ui.run.gold == Data.rules.player.startingGold and #ui.run.deck == 10 and #ui.run.potions == 0)
-    assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow == nil)
+    assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow.complete)
 end)
 
 test("node panels compose through Boss16, independent treasure17 then restart", function()
@@ -213,7 +243,10 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
     assert(statValue(root, "floor") == data.rules.map.floors .. " / " .. data.rules.map.floors)
     assert(resultText(root, "subtitle") == "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。")
     preview("victory", resultText(root, "subtitle"))
+    local previous=ui.run
     click(root, "menuPanel", "start")
+    assert(ui.mode=='node' and ui.map.floor==0 and #ui.run.deck==10)
+    completeRestartOpening(ui,root,previous)
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
 end)
 
