@@ -7,7 +7,7 @@ local ui=UI.new(root,r,m,p,'click',nil,{cursorEvents={CursorEnter='enter',Cursor
 local function get(path)local v=root;for part in path:gmatch('[^/]+')do v=assert(v:GetChild(part),path)end;return v end
 local touch=100
 local function click(i)touch=touch+1;local hit=get('eventView/option'..i..'/hit');hit.listeners.down({touchId=touch});hit.listeners.up({touchId=touch});assert(hit.listeners.click({touchId=touch}))end
-ui:setVisible(true);F.eq(get('eventView/name').text,'Sensory Stone');F.eq(get('eventView/option2').visible,false)
+ui:setVisible(true);F.eq(get('eventView/name').text,'追忆石碑');F.eq(get('eventView/option2').visible,false)
 click(1);for i,text in ipairs({'1组','5点','10点'})do assert(get('eventView/option'..i..'/description').text:find(text,1,true))end
 local old=ui.actions['eventView/option3'].handler;click(3);F.eq(r.hp,70);F.eq(r.nodeFlow.event.stage,'rewards');F.eq(get('eventView/option4').visible,true);F.eq(old(),false)
 click(2);F.eq(r.nodeFlow.event.selectedReward,2)

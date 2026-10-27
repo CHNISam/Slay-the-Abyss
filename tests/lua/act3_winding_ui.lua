@@ -17,7 +17,7 @@ local function fixture(relics,hp)
  ui:setVisible(true);return r,m,ui,get,click
 end
 local r,m,ui,get,click=fixture()
-eq(get('eventView/name').text,'Winding Halls');eq(get('eventView/option2').visible,false);eq(get('back').visible,false)
+eq(get('eventView/name').text,'迷途回廊');eq(get('eventView/option2').visible,false);eq(get('back').visible,false)
 local before=C.copy(r);eq(ui:press('eventView/option2'),false);same(r,before)
 local old=ui.actions['eventView/option1'].handler;click('eventView/option1');eq(r.nodeFlow.event.stage,'choice');eq(old(),false)
 for i,choice in ipairs({'madness','writhe','max_hp'})do eq(ui.view.node.event.options[i].choice,choice);assert(ui.actions['eventView/option'..i].enabled)end

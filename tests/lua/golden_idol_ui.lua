@@ -12,7 +12,7 @@ local function fixture(hp)
  ui:setVisible(true);return r,m,ui,get,click
 end
 local r,m,ui,get,click=fixture()
-F.eq(get('eventView/name').text,'Golden Idol');F.eq(get('eventView/option3').visible,false)
+F.eq(get('eventView/name').text,'鎏金神像');F.eq(get('eventView/option3').visible,false)
 local old=ui.actions['eventView/option1'].handler;local hit=get('eventView/option1/hit');hit.listeners.down({touchId=7});click(1)
 F.eq(r.nodeFlow.event.stage,'trap');assert(r.relics[#r.relics]=='golden_idol');F.eq(get('back').visible,false)
 for i,id in ipairs({'injury','damage','max_hp'})do F.eq(ui.view.node.event.options[i].choice,id);assert(ui.actions['eventView/option'..i].enabled)end
