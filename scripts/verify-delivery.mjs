@@ -10,7 +10,7 @@ export const qualityWorkflowPath='.github/workflows/quality.yml';
 // workflow in delivery.test.mjs; local-special is a separate diagnostic path.
 export const fullQualityJobs=[...requiredJobs,
   ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
-  ...Array.from({length:2},(_,i)=>`engineering-posix (${i+1}/2)`)];
+  ...Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`)];
 const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;

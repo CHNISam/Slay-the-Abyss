@@ -176,29 +176,39 @@ test('late real second-actor decision failure restores all battle aliases and re
  assert(not called and reached);same(r,before);eq(r.combat,s);eq(s.enemies,enemies);eq(s.enemies[2],actor)
  eq(s.hand,hand);eq(s.events,events);eq(s.aiRng,rng);assert(Run.endTurn(r))
 end)
-test('remaining unavailable source entry refuses while implemented Writhing setup stays atomic',function()
+test('new source Darklings and Writhing rooms keep full-graph setup atomicity and tier guards',function()
  local r=Run.new(D,'1',{experimental=true,campaign=true});r.act,r.floor,r.encounters=3,35,Q.new('1',3)
- eq(Q.peek(r.encounters,'normal'),'3 Darklings');local before=C.copy(r);local queue=r.encounters
- local ok,why=Run.startRoomCombat(r,'normal');eq(ok,false);eq(why,'act_content_unavailable');same(r,before);eq(r.encounters,queue)
- -- Writhing is now implemented. Retain the missing-content control above and
- -- extract the source room's real late-failure/retry test, not next-batch code.
+ eq(Q.peek(r.encounters,'normal'),'3 Darklings')
+ local function checkAliases(root)
+  local refs,seen={},{}
+  local function capture(owner)
+   if seen[owner]then return end;seen[owner]=true
+   for key,value in pairs(owner)do if type(value)=='table'then
+    refs[#refs+1]={owner,key,value};capture(value)
+   end end
+  end
+  capture(root)
+  return function()for _,ref in ipairs(refs)do eq(ref[1][ref[2]],ref[3])end end
+ end
+ do
+  local before=C.copy(r);local queue=r.encounters;local aliases=checkAliases(r);local original=C.new
+  C.new=function(...)original(...);error('INJECTED_LATE_DARKLINGS_ROOM_SETUP')end
+  local called,ok,why=pcall(Run.startRoomCombat,r,'normal');C.new=original
+  assert(called);eq(ok,false);eq(why,'combat_unavailable');same(r,before);eq(r.encounters,queue);aliases()
+  assert(Run.startRoomCombat(r,'normal'));eq(r.encounterSource,'3 Darklings');eq(#r.combat.enemies,3)
+  local resolved,reason=require('abyss_act3_enemies').resolve('3 Darklings','elite')
+  eq(resolved,nil);eq(reason,'encounter_tier_mismatch')
+ end
+ -- Use a fresh original source queue for the existing Writhing late failure.
+ r=Run.new(D,'1',{experimental=true,campaign=true});r.act,r.floor,r.encounters=3,35,Q.new('1',3)
  while Q.peek(r.encounters,'normal')~='Writhing Mass'do
   local source,nextQueue=Q.consume(r.encounters,'normal');assert(source);r.encounters=nextQueue;r.floor=r.floor+1
  end
- before=C.copy(r);queue=r.encounters
- local refs,seen={},{}
- local function capture(owner)
-  if seen[owner]then return end;seen[owner]=true
-  for key,value in pairs(owner)do if type(value)=='table'then
-   refs[#refs+1]={owner,key,value};capture(value)
-  end end
- end
- capture(r)
+ local before=C.copy(r);local queue=r.encounters;local aliases=checkAliases(r)
  local original=C.new
  C.new=function(...)original(...);error('INJECTED_LATE_WRITHING_ROOM_SETUP')end
- local called;called,ok,why=pcall(Run.startRoomCombat,r,'normal');C.new=original
- assert(called);eq(ok,false);eq(why,'combat_unavailable');same(r,before);eq(r.encounters,queue)
- for _,ref in ipairs(refs)do eq(ref[1][ref[2]],ref[3])end
+ local called,ok,why=pcall(Run.startRoomCombat,r,'normal');C.new=original
+ assert(called);eq(ok,false);eq(why,'combat_unavailable');same(r,before);eq(r.encounters,queue);aliases()
  assert(Run.startRoomCombat(r,'normal'));eq(r.encounterSource,'Writhing Mass')
  eq(r.combat.enemies[1].definitionId,'writhing_mass')
  local resolved,reason=require('abyss_act3_enemies').resolve('Writhing Mass','elite')

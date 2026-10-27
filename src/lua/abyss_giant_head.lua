@@ -47,13 +47,13 @@ function M.preBattle(api,state,enemy)
 end
 -- UseCardAction.update dispatches this before disposal/exhaust callbacks, not
 -- from useCard's constructor. ApplyPower goes to BOTTOM, not inline or TOP.
-function M.afterUse(state,card,enqueue,instance)
+function M.afterUse(state,card,enqueue,instance,owner)
  -- Source reads the physical card again at UseCardAction.update. A live
  -- false overrides captured true; nil retains the old definition-only ABI.
  local flag=instance and instance.dontTriggerOnUseCard
  if flag==nil then flag=card.dontTriggerOnUseCard end
  if flag then return end
- for _,enemy in ipairs(state.enemies)do
+ for _,enemy in ipairs(owner and {owner}or state.enemies)do
   if rawget(enemy.statuses,'slow')~=nil then
    enqueue(state,{op='giantHeadSlow',targetId=enemy.id})
   end

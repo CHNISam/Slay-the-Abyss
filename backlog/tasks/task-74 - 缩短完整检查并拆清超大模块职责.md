@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-27 13:44'
+updated_date: '2026-10-27 15:15'
 labels: []
 dependencies: []
 references:
@@ -45,6 +45,8 @@ ordinal: 118000
 用户纠正：274和商店33仍未治理到位，重开渲染切片。按状态准备、奖励、HUD、敌人、详情、卡面和商店商品职责继续拆分；所有提取函数纳入固定Luacheck上限，主编排不超过10、渲染职责函数不超过15；保持原界面更新/回调和完整回归。
 
 2026-10-27按最新develop965616d复核剩余工程热点，保留已合格战斗/商店UI与CI。六独立工作树分别治理受影响测试、延迟导入门禁、UI mock原生接口合同、effects/combat/Act2 AI、文案演出页面编排、合入提交复核。主代理独占公共配置/静态基线/最终门禁，逐项先锁行为再拆分，无法确认的影响全量回退；审查提取helper并完成当前HEAD完整Quality，正常PR squash后复核实际合入SHA和tree的CI。
+
+2026-10-27 PR252预算收口：按实际作业日志确认POSIX半池19分53秒导致总作业超20分钟；沿用原生隔离分片扩为四片，保持每片20分钟、片内串行、完整输入与工程检查。同步交付作业枚举、既有矩阵合同和说明，定向红绿验证后在同一PR验证精确新HEAD及实际合入SHA。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -71,4 +73,6 @@ ordinal: 118000
 本轮六范围已集成并交叉独立审查：185模块/1020依赖边，43→38延迟例外（四失效一重复），0新增例外；静态89→84，9条只迁行、5条消失，0新增诊断。8入口及全部helper/匿名回调共338函数+11模块块，固定Luacheck与AST逐项对应，最高15。apply244→13、queued effect189→1、Act2 choose147→2、fragments289→15、step139→12、paint97→11、node.render139→11、game.refresh141→14。1560 AI/RNG轨迹785755字节、361显示记录、72915有序原生写入与原965实现一致；旧四项关键语义变异全被指定断言拒绝。完整Quality及实际合入提交复核仍未取得，不勾最后AC；具体静态及行为数值见docs/evidence/precise-engineering-20261027.json。
 
 发布前最新develop已推进20c6815（含PR249/251/250），原组合不沿用验收。按新源逐项保留Awakened/Giant/Library/Poison快照/Mantra及Run事务与输入所有权；core19份上游→重构双跑、1560AI轨迹与两条文案/原生写入冻结预期均保持一致。新基线入口246/191/147/289/139/97/143/141→13/1/2/15/12/11/11/14；189模块1080边，45→40延迟例外（保留上游2条真实Writhing延迟边），静态仍89→84。新增Library两helper及AwakenedVoid全部纳入，352测量=341函数+11主块且max15。完整检查发现两项旧正文冻结测试不识别mock公共接口改动；现精确逆转换本轮接口差分，原hash与断言保留、4项删除负例仍拒绝，两文件7项全过。首次本地完整JS检查另因缺pwsh失败，未跳过此有效断言；将由标准GitHub Windows/Ubuntu完整Quality执行原PowerShell回归。最后AC仍待当前HEAD远程完整CI与实际合入提交复核。
+
+本轮执行：Codex总体集成与验收；独立子代理仅修改既有POSIX矩阵及交付合同。原40524983643的8个Windows规则与POSIX2实际成功，POSIX1全部步骤成功但job122261978724在20分32秒被GitHub取消，annotation明确超过20m，汇总未通过。保存原日志于build/m3-closeout-20261027/pr252-posix1.log；不把步骤成功写为完整CI通过，不提升预算或跳过测试。
 <!-- SECTION:NOTES:END -->

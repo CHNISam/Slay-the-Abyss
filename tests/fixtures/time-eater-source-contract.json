@@ -1,0 +1,133 @@
+{
+  "repository": "https://github.com/aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "Targeted fixed decompiled source inspection; independent A0 Lua and Python; not authenticated PC or native gameplay",
+  "acquisition": "Targeted GitHub fetch_file at fixed ref; UseCardAction/AbstractCreature reused from same-ref source cache. No archive download.",
+  "files": [
+    {
+      "path": "monsters/beyond/TimeEater.java",
+      "sha256": "69fde66e04bfec8ff307b3468bb587c1f4c232b704567b1e1c746853147db9d2",
+      "gitBlobSha1": "c52940eda4e98a38618c4769e9573a4760f061cc"
+    },
+    {
+      "path": "powers/TimeWarpPower.java",
+      "sha256": "579c30ba727c99612b37985a18f72efd01c2054df398096b5ad0e8eef81b32c4",
+      "gitBlobSha1": "96766fc87b40b5207739f6caf18073654350c749"
+    },
+    {
+      "path": "powers/DrawReductionPower.java",
+      "sha256": "a151bd64519f1510f51149b4b553d9e9e0a411cce3f9e08da51fb9723aad8c70",
+      "gitBlobSha1": "4be011dfa861479dca38b1946285794338174105"
+    },
+    {
+      "path": "actions/unique/RemoveDebuffsAction.java",
+      "sha256": "0faa6d51280e6473093406dac149eae69f35c674f9cb681a51223a9891ef0743",
+      "gitBlobSha1": "18192749ac1d5f73bb72e0444bf03f8651b818c7"
+    },
+    {
+      "path": "actions/common/RemoveSpecificPowerAction.java",
+      "sha256": "c6262b3ce8528f75045f9610026d524a8ae63c526547593e4549f7c5a01a1ad8",
+      "gitBlobSha1": "5869c5cae5f539b88d2e52223628beca9ea14cba"
+    },
+    {
+      "path": "actions/common/HealAction.java",
+      "sha256": "00aae32b5face92bd5078f381527e9671ee1d2d9c55bfe03aa81d5c56b18a91d",
+      "gitBlobSha1": "eef27602db313784daeb95c3c9191aff920950a8"
+    },
+    {
+      "path": "actions/common/GainBlockAction.java",
+      "sha256": "e48f437c06b42dda312446a4b536aca54570d637e53087ac16f736d84bb5df4f",
+      "gitBlobSha1": "ce4c481797045d55a17b133289e2e070431eacdf"
+    },
+    {
+      "path": "actions/common/RollMoveAction.java",
+      "sha256": "c938d4b4a9183b39e91c1c54c79085ddf7b2bea082af14895b9a1a00a100fc50",
+      "gitBlobSha1": "01731f966b9b6f8c3815b246cd02cf75eb5d2153"
+    },
+    {
+      "path": "actions/utility/UseCardAction.java",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f",
+      "gitBlobSha1": "6efc08986e3a6b71648ee7f6f95d77ee1a2e52d6"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "gitBlobSha1": "1662da8de2aeb42044b385f03d0c801750904b13"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "gitBlobSha1": "4784e38e7afff5980736e2b5c718e62a0c838c47"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "gitBlobSha1": "bee5f7d0d955528b69007376cc0465ed60e577c6"
+    },
+    {
+      "path": "cards/AbstractCard.java",
+      "sha256": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61",
+      "gitBlobSha1": "bc88307d010bdd37cf55a4b60b79209fa78b0aa6"
+    },
+    {
+      "path": "random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "gitBlobSha1": "c4b71d5645688f6e764c46c593223eb91a5249bc"
+    },
+    {
+      "path": "powers/StrengthPower.java",
+      "sha256": "20b05040efe9d6ad693dd763a658c86df9db1b1ac365351c4c8d81c7f6ca08c9",
+      "gitBlobSha1": "fbb46a2d532cde9bf116527c8d426ad0179877bc"
+    },
+    {
+      "path": "powers/GainStrengthPower.java",
+      "sha256": "06258d050cb0120eee8812124f59f59c1e541ac705781c8c73b82501632e1799",
+      "gitBlobSha1": "5227f6cdbcb7b9277e42ff668b9a874c47a7c68e"
+    }
+  ],
+  "independentModel": {
+    "path": "tools/oracles/sts1_time_eater.py",
+    "sha256": "a273a6a847e7698303344cd04f1d3762715e089c3ef0fe8d20506d1dd0dc071f",
+    "fixture": "tests/fixtures/time-eater-vectors.lua",
+    "fixtureSha256": "153ca86c7227228359fd64124b6ab25fe43248dc3c39b84a601eaa4c0da68f8d",
+    "seeds": [
+      "1",
+      "42",
+      "77"
+    ],
+    "turnsPerSeed": 12
+  },
+  "contracts": {
+    "hp": 456,
+    "primaryInclusive": [
+      0,
+      99
+    ],
+    "reverberateRollBelow": 45,
+    "headSlamRollBelow": 80,
+    "reverberateSecondaryInclusive": [
+      50,
+      99
+    ],
+    "rippleSecondaryInclusive": [
+      0,
+      74
+    ],
+    "headSlamFallbackFloat": 0.6600000262260437,
+    "hasteStrictHpBelow": 228,
+    "timeWarpThreshold": 12,
+    "timeWarpStrength": 2,
+    "timeWarpHook": "onAfterUseCard",
+    "hasteInterruptsDamage": false,
+    "hasteResetsPositiveStrength": false,
+    "drawReductionStacksMultiplyDrawPenalty": false,
+    "newStatEquivalentCopiesDontTriggerFlag": false,
+    "A19FrailSlimedBlock": false,
+    "monsterHpDraws": 1
+  },
+  "notExecuted": [
+    "authenticated original PC binary",
+    "native import and play",
+    "full natural four-class three/four-act campaign"
+  ]
+}
