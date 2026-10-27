@@ -5,12 +5,12 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 09:57'
-updated_date: '2026-10-26 11:16'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 documentation:
   - docs/backlog-details/task-70.md
-priority: high
+priority: medium
 ordinal: 116000
 ---
 

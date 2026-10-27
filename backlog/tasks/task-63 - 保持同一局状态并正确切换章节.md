@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:05'
-updated_date: '2026-10-27 03:00'
+updated_date: '2026-10-27 04:15'
 labels:
   - partially-implemented
 milestone: m-4
@@ -18,7 +18,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/TASK-63-host-chapter-ui.md
-priority: high
+priority: medium
 type: feature
 ordinal: 108000
 ---

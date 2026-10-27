@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -20,7 +20,8 @@ references:
   - docs/rules/CROSS_ACT.md
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+  - docs/backlog-details/BACKLOG-UPDATE-20261027.md
+priority: medium
 type: task
 ordinal: 75000
 ---
@@ -28,7 +29,7 @@ ordinal: 75000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-列清楚首发有哪些卡牌、敌人、遭遇、事件、遗物、药水和Boss。每项都要能正常遇到、拿到或使用。
+首发范围为四职业完整内容与第一至第四幕。已合并成果按清单保留；当前先收口PR238与主线同步，解决两项库存回归，再以同一候选逐项验证自然获取、构筑、连续通关和两种结局。M3尚未完成。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -65,6 +66,8 @@ ordinal: 75000
 接手后先修复变异检查的精确选例；保留15秒与120秒预算及全部断言，正常Lua仍全跑。专项与四个真实变异通过后按当前SHA重新CI、原生合并并释放，再移交清理旧树。附件增量随后另行合法登记。
 
 在当前已批准的effects和gremlin_gang文件范围内修复正式房间Protect错用LCG的组合缺陷；先验证AI计数及下一次roll的独立预期，再最小改接现有EnemyRandom适配器，保留legacy ABI。新增生产改动后原RC只作旧版本证据，最终SHA统一CI。
+
+2026-10-27优先级治理：逐项读取当前任务，按当前M3依赖与已知PR238阻塞重排；High聚焦14.1/16.1/59/62四项，其余首发Medium，独立可选Low，已完成记录Medium。补现有verify:backlog门禁：当前任务目录不允许空/非法优先级，未完成High最多5项；历史completed目录不追溯。同步根GUI可见任务，验证分布、业务元数据不变及门禁正反例，同PR241交付。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -123,4 +126,6 @@ ordinal: 75000
 2026-10-26继续分层收口：TASK-58.2已证明的本地机制完成；原自然构筑/完整交互验收原文追加并保持未勾，仍阻止M3整体验收。
 
 2026-10-26验收进度校准：范围冻结与现有交付盘点两项已完成；原14项全内容/自然玩法要求保持未勾，不以盘点完成代替全M3通过。
+
+2026-10-27最新核对：M3仍为四职业及第一至第四幕完整交付，未验收。GitHub实时读回PR238为OPEN/DRAFT，head a4dac7723af8262a314758c87d92f421afea4911，CONFLICTING且当前检查为空；无作业不是CI通过。主集成树m3-next-content正在同步develop fc51f198，18个冲突路径仍为unmerged、合并未提交。下一步先修复合并后inventory_restore和tungsten_rod_channels两项失败，再核完整diff、提交同步、推同一PR并验当前SHA全部必要CI；随后补同候选自然获取/四职业跨幕/平台证据。未生成新GIL、未导入、未实机、未通过verify:ui。依据根HANDOFF-PR238-20261027-115033-STOP.md及build/pr238-resume-20261027-091929/fc51-final-focused.json；本轮仅核对任务，不继续开发或占用键鼠。
 <!-- SECTION:NOTES:END -->

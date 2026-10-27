@@ -5,12 +5,12 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 01:58'
-updated_date: '2026-10-24 02:22'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/151'
-priority: high
+priority: medium
 type: docs
 ordinal: 74000
 ---

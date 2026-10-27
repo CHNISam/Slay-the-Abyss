@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-25 12:29'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -15,7 +15,7 @@ references:
   - docs/reviews/TASK-15.19-louse-color-sampling.md
   - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-15
-priority: high
+priority: medium
 type: bug
 ordinal: 95000
 ---

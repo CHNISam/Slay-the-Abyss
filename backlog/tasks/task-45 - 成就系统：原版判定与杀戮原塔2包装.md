@@ -2,9 +2,10 @@
 id: TASK-45
 title: 成就系统：等账号权限具备后再做
 status: Blocked
-assignee: []
+assignee:
+  - '@Furinya'
 created_date: '2026-10-24 01:10'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:24'
 labels:
   - P1
   - post-release
@@ -15,7 +16,7 @@ references:
   - docs/TOOLCHAIN.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/147'
   - docs/backlog-details/TASK-45.md
-priority: medium
+priority: low
 type: feature
 ordinal: 73000
 ---
@@ -33,3 +34,9 @@ ordinal: 73000
 - [ ] #3 你确认后再实现；达成条件不缩水，解锁后下次玩还保留，并在游戏里验证。
 - [ ] #4 保持权限阻塞，解除后按P1安排，不挡10月30日首发或11月2日投稿。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27队列复核：补齐有效负责人Furinya；Low候选仍不占当前冲刺，不因指定负责人自动启动新功能。
+<!-- SECTION:NOTES:END -->

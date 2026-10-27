@@ -1,15 +1,18 @@
 ---
 id: TASK-72
 title: 交付原创四角色并合入最新主线
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 11:28'
-updated_date: '2026-10-26 12:22'
+updated_date: '2026-10-27 04:23'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/219'
+priority: medium
 ordinal: 117000
 ---
 
@@ -22,7 +25,7 @@ ordinal: 117000
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [x] #1 四人完整300张卡牌及正常获取升级商店战斗结算接入生产，跨章保持角色和永久状态
-- [ ] #2 最新候选完整Quality及Licenses成功并合入远端develop
+- [x] #2 最新候选完整Quality及Licenses成功并合入远端develop
 - [x] #3 实机缺失和受影响范围如实记录，不把资料包或无头测试冒充游戏验收
 <!-- AC:END -->
 
@@ -41,3 +44,9 @@ ordinal: 117000
 
 远端774b4cd只更新协作/许可文档，上游任务70与本轮completed70撞号；原生doctor仅把本轮数据来源改为completed73，display71与交付72保持，上游70未改。生产218输入/120模块/2UI及候选双摘要不变。strict=false不强制反复同步纯文档；新HEAD仍正常完整Quality及Licenses验收。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+PR219已squash合入e2e59165c37326329727f443a1325814c0a75d81，接受HEAD ed6858e3a83328db539455c8f23b2658d537ebe1的Quality40322430626(check/presentation/engineering-posix)及Licenses40322430720全部SUCCESS。完整原创四角色数据/600版本/1200轨迹及正常路径已交付，not_run实机缺项已明确；本任务代码交付收口，不等同M3全职业四幕或M4设备实机通过，后续实测继续由4/47/38/42承接。
+<!-- SECTION:FINAL_SUMMARY:END -->

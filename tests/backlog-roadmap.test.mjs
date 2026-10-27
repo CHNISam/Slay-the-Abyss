@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { auditRoadmap, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
+import { auditRoadmap, auditPriorities, auditQueueOwners, auditMilestoneScope, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
 
 const milestone = { 'm-2': 'M1', 'm-5': 'M4' };
 const task = (id, extra = {}) => ({ id, status: 'To Do', milestone: 'm-5', assignees: ['@Codex'], ...extra });
@@ -68,7 +68,7 @@ test('CLI milestone titles use phase identity rather than one display separator'
   for (const directory of ['backlog/tasks', 'backlog/completed', 'backlog/milestones', 'docs']) {
     mkdirSync(join(root, directory), { recursive: true });
   }
-  writeFileSync(join(root, 'backlog/tasks/task-4.2.md'), '---\nid: TASK-4.2\nstatus: To Do\nmilestone: m-5\nassignee: ["@Codex"]\n---\n');
+  writeFileSync(join(root, 'backlog/tasks/task-4.2.md'), '---\nid: TASK-4.2\nstatus: To Do\npriority: medium\nmilestone: m-5\nassignee: ["@Codex"]\n---\n');
   writeFileSync(join(root, 'docs/MILESTONES.md'), '### M4\n- TASK-4.2：背景\n');
   for (const newline of ['\n', '\r\n']) for (const quote of ['', '"', "'"]) {
     for (const title of ['M4｜正式作品品质', 'M4|正式作品品质', 'M4 正式作品品质', 'M4：正式作品品质', 'M4: 正式作品品质', 'M4']) {
@@ -91,7 +91,8 @@ function backlogFixture(t, entries, roadmap = '') {
   writeFileSync(join(root, 'backlog/milestones/m-5.md'), '---\nid: m-5\ntitle: M4｜正式作品品质\n---\n');
   writeFileSync(join(root, 'docs/MILESTONES.md'), roadmap);
   for (const [path, id, status = 'Done', metadata = ''] of entries) {
-    writeFileSync(join(root, path), `---\nid: ${id}\ntitle: 中文任务标题\nstatus: ${status}\n${metadata}---\n`);
+    const priority = /^priority:/m.test(metadata) ? '' : 'priority: medium\n';
+    writeFileSync(join(root, path), `---\nid: ${id}\ntitle: 中文任务标题\nstatus: ${status}\n${priority}${metadata}---\n`);
   }
   return root;
 }
@@ -165,4 +166,59 @@ test('the existing command exits nonzero and names both Done files on a duplicat
   assert.equal(result.status, 1, result.stdout + result.stderr);
   assert.match(result.stderr, /TASK-52\.1/);
   for (const path of [diagnosticPath, hudPath]) assert.ok(result.stderr.includes(path), path);
+});
+
+test('priority is read from the actual CLI header', () => {
+  assert.equal(readTaskHeader('---\nid: TASK-1\npriority: high\n---\n').priority, 'high');
+});
+
+test('every current task needs a configured priority, including Done and optional tasks', () => {
+  for (const status of ['To Do', 'In Progress', 'Blocked', 'Done']) {
+    for (const priority of [null, '', 'urgent', undefined]) {
+      assert.match(auditPriorities([task('TASK-1', { status, priority, milestone: null })]).join('\n'), /TASK-1.*优先级/);
+    }
+  }
+  assert.deepEqual(auditPriorities(['high', 'medium', 'low'].map((priority, i) => task(`TASK-${i}`, { priority }))), []);
+});
+
+test('High is a bounded current queue rather than a label for all important work', () => {
+  const high = Array.from({ length: 6 }, (_, i) => task(`TASK-${i}`, { priority: 'high' }));
+  assert.deepEqual(auditPriorities(high.slice(0, 5)), []);
+  const errors = auditPriorities(high);
+  assert.match(errors.join('\n'), /6.*超过5项/);
+  for (const entry of high) assert.ok(errors[0].includes(entry.id));
+  assert.match(auditPriorities([task('TASK-9', { priority: 'high', status: 'Done' })]).join('\n'), /TASK-9.*已完成/);
+});
+
+test('the existing CLI fails on a missing priority and an overcrowded High queue', t => {
+  const entries = Array.from({ length: 6 }, (_, i) => [`backlog/tasks/task-${i}.md`, `TASK-${i}`, 'To Do', 'priority: high\n']);
+  const root = backlogFixture(t, entries);
+  // One intentionally malformed record reproduces the GUI No Priority bucket.
+  writeFileSync(join(root, 'backlog/tasks/no-priority.md'), '---\nid: TASK-99\nstatus: Done\n---\n');
+  const script = fileURLToPath(new URL('../scripts/verify-backlog-roadmap.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [script], { cwd: root, encoding: 'utf8' });
+  assert.ifError(result.error);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /TASK-99.*优先级/);
+  assert.match(result.stderr, /6.*超过5项/);
+});
+
+test('both M3 and M4 retain the full approved scope, independently of their stored IDs', () => {
+  const valid = ['M3｜四职业及第一至隐藏第四幕内容齐备与通关验收', 'M4｜全职业与全章节正式作品品质'];
+  assert.deepEqual(auditMilestoneScope(valid), []);
+  for (const stale of ['M3｜第一幕首发内容齐备', 'M3｜四职业第一幕内容齐备', 'M3｜四幕内容齐备']) {
+    assert.match(auditMilestoneScope([stale, valid[1]]).join('\n'), /M3.*范围/);
+  }
+  assert.match(auditMilestoneScope([valid[0], 'M4｜第一幕正式作品品质']).join('\n'), /M4.*范围/);
+  assert.match(auditMilestoneScope([valid[0]]).join('\n'), /M4.*范围/);
+  assert.match(auditMilestoneScope([...valid, valid[0]]).join('\n'), /M3.*范围/);
+});
+
+test('unfinished optional work needs an owner; historical Done records do not', () => {
+  for (const status of ['To Do', 'In Progress', 'Blocked']) {
+    for (const assignees of [[], [''], ['--append-plan']]) {
+      assert.match(auditQueueOwners([task('TASK-26', { status, milestone: null, assignees })]).join('\n'), /TASK-26.*负责人/);
+    }
+  }
+  assert.deepEqual(auditQueueOwners([task('TASK-26', { milestone: null }), task('TASK-2', { status: 'Done', assignees: [] })]), []);
 });

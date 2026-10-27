@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 02:09'
-updated_date: '2026-10-26 07:59'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-26'
 labels:
   - p0 cost engineering
@@ -13,7 +13,7 @@ dependencies: []
 references:
   - scripts/ci-checkout-equivalent.mjs
   - docs/evidence/linux-checkout-equivalent-20261026.json
-priority: high
+priority: medium
 type: bug
 ordinal: 0
 ---

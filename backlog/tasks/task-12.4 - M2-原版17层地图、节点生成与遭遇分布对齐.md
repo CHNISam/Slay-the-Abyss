@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex-m3-map'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - required
@@ -22,7 +22,7 @@ references:
   - docs/reviews/TASK-12.4-encounter-queue-core.md
   - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-12
-priority: high
+priority: medium
 type: enhancement
 ordinal: 40000
 ---

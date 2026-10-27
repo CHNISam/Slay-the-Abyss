@@ -5,14 +5,14 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 04:23'
-updated_date: '2026-10-24 06:39'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-2
 dependencies: []
 documentation:
   - docs/backlog-details/TASK-10.8.md
 parent_task_id: TASK-10
-priority: high
+priority: medium
 type: bug
 ordinal: 82000
 ---

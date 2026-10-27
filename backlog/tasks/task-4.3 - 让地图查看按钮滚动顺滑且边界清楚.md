@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-24 09:36'
-updated_date: '2026-10-24 10:42'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-5
 dependencies: []
@@ -18,6 +18,7 @@ modified_files:
   - tests/lua/map_ui.lua
   - tests/map-ui-layout.test.mjs
 parent_task_id: TASK-4
+priority: medium
 type: enhancement
 ordinal: 85000
 ---

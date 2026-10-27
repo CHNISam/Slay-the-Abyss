@@ -5,11 +5,12 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 09:32'
-updated_date: '2026-10-26 11:12'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/218'
+priority: medium
 ordinal: 116000
 ---
 

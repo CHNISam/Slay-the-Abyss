@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@claude'
 created_date: '2026-10-23 16:29'
-updated_date: '2026-10-24 00:25'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-2
 dependencies: []
@@ -13,7 +13,7 @@ references:
   - docs/design/UI_DESIGN.md
   - src/lua/abyss_battle_ui.lua
 parent_task_id: TASK-10
-priority: high
+priority: medium
 type: enhancement
 ordinal: 53000
 ---

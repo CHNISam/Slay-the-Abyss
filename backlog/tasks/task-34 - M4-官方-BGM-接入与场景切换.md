@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -27,7 +27,7 @@ references:
   - docs/AUDIO_RICHNESS.md
   - docs/evidence/audio-richness-integrated-20261025.json
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 type: enhancement
 ordinal: 46000
 ---

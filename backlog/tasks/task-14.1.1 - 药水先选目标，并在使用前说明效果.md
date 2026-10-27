@@ -5,14 +5,14 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-24 17:09'
-updated_date: '2026-10-24 18:12'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/POTION-TARGETING-20261025.md
 parent_task_id: TASK-14.1
-priority: high
+priority: medium
 type: bug
 ordinal: 92000
 ---

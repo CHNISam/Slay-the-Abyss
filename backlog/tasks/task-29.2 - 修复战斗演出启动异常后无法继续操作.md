@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 11:42'
-updated_date: '2026-10-23 14:15'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-2
 dependencies: []
@@ -14,7 +14,7 @@ references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/52'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/106'
 parent_task_id: TASK-29
-priority: high
+priority: medium
 type: bug
 ordinal: 49000
 ---

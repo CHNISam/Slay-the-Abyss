@@ -5,11 +5,12 @@ status: Blocked
 assignee:
   - Furinya
 created_date: '2026-10-26 07:01'
-updated_date: '2026-10-26 09:29'
+updated_date: '2026-10-27 04:23'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
 dependencies: []
+priority: medium
 ordinal: 113000
 ---
 
@@ -39,4 +40,6 @@ ordinal: 113000
 冻结生产源 a2ffb7f；118模块与两份UI清单逐文件hash记录candidate.json。数据/显示/运行时48项与1200逐卡轨迹通过，正常路径固定合法输入重放、隔离获取升级/移牌、600全文及真实Run公共药水/AR战内外边界通过。PC/物理手机/GIL与12流派完整实际关卡仍not_run。最终CI和远端develop合并继续推进，不将离线候选当实机。
 
 四人真实UI按钮出E/回放/结束回合补测先红后绿。Windows全量揭示既有injury/vigor兼容错误，最终由TASK69统一承接必要修复与全部源码；本树将于干净发布头释放，实机缺项仍not_run。
+
+2026-10-27重复任务收口：原创构建、完整全文详情与跨章集成交付已由TASK-72/PR219覆盖并有精确HEAD全CI成功。原PC/实体手机/自然构筑缺口交由TASK-4/47/38/42新增完整范围AC承接，保持未勾；不冒充已实机。该旧集成任务原生归档，保留未勾条款与历史，不重复计交付或继续挂Blocked/In Progress。
 <!-- SECTION:NOTES:END -->

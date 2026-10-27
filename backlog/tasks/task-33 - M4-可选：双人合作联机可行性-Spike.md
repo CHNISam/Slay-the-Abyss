@@ -2,9 +2,10 @@
 id: TASK-33
 title: 先试试两个人能不能合作玩
 status: To Do
-assignee: []
+assignee:
+  - '@Furinya'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:24'
 labels:
   - P2 optional coop
 dependencies:
@@ -13,7 +14,7 @@ references:
   - docs/SCOPE.md
   - docs/TOOLCHAIN.md
   - docs/backlog-details/TASK-33.md
-priority: medium
+priority: low
 type: spike
 ordinal: 45000
 ---
@@ -32,3 +33,9 @@ ordinal: 45000
 - [ ] #4 有人掉线或退出时有清楚处理，另一方界面能恢复；不能重连就说明。
 - [ ] #5 在约定时间内给出能不能做、成本和风险的结论；不提前改正式单人玩法。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27队列复核：补齐有效负责人Furinya；Low候选仍不占当前冲刺，不因指定负责人自动启动新功能。
+<!-- SECTION:NOTES:END -->

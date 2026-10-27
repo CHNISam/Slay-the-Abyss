@@ -2,8 +2,10 @@
 id: TASK-53
 title: 确认断网后能否继续本局，有能力时补上恢复
 status: To Do
-assignee: []
+assignee:
+  - '@Furinya'
 created_date: '2026-10-24 15:48'
+updated_date: '2026-10-27 04:24'
 labels:
   - post-release
   - platform-capability
@@ -30,3 +32,9 @@ ordinal: 91000
 - [ ] #2 能力可用时补齐恢复，并以同一候选实测断网后关键进度一致；不可用时记录限制和依据，不能把完成记录当作恢复功能通过。
 - [ ] #3 不为本项升级账号，不阻塞10月30日首投，不改现有必过里程碑。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27队列复核：补齐有效负责人Furinya；Low候选仍不占当前冲刺，不因指定负责人自动启动新功能。
+<!-- SECTION:NOTES:END -->

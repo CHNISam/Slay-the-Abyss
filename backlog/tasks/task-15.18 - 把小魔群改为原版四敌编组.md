@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 10:29'
-updated_date: '2026-10-24 12:21'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - required
@@ -18,7 +18,7 @@ references:
     https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java
   - docs/reviews/TASK-15.18-gremlin-gang.md
 parent_task_id: TASK-15
-priority: high
+priority: medium
 type: bug
 ordinal: 86000
 ---

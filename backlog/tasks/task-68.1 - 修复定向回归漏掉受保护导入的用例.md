@@ -5,11 +5,11 @@ status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:37'
-updated_date: '2026-10-26 13:08'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 parent_task_id: TASK-68
-priority: high
+priority: medium
 type: bug
 ordinal: 116000
 ---

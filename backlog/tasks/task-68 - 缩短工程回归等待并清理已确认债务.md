@@ -5,12 +5,12 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 08:10'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 references:
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 ordinal: 115000
 ---
 

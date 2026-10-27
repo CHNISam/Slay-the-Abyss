@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-26 23:36'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -25,7 +25,7 @@ references:
   - docs/evidence/card-runtime-port-20261026.json
   - docs/evidence/card-live-20261027.json
   - docs/reviews/TASK-30-source-input-port.md
-priority: high
+priority: medium
 type: enhancement
 ordinal: 36000
 ---

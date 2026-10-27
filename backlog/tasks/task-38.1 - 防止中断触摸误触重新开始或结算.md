@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 15:55'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -15,7 +15,7 @@ references:
   - docs/backlog-details/TASK-38.1.md
   - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-38
-priority: high
+priority: medium
 type: bug
 ordinal: 50000
 ---

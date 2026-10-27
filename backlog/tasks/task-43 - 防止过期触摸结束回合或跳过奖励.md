@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 12:57'
-updated_date: '2026-10-23 14:35'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-2
 dependencies: []
@@ -13,7 +13,7 @@ references:
   - src/lua/abyss_battle_ui.lua
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/110'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/112'
-priority: high
+priority: medium
 type: bug
 ordinal: 52000
 ---

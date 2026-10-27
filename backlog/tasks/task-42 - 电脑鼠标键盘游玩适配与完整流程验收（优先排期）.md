@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-26 12:56'
+updated_date: '2026-10-27 04:20'
 due_date: '2026-10-28'
 labels:
   - awaiting-live
@@ -19,7 +19,7 @@ references:
   - docs/backlog-details/TASK-42.md
   - docs/DELIVERY-CLOSEOUT.md
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 type: feature
 ordinal: 40000
 ---
@@ -27,7 +27,7 @@ ordinal: 40000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-确认鼠标和键盘操作顺手，能完成整个游戏流程，并让玩家知道哪些按键可用。
+在电脑上以鼠标和键盘完成全职业与全章节正式流程，包含换幕、选牌、钥匙、普通和真结局，并说明可用键位。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -37,4 +37,11 @@ ordinal: 40000
 - [ ] #3 鼠标键盘能完成地图、各类房间、领奖、胜败结算和重开。
 - [ ] #4 保存电脑实测结果，有限制或没做好的地方写清楚。
 - [ ] #5 同一候选实测跨战斗首次点牌、旧触点、药水、奖励、弹窗和取消退出的真实事件派发；已完成本地手势切片不能代替电脑验收。
+- [ ] #6 同一候选四职业及已批准原创角色的完整操作矩阵覆盖第一至隐藏第四幕、换幕与两种结局，逐项保存真实事件及设备证据，第一幕单次通关不代替。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27同类范围审计：承接已批准四职业与第一至隐藏第四幕完整范围及原创角色责任，纠正仅第一幕总验收口径；原验收证据保留，本轮新增要求均未勾，不声称新增实机通过。
+<!-- SECTION:NOTES:END -->

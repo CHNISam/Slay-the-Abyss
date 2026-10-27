@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-24 09:54'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -16,7 +16,7 @@ references:
   - docs/backlog-details/TASK-3.3.md
   - docs/M2-CLOSEOUT-20261024.md
 parent_task_id: TASK-3
-priority: high
+priority: medium
 type: bug
 ordinal: 51000
 ---

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 04:39'
-updated_date: '2026-10-24 07:34'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -17,7 +17,7 @@ references:
   - docs/evidence/m1-live-20261024/screens/01-t001.jpg
   - docs/evidence/m1-live-20261024/reviews/preview-live-review.json
 parent_task_id: TASK-10.5
-priority: high
+priority: medium
 type: bug
 ordinal: 81000
 ---

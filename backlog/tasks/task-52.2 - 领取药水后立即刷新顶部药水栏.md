@@ -5,12 +5,12 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 15:55'
-updated_date: '2026-10-24 15:57'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-4
 dependencies: []
 parent_task_id: TASK-52
-priority: high
+priority: medium
 type: bug
 ordinal: 91000
 ---

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-23 14:12'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-2
 dependencies: []
@@ -13,7 +13,7 @@ references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/105'
   - docs/design/CARD_DRAG_PLATFORM.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/110'
-priority: high
+priority: medium
 type: bug
 ordinal: 50000
 ---

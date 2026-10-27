@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 19:17'
-updated_date: '2026-10-24 19:31'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -14,7 +14,7 @@ dependencies:
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/195'
 parent_task_id: TASK-14.1
-priority: high
+priority: medium
 type: bug
 ordinal: 93000
 ---

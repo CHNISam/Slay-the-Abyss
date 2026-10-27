@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 16:39'
+updated_date: '2026-10-27 04:21'
 due_date: '2026-10-28'
 labels:
   - required
@@ -25,6 +25,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
+  - docs/backlog-details/BACKLOG-UPDATE-20261027.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -34,7 +35,7 @@ ordinal: 42000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-基础库存与大批药水效果已交付。本轮已接战士完整33瓶源序到奖励/商店/Entropic，新增Discovery、Fairy及正确职业池/原创shared30策略；33瓶战后→下战使用与商店13分片已在组合树全过。仍缺另外8瓶职业专属效果、完整遗物组合与同候选自然/平台验收，不能用已有子集当全池通过。
+已交付基础库存、大批药水效果及部分正常渠道，完整效果与自然获取仍需逐件验收。当前PR238同步主线后，库存恢复和钨合金棍自然来源两份回归失败；先修复并通过最终SHA完整CI，再补同候选全池组合与平台证据。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -101,4 +102,8 @@ ordinal: 42000
 2026-10-27独立复审确认鲜血药水与魔法花重复倍率，已在集成树按固定源改为原量入队、实际治疗一次修正；21旧项及新增Toy排队项合计22通过。另核实黏液/转轮事件致死绕过瓶中精灵，m3-event-fairy独立树修战外自动复活与回滚，不冒充完整遗物自然获取或平台通过。
 
 2026-10-27事件Fairy8组已在集成树独立复验，含Bark/Bloom、物理槽、陈旧战斗隔离、后续缺遗物导致的HP/瓶/RNG/owner完整回滚；鲜血治疗22组与实际缺牌/升级奖励2组通过。当前PR234完整门禁仍待新SHA结果，不将专项当全池组合或实机。
+
+2026-10-27最新合并回归核对：PR238远端仍a4dac772、草稿且冲突，未合并；fc51f198同步尚未提交。最后定向结果inventory_restore失败13.626秒（750 ~= 738），tungsten_rod_channels失败1.045秒（smiling_mask ~= tungsten_rod）；toxic_egg_profiles通过1.996秒、relic_top_bridge通过2.890秒。先按真实恢复/自然获取路径诊断，不删断言、缩池或升预算。证据根build/pr238-resume-20261027-091929/fc51-final-focused.json及同目录fc51-final-*.log。不得沿用同步前成功认证本次合并，全池与平台AC继续未勾。
+
+2026-10-27优先级重排：High：当前PR238库存恢复与道具正常来源回归失败，直接阻塞整合收口。 解除后移出High再提升下一项；不放宽原验收。
 <!-- SECTION:NOTES:END -->

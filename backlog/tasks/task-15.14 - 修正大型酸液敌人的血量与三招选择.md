@@ -5,14 +5,14 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 02:52'
-updated_date: '2026-10-24 06:33'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/TASK-15.14.md
 parent_task_id: TASK-15
-priority: high
+priority: medium
 type: bug
 ordinal: 80000
 ---

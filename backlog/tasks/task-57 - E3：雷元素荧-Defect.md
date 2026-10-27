@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:15'
 labels:
   - required
   - sts1
@@ -19,7 +19,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/CLASS_CARD_HANDOFF.md
-priority: high
+priority: medium
 type: feature
 ---
 

@@ -5,12 +5,12 @@ status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 09:53'
-updated_date: '2026-10-26 13:08'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-4
 dependencies: []
 parent_task_id: TASK-59.2
-priority: high
+priority: medium
 type: bug
 ordinal: 116000
 ---

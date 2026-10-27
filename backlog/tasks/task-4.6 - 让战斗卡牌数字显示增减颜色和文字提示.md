@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 17:08'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:15'
 labels:
   - awaiting-live
 milestone: m-5
@@ -14,7 +14,7 @@ references:
   - docs/evidence/card-value-feedback/REPORT.md
   - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-4
-priority: high
+priority: medium
 type: enhancement
 ordinal: 92000
 ---

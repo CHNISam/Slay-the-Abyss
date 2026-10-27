@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 13:11'
+updated_date: '2026-10-27 04:21'
 labels:
   - required
   - sts1
@@ -20,6 +20,7 @@ references:
   - docs/rules/CROSS_ACT.md
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/backlog-details/BACKLOG-UPDATE-20261027.md
 priority: high
 type: feature
 ---
@@ -44,4 +45,8 @@ type: feature
 2026-10-26状态整理：PR213已合入第三幕地图/队列和普通结局边界，实际怪物AI/事件体与正式Host尚未接，仍To Do。第三幕不存在Boss宝箱；按现有核心接内容再连续通关。
 
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
+
+2026-10-27接续状态：第三幕新增敌人/事件切片仍由PR238整合集成，远端head a4dac772为OPEN/DRAFT且CONFLICTING，未合并。同步fc51f198后Transient、Shapes、Shapes Defect、Orb Walker、Maw Growth定向通过仅为本地证据；最终整合仍有库存恢复/道具来源回归失败。先完成同一PR当前SHA验收，再补正式入口及四职业自然连续通关，不把独立切片计整幕完成。
+
+2026-10-27优先级重排：High：第三幕敌人/事件/结局仍在PR238，当前先完成该集成再开放完整四幕验收。 解除后移出High再提升下一项；不放宽原验收。
 <!-- SECTION:NOTES:END -->
