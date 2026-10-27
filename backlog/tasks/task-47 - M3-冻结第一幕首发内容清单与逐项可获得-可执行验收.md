@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 16:36'
+updated_date: '2026-10-27 19:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -140,4 +140,6 @@ ordinal: 75000
 2026-10-28用户实机反馈：b12beab2测试包原神启动失败，截图显示abyss_battle_ui:701 cannot set interactable, no such field。原生CursorArea只支持raycastTarget，PresetButton的interactable合法；已将该包标记启动失败并保留截图/原候选，不再当可启动验收。先修全体CursorArea读写及Controller可用判断，严格原生字段mock复现并拒同类回归，再增量打替换测试包。其他M3模块在独立树继续，用户保留键鼠。
 
 2026-10-28替换测试包已冻结交付：59a70bfd修复原生CursorArea字段导致的启动异常，严格原生字段回归已先红后绿，199模块独立读回及静态0错误通过。旧b12包保留为用户实机启动失败证据；新59a包目前仅待用户重试，尚无本包真实ready或实机启动通过证据。大小、hash、构建标记及分层边界见docs/backlog-details/BACKLOG-UPDATE-20261027.md的10月28日节。继续遵守先及时交付可测冻结切片、优先修用户启动阻塞的安排，不以PR或全M3收口挡住试玩，不改任何AC。
+
+2026-10-28短路径测试包已交付：F:\New folder\.artifacts\M3测试.gil，冻结源码b420e8b267bbdbf2d5d7c68bc7d893faa130047c，buildId a2989ae6-f852-4901-a0f4-fb004183c323，5443920字节，SHA256 4fc77d5160e5709511784f7d1bc187eeda03430262c6c9777d1f8c63ea068766。包含CursorArea启动修复、原生只读activeInHierarchy判断、历史职业映射及第三幕事件旧输入拒绝；204模块独立读回匹配、原生静态0错误。完整不可变产物目录.artifacts/m3-test-20261028-b420e8b2保留；原UI_MISMATCH未抹除，46项仅text.autoSize=false被原生格式省略，使用原比较器复核通过。用户自行导入，尚无本包ready、真实启动或自然通关证据；旧启动失败包及截图继续保留。当前e4d60da7相对b420仅拆测试与证据，无生产源码变化；PR259当前完整CI仍在运行。第四幕正式接线在独立树推进，未混入本测试包，不改M3或任何未完成AC。
 <!-- SECTION:NOTES:END -->
