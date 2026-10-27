@@ -419,6 +419,20 @@ function M.retaliate(state, source, target, amount, status)
     return lost
 end
 
+local function queuePlayerAttackedReactions(state,source,target,amount,fixed)
+    if fixed or not source or source==target or target~=state.player then return false end
+    -- These onAttacked Powers all have source priority 5. Construct their
+    -- TOP actions before wasHPLost, whose later TOP draws must run first.
+    for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier','block_return','static_discharge'}))do
+        local n=target.statuses[id]
+        if id=='static_discharge'then
+            if amount>0 then require('abyss_defect_final_cards').static(state,n)end
+        elseif id=='block_return'then reaction(state,{op='block',value=n,fixed=true},true)
+        else reaction(state,{op='staticRetaliation',targetId=source.id,value=n},true)end
+    end
+    return true
+end
+
 function M.damage(state, source, target, base, fixed, retaliation, normalAmount, attackReaction)
     if not M.isActive(target) or source ~= nil and not M.isActive(source) then return 0 end
     local before, reactions = target.hp, retaliation or {}
@@ -444,7 +458,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     end
       unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
     Act3Powers.attacked(state,target,unblocked,reactions)
-    local attackedAmount=unblocked
+    local playerAttackedQueued=queuePlayerAttackedReactions(state,source,target,unblocked,fixed)
     if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
     local lost = math.min(target.hp, unblocked)
     -- Monster wasHPLost precedes onAttacked; the player uses the opposite
@@ -475,14 +489,12 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     end
     -- Thorns consumes block, but has no attack modifiers or recursive retaliation.
     -- Being attacked triggers Thorns, even at zero damage, fully blocked or lethal.
-    if not fixed and source then
-          for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier','block_return','static_discharge'})) do
+    if not fixed and source and source~=target and not playerAttackedQueued then
+          for _,id in ipairs(M.powerSequence(target,{'thorns','flame_barrier','block_return'})) do
             -- Each Power adds its own TOP DamageAction. Combining them would
             -- erase two distinct damage callbacks and reverse application order.
             if (target.statuses[id] or 0)>0 then
-                  if id=='static_discharge'then
-                      if target==state.player and source~=target and attackedAmount>0 then reactions[#reactions+1]={effect={op='defectStatic',value=target.statuses[id]}}end
-                  elseif id=='block_return' then
+                  if id=='block_return' then
                     if source~=target then reactions[#reactions+1]={effect={op='defenseBlock',value=target.statuses[id]}} end
                 elseif id=='thorns' or source~=target then
                     reactions[#reactions+1]={source=target,target=source,amount=target.statuses[id]}

@@ -746,6 +746,7 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    if action.effect.op=='staticRetaliation'then return M.staticRetaliation(state,action.effect)end
     if PlatedArmor.supports(action.effect.op)then
         return PlatedArmor.apply(M,state,action.effect,CardActions.enqueueReaction)
     end
@@ -1409,6 +1410,13 @@ end
 
 function M.capturedSharpHide(state,effect)
     EnemyAI.afterCard(state,{{source=effect.sourceId,amount=effect.value}})
+end
+
+function M.staticRetaliation(state,effect)
+    for _,enemy in ipairs(state.enemies)do if enemy.id==effect.targetId then
+        M.retaliate(state,state.player,enemy,effect.value);return true
+    end end
+    return true -- The captured target has already left the monster group.
 end
 
 function M.disposeCard(state,item)

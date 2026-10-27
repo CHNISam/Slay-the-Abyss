@@ -133,8 +133,9 @@ function M.incoming(state,target,amount)
  return amount
 end
 function M.static(state,count)
- local combat=require('abyss_combat')
- for _=1,count do require('abyss_orbs').channel(state,'lightning',combat)end
+ for _=1,count do
+  require('abyss_card_actions').enqueueReaction(state,{op='channelOrb',orb='lightning',value=1},true)
+ end
 end
 function M.onUse(state,card)
  if card.type~='power'then return end

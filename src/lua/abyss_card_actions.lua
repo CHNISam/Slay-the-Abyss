@@ -30,7 +30,8 @@ function M.enqueueReaction(state,effect,top)
 end
 function M.reactionRetained(effect)
     return PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
-        or effect.op=='damageRandom' or effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(effect)
+        or effect.op=='damageRandom' or effect.op=='staticRetaliation'
+        or effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(effect)
 end
 
 local function remove(pile, uid)
@@ -258,6 +259,7 @@ function M.apply(combat,state,item)
         return
     end
     if op=='enemyAction'then return combat.resolveEnemyAction(state,e,source)end
+    if op=='staticRetaliation'then return combat.staticRetaliation(state,e)end
     if op=='classPotion'then return require('abyss_class_potions').apply(combat,state,e)end
     if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end
     if require('abyss_watcher_final_cards').ops[op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end
