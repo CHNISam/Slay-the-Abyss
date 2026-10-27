@@ -1,0 +1,1871 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Independent fixed-source normal PC A0 interpretation; not authenticated PC execution.",
+  "generatorSha256": "135263cf91a3404a9a2c431959a8d2f64eb25ec4e0f5f5e97eeb61c3fac2ee18",
+  "primitiveGeneratorSha256": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8",
+  "cases": [
+    {
+      "seed": "0",
+      "shuffleLongHex": [
+        "28d01376a138a279",
+        "e92a367b780e0221",
+        "f3a5ab26746072b1",
+        "c637e2c94bb7fba0",
+        "63cc0225ca9960fe"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 60,
+          "kind": "medium",
+          "rewardRoll": 52,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 18,
+          "afterCombat": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 31,
+          "kind": "small",
+          "rewardRoll": 68,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 24,
+          "kind": "medium",
+          "rewardRoll": 79,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "a2f2709904a41b20",
+              "88637303b25ab236"
+            ],
+            "counter": 9
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "shuffleLongHex": [
+        "31505af788d81771",
+        "e65257ce4726c10b",
+        "28de31d791d25d76",
+        "2930465b9f590bc1",
+        "f3e8e40dc10ad19a"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 41,
+          "kind": "small",
+          "rewardRoll": 71,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 19,
+          "afterCombat": {
+            "words": [
+              "42ce675251912b41",
+              "e661df094dc7e080"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 61,
+          "kind": "medium",
+          "rewardRoll": 27,
+          "tier": "common",
+          "gold": 48,
+          "afterChest": {
+            "words": [
+              "6f40089d8138d665",
+              "e0feeb25fd467f3e"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "e0feeb25fd467f3e",
+              "c17e6f2b3b3f39f8"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 77,
+          "kind": "medium",
+          "rewardRoll": 87,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "b37e1e0122efbd2b",
+              "e79dc4ebc20ce704"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "65536",
+      "shuffleLongHex": [
+        "bffbdbb28032c213",
+        "9c251f6a90d2e95d",
+        "c26945a481bf80b0",
+        "dbcaabf355fb246f",
+        "7f225579e098d258"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "0e39d0ab31c467a8",
+              "b1c20b074e6e5a6b"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 62,
+          "kind": "medium",
+          "rewardRoll": 68,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "ea63146342648ef2",
+              "d80631413f5af1be"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "d80631413f5af1be",
+              "03c47ab216a032b1"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 28,
+          "kind": "small",
+          "rewardRoll": 1,
+          "tier": "common",
+          "gold": 24,
+          "afterChest": {
+            "words": [
+              "2192dd15c5fbbbf4",
+              "392bf7c928706c1e"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 18,
+          "afterCombat": {
+            "words": [
+              "392bf7c928706c1e",
+              "925b82b74d123a5d"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 86,
+          "kind": "medium",
+          "rewardRoll": 85,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "4fe423b31b7d6828",
+              "86194cf404328f7a"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "shuffleLongHex": [
+        "95d13c1b62c7ec73",
+        "5eb8daf3336fa42d",
+        "f6b546ca06255983",
+        "3182be3b9b64f7cb",
+        "99d0d864b860b15a"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "fa605f44aea3667d",
+              "9b70dcd6b42485f6"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 62,
+          "kind": "medium",
+          "rewardRoll": 73,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "336d48ad86da3b4c",
+              "fe15758e148abc7f"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 37,
+          "kind": "small",
+          "rewardRoll": 10,
+          "tier": "common",
+          "gold": 27,
+          "afterChest": {
+            "words": [
+              "a2a44eaffe6fe889",
+              "524ebededd3fd087"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "524ebededd3fd087",
+              "a715bd3c48d252ce"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 61,
+          "kind": "medium",
+          "rewardRoll": 47,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "9a3582b303998204",
+              "a3044a184b21ebe3"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2780424839485660359",
+      "shuffleLongHex": [
+        "e22accd39580436f",
+        "dc20ec537f5cde3a",
+        "886bb9640622d39f",
+        "620c2e37b6862047",
+        "a39584a00c01f571"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 12,
+          "afterCombat": {
+            "words": [
+              "da7b1a134bf15d5a",
+              "07afb2c0498ee615"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 25,
+          "kind": "small",
+          "rewardRoll": 71,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "d471399335cdf825",
+              "b3fa7fd0d054db7a"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 16,
+          "afterCombat": {
+            "words": [
+              "b3fa7fd0d054db7a",
+              "ae11ae66e63144cd"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 32,
+          "kind": "small",
+          "rewardRoll": 58,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "f583d63925d0b0a4",
+              "68e12e719ef63a78"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 16,
+          "afterCombat": {
+            "words": [
+              "68e12e719ef63a78",
+              "81f064824e5dad53"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 99,
+          "kind": "medium",
+          "rewardRoll": 9,
+          "tier": "common",
+          "gold": 47,
+          "afterChest": {
+            "words": [
+              "110933d28f754e10",
+              "2c0a36fd9b6831b2"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9223372036854775807",
+      "shuffleLongHex": [
+        "9bf1905658ca74a4",
+        "0576d3cb6561e9ce",
+        "14286e35887071fa",
+        "f2643e61d812cdf2",
+        "e080619ffcd8ec32"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 14,
+          "afterCombat": {
+            "words": [
+              "e72306068b6e596a",
+              "b4ce8a4fcd5c1b3a"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 87,
+          "kind": "large",
+          "rewardRoll": 97,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "50a8497b9805ce94",
+              "c38024b9f06aa366"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "c38024b9f06aa366",
+              "2ee419a7e7a82a8c"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 21,
+          "kind": "small",
+          "rewardRoll": 4,
+          "tier": "common",
+          "gold": 24,
+          "afterChest": {
+            "words": [
+              "4c8bf4ed355045fb",
+              "011d0dadbe51dc08"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 19,
+          "afterCombat": {
+            "words": [
+              "011d0dadbe51dc08",
+              "3b0c4c6a9fa516f4"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 75,
+          "kind": "medium",
+          "rewardRoll": 73,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "ecce02c6f4460d73",
+              "e28d9b3ded1358e8"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "-9223372036854775808",
+      "shuffleLongHex": [
+        "28d01376a138a279",
+        "e92a367b780e0221",
+        "f3a5ab26746072b1",
+        "c637e2c94bb7fba0",
+        "63cc0225ca9960fe"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 60,
+          "kind": "medium",
+          "rewardRoll": 52,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 18,
+          "afterCombat": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 31,
+          "kind": "small",
+          "rewardRoll": 68,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 24,
+          "kind": "medium",
+          "rewardRoll": 79,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "a2f2709904a41b20",
+              "88637303b25ab236"
+            ],
+            "counter": 9
+          }
+        }
+      ]
+    },
+    {
+      "seed": "1",
+      "shuffleLongHex": [
+        "34913d26a7e2cd2f",
+        "62ac15b85e3ec0ca",
+        "d8aeece78eacc5f8",
+        "5931f371585f5891",
+        "f41b2a7be06c7e13"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 12,
+          "afterCombat": {
+            "words": [
+              "7d6e4ac38b2b1be2",
+              "b722f2631cb7b14d"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 5,
+          "kind": "small",
+          "rewardRoll": 88,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "ab89235541870f7d",
+              "2d25c9924d25b67b"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "2d25c9924d25b67b",
+              "2c0c29df0b39a216"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 21,
+          "kind": "small",
+          "rewardRoll": 19,
+          "tier": "common",
+          "gold": 25,
+          "afterChest": {
+            "words": [
+              "0b86d4640c4c5ec2",
+              "8de30ea50ab309e5"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "8de30ea50ab309e5",
+              "b463e00d661948c3"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 80,
+          "kind": "medium",
+          "rewardRoll": 8,
+          "tier": "common",
+          "gold": 53,
+          "afterChest": {
+            "words": [
+              "d9d56d691df959c2",
+              "eb860d9b4a1672c2"
+            ],
+            "counter": 11
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2",
+      "shuffleLongHex": [
+        "348dbcd0bbbda153",
+        "0d5166b325b719aa",
+        "4104e0d0639e24b5",
+        "5942c2870a0e3fdf",
+        "70f079f4b9c143cc"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 14,
+          "afterCombat": {
+            "words": [
+              "2f001c5a9cf66fa8",
+              "058da0761ec731ab"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 45,
+          "kind": "small",
+          "rewardRoll": 62,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "07c3c63d06efe7ff",
+              "39411a935cae3cb6"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "39411a935cae3cb6",
+              "2001a7f3ad600329"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 78,
+          "kind": "medium",
+          "rewardRoll": 66,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "50eed2010c6140a3",
+              "8939a90c85ccdf39"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 19,
+          "afterCombat": {
+            "words": [
+              "8939a90c85ccdf39",
+              "d95163bbe717724b"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 68,
+          "kind": "medium",
+          "rewardRoll": 97,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "d62a2b530db2cf2d",
+              "d288c13531ae08ee"
+            ],
+            "counter": 9
+          }
+        }
+      ]
+    },
+    {
+      "seed": "3",
+      "shuffleLongHex": [
+        "f2267576cf5df658",
+        "3fda005f78ddffe2",
+        "124b5932bc4c7de7",
+        "822dcfbb8645d753",
+        "cd409d44afec7e14"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "ac7cb627ca2f4a0c",
+              "45a9bf4f052eac4c"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 89,
+          "kind": "large",
+          "rewardRoll": 43,
+          "tier": "uncommon",
+          "gold": 75,
+          "afterChest": {
+            "words": [
+              "181b1822489d2a51",
+              "6a12b7993da8ad02"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "6a12b7993da8ad02",
+              "632de5ab7243d112"
+            ],
+            "counter": 5
+          },
+          "kindRoll": 53,
+          "kind": "medium",
+          "rewardRoll": 67,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "c5a1d53a3475c898",
+              "73354a02c562aaa6"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "73354a02c562aaa6",
+              "2b8e899d87aadeb5"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 72,
+          "kind": "medium",
+          "rewardRoll": 57,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "59d94beb0fc1d843",
+              "bc9465a90ac092a0"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "4",
+      "shuffleLongHex": [
+        "7425a9d1a9804056",
+        "7f92d2f33b401e02",
+        "23aebae7099f79cf",
+        "2abe7b7bd310794d",
+        "7d8ab8a714c4ef9f"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "a3b0f7b9b4b5e89b",
+              "d074b217f4ca57bb"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 33,
+          "kind": "small",
+          "rewardRoll": 83,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "af1e20db4675c647",
+              "74909a0bc329b388"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "74909a0bc329b388",
+              "b62de1700fe6c5c5"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 31,
+          "kind": "small",
+          "rewardRoll": 43,
+          "tier": "common",
+          "gold": 24,
+          "afterChest": {
+            "words": [
+              "c976c2013784576d",
+              "95a8547fdffb0a15"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "95a8547fdffb0a15",
+              "5c453086b4ff020d"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 66,
+          "kind": "medium",
+          "rewardRoll": 61,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "f602cc48a4354308",
+              "e91d8cfd317a8a13"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "5",
+      "shuffleLongHex": [
+        "722657e0f3d8c429",
+        "2bbf8f55c12ad537",
+        "ca1ecb3a7589d2fe",
+        "03403469c9d62057",
+        "9c666e210c22df0a"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "16531304d8af5066",
+              "5bd344dc1b2973c3"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 27,
+          "kind": "small",
+          "rewardRoll": 83,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "cfec4a79a6016174",
+              "fa3280c0cf88718a"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 20,
+          "afterCombat": {
+            "words": [
+              "fa3280c0cf88718a",
+              "090db3a8fa4daecd"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 85,
+          "kind": "large",
+          "rewardRoll": 59,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "9358ba7811d5303d",
+              "4e28419b1189ce92"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "4e28419b1189ce92",
+              "e17846c0bcbc9fc1"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 72,
+          "kind": "medium",
+          "rewardRoll": 84,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "62d88254f89acd38",
+              "e3feda501ec169d9"
+            ],
+            "counter": 9
+          }
+        }
+      ]
+    },
+    {
+      "seed": "6",
+      "shuffleLongHex": [
+        "39a819c1e8e49e58",
+        "24289898fd130b6a",
+        "c99c81718bab88c6",
+        "d9f6063aa77f939f",
+        "cbaf76e3319275d9"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "14fc879e54fc55f0",
+              "24ab922393e84868"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 17,
+          "kind": "small",
+          "rewardRoll": 59,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "ff7d0675692ac302",
+              "ca1f7afc2280c5c4"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 13,
+          "afterCombat": {
+            "words": [
+              "ca1f7afc2280c5c4",
+              "0fd68b3e84fecddb"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 88,
+          "kind": "large",
+          "rewardRoll": 59,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "bbd8eba4ac93a7fe",
+              "2b4c579849fbb7b1"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 16,
+          "afterCombat": {
+            "words": [
+              "2b4c579849fbb7b1",
+              "42c2c12298465f94"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 21,
+          "kind": "medium",
+          "rewardRoll": 8,
+          "tier": "common",
+          "gold": 47,
+          "afterChest": {
+            "words": [
+              "76249326a56aaff2",
+              "b178be64f89af7b3"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "7",
+      "shuffleLongHex": [
+        "15fa594df1ca68f6",
+        "d52242d0e4e01bbb",
+        "05eec8cacce388ef",
+        "9c7b9f18c8c29441",
+        "18262618f3f65042"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "5226c30177216e75",
+              "c3d3964c7aa8fa81"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 33,
+          "kind": "small",
+          "rewardRoll": 95,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "f4a01c4662ac67b5",
+              "a7db82d266162c8c"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 37,
+          "kind": "small",
+          "rewardRoll": 12,
+          "tier": "common",
+          "gold": 23,
+          "afterChest": {
+            "words": [
+              "bea24deafbbcce92",
+              "6dae77142c643cea"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 19,
+          "afterCombat": {
+            "words": [
+              "6dae77142c643cea",
+              "2671c16d3c83ee2d"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 95,
+          "kind": "medium",
+          "rewardRoll": 37,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "c1c9f7b2db12a53a",
+              "51263f6f4321b2a0"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "8",
+      "shuffleLongHex": [
+        "e57bd871fa3f22da",
+        "6d96cbf707f1fdfa",
+        "cf26641fb8c5c133",
+        "6713bd7558e8b852",
+        "b9fa076e7bc39d62"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "68ecf1cacb69f37b",
+              "7c8ee6a72ed52f5f"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 85,
+          "kind": "large",
+          "rewardRoll": 25,
+          "tier": "uncommon",
+          "gold": 74,
+          "afterChest": {
+            "words": [
+              "de1e7ecfdfa8f298",
+              "88f53ea5793fc5ba"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 12,
+          "afterCombat": {
+            "words": [
+              "88f53ea5793fc5ba",
+              "3104c8c90283d7a8"
+            ],
+            "counter": 5
+          },
+          "kindRoll": 82,
+          "kind": "medium",
+          "rewardRoll": 71,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "eb4d04a6372df24d",
+              "bec8a77cf67e6729"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 19,
+          "afterCombat": {
+            "words": [
+              "bec8a77cf67e6729",
+              "069e69271cd5c28f"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 22,
+          "kind": "medium",
+          "rewardRoll": 26,
+          "tier": "common",
+          "gold": 51,
+          "afterChest": {
+            "words": [
+              "933db87fc45cfe3e",
+              "0d1acd560cabf19a"
+            ],
+            "counter": 11
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9",
+      "shuffleLongHex": [
+        "5f1caf48ba43059f",
+        "fb73af2780305c48",
+        "00b420f19e3e5a92",
+        "72809028d59a0b90",
+        "18fb6c3923296f11"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 13,
+          "afterCombat": {
+            "words": [
+              "f663ee18c37fb774",
+              "68b8c12ff6c34e2b"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 60,
+          "kind": "medium",
+          "rewardRoll": 97,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "92baedf7896d0e1d",
+              "6df932fa14d14c75"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 14,
+          "afterCombat": {
+            "words": [
+              "6df932fa14d14c75",
+              "04875d2ec0c8bf1b"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 84,
+          "kind": "large",
+          "rewardRoll": 23,
+          "tier": "uncommon",
+          "gold": 77,
+          "afterChest": {
+            "words": [
+              "87937f8dae9374d1",
+              "16d608534c82f4fc"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "16d608534c82f4fc",
+              "57921ec3240877f7"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 77,
+          "kind": "medium",
+          "rewardRoll": 68,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "68e24847d699aa83",
+              "5ee249a53cffa345"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "10",
+      "shuffleLongHex": [
+        "b773fadc64e80331",
+        "3106ca5b11e5d6d2",
+        "6743212e41386801",
+        "59c55b49eb8e264a",
+        "a6e2bc475269cadb"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "3ca027e082c854b4",
+              "7ad3d2fbe21fae7d"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 49,
+          "kind": "small",
+          "rewardRoll": 32,
+          "tier": "common",
+          "gold": 24,
+          "afterChest": {
+            "words": [
+              "b11029cf11723fac",
+              "a8b5317ada1be69e"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 18,
+          "afterCombat": {
+            "words": [
+              "a8b5317ada1be69e",
+              "fe2d8acc784de43d"
+            ],
+            "counter": 5
+          },
+          "kindRoll": 98,
+          "kind": "large",
+          "rewardRoll": 34,
+          "tier": "uncommon",
+          "gold": 72,
+          "afterChest": {
+            "words": [
+              "73e45c9a35cd89f5",
+              "d32d8849eeff2470"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 15,
+          "afterCombat": {
+            "words": [
+              "d32d8849eeff2470",
+              "edd32d5cb7ffd858"
+            ],
+            "counter": 9
+          },
+          "kindRoll": 81,
+          "kind": "medium",
+          "rewardRoll": 16,
+          "tier": "common",
+          "gold": 48,
+          "afterChest": {
+            "words": [
+              "598152231ee98186",
+              "eb3fb91b74a3e0a8"
+            ],
+            "counter": 12
+          }
+        }
+      ]
+    },
+    {
+      "seed": "11",
+      "shuffleLongHex": [
+        "501943c8ae453ee2",
+        "ee26cf9af4cef057",
+        "7a347abbe5c92c05",
+        "bb3ba3288389bec0",
+        "de9b7796d28aa823"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 16,
+          "afterCombat": {
+            "words": [
+              "5681a0b732533a20",
+              "f997a3117bf204c2"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 79,
+          "kind": "medium",
+          "rewardRoll": 98,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "f48f2c8978dceb95",
+              "85a54e326cec4070"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 12,
+          "afterCombat": {
+            "words": [
+              "85a54e326cec4070",
+              "359654f6169d7e50"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 93,
+          "kind": "large",
+          "rewardRoll": 11,
+          "tier": "uncommon",
+          "gold": 68,
+          "afterChest": {
+            "words": [
+              "e7981f8d491c60e3",
+              "1ec0b72c976c8354"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 16,
+          "afterCombat": {
+            "words": [
+              "1ec0b72c976c8354",
+              "3ffc36085703b4dc"
+            ],
+            "counter": 8
+          },
+          "kindRoll": 87,
+          "kind": "medium",
+          "rewardRoll": 91,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "b777732f15d42b2b",
+              "8ca0d93b2ae248b3"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "12",
+      "shuffleLongHex": [
+        "97288a2523c47d04",
+        "24af920e9d285a5f",
+        "9c18f65599ba27b4",
+        "705d09fec26104a5",
+        "a930cc888502204e"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "45ea8f8f4d46a009",
+              "513dfa95d67ddcfb"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 11,
+          "kind": "small",
+          "rewardRoll": 62,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "d3719778c6aa7d64",
+              "c8a75edcd30faa50"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 14,
+          "afterCombat": {
+            "words": [
+              "c8a75edcd30faa50",
+              "a7b5ab21ef515a55"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 51,
+          "kind": "medium",
+          "rewardRoll": 69,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "017b216695b0c5f9",
+              "3639394b0f6fa4e1"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "3639394b0f6fa4e1",
+              "8408995a14930743"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 69,
+          "kind": "medium",
+          "rewardRoll": 40,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "17b65e3d2e164ad0",
+              "3eb49a601efe1851"
+            ],
+            "counter": 9
+          }
+        }
+      ]
+    },
+    {
+      "seed": "13",
+      "shuffleLongHex": [
+        "f7ac74bef1b9f816",
+        "36167f0b6c57d800",
+        "df625ba12e479f24",
+        "23e1926f37205628",
+        "70f861f94bc5a986"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "a1ff4e2876d47b08",
+              "55ad26967ae57d0e"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 20,
+          "kind": "small",
+          "rewardRoll": 10,
+          "tier": "common",
+          "gold": 23,
+          "afterChest": {
+            "words": [
+              "fef9032c3cd54432",
+              "24e88f42fa4b11f6"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "24e88f42fa4b11f6",
+              "4c0fd2b6517a9790"
+            ],
+            "counter": 5
+          },
+          "kindRoll": 43,
+          "kind": "small",
+          "rewardRoll": 5,
+          "tier": "common",
+          "gold": 23,
+          "afterChest": {
+            "words": [
+              "debd5ef9ceaad91b",
+              "45e479d2f9855aaf"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 17,
+          "afterCombat": {
+            "words": [
+              "45e479d2f9855aaf",
+              "e7be237bc67b569f"
+            ],
+            "counter": 9
+          },
+          "kindRoll": 1,
+          "kind": "medium",
+          "rewardRoll": 69,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "4b26ce71da4905c3",
+              "117bfd9d15698bd7"
+            ],
+            "counter": 11
+          }
+        }
+      ]
+    },
+    {
+      "seed": "14",
+      "shuffleLongHex": [
+        "89ca576b5adc37a7",
+        "db95d5983eea6188",
+        "1f39f61ec74ac49f",
+        "7fc4bc2227d31900",
+        "51ae68b22857176f"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "1212b40cf65e84d0",
+              "77b7a35e647db2d7"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 96,
+          "kind": "large",
+          "rewardRoll": 83,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "63de3239da6caeb1",
+              "bb5bc3e4ecde15ee"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "bb5bc3e4ecde15ee",
+              "c468f83d3af50312"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 11,
+          "kind": "small",
+          "rewardRoll": 81,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "8d457074ed62145d",
+              "57b09f91ce95538e"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 19,
+          "afterCombat": {
+            "words": [
+              "57b09f91ce95538e",
+              "e083056301efc251"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 31,
+          "kind": "medium",
+          "rewardRoll": 12,
+          "tier": "common",
+          "gold": 54,
+          "afterChest": {
+            "words": [
+              "2ed745d4e72ee903",
+              "b562842bbc4f45bc"
+            ],
+            "counter": 10
+          }
+        }
+      ]
+    },
+    {
+      "seed": "15",
+      "shuffleLongHex": [
+        "9be0d3d8ca9358f6",
+        "8fa8e174d50d49e5",
+        "f0641648859aec86",
+        "a721e7e64a50348b",
+        "52fee9ef754ef21d"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 16,
+          "afterCombat": {
+            "words": [
+              "0ffb070fbb36b98d",
+              "8be5ccc90f5c9f69"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 42,
+          "kind": "small",
+          "rewardRoll": 23,
+          "tier": "common",
+          "gold": 26,
+          "afterChest": {
+            "words": [
+              "eca1019cbfea420a",
+              "ba80e6498a65f281"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 10,
+          "afterCombat": {
+            "words": [
+              "ba80e6498a65f281",
+              "987e03a5eae8ff9c"
+            ],
+            "counter": 5
+          },
+          "kindRoll": 76,
+          "kind": "medium",
+          "rewardRoll": 18,
+          "tier": "common",
+          "gold": 51,
+          "afterChest": {
+            "words": [
+              "4cb0ca8fc4366888",
+              "4261bf250e39e5c6"
+            ],
+            "counter": 8
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 11,
+          "afterCombat": {
+            "words": [
+              "4261bf250e39e5c6",
+              "49336b277ebd8416"
+            ],
+            "counter": 9
+          },
+          "kindRoll": 4,
+          "kind": "medium",
+          "rewardRoll": 33,
+          "tier": "common",
+          "gold": 53,
+          "afterChest": {
+            "words": [
+              "4359f81494924438",
+              "924b6ab3f8c67c14"
+            ],
+            "counter": 12
+          }
+        }
+      ]
+    },
+    {
+      "seed": "16",
+      "shuffleLongHex": [
+        "f772e275eb695ebd",
+        "e2f77a37521ee334",
+        "067a0f132b731f9b",
+        "172d7e04806d06e1",
+        "955af48898d7f5d1"
+      ],
+      "steps": [
+        {
+          "act": 1,
+          "combatGold": 14,
+          "afterCombat": {
+            "words": [
+              "ccb954bc7af860a2",
+              "2ab98db97070fe1b"
+            ],
+            "counter": 1
+          },
+          "kindRoll": 38,
+          "kind": "small",
+          "rewardRoll": 65,
+          "tier": "common",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "b83dec7de1ade519",
+              "4e3c229549c53a82"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "act": 3,
+          "combatGold": 12,
+          "afterCombat": {
+            "words": [
+              "4e3c229549c53a82",
+              "c8f15b6f36a7cc5f"
+            ],
+            "counter": 4
+          },
+          "kindRoll": 52,
+          "kind": "medium",
+          "rewardRoll": 88,
+          "tier": "rare",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "cc69991962302972",
+              "b303ae1665352fe6"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "act": 4,
+          "combatGold": 12,
+          "afterCombat": {
+            "words": [
+              "b303ae1665352fe6",
+              "f3db0f5b3e686e95"
+            ],
+            "counter": 7
+          },
+          "kindRoll": 89,
+          "kind": "medium",
+          "rewardRoll": 62,
+          "tier": "uncommon",
+          "gold": 0,
+          "afterChest": {
+            "words": [
+              "4bea67fec4de5ca6",
+              "15ae73a25719f7f6"
+            ],
+            "counter": 9
+          }
+        }
+      ]
+    }
+  ]
+}
