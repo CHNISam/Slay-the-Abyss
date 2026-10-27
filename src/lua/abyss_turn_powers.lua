@@ -11,7 +11,7 @@ local Events=require('abyss_events')
 local M={}
 local MAX=2147483647
 M.phases={
-    turn_start={berserk=true,infinite_blades=true,bias=true,loop=true,flame_barrier=true,
+    turn_start={magnetism=true,mayhem=true,berserk=true,infinite_blades=true,bias=true,loop=true,flame_barrier=true,
         next_turn_block=true,battle_hymn=true,energy_down=true,wrath_next_turn=true},
     energy_recharge={energized=true,energized_blue=true,collect=true},
     turn_start_post_draw={demon_form=true,noxious_fumes=true,devotion=true,brutality=true,
@@ -93,6 +93,8 @@ function M.prepareStart(state)
         elseif id=='berserk' then
             if n==0 then add(out,{op='energy',value=0},id)
             else bottom(out,Strength.planHook(state,id,'turn_start'),id)end
+        elseif id=='magnetism' or id=='mayhem' then
+            add(out,{op='colorless',kind=id=='magnetism' and 'generateColorless' or 'mayhem',value=n},id)
         elseif id=='infinite_blades' then
             add(out,{op='makeTempCard',cardId='shiv',pile='hand',upgraded=false,value=n},id)
         elseif id=='flame_barrier' then

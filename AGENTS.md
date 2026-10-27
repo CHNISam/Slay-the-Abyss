@@ -1,5 +1,12 @@
 # 项目协作规则
 
+## 结果验收与完成声明
+
+- 以用户要求的最终结果验收。优化前明确可检查的完成标准；相对改善比例不能代替最终是否达标。
+- 核心缺口未解决时，继续原任务或重开任务，保持未完成并明确报告。不得把局部实现、通过部分检查或“后续再做”包装成整体完成。
+- 架构治理检查整个受影响职责及提取后的辅助函数，不能把超大函数搬到别处后宣称已治理。能够机器检查的标准，应加入已有工程门禁防止回退。
+- 只有全部必要验收有实际证据后才报告完成；报告具体最终值、通过的验证和仍未验证的范围。
+
 ## 许可与商业权利
 
 用户2026-10-26明确禁止第三方未经授权商用，项目方保留商业化权利。根目录LICENSE是项目原创内容的非商业源码许可；公开仓库不授予商业使用权。修改或分发须保留许可与声明，不得擅自换成MIT、Apache等允许商业使用的许可；第三方内容继续遵循其各自许可，不覆盖第三方权利。
@@ -89,6 +96,14 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - Finish integration promptly: after a feature PR merges, verify its head has no new work, delete the remote branch, prune remote references, and remove its clean local worktree and branch in the same session. GitHub automatic branch deletion is enabled.
 - Preserve dirty worktrees and independent commits; record why they remain. For squash merges, verify the merged PR head and retain recoverable history before forcing local branch deletion.
 - Put review fixes and closeout notes into the existing task PR where practical. Do not leave completed review branches or create another branch solely to report an already merged change.
+
+## 版本 Tag
+
+- Tag 仅用于真实的 Alpha、Beta、RC、稳定版，或已交付且可恢复的重要版本里程碑；普通提交、PR、功能、修复、任务验收和清理不打 Tag。
+- 命名使用 `vMAJOR.MINOR.PATCH`；预发布后缀仅使用 `-alpha.N`、`-beta.N`、`-rc.N`。
+- 使用带注释 Tag，指向该版本已验收且实际交付的精确 commit；创建后不得移动、覆盖或复用版本号。
+- 不创建 `archive/*` 或其他归档 Tag；合并分支沿用现有 GitHub 自动删除，保留必要恢复证据，不以 Tag 代替清理。
+- 只为有真实发布和验收证据的版本打 Tag，不补造历史发布。
 
 ## Milestone 顺序验收
 

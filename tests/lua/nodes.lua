@@ -118,7 +118,7 @@ test("camp reads upgradeCount and rejects an already upgraded or unsupported cho
     rejected(run, map, function() return Nodes.upgrade(run, run.deck[1].uid) end, "card_not_upgradeable")
     assert(Nodes.upgrade(run, run.deck[2].uid)); equal(run.phase, "map")
     local unsupported = Combat.copy(data)
-    unsupported.cards.cards[1].upgrade.effects = { { op = "heal", value = 6 } }
+    unsupported.cards.cards[1].upgrade.effects = { { op = "unsupported_camp_effect", value = 6 } }
     local other, otherMap = entered("camp", unsupported)
     rejected(other, otherMap, function() return Nodes.upgrade(other, other.deck[1].uid) end, "card_not_upgradeable")
 end)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-26 15:35'
+updated_date: '2026-10-27 02:00'
 labels:
   - required
   - sts1
@@ -29,7 +29,7 @@ type: feature
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-已通过PR213合入第二幕18至34层地图、遭遇权重/队列、Boss选择基础和换幕资源迁移，复用TASK-63，不重写地图。M3剩余：实际怪物与三Boss AI、13普通事件及共享事件交易/战斗、正式Host和章节UI，随后四职业连续通关。
+第二幕地图、队列和资源迁移基线已合入，本轮独立分支补齐5弱/8强/3精英/3Boss共19个源编组及特殊机制，40份固定源摘要和34组回归可查。仍缺事件专属敌人、13普通事件、完整Host自然流程及四职业连续/平台通关；本轮切片通过不等于第二幕整体Done。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -43,11 +43,9 @@ type: feature
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-2026-10-26 bounded source-first slice: independently implement Spheric Guardian A0 and explicit solo / ordered Sentry-and-Sphere definitions; reuse Actor Barricade/Artifact/Frail, register AI dispatch and queued rolls, add pinned source facts, strict data validation and actual Combat API regressions. Preserve act_content_unavailable, full campaign/native acceptance and all current task metadata/AC.
+2026-10-26本轮M3并行：act2独立工作树按固定来源补第二幕怪物组的A0数据/AI和正式构造分派，保留未实现内容拒绝边界，不代用第一幕怪物。Host/章节UI由父线程负责，事件和药水另树；统一集成和回归后再判各层验收。
 
-父执行者本轮追加授权：只补首发账本exclusions.enemies的REQUIRED-M3未正式接线记录，保持正式敌人非空渠道与真实绑定等式不变；补第二幕目录本地及规范路径的构建输出别名保护，并用伪造完成/准入/证据与链接别名反例检验。
-
-2026-10-26 Beggar 独立切片（当前 d8a2622）：仅接第二幕 Beggar 的来源映射、事件状态与 Nodes 命令。按固定 319009d5 来源，Intro 支付75一次进入 GAVE_MONEY，再确认进入不可取消的一张非瓶装可清除永久牌选择；复用 LivingWall/Run.removeCard 事务。移除失败保留已支付中间态，空组保留待处理且不编造退款、零选完成或额外支付门槛。新增定向来源/实际 Lua 回归，完整池和正式章节门禁不变。原生 NodeUI 等 PR228 集成，不在此切片声称平台或完整 AC2 验收。
+本轮组合审查独立补齐章节非稀有奖励升级0/25/50/50%的源序、纯数据保留、UID领取及下一战；主线程接升级卡面与缺定义奖励的明确不可领取显示，身份与随机消费不重抽。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -57,13 +55,13 @@ type: feature
 
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
 
-2026-10-26 Spheric Guardian 有界离线切片：新增PC A0 AI和固定HP20，开战按Barricade→Artifact3→Block40，Block25→10伤害及Frail5→10×2与Block15后10伤害交替；保留开局及每次行动末0..99选招消耗。第二幕定义仅按既有来源ID映射单体和Sentry先/Sphere后的编组，不改第一幕18项池、权重、地图或正式章节开关。20组真实Combat命令回归、189项相关Node、9份既有Lua、语法/架构/固定Luacheck通过；两个隔离语义退化均被新回归检出，独立只读复审未发现阻断。首次夹具断言失败原日志保留并已修正。MonsterHelper检索文本与旧来源锁摘要不一致，旧锁未改、明确保留字节来源不确定，未将其称为PC二进制认证。完整check尚未宣称通过：新增定义引发旧首发清单精确数量门禁，等待父执行者统一处理未正式接线内容账本。第二幕敌人/事件/Boss完整内容、Host、四职业连续自然通关和平台验收均继续开放，AC与任务状态不变。
+本轮隔离分支已增量实现第二幕全部5弱/8强/3精英所需怪物与编组，含Hex、Flight、Confusion、吸血破甲、Leader真实召唤；Champ已实现，另外两Boss和事件敌人仍缺。各切片定向红绿与固定源SHA账本见docs/rules/ACT2_ENEMIES.md，父线程正在组合验证。当前不是完整第二幕/平台验收，三项广义AC不勾。
 
-2026-10-26补充：新增定义的账本数量门禁已按父执行者追加授权修复，不把第二幕内容改为非首发或伪造合法渠道。exclusions.enemies明确REQUIRED-M3 / OFFLINE_SLICE_ONLY / UNWIRED及平台、自然通关NOT_RUN；正式与暂存ID全集精确覆盖、互斥唯一，实际第一幕正式绑定不得被排除。72项账本/数据构建/原首发回归通过，最终30项来源/数据/输入别名测试通过；真实首发Lua支持门禁、build:data、Backlog与最新JS语法通过。新增链接反例覆盖本地目录及从另一输入目录构建时实际读取的规范目录；父独立复审未见阻断。仍未运行最终一次完整npm run check、当前SHA远端Quality、官方构建导入或实机验收，不据此关闭TASK-61或勾其开放AC。
+2026-10-27组合复审：真实Leader重复Rally保留尸体后，活敌真实索引超过5导致界面不可见已复现。独立m3-summon-visibility树正在分离显示槽与actor身份，保留核心尸体、点选/拖牌/帮助/反馈及旧输入保护；缺陷修复及当前SHA完整检查完成前不提高父任务验收状态。
 
-2026-10-26 Beggar 有界核心切片（独立 d8a2622 源码副本，待 ROOT 集成）：新增 abyss_act2_events 与 Nodes/池映射，支付75与下一次确认/强制一张非瓶装可清除牌分开事务；永久移除只走 Run.removeCard。移除钩子异常或过期数据拒绝不退还此前已支付金币；空组保留待处理和来源未证实边界，不发明零选完成、退款、取消或额外施舍门槛。新15组实际 Lua /2项 Node 来源合同通过；相关10份 Lua 与9项 Node 通过；三项隔离变异（费用、可取消、绕过永久移除钩子）均触发原断言失败，产品源码未改。JavaScript语法、仅临时添加新模块core分类后的架构、固定hash Luacheck1.2.0通过，分类文件已恢复供ROOT统一合并。只证明公开核心命令，不是原生NodeUI、独立RNG真值、完整第二幕或AC2全部验收。来源为固定319009d5反编译镜像，本地提取文本摘要不作正版二进制/规范字节认证；未复制Java原文。独立只读审查无阻塞发现。没有改AC、状态、Assignee或正式章节门禁。
+2026-10-27组合修复已合入隔离候选源码：第二幕19常规编组含3Boss本地可进入，召唤5槽映射保留核心尸体/真实actor索引与UID；章节非稀有奖励升级按0/25/50/50%贯通到真实卡面、纯数据奖励与永久领取。首轮完整JS1437通过/5失败/119既有条件跳过，五处旧合同已逐项核实并定向修复，完整检查重跑中。事件专属敌人、第二幕事件、自然全程与平台仍未验，父任务不Done。
 
-2026-10-26 两个离线内容切片统一集成：以当前 develop 06d2f5bcbe412a161c1883c23c4c9dc45884049c 的真实文本和完整 Git 树为基线，保留全部既有文件、115项架构分类及政策，将 Spheric Guardian 与 Beggar 的计划、备注和 core 注册合并，未覆盖任何作者记录或 TASK-61 的状态、Assignee、描述与 AC。真实新回归为20组 Guardian Combat 与15组 Beggar Nodes；18份相关既有 Lua、6项相关 Node 加1项 Living Wall完整来源矩阵均已有本轮通过记录，68项账本/数据构建/输入别名测试通过，语法、Backlog、架构与固定 Luacheck 无新增诊断。集成首次 build:ui 因新增定义缺图标/动作音效失败，并使既有永久移除原生夹具缺 abyss_theme；保留原失败，只在主题中明确暂复用既有 Sentry 的112027/50421，并标记非新美术批准及非原生验收，不削弱逐定义覆盖门禁。真实 build:theme/build:ui、87项主题与 Guardian 边界测试及失败夹具7组随后通过。当前相关层计划因任务/配置/数据改动保守回退完整检查；本轮未把这些定向结果冒充完整 npm run check 或当前 SHA 远端 Quality。MonsterHelper 旧字节锁差异、Beggar 空组强制待处理及先付款不退款边界保留。未引入 TASK-63/MapUI、原生 Beggar picker、章节解锁、全局池改写或新机制，官方导入、四职业自然连续通关及所有开放 AC 继续待验。
+补齐Beggar、Mausoleum、Addict事务及现有控件界面，接入Darkstone永久诅咒钩子；修正Mystic接收者引用快照、Vampire治疗先于反伤、V4 Life Suck攻击识别、Plated及相关反应进入已有队列的顺序。保留空所有者菜单与Start失败发布边界。实现见src/lua/abyss_act2_events.lua、abyss_node_ui.lua、abyss_effects.lua、abyss_plated_armor.lua；顺序与限制见docs/rules/ACT2_ENEMIES.md。回归见tests/lua/m3_combined_queue.lua、m3_current_owner_event_keys.lua、plated_armor_queue.lua、act2_party_snapshot.lua、act2_vampire_order.lua、original_v4_vampire_attack.lua及原game_ui_owner_initialization.lua、game_ui_phase_four.lua。本地聚焦与相关回归通过，完整Quality以PR当前提交检查状态为准。原生客户端、自然四职业连续四幕、历史生产/持久化、全源事件/遗物/宝箱池仍未证明；空必选牌组不提供跳过或退款，死亡攻击者Vampire与部分Darkstone战斗健康上下文限制保留。 本轮基于最新develop增量整合，保留原版来源拖牌/持续选目标、共享卡面装配与卡牌ID美术接线；未引入新的同步反应结算。
 
-验收措辞补充：上述永久移除的“原生夹具”仅指本地离线 NodeUI 模拟回归，不是客户端原生平台实测；平台与自然游玩仍为 NOT_RUN。
+古老文字（Back to Basics）本地增量按固定319009d5来源实现：优雅免费复用永久删牌/Parasite钩子，非瓶装可清除牌按唯一UID选择，空合法组直接结果。简洁仅认八个源初始打击/防御ID，瓶装牌照常升级，已升级牌不重复；零目标有效，缺失/不支持的源目标升级内容在任何写入前原子拒绝。原创V4可选优雅，简洁因初始源标签映射未确认明确不可用（实现边界，不是源职业规则）。两分支均结果页另按离开回图；四参选牌内部canCancel=true，其余升级/变形/清除/任意数量标记为false，正常事件不显示取消，不套用Beggar付费强制元数据。既有NodeUI控件、13项完整实验池精确映射与默认受限七事件池保留。新17公开事务/9生成控件组、既有三Act2事件/UI/目录、永久删牌事务及源钩子相关回归通过；架构143模块701边、固定Luacheck无新增诊断，四关键语义变异均由原断言杀死。实现与来源限制见docs/rules/BACK_TO_BASICS.md，回归见tests/back-to-basics-event.test.mjs及tests/lua/back_to_basics_event.lua、back_to_basics_ui.lua。完整Quality与官方客户端/自然四职业连续流程NOT_RUN，不勾全量AC，不关闭TASK61/M3。
 <!-- SECTION:NOTES:END -->

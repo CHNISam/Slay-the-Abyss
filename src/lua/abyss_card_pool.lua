@@ -2,6 +2,7 @@
 -- This module never filters a rarity bucket by implemented effects or rerolls
 -- an unsupported result. Canonical pool evidence lives in data/reference.
 local R=require('abyss_sts_random')
+local Acts=require('abyss_acts')
 local M={}
 function M.rarity(roll,offset,tier)
     local adjusted=roll+offset
@@ -23,9 +24,14 @@ function M.prepareRewards(run)
         repeat id=pool[R.randomInt(rng,#pool-1)+1] until not used[id]
         used[id]=true;choices[#choices+1]={cardId=id,rarity=rarity}
     end
-    -- A0 Act1 probability is zero, but every nonrare still consumes a float.
-    for _,c in ipairs(choices) do if c.rarity~='rare' then R.randomBooleanChance(rng,0) end end
+    -- AbstractDungeon selects every identity before upgrade rolls. Even the
+    -- first act's zero chance spends a float; rares never spend one.
+    local chance=Acts.get(run.act or 1).upgradeChance
+    local upgrades={}
+    for i,c in ipairs(choices) do
+        upgrades[i]=c.rarity~='rare' and R.randomBooleanChance(rng,chance) or false
+    end
     local ids={};for i,c in ipairs(choices) do ids[i]=c.cardId end
-    return ids,rng,offset
+    return ids,rng,offset,upgrades
 end
 return M

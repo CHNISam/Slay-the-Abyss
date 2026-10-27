@@ -72,13 +72,15 @@ test("target death: held attack never redirects to surviving enemy",function()
     local host,ui,panel,event,tap=setup({"strike"},{"cultist","jaw_worm"})
     local battle=host.run.combat
     local target=panel:GetChild("enemy1")
-    local survivor=panel:GetChild("enemy2")
+    local oldX,oldY=target.x,target.y
     local hp=battle.enemies[2].hp
     event("card1","down",7); event("card1","drag",7,target.x,target.y)
     F.Combat.damage(battle,battle.player,battle.enemies[1],battle.enemies[1].hp,false)
     ui:render()
-    event("dragLayer","up",7,target.x,target.y); event("card1","endDrag",7,target.x,target.y)
+    event("dragLayer","up",7,oldX,oldY); event("card1","endDrag",7,oldX,oldY)
     assert(battle.energy==3 and #battle.hand==1 and battle.enemies[2].hp==hp)
+    local survivor=panel:GetChild("enemy1")
+    assert(survivor.visible and survivor:GetChild("name").text==battle.enemies[2].name)
     event("card1","down",8); event("card1","drag",8,survivor.x,survivor.y)
     event("dragLayer","up",8,survivor.x,survivor.y)
     assert(battle.energy==2 and #battle.hand==0 and battle.enemies[2].hp==hp-6)

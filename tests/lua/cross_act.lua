@@ -117,10 +117,14 @@ test('four characters keep card UIDs inventory counters and raw seed on a real c
         same(run.relicCounters,expected.counters);same(R.snapshot(run.eventRng),stream)
         assert(run.nextDeckUid==expected.uid and run.character==expected.character and run.runSeed=='42')
         assert(not Nodes.advanceAct(run,map),'second transition accepted')
-        local before=C.copy(run)
         local entered,why=Nodes.enter(run,map,Map.available(map)[1].id)
-        assert(not entered and why=='act_content_unavailable','missing second-act content silently reused Act1')
-        same(run,before)
+        assert(entered,why)
+        -- This seeded chest boundary carries the first-act monster stream;
+        -- it now enters the real Chosen instead of the former global refusal.
+        assert(run.encounterSource=='Chosen',tostring(run.encounterSource))
+        assert(#run.combat.enemies==1 and run.combat.enemies[1].definitionId=='chosen')
+        local chosen=run.combat.enemies[1]
+        assert(chosen.hp>=95 and chosen.hp<=99 and chosen.intents[chosen.intentIndex].id=='poke')
     end
 end)
 

@@ -15,6 +15,8 @@ local ShopUI = require("abyss_shop_ui")
 local M = {}
 local CardDisplay = require('abyss_card_display')
 local Combat = require('abyss_combat')
+local Act1Events = require('abyss_act1_events')
+local Act2Events = require('abyss_act2_events')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
@@ -33,10 +35,20 @@ local reasons = {
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    beggar={name='乞丐'},
+    mausoleum={name='古墓'},
+    addict={name='瘾君子'},
+    back_to_basics={name='古老文字'},
     sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},
     big_fish={name='大鱼',body='三件礼物悬在面前。你只能选取一件。',leave='你带着选择的礼物离开。'},
     accursed_blacksmith={name='诅咒铁匠',body='古旧的铁砧尚有余温，旁边散落着可疑的器具。',leave='你离开了铁砧。'},
     bonfire={name='篝火精灵',body='篝火中的精灵向你招手。',leave='你告别了篝火。'},
+    transmogrifier={name='变换神龛',body='神龛的微光能将一张卡牌化为新的形态。',leave='你离开了变换神龛。'},
+    scrap_ooze={name='废料黏液',body='黏液深处似乎埋着一件遗物。伸手探索会受到伤害。',leave='你停止了探索。'},
+    wheel={name='变化转轮',body='转轮等待你转动。它的六种结果无法自行挑选。',leave='你离开了转轮。'},
+    lab={name='实验室',body='实验台上留着三瓶药水。',leave='你离开了实验室。'},
+    woman_in_blue={name='蓝衣女子',body='一位蓝衣女子出售药水，瓶中的内容要付钱后才能知晓。',leave='你告别了蓝衣女子。'},
+    we_meet_again={name='又见面了',body='一位熟人提出三笔交易。每笔交易的代价已经选定。',leave='你告别了这位熟人。'},
     fountain = { name='净化之泉', body='清澈的泉水在石隙间流淌。你可以借它洗去随身的诅咒。', leave='你离开了泉水。' },
     living_wall = { name='活墙', body=Narrative.eventCopy.living_wall.intro, leave='墙上的面孔渐渐沉寂。' },
     purifier = { name = "净化神龛", body = Narrative.eventCopy.purifier.intro:gsub("\n\n", "\n"),
@@ -66,8 +78,9 @@ local function iconId(entry) return type(entry) == "table" and entry.id or entry
 
 function M.new(root, run, map, presentation, clickEvent, onChange, options)
     options = options or {}
+    local rootParent = root.parent
     local self = { root = root, run = run, map = map, presentation = presentation or {},
-        visible = true, page = 1, relicPage = 1, mode = "main", actions = {}, notice = "" }
+        visible = run ~= nil and map ~= nil, page = 1, relicPage = 1, mode = "main", actions = {}, notice = "" }
     local function child(name) return assert(root:GetChild(name), "missing node UI control " .. name) end
     local function path(key)
         local control = root
@@ -109,7 +122,20 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local scale = pressed and layout.buttonStates.pressedScale or layout.buttonStates.normalScale
         box:SetLocalScale(scale, scale, 1)
     end
-    local buttonInputs = {}
+    local buttonInputs, actionInputs = {}, {}
+    local function retireAction(entry)
+        if not entry or not entry.observe then return end
+        if entry.retire then entry.retire() end
+        for _, input in pairs(buttonInputs) do
+            for _, gesture in pairs(input.active) do if gesture.action == entry then gesture.action = nil end end
+            if input.released and input.released.action == entry then input.released.action = nil end
+        end
+    end
+    local function observeAction(entry)
+        if not entry.observe or entry.observe() then return true end
+        retireAction(entry)
+        return false
+    end
     local inspectCards={}
     -- One horizontal row drag at a time; swallow eats the Click that ends a swipe.
     local swipe, swallow = nil, nil
@@ -134,6 +160,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local definition = find(self.run.data.relics.relics, id)
         return definition and definition.name or id
     end
+    local function potionText(id) return require('abyss_potion_text').describe(self.run,id) end
     -- Relic data has no prose; describe its sourced trigger and effects.
     local function relicText(id)
         if id=='membership_card' then return '所有商店商品半价。' end
@@ -180,6 +207,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or cost ~= nil and number(cost) or ""
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
+        picture(box:GetChild("art_" .. kind), CardDisplay.art(definition))
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         tint(box:GetChild("border"), look.selected and C.goldBright or look.dim and C.line or C.rarity[definition.rarity] or C.line)
         show(box:GetChild("glow"), look.selected)
@@ -189,9 +217,68 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:GetChild("stamp").text = look.stamp or ""
     end
     -- poor marks an offer refused only for lack of gold, so the merchant can answer it.
-    local function action(key, enabled, handler, reason, poor)
-        self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason, poor = poor == true }
+    local function action(key, enabled, handler, reason, poor, observe)
+        self.actions[key] = { enabled = enabled == true, handler = handler, reason = reason, poor = poor == true, observe = observe }
         return enabled == true
+    end
+
+    -- These event gestures keep their render-time meaning, including paid-stage
+    -- and selected UID. Once observed invalid, repair cannot revive the gesture.
+    local function bindAct2Action(key, entry)
+        local sourceRun, sourceMap, sourceFlow, sourceView = self.run, self.map, self.run.nodeFlow, self.view
+        local sourceEvent = sourceFlow.event
+        local generation, act, floor, phase = sourceRun.roomGeneration, sourceRun.act, sourceRun.floor, sourceRun.phase
+        local stage, choice, complete = sourceEvent.stage, sourceEvent.choice, sourceFlow.complete
+        local flowId, flowFloor, eventId = sourceFlow.id, sourceFlow.floor, sourceEvent.id
+        local selected, mode, picker, page = self.selected, self.mode, self.picker, self.pickPage
+        local original, handler, retired = entry.handler, nil, false
+        local box, owners = root, {}
+        for part in key:gmatch("[^/]+") do
+            local owner = box
+            box = owner:GetChild(part)
+            owners[#owners + 1] = { owner = owner, child = box, name = part }
+        end
+        local native = actionInputs[key]
+        local hit = native.hit
+        owners[#owners + 1] = { owner = box, child = hit, name = "hit" }
+        local function owned()
+            if retired then return false end
+            local attached = box == native.box
+            for _, link in ipairs(owners) do
+                if link.owner:GetChild(link.name) ~= link.child then attached = false end
+            end
+            local hostAttached = not rootParent or rootParent:GetChild("nodePanel") == root
+            -- Native reads may reenter: validate every captured link and owner
+            -- only after the final GetChild, never adopt a replacement control.
+            for _, link in ipairs(owners) do
+                if link.child.parent ~= link.owner then attached = false end
+            end
+            local parent = hit
+            while parent do
+                if not parent.visible then attached = false end
+                parent = parent.parent
+            end
+            return attached and hostAttached and root.parent == rootParent and self.root == root
+                and self.visible and not self.busy and self.run == sourceRun and self.map == sourceMap
+                and self.view == sourceView and self.actions[key] == entry and entry.handler == handler and entry.enabled
+                and self.run.nodeFlow == sourceFlow and sourceFlow.event == sourceEvent
+                and sourceRun.roomGeneration == generation and sourceRun.act == act and sourceRun.floor == floor
+                and sourceRun.phase == phase and sourceFlow.complete == complete
+                and sourceFlow.id == flowId and sourceFlow.floor == flowFloor and sourceFlow.type == "event"
+                and sourceEvent.id == eventId and sourceEvent.stage == stage and sourceEvent.choice == choice
+                and self.selected == selected and self.mode == mode and self.picker == picker and self.pickPage == page
+        end
+        local function observe()
+            if owned() then return true end
+            retired = true
+            return false
+        end
+        handler = function()
+            if not observe() then return false, "stale_action" end
+            return original()
+        end
+        entry.handler, entry.observe = handler, observe
+        entry.retire = function() retired = true end
     end
 
     local commit -- forward declaration; renders and notifies
@@ -258,14 +345,19 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.mode, self.picker, self.pickPage, self.selected, self.notice = "picker", "upgrade", 1, nil, ""
             self:render() return true
         end, "牌组中没有可升级的卡牌")
-        return "篝火旁，旅行者稍作停留 · 休息或锻造，只能选一项"
+        -- Recall is the last action: reuse the existing footer, never derive eligibility here.
+        local source = type(Nodes.recallSource) == "function" and type(Nodes.recall) == "function"
+            and Nodes.recallSource(self.run, self.map) or nil
+        if type(source) ~= "table" then source = nil end
+        return source and "篝火旁 · 休息、锻造或 Recall，只能选一项"
+            or "篝火旁，旅行者稍作停留 · 休息或锻造，只能选一项", source
     end
 
     local function renderPicker(view, node, result)
         local picker = child("pickerView")
         local before, after, target = picker:GetChild("before"), picker:GetChild("after"), picker:GetChild("target")
         local upgrade = self.picker == "upgrade" or self.picker=='living_grow' or self.picker=='act1_forge'
-        local transform = self.picker=='living_change'
+        local transform = self.picker=='living_change' or self.picker=='act1_change'
         local dream=self.picker=='dream_catcher'
         local rows = dream and self.restRows or upgrade and self.upgradeRows or self.removeRows
         local selected = result and result.card or self.selected and find(rows, self.selected, "uid")
@@ -278,8 +370,15 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             show(box, instance)
             if instance then
                 local owned = not dream and find(self.run.deck, instance.uid, "uid") or nil
-                local available = dream or owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil)
-                local stamp = not dream and (not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级")) or nil
+                local ambiguous = false
+                if self.picker=='beggar_purge' or self.picker=='basics_purge' then
+                    local matches=0
+                    for _, candidate in ipairs(self.run.deck) do if candidate.uid==instance.uid then matches=matches+1 end end
+                    ambiguous=matches~=1
+                    if ambiguous then owned=nil end
+                end
+                local available = not ambiguous and (dream or owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil))
+                local stamp = ambiguous and "编号异常" or not dream and (not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级")) or nil
                 fillCard(box, instance.cardId, owned and owned.upgraded or instance.upgraded,
                     { dim = not available, veil = stamp ~= nil, stamp = stamp, selected = self.selected == instance.uid,instance=owned or instance })
                 local uid = instance.uid
@@ -315,6 +414,13 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             picker:GetChild("hint").text = dream and ('牌组 '..#self.run.deck..' → '..(#self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
                 (#self.run.deck - (result and 0 or 1)) .. " 张"
         end
+        if self.picker=='basics_purge' then return '优雅 · 免费移除一张非瓶装、可清除的永久牌' end
+        if self.picker=='beggar_purge' then
+            if node.event.pendingBoundary then
+                picker:GetChild("empty").text='没有可清除的卡牌；强制选牌保持待处理，不能跳过或退款。'
+            end
+            return '已支付75金币 · 必须移除一张非瓶装、可清除的永久牌，不能取消'
+        end
         if dream then return '捕梦网 · 选择一张卡牌加入牌组，或跳过奖励' end
         if upgrade then return "选择一张卡牌升级 · 剩余 " .. (result and 0 or node.upgradesLeft) .. " 次" end
         if transform then return '选择一张卡牌变换' end
@@ -328,11 +434,18 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local copy = events[id] or { name = kinds.event, body = "", leave = "你离开了。" }
         event:GetChild("name").text = copy.name
         local mode=self.run.data.rules.events.poolMode
-        event:GetChild("caption").text = mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
+        event:GetChild("caption").text = Act2Events.ids[id] and kinds.event or mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
             or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         local body=result and result.text or node.event and node.event.body or copy.body
         if not result and node.event and node.event.stage=='result' and node.event.obtainedRelicId then
             body=body..'\n获得遗物：'..relicName(node.event.obtainedRelicId)..'。'
+        end
+        if not result and node.event.stage=='relic_reward' and node.event.relicOffer then
+            body=body..'\n可领取遗物：'..relicName(node.event.relicOffer.id)..'。'
+        end
+        if not result and id=='transmogrifier' and node.event.obtainedCardUid then
+            local obtained=find(self.run.deck,node.event.obtainedCardUid,'uid')
+            body=body..'\n已变换为：'..cardName(obtained.cardId,obtained.upgraded)..'。'
         end
         event:GetChild("body").text = body
         local rows = {}
@@ -348,9 +461,13 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if id ~= 'cleric' and id ~= 'purifier' then
                 for _,option in ipairs(info.options) do
                     local selected=option
-                    rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..
+                    rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..(selected.potionId and '\n'..potionText(selected.potionId) or '')..
+                        (selected.cardId and '\n「'..cardName(selected.cardId,selected.upgraded,selected.upgrades)..'」' or '')..
                         (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
-                        if id=='sssserpent' or id=='big_fish' or id=='accursed_blacksmith' or id=='bonfire' then
+                        -- Repeated-search events retain the same command after
+                        -- rendering new odds. An old callback is still stale.
+                        if self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map then return false,'stale_action' end
+                        if Act1Events.ids[id] or Act2Events.ids[id] then
                             return commit('chooseEvent',selected.choice,function()
                                 local outcome=self.run.nodeFlow.event
                                 local text=outcome.body or '请选择一张卡牌。'
@@ -438,7 +555,58 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 action("eventView/option" .. i, row.enabled, row.handler, row.description)
             end
         end
+        if Act2Events.ids[id] then return copy.name .. ' · 请选择上方选项' end
         return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
+    end
+
+    -- A linked choice owns its render-time token and meaning, never the current footer.
+    local function bindTreasureChoice(key, box, source, choice, name)
+        local sourceRun, sourceMap, sourceFlow, sourceView = self.run, self.map, self.run.nodeFlow, self.view
+        local sourceReward, sourceParent = sourceFlow.reward, box.parent
+        local sourceLink = sourceReward.sapphireKey
+        local handler
+        local function owned()
+            local control, links = root, {}
+            for part in key:gmatch("[^/]+") do
+                local owner = control
+                control = owner and owner:GetChild(part)
+                links[#links + 1] = { child = control, owner = owner }
+            end
+            local hostAttached = not rootParent or rootParent:GetChild("nodePanel") == root
+            -- Revalidate the entire captured ancestry AFTER the final native read.
+            for _, link in ipairs(links) do
+                if not link.child or link.child.parent ~= link.owner then return false end
+            end
+            local look, parent = buttonLooks[box], box
+            if control ~= box or box.parent ~= sourceParent or not look or not look.enabled or look.selected then return false end
+            while parent do
+                if not parent.visible then return false end
+                parent = parent.parent
+            end
+            -- GetChild may reenter a host render. All owner/action tests follow its last read.
+            local entry = self.actions[key]
+            return hostAttached and root.parent == rootParent and self.root == root and self.visible and not self.busy
+                and self.run == sourceRun and self.map == sourceMap and self.view == sourceView
+                and self.mode == "main" and self.opened == true and self.run.nodeFlow == sourceFlow
+                and self.run.roomGeneration == source.roomGeneration and self.run.act == source.act
+                and sourceFlow.reward == sourceReward and sourceReward.sapphireKey == sourceLink
+                and sourceReward.relicId == source.relicId and sourceLink and sourceLink.relicId == source.relicId
+                and entry and entry.enabled and entry.handler == handler
+        end
+        local function observe()
+            if not owned() or type(Nodes.treasureSource) ~= "function" or type(Nodes.chooseTreasure) ~= "function" then return false end
+            local currentSource = Nodes.treasureSource(sourceRun, sourceMap)
+            if type(currentSource) ~= "table" then return false end
+            for field, value in pairs(source) do if currentSource[field] ~= value then return false end end
+            return owned()
+        end
+        handler = function()
+            if not owned() or type(Nodes.chooseTreasure) ~= "function" then return false, "stale_action" end
+            return commit("chooseTreasure", source, function()
+                return choice == "sapphire" and ("已获得蓝钥匙 · 已放弃遗物「" .. name .. "」") or ("已获得遗物「" .. name .. "」")
+            end, choice)
+        end
+        return handler, observe
     end
 
     local function renderTreasure(view, node)
@@ -449,6 +617,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.treasureChoice = math.min(self.treasureChoice or 1, choices and #choices or 1)
         local relicId = boss and choices[self.treasureChoice] or reward.relicId
         local opened = self.opened == true
+        local source = opened and not boss and type(Nodes.treasureSource) == "function" and type(Nodes.chooseTreasure) == "function"
+            and Nodes.treasureSource(self.run, self.map) or nil
+        if type(source) ~= "table" or source.relicId ~= relicId then source = nil end
         show(chest:GetChild("closed"), not opened) show(chest:GetChild("open"), opened)
         show(chest:GetChild("hint"), not opened)
         tint(chest:GetChild("glow"), opened and C.gold or C.goldDim)
@@ -457,7 +628,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         show(row, opened and hasReward) show(take, opened and hasReward)
         local name = relicId and relicName(relicId) or (not boss and (number(reward.gold) .. " 金币") or "")
         for _, key in ipairs({"previous", "next", "page", "bossDescription"}) do show(chest:GetChild(key), opened and boss) end
-        take:GetChild("label").text = boss and "领取这件遗物" or "拿取并离开"
+        take:GetChild("label").text = source and "领取遗物" or boss and "领取这件遗物" or "拿取并离开"
         if opened and hasReward then
             state(row, true) state(take, true, false, true)
             picture(row:GetChild("icon"), relicId and (Theme.icon.relic[relicId] or Theme.icon.node.treasure) or Theme.icon.gold)
@@ -486,10 +657,14 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if options.sound then pcall(options.sound, "treasure_open") end
             self:render() return true
         end)
-        action("treasureView/take", opened and hasReward, function()
+        local takeFn, takeObserve
+        if source then takeFn, takeObserve = bindTreasureChoice("treasureView/take", take, source, "relic", name)
+        else takeFn = function()
             return commit(boss and "claimBossTreasure" or "claimTreasure", boss and self.treasureChoice or nil,
                 function() return "已获得" .. (relicId and ("遗物「" .. name .. "」") or name) end)
-        end)
+        end end
+        action("treasureView/take", opened and hasReward, takeFn, nil, nil, takeObserve)
+        if source then return "遗物与蓝钥匙只能选一项 · 选择蓝钥匙将放弃遗物「" .. name .. "」", source end
         return opened and (boss and "选择一件首领遗物，或跳过奖励后完成本局" or
             ("宝箱已打开 · 获得" .. (relicId and "遗物" or "金币"))) or "宝箱就在眼前"
     end
@@ -501,6 +676,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     function self:render()
+        if not self.run then root:SetVisible(false);return false, "node_unbound" end
         resetButtons()
         inspectCards={}
         local view = Nodes.view(self.run, self.map)
@@ -521,11 +697,20 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.removeRows=snapshotDeck(node.event.purgeCards)
             self.upgradeRows=node.upgradeCards
         end
+        if active and node.type=='event' and Act2Events.ids[node.event.id] then
+            if (node.event.id=='beggar' or node.event.id=='back_to_basics') and node.event.stage=='choose_card' then
+                self.mode,self.picker='picker',node.event.id=='beggar' and 'beggar_purge' or 'basics_purge'
+                self.removeRows=Combat.copy(node.event.purgeCards)
+                local matches=0
+                for _, instance in ipairs(self.run.deck) do if instance.uid==self.selected then matches=matches+1 end end
+                if matches~=1 or not find(self.removeRows,self.selected,'uid') then self.selected=nil end
+            else self.mode,self.picker,self.selected='main',nil,nil end
+        end
         if active and node.type=='camp' and node.restReward and not node.restReward.resolved then
             self.mode,self.picker='picker','dream_catcher';self.restRows={}
             for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=false}end
         end
-        if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire') then
+        if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel') then
             if node.event.stage=='choose_card' then
                 self.mode,self.picker='picker','act1_'..node.event.choice
                 self.removeRows=snapshotDeck(node.event.purgeCards or {})
@@ -533,7 +718,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             else self.mode,self.picker,self.selected='main',nil,nil end
         end
         renderTopBar(node)
-        local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
+        local screen, hint, recallSource, treasureSource = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
         if active and self.mode == "picker" then screen = "pickerView"
         elseif active then screen = node.type .. "View"
@@ -541,10 +726,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if active and node.type == "camp" and node.campChoice == "upgrade" then self.mode, self.picker, screen = "picker", "upgrade", "pickerView" end
         for _, name in ipairs({ "shopView", "campView", "pickerView", "eventView", "treasureView" }) do show(child(name), name == screen) end
         if screen == "shopView" then hint = renderShop(view, node)
-        elseif screen == "campView" then hint = renderCamp(view, node, result)
+        elseif screen == "campView" then hint, recallSource = renderCamp(view, node, result)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
         elseif screen == "eventView" then hint = renderEvent(view, node, result)
-        elseif screen == "treasureView" then hint = renderTreasure(view, node) end
+        elseif screen == "treasureView" then hint, treasureSource = renderTreasure(view, node) end
         -- The merchant speaks in his own dialogue box; the notice keeps only shop facts.
         if node and node.type == "shop" and (self.merchantNode ~= node.id or self.merchantRun ~= self.run) then
             self.merchantNode, self.merchantRun = node.id, self.run
@@ -555,7 +740,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
 
         local back, confirm = child("back"), child("confirm")
-        local backLabel, confirmLabel, confirmOk, confirmFn,skipRestReward
+        local backLabel, confirmLabel, confirmOk, confirmFn,skipRestReward,recallObserve
         if result then
             confirmLabel, confirmOk = "继续", true
             confirmFn = function()
@@ -564,7 +749,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 return true, "continue"
             end
         elseif node and node.complete then
-            confirmLabel, confirmOk = "返回路线", true
+            confirmLabel, confirmOk = view.phase == 'act_transition' and "前往下一幕" or "返回路线", true
             confirmFn = function() if onChange then onChange(true, "complete", self) end return true, "complete" end
         elseif screen == "shopView" then
             confirmLabel, confirmOk = "离开商店", true
@@ -572,10 +757,44 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 -- The farewell stays on screen like a camp/event result, so it is actually seen.
                 return commit("leaveShop", nil, function() return "", {} end)
             end
+        elseif screen == "campView" and recallSource then
+            local sourceRun, sourceMap, sourceFlow = self.run, self.map, self.run.nodeFlow
+            confirmLabel, confirmOk = "Recall", true
+            local function owned()
+                local attached = root:GetChild("confirm") == confirm
+                local hostAttached = not rootParent or rootParent:GetChild("nodePanel") == root
+                local look, parent = buttonLooks[confirm], confirm
+                if not attached or confirm.parent ~= root or not look or not look.enabled or look.selected then return false end
+                while parent do
+                    if not parent.visible then return false end
+                    parent = parent.parent
+                end
+                -- Final ownership check follows the last native read: GetChild can reenter a host render.
+                local entry = self.actions.confirm
+                return hostAttached and root.parent == rootParent and self.root == root and self.visible and not self.busy
+                    and self.run == sourceRun and self.map == sourceMap
+                    and self.run.nodeFlow == sourceFlow and self.run.roomGeneration == recallSource.roomGeneration
+                    and self.run.act == recallSource.act and entry and entry.enabled and entry.handler == confirmFn
+            end
+            recallObserve = function()
+                if not owned() or type(Nodes.recallSource) ~= "function" or type(Nodes.recall) ~= "function" then return false end
+                local currentSource = Nodes.recallSource(sourceRun, sourceMap)
+                if type(currentSource) ~= "table" then return false end
+                for key, value in pairs(recallSource) do if currentSource[key] ~= value then return false end end
+                return owned()
+            end
+            confirmFn = function()
+                -- Never adopt a fresh token at Click, even after a repaired context.
+                if not owned() or type(Nodes.recall) ~= "function" then return false, "stale_action" end
+                return commit("recall", recallSource, function() return "Recall · Ruby", { choice = "recall" } end)
+            end
+        elseif screen == "treasureView" and treasureSource then
+            confirmLabel, confirmOk = "蓝钥匙", true
+            confirmFn, recallObserve = bindTreasureChoice("confirm", confirm, treasureSource, "sapphire", relicName(treasureSource.relicId))
         elseif screen == "pickerView" then
             local selected = self.selected
             local living=node.type=='event' and node.event.id=='living_wall'
-            local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire')
+            local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel')
             local dream=self.picker=='dream_catcher'
             local function restReward(choice)
                 local id=node.restReward.cards[choice]
@@ -588,8 +807,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if dream then
                 confirmLabel,backLabel='选择此牌','跳过卡牌'
                 skipRestReward=function()return restReward(0)end
+            elseif self.picker=='beggar_purge' or self.picker=='basics_purge' then
+                confirmLabel='确认移除'
             elseif act1 then
-                confirmLabel=self.picker=='act1_forge' and '确认升级' or '确认献祭'
+                confirmLabel=self.picker=='act1_forge' and '确认升级' or self.picker=='act1_change' and '确认变换' or self.picker=='act1_purge' and '确认移除' or '确认献祭'
             elseif living then
                 confirmLabel=self.picker=='living_grow' and '确认升级' or self.picker=='living_change' and '确认变换' or '确认移除'
             elseif self.picker == "upgrade" then
@@ -603,6 +824,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             confirmOk = selected ~= nil
             confirmFn = function()
                 if dream then return restReward(selected) end
+                if self.picker=='beggar_purge' or self.picker=='basics_purge' then
+                    return commit('chooseEvent','purge',function()return '已移除所选卡牌' end,selected)
+                end
                 local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
                 local name = instance and cardName(instance.cardId, instance.upgraded,instance.upgrades) or ""
                 local command = act1 and 'chooseAct1EventCard' or living and "chooseLivingWallCard" or self.picker == "upgrade" and (node.type=="event" and "upgradeEvent" or "upgrade")
@@ -648,7 +872,14 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 return commit("claimBossTreasure", 0, function() return "已跳过首领遗物" end)
             end)
         end
-        action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil)
+        action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
+        if node and node.type=='event' and Act2Events.ids[node.event.id] then
+            for key, entry in pairs(self.actions) do
+                if key=='confirm' or key=='back' or key:match('^eventView/') or key:match('^pickerView/') then
+                    bindAct2Action(key,entry)
+                end
+            end
+        end
         self.failed = false
     end
 
@@ -656,9 +887,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function self:resize(width, height)
         resetButtons()
         self.canvasWidth, self.canvasHeight = width, height
+        if self.view and self.view.node and self.view.node.type=='event' and Act2Events.ids[self.view.node.event.id] then self:render() end
     end
     function self:update(dt)
         if self.visible then merchant:update(dt) end
+        for _, input in pairs(buttonInputs) do
+            for _, gesture in pairs(input.active) do
+                if gesture.action and gesture.action.observe and not observeAction(gesture.action) then gesture.action = nil end
+            end
+            local released = input.released
+            if released and released.action and released.action.observe and not observeAction(released.action) then released.action = nil end
+        end
         local held=self.inspectPress
         if held then
             if not self.visible or held.run~=self.run or held.flow~=self.run.nodeFlow
@@ -674,8 +913,15 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
+        if value and not self.run then return false, "node_unbound" end
         if not value then resetButtons() end
+        local wasVisible = self.visible
         self.visible = value root:SetVisible(value)
+        if not value and self.view and self.view.node and self.view.node.type=='event' and Act2Events.ids[self.view.node.event.id] then
+            for _, entry in pairs(self.actions) do if entry.observe then entry.observe() end end
+        elseif value and not wasVisible and self.view and self.view.node and self.view.node.type=='event' and Act2Events.ids[self.view.node.event.id] then
+            self:render()
+        end
     end
     local function current()
         if not self.visible then return false, "panel_hidden" end
@@ -691,11 +937,15 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return ok, reason
     end
     -- describe(before) returns the success notice and, for camp/event, the result screen to hold.
-    commit = function(command, argument, describe)
+    commit = function(command, argument, describe, choice)
         local node = self.view.node
         local before = { hp = self.run.hp, gold = self.run.gold }
         self.busy = true
-        local called, accepted, reason = pcall(Nodes[command], self.run, argument)
+        local called, accepted, reason
+        if command == "recall" then called, accepted, reason = pcall(Nodes.recall, self.run, self.map, argument)
+        elseif command == "chooseTreasure" then called, accepted, reason = pcall(Nodes.chooseTreasure, self.run, self.map, argument, choice)
+        elseif command == "chooseEvent" then called, accepted, reason = pcall(Nodes.chooseEvent, self.run, argument, choice)
+        else called, accepted, reason = pcall(Nodes[command], self.run, argument) end
         self.busy = false
         if not called then error(accepted) end
         if accepted then
@@ -703,7 +953,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local cue = command == "upgrade" and "forge"
                 or command == "upgradeEvent" and "reward"
                 or command == "rest" and "rest"
-                or (command == "claimTreasure" or command == "claimBossTreasure") and argument ~= 0 and "reward"
+                or (command == "claimTreasure" or command == "claimBossTreasure" or command == "chooseTreasure") and argument ~= 0 and "reward"
                 or (command == "removeCard" or command == "purifyEvent" or command == "purgeWing") and "card_remove"
             if cue and options.sound then pcall(options.sound, cue) end
             local notice, hold = describe(before)
@@ -732,7 +982,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     -- Every clickable control is addressed by its path, e.g. "shopView/card1".
     function self:press(key)
         local ok, view = current()
-        if not ok then return false, view end
+        if not ok then
+            local entry = self.actions[key]
+            if entry and entry.retire then entry.retire() end
+            return false, view
+        end
         local entry = self.actions[key]
         if not entry then return false, "unavailable_action" end
         if not entry.enabled then
@@ -815,6 +1069,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local name = key
         local box = path(name)
         local hit = box:GetChild("hit")
+        actionInputs[name] = {box=box,hit=hit}
         local input
         hit:AddCursorEventListener(clickEvent, function(event)
             if swallow and (event == nil or event.touchId == nil or event.touchId == swallow.touch) then
@@ -851,16 +1106,25 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 if input.released and input.released.touch == (event and event.touchId) then input.released = nil end
             end
             local function visibleAction()
+                local entry = self.actions[name]
                 local ok, view = current()
-                if not ok then return nil end
-                if self.view.phase ~= view.phase or self.view.node.complete ~= view.node.complete then return nil end
+                if not ok or self.view.phase ~= view.phase or self.view.node.complete ~= view.node.complete then
+                    retireAction(entry) return nil
+                end
                 local parent = box
-                while parent do if not parent.visible then return nil end parent = parent.parent end
-                return self.actions[name]
+                while parent do
+                    if not parent.visible then retireAction(entry) return nil end
+                    parent = parent.parent
+                end
+                if entry and not observeAction(entry) then return nil end
+                return entry
             end
             local function available()
                 local entry, look = visibleAction(), buttonLooks[box]
-                return entry and entry.enabled and look and look.enabled and not look.selected
+                -- Guarded mandatory-picker cards have no framed-button look.
+                -- Keep the legacy feedback path for all other controls unchanged.
+                local plainPicker = not look and entry and entry.retire and name:match("^pickerView/card%d+$") ~= nil
+                return entry and entry.enabled and (plainPicker or look and look.enabled and not look.selected)
             end
             local function owned(event)
                 return buttonPress and buttonPress.box == box and buttonPress.touch == (event and event.touchId)
@@ -880,8 +1144,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end)
             listen(hit, cursor.CursorDown, function(event)
                 input.observed, input.released = true, nil
-                input.active[touchKey(event)] = {touch=event and event.touchId, action=visibleAction()}
-                if not available() or buttonPress then return end
+                local gesture = {touch=event and event.touchId, action=visibleAction()}
+                input.active[touchKey(event)] = gesture
+                if not available() or buttonPress then
+                    if gesture.action and gesture.action.observe then gesture.action = nil end
+                    return
+                end
                 buttonPress = {box=box,touch=event and event.touchId}
                 paintButton(box)
             end)
@@ -896,6 +1164,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 local touchId = touchKey(event)
                 local gesture = input.active[touchId]
                 input.active[touchId] = nil
+                if gesture and gesture.action and gesture.action.observe and not observeAction(gesture.action) then gesture.action = nil end
                 if gesture then input.released = gesture end
                 release(event)
             end)

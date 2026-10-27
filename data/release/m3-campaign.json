@@ -5,7 +5,7 @@
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "baseline": "45ba918e5719614f36b6a92aeb511e76a1311608",
   "acceptance": "INCOMPLETE",
-  "runtimeStatus": "cross-act core is explicit experimental campaign; later combat content is not open",
+  "runtimeStatus": "Explicit development campaign Host and chapter maps are wired. Act2 regular/elite/three-Boss content has local coverage; event-only enemies and Acts3/4 combat remain incomplete. Default public campaign admission and platform acceptance are not granted.",
   "tasks": {
     "inventory": "TASK-47",
     "classes": "TASK-59",
@@ -24,7 +24,7 @@
     "normalEndingAndDoor": "implemented-boundary-tests-passed",
     "naturalKeyAcquisition": "NOT_IMPLEMENTED",
     "persistentHistoricalUnlock": "PLATFORM_UNVERIFIED",
-    "hostChapterUI": "NOT_IMPLEMENTED"
+    "hostChapterUI": "IMPLEMENTED_EXPLICIT_DEVELOPMENT_ENTRY_LOCAL"
   },
   "acts": [
     {
@@ -34,7 +34,7 @@
         34
       ],
       "map": "implemented-local-only",
-      "combat": "NOT_IMPLEMENTED",
+      "combat": "IMPLEMENTED_LOCAL_19_SOURCE_FORMATIONS_EVENT_ENEMIES_PENDING",
       "events": "NOT_IMPLEMENTED",
       "normalPlaythrough": "NOT_RUN",
       "platform": "NOT_RUN"
@@ -113,9 +113,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -126,9 +131,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -139,9 +149,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -152,9 +167,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -165,9 +185,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -178,9 +203,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -191,9 +221,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -204,9 +239,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -217,9 +257,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -230,9 +275,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -243,9 +293,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -256,9 +311,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -269,9 +329,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -282,9 +347,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -295,9 +365,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -308,9 +383,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 2,
@@ -321,9 +401,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "34_GROUPS_ACT2_REGRESSION_PASSED",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT2_ENEMIES.md",
+        "tests/fixtures/act2-enemy-source-lock.json",
+        "tests/lua/act2_enemies.lua"
+      ]
     },
     {
       "act": 3,

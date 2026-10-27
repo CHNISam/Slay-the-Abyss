@@ -45,7 +45,7 @@ end
 local cached
 local function beforeLethalPotion()
     if cached then return Combat.copy(cached) end
-    local run = Run.new(Data, 4)
+    local run = Run.new(Data, 61)
     assert(run.hp == 80 and run.gold == 99 and #run.deck == 10)
     assert(Run.startCombat(run, 'cultist_solo'))
     for _ = 1, 150 do
@@ -60,7 +60,7 @@ local function beforeLethalPotion()
         playOneCommand(run); assert(run.phase == 'combat')
     end
     assert(run.combat.enemies[1].hp>0 and run.combat.enemies[1].hp<=20 and run.potions[1]=='fire_potion')
-    assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
+    assert(run.shopRng.potion.counter == 6 and run.potionChanceModifier == -10)
     cached = run
     return Combat.copy(run)
 end
@@ -76,12 +76,12 @@ test('lethal potion commits the new reward stream exactly once on success', func
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil and run.combat.enemies[1].hp == 0)
     assert(run.gold == gold and run.rewards.gold == 15 and not run.rewards.goldClaimed and run.nextDeckUid == nextUid and #run.deck == 10)
-    assert(run.rewards.potion.id == 'fire_potion' and not run.rewards.potion.resolved)
+    assert(run.rewards.potion.id == 'flex_potion' and not run.rewards.potion.resolved)
     assert(run.potionChanceModifier == -20)
-    -- Recorded from the verified unmodified provider for seed 4: the second
-    -- reward consumes drop, rarity and supported-pool draws, not zero or six.
+    -- Fixed independent potion oracle for source seed61: first reward rejects
+    -- three full-pool candidates; second reward accepts its first candidate.
     same(Random.snapshot(run.shopRng.potion), {
-        words = {'c75cd73704de29da', 'c976c2013784576d'}, counter = 6,
+        words = {'90588b5c732c7fd8', '1a257f0ae37d0c19'}, counter = 9,
     })
     same(Random.snapshot(run.shopRng.merchant), merchant)
     same(Random.snapshot(run.cardRng), card)
@@ -105,11 +105,11 @@ for _, mode in ipairs({'throw', 'reject'}) do
         Run.finishCombat = finish -- Restore even if the command throws unexpectedly.
         assert(called and not ok and reason == 'potion_effect_failed')
         same(run, before); check()
-        assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
+        assert(run.shopRng.potion.counter == 6 and run.potionChanceModifier == -10)
         -- A refused attempt must not poison the next legitimate attempt.
         assert(Run.usePotion(run, 1, 1))
         assert(run.phase == 'reward' and run.potions[1] == nil)
-        assert(run.shopRng.potion.counter == 6 and run.potionChanceModifier == -20)
+        assert(run.shopRng.potion.counter == 9 and run.potionChanceModifier == -20)
     end)
 end
 test('legacy run without shopRng keeps a failed initialization private and can retry', function()
@@ -129,7 +129,7 @@ test('legacy run without shopRng keeps a failed initialization private and can r
     local _,card,offset=require('abyss_card_pool').prepareRewards(run)
     assert(Run.usePotion(run, 1, 1))
     assert(run.phase == 'reward' and run.potions[1] == nil)
-    assert(run.shopRng.potion.counter == 3 and run.potionChanceModifier == -10)
+    assert(run.shopRng.potion.counter == 6 and run.potionChanceModifier == -10)
     assert(run.shopRng.merchant.counter == 0)
     same(Random.snapshot(run.cardRng),Random.snapshot(card));assert(run.cardRarityOffset==offset)
     assert(run.shopRng.card == nil)

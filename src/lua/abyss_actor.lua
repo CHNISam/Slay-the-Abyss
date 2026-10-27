@@ -1,12 +1,16 @@
 -- Actor arithmetic and turn status rules; no UI or platform globals.
 local M = {}
 local Events = require("abyss_events")
+local Act2Powers = require('abyss_act2_powers')
+local PlatedArmor = require('abyss_plated_armor')
 
 -- Require lazily: card actions use Actor arithmetic, and hooks only enqueue
 -- data. Combat owns draining, choices, death interruption and transactionality.
 local function enqueue(state,e,source,top)
-    require("abyss_card_actions").enqueue(state,e,source,nil,nil,top)
+    assert(not source or source==state.player,'reaction owner must be player')
+    require("abyss_card_actions").enqueueReaction(state,e,top)
 end
+local function reaction(state,e,top)require('abyss_card_actions').enqueueReaction(state,e,top)end
 -- Equal-priority original Powers are stably sorted: their hooks retain the
 -- order of first application. Legacy raw-status fixtures get an explicit order.
 function M.powerSequence(actor,ids)
@@ -74,8 +78,8 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
-    shackled=true,choked=true,block_return=true,mark=true,energy_down=true }
+local debuffs = { no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
+    shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
@@ -107,6 +111,7 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster)
     -- regardless of the target's existing signed total. Zero is not an early exit.
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
     M.status(state, actor, id, amount, source, sourceIsMonster)
+    require('abyss_colorless_cards').debuffApplied(state,actor,id,amount,source)
     if actor==state.player and (id=='demon_form' or id=='brutality' or id=='devotion' or id=='noxious_fumes') then
         state.postDrawPowerOrder=state.postDrawPowerOrder or {}
         local found=false
@@ -223,8 +228,10 @@ function M.statusView(actor)
     for _, id in ipairs(ids) do
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
+            icon=require('abyss_colorless_cards').powerIcon(id),
             kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
-            description = definition.description, temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
+            description = require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
+            temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
     local function resource(id,name,amount,description,icon,duration,kind)
         result[#result+1]={id='original_v4_'..id,name=name,amount=amount,description=description,icon=icon or 'strength',
@@ -259,6 +266,13 @@ local function battleEnding(state)
 end
 
 local function queueDeathPower(state, target, before, reactions)
+    if before>0 and target.hp<=0 and not target.escaped then
+        Act2Powers.died(state,target,function(s,effect,top)
+            -- Death's TOP actions join the existing reverse TOP damage batch,
+            -- above onAttacked Thorns; BOTTOM returns join the owning queue.
+            if top then reactions[#reactions+1]={effect=effect}else reaction(s,effect)end
+        end)
+    end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then
         local stolen = target.stolenGold or 0
@@ -282,6 +296,8 @@ function M.resolveDamageReactions(state, reactions, retaliate)
             if M.isActive(state.player) then M.block(state,state.player,hit.effect.value,true) end
         elseif hit.effect and hit.effect.op=='cardTriggerPoison' then
             require('abyss_card_triggers').resolveEnvenom(state,hit.effect)
+        elseif hit.effect and Act2Powers.supports(hit.effect.op)then
+            Act2Powers.apply(M,state,hit.effect)
         elseif hit.status then
             if not battleEnding(state) then
                 M.applyPower(state, hit.target, hit.status, hit.amount, hit.source, hit.sourceIsMonster)
@@ -295,6 +311,7 @@ function M.resolveDamageReactions(state, reactions, retaliate)
 end
 
 local function directDamage(state, source, target, amount, status, blocked, reactions)
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local before = target.hp
     local lost = math.min(target.hp, amount)
     target.hp = target.hp - lost
@@ -323,6 +340,8 @@ function M.attackAmount(state, source, target, base, fixed)
     if state.player.stance then
         amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)
     end
+    if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     return math.max(0, math.floor(amount))
 end
 
@@ -330,6 +349,7 @@ end
 -- A dead attacker may still own a queued Thorns hit; dead victims cannot lose HP.
 function M.retaliate(state, source, target, amount)
     if not M.isActive(target) then return 0 end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
     local reactions = {}
@@ -354,6 +374,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
             "invalid normal damage snapshot")
         amount = normalAmount
     else amount = M.attackAmount(state, source, target, base, fixed) end
+    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local unblocked=amount-absorbed
@@ -361,14 +382,16 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
     local lost = math.min(target.hp, unblocked)
+    -- Monster wasHPLost precedes onAttacked; the player uses the opposite
+    -- order. In particular Book's onInflictDamage follows player Plated.
+    if target~=state.player then PlatedArmor.hpLost(state,source,target,lost,not fixed,reaction)end
+    Act2Powers.damaged(state,source,target,lost,fixed,reaction)
     target.hp = target.hp - lost
     notifyHpLost(state,source,target,lost)
     Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
-    if not fixed and source and source ~= target and lost > 0 and (target.statuses.plated_armor or 0) > 0 then
-        target.statuses.plated_armor = target.statuses.plated_armor - 1
-        Events.emit(state, 'status', {source=target.id,target=target.id,status='plated_armor',amount=-1})
-    end
+    if target==state.player then PlatedArmor.hpLost(state,source,target,lost,not fixed,reaction)end
     require('abyss_relic_hooks').hpChanged(state,target,before)
+    Act2Powers.inflicted(state,source,lost,fixed,reaction)
     -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
     -- the BOTTOM, behind every already-queued hit/effect and card disposal.
     -- Keep this FIFO separate from Angry/Thorns/Spore's reverse TOP reactions.
@@ -376,8 +399,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if source and target ~= state.player and not fixed and lost > 0 and target.hp > 0
         and curl > 0 and not target.curlUpTriggered then
         target.curlUpTriggered = true
-        state.curlUpQueue = state.curlUpQueue or {}
-        state.curlUpQueue[#state.curlUpQueue + 1] = {target=target, amount=curl}
+        reaction(state,{op='resolveCurlUp',targetId=target.id,value=curl})
     end
     -- Angry is a queued positive Strength Power after an unblocked NORMAL hit.
     -- Fixed inventory damage, poison and retaliation use non-NORMAL paths.
@@ -408,6 +430,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
 end
 
 function M.blockAmount(state, actor, amount, fixed)
+    if not fixed and (actor.statuses.no_block or 0)>0 then return 0 end
     amount = amount + 0.0
     if not fixed then
         amount = amount + (actor.statuses.dexterity or 0)
@@ -500,6 +523,9 @@ function M.endRound(state, actor)
 end
 
 function M.endTurn(state, actor)
+    if actor~=state.player and M.isActive(actor) then
+        if (actor.statuses.malleable or 0)>0 then actor.statuses.malleable=3 end
+    end
     tick(state, actor, "turn_end")
     if not M.isActive(actor) then return end
     -- EntanglePower removes itself only for isPlayer=true, rather than reducing
@@ -541,6 +567,7 @@ function M.endTurn(state, actor)
     for _,id in ipairs(actor.powerOrder or {}) do if id~='lose_strength' and id~='lose_dexterity' then powers[#powers+1]=id end end
     actor.powerOrder=powers
     if changed then state.events[#state.events].frame = Events.frame(state) end
+    require('abyss_colorless_cards').endOwnerTurn(state,actor)
 end
 
 function M.resetBlock(state, actor)
@@ -556,6 +583,7 @@ function M.resetBlock(state, actor)
 end
 
 function M.startTurnEffects(state, actor)
+    if actor~=state.player and (actor.statuses.flight or 0)>0 then actor.statuses.flight=3 end
     if M.isActive(actor) then tick(state, actor, "turn_start") end
 end
 

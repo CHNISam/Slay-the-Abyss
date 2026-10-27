@@ -6,7 +6,7 @@ local Data=require('abyss_data')
 local count=0
 local function test(name,fn) fn();count=count+1;print('ok character shop '..count..' - '..name) end
 for _,id in ipairs({'silent','defect','watcher'}) do
- test(id..' merchant uses its own colored subset and preserves unavailable buckets',function()
+ test(id..' merchant uses complete source identities and shared colorless cards',function()
   local available=0
   for seed=1,8 do
    local r=Run.new(Data,tostring(seed),{character=id,experimental=true})
@@ -21,7 +21,12 @@ for _,id in ipairs({'silent','defect','watcher'}) do
      assert(o.id~='strike' and o.id~='defend' and o.id~='bash')
     end
    end
-   assert(stock.cards[6].unavailable and stock.cards[7].unavailable,'colorless uncommon/rare definitions remain missing')
+   for slot=6,7 do
+    local offer=stock.cards[slot];local found
+    for _,c in ipairs(r.data.cards.cards)do if c.id==offer.id then found=c end end
+    assert(not offer.unavailable and found and found.colorlessNative,'shared colorless card must be implemented')
+    assert(found.rarity==(slot==6 and 'uncommon' or 'rare'))
+   end
    for _,p in ipairs(stock.potions) do
     if id~='silent' then assert(p.id~='poison_potion') end
    end

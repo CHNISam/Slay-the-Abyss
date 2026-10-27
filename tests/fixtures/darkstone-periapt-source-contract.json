@@ -1,0 +1,110 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceTree": "7b344415731748708a75d75c917f75c883f49fd0",
+  "sources": [
+    {
+      "path": "cards/Soul.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/Soul.java",
+      "gitBlobSha": "1a8dd9aef1fff6140524b45063b89ea7bb69fcc8",
+      "size": 13502,
+      "sha256": "8e4105a9df83d93ad4f66d35c54b63720e90f71b80c7594a6faa454d19b545c0"
+    },
+    {
+      "path": "cards/SoulGroup.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/SoulGroup.java",
+      "gitBlobSha": "6cb6517e2fda3af6590cddd3053a6cc0bc12f78f",
+      "size": 5272,
+      "sha256": "c3b44b69f2ebcff77b8a1d49c492973900cc42d597d66c651c4f41399af031cb"
+    },
+    {
+      "path": "cards/curses/Writhe.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Writhe.java",
+      "gitBlobSha": "e6e825a25cbc1d4a1244bffc33baf8294393ebbe",
+      "size": 1040,
+      "sha256": "9c6b5dfd72225f1500456784fea3268864f8c2b72a9f8bd0fe4ac425714885d8"
+    },
+    {
+      "path": "cards/status/Dazed.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/status/Dazed.java",
+      "gitBlobSha": "ea7d792a6a1af847cd420e25b840c23e467306f4",
+      "size": 1041,
+      "sha256": "bd07efcea70830fab6d8604cbd2952147cbaa51b88647447aaf888c8875b4e36"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "size": 98339,
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "size": 42311,
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    {
+      "path": "relics/AbstractRelic.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "gitBlobSha": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "size": 39442,
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167"
+    },
+    {
+      "path": "relics/DarkstonePeriapt.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DarkstonePeriapt.java",
+      "gitBlobSha": "7cff88ec76f796024b9b8f7bb567215dd14d1933",
+      "size": 1434,
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde"
+    },
+    {
+      "path": "relics/MarkOfTheBloom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MarkOfTheBloom.java",
+      "gitBlobSha": "4e0567e0376a2a68107b6664a76533db2c4bddfd",
+      "size": 685,
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434"
+    },
+    {
+      "path": "relics/Omamori.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Omamori.java",
+      "gitBlobSha": "cdd7410338a2e8e9d8a08f51e0c8a4d596a4dcec",
+      "size": 1276,
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "gitBlobSha": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "size": 33565,
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "size": 4473,
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    }
+  ],
+  "behavior": {
+    "rarity": "UNCOMMON",
+    "curseColorOnly": true,
+    "maxHpPerActualObtain": 6,
+    "onEquipRetroactive": false,
+    "statusCardBonus": false,
+    "sourceMaxHpCap": null,
+    "spawnMaxFloor": 48,
+    "endlessSpawn": true,
+    "order": [
+      "oldOmamoriBeforeObtainHooks",
+      "currentRelicsBeforePermanentDeckInsertion",
+      "increaseMaximum",
+      "healThroughRelicsThenPowers",
+      "clampCurrentToMaximum",
+      "insertPermanentCard"
+    ]
+  },
+  "provenanceBoundary": "Exact UTF-8 bytes of a pinned decompiled read-only mirror; not official source and not a PC-binary certification. Source Java remains outside product patch; only factual metadata shipped.",
+  "implementationBoundary": "UNWIRED active or retained combat/pending-reward health contexts: permanent curse obtain rejects atomically; this is not an original rule restriction. Source combat relic onPlayerHeal/power onHeal callbacks, run/combat synchronization, Endless FullBelly and Hoarder modifiers are not implemented by this slice. Ordinary non-Endless/non-Hoarder permanent obtains use canonical Run.increaseMaxHp and Run.heal including Mark-of-Bloom no-heal. Full source treasure/shop queues, native acceptance and natural campaign evidence NOT_RUN; provisional existing icon alias only. Existing restricted treasure/shop selection enforces source non-Endless floor<=48 against the destination room floor. Prepared offers/direct obtains are not retroactively rejected; queues and unrelated candidates unchanged. Blocked obtains allocate no local permanent UID; this local representation guarantee is not an assertion about original Java card-object UUID creation."
+}

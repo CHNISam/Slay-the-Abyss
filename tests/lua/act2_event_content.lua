@@ -198,14 +198,14 @@ test('Unsupported full-pool content fails closed with no reroll, depletion, map 
  same(r,before);same(m,map);eq(r.nodeFlow,flow);eq(r.deck,deck);eq(r.unknown.pools,pools)
 end)
 
-test('Legacy picker command fallback remains fail-closed and formal campaign entry remains gated',function()
+test('Legacy picker fallback stays fail-closed; invalid Act2 floor rejects without changing default launch',function()
  local r=selecting({{uid=7,cardId='strike'}})
  -- Until PR228 integration, legacy/unknown picker dispatch must not become a
  -- second removal path or optional completion for this new event.
  local before=snapshot(r);eq(Nodes.purifyEvent(r,7),false);same(r,before)
  local ordinary=Run.new(Data,'42');ordinary.act=2
  local saved=snapshot(ordinary);local ok,why=Run.startRoomCombat(ordinary,'normal')
- eq(ok,false);eq(why,'act_content_unavailable');same(ordinary,saved)
+ eq(ok,false);eq(why,'wrong_floor');same(ordinary,saved)
  local default=Run.new(Data,'42');eq(default.campaign,nil);eq(default.act,nil)
 end)
 print('ACT2_EVENT_CONTENT '..count..' passed')

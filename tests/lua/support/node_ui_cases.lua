@@ -73,7 +73,9 @@ local function setup(kind, source, prepare, events, sound)
     local run, map = entered(kind, source)
     if prepare then prepare(run) end
     local root, changes = control(findSpec(Layout, "nodePanel")), {}
-    local ui = UI.new(root, run, map, Presentation, "click", function(ok, reason, controller)
+    -- The real GameUI.start prepares the registered run's complete catalog.
+    local runPresentation=require('abyss_character_presentation').prepare(Presentation,run.data)
+    local ui = UI.new(root, run, map, runPresentation, "click", function(ok, reason, controller)
         assert(controller.root == root)
         changes[#changes + 1] = { ok = ok, reason = reason }
     end, { sound = sound, color = colour, imageSource = "static", cursorEvents = events ~= false and (events or cursorEvents) or nil })
@@ -151,7 +153,7 @@ test("node resource count includes bottles beyond an empty first slot", function
     assert(ui.run.potions[3] == "regen_potion")
 end)
 
-test("shop shelf shows five colored and two unavailable colorless cards without pages", function()
+test("shop shelf shows five colored and two implemented colorless cards without pages", function()
     local ui, get, _, shown = setup("shop", nil, function(run) run.gold = 10000 end)
     local node = Nodes.view(ui.run, ui.map).node
     assert(shown("shopView") and not shown("campView") and not shown("pickerView"))
@@ -168,7 +170,14 @@ test("shop shelf shows five colored and two unavailable colorless cards without 
     end
     assert(#node.cards==7 and ui.pageCount==1 and not ui:setPage(2))
     assert(not shown('shopView/previous') and not shown('shopView/next'))
-    for i=6,7 do assert(shown('shopView/card'..i) and get('shopView/price'..i).children.value.text=='未实装') end
+    for i=6,7 do
+        local offer=node.cards[i]
+        assert(offer.color=='colorless' and not offer.unavailable)
+        assert(shown('shopView/card'..i) and get('shopView/price'..i).children.value.text==tostring(offer.price))
+        assert(get('shopView/card'..i..'/name').text~='' and not get('shopView/card'..i..'/name').text:find('缺口',1,true))
+        assert(get('shopView/card'..i..'/description').text~='',offer.id..' must describe the card')
+        assert(not get('shopView/card'..i..'/veil').visible,offer.id..' must not be sold')
+    end
     assert(get("confirm").children.label.text == "离开商店" and not shown("back"))
 end)
 
@@ -745,6 +754,11 @@ test('shop potion stock buys into a vacancy and rejects full sold and missing sl
     assert(ui.merchant.current.kind=='buy', 'potion transactions trigger the merchant sale reaction')
     before=Combat.copy(ui.run);assert(not click('shopView/potion'..slot));same(before,ui.run)
     assert(get('shopView/potionPrice'..slot..'/value').text=='已售出')
+    -- Keep missing-stock rejection coverage after the real colorless pool was
+    -- implemented: explicitly mark this private shop's two offers unavailable.
+    local stock=Combat.copy(ui.run.nodeFlow.cards)
+    for i=6,7 do stock[i].unavailable=true end
+    ui.run.nodeFlow.cards=stock;ui:render()
     for i=6,7 do before=Combat.copy(ui.run);assert(not click('shopView/card'..i));same(before,ui.run) end
     ui.run.gold=0;ui:render()
     assert(not click('shopView/card6') and ui.merchant.current.kind=='buy', 'missing stock is not a gold refusal')

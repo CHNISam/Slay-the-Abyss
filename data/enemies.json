@@ -973,75 +973,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "spheric_guardian",
-      "sourceId": "SphericGuardian",
-      "name": "SphericGuardian",
-      "tier": "normal",
-      "hp": 20,
-      "ai": {
-        "kind": "spheric_guardian",
-        "activateIntent": "spheric_guardian_2",
-        "frailIntent": "spheric_guardian_4",
-        "slamIntent": "spheric_guardian_1",
-        "hardenIntent": "spheric_guardian_3",
-        "artifactStacks": 3,
-        "startingBlock": 40,
-        "rollRange": 100
-      },
-      "intents": [
-        {
-          "id": "spheric_guardian_2",
-          "kind": "defend",
-          "effects": [
-            {
-              "op": "block",
-              "value": 25
-            }
-          ]
-        },
-        {
-          "id": "spheric_guardian_4",
-          "kind": "attack",
-          "effects": [
-            {
-              "op": "damage",
-              "value": 10
-            },
-            {
-              "op": "applyStatus",
-              "status": "frail",
-              "value": 5
-            }
-          ]
-        },
-        {
-          "id": "spheric_guardian_1",
-          "kind": "attack",
-          "effects": [
-            {
-              "op": "damage",
-              "value": 10,
-              "times": 2
-            }
-          ]
-        },
-        {
-          "id": "spheric_guardian_3",
-          "kind": "attack",
-          "effects": [
-            {
-              "op": "block",
-              "value": 15
-            },
-            {
-              "op": "damage",
-              "value": 10
-            }
-          ]
-        }
-      ]
     }
   ],
   "encounters": [
@@ -1229,14 +1160,5 @@
       "minFloor": 16,
       "maxFloor": 16
     }
-  ],
-  "act2Encounters": {
-    "Spheric Guardian": [
-      "spheric_guardian"
-    ],
-    "Sentry and Sphere": [
-      "sentry",
-      "spheric_guardian"
-    ]
-  }
+  ]
 }

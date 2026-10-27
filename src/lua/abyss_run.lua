@@ -22,7 +22,7 @@ local function find(entries, id)
 end
 
 function M.new(data, seed, options)
-    local profile
+    local profile,ownsData
     if options ~= nil then
         assert(type(options)=='table','invalid character options')
         assert(options.campaign==nil or type(options.campaign)=='boolean','invalid campaign option')
@@ -30,17 +30,23 @@ function M.new(data, seed, options)
             'campaign requires explicit experimental mode')
         if require('abyss_original_v4_profiles').is(options.character) then
             data,profile=require('abyss_original_v4_profiles').prepare(data,options.character)
+            ownsData=true
         else
             assert(options.experimental == true,
                 "non-default characters require explicit experimental mode")
             if options.character~=nil then
                 data,profile=require('abyss_character_profiles').prepare(data,options.character)
+                ownsData=true
             end
         end
     end
+    data=require('abyss_colorless_cards').withCards(data)
     local eventSeed = RunSeed.normalize(seed)
     local cardOwner = CardRandom.new(eventSeed)
-    local run = { version = data.rules.version, data = Combat.copy(data), seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
+    -- Profile factories already detached the whole input graph. Their private
+    -- result can be adopted; caller-owned/default bundles still need a copy.
+    local runData=ownsData and data or Combat.copy(data)
+    local run = { version = data.rules.version, data = runData, seed = RunSeed.legacy(eventSeed),runSeed=eventSeed,
         eventSeed = eventSeed, eventRng = EventRandom.fromSeed(eventSeed), miscRng = EventRandom.fromSeed(eventSeed),
         treasureRng = EventRandom.fromSeed(eventSeed),
         cardRng = cardOwner.cardRng,cardRarityOffset=cardOwner.cardRarityOffset,
@@ -53,6 +59,14 @@ function M.new(data, seed, options)
         elapsedSeconds = 0, victories = 0,
         gold = data.rules.player.startingGold, deck = {}, nextDeckUid = 1,
         relics = Combat.copy(data.rules.player.startingRelics), potions = {} }
+    local sources=run.data.cards.sourcePools
+    sources.cardSourceMetadata=sources.cardSourceMetadata or {}
+    for _,card in ipairs(run.data.cards.cards)do
+        if not sources.cardSourceMetadata[card.id] then
+            sources.cardSourceMetadata[card.id]={sourceId=card.sourceId or card.sts_name or card.id,
+                rarity=card.rarity,type=card.type,healing=card.healing==true}
+        end
+    end
     if profile then run.character, run.characterProfile = profile.id, Combat.copy(profile) end
     if profile and profile.originalV4 then run.originalCommands={}end
     if options and options.campaign then
@@ -155,6 +169,17 @@ local function cardDefinition(run,id)
 end
 local function amount(n)return type(n)=='number' and n==n and n%1==0 and n>=0 and n<=2147483647 end
 function M.gainGold(run,value)return RelicHooks.gainGold(run,value)end
+function M.eventDamage(run,value)
+    if run.phase~='node' or not amount(value) or not amount(run.hp) or not amount(run.maxHp)
+        or run.hp>run.maxHp then return false,'invalid_event_damage' end
+    return M.transaction(run,function(staged)
+        if staged.hp<=0 then return false,'event_player_dead' end
+        local lost=math.min(staged.hp,value)
+        staged.hp=staged.hp-lost
+        if lost>0 and staged.hp==0 then require('abyss_potion_fairy').outside(staged) end
+        return true,lost
+    end)
+end
 function M.heal(run,value)
     assert(amount(value),'invalid heal')
     for _,id in ipairs(run.relics or {})do
@@ -196,7 +221,8 @@ function M.commitCard(run,offer)
         if card.upgraded and not definition.upgrade then return false,'card_not_upgradeable' end
         -- Relics receive the private entity before master-deck insertion.
         -- Acquisition upgrades must never mutate the shared definition.
-        RelicHooks.onObtainCard(staged,card,definition)
+        local accepted,reason=RelicHooks.onObtainCard(staged,card,definition,{increaseMaxHp=M.increaseMaxHp})
+        if accepted==false then return false,reason end
         staged.deck[#staged.deck+1]=card;staged.nextDeckUid=uid+1.0
         return true,uid
     end)
@@ -324,8 +350,11 @@ local function startEncounter(run, encounter, sourceRoom)
             end
             return Inventory.applyOpening(state,opening.beforeDraw)
         end}
-    if opening.preBattle then
-        options.beforeFirstTurn=function(state)return Inventory.applyOpening(state,opening.preBattle)end
+    options.beforeFirstTurn=function(state)
+        state.potionInventory=Combat.copy(run.potions)
+        state.potionCapacity=run.potionSlots or run.data.rules.player.potionSlots
+        if opening.preBattle then return Inventory.applyOpening(state,opening.preBattle)end
+        return true
     end
     if run.character and not run.characterProfile.originalV4 then
         options.cardRandomSeed=run.runSeed
@@ -379,24 +408,34 @@ end
 
 function M.startRoomCombat(run,tier)
     if run.phase~='map' then return false,'not_on_map' end
-    if (run.act or 1)~=1 then return false,'act_content_unavailable' end
+    local act=run.act or 1
+    if act~=1 and act~=2 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
-    if type(run.floor)~='number' or run.floor%1~=0 or run.floor<1 or run.floor>16 then return false,'wrong_floor' end
+    local first,last=act==2 and 18 or 1,act==2 and 33 or 16
+    if type(run.floor)~='number' or run.floor%1~=0 or run.floor<first or run.floor>last then return false,'wrong_floor' end
     local encounter,nextQueue
     if tier=='boss' then
-        if run.floor~=16 or not run.bossInitialization or run.bossInitialization.profile~='guardian-unseen' then
+        if act==2 then
+            if run.floor~=33 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
+                return false,'unsupported_boss_initialization'
+            end
+            encounter=require('abyss_act2_enemies').resolve(run.bossInitialization.bossList[1],tier)
+            if not encounter then return false,'act_content_unavailable' end
+        elseif run.floor~=16 or not run.bossInitialization or run.bossInitialization.profile~='guardian-unseen' then
             return false,'unsupported_boss_initialization'
+        else
+            encounter={id='boss_guardian',tier='boss',source='The Guardian',enemies={'guardian'}}
         end
-        encounter={id='boss_guardian',tier='boss',source='The Guardian',enemies={'guardian'}}
     else
         local source,reason
         local valid
         valid,source,nextQueue,reason=pcall(EncounterQueue.consume,run.encounters,tier)
         if not valid then return false,'invalid_encounter_state' end
         if not source then return false,reason end
-        encounter,reason=RoomEncounters.resolve(source,tier)
+        if act==2 then encounter,reason=require('abyss_act2_enemies').resolve(source,tier)
+        else encounter,reason=RoomEncounters.resolve(source,tier) end
         if not encounter then return false,reason end
     end
     local staged={};for k,v in pairs(run)do staged[k]=v end
@@ -441,18 +480,6 @@ function M.restoreEncounters(run,snapshot)
     return true
 end
 
-local function rewardCandidates(run)
-    local candidates = {}
-    for _, card in ipairs(run.data.cards.cards) do
-        if card.type ~= "status" and card.type ~= "curse"
-            and card.rarity ~= "basic" and card.rarity ~= "special"
-            -- Boss rewards are rare-only; other tiers retain their current pool.
-            and (run.encounterTier ~= "boss" or card.rarity == "rare")
-            and Capability.isImplemented(card) then candidates[#candidates + 1] = card.id end
-    end
-    return candidates
-end
-
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
@@ -485,22 +512,11 @@ local function finishCombat(run)
         assert(type(gold) == "number", "unknown encounter reward tier")
         if allEscaped then gold = 0 end
     end
-    local choices
-    if run.characterProfile and not run.characterProfile.originalV4 then
-        -- Explicit experimental subsets retain their documented own-class
-        -- sampler. The production source pool is Ironclad-only.
-        local pool=rewardCandidates(run);choices={}
-        for _=1,math.min(run.data.rules.rewards.cardChoices,#pool) do
-            choices[#choices+1]=table.remove(pool,Combat.random(run,#pool))
-        end
-    else
-        local nextCardRng,offset
-        choices,nextCardRng,offset=CardPool.prepareRewards(run)
-        run.cardRng,run.cardRarityOffset=nextCardRng,offset
-    end
+    local choices,nextCardRng,offset,cardUpgrades=CardPool.prepareRewards(run)
+    run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
-    run.rewards, run.phase = { cards = choices, gold = gold, goldClaimed = gold == 0, potion = potion,
+    run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
@@ -512,9 +528,19 @@ local function finishCombat(run)
     return true
 end
 
+local function applyDaggerGrowth(run)
+    if not run.combat.ritualDaggerGrowth then return end
+    for _,card in ipairs(run.deck)do
+        local growth=(run.combat.ritualDaggerGrowth or {})[card.uid]
+        if card.cardId=='ritual_dagger' and growth then card.misc=(card.misc or 15)+growth end
+    end
+    run.combat.ritualDaggerGrowth=nil
+end
 function M.finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
-    if not run.combat.roomSeed then return finishCombat(run) end
+    if not run.combat.roomSeed then
+        local ok,reason=finishCombat(run);if ok then applyDaggerGrowth(run)end;return ok,reason
+    end
     -- A formal reward is one transaction: invalid source RNG or a later potion
     -- failure must not publish healed HP, card/treasure progress or lastResult.
     local staged = {}
@@ -522,6 +548,7 @@ function M.finishCombat(run)
     staged.shopRng = run.shopRng and Combat.copy(run.shopRng)
     local ok, reason = finishCombat(staged)
     if not ok then return false, reason end
+    applyDaggerGrowth(staged)
     for key in pairs(run) do run[key] = staged[key] end
     for key, value in pairs(staged) do run[key] = value end
     return true
@@ -541,7 +568,8 @@ function M.claimCardReward(run, choice)
     local ok,detail=M.transaction(run,function(staged)
         -- A card choice never owns the independent potion reward (RewardItem).
         if choice > 0 then
-            local ok,reason=M.obtainCard(staged,staged.rewards.cards[choice])
+            local ok,reason=M.obtainCard(staged,staged.rewards.cards[choice],
+                {upgraded=staged.rewards.cardUpgrades and staged.rewards.cardUpgrades[choice]==true})
             if not ok then return false,reason end
         end
         -- PC Skip merely closes the picker; choice=0 explicitly abandons it.
@@ -632,12 +660,22 @@ function M.skipPotionReward(run)
     return true
 end
 
+local function syncBattlePotions(run)
+    local inventory=run.combat.potionInventory
+    if not inventory then return end
+    for slot=1,run.potionSlots or run.data.rules.player.potionSlots do
+        if run.potions[slot]~=inventory[slot] then run.potions=Combat.copy(inventory);return end
+    end
+end
+
 function M.chooseCard(run,token,uid)
     if run.phase~="combat" then return false,"not_in_combat" end
     local ok,reason=Combat.chooseCard(run.combat,token,uid)
     if ok then
+        syncBattlePotions(run)
         run.gold=run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -656,9 +694,11 @@ function M.play(run, uid, targetIndex, commandId)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.play(run.combat, uid, targetIndex, commandId)
     if ok then
+        syncBattlePotions(run)
         if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -671,7 +711,9 @@ function M.chooseDiscard(run, uids, token, generation)
     if generation ~= run.combatGeneration then return false, "stale_combat_generation" end
     local ok,reason=Combat.chooseDiscard(run.combat,uids,token)
     if ok then
+        syncBattlePotions(run)
         run.gold=run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -681,7 +723,9 @@ function M.choosePile(run,uids,token,generation)
     if generation~=run.combatGeneration then return false,'stale_combat_generation' end
     local ok,reason=Combat.choosePile(run.combat,uids,token,generation)
     if ok then
+        syncBattlePotions(run)
         run.gold=run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -692,7 +736,9 @@ function M.chooseScry(run, uids, token, generation)
     if generation ~= run.combatGeneration then return false, "stale_combat_generation" end
     local ok, reason = Combat.chooseScry(run.combat, uids, token)
     if ok then
+        syncBattlePotions(run)
         run.gold = run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -703,7 +749,9 @@ function M.chooseHand(run,uids,token,generation)
     if generation~=run.combatGeneration then return false,"stale_combat_generation" end
     local ok,reason=Combat.chooseHand(run.combat,uids,token)
     if ok then
+        syncBattlePotions(run)
         run.gold=run.combat.player.gold
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok,reason
@@ -713,8 +761,10 @@ function M.endTurn(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local ok, reason = Combat.endTurn(run.combat)
     if ok then
+        syncBattlePotions(run)
         run.gold = run.combat.player.gold
         run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+        applyDaggerGrowth(run)
         if Combat.outcome(run.combat) then M.finishCombat(run) end
     end
     return ok, reason
@@ -742,14 +792,20 @@ function M.obtainPotion(run, id)
     for slot = 1, M.potionCapacity(run) do
         if not run.potions[slot] then
             run.potions[slot] = id
+            if run.phase=='combat' and run.combat then run.combat.potionInventory=Combat.copy(run.potions) end
             return true, slot
         end
     end
     return false, "potion_slots_full"
 end
 
+local function potionEventRestricted(run)
+    local event=run.nodeFlow and run.nodeFlow.event
+    local legacy=not run.nodeFlow and run.node
+    return event and (event.id=='we_meet_again' or event.id=='WeMeetAgain' or event.originalId=='WeMeetAgain')
+        or legacy and (legacy.eventId=='WeMeetAgain' or legacy.sourceEventId=='WeMeetAgain') or false
+end
 -- Discard never executes a potion effect and does not require a player turn.
--- The original WeMeetAgain event veto is outside the supported event pool.
 function M.discardPotion(run, slot)
     if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > M.potionCapacity(run) then
         return false, "invalid_potion_slot"
@@ -757,15 +813,18 @@ function M.discardPotion(run, slot)
     local id = run.potions[slot]
     if not id then return false, "empty_potion_slot" end
     if not find(run.data.potions.potions, id) then return false, "unknown_potion" end
+    if potionEventRestricted(run)then return false,'potion_event_restricted' end
     -- Like usePotion, a destructive transaction expires old physical gestures,
     -- even if the same bottle ID is immediately acquired in the vacant slot.
     run.potions = Combat.copy(run.potions)
     run.potions[slot] = nil
+    if run.phase=='combat' and run.combat then run.combat.potionInventory=Combat.copy(run.potions) end
     return true
 end
 
 local function potionCandidate(run, slot, targetIndex, afterPotionActions)
-    if run.phase ~= 'combat' and run.potions[slot]~='blood_potion' and run.potions[slot]~='fruit_juice' then return nil,'not_in_combat' end
+    if potionEventRestricted(run)then return nil,'potion_event_restricted' end
+    if run.phase ~= 'combat' and run.potions[slot]~='blood_potion' and run.potions[slot]~='fruit_juice' and run.potions[slot]~='entropic_brew' then return nil,'not_in_combat' end
     if run.phase == 'combat' then
         if not run.combat or run.combat.phase ~= 'player' then return nil,'not_player_turn' end
         if run.combat.pendingChoice or run.combat.cardActions then return nil,'card_choice_pending' end
@@ -779,6 +838,15 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
     if not id then return nil, "empty_potion_slot" end
     local potion = find(run.data.potions.potions, id)
     if not potion then return nil, "unknown_potion" end
+    if id=='fairy_in_a_bottle' then return nil,'automatic_potion' end
+    local effects=Combat.copy(potion.effects)
+    if RelicHooks.owns(run,'sacred_bark') or RelicHooks.owns(run,'SacredBark') then
+        for _,effect in ipairs(effects)do
+            if effect.value and effect.op~='escape' and effect.op~='generatePotions' and effect.op~='randomizeHandCost' then
+                effect.value=effect.value*2.0
+            end
+        end
+    end
     if id=='smoke_bomb' and run.combat then
         for _,enemy in ipairs(run.combat.enemies) do
             local def=run.combat.catalog.enemies[enemy.definitionId]
@@ -786,30 +854,38 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
         end
     end
     local health = id=='blood_potion' or id=='fruit_juice'
-    local currentEvent=run.nodeFlow and run.nodeFlow.event
-    local legacyEvent=not run.nodeFlow and run.node
-    if health and (currentEvent and (currentEvent.id=='WeMeetAgain' or currentEvent.originalId=='WeMeetAgain')
-        or legacyEvent and (legacyEvent.eventId=='WeMeetAgain' or legacyEvent.sourceEventId=='WeMeetAgain')) then
-        return nil,'potion_event_restricted'
-    end
+    local outsideAllowed=health or id=='entropic_brew'
     if run.phase ~= 'combat' then
-        if not health or (run.phase~='map' and run.phase~='node' and run.phase~='reward') then return nil,'not_in_combat' end
+        if not outsideAllowed or (run.phase~='map' and run.phase~='node' and run.phase~='reward') then return nil,'not_in_combat' end
         local candidate={hp=run.hp,maxHp=run.maxHp,outside=true}
-        for _,e in ipairs(potion.effects) do
+        if id=='entropic_brew' then
+            local called,ids,rng=pcall(require('abyss_potion_generation').prepare,run,false)
+            if not called then return nil,'potion_effect_failed'end
+            candidate.potionInventory=Combat.copy(run.potions);candidate.potionInventory[slot]=nil
+            candidate.potionRandomRng=rng
+            candidate.generatedPotionOffers={}
+            for _,generated in ipairs(ids)do
+                local available=require('abyss_potion_generation').available(run,generated)
+                candidate.generatedPotionOffers[#candidate.generatedPotionOffers+1]={id=generated,unavailable=not available}
+                if available then require('abyss_potion_generation').obtain(candidate.potionInventory,M.potionCapacity(run),generated,false)end
+            end
+        else for _,e in ipairs(effects) do
             local ok,reason=require('abyss_potion_health').apply(candidate,e.op,e.value,run.relics,false)
             if not ok then return nil,reason end
-        end
+        end end
         candidate.relics=run.relics
         RelicHooks.onUsePotion(candidate)
         return candidate
     end
     local candidate = Combat.copy(run.combat)
+    candidate.potionInventory=Combat.copy(run.potions)
     local called, ok, reason = pcall(function()
-        local applied,why=Inventory.apply(candidate,potion.effects,targetIndex,run,true)
+        local applied,why=Inventory.apply(candidate,effects,targetIndex,run,true)
         if not applied then return false,why end
         -- Integration point for COMBAT onUsePotion hooks: append their actions
         -- on the staged battle, after Potion.use and before a single drain.
         RelicHooks.onUsePotion(run,candidate)
+        candidate.potionInventory[slot]=nil
         if afterPotionActions then afterPotionActions(candidate) end
         require('abyss_card_actions').drain(Combat,candidate)
         return true
@@ -826,7 +902,13 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     if battle.outside then
         run.hp,run.maxHp=battle.hp,battle.maxHp
         if run.combat then run.combat.player.hp,run.combat.player.maxHp=run.hp,run.maxHp end
-        run.potions=Combat.copy(run.potions);run.potions[slot]=nil
+        run.potions=Combat.copy(battle.potionInventory or run.potions)
+        if not battle.potionInventory then run.potions[slot]=nil end
+        if battle.potionRandomRng then
+            run.shopRng=run.shopRng and Combat.copy(run.shopRng) or {merchant=EventRandom.fromSeed(run.runSeed)}
+            run.shopRng.potion=battle.potionRandomRng
+        end
+        if battle.generatedPotionOffers then run.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
         return true
     end
     require("abyss_events").emit(battle, "potion", { slot = slot, id = run.potions[slot], target = targetIndex })
@@ -839,10 +921,16 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     -- Persistent deck UIDs are owned by Run and are never regenerated from combat instances.
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
-    candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(run.potions), battle.player.gold
+    candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(battle.potionInventory), battle.player.gold
+    candidate.deck=battle.ritualDaggerGrowth and Combat.copy(run.deck) or run.deck
     candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
     candidate.relicCounters=Combat.copy(battle.relicCounters)
-    candidate.potions[slot] = nil
+    if battle.generatedPotionOffers then candidate.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end
+    if battle.potionRandomRng then
+        candidate.shopRng=run.shopRng and Combat.copy(run.shopRng) or {merchant=EventRandom.fromSeed(run.runSeed)}
+        candidate.shopRng.potion=battle.potionRandomRng
+        battle.potionRandomRng=nil
+    end
     if battle.smoked then
         battle.phase='escaped'
         candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil
@@ -855,6 +943,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
         local called, ok = pcall(M.finishCombat, candidate)
         if not called or not ok then return false, "potion_effect_failed" end
     end
+    applyDaggerGrowth(candidate)
     local root = run.combat
     for key in pairs(root) do root[key] = nil end
     for key, value in pairs(battle) do root[key] = value end
@@ -886,7 +975,7 @@ function M.potionView(run)
             result[slot] = { slot = slot, id = id, name = potion and potion.name or id,
                 targetPolicy = potion and potion.targetPolicy,
                 effects = potion and Combat.copy(potion.effects) or {}, needTarget = needTarget,
-                canUse = candidate ~= nil, reason = reason }
+                canUse = candidate ~= nil, canDiscard=not potionEventRestricted(run), reason = reason }
         end
     end
     return result

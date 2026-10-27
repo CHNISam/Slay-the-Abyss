@@ -7,6 +7,7 @@ local Layout = require("abyss_ui_layout")
 local Templates = require("abyss_ui_templates")
 local Viewport = require("abyss_viewport")
 local Theme = require("abyss_theme")
+local EnemyView = require("abyss_battle_enemy_view")
 local function preview(name, text)
     print("LORE_PREVIEW\t" .. name .. "\t" .. text:gsub("\n", "\\n"))
 end
@@ -31,12 +32,18 @@ function Control:AddCursorEventListener(event, fn)
     self.listeners[event] = fn
     if event == "click" then self.click = fn end
 end
+function Control:AddKeyEventListener(event, fn)
+    self.keyListeners = self.keyListeners or {}
+    assert(not self.keyListeners[event], 'duplicate key listener')
+    self.keyListeners[event] = fn
+end
 
 local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, interactable = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
     self.GetChild = Control.GetChild
+    self.AddKeyEventListener = Control.AddKeyEventListener
     self.SetVisible = Control.SetVisible
     self.SetSizeDelta = Control.SetSizeDelta
     self.SetLocalScale = Control.SetLocalScale
@@ -63,12 +70,13 @@ local function control(spec, parent)
     return self
 end
 -- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
-local function fixture(data, settle, music, cursorEvents, prologue, sound)
+local function fixture(data, settle, music, cursorEvents, prologue, sound, pointer)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
         { seed = 1, imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
-          prologue = prologue == true, sound = sound })
+          prologue = prologue == true, sound = sound, cursorPosition = pointer and pointer.position,
+          touchScreen = pointer and pointer.touchScreen, keyEvents = pointer and pointer.keyEvents })
     root.ui = ui
     return ui, root
 end
@@ -110,7 +118,19 @@ local function win(ui, root)
             local instance = ui.run.phase == "combat" and battle.hand[slot]
             if instance and ui.battleUI.selected == instance.uid then
                 local _, reason = Combat.canPlay(battle, instance.uid, nil)
-                click(root, "battlePanel", reason == "invalid_target" and "enemy" .. ui.battleUI.target or "playArea")
+                local button = "playArea"
+                if reason == "invalid_target" then
+                    local screenSlot
+                    for i, entry in ipairs(EnemyView.slots(battle)) do
+                        if entry.index == ui.battleUI.target then
+                            assert(entry.actor == battle.enemies[entry.index] and entry.id == entry.actor.id)
+                            screenSlot = i break
+                        end
+                    end
+                    assert(screenSlot, "live target has no displayed enemy slot")
+                    button = "enemy" .. screenSlot
+                end
+                click(root, "battlePanel", button)
             end
         end
         if ui.run.phase == "combat" then click(root, "battlePanel", "endTurn") end

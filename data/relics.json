@@ -379,6 +379,15 @@
       "trigger": "hooks",
       "effects": [],
       "stackable": true
+    },
+    {
+      "id": "darkstone_periapt",
+      "sourceId": "Darkstone Periapt",
+      "name": "Darkstone Periapt",
+      "description": "每当一张诅咒牌实际加入永久牌组，最大生命增加6，并按治疗规则回复6生命。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }

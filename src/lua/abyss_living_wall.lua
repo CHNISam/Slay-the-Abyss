@@ -2,6 +2,7 @@
 local C = require('abyss_combat')
 local Transform = require('abyss_transform_card')
 local Capability = require('abyss_card_capability')
+local Context = require('abyss_event_transform_context')
 local M = {}
 local function find(entries,id,key)
     for i,entry in ipairs(entries) do if entry[key or 'id']==id then return entry,i end end
@@ -24,7 +25,7 @@ end
 -- Context is supplied by the complete source-pool owner, never synthesized
 -- from the smaller playable catalog. Unsupported draws are atomic refusals.
 local function transformed(run,instance)
-    local context=run.transformContext
+    local context=run.transformContext or Context.new(run)
     if type(context)~='table' or type(context.cards)~='table' or type(context.sourceToLocal)~='table' then
         return nil,'event_content_unavailable'
     end

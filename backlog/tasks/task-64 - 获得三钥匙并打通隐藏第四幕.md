@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 02:00'
 labels:
   - required
   - sts1
@@ -47,4 +47,6 @@ ordinal: 109000
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
 
 2026-10-26原AC3按已合入且本轮通过的cross-act非法/缺钥匙门边界事务回归勾选；真实钥匙、历史持久资格、心脏机制及自然通关仍保留未勾。
+
+接入Ruby Recall与Sapphire宝箱选择，沿用Nodes核心命令、来源令牌、真实永久牌/遗物后果及旧手势拒绝，兼容空所有者菜单与Start失败/重试。实现见src/lua/abyss_nodes.lua、abyss_node_ui.lua、abyss_run.lua；回归见tests/lua/ruby_recall.lua、ruby_recall_ui.lua、ruby_nested_refusal.lua、sapphire_treasure.lua、sapphire_treasure_ui.lua、m3_v2_keys_darkstone.lua及m3_current_owner_event_keys.lua。本地相关回归通过，完整Quality以PR当前提交检查状态为准。受控导航与钥匙资格不是自然获得证明；完整三钥匙隐藏结局、历史生产/持久化、全源池及原生四职业连续四幕仍待验收。 本轮基于最新develop增量整合，保留原版来源拖牌/持续选目标、共享卡面装配与卡牌ID美术接线；未引入新的同步反应结算。
 <!-- SECTION:NOTES:END -->

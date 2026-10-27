@@ -19,7 +19,10 @@ test('Beggar contract is pinned to the exact primary source and mandatory seven-
   assert.deepEqual(source.behavior.purge,{count:1,forUpgrade:false,forTransform:false,canCancel:false,forPurge:true,anyNumber:false});
   assert.match(source.behavior.emptyGroupBoundary,/UNPROVEN/);
   assert.match(source.provenanceBoundary,/not canonical byte attestations/);
-  assert.match(source.implementationBoundary,/native picker.*pending/);
+  assert.match(source.implementationBoundary,/NodeUI wired with mocked-local/);
+  assert.match(source.implementationBoundary,/Empty purge-group.*UNPROVEN and pending/);
+  assert.match(source.implementationBoundary,/Native-client acceptance NOT_RUN/);
+  assert.match(source.implementationBoundary,/history producer\/persistence.*pending/);
 });
 
 test('Beggar actual Nodes commands preserve source stages, mandatory choice, paid-state rollback and full-pool gates',()=>{

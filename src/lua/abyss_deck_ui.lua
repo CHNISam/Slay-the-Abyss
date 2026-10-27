@@ -70,7 +70,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
-        face:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
+        face:GetChild("art"):SetImage(platform.imageSource, (CardDisplay.art(definition)))
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
         control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')
@@ -105,9 +105,9 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.choiceToken,self.onPick,self.battle=choice and choice.token,onPick,choice and run.combat
         self.multiple,self.choiceSelected=choice and choice.multiple,choice and choice.selected
         if choice then
-            cards={}
-            for _,uid in ipairs(choice.uids) do
-                for _,pile in ipairs({run.combat.hand,run.combat.discard,run.combat.exhaust}) do
+            cards=Combat.copy(choice.cards or {})
+            for _,uid in ipairs(choice.cards and {} or choice.uids) do
+                for _,pile in ipairs({run.combat.hand,run.combat.draw,run.combat.discard,run.combat.exhaust}) do
                     for _,c in ipairs(pile) do if c.uid==uid then cards[#cards+1]=Combat.copy(c) end end
                 end
             end
@@ -118,7 +118,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.indexBase, self.pending, self.calibrating = nil, false, true
         root:SetVisible(true)
         root:SetAsLastSibling()
-        local prompts={exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
+        local prompts={discover="选择加入手牌的牌，本回合费用为0",colorless='选择卡牌',exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
             exhaustMany='选择任意张手牌消耗（可不选）',discardRedraw='选择任意张手牌丢弃并重抽',discardToHand='选择弃牌回手，本回合费用为0',
             handToDraw="选择放回抽牌堆顶的手牌",upgradeHand="选择要升级的牌",dualWield="选择要复制的攻击或能力牌"}
         root:GetChild("title").text = choice and prompts[choice.op] or "卡组 · " .. #cards .. " 张"

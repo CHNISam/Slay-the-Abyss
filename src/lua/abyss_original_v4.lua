@@ -321,7 +321,7 @@ function M.intentReduction(state,index)
     if value<=0 then return 0 end
     for i,enemy in ipairs(state.enemies)do if live(enemy)then
         local intent=enemy.intents[enemy.intentIndex]
-        for _,e in ipairs(intent.effects or {})do if (e.op=='damage' or e.op=='damageAll') and (e.value or 0)>0 then
+        for _,e in ipairs(intent.effects or {})do if (e.op=='damage' or e.op=='damageAll' or e.op=='enemyVampireDamage') and (e.value or 0)>0 then
             return i==index and value or 0
         end end
     end end
@@ -329,7 +329,7 @@ function M.intentReduction(state,index)
 end
 function M.beginEnemyAction(state,enemy,intent)
     local v=state.originalV4;local attacking=false
-    for _,e in ipairs(intent.effects or {})do if (e.op=='damage' or e.op=='damageAll') and (e.value or 0)>0 then attacking=true end end
+    for _,e in ipairs(intent.effects or {})do if (e.op=='damage' or e.op=='damageAll' or e.op=='enemyVampireDamage') and (e.value or 0)>0 then attacking=true end end
     v.enemyAction={enemy=enemy,attacking=attacking,soften=attacking and v.soften or 0}
     if attacking then v.soften=0 end
 end
