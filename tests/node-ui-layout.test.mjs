@@ -184,4 +184,10 @@ test('source reward rows and the twelve-card smithing grid fit without hiding ne
  assert.equal(grid.length,12);
  for(let a=0;a<grid.length;a++)for(let b=a+1;b<grid.length;b++)assert.ok(!overlaps(bounds(grid[a]),bounds(grid[b])));
  for(const card of grid){const r=bounds(card);assert.ok(r.left>=-600 && r.right<=600 && r.bottom>=-340 && r.top<=242);}
+ const picker=find(panel.children,'pickerView').children;
+ for(const name of ['forgePrevious','forgeNext']){
+  const arrow=find(picker,name);
+  for(const c of [...grid,find(panel.children,'back'),find(panel.children,'confirm')])
+   assert.ok(!overlaps(bounds(arrow),bounds(c)),name+' overlaps '+c.name);
+ }
 });

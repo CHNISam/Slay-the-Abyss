@@ -362,7 +362,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         child("potions").text = "药水 " .. Run.potionCount(self.run) .. "/" .. Run.potionCapacity(self.run)
     end
 
-    local campUI=CampUI.new(self,{child=child,show=show,fillCard=fillCard,action=action})
+    local campUI=CampUI.new(self,{child=child,show=show,state=state,fillCard=fillCard,action=action})
     local function enhancedForge(node)return options.enhancedRooms and node.type=='camp' and self.picker=='upgrade'end
     local renderShop = ShopUI.new(self, {
         selection = shopSelection,
@@ -423,6 +423,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if enhancedForge(node) then return campUI:render(node,result) end
         local picker = child("pickerView")
         show(picker:GetChild('forgeGrid'),false)
+        show(picker:GetChild('forgePrevious'),false);show(picker:GetChild('forgeNext'),false)
         for _,name in ipairs({'before','after'})do
             picker:GetChild(name):SetLocalScale(1,1,1)
             picker:GetChild(name):SetAnchoredPosition(layout.picker[name],layout.picker.previewY)
@@ -867,7 +868,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return confirmLabel
     end
     local function pickerLabels(node,living,act1,dream,restReward)
-        if enhancedForge(node) then return CampUI.labels(self.selected) end
+        if enhancedForge(node) then return CampUI.labels(self.selected,node,self.run) end
         local backLabel,confirmLabel,skipRestReward
         if dream then
             confirmLabel,backLabel='选择此牌','跳过卡牌'
@@ -1239,6 +1240,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         "treasureView/previous", "treasureView/next" }
     for i=1,4 do targets[#targets+1]='treasureView/rewardItem'..i end
     for i=1,12 do targets[#targets+1]='pickerView/forgeGrid/card'..i end
+    targets[#targets+1]='pickerView/forgePrevious';targets[#targets+1]='pickerView/forgeNext'
     for i = 1, SHOP_PAGE do targets[#targets + 1] = "shopView/card" .. i end
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
     for i = 1, 3 do targets[#targets+1]='shopView/potion'..i end

@@ -26,8 +26,10 @@ local function same(a,b)
     for k,v in pairs(a) do same(v,b[k]) end
     for k in pairs(b) do assert(a[k]~=nil) end
 end
-local function setup(kind,linked)
-    local run,map=Run.new(Data,42),Map.generate(Data,42)
+local function setup(kind,linked,extraCards,source)
+    source=source or Data
+    local run,map=Run.new(source,42),Map.generate(source,42)
+    for _=1,extraCards or 0 do assert(Run.obtainCard(run,run.deck[1].cardId))end
     -- Frozen independent relic stream used by the existing membership-card fixture.
     run.relicPool=require('abyss_relic_pool').new('2',run.data.relicSource)
     if linked then
@@ -162,4 +164,22 @@ test('smithing uses a full grid and a separate enlarged before-after confirmatio
  assert(tap('pickerView/forgeGrid/card1',4));assert(tap('confirm',5))
  assert(ui.presentationBusy);ui:update(2)
  assert(ui.result and ui.result.choice=='upgrade')
+end)
+test('a thirteen-card smithing grid has separate reachable page buttons',function()
+ local ui,get,emit,tap=setup('camp',nil,3)
+ assert(tap('campView/forge',1));assert(ui.pageCount==2)
+ assert(get('pickerView/forgeNext').visible)
+ assert(tap('pickerView/forgeNext',2) and ui.pickPage==2)
+ assert(tap('pickerView/forgeGrid/card1',3) and ui.selected==ui.run.deck[13].uid)
+ assert(tap('back',4) and get('pickerView/forgePrevious').visible)
+end)
+test('a remaining mandatory upgrade returns to the grid and retires the upgraded card',function()
+ local source=Combat.copy(Data);source.rules.camp.upgradeCount=2
+ local ui,get,emit,tap=setup('camp',nil,nil,source)
+ assert(tap('campView/forge',1));assert(tap('pickerView/forgeGrid/card1',2));assert(tap('confirm',3));ui:update(2)
+ assert(ui.run.phase=='node' and not ui.selected and not get('back').visible)
+ assert(get('pickerView/forgeGrid/card1/stamp').text=='已升级')
+ assert(not tap('pickerView/forgeGrid/card1',4))
+ assert(tap('pickerView/forgeGrid/card2',5));assert(tap('confirm',6));ui:update(2)
+ assert(ui.run.phase=='map' and ui.result.choice=='upgrade')
 end)

@@ -106,6 +106,7 @@ export function nodeLayout(theme = nativeTheme) {
     text('label', picker.label, '', font.label, color.textDim), text('hint', picker.hint, '', font.small, color.textDim),
     text('empty', picker.empty, '', font.body, color.textMuted)];
   const forge = layout.forge;
+  pickerControls.push(hidden(arrow('forgePrevious',forge.previous,icon.back)),hidden(arrow('forgeNext',forge.next,icon.next)));
   pickerControls.push(hidden(group('forgeGrid',forge.rows.flatMap((y,row)=>forge.columns.map((x,col)=>
     card(`card${row*forge.columns.length+col+1}`,[x,y]))))));
 

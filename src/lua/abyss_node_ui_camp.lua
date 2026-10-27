@@ -3,7 +3,11 @@ local Theme=require('abyss_theme')
 local Combat=require('abyss_combat')
 local L=Theme.layout.nativeNode.forge
 local M={}
-function M.labels(selected)return selected and '重新选牌' or '返回营地','确认升级'end
+function M.labels(selected,node,run)
+ if selected then return '重新选牌','确认升级'end
+ if node.upgradesLeft<run.data.rules.camp.upgradeCount then return nil,'确认升级'end
+ return '返回营地','确认升级'
+end
 local function find(rows,uid)for _,row in ipairs(rows or {})do if row.uid==uid then return row end end end
 function M.new(owner,ui)
  local state={}
@@ -19,7 +23,15 @@ function M.new(owner,ui)
   picker:GetChild('label').text='升级前'
   picker:GetChild('hint').text=result and '升级完成' or '升级后'
  end
- local function renderGrid(grid,enabled)
+ local function syncRows(node,result)
+  if result then return end
+  for i,row in ipairs(owner.upgradeRows)do
+   local owned=find(owner.run.deck,row.uid)
+   if owned then owner.upgradeRows[i]=Combat.copy(owned)end
+  end
+  if owner.selected and not find(node.upgradeCards,owner.selected)then owner.selected=nil end
+ end
+ local function renderGrid(grid,enabled,node)
   local count=#L.columns*#L.rows
   local rows=owner.upgradeRows
   owner.pageCount=math.max(1,math.ceil(#rows/count));owner.pickPage=math.min(owner.pickPage or 1,owner.pageCount)
@@ -28,9 +40,10 @@ function M.new(owner,ui)
    local instance=rows[(owner.pickPage-1)*count+i]
    ui.show(box,instance~=nil);box:SetLocalScale(1,1,1)
    if instance then
-    ui.fillCard(box,instance.cardId,instance.upgraded,{instance=instance})
+    local available=find(node.upgradeCards,instance.uid)~=nil
+    ui.fillCard(box,instance.cardId,instance.upgraded,{instance=instance,dim=not available,stamp=not available and '已升级' or nil})
     local uid,run,flow=instance.uid,owner.run,owner.run.nodeFlow
-    ui.action('pickerView/forgeGrid/card'..i,enabled,function()
+    ui.action('pickerView/forgeGrid/card'..i,enabled and available,function()
      if owner.run~=run or owner.run.nodeFlow~=flow or owner.picker~='upgrade' or not find(run.deck,uid)then return false,'stale_action'end
      owner.selected=uid;owner.notice='';owner:render();return true
     end)
@@ -41,20 +54,23 @@ function M.new(owner,ui)
   for _,step in ipairs({{name='previous',delta=-1},{name='next',delta=1}})do
    local page=owner.pickPage+step.delta
    local enabled=not selected and page>=1 and page<=owner.pageCount
-   ui.show(picker:GetChild(step.name),enabled)
-   ui.action('pickerView/'..step.name,enabled,function()owner.pickPage=page;owner:render();return true end)
+   local name=step.delta<0 and 'forgePrevious' or 'forgeNext'
+   ui.show(picker:GetChild(step.name),false)
+   ui.show(picker:GetChild(name),enabled);ui.state(picker:GetChild(name),enabled)
+   ui.action('pickerView/'..name,enabled,function()owner.pickPage=page;owner:render();return true end)
   end
   picker:GetChild('page'):SetAnchoredPosition(L.page[1],L.page[2])
   picker:GetChild('page').text=not selected and ('可升级 '..#owner.upgradeRows..' 张 · 第 '..owner.pickPage..' / '..owner.pageCount..' 页') or ''
  end
- function state.render(_self,_node,result)
+ function state.render(_self,node,result)
+  syncRows(node,result)
   local picker=ui.child('pickerView')
   local grid=picker:GetChild('forgeGrid')
   local selected=result and result.card or find(owner.upgradeRows,owner.selected)
   for i=1,6 do ui.show(picker:GetChild('card'..i),false)end
   for _,key in ipairs({'before','after','arrow'})do ui.show(picker:GetChild(key),selected~=nil)end
   ui.show(picker:GetChild('target'),false);ui.show(grid,not selected)
-  renderGrid(grid,not selected);renderPages(picker,selected)
+  renderGrid(grid,not selected,node);renderPages(picker,selected)
   for _,name in ipairs({'label','hint'})do
    local box=picker:GetChild(name)
    box:SetAnchoredPosition(L[name][1],L[name][2]);box:SetSizeDelta(L[name][3],L[name][4])
