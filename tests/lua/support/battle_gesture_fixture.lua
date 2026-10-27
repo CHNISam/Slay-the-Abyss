@@ -1,9 +1,9 @@
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Run = require("abyss_run")
-local function setup(deck, enemies)
+local function setup(deck, enemies, pointer)
     local host, root = F.fixture(nil,nil,nil,{CursorDown="down",CursorDrag="drag",CursorUp="up",
-        CursorEndDrag="endDrag",CursorEnter="enter",CursorExit="exit"})
+        CursorEndDrag="endDrag",CursorEnter="enter",CursorExit="exit"},nil,nil,pointer)
     assert(host:start())
     assert(Run.startCombat(host.run,"cultist_solo"))
     host.run.combat=F.Combat.new(F.Data,{deck=deck or {"defend","defend"},enemies=enemies or {"cultist"}})

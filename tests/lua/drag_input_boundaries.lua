@@ -124,6 +124,7 @@ test("cancelled drags back in the hand never click through and accept the next t
         local battle = ui.run.combat
         local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
         event("card1","down",x,y) event("card1","drag",point[1],point[2])
+        ui:update(0.45) -- source: a short (<.4s) out-of-zone release retains click-drag
         event("dragLayer","up",point[1],point[2])
         event("card1","endDrag",point[1],point[2]) event("endTurn","click",0,0)
         event("card1","click",x,y)
@@ -140,7 +141,7 @@ test("targeted drag pulled back to the hand cancels and commits only the aimed l
     ui.run.combat = battle ui:render()
     local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
     local hp1,hp2 = battle.enemies[1].hp,battle.enemies[2].hp
-    event("card1","down",x,y) event("card1","drag",-200,0) event("card1","drag",x,y) event("card1","up",x,y)
+    event("card1","down",x,y) event("card1","drag",-200,0) event("card1","drag",x,-340) event("card1","up",x,-340)
     event("enemy1","click",0,0)
     assert(#battle.hand == 1 and battle.energy == 3 and battle.enemies[1].hp == hp1)
     local enemy = panel:GetChild("enemy2")

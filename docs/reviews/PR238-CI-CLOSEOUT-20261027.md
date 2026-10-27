@@ -26,3 +26,9 @@ small_slimes与Flex/Speed原完整入口实际超时，没有伪称GREEN。Large
 候选a717d381的Quality 40433213848在rules4的JS阶段发现遗漏调用点：potion-flex-speed.test.mjs仍只调用分片第一入口并要求单文件输出11。未合并；原始日志保存在根归档a717-rules4.log。包装现执行全部四片，逐片校验status、组数与实际原始索引，最终严格要求1–11各一次；不把旧11降成3。其它三个夹具的JS/配置调用点已搜索核对。
 
 仅对原Flex/Speed JS文件和覆盖门禁定向复验，3项通过、0跳过；四片5853/3501/2610/7578ms。没有重复其余已绿夹具或整套本地check。新提交仍须同一PR全部必要CI成功，a717部分通过或旧日志不能代替它。
+
+## 同步已有develop基线
+
+c15de6f8在GitHub标为CONFLICTING，故该SHA没有触发PR CI，不能把无作业当通过。同步既有develop 364833a0，保留已合PR231的卡牌交互/原生卡面装配和本PR全部改动，唯一内容冲突为luacheck历史警告行号。逐项以file、原源行、column、code、去行号message及被引用源行，对照两个父版本的多重集合证明当前104项全部已有，新增警告身份0；未直接放宽baseline。证明保留根归档baseline-merge-proof.json。
+
+冲突解决后实际静态通过：104项历史警告、0新增，battle render≤10且受检函数≤15；架构159模块/920边通过。PR231的UI用例迁移与最终五片边界均保留。最终合并仍等待同步后的精确SHA全量必要CI。

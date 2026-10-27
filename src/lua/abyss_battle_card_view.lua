@@ -5,7 +5,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local CardDisplay = require("abyss_card_display")
 local number = require("abyss_numbers").integer
-local C, L, S = Theme.color, Theme.layout, Theme.space
+local C, L = Theme.color, Theme.layout
 local D = L.cardDrag
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local M = {}
@@ -52,9 +52,10 @@ function M.new(view, controls)
     local placeCard, placeReward = controls.placeCard, controls.placeReward
     local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
     local function currentAim()
-        if view.gesture and view.gesture.moving then
-            local _, target = dragTarget(view.gesture)
-            return view.gesture.uid, target
+        local held = view.gesture or view.carry
+        if held and held.moving then
+            local _, target = dragTarget(held)
+            return held.uid, target
         end
     end
 
@@ -95,7 +96,7 @@ function M.new(view, controls)
         tint(box:GetChild("border"), (card.selected or hovered) and C.goldBright
             or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
         tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
-        picture(box:GetChild("art"), Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
+        picture(box:GetChild("art"), CardDisplay.art(definition))
     end
 
     local function place(box, card, context, i)
@@ -104,7 +105,7 @@ function M.new(view, controls)
             pose = placeReward(box, #context.rewards, i, view.rewardView.cards[i], view.hover == i)
         else
             local count = context.fighting and #context.battle.hand or #context.rewards
-            pose = placeCard(box, count, i - 1, card.selected == true)
+            pose = placeCard(box, count, i - 1, card.selected == true or context.active and view.hover == i)
         end
         if card.instance then view.cardPositions[card.instance.uid] = pose end
     end
@@ -132,7 +133,7 @@ function M.new(view, controls)
         local card = slotCard(context, instance, id, i)
         writeName(box, card)
         writeDetails(box, card, context.battle, aimUid, aimTarget)
-        local hovered = context.reward and not context.fighting and view.hover == i
+        local hovered = view.hover == i and (context.reward or context.active)
         writeFrame(box, card, hovered)
         place(box, card, context, i)
         return card, (card.selected or hovered) and box or nil
@@ -157,7 +158,10 @@ function M.new(view, controls)
         local x, y = dragPose(g)
         local h = L.card.size[2] * D.scale
         -- An aiming card parks under the line so it never hides the enemy row.
-        if aiming then x, y = (g.origin or {g.sx})[1], D.lineY - h/2 - S.s end
+        if aiming then
+            local floor = -Theme.canvas.base[2]/2 + Theme.canvas.safe.y + h/2
+            x, y = 0, math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
+        end
         box:SetAnchoredPosition(x, y)
         box:SetLocalScale(D.scale, D.scale, 1)
         box.localRotationZ = 0
@@ -194,15 +198,19 @@ function M.new(view, controls)
         end
     end
 
-    local function renderDrag()
-        local g = view.gesture
+    local function renderDrag(valid, target, aiming, resolved)
+        local g = view.gesture or view.carry
         show("dragLayer", g ~= nil and g.moving == true)
         if g and g.moving then
             local box = child("card" .. g.slot)
-            local valid, target, aiming = dragTarget(g)
+            if not resolved then valid, target, aiming = dragTarget(g) end
             local x, y, h = placeDraggedCard(box, g, aiming)
             box:GetChild("glow"):SetVisible(valid == true)
             local layer = child("dragLayer")
+            layer:GetChild('hit'):SetVisible(view.gesture ~= nil)
+            layer.disableCursorEventPassthrough = view.gesture ~= nil
+            local lineY = g.touchScreen and g.dropStart or math.min(g.hoverStartLine,g.dropStart)
+            layer:GetChild('line'):SetAnchoredPosition(0,lineY)
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]
             -- The lit line, card glow and reticle already say "release to play"; no caption over the card.
@@ -213,6 +221,7 @@ function M.new(view, controls)
             local sx, sy, fy = x, y+h/2, ey-(enemy and ring/2 or 0)
             renderArc(layer, aiming, sx, sy, ex, fy, enemy)
             layer:SetAsLastSibling()
+            g.drawn, g.drawnValid, g.drawnTarget, g.drawnAiming = true, valid, target, aiming
         end
     end
     return { renderCards = renderCards, renderDrag = renderDrag }

@@ -1,0 +1,51 @@
+{
+  "kind": "desktop-native-card-live-slice",
+  "timezone": "Asia/Irkutsk",
+  "sourceCommit": "e0a5f32f2ff740328010383b398ee72514bb917c",
+  "buildId": "0eba80a7-b3a2-42e9-8669-7c23c887b237",
+  "candidateSha256": "8d4675f2948b3f03714079af2192a8617c1c6921c8d6d7106661e10e9c7baca7",
+  "runId": "66a635b3-7e02-4bef-823b-20ea2b0d7d57",
+  "privateEvidenceRootFromMainWorkspace": ".artifacts/card-runtime-live-20261027-001",
+  "officialSaveId": 1073741871,
+  "officialReadback": {"scripts": 122, "byteMismatches": 0},
+  "inputWindow": {
+    "startedAtUtc": "2026-10-26T16:11:20Z",
+    "deadlineAtUtc": "2026-10-26T16:21:20Z",
+    "lastManualInputCompletedAtUtc": "2026-10-26T16:19:53.195Z",
+    "controlReturned": true,
+    "inputHostStopped": true,
+    "gameIntegrity": "High",
+    "inputHostIntegrity": "High"
+  },
+  "log": {
+    "clientScriptLog": true,
+    "freshRun": true,
+    "printCount": 12,
+    "buildMarkerMatched": true,
+    "readyObserved": true,
+    "clientFaultObserved": false,
+    "sha256": "864be67461fb41a6ade4457c524c4bee67ab77d433664e419aeea92451c4ca74"
+  },
+  "scenario": {
+    "character": "旅行者·荧",
+    "entry": "normal menu, role selection, prologue skip, first available battle",
+    "stateFixtureUsed": false,
+    "gameplayControllerCommandsInjected": false,
+    "nativeInput": "editor_input drag through the High-integrity MCP host",
+    "card": "防御",
+    "before": {"energy": 3, "hand": 5, "block": 0, "discard": 0},
+    "after": {"energy": 2, "hand": 4, "block": 5, "discard": 1},
+    "secondConfirmation": false,
+    "gameplayPlayPrints": 1,
+    "feedbackFinishedAndControlsReenabled": true,
+    "result": "pass for this no-target single-drag scenario"
+  },
+  "screenshots": [
+    {"path": "012-battle-1.png", "sha256": "b68943c19c39aba82e338f5c08ffebbc08b2c22c62995c1094ea5208d39e2d5e"},
+    {"path": "014-defend-drop-1.png", "sha256": "6ddb71739cd9bd8c592e5121e2256e178715aff92fc50ee17a7932ceec4d2f70"},
+    {"path": "playtests/66a635b3-7e02-4bef-823b-20ea2b0d7d57/07-end.jpg", "sha256": "a3b4eeb99d16610ab96fc1ea3e0a10d5666c310a5ecf26a8db4cdbe00f4cf76c"}
+  ],
+  "toolIssue": "Attempt 013 rejected holdMs on a drag before sending input; fresh capture and attempt 014 without holdMs succeeded",
+  "notCovered": ["pull-back cancellation", "attack release on empty space", "two-target selection", "continuous card play", "deck/shop artwork in game", "physical mobile input", "input-to-frame latency", "full UI acceptance"],
+  "overallTaskComplete": false
+}

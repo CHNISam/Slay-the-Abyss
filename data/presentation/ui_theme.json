@@ -463,6 +463,9 @@
         "placeholder": true
       }
     },
+    "cardPortraits": {
+      "cleave": { "id": 102012, "status": "placeholder-native-icon" }
+    },
     "cardArt": {
       "attack": 102012,
       "skill": 102014,
