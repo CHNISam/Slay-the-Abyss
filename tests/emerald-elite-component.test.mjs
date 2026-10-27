@@ -49,3 +49,12 @@ test('Emerald pure component preserves source choices, callback boundaries and r
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test('raw Lua discovery executes the identical complete frozen Emerald vectors', () => {
+  const vectors = JSON.parse(readFileSync('tests/fixtures/emerald-elite-vectors.json', 'utf8'));
+  const raw = readFileSync('tests/fixtures/emerald-elite-vectors.lua', 'utf8').replaceAll('\r\n', '\n');
+  assert.equal(raw, `return ${toLua(vectors)}\n`, 'standalone vectors must exactly match the independent JSON catalog');
+  const result = runLua('tests/lua/emerald_elite_component.lua');
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.match(result.stdout, /EMERALD_COMPONENT 8 groups; 0 failed; integration NOT_RUN/);
+});

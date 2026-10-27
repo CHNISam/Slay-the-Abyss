@@ -1,3 +1,4 @@
+local EMERALD_VECTORS=EMERALD_VECTORS or dofile('tests/fixtures/emerald-elite-vectors.lua')
 local E=require('abyss_emerald_elite')
 local R=require('abyss_sts_random')
 local Copy=require('abyss_copy').copy

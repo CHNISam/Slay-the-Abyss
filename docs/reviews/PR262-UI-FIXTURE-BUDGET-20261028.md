@@ -9,3 +9,6 @@ develop的真实push Quality `40567299031`、attempt1、head `e0fad45c74ed574bc4
 两份原文件通过移除仅有的选择/计数代码可精确恢复原全文SHA；两个原共享fixture输入的SHA同样锁定。改断言或真实牌输入的负例会破坏原hash。raw自动发现、各wrapper范围及JS包装共同覆盖全部16片且不重复。原setup、seed、真实Run/Combat/controller命令、触摸ID、计时、重试与全部断言未改；默认及专项包装仍为30000ms。生产源码、数据、配置、art、mock和workflow均无差异，GIL的c5生产输入不变。
 
 机械守卫先真实RED（缺少显式分片），再GREEN。16份新raw片全部真实GREEN：card31例8/8合计27.204秒，looter8整组8/8合计25.722秒，最大单片7.947秒；两份静态守卫通过。记录见 `docs/evidence/pr262-ui-fixture-budget-40567299031.json`。这些是两次串行有界专项，不是一次完整Quality通过；修复提交仍须父线程独立审查并由同一PR262的新SHA完整CI验收。没有操作GUI、远端或Backlog。
+# 原始入口向量初始化
+
+35d 的原始 Lua 自动发现另暴露 `emerald_elite_component.lua` 仅由 JavaScript 包装器注入向量，直接运行时 `EMERALD_VECTORS` 为 nil。保持全部原八组断言，在未注入时读取与独立 JSON 逐字等价的冻结 Lua 表；额外机器守卫同时执行原注入入口和直接入口。真实原始入口先以非零退出复现，再四项 Node 校验全过、原始八组单独通过；未改生产代码、向量数值或时限。
