@@ -60,3 +60,26 @@ Boss稀有度、精确source ID、固定source commit、五tier完整大小及Bo
 复验：先 `node scripts/build-lua-data.mjs`，再串行运行
 `node --test --test-concurrency=1 tests/black-star.test.mjs`；完整清单门禁为
 `node --test --test-concurrency=1 tests/launch-content.test.mjs`。
+
+## 门禁实际输入绑定修正
+
+父审查发现首版门禁检查 `LAUNCH_DATA`，但被调用夹具通过 `require('abyss_data')`
+另取已生成数据，导致公开取得证明可能没有验证本轮输入。新增反例只将本轮稀有队列
+`TungstenRod` 换成 `FakeRare`，保留sourceCommit、所有tier尺寸及Boss22完整身份，
+旧门禁竟返回0。该反例真实RED为9.220s，错误为“corrupt supplied rare catalog
+must not be validated against generated abyss_data instead”；原始日志为
+ignored `build/black-star-source-binding-red.log`。
+
+最小修正：专用夹具允许可选Data实参，直接运行仍回退到原 `require('abyss_data')`；
+门禁用 `assert(loadfile('tests/lua/black_star.lua'))(data)` 传入本轮 `LAUNCH_DATA`。
+这是与同脚本其它 `Run.new(data,...)` 相同的原始bundle，没有替身、重抽、改概率或
+规范化替换。黑星另强校验 `trigger=='hooks'` 且effects表实际为空，其他Boss仍按原
+谓词校验。新增runtime负例分别拒绝坏稀有目录、错误trigger、非空通用effects，
+原有错误source映射和陌生Boss负例保留。
+
+本轮同一完整串行命令最终 **28/28 GREEN，61.865s**，包含原清单22项和专用6项。
+实际公开取得路径2.892s；相同坏rare输入修后被拒绝9.186s；source/陌生Boss两个负例
+合计16.820s；错误hook/effects两个负例合计15.046s；生产清单runtime门禁9.442s。
+每个Lua进程仍为原30秒预算，无超时。最终原始输出在
+`build/black-star-source-binding-green.log`。未修改共享核心、生产规则或概率，
+自然/原版PC执行/平台验收边界仍与上文相同。

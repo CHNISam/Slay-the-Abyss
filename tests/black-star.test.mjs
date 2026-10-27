@@ -36,20 +36,46 @@ test('Black Star production definition supports public Boss obtain and exact eli
  assert.match(result.stdout,/BLACK_STAR_PASS/);
 });
 
-test('inventory runtime still rejects wrong Black Star source mapping and an unregistered Boss',()=>{
+function inventoryRuntime(bundle){
  const manifest=JSON.parse(readFileSync('data/release/launch-content.json','utf8'));
+ const directory=mkdtempSync(join(tmpdir(),'black-star-reject-'));
+ try{
+  const path=join(directory,'verify.lua');
+  writeFileSync(path,`LAUNCH_DATA=${toLua(bundle)}\nLAUNCH_MANIFEST=${toLua(manifest)}\ndofile(${luaString(resolve('scripts/verify-launch-content.lua'))})\n`);
+  return runLua(path);
+ }finally{rmSync(directory,{recursive:true,force:true});}
+}
+
+test('inventory runtime binds elite acquisition to the actual supplied rare source catalog',()=>{
+ const bundle=loadContent('data');
+ const rare=bundle.relicSource.queues.rare;
+ const index=rare.indexOf('TungstenRod');assert.ok(index>=0);
+ rare[index]='FakeRare'; // Keep sourceCommit, all tier sizes and all 22 Boss IDs intact.
+ const result=inventoryRuntime(bundle);
+ assert.notEqual(result.status,0,'corrupt supplied rare catalog must not be validated against generated abyss_data instead');
+ assert.match(result.stderr,/FakeRare ~= TungstenRod/);
+});
+
+test('inventory runtime still rejects wrong Black Star source mapping and an unregistered Boss',()=>{
  for(const mutation of ['wrong-source','unknown-boss']){
   const bundle=loadContent('data');
   const entry=bundle.relics.relics.find(row=>row.id==='black_star');
   if(mutation==='wrong-source')entry.sourceId='Fake Black Star';
   else bundle.relics.relics.push({id:'unregistered_boss',sourceId:'Fake Boss',rarity:'boss',trigger:'hooks',effects:[]});
-  const directory=mkdtempSync(join(tmpdir(),'black-star-reject-'));
-  try{
-   const path=join(directory,'verify.lua');
-   writeFileSync(path,`LAUNCH_DATA=${toLua(bundle)}\nLAUNCH_MANIFEST=${toLua(manifest)}\ndofile(${luaString(resolve('scripts/verify-launch-content.lua'))})\n`);
-   const result=runLua(path);
-   assert.notEqual(result.status,0);
-   assert.match(result.stderr,mutation==='wrong-source'?/Black Star source ID mismatch/:/Unobtainable Boss relic: unregistered_boss/);
-  }finally{rmSync(directory,{recursive:true,force:true});}
+  const result=inventoryRuntime(bundle);
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,mutation==='wrong-source'?/Black Star source ID mismatch/:/Unobtainable Boss relic: unregistered_boss/);
+ }
+});
+
+test('inventory runtime requires Black Star to retain hooks with empty generic effects',()=>{
+ for(const mutation of ['trigger','effects']){
+  const bundle=loadContent('data');
+  const entry=bundle.relics.relics.find(row=>row.id==='black_star');
+  if(mutation==='trigger')entry.trigger='combat_end';
+  else entry.effects=[{op:'heal',amount:1}];
+  const result=inventoryRuntime(bundle);
+  assert.notEqual(result.status,0);
+  assert.match(result.stderr,/Black Star requires empty hook effects/);
  }
 });

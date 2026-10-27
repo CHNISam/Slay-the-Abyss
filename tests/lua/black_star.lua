@@ -1,6 +1,7 @@
 -- Controlled navigation and terminal enemy HP only; not natural gameplay.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
-local Run,Nodes,Map,C,Data=require('abyss_run'),require('abyss_nodes'),require('abyss_map'),require('abyss_combat'),require('abyss_data')
+local Run,Nodes,Map,C=require('abyss_run'),require('abyss_nodes'),require('abyss_map'),require('abyss_combat')
+local Data=(...)or require('abyss_data')
 local R=require('abyss_sts_random')
 local F={}
 function F.same(a,b)

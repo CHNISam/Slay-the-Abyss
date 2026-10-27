@@ -123,6 +123,8 @@ for _, relic in ipairs(data.relics.relics) do
     if relic.rarity == 'boss' then
         if relic.id=='black_star' then
             assert(relic.sourceId=='Black Star','Black Star source ID mismatch')
+            assert(relic.trigger=='hooks'and type(relic.effects)=='table'and next(relic.effects)==nil,
+                'Black Star requires empty hook effects')
             local catalog=assert(data.relicSource,'Missing full source relic catalog')
             assert(catalog.sourceCommit=='319009d5df0a82d9fb0f23cc22322286c6a87ec0','Black Star source catalog mismatch')
             for tier,size in pairs({common=33,uncommon=30,rare=28,shop=17,boss=22})do
@@ -135,7 +137,7 @@ for _, relic in ipairs(data.relics.relics) do
             for i,id in ipairs(boss)do assert(catalog.queues.boss[i]==id,'Black Star source Boss catalog drift')end
             -- Actual modern source chest claim and following source elite loot;
             -- no admission via the legacy three-relic explicit-ID predicate.
-            dofile('tests/lua/black_star.lua')
+            assert(loadfile('tests/lua/black_star.lua'))(data)
         else
             assert(Inventory.bossEligible(relic, data.rules.player.startingRelics), 'Unobtainable Boss relic: ' .. relic.id)
         end
