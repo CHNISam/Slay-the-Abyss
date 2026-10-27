@@ -1,0 +1,30 @@
+{
+  "base": "0a773c1c8e736b564514c2c61adeaa6af541f023",
+  "originalGitBlob": "a7e057c70596a0fa8c37aad35ecbf4f151e600f9",
+  "originalSha256LF": "adfcc0b6c4af4bc64a57d47aaa1350a835020a85352312b095b7737ae08259af",
+  "originalBytesLF": 9802,
+  "entry": "tests/lua/phase_three_presentation.lua",
+  "total": 12,
+  "timeoutMilliseconds": 30000,
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2\nlocal sliceRegistered,sliceExecuted=0,0\n",
+  "before": "local function test(name,fn)fn();cases=cases+1;print('ok phase_three_presentation '..cases..' - '..name)end",
+  "after": "local function test(name,fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n fn();sliceExecuted=sliceExecuted+1;cases=cases+1\n print('ok phase_three_presentation '..cases..' - '..name)\n print('PHASE_THREE_CASE '..sliceRegistered)\nend",
+  "footer": "\nassert(sliceRegistered==12,'all twelve original presentation groups must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'every selected presentation group must execute')\nprint('PHASE_THREE_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted..' '..rendered)\n",
+  "slices": [
+    {
+      "path": "tests/lua/phase_three_presentation.lua",
+      "first": 1,
+      "last": 2
+    },
+    {
+      "path": "tests/lua/phase_three_presentation_slice_2.lua",
+      "first": 3,
+      "last": 4
+    },
+    {
+      "path": "tests/lua/phase_three_presentation_slice_3.lua",
+      "first": 5,
+      "last": 12
+    }
+  ]
+}
