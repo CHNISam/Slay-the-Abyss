@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 import { assertNativeUiCapacity, buildUI } from '../scripts/build-ui.mjs';
@@ -42,11 +43,11 @@ test('notice is a native isolated manual overlay with a full-canvas blocker abov
   }
 });
 
-test('seven native text rows, metadata, version navigation and actions are bounded and do not overlap', () => {
+test('five native text rows, static development info and notice actions are bounded and do not overlap', () => {
   const { menu, panel } = tree(), l = theme.layout.releaseNotes;
   const rowControls = panel.children.filter(control => /^row\d+$/.test(control.name));
   assert.equal(rowControls.length, l.rows);
-  assert.equal(l.rows, 7);
+  assert.equal(l.rows, 5);
   assert.ok(l.rowCharacters * theme.font.body <= l.row[2], 'worst-case full-width glyphs fit without auto-shrink');
   for (const row of rowControls) {
     assert.equal(row.text.autoSize, false);
@@ -55,7 +56,8 @@ test('seven native text rows, metadata, version navigation and actions are bound
   }
   const top = ['title', 'build', 'history', 'current', 'version', 'date', 'newer', 'older'].map(name => child(panel, name));
   const bottom = ['previous', 'next', 'page', 'close'].map(name => child(panel, name));
-  const all = [...top, ...rowControls, ...bottom];
+  const development = ['developmentTitle', 'developmentSummary', 'developmentLicense'].map(name => child(panel, name));
+  const all = [...top, ...rowControls, ...development, ...bottom];
   for (let i = 0; i < all.length; i++) for (let j = i + 1; j < all.length; j++) {
     assert.ok(!overlap(frame(all[i]), frame(all[j])), `${all[i].name} overlaps ${all[j].name}`);
   }
@@ -71,6 +73,27 @@ test('seven native text rows, metadata, version navigation and actions are bound
       }
     }
   }
+});
+
+test('development info is static, noninteractive and accurately distinguishes source access from commercial rights', () => {
+  const { panel } = tree();
+  assert.match(readFileSync(new URL('../LICENSE', import.meta.url), 'utf8'), /^# PolyForm Noncommercial License 1\.0\.0\s/m);
+  const expected = {
+    developmentTitle: '开发透明 · 源码公开',
+    developmentSummary: '代码已公开到开源社区。',
+    developmentLicense: '项目原创代码采用 PolyForm Noncommercial 1.0.0 非商用许可，第三方内容遵循各自授权。',
+  };
+  for (const [name, content] of Object.entries(expected)) {
+    const item = child(panel, name);
+    assert.equal(item.kind, 'text');
+    assert.equal(item.focusable, false);
+    assert.equal(item.text.content, content);
+    assert.equal(item.text.autoSize, false);
+    assert.equal(item.text.align, 'left');
+    assert.ok(item.size[1] >= theme.layout.nativeText.lineHeight);
+    assert.ok(item.text.fontSize >= theme.font.minimum);
+  }
+  assert.doesNotMatch(JSON.stringify(panel), /完全开源|https?:|github\.com/i, 'unconfirmed repository addresses must not enter the candidate');
 });
 
 test('notice geometry follows its own theme tokens without changing card or battle layout', () => {

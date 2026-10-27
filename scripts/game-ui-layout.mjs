@@ -55,6 +55,16 @@ function releaseNotesControls(theme) {
         row.text.align = 'left';
         return row;
       }),
+      ...[
+        ['developmentTitle', '开发透明 · 源码公开', f.label, c.gold],
+        ['developmentSummary', '代码已公开到开源社区。', f.small, c.textDim],
+        ['developmentLicense', '项目原创代码采用 PolyForm Noncommercial 1.0.0 非商用许可，第三方内容遵循各自授权。', f.small, c.textDim],
+      ].map(([name, content, font, ink]) => {
+        const item = line(name, l[name], content, font, ink);
+        item.text.align = 'left';
+        item.focusable = false;
+        return item;
+      }),
       button('previous', l.previous, '上一页'), line('page', l.page, '', f.label, c.textDim),
       button('next', l.next, '下一页'), button('close', l.close, '返回主菜单'),
     ] };
