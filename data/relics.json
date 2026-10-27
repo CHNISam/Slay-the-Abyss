@@ -514,6 +514,15 @@
       "rarity": "common",
       "trigger": "hooks",
       "effects": []
+    },
+    {
+      "id": "lizard_tail",
+      "sourceId": "Lizard Tail",
+      "name": "蜥蜴尾巴",
+      "description": "受到致命伤害时，基础治疗量为生命上限一半（向下取整，至少1点）。每局仅一次；仙灵药水优先，绽放印记阻止复活且不消耗次数。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }
