@@ -1,10 +1,14 @@
 package.path = 'src/lua/?.lua;build/lua/?.lua;' .. package.path
 local Nodes, Run, Map, C = require('abyss_nodes'), require('abyss_run'), require('abyss_map'), require('abyss_combat')
 local data = require('abyss_data')
-local function shop(seed, source, relics)
+local sourceSeeds=dofile('tests/fixtures/economy_relic_seeds.lua')
+local function shop(seed, source, relics, relicSeed)
     local run=Run.new(source or data,seed or 42)
     local map=Map.generate(source or data,seed or 42)
     if relics then run.relics=relics end
+    -- Independent complete relic-stream fixture; merchant/card/map retain the
+    -- original seed/history. No pool edits, identity filtering or selection retry.
+    if relicSeed then run.relicPool=require('abyss_relic_pool').new(relicSeed,run.data.relicSource) end
     while true do
         local choices=Map.available(map)
         for _,n in ipairs(choices) do if n.type=='shop' then assert(Nodes.enter(run,map,n.id));return run,map end end
@@ -74,14 +78,14 @@ for i,o in ipairs(plain.nodeFlow.cards) do
 end
 assert(S.removePrice(both)==38)
 both.relics[#both.relics+1]='smiling_mask';assert(S.removePrice(both)==50)
-local member,memberMap=shop(42);member.gold=10000
+local member,memberMap=shop(42,nil,nil,sourceSeeds.membership.seed);member.gold=10000
 local membership=member.nodeFlow.relics[3]
 assert(membership.id=='membership_card' and not membership.unavailable,'supported shop-exclusive relic must be obtainable')
 local initial=C.copy(member.nodeFlow);local state=C.copy(member.shopRng)
 assert(Nodes.buyRelic(member,'membership_card'))
 for i,o in ipairs(initial.cards) do assert(member.nodeFlow.cards[i].price==math.floor(o.price*.5+.5)) end
 assert(Nodes.view(member,memberMap).node.removePrice==38);same(state,member.shopRng)
-local courier=shop(42,nil,{'courier'});courier.gold=10000
+local courier=shop(42,nil,{'courier'},sourceSeeds.membership.seed);courier.gold=10000
 local o=courier.nodeFlow.cards[1];local counter=courier.shopRng.merchant.counter
 assert(Nodes.buyCard(courier,o.id));assert(not courier.nodeFlow.cards[1].sold and not courier.nodeFlow.cards[1].sale)
 assert(courier.shopRng.merchant.counter>counter and #courier.deck==11)

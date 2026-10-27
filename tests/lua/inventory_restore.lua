@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2
+local sliceRegistered,sliceExecuted=0,0
 -- Same-run ownership across Map.restore; not exit/resume storage or rule-parity evidence.
 -- A real first battle and public node commands create every pending transaction.
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
@@ -27,6 +30,9 @@ local function same(a, b, forward, backward)
     for key in pairs(b) do assert(a[key] ~= nil, "unexpected key " .. tostring(key)) end
 end
 local function test(name, fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    sliceExecuted=sliceExecuted+1
     fn(); count = count + 1; print("ok inventory_restore " .. count .. " - " .. name)
 end
 local function refuse(run, map, command, reason)
@@ -58,6 +64,7 @@ local function finishBattle(run)
     equal(run.phase, "reward"); equal(run.lastResult.outcome, "victory")
 end
 local Routes=dofile('tests/lua/support/map_routes.lua')
+local sourceSeeds=dofile('tests/fixtures/economy_relic_seeds.lua')
 -- Complete intervening source rooms through public commands. This preserves the
 -- ownership fixture without assuming the old generator's adjacent shop rooms.
 -- Independent MawBank/Ectoplasm source oracle, not a call to the hook under test.
@@ -69,6 +76,28 @@ local function sourceRoomEntryGold(run)
     end
     local disabled = run.relicCounters and run.relicCounters.maw_bank == -2
     return maw and not disabled and not ectoplasm and 12 or 0
+end
+local function finishTreasure(run,map)
+    if not run.nodeFlow.chest.opened then assert(Nodes.openTreasure(run)) end
+    local items=copy(Nodes.view(run,map).node.reward.items)
+    local expectedGold=0
+    for _,item in ipairs(items)do
+        if item.kind=='gold' or item.kind=='relic' then
+            local token=assert(Nodes.treasureRewardSource(run,item.slot))
+            if item.kind=='relic' and not item.available then
+                refuse(run,map,function()return Nodes.claimTreasureReward(run,token)end,'relic_content_unavailable')
+            else
+                if item.kind=='gold' then
+                    local ectoplasm=false
+                    for _,id in ipairs(run.relics)do ectoplasm=ectoplasm or id=='ectoplasm' or id=='Ectoplasm' end
+                    expectedGold=expectedGold+(ectoplasm and 0 or item.amount)
+                end
+                assert(Nodes.claimTreasureReward(run,token))
+            end
+        end
+    end
+    if run.phase=='node' then assert(Nodes.leaveTreasure(run)) end
+    return expectedGold
 end
 local function reach(run,map,kind)
     local path=Routes.to(map,function(node)return node.type==kind end)
@@ -95,7 +124,7 @@ local function reach(run,map,kind)
             for j=#run.deck,1,-1 do local card=run.deck[j];if card.uid~=2 and not card.upgraded then uid=card.uid;break end end
             assert(uid and Nodes.upgrade(run,uid))
         elseif node.type=='treasure'then
-            expectedGold=expectedGold+(Nodes.view(run,map).node.reward.gold or 0);assert(Nodes.claimTreasure(run))
+            expectedGold=expectedGold+finishTreasure(run,map)
         else error('unexpected intermediate room '..node.type)end
     end
     return path[#path],expectedGold
@@ -120,10 +149,12 @@ local function atShop()
     assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
     local shop=reach(run,map,'shop')
     local previous = Map.snapshot(map)
-    -- Explicit merchant-stream fixture, not natural seed-36 campaign stock.
-    -- Seed 21 selects the purchased Stone from the complete, unfiltered relic
-    -- pool; card, combat, map and potion streams retain their actual history.
+    -- Explicit independent merchant/relic-stream fixture, not a natural
+    -- combined-seed campaign. Merchant 21 preserves prices; the complete relic
+    -- queue seed113 puts Stone at the common tail. Card/combat/map/potion
+    -- streams retain their actual seed36 history; no pool reduction or retry.
     run.shopRng.merchant = require("abyss_sts_random").fromSeed("21")
+    run.relicPool=require('abyss_relic_pool').new(sourceSeeds.stone.seed,run.data.relicSource)
     enter(run, map, shop, "shop")
     equal(run.nodeFlow.cards[1].id, "iron_wave", "purchase card fixture")
     equal(run.nodeFlow.relics[1].id, "oddly_smooth_stone", "purchase relic fixture")
@@ -218,9 +249,10 @@ test("restored route preserves removed and upgraded permanent UIDs and relics in
     map = assert(Map.restore(run.data, Map.snapshot(map)))
     assert(Nodes.upgrade(run, 2))
     enter(run, map, reach(run,map,'treasure'), "treasure")
+    assert(Nodes.openTreasure(run))
     local relic = Nodes.view(run, map).node.reward.relicId
     assert(relic and relic ~= "oddly_smooth_stone" and relic ~= "burning_blood")
-    assert(Nodes.claimTreasure(run))
+    finishTreasure(run,map)
     map = assert(Map.restore(run.data, Map.snapshot(map)))
     local elite=reach(run,map,'elite')
     -- Entering the next room may legitimately grant Maw Bank gold.
@@ -266,3 +298,6 @@ test("equal-valued snapshot aliases are normalized instead of becoming shared li
 end)
 
 print("LUA_INVENTORY_RESTORE_PASS " .. count .. " rejected_snapshots=" .. rejectedSnapshots)
+
+assert(sliceRegistered==5,"all five original restore groups must remain registered")
+assert(sliceExecuted==sliceLast-sliceFirst+1,"every selected restore group must execute")
