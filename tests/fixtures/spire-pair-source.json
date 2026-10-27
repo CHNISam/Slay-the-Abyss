@@ -75,6 +75,6 @@
     "tests/fixtures/spire-pair-vectors.json": "bfc2e9ef07619f8224f06ecd324958358d2911fe6ca82d48f932bee55b6264fb",
     "tests/fixtures/spire-pair-vectors.lua": "a1e0900710a1344a4afcac9c361f56d58f1f0841005b52a12c91e7deafba646b",
     "tools/sts1-card-rng-oracle.py": "3c0667f93636463eb951f7df97e2f01202087a368eef3cf0a76756613bedfa56",
-    "docs/rules/SPIRE_PAIR.md": "18805ba7d0dd961df5e1479f20083ea667ad04c770778b941351b879e0176007"
+    "docs/rules/SPIRE_PAIR.md": "f0cc2e60b0e58cf53df83f245fb7e0500fd4171d90b19bb0b1f581e4409f2212"
   }
 }
