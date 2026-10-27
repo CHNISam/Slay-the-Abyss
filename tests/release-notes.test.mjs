@@ -57,6 +57,24 @@ test('prepared notes are opt-in current bundle copy, not a publication', t => {
   assert.deepEqual(result.history, []);
   assert.throws(() => f.load({ releaseCandidate: true, sourceIdentity: { ...sourceIdentity, sourceDirty: true } }), /clean source/);
 });
+
+test('Alpha backfilled source versions remain browsable without fabricated publication receipts', t => {
+  const f = fixture(t);
+  f.setVersion('0.10.1');
+  writeFileSync(join(f.root, 'CHANGELOG.md'),
+    changelog('0.9.0', '### 新增\n\n* 加入角色。') +
+    changelog('0.10.0', '### 新增\n\n* 加入公告。') +
+    changelog('0.10.1', '### 修复\n\n* 修复战斗。'));
+  const result = f.load();
+  assert.deepEqual(result.history.map(x => x.version), ['v0.10.1', 'v0.10.0', 'v0.9.0']);
+  assert.ok(result.history.every(x => x.versionDate === '2026-10-27'));
+  assert.ok(result.history.every(x => !('publishedDate' in x)), 'source version dates are not release receipts');
+  assert.deepEqual(f.load({ workKey: 'contest-2026' }).history, []);
+  const candidate = f.load({ releaseCandidate: true });
+  assert.equal(candidate.currentNotice.version, 'v0.10.1');
+  assert.deepEqual(candidate.history.map(x => x.version), ['v0.10.0', 'v0.9.0']);
+});
+
 test('candidate requires exact package/lock/manifest/notes match and plain versions', t => {
   const f = fixture(t);
   assert.throws(() => f.load({ releaseCandidate: true }), /matching CHANGELOG/);
@@ -87,7 +105,7 @@ test('duplicate/ambiguous versions, suffixes, impossible dates and unsupported c
     changelog('0.1.1', '### 未知内容\n\n* 不可丢失。'), changelog('0.1.1', '### 修复\n\n没有项目符号的正文。'),
     changelog('0.1.1', '### 新增\n\n* [外链](https://example.com)')]) assert.throws(() => parseChangelog(source));
 });
-test('only receipt-confirmed, matching-work history is shown newest-first in UTC+8', t => {
+test('real platform publication metadata stays receipt-confirmed and work-scoped in UTC+8', t => {
   const f = fixture(t); writeFileSync(join(f.root, 'CHANGELOG.md'), changelog() + changelog('0.1.2'));
   const older = receipt(f.root, 'v0.1.1', { publishedAt: '2026-10-25T23:00:00+08:00' });
   const newer = receipt(f.root, 'v0.1.2');
@@ -135,7 +153,7 @@ test('proposal workflow is manually dispatched, pinned, manifest-driven and cann
   assert.equal(config.packages['.']['release-type'], 'node');
   assert.equal(config['include-component-in-tag'], false); assert.equal(config['include-v-in-tag'], true);
   assert.equal(config['versioning'], 'default'); assert.equal(config['bump-minor-pre-major'], true);
-  assert.equal(config['bump-patch-for-minor-pre-major'], true); assert.equal(config['draft-pull-request'], true);
+  assert.equal(config['bump-patch-for-minor-pre-major'], false); assert.equal(config['draft-pull-request'], true);
   const workflow = readFileSync('.github/workflows/release-proposal.yml', 'utf8');
   assert.match(workflow, /on:\s*\n  workflow_dispatch:/); assert.doesNotMatch(workflow, /\n  (?:push|pull_request|release|schedule):/);
   assert.match(workflow, /release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7/);
