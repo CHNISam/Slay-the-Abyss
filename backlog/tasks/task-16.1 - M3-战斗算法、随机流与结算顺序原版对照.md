@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 00:42'
+updated_date: '2026-10-27 00:55'
 due_date: '2026-10-28'
 labels:
   - required
@@ -50,6 +50,8 @@ ordinal: 43000
 2026-10-27 共享阶段独立复审实证Run.endTurn/Run.chooseCard在核心胜利后遇到奖励晚失败无法重试。父线程在Run公开边界复用完整Snapshot，保留原throw/false语义和同一Run/Combat/队列/实体/RNG身份；先用正常来源房间、公开取得WLP/Omega+/EnergyPotion证红，再覆盖直接结束回合与保留选择续跑两入口的完整回滚/重试。Core回合末和怪物片仍各自隔离，不扩大至无证据接口。
 
 完整RC相邻回归实证普通宿主漏调Orichalcum。父复用已核遗物资格函数，将固定6格挡与前置能力/球放同一现队列、保留V4原路径；先原common九例/双派发交错红，再检查有无原格挡、末敌清队列、RNG与失败重试，不按职业条件补规则。
+
+2026-10-27 最终288 CI仍证Gold13组文件30s、UI27-47分片60s超时；相对改善不算完成。Gold按不改原13正文/输入分7+6两文件并机器锁原正文/唯一索引；UI按1-26/27-38/39-44/45-47/48-53原完整case细分，每片原60s不增，逐片测最后慢组。另shop-relic负例按稳定membership_card定位替代已失效index0，不改schema放行。集中修全部真实必过项后一次推最终CI。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

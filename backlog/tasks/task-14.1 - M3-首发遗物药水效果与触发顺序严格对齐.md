@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 00:42'
+updated_date: '2026-10-27 00:55'
 due_date: '2026-10-28'
 labels:
   - required
@@ -69,6 +69,8 @@ ordinal: 42000
 2026-10-27 Golden Idol独立离线切片：核对固定原版定义、event tier取得与战斗金币25%加成/取整时点，复用共享Run/Inventory事务并验证Moai正常持有后献祭。只补此遗物和其既有事件入口，保留完整母池、Ectoplasm/跨房间/回滚边界，不宣称全遗物或平台通过。
 
 2026-10-27 第三批本地组合：接入钨合金棍ff01，先复核所有NORMAL/THORNS/HP_LOSS路径，公开Run自伤漏接已证红并交独立修复；合并时保留Orichalcum与金神像账本，汇总值按真实绑定重新派生。只在真实获取、次序、回滚及组合门禁通过后记录本地交付，原全池与平台验收不勾选。
+
+2026-10-27 288 CI实证药水basic文件仍30111ms超时，旧本地23.597s不能判最终达标，原任务继续。仅分片原完整输入/断言，第一逻辑组独立，目标/slot/phase失败与overflow按瓶有界分片，原11逻辑和获取1组全部一次覆盖、每片30s不增；真正逐片达标及整体机器计数通过后推CI，不改生产或缩减输入。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
