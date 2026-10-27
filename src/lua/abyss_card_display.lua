@@ -9,7 +9,26 @@ function M.art(definition)
     local image = entry and (type(entry) == 'table' and entry.id or entry)
         or Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status
     assert(type(image) == 'number' and image > 0 and image % 1 == 0, 'card artwork must be a native image ID')
-    return image, entry and (type(entry) == 'table' and entry.status or 'native-card-asset') or 'placeholder-type-icon'
+    return image, entry and (type(entry) == 'table' and entry.status or 'native-card-asset') or 'placeholder-type-icon',
+        type(entry) == 'table' and entry.size or nil
+end
+-- Native portraits opt in with their source dimensions. Type/legacy icons stay
+-- square; a native ID alone is not evidence of a full-card illustration.
+function M.writeArt(control,definition,picture)
+    local image,status,source=M.art(definition)
+    local card=Theme.layout.card
+    local width,height=math.min(card.costDisc,card.art),math.min(card.costDisc,card.art)
+    if source then
+        assert(type(source)=='table' and #source==2 and type(source[1])=='number' and type(source[2])=='number'
+            and source[1]>0 and source[2]>0 and source[1]<math.huge and source[2]<math.huge,
+            'card portrait source size must contain two positive finite dimensions')
+        if not tostring(status):find('^placeholder') then
+            local scale=math.min((card.size[1]-Theme.space.border*2)/source[1],card.art/source[2])
+            width,height=source[1]*scale,source[2]*scale
+        end
+    end
+    picture(control,image)
+    control:SetSizeDelta(width,height)
 end
 local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true,
     whirlwind=true,reaperDamage=true}
@@ -64,12 +83,19 @@ function M.title(name,upgraded,upgrades)
             if ok then text,font,fits=best,candidate,true end
         end
     end
-    return text,font,fits
+    -- Keep the approved one-line title band. Only an upgrade suffix that makes
+    -- a complete readable name overflow moves to the existing type text slot.
+    if not fits and upgraded then
+        local plainFont,plainFits=M.fit(name,Theme.font.cardName,width,card.nameBand,1.65)
+        if plainFits then return name,plainFont,true,suffix end
+    end
+    return text,font,fits,''
 end
-function M.writeTitle(control,name,upgraded,upgrades)
-    local text,font,fits=M.title(name,upgraded,upgrades)
+function M.writeTitle(control,name,upgraded,upgrades,typeControl,typeText)
+    local text,font,fits,marker=M.title(name,upgraded,upgrades)
     control.adaptiveFontSize=false
     control.text,control.fontSize=text,font
+    if typeControl then typeControl.text=typeText..(marker~='' and ' '..marker or '') end
     return fits
 end
 function M.writeBody(control,text)

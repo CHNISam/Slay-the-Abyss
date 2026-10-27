@@ -10,7 +10,7 @@ export function cardFaceChildren(theme, context, interactive = true) {
   const node = context === 'node';
   const nameY = top - card.nameBand / 2 - b;
   const artY = top - card.nameBand - card.art / 2 - b;
-  const iconSize = Math.min(node ? l.nativeText.lineHeight : d, card.art);
+  const iconSize = Math.min(d, card.art);
   const disc = [-w / 2 + d / 2, top - d / 2];
   const picture = (name, values, id, colour = c.text) => ({name, kind:'image',
     position:values.slice(0,2), size:values.slice(2), image:id, colour});
@@ -21,11 +21,11 @@ export function cardFaceChildren(theme, context, interactive = true) {
     plate('border', frame([0,0],[w,h]), c.rarity.basic),
     plate('plate', frame([0,0],[w-b*2,h-b*2]), c.panel),
     plate('nameBand', frame([0,nameY],[w-b*2,card.nameBand]), c.panelRaised),
-    text('name', frame([d/2,nameY],[w-d-s.s,card.nameBand]), '', f.cardName),
+    text('name', frame([d/2,nameY],[w-d-s.s,Math.max(card.nameBand,l.nativeText.lineHeight)]), '', f.cardName),
     plate('artPlate', frame([0,artY],[w-b*2,card.art]), c.cardType.attack),
     ...(node ? Object.entries(icon.cardArt).map(([kind,id]) => hidden(picture(`art_${kind}`,[0,artY,iconSize,iconSize],id)))
       : [picture('art',[0,artY,iconSize,iconSize],icon.cardArt.attack)]),
-    text('type', frame([0,top-card.nameBand-card.art-card.typeLine/2-(node?b:0)],[w-s.s,l.nativeText.lineHeight]), '', f.small, c.gold),
+    text('type', frame([0,top-card.nameBand-card.art-card.typeLine/2-b],[w-s.s,l.nativeText.lineHeight]), '', f.small, c.gold),
     text(node?'description':'label', frame([0,-top+card.textBox[1]/2+s.xs],card.textBox), '', f.card),
     {...plate('costDisc',frame(disc,[d,d]),c.energy),image:image.disc},
     text('cost',frame(disc,[d,node?l.nativeText.lineHeight:d]),'',f.number,c.textOnLight),
