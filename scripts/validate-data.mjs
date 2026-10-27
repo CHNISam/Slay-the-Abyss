@@ -691,7 +691,9 @@ export function validateContent(bundle) {
     const source = bundle.relicSource;
     if (source.schemaVersion !== 1 || source.sourceCommit !== '319009d5df0a82d9fb0f23cc22322286c6a87ec0') fail('relicSource', 'unknown source version');
     if (object(source.queues, 'relicSource.queues')) {
-      const sizes = { common: 33, uncommon: 30, rare: 28, shop: 17, boss: 22 }, seen = new Set();
+      const sizes = { common: 33, uncommon: 30, rare: source.character === 'defect' ? 26 : source.character === 'watcher' ? 27 : 28,
+        shop: 17, boss: source.character === 'watcher' ? 21 : 22 }, seen = new Set();
+      if (source.character !== undefined && !['silent','defect','watcher'].includes(source.character)) fail('relicSource.character', 'unknown class source');
       for (const key of Object.keys(source.queues)) if (!(key in sizes)) fail(`relicSource.queues.${key}`, 'unknown tier');
       for (const [tier, size] of Object.entries(sizes)) {
         const list = source.queues[tier], path = `relicSource.queues.${tier}`;
@@ -699,6 +701,27 @@ export function validateContent(bundle) {
         for (const id of list) {
           if (typeof id !== 'string' || !id || seen.has(id)) fail(path, 'invalid or duplicate source ID');
           seen.add(id);
+        }
+      }
+    }
+  }
+  if (bundle.classRelicSources !== undefined && object(bundle.classRelicSources, 'classRelicSources')) {
+    const classes = {silent:{common:33,uncommon:30,rare:28,shop:17,boss:22},
+      defect:{common:33,uncommon:30,rare:26,shop:17,boss:22},watcher:{common:33,uncommon:30,rare:27,shop:17,boss:21}};
+    for (const id of Object.keys(bundle.classRelicSources)) if (!(id in classes)) fail(`classRelicSources.${id}`, 'unknown class');
+    for (const [id,sizes] of Object.entries(classes)) {
+      const source=bundle.classRelicSources[id], path=`classRelicSources.${id}`;
+      if (!object(source,path)) continue;
+      if (source.schemaVersion!==1 || source.sourceCommit!=='319009d5df0a82d9fb0f23cc22322286c6a87ec0' || source.character!==id) fail(path,'unknown class source identity');
+      if (!object(source.queues,`${path}.queues`)) continue;
+      const seen=new Set();
+      for (const key of Object.keys(source.queues)) if (!(key in sizes)) fail(`${path}.queues.${key}`,'unknown tier');
+      for (const [tier,size] of Object.entries(sizes)) {
+        const list=source.queues[tier];
+        if (!Array.isArray(list) || list.length!==size) { fail(`${path}.queues.${tier}`,`requires complete ${size}-item source queue`);continue; }
+        for (const sourceId of list) {
+          if (typeof sourceId!=='string' || !sourceId || seen.has(sourceId)) fail(`${path}.queues.${tier}`,'invalid or duplicate source ID');
+          seen.add(sourceId);
         }
       }
     }
@@ -711,6 +734,8 @@ export function loadContent(directory) {
   for (const file of contentFiles) bundle[file] = JSON.parse(readFileSync(resolve(directory, `${file}.json`), 'utf8').replace(/^\uFEFF/, ''));
   const relicSource = resolve(directory, 'catalogs/sts1-relic-queues.json');
   if (existsSync(relicSource)) bundle.relicSource = JSON.parse(readFileSync(relicSource, 'utf8').replace(/^\uFEFF/, ''));
+  const classRelicSources = resolve(directory, 'catalogs/sts1-class-relic-queues.json');
+  if (existsSync(classRelicSources)) bundle.classRelicSources = JSON.parse(readFileSync(classRelicSources, 'utf8').replace(/^\uFEFF/, ''));
   return bundle;
 }
 

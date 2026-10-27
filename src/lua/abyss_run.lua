@@ -100,7 +100,17 @@ function M.new(data, seed, options)
         run.deck[#run.deck + 1] = { uid = run.nextDeckUid, cardId = id, upgraded = false }
         run.nextDeckUid = run.nextDeckUid + 1
     end
-    if data.relicSource then run.relicPool=RelicPool.new(eventSeed,data.relicSource) end
+    if data.relicSource then
+        -- RelicLibrary.populateRelicPool appends the chosen class library to
+        -- shared relics before the same five shuffles. Original V4 has no
+        -- declared STS class mapping and retains its existing source contract.
+        local class=profile and not profile.originalV4 and profile.id or legacyPrepared and data.characterId
+        if class and class~='ironclad' and preparedCharacters[class]then
+            local classCatalogs=assert(runData.classRelicSources,'missing class relic catalogs')
+            runData.relicSource=assert(classCatalogs[class],'missing class relic source')
+        end
+        run.relicPool=RelicPool.new(eventSeed,runData.relicSource)
+    end
     return run
 end
 

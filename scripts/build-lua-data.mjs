@@ -17,6 +17,7 @@ function rejectInputOutputAlias(inputDirectory, output) {
   const inputs = [...contentFiles];
   if (existsSync(resolve(inputDirectory,'original_v4'))) inputs.push('original_v4/cards_v4','original_v4/rules_v4');
   if (existsSync(resolve(inputDirectory, 'catalogs/sts1-relic-queues.json'))) inputs.push('catalogs/sts1-relic-queues');
+  if (existsSync(resolve(inputDirectory, 'catalogs/sts1-class-relic-queues.json'))) inputs.push('catalogs/sts1-class-relic-queues');
   for (const file of inputs) {
     const inputPath = resolve(inputDirectory, `${file}.json`);
     const inputStat = statSync(inputPath, { bigint: true });
