@@ -1002,6 +1002,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if accepted then
             -- Sound confirms a committed action, never a preview or a refresh.
             local cue = command == "upgrade" and "forge"
+                or command == "openTreasure" and "treasure_open"
                 or command == "upgradeEvent" and "reward"
                 or command == "rest" and "rest"
                 or (command == "claimTreasure" or command == "claimBossTreasure" or command == "chooseTreasure" or command=="claimTreasureReward") and argument ~= 0 and "reward"
