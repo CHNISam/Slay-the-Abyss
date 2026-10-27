@@ -82,6 +82,9 @@ end
 
 local function duration(entry, style, fastMode)
     local kind = entry.kind
+    if kind == "action_wait" then
+        return fastMode and math.min(entry.detail.seconds, 0.1) or entry.detail.seconds
+    end
     if kind == "play" then return T.base end
     if banners[kind] then return T.banner end
     if kind == "intent" then return T.enemyActionGap end
@@ -342,7 +345,7 @@ function M.new(stage, platform, present, complete)
             else self.dying[a.id] = nil end
         end
         self.queue, self.index, self.elapsed = {}, 0, 0
-        local previous, area, pending = before, false, {}
+        local previous, area, pending, preDamageWait = before, false, {}, nil
         local function flush()
             -- Deaths read the latest frame so a deferred fade never rewinds later hits.
             -- Simultaneous kills collapse together: chained deaths start on consecutive frames, one cue.
@@ -357,7 +360,14 @@ function M.new(stage, platform, present, complete)
             if entry.kind == "play" then
                 area = false
                 for _, effect in ipairs(battle.catalog.cards[entry.detail.cardId].effects) do area = area or effect.op == "damageAll" end
+                -- Bludgeon.use queues zero-wait VFX, WaitAction(0.8), then damage.
+                -- This is a presentation wait; committed core events stay untouched.
+                preDamageWait = entry.detail.cardId == "bludgeon" and 0.8 or nil
             elseif entry.kind ~= "damage" then area = false end
+            if entry.kind == "damage" and entry.detail.source == "player" and preDamageWait then
+                self.queue[#self.queue + 1] = {kind = "action_wait", detail = {seconds = preDamageWait}, frame = previous}
+                preDamageWait = nil
+            end
             self.queue[#self.queue + 1] = entry
             if entry.frame then
                 local priorActors = {}

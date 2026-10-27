@@ -217,5 +217,40 @@ test("Brilliance, Flechettes and Barrage preserve source superFast DamageAction 
     end
 end)
 
+test("Bludgeon's source pre-damage WaitAction lasts 0.8 normally and clamps to 0.1 in fast mode", function()
+    for _, fast in ipairs({false, true}) do
+        local host, panel, sounds = setup({"bludgeon"})
+        local ui, battle = host.battleUI, host.run.combat
+        local hp = battle.enemies[1].hp
+        local initialEvents = #battle.events
+        ui.feedback:setFastMode(fast)
+        play(host, panel, "bludgeon", 1)
+        local events, committed = battle.events, F.Combat.copy(battle)
+        assert(#events == initialEvents + 2 and events[initialEvents + 1].kind == "play" and events[initialEvents + 2].kind == "damage",
+            "the presentation wait does not add a core action or event")
+        for _ = 1, 100 do
+            if ui.feedback.current and ui.feedback.current.kind == "action_wait" then break end
+            assert(ui.feedback.busy, "the source pre-damage WaitAction is missing")
+            host:update(0.01)
+        end
+        assert(ui.feedback.current and ui.feedback.current.kind == "action_wait")
+        local elapsed = 0
+        while ui.feedback.current.kind == "action_wait" do
+            assert(ui.busy and ui.displayBattle.enemies[1].hp == hp,
+                "the source pre-damage wait must display the before-damage frame")
+            assert(count(sounds, "hit_heavy") == 0, "the damage contact cue has not fired")
+            host:update(0.01)
+            elapsed = elapsed + 0.01
+            assert(elapsed < 1, "source wait failed to complete")
+        end
+        durationNear(elapsed, fast and 0.1 or 0.8)
+        assert(ui.feedback.current.kind == "damage" and ui.displayBattle.enemies[1].hp == hp - 32)
+        assert(count(sounds, "hit_heavy") == 1)
+        same(battle, committed)
+        release(host)
+        assert(battle.events == events and #events == 0, "normal host consumption still happens once")
+    end
+end)
+
 assert(failed == 0, failed .. " continuous-card feedback tests failed")
 print("LUA_FEEDBACK_CONTINUOUS_CARDS_PASS " .. tests)

@@ -45,4 +45,12 @@
 | `actions/unique/FlechetteAction.java` | `a23ddc4092aae1d031c24e7596e2f92ba9ea7be9257f5f75c492a23f3836ee62` |
 | `actions/defect/BarrageAction.java` | `b8a842b45ca8fee18daad81758ad218c6d337646ef80ccd2aceb74ce4f0923fe` |
 
-仍未声称完整原版时间轴：当前 `play` 飞牌段继续采用批准主题的 0.2 秒；Bludgeon 等卡的专属前置 WaitAction、VFX 先于 HP 改变的准确帧、非 damage 事件的动作 provenance、球与药水专属 action flag 等尚需逐链补齐。完整 UI/音画实机仍未验收。
+仍未声称完整原版时间轴：当前 `play` 飞牌段继续采用批准主题的 0.2 秒；其他卡的专属前置 WaitAction、VFX 先于 HP 改变的准确帧、非 damage 事件的动作 provenance、球与药水专属 action flag 等尚需逐链补齐。完整 UI/音画实机仍未验收。
+
+## 后续：Bludgeon 的显式前置等待
+
+`Bludgeon.use` 是零等待的 `VFXAction(WeightyImpactEffect)` → `WaitAction(0.8)` → `DamageAction(NONE)`；`WaitAction` 在 FAST_MODE 下将大于 0.1 的等待截为 0.1。本次在已有只读表现列表中、该牌首个玩家 damage 前加入 `action_wait`，普通 0.8 / 快速 0.1，使用前一张快照而非提前展示扣血。没有向核心动作队列或核心事件写入额外内容。
+
+新增第 9 组回归通过真实 host 出牌，测量两个模式的完整前置等待、显示旧 HP、延后现有 contact cue、保持完整已提交状态和核心事件身份/数量、正常一次消费。上个提交实际结果为原 8 组通过、第 9 组在“缺少原版前置 WaitAction”断言失败；修复后 9/9 与原 polish 17/17 通过。主题飞牌的 0.2 秒仍单独保留，未把这个项目动画段算作原版 WaitAction。
+
+来源 SHA256：`cards/red/Bludgeon.java` 为 `c056710affefba665c41a77dd95b8ec937632b5026a55374a5077676bd5a1915`，`actions/utility/WaitAction.java` 为 `6e19a09e368f720698b713be7e6226111f1a02d6c9fe465aa32d53959258a045`。原 WeightyImpact 的独立 1 秒坠落效果、0.8 秒冲击钩子及 1 秒声音仍未逐帧移植；现有岩系特效/音效不得据此宣称是原版 WeightyImpact。
