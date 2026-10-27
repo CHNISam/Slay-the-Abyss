@@ -62,7 +62,7 @@ function M.status(state, actor, id, amount, source, sourceIsMonster)
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
     Nemesis.applied(actor,id,beforeRaw)
-    local zeroMembership=id=='slow' or id=='time_warp'
+    local zeroMembership=id=='slow' or id=='time_warp' or id=='invincible'
     if zeroMembership and beforeRaw==nil or not zeroMembership and (before==0 or actor.statuses[id]==0) then
         local order={}
         for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
@@ -128,7 +128,7 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
     if id == "focus" then return require("abyss_focus").apply(state, actor, amount, source) end
     if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow') and amount==-1 or amount >= 0), "invalid status amount")
+    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow'or id=='painful_stabs') and amount==-1 or amount >= 0), "invalid status amount")
     -- Explicit queued Poison applications carry their constructor snapshot.
     -- Immediate actions construct/apply together. Both incoming Power and raw
     -- stack amounts get the bonus after the caller's cap, before Artifact.
@@ -190,15 +190,17 @@ end
 
 function M.addStatus(actor, id, amount)
     local definition = assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow') and amount==-1 or amount >= 0), "invalid status amount")
+    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow'or id=='painful_stabs') and amount==-1 or amount >= 0), "invalid status amount")
     local before = actor.statuses[id] or 0
     local value = before + 0.0 + amount
     assert(integer(value), "status stack overflow") -- reject before mutating
     -- Strength/Dexterity clamp after stacking, for either actor and either sign.
     if signed[id] then value = math.max(-999, math.min(999, value)) end
     if id == 'plated_armor' and before > 0 then value = math.min(999, value) end
-    if definition.stack == "none" and id~="unawakened" and id~="regrow" then value = value > 0 and 1 or 0 end
-    actor.statuses[id] = (signed[id] or id=='wraith_form' or id=='unawakened'or id=='regrow') and value or math.max(0, value)
+    if id=='painful_stabs' and (before==-1 or amount==-1)then value=-1 end
+    if definition.stack == "none" and id~="unawakened" and id~="regrow" and id~='painful_stabs' then value = value > 0 and 1 or 0 end
+    if id=='painful_stabs' and value>0 then value=1 end
+    actor.statuses[id] = (signed[id] or id=='wraith_form' or id=='unawakened'or id=='regrow'or id=='painful_stabs') and value or math.max(0, value)
     if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
         actor[id .. "JustApplied"] = nil
     end
@@ -268,7 +270,7 @@ function M.statusView(actor)
     local ids, result = {}, {}
     for id, amount in pairs(actor.statuses) do
         -- At exactly zero net stat, the separate timed-loss Power still exists.
-        if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
+        if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or id=='invincible' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
             ids[#ids + 1] = id
         end
     end
@@ -389,6 +391,7 @@ end
 local function directDamage(state, source, target, amount, status, blocked, reactions)
     if intangible(target) then amount=math.min(amount,1) end
     amount=require('abyss_defect_final_cards').incoming(state,target,amount)
+    amount=require('abyss_corrupt_heart').capDamage(target,amount)
     Act3Powers.attacked(state,target,amount,reactions)
     if target==state.player then amount=require('abyss_relic_hooks').onLoseHpLast(state,amount)end
     local before = target.hp
@@ -529,6 +532,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
       unblocked=require('abyss_defect_final_cards').incoming(state,target,unblocked)
+    unblocked=require('abyss_corrupt_heart').capDamage(target,unblocked)
     Act3Powers.attacked(state,target,unblocked,reactions)
     local playerAttackedQueued=queuePlayerAttackedReactions(state,source,target,unblocked,fixed)
     if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
@@ -753,7 +757,10 @@ end
 
 function M.startTurnEffects(state, actor)
     if actor~=state.player and (actor.statuses.flight or 0)>0 then actor.statuses.flight=3 end
-    if M.isActive(actor) then tick(state, actor, "turn_start") end
+    if M.isActive(actor) then
+        require('abyss_corrupt_heart').startTurn(actor)
+        tick(state, actor, "turn_start")
+    end
 end
 
 function M.startTurn(state, actor)

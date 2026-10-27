@@ -1427,6 +1427,7 @@ function M.changeMonsterState(state,enemy,name)
     end
 end
 function M.enemyActionRetained(effect)
+    if effect.stage=='ending'then return require('abyss_ending_actions').retained(effect.payload)end
     return effect.stage=='payload' and Effects.allowedAfterVictory(effect.payload)
 end
 function M.resolveEnemyAction(state,effect,enemy)
@@ -1435,6 +1436,8 @@ function M.resolveEnemyAction(state,effect,enemy)
         return Darklings.reincarnate(Actors,state,enemy,stage)
     elseif stage=='awakenedRebirth'then
         return Awakened.rebirth(state,enemy,CardActions.enqueueReaction)
+    elseif stage=='ending'then
+        return require('abyss_ending_actions').resolve(M,state,effect.payload,enemy)
     elseif stage=='payload'then
         return resolveEffects(state,{effect.payload},enemy,state.player,nil,true,true)
     elseif stage=='effectsComplete'then
@@ -1477,7 +1480,14 @@ local function queueEnemyTurn(state,enemy,intent,advanced)
     local function append(stage,payload)
         CardActions.enqueue(state,{op='enemyAction',stage=stage,payload=payload,intentId=intent.id,advanced=advanced},enemy)
     end
-    if Darklings.owns(enemy)and intent.id=='reincarnate'then
+    local ending
+    if require('abyss_spire_pair').owns(enemy)or require('abyss_corrupt_heart').owns(enemy)then
+        ending=require('abyss_ending_actions').plan(M,state,enemy,intent,aiRandom)
+    end
+    if ending then
+        for _,payload in ipairs(ending)do append('ending',payload)end
+        append('effectsComplete')
+    elseif Darklings.owns(enemy)and intent.id=='reincarnate'then
         append('darklingHeal');append('darklingRevive');append('darklingRegrow')
     elseif Awakened.owns(enemy)and intent.id=='rebirth'then append('awakenedRebirth')
     elseif intent.kind=='split'then append('split')
