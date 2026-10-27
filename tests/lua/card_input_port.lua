@@ -122,8 +122,11 @@ test('combat hover lifts the real card and clears after exit or a changed hand',
     local card=panel:GetChild('card1')
     local y=card.y
     event('card1','enter',7)
+    assert(card.y==y,'hover teleported instead of setting its interpolation target')
+    host:update(1/60)
     assert(ui.hover==1 and card.y>y and card.raised,'combat render erased hand hover')
     event('card1','exit',7)
+    for _=1,40 do host:update(1/60) end
     assert(ui.hover==nil and card.y==y)
     event('card1','enter',7)
     table.remove(host.run.combat.hand,1);ui:render()

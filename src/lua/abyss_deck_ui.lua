@@ -1,4 +1,4 @@
--- Read-only permanent-deck snapshot. No Run commands, combat piles or RNG.
+-- Read-only deck/pile snapshots. No Run commands or RNG consumption.
 local Combat = require("abyss_combat")
 local Theme = require("abyss_theme")
 local CardDisplay = require('abyss_card_display')
@@ -6,6 +6,36 @@ local OriginalDisplay = require('abyss_original_v4_display')
 local M = {}
 local Controller = require('abyss_controller')
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
+local pileNames = {draw="抽牌堆",discard="弃牌堆",exhaust="消耗堆"}
+local rarityOrder = {basic=1,special=2,common=3,uncommon=4,rare=5,curse=6}
+
+local function frozenEye(run)
+    for _, relic in ipairs(run.relics or {}) do if relic=="frozen_eye" then return true end end
+    return false
+end
+
+local function pileCards(run, kind, presentation)
+    local result, pile = {}, run.combat[kind]
+    -- Draw/Exhaust view screens copy with addToBottom; Discard uses its group directly.
+    for i=1,#pile do result[i]=Combat.copy(pile[kind=="discard" and i or #pile-i+1]) end
+    if kind=="discard" or frozenEye(run) then return result end
+    local ranked={}
+    for i,card in ipairs(result) do
+        local definition=Combat.cardDefinition(run.combat,card)
+        ranked[card]={index=i,status=definition.type=="status" and 1 or 0,
+            rarity=assert(rarityOrder[definition.rarity],"unknown pile card rarity"),
+            name=assert(presentation[card.cardId],"missing pile presentation").name..(card.upgraded and "+" or "")}
+    end
+    -- Stable name -> rarity -> status-last ordering from CardGroup's three sorts.
+    table.sort(result,function(a,b)
+        local x,y=ranked[a],ranked[b]
+        for _,key in ipairs({"status","rarity","name","index"}) do
+            if x[key]~=y[key] then return x[key]<y[key] end
+        end
+        return false
+    end)
+    return result
+end
 
 function M.new(root, presentation, clickEvent, platform, onClose)
     local self = { root = root, visible = false, generation = 0, bindings={} }
@@ -57,7 +87,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     local function picture(control,id) control:SetImage(platform.imageSource,id) end
     local function tint(control, value) control.imageColor = colour(value) end
     local function fill(control, instance, catalog)
-        local battle=self.choiceToken and self.battle
+        local battle=(self.choiceToken or self.pileKind) and self.battle
         local definition = Combat.cardDefinition(battle or {catalog=catalog}, instance)
         local display = assert(presentation[instance.cardId], "missing deck presentation " .. instance.cardId)
         local face = control:GetChild("face")
@@ -103,14 +133,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.bindings[control].definition,self.bindings[control].upgraded=definition,instance.upgraded
         control:SetVisible(true)
     end
-    function self:open(run, choice, onPick)
+    function self:open(run, choice, onPick, pileKind)
         if self.visible then return false end
         self.generation = self.generation + 1
         local generation = self.generation
         -- A copied permanent instance never acquires temporary hand cost/growth/status.
         local cards, catalog = Combat.copy(run.deck), {cards={}}
         for _, card in ipairs(run.data.cards.cards) do catalog.cards[card.id] = card end
-        self.choiceToken,self.onPick,self.battle=choice and choice.token,onPick,choice and run.combat
+        self.choiceToken,self.onPick,self.battle=choice and choice.token,onPick,(choice or pileKind) and run.combat
+        self.pileKind=pileKind
+        if pileKind then cards,catalog=pileCards(run,pileKind,presentation),run.combat.catalog end
         self.multiple,self.choiceSelected=choice and choice.multiple,choice and choice.selected
         if choice then
             cards=Combat.copy(choice.cards or {})
@@ -130,7 +162,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local prompts={silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover="选择加入手牌的牌，本回合费用为0",colorless='选择卡牌',exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
             exhaustMany='选择任意张手牌消耗（可不选）',discardRedraw='选择任意张手牌丢弃并重抽',discardToHand='选择弃牌回手，本回合费用为0',
             handToDraw="选择放回抽牌堆顶的手牌",upgradeHand="选择要升级的牌",dualWield="选择要复制的攻击或能力牌"}
-        root:GetChild("title").text = choice and prompts[choice.op] or "卡组 · " .. #cards .. " 张"
+        self.listTitle=(pileNames[pileKind] or "卡组").." · "..#cards.." 张"
+        root:GetChild("title").text = choice and prompts[choice.op] or self.listTitle
         if self.multiple then root:GetChild('title').text=root:GetChild('title').text..' · 已选'..#choice.selected..(choice.required and '/'..choice.required or '') end
         root:GetChild("close"):SetVisible(not choice or self.multiple == true)
         local close=root:GetChild('close'):GetChild('hit')
@@ -146,6 +179,11 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             fill(control, cards[1], catalog)
         end)
         return true
+    end
+    function self:openPile(run, kind)
+        if not pileNames[kind] or not run or run.phase~="combat" or not run.combat
+            or run.combat.phase~="player" or type(run.combat[kind])~="table" then return false end
+        return self:open(run,nil,nil,kind)
     end
     function self:update()
         if not self.visible then return end
@@ -191,6 +229,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.generation = self.generation + 1
         self.visible, self.pending, self.calibrating, self.run, self.cards, self.catalog = false, false, false, nil, nil, nil
         self.choiceToken,self.onPick,self.battle=nil,nil,nil
+        self.pileKind,self.listTitle=nil,nil
         self.multiple,self.choiceSelected=nil,nil
         self.detailPages,self.detailOnly=nil,nil
         details:SetVisible(false);detailHit:SetVisible(false)
@@ -213,7 +252,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if not self.visible then return false end
         if self.detailPages and not self.detailOnly then
             self.detailPages=nil;details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
-            root:GetChild('title').text='卡组 · '..#self.cards..' 张';closeLabel('关闭');return true
+            root:GetChild('title').text=self.listTitle;closeLabel('关闭');return true
         end
         if self.multiple then
             if not root:GetChild('close'):GetChild('hit').interactable or not self.run or self.run.combat~=self.battle
