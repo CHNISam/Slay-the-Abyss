@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 8
+local sliceRegistered,sliceExecuted=0,0
 -- Navigation/qualification boundary fixtures, not a natural campaign or proof
 -- of earned/persisted three-character history. The key itself is never injected:
 -- every successful Ruby acquisition below uses the public camp command.
@@ -15,7 +18,13 @@ local function same(a,b,path,forward,backward)
     for k in pairs(b)do assert(a[k]~=nil,path..' missing '..tostring(k))end
 end
 local function copy(run)return C.copy(run)end
-local function test(name,fn)fn();count=count+1;print('ok ruby recall '..count..' - '..name)end
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    fn();sliceExecuted=sliceExecuted+1;count=count+1
+    print('ok ruby recall '..count..' - '..name)
+    print('RUBY_RECALL_CASE '..sliceRegistered)
+end
 local readyMaps={}
 local function beforeCamp(act)
     if not readyMaps[act] then
@@ -264,3 +273,7 @@ test('other existing keys stay byte-identical for every boolean combination',fun
 end)
 
 print('RUBY_RECALL_PASS '..count)
+
+assert(sliceRegistered==15,'all fifteen original Recall groups must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'every selected Recall group must execute')
+print('RUBY_RECALL_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)
