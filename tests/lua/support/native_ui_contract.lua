@@ -15,4 +15,7 @@ function M.listener(event,callback)
     assert(event~=nil,'listener event is required')
     assert(type(callback)=='function','listener callback must be a function')
 end
+function M.transform3(x,y,z)
+    M.sizeDelta(x,y);M.sizeDelta(z,0)
+end
 return M

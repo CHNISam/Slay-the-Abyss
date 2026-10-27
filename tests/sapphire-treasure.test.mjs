@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
 
@@ -98,12 +98,39 @@ test('same existing eligibility function governs Ruby and Sapphire without addin
   assert.doesNotMatch(code,/run\.endingUnlocked\s*=(?!=)/);
 });
 
-test('real Nodes chest choice is linked, source-bound, once-only and transactional',()=>{
+// The 8–14 process exceeded its unchanged 30s budget. Only registration
+// ranges change; the complete original 21-group body and fixture stay frozen.
+const sapphireSlices=[
+  ['sapphire_treasure.lua',1,7],['sapphire_treasure_slice_2.lua',8,13],
+  ['sapphire_treasure_slice_3.lua',15,21],['sapphire_treasure_slice_4.lua',14,14],
+];
+test('Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once',()=>{
+  const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  assert.equal(digest(read('tests/lua/sapphire_treasure.lua')),
+    '1032c2146280eb73011f91d7dad76407cd02d19c9ff7feed44f194ec05ac54ee','all original cases, assertions and variants');
+  assert.equal(digest(read('tests/lua/support/sapphire_source_fixture.lua')),
+    '6359769726601a70e890bd18fd4f3d631f4586f8c54a6359457bf6883cdc7bac','unchanged source stream/checkpoint fixture');
+  assert.deepEqual(readdirSync('tests/lua').filter(file=>/^sapphire_treasure(?:_slice_\d+)?\.lua$/.test(file)).sort(),
+    sapphireSlices.map(([file])=>file).sort(),'raw Lua discovery and the JS wrapper execute the same files');
+  const covered=[];
+  for(const [index,[file,first,last]] of sapphireSlices.entries()){
+    if(index===0)assert.ok(read('tests/lua/'+file).includes(`sliceFirst,sliceLast=sliceFirst or ${first},sliceLast or ${last}\n`));
+    else assert.equal(read('tests/lua/'+file),`assert(loadfile('tests/lua/sapphire_treasure.lua'))(${first},${last})\n`);
+    covered.push(...Array.from({length:last-first+1},(_,i)=>first+i));
+  }
+  assert.deepEqual(covered.sort((a,b)=>a-b),Array.from({length:21},(_,i)=>i+1),'no omitted or duplicate original group');
+});
+
+test('real Nodes chest choice is linked, source-bound, once-only and transactional',t=>{
   let groups=0;
-  for(const file of ['sapphire_treasure.lua','sapphire_treasure_slice_2.lua','sapphire_treasure_slice_3.lua']){
+  for(const [file,first,last] of sapphireSlices){
+    const started=performance.now();
     const result=runLua(`tests/lua/${file}`);
+    t.diagnostic(`${file}: ${Math.round(performance.now()-started)} ms`);
     assert.equal(result.status,0,result.stdout+result.stderr);
-    assert.match(result.stdout,/SAPPHIRE_TREASURE_PASS 7/);groups+=7;
+    const expected=Array.from({length:last-first+1},(_,i)=>first+i);
+    assert.deepEqual([...result.stdout.matchAll(/^ok sapphire treasure (\d+) - /gm)].map(match=>Number(match[1])),expected);
+    assert.match(result.stdout,new RegExp(`^SAPPHIRE_TREASURE_PASS ${expected.length}$`,'m'));groups+=expected.length;
   }
   assert.equal(groups,21);
 });

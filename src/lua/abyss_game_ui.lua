@@ -82,6 +82,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         cursor = platform.cursorEvents, controller = controller })
     self.nodeUI = NodeUI.new(child("nodePanel"), nil, nil,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
+            imageTypes = platform.imageTypes,
             cursorEvents = platform.cursorEvents, sound = platform.sound, controller = controller,
             onInspectCard=function(definition,upgraded)
                 if not self.run or self.disabled or self.mode~='node' or self.exitOpen

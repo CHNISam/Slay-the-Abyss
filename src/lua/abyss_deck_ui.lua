@@ -101,7 +101,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
-        CardDisplay.writeArt(face:GetChild("art"), definition, picture)
+        CardDisplay.writeArt(face:GetChild("art"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'))
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
         control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')
@@ -214,7 +214,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         grid:RefreshItems(#cards, function(control, index)
             if not self.visible or self.generation ~= generation then return end
             local instance = cards[index - base + 1]
-            if instance then fill(control, instance, catalog) else control:SetVisible(false) end
+            if instance then fill(control, instance, catalog) else CardDisplay.clearNativeArt(control:GetChild('face'));control:SetVisible(false) end
         end)
     end
     function self.controllerStep(_,delta)
@@ -233,7 +233,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.multiple,self.choiceSelected=nil,nil
         self.detailPages,self.detailOnly=nil,nil
         details:SetVisible(false);detailHit:SetVisible(false)
-        root:SetVisible(false)
+        root:SetVisible(false);for control in pairs(self.bindings)do CardDisplay.clearNativeArt(control:GetChild('face'))end
         grid:RefreshItems(0, function() end)
         return true
     end

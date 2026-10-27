@@ -1,18 +1,20 @@
-// Read-only CI materialization for the four reviewed PNGs, not a general asset downloader.
+// Read-only CI materialization for the six current reviewed PNGs, not a general asset downloader.
 import { createHash } from 'node:crypto';
 import { globSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
-export const reviewedPngPaths = ['armaments', 'heavy_blade'].flatMap(id =>
+export const reviewedPngPaths = ['armaments', 'cleave', 'heavy_blade'].flatMap(id =>
   ['source.png', 'preview-native.png'].map(name => `art/cards/traveler-geo/${id}/${name}`));
-export const maxReviewedPngBytes = 3580349;
+export const maxReviewedPngBytes = 5983528;
 export const frozenObjects = [
   ['e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332', 1750604],
   ['b7b2cd9c4fdfa3f1d893156405a51afc8b8bd1b65a776a9f704086c97685b2ff', 30121],
-  ['f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5', 1769446],
-  ['6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1', 30178],
+  ['6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155', 2091086],
+  ['271c49cc6248cf46ea029cc63387c682858b43c29288eb32b44d24175e662b39', 36567],
+  ['1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc', 2041123],
+  ['aefb4d2ca114a8738029249fba8b1bdc4f6235be648684cbfe348ed496388936', 34027],
 ];
 const assetTest = 'tests/reviewed-traveler-geo-assets.test.mjs';
 const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
