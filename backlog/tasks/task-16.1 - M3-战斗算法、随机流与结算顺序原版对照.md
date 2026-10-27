@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 04:21'
+updated_date: '2026-10-27 05:21'
 due_date: '2026-10-28'
 labels:
   - required
@@ -47,6 +47,8 @@ ordinal: 43000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
+
+2026-10-27 M3 独立小切片：在已合入 c91f0d22 上复用冻结的 Rupture 原生队列修复。先用同一真实卡牌/道具用例重现原生回调中力量过早生效，再让已有 TOP 反应队列承接 action.effect；验证 Puzzle 抽牌次序、原子回滚、原有三种执行 owner 与静态/关键变异。只改两处生产文件和两份测试，经独立 PR 完整 CI 集成；不改 Fatal/Fairy 已知差异，不覆盖 PR238 本机未提交合并，不勾完整组合或平台验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -97,4 +99,8 @@ ordinal: 43000
 2026-10-27最新集成边界：a4dac772前37个原失败入口已有定向修复证据，但不是完整CI通过。同步fc51f198后队列/能力/第三幕10份定向回归通过，架构162模块940边、静态104项历史告警无新增身份、M1-M4均被原断言杀死；最后库存恢复及Tungsten自然来源两份仍失败，合并未提交。下一步先解决这两份实际失败，审查完整合并并以推送后精确SHA完整CI验收；不重复无必要全套本地check。来源根HANDOFF-PR238-20261027-115033-STOP.md和本轮落盘日志；没有新候选或实机证据，全组合/平台AC保持未完成。
 
 2026-10-27优先级重排：High：共享结算与全组合回归必须先完成，才能接受PR238并推进自然通关。 解除后移出High再提升下一项；不放宽原验收。
+
+当前 PR238 远端 a4dac772 的 HP-loss 原生分支仍直接 applyPower，本小片尚未被该分支覆盖。PR238 本机未提交合并中的库存恢复/Tungsten 两份失败另行只读定位，不能用本片通过替代它们或整项 M3 通过。
+
+2026-10-27 Rupture 原生 TOP 排序切片：相同 36 组实际 Bloodletting/Hemokinesis 测试在 c91f0d22 为 31 通过/5 原生分支失败，最小修复后 36/36；28 份原有 Lua 夹具、3 个 Node 包装、语法、架构（145 模块/715 边）、固定 Luacheck 与 4 项关键变异均通过。只把力量效果交给已有反应队列，不新增调度器；保留版本公告和最新卡牌布局。Fatal/Fairy 的 12 个前后对照输出相同，仅证明本片未改它，原版差异仍未解决。本轮无平台导入/实玩，发布后当前 SHA 完整 Quality 仍为合并门禁；本地切片通过不关闭全组合或自然来源验收。
 <!-- SECTION:NOTES:END -->

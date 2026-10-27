@@ -19,13 +19,10 @@ function M.notify(state,owner,target,amount)
         return
     end
     local plan=require('abyss_warrior_strength_cards').planHpLost(state,owner,amount)
-    if state.actionQueue then
-        local queue=require('abyss_action_queue')
-        for _,action in ipairs(plan.top) do queue.pushTop(state,action) end
-    else
-        for _,action in ipairs(plan.top) do
-            require('abyss_actor').applyPower(state,state.player,action.effect.status,action.effect.value,state.player)
-        end
+    -- Powers dispatch before relics. Both callbacks insert TOP actions, so
+    -- a later Puzzle Draw must run before Rupture's ApplyPower, on either owner.
+    for _,action in ipairs(plan.top) do
+        require('abyss_card_actions').enqueueReaction(state,action.effect,true)
     end
 end
 return M
