@@ -2,7 +2,7 @@
 local Theme=require('abyss_theme')
 local M={}
 local names={'goldReward','stolenGold','relicReward1','relicReward2','emeraldKeyReward','claimPotion','cardReward'}
-function M.render(frame,child)
+local function visibleRewards(frame)
  local run=frame.run
  local rewards=frame.listing and run.rewards
  local visible={goldReward=rewards and not rewards.goldClaimed,stolenGold=frame.stolen and not frame.stolen.claimed,
@@ -12,6 +12,10 @@ function M.render(frame,child)
   local item=rewards and rewards.relics and rewards.relics[i]
   visible['relicReward'..i]=item and not item.claimed
  end
+ return visible
+end
+function M.render(frame,child)
+ local visible=visibleRewards(frame)
  local count=0;for _,name in ipairs(names)do if visible[name]then count=count+1 end end
  local base=Theme.layout.battleRewards
  local layout=count>4 and base.expanded or base

@@ -12,7 +12,7 @@ local function append(plans,enemy,kind,target,fields)
  for key,value in pairs(fields)do plan[key]=value end
  plans[#plans+1]=plan
 end
-function M.plan(combat,state,enemy,intent,random)
+function M.plan(_combat,state,enemy,intent,random)
  if Pair.owns(enemy)then
   local plans=Pair.takeTurn(state,enemy,random,function(s,e,base)
    -- Pair owns the distinct post-normal actual-damage BackAttack rounding.

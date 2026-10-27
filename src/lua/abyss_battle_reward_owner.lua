@@ -21,6 +21,14 @@ local function capturePotion(token, rewards)
     token.potionUnavailable = potion and potion.unavailable
 end
 
+local function captureRelics(token,rewards,run)
+    token.relics=rewards and rewards.relics
+    token.relicState=rewards and Combat.copy(rewards.relics or {})
+    token.emerald=rewards and rewards.emeraldKey
+    token.emeraldState=token.emerald and Combat.copy(token.emerald)
+    token.emeraldOwned=run and run.keys and run.keys.emerald
+end
+
 function M.capture(token, view, run)
     local rewards = run and run.rewards
     token.rewards = rewards
@@ -32,11 +40,7 @@ function M.capture(token, view, run)
     token.cardChoices = rewards and Combat.copy(rewards.cards)
     token.upgrades = rewards and rewards.cardUpgrades
     token.cardUpgrades = rewards and Combat.copy(rewards.cardUpgrades or {})
-    token.relics=rewards and rewards.relics
-    token.relicState=rewards and Combat.copy(rewards.relics or {})
-    token.emerald=rewards and rewards.emeraldKey
-    token.emeraldState=token.emerald and Combat.copy(token.emerald)
-    token.emeraldOwned=run and run.keys and run.keys.emerald
+    captureRelics(token,rewards,run)
     captureGold(token, rewards)
     capturePotion(token, rewards)
     return token
