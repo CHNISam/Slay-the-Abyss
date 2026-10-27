@@ -60,12 +60,23 @@ end
 local Routes=dofile('tests/lua/support/map_routes.lua')
 -- Complete intervening source rooms through public commands. This preserves the
 -- ownership fixture without assuming the old generator's adjacent shop rooms.
+-- Independent MawBank/Ectoplasm source oracle, not a call to the hook under test.
+local function sourceRoomEntryGold(run)
+    local maw, ectoplasm = false, false
+    for _, id in ipairs(run.relics) do
+        maw = maw or id == "maw_bank" or id == "MawBank"
+        ectoplasm = ectoplasm or id == "ectoplasm" or id == "Ectoplasm"
+    end
+    local disabled = run.relicCounters and run.relicCounters.maw_bank == -2
+    return maw and not disabled and not ectoplasm and 12 or 0
+end
 local function reach(run,map,kind)
     local path=Routes.to(map,function(node)return node.type==kind end)
     local expectedGold=0
     for i=1,#path-1 do
         local id=path[i];local node
         for _,n in ipairs(Nodes.available(run,map))do if n.id==id then node=n end end
+        expectedGold=expectedGold+sourceRoomEntryGold(run)
         assert(node);assert(Nodes.enter(run,map,id))
         if run.phase=='combat'then
             finishBattle(run)
@@ -219,7 +230,8 @@ test("restored route preserves removed and upgraded permanent UIDs and relics in
     assert(Nodes.claimTreasure(run))
     map = assert(Map.restore(run.data, Map.snapshot(map)))
     local elite=reach(run,map,'elite')
-    local deck, owned, hp, gold, nextUid = copy(run.deck), copy(run.relics), run.hp, run.gold, run.nextDeckUid
+    -- Entering the next room may legitimately grant Maw Bank gold.
+    local deck, owned, hp, gold, nextUid = copy(run.deck), copy(run.relics), run.hp, run.gold + sourceRoomEntryGold(run), run.nextDeckUid
     enter(run, map, elite, "elite")
     equal(run.hp, hp); equal(run.combat.player.hp, hp); equal(run.gold, gold); equal(run.nextDeckUid, nextUid)
     same(run.deck, deck); same(run.relics, owned)

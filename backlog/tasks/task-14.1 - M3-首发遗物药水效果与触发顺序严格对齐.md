@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 04:21'
+updated_date: '2026-10-27 05:30'
 due_date: '2026-10-28'
 labels:
   - required
@@ -64,6 +64,8 @@ ordinal: 42000
 2026-10-25 资料包接入M3：复用生产Run/UI，补状态变化但尚未重绘时旧选敌确认、同ID换瓶和取消的全状态原子性回归；证红后才修复。代际冲突待用户明确，不改数值、卡池和版本。分开记录候选、官方导入和同候选试玩。
 
 2026-10-26本轮M3并行：inventory独立工作树审计剩余效果后接完整33药水采样及奖励/商店正常渠道，不能只撤acquisitionPending、删池或重抽；父线程统一验证集成与Backlog写入。
+
+2026-10-27 库存回归独立小片：保留 merchant seed21、真实购买 Iron Wave/石头和全部恢复/拒绝快照断言，只补测试账本漏记的聚财罐进房间12金币（含失效/Ectoplasm条件）。先在精确 c91 与仅加入 PR238 四项遗物定义的组合复现，再验证移除真实发金币的负例仍被原断言捕获。不改游戏效果、概率或商店池，不覆盖 PR238 本机未提交合并；Tungsten 来源与完整源池问题另留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -106,4 +108,6 @@ ordinal: 42000
 2026-10-27最新合并回归核对：PR238远端仍a4dac772、草稿且冲突，未合并；fc51f198同步尚未提交。最后定向结果inventory_restore失败13.626秒（750 ~= 738），tungsten_rod_channels失败1.045秒（smiling_mask ~= tungsten_rod）；toxic_egg_profiles通过1.996秒、relic_top_bridge通过2.890秒。先按真实恢复/自然获取路径诊断，不删断言、缩池或升预算。证据根build/pr238-resume-20261027-091929/fc51-final-focused.json及同目录fc51-final-*.log。不得沿用同步前成功认证本次合并，全池与平台AC继续未勾。
 
 2026-10-27优先级重排：High：当前PR238库存恢复与道具正常来源回归失败，直接阻塞整合收口。 解除后移出High再提升下一项；不放宽原验收。
+
+2026-10-27 库存测试账本定位：精确 c91 加 PR238 四项遗物定义后，f9_l2 宝箱正常获得聚财罐，f10_l1 精英房入口实际金币 738→750；旧 expectedGold 未计该进房间奖励。只补独立原版 MawBank 12 金币/失效-2/Ectoplasm 预期，完整保留 seed21、购买 Iron Wave/石头及每个原断言和8份非法快照。原 c91 与四遗物组合均5组通过；移除真实 Maw 发金币的负例被原第4组断言拦下（738≠750），父线程再次跑真实夹具通过。原版依据 aeubanks/sts@319009d5 的 MawBank.java、AbstractPlayer loseGold/gainGold；不是认证PC二进制。未重放 PR238 本机 STOP 快照，不能据此声称其完整合并已修复；Tungsten seed91 受遗物池增长影响及普通宝箱/商店尚非完整原版队列的问题仍单列。
 <!-- SECTION:NOTES:END -->
