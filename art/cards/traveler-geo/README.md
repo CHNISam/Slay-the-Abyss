@@ -42,3 +42,37 @@ node --test --test-concurrency=1 tests/reviewed-traveler-geo-assets.test.mjs tes
 ```
 
 复用锁定 `luaparse`，移除可选编辑器快照后校验真实字面表、逐图元几何/RGBA/层序、图片/蒙版/图库计数、无文字或PNG嵌入。保留错误ID、路径、hash、尺寸、缺文件、真实literal篡改、CRLF与可逆EOF负控；旧Heavy真实蒙版小型字面证据仍验证启用位/offset不可篡改。新身份、两阶段来源链、严格FAIL及旧批准不可复活另有负控。回归不是平台或性能证明，来源见 [PROVENANCE.md](PROVENANCE.md)。
+## 受控原生装配候选（默认关闭）
+
+新增接线仅供 `cleave` / `heavy_blade` 的显式单卡实验，不把离线认可升级成游戏验收。沿用共享 CardDisplay 和 Combat 预览，插画不拥有名称、费用、类型或描述。缺少资源/原生能力时返回原图标；牌库模板暂不增加原生图元池。
+
+从仓库根目录生成候选，`EDITOR` 指向已安装且固定在 `103025f9095d8089e3f9bf097f4d0c5fe039d546` 的现有 Image Editor；不安装、不重新描图。生成文件只能写入本仓库的构建目录，不能覆盖输入：
+
+```sh
+mkdir -p build/native-art-review
+python - <<'PY'
+import hashlib, json
+from pathlib import Path
+assets = []
+for card in ('cleave', 'heavy_blade'):
+    entry = {'cardId': card}
+    for kind in ('lua', 'json'):
+        path = (Path('art/cards/traveler-geo') / card / ('native-art.' + kind)).resolve()
+        entry[kind] = str(path)
+        entry[kind + 'Sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+    assets.append(entry)
+Path('build/native-art-review/sources.json').write_text(json.dumps({'schemaVersion': 1, 'assets': assets}, indent=2) + '\n')
+PY
+python scripts/art/assemble-native-card-samples.py --editor "$EDITOR" \
+  --candidate-registry build/native-art-review/sources.json \
+  --candidate-output build/native-art-review/literal.json
+node scripts/build-ui.mjs build/native-art-review/one \
+  --native-card-art-registry=build/native-art-review/literal.json --native-card-art-count=1
+ABYSS_NATIVE_ART_SOURCE_REGISTRY=build/native-art-review/sources.json \
+ABYSS_NATIVE_ART_LITERAL_REGISTRY=build/native-art-review/literal.json \
+  node --test --test-concurrency=1 tests/native-card-art-source-equivalence.test.mjs
+```
+
+普通 `build:ui` 仍为零新增；显式档位仅 0/1/5/10，每卡池含2657图形、45组和1根控件，即新增2703/13515/27030。计数包括隐藏预分配，不是FPS、内存或平台上限。实机顺序必须先基线、再单卡，稳定后才能另行评估5/10；不要直接导入十卡高控件候选。正式 native builder 会重建默认UI，接入时须通过其已有 `prepare(generatedDirectory)` 钩子生成这份布局，不能假定先运行本命令就会保留到最终GIL。
+
+截至2026-10-27，原生启动的 CursorArea 字段缺陷仍在已核对的 develop，PR257已关闭未合并，其启动修复由开放PR259承接，尚未进入本候选基线。本候选严格mock保留原缺陷必失败断言，并仅以单行内存替换验证后续图元接点；这不是已修主线或实际游戏ready证明。官方导入、存档写入、PC、实体安卓和真实性能全部待验。原生图库预览缺图须失败退出，不允许把缺失图层当画质降级；已认可源图不因此重绘。
