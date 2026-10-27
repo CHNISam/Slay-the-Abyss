@@ -178,7 +178,8 @@
         "src/lua/abyss_living_wall.lua",
         "src/lua/abyss_fountain.lua",
         "src/lua/abyss_act2_events.lua",
-        "src/lua/abyss_back_to_basics.lua"
+        "src/lua/abyss_back_to_basics.lua",
+        "src/lua/abyss_ghosts_event.lua"
       ],
       "local": {
         "status": "coverage-recorded",
@@ -194,7 +195,9 @@
           "tests/lua/mausoleum_event_content.lua",
           "tests/lua/addict_event_content.lua",
           "tests/lua/back_to_basics_event.lua",
-          "tests/lua/back_to_basics_ui.lua"
+          "tests/lua/back_to_basics_ui.lua",
+          "tests/lua/ghosts_event.lua",
+          "tests/lua/ghosts_event_ui.lua"
         ]
       },
       "platform": {
@@ -206,7 +209,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events and sixteen additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Four additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4."
+      "limitation": "Seven default random events and 24 additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Six additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts, Joust) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; no manual reward upgrades or full acquisition-hook completeness claim."
     },
     "relics": {
       "tasks": [
@@ -3300,6 +3303,40 @@
       "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / existing-controls generated NodeUI plus public Nodes+Run tests. Native-client acceptance NOT_RUN. Controlled full Act2 source draw is tested without reweighting; natural campaign/history producer/persistence and complete pool acceptance remain pending. Empty Elegance and zero-upgrade Simplicity reach result then separate Leave. V4 supports Elegance; its unresolved starter-tag mapping explicitly disables Simplicity, not a source class rule. Missing canonical starter upgrade content refuses atomically rather than silently becoming a zero-target success."
     },
     {
+      "id": "ghosts",
+      "originalId": "Ghosts",
+      "choices": [
+        "accept",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Unchanged experimental full Act2 source pool retains all13 entries/order/eligibility.",
+      "source": "src/lua/abyss_ghosts_event.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "healthCost": {
+        "kind": "max_hp_loss",
+        "cachedAt": "room_entry",
+        "formula": "ceil(float32(float32(maxHp)*0.5)), capped at maxHp-1",
+        "appliedTo": "current_max_hp",
+        "minimumMaxHp": 1,
+        "order": "before_permanent_obtains"
+      },
+      "permanentRewards": {
+        "cardId": "apparition",
+        "sourceId": "Ghostly",
+        "count": 5,
+        "through": "Run.obtainCard"
+      },
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / public Nodes+Run and generated-control tests. Native-client acceptance NOT_RUN; natural campaign/history/persistence and complete source-pool acceptance remain pending. Five fresh permanent Apparition obtains dispatch existing hooks after cached maxHP cost; no picker, seeded event RNG, damage/heal/Fairy dispatch or manual upgrades. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; complete generic onMasterDeckChange relic support is not claimed. Active/retained combat health owners explicitly refuse; supported normal event context keeps result then separate Leave."
+    },
+    {
       "id": "falling",
       "originalId": "Falling",
       "choices": [
@@ -5460,9 +5497,10 @@
         "upgraded"
       ],
       "channels": [
-        "explicit:Run.obtainCard"
+        "explicit:Run.obtainCard",
+        "explicit_event:ghosts:accept"
       ],
-      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Shared canonical skill with explicit Run.obtainCard and Ghosts A0 five-card source event acquisition locally covered. Default restricted-seven does not randomly admit Ghosts; controlled full Act2 source draw is tested, not a natural campaign. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards. Natural/platform acceptance NOT_RUN."
     },
     {
       "id": "bite",

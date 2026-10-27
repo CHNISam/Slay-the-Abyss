@@ -234,6 +234,19 @@ function M.increaseMaxHp(run,value)
     if not amount(value) or not amount(run.maxHp) or run.maxHp+0.0+value>2147483647 then return false,'invalid_max_hp' end
     run.maxHp=run.maxHp+0.0+value;return true,M.heal(run,value)
 end
+-- AbstractCreature.decreaseMaxHealth: no damage, healing or HP-loss hooks.
+-- Active/retained combat owners need their own health synchronization contract.
+function M.decreaseMaxHp(run,value)
+    if run.phase=='combat' or run.combat or run.pendingCombatRewards then
+        return false,'max_hp_health_context_unavailable'
+    end
+    if not amount(value) or not amount(run.maxHp) or run.maxHp<1
+        or not amount(run.hp) or run.hp>run.maxHp then return false,'invalid_max_hp' end
+    local before=run.maxHp
+    run.maxHp=math.max(1,run.maxHp-0.0-value)
+    run.hp=math.min(run.hp,run.maxHp)
+    return true,before-run.maxHp
+end
 function M.prepareCard(run,id,options)
     local definition=cardDefinition(run,id)
     if not Capability.isImplemented(definition) then return nil,'card_content_unavailable' end

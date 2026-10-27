@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 05:41'
+updated_date: '2026-10-27 09:01'
 labels:
   - required
   - sts1
@@ -71,4 +71,6 @@ type: feature
 2026-10-27合并状态更新：PR232已合入develop fc51f1987130e398538e9663b736d66090dfdd07；精确接受HEAD为4a14598c8cd5284e210917bb7818d02c9100bf68，完整Quality 40441075319与Licenses 40441075355均成功，合并树与该HEAD相同。本任务上述第二幕事件、源结算和Back to Basics切片不再只是未发布候选。本备注仅更新合并事实；完整源卡牌/事件/遗物/宝箱池、剩余钥匙与隐藏结局、官方客户端/平台及自然四职业连续四幕仍未齐备，不据此勾全量AC或改变任务状态/负责人。后续输入整合须另跑新HEAD完整Quality。
 
 2026-10-27主线核对：PR232已合入develop fc51f198，第二幕事件、钥匙和源结算顺序有新增本地成果，不能继续视为全未实现。PR238主集成同步此版本仍未提交且有两份库存相关失败；本任务完整第二幕与正式跨幕自然通关尚未验收。保留现有AC，先收口当前合并/CI，再补同候选自然通关和平台证据。
+
+整合执行时最新develop dc5b223（PR248 Ghosts源事件和PR246批准插画制作基线）；保留本轮Joust/第三幕/Neow及既有事件来源入口，Ghosts已接真实Act2分发、Pool与NodeUI，不重复开发。组合定向及当前SHA完整Quality仍待，此广域任务不据此勾整体验收。
 <!-- SECTION:NOTES:END -->

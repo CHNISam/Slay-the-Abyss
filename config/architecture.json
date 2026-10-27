@@ -17,6 +17,7 @@
     "abyss_moai_event": "core",
     "abyss_battle_enemy_view": "ui",
     "abyss_act2_enemies": "core",
+    "abyss_ghosts_event": "core",
     "abyss_act2_ai": "core",
     "abyss_act2_powers": "core",
     "abyss_potion_text": "ui",

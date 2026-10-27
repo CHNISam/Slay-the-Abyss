@@ -37,6 +37,8 @@ M.contentId['Winding Halls']='winding_halls'
 M.contentId.SensoryStone='sensory_stone'
 M.contentId['The Moai Head']='moai_head'
 M.contentId['Tomb of Lord Red Mask']='tomb_red_mask'
+M.contentId.Ghosts='ghosts'
+
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end
