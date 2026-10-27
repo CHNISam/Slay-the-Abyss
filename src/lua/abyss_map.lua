@@ -2,10 +2,13 @@
 local Rooms = require("abyss_map_rooms")
 local Seed = require("abyss_run_seed")
 local Acts = require('abyss_acts')
+local Emerald = require('abyss_emerald_elite')
+local SourceRandom = require('abyss_sts_random')
 local M = {}
+local equal
 local kinds = { "combat", "elite", "camp", "shop", "event", "treasure", "boss" }
--- Topology and room kinds only. Actual encounters belong to the Run queue and
--- are selected after a legal room entry succeeds; rendering/restoring draws none.
+-- Actual encounters belong to the Run queue. Optional burning-elite state owns
+-- only mapRng selection/boost; restore privately replays that exact stream.
 
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -63,7 +66,26 @@ local function configuration(data)
     return encounters, table.concat(signature, "|")
 end
 
-function M.generate(data, seed, act)
+local function emeraldContext(context)
+    if context==nil then return end
+    assert(type(context)=='table' and getmetatable(context)==nil
+        and type(context.endingUnlocked)=='boolean' and type(context.emeraldOwned)=='boolean',
+        'invalid trusted emerald context')
+    for key in pairs(context)do
+        assert(key=='endingUnlocked' or key=='emeraldOwned','unexpected trusted emerald context field')
+    end
+end
+
+local function markEmerald(map,context)
+    if not context or not context.endingUnlocked or context.emeraldOwned then return end
+    local selection,rng,reason=Emerald.select(map,SourceRandom.restore(map.randomState),context)
+    assert(selection,reason)
+    map.emeraldSelection,map.mapRng=selection,SourceRandom.snapshot(rng)
+    for _,node in ipairs(map.nodes)do if node.id==selection.nodeId then node.hasEmeraldKey=true end end
+end
+
+function M.generate(data, seed, act, trustedContext)
+    emeraldContext(trustedContext)
     if act==nil then act=1 end
     local chapter=Acts.get(act)
     local _, signature = configuration(data)
@@ -111,6 +133,7 @@ function M.generate(data, seed, act)
     for _,node in ipairs(map.nodes)do
         if node.floor==chapter.camp then node.nextIds={id(chapter.boss,4)}end
     end
+    markEmerald(map,trustedContext)
     return map
 end
 
@@ -142,6 +165,64 @@ function M.choose(map, nodeId)
     return false, "node_unavailable"
 end
 
+local function emeraldNode(map,nodeId)
+    if type(map)~='table' or getmetatable(map)~=nil or map.emeraldBoost~=nil
+        or not array(map.nodes,107) or type(map.emeraldSelection)~='table' then return end
+    local selection,found=map.emeraldSelection,nil
+    local act=map.act
+    if act==nil then act=1 end
+    if getmetatable(selection)~=nil or selection.version~=1 or not integer(selection.act)
+        or selection.act<1 or selection.act>3 or not integer(selection.x) or not integer(selection.y)
+        or selection.x<0 or selection.x>6 or selection.y<0 or selection.y>14
+        or nodeId~=selection.nodeId or selection.act~=act
+        or type(map.runSeed)~='string' or map.seed~=map.runSeed
+        or type(map.sourceSignature)~='string' or map.sourceSignature=='' then return end
+    local ok,mapSeed=pcall(Acts.mapSeed,map.runSeed,selection.act)
+    if not ok or map.mapSeed~=mapSeed then return end
+    for _,node in ipairs(map.nodes)do
+        if type(node)~='table' then return end
+        if node.hasEmeraldKey~=nil and (node.hasEmeraldKey~=true or node.id~=nodeId) then return end
+        if node.id==nodeId then
+            if found or node.type~='elite' or node.hasEmeraldKey~=true
+                or node.lane~=selection.x+1 or node.floor~=(map.firstFloor or 1)+selection.y then return end
+            found=node
+        end
+    end
+    return found
+end
+
+local function prepareEmerald(map,nodeId)
+    local node=emeraldNode(map,nodeId)
+    if not node then return nil,nil,'invalid_emerald_map_owner' end
+    local ok,rng=pcall(SourceRandom.restore,map.mapRng)
+    if not ok then return nil,nil,'invalid_map_rng' end
+    local effect,nextRng,reason=Emerald.prepare(map.emeraldSelection,rng)
+    if not effect then return nil,nil,reason end
+    local after=SourceRandom.snapshot(nextRng)
+    return {version=1,runSeed=map.runSeed,mapSeed=map.mapSeed,mapSignature=map.sourceSignature,
+        nodeId=nodeId,beforeRng=copy(map.mapRng),afterRng=copy(after),effect=effect},after
+end
+
+function M.prepareEmeraldBoost(map,nodeId)
+    if not emeraldNode(map,nodeId) then return nil,nil,'invalid_emerald_map_owner' end
+    local ok,available=pcall(M.available,map)
+    if ok then
+        for _,node in ipairs(available)do if node.id==nodeId then return prepareEmerald(map,nodeId) end end
+    end
+    return nil,nil,'emerald_node_unavailable'
+end
+
+function M.commitEmeraldBoost(map,nodeId,boost)
+    local expected,nextRng,reason=prepareEmerald(map,nodeId)
+    if not expected then return false,reason end
+    local node=emeraldNode(map,nodeId)
+    if map.currentNodeId~=nodeId or map.floor~=node.floor or not array(map.path,17)
+        or map.path[#map.path]~=nodeId then return false,'emerald_node_not_chosen' end
+    if not equal(boost,expected) then return false,'emerald_boost_owner_mismatch' end
+    map.emeraldBoost,map.mapRng=copy(expected),copy(nextRng)
+    return true
+end
+
 function M.snapshot(map) return copy(map) end
 
 function M.view(map)
@@ -156,7 +237,7 @@ function M.view(map)
 end
 
 -- The expected graph is bounded and acyclic, so malformed cyclic input also terminates.
-local function equal(actual, expected)
+equal = function(actual, expected)
     if type(actual) ~= type(expected) then return false end
     if type(expected) ~= "table" then return actual == expected end
     if getmetatable(actual)~=nil then return false end
@@ -167,16 +248,22 @@ end
 
 -- Strict same-run restoration: regenerate the source graph, then replay legal choices.
 -- Returns an independent state or nil/reason; never mutates the supplied snapshot/data.
-function M.restore(data, snapshot)
+function M.restore(data, snapshot, trustedContext)
     if type(snapshot) ~= "table" or getmetatable(snapshot)~=nil or (snapshot.version ~= 3 and snapshot.version ~= 4)
         or type(snapshot.runSeed)~='string' or not array(snapshot.path, 17) then
         return nil, "invalid_snapshot"
     end
-    local ok, map = pcall(M.generate, data, snapshot.runSeed, snapshot.version==4 and snapshot.act or 1)
+    local ok, map = pcall(M.generate, data, snapshot.runSeed, snapshot.version==4 and snapshot.act or 1,trustedContext)
     if not ok then return nil, "invalid_configuration" end
     if snapshot.sourceSignature ~= map.sourceSignature then return nil, "configuration_mismatch" end
     for _, nodeId in ipairs(snapshot.path) do
+        local boost
+        if map.emeraldSelection and nodeId==map.emeraldSelection.nodeId then
+            boost=M.prepareEmeraldBoost(map,nodeId)
+            if not boost then return nil,'invalid_emerald_path' end
+        end
         if type(nodeId) ~= "string" or not M.choose(map, nodeId) then return nil, "invalid_path" end
+        if boost and not M.commitEmeraldBoost(map,nodeId,boost) then return nil,'invalid_emerald_path' end
     end
     if not equal(snapshot, map) then return nil, "invalid_snapshot" end
     return map
