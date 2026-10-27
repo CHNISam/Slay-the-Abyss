@@ -97,6 +97,14 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - Preserve dirty worktrees and independent commits; record why they remain. For squash merges, verify the merged PR head and retain recoverable history before forcing local branch deletion.
 - Put review fixes and closeout notes into the existing task PR where practical. Do not leave completed review branches or create another branch solely to report an already merged change.
 
+## 版本 Tag
+
+- Tag 仅用于真实的 Alpha、Beta、RC、稳定版，或已交付且可恢复的重要版本里程碑；普通提交、PR、功能、修复、任务验收和清理不打 Tag。
+- 命名使用 `vMAJOR.MINOR.PATCH`；预发布后缀仅使用 `-alpha.N`、`-beta.N`、`-rc.N`。
+- 使用带注释 Tag，指向该版本已验收且实际交付的精确 commit；创建后不得移动、覆盖或复用版本号。
+- 不创建 `archive/*` 或其他归档 Tag；合并分支沿用现有 GitHub 自动删除，保留必要恢复证据，不以 Tag 代替清理。
+- 只为有真实发布和验收证据的版本打 Tag，不补造历史发布。
+
 ## Milestone 顺序验收
 
 - 成果关口与证据标准见 `docs/MILESTONES.md`；按 M0 → M1 → M2 → M3 → M4 → M5 → M6 逐成果验收，仅最早未完成关口作为主冲刺；依赖满足的离线任务与 M4 品质工作可并行。M2=17层正常实机通关，M3=冻结首发清单并逐项齐备，M4=正式作品品质，M5=10/29同一RC冻结验收，M6=10/30人工投稿归档。
