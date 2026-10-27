@@ -4,7 +4,7 @@
   "baseline": "6e8714f",
   "integratedBaseline": "d3369bb",
   "status": "scope-baseline-awaiting-per-item-acceptance",
-  "updated": "2026-10-25",
+  "updated": "2026-10-28",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
   "knownBlockers": [
     {
@@ -33,6 +33,82 @@
     }
   ],
   "profiles": {
+    "mindBloom": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-14.1",
+        "TASK-47",
+        "TASK-62"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_mind_bloom_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_event_combat.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/mind_bloom_event.lua",
+          "tests/mind-bloom-source.test.mjs",
+          "tests/lua/event_combat_bridge.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "existing-controls-local-device-acceptance-pending",
+      "limitation": "Act3 source mapping, public Nodes/Run event-combat bridge, fixed Boss/reward preparation, Awake permanent upgrades and Mark obtain are locally wired. Integration bridge fixture recorded a 12.35s GREEN before this inventory sync; final combined-HEAD and native acceptance are not granted. Full natural campaign and complete ordinary/shrine/once catalog remain pending."
+    },
+    "mysteriousSphere": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-47",
+        "TASK-62"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_mysterious_sphere_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_event_combat.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/mysterious_sphere_event.lua",
+          "tests/mysterious-sphere-source.test.mjs",
+          "tests/lua/event_combat_bridge.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "existing-controls-local-device-acceptance-pending",
+      "limitation": "Act3 mapping and existing-controls UI are locally wired. Constructor prepares two Orb Walkers even on Leave; Fight uses inclusive 45..55 miscRng gold and shared rare-relic/event rewards. Integration bridge fixture recorded a 12.35s GREEN before this inventory sync; final combined-HEAD, full natural campaign and platform/live acceptance remain pending."
+    },
+    "mark": {
+      "tasks": ["TASK-14.1", "TASK-47", "TASK-62"],
+      "entryPoints": ["src/lua/abyss_potion_health.lua", "src/lua/abyss_relic_hooks.lua", "src/lua/abyss_actor.lua", "src/lua/abyss_run.lua"],
+      "local": {"status": "coverage-recorded", "testFiles": ["tests/lua/mark_of_bloom_healing.lua", "tests/lua/mark_of_bloom_obtain.lua", "tests/mark-of-bloom-source.test.mjs", "tests/lua/event_combat_bridge.lua"]},
+      "platform": {"status": "pending-per-item", "evidence": []},
+      "live": {"status": "pending-natural-acquisition-and-execution", "evidence": []},
+      "presentation": "placeholder-glyph-device-acceptance-pending",
+      "limitation": "Named SPECIAL obtain, MindBloom Awake, Run/Nodes camp/Cleric/combat-end healing and the shared player healing gate are locally wired. Component tests and the integration bridge fixture (12.35s GREEN) are recorded; final combined-HEAD, whole natural campaign and platform/live acceptance remain pending. Existing no-Mark values and enemy healing are retained."
+    },
     "cards": {
       "tasks": [
         "TASK-16",
@@ -209,7 +285,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events and 25 additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Six additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts, Joust) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; no manual reward upgrades or full acquisition-hook completeness claim. The Library is tracked separately in the library profile; no native/natural acceptance is granted."
+      "limitation": "Seven default random events and 27 additional explicit event routes are inventoried, including both final Act3 ordinary mappings. Full source catalog admission and all natural/platform evidence remain pending. Six additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts, Joust) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; no manual reward upgrades or full acquisition-hook completeness claim. The Library is tracked separately in the library profile; no native/natural acceptance is granted."
     },
     "relics": {
       "tasks": [
@@ -3612,9 +3688,68 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / real Nodes+Run transactions, four exact source rarity pools,17 independent full RNG continuations,20-card paginated acquisition picker and actual next source-room plays. Picker uses select+immutable offerToken, not a reward skip or permanent deck UID. Controlled full-pool selection/removal and staged next combat do not prove natural campaign or platform acceptance. Read/Sleep -> selection or heal -> result -> separate Leave. Historical prepared/original-V4 Read and unsupported egg hooks fail honestly; Sleep remains supported. Native-client acceptance NOT_RUN."
+    },
+    {
+      "id": "mind_bloom",
+      "originalId": "MindBloom",
+      "act": 3,
+      "choices": [
+        "fight",
+        "awake",
+        "rich",
+        "healthy",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "fight",
+        "result"
+      ],
+      "eligibility": "Act3 ordinary source pool; Rich when floor % 50 <= 40, otherwise Healthy. Default production random mode remains restricted-seven.",
+      "source": "src/lua/abyss_mind_bloom_event.lua",
+      "profile": "mindBloom",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Local public event/Run bridge and existing-controls UI, including event-room rewards and Awake Mark obtain. Controlled full-pool and explicit development routes do not prove natural campaign or native acceptance."
+    },
+    {
+      "id": "mysterious_sphere",
+      "originalId": "Mysterious Sphere",
+      "act": 3,
+      "choices": [
+        "open",
+        "leave",
+        "fight"
+      ],
+      "stages": [
+        "intro",
+        "pre_combat",
+        "combat",
+        "end"
+      ],
+      "eligibility": "Act3 ordinary source pool; constructor prepares 2 Orb Walkers before choice. Default production random mode remains restricted-seven.",
+      "source": "src/lua/abyss_mysterious_sphere_event.lua",
+      "profile": "mysteriousSphere",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Local public event/Run bridge, existing-controls UI, constructor preparation and event-room reward transaction. Controlled full-pool and explicit development routes do not prove natural campaign or native acceptance."
     }
   ],
   "relics": [
+    {
+      "id": "mark_of_bloom",
+      "sourceId": "Mark of the Bloom",
+      "source": "data/relics.json#mark_of_bloom",
+      "profile": "mark",
+      "rarity": "special",
+      "channels": ["explicit_event:mind_bloom:upgrade"],
+      "naturalAcquisitionLimitation": "MindBloom Awake obtains this named SPECIAL relic through Run after permanent upgrades; the legacy channel label upgrade denotes that action. Public event bridge is locally wired; natural acquisition/platform evidence remain pending. Never part of ordinary relic queues.",
+      "naturalExecutionLimitation": "Shared player healing gate and Run/Nodes camp/Cleric/combat-end routes are locally wired with recorded component/bridge coverage; whole natural campaign and native evidence remain pending."
+    },
     {
       "id": "membership_card",
       "source": "data/relics.json#membership_card",
@@ -4572,7 +4707,7 @@
       },
       {
         "id": "full-original-event-pool",
-        "reason": "Default random selection remains restricted-seven. Six additional explicit event routes (including Living Wall and Fountain) do not admit the full/once source catalog or establish natural acquisition."
+        "reason": "Default random selection remains restricted-seven. The 27 additional explicit event routes and controlled chapter full-pool fixtures do not establish the complete ordinary/shrine/once catalog or natural acquisition."
       }
     ],
     "other": [

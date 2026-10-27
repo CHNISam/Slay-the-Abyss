@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-10-27",
+  "sourceCommit": "81f3ffd2c2a98f81d8217551baa324142455d805",
+  "mainlineComparisonCommit": "ac8cc524",
+  "sourceBranchStatus": "PR252_PENDING_MERGE_AT_LEDGER_UPDATE",
+  "method": [
+    "Load current data JSON in memory using scripts/validate-data.mjs loadContent and scripts/build-lua-data.mjs toLua; do not use a stale generated abyss_data module.",
+    "Run actual Lua Run.new for the default entry and explicit ironclad/silent/defect/watcher entries in Fengari.",
+    "Build the actual Run card catalog and call Combat.cardDefinition plus Capability.isImplemented for both base and upgraded instances.",
+    "Enumerate reward/src/shop common/uncommon/rare source identities, check unique identities and both-version capability without filtering unavailable identities.",
+    "Enumerate PotionRandom.pool for each class and call production PotionGeneration.available for every identity.",
+    "Enumerate EncounterQueue.rules(3) weak/strong/elite entries through Act3Enemies.resolve, resolve all three Act3 bosses, and inspect all seven ordinary event contentId mappings."
+  ],
+  "inputs": {
+    "count": 216,
+    "fingerprintSha256": "f8dab22bf8a5f49f49b749af5f678d191fda3d4d4d0d661bd7eeb8d39a357091",
+    "fingerprintFormat": "All src/lua/**/*.lua and data/**/*.json, sorted path TAB SHA256 LF",
+    "unchangedBeforeAfter": true,
+    "auditScriptSha256": "fb9f26f1016401cf539933e551beb6803eea9a5abb1d89a681ccf6ecca52d176",
+    "localReproductionScript": "build/m3-closeout-20261027/class-runtime-audit.mjs",
+    "localDetailedReport": "build/m3-closeout-20261027/class-runtime-audit.json",
+    "comparison": "Class profiles, Run catalog assembly, card source pools, Capability and class potion registration inputs are unchanged between ac8cc524 and 81f3ffd2. Act3 combat source changes are separate PR252 work; the entire source tree is not claimed unchanged."
+  },
+  "runs": {
+    "entries": ["default", "ironclad", "silent", "defect", "watcher"],
+    "eachEntry": {
+      "regularCardsByColor": {"red": 75, "green": 75, "blue": 75, "purple": 75},
+      "totalRegularClassCards": 300,
+      "baseCapabilityAccepted": 300,
+      "upgradedCapabilityAccepted": 300,
+      "unsupported": []
+    },
+    "historicalProfileBoundary": "Profiles.prepare(ironclad) is a legacy 66-card component. It is not the current Run.new assembled catalog and is not used to reduce the current 75-card scope."
+  },
+  "sourceChannels": {
+    "ironclad": {"reward": 72, "src": 72, "shop": 72},
+    "silent": {"reward": 71, "src": 71, "shop": 71},
+    "defect": {"reward": 71, "src": 71, "shop": 71},
+    "watcher": {"reward": 71, "src": 71, "shop": 71},
+    "allSlotsUniqueWithinChannel": true,
+    "unsupportedBaseOrUpgradeIdentities": []
+  },
+  "potionDefinitionAvailability": {
+    "ironclad": {"sourceIdentities": 33, "registered": 33},
+    "silent": {"sourceIdentities": 33, "registered": 33},
+    "defect": {"sourceIdentities": 33, "registered": 33},
+    "watcher": {"sourceIdentities": 33, "registered": 33},
+    "missingDefinitions": []
+  },
+  "act3Routing": {
+    "weakEntriesResolved": 3,
+    "strongEntriesResolved": 8,
+    "eliteEntriesResolved": 3,
+    "bossesResolved": ["Awakened One", "Time Eater", "Donu and Deca"],
+    "ordinaryEventsMapped": ["Falling", "The Moai Head", "SensoryStone", "Tomb of Lord Red Mask", "Winding Halls"],
+    "ordinaryEventsUnmapped": ["MindBloom", "Mysterious Sphere"]
+  },
+  "limits": [
+    "Capability acceptance does not prove actual card execution, exhaustive source parity, all generated dependencies or all cross-domain interactions.",
+    "Source identity closure does not prove probability, full RNG trajectories or natural acquisition.",
+    "Potion available is a production definition-presence predicate; potion effects were not executed by this audit.",
+    "Act3 resolver success is routing only, not combat or chapter completion.",
+    "No candidate construction, official import, desktop input, platform playthrough or natural build acceptance is asserted by this audit.",
+    "TASK56/57/58/59/14.1/62 status, assignee, priority, dependencies and acceptance criteria remain unchanged; no acceptance criterion was checked."
+  ]
+}

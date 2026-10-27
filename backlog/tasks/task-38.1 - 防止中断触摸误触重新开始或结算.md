@@ -3,9 +3,9 @@ id: TASK-38.1
 title: 取消退出后，不要误重开或误结算
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 15:55'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -43,6 +43,8 @@ ordinal: 50000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-26全面复核：本轮game_ui_result_gestures20/20，旧手势/重复/新点击和单次结算通过；PR122修复已合，最终整合PR213全绿；本地和实际平台边界分开记录。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

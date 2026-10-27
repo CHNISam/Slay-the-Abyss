@@ -3,9 +3,9 @@ id: TASK-3
 title: M1 真实平台完整战斗闭环
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -58,4 +58,6 @@ P0用户优先级覆盖既定串行排期，沿用任务避免重复建项。v4�
 当前交付冻结源b76b6cc，文件.artifacts/m1-handoff-b76b6cc/abyss-m1-b76b6cc.gil，hash95d0b52996cd2204a314391a156f930045c5b8e3a81aa3c89e05da3eb0ee7920。30模块逐byte同源、1664控件、22节点完整载荷，0静态error/17既有warning，独立场景/清单23项通过，原底图不变。仅编译/副本/离线审计通过，未导入/实机/UI门禁；原126历史副本和257误购失败版均保留。
 
 2026-10-24同候选5165实机最小战斗三AC已有独立16图/64打印证据：官方save1838，run9bb0abe3，日志hash9190f386685e52c16bd66f9781e637a7859a51b15e2e0e22b0b00f1add9953c8，ready1/victory1，HP80到74到73到战后79、金币99到114、奖励卡组10到11、格挡5抵消6攻击只伤1、易伤2与虚弱2到1、点选/拖牌和敌回合均可复核。该900秒run末自动中断不作为主动退出成功；后续短run8f623503在17.3秒主动结算有独立日志证明。完整九状态等必要依赖未完成，本TASK保留InProgress，M1不整体关闭。详情docs/M1-LIVE-ACCEPTANCE.md及结构化证据。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

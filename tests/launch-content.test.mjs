@@ -40,11 +40,53 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 25);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 27);
   assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
     definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());
+});
+
+test('Act3 event bridge evidence preserves pending native and natural acceptance', () => {
+  const manifest = fresh();
+  for (const [id, originalId] of [['mind_bloom', 'MindBloom'], ['mysterious_sphere', 'Mysterious Sphere']]) {
+    const event = manifest.events.find(row => row.id === id);
+    assert.equal(event.originalId, originalId);
+    assert.equal(event.act, 3);
+    assert.equal(event.poolMode, 'explicit-only');
+    assert.deepEqual(event.channels, ['explicit:Nodes.enter']);
+    const profile = manifest.profiles[event.profile];
+    assert.ok(profile.local.testFiles.includes('tests/lua/event_combat_bridge.lua'));
+    assert.equal(profile.platform.status, 'pending-per-item');
+    assert.equal(profile.live.status, 'pending-natural-acquisition-and-execution');
+    assert.deepEqual(profile.platform.evidence, []);
+    assert.deepEqual(profile.live.evidence, []);
+  }
+});
+
+test('campaign ledger distinguishes Act3 local components from persistent, Act4 and native acceptance', () => {
+  const campaign = JSON.parse(readFileSync('data/release/m3-campaign.json', 'utf8'));
+  assert.equal(campaign.acceptance, 'INCOMPLETE');
+  assert.equal(campaign.core.persistentHistoricalUnlock, 'PLATFORM_UNVERIFIED');
+  assert.equal(campaign.core.naturalKeyAcquisition, 'PARTIAL_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_PENDING');
+  assert.equal(campaign.core.sessionHistoricalUnlock, 'IMPLEMENTED_LOCAL_REAL_STANDARD_ACT3_VICTORIES_INJECTABLE_PROVIDER');
+  const act3 = campaign.monsters.filter(row => row.act === 3);
+  assert.equal(act3.length, 17);
+  for (const row of act3) {
+    assert.equal(row.implementation, 'IMPLEMENTED_LOCAL', row.className);
+    assert.equal(row.localResult, 'RECORDED_LOCAL_COMPONENT_REGRESSION', row.className);
+    assert.ok(row.evidence.length > 0, row.className);
+    assert.equal(row.parityStatus, 'UNVERIFIED', row.className);
+    assert.equal(row.platformStatus, 'NOT_RUN', row.className);
+  }
+  for (const row of campaign.monsters.filter(row => row.act === 4)) {
+    assert.equal(row.implementation, 'NOT_IMPLEMENTED', row.className);
+    assert.equal(row.localResult, 'NOT_RUN', row.className);
+  }
+  for (const act of campaign.acts) {
+    assert.equal(act.normalPlaythrough, 'NOT_RUN');
+    assert.equal(act.platform, 'NOT_RUN');
+  }
 });
 
 test('gate rejects promoting explicit events, SPECIAL relics and pending potions into natural pools', () => {

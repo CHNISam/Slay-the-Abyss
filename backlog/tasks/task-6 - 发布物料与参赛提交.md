@@ -3,9 +3,9 @@ id: TASK-6
 title: 正式发布游戏并报名比赛
 status: To Do
 assignee:
-  - user
+  - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0

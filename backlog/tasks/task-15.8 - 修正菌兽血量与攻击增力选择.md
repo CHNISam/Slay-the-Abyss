@@ -3,9 +3,9 @@ id: TASK-15.8
 title: 修正菌兽血量与攻击增力选择
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 22:31'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 67000
 <!-- SECTION:PLAN:BEGIN -->
 源码核对；真实入口红例；最小HP/AI/data/schema修复；独立评审及正式CI后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

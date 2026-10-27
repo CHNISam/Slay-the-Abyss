@@ -3,9 +3,9 @@ id: TASK-37
 title: 防止中断触摸误出牌或领奖
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 10:40'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - ui
   - combat
@@ -49,6 +49,8 @@ ordinal: 48000
 22组按原断言精确拆为11+11，共享测试setup，不提高15秒预算。部分源码快照首轮npm check额外发现缺基线审计脚本；只从固定67c839a补齐并核对Git blob后，最终645项605过40败，40失败逐一确认为缺Fengari。Python16通过；相关Native Lua成功不替代正式Fengari/当前SHA Quality，未安装依赖。
 
 2026-10-23：PR105 已合入 develop c3c909db7a9b58150667ad8616d02c117be51a33。冻结9文件逐 Git blob 与合并树一致；PR head 5e5321159f330fb06dabdec1dd90447652c58e0b 的 Windows check 120376150896 及 presentation 均 success，合并后两项 Quality 亦 success。新增11+11回归和独立12+4+6组验证离线输入所有权与兼容；原生产代码负控8过14败。此前本地缺Fengari不再作为正式CI阻塞。分支已自动删除。仅完成离线输入切片，真实平台事件派发/官方导入/手机鼠标操作仍由TASK30承接，不改其归属及AC。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

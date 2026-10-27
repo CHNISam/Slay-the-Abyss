@@ -3,9 +3,9 @@ id: TASK-16.1.3
 title: 修复重复施放永世的磐岩时的多余反馈
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 11:17'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -48,6 +48,8 @@ ordinal: 87000
 候选1158已纠正旧1130对异常定义类型和stack的过度跳过，仅正常已生效本能力不再发零事件；非法值/定义保留原Actor行为。20专项、167原生Lua文件、1008纯Node、17Python通过；独立4802差分、新主线179 UI下4真实重复牌/4晚失败回滚通过。尚待本PR当前SHA CI和合并；Shockwave两条顺序差异仍保留。未新增安装或调用用户Codex，费用/额度节省未知。
 
 PR180已合入ed1505bf。当前94fd0218的Quality40093863686 attempt2双成功；attempt1在game_ui阶段Node Zone OOM，保留失败日志。核同轮前段同UI15组已过、每fixture独立进程后仅重试失败job一次，未修改预算/代码/测试；OOM根因缺宿主内存证据仍未知。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

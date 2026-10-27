@@ -15,7 +15,35 @@ end
 -- These methods capture no node state. Keep them as own fields so overrides
 -- and pairs/rawget see the same control shape without per-node closures.
 local Control = {}
-local controlMethods = { __index = Control }
+-- The engine owns activation. Expose only the documented read-only hierarchy
+-- result on controls; tests change private engine state, not native properties.
+local engineActive = setmetatable({}, { __mode = 'k' })
+local function activeInHierarchy(control)
+    while control do
+        if engineActive[control] == false then return false end
+        control = control.parent
+    end
+    return true
+end
+local function setEngineActive(control,value)
+    assert(type(value)=='boolean'); engineActive[control]=value
+end
+local function nativeField(control,key)
+    assert(key~='interactable' or rawget(control,'kind')~='cursorArea',
+        'Native CursorArea has no interactable field; use raycastTarget')
+end
+local controlMethods = {
+    __index = function(control,key)
+        nativeField(control,key)
+        if key=='activeInHierarchy' then return activeInHierarchy(control) end
+        return Control[key]
+    end,
+    __newindex = function(control,key,value)
+        nativeField(control,key)
+        assert(key~='activeInHierarchy','Native activeInHierarchy is read-only')
+        rawset(control,key,value)
+    end,
+}
 function Control:GetChild(name) return self.children[name] end
 function Control:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
 function Control:SetSizeDelta(width, height) NativeContract.sizeDelta(width,height); self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
@@ -53,9 +81,10 @@ end
 
 local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
-        text = spec.text and spec.text.content or "", parent = parent, interactable = true,
+        text = spec.text and spec.text.content or "", parent = parent, raycastTarget = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
     setmetatable(self, controlMethods)
+    if spec.kind~='cursorArea' then self.interactable=true end
     self.GetChild = Control.GetChild
     self.AddKeyEventListener = Control.AddKeyEventListener
     self.SetVisible = Control.SetVisible
@@ -110,7 +139,7 @@ local function click(root, panel, button)
     local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
-    if target.interactable then
+    if target.raycastTarget~=false and (target.kind~='presetButton' or target.interactable) then
         local result = target.click()
         for _ = 1, 400 do if not root.ui or not root.ui.battleUI.busy then break end root.ui:update(0.05) end
         assert(not root.ui or not root.ui.battleUI.busy)
@@ -164,6 +193,7 @@ return {
     Theme = Theme,
     preview = preview,
     control = control,
+    setEngineActive = setEngineActive,
     fixture = fixture,
     statValue = statValue,
     resultText = resultText,

@@ -3,9 +3,9 @@ id: TASK-31
 title: 将妹妹的电脑配置为 CI runner（用户回家后主导）
 status: Done
 assignee:
-  - user
+  - '@Furinya'
 created_date: '2026-10-23 02:25'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - user-led
   - manual-trigger

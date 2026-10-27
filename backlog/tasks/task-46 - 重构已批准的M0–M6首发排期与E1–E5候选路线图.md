@@ -3,9 +3,9 @@ id: TASK-46
 title: 重构已批准的M0–M6首发排期与E1–E5候选路线图
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 01:58'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -40,6 +40,8 @@ ordinal: 74000
 CLI读回与doctor通过；106项迁移前既有任务状态、65份Done文件、199项已勾AC保全；另有本轮新建管理任务46。依赖无环，可选候选不阻塞主线。语法与数据校验通过。PR151首轮SHA 2a81ace已获presentation通过，check正在运行，尚不合并。
 
 PR151首轮2a81ace的Quality40053033197两作业success：check 7m33s、presentation 8s。已同步PR150后的d0bf727并原样保留事件Done文件；地图手势任务保留In Progress且归M2。原直播编号冲突通过CLI承接至TASK48。最终记录提交仍须按其SHA重跑Quality全绿，才允许合并。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -1,5 +1,10 @@
 {
   "layers": {
+    "abyss_event_combat": "core",
+    "abyss_mind_bloom_event": "core",
+    "abyss_mysterious_sphere_event": "core",
+    "abyss_combat_enemy_setup": "core",
+    "abyss_ending_history": "core",
     "abyss_library_event": "core",
     "abyss_writhing_mass": "core",
     "abyss_giant_head": "core",

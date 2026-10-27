@@ -3,9 +3,9 @@ id: TASK-17.3
 title: 实测第一幕17层能正常通关和重开
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -54,6 +54,8 @@ ordinal: 77000
 PR170已合入develop，当前SHA两个Quality作业全部成功。最终普通候选17ebb09独立读回的15项差异均为平台ARGB透明度量化，已增加精确编码审核和负例。候选SHA256为4cda9fcf736690c58433cd39c72c64431303a207584006da9ace9e8e7d97a043；原始失败报告保留，修复后再次只读审核通过，43模块、UI、模板与结算图一致，候选字节未变。这份新候选尚未官方导入或实机运行；正常失败和重开验收状态不变。
 
 用户本轮明确重开和重新挑战早已亲测，补入人工验收。结合既有同源正常数值17层胜利、正式失败/退出证据及当前60组Lua、3项布局回归，M2闭环验收完成。无新自动失败录像，bd08仍仅证明其原成功路径。详见docs/M2-CLOSEOUT-20261024.md。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

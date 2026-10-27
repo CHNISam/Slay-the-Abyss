@@ -3,9 +3,9 @@ id: TASK-36.1
 title: 翻页或关弹窗后，不要误买东西
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 14:26'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -43,6 +43,8 @@ ordinal: 48000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-26全面复核：本轮node_card_ownership真实控件6/6；既有PR103/118红绿与修复已合，最终整合PR213完整Quality成功；设备实测仍由38/42承接。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

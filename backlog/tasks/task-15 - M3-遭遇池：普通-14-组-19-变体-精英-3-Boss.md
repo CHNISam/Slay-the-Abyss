@@ -3,10 +3,9 @@ id: TASK-15
 title: 完成第一幕敌人的数值与招式
 status: Done
 assignee:
-  - '@Codex'
-  - '@codex-enemy-parity'
+  - '@Furinya'
 created_date: '2026-10-22 13:47'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -51,6 +50,8 @@ M3本轮独立编组审计：MonsterHelper固定来源确认gremlin_gang应从�
 2026-10-26状态整理：旧备注中固定五小魔、两中软泥和完整队列未接属于历史。PR178/193已修编组并接17种源遭遇，PR206/213继续保留；不能按旧备注重复实现。仍待逐敌完整AI/随机边界和同候选实际验证；15.19已有3/4证据另保留。
 
 2026-10-26全面复核：22份实际敌人fixture通过，sentry误写文件名失败保留，正确sentries另批通过；126编组向量及全部19普通/3精英修复已合。自然实机原AC4完整交47。
+
+负责人字段规范化：原记录 @Codex,@codex-enemy-parity 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

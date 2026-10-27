@@ -3,9 +3,9 @@ id: TASK-56.2
 title: 做好精准与无限刀刃的小刀构筑
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 08:14'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

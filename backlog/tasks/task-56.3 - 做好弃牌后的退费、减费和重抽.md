@@ -3,9 +3,9 @@ id: TASK-56.3
 title: 做好弃牌后的退费、减费和重抽
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 09:05'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

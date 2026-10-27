@@ -3,9 +3,9 @@ id: TASK-70
 title: 保护核心分支并打通一次批准的应急合并
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-26 09:57'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 documentation:

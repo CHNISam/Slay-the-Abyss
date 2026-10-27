@@ -17,12 +17,14 @@ local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
 local NeowHistory=require('abyss_neow_history')
+local EndingHistory=require('abyss_ending_history')
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
     -- never while constructing the title screen or refreshing the UI.
     local self = { root = root, data = data, seed = platform.seed, mode = "menu" }
     local neowHistory=NeowHistory.new(platform.readNeowHistory)
+    local endingHistory=EndingHistory.new({read=platform.readEndingHistory,write=platform.writeEndingHistory})
     local controller = Controller.new(platform.controllerApi,root)
     self.controller = controller
     platform.controller = controller
@@ -321,6 +323,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function finishRunFlow(run)
         if run and (run.phase=='victory' or run.phase=='defeat')then NeowHistory.finish(neowHistory,run,run.phase)end
+        if run and EndingHistory.finish(endingHistory,run,self.map)then run.endingHistoryResult=EndingHistory.read(endingHistory)end
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
@@ -381,14 +384,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function refreshPotionEntry(run)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
-        potionHit.interactable=canManagePotions(run)
+        potionHit.interactable=canManagePotions(run);potionHit.raycastTarget=potionHit.interactable
         for _,state in ipairs({"normal","hover","pressed","disabled"})do
             potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..Run.potionCapacity(run) or "药水"
         end
     end
     local function refreshDeckEntry(run)
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
-        deckHit.interactable = not self.battleUI.busy
+        deckHit.interactable = not self.battleUI.busy;deckHit.raycastTarget=deckHit.interactable
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
         for _, state in ipairs({ "normal", "hover", "pressed", "disabled" }) do
             local variant = deckHit:GetChild(state)
@@ -459,7 +462,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 or self.exitError and "退出请求失败，请重试或继续游戏。" or ""
             local enabled = not self.settlementRequested and not self.settlementBusy
             for _, name in ipairs({"cancel", "confirm"}) do
-                exitPanel:GetChild(name):GetChild("hit").interactable = enabled
+                local hit=exitPanel:GetChild(name):GetChild("hit");hit.interactable,hit.raycastTarget=enabled,enabled
             end
         end
     end
@@ -544,6 +547,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local run = Run.new(data,rawSeed,selection)
         local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
+        local ending=EndingHistory.begin(endingHistory,run,{seedSet=explicitSeed,
+            isDailyRun=platform.isDailyRun or false,isTrial=platform.isTrial or false})
+        run.endingUnlocked,run.endingHistory=ending.unlocked,ending
         local map = Map.generate(run.data,rawSeed)
         local history,historyReason=NeowHistory.read(neowHistory,run.character)
         if history then

@@ -3,9 +3,9 @@ id: TASK-15.12
 title: 修正大型尖刺敌人的血量招式与污染牌
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 23:55'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -37,6 +37,12 @@ ordinal: 71000
 
 真实致死攻击负例暴露既有共用缺口：玩家死亡后仍执行排队污染。经固定死亡/动作源链核实，仅增加玩家已死时停止后续效果的保护，并覆盖中/大型尖刺与中酸液的致死场景、反伤同死及既有胜利尾动作；不改变结局优先级。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

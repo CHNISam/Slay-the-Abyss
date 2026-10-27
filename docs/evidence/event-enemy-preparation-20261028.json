@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "base": "0c07e3dc",
+  "scope": "Independent constructor-only preparation; no Run/Nodes/data/UI or source pool changes",
+  "red": "EVENT_ENEMY_PREPARATION_MISSING: no constructor-only boundary",
+  "validation": {
+    "lua": {"script":"tests/lua/event_enemy_preparation.lua","groups":9,"failed":0,"boundedSeconds":30},
+    "sourceContract": {"script":"tests/event-enemy-preparation-source.test.mjs","passed":1,"failed":0},
+    "independentVectors": {"seeds":8,"sourceFiles":7,"hpDrawsPerSphere":4},
+    "baselineDifferential": {
+      "oldSource":"git show 0c07e3dc:src/lua/abyss_combat.lua",
+      "probe":"build/event-enemy-legacy-differential.lua",
+      "comparison":"complete initial battle graph field equality",
+      "cases":["cultist","guardian","hexaghost","slime_boss","transient","Small Slimes","3 Shapes","Awakened One","Reptomancer","3 Darklings"],
+      "passed":10,"failed":0,"elapsedSeconds":3.685
+    },
+    "luaParseFiles":4,
+    "gitDiffCheck":"passed"
+  },
+  "api": {
+    "prepare":"Combat.prepareEncounter(data, options)",
+    "start":"Combat.new(data, {preparedEncounter=prepared, roomSeed=..., roomStreams=...})",
+    "hpState":"prepared.monsterHpRng is {words,counter} snapshot; restore with abyss_sts_random.restore",
+    "forbiddenStartMix":"preparedEncounter cannot mix with options.enemies/options.sourceEncounter",
+    "misc":"never cached/restored by prepared; latest supplied roomStreams.miscRng survives fight-time gold/relic work"
+  },
+  "remaining":["parent architecture classification","Run/Nodes event bridge integration","combined full CI","native candidate/import/live acceptance"],
+  "officialImport":"NOT_RUN",
+  "playtest":"NOT_RUN"
+}

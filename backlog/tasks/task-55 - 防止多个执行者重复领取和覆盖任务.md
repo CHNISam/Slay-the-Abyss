@@ -3,9 +3,9 @@ id: TASK-55
 title: 防止多个执行者重复领取和覆盖任务
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 priority: medium

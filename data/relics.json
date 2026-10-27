@@ -1,6 +1,15 @@
 {
   "relics": [
     {
+      "id": "mark_of_bloom",
+      "sourceId": "Mark of the Bloom",
+      "name": "绽放印记",
+      "description": "你无法再恢复生命。最大生命的增加仍然生效，但不会因此恢复当前生命。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
       "id": "membership_card",
       "name": "会员卡",
       "rarity": "shop",
