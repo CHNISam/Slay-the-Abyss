@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-27 06:10'
+updated_date: '2026-10-27 17:23'
 labels:
   - required
   - sts1
@@ -44,6 +44,8 @@ ordinal: 109000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-27继续保留真实资格阻塞：宝箱新多奖励蓝钥匙只牺牲关联基础遗物，金币/额外遗物独立；已有红钥匙不重做。跨局历史、燃烧精英及终幕自然完整链仍未认证，不用测试给定history当自然解锁。
+
+2026-10-28在第三幕候选交付/完整CI期间推进依赖已满足的离线切片：按固定319009来源，独立实现盾矛与心脏的敌人/AI/源动作模块及向量；燃烧精英模块单独负责有资格地图选点、持续mapRng四强化和独立绿钥匙owner。三个切片不并发改共享Map/Run/Nodes/Combat/UI，父线程按边界接共享hooks和正式入口。先真实RED→GREEN、再完整失败回滚/既有RNG与呈现回归；任何组件完成不冒充终幕可达、三钥匙自然获得或持久平台验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
