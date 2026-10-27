@@ -47,7 +47,7 @@ function releaseNotesControls(theme) {
       plate('face', [...l.panel.slice(0, 2), ...l.panel.slice(2).map(value => value - s.border * 2)], c.panel),
       line('title', l.title, '更新公告', f.heading, c.goldBright),
       line('build', l.build, '', f.label, c.textDim),
-      button('history', l.history, '已发布记录'), button('current', l.current, '本次版本说明'),
+      button('history', l.history, '版本记录'), button('current', l.current, '本次版本说明'),
       line('version', l.version, '', f.heading, c.gold), line('date', l.date, '', f.label, c.textDim),
       button('newer', l.newer, '较新'), button('older', l.older, '较早'),
       ...Array.from({ length: l.rows }, (_, i) => {

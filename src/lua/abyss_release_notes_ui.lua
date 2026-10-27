@@ -1,5 +1,5 @@
--- Offline presentation only. Publication status comes solely from the bundled,
--- receipt-confirmed history, never from a code version or prepared build notes.
+-- Offline presentation only. Source version history comes from CHANGELOG;
+-- only receipt-confirmed versions may claim a platform publication date.
 local Theme = require('abyss_theme')
 local Controller = require('abyss_controller')
 local M = {}
@@ -57,13 +57,17 @@ function M.new(panel,entry,version,notes,clickEvent,platform,changed)
         if notice then
             content=lines(notice)
             panel:GetChild('version').text=notice.version
-            panel:GetChild('date').text=self.view=='current'
-                and '说明日期 '..notice.notesDate..' · 本次版本说明，不代表已发布'
-                or '发布日期 '..notice.publishedDate..' · 发布记录 '..self.index..' / '..#history
+            if self.view=='current' then
+                panel:GetChild('date').text='说明日期 '..notice.notesDate..' · 本次版本说明，不代表已发布'
+            elseif notice.publishedDate then
+                panel:GetChild('date').text='发布日期 '..notice.publishedDate..' · 发布记录 '..self.index..' / '..#history
+            else
+                panel:GetChild('date').text='版本日期 '..(notice.versionDate or '未知')..' · 版本记录 '..self.index..' / '..#history
+            end
         else
-            content={'暂无已确认的发布记录'}
+            content={'暂无版本记录'}
             if not notes.currentNotice then content[2]='当前为代码基线，暂无随附版本说明' end
-            panel:GetChild('version').text='已发布记录'
+            panel:GetChild('version').text='版本记录'
             panel:GetChild('date').text=''
         end
         local rows=Theme.layout.releaseNotes.rows
@@ -80,7 +84,7 @@ function M.new(panel,entry,version,notes,clickEvent,platform,changed)
     end
     self.open=function(_)
         if not enabled('entry') then return false end
-        self.visible,self.view,self.index,self.page=true,(#history==0 and notes.currentNotice and 'current' or 'history'),1,1
+        self.visible,self.view,self.index,self.page=true,(notes.currentNotice and 'current' or 'history'),1,1
         self:invalidate();changed();return true
     end
     self.close=function(_)

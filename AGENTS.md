@@ -99,12 +99,12 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## 版本 Tag
 
-- Tag 仅用于真实的 Alpha、Beta、RC、稳定版，或已交付且可恢复的重要版本里程碑；普通提交、PR、功能、修复、任务验收和清理不打 Tag。
+- Tag 标记选定的可恢复源码版本；可按实际 Git 历史补录版本。普通提交、PR、功能任务、Milestone 验收和清理不自动打 Tag。
 - 命名统一使用 `vMAJOR.MINOR.PATCH`，不使用 Alpha/Beta/RC 后缀；Alpha 为 `0.x.x`，未来正式参赛首发目标为 `v1.0.0`。
 - 复用 `CHNISam/agent-skills` 的 release-please / git-workflow；仅手动发起版本提案，日常提交、PR 合并和 CI 不创建发布。代码版本以 `package.json` 为准，公告正文来自 `CHANGELOG.md`，真实发布凭证见 `data/release/publications.json`；操作见 `docs/PUBLISHING.md`。
 - 使用带注释 Tag，指向该版本已验收且实际交付的精确 commit；创建后不得移动、覆盖或复用版本号。
 - 不创建 `archive/*` 或其他归档 Tag；合并分支沿用现有 GitHub 自动删除，保留必要恢复证据，不以 Tag 代替清理。
-- 只为有真实发布和验收证据的版本打 Tag，不补造历史发布。
+- 回溯 Tag 只证明旧源码位置，不冒充历史平台发布；真实发布日期、作品身份及交付凭证独立登记。版本索引见 `docs/versions/README.md`。
 
 ## Milestone 顺序验收
 
