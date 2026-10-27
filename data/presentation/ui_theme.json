@@ -444,6 +444,11 @@
         "placeholder": true,
         "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
       },
+      "mark_of_bloom": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "绽放印记暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
+      },
       "spirit_poop": {
         "id": 102028,
         "placeholder": true,

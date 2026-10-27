@@ -14,7 +14,7 @@ end
 function M.heal(state,actor,requested,category,origin)
     local v=state.originalV4
     assert(v and actor==state.player,'original healing needs its combat owner')
-    if actor.hp<=0 or v.role=='AR' and category~='burst' then return 0 end
+    if actor.hp<=0 or v.role=='AR' and category~='burst' or require('abyss_potion_health').blocked(state.relics) then return 0 end
     local amount=math.max(0,math.min(math.floor(requested),actor.maxHp-actor.hp,state.originalV4Rules.common.battle_actual_heal_cap-v.healUsed))
     if amount==0 then return 0 end
     local before=actor.hp;actor.hp=actor.hp+amount;v.healUsed=v.healUsed+amount

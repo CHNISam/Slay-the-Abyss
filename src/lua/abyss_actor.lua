@@ -653,7 +653,7 @@ local function tick(state, actor, phase)
                     if state.originalV4 and actor==state.player then require('abyss_original_v4_health').heal(state,actor,amount,nil,'regen')
                     else
                     local before=actor.hp
-                    local healed = math.min(actor.maxHp - actor.hp, amount)
+                    local healed = actor==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or math.min(actor.maxHp - actor.hp, amount)
                     actor.hp = actor.hp + healed
                     Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
                     require('abyss_relic_hooks').hpChanged(state,actor,before)

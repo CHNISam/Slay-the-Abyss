@@ -33,6 +33,15 @@
     }
   ],
   "profiles": {
+    "mark": {
+      "tasks": ["TASK-14.1", "TASK-47", "TASK-62"],
+      "entryPoints": ["src/lua/abyss_potion_health.lua", "src/lua/abyss_relic_hooks.lua", "src/lua/abyss_actor.lua", "src/lua/abyss_run.lua"],
+      "local": {"status": "coverage-recorded", "testFiles": ["tests/lua/mark_of_bloom_healing.lua", "tests/lua/mark_of_bloom_obtain.lua", "tests/mark-of-bloom-source.test.mjs"]},
+      "platform": {"status": "pending-per-item", "evidence": []},
+      "live": {"status": "pending-natural-acquisition-and-execution", "evidence": []},
+      "presentation": "placeholder-glyph-device-acceptance-pending",
+      "limitation": "Named SPECIAL obtain and shared player healing gate are component-covered. MindBloom event integration, parent-owned camp/Cleric/combat-end heal routing, whole natural campaign and platform/live acceptance remain pending. Existing no-Mark values and enemy healing are retained."
+    },
     "cards": {
       "tasks": [
         "TASK-16",
@@ -3615,6 +3624,16 @@
     }
   ],
   "relics": [
+    {
+      "id": "mark_of_bloom",
+      "sourceId": "Mark of the Bloom",
+      "source": "data/relics.json#mark_of_bloom",
+      "profile": "mark",
+      "rarity": "special",
+      "channels": ["explicit_event:mind_bloom:upgrade"],
+      "naturalAcquisitionLimitation": "Planned MindBloom upgrade obtain only; actual named Run obtain covered. Event bridge and natural acquisition remain pending; never part of ordinary relic queues.",
+      "naturalExecutionLimitation": "Shared player healing component coverage; parent Run/Nodes integration, whole campaign and native evidence pending."
+    },
     {
       "id": "membership_card",
       "source": "data/relics.json#membership_card",

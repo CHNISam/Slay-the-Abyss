@@ -19,6 +19,7 @@ const curseEvents = {
     injury: ['explicit_event:golden_idol:injury'],
 };
 const specialRelicEvents = {
+  mark_of_bloom: ['explicit_event:mind_bloom:upgrade'],
   neows_lament: ['explicit:Nodes.beginNeow:THREE_ENEMY_KILL'],
   red_mask: ['explicit_event:tomb_red_mask:pay'],
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
