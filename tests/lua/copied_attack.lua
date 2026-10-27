@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 33
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat = require("abyss_combat")
 local Effects = require("abyss_effects")
@@ -7,6 +10,8 @@ local count, failed = 0, 0
 local function equal(a, b) assert(a == b or (type(a) == "number" and type(b) == "number" and a ~= a and b ~= b), tostring(a) .. " ~= " .. tostring(b)) end
 local function test(name, fn)
     count = count + 1
+    if count<sliceFirst or count>sliceLast then return end
+    sliceExecuted=sliceExecuted+1
     local ok, reason = pcall(fn)
     if not ok then failed = failed + 1 end
     print((ok and "ok" or "not ok") .. " copied_attack " .. count .. " - " .. name .. (ok and "" or ": " .. tostring(reason)))
@@ -211,4 +216,8 @@ test("real reward followed by next combat uses copy without leaking generated ca
     checkDeck(); equal(run.nextDeckUid,nextDeckUid)
 end)
 assert(failed == 0, failed .. "/" .. count .. " copied attack tests failed")
-print("copied attack tests passed: " .. count)
+print("copied attack tests passed: " .. sliceExecuted .. " selected of " .. count)
+
+assert(count==34,'all original copied-attack cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected copied-attack cases must execute')
+print('COPIED_ATTACK_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

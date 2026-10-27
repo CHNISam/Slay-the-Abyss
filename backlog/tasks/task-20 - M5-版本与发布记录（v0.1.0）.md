@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-27 09:21'
+updated_date: '2026-10-27 11:01'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
@@ -52,4 +52,8 @@ ordinal: 20000
 2026-10-27 本地实现：手动 Release Please 提案（不自动 Tag/Release）、CHANGELOG 单一公告正文、空的真实发布凭证、原生菜单公告与完整分页已接通。同步 develop 00229c1 的 PR #240/#241 后，389 项相关 Node/真实 Lua 桥接检查全通过；构建、语法、架构（145 模块/716 边）、固定 Luacheck（无新增诊断）与 Backlog 校验通过。独立审查修复已发布版本重用和最终音频构建标识/回执绑定缺口。完整当前 PR CI、原生导入/实机显示与真实发布仍分别待证据，不宣称任务全部完成。
 
 2026-10-27 08:40 UTC用户明确更新约定：可以补版本历史以服务新增公告功能，让玩家看到每个版本更新内容。此前禁止回补源码历史的约束被此授权替代；不代表授权伪造平台发布或报名。PR247的14个源码SHA、北京时间日期、相邻祖先关系及主要说明已独立核对；精确HEAD f09549a29ae32f87120af6f6b92de3ca320ab360的Quality40475735096全部7作业和Licenses40475734951成功，已合入develop fa93ac9ff23e7e5cbcf74813d1f9fa776219a314。当前源码版本基线0.10.1，历史v0.1.0至v0.10.1；publications.json仍为空真实发布账本，不把源码版本日期当上线日期。现有vX.Y.Z、Alpha0.x、正式参赛v1.0.0、手动提案且不自动发布流程保留。原生导入/实机交互及实际平台发布/投稿仍待用户执行与验收，未关闭整项任务。
+
+2026-10-27：PR247最新HEAD f09549a29ae32f87120af6f6b92de3ca320ab360的Licenses inventory与Quality四分片/presentation/engineering-posix/check全部SUCCESS，已squash合入develop fa93ac9ff23e7e5cbcf74813d1f9fa776219a314。按索引核对14节点祖先关系和北京时间日期，原子推送14个注释源码Tag，远端逐个peeled SHA读回匹配；v0.10.1固定fa93ac9，不移动旧Tag。版本与Milestone分开。公告/发布溯源专项38项：32通过、0失败、6项Windows符号链接权限跳过；真实Lua宿主9组包括实际14版本前后切换、逐页往返、关闭重开与旧输入隔离。先前缺构建数据的失败已补build:data后重跑通过。仅离线，不是平台实机；AC3等待千星奇域导入与本轮日志/截图，AC2/5等待真实发布凭证，任务保持In Progress。
+
+PR249评审修正：负责人按现行AGENTS保持Furinya。实际14版宿主遍历增加新增/优化/修复正文、空尾行的逐版双向核对；保留原长Unicode分页测试与历史授权记录，不触碰PR250在途修改。
 <!-- SECTION:NOTES:END -->

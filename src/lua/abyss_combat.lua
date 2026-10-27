@@ -1581,7 +1581,7 @@ function M.autoplayTop(state,targetIndex,exhaustCards,append)
     if append then state.queuedCards[#state.queuedCards+1]=queued else table.insert(state.queuedCards,1,queued) end
 end
 
-function M.play(state, uid, targetIndex, commandId)
+function M.play(state, uid, targetIndex, commandId, rollbackOwner)
     if state.originalV4 and commandId~=nil then
         if type(commandId)~='string' or commandId=='' then return false,'invalid_command_id' end
         local replay,why=require('abyss_original_v4').replay(state,commandId,uid,targetIndex)
@@ -1591,13 +1591,17 @@ function M.play(state, uid, targetIndex, commandId)
     if not ok then return false, reason end -- validate before changing any state/RNG
     local instance, position = findInstance(state, uid)
     local card = M.cardDefinition(state, instance)
+    -- Run.play already captured this exact battle inside the complete Run.
+    -- Bare Combat.play and invalid/expired/cross-battle tokens retain their
+    -- original independent rollback; no mutable graph edge is omitted.
+    local inherited=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)
     local nativeOnly=false
     for _,effect in ipairs(card.effects) do
         if CardActions.supports(effect.op) and not require('abyss_build_actions').ops[effect.op]
             and not require('abyss_flow_actions').ops[effect.op] or effect.times=='X' then nativeOnly=true end
     end
     if nativeDefinition(state,card) and (not state.experimentalMechanics or nativeOnly or card.silentFinalCard or card.runNativeABI) then
-        local restore=require('abyss_snapshot').capture(state)
+        local restore=inherited or require('abyss_snapshot').capture(state)
         local called,result=pcall(resolveNativePlay,state,uid,targetIndex,instance,position,card)
         if not called then restore();error(result,0) end
         if result and state.originalV4 then require('abyss_original_v4').record(state,commandId,uid,targetIndex) end
@@ -1625,7 +1629,7 @@ function M.play(state, uid, targetIndex, commandId)
         or require('abyss_defect_final_cards').needsQueue(state)
         or state.player.stance~=nil
         or drawHooks or autoplayHook or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
-    local restore = queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance)
+    local restore = inherited or (queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance))
     local resolver = queued and beginQueuedPlay or resolvePlay
     local called, result = pcall(resolver, state, uid, targetIndex, instance, position, card)
     if not called then

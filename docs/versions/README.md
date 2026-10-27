@@ -2,11 +2,11 @@
 
 这里是**源码版本索引**，与 Backlog Milestone 分开管理。详细玩家更新内容只有一份：[CHANGELOG.md](../../CHANGELOG.md)。
 
-> 2026-10-27 回溯整理：版本日期取 Git 提交在北京时间的日期；这些节点**不等于历史平台发布记录**。旧提交的 `package.json` 当时大多仍为 `0.1.0`，不重写旧提交。最新 `v0.10.1` 的 Tag 应指向本次版本字段/说明合入并验收后的提交，不能直接指向旧的修复提交。
+> 2026-10-27 回溯整理：版本日期取 Git 提交在北京时间的日期；这些节点**不等于历史平台发布记录**。旧提交的 `package.json` 当时大多仍为 `0.1.0`，不重写旧提交。14 个注释 Tag 已核对远端；最新 `v0.10.1` 固定于 PR #247 通过完整 Quality 与 Licenses 后 squash 合入的实际提交。
 
 | 版本 | 日期 | 本版概要 | 源码位置 |
 | --- | --- | --- | --- |
-| `v0.10.1` | 2026-10-27 | 战斗反应修复 | [修复范围截止](https://github.com/CHNISam/Slay-the-Abyss/commit/b164fda7c7f174788abd891bcec1e612696422ad)；Tag 待合入后固定 |
+| `v0.10.1` | 2026-10-27 | 战斗反应修复 | [fa93ac9](https://github.com/CHNISam/Slay-the-Abyss/commit/fa93ac9ff23e7e5cbcf74813d1f9fa776219a314)（PR #247 合入；修复范围截止 b164fda） |
 | `v0.10.0` | 2026-10-27 | 第二幕、手柄与更新公告 | [c91f0d2](https://github.com/CHNISam/Slay-the-Abyss/commit/c91f0d22edb73acad3405c030a330f4b55c3f8fa) |
 | `v0.9.0` | 2026-10-26 | 角色与跨章节内容 | [c8b42fc](https://github.com/CHNISam/Slay-the-Abyss/commit/c8b42fc6dab165ce83cbf7ad13e283124d04a549) |
 | `v0.8.1` | 2026-10-25 | 移动端及流程修复 | [c1cb78e](https://github.com/CHNISam/Slay-the-Abyss/commit/c1cb78e8fcbeead0c8439477c39b75f9f4429e8f) |

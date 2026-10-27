@@ -835,9 +835,10 @@ function M.play(run, uid, targetIndex, commandId)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     -- The public command includes permanent/inventory publication and source
     -- reward preparation, not just Combat.play's smaller battle transaction.
-    local restore=require('abyss_snapshot').capture(run)
+    local snapshot=require('abyss_snapshot')
+    local restore,owner=snapshot.capture(run,run.combat)
     local called,ok,reason=pcall(function()
-        local accepted,why=Combat.play(run.combat,uid,targetIndex,commandId)
+        local accepted,why=Combat.play(run.combat,uid,targetIndex,commandId,owner)
         if accepted then
             syncBattlePotions(run)
             if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
@@ -851,8 +852,9 @@ function M.play(run, uid, targetIndex, commandId)
         end
         return accepted,why
     end)
-    if not called then restore();error(ok,0)end
+    if not called then restore();snapshot.release(owner);error(ok,0)end
     if not ok then restore()end
+    snapshot.release(owner)
     return ok, reason
 end
 

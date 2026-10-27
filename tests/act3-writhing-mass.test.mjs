@@ -15,7 +15,11 @@ for (const [file,marker,count] of [
 });
 
 test('Writhing independent integer/float trace vectors reproduce byte-exactly',()=>{
-  const result=spawnSync('python',['tools/oracles/sts1_writhing_mass.py','--lua'],{encoding:'utf8'});
+  // The golden fixture is LF even on Windows. Keep stdout equally exact,
+  // without changing authenticated oracle source bytes or normalizing output.
+  const result=spawnSync('python',['-X','utf8','-c',
+    'import os,runpy,sys; script=sys.argv[1]; sys.path.insert(0,os.path.dirname(script)); sys.argv=[script,"--lua"]; sys.stdout.reconfigure(newline="\\n"); runpy.run_path(script,run_name="__main__")',
+    'tools/oracles/sts1_writhing_mass.py'],{encoding:'utf8'});
   assert.equal(result.status,0,result.stderr);
   assert.equal(result.stdout,readFileSync('tests/fixtures/act3-writhing-mass-vectors.lua','utf8'));
   const lock=JSON.parse(readFileSync('tests/fixtures/act3-writhing-mass-source-lock.json','utf8'));
