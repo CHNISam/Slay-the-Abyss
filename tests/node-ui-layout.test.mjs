@@ -16,9 +16,9 @@ function walk(control, visit, origin = [0, 0]) {
 }
 const clickable = c => c.kind === 'container' && (c.children ?? []).some(child => child.kind === 'cursorArea');
 // What the player sees together: shared chrome plus one view. The merchant appears only with the shop.
-const screen = view => [...panel.children.filter(c => !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)
-    && (c.name !== 'merchant' || view === 'shopView')),
-  ...find(panel.children, view).children.filter(c => c.kind !== 'image' || !['glow', 'plate', 'plateBorder'].includes(c.name))];
+const screen = view => [...panel.children.filter(c => (c.visible !== false || c.name==='merchant' && view==='shopView') && !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)
+    && (c.name !== 'merchant' || view === 'shopView') && !(view==='shopView' && c.name==='back')),
+  ...find(panel.children, view).children.filter(c => c.visible !== false && (c.kind !== 'image' || !['glow', 'plate', 'plateBorder'].includes(c.name)))];
 
 test('node panel composes one container per approved node screen within the MCP child limit', () => {
   assert.equal(panel.name, 'nodePanel');
@@ -106,14 +106,14 @@ test('native text boxes use the verified 40-unit line height and the readable mi
   });
 });
 
-test('shop restores the approved shelf: seven card faces, prices beneath, removal service and relic row', () => {
+test('shop ports five colored cards above two colorless cards, with prices and service beside them', () => {
   const shop = find(panel.children, 'shopView').children;
   const cards = [1, 2, 3, 4, 5, 6, 7].map(i => find(shop, `card${i}`));
   const card = nativeTheme.layout.card;
   for (const [i, c] of cards.entries()) {
     assert.deepEqual(c.size, card.size);
-    assert.equal(c.position[1], cards[0].position[1]);
-    if (i) assert.ok(c.position[0] > cards[i - 1].position[0]);
+    assert.equal(c.position[1], i < 5 ? cards[0].position[1] : cards[5].position[1]);
+    if (i && i !== 5) assert.ok(c.position[0] > cards[i - 1].position[0]);
     for (const name of ['border', 'nameBand', 'name', 'artPlate', 'type', 'description', 'costDisc', 'cost', 'veil', 'stamp', 'glow']) {
       assert.ok(find(c.children, name), `${c.name}.${name}`);
     }
@@ -153,4 +153,35 @@ test('camp, forge, event and treasure follow the approved composition', () => {
   assert.equal(find(chest, 'closed').image, nativeTheme.icon.medallion.treasure);
   assert.equal(find(chest, 'open').image, nativeTheme.icon.medallion.chestOpen);
   assert.ok(bounds(find(chest, 'reward')).top <= bounds(find(chest, 'closed')).bottom);
+});
+
+
+test('each enlarged shop card keeps every price, the merchant and mobile cancel readable',()=>{
+ const l=nativeTheme.layout.nativeNode.shop;
+ const shop=find(panel.children,'shopView').children;
+ for(let focus=1;focus<=7;focus++) {
+  const items=shop.filter(c=>c.visible!==false && !['page','detail'].includes(c.name)).map(c=>structuredClone(c));
+  for(const c of items){
+   const card=/^card(\d+)$/.exec(c.name),price=/^price(\d+)$/.exec(c.name);
+   const i=Number((card||price)?.[1]);
+   if(card){c.position[1]-=i>5?l.focusRowShift:0;if(i===focus)c.size=c.size.map(v=>v*l.hoverScale);}
+   if(price){c.position[1]-=i>5?l.focusRowShift:0;if(i===focus)c.position[1]-=(l.hoverScale-1)*nativeTheme.layout.card.size[1]/2;}
+  }
+  items.push(find(panel.children,'merchant'),find(panel.children,'notice'),find(panel.children,'confirm'),
+   {name:'cancel',position:l.cancel.slice(0,2),size:l.cancel.slice(2)});
+  for(let a=0;a<items.length;a++)for(let b=a+1;b<items.length;b++)
+   assert.ok(!overlaps(bounds(items[a]),bounds(items[b])), 'focus '+focus+': '+items[a].name+' overlaps '+items[b].name);
+  for(const c of items){const r=bounds(c);assert.ok(r.left>=-600 && r.right<=600 && r.bottom>=-340 && r.top<=340,c.name);}
+ }
+});
+test('source reward rows and the twelve-card smithing grid fit without hiding neighboring content',()=>{
+ const l=nativeTheme.layout.nativeNode;
+ const items=l.rewardList.rows.map((y,i)=>({name:'reward'+i,position:[l.rewardList.x,y],size:l.rewardList.size}));
+ for(const name of ['heading','note'])items.push({name,position:l.rewardList[name].slice(0,2),size:l.rewardList[name].slice(2)});
+ items.push(find(panel.children,'notice'),find(panel.children,'back'));
+ for(let a=0;a<items.length;a++)for(let b=a+1;b<items.length;b++)assert.ok(!overlaps(bounds(items[a]),bounds(items[b])),items[a].name+' / '+items[b].name);
+ const grid=find(find(panel.children,'pickerView').children,'forgeGrid').children;
+ assert.equal(grid.length,12);
+ for(let a=0;a<grid.length;a++)for(let b=a+1;b<grid.length;b++)assert.ok(!overlaps(bounds(grid[a]),bounds(grid[b])));
+ for(const card of grid){const r=bounds(card);assert.ok(r.left>=-600 && r.right<=600 && r.bottom>=-340 && r.top<=242);}
 });

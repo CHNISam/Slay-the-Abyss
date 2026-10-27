@@ -29,7 +29,6 @@ end
 local function cardStamp(offer)
     if offer.unavailable then return "未实装" end
     if offer.sold then return "已售出" end
-    if offer.sale then return "特价 -50%" end
 end
 
 function M.new(controller, ui)
@@ -38,6 +37,11 @@ function M.new(controller, ui)
     local fillCard, cardName = ui.fillCard, ui.cardName
     local relicName, relicText = ui.relicName, ui.relicText
     local action, commit, pageArrows = ui.action, ui.commit, ui.pageArrows
+    local selection = ui.selection
+    local function purchase(key, category, slot, enabled, handler, name, description, reason, attention)
+        local invoke, observe = selection:bind(key, category, slot, handler, name, description)
+        return action(key, enabled, invoke, reason, attention, observe)
+    end
 
     local function shortfall(price)
         return "金币不足：需要 " .. number(price) .. "，还差 " .. number(price - self.run.gold)
@@ -49,6 +53,10 @@ function M.new(controller, ui)
         box:GetChild("value").text = priceLabels[status] or number(value)
         ink(box:GetChild("value"), priceColors[status] or C.goldBright)
         show(box:GetChild("coin"), status ~= "sold" and status ~= 'missing')
+        show(box:GetChild('sale'),false)
+        local price=Theme.layout.nativeNode.price
+        box:GetChild('value'):SetAnchoredPosition(price.coin/2,0)
+        box:GetChild('value'):SetSizeDelta(price.size[1]-price.coin-Theme.space.s,price.size[2])
     end
 
     local function offerState(offer, full)
@@ -89,12 +97,12 @@ function M.new(controller, ui)
 
     local function bindCard(view, flow, shelf, i, offer, availability)
         local name = cardName(offer.id)
-        action("shopView/card" .. i, availability.enabled, function()
+        purchase("shopView/card" .. i, 'cards', i, availability.enabled, function()
             if not currentCardShelf(view, flow, shelf) then return false, 'stale_action' end
             return commit("buyCardSlot", i, function(before)
                 return "已购买「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币，加入牌组"
             end)
-        end, offerNotice("card", offer, name), availability.attention)
+        end, name, '', offerNotice("card", offer, name), availability.attention)
     end
 
     local function renderCardSlot(shop, view, offers, i, flow, shelf)
@@ -104,9 +112,15 @@ function M.new(controller, ui)
         if not offer then return end
         local availability = offerState(offer)
         fillCard(box, offer.id, offer.upgraded==true, { dim = offer.sold or availability.poor or offer.unavailable,
-            veil = offer.sold, stamp = cardStamp(offer) })
+            veil = offer.sold, stamp = cardStamp(offer), selected = selection:isSelected('shopView/card' .. i) })
         if offer.unavailable then writeMissingCard(box, offer) end
         fillPrice(price, offer.price, availability.price)
+        if offer.sale and not offer.sold and not offer.unavailable then
+            local frame=Theme.layout.nativeNode.price.saleValue
+            show(price:GetChild('sale'),true)
+            price:GetChild('value'):SetAnchoredPosition(frame[1],frame[2])
+            price:GetChild('value'):SetSizeDelta(frame[3],frame[4])
+        end
         bindCard(view, flow, shelf, i, offer, availability)
     end
 
@@ -118,9 +132,7 @@ function M.new(controller, ui)
         pageArrows(shop, "", self.page, self.pageCount)
         action("shopView/previous", self.page > 1, function() return self:setPage(self.page - 1) end)
         action("shopView/next", self.page < self.pageCount, function() return self:setPage(self.page + 1) end)
-        shop:GetChild("page").text = self.run.data.originalV4Role
-            and '职业牌：2攻击 / 3技能　无色牌：罕见 / 稀有'
-            or '职业牌：2攻击 / 2技能 / 1能力　无色牌：罕见 / 稀有'
+        shop:GetChild("page").text = ''
     end
 
     local function removalReason(node)
@@ -171,11 +183,11 @@ function M.new(controller, ui)
 
     local function bindRelic(i, offer, availability)
         local name = relicName(offer.id)
-        action("shopView/relic" .. i, availability.enabled, function()
+        purchase("shopView/relic" .. i, 'relics', i, availability.enabled, function()
             return commit("buyRelic", offer.id, function(before)
                 return "已购买遗物「" .. name .. "」· 支付 " .. number(before.gold - self.run.gold) .. " 金币"
             end)
-        end, offerNotice("relic", offer, name), availability.attention)
+        end, name, relicText(offer.id), offerNotice("relic", offer, name), availability.attention)
     end
 
     local function renderRelicSlot(shop, offers, i)
@@ -217,11 +229,12 @@ function M.new(controller, ui)
     end
 
     local function bindPotion(i, offer, availability, full)
-        action('shopView/potion' .. i, availability.enabled, function()
+        local definition = find(self.run.data.potions.potions, offer.id)
+        purchase('shopView/potion' .. i, 'potions', i, availability.enabled, function()
             return commit('buyPotion', i, function(before)
                 return '已购买药水 · 支付 ' .. number(before.gold - self.run.gold) .. ' 金币'
             end)
-        end, offerNotice("potion", offer, nil, full), availability.attention)
+        end, definition and definition.name or '', potionText(offer.id), offerNotice("potion", offer, nil, full), availability.attention)
     end
 
     local function renderPotionSlot(shop, i, offer)
@@ -240,12 +253,14 @@ function M.new(controller, ui)
 
     return function(view, node)
         local shop = ui.child("shopView")
+        selection:begin()
         self.pageCount, self.page, self.relicPage = 1, 1, 1
         renderCards(shop, view, node.cards or {})
         renderRemoval(shop, node)
         renderRelics(shop, node.relics or {})
         renderPotions(shop, node.potions or {})
-        return "点选商品购买 · 未实装槽位不可购买"
+        selection:paint(0)
+        return ''
     end
 end
 

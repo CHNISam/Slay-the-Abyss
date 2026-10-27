@@ -308,7 +308,13 @@ test("merchant opens with the scene narration once per run, then greets, and sta
     assert(#partial > 0 and #partial < #m.encounter, "narration is typed, not dumped")
     -- Tapping the box first completes the sentence, then moves to the greeting.
     assert(get("merchant/talk/hit").click())
-    assert(get("merchant/line").text == m.encounter and is(get("merchant/line").fontColor, C.textDim))
+    local pages={get('merchant/line').text}
+    assert(utf8.len(pages[1])<=Theme.layout.merchant.pageCharacters and is(get("merchant/line").fontColor, C.textDim))
+    while ui.merchant.current.shown<#ui.merchant.current.chars do
+        assert(get('merchant/talk/hit').click());assert(get('merchant/talk/hit').click())
+        pages[#pages+1]=get('merchant/line').text
+    end
+    assert(table.concat(pages)==m.encounter,'compact dialogue must preserve every character across pages')
     assert(shown("merchant/next"))
     assert(get("merchant/talk/hit").click() and ui.merchant.current.kind == "greet")
     ui:update(5)

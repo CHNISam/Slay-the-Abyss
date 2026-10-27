@@ -12,6 +12,10 @@ local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Merchant = require("abyss_merchant")
 local ShopUI = require("abyss_shop_ui")
+local ShopSelection = require('abyss_shop_selection')
+local RoomMotion = require('abyss_node_ui_motion')
+local CampUI = require('abyss_node_ui_camp')
+local RewardDetail = require('abyss_node_ui_reward_detail')
 local M = {}
 local Controller = require('abyss_controller')
 local CardDisplay = require('abyss_card_display')
@@ -155,9 +159,13 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return false
     end
     local inspectCards={}
+    local shopSelection = ShopSelection.new(self, child('shopView'), options)
+    local roomMotion = RoomMotion.new(self,child,options)
+    local rewardDetail=RewardDetail.new(self,child('treasureView'):GetChild('details'),options)
     -- One horizontal row drag at a time; swallow eats the Click that ends a swipe.
     local swipe, swallow = nil, nil
     local function resetButtons()
+        rewardDetail:reset()
         buttonHover, buttonPress, swipe = nil, nil, nil
         self.inspectPress=nil
         for _, input in pairs(buttonInputs) do input.active, input.released = {}, nil end
@@ -354,7 +362,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         child("potions").text = "药水 " .. Run.potionCount(self.run) .. "/" .. Run.potionCapacity(self.run)
     end
 
+    local campUI=CampUI.new(self,{child=child,show=show,fillCard=fillCard,action=action})
+    local function enhancedForge(node)return options.enhancedRooms and node.type=='camp' and self.picker=='upgrade'end
     local renderShop = ShopUI.new(self, {
+        selection = shopSelection,
         child = child, show = show, state = state, ink = ink, picture = picture,
         fillCard = fillCard, cardName = cardName, relicName = relicName, relicText = relicText,
         action = action, pageArrows = pageArrows,
@@ -364,12 +375,15 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function renderCamp(view, node, result)
         local camp = child("campView")
         local rest, forge = camp:GetChild("rest"), camp:GetChild("forge")
+        local outcome=options.enhancedRooms and result~=nil
+        show(rest,not outcome);show(forge,not outcome);show(camp:GetChild('result'),outcome)
         if result then
             state(rest, false, result.choice == "rest") state(forge, false, result.choice == "upgrade")
             rest:GetChild("description").text = result.choice == "rest" and
                 ("已回复 " .. number(result.healed) .. " 点生命\n生命 " .. number(self.run.hp) .. "/" .. number(self.run.maxHp)
                     ..(result.rewardText and '\n'..result.rewardText or '')) or "未选择"
             forge:GetChild("description").text = result.choice == "upgrade" and "已升级" or "未选择"
+            camp:GetChild('result'):GetChild('description').text=rest:GetChild('description').text
             return
         end
         local forgeable = #node.upgradeCards > 0
@@ -406,7 +420,17 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     local function renderPicker(view, node, result)
+        if enhancedForge(node) then return campUI:render(node,result) end
         local picker = child("pickerView")
+        show(picker:GetChild('forgeGrid'),false)
+        for _,name in ipairs({'before','after'})do
+            picker:GetChild(name):SetLocalScale(1,1,1)
+            picker:GetChild(name):SetAnchoredPosition(layout.picker[name],layout.picker.previewY)
+        end
+        for _,name in ipairs({'label','hint','page','arrow'})do
+            local values=layout.picker[name]
+            picker:GetChild(name):SetAnchoredPosition(values[1],values[2])
+        end
         local before, after, target = picker:GetChild("before"), picker:GetChild("after"), picker:GetChild("target")
         local upgrade = self.picker == "upgrade" or self.picker=='living_grow' or self.picker=='act1_forge'
             or self.picker=='neow_card' and node.event.selection.forUpgrade
@@ -668,7 +692,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     local function renderTreasure(view, node)
         if node.chest then return require('abyss_treasure_ui').render({self=self,node=node,child=child,
-            show=show,tint=tint,state=state,picture=picture,action=action,commit=commit,relicName=relicName,relicText=relicText}) end
+            show=show,tint=tint,state=state,picture=picture,action=action,commit=commit,relicName=relicName,relicText=relicText,
+            list=options.enhancedRooms==true,details=rewardDetail}) end
         local chest = child("treasureView")
         local reward = node.reward
         local boss = node.roomKind == "boss_treasure"
@@ -842,6 +867,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return confirmLabel
     end
     local function pickerLabels(node,living,act1,dream,restReward)
+        if enhancedForge(node) then return CampUI.labels(self.selected) end
         local backLabel,confirmLabel,skipRestReward
         if dream then
             confirmLabel,backLabel='选择此牌','跳过卡牌'
@@ -972,6 +998,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return nil,confirmLabel,confirmOk,confirmFn,nil,recallObserve
     end
     local function shopFooter()
+        if shopSelection.selected then return shopSelection:footer() end
         local confirmLabel,confirmOk,confirmFn
         confirmLabel, confirmOk = "离开商店", true
         confirmFn = function()
@@ -1014,10 +1041,16 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
     end
     local function bindFooter(back,confirm,backLabel,confirmLabel,confirmOk,skipRestReward)
+        local position = shopSelection.selected and layout.shop.cancel or layout.back
+        back:SetAnchoredPosition(position[1],position[2])
         show(back, backLabel ~= nil) show(confirm, confirmLabel ~= nil)
         if backLabel then back:GetChild("label").text = backLabel state(back, true) end
         if confirmLabel then confirm:GetChild("label").text = confirmLabel state(confirm, confirmOk, false, true) end
         action("back", backLabel ~= nil, function()
+            if shopSelection:cancel() then return true end
+            if options.enhancedRooms and self.picker=='upgrade' and self.selected then
+                self.selected=nil;self:render();return true
+            end
             if skipRestReward then return skipRestReward() end
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
@@ -1055,6 +1088,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local active = node and kinds[node.type] and not node.complete and view.phase == "node"
         if active then self.removeRows=snapshotDeck(node.purgeCards) end
         syncNodePicker(node,active)
+        if not active or node.type ~= 'shop' or self.mode ~= 'main' then shopSelection:clear() end
         renderTopBar(node)
         local screen,hint,recallSource,treasureSource=renderNodePage(view,node,result,active)
         refreshNodeNotice(node,active,hint)
@@ -1066,15 +1100,22 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
         bindStagedEventActions(node)
         self.failed = false
+        roomMotion:paint()
     end
 
     -- Actual canvas pixels; swipe distances are converted back to design units.
     function self:resize(width, height)
         resetButtons()
+        shopSelection:clear()
+        roomMotion:cancel()
         self.canvasWidth, self.canvasHeight = width, height
+        if self.view and self.view.node and (self.view.node.type=='shop' or options.enhancedRooms) then self:render() end
         if self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then self:render() end
     end
     function self:update(dt)
+        roomMotion:update(dt)
+        rewardDetail:update(dt)
+        shopSelection:update(dt)
         if self.visible then merchant:update(dt) end
         for _, input in pairs(buttonInputs) do
             for _, gesture in pairs(input.active) do
@@ -1099,18 +1140,19 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
         if value and not self.run then return false, "node_unbound" end
-        if not value then resetButtons() end
+        if not value then resetButtons();shopSelection:clear();roomMotion:cancel() end
         local wasVisible = self.visible
         self.visible = value root:SetVisible(value)
         if not value and self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then
             for _, entry in pairs(self.actions) do if entry.observe then entry.observe() end end
-        elseif value and not wasVisible and self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then
+        elseif value and not wasVisible and self.view and self.view.node and (options.enhancedRooms or self.view.node.type=='shop'
+            or self.view.node.type=='event' and stagedEvent(self.view.node.event.id)) then
             self:render()
         end
     end
     local function current()
         if not self.visible then return false, "panel_hidden" end
-        if self.busy then return false, "unavailable_action" end
+        if self.busy or self.presentationBusy then return false, "unavailable_action" end
         local view = Nodes.view(self.run, self.map)
         if self.renderRun ~= self.run or self.renderMap ~= self.map or not view.node or view.node.id ~= self.nodeId then
             return false, "stale_action"
@@ -1141,7 +1183,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 or command == "rest" and "rest"
                 or (command == "claimTreasure" or command == "claimBossTreasure" or command == "chooseTreasure" or command=="claimTreasureReward") and argument ~= 0 and "reward"
                 or (command == "removeCard" or command == "purifyEvent" or command == "purgeWing") and "card_remove"
-            if cue and options.sound then pcall(options.sound, cue) end
+            if cue and options.sound and not (options.enhancedRooms and
+                (command=='openTreasure' or command=='rest' or command=='upgrade')) then pcall(options.sound, cue) end
             local notice, hold = describe(before)
             if command == "buyCardSlot" or command == "buyRelic" or command == "buyPotion" or command == "removeCard" then
                 merchant:react("buy")
@@ -1161,6 +1204,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.notice, self.failed = reasons[reason] or "操作未完成，请重新选择", true
         end
         self:render()
+        if accepted then roomMotion:start(command,before) end
         self.failed = false
         return notify(accepted, reason)
     end
@@ -1193,6 +1237,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         "shopView/relicPrevious", "shopView/relicNext", "campView/rest", "campView/forge",
         "pickerView/previous", "pickerView/next", "treasureView/chest", "treasureView/take",
         "treasureView/previous", "treasureView/next" }
+    for i=1,4 do targets[#targets+1]='treasureView/rewardItem'..i end
+    for i=1,12 do targets[#targets+1]='pickerView/forgeGrid/card'..i end
     for i = 1, SHOP_PAGE do targets[#targets + 1] = "shopView/card" .. i end
     for i = 1, RELIC_PAGE do targets[#targets + 1] = "shopView/relic" .. i end
     for i = 1, 3 do targets[#targets+1]='shopView/potion'..i end
@@ -1262,6 +1308,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             return self.visible and not self.busy and entry and entry.enabled
         end,name=='confirm' and 90 or name=='back' and 100 or 10)
         hit:AddCursorEventListener(clickEvent, function(event)
+            if rewardDetail:consume(name,event)then return false,'inspected' end
             if Controller.pointerBlocked(options.controller)then return false end
             if swallow and (event == nil or event.touchId == nil or event.touchId == swallow.touch) then
                 swallow = nil
@@ -1283,7 +1330,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         -- A framed button keeps its dynamic children at their existing paths.
         -- Documented pointer events + SetLocalScale scale the complete face;
         -- Shop/picker cards share gesture ownership without framed-button visuals.
-        if (box:GetChild("normal") or name:match("^shopView/card%d+$")
+        if (box:GetChild("normal") or name:match("^shopView/card%d+$") or name:match('^pickerView/forgeGrid/card%d+$')
             or name:match("^pickerView/card%d+$")) and cursor and cursor.CursorEnter and cursor.CursorExit
             and cursor.CursorDown and cursor.CursorUp and cursor.CursorEndDrag then
             -- Retain only active touches and the next released click, never a
@@ -1315,7 +1362,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 -- Guarded mandatory-picker cards have no framed-button look.
                 -- Keep the legacy feedback path for all other controls unchanged.
                 local plainPicker = not look and entry and entry.retire and name:match("^pickerView/card%d+$") ~= nil
-                return entry and entry.enabled and (plainPicker or look and look.enabled and not look.selected)
+                local shopCard = not look and (name:match('^shopView/card%d+$') or name:match('^pickerView/forgeGrid/card%d+$')) ~= nil
+                return entry and entry.enabled and (plainPicker or shopCard or look and look.enabled and not look.selected)
             end
             local function owned(event)
                 return buttonPress and buttonPress.box == box and buttonPress.touch == (event and event.touchId)
@@ -1371,6 +1419,21 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             listen(hit, cursor.CursorDown, function(event) swipeDown(row, event) end)
             listen(hit, cursor.CursorUp, swipeUp)
             if cursor.CursorEndDrag then listen(hit, cursor.CursorEndDrag, swipeUp) end
+        end
+        if name:match('^shopView/card%d+$') or name:match('^shopView/relic%d+$') or name:match('^shopView/potion%d+$') then
+            if cursor and cursor.CursorEnter then listen(hit,cursor.CursorEnter,function()shopSelection:enter(name)end) end
+            if cursor and cursor.CursorExit then listen(hit,cursor.CursorExit,function()shopSelection:exit(name)end) end
+        end
+        if name:match('^pickerView/forgeGrid/card%d+$') and cursor then
+            if cursor.CursorEnter then listen(hit,cursor.CursorEnter,function()campUI:hover(box,true)end)end
+            if cursor.CursorExit then listen(hit,cursor.CursorExit,function()campUI:hover(box,false)end)end
+        end
+        if name:match('^treasureView/rewardItem%d+$') and cursor then
+            if cursor.CursorEnter then listen(hit,cursor.CursorEnter,function()rewardDetail:enter(name)end)end
+            if cursor.CursorExit then listen(hit,cursor.CursorExit,function()rewardDetail:exit(name)end)end
+            if cursor.CursorDown then listen(hit,cursor.CursorDown,function(event)rewardDetail:down(name,event)end)end
+            if cursor.CursorUp then listen(hit,cursor.CursorUp,function(event)rewardDetail:up(event)end)end
+            if cursor.CursorEndDrag then listen(hit,cursor.CursorEndDrag,function()rewardDetail:exit(name)end)end
         end
         if options.onInspectCard and cursor and cursor.CursorDown and cursor.CursorUp
             and (name:match('^shopView/card%d+$') or name:match('^pickerView/card%d+$')
