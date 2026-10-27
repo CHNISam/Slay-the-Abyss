@@ -119,7 +119,7 @@ test("the exit dialog pauses the cinematic and owns input; leaving cancels it", 
     assert(not ui2.prologue.playing and not panel(root2).visible)
 end)
 
-test("restarting after a result goes straight to the map; the story plays once per session", function()
+test("restarting after a result resolves its Neow blessing before the map; the story plays once per session", function()
     local ui, root = opened()
     assert(part(root, "skip"):GetChild("hit").click())
     run(ui, P.fadeOut + P.reveal + 0.2)
@@ -127,6 +127,12 @@ test("restarting after a result goes straight to the map; the story plays once p
     assert(ui.mode == "defeat" and root:GetChild("menuPanel").visible)
     assert(root:GetChild("menuPanel"):GetChild("title").text ~= "杀戮原塔2", "results name the outcome, not the game")
     click(root, "menuPanel", "start")
+    assert(ui.mode=='node' and not panel(root).visible and not root:GetChild('mapPanel').visible)
+    assert(#Nodes.available(ui.run,ui.map)==0)
+    assert(ui.run.nodeFlow.event.id=='neow' and ui.run.neowHistorySource=='session-completed-run')
+    click(root,'nodePanel','eventView/option1')
+    click(root,'nodePanel','eventView/option2')
+    click(root,'nodePanel','eventView/option1')
     assert(ui.mode == "map" and not panel(root).visible and ui.mapUI.navigationEnabled)
 end)
 

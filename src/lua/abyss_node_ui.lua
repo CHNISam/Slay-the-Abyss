@@ -24,6 +24,9 @@ local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local reasons = {
+    card_content_unavailable='这张卡牌的效果尚未接齐，本次未改变资源',
+    relic_content_unavailable='这件遗物的效果尚未接齐，本次未改变资源',
+    neow_insufficient_selectable_cards='没有足够的可选卡牌，本次未改变资源',
     insufficient_gold = "金币不足", item_unavailable = "商品已售出或不可购买",
     shop_content_unavailable = "商店补货状态异常，本次未付款，请离店或重新开始",
     removal_unavailable = "本店删牌服务已使用",
@@ -37,7 +40,9 @@ local reasons = {
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
+local function stagedEvent(id)return id=='neow' or Act2Events.ids[id]end
 local events = {
+    neow={name='高塔恩赐'},
     joust={name='决斗'},
     beggar={name='乞丐'},
     mausoleum={name='古墓'},
@@ -381,7 +386,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local picker = child("pickerView")
         local before, after, target = picker:GetChild("before"), picker:GetChild("after"), picker:GetChild("target")
         local upgrade = self.picker == "upgrade" or self.picker=='living_grow' or self.picker=='act1_forge'
+            or self.picker=='neow_card' and node.event.selection.forUpgrade
         local transform = self.picker=='living_change' or self.picker=='act1_change'
+            or self.picker=='neow_card' and node.event.selectedType:match('^TRANSFORM')~=nil
         local dream=self.picker=='dream_catcher'
         local rows = dream and self.restRows or upgrade and self.upgradeRows or self.removeRows
         local selected = result and result.card or self.selected and find(rows, self.selected, "uid")
@@ -438,6 +445,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             picker:GetChild("hint").text = dream and ('牌组 '..#self.run.deck..' → '..(#self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
                 (#self.run.deck - (result and 0 or 1)) .. " 张"
         end
+        if self.picker=='neow_card'then return '开局恩赐 · 还需选择 '..node.event.selection.count..' 张卡牌，不能取消' end
         if self.picker=='basics_purge' then return '优雅 · 免费移除一张非瓶装、可清除的永久牌' end
         if self.picker=='beggar_purge' then
             if node.event.pendingBoundary then
@@ -458,7 +466,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local copy = events[id] or { name = kinds.event, body = "", leave = "你离开了。" }
         event:GetChild("name").text = copy.name
         local mode=self.run.unknown and self.run.unknown.pools and self.run.unknown.pools.mode or self.run.data.rules.events.poolMode
-        event:GetChild("caption").text = (Act2Events.ids[id] or Act3Events.ids[id]) and kinds.event or mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
+        event:GetChild("caption").text = (stagedEvent(id) or Act3Events.ids[id]) and kinds.event or mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
             or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         local body=result and result.text or node.event and node.event.body or copy.body
         if not result and node.event and node.event.stage=='result' and node.event.obtainedRelicId then
@@ -490,7 +498,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                         -- Repeated-search events retain the same command after
                         -- rendering new odds. An old callback is still stale.
                         if self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map then return false,'stale_action' end
-                        if Act1Events.ids[id] or (Act2Events.ids[id] or Act3Events.ids[id]) then
+                        if Act1Events.ids[id] or (stagedEvent(id) or Act3Events.ids[id]) then
                             return commit('chooseEvent',selected.choice,function()
                                 local outcome=self.run.nodeFlow.event
                                 local text=outcome.body or '请选择一张卡牌。'
@@ -578,7 +586,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 action("eventView/option" .. i, row.enabled, row.handler, row.description)
             end
         end
-        if (Act2Events.ids[id] or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
+        if (stagedEvent(id) or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
         return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
     end
 
@@ -731,6 +739,13 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 if matches~=1 or not find(self.removeRows,self.selected,'uid') then self.selected=nil end
             else self.mode,self.picker,self.selected='main',nil,nil end
         end
+        if active and node.type=='event' and node.event.id=='neow'then
+            if node.event.stage=='neow_choose_card'then
+                self.mode,self.picker='picker','neow_card'
+                self.removeRows,self.upgradeRows=Combat.copy(node.event.purgeCards),Combat.copy(node.event.purgeCards)
+                if not find(self.removeRows,self.selected,'uid')then self.selected=nil end
+            else self.mode,self.picker,self.selected='main',nil,nil end
+        end
         if active and node.type=='camp' and node.restReward and not node.restReward.resolved then
             self.mode,self.picker='picker','dream_catcher';self.restRows={}
             for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=node.restReward.cardUpgrades and node.restReward.cardUpgrades[i]==true}end
@@ -833,6 +848,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if dream then
                 confirmLabel,backLabel='选择此牌','跳过卡牌'
                 skipRestReward=function()return restReward(0)end
+            elseif self.picker=='neow_card'then
+                confirmLabel='确认选择'
             elseif self.picker=='beggar_purge' or self.picker=='basics_purge' then
                 confirmLabel='确认移除'
             elseif act1 then
@@ -850,6 +867,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             confirmOk = selected ~= nil
             confirmFn = function()
                 if dream then return restReward(selected) end
+                if self.picker=='neow_card'then
+                    return commit('chooseEvent','select',function()
+                        self.selected=nil;return self.run.nodeFlow.event.body
+                    end,selected)
+                end
                 if self.picker=='beggar_purge' or self.picker=='basics_purge' then
                     return commit('chooseEvent','purge',function()return '已移除所选卡牌' end,selected)
                 end
@@ -902,7 +924,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end)
         end
         action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
-        if node and node.type=='event' and Act2Events.ids[node.event.id] then
+        if node and node.type=='event' and stagedEvent(node.event.id) then
             for key, entry in pairs(self.actions) do
                 if key=='confirm' or key=='back' or key:match('^eventView/') or key:match('^pickerView/') then
                     bindAct2Action(key,entry)
@@ -916,7 +938,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function self:resize(width, height)
         resetButtons()
         self.canvasWidth, self.canvasHeight = width, height
-        if self.view and self.view.node and self.view.node.type=='event' and Act2Events.ids[self.view.node.event.id] then self:render() end
+        if self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then self:render() end
     end
     function self:update(dt)
         if self.visible then merchant:update(dt) end
@@ -946,9 +968,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not value then resetButtons() end
         local wasVisible = self.visible
         self.visible = value root:SetVisible(value)
-        if not value and self.view and self.view.node and self.view.node.type=='event' and Act2Events.ids[self.view.node.event.id] then
+        if not value and self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then
             for _, entry in pairs(self.actions) do if entry.observe then entry.observe() end end
-        elseif value and not wasVisible and self.view and self.view.node and self.view.node.type=='event' and Act2Events.ids[self.view.node.event.id] then
+        elseif value and not wasVisible and self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then
             self:render()
         end
     end
