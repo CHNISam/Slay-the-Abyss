@@ -26,7 +26,7 @@ host.nodeUI:render();host:refresh()
 assert(host.mode=='node')
 local nodePanel=root:GetChild('nodePanel')
 assert(nodePanel:GetChild('campView'):GetChild('forge'):GetChild('hit').click())
-assert(nodePanel:GetChild('pickerView'):GetChild('card1'):GetChild('hit').click())
+assert(nodePanel:GetChild('pickerView'):GetChild('forgeGrid'):GetChild('card1'):GetChild('hit').click())
 assert(nodePanel:GetChild('confirm'):GetChild('hit').click())
 host:refresh()
 -- Committed combat events, independent VFX clocks and overlay input ownership.
@@ -48,4 +48,6 @@ assert(host:closeExit());host:refresh()
 for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
-assert(trace.count==72915 and trace.hash==148113441,'ordered native writes changed from the frozen contract')
+-- Room port intentionally replaces the camp row with a twelve-card grid and
+-- adds its result animation. Keep the full ordered-write guard for that flow.
+assert(trace.count==75180 and trace.hash==1258450308,'ordered native writes changed from the room-port contract')

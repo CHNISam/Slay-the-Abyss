@@ -27,4 +27,6 @@
 
 重点回归：`shop_selection.lua`、`node_room_presentation.lua`、`shop_card_identity.lua`、`node_ui_gestures.lua`、`game_ui_boss_treasure.lua`、`game_ui.lua` 和 `node-ui-layout.test.mjs`。新增提取职责纳入现有 15 分支复杂度门禁；历史诊断只在规范化身份集合完全相同后移动位置，没有新豁免。
 
+本次有意替换房间控件与营地流程，完整写序列基线相应更新为 `75180 / 1258450308`；原文字基线 `361 / 1837256485` 不变，旧工程治理取证文件保留原值。宿主测试明确验证休息演出期间拒绝继续、演出后恢复操作；布局测试检查商人文字与商品价格在两个坐标轴上均不交叠。
+
 官方导入、同候选电脑/实体手机实机与 `verify:ui` 仍须独立验收。没有这些证据时三项任务保留未完成。

@@ -4,7 +4,7 @@ import {runLua} from '../scripts/test-lua.mjs';
 
 for (const [fixture, marker] of [
   ['text', 'PRESENTATION_WORDING_TRACE 361 1837256485'],
-  ['trace', 'PRESENTATION_NATIVE_TRACE 72915 148113441'],
+  ['trace', 'PRESENTATION_NATIVE_TRACE 75180 1258450308'],
 ]) {
   test(`presentation responsibilities preserve the frozen ${fixture} contract`, () => {
     const result = runLua(`tests/lua/presentation_responsibilities_${fixture}.lua`);
