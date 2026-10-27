@@ -12,6 +12,7 @@ local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
 local Prologue = require("abyss_prologue")
 local Controller = require("abyss_controller")
+local ReleaseNotesUI = require("abyss_release_notes_ui")
 local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
@@ -29,6 +30,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     local menu = child("menuPanel")
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local exitGeneration, menuGeneration = 0, 0
+    local menuPointerSealed = false
+    self.releaseNotesUI=ReleaseNotesUI.new(child('releaseNotesPanel'),menu:GetChild('releaseNotes'),menu:GetChild('codeVersion'),
+        Narrative.releaseNotes,clickEvent,platform,function()
+            -- Modal transitions and page changes retire both the notice gesture and
+            -- any source-menu Down/Up/ownerless Click from before the transition.
+            exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1;menuPointerSealed=true
+            self:refresh()
+        end)
     local experimental = platform.experimentalCharacters == true
     local characterPanel = root:GetChild("characterPanel")
     local originalCharacters=platform.originalCharacters==true and characterPanel and characterPanel:GetChild('traveler')~=nil or false
@@ -79,11 +88,11 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.potionUI=PotionDiscardUI.new(child("potionPanel"),clickEvent,platform,canManagePotions,changed,
         function()return self:closePotions()end)
-    function self:openPotions()
+    self.openPotions = function(_)
         if not self.potionUI:open(self.run)then return false end
         self.battleUI.selected=nil;self:refresh();return true
     end
-    function self:closePotions()
+    self.closePotions = function(_)
         if not self.potionUI:close()then return false end
         self.battleUI.suppressClick=false;self:refresh();return true
     end
@@ -97,8 +106,8 @@ function M.new(root, data, presentation, clickEvent, platform)
             onPhase = changed })
     elseif prologuePanel then prologuePanel:SetVisible(false) end
 
-    function self:openExit()
-        if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+    self.openExit = function(_)
+        if self.disabled or self.releaseNotesUI.visible or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
         self.potionUI:close()
         self.exitOpen, self.exitError = true, nil
@@ -106,7 +115,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
-    function self:closeExit()
+    self.closeExit = function(_)
         if not self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
         self.exitOpen, self.exitError = false, nil
@@ -114,7 +123,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
-    function self:confirmExit()
+    self.confirmExit = function(_)
         if self.disabled then return false,"ui_disabled" end
         if not self.exitOpen then return false, "exit_not_open" end
         -- Voluntary departure never changes combat HP, awards a victory, or
@@ -122,7 +131,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return requestSettlement(self.mode == "victory")
     end
 
-    function self:openDeck()
+    self.openDeck = function(_)
         if self.disabled or self.characterOpen or self.choiceUI and self.choiceUI.visible or self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
         if not self.deckUI:open(self.run) then return false end
@@ -130,7 +139,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
-    function self:closeDeck()
+    self.closeDeck = function(_)
         if self.exitOpen or self.settlementRequested then return false end
         if self.deckUI.choiceToken then return false,"card_choice_pending" end
         if not self.deckUI:close() then return false end
@@ -253,7 +262,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         pose()
     end
-    function self:animate(dt)
+    self.animate = function(_, dt)
         local m = self.motion
         if not m.mode then return end
         m.t = m.t + dt
@@ -266,6 +275,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if not controller then return end
         local scope=self.mode
         if self.disabled or self.settlementRequested or self.settlementBusy then scope='blocked'
+        elseif self.releaseNotesUI.visible then scope='releaseNotes'
         elseif self.exitOpen then scope='exit'
         elseif self.characterOpen then scope='characters'
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
@@ -275,7 +285,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode=='battle' and self.battleUI.info then scope='battleInfo'
         elseif self.mode=='battle' and (self.battleUI.selected or self.battleUI.potionAim) then scope='aim' end
         controller:sync(scope,function()
-            if scope=='exit' then return self:closeExit()
+            if scope=='releaseNotes' then return self.releaseNotesUI:close()
+            elseif scope=='exit' then return self:closeExit()
             elseif scope=='characters' then return self:closeCharacters()
             elseif scope=='deck' then
                 if self.deckUI.choiceToken then return false end
@@ -291,7 +302,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             return false
         end)
     end
-    function self:refresh()
+    self.refresh = function(_)
         if self.disabled then return false,"ui_disabled" end
         local run = self.run
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
@@ -318,6 +329,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.characterOpen and (not inMenu or self.settlementRequested or self.settlementBusy) then
             self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         end
+        self.releaseNotesUI:sync(self.mode=='menu' and not self.characterOpen and not self.exitOpen and not covering
+            and not self.disabled and not self.settlementRequested and not self.settlementBusy,
+            exitGeneration..':'..menuGeneration)
         if self.choiceUI then
             self.choiceUI:refresh(run,not self.battleUI.busy and not self.exitOpen and not self.settlementRequested
                 and not self.settlementBusy and not self.deckUI.visible and not self.potionUI.visible)
@@ -333,7 +347,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local deckOpen = self.deckUI.visible
         if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
         local potionOpen=self.potionUI.visible
-        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen
+        local blocked = self.exitOpen or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy or self.characterOpen
             or self.choiceUI and self.choiceUI.visible
         local returnAvailable = self.mode == "map" and run and run.pendingCombatRewards ~= nil
             and not deckOpen and not potionOpen and not blocked and not covering or false
@@ -387,6 +401,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode == "node" then self.nodeUI:render() end
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
+        menu:GetChild('codeVersion'):SetVisible(self.mode=='menu')
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
             if self.characterOpen then characterPanel:SetAsLastSibling() end
@@ -394,7 +409,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
         -- Shared utilities stay above the deck overlay; the confirmation stays
         -- above every page, including an in-flight battle presentation.
-        exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
+        exitEntry:SetVisible(not self.releaseNotesUI.visible and not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
         exitEntry:SetAsLastSibling()
         exitPanel:SetVisible(self.exitOpen == true)
         if self.exitOpen then
@@ -412,14 +427,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         self:syncController()
     end
-    function self:closeCharacters()
+    self.closeCharacters = function(_)
         if not self.characterOpen then return false end
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self:refresh();return true
     end
-    function self:start(character)
+    self.start = function(_, character)
         if self.disabled then return false,"ui_disabled" end
-        if self.exitOpen or self.deckUI.visible then return false end
+        if self.releaseNotesUI.visible or self.exitOpen or self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         if selectable and character==nil then
@@ -484,8 +499,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return ok, reason
     end
-    function self:settle()
+    self.settle = function(_)
         if self.disabled then return false,"ui_disabled" end
+        if self.releaseNotesUI.visible then return false, "release_notes_open" end
         if self.characterOpen then return false, "character_choice_open" end
         if self.exitOpen then return false, "exit_open" end
         if self.deckUI.visible then return false, "deck_open" end
@@ -514,9 +530,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true, "settlement_requested"
     end
-    function self:resize(width, height)
+    self.resize = function(_, width, height)
         exitGeneration = exitGeneration + 1
         menuGeneration = menuGeneration + 1
+        self.releaseNotesUI:invalidate()
         if self.choiceUI then self.choiceUI:resize() end
         local closed=self.potionUI:close()
         self.battleUI:resize(width, height)
@@ -524,7 +541,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.nodeUI:resize(width, height)
         if closed then self:refresh()end
     end
-    function self:update(dt)
+    self.update = function(_, dt)
         if self.disabled then return false,"ui_disabled" end
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
             return false, "invalid_delta"
@@ -550,12 +567,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:syncController()
         return updated
     end
-    function self:disable()
+    self.disable = function(_)
         if self.disabled then return false end
         self.disabled=true
         if controller then controller:disable() end
         exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.characterOpen=false
+        self.releaseNotesUI:disable()
         if characterPanel then characterPanel:SetVisible(false) end
         -- Set every controller inert before cancelling feedback: cancellation
         -- invokes its completion callback synchronously, which now cannot refresh.
@@ -584,7 +602,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local characterAction = kind == "character_cancel" or kind:match("^character_%d$")~=nil
         local cursor = platform.cursorEvents or {}
         local function available()
-            if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if self.disabled or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy then return false end
             if characterAction then
                 return selectable and self.characterOpen==true and not self.exitOpen
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
@@ -595,7 +613,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
             end
             if resultAction then
-                if self.exitOpen or self.deckUI.visible then return false end
+                if self.releaseNotesUI.visible or self.exitOpen or self.deckUI.visible then return false end
                 return self.mode == "victory" or self.mode == "defeat"
                     or kind == "start" and self.mode == "menu"
             end
@@ -636,7 +654,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)
         hit:AddCursorEventListener(clickEvent, function(event)
             if Controller.pointerBlocked(controller)then return false end
-            if observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil then
+            if observed or cursor.CursorDown and cursor.CursorUp and (touch(event) ~= nil or resultAction and menuPointerSealed) then
                 local token = released
                 if not current(token) then
                     if not held or held.touch == touch(event) then held, released = nil, nil end
@@ -674,7 +692,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     ready = true
     if controller then
-        controller.beforeAction=function()self.battleUI:cancelControllerPointers()end
+        controller.beforeAction=function()self.releaseNotesUI:invalidate();self.battleUI:cancelControllerPointers()end
         controller.onChange=function()self:syncController()end
     end
     self:refresh()

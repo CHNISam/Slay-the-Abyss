@@ -10,6 +10,7 @@ import { buildUiTheme } from './build-ui-theme.mjs';
 import { buildMapUI } from './map-ui-layout.mjs';
 import { deckCardTemplate } from './deck-ui-layout.mjs';
 import { contentFiles } from './validate-data.mjs';
+import { loadReleaseNotes, releaseInputPaths, releaseBuildArgs } from './release-notes.mjs';
 
 export function assertNativeUiCapacity(layout) {
   const visit = (controls, path) => {
@@ -24,7 +25,7 @@ function rejectInputOutputAliases(outputDirectory) {
     resolve('data/presentation/ui_theme.json'), resolve('data/presentation/traveler.zh-CN.json'),
     resolve('data/presentation/narrative.zh-CN.json'),
     // Imported battle/native layout modules read this theme relative to their source.
-    fileURLToPath(new URL('../data/presentation/ui_theme.json', import.meta.url))];
+    fileURLToPath(new URL('../data/presentation/ui_theme.json', import.meta.url)), ...releaseInputPaths()];
   const identities = inputs.map(input => ({ input, realPath: realpathSync.native(input),
     stat: statSync(input, { bigint: true }) }));
   const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
@@ -52,6 +53,8 @@ function rejectInputOutputAliases(outputDirectory) {
 export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYSS_PYTHON || 'python', options = {}) {
   // Preflight the entire batch before any generated file can be changed.
   rejectInputOutputAliases(outputDirectory);
+  const releaseNotes = loadReleaseNotes({ releaseCandidate: options.releaseCandidate, workKey: options.workKey,
+    sourceIdentity: options.sourceIdentity });
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
   const battle = battleLayout(), layout = withViewport(gameLayout(undefined, {originalCharacters: options.experimentalCharacters !== true, ...options}), theme);
   const templates = [deckCardTemplate()];
@@ -65,6 +68,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   buildUiTheme(undefined, undefined, join(outputDirectory, 'abyss_theme.lua'));
   buildMapUI(outputDirectory);
   const narrative = JSON.parse(readFileSync('data/presentation/narrative.zh-CN.json', 'utf8'));
+  narrative.releaseNotes = releaseNotes;
   writeFileSync(join(outputDirectory, 'abyss_narrative.lua'), `-- Generated from the approved narrative copy source.\nreturn ${toLua(narrative)}\n`, 'utf8');
   writeFileSync(join(outputDirectory, 'abyss_presentation.lua'), `-- Generated from the checked Traveler presentation.\nreturn ${toLua(cards)}\n`, 'utf8');
   writeFileSync(join(outputDirectory, 'battle-ui.json'), JSON.stringify(battle, null, 2) + '\n', 'utf8');
@@ -76,9 +80,9 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const args = process.argv.slice(2), experimentalCharacters = args.includes('--experimental-characters');
-    const paths = args.filter(arg => arg !== '--experimental-characters');
+    const { paths, options } = releaseBuildArgs(args.filter(arg => arg !== '--experimental-characters'));
     if (paths.length > 1) throw new Error('Expected at most one output directory');
-    buildUI(paths[0], undefined, { experimentalCharacters });
+    buildUI(paths[0], undefined, { experimentalCharacters, ...options });
     console.log('Native battle UI and Traveler display module built.');
   }
   catch (error) { console.error(error.message); process.exitCode = 1; }
