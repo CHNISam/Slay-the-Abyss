@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 05:30'
+updated_date: '2026-10-27 06:10'
 due_date: '2026-10-28'
 labels:
   - required
@@ -66,6 +66,8 @@ ordinal: 42000
 2026-10-26本轮M3并行：inventory独立工作树审计剩余效果后接完整33药水采样及奖励/商店正常渠道，不能只撤acquisitionPending、删池或重抽；父线程统一验证集成与Backlog写入。
 
 2026-10-27 库存回归独立小片：保留 merchant seed21、真实购买 Iron Wave/石头和全部恢复/拒绝快照断言，只补测试账本漏记的聚财罐进房间12金币（含失效/Ectoplasm条件）。先在精确 c91 与仅加入 PR238 四项遗物定义的组合复现，再验证移除真实发金币的负例仍被原断言捕获。不改游戏效果、概率或商店池，不覆盖 PR238 本机未提交合并；Tungsten 来源与完整源池问题另留。
+
+2026-10-27宝箱与渠道切片：原AbstractChest/ShopScreen/MonsterRoomElite真实调用链→共同遗物队列front/tail→create/open/take/leave与商店Courier/精英公开领取接线。69独立连续RNG向量与源边界/生成UI定向通过；缺效果保留sourceId并不可领取，不缩池重抽。当前PR238完整Quality收口中，整体AC不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 06:10'
 labels:
   - required
   - sts1
@@ -39,6 +39,12 @@ ordinal: 109000
 - [ ] #4 四职业分别合法连续通关，持久资格的平台能力缺口单独记录，保留同源日志和截图
 - [x] #5 终幕52至55固定地图及已有资格/三钥匙门的拒绝边界已合入PR213，并有本地事务回归。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-27继续保留真实资格阻塞：宝箱新多奖励蓝钥匙只牺牲关联基础遗物，金币/额外遗物独立；已有红钥匙不重做。跨局历史、燃烧精英及终幕自然完整链仍未认证，不用测试给定history当自然解锁。
+<!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 

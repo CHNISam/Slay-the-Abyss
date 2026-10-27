@@ -36,12 +36,23 @@ test('real Nodes map/camp Recall command is once-only, source-bound and resource
   assert.match(result.stdout,/RUBY_RECALL_PASS 15/);
 });
 
-test('all three pre-existing camp command bodies are unchanged across checkout line endings',()=>{
+test('three original camp commands retain frozen bodies around the reviewed Toxic Egg adapter',()=>{
   const code=readFileSync('src/lua/abyss_nodes.lua','utf8').replaceAll('\r\n','\n');
   const start=code.indexOf(source.legacyCampCommands.start);
   const end=code.indexOf(source.legacyCampCommands.endExclusive,start);
   assert.ok(start>0&&end>start);
   assert.deepEqual(source.legacyCampCommands.names,['rest','claimRestReward','upgrade']);
-  assert.equal(createHash('sha256').update(code.slice(start,end)).digest('hex'),
+  let original=code.slice(start,end);
+  // Reverse only the source-verified Toxic Egg preview adapter. Preserve the
+  // frozen original rest/claim/upgrade block hash, including every old guard.
+  for(const [before,after] of [
+    ['local cards,rng,offset,upgrades=CardPool.prepareRewards(context)', 'local cards,rng,offset=CardPool.prepareRewards(context)'],
+    ['local reward={cards=cards,resolved=false,cardUpgrades=upgrades}\n            RelicHooks.previewCardReward(owner,reward,true)\n            return reward', 'return {cards=cards,resolved=false}'],
+    ['Run.obtainCard(staged,reward.cards[choice],\n                {upgraded=reward.cardUpgrades and reward.cardUpgrades[choice]==true})', 'Run.obtainCard(staged,reward.cards[choice])'],
+  ]){
+    assert.equal(original.split(before).length-1,1,'one exact reviewed preview adapter');
+    original=original.replace(before,after);
+  }
+  assert.equal(createHash('sha256').update(original).digest('hex'),
     source.legacyCampCommands.unchangedBlockSha256);
 });

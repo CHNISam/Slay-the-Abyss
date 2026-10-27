@@ -3,9 +3,9 @@ id: TASK-16.1
 title: 验收完整职业和道具组合的结算与随机链
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 05:21'
+updated_date: '2026-10-27 06:10'
 due_date: '2026-10-28'
 labels:
   - required
@@ -49,6 +49,8 @@ ordinal: 43000
 2026-10-25 正式洗牌独立片：先固定CardGroup与DrawCardAction来源，验证masterDeck初始顺序、尾端抽牌、每次含空/单牌shuffle消费一次randomLong并播种Java48/Collections。正式state.shuffleRng按层独立，初始/弃牌重洗及过量请求空堆均按源顺序；先独立向量和真实红例，再接线并覆盖出牌失败回滚/恢复，legacy显式入口保留但不作原版认证。只改Combat与局部fixture，不扩奖励/其它流，整体AC不勾。
 
 2026-10-27 M3 独立小切片：在已合入 c91f0d22 上复用冻结的 Rupture 原生队列修复。先用同一真实卡牌/道具用例重现原生回调中力量过早生效，再让已有 TOP 反应队列承接 action.effect；验证 Puzzle 抽牌次序、原子回滚、原有三种执行 owner 与静态/关键变异。只改两处生产文件和两份测试，经独立 PR 完整 CI 集成；不改 Fatal/Fairy 已知差异，不覆盖 PR238 本机未提交合并，不勾完整组合或平台验收。
+
+2026-10-27并发独立审查复现Stasis/CorpseExplosion同优先级死亡Power破序；按AbstractMonster.die稳定powerOrder统一同一enqueueReaction，保留Boss/Spore TOP，正反顺序native/advanced及失败原子/UID重试验证。主session已集成24ad402，原11组先5红后全绿。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
