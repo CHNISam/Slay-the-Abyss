@@ -252,12 +252,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local closeInfo -- defined with the detail panel below
     function self:resize(width, height)
-        local cancelled = cancelPotionAim("已取消药水瞄准。") or self.gesture ~= nil
+        local cancelled = cancelPotionAim("已取消药水瞄准。") or self.gesture ~= nil or self.carry ~= nil
         cancelCardInputs()
         cancelPotionInputs()
         cancelActionInputs()
         for _, input in ipairs(enemyInputs) do input.held, input.released = nil, nil end
-        if cancelled or self.carry then self.gesture, self.carry, self.selected, self.suppressClick = nil, nil, nil, true end
+        if cancelled then self.gesture, self.carry, self.selected, self.suppressClick = nil, nil, nil, true end
         if closeInfo() then cancelled = true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -375,13 +375,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         placeCard = placeCard, placeReward = placeReward,
         dragTarget = dragTarget, dragPose = dragPose, enemyPosition = enemyPosition,
     })
+    local function canHover()
+        return self.active and not self.busy and not self.gesture and not self.carry
+    end
     function self:setHover(slot)
         local run = self.run
         local reward = run and run.phase == 'reward' and self.rewardScreen == 'cards' and Run.rewardOptions(run)[slot]
         local hand = run and run.phase == 'combat' and run.combat.phase == 'player' and run.combat.hand[slot]
-        if slot and not (self.active and not self.busy and not self.gesture and not self.carry and (reward or hand)) then slot = nil end
+        if slot and not (canHover() and (reward or hand)) then slot,hand = nil,nil end
         if self.hover == slot then return end
         self.hover = slot
+        self.handHover = hand and {run=run,battle=run.combat,turn=run.combat.turn,slot=slot,uid=hand.uid}
         self:render(true)
     end
     local function pruneInputs(inputs, ready)
@@ -442,6 +446,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not enemyPlayback then playbackIntents = nil end
         return {run = run, battle = battle, fighting = fighting, enemyPlayback = enemyPlayback}
     end
+    local function handHoverReady()
+        local token,run = self.handHover,self.run
+        if not token then return false end
+        local instance = token.battle.hand[token.slot]
+        return canHover() and run == token.run and run.phase == 'combat' and run.combat == token.battle
+            and token.battle.turn == token.turn and token.battle.phase == 'player'
+            and instance and instance.uid == token.uid
+    end
     local function syncRewardOwner(frame)
         local run = frame.run
         local reward = not self.busy and run and run.phase == "reward"
@@ -456,7 +468,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         frame.picking = reward and self.rewardScreen == "cards"
         frame.listing = reward and self.rewardScreen == "list"
-        if not reward then self.hover = nil end
+        if reward then self.handHover = nil
+        elseif not handHoverReady() then self.hover,self.handHover = nil,nil end
     end
     local function syncRewardEntrance(frame)
         if frame.picking and (not self.rewardView or self.rewardView.rewards ~= frame.run.rewards) then

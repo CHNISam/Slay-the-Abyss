@@ -1,7 +1,9 @@
 local H = dofile('tests/lua/support/battle_gesture_fixture.lua')
-local passed = 0
+local passed, failed = 0, 0
 local function test(name, fn)
-    fn(); passed = passed + 1; print('PASS source card input ' .. name)
+    local ok,why=pcall(fn)
+    if ok then passed=passed+1; print('PASS source card input '..name)
+    else failed=failed+1; print('FAIL source card input '..name..': '..tostring(why)) end
 end
 
 test('card center follows pointer even when grabbed away from center', function()
@@ -97,4 +99,36 @@ test('right click cancels held and released aim without spending or a late relea
     end
 end)
 
+test('native targeting keeps the whole card and its description in the safe canvas', function()
+    local Theme=require('abyss_theme')
+    local _,_,panel,event=H.setup({'dropkick'})
+    event('card1','down',7);event('card1','drag',7,-285,0)
+    local card=panel:GetChild('card1')
+    assert(card.y-Theme.layout.card.size[2]*card.scale[2]/2>=-360+Theme.canvas.safe.y,
+        'docked description falls below the safe canvas')
+end)
+
+test('resize immediately redraws a released aim and removes its overlay', function()
+    local host,ui,panel,event=H.setup({'strike'})
+    event('card1','down',7);event('card1','drag',7,-285,0);event('dragLayer','up',7,-285,0)
+    assert(ui.carry and panel:GetChild('dragLayer').visible)
+    host:resize(1600,900);host:update(0.01)
+    assert(ui.carry==nil and ui.selected==nil and not panel:GetChild('dragLayer').visible,
+        'resize left the released targeting overlay visible')
+end)
+
+test('combat hover lifts the real card and clears after exit or a changed hand', function()
+    local host,ui,panel,event=H.setup()
+    local card=panel:GetChild('card1')
+    local y=card.y
+    event('card1','enter',7)
+    assert(ui.hover==1 and card.y>y and card.raised,'combat render erased hand hover')
+    event('card1','exit',7)
+    assert(ui.hover==nil and card.y==y)
+    event('card1','enter',7)
+    table.remove(host.run.combat.hand,1);ui:render()
+    assert(ui.hover==nil,'hover transferred to a new card in the same slot')
+end)
+
 print('LUA_CARD_INPUT_PORT_PASS ' .. passed)
+assert(failed==0,'source input failures: '..failed)

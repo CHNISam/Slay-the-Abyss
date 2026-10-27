@@ -158,7 +158,10 @@ function M.new(view, controls)
         local x, y = dragPose(g)
         local h = L.card.size[2] * D.scale
         -- An aiming card parks under the line so it never hides the enemy row.
-        if aiming then x, y = 0, (g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2 end
+        if aiming then
+            local floor = -Theme.canvas.base[2]/2 + Theme.canvas.safe.y + h/2
+            x, y = 0, math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
+        end
         box:SetAnchoredPosition(x, y)
         box:SetLocalScale(D.scale, D.scale, 1)
         box.localRotationZ = 0
