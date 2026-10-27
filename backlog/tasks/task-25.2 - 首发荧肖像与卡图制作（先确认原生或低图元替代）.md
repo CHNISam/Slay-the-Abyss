@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 20:27'
+updated_date: '2026-10-27 20:54'
 due_date: '2026-10-28'
 labels:
   - art
@@ -107,4 +107,6 @@ PR259同步后共享宿主正例直接执行真实源码，不再注入启动修
 07bf1af完整Quality40570340304终态失败：Windows7的Sapphire 8–14累计超30秒，Windows8的card_help_release/looter_potion_ui也超30秒；后两项在develop e0 push同样失败。三项均原预算本地复现，无断言失败。最小测试分片保留原始全部60组/全部断言及严格mock，30秒上限不变，不改生产代码/runner/全局CI。Sapphire原体hash不变，21组四段约13–19秒；另外39组/53次完整tree十段约8–16秒，JS只加静态guard不重复跑昂贵Lua。两份独立复审含覆盖/变异/CRLF模拟通过，root应用后7项相关静态检查通过；Linux证据不冒充Windows，当前完整CI仍须重新验证。
 
 7ea183e CI另检出遗漏的旧modern Sapphire分片守卫：仍要求8–14，属于本轮测试接线遗漏而非runner故障。只同步原lock的slices与守卫消费路径，原体hash、21组/17组UI完整性及30秒断言全部保留；新增缺组/重复/替换负控。真实使用的4个显式Lua路径让既有test-affected现在选中modern守卫，不改全局selector/CI。root完整三份Sapphire套件及UI静态guard23/23、零跳过；最后仅路径显式化后modern4/4再次通过，实际相关计划包含两个Sapphire消费者。未重跑无变化的昂贵Lua，当前head完整CI仍未通过。
+
+20:53同步已合入PR263（7fe3101）：另一执行者已独立修复card_help_release/looter_potion_ui预算，直接逐字保留其6个测试文件及TASK74记录，撤掉dot重复分片/guard；不把PR263成果算dot交付。保留未被覆盖的Sapphire四段与modern守卫、原生样卡接线。root8项上游/modern静态合同通过，所有原断言/预算不变；产品代码与已审a896一致。此前a896未触发Actions因与新主线冲突，非平台失效。当前新组合仍待独立复审、完整CI及verify:delivery，实机缺口不变。
 <!-- SECTION:NOTES:END -->

@@ -1,1 +1,1 @@
-assert(loadfile('tests/lua/looter_potion_ui.lua'))(4,6)
+assert(loadfile('tests/lua/looter_potion_ui.lua'))(7,8)
