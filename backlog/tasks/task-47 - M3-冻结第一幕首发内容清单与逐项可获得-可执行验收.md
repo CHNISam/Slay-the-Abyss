@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:10'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -20,6 +20,7 @@ references:
   - docs/rules/CROSS_ACT.md
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/backlog-details/BACKLOG-UPDATE-20261027.md
 priority: high
 type: task
 ordinal: 75000
@@ -28,7 +29,7 @@ ordinal: 75000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-列清楚首发有哪些卡牌、敌人、遭遇、事件、遗物、药水和Boss。每项都要能正常遇到、拿到或使用。
+首发范围为四职业完整内容与第一至第四幕。已合并成果按清单保留；当前先收口PR238与主线同步，解决两项库存回归，再以同一候选逐项验证自然获取、构筑、连续通关和两种结局。M3尚未完成。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -123,4 +124,6 @@ ordinal: 75000
 2026-10-26继续分层收口：TASK-58.2已证明的本地机制完成；原自然构筑/完整交互验收原文追加并保持未勾，仍阻止M3整体验收。
 
 2026-10-26验收进度校准：范围冻结与现有交付盘点两项已完成；原14项全内容/自然玩法要求保持未勾，不以盘点完成代替全M3通过。
+
+2026-10-27最新核对：M3仍为四职业及第一至第四幕完整交付，未验收。GitHub实时读回PR238为OPEN/DRAFT，head a4dac7723af8262a314758c87d92f421afea4911，CONFLICTING且当前检查为空；无作业不是CI通过。主集成树m3-next-content正在同步develop fc51f198，18个冲突路径仍为unmerged、合并未提交。下一步先修复合并后inventory_restore和tungsten_rod_channels两项失败，再核完整diff、提交同步、推同一PR并验当前SHA全部必要CI；随后补同候选自然获取/四职业跨幕/平台证据。未生成新GIL、未导入、未实机、未通过verify:ui。依据根HANDOFF-PR238-20261027-115033-STOP.md及build/pr238-resume-20261027-091929/fc51-final-focused.json；本轮仅核对任务，不继续开发或占用键鼠。
 <!-- SECTION:NOTES:END -->

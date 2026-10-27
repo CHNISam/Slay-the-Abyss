@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:10'
 due_date: '2026-10-28'
 labels:
   - required
@@ -20,6 +20,7 @@ references:
   - data/SOURCES.md
   - docs/backlog-details/TASK-16.1.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/backlog-details/BACKLOG-UPDATE-20261027.md
 parent_task_id: TASK-16
 priority: high
 type: enhancement
@@ -92,4 +93,6 @@ ordinal: 43000
 2026-10-26澄清：区分已实现并通过自动化、尚未接入内容、接齐后的组合/随机链验收。现有75卡及共享机制测试结论保留；不能把“全池未齐”写成“全部单元测试没测到位”。未声称所有尚未实现的职业/遗物组合已通过。
 
 2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
+
+2026-10-27最新集成边界：a4dac772前37个原失败入口已有定向修复证据，但不是完整CI通过。同步fc51f198后队列/能力/第三幕10份定向回归通过，架构162模块940边、静态104项历史告警无新增身份、M1-M4均被原断言杀死；最后库存恢复及Tungsten自然来源两份仍失败，合并未提交。下一步先解决这两份实际失败，审查完整合并并以推送后精确SHA完整CI验收；不重复无必要全套本地check。来源根HANDOFF-PR238-20261027-115033-STOP.md和本轮落盘日志；没有新候选或实机证据，全组合/平台AC保持未完成。
 <!-- SECTION:NOTES:END -->
