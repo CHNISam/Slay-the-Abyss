@@ -15,10 +15,13 @@ local function same(a, b)
     for k, v in pairs(b) do same(a[k], v) end
     for k in pairs(a) do assert(b[k] ~= nil, "unexpected state field") end
 end
-local function setup(deck, data, combatOptions)
+local function setup(deck, data, combatOptions, fastMode)
     data = data or F.Data
     local sounds = {}
     local host, root = F.fixture(data, nil, nil, nil, nil, function(cue) sounds[#sounds + 1] = cue end)
+    -- The official host now owns this setting and syncs it before every command.
+    -- Configure at the title instead of letting perform overwrite a lower-level flag.
+    if fastMode ~= nil then assert(host:setFastMode(fastMode)) end
     assert(host:start())
     assert(Run.startCombat(host.run, "cultist_solo"))
     -- Controlled deck, ordinary Run.play via the actual host card/target controls.
@@ -148,7 +151,7 @@ end
 test("DamageAction waits 0.1 plus normal-only 0.1, independently of the visual hit-stop", function()
     for _, fast in ipairs({false, true}) do
         for _, id in ipairs({"strike", "bludgeon"}) do
-            local host, panel = setup({id})
+            local host, panel = setup({id}, nil, nil, fast)
             local feedback = host.battleUI.feedback
             feedback:setFastMode(fast)
             play(host, panel, id, 1)
@@ -163,12 +166,24 @@ test("DamageAction waits 0.1 plus normal-only 0.1, independently of the visual h
 end)
 
 test("a speed change takes effect on the next command rather than truncating an active action", function()
-    local host, panel = setup()
-    local feedback = host.battleUI.feedback
-    play(host, panel, "strike", 1)
+    -- Test the adapter's snapshot contract independently of the host's separate
+    -- menu/busy authorization, covered by game_ui_battle_speed*.lua.
+    local root = F.Viewport.apply(F.control({children = F.Layout}), 1280, 720)
+    local feedback = require("abyss_feedback").new(root:GetChild("battlePanel"), {
+        imageSource = "static", color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+    }, function() end, function() end)
+    local battle = F.Combat.new(F.Data, {deck = {"strike", "strike"}, enemies = {"cultist", "cultist"}, seed = 11})
+    local host = {battleUI = {feedback = feedback}}
+    function host:update(dt) feedback:update(dt) end
+    local function command(target)
+        local before, first = require("abyss_events").frame(battle), #battle.events + 1
+        assert(F.Combat.play(battle, battle.hand[1].uid, target))
+        feedback:begin(before, battle, first, F.Presentation)
+    end
+    command(1)
     feedback:setFastMode(true)
     durationNear(damageWait(host), 0.2)
-    play(host, panel, "strike", 2)
+    command(2)
     durationNear(damageWait(host), 0.1)
     assert(not pcall(function() feedback:setFastMode("fast") end), "mode must be boolean")
     assert(feedback.fastMode == true)
@@ -176,7 +191,7 @@ end)
 
 test("DamageAllEnemiesAction keeps its 0.25 base and only removes the normal post-wait", function()
     for _, fast in ipairs({false, true}) do
-        local host, panel, sounds = setup({"cleave"})
+        local host, panel, sounds = setup({"cleave"}, nil, nil, fast)
         host.battleUI.feedback:setFastMode(fast)
         play(host, panel, "cleave")
         durationNear(damageWait(host, host.run.combat.enemies[2].id), fast and 0.25 or 0.35)
@@ -186,7 +201,7 @@ end)
 
 test("Whirlwind keeps each source isFast area action and contact cue instead of collapsing all rounds", function()
     for _, fast in ipairs({false, true}) do
-        local host, panel, sounds = setup({"whirlwind"})
+        local host, panel, sounds = setup({"whirlwind"}, nil, nil, fast)
         local feedback = host.battleUI.feedback
         feedback:setFastMode(fast)
         play(host, panel, "whirlwind")
@@ -219,7 +234,7 @@ end)
 
 test("Bludgeon's source pre-damage WaitAction lasts 0.8 normally and clamps to 0.1 in fast mode", function()
     for _, fast in ipairs({false, true}) do
-        local host, panel, sounds = setup({"bludgeon"})
+        local host, panel, sounds = setup({"bludgeon"}, nil, nil, fast)
         local ui, battle = host.battleUI, host.run.combat
         local hp = battle.enemies[1].hp
         local initialEvents = #battle.events
